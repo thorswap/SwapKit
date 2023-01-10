@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@vitest/coverage-c8": "0.29.7",
+    "vite": "4.2.1",
+    "vite-plugin-dts": "2.1.0",
+    "vitest": "0.29.7"
+  },
+  "main": "index.js",
+  "name": "@internal/config",
+  "private": true,
+  "type": "module"
+}

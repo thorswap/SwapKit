@@ -1,0 +1,23 @@
+name: Run dry build & test
+
+on: pull_request
+
+concurrency:
+  group: test-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test_run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-js-workflow
+
+      - name: Build
+        run: yarn build --cache-dir=./.turbo-cache
+
+      - name: Test
+        run: yarn test --cache-dir=./.turbo-cache
+
+      - name: Lint
+        run: yarn lint --cache-dir=./.turbo-cache

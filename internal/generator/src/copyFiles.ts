@@ -1,0 +1,46 @@
+import { render } from 'ejs';
+import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs';
+import { join, resolve } from 'path';
+
+import { CliOptions, PackageType } from './cliTypes.js';
+
+const copyDir = async (source: string, dest: string, options: any) => {
+  mkdirSync(dest);
+  const files = readdirSync(source);
+
+  for (const f of files) {
+    const target = join(
+      dest,
+      render(f.replace(/^\$/, '').replace('.ejs', ''), options, {
+        openDelimiter: '{',
+        closeDelimiter: '}',
+      }),
+    );
+
+    const file = join(source, f);
+    const stats = statSync(file);
+
+    if (stats.isDirectory()) {
+      await copyDir(file, target, options);
+    } else {
+      const content = readFileSync(file, 'utf8');
+      const renderedFile = await render(content, options, { async: true });
+
+      writeFileSync(target, renderedFile);
+    }
+  }
+};
+
+const LIB_FILES = resolve('./template/library');
+
+export const copyFiles = async ({ packageType, packageName }: CliOptions) => {
+  const options = { packageName };
+
+  switch (packageType) {
+    case PackageType.Common:
+      return copyDir(LIB_FILES, `../../packages/${packageName}`, options);
+
+    default:
+      break;
+  }
+};

@@ -1,0 +1,6 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true
+  },
+  "include": ["env.d.ts", "internal/**/*", "packages/**/*"]
+}

@@ -1,0 +1,46 @@
+{
+  "author": "thorswap",
+  "dependencies": {
+    "@thorswap-lib/types": "workspace:*"
+  },
+  "description": "THORSwap Lib swapkit-explorers",
+  "devDependencies": {
+    "@internal/config": "workspace:*",
+    "@vitest/coverage-c8": "0.29.7",
+    "vite": "4.2.1",
+    "vitest": "0.29.7"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "MIT",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@thorswap-lib/swapkit-explorers",
+  "packageManager": "yarn@3.2.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "react-native": "./src/index.ts",
+  "repository": "https://github.com/thorswap/SwapKit.git",
+  "scripts": {
+    "build": "yarn clean; echo 'Build swapkit-explorers 🛠'; vite build && echo 'Build succeeded swapkit-explorers ✅\n'",
+    "clean": "rm -rf dist",
+    "dev": "yarn build && vite --host",
+    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "test": "vitest --run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "0.1.0-development.11"
+}

@@ -1,0 +1,44 @@
+{
+  "author": "thorswap",
+  "dependencies": {},
+  "description": "THORSwap Lib <%- packageName %>",
+  "devDependencies": {
+    "@internal/config": "workspace:*",
+    "vite": "3.1.4",
+    "@vitest/coverage-c8": "0.29.2",
+    "vitest": "0.29.2"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "MIT",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@thorswap-lib/<%- packageName %>",
+  "packageManager": "yarn@3.2.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "react-native": "./src/index.ts",
+  "repository": "https://github.com/thorswap/SwapKit.git",
+  "scripts": {
+    "build": "yarn clean; echo 'Build <%- packageName %> 🛠'; vite build && echo 'Build succeeded <%- packageName %> ✅\n'",
+    "clean": "rm -rf dist",
+    "dev": "yarn build && vite --host",
+    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "test": "echo 'vitest'",
+    "test:coverage": "echo 'vitest run --coverage'"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "0.0.0"
+}

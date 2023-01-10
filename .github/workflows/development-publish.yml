@@ -1,0 +1,35 @@
+name: Publish pre release development packages
+
+on:
+  push:
+    branches:
+      - develop
+
+concurrency:
+  group: publish-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: ./.github/actions/setup-js-workflow
+
+      - name: Setup NPM_AUTH_TOKEN
+        run: |
+          echo 'npmAuthToken: "${{ secrets.NPM_AUTH_TOKEN }}"' >> .yarnrc.yml
+
+      - name: Create Release Pull Request or Publish to npm
+        uses: changesets/action@v1
+        with:
+          branch: develop
+          version: yarn version-development
+          publish: yarn publish-packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

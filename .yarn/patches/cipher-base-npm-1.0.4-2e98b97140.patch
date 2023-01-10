@@ -1,0 +1,59 @@
+diff --git a/index.js b/index.js
+index 6728005e957d3399d9b43e73da72c164140e2b48..7d95ddb006d35810b1b7fb86d5ca617fbe0f3b5c 100644
+--- a/index.js
++++ b/index.js
+@@ -1,11 +1,11 @@
+-var Buffer = require('safe-buffer').Buffer
+-var Transform = require('stream').Transform
+-var StringDecoder = require('string_decoder').StringDecoder
+-var inherits = require('inherits')
++var Buffer = require("safe-buffer").Buffer
++var Transform = require("readable-stream").Transform
++var StringDecoder = require("string_decoder").StringDecoder
++var inherits = require("inherits")
+ 
+-function CipherBase (hashMode) {
++function CipherBase(hashMode) {
+   Transform.call(this)
+-  this.hashMode = typeof hashMode === 'string'
++  this.hashMode = typeof hashMode === "string"
+   if (this.hashMode) {
+     this[hashMode] = this._finalOrDigest
+   } else {
+@@ -21,7 +21,7 @@ function CipherBase (hashMode) {
+ inherits(CipherBase, Transform)
+ 
+ CipherBase.prototype.update = function (data, inputEnc, outputEnc) {
+-  if (typeof data === 'string') {
++  if (typeof data === "string") {
+     data = Buffer.from(data, inputEnc)
+   }
+ 
+@@ -37,15 +37,15 @@ CipherBase.prototype.update = function (data, inputEnc, outputEnc) {
+ 
+ CipherBase.prototype.setAutoPadding = function () {}
+ CipherBase.prototype.getAuthTag = function () {
+-  throw new Error('trying to get auth tag in unsupported state')
++  throw new Error("trying to get auth tag in unsupported state")
+ }
+ 
+ CipherBase.prototype.setAuthTag = function () {
+-  throw new Error('trying to set auth tag in unsupported state')
++  throw new Error("trying to set auth tag in unsupported state")
+ }
+ 
+ CipherBase.prototype.setAAD = function () {
+-  throw new Error('trying to set aad in unsupported state')
++  throw new Error("trying to set aad in unsupported state")
+ }
+ 
+ CipherBase.prototype._transform = function (data, _, next) {
+@@ -86,7 +86,7 @@ CipherBase.prototype._toString = function (value, enc, fin) {
+     this._encoding = enc
+   }
+ 
+-  if (this._encoding !== enc) throw new Error('can\'t switch encodings')
++  if (this._encoding !== enc) throw new Error("can't switch encodings")
+ 
+   var out = this._decoder.write(value)
+   if (fin) {

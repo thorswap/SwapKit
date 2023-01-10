@@ -1,0 +1,21 @@
+name: Security checks
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+concurrency:
+  group: security-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  semgrep_scan:
+    if: "!contains(github.event.head_commit.message, ':tada: Bump development version')"
+    runs-on: ubuntu-latest
+    container:
+      image: returntocorp/semgrep:sha-066a20d
+    steps:
+      - uses: actions/checkout@v3
+      - run: semgrep ci --config p/ci --config p/xss --config p/jwt --config p/r2c --config p/react --config p/r2c-ci --config p/secrets --config p/javascript --config p/clientside-js --config p/owasp-top-ten --config p/security-audit --config p/github-actions --max-lines-per-finding 0 --force-color

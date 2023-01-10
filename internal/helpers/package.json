@@ -1,0 +1,37 @@
+{
+  "dependencies": {
+    "@thorswap-lib/swapkit-entities": "workspace:*",
+    "@thorswap-lib/types": "workspace:*"
+  },
+  "description": "THORSwap Lib - Helper library for THORSwap",
+  "devDependencies": {
+    "@ethersproject/bignumber": "5.7.0",
+    "@internal/config": "workspace:*",
+    "@vitest/coverage-c8": "0.29.7",
+    "bignumber.js": "9.1.1",
+    "vite": "4.2.1",
+    "vitest": "0.29.7"
+  },
+  "files": [
+    "src/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "name": "@thorswap-lib/helpers",
+  "packageManager": "yarn@3.2.1",
+  "peerDependencies": {
+    "@ethersproject/bignumber": "5.7.0",
+    "bignumber.js": "9.1.1"
+  },
+  "scripts": {
+    "build": "yarn clean; echo 'Build @thorswap-lib/helpers 🛠'; vite build && echo 'Build succeeded @thorswap-lib/helpers ✅\n'",
+    "clean": "rm -rf dist",
+    "dev": "yarn build && vite --host",
+    "lint": "eslint --ext .ts,.tsx --fix; tsc --noEmit",
+    "test": "echo 'vitest'",
+    "test:coverage": "echo 'vitest run --coverage'"
+  },
+  "type": "module",
+  "version": "0.0.0-development.53"
+}

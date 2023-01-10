@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "@types/ejs": "3.1.2",
+    "@types/inquirer": "9.0.3",
+    "@types/node": "18.15.5",
+    "@types/node-fetch": "2.6.2",
+    "ejs": "3.1.9",
+    "inquirer": "9.1.5",
+    "kleur": "4.1.5"
+  },
+  "devDependencies": {
+    "@internal/config": "workspace:*",
+    "eslint-config-thorswap": "workspace:*"
+  },
+  "main": "index.js",
+  "name": "@internal/generator",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf dist",
+    "generate": "yarn clean; vite build; node ./dist/index.js"
+  },
+  "type": "module"
+}

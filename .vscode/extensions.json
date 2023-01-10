@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "pomdtr.excalidraw-editor",
+    "exodiusstudios.comment-anchors",
+    "streetsidesoftware.code-spell-checker",
+    "zixuanchen.vitest-explorer"
+  ]
+}

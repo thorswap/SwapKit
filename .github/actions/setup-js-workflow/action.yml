@@ -1,0 +1,36 @@
+name: 'Install and cache'
+description: 'Setup JS workflow, install dependencies and cache them'
+author: 'Chillios'
+
+runs:
+  using: "composite"
+  steps:
+    - name: 'Setup Node.js'
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+
+    - name: 'Save yarn cache folder'
+      shell: bash
+      id: yarn-cache-dir-path
+      run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+
+    - name: 'Cache yarn'
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
+    - name: 'Cache Turbo'
+      uses: actions/cache@v3
+      with:
+        path: .turbo-cache
+        key: turbo-${{ github.job }}-${{ github.ref_name }}-${{ github.sha }}
+        restore-keys: |
+          turbo-${{ github.job }}-${{ github.ref_name }}-
+
+    - name: Install dependencies
+      shell: bash
+      run: yarn install --immutable

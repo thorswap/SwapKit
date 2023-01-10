@@ -1,0 +1,9 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint-commit:
+      run: yarn commitlint --from=HEAD~1 --color
+
+    lint:
+      glob: "*.{js,ts,tsx,json}"
+      run: yarn lint
