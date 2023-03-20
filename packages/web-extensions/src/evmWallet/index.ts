@@ -35,6 +35,8 @@ const getWalletMethodsForChain = ({
     case Chain.Ethereum:
       if (!ethplorerApiKey) throw new Error('Ethplorer API key not found');
       return ethereumWalletMethods({ ethplorerApiKey, signer, provider });
+    default:
+      throw new Error('EVM chain not supported');
   }
 };
 

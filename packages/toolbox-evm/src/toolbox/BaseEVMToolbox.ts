@@ -35,8 +35,11 @@ const MAX_APPROVAL = BigNumber.from('2').pow('256').sub('1');
 
 const baseAssetAddress: Record<EVMChain, string> = {
   [Chain.Ethereum]: ContractAddress.ETH,
+  [Chain.Arbitrum]: ContractAddress.AETH,
   [Chain.Avalanche]: ContractAddress.AVAX,
   [Chain.BinanceSmartChain]: ContractAddress.BSC,
+  [Chain.Optimism]: ContractAddress.ETH,
+  [Chain.Polygon]: ContractAddress.MATIC,
 };
 
 const isWeb3Provider = (provider: any) => provider?.constructor?.name === 'Web3Provider';

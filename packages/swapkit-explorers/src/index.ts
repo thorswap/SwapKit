@@ -1,6 +1,7 @@
 import { Chain } from '@thorswap-lib/types';
 
 const baseExplorerUrl: Record<Chain, string> = {
+  [Chain.Arbitrum]: 'https://arbiscan.io',
   [Chain.Avalanche]: 'https://snowtrace.io',
   [Chain.BinanceSmartChain]: 'https://bscscan.com',
   [Chain.Binance]: 'https://explorer.binance.org',
@@ -10,6 +11,8 @@ const baseExplorerUrl: Record<Chain, string> = {
   [Chain.Doge]: 'https://blockchair.com/dogecoin',
   [Chain.Ethereum]: 'https://etherscan.io',
   [Chain.Litecoin]: 'https://ltc.bitaps.com',
+  [Chain.Optimism]: 'https://optimistic.etherscan.io',
+  [Chain.Polygon]: 'https://polygonscan.com',
   [Chain.THORChain]: 'https://viewblock.io/thorchain',
 };
 

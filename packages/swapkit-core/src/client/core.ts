@@ -31,6 +31,7 @@ import {
   EVMChain,
   EVMWalletOptions,
   FeeOption,
+  SupportedChain,
   TCAvalancheDepositABI,
   TCEthereumVaultAbi,
   TxHistoryParams,
@@ -47,6 +48,7 @@ import { getAssetForBalance, getInboundData, getMimirData } from './helpers.js';
 import {
   AddChainWalletParams,
   AddLiquidityParams,
+  BaseEVMWallet,
   CoreTxParams,
   CreateLiquidityParams,
   ExtendParams,
@@ -176,24 +178,24 @@ export class SwapKitCore {
     amount?: AmountWithBaseDenom,
   ) => this._approve({ asset, amount, contractAddress }, 'approve');
 
-  getAddress = (chain: Chain) => this.connectedChains[chain]?.address || '';
+  getAddress = (chain: SupportedChain) => this.connectedChains[chain]?.address || '';
 
   getExplorerAddressUrl = (chain: Chain, address: string) =>
     getExplorerAddressUrl({ chain, address });
 
   getExplorerTxUrl = (chain: Chain, txHash: string) => getExplorerTxUrl({ chain, txHash });
 
-  getWallet = (chain: Chain) => this.connectedWallets[chain];
+  getWallet = (chain: SupportedChain) => this.connectedWallets[chain];
 
   isAssetApproved = (asset: AssetEntity) => this._approve({ asset }, 'checkOnly');
 
   isAssetApprovedForContract = (asset: AssetEntity, contractAddress: string) =>
     this._approve({ asset, contractAddress }, 'checkOnly');
 
-  validateAddress = ({ address, chain }: { address: string; chain: Chain }) =>
+  validateAddress = ({ address, chain }: { address: string; chain: SupportedChain }) =>
     this.getWallet(chain)?.validateAddress?.(address);
 
-  getWalletByChain = async (chain: Chain) => {
+  getWalletByChain = async (chain: SupportedChain) => {
     const address = this.getAddress(chain);
 
     if (!address) return null;
@@ -209,14 +211,14 @@ export class SwapKitCore {
     return { ...(this.connectedChains[chain] || {}), balance };
   };
 
-  getTransactions = (chain: Chain, params?: TxHistoryParams) => {
+  getTransactions = (chain: SupportedChain, params?: TxHistoryParams) => {
     const walletMethods = this.connectedWallets[chain];
     if (!walletMethods) throw new Error(`Chain ${chain} is not connected`);
 
     return walletMethods.getTransactions(params);
   };
 
-  getTransactionData = (chain: Chain, txHash: string) => {
+  getTransactionData = (chain: SupportedChain, txHash: string) => {
     const address = this.getAddress(chain);
     if (!address) throw new Error(`Chain ${chain} is not connected`);
 
@@ -224,7 +226,7 @@ export class SwapKitCore {
   };
 
   transfer = async (params: CoreTxParams & { router?: string }) => {
-    const chain = params.assetAmount.asset.L1Chain;
+    const chain = params.assetAmount.asset.L1Chain as SupportedChain;
     const walletInstance = this.connectedWallets[chain];
 
     if (!walletInstance) throw new Error('Chain is not connected');
@@ -239,12 +241,12 @@ export class SwapKitCore {
     router,
     ...rest
   }: CoreTxParams & { router?: string }) => {
-    const chain = assetAmount.asset.L1Chain;
+    const chain = assetAmount.asset.L1Chain as SupportedChain;
 
     const isL1Deposit = chain === Chain.THORChain && recipient === '';
     const isEVMDeposit = [Chain.Avalanche, Chain.Ethereum].includes(chain);
 
-    const walletInstance = this.connectedWallets[chain as EVMChain];
+    const walletInstance = this.connectedWallets[chain];
 
     if (!walletInstance) throw new Error(`Chain ${chain} is not connected`);
 
@@ -255,6 +257,7 @@ export class SwapKitCore {
       ...rest,
     });
 
+    //@ts-ignore
     if (isL1Deposit) return walletInstance.deposit(params);
 
     if (isEVMDeposit) {
@@ -265,7 +268,7 @@ export class SwapKitCore {
       const { asset } = assetAmount;
       const abi = chain === Chain.Avalanche ? TCAvalancheDepositABI : TCEthereumVaultAbi;
 
-      return walletInstance.call({
+      return (walletInstance as BaseEVMWallet).call({
         abi,
         contractAddress:
           router || ((await this._getInboundDataByChain(chain as EVMChain)).router as string),
@@ -307,7 +310,7 @@ export class SwapKitCore {
         memo: getMemoFor(MemoType.DEPOSIT, {
           chain,
           symbol,
-          address: this.getAddress(chain),
+          address: this.getAddress(chain as SupportedChain),
         }),
         feeRate,
       }),
@@ -349,7 +352,7 @@ export class SwapKitCore {
     const runeMemo = getMemoFor(MemoType.DEPOSIT, {
       chain,
       symbol,
-      address: assetAddr || this.getAddress(chain),
+      address: assetAddr || this.getAddress(chain as SupportedChain),
     });
     const assetMemo = getMemoFor(MemoType.DEPOSIT, {
       chain,
@@ -494,7 +497,7 @@ export class SwapKitCore {
   connectKeplr = async () => {
     throwWalletError('connectKeplr', 'web-extensions');
   };
-  disconnectChain = (chain: Chain) => {
+  disconnectChain = (chain: SupportedChain) => {
     this.connectedChains[chain] = null;
     this.connectedWallets[chain] = null;
   };
@@ -573,7 +576,7 @@ export class SwapKitCore {
     const isEVMChain = [Chain.Ethereum, Chain.Avalanche].includes(asset.chain);
     if (isNativeEVM || !isEVMChain || asset.isSynth) return true;
 
-    const walletMethods = this.connectedWallets[asset.L1Chain as EVMChain];
+    const walletMethods = this.connectedWallets[asset.L1Chain as Chain.Avalanche | Chain.Ethereum];
     const walletAction = type === 'checkOnly' ? walletMethods?.isApproved : walletMethods?.approve;
 
     if (!walletAction) {
@@ -583,7 +586,7 @@ export class SwapKitCore {
     const { getTokenAddress } = await import('@thorswap-lib/toolbox-evm');
     const assetAddress = getTokenAddress(asset, asset.L1Chain as EVMChain);
     // TODO: I dont think we need this @towan
-    const from = this.getAddress(asset.L1Chain);
+    const from = this.getAddress(asset.L1Chain as SupportedChain);
     // if no amount is set use minimum amount for isApproved check
 
     if (!assetAddress || !from) throw new Error('Asset address && from address not found');
@@ -637,7 +640,7 @@ export class SwapKitCore {
 
     return {
       ...restTxParams,
-      from: this.getAddress(asset.L1Chain),
+      from: this.getAddress(asset.L1Chain as SupportedChain),
       amount: amountWithBaseDenom,
       asset: createAssetObjFromAsset(asset),
     };

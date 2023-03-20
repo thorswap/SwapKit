@@ -11,6 +11,7 @@ import {
   DepositParams,
   EIP1559TxParams,
   FeeOption,
+  SupportedChain,
   TxHash,
   TxHistoryParams,
   WalletOption,
@@ -81,13 +82,13 @@ export type ChainWallet = {
   walletType: WalletOption;
 };
 
-type ParamsWithChain<T> = T & { chain: Chain };
+type ParamsWithChain<T> = T & { chain: SupportedChain };
 export type AddChainWalletParams = ParamsWithChain<{
   wallet: ChainWallet;
   walletMethods: any;
 }>;
 
-export type Wallet = Record<Chain, ChainWallet | null>;
+export type Wallet = Record<SupportedChain, ChainWallet | null>;
 
 export type WalletMethods = {
   [Chain.Avalanche]: BaseEVMWallet | null;

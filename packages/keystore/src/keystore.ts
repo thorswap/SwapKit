@@ -98,6 +98,8 @@ const getWalletMethodsForChain = async ({
 
       return { address: walletMethods.getAddress(), walletMethods };
     }
+    default:
+      throw new Error('Chain not supported');
   }
 };
 
