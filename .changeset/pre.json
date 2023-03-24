@@ -1,5 +1,7 @@
 {
-  "changesets": [],
+  "changesets": [
+    "famous-bears-doubt"
+  ],
   "initialVersions": {
     "@thorswap-lib/helpers": "0.0.0-development.53",
     "@thorswap-lib/keystore": "1.0.0-development.114",
