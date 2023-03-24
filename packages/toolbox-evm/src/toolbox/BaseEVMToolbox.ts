@@ -534,9 +534,10 @@ const listWeb3EVMWallets = () => [
   ...(window.xfi || window.ethereum?.__XDEFI ? [WalletOption.XDEFI] : []),
   ...(window.ethereum?.isBraveWallet ? [WalletOption.BRAVE] : []),
   ...(window.ethereum?.isTrust || window.trustwallet ? [WalletOption.TRUSTWALLET_WEB] : []),
-  //   ...(window.ethereum?.isCoinbaseWallet || window.coinbaseWalletExtension
-  //     ? [WalletOption.COINBASE_WEB]
-  //     : []),
+  ...((window.ethereum?.overrideIsMetaMask && window.ethereum.selectedProvider?.isCoinbaseWallet) ||
+  window.coinbaseWalletExtension
+    ? [WalletOption.COINBASE_WEB]
+    : []),
 ];
 
 const isWeb3Detected = () => {
@@ -544,9 +545,10 @@ const isWeb3Detected = () => {
 };
 
 export const getETHDefaultWallet = () => {
-  const { isTrust, isBraveWallet, __XDEFI } = window.ethereum;
+  const { isTrust, isBraveWallet, __XDEFI, overrideIsMetaMask, selectedProvider } = window.ethereum;
   if (isTrust) return WalletOption.TRUSTWALLET_WEB;
   if (isBraveWallet) return WalletOption.BRAVE;
+  if (overrideIsMetaMask && selectedProvider?.isCoinbaseWallet) return WalletOption.COINBASE_WEB;
   if (__XDEFI) WalletOption.XDEFI;
   return WalletOption.METAMASK;
 };
