@@ -81,7 +81,7 @@ This repo contains packages around SwapKit sdk and it's integrations with differ
 | @thorswap-lib/keystore       | Keystore wallet implementation                                        | All chains supported by toolboxes               |
 | @thorswap-lib/ledger         | Ledger wallet implementation                                          | All chains supported by toolboxes               |
 | @thorswap-lib/walletconnect  | WalletConnect implementation                                          | THOR, BNB, ETH                                  |
-| @thorswap-lib/web-extensions | Web extensions (MetaMask, XDefi, Brave Wallet, TrustWallet Extension) | [See more](./packages/web-extensions/README.md) |
+| @thorswap-lib/web-extensions | Web extensions (MetaMask, XDefi, Brave Wallet, TrustWallet Extension, Coinbase Wallet Extension) | [See more](./packages/web-extensions/README.md) |
 
 #### Setup
 

@@ -113,6 +113,8 @@ type EthereumWindowProvider = import('@ethersproject/providers').ExternalProvide
   on: (event: string, callback?: () => void) => void;
   isBraveWallet?: boolean;
   isCoinbaseWallet?: boolean;
+  overrideIsMetaMask?: boolean;
+  selectedProvider?: EthereumWindowProvider;
   isTrust?: boolean;
   __XDEFI?: boolean;
 };

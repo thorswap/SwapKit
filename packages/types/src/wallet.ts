@@ -29,6 +29,7 @@ export enum WalletOption {
   'KEYSTORE' = 'KEYSTORE',
   'XDEFI' = 'XDEFI',
   'METAMASK' = 'METAMASK',
+  'COINBASE_WEB' = 'COINBASE_WEB',
   'TRUSTWALLET' = 'TRUSTWALLET',
   'TRUSTWALLET_WEB' = 'TRUSTWALLET_WEB',
   'LEDGER' = 'LEDGER',
@@ -39,7 +40,8 @@ export enum WalletOption {
 export type EVMWalletOptions =
   | WalletOption.BRAVE
   | WalletOption.METAMASK
-  | WalletOption.TRUSTWALLET_WEB;
+  | WalletOption.TRUSTWALLET_WEB
+  | WalletOption.COINBASE_WEB;
 
 export type Keystore = {
   crypto: {
