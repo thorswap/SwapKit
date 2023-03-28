@@ -27,13 +27,20 @@ export const getDerivationPathFor = ({ chain, index, type }: Params) => {
       if (type === 'nativeSegwitMiddleAccount') return [84, chainId, index, 0, 0];
       if (type === 'segwit') return [49, chainId, 0, 0, index];
       if (type === 'legacy') return [44, chainId, 0, 0, index];
-
       return updatedLastIndex(NetworkDerivationPath[chain], index);
     }
 
     default:
       return updatedLastIndex(NetworkDerivationPath[chain], index);
   }
+};
+
+export const getWalletFormatFor = (path: string) => {
+  const [purpose, chainId] = path.split('/').map((p) => parseInt(p, 10));
+
+  if (chainId === 145) return purpose === 84 ? 'cashaddr' : 'legacy';
+
+  return purpose === 44 ? 'legacy' : 'bech32';
 };
 
 export const derivationPathToString = ([network, chainId, account, change, index]: number[]) => {

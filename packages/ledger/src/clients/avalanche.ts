@@ -2,7 +2,7 @@ import { defineReadOnly } from '@ethersproject/properties';
 import { Provider } from '@ethersproject/providers';
 import { ChainId, DerivationPathArray, NetworkDerivationPath } from '@thorswap-lib/types';
 
-import { derivationPathToString } from '../helpers/getDerivationPathFor.js';
+import { derivationPathToString } from '../helpers/derivationPath.js';
 import { EthereumLikeLedgerInterface } from '../interfaces/EthereumLikeLedgerInterface.js';
 
 export class AvalancheLedger extends EthereumLikeLedgerInterface {

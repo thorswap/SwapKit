@@ -81,11 +81,9 @@ export abstract class UTXOLedgerInterface {
       format: this.walletFormat,
     });
 
-    let address = bitcoinAddress;
+    if (!bitcoinAddress) throw new Error('Invalid bitcoinAddress');
 
-    if (!address) throw new Error('Invalid address');
-
-    return address;
+    return bitcoinAddress;
   };
 
   private checkBtcAppAndCreateTransportWebUSB = async (checkBtcApp: boolean = true) => {

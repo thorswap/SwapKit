@@ -1,2 +1,2 @@
-export { getDerivationPathFor } from './helpers/getDerivationPathFor.js';
+export { getDerivationPathFor } from './helpers/derivationPath.js';
 export { ledgerWallet } from './ledger.js';

@@ -11,7 +11,6 @@ concurrency:
 
 jobs:
   publish:
-    if: "!contains(github.event.head_commit.message, ':tada: Bump development version')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -28,6 +27,7 @@ jobs:
       - name: Create Release Pull Request or Publish to npm
         uses: changesets/action@v1
         with:
+          title: ":tada: publish"
           branch: main
           version: yarn version-release
           publish: yarn publish-packages
