@@ -21,7 +21,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Info**
 - *Chain: [e.g. ETH]
-- *Versions: [e.g. toolkit-evm@0.1.0, ledger@1.0.0]
+- *Versions: [e.g. toolbox-evm@0.1.0, ledger@1.0.0]
 - Wallet (if applicable):
 - Browser (if applicable):
 

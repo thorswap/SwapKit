@@ -14,7 +14,7 @@ yarn add @thorswap-lib/swapkit-core
 
 #### Usage
 
-Architecture of SwapKit SDK is pretty simple. It's based on the concept of toolboxes. Each toolbox is responsible for interacting with specific blockchain. For example, `@thorswap-lib/toolkit-evm` is responsible for interacting with ETH, AVAX, BSC, etc. Toolboxes are extending SwapKitCore instance with methods to interact with specific blockchain. SwapKitCore is responsible for managing wallets and providing unified interface for interacting with them. To extend SDK with wallet support you need to pass array of wallets to `extend` method. Wallets are responsible for interacting with specific wallet provider. After `extend` method is called, you can start connecting to wallets and interacting with them.
+Architecture of SwapKit SDK is pretty simple. It's based on the concept of toolboxes. Each toolbox is responsible for interacting with specific blockchain. For example, `@thorswap-lib/toolbox-evm` is responsible for interacting with ETH, AVAX, BSC, etc. Toolboxes are extending SwapKitCore instance with methods to interact with specific blockchain. SwapKitCore is responsible for managing wallets and providing unified interface for interacting with them. To extend SDK with wallet support you need to pass array of wallets to `extend` method. Wallets are responsible for interacting with specific wallet provider. After `extend` method is called, you can start connecting to wallets and interacting with them.
 
 
 ```typescript
@@ -51,12 +51,12 @@ const llderivationPath = getDerivationPathFor({ chain: Chain.ETH, index: 2, type
 // m/44'/60'/0'/0/2
 const derivationPath = getDerivationPathFor({ chain: Chain.ETH, index: 2 })
 
-const connectLedger = (chain: Chain) => SKClient.connectKeystore(Chain.ETH)
+const connectLedger = (chain: Chain) => SKClient.connectLedger(Chain.ETH)
 
 const swap = () => {
-  const quote = getResponse()
+  const quote = getResponse() // quoteRoute is returned from [/quote API endpoint](https://dev-docs.thorswap.net/api/get-quote-for-a-swap-1)
   SKClient.swap({
-    route: quoteRoute, // quoteRoute is returned from [/quote API endpoint](https://dev-docs.thorswap.net/api/get-quote-for-a-swap-1)
+    route: quote.routes[0],
     quoteMode: quoteRoute.meta.quoteMode,
     feeOptionKey: FeeOption.Fastest,
     recipient: SKClient.validateAddress({ chain: outputAssetChain, address }) ? address : ''
@@ -75,9 +75,9 @@ This repo contains packages around SwapKit sdk and it's integrations with differ
 | Package                      | Description                                                           | Chains                                          |
 | ---------------------------- | --------------------------------------------------------------------- | ----------------------------------------------- |
 | @thorswap-lib/swapkit-core   | Core package for SwapKit - exporting methods to interact with wallets | -                                               |
-| @thorswap-lib/toolkit-evm    | Toolkit - exporting methods to integrate EVM chain                    | ETH, AVAX, BSC                                  |
-| @thorswap-lib/toolkit-utxo   | Toolkit - exporting methods to integrate UTXO chain                   | BTC, LTC, DOGE, BCH                             |
-| @thorswap-lib/toolkit-cosmos | Toolkit - exporting methods to integrate Cosmos chains                | THOR, ATOM, BNB                                 |
+| @thorswap-lib/toolbox-evm    | Toolkit - exporting methods to integrate EVM chain                    | ETH, AVAX, BSC                                  |
+| @thorswap-lib/toolbox-utxo   | Toolkit - exporting methods to integrate UTXO chain                   | BTC, LTC, DOGE, BCH                             |
+| @thorswap-lib/toolbox-cosmos | Toolkit - exporting methods to integrate Cosmos chains                | THOR, ATOM, BNB                                 |
 | @thorswap-lib/keystore       | Keystore wallet implementation                                        | All chains supported by toolboxes               |
 | @thorswap-lib/ledger         | Ledger wallet implementation                                          | All chains supported by toolboxes               |
 | @thorswap-lib/walletconnect  | WalletConnect implementation                                          | THOR, BNB, ETH                                  |
