@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.127
+
+### Patch Changes
+
+- [#3](https://github.com/thorswap/SwapKit/pull/3) [`994e5e5`](https://github.com/thorswap/SwapKit/commit/994e5e5820b9b982359c9fc63ddd10de15d8d63e) Thanks [@chillios-ts](https://github.com/chillios-ts)! - get inboundAddress only for approve when there is no contract address
+
 ## 1.0.0-development.126
 
 ### Patch Changes
