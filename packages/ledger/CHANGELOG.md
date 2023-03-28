@@ -1,5 +1,19 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.132
+
+### Patch Changes
+
+- [`1fe5ac5`](https://github.com/thorswap/SwapKit/commit/1fe5ac5fe14eb1bb677c2d824578963622d176db) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Update BCH & LTC walletFormat & deriv paths
+
+- Updated dependencies [[`1fe5ac5`](https://github.com/thorswap/SwapKit/commit/1fe5ac5fe14eb1bb677c2d824578963622d176db)]:
+  - @thorswap-lib/types@1.0.0-development.62
+  - @thorswap-lib/helpers@0.0.0-development.55
+  - @thorswap-lib/swapkit-entities@0.3.0-development.63
+  - @thorswap-lib/toolbox-cosmos@0.1.0-development.72
+  - @thorswap-lib/toolbox-evm@0.1.0-development.86
+  - @thorswap-lib/toolbox-utxo@0.1.0-development.78
+
 ## 1.0.0-development.131
 
 ### Patch Changes
