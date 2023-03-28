@@ -30,7 +30,7 @@ let SKClient: SwapKitCore
 const getSwapKitClient = () => {
   const client = SwapKitCore()
 
-  core.extend({
+  client.extend({
     config: { covalentApiKey: '', ethplorerApiKey: '', utxoApiKey: '' },
     wallets: [
       keystoreWallet,
@@ -41,7 +41,7 @@ const getSwapKitClient = () => {
       xdefiWallet,
     ],
   });
-  SKClient = core;
+  SKClient = client;
 
   return SKClient;
 }
