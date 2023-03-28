@@ -588,24 +588,22 @@ export class SwapKitCore {
     const isEVMChain = [Chain.Ethereum, Chain.Avalanche].includes(asset.chain);
     if (isNativeEVM || !isEVMChain || asset.isSynth) return true;
 
-    const checkOnly = type === 'checkOnly';
     const walletMethods = this.connectedWallets[asset.L1Chain];
-    const walletAction = checkOnly ? walletMethods?.isApproved : walletMethods?.approve;
-
-    const { router } = await this._getInboundDataByChain(asset.L1Chain);
+    const walletAction = type === 'checkOnly' ? walletMethods?.isApproved : walletMethods?.approve;
 
     const assetAddress = getTokenAddress(asset, asset.L1Chain as EVMChain);
     // TODO: I dont think we need this @towan
     const from = this.getAddress(asset.L1Chain);
     // if no amount is set use minimum amount for isApproved check
 
-    if (!router || !assetAddress || !walletAction || !from) return;
+    if (!assetAddress || !walletAction || !from) return;
 
     return walletAction({
-      from,
-      spenderAddress: contractAddress || router,
+      amount,
       assetAddress,
-      amount: amount,
+      from,
+      spenderAddress:
+        contractAddress || ((await this._getInboundDataByChain(asset.L1Chain)).router as string),
     });
   };
 
