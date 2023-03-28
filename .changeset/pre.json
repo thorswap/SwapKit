@@ -1,6 +1,7 @@
 {
   "changesets": [
-    "famous-bears-doubt"
+    "famous-bears-doubt",
+    "gentle-falcons-jog"
   ],
   "initialVersions": {
     "@thorswap-lib/helpers": "0.0.0-development.53",
