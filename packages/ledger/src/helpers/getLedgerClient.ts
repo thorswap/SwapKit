@@ -1,5 +1,5 @@
 import { getProvider } from '@thorswap-lib/toolbox-evm';
-import { Chain, DerivationPath, DerivationPathArray } from '@thorswap-lib/types';
+import { Chain, DerivationPathArray } from '@thorswap-lib/types';
 
 import { AvalancheLedger } from '../clients/avalanche.js';
 import { BinanceLedger } from '../clients/binance.js';
@@ -17,23 +17,23 @@ export const getLedgerClient = ({
   derivationPath,
 }: {
   chain: (typeof LEDGER_SUPPORTED_CHAINS)[number];
-  derivationPath?: DerivationPathArray | DerivationPath;
+  derivationPath?: DerivationPathArray;
 }) => {
   switch (chain) {
     case Chain.THORChain:
-      return new THORChainLedger(derivationPath as DerivationPathArray);
+      return new THORChainLedger(derivationPath);
     case Chain.Binance:
-      return new BinanceLedger(derivationPath as DerivationPathArray);
+      return new BinanceLedger(derivationPath);
     case Chain.Cosmos:
-      return new CosmosLedger(derivationPath as DerivationPath);
+      return new CosmosLedger(derivationPath);
     case Chain.Bitcoin:
-      return new BitcoinLedger(derivationPath as DerivationPathArray);
+      return new BitcoinLedger(derivationPath);
     case Chain.BitcoinCash:
-      return new BitcoinCashLedger(derivationPath as DerivationPathArray);
+      return new BitcoinCashLedger(derivationPath);
     case Chain.Doge:
-      return new DogecoinLedger(derivationPath as DerivationPathArray);
+      return new DogecoinLedger(derivationPath);
     case Chain.Litecoin:
-      return new LitecoinLedger(derivationPath as DerivationPathArray);
+      return new LitecoinLedger(derivationPath);
     case Chain.Ethereum:
       return new EthereumLedger({
         provider: getProvider(Chain.Ethereum),

@@ -19,7 +19,6 @@ import {
 import {
   Chain,
   ChainId,
-  DerivationPath,
   DerivationPathArray,
   TxParams,
   WalletOption,
@@ -34,12 +33,14 @@ import { AvalancheLedger } from './clients/avalanche.js';
 import { BinanceLedger } from './clients/binance.js';
 import { BitcoinLedger } from './clients/bitcoin.js';
 import { BitcoinCashLedger } from './clients/bitcoincash.js';
+import { CosmosLedger } from './clients/cosmos.js';
 import { DogecoinLedger } from './clients/dogecoin.js';
 import { EthereumLedger } from './clients/ethereum.js';
 import { LitecoinLedger } from './clients/litecoin.js';
 import { THORChainLedger } from './clients/thorchain/index.js';
 import { LEDGER_SUPPORTED_CHAINS } from './constants.js';
 import { AminoMsgSend, AminoTypes, Coin } from './cosmosTypes.js';
+import { derivationPathToString } from './helpers/derivationPath.js';
 import { getLedgerAddress, getLedgerClient } from './helpers/index.js';
 
 type LedgerConfig = {
@@ -101,7 +102,8 @@ const getToolbox = async ({
     | DogecoinLedger
     | EthereumLedger
     | LitecoinLedger
-    | THORChainLedger;
+    | THORChainLedger
+    | CosmosLedger;
   derivationPath?: DerivationPathArray;
 }) => {
   switch (chain) {
@@ -280,7 +282,8 @@ const getToolbox = async ({
             { deep: true },
           ),
         );
-        const sigResult = await signer.ledgerApp.sign(DerivationPath.GAIA, msgToSign);
+        const derivationPath = derivationPathToString((signer as CosmosLedger).derivationPath);
+        const sigResult = await signer.ledgerApp.sign(derivationPath, msgToSign);
 
         const txBody = toolbox.protoTxBody({
           from: address,
@@ -290,7 +293,7 @@ const getToolbox = async ({
           memo: memo || '',
         });
 
-        const { publicKey } = await signer.ledgerApp.getAddress(DerivationPath.GAIA, signer.chain);
+        const { publicKey } = await signer.ledgerApp.getAddress(derivationPath, signer.chain);
 
         const secPubKey = new proto.cosmos.crypto.secp256k1.PubKey();
         secPubKey.key = new Uint8Array(Buffer.from(publicKey, 'hex'));

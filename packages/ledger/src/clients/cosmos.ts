@@ -1,11 +1,12 @@
-import { DerivationPath } from '@thorswap-lib/types';
+import { DerivationPathArray, NetworkDerivationPath } from '@thorswap-lib/types';
 
+import { derivationPathToString } from '../helpers/derivationPath.js';
 import { CommonLedgerInterface } from '../interfaces/LedgerInterfaces.js';
 
 export class CosmosLedger extends CommonLedgerInterface {
-  public derivationPath: string;
+  public derivationPath: DerivationPathArray;
 
-  constructor(derivationPath: DerivationPath = DerivationPath.GAIA) {
+  constructor(derivationPath: DerivationPathArray = NetworkDerivationPath.GAIA) {
     super();
     this.chain = 'cosmos';
     this.derivationPath = derivationPath;
@@ -13,7 +14,10 @@ export class CosmosLedger extends CommonLedgerInterface {
 
   connect = async () => {
     await this.checkOrCreateTransportAndLedger();
-    const { address } = await this.ledgerApp.getAddress(DerivationPath.GAIA, this.chain);
+    const { address } = await this.ledgerApp.getAddress(
+      derivationPathToString(this.derivationPath),
+      this.chain,
+    );
 
     return address;
   };

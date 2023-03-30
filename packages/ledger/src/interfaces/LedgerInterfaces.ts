@@ -11,7 +11,7 @@ import { signUTXOTransaction } from './utxo.js';
 
 export abstract class CommonLedgerInterface {
   public ledgerTimeout: number = 50000;
-  public derivationPath: (number | string)[] | string = [];
+  public derivationPath: (number | string)[] = [];
   public transport: any;
   public ledgerApp: any;
   public test: any;
@@ -38,6 +38,7 @@ export abstract class CommonLedgerInterface {
         }
 
         case 'cosmos': {
+          // @ts-expect-error
           this.ledgerApp ||= new CosmosApp(this.transport);
           break;
         }
