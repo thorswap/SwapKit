@@ -1,6 +1,7 @@
 import { cosmosclient, proto } from '@cosmos-client/core';
 import { baseAmount } from '@thorswap-lib/helpers';
 import {
+  AmountWithBaseDenom,
   Asset,
   Balance,
   BaseDecimal,
@@ -21,6 +22,28 @@ export const GaiaToolbox = () => {
     server: 'https://cosmosrest.thorswap.net',
     chainId: ChainId.Cosmos,
   });
+
+  const protoMsgSend = ({
+    from,
+    to,
+    amount,
+    denom,
+  }: {
+    from: string;
+    to: string;
+    amount: AmountWithBaseDenom;
+    denom: string;
+  }): proto.cosmos.bank.v1beta1.MsgSend =>
+    new proto.cosmos.bank.v1beta1.MsgSend({
+      from_address: from,
+      to_address: to,
+      amount: [
+        {
+          amount: amount.amount().toString(),
+          denom,
+        },
+      ],
+    });
 
   const baseToolbox: {
     sdk: CosmosSDKClient['sdk'];
@@ -90,5 +113,51 @@ export const GaiaToolbox = () => {
         average: baseAmount(baseFee, BaseDecimal.GAIA),
       };
     },
+    protoMsgSend,
+    protoTxBody: ({
+      from,
+      to,
+      amount,
+      denom,
+      memo,
+    }: {
+      from: string;
+      to: string;
+      amount: AmountWithBaseDenom;
+      denom: string;
+      memo: string;
+    }): proto.cosmos.tx.v1beta1.TxBody => {
+      const msg = protoMsgSend({ from, to, amount, denom });
+
+      return new proto.cosmos.tx.v1beta1.TxBody({
+        messages: [cosmosclient.codec.instanceToProtoAny(msg)],
+        memo,
+      });
+    },
+    protoAuthInfo: ({
+      pubKey,
+      sequence,
+      mode,
+      fee,
+    }: {
+      pubKey: cosmosclient.PubKey;
+      sequence: Long.Long;
+      mode: proto.cosmos.tx.signing.v1beta1.SignMode;
+      fee?: proto.cosmos.tx.v1beta1.IFee;
+    }): proto.cosmos.tx.v1beta1.AuthInfo =>
+      new proto.cosmos.tx.v1beta1.AuthInfo({
+        signer_infos: [
+          {
+            public_key: cosmosclient.codec.instanceToProtoAny(pubKey),
+            mode_info: {
+              single: {
+                mode,
+              },
+            },
+            sequence,
+          },
+        ],
+        fee,
+      }),
   };
 };

@@ -5,7 +5,7 @@ import { AvalancheLedger } from '../clients/avalanche.js';
 import { BinanceLedger } from '../clients/binance.js';
 import { BitcoinLedger } from '../clients/bitcoin.js';
 import { BitcoinCashLedger } from '../clients/bitcoincash.js';
-import { CosmosLedger } from '../clients/cosmos/index.js';
+import { CosmosLedger } from '../clients/cosmos.js';
 import { DogecoinLedger } from '../clients/dogecoin.js';
 import { EthereumLedger } from '../clients/ethereum.js';
 import { LitecoinLedger } from '../clients/litecoin.js';

@@ -969,7 +969,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/amino@npm:0.29.5, @cosmjs/amino@npm:^0.29.5":
+"@cosmjs/amino@npm:^0.29.5":
   version: 0.29.5
   resolution: "@cosmjs/amino@npm:0.29.5"
   dependencies:
@@ -981,7 +981,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/crypto@npm:0.29.5, @cosmjs/crypto@npm:^0.29.5":
+"@cosmjs/crypto@npm:^0.29.5":
   version: 0.29.5
   resolution: "@cosmjs/crypto@npm:0.29.5"
   dependencies:
@@ -2136,6 +2136,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ledgerhq/hw-app-cosmos@npm:6.27.12":
+  version: 6.27.12
+  resolution: "@ledgerhq/hw-app-cosmos@npm:6.27.12"
+  dependencies:
+    "@ledgerhq/errors": ^6.12.3
+    "@ledgerhq/hw-transport": ^6.28.1
+    bip32-path: ^0.4.2
+  checksum: 646e8c595e6cd5f4168a050d903a88168ecd202bfc0447c33cbca5b7988349fea4aaaa59bc9cb85ce858101ad08d73d802d6e94c7628fb64764c9cff95b1d12c
+  languageName: node
+  linkType: hard
+
 "@ledgerhq/hw-app-eth@npm:6.32.1":
   version: 6.32.1
   resolution: "@ledgerhq/hw-app-eth@npm:6.32.1"
@@ -2804,9 +2815,6 @@ __metadata:
   resolution: "@thorswap-lib/ledger@workspace:packages/ledger"
   dependencies:
     "@binance-chain/javascript-sdk": 4.2.0
-    "@cosmjs/amino": 0.29.5
-    "@cosmjs/crypto": 0.29.5
-    "@cosmjs/stargate": 0.29.5
     "@cosmos-client/core": 0.45.13
     "@ethersproject/abstract-signer": 5.7.0
     "@ethersproject/bignumber": 5.7.0
@@ -2817,6 +2825,7 @@ __metadata:
     "@ethersproject/transactions": 5.7.0
     "@internal/config": "workspace:*"
     "@ledgerhq/hw-app-btc": 8.1.1
+    "@ledgerhq/hw-app-cosmos": 6.27.12
     "@ledgerhq/hw-app-eth": 6.32.1
     "@ledgerhq/hw-transport": 6.28.1
     "@ledgerhq/hw-transport-webusb": 6.27.12
@@ -2838,6 +2847,8 @@ __metadata:
     coininfo: 5.2.1
     cosmos-client: 0.39.2
     ripemd160: 2.0.2
+    secp256k1: ^5.0.0
+    sort-keys: ^5.0.0
     vite: 4.2.1
     vitest: 0.29.7
   peerDependencies:
@@ -8562,6 +8573,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-plain-obj@npm:^4.0.0":
+  version: 4.1.0
+  resolution: "is-plain-obj@npm:4.1.0"
+  checksum: 6dc45da70d04a81f35c9310971e78a6a3c7a63547ef782e3a07ee3674695081b6ca4e977fbb8efc48dae3375e0b34558d2bcd722aec9bddfa2d7db5b041be8ce
+  languageName: node
+  linkType: hard
+
 "is-regex@npm:^1.1.4":
   version: 1.1.4
   resolution: "is-regex@npm:1.1.4"
@@ -9922,6 +9940,15 @@ __metadata:
   dependencies:
     node-gyp: latest
   checksum: 3de396e23cc209f539c704583e8e99c148850226f6e389a641b92e8967953713228109f919765abc1f4355e801e8f41842f96210b8d61c7dcc10a477002dcf00
+  languageName: node
+  linkType: hard
+
+"node-addon-api@npm:^5.0.0":
+  version: 5.1.0
+  resolution: "node-addon-api@npm:5.1.0"
+  dependencies:
+    node-gyp: latest
+  checksum: 2508bd2d2981945406243a7bd31362fc7af8b70b8b4d65f869c61731800058fb818cc2fd36c8eac714ddd0e568cc85becf5e165cebbdf7b5024d5151bbc75ea1
   languageName: node
   linkType: hard
 
@@ -11430,6 +11457,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"secp256k1@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "secp256k1@npm:5.0.0"
+  dependencies:
+    elliptic: ^6.5.4
+    node-addon-api: ^5.0.0
+    node-gyp: latest
+    node-gyp-build: ^4.2.0
+  checksum: a0719dff4687c38d385b5e0b7e811c51a4ea24893128be9d097aee99f879eb0ea52582590deb15a49da627a3db23c6b028ad5c9c6ac1fca92ce760153b8cf21c
+  languageName: node
+  linkType: hard
+
 "secure-random@npm:^1.1.2":
   version: 1.1.2
   resolution: "secure-random@npm:1.1.2"
@@ -11657,6 +11696,15 @@ __metadata:
     ip: ^2.0.0
     smart-buffer: ^4.2.0
   checksum: 259d9e3e8e1c9809a7f5c32238c3d4d2a36b39b83851d0f573bfde5f21c4b1288417ce1af06af1452569cd1eb0841169afd4998f0e04ba04656f6b7f0e46d748
+  languageName: node
+  linkType: hard
+
+"sort-keys@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "sort-keys@npm:5.0.0"
+  dependencies:
+    is-plain-obj: ^4.0.0
+  checksum: 9c0b7a468312075be03770b260b2cc0e5d55149025e564edaed41c9ff619199698aad6712a6fe4bbc75c541efb081276ac6bbd4cf2723d742f272f7a8fe354f5
   languageName: node
   linkType: hard
 

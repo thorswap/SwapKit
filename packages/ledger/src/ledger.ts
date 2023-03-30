@@ -1,5 +1,5 @@
 import * as crypto from '@binance-chain/javascript-sdk/lib/crypto';
-import { GasPrice, SigningStargateClient } from '@cosmjs/stargate';
+import { cosmosclient, proto, rest } from '@cosmos-client/core';
 import {
   BinanceToolbox,
   DepositParam,
@@ -20,23 +20,26 @@ import {
   Chain,
   ChainId,
   DerivationPathArray,
-  RPCUrl,
   TxParams,
   WalletOption,
   WalletTxParams,
 } from '@thorswap-lib/types';
 import { auth, StdTx } from 'cosmos-client/x/auth/index.js';
+import Long from 'long';
+import secp256k1 from 'secp256k1';
+import sortKeys from 'sort-keys';
 
 import { AvalancheLedger } from './clients/avalanche.js';
 import { BinanceLedger } from './clients/binance.js';
 import { BitcoinLedger } from './clients/bitcoin.js';
 import { BitcoinCashLedger } from './clients/bitcoincash.js';
-import { CosmosLedger } from './clients/cosmos/index.js';
+import { CosmosLedger } from './clients/cosmos.js';
 import { DogecoinLedger } from './clients/dogecoin.js';
 import { EthereumLedger } from './clients/ethereum.js';
 import { LitecoinLedger } from './clients/litecoin.js';
 import { THORChainLedger } from './clients/thorchain/index.js';
 import { LEDGER_SUPPORTED_CHAINS } from './constants.js';
+import { AminoMsgSend, AminoTypes, Coin } from './cosmosTypes.js';
 import { getLedgerAddress, getLedgerClient } from './helpers/index.js';
 
 type LedgerConfig = {
@@ -98,7 +101,8 @@ const getToolbox = async ({
     | DogecoinLedger
     | EthereumLedger
     | LitecoinLedger
-    | THORChainLedger;
+    | THORChainLedger
+    | CosmosLedger;
   derivationPath?: DerivationPathArray;
 }) => {
   switch (chain) {
@@ -207,37 +211,122 @@ const getToolbox = async ({
     }
     case Chain.Cosmos: {
       const toolbox = GaiaToolbox();
-      const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
-        const from = address;
-        if (!asset) throw new Error('invalid asset');
-        // TODO - create fallback for gas price estimation if internal api has error
-        const gasPrice = '0.007uatom';
 
-        const sendCoinsMessage = {
+      const protoFee = (denom: string, amount: string) =>
+        new proto.cosmos.tx.v1beta1.Fee({
           amount: [
             {
-              amount: amount.amount().toString(),
-              denom: getDenom(asset),
+              denom,
+              amount,
             },
           ],
-          fromAddress: from,
-          toAddress: recipient,
-        };
+          gas_limit: Long.fromString('200000'),
+        });
 
-        const msg = {
+      const aminoTypes = new AminoTypes({
+        // `AminoConverter` for `MsgSend` needed only as we don't handle other Msg here
+        '/cosmos.bank.v1beta1.MsgSend': {
+          aminoType: 'cosmos-sdk/MsgSend',
+          toAmino: ({
+            from_address,
+            to_address,
+            amount,
+          }: proto.cosmos.bank.v1beta1.MsgSend): AminoMsgSend['value'] => ({
+            from_address,
+            to_address,
+            amount:
+              // Transform `cosmos.base.v1beta1.ICoin[]` -> `Coin[]` by ignoring all undefined|null denoms & amounts
+              amount.reduce<Coin[]>(
+                (acc, { denom, amount }) =>
+                  !!denom && !!amount ? [...acc, { denom, amount }] : acc,
+                [],
+              ),
+          }),
+          //  not needed
+          fromAmino: () => {},
+        },
+      });
+      const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
+        if (!asset) throw new Error('invalid asset');
+        const denom = getDenom(asset);
+        const sendMsg = toolbox.protoMsgSend({ from: address, to: recipient, amount, denom });
+
+        const { sequence, account_number } = await toolbox.getAccount(address);
+        if (!account_number || !sequence) throw new Error('Account does not exist');
+
+        // Transform `MsgSend` (proto) -> `MsgSend` (amino)
+        const sendMsgAmino = aminoTypes.toAmino({
           typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-          value: sendCoinsMessage,
-        };
+          value: sendMsg,
+        });
 
-        const signingClient = await SigningStargateClient.connectWithSigner(
-          RPCUrl.Cosmos,
-          signer as CosmosLedger,
-          { gasPrice: GasPrice.fromString(gasPrice) },
+        const fees = await toolbox.getFees();
+        const fee = protoFee(denom, fees.fast.amount().toString());
+        // Note: `Msg` to sign needs to be in Amino format due Ledger limitation - currently no Ledger support for proto
+        // Note2: Keys need to be sorted for Ledger
+        const msgToSign = JSON.stringify(
+          sortKeys(
+            {
+              chain_id: ChainId.Cosmos,
+              // Transform JSON of `Fee` (proto) to JSON of `Fee` (amino)
+              fee: {
+                amount: fee.amount,
+                gas: fee.gas_limit.toString(),
+              },
+              memo: memo || '',
+              msgs: [sendMsgAmino],
+              sequence: sequence?.toString() || Long.ZERO.toString(),
+              account_number: account_number.toString(),
+            },
+            { deep: true },
+          ),
+        );
+        const sigResult = await signer.ledgerApp.sign(signer.derivationPath, msgToSign);
+
+        const txBody = toolbox.protoTxBody({
+          from: address,
+          to: recipient,
+          amount,
+          denom,
+          memo: memo || '',
+        });
+
+        const { publicKey } = await signer.ledgerApp.getAddress(
+          signer.derivationPath,
+          signer.chain,
         );
 
-        const tx = await signingClient.signAndBroadcast(address, [msg], 'auto', memo);
+        const secPubKey = new proto.cosmos.crypto.secp256k1.PubKey();
+        secPubKey.key = new Uint8Array(Buffer.from(publicKey, 'hex'));
 
-        return tx.transactionHash;
+        const authInfo = toolbox.protoAuthInfo({
+          pubKey: secPubKey,
+          sequence,
+          fee,
+          mode: proto.cosmos.tx.signing.v1beta1.SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
+        });
+
+        const secpSignature = secp256k1.signatureImport(new Uint8Array(sigResult.signature));
+
+        const txBuilder = new cosmosclient.TxBuilder(toolbox.sdk, txBody, authInfo);
+        txBuilder.addSignature(secpSignature);
+
+        const res = await rest.tx.broadcastTx(toolbox.sdk, {
+          tx_bytes: txBuilder.txBytes(),
+          mode: rest.tx.BroadcastTxMode.Sync,
+        });
+
+        if (res?.data?.tx_response?.code !== 0) {
+          throw new Error(`Broadcasting tx failed: ${res?.data?.tx_response?.raw_log}`);
+        }
+
+        if (!res.data?.tx_response?.txhash) {
+          throw new Error(
+            `Missing tx hash - broadcasting tx failed: ${res?.data?.tx_response?.raw_log}`,
+          );
+        }
+
+        return res.data.tx_response.txhash;
       };
 
       return { ...toolbox, transfer };

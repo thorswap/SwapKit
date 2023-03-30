@@ -1,9 +1,9 @@
 import BitcoinApp from '@ledgerhq/hw-app-btc';
+import CosmosApp from '@ledgerhq/hw-app-cosmos';
 import TransportWebUSB from '@ledgerhq/hw-transport-webusb';
 import type { UTXO } from '@thorswap-lib/types';
 import { type Network as BTCNetwork, networks, type Psbt } from 'bitcoinjs-lib';
 
-import CosmosApp from '../clients/cosmos/lib.js';
 import THORChainApp from '../clients/thorchain/lib.js';
 
 import { CreateTransactionArg } from './types.js';
@@ -11,9 +11,10 @@ import { signUTXOTransaction } from './utxo.js';
 
 export abstract class CommonLedgerInterface {
   public ledgerTimeout: number = 50000;
-  public derivationPath: (number | string)[] = [];
+  public derivationPath: (number | string)[] | string = [];
   public transport: any;
   public ledgerApp: any;
+  public test: any;
   public chain: 'thor' | 'bnb' | 'sol' | 'cosmos' | 'eth' = 'thor';
 
   public checkOrCreateTransportAndLedger = async () => {
@@ -37,6 +38,7 @@ export abstract class CommonLedgerInterface {
         }
 
         case 'cosmos': {
+          // @ts-expect-error
           this.ledgerApp ||= new CosmosApp(this.transport);
           break;
         }
