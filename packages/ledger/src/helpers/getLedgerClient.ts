@@ -1,11 +1,11 @@
 import { getProvider } from '@thorswap-lib/toolbox-evm';
-import { Chain, DerivationPathArray } from '@thorswap-lib/types';
+import { Chain, DerivationPath, DerivationPathArray } from '@thorswap-lib/types';
 
 import { AvalancheLedger } from '../clients/avalanche.js';
 import { BinanceLedger } from '../clients/binance.js';
 import { BitcoinLedger } from '../clients/bitcoin.js';
 import { BitcoinCashLedger } from '../clients/bitcoincash.js';
-import { CosmosLedger } from '../clients/cosmos/index.js';
+import { CosmosLedger } from '../clients/cosmos.js';
 import { DogecoinLedger } from '../clients/dogecoin.js';
 import { EthereumLedger } from '../clients/ethereum.js';
 import { LitecoinLedger } from '../clients/litecoin.js';
@@ -17,23 +17,23 @@ export const getLedgerClient = ({
   derivationPath,
 }: {
   chain: (typeof LEDGER_SUPPORTED_CHAINS)[number];
-  derivationPath?: DerivationPathArray;
+  derivationPath?: DerivationPathArray | DerivationPath;
 }) => {
   switch (chain) {
     case Chain.THORChain:
-      return new THORChainLedger(derivationPath);
+      return new THORChainLedger(derivationPath as DerivationPathArray);
     case Chain.Binance:
-      return new BinanceLedger(derivationPath);
+      return new BinanceLedger(derivationPath as DerivationPathArray);
     case Chain.Cosmos:
-      return new CosmosLedger(derivationPath);
+      return new CosmosLedger(derivationPath as DerivationPath);
     case Chain.Bitcoin:
-      return new BitcoinLedger(derivationPath);
+      return new BitcoinLedger(derivationPath as DerivationPathArray);
     case Chain.BitcoinCash:
-      return new BitcoinCashLedger(derivationPath);
+      return new BitcoinCashLedger(derivationPath as DerivationPathArray);
     case Chain.Doge:
-      return new DogecoinLedger(derivationPath);
+      return new DogecoinLedger(derivationPath as DerivationPathArray);
     case Chain.Litecoin:
-      return new LitecoinLedger(derivationPath);
+      return new LitecoinLedger(derivationPath as DerivationPathArray);
     case Chain.Ethereum:
       return new EthereumLedger({
         provider: getProvider(Chain.Ethereum),
