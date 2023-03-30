@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.63
+
+### Patch Changes
+
+- peerDependency caret range
+
 ## 1.0.0-development.62
 
 ### Patch Changes

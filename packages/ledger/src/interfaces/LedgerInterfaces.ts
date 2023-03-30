@@ -38,7 +38,7 @@ export abstract class CommonLedgerInterface {
         }
 
         case 'cosmos': {
-          // @ts-expect-error
+          // @ts-ignore Ledger typing is wrong
           this.ledgerApp ||= new CosmosApp(this.transport);
           break;
         }

@@ -10,9 +10,11 @@
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "base64-js": "1.5.1",
+    "bn.js": "5.2.1",
+    "long": "4.0.0",
     "ripemd160": "2.0.2",
-    "secp256k1": "^5.0.0",
-    "sort-keys": "^5.0.0"
+    "secp256k1": "5.0.0",
+    "sort-keys": "5.0.0"
   },
   "description": "THORSwap Lib ledger",
   "devDependencies": {
@@ -36,7 +38,6 @@
     "@vitest/coverage-c8": "0.29.7",
     "bech32": "2.0.0",
     "bitcoinjs-lib": "5.2.0",
-    "bn.js": "5.2.1",
     "coininfo": "5.2.1",
     "cosmos-client": "0.39.2",
     "vite": "4.2.1",
@@ -62,19 +63,18 @@
   "peerDependencies": {
     "@binance-chain/javascript-sdk": "4.2.0",
     "@cosmos-client/core": "0.45.13",
-    "@ethersproject/abstract-signer": "5.7.0",
-    "@ethersproject/bignumber": "5.7.0",
-    "@ethersproject/bytes": "5.7.0",
-    "@ethersproject/contracts": "5.7.0",
-    "@ethersproject/properties": "5.7.0",
-    "@ethersproject/providers": "5.7.0",
-    "@ethersproject/transactions": "5.7.0",
+    "@ethersproject/abstract-signer": "^5.7.0",
+    "@ethersproject/bignumber": "^5.7.0",
+    "@ethersproject/bytes": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
+    "@ethersproject/properties": "^5.7.0",
+    "@ethersproject/providers": "^5.7.0",
+    "@ethersproject/transactions": "^5.7.0",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "bech32": "2.0.0",
     "bitcoinjs-lib": "5.2.0",
-    "bn.js": "5.2.1",
     "coininfo": "5.2.1",
     "cosmos-client": "0.39.2"
   },
@@ -93,5 +93,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.133"
+  "version": "1.0.0-development.134"
 }

@@ -21,8 +21,8 @@
   "name": "@thorswap-lib/helpers",
   "packageManager": "yarn@3.2.1",
   "peerDependencies": {
-    "@ethersproject/bignumber": "5.7.0",
-    "bignumber.js": "9.1.1"
+    "@ethersproject/bignumber": "^5.7.0",
+    "bignumber.js": "^9.1.1"
   },
   "scripts": {
     "build": "yarn clean; echo 'Build @thorswap-lib/helpers 🛠'; vite build && echo 'Build succeeded @thorswap-lib/helpers ✅\n'",
@@ -33,5 +33,5 @@
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",
-  "version": "0.0.0-development.55"
+  "version": "0.0.0-development.56"
 }

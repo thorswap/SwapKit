@@ -3,7 +3,8 @@
     "famous-bears-doubt",
     "fuzzy-chicken-give",
     "gentle-falcons-jog",
-    "hungry-beers-pretend"
+    "hungry-beers-pretend",
+    "strong-kangaroos-poke"
   ],
   "initialVersions": {
     "@thorswap-lib/helpers": "0.0.0-development.53",

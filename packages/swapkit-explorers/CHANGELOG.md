@@ -1,5 +1,14 @@
 # @thorswap-lib/swapkit-explorers
 
+## 0.1.0-development.14
+
+### Patch Changes
+
+- peerDependency caret range
+
+- Updated dependencies []:
+  - @thorswap-lib/types@1.0.0-development.63
+
 ## 0.1.0-development.13
 
 ### Patch Changes

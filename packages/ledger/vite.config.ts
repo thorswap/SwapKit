@@ -26,7 +26,6 @@ const viteConfig = thorswapViteConfig(packageJson.name, {
         'bech32',
         'cosmos-client',
         'bitcoinjs-lib',
-        'bn.js',
         'coininfo',
       ],
     },

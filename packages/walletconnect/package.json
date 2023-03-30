@@ -44,14 +44,14 @@
   "name": "@thorswap-lib/walletconnect",
   "packageManager": "yarn@3.2.1",
   "peerDependencies": {
-    "@ethersproject/abstract-signer": "5.7.0",
-    "@ethersproject/bignumber": "5.7.0",
-    "@ethersproject/bytes": "5.7.0",
-    "@ethersproject/contracts": "5.7.0",
-    "@ethersproject/strings": "5.7.0",
+    "@ethersproject/abstract-signer": "^5.7.0",
+    "@ethersproject/bignumber": "^5.7.0",
+    "@ethersproject/bytes": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
+    "@ethersproject/strings": "^5.7.0",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
-    "bech32": "2.0.0",
+    "bech32": "^2.0.0",
     "cosmos-client": "0.39.2"
   },
   "publishConfig": {
@@ -69,5 +69,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.108"
+  "version": "1.0.0-development.109"
 }

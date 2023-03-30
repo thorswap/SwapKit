@@ -1,5 +1,19 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.134
+
+### Patch Changes
+
+- peerDependency caret range
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@0.3.0-development.64
+  - @thorswap-lib/toolbox-cosmos@0.1.0-development.74
+  - @thorswap-lib/toolbox-utxo@0.1.0-development.79
+  - @thorswap-lib/toolbox-evm@0.1.0-development.87
+  - @thorswap-lib/helpers@0.0.0-development.56
+  - @thorswap-lib/types@1.0.0-development.63
+
 ## 1.0.0-development.133
 
 ### Minor Changes

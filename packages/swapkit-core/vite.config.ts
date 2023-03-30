@@ -15,7 +15,6 @@ const viteConfig = thorswapViteConfig(packageJson.name, {
         '@ethersproject/providers',
         '@ethersproject/units',
         '@thorswap-lib/toolbox-evm',
-        'bn.js',
         'typeforce',
       ],
     },

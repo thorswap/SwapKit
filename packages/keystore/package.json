@@ -46,15 +46,15 @@
   "name": "@thorswap-lib/keystore",
   "packageManager": "yarn@3.2.1",
   "peerDependencies": {
-    "@ethersproject/abstract-provider": "5.7.0",
-    "@ethersproject/bignumber": "5.7.0",
-    "@ethersproject/contracts": "5.7.0",
-    "@ethersproject/providers": "5.7.2",
+    "@ethersproject/abstract-provider": "^5.7.0",
+    "@ethersproject/bignumber": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
+    "@ethersproject/providers": "^5.7.0",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
-    "bip39": "3.0.4",
-    "bitcoinjs-lib": "5.2.0"
+    "bip39": "^3.0.4",
+    "bitcoinjs-lib": "^5.2.0"
   },
   "publishConfig": {
     "access": "public"
@@ -71,5 +71,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.117"
+  "version": "1.0.0-development.118"
 }

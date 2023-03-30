@@ -39,8 +39,8 @@
   "name": "@thorswap-lib/toolbox-cosmos",
   "packageManager": "yarn@3.2.1",
   "peerDependencies": {
-    "@binance-chain/javascript-sdk": "4.2.0",
-    "@cosmos-client/core": "0.45.13"
+    "@binance-chain/javascript-sdk": "^4.2.0",
+    "@cosmos-client/core": "^0.45.13"
   },
   "publishConfig": {
     "access": "public"
@@ -58,5 +58,5 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "typings": "./dist/index.d.ts",
-  "version": "0.1.0-development.73"
+  "version": "0.1.0-development.74"
 }
