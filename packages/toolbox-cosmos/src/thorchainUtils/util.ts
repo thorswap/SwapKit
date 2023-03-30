@@ -32,9 +32,6 @@ export const DEFAULT_GAS_VALUE = '5000000000';
 export const DEPOSIT_GAS_VALUE = '5000000000';
 export const MAX_TX_COUNT = 100;
 
-export const STAGENET_MIDGARD_API_BASE = 'https://stagenet-midgard.thorswap.net/v2';
-export const MAINNET_MIDGARD_API_BASE = 'https://midgard.thorswap.net/v2';
-
 const RUNE_ASSET = `${Chain.THORChain}.RUNE`;
 
 const isAssetRuneNative = (asset: Asset) => assetToString(asset) === RUNE_ASSET;

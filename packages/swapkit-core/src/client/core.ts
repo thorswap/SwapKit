@@ -8,7 +8,6 @@ import type {
   CalldataTcToTc,
 } from '@thorswap-lib/cross-chain-api-sdk/lib/entities';
 import { baseAmount, createAssetObjFromAsset, throwWalletError } from '@thorswap-lib/helpers';
-import { Midgard } from '@thorswap-lib/midgard-sdk';
 import {
   Amount,
   AmountType,
@@ -39,7 +38,13 @@ import {
 } from '../aggregator/contracts/index.js';
 import { getSwapInParams } from '../aggregator/getSwapInParams.js';
 
-import { getAssetForBalance, getFeeRate, removeAddressPrefix } from './helpers.js';
+import {
+  getAssetForBalance,
+  getFeeRate,
+  getInboundData,
+  getMimirData,
+  removeAddressPrefix,
+} from './helpers.js';
 import {
   AddChainWalletParams,
   AddLiquidityParams,
@@ -70,15 +75,10 @@ const getEmptyWalletStructure = () => ({
 export class SwapKitCore {
   public connectedChains: Wallet = getEmptyWalletStructure();
   public connectedWallets: Record<Chain, WalletMethods | null> = getEmptyWalletStructure();
-  public readonly midgard: Midgard;
   public readonly stagenet: boolean = false;
 
-  constructor({
-    midgardUrl: url,
-    stagenet,
-  }: { stagenet?: boolean; midgardUrl?: string } | undefined = {}) {
+  constructor({ stagenet }: { stagenet?: boolean; midgardUrl?: string } | undefined = {}) {
     this.stagenet = !!stagenet;
-    this.midgard = new Midgard({ network: this.stagenet ? 'stagenet' : 'mainnet', url });
   }
 
   /**
@@ -102,6 +102,10 @@ export class SwapKitCore {
   connectKeplr = async () => {
     throwWalletError('connectKeplr', 'web-extensions');
   };
+  disconnectChain = (chain: Chain) => {
+    this.connectedChains[chain] = null;
+    this.connectedWallets[chain] = null;
+  };
 
   extend = ({ wallets, config }: ExtendParams) => {
     wallets.forEach((wallet) => {
@@ -110,11 +114,6 @@ export class SwapKitCore {
         config: config || {},
       });
     });
-  };
-
-  disconnectChain = (chain: Chain) => {
-    this.connectedChains[chain] = null;
-    this.connectedWallets[chain] = null;
   };
 
   approveAsset = (asset: AssetEntity) => this._approve({ asset }, 'approve');
@@ -174,55 +173,13 @@ export class SwapKitCore {
     return this.connectedWallets[chain]?.getTransactionData(txHash, address);
   };
 
-  getFees = (chain: Chain, tx?: TxParams) => {
-    const walletMethods = this.connectedWallets[chain];
-    if (!walletMethods) throw new Error('invalid chain');
-
-    if (chain !== Chain.Ethereum) return walletMethods.getFees();
-
-    if (tx && this.connectedWallets.ETH) {
-      const {
-        assetAmount: { asset, amount },
-        recipient,
-      } = tx;
-
-      return this.connectedWallets.ETH.getFees({
-        asset,
-        amount: baseAmount(amount.baseAmount.toString(10), asset.decimal),
-        recipient,
-      });
-    }
-  };
-
-  _prepareTxParams = ({
-    assetAmount: { asset, amount },
-    recipient,
-    router,
-    feeRate,
-    ...rest
-  }: TxParams & { router?: string }) => {
-    const amountWithBaseDenom = baseAmount(amount.baseAmount.toString(10), asset.decimal);
-
-    return {
-      ...rest,
-      from: this.getAddress(asset.L1Chain),
-      feeRate,
-      amount: amountWithBaseDenom,
-      asset: createAssetObjFromAsset(asset),
-      recipient,
-      router,
-    };
-  };
-
   transfer = async (params: TxParams & { router?: string }) => {
     const chain = params.assetAmount.asset.L1Chain;
-
     const walletInstance = this.connectedWallets[chain];
 
     if (!walletInstance) throw new Error('Chain is not connected');
 
     const txParams = this._prepareTxParams(params);
-
     return walletInstance.transfer(txParams);
   };
 
@@ -552,23 +509,26 @@ export class SwapKitCore {
   /**
    * Private methods (internal use only ¯\_(ツ)_/¯)
    */
-  private _getInboundDataByChain = async (chain: Chain, skipThrow: boolean = false) => {
+  private _getInboundDataByChain = async (chain: Chain) => {
     if (chain === Chain.THORChain) {
-      return { address: '', halted: false, chain: Chain.THORChain, pub_key: '' };
+      return {
+        gas_rate: '0',
+        router: '0',
+        address: '',
+        halted: false,
+        chain: Chain.THORChain,
+        pub_key: '',
+      };
+    }
+    const inboundData = await getInboundData(this.stagenet);
+    const chainAddressData = inboundData.find((item) => item.chain === chain);
+
+    if (!chainAddressData) throw new Error('pool address not found');
+    if (chainAddressData?.halted) {
+      throw new Error('Network temporarily halted, please try again later.');
     }
 
-    const inboundData = await this.midgard.getInboundAddresses();
-    const addresses = inboundData || [];
-    const chainAddressData = addresses.find((item) => item.chain === chain);
-    if (chainAddressData) {
-      if (chainAddressData.halted && !skipThrow) {
-        throw new Error('Network temporarily halted, please try again later.');
-      }
-
-      return chainAddressData;
-    } else {
-      throw new Error('pool address not found');
-    }
+    return chainAddressData;
   };
 
   private _addConnectedChain = ({ chain, wallet, walletMethods }: AddChainWalletParams) => {
@@ -629,14 +589,33 @@ export class SwapKitCore {
     assetAmount: AssetAmount;
     memo: string;
   }) => {
-    const mimir = await this.midgard.getThorchainMimir();
-    const haltKey = `HALT${Chain.THORChain}CHAIN`;
+    const mimir = await getMimirData(this.stagenet);
 
     // check if trading is halted or not
-    if (mimir[haltKey] === 1) {
+    if (mimir['HALTCHAINGLOBAL'] === 1 || mimir['HALTTHORCHAIN'] === 1) {
       throw new Error('THORChain network is halted now, please try again later.');
     }
 
     return this.deposit({ assetAmount, recipient: '', memo });
+  };
+
+  private _prepareTxParams = ({
+    assetAmount: { asset, amount },
+    recipient,
+    router,
+    feeRate,
+    ...rest
+  }: TxParams & { router?: string }) => {
+    const amountWithBaseDenom = baseAmount(amount.baseAmount.toString(10), asset.decimal);
+
+    return {
+      ...rest,
+      from: this.getAddress(asset.L1Chain),
+      feeRate,
+      amount: amountWithBaseDenom,
+      asset: createAssetObjFromAsset(asset),
+      recipient,
+      router,
+    };
   };
 }

@@ -9,7 +9,7 @@ yarn add @thorswap-lib/web-extensions
 To use the web extension wallet, you need to install the corresponding package for the chain you want to use.
 
 | chain            | Metamask | XDefi | BraveWallet | TrustWallet Extension | Coinbase Wallet Extension | Keplr | package                                           |
-| ---------------- | -------- | ----- | ----------- | --------------------- | ----- | ------------------------------------------------- |
+| ---------------- | -------- | ----- | ----------- | --------------------- | -------------------------- | ----- | ------------------------------------------------- |
 | BTC              | ❌       | ✅    | ❌          | ❌                    | ❌                        | ❌    | @thorswap-lib/toolbox-utxo                        |
 | LTC              | ❌       | ✅    | ❌          | ❌                    | ❌                        | ❌    | @thorswap-lib/toolbox-utxo                        |
 | BCH              | ❌       | ✅    | ❌          | ❌                    | ❌                        | ❌    | @thorswap-lib/toolbox-utxo                        |
