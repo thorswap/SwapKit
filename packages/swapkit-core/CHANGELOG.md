@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.130
+
+### Patch Changes
+
+- [`69b8c55`](https://github.com/thorswap/SwapKit/commit/69b8c557aa5bef2102727cf2734c67be880f8c93) Thanks [@chillios-ts](https://github.com/chillios-ts)! - remove midgard
+
 ## 1.0.0-development.129
 
 ### Patch Changes
