@@ -1,5 +1,16 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.133
+
+### Minor Changes
+
+- [#6](https://github.com/thorswap/SwapKit/pull/6) [`467c2cb`](https://github.com/thorswap/SwapKit/commit/467c2cb98ff1615633e844ec21ae85c928bb33f7) Thanks [@0x-General](https://github.com/0x-General)! - Migrate Ledger @cosmjs to @cosmos-client/core
+
+### Patch Changes
+
+- Updated dependencies [[`467c2cb`](https://github.com/thorswap/SwapKit/commit/467c2cb98ff1615633e844ec21ae85c928bb33f7)]:
+  - @thorswap-lib/toolbox-cosmos@0.1.0-development.73
+
 ## 1.0.0-development.132
 
 ### Patch Changes
