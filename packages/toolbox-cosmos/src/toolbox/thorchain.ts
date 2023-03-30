@@ -1,4 +1,3 @@
-import { fromBase64, toBase64 } from '@cosmjs/encoding';
 import { cosmosclient, proto, rest } from '@cosmos-client/core';
 import {
   assetAmount,
@@ -20,6 +19,7 @@ import {
   Fees,
   TxHistoryParams,
 } from '@thorswap-lib/types';
+import { fromByteArray, toByteArray } from 'base64-js';
 import Long from 'long';
 
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
@@ -79,7 +79,7 @@ const createMultisig = (pubKeys: string[], threshold: number) => {
   const pubKeyInstances = pubKeys.map(
     (pubKey) =>
       new proto.cosmos.crypto.secp256k1.PubKey({
-        key: fromBase64(pubKey),
+        key: toByteArray(pubKey),
       }),
   );
   return new proto.cosmos.crypto.multisig.LegacyAminoPubKey({
@@ -98,9 +98,9 @@ const mergeSignatures = (signatures: Uint8Array[]) => {
   return proto.cosmos.crypto.multisig.v1beta1.MultiSignature.encode(multisig).finish();
 };
 
-const exportSignature = (signature: Uint8Array) => toBase64(signature);
+const exportSignature = (signature: Uint8Array) => fromByteArray(signature);
 
-const importSignature = (signature: string) => fromBase64(signature);
+const importSignature = (signature: string) => toByteArray(signature);
 
 const exportMultisigTx = (txBuilder: cosmosclient.TxBuilder) => txBuilder.toProtoJSON();
 
@@ -125,7 +125,7 @@ const importMultisigTx = async (cosmosSdk: cosmosclient.CosmosSDK, tx: any) => {
       public_keys: signerInfo.public_key.public_keys.map((publicKey: any) =>
         cosmosclient.codec.instanceToProtoAny(
           new proto.cosmos.crypto.secp256k1.PubKey({
-            key: fromBase64(publicKey.key),
+            key: toByteArray(publicKey.key),
           }),
         ),
       ),

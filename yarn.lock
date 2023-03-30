@@ -996,7 +996,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/encoding@npm:0.29.5, @cosmjs/encoding@npm:^0.29.5":
+"@cosmjs/encoding@npm:^0.29.5":
   version: 0.29.5
   resolution: "@cosmjs/encoding@npm:0.29.5"
   dependencies:
@@ -2962,13 +2962,13 @@ __metadata:
   resolution: "@thorswap-lib/toolbox-cosmos@workspace:packages/toolbox-cosmos"
   dependencies:
     "@binance-chain/javascript-sdk": 4.2.0
-    "@cosmjs/encoding": 0.29.5
     "@cosmos-client/core": 0.45.13
     "@internal/config": "workspace:*"
     "@thorswap-lib/helpers": "workspace:*"
     "@thorswap-lib/swapkit-entities": "workspace:*"
     "@thorswap-lib/types": "workspace:*"
     "@vitest/coverage-c8": 0.29.7
+    base64-js: 1.5.1
     bech32: 2.0.0
     bech32-buffer: 0.2.1
     bip32: 2.0.6

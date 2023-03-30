@@ -1,10 +1,10 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@cosmjs/encoding": "0.29.5",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
+    "base64-js": "1.5.1",
     "bech32": "2.0.0",
     "bech32-buffer": "0.2.1",
     "bip32": "2.0.6",
@@ -58,5 +58,5 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "typings": "./dist/index.d.ts",
-  "version": "0.1.0-development.72"
+  "version": "0.1.0-development.73"
 }
