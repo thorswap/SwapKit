@@ -42,7 +42,7 @@
   "name": "@thorswap-lib/toolbox-utxo",
   "packageManager": "yarn@3.2.1",
   "peerDependencies": {
-    "bip39": "3.0.4"
+    "bip39": "^3.0.4"
   },
   "publishConfig": {
     "access": "public"

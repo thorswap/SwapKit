@@ -9,7 +9,7 @@ const viteConfig = thorswapViteConfig(packageJson.name, {
       entry: path.resolve(__dirname, 'src/index.ts'),
     },
     rollupOptions: {
-      external: ['bignumber.js', 'tiny-invariant'],
+      external: ['bignumber.js'],
       output: {
         globals: {
           'bignumber.js': 'BigNumber',
