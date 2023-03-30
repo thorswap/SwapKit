@@ -4,20 +4,17 @@ import { derivationPathToString } from '../helpers/derivationPath.js';
 import { CommonLedgerInterface } from '../interfaces/LedgerInterfaces.js';
 
 export class CosmosLedger extends CommonLedgerInterface {
-  public derivationPath: DerivationPathArray;
+  public derivationPath: string;
 
   constructor(derivationPath: DerivationPathArray = NetworkDerivationPath.GAIA) {
     super();
     this.chain = 'cosmos';
-    this.derivationPath = derivationPath;
+    this.derivationPath = derivationPathToString(derivationPath);
   }
 
   connect = async () => {
     await this.checkOrCreateTransportAndLedger();
-    const { address } = await this.ledgerApp.getAddress(
-      derivationPathToString(this.derivationPath),
-      this.chain,
-    );
+    const { address } = await this.ledgerApp.getAddress(this.derivationPath, this.chain);
 
     return address;
   };

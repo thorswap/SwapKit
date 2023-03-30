@@ -11,7 +11,7 @@ import { signUTXOTransaction } from './utxo.js';
 
 export abstract class CommonLedgerInterface {
   public ledgerTimeout: number = 50000;
-  public derivationPath: (number | string)[] = [];
+  public derivationPath: (number | string)[] | string = [];
   public transport: any;
   public ledgerApp: any;
   public test: any;

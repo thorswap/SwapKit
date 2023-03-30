@@ -40,7 +40,6 @@ import { LitecoinLedger } from './clients/litecoin.js';
 import { THORChainLedger } from './clients/thorchain/index.js';
 import { LEDGER_SUPPORTED_CHAINS } from './constants.js';
 import { AminoMsgSend, AminoTypes, Coin } from './cosmosTypes.js';
-import { derivationPathToString } from './helpers/derivationPath.js';
 import { getLedgerAddress, getLedgerClient } from './helpers/index.js';
 
 type LedgerConfig = {
@@ -282,8 +281,7 @@ const getToolbox = async ({
             { deep: true },
           ),
         );
-        const derivationPath = derivationPathToString((signer as CosmosLedger).derivationPath);
-        const sigResult = await signer.ledgerApp.sign(derivationPath, msgToSign);
+        const sigResult = await signer.ledgerApp.sign(signer.derivationPath, msgToSign);
 
         const txBody = toolbox.protoTxBody({
           from: address,
@@ -293,7 +291,10 @@ const getToolbox = async ({
           memo: memo || '',
         });
 
-        const { publicKey } = await signer.ledgerApp.getAddress(derivationPath, signer.chain);
+        const { publicKey } = await signer.ledgerApp.getAddress(
+          signer.derivationPath,
+          signer.chain,
+        );
 
         const secPubKey = new proto.cosmos.crypto.secp256k1.PubKey();
         secPubKey.key = new Uint8Array(Buffer.from(publicKey, 'hex'));
