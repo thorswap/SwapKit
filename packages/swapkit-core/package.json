@@ -2,7 +2,6 @@
   "author": "thorswap",
   "dependencies": {
     "@thorswap-lib/helpers": "workspace:*",
-    "@thorswap-lib/midgard-sdk": "0.1.15",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/swapkit-explorers": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
