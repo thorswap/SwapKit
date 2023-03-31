@@ -25,8 +25,6 @@ import { ledgerWallet } from '@thorswap-lib/ledger';
 import { walletconnectWallet } from '@thorswap-lib/walletconnect';
 import { evmWallet, keplrWallet, xdefiWallet } from '@thorswap-lib/web-extensions';
 
-let SKClient: SwapKitCore
-
 const getSwapKitClient = () => {
   const client = SwapKitCore()
 
@@ -46,7 +44,6 @@ const getSwapKitClient = () => {
       xdefiWallet,
     ],
   });
-  SKClient = client;
 
   return SKClient;
 }
