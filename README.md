@@ -31,7 +31,12 @@ const getSwapKitClient = () => {
   const client = SwapKitCore()
 
   client.extend({
-    config: { covalentApiKey: '', ethplorerApiKey: '', utxoApiKey: '' },
+    config: {
+      // Blockchair API KEY
+      utxoApiKey: ''
+      covalentApiKey: '',
+      ethplorerApiKey: '',
+    },
     wallets: [
       keystoreWallet,
       ledgerWallet,
@@ -46,21 +51,56 @@ const getSwapKitClient = () => {
   return SKClient;
 }
 
-// m/44'/60'/2'/0/0
+// [44, 60, 2, 0, 0]
 const llderivationPath = getDerivationPathFor({ chain: Chain.ETH, index: 2, type: 'ledgerLive' })
-// m/44'/60'/0'/0/2
+// [44, 60, 0, 0, 2]
 const derivationPath = getDerivationPathFor({ chain: Chain.ETH, index: 2 })
 
-const connectLedger = (chain: Chain) => SKClient.connectLedger(Chain.ETH)
+const connectLedger = (chain: Chain) => {
+  await getSwapKitClient().connectLedger(Chain.ETH, derivationPath)
+
+  // { address: '0x...', balance: [], walletType: 'LEDGER' }
+  const walletData = await getSwapKitClient().getWalletByChain(Chain.ETH)
+}
+
+// quoteRoute is returned from `/quote` API endpoint
+// https://dev-docs.thorswap.net/aggregation-api/examples/Swap#fetch-quote
+const quoteParams = (sender: string, recepient: string) => {
+    sellToken: 'ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044',
+    buyToken: 'BTC.BTC',
+    sellAmount: '1000',
+    senderAddress: sender,
+    recipientAddress: recepient
+}
+
+const baseUrl = `https://api.thorswap.net/aggregator`;
+const paramsStr = new URLSearchParams(quoteParams).toString();
+
+const fetchQuote = (sender: string, recepient: string) => {
+  const params = quoteParams(sender, recepient)
+  const paramsStr = new URLSearchParams(params).toString();
+
+  return fetch(`${baseUrl}/tokens/quote?${paramsStr}`).then(res => res.json())
+}
 
 const swap = () => {
-  const quote = getResponse() // quoteRoute is returned from [/quote API endpoint](https://dev-docs.thorswap.net/api/get-quote-for-a-swap-1)
-  SKClient.swap({
-    route: quote.routes[0],
-    quoteMode: quoteRoute.meta.quoteMode,
-    feeOptionKey: FeeOption.Fastest,
-    recipient: SKClient.validateAddress({ chain: outputAssetChain, address }) ? address : ''
-  })
+  const senderAddress = '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC'
+  const recipient = 'bc1qcalsdh8v03f5xztc04gzqlkqhx2y07dakv7f5c'
+  const { routes } = fetchQuote()
+  // select best route from routes -> it has `optimal` flag set to true
+  const route = routes[0]
+
+  if (getSwapKitClient().validateAddress({ chain: Chain.BTC, address: recipient })) {
+    const txHash = await SKClient.swap({
+      route,
+      quoteMode: route.meta.quoteMode,
+      // Fee option multiplier -> it will be used if wallet supports gas calculation params
+      feeOptionKey: FeeOption.Fastest,
+      recipient
+    })
+
+    // txHash: '0x...'
+  }
 }
 
 ```
