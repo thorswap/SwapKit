@@ -35,11 +35,6 @@ export const getFeeRate = ({
   gasRate?: string;
 }) => Number((Number(gasRate || 0) * gasMultiplier[feeOptionKey]).toFixed(0));
 
-export const removeAddressPrefix = (address: string = '') => {
-  const prefixIndex = address.indexOf(':') + 1;
-  return address.slice(prefixIndex > 0 ? prefixIndex : 0);
-};
-
 export const getAssetForBalance = ({ symbol, chain }: AssetType) => {
   const isSynth = symbol.includes('/');
   const assetChain = (isSynth ? symbol.split('/')?.[0] : chain)?.toUpperCase() as Chain;
