@@ -69,5 +69,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.109"
+  "version": "1.0.0-development.110"
 }
