@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-evm
 
+## 0.1.0-development.88
+
+### Patch Changes
+
+- [#11](https://github.com/thorswap/SwapKit/pull/11) [`d59734f`](https://github.com/thorswap/SwapKit/commit/d59734f5f10234b2f10554a622a79a3229dd7719) Thanks [@towanTG](https://github.com/towanTG)! - Fixes a bug with ledger + JsonRpcProvider and improves Brave Wallet detection
+
 ## 0.1.0-development.87
 
 ### Patch Changes
