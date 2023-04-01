@@ -7,7 +7,7 @@
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
-    "foundry-primitives": "0.2.1",
+    "blakejs": "1.2.1",
     "long": "4.0.0",
     "uuid": "9.0.0"
   },

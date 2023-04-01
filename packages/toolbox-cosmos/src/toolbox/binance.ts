@@ -76,9 +76,9 @@ const getTransactions = (params?: TxHistoryParams) =>
     txAsset: params?.asset,
   });
 
-const getTransactionData = async (txId: string) => {
+const getTransactionData = async (txHash: string) => {
   const { height, tx }: TransactionResult = await getRequest(
-    `${BINANCE_MAINNET_API_URI}/api/v1/tx/${txId}?format=json`,
+    `${BINANCE_MAINNET_API_URI}/api/v1/tx/${txHash}?format=json`,
   );
 
   let address = '';
@@ -95,7 +95,7 @@ const getTransactionData = async (txId: string) => {
   }
 
   const txHistory = await searchTransactions({ address, blockHeight: height });
-  const [transaction] = txHistory.txs.filter((tx) => tx.hash === txId);
+  const [transaction] = txHistory.txs.filter(({ hash }) => hash === txHash);
 
   if (!transaction) {
     throw new Error('transaction not found');

@@ -1,6 +1,6 @@
 import { entropyToMnemonic, generateMnemonic } from 'bip39';
+import { blake2bFinal, blake2bInit, blake2bUpdate } from 'blakejs';
 import crypto from 'crypto';
-import { blake256 } from 'foundry-primitives';
 import { v4 as uuidv4 } from 'uuid';
 
 const cipher = 'aes-128-ctr';
@@ -30,6 +30,26 @@ export type Keystore = {
   id: string;
   version: number;
   meta: string;
+};
+
+/**
+ * taken from `foundry-primitives` and modified
+ */
+const toHexByte = (byte: number) => (byte < 0x10 ? `0${byte.toString(16)}` : byte.toString(16));
+const toHex = (buffer: Buffer | Uint8Array) => Array.from(buffer).map(toHexByte).join('');
+
+/**
+ * Gets data's 256 bit blake hash.
+ * @param data buffer or hexadecimal string
+ * @returns 32 byte hexadecimal string
+ */
+export const blake256 = (data: Buffer | string): string => {
+  if (!(data instanceof Buffer)) {
+    data = Buffer.from(data, 'hex');
+  }
+  const context = blake2bInit(32);
+  blake2bUpdate(context, data);
+  return toHex(blake2bFinal(context));
 };
 
 const pbkdf2Async = async (

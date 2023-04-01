@@ -14,10 +14,10 @@ export const getAddress = ({
 
 export const getTxInfo = async ({
   baseUrl,
-  hash,
+  txHash,
   apiKey = 'freekey',
-}: ApiRequestParams<{ hash: string }>) =>
-  getRequest<TransactionInfo>(`${baseUrl}/getTxInfo/${hash}`, { apiKey });
+}: ApiRequestParams<{ txHash: string }>) =>
+  getRequest<TransactionInfo>(`${baseUrl}/getTxInfo/${txHash}`, { apiKey });
 
 export const getAddressTransactions = async ({
   limit,
