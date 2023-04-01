@@ -6,7 +6,8 @@
     "hungry-beers-pretend",
     "seven-pans-agree",
     "smooth-cherries-march",
-    "strong-kangaroos-poke"
+    "strong-kangaroos-poke",
+    "violet-clocks-promise"
   ],
   "initialVersions": {
     "@thorswap-lib/helpers": "0.0.0-development.53",

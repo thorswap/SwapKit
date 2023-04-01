@@ -1,5 +1,14 @@
 # @thorswap-lib/toolbox-utxo
 
+## 0.1.0-development.80
+
+### Patch Changes
+
+- Updated dependencies [[`2d16a48`](https://github.com/thorswap/SwapKit/commit/2d16a488511efc65385def9cf7a309e84bf4f62b)]:
+  - @thorswap-lib/types@1.0.0-development.64
+  - @thorswap-lib/helpers@0.0.0-development.57
+  - @thorswap-lib/swapkit-entities@0.3.0-development.65
+
 ## 0.1.0-development.79
 
 ### Patch Changes
