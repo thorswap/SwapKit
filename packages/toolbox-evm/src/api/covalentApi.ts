@@ -18,7 +18,7 @@ export interface TokenBalanceRequestParams extends BaseRequestParams {
 }
 
 export interface TxInfoRequestParams extends BaseRequestParams {
-  hash: string;
+  txHash: string;
 }
 
 export interface TransactionsRequestParams extends BaseRequestParams {
@@ -39,9 +39,9 @@ export class CovalentApi implements EvmApi<RequestParams> {
   /**
    * Get transaction by hash.
    */
-  getTxInfo = async ({ hash, chainId }: TxInfoRequestParams): Promise<Tx> => {
+  getTxInfo = async ({ txHash, chainId }: TxInfoRequestParams): Promise<Tx> => {
     const response = await getRequest<any>(
-      `${COVALENT_BASE_URL}/${chainId}/transaction_v2/${hash}`,
+      `${COVALENT_BASE_URL}/${chainId}/transaction_v2/${txHash}`,
       { key: this.apiKey },
     );
     return mapTxDataResponseToTx(response);

@@ -1,5 +1,5 @@
 import { baseAmount, postRequest } from '@thorswap-lib/helpers';
-import { AmountWithBaseDenom, BaseDecimal, Chain, UTXO } from '@thorswap-lib/types';
+import { AmountWithBaseDenom, BaseDecimal, Chain } from '@thorswap-lib/types';
 import uniqid from 'uniqid';
 
 import {
@@ -79,18 +79,18 @@ export class ApiClient {
 
   getSuggestedTxFee = () => getSuggestedTxFee(this.chain);
 
-  getIsTxConfirmed = async (hash: string): Promise<boolean> => {
-    const response = await getTx({ chain: this.chain, apiKey: this.apiKey, txHash: hash });
-    return response[hash].transaction.block_id !== -1;
+  getIsTxConfirmed = async (txHash: string) => {
+    const response = await getTx({ chain: this.chain, apiKey: this.apiKey, txHash });
+    return response[txHash].transaction.block_id !== -1;
   };
 
-  getTransaction = async ({ hash }: { hash: string }): Promise<UTXOTransactionData> => {
-    const response = await getTx({ chain: this.chain, apiKey: this.apiKey, txHash: hash });
+  getTransaction = async ({ txHash }: { txHash: string }): Promise<UTXOTransactionData> => {
+    const response = await getTx({ chain: this.chain, apiKey: this.apiKey, txHash });
 
-    const { transaction, outputs, inputs } = response[hash];
+    const { transaction, outputs, inputs } = response[txHash];
 
     return {
-      txId: transaction.hash,
+      txHash: transaction.hash,
       outputs: outputs.map((output) => ({
         address: output.recipient || '',
         value: output.value,
@@ -105,19 +105,18 @@ export class ApiClient {
     };
   };
 
-  getRawTx = async (txHash: string): Promise<string> => {
+  getRawTx = async (txHash: string) => {
     return (await getRawTx({ txHash, chain: this.chain, apiKey: this.apiKey }))[txHash]
       .raw_transaction;
   };
 
-  scanUTXOs = async ({ address, fetchTxHex }: CommonScanUTXOParam): Promise<UTXO[]> => {
-    return scanUTXOs({
+  scanUTXOs = async ({ address, fetchTxHex }: CommonScanUTXOParam) =>
+    scanUTXOs({
       address,
       chain: this.chain,
       fetchTxHex,
       apiKey: this.apiKey,
     });
-  };
 
   broadcastTx = async ({ txHex }: BroadcastTxParams) => {
     const response: TxBroadcastResponse = await postRequest(

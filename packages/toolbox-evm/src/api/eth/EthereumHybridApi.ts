@@ -40,8 +40,8 @@ export class EthereumApi implements EvmApi<RequestParams> {
     this.baseUrl = baseUrl;
   }
 
-  getTxInfo = async ({ hash }: GetTxInfoParam): Promise<Tx> => {
-    const txInfo = await getTxInfo({ baseUrl: this.baseUrl, hash, apiKey: this.apiKey });
+  getTxInfo = async ({ txHash }: GetTxInfoParam): Promise<Tx> => {
+    const txInfo = await getTxInfo({ baseUrl: this.baseUrl, txHash, apiKey: this.apiKey });
 
     return mapTxInfoToTx(txInfo);
   };

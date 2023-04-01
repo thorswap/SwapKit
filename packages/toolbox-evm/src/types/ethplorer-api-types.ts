@@ -101,7 +101,7 @@ export interface TransactionInfo {
 }
 
 export type GetTxInfoParam = {
-  hash: string;
+  txHash: string;
   apiKey?: string;
 };
 

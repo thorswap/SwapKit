@@ -59,18 +59,19 @@ const getAssetFromBalance = ({ asset: { symbol, chain } }: Balance): AssetEntity
 };
 
 const getTransactionDataMethod =
-  (sdk: CosmosSDKClient) => async (txId: string, address: string) => {
-    const txResult = await sdk.txsHashGet(txId);
+  (sdk: CosmosSDKClient) => async (txHash: string, address: string) => {
+    const txResult = await sdk.txsHashGet(txHash);
 
     const txData: TxData | null = txResult?.logs
       ? getDepositTxDataFromLogs(txResult.logs, address)
       : null;
-    if (!txResult || !txData) throw new Error(`Failed to get transaction data (tx-hash: ${txId})`);
+    if (!txResult || !txData)
+      throw new Error(`Failed to get transaction data (tx-hash: ${txHash})`);
 
     return {
       ...txData,
       date: new Date(txResult.timestamp),
-      hash: txId,
+      hash: txHash,
       asset: AssetRuneNative,
     };
   };

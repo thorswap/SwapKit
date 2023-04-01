@@ -43,8 +43,8 @@ export const getTransactions = async (api: CovalentApi, params?: TxHistoryParams
   return transactions;
 };
 
-export const getTransactionData = async (api: CovalentApi, txId: string) =>
-  api.getTxInfo({ hash: txId, chainId: BSC_CHAIN_ID });
+export const getTransactionData = async (api: CovalentApi, txHash: string) =>
+  api.getTxInfo({ txHash, chainId: BSC_CHAIN_ID });
 
 export const getNetworkParams = () => ({
   chainId: BSC_CHAIN_ID,
@@ -71,7 +71,7 @@ export const BSCToolbox = ({
 
   return {
     ...BaseEVMToolbox({ provider, signer }),
-    getTransactionData: (txId: string) => getTransactionData(api, txId),
+    getTransactionData: (txHash: string) => getTransactionData(api, txHash),
     getTransactions: (params?: TxHistoryParams) => getTransactions(api, params),
     getNetworkParams,
     getBalance: (address: string, assets?: AssetEntity[]) =>
