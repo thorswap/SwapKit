@@ -134,6 +134,7 @@ declare global {
       litecoin: any;
       thorchain: any;
     };
+    braveSolana: any;
   }
 }
 
