@@ -1,6 +1,6 @@
 import { getRequest } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { Asset as AssetType, Chain, FeeOption } from '@thorswap-lib/types';
+import { Asset as AssetType, Chain } from '@thorswap-lib/types';
 
 const MIDGARD_MAINNET_URL = 'https://midgard.thorswap.net/v2';
 const MIDGARD_STAGENET_URL = 'https://stagenet-midgard.ninerealms.com/v2';
@@ -20,20 +20,6 @@ type InboundAddressData = {
   pub_key: string;
   router: string;
 }[];
-
-const gasMultiplier: Record<FeeOption, number> = {
-  average: 0.67,
-  fast: 1,
-  fastest: 1.5,
-};
-
-export const getFeeRate = ({
-  feeOptionKey = FeeOption.Fast,
-  gasRate,
-}: {
-  feeOptionKey: FeeOption;
-  gasRate?: string;
-}) => Number((Number(gasRate || 0) * gasMultiplier[feeOptionKey]).toFixed(0));
 
 export const getAssetForBalance = ({ symbol, chain }: AssetType) => {
   const isSynth = symbol.includes('/');

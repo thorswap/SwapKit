@@ -5,10 +5,12 @@ export type { TransferParams } from './toolbox/BaseEVMToolbox.js';
 export {
   addAccountsChangedCallback,
   EIP1193SendTransaction,
-  getCheckSumAddress,
+  getBigNumberFrom,
+  getChecksumAddressFromAsset,
   getETHDefaultWallet,
   getTokenAddress,
   isDetected,
+  toChecksumAddress,
 } from './toolbox/BaseEVMToolbox.js';
 export * from './toolbox/index.js';
 export * from './types/index.js';

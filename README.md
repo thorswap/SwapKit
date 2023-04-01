@@ -90,7 +90,6 @@ const swap = () => {
   if (getSwapKitClient().validateAddress({ chain: Chain.BTC, address: recipient })) {
     const txHash = await SKClient.swap({
       route,
-      quoteMode: route.meta.quoteMode,
       // Fee option multiplier -> it will be used if wallet supports gas calculation params
       feeOptionKey: FeeOption.Fastest,
       recipient

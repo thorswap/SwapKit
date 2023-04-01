@@ -13,25 +13,29 @@ const baseExplorerUrl: Record<Chain, string> = {
   [Chain.THORChain]: 'https://viewblock.io/thorchain',
 };
 
-export const getExplorerTxUrl = ({ chain, txID }: { txID: string; chain: Chain }) => {
+export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Chain }) => {
   const baseUrl = baseExplorerUrl[chain];
 
   switch (chain) {
-    case Chain.Avalanche:
     case Chain.Binance:
-    case Chain.BinanceSmartChain:
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
-    case Chain.Ethereum:
     case Chain.THORChain:
-      return `${baseUrl}/tx/${txID}`;
+      return `${baseUrl}/tx/${txHash}`;
+
+    case Chain.Avalanche:
+    case Chain.BinanceSmartChain:
+    case Chain.Ethereum: {
+      const ensured0xTxHash = txHash.startsWith('0x') ? txHash : `0x${txHash}`;
+      return `${baseUrl}/tx/${ensured0xTxHash}`;
+    }
 
     case Chain.Cosmos:
-      return `${baseUrl}/transactions/${txID}`;
+      return `${baseUrl}/transactions/${txHash}`;
     case Chain.Doge:
-      return `${baseUrl}/transaction/${txID}`;
+      return `${baseUrl}/transaction/${txHash.toLowerCase()}`;
     case Chain.Litecoin:
-      return `${baseUrl}/${txID}`;
+      return `${baseUrl}/${txHash}`;
 
     default:
       throw new Error(`Unsupported chain: ${chain}`);

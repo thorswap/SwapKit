@@ -3,11 +3,10 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { getAddress } from '@ethersproject/address';
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { hexlify } from '@ethersproject/bytes';
-import { Contract, PopulatedTransaction } from '@ethersproject/contracts';
+import { Contract } from '@ethersproject/contracts';
 import { Web3Provider } from '@ethersproject/providers';
 import { toUtf8Bytes } from '@ethersproject/strings';
-import { parseUnits } from '@ethersproject/units';
-import { assetToString, baseAmount } from '@thorswap-lib/helpers';
+import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import {
   Address,
@@ -28,21 +27,9 @@ import {
   ApproveParams,
   CallParams,
   EstimateCallParams,
-  FeeData,
-  FeesWithGasPricesAndLimits,
-  GasPrices,
   IsApprovedParams,
   SendTransactionParams,
 } from '../types/index.js';
-
-// from https://github.com/MetaMask/metamask-extension/blob/ee205b893fe61dc4736efc576e0663189a9d23da/ui/app/pages/send/send.constants.js#L39
-// and based on recommendations of https://ethgasstation.info/blog/gas-limit/
-const SIMPLE_GAS_COST = BigNumber.from('21000');
-const BASE_TOKEN_GAS_COST = BigNumber.from('100000');
-
-// default gas price in gwei
-const DEFAULT_GAS_PRICE = 50;
-const DEFAULT_PRIORITY_FEE = 1.5;
 
 const MAX_APPROVAL = BigNumber.from('2').pow('256').sub('1');
 
@@ -53,6 +40,8 @@ const baseAssetAddress: Record<EVMChain, string> = {
 };
 
 const isWeb3Provider = (provider: any) => provider?.constructor?.name === 'Web3Provider';
+const createContract = (address: string, abi: any, provider: Provider) =>
+  new Contract(address, abi, provider);
 
 const validateAddress = (address: Address): boolean => {
   try {
@@ -71,90 +60,8 @@ const getFee = ({
   gasLimit: BigNumber;
 }) => baseAmount(maxGasPrice.amount().mul(gasLimit.toString()), BaseDecimal.ETH);
 
-const estimateDefaultFeesWithGasPricesAndLimits = (
-  asset?: AssetEntity,
-): FeesWithGasPricesAndLimits => {
-  const gasPrices = {
-    average: {
-      maxFeePerGas: baseAmount(
-        parseUnits(DEFAULT_GAS_PRICE.toString(), 'gwei').toString(),
-        BaseDecimal.ETH,
-      ),
-      maxPriorityFeePerGas: baseAmount(
-        parseUnits(DEFAULT_PRIORITY_FEE.toString(), 'gwei').toString(),
-        BaseDecimal.ETH,
-      ),
-    },
-    fast: {
-      maxFeePerGas: baseAmount(
-        parseUnits((DEFAULT_GAS_PRICE * 1.5).toString(), 'gwei').toString(),
-        BaseDecimal.ETH,
-      ),
-      maxPriorityFeePerGas: baseAmount(
-        parseUnits((DEFAULT_PRIORITY_FEE * 1.5).toString(), 'gwei').toString(),
-        BaseDecimal.ETH,
-      ),
-    },
-    fastest: {
-      maxFeePerGas: baseAmount(
-        parseUnits((DEFAULT_GAS_PRICE * 2).toString(), 'gwei').toString(),
-        BaseDecimal.ETH,
-      ),
-      maxPriorityFeePerGas: baseAmount(
-        parseUnits((DEFAULT_PRIORITY_FEE * 2).toString(), 'gwei').toString(),
-        BaseDecimal.ETH,
-      ),
-    },
-  };
-  const { fast: fastGP, fastest: fastestGP, average: averageGP } = gasPrices;
-
-  let assetAddress;
-  if (asset && assetToString(asset) !== assetToString(AssetEntity.ETH().getAssetObj())) {
-    assetAddress = getTokenAddress(asset, asset.L1Chain as EVMChain);
-  }
-
-  let gasLimit;
-  if (assetAddress && assetAddress !== ContractAddress.ETH) {
-    gasLimit = BigNumber.from(BASE_TOKEN_GAS_COST);
-  } else {
-    gasLimit = BigNumber.from(SIMPLE_GAS_COST);
-  }
-
-  return {
-    gasPrices,
-    gasLimit,
-    fees: {
-      average: getFee({
-        maxGasPrice: averageGP.maxFeePerGas.plus(averageGP.maxPriorityFeePerGas),
-        gasLimit,
-      }),
-      fast: getFee({
-        maxGasPrice: fastGP.maxFeePerGas.plus(fastGP.maxPriorityFeePerGas),
-        gasLimit,
-      }),
-      fastest: getFee({
-        maxGasPrice: fastestGP.maxFeePerGas.plus(fastestGP.maxPriorityFeePerGas),
-        gasLimit,
-      }),
-    },
-  };
-};
-
-const getDefaultGasPrices = (asset?: AssetEntity): GasPrices => {
-  const { gasPrices } = estimateDefaultFeesWithGasPricesAndLimits(asset);
-  return gasPrices;
-};
-
-const getDefaultGasLimits = (asset?: AssetEntity): BigNumber => {
-  const { gasLimit } = estimateDefaultFeesWithGasPricesAndLimits(asset);
-  return gasLimit;
-};
-
-const getAssetEntity = (asset: AssetType | undefined): AssetEntity => {
-  return asset
-    ? new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker)
-    : AssetEntity.ETH();
-};
+const getAssetEntity = (asset: AssetType | undefined) =>
+  asset ? new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker) : AssetEntity.ETH();
 
 type WithSigner<T> = T & { signer?: Signer };
 /**
@@ -167,8 +74,6 @@ const call = async <T>(
   { signer, contractAddress, abi, funcName, funcParams = [] }: WithSigner<CallParams>,
 ): Promise<T> => {
   if (!contractAddress) throw new Error('contractAddress must be provided');
-  const contract = new Contract(contractAddress, abi, provider);
-
   if (isWeb3Provider(provider) && signer) {
     const txObject = await createContractTxObject(provider, {
       contractAddress,
@@ -180,6 +85,7 @@ const call = async <T>(
     return EIP1193SendTransaction(provider, txObject) as Promise<T>;
   }
 
+  const contract = createContract(contractAddress, abi, provider);
   const result = await (signer
     ? contract.connect(signer)[funcName](...funcParams.slice(0, -1), {
         ...(funcParams[funcParams.length - 1] as any),
@@ -199,10 +105,7 @@ const call = async <T>(
 const createContractTxObject = async (
   provider: Provider,
   { contractAddress, abi, funcName, funcParams = [] }: CallParams,
-): Promise<PopulatedTransaction> => {
-  const contract = new Contract(contractAddress, abi, provider);
-  return contract.populateTransaction[funcName](...funcParams);
-};
+) => createContract(contractAddress, abi, provider).populateTransaction[funcName](...funcParams);
 
 const estimateCall = async (
   provider: Provider,
@@ -215,11 +118,11 @@ const estimateCall = async (
   }: EstimateCallParams & { signer?: Signer },
 ) => {
   if (!contractAddress) throw new Error('contractAddress must be provided');
-  const contract = new Contract(contractAddress, abi, provider);
-  if (signer) {
-    contract.connect(signer);
-  }
-  return contract.estimateGas[funcName](...funcParams);
+
+  const contract = createContract(contractAddress, abi, provider);
+  return signer
+    ? contract.connect(signer).estimateGas[funcName](...funcParams)
+    : contract.estimateGas[funcName](...funcParams);
 };
 
 const isApproved = async (
@@ -330,17 +233,11 @@ const transfer = async (
   const chainId = (await provider.getNetwork()).chainId;
 
   const gasFees = await getFeeData({ provider, feeOptionKey: feeOptionKey });
-  const gasLimitEstimation = await estimateGasLimit(provider, {
-    asset,
-    recipient,
-    amount,
-    memo,
-    from,
-  }).catch(() => getDefaultGasLimits(parsedAsset));
 
   const overrides = {
     type: 2,
-    gasLimit: gasLimit || gasLimitEstimation,
+    gasLimit:
+      gasLimit || (await estimateGasLimit(provider, { asset, recipient, amount, memo, from })),
     maxFeePerGas: maxFeePerGas || gasFees.maxFeePerGas,
     maxPriorityFeePerGas: maxPriorityFeePerGas || gasFees.maxPriorityFeePerGas,
     nonce: nonce || (await provider.getTransactionCount(from)),
@@ -409,33 +306,23 @@ const estimateGasLimit = async (
   provider: Provider,
   { asset, recipient, amount, memo, from }: WalletTxParams,
 ) => {
-  const txAmount = amount.amount();
-
-  const parsedAsset: AssetEntity = getAssetEntity(asset);
+  const value = amount.amount();
+  const parsedAsset = getAssetEntity(asset);
   const assetAddress = getTokenAddress(parsedAsset, parsedAsset.L1Chain as EVMChain);
-
-  let estimate;
 
   if (assetAddress && assetAddress !== ContractAddress.ETH) {
     // ERC20 gas estimate
-    const contract = new Contract(assetAddress, erc20ABI, provider);
+    const contract = createContract(assetAddress, erc20ABI, provider);
 
-    estimate = await contract.estimateGas.transfer(recipient, txAmount, {
-      from,
-    });
+    return contract.estimateGas.transfer(recipient, value, { from });
   } else {
-    // ETH gas estimate
-    const transactionRequest = {
+    return provider.estimateGas({
       from,
       to: recipient,
-      value: txAmount,
+      value,
       data: memo ? toUtf8Bytes(memo) : undefined,
-    };
-
-    estimate = await provider.estimateGas(transactionRequest);
+    });
   }
-
-  return estimate;
 };
 
 const estimateFeesWithGasPricesAndLimits = async (provider: Provider, params: WalletTxParams) => {
@@ -487,10 +374,10 @@ const getFeeData = async ({
 }: {
   feeOptionKey?: FeeOption;
   provider: Provider;
-}): Promise<FeeData> => {
-  const { maxFeePerGas, maxPriorityFeePerGas } = await estimateGasPrices(provider)
-    .then((prices) => prices[feeOptionKey])
-    .catch(() => getDefaultGasPrices()[feeOptionKey]);
+}) => {
+  const { maxFeePerGas, maxPriorityFeePerGas } = await estimateGasPrices(provider).then(
+    (prices) => prices[feeOptionKey],
+  );
 
   return {
     maxFeePerGas: maxFeePerGas.amount(),
@@ -553,6 +440,20 @@ const isWeb3Detected = () => {
   return typeof window.ethereum !== 'undefined';
 };
 
+/**
+ * Exported helper functions
+ */
+export const getBigNumberFrom = (value: string | number | BigNumber) => BigNumber.from(value);
+export const toChecksumAddress = (address: string) => getAddress(address);
+export const isDetected = (walletOption: WalletOption) => {
+  return listWeb3EVMWallets().includes(walletOption);
+};
+
+export const addAccountsChangedCallback = (callback: () => void) => {
+  window.ethereum?.on('accountsChanged', () => callback());
+  window.xfi?.ethereum.on('accountsChanged', () => callback());
+};
+
 export const getETHDefaultWallet = () => {
   const { isTrust, isBraveWallet, __XDEFI, overrideIsMetaMask, selectedProvider } = window.ethereum;
   if (isTrust) return WalletOption.TRUSTWALLET_WEB;
@@ -564,21 +465,14 @@ export const getETHDefaultWallet = () => {
 
 export const EIP1193SendTransaction = async (
   provider: any, // Web3Provider,
-  txObject: EIP1559TxParams & { type?: number | string },
+  { from, to, data, value }: EIP1559TxParams & { type?: number | string },
 ): Promise<string> =>
   provider.provider?.request?.({
     method: 'eth_sendTransaction',
-    params: [
-      {
-        value: BigNumber.from(txObject.value || 0).toHexString(),
-        from: txObject.from,
-        to: txObject.to,
-        data: txObject.data,
-      },
-    ],
+    params: [{ value: BigNumber.from(value || 0).toHexString(), from, to, data }],
   });
 
-export const getCheckSumAddress = (asset: AssetType, chain: EVMChain) => {
+export const getChecksumAddressFromAsset = (asset: AssetType, chain: EVMChain) => {
   const parsedAsset = getAssetEntity(asset);
   const assetAddress = getTokenAddress(parsedAsset, chain);
 
@@ -602,15 +496,6 @@ export const getTokenAddress = ({ chain, symbol, ticker }: AssetType, baseAssetC
   }
 };
 
-export const isDetected = (walletOption: WalletOption) => {
-  return listWeb3EVMWallets().includes(walletOption);
-};
-
-export const addAccountsChangedCallback = (callback: () => void) => {
-  window.ethereum?.on('accountsChanged', () => callback());
-  window.xfi?.ethereum.on('accountsChanged', () => callback());
-};
-
 export const BaseEVMToolbox = ({
   provider,
   signer,
@@ -622,6 +507,7 @@ export const BaseEVMToolbox = ({
   listWeb3EVMWallets,
   getETHDefaultWallet,
   isWeb3Detected,
+  createContract,
   EIP1193SendTransaction: (tx: EIP1559TxParams) => EIP1193SendTransaction(provider, tx),
   createContractTxObject: (params: CallParams) => createContractTxObject(provider, params),
   approve: (params: ApproveParams) => approve(provider, signer, params),
@@ -631,12 +517,9 @@ export const BaseEVMToolbox = ({
   getFees: (params?: WalletTxParams) => getFees(provider, params),
   isApproved: (params: IsApprovedParams) => isApproved(provider, params),
   validateAddress,
-  getCheckSumAddress,
   sendTransaction: sendTransaction({ provider, signer }),
   broadcastTransaction: provider.sendTransaction,
   estimateCall: (params: EstimateCallParams) => estimateCall(provider, { ...params, signer }),
-  estimateFeesWithGasPricesAndLimits: (params: WalletTxParams) =>
-    estimateFeesWithGasPricesAndLimits(provider, params),
   estimateGasLimit: ({ asset, recipient, amount, memo }: WalletTxParams) =>
     estimateGasLimit(provider, { asset, recipient, amount, memo }),
   getFeeData: (feeOptionKey = FeeOption.Average) => getFeeData({ feeOptionKey, provider }),

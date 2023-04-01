@@ -5,7 +5,6 @@ import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount, gasFeeMultiplier } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import { Address, BaseDecimal, ChainId, FeeOption, TxHistoryParams } from '@thorswap-lib/types';
-import { Avalanche } from 'avalanche';
 
 import { BaseEVMToolbox, CovalentApi, FeeData, MIN_AVAX_GAS } from '../index.js';
 
@@ -14,6 +13,7 @@ export const getFeeData = async ({
 }: {
   feeOptionKey?: FeeOption;
 }): Promise<FeeData> => {
+  const { Avalanche } = await import('avalanche');
   try {
     const CCClient = new Avalanche(
       undefined,
