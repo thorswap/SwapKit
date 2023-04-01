@@ -181,7 +181,16 @@ const call = async <T>(
   }
 
   const result = await (signer
-    ? contract.connect(signer)[funcName](...funcParams)
+    ? contract.connect(signer)[funcName](...funcParams.slice(0, -1), {
+        ...(funcParams[funcParams.length - 1] as any),
+        /**
+         * nonce must be set due to a possible bug with ethers.js,
+         * expecting a synchronous nonce while the JsonRpcProvider delivers Promise
+         */
+        nonce:
+          (funcParams[funcParams.length - 1] as any).nonce ||
+          (await provider.getTransactionCount(signer.getAddress())),
+      })
     : contract[funcName](...funcParams));
 
   return typeof result?.hash === 'string' ? result?.hash : result;
@@ -532,7 +541,7 @@ const sendTransaction =
 const listWeb3EVMWallets = () => [
   ...(window.ethereum && !window.ethereum?.isBraveWallet ? [WalletOption.METAMASK] : []),
   ...(window.xfi || window.ethereum?.__XDEFI ? [WalletOption.XDEFI] : []),
-  ...(window.ethereum?.isBraveWallet ? [WalletOption.BRAVE] : []),
+  ...(window.ethereum?.isBraveWallet || window.braveSolana ? [WalletOption.BRAVE] : []),
   ...(window.ethereum?.isTrust || window.trustwallet ? [WalletOption.TRUSTWALLET_WEB] : []),
   ...((window.ethereum?.overrideIsMetaMask && window.ethereum.selectedProvider?.isCoinbaseWallet) ||
   window.coinbaseWalletExtension
