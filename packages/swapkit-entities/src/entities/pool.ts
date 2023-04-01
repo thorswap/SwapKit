@@ -1,8 +1,23 @@
-import type { PoolDetail } from '@thorswap-lib/midgard-sdk';
 import { BaseDecimal } from '@thorswap-lib/types';
 
 import { Amount } from './amount.js';
 import { AssetEntity as Asset } from './asset.js';
+
+export interface PoolDetail {
+  annualPercentageRate: string;
+  asset: string;
+  assetDepth: string;
+  assetPrice: string;
+  assetPriceUSD: string;
+  liquidityUnits: string;
+  poolAPY: string;
+  runeDepth: string;
+  status: string;
+  synthSupply: string;
+  synthUnits: string;
+  units: string;
+  volume24h: string;
+}
 
 export interface IPool {
   readonly asset: Asset;

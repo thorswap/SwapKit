@@ -2872,15 +2872,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@thorswap-lib/midgard-sdk@npm:0.1.15":
-  version: 0.1.15
-  resolution: "@thorswap-lib/midgard-sdk@npm:0.1.15"
-  peerDependencies:
-    axios: ^0.27.2
-  checksum: 0ebaf2e9af871cf65c068fb5459f3dfc3e296fc1dde87460abb2bab09b68f0382b4e871556910b0ae71d7ae1e4af472ed03295f216f3d46f47c4ccc23236e6ba
-  languageName: node
-  linkType: hard
-
 "@thorswap-lib/swapkit-core@workspace:packages/swapkit-core":
   version: 0.0.0-use.local
   resolution: "@thorswap-lib/swapkit-core@workspace:packages/swapkit-core"
@@ -2927,7 +2918,6 @@ __metadata:
   resolution: "@thorswap-lib/swapkit-entities@workspace:packages/swapkit-entities"
   dependencies:
     "@internal/config": "workspace:*"
-    "@thorswap-lib/midgard-sdk": 0.1.15
     "@thorswap-lib/types": "workspace:*"
     "@vitest/coverage-c8": 0.29.7
     bignumber.js: 9.1.1

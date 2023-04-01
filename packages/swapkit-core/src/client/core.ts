@@ -38,13 +38,7 @@ import {
 } from '../aggregator/contracts/index.js';
 import { getSwapInParams } from '../aggregator/getSwapInParams.js';
 
-import {
-  getAssetForBalance,
-  getFeeRate,
-  getInboundData,
-  getMimirData,
-  removeAddressPrefix,
-} from './helpers.js';
+import { getAssetForBalance, getFeeRate, getInboundData, getMimirData } from './helpers.js';
 import {
   AddChainWalletParams,
   AddLiquidityParams,
@@ -119,7 +113,6 @@ export class SwapKitCore {
   approveAsset = (asset: AssetEntity) => this._approve({ asset }, 'approve');
   getAddress = (chain: Chain) => this.connectedChains[chain]?.address || '';
   getWallet = (chain: Chain) => this.connectedWallets[chain];
-  getWalletAddressByChain = (chain: Chain) => removeAddressPrefix(this.getAddress(chain));
   isAssetApproved = (asset: AssetEntity) => this._approve({ asset }, 'checkOnly');
   isAssetApprovedForContract = (asset: AssetEntity, contractAddress: string) =>
     this._approve({ asset, contractAddress }, 'checkOnly');
@@ -333,7 +326,7 @@ export class SwapKitCore {
         memo: getMemoFor(MemoType.DEPOSIT, {
           chain,
           symbol,
-          address: this.getWalletAddressByChain(chain),
+          address: this.getAddress(chain),
         }),
         feeRate,
       }),
@@ -343,7 +336,7 @@ export class SwapKitCore {
         memo: getMemoFor(MemoType.DEPOSIT, {
           chain,
           symbol,
-          address: this.getWalletAddressByChain(Chain.THORChain),
+          address: this.getAddress(Chain.THORChain),
         }),
         router,
         feeRate,
@@ -364,16 +357,14 @@ export class SwapKitCore {
     const assetTransfer = assetAmount?.gt(0);
     if (!runeTransfer && !assetTransfer) throw new Error('Invalid Asset Amount');
     const includeRuneAddress = isPendingSymmAsset || runeTransfer;
-    const runeAddress = includeRuneAddress
-      ? runeAddr || this.getWalletAddressByChain(Chain.THORChain)
-      : '';
+    const runeAddress = includeRuneAddress ? runeAddr || this.getAddress(Chain.THORChain) : '';
 
     const { address, gas_rate, router } = await this._getInboundDataByChain(chain);
     const feeRate = getFeeRate({ gasRate: gas_rate, feeOptionKey: FeeOption.Fast });
     const runeMemo = getMemoFor(MemoType.DEPOSIT, {
       chain,
       symbol,
-      address: assetAddr || this.getWalletAddressByChain(chain),
+      address: assetAddr || this.getAddress(chain),
     });
     const assetMemo = getMemoFor(MemoType.DEPOSIT, {
       chain,

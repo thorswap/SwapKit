@@ -26,7 +26,7 @@ import { walletconnectWallet } from '@thorswap-lib/walletconnect';
 import { evmWallet, keplrWallet, xdefiWallet } from '@thorswap-lib/web-extensions';
 
 const getSwapKitClient = () => {
-  const client = SwapKitCore()
+  const client = new SwapKitCore()
 
   client.extend({
     config: {
