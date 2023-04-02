@@ -3,7 +3,7 @@
 ## Install:
 
 ```bash
-yarn add @thorswap-lib/toolbox-utxo @psf/bitcoincashjs-lib bip39
+yarn add @thorswap-lib/toolbox-utxo bip39
 ```
 
 ## Links:

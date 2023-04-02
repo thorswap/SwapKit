@@ -16,7 +16,6 @@ yarn add @thorswap-lib/swapkit-core
 
 Architecture of SwapKit SDK is pretty simple. It's based on the concept of toolboxes. Each toolbox is responsible for interacting with specific blockchain. For example, `@thorswap-lib/toolbox-evm` is responsible for interacting with ETH, AVAX, BSC, etc. Toolboxes are extending SwapKitCore instance with methods to interact with specific blockchain. SwapKitCore is responsible for managing wallets and providing unified interface for interacting with them. To extend SDK with wallet support you need to pass array of wallets to `extend` method. Wallets are responsible for interacting with specific wallet provider. After `extend` method is called, you can start connecting to wallets and interacting with them.
 
-
 ```typescript
 import { Chain, FeeOption } from '@thorswap-lib/types';
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
@@ -90,7 +89,6 @@ const swap = () => {
   if (getSwapKitClient().validateAddress({ chain: Chain.BTC, address: recipient })) {
     const txHash = await SKClient.swap({
       route,
-      quoteMode: route.meta.quoteMode,
       // Fee option multiplier -> it will be used if wallet supports gas calculation params
       feeOptionKey: FeeOption.Fastest,
       recipient
@@ -102,31 +100,30 @@ const swap = () => {
 
 ```
 
-
 ### Development
 
 This repo contains packages around SwapKit sdk and it's integrations with different blockchains.
 
 #### Packages
 
-| Package                      | Description                                                           | Chains                                          |
-| ---------------------------- | --------------------------------------------------------------------- | ----------------------------------------------- |
-| @thorswap-lib/swapkit-core   | Core package for SwapKit - exporting methods to interact with wallets | -                                               |
-| @thorswap-lib/toolbox-evm    | Toolkit - exporting methods to integrate EVM chain                    | ETH, AVAX, BSC                                  |
-| @thorswap-lib/toolbox-utxo   | Toolkit - exporting methods to integrate UTXO chain                   | BTC, LTC, DOGE, BCH                             |
-| @thorswap-lib/toolbox-cosmos | Toolkit - exporting methods to integrate Cosmos chains                | THOR, ATOM, BNB                                 |
-| @thorswap-lib/keystore       | Keystore wallet implementation                                        | All chains supported by toolboxes               |
-| @thorswap-lib/ledger         | Ledger wallet implementation                                          | All chains supported by toolboxes               |
-| @thorswap-lib/walletconnect  | WalletConnect implementation                                          | THOR, BNB, ETH                                  |
-| @thorswap-lib/web-extensions | Web extensions (MetaMask, XDefi, Brave Wallet, TrustWallet Extension, Coinbase Wallet Extension) | [See more](./packages/web-extensions/README.md) |
+| Package                                                             | Description                        | Chains                                          |
+| ------------------------------------------------------------------- | ---------------------------------- | ----------------------------------------------- |
+| [@thorswap-lib/swapkit-core](./packages/swapkit-core/README.md)     | Core package for SwapKit           | -                                               |
+| [@thorswap-lib/toolbox-evm](./packages/toolbox-evm/README.md)       | Toolkit to integrate EVM chain     | ETH, AVAX, BSC                                  |
+| [@thorswap-lib/toolbox-utxo](./packages/toolbox-utxo/README.md)     | Toolkit to integrate UTXO chain    | BTC, LTC, DOGE, BCH                             |
+| [@thorswap-lib/toolbox-cosmos](./packages/toolbox-cosmos/README.md) | Toolkit to integrate Cosmos chains | THOR, ATOM, BNB                                 |
+| [@thorswap-lib/keystore](./packages/keystore/README.md)             | Keystore implementation            | All chains supported by toolboxes               |
+| [@thorswap-lib/ledger](./packages/ledger/README.md)                 | Ledger implementation              | All chains supported by toolboxes               |
+| [@thorswap-lib/walletconnect](./packages/walletconnect/README.md)   | WalletConnect implementation       | THOR, BNB, ETH                                  |
+| [@thorswap-lib/web-extensions](./packages/web-extensions/README.md) | Browser extensions                 | [See more](./packages/web-extensions/README.md) |
 
-#### Setup
+### Setup
 
 ```bash
 yarn install; yarn build
 ```
 
-## Contributing
+### Contributing
 
 #### New package
 

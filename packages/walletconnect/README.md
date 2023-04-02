@@ -10,17 +10,17 @@ To use the walletconnect, you need to install the corresponding package for the 
 
 ### Supported chains:
 
-| chain            | status | packages                                          |
-| ---------------- | ------ | ------------------------------------------------- |
-| BTC              | ❌     | @thorswap-lib/toolbox-utxo                        |
-| LTC              | ❌     | @thorswap-lib/toolbox-utxo                        |
-| BCH              | ❌     | @thorswap-lib/toolbox-utxo                        |
-| DOGE             | ❌     | @thorswap-lib/toolbox-utxo                        |
-| ETH              | ✅     | @thorswap-lib/toolbox-evm                         |
-| AVAX             | ✅     | @thorswap-lib/toolbox-evm                         |
-| BSC              | ⏳     | @thorswap-lib/toolbox-evm                         |
-| COSMOS (ATOM)    | ❌     | @thorswap-lib/toolbox-cosmos                      |
-| BNB              | ✅     | @thorswap-lib/toolbox-cosmos                      |
-| THORCHAIN (RUNE) | ✅     | @thorswap-lib/toolbox-cosmos cosmos-client@0.39.2 |
+| chain            | status | packages                                                                         |
+| ---------------- | ------ | -------------------------------------------------------------------------------- |
+| BTC              | ❌     | [@thorswap-lib/toolbox-utxo](../toolbox-utxo/README.md)                          |
+| LTC              | ❌     | [@thorswap-lib/toolbox-utxo](../toolbox-utxo/README.md)                          |
+| BCH              | ❌     | [@thorswap-lib/toolbox-utxo](../toolbox-utxo/README.md)                          |
+| DOGE             | ❌     | [@thorswap-lib/toolbox-utxo](../toolbox-utxo/README.md)                          |
+| ETH              | ✅     | [@thorswap-lib/toolbox-evm](../toolbox-evm/README.md)                            |
+| AVAX             | ✅     | [@thorswap-lib/toolbox-evm](../toolbox-evm/README.md)                            |
+| BSC              | ⏳     | [@thorswap-lib/toolbox-evm](../toolbox-evm/README.md)                            |
+| COSMOS (ATOM)    | ❌     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md)                      |
+| BNB              | ✅     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md)                      |
+| THORCHAIN (RUNE) | ✅     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md) cosmos-client@0.39.2 |
 
 ## Links:

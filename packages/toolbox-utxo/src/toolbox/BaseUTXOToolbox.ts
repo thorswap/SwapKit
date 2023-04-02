@@ -128,21 +128,21 @@ export const getTransactions = async ({
   if (!txs) throw new Error('txs is undefined');
 
   for (const { hash } of txs) {
-    const rawTx = await apiClient.getTransaction({ hash });
+    const { inputs, outputs, time, txHash } = await apiClient.getTransaction({ txHash: hash });
 
     const tx: Tx = {
       asset: getChainAsset(chain),
-      from: rawTx.inputs.map((i) => ({
+      from: inputs.map((i) => ({
         from: i.address,
         amount: assetToBase(assetAmount(i.value, BaseDecimal.THOR)),
       })),
-      to: rawTx.outputs.map((i) => ({
+      to: outputs.map((i) => ({
         to: i.address,
         amount: assetToBase(assetAmount(i.value, BaseDecimal.THOR)),
       })),
-      date: new Date(rawTx.time * 1000),
+      date: new Date(time * 1000),
       type: TxType.Transfer,
-      hash: rawTx.txId,
+      hash: txHash,
     };
     transactions.push(tx);
   }
@@ -152,8 +152,10 @@ export const getTransactions = async ({
 
 export const getSuggestedFeeRate = ({ apiClient }: UTXOBaseToolboxParams) =>
   apiClient.getSuggestedTxFee();
+
 export const getFeeRates = async (params: UTXOBaseToolboxParams): Promise<FeeRates> =>
   standardFeeRates(await getSuggestedFeeRate(params));
+
 export const getFees = async ({
   chain,
   apiClient,
@@ -265,5 +267,3 @@ export const BaseUTXOToolbox = (baseToolboxParams: UTXOBaseToolboxParams) => ({
   getFees: () => getFees(baseToolboxParams),
   getFeesWithRates: () => getFeesWithRates(baseToolboxParams),
 });
-
-export default BaseUTXOToolbox;

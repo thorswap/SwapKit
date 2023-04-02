@@ -32,7 +32,6 @@
   "scripts": {
     "build": "yarn clean; echo 'Build types 🛠'; vite build && echo 'Build succeeded types ✅\n'",
     "clean": "rm -rf dist",
-    "dev": "yarn build && vite --host",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'No tests yet'"
   },

@@ -9,14 +9,7 @@ const viteConfig = thorswapViteConfig(packageJson.name, {
       entry: path.resolve(__dirname, 'src/index.ts'),
     },
     rollupOptions: {
-      external: [
-        '@ethersproject/abstract-provider',
-        '@ethersproject/contracts',
-        '@ethersproject/providers',
-        '@ethersproject/units',
-        '@thorswap-lib/toolbox-evm',
-        'typeforce',
-      ],
+      external: ['@thorswap-lib/toolbox-evm', 'typeforce'],
     },
   },
 });

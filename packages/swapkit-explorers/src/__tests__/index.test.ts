@@ -5,8 +5,8 @@ import { getExplorerAddressUrl, getExplorerTxUrl } from '../index.js';
 
 describe('Avalanche', () => {
   test('getExplorerTxUrl returns correct URL for Avalanche', ({ expect }) => {
-    expect(getExplorerTxUrl({ chain: Chain.Avalanche, txID: '12345' })).toBe(
-      'https://snowtrace.io/tx/12345',
+    expect(getExplorerTxUrl({ chain: Chain.Avalanche, txHash: '12345' })).toBe(
+      'https://snowtrace.io/tx/0x12345',
     );
   });
 
@@ -19,8 +19,8 @@ describe('Avalanche', () => {
 
 describe('Binance Smart Chain', () => {
   test('getExplorerTxUrl returns correct URL for Binance Smart Chain', ({ expect }) => {
-    expect(getExplorerTxUrl({ chain: Chain.BinanceSmartChain, txID: '67890' })).toBe(
-      'https://bscscan.com/tx/67890',
+    expect(getExplorerTxUrl({ chain: Chain.BinanceSmartChain, txHash: '67890' })).toBe(
+      'https://bscscan.com/tx/0x67890',
     );
   });
 
@@ -33,7 +33,7 @@ describe('Binance Smart Chain', () => {
 
 describe('Binance', () => {
   test('getExplorerTxUrl returns correct URL for Binance', ({ expect }) => {
-    expect(getExplorerTxUrl({ chain: Chain.Binance, txID: 'abcde' })).toBe(
+    expect(getExplorerTxUrl({ chain: Chain.Binance, txHash: 'abcde' })).toBe(
       'https://explorer.binance.org/tx/abcde',
     );
   });
@@ -47,7 +47,7 @@ describe('Binance', () => {
 
 describe('Bitcoin Cash', () => {
   test('getExplorerTxUrl returns correct URL for Bitcoin Cash', ({ expect }) => {
-    expect(getExplorerTxUrl({ chain: Chain.BitcoinCash, txID: 'fghij' })).toBe(
+    expect(getExplorerTxUrl({ chain: Chain.BitcoinCash, txHash: 'fghij' })).toBe(
       'https://www.blockchain.com/bch/tx/fghij',
     );
   });
@@ -61,7 +61,7 @@ describe('Bitcoin Cash', () => {
 
 describe('Bitcoin', () => {
   test('getExplorerTxUrl returns correct URL for Bitcoin', ({ expect }) => {
-    expect(getExplorerTxUrl({ chain: Chain.Bitcoin, txID: 'klmno' })).toBe(
+    expect(getExplorerTxUrl({ chain: Chain.Bitcoin, txHash: 'klmno' })).toBe(
       'https://blockstream.info/tx/klmno',
     );
   });
@@ -75,7 +75,7 @@ describe('Bitcoin', () => {
 
 describe('Cosmos', () => {
   test('getExplorerTxUrl returns correct URL for Cosmos', ({ expect }) => {
-    expect(getExplorerTxUrl({ chain: Chain.Cosmos, txID: 'pqrst' })).toBe(
+    expect(getExplorerTxUrl({ chain: Chain.Cosmos, txHash: 'pqrst' })).toBe(
       'https://cosmos.bigdipper.live/transactions/pqrst',
     );
   });
@@ -89,7 +89,7 @@ describe('Cosmos', () => {
 
 describe('Doge', () => {
   test('getExplorerTxUrl returns correct URL for Doge', ({ expect }) => {
-    expect(getExplorerTxUrl({ chain: Chain.Doge, txID: 'uvwxy' })).toBe(
+    expect(getExplorerTxUrl({ chain: Chain.Doge, txHash: 'uvwxy' })).toBe(
       'https://blockchair.com/dogecoin/transaction/uvwxy',
     );
   });
@@ -103,7 +103,7 @@ describe('Doge', () => {
 
 describe('Litecoin', () => {
   test('getExplorerTxUrl returns correct URL for Litecoin', ({ expect }) => {
-    expect(getExplorerTxUrl({ chain: Chain.Litecoin, txID: 'efghi' })).toBe(
+    expect(getExplorerTxUrl({ chain: Chain.Litecoin, txHash: 'efghi' })).toBe(
       'https://ltc.bitaps.com/efghi',
     );
   });
@@ -117,8 +117,8 @@ describe('Litecoin', () => {
 
 describe('Ethereum', () => {
   test('getExplorerTxUrl returns correct URL for Ethereum', ({ expect }) => {
-    expect(getExplorerTxUrl({ chain: Chain.Ethereum, txID: 'zabcd' })).toBe(
-      'https://etherscan.io/tx/zabcd',
+    expect(getExplorerTxUrl({ chain: Chain.Ethereum, txHash: 'zabcd' })).toBe(
+      'https://etherscan.io/tx/0xzabcd',
     );
   });
 
@@ -131,7 +131,7 @@ describe('Ethereum', () => {
 
 describe('THORChain', () => {
   test('getExplorerTxUrl returns correct URL for THORChain', ({ expect }) => {
-    expect(getExplorerTxUrl({ chain: Chain.THORChain, txID: 'efghi' })).toBe(
+    expect(getExplorerTxUrl({ chain: Chain.THORChain, txHash: 'efghi' })).toBe(
       'https://viewblock.io/thorchain/tx/efghi',
     );
   });

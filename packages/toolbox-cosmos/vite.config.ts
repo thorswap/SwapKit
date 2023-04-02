@@ -10,7 +10,7 @@ const viteConfig = thorswapViteConfig(packageJson.name, {
     },
   },
   rollupOptions: {
-    external: ['@binance-chain/javascript-sdk', '@cosmos-client/core'],
+    external: ['@cosmos-client/core'],
   },
 });
 

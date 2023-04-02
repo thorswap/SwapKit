@@ -6,7 +6,6 @@ export type AddressParams = {
   address: string;
   decimal?: number;
   chain: Chain;
-  startingFromTxId?: string;
 };
 
 export type RawTransaction = {

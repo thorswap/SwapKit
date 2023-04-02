@@ -35,7 +35,6 @@
   "scripts": {
     "build": "yarn clean; echo 'Build swapkit-explorers 🛠'; vite build && echo 'Build succeeded swapkit-explorers ✅\n'",
     "clean": "rm -rf dist",
-    "dev": "yarn build && vite --host",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "vitest --run",
     "test:coverage": "vitest run --coverage"

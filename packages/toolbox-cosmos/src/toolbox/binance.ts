@@ -1,5 +1,3 @@
-import { crypto, Transaction } from '@binance-chain/javascript-sdk';
-import { AminoPrefix } from '@binance-chain/javascript-sdk/lib/types/index.js';
 import type { cosmosclient, proto } from '@cosmos-client/core';
 import {
   assetAmount,
@@ -22,8 +20,10 @@ import {
   Tx,
   TxHistoryParams,
 } from '@thorswap-lib/types';
+import { bech32 } from 'bech32';
 
-import { Account, Fees, TransactionResult, TxPage } from '../binanceUtils/types.js';
+import { BNBTransaction } from '../binanceUtils/transaction.js';
+import { Account, AminoPrefix, Fees, TransactionResult, TxPage } from '../binanceUtils/types.js';
 import { isTransferFee, parseTx } from '../binanceUtils/utils.js';
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
 import { TransferParams } from '../types.js';
@@ -76,9 +76,9 @@ const getTransactions = (params?: TxHistoryParams) =>
     txAsset: params?.asset,
   });
 
-const getTransactionData = async (txId: string) => {
+const getTransactionData = async (txHash: string) => {
   const { height, tx }: TransactionResult = await getRequest(
-    `${BINANCE_MAINNET_API_URI}/api/v1/tx/${txId}?format=json`,
+    `${BINANCE_MAINNET_API_URI}/api/v1/tx/${txHash}?format=json`,
   );
 
   let address = '';
@@ -95,7 +95,7 @@ const getTransactionData = async (txId: string) => {
   }
 
   const txHistory = await searchTransactions({ address, blockHeight: height });
-  const [transaction] = txHistory.txs.filter((tx) => tx.hash === txId);
+  const [transaction] = txHistory.txs.filter(({ hash }) => hash === txHash);
 
   if (!transaction) {
     throw new Error('transaction not found');
@@ -177,7 +177,7 @@ const prepareTransaction = async (
     sequence = account.sequence;
   }
 
-  return new Transaction({
+  return new BNBTransaction({
     accountNumber: account.account_number,
     chainId: ChainId.Binance,
     memo: memo,
@@ -187,9 +187,11 @@ const prepareTransaction = async (
   });
 };
 
+const decodeAddress = (value: string) => Buffer.from(bech32.fromWords(bech32.decode(value).words));
+
 const createTransactionAndSignMsg = async ({ from, to, amount, asset, memo }: TransferParams) => {
-  const accCode = crypto.decodeAddress(from);
-  const toAccCode = crypto.decodeAddress(to);
+  const accCode = decodeAddress(from);
+  const toAccCode = decodeAddress(to);
 
   const baseAmountValue = baseAmount(amount).amount().toNumber();
 

@@ -7,7 +7,7 @@
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
-    "foundry-primitives": "0.2.1",
+    "blakejs": "1.2.1",
     "long": "4.0.0",
     "uuid": "9.0.0"
   },
@@ -22,6 +22,7 @@
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "@types/uniqid": "5.3.2",
+    "@types/uuid": "9.0.1",
     "@vitest/coverage-c8": "0.29.7",
     "bip39": "3.1.0",
     "bitcoinjs-lib": "5.2.0",
@@ -64,7 +65,6 @@
   "scripts": {
     "build": "yarn clean; echo 'Build keystore 🛠'; vite build && echo 'Build succeeded keystore ✅\n'",
     "clean": "rm -rf dist",
-    "dev": "yarn build && vite --host",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest'",
     "test:coverage": "echo 'vitest run --coverage'"

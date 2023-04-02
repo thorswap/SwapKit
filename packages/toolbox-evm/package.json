@@ -12,13 +12,13 @@
     "@ethersproject/units": "5.7.0",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
-    "@thorswap-lib/types": "workspace:*"
+    "@thorswap-lib/types": "workspace:*",
+    "avalanche": "3.16.0"
   },
   "description": "THORSwap toolbox-evm",
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@vitest/coverage-c8": "0.29.7",
-    "avalanche": "3.16.0",
     "vite": "4.2.1",
     "vitest": "0.29.7"
   },
@@ -47,7 +47,6 @@
   "scripts": {
     "build": "yarn clean; echo 'Build toolbox-evm 🛠'; vite build && echo 'Build succeeded toolbox-evm ✅\n'",
     "clean": "rm -rf dist",
-    "dev": "yarn build && vite --host",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest'",
     "test:coverage": "echo 'vitest run --coverage'"

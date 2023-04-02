@@ -31,7 +31,7 @@ import {
   TransactionBuilder as TransactionBuilderType,
 } from '../types/bitcoincashjs-types.js';
 
-import BaseUTXOToolbox from './BaseUTXOToolbox.js';
+import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
 
 type TransferParams = UTXOWalletTransferParams<
   { builder: TransactionBuilderType; utxos: UTXO[] },
@@ -60,10 +60,7 @@ const buildBCHTx = async ({
 
   const targetOutputs = [];
   // output to recipient
-  targetOutputs.push({
-    address: recipient,
-    value: amount.amount().toNumber(),
-  });
+  targetOutputs.push({ address: recipient, value: amount.amount().toNumber() });
   const { inputs, outputs } = accumulative(utxos, targetOutputs, feeRateWhole);
 
   // .inputs and .outputs will be undefined if no solution was found
@@ -246,7 +243,6 @@ export const BCHToolbox = (apiKey?: string, apiClientOrUrl?: BitcoincashApi | st
 
   return {
     ...toolbox,
-
     stripPrefix,
     validateAddress,
     createKeysForPath,

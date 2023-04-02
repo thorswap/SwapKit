@@ -23,7 +23,7 @@ export type AddressBalance = {
 };
 
 export type UTXOTransactionData = {
-  txId: string;
+  txHash: string;
   inputs: UTXOTransactionIO[];
   outputs: UTXOTransactionIO[];
   time: number;

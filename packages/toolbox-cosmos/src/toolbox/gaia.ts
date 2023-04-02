@@ -79,8 +79,8 @@ export const GaiaToolbox = () => {
       };
     },
 
-    getTransactionData: async (txId: string) => {
-      const txResult = await sdk.txsHashGet(txId);
+    getTransactionData: async (txHash: string) => {
+      const txResult = await sdk.txsHashGet(txHash);
 
       if (!txResult || txResult.txhash === '') {
         throw new Error('transaction not found');

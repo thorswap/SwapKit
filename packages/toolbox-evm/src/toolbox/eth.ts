@@ -37,7 +37,7 @@ export const getTransactions = async (api: EthereumApi, params?: TxHistoryParams
   return transactions;
 };
 
-export const getTransactionData = (api: EthereumApi, txId: string) => api.getTxInfo({ hash: txId });
+export const getTransactionData = (api: EthereumApi, txHash: string) => api.getTxInfo({ txHash });
 
 export const ETHToolbox = ({
   ethplorerApiKey,
@@ -52,7 +52,7 @@ export const ETHToolbox = ({
 
   return {
     ...BaseEVMToolbox({ signer, provider }),
-    getTransactionData: (txId: string) => getTransactionData(api, txId),
+    getTransactionData: (txHash: string) => getTransactionData(api, txHash),
     getTransactions: (params?: TxHistoryParams) => getTransactions(api, params),
     getBalance: (address: string, assets?: AssetEntity[]) =>
       getBalance(provider, api, address, assets),

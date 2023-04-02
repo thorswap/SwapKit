@@ -100,14 +100,9 @@ export const getUnspentTxs = async ({
     }));
   if (response.data.length === 100) {
     //fetch the next batch
-    const lastTxId = response.data[99].transaction_id;
+    const offset = response.data[99].transaction_id;
 
-    const nextBatch = await getUnspentTxs({
-      address,
-      chain,
-      apiKey,
-      offset: lastTxId,
-    });
+    const nextBatch = await getUnspentTxs({ address, chain, apiKey, offset });
     return txs.concat(nextBatch);
   } else {
     return txs;

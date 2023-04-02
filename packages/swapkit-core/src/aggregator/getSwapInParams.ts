@@ -1,5 +1,3 @@
-import { toChecksumAddress } from 'web3-utils';
-
 import { CalldataSwapIn } from '../client/types.js';
 
 import { AGG_CONTRACT_ADDRESS, lowercasedGenericAbiMappings } from './contracts/index.js';
@@ -8,11 +6,13 @@ type Params = {
   calldata: CalldataSwapIn;
   recipient: string;
   contractAddress: AGG_CONTRACT_ADDRESS;
+  toChecksumAddress: (address: string) => string;
 };
 
 export const getSwapInParams = ({
   contractAddress,
   recipient,
+  toChecksumAddress,
   calldata: {
     amount,
     amountOutMin = '',

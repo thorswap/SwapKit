@@ -1,5 +1,5 @@
 import { AvalancheLedger } from './clients/avalanche.js';
-import { BinanceLedger } from './clients/binance.js';
+import { BinanceLedger } from './clients/binance/index.js';
 import { BitcoinLedger } from './clients/bitcoin.js';
 import { BitcoinCashLedger } from './clients/bitcoincash.js';
 import { CosmosLedger } from './clients/cosmos.js';

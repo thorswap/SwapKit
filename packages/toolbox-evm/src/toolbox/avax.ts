@@ -5,7 +5,6 @@ import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount, gasFeeMultiplier } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import { Address, BaseDecimal, ChainId, FeeOption, TxHistoryParams } from '@thorswap-lib/types';
-import { Avalanche } from 'avalanche';
 
 import { BaseEVMToolbox, CovalentApi, FeeData, MIN_AVAX_GAS } from '../index.js';
 
@@ -14,6 +13,7 @@ export const getFeeData = async ({
 }: {
   feeOptionKey?: FeeOption;
 }): Promise<FeeData> => {
+  const { Avalanche } = await import('avalanche');
   try {
     const CCClient = new Avalanche(
       undefined,
@@ -82,8 +82,8 @@ export const getTransactions = async (api: CovalentApi, params?: TxHistoryParams
   return transactions;
 };
 
-export const getTransactionData = async (api: CovalentApi, txId: string) =>
-  api.getTxInfo({ hash: txId, chainId: ChainId.Avalanche });
+export const getTransactionData = async (api: CovalentApi, txHash: string) =>
+  api.getTxInfo({ txHash, chainId: ChainId.Avalanche });
 
 export const getNetworkParams = () => ({
   chainId: ChainId.AvalancheHex,
@@ -110,7 +110,7 @@ export const AVAXToolbox = ({
 
   return {
     ...BaseEVMToolbox({ provider, signer }),
-    getTransactionData: (txId: string) => getTransactionData(api, txId),
+    getTransactionData: (txHash: string) => getTransactionData(api, txHash),
     getTransactions: (params?: TxHistoryParams) => getTransactions(api, params),
     getNetworkParams,
     getBalance: (address: string, assets?: AssetEntity[]) =>
