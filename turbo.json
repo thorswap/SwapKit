@@ -22,17 +22,33 @@
       "outputs": []
     },
     "test": {
+      "dependsOn": [
+        "build"
+      ],
       "inputs": [
-        "__test__/**/*.ts",
-        "__test__/**/*.tsx"
+        "__tests__/**/*.test.ts",
+        "__tests__/**/*.test.tsx"
       ],
       "outputs": []
     },
     "test:coverage": {
+      "dependsOn": [
+        "build"
+      ],
       "inputs": [
-        "__test__/**/*.ts",
-        "__test__/**/*.tsx"
+        "__tests__/**/*.test.ts",
+        "__tests__/**/*.test.tsx"
       ]
+    },
+    "test:watch": {
+      "dependsOn": [
+        "build"
+      ],
+      "inputs": [
+        "__tests__/**/*.test.ts",
+        "__tests__/**/*.test.tsx"
+      ],
+      "persistent": true
     }
   }
 }
