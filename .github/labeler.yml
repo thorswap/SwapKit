@@ -1,0 +1,28 @@
+core:
+- packages/swapkit-core/**/*
+- packages/swapkit-entities/**/*
+- packages/swapkit-explorers/**/*
+
+keystore:
+- packages/keystore/**/*
+
+ledger:
+- packages/ledger/**/*
+
+cosmos:
+- packages/toolbox-cosmos/**/*
+
+evm:
+- packages/toolbox-evm/**/*
+
+utxo:
+- packages/toolbox-utxo/**/*
+
+types:
+- packages/types/**/*
+
+wc:
+- packages/walletconnect/**/*
+
+web-ext:
+- packages/web-extensions/**/*
