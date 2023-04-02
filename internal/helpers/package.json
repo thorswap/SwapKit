@@ -27,7 +27,6 @@
   "scripts": {
     "build": "yarn clean; echo 'Build @thorswap-lib/helpers 🛠'; vite build && echo 'Build succeeded @thorswap-lib/helpers ✅\n';",
     "clean": "rm -rf dist",
-    "dev": "yarn build && vite --host",
     "lint": "eslint --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest'",
     "test:coverage": "echo 'vitest run --coverage'"

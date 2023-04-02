@@ -49,7 +49,6 @@
   "scripts": {
     "build": "yarn clean; echo 'Build swapkit-core 🛠';NODE_OPTIONS=--max_old_space_size=16384 yarn vite build && echo 'Build succeeded swapkit-core ✅\n'",
     "clean": "rm -rf dist",
-    "dev": "yarn build && vite --host",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest'",
     "test:coverage": "echo 'vitest run --coverage'"

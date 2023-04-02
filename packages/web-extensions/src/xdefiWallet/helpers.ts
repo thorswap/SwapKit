@@ -232,7 +232,7 @@ export const getWalletMethodsForChain = ({
     }
 
     case Chain.Binance: {
-      // @cosmos-core/client Type Inference issue
+      // @cosmos-client/core Type Inference issue
       const {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars, prettier/prettier
         createKeyPair, getAddressFromMnemonic, sdk, getAccount, signAndBroadcast,

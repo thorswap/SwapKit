@@ -178,7 +178,7 @@ export const litecoinWalletMethods = ({
  */
 
 export const binanceWalletMethods = ({ phrase }: WalletMethodParams) => {
-  // @cosmos-core/client Type Inference issue
+  // @cosmos-client/core Type Inference issue
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   const { createKeyPair, getAddressFromMnemonic, sdk, getAccount, signAndBroadcast, ...toolbox } =
     BinanceToolbox({});
@@ -199,7 +199,7 @@ export const binanceWalletMethods = ({ phrase }: WalletMethodParams) => {
 };
 
 export const cosmosWalletMethods = ({ phrase }: WalletMethodParams) => {
-  // @cosmos-core/client Type Inference issue
+  // @cosmos-client/core Type Inference issue
   const {
     createKeyPair,
     getAddressFromMnemonic,

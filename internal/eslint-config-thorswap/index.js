@@ -220,7 +220,7 @@ module.exports = {
     'react/no-unused-prop-types': 'error',
     'react/no-will-update-set-state': 'error',
     'react/prefer-es6-class': 'error',
-    'react/react-in-jsx-scope': 'error',
+    'react/react-in-jsx-scope': 'off',
     'react/require-render-return': 'error',
     'react/self-closing-comp': 'error',
     'react/sort-comp': 'error',
