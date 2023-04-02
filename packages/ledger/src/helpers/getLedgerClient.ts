@@ -2,7 +2,7 @@ import { getProvider } from '@thorswap-lib/toolbox-evm';
 import { Chain, DerivationPathArray } from '@thorswap-lib/types';
 
 import { AvalancheLedger } from '../clients/avalanche.js';
-import { BinanceLedger } from '../clients/binance.js';
+import { BinanceLedger } from '../clients/binance/index.js';
 import { BitcoinLedger } from '../clients/bitcoin.js';
 import { BitcoinCashLedger } from '../clients/bitcoincash.js';
 import { CosmosLedger } from '../clients/cosmos.js';
@@ -10,7 +10,8 @@ import { DogecoinLedger } from '../clients/dogecoin.js';
 import { EthereumLedger } from '../clients/ethereum.js';
 import { LitecoinLedger } from '../clients/litecoin.js';
 import { THORChainLedger } from '../clients/thorchain/index.js';
-import { LEDGER_SUPPORTED_CHAINS } from '../constants.js';
+
+import { LEDGER_SUPPORTED_CHAINS } from './ledgerSupportedChains.js';
 
 export const getLedgerClient = ({
   chain,

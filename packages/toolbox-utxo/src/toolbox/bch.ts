@@ -31,7 +31,7 @@ import {
   TransactionBuilder as TransactionBuilderType,
 } from '../types/bitcoincashjs-types.js';
 
-import BaseUTXOToolbox from './BaseUTXOToolbox.js';
+import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
 
 type TransferParams = UTXOWalletTransferParams<
   { builder: TransactionBuilderType; utxos: UTXO[] },

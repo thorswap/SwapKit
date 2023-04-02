@@ -1,4 +1,3 @@
-import * as crypto from '@binance-chain/javascript-sdk/lib/crypto';
 import { cosmosclient, proto, rest } from '@cosmos-client/core';
 import {
   BinanceToolbox,
@@ -30,7 +29,8 @@ import secp256k1 from 'secp256k1';
 import sortKeys from 'sort-keys';
 
 import { AvalancheLedger } from './clients/avalanche.js';
-import { BinanceLedger } from './clients/binance.js';
+import { getPublicKey } from './clients/binance/helpers.js';
+import { BinanceLedger } from './clients/binance/index.js';
 import { BitcoinLedger } from './clients/bitcoin.js';
 import { BitcoinCashLedger } from './clients/bitcoincash.js';
 import { CosmosLedger } from './clients/cosmos.js';
@@ -38,9 +38,8 @@ import { DogecoinLedger } from './clients/dogecoin.js';
 import { EthereumLedger } from './clients/ethereum.js';
 import { LitecoinLedger } from './clients/litecoin.js';
 import { THORChainLedger } from './clients/thorchain/index.js';
-import { LEDGER_SUPPORTED_CHAINS } from './constants.js';
 import { AminoMsgSend, AminoTypes, Coin } from './cosmosTypes.js';
-import { getLedgerAddress, getLedgerClient } from './helpers/index.js';
+import { getLedgerAddress, getLedgerClient, LEDGER_SUPPORTED_CHAINS } from './helpers/index.js';
 
 type LedgerConfig = {
   covalentApiKey?: string;
@@ -200,7 +199,7 @@ const getToolbox = async ({
           derivationPath,
         );
 
-        const pubKey = crypto.getPublicKey(pubKeyResponse!.pk!.toString('hex'));
+        const pubKey = getPublicKey(pubKeyResponse!.pk!.toString('hex'));
         const signedTx = transaction.addSignature(pubKey, signResponse!.signature);
 
         const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);

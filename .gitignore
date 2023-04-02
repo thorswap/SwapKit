@@ -20,3 +20,4 @@ build/
 .npmrc
 *.mjs
 coverage/
+.DS_Store

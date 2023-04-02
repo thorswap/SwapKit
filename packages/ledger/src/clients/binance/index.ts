@@ -1,6 +1,8 @@
 import { DerivationPathArray, NetworkDerivationPath } from '@thorswap-lib/types';
 
-import { CommonLedgerInterface } from '../interfaces/LedgerInterfaces.js';
+import { CommonLedgerInterface } from '../../interfaces/LedgerInterfaces.js';
+
+import { getAddressFromPublicKey } from './helpers.js';
 
 export class BinanceLedger extends CommonLedgerInterface {
   constructor(derivationPath: DerivationPathArray = NetworkDerivationPath.BNB) {
@@ -11,10 +13,9 @@ export class BinanceLedger extends CommonLedgerInterface {
   }
 
   connect = async () => {
-    const binanceJS = await import('@binance-chain/javascript-sdk');
     await this.checkOrCreateTransportAndLedger();
-    const publicKey = (await this.ledgerApp.getPublicKey(this.derivationPath)).pk;
-    const address = binanceJS.crypto.getAddressFromPublicKey(publicKey, this.chain);
+    const publicKey = await this.ledgerApp.getPublicKey(this.derivationPath);
+    const address = getAddressFromPublicKey(publicKey.pk, this.chain);
 
     await this.ledgerApp.showAddress();
 

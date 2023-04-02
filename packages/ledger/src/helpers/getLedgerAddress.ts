@@ -1,9 +1,9 @@
 import { Chain } from '@thorswap-lib/types';
 
-import { LEDGER_SUPPORTED_CHAINS } from '../constants.js';
 import { CosmosLedgerClients, EVMLedgerClients, UTXOLedgerClients } from '../types.js';
 
 import { getLedgerClient } from './getLedgerClient.js';
+import { LEDGER_SUPPORTED_CHAINS } from './ledgerSupportedChains.js';
 
 export const getLedgerAddress = async ({
   chain,

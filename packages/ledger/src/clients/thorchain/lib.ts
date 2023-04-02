@@ -31,7 +31,7 @@ import {
 } from './common.js';
 import { publicKeyv2, serializePathv2, signSendChunkv2 } from './helpers.js';
 
-export default class THORChainApp {
+export class THORChainApp {
   transport: any;
   versionResponse: any;
 
