@@ -57,7 +57,6 @@
   "scripts": {
     "build": "yarn clean; echo 'Build web-extensions 🛠'; vite build && echo 'Build succeeded web-extensions ✅\n'",
     "clean": "rm -rf dist",
-    "dev": "yarn build && vite --host",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest'",
     "test:coverage": "echo 'vitest run --coverage'"

@@ -56,7 +56,6 @@
   "scripts": {
     "build": "yarn clean; echo 'Build toolbox-cosmos 🛠'; vite build && echo 'Build succeeded toolbox-cosmos ✅\n'",
     "clean": "rm -rf dist",
-    "dev": "yarn build && vite --host",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest'",
     "test:coverage": "echo 'vitest run --coverage'"

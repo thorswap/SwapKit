@@ -186,7 +186,7 @@ const broadcastMultisig = async (
   return res.data?.tx_response;
 };
 
-// @cosmos-core/client Type Inference issue
+// @cosmos-client/core Type Inference issue
 export const ThorchainToolbox: any = ({ stagenet }: ToolboxParams) => {
   const sdk = new CosmosSDKClient({
     server: getTcNodeUrl(stagenet),

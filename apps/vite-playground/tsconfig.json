@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@thorswap-lib/keystore": ["../../packages/keystore"],
+      "@thorswap-lib/ledger": ["../../packages/ledger"],
+      "@thorswap-lib/swapkit-core": ["../../packages/swapkit-core"],
+      "@thorswap-lib/swapkit-entities": ["../../packages/swapkit-entities"],
+      "@thorswap-lib/swapkit-explorers": ["../../packages/swapkit-explorers"],
+      "@thorswap-lib/toolbox-evm": ["../../packages/toolbox-evm"],
+      "@thorswap-lib/toolbox-cosmos": ["../../packages/toolbox-cosmos"],
+      "@thorswap-lib/toolbox-utxo": ["../../packages/toolbox-utxo"],
+      "@thorswap-lib/types": ["../../packages/types"],
+      "@thorswap-lib/walletconnect": ["../../packages/walletconnect"],
+      "@thorswap-lib/web-extensions": ["../../packages/web-extensions"],
+    }
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
