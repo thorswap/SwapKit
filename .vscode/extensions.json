@@ -5,6 +5,8 @@
     "pomdtr.excalidraw-editor",
     "exodiusstudios.comment-anchors",
     "streetsidesoftware.code-spell-checker",
-    "zixuanchen.vitest-explorer"
+    "zixuanchen.vitest-explorer",
+    "wix.vscode-import-cost",
+    "antfu.file-nesting"
   ]
 }

@@ -75,11 +75,11 @@
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
-    "bech32": "2.0.0",
+    "bech32": "^2.0.0",
     "bitcoinjs-lib": "5.2.0",
-    "coininfo": "5.2.1",
+    "coininfo": "^5.2.1",
     "cosmos-client": "0.39.2",
-    "elliptic": "6.5.4"
+    "elliptic": "^6.5.4"
   },
   "publishConfig": {
     "access": "public"
