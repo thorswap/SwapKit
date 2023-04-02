@@ -1,5 +1,16 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 0.1.0-development.76
+
+### Patch Changes
+
+- [`d014a19`](https://github.com/thorswap/SwapKit/commit/d014a193596511a1500b5851df78a734c86bb894) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Refactoring, optimize dependencies & remove @binance-chain/javascript-sdk usage
+
+- Updated dependencies [[`d014a19`](https://github.com/thorswap/SwapKit/commit/d014a193596511a1500b5851df78a734c86bb894)]:
+  - @thorswap-lib/swapkit-entities@0.3.0-development.66
+  - @thorswap-lib/helpers@0.0.0-development.58
+  - @thorswap-lib/types@1.0.0-development.65
+
 ## 0.1.0-development.75
 
 ### Patch Changes

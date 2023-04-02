@@ -1,5 +1,17 @@
 # @thorswap-lib/walletconnect
 
+## 1.0.0-development.112
+
+### Patch Changes
+
+- [`d014a19`](https://github.com/thorswap/SwapKit/commit/d014a193596511a1500b5851df78a734c86bb894) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Refactoring, optimize dependencies & remove @binance-chain/javascript-sdk usage
+
+- Updated dependencies [[`d014a19`](https://github.com/thorswap/SwapKit/commit/d014a193596511a1500b5851df78a734c86bb894)]:
+  - @thorswap-lib/toolbox-cosmos@0.1.0-development.76
+  - @thorswap-lib/toolbox-evm@0.1.0-development.90
+  - @thorswap-lib/helpers@0.0.0-development.58
+  - @thorswap-lib/types@1.0.0-development.65
+
 ## 1.0.0-development.111
 
 ### Patch Changes
