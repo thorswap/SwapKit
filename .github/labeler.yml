@@ -3,6 +3,9 @@ core:
 - packages/swapkit-entities/**/*
 - packages/swapkit-explorers/**/*
 
+docs:
+- apps/vite-playground/**/*
+
 keystore:
 - packages/keystore/**/*
 
