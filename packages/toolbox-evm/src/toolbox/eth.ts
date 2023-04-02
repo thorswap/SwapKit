@@ -3,8 +3,8 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { Address, BaseDecimal, TxHistoryParams } from '@thorswap-lib/types';
+import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { Address, BaseDecimal, Chain, TxHistoryParams } from '@thorswap-lib/types';
 
 import { EthereumApi } from '../api/eth/EthereumHybridApi.js';
 
@@ -21,7 +21,10 @@ export const getBalance = async (
   const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.ETH);
 
   if (!assets) {
-    return [{ asset: AssetEntity.ETH(), amount: evmGasTokenBalanceAmount }, ...tokenBalances];
+    return [
+      { asset: getSignatureAssetFor(Chain.Ethereum), amount: evmGasTokenBalanceAmount },
+      ...tokenBalances,
+    ];
   }
 
   return tokenBalances.filter(({ asset }) =>

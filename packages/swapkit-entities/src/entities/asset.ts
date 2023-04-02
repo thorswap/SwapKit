@@ -1,31 +1,6 @@
-import { Asset as AssetObj, AssetSymbol, BaseDecimal, Chain } from '@thorswap-lib/types';
+import { AssetSymbol, BaseDecimal, Chain } from '@thorswap-lib/types';
 
 import { getAssetType, getNetworkName } from '../helpers/index.js';
-
-export type AssetNetwork = 'mainnet' | 'testnet';
-
-const THOR_MAINNET_SYMBOL = 'THOR-0XA5F2211B9B8170F694421F2046281775E8468044';
-const ETH_RUNE_SYMBOL = 'RUNE-0X3155BA85D5F96B2D030A4966AF206230E46849CB';
-
-export interface IAsset {
-  readonly chain: Chain;
-  readonly symbol: string;
-  readonly ticker: string;
-  readonly type: string;
-  readonly name: string;
-  readonly network: string;
-
-  decimal: number;
-
-  isSynth: boolean;
-
-  getAssetObj(): AssetObj;
-  toString(): string;
-  currencySymbol(): string;
-  eq(asset: AssetEntity): boolean;
-  isRUNE(): boolean;
-  isBNB(): boolean;
-}
 
 /**
  * L1 asset format:
@@ -35,7 +10,7 @@ export interface IAsset {
  * - THOR.CHAIN.SYMBOL (URL)
  */
 
-export class AssetEntity implements IAsset {
+export class AssetEntity {
   public readonly chain: Chain;
   public readonly symbol: string;
   public readonly ticker: string;
@@ -44,70 +19,7 @@ export class AssetEntity implements IAsset {
   public readonly name: string;
   public decimal: number;
   public isSynth = false;
-
-  // created for USD pricing
-  public static USD() {
-    return new AssetEntity(Chain.THORChain, 'USD-USD');
-  }
-
-  public static BNB() {
-    return new AssetEntity(Chain.Binance, AssetSymbol.BNB);
-  }
-
-  public static BSC() {
-    const bscAsset = new AssetEntity(Chain.BinanceSmartChain, AssetSymbol.BNB);
-    bscAsset.setDecimal(18);
-    return bscAsset;
-  }
-
-  public static RUNE() {
-    return new AssetEntity(Chain.THORChain, AssetSymbol.RUNE);
-  }
-
-  public static THOR() {
-    const thorAsset = new AssetEntity(Chain.Ethereum, THOR_MAINNET_SYMBOL);
-    thorAsset.setDecimal(18);
-
-    return thorAsset;
-  }
-
-  public static BNB_RUNE() {
-    return new AssetEntity(Chain.Binance, 'RUNE-B1A');
-  }
-
-  public static ETH_RUNE() {
-    const ethRune = new AssetEntity(Chain.Ethereum, ETH_RUNE_SYMBOL);
-    ethRune.setDecimal(18);
-    return ethRune;
-  }
-
-  public static BTC() {
-    return new AssetEntity(Chain.Bitcoin, AssetSymbol.BTC);
-  }
-
-  public static ETH() {
-    return new AssetEntity(Chain.Ethereum, AssetSymbol.ETH);
-  }
-
-  public static AVAX() {
-    return new AssetEntity(Chain.Avalanche, AssetSymbol.AVAX);
-  }
-
-  public static LTC() {
-    return new AssetEntity(Chain.Litecoin, AssetSymbol.LTC);
-  }
-
-  public static DOGE() {
-    return new AssetEntity(Chain.Doge, AssetSymbol.DOGE);
-  }
-
-  public static BCH() {
-    return new AssetEntity(Chain.BitcoinCash, AssetSymbol.BCH);
-  }
-
-  public static ATOM() {
-    return new AssetEntity(Chain.Cosmos, AssetSymbol.ATOM, false, AssetSymbol.ATOM);
-  }
+  public L1Chain: Chain;
 
   public static fromAssetString(asset?: string) {
     if (!asset) return null;
@@ -137,34 +49,21 @@ export class AssetEntity implements IAsset {
     return AssetEntity.fromAssetString(assetString);
   };
 
-  public static getDecimalByChainAndSymbol(chain: Chain) {
-    return BaseDecimal[chain] || BaseDecimal.THOR;
-  }
-
   constructor(chain: Chain, symbol: string, isSynth = false, ticker?: string) {
     this.chain = chain;
     this.symbol = symbol.toUpperCase();
-    this.ticker = ticker || AssetEntity.getTicker(symbol.toUpperCase());
+    this.ticker = ticker || symbol.toUpperCase().split('-')[0];
     this.type = getAssetType(chain, this.ticker, isSynth);
     this.name = isSynth ? `Synth ${this.ticker}` : this.ticker;
     this.network = getNetworkName(chain, this.ticker);
-    this.decimal = isSynth ? BaseDecimal.THOR : AssetEntity.getDecimalByChainAndSymbol(chain);
+    this.decimal = isSynth ? BaseDecimal.THOR : BaseDecimal[chain];
     this.isSynth = isSynth;
-  }
-
-  get L1Chain() {
-    if (this.isSynth) return Chain.THORChain;
-
-    return this.chain;
+    this.L1Chain = isSynth ? Chain.THORChain : chain;
   }
 
   public setDecimal = (decimal?: number) => {
-    this.decimal = decimal || BaseDecimal[this.L1Chain] || BaseDecimal.THOR;
+    this.decimal = decimal || BaseDecimal[this.chain] || BaseDecimal.THOR;
   };
-
-  public static getTicker(symbol: string) {
-    return symbol.split('-')[0];
-  }
 
   public getAssetObj() {
     // synth format: THOR.btc/btc (NOTE: lowercase notation)
@@ -194,10 +93,6 @@ export class AssetEntity implements IAsset {
     return `${this.isSynth ? 'THOR.' : ''}${this.chain}.${this.symbol}`;
   }
 
-  currencySymbol() {
-    return this.ticker;
-  }
-
   // full compare chain, symbol, synth
   eq(asset: AssetEntity) {
     return (
@@ -218,44 +113,61 @@ export class AssetEntity implements IAsset {
     );
   }
 
-  isGasAsset = () => {
-    return (
-      this.eq(AssetEntity.RUNE()) ||
-      this.eq(AssetEntity.AVAX()) ||
-      this.eq(AssetEntity.ETH()) ||
-      this.eq(AssetEntity.BTC()) ||
-      this.eq(AssetEntity.BNB()) ||
-      this.eq(AssetEntity.BCH()) ||
-      this.eq(AssetEntity.DOGE()) ||
-      this.eq(AssetEntity.LTC())
-    );
-  };
-
   isRUNE() {
-    return this.eq(AssetEntity.RUNE());
-  }
-
-  isBTC() {
-    return this.eq(AssetEntity.BTC());
-  }
-
-  isDOGE() {
-    return this.eq(AssetEntity.DOGE());
-  }
-
-  isBNB() {
-    return this.eq(AssetEntity.BNB());
-  }
-
-  isBSC() {
-    return this.eq(AssetEntity.BSC());
-  }
-
-  isETH() {
-    return this.eq(AssetEntity.ETH());
-  }
-
-  isAVAX() {
-    return this.eq(AssetEntity.AVAX());
+    return this.eq(getSignatureAssetFor(Chain.THORChain));
   }
 }
+
+const THOR_MAINNET_SYMBOL = 'THOR-0XA5F2211B9B8170F694421F2046281775E8468044';
+const ETH_RUNE_SYMBOL = 'RUNE-0X3155BA85D5F96B2D030A4966AF206230E46849CB';
+
+type Signature = Chain | 'USD' | 'ETH_RUNE' | 'BNB_RUNE' | 'THOR';
+
+export const getSignatureAssetFor = (signature: Signature) => {
+  switch (signature) {
+    case Chain.Avalanche:
+    case Chain.Binance:
+    case Chain.BitcoinCash:
+    case Chain.Bitcoin:
+    case Chain.Doge:
+    case Chain.Ethereum:
+    case Chain.Litecoin:
+      return new AssetEntity(signature, signature);
+
+    case Chain.BinanceSmartChain: {
+      const bscAsset = new AssetEntity(Chain.BinanceSmartChain, Chain.Binance);
+      bscAsset.setDecimal(18);
+      return bscAsset;
+    }
+
+    case Chain.Cosmos:
+      return new AssetEntity(Chain.Cosmos, AssetSymbol.ATOM, false, AssetSymbol.ATOM);
+
+    case 'THOR': {
+      const thorAsset = new AssetEntity(Chain.Ethereum, THOR_MAINNET_SYMBOL);
+      thorAsset.setDecimal(18);
+
+      return thorAsset;
+    }
+
+    case 'USD':
+      return new AssetEntity(Chain.THORChain, 'USD-USD', false, 'USD-USD');
+
+    /**
+     * Remove after KillSwitch
+     */
+    case 'BNB_RUNE':
+      return new AssetEntity(Chain.Binance, 'RUNE-B1A');
+
+    case 'ETH_RUNE': {
+      const ethRune = new AssetEntity(Chain.Ethereum, ETH_RUNE_SYMBOL);
+      ethRune.setDecimal(18);
+      return ethRune;
+    }
+
+    default:
+      return new AssetEntity(Chain.THORChain, AssetSymbol.RUNE, false, AssetSymbol.RUNE);
+  }
+};
+
+export const isGasAsset = (asset: AssetEntity) => asset.eq(getSignatureAssetFor(asset.chain));

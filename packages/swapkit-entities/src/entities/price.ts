@@ -1,21 +1,12 @@
 import { BigNumber } from 'bignumber.js';
 
-import { BN_FORMAT } from '../constants.js';
-
-import { Amount, AmountType, IAmount, Rounding } from './amount.js';
-import { AssetEntity as Asset } from './asset.js';
+import { Amount, AmountType, Rounding } from './amount.js';
+import { AssetEntity as Asset, AssetEntity } from './asset.js';
+import { BN_FORMAT } from './constants.js';
 import { Pool } from './pool.js';
 
-export interface IPrice extends IAmount {
-  readonly baseAsset: Asset;
-  readonly quoteAsset: Asset;
-  readonly unitPrice: BigNumber;
-  readonly price: BigNumber;
-  readonly amount: Amount;
-
-  raw(): BigNumber;
-  invert(): BigNumber;
-}
+const poolByAsset = (asset: AssetEntity, pools: Pool[]) =>
+  pools.find((pool) => asset.shallowEq(pool.asset));
 
 export class Price extends Amount {
   public readonly baseAsset: Asset;
@@ -41,9 +32,10 @@ export class Price extends Amount {
     pools?: Pool[];
     priceAmount?: Amount;
   }) {
-    const amount = priceAmount
-      ? Amount.fromAssetAmount(priceAmount.assetAmount, baseAsset.decimal)
-      : Amount.fromAssetAmount(1, baseAsset.decimal);
+    const amount = Amount.fromAssetAmount(
+      priceAmount ? priceAmount.assetAmount : 1,
+      baseAsset.decimal,
+    );
 
     super(amount.assetAmount, AmountType.ASSET_AMOUNT, baseAsset.decimal);
 
@@ -60,9 +52,9 @@ export class Price extends Amount {
       this.unitPrice = new BigNumber(0);
 
       // if quoteAsset is not specified OR is USD, calc the price for USD
-      if (!quoteAsset || quoteAsset.eq(Asset.USD())) {
+      if (!quoteAsset) {
         if (!baseAsset.isRUNE()) {
-          const pool = Pool.byAsset(baseAsset, pools!);
+          const pool = poolByAsset(baseAsset, pools!);
 
           if (pool) {
             // set USD price for non-RUNE asset
@@ -76,20 +68,20 @@ export class Price extends Amount {
           }
         }
       } else if (baseAsset.isRUNE() && !quoteAsset.isRUNE()) {
-        const pool = Pool.byAsset(quoteAsset, pools!);
+        const pool = poolByAsset(quoteAsset, pools!);
 
         if (pool) {
           this.unitPrice = pool.runePriceInAsset.assetAmount;
         }
       } else if (!baseAsset.isRUNE() && quoteAsset.isRUNE()) {
-        const pool = Pool.byAsset(baseAsset, pools!);
+        const pool = poolByAsset(baseAsset, pools!);
 
         if (pool) {
           this.unitPrice = pool.assetPriceInRune.assetAmount;
         }
       } else if (!baseAsset.isRUNE() && !quoteAsset.isRUNE()) {
-        const baseAssetPool = Pool.byAsset(baseAsset, pools!);
-        const quoteAssetPool = Pool.byAsset(quoteAsset, pools!);
+        const baseAssetPool = poolByAsset(baseAsset, pools!);
+        const quoteAssetPool = poolByAsset(quoteAsset, pools!);
 
         if (baseAssetPool && quoteAssetPool) {
           this.unitPrice = baseAssetPool.assetPriceInRune.div(
@@ -120,7 +112,7 @@ export class Price extends Amount {
 
     const isUSDBased = !this.quoteAsset || this.quoteAsset.ticker === 'USD';
 
-    return isUSDBased ? `$${fixedLabel}` : `${fixedLabel} ${this.quoteAsset?.currencySymbol()}`;
+    return isUSDBased ? `$${fixedLabel}` : `${fixedLabel} ${this.quoteAsset?.ticker}`;
   }
 
   toAbbreviateRaw(decimalPlaces = 2) {

@@ -2,7 +2,7 @@ import { GasPrice, SigningStargateClient } from '@cosmjs/stargate';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
+import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { BinanceToolbox, GaiaToolbox, ThorchainToolbox } from '@thorswap-lib/toolbox-cosmos';
 import { AVAXToolbox, BSCToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
@@ -172,15 +172,7 @@ export const getWalletMethodsForChain = ({
         const evmGasTokenBalance: BigNumber = await balanceProvider.getBalance(address);
         const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal[chain]);
         return [
-          {
-            asset:
-              chain === Chain.Ethereum
-                ? AssetEntity.ETH()
-                : chain === Chain.Avalanche
-                ? AssetEntity.AVAX()
-                : AssetEntity.BSC(),
-            amount: evmGasTokenBalanceAmount,
-          },
+          { asset: getSignatureAssetFor(chain), amount: evmGasTokenBalanceAmount },
           ...(await toolbox.getBalance(address, assets)).slice(1),
         ];
       };

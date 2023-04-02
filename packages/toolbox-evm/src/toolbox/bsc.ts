@@ -3,8 +3,8 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { Address, BaseDecimal, ChainId, RPCUrl, TxHistoryParams } from '@thorswap-lib/types';
+import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { Address, BaseDecimal, Chain, ChainId, RPCUrl, TxHistoryParams } from '@thorswap-lib/types';
 
 import { BaseEVMToolbox, CovalentApi } from '../index.js';
 
@@ -31,7 +31,10 @@ export const getBalance = async (
       ),
     );
   }
-  return [{ asset: AssetEntity.BSC(), amount: evmGasTokenBalanceAmount }, ...tokenBalances];
+  return [
+    { asset: getSignatureAssetFor(Chain.BinanceSmartChain), amount: evmGasTokenBalanceAmount },
+    ...tokenBalances,
+  ];
 };
 
 export const getTransactions = async (api: CovalentApi, params?: TxHistoryParams) => {

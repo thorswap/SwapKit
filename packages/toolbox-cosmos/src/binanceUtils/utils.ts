@@ -1,6 +1,5 @@
 import { assetAmount, assetFromString, assetToBase } from '@thorswap-lib/helpers';
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { Tx, TxType } from '@thorswap-lib/types';
+import { Chain, Tx, TxType } from '@thorswap-lib/types';
 
 import { DexFees, Fee, TransferFee, Tx as BinanceTx, TxType as BinanceTxType } from './types.js';
 
@@ -22,7 +21,7 @@ export const getTxType = (t: BinanceTxType): TxType => {
  * @returns {Tx|null} The transaction parsed from the binance tx.
  */
 export const parseTx = (tx: BinanceTx): Tx | null => {
-  const asset = assetFromString(`${AssetEntity.BNB().chain}.${tx.txAsset}`);
+  const asset = assetFromString(`${Chain.Binance}.${tx.txAsset}`);
 
   if (!asset) return null;
 

@@ -7,7 +7,7 @@ import { Contract } from '@ethersproject/contracts';
 import { Web3Provider } from '@ethersproject/providers';
 import { toUtf8Bytes } from '@ethersproject/strings';
 import { baseAmount } from '@thorswap-lib/helpers';
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
+import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
   Address,
   AmountWithBaseDenom,
@@ -61,7 +61,9 @@ const getFee = ({
 }) => baseAmount(maxGasPrice.amount().mul(gasLimit.toString()), BaseDecimal.ETH);
 
 const getAssetEntity = (asset: AssetType | undefined) =>
-  asset ? new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker) : AssetEntity.ETH();
+  asset
+    ? new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker)
+    : getSignatureAssetFor(Chain.Ethereum);
 
 type WithSigner<T> = T & { signer?: Signer };
 /**

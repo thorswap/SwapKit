@@ -1,7 +1,7 @@
 import { BaseDecimal } from '@thorswap-lib/types';
 import { BigNumber } from 'bignumber.js';
 
-import { BN_FORMAT } from '../constants.js';
+import { BN_FORMAT } from './constants.js';
 
 export enum Rounding {
   ROUND_DOWN,
@@ -25,32 +25,9 @@ export const EMPTY_FORMAT: BigNumber.Format = {
   decimalSeparator: '.',
 };
 
-export interface IAmount {
-  readonly baseAmount: BigNumber;
-  readonly assetAmount: BigNumber;
-  readonly decimal: number;
-
-  _0_AMOUNT: Amount;
-
-  add(amount: Amount): Amount;
-  sub(amount: Amount): Amount;
-  mul(value: BigNumber.Value | Amount): Amount;
-  div(value: BigNumber.Value | Amount): Amount;
-  gte(amount: Amount | BigNumber.Value): boolean;
-  gt(amount: Amount | BigNumber.Value): boolean;
-  lte(amount: Amount | BigNumber.Value): boolean;
-  lt(amount: Amount | BigNumber.Value): boolean;
-  eq(amount: Amount | BigNumber.Value): boolean;
-  toSignificant(significantDigits?: number, format?: BigNumber.Format, rounding?: Rounding): string;
-  toFixed(decimalPlaces?: number, format?: BigNumber.Format, rounding?: Rounding): string;
-  toFixedDecimal(decimalPlaces?: number, format?: BigNumber.Format, rounding?: Rounding): string;
-}
-
-export class Amount implements IAmount {
+export class Amount {
   public readonly assetAmount: BigNumber;
-
   public readonly baseAmount: BigNumber;
-
   public readonly decimal: number;
 
   public static fromMidgard(amount?: BigNumber.Value) {
@@ -89,10 +66,6 @@ export class Amount implements IAmount {
 
     // remove decimal points for baseAmount
     this.baseAmount = new BigNumber(this.baseAmount.integerValue(BigNumber.ROUND_DOWN));
-  }
-
-  get _0_AMOUNT() {
-    return new Amount(0, AmountType.ASSET_AMOUNT, this.decimal);
   }
 
   add(amount: Amount) {
@@ -173,29 +146,7 @@ export class Amount implements IAmount {
     return this.assetAmount.isEqualTo(amount);
   }
 
-  private toSignificantBigNumber(
-    significantDigits = 8,
-    format: BigNumber.Format = BN_FORMAT,
-    rounding: Rounding = Rounding.ROUND_DOWN,
-  ) {
-    if (!Number.isInteger(significantDigits))
-      throw new Error(`${significantDigits} is not an integer.`);
-    if (significantDigits <= 0) throw new Error(`${significantDigits} is not positive.`);
-
-    BigNumber.config({ FORMAT: format });
-
-    return new BigNumber(this.assetAmount.toPrecision(significantDigits, roundingMode[rounding]));
-  }
-
   toSignificant(
-    significantDigits = 8,
-    format: BigNumber.Format = BN_FORMAT,
-    rounding: Rounding = Rounding.ROUND_DOWN,
-  ) {
-    return this.toSignificantBigNumber(significantDigits, format, rounding).toFormat();
-  }
-
-  toSignificantWithMaxDecimals(
     significantDigits = 8,
     maxDecimals = 8,
     format: BigNumber.Format = BN_FORMAT,
@@ -239,6 +190,20 @@ export class Amount implements IAmount {
     }
 
     return `${newValue.toFixed(decimalPlaces)}${suffixNum > 0 ? ` ${suffixes[suffixNum]}` : ''}`;
+  }
+
+  private toSignificantBigNumber(
+    significantDigits = 8,
+    format: BigNumber.Format = BN_FORMAT,
+    rounding: Rounding = Rounding.ROUND_DOWN,
+  ) {
+    if (!Number.isInteger(significantDigits))
+      throw new Error(`${significantDigits} is not an integer.`);
+    if (significantDigits <= 0) throw new Error(`${significantDigits} is not positive.`);
+
+    BigNumber.config({ FORMAT: format });
+
+    return new BigNumber(this.assetAmount.toPrecision(significantDigits, roundingMode[rounding]));
   }
 }
 

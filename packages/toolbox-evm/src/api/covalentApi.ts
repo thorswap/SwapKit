@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { assetFromString, baseAmount, getRequest } from '@thorswap-lib/helpers';
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { Balance, Chain, ChainId, Tx, TxsPage, TxType } from '@thorswap-lib/types';
 
 import { EvmApi } from '../types/Api.js';
@@ -82,7 +82,7 @@ const mapBalanceResponseToBalance = async (data: CovalentBalanceResponse): Promi
       asset:
         (contract_address !== '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' &&
           assetFromString(`AVAX.${contract_ticker_symbol}-${contract_address}`)) ||
-        AssetEntity.AVAX(),
+        getSignatureAssetFor(Chain.Avalanche),
     }))
     .filter(
       ({ asset: { chain, symbol, ticker } }) =>
@@ -95,7 +95,7 @@ const mapBalanceResponseToBalance = async (data: CovalentBalanceResponse): Promi
 const mapTxDataResponseToTx = async ({
   items: [{ tx_hash, value, from_address, to_address }],
 }: CovalentTransactionResponse): Promise<Tx> => ({
-  asset: AssetEntity.AVAX(),
+  asset: getSignatureAssetFor(Chain.Avalanche),
   date: new Date(),
   from: [{ from: from_address, amount: baseAmount(BigNumber.from(value.toString())) }],
   hash: tx_hash,
