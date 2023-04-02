@@ -4,7 +4,8 @@ import TransportWebUSB from '@ledgerhq/hw-transport-webusb';
 import type { UTXO } from '@thorswap-lib/types';
 import { type Network as BTCNetwork, networks, type Psbt } from 'bitcoinjs-lib';
 
-import THORChainApp from '../clients/thorchain/lib.js';
+import { BinanceApp } from '../clients/binance/lib.js';
+import { THORChainApp } from '../clients/thorchain/lib.js';
 
 import { CreateTransactionArg } from './types.js';
 import { signUTXOTransaction } from './utxo.js';
@@ -27,20 +28,16 @@ export abstract class CommonLedgerInterface {
 
       switch (this.chain) {
         case 'bnb': {
-          const binanceJS = await import('@binance-chain/javascript-sdk');
-          this.ledgerApp ||= new binanceJS.ledger.app(this.transport);
-          break;
+          return (this.ledgerApp ||= new BinanceApp(this.transport));
         }
 
         case 'thor': {
-          this.ledgerApp ||= new THORChainApp(this.transport);
-          break;
+          return (this.ledgerApp ||= new THORChainApp(this.transport));
         }
 
         case 'cosmos': {
           // @ts-ignore Ledger typing is wrong
-          this.ledgerApp ||= new CosmosApp(this.transport);
-          break;
+          return (this.ledgerApp ||= new CosmosApp(this.transport));
         }
       }
     } catch (error: any) {

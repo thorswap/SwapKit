@@ -1,5 +1,3 @@
-import { crypto, Transaction } from '@binance-chain/javascript-sdk';
-import { AminoPrefix } from '@binance-chain/javascript-sdk/lib/types/index.js';
 import type { cosmosclient, proto } from '@cosmos-client/core';
 import {
   assetAmount,
@@ -22,8 +20,10 @@ import {
   Tx,
   TxHistoryParams,
 } from '@thorswap-lib/types';
+import { bech32 } from 'bech32';
 
-import { Account, Fees, TransactionResult, TxPage } from '../binanceUtils/types.js';
+import { BNBTransaction } from '../binanceUtils/transaction.js';
+import { Account, AminoPrefix, Fees, TransactionResult, TxPage } from '../binanceUtils/types.js';
 import { isTransferFee, parseTx } from '../binanceUtils/utils.js';
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
 import { TransferParams } from '../types.js';
@@ -177,7 +177,7 @@ const prepareTransaction = async (
     sequence = account.sequence;
   }
 
-  return new Transaction({
+  return new BNBTransaction({
     accountNumber: account.account_number,
     chainId: ChainId.Binance,
     memo: memo,
@@ -187,9 +187,11 @@ const prepareTransaction = async (
   });
 };
 
+const decodeAddress = (value: string) => Buffer.from(bech32.fromWords(bech32.decode(value).words));
+
 const createTransactionAndSignMsg = async ({ from, to, amount, asset, memo }: TransferParams) => {
-  const accCode = crypto.decodeAddress(from);
-  const toAccCode = crypto.decodeAddress(to);
+  const accCode = decodeAddress(from);
+  const toAccCode = decodeAddress(to);
 
   const baseAmountValue = baseAmount(amount).amount().toNumber();
 

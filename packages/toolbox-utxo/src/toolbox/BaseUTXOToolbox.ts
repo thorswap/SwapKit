@@ -267,5 +267,3 @@ export const BaseUTXOToolbox = (baseToolboxParams: UTXOBaseToolboxParams) => ({
   getFees: () => getFees(baseToolboxParams),
   getFeesWithRates: () => getFeesWithRates(baseToolboxParams),
 });
-
-export default BaseUTXOToolbox;

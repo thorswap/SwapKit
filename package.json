@@ -73,64 +73,84 @@
   },
   "size-limit": [
     {
-      "path": "./packages/keystore/dist/index.cjs"
+      "path": "./packages/keystore/dist/index.cjs",
+      "limit": "200 KB"
     },
     {
-      "path": "./packages/keystore/dist/index.es.js"
+      "path": "./packages/keystore/dist/index.es.js",
+      "limit": "200 KB"
     },
     {
-      "path": "./packages/ledger/dist/index.cjs"
+      "path": "./packages/ledger/dist/index.cjs",
+      "limit": "1.5 MB"
     },
     {
-      "path": "./packages/ledger/dist/index.es.js"
+      "path": "./packages/ledger/dist/index.es.js",
+      "limit": "1.5 MB"
     },
     {
-      "path": "./packages/swapkit-core/dist/index.cjs"
+      "path": "./packages/swapkit-core/dist/index.cjs",
+      "limit": "200 KB"
     },
     {
-      "path": "./packages/swapkit-core/dist/index.es.js"
+      "path": "./packages/swapkit-core/dist/index.es.js",
+      "limit": "200 KB"
     },
     {
-      "path": "./packages/swapkit-entities/dist/index.cjs"
+      "path": "./packages/swapkit-entities/dist/index.cjs",
+      "limit": "100 KB"
     },
     {
-      "path": "./packages/swapkit-entities/dist/index.es.js"
+      "path": "./packages/swapkit-entities/dist/index.es.js",
+      "limit": "100 KB"
     },
     {
-      "path": "./packages/toolbox-cosmos/dist/index.cjs"
+      "path": "./packages/toolbox-cosmos/dist/index.cjs",
+      "limit": "1 MB"
     },
     {
-      "path": "./packages/toolbox-cosmos/dist/index.es.js"
+      "path": "./packages/toolbox-cosmos/dist/index.es.js",
+      "limit": "1 MB"
     },
     {
-      "path": "./packages/toolbox-evm/dist/index.cjs"
+      "path": "./packages/toolbox-evm/dist/index.cjs",
+      "limit": "200 KB"
     },
     {
-      "path": "./packages/toolbox-evm/dist/index.es.js"
+      "path": "./packages/toolbox-evm/dist/index.es.js",
+      "limit": "200 KB"
     },
     {
-      "path": "./packages/toolbox-utxo/dist/index.cjs"
+      "path": "./packages/toolbox-utxo/dist/index.cjs",
+      "limit": "400 KB"
     },
     {
-      "path": "./packages/toolbox-utxo/dist/index.es.js"
+      "path": "./packages/toolbox-utxo/dist/index.es.js",
+      "limit": "400 KB"
     },
     {
-      "path": "./packages/types/dist/index.cjs"
+      "path": "./packages/types/dist/index.cjs",
+      "limit": "100 KB"
     },
     {
-      "path": "./packages/types/dist/index.es.js"
+      "path": "./packages/types/dist/index.es.js",
+      "limit": "100 KB"
     },
     {
-      "path": "./packages/walletconnect/dist/index.cjs"
+      "path": "./packages/walletconnect/dist/index.cjs",
+      "limit": "500 KB"
     },
     {
-      "path": "./packages/walletconnect/dist/index.es.js"
+      "path": "./packages/walletconnect/dist/index.es.js",
+      "limit": "500 KB"
     },
     {
-      "path": "./packages/web-extensions/dist/index.cjs"
+      "path": "./packages/web-extensions/dist/index.cjs",
+      "limit": "1 MB"
     },
     {
-      "path": "./packages/web-extensions/dist/index.es.js"
+      "path": "./packages/web-extensions/dist/index.es.js",
+      "limit": "1 MB"
     }
   ],
   "type": "module",

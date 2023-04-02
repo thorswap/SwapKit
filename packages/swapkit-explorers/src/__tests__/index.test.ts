@@ -6,7 +6,7 @@ import { getExplorerAddressUrl, getExplorerTxUrl } from '../index.js';
 describe('Avalanche', () => {
   test('getExplorerTxUrl returns correct URL for Avalanche', ({ expect }) => {
     expect(getExplorerTxUrl({ chain: Chain.Avalanche, txHash: '12345' })).toBe(
-      'https://snowtrace.io/tx/12345',
+      'https://snowtrace.io/tx/0x12345',
     );
   });
 
@@ -20,7 +20,7 @@ describe('Avalanche', () => {
 describe('Binance Smart Chain', () => {
   test('getExplorerTxUrl returns correct URL for Binance Smart Chain', ({ expect }) => {
     expect(getExplorerTxUrl({ chain: Chain.BinanceSmartChain, txHash: '67890' })).toBe(
-      'https://bscscan.com/tx/67890',
+      'https://bscscan.com/tx/0x67890',
     );
   });
 
@@ -118,7 +118,7 @@ describe('Litecoin', () => {
 describe('Ethereum', () => {
   test('getExplorerTxUrl returns correct URL for Ethereum', ({ expect }) => {
     expect(getExplorerTxUrl({ chain: Chain.Ethereum, txHash: 'zabcd' })).toBe(
-      'https://etherscan.io/tx/zabcd',
+      'https://etherscan.io/tx/0xzabcd',
     );
   });
 
