@@ -1,4 +1,4 @@
-name: Run dry build & test
+name: Run build, test, lint and size check
 
 on: pull_request
 
@@ -21,3 +21,9 @@ jobs:
 
       - name: Lint
         run: yarn lint --cache-dir=./.turbo-cache
+
+      - name: Size check
+        uses: andresz1/size-limit-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          skip_step: 'build'
