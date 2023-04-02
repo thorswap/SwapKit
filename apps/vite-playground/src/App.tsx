@@ -1,7 +1,7 @@
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { xdefiWallet } from '@thorswap-lib/web-extensions';
-import { useCallback, useState } from 'react';
+import { PropsWithChildren, useCallback, useState } from 'react';
 
 const getSwapKitClient = () => {
   const client = new SwapKitCore({});
@@ -30,45 +30,80 @@ const useSwapKitClient = () => {
 
 type WalletDataType = Awaited<ReturnType<InstanceType<typeof SwapKitCore>['getWalletByChain']>>;
 
-function App() {
+const App = () => {
   const client = useSwapKitClient();
-  const [wallet, setWallet] = useState<WalletDataType>(null);
+  const [chains, setChains] = useState<Chain[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [wallet, setWallet] = useState<WalletDataType | WalletDataType[]>(null);
 
   const connectXdefiWallet = useCallback(async () => {
     if (!client) return alert('client is not ready');
-    await client.connectXDEFI([Chain.Ethereum]);
+    await client.connectXDEFI(chains);
+    setLoading(true);
 
-    const walletData = await client.getWalletByChain(Chain.Ethereum);
-    setWallet(walletData);
-  }, [client]);
+    const walletDataArray = await Promise.all(chains.map(client.getWalletByChain));
+
+    setWallet(walletDataArray.filter(Boolean));
+    setLoading(false);
+  }, [chains, client]);
+
+  const handleChainSelect = useCallback((chain: Chain) => {
+    setChains((prev) =>
+      prev.includes(chain) ? prev.filter((c) => c !== chain) : [...prev, chain],
+    );
+  }, []);
 
   return (
-    <div className="App">
+    <div>
       <h1>Vite + React</h1>
-      <div className="card">
+
+      <select multiple style={{ width: 200, height: 200 }} value={chains}>
+        {Object.values(Chain).map((chain) => (
+          <option key={chain} onClick={() => handleChainSelect(chain)} value={chain}>
+            {chain}
+          </option>
+        ))}
+      </select>
+
+      {loading && <p>Loading...</p>}
+
+      <div>
         <button onClick={() => connectXdefiWallet()} type="button">
           Connect XDEFI
         </button>
-        {wallet ? (
-          <>
-            <span>Connected wallet:</span>
-            <p>
-              {wallet?.address?.slice(0, 8)}...{wallet?.address?.slice(-8)} {wallet?.walletType}
-            </p>
 
-            <span>Balances:</span>
-
-            {wallet?.balance.map((balance) => (
-              <p key={balance.asset.toString()}>
-                {balance.amount.toSignificant(6)} {balance.asset.toString()}
-              </p>
-            ))}
-          </>
-        ) : null}
+        {Array.isArray(wallet) ? (
+          wallet.map((walletData) => (
+            <WalletInfo key={walletData?.address} walletData={walletData} />
+          ))
+        ) : (
+          <WalletInfo key={wallet?.address} walletData={wallet} />
+        )}
       </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
     </div>
   );
-}
+};
+
+const WalletInfo = ({ walletData }: PropsWithChildren<{ walletData: WalletDataType }>) => {
+  if (!walletData) return null;
+
+  return (
+    <div>
+      <span>Connected wallet:</span>
+      <p>
+        {walletData?.address?.slice(0, 8)}...{walletData?.address?.slice(-8)}{' '}
+        {walletData?.walletType}
+      </p>
+
+      <span>Balances:</span>
+
+      {walletData?.balance.map((balance) => (
+        <p key={balance.asset.toString()}>
+          {balance.amount.toSignificant(6)} {balance.asset.toString()}
+        </p>
+      ))}
+    </div>
+  );
+};
 
 export default App;
