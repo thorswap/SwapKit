@@ -1,7 +1,7 @@
 import { getAddress } from '@ethersproject/address';
 import { parseUnits } from '@ethersproject/units';
 import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { Balance, Chain, Tx, TxType } from '@thorswap-lib/types';
 
 import {
@@ -87,7 +87,7 @@ const mapTxInfoToTx = ({ hash, from, to, value }: TransactionInfo): Tx => ({
   hash,
   from: [{ from, amount: baseAmount(parseUnits(value.toString(), 'ether')) }],
   to: [{ to, amount: baseAmount(parseUnits(value.toString(), 'ether')) }],
-  asset: AssetEntity.ETH(),
+  asset: getSignatureAssetFor(Chain.Ethereum),
   type: TxType.Transfer,
   date: new Date(),
 });

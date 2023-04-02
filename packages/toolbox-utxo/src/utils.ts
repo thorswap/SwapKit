@@ -1,5 +1,4 @@
 import { baseAmount } from '@thorswap-lib/helpers';
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import {
   AmountWithBaseDenom,
   Chain,
@@ -92,21 +91,6 @@ export const getDefaultFeesWithRates = () => {
 export const getDefaultFees = (): Fees => {
   const { fees } = getDefaultFeesWithRates();
   return fees;
-};
-
-export const getChainAsset = (chain: Chain) => {
-  switch (chain) {
-    case Chain.Bitcoin:
-      return AssetEntity.BTC();
-    case Chain.BitcoinCash:
-      return AssetEntity.BCH();
-    case Chain.Doge:
-      return AssetEntity.DOGE();
-    case Chain.Litecoin:
-      return AssetEntity.LTC();
-    default:
-      throw new Error('Invalid chain');
-  }
 };
 
 export const getNetwork = (chain: Chain) => {

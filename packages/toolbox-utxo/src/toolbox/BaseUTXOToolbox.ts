@@ -1,4 +1,5 @@
 import { assetAmount, assetToBase } from '@thorswap-lib/helpers';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
   Balance,
   BaseDecimal,
@@ -20,7 +21,6 @@ import * as tinySecp from 'tiny-secp256k1';
 import {
   calcFee,
   calcFeesAsync,
-  getChainAsset,
   standardFeeRates,
   UTXOBaseToolboxParams,
   UTXOBuildTxParams,
@@ -110,7 +110,7 @@ export const getBalance = async ({
   chain,
   apiClient,
 }: { address: string } & UTXOBaseToolboxParams): Promise<Balance[]> => [
-  { asset: getChainAsset(chain), amount: await apiClient.getBalanceAmount({ address }) },
+  { asset: getSignatureAssetFor(chain), amount: await apiClient.getBalanceAmount({ address }) },
 ];
 
 export const getTransactions = async ({
@@ -131,7 +131,7 @@ export const getTransactions = async ({
     const { inputs, outputs, time, txHash } = await apiClient.getTransaction({ txHash: hash });
 
     const tx: Tx = {
-      asset: getChainAsset(chain),
+      asset: getSignatureAssetFor(chain),
       from: inputs.map((i) => ({
         from: i.address,
         amount: assetToBase(assetAmount(i.value, BaseDecimal.THOR)),

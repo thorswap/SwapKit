@@ -19,31 +19,12 @@ export interface PoolDetail {
   volume24h: string;
 }
 
-export interface IPool {
-  readonly asset: Asset;
-  readonly runeDepth: Amount;
-  readonly assetDepth: Amount;
-  readonly assetUSDPrice: Amount;
-
-  readonly detail: PoolDetail;
-
-  assetPriceInRune: Amount;
-  runePriceInAsset: Amount;
-  involvesAsset(asset: Asset): boolean;
-  priceOf(asset: Asset): Amount;
-  depthOf(asset: Asset): Amount;
-}
-
-export class Pool implements IPool {
+export class Pool {
   public readonly asset: Asset;
   public readonly runeDepth: Amount;
   public readonly assetDepth: Amount;
   public readonly assetUSDPrice: Amount;
   public readonly detail: PoolDetail;
-
-  public static byAsset(asset: Asset, pools: Pool[]) {
-    return !asset.isRUNE() ? pools.find((pool: Pool) => asset.shallowEq(pool.asset)) : undefined;
-  }
 
   public static fromPoolData(poolDetail: PoolDetail) {
     const { asset, runeDepth, assetDepth } = poolDetail;
@@ -74,23 +55,5 @@ export class Pool implements IPool {
 
   get runePriceInAsset() {
     return this.assetDepth.div(this.runeDepth);
-  }
-
-  involvesAsset(asset: Asset) {
-    return asset.isRUNE() || this.asset.shallowEq(asset);
-  }
-
-  priceOf(asset: Asset) {
-    if (!this.involvesAsset(asset)) throw new Error('Invalid asset');
-
-    if (asset.isRUNE()) return this.runePriceInAsset;
-    return this.assetPriceInRune;
-  }
-
-  depthOf(asset: Asset) {
-    if (!this.involvesAsset(asset)) throw new Error('Invalid asset');
-
-    if (asset.isRUNE()) return this.runeDepth;
-    return this.assetDepth;
   }
 }

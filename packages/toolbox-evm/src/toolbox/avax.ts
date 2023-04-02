@@ -3,8 +3,15 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount, gasFeeMultiplier } from '@thorswap-lib/helpers';
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { Address, BaseDecimal, ChainId, FeeOption, TxHistoryParams } from '@thorswap-lib/types';
+import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import {
+  Address,
+  BaseDecimal,
+  Chain,
+  ChainId,
+  FeeOption,
+  TxHistoryParams,
+} from '@thorswap-lib/types';
 
 import { BaseEVMToolbox, CovalentApi, FeeData, MIN_AVAX_GAS } from '../index.js';
 
@@ -70,7 +77,10 @@ export const getBalance = async (
       ),
     );
   }
-  return [{ asset: AssetEntity.AVAX(), amount: evmGasTokenBalanceAmount }, ...tokenBalances];
+  return [
+    { asset: getSignatureAssetFor(Chain.Avalanche), amount: evmGasTokenBalanceAmount },
+    ...tokenBalances,
+  ];
 };
 
 export const getTransactions = async (api: CovalentApi, params?: TxHistoryParams) => {

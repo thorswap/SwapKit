@@ -17,6 +17,9 @@ import {
   AssetAmount,
   AssetEntity,
   getMemoFor,
+  getMinAmountByChain,
+  getSignatureAssetFor,
+  isGasAsset,
   MemoType,
   Percent,
   ThornameRegisterParam,
@@ -271,7 +274,7 @@ export class SwapKitCore {
           {
             from: params.from,
             value: getBigNumberFrom(
-              assetAmount.asset.isGasAsset() ? params.amount.amount().toString() : 0,
+              isGasAsset(assetAmount.asset) ? params.amount.amount().toString() : 0,
             ).toHexString(),
           },
         ],
@@ -371,7 +374,7 @@ export class SwapKitCore {
   withdraw = async ({ pool: { asset }, percent, from, to }: WithdrawParams) => {
     const targetAsset =
       to === 'rune'
-        ? AssetEntity.RUNE()
+        ? getSignatureAssetFor(Chain.THORChain)
         : (from === 'sym' && to === 'sym') || from === 'rune' || from === 'asset'
         ? undefined
         : asset;
@@ -381,7 +384,7 @@ export class SwapKitCore {
     const { address, router, gas_rate } = await this._getInboundDataByChain(chain);
 
     return this.deposit({
-      assetAmount: AssetAmount.getMinAmountByChain(chain),
+      assetAmount: getMinAmountByChain(chain),
       recipient: address,
       memo: getMemoFor(MemoType.WITHDRAW, {
         chain: asset.chain,
@@ -416,7 +419,7 @@ export class SwapKitCore {
   }) =>
     this._transferToPool({
       chain,
-      assetAmount: AssetAmount.getMinAmountByChain(chain),
+      assetAmount: getMinAmountByChain(chain),
       memo: getMemoFor(MemoType.WITHDRAW, {
         chain,
         ticker,
@@ -429,25 +432,25 @@ export class SwapKitCore {
   registerThorname = (param: ThornameRegisterParam, amount: Amount) =>
     this._thorchainTransfer({
       memo: getMemoFor(MemoType.THORNAME_REGISTER, param),
-      assetAmount: new AssetAmount(AssetEntity.RUNE(), amount),
+      assetAmount: new AssetAmount(getSignatureAssetFor(Chain.THORChain), amount),
     });
 
   bond = (address: string, amount: Amount) =>
     this._thorchainTransfer({
       memo: getMemoFor(MemoType.BOND, { address }),
-      assetAmount: new AssetAmount(AssetEntity.RUNE(), amount),
+      assetAmount: new AssetAmount(getSignatureAssetFor(Chain.THORChain), amount),
     });
 
   unbond = (address: string, unbondAmount: number) =>
     this._thorchainTransfer({
       memo: getMemoFor(MemoType.UNBOND, { address, unbondAmount: unbondAmount }),
-      assetAmount: AssetAmount.getMinAmountByChain(Chain.THORChain),
+      assetAmount: getMinAmountByChain(Chain.THORChain),
     });
 
   leave = (address: string) =>
     this._thorchainTransfer({
       memo: getMemoFor(MemoType.LEAVE, { address }),
-      assetAmount: AssetAmount.getMinAmountByChain(Chain.THORChain),
+      assetAmount: getMinAmountByChain(Chain.THORChain),
     });
 
   /**
@@ -543,7 +546,9 @@ export class SwapKitCore {
     }: { asset: AssetEntity; contractAddress?: string; amount?: AmountWithBaseDenom },
     type: 'checkOnly' | 'approve' = 'checkOnly',
   ) => {
-    const isNativeEVM = asset.isETH() || asset.isAVAX();
+    const isNativeEVM =
+      (asset.chain === Chain.Ethereum && asset.symbol === Chain.Ethereum) ||
+      (asset.chain === Chain.Avalanche && asset.symbol === Chain.Avalanche);
     const isEVMChain = [Chain.Ethereum, Chain.Avalanche].includes(asset.chain);
     if (isNativeEVM || !isEVMChain || asset.isSynth) return true;
 
