@@ -6,7 +6,19 @@
 yarn add @thorswap-lib/walletconnect
 ```
 
-To use the walletconnect, you need to install the corresponding package for the chain you want to use.
+To use the trustwallet you need to [extend core](packages/swapkit-core#swapkitcore-api) with `walletconnectWallet` and install the corresponding package for the chain you want to use.
+
+```ts
+import { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import { walletconnectWallet } from '@thorswap-lib/walletconnect';
+
+const client = new SwapKitCore();
+
+client.extend({
+  wallets: [walletconnectWallet],
+});
+```
+
 
 ### Supported chains:
 

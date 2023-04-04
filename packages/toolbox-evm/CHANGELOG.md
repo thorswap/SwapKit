@@ -1,5 +1,19 @@
 # @thorswap-lib/toolbox-evm
 
+## 0.1.0-development.94
+
+### Patch Changes
+
+- update list for web3 wallets to use array
+
+## 0.1.0-development.93
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@0.3.0-development.68
+  - @thorswap-lib/helpers@0.0.0-development.60
+
 ## 0.1.0-development.92
 
 ### Patch Changes

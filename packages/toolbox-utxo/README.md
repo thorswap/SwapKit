@@ -6,4 +6,19 @@
 yarn add @thorswap-lib/toolbox-utxo bip39
 ```
 
-## Links:
+### API:
+
+| method                | description                                       |
+| --------------------- | ------------------------------------------------- |
+| `buildTx`             | build and prepare tx to sign                      |
+| `createKeysForPath`   | create KeyPair for signing and getting an address |
+| `validateAddress`     | validate address                                  |
+| `getAddressFromKeys`  | get address from KeyPair                          |
+| `broadcastTx`         | broadcast tx to blockchain                        |
+| `transfer`            | base transfer method                              |
+| `getBalance`          | get balance                                       |
+| `getTransactions`     | get transactions                                  |
+| `getSuggestedFeeRate` | get suggested fee rate                            |
+| `getFeeRates`         | get fee rates                                     |
+| `getFees`             | get fees                                          |
+| `getFeesWithRates`    | get fees with rates                               |

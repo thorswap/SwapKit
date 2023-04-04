@@ -423,16 +423,25 @@ const sendTransaction =
     }
   };
 
-const listWeb3EVMWallets = () => [
-  ...(window.ethereum && !window.ethereum?.isBraveWallet ? [WalletOption.METAMASK] : []),
-  ...(window.xfi || window.ethereum?.__XDEFI ? [WalletOption.XDEFI] : []),
-  ...(window.ethereum?.isBraveWallet || window.braveSolana ? [WalletOption.BRAVE] : []),
-  ...(window.ethereum?.isTrust || window.trustwallet ? [WalletOption.TRUSTWALLET_WEB] : []),
-  ...((window.ethereum?.overrideIsMetaMask && window.ethereum.selectedProvider?.isCoinbaseWallet) ||
-  window.coinbaseWalletExtension
-    ? [WalletOption.COINBASE_WEB]
-    : []),
-];
+const listWeb3EVMWallets = () => {
+  const metamaskEnabled = window?.ethereum && !window.ethereum?.isBraveWallet;
+  const xdefiEnabled = window?.xfi || window?.ethereum?.__XDEFI;
+  const braveEnabled = window?.ethereum?.isBraveWallet || window?.braveSolana;
+  const trustEnabled = window?.ethereum?.isTrust || window?.trustwallet;
+  const coinbaseEnabled =
+    (window?.ethereum?.overrideIsMetaMask &&
+      window?.ethereum?.selectedProvider?.isCoinbaseWallet) ||
+    window?.coinbaseWalletExtension;
+
+  const wallets = [];
+  if (metamaskEnabled) wallets.push(WalletOption.METAMASK);
+  if (xdefiEnabled) wallets.push(WalletOption.XDEFI);
+  if (braveEnabled) wallets.push(WalletOption.BRAVE);
+  if (trustEnabled) wallets.push(WalletOption.TRUSTWALLET_WEB);
+  if (coinbaseEnabled) wallets.push(WalletOption.COINBASE_WEB);
+
+  return wallets;
+};
 
 const isWeb3Detected = () => {
   return typeof window.ethereum !== 'undefined';

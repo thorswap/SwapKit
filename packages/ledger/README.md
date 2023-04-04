@@ -6,7 +6,19 @@
 yarn add @thorswap-lib/ledger
 ```
 
-To use the Ledger, you need to install the corresponding package for the chain you want to use.
+To use the ledger you need to [extend core](packages/swapkit-core#swapkitcore-api) with `ledgerWallet` and install the corresponding package for the chain you want to use.
+
+```ts
+import { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import { ledgerWallet } from '@thorswap-lib/ledger';
+
+const client = new SwapKitCore();
+
+client.extend({
+  wallets: [ledgerWallet],
+});
+```
+
 
 ### Supported chains:
 

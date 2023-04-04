@@ -5,8 +5,23 @@
 ```bash
 yarn add @thorswap-lib/web-extensions
 ```
+To use the browser extensions you need to [extend core](packages/swapkit-core#swapkitcore-api) and install the corresponding package for the chain you want to use.
 
-To use the web / browser extension wallet, you need to install the corresponding package for the chain you want to use.
+```ts
+import { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import { evmWallet, keplrWallet, xdefiWallet } from '@thorswap-lib/web-extensions';
+
+const client = new SwapKitCore();
+
+client.extend({
+  wallets: [
+    evmWallet, // MM, Brave, Trust, Coinbase
+    keplrWallet,
+    xdefiWallet
+  ],
+});
+```
+
 
 | chain            | Metamask | XDefi | BraveWallet | TrustWallet | Coinbase | Keplr | package                                                                          |
 | ---------------- | -------- | ----- | ----------- | ----------- | -------- | ----- | -------------------------------------------------------------------------------- |

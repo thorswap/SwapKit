@@ -6,7 +6,19 @@
 yarn add @thorswap-lib/keystore
 ```
 
-To use the keystore, you need to install the corresponding package for the chain you want to use.
+To use the keystore you need to [extend core](packages/swapkit-core#swapkitcore-api) with `keystoreWallet` and install the corresponding package for the chain you want to use.
+
+```ts
+import { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import { keystoreWallet } from '@thorswap-lib/keystore';
+
+const client = new SwapKitCore();
+
+client.extend({
+  wallets: [keystoreWallet],
+});
+```
+
 
 ### Supported chains:
 
@@ -22,5 +34,3 @@ To use the keystore, you need to install the corresponding package for the chain
 | COSMOS (ATOM)    | ✅     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md) |
 | BNB              | ✅     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md) |
 | THORCHAIN (RUNE) | ✅     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md) |
-
-## Links:
