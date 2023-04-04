@@ -62,8 +62,8 @@ const connectLedger = (chain: Chain) => {
 // quoteRoute is returned from `/quote` API endpoint
 // https://dev-docs.thorswap.net/aggregation-api/examples/Swap#fetch-quote
 const quoteParams = (sender: string, recipient: string) => {
-    sellToken: 'ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044',
-    buyToken: 'BTC.BTC',
+    sellAsset: 'ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044',
+    buyAsset: 'BTC.BTC',
     sellAmount: '1000',
     senderAddress: sender,
     recipientAddress: recipient
