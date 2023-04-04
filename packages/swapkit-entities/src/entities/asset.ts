@@ -123,7 +123,11 @@ const ETH_RUNE_SYMBOL = 'RUNE-0X3155BA85D5F96B2D030A4966AF206230E46849CB';
 
 type Signature = Chain | 'USD' | 'ETH_RUNE' | 'BNB_RUNE' | 'THOR';
 
+// @ts-expect-error initialized in getSignatureAssetFor
+const cachedSignatureAssets: Record<Signature, AssetEntity> = {};
 export const getSignatureAssetFor = (signature: Signature) => {
+  if (cachedSignatureAssets[signature]) return cachedSignatureAssets[signature];
+
   switch (signature) {
     case Chain.Avalanche:
     case Chain.Binance:
@@ -131,42 +135,67 @@ export const getSignatureAssetFor = (signature: Signature) => {
     case Chain.Bitcoin:
     case Chain.Doge:
     case Chain.Ethereum:
-    case Chain.Litecoin:
-      return new AssetEntity(signature, signature);
+    case Chain.Litecoin: {
+      const asset = new AssetEntity(signature, signature);
+
+      cachedSignatureAssets[signature] = asset;
+      return asset;
+    }
 
     case Chain.BinanceSmartChain: {
       const bscAsset = new AssetEntity(Chain.BinanceSmartChain, Chain.Binance);
       bscAsset.setDecimal(18);
+
+      cachedSignatureAssets[signature] = bscAsset;
       return bscAsset;
     }
 
-    case Chain.Cosmos:
-      return new AssetEntity(Chain.Cosmos, AssetSymbol.ATOM, false, AssetSymbol.ATOM);
+    case Chain.Cosmos: {
+      const asset = new AssetEntity(Chain.Cosmos, AssetSymbol.ATOM, false, AssetSymbol.ATOM);
+
+      cachedSignatureAssets[signature] = asset;
+      return asset;
+    }
 
     case 'THOR': {
       const thorAsset = new AssetEntity(Chain.Ethereum, THOR_MAINNET_SYMBOL);
       thorAsset.setDecimal(18);
 
+      cachedSignatureAssets[signature] = thorAsset;
       return thorAsset;
     }
 
-    case 'USD':
-      return new AssetEntity(Chain.THORChain, 'USD-USD', false, 'USD-USD');
+    case 'USD': {
+      const asset = new AssetEntity(Chain.THORChain, 'USD-USD', false, 'USD-USD');
+
+      cachedSignatureAssets[signature] = asset;
+      return asset;
+    }
 
     /**
      * Remove after KillSwitch
      */
-    case 'BNB_RUNE':
-      return new AssetEntity(Chain.Binance, 'RUNE-B1A');
+    case 'BNB_RUNE': {
+      const asset = new AssetEntity(Chain.Binance, 'RUNE-B1A');
+
+      cachedSignatureAssets[signature] = asset;
+      return asset;
+    }
 
     case 'ETH_RUNE': {
       const ethRune = new AssetEntity(Chain.Ethereum, ETH_RUNE_SYMBOL);
       ethRune.setDecimal(18);
+
+      cachedSignatureAssets[signature] = ethRune;
       return ethRune;
     }
 
-    default:
-      return new AssetEntity(Chain.THORChain, AssetSymbol.RUNE, false, AssetSymbol.RUNE);
+    default: {
+      const asset = new AssetEntity(Chain.THORChain, AssetSymbol.RUNE, false, AssetSymbol.RUNE);
+
+      cachedSignatureAssets[signature] = asset;
+      return asset;
+    }
   }
 };
 
