@@ -1,5 +1,16 @@
 # @thorswap-lib/web-extensions
 
+## 1.0.0-development.127
+
+### Patch Changes
+
+- Updated dependencies [[`5a50af8`](https://github.com/thorswap/SwapKit/commit/5a50af87a3207426cc8dc9da2d7d751148fb89d1)]:
+  - @thorswap-lib/swapkit-entities@0.3.0-development.67
+  - @thorswap-lib/helpers@0.0.0-development.59
+  - @thorswap-lib/toolbox-cosmos@0.1.0-development.77
+  - @thorswap-lib/toolbox-evm@0.1.0-development.92
+  - @thorswap-lib/toolbox-utxo@0.1.0-development.82
+
 ## 1.0.0-development.126
 
 ### Patch Changes
