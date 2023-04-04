@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-evm
 
+## 0.1.0-development.91
+
+### Patch Changes
+
+- [`1e82f91`](https://github.com/thorswap/SwapKit/commit/1e82f911773c9211ebe6d540130a22a95a6877b0) Thanks [@chillios-ts](https://github.com/chillios-ts)! - return value from approve check
+
 ## 0.1.0-development.90
 
 ### Patch Changes
