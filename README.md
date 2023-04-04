@@ -61,19 +61,19 @@ const connectLedger = (chain: Chain) => {
 
 // quoteRoute is returned from `/quote` API endpoint
 // https://dev-docs.thorswap.net/aggregation-api/examples/Swap#fetch-quote
-const quoteParams = (sender: string, recepient: string) => {
+const quoteParams = (sender: string, recipient: string) => {
     sellToken: 'ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044',
     buyToken: 'BTC.BTC',
     sellAmount: '1000',
     senderAddress: sender,
-    recipientAddress: recepient
+    recipientAddress: recipient
 }
 
 const baseUrl = `https://api.thorswap.net/aggregator`;
 const paramsStr = new URLSearchParams(quoteParams).toString();
 
-const fetchQuote = (sender: string, recepient: string) => {
-  const params = quoteParams(sender, recepient)
+const fetchQuote = (sender: string, recipient: string) => {
+  const params = quoteParams(sender, recipient)
   const paramsStr = new URLSearchParams(params).toString();
 
   return fetch(`${baseUrl}/tokens/quote?${paramsStr}`).then(res => res.json())
@@ -102,7 +102,7 @@ const swap = () => {
 
 ### Development
 
-This repo contains packages around SwapKit sdk and it's integrations with different blockchains.
+This repo contains packages around SwapKit sdk and its integrations with different blockchains.
 
 #### Packages
 
@@ -127,7 +127,7 @@ yarn install; yarn build
 
 #### New package
 
-To create new package use `yarn generate` and pick one of options
+To create new package use `yarn generate` and pick one of the options
 It will setup the package with the necessary files for bundling and publishing.
 
 #### Rules and conventions
