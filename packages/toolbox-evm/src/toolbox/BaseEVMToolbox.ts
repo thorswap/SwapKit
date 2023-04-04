@@ -129,18 +129,14 @@ const estimateCall = async (
 
 const isApproved = async (
   provider: Provider,
-  { assetAddress, spenderAddress, amount, from }: IsApprovedParams,
-) => {
-  // since amount is optional, set it to smallest amount by default
-  const txAmount = BigNumber.from(amount?.amount() ?? 1);
-  const allowance = await call<BigNumberish>(provider, {
+  { assetAddress, spenderAddress, from }: IsApprovedParams,
+) =>
+  await call<BigNumberish>(provider, {
     contractAddress: assetAddress,
     abi: erc20ABI,
     funcName: 'allowance',
     funcParams: [from, spenderAddress],
   });
-  return txAmount.lte(allowance);
-};
 
 const approve = async (
   provider: Provider,
