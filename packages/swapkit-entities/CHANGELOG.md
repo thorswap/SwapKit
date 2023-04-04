@@ -1,5 +1,11 @@
 []
 
+## 0.3.0-development.68
+
+### Patch Changes
+
+- use proper signature for THOR token
+
 ## 0.3.0-development.67
 
 ### Patch Changes

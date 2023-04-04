@@ -1,5 +1,28 @@
 # @thorswap-lib/walletconnect
 
+## 1.0.0-development.117
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-evm@0.1.0-development.95
+
+## 1.0.0-development.116
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-evm@0.1.0-development.94
+
+## 1.0.0-development.115
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/helpers@0.0.0-development.60
+  - @thorswap-lib/toolbox-cosmos@0.1.0-development.78
+  - @thorswap-lib/toolbox-evm@0.1.0-development.93
+
 ## 1.0.0-development.114
 
 ### Patch Changes

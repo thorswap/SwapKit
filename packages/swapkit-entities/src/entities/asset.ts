@@ -121,7 +121,7 @@ export class AssetEntity {
 const THOR_MAINNET_SYMBOL = 'THOR-0XA5F2211B9B8170F694421F2046281775E8468044';
 const ETH_RUNE_SYMBOL = 'RUNE-0X3155BA85D5F96B2D030A4966AF206230E46849CB';
 
-type Signature = Chain | 'USD' | 'ETH_RUNE' | 'BNB_RUNE' | 'THOR';
+type Signature = Chain | 'USD' | 'ETH_THOR' | 'ETH_RUNE' | 'BNB_RUNE' | 'THOR';
 
 // @ts-expect-error initialized in getSignatureAssetFor
 const cachedSignatureAssets: Record<Signature, AssetEntity> = {};
@@ -157,12 +157,11 @@ export const getSignatureAssetFor = (signature: Signature) => {
       return asset;
     }
 
-    case 'THOR': {
-      const thorAsset = new AssetEntity(Chain.Ethereum, THOR_MAINNET_SYMBOL);
-      thorAsset.setDecimal(18);
+    case Chain.THORChain: {
+      const asset = new AssetEntity(Chain.THORChain, AssetSymbol.RUNE, false, AssetSymbol.RUNE);
 
-      cachedSignatureAssets[signature] = thorAsset;
-      return thorAsset;
+      cachedSignatureAssets[signature] = asset;
+      return asset;
     }
 
     case 'USD': {
@@ -170,6 +169,14 @@ export const getSignatureAssetFor = (signature: Signature) => {
 
       cachedSignatureAssets[signature] = asset;
       return asset;
+    }
+
+    case 'ETH_THOR': {
+      const thorAsset = new AssetEntity(Chain.Ethereum, THOR_MAINNET_SYMBOL);
+      thorAsset.setDecimal(18);
+
+      cachedSignatureAssets[signature] = thorAsset;
+      return thorAsset;
     }
 
     /**
@@ -191,10 +198,7 @@ export const getSignatureAssetFor = (signature: Signature) => {
     }
 
     default: {
-      const asset = new AssetEntity(Chain.THORChain, AssetSymbol.RUNE, false, AssetSymbol.RUNE);
-
-      cachedSignatureAssets[signature] = asset;
-      return asset;
+      return new AssetEntity(Chain.THORChain, AssetSymbol.RUNE, false, AssetSymbol.RUNE);
     }
   }
 };
