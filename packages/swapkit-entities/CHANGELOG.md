@@ -1,5 +1,11 @@
 []
 
+## 0.3.0-development.67
+
+### Patch Changes
+
+- [`5a50af8`](https://github.com/thorswap/SwapKit/commit/5a50af87a3207426cc8dc9da2d7d751148fb89d1) Thanks [@chillios-ts](https://github.com/chillios-ts)! - chore: cache signature assets
+
 ## 0.3.0-development.66
 
 ### Patch Changes
