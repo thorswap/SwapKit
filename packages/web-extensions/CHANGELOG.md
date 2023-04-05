@@ -1,5 +1,11 @@
 # @thorswap-lib/web-extensions
 
+## 1.0.0-development.131
+
+### Patch Changes
+
+- fix XDEFI wallet balance
+
 ## 1.0.0-development.130
 
 ### Patch Changes

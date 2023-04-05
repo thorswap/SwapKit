@@ -1,5 +1,12 @@
 # @thorswap/vite-playground
 
+## 0.0.1-development.6
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/web-extensions@1.0.0-development.131
+
 ## 0.0.1-development.5
 
 ### Patch Changes
