@@ -109,6 +109,9 @@ const importMultisigTx = async (cosmosSdk: cosmosclient.CosmosSDK, tx: any) => {
   try {
     registerDespositCodecs();
     registerSendCodecs();
+    if (typeof tx === 'string') {
+      tx = JSON.parse(tx);
+    }
     const messages = tx.body.messages.map((message: any) =>
       (message['@type'] as string).endsWith('MsgSend')
         ? types.types.MsgSend.fromObject(message)
