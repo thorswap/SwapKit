@@ -66,8 +66,11 @@ const getToolbox = async ({
       const provider = getProvider(chain);
 
       const signer = {
-        signTransaction: (transaction: EIP1559TxParams) => {
-          return walletconnectClient.signTransaction(parseEvmTxToWalletconnect(transaction));
+        signTransaction: async (transaction: EIP1559TxParams) => {
+          const signedTx = await walletconnectClient.signTransaction(
+            parseEvmTxToWalletconnect(transaction),
+          );
+          return signedTx.startsWith('0x') ? signedTx : `0x${signedTx}`;
         },
         getAddress: async () => address,
         _isSigner: true,
