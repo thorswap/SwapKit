@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 0.1.0-development.80
+
+### Patch Changes
+
+- [#34](https://github.com/thorswap/SwapKit/pull/34) [`0985422`](https://github.com/thorswap/SwapKit/commit/09854221cce51fa0fd06290493bb7a4a1e412e53) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix ledger bech32 exports
+
 ## 0.1.0-development.79
 
 ### Minor Changes
