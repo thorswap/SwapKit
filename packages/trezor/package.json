@@ -1,0 +1,45 @@
+{
+  "author": "thorswap",
+  "dependencies": {
+    "@trezor/connect-web": "9.0.7"
+  },
+  "description": "THORSwap Lib trezor",
+  "devDependencies": {
+    "@internal/config": "workspace:*",
+    "@vitest/coverage-c8": "0.29.2",
+    "vite": "3.1.4",
+    "vitest": "0.29.2"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "MIT",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@thorswap-lib/trezor",
+  "packageManager": "yarn@3.2.1",
+  "publishConfig": {
+    "access": "public"
+  },
+  "react-native": "./src/index.ts",
+  "repository": "https://github.com/thorswap/SwapKit.git",
+  "scripts": {
+    "build": "yarn clean; echo 'Build trezor 🛠'; vite build && echo 'Build succeeded trezor ✅\n'",
+    "clean": "rm -rf dist",
+    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "test": "echo 'vitest'",
+    "test:coverage": "echo 'vitest run --coverage'"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "0.0.0"
+}
