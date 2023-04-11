@@ -21,4 +21,4 @@ yarn add @thorswap-lib/toolbox-utxo bip39
 | `getSuggestedFeeRate` | get suggested fee rate                            |
 | `getFeeRates`         | get fee rates                                     |
 | `getFees`             | get fees                                          |
-| `getFeesWithRates`    | get fees with rates                               |
+| `getFeesAndGasRates`  | get fees for tx and gas rates                     |
