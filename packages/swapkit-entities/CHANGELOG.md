@@ -1,5 +1,12 @@
 []
 
+## 0.3.0-development.69
+
+### Patch Changes
+
+- Updated dependencies [[`3ff4f02`](https://github.com/thorswap/SwapKit/commit/3ff4f027d1064ecbf6c6c122c4eb6d950fce7562)]:
+  - @thorswap-lib/types@1.0.0-development.66
+
 ## 0.3.0-development.68
 
 ### Patch Changes
