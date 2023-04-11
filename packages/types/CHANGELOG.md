@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.66
+
+### Patch Changes
+
+- [#29](https://github.com/thorswap/SwapKit/pull/29) [`3ff4f02`](https://github.com/thorswap/SwapKit/commit/3ff4f027d1064ecbf6c6c122c4eb6d950fce7562) Thanks [@towanTG](https://github.com/towanTG)! - Fixes utxo fee selection
+
 ## 1.0.0-development.65
 
 ### Patch Changes
