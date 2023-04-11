@@ -121,8 +121,8 @@ export const singleFeeRate = (rate: FeeRate) =>
 
 export const standardFeeRates = (rate: FeeRate): FeeRates => ({
   ...singleFeeRate(rate),
-  [FeeOption.Average]: rate * 0.5,
-  [FeeOption.Fastest]: rate * 5.0,
+  [FeeOption.Average]: rate * 0.8,
+  [FeeOption.Fastest]: rate * 2.0,
 });
 
 export const validatePhrase = (phrase: string) => bip39.validateMnemonic(phrase);

@@ -47,11 +47,11 @@ import { getAssetForBalance, getInboundData, getMimirData } from './helpers.js';
 import {
   AddChainWalletParams,
   AddLiquidityParams,
+  CoreTxParams,
   CreateLiquidityParams,
   ExtendParams,
   QuoteMode,
   SwapParams,
-  TxParams,
   UpgradeParams,
   Wallet,
   WalletMethods,
@@ -223,7 +223,7 @@ export class SwapKitCore {
     return this.connectedWallets[chain]?.getTransactionData(txHash, address);
   };
 
-  transfer = async (params: TxParams & { router?: string }) => {
+  transfer = async (params: CoreTxParams & { router?: string }) => {
     const chain = params.assetAmount.asset.L1Chain;
     const walletInstance = this.connectedWallets[chain];
 
@@ -233,7 +233,12 @@ export class SwapKitCore {
     return walletInstance.transfer(txParams);
   };
 
-  deposit = async ({ assetAmount, recipient, router, ...rest }: TxParams & { router?: string }) => {
+  deposit = async ({
+    assetAmount,
+    recipient,
+    router,
+    ...rest
+  }: CoreTxParams & { router?: string }) => {
     const chain = assetAmount.asset.L1Chain;
 
     const isL1Deposit = chain === Chain.THORChain && recipient === '';
@@ -611,7 +616,7 @@ export class SwapKitCore {
   private _prepareTxParams = ({
     assetAmount: { asset, amount },
     ...restTxParams
-  }: TxParams & { router?: string }) => {
+  }: CoreTxParams & { router?: string }) => {
     const amountWithBaseDenom = baseAmount(amount.baseAmount.toString(10), asset.decimal);
 
     return {

@@ -32,7 +32,7 @@ export type {
   TokenList,
 } from '@thorswap-lib/cross-chain-api-sdk/lib/entities';
 
-export type TxParams = {
+export type CoreTxParams = {
   assetAmount: AssetAmount;
   recipient: string;
   memo?: string;
@@ -144,7 +144,7 @@ export type BaseUTXOWallet = WithBaseWallet<{
   createKeysForPath: (todoParam: any) => any;
   getAddressFromKeys: (todoParam: any) => any;
   getFeeRates: (todoParam: any) => any;
-  getFeesWithRates: (todoParam: any) => any;
+  getFeesAndFeeRates: (todoParam: any) => any;
   getSuggestedFeeRate: (todoParam: any) => any;
 }>;
 

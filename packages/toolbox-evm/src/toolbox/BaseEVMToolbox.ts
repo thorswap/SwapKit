@@ -195,7 +195,6 @@ const approve = async (
 };
 
 export type TransferParams = WalletTxParams & {
-  feeOptionKey?: FeeOption;
   gasPrice?: AmountWithBaseDenom;
   gasLimit?: BigNumber;
   maxFeePerGas?: BigNumber;

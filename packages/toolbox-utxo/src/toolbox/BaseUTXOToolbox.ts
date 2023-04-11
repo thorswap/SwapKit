@@ -4,6 +4,7 @@ import {
   Balance,
   BaseDecimal,
   Chain,
+  FeeOption,
   FeeRates,
   Fees,
   Tx,
@@ -85,11 +86,13 @@ export const transfer = async ({
   recipient,
   chain,
   apiClient,
+  feeOptionKey,
   ...rest
 }: UTXOWalletTransferParams<Psbt, Psbt> & UTXOBaseToolboxParams): Promise<string> => {
   if (!from) throw new Error('From address must be provided');
   if (!recipient) throw new Error('Recipient address must be provided');
-  const feeRate = rest.feeRate || (await getSuggestedFeeRate({ apiClient, chain }));
+  const feeRate =
+    rest.feeRate || (await getFeeRates({ chain, apiClient }))[feeOptionKey || FeeOption.Fast];
   const { psbt } = await buildTx({
     ...rest,
     recipient,
@@ -161,9 +164,9 @@ export const getFees = async ({
   apiClient,
   memo,
 }: { memo?: string } & UTXOBaseToolboxParams): Promise<Fees> =>
-  (await getFeesWithRates({ apiClient, memo, chain })).fees;
+  (await getFeesAndFeeRates({ apiClient, memo, chain })).fees;
 
-export const getFeesWithRates = async ({
+export const getFeesAndFeeRates = async ({
   apiClient,
   chain,
   memo,
@@ -265,5 +268,5 @@ export const BaseUTXOToolbox = (baseToolboxParams: UTXOBaseToolboxParams) => ({
   getSuggestedFeeRate: () => getSuggestedFeeRate(baseToolboxParams),
   getFeeRates: () => getFeeRates(baseToolboxParams),
   getFees: () => getFees(baseToolboxParams),
-  getFeesWithRates: () => getFeesWithRates(baseToolboxParams),
+  getFeesAndFeeRates: () => getFeesAndFeeRates(baseToolboxParams),
 });

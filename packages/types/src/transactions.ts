@@ -3,6 +3,7 @@ import { BigNumberish } from '@ethersproject/bignumber';
 import { AmountWithBaseDenom } from './amount.js';
 import { Asset } from './asset.js';
 import { Address } from './commonTypes.js';
+import { FeeOption } from './wallet.js';
 
 export enum TxType {
   Transfer = 'transfer',
@@ -40,6 +41,7 @@ export type TxParams = {
   amount: AmountWithBaseDenom;
   recipient: Address;
   memo?: string; // optional memo to pass
+  feeOptionKey?: FeeOption;
 };
 
 export type TxsPage = {
