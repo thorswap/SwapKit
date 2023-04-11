@@ -425,7 +425,7 @@ const sendTransaction =
 const listWeb3EVMWallets = () => {
   const metamaskEnabled = window?.ethereum && !window.ethereum?.isBraveWallet;
   const xdefiEnabled = window?.xfi || window?.ethereum?.__XDEFI;
-  const braveEnabled = window?.ethereum?.isBraveWallet || window?.braveSolana;
+  const braveEnabled = window?.ethereum?.isBraveWallet;
   const trustEnabled = window?.ethereum?.isTrust || window?.trustwallet;
   const coinbaseEnabled =
     (window?.ethereum?.overrideIsMetaMask &&
