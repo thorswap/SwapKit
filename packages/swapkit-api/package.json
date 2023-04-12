@@ -1,7 +1,9 @@
 {
   "author": "thorswap",
-  "dependencies": {},
-  "description": "THORSwap Lib <%- packageName %>",
+  "dependencies": {
+    "@thorswap-lib/types": "workspace:*"
+  },
+  "description": "THORSwap Lib swapkit-api",
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@vitest/coverage-c8": "0.30.1",
@@ -23,7 +25,7 @@
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/<%- packageName %>",
+  "name": "@thorswap-lib/swapkit-api",
   "packageManager": "yarn@3.2.1",
   "publishConfig": {
     "access": "public"
@@ -31,7 +33,7 @@
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "yarn clean; echo 'Build <%- packageName %> 🛠'; vite build && echo 'Build succeeded <%- packageName %> ✅\n'",
+    "build": "yarn clean; echo 'Build swapkit-api 🛠'; vite build && echo 'Build succeeded swapkit-api ✅\n'",
     "clean": "rm -rf dist",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest'",

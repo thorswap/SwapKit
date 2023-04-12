@@ -10,7 +10,8 @@
   },
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "eslint-config-thorswap": "workspace:*"
+    "eslint-config-thorswap": "workspace:*",
+    "vite": "4.2.1"
   },
   "main": "index.js",
   "name": "@internal/generator",

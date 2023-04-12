@@ -24,6 +24,10 @@ export default defineConfig({
       '@thorswap-lib/web-extensions': resolve('../../packages/web-extensions/src'),
     },
   },
+  server: {
+    port: 3000,
+  },
+
   // NOTE: Have to be added to fix: Uncaught ReferenceError: global is not defined
   optimizeDeps: {
     esbuildOptions: {
