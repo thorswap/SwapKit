@@ -2,6 +2,7 @@
   "dependencies": {
     "@thorswap-lib/keystore": "workspace:*",
     "@thorswap-lib/ledger": "workspace:*",
+    "@thorswap-lib/swapkit-api": "workspace:*",
     "@thorswap-lib/swapkit-core": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/swapkit-explorers": "workspace:*",
@@ -11,15 +12,15 @@
     "@thorswap-lib/types": "workspace:*",
     "@thorswap-lib/walletconnect": "workspace:*",
     "@thorswap-lib/web-extensions": "workspace:*",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "@vitejs/plugin-react": "^3.1.0",
-    "typescript": "^5.0.2",
-    "vite": "^4.2.1"
+    "@types/react": "18.0.34",
+    "@types/react-dom": "18.0.11",
+    "@vitejs/plugin-react": "3.1.0",
+    "typescript": "5.0.4",
+    "vite": "4.2.1"
   },
   "eslintConfig": {
     "extends": [
@@ -33,6 +34,5 @@
     "dev": "vite",
     "preview-playground": "vite preview"
   },
-  "type": "module",
-  "version": "null-development.0"
+  "type": "module"
 }

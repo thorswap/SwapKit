@@ -71,7 +71,7 @@ export class CovalentApi implements EvmApi<RequestParams> {
       { key: this.apiKey },
     );
 
-    return mapBalanceResponseToBalance(response.data);
+    return mapBalanceResponseToBalance(response.data || { items: [] });
   };
 }
 
