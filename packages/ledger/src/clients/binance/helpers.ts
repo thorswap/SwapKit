@@ -1,4 +1,4 @@
-import * as bech32 from 'bech32';
+import { bech32 } from 'bech32';
 import { enc, RIPEMD160, SHA256 } from 'crypto-js';
 import { ec as EC } from 'elliptic';
 
@@ -7,10 +7,8 @@ const encodeAddress = (
   prefix = 'tbnb',
   type: BufferEncoding = 'hex',
 ): string => {
-  // @ts-expect-error
   const words = bech32.toWords(Buffer.isBuffer(value) ? value : Buffer.from(value, type));
 
-  // @ts-expect-error
   return bech32.encode(prefix, words);
 };
 

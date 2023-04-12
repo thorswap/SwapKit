@@ -15,7 +15,7 @@
  *  limitations under the License.
  ******************************************************************************* */
 import { ErrorCode } from '@thorswap-lib/types';
-import * as bech32 from 'bech32';
+import { bech32 } from 'bech32';
 import crypto from 'crypto';
 import Ripemd160 from 'ripemd160';
 
@@ -64,7 +64,6 @@ export class THORChainApp {
     }
     const hashSha256 = crypto.createHash('sha256').update(pk).digest();
     const hashRip = new Ripemd160().update(hashSha256).digest();
-    // @ts-expect-error
     return bech32.encode(hrp, bech32.toWords(hashRip));
   }
 
