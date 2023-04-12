@@ -1,5 +1,17 @@
 # @thorswap/vite-playground
 
+## null-development.0
+
+### Patch Changes
+
+- Updated dependencies [[`b004baf`](https://github.com/thorswap/SwapKit/commit/b004baff40e72a9bb58630d1b696347689706e96)]:
+  - @thorswap-lib/toolbox-cosmos@0.1.0-development.81
+  - @thorswap-lib/walletconnect@1.0.0-development.120
+  - @thorswap-lib/ledger@1.0.0-development.145
+  - @thorswap-lib/keystore@1.0.0-development.129
+  - @thorswap-lib/web-extensions@1.0.0-development.134
+  - @thorswap-lib/swapkit-core@1.0.0-development.137
+
 ## 0.0.1-development.8
 
 ### Patch Changes

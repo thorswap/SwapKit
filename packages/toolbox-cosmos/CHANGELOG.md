@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 0.1.0-development.81
+
+### Patch Changes
+
+- [`b004baf`](https://github.com/thorswap/SwapKit/commit/b004baff40e72a9bb58630d1b696347689706e96) Thanks [@chillios-ts](https://github.com/chillios-ts)! - revert bech32 changes for cosmos and include on all packages'
+
 ## 0.1.0-development.80
 
 ### Patch Changes
