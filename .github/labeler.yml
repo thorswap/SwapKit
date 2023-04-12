@@ -31,4 +31,4 @@ web-ext:
 - packages/web-extensions/**/*
 
 release:
-- */CHANGELOG.md
+- CHANGELOG.md
