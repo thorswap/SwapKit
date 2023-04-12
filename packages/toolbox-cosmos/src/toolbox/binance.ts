@@ -20,7 +20,7 @@ import {
   Tx,
   TxHistoryParams,
 } from '@thorswap-lib/types';
-import * as bech32 from 'bech32';
+import { bech32 } from 'bech32';
 
 import { BNBTransaction } from '../binanceUtils/transaction.js';
 import { Account, AminoPrefix, Fees, TransactionResult, TxPage } from '../binanceUtils/types.js';
@@ -187,7 +187,6 @@ const prepareTransaction = async (
   });
 };
 
-// @ts-expect-error
 const decodeAddress = (value: string) => Buffer.from(bech32.fromWords(bech32.decode(value).words));
 
 const createTransactionAndSignMsg = async ({ from, to, amount, asset, memo }: TransferParams) => {
