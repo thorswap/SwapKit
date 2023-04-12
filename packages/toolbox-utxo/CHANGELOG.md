@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-utxo
 
+## 0.1.0-development.85
+
+### Patch Changes
+
+- [`665d200`](https://github.com/thorswap/SwapKit/commit/665d2007707d1d6b2644ccbf63409ff4a1bd8fc2) Thanks [@towanTG](https://github.com/towanTG)! - Fixes but in ledger integration and changes BTC gas oracle
+
 ## 0.1.0-development.84
 
 ### Patch Changes

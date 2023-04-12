@@ -1,5 +1,12 @@
 # @thorswap-lib/keystore
 
+## 1.0.0-development.131
+
+### Patch Changes
+
+- Updated dependencies [[`665d200`](https://github.com/thorswap/SwapKit/commit/665d2007707d1d6b2644ccbf63409ff4a1bd8fc2)]:
+  - @thorswap-lib/toolbox-utxo@0.1.0-development.85
+
 ## 1.0.0-development.130
 
 ### Patch Changes

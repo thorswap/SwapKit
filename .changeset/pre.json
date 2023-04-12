@@ -4,6 +4,7 @@
     "chilly-pumpkins-flash",
     "famous-bears-doubt",
     "fluffy-cougars-approve",
+    "forty-otters-deliver",
     "fresh-trainers-burn",
     "fuzzy-chicken-give",
     "gentle-falcons-jog",
@@ -36,7 +37,8 @@
     "@thorswap-lib/toolbox-utxo": "0.1.0-development.76",
     "@thorswap-lib/types": "1.0.0-development.60",
     "@thorswap-lib/walletconnect": "1.0.0-development.105",
-    "@thorswap-lib/web-extensions": "1.0.0-development.118"
+    "@thorswap-lib/web-extensions": "1.0.0-development.118",
+    "@thorswap-lib/swapkit-api": "0.0.0"
   },
   "mode": "pre",
   "tag": "development"
