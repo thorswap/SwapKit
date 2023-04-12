@@ -4,6 +4,18 @@
 
 ### Patch Changes
 
+- Updated dependencies [[`e070f7d`](https://github.com/thorswap/SwapKit/commit/e070f7d1bee8db1c649d66affdb7620cbd6a67e9)]:
+  - @thorswap-lib/toolbox-cosmos@0.1.0-development.82
+  - @thorswap-lib/keystore@1.0.0-development.130
+  - @thorswap-lib/ledger@1.0.0-development.146
+  - @thorswap-lib/walletconnect@1.0.0-development.121
+  - @thorswap-lib/web-extensions@1.0.0-development.135
+  - @thorswap-lib/swapkit-core@1.0.0-development.137
+
+## null-development.0
+
+### Patch Changes
+
 - Updated dependencies [[`b004baf`](https://github.com/thorswap/SwapKit/commit/b004baff40e72a9bb58630d1b696347689706e96)]:
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.81
   - @thorswap-lib/walletconnect@1.0.0-development.120

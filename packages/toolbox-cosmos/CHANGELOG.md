@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 0.1.0-development.82
+
+### Minor Changes
+
+- [#38](https://github.com/thorswap/SwapKit/pull/38) [`e070f7d`](https://github.com/thorswap/SwapKit/commit/e070f7d1bee8db1c649d66affdb7620cbd6a67e9) Thanks [@0x-General](https://github.com/0x-General)! - Fix public key encoding on proto auth_info creation
+
 ## 0.1.0-development.81
 
 ### Patch Changes
