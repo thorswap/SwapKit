@@ -18,6 +18,7 @@
     "purple-pants-own",
     "serious-cooks-explode",
     "seven-pans-agree",
+    "six-hornets-pull",
     "smooth-cherries-march",
     "strong-kangaroos-poke",
     "three-readers-protect",
@@ -35,7 +36,8 @@
     "@thorswap-lib/toolbox-utxo": "0.1.0-development.76",
     "@thorswap-lib/types": "1.0.0-development.60",
     "@thorswap-lib/walletconnect": "1.0.0-development.105",
-    "@thorswap-lib/web-extensions": "1.0.0-development.118"
+    "@thorswap-lib/web-extensions": "1.0.0-development.118",
+    "@thorswap/vite-playground": "null-development.0"
   },
   "mode": "pre",
   "tag": "development"
