@@ -148,7 +148,11 @@ export const GaiaToolbox = () => {
       new proto.cosmos.tx.v1beta1.AuthInfo({
         signer_infos: [
           {
-            public_key: cosmosclient.codec.instanceToProtoAny(pubKey),
+            public_key: new proto.google.protobuf.Any({
+              type_url: '/cosmos.crypto.secp256k1.PubKey',
+              // @ts-expect-error
+              value: pubKey.constructor.encode(pubKey).finish(),
+            }),
             mode_info: {
               single: {
                 mode,
