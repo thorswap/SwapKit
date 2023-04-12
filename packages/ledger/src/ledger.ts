@@ -111,13 +111,13 @@ const getToolbox = async ({
 
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = params.feeRate || (await toolbox.getSuggestedFeeRate());
-        const { psbt, utxos } = await toolbox.buildTx({
+        const { psbt, inputs } = await toolbox.buildTx({
           ...params,
           sender: address,
           feeRate,
           fetchTxHex: true,
         });
-        const txHex = await (signer as BitcoinLedger).signTransaction(psbt, utxos);
+        const txHex = await (signer as BitcoinLedger).signTransaction(psbt, inputs);
 
         return toolbox.broadcastTx({ txHex });
       };
@@ -149,14 +149,14 @@ const getToolbox = async ({
       const toolbox = DOGEToolbox(utxoApiKey);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = await toolbox.getSuggestedFeeRate();
-        const { psbt, utxos } = await toolbox.buildTx({
+        const { psbt, inputs } = await toolbox.buildTx({
           ...params,
           feeRate,
           memo: reduceMemo(params.memo),
           sender: address,
           fetchTxHex: true,
         });
-        const txHex = await (signer as DogecoinLedger).signTransaction(psbt, utxos);
+        const txHex = await (signer as DogecoinLedger).signTransaction(psbt, inputs);
 
         return toolbox.broadcastTx({ txHex });
       };
@@ -168,14 +168,14 @@ const getToolbox = async ({
       const toolbox = LTCToolbox(utxoApiKey);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = await toolbox.getSuggestedFeeRate();
-        const { psbt, utxos } = await toolbox.buildTx({
+        const { psbt, inputs } = await toolbox.buildTx({
           ...params,
           feeRate,
           memo: reduceMemo(params.memo),
           sender: address,
           fetchTxHex: true,
         });
-        const txHex = await (signer as LitecoinLedger).signTransaction(psbt, utxos);
+        const txHex = await (signer as LitecoinLedger).signTransaction(psbt, inputs);
 
         return toolbox.broadcastTx({ txHex });
       };

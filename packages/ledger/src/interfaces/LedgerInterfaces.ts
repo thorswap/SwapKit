@@ -64,11 +64,11 @@ export abstract class UTXOLedgerInterface {
     this.btcApp = new BitcoinApp(this.transport);
   };
 
-  public signTransaction = async (psbt: Psbt, utxo: UTXO[]) => {
+  public signTransaction = async (psbt: Psbt, inputUtxos: UTXO[]) => {
     await this.checkBtcAppAndCreateTransportWebUSB();
 
     return signUTXOTransaction(
-      { psbt, derivationPath: this.derivationPath, btcApp: this.btcApp, utxo },
+      { psbt, derivationPath: this.derivationPath, btcApp: this.btcApp, inputUtxos },
       this.additionalSignParams,
     );
   };

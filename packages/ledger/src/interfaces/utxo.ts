@@ -5,16 +5,16 @@ import { CreateTransactionArg } from './types.js';
 
 type Params = {
   psbt: Psbt;
-  utxo: UTXO[];
+  inputUtxos: UTXO[];
   btcApp: any;
   derivationPath: string;
 };
 
 export const signUTXOTransaction = async (
-  { psbt, utxo, btcApp, derivationPath }: Params,
+  { psbt, inputUtxos, btcApp, derivationPath }: Params,
   options?: Partial<CreateTransactionArg>,
 ) => {
-  const inputs = utxo.map((item) => {
+  const inputs = inputUtxos.map((item) => {
     const utxoTx = Transaction.fromHex(item.txHex || '');
     const splitTx = btcApp.splitTransaction(utxoTx.toHex(), utxoTx.hasWitnesses());
 
