@@ -20,7 +20,9 @@ export const SwapInputs = ({ inputAsset, outputAsset, handleSwap }: Props) => {
     (amountValue: string) => {
       if (!inputAsset) return;
 
-      const amount = Amount.fromNormalAmount(amountValue);
+      const value = parseFloat(amountValue);
+
+      const amount = Amount.fromNormalAmount(value);
       setInputAmount(amount.gt(inputAsset.amount) ? inputAsset.amount : amount);
     },
     [inputAsset],
@@ -71,7 +73,7 @@ export const SwapInputs = ({ inputAsset, outputAsset, handleSwap }: Props) => {
           <input
             onChange={(e) => setAmount(e.target.value)}
             placeholder="0.0"
-            type="text"
+            type="number"
             value={inputAmount?.toSignificant(6)}
           />
         </div>

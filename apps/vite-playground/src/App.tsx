@@ -32,13 +32,12 @@ const App = () => {
 
   const handleSwap = useCallback(
     async (route: QuoteRoute) => {
+      const inputChain = inputAsset?.asset.L1Chain;
       const outputChain = outputAsset?.asset.L1Chain;
-      if (!outputChain) return;
+      if (!outputChain || !inputChain) return;
 
       const skClient = getSwapKitClient();
       const address = skClient.getAddress(outputChain);
-
-      if (!skClient.validateAddress({ address, chain: outputChain })) return;
 
       const txHash = await skClient.swap({
         // @ts-expect-error TODO: Fix API types from cross-chain-api-sdk
@@ -47,9 +46,9 @@ const App = () => {
         feeOptionKey: FeeOption.Fast,
       });
 
-      window.open(skClient.getExplorerTxUrl(outputChain, txHash), '_blank');
+      window.open(skClient.getExplorerTxUrl(inputChain, txHash), '_blank');
     },
-    [outputAsset?.asset.L1Chain],
+    [inputAsset?.asset.L1Chain, outputAsset?.asset.L1Chain],
   );
 
   return (

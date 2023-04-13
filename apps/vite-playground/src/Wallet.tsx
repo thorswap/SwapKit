@@ -14,7 +14,7 @@ export const Wallet = ({ walletData, setAsset }: Props) => {
     <div style={{ paddingBottom: '16px' }}>
       <div>
         <span>
-          {walletData?.walletType} {walletData.balance[0].asset.L1Chain} wallet address:{' '}
+          {walletData?.walletType} {walletData?.balance?.[0]?.asset.L1Chain} wallet address:{' '}
           {walletData?.address?.slice(0, 6)}
           ...
           {walletData?.address?.slice(-4)}
@@ -23,10 +23,10 @@ export const Wallet = ({ walletData, setAsset }: Props) => {
 
       <span>Balances:</span>
 
-      {walletData?.balance.map((balance) => (
-        <div key={balance.asset.toString()}>
-          <button onClick={() => setAsset(balance)} type="button">
-            {balance.amount.toSignificant(6)} {balance.asset.ticker}
+      {walletData?.balance?.map((b) => (
+        <div key={b.asset.toString()}>
+          <button onClick={() => setAsset(b)} type="button">
+            {b.amount.toSignificant(6)} {b.asset.ticker}
           </button>
         </div>
       ))}
