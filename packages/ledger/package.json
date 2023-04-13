@@ -32,12 +32,14 @@
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@types/bchaddrjs": "0.4.0",
     "@types/bn.js": "5.1.1",
     "@types/crypto-js": "4.1.1",
     "@types/elliptic": "6.4.14",
     "@types/node": "18.15.5",
     "@types/ripemd160": "2.0.0",
     "@vitest/coverage-c8": "0.29.7",
+    "bchaddrjs": "0.5.2",
     "bitcoinjs-lib": "5.2.0",
     "coininfo": "5.2.1",
     "cosmos-client": "0.39.2",
@@ -74,6 +76,8 @@
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@types/bchaddrjs": "0.4.0",
+    "bchaddrjs": "0.5.2",
     "bitcoinjs-lib": "5.2.0",
     "coininfo": "^5.2.1",
     "cosmos-client": "0.39.2",
@@ -93,5 +97,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.147"
+  "version": "1.0.0-development.148"
 }

@@ -2,6 +2,7 @@ import BitcoinApp from '@ledgerhq/hw-app-btc';
 import CosmosApp from '@ledgerhq/hw-app-cosmos';
 import TransportWebUSB from '@ledgerhq/hw-transport-webusb';
 import type { UTXO } from '@thorswap-lib/types';
+import { toCashAddress } from 'bchaddrjs';
 import { type Network as BTCNetwork, networks, type Psbt } from 'bitcoinjs-lib';
 
 import { BinanceApp } from '../clients/binance/lib.js';
@@ -76,13 +77,19 @@ export abstract class UTXOLedgerInterface {
   public getAddress = async () => {
     await this.checkBtcAppAndCreateTransportWebUSB();
 
-    const { bitcoinAddress } = await this.btcApp!.getWalletPublicKey(this.derivationPath, {
+    const { bitcoinAddress: address } = await this.btcApp!.getWalletPublicKey(this.derivationPath, {
       format: this.walletFormat,
     });
 
-    if (!bitcoinAddress) throw new Error('Invalid bitcoinAddress');
+    if (!address) {
+      throw new Error(
+        `Cannot get ${this.chain} address from ledger derivation path: ${this.derivationPath}`,
+      );
+    }
 
-    return bitcoinAddress;
+    return this.chain === 'bch' && this.walletFormat === 'legacy'
+      ? toCashAddress(address).replace(/(bchtest:|bitcoincash:)/, '')
+      : address;
   };
 
   private checkBtcAppAndCreateTransportWebUSB = async (checkBtcApp: boolean = true) => {

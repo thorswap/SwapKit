@@ -1,5 +1,11 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.148
+
+### Patch Changes
+
+- return cashaddress for BCH
+
 ## 1.0.0-development.147
 
 ### Patch Changes

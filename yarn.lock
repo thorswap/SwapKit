@@ -2812,6 +2812,7 @@ __metadata:
     "@thorswap-lib/toolbox-evm": "workspace:*"
     "@thorswap-lib/toolbox-utxo": "workspace:*"
     "@thorswap-lib/types": "workspace:*"
+    "@types/bchaddrjs": 0.4.0
     "@types/bn.js": 5.1.1
     "@types/crypto-js": 4.1.1
     "@types/elliptic": 6.4.14
@@ -2819,6 +2820,7 @@ __metadata:
     "@types/ripemd160": 2.0.0
     "@vitest/coverage-c8": 0.29.7
     base64-js: 1.5.1
+    bchaddrjs: 0.5.2
     bech32: 2.0.0
     bitcoinjs-lib: 5.2.0
     bn.js: 5.2.1
@@ -2844,6 +2846,8 @@ __metadata:
     "@thorswap-lib/toolbox-cosmos": "workspace:*"
     "@thorswap-lib/toolbox-evm": "workspace:*"
     "@thorswap-lib/toolbox-utxo": "workspace:*"
+    "@types/bchaddrjs": 0.4.0
+    bchaddrjs: 0.5.2
     bitcoinjs-lib: 5.2.0
     coininfo: ^5.2.1
     cosmos-client: 0.39.2
