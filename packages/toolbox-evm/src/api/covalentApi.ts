@@ -39,7 +39,7 @@ export class CovalentApi implements EvmApi<RequestParams> {
   /**
    * Get transaction by hash.
    */
-  getTxInfo = async ({ txHash, chainId }: TxInfoRequestParams): Promise<Tx> => {
+  getTxInfo = async ({ txHash, chainId }: TxInfoRequestParams) => {
     const response = await getRequest<any>(
       `${COVALENT_BASE_URL}/${chainId}/transaction_v2/${txHash}`,
       { key: this.apiKey },
@@ -47,31 +47,27 @@ export class CovalentApi implements EvmApi<RequestParams> {
     return mapTxDataResponseToTx(response);
   };
 
-  getTransactionsForAddress = async ({
-    address,
-    chainId,
-    page,
-    pageSize,
-  }: TransactionsRequestParams): Promise<TxsPage> =>
-    await getRequest<TxsPage>(
-      `${COVALENT_BASE_URL}/${chainId}/address/${address}/transactions_v2/`,
-      {
-        key: this.apiKey,
-        'page-size': pageSize,
-        page: page,
-      },
-    );
+  getTransactionsForAddress = ({ address, chainId, page, pageSize }: TransactionsRequestParams) =>
+    getRequest<TxsPage>(`${COVALENT_BASE_URL}/${chainId}/address/${address}/transactions_v2/`, {
+      key: this.apiKey,
+      'page-size': pageSize,
+      page: page,
+    });
 
   /**
    * Get token balance
    */
   getBalance = async ({ address, chainId }: TokenBalanceRequestParams): Promise<Balance[]> => {
-    const response = await getRequest<{ data: CovalentBalanceResponse }>(
-      `${COVALENT_BASE_URL}/${chainId}/address/${address}/balances_v2/`,
-      { key: this.apiKey },
-    );
-
-    return mapBalanceResponseToBalance(response.data || { items: [] });
+    try {
+      const response = await getRequest<{ data: CovalentBalanceResponse }>(
+        `${COVALENT_BASE_URL}/${chainId}/address/${address}/balances_v2/`,
+        { key: this.apiKey },
+      );
+      return mapBalanceResponseToBalance(response.data || { items: [] });
+    } catch (error) {
+      console.error(error);
+      return [];
+    }
   };
 }
 

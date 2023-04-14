@@ -13,7 +13,7 @@ import {
   TxHistoryParams,
 } from '@thorswap-lib/types';
 
-import { BaseEVMToolbox, CovalentApi, FeeData, MIN_AVAX_GAS } from '../index.js';
+import { BaseEVMToolbox, CovalentApi, FeeData, getProvider, MIN_AVAX_GAS } from '../index.js';
 
 export const getFeeData = async ({
   feeOptionKey = FeeOption.Average,
@@ -56,27 +56,18 @@ export const getFeeData = async ({
   }
 };
 
-export const getBalance = async (
-  provider: Provider,
-  api: CovalentApi,
-  address: Address,
-  assets?: AssetEntity[],
-) => {
-  const tokenBalances = await api.getBalance({
-    address: address,
-    chainId: ChainId.Avalanche,
-  });
-
-  const evmGasTokenBalance: BigNumber = await provider.getBalance(address);
+export const getBalance = async (api: CovalentApi, address: Address, assets?: AssetEntity[]) => {
+  const provider = getProvider(Chain.Avalanche);
+  const tokenBalances = await api.getBalance({ address, chainId: ChainId.Avalanche });
+  const evmGasTokenBalance = await provider.getBalance(address);
   const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.ETH);
 
   if (assets) {
-    return tokenBalances.filter((balance) =>
-      assets.find(
-        (asset) => asset.chain === balance.asset.chain && asset.symbol === balance.asset.symbol,
-      ),
+    return tokenBalances.filter(({ asset }) =>
+      assets.find(({ chain, symbol }) => chain === asset.chain && symbol === asset.symbol),
     );
   }
+
   return [
     { asset: getSignatureAssetFor(Chain.Avalanche), amount: evmGasTokenBalanceAmount },
     ...tokenBalances,
@@ -123,7 +114,6 @@ export const AVAXToolbox = ({
     getTransactionData: (txHash: string) => getTransactionData(api, txHash),
     getTransactions: (params?: TxHistoryParams) => getTransactions(api, params),
     getNetworkParams,
-    getBalance: (address: string, assets?: AssetEntity[]) =>
-      getBalance(provider, api, address, assets),
+    getBalance: (address: string, assets?: AssetEntity[]) => getBalance(api, address, assets),
   };
 };
