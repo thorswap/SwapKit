@@ -15,7 +15,7 @@ import {
   WalletTxParams,
 } from '@thorswap-lib/types';
 
-import { prepareNetworkSwitch } from '../evmWallet/walletMethods/helpers/methodWrappers.js';
+import { prepareNetworkSwitch } from '../evmWallet/helpers.js';
 import { XDEFIConfig } from '../types.js';
 
 type TransactionMethod = 'eth_signTransaction' | 'eth_sendTransaction' | 'transfer' | 'deposit';
@@ -113,17 +113,19 @@ export const getWalletMethodsForChain = ({
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
     case Chain.Avalanche: {
-      if (!ethplorerApiKey) throw new Error('Ethplorer API key is not defined');
-      if (!covalentApiKey) throw new Error(`${chain} API key is not defined`);
       if (!window.xfi?.ethereum) throw new Error('XDEFI wallet is not installed');
+
+      if (!covalentApiKey && !ethplorerApiKey) {
+        throw new Error(`Missing API key for ${chain} chain`);
+      }
 
       const provider = new Web3Provider(window.xfi?.ethereum, 'any');
 
       const toolboxParams = {
         provider,
         signer: provider.getSigner(),
-        ethplorerApiKey,
-        covalentApiKey,
+        ethplorerApiKey: ethplorerApiKey as string,
+        covalentApiKey: covalentApiKey as string,
       };
 
       const toolbox =

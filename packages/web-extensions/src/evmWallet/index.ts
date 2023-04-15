@@ -5,10 +5,12 @@ import { Chain, EVMChain, EVMWalletOptions, WalletOption } from '@thorswap-lib/t
 
 import { EVMWalletConfig } from '../types.js';
 
-import { avalancheWalletMethods } from './walletMethods/avalanche.js';
-import { binanceSmartChainWalletMethods } from './walletMethods/binancesmartchain.js';
-import { ethereumWalletMethods } from './walletMethods/ethereum.js';
-import { getWalletForType } from './walletMethods/helpers/getWebWallet.js';
+import { getWalletForType } from './helpers.js';
+import {
+  avalancheWalletMethods,
+  binanceSmartChainWalletMethods,
+  ethereumWalletMethods,
+} from './walletMethods.js';
 
 const getWalletMethodsForChain = ({
   chain,
