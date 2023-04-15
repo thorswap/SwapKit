@@ -1,5 +1,14 @@
 # @thorswap-lib/web-extensions
 
+## 1.0.0-development.137
+
+### Patch Changes
+
+- [#45](https://github.com/thorswap/SwapKit/pull/45) [`f79d2af`](https://github.com/thorswap/SwapKit/commit/f79d2af112fd118581a4be1cad617c45eec36b35) Thanks [@chillios-ts](https://github.com/chillios-ts)! - JSON RPC provider for AVAX
+
+- Updated dependencies [[`f79d2af`](https://github.com/thorswap/SwapKit/commit/f79d2af112fd118581a4be1cad617c45eec36b35)]:
+  - @thorswap-lib/toolbox-evm@0.1.0-development.97
+
 ## 1.0.0-development.136
 
 ### Patch Changes
