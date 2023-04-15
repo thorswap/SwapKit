@@ -1,3 +1,4 @@
+import { getDerivationPathFor } from '@thorswap-lib/ledger';
 import { Chain, WalletOption } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 
@@ -48,14 +49,17 @@ export const WalletPicker = ({ setWallet }: Props) => {
       if (!skClient) return alert('client is not ready');
       switch (option) {
         case WalletOption.XDEFI:
-          await skClient.connectXDEFI(chains);
-          break;
+          return skClient.connectXDEFI(chains);
 
         case WalletOption.COINBASE_WEB:
         case WalletOption.METAMASK:
         case WalletOption.TRUSTWALLET_WEB:
-          await skClient.connectEVMWallet(chains, option);
-          break;
+          return skClient.connectEVMWallet(chains, option);
+
+        case WalletOption.LEDGER: {
+          const derivationPath = getDerivationPathFor({ chain: chains[0], index: 1 });
+          return skClient.connectLedger(chains[0], derivationPath);
+        }
 
         default:
           break;
