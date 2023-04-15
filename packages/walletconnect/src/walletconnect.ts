@@ -92,9 +92,9 @@ const getToolbox = async ({
       const toolbox = ThorchainToolbox({ stagenet });
 
       const deposit = async ({ asset, memo, amount }: DepositParam) => {
-        if (!asset) throw new Error('invalid asset to deposit');
         const account = await toolbox.getAccount(from);
         if (!account) throw new Error('invalid account');
+        if (!asset) throw new Error('invalid asset to deposit');
 
         const sequence = account.sequence.toString() || '0';
 
@@ -144,9 +144,9 @@ const getToolbox = async ({
       };
 
       const transfer = async ({ asset, amount, recipient, memo }: WalletTxParams) => {
-        if (!asset) throw new Error('invalid asset');
         const account = await toolbox.getAccount(from);
         if (!account) throw new Error('invalid account');
+        if (!asset) throw new Error('invalid asset');
 
         const { account_number: accountNumber, sequence = '0' } = account;
 
@@ -198,9 +198,9 @@ const getToolbox = async ({
       const toolbox = BinanceToolbox({ stagenet });
 
       const transfer = async ({ asset, amount, recipient, memo = '' }: WalletTxParams) => {
-        if (!asset) throw new Error('invalid asset');
         const account = await toolbox.getAccount(from);
         if (!account) throw new Error('invalid account');
+        if (!asset) throw new Error('invalid asset');
 
         const accountNumber = account.account_number.toString();
         const sequence = account.sequence.toString();

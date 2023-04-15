@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.138
+
+### Patch Changes
+
+- Enable adding separate liquidity by mode
+
 ## 1.0.0-development.137
 
 ### Patch Changes

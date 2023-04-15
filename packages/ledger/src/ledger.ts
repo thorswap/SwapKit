@@ -351,12 +351,12 @@ const getToolbox = async ({
     }
     case Chain.THORChain: {
       const toolbox = ThorchainToolbox({ stagenet: false });
-      const account = await toolbox.getAccount(address);
-      const accAddress = toolbox.getAccAddress(address);
 
       const deposit = async ({ asset, amount, memo }: DepositParam) => {
+        const account = await toolbox.getAccount(address);
         if (!asset) throw new Error('invalid asset to deposit');
-        if (!accAddress) throw new Error('invalid account');
+        if (!account) throw new Error('invalid account');
+
         const unsignedMsgs = recursivelyOrderKeys([
           {
             type: 'thorchain/MsgDeposit',
@@ -401,8 +401,9 @@ const getToolbox = async ({
       };
 
       const transfer = async ({ memo = '', amount, asset, recipient }: WalletTxParams) => {
-        if (!asset) throw new Error('invalid asset');
+        const account = await toolbox.getAccount(address);
         if (!account) throw new Error('invalid account');
+        if (!asset) throw new Error('invalid asset');
 
         const { account_number: accountNumber, sequence = '0' } = account;
 

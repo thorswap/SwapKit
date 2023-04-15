@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-evm
 
+## 0.1.0-development.98
+
+### Patch Changes
+
+- RUNE account only on action
+
 ## 0.1.0-development.97
 
 ### Patch Changes

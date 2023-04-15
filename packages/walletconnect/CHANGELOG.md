@@ -1,5 +1,14 @@
 # @thorswap-lib/walletconnect
 
+## 1.0.0-development.123
+
+### Patch Changes
+
+- RUNE account only on action
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-evm@0.1.0-development.98
+
 ## 1.0.0-development.122
 
 ### Patch Changes
