@@ -332,10 +332,13 @@ export class SwapKitCore {
     runeAddr,
     assetAddr,
     isPendingSymmAsset,
+    mode = 'sym',
   }: AddLiquidityParams) => {
     const { chain, symbol } = pool.asset;
-    const runeTransfer = runeAmount?.gt(0);
-    const assetTransfer = assetAmount?.gt(0);
+    const isSym = mode === 'sym';
+    const runeTransfer = runeAmount?.gt(0) && (isSym || mode === 'rune');
+    const assetTransfer = assetAmount?.gt(0) && (isSym || mode === 'asset');
+
     if (!runeTransfer && !assetTransfer) throw new Error('Invalid Asset Amount');
     const includeRuneAddress = isPendingSymmAsset || runeTransfer;
     const runeAddress = includeRuneAddress ? runeAddr || this.getAddress(Chain.THORChain) : '';
@@ -448,7 +451,7 @@ export class SwapKitCore {
 
   unbond = (address: string, unbondAmount: number) =>
     this._thorchainTransfer({
-      memo: getMemoFor(MemoType.UNBOND, { address, unbondAmount: unbondAmount }),
+      memo: getMemoFor(MemoType.UNBOND, { address, unbondAmount }),
       assetAmount: getMinAmountByChain(Chain.THORChain),
     });
 
@@ -501,14 +504,15 @@ export class SwapKitCore {
     const isETH = chain === Chain.Ethereum;
     if (!recipient) throw new Error('rune wallet not found');
 
+    const thorchainAddress = this.getAddress(Chain.THORChain);
     const { address, router, gas_rate } = await this._getInboundDataByChain(chain);
-    if (isETH && !router) throw new Error(`router not found for ${chain}`);
+    if ((isETH && !router) || !thorchainAddress) throw new Error(`router not found for ${chain}`);
 
     return this.deposit({
       router: isETH ? router : undefined,
       assetAmount: runeAmount,
       recipient: address,
-      memo: getMemoFor(MemoType.UPGRADE, { address }),
+      memo: getMemoFor(MemoType.UPGRADE, { address: thorchainAddress }),
       feeRate: (parseInt(gas_rate) || 0) * gasFeeMultiplier[FeeOption.Fast],
     });
   };
