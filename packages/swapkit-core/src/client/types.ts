@@ -49,6 +49,7 @@ export type AddLiquidityParams = {
   assetAmount?: AssetAmount;
   runeAddr?: string;
   assetAddr?: string;
+  mode?: LPType;
 };
 
 export type CreateLiquidityParams = {
