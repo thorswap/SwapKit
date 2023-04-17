@@ -339,7 +339,8 @@ export class SwapKitCore {
     const runeTransfer = runeAmount?.gt(0) && (isSym || mode === 'rune');
     const assetTransfer = assetAmount?.gt(0) && (isSym || mode === 'asset');
 
-    if (!runeTransfer && !assetTransfer) throw new Error('Invalid Asset Amount');
+    if (!runeTransfer && !assetTransfer) throw new Error('Invalid Asset Amount or Mode');
+
     const includeRuneAddress = isPendingSymmAsset || runeTransfer;
     const runeAddress = includeRuneAddress ? runeAddr || this.getAddress(Chain.THORChain) : '';
 
@@ -358,25 +359,36 @@ export class SwapKitCore {
 
     if (includeRuneAddress && !runeAddress) throw new Error('Rune address not found');
 
-    return {
-      runeTx: runeTransfer
-        ? await this.deposit({
-            assetAmount: runeAmount as AssetAmount,
-            recipient: '',
-            memo: runeMemo,
-            feeRate,
-          })
-        : undefined,
-      assetTx: assetTransfer
-        ? await this.deposit({
-            assetAmount: assetAmount as AssetAmount,
-            recipient: address,
-            memo: assetMemo,
-            router,
-            feeRate,
-          })
-        : undefined,
-    };
+    let runeTx, assetTx;
+
+    if (runeTransfer) {
+      try {
+        runeTx = await this.deposit({
+          assetAmount: runeAmount as AssetAmount,
+          recipient: '',
+          memo: runeMemo,
+          feeRate,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    if (assetTransfer) {
+      try {
+        assetTx = await this.deposit({
+          assetAmount: assetAmount as AssetAmount,
+          recipient: address,
+          memo: assetMemo,
+          router,
+          feeRate,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    return { runeTx, assetTx };
   };
 
   withdraw = async ({ pool: { asset }, percent, from, to }: WithdrawParams) => {

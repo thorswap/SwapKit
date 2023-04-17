@@ -1,5 +1,17 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.140
+
+### Patch Changes
+
+- Bump
+
+## 1.0.0-development.139
+
+### Patch Changes
+
+- [#47](https://github.com/thorswap/SwapKit/pull/47) [`73ba622`](https://github.com/thorswap/SwapKit/commit/73ba622353b6c9e23abc0c529a23e6a4422810f5) Thanks [@chillios-ts](https://github.com/chillios-ts)! - use THOR address for switch & add mode to LP
+
 ## 1.0.0-development.138
 
 ### Patch Changes
