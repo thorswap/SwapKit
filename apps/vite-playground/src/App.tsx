@@ -1,21 +1,126 @@
+import { decryptFromKeystore, keystoreWallet } from '@thorswap-lib/keystore';
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { Chain } from '@thorswap-lib/types';
-import { xdefiWallet } from '@thorswap-lib/web-extensions';
+import { Chain, FeeOption } from '@thorswap-lib/types';
+import axios from 'axios';
 import { PropsWithChildren, useCallback, useState } from 'react';
 
-const getSwapKitClient = () => {
-  const client = new SwapKitCore({});
+const getSwapKitClient = async () => {
+  const client = new SwapKitCore();
 
   client.extend({
     config: {
-      ethplorerApiKey: 'freekey', // <CHANGE_ME>
-      covalentApiKey: 'freekey', // <CHANGE_ME>
-      utxoApiKey: 'freekey', // <CHANGE_ME>
+      // SETUP API KEY
+      utxoApiKey: '',
+      ethplorerApiKey: '',
+      covalentApiKey: '',
     },
-    wallets: [xdefiWallet],
+    wallets: [keystoreWallet],
   });
 
+  const phrase = await getPhrase();
+  const chains = [
+    Chain.Bitcoin,
+    Chain.Ethereum,
+    Chain.Binance,
+    Chain.BitcoinCash,
+    Chain.THORChain,
+    Chain.Litecoin,
+    Chain.Doge,
+    Chain.Avalanche,
+    Chain.Cosmos,
+  ];
+  await client.connectKeystore(chains, phrase);
+  console.log('Connected to SwapKit');
   return client;
+};
+
+export const fetchBestQuote = async ({
+  amount,
+  fromAsset,
+  toAsset,
+  senderAddress,
+  recipientAddress,
+  provider,
+}: any) => {
+  try {
+    const THORSWAP_QUOTE_BASE_URL = 'http://localhost:3000/tokens/quote';
+
+    const thorswapApiUrl = new URL(THORSWAP_QUOTE_BASE_URL);
+    thorswapApiUrl.searchParams.append('sellAsset', fromAsset);
+    thorswapApiUrl.searchParams.append('buyAsset', toAsset);
+    thorswapApiUrl.searchParams.append('sellAmount', amount.toString());
+    thorswapApiUrl.searchParams.append('senderAddress', senderAddress);
+    thorswapApiUrl.searchParams.append('recipientAddress', recipientAddress);
+    thorswapApiUrl.searchParams.append('providers', provider);
+    thorswapApiUrl.searchParams.append('providers', 'THORCHAIN');
+    const response = await axios.get(thorswapApiUrl.toString());
+    const data: any = await response.data;
+    const bestRoute = data.routes[0];
+    return bestRoute;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const swap = async ({
+  amount,
+  fromAsset,
+  toAsset,
+  senderAddress,
+  recipientAddress,
+  provider,
+}: any) => {
+  const SKClient = await getSwapKitClient();
+  const bestRoute = await fetchBestQuote({
+    amount,
+    fromAsset,
+    toAsset,
+    senderAddress,
+    recipientAddress,
+    provider,
+  });
+
+  const txHash = await SKClient.swap({
+    route: bestRoute,
+    // Fee option multiplier -> it will be used if wallet supports gas calculation params
+    feeOptionKey: FeeOption.Fastest,
+    recipient: recipientAddress,
+  });
+
+  return txHash;
+};
+
+const getPhrase = async () => {
+  const keystore = '...'; // keystore from file
+  const phrase = await decryptFromKeystore(keystore, '...'); //keystore pass
+  return phrase;
+};
+
+const main = async () => {
+  const amount = 20;
+  // const decimals = Number(process.argv[5])
+  const fromAsset = 'THOR.RUNE';
+  const toAsset = 'AVAX.AVAX';
+  const senderAddress = 'thor1hajge8hsld646xs0ft797meyqdk3427ccr3y8u';
+  const recipientAddress = '0xD4f04f1Dae4245D94848BcD88B06a68CC2A771b6';
+  const provider = 'THORCHAIN';
+
+  try {
+    const txHash = await swap({
+      amount,
+      fromAsset,
+      toAsset,
+      senderAddress,
+      recipientAddress,
+      provider,
+    });
+
+    console.log(`Swap successful. Tx hash: ${txHash}`);
+
+    // Connect wallet by phrase
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const useSwapKitClient = () => {
@@ -70,6 +175,9 @@ const App = () => {
       <div>
         <button onClick={() => connectXdefiWallet()} type="button">
           Connect XDEFI
+        </button>
+        <button onClick={() => main()} type="button">
+          Run main
         </button>
 
         {Array.isArray(wallet) ? (

@@ -11,6 +11,7 @@
     "@thorswap-lib/types": "workspace:*",
     "@thorswap-lib/walletconnect": "workspace:*",
     "@thorswap-lib/web-extensions": "workspace:*",
+    "axios": "^1.3.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
