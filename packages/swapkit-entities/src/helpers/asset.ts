@@ -16,10 +16,14 @@ export const getAssetType = (chain: Chain, ticker: string, isSynth = false) => {
       return ticker === 'BNB' ? 'Native' : 'BEP2';
     case Chain.BinanceSmartChain:
       return ticker === 'BNB' ? 'Native' : 'BEP20';
+    case Chain.Optimism:
+    case Chain.Arbitrum:
     case Chain.Ethereum:
       return ticker === 'ETH' ? 'Native' : 'ERC20';
     case Chain.Avalanche:
       return ticker === 'AVAX' ? 'Native' : 'AVAX';
+    case Chain.Polygon:
+      return ticker === 'MATIC' ? 'Native' : 'MATIC';
     default:
       return chain;
   }
