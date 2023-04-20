@@ -122,6 +122,22 @@ export const ChainToChainId: Record<Chain, ChainId> = {
   [Chain.THORChain]: ChainId.Thorchain,
 };
 
+export const ChainIdToChain: Record<ChainId, Chain> = {
+  [ChainId.AvalancheHex]: Chain.Avalanche,
+  [ChainId.Avalanche]: Chain.Avalanche,
+  [ChainId.Binance]: Chain.Binance,
+  [ChainId.BinanceSmartChain]: Chain.BinanceSmartChain,
+  [ChainId.Bitcoin]: Chain.Bitcoin,
+  [ChainId.Bitcoincash]: Chain.BitcoinCash,
+  [ChainId.Cosmos]: Chain.Cosmos,
+  [ChainId.DogeCoin]: Chain.Doge,
+  [ChainId.EthereumHex]: Chain.Ethereum,
+  [ChainId.Ethereum]: Chain.Ethereum,
+  [ChainId.Litecoin]: Chain.Litecoin,
+  [ChainId.Thorchain]: Chain.THORChain,
+  [ChainId.ThorchainStagenet]: Chain.THORChain,
+};
+
 export interface ResourceWorkerGasPricesResponse {
   ok: boolean;
   result: {
