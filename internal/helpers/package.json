@@ -32,5 +32,5 @@
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",
-  "version": "0.0.0-development.61"
+  "version": "0.0.0-development.62"
 }
