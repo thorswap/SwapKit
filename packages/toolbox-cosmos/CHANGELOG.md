@@ -1,5 +1,16 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 0.1.0-development.84
+
+### Patch Changes
+
+- [#53](https://github.com/thorswap/SwapKit/pull/53) [`ede1285`](https://github.com/thorswap/SwapKit/commit/ede1285e71d57a74dc4ef8a8a8fa615a1ab7244f) Thanks [@towanTG](https://github.com/towanTG)! - Updates endpoints of Thornodes and cosmos nodes
+
+- Updated dependencies [[`ede1285`](https://github.com/thorswap/SwapKit/commit/ede1285e71d57a74dc4ef8a8a8fa615a1ab7244f)]:
+  - @thorswap-lib/types@1.0.0-development.68
+  - @thorswap-lib/helpers@0.0.0-development.63
+  - @thorswap-lib/swapkit-entities@0.3.0-development.71
+
 ## 0.1.0-development.83
 
 ### Patch Changes
