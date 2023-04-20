@@ -2,8 +2,8 @@ import { getRequest } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import { Asset as AssetType, Chain } from '@thorswap-lib/types';
 
-const MIDGARD_MAINNET_URL = 'https://midgard.thorswap.net/v2';
-const MIDGARD_STAGENET_URL = 'https://stagenet-midgard.ninerealms.com/v2';
+const THORNODE_MAINNET_URL = 'https://thornode.thorswap.net';
+const THORNODE_STAGENET_URL = 'https://stagenet-thornode.ninerealms.com';
 
 type InboundAddressData = {
   address: string;
@@ -30,13 +30,13 @@ export const getAssetForBalance = ({ symbol, chain }: AssetType) => {
 };
 
 export const getInboundData = (stagenet: boolean) => {
-  const baseUrl = stagenet ? MIDGARD_STAGENET_URL : MIDGARD_MAINNET_URL;
+  const baseUrl = stagenet ? THORNODE_STAGENET_URL : THORNODE_MAINNET_URL;
 
   return getRequest<InboundAddressData>(`${baseUrl}/thorchain/inbound_addresses`);
 };
 
 export const getMimirData = (stagenet: boolean) => {
-  const baseUrl = stagenet ? MIDGARD_STAGENET_URL : MIDGARD_MAINNET_URL;
+  const baseUrl = stagenet ? THORNODE_STAGENET_URL : THORNODE_MAINNET_URL;
 
   return getRequest<Record<string, number>>(`${baseUrl}/thorchain/mimir`);
 };

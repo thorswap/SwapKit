@@ -19,7 +19,7 @@ import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.j
 
 export const GaiaToolbox = () => {
   const sdk = new CosmosSDKClient({
-    server: 'https://cosmosrest.thorswap.net',
+    server: 'https://node-router.thorswap.net/cosmos/rest',
     chainId: ChainId.Cosmos,
   });
 
