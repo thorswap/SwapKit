@@ -64,7 +64,7 @@ export enum ChainId {
 export enum RPCUrl {
   Avalanche = 'https://node-router.thorswap.net/avalanche-c',
   BinanceSmartChain = 'https://bsc-dataseed.binance.org',
-  Cosmos = 'https://cosmosrpc.thorswap.net',
+  Cosmos = 'https://node-router.thorswap.net/cosmos/rpc',
   Ethereum = 'https://node-router.thorswap.net/ethereum',
 }
 
