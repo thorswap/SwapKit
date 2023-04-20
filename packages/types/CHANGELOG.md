@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.68
+
+### Patch Changes
+
+- [#53](https://github.com/thorswap/SwapKit/pull/53) [`ede1285`](https://github.com/thorswap/SwapKit/commit/ede1285e71d57a74dc4ef8a8a8fa615a1ab7244f) Thanks [@towanTG](https://github.com/towanTG)! - Updates endpoints of Thornodes and cosmos nodes
+
 ## 1.0.0-development.67
 
 ### Minor Changes
