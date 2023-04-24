@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.71
+
+### Patch Changes
+
+- [#57](https://github.com/thorswap/SwapKit/pull/57) [`9d84996`](https://github.com/thorswap/SwapKit/commit/9d84996dae68cb74bd74a359eaf53f84a13c2e8d) Thanks [@towanTG](https://github.com/towanTG)! - Re release because of npm error
+
 ## 1.0.0-development.70
 
 ### Patch Changes

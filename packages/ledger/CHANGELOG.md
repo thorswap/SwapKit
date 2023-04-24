@@ -1,5 +1,19 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.156
+
+### Patch Changes
+
+- [#57](https://github.com/thorswap/SwapKit/pull/57) [`9d84996`](https://github.com/thorswap/SwapKit/commit/9d84996dae68cb74bd74a359eaf53f84a13c2e8d) Thanks [@towanTG](https://github.com/towanTG)! - Re release because of npm error
+
+- Updated dependencies [[`9d84996`](https://github.com/thorswap/SwapKit/commit/9d84996dae68cb74bd74a359eaf53f84a13c2e8d)]:
+  - @thorswap-lib/swapkit-entities@0.3.0-development.74
+  - @thorswap-lib/toolbox-cosmos@0.1.0-development.87
+  - @thorswap-lib/toolbox-utxo@0.1.0-development.90
+  - @thorswap-lib/toolbox-evm@0.1.0-development.104
+  - @thorswap-lib/helpers@0.0.0-development.66
+  - @thorswap-lib/types@1.0.0-development.71
+
 ## 1.0.0-development.155
 
 ### Patch Changes
