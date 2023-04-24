@@ -1,7 +1,6 @@
 export * from './api/index.js';
 export * from './constants.js';
 export * from './provider.js';
-export type { TransferParams } from './toolbox/BaseEVMToolbox.js';
 export {
   addAccountsChangedCallback,
   EIP1193SendTransaction,

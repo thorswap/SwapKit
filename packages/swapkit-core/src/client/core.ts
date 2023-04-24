@@ -25,6 +25,7 @@ import {
   ThornameRegisterParam,
 } from '@thorswap-lib/swapkit-entities';
 import { getExplorerAddressUrl, getExplorerTxUrl } from '@thorswap-lib/swapkit-explorers';
+import { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
 import {
   AmountWithBaseDenom,
   Chain,
@@ -49,9 +50,11 @@ import {
   AddLiquidityParams,
   CoreTxParams,
   CreateLiquidityParams,
+  EVMWallet,
   ExtendParams,
   QuoteMode,
   SwapParams,
+  ThorchainWallet,
   UpgradeParams,
   Wallet,
   WalletMethods,
@@ -209,7 +212,7 @@ export class SwapKitCore {
     return { ...(this.connectedChains[chain] || {}), balance };
   };
 
-  getTransactions = (chain: Chain, params?: TxHistoryParams) => {
+  getTransactions = (chain: Chain, params: TxHistoryParams) => {
     const walletMethods = this.connectedWallets[chain];
     if (!walletMethods) throw new Error(`Chain ${chain} is not connected`);
 
@@ -219,6 +222,15 @@ export class SwapKitCore {
   getTransactionData = (chain: Chain, txHash: string) => {
     const address = this.getAddress(chain);
     if (!address) throw new Error(`Chain ${chain} is not connected`);
+
+    if (
+      chain === Chain.Bitcoin ||
+      chain === Chain.BitcoinCash ||
+      chain === Chain.Litecoin ||
+      chain === Chain.Doge
+    ) {
+      throw new Error(`Chain ${chain} does not support getTransactionData`);
+    }
 
     return this.connectedWallets[chain]?.getTransactionData(txHash, address);
   };
@@ -230,6 +242,7 @@ export class SwapKitCore {
     if (!walletInstance) throw new Error('Chain is not connected');
 
     const txParams = this._prepareTxParams(params);
+    // TODO: fix type
     return walletInstance.transfer(txParams);
   };
 
@@ -240,12 +253,7 @@ export class SwapKitCore {
     ...rest
   }: CoreTxParams & { router?: string }) => {
     const chain = assetAmount.asset.L1Chain;
-
-    const isL1Deposit = chain === Chain.THORChain && recipient === '';
-    const isEVMDeposit = [Chain.Avalanche, Chain.Ethereum].includes(chain);
-
-    const walletInstance = this.connectedWallets[chain as EVMChain];
-
+    const walletInstance = this.connectedWallets[chain];
     if (!walletInstance) throw new Error(`Chain ${chain} is not connected`);
 
     const params = this._prepareTxParams({
@@ -255,38 +263,46 @@ export class SwapKitCore {
       ...rest,
     });
 
-    if (isL1Deposit) return walletInstance.deposit(params);
+    switch (chain) {
+      case Chain.THORChain:
+        return recipient === ''
+          ? (walletInstance as ThorchainWallet).deposit(params)
+          : (walletInstance as ThorchainWallet).transfer(params);
+      case Chain.Ethereum:
+      case Chain.BinanceSmartChain:
+      case Chain.Avalanche: {
+        const { getBigNumberFrom, getChecksumAddressFromAsset } = await import(
+          '@thorswap-lib/toolbox-evm'
+        );
 
-    if (isEVMDeposit) {
-      const { getBigNumberFrom, getChecksumAddressFromAsset } = await import(
-        '@thorswap-lib/toolbox-evm'
-      );
+        const { asset } = assetAmount;
+        const abi = chain === Chain.Avalanche ? TCAvalancheDepositABI : TCEthereumVaultAbi;
 
-      const { asset } = assetAmount;
-      const abi = chain === Chain.Avalanche ? TCAvalancheDepositABI : TCEthereumVaultAbi;
-
-      return walletInstance.call({
-        abi,
-        contractAddress:
-          router || ((await this._getInboundDataByChain(chain as EVMChain)).router as string),
-        funcName: 'depositWithExpiry',
-        funcParams: [
-          recipient,
-          getChecksumAddressFromAsset(asset, asset?.chain as EVMChain),
-          params.amount.amount().toString(),
-          params.memo,
-          new Date().setMinutes(new Date().getMinutes() + 10),
-          {
-            from: params.from,
-            value: getBigNumberFrom(
-              isGasAsset(assetAmount.asset) ? params.amount.amount().toString() : 0,
-            ).toHexString(),
-          },
-        ],
-      }) as Promise<string>;
+        return (
+          walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
+        ).call({
+          abi,
+          contractAddress:
+            router || ((await this._getInboundDataByChain(chain as EVMChain)).router as string),
+          funcName: 'depositWithExpiry',
+          funcParams: [
+            recipient,
+            getChecksumAddressFromAsset(asset, asset?.chain as EVMChain),
+            params.amount.amount().toString(),
+            params.memo,
+            new Date().setMinutes(new Date().getMinutes() + 10),
+            {
+              from: params.from,
+              value: getBigNumberFrom(
+                isGasAsset(assetAmount.asset) ? params.amount.amount().toString() : 0,
+              ).toHexString(),
+            },
+          ],
+        }) as Promise<string>;
+      }
+      default:
+        return walletInstance.transfer(params);
     }
-
-    return walletInstance.transfer(params);
   };
 
   /**
@@ -637,6 +653,7 @@ export class SwapKitCore {
 
     return {
       ...restTxParams,
+      memo: restTxParams.memo || '',
       from: this.getAddress(asset.L1Chain),
       amount: amountWithBaseDenom,
       asset: createAssetObjFromAsset(asset),

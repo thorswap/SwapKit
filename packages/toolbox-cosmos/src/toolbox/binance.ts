@@ -26,6 +26,7 @@ import { BNBTransaction } from '../binanceUtils/transaction.js';
 import { Account, AminoPrefix, Fees, TransactionResult, TxPage } from '../binanceUtils/types.js';
 import { isTransferFee, parseTx } from '../binanceUtils/utils.js';
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
+import { BinanceToolboxType } from '../index.js';
 import { TransferParams } from '../types.js';
 
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.js';
@@ -228,7 +229,7 @@ const transfer = async (params: TransferParams): Promise<string> => {
 
 type PrivateKey = proto.cosmos.crypto.secp256k1.PrivKey;
 
-export const BinanceToolbox = ({ stagenet }: ToolboxParams) => {
+export const BinanceToolbox = ({ stagenet }: ToolboxParams): BinanceToolboxType => {
   const sdk = new CosmosSDKClient({
     server: BINANCE_MAINNET_API_URI,
     chainId: ChainId.Binance,

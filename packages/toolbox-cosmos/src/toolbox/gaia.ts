@@ -1,8 +1,8 @@
 import { cosmosclient, proto } from '@cosmos-client/core';
 import { baseAmount } from '@thorswap-lib/helpers';
+import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import {
   AmountWithBaseDenom,
-  Asset,
   Balance,
   BaseDecimal,
   ChainId,
@@ -12,12 +12,13 @@ import {
 } from '@thorswap-lib/types';
 
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
+import { GaiaToolboxType } from '../index.js';
 import { AssetAtom, TransferParams } from '../types.js';
 import { getAsset, getTxsFromHistory } from '../util.js';
 
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.js';
 
-export const GaiaToolbox = () => {
+export const GaiaToolbox = (): GaiaToolboxType => {
   const sdk = new CosmosSDKClient({
     server: 'https://node-router.thorswap.net/cosmos/rest',
     chainId: ChainId.Cosmos,
@@ -54,7 +55,7 @@ export const GaiaToolbox = () => {
     validateAddress: (address: string) => boolean;
     createKeyPair: (phrase: string) => proto.cosmos.crypto.secp256k1.PrivKey;
     getAddressFromMnemonic: (phrase: string) => string;
-    getBalance: (address: string, filterAssets?: Asset[] | undefined) => Promise<Balance[]>;
+    getBalance: (address: string, filterAssets?: AssetEntity[] | undefined) => Promise<Balance[]>;
     transfer: (params: TransferParams) => Promise<string>;
   } = BaseCosmosToolbox({
     decimal: BaseDecimal.GAIA,

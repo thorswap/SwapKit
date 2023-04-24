@@ -96,10 +96,10 @@ const getToolbox = async ({
         if (!account) throw new Error('invalid account');
         if (!asset) throw new Error('invalid asset to deposit');
 
-        const sequence = account.sequence.toString() || '0';
+        const sequence = account.sequence?.toString() || '0';
 
         const tx = {
-          accountNumber: account.account_number.low,
+          accountNumber: account.account_number?.low,
           chainId: getTcChainId(),
           fee,
           memo: '',
@@ -160,11 +160,11 @@ const getToolbox = async ({
 
         // get tx signing msg
         const signRequestMsg = {
-          accountNumber: accountNumber.toString(),
+          accountNumber: accountNumber?.toString(),
           chainId: getTcChainId(),
           fee,
           memo: memo || '',
-          sequence: sequence.toString(),
+          sequence: sequence?.toString(),
           messages: [message],
         };
 

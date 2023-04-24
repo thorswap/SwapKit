@@ -2880,7 +2880,9 @@ __metadata:
     "@thorswap-lib/helpers": "workspace:*"
     "@thorswap-lib/swapkit-entities": "workspace:*"
     "@thorswap-lib/swapkit-explorers": "workspace:*"
+    "@thorswap-lib/toolbox-cosmos": "workspace:*"
     "@thorswap-lib/toolbox-evm": "workspace:*"
+    "@thorswap-lib/toolbox-utxo": "workspace:*"
     "@thorswap-lib/types": "workspace:*"
     "@thorswap-lib/walletconnect": "workspace:*"
     "@vitest/coverage-c8": 0.29.7

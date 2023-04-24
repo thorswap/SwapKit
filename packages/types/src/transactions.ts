@@ -82,6 +82,7 @@ export type EIP1559TxParams<T = BigNumberish> = {
   gasLimit?: T;
   maxFeePerGas?: T;
   maxPriorityFeePerGas?: T;
+  chainId?: number;
 };
 
 export type DepositParams = TxParams & {
