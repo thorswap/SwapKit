@@ -1,5 +1,14 @@
 []
 
+## 0.3.0-development.75
+
+### Patch Changes
+
+- Bump because of NPM issues again
+
+- Updated dependencies []:
+  - @thorswap-lib/types@1.0.0-development.72
+
 ## 0.3.0-development.74
 
 ### Patch Changes

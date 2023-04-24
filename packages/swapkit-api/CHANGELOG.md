@@ -1,5 +1,14 @@
 # @thorswap-lib/swapkit-api
 
+## 0.0.1-development.5
+
+### Patch Changes
+
+- Bump because of NPM issues again
+
+- Updated dependencies []:
+  - @thorswap-lib/types@1.0.0-development.72
+
 ## 0.0.1-development.4
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @thorswap-lib/helpers
 
+## 0.0.0-development.67
+
+### Patch Changes
+
+- Bump because of NPM issues again
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@0.3.0-development.75
+  - @thorswap-lib/types@1.0.0-development.72
+
 ## 0.0.0-development.66
 
 ### Patch Changes

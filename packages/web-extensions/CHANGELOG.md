@@ -1,5 +1,19 @@
 # @thorswap-lib/web-extensions
 
+## 1.0.0-development.145
+
+### Patch Changes
+
+- Bump because of NPM issues again
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@0.3.0-development.75
+  - @thorswap-lib/toolbox-cosmos@0.1.0-development.88
+  - @thorswap-lib/toolbox-utxo@0.1.0-development.91
+  - @thorswap-lib/toolbox-evm@0.1.0-development.105
+  - @thorswap-lib/helpers@0.0.0-development.67
+  - @thorswap-lib/types@1.0.0-development.72
+
 ## 1.0.0-development.144
 
 ### Patch Changes
