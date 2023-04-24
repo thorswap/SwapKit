@@ -1,20 +1,20 @@
 import { QuoteRoute } from '@thorswap-lib/cross-chain-api-sdk/lib/entities';
 import { AssetAmount, Percent, Pool } from '@thorswap-lib/swapkit-entities';
-import { ApproveParams, IsApprovedParams } from '@thorswap-lib/toolbox-evm';
+import {
+  BinanceToolbox,
+  DepositParam,
+  GaiaToolbox,
+  ThorchainToolboxType,
+} from '@thorswap-lib/toolbox-cosmos';
+import { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
+import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
 import {
   AmountWithBaseDenom,
-  Asset,
-  Asset as AssetType,
-  Balance,
-  CallParams,
   Chain,
-  DepositParams,
-  EIP1559TxParams,
   FeeOption,
   TxHash,
-  TxHistoryParams,
+  TxParams,
   WalletOption,
-  WalletTxParams,
 } from '@thorswap-lib/types';
 
 export type { TransactionDetails } from '@thorswap-lib/cross-chain-api-sdk';
@@ -89,17 +89,46 @@ export type AddChainWalletParams = ParamsWithChain<{
 
 export type Wallet = Record<Chain, ChainWallet | null>;
 
+export type BaseWalletMethods = {
+  getAddress: () => Promise<string> | string;
+};
+
+export type ThorchainWallet = BaseWalletMethods &
+  ThorchainToolboxType & {
+    transfer: (params: TxParams) => Promise<string>;
+    deposit: (params: DepositParam) => Promise<string>;
+  };
+
+export type CosmosBasedWallet<T extends typeof BinanceToolbox | typeof GaiaToolbox> =
+  BaseWalletMethods &
+    ReturnType<T> & {
+      transfer: (params: TxParams) => Promise<string>;
+    };
+
+export type EVMWallet<T extends typeof AVAXToolbox | typeof BSCToolbox | typeof ETHToolbox> =
+  BaseWalletMethods &
+    ReturnType<T> & {
+      transfer: (params: TxParams) => Promise<string>;
+    };
+
+export type UTXOWallet<
+  T extends typeof BCHToolbox | typeof BTCToolbox | typeof DOGEToolbox | typeof LTCToolbox,
+> = BaseWalletMethods &
+  ReturnType<T> & {
+    transfer: (prams: TxParams) => Promise<string>;
+  };
+
 export type WalletMethods = {
-  [Chain.Avalanche]: BaseEVMWallet | null;
-  [Chain.BinanceSmartChain]: BaseEVMWallet | null;
-  [Chain.Binance]: BaseCosmosWallet | null;
-  [Chain.BitcoinCash]: BaseUTXOWallet | null;
-  [Chain.Bitcoin]: BaseUTXOWallet | null;
-  [Chain.Cosmos]: BaseCosmosWallet | null;
-  [Chain.Doge]: BaseUTXOWallet | null;
-  [Chain.Ethereum]: BaseEVMWallet | null;
-  [Chain.Litecoin]: BaseUTXOWallet | null;
-  [Chain.THORChain]: BaseCosmosWallet | null;
+  [Chain.Avalanche]: EVMWallet<typeof AVAXToolbox> | null;
+  [Chain.BinanceSmartChain]: EVMWallet<typeof BSCToolbox> | null;
+  [Chain.Binance]: CosmosBasedWallet<typeof BinanceToolbox> | null;
+  [Chain.BitcoinCash]: UTXOWallet<typeof BCHToolbox> | null;
+  [Chain.Bitcoin]: UTXOWallet<typeof BTCToolbox> | null;
+  [Chain.Cosmos]: CosmosBasedWallet<typeof GaiaToolbox> | null;
+  [Chain.Doge]: UTXOWallet<typeof DOGEToolbox> | null;
+  [Chain.Ethereum]: EVMWallet<typeof ETHToolbox> | null;
+  [Chain.Litecoin]: UTXOWallet<typeof LTCToolbox> | null;
+  [Chain.THORChain]: ThorchainWallet | null;
 };
 
 export enum QuoteMode {
@@ -124,65 +153,6 @@ export enum FeeType {
 
 export type LegacyFees = Record<FeeOption, AmountWithBaseDenom> & {
   type: FeeType;
-};
-
-/**
- * v1
- */
-
-type WithBaseWallet<T> = T & {
-  getBalance: (address: string, filterAssets?: Asset[] | undefined) => Promise<Balance[]>;
-  getFees: (params?: { asset: AssetType; amount: AmountWithBaseDenom; recipient: string }) => any;
-  getTransactions: (params?: TxHistoryParams) => any;
-  transfer: (params: WalletTxParams) => Promise<TxHash>;
-  validateAddress: (address: string) => boolean;
-  getTransactionData: (txHash: string, address: string) => any;
-};
-
-export type BaseUTXOWallet = WithBaseWallet<{
-  broadcastTx: (todoParam: any) => any;
-  buildTx: (todoParam: any) => any;
-  createKeysForPath: (todoParam: any) => any;
-  getAddressFromKeys: (todoParam: any) => any;
-  getFeeRates: (todoParam: any) => any;
-  getFeesAndFeeRates: (todoParam: any) => any;
-  getSuggestedFeeRate: (todoParam: any) => any;
-}>;
-
-export type BaseEVMWallet = WithBaseWallet<{
-  EIP1193SendTransaction: (todoParam: any) => any;
-  addAccountsChangedCallback: (todoParam: any) => any;
-  approve: (params: ApproveParams) => Promise<TxHash>;
-  broadcastTransaction: (todoParam: any) => any;
-  call: (callParams: CallParams) => any;
-  createContract: (address: string, abi: any, provider: any) => any;
-  createContractTxObject: (todoParam: any) => any;
-  deposit: (params: DepositParams) => Promise<TxHash>;
-  estimateCall: (todoParam: any) => any;
-  estimateGasLimit: () => any;
-  estimateGasPrices: () => any;
-  getETHDefaultWallet: (todoParam: any) => any;
-  getFeeData: () => any;
-  isApproved?: (params: IsApprovedParams) => Promise<string | number>;
-  isDetected: (todoParam: any) => any;
-  isWeb3Detected: (todoParam: any) => any;
-  listWeb3EVMWallets: (todoParam: any) => any;
-  sendTransaction?: (tx: EIP1559TxParams, feeOptionKey: FeeOption) => Promise<string>;
-}>;
-
-export type BaseCosmosWallet = WithBaseWallet<{
-  buildSendTxBody: (todoParam: any) => any;
-  createKeyPair: (todoParam: any) => any;
-  getAccount: (todoParam: any) => any;
-  getAddressFromMnemonic: (todoParam: any) => any;
-  getFeeRateFromThorswap: (todoParam: any) => any;
-  sdk: (todoParam: any) => any;
-  signAndBroadcast: (todoParam: any) => any;
-}>;
-
-export type BaseWallet = {
-  validateAddress: (address: string) => boolean;
-  getBalance: (address: string, filterAssets?: Asset[] | undefined) => Promise<Balance[]>;
 };
 
 type ConnectMethodNames =

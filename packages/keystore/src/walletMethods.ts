@@ -14,6 +14,7 @@ import {
   getDenom,
   getThorchainDenom,
   ThorchainToolbox,
+  ThorchainToolboxType,
 } from '@thorswap-lib/toolbox-cosmos';
 import { AVAXToolbox, BSCToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import {
@@ -33,6 +34,24 @@ type UTXOWalletMethodParams = WalletMethodParams<{
   derivationPath: string;
   utxoApiKey: string;
 }>;
+
+/**
+ * Duplicated Wallet types - to be removed later
+ */
+type BaseWalletMethods = {
+  getAddress: () => Promise<string> | string;
+};
+
+type ThorchainWallet = BaseWalletMethods &
+  Omit<ThorchainToolboxType, 'transfer' | 'deposit'> & {
+    transfer: (params: WalletTxParams) => Promise<string>;
+    deposit: (params: DepositParam) => Promise<string>;
+  };
+
+type CosmosBasedWallet<T extends typeof BinanceToolbox | typeof GaiaToolbox> = BaseWalletMethods &
+  Omit<ReturnType<T>, 'transfer'> & {
+    transfer: (params: WalletTxParams) => Promise<string>;
+  };
 
 /**
  * EVM Wallet Methods
@@ -177,13 +196,12 @@ export const litecoinWalletMethods = ({
  * Cosmos Wallet Methods
  */
 
-export const binanceWalletMethods = ({ phrase }: WalletMethodParams) => {
-  // @cosmos-client/core Type Inference issue
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
-  const { createKeyPair, getAddressFromMnemonic, sdk, getAccount, signAndBroadcast, ...toolbox } =
-    BinanceToolbox({});
-  const keys = createKeyPair(phrase);
-  const address = getAddressFromMnemonic(phrase);
+export const binanceWalletMethods = ({
+  phrase,
+}: WalletMethodParams): CosmosBasedWallet<typeof BinanceToolbox> => {
+  const toolbox = BinanceToolbox({});
+  const keys = toolbox.createKeyPair(phrase);
+  const address = toolbox.getAddressFromMnemonic(phrase);
 
   const transfer = ({ asset, amount, recipient, memo }: TxParams) =>
     toolbox.transfer({
@@ -198,17 +216,12 @@ export const binanceWalletMethods = ({ phrase }: WalletMethodParams) => {
   return { ...toolbox, transfer, getAddress: () => address };
 };
 
-export const cosmosWalletMethods = ({ phrase }: WalletMethodParams) => {
-  // @cosmos-client/core Type Inference issue
-  const {
-    createKeyPair,
-    getAddressFromMnemonic,
-    // eslint-disable-next-line prettier/prettier, @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
-    sdk, getAccount, signAndBroadcast,
-    ...toolbox
-  } = GaiaToolbox();
-  const keys = createKeyPair(phrase);
-  const address = getAddressFromMnemonic(phrase);
+export const cosmosWalletMethods = ({
+  phrase,
+}: WalletMethodParams): CosmosBasedWallet<typeof GaiaToolbox> => {
+  const toolbox = GaiaToolbox();
+  const keys = toolbox.createKeyPair(phrase);
+  const address = toolbox.getAddressFromMnemonic(phrase);
 
   const transfer = ({ asset, amount, recipient, memo }: TxParams) =>
     toolbox.transfer({
@@ -226,24 +239,14 @@ export const cosmosWalletMethods = ({ phrase }: WalletMethodParams) => {
 export const thorchainWalletMethods = ({
   phrase,
   stagenet,
-}: WalletMethodParams<{ stagenet?: boolean }>) => {
-  const {
-    createKeyPair,
-    getAccount,
-    getAddressFromMnemonic,
-    instanceToProto,
-    sdk,
-    signAndBroadcast,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars, prettier/prettier
-    createMultisig, exportMultisigTx, exportSignature, importSignature, importMultisigTx, mergeSignatures, getMultisigAddress,
-    ...toolbox
-  } = ThorchainToolbox({ stagenet });
-  const keys = createKeyPair(phrase);
-  const address = getAddressFromMnemonic(phrase);
+}: WalletMethodParams<{ stagenet?: boolean }>): ThorchainWallet => {
+  const toolbox = ThorchainToolbox({ stagenet });
+  const keys = toolbox.createKeyPair(phrase);
+  const address = toolbox.getAddressFromMnemonic(phrase);
   const gasLimit = '5000000000';
 
   const transfer = async ({ asset = AssetRuneNative, amount, recipient, memo }: WalletTxParams) => {
-    const accAddress = await getAccount(address);
+    const accAddress = await toolbox.getAccount(address);
     const balances = await toolbox.getBalance(address);
     const fees = await toolbox.getFees();
     await checkBalances(balances, fees, amount, asset);
@@ -260,14 +263,14 @@ export const thorchainWalletMethods = ({
     });
 
     const txBuilder = buildUnsignedTx({
-      cosmosSdk: sdk,
+      cosmosSdk: toolbox.sdk,
       txBody,
       gasLimit,
-      signerPubkey: instanceToProto(signerPubkey),
+      signerPubkey: toolbox.instanceToProto(signerPubkey),
       sequence: (accAddress.sequence as Long) || Long.ZERO,
     });
 
-    return signAndBroadcast(txBuilder, keys, accAddress) || '';
+    return toolbox.signAndBroadcast(txBuilder, keys, accAddress) || '';
   };
 
   const deposit = async ({ asset = AssetRuneNative, amount, memo }: DepositParam) => {

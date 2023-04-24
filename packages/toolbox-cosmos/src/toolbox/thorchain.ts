@@ -31,6 +31,7 @@ import {
   MAX_TX_COUNT,
   RPCTxResult,
   ThorchainConstantsResponse,
+  ThorchainToolboxType,
   TransferParams,
   TxData,
 } from '../index.js';
@@ -189,8 +190,7 @@ const broadcastMultisig = async (
   return res.data?.tx_response;
 };
 
-// @cosmos-client/core Type Inference issue
-export const ThorchainToolbox: any = ({ stagenet }: ToolboxParams) => {
+export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxType => {
   const sdk = new CosmosSDKClient({
     server: getTcNodeUrl(stagenet),
     chainId: ChainId.Thorchain,

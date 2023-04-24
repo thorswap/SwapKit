@@ -9,6 +9,7 @@ import {
 } from '@thorswap-lib/types';
 
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
+import { BaseCosmosToolboxType } from '../index.js';
 
 type Params = {
   sdk: CosmosSDKClient;
@@ -30,13 +31,12 @@ export const getFeeRateFromThorswap = async (chainId: ChainId) => {
   return;
 };
 
-// TODO: figure out how to type this without error on inference
-export const BaseCosmosToolbox: any = ({
+export const BaseCosmosToolbox = ({
   decimal,
   derivationPath,
   getAsset,
   sdk: cosmosClientSdk,
-}: Params) => ({
+}: Params): BaseCosmosToolboxType => ({
   sdk: cosmosClientSdk.sdk,
   transfer: cosmosClientSdk.transfer,
   buildSendTxBody: cosmosClientSdk.buildSendTxBody,

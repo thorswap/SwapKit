@@ -389,7 +389,7 @@ const getToolbox = async ({
         if (!signatures) throw new Error('tx signing failed');
 
         const { data }: any = await auth.txsPost(
-          toolbox.sdk,
+          toolbox.sdk as any,
           StdTx.fromJSON({ msg: unsignedMsgs, fee, memo: '', signatures }),
           'sync',
         );
@@ -425,17 +425,17 @@ const getToolbox = async ({
 
         // get tx signing msg
         const rawSendTx = stringifyKeysInOrder({
-          account_number: accountNumber.toString(),
+          account_number: accountNumber?.toString(),
           chain_id: ChainId.Thorchain,
           fee,
           memo,
           msgs: [msg],
-          sequence: sequence.toString(),
+          sequence: sequence?.toString(),
         });
 
         const signatures = await (signer as THORChainLedger).signTransaction(
           rawSendTx,
-          sequence.toString(),
+          sequence?.toString(),
         );
         if (!signatures) throw new Error('tx signing failed');
 
@@ -449,7 +449,7 @@ const getToolbox = async ({
         const stdTx = StdTx.fromJSON(txObj);
 
         // broadcast tx
-        const { data }: any = await auth.txsPost(toolbox.sdk, stdTx, 'sync');
+        const { data }: any = await auth.txsPost(toolbox.sdk as any, stdTx, 'sync');
 
         if (!data.logs) throw new Error(`Transaction Failed: ${data.logs}`);
 

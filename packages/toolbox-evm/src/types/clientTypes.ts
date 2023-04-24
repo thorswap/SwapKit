@@ -11,6 +11,7 @@ import {
   FeeOption,
   Fees,
   Network,
+  WalletTxParams,
 } from '@thorswap-lib/types';
 
 export enum EthNetwork {
@@ -60,12 +61,14 @@ export type ApproveParams = {
 
 export type EstimateApproveParams = Omit<ApproveParams, 'feeOptionKey' | 'gasLimitFallback'>;
 
-export type IsApprovedParams = {
-  walletIndex?: number;
+export type ApprovedParams = {
   assetAddress: Address;
   spenderAddress: Address;
-  amount?: AmountWithBaseDenom;
   from: string;
+};
+
+export type IsApprovedParams = ApprovedParams & {
+  amount?: AmountWithBaseDenom;
 };
 
 export type CallParams = {
@@ -139,3 +142,13 @@ declare global {
 }
 
 export type TxFormatter<T> = (tx: EIP1559TxParams<BigNumberish>) => EIP1559TxParams<T>;
+
+export type TransferParams = WalletTxParams & {
+  gasPrice?: AmountWithBaseDenom;
+  gasLimit?: BigNumber;
+  maxFeePerGas?: BigNumber;
+  maxPriorityFeePerGas?: BigNumber;
+  data?: string;
+  from: string;
+  nonce?: number;
+};
