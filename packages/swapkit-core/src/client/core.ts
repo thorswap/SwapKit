@@ -301,7 +301,7 @@ export class SwapKitCore {
         }) as Promise<string>;
       }
       default:
-        return walletInstance.transfer(params);
+        return walletInstance.transfer(params) as Promise<string>;
     }
   };
 
