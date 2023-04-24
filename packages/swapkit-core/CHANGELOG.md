@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.144
+
+### Patch Changes
+
+- deposit typing for common wallets
+
 ## 1.0.0-development.143
 
 ### Patch Changes
