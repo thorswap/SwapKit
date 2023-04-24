@@ -10,16 +10,11 @@ import { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
 import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
 import {
   AmountWithBaseDenom,
-  Asset,
-  Asset as AssetType,
-  Balance,
   Chain,
   FeeOption,
   TxHash,
-  TxHistoryParams,
   TxParams,
   WalletOption,
-  WalletTxParams,
 } from '@thorswap-lib/types';
 
 export type { TransactionDetails } from '@thorswap-lib/cross-chain-api-sdk';
@@ -158,34 +153,6 @@ export enum FeeType {
 
 export type LegacyFees = Record<FeeOption, AmountWithBaseDenom> & {
   type: FeeType;
-};
-
-/**
- * v1
- */
-
-type WithBaseWallet<T> = T & {
-  getBalance: (address: string, filterAssets?: Asset[] | undefined) => Promise<Balance[]>;
-  getFees: (params?: { asset: AssetType; amount: AmountWithBaseDenom; recipient: string }) => any;
-  getTransactions: (params?: TxHistoryParams) => any;
-  transfer: (params: WalletTxParams) => Promise<TxHash>;
-  validateAddress: (address: string) => boolean;
-  getTransactionData: (txHash: string, address: string) => any;
-};
-
-export type BaseCosmosWallet = WithBaseWallet<{
-  buildSendTxBody: (todoParam: any) => any;
-  createKeyPair: (todoParam: any) => any;
-  getAccount: (todoParam: any) => any;
-  getAddressFromMnemonic: (todoParam: any) => any;
-  getFeeRateFromThorswap: (todoParam: any) => any;
-  sdk: (todoParam: any) => any;
-  signAndBroadcast: (todoParam: any) => any;
-}>;
-
-export type BaseWallet = {
-  validateAddress: (address: string) => boolean;
-  getBalance: (address: string, filterAssets?: Asset[] | undefined) => Promise<Balance[]>;
 };
 
 type ConnectMethodNames =

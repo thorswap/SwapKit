@@ -35,6 +35,9 @@ type UTXOWalletMethodParams = WalletMethodParams<{
   utxoApiKey: string;
 }>;
 
+/**
+ * Duplicated Wallet types - to be removed later
+ */
 type BaseWalletMethods = {
   getAddress: () => Promise<string> | string;
 };
