@@ -1,7 +1,8 @@
+import { derivationPathToString } from '@thorswap-lib/helpers';
 import { DerivationPathArray, NetworkDerivationPath } from '@thorswap-lib/types';
 import { networks } from 'bitcoinjs-lib';
 
-import { derivationPathToString, getWalletFormatFor } from '../helpers/derivationPath.js';
+import { getWalletFormatFor } from '../helpers/derivationPath.js';
 import { UTXOLedgerInterface } from '../interfaces/LedgerInterfaces.js';
 
 export class BitcoinLedger extends UTXOLedgerInterface {

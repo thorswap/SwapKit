@@ -1,7 +1,17 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@trezor/connect-web": "9.0.7"
+    "@ethersproject/abstract-signer": "5.7.0",
+    "@ethersproject/bignumber": "5.7.0",
+    "@ethersproject/providers": "5.7.0",
+    "@ethersproject/transactions": "5.7.0",
+    "@thorswap-lib/helpers": "workspace:*",
+    "@thorswap-lib/swapkit-entities": "workspace:*",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
+    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@thorswap-lib/types": "workspace:*",
+    "@trezor/connect-web": "9.0.7",
+    "bitcoinjs-lib": "5.2.0"
   },
   "description": "THORSwap Lib trezor",
   "devDependencies": {

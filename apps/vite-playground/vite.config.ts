@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
+import nodePolyfills from 'rollup-plugin-node-polyfills';
 import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
@@ -30,6 +31,8 @@ export default defineConfig({
       '@thorswap-lib/types': resolve('../../packages/types/src'),
       '@thorswap-lib/walletconnect': resolve('../../packages/walletconnect/src'),
       '@thorswap-lib/web-extensions': resolve('../../packages/web-extensions/src'),
+      os: 'rollup-plugin-node-polyfills/polyfills/os',
+      stream: 'rollup-plugin-node-polyfills/polyfills/stream',
     },
   },
   server: {
@@ -40,6 +43,11 @@ export default defineConfig({
   optimizeDeps: {
     esbuildOptions: {
       define: { global: 'globalThis' },
+    },
+  },
+  build: {
+    rollupOptions: {
+      plugins: [nodePolyfills()],
     },
   },
 });

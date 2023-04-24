@@ -42,9 +42,3 @@ export const getWalletFormatFor = (path: string) => {
 
   return purpose === 44 ? 'legacy' : 'bech32';
 };
-
-export const derivationPathToString = ([network, chainId, account, change, index]: number[]) => {
-  const shortPath = typeof index !== 'number';
-
-  return `${network}'/${chainId}'/${account}'/${change}${shortPath ? '' : `/${index}`}`;
-};

@@ -1,6 +1,6 @@
 import { decryptFromKeystore } from '@thorswap-lib/keystore';
 import { getDerivationPathFor } from '@thorswap-lib/ledger';
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import { Chain, NetworkDerivationPath, WalletOption } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 
 import { getSwapKitClient } from './swapKitClient';
@@ -34,6 +34,15 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   [WalletOption.KEPLR]: [Chain.Cosmos],
   [WalletOption.KEYSTORE]: AllChainsSupported,
   [WalletOption.LEDGER]: AllChainsSupported,
+  [WalletOption.TREZOR]: [
+    Chain.Bitcoin,
+    Chain.BitcoinCash,
+    Chain.Litecoin,
+    Chain.Doge,
+    Chain.Ethereum,
+    Chain.Avalanche,
+    Chain.BinanceSmartChain,
+  ],
   [WalletOption.METAMASK]: EVMChainsSupported,
   [WalletOption.TRUSTWALLET_WEB]: EVMChainsSupported,
   [WalletOption.TRUSTWALLET]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
@@ -44,7 +53,6 @@ export const WalletPicker = ({ setWallet }: Props) => {
   const skClient = getSwapKitClient();
   const [loading, setLoading] = useState(false);
   const [chains, setChains] = useState<Chain[]>([]);
-
   const connectWallet = useCallback(
     async (option: WalletOption) => {
       if (!skClient) return alert('client is not ready');
@@ -62,6 +70,9 @@ export const WalletPicker = ({ setWallet }: Props) => {
           return skClient.connectLedger(chains[0], derivationPath);
         }
 
+        case WalletOption.TREZOR:
+          await skClient.connectTrezor(chains, [...NetworkDerivationPath[chains[0]]]);
+          break;
         default:
           break;
       }

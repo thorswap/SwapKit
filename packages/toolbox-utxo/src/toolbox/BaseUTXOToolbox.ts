@@ -228,7 +228,7 @@ export const buildTx = async ({
       index: utxo.index,
       ...(!!utxo.witnessUtxo && chain !== Chain.Doge && { witnessUtxo: utxo.witnessUtxo }),
       ...(chain === Chain.Doge && {
-        nonWitnessUtxo: Buffer.from(utxo.txHex || '', 'hex'),
+        nonWitnessUtxo: utxo.txHex ? Buffer.from(utxo.txHex, 'hex') : undefined,
       }),
     }),
   );
