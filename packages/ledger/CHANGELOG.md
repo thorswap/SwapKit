@@ -1,5 +1,12 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.158
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-evm@0.1.0-development.106
+
 ## 1.0.0-development.157
 
 ### Patch Changes

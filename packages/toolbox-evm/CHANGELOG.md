@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-evm
 
+## 0.1.0-development.106
+
+### Patch Changes
+
+- fix gas estim
+
 ## 0.1.0-development.105
 
 ### Patch Changes

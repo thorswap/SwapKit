@@ -394,7 +394,9 @@ const sendTransaction = async (
 
   let gasLimit: BigNumber;
   try {
-    gasLimit = BigNumber.from(tx.gasLimit) || (await provider.estimateGas(tx)).mul(110).div(100);
+    gasLimit = tx.gasLimit
+      ? BigNumber.from(tx.gasLimit)
+      : (await provider.estimateGas(tx)).mul(110).div(100);
   } catch (error) {
     throw new Error(`Error estimating gas limit: ${JSON.stringify(error)}`);
   }

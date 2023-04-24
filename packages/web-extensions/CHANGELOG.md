@@ -1,5 +1,12 @@
 # @thorswap-lib/web-extensions
 
+## 1.0.0-development.146
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-evm@0.1.0-development.106
+
 ## 1.0.0-development.145
 
 ### Patch Changes
