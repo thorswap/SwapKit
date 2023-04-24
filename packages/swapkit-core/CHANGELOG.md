@@ -1,5 +1,23 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.146
+
+### Patch Changes
+
+- Bump all for test
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-explorers@0.1.0-development.21
+  - @thorswap-lib/swapkit-entities@0.3.0-development.73
+  - @thorswap-lib/helpers@0.0.0-development.65
+  - @thorswap-lib/types@1.0.0-development.70
+
+## 1.0.0-development.144
+
+### Patch Changes
+
+- deposit typing for common wallets
+
 ## 1.0.0-development.143
 
 ### Patch Changes
