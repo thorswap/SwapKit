@@ -1,5 +1,16 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 0.1.0-development.85
+
+### Patch Changes
+
+- [#55](https://github.com/thorswap/SwapKit/pull/55) [`6c87541`](https://github.com/thorswap/SwapKit/commit/6c87541d5dfaf7e91b644564053258a8bbc28d1f) Thanks [@towanTG](https://github.com/towanTG)! - Improves typing for wallets and adds improved approval checks for EVM
+
+- Updated dependencies [[`6c87541`](https://github.com/thorswap/SwapKit/commit/6c87541d5dfaf7e91b644564053258a8bbc28d1f)]:
+  - @thorswap-lib/types@1.0.0-development.69
+  - @thorswap-lib/helpers@0.0.0-development.64
+  - @thorswap-lib/swapkit-entities@0.3.0-development.72
+
 ## 0.1.0-development.84
 
 ### Patch Changes
