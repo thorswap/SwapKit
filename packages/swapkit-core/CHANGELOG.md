@@ -1,5 +1,29 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.149
+
+### Patch Changes
+
+- Bump
+
+## 1.0.0-development.148
+
+### Patch Changes
+
+- Bump core
+
+## 1.0.0-development.147
+
+### Patch Changes
+
+- [#57](https://github.com/thorswap/SwapKit/pull/57) [`9d84996`](https://github.com/thorswap/SwapKit/commit/9d84996dae68cb74bd74a359eaf53f84a13c2e8d) Thanks [@towanTG](https://github.com/towanTG)! - Re release because of npm error
+
+- Updated dependencies [[`9d84996`](https://github.com/thorswap/SwapKit/commit/9d84996dae68cb74bd74a359eaf53f84a13c2e8d)]:
+  - @thorswap-lib/swapkit-explorers@0.1.0-development.22
+  - @thorswap-lib/swapkit-entities@0.3.0-development.74
+  - @thorswap-lib/helpers@0.0.0-development.66
+  - @thorswap-lib/types@1.0.0-development.71
+
 ## 1.0.0-development.146
 
 ### Patch Changes

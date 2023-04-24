@@ -188,10 +188,10 @@ export class SwapKitCore {
 
   getWallet = (chain: Chain) => this.connectedWallets[chain];
 
-  isAssetApproved = (asset: AssetEntity) => this._approve({ asset }, 'checkOnly');
+  isAssetApproved = (asset: AssetEntity) => this._approve<boolean>({ asset }, 'checkOnly');
 
   isAssetApprovedForContract = (asset: AssetEntity, contractAddress: string) =>
-    this._approve({ asset, contractAddress }, 'checkOnly');
+    this._approve<boolean>({ asset, contractAddress }, 'checkOnly');
 
   validateAddress = ({ address, chain }: { address: string; chain: Chain }) =>
     this.getWallet(chain)?.validateAddress?.(address);
@@ -243,7 +243,7 @@ export class SwapKitCore {
 
     const txParams = this._prepareTxParams(params);
     // TODO: fix type
-    return walletInstance.transfer(txParams);
+    return walletInstance.transfer(txParams) as Promise<string>;
   };
 
   deposit = async ({
@@ -575,7 +575,7 @@ export class SwapKitCore {
     this.connectedWallets[chain] = walletMethods;
   };
 
-  private _approve = async (
+  private _approve = async <T = string>(
     {
       asset,
       contractAddress,
@@ -610,7 +610,7 @@ export class SwapKitCore {
       from,
       spenderAddress:
         contractAddress || ((await this._getInboundDataByChain(asset.L1Chain)).router as string),
-    });
+    }) as Promise<T>;
   };
 
   private _transferToPool = async ({
