@@ -1,5 +1,15 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.151
+
+### Patch Changes
+
+- omit address on assym rune LP
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@0.3.0-development.76
+  - @thorswap-lib/helpers@0.0.0-development.68
+
 ## 1.0.0-development.150
 
 ### Patch Changes

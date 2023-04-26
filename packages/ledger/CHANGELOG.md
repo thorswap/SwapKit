@@ -1,5 +1,16 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.159
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@0.3.0-development.76
+  - @thorswap-lib/helpers@0.0.0-development.68
+  - @thorswap-lib/toolbox-cosmos@0.1.0-development.89
+  - @thorswap-lib/toolbox-evm@0.1.0-development.107
+  - @thorswap-lib/toolbox-utxo@0.1.0-development.92
+
 ## 1.0.0-development.158
 
 ### Patch Changes
