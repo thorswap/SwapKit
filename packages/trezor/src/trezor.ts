@@ -23,14 +23,6 @@ export const TREZOR_SUPPORTED_CHAINS = [
   Chain.Litecoin,
 ] as const;
 
-export const trezorTSParams = {
-  lazyLoad: true, // this param will prevent iframe injection until TrezorConnect.method will be called
-  manifest: {
-    email: 'towan@thorswap.finance',
-    appUrl: 'https://app.thorswap.finance',
-  },
-};
-
 type TrezorOptions = {
   ethplorerApiKey?: string;
   utxoApiKey?: string;
@@ -87,10 +79,11 @@ const getToolbox = async ({
       )(utxoApiKey);
 
       const signTransaction = async (psbt: Psbt, memo: string = '') => {
-        //@ts-ignore
+        //@ts-expect-error
         const result = await TrezorConnect.signTransaction({
           coin,
           inputs: psbt.txInputs.map((input) => ({
+            // Hardens the first 3 elements of the derivation path - required by trezor
             address_n: derivationPath.map((pathElement, index) =>
               index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
             ),
@@ -151,7 +144,7 @@ const getToolbox = async ({
       };
 
       const getAddress = async (path: DerivationPathArray = derivationPath) => {
-        //@ts-ignore
+        //@ts-expect-error
         const { success, payload } = await TrezorConnect.getAddress({
           path: `m/${derivationPathToString(path)}`,
           coin,
@@ -192,14 +185,14 @@ const connectTrezor =
     config: TrezorOptions;
   }) =>
   async (chain: (typeof TREZOR_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
-    //@ts-ignore
+    //@ts-expect-error
     const trezorStatus = await TrezorConnect.getDeviceState();
     if (!trezorStatus.success) {
-      //@ts-ignore
+      //@ts-expect-error
       TrezorConnect.init({
         lazyLoad: true, // this param will prevent iframe injection until TrezorConnect.method will be called
         manifest: {
-          email: 'towan@thorswap.finance',
+          email: '',
           appUrl: 'https://app.thorswap.finance',
         },
       });
