@@ -11,7 +11,7 @@ type Props = {
 };
 
 const walletOptions = Object.values(WalletOption).filter(
-  (o) => ![WalletOption.KEPLR, WalletOption.TRUSTWALLET].includes(o),
+  (o) => ![WalletOption.KEPLR, WalletOption.TRUSTWALLET, WalletOption.READONLY].includes(o),
 );
 
 const AllChainsSupported = [
@@ -38,12 +38,15 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   [WalletOption.TRUSTWALLET_WEB]: EVMChainsSupported,
   [WalletOption.TRUSTWALLET]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   [WalletOption.XDEFI]: AllChainsSupported,
+  [WalletOption['READONLY']]: [],
 };
 
 export const WalletPicker = ({ setWallet }: Props) => {
   const skClient = getSwapKitClient();
   const [loading, setLoading] = useState(false);
   const [chains, setChains] = useState<Chain[]>([]);
+  const [readOnlyVisible, setReadOnlyVisible] = useState(false);
+  const [readOnlyAddresses, setReadOnlyAddresses] = useState<{ [key in Chain]?: string }>({});
 
   const connectWallet = useCallback(
     async (option: WalletOption) => {
@@ -69,6 +72,13 @@ export const WalletPicker = ({ setWallet }: Props) => {
     [chains, skClient],
   );
 
+  const fetchConnectedData = useCallback(async () => {
+    const walletDataArray = await Promise.all(chains.map(skClient.getWalletByChain));
+
+    setWallet(walletDataArray.filter(Boolean));
+    setLoading(false);
+  }, [chains, setWallet, skClient.getWalletByChain]);
+
   const handleKeystoreConnection = useCallback(
     async ({ target }: any) => {
       if (!skClient) return alert('client is not ready');
@@ -84,16 +94,13 @@ export const WalletPicker = ({ setWallet }: Props) => {
           const phrases = await decryptFromKeystore(JSON.parse(keystoreFile), password);
 
           await skClient.connectKeystore(chains, phrases);
-          const walletDataArray = await Promise.all(chains.map(skClient.getWalletByChain));
-
-          setWallet(walletDataArray.filter(Boolean));
-          setLoading(false);
+          fetchConnectedData();
         } catch (e) {
           alert(e);
         }
       }, 500);
     },
-    [chains, setWallet, skClient],
+    [chains, fetchConnectedData, skClient],
   );
 
   const handleConnection = useCallback(
@@ -102,13 +109,19 @@ export const WalletPicker = ({ setWallet }: Props) => {
       setLoading(true);
       await connectWallet(option);
 
-      const walletDataArray = await Promise.all(chains.map(skClient.getWalletByChain));
-
-      setWallet(walletDataArray.filter(Boolean));
-      setLoading(false);
+      fetchConnectedData();
     },
-    [chains, connectWallet, setWallet, skClient],
+    [connectWallet, fetchConnectedData, skClient],
   );
+
+  const connectReadonly = useCallback(async () => {
+    if (!skClient) return alert('client is not ready');
+    setLoading(true);
+
+    skClient.connectReadOnly(readOnlyAddresses);
+
+    fetchConnectedData();
+  }, [fetchConnectedData, readOnlyAddresses, skClient]);
 
   const isWalletDisabled = useCallback(
     (wallet: WalletOption) =>
@@ -165,6 +178,37 @@ export const WalletPicker = ({ setWallet }: Props) => {
             )}
           </div>
         ))}
+
+        <div>
+          <button onClick={() => setReadOnlyVisible((prev) => !prev)} type="button">
+            Toggle read only form
+          </button>
+          {readOnlyVisible && (
+            <div>
+              {chains.map((chain) => (
+                <div key={chain}>
+                  <div>{chain}</div>
+                  <div>
+                    <input
+                      onChange={(e) =>
+                        setReadOnlyAddresses((prev) => ({ ...prev, [chain]: e.target.value }))
+                      }
+                      value={readOnlyAddresses[chain]}
+                    />
+                  </div>
+                </div>
+              ))}
+
+              <button
+                disabled={!Object.values(readOnlyAddresses).every(Boolean)}
+                onClick={connectReadonly}
+                type="button"
+              >
+                Connect read only
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -35,6 +35,7 @@ export enum WalletOption {
   'LEDGER' = 'LEDGER',
   'KEPLR' = 'KEPLR',
   'BRAVE' = 'BRAVE',
+  'READONLY' = 'READONLY',
 }
 
 export type EVMWalletOptions =

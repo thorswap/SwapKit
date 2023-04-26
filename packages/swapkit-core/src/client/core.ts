@@ -25,7 +25,7 @@ import {
   ThornameRegisterParam,
 } from '@thorswap-lib/swapkit-entities';
 import { getExplorerAddressUrl, getExplorerTxUrl } from '@thorswap-lib/swapkit-explorers';
-import { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
+import type { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
 import {
   AmountWithBaseDenom,
   Chain,
@@ -36,7 +36,7 @@ import {
   TCEthereumVaultAbi,
   TxHistoryParams,
 } from '@thorswap-lib/types';
-import { type WalletConnectOption } from '@thorswap-lib/walletconnect';
+import type { WalletConnectOption } from '@thorswap-lib/walletconnect';
 
 import {
   AGG_CONTRACT_ADDRESS,
@@ -516,6 +516,18 @@ export class SwapKitCore {
   disconnectChain = (chain: Chain) => {
     this.connectedChains[chain] = null;
     this.connectedWallets[chain] = null;
+  };
+
+  connectReadOnly = (addresses: { [key in Chain]?: string }) => {
+    Object.entries(addresses).forEach(([chain, address]) => {
+      this._addConnectedChain({
+        chain: chain as Chain,
+        // @ts-expect-error
+        wallet: { address, balance: [], walletType: 'read-only' },
+        // TODO: Add getBalance method for read-only
+        walletMethods: { getBalance: () => {}, getAddress: () => address },
+      });
+    });
   };
 
   extend = ({ wallets, config }: ExtendParams) => {
