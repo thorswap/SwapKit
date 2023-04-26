@@ -71,18 +71,18 @@ export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEV
     });
 
     if (!result.success) throw new Error(result.payload.error);
-
-    return (
-      '0x' +
-      serialize(
-        { ...baseTx, nonce: BigNumber.from(baseTx.nonce).toNumber() },
-        {
-          v: BigNumber.from('0x' + result.payload.v).toNumber(),
-          r: '0x' + result.payload.r,
-          s: '0x' + result.payload.s,
-        },
-      ).slice(2)
+    const { r, s, v } = result.payload;
+    debugger;
+    const signedTx = serialize(
+      { ...baseTx, nonce: BigNumber.from(baseTx.nonce).toNumber(), type: 2 },
+      {
+        r,
+        s,
+        v: BigNumber.from(v).toNumber(),
+      },
     );
+    debugger;
+    return signedTx;
   };
 
   const connect = (provider: Provider) => {

@@ -7,11 +7,11 @@ import {
   LTCToolbox,
   UTXOTransferParams,
 } from '@thorswap-lib/toolbox-utxo';
-import { Chain, DerivationPathArray, WalletOption } from '@thorswap-lib/types';
+import { Chain, DerivationPathArray, FeeOption, WalletOption } from '@thorswap-lib/types';
 import TrezorConnect from '@trezor/connect-web';
 import { Psbt } from 'bitcoinjs-lib';
 
-import { getEVMSigner } from './wallets/evm.js';
+import { getEVMSigner } from './signer/evm.js';
 
 export const TREZOR_SUPPORTED_CHAINS = [
   Chain.Avalanche,
@@ -81,28 +81,27 @@ const getToolbox = async ({
     case Chain.Doge:
     case Chain.Litecoin: {
       if (!utxoApiKey) throw new Error('UTXO API key not found');
-
+      const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
       const toolbox = (
         chain === Chain.Bitcoin ? BTCToolbox : chain === Chain.Litecoin ? LTCToolbox : DOGEToolbox
       )(utxoApiKey);
 
-      const signTransaction = async (psbt: Psbt) => {
+      const signTransaction = async (psbt: Psbt, memo: string = '') => {
         //@ts-ignore
         const result = await TrezorConnect.signTransaction({
-          coin: chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge',
-          //@ts-ignore
-          inputs: psbt.txInputs.map((input, index) => ({
-            address_n: `m/${derivationPathToString(derivationPath)}`,
-            prev_hash: input.hash.toString('hex'),
+          coin,
+          inputs: psbt.txInputs.map((input) => ({
+            address_n: derivationPath.map((pathElement, index) =>
+              index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
+            ),
+            prev_hash: input.hash.reverse().toString('hex'),
             prev_index: input.index,
-            amount: psbt.data.inputs[index].witnessUtxo?.value || 0,
-            script_type: 'EXTERNAL',
-            script_pubkey: 'string',
+            amount: 0,
           })),
           outputs: psbt.txOutputs.map((output) => {
-            if (output.address === 'OP_RETURN') {
+            if (!output.address) {
               return {
-                op_return_data: 'deadbeef',
+                op_return_data: Buffer.from(memo).toString('hex'),
                 amount: '0',
                 script_type: 'PAYTOOPRETURN',
               };
@@ -116,20 +115,45 @@ const getToolbox = async ({
         });
 
         if (result.success) {
-          return Psbt.fromHex(result.payload.serializedTx);
+          return result.payload.serializedTx;
         } else {
           throw new Error(
-            `Trezor failed to sign the Bitcoin transaction: ${
+            `Trezor failed to sign the ${chain.toUpperCase()} transaction: ${
               (result.payload as { error: string; code?: string }).error
             }`,
           );
         }
       };
 
+      const transfer = async ({
+        from,
+        recipient,
+        feeOptionKey,
+        feeRate,
+        memo,
+        ...rest
+      }: UTXOTransferParams) => {
+        if (!from) throw new Error('From address must be provided');
+        if (!recipient) throw new Error('Recipient address must be provided');
+        const { psbt } = await toolbox.buildTx({
+          ...rest,
+          memo,
+          feeOptionKey,
+          recipient,
+          feeRate: feeRate || (await toolbox.getFeeRates())[feeOptionKey || FeeOption.Fast],
+          sender: from,
+          fetchTxHex: chain === Chain.Doge,
+        });
+
+        const txHex = await signTransaction(psbt, memo);
+        return toolbox.broadcastTx({ txHex });
+      };
+
       const getAddress = async (path: DerivationPathArray = derivationPath) => {
         //@ts-ignore
         const { success, payload } = await TrezorConnect.getAddress({
           path: `m/${derivationPathToString(path)}`,
+          coin,
         });
 
         if (!success)
@@ -141,13 +165,15 @@ const getToolbox = async ({
         return payload.address;
       };
 
+      const address = await getAddress();
+
       return {
-        address: await getAddress(),
+        address,
         walletMethods: {
           ...toolbox,
-          getAddress,
-          transfer: (params: UTXOTransferParams) =>
-            toolbox.transfer({ signTransaction, ...params }),
+          transfer,
+          signTransaction,
+          getAddress: () => address,
         },
       };
     }
@@ -167,13 +193,17 @@ const connectTrezor =
   async (chains: typeof TREZOR_SUPPORTED_CHAINS, derivationPath: DerivationPathArray) => {
     const promises = chains.map(async (chain) => {
       //@ts-ignore
-      TrezorConnect.init({
-        lazyLoad: true, // this param will prevent iframe injection until TrezorConnect.method will be called
-        manifest: {
-          email: 'towan@thorswap.finance',
-          appUrl: 'https://app.thorswap.finance',
-        },
-      });
+      const trezorStatus = await TrezorConnect.getDeviceState();
+      if (!trezorStatus.success) {
+        //@ts-ignore
+        TrezorConnect.init({
+          lazyLoad: true, // this param will prevent iframe injection until TrezorConnect.method will be called
+          manifest: {
+            email: 'towan@thorswap.finance',
+            appUrl: 'https://app.thorswap.finance',
+          },
+        });
+      }
 
       const { address, walletMethods } = await getToolbox({
         chain,
