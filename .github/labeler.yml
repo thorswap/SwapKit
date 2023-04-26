@@ -27,8 +27,8 @@ trezor:
 types:
 - packages/types/**/*
 
-wc:
-- packages/walletconnect/**/*
+tw:
+- packages/trustwallet/**/*
 
 web-ext:
 - packages/web-extensions/**/*

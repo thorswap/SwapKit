@@ -24,7 +24,7 @@
       "@thorswap-lib/toolbox-cosmos": ["../../packages/toolbox-cosmos"],
       "@thorswap-lib/toolbox-utxo": ["../../packages/toolbox-utxo"],
       "@thorswap-lib/types": ["../../packages/types"],
-      "@thorswap-lib/walletconnect": ["../../packages/walletconnect"],
+      "@thorswap-lib/trustwallet": ["../../packages/trustwallet"],
       "@thorswap-lib/web-extensions": ["../../packages/web-extensions"],
     }
   },

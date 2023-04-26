@@ -9,7 +9,7 @@
     "base64-js": "1.5.1",
     "bech32": "2.0.0"
   },
-  "description": "THORSwap Lib walletconnect",
+  "description": "THORSwap Lib trustwallet",
   "devDependencies": {
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/bignumber": "5.7.0",
@@ -41,7 +41,7 @@
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/walletconnect",
+  "name": "@thorswap-lib/trustwallet",
   "packageManager": "yarn@3.2.1",
   "peerDependencies": {
     "@ethersproject/abstract-signer": "^5.7.0",
@@ -59,7 +59,7 @@
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "yarn clean; echo 'Build walletconnect 🛠'; vite build && echo 'Build succeeded walletconnect ✅\n'",
+    "build": "yarn clean; echo 'Build trustwallet 🛠'; vite build && echo 'Build succeeded trustwallet ✅\n'",
     "clean": "rm -rf dist",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest'",

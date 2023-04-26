@@ -26,6 +26,7 @@ import {
 } from '@thorswap-lib/swapkit-entities';
 import { getExplorerAddressUrl, getExplorerTxUrl } from '@thorswap-lib/swapkit-explorers';
 import { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
+import { type WalletConnectOption } from '@thorswap-lib/trustwallet';
 import {
   AmountWithBaseDenom,
   Chain,
@@ -38,7 +39,6 @@ import {
   TCEthereumVaultAbi,
   TxHistoryParams,
 } from '@thorswap-lib/types';
-import { type WalletConnectOption } from '@thorswap-lib/walletconnect';
 
 import {
   AGG_CONTRACT_ADDRESS,
@@ -536,6 +536,7 @@ export class SwapKitCore {
 
   extend = ({ wallets, config }: ExtendParams) => {
     wallets.forEach((wallet) => {
+      // @ts-expect-error
       this[wallet.connectMethodName] = wallet.connect({
         addChain: this._addConnectedChain,
         config: config || {},

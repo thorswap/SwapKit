@@ -158,7 +158,7 @@ export type LegacyFees = Record<FeeOption, AmountWithBaseDenom> & {
 type ConnectMethodNames =
   | 'connectXDEFI'
   | 'connectKeplr'
-  | 'connectWalletconnect'
+  | 'connectTrustwallet'
   | 'connectKeystore'
   | 'connectLedger'
   | 'connectTrezor'

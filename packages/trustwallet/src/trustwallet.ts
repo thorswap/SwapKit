@@ -283,7 +283,7 @@ const getWalletconnect = async (walletconnectOptions: WalletConnectOption = {}) 
   return connector;
 };
 
-const connectWalletconnect =
+const connectTrustwallet =
   ({
     addChain,
     config: { ethplorerApiKey },
@@ -322,7 +322,7 @@ const connectWalletconnect =
   };
 
 export const walletconnectWallet = {
-  connectMethodName: 'connectWalletconnect' as const,
-  connect: connectWalletconnect,
+  connectMethodName: 'connectTrustwallet' as const,
+  connect: connectTrustwallet,
   isDetected: () => true,
 };
