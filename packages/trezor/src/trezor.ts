@@ -96,6 +96,7 @@ const getToolbox = async ({
             ),
             prev_hash: input.hash.reverse().toString('hex'),
             prev_index: input.index,
+            // object needs amount but does not use it for signing
             amount: 0,
           })),
           outputs: psbt.txOutputs.map((output) => {
