@@ -8,11 +8,11 @@
   },
   "description": "THORSwap Lib trezor",
   "devDependencies": {
-    "@internal/config": "workspace:*",
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/bignumber": "5.7.0",
     "@ethersproject/providers": "5.7.0",
     "@ethersproject/transactions": "5.7.0",
+    "@internal/config": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "@vitest/coverage-c8": "0.29.2",

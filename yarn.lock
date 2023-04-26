@@ -2770,6 +2770,14 @@ __metadata:
     bitcoinjs-lib: 5.2.0
     vite: 3.1.4
     vitest: 0.29.2
+  peerDependencies:
+    "@ethersproject/abstract-signer": 5.7.0
+    "@ethersproject/bignumber": 5.7.0
+    "@ethersproject/providers": 5.7.0
+    "@ethersproject/transactions": 5.7.0
+    "@thorswap-lib/toolbox-evm": "workspace:*"
+    "@thorswap-lib/toolbox-utxo": "workspace:*"
+    bitcoinjs-lib: 5.2.0
   languageName: unknown
   linkType: soft
 

@@ -79,7 +79,7 @@ const getToolbox = async ({
       )(utxoApiKey);
 
       const signTransaction = async (psbt: Psbt, memo: string = '') => {
-        //@ts-expect-error
+        //@ts-ignore
         const result = await TrezorConnect.signTransaction({
           coin,
           inputs: psbt.txInputs.map((input) => ({
@@ -144,7 +144,7 @@ const getToolbox = async ({
       };
 
       const getAddress = async (path: DerivationPathArray = derivationPath) => {
-        //@ts-expect-error
+        //@ts-ignore
         const { success, payload } = await TrezorConnect.getAddress({
           path: `m/${derivationPathToString(path)}`,
           coin,
@@ -185,10 +185,10 @@ const connectTrezor =
     config: TrezorOptions;
   }) =>
   async (chain: (typeof TREZOR_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
-    //@ts-expect-error
+    //@ts-ignore
     const trezorStatus = await TrezorConnect.getDeviceState();
     if (!trezorStatus.success) {
-      //@ts-expect-error
+      //@ts-ignore
       TrezorConnect.init({
         lazyLoad: true, // this param will prevent iframe injection until TrezorConnect.method will be called
         manifest: {

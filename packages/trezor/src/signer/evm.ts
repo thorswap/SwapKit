@@ -13,7 +13,7 @@ interface TrezorEVMSignerParams {
 
 export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEVMSignerParams) => {
   const getAddress = async () => {
-    //@ts-expect-error
+    //@ts-ignore
     const result = await TrezorConnect.ethereumGetAddress({
       path: `m/${derivationPathToString(derivationPath)}`,
       showOnTrezor: true,
@@ -25,7 +25,7 @@ export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEV
   };
 
   const signMessage = async (message: string) => {
-    //@ts-expect-error
+    //@ts-ignore
     const result = await TrezorConnect.ethereumSignMessage({
       path: `m/${derivationPathToString(derivationPath)}`,
       message,
@@ -64,7 +64,7 @@ export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEV
       maxPriorityFeePerGas: BigNumber.from(maxPriorityFeePerGas).toHexString(),
     };
 
-    //@ts-expect-error
+    //@ts-ignore
     const result = await TrezorConnect.ethereumSignTransaction({
       path: `m/${derivationPathToString(derivationPath)}`,
       transaction: baseTx,
