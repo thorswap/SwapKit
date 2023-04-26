@@ -191,37 +191,33 @@ const connectTrezor =
     addChain: any;
     config: TrezorOptions;
   }) =>
-  async (chains: typeof TREZOR_SUPPORTED_CHAINS, derivationPath: DerivationPathArray) => {
-    const promises = chains.map(async (chain) => {
+  async (chain: (typeof TREZOR_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
+    //@ts-ignore
+    const trezorStatus = await TrezorConnect.getDeviceState();
+    if (!trezorStatus.success) {
       //@ts-ignore
-      const trezorStatus = await TrezorConnect.getDeviceState();
-      if (!trezorStatus.success) {
-        //@ts-ignore
-        TrezorConnect.init({
-          lazyLoad: true, // this param will prevent iframe injection until TrezorConnect.method will be called
-          manifest: {
-            email: 'towan@thorswap.finance',
-            appUrl: 'https://app.thorswap.finance',
-          },
-        });
-      }
-
-      const { address, walletMethods } = await getToolbox({
-        chain,
-        covalentApiKey,
-        ethplorerApiKey,
-        utxoApiKey,
-        derivationPath,
+      TrezorConnect.init({
+        lazyLoad: true, // this param will prevent iframe injection until TrezorConnect.method will be called
+        manifest: {
+          email: 'towan@thorswap.finance',
+          appUrl: 'https://app.thorswap.finance',
+        },
       });
+    }
 
-      addChain({
-        chain,
-        walletMethods,
-        wallet: { address, balance: [], walletType: WalletOption.TREZOR },
-      });
+    const { address, walletMethods } = await getToolbox({
+      chain,
+      covalentApiKey,
+      ethplorerApiKey,
+      utxoApiKey,
+      derivationPath,
     });
 
-    await Promise.all(promises);
+    addChain({
+      chain,
+      walletMethods,
+      wallet: { address, balance: [], walletType: WalletOption.TREZOR },
+    });
 
     return true;
   };

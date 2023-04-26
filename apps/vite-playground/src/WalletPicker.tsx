@@ -1,6 +1,6 @@
 import { decryptFromKeystore } from '@thorswap-lib/keystore';
 import { getDerivationPathFor } from '@thorswap-lib/ledger';
-import { Chain, NetworkDerivationPath, WalletOption } from '@thorswap-lib/types';
+import { Chain, WalletOption } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 
 import { getSwapKitClient } from './swapKitClient';
@@ -70,9 +70,10 @@ export const WalletPicker = ({ setWallet }: Props) => {
           return skClient.connectLedger(chains[0], derivationPath);
         }
 
-        case WalletOption.TREZOR:
-          await skClient.connectTrezor(chains, [...NetworkDerivationPath[chains[0]]]);
-          break;
+        case WalletOption.TREZOR: {
+          const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
+          return skClient.connectTrezor(chains[0], derivationPath);
+        }
         default:
           break;
       }
