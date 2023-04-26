@@ -1,5 +1,11 @@
 []
 
+## 0.3.0-development.76
+
+### Patch Changes
+
+- omit address on assym rune LP
+
 ## 0.3.0-development.75
 
 ### Patch Changes

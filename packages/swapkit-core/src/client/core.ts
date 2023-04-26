@@ -359,13 +359,14 @@ export class SwapKitCore {
 
     const includeRuneAddress = isPendingSymmAsset || runeTransfer;
     const runeAddress = includeRuneAddress ? runeAddr || this.getAddress(Chain.THORChain) : '';
+    const assetAddress = isSym || mode === 'asset' ? assetAddr || this.getAddress(chain) : '';
 
     const { address, gas_rate, router } = await this._getInboundDataByChain(chain);
     const feeRate = (parseInt(gas_rate) || 0) * gasFeeMultiplier[FeeOption.Fast];
     const runeMemo = getMemoFor(MemoType.DEPOSIT, {
       chain,
       symbol,
-      address: assetAddr || this.getAddress(chain),
+      address: assetAddress,
     });
     const assetMemo = getMemoFor(MemoType.DEPOSIT, {
       chain,
@@ -387,6 +388,7 @@ export class SwapKitCore {
         });
       } catch (error) {
         console.error(error);
+        runeTx = 'failed';
       }
     }
 
@@ -401,6 +403,7 @@ export class SwapKitCore {
         });
       } catch (error) {
         console.error(error);
+        assetTx = 'failed';
       }
     }
 

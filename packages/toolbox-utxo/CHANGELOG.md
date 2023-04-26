@@ -1,5 +1,13 @@
 # @thorswap-lib/toolbox-utxo
 
+## 0.1.0-development.92
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@0.3.0-development.76
+  - @thorswap-lib/helpers@0.0.0-development.68
+
 ## 0.1.0-development.91
 
 ### Patch Changes
