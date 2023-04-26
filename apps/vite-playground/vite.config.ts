@@ -31,8 +31,6 @@ export default defineConfig({
       '@thorswap-lib/types': resolve('../../packages/types/src'),
       '@thorswap-lib/walletconnect': resolve('../../packages/walletconnect/src'),
       '@thorswap-lib/web-extensions': resolve('../../packages/web-extensions/src'),
-      os: 'rollup-plugin-node-polyfills/polyfills/os',
-      stream: 'rollup-plugin-node-polyfills/polyfills/stream',
     },
   },
   server: {
