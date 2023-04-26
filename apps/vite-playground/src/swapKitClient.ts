@@ -14,7 +14,7 @@ export const getSwapKitClient = () => {
   client.extend({
     config: {
       ethplorerApiKey: 'freekey',
-      covalentApiKey: 'ckey_ef8b6be0d7f94770a590bbe57bc',
+      covalentApiKey: '',
       utxoApiKey: 'freekey',
     },
     wallets: [xdefiWallet, evmWallet, ledgerWallet, keystoreWallet, trezorWallet],

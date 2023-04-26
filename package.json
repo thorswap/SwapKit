@@ -34,7 +34,7 @@
     "typescript": "5.0.3"
   },
   "name": "swapkit",
-  "packageManager": "yarn@2.4.1",
+  "packageManager": "yarn@3.2.1",
   "prettier": {
     "bracketSameLine": true,
     "bracketSpacing": true,
