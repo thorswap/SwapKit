@@ -1,3 +1,4 @@
+import { decryptFromKeystore } from '@thorswap-lib/keystore';
 import { getDerivationPathFor } from '@thorswap-lib/ledger';
 import { Chain, WalletOption } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
@@ -10,7 +11,7 @@ type Props = {
 };
 
 const walletOptions = Object.values(WalletOption).filter(
-  (o) => ![WalletOption.KEYSTORE, WalletOption.KEPLR, WalletOption.TRUSTWALLET].includes(o),
+  (o) => ![WalletOption.KEPLR, WalletOption.TRUSTWALLET].includes(o),
 );
 
 const AllChainsSupported = [
@@ -68,6 +69,33 @@ export const WalletPicker = ({ setWallet }: Props) => {
     [chains, skClient],
   );
 
+  const handleKeystoreConnection = useCallback(
+    async ({ target }: any) => {
+      if (!skClient) return alert('client is not ready');
+      setLoading(true);
+
+      const keystoreFile = await target.files[0].text();
+
+      setTimeout(async () => {
+        const password = prompt('Enter password');
+
+        if (!password) return alert('password is required');
+        try {
+          const phrases = await decryptFromKeystore(JSON.parse(keystoreFile), password);
+
+          await skClient.connectKeystore(chains, phrases);
+          const walletDataArray = await Promise.all(chains.map(skClient.getWalletByChain));
+
+          setWallet(walletDataArray.filter(Boolean));
+          setLoading(false);
+        } catch (e) {
+          alert(e);
+        }
+      }, 500);
+    },
+    [chains, setWallet, skClient],
+  );
+
   const handleConnection = useCallback(
     async (option: WalletOption) => {
       if (!skClient) return alert('client is not ready');
@@ -113,13 +141,28 @@ export const WalletPicker = ({ setWallet }: Props) => {
       <div>
         {walletOptions.map((option) => (
           <div key={option} style={{ padding: '8px' }}>
-            <button
-              disabled={!chains.length || isWalletDisabled(option)}
-              onClick={() => handleConnection(option)}
-              type="button"
-            >
-              {option}
-            </button>
+            {option === WalletOption.KEYSTORE ? (
+              <label className="label">
+                <input
+                  accept=".txt"
+                  disabled={!chains.length || isWalletDisabled(option)}
+                  id="keystoreFile"
+                  name={option}
+                  onChange={handleKeystoreConnection}
+                  title="asdf"
+                  type="file"
+                />
+                <span>{option}</span>
+              </label>
+            ) : (
+              <button
+                disabled={!chains.length || isWalletDisabled(option)}
+                onClick={() => handleConnection(option)}
+                type="button"
+              >
+                {option}
+              </button>
+            )}
           </div>
         ))}
       </div>

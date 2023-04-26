@@ -11,6 +11,14 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      crypto: 'crypto-browserify',
+      http: 'stream-http',
+      https: 'https-browserify',
+      os: 'os-browserify/browser',
+      stream: 'readable-stream',
+      util: 'util',
+      url: 'url',
+
       '@thorswap-lib/keystore': resolve('../../packages/keystore/src'),
       '@thorswap-lib/ledger': resolve('../../packages/ledger/src'),
       '@thorswap-lib/swapkit-core': resolve('../../packages/swapkit-core/src'),
