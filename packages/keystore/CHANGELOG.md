@@ -1,5 +1,19 @@
 # @thorswap-lib/keystore
 
+## 1.0.0-development.144
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.91
+
+## 1.0.0-development.143
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@0.1.0-development.90
+
 ## 1.0.0-development.142
 
 ### Patch Changes

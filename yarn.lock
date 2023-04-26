@@ -2929,6 +2929,7 @@ __metadata:
     "@cosmos-client/core": 0.45.13
     "@internal/config": "workspace:*"
     "@thorswap-lib/helpers": "workspace:*"
+    "@thorswap-lib/swapkit-api": "workspace:*"
     "@thorswap-lib/swapkit-entities": "workspace:*"
     "@thorswap-lib/types": "workspace:*"
     "@types/crypto-js": 4.1.1

@@ -1,5 +1,21 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 1.0.0-development.91
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-api@0.1.0-development.1
+
+## 0.1.0-development.90
+
+### Patch Changes
+
+- Add resource worker gas price inside toolbox'
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-api@0.0.1-development.6
+
 ## 0.1.0-development.89
 
 ### Patch Changes

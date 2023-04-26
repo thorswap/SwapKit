@@ -10,10 +10,7 @@ export type QuoteParams = {
   slippage: string;
 };
 
-export type QuoteResponse = {
-  quoteId: string;
-  routes: QuoteRoute[];
-};
+export type QuoteResponse = { quoteId: string; routes: QuoteRoute[] };
 
 export type QuoteRoute = {
   path: string;
@@ -63,11 +60,8 @@ type Meta = {
   thornodeMeta?: any;
 };
 
-type Fees = {
-  [key in Chain]: THOR[];
-};
-
-type THOR = {
+type SwapItem = { from: string; to: string; toTokenAddress: string; parts: Part[] };
+type FeeItem = {
   type: string;
   asset: string;
   networkFee: number;
@@ -81,18 +75,6 @@ type THOR = {
   slipFeeUSD?: number;
 };
 
-type Swaps = {
-  THORCHAIN: THORCHAIN[][];
-};
-
-type THORCHAIN = {
-  from: string;
-  to: string;
-  toTokenAddress: string;
-  parts: Part[];
-};
-
-type Part = {
-  provider: string;
-  percentage: number;
-};
+type Fees = { [key in Chain]: FeeItem[] };
+type Part = { provider: string; percentage: number };
+type Swaps = { [key: string]: SwapItem[][] };

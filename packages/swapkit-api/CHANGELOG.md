@@ -1,5 +1,17 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.1
+
+### Patch Changes
+
+- use proper typing and url
+
+## 0.0.1-development.6
+
+### Patch Changes
+
+- Add resource worker gas price inside toolbox'
+
 ## 0.0.1-development.5
 
 ### Patch Changes

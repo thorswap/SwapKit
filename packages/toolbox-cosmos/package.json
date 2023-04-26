@@ -2,6 +2,7 @@
   "author": "thorswap",
   "dependencies": {
     "@thorswap-lib/helpers": "workspace:*",
+    "@thorswap-lib/swapkit-api": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "base64-js": "1.5.1",
@@ -63,5 +64,5 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "typings": "./dist/index.d.ts",
-  "version": "0.1.0-development.89"
+  "version": "1.0.0-development.91"
 }
