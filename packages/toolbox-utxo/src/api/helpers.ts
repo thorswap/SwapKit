@@ -14,20 +14,12 @@ const getDefaultTxFeeByChain = (chain: Chain) => {
 
 export const getSuggestedTxFee = async (chain: Chain): Promise<number> => {
   // Skipped until internal API is using a more stable data provider
-  //   try {
-  //     // use internal api
-  //     const response = await getRequest<ResourceWorkerGasPricesResponse>(
-  //       ResourceWorkerUrls.ALL_GAS_PRICES,
-  //     );
-  //     const gasPrice = response.result.find(
-  //       (gasPrice) => gasPrice.chainId === ChainToChainId[chain],
-  //     )?.gas;
+  // try {
+  //   const response = await SwapKitApi.getGasRates();
 
-  //     if (gasPrice) {
-  //       return gasPrice;
-  //     }
-  //     throw new Error('Failed to get suggested txFee');
-  //   } catch (error) {
+  //   return response.find((gas) => gas.chainId === chainId)?.gas;
+  //   throw new Error('Failed to get suggested txFee');
+  // } catch (error) {
   try {
     //Use Bitgo API for fee estimation
     //Refer: https://app.bitgo.com/docs/#operation/v2.tx.getfeeestimate

@@ -1,5 +1,12 @@
 # @thorswap-lib/web-extensions
 
+## 1.0.0-development.148
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@0.1.0-development.90
+
 ## 1.0.0-development.147
 
 ### Patch Changes

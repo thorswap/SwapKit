@@ -1,12 +1,7 @@
-import { proto } from '@cosmos-client/core';
-import { assetToString, baseAmount, getRequest } from '@thorswap-lib/helpers';
-import {
-  Asset,
-  ChainId,
-  DerivationPath,
-  ResourceWorkerGasPricesResponse,
-  ResourceWorkerUrls,
-} from '@thorswap-lib/types';
+import type { proto } from '@cosmos-client/core';
+import { assetToString, baseAmount } from '@thorswap-lib/helpers';
+import { SwapKitApi } from '@thorswap-lib/swapkit-api';
+import { Asset, ChainId, DerivationPath } from '@thorswap-lib/types';
 
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
 import { BaseCosmosToolboxType } from '../index.js';
@@ -19,16 +14,9 @@ type Params = {
 };
 
 export const getFeeRateFromThorswap = async (chainId: ChainId) => {
-  const response = await getRequest<ResourceWorkerGasPricesResponse>(
-    ResourceWorkerUrls.ALL_GAS_PRICES,
-  );
-  const gasPrice = response.result.find((gasPrice) => gasPrice.chainId === chainId)?.gas;
+  const response = await SwapKitApi.getGasRates();
 
-  if (gasPrice) {
-    return gasPrice;
-  }
-
-  return;
+  return response.find((gas) => gas.chainId === chainId)?.gas;
 };
 
 export const BaseCosmosToolbox = ({

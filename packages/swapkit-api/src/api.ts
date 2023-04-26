@@ -1,10 +1,11 @@
-import { QuoteParams, QuoteResponse } from './types.js';
+import { GasRatesResponse, QuoteParams, QuoteResponse } from './types/index.js';
 
-const baseUrl = `https://api.thorswap.net/aggregator`;
+const baseUrl = `https://api.thorswap.net`;
 const paramsToString = (params: any) => new URLSearchParams(params).toString();
 
 enum ApiEndpoints {
-  Quote = '/tokens/quote',
+  Quote = '/aggregator/tokens/quote',
+  GasRates = '/resource-worker/gasPrice/getAll',
 }
 
 const fetchWrapper = <T>(url: string, params?: any) =>
@@ -14,4 +15,5 @@ const fetchWrapper = <T>(url: string, params?: any) =>
 
 export const SwapKitApi = {
   getQuote: (params: QuoteParams) => fetchWrapper<QuoteResponse>(ApiEndpoints.Quote, params),
+  getGasRates: () => fetchWrapper<GasRatesResponse>('/gas'),
 };
