@@ -114,7 +114,8 @@ This repo contains packages around SwapKit sdk and its integrations with differe
 | [@thorswap-lib/toolbox-cosmos](./packages/toolbox-cosmos/README.md) | Toolkit to integrate Cosmos chains | THOR, ATOM, BNB                                 |
 | [@thorswap-lib/keystore](./packages/keystore/README.md)             | Keystore implementation            | All chains supported by toolboxes               |
 | [@thorswap-lib/ledger](./packages/ledger/README.md)                 | Ledger implementation              | All chains supported by toolboxes               |
-| [@thorswap-lib/trustwallet](./packages/trustwallet/README.md)   | Trustwallet implementation       | THOR, BNB, ETH                                  |
+| [@thorswap-lib/trustwallet](./packages/trustwallet/README.md)   | Trustwallet implementation       | THOR, BNB, ETH
+| [@thorswap-lib/walletconnect](./packages/walletconnect/README.md)   | Walletconnect implementation       | ETH                                  |
 | [@thorswap-lib/web-extensions](./packages/web-extensions/README.md) | Browser extensions                 | [See more](./packages/web-extensions/README.md) |
 
 ### Setup

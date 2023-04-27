@@ -13,26 +13,10 @@ export const getAddressFromAccount = (account: string) => {
 export const getAddressByChain = (
   chain: Chain.Binance | Chain.THORChain | Chain.Ethereum,
   accounts: string[],
-): string => {
-  switch (chain) {
-    case Chain.Binance:
-      return getAddressFromAccount(
-        accounts.find((account) => account.startsWith(chainToChainId(Chain.Binance))) || '',
-      );
-    case Chain.THORChain:
-      return getAddressFromAccount(
-        accounts.find((account) => account.startsWith(chainToChainId(Chain.THORChain))) || '',
-      );
-    case Chain.Ethereum:
-      return getAddressFromAccount(
-        accounts.find((account) => account.startsWith(chainToChainId(Chain.Ethereum))) || '',
-      );
-    default:
-      return getAddressFromAccount(
-        accounts.find((account) => account.startsWith(chainToChainId(Chain.Ethereum))) || '',
-      );
-  }
-};
+): string =>
+  getAddressFromAccount(
+    accounts.find((account) => account.startsWith(chainToChainId(chain))) || '',
+  );
 
 export const chainToChainId = (chain: Chain) => {
   switch (chain) {
