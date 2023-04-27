@@ -4,8 +4,8 @@
   "devDependencies": {
     "@ethersproject/bignumber": "5.7.0",
     "@internal/config": "workspace:*",
-    "@types/node": "17.0.45",
-    "vite": "4.2.1"
+    "@types/node": "18.16.1",
+    "vite": "4.3.3"
   },
   "exports": {
     ".": {

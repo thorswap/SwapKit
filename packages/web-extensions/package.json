@@ -14,13 +14,13 @@
     "@ethersproject/contracts": "5.7.0",
     "@ethersproject/providers": "5.7.2",
     "@internal/config": "workspace:*",
-    "@keplr-wallet/types": "0.11.49",
+    "@keplr-wallet/types": "0.11.59",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
-    "@vitest/coverage-c8": "0.29.7",
-    "vite": "4.2.1",
-    "vitest": "0.29.7"
+    "@vitest/coverage-c8": "0.30.1",
+    "vite": "4.3.3",
+    "vitest": "0.30.1"
   },
   "exports": {
     ".": {
