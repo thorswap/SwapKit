@@ -15,7 +15,7 @@ import {
 
 import { BaseEVMToolbox, CovalentApi, FeeData, getProvider, MIN_AVAX_GAS } from '../index.js';
 
-export const getFeeData = async ({
+export const getPriorityFeeData = async ({
   feeOptionKey = FeeOption.Average,
 }: {
   feeOptionKey?: FeeOption;
