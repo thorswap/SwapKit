@@ -161,6 +161,7 @@ type ConnectMethodNames =
   | 'connectWalletconnect'
   | 'connectKeystore'
   | 'connectLedger'
+  | 'connectTrezor'
   | 'connectEVMWallet';
 
 type ConnectConfig = {

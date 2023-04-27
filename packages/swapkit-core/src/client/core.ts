@@ -29,6 +29,8 @@ import { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
 import {
   AmountWithBaseDenom,
   Chain,
+  ChainId,
+  ChainToChainId,
   EVMChain,
   EVMWalletOptions,
   FeeOption,
@@ -159,7 +161,18 @@ export class SwapKitCore {
           : undefined;
 
         return walletMethods.sendTransaction(
-          { value, data, from, to: to.toLowerCase() },
+          {
+            value,
+            data,
+            from,
+            to: to.toLowerCase(),
+            chainId: parseInt(
+              ChainToChainId[evmChain] as
+                | ChainId.AvalancheHex
+                | ChainId.EthereumHex
+                | ChainId.BinanceSmartChain,
+            ),
+          },
           feeOptionKey,
         );
       }
@@ -509,6 +522,9 @@ export class SwapKitCore {
   };
   connectLedger = async (_chains: Chain, _derivationPath: number[]) => {
     throwWalletError('connectLedger', 'ledger');
+  };
+  connectTrezor = async (_chains: Chain, _derivationPath: number[]) => {
+    throwWalletError('connectTrezor', 'trezor');
   };
   connectKeplr = async () => {
     throwWalletError('connectKeplr', 'web-extensions');

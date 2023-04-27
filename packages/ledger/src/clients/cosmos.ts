@@ -1,6 +1,6 @@
+import { derivationPathToString } from '@thorswap-lib/helpers';
 import { DerivationPathArray, NetworkDerivationPath } from '@thorswap-lib/types';
 
-import { derivationPathToString } from '../helpers/derivationPath.js';
 import { CommonLedgerInterface } from '../interfaces/LedgerInterfaces.js';
 
 export class CosmosLedger extends CommonLedgerInterface {

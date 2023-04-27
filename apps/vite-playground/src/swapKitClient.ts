@@ -1,6 +1,7 @@
 import { keystoreWallet } from '@thorswap-lib/keystore';
 import { ledgerWallet } from '@thorswap-lib/ledger';
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import { trezorWallet } from '@thorswap-lib/trezor';
 import { evmWallet, xdefiWallet } from '@thorswap-lib/web-extensions';
 
 let skClient: SwapKitCore;
@@ -16,7 +17,7 @@ export const getSwapKitClient = () => {
       covalentApiKey: '',
       utxoApiKey: 'freekey',
     },
-    wallets: [xdefiWallet, evmWallet, ledgerWallet, keystoreWallet],
+    wallets: [xdefiWallet, evmWallet, ledgerWallet, keystoreWallet, trezorWallet],
   });
 
   skClient = client;

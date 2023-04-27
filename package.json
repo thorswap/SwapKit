@@ -130,6 +130,14 @@
       "limit": "400 KB"
     },
     {
+      "path": "./packages/trezor/dist/index.cjs",
+      "limit": "1.7 MB"
+    },
+    {
+      "path": "./packages/trezor/dist/index.es.js",
+      "limit": "2.2 MB"
+    },
+    {
       "path": "./packages/types/dist/index.cjs",
       "limit": "100 KB"
     },
