@@ -27,6 +27,10 @@ type TrezorOptions = {
   ethplorerApiKey?: string;
   utxoApiKey?: string;
   covalentApiKey?: string;
+  trezorManifest?: {
+    email: string;
+    appUrl: string;
+  };
 };
 
 type Params = TrezorOptions & {
@@ -179,7 +183,12 @@ const getToolbox = async ({
 const connectTrezor =
   ({
     addChain,
-    config: { covalentApiKey, ethplorerApiKey = 'freekey', utxoApiKey },
+    config: {
+      covalentApiKey,
+      ethplorerApiKey = 'freekey',
+      utxoApiKey,
+      trezorManifest = { appUrl: '', email: '' },
+    },
   }: {
     addChain: any;
     config: TrezorOptions;
@@ -191,10 +200,7 @@ const connectTrezor =
       //@ts-ignore
       TrezorConnect.init({
         lazyLoad: true, // this param will prevent iframe injection until TrezorConnect.method will be called
-        manifest: {
-          email: '',
-          appUrl: 'https://app.thorswap.finance',
-        },
+        manifest: trezorManifest,
       });
     }
 
