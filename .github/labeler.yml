@@ -30,6 +30,9 @@ types:
 tw:
 - packages/trustwallet/**/*
 
+wc:
+- packages/walletconnect/**/*
+
 web-ext:
 - packages/web-extensions/**/*
 
