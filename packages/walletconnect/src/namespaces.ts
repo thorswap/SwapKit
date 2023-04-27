@@ -1,0 +1,74 @@
+import { ProposalTypes } from '@walletconnect/types';
+
+import {
+  DEFAULT_COSMOS_METHODS,
+  DEFAULT_EIP_155_EVENTS,
+  DEFAULT_EIP155_METHODS,
+  DEFAULT_NEAR_EVENTS,
+  DEFAULT_NEAR_METHODS,
+  DEFAULT_POLKADOT_EVENTS,
+  DEFAULT_POLKADOT_METHODS,
+  DEFAULT_SOLANA_EVENTS,
+  DEFAULT_SOLANA_METHODS,
+} from './constants.js';
+
+export const getNamespacesFromChains = (chains: string[]) => {
+  const supportedNamespaces: string[] = [];
+  chains.forEach((chainId) => {
+    const [namespace] = chainId.split(':');
+    if (!supportedNamespaces.includes(namespace)) {
+      supportedNamespaces.push(namespace);
+    }
+  });
+
+  return supportedNamespaces;
+};
+
+export const getSupportedMethodsByNamespace = (namespace: string) => {
+  switch (namespace) {
+    case 'eip155':
+      return Object.values(DEFAULT_EIP155_METHODS);
+    case 'cosmos':
+      return Object.values(DEFAULT_COSMOS_METHODS);
+    case 'solana':
+      return Object.values(DEFAULT_SOLANA_METHODS);
+    case 'polkadot':
+      return Object.values(DEFAULT_POLKADOT_METHODS);
+    case 'near':
+      return Object.values(DEFAULT_NEAR_METHODS);
+    default:
+      throw new Error(`No default methods for namespace: ${namespace}`);
+  }
+};
+
+export const getSupportedEventsByNamespace = (namespace: string) => {
+  switch (namespace) {
+    case 'eip155':
+      return Object.values(DEFAULT_EIP_155_EVENTS);
+    case 'cosmos':
+      return [];
+    case 'solana':
+      return Object.values(DEFAULT_SOLANA_EVENTS);
+    case 'polkadot':
+      return Object.values(DEFAULT_POLKADOT_EVENTS);
+    case 'near':
+      return Object.values(DEFAULT_NEAR_EVENTS);
+    default:
+      throw new Error(`No default events for namespace: ${namespace}`);
+  }
+};
+
+export const getRequiredNamespaces = (chains: string[]): ProposalTypes.RequiredNamespaces => {
+  const selectedNamespaces = getNamespacesFromChains(chains);
+
+  return Object.fromEntries(
+    selectedNamespaces.map((namespace) => [
+      namespace,
+      {
+        methods: getSupportedMethodsByNamespace(namespace),
+        chains: chains.filter((chain) => chain.startsWith(namespace)),
+        events: getSupportedEventsByNamespace(namespace) as any[],
+      },
+    ]),
+  );
+};
