@@ -20,6 +20,7 @@
     "hungry-beers-pretend",
     "hungry-eyes-help",
     "large-crews-hug",
+    "many-pens-battle",
     "many-trains-train",
     "mighty-buckets-do",
     "modern-dogs-switch",
@@ -39,6 +40,7 @@
     "smooth-cherries-march",
     "stale-dancers-grin",
     "strong-kangaroos-poke",
+    "swift-yaks-rescue",
     "tame-items-study",
     "thick-apes-wave",
     "three-readers-protect",
@@ -57,7 +59,8 @@
     "@thorswap-lib/types": "1.0.0-development.60",
     "@thorswap-lib/walletconnect": "1.0.0-development.105",
     "@thorswap-lib/web-extensions": "1.0.0-development.118",
-    "@thorswap-lib/swapkit-api": "0.0.0"
+    "@thorswap-lib/swapkit-api": "0.0.0",
+    "@thorswap-lib/trezor": "0.0.0"
   },
   "mode": "pre",
   "tag": "development"
