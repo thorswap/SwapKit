@@ -107,7 +107,7 @@ export interface NetworkParams {
 }
 
 export type SendTransactionParams = {
-  signer: Signer;
+  signer?: Signer;
   provider: Provider;
 };
 

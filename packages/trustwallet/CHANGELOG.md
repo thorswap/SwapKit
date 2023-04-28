@@ -1,4 +1,4 @@
-# @thorswap-lib/walletconnect
+# @thorswap-lib/trustwallet
 
 ## 1.0.0-development.135
 

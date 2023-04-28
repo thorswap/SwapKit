@@ -146,11 +146,11 @@
       "limit": "100 KB"
     },
     {
-      "path": "./packages/walletconnect/dist/index.cjs",
+      "path": "./packages/trustwallet/dist/index.cjs",
       "limit": "500 KB"
     },
     {
-      "path": "./packages/walletconnect/dist/index.es.js",
+      "path": "./packages/trustwallet/dist/index.es.js",
       "limit": "500 KB"
     },
     {

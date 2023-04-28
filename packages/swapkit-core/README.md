@@ -19,7 +19,7 @@ yarn add @thorswap-lib/swapkit-core
 | `connectKeplr`               | connect to Keplr wallet                             | [@thorswap-lib/web-extensions](../web-extensions) |
 | `connectKeystore`            | connect to Keystore wallet                          | [@thorswap-lib/keystore](../keystore)             |
 | `connectLedger`              | connect to Ledger wallet                            | [@thorswap-lib/ledger](../ledger)                 |
-| `connectWalletconnect`       | connect to WalletConnect wallet                     | [@thorswap-lib/walletConnect](../walletConnect)   |
+| `connectTrustwallet`       | connect to Trustwallet wallet                     | [@thorswap-lib/trustwallet](../trustwallet)   |
 | `connectXDEFI`               | connect to XDEFI wallet                             | [@thorswap-lib/web-extensions](../web-extensions) |
 | `createLiquidity`            | trigger create LP pool transaction                  | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos) |
 | `deposit`                    | trigger TC router depositWithExpiry transaction     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos) |

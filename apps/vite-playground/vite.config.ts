@@ -28,7 +28,7 @@ export default defineConfig({
       '@thorswap-lib/toolbox-cosmos': resolve('../../packages/toolbox-cosmos/src'),
       '@thorswap-lib/toolbox-utxo': resolve('../../packages/toolbox-utxo/src'),
       '@thorswap-lib/types': resolve('../../packages/types/src'),
-      '@thorswap-lib/walletconnect': resolve('../../packages/walletconnect/src'),
+      '@thorswap-lib/trustwallet': resolve('../../packages/trustwallet/src'),
       '@thorswap-lib/web-extensions': resolve('../../packages/web-extensions/src'),
     },
   },

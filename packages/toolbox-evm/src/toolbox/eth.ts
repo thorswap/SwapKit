@@ -48,7 +48,7 @@ export const ETHToolbox = ({
   provider,
 }: {
   ethplorerApiKey: string;
-  signer: Signer;
+  signer?: Signer;
   provider: Provider | Web3Provider;
 }) => {
   const api = new EthereumApi({ apiKey: ethplorerApiKey });

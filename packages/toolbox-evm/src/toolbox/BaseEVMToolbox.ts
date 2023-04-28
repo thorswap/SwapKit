@@ -157,7 +157,6 @@ const isApproved = async (
 
 const approve = async (
   provider: Provider,
-  signer: Signer,
   {
     assetAddress,
     spenderAddress,
@@ -168,6 +167,7 @@ const approve = async (
     from,
     nonce,
   }: ApproveParams,
+  signer?: Signer,
 ) => {
   const { maxFeePerGas, maxPriorityFeePerGas } = await getFeeData({
     provider,
@@ -213,7 +213,6 @@ const approve = async (
 
 const transfer = async (
   provider: Provider | Web3Provider,
-  signer: Signer,
   {
     asset,
     memo,
@@ -227,7 +226,9 @@ const transfer = async (
     from,
     nonce,
   }: TransferParams,
+  signer?: Signer,
 ) => {
+  if (!signer) throw new Error('Signer is not defined');
   // TODO: create a method that creates the base tx object! @towan
   const txAmount = amount.amount();
   const parsedAsset: AssetEntity = getAssetEntity(asset);
@@ -266,7 +267,7 @@ const transfer = async (
     ...overrides,
   };
 
-  return sendTransaction(provider, signer, txObject, feeOptionKey);
+  return sendTransaction(provider, txObject, feeOptionKey, signer);
 };
 
 const estimateGasPrices = async (provider: Provider) => {
@@ -381,13 +382,14 @@ const getFeeData = async ({
 
 const sendTransaction = async (
   provider: Provider,
-  signer: Signer,
   tx: EIP1559TxParams,
   feeOptionKey: FeeOption = FeeOption.Fast,
+  signer?: Signer,
 ) => {
+  if (!signer) throw new Error('Signer not defined');
   const address = tx.from || (await signer.getAddress());
   const nonce = tx.nonce || (await provider.getTransactionCount(address));
-  const chainId = tx.chainId || (await provider.getNetwork()).chainId;
+  const chainId = (await provider.getNetwork()).chainId;
 
   const { maxFeePerGas, maxPriorityFeePerGas } = tx;
   const feeData = await getFeeData({ feeOptionKey, provider });
@@ -513,7 +515,7 @@ export const BaseEVMToolbox = ({
   provider,
   signer,
 }: {
-  signer: Signer;
+  signer?: Signer;
   provider: Provider | Web3Provider;
 }) => ({
   isDetected,
@@ -523,8 +525,8 @@ export const BaseEVMToolbox = ({
   createContract,
   EIP1193SendTransaction: (tx: EIP1559TxParams) => EIP1193SendTransaction(provider, tx),
   createContractTxObject: (params: CallParams) => createContractTxObject(provider, params),
-  approve: (params: ApproveParams) => approve(provider, signer, params),
-  transfer: (params: TransferParams) => transfer(provider, signer, params),
+  approve: (params: ApproveParams) => approve(provider, params, signer),
+  transfer: (params: TransferParams) => transfer(provider, params, signer),
   call: (params: CallParams) => call(provider, { ...params, signer }),
   estimateGasPrices: () => estimateGasPrices(provider),
   getFees: (params?: WalletTxParams) => getFees(provider, params),
@@ -532,7 +534,7 @@ export const BaseEVMToolbox = ({
   approvedAmount: (params: ApprovedParams) => approvedAmount(provider, params),
   validateAddress,
   sendTransaction: (params: EIP1559TxParams, feeOption: FeeOption) =>
-    sendTransaction(provider, signer, params, feeOption),
+    sendTransaction(provider, params, feeOption, signer),
   broadcastTransaction: provider.sendTransaction,
   estimateCall: (params: EstimateCallParams) => estimateCall(provider, { ...params, signer }),
   estimateGasLimit: ({ asset, recipient, amount, memo }: WalletTxParams) =>

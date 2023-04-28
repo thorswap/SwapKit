@@ -1,58 +1,33 @@
-import { Signer } from '@ethersproject/abstract-signer';
-import { BigNumber } from '@ethersproject/bignumber';
-import { getTcChainId } from '@thorswap-lib/helpers';
-import {
-  BinanceToolbox,
-  DepositParam,
-  getDenomWithChain,
-  ThorchainToolbox,
-} from '@thorswap-lib/toolbox-cosmos';
+import { hexlify } from '@ethersproject/bytes';
+import { toUtf8Bytes } from '@ethersproject/strings';
 import { ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
-import {
-  Chain,
-  ChainId,
-  EIP1559TxParams,
-  NetworkId,
-  WalletOption,
-  WalletTxParams,
-} from '@thorswap-lib/types';
-import WalletConnect from '@walletconnect/client';
+import { Chain, WalletOption } from '@thorswap-lib/types';
 import QRCodeModal from '@walletconnect/qrcode-modal';
-import type { IConnector, IWalletConnectOptions } from '@walletconnect/types';
-import { auth, StdTx } from 'cosmos-client/x/auth/index.js';
+import Client from '@walletconnect/sign-client';
+import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
 
-import { errorCodes } from './constants.js';
-import { buildTransferMsg, getAccounts, getAddressByChain } from './helpers.js';
-import { IAccount, WalletConnectOption } from './types.js';
+import {
+  DEFAULT_APP_METADATA,
+  DEFAULT_EIP155_METHODS,
+  DEFAULT_LOGGER,
+  DEFAULT_RELAY_URL,
+  ETHEREUM_MAINNET_ID,
+} from './constants.js';
+import { chainToChainId, getAddressByChain } from './helpers.js';
+import { getRequiredNamespaces } from './namespaces.js';
 
 const SUPPORTED_CHAINS = [Chain.Binance, Chain.Ethereum, Chain.THORChain] as const;
-const THORCHAIN_DEFAULT_GAS_FEE = '500000000';
-
-const fee = {
-  amounts: [],
-  gas: THORCHAIN_DEFAULT_GAS_FEE,
-};
-
-//TODO fix transaction object typing
-const parseEvmTxToWalletconnect = (transaction: EIP1559TxParams) => {
-  if (!transaction.from || !transaction.to) throw new Error('invalid transaction');
-  return {
-    from: transaction.from.toLowerCase(),
-    to: transaction.to.toLowerCase(),
-    data: transaction.data || undefined,
-    value: BigNumber.from(transaction.value || 0).toHexString(),
-  };
-};
 
 const getToolbox = async ({
   chain,
   ethplorerApiKey,
   address,
-  stagenet,
   walletconnectClient,
+  session,
 }: {
-  walletconnectClient: IConnector;
-  stagenet?: boolean;
+  // @ts-ignore
+  walletconnectClient: Client;
+  session: SessionTypes.Struct;
   chain: (typeof SUPPORTED_CHAINS)[number];
   ethplorerApiKey?: string;
   address: string;
@@ -65,245 +40,129 @@ const getToolbox = async ({
 
       const provider = getProvider(chain);
 
-      const signer = {
-        signTransaction: async (transaction: EIP1559TxParams) => {
-          const signedTx = await walletconnectClient.signTransaction(
-            parseEvmTxToWalletconnect(transaction),
-          );
-          return signedTx.startsWith('0x') ? signedTx : `0x${signedTx}`;
-        },
-        getAddress: async () => address,
-        _isSigner: true,
-        sendTransaction: async (tx: EIP1559TxParams) => {
-          const signedTx = await walletconnectClient.signTransaction(parseEvmTxToWalletconnect(tx));
-          // Workaround cause trustwallet iOS doesn't return hex string with prefix 0x, android does
-          return provider.sendTransaction(signedTx.startsWith('0x') ? signedTx : `0x${signedTx}`);
-        },
-      } as unknown as Signer;
-
-      return ETHToolbox({
+      const toolbox = ETHToolbox({
         provider,
-        signer,
         ethplorerApiKey,
       });
-    }
 
-    case Chain.THORChain: {
-      const toolbox = ThorchainToolbox({ stagenet });
-
-      const deposit = async ({ asset, memo, amount }: DepositParam) => {
-        const account = await toolbox.getAccount(from);
-        if (!account) throw new Error('invalid account');
-        if (!asset) throw new Error('invalid asset to deposit');
-
-        const sequence = account.sequence?.toString() || '0';
-
-        const tx = {
-          accountNumber: account.account_number?.low,
-          chainId: getTcChainId(),
-          fee,
-          memo: '',
-          sequence,
-          messages: [
-            {
-              rawJsonMessage: {
-                type: 'thorchain/MsgDeposit',
-                value: JSON.stringify({
-                  memo,
-                  coins: [
-                    {
-                      asset: getDenomWithChain(asset).toUpperCase(),
-                      amount: amount.amount().toString(),
-                    },
-                  ],
-                  signer: address,
-                }),
+      const transfer = async (params: any) => {
+        debugger;
+        const txAmount = params.amount.amount().toHexString();
+        const gasLimit = (
+          await toolbox.estimateGasLimit({
+            asset: params.asset,
+            recipient: params.recipient,
+            amount: params.amount,
+            memo: params.memo,
+          })
+        ).toHexString();
+        const gasPrice = (await toolbox.estimateGasPrices()).fast.maxFeePerGas
+          .amount()
+          .toHexString();
+        const txHash: string = await walletconnectClient.request({
+          chainId: ETHEREUM_MAINNET_ID,
+          topic: session.topic,
+          request: {
+            method: DEFAULT_EIP155_METHODS.ETH_SEND_TRANSACTION,
+            params: [
+              {
+                from,
+                to: params.recipient,
+                data: params.memo ? hexlify(toUtf8Bytes(params.memo)) : '0x',
+                gasPrice,
+                gasLimit,
+                value: txAmount,
               },
-            },
-          ],
-        };
-
-        const signedTx = await walletconnectClient.sendCustomRequest({
-          jsonrpc: '2.0',
-          method: 'trust_signTransaction',
-          params: [{ network: NetworkId.THORChain, transaction: JSON.stringify(tx) }],
-        });
-
-        const signedTxObj = JSON.parse(signedTx);
-
-        if (!signedTxObj?.tx) throw new Error('tx signing failed');
-
-        // insert sequence to signedTx Object
-        signedTxObj.tx.signatures[0].sequence = String(sequence);
-        signedTxObj.tx.fee = fee;
-
-        // @ts-ignore newer version of cosmos-client
-        const { data } = await auth.txsPost(toolbox.sdk, StdTx.fromJSON(signedTxObj.tx), 'block');
-
-        return data?.txhash || '';
-      };
-
-      const transfer = async ({ asset, amount, recipient, memo }: WalletTxParams) => {
-        const account = await toolbox.getAccount(from);
-        if (!account) throw new Error('invalid account');
-        if (!asset) throw new Error('invalid asset');
-
-        const { account_number: accountNumber, sequence = '0' } = account;
-
-        const message = {
-          sendCoinsMessage: {
-            fromAddress: from,
-            toAddress: recipient,
-            amounts: [{ denom: asset?.symbol.toLowerCase(), amount: amount.amount().toString() }],
+            ],
           },
-        };
-
-        // get tx signing msg
-        const signRequestMsg = {
-          accountNumber: accountNumber?.toString(),
-          chainId: getTcChainId(),
-          fee,
-          memo: memo || '',
-          sequence: sequence?.toString(),
-          messages: [message],
-        };
-
-        const signedTx = await walletconnectClient.sendCustomRequest({
-          jsonrpc: '2.0',
-          method: 'trust_signTransaction',
-          params: [{ network: NetworkId.THORChain, transaction: JSON.stringify(signRequestMsg) }],
         });
-
-        // broadcast raw tx
-
-        const signedTxObj = JSON.parse(signedTx);
-
-        if (!signedTxObj?.tx) throw new Error('tx signing failed');
-
-        // insert sequence to signedTx Object
-        signedTxObj.tx.signatures[0].sequence = String(sequence);
-
-        const stdTx = StdTx.fromJSON(signedTxObj.tx);
-
-        // @ts-ignore newer version of cosmos-client
-        const { data } = await auth.txsPost(toolbox.sdk, stdTx, 'block');
-
-        // return tx hash
-        return data?.txhash || '';
-      };
-
-      return { ...toolbox, deposit, transfer };
-    }
-    case Chain.Binance: {
-      const toolbox = BinanceToolbox({ stagenet });
-
-      const transfer = async ({ asset, amount, recipient, memo = '' }: WalletTxParams) => {
-        const account = await toolbox.getAccount(from);
-        if (!account) throw new Error('invalid account');
-        if (!asset) throw new Error('invalid asset');
-
-        const accountNumber = account.account_number.toString();
-        const sequence = account.sequence.toString();
-        const txParam = {
-          fromAddress: from,
-          toAddress: recipient,
-          denom: asset?.symbol,
-          amount: amount.amount().toNumber(),
-        };
-
-        const signedTx = await walletconnectClient.sendCustomRequest({
-          jsonrpc: '2.0',
-          method: 'trust_signTransaction',
-          params: [
-            {
-              network: NetworkId.Binance,
-              transaction: JSON.stringify({
-                accountNumber,
-                chainId: ChainId.Binance,
-                sequence,
-                memo,
-                send_order: buildTransferMsg(txParam),
-              }),
-            },
-          ],
-        });
-
-        const res: any = await toolbox.sendRawTransaction(signedTx, true);
-
-        return res[0]?.hash;
+        return txHash;
       };
 
       return { ...toolbox, transfer };
     }
+    default:
+      throw new Error('Chain is not supported');
   }
 };
 
-let walletConnectAccounts: IAccount[];
-const getWalletconnect = async (walletconnectOptions: WalletConnectOption = {}) => {
-  const options: IWalletConnectOptions = {
-    bridge: 'https://polygon.bridge.walletconnect.org',
-    // @ts-ignore walletconnet types issue
-    qrcodeModal: QRCodeModal,
-    qrcodeModalOptions: { mobileLinks: ['trust'] },
-    ...walletconnectOptions?.options,
-  };
+const getWalletconnect = async (
+  chains: Chain[],
+  walletConnectProjectId: string,
+  walletconnectOptions?: SignClientTypes.Options,
+) => {
+  try {
+    const requiredNamespaces = getRequiredNamespaces(chains.map(chainToChainId));
 
-  const listeners = walletconnectOptions?.listeners;
-  localStorage.removeItem('walletconnect');
-
-  // @ts-expect-error
-  const connector = new WalletConnect(options) as unknown as WalletConnect.default;
-
-  if (!connector.connected) {
-    // create new session (display QR code inside createSession as well)
-    await connector.createSession();
-  }
-
-  if (!connector) {
-    throw new Error(errorCodes.ERROR_SESSION_DISCONNECTED);
-  }
-
-  await new Promise((resolve, reject) => {
-    connector.on('connect', async (error: any) => {
-      if (error) reject(error);
-
-      // @ts-ignore walletconnet types issue
-      QRCodeModal.close();
-      walletConnectAccounts = await getAccounts(connector);
-      resolve(walletConnectAccounts);
+    // @ts-ignore
+    const client = await Client.init({
+      logger: DEFAULT_LOGGER,
+      relayUrl: DEFAULT_RELAY_URL,
+      projectId: walletConnectProjectId,
+      metadata: walletconnectOptions?.metadata || DEFAULT_APP_METADATA,
+      ...walletconnectOptions?.core,
     });
 
-    connector.on('disconnect', (error: any) => {
-      if (error) reject(error);
-
-      listeners?.disconnect?.();
+    const { uri, approval } = await client.connect({
+      requiredNamespaces,
     });
-  });
 
-  return connector;
+    // Open QRCode modal if a URI was returned (i.e. we're not connecting an existing pairing).
+    if (uri) {
+      // @ts-ignore
+      QRCodeModal.open(uri, () => {
+        console.log('EVENT', 'QR Code Modal closed');
+      });
+    }
+
+    const session = await approval();
+    const accounts = Object.values(session.namespaces)
+      .map((namespace: any) => namespace.accounts)
+      .flat();
+
+    return { session, accounts, client };
+  } catch (e) {
+    console.error(e);
+  } finally {
+    // @ts-ignore
+    QRCodeModal.close();
+  }
+  return undefined;
 };
 
 const connectWalletconnect =
   ({
     addChain,
-    config: { ethplorerApiKey },
+    config: { ethplorerApiKey, walletConnectProjectId },
   }: {
     addChain: any;
-    config: { ethplorerApiKey?: string };
+    config: {
+      ethplorerApiKey?: string;
+      walletConnectProjectId: string;
+    };
   }) =>
   async (
     chains: (typeof SUPPORTED_CHAINS)[number][],
-    walletconnectOptions?: WalletConnectOption,
+    walletconnectOptions?: SignClientTypes.Options,
   ) => {
     const chainsToConnect = chains.filter((chain) => SUPPORTED_CHAINS.includes(chain));
-    const walletconnectClient: IConnector = await getWalletconnect(walletconnectOptions);
+    const walletconnect = await getWalletconnect(
+      chainsToConnect,
+      walletConnectProjectId,
+      walletconnectOptions,
+    );
+
+    if (!walletconnect) throw new Error('Unable to establish connection through walletconnect');
+
+    const { session, accounts, client } = walletconnect;
 
     const promises = chainsToConnect.map(async (chain) => {
-      const address = getAddressByChain(chain, walletConnectAccounts);
+      const address = getAddressByChain(chain, accounts);
       const getAddress = () => address;
 
       const toolbox = await getToolbox({
-        walletconnectClient,
+        walletconnectClient: client,
+        session,
         address,
         chain,
         ethplorerApiKey,

@@ -1,26 +1,16 @@
 import thorswapViteConfig from '@internal/config';
-import path from 'path';
+import { resolve } from 'path';
 
-import packageJson from './package.json';
+import { name } from './package.json';
 
-const viteConfig = thorswapViteConfig(packageJson.name, {
+const viteConfig = thorswapViteConfig(name, {
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
+      entry: resolve(__dirname, 'src/index.ts'),
     },
-    rollupOptions: {
-      external: [
-        '@ethersproject/abstract-signer',
-        '@ethersproject/bignumber',
-        '@ethersproject/bytes',
-        '@ethersproject/contracts',
-        '@ethersproject/strings',
-        '@thorswap-lib/toolbox-cosmos',
-        '@thorswap-lib/toolbox-evm',
-        'bech32-buffer',
-        'cosmos-client',
-      ],
-    },
+  },
+  rollupOptions: {
+    external: ['@ethersproject/bytes', '@ethersproject/strings', '@thorswap-lib/toolbox-evm'],
   },
 });
 

@@ -21,7 +21,7 @@ import { Chain, FeeOption } from '@thorswap-lib/types';
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { keystoreWallet } from '@thorswap-lib/keystore';
 import { ledgerWallet } from '@thorswap-lib/ledger';
-import { walletconnectWallet } from '@thorswap-lib/walletconnect';
+import { trustwalletWallet } from '@thorswap-lib/trustwallet';
 import { evmWallet, keplrWallet, xdefiWallet } from '@thorswap-lib/web-extensions';
 
 const getSwapKitClient = () => {
@@ -37,7 +37,7 @@ const getSwapKitClient = () => {
     wallets: [
       keystoreWallet,
       ledgerWallet,
-      walletconnectWallet,
+      trustwalletWallet,
       evmWallet,
       keplrWallet,
       xdefiWallet,
@@ -114,7 +114,8 @@ This repo contains packages around SwapKit sdk and its integrations with differe
 | [@thorswap-lib/toolbox-cosmos](./packages/toolbox-cosmos/README.md) | Toolkit to integrate Cosmos chains | THOR, ATOM, BNB                                 |
 | [@thorswap-lib/keystore](./packages/keystore/README.md)             | Keystore implementation            | All chains supported by toolboxes               |
 | [@thorswap-lib/ledger](./packages/ledger/README.md)                 | Ledger implementation              | All chains supported by toolboxes               |
-| [@thorswap-lib/walletconnect](./packages/walletconnect/README.md)   | WalletConnect implementation       | THOR, BNB, ETH                                  |
+| [@thorswap-lib/trustwallet](./packages/trustwallet/README.md)   | Trustwallet implementation       | THOR, BNB, ETH
+| [@thorswap-lib/walletconnect](./packages/walletconnect/README.md)   | Walletconnect implementation       | ETH                                  |
 | [@thorswap-lib/web-extensions](./packages/web-extensions/README.md) | Browser extensions                 | [See more](./packages/web-extensions/README.md) |
 
 ### Setup
