@@ -35,6 +35,7 @@
     "serious-cooks-explode",
     "seven-pans-agree",
     "sharp-balloons-design",
+    "shy-beans-give",
     "shy-tigers-smell",
     "six-hornets-pull",
     "smooth-cherries-march",
@@ -60,7 +61,8 @@
     "@thorswap-lib/walletconnect": "1.0.0-development.105",
     "@thorswap-lib/web-extensions": "1.0.0-development.118",
     "@thorswap-lib/swapkit-api": "0.0.0",
-    "@thorswap-lib/trezor": "0.0.0"
+    "@thorswap-lib/trezor": "0.0.0",
+    "@thorswap-lib/trustwallet": "1.0.0-development.135"
   },
   "mode": "pre",
   "tag": "development"
