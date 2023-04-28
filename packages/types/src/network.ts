@@ -110,6 +110,20 @@ export enum BaseDecimal {
 }
 
 export const ChainToChainId: Record<Chain, ChainId> = {
+  [Chain.Avalanche]: ChainId.Avalanche,
+  [Chain.Binance]: ChainId.Binance,
+  [Chain.BinanceSmartChain]: ChainId.BinanceSmartChain,
+  [Chain.Bitcoin]: ChainId.Bitcoin,
+  [Chain.BitcoinCash]: ChainId.Bitcoincash,
+  [Chain.Cosmos]: ChainId.Cosmos,
+  [Chain.Doge]: ChainId.DogeCoin,
+  [Chain.Ethereum]: ChainId.Ethereum,
+  [Chain.Litecoin]: ChainId.Litecoin,
+  [Chain.THORChain]: ChainId.Thorchain,
+};
+
+// Return Hex of ChainId if available
+export const ChainToHexChainId: Record<Chain, ChainId> = {
   [Chain.Avalanche]: ChainId.AvalancheHex,
   [Chain.Binance]: ChainId.Binance,
   [Chain.BinanceSmartChain]: ChainId.BinanceSmartChain,
