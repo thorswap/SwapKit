@@ -14,7 +14,7 @@ jobs:
   semgrep_scan:
     runs-on: ubuntu-latest
     container:
-      image: returntocorp/semgrep:sha-066a20d
+      image: returntocorp/semgrep:sha-b396800
     steps:
       - uses: actions/checkout@v3
       - run: semgrep ci --config p/ci --config p/xss --config p/jwt --config p/r2c --config p/react --config p/r2c-ci --config p/secrets --config p/javascript --config p/clientside-js --config p/owasp-top-ten --config p/security-audit --config p/github-actions --max-lines-per-finding 0 --force-color
