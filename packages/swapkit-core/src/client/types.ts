@@ -159,6 +159,7 @@ type ConnectMethodNames =
   | 'connectXDEFI'
   | 'connectKeplr'
   | 'connectTrustwallet'
+  | 'connectWalletconnect'
   | 'connectKeystore'
   | 'connectLedger'
   | 'connectTrezor'
