@@ -526,7 +526,7 @@ export class SwapKitCore {
   connectTrezor = async (_chains: Chain, _derivationPath: number[]) => {
     throwWalletError('connectTrezor', 'trezor');
   };
-  connectTrustwallet = async (_chains: Chain, _derivationPath: number[]) => {
+  connectTrustwallet = async (_chains: Chain[], _options?: WalletConnectOption) => {
     throwWalletError('connectTrustwallet', 'trustwallet');
   };
   connectKeplr = async () => {

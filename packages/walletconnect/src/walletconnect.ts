@@ -138,7 +138,7 @@ const connectWalletconnect =
     addChain: any;
     config: {
       ethplorerApiKey?: string;
-      walletConnectProjectId: string;
+      walletConnectProjectId?: string;
     };
   }) =>
   async (
@@ -148,7 +148,7 @@ const connectWalletconnect =
     const chainsToConnect = chains.filter((chain) => SUPPORTED_CHAINS.includes(chain));
     const walletconnect = await getWalletconnect(
       chainsToConnect,
-      walletConnectProjectId,
+      walletConnectProjectId || '',
       walletconnectOptions,
     );
 
