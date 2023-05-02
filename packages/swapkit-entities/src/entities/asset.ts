@@ -116,6 +116,10 @@ export class AssetEntity {
   isRUNE() {
     return this.eq(getSignatureAssetFor(Chain.THORChain));
   }
+
+  identifier() {
+    return `${this.chain}.${this.symbol}`;
+  }
 }
 
 const THOR_MAINNET_SYMBOL = 'THOR-0XA5F2211B9B8170F694421F2046281775E8468044';
