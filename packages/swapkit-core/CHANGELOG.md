@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.155
+
+### Minor Changes
+
+- [#72](https://github.com/thorswap/SwapKit/pull/72) [`e9ff8eb`](https://github.com/thorswap/SwapKit/commit/e9ff8eb64544bb0556abb4133f83c26ead87516d) Thanks [@0x-General](https://github.com/0x-General)! - Fix types in core
+
 ## 1.0.0-development.154
 
 ### Minor Changes
