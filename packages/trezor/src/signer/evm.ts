@@ -48,7 +48,6 @@ export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEV
   }: EIP1559TxParams) => {
     if (!from) throw new Error('Missing from address');
     if (!to) throw new Error('Missing to address');
-    if (!value) throw new Error('Missing value');
     if (!gasLimit) throw new Error('Missing gasLimit');
     if (!maxFeePerGas) throw new Error('Missing maxFeePerGas');
     if (!maxPriorityFeePerGas) throw new Error('Missing maxPriorityFeePerGas');
@@ -56,7 +55,7 @@ export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEV
     const baseTx = {
       chainId: BigNumber.from(ChainToChainId[chain]).toNumber(),
       to,
-      value: BigNumber.from(value).toHexString(),
+      value: BigNumber.from(value || 0).toHexString(),
       gasLimit: BigNumber.from(gasLimit).toHexString(),
       nonce: (nonce || (await provider.getTransactionCount(from, 'pending'))).toString(),
       data,

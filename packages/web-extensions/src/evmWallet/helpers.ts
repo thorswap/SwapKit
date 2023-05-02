@@ -77,8 +77,10 @@ export const wrapMethodWithNetworkSwitch = <T extends (...args: any[]) => any>(
   provider: typeof window.ethereum,
   chainId: ChainId,
 ) =>
-  ((...args: any[]) => {
-    switchEVMWalletNetwork(provider, chainId);
+  (async (...args: any[]) => {
+    await switchEVMWalletNetwork(provider, chainId).catch(
+      (error) => new Error(`Failed to switch network: ${error.message}`),
+    );
     return func(...args);
   }) as unknown as T;
 

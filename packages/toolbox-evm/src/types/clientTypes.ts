@@ -79,7 +79,7 @@ export type CallParams = {
 
 export type EstimateCallParams = Pick<
   CallParams,
-  'contractAddress' | 'abi' | 'funcName' | 'funcParams' 
+  'contractAddress' | 'abi' | 'funcName' | 'funcParams'
 >;
 
 export interface EVMChainClientParams {
