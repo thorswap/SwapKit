@@ -179,6 +179,10 @@ type ConnectConfig = {
    * @required for BTC, LTC, DOGE & BCH
    */
   utxoApiKey?: string;
+  /**
+   * @required for Walletconnect
+   */
+  walletConnectProjectId?: string;
 };
 
 export type ExtendParams = {
