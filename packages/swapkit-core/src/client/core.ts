@@ -526,6 +526,9 @@ export class SwapKitCore {
   connectTrezor = async (_chains: Chain, _derivationPath: number[]) => {
     throwWalletError('connectTrezor', 'trezor');
   };
+  connectTrustwallet = async (_chains: Chain, _derivationPath: number[]) => {
+    throwWalletError('connectTrustwallet', 'trustwallet');
+  };
   connectKeplr = async () => {
     throwWalletError('connectKeplr', 'web-extensions');
   };
@@ -536,7 +539,6 @@ export class SwapKitCore {
 
   extend = ({ wallets, config }: ExtendParams) => {
     wallets.forEach((wallet) => {
-      // @ts-expect-error
       this[wallet.connectMethodName] = wallet.connect({
         addChain: this._addConnectedChain,
         config: config || {},
