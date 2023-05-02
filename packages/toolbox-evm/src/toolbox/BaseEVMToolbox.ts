@@ -139,7 +139,6 @@ const approve = async (
   }: ApproveParams,
   signer?: Signer,
 ) => {
-  if (!signer) throw new Error('Signer is not defined');
   const funcParams = [spenderAddress, BigNumber.from(amount) || MAX_APPROVAL, { from }];
 
   const functionCallParams = {
@@ -195,7 +194,6 @@ const transfer = async (
   }: TransferParams,
   signer?: Signer,
 ) => {
-  if (!signer) throw new Error('Signer is not defined');
   const txAmount = amount.amount();
   const parsedAsset: AssetEntity = getAssetEntity(asset);
   const chain = parsedAsset.L1Chain as EVMChain;
