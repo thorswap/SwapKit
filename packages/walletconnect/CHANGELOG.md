@@ -1,5 +1,11 @@
 # @thorswap-lib/walletconnect
 
+## 1.0.0-development.3
+
+### Minor Changes
+
+- [#74](https://github.com/thorswap/SwapKit/pull/74) [`8e41c1b`](https://github.com/thorswap/SwapKit/commit/8e41c1b5d10052231e7ea591976b82ee63b3274b) Thanks [@0x-General](https://github.com/0x-General)! - Fix trustwallet types and walletconnect projectID
+
 ## 1.0.0-development.2
 
 ### Patch Changes
