@@ -1,5 +1,16 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.111
+
+### Patch Changes
+
+- [#66](https://github.com/thorswap/SwapKit/pull/66) [`90befbf`](https://github.com/thorswap/SwapKit/commit/90befbf1e12274f844e47357a10d55b052c4f28a) Thanks [@towanTG](https://github.com/towanTG)! - Minor improvments for EVM and bug fixes for trezor and web extensions
+
+- Updated dependencies [[`90befbf`](https://github.com/thorswap/SwapKit/commit/90befbf1e12274f844e47357a10d55b052c4f28a)]:
+  - @thorswap-lib/types@1.0.0-development.75
+  - @thorswap-lib/helpers@0.0.0-development.71
+  - @thorswap-lib/swapkit-entities@1.0.0-development.79
+
 ## 1.0.0-development.110
 
 ### Patch Changes
