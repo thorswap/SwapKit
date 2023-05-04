@@ -621,13 +621,13 @@ export class SwapKitCore {
     const { getTokenAddress } = await import('@thorswap-lib/toolbox-evm');
     const assetAddress = getTokenAddress(asset, asset.L1Chain as EVMChain);
     // TODO: I dont think we need this @towan
+    // We could use the signer in the approve method of the toolbox @chillios
     const from = this.getAddress(asset.L1Chain);
-    // if no amount is set use minimum amount for isApproved check
 
     if (!assetAddress || !from) throw new Error('Asset address && from address not found');
 
     return walletAction({
-      amount,
+      amount: amount?.amount(),
       assetAddress,
       from,
       spenderAddress:

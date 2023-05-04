@@ -56,9 +56,7 @@ const getToolbox = async ({
             memo: params.memo,
           })
         ).toHexString();
-        const gasPrice = (await toolbox.estimateGasPrices()).fast.maxFeePerGas
-          .amount()
-          .toHexString();
+        const gasPrice = (await toolbox.estimateGasPrices()).fast.maxFeePerGas.toHexString();
         const txHash: string = await walletconnectClient.request({
           chainId: ETHEREUM_MAINNET_ID,
           topic: session.topic,

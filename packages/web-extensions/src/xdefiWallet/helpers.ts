@@ -1,7 +1,14 @@
 import { GasPrice, SigningStargateClient } from '@cosmjs/stargate';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Web3Provider } from '@ethersproject/providers';
-import { BinanceToolbox, GaiaToolbox, ThorchainToolbox } from '@thorswap-lib/toolbox-cosmos';
+import {
+  BinanceToolbox,
+  BinanceToolboxType,
+  GaiaToolbox,
+  GaiaToolboxType,
+  ThorchainToolbox,
+  ThorchainToolboxType,
+} from '@thorswap-lib/toolbox-cosmos';
 import { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
 import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
 import {
@@ -137,7 +144,7 @@ export const getWalletMethodsForChain = ({
 
       const sendTransaction = async (tx: EIP1559TxParams, feeOptionKey: FeeOption) => {
         const address = await provider.getSigner().getAddress();
-        const feeData = await toolbox.getFeeData(feeOptionKey);
+        const feeData = await toolbox.getPriorityFeeData(feeOptionKey);
         const nonce = tx.nonce || (await provider.getTransactionCount(address));
         const chainId = (await provider.getNetwork()).chainId;
 
@@ -173,17 +180,13 @@ export const getWalletMethodsForChain = ({
     }
 
     case Chain.THORChain: {
-      const {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars, prettier/prettier
-        createMultisig, exportMultisigTx, exportSignature, importSignature, importMultisigTx, mergeSignatures, getMultisigAddress, createKeyPair, getAccAddress, getAccount, getAddressFromMnemonic, instanceToProto, sdk, signAndBroadcast,
-        ...toolbox
-      } = ThorchainToolbox({});
+      const toolbox = ThorchainToolbox({});
 
       return {
         ...toolbox,
         transfer,
         deposit: (tx: WalletTxParams) => transfer({ ...tx, recipient: '' }, 'deposit'),
-      };
+      } as unknown as ThorchainToolboxType;
     }
 
     case Chain.Cosmos: {
@@ -208,18 +211,14 @@ export const getWalletMethodsForChain = ({
         return transactionHash;
       };
 
-      return { ...toolbox, transfer };
+      return { ...toolbox, transfer } as unknown as GaiaToolboxType;
     }
 
     case Chain.Binance: {
       // @cosmos-client/core Type Inference issue
-      const {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars, prettier/prettier
-        createKeyPair, getAddressFromMnemonic, sdk, getAccount, signAndBroadcast,
-        ...toolbox
-      } = BinanceToolbox({});
+      const toolbox = BinanceToolbox({});
 
-      return { ...toolbox, transfer };
+      return { ...toolbox, transfer } as unknown as BinanceToolboxType;
     }
 
     case Chain.Bitcoin:

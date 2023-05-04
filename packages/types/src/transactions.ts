@@ -36,7 +36,6 @@ export type Tx = {
 };
 
 export type TxParams = {
-  walletIndex?: number; // send from this HD index
   asset?: Asset;
   amount: AmountWithBaseDenom;
   recipient: Address;

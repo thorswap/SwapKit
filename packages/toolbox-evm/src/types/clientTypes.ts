@@ -48,11 +48,10 @@ export type FeesWithGasPricesAndLimits = {
 };
 
 export type ApproveParams = {
-  walletIndex?: number;
   assetAddress: Address;
   spenderAddress: Address;
   feeOptionKey?: FeeOption;
-  amount?: AmountWithBaseDenom;
+  amount?: BigNumberish;
   from: string;
   // Optional fallback in case estimation for gas limit fails
   gasLimitFallback?: BigNumberish;
@@ -68,11 +67,10 @@ export type ApprovedParams = {
 };
 
 export type IsApprovedParams = ApprovedParams & {
-  amount?: AmountWithBaseDenom;
+  amount?: BigNumberish;
 };
 
 export type CallParams = {
-  walletIndex?: number;
   contractAddress: Address;
   abi: ContractInterface;
   funcName: string;
@@ -81,7 +79,7 @@ export type CallParams = {
 
 export type EstimateCallParams = Pick<
   CallParams,
-  'contractAddress' | 'abi' | 'funcName' | 'funcParams' | 'walletIndex'
+  'contractAddress' | 'abi' | 'funcName' | 'funcParams'
 >;
 
 export interface EVMChainClientParams {
@@ -144,7 +142,6 @@ declare global {
 export type TxFormatter<T> = (tx: EIP1559TxParams<BigNumberish>) => EIP1559TxParams<T>;
 
 export type TransferParams = WalletTxParams & {
-  gasPrice?: AmountWithBaseDenom;
   gasLimit?: BigNumber;
   maxFeePerGas?: BigNumber;
   maxPriorityFeePerGas?: BigNumber;
