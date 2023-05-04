@@ -1,5 +1,11 @@
 # @thorswap-lib/trustwallet
 
+## 1.0.0-development.139
+
+### Minor Changes
+
+- [#77](https://github.com/thorswap/SwapKit/pull/77) [`0663ba5`](https://github.com/thorswap/SwapKit/commit/0663ba5c4c62ffba33b14850874167c4337f92b9) Thanks [@0x-General](https://github.com/0x-General)! - Rename export
+
 ## 1.0.0-development.138
 
 ### Patch Changes
