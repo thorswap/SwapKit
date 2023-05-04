@@ -321,7 +321,7 @@ const connectTrustwallet =
     return true;
   };
 
-export const walletconnectWallet = {
+export const trustwalletWallet = {
   connectMethodName: 'connectTrustwallet' as const,
   connect: connectTrustwallet,
   isDetected: () => true,
