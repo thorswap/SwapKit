@@ -25,7 +25,7 @@ import {
   ThornameRegisterParam,
 } from '@thorswap-lib/swapkit-entities';
 import { getExplorerAddressUrl, getExplorerTxUrl } from '@thorswap-lib/swapkit-explorers';
-import { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
+import { AVAXToolbox, BSCToolbox, ETHToolbox, MAX_APPROVAL } from '@thorswap-lib/toolbox-evm';
 import { type WalletConnectOption } from '@thorswap-lib/trustwallet';
 import {
   AmountWithBaseDenom,
@@ -618,10 +618,6 @@ export class SwapKitCore {
       throw new Error(`Wallet not connected for ${asset.L1Chain}`);
     }
 
-    if (type === 'approve' && !amount) {
-      throw new Error(`Amount is needed for approving an asset`);
-    }
-
     const { getTokenAddress } = await import('@thorswap-lib/toolbox-evm');
     const assetAddress = getTokenAddress(asset, asset.L1Chain as EVMChain);
     // TODO: I dont think we need this @towan
@@ -631,7 +627,7 @@ export class SwapKitCore {
     if (!assetAddress || !from) throw new Error('Asset address && from address not found');
 
     return walletAction({
-      amount: amount?.amount(),
+      amount: amount?.amount() || MAX_APPROVAL,
       assetAddress,
       from,
       spenderAddress:
