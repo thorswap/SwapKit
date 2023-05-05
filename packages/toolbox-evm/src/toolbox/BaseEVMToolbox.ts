@@ -139,6 +139,7 @@ const approve = async (
   }: ApproveParams,
   signer?: Signer,
 ) => {
+  if (!amount) throw new Error('amount must be provided');
   const funcParams = [spenderAddress, BigNumber.from(amount) || MAX_APPROVAL, { from }];
 
   const functionCallParams = {

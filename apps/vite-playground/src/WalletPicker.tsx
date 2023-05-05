@@ -47,6 +47,7 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   [WalletOption.TRUSTWALLET_WEB]: EVMChainsSupported,
   [WalletOption.TRUSTWALLET]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   [WalletOption.XDEFI]: AllChainsSupported,
+  [WalletOption.WALLETCONNECT]: [Chain.Ethereum, Chain.THORChain, Chain.Binance],
 };
 
 export const WalletPicker = ({ setWallet }: Props) => {

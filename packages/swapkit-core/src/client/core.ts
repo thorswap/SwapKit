@@ -618,6 +618,10 @@ export class SwapKitCore {
       throw new Error(`Wallet not connected for ${asset.L1Chain}`);
     }
 
+    if (type === 'approve' && !amount) {
+      throw new Error(`Amount is needed for approving an asset`);
+    }
+
     const { getTokenAddress } = await import('@thorswap-lib/toolbox-evm');
     const assetAddress = getTokenAddress(asset, asset.L1Chain as EVMChain);
     // TODO: I dont think we need this @towan
