@@ -28,7 +28,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "react-native": "./src/index.ts",
+  "react-native": "./dist/index.es.js",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "yarn clean; echo 'Build <%- packageName %> 🛠'; vite build && echo 'Build succeeded <%- packageName %> ✅\n'",

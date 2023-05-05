@@ -249,7 +249,7 @@ const getWalletconnect = async (walletconnectOptions: WalletConnectOption = {}) 
   };
 
   const listeners = walletconnectOptions?.listeners;
-  localStorage.removeItem('walletconnect');
+  window?.localStorage?.removeItem?.('walletconnect');
 
   // @ts-expect-error
   const connector = new WalletConnect(options) as unknown as WalletConnect.default;

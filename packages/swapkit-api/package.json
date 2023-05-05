@@ -6,9 +6,9 @@
   "description": "THORSwap Lib swapkit-api",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@vitest/coverage-c8": "0.30.1",
-    "vite": "4.3.3",
-    "vitest": "0.30.1"
+    "@vitest/coverage-c8": "0.31.0",
+    "vite": "4.3.5",
+    "vitest": "0.31.0"
   },
   "exports": {
     ".": {
@@ -30,7 +30,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "react-native": "./src/index.ts",
+  "react-native": "./dist/index.es.js",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "yarn clean; echo 'Build swapkit-api 🛠'; vite build && echo 'Build succeeded swapkit-api ✅\n'",

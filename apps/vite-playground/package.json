@@ -24,11 +24,11 @@
     "util": "0.12.5"
   },
   "devDependencies": {
-    "@types/react": "18.2.0",
-    "@types/react-dom": "18.2.1",
+    "@types/react": "18.2.5",
+    "@types/react-dom": "18.2.4",
     "@vitejs/plugin-react": "4.0.0",
     "typescript": "5.0.4",
-    "vite": "4.3.3"
+    "vite": "4.3.5"
   },
   "eslintConfig": {
     "extends": [
