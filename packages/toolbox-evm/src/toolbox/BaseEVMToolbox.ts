@@ -29,8 +29,6 @@ import {
   TransferParams,
 } from '../types/index.js';
 
-const MAX_APPROVAL = BigNumber.from('2').pow('256').sub('1');
-
 const baseAssetAddress: Record<EVMChain, string> = {
   [Chain.Ethereum]: ContractAddress.ETH,
   [Chain.Avalanche]: ContractAddress.AVAX,
@@ -139,7 +137,8 @@ const approve = async (
   }: ApproveParams,
   signer?: Signer,
 ) => {
-  const funcParams = [spenderAddress, BigNumber.from(amount) || MAX_APPROVAL, { from }];
+  if (!amount) throw new Error('amount must be provided');
+  const funcParams = [spenderAddress, BigNumber.from(amount), { from }];
 
   const functionCallParams = {
     contractAddress: assetAddress,

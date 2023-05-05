@@ -51,7 +51,7 @@ export type ApproveParams = {
   assetAddress: Address;
   spenderAddress: Address;
   feeOptionKey?: FeeOption;
-  amount?: BigNumberish;
+  amount: BigNumberish;
   from: string;
   // Optional fallback in case estimation for gas limit fails
   gasLimitFallback?: BigNumberish;

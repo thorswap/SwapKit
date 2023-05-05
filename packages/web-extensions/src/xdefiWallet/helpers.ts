@@ -164,7 +164,7 @@ export const getWalletMethodsForChain = ({
             maxFeePerGas: feeData.maxFeePerGas.toHexString(),
             maxPriorityFeePerGas: feeData.maxPriorityFeePerGas.toHexString(),
             nonce,
-            ...(value && !BigNumber.from(value).isZero() ? { value } : {}),
+            ...(!BigNumber.from(value || 0).isZero() ? { value } : {}),
           };
           return toolbox.EIP1193SendTransaction(parsedValue);
         } catch (error) {

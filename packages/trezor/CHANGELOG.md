@@ -1,5 +1,16 @@
 # @thorswap-lib/trezor
 
+## 1.0.0-development.4
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/types@1.0.0-development.76
+  - @thorswap-lib/helpers@0.0.0-development.72
+  - @thorswap-lib/swapkit-entities@1.0.0-development.80
+  - @thorswap-lib/toolbox-evm@1.0.0-development.112
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.96
+
 ## 1.0.0-development.3
 
 ### Patch Changes
