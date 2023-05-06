@@ -20,15 +20,19 @@ import { ECPairFactory, ECPairInterface } from 'ecpair';
 import * as tinySecp from 'tiny-secp256k1';
 
 import {
-  calcFee,
-  calcFeesAsync,
-  standardFeeRates,
   UTXOBaseToolboxParams,
   UTXOBuildTxParams,
   UTXOCreateKeyParams,
   UTXOWalletTransferParams,
-} from '../index.js';
-import { compileMemo, getNetwork, getSeed } from '../utils.js';
+} from '../types/common.js';
+import {
+  calcFee,
+  calcFeesAsync,
+  compileMemo,
+  getNetwork,
+  getSeed,
+  standardFeeRates,
+} from '../utils.js';
 
 export const createKeysForPath = ({
   phrase,

@@ -52,7 +52,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "react-native": "./dist/index.es.js",
+  "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "yarn clean; echo 'Build toolbox-cosmos 🛠'; vite build && echo 'Build succeeded toolbox-cosmos ✅\n'",

@@ -20,6 +20,7 @@ import {
   WalletTxParams,
 } from '@thorswap-lib/types';
 
+import { MAX_APPROVAL } from '../constants.js';
 import {
   ApprovedParams,
   ApproveParams,
@@ -113,7 +114,7 @@ const approvedAmount = async (
 
 const isApproved = async (
   provider: Provider,
-  { assetAddress, spenderAddress, from, amount = BigNumber.from('1') }: IsApprovedParams,
+  { assetAddress, spenderAddress, from, amount = MAX_APPROVAL }: IsApprovedParams,
 ) =>
   BigNumber.from(
     await call<BigNumberish>(provider, {
@@ -130,7 +131,7 @@ const approve = async (
     assetAddress,
     spenderAddress,
     feeOptionKey = FeeOption.Fast,
-    amount,
+    amount = MAX_APPROVAL,
     gasLimitFallback,
     from,
     nonce,

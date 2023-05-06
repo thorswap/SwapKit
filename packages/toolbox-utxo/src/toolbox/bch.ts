@@ -15,21 +15,19 @@ import {
 import { Psbt, PsbtTxOutput } from 'bitcoinjs-lib';
 import accumulative from 'coinselect/accumulative';
 
-import {
-  BitcoincashApi,
-  compileMemo,
-  getNetwork,
-  getSeed,
-  UTXOBaseToolboxParams,
-  UTXOBuildTxParams,
-  UTXOChain,
-  UTXOWalletTransferParams,
-} from '../index.js';
+import { BitcoincashApi } from '../api/clients.js';
 import {
   KeyPair,
   Transaction as TransactionType,
   TransactionBuilder as TransactionBuilderType,
 } from '../types/bitcoincashjs-types.js';
+import {
+  UTXOBaseToolboxParams,
+  UTXOBuildTxParams,
+  UTXOChain,
+  UTXOWalletTransferParams,
+} from '../types/common.js';
+import { compileMemo, getNetwork, getSeed } from '../utils.js';
 
 import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
 

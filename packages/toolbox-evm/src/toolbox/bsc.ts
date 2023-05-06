@@ -6,7 +6,9 @@ import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { Address, BaseDecimal, Chain, ChainId, RPCUrl, TxHistoryParams } from '@thorswap-lib/types';
 
-import { BaseEVMToolbox, CovalentApi } from '../index.js';
+import { CovalentApi } from '../api/covalentApi.js';
+
+import { BaseEVMToolbox } from './BaseEVMToolbox.js';
 
 const BSC_CHAIN_ID = ChainId.BinanceSmartChain;
 

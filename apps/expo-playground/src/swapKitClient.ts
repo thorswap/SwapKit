@@ -1,11 +1,10 @@
-import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { Platform } from 'react-native';
 
 let skClient: SwapKitCore;
 
 export const getSwapKitClient = () => {
   if (skClient) return skClient;
-  const SwapKitCore = require('@thorswap-lib/swapkit-core').SwapKitCore;
 
   const client = new SwapKitCore();
 
@@ -22,9 +21,9 @@ export const getSwapKitClient = () => {
 
   client.extend({
     config: {
-      ethplorerApiKey: 'freekey',
-      covalentApiKey: '',
-      utxoApiKey: 'freekey',
+      ethplorerApiKey: 'EK-uB3Fv-ehKXfyN-Chujs',
+      covalentApiKey: 'ckey_dd1785f86616456b8e7c1e6740a',
+      utxoApiKey: 'C___DSXrweUGKTv3bucm2FbHLCiBfPNO',
     },
     wallets,
   });

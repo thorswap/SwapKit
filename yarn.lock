@@ -10832,6 +10832,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-crypto@npm:12.2.2":
+  version: 12.2.2
+  resolution: "expo-crypto@npm:12.2.2"
+  dependencies:
+    base64-js: ^1.3.0
+  peerDependencies:
+    expo: "*"
+  checksum: ddeb42e266a61bc72a9b10ef35067d0b45a946622074d8516123d6ca31891c5393ffb06357c1de98455efd4f4900b96f5992334ee63d04dcfeab2a9861409d46
+  languageName: node
+  linkType: hard
+
 "expo-file-system@npm:~15.2.0, expo-file-system@npm:~15.2.2":
   version: 15.2.2
   resolution: "expo-file-system@npm:15.2.2"
@@ -10931,9 +10942,12 @@ __metadata:
     crypto-browserify: 3.12.0
     expo: 48.0.16
     expo-constants: 14.2.1
+    expo-crypto: 12.2.2
     expo-linking: 4.0.1
+    expo-random: 13.1.1
     expo-router: 1.5.3
     expo-splash-screen: 0.18.2
+    expo-standard-web-crypto: 1.5.0
     expo-status-bar: 1.4.4
     fast-text-encoding: 1.0.6
     https-browserify: 1.0.0
@@ -10943,13 +10957,13 @@ __metadata:
     react-dom: 18.2.0
     react-native: 0.71.7
     react-native-gesture-handler: 2.9.0
-    react-native-get-random-values: 1.8.0
     react-native-level-fs: 3.0.1
     react-native-os: 1.2.6
     react-native-quick-base64: 2.0.6
     react-native-reanimated: 2.14.4
     react-native-safe-area-context: 4.5.2
     react-native-screens: 3.20.0
+    react-native-url-polyfill: 1.3.0
     react-native-web: 0.18.12
     readable-stream: 4.3.0
     stream-browserify: 3.0.0
@@ -10957,8 +10971,20 @@ __metadata:
     typescript: 5.0.4
     url: 0.11.0
     util: 0.12.5
+    uuid: 9.0.0
   languageName: unknown
   linkType: soft
+
+"expo-random@npm:13.1.1":
+  version: 13.1.1
+  resolution: "expo-random@npm:13.1.1"
+  dependencies:
+    base64-js: ^1.3.0
+  peerDependencies:
+    expo: "*"
+  checksum: ff790eb806d2122465718ba481bbfa2827476a680834766d99b555ddc4935d53d44d028bd13f67f128fcfd9207230cf89e4185029fe7a70193b406e42a181a0d
+  languageName: node
+  linkType: hard
 
 "expo-router@npm:1.5.3":
   version: 1.5.3
@@ -11003,6 +11029,18 @@ __metadata:
   peerDependencies:
     expo: "*"
   checksum: 2c62d2989bf8945efb41056eb93b711cec260d24eed96a58789c961ab86fa3552466d221f1d3e2d926134136aa95337cdba94035d328a28c92793c31de95e718
+  languageName: node
+  linkType: hard
+
+"expo-standard-web-crypto@npm:1.5.0":
+  version: 1.5.0
+  resolution: "expo-standard-web-crypto@npm:1.5.0"
+  peerDependencies:
+    expo-crypto: ^12.2.1
+  peerDependenciesMeta:
+    expo-random:
+      optional: true
+  checksum: 12c48a37882277c844906d48935fe7a2b49e5d25459cb5e4ee8eed7d31169fa1cb7cf7fa9d158f30a172aa66eca3d4e22109df0e20400ac7501a7e7395103c1a
   languageName: node
   linkType: hard
 
@@ -11125,13 +11163,6 @@ __metadata:
   dependencies:
     checkpoint-store: ^1.1.0
   checksum: 8f9fe05bb5beabb31e4fbb8d2cfe83cfb36fd9f6ba78193dea8fab7a679470d45bb04c6f052d4f79da03e81129c5b5bed528902430184e1e11b4959f397019ac
-  languageName: node
-  linkType: hard
-
-"fast-base64-decode@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "fast-base64-decode@npm:1.0.0"
-  checksum: 4c59eb1775a7f132333f296c5082476fdcc8f58d023c42ed6d378d2e2da4c328c7a71562f271181a725dd17cdaa8f2805346cc330cdbad3b8e4b9751508bd0a3
   languageName: node
   linkType: hard
 
@@ -17006,17 +17037,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-get-random-values@npm:1.8.0":
-  version: 1.8.0
-  resolution: "react-native-get-random-values@npm:1.8.0"
-  dependencies:
-    fast-base64-decode: ^1.0.0
-  peerDependencies:
-    react-native: ">=0.56"
-  checksum: 9163368ebd935d897f6ea0f9e95c476aa7608080e3848bb6c6f85db01b9de3498d857795c84df5492d6511a55aebf89492860ac886b652a9a7a3efdb19913f87
-  languageName: node
-  linkType: hard
-
 "react-native-gradle-plugin@npm:^0.71.17":
   version: 0.71.17
   resolution: "react-native-gradle-plugin@npm:0.71.17"
@@ -17094,6 +17114,17 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 94ab21378ee82765d329ccb8c92f5ca7cb15df916496fac7ce9a03c45e22579715000dae9c16f0a7d734a8fc1c2d0569fd82ecb71119a0b56046b5ea7533e7c2
+  languageName: node
+  linkType: hard
+
+"react-native-url-polyfill@npm:1.3.0":
+  version: 1.3.0
+  resolution: "react-native-url-polyfill@npm:1.3.0"
+  dependencies:
+    whatwg-url-without-unicode: 8.0.0-3
+  peerDependencies:
+    react-native: "*"
+  checksum: 24ef81493a642b9359c1e8048de4da84fb554ffcf35677f9d8b11956d700faa4b9ac9d74f56aee67dd8d8b4ef6d9879e7431848785880ada657f8bec0211b00a
   languageName: node
   linkType: hard
 
@@ -20608,6 +20639,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"webidl-conversions@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "webidl-conversions@npm:5.0.0"
+  checksum: ccf1ec2ca7c0b5671e5440ace4a66806ae09c49016ab821481bec0c05b1b82695082dc0a27d1fe9d804d475a408ba0c691e6803fd21be608e710955d4589cd69
+  languageName: node
+  linkType: hard
+
 "well-known-symbols@npm:^2.0.0":
   version: 2.0.0
   resolution: "well-known-symbols@npm:2.0.0"
@@ -20626,6 +20664,17 @@ __metadata:
   version: 3.6.2
   resolution: "whatwg-fetch@npm:3.6.2"
   checksum: ee976b7249e7791edb0d0a62cd806b29006ad7ec3a3d89145921ad8c00a3a67e4be8f3fb3ec6bc7b58498724fd568d11aeeeea1f7827e7e1e5eae6c8a275afed
+  languageName: node
+  linkType: hard
+
+"whatwg-url-without-unicode@npm:8.0.0-3":
+  version: 8.0.0-3
+  resolution: "whatwg-url-without-unicode@npm:8.0.0-3"
+  dependencies:
+    buffer: ^5.4.3
+    punycode: ^2.1.1
+    webidl-conversions: ^5.0.0
+  checksum: 1fe266f7161e0bd961087c1254a5a59d1138c3d402064495eed65e7590d9caed5a1d9acfd6e7a1b0bf0431253b0e637ee3e4ffc08387cd60e0b2ddb9d4687a4b
   languageName: node
   linkType: hard
 

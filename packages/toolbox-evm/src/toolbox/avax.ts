@@ -13,7 +13,12 @@ import {
   TxHistoryParams,
 } from '@thorswap-lib/types';
 
-import { BaseEVMToolbox, CovalentApi, FeeData, getProvider, MIN_AVAX_GAS } from '../index.js';
+import { CovalentApi } from '../api/covalentApi.js';
+import { MIN_AVAX_GAS } from '../constants.js';
+import { getProvider } from '../provider.js';
+import { FeeData } from '../types/clientTypes.js';
+
+import { BaseEVMToolbox } from './BaseEVMToolbox.js';
 
 export const getPriorityFeeData = async ({
   feeOptionKey = FeeOption.Average,

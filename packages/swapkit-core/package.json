@@ -47,7 +47,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "react-native": "./dist/index.es.js",
+  "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "yarn clean; echo 'Build swapkit-core 🛠';NODE_OPTIONS=--max_old_space_size=16384 yarn vite build && echo 'Build succeeded swapkit-core ✅\n'",

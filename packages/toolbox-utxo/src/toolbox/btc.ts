@@ -1,6 +1,6 @@
 import { Chain } from '@thorswap-lib/types';
 
-import { BitcoinApi } from '../index.js';
+import { BitcoinApi } from '../api/clients.js';
 
 import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
 
