@@ -1,5 +1,16 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.114
+
+### Patch Changes
+
+- [#80](https://github.com/thorswap/SwapKit/pull/80) [`a879ec0`](https://github.com/thorswap/SwapKit/commit/a879ec0ab68cce2884ed344be2d98d752bd84079) Thanks [@chillios-ts](https://github.com/chillios-ts)! - bump
+
+- Updated dependencies [[`a879ec0`](https://github.com/thorswap/SwapKit/commit/a879ec0ab68cce2884ed344be2d98d752bd84079)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.82
+  - @thorswap-lib/helpers@0.0.0-development.74
+  - @thorswap-lib/types@1.0.0-development.78
+
 ## 1.0.0-development.113
 
 ### Patch Changes
