@@ -64,8 +64,6 @@ export const getPriorityFeeData = async ({
 export const getBalance = async (api: CovalentApi, address: Address, assets?: AssetEntity[]) => {
   const provider = getProvider(Chain.Avalanche);
   const tokenBalances = await api.getBalance({ address, chainId: ChainId.Avalanche });
-  const evmGasTokenBalance = await provider.getBalance(address);
-  const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.ETH);
 
   if (assets) {
     return tokenBalances.filter(({ asset }) =>
@@ -73,6 +71,8 @@ export const getBalance = async (api: CovalentApi, address: Address, assets?: As
     );
   }
 
+  const evmGasTokenBalance = await provider.getBalance(address);
+  const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.ETH);
   return [
     { asset: getSignatureAssetFor(Chain.Avalanche), amount: evmGasTokenBalanceAmount },
     ...tokenBalances,

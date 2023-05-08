@@ -5,6 +5,22 @@ import { Button, ScrollView, Text, View } from 'react-native';
 
 import { getSwapKitClient } from '../src/swapKitClient';
 
+const keystoreWallets = [
+  // Chain.Ethereum,
+  // Chain.Avalanche,
+  // Chain.BinanceSmartChain,
+  // Chain.Bitcoin,
+  // Chain.Litecoin,
+  // Chain.THORChain,
+  // Chain.BitcoinCash,
+  // Chain.Doge,
+  Chain.THORChain,
+  Chain.Cosmos,
+  Chain.Binance,
+];
+
+const phrase = 'sing angle chronic busy joy alter zone chapter guard nurse biology asthma';
+
 const wallets = Object.values(WalletOption).filter((o) =>
   [
     WalletOption.KEYSTORE,
@@ -22,39 +38,10 @@ export default function App() {
 
     switch (walletOption) {
       case WalletOption.KEYSTORE: {
-        try {
-          await skClient.connectKeystore(
-            [
-              Chain.Ethereum,
-              Chain.Avalanche,
-              Chain.BinanceSmartChain,
-              Chain.Bitcoin,
-              Chain.Litecoin,
-              Chain.THORChain,
-              Chain.BitcoinCash,
-              Chain.Doge,
-            ],
-            'pass phrase here',
-          );
+        await skClient.connectKeystore(keystoreWallets, phrase);
+        const wallets = await Promise.all(keystoreWallets.map(skClient.getWalletByChain));
 
-          const wallets = await Promise.all(
-            [
-              Chain.Ethereum,
-              Chain.Avalanche,
-              Chain.BinanceSmartChain,
-              Chain.Bitcoin,
-              Chain.Litecoin,
-              Chain.THORChain,
-              Chain.BitcoinCash,
-              Chain.Doge,
-            ].map(skClient.getWalletByChain),
-          );
-
-          setWallet(wallets);
-        } catch (error) {
-          console.log(error);
-        }
-
+        setWallet(wallets.filter(Boolean));
         break;
       }
 

@@ -1,6 +1,5 @@
 import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
-import { BigNumber } from '@ethersproject/bignumber';
 import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
@@ -17,27 +16,26 @@ export const getBalance = async (
   assets?: AssetEntity[],
 ) => {
   const tokenBalances = await api.getBalance({ address });
-  const evmGasTokenBalance: BigNumber = await provider.getBalance(address);
-  const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.ETH);
 
-  if (!assets) {
+  if (assets) {
+    return tokenBalances.filter(({ asset }) =>
+      assets.find(({ chain, symbol }) => chain === asset.chain && symbol === asset.symbol),
+    );
+  } else {
+    const evmGasTokenBalance = await provider.getBalance(address);
     return [
-      { asset: getSignatureAssetFor(Chain.Ethereum), amount: evmGasTokenBalanceAmount },
+      {
+        asset: getSignatureAssetFor(Chain.Ethereum),
+        amount: baseAmount(evmGasTokenBalance, BaseDecimal.ETH),
+      },
       ...tokenBalances,
     ];
   }
-
-  return tokenBalances.filter(({ asset }) =>
-    assets.find(({ chain, symbol }) => chain === asset.chain && symbol === asset.symbol),
-  );
 };
 
 export const getTransactions = async (api: EthereumApi, params?: TxHistoryParams) => {
   if (!params?.address) throw new Error('address is required');
-  const transactions = await api.getTransactionsForAddress({
-    address: params.address,
-  });
-  return transactions;
+  return api.getTransactionsForAddress({ address: params.address });
 };
 
 export const getTransactionData = (api: EthereumApi, txHash: string) => api.getTxInfo({ txHash });

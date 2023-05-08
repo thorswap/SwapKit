@@ -29,6 +29,7 @@ import type { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-
 import type { WalletConnectOption } from '@thorswap-lib/trustwallet';
 import {
   AmountWithBaseDenom,
+  BaseDecimal,
   Chain,
   ChainId,
   ChainToChainId,
@@ -211,9 +212,11 @@ export class SwapKitCore {
 
   getWalletByChain = async (chain: Chain) => {
     const address = this.getAddress(chain);
-
     if (!address) return null;
-    const balances = (await this.getWallet(chain)?.getBalance(address)) ?? [];
+    const balances = (await this.getWallet(chain)?.getBalance(address)) ?? [
+      { asset: getSignatureAssetFor(chain), amount: baseAmount(0, BaseDecimal[chain]) },
+    ];
+
     const balance = balances.map(
       ({ amount, asset }) =>
         new AssetAmount(

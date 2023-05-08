@@ -109,7 +109,7 @@ const getWalletconnect = async (
     if (uri) {
       // @ts-ignore
       QRCodeModal.open(uri, () => {
-        console.log('EVENT', 'QR Code Modal closed');
+        console.info('EVENT', 'QR Code Modal closed');
       });
     }
 

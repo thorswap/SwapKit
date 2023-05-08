@@ -97,6 +97,7 @@ const getWalletMethodsForChain = async ({
 
       return {
         ...toolbox,
+        address,
         getAddress: () => address,
         transfer: (params: UTXOTransferParams) =>
           toolbox.transfer({ ...params, from: address, signTransaction }),
@@ -119,7 +120,7 @@ const getWalletMethodsForChain = async ({
           memo,
         });
 
-      return { ...toolbox, transfer, getAddress: () => from };
+      return { ...toolbox, transfer, address: from, getAddress: () => from };
     }
 
     case Chain.THORChain: {

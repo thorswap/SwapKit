@@ -55,6 +55,7 @@
   "devDependencies": {
     "@babel/core": "7.21.8",
     "@babel/plugin-proposal-export-namespace-from": "7.18.9",
+    "@thorswap-lib/types": "workspace:*",
     "@types/react-native": "0.71.6",
     "babel-plugin-module-resolver": "5.0.0",
     "typescript": "5.0.4"
@@ -70,8 +71,10 @@
     "metro-resolver": "0.76.3"
   },
   "scripts": {
+    "android": "expo run:android",
     "dev": "expo start --web",
-    "dev:android": "expo start --android",
-    "dev:ios": "expo start --ios"
+    "dev:ios": "expo run:ios",
+    "prebuild": "expo prebuild",
+    "start": "expo start --dev-client"
   }
 }

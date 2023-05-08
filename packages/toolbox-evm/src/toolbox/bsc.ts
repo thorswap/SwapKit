@@ -1,6 +1,5 @@
 import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
-import { BigNumber } from '@ethersproject/bignumber';
 import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
@@ -23,18 +22,20 @@ export const getBalance = async (
     chainId: BSC_CHAIN_ID,
   });
 
-  const evmGasTokenBalance: BigNumber = await provider.getBalance(address);
-  const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.ETH);
-
   if (assets) {
     return tokenBalances.filter((balance) =>
       assets.find(
-        (asset) => asset.chain === balance.asset.chain && asset.symbol === balance.asset.symbol,
+        ({ chain, symbol }) => chain === balance.asset.chain && symbol === balance.asset.symbol,
       ),
     );
   }
+
+  const evmGasTokenBalance = await provider.getBalance(address);
   return [
-    { asset: getSignatureAssetFor(Chain.BinanceSmartChain), amount: evmGasTokenBalanceAmount },
+    {
+      asset: getSignatureAssetFor(Chain.BinanceSmartChain),
+      amount: baseAmount(evmGasTokenBalance, BaseDecimal.ETH),
+    },
     ...tokenBalances,
   ];
 };

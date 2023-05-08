@@ -90,7 +90,7 @@ export type AddChainWalletParams = ParamsWithChain<{
 export type Wallet = Record<Chain, ChainWallet | null>;
 
 export type BaseWalletMethods = {
-  getAddress: () => Promise<string> | string;
+  getAddress: () => string;
 };
 
 export type ThorchainWallet = BaseWalletMethods &
