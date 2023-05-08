@@ -19,10 +19,12 @@ Architecture of SwapKit SDK is pretty simple. It's based on the concept of toolb
 ```typescript
 import { Chain, FeeOption } from '@thorswap-lib/types';
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import { evmWallet, keplrWallet, xdefiWallet } from '@thorswap-lib/web-extensions';
 import { keystoreWallet } from '@thorswap-lib/keystore';
 import { ledgerWallet } from '@thorswap-lib/ledger';
+import { trezorWallet } from '@thorswap-lib/trezor';
 import { trustwalletWallet } from '@thorswap-lib/trustwallet';
-import { evmWallet, keplrWallet, xdefiWallet } from '@thorswap-lib/web-extensions';
+import { walletconnectWallet } from '@thorswap-lib/walletconnect';
 
 const getSwapKitClient = () => {
   const client = new SwapKitCore()
@@ -33,13 +35,16 @@ const getSwapKitClient = () => {
       utxoApiKey: ''
       covalentApiKey: '',
       ethplorerApiKey: '',
+      walletConnectProjectId: '',
     },
     wallets: [
+      evmWallet, // MetaMask, BraveWallet, TrustWallet Web, Coinbase Wallet
+      keplrWallet,
       keystoreWallet,
       ledgerWallet,
+      trezorWallet,
       trustwalletWallet,
-      evmWallet,
-      keplrWallet,
+      walletconnectWallet,
       xdefiWallet,
     ],
   });
@@ -114,8 +119,9 @@ This repo contains packages around SwapKit sdk and its integrations with differe
 | [@thorswap-lib/toolbox-cosmos](./packages/toolbox-cosmos/README.md) | Toolkit to integrate Cosmos chains | THOR, ATOM, BNB                                 |
 | [@thorswap-lib/keystore](./packages/keystore/README.md)             | Keystore implementation            | All chains supported by toolboxes               |
 | [@thorswap-lib/ledger](./packages/ledger/README.md)                 | Ledger implementation              | All chains supported by toolboxes               |
-| [@thorswap-lib/trustwallet](./packages/trustwallet/README.md)   | Trustwallet implementation       | THOR, BNB, ETH
-| [@thorswap-lib/walletconnect](./packages/walletconnect/README.md)   | Walletconnect implementation       | ETH                                  |
+| [@thorswap-lib/trezor](./packages/trezor/README.md)                 | Trezor implementation              | BTC, ETH, LTC, DOGE, BCH, AVAX                  |
+| [@thorswap-lib/trustwallet](./packages/trustwallet/README.md)       | Trustwallet implementation         | THOR, BNB, ETH                                  |
+| [@thorswap-lib/walletconnect](./packages/walletconnect/README.md)   | Walletconnect implementation       | ETH                                             |
 | [@thorswap-lib/web-extensions](./packages/web-extensions/README.md) | Browser extensions                 | [See more](./packages/web-extensions/README.md) |
 
 ### Setup
