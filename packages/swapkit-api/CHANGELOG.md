@@ -1,5 +1,14 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.7
+
+### Patch Changes
+
+- [#80](https://github.com/thorswap/SwapKit/pull/80) [`a879ec0`](https://github.com/thorswap/SwapKit/commit/a879ec0ab68cce2884ed344be2d98d752bd84079) Thanks [@chillios-ts](https://github.com/chillios-ts)! - bump
+
+- Updated dependencies [[`a879ec0`](https://github.com/thorswap/SwapKit/commit/a879ec0ab68cce2884ed344be2d98d752bd84079)]:
+  - @thorswap-lib/types@1.0.0-development.78
+
 ## 0.1.0-development.6
 
 ### Patch Changes

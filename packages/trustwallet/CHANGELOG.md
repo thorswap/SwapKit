@@ -1,5 +1,17 @@
 # @thorswap-lib/trustwallet
 
+## 1.0.0-development.142
+
+### Patch Changes
+
+- [#80](https://github.com/thorswap/SwapKit/pull/80) [`a879ec0`](https://github.com/thorswap/SwapKit/commit/a879ec0ab68cce2884ed344be2d98d752bd84079) Thanks [@chillios-ts](https://github.com/chillios-ts)! - bump
+
+- Updated dependencies [[`a879ec0`](https://github.com/thorswap/SwapKit/commit/a879ec0ab68cce2884ed344be2d98d752bd84079)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.97
+  - @thorswap-lib/toolbox-evm@1.0.0-development.114
+  - @thorswap-lib/helpers@0.0.0-development.74
+  - @thorswap-lib/types@1.0.0-development.78
+
 ## 1.0.0-development.141
 
 ### Patch Changes
