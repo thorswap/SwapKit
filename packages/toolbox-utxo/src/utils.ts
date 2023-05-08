@@ -25,12 +25,12 @@ const TX_INPUT_PUBKEYHASH = 107;
 const TX_OUTPUT_BASE = 8 + 1; //9
 const TX_OUTPUT_PUBKEYHASH = 25;
 
-export const compileMemo = (memo: string): Buffer => {
+export const compileMemo = (memo: string) => {
   const data = Buffer.from(memo, 'utf8'); // converts MEMO to buffer
   return script.compile([opcodes.OP_RETURN, data]); // Compile OP_RETURN script
 };
 
-export const inputBytes = (input: UTXO): number => {
+export const inputBytes = (input: UTXO) => {
   return (
     TX_INPUT_BASE +
     (input.witnessUtxo?.script ? input.witnessUtxo.script.length : TX_INPUT_PUBKEYHASH)

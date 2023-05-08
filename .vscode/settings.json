@@ -3,11 +3,6 @@
     "**/.yarn": true,
     "**/.pnp.*": true
   },
-  "[markdown]": {
-    "editor.codeActionsOnSave": {
-      "source.fixAll": false
-    }
-  },
   "editor.codeActionsOnSave": {
     "source.fixAll": true
   },

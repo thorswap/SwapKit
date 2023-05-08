@@ -17,6 +17,7 @@ import {
   ChainId,
   DerivationPath,
   Fees,
+  Tx,
   TxHistoryParams,
 } from '@thorswap-lib/types';
 import { fromByteArray, toByteArray } from 'base64-js';
@@ -24,26 +25,23 @@ import Long from 'long';
 
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
 import {
-  AssetRuneNative,
   DepositParam,
-  getDepositTxDataFromLogs,
-  getThorchainAsset,
-  MAX_TX_COUNT,
-  RPCTxResult,
   ThorchainConstantsResponse,
   ThorchainToolboxType,
-  TransferParams,
-  TxData,
-} from '../index.js';
+} from '../thorchainUtils/types/client-types.js';
 import types from '../thorchainUtils/types/proto/MsgCompiled.js';
 import {
   buildDepositTx,
   buildUnsignedTx,
   checkBalances,
   DEFAULT_GAS_VALUE,
+  getDepositTxDataFromLogs,
+  getThorchainAsset,
+  MAX_TX_COUNT,
   registerDespositCodecs,
   registerSendCodecs,
 } from '../thorchainUtils/util.js';
+import { AssetRuneNative, RPCTxResult, TransferParams } from '../types.js';
 
 import { BaseCosmosToolbox } from './BaseCosmosToolbox.js';
 
@@ -63,7 +61,7 @@ const getTransactionDataMethod =
   (sdk: CosmosSDKClient) => async (txHash: string, address: string) => {
     const txResult = await sdk.txsHashGet(txHash);
 
-    const txData: TxData | null = txResult?.logs
+    const txData: Pick<Tx, 'from' | 'to' | 'type'> | null = txResult?.logs
       ? getDepositTxDataFromLogs(txResult.logs, address)
       : null;
     if (!txResult || !txData)

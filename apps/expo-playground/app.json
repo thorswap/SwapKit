@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "scheme": "acme",
+    "web": {
+      "bundler": "metro"
+    },
+    "name": "expo-playground",
+    "slug": "expo-playground",
+    "android": {
+      "package": "com.thorswap.playground"
+    },
+    "ios": {
+      "bundleIdentifier": "com.thorswap.playground"
+    }
+  }
+}

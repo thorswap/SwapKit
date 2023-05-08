@@ -1,13 +1,13 @@
 import { QuoteRoute } from '@thorswap-lib/cross-chain-api-sdk/lib/entities';
 import { AssetAmount, Percent, Pool } from '@thorswap-lib/swapkit-entities';
-import {
+import type {
   BinanceToolbox,
   DepositParam,
   GaiaToolbox,
   ThorchainToolboxType,
 } from '@thorswap-lib/toolbox-cosmos';
-import { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
-import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
+import type { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
+import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
 import {
   AmountWithBaseDenom,
   Chain,
@@ -90,7 +90,7 @@ export type AddChainWalletParams = ParamsWithChain<{
 export type Wallet = Record<Chain, ChainWallet | null>;
 
 export type BaseWalletMethods = {
-  getAddress: () => Promise<string> | string;
+  getAddress: () => string;
 };
 
 export type ThorchainWallet = BaseWalletMethods &

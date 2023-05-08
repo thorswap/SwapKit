@@ -13,13 +13,13 @@ const sha256 = (hex: string) => {
   return SHA256(hexEncoded).toString();
 };
 
-const generatePubKey = (privateKey: Buffer): curve.base.BasePoint => {
+const generatePubKey = (privateKey: Buffer) => {
   const curve = new EC('secp256k1');
   const keypair = curve.keyFromPrivate(privateKey);
   return keypair.getPublic();
 };
 
-const generateSignature = (signBytesHex: string, privateKey: string | Buffer): Buffer => {
+const generateSignature = (signBytesHex: string, privateKey: string | Buffer) => {
   const msgHash = sha256(signBytesHex);
   const msgHashHex = Buffer.from(msgHash, 'hex');
   const signature = tinySecp.sign(

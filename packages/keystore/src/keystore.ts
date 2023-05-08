@@ -1,18 +1,17 @@
 import { HDNode } from '@ethersproject/hdnode';
-import { Chain, DerivationPath, WalletOption } from '@thorswap-lib/types';
-
+import { Wallet } from '@ethersproject/wallet';
+import { AssetAtom, BinanceToolbox, GaiaToolbox, getDenom } from '@thorswap-lib/toolbox-cosmos';
+import { AVAXToolbox, BSCToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import {
-  avalancheWalletMethods,
-  binanceSmartChainWalletMethods,
-  binanceWalletMethods,
-  bitcoincashWalletMethods,
-  bitcoinWalletMethods,
-  cosmosWalletMethods,
-  dogecoinWalletMethods,
-  ethereumWalletMethods,
-  litecoinWalletMethods,
-  thorchainWalletMethods,
-} from './walletMethods.js';
+  BTCToolbox,
+  DOGEToolbox,
+  LTCToolbox,
+  UTXOTransferParams,
+} from '@thorswap-lib/toolbox-utxo';
+import { Chain, DerivationPath, TxParams, WalletOption } from '@thorswap-lib/types';
+import { Psbt } from 'bitcoinjs-lib';
+
+import { bitcoincashWalletMethods, thorchainWalletMethods } from './walletMethods.js';
 
 type KeystoreOptions = {
   ethplorerApiKey?: string;
@@ -38,63 +37,94 @@ const getWalletMethodsForChain = async ({
 
   switch (chain) {
     case Chain.BinanceSmartChain:
-    case Chain.Avalanche: {
+    case Chain.Avalanche:
+    case Chain.Ethereum: {
+      if (chain === Chain.Ethereum) {
+        if (!ethplorerApiKey) throw new Error('Ethplorer API key not found');
+      } else {
+        if (!covalentApiKey) throw new Error('Covalent API key not found');
+      }
+
       const hdNode = HDNode.fromMnemonic(phrase);
       const derivedPath = hdNode.derivePath(derivationPath);
-      if (!covalentApiKey) throw new Error('Covalent API key not found');
 
-      const walletMethods =
-        chain === Chain.Avalanche
-          ? await avalancheWalletMethods({ covalentApiKey, derivedPath })
-          : await binanceSmartChainWalletMethods({ covalentApiKey, derivedPath });
+      const provider = getProvider(chain);
+      const wallet = new Wallet(derivedPath).connect(provider);
+      const params = { provider, signer: wallet };
+
+      const toolbox =
+        chain === Chain.Ethereum
+          ? ETHToolbox({ ...params, ethplorerApiKey: ethplorerApiKey! })
+          : chain === Chain.Avalanche
+          ? AVAXToolbox({ ...params, covalentApiKey: covalentApiKey! })
+          : BSCToolbox({ ...params, covalentApiKey: covalentApiKey! });
 
       return {
         address: derivedPath.address,
-        walletMethods,
+        walletMethods: {
+          ...toolbox,
+          getAddress: () => derivedPath.address,
+        },
       };
     }
 
-    case Chain.Ethereum: {
-      const hdNode = HDNode.fromMnemonic(phrase);
-      const derivedPath = hdNode.derivePath(derivationPath);
-      if (!ethplorerApiKey) throw new Error('Ethplorer API key not found');
-
-      const walletMethods = await ethereumWalletMethods({
-        ethplorerApiKey,
-        derivedPath,
-      });
-
-      return { address: derivedPath.address, walletMethods };
+    case Chain.BitcoinCash: {
+      if (!utxoApiKey) throw new Error('UTXO API key not found');
+      const walletMethods = bitcoincashWalletMethods({ phrase, derivationPath, utxoApiKey });
+      return { address: walletMethods.getAddress(), walletMethods };
     }
 
     case Chain.Bitcoin:
-    case Chain.BitcoinCash:
     case Chain.Doge:
     case Chain.Litecoin: {
       if (!utxoApiKey) throw new Error('UTXO API key not found');
 
-      const params = { utxoApiKey, derivationPath, phrase };
-      const walletMethods =
+      const toolbox =
         chain === Chain.Bitcoin
-          ? bitcoinWalletMethods(params)
+          ? BTCToolbox(utxoApiKey)
           : chain === Chain.Litecoin
-          ? litecoinWalletMethods(params)
-          : chain === Chain.Doge
-          ? dogecoinWalletMethods(params)
-          : bitcoincashWalletMethods(params);
+          ? LTCToolbox(utxoApiKey)
+          : DOGEToolbox(utxoApiKey);
 
-      return { address: walletMethods.getAddress(), walletMethods };
+      const keys = toolbox.createKeysForPath({ phrase, derivationPath });
+      const address = toolbox.getAddressFromKeys(keys);
+
+      const signTransaction = async (psbt: Psbt) => {
+        psbt.signAllInputs(keys);
+
+        return psbt;
+      };
+
+      return {
+        ...toolbox,
+        address,
+        getAddress: () => address,
+        transfer: (params: UTXOTransferParams) =>
+          toolbox.transfer({ ...params, from: address, signTransaction }),
+      };
     }
 
     case Chain.Binance:
-    case Chain.Cosmos:
+    case Chain.Cosmos: {
+      const toolbox = chain === Chain.Binance ? BinanceToolbox() : GaiaToolbox();
+      const privkey = toolbox.createKeyPair(phrase);
+      const from = toolbox.getAddressFromMnemonic(phrase);
+
+      const transfer = ({ asset, amount, recipient, memo }: TxParams) =>
+        toolbox.transfer({
+          from,
+          to: recipient,
+          privkey,
+          asset: getDenom(asset || AssetAtom),
+          amount: amount.amount().toString(),
+          memo,
+        });
+
+      return { ...toolbox, transfer, address: from, getAddress: () => from };
+    }
+
     case Chain.THORChain: {
-      const walletMethods =
-        chain === Chain.Binance
-          ? binanceWalletMethods({ phrase })
-          : chain === Chain.Cosmos
-          ? cosmosWalletMethods({ phrase })
-          : thorchainWalletMethods({ phrase });
+      const walletMethods = thorchainWalletMethods({ phrase });
 
       return { address: walletMethods.getAddress(), walletMethods };
     }

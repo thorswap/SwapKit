@@ -67,5 +67,5 @@ export type Keystore = {
 };
 
 export type BaseWalletMethods = {
-  getAddress: () => Promise<string> | string;
+  getAddress: () => string;
 };

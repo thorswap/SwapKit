@@ -13,7 +13,12 @@ import {
   TxHistoryParams,
 } from '@thorswap-lib/types';
 
-import { BaseEVMToolbox, CovalentApi, FeeData, getProvider, MIN_AVAX_GAS } from '../index.js';
+import { CovalentApi } from '../api/covalentApi.js';
+import { MIN_AVAX_GAS } from '../constants.js';
+import { getProvider } from '../provider.js';
+import { FeeData } from '../types/clientTypes.js';
+
+import { BaseEVMToolbox } from './BaseEVMToolbox.js';
 
 export const getPriorityFeeData = async ({
   feeOptionKey = FeeOption.Average,
@@ -59,8 +64,6 @@ export const getPriorityFeeData = async ({
 export const getBalance = async (api: CovalentApi, address: Address, assets?: AssetEntity[]) => {
   const provider = getProvider(Chain.Avalanche);
   const tokenBalances = await api.getBalance({ address, chainId: ChainId.Avalanche });
-  const evmGasTokenBalance = await provider.getBalance(address);
-  const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.ETH);
 
   if (assets) {
     return tokenBalances.filter(({ asset }) =>
@@ -68,6 +71,8 @@ export const getBalance = async (api: CovalentApi, address: Address, assets?: As
     );
   }
 
+  const evmGasTokenBalance = await provider.getBalance(address);
+  const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.ETH);
   return [
     { asset: getSignatureAssetFor(Chain.Avalanche), amount: evmGasTokenBalanceAmount },
     ...tokenBalances,
