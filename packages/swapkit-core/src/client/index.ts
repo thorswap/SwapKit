@@ -204,8 +204,11 @@ export class SwapKitCore {
 
   isAssetApproved = (asset: AssetEntity) => this._approve<boolean>({ asset }, 'checkOnly');
 
-  isAssetApprovedForContract = (asset: AssetEntity, contractAddress: string) =>
-    this._approve<boolean>({ asset, contractAddress }, 'checkOnly');
+  isAssetApprovedForContract = (
+    asset: AssetEntity,
+    contractAddress: string,
+    amount?: AmountWithBaseDenom,
+  ) => this._approve<boolean>({ asset, amount, contractAddress }, 'checkOnly');
 
   validateAddress = ({ address, chain }: { address: string; chain: Chain }) =>
     this.getWallet(chain)?.validateAddress?.(address);

@@ -1,5 +1,14 @@
 # @thorswap-lib/swapkit-explorers
 
+## 1.0.0-development.30
+
+### Patch Changes
+
+- bump
+
+- Updated dependencies []:
+  - @thorswap-lib/types@1.0.0-development.79
+
 ## 1.0.0-development.29
 
 ### Patch Changes

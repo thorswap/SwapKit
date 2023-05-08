@@ -1,5 +1,14 @@
 []
 
+## 1.0.0-development.83
+
+### Patch Changes
+
+- bump
+
+- Updated dependencies []:
+  - @thorswap-lib/types@1.0.0-development.79
+
 ## 1.0.0-development.82
 
 ### Patch Changes

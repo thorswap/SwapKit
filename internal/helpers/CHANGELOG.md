@@ -1,5 +1,15 @@
 # @thorswap-lib/helpers
 
+## 0.0.0-development.75
+
+### Patch Changes
+
+- bump
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.83
+  - @thorswap-lib/types@1.0.0-development.79
+
 ## 0.0.0-development.74
 
 ### Patch Changes

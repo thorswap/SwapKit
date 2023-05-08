@@ -1,5 +1,23 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.162
+
+### Patch Changes
+
+- bump
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-explorers@1.0.0-development.30
+  - @thorswap-lib/swapkit-entities@1.0.0-development.83
+  - @thorswap-lib/helpers@0.0.0-development.75
+  - @thorswap-lib/types@1.0.0-development.79
+
+## 1.0.0-development.161
+
+### Patch Changes
+
+- use only amount for approve
+
 ## 1.0.0-development.160
 
 ### Patch Changes

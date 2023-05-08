@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.79
+
+### Patch Changes
+
+- bump
+
 ## 1.0.0-development.78
 
 ### Patch Changes

@@ -1,5 +1,22 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.116
+
+### Patch Changes
+
+- bump
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.83
+  - @thorswap-lib/helpers@0.0.0-development.75
+  - @thorswap-lib/types@1.0.0-development.79
+
+## 1.0.0-development.115
+
+### Patch Changes
+
+- use only amount for approve
+
 ## 1.0.0-development.114
 
 ### Patch Changes

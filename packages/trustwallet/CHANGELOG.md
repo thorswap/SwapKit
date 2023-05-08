@@ -1,5 +1,24 @@
 # @thorswap-lib/trustwallet
 
+## 1.0.0-development.144
+
+### Patch Changes
+
+- bump
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.98
+  - @thorswap-lib/toolbox-evm@1.0.0-development.116
+  - @thorswap-lib/helpers@0.0.0-development.75
+  - @thorswap-lib/types@1.0.0-development.79
+
+## 1.0.0-development.143
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.115
+
 ## 1.0.0-development.142
 
 ### Patch Changes
