@@ -4,7 +4,7 @@ import { SwapKitApi } from '@thorswap-lib/swapkit-api';
 import { Asset, ChainId, DerivationPath } from '@thorswap-lib/types';
 
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
-import { BaseCosmosToolboxType } from '../index.js';
+import { BaseCosmosToolboxType } from '../thorchainUtils/types/client-types.js';
 
 type Params = {
   sdk: CosmosSDKClient;

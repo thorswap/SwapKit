@@ -17,14 +17,12 @@ import {
   Chain,
   ChainId,
   DerivationPath,
-  Tx,
-  TxHistoryParams,
 } from '@thorswap-lib/types';
 import { bech32 } from 'bech32';
 
 import { BNBTransaction } from '../binanceUtils/transaction.js';
-import { Account, AminoPrefix, Fees, TransactionResult, TxPage } from '../binanceUtils/types.js';
-import { isTransferFee, parseTx } from '../binanceUtils/utils.js';
+import { Account, AminoPrefix, Fees } from '../binanceUtils/types.js';
+import { isTransferFee } from '../binanceUtils/utils.js';
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
 import { BinanceToolboxType } from '../index.js';
 import { TransferParams } from '../types.js';
@@ -37,73 +35,6 @@ type ToolboxParams = {
 
 const MAINNET_THORNODE_API_BASE = 'https://thornode.thorswap.net/thorchain';
 const BINANCE_MAINNET_API_URI = 'https://dex.binance.org';
-
-const searchTransactions = async (params?: { [x: string]: string | undefined }) => {
-  const clientUrl = `${BINANCE_MAINNET_API_URI}/api/v1/transactions`;
-  const url = new URL(clientUrl);
-
-  const endTime = Date.now();
-  const diffTime = 90 * 24 * 60 * 60 * 1000;
-  url.searchParams.set('endTime', endTime.toString());
-  url.searchParams.set('startTime', (endTime - diffTime).toString());
-
-  for (const key in params) {
-    const value = params[key];
-    if (value) {
-      url.searchParams.set(key, value);
-      if (key === 'startTime' && !params['endTime']) {
-        url.searchParams.set('endTime', (parseInt(value) + diffTime).toString());
-      }
-      if (key === 'endTime' && !params['startTime']) {
-        url.searchParams.set('startTime', (parseInt(value) - diffTime).toString());
-      }
-    }
-  }
-
-  const txHistory = await getRequest<TxPage>(url.toString());
-
-  return {
-    total: txHistory.total,
-    txs: txHistory.tx.map(parseTx).filter(Boolean) as Tx[],
-  };
-};
-
-const getTransactions = (params?: TxHistoryParams) =>
-  searchTransactions({
-    address: params?.address,
-    limit: params?.limit?.toString(),
-    offset: params?.offset?.toString(),
-    startTime: params?.startTime?.getTime().toString(),
-    txAsset: params?.asset,
-  });
-
-const getTransactionData = async (txHash: string) => {
-  const { height, tx }: TransactionResult = await getRequest(
-    `${BINANCE_MAINNET_API_URI}/api/v1/tx/${txHash}?format=json`,
-  );
-
-  let address = '';
-  if (tx.value.msg.length) {
-    const msg = tx.value.msg[0].value as {
-      inputs?: { address: string }[];
-      outputs?: { address: string }[];
-    };
-    if (msg.inputs?.length) {
-      address = msg.inputs[0].address;
-    } else if (msg.outputs?.length) {
-      address = msg.outputs[0].address;
-    }
-  }
-
-  const txHistory = await searchTransactions({ address, blockHeight: height });
-  const [transaction] = txHistory.txs.filter(({ hash }) => hash === txHash);
-
-  if (!transaction) {
-    throw new Error('transaction not found');
-  }
-
-  return transaction;
-};
 
 const getAccount = (address: string): Promise<Account> =>
   getRequest<Account>(`${BINANCE_MAINNET_API_URI}/api/v1/account/${address}`);
@@ -257,8 +188,6 @@ export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolbox
     transfer: (params: TransferParams) => transfer(params),
     getAccount,
     getBalance,
-    getTransactions,
-    getTransactionData,
     getFees,
     sendRawTransaction,
     createTransactionAndSignMsg,

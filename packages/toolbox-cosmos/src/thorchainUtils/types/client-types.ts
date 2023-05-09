@@ -5,18 +5,16 @@ import {
   AmountWithBaseDenom,
   Asset,
   Balance,
-  Chain,
   ChainId,
   Fees,
   Network,
   Tx,
-  TxHistoryParams,
 } from '@thorswap-lib/types';
 
 import { BNBTransaction } from '../../binanceUtils/transaction.js';
 import { CosmosSDKClient } from '../../cosmosSdkClient.js';
 import { Account } from '../../index.js';
-import { RPCTxResult, TransferParams } from '../../types.js';
+import { TransferParams } from '../../types.js';
 
 export type NodeUrl = {
   node: string;
@@ -24,14 +22,6 @@ export type NodeUrl = {
 };
 
 export type ClientUrl = Record<Network, NodeUrl>;
-
-export type ExplorerUrls = {
-  root: ExplorerUrl;
-  tx: ExplorerUrl;
-  address: ExplorerUrl;
-};
-
-export type ExplorerUrl = Record<Network, string>;
 
 export type ChainIds = Record<Network, string>;
 
@@ -90,25 +80,6 @@ export type ThorchainToolboxType = BaseCosmosToolboxType &
     ) => Promise<string>;
     getAccAddress: (address: string) => cosmosclient.AccAddress;
     instanceToProto: (value: any) => proto.google.protobuf.Any;
-    getTransactionData: (txHash: string, address: string) => Promise<Tx>;
-    getTransactions: (
-      params: TxHistoryParams & { filterFn?: (tx: RPCTxResult) => boolean },
-    ) => Promise<{
-      total: number;
-      txs: {
-        date: Date;
-        hash: string;
-        asset: {
-          chain: Chain;
-          symbol: string;
-          ticker: string;
-        };
-        // TODO: this can be improved
-        from: any;
-        to: any;
-        type: any;
-      }[];
-    }>;
     createMultisig: (
       pubKeys: string[],
       threshold: number,
@@ -132,11 +103,6 @@ export type ThorchainToolboxType = BaseCosmosToolboxType &
 
 export type GaiaToolboxType = BaseCosmosToolboxType &
   CommonCosmosToolboxType & {
-    getTransactions: (params: TxHistoryParams) => Promise<{
-      total: number;
-      txs: Tx[];
-    }>;
-    getTransactionData: (txHash: string) => Promise<Tx>;
     protoMsgSend: ({
       from,
       to,
@@ -178,8 +144,6 @@ export type BinanceToolboxType = Omit<BaseCosmosToolboxType, 'getAccount'> &
   CommonCosmosToolboxType & {
     transfer: (params: TransferParams) => Promise<string>;
     getAccount: (address: string) => Promise<Account>;
-    getTransactions: (params: TxHistoryParams) => Promise<{}>;
-    getTransactionData: (txHash: string) => Promise<Tx>;
     sendRawTransaction: (signedBz: string, sync: boolean) => Promise<any>;
     createTransactionAndSignMsg: (params: TransferParams) => Promise<{
       transaction: BNBTransaction;

@@ -1,4 +1,4 @@
-export interface PriceInfo {
+interface PriceInfo {
   rate: number;
   diff: number;
   diff7d?: number;
@@ -13,7 +13,7 @@ export interface PriceInfo {
   currency?: string;
 }
 
-export interface TokenInfo {
+interface TokenInfo {
   address: string;
   decimals: string;
   name: string;
@@ -36,7 +36,7 @@ export interface TokenInfo {
   transfersCount?: number;
 }
 
-export interface TokenBalance {
+interface TokenBalance {
   tokenInfo: TokenInfo;
   balance: number;
   rawBalance: string;
@@ -61,53 +61,3 @@ export interface AddressInfo {
   tokens?: TokenBalance[];
   countTxs: number;
 }
-
-export interface TransactionEventLog {
-  address: string;
-  topics: string[];
-  data: string;
-}
-
-export interface TransactionOperation {
-  timestamp: number;
-  transactionHash: string;
-  value: string;
-  intValue?: number;
-  type: string;
-  priority?: number;
-  from: string;
-  to: string;
-  addresses?: string[];
-  isEth?: boolean;
-  usdPrice?: number;
-  tokenInfo: TokenInfo;
-}
-
-export interface TransactionInfo {
-  hash: string;
-  timestamp: number;
-  blockNumber?: number;
-  confirmations?: number;
-  success: boolean;
-  from: string;
-  to: string;
-  value: number;
-  input?: string;
-  gasLimit?: number;
-  gasUsed?: number;
-  creates?: string;
-  logs?: TransactionEventLog[];
-  operations?: TransactionOperation[];
-}
-
-export type GetTxInfoParam = {
-  txHash: string;
-  apiKey?: string;
-};
-
-export type GetTransactionsForAddressParam = {
-  address: string;
-  limit?: number;
-  timestamp?: number;
-  apiKey?: string;
-};

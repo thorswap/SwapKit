@@ -122,7 +122,6 @@ export const ChainToChainId: Record<Chain, ChainId> = {
   [Chain.THORChain]: ChainId.Thorchain,
 };
 
-// Return Hex of ChainId if available
 export const ChainToHexChainId: Record<Chain, ChainId> = {
   [Chain.Avalanche]: ChainId.AvalancheHex,
   [Chain.Binance]: ChainId.Binance,
@@ -160,8 +159,4 @@ export interface ResourceWorkerGasPricesResponse {
     gas: number;
     units: 'tor' | 'gwei' | 'wei' | 'sats' | 'uatom';
   }[];
-}
-
-export enum ResourceWorkerUrls {
-  ALL_GAS_PRICES = `https://api.thorswap.net/resource-worker/gasPrice/getAll`,
 }

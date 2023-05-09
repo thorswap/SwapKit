@@ -6,7 +6,6 @@ import { ContractInterface } from '@ethersproject/contracts';
 import {
   Address,
   AmountWithBaseDenom,
-  ChainId,
   EIP1559TxParams,
   FeeOption,
   Fees,
@@ -90,18 +89,6 @@ export interface EVMChainClientParams {
 export interface FeeData {
   maxFeePerGas: BigNumber;
   maxPriorityFeePerGas: BigNumber;
-}
-
-export interface NetworkParams {
-  chainId: ChainId;
-  chainName: string;
-  nativeCurrency: {
-    name: string;
-    symbol: string;
-    decimals: number;
-  };
-  rpcUrls: string[];
-  blockExplorerUrls: string[];
 }
 
 export type SendTransactionParams = {

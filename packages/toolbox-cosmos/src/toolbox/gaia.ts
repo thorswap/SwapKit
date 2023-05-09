@@ -8,13 +8,12 @@ import {
   ChainId,
   DerivationPath,
   FeeType,
-  TxHistoryParams,
 } from '@thorswap-lib/types';
 
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
 import { GaiaToolboxType } from '../index.js';
-import { AssetAtom, TransferParams } from '../types.js';
-import { getAsset, getTxsFromHistory } from '../util.js';
+import { TransferParams } from '../types.js';
+import { getAsset } from '../util.js';
 
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.js';
 
@@ -66,44 +65,6 @@ export const GaiaToolbox = (): GaiaToolboxType => {
 
   return {
     ...baseToolbox,
-
-    getTransactions: async (params: TxHistoryParams) => {
-      const { pagination, tx_responses } = await sdk.searchTx({
-        messageSender: params.address,
-        page: params?.offset,
-        limit: params?.limit,
-      });
-
-      return {
-        total: parseInt(pagination?.total || '0'),
-        txs: getTxsFromHistory(tx_responses || [], AssetAtom),
-      };
-    },
-
-    getTransactionData: async (txHash: string) => {
-      const txResult = await sdk.txsHashGet(txHash);
-
-      if (!txResult || txResult.txhash === '') {
-        throw new Error('transaction not found');
-      }
-
-      const txResult2 = {
-        ...txResult,
-        tx: txResult.tx
-          ? {
-              body: {
-                messages: txResult.tx.body.messages.map((message: any) =>
-                  proto.google.protobuf.Any.fromObject(message),
-                ),
-              },
-            }
-          : undefined,
-      };
-      const txs = getTxsFromHistory([txResult2], AssetAtom);
-      if (txs.length === 0) throw new Error('transaction not found');
-
-      return txs[0];
-    },
 
     getFees: async () => {
       const baseFee = (await getFeeRateFromThorswap(ChainId.Cosmos)) || 500;

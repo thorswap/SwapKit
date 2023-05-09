@@ -4,21 +4,15 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount, gasFeeMultiplier } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import {
-  Address,
-  BaseDecimal,
-  Chain,
-  ChainId,
-  FeeOption,
-  TxHistoryParams,
-} from '@thorswap-lib/types';
+import { Address, BaseDecimal, Chain, ChainId, FeeOption } from '@thorswap-lib/types';
 
 import { CovalentApi } from '../api/covalentApi.js';
-import { MIN_AVAX_GAS } from '../constants.js';
 import { getProvider } from '../provider.js';
 import { FeeData } from '../types/clientTypes.js';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.js';
+
+const MIN_AVAX_GAS = '25000000000';
 
 export const getPriorityFeeData = async ({
   feeOptionKey = FeeOption.Average,
@@ -79,18 +73,6 @@ export const getBalance = async (api: CovalentApi, address: Address, assets?: As
   ];
 };
 
-export const getTransactions = async (api: CovalentApi, params?: TxHistoryParams) => {
-  if (!params?.address) throw new Error('address is required');
-  const transactions = await api.getTransactionsForAddress({
-    address: params.address,
-    chainId: ChainId.Avalanche,
-  });
-  return transactions;
-};
-
-export const getTransactionData = async (api: CovalentApi, txHash: string) =>
-  api.getTxInfo({ txHash, chainId: ChainId.Avalanche });
-
 export const getNetworkParams = () => ({
   chainId: ChainId.AvalancheHex,
   chainName: 'Avalanche Mainnet C-Chain',
@@ -116,8 +98,6 @@ export const AVAXToolbox = ({
 
   return {
     ...BaseEVMToolbox({ provider, signer }),
-    getTransactionData: (txHash: string) => getTransactionData(api, txHash),
-    getTransactions: (params?: TxHistoryParams) => getTransactions(api, params),
     getNetworkParams,
     getBalance: (address: string, assets?: AssetEntity[]) => getBalance(api, address, assets),
   };

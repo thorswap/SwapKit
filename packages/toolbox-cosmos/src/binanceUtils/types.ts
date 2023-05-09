@@ -1,4 +1,4 @@
-import { Address, AminoWrapping } from '@thorswap-lib/types';
+import { Address } from '@thorswap-lib/types';
 
 /**
  * Balance
@@ -52,21 +52,6 @@ export type Account = {
    * sequence is for preventing replay attack
    */
   sequence: number;
-};
-
-/**
- * TxPage
- * @see https://docs.binance.org/api-reference/dex-api/paths.html#txpage
- */
-export type TxPage = {
-  /**
-   * total sum of transactions
-   */
-  total: number;
-  /**
-   * List of transactions
-   */
-  tx: Tx[];
 };
 
 /**
@@ -186,23 +171,6 @@ export interface StdSignature {
   account_number: number;
   sequence: number;
 }
-
-export type StdTransaction = {
-  msg: AminoWrapping<{}>[];
-  signatures: StdSignature[];
-  memo: string;
-  source: number;
-  data?: Buffer | null | string;
-};
-
-export type TransactionResult = {
-  hash: string;
-  log: string;
-  data?: string;
-  height: string;
-  code: number;
-  tx: AminoWrapping<StdTransaction>;
-};
 
 export type FeeType =
   | 'submit_proposal'

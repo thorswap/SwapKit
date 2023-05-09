@@ -1,18 +1,5 @@
-import { assetAmount, assetToBase } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import {
-  Balance,
-  BaseDecimal,
-  Chain,
-  FeeOption,
-  FeeRates,
-  Fees,
-  Tx,
-  TxHistoryParams,
-  TxsPage,
-  TxType,
-  UTXO,
-} from '@thorswap-lib/types';
+import { Balance, Chain, FeeOption, FeeRates, Fees, UTXO } from '@thorswap-lib/types';
 import { fromSeed } from 'bip32';
 import { address as btcLibAddress, payments, Psbt, PsbtTxOutput } from 'bitcoinjs-lib';
 import accumulative from 'coinselect/accumulative';
@@ -119,43 +106,6 @@ export const getBalance = async ({
 }: { address: string } & UTXOBaseToolboxParams): Promise<Balance[]> => [
   { asset: getSignatureAssetFor(chain), amount: await apiClient.getBalanceAmount({ address }) },
 ];
-
-export const getTransactions = async ({
-  offset = 0,
-  limit = 10,
-  address,
-  apiClient,
-  chain,
-}: TxHistoryParams & UTXOBaseToolboxParams): Promise<TxsPage> => {
-  const response = (await apiClient.getAddress(address))[address];
-  const transactions: Tx[] = [];
-
-  const txs = response.transactions.filter((_, index) => offset <= index && index < offset + limit);
-
-  if (!txs) throw new Error('txs is undefined');
-
-  for (const { hash } of txs) {
-    const { inputs, outputs, time, txHash } = await apiClient.getTransaction({ txHash: hash });
-
-    const tx: Tx = {
-      asset: getSignatureAssetFor(chain),
-      from: inputs.map((i) => ({
-        from: i.address,
-        amount: assetToBase(assetAmount(i.value, BaseDecimal.THOR)),
-      })),
-      to: outputs.map((i) => ({
-        to: i.address,
-        amount: assetToBase(assetAmount(i.value, BaseDecimal.THOR)),
-      })),
-      date: new Date(time * 1000),
-      type: TxType.Transfer,
-      hash: txHash,
-    };
-    transactions.push(tx);
-  }
-
-  return { total: response.transactions.length, txs: transactions };
-};
 
 export const getSuggestedFeeRate = ({ apiClient }: UTXOBaseToolboxParams) =>
   apiClient.getSuggestedTxFee();
@@ -267,8 +217,6 @@ export const BaseUTXOToolbox = (baseToolboxParams: UTXOBaseToolboxParams) => ({
   transfer: (params: UTXOWalletTransferParams<Psbt, Psbt>) =>
     transfer({ ...params, ...baseToolboxParams }),
   getBalance: (address: string) => getBalance({ address, ...baseToolboxParams }),
-  getTransactions: (params: TxHistoryParams) =>
-    getTransactions({ ...params, ...baseToolboxParams }),
   getSuggestedFeeRate: () => getSuggestedFeeRate(baseToolboxParams),
   getFeeRates: () => getFeeRates(baseToolboxParams),
   getFees: () => getFees(baseToolboxParams),

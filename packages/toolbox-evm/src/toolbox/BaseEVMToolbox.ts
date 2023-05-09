@@ -9,7 +9,7 @@ import { toUtf8Bytes } from '@ethersproject/strings';
 import { AssetEntity, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-entities';
 import {
   Address,
-  Asset as AssetType,
+  Asset,
   Chain,
   ContractAddress,
   EIP1559TxParams,
@@ -20,7 +20,6 @@ import {
   WalletTxParams,
 } from '@thorswap-lib/types';
 
-import { MAX_APPROVAL } from '../constants.js';
 import {
   ApprovedParams,
   ApproveParams,
@@ -29,6 +28,8 @@ import {
   IsApprovedParams,
   TransferParams,
 } from '../types/index.js';
+
+const MAX_APPROVAL = BigNumber.from('2').pow('255').sub('1');
 
 const baseAssetAddress: Record<EVMChain, string> = {
   [Chain.Ethereum]: ContractAddress.ETH,
@@ -49,7 +50,7 @@ const validateAddress = (address: Address): boolean => {
   }
 };
 
-const getAssetEntity = (asset: AssetType | undefined) =>
+const getAssetEntity = (asset: Asset | undefined) =>
   asset
     ? new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker)
     : getSignatureAssetFor(Chain.Ethereum);
@@ -441,7 +442,7 @@ export const EIP1193SendTransaction = async (
     params: [{ value: BigNumber.from(value || 0).toHexString(), from, to, data }],
   });
 
-export const getChecksumAddressFromAsset = (asset: AssetType, chain: EVMChain) => {
+export const getChecksumAddressFromAsset = (asset: Asset, chain: EVMChain) => {
   const parsedAsset = getAssetEntity(asset);
   const assetAddress = getTokenAddress(parsedAsset, chain);
 
@@ -452,7 +453,7 @@ export const getChecksumAddressFromAsset = (asset: AssetType, chain: EVMChain) =
   throw new Error('invalid gas asset address');
 };
 
-export const getTokenAddress = ({ chain, symbol, ticker }: AssetType, baseAssetChain: EVMChain) => {
+export const getTokenAddress = ({ chain, symbol, ticker }: Asset, baseAssetChain: EVMChain) => {
   try {
     if (chain === baseAssetChain && symbol === baseAssetChain && ticker === baseAssetChain) {
       return baseAssetAddress[baseAssetChain];

@@ -8,7 +8,6 @@ import {
   BroadcastTxParams,
   CommonScanUTXOParam,
   TxBroadcastResponse,
-  UTXOTransactionData,
 } from '../types/index.js';
 
 import {
@@ -82,27 +81,6 @@ export class ApiClient {
   getIsTxConfirmed = async (txHash: string) => {
     const response = await getTx({ chain: this.chain, apiKey: this.apiKey, txHash });
     return response[txHash].transaction.block_id !== -1;
-  };
-
-  getTransaction = async ({ txHash }: { txHash: string }): Promise<UTXOTransactionData> => {
-    const response = await getTx({ chain: this.chain, apiKey: this.apiKey, txHash });
-
-    const { transaction, outputs, inputs } = response[txHash];
-
-    return {
-      txHash: transaction.hash,
-      outputs: outputs.map((output) => ({
-        address: output.recipient || '',
-        value: output.value,
-        txId: output.transaction_hash,
-      })),
-      inputs: inputs.map((input) => ({
-        address: input.recipient || '',
-        value: input.value,
-        txId: input.transaction_hash,
-      })),
-      time: Math.floor(new Date(transaction.time).valueOf() / 1000),
-    };
   };
 
   getRawTx = async (txHash: string) => {

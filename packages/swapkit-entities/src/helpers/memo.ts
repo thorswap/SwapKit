@@ -92,9 +92,9 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
 
     case MemoType.OPEN_LOAN:
     case MemoType.CLOSE_LOAN: {
-      const { asset, address, minAmount } = options as MemoOptions<MemoType.OPEN_LOAN>;
+      const { asset, address } = options as MemoOptions<MemoType.OPEN_LOAN>;
 
-      return `${memoType}:${asset}:${address}:${minAmount ? `${minAmount}` : ''}:t:0`;
+      return `${memoType}:${asset}:${address}`; //:${minAmount ? `${minAmount}` : ''}:t:0`;
     }
 
     default:

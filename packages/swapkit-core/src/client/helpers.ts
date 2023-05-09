@@ -1,6 +1,6 @@
 import { getRequest } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { Asset as AssetType, Chain } from '@thorswap-lib/types';
+import { Asset, Chain } from '@thorswap-lib/types';
 
 const THORNODE_MAINNET_URL = 'https://thornode.thorswap.net';
 const THORNODE_STAGENET_URL = 'https://stagenet-thornode.ninerealms.com';
@@ -21,7 +21,7 @@ type InboundAddressData = {
   router: string;
 }[];
 
-export const getAssetForBalance = ({ symbol, chain }: AssetType) => {
+export const getAssetForBalance = ({ symbol, chain }: Asset) => {
   const isSynth = symbol.includes('/');
   const assetChain = (isSynth ? symbol.split('/')?.[0] : chain)?.toUpperCase() as Chain;
   const assetSymbol = (isSynth ? symbol.split('/')?.[1] : symbol)?.toUpperCase();
@@ -40,3 +40,16 @@ export const getMimirData = (stagenet: boolean) => {
 
   return getRequest<Record<string, number>>(`${baseUrl}/thorchain/mimir`);
 };
+
+export const getEmptyWalletStructure = () => ({
+  [Chain.Avalanche]: null,
+  [Chain.Binance]: null,
+  [Chain.BinanceSmartChain]: null,
+  [Chain.BitcoinCash]: null,
+  [Chain.Bitcoin]: null,
+  [Chain.Cosmos]: null,
+  [Chain.Doge]: null,
+  [Chain.Ethereum]: null,
+  [Chain.Litecoin]: null,
+  [Chain.THORChain]: null,
+});
