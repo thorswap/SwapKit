@@ -1,6 +1,7 @@
 name: Publish pre release development packages
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - develop
@@ -17,17 +18,20 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Creating .npmrc
+        run: |
+          cat << EOF > "$HOME/.npmrc"
+            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          EOF
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
       - uses: ./.github/actions/setup-js-workflow
-
-      - name: Setup NPM_AUTH_TOKEN
-        run: |
-          echo 'npmAuthToken: "${{ secrets.NPM_AUTH_TOKEN }}"' >> .yarnrc.yml
 
       - name: Create Release Pull Request or Publish to npm
         uses: changesets/action@v1
         with:
-          title: ":tada: publish pre-release"
+          title: ":tada: Publish pre-release"
           branch: develop
           version: yarn version-development
           publish: yarn publish-packages

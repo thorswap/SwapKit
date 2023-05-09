@@ -1,6 +1,7 @@
 name: Public packages publish
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -14,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Creating .npmrc
         run: |
           cat << EOF > "$HOME/.npmrc"
@@ -27,7 +31,7 @@ jobs:
       - name: Create Release Pull Request or Publish to npm
         uses: changesets/action@v1
         with:
-          title: ":tada: publish"
+          title: ":tada: Publish release"
           branch: main
           version: yarn version-release
           publish: yarn publish-packages
