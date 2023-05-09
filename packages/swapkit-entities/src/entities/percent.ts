@@ -1,7 +1,8 @@
-import { type BigNumber } from 'bignumber.js';
+import type { BigNumber } from 'bignumber.js';
+
+import { BN_FORMAT } from '../helpers/asset.js';
 
 import { Amount, AmountType, EMPTY_FORMAT, Rounding } from './amount.js';
-import { BN_FORMAT } from './constants.js';
 
 export class Percent extends Amount {
   constructor(amount: BigNumber.Value, type: AmountType = AmountType.ASSET_AMOUNT) {

@@ -1,8 +1,9 @@
 import { BigNumber } from 'bignumber.js';
 
+import { BN_FORMAT } from '../helpers/asset.js';
+
 import { Amount, AmountType, Rounding } from './amount.js';
 import { AssetEntity as Asset, AssetEntity } from './asset.js';
-import { BN_FORMAT } from './constants.js';
 import { Pool } from './pool.js';
 
 const poolByAsset = (asset: AssetEntity, pools: Pool[]) =>
