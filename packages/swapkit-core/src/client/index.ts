@@ -330,32 +330,20 @@ export class SwapKitCore {
   createLiquidity = async ({ runeAmount, assetAmount }: CreateLiquidityParams) => {
     if (runeAmount.lte(0) || assetAmount.lte(0)) throw new Error('Amount should be specified');
 
-    const { asset } = assetAmount;
-    const { chain, symbol } = asset;
-    const { address, router, gas_rate } = await this._getInboundDataByChain(chain);
-    const feeRate = (parseInt(gas_rate) || 0) * gasFeeMultiplier[FeeOption.Fast];
-
     return {
-      runeTx: await this.deposit({
+      runeTx: await this._depositToPool({
         assetAmount: runeAmount,
-        recipient: '',
         memo: getMemoFor(MemoType.DEPOSIT, {
-          chain,
-          symbol,
-          address: this.getAddress(chain),
+          ...assetAmount.asset,
+          address: this.getAddress(assetAmount.asset.chain),
         }),
-        feeRate,
       }),
-      assetTx: await this.deposit({
+      assetTx: await this._depositToPool({
         assetAmount,
-        recipient: address,
         memo: getMemoFor(MemoType.DEPOSIT, {
-          chain,
-          symbol,
+          ...assetAmount.asset,
           address: this.getAddress(Chain.THORChain),
         }),
-        router,
-        feeRate,
       }),
     };
   };
@@ -373,37 +361,24 @@ export class SwapKitCore {
     const isSym = mode === 'sym';
     const runeTransfer = runeAmount?.gt(0) && (isSym || mode === 'rune');
     const assetTransfer = assetAmount?.gt(0) && (isSym || mode === 'asset');
-
-    if (!runeTransfer && !assetTransfer) throw new Error('Invalid Asset Amount or Mode');
-
     const includeRuneAddress = isPendingSymmAsset || runeTransfer;
     const runeAddress = includeRuneAddress ? runeAddr || this.getAddress(Chain.THORChain) : '';
     const assetAddress = isSym || mode === 'asset' ? assetAddr || this.getAddress(chain) : '';
 
-    const { address, gas_rate, router } = await this._getInboundDataByChain(chain);
-    const feeRate = (parseInt(gas_rate) || 0) * gasFeeMultiplier[FeeOption.Fast];
-    const runeMemo = getMemoFor(MemoType.DEPOSIT, {
-      chain,
-      symbol,
-      address: assetAddress,
-    });
-    const assetMemo = getMemoFor(MemoType.DEPOSIT, {
-      chain,
-      symbol,
-      address: runeAddress,
-    });
-
+    if (!runeTransfer && !assetTransfer) throw new Error('Invalid Asset Amount or Mode');
     if (includeRuneAddress && !runeAddress) throw new Error('Rune address not found');
 
     let runeTx, assetTx;
 
-    if (runeTransfer) {
+    if (runeTransfer && runeAmount) {
       try {
-        runeTx = await this.deposit({
-          assetAmount: runeAmount as AssetAmount,
-          recipient: '',
-          memo: runeMemo,
-          feeRate,
+        runeTx = await this._depositToPool({
+          assetAmount: runeAmount,
+          memo: getMemoFor(MemoType.DEPOSIT, {
+            chain,
+            symbol,
+            address: assetAddress,
+          }),
         });
       } catch (error) {
         console.error(error);
@@ -411,14 +386,15 @@ export class SwapKitCore {
       }
     }
 
-    if (assetTransfer) {
+    if (assetTransfer && assetAmount) {
       try {
-        assetTx = await this.deposit({
-          assetAmount: assetAmount as AssetAmount,
-          recipient: address,
-          memo: assetMemo,
-          router,
-          feeRate,
+        assetTx = await this._depositToPool({
+          assetAmount: assetAmount,
+          memo: getMemoFor(MemoType.DEPOSIT, {
+            chain,
+            symbol,
+            address: runeAddress,
+          }),
         });
       } catch (error) {
         console.error(error);
@@ -429,7 +405,7 @@ export class SwapKitCore {
     return { runeTx, assetTx };
   };
 
-  withdraw = async ({ pool: { asset }, percent, from, to }: WithdrawParams) => {
+  withdraw = async ({ asset, percent, from, to }: WithdrawParams) => {
     const targetAsset =
       to === 'rune'
         ? getSignatureAssetFor(Chain.THORChain)
@@ -437,30 +413,20 @@ export class SwapKitCore {
         ? undefined
         : asset;
 
-    // get inbound address for asset chain
-    const chain = from === 'asset' ? asset.chain : Chain.THORChain;
-    const { address, router, gas_rate } = await this._getInboundDataByChain(chain);
-
-    return this.deposit({
-      assetAmount: getMinAmountByChain(chain),
-      recipient: address,
+    return this._depositToPool({
+      assetAmount: getMinAmountByChain(from === 'asset' ? asset.chain : Chain.THORChain),
       memo: getMemoFor(MemoType.WITHDRAW, {
-        chain: asset.chain,
-        ticker: asset.ticker,
-        symbol: asset.symbol,
+        ...asset,
         basisPoints: percent.mul(100).assetAmount.toNumber(),
         targetAssetString: targetAsset?.toString(),
         singleSide: false,
       }),
-      router: from === 'asset' ? router : undefined,
-      feeRate: (parseInt(gas_rate) || 0) * gasFeeMultiplier[FeeOption.Fast],
     });
   };
 
   addSavings = (assetAmount: AssetAmount) =>
-    this._transferToPool({
+    this._depositToPool({
       assetAmount,
-      chain: assetAmount.asset.chain,
       memo: getMemoFor(MemoType.DEPOSIT, {
         chain: assetAmount.asset.chain,
         symbol: assetAmount.asset.symbol,
@@ -468,22 +434,31 @@ export class SwapKitCore {
       }),
     });
 
-  withdrawSavings = ({
-    asset: { ticker, chain, symbol },
-    percent,
-  }: {
-    asset: AssetEntity;
-    percent: Percent;
-  }) =>
-    this._transferToPool({
-      chain,
-      assetAmount: getMinAmountByChain(chain),
+  withdrawSavings = ({ asset, percent }: { asset: AssetEntity; percent: Percent }) =>
+    this._depositToPool({
+      assetAmount: getMinAmountByChain(asset.chain),
       memo: getMemoFor(MemoType.WITHDRAW, {
-        chain,
-        ticker,
-        symbol,
+        ...asset,
         basisPoints: percent.mul(100).assetAmount.toNumber(),
         singleSide: true,
+      }),
+    });
+
+  openLoan = (assetAmount: AssetAmount) =>
+    this._depositToPool({
+      assetAmount,
+      memo: getMemoFor(MemoType.OPEN_LOAN, {
+        chain: assetAmount.asset.chain,
+        address: this.getAddress(assetAmount.asset.chain),
+      }),
+    });
+
+  closeLoan = (assetAmount: AssetAmount) =>
+    this._depositToPool({
+      assetAmount,
+      memo: getMemoFor(MemoType.CLOSE_LOAN, {
+        chain: assetAmount.asset.chain,
+        address: this.getAddress(assetAmount.asset.chain),
       }),
     });
 
@@ -556,20 +531,14 @@ export class SwapKitCore {
    * remove after KillSwitch
    */
   upgrade = async ({ runeAmount, recipient }: UpgradeParams) => {
-    const { chain } = runeAmount.asset;
-    const isETH = chain === Chain.Ethereum;
     if (!recipient) throw new Error('rune wallet not found');
 
     const thorchainAddress = this.getAddress(Chain.THORChain);
-    const { address, router, gas_rate } = await this._getInboundDataByChain(chain);
-    if ((isETH && !router) || !thorchainAddress) throw new Error(`router not found for ${chain}`);
+    if (!thorchainAddress) throw new Error('thorchain wallet not found');
 
-    return this.deposit({
-      router: isETH ? router : undefined,
+    return this._depositToPool({
       assetAmount: runeAmount,
-      recipient: address,
       memo: getMemoFor(MemoType.UPGRADE, { address: thorchainAddress }),
-      feeRate: (parseInt(gas_rate) || 0) * gasFeeMultiplier[FeeOption.Fast],
     });
   };
 
@@ -578,14 +547,7 @@ export class SwapKitCore {
    */
   private _getInboundDataByChain = async (chain: Chain) => {
     if (chain === Chain.THORChain) {
-      return {
-        gas_rate: '0',
-        router: '0',
-        address: '',
-        halted: false,
-        chain: Chain.THORChain,
-        pub_key: '',
-      };
+      return { gas_rate: '0', router: '0', address: '', halted: false, chain: Chain.THORChain };
     }
     const inboundData = await getInboundData(this.stagenet);
     const chainAddressData = inboundData.find((item) => item.chain === chain);
@@ -641,17 +603,21 @@ export class SwapKitCore {
     }) as Promise<T>;
   };
 
-  private _transferToPool = async ({
+  private _depositToPool = async ({
     assetAmount,
     memo,
-    chain,
+    feeOptionKey = FeeOption.Fast,
   }: {
     assetAmount: AssetAmount;
     memo: string;
-    chain: Chain;
+    feeOptionKey?: FeeOption;
   }) => {
-    const { gas_rate, router, address: poolAddress } = await this._getInboundDataByChain(chain);
-    const feeRate = (parseInt(gas_rate) || 0) * gasFeeMultiplier[FeeOption.Fast];
+    const {
+      gas_rate,
+      router,
+      address: poolAddress,
+    } = await this._getInboundDataByChain(assetAmount.asset.chain);
+    const feeRate = (parseInt(gas_rate) || 0) * gasFeeMultiplier[feeOptionKey];
 
     return this.deposit({ assetAmount, recipient: poolAddress, memo, router, feeRate });
   };

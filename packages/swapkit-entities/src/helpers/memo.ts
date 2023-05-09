@@ -8,6 +8,8 @@ export enum MemoType {
   UNBOND = 'UNBOND',
   UPGRADE = 'SWITCH',
   WITHDRAW = '-',
+  OPEN_LOAN = '$+',
+  CLOSE_LOAN = '$-',
 }
 
 export type ThornameRegisterParam = {
@@ -44,6 +46,8 @@ export type MemoOptions<T extends MemoType> = {
     targetAssetString?: string;
     singleSide?: boolean;
   };
+  [MemoType.OPEN_LOAN]: { chain: Chain; address: string; minAmount?: number };
+  [MemoType.CLOSE_LOAN]: { chain: Chain; address: string; minAmount?: number };
 }[T];
 
 export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions<T>) => {
@@ -82,6 +86,18 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
       const assetDivider = singleSide ? '/' : '.';
 
       return `${memoType}:${chain}${assetDivider}${shortenedSymbol}:${basisPoints}${target}`;
+    }
+
+    case MemoType.OPEN_LOAN: {
+      const { chain, address, minAmount } = options as MemoOptions<MemoType.OPEN_LOAN>;
+
+      return `${memoType}:${chain}.${chain}:${address}:${minAmount ? `${minAmount}` : ''}:t:0`;
+    }
+
+    case MemoType.CLOSE_LOAN: {
+      const { chain, address, minAmount } = options as MemoOptions<MemoType.OPEN_LOAN>;
+
+      return `${memoType}:${chain}.${chain}:${address}:${minAmount ? `${minAmount}` : ''}:t:0`;
     }
 
     default:
