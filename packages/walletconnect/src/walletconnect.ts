@@ -46,7 +46,6 @@ const getToolbox = async ({
       });
 
       const transfer = async (params: any) => {
-        debugger;
         const txAmount = params.amount.amount().toHexString();
         const gasLimit = (
           await toolbox.estimateGasLimit({

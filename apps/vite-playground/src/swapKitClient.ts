@@ -5,11 +5,13 @@ import { trezorWallet } from '@thorswap-lib/trezor';
 import { evmWallet, xdefiWallet } from '@thorswap-lib/web-extensions';
 
 let skClient: SwapKitCore;
+let stagenetClient: SwapKitCore;
 
-export const getSwapKitClient = () => {
-  if (skClient) return skClient;
+export const getSwapKitClient = (stagenet?: boolean) => {
+  if (stagenet && stagenetClient) return stagenetClient;
+  if (!stagenet && skClient) return skClient;
 
-  const client = new SwapKitCore();
+  const client = new SwapKitCore({ stagenet });
 
   client.extend({
     config: {
@@ -20,7 +22,8 @@ export const getSwapKitClient = () => {
     wallets: [xdefiWallet, evmWallet, ledgerWallet, keystoreWallet, trezorWallet],
   });
 
-  skClient = client;
+  if (stagenet) stagenetClient = client;
+  else skClient = client;
 
   return client;
 };

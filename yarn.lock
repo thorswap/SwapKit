@@ -4930,6 +4930,7 @@ __metadata:
     "@internal/config": "workspace:*"
     "@thorswap-lib/cross-chain-api-sdk": 0.1.31
     "@thorswap-lib/helpers": "workspace:*"
+    "@thorswap-lib/swapkit-api": "workspace:*"
     "@thorswap-lib/swapkit-entities": "workspace:*"
     "@thorswap-lib/swapkit-explorers": "workspace:*"
     "@thorswap-lib/toolbox-cosmos": "workspace:*"

@@ -8,6 +8,7 @@ import { WalletDataType } from './types';
 
 type Props = {
   setWallet: (wallet: WalletDataType | WalletDataType[]) => void;
+  stagenet: boolean;
 };
 
 const walletOptions = Object.values(WalletOption).filter(
@@ -50,8 +51,8 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   [WalletOption.WALLETCONNECT]: [Chain.Ethereum, Chain.THORChain, Chain.Binance],
 };
 
-export const WalletPicker = ({ setWallet }: Props) => {
-  const skClient = getSwapKitClient();
+export const WalletPicker = ({ setWallet, stagenet }: Props) => {
+  const skClient = getSwapKitClient(stagenet);
   const [loading, setLoading] = useState(false);
   const [chains, setChains] = useState<Chain[]>([]);
   const connectWallet = useCallback(

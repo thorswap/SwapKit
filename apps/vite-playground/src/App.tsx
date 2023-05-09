@@ -1,17 +1,16 @@
-import { QuoteRoute } from '@thorswap-lib/swapkit-api';
 import { AssetAmount } from '@thorswap-lib/swapkit-entities';
-import { FeeOption } from '@thorswap-lib/types';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-import { SwapInputs } from './SwapInputs';
-import { getSwapKitClient } from './swapKitClient';
+import Loan from './Loan';
+import Swap from './Swap';
 import { WalletDataType } from './types';
 import { Wallet } from './Wallet';
 import { WalletPicker } from './WalletPicker';
 
 const App = () => {
+  const [widgetType, setWidgetType] = useState<'swap' | 'loan' | 'earn'>('swap');
   const [wallet, setWallet] = useState<WalletDataType | WalletDataType[]>(null);
-
+  const [stagenet, setStagenet] = useState(true);
   const [{ inputAsset, outputAsset }, setSwapAssets] = useState<{
     inputAsset?: AssetAmount;
     outputAsset?: AssetAmount;
@@ -30,36 +29,43 @@ const App = () => {
     [inputAsset, outputAsset],
   );
 
-  const handleSwap = useCallback(
-    async (route: QuoteRoute) => {
-      const inputChain = inputAsset?.asset.L1Chain;
-      const outputChain = outputAsset?.asset.L1Chain;
-      if (!outputChain || !inputChain) return;
-
-      const skClient = getSwapKitClient();
-      const address = skClient.getAddress(outputChain);
-
-      const txHash = await skClient.swap({
-        // @ts-expect-error TODO: Fix API types from cross-chain-api-sdk
-        route,
-        recipient: address,
-        feeOptionKey: FeeOption.Fast,
-      });
-
-      window.open(skClient.getExplorerTxUrl(inputChain, txHash), '_blank');
-    },
-    [inputAsset?.asset.L1Chain, outputAsset?.asset.L1Chain],
+  const Widgets = useMemo(
+    () => ({
+      swap: <Swap inputAsset={inputAsset} outputAsset={outputAsset} stagenet={stagenet} />,
+      loan: <Loan inputAsset={inputAsset} outputAsset={outputAsset} />,
+      earn: <div>Earn</div>,
+    }),
+    [inputAsset, outputAsset, stagenet],
   );
 
   return (
     <div>
-      <h1>SwapKit Playground</h1>
+      <h3>
+        SwapKit Playground
+        <button onClick={() => setStagenet((v) => !v)} type="button">
+          Toggle Stagenet - {`${stagenet}`.toUpperCase()}
+        </button>
+      </h3>
 
       <div>
         <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
-          <WalletPicker setWallet={setWallet} />
+          <WalletPicker setWallet={setWallet} stagenet={stagenet} />
 
-          <SwapInputs handleSwap={handleSwap} inputAsset={inputAsset} outputAsset={outputAsset} />
+          <div>
+            <select
+              onChange={(e) => setWidgetType(e.target.value as 'loan')}
+              style={{ marginBottom: 10 }}
+              value={widgetType}
+            >
+              {Object.keys(Widgets).map((widget) => (
+                <option key={widget} value={widget}>
+                  {widget}
+                </option>
+              ))}
+            </select>
+
+            {Widgets[widgetType]}
+          </div>
         </div>
 
         {Array.isArray(wallet) ? (
