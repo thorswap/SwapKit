@@ -1,9 +1,10 @@
 import { Chain } from '@thorswap-lib/types';
 import { BigNumber } from 'bignumber.js';
 
+import { BN_FORMAT } from '../helpers/asset.js';
+
 import { Amount, AmountType, Rounding } from './amount.js';
 import { AssetEntity, getSignatureAssetFor } from './asset.js';
-import { BN_FORMAT } from './constants.js';
 import { Pool } from './pool.js';
 import { Price } from './price.js';
 

@@ -5,6 +5,7 @@ core:
 
 docs:
 - apps/vite-playground/**/*
+- apps/expo-playground/**/*
 
 keystore:
 - packages/keystore/**/*

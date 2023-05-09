@@ -20,6 +20,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ./.github/actions/setup-js-workflow
 
+      - name: Setup NPM_AUTH_TOKEN
+        run: |
+          echo 'npmAuthToken: "${{ secrets.NPM_AUTH_TOKEN }}"' >> .yarnrc.yml
+
       - name: Create Release Pull Request or Publish to npm
         uses: changesets/action@v1
         with:

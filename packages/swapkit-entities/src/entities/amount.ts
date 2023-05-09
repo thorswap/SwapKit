@@ -1,7 +1,7 @@
 import { BaseDecimal } from '@thorswap-lib/types';
 import { BigNumber } from 'bignumber.js';
 
-import { BN_FORMAT } from './constants.js';
+import { BN_FORMAT } from '../helpers/asset.js';
 
 export enum Rounding {
   ROUND_DOWN,
