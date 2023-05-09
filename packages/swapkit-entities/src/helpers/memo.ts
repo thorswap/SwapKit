@@ -31,23 +31,25 @@ const getShortenedSymbol = ({
   chain: string | Chain;
 }) => (chain === 'ETH' && ticker !== 'ETH' ? `${ticker}-${symbol.slice(-3)}` : symbol);
 
+type WithAddress<T = {}> = T & { address: string };
+type WithChain<T = {}> = T & { chain: Chain };
+
 export type MemoOptions<T extends MemoType> = {
-  [MemoType.BOND]: { address: string };
-  [MemoType.DEPOSIT]: { chain: Chain; symbol: string; address?: string; singleSide?: boolean };
-  [MemoType.LEAVE]: { address: string };
-  [MemoType.THORNAME_REGISTER]: Omit<ThornameRegisterParam, 'preferredAsset' | 'expiryBlock'>;
-  [MemoType.UNBOND]: { address: string; unbondAmount: number };
-  [MemoType.UPGRADE]: { address: string };
-  [MemoType.WITHDRAW]: {
-    chain: Chain;
+  [MemoType.BOND]: WithAddress;
+  [MemoType.LEAVE]: WithAddress;
+  [MemoType.UPGRADE]: WithAddress;
+  [MemoType.CLOSE_LOAN]: WithAddress<{ asset: string; minAmount?: string }>;
+  [MemoType.OPEN_LOAN]: WithAddress<{ asset: string; minAmount?: string }>;
+  [MemoType.UNBOND]: WithAddress<{ unbondAmount: number }>;
+  [MemoType.DEPOSIT]: WithChain<{ symbol: string; address?: string; singleSide?: boolean }>;
+  [MemoType.WITHDRAW]: WithChain<{
     ticker: string;
     symbol: string;
     basisPoints: number;
     targetAssetString?: string;
     singleSide?: boolean;
-  };
-  [MemoType.OPEN_LOAN]: { chain: Chain; address: string; minAmount?: number };
-  [MemoType.CLOSE_LOAN]: { chain: Chain; address: string; minAmount?: number };
+  }>;
+  [MemoType.THORNAME_REGISTER]: Omit<ThornameRegisterParam, 'preferredAsset' | 'expiryBlock'>;
 }[T];
 
 export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions<T>) => {
@@ -55,7 +57,7 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
     case MemoType.LEAVE:
     case MemoType.UPGRADE:
     case MemoType.BOND: {
-      const { address } = options as MemoOptions<MemoType.BOND | MemoType.LEAVE | MemoType.UPGRADE>;
+      const { address } = options as MemoOptions<MemoType.BOND>;
       return `${memoType}:${address}`;
     }
 
@@ -88,16 +90,11 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
       return `${memoType}:${chain}${assetDivider}${shortenedSymbol}:${basisPoints}${target}`;
     }
 
-    case MemoType.OPEN_LOAN: {
-      const { chain, address, minAmount } = options as MemoOptions<MemoType.OPEN_LOAN>;
-
-      return `${memoType}:${chain}.${chain}:${address}:${minAmount ? `${minAmount}` : ''}:t:0`;
-    }
-
+    case MemoType.OPEN_LOAN:
     case MemoType.CLOSE_LOAN: {
-      const { chain, address, minAmount } = options as MemoOptions<MemoType.OPEN_LOAN>;
+      const { asset, address, minAmount } = options as MemoOptions<MemoType.OPEN_LOAN>;
 
-      return `${memoType}:${chain}.${chain}:${address}:${minAmount ? `${minAmount}` : ''}:t:0`;
+      return `${memoType}:${asset}:${address}:${minAmount ? `${minAmount}` : ''}:t:0`;
     }
 
     default:

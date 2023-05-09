@@ -2,7 +2,7 @@ import { QuoteRoute, SwapKitApi } from '@thorswap-lib/swapkit-api';
 import { Amount, AssetAmount } from '@thorswap-lib/swapkit-entities';
 import { useCallback, useState } from 'react';
 
-import { getSwapKitClient } from './swapKitClient';
+import { getSwapKitClient } from '../swapKitClient';
 
 type Props = {
   inputAsset?: AssetAmount;

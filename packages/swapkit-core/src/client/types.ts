@@ -1,4 +1,4 @@
-import { QuoteRoute } from '@thorswap-lib/cross-chain-api-sdk/lib/entities';
+import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
 import { AssetAmount, AssetEntity, Percent, Pool } from '@thorswap-lib/swapkit-entities';
 import type {
   BinanceToolbox,

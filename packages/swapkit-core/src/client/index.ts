@@ -1,10 +1,5 @@
 import { isHexString } from '@ethersproject/bytes';
 import { parseUnits } from '@ethersproject/units';
-import type {
-  CalldataSwapIn,
-  CalldataSwapOut,
-  CalldataTcToTc,
-} from '@thorswap-lib/cross-chain-api-sdk/lib/entities';
 import {
   baseAmount,
   createAssetObjFromAsset,
@@ -51,6 +46,7 @@ import { getAssetForBalance, getInboundData, getMimirData } from './helpers.js';
 import {
   AddChainWalletParams,
   AddLiquidityParams,
+  CalldataSwapIn,
   CoreTxParams,
   CreateLiquidityParams,
   EVMWallet,
@@ -100,7 +96,7 @@ export class SwapKitCore {
       case QuoteMode.TC_SUPPORTED_TO_AVAX:
       case QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED:
       case QuoteMode.TC_SUPPORTED_TO_ETH: {
-        const { fromAsset, amountIn, memo } = route.calldata as CalldataSwapOut | CalldataTcToTc;
+        const { fromAsset, amountIn, memo } = route.calldata;
         const asset = AssetEntity.fromAssetString(fromAsset);
         if (!asset) throw new Error('Asset not recognised');
 
@@ -132,16 +128,18 @@ export class SwapKitCore {
         }
 
         const provider = getProvider(evmChain);
-        const { calldata, contract: contractAddress } = route as {
-          calldata: CalldataSwapIn;
-          contract: AGG_CONTRACT_ADDRESS;
-        };
+        const { calldata, contract: contractAddress } = route;
         const abi = lowercasedContractAbiMapping[contractAddress.toLowerCase()];
         if (!abi) throw new Error(`Contract ABI not found for ${contractAddress}`);
 
         const contract = walletMethods.createContract?.(contractAddress, abi, provider);
         const tx = await contract.populateTransaction.swapIn(
-          ...getSwapInParams({ toChecksumAddress, contractAddress, recipient, calldata }),
+          ...getSwapInParams({
+            toChecksumAddress,
+            contractAddress: contractAddress as AGG_CONTRACT_ADDRESS,
+            recipient,
+            calldata: calldata as unknown as CalldataSwapIn,
+          }),
           { from },
         );
 
@@ -275,12 +273,7 @@ export class SwapKitCore {
     const walletInstance = this.connectedWallets[chain];
     if (!walletInstance) throw new Error(`Chain ${chain} is not connected`);
 
-    const params = this._prepareTxParams({
-      assetAmount,
-      recipient,
-      router,
-      ...rest,
-    });
+    const params = this._prepareTxParams({ assetAmount, recipient, router, ...rest });
 
     switch (chain) {
       case Chain.THORChain:
@@ -444,11 +437,12 @@ export class SwapKitCore {
       }),
     });
 
-  openLoan = (assetAmount: AssetAmount) =>
+  openLoan = (assetAmount: AssetAmount, borrowAmount: Amount) =>
     this._depositToPool({
       assetAmount,
       memo: getMemoFor(MemoType.OPEN_LOAN, {
-        chain: assetAmount.asset.chain,
+        asset: assetAmount.asset.ticker,
+        minAmount: borrowAmount.assetAmount.toString(),
         address: this.getAddress(assetAmount.asset.chain),
       }),
     });
@@ -456,8 +450,8 @@ export class SwapKitCore {
   closeLoan = (assetAmount: AssetAmount) =>
     this._depositToPool({
       assetAmount,
-      memo: getMemoFor(MemoType.CLOSE_LOAN, {
-        chain: assetAmount.asset.chain,
+      memo: getMemoFor(MemoType.OPEN_LOAN, {
+        asset: assetAmount.asset.ticker,
         address: this.getAddress(assetAmount.asset.chain),
       }),
     });
