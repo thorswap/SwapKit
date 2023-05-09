@@ -1,5 +1,13 @@
 []
 
+## 1.0.0-development.84
+
+### Patch Changes
+
+- [`718d67d`](https://github.com/thorswap/SwapKit/commit/718d67de91cf4a2c562d8fa904ea8275d5d7c087) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Lending
+
+- [`718d67d`](https://github.com/thorswap/SwapKit/commit/718d67de91cf4a2c562d8fa904ea8275d5d7c087) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Bump
+
 ## 1.0.0-development.83
 
 ### Patch Changes

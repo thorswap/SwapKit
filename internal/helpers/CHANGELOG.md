@@ -1,5 +1,12 @@
 # @thorswap-lib/helpers
 
+## 0.0.0-development.76
+
+### Patch Changes
+
+- Updated dependencies [[`718d67d`](https://github.com/thorswap/SwapKit/commit/718d67de91cf4a2c562d8fa904ea8275d5d7c087), [`718d67d`](https://github.com/thorswap/SwapKit/commit/718d67de91cf4a2c562d8fa904ea8275d5d7c087)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.84
+
 ## 0.0.0-development.75
 
 ### Patch Changes
