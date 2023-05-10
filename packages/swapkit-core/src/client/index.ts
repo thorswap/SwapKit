@@ -23,6 +23,7 @@ import { getExplorerAddressUrl, getExplorerTxUrl } from '@thorswap-lib/swapkit-e
 import type { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
 import type { WalletConnectOption } from '@thorswap-lib/trustwallet';
 import {
+  AddChainWalletParams,
   AmountWithBaseDenom,
   BaseDecimal,
   Chain,
@@ -30,6 +31,7 @@ import {
   ChainToChainId,
   EVMChain,
   EVMWalletOptions,
+  ExtendParams,
   FeeOption,
   TCAvalancheDepositABI,
   TCEthereumVaultAbi,
@@ -48,13 +50,11 @@ import {
   getMimirData,
 } from './helpers.js';
 import {
-  AddChainWalletParams,
   AddLiquidityParams,
   CalldataSwapIn,
   CoreTxParams,
   CreateLiquidityParams,
   EVMWallet,
-  ExtendParams,
   QuoteMode,
   SwapParams,
   ThorchainWallet,
@@ -498,11 +498,13 @@ export class SwapKitCore {
     this.connectedWallets[chain] = null;
   };
 
-  extend = ({ wallets, config }: ExtendParams) => {
+  extend = ({ wallets, config, apis = {}, rpcUrls = {} }: ExtendParams) => {
     wallets.forEach((wallet) => {
       this[wallet.connectMethodName] = wallet.connect({
         addChain: this._addConnectedChain,
         config: config || {},
+        apis,
+        rpcUrls,
       });
     });
   };

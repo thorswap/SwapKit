@@ -1,7 +1,7 @@
 import { hexlify } from '@ethersproject/bytes';
 import { toUtf8Bytes } from '@ethersproject/strings';
 import { ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import { Chain, ConnectWalletParams, WalletOption } from '@thorswap-lib/types';
 import QRCodeModal from '@walletconnect/qrcode-modal';
 import Client from '@walletconnect/sign-client';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
@@ -19,6 +19,8 @@ import { getRequiredNamespaces } from './namespaces.js';
 const SUPPORTED_CHAINS = [Chain.Binance, Chain.Ethereum, Chain.THORChain] as const;
 
 const getToolbox = async ({
+  api,
+  rpcUrl,
   chain,
   ethplorerApiKey,
   address,
@@ -27,6 +29,8 @@ const getToolbox = async ({
 }: {
   // @ts-ignore
   walletconnectClient: Client;
+  api?: any;
+  rpcUrl?: string;
   session: SessionTypes.Struct;
   chain: (typeof SUPPORTED_CHAINS)[number];
   ethplorerApiKey?: string;
@@ -36,14 +40,10 @@ const getToolbox = async ({
 
   switch (chain) {
     case Chain.Ethereum: {
-      if (!ethplorerApiKey) throw new Error('Ethplorer API key not found');
+      if (!ethplorerApiKey || !api) throw new Error('Ethplorer API key not found');
 
-      const provider = getProvider(chain);
-
-      const toolbox = ETHToolbox({
-        provider,
-        ethplorerApiKey,
-      });
+      const provider = getProvider(chain, rpcUrl);
+      const toolbox = ETHToolbox({ api, provider, ethplorerApiKey });
 
       const transfer = async (params: any) => {
         const txAmount = params.amount.amount().toHexString();
@@ -130,14 +130,10 @@ const getWalletconnect = async (
 const connectWalletconnect =
   ({
     addChain,
+    apis,
+    rpcUrls,
     config: { ethplorerApiKey, walletConnectProjectId },
-  }: {
-    addChain: any;
-    config: {
-      ethplorerApiKey?: string;
-      walletConnectProjectId?: string;
-    };
-  }) =>
+  }: ConnectWalletParams) =>
   async (
     chains: (typeof SUPPORTED_CHAINS)[number][],
     walletconnectOptions?: SignClientTypes.Options,
@@ -163,6 +159,8 @@ const connectWalletconnect =
         address,
         chain,
         ethplorerApiKey,
+        api: apis[chain as Chain.Ethereum],
+        rpcUrl: rpcUrls[chain],
       });
 
       addChain({

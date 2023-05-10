@@ -81,12 +81,6 @@ export type ChainWallet = {
   walletType: WalletOption;
 };
 
-type ParamsWithChain<T> = T & { chain: Chain };
-export type AddChainWalletParams = ParamsWithChain<{
-  wallet: ChainWallet;
-  walletMethods: any;
-}>;
-
 export type Wallet = Record<Chain, ChainWallet | null>;
 
 export type BaseWalletMethods = {
@@ -153,48 +147,6 @@ export enum FeeType {
 
 export type LegacyFees = Record<FeeOption, AmountWithBaseDenom> & {
   type: FeeType;
-};
-
-type ConnectMethodNames =
-  | 'connectXDEFI'
-  | 'connectKeplr'
-  | 'connectTrustwallet'
-  | 'connectWalletconnect'
-  | 'connectKeystore'
-  | 'connectLedger'
-  | 'connectTrezor'
-  | 'connectEVMWallet';
-
-type ConnectConfig = {
-  stagenet?: boolean;
-  /**
-   * @required for AVAX & BSC
-   */
-  covalentApiKey?: string;
-  /**
-   * @required for ETH
-   */
-  ethplorerApiKey?: string;
-  /**
-   * @required for BTC, LTC, DOGE & BCH
-   */
-  utxoApiKey?: string;
-  /**
-   * @required for Walletconnect
-   */
-  walletConnectProjectId?: string;
-};
-
-export type ExtendParams = {
-  excludedChains?: Chain[];
-  config?: ConnectConfig;
-  wallets: {
-    connectMethodName: ConnectMethodNames;
-    connect: (params: {
-      addChain: (params: AddChainWalletParams) => void;
-      config: ConnectConfig;
-    }) => (...params: any) => Promise<any>;
-  }[];
 };
 
 export type SwapParams = {

@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import { Chain, RPCUrl } from '@thorswap-lib/types';
 
 import { DogecoinApi } from '../api/clients.js';
 
@@ -12,7 +12,7 @@ export const DOGEToolbox = (apiKey?: string, apiClientOrUrl?: DogecoinApi | stri
         ? apiClientOrUrl
         : new DogecoinApi({
             apiKey,
-            nodeUrl: apiClientOrUrl || 'https://node-router.thorswap.net/dogecoin',
+            nodeUrl: apiClientOrUrl || RPCUrl.Dogecoin,
             chain: Chain.Doge,
           }),
   });

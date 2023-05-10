@@ -42,8 +42,6 @@ export type EVMWalletConfig = {
   covalentApiKey?: string;
 };
 
-export type KeplrConfig = {};
-
 declare global {
   interface Window {
     keplr: import('@keplr-wallet/types').Keplr;

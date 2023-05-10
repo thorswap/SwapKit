@@ -16,7 +16,6 @@ describe('Avalanche', () => {
     );
   });
 });
-
 describe('Binance Smart Chain', () => {
   test('getExplorerTxUrl returns correct URL for Binance Smart Chain', ({ expect }) => {
     expect(getExplorerTxUrl({ chain: Chain.BinanceSmartChain, txHash: '67890' })).toBe(

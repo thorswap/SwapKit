@@ -16,6 +16,7 @@ import Long from 'long';
 type WalletMethodParams<T = {}> = T & { phrase: string };
 type UTXOWalletMethodParams = WalletMethodParams<{
   derivationPath: string;
+  rpcUrl?: string;
   utxoApiKey: string;
 }>;
 
@@ -33,11 +34,12 @@ type ThorchainWallet = BaseWalletMethods &
   };
 
 export const bitcoincashWalletMethods = ({
+  rpcUrl,
   derivationPath,
   utxoApiKey,
   phrase,
 }: UTXOWalletMethodParams) => {
-  const toolbox = BCHToolbox(utxoApiKey);
+  const toolbox = BCHToolbox(utxoApiKey, rpcUrl);
   const keys = toolbox.createKeysForPath({ phrase, derivationPath });
   const address = toolbox.getAddressFromKeys(keys);
 

@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import { Chain, RPCUrl } from '@thorswap-lib/types';
 
 import { BitcoinApi } from '../api/clients.js';
 
@@ -12,7 +12,7 @@ export const BTCToolbox = (apiKey?: string, apiClientOrUrl?: BitcoinApi | string
         ? apiClientOrUrl
         : new BitcoinApi({
             apiKey,
-            nodeUrl: apiClientOrUrl || 'https://node-router.thorswap.net/bitcoin',
+            nodeUrl: apiClientOrUrl || RPCUrl.Bitcoin,
             chain: Chain.Bitcoin,
           }),
   });

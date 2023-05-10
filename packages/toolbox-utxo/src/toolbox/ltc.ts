@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import { Chain, RPCUrl } from '@thorswap-lib/types';
 
 import { LitecoinApi } from '../api/clients.js';
 
@@ -12,7 +12,7 @@ export const LTCToolbox = (apiKey?: string, apiClientOrUrl?: LitecoinApi | strin
         ? apiClientOrUrl
         : new LitecoinApi({
             apiKey,
-            nodeUrl: apiClientOrUrl || 'https://node-router.thorswap.net/litecoin',
+            nodeUrl: apiClientOrUrl || RPCUrl.Litecoin,
             chain: Chain.Litecoin,
           }),
   });
