@@ -6,11 +6,44 @@ ALPHA version of SwapKit SDK. Under heavy development. Use at your own risk.
 
 ## Usage
 
-#### Install
 
-```bash
-yarn add @thorswap-lib/swapkit-core
-```
+### Full Integration Example
+
+<details>
+<summary>Full Installation (To be added)</summary>
+</details>
+
+### Partial Install Example
+
+<details>
+<summary>Partial Installation</summary>
+
+If you want to install one part of SwapKit SDK, you can install it separate instances of wallets & toolboxes.
+For example, if you want to use SwapKit SDK with EVM chains and Ledger wallet, you can install `@thorswap-lib/toolbox-evm`, `@thorswap-lib/ledger` and `@thorswap-lib/swapkit-core` packages.
+
+<details>
+<summary>pnpm</summary>
+
+  ```bash
+  pnpm add @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-core
+  ```
+</details>
+<details>
+<summary>yarn</summary>
+
+  ```bash
+  yarn add @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-core
+  ```
+</details>
+
+<details>
+<summary>npm</summary>
+
+  ```bash
+  npm install @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-core
+  ```
+</details>
+
 
 #### Usage
 
@@ -103,12 +136,12 @@ const swap = () => {
 }
 
 ```
+</details>
 
-### Development
 
+
+## Packages
 This repo contains packages around SwapKit sdk and its integrations with different blockchains.
-
-#### Packages
 
 | Package                                                             | Description                        | Chains                                          |
 | ------------------------------------------------------------------- | ---------------------------------- | ----------------------------------------------- |
@@ -123,27 +156,54 @@ This repo contains packages around SwapKit sdk and its integrations with differe
 | [@thorswap-lib/walletconnect](./packages/walletconnect/README.md)   | Walletconnect implementation       | ETH                                             |
 | [@thorswap-lib/web-extensions](./packages/web-extensions/README.md) | Browser extensions                 | [See more](./packages/web-extensions/README.md) |
 
-### Setup
+
+
+
+## Contributing
+
+### Installation
 
 ```bash
 yarn install; yarn build
 ```
+#### Commit messages
 
-### Contributing
+Project comes with `@commitlint/config-lerna-scopes` so we can generate changelogs with changesets so commits should have scope in task when it's touching just one package i.e. "`chore(ledger): add ATOM integration`". [See more](https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/config-lerna-scopes)
+
+
+#### Branches
+
+- `main` - production branch
+- `develop` - development branch - all PRs should be merged here first
+
+#### Testing
+
+To run tests use `yarn test` command.
+
+#### Pull requests
+
+- PRs should be created from `develop` branch
+- PRs should be reviewed by at least Code Owner (see CODEOWNERS file)
+- PRs should have scope in commit message (see commit messages section)
+- PRs should have tests if it's possible
+- PRs should have changeset file if it's possible (see release section)
 
 #### New package
 
 To create new package use `yarn generate` and pick one of the options
 It will setup the package with the necessary files for bundling and publishing.
+</br>
+New toolbox(TBA)
+</br>
+New wallet(TBA)
 
-#### Rules and conventions
 
-Project comes with `@commitlint/config-lerna-scopes` so we can generate changelogs with changesets so commits should have scope in task when it's touching just one package i.e. "`chore(ledger): add ATOM integration`". [See more](https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/config-lerna-scopes)
+### Release and publish
 
-#### Release and publish
-
-Packages are automatically published to npm when new PR is merged to `develop` and `main` branches.
+Packages are automatically published to npm when new PR is merged to `main` & `develop` branches.
 To automate and handle process we use [changesets](https://github.com/changesets/changesets) and github action workflows.
+
+<b>Before running `yarn changeset` you have to pull `main` & `develop`</b>
 
 To release new version of package you need to create PR with changes and add changeset file to your commit.
 
@@ -153,6 +213,3 @@ yarn changeset
 
 After PR is merged to `develop` branch with changeset file, github action will create new PR with updated versions of packages and changelogs.
 
-#### Testing
-
-To run tests use `yarn test` command.
