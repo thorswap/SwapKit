@@ -22,20 +22,6 @@ export type AddressBalance = {
   address: string;
 };
 
-export type UTXOTransactionData = {
-  txHash: string;
-  inputs: UTXOTransactionIO[];
-  outputs: UTXOTransactionIO[];
-  time: number;
-  tx_hex?: string;
-};
-
-export type UTXOTransactionIO = {
-  txId: string | undefined;
-  address: string;
-  value: string | number;
-};
-
 export type UTXOBaseToolboxParams = {
   apiClient: UTXOApiClientType;
   chain: UTXOChain;
@@ -53,10 +39,6 @@ export type UTXOTransferParams = WalletTxParams & {
 
 export type UTXOWalletTransferParams<T, U> = UTXOTransferParams & {
   signTransaction: (params: T) => Promise<U>;
-};
-
-export type UTXOBroadcastTxParams = {
-  txHex: string;
 };
 
 export type UTXOCreateKeyParams = { phrase?: string; wif?: string; derivationPath: string };

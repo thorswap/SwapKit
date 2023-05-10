@@ -33,7 +33,6 @@ import {
   FeeOption,
   TCAvalancheDepositABI,
   TCEthereumVaultAbi,
-  TxHistoryParams,
 } from '@thorswap-lib/types';
 
 import {
@@ -42,7 +41,12 @@ import {
 } from '../aggregator/contracts/index.js';
 import { getSwapInParams } from '../aggregator/getSwapInParams.js';
 
-import { getAssetForBalance, getInboundData, getMimirData } from './helpers.js';
+import {
+  getAssetForBalance,
+  getEmptyWalletStructure,
+  getInboundData,
+  getMimirData,
+} from './helpers.js';
 import {
   AddChainWalletParams,
   AddLiquidityParams,
@@ -59,19 +63,6 @@ import {
   WalletMethods,
   WithdrawParams,
 } from './types.js';
-
-const getEmptyWalletStructure = () => ({
-  [Chain.Avalanche]: null,
-  [Chain.Binance]: null,
-  [Chain.BinanceSmartChain]: null,
-  [Chain.BitcoinCash]: null,
-  [Chain.Bitcoin]: null,
-  [Chain.Cosmos]: null,
-  [Chain.Doge]: null,
-  [Chain.Ethereum]: null,
-  [Chain.Litecoin]: null,
-  [Chain.THORChain]: null,
-});
 
 export class SwapKitCore {
   public connectedChains: Wallet = getEmptyWalletStructure();
@@ -214,6 +205,7 @@ export class SwapKitCore {
   getWalletByChain = async (chain: Chain) => {
     const address = this.getAddress(chain);
     if (!address) return null;
+
     const balances = (await this.getWallet(chain)?.getBalance(address)) ?? [
       { asset: getSignatureAssetFor(chain), amount: baseAmount(0, BaseDecimal[chain]) },
     ];
@@ -227,29 +219,6 @@ export class SwapKitCore {
     );
 
     return { ...(this.connectedChains[chain] || {}), balance };
-  };
-
-  getTransactions = (chain: Chain, params: TxHistoryParams) => {
-    const walletMethods = this.connectedWallets[chain];
-    if (!walletMethods) throw new Error(`Chain ${chain} is not connected`);
-
-    return walletMethods.getTransactions(params);
-  };
-
-  getTransactionData = (chain: Chain, txHash: string) => {
-    const address = this.getAddress(chain);
-    if (!address) throw new Error(`Chain ${chain} is not connected`);
-
-    if (
-      chain === Chain.Bitcoin ||
-      chain === Chain.BitcoinCash ||
-      chain === Chain.Litecoin ||
-      chain === Chain.Doge
-    ) {
-      throw new Error(`Chain ${chain} does not support getTransactionData`);
-    }
-
-    return this.connectedWallets[chain]?.getTransactionData(txHash, address);
   };
 
   transfer = async (params: CoreTxParams & { router?: string }) => {
@@ -665,5 +634,3 @@ export class SwapKitCore {
     };
   };
 }
-
-export * from './types.js';

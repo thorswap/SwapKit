@@ -6,20 +6,10 @@ import {
   getRequest,
   getTcChainId,
   getTcNodeUrl,
-  getTcRpcUrl,
   singleFee,
 } from '@thorswap-lib/helpers';
 import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
-import {
-  Balance,
-  BaseDecimal,
-  Chain,
-  ChainId,
-  DerivationPath,
-  Fees,
-  Tx,
-  TxHistoryParams,
-} from '@thorswap-lib/types';
+import { Balance, BaseDecimal, Chain, ChainId, DerivationPath, Fees } from '@thorswap-lib/types';
 import { fromByteArray, toByteArray } from 'base64-js';
 import Long from 'long';
 
@@ -35,13 +25,11 @@ import {
   buildUnsignedTx,
   checkBalances,
   DEFAULT_GAS_VALUE,
-  getDepositTxDataFromLogs,
   getThorchainAsset,
-  MAX_TX_COUNT,
   registerDespositCodecs,
   registerSendCodecs,
 } from '../thorchainUtils/util.js';
-import { AssetRuneNative, RPCTxResult, TransferParams } from '../types.js';
+import { AssetRuneNative, TransferParams } from '../types.js';
 
 import { BaseCosmosToolbox } from './BaseCosmosToolbox.js';
 
@@ -56,24 +44,6 @@ const getAssetFromBalance = ({ asset: { symbol, chain } }: Balance): AssetEntity
   const [nativeChain, nativeSymbol] = symbol.split('/');
   return new AssetEntity(nativeChain?.toUpperCase() as Chain, nativeSymbol?.toUpperCase(), true);
 };
-
-const getTransactionDataMethod =
-  (sdk: CosmosSDKClient) => async (txHash: string, address: string) => {
-    const txResult = await sdk.txsHashGet(txHash);
-
-    const txData: Pick<Tx, 'from' | 'to' | 'type'> | null = txResult?.logs
-      ? getDepositTxDataFromLogs(txResult.logs, address)
-      : null;
-    if (!txResult || !txData)
-      throw new Error(`Failed to get transaction data (tx-hash: ${txHash})`);
-
-    return {
-      ...txData,
-      date: new Date(txResult.timestamp),
-      hash: txHash,
-      asset: AssetRuneNative,
-    };
-  };
 
 const createMultisig = (pubKeys: string[], threshold: number) => {
   const pubKeyInstances = pubKeys.map(
@@ -195,8 +165,6 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     prefix: stagenet ? 'sthor' : 'thor',
   });
 
-  const getTransactionData = getTransactionDataMethod(sdk);
-
   const baseToolbox: {
     sdk: CosmosSDKClient['sdk'];
     signAndBroadcast: CosmosSDKClient['signAndBroadcast'];
@@ -231,45 +199,6 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     } catch (error) {
       return Promise.reject(error);
     }
-  };
-
-  const getTransactions = async (
-    params: TxHistoryParams & { filterFn?: (tx: RPCTxResult) => boolean },
-  ) => {
-    const { offset = 0, limit = 10, address } = params || {};
-    const searchParams = { rpcEndpoint: getTcRpcUrl(stagenet), limit: MAX_TX_COUNT };
-
-    const { txs: txIncomingHistory } = await sdk.searchTxFromRPC({
-      ...searchParams,
-      transferRecipient: address,
-    });
-    const { txs: txOutgoingHistory } = await sdk.searchTxFromRPC({
-      ...searchParams,
-      transferSender: address,
-    });
-
-    const history = txIncomingHistory
-      .concat(txOutgoingHistory)
-      .sort((a, b) => {
-        if (a.height !== b.height) return parseInt(b.height) > parseInt(a.height) ? 1 : -1;
-        if (a.hash !== b.hash) return a.hash > b.hash ? 1 : -1;
-        return 0;
-      })
-      .reduce(
-        (acc, tx) => [
-          ...acc,
-          ...(acc.length === 0 || acc[acc.length - 1].hash !== tx.hash ? [tx] : []),
-        ],
-        [] as RPCTxResult[],
-      )
-      .filter(params?.filterFn ? params.filterFn : (tx) => tx)
-      .filter((_, index) => index < MAX_TX_COUNT);
-
-    const filterTxs = history.filter((_, index) => index >= offset && index < offset + limit);
-
-    const txs = await Promise.all(filterTxs.map(({ hash }) => getTransactionData(hash, address)));
-
-    return { total: history.length, txs };
   };
 
   const getFees = async (): Promise<Fees> => {
@@ -338,8 +267,6 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     deposit,
     getAccAddress: cosmosclient.AccAddress.fromString,
     instanceToProto: cosmosclient.codec.instanceToProtoAny,
-    getTransactionData,
-    getTransactions,
     getFees,
 
     createMultisig,

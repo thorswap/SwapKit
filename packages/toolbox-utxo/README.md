@@ -17,7 +17,6 @@ yarn add @thorswap-lib/toolbox-utxo bip39
 | `broadcastTx`         | broadcast tx to blockchain                        |
 | `transfer`            | base transfer method                              |
 | `getBalance`          | get balance                                       |
-| `getTransactions`     | get transactions                                  |
 | `getSuggestedFeeRate` | get suggested fee rate                            |
 | `getFeeRates`         | get fee rates                                     |
 | `getFees`             | get fees                                          |

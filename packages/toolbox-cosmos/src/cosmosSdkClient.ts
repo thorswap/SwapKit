@@ -1,21 +1,10 @@
 import { cosmosclient, proto, rest } from '@cosmos-client/core';
-import { getRequest } from '@thorswap-lib/helpers';
 import { ChainId } from '@thorswap-lib/types';
 import { fromSeed } from 'bip32';
 import * as bip39 from 'bip39';
 import Long from 'long';
 
-import {
-  APIQueryParam,
-  CosmosSDKClientParams,
-  GetTxByHashResponse,
-  RPCResponse,
-  RPCTxSearchResult,
-  SearchTxParams,
-  TransferParams,
-  TxHistoryResponse,
-} from './types.js';
-import { getQueryString } from './util.js';
+import { CosmosSDKClientParams, TransferParams } from './types.js';
 
 const getSeed = (phrase: string) => {
   if (!bip39.validateMnemonic(phrase)) {
@@ -122,97 +111,6 @@ export class CosmosSDKClient {
       throw Error('could not get account');
     }
     return account;
-  };
-
-  searchTx = async ({ messageAction, messageSender, page, limit }: SearchTxParams) => {
-    this.setPrefix();
-    const queryParameter: APIQueryParam = {};
-
-    if (!messageAction && !messageSender) {
-      throw new Error('One of messageAction or messageSender must be specified');
-    }
-
-    let eventsParam = '';
-
-    if (messageAction !== undefined) {
-      eventsParam = `message.action='${messageAction}'`;
-    }
-    if (messageSender !== undefined) {
-      const prefix = eventsParam.length > 0 ? ',' : '';
-      eventsParam = `${eventsParam}${prefix}message.sender='${messageSender}'`;
-    }
-    if (page !== undefined) {
-      queryParameter['page'] = page.toString();
-    }
-    if (limit !== undefined) {
-      queryParameter['limit'] = limit.toString();
-    }
-
-    queryParameter['events'] = eventsParam;
-
-    return getRequest<TxHistoryResponse>(
-      `${this.server}/cosmos/tx/v1beta1/txs?${getQueryString(queryParameter)}`,
-    );
-  };
-
-  searchTxFromRPC = async ({
-    messageAction,
-    messageSender,
-    transferSender,
-    transferRecipient,
-    page,
-    limit,
-    txMinHeight,
-    txMaxHeight,
-    rpcEndpoint,
-  }: SearchTxParams & {
-    rpcEndpoint: string;
-  }) => {
-    this.setPrefix();
-
-    const queryParameter: string[] = [];
-    if (messageAction !== undefined) {
-      queryParameter.push(`message.action='${messageAction}'`);
-    }
-    if (messageSender !== undefined) {
-      queryParameter.push(`message.sender='${messageSender}'`);
-    }
-    if (transferSender !== undefined) {
-      queryParameter.push(`transfer.sender='${transferSender}'`);
-    }
-    if (transferRecipient !== undefined) {
-      queryParameter.push(`transfer.recipient='${transferRecipient}'`);
-    }
-    if (txMinHeight !== undefined) {
-      queryParameter.push(`tx.height>='${txMinHeight}'`);
-    }
-    if (txMaxHeight !== undefined) {
-      queryParameter.push(`tx.height<='${txMaxHeight}'`);
-    }
-
-    const searchParameter: string[] = [];
-    searchParameter.push(`query="${queryParameter.join(' AND ')}"`);
-
-    if (page !== undefined) {
-      searchParameter.push(`page="${page}"`);
-    }
-    if (limit !== undefined) {
-      searchParameter.push(`per_page="${limit}"`);
-    }
-    searchParameter.push(`order_by="desc"`);
-
-    const response = await getRequest<RPCResponse<RPCTxSearchResult>>(
-      `${rpcEndpoint}/tx_search?${searchParameter.join('&')}`,
-    );
-
-    return response?.result;
-  };
-
-  txsHashGet = async (hash: string) => {
-    this.setPrefix();
-
-    return (await getRequest<GetTxByHashResponse>(`${this.server}/cosmos/tx/v1beta1/txs/${hash}`))
-      .tx_response;
   };
 
   buildSendTxBody = ({

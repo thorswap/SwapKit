@@ -1,5 +1,4 @@
 export * from './api/index.js';
-export * from './constants.js';
 export * from './provider.js';
 export { AVAXToolbox } from './toolbox/avax.js';
 export {

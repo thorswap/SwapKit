@@ -5,25 +5,25 @@ import { Asset } from './asset.js';
 import { Address } from './commonTypes.js';
 import { FeeOption } from './wallet.js';
 
-export enum TxType {
+enum TxType {
   Transfer = 'transfer',
   Unknown = 'unknown',
 }
 
-export type WalletTxParams = TxParams & {
-  from?: string;
-};
-
-export type TxTo = {
+type TxTo = {
   to: string; // address
   amount: AmountWithBaseDenom; // amount
   asset?: Asset; // asset
 };
 
-export type TxFrom = {
+type TxFrom = {
   from: string; // address or tx id
   amount: AmountWithBaseDenom; // amount
   asset?: Asset; // asset
+};
+
+export type WalletTxParams = TxParams & {
+  from?: string;
 };
 
 export type Tx = {
@@ -41,35 +41,6 @@ export type TxParams = {
   recipient: Address;
   memo?: string; // optional memo to pass
   feeOptionKey?: FeeOption;
-};
-
-export type TxsPage = {
-  total: number;
-  txs: Tx[];
-};
-
-export type TxHistoryParams = {
-  address: string; // Address to get history for
-  offset?: number; // Optional Offset
-  limit?: number; // Optional Limit of transactions
-  startTime?: Date; // Optional start time
-  asset?: string; // Optional asset. Result transactions will be filtered by this asset
-};
-
-type Coin = {
-  asset: Asset;
-  amount: AmountWithBaseDenom;
-};
-
-export type MultiTransfer = {
-  to: Address;
-  coins: Coin[];
-};
-
-export type MultiSendParams = {
-  walletIndex?: number;
-  transactions: MultiTransfer[];
-  memo?: string;
 };
 
 export type EIP1559TxParams<T = BigNumberish> = {

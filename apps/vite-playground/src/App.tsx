@@ -32,7 +32,7 @@ const App = () => {
   const Widgets = useMemo(
     () => ({
       swap: <Swap inputAsset={inputAsset} outputAsset={outputAsset} stagenet={stagenet} />,
-      loan: <Loan inputAsset={inputAsset} outputAsset={outputAsset} />,
+      loan: <Loan inputAsset={inputAsset} outputAsset={outputAsset} stagenet={stagenet} />,
       earn: <div>Earn</div>,
     }),
     [inputAsset, outputAsset, stagenet],

@@ -1,4 +1,5 @@
 import { Amount, AssetAmount } from '@thorswap-lib/swapkit-entities';
+import { Chain } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 
 import { getSwapKitClient } from '../swapKitClient';
@@ -6,7 +7,9 @@ import { getSwapKitClient } from '../swapKitClient';
 export default function Loan({
   inputAsset,
   outputAsset,
+  stagenet,
 }: {
+  stagenet?: boolean;
   inputAsset?: AssetAmount;
   outputAsset?: AssetAmount;
 }) {
@@ -29,7 +32,7 @@ export default function Loan({
 
   const handleLoanAction = useCallback(async () => {
     if (!inputAsset || !outputAsset || !inputAmount) return;
-    const client = getSwapKitClient(true);
+    const client = getSwapKitClient(stagenet);
     const assetAmount = new AssetAmount(inputAsset.asset, inputAmount);
 
     const txHash = await (openLoan ? client.openLoan : client.closeLoan)({
@@ -38,8 +41,13 @@ export default function Loan({
       assetTicker: `${outputAsset.asset.chain}.${outputAsset.asset.ticker}`,
     });
 
-    console.log(txHash);
-  }, [inputAsset, outputAsset, inputAmount, openLoan, borrowAmount]);
+    window.open(
+      `${client.getExplorerTxUrl(Chain.THORChain, txHash as string)}${
+        stagenet ? '?network=stagenet' : ''
+      }`,
+      '_blank',
+    );
+  }, [inputAsset, outputAsset, inputAmount, openLoan, borrowAmount, stagenet]);
 
   return (
     <div>

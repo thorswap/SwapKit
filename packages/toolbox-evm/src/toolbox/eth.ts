@@ -3,7 +3,7 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { Address, BaseDecimal, Chain, TxHistoryParams } from '@thorswap-lib/types';
+import { Address, BaseDecimal, Chain } from '@thorswap-lib/types';
 
 import { EthereumApi } from '../api/eth/EthereumHybridApi.js';
 
@@ -33,13 +33,6 @@ export const getBalance = async (
   }
 };
 
-export const getTransactions = async (api: EthereumApi, params?: TxHistoryParams) => {
-  if (!params?.address) throw new Error('address is required');
-  return api.getTransactionsForAddress({ address: params.address });
-};
-
-export const getTransactionData = (api: EthereumApi, txHash: string) => api.getTxInfo({ txHash });
-
 export const ETHToolbox = ({
   ethplorerApiKey,
   signer,
@@ -53,8 +46,6 @@ export const ETHToolbox = ({
 
   return {
     ...BaseEVMToolbox({ signer, provider }),
-    getTransactionData: (txHash: string) => getTransactionData(api, txHash),
-    getTransactions: (params?: TxHistoryParams) => getTransactions(api, params),
     getBalance: (address: string, assets?: AssetEntity[]) =>
       getBalance(provider, api, address, assets),
   };

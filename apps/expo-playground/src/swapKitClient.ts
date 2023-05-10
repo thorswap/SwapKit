@@ -21,9 +21,9 @@ export const getSwapKitClient = () => {
 
   client.extend({
     config: {
-      ethplorerApiKey: 'EK-uB3Fv-ehKXfyN-Chujs',
-      covalentApiKey: 'ckey_dd1785f86616456b8e7c1e6740a',
-      utxoApiKey: 'C___DSXrweUGKTv3bucm2FbHLCiBfPNO',
+      ethplorerApiKey: 'freekey',
+      covalentApiKey: 'freekey',
+      utxoApiKey: 'freekey',
     },
     wallets,
   });

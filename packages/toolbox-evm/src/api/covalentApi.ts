@@ -1,10 +1,10 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { assetFromString, baseAmount, getRequest } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { Balance, Chain, ChainId, Tx, TxsPage, TxType } from '@thorswap-lib/types';
+import { Balance, Chain, ChainId } from '@thorswap-lib/types';
 
 import { EvmApi } from '../types/Api.js';
-import { CovalentBalanceResponse, CovalentTransactionResponse } from '../types/covalentApiTypes.js';
+import { CovalentBalanceResponse } from '../types/covalentApiTypes.js';
 
 const COVALENT_BASE_URL = 'https://api.covalenthq.com/v1';
 
@@ -35,24 +35,6 @@ export class CovalentApi implements EvmApi<RequestParams> {
   constructor({ apiKey }: { apiKey: string }) {
     this.apiKey = apiKey;
   }
-
-  /**
-   * Get transaction by hash.
-   */
-  getTxInfo = async ({ txHash, chainId }: TxInfoRequestParams) => {
-    const response = await getRequest<any>(
-      `${COVALENT_BASE_URL}/${chainId}/transaction_v2/${txHash}`,
-      { key: this.apiKey },
-    );
-    return mapTxDataResponseToTx(response);
-  };
-
-  getTransactionsForAddress = ({ address, chainId, page, pageSize }: TransactionsRequestParams) =>
-    getRequest<TxsPage>(`${COVALENT_BASE_URL}/${chainId}/address/${address}/transactions_v2/`, {
-      key: this.apiKey,
-      'page-size': pageSize,
-      page: page,
-    });
 
   /**
    * Get token balance
@@ -87,14 +69,3 @@ const mapBalanceResponseToBalance = async (data: CovalentBalanceResponse): Promi
 
   return balances;
 };
-
-const mapTxDataResponseToTx = async ({
-  items: [{ tx_hash, value, from_address, to_address }],
-}: CovalentTransactionResponse): Promise<Tx> => ({
-  asset: getSignatureAssetFor(Chain.Avalanche),
-  date: new Date(),
-  from: [{ from: from_address, amount: baseAmount(BigNumber.from(value.toString())) }],
-  hash: tx_hash,
-  to: [{ to: to_address, amount: baseAmount(BigNumber.from(value.toString())) }],
-  type: TxType.Transfer,
-});

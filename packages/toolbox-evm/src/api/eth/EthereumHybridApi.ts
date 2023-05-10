@@ -1,29 +1,12 @@
 import { getAddress } from '@ethersproject/address';
-import { parseUnits } from '@ethersproject/units';
 import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { Balance, Chain, Tx, TxType } from '@thorswap-lib/types';
+import { Balance, Chain } from '@thorswap-lib/types';
 
-import {
-  EvmApi,
-  FullBalanceParams,
-  GetTransactionsForAddressParam,
-  GetTxInfoParam,
-  TokenBalanceParam,
-  TransactionInfo,
-} from '../../types/index.js';
+import { EvmApi, FullBalanceParams, TokenBalanceParam } from '../../types/index.js';
 
-import {
-  getAddress as getEthplorerAddress,
-  getAddressTransactions,
-  getTxInfo,
-} from './ethplorerApi.js';
+import { getAddress as getEthplorerAddress } from './ethplorerApi.js';
 
-type RequestParams =
-  | TokenBalanceParam
-  | FullBalanceParams
-  | GetTxInfoParam
-  | GetTransactionsForAddressParam;
+type RequestParams = TokenBalanceParam | FullBalanceParams;
 
 export class EthereumApi implements EvmApi<RequestParams> {
   private readonly apiKey: string;
@@ -39,24 +22,6 @@ export class EthereumApi implements EvmApi<RequestParams> {
     this.apiKey = apiKey;
     this.baseUrl = baseUrl;
   }
-
-  getTxInfo = async ({ txHash }: GetTxInfoParam): Promise<Tx> => {
-    const txInfo = await getTxInfo({ baseUrl: this.baseUrl, txHash, apiKey: this.apiKey });
-
-    return mapTxInfoToTx(txInfo);
-  };
-
-  getTransactionsForAddress = async (params: GetTransactionsForAddressParam) => {
-    const txInfos = await getAddressTransactions({
-      ...params,
-      baseUrl: this.baseUrl,
-      apiKey: this.apiKey,
-    });
-    return {
-      total: txInfos.length,
-      txs: txInfos.map((txinfo) => mapTxInfoToTx(txinfo)),
-    };
-  };
 
   getBalance = async ({ address }: FullBalanceParams): Promise<Balance[]> => {
     const account = await getEthplorerAddress({
@@ -82,12 +47,3 @@ export class EthereumApi implements EvmApi<RequestParams> {
     return Promise.all(tokenBalances);
   };
 }
-
-const mapTxInfoToTx = ({ hash, from, to, value }: TransactionInfo): Tx => ({
-  hash,
-  from: [{ from, amount: baseAmount(parseUnits(value.toString(), 'ether')) }],
-  to: [{ to, amount: baseAmount(parseUnits(value.toString(), 'ether')) }],
-  asset: getSignatureAssetFor(Chain.Ethereum),
-  type: TxType.Transfer,
-  date: new Date(),
-});

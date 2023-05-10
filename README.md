@@ -31,7 +31,6 @@ const getSwapKitClient = () => {
 
   client.extend({
     config: {
-      // Blockchair API KEY
       utxoApiKey: ''
       covalentApiKey: '',
       ethplorerApiKey: '',

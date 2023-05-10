@@ -1,13 +1,5 @@
 import { cosmosclient, proto } from '@cosmos-client/core';
-import {
-  assetAmount,
-  assetFromString,
-  assetToBase,
-  assetToString,
-  baseAmount,
-  getRequest,
-  singleFee,
-} from '@thorswap-lib/helpers';
+import { assetFromString, assetToString, baseAmount, getRequest } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import {
   Address,
@@ -17,20 +9,18 @@ import {
   BaseDecimal,
   Chain,
   Fees,
-  TxType,
 } from '@thorswap-lib/types';
 import { decode } from 'bech32-buffer';
 import Long from 'long';
 
-import { AssetRuneNative, TxLog } from '../types.js';
+import { AssetRuneNative } from '../types.js';
 
-import { NodeInfoResponse, TxData } from './types/index.js';
+import { NodeInfoResponse } from './types/index.js';
 import { MsgNativeTx } from './types/messages.js';
 import types from './types/proto/MsgCompiled.js';
 
 export const DEFAULT_GAS_VALUE = '5000000000';
 export const DEPOSIT_GAS_VALUE = '5000000000';
-export const MAX_TX_COUNT = 100;
 
 const RUNE_ASSET = `${Chain.THORChain}.RUNE`;
 
@@ -51,59 +41,6 @@ export const getDenomWithChain = ({ symbol }: Asset): string =>
 export const registerSendCodecs = async () => {
   cosmosclient.codec.register('/types.MsgSend', types.types.MsgSend);
 };
-
-/**
- * Parse transaction data from event logs
- *
- * @param {TxLog[]} logs List of tx logs
- * @param {Address} address - Address to get transaction data for
- * @returns {TxData} Parsed transaction data
- */
-export const getDepositTxDataFromLogs = (logs: TxLog[], address: Address): TxData => {
-  const events = logs[0]?.events;
-
-  if (!events) throw Error('No events in logs available');
-
-  type TransferData = { sender: string; recipient: string; amount: AmountWithBaseDenom };
-  type TransferDataList = TransferData[];
-  const transferDataList: TransferDataList = events.reduce(
-    (acc: TransferDataList, { type, attributes }) => {
-      if (type === 'transfer') {
-        return attributes.reduce((acc2, { key, value }, index) => {
-          if (index % 3 === 0)
-            acc2.push({ sender: '', recipient: '', amount: baseAmount(0, BaseDecimal.THOR) });
-          const newData = acc2[acc2.length - 1];
-          if (key === 'sender') newData.sender = value;
-          if (key === 'recipient') newData.recipient = value;
-          if (key === 'amount')
-            newData.amount = baseAmount(value.replace(/rune/, ''), BaseDecimal.THOR);
-          return acc2;
-        }, acc);
-      }
-      return acc;
-    },
-    [],
-  );
-
-  const txData = transferDataList
-    // filter out txs which are not based on given address
-    .filter(({ sender, recipient }) => sender === address || recipient === address)
-    // transform `TransferData` -> `TxData`
-    .reduce(
-      (acc, { sender, recipient, amount }) => {
-        acc.from = [...acc.from, { amount, from: sender }];
-        acc.to = [...acc.to, { amount, to: recipient }];
-        return acc;
-      },
-      { from: [], to: [], type: TxType.Transfer } as TxData,
-    );
-
-  return txData;
-};
-
-/* 0.02 RUNE */
-export const getThorchainDefaultFees = () =>
-  singleFee(assetToBase(assetAmount(0.02, BaseDecimal.THOR)));
 
 const getChainId = async (nodeUrl: string): Promise<string> => {
   const response = await getRequest<NodeInfoResponse>(
@@ -311,13 +248,3 @@ export const checkBalances = async (
     }
   }
 };
-
-export const nativeTxFromJSON = ({
-  coins,
-  memo,
-  address,
-}: {
-  coins: { asset: string; amount: string }[];
-  memo: string;
-  address: string;
-}): MsgNativeTx => new MsgNativeTx(coins, memo, cosmosclient.AccAddress.fromString(address));

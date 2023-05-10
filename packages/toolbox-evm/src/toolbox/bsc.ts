@@ -3,7 +3,7 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { Address, BaseDecimal, Chain, ChainId, RPCUrl, TxHistoryParams } from '@thorswap-lib/types';
+import { Address, BaseDecimal, Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
 
 import { CovalentApi } from '../api/covalentApi.js';
 
@@ -40,18 +40,6 @@ export const getBalance = async (
   ];
 };
 
-export const getTransactions = async (api: CovalentApi, params?: TxHistoryParams) => {
-  if (!params?.address) throw new Error('address is required');
-  const transactions = await api.getTransactionsForAddress({
-    address: params.address,
-    chainId: BSC_CHAIN_ID,
-  });
-  return transactions;
-};
-
-export const getTransactionData = async (api: CovalentApi, txHash: string) =>
-  api.getTxInfo({ txHash, chainId: BSC_CHAIN_ID });
-
 export const getNetworkParams = () => ({
   chainId: BSC_CHAIN_ID,
   chainName: 'BNB Smart Chain',
@@ -77,8 +65,6 @@ export const BSCToolbox = ({
 
   return {
     ...BaseEVMToolbox({ provider, signer }),
-    getTransactionData: (txHash: string) => getTransactionData(api, txHash),
-    getTransactions: (params?: TxHistoryParams) => getTransactions(api, params),
     getNetworkParams,
     getBalance: (address: string, assets?: AssetEntity[]) =>
       getBalance(provider, api, address, assets),
