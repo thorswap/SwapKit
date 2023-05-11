@@ -34,19 +34,21 @@ export const getBalance = async (
 };
 
 export const ETHToolbox = ({
+  api,
   ethplorerApiKey,
   signer,
   provider,
 }: {
+  api?: EthereumApi;
   ethplorerApiKey: string;
   signer?: Signer;
   provider: Provider | Web3Provider;
 }) => {
-  const api = new EthereumApi({ apiKey: ethplorerApiKey });
+  const ethApi = api || new EthereumApi({ apiKey: ethplorerApiKey });
 
   return {
     ...BaseEVMToolbox({ signer, provider }),
     getBalance: (address: string, assets?: AssetEntity[]) =>
-      getBalance(provider, api, address, assets),
+      getBalance(provider, ethApi, address, assets),
   };
 };

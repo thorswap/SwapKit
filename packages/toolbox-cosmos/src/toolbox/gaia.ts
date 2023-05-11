@@ -17,9 +17,9 @@ import { getAsset } from '../util.js';
 
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.js';
 
-export const GaiaToolbox = (): GaiaToolboxType => {
+export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxType => {
   const sdk = new CosmosSDKClient({
-    server: 'https://node-router.thorswap.net/cosmos/rest',
+    server: server || 'https://node-router.thorswap.net/cosmos/rest',
     chainId: ChainId.Cosmos,
   });
 

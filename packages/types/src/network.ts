@@ -43,31 +43,6 @@ export enum NetworkId {
   THORChain = 931,
 }
 
-export type EVMChain = Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche;
-
-export enum ChainId {
-  Avalanche = '43114',
-  AvalancheHex = '0xa86a',
-  Binance = 'Binance-Chain-Tigris',
-  BinanceSmartChain = '56',
-  Bitcoin = 'bitcoin',
-  Bitcoincash = 'bitcoincash',
-  Cosmos = 'cosmoshub-4',
-  DogeCoin = 'dogecoin',
-  Ethereum = '1',
-  EthereumHex = '0x1',
-  Litecoin = 'litecoin',
-  Thorchain = 'thorchain-mainnet-v1',
-  ThorchainStagenet = 'thorchain-stagenet-v2',
-}
-
-export enum RPCUrl {
-  Avalanche = 'https://node-router.thorswap.net/avalanche-c',
-  BinanceSmartChain = 'https://bsc-dataseed.binance.org',
-  Cosmos = 'https://node-router.thorswap.net/cosmos/rpc',
-  Ethereum = 'https://node-router.thorswap.net/ethereum',
-}
-
 export enum DerivationPath {
   AVAX = "m/44'/60'/0'/0",
   BCH = "m/44'/145'/0'/0",
@@ -109,6 +84,50 @@ export enum BaseDecimal {
   THOR = 8,
 }
 
+export type EVMChain = Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche;
+
+export enum ChainId {
+  Avalanche = '43114',
+  AvalancheHex = '0xa86a',
+  Binance = 'Binance-Chain-Tigris',
+  BinanceSmartChain = '56',
+  Bitcoin = 'bitcoin',
+  Bitcoincash = 'bitcoincash',
+  Cosmos = 'cosmoshub-4',
+  Dogecoin = 'dogecoin',
+  Ethereum = '1',
+  EthereumHex = '0x1',
+  Litecoin = 'litecoin',
+  Thorchain = 'thorchain-mainnet-v1',
+  ThorchainStagenet = 'thorchain-stagenet-v2',
+}
+
+export enum RPCUrl {
+  Avalanche = 'https://node-router.thorswap.net/avalanche-c',
+  BinanceSmartChain = 'https://bsc-dataseed.binance.org',
+  Cosmos = 'https://node-router.thorswap.net/cosmos/rpc',
+  Ethereum = 'https://node-router.thorswap.net/ethereum',
+  Litecoin = 'https://node-router.thorswap.net/litecoin',
+  Bitcoin = 'https://node-router.thorswap.net/bitcoin',
+  Dogecoin = 'https://node-router.thorswap.net/dogecoin',
+  BitcoinCash = 'https://node-router.thorswap.net/bitcoin-cash',
+}
+
+export enum ApiUrl {
+  Thorswap = 'https://api.thorswap.finance',
+}
+
+export const ChainToRPC = {
+  [Chain.Avalanche]: RPCUrl.Avalanche,
+  [Chain.BinanceSmartChain]: RPCUrl.BinanceSmartChain,
+  [Chain.Ethereum]: RPCUrl.Ethereum,
+  [Chain.Cosmos]: RPCUrl.Cosmos,
+  [Chain.Litecoin]: RPCUrl.Litecoin,
+  [Chain.Bitcoin]: RPCUrl.Bitcoin,
+  [Chain.Doge]: RPCUrl.Dogecoin,
+  [Chain.BitcoinCash]: RPCUrl.BitcoinCash,
+};
+
 export const ChainToChainId: Record<Chain, ChainId> = {
   [Chain.Avalanche]: ChainId.Avalanche,
   [Chain.Binance]: ChainId.Binance,
@@ -116,7 +135,7 @@ export const ChainToChainId: Record<Chain, ChainId> = {
   [Chain.Bitcoin]: ChainId.Bitcoin,
   [Chain.BitcoinCash]: ChainId.Bitcoincash,
   [Chain.Cosmos]: ChainId.Cosmos,
-  [Chain.Doge]: ChainId.DogeCoin,
+  [Chain.Doge]: ChainId.Dogecoin,
   [Chain.Ethereum]: ChainId.Ethereum,
   [Chain.Litecoin]: ChainId.Litecoin,
   [Chain.THORChain]: ChainId.Thorchain,
@@ -129,7 +148,7 @@ export const ChainToHexChainId: Record<Chain, ChainId> = {
   [Chain.Bitcoin]: ChainId.Bitcoin,
   [Chain.BitcoinCash]: ChainId.Bitcoincash,
   [Chain.Cosmos]: ChainId.Cosmos,
-  [Chain.Doge]: ChainId.DogeCoin,
+  [Chain.Doge]: ChainId.Dogecoin,
   [Chain.Ethereum]: ChainId.EthereumHex,
   [Chain.Litecoin]: ChainId.Litecoin,
   [Chain.THORChain]: ChainId.Thorchain,
@@ -143,20 +162,10 @@ export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.Bitcoin]: Chain.Bitcoin,
   [ChainId.Bitcoincash]: Chain.BitcoinCash,
   [ChainId.Cosmos]: Chain.Cosmos,
-  [ChainId.DogeCoin]: Chain.Doge,
+  [ChainId.Dogecoin]: Chain.Doge,
   [ChainId.EthereumHex]: Chain.Ethereum,
   [ChainId.Ethereum]: Chain.Ethereum,
   [ChainId.Litecoin]: Chain.Litecoin,
   [ChainId.Thorchain]: Chain.THORChain,
   [ChainId.ThorchainStagenet]: Chain.THORChain,
 };
-
-export interface ResourceWorkerGasPricesResponse {
-  ok: boolean;
-  result: {
-    chainId: ChainId;
-    asset: string;
-    gas: number;
-    units: 'tor' | 'gwei' | 'wei' | 'sats' | 'uatom';
-  }[];
-}

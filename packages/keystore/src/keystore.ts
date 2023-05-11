@@ -8,7 +8,13 @@ import {
   LTCToolbox,
   UTXOTransferParams,
 } from '@thorswap-lib/toolbox-utxo';
-import { Chain, DerivationPath, TxParams, WalletOption } from '@thorswap-lib/types';
+import {
+  Chain,
+  ConnectWalletParams,
+  DerivationPath,
+  TxParams,
+  WalletOption,
+} from '@thorswap-lib/types';
 import { Psbt } from 'bitcoinjs-lib';
 
 import { bitcoincashWalletMethods, thorchainWalletMethods } from './walletMethods.js';
@@ -20,12 +26,16 @@ type KeystoreOptions = {
 };
 
 type Params = KeystoreOptions & {
+  api?: any;
+  rpcUrl?: string;
   chain: Chain;
   phrase: string;
   index: number;
 };
 
 const getWalletMethodsForChain = async ({
+  api,
+  rpcUrl,
   chain,
   phrase,
   ethplorerApiKey,
@@ -48,9 +58,9 @@ const getWalletMethodsForChain = async ({
       const hdNode = HDNode.fromMnemonic(phrase);
       const derivedPath = hdNode.derivePath(derivationPath);
 
-      const provider = getProvider(chain);
+      const provider = getProvider(chain, rpcUrl);
       const wallet = new Wallet(derivedPath).connect(provider);
-      const params = { provider, signer: wallet };
+      const params = { api, provider, signer: wallet };
 
       const toolbox =
         chain === Chain.Ethereum
@@ -70,7 +80,12 @@ const getWalletMethodsForChain = async ({
 
     case Chain.BitcoinCash: {
       if (!utxoApiKey) throw new Error('UTXO API key not found');
-      const walletMethods = bitcoincashWalletMethods({ phrase, derivationPath, utxoApiKey });
+      const walletMethods = bitcoincashWalletMethods({
+        rpcUrl,
+        phrase,
+        derivationPath,
+        utxoApiKey,
+      });
       return { address: walletMethods.getAddress(), walletMethods };
     }
 
@@ -81,10 +96,10 @@ const getWalletMethodsForChain = async ({
 
       const toolbox =
         chain === Chain.Bitcoin
-          ? BTCToolbox(utxoApiKey)
+          ? BTCToolbox(utxoApiKey, rpcUrl)
           : chain === Chain.Litecoin
-          ? LTCToolbox(utxoApiKey)
-          : DOGEToolbox(utxoApiKey);
+          ? LTCToolbox(utxoApiKey, rpcUrl)
+          : DOGEToolbox(utxoApiKey, rpcUrl);
 
       const keys = toolbox.createKeysForPath({ phrase, derivationPath });
       const address = toolbox.getAddressFromKeys(keys);
@@ -106,7 +121,7 @@ const getWalletMethodsForChain = async ({
 
     case Chain.Binance:
     case Chain.Cosmos: {
-      const toolbox = chain === Chain.Binance ? BinanceToolbox() : GaiaToolbox();
+      const toolbox = chain === Chain.Binance ? BinanceToolbox() : GaiaToolbox({ server: api });
       const privkey = toolbox.createKeyPair(phrase);
       const from = toolbox.getAddressFromMnemonic(phrase);
 
@@ -126,24 +141,28 @@ const getWalletMethodsForChain = async ({
     case Chain.THORChain: {
       const walletMethods = thorchainWalletMethods({ phrase });
 
-      return { address: walletMethods.getAddress(), walletMethods };
+      return { address: walletMethods.getAddress() as string, walletMethods };
     }
+
+    default:
+      throw new Error(`Unsupported chain ${chain}`);
   }
 };
 
 const connectKeystore =
   ({
     addChain,
+    apis,
+    rpcUrls,
     config: { covalentApiKey, ethplorerApiKey, utxoApiKey },
-  }: {
-    addChain: any;
-    config: KeystoreOptions;
-  }) =>
+  }: ConnectWalletParams) =>
   async (chains: Chain[], phrase: string, index: number = 0) => {
     const promises = chains.map(async (chain) => {
       const { address, walletMethods } = await getWalletMethodsForChain({
         index,
         chain,
+        api: apis[chain as Chain.Avalanche],
+        rpcUrl: rpcUrls[chain],
         covalentApiKey,
         ethplorerApiKey,
         phrase,

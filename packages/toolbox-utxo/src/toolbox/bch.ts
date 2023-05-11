@@ -4,7 +4,15 @@ import {
   Transaction,
   TransactionBuilder,
 } from '@psf/bitcoincashjs-lib';
-import { Address, Chain, DerivationPath, FeeOption, TxHash, UTXO } from '@thorswap-lib/types';
+import {
+  Address,
+  Chain,
+  DerivationPath,
+  FeeOption,
+  RPCUrl,
+  TxHash,
+  UTXO,
+} from '@thorswap-lib/types';
 import {
   detectAddressNetwork,
   isValidAddress,
@@ -232,7 +240,7 @@ export const BCHToolbox = (apiKey?: string, apiClientOrUrl?: BitcoincashApi | st
         ? apiClientOrUrl
         : new BitcoincashApi({
             apiKey,
-            nodeUrl: apiClientOrUrl || 'https://node-router.thorswap.net/bitcoin-cash',
+            nodeUrl: apiClientOrUrl || RPCUrl.BitcoinCash,
             chain,
           }),
   };

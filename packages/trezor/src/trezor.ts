@@ -7,7 +7,13 @@ import {
   LTCToolbox,
   UTXOTransferParams,
 } from '@thorswap-lib/toolbox-utxo';
-import { Chain, DerivationPathArray, FeeOption, WalletOption } from '@thorswap-lib/types';
+import {
+  Chain,
+  ConnectWalletParams,
+  DerivationPathArray,
+  FeeOption,
+  WalletOption,
+} from '@thorswap-lib/types';
 import TrezorConnect from '@trezor/connect-web';
 import { Psbt } from 'bitcoinjs-lib';
 
@@ -36,9 +42,13 @@ type TrezorOptions = {
 type Params = TrezorOptions & {
   chain: Chain;
   derivationPath: DerivationPathArray;
+  rpcUrl?: string;
+  api?: any;
 };
 
 const getToolbox = async ({
+  api,
+  rpcUrl,
   chain,
   ethplorerApiKey,
   covalentApiKey,
@@ -52,35 +62,27 @@ const getToolbox = async ({
       if (!ethplorerApiKey) throw new Error('Ethplorer API key not found');
       if (!covalentApiKey) throw new Error('Ethplorer API key not found');
 
-      const provider = getProvider(chain);
+      const provider = getProvider(chain, rpcUrl);
       const signer = (await getEVMSigner({ chain, derivationPath, provider })) as unknown as Signer;
       const address = await signer.getAddress();
+      const params = { api, signer, provider };
 
-      if (chain === Chain.Ethereum) {
-        return {
-          address,
-          walletMethods: ETHToolbox({ signer, provider, ethplorerApiKey }),
-        };
-      }
+      const walletMethods =
+        chain === Chain.Ethereum
+          ? ETHToolbox({ ...params, ethplorerApiKey })
+          : (chain === Chain.Avalanche ? AVAXToolbox : BSCToolbox)({ ...params, covalentApiKey });
 
-      return {
-        address,
-        walletMethods: (chain === Chain.Avalanche ? AVAXToolbox : BSCToolbox)({
-          signer,
-          provider,
-          covalentApiKey,
-        }),
-      };
+      return { address, walletMethods };
     }
 
     case Chain.Bitcoin:
     case Chain.Doge:
     case Chain.Litecoin: {
-      if (!utxoApiKey) throw new Error('UTXO API key not found');
+      if (!utxoApiKey || !api) throw new Error('UTXO API key not found');
       const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
       const toolbox = (
         chain === Chain.Bitcoin ? BTCToolbox : chain === Chain.Litecoin ? LTCToolbox : DOGEToolbox
-      )(utxoApiKey);
+      )(utxoApiKey, api);
 
       const signTransaction = async (psbt: Psbt, memo: string = '') => {
         //@ts-ignore
@@ -182,6 +184,8 @@ const getToolbox = async ({
 
 const connectTrezor =
   ({
+    apis,
+    rpcUrls,
     addChain,
     config: {
       covalentApiKey,
@@ -189,10 +193,7 @@ const connectTrezor =
       utxoApiKey,
       trezorManifest = { appUrl: '', email: '' },
     },
-  }: {
-    addChain: any;
-    config: TrezorOptions;
-  }) =>
+  }: ConnectWalletParams) =>
   async (chain: (typeof TREZOR_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
     //@ts-ignore
     const trezorStatus = await TrezorConnect.getDeviceState();
@@ -205,6 +206,8 @@ const connectTrezor =
     }
 
     const { address, walletMethods } = await getToolbox({
+      api: apis[chain as Chain.Ethereum],
+      rpcUrl: rpcUrls[chain],
       chain,
       covalentApiKey,
       ethplorerApiKey,

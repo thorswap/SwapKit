@@ -1,12 +1,12 @@
 import thorswapViteConfig from '@internal/config';
-import path from 'path';
+import { resolve } from 'path';
 
-import packageJson from './package.json';
+import { name } from './package.json';
 
-const viteConfig = thorswapViteConfig(packageJson.name, {
+const viteConfig = thorswapViteConfig(name, {
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
+      entry: resolve(__dirname, 'src/index.ts'),
     },
     rollupOptions: {
       external: ['bignumber.js', '@ethersproject/bignumber'],
