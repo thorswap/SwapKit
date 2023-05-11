@@ -18,7 +18,10 @@
   "description": "THORSwap toolbox-evm",
   "devDependencies": {
     "@internal/config": "workspace:*",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.8",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
     "@vitest/coverage-c8": "0.31.0",
+    "hardhat": "^2.14.0",
     "vite": "4.3.5",
     "vitest": "0.31.0"
   },
@@ -48,8 +51,8 @@
     "build": "yarn clean; echo 'Build toolbox-evm 🛠'; vite build && echo 'Build succeeded toolbox-evm ✅\n'",
     "clean": "rm -rf dist",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "echo 'vitest'",
-    "test:coverage": "echo 'vitest run --coverage'"
+    "test": "vitest --run",
+    "test:coverage": "vitest run --coverage"
   },
   "type": "module",
   "types": "./dist/index.d.ts",

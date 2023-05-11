@@ -376,10 +376,16 @@ const sendTransaction = async (
         : {}),
     };
 
-    const txHex = await signer.signTransaction(txObject);
-    const response = await provider.sendTransaction(txHex);
+    try {
+      const txHex = await signer.signTransaction(txObject);
+      const response = await provider.sendTransaction(txHex);
 
-    return typeof response?.hash === 'string' ? response.hash : response;
+      return typeof response?.hash === 'string' ? response.hash : response;
+    } catch (error) {
+      const response = await signer.sendTransaction(txObject);
+
+      return typeof response?.hash === 'string' ? response.hash : response;
+    }
   } catch (error) {
     throw new Error(`Error sending transaction: ${JSON.stringify(error)}`);
   }
