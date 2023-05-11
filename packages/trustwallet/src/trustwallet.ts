@@ -11,6 +11,7 @@ import { ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import {
   Chain,
   ChainId,
+  ConnectWalletParams,
   EIP1559TxParams,
   NetworkId,
   WalletOption,
@@ -45,12 +46,16 @@ const parseEvmTxToWalletconnect = (transaction: EIP1559TxParams) => {
 };
 
 const getToolbox = async ({
+  api,
+  rpcUrl,
   chain,
   ethplorerApiKey,
   address,
   stagenet,
   walletconnectClient,
 }: {
+  api?: any;
+  rpcUrl?: string;
   walletconnectClient: IConnector;
   stagenet?: boolean;
   chain: (typeof SUPPORTED_CHAINS)[number];
@@ -63,7 +68,7 @@ const getToolbox = async ({
     case Chain.Ethereum: {
       if (!ethplorerApiKey) throw new Error('Ethplorer API key not found');
 
-      const provider = getProvider(chain);
+      const provider = getProvider(chain, rpcUrl);
 
       const signer = {
         signTransaction: async (transaction: EIP1559TxParams) => {
@@ -82,6 +87,7 @@ const getToolbox = async ({
       } as unknown as Signer;
 
       return ETHToolbox({
+        api,
         provider,
         signer,
         ethplorerApiKey,
@@ -284,13 +290,7 @@ const getWalletconnect = async (walletconnectOptions: WalletConnectOption = {}) 
 };
 
 const connectTrustwallet =
-  ({
-    addChain,
-    config: { ethplorerApiKey },
-  }: {
-    addChain: any;
-    config: { ethplorerApiKey?: string };
-  }) =>
+  ({ addChain, apis, rpcUrls, config: { ethplorerApiKey } }: ConnectWalletParams) =>
   async (
     chains: (typeof SUPPORTED_CHAINS)[number][],
     walletconnectOptions?: WalletConnectOption,
@@ -303,6 +303,8 @@ const connectTrustwallet =
       const getAddress = () => address;
 
       const toolbox = await getToolbox({
+        api: apis[chain as Chain.Ethereum],
+        rpcUrl: rpcUrls[chain],
         walletconnectClient,
         address,
         chain,

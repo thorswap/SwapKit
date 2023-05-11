@@ -53,20 +53,22 @@ export const getNetworkParams = () => ({
 });
 
 export const BSCToolbox = ({
+  api,
   provider,
   signer,
   covalentApiKey,
 }: {
+  api?: CovalentApi;
   covalentApiKey: string;
   signer: Signer;
   provider: Provider | Web3Provider;
 }) => {
-  const api = new CovalentApi({ apiKey: covalentApiKey });
+  const bscApi = api || new CovalentApi({ apiKey: covalentApiKey });
 
   return {
     ...BaseEVMToolbox({ provider, signer }),
     getNetworkParams,
     getBalance: (address: string, assets?: AssetEntity[]) =>
-      getBalance(provider, api, address, assets),
+      getBalance(provider, bscApi, address, assets),
   };
 };

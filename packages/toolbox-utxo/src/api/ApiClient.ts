@@ -24,8 +24,6 @@ export class ApiClient {
   chain: Chain;
   protected nodeUrl: string;
   private apiKey: string | undefined;
-  sochainUrl: string | undefined;
-  haskoinBaseUrl: string | undefined;
 
   constructor({ chain, apiKey, nodeUrl }: ApiClientParams) {
     if (![Chain.Bitcoin, Chain.BitcoinCash, Chain.Doge, Chain.Litecoin].includes(chain)) {

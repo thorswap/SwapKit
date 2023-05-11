@@ -18,6 +18,7 @@ import {
 import {
   Chain,
   ChainId,
+  ConnectWalletParams,
   DerivationPathArray,
   TxParams,
   WalletOption,
@@ -42,6 +43,8 @@ import { AminoMsgSend, AminoTypes, Coin } from './cosmosTypes.js';
 import { getLedgerAddress, getLedgerClient, LEDGER_SUPPORTED_CHAINS } from './helpers/index.js';
 
 type LedgerConfig = {
+  api?: any;
+  rpcUrl?: string;
   covalentApiKey?: string;
   ethplorerApiKey?: string;
   utxoApiKey?: string;
@@ -82,6 +85,8 @@ const recursivelyOrderKeys = (unordered: any) => {
 const stringifyKeysInOrder = (data: any) => JSON.stringify(recursivelyOrderKeys(data));
 
 const getToolbox = async ({
+  api,
+  rpcUrl,
   address,
   chain,
   covalentApiKey,
@@ -107,7 +112,7 @@ const getToolbox = async ({
   switch (chain) {
     case Chain.Bitcoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-      const toolbox = BTCToolbox(utxoApiKey);
+      const toolbox = BTCToolbox(utxoApiKey, rpcUrl);
 
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = params.feeRate || (await toolbox.getSuggestedFeeRate());
@@ -126,7 +131,7 @@ const getToolbox = async ({
     case Chain.BitcoinCash: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
 
-      const toolbox = BCHToolbox(utxoApiKey);
+      const toolbox = BCHToolbox(utxoApiKey, rpcUrl);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = await toolbox.getSuggestedFeeRate();
         const { psbt, inputs } = await toolbox.buildTx({
@@ -146,7 +151,7 @@ const getToolbox = async ({
     case Chain.Doge: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
 
-      const toolbox = DOGEToolbox(utxoApiKey);
+      const toolbox = DOGEToolbox(utxoApiKey, rpcUrl);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = await toolbox.getSuggestedFeeRate();
         const { psbt, inputs } = await toolbox.buildTx({
@@ -165,7 +170,7 @@ const getToolbox = async ({
     case Chain.Litecoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
 
-      const toolbox = LTCToolbox(utxoApiKey);
+      const toolbox = LTCToolbox(utxoApiKey, rpcUrl);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = await toolbox.getSuggestedFeeRate();
         const { psbt, inputs } = await toolbox.buildTx({
@@ -209,7 +214,7 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.Cosmos: {
-      const toolbox = GaiaToolbox();
+      const toolbox = GaiaToolbox({ server: api });
 
       const protoFee = (denom: string, amount: string) =>
         new proto.cosmos.tx.v1beta1.Fee({
@@ -335,8 +340,9 @@ const getToolbox = async ({
       if (!ethplorerApiKey) throw new Error('Ethplorer API key is not defined');
 
       return ETHToolbox({
+        api,
         signer: signer as EthereumLedger,
-        provider: getProvider(Chain.Ethereum),
+        provider: getProvider(Chain.Ethereum, rpcUrl),
         ethplorerApiKey,
       });
     }
@@ -344,8 +350,9 @@ const getToolbox = async ({
       if (!covalentApiKey) throw new Error('Covalent API key is not defined');
 
       return AVAXToolbox({
+        api,
         signer: signer as AvalancheLedger,
-        provider: getProvider(Chain.Avalanche),
+        provider: getProvider(Chain.Avalanche, rpcUrl),
         covalentApiKey,
       });
     }
@@ -469,10 +476,9 @@ const connectLedger =
   ({
     addChain,
     config: { covalentApiKey, ethplorerApiKey, utxoApiKey },
-  }: {
-    addChain: any;
-    config: LedgerConfig;
-  }) =>
+    apis,
+    rpcUrls,
+  }: ConnectWalletParams) =>
   async (chain: (typeof LEDGER_SUPPORTED_CHAINS)[number], derivationPath?: DerivationPathArray) => {
     const ledgerClient = getLedgerClient({ chain, derivationPath });
     if (!ledgerClient) return;
@@ -480,12 +486,14 @@ const connectLedger =
     const address = await getLedgerAddress({ chain, ledgerClient });
     const toolbox = await getToolbox({
       address,
+      api: apis[chain as Chain.Avalanche],
       chain,
-      utxoApiKey,
-      ethplorerApiKey,
       covalentApiKey,
-      signer: ledgerClient,
       derivationPath,
+      ethplorerApiKey,
+      rpcUrl: rpcUrls[chain],
+      signer: ledgerClient,
+      utxoApiKey,
     });
 
     addChain({

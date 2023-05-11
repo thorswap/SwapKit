@@ -58,21 +58,6 @@ const getXDEFIProvider = (chain: Chain) => {
   }
 };
 
-const getUTXOToolbox = ({ chain, utxoApiKey }: { chain: Chain; utxoApiKey: string }) => {
-  switch (chain) {
-    case Chain.Bitcoin:
-      return BTCToolbox(utxoApiKey);
-    case Chain.BitcoinCash:
-      return BCHToolbox(utxoApiKey);
-    case Chain.Doge:
-      return DOGEToolbox(utxoApiKey);
-    case Chain.Litecoin:
-      return LTCToolbox(utxoApiKey);
-    default:
-      throw new Error('Unsupported chain');
-  }
-};
-
 const transaction = async ({
   method,
   params,
@@ -115,7 +100,9 @@ export const getWalletMethodsForChain = ({
   ethplorerApiKey,
   covalentApiKey,
   utxoApiKey,
-}: { chain: Chain } & XDEFIConfig) => {
+  rpcUrl,
+  api,
+}: { rpcUrl?: string; api?: any; chain: Chain } & XDEFIConfig) => {
   switch (chain) {
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
@@ -126,6 +113,7 @@ export const getWalletMethodsForChain = ({
         throw new Error(`Missing API key for ${chain} chain`);
       }
 
+      // TODO: Use RPCUrl from config
       const provider = new Web3Provider(window.xfi?.ethereum, 'any');
 
       const toolboxParams = {
@@ -190,15 +178,17 @@ export const getWalletMethodsForChain = ({
     }
 
     case Chain.Cosmos: {
-      const toolbox = GaiaToolbox();
+      const toolbox = GaiaToolbox({ server: api });
 
       const transfer = async ({ from, recipient, amount, asset, memo }: any) => {
         const keplrClient = window.keplr;
         const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
 
-        const cosmJS = await SigningStargateClient.connectWithSigner(RPCUrl.Cosmos, offlineSigner, {
-          gasPrice: GasPrice.fromString('0.0003uatom'),
-        });
+        const cosmJS = await SigningStargateClient.connectWithSigner(
+          rpcUrl || RPCUrl.Cosmos,
+          offlineSigner,
+          { gasPrice: GasPrice.fromString('0.0003uatom') },
+        );
 
         const coins = [
           {
@@ -222,12 +212,20 @@ export const getWalletMethodsForChain = ({
     }
 
     case Chain.Bitcoin:
-    case Chain.BitcoinCash:
-    case Chain.Doge:
-    case Chain.Litecoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-      return { ...getUTXOToolbox({ chain, utxoApiKey }), transfer };
-    }
+      return BTCToolbox(utxoApiKey, rpcUrl);
+
+    case Chain.BitcoinCash:
+      if (!utxoApiKey) throw new Error('UTXO API key is not defined');
+      return BCHToolbox(utxoApiKey, rpcUrl);
+
+    case Chain.Doge:
+      if (!utxoApiKey) throw new Error('UTXO API key is not defined');
+      return DOGEToolbox(utxoApiKey, rpcUrl);
+
+    case Chain.Litecoin:
+      if (!utxoApiKey) throw new Error('UTXO API key is not defined');
+      return LTCToolbox(utxoApiKey, rpcUrl);
 
     default:
       return null;

@@ -86,19 +86,21 @@ export const getNetworkParams = () => ({
 });
 
 export const AVAXToolbox = ({
+  api,
   provider,
   signer,
   covalentApiKey,
 }: {
+  api?: CovalentApi;
   covalentApiKey: string;
   signer: Signer;
   provider: Provider | Web3Provider;
 }) => {
-  const api = new CovalentApi({ apiKey: covalentApiKey });
+  const avaxApi = api || new CovalentApi({ apiKey: covalentApiKey });
 
   return {
     ...BaseEVMToolbox({ provider, signer }),
     getNetworkParams,
-    getBalance: (address: string, assets?: AssetEntity[]) => getBalance(api, address, assets),
+    getBalance: (address: string, assets?: AssetEntity[]) => getBalance(avaxApi, address, assets),
   };
 };
