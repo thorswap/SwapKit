@@ -213,19 +213,19 @@ export const getWalletMethodsForChain = ({
 
     case Chain.Bitcoin:
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-      return BTCToolbox(utxoApiKey, api);
+      return BTCToolbox(utxoApiKey, rpcUrl);
 
     case Chain.BitcoinCash:
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-      return BCHToolbox(utxoApiKey, api);
+      return BCHToolbox(utxoApiKey, rpcUrl);
 
     case Chain.Doge:
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-      return DOGEToolbox(utxoApiKey, api);
+      return DOGEToolbox(utxoApiKey, rpcUrl);
 
     case Chain.Litecoin:
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-      return LTCToolbox(utxoApiKey, api);
+      return LTCToolbox(utxoApiKey, rpcUrl);
 
     default:
       return null;

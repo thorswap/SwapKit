@@ -112,7 +112,7 @@ const getToolbox = async ({
   switch (chain) {
     case Chain.Bitcoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-      const toolbox = BTCToolbox(utxoApiKey, api);
+      const toolbox = BTCToolbox(utxoApiKey, rpcUrl);
 
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = params.feeRate || (await toolbox.getSuggestedFeeRate());
@@ -131,7 +131,7 @@ const getToolbox = async ({
     case Chain.BitcoinCash: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
 
-      const toolbox = BCHToolbox(utxoApiKey, api);
+      const toolbox = BCHToolbox(utxoApiKey, rpcUrl);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = await toolbox.getSuggestedFeeRate();
         const { psbt, inputs } = await toolbox.buildTx({
@@ -151,7 +151,7 @@ const getToolbox = async ({
     case Chain.Doge: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
 
-      const toolbox = DOGEToolbox(utxoApiKey, api);
+      const toolbox = DOGEToolbox(utxoApiKey, rpcUrl);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = await toolbox.getSuggestedFeeRate();
         const { psbt, inputs } = await toolbox.buildTx({
@@ -170,7 +170,7 @@ const getToolbox = async ({
     case Chain.Litecoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
 
-      const toolbox = LTCToolbox(utxoApiKey, api);
+      const toolbox = LTCToolbox(utxoApiKey, rpcUrl);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = await toolbox.getSuggestedFeeRate();
         const { psbt, inputs } = await toolbox.buildTx({
