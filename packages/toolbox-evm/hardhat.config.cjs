@@ -5,7 +5,7 @@ module.exports = {
   networks: {
     hardhat: {
       forking: {
-        url: 'https://mainnet.infura.io/v3/ed7bab7495044d8b873b9307a8d62390',
+        url: 'https://mainnet.infura.io/v3/' + process.env.INFURA_API_KEY || '',
       },
     },
   },

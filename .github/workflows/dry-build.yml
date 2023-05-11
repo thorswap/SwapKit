@@ -26,3 +26,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           build_script: ci
           skip_step: install
+        env:
+          INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
+
