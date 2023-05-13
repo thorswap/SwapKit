@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.80
+
+### Patch Changes
+
+- [`6cd7025`](https://github.com/thorswap/SwapKit/commit/6cd70256164568fb96b4397f027340a874d76ddc) Thanks [@chillios-ts](https://github.com/chillios-ts)! - remove getTransactions & getTransactionData
+
 ## 1.0.0-development.79
 
 ### Patch Changes
