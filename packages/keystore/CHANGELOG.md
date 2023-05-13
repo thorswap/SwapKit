@@ -1,5 +1,19 @@
 # @thorswap-lib/keystore
 
+## 1.0.0-development.155
+
+### Patch Changes
+
+- [`1963776`](https://github.com/thorswap/SwapKit/commit/1963776b24fb2e45a5ef86b54868e51cbc6e311a) Thanks [@chillios-ts](https://github.com/chillios-ts)! - fix keystore methods
+
+- Updated dependencies [[`6cd7025`](https://github.com/thorswap/SwapKit/commit/6cd70256164568fb96b4397f027340a874d76ddc)]:
+  - @thorswap-lib/types@1.0.0-development.80
+  - @thorswap-lib/helpers@0.0.0-development.77
+  - @thorswap-lib/swapkit-entities@1.0.0-development.85
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.100
+  - @thorswap-lib/toolbox-evm@1.0.0-development.118
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.101
+
 ## 1.0.0-development.154
 
 ### Patch Changes
