@@ -60,7 +60,7 @@
     "asyncstorage-down@4.2.0": "patch:asyncstorage-down@npm:4.2.0#.yarn/patches/asyncstorage-down-npm-4.2.0-d323e014ba.patch"
   },
   "scripts": {
-    "build": "NODE_OPTIONS=--max_old_space_size=32768 turbo run build --cache-dir=./.turbo-cache",
+    "build": "NODE_OPTIONS=--max_old_space_size=32768 turbo run build",
     "bump:development": "yarn changeset && yarn changeset version",
     "bump:release": "yarn changeset pre exit && yarn changeset && yarn changeset version",
     "changelog": "yarn changeset",
@@ -70,9 +70,10 @@
     "dev:vite": "turbo run dev --concurrency=30 --filter=\"{./apps/vite-playground}...\"",
     "generate": "yarn internal/generator generate",
     "lint": "turbo run lint",
-    "publish-packages": "turbo run build lint --cache-dir=./.turbo-cache && changeset version && changeset publish",
+    "publish-packages": "turbo run build lint && changeset version && changeset publish",
     "test": "dotenv -- turbo run test",
-    "ci": "turbo run build lint test --cache-dir=./.turbo-cache",
+    "clean": "turbo run clean",
+    "ci": "turbo run build",
     "test:coverage": "turbo run test:coverage",
     "version-development": "yarn changeset version",
     "version-release": "yarn changeset pre exit && yarn changeset version"

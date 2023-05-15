@@ -9,6 +9,9 @@
         "dist/**"
       ]
     },
+    "clean": {
+      "cache": false
+    },
     "dev": {
       "cache": false,
       "persistent": true
@@ -53,9 +56,6 @@
       ]
     },
     "test:watch": {
-      "dependsOn": [
-        "build"
-      ],
       "inputs": [
         "__tests__/**/*.test.ts",
         "__tests__/**/*.test.tsx"

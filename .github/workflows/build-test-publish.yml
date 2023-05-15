@@ -1,0 +1,96 @@
+name: Run build, test & publish
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - develop
+      - main
+  pull_request:
+    paths:
+      - 'packages/**'
+      - 'internal/**'
+      - 'yarn.lock'
+      - 'package.json'
+      - 'turbo.json'
+
+concurrency:
+  group: build-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dry-build:
+    if: contains(github.event.pull_request.title, ':tada:') == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-js-workflow
+      - name: Build and check size
+        if: github.ref_type == 'pull_request'
+        uses: andresz1/size-limit-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          build_script: ci
+          skip_step: install
+        env:
+          TURBO_TOKEN: turbotoken-oss-europe1
+      - name: Only build
+        if: github.ref_type != 'pull_request'
+        run: yarn ci
+        env:
+          TURBO_TOKEN: turbotoken-oss-europe1
+
+  test:
+    needs: dry-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-js-workflow
+      - name: Test
+        run: yarn test
+        env:
+          INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
+          TURBO_TOKEN: turbotoken-oss-europe1
+
+  lint:
+    needs: dry-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-js-workflow
+      - name: Lint
+        run: yarn lint
+        env:
+          TURBO_TOKEN: turbotoken-oss-europe1
+
+  publish:
+    if: contains(github.ref_name, 'develop') || contains(github.ref_name, 'main')
+    needs: [test, lint]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: ./.github/actions/setup-js-workflow
+
+      - name: Setup NPM_AUTH_TOKEN
+        run: |
+          echo 'npmAuthToken: "${{ secrets.NPM_AUTH_TOKEN }}"' >> .yarnrc.yml
+
+      - name: Set job params
+        shell: bash
+        id: deployment-params
+        run: |
+          echo "version=$([ "${{ github.ref_name }}" = "main" ] && echo "version-release" || echo "version-development")" >> $GITHUB_OUTPUT
+          echo "publishName=$([ "${{ github.ref_name }}" = "main" ] && echo "Release" || echo "Pre-Release")" >> $GITHUB_OUTPUT
+
+      - name: "Create ${{ steps.deployment-params.outputs.publishName }} Pull Request or Publish to npm"
+        uses: changesets/action@v1
+        with:
+          title: ":tada: Publish pre-release"
+          version: yarn ${{ steps.deployment-params.outputs.version }}
+          publish: yarn publish-packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
