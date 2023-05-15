@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.119
+
+### Patch Changes
+
+- [#88](https://github.com/thorswap/SwapKit/pull/88) [`026d174`](https://github.com/thorswap/SwapKit/commit/026d174dfc9472cf9334106c2d4575df200cb672) Thanks [@towanTG](https://github.com/towanTG)! - Adds EVM testing with hardhat and mainnet fork
+
 ## 1.0.0-development.118
 
 ### Patch Changes
