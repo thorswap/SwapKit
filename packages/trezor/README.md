@@ -3,7 +3,7 @@
 ## Install:
 
 ```bash
-yarn add @thorswap-lib/trezor
+pnpm add @thorswap-lib/trezor
 ```
 
 To use the trezor you need to [extend core](packages/swapkit-core#swapkitcore-api) with `trezorWallet` and install the corresponding package for the chain you want to use.

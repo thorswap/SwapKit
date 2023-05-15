@@ -1,9 +1,0 @@
-undecided:
-  - "@thorswap-lib/atlas"
-  - "@thorswap-lib/binance-chain-sdk"
-  - "@thorswap-lib/multichain-core"
-  - "@thorswap-lib/multichain-entities"
-  - "@thorswap-lib/multichain-ledger"
-  - "@thorswap-lib/multichain-walletconnect"
-  - "@thorswap-lib/multichain-web-extensions"
-  - "@thorswap-lib/types"

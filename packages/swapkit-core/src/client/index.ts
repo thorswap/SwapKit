@@ -134,7 +134,7 @@ export class SwapKitCore {
           { from },
         );
 
-        return walletMethods.sendTransaction(tx, feeOptionKey);
+        return walletMethods.sendTransaction(tx, feeOptionKey) as Promise<string>;
       }
 
       case QuoteMode.AVAX_TO_AVAX:
@@ -164,7 +164,7 @@ export class SwapKitCore {
             ),
           },
           feeOptionKey,
-        );
+        ) as Promise<string>;
       }
 
       default: {
@@ -189,7 +189,7 @@ export class SwapKitCore {
 
   getExplorerTxUrl = (chain: Chain, txHash: string) => getExplorerTxUrl({ chain, txHash });
 
-  getWallet = (chain: Chain) => this.connectedWallets[chain];
+  getWallet = <T extends Chain>(chain: Chain) => this.connectedWallets[chain] as WalletMethods[T];
 
   isAssetApproved = (asset: AssetEntity) => this._approve<boolean>({ asset }, 'checkOnly');
 

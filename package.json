@@ -1,22 +1,13 @@
 {
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-lerna-scopes"
-    ]
-  },
   "devDependencies": {
     "@babel/core": "7.21.8",
     "@babel/eslint-parser": "7.21.8",
-    "@changesets/assemble-release-plan": "5.2.3",
     "@changesets/changelog-github": "0.4.8",
-    "@changesets/cli": "2.26.1",
-    "@commitlint/cli": "17.6.3",
-    "@commitlint/config-lerna-scopes": "17.6.3",
-    "@evilmartians/lefthook": "1.3.12",
+    "@evilmartians/lefthook": "1.3.13",
     "@size-limit/file": "8.2.4",
-    "@typescript-eslint/eslint-plugin": "5.59.2",
-    "@typescript-eslint/parser": "5.59.2",
-    "dotenv-cli": "latest",
+    "@typescript-eslint/eslint-plugin": "5.59.6",
+    "@typescript-eslint/parser": "5.59.6",
+    "dotenv-cli": "7.2.1",
     "eslint": "8.40.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-babel": "5.3.1",
@@ -31,11 +22,10 @@
     "prettier": "2.8.8",
     "react": "18.2.0",
     "size-limit": "8.2.4",
-    "turbo": "1.9.3",
+    "turbo": "1.9.6",
     "typescript": "5.0.4"
   },
   "name": "swapkit",
-  "packageManager": "yarn@3.2.1",
   "prettier": {
     "bracketSameLine": true,
     "bracketSpacing": true,
@@ -50,33 +40,33 @@
   "publishConfig": {
     "access": "restricted"
   },
-  "resolutions": {
-    "@changesets/assemble-release-plan": "patch:@changesets/assemble-release-plan@npm:5.2.3#.yarn/patches/@changesets-assemble-release-plan-npm-5.2.3-296454a28f.patch",
-    "@changesets/cli": "patch:@changesets/cli@npm:2.26.0#.yarn/patches/@changesets-cli-npm-2.26.0-49d5c5f72d.patch",
-    "@ethersproject/abstract-signer@5.7.0": "patch:@ethersproject/abstract-signer@npm:5.7.0#.yarn/patches/@ethersproject-abstract-signer-npm-5.7.0-f61d0a970e.patch",
-    "cipher-base@1.0.4": "patch:cipher-base@npm:1.0.4#.yarn/patches/cipher-base-npm-1.0.4-2e98b97140.patch",
-    "sr25519@0.2.0": "patch:sr25519@npm:0.2.0#.yarn/patches/sr25519-npm-0.2.0-c9939c5c8a.patch",
-    "typeforce": "patch:typeforce@npm:1.18.0#.yarn/patches/typeforce-npm-1.18.0-372e34e2a2.patch",
-    "asyncstorage-down@4.2.0": "patch:asyncstorage-down@npm:4.2.0#.yarn/patches/asyncstorage-down-npm-4.2.0-d323e014ba.patch"
+  "pnpm": {
+    "patchedDependencies": {
+      "@ethersproject/abstract-signer@5.7.0": "patches/@ethersproject-abstract-signer-npm-5.7.0-f61d0a970e.patch",
+      "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
+      "sr25519@0.2.0": "patches/sr25519-npm-0.2.0-c9939c5c8a.patch",
+      "typeforce@1.18.0": "patches/typeforce@1.18.0.patch",
+      "asyncstorage-down@4.2.0": "patches/asyncstorage-down-npm-4.2.0-d323e014ba.patch"
+    }
   },
   "scripts": {
-    "build": "NODE_OPTIONS=--max_old_space_size=32768 turbo run build",
-    "bump:development": "yarn changeset && yarn changeset version",
-    "bump:release": "yarn changeset pre exit && yarn changeset && yarn changeset version",
-    "changelog": "yarn changeset",
+    "build": "turbo run build --api=https://eu.trrc.ducktors.dev --team=team_thorswap --token=turbotoken-oss-europe1",
+    "bump:development": "pnpm changeset && dotenv -- pnpm changeset version",
+    "bump:release": "pnpm changeset pre exit && pnpm changeset && dotenv -- pnpm changeset version",
+    "changelog": "pnpm changeset",
     "dev:android": "turbo run dev:android --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
     "dev:ios": "turbo run dev:ios --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
     "dev:expo": "turbo run dev --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
     "dev:vite": "turbo run dev --concurrency=30 --filter=\"{./apps/vite-playground}...\"",
-    "generate": "yarn internal/generator generate",
-    "lint": "turbo run lint",
-    "publish-packages": "turbo run build lint && changeset version && changeset publish",
-    "test": "dotenv -- turbo run test",
+    "generate": "cd ./internal/generator; pnpm generate; cd ../..",
+    "lint": "turbo run lint --api=https://eu.trrc.ducktors.dev --team=team_thorswap --token=turbotoken-oss-europe1",
+    "publish-packages": "turbo run build lint --api=https://eu.trrc.ducktors.dev --team=team_thorswap --token=turbotoken-oss-europe1 && changeset version && changeset publish",
+    "test": "dotenv -- turbo run test --api=https://eu.trrc.ducktors.dev --team=team_thorswap --token=turbotoken-oss-europe1",
     "clean": "turbo run clean",
-    "ci": "turbo run build",
-    "test:coverage": "turbo run test:coverage",
-    "version-development": "yarn changeset version",
-    "version-release": "yarn changeset pre exit && yarn changeset version"
+    "bootstrap": "pnpm build lint test",
+    "test:coverage": "dotenv -- turbo run test:coverage",
+    "version-development": "dotenv -- pnpm changeset version",
+    "version-release": "pnpm changeset pre exit && dotenv -- pnpm changeset version"
   },
   "size-limit": [
     {
@@ -167,13 +157,5 @@
       "path": "./packages/web-extensions/dist/index.es.js",
       "limit": "1 MB"
     }
-  ],
-  "type": "module",
-  "version": "0.0.0",
-  "license": "MIT",
-  "workspaces": [
-    "apps/*",
-    "internal/*",
-    "packages/*"
   ]
 }

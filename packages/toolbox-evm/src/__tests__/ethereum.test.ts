@@ -21,7 +21,7 @@ beforeEach<{
   ethers: typeof import('@nomiclabs/hardhat-ethers');
   provider: JsonRpcProvider;
   toolbox: ReturnType<typeof ETHToolbox>;
-}>(async (context) => {
+}>(async (context: any) => {
   context.ethers = hre.ethers;
   const provider = await getProvider(Chain.Ethereum, 'http://127.0.0.1:8545/');
   const signer = await hre.ethers.getImpersonatedSigner(testAddress);

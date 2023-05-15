@@ -88,7 +88,7 @@ const getToolbox = async ({
         //@ts-ignore
         const result = await TrezorConnect.signTransaction({
           coin,
-          inputs: psbt.txInputs.map((input) => ({
+          inputs: psbt.txInputs.map((input: any) => ({
             // Hardens the first 3 elements of the derivation path - required by trezor
             address_n: derivationPath.map((pathElement, index) =>
               index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
@@ -98,7 +98,7 @@ const getToolbox = async ({
             // object needs amount but does not use it for signing
             amount: 0,
           })),
-          outputs: psbt.txOutputs.map((output) => {
+          outputs: psbt.txOutputs.map((output: any) => {
             if (!output.address) {
               return {
                 op_return_data: Buffer.from(memo).toString('hex'),

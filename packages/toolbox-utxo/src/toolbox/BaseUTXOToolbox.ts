@@ -1,7 +1,7 @@
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { Balance, Chain, FeeOption, FeeRates, Fees, UTXO } from '@thorswap-lib/types';
 import { fromSeed } from 'bip32';
-import { address as btcLibAddress, payments, Psbt, PsbtTxOutput } from 'bitcoinjs-lib';
+import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';
 import accumulative from 'coinselect/accumulative';
 import { ECPairFactory, ECPairInterface } from 'ecpair';
 import * as tinySecp from 'tiny-secp256k1';
@@ -188,7 +188,7 @@ export const buildTx = async ({
   );
 
   // psbt add outputs from accumulative outputs
-  outputs.forEach((output: PsbtTxOutput) => {
+  outputs.forEach((output: any) => {
     if (!output.address) {
       //an empty address means this is the  change ddress
       output.address = sender;

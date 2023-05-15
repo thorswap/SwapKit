@@ -3,7 +3,7 @@
 ## Install:
 
 ```bash
-yarn add @thorswap-lib/ledger
+pnpm add @thorswap-lib/ledger
 ```
 
 To use the ledger you need to [extend core](packages/swapkit-core#swapkitcore-api) with `ledgerWallet` and install the corresponding package for the chain you want to use.

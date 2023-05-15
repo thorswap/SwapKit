@@ -1,16 +1,4 @@
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/sdks
-!.yarn/versions
-
 node_modules/
-
-# Swap the comments on the following lines if you don't wish to use zero-installs
-# Documentation here: https://yarnpkg.com/features/zero-installs
-# !.yarn/cache
-#.pnp.*
 
 dist/
 build/
@@ -19,7 +7,6 @@ packages/**/.turbo
 internal/**/.turbo
 
 .env
-.npmrc
 *.mjs
 coverage/
 .DS_Store

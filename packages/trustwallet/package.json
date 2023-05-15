@@ -23,8 +23,11 @@
     "@walletconnect/types": "1.8.0",
     "bech32-buffer": "0.2.1",
     "cosmos-client": "0.39.2",
-    "vite": "4.3.5",
+    "vite": "4.3.7",
     "vitest": "0.31.0"
+  },
+  "eslintConfig": {
+    "extends": "../../internal/eslint-config-thorswap"
   },
   "exports": {
     ".": {
@@ -42,7 +45,6 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/trustwallet",
-  "packageManager": "yarn@3.2.1",
   "peerDependencies": {
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
@@ -59,8 +61,8 @@
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "yarn clean; echo 'Build trustwallet 🛠'; vite build && echo 'Build succeeded trustwallet ✅\n'",
-    "clean": "rm -rf dist",
+    "build": "echo 'Build trustwallet 🛠'; vite build && echo 'Build succeeded trustwallet ✅'",
+    "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest'",
     "test:coverage": "echo 'vitest run --coverage'"

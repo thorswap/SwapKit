@@ -20,14 +20,14 @@ import {
   toCashAddress,
   toLegacyAddress,
 } from 'bchaddrjs';
-import { Psbt, PsbtTxOutput } from 'bitcoinjs-lib';
+import { Psbt } from 'bitcoinjs-lib';
 import accumulative from 'coinselect/accumulative';
 
 import { BitcoincashApi } from '../api/clients.js';
 import {
-  KeyPair,
-  Transaction as TransactionType,
-  TransactionBuilder as TransactionBuilderType,
+  KeyPairType,
+  TransactionBuilderType,
+  TransactionType,
 } from '../types/bitcoincashjs-types.js';
 import {
   UTXOBaseToolboxParams,
@@ -187,7 +187,7 @@ const buildTx = async ({
 
   // Outputs
 
-  outputs.forEach((output: PsbtTxOutput) => {
+  outputs.forEach((output: any) => {
     output.address = toLegacyAddress(output.address || sender);
 
     if (!output.script) {
@@ -218,14 +218,14 @@ const createKeysForPath = ({
 }: {
   phrase?: string;
   derivationPath?: string;
-}): KeyPair => {
+}): KeyPairType => {
   if (!phrase) throw new Error('No phrase provided');
 
   const masterHDNode = HDNode.fromSeedBuffer(getSeed(phrase), getNetwork(Chain.BitcoinCash));
   return masterHDNode.derivePath(derivationPath).keyPair;
 };
 
-const getAddressFromKeys = (keys: KeyPair) => {
+const getAddressFromKeys = (keys: KeyPairType) => {
   const address = keys.getAddress(0);
   return stripPrefix(toCashAddress(address));
 };

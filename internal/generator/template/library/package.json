@@ -8,6 +8,9 @@
     "vite": "4.3.3",
     "vitest": "0.30.1"
   },
+  "eslintConfig": {
+    "extends": "../../internal/eslint-config-thorswap"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
@@ -24,15 +27,14 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/<%- packageName %>",
-  "packageManager": "yarn@3.2.1",
   "publishConfig": {
     "access": "public"
   },
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "yarn clean; echo 'Build <%- packageName %> 🛠'; vite build && echo 'Build succeeded <%- packageName %> ✅\n'",
-    "clean": "rm -rf dist",
+    "build": "echo 'Build <%- packageName %> 🛠'; vite build && echo 'Build succeeded <%- packageName %> ✅'",
+    "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest'",
     "test:coverage": "echo 'vitest run --coverage'"

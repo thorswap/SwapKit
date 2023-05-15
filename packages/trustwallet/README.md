@@ -3,7 +3,7 @@
 ## Install:
 
 ```bash
-yarn add @thorswap-lib/trustwallet
+pnpm add @thorswap-lib/trustwallet
 ```
 
 To use the trustwallet you need to [extend core](packages/swapkit-core#swapkitcore-api) with `trustwalletWallet` and install the corresponding package for the chain you want to use.

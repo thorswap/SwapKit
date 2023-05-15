@@ -3,7 +3,7 @@
 ## Install:
 
 ```bash
-yarn add @thorswap-lib/toolbox-evm
+pnpm add @thorswap-lib/toolbox-evm
 ```
 
 ## Links:

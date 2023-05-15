@@ -3,7 +3,7 @@
 ## Install:
 
 ```bash
-yarn add @thorswap-lib/keystore
+pnpm add @thorswap-lib/keystore
 ```
 
 To use the keystore you need to [extend core](packages/swapkit-core#swapkitcore-api) with `keystoreWallet` and install the corresponding package for the chain you want to use.

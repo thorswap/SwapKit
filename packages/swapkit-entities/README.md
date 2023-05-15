@@ -3,7 +3,7 @@
 ## Install:
 
 ```bash
-yarn add @thorswap-lib/swapkit-entities
+pnpm add @thorswap-lib/swapkit-entities
 ```
 
 ## Links:

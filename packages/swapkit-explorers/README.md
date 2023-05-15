@@ -3,7 +3,7 @@
 ## Install:
 
 ```bash
-yarn add @thorswap-lib/swapkit-explorers
+pnpm add @thorswap-lib/swapkit-explorers
 ```
 
 ## API:

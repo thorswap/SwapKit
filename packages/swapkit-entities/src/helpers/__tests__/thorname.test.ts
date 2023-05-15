@@ -3,14 +3,18 @@ import { describe, expect, it } from 'vitest';
 import { getTHORNameCost, validateTHORName } from '../thorname.js';
 
 describe('getTHORNameCost', () => {
-  it.each([
-    [1, 11],
-    [2, 12],
-    [3, 13],
-    [10, 20],
-  ])('returns correct cost for %d years', (years, expected) => {
-    const result = getTHORNameCost(years);
-    expect(result).toBe(expected);
+  describe('for correct values', () => {
+    [
+      [1, 11],
+      [2, 12],
+      [3, 13],
+      [10, 20],
+    ].forEach(([years, expected]) => {
+      it(`returns correct ${expected} cost for ${years} years`, () => {
+        const result = getTHORNameCost(years);
+        expect(result).toBe(expected);
+      });
+    });
   });
 
   it('throws an error for negative years', () => {

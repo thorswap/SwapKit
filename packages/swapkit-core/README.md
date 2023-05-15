@@ -3,7 +3,7 @@
 ## Install:
 
 ```bash
-yarn add @thorswap-lib/swapkit-core
+pnpm add @thorswap-lib/swapkit-core
 ```
 
 ### SwapKitCore API:
