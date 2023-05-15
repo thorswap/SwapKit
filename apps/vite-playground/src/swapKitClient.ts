@@ -17,7 +17,7 @@ export const getSwapKitClient = (stagenet?: boolean) => {
     config: {
       ethplorerApiKey: 'freekey',
       covalentApiKey: '',
-      utxoApiKey: 'freekey',
+      utxoApiKey: '',
     },
     wallets: [xdefiWallet, evmWallet, ledgerWallet, keystoreWallet, trezorWallet],
   });

@@ -83,6 +83,7 @@ describe('Ethereum toolkit', () => {
     provider: JsonRpcProvider;
     toolbox: ReturnType<typeof ETHToolbox>;
   }) => {
+    expect((await provider.getBalance(emptyRecipient)).toString()).toBe('0');
     await toolbox.transfer({
       recipient: emptyRecipient,
       amount: baseAmount('10000000000000000', 18),
@@ -103,6 +104,10 @@ describe('Ethereum toolkit', () => {
     provider: JsonRpcProvider;
     toolbox: ReturnType<typeof ETHToolbox>;
   }) => {
+    //@ts-expect-error
+    const FRAX = new ethers.Contract(FRAXAddress, erc20ABI, provider);
+    const balance = await FRAX.balanceOf(emptyRecipient);
+    expect(balance.toString()).toBe('0');
     await toolbox.transfer({
       recipient: emptyRecipient,
       amount: baseAmount('10000000000000000', 18),
@@ -110,11 +115,7 @@ describe('Ethereum toolkit', () => {
       from: testAddress,
     });
 
-    //@ts-expect-error
-    const FRAX = new ethers.Contract(FRAXAddress, erc20ABI, provider);
-    const FRAXBalance = await FRAX.balanceOf(emptyRecipient);
-
-    expect(FRAXBalance.toString()).toBe('10000000000000000');
+    expect((await FRAX.balanceOf(emptyRecipient)).toString()).toBe('10000000000000000');
   }, 10000);
 
   test('Approve Token and validate approved amount', async ({
@@ -124,7 +125,15 @@ describe('Ethereum toolkit', () => {
     expect: ExpectStatic;
     toolbox: ReturnType<typeof ETHToolbox>;
   }) => {
-    // Approve spender to spend '10000000000000000' amount of token
+    expect(
+      await toolbox.isApproved({
+        assetAddress: FRAXAddress,
+        spenderAddress: emptyRecipient,
+        from: testAddress,
+        amount: '10000000000000000',
+      }),
+    ).toBe(false);
+
     await toolbox.approve({
       assetAddress: FRAXAddress, // FRAX token address
       spenderAddress: emptyRecipient,
@@ -132,14 +141,13 @@ describe('Ethereum toolkit', () => {
       from: testAddress,
     });
 
-    // Get the allowance of the spender
-    const allowance = await toolbox.isApproved({
-      assetAddress: FRAXAddress,
-      spenderAddress: emptyRecipient,
-      from: testAddress,
-      amount: '10000000000000000',
-    });
-
-    expect(allowance).toBe(true);
+    expect(
+      await toolbox.isApproved({
+        assetAddress: FRAXAddress,
+        spenderAddress: emptyRecipient,
+        from: testAddress,
+        amount: '10000000000000000',
+      }),
+    ).toBe(true);
   }, 10000);
 });

@@ -92,8 +92,6 @@ const getWalletMethodsForChain = async ({
     case Chain.Bitcoin:
     case Chain.Doge:
     case Chain.Litecoin: {
-      if (!utxoApiKey) throw new Error('UTXO API key not found');
-
       const toolbox =
         chain === Chain.Bitcoin
           ? BTCToolbox(utxoApiKey, rpcUrl)
