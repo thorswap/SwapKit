@@ -51,7 +51,6 @@ import {
 } from './helpers.js';
 import {
   AddLiquidityParams,
-  CalldataSwapIn,
   CoreTxParams,
   CreateLiquidityParams,
   EVMWallet,
@@ -129,7 +128,7 @@ export class SwapKitCore {
             toChecksumAddress,
             contractAddress: contractAddress as AGG_CONTRACT_ADDRESS,
             recipient,
-            calldata: calldata as unknown as CalldataSwapIn,
+            calldata,
           }),
           { from },
         );

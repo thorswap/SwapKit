@@ -5,6 +5,7 @@
     "@changesets/changelog-github": "0.4.8",
     "@evilmartians/lefthook": "1.3.13",
     "@size-limit/file": "8.2.4",
+    "@size-limit/time": "8.2.4",
     "@typescript-eslint/eslint-plugin": "5.59.6",
     "@typescript-eslint/parser": "5.59.6",
     "dotenv-cli": "7.2.1",
@@ -25,7 +26,6 @@
     "turbo": "1.9.6",
     "typescript": "5.0.4"
   },
-  "name": "swapkit",
   "prettier": {
     "bracketSameLine": true,
     "bracketSpacing": true,
@@ -41,6 +41,11 @@
     "access": "restricted"
   },
   "pnpm": {
+    "overrides": {
+      "axios@^0.x.x": "^0.27.2",
+      "json5@<=1.0.1": "^1.0.2",
+      "semver@<=4.3.2": "^4.3.6"
+    },
     "patchedDependencies": {
       "@ethersproject/abstract-signer@5.7.0": "patches/@ethersproject-abstract-signer-npm-5.7.0-f61d0a970e.patch",
       "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
@@ -50,7 +55,7 @@
     }
   },
   "scripts": {
-    "build": "turbo run build --api=https://eu.trrc.ducktors.dev --team=team_thorswap --token=turbotoken-oss-europe1",
+    "build": "turbo run build --token=turbotoken-oss-europe1",
     "bump:development": "pnpm changeset && dotenv -- pnpm changeset version",
     "bump:release": "pnpm changeset pre exit && pnpm changeset && dotenv -- pnpm changeset version",
     "changelog": "pnpm changeset",
@@ -59,11 +64,10 @@
     "dev:expo": "turbo run dev --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
     "dev:vite": "turbo run dev --concurrency=30 --filter=\"{./apps/vite-playground}...\"",
     "generate": "cd ./internal/generator; pnpm generate; cd ../..",
-    "lint": "turbo run lint --api=https://eu.trrc.ducktors.dev --team=team_thorswap --token=turbotoken-oss-europe1",
-    "publish-packages": "turbo run build lint --api=https://eu.trrc.ducktors.dev --team=team_thorswap --token=turbotoken-oss-europe1 && changeset version && changeset publish",
-    "test": "dotenv -- turbo run test --api=https://eu.trrc.ducktors.dev --team=team_thorswap --token=turbotoken-oss-europe1",
+    "lint": "turbo run lint --token=turbotoken-oss-europe1",
+    "publish-packages": "turbo run build lint --token=turbotoken-oss-europe1 && changeset version && changeset publish",
+    "test": "dotenv -- turbo run test --token=turbotoken-oss-europe1",
     "clean": "turbo run clean",
-    "bootstrap": "pnpm build lint test",
     "test:coverage": "dotenv -- turbo run test:coverage",
     "version-development": "dotenv -- pnpm changeset version",
     "version-release": "pnpm changeset pre exit && dotenv -- pnpm changeset version"
@@ -71,91 +75,113 @@
   "size-limit": [
     {
       "path": "./packages/keystore/dist/index.cjs",
-      "limit": "200 KB"
+      "limit": "100 KB",
+      "running": false
     },
     {
       "path": "./packages/keystore/dist/index.es.js",
-      "limit": "200 KB"
+      "limit": "100 KB",
+      "running": false
     },
     {
       "path": "./packages/ledger/dist/index.cjs",
-      "limit": "1.5 MB"
+      "limit": "1.2 MB",
+      "running": false
     },
     {
       "path": "./packages/ledger/dist/index.es.js",
-      "limit": "1.5 MB"
+      "limit": "1.2 MB",
+      "running": false
     },
     {
       "path": "./packages/swapkit-core/dist/index.cjs",
-      "limit": "200 KB"
+      "limit": "50 KB",
+      "running": false
     },
     {
       "path": "./packages/swapkit-core/dist/index.es.js",
-      "limit": "200 KB"
+      "limit": "50 KB",
+      "running": false
     },
     {
       "path": "./packages/swapkit-entities/dist/index.cjs",
-      "limit": "100 KB"
+      "limit": "10 KB",
+      "running": false
     },
     {
       "path": "./packages/swapkit-entities/dist/index.es.js",
-      "limit": "100 KB"
+      "limit": "10 KB",
+      "running": false
     },
     {
       "path": "./packages/toolbox-cosmos/dist/index.cjs",
-      "limit": "1 MB"
+      "limit": "550 KB",
+      "running": false
     },
     {
       "path": "./packages/toolbox-cosmos/dist/index.es.js",
-      "limit": "1 MB"
+      "limit": "550 KB",
+      "running": false
     },
     {
       "path": "./packages/toolbox-evm/dist/index.cjs",
-      "limit": "200 KB"
+      "limit": "150 KB",
+      "running": false
     },
     {
       "path": "./packages/toolbox-evm/dist/index.es.js",
-      "limit": "200 KB"
+      "limit": "150 KB",
+      "running": false
     },
     {
       "path": "./packages/toolbox-utxo/dist/index.cjs",
-      "limit": "400 KB"
+      "limit": "300 KB",
+      "running": false
     },
     {
       "path": "./packages/toolbox-utxo/dist/index.es.js",
-      "limit": "400 KB"
+      "limit": "350 KB",
+      "running": false
     },
     {
       "path": "./packages/trezor/dist/index.cjs",
-      "limit": "1.7 MB"
+      "limit": "450 KB",
+      "running": false
     },
     {
       "path": "./packages/trezor/dist/index.es.js",
-      "limit": "2.2 MB"
+      "limit": "500 KB",
+      "running": false
     },
     {
       "path": "./packages/types/dist/index.cjs",
-      "limit": "100 KB"
+      "limit": "10 KB",
+      "running": false
     },
     {
       "path": "./packages/types/dist/index.es.js",
-      "limit": "100 KB"
+      "limit": "10 KB",
+      "running": false
     },
     {
       "path": "./packages/trustwallet/dist/index.cjs",
-      "limit": "500 KB"
+      "limit": "250 KB",
+      "running": false
     },
     {
       "path": "./packages/trustwallet/dist/index.es.js",
-      "limit": "500 KB"
+      "limit": "300 KB",
+      "running": false
     },
     {
       "path": "./packages/web-extensions/dist/index.cjs",
-      "limit": "1 MB"
+      "limit": "500 KB",
+      "running": false
     },
     {
       "path": "./packages/web-extensions/dist/index.es.js",
-      "limit": "1 MB"
+      "limit": "550 KB",
+      "running": false
     }
   ]
 }

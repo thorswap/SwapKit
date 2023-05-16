@@ -17,21 +17,6 @@ import {
   WalletOption,
 } from '@thorswap-lib/types';
 
-export type { TransactionDetails } from '@thorswap-lib/cross-chain-api-sdk';
-export type {
-  Calldata,
-  CalldataSwapIn,
-  CalldataSwapOut,
-  CalldataTcToTc,
-  Provider,
-  Quote,
-  QuoteMeta,
-  QuoteRoute,
-  QuoteSwap,
-  Token,
-  TokenList,
-} from '@thorswap-lib/cross-chain-api-sdk/lib/entities';
-
 export type CoreTxParams = {
   assetAmount: AssetAmount;
   recipient: string;

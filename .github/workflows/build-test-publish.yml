@@ -18,6 +18,14 @@ concurrency:
   group: build-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
+  NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+  TURBO_API: https://eu.trrc.ducktors.dev
+  TURBO_TEAM: team_thorswap
+  TURBO_TOKEN: turbotoken-oss-europe1
+
 jobs:
   build:
     if: contains(github.event.pull_request.title, ':tada:') == false
@@ -25,25 +33,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-js-workflow
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-
-      # - name: Build and check size
-      #   if: github.ref_type == 'pull_request'
-      #   uses: andresz1/size-limit-action@v1
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     skip_step: install
-      #   env:
-      #     NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      #     TURBO_TOKEN: turbotoken-oss-europe1
-
-      - name: Build
-        run: pnpm build
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-          INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
-          TURBO_TOKEN: turbotoken-oss-europe1
+      - name: Build and check size
+        uses: andresz1/size-limit-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          skip_step: install
 
   test:
     if: contains(github.event.pull_request.title, ':tada:') == false
@@ -52,15 +46,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-js-workflow
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-
       - name: Test
         run: pnpm test
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-          INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
-          TURBO_TOKEN: turbotoken-oss-europe1
+
 
   lint:
     if: contains(github.event.pull_request.title, ':tada:') == false
@@ -69,15 +57,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-js-workflow
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-
       - name: Lint
         run: pnpm lint
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-          INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
-          TURBO_TOKEN: turbotoken-oss-europe1
 
   publish:
     if: contains(github.ref_name, 'develop') || contains(github.ref_name, 'main')
@@ -97,6 +78,3 @@ jobs:
           title: ":tada: Publish pre-release"
           version: pnpm ${{ steps.deployment-params.outputs.version }}
           publish: pnpm publish-packages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

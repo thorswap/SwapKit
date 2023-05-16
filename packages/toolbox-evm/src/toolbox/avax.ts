@@ -19,7 +19,7 @@ export const getPriorityFeeData = async ({
 }: {
   feeOptionKey?: FeeOption;
 }): Promise<FeeData> => {
-  const { Avalanche } = await import('avalanche');
+  const { Avalanche } = await import('@avalabs/avalanchejs');
   try {
     const CCClient = new Avalanche(
       undefined,

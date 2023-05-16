@@ -37,15 +37,21 @@ export type QuoteRoute = {
 };
 
 type Calldata = {
-  fromAsset: string;
-  userAddress: string;
+  amount: string;
   amountIn: string;
   amountOut: string;
   amountOutMin: string;
-  memo: string;
+  data?: string;
+  deadline: string;
   expiration: number;
-  tcVault: string;
+  fromAsset: string;
+  memo: string;
+  router?: string;
+  tcMemo: string;
   tcRouter: string;
+  tcVault: string;
+  token: string;
+  userAddress: string;
 };
 
 type Meta = {
