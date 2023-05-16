@@ -1,5 +1,11 @@
 # @thorswap-lib/web-extensions
 
+## 1.0.0-development.162
+
+### Patch Changes
+
+- [#92](https://github.com/thorswap/SwapKit/pull/92) [`db076d0`](https://github.com/thorswap/SwapKit/commit/db076d07cab5d9a12734174130b329224ff29263) Thanks [@towanTG](https://github.com/towanTG)! - Enables Coinbase wallet for walletconnect and refacotrs wc to use web3 provider
+
 ## 1.0.0-development.161
 
 ### Patch Changes
