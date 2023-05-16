@@ -4,6 +4,15 @@
 
 ### Patch Changes
 
+- Updated dependencies [[`db076d0`](https://github.com/thorswap/SwapKit/commit/db076d07cab5d9a12734174130b329224ff29263)]:
+  - @thorswap-lib/web-extensions@1.0.0-development.162
+  - @thorswap-lib/walletconnect@1.0.1-development.13
+  - @thorswap-lib/swapkit-core@1.0.0-development.164
+
+## null-development.0
+
+### Patch Changes
+
 - Updated dependencies [[`026d174`](https://github.com/thorswap/SwapKit/commit/026d174dfc9472cf9334106c2d4575df200cb672)]:
   - @thorswap-lib/toolbox-evm@1.0.0-development.119
   - @thorswap-lib/keystore@1.0.0-development.156

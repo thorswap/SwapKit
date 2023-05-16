@@ -61,7 +61,8 @@
     "tasty-waves-drop",
     "thick-apes-wave",
     "three-readers-protect",
-    "violet-clocks-promise"
+    "violet-clocks-promise",
+    "witty-mugs-drive"
   ],
   "initialVersions": {
     "@thorswap-lib/helpers": "0.0.0-development.53",
