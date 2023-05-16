@@ -15,12 +15,8 @@ node_modules/
 dist/
 build/
 cache/
-
 packages/**/.turbo
 internal/**/.turbo
-
-.turbo
-.turbo-cache
 
 .env
 .npmrc
