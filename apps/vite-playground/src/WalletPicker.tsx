@@ -48,7 +48,7 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   [WalletOption.TRUSTWALLET_WEB]: EVMChainsSupported,
   [WalletOption.TRUSTWALLET]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   [WalletOption.XDEFI]: AllChainsSupported,
-  [WalletOption.WALLETCONNECT]: [Chain.Ethereum, Chain.THORChain, Chain.Binance],
+  [WalletOption.WALLETCONNECT]: [Chain.Ethereum, Chain.Avalanche],
 };
 
 export const WalletPicker = ({ setWallet, stagenet }: Props) => {
@@ -75,6 +75,9 @@ export const WalletPicker = ({ setWallet, stagenet }: Props) => {
         case WalletOption.TREZOR: {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
           return skClient.connectTrezor(chains[0], derivationPath);
+        }
+        case WalletOption.WALLETCONNECT: {
+          return skClient.connectWalletconnect(chains);
         }
         default:
           break;

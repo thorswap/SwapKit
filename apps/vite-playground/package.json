@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@coinbase/wallet-sdk": "^3.6.6",
     "@thorswap-lib/keystore": "workspace:*",
     "@thorswap-lib/ledger": "workspace:*",
     "@thorswap-lib/swapkit-api": "workspace:*",
@@ -12,7 +13,13 @@
     "@thorswap-lib/trezor": "workspace:*",
     "@thorswap-lib/trustwallet": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
+    "@thorswap-lib/walletconnect": "workspace:*",
     "@thorswap-lib/web-extensions": "workspace:*",
+    "@walletconnect/qrcode-modal": "1.8.0",
+    "@walletconnect/sign-client": "2.7.2",
+    "@walletconnect/types": "2.7.2",
+    "@walletconnect/web3-provider": "1.8.0",
+    "@web3modal/standalone": "^2.3.7",
     "crypto-browserify": "3.12.0",
     "https-browserify": "1.0.0",
     "os-browserify": "0.3.0",
@@ -21,7 +28,8 @@
     "readable-stream": "4.3.0",
     "stream-http": "3.2.0",
     "url": "0.11.0",
-    "util": "0.12.5"
+    "util": "0.12.5",
+    "web3modal": "^1.9.12"
   },
   "devDependencies": {
     "@types/react": "18.2.5",
