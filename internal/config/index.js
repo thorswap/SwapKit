@@ -46,7 +46,13 @@ const baseConfig = (name) => {
     },
 
     test: {
-
+      reporter: ['json'],
+      coverage: {
+        lines: 1,
+        branches: 1,
+        functions: 1,
+        statements: 1
+      }
     },
   })
 }
