@@ -1,130 +1,72 @@
-import { hexlify } from '@ethersproject/bytes';
-import { toUtf8Bytes } from '@ethersproject/strings';
-import { ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
-import { Chain, ConnectWalletParams, WalletOption } from '@thorswap-lib/types';
-import QRCodeModal from '@walletconnect/qrcode-modal';
-import Client from '@walletconnect/sign-client';
-import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
-
+import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
+import { Signer } from '@ethersproject/abstract-signer';
+import { Web3Provider } from '@ethersproject/providers';
+import { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
 import {
-  DEFAULT_APP_METADATA,
-  DEFAULT_EIP155_METHODS,
-  DEFAULT_LOGGER,
-  DEFAULT_RELAY_URL,
-  ETHEREUM_MAINNET_ID,
-} from './constants.js';
-import { chainToChainId, getAddressByChain } from './helpers.js';
-import { getRequiredNamespaces } from './namespaces.js';
+  Chain,
+  ChainToChainId,
+  ChainToHexChainId,
+  ConnectWalletParams,
+  RPCUrl,
+  WalletOption,
+} from '@thorswap-lib/types';
+import WalletConnect from '@walletconnect/web3-provider';
+import Web3Modal from 'web3modal';
 
-const SUPPORTED_CHAINS = [Chain.Binance, Chain.Ethereum, Chain.THORChain] as const;
+import { prepareNetworkSwitch } from './helpers.js';
+
+const SUPPORTED_CHAINS = [Chain.Avalanche, Chain.Ethereum, Chain.BinanceSmartChain] as const;
 
 const getToolbox = async ({
   api,
-  rpcUrl,
   chain,
+  provider,
+  signer,
   ethplorerApiKey,
-  address,
-  walletconnectClient,
-  session,
+  covalentApiKey,
 }: {
-  // @ts-ignore
-  walletconnectClient: Client;
   api?: any;
+  provider: Web3Provider;
+  signer: Signer;
   rpcUrl?: string;
-  session: SessionTypes.Struct;
   chain: (typeof SUPPORTED_CHAINS)[number];
   ethplorerApiKey?: string;
-  address: string;
+  covalentApiKey?: string;
 }) => {
-  const from = address;
+  const from = await signer.getAddress();
 
   switch (chain) {
+    case Chain.Avalanche:
+    case Chain.BinanceSmartChain: {
+      if (!covalentApiKey) throw new Error('Covalent API key not found');
+
+      const toolbox =
+        chain === Chain.Avalanche
+          ? AVAXToolbox({ signer, provider, covalentApiKey, api })
+          : BSCToolbox({ signer, provider, covalentApiKey, api });
+
+      const preparedToolbox = prepareNetworkSwitch<typeof toolbox>({
+        chainId: ChainToHexChainId[chain],
+        toolbox,
+        provider,
+      });
+      return { ...preparedToolbox, getAddress: () => from };
+    }
     case Chain.Ethereum: {
-      if (!ethplorerApiKey || !api) throw new Error('Ethplorer API key not found');
+      if (!ethplorerApiKey) throw new Error('Ethplorer API key not found');
 
-      const provider = getProvider(chain, rpcUrl);
-      const toolbox = ETHToolbox({ api, provider, ethplorerApiKey });
+      const toolbox = ETHToolbox({ signer, provider, ethplorerApiKey, api });
 
-      const transfer = async (params: any) => {
-        const txAmount = params.amount.amount().toHexString();
-        const gasLimit = (
-          await toolbox.estimateGasLimit({
-            asset: params.asset,
-            recipient: params.recipient,
-            amount: params.amount,
-            memo: params.memo,
-          })
-        ).toHexString();
-        const gasPrice = (await toolbox.estimateGasPrices()).fast.maxFeePerGas.toHexString();
-        const txHash: string = await walletconnectClient.request({
-          chainId: ETHEREUM_MAINNET_ID,
-          topic: session.topic,
-          request: {
-            method: DEFAULT_EIP155_METHODS.ETH_SEND_TRANSACTION,
-            params: [
-              {
-                from,
-                to: params.recipient,
-                data: params.memo ? hexlify(toUtf8Bytes(params.memo)) : '0x',
-                gasPrice,
-                gasLimit,
-                value: txAmount,
-              },
-            ],
-          },
-        });
-        return txHash;
-      };
-
-      return { ...toolbox, transfer };
+      const preparedToolbox = prepareNetworkSwitch<typeof toolbox>({
+        chainId: ChainToHexChainId[chain],
+        toolbox,
+        provider,
+      });
+      return { ...preparedToolbox, getAddress: () => from };
     }
     default:
       throw new Error('Chain is not supported');
   }
-};
-
-const getWalletconnect = async (
-  chains: Chain[],
-  walletConnectProjectId: string,
-  walletconnectOptions?: SignClientTypes.Options,
-) => {
-  try {
-    const requiredNamespaces = getRequiredNamespaces(chains.map(chainToChainId));
-
-    // @ts-ignore
-    const client = await Client.init({
-      logger: DEFAULT_LOGGER,
-      relayUrl: DEFAULT_RELAY_URL,
-      projectId: walletConnectProjectId,
-      metadata: walletconnectOptions?.metadata || DEFAULT_APP_METADATA,
-      ...walletconnectOptions?.core,
-    });
-
-    const { uri, approval } = await client.connect({
-      requiredNamespaces,
-    });
-
-    // Open QRCode modal if a URI was returned (i.e. we're not connecting an existing pairing).
-    if (uri) {
-      // @ts-ignore
-      QRCodeModal.open(uri, () => {
-        console.info('EVENT', 'QR Code Modal closed');
-      });
-    }
-
-    const session = await approval();
-    const accounts = Object.values(session.namespaces)
-      .map((namespace: any) => namespace.accounts)
-      .flat();
-
-    return { session, accounts, client };
-  } catch (e) {
-    console.error(e);
-  } finally {
-    // @ts-ignore
-    QRCodeModal.close();
-  }
-  return undefined;
 };
 
 const connectWalletconnect =
@@ -134,29 +76,43 @@ const connectWalletconnect =
     rpcUrls,
     config: { ethplorerApiKey, walletConnectProjectId },
   }: ConnectWalletParams) =>
-  async (
-    chains: (typeof SUPPORTED_CHAINS)[number][],
-    walletconnectOptions?: SignClientTypes.Options,
-  ) => {
+  async (chains: (typeof SUPPORTED_CHAINS)[number][]) => {
     const chainsToConnect = chains.filter((chain) => SUPPORTED_CHAINS.includes(chain));
-    const walletconnect = await getWalletconnect(
-      chainsToConnect,
-      walletConnectProjectId || '',
-      walletconnectOptions,
-    );
 
-    if (!walletconnect) throw new Error('Unable to establish connection through walletconnect');
+    const providerOptions = {
+      coinbasewallet: {
+        package: CoinbaseWalletSDK,
+        options: {
+          appName: walletConnectProjectId,
+        },
+      },
+      walletconnect: {
+        package: WalletConnect,
+        options: {
+          appName: walletConnectProjectId,
+          rpc: {
+            [ChainToChainId[Chain.Ethereum]]: RPCUrl.Ethereum,
+            [ChainToChainId[Chain.BinanceSmartChain]]: RPCUrl.BinanceSmartChain,
+            [ChainToChainId[Chain.Avalanche]]: RPCUrl.Avalanche,
+          },
+        },
+      },
+    };
 
-    const { session, accounts, client } = walletconnect;
+    //@ts-ignore
+    const web3Modal = new Web3Modal({ providerOptions });
+
+    const provider = await web3Modal.connect();
+    const web3Provider = new Web3Provider(provider);
+    const signer = web3Provider.getSigner();
+    const address = await signer.getAddress();
 
     const promises = chainsToConnect.map(async (chain) => {
-      const address = getAddressByChain(chain, accounts);
       const getAddress = () => address;
 
       const toolbox = await getToolbox({
-        walletconnectClient: client,
-        session,
-        address,
+        provider: web3Provider,
+        signer,
         chain,
         ethplorerApiKey,
         api: apis[chain as Chain.Ethereum],
@@ -166,7 +122,7 @@ const connectWalletconnect =
       addChain({
         chain,
         walletMethods: { ...toolbox, getAddress },
-        wallet: { address, balance: [], walletType: WalletOption.TRUSTWALLET },
+        wallet: { address, balance: [], walletType: WalletOption.WALLETCONNECT },
       });
     });
 
