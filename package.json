@@ -75,113 +75,113 @@
   "size-limit": [
     {
       "path": "./packages/keystore/dist/index.cjs",
-      "limit": "100 KB",
-      "running": false
+      "name": "keystore - commonjs",
+      "limit": "100 KB"
     },
     {
       "path": "./packages/keystore/dist/index.es.js",
-      "limit": "100 KB",
-      "running": false
+      "name": "keystore - esm",
+      "limit": "100 KB"
     },
     {
       "path": "./packages/ledger/dist/index.cjs",
-      "limit": "1.2 MB",
-      "running": false
+      "name": "ledger - commonjs",
+      "limit": "1.2 MB"
     },
     {
       "path": "./packages/ledger/dist/index.es.js",
-      "limit": "1.2 MB",
-      "running": false
+      "name": "ledger - esm",
+      "limit": "1.2 MB"
     },
     {
       "path": "./packages/swapkit-core/dist/index.cjs",
-      "limit": "50 KB",
-      "running": false
+      "name": "swapkit-core - commonjs",
+      "limit": "50 KB"
     },
     {
       "path": "./packages/swapkit-core/dist/index.es.js",
-      "limit": "50 KB",
-      "running": false
+      "name": "swapkit-core - esm",
+      "limit": "50 KB"
     },
     {
       "path": "./packages/swapkit-entities/dist/index.cjs",
-      "limit": "10 KB",
-      "running": false
+      "name": "swapkit-entities - commonjs",
+      "limit": "10 KB"
     },
     {
       "path": "./packages/swapkit-entities/dist/index.es.js",
-      "limit": "10 KB",
-      "running": false
+      "name": "swapkit-entities - esm",
+      "limit": "10 KB"
     },
     {
       "path": "./packages/toolbox-cosmos/dist/index.cjs",
-      "limit": "550 KB",
-      "running": false
+      "name": "toolbox-cosmos - commonjs",
+      "limit": "550 KB"
     },
     {
       "path": "./packages/toolbox-cosmos/dist/index.es.js",
-      "limit": "550 KB",
-      "running": false
+      "name": "toolbox-cosmos - esm",
+      "limit": "550 KB"
     },
     {
       "path": "./packages/toolbox-evm/dist/index.cjs",
-      "limit": "150 KB",
-      "running": false
+      "name": "toolbox-evm - commonjs",
+      "limit": "150 KB"
     },
     {
       "path": "./packages/toolbox-evm/dist/index.es.js",
-      "limit": "150 KB",
-      "running": false
+      "name": "toolbox-evm - esm",
+      "limit": "150 KB"
     },
     {
       "path": "./packages/toolbox-utxo/dist/index.cjs",
-      "limit": "300 KB",
-      "running": false
+      "name": "toolbox-utxo - commonjs",
+      "limit": "300 KB"
     },
     {
       "path": "./packages/toolbox-utxo/dist/index.es.js",
-      "limit": "350 KB",
-      "running": false
+      "name": "toolbox-utxo - esm",
+      "limit": "350 KB"
     },
     {
       "path": "./packages/trezor/dist/index.cjs",
-      "limit": "450 KB",
-      "running": false
+      "name": "trezor - commonjs",
+      "limit": "450 KB"
     },
     {
       "path": "./packages/trezor/dist/index.es.js",
-      "limit": "500 KB",
-      "running": false
+      "name": "trezor - esm",
+      "limit": "500 KB"
     },
     {
       "path": "./packages/types/dist/index.cjs",
-      "limit": "10 KB",
-      "running": false
+      "name": "types - commonjs",
+      "limit": "10 KB"
     },
     {
       "path": "./packages/types/dist/index.es.js",
-      "limit": "10 KB",
-      "running": false
+      "name": "types - esm",
+      "limit": "10 KB"
     },
     {
       "path": "./packages/trustwallet/dist/index.cjs",
-      "limit": "250 KB",
-      "running": false
+      "name": "trustwallet - commonjs",
+      "limit": "250 KB"
     },
     {
       "path": "./packages/trustwallet/dist/index.es.js",
-      "limit": "300 KB",
-      "running": false
+      "name": "trustwallet - esm",
+      "limit": "300 KB"
     },
     {
       "path": "./packages/web-extensions/dist/index.cjs",
-      "limit": "500 KB",
-      "running": false
+      "name": "web-extensions - commonjs",
+      "limit": "500 KB"
     },
     {
       "path": "./packages/web-extensions/dist/index.es.js",
-      "limit": "550 KB",
-      "running": false
+      "name": "web-extensions - esm",
+      "limit": "550 KB"
     }
   ]
 }
