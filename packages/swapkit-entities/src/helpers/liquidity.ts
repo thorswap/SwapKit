@@ -1,7 +1,6 @@
 import { BaseDecimal } from '@thorswap-lib/types';
 
-import { Amount, AmountType } from '../entities/amount.js';
-import { Percent } from '../index.js';
+import { Amount } from '../entities/amount.js';
 
 type ShareParams<T = {}> = T & {
   liquidityUnits: string;
@@ -89,9 +88,7 @@ export const getAsymmetricRuneWithdrawAmount = ({
   liquidityUnits,
   poolUnits,
 }: ShareParams<{ percent: number; runeDepth: string }>) =>
-  getAsymmetricRuneShare({ runeDepth, liquidityUnits, poolUnits }).mul(
-    new Percent(percent, AmountType.BASE_AMOUNT),
-  );
+  getAsymmetricRuneShare({ runeDepth, liquidityUnits, poolUnits }).mul(percent);
 
 export const getAsymmetricAssetWithdrawAmount = ({
   percent,
@@ -99,9 +96,7 @@ export const getAsymmetricAssetWithdrawAmount = ({
   liquidityUnits,
   poolUnits,
 }: ShareParams<{ percent: number; assetDepth: string }>) =>
-  getAsymmetricAssetShare({ assetDepth, liquidityUnits, poolUnits }).mul(
-    new Percent(percent, AmountType.BASE_AMOUNT),
-  );
+  getAsymmetricAssetShare({ assetDepth, liquidityUnits, poolUnits }).mul(percent);
 
 export const getSymmetricWithdraw = ({
   liquidityUnits,
@@ -114,12 +109,8 @@ export const getSymmetricWithdraw = ({
   assetDepth: string;
   percent: number;
 }>) => ({
-  assetAmount: getAssetShare({ liquidityUnits, poolUnits, assetDepth }).mul(
-    new Percent(percent, AmountType.BASE_AMOUNT),
-  ),
-  runeAmount: getRuneShare({ liquidityUnits, poolUnits, runeDepth }).mul(
-    new Percent(percent, AmountType.BASE_AMOUNT),
-  ),
+  assetAmount: getAssetShare({ liquidityUnits, poolUnits, assetDepth }).mul(percent),
+  runeAmount: getRuneShare({ liquidityUnits, poolUnits, runeDepth }).mul(percent),
 });
 
 export const getEstimatedPoolShare = ({
@@ -154,7 +145,7 @@ export const getEstimatedPoolShare = ({
   // get pool units after add
   const newPoolUnits = P.add(estimatedLiquidityUnits);
 
-  return new Percent(estimatedLiquidityUnits.div(newPoolUnits).assetAmount);
+  return estimatedLiquidityUnits.div(newPoolUnits).assetAmount.toNumber();
 };
 
 export const getLiquiditySlippage = ({
@@ -173,5 +164,5 @@ export const getLiquiditySlippage = ({
   const denominator = T.mul(runeAddAmount).add(R.mul(T));
 
   // set absolute value of percent, no negative allowed
-  return new Percent(numerator.div(denominator).assetAmount.absoluteValue());
+  return numerator.div(denominator).assetAmount.absoluteValue().toNumber();
 };

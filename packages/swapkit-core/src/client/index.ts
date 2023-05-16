@@ -16,7 +16,6 @@ import {
   getSignatureAssetFor,
   isGasAsset,
   MemoType,
-  Percent,
   ThornameRegisterParam,
 } from '@thorswap-lib/swapkit-entities';
 import { getExplorerAddressUrl, getExplorerTxUrl } from '@thorswap-lib/swapkit-explorers';
@@ -395,7 +394,7 @@ export class SwapKitCore {
       }),
     });
 
-  withdrawSavings = ({ asset, percent }: { asset: AssetEntity; percent: Percent }) =>
+  withdrawSavings = ({ asset, percent }: { asset: AssetEntity; percent: Amount }) =>
     this._depositToPool({
       assetAmount: getMinAmountByChain(asset.chain),
       memo: getMemoFor(MemoType.WITHDRAW, {

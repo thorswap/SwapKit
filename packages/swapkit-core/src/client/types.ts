@@ -1,5 +1,5 @@
 import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
-import { AssetAmount, AssetEntity, Percent, Pool } from '@thorswap-lib/swapkit-entities';
+import { Amount, AssetAmount, AssetEntity, Pool } from '@thorswap-lib/swapkit-entities';
 import type {
   BinanceToolbox,
   DepositParam,
@@ -50,7 +50,7 @@ export type AddLiquidityTxns = {
 type LPType = 'sym' | 'rune' | 'asset';
 export type WithdrawParams = {
   asset: AssetEntity;
-  percent: Percent;
+  percent: Amount;
   from: LPType;
   to: LPType;
 };

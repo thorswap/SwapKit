@@ -1,7 +1,5 @@
 import { cosmosclient, proto, rest } from '@cosmos-client/core';
 import {
-  assetAmount,
-  assetToBase,
   baseAmount,
   getRequest,
   getTcChainId,
@@ -214,7 +212,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
 
       return singleFee(baseAmount(fee));
     } catch {
-      return singleFee(assetToBase(assetAmount(0.02, BaseDecimal.THOR)));
+      return singleFee(baseAmount(0.02, BaseDecimal.THOR));
     }
   };
 

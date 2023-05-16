@@ -56,7 +56,7 @@
     "build": "echo 'Build toolbox-utxo 🛠'; vite build && echo 'Build succeeded toolbox-utxo ✅'",
     "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "echo 'vitest'",
+    "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",
