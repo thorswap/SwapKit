@@ -29,7 +29,7 @@ type NetworkParams = {
 };
 
 type ProviderRequestParams = {
-  provider?: typeof window.ethereum;
+  provider?: any;
   params?: any;
   method:
     | 'wallet_addEthereumChain'
@@ -51,11 +51,11 @@ const methodsToWrap = [
 export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[]) => any }>({
   toolbox,
   chainId,
-  provider = window.ethereum,
+  provider = window.ethereum as any,
 }: {
   toolbox: T;
   chainId: ChainId;
-  provider?: typeof window.ethereum;
+  provider?: any;
 }) => {
   const wrappedMethods = methodsToWrap.reduce((object, methodName) => {
     if (!toolbox[methodName]) return object;
@@ -71,7 +71,7 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
 
 export const wrapMethodWithNetworkSwitch = <T extends (...args: any[]) => any>(
   func: T,
-  provider: typeof window.ethereum,
+  provider: any,
   chainId: ChainId,
 ) =>
   (async (...args: any[]) => {
@@ -88,12 +88,8 @@ const providerRequest = async ({ provider, params, method }: ProviderRequestPara
   return provider.request({ method, params: providerParams });
 };
 
-export const addEVMWalletNetwork = (
-  provider: typeof window.ethereum,
-  networkParams: NetworkParams,
-) => providerRequest({ provider, method: 'wallet_addEthereumChain', params: [networkParams] });
+export const addEVMWalletNetwork = (provider: any, networkParams: NetworkParams) =>
+  providerRequest({ provider, method: 'wallet_addEthereumChain', params: [networkParams] });
 
-export const switchEVMWalletNetwork = (
-  provider: typeof window.ethereum,
-  chainId = ChainId.EthereumHex,
-) => providerRequest({ provider, method: 'wallet_switchEthereumChain', params: [{ chainId }] });
+export const switchEVMWalletNetwork = (provider: any, chainId = ChainId.EthereumHex) =>
+  providerRequest({ provider, method: 'wallet_switchEthereumChain', params: [{ chainId }] });
