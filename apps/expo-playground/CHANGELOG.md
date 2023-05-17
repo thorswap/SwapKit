@@ -4,6 +4,13 @@
 
 ### Patch Changes
 
+- Updated dependencies [[`0999eb1`](https://github.com/thorswap/SwapKit/commit/0999eb1bd8fe32b02c68f42415143a4e50c5b21e)]:
+  - @thorswap-lib/web-extensions@1.0.0-development.164
+
+## null-development.0
+
+### Patch Changes
+
 - Updated dependencies [[`fc91e93`](https://github.com/thorswap/SwapKit/commit/fc91e93d5d9ceb6b92e0ce645ed308783067eae0)]:
   - @thorswap-lib/types@1.0.0-development.81
   - @thorswap-lib/keystore@1.0.0-development.157
