@@ -1,5 +1,11 @@
 # @thorswap-lib/web-extensions
 
+## 1.0.0-development.164
+
+### Patch Changes
+
+- [#98](https://github.com/thorswap/SwapKit/pull/98) [`0999eb1`](https://github.com/thorswap/SwapKit/commit/0999eb1bd8fe32b02c68f42415143a4e50c5b21e) Thanks [@towanTG](https://github.com/towanTG)! - Fixes extension of xdefi utxo wallets
+
 ## 1.0.0-development.163
 
 ### Patch Changes
