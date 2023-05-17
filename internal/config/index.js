@@ -22,7 +22,7 @@ const baseConfig = (name) => {
     }));
   }
 
-  return defineConfig({
+return defineConfig({
     base: './',
     plugins: [dts({  clearPureImport: true, rollupTypes: true })],
     build: {
@@ -46,12 +46,8 @@ const baseConfig = (name) => {
     },
 
     test: {
-      reporter: ['json'],
       coverage: {
-        lines: 1,
-        branches: 1,
-        functions: 1,
-        statements: 1
+        provider: 'istanbul'
       }
     },
   })

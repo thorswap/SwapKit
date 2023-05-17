@@ -7,7 +7,7 @@
   "devDependencies": {
     "@ethersproject/bignumber": "5.7.0",
     "@internal/config": "workspace:*",
-    "@vitest/coverage-c8": "0.31.0",
+    "@vitest/coverage-istanbul": "0.31.0",
     "bignumber.js": "9.1.1",
     "vite": "4.3.7",
     "vitest": "0.31.0"

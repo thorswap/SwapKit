@@ -28,32 +28,21 @@
     "lint": {
       "dependsOn": [
         "build"
-      ],
-      "outputs": []
+      ]
     },
     "publish": {
       "dependsOn": [
         "build"
-      ],
-      "outputs": []
+      ]
     },
     "test": {
       "dependsOn": [
         "build"
-      ],
-      "inputs": [
-        "__tests__/**/*.test.ts",
-        "__tests__/**/*.test.tsx"
-      ],
-      "outputs": []
+      ]
     },
     "test:coverage": {
       "dependsOn": [
         "build"
-      ],
-      "inputs": [
-        "__tests__/**/*.test.ts",
-        "__tests__/**/*.test.tsx"
       ]
     },
     "test:watch": {

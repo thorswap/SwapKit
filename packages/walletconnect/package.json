@@ -14,7 +14,7 @@
     "@ethersproject/strings": "5.7.0",
     "@internal/config": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@vitest/coverage-c8": "0.31.0",
+    "@vitest/coverage-istanbul": "0.31.0",
     "@walletconnect/types": "2.7.4",
     "vite": "4.3.7",
     "vitest": "0.31.0"
