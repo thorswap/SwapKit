@@ -1,4 +1,12 @@
-import type { cosmosclient, proto } from '@cosmos-client/core';
+import { Secp256k1HdWallet } from '@cosmjs/amino';
+import {
+  Bip39,
+  EnglishMnemonic,
+  HdPath,
+  Slip10,
+  Slip10Curve,
+  Slip10RawIndex,
+} from '@cosmjs/crypto';
 import {
   assetAmount,
   assetFromString,
@@ -32,6 +40,16 @@ import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.j
 type ToolboxParams = {
   stagenet?: boolean;
 };
+
+const derivationPath: HdPath[] = [
+  [
+    Slip10RawIndex.hardened(44),
+    Slip10RawIndex.hardened(714),
+    Slip10RawIndex.hardened(0),
+    Slip10RawIndex.normal(0),
+    Slip10RawIndex.normal(0),
+  ],
+];
 
 const MAINNET_THORNODE_API_BASE = 'https://thornode.thorswap.net/thorchain';
 const BINANCE_MAINNET_API_URI = 'https://dex.binance.org';
@@ -150,7 +168,7 @@ const createTransactionAndSignMsg = async ({ from, to, amount, asset, memo }: Tr
 
 const transfer = async (params: TransferParams): Promise<string> => {
   const { transaction, signMsg } = await createTransactionAndSignMsg(params);
-  const hex = Buffer.from(params.privkey.key).toString('hex');
+  const hex = Buffer.from(params.privkey as Uint8Array).toString('hex');
   const signedTx = transaction.sign(hex, signMsg);
 
   const res = await sendRawTransaction(signedTx.serialize(), true);
@@ -158,7 +176,24 @@ const transfer = async (params: TransferParams): Promise<string> => {
   return res[0]?.hash;
 };
 
-type PrivateKey = proto.cosmos.crypto.secp256k1.PrivKey;
+const createKeyPair = async (phrase: string) => {
+  const mnemonicChecked = new EnglishMnemonic(phrase);
+  const seed = await Bip39.mnemonicToSeed(mnemonicChecked);
+
+  const { privkey } = Slip10.derivePath(Slip10Curve.Secp256k1, seed, derivationPath[0]);
+
+  return privkey;
+};
+
+const getAddressFromMnemonic = async (phrase: string) => {
+  const wallet = await Secp256k1HdWallet.fromMnemonic(phrase, {
+    prefix: 'bnb',
+    hdPaths: derivationPath,
+  });
+  const [{ address }] = await wallet.getAccounts();
+
+  return address;
+};
 
 export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolboxType => {
   const sdk = new CosmosSDKClient({
@@ -170,12 +205,7 @@ export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolbox
   const baseToolbox: {
     sdk: CosmosSDKClient['sdk'];
     signAndBroadcast: CosmosSDKClient['signAndBroadcast'];
-    getAccount: (
-      address: string | cosmosclient.PubKey | Uint8Array,
-    ) => Promise<proto.cosmos.auth.v1beta1.IBaseAccount>;
     validateAddress: (address: string) => boolean;
-    createKeyPair: (phrase: string) => PrivateKey;
-    getAddressFromMnemonic: (phrase: string) => string;
   } = BaseCosmosToolbox({
     sdk,
     derivationPath: DerivationPath.BNB,
@@ -191,5 +221,7 @@ export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolbox
     getFees,
     sendRawTransaction,
     createTransactionAndSignMsg,
+    createKeyPair,
+    getAddressFromMnemonic,
   };
 };
