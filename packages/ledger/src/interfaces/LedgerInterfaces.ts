@@ -1,12 +1,13 @@
 import BitcoinApp from '@ledgerhq/hw-app-btc';
 import CosmosApp from '@ledgerhq/hw-app-cosmos';
-import TransportWebUSB from '@ledgerhq/hw-transport-webusb';
+import Transport from '@ledgerhq/hw-transport-webusb';
 import type { UTXO } from '@thorswap-lib/types';
 import { toCashAddress } from 'bchaddrjs';
 import { type Network as BTCNetwork, networks, type Psbt } from 'bitcoinjs-lib';
 
 import { BinanceApp } from '../clients/binance/lib.js';
 import { THORChainApp } from '../clients/thorchain/lib.js';
+import { getLedgerTransport } from '../helpers/getLedgerTransport.js';
 
 import { CreateTransactionArg } from './types.js';
 import { signUTXOTransaction } from './utxo.js';
@@ -21,11 +22,10 @@ export abstract class CommonLedgerInterface {
 
   public checkOrCreateTransportAndLedger = async () => {
     // @ts-ignore Ledger typing is wrong
-    if (!(await TransportWebUSB.isSupported())) throw new Error('Ledger not supported');
+    if (!(await Transport.isSupported())) throw new Error('Ledger not supported');
 
     try {
-      // @ts-ignore Ledger typing is wrong
-      this.transport ||= await TransportWebUSB.create();
+      this.transport ||= await getLedgerTransport();
 
       switch (this.chain) {
         case 'bnb': {
@@ -42,6 +42,7 @@ export abstract class CommonLedgerInterface {
         }
       }
     } catch (error: any) {
+      console.error(error);
       throw new Error('Cannot create transport or ledger client');
     }
   };

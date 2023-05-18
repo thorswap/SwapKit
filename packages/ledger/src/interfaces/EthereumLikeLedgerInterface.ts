@@ -4,9 +4,11 @@ import { joinSignature } from '@ethersproject/bytes';
 import { resolveProperties } from '@ethersproject/properties';
 import { serialize, UnsignedTransaction } from '@ethersproject/transactions';
 import EthereumApp, { ledgerService } from '@ledgerhq/hw-app-eth';
-import TransportWebUSB from '@ledgerhq/hw-transport-webusb';
+import Transport from '@ledgerhq/hw-transport-webusb';
 import { ChainId } from '@thorswap-lib/types';
 import { BN } from 'bn.js';
+
+import { getLedgerTransport } from '../helpers/getLedgerTransport.js';
 
 export abstract class EthereumLikeLedgerInterface extends Signer {
   public chain: 'eth' | 'avax' | 'bsc' = 'eth';
@@ -18,10 +20,9 @@ export abstract class EthereumLikeLedgerInterface extends Signer {
 
   checkOrCreateTransportAndLedger = async () => {
     // @ts-ignore Ledger typing is wrong
-    if (!(await TransportWebUSB.isSupported())) throw new Error('Ledger not supported');
+    if (!(await Transport.isSupported())) throw new Error('Ledger not supported');
 
-    // @ts-ignore Ledger typing is wrong
-    const transport = await TransportWebUSB.create();
+    const transport = await getLedgerTransport();
     // @ts-ignore Ledger typing is wrong
     this.ledgerApp ||= new EthereumApp(transport);
   };

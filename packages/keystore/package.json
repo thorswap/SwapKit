@@ -3,7 +3,6 @@
   "dependencies": {
     "@ethersproject/hdnode": "5.7.0",
     "@ethersproject/wallet": "5.7.0",
-    "@ledgerhq/live-app-sdk": "0.8.2",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
