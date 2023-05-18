@@ -19,7 +19,7 @@
     "@internal/config": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@vitest/coverage-c8": "0.31.0",
+    "@vitest/coverage-istanbul": "0.31.0",
     "@walletconnect/types": "1.8.0",
     "bech32-buffer": "0.2.1",
     "cosmos-client": "0.39.2",
@@ -64,7 +64,7 @@
     "build": "echo 'Build trustwallet 🛠'; vite build && echo 'Build succeeded trustwallet ✅'",
     "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "echo 'vitest'",
+    "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",

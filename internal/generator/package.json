@@ -22,6 +22,5 @@
     "clean": "rm -rf dist",
     "generate": "pnpm install; pnpm clean; vite build; node ./dist/index.js"
   },
-  "type": "module",
-  "version": "0.0.0"
+  "type": "module"
 }

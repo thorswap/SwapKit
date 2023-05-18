@@ -15,7 +15,7 @@
     "@internal/config": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
-    "@vitest/coverage-c8": "0.31.0",
+    "@vitest/coverage-istanbul": "0.31.0",
     "bitcoinjs-lib": "5.2.0",
     "vite": "4.3.7",
     "vitest": "0.31.0"
@@ -57,7 +57,7 @@
     "build": "echo 'Build trezor 🛠'; vite build && echo 'Build succeeded trezor ✅'",
     "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "echo 'vitest'",
+    "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",

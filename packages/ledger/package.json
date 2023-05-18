@@ -42,7 +42,7 @@
     "@types/node": "20.1.6",
     "@types/ripemd160": "2.0.0",
     "@types/secp256k1": "4.0.3",
-    "@vitest/coverage-c8": "0.31.0",
+    "@vitest/coverage-istanbul": "0.31.0",
     "bchaddrjs": "0.5.2",
     "bitcoinjs-lib": "5.2.0",
     "coininfo": "5.2.1",
@@ -98,7 +98,7 @@
     "build": "echo 'Build ledger 🛠'; vite build; echo 'Build succeeded ledger ✅'",
     "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "echo 'vitest'",
+    "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",

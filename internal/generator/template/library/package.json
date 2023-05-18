@@ -4,7 +4,7 @@
   "description": "THORSwap Lib <%- packageName %>",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@vitest/coverage-c8": "0.30.1",
+    "@vitest/coverage-istanbul": "0.30.1",
     "vite": "4.3.3",
     "vitest": "0.30.1"
   },
@@ -36,10 +36,9 @@
     "build": "echo 'Build <%- packageName %> 🛠'; vite build && echo 'Build succeeded <%- packageName %> ✅'",
     "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "echo 'vitest'",
+    "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",
-  "types": "./dist/index.d.ts",
-  "version": "0.0.1-development.0"
+  "types": "./dist/index.d.ts"
 }

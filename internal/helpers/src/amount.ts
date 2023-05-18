@@ -1,13 +1,10 @@
-import { BigNumber, BigNumberish, parseFixed } from '@ethersproject/bignumber';
-import {
-  AmountWithAssetDenom,
-  AmountWithBaseDenom,
-  Denomination,
-} from '@thorswap-lib/types';
-
-import { isBigNumberValue } from './bigNumber.js';
+import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
+import { AmountWithBaseDenom, Denomination } from '@thorswap-lib/types';
 
 type Value = BigNumberish | AmountWithBaseDenom;
+
+const isBigNumberValue = (v: unknown): v is BigNumberish =>
+  typeof v === 'string' || typeof v === 'number' || v instanceof BigNumber;
 
 export const baseAmount = (value?: BigNumberish, decimal: number = 8): AmountWithBaseDenom => {
   const amount = BigNumber.from(value || 0);
@@ -31,6 +28,3 @@ export const baseAmount = (value?: BigNumberish, decimal: number = 8): AmountWit
     decimal,
   };
 };
-
-export const assetToBase = ({ amount, decimal }: AmountWithAssetDenom) =>
-  baseAmount(parseFixed(amount().toString(), decimal), decimal);

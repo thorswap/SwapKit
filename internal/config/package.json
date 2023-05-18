@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@vitest/coverage-c8": "0.31.0",
+    "@vitest/coverage-istanbul": "0.31.0",
     "rollup-plugin-visualizer": "5.9.0",
     "vite": "4.3.7",
     "vite-plugin-dts": "2.3.0",
@@ -9,6 +9,5 @@
   "main": "index.js",
   "name": "@internal/config",
   "private": true,
-  "type": "module",
-  "version": "0.0.0"
+  "type": "module"
 }

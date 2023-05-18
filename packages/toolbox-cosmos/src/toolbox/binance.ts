@@ -1,9 +1,7 @@
 import { Secp256k1HdWallet } from '@cosmjs/amino';
 import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from '@cosmjs/crypto';
 import {
-  assetAmount,
   assetFromString,
-  assetToBase,
   assetToString,
   baseAmount,
   getRequest,
@@ -57,7 +55,7 @@ const getBalance = async (address: Address, assets?: AssetEntity[]) => {
   return balances
     .map(({ symbol, free }) => ({
       asset: assetFromString(`${Chain.Binance}.${symbol}`) || getSignatureAssetFor(Chain.Binance),
-      amount: assetToBase(assetAmount(free, 8)),
+      amount: baseAmount(free, 8),
     }))
     .filter(
       (balance) =>

@@ -53,7 +53,14 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-js-workflow
       - name: Test
-        run: pnpm test
+        run: pnpm test:coverage
+      - uses: codecov/codecov-action@v3
+        with:
+          files: ./internal/helpers/coverage/coverage-final.json,./packages/swapkit-entities/coverage/coverage-final.json,./packages/swapkit-explorers/coverage/coverage-final.json,./packages/toolbox-evm/coverage/coverage-final.json,
+          flags: unittests
+          name: swapkit-codecov
+          fail_ci_if_error: false
+          verbose: true
 
   lint:
     if: contains(github.event.pull_request.title, ':tada:') == false

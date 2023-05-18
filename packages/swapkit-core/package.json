@@ -20,7 +20,7 @@
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "@thorswap-lib/trustwallet": "workspace:*",
     "@thorswap-lib/walletconnect": "workspace:*",
-    "@vitest/coverage-c8": "0.31.0",
+    "@vitest/coverage-istanbul": "0.31.0",
     "vite": "4.3.7",
     "vite-plugin-top-level-await": "1.3.0",
     "vite-plugin-wasm": "3.2.2",
@@ -54,7 +54,7 @@
     "build": "echo 'Build swapkit-core 🛠';NODE_OPTIONS=--max_old_space_size=16384 pnpm vite build && echo 'Build succeeded swapkit-core ✅'",
     "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "echo 'vitest'",
+    "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",

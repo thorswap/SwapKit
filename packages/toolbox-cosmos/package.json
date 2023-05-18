@@ -30,7 +30,7 @@
     "@types/long": "4.0.2",
     "@types/node": "20.1.6",
     "@types/tiny-secp256k1": "1.0.0",
-    "@vitest/coverage-c8": "0.31.0",
+    "@vitest/coverage-istanbul": "0.31.0",
     "vite": "4.3.7",
     "vitest": "0.31.0"
   },
@@ -65,7 +65,7 @@
     "build": "echo 'Build toolbox-cosmos 🛠'; vite build && echo 'Build succeeded toolbox-cosmos ✅'",
     "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "echo 'vitest'",
+    "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",

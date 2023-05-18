@@ -79,6 +79,5 @@
     "dev:ios": "expo run:ios",
     "prebuild": "expo prebuild",
     "start": "expo start --dev-client"
-  },
-  "version": "0.0.0"
+  }
 }
