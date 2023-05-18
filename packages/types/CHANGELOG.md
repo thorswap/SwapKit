@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.83
+
+### Patch Changes
+
+- [#96](https://github.com/thorswap/SwapKit/pull/96) [`c5b1a06`](https://github.com/thorswap/SwapKit/commit/c5b1a06b0d4e3fa56107d8d2b0fcb198223cb71e) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Bump for new build system
+
 ## 1.0.0-development.82
 
 ### Minor Changes
