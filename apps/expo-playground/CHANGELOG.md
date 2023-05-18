@@ -4,6 +4,18 @@
 
 ### Patch Changes
 
+- Updated dependencies [[`ed00134`](https://github.com/thorswap/SwapKit/commit/ed00134e0ad269924903639602ee43db0f4cf8bf), [`1c950d2`](https://github.com/thorswap/SwapKit/commit/1c950d2ecfa5b2d2cd3d8623c80e413fae64ff9a)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.103
+  - @thorswap-lib/keystore@1.0.0-development.159
+  - @thorswap-lib/ledger@1.0.0-development.176
+  - @thorswap-lib/swapkit-core@1.0.0-development.166
+  - @thorswap-lib/trustwallet@1.0.0-development.150
+  - @thorswap-lib/web-extensions@1.0.0-development.166
+
+## null-development.0
+
+### Patch Changes
+
 - Updated dependencies [[`eda3d7c`](https://github.com/thorswap/SwapKit/commit/eda3d7cdc4d56f0d879c14b2246583aaa604ebd0), [`cb4403e`](https://github.com/thorswap/SwapKit/commit/cb4403ea0bfdf6f298cfd13d3a702638ef51656b)]:
   - @thorswap-lib/types@1.0.0-development.82
   - @thorswap-lib/swapkit-core@1.0.0-development.166
