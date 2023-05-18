@@ -1,5 +1,14 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.121
+
+### Patch Changes
+
+- Updated dependencies [[`eda3d7c`](https://github.com/thorswap/SwapKit/commit/eda3d7cdc4d56f0d879c14b2246583aaa604ebd0)]:
+  - @thorswap-lib/types@1.0.0-development.82
+  - @thorswap-lib/helpers@0.0.0-development.79
+  - @thorswap-lib/swapkit-entities@1.0.0-development.87
+
 ## 1.0.0-development.120
 
 ### Patch Changes
