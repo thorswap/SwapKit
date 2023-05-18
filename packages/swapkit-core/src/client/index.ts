@@ -16,7 +16,6 @@ import {
   getSignatureAssetFor,
   isGasAsset,
   MemoType,
-  Percent,
   ThornameRegisterParam,
 } from '@thorswap-lib/swapkit-entities';
 import { getExplorerAddressUrl, getExplorerTxUrl } from '@thorswap-lib/swapkit-explorers';
@@ -35,6 +34,7 @@ import {
   FeeOption,
   TCAvalancheDepositABI,
   TCEthereumVaultAbi,
+  WalletOption,
 } from '@thorswap-lib/types';
 
 import {
@@ -184,23 +184,20 @@ export class SwapKitCore {
 
   getAddress = (chain: Chain) => this.connectedChains[chain]?.address || '';
 
+  getBalance = async (chain: Chain, refresh?: boolean) => {
+    if (!this.connectedChains[chain]?.address) return [];
+    if (!refresh) return this.connectedChains[chain]?.balance || [];
+    const chainData = await this.getWalletByChain(chain);
+
+    return chainData?.balance || [];
+  };
+
   getExplorerAddressUrl = (chain: Chain, address: string) =>
     getExplorerAddressUrl({ chain, address });
 
   getExplorerTxUrl = (chain: Chain, txHash: string) => getExplorerTxUrl({ chain, txHash });
 
   getWallet = (chain: Chain) => this.connectedWallets[chain];
-
-  isAssetApproved = (asset: AssetEntity) => this._approve<boolean>({ asset }, 'checkOnly');
-
-  isAssetApprovedForContract = (
-    asset: AssetEntity,
-    contractAddress: string,
-    amount?: AmountWithBaseDenom,
-  ) => this._approve<boolean>({ asset, amount, contractAddress }, 'checkOnly');
-
-  validateAddress = ({ address, chain }: { address: string; chain: Chain }) =>
-    this.getWallet(chain)?.validateAddress?.(address);
 
   getWalletByChain = async (chain: Chain) => {
     const address = this.getAddress(chain);
@@ -218,8 +215,25 @@ export class SwapKitCore {
         ),
     );
 
+    this.connectedChains[chain] = {
+      address,
+      balance,
+      walletType: this.connectedChains[chain]?.walletType as WalletOption,
+    };
+
     return { ...(this.connectedChains[chain] || {}), balance };
   };
+
+  isAssetApproved = (asset: AssetEntity) => this._approve<boolean>({ asset }, 'checkOnly');
+
+  isAssetApprovedForContract = (
+    asset: AssetEntity,
+    contractAddress: string,
+    amount?: AmountWithBaseDenom,
+  ) => this._approve<boolean>({ asset, amount, contractAddress }, 'checkOnly');
+
+  validateAddress = ({ address, chain }: { address: string; chain: Chain }) =>
+    this.getWallet(chain)?.validateAddress?.(address);
 
   transfer = async (params: CoreTxParams & { router?: string }) => {
     const chain = params.assetAmount.asset.L1Chain;
@@ -396,7 +410,7 @@ export class SwapKitCore {
       }),
     });
 
-  withdrawSavings = ({ asset, percent }: { asset: AssetEntity; percent: Percent }) =>
+  withdrawSavings = ({ asset, percent }: { asset: AssetEntity; percent: Amount }) =>
     this._depositToPool({
       assetAmount: getMinAmountByChain(asset.chain),
       memo: getMemoFor(MemoType.WITHDRAW, {
