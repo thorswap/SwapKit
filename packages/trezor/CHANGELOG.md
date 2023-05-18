@@ -1,5 +1,18 @@
 # @thorswap-lib/trezor
 
+## 1.0.0-development.15
+
+### Patch Changes
+
+- [#96](https://github.com/thorswap/SwapKit/pull/96) [`c5b1a06`](https://github.com/thorswap/SwapKit/commit/c5b1a06b0d4e3fa56107d8d2b0fcb198223cb71e) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Bump for new build system
+
+- Updated dependencies [[`c5b1a06`](https://github.com/thorswap/SwapKit/commit/c5b1a06b0d4e3fa56107d8d2b0fcb198223cb71e)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.89
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.105
+  - @thorswap-lib/toolbox-evm@1.0.0-development.123
+  - @thorswap-lib/helpers@0.0.0-development.81
+  - @thorswap-lib/types@1.0.0-development.83
+
 ## 1.0.0-development.14
 
 ### Patch Changes
