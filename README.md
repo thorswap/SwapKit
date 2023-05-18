@@ -158,13 +158,17 @@ This repo contains packages around SwapKit sdk and its integrations with differe
 
 
 
-
 ## Contributing
+
+#### Pre-requisites
+```bash
+npm install -g pnpm
+```
 
 ### Installation
 
 ```bash
-pnpm install; pnpm build
+pnpm bootstrap;
 ```
 
 #### Branches

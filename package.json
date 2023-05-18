@@ -55,19 +55,20 @@
     }
   },
   "scripts": {
+    "bootstrap": "rm --rf node_modules; pnpm install; pnpm build lint test",
     "build": "turbo run build --token=turbotoken-oss-europe1",
     "bump:development": "pnpm changeset && dotenv -- pnpm changeset version",
     "bump:release": "pnpm changeset pre exit && pnpm changeset && dotenv -- pnpm changeset version",
     "changelog": "pnpm changeset",
+    "clean": "turbo run clean",
     "dev:android": "turbo run dev:android --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
-    "dev:ios": "turbo run dev:ios --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
     "dev:expo": "turbo run dev --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
+    "dev:ios": "turbo run dev:ios --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
     "dev:vite": "turbo run dev --concurrency=30 --filter=\"{./apps/vite-playground}...\"",
     "generate": "cd ./internal/generator; pnpm generate; cd ../..",
     "lint": "turbo run lint --token=turbotoken-oss-europe1",
     "publish-packages": "turbo run build lint --token=turbotoken-oss-europe1 && changeset version && changeset publish",
     "test": "dotenv -- turbo run test --token=turbotoken-oss-europe1",
-    "clean": "turbo run clean",
     "test:coverage": "dotenv -- turbo run test:coverage",
     "version-development": "dotenv -- pnpm changeset version",
     "version-release": "pnpm changeset pre exit && dotenv -- pnpm changeset version"

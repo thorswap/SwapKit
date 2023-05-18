@@ -72,7 +72,7 @@ jobs:
           echo "version=$([ "${{ github.ref_name }}" = "main" ] && echo "version-release" || echo "version-development")" >> $GITHUB_OUTPUT
           echo "publishName=$([ "${{ github.ref_name }}" = "main" ] && echo "Release" || echo "Pre-Release")" >> $GITHUB_OUTPUT
 
-      - name: "Create Pull Request or Publish to npm"
+      - name: Create Pull Request or Publish to npm
         uses: changesets/action@v1
         with:
           title: ":tada: Publish pre-release"
