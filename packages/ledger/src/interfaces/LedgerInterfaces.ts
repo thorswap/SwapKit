@@ -95,18 +95,14 @@ export abstract class UTXOLedgerInterface {
 
   private checkBtcAppAndCreateTransportWebUSB = async (checkBtcApp: boolean = true) => {
     // @ts-ignore Ledger typing is wrong
-    if ((checkBtcApp && !this.btcApp) || !(await TransportWebUSB.isSupported())) {
-      const errorData = JSON.stringify({
-        checkBtcApp,
-        btcApp: this.btcApp,
-        // @ts-ignore Ledger typing is wrong
-        supported: await TransportWebUSB.isSupported(),
-      });
+    const isSupported = await Transport.isSupported()
+
+    if ((checkBtcApp && !this.btcApp) || !isSupported) {
+      const errorData = JSON.stringify({ checkBtcApp, btcApp: this.btcApp, isSupported });
       throw new Error(`Ledger connection failed: \n${errorData}`);
     }
 
-    // @ts-ignore Ledger typing is wrong
-    this.transport ||= await TransportWebUSB.create();
+    this.transport ||= await getLedgerTransport()
   };
 
   public getExtendedPublicKey = async (
