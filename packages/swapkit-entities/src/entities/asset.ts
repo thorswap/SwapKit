@@ -120,6 +120,11 @@ export class AssetEntity {
   identifier() {
     return `${this.chain}.${this.symbol}`;
   }
+
+  toSynth() {
+    if (this.isSynth) return this;
+    return new AssetEntity(Chain.THORChain, `${this.chain}/${this.symbol}`, true);
+  }
 }
 
 const THOR_MAINNET_SYMBOL = 'THOR-0XA5F2211B9B8170F694421F2046281775E8468044';
