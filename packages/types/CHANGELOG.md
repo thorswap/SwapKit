@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.82
+
+### Minor Changes
+
+- [#100](https://github.com/thorswap/SwapKit/pull/100) [`eda3d7c`](https://github.com/thorswap/SwapKit/commit/eda3d7cdc4d56f0d879c14b2246583aaa604ebd0) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Fix typo and make identifier optional
+
 ## 1.0.0-development.81
 
 ### Minor Changes

@@ -1,5 +1,19 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.166
+
+### Patch Changes
+
+- [#102](https://github.com/thorswap/SwapKit/pull/102) [`cb4403e`](https://github.com/thorswap/SwapKit/commit/cb4403ea0bfdf6f298cfd13d3a702638ef51656b) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Expose balance on getWalletByChain & separate method
+
+  Please enter a summary for your changes.
+
+- Updated dependencies [[`eda3d7c`](https://github.com/thorswap/SwapKit/commit/eda3d7cdc4d56f0d879c14b2246583aaa604ebd0)]:
+  - @thorswap-lib/types@1.0.0-development.82
+  - @thorswap-lib/helpers@0.0.0-development.79
+  - @thorswap-lib/swapkit-entities@1.0.0-development.87
+  - @thorswap-lib/swapkit-explorers@1.0.0-development.33
+
 ## 1.0.0-development.165
 
 ### Patch Changes

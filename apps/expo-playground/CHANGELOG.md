@@ -4,6 +4,26 @@
 
 ### Patch Changes
 
+- Updated dependencies [[`eda3d7c`](https://github.com/thorswap/SwapKit/commit/eda3d7cdc4d56f0d879c14b2246583aaa604ebd0), [`cb4403e`](https://github.com/thorswap/SwapKit/commit/cb4403ea0bfdf6f298cfd13d3a702638ef51656b)]:
+  - @thorswap-lib/types@1.0.0-development.82
+  - @thorswap-lib/swapkit-core@1.0.0-development.166
+  - @thorswap-lib/keystore@1.0.0-development.158
+  - @thorswap-lib/ledger@1.0.0-development.175
+  - @thorswap-lib/swapkit-api@0.1.0-development.11
+  - @thorswap-lib/swapkit-entities@1.0.0-development.87
+  - @thorswap-lib/swapkit-explorers@1.0.0-development.33
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.102
+  - @thorswap-lib/toolbox-evm@1.0.0-development.121
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.103
+  - @thorswap-lib/trezor@1.0.0-development.13
+  - @thorswap-lib/trustwallet@1.0.0-development.149
+  - @thorswap-lib/walletconnect@1.0.1-development.15
+  - @thorswap-lib/web-extensions@1.0.0-development.165
+
+## null-development.0
+
+### Patch Changes
+
 - Updated dependencies [[`0999eb1`](https://github.com/thorswap/SwapKit/commit/0999eb1bd8fe32b02c68f42415143a4e50c5b21e)]:
   - @thorswap-lib/web-extensions@1.0.0-development.164
 
