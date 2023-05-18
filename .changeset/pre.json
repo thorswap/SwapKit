@@ -89,7 +89,8 @@
     "@thorswap-lib/trustwallet": "1.0.0-development.135",
     "@thorswap-lib/types": "1.0.0-development.60",
     "@thorswap-lib/walletconnect": "1.0.1-development.5",
-    "@thorswap-lib/web-extensions": "1.0.0-development.118"
+    "@thorswap-lib/web-extensions": "1.0.0-development.118",
+    "@internal/config": "0.0.0"
   },
   "mode": "pre",
   "tag": "development"

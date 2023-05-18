@@ -1,0 +1,18 @@
+diff --git a/dist/cli.cjs.dev.js b/dist/cli.cjs.dev.js
+index 73ab02a861b1f5a8e1bf10984340a0a6b1518b15..ce52100a8aa088be95167f267832d248c83e4495 100644
+--- a/dist/cli.cjs.dev.js
++++ b/dist/cli.cjs.dev.js
+@@ -821,7 +821,12 @@ let getOtpCode = async twoFactorState => {
+ 
+ async function internalPublish(pkgName, opts, twoFactorState) {
+   let publishTool = await getPublishTool(opts.cwd);
+-  let publishFlags = opts.access ? ["--access", opts.access] : [];
++  let publishFlags = publishTool.name !== "yarn" ? ["--json"] : [];
++
++  if (opts.access) {
++    publishFlags.push("--access", opts.access);
++  }
++
+   publishFlags.push("--tag", opts.tag);
+ 
+   if ((await twoFactorState.isRequired) && !isCI__default['default']) {
