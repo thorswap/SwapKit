@@ -140,8 +140,13 @@ export type GaiaToolboxType = BaseCosmosToolboxType &
     }) => proto.cosmos.tx.v1beta1.AuthInfo;
   };
 
-export type BinanceToolboxType = Omit<BaseCosmosToolboxType, 'getAccount'> &
+export type BinanceToolboxType = Omit<
+  BaseCosmosToolboxType,
+  'getAccount' | 'createKeyPair' | 'getAddressFromMnemonic'
+> &
   CommonCosmosToolboxType & {
+    createKeyPair: (phrase: string) => Promise<Uint8Array>;
+    getAddressFromMnemonic: (phrase: string) => Promise<string>;
     transfer: (params: TransferParams) => Promise<string>;
     getAccount: (address: string) => Promise<Account>;
     sendRawTransaction: (signedBz: string, sync: boolean) => Promise<any>;

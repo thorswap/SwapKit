@@ -11,3 +11,4 @@ internal/**/.turbo
 *.mjs
 coverage/
 .DS_Store
+*.log

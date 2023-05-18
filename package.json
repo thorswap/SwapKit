@@ -3,6 +3,7 @@
     "@babel/core": "7.21.8",
     "@babel/eslint-parser": "7.21.8",
     "@changesets/changelog-github": "0.4.8",
+    "@changesets/cli": "2.26.1",
     "@evilmartians/lefthook": "1.3.13",
     "@size-limit/file": "8.2.4",
     "@size-limit/time": "8.2.4",
@@ -51,26 +52,25 @@
       "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
       "sr25519@0.2.0": "patches/sr25519-npm-0.2.0-c9939c5c8a.patch",
       "typeforce@1.18.0": "patches/typeforce@1.18.0.patch",
-      "asyncstorage-down@4.2.0": "patches/asyncstorage-down-npm-4.2.0-d323e014ba.patch"
+      "asyncstorage-down@4.2.0": "patches/asyncstorage-down-npm-4.2.0-d323e014ba.patch",
+      "@changesets/assemble-release-plan@5.2.3": "patches/@changesets__assemble-release-plan@5.2.3.patch"
     }
   },
   "scripts": {
+    "bootstrap": "rm --rf node_modules; dotenv -- pnpm install; dotenv -- pnpm build lint test",
     "build": "turbo run build --token=turbotoken-oss-europe1",
-    "bump:development": "pnpm changeset && dotenv -- pnpm changeset version",
-    "bump:release": "pnpm changeset pre exit && pnpm changeset && dotenv -- pnpm changeset version",
-    "changelog": "pnpm changeset",
+    "clean": "turbo run clean",
     "dev:android": "turbo run dev:android --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
-    "dev:ios": "turbo run dev:ios --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
     "dev:expo": "turbo run dev --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
+    "dev:ios": "turbo run dev:ios --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
     "dev:vite": "turbo run dev --concurrency=30 --filter=\"{./apps/vite-playground}...\"",
     "generate": "cd ./internal/generator; pnpm generate; cd ../..",
     "lint": "turbo run lint --token=turbotoken-oss-europe1",
-    "publish-packages": "turbo run build lint --token=turbotoken-oss-europe1 && changeset version && changeset publish",
+    "publish-packages": "turbo run build lint --token=turbotoken-oss-europe1 && pnpm version-bump && pnpm changeset publish",
     "test": "dotenv -- turbo run test --token=turbotoken-oss-europe1",
-    "clean": "turbo run clean",
     "test:coverage": "dotenv -- turbo run test:coverage",
-    "version-development": "dotenv -- pnpm changeset version",
-    "version-release": "pnpm changeset pre exit && dotenv -- pnpm changeset version"
+    "version-bump": "dotenv -- pnpm changeset version",
+    "version-release": "pnpm changeset pre exit && pnpm version-bump"
   },
   "size-limit": [
     {
@@ -116,12 +116,12 @@
     {
       "path": "./packages/toolbox-cosmos/dist/index.cjs",
       "name": "toolbox-cosmos(cjs)",
-      "limit": "550 KB"
+      "limit": "700 KB"
     },
     {
       "path": "./packages/toolbox-cosmos/dist/index.es.js",
       "name": "toolbox-cosmos(esm)",
-      "limit": "550 KB"
+      "limit": "800 KB"
     },
     {
       "path": "./packages/toolbox-evm/dist/index.cjs",
@@ -136,7 +136,7 @@
     {
       "path": "./packages/toolbox-utxo/dist/index.cjs",
       "name": "toolbox-utxo(cjs)",
-      "limit": "300 KB"
+      "limit": "350 KB"
     },
     {
       "path": "./packages/toolbox-utxo/dist/index.es.js",

@@ -4,8 +4,9 @@ export class ApiError extends Error {
   public readonly status: number;
   public readonly module: ERROR_MODULE;
   public readonly code: ERROR_CODE;
-  public readonly message: string;
   public readonly type?: ERROR_TYPE;
+  public readonly message: string;
+  public readonly stack?: string;
   public readonly options: ApiErrorOptions;
 
   constructor({

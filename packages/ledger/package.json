@@ -1,8 +1,10 @@
 {
   "author": "thorswap",
   "dependencies": {
+    "@ledgerhq/devices": "8.0.2",
+    "@ledgerhq/errors": "6.12.5",
     "@ledgerhq/hw-app-btc": "8.1.1",
-    "@ledgerhq/hw-app-cosmos": "6.27.13",
+    "@ledgerhq/hw-app-cosmos": "6.28.0",
     "@ledgerhq/hw-app-eth": "6.33.3",
     "@ledgerhq/hw-transport": "6.28.3",
     "@ledgerhq/hw-transport-webusb": "6.27.14",
@@ -101,5 +103,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.173"
+  "version": "1.0.0-development.178"
 }

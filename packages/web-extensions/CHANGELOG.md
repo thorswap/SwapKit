@@ -1,5 +1,53 @@
 # @thorswap-lib/web-extensions
 
+## 1.0.0-development.167
+
+### Patch Changes
+
+- Updated dependencies [[`453c6c3`](https://github.com/thorswap/SwapKit/commit/453c6c3dfeb4e4cbd0777aa0ff69b0300d62917f)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.88
+  - @thorswap-lib/helpers@0.0.0-development.80
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.104
+  - @thorswap-lib/toolbox-evm@1.0.0-development.122
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.104
+
+## 1.0.0-development.166
+
+### Patch Changes
+
+- Updated dependencies [[`ed00134`](https://github.com/thorswap/SwapKit/commit/ed00134e0ad269924903639602ee43db0f4cf8bf)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.103
+
+## 1.0.0-development.165
+
+### Patch Changes
+
+- Updated dependencies [[`eda3d7c`](https://github.com/thorswap/SwapKit/commit/eda3d7cdc4d56f0d879c14b2246583aaa604ebd0)]:
+  - @thorswap-lib/types@1.0.0-development.82
+  - @thorswap-lib/helpers@0.0.0-development.79
+  - @thorswap-lib/swapkit-entities@1.0.0-development.87
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.102
+  - @thorswap-lib/toolbox-evm@1.0.0-development.121
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.103
+
+## 1.0.0-development.164
+
+### Patch Changes
+
+- [#98](https://github.com/thorswap/SwapKit/pull/98) [`0999eb1`](https://github.com/thorswap/SwapKit/commit/0999eb1bd8fe32b02c68f42415143a4e50c5b21e) Thanks [@towanTG](https://github.com/towanTG)! - Fixes extension of xdefi utxo wallets
+
+## 1.0.0-development.163
+
+### Patch Changes
+
+- Updated dependencies [[`fc91e93`](https://github.com/thorswap/SwapKit/commit/fc91e93d5d9ceb6b92e0ce645ed308783067eae0)]:
+  - @thorswap-lib/types@1.0.0-development.81
+  - @thorswap-lib/helpers@0.0.0-development.78
+  - @thorswap-lib/swapkit-entities@1.0.0-development.86
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.101
+  - @thorswap-lib/toolbox-evm@1.0.0-development.120
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.102
+
 ## 1.0.0-development.162
 
 ### Patch Changes

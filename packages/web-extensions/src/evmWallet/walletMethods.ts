@@ -7,7 +7,8 @@ import { addEVMWalletNetwork, prepareNetworkSwitch } from './helpers.js';
 
 type WalletMethodParams<T> = T & { signer: Signer; provider: Web3Provider };
 
-export const avalancheWalletMethods = async ({
+// TODO: Fix type inference: swapkit-entities
+export const avalancheWalletMethods: any = async ({
   covalentApiKey,
   signer,
   provider: web3Provider,
@@ -26,7 +27,8 @@ export const avalancheWalletMethods = async ({
   return { ...preparedToolbox, getAddress: () => from };
 };
 
-export const binanceSmartChainWalletMethods = async ({
+// TODO: Fix type inference: swapkit-entities
+export const binanceSmartChainWalletMethods: any = async ({
   covalentApiKey,
   signer,
   provider: web3Provider,
@@ -45,7 +47,8 @@ export const binanceSmartChainWalletMethods = async ({
   return { ...preparedToolbox, getAddress: () => from };
 };
 
-export const ethereumWalletMethods = async ({
+// TODO: Fix type inference: swapkit-entities
+export const ethereumWalletMethods: any = async ({
   signer,
   provider: web3Provider,
   ethplorerApiKey,

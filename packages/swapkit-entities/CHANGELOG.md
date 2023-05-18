@@ -1,5 +1,25 @@
 []
 
+## 1.0.0-development.88
+
+### Minor Changes
+
+- [#104](https://github.com/thorswap/SwapKit/pull/104) [`453c6c3`](https://github.com/thorswap/SwapKit/commit/453c6c3dfeb4e4cbd0777aa0ff69b0300d62917f) Thanks [@ochhii1337](https://github.com/ochhii1337)! - Add toSynth util on Asset entity
+
+## 1.0.0-development.87
+
+### Patch Changes
+
+- Updated dependencies [[`eda3d7c`](https://github.com/thorswap/SwapKit/commit/eda3d7cdc4d56f0d879c14b2246583aaa604ebd0)]:
+  - @thorswap-lib/types@1.0.0-development.82
+
+## 1.0.0-development.86
+
+### Patch Changes
+
+- Updated dependencies [[`fc91e93`](https://github.com/thorswap/SwapKit/commit/fc91e93d5d9ceb6b92e0ce645ed308783067eae0)]:
+  - @thorswap-lib/types@1.0.0-development.81
+
 ## 1.0.0-development.85
 
 ### Patch Changes

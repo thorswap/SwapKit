@@ -1,5 +1,41 @@
 # @thorswap-lib/trustwallet
 
+## 1.0.0-development.151
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/helpers@0.0.0-development.80
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.104
+  - @thorswap-lib/toolbox-evm@1.0.0-development.122
+
+## 1.0.0-development.150
+
+### Patch Changes
+
+- Updated dependencies [[`ed00134`](https://github.com/thorswap/SwapKit/commit/ed00134e0ad269924903639602ee43db0f4cf8bf)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.103
+
+## 1.0.0-development.149
+
+### Patch Changes
+
+- Updated dependencies [[`eda3d7c`](https://github.com/thorswap/SwapKit/commit/eda3d7cdc4d56f0d879c14b2246583aaa604ebd0)]:
+  - @thorswap-lib/types@1.0.0-development.82
+  - @thorswap-lib/helpers@0.0.0-development.79
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.102
+  - @thorswap-lib/toolbox-evm@1.0.0-development.121
+
+## 1.0.0-development.148
+
+### Patch Changes
+
+- Updated dependencies [[`fc91e93`](https://github.com/thorswap/SwapKit/commit/fc91e93d5d9ceb6b92e0ce645ed308783067eae0)]:
+  - @thorswap-lib/types@1.0.0-development.81
+  - @thorswap-lib/helpers@0.0.0-development.78
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.101
+  - @thorswap-lib/toolbox-evm@1.0.0-development.120
+
 ## 1.0.0-development.147
 
 ### Patch Changes

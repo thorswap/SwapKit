@@ -8,7 +8,7 @@ export type CosmosSDKClientParams = {
 };
 
 export type TransferParams = {
-  privkey: proto.cosmos.crypto.secp256k1.PrivKey;
+  privkey: proto.cosmos.crypto.secp256k1.PrivKey | Uint8Array;
   from: string;
   to: string;
   amount: string;
