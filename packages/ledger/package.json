@@ -1,6 +1,7 @@
 {
   "author": "thorswap",
   "dependencies": {
+    "@ledgerhq/devices": "8.0.2",
     "@ledgerhq/hw-app-btc": "8.1.1",
     "@ledgerhq/hw-app-cosmos": "6.28.0",
     "@ledgerhq/hw-app-eth": "6.33.3",
@@ -97,5 +98,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.175"
+  "version": "1.0.0-development.177"
 }

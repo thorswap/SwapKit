@@ -1,5 +1,16 @@
 # @thorswap-lib/keystore
 
+## 1.0.0-development.159
+
+### Minor Changes
+
+- [#97](https://github.com/thorswap/SwapKit/pull/97) [`ed00134`](https://github.com/thorswap/SwapKit/commit/ed00134e0ad269924903639602ee43db0f4cf8bf) Thanks [@0x-General](https://github.com/0x-General)! - [LIB-61] Migrate Binance toolbox to cosmjs
+
+### Patch Changes
+
+- Updated dependencies [[`ed00134`](https://github.com/thorswap/SwapKit/commit/ed00134e0ad269924903639602ee43db0f4cf8bf)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.103
+
 ## 1.0.0-development.158
 
 ### Patch Changes

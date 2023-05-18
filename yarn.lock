@@ -3776,7 +3776,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ledgerhq/devices@npm:^8.0.2":
+"@ledgerhq/devices@npm:8.0.2, @ledgerhq/devices@npm:^8.0.2":
   version: 8.0.2
   resolution: "@ledgerhq/devices@npm:8.0.2"
   dependencies:
@@ -5645,6 +5645,7 @@ __metadata:
     "@ethersproject/providers": 5.7.2
     "@ethersproject/transactions": 5.7.0
     "@internal/config": "workspace:*"
+    "@ledgerhq/devices": 8.0.2
     "@ledgerhq/hw-app-btc": 8.1.1
     "@ledgerhq/hw-app-cosmos": 6.28.0
     "@ledgerhq/hw-app-eth": 6.33.3

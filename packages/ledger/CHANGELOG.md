@@ -1,5 +1,20 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.177
+
+### Patch Changes
+
+- Fix build on ledger
+
+## 1.0.0-development.176
+
+### Patch Changes
+
+- [`1c950d2`](https://github.com/thorswap/SwapKit/commit/1c950d2ecfa5b2d2cd3d8623c80e413fae64ff9a) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix transport on ledger
+
+- Updated dependencies [[`ed00134`](https://github.com/thorswap/SwapKit/commit/ed00134e0ad269924903639602ee43db0f4cf8bf)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.103
+
 ## 1.0.0-development.175
 
 ### Patch Changes

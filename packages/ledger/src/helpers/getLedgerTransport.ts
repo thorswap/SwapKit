@@ -1,5 +1,20 @@
-// @ts-ignore Ledger typing is wrong
-import Transport, { getLedgerDevices } from '@ledgerhq/hw-transport-webusb';
+import { ledgerUSBVendorId } from '@ledgerhq/devices';
+import Transport from '@ledgerhq/hw-transport-webusb';
+
+declare global {
+  interface Navigator {
+    usb?: {
+      getDevices: () => Promise<any[]>;
+    };
+  }
+}
+
+const getLedgerDevices = async () => {
+  if (typeof navigator?.usb?.getDevices !== 'function') return [];
+
+  const devices = await navigator?.usb?.getDevices();
+  return devices.filter((d) => d.vendorId === ledgerUSBVendorId);
+};
 
 export const getLedgerTransport = async () => {
   const [device] = await getLedgerDevices();
