@@ -1,12 +1,5 @@
 import { Secp256k1HdWallet } from '@cosmjs/amino';
-import {
-  Bip39,
-  EnglishMnemonic,
-  HdPath,
-  Slip10,
-  Slip10Curve,
-  Slip10RawIndex,
-} from '@cosmjs/crypto';
+import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from '@cosmjs/crypto';
 import {
   assetAmount,
   assetFromString,
@@ -41,15 +34,7 @@ type ToolboxParams = {
   stagenet?: boolean;
 };
 
-const derivationPath: HdPath[] = [
-  [
-    Slip10RawIndex.hardened(44),
-    Slip10RawIndex.hardened(714),
-    Slip10RawIndex.hardened(0),
-    Slip10RawIndex.normal(0),
-    Slip10RawIndex.normal(0),
-  ],
-];
+const derivationPath = stringToPath(`${DerivationPath.BNB}/0`);
 
 const MAINNET_THORNODE_API_BASE = 'https://thornode.thorswap.net/thorchain';
 const BINANCE_MAINNET_API_URI = 'https://dex.binance.org';
@@ -180,7 +165,7 @@ const createKeyPair = async (phrase: string) => {
   const mnemonicChecked = new EnglishMnemonic(phrase);
   const seed = await Bip39.mnemonicToSeed(mnemonicChecked);
 
-  const { privkey } = Slip10.derivePath(Slip10Curve.Secp256k1, seed, derivationPath[0]);
+  const { privkey } = Slip10.derivePath(Slip10Curve.Secp256k1, seed, derivationPath);
 
   return privkey;
 };
@@ -188,7 +173,7 @@ const createKeyPair = async (phrase: string) => {
 const getAddressFromMnemonic = async (phrase: string) => {
   const wallet = await Secp256k1HdWallet.fromMnemonic(phrase, {
     prefix: 'bnb',
-    hdPaths: derivationPath,
+    hdPaths: [derivationPath],
   });
   const [{ address }] = await wallet.getAccounts();
 

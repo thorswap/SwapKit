@@ -2128,6 +2128,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmjs/amino@npm:0.30.1":
+  version: 0.30.1
+  resolution: "@cosmjs/amino@npm:0.30.1"
+  dependencies:
+    "@cosmjs/crypto": ^0.30.1
+    "@cosmjs/encoding": ^0.30.1
+    "@cosmjs/math": ^0.30.1
+    "@cosmjs/utils": ^0.30.1
+  checksum: aa254f936fd95e146e05cc4d6e51f86f4fe7f2048d337d197ccb2cb6e488f8b8061aa6b21e63b1f7001d99b80417f029ef75a12bd0478749286932834157c5aa
+  languageName: node
+  linkType: hard
+
 "@cosmjs/amino@npm:^0.29.5":
   version: 0.29.5
   resolution: "@cosmjs/amino@npm:0.29.5"
@@ -2140,15 +2152,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/amino@npm:^0.30.1":
+"@cosmjs/crypto@npm:0.30.1, @cosmjs/crypto@npm:^0.30.1":
   version: 0.30.1
-  resolution: "@cosmjs/amino@npm:0.30.1"
+  resolution: "@cosmjs/crypto@npm:0.30.1"
   dependencies:
-    "@cosmjs/crypto": ^0.30.1
     "@cosmjs/encoding": ^0.30.1
     "@cosmjs/math": ^0.30.1
     "@cosmjs/utils": ^0.30.1
-  checksum: aa254f936fd95e146e05cc4d6e51f86f4fe7f2048d337d197ccb2cb6e488f8b8061aa6b21e63b1f7001d99b80417f029ef75a12bd0478749286932834157c5aa
+    "@noble/hashes": ^1
+    bn.js: ^5.2.0
+    elliptic: ^6.5.4
+    libsodium-wrappers: ^0.7.6
+  checksum: f1989a5cab92de4ad8c4fef65554b1f65e6c3e8b9ef0d550fa84e5f1aa13286b96a5310a374bcea7d0ebd6b9c46ea69a8469d06275b317a09b9ec7e0a3a07f0e
   languageName: node
   linkType: hard
 
@@ -2164,21 +2179,6 @@ __metadata:
     elliptic: ^6.5.4
     libsodium-wrappers: ^0.7.6
   checksum: bb926119d0d712c1ef5e3c7a8be1f150eeca5f2cd1b536f3a662d348e3bb4851f8374b8ceaeeeb249cabd265d6d603ce42afe73c6b8e253cb22f17de0f69ba4b
-  languageName: node
-  linkType: hard
-
-"@cosmjs/crypto@npm:^0.30.1":
-  version: 0.30.1
-  resolution: "@cosmjs/crypto@npm:0.30.1"
-  dependencies:
-    "@cosmjs/encoding": ^0.30.1
-    "@cosmjs/math": ^0.30.1
-    "@cosmjs/utils": ^0.30.1
-    "@noble/hashes": ^1
-    bn.js: ^5.2.0
-    elliptic: ^6.5.4
-    libsodium-wrappers: ^0.7.6
-  checksum: f1989a5cab92de4ad8c4fef65554b1f65e6c3e8b9ef0d550fa84e5f1aa13286b96a5310a374bcea7d0ebd6b9c46ea69a8469d06275b317a09b9ec7e0a3a07f0e
   languageName: node
   linkType: hard
 
@@ -5505,8 +5505,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@thorswap-lib/toolbox-cosmos@workspace:packages/toolbox-cosmos"
   dependencies:
-    "@cosmjs/amino": ^0.30.1
-    "@cosmjs/crypto": ^0.30.1
+    "@cosmjs/amino": 0.30.1
+    "@cosmjs/crypto": 0.30.1
     "@cosmos-client/core": 0.45.13
     "@internal/config": "workspace:*"
     "@thorswap-lib/helpers": "workspace:*"
