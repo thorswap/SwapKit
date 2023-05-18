@@ -1,4 +1,4 @@
-import { ProposalTypes } from '@walletconnect/types';
+import type { ProposalTypes } from '@walletconnect/types';
 
 import {
   DEFAULT_COSMOS_METHODS,

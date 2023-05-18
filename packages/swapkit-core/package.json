@@ -11,11 +11,9 @@
   },
   "description": "THORSwap Lib swapkit-core",
   "devDependencies": {
-    "@commitlint/cli": "17.6.3",
-    "@commitlint/config-conventional": "17.6.3",
+    "@ethersproject/abstract-provider": "5.7.0",
     "@ethersproject/units": "5.7.0",
     "@internal/config": "workspace:*",
-    "@thorswap-lib/cross-chain-api-sdk": "0.1.31",
     "@thorswap-lib/swapkit-api": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
@@ -23,10 +21,13 @@
     "@thorswap-lib/trustwallet": "workspace:*",
     "@thorswap-lib/walletconnect": "workspace:*",
     "@vitest/coverage-c8": "0.31.0",
-    "vite": "4.3.5",
+    "vite": "4.3.7",
     "vite-plugin-top-level-await": "1.3.0",
     "vite-plugin-wasm": "3.2.2",
     "vitest": "0.31.0"
+  },
+  "eslintConfig": {
+    "extends": "../../internal/eslint-config-thorswap"
   },
   "exports": {
     ".": {
@@ -44,15 +45,14 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/swapkit-core",
-  "packageManager": "yarn@3.2.1",
   "publishConfig": {
     "access": "public"
   },
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "yarn clean; echo 'Build swapkit-core 🛠';NODE_OPTIONS=--max_old_space_size=16384 yarn vite build && echo 'Build succeeded swapkit-core ✅\n'",
-    "clean": "rm -rf dist",
+    "build": "echo 'Build swapkit-core 🛠';NODE_OPTIONS=--max_old_space_size=16384 pnpm vite build && echo 'Build succeeded swapkit-core ✅'",
+    "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest'",
     "test:coverage": "echo 'vitest run --coverage'"

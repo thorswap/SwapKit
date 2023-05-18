@@ -1,9 +1,9 @@
-import { CalldataSwapIn } from '../client/types.js';
+import { QuoteRoute } from '@thorswap-lib/swapkit-api';
 
 import { AGG_CONTRACT_ADDRESS, lowercasedGenericAbiMappings } from './contracts/index.js';
 
 type Params = {
-  calldata: CalldataSwapIn;
+  calldata: QuoteRoute['calldata'];
   recipient: string;
   contractAddress: AGG_CONTRACT_ADDRESS;
   toChecksumAddress: (address: string) => string;

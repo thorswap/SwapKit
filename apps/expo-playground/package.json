@@ -35,17 +35,17 @@
     "path-browserify": "1.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.71.7",
-    "react-native-gesture-handler": "2.9.0",
+    "react-native": "0.71.8",
+    "react-native-gesture-handler": "2.10.0",
     "react-native-level-fs": "3.0.1",
     "react-native-os": "1.2.6",
     "react-native-quick-base64": "2.0.6",
     "react-native-reanimated": "2.14.4",
-    "react-native-safe-area-context": "4.5.2",
+    "react-native-safe-area-context": "4.5.3",
     "react-native-screens": "3.20.0",
     "react-native-url-polyfill": "1.3.0",
     "react-native-web": "0.18.12",
-    "readable-stream": "4.3.0",
+    "readable-stream": "4.4.0",
     "stream-browserify": "3.0.0",
     "stream-http": "3.2.0",
     "url": "0.11.0",
@@ -56,11 +56,14 @@
     "@babel/core": "7.21.8",
     "@babel/plugin-proposal-export-namespace-from": "7.18.9",
     "@thorswap-lib/types": "workspace:*",
-    "@types/react-native": "0.71.6",
+    "@types/react-native": "0.72.0",
     "babel-plugin-module-resolver": "5.0.0",
     "typescript": "5.0.4"
   },
-  "name": "expo-playground",
+  "eslintConfig": {
+    "extends": "../../internal/eslint-config-thorswap"
+  },
+  "name": "@thorswap/expo-playground",
   "overrides": {
     "metro": "0.76.3",
     "metro-resolver": "0.76.3"
@@ -77,5 +80,5 @@
     "prebuild": "expo prebuild",
     "start": "expo start --dev-client"
   },
-  "version": "null-development.0"
+  "version": "0.0.0"
 }

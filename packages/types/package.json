@@ -4,8 +4,11 @@
   "devDependencies": {
     "@ethersproject/bignumber": "5.7.0",
     "@internal/config": "workspace:*",
-    "@types/node": "20.1.0",
-    "vite": "4.3.5"
+    "@types/node": "20.1.6",
+    "vite": "4.3.7"
+  },
+  "eslintConfig": {
+    "extends": "../../internal/eslint-config-thorswap"
   },
   "exports": {
     ".": {
@@ -23,15 +26,14 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/types",
-  "packageManager": "yarn@3.2.1",
   "publishConfig": {
     "access": "public"
   },
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "yarn clean; echo 'Build types 🛠'; vite build && echo 'Build succeeded types ✅\n'",
-    "clean": "rm -rf dist",
+    "build": "echo 'Build types 🛠'; vite build && echo 'Build succeeded types ✅'",
+    "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'No tests yet'"
   },

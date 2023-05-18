@@ -24,12 +24,18 @@
   "devDependencies": {
     "@cosmos-client/core": "0.45.13",
     "@internal/config": "workspace:*",
+    "@types/bn.js": "5.1.1",
     "@types/crypto-js": "4.1.1",
     "@types/elliptic": "6.4.14",
+    "@types/long": "4.0.2",
+    "@types/node": "20.1.6",
     "@types/tiny-secp256k1": "1.0.0",
     "@vitest/coverage-c8": "0.31.0",
-    "vite": "4.3.5",
+    "vite": "4.3.7",
     "vitest": "0.31.0"
+  },
+  "eslintConfig": {
+    "extends": "../../internal/eslint-config-thorswap"
   },
   "exports": {
     ".": {
@@ -47,7 +53,6 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/toolbox-cosmos",
-  "packageManager": "yarn@3.2.1",
   "peerDependencies": {
     "@cosmos-client/core": "^0.45.13"
   },
@@ -57,8 +62,8 @@
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "yarn clean; echo 'Build toolbox-cosmos 🛠'; vite build && echo 'Build succeeded toolbox-cosmos ✅\n'",
-    "clean": "rm -rf dist",
+    "build": "echo 'Build toolbox-cosmos 🛠'; vite build && echo 'Build succeeded toolbox-cosmos ✅'",
+    "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest'",
     "test:coverage": "echo 'vitest run --coverage'"

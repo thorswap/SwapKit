@@ -3,7 +3,7 @@
 ## Install:
 
 ```bash
-yarn add @thorswap-lib/walletconnect
+pnpm add @thorswap-lib/walletconnect
 ```
 
 To use the walletconnect you need to [extend core](packages/swapkit-core#swapkitcore-api) with `walletconnectWallet` and install the corresponding package for the chain you want to use.

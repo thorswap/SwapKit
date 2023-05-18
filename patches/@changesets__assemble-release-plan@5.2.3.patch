@@ -1,0 +1,26 @@
+diff --git a/dist/assemble-release-plan.cjs.dev.js b/dist/assemble-release-plan.cjs.dev.js
+index 3a37c62c975518f975c22e1b4b3974d9b325a5da..ac98c5aea50c851d6014086155de464e3fc20049 100644
+--- a/dist/assemble-release-plan.cjs.dev.js
++++ b/dist/assemble-release-plan.cjs.dev.js
+@@ -430,7 +430,7 @@ function applyLinks(releases, packagesByName, linked) {
+ 
+ function getPreVersion(version) {
+   let parsed = semver.parse(version);
+-  let preVersion = parsed.prerelease[1] === undefined ? -1 : parsed.prerelease[1];
++  let preVersion = parsed?.prerelease?.[1] === undefined ? -1 : parsed?.prerelease?.[1];
+ 
+   if (typeof preVersion !== "number") {
+     throw new errors.InternalError("preVersion is not a number");
+diff --git a/src/index.ts b/src/index.ts
+index 3ffb6fa772b78506bd7de7a4fcb41c004733b00d..57b88999bc91678f193c25e16ff8e6753e6b23bf 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -24,7 +24,7 @@ type SnapshotReleaseParameters = {
+ function getPreVersion(version: string) {
+   let parsed = semver.parse(version)!;
+   let preVersion =
+-    parsed.prerelease[1] === undefined ? -1 : parsed.prerelease[1];
++    parsed?.prerelease?.[1] === undefined ? -1 : parsed?.prerelease?.[1];
+   if (typeof preVersion !== "number") {
+     throw new InternalError("preVersion is not a number");
+   }

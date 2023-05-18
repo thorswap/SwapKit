@@ -158,18 +158,26 @@ This repo contains packages around SwapKit sdk and its integrations with differe
 
 
 
-
 ## Contributing
+
+#### Pre-requisites
+
+1.
+```bash
+npm install -g pnpm
+```
+
+2.
+```pre
+Copy .env.example to .env and fill it with data
+```
+
 
 ### Installation
 
 ```bash
-yarn install; yarn build
+pnpm bootstrap;
 ```
-#### Commit messages
-
-Project comes with `@commitlint/config-lerna-scopes` so we can generate changelogs with changesets so commits should have scope in task when it's touching just one package i.e. "`chore(ledger): add ATOM integration`". [See more](https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/config-lerna-scopes)
-
 
 #### Branches
 
@@ -178,7 +186,7 @@ Project comes with `@commitlint/config-lerna-scopes` so we can generate changelo
 
 #### Testing
 
-To run tests use `yarn test` command.
+To run tests use `pnpm test` command.
 
 #### Pull requests
 
@@ -190,7 +198,7 @@ To run tests use `yarn test` command.
 
 #### New package
 
-To create new package use `yarn generate` and pick one of the options
+To create new package use `pnpm generate` and pick one of the options
 It will setup the package with the necessary files for bundling and publishing.
 </br>
 New toolbox(TBA)
@@ -203,12 +211,12 @@ New wallet(TBA)
 Packages are automatically published to npm when new PR is merged to `main` & `develop` branches.
 To automate and handle process we use [changesets](https://github.com/changesets/changesets) and github action workflows.
 
-<b>Before running `yarn changeset` you have to pull `main` & `develop`</b>
+<b>Before running `pnpm changeset` you have to pull `main` & `develop`</b>
 
 To release new version of package you need to create PR with changes and add changeset file to your commit.
 
 ```bash
-yarn changeset
+pnpm changeset
 ```
 
 After PR is merged to `develop` branch with changeset file, github action will create new PR with updated versions of packages and changelogs.

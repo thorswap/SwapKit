@@ -9,7 +9,7 @@
     "@internal/config": "workspace:*",
     "@vitest/coverage-c8": "0.31.0",
     "bignumber.js": "9.1.1",
-    "vite": "4.3.5",
+    "vite": "4.3.7",
     "vitest": "0.31.0"
   },
   "files": [
@@ -19,14 +19,13 @@
   "license": "MIT",
   "main": "./src/index.ts",
   "name": "@thorswap-lib/helpers",
-  "packageManager": "yarn@3.2.1",
   "peerDependencies": {
     "@ethersproject/bignumber": "^5.7.0",
     "bignumber.js": "^9.1.1"
   },
   "scripts": {
-    "build": "yarn clean; echo 'Build @thorswap-lib/helpers 🛠'; vite build && echo 'Build succeeded @thorswap-lib/helpers ✅\n';",
-    "clean": "rm -rf dist",
+    "build": "echo 'Build @thorswap-lib/helpers 🛠'; vite build && echo 'Build succeeded @thorswap-lib/helpers ✅';",
+    "clean": "rm -rf dist .turbo",
     "lint": "eslint --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest'",
     "test:coverage": "echo 'vitest run --coverage'"

@@ -95,7 +95,8 @@ const transfer = async (
   return transaction({ method, params, chain: asset.chain });
 };
 
-export const getWalletMethodsForChain = ({
+// TODO: Fix type inference: swapkit-entities, bitcoinjs-lib, ecpair
+export const getWalletMethodsForChain: any = ({
   chain,
   ethplorerApiKey,
   covalentApiKey,

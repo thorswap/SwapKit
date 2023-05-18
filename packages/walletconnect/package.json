@@ -1,10 +1,10 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@coinbase/wallet-sdk": "^3.6.6",
-    "@thorswap-lib/types": "workspace:^",
+    "@coinbase/wallet-sdk": "3.6.6",
+    "@thorswap-lib/types": "workspace:*",
     "@walletconnect/web3-provider": "1.8.0",
-    "web3modal": "^1.9.12"
+    "web3modal": "1.9.12"
   },
   "description": "THORSwap Lib walletconnect",
   "devDependencies": {
@@ -13,11 +13,14 @@
     "@ethersproject/providers": "5.7.2",
     "@ethersproject/strings": "5.7.0",
     "@internal/config": "workspace:*",
-    "@thorswap-lib/toolbox-evm": "workspace:^",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
     "@vitest/coverage-c8": "0.31.0",
     "@walletconnect/types": "2.7.4",
-    "vite": "4.3.6",
+    "vite": "4.3.7",
     "vitest": "0.31.0"
+  },
+  "eslintConfig": {
+    "extends": "../../internal/eslint-config-thorswap"
   },
   "exports": {
     ".": {
@@ -35,11 +38,10 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/walletconnect",
-  "packageManager": "yarn@3.2.1",
   "peerDependencies": {
     "@ethersproject/bytes": "^5.7.0",
     "@ethersproject/strings": "^5.7.0",
-    "@thorswap-lib/toolbox-evm": "workspace:^"
+    "@thorswap-lib/toolbox-evm": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
@@ -47,8 +49,8 @@
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "yarn clean; echo 'Build walletconnect 🛠'; vite build && echo 'Build succeeded walletconnect ✅\n'",
-    "clean": "rm -rf dist",
+    "build": "echo 'Build walletconnect 🛠'; vite build && echo 'Build succeeded walletconnect ✅'",
+    "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest'",
     "test:coverage": "echo 'vitest run --coverage'"

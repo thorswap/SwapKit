@@ -3,7 +3,7 @@
 ## Install
 
 ```bash
-yarn add @thorswap-lib/web-extensions
+pnpm add @thorswap-lib/web-extensions
 ```
 To use the browser extensions you need to [extend core](packages/swapkit-core#swapkitcore-api) and install the corresponding package for the chain you want to use.
 

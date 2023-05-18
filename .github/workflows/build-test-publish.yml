@@ -6,11 +6,12 @@ on:
     branches:
       - develop
       - main
+
   pull_request:
     paths:
       - 'packages/**'
       - 'internal/**'
-      - 'yarn.lock'
+      - 'pnpm.lock'
       - 'package.json'
       - 'turbo.json'
 
@@ -18,79 +19,72 @@ concurrency:
   group: build-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
+  NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+  TURBO_API: https://eu.trrc.ducktors.dev
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  TURBO_TOKEN: turbotoken-oss-europe1
+
 jobs:
-  dry-build:
+  build:
     if: contains(github.event.pull_request.title, ':tada:') == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-js-workflow
       - name: Build and check size
-        if: github.ref_type == 'pull_request'
+        if: github.event_name == 'pull_request'
         uses: andresz1/size-limit-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          build_script: ci
           skip_step: install
-        env:
-          TURBO_TOKEN: turbotoken-oss-europe1
-      - name: Only build
-        if: github.ref_type != 'pull_request'
-        run: yarn ci
-        env:
-          TURBO_TOKEN: turbotoken-oss-europe1
+
+      - name: Build
+        if: github.event_name != 'pull_request'
+        run: pnpm build
 
   test:
-    needs: dry-build
+    if: contains(github.event.pull_request.title, ':tada:') == false
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-js-workflow
       - name: Test
-        run: yarn test
-        env:
-          INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
-          TURBO_TOKEN: turbotoken-oss-europe1
+        run: pnpm test
 
   lint:
-    needs: dry-build
+    if: contains(github.event.pull_request.title, ':tada:') == false
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup-js-workflow
       - name: Lint
-        run: yarn lint
-        env:
-          TURBO_TOKEN: turbotoken-oss-europe1
+        run: pnpm lint
 
   publish:
     if: contains(github.ref_name, 'develop') || contains(github.ref_name, 'main')
-    needs: [test, lint]
+    needs: [build, test, lint]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: ./.github/actions/setup-js-workflow
-
-      - name: Setup NPM_AUTH_TOKEN
-        run: |
-          echo 'npmAuthToken: "${{ secrets.NPM_AUTH_TOKEN }}"' >> .yarnrc.yml
-
       - name: Set job params
         shell: bash
         id: deployment-params
         run: |
-          echo "version=$([ "${{ github.ref_name }}" = "main" ] && echo "version-release" || echo "version-development")" >> $GITHUB_OUTPUT
+          echo "version=$([ "${{ github.ref_name }}" = "main" ] && echo "version-release" || echo "version-bump")" >> $GITHUB_OUTPUT
           echo "publishName=$([ "${{ github.ref_name }}" = "main" ] && echo "Release" || echo "Pre-Release")" >> $GITHUB_OUTPUT
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
 
-      - name: "Create ${{ steps.deployment-params.outputs.publishName }} Pull Request or Publish to npm"
+      - name: Create Pull Request or Publish to npm
         uses: changesets/action@v1
         with:
-          title: ":tada: Publish pre-release"
-          version: yarn ${{ steps.deployment-params.outputs.version }}
-          publish: yarn publish-packages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          title: ":tada: Publish ${{ steps.deployment-params.outputs.publishName }}"
+          version: pnpm ${{ steps.deployment-params.outputs.version }}
+          publish: pnpm publish-packages
+          setupGitUser: false

@@ -3,6 +3,6 @@
 ## Install:
 
 ```bash
-yarn add @thorswap-lib/types
+pnpm add @thorswap-lib/types
 ```
 

@@ -9,8 +9,11 @@
     "@internal/config": "workspace:*",
     "@vitest/coverage-c8": "0.31.0",
     "bignumber.js": "9.1.1",
-    "vite": "4.3.5",
+    "vite": "4.3.7",
     "vitest": "0.31.0"
+  },
+  "eslintConfig": {
+    "extends": "../../internal/eslint-config-thorswap"
   },
   "exports": {
     ".": {
@@ -28,7 +31,6 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/swapkit-entities",
-  "packageManager": "yarn@3.2.1",
   "peerDependencies": {
     "bignumber.js": "^9.1.0"
   },
@@ -38,8 +40,8 @@
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "yarn clean; echo 'Build swapkit-entities 🛠'; vite build && echo 'Build succeeded swapkit-entities ✅\n'",
-    "clean": "rm -rf dist",
+    "build": "echo 'Build swapkit-entities 🛠'; vite build && echo 'Build succeeded swapkit-entities ✅'",
+    "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "vitest --run",
     "test:coverage": "vitest run --coverage"

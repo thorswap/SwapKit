@@ -60,7 +60,7 @@ const getWalletMethodsForChain = async ({
 
       const provider = getProvider(chain, rpcUrl);
       const wallet = new Wallet(derivedPath).connect(provider);
-      const params = { api, provider, signer: wallet };
+      const params = { api, provider, signer: wallet as any };
 
       const toolbox =
         chain === Chain.Ethereum

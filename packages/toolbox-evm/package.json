@@ -1,6 +1,7 @@
 {
   "author": "thorswap",
   "dependencies": {
+    "@avalabs/avalanchejs": "3.17.0",
     "@ethersproject/abstract-provider": "5.7.0",
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/address": "5.7.0",
@@ -12,18 +13,22 @@
     "@ethersproject/units": "5.7.0",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
-    "@thorswap-lib/types": "workspace:*",
-    "avalanche": "3.16.0"
+    "@thorswap-lib/types": "workspace:*"
   },
   "description": "THORSwap toolbox-evm",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@nomicfoundation/hardhat-network-helpers": "^1.0.8",
-    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@keplr-wallet/types": "0.11.63",
+    "@nomicfoundation/hardhat-network-helpers": "1.0.8",
+    "@nomiclabs/hardhat-ethers": "2.2.3",
+    "@types/node": "20.1.6",
     "@vitest/coverage-c8": "0.31.0",
-    "hardhat": "^2.14.0",
-    "vite": "4.3.5",
+    "hardhat": "2.14.0",
+    "vite": "4.3.7",
     "vitest": "0.31.0"
+  },
+  "eslintConfig": {
+    "extends": "../../internal/eslint-config-thorswap"
   },
   "exports": {
     ".": {
@@ -41,15 +46,14 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/toolbox-evm",
-  "packageManager": "yarn@3.2.1",
   "publishConfig": {
     "access": "public"
   },
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "yarn clean; echo 'Build toolbox-evm 🛠'; vite build && echo 'Build succeeded toolbox-evm ✅\n'",
-    "clean": "rm -rf dist",
+    "build": "echo 'Build toolbox-evm 🛠'; vite build && echo 'Build succeeded toolbox-evm ✅'",
+    "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "vitest --run",
     "test:coverage": "vitest run --coverage"

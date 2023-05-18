@@ -37,27 +37,25 @@ export const getLedgerTransport = async () => {
 
   if (!iface) throw new Error('No Ledger device found');
 
-
   try {
     await device.claimInterface(iface.interfaceNumber);
   } catch (error: any) {
     await device.close();
-    console.error(error)
+    console.error(error);
     throw new Error(error.message);
   }
 
   // @ts-ignore Ledger typing is wrong
   const transport = new Transport(device, iface.interfaceNumber);
 
-
   const onDisconnect = (e: any) => {
     if (device === e.device) {
-      navigator?.usb?.removeEventListener("disconnect", onDisconnect);
+      navigator?.usb?.removeEventListener('disconnect', onDisconnect);
 
       transport._emitDisconnect(new DisconnectedDevice());
     }
   };
-  navigator?.usb?.addEventListener("disconnect", onDisconnect);
+  navigator?.usb?.addEventListener('disconnect', onDisconnect);
 
   return transport;
 };

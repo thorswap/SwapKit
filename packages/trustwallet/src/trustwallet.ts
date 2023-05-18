@@ -257,8 +257,8 @@ const getWalletconnect = async (walletconnectOptions: WalletConnectOption = {}) 
   const listeners = walletconnectOptions?.listeners;
   window?.localStorage?.removeItem?.('walletconnect');
 
-  // @ts-expect-error
-  const connector = new WalletConnect(options) as unknown as WalletConnect.default;
+  // @ts-ignore
+  const connector = new WalletConnect(options) as any;
 
   if (!connector.connected) {
     // create new session (display QR code inside createSession as well)

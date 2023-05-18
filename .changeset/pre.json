@@ -74,6 +74,7 @@
     "witty-mugs-drive"
   ],
   "initialVersions": {
+    "@internal/config": "0.0.0",
     "@thorswap-lib/helpers": "0.0.0-development.53",
     "@thorswap-lib/keystore": "1.0.0-development.114",
     "@thorswap-lib/ledger": "1.0.0-development.130",
@@ -89,7 +90,8 @@
     "@thorswap-lib/types": "1.0.0-development.60",
     "@thorswap-lib/walletconnect": "1.0.1-development.5",
     "@thorswap-lib/web-extensions": "1.0.0-development.118",
-    "expo-playground": "null-development.0"
+    "@thorswap/expo-playground": "0.0.0",
+    "@thorswap/vite-playground": "0.0.0"
   },
   "mode": "pre",
   "tag": "development"

@@ -10,15 +10,18 @@
   },
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "eslint-config-thorswap": "workspace:*",
     "vite": "4.3.5"
+  },
+  "eslintConfig": {
+    "extends": "../eslint-config-thorswap"
   },
   "main": "index.js",
   "name": "@internal/generator",
   "private": true,
   "scripts": {
     "clean": "rm -rf dist",
-    "generate": "yarn clean; vite build; node ./dist/index.js"
+    "generate": "pnpm install; pnpm clean; vite build; node ./dist/index.js"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }
