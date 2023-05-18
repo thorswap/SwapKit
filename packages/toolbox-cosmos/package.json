@@ -1,6 +1,8 @@
 {
   "author": "thorswap",
   "dependencies": {
+    "@cosmjs/amino": "0.30.1",
+    "@cosmjs/crypto": "0.30.1",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-api": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
@@ -69,5 +71,5 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "typings": "./dist/index.d.ts",
-  "version": "1.0.0-development.100"
+  "version": "1.0.0-development.104"
 }

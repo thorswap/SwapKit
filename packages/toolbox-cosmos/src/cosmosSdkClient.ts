@@ -149,7 +149,7 @@ export class CosmosSDKClient {
   }: TransferParams) => {
     this.setPrefix();
 
-    const pubKey = privkey.pubKey();
+    const pubKey = (privkey as proto.cosmos.crypto.secp256k1.PrivKey).pubKey();
     const account = await this.getAccount(pubKey);
     const txBody = this.buildSendTxBody({ from, to, amount, asset, memo });
 
@@ -168,7 +168,11 @@ export class CosmosSDKClient {
 
     const txBuilder = new cosmosclient.TxBuilder(this.sdk, txBody, authInfo);
 
-    return this.signAndBroadcast(txBuilder, privkey, account);
+    return this.signAndBroadcast(
+      txBuilder,
+      privkey as proto.cosmos.crypto.secp256k1.PrivKey,
+      account,
+    );
   };
 
   signAndBroadcast = async (

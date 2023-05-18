@@ -117,12 +117,12 @@
     {
       "path": "./packages/toolbox-cosmos/dist/index.cjs",
       "name": "toolbox-cosmos(cjs)",
-      "limit": "550 KB"
+      "limit": "700 KB"
     },
     {
       "path": "./packages/toolbox-cosmos/dist/index.es.js",
       "name": "toolbox-cosmos(esm)",
-      "limit": "550 KB"
+      "limit": "800 KB"
     },
     {
       "path": "./packages/toolbox-evm/dist/index.cjs",
@@ -137,7 +137,7 @@
     {
       "path": "./packages/toolbox-utxo/dist/index.cjs",
       "name": "toolbox-utxo(cjs)",
-      "limit": "300 KB"
+      "limit": "350 KB"
     },
     {
       "path": "./packages/toolbox-utxo/dist/index.es.js",

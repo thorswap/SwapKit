@@ -23,7 +23,7 @@ env:
   INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
   NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
   TURBO_API: https://eu.trrc.ducktors.dev
-  TURBO_TEAM: team_thorswap
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
   TURBO_TOKEN: turbotoken-oss-europe1
 
 jobs:
@@ -48,7 +48,6 @@ jobs:
       - uses: ./.github/actions/setup-js-workflow
       - name: Test
         run: pnpm test
-
 
   lint:
     if: contains(github.event.pull_request.title, ':tada:') == false
@@ -76,5 +75,5 @@ jobs:
         uses: changesets/action@v1
         with:
           title: ":tada: Publish pre-release"
-          version: pnpm ${{ steps.deployment-params.outputs.version }}
-          publish: pnpm publish-packages
+          version: dotenv -- pnpm ${{ steps.deployment-params.outputs.version }}
+          publish: dotenv -- pnpm publish-packages

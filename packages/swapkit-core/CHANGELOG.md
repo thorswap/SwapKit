@@ -1,5 +1,37 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.167
+
+### Patch Changes
+
+- Updated dependencies [[`453c6c3`](https://github.com/thorswap/SwapKit/commit/453c6c3dfeb4e4cbd0777aa0ff69b0300d62917f)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.88
+  - @thorswap-lib/helpers@0.0.0-development.80
+
+## 1.0.0-development.166
+
+### Patch Changes
+
+- [#102](https://github.com/thorswap/SwapKit/pull/102) [`cb4403e`](https://github.com/thorswap/SwapKit/commit/cb4403ea0bfdf6f298cfd13d3a702638ef51656b) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Expose balance on getWalletByChain & separate method
+
+  Please enter a summary for your changes.
+
+- Updated dependencies [[`eda3d7c`](https://github.com/thorswap/SwapKit/commit/eda3d7cdc4d56f0d879c14b2246583aaa604ebd0)]:
+  - @thorswap-lib/types@1.0.0-development.82
+  - @thorswap-lib/helpers@0.0.0-development.79
+  - @thorswap-lib/swapkit-entities@1.0.0-development.87
+  - @thorswap-lib/swapkit-explorers@1.0.0-development.33
+
+## 1.0.0-development.165
+
+### Patch Changes
+
+- Updated dependencies [[`fc91e93`](https://github.com/thorswap/SwapKit/commit/fc91e93d5d9ceb6b92e0ce645ed308783067eae0)]:
+  - @thorswap-lib/types@1.0.0-development.81
+  - @thorswap-lib/helpers@0.0.0-development.78
+  - @thorswap-lib/swapkit-entities@1.0.0-development.86
+  - @thorswap-lib/swapkit-explorers@1.0.0-development.32
+
 ## 1.0.0-development.164
 
 ### Patch Changes
