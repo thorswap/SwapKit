@@ -1,4 +1,3 @@
-import { Signer } from '@ethersproject/abstract-signer';
 import { derivationPathToString } from '@thorswap-lib/helpers';
 import { AVAXToolbox, BSCToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import {
@@ -59,17 +58,19 @@ const getToolbox = async ({
     case Chain.BinanceSmartChain:
     case Chain.Avalanche:
     case Chain.Ethereum: {
-      if (!ethplorerApiKey) throw new Error('Ethplorer API key not found');
-      if (!covalentApiKey) throw new Error('Ethplorer API key not found');
+      if (chain === Chain.Ethereum && !ethplorerApiKey)
+        throw new Error('Ethplorer API key not found');
+      if (!covalentApiKey) throw new Error('Covalent API key not found');
 
       const provider = getProvider(chain, rpcUrl);
-      const signer = (await getEVMSigner({ chain, derivationPath, provider })) as unknown as Signer;
+      const signer = await getEVMSigner({ chain, derivationPath, provider });
+
       const address = await signer.getAddress();
       const params = { api, signer, provider };
-
       const walletMethods =
         chain === Chain.Ethereum
-          ? ETHToolbox({ ...params, ethplorerApiKey })
+          ? //@ts-expect-error
+            ETHToolbox({ ...params, ethplorerApiKey })
           : (chain === Chain.Avalanche ? AVAXToolbox : BSCToolbox)({ ...params, covalentApiKey });
 
       return { address, walletMethods };

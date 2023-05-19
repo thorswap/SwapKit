@@ -1,3 +1,4 @@
+import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber } from '@ethersproject/bignumber';
 import { JsonRpcProvider, Provider } from '@ethersproject/providers';
 import { serialize } from '@ethersproject/transactions';
@@ -11,11 +12,22 @@ interface TrezorEVMSignerParams {
   provider: Provider | JsonRpcProvider;
 }
 
-export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEVMSignerParams) => {
-  const getAddress = async () => {
+class TrezorSigner extends Signer {
+  private chain: Chain;
+  private derivationPath: DerivationPathArray;
+  readonly provider: Provider | JsonRpcProvider;
+
+  constructor({ chain, derivationPath, provider }: TrezorEVMSignerParams) {
+    super();
+    this.chain = chain;
+    this.derivationPath = derivationPath;
+    this.provider = provider;
+  }
+
+  getAddress = async () => {
     //@ts-ignore
     const result = await TrezorConnect.ethereumGetAddress({
-      path: `m/${derivationPathToString(derivationPath)}`,
+      path: `m/${derivationPathToString(this.derivationPath)}`,
       showOnTrezor: true,
     });
 
@@ -24,10 +36,10 @@ export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEV
     return result.payload.address;
   };
 
-  const signMessage = async (message: string) => {
+  signMessage = async (message: string) => {
     //@ts-ignore
     const result = await TrezorConnect.ethereumSignMessage({
-      path: `m/${derivationPathToString(derivationPath)}`,
+      path: `m/${derivationPathToString(this.derivationPath)}`,
       message,
     });
 
@@ -36,7 +48,7 @@ export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEV
     return result.payload.signature;
   };
 
-  const signTransaction = async ({
+  signTransaction = async ({
     from,
     to,
     value,
@@ -53,11 +65,11 @@ export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEV
     if (!maxPriorityFeePerGas) throw new Error('Missing maxPriorityFeePerGas');
 
     const baseTx = {
-      chainId: BigNumber.from(ChainToChainId[chain]).toNumber(),
+      chainId: BigNumber.from(ChainToChainId[this.chain]).toNumber(),
       to,
       value: BigNumber.from(value || 0).toHexString(),
       gasLimit: BigNumber.from(gasLimit).toHexString(),
-      nonce: (nonce || (await provider.getTransactionCount(from, 'pending'))).toString(),
+      nonce: (nonce || (await this.provider.getTransactionCount(from, 'pending'))).toString(),
       data,
       maxFeePerGas: BigNumber.from(maxFeePerGas).toHexString(),
       maxPriorityFeePerGas: BigNumber.from(maxPriorityFeePerGas).toHexString(),
@@ -65,7 +77,7 @@ export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEV
 
     //@ts-ignore
     const result = await TrezorConnect.ethereumSignTransaction({
-      path: `m/${derivationPathToString(derivationPath)}`,
+      path: `m/${derivationPathToString(this.derivationPath)}`,
       transaction: baseTx,
     });
 
@@ -85,16 +97,8 @@ export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEV
     return signedTx;
   };
 
-  const connect = (provider: Provider) => {
-    return getEVMSigner({ chain, derivationPath, provider });
-  };
-
-  return {
-    _isSigner: true,
-    provider,
-    getAddress,
-    signMessage,
-    signTransaction,
-    connect,
-  };
-};
+  connect = (provider: Provider) =>
+    new TrezorSigner({ chain: this.chain, derivationPath: this.derivationPath, provider });
+}
+export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEVMSignerParams) =>
+  new TrezorSigner({ chain, derivationPath, provider });
