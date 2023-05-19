@@ -9,7 +9,7 @@
     "vitest": "0.31.1"
   },
   "eslintConfig": {
-    "extends": "../../internal/eslint-config-thorswap"
+    "extends": "../../../internal/eslint-config-thorswap"
   },
   "exports": {
     ".": {

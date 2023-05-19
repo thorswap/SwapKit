@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 const { FileStore } = require('metro-cache');
 const path = require('path');
 

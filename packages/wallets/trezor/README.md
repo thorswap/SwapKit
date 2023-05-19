@@ -6,7 +6,7 @@
 pnpm add @thorswap-lib/trezor
 ```
 
-To use the trezor you need to [extend core](packages/swapkit-core#swapkitcore-api) with `trezorWallet` and install the corresponding package for the chain you want to use.
+To use the trezor you need to [extend core](packages/swapkit/swapkit-core#swapkitcore-api) with `trezorWallet` and install the corresponding package for the chain you want to use.
 
 ```ts
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
