@@ -10,6 +10,7 @@ export interface PoolDetail {
   assetPrice: string;
   assetPriceUSD: string;
   liquidityUnits: string;
+  loanCollateral: string;
   poolAPY: string;
   runeDepth: string;
   status: string;
