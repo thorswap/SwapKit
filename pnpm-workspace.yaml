@@ -1,5 +1,7 @@
 packages:
-  - 'apps/**'
-  - 'packages/**'
-  - 'internal/**'
   - '!internal/generator/template/**'
+  - 'apps/**'
+  - 'internal/**'
+  - 'packages/swapkit/**'
+  - 'packages/toolboxes/**'
+  - 'packages/wallets/**'

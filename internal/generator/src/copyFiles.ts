@@ -2,7 +2,7 @@ import { render } from 'ejs';
 import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs';
 import { join, resolve } from 'path';
 
-import { CliOptions, PackageType } from './cliTypes.js';
+import { CliOptions } from './cliTypes.js';
 
 const copyDir = async (source: string, dest: string, options: any) => {
   mkdirSync(dest);
@@ -36,11 +36,17 @@ const LIB_FILES = resolve('./template/library');
 export const copyFiles = async ({ packageType, packageName }: CliOptions) => {
   const options = { packageName };
 
-  switch (packageType) {
-    case PackageType.Common:
-      return copyDir(LIB_FILES, `../../packages/${packageName}`, options);
+  const packagePath = `../../packages/${packageType.toLowerCase()}/${packageName}`;
 
-    default:
-      break;
-  }
+  return copyDir(LIB_FILES, packagePath, options);
+
+  // TODO: Use in future for custom package types
+  // switch (packageType) {
+  //   case PackageType.Wallet:
+  //   case PackageType.Toolbox:
+  //   case PackageType.Swapkit:
+
+  //   default:
+  //     return true;
+  // }
 };

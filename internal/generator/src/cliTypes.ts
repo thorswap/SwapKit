@@ -1,5 +1,7 @@
 export enum PackageType {
-  Common = 'common',
+  Wallet = 'Wallet',
+  Toolbox = 'Toolbox',
+  SwapKit = 'SwapKit',
 }
 
 export type CliOptions = {

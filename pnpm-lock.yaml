@@ -121,46 +121,46 @@ importers:
         version: 1.18.1(react-native@0.71.8)
       '@thorswap-lib/keystore':
         specifier: workspace:*
-        version: link:../../packages/keystore
+        version: link:../../packages/wallets/keystore
       '@thorswap-lib/ledger':
         specifier: workspace:*
-        version: link:../../packages/ledger
+        version: link:../../packages/wallets/ledger
       '@thorswap-lib/swapkit-api':
         specifier: workspace:*
-        version: link:../../packages/swapkit-api
+        version: link:../../packages/swapkit/swapkit-api
       '@thorswap-lib/swapkit-core':
         specifier: workspace:*
-        version: link:../../packages/swapkit-core
+        version: link:../../packages/swapkit/swapkit-core
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
-        version: link:../../packages/swapkit-entities
+        version: link:../../packages/swapkit/swapkit-entities
       '@thorswap-lib/swapkit-explorers':
         specifier: workspace:*
-        version: link:../../packages/swapkit-explorers
+        version: link:../../packages/swapkit/swapkit-explorers
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
-        version: link:../../packages/toolbox-cosmos
+        version: link:../../packages/toolboxes/toolbox-cosmos
       '@thorswap-lib/toolbox-evm':
         specifier: workspace:*
-        version: link:../../packages/toolbox-evm
+        version: link:../../packages/toolboxes/toolbox-evm
       '@thorswap-lib/toolbox-utxo':
         specifier: workspace:*
-        version: link:../../packages/toolbox-utxo
+        version: link:../../packages/toolboxes/toolbox-utxo
       '@thorswap-lib/trezor':
         specifier: workspace:*
-        version: link:../../packages/trezor
+        version: link:../../packages/wallets/trezor
       '@thorswap-lib/trustwallet':
         specifier: workspace:*
-        version: link:../../packages/trustwallet
+        version: link:../../packages/wallets/trustwallet
       '@thorswap-lib/types':
         specifier: workspace:*
-        version: link:../../packages/types
+        version: link:../../packages/swapkit/types
       '@thorswap-lib/walletconnect':
         specifier: workspace:*
-        version: link:../../packages/walletconnect
+        version: link:../../packages/wallets/walletconnect
       '@thorswap-lib/xdefi':
         specifier: workspace:*
-        version: link:../../packages/xdefi
+        version: link:../../packages/wallets/xdefi
       '@tradle/react-native-http':
         specifier: 2.0.1
         version: 2.0.1
@@ -287,46 +287,46 @@ importers:
         version: 3.6.6
       '@thorswap-lib/keystore':
         specifier: workspace:*
-        version: link:../../packages/keystore
+        version: link:../../packages/wallets/keystore
       '@thorswap-lib/ledger':
         specifier: workspace:*
-        version: link:../../packages/ledger
+        version: link:../../packages/wallets/ledger
       '@thorswap-lib/swapkit-api':
         specifier: workspace:*
-        version: link:../../packages/swapkit-api
+        version: link:../../packages/swapkit/swapkit-api
       '@thorswap-lib/swapkit-core':
         specifier: workspace:*
-        version: link:../../packages/swapkit-core
+        version: link:../../packages/swapkit/swapkit-core
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
-        version: link:../../packages/swapkit-entities
+        version: link:../../packages/swapkit/swapkit-entities
       '@thorswap-lib/swapkit-explorers':
         specifier: workspace:*
-        version: link:../../packages/swapkit-explorers
+        version: link:../../packages/swapkit/swapkit-explorers
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
-        version: link:../../packages/toolbox-cosmos
+        version: link:../../packages/toolboxes/toolbox-cosmos
       '@thorswap-lib/toolbox-evm':
         specifier: workspace:*
-        version: link:../../packages/toolbox-evm
+        version: link:../../packages/toolboxes/toolbox-evm
       '@thorswap-lib/toolbox-utxo':
         specifier: workspace:*
-        version: link:../../packages/toolbox-utxo
+        version: link:../../packages/toolboxes/toolbox-utxo
       '@thorswap-lib/trezor':
         specifier: workspace:*
-        version: link:../../packages/trezor
+        version: link:../../packages/wallets/trezor
       '@thorswap-lib/trustwallet':
         specifier: workspace:*
-        version: link:../../packages/trustwallet
+        version: link:../../packages/wallets/trustwallet
       '@thorswap-lib/types':
         specifier: workspace:*
-        version: link:../../packages/types
+        version: link:../../packages/swapkit/types
       '@thorswap-lib/walletconnect':
         specifier: workspace:*
-        version: link:../../packages/walletconnect
+        version: link:../../packages/wallets/walletconnect
       '@thorswap-lib/xdefi':
         specifier: workspace:*
-        version: link:../../packages/xdefi
+        version: link:../../packages/wallets/xdefi
       '@walletconnect/qrcode-modal':
         specifier: 1.8.0
         version: 1.8.0
@@ -484,10 +484,10 @@ importers:
     dependencies:
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
-        version: link:../../packages/swapkit-entities
+        version: link:../../packages/swapkit/swapkit-entities
       '@thorswap-lib/types':
         specifier: workspace:*
-        version: link:../../packages/types
+        version: link:../../packages/swapkit/types
     devDependencies:
       '@ethersproject/bignumber':
         specifier: 5.7.0
@@ -508,11 +508,451 @@ importers:
         specifier: 0.31.1
         version: 0.31.1
 
-  packages/evm-web3-wallets:
+  packages/swapkit/swapkit-api:
     dependencies:
       '@thorswap-lib/types':
         specifier: workspace:*
         version: link:../types
+    devDependencies:
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+      '@vitest/coverage-istanbul':
+        specifier: 0.31.1
+        version: 0.31.1(vitest@0.31.1)
+      vite:
+        specifier: 4.3.8
+        version: 4.3.8(@types/node@20.2.1)
+      vitest:
+        specifier: 0.31.1
+        version: 0.31.1
+
+  packages/swapkit/swapkit-core:
+    dependencies:
+      '@ethersproject/bytes':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@ethersproject/units':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@thorswap-lib/helpers':
+        specifier: workspace:*
+        version: link:../../../internal/helpers
+      '@thorswap-lib/swapkit-entities':
+        specifier: workspace:*
+        version: link:../swapkit-entities
+      '@thorswap-lib/swapkit-explorers':
+        specifier: workspace:*
+        version: link:../swapkit-explorers
+      '@thorswap-lib/types':
+        specifier: workspace:*
+        version: link:../types
+      bignumber.js:
+        specifier: 9.1.1
+        version: 9.1.1
+    devDependencies:
+      '@ethersproject/abstract-provider':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+      '@thorswap-lib/swapkit-api':
+        specifier: workspace:*
+        version: link:../swapkit-api
+      '@thorswap-lib/toolbox-cosmos':
+        specifier: workspace:*
+        version: link:../../toolboxes/toolbox-cosmos
+      '@thorswap-lib/toolbox-evm':
+        specifier: workspace:*
+        version: link:../../toolboxes/toolbox-evm
+      '@thorswap-lib/toolbox-utxo':
+        specifier: workspace:*
+        version: link:../../toolboxes/toolbox-utxo
+      '@thorswap-lib/trustwallet':
+        specifier: workspace:*
+        version: link:../../wallets/trustwallet
+      '@thorswap-lib/walletconnect':
+        specifier: workspace:*
+        version: link:../../wallets/walletconnect
+      '@vitest/coverage-istanbul':
+        specifier: 0.31.1
+        version: 0.31.1(vitest@0.31.1)
+      vite:
+        specifier: 4.3.8
+        version: 4.3.8(@types/node@20.2.1)
+      vite-plugin-top-level-await:
+        specifier: 1.3.0
+        version: 1.3.0(vite@4.3.8)
+      vite-plugin-wasm:
+        specifier: 3.2.2
+        version: 3.2.2(vite@4.3.8)
+      vitest:
+        specifier: 0.31.1
+        version: 0.31.1
+
+  packages/swapkit/swapkit-entities:
+    dependencies:
+      '@thorswap-lib/types':
+        specifier: workspace:*
+        version: link:../types
+      tiny-invariant:
+        specifier: 1.3.1
+        version: 1.3.1
+    devDependencies:
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+      '@vitest/coverage-istanbul':
+        specifier: 0.31.1
+        version: 0.31.1(vitest@0.31.1)
+      bignumber.js:
+        specifier: 9.1.1
+        version: 9.1.1
+      vite:
+        specifier: 4.3.8
+        version: 4.3.8(@types/node@20.2.1)
+      vitest:
+        specifier: 0.31.1
+        version: 0.31.1
+
+  packages/swapkit/swapkit-explorers:
+    dependencies:
+      '@thorswap-lib/types':
+        specifier: workspace:*
+        version: link:../types
+    devDependencies:
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+      '@vitest/coverage-istanbul':
+        specifier: 0.31.1
+        version: 0.31.1(vitest@0.31.1)
+      vite:
+        specifier: 4.3.8
+        version: 4.3.8(@types/node@20.2.1)
+      vitest:
+        specifier: 0.31.1
+        version: 0.31.1
+
+  packages/swapkit/swapkit-sdk:
+    dependencies:
+      '@cosmos-client/core':
+        specifier: 0.45.13
+        version: 0.45.13
+      '@thorswap-lib/evm-web3-wallets':
+        specifier: workspace:*
+        version: link:../../wallets/evm-web3-wallets
+      '@thorswap-lib/keplr':
+        specifier: workspace:*
+        version: link:../../wallets/keplr
+      '@thorswap-lib/keystore':
+        specifier: workspace:*
+        version: link:../../wallets/keystore
+      '@thorswap-lib/ledger':
+        specifier: workspace:*
+        version: link:../../wallets/ledger
+      '@thorswap-lib/swapkit-api':
+        specifier: workspace:*
+        version: link:../swapkit-api
+      '@thorswap-lib/swapkit-core':
+        specifier: workspace:*
+        version: link:../swapkit-core
+      '@thorswap-lib/toolbox-cosmos':
+        specifier: workspace:*
+        version: link:../../toolboxes/toolbox-cosmos
+      '@thorswap-lib/toolbox-evm':
+        specifier: workspace:*
+        version: link:../../toolboxes/toolbox-evm
+      '@thorswap-lib/toolbox-utxo':
+        specifier: workspace:*
+        version: link:../../toolboxes/toolbox-utxo
+      '@thorswap-lib/trezor':
+        specifier: workspace:*
+        version: link:../../wallets/trezor
+      '@thorswap-lib/trustwallet':
+        specifier: workspace:*
+        version: link:../../wallets/trustwallet
+      '@thorswap-lib/types':
+        specifier: workspace:*
+        version: link:../types
+      '@thorswap-lib/walletconnect':
+        specifier: workspace:*
+        version: link:../../wallets/walletconnect
+      '@thorswap-lib/xdefi':
+        specifier: workspace:*
+        version: link:../../wallets/xdefi
+      bip39:
+        specifier: 3.1.0
+        version: 3.1.0
+      cosmos-client:
+        specifier: 0.39.2
+        version: 0.39.2
+    devDependencies:
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+      '@vitest/coverage-istanbul':
+        specifier: 0.31.1
+        version: 0.31.1(vitest@0.31.1)
+      vite:
+        specifier: 4.3.8
+        version: 4.3.8(@types/node@20.2.1)
+      vitest:
+        specifier: 0.31.1
+        version: 0.31.1
+
+  packages/swapkit/types:
+    devDependencies:
+      '@ethersproject/bignumber':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+      '@types/node':
+        specifier: 20.2.1
+        version: 20.2.1
+      vite:
+        specifier: 4.3.8
+        version: 4.3.8(@types/node@20.2.1)
+
+  packages/toolboxes/toolbox-cosmos:
+    dependencies:
+      '@cosmjs/amino':
+        specifier: 0.30.1
+        version: 0.30.1
+      '@cosmjs/crypto':
+        specifier: 0.30.1
+        version: 0.30.1
+      '@cosmjs/stargate':
+        specifier: 0.30.1
+        version: 0.30.1
+      '@thorswap-lib/helpers':
+        specifier: workspace:*
+        version: link:../../../internal/helpers
+      '@thorswap-lib/swapkit-api':
+        specifier: workspace:*
+        version: link:../../swapkit/swapkit-api
+      '@thorswap-lib/swapkit-entities':
+        specifier: workspace:*
+        version: link:../../swapkit/swapkit-entities
+      '@thorswap-lib/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
+      base64-js:
+        specifier: 1.5.1
+        version: 1.5.1
+      bech32:
+        specifier: 2.0.0
+        version: 2.0.0
+      bech32-buffer:
+        specifier: 0.2.1
+        version: 0.2.1
+      bip32:
+        specifier: 2.0.6
+        version: 2.0.6
+      bip39:
+        specifier: 3.1.0
+        version: 3.1.0
+      bn.js:
+        specifier: 5.2.1
+        version: 5.2.1
+      crypto-js:
+        specifier: 4.1.1
+        version: 4.1.1
+      elliptic:
+        specifier: 6.5.4
+        version: 6.5.4
+      long:
+        specifier: 4.0.0
+        version: 4.0.0
+      protobufjs:
+        specifier: 7.2.3
+        version: 7.2.3
+      protocol-buffers-encodings:
+        specifier: 1.2.0
+        version: 1.2.0
+      tiny-secp256k1:
+        specifier: 1.1.6
+        version: 1.1.6
+    devDependencies:
+      '@cosmos-client/core':
+        specifier: 0.45.13
+        version: 0.45.13
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+      '@types/bn.js':
+        specifier: 5.1.1
+        version: 5.1.1
+      '@types/crypto-js':
+        specifier: 4.1.1
+        version: 4.1.1
+      '@types/elliptic':
+        specifier: 6.4.14
+        version: 6.4.14
+      '@types/long':
+        specifier: 4.0.2
+        version: 4.0.2
+      '@types/node':
+        specifier: 20.2.1
+        version: 20.2.1
+      '@types/tiny-secp256k1':
+        specifier: 1.0.0
+        version: 1.0.0
+      '@vitest/coverage-istanbul':
+        specifier: 0.31.1
+        version: 0.31.1(vitest@0.31.1)
+      vite:
+        specifier: 4.3.8
+        version: 4.3.8(@types/node@20.2.1)
+      vitest:
+        specifier: 0.31.1
+        version: 0.31.1
+
+  packages/toolboxes/toolbox-evm:
+    dependencies:
+      '@avalabs/avalanchejs':
+        specifier: 3.17.0
+        version: 3.17.0
+      '@ethersproject/abstract-provider':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@ethersproject/abstract-signer':
+        specifier: 5.7.0
+        version: 5.7.0(patch_hash=25dytke5lh3fostylo3fnpzcxi)
+      '@ethersproject/address':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@ethersproject/bignumber':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@ethersproject/bytes':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@ethersproject/contracts':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@ethersproject/providers':
+        specifier: 5.7.2
+        version: 5.7.2
+      '@ethersproject/strings':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@ethersproject/units':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@thorswap-lib/helpers':
+        specifier: workspace:*
+        version: link:../../../internal/helpers
+      '@thorswap-lib/swapkit-entities':
+        specifier: workspace:*
+        version: link:../../swapkit/swapkit-entities
+      '@thorswap-lib/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
+    devDependencies:
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+      '@keplr-wallet/types':
+        specifier: 0.11.63
+        version: 0.11.63
+      '@nomicfoundation/hardhat-network-helpers':
+        specifier: 1.0.8
+        version: 1.0.8(hardhat@2.14.0)
+      '@nomiclabs/hardhat-ethers':
+        specifier: 2.2.3
+        version: 2.2.3(ethers@5.7.2)(hardhat@2.14.0)
+      '@types/node':
+        specifier: 20.2.1
+        version: 20.2.1
+      '@vitest/coverage-istanbul':
+        specifier: 0.31.1
+        version: 0.31.1(vitest@0.31.1)
+      hardhat:
+        specifier: 2.14.0
+        version: 2.14.0(typescript@5.0.4)
+      vite:
+        specifier: 4.3.8
+        version: 4.3.8(@types/node@20.2.1)
+      vitest:
+        specifier: 0.31.1
+        version: 0.31.1
+
+  packages/toolboxes/toolbox-utxo:
+    dependencies:
+      '@psf/bitcoincashjs-lib':
+        specifier: 4.0.3
+        version: 4.0.3
+      '@thorswap-lib/helpers':
+        specifier: workspace:*
+        version: link:../../../internal/helpers
+      '@thorswap-lib/swapkit-entities':
+        specifier: workspace:*
+        version: link:../../swapkit/swapkit-entities
+      '@thorswap-lib/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
+      bchaddrjs:
+        specifier: 0.5.2
+        version: 0.5.2
+      bip32:
+        specifier: 2.0.6
+        version: 2.0.6
+      bip39:
+        specifier: ^3.0.4
+        version: 3.1.0
+      bitcoinjs-lib:
+        specifier: 5.2.0
+        version: 5.2.0
+      coininfo:
+        specifier: 5.2.1
+        version: 5.2.1
+      coinselect:
+        specifier: 3.1.13
+        version: 3.1.13
+      ecpair:
+        specifier: 2.0.1
+        version: 2.0.1
+      tiny-secp256k1:
+        specifier: 1.1.6
+        version: 1.1.6
+      uniqid:
+        specifier: 5.4.0
+        version: 5.4.0
+    devDependencies:
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+      '@types/bchaddrjs':
+        specifier: 0.4.0
+        version: 0.4.0
+      '@types/node':
+        specifier: 20.2.1
+        version: 20.2.1
+      '@types/tiny-secp256k1':
+        specifier: 1.0.0
+        version: 1.0.0
+      '@types/uniqid':
+        specifier: 5.3.2
+        version: 5.3.2
+      '@vitest/coverage-istanbul':
+        specifier: 0.31.1
+        version: 0.31.1(vitest@0.31.1)
+      vite:
+        specifier: 4.3.8
+        version: 4.3.8(@types/node@20.2.1)
+      vitest:
+        specifier: 0.31.1
+        version: 0.31.1
+
+  packages/wallets/evm-web3-wallets:
+    dependencies:
+      '@thorswap-lib/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
     devDependencies:
       '@ethersproject/abstract-signer':
         specifier: 5.7.0
@@ -522,10 +962,10 @@ importers:
         version: 5.7.2
       '@internal/config':
         specifier: workspace:*
-        version: link:../../internal/config
+        version: link:../../../internal/config
       '@thorswap-lib/toolbox-evm':
         specifier: workspace:*
-        version: link:../toolbox-evm
+        version: link:../../toolboxes/toolbox-evm
       '@vitest/coverage-istanbul':
         specifier: 0.31.1
         version: 0.31.1(vitest@0.31.1)
@@ -536,21 +976,21 @@ importers:
         specifier: 0.31.1
         version: 0.31.1
 
-  packages/keplr:
+  packages/wallets/keplr:
     dependencies:
       '@thorswap-lib/types':
         specifier: workspace:*
-        version: link:../types
+        version: link:../../swapkit/types
     devDependencies:
       '@internal/config':
         specifier: workspace:*
-        version: link:../../internal/config
+        version: link:../../../internal/config
       '@keplr-wallet/types':
         specifier: 0.11.63
         version: 0.11.63
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
-        version: link:../toolbox-cosmos
+        version: link:../../toolboxes/toolbox-cosmos
       '@vitest/coverage-istanbul':
         specifier: 0.31.1
         version: 0.31.1(vitest@0.31.1)
@@ -561,7 +1001,7 @@ importers:
         specifier: 0.31.1
         version: 0.31.1
 
-  packages/keystore:
+  packages/wallets/keystore:
     dependencies:
       '@ethersproject/hdnode':
         specifier: 5.7.0
@@ -571,13 +1011,13 @@ importers:
         version: 5.7.0
       '@thorswap-lib/helpers':
         specifier: workspace:*
-        version: link:../../internal/helpers
+        version: link:../../../internal/helpers
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
-        version: link:../swapkit-entities
+        version: link:../../swapkit/swapkit-entities
       '@thorswap-lib/types':
         specifier: workspace:*
-        version: link:../types
+        version: link:../../swapkit/types
       blakejs:
         specifier: 1.2.1
         version: 1.2.1
@@ -602,16 +1042,16 @@ importers:
         version: 5.7.2
       '@internal/config':
         specifier: workspace:*
-        version: link:../../internal/config
+        version: link:../../../internal/config
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
-        version: link:../toolbox-cosmos
+        version: link:../../toolboxes/toolbox-cosmos
       '@thorswap-lib/toolbox-evm':
         specifier: workspace:*
-        version: link:../toolbox-evm
+        version: link:../../toolboxes/toolbox-evm
       '@thorswap-lib/toolbox-utxo':
         specifier: workspace:*
-        version: link:../toolbox-utxo
+        version: link:../../toolboxes/toolbox-utxo
       '@types/long':
         specifier: 4.0.2
         version: 4.0.2
@@ -637,7 +1077,7 @@ importers:
         specifier: 0.31.1
         version: 0.31.1
 
-  packages/ledger:
+  packages/wallets/ledger:
     dependencies:
       '@ledgerhq/devices':
         specifier: 8.0.2
@@ -662,13 +1102,13 @@ importers:
         version: 6.27.14
       '@thorswap-lib/helpers':
         specifier: workspace:*
-        version: link:../../internal/helpers
+        version: link:../../../internal/helpers
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
-        version: link:../swapkit-entities
+        version: link:../../swapkit/swapkit-entities
       '@thorswap-lib/types':
         specifier: workspace:*
-        version: link:../types
+        version: link:../../swapkit/types
       base64-js:
         specifier: 1.5.1
         version: 1.5.1
@@ -720,16 +1160,16 @@ importers:
         version: 5.7.0
       '@internal/config':
         specifier: workspace:*
-        version: link:../../internal/config
+        version: link:../../../internal/config
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
-        version: link:../toolbox-cosmos
+        version: link:../../toolboxes/toolbox-cosmos
       '@thorswap-lib/toolbox-evm':
         specifier: workspace:*
-        version: link:../toolbox-evm
+        version: link:../../toolboxes/toolbox-evm
       '@thorswap-lib/toolbox-utxo':
         specifier: workspace:*
-        version: link:../toolbox-utxo
+        version: link:../../toolboxes/toolbox-utxo
       '@types/bchaddrjs':
         specifier: 0.4.0
         version: 0.4.0
@@ -779,442 +1219,17 @@ importers:
         specifier: 0.31.1
         version: 0.31.1
 
-  packages/swapkit-api:
-    dependencies:
-      '@thorswap-lib/types':
-        specifier: workspace:*
-        version: link:../types
-    devDependencies:
-      '@internal/config':
-        specifier: workspace:*
-        version: link:../../internal/config
-      '@vitest/coverage-istanbul':
-        specifier: 0.31.1
-        version: 0.31.1(vitest@0.31.1)
-      vite:
-        specifier: 4.3.8
-        version: 4.3.8(@types/node@20.2.1)
-      vitest:
-        specifier: 0.31.1
-        version: 0.31.1
-
-  packages/swapkit-core:
-    dependencies:
-      '@ethersproject/bytes':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/units':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@thorswap-lib/helpers':
-        specifier: workspace:*
-        version: link:../../internal/helpers
-      '@thorswap-lib/swapkit-entities':
-        specifier: workspace:*
-        version: link:../swapkit-entities
-      '@thorswap-lib/swapkit-explorers':
-        specifier: workspace:*
-        version: link:../swapkit-explorers
-      '@thorswap-lib/types':
-        specifier: workspace:*
-        version: link:../types
-      bignumber.js:
-        specifier: 9.1.1
-        version: 9.1.1
-    devDependencies:
-      '@ethersproject/abstract-provider':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@internal/config':
-        specifier: workspace:*
-        version: link:../../internal/config
-      '@thorswap-lib/swapkit-api':
-        specifier: workspace:*
-        version: link:../swapkit-api
-      '@thorswap-lib/toolbox-cosmos':
-        specifier: workspace:*
-        version: link:../toolbox-cosmos
-      '@thorswap-lib/toolbox-evm':
-        specifier: workspace:*
-        version: link:../toolbox-evm
-      '@thorswap-lib/toolbox-utxo':
-        specifier: workspace:*
-        version: link:../toolbox-utxo
-      '@thorswap-lib/trustwallet':
-        specifier: workspace:*
-        version: link:../trustwallet
-      '@thorswap-lib/walletconnect':
-        specifier: workspace:*
-        version: link:../walletconnect
-      '@vitest/coverage-istanbul':
-        specifier: 0.31.1
-        version: 0.31.1(vitest@0.31.1)
-      vite:
-        specifier: 4.3.8
-        version: 4.3.8(@types/node@20.2.1)
-      vite-plugin-top-level-await:
-        specifier: 1.3.0
-        version: 1.3.0(vite@4.3.8)
-      vite-plugin-wasm:
-        specifier: 3.2.2
-        version: 3.2.2(vite@4.3.8)
-      vitest:
-        specifier: 0.31.1
-        version: 0.31.1
-
-  packages/swapkit-entities:
-    dependencies:
-      '@thorswap-lib/types':
-        specifier: workspace:*
-        version: link:../types
-      tiny-invariant:
-        specifier: 1.3.1
-        version: 1.3.1
-    devDependencies:
-      '@internal/config':
-        specifier: workspace:*
-        version: link:../../internal/config
-      '@vitest/coverage-istanbul':
-        specifier: 0.31.1
-        version: 0.31.1(vitest@0.31.1)
-      bignumber.js:
-        specifier: 9.1.1
-        version: 9.1.1
-      vite:
-        specifier: 4.3.8
-        version: 4.3.8(@types/node@20.2.1)
-      vitest:
-        specifier: 0.31.1
-        version: 0.31.1
-
-  packages/swapkit-explorers:
-    dependencies:
-      '@thorswap-lib/types':
-        specifier: workspace:*
-        version: link:../types
-    devDependencies:
-      '@internal/config':
-        specifier: workspace:*
-        version: link:../../internal/config
-      '@vitest/coverage-istanbul':
-        specifier: 0.31.1
-        version: 0.31.1(vitest@0.31.1)
-      vite:
-        specifier: 4.3.8
-        version: 4.3.8(@types/node@20.2.1)
-      vitest:
-        specifier: 0.31.1
-        version: 0.31.1
-
-  packages/swapkit-sdk:
-    dependencies:
-      '@cosmos-client/core':
-        specifier: 0.45.13
-        version: 0.45.13
-      '@thorswap-lib/evm-web3-wallets':
-        specifier: workspace:*
-        version: link:../evm-web3-wallets
-      '@thorswap-lib/keplr':
-        specifier: workspace:*
-        version: link:../keplr
-      '@thorswap-lib/keystore':
-        specifier: workspace:*
-        version: link:../keystore
-      '@thorswap-lib/ledger':
-        specifier: workspace:*
-        version: link:../ledger
-      '@thorswap-lib/swapkit-api':
-        specifier: workspace:*
-        version: link:../swapkit-api
-      '@thorswap-lib/swapkit-core':
-        specifier: workspace:*
-        version: link:../swapkit-core
-      '@thorswap-lib/toolbox-cosmos':
-        specifier: workspace:*
-        version: link:../toolbox-cosmos
-      '@thorswap-lib/toolbox-evm':
-        specifier: workspace:*
-        version: link:../toolbox-evm
-      '@thorswap-lib/toolbox-utxo':
-        specifier: workspace:*
-        version: link:../toolbox-utxo
-      '@thorswap-lib/trezor':
-        specifier: workspace:*
-        version: link:../trezor
-      '@thorswap-lib/trustwallet':
-        specifier: workspace:*
-        version: link:../trustwallet
-      '@thorswap-lib/types':
-        specifier: workspace:*
-        version: link:../types
-      '@thorswap-lib/walletconnect':
-        specifier: workspace:*
-        version: link:../walletconnect
-      '@thorswap-lib/xdefi':
-        specifier: workspace:*
-        version: link:../xdefi
-      bip39:
-        specifier: 3.1.0
-        version: 3.1.0
-      cosmos-client:
-        specifier: 0.39.2
-        version: 0.39.2
-    devDependencies:
-      '@internal/config':
-        specifier: workspace:*
-        version: link:../../internal/config
-      '@vitest/coverage-istanbul':
-        specifier: 0.31.1
-        version: 0.31.1(vitest@0.31.1)
-      vite:
-        specifier: 4.3.8
-        version: 4.3.8(@types/node@20.2.1)
-      vitest:
-        specifier: 0.31.1
-        version: 0.31.1
-
-  packages/toolbox-cosmos:
-    dependencies:
-      '@cosmjs/amino':
-        specifier: 0.30.1
-        version: 0.30.1
-      '@cosmjs/crypto':
-        specifier: 0.30.1
-        version: 0.30.1
-      '@cosmjs/stargate':
-        specifier: 0.30.1
-        version: 0.30.1
-      '@thorswap-lib/helpers':
-        specifier: workspace:*
-        version: link:../../internal/helpers
-      '@thorswap-lib/swapkit-api':
-        specifier: workspace:*
-        version: link:../swapkit-api
-      '@thorswap-lib/swapkit-entities':
-        specifier: workspace:*
-        version: link:../swapkit-entities
-      '@thorswap-lib/types':
-        specifier: workspace:*
-        version: link:../types
-      base64-js:
-        specifier: 1.5.1
-        version: 1.5.1
-      bech32:
-        specifier: 2.0.0
-        version: 2.0.0
-      bech32-buffer:
-        specifier: 0.2.1
-        version: 0.2.1
-      bip32:
-        specifier: 2.0.6
-        version: 2.0.6
-      bip39:
-        specifier: 3.1.0
-        version: 3.1.0
-      bn.js:
-        specifier: 5.2.1
-        version: 5.2.1
-      crypto-js:
-        specifier: 4.1.1
-        version: 4.1.1
-      elliptic:
-        specifier: 6.5.4
-        version: 6.5.4
-      long:
-        specifier: 4.0.0
-        version: 4.0.0
-      protobufjs:
-        specifier: 7.2.3
-        version: 7.2.3
-      protocol-buffers-encodings:
-        specifier: 1.2.0
-        version: 1.2.0
-      tiny-secp256k1:
-        specifier: 1.1.6
-        version: 1.1.6
-    devDependencies:
-      '@cosmos-client/core':
-        specifier: 0.45.13
-        version: 0.45.13
-      '@internal/config':
-        specifier: workspace:*
-        version: link:../../internal/config
-      '@types/bn.js':
-        specifier: 5.1.1
-        version: 5.1.1
-      '@types/crypto-js':
-        specifier: 4.1.1
-        version: 4.1.1
-      '@types/elliptic':
-        specifier: 6.4.14
-        version: 6.4.14
-      '@types/long':
-        specifier: 4.0.2
-        version: 4.0.2
-      '@types/node':
-        specifier: 20.2.1
-        version: 20.2.1
-      '@types/tiny-secp256k1':
-        specifier: 1.0.0
-        version: 1.0.0
-      '@vitest/coverage-istanbul':
-        specifier: 0.31.1
-        version: 0.31.1(vitest@0.31.1)
-      vite:
-        specifier: 4.3.8
-        version: 4.3.8(@types/node@20.2.1)
-      vitest:
-        specifier: 0.31.1
-        version: 0.31.1
-
-  packages/toolbox-evm:
-    dependencies:
-      '@avalabs/avalanchejs':
-        specifier: 3.17.0
-        version: 3.17.0
-      '@ethersproject/abstract-provider':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/abstract-signer':
-        specifier: 5.7.0
-        version: 5.7.0(patch_hash=25dytke5lh3fostylo3fnpzcxi)
-      '@ethersproject/address':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/bignumber':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/bytes':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/contracts':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/providers':
-        specifier: 5.7.2
-        version: 5.7.2
-      '@ethersproject/strings':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/units':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@thorswap-lib/helpers':
-        specifier: workspace:*
-        version: link:../../internal/helpers
-      '@thorswap-lib/swapkit-entities':
-        specifier: workspace:*
-        version: link:../swapkit-entities
-      '@thorswap-lib/types':
-        specifier: workspace:*
-        version: link:../types
-    devDependencies:
-      '@internal/config':
-        specifier: workspace:*
-        version: link:../../internal/config
-      '@keplr-wallet/types':
-        specifier: 0.11.63
-        version: 0.11.63
-      '@nomicfoundation/hardhat-network-helpers':
-        specifier: 1.0.8
-        version: 1.0.8(hardhat@2.14.0)
-      '@nomiclabs/hardhat-ethers':
-        specifier: 2.2.3
-        version: 2.2.3(ethers@5.7.2)(hardhat@2.14.0)
-      '@types/node':
-        specifier: 20.2.1
-        version: 20.2.1
-      '@vitest/coverage-istanbul':
-        specifier: 0.31.1
-        version: 0.31.1(vitest@0.31.1)
-      hardhat:
-        specifier: 2.14.0
-        version: 2.14.0(typescript@5.0.4)
-      vite:
-        specifier: 4.3.8
-        version: 4.3.8(@types/node@20.2.1)
-      vitest:
-        specifier: 0.31.1
-        version: 0.31.1
-
-  packages/toolbox-utxo:
-    dependencies:
-      '@psf/bitcoincashjs-lib':
-        specifier: 4.0.3
-        version: 4.0.3
-      '@thorswap-lib/helpers':
-        specifier: workspace:*
-        version: link:../../internal/helpers
-      '@thorswap-lib/swapkit-entities':
-        specifier: workspace:*
-        version: link:../swapkit-entities
-      '@thorswap-lib/types':
-        specifier: workspace:*
-        version: link:../types
-      bchaddrjs:
-        specifier: 0.5.2
-        version: 0.5.2
-      bip32:
-        specifier: 2.0.6
-        version: 2.0.6
-      bip39:
-        specifier: ^3.0.4
-        version: 3.1.0
-      bitcoinjs-lib:
-        specifier: 5.2.0
-        version: 5.2.0
-      coininfo:
-        specifier: 5.2.1
-        version: 5.2.1
-      coinselect:
-        specifier: 3.1.13
-        version: 3.1.13
-      ecpair:
-        specifier: 2.0.1
-        version: 2.0.1
-      tiny-secp256k1:
-        specifier: 1.1.6
-        version: 1.1.6
-      uniqid:
-        specifier: 5.4.0
-        version: 5.4.0
-    devDependencies:
-      '@internal/config':
-        specifier: workspace:*
-        version: link:../../internal/config
-      '@types/bchaddrjs':
-        specifier: 0.4.0
-        version: 0.4.0
-      '@types/node':
-        specifier: 20.2.1
-        version: 20.2.1
-      '@types/tiny-secp256k1':
-        specifier: 1.0.0
-        version: 1.0.0
-      '@types/uniqid':
-        specifier: 5.3.2
-        version: 5.3.2
-      '@vitest/coverage-istanbul':
-        specifier: 0.31.1
-        version: 0.31.1(vitest@0.31.1)
-      vite:
-        specifier: 4.3.8
-        version: 4.3.8(@types/node@20.2.1)
-      vitest:
-        specifier: 0.31.1
-        version: 0.31.1
-
-  packages/trezor:
+  packages/wallets/trezor:
     dependencies:
       '@thorswap-lib/helpers':
         specifier: workspace:*
-        version: link:../../internal/helpers
+        version: link:../../../internal/helpers
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
-        version: link:../swapkit-entities
+        version: link:../../swapkit/swapkit-entities
       '@thorswap-lib/types':
         specifier: workspace:*
-        version: link:../types
+        version: link:../../swapkit/types
       '@trezor/connect-web':
         specifier: 9.0.10
         version: 9.0.10
@@ -1233,13 +1248,13 @@ importers:
         version: 5.7.0
       '@internal/config':
         specifier: workspace:*
-        version: link:../../internal/config
+        version: link:../../../internal/config
       '@thorswap-lib/toolbox-evm':
         specifier: workspace:*
-        version: link:../toolbox-evm
+        version: link:../../toolboxes/toolbox-evm
       '@thorswap-lib/toolbox-utxo':
         specifier: workspace:*
-        version: link:../toolbox-utxo
+        version: link:../../toolboxes/toolbox-utxo
       '@vitest/coverage-istanbul':
         specifier: 0.31.1
         version: 0.31.1(vitest@0.31.1)
@@ -1253,14 +1268,14 @@ importers:
         specifier: 0.31.1
         version: 0.31.1
 
-  packages/trustwallet:
+  packages/wallets/trustwallet:
     dependencies:
       '@thorswap-lib/helpers':
         specifier: workspace:*
-        version: link:../../internal/helpers
+        version: link:../../../internal/helpers
       '@thorswap-lib/types':
         specifier: workspace:*
-        version: link:../types
+        version: link:../../swapkit/types
       '@walletconnect/client':
         specifier: 1.8.0
         version: 1.8.0
@@ -1294,13 +1309,13 @@ importers:
         version: 5.7.0
       '@internal/config':
         specifier: workspace:*
-        version: link:../../internal/config
+        version: link:../../../internal/config
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
-        version: link:../toolbox-cosmos
+        version: link:../../toolboxes/toolbox-cosmos
       '@thorswap-lib/toolbox-evm':
         specifier: workspace:*
-        version: link:../toolbox-evm
+        version: link:../../toolboxes/toolbox-evm
       '@vitest/coverage-istanbul':
         specifier: 0.31.1
         version: 0.31.1(vitest@0.31.1)
@@ -1320,29 +1335,14 @@ importers:
         specifier: 0.31.1
         version: 0.31.1
 
-  packages/types:
-    devDependencies:
-      '@ethersproject/bignumber':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@internal/config':
-        specifier: workspace:*
-        version: link:../../internal/config
-      '@types/node':
-        specifier: 20.2.1
-        version: 20.2.1
-      vite:
-        specifier: 4.3.8
-        version: 4.3.8(@types/node@20.2.1)
-
-  packages/walletconnect:
+  packages/wallets/walletconnect:
     dependencies:
       '@coinbase/wallet-sdk':
         specifier: 3.6.6
         version: 3.6.6
       '@thorswap-lib/types':
         specifier: workspace:*
-        version: link:../types
+        version: link:../../swapkit/types
       '@walletconnect/web3-provider':
         specifier: 1.8.0
         version: 1.8.0(@babel/core@7.21.8)
@@ -1364,10 +1364,10 @@ importers:
         version: 5.7.0
       '@internal/config':
         specifier: workspace:*
-        version: link:../../internal/config
+        version: link:../../../internal/config
       '@thorswap-lib/toolbox-evm':
         specifier: workspace:*
-        version: link:../toolbox-evm
+        version: link:../../toolboxes/toolbox-evm
       '@vitest/coverage-istanbul':
         specifier: 0.31.1
         version: 0.31.1(vitest@0.31.1)
@@ -1381,11 +1381,11 @@ importers:
         specifier: 0.31.1
         version: 0.31.1
 
-  packages/xdefi:
+  packages/wallets/xdefi:
     dependencies:
       '@thorswap-lib/types':
         specifier: workspace:*
-        version: link:../types
+        version: link:../../swapkit/types
     devDependencies:
       '@ethersproject/bignumber':
         specifier: ^5.7.0
@@ -1395,16 +1395,16 @@ importers:
         version: 5.7.2
       '@internal/config':
         specifier: workspace:*
-        version: link:../../internal/config
+        version: link:../../../internal/config
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
-        version: link:../toolbox-cosmos
+        version: link:../../toolboxes/toolbox-cosmos
       '@thorswap-lib/toolbox-evm':
         specifier: workspace:*
-        version: link:../toolbox-evm
+        version: link:../../toolboxes/toolbox-evm
       '@thorswap-lib/toolbox-utxo':
         specifier: workspace:*
-        version: link:../toolbox-utxo
+        version: link:../../toolboxes/toolbox-utxo
       '@vitest/coverage-istanbul':
         specifier: 0.31.1
         version: 0.31.1(vitest@0.31.1)
@@ -6450,13 +6450,13 @@ packages:
     dependencies:
       keyvaluestorage-interface: 1.0.0
       tslib: 1.14.1
+    dev: false
 
   /@walletconnect/jsonrpc-types@1.0.3:
     resolution: {integrity: sha512-iIQ8hboBl3o5ufmJ8cuduGad0CQm3ZlsHtujv9Eu16xq89q+BG7Nh5VLxxUgmtpnrePgFkTwXirCTkwJH1v+Yw==}
     dependencies:
       keyvaluestorage-interface: 1.0.0
       tslib: 1.14.1
-    dev: false
 
   /@walletconnect/jsonrpc-utils@1.0.8:
     resolution: {integrity: sha512-vdeb03bD8VzJUL6ZtzRYsFMq1eZQcM3EAzT0a3st59dyLfJ0wq+tKMpmGH7HlB7waD858UWgfIcudbPFsbzVdw==}
@@ -6611,7 +6611,7 @@ packages:
     dependencies:
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.1
-      '@walletconnect/jsonrpc-types': 1.0.2
+      '@walletconnect/jsonrpc-types': 1.0.3
       '@walletconnect/keyvaluestorage': 1.0.2
       '@walletconnect/logger': 2.0.1
       events: 3.3.0

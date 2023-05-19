@@ -1,0 +1,107 @@
+{
+  "author": "thorswap",
+  "dependencies": {
+    "@ledgerhq/devices": "8.0.2",
+    "@ledgerhq/errors": "6.12.5",
+    "@ledgerhq/hw-app-btc": "8.1.1",
+    "@ledgerhq/hw-app-cosmos": "6.28.0",
+    "@ledgerhq/hw-app-eth": "6.33.3",
+    "@ledgerhq/hw-transport": "6.28.3",
+    "@ledgerhq/hw-transport-webusb": "6.27.14",
+    "@thorswap-lib/helpers": "workspace:*",
+    "@thorswap-lib/swapkit-entities": "workspace:*",
+    "@thorswap-lib/types": "workspace:*",
+    "base64-js": "1.5.1",
+    "bech32": "2.0.0",
+    "bn.js": "5.2.1",
+    "crypto-js": "4.1.1",
+    "long": "4.0.0",
+    "ripemd160": "2.0.2",
+    "secp256k1": "5.0.0",
+    "sort-keys": "5.0.0"
+  },
+  "description": "THORSwap Lib ledger",
+  "devDependencies": {
+    "@cosmos-client/core": "0.45.13",
+    "@ethersproject/abstract-signer": "5.7.0",
+    "@ethersproject/bignumber": "5.7.0",
+    "@ethersproject/bytes": "5.7.0",
+    "@ethersproject/contracts": "5.7.0",
+    "@ethersproject/properties": "5.7.0",
+    "@ethersproject/providers": "5.7.2",
+    "@ethersproject/transactions": "5.7.0",
+    "@internal/config": "workspace:*",
+    "@thorswap-lib/toolbox-cosmos": "workspace:*",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
+    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@types/bchaddrjs": "0.4.0",
+    "@types/bn.js": "5.1.1",
+    "@types/crypto-js": "4.1.1",
+    "@types/elliptic": "6.4.14",
+    "@types/long": "4.0.2",
+    "@types/node": "20.2.1",
+    "@types/ripemd160": "2.0.0",
+    "@types/secp256k1": "4.0.3",
+    "@vitest/coverage-istanbul": "0.31.1",
+    "bchaddrjs": "0.5.2",
+    "bitcoinjs-lib": "5.2.0",
+    "coininfo": "5.2.1",
+    "cosmos-client": "0.39.2",
+    "elliptic": "6.5.4",
+    "vite": "4.3.8",
+    "vitest": "0.31.1"
+  },
+  "eslintConfig": {
+    "extends": "../../../internal/eslint-config-thorswap"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "MIT",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@thorswap-lib/ledger",
+  "peerDependencies": {
+    "@cosmos-client/core": "0.45.13",
+    "@ethersproject/abstract-signer": "^5.7.0",
+    "@ethersproject/bignumber": "^5.7.0",
+    "@ethersproject/bytes": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
+    "@ethersproject/properties": "^5.7.0",
+    "@ethersproject/providers": "^5.7.0",
+    "@ethersproject/transactions": "^5.7.0",
+    "@thorswap-lib/toolbox-cosmos": "workspace:*",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
+    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@types/bchaddrjs": "0.4.0",
+    "bchaddrjs": "0.5.2",
+    "bitcoinjs-lib": "5.2.0",
+    "coininfo": "^5.2.1",
+    "cosmos-client": "0.39.2",
+    "elliptic": "^6.5.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "react-native": "./src/index.ts",
+  "repository": "https://github.com/thorswap/SwapKit.git",
+  "scripts": {
+    "build": "echo 'Build ledger 🛠'; vite build; echo 'Build succeeded ledger ✅'",
+    "clean": "rm -rf dist .turbo",
+    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "test": "echo 'vitest --run'",
+    "test:coverage": "echo 'vitest run --coverage'"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0-development.180"
+}

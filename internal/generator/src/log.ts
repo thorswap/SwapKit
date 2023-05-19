@@ -6,7 +6,7 @@ const baseLog =
     console.info(color(args));
 
 export const log = {
-  accent: baseLog(kleur.italic().cyan),
+  accent: baseLog(kleur.bold().italic().cyan),
   branded: (...args: any) => baseLog(kleur.underline().green)(`===ᚱ ${args} ᚱ===`),
   error: baseLog(kleur.bold().red),
   info: baseLog(kleur.italic().dim),
@@ -44,7 +44,7 @@ export const messages = {
           .:--=#%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*:.
             .-+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#=:.
               ..:=*%@@@@@@@@@@@@@@@@@@@@@@@@%*=:.
-                  ..:-+*#%@@@@@@@@@@@@%#*=-:..
-                        ....::------::....
+                 ..:-+*#%@@@@@@@@@@@@%#*=-:..
+                      ....::------::....
 `,
 };

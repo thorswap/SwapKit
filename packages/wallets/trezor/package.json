@@ -1,0 +1,66 @@
+{
+  "author": "thorswap",
+  "dependencies": {
+    "@thorswap-lib/helpers": "workspace:*",
+    "@thorswap-lib/swapkit-entities": "workspace:*",
+    "@thorswap-lib/types": "workspace:*",
+    "@trezor/connect-web": "9.0.10"
+  },
+  "description": "THORSwap Lib trezor",
+  "devDependencies": {
+    "@ethersproject/abstract-signer": "5.7.0",
+    "@ethersproject/bignumber": "5.7.0",
+    "@ethersproject/providers": "5.7.2",
+    "@ethersproject/transactions": "5.7.0",
+    "@internal/config": "workspace:*",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
+    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@vitest/coverage-istanbul": "0.31.1",
+    "bitcoinjs-lib": "5.2.0",
+    "vite": "4.3.8",
+    "vitest": "0.31.1"
+  },
+  "eslintConfig": {
+    "extends": "../../../internal/eslint-config-thorswap"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "MIT",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@thorswap-lib/trezor",
+  "peerDependencies": {
+    "@ethersproject/abstract-signer": "5.7.0",
+    "@ethersproject/bignumber": "5.7.0",
+    "@ethersproject/providers": "5.7.0",
+    "@ethersproject/transactions": "5.7.0",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
+    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "bitcoinjs-lib": "5.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "react-native": "./src/index.ts",
+  "repository": "https://github.com/thorswap/SwapKit.git",
+  "scripts": {
+    "build": "echo 'Build trezor 🛠'; vite build && echo 'Build succeeded trezor ✅'",
+    "clean": "rm -rf dist .turbo",
+    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "test": "echo 'vitest --run'",
+    "test:coverage": "echo 'vitest run --coverage'"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0-development.16"
+}
