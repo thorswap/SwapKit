@@ -3,9 +3,8 @@ import { Web3Provider } from '@ethersproject/providers';
 import { getETHDefaultWallet, isDetected } from '@thorswap-lib/toolbox-evm';
 import { Chain, EVMChain, EVMWalletOptions, WalletOption } from '@thorswap-lib/types';
 
-import { EVMWalletConfig } from '../types.js';
-
 import { getWalletForType } from './helpers.js';
+import { EVMWalletConfig } from './types.js';
 import {
   avalancheWalletMethods,
   binanceSmartChainWalletMethods,

@@ -14,9 +14,9 @@
     "@thorswap-lib/trustwallet": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "@thorswap-lib/walletconnect": "workspace:*",
-    "@thorswap-lib/web-extensions": "workspace:*",
+    "@thorswap-lib/xdefi": "workspace:*",
     "@walletconnect/qrcode-modal": "1.8.0",
-    "@walletconnect/sign-client": "2.7.4",
+    "@walletconnect/sign-client": "2.7.5",
     "@walletconnect/types": "2.7.2",
     "@walletconnect/web3-provider": "1.8.0",
     "@web3modal/standalone": "2.4.1",
@@ -36,7 +36,7 @@
     "@types/react-dom": "18.2.4",
     "@vitejs/plugin-react": "4.0.0",
     "typescript": "5.0.4",
-    "vite": "4.3.7"
+    "vite": "4.3.8"
   },
   "eslintConfig": {
     "extends": "../../internal/eslint-config-thorswap"

@@ -6,7 +6,6 @@ import { name } from './package.json';
 const viteConfig = thorswapViteConfig(name, {
   build: {
     lib: {
-      formats: ['cjs'],
       fileName: 'index',
       entry: resolve(__dirname, 'src/index.ts'),
     },

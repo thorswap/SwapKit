@@ -44,8 +44,14 @@ tw:
 wc:
 - packages/walletconnect/src/**/*
 
-web-ext:
-- packages/web-extensions/src/**/*
+xdefi:
+- packages/xdefi/src/**/*
+
+keplr:
+- packages/keplr/src/**/*
+
+evm-web3-wallets:
+- packages/evm-web3-wallets/src/**/*
 
 release:
 - packages/**/CHANGELOG.md

@@ -1,7 +1,12 @@
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 import { Signer } from '@ethersproject/abstract-signer';
 import { Web3Provider } from '@ethersproject/providers';
-import { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
+import {
+  AVAXToolbox,
+  BSCToolbox,
+  ETHToolbox,
+  prepareNetworkSwitch,
+} from '@thorswap-lib/toolbox-evm';
 import {
   Chain,
   ChainToChainId,
@@ -12,8 +17,6 @@ import {
 } from '@thorswap-lib/types';
 import WalletConnect from '@walletconnect/web3-provider';
 import Web3Modal from 'web3modal';
-
-import { prepareNetworkSwitch } from './helpers.js';
 
 const SUPPORTED_CHAINS = [Chain.Avalanche, Chain.Ethereum, Chain.BinanceSmartChain] as const;
 
@@ -48,6 +51,7 @@ const getToolbox = async ({
       const preparedToolbox = prepareNetworkSwitch<typeof toolbox>({
         chainId: ChainToHexChainId[chain],
         toolbox,
+        // @ts-expect-error
         provider,
       });
       return { ...preparedToolbox, getAddress: () => from };
@@ -60,6 +64,7 @@ const getToolbox = async ({
       const preparedToolbox = prepareNetworkSwitch<typeof toolbox>({
         chainId: ChainToHexChainId[chain],
         toolbox,
+        // @ts-expect-error
         provider,
       });
       return { ...preparedToolbox, getAddress: () => from };

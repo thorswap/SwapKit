@@ -1,26 +1,19 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@cosmjs/stargate": "0.29.5",
-    "@thorswap-lib/helpers": "workspace:*",
-    "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*"
   },
-  "description": "THORSwap Lib web-extensions",
+  "description": "THORSwap Lib xdefi",
   "devDependencies": {
-    "@ethersproject/abstract-signer": "5.7.0",
-    "@ethersproject/bignumber": "5.7.0",
-    "@ethersproject/bytes": "5.7.0",
-    "@ethersproject/contracts": "5.7.0",
-    "@ethersproject/providers": "5.7.2",
+    "@ethersproject/bignumber": "^5.7.0",
+    "@ethersproject/providers": "^5.7.0",
     "@internal/config": "workspace:*",
-    "@keplr-wallet/types": "0.11.63",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
-    "@vitest/coverage-istanbul": "0.31.0",
-    "vite": "4.3.7",
-    "vitest": "0.31.0"
+    "@vitest/coverage-istanbul": "0.31.1",
+    "vite": "4.3.8",
+    "vitest": "0.31.1"
   },
   "eslintConfig": {
     "extends": "../../internal/eslint-config-thorswap"
@@ -40,12 +33,9 @@
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/web-extensions",
+  "name": "@thorswap-lib/xdefi",
   "peerDependencies": {
-    "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
-    "@ethersproject/bytes": "^5.7.0",
-    "@ethersproject/contracts": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
@@ -57,7 +47,7 @@
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "echo 'Build web-extensions 🛠'; vite build && echo 'Build succeeded web-extensions ✅'",
+    "build": "echo 'Build xdefi 🛠'; vite build && echo 'Build succeeded xdefi ✅'",
     "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest --run'",
@@ -65,5 +55,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.168"
+  "version": "1.0.0-development.0"
 }

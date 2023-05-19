@@ -10,10 +10,7 @@ const viteConfig = thorswapViteConfig(name, {
     },
     rollupOptions: {
       external: [
-        '@ethersproject/abstract-signer',
         '@ethersproject/bignumber',
-        '@ethersproject/bytes',
-        '@ethersproject/contracts',
         '@ethersproject/providers',
         '@thorswap-lib/toolbox-cosmos',
         '@thorswap-lib/toolbox-evm',

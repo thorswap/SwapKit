@@ -1,4 +1,5 @@
-import { ChainId, WalletOption } from '@thorswap-lib/types';
+import { ExternalProvider } from '@ethersproject/providers';
+import { ChainId } from '@thorswap-lib/types';
 
 type NetworkParams = {
   chainId: ChainId;
@@ -13,7 +14,7 @@ type NetworkParams = {
 };
 
 type ProviderRequestParams = {
-  provider?: typeof window.ethereum;
+  provider?: ExternalProvider;
   params?: any;
   method:
     | 'wallet_addEthereumChain'
@@ -32,25 +33,6 @@ const methodsToWrap = [
   'isApproved',
 ];
 
-export const getWalletForType = (
-  walletType:
-    | WalletOption.BRAVE
-    | WalletOption.METAMASK
-    | WalletOption.TRUSTWALLET_WEB
-    | WalletOption.COINBASE_WEB,
-) => {
-  switch (walletType) {
-    case WalletOption.BRAVE:
-      return window.ethereum;
-    case WalletOption.METAMASK:
-      return window.ethereum;
-    case WalletOption.COINBASE_WEB:
-      return window.coinbaseWalletExtension;
-    case WalletOption.TRUSTWALLET_WEB:
-      return window.trustwallet;
-  }
-};
-
 export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[]) => any }>({
   toolbox,
   chainId,
@@ -58,7 +40,7 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
 }: {
   toolbox: T;
   chainId: ChainId;
-  provider?: typeof window.ethereum;
+  provider?: ExternalProvider;
 }) => {
   const wrappedMethods = methodsToWrap.reduce((object, methodName) => {
     if (!toolbox[methodName]) return object;
@@ -74,7 +56,7 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
 
 export const wrapMethodWithNetworkSwitch = <T extends (...args: any[]) => any>(
   func: T,
-  provider: typeof window.ethereum,
+  provider: ExternalProvider,
   chainId: ChainId,
 ) =>
   (async (...args: any[]) => {
@@ -91,12 +73,8 @@ const providerRequest = async ({ provider, params, method }: ProviderRequestPara
   return provider.request({ method, params: providerParams });
 };
 
-export const addEVMWalletNetwork = (
-  provider: typeof window.ethereum,
-  networkParams: NetworkParams,
-) => providerRequest({ provider, method: 'wallet_addEthereumChain', params: [networkParams] });
+export const addEVMWalletNetwork = (provider: ExternalProvider, networkParams: NetworkParams) =>
+  providerRequest({ provider, method: 'wallet_addEthereumChain', params: [networkParams] });
 
-export const switchEVMWalletNetwork = (
-  provider: typeof window.ethereum,
-  chainId = ChainId.EthereumHex,
-) => providerRequest({ provider, method: 'wallet_switchEthereumChain', params: [{ chainId }] });
+export const switchEVMWalletNetwork = (provider: ExternalProvider, chainId = ChainId.EthereumHex) =>
+  providerRequest({ provider, method: 'wallet_switchEthereumChain', params: [{ chainId }] });

@@ -16,12 +16,12 @@ pnpm add @thorswap-lib/swapkit-core
 | `approveAsset`               | trigger asset approve transaction                   |                                                   |
 | `bond`                       | trigger bond transaction                            | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos) |
 | `closeLoan`                  | trigger close loan transaction                      | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos) |
-| `connectEVMWallet`           | connect to EVM wallet                               | [@thorswap-lib/web-extensions](../web-extensions) |
-| `connectKeplr`               | connect to Keplr wallet                             | [@thorswap-lib/web-extensions](../web-extensions) |
+| `connectEVMWallet`           | connect to EVM wallet                               | [@thorswap-lib/evm-web3-wallets](../evm-web3-wallets) |
+| `connectKeplr`               | connect to Keplr wallet                             | [@thorswap-lib/keplr](../keplr) |
 | `connectKeystore`            | connect to Keystore wallet                          | [@thorswap-lib/keystore](../keystore)             |
 | `connectLedger`              | connect to Ledger wallet                            | [@thorswap-lib/ledger](../ledger)                 |
 | `connectTrustwallet`         | connect to Trustwallet wallet                       | [@thorswap-lib/trustwallet](../trustwallet)       |
-| `connectXDEFI`               | connect to XDEFI wallet                             | [@thorswap-lib/web-extensions](../web-extensions) |
+| `connectXDEFI`               | connect to XDEFI wallet                             | [@thorswap-lib/xdefi](../xdefi) |
 | `createLiquidity`            | trigger create LP pool transaction                  | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos) |
 | `deposit`                    | trigger TC router depositWithExpiry transaction     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos) |
 | `disconnectChain`            | disconnect wallet from swapKit                      |                                                   |

@@ -1,0 +1,63 @@
+{
+  "author": "thorswap",
+  "dependencies": {
+    "@cosmos-client/core": "0.45.13",
+    "@thorswap-lib/evm-web3-wallets": "workspace:*",
+    "@thorswap-lib/keplr": "workspace:*",
+    "@thorswap-lib/keystore": "workspace:*",
+    "@thorswap-lib/ledger": "workspace:*",
+    "@thorswap-lib/swapkit-api": "workspace:*",
+    "@thorswap-lib/swapkit-core": "workspace:*",
+    "@thorswap-lib/toolbox-cosmos": "workspace:*",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
+    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@thorswap-lib/trezor": "workspace:*",
+    "@thorswap-lib/trustwallet": "workspace:*",
+    "@thorswap-lib/types": "workspace:*",
+    "@thorswap-lib/walletconnect": "workspace:*",
+    "@thorswap-lib/xdefi": "workspace:*",
+    "bip39": "3.1.0",
+    "cosmos-client": "0.39.2"
+  },
+  "description": "THORSwap Lib swapkit-sdk",
+  "devDependencies": {
+    "@internal/config": "workspace:*",
+    "@vitest/coverage-istanbul": "0.31.1",
+    "vite": "4.3.8",
+    "vitest": "0.31.1"
+  },
+  "eslintConfig": {
+    "extends": "../../internal/eslint-config-thorswap"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "MIT",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@thorswap-lib/swapkit-sdk",
+  "publishConfig": {
+    "access": "public"
+  },
+  "react-native": "./src/index.ts",
+  "repository": "https://github.com/thorswap/SwapKit.git",
+  "scripts": {
+    "build": "echo 'Build swapkit-sdk 🛠';NODE_OPTIONS=--max_old_space_size=32768 vite build && echo 'Build succeeded swapkit-sdk ✅'",
+    "clean": "rm -rf dist .turbo",
+    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "test": "echo 'vitest --run'",
+    "test:coverage": "echo 'vitest run --coverage'"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "0.0.1-development.0"
+}

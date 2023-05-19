@@ -1,15 +1,20 @@
-import { GasPrice, SigningStargateClient } from '@cosmjs/stargate';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Web3Provider } from '@ethersproject/providers';
 import {
   BinanceToolbox,
   BinanceToolboxType,
+  createCosmJS,
   GaiaToolbox,
   GaiaToolboxType,
   ThorchainToolbox,
   ThorchainToolboxType,
 } from '@thorswap-lib/toolbox-cosmos';
-import { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
+import {
+  AVAXToolbox,
+  BSCToolbox,
+  ETHToolbox,
+  prepareNetworkSwitch,
+} from '@thorswap-lib/toolbox-evm';
 import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
 import {
   Chain,
@@ -17,13 +22,11 @@ import {
   ChainToChainId,
   EIP1559TxParams,
   FeeOption,
-  RPCUrl,
   TxHash,
   WalletTxParams,
 } from '@thorswap-lib/types';
 
-import { prepareNetworkSwitch } from '../evmWallet/helpers.js';
-import { XDEFIConfig } from '../types.js';
+import { XDEFIConfig } from './types.js';
 
 type TransactionMethod = 'eth_signTransaction' | 'eth_sendTransaction' | 'transfer' | 'deposit';
 
@@ -119,7 +122,8 @@ export const getWalletMethodsForChain: any = ({
 
       const toolboxParams = {
         provider,
-        signer: provider.getSigner(),
+        // TODO: check on web3 signer type
+        signer: provider.getSigner() as any,
         ethplorerApiKey: ethplorerApiKey as string,
         covalentApiKey: covalentApiKey as string,
       };
@@ -185,11 +189,7 @@ export const getWalletMethodsForChain: any = ({
         const keplrClient = window.keplr;
         const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
 
-        const cosmJS = await SigningStargateClient.connectWithSigner(
-          rpcUrl || RPCUrl.Cosmos,
-          offlineSigner,
-          { gasPrice: GasPrice.fromString('0.0003uatom') },
-        );
+        const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
 
         const coins = [
           {

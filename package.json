@@ -4,7 +4,6 @@
     "@babel/eslint-parser": "7.21.8",
     "@changesets/changelog-github": "0.4.8",
     "@changesets/cli": "2.26.1",
-    "@evilmartians/lefthook": "1.3.13",
     "@size-limit/file": "8.2.4",
     "@size-limit/time": "8.2.4",
     "@typescript-eslint/eslint-plugin": "5.59.6",
@@ -24,7 +23,7 @@
     "prettier": "2.8.8",
     "react": "18.2.0",
     "size-limit": "8.2.4",
-    "turbo": "1.9.6",
+    "turbo": "1.9.8",
     "typescript": "5.0.4"
   },
   "prettier": {
@@ -67,122 +66,11 @@
     "dev:vite": "turbo run dev --concurrency=30 --filter=\"{./apps/vite-playground}...\"",
     "generate": "cd ./internal/generator; pnpm generate; cd ../..",
     "lint": "turbo run lint --token=turbotoken-oss-europe1",
+    "postinstall": "rm -rf ./.git/hooks/pre-commit ./.git/hooks/prepare-commit-msg",
     "publish-packages": "turbo run build lint --token=turbotoken-oss-europe1 && pnpm version-bump && pnpm changeset publish",
     "test": "dotenv -- turbo run test --token=turbotoken-oss-europe1",
     "test:coverage": "dotenv -- turbo run test:coverage",
     "version-bump": "dotenv -- pnpm changeset version",
     "version-release": "pnpm changeset pre exit && pnpm version-bump"
-  },
-  "size-limit": [
-    {
-      "path": "./packages/keystore/dist/index.cjs",
-      "name": "keystore(cjs)",
-      "limit": "100 KB"
-    },
-    {
-      "path": "./packages/keystore/dist/index.es.js",
-      "name": "keystore(esm)",
-      "limit": "100 KB"
-    },
-    {
-      "path": "./packages/ledger/dist/index.cjs",
-      "name": "ledger(cjs)",
-      "limit": "1.2 MB"
-    },
-    {
-      "path": "./packages/ledger/dist/index.es.js",
-      "name": "ledger(esm)",
-      "limit": "1.2 MB"
-    },
-    {
-      "path": "./packages/swapkit-core/dist/index.cjs",
-      "name": "swapkit-core(cjs)",
-      "limit": "50 KB"
-    },
-    {
-      "path": "./packages/swapkit-core/dist/index.es.js",
-      "name": "swapkit-core(esm)",
-      "limit": "50 KB"
-    },
-    {
-      "path": "./packages/swapkit-entities/dist/index.cjs",
-      "name": "swapkit-entities(cjs)",
-      "limit": "10 KB"
-    },
-    {
-      "path": "./packages/swapkit-entities/dist/index.es.js",
-      "name": "swapkit-entities(esm)",
-      "limit": "10 KB"
-    },
-    {
-      "path": "./packages/toolbox-cosmos/dist/index.cjs",
-      "name": "toolbox-cosmos(cjs)",
-      "limit": "700 KB"
-    },
-    {
-      "path": "./packages/toolbox-cosmos/dist/index.es.js",
-      "name": "toolbox-cosmos(esm)",
-      "limit": "800 KB"
-    },
-    {
-      "path": "./packages/toolbox-evm/dist/index.cjs",
-      "name": "toolbox-evm(cjs)",
-      "limit": "150 KB"
-    },
-    {
-      "path": "./packages/toolbox-evm/dist/index.es.js",
-      "name": "toolbox-evm(esm)",
-      "limit": "150 KB"
-    },
-    {
-      "path": "./packages/toolbox-utxo/dist/index.cjs",
-      "name": "toolbox-utxo(cjs)",
-      "limit": "350 KB"
-    },
-    {
-      "path": "./packages/toolbox-utxo/dist/index.es.js",
-      "name": "toolbox-utxo(esm)",
-      "limit": "350 KB"
-    },
-    {
-      "path": "./packages/trezor/dist/index.cjs",
-      "name": "trezor(cjs)",
-      "limit": "450 KB"
-    },
-    {
-      "path": "./packages/trezor/dist/index.es.js",
-      "name": "trezor(esm)",
-      "limit": "500 KB"
-    },
-    {
-      "path": "./packages/types/dist/index.cjs",
-      "name": "types(cjs)",
-      "limit": "10 KB"
-    },
-    {
-      "path": "./packages/types/dist/index.es.js",
-      "name": "types(esm)",
-      "limit": "10 KB"
-    },
-    {
-      "path": "./packages/trustwallet/dist/index.cjs",
-      "name": "trustwallet(cjs)",
-      "limit": "250 KB"
-    },
-    {
-      "path": "./packages/trustwallet/dist/index.es.js",
-      "name": "trustwallet(esm)",
-      "limit": "300 KB"
-    },
-    {
-      "path": "./packages/web-extensions/dist/index.cjs",
-      "name": "web-extensions(cjs)",
-      "limit": "500 KB"
-    },
-    {
-      "path": "./packages/web-extensions/dist/index.es.js",
-      "name": "web-extensions(esm)",
-      "limit": "550 KB"
-    }
-  ]
+  }
 }

@@ -1,9 +1,13 @@
 import { Signer } from '@ethersproject/abstract-signer';
-import { Web3Provider } from '@ethersproject/providers';
-import { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
+import { ExternalProvider, Web3Provider } from '@ethersproject/providers';
+import {
+  addEVMWalletNetwork,
+  AVAXToolbox,
+  BSCToolbox,
+  ETHToolbox,
+  prepareNetworkSwitch,
+} from '@thorswap-lib/toolbox-evm';
 import { ChainId } from '@thorswap-lib/types';
-
-import { addEVMWalletNetwork, prepareNetworkSwitch } from './helpers.js';
 
 type WalletMethodParams<T> = T & { signer: Signer; provider: Web3Provider };
 
@@ -14,7 +18,7 @@ export const avalancheWalletMethods: any = async ({
   provider: web3Provider,
 }: WalletMethodParams<{ covalentApiKey: string }>) => {
   const toolbox = AVAXToolbox({ provider: web3Provider, signer, covalentApiKey });
-  const provider = web3Provider.provider as unknown as typeof window.ethereum;
+  const provider = web3Provider.provider as ExternalProvider;
   await addEVMWalletNetwork(provider, toolbox.getNetworkParams());
 
   const from = await signer.getAddress();
@@ -34,7 +38,7 @@ export const binanceSmartChainWalletMethods: any = async ({
   provider: web3Provider,
 }: WalletMethodParams<{ covalentApiKey: string }>) => {
   const toolbox = BSCToolbox({ provider: web3Provider, signer, covalentApiKey });
-  const provider = web3Provider.provider as unknown as typeof window.ethereum;
+  const provider = web3Provider.provider as ExternalProvider;
   await addEVMWalletNetwork(provider, toolbox.getNetworkParams());
 
   const from = await signer.getAddress();
@@ -54,7 +58,7 @@ export const ethereumWalletMethods: any = async ({
   ethplorerApiKey,
 }: WalletMethodParams<{ ethplorerApiKey: string }>) => {
   const toolbox = ETHToolbox({ provider: web3Provider, signer, ethplorerApiKey });
-  const provider = web3Provider.provider as unknown as typeof window.ethereum;
+  const provider = web3Provider.provider as ExternalProvider;
 
   const from = await signer.getAddress();
   const preparedToolbox = prepareNetworkSwitch<typeof toolbox>({

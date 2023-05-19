@@ -6,7 +6,6 @@ ALPHA version of SwapKit SDK. Under heavy development. Use at your own risk.
 
 ## Usage
 
-
 ### Full Integration Example
 
 <details>
@@ -24,26 +23,28 @@ For example, if you want to use SwapKit SDK with EVM chains and Ledger wallet, y
 <details>
 <summary>pnpm</summary>
 
-  ```bash
-  pnpm add @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-core
-  ```
+```bash
+pnpm add @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-core
+```
+
 </details>
 <details>
 <summary>yarn</summary>
 
-  ```bash
-  yarn add @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-core
-  ```
+```bash
+yarn add @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-core
+```
+
 </details>
 
 <details>
 <summary>npm</summary>
 
-  ```bash
-  npm install @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-core
-  ```
-</details>
+```bash
+npm install @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-core
+```
 
+</details>
 
 #### Usage
 
@@ -52,7 +53,9 @@ Architecture of SwapKit SDK is pretty simple. It's based on the concept of toolb
 ```typescript
 import { Chain, FeeOption } from '@thorswap-lib/types';
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { evmWallet, keplrWallet, xdefiWallet } from '@thorswap-lib/web-extensions';
+import { xdefiWallet } from '@thorswap-lib/xdefi';
+import { evmWallet } from '@thorswap-lib/evm-web3-wallets';
+import { keplr } from '@thorswap-lib/keplr';
 import { keystoreWallet } from '@thorswap-lib/keystore';
 import { ledgerWallet } from '@thorswap-lib/ledger';
 import { trezorWallet } from '@thorswap-lib/trezor';
@@ -136,42 +139,43 @@ const swap = () => {
 }
 
 ```
+
 </details>
 
-
-
 ## Packages
+
 This repo contains packages around SwapKit sdk and its integrations with different blockchains.
 
-| Package                                                             | Description                        | Chains                                          |
-| ------------------------------------------------------------------- | ---------------------------------- | ----------------------------------------------- |
-| [@thorswap-lib/swapkit-core](./packages/swapkit-core/README.md)     | Core package for SwapKit           | -                                               |
-| [@thorswap-lib/toolbox-evm](./packages/toolbox-evm/README.md)       | Toolkit to integrate EVM chain     | ETH, AVAX, BSC                                  |
-| [@thorswap-lib/toolbox-utxo](./packages/toolbox-utxo/README.md)     | Toolkit to integrate UTXO chain    | BTC, LTC, DOGE, BCH                             |
-| [@thorswap-lib/toolbox-cosmos](./packages/toolbox-cosmos/README.md) | Toolkit to integrate Cosmos chains | THOR, ATOM, BNB                                 |
-| [@thorswap-lib/keystore](./packages/keystore/README.md)             | Keystore implementation            | All chains supported by toolboxes               |
-| [@thorswap-lib/ledger](./packages/ledger/README.md)                 | Ledger implementation              | All chains supported by toolboxes               |
-| [@thorswap-lib/trezor](./packages/trezor/README.md)                 | Trezor implementation              | BTC, ETH, LTC, DOGE, BCH, AVAX                  |
-| [@thorswap-lib/trustwallet](./packages/trustwallet/README.md)       | Trustwallet implementation         | THOR, BNB, ETH                                  |
-| [@thorswap-lib/walletconnect](./packages/walletconnect/README.md)   | Walletconnect implementation       | ETH                                             |
-| [@thorswap-lib/web-extensions](./packages/web-extensions/README.md) | Browser extensions                 | [See more](./packages/web-extensions/README.md) |
-
-
+| Package                                                                 | Description                        | Chains                                            |
+| ----------------------------------------------------------------------- | ---------------------------------- | ------------------------------------------------- |
+| [@thorswap-lib/swapkit-core](./packages/swapkit-core/README.md)         | Core package for SwapKit           | -                                                 |
+| [@thorswap-lib/toolbox-evm](./packages/toolbox-evm/README.md)           | Toolkit to integrate EVM chain     | ETH, AVAX, BSC                                    |
+| [@thorswap-lib/toolbox-utxo](./packages/toolbox-utxo/README.md)         | Toolkit to integrate UTXO chain    | BTC, LTC, DOGE, BCH                               |
+| [@thorswap-lib/toolbox-cosmos](./packages/toolbox-cosmos/README.md)     | Toolkit to integrate Cosmos chains | THOR, ATOM, BNB                                   |
+| [@thorswap-lib/keystore](./packages/keystore/README.md)                 | Keystore implementation            | All chains supported by toolboxes                 |
+| [@thorswap-lib/ledger](./packages/ledger/README.md)                     | Ledger implementation              | All chains supported by toolboxes                 |
+| [@thorswap-lib/trezor](./packages/trezor/README.md)                     | Trezor implementation              | BTC, ETH, LTC, DOGE, BCH, AVAX                    |
+| [@thorswap-lib/trustwallet](./packages/trustwallet/README.md)           | Trustwallet implementation         | THOR, BNB, ETH                                    |
+| [@thorswap-lib/walletconnect](./packages/walletconnect/README.md)       | Walletconnect implementation       | ETH                                               |
+| [@thorswap-lib/keplr](./packages/keplr/README.md)                       | Keplr implementation               | ATOM                                              |
+| [@thorswap-lib/xdefi](./packages/xdefi/README.md)                       | XDEFI implementation               | All chains                                        |
+| [@thorswap-lib/evm-web3-wallets](./packages/evm-web3-wallets/README.md) | EVM Browser Extensions             | [See more](./packages/evm-web3-wallets/README.md) |
 
 ## Contributing
 
 #### Pre-requisites
 
 1.
+
 ```bash
 npm install -g pnpm
 ```
 
 2.
+
 ```pre
 Copy .env.example to .env and fill it with data
 ```
-
 
 ### Installation
 
@@ -205,7 +209,6 @@ New toolbox(TBA)
 </br>
 New wallet(TBA)
 
-
 ### Release and publish
 
 Packages are automatically published to npm when new PR is merged to `main` & `develop` branches.
@@ -220,4 +223,3 @@ pnpm changeset
 ```
 
 After PR is merged to `develop` branch with changeset file, github action will create new PR with updated versions of packages and changelogs.
-

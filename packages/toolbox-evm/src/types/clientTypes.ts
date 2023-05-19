@@ -96,7 +96,7 @@ export type SendTransactionParams = {
   provider: Provider;
 };
 
-type EthereumWindowProvider = import('@ethersproject/providers').ExternalProvider & {
+export type EthereumWindowProvider = import('@ethersproject/providers').ExternalProvider & {
   isMetaMask?: boolean;
   on: (event: string, callback?: () => void) => void;
   isBraveWallet?: boolean;

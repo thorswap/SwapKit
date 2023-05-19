@@ -1,15 +1,18 @@
-import { GasPrice, SigningStargateClient } from '@cosmjs/stargate';
-import { GaiaToolbox } from '@thorswap-lib/toolbox-cosmos';
+import { createCosmJS, GaiaToolbox } from '@thorswap-lib/toolbox-cosmos';
 import {
   Chain,
   ChainId,
   ConnectWalletParams,
-  RPCUrl,
   WalletOption,
+  WalletStatus,
   WalletTxParams,
 } from '@thorswap-lib/types';
 
-import { WalletStatus } from './types.js';
+declare global {
+  interface Window {
+    keplr: import('@keplr-wallet/types').Keplr;
+  }
+}
 
 const connectKeplr =
   ({ addChain, rpcUrls }: ConnectWalletParams) =>
@@ -20,13 +23,8 @@ const connectKeplr =
     if (!offlineSigner) throw new Error('Could not load offlineSigner');
 
     const [{ address }] = await offlineSigner.getAccounts();
-    const cosmJS = await SigningStargateClient.connectWithSigner(
-      rpcUrls[Chain.Cosmos] || RPCUrl.Cosmos,
-      offlineSigner,
-      { gasPrice: GasPrice.fromString('0.0003uatom') },
-    );
+    const cosmJS = await createCosmJS({ offlineSigner, rpcUrl: rpcUrls[Chain.Cosmos] });
 
-    const getAddress = () => address;
     const transfer = async ({ asset, recipient, memo, amount }: WalletTxParams) => {
       const coins = [
         { denom: asset?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: amount.amount().toString() },
@@ -40,7 +38,7 @@ const connectKeplr =
 
     addChain({
       chain: Chain.Cosmos,
-      walletMethods: { ...toolbox, getAddress, transfer },
+      walletMethods: { ...toolbox, getAddress: () => address, transfer },
       wallet: { address, balance: [], walletType: WalletOption.KEPLR },
     });
 

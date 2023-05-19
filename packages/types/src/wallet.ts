@@ -4,6 +4,11 @@ import { Asset } from './asset.js';
 export const MOCK_PHRASE =
   'image rally need wedding health address purse army antenna leopard sea gain';
 
+export enum WalletStatus {
+  NotInstalled,
+  Detected,
+}
+
 export enum FeeOption {
   Average = 'average',
   Fast = 'fast',
