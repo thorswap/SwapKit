@@ -44,9 +44,6 @@ importers:
       '@changesets/cli':
         specifier: 2.26.1
         version: 2.26.1(patch_hash=bjaegezvkwhdobezmktzpy6u6u)
-      '@evilmartians/lefthook':
-        specifier: 1.4.0
-        version: 1.4.0
       '@size-limit/file':
         specifier: 8.2.4
         version: 8.2.4(size-limit@8.2.4)
@@ -3674,14 +3671,6 @@ packages:
       '@ethersproject/logger': 5.7.0
       '@ethersproject/properties': 5.7.0
       '@ethersproject/strings': 5.7.0
-
-  /@evilmartians/lefthook@1.4.0:
-    resolution: {integrity: sha512-1Wppuw/Vi0F+HfTm5n9TykzTIHphFUl+nNlHc15rFlFSGm+l0mo7zi9Y1AE4+9Z9Bx3eK6Tes98MLojiSreL5Q==}
-    cpu: [x64, arm64, ia32]
-    os: [darwin, linux, win32]
-    hasBin: true
-    requiresBuild: true
-    dev: true
 
   /@expo/bunyan@4.0.0:
     resolution: {integrity: sha512-Ydf4LidRB/EBI+YrB+cVLqIseiRfjUI/AeHBgjGMtq3GroraDu81OV7zqophRgupngoL3iS3JUMDMnxO7g39qA==}

@@ -31,6 +31,6 @@ module.exports = [
   { path: './packages/types/dist/index.es.js', name: 'types(esm)', limit: '10 KB' },
   { path: './packages/walletconnect/dist/index.cjs', name: 'walletconnect(cjs)', limit: '750 KB' },
   { path: './packages/walletconnect/dist/index.es.js', name: 'walletconnect(esm)', limit: '800 KB' },
-  { path: './packages/xdefi/dist/index.cjs', name: 'xdefi(cjs)', limit: '4 MB' },
-  { path: './packages/xdefi/dist/index.es.js', name: 'xdefi(esm)', limit: '5 MB' },
+  { path: './packages/xdefi/dist/index.cjs', name: 'xdefi(cjs)', limit: '5 KB' },
+  { path: './packages/xdefi/dist/index.es.js', name: 'xdefi(esm)', limit: '5 KB' },
 ];
