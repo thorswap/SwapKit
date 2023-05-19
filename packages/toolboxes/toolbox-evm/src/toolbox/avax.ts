@@ -6,7 +6,7 @@ import { baseAmount, gasFeeMultiplier } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { Address, BaseDecimal, Chain, ChainId, FeeOption } from '@thorswap-lib/types';
 
-import { CovalentApi } from '../api/covalentApi.js';
+import { covalentApi, CovalentApiType } from '../api/covalentApi.js';
 import { getProvider } from '../provider.js';
 import { FeeData } from '../types/clientTypes.js';
 
@@ -55,9 +55,13 @@ export const getPriorityFeeData = async ({
   }
 };
 
-export const getBalance = async (api: CovalentApi, address: Address, assets?: AssetEntity[]) => {
+export const getBalance = async (
+  api: CovalentApiType,
+  address: Address,
+  assets?: AssetEntity[],
+) => {
   const provider = getProvider(Chain.Avalanche);
-  const tokenBalances = await api.getBalance({ address, chainId: ChainId.Avalanche });
+  const tokenBalances = await api.getBalance(address);
 
   if (assets) {
     return tokenBalances.filter(({ asset }) =>
@@ -91,12 +95,12 @@ export const AVAXToolbox = ({
   signer,
   covalentApiKey,
 }: {
-  api?: CovalentApi;
+  api?: CovalentApiType;
   covalentApiKey: string;
   signer: Signer;
   provider: Provider | Web3Provider;
 }) => {
-  const avaxApi = api || new CovalentApi({ apiKey: covalentApiKey });
+  const avaxApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Avalanche });
 
   return {
     ...BaseEVMToolbox({ provider, signer }),

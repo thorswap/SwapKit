@@ -5,22 +5,17 @@ import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { Address, BaseDecimal, Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
 
-import { CovalentApi } from '../api/covalentApi.js';
+import { covalentApi, CovalentApiType } from '../api/covalentApi.js';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.js';
 
-const BSC_CHAIN_ID = ChainId.BinanceSmartChain;
-
 export const getBalance = async (
   provider: Provider,
-  api: CovalentApi,
+  api: CovalentApiType,
   address: Address,
   assets?: AssetEntity[],
 ) => {
-  const tokenBalances = await api.getBalance({
-    address: address,
-    chainId: BSC_CHAIN_ID,
-  });
+  const tokenBalances = await api.getBalance(address);
 
   if (assets) {
     return tokenBalances.filter((balance) =>
@@ -41,7 +36,7 @@ export const getBalance = async (
 };
 
 export const getNetworkParams = () => ({
-  chainId: BSC_CHAIN_ID,
+  chainId: ChainId.BinanceSmartChain,
   chainName: 'BNB Smart Chain',
   nativeCurrency: {
     name: 'Binance Coin',
@@ -58,12 +53,12 @@ export const BSCToolbox = ({
   signer,
   covalentApiKey,
 }: {
-  api?: CovalentApi;
+  api?: CovalentApiType;
   covalentApiKey: string;
   signer: Signer;
   provider: Provider | Web3Provider;
 }) => {
-  const bscApi = api || new CovalentApi({ apiKey: covalentApiKey });
+  const bscApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.BinanceSmartChain });
 
   return {
     ...BaseEVMToolbox({ provider, signer }),
