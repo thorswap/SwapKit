@@ -148,18 +148,18 @@ This repo contains packages around SwapKit sdk and its integrations with differe
 
 | Package                                                                 | Description                        | Chains                                            |
 | ----------------------------------------------------------------------- | ---------------------------------- | ------------------------------------------------- |
-| [@thorswap-lib/swapkit-core](./packages/swapkit-core/README.md)         | Core package for SwapKit           | -                                                 |
-| [@thorswap-lib/toolbox-evm](./packages/toolbox-evm/README.md)           | Toolkit to integrate EVM chain     | ETH, AVAX, BSC                                    |
-| [@thorswap-lib/toolbox-utxo](./packages/toolbox-utxo/README.md)         | Toolkit to integrate UTXO chain    | BTC, LTC, DOGE, BCH                               |
-| [@thorswap-lib/toolbox-cosmos](./packages/toolbox-cosmos/README.md)     | Toolkit to integrate Cosmos chains | THOR, ATOM, BNB                                   |
-| [@thorswap-lib/keystore](./packages/keystore/README.md)                 | Keystore implementation            | All chains supported by toolboxes                 |
-| [@thorswap-lib/ledger](./packages/ledger/README.md)                     | Ledger implementation              | All chains supported by toolboxes                 |
-| [@thorswap-lib/trezor](./packages/trezor/README.md)                     | Trezor implementation              | BTC, ETH, LTC, DOGE, BCH, AVAX                    |
-| [@thorswap-lib/trustwallet](./packages/trustwallet/README.md)           | Trustwallet implementation         | THOR, BNB, ETH                                    |
-| [@thorswap-lib/walletconnect](./packages/walletconnect/README.md)       | Walletconnect implementation       | ETH                                               |
-| [@thorswap-lib/keplr](./packages/keplr/README.md)                       | Keplr implementation               | ATOM                                              |
-| [@thorswap-lib/xdefi](./packages/xdefi/README.md)                       | XDEFI implementation               | All chains                                        |
-| [@thorswap-lib/evm-web3-wallets](./packages/evm-web3-wallets/README.md) | EVM Browser Extensions             | [See more](./packages/evm-web3-wallets/README.md) |
+| [@thorswap-lib/swapkit-core](./packages/swapkit/swapkit-core/README.md)         | Core package for SwapKit           | -                                                 |
+| [@thorswap-lib/toolbox-evm](./packages/toolboxes/toolbox-evm/README.md)           | Toolkit to integrate EVM chain     | ETH, AVAX, BSC                                    |
+| [@thorswap-lib/toolbox-utxo](./packages/toolboxes/toolbox-utxo/README.md)         | Toolkit to integrate UTXO chain    | BTC, LTC, DOGE, BCH                               |
+| [@thorswap-lib/toolbox-cosmos](./packages/toolboxes/toolbox-cosmos/README.md)     | Toolkit to integrate Cosmos chains | THOR, ATOM, BNB                                   |
+| [@thorswap-lib/keystore](./packages/wallets/keystore/README.md)                 | Keystore implementation            | All chains supported by toolboxes                 |
+| [@thorswap-lib/ledger](./packages/wallets/ledger/README.md)                     | Ledger implementation              | All chains supported by toolboxes                 |
+| [@thorswap-lib/trezor](./packages/wallets/trezor/README.md)                     | Trezor implementation              | BTC, ETH, LTC, DOGE, BCH, AVAX                    |
+| [@thorswap-lib/trustwallet](./packages/wallets/trustwallet/README.md)           | Trustwallet implementation         | THOR, BNB, ETH                                    |
+| [@thorswap-lib/walletconnect](./packages/wallets/walletconnect/README.md)       | Walletconnect implementation       | ETH                                               |
+| [@thorswap-lib/keplr](./packages/wallets/keplr/README.md)                       | Keplr implementation               | ATOM                                              |
+| [@thorswap-lib/xdefi](./packages/wallets/xdefi/README.md)                       | XDEFI implementation               | All chains                                        |
+| [@thorswap-lib/evm-web3-wallets](./packages/wallets/evm-web3-wallets/README.md) | EVM Browser Extensions             | [See more](./packages/wallets/evm-web3-wallets/README.md) |
 
 ## Contributing
 

@@ -1,9 +1,14 @@
 {
   "author": "thorswap",
-  "dependencies": {},
-  "description": "THORSwap Lib <%- packageName %>",
+  "dependencies": {
+    "@thorswap-lib/types": "workspace:*"
+  },
+  "description": "THORSwap Lib evm-web3-wallets",
   "devDependencies": {
+    "@ethersproject/abstract-signer": "5.7.0",
+    "@ethersproject/providers": "5.7.2",
     "@internal/config": "workspace:*",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
     "@vitest/coverage-istanbul": "0.31.1",
     "vite": "4.3.8",
     "vitest": "0.31.1"
@@ -26,19 +31,25 @@
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/<%- packageName %>",
+  "name": "@thorswap-lib/evm-web3-wallets",
+  "peerDependencies": {
+    "@ethersproject/abstract-signer": "^5.7.0",
+    "@ethersproject/providers": "^5.7.0",
+    "@thorswap-lib/toolbox-evm": "workspace:*"
+  },
   "publishConfig": {
     "access": "public"
   },
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "echo 'Build <%- packageName %> 🛠'; vite build && echo 'Build succeeded <%- packageName %> ✅'",
+    "build": "echo 'Build evm-web3-wallets 🛠'; vite build && echo 'Build succeeded evm-web3-wallets ✅'",
     "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",
-  "types": "./dist/index.d.ts"
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0-development.1"
 }

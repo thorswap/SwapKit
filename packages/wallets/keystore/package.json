@@ -1,0 +1,77 @@
+{
+  "author": "thorswap",
+  "dependencies": {
+    "@ethersproject/hdnode": "5.7.0",
+    "@ethersproject/wallet": "5.7.0",
+    "@thorswap-lib/helpers": "workspace:*",
+    "@thorswap-lib/swapkit-entities": "workspace:*",
+    "@thorswap-lib/types": "workspace:*",
+    "blakejs": "1.2.1",
+    "long": "4.0.0",
+    "uuid": "9.0.0"
+  },
+  "description": "THORSwap Lib keystore",
+  "devDependencies": {
+    "@ethersproject/abstract-provider": "5.7.0",
+    "@ethersproject/bignumber": "5.7.0",
+    "@ethersproject/contracts": "5.7.0",
+    "@ethersproject/providers": "5.7.2",
+    "@internal/config": "workspace:*",
+    "@thorswap-lib/toolbox-cosmos": "workspace:*",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
+    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@types/long": "4.0.2",
+    "@types/uniqid": "5.3.2",
+    "@types/uuid": "9.0.1",
+    "@vitest/coverage-istanbul": "0.31.1",
+    "bip39": "3.1.0",
+    "bitcoinjs-lib": "5.2.0",
+    "vite": "4.3.8",
+    "vitest": "0.31.1"
+  },
+  "eslintConfig": {
+    "extends": "../../../internal/eslint-config-thorswap"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "MIT",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@thorswap-lib/keystore",
+  "peerDependencies": {
+    "@ethersproject/abstract-provider": "^5.7.0",
+    "@ethersproject/bignumber": "^5.7.0",
+    "@ethersproject/contracts": "^5.7.0",
+    "@ethersproject/providers": "^5.7.0",
+    "@thorswap-lib/toolbox-cosmos": "workspace:*",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
+    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "bip39": "^3.0.4",
+    "bitcoinjs-lib": "^5.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "react-native": "./src/index.ts",
+  "repository": "https://github.com/thorswap/SwapKit.git",
+  "scripts": {
+    "build": "echo 'Build keystore 🛠'; vite build && echo 'Build succeeded keystore ✅'",
+    "clean": "rm -rf dist .turbo",
+    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "test": "echo 'vitest --run'",
+    "test:coverage": "echo 'vitest run --coverage'"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0-development.162"
+}

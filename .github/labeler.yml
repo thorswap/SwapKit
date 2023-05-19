@@ -1,3 +1,6 @@
+release:
+- packages/**/CHANGELOG.md
+
 maintenance:
 - ./internal/config/**/*
 - ./internal/eslint-config-thorswap/**/*
@@ -8,50 +11,37 @@ maintenance:
 - .github/**/*
 - .vscode/**/*
 
-core:
-- packages/swapkit-core/**/*
-- packages/swapkit-entities/**/*
-- packages/swapkit-explorers/**/*
-
 docs:
 - apps/vite-playground/src/**/*
 - apps/expo-playground/src/**/*
 
-keystore:
-- packages/keystore/src/**/*
-
-ledger:
-- packages/ledger/src/**/*
+core:
+- packages/swapkit/swapkit-core/**/*
+- packages/swapkit/swapkit-entities/**/*
+- packages/swapkit/swapkit-explorers/**/*
+types:
+- packages/swapkit/types/src/**/*
 
 cosmos:
-- packages/toolbox-cosmos/src/**/*
-
+- packages/toolboxes/toolbox-cosmos/src/**/*
 evm:
-- packages/toolbox-evm/src/**/*
-
+- packages/toolboxes/toolbox-evm/src/**/*
 utxo:
-- packages/toolbox-utxo/src/**/*
+- packages/toolboxes/toolbox-utxo/src/**/*
 
+keystore:
+- packages/wallets/keystore/src/**/*
+ledger:
+- packages/wallets/ledger/src/**/*
 trezor:
-- packages/trezor/src/**/*
-
-types:
-- packages/types/src/**/*
-
+- packages/wallets/trezor/src/**/*
 tw:
-- packages/trustwallet/src/**/*
-
+- packages/wallets/trustwallet/src/**/*
 wc:
-- packages/walletconnect/src/**/*
-
+- packages/wallets/walletconnect/src/**/*
 xdefi:
-- packages/xdefi/src/**/*
-
+- packages/wallets/xdefi/src/**/*
 keplr:
-- packages/keplr/src/**/*
-
+- packages/wallets/keplr/src/**/*
 evm-web3-wallets:
-- packages/evm-web3-wallets/src/**/*
-
-release:
-- packages/**/CHANGELOG.md
+- packages/wallets/evm-web3-wallets/src/**/*

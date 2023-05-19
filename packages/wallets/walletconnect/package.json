@@ -1,10 +1,21 @@
 {
   "author": "thorswap",
-  "dependencies": {},
-  "description": "THORSwap Lib <%- packageName %>",
+  "dependencies": {
+    "@coinbase/wallet-sdk": "3.6.6",
+    "@thorswap-lib/types": "workspace:*",
+    "@walletconnect/web3-provider": "1.8.0",
+    "web3modal": "1.9.12"
+  },
+  "description": "THORSwap Lib walletconnect",
   "devDependencies": {
+    "@ethersproject/abstract-signer": "5.7.0",
+    "@ethersproject/bytes": "5.7.0",
+    "@ethersproject/providers": "5.7.2",
+    "@ethersproject/strings": "5.7.0",
     "@internal/config": "workspace:*",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
     "@vitest/coverage-istanbul": "0.31.1",
+    "@walletconnect/types": "2.7.4",
     "vite": "4.3.8",
     "vitest": "0.31.1"
   },
@@ -26,19 +37,25 @@
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/<%- packageName %>",
+  "name": "@thorswap-lib/walletconnect",
+  "peerDependencies": {
+    "@ethersproject/bytes": "^5.7.0",
+    "@ethersproject/strings": "^5.7.0",
+    "@thorswap-lib/toolbox-evm": "workspace:*"
+  },
   "publishConfig": {
     "access": "public"
   },
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "echo 'Build <%- packageName %> 🛠'; vite build && echo 'Build succeeded <%- packageName %> ✅'",
+    "build": "echo 'Build walletconnect 🛠'; vite build && echo 'Build succeeded walletconnect ✅'",
     "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",
-  "types": "./dist/index.d.ts"
+  "types": "./dist/index.d.ts",
+  "version": "1.0.1-development.18"
 }

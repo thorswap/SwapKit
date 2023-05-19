@@ -1,10 +1,14 @@
 {
   "author": "thorswap",
-  "dependencies": {},
-  "description": "THORSwap Lib <%- packageName %>",
+  "dependencies": {
+    "@thorswap-lib/types": "workspace:*",
+    "tiny-invariant": "1.3.1"
+  },
+  "description": "THORSwap Lib swapkit-entities",
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@vitest/coverage-istanbul": "0.31.1",
+    "bignumber.js": "9.1.1",
     "vite": "4.3.8",
     "vitest": "0.31.1"
   },
@@ -26,19 +30,23 @@
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/<%- packageName %>",
+  "name": "@thorswap-lib/swapkit-entities",
+  "peerDependencies": {
+    "bignumber.js": "^9.1.0"
+  },
   "publishConfig": {
     "access": "public"
   },
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "echo 'Build <%- packageName %> 🛠'; vite build && echo 'Build succeeded <%- packageName %> ✅'",
+    "build": "echo 'Build swapkit-entities 🛠'; vite build && echo 'Build succeeded swapkit-entities ✅'",
     "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "echo 'vitest --run'",
-    "test:coverage": "echo 'vitest run --coverage'"
+    "test": "vitest --run",
+    "test:coverage": "vitest run --coverage"
   },
   "type": "module",
-  "types": "./dist/index.d.ts"
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0-development.90"
 }

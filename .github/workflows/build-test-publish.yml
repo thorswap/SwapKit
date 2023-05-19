@@ -15,10 +15,6 @@ on:
       - 'package.json'
       - 'turbo.json'
 
-concurrency:
-  group: build-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
@@ -56,7 +52,7 @@ jobs:
         run: pnpm test:coverage
       - uses: codecov/codecov-action@v3
         with:
-          files: ./internal/helpers/coverage/coverage-final.json,./packages/swapkit-entities/coverage/coverage-final.json,./packages/swapkit-explorers/coverage/coverage-final.json,./packages/toolbox-evm/coverage/coverage-final.json,
+          files: ./internal/helpers/coverage/coverage-final.json,./packages/swapkit/swapkit-entities/coverage/coverage-final.json,./packages/swapkit/swapkit-explorers/coverage/coverage-final.json,./packages/toolboxes/toolbox-evm/coverage/coverage-final.json,
           flags: unittests
           name: swapkit-codecov
           fail_ci_if_error: false

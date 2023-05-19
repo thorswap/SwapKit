@@ -1,12 +1,11 @@
 {
   "author": "thorswap",
-  "dependencies": {},
-  "description": "THORSwap Lib <%- packageName %>",
+  "description": "THORSwap Lib types",
   "devDependencies": {
+    "@ethersproject/bignumber": "5.7.0",
     "@internal/config": "workspace:*",
-    "@vitest/coverage-istanbul": "0.31.1",
-    "vite": "4.3.8",
-    "vitest": "0.31.1"
+    "@types/node": "20.2.1",
+    "vite": "4.3.8"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"
@@ -26,19 +25,19 @@
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/<%- packageName %>",
+  "name": "@thorswap-lib/types",
   "publishConfig": {
     "access": "public"
   },
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "echo 'Build <%- packageName %> 🛠'; vite build && echo 'Build succeeded <%- packageName %> ✅'",
+    "build": "echo 'Build types 🛠'; vite build && echo 'Build succeeded types ✅'",
     "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "echo 'vitest --run'",
-    "test:coverage": "echo 'vitest run --coverage'"
+    "test": "echo 'No tests yet'"
   },
   "type": "module",
-  "types": "./dist/index.d.ts"
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0-development.84"
 }

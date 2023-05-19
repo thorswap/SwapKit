@@ -1,9 +1,26 @@
 {
   "author": "thorswap",
-  "dependencies": {},
-  "description": "THORSwap Lib <%- packageName %>",
+  "dependencies": {
+    "@psf/bitcoincashjs-lib": "4.0.3",
+    "@thorswap-lib/helpers": "workspace:*",
+    "@thorswap-lib/swapkit-entities": "workspace:*",
+    "@thorswap-lib/types": "workspace:*",
+    "bchaddrjs": "0.5.2",
+    "bip32": "2.0.6",
+    "bitcoinjs-lib": "5.2.0",
+    "coininfo": "5.2.1",
+    "coinselect": "3.1.13",
+    "ecpair": "2.0.1",
+    "tiny-secp256k1": "1.1.6",
+    "uniqid": "5.4.0"
+  },
+  "description": "THORSwap toolbox-utxo",
   "devDependencies": {
     "@internal/config": "workspace:*",
+    "@types/bchaddrjs": "0.4.0",
+    "@types/node": "20.2.1",
+    "@types/tiny-secp256k1": "1.0.0",
+    "@types/uniqid": "5.3.2",
     "@vitest/coverage-istanbul": "0.31.1",
     "vite": "4.3.8",
     "vitest": "0.31.1"
@@ -26,19 +43,23 @@
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/<%- packageName %>",
+  "name": "@thorswap-lib/toolbox-utxo",
+  "peerDependencies": {
+    "bip39": "^3.0.4"
+  },
   "publishConfig": {
     "access": "public"
   },
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "echo 'Build <%- packageName %> 🛠'; vite build && echo 'Build succeeded <%- packageName %> ✅'",
+    "build": "echo 'Build toolbox-utxo 🛠'; vite build && echo 'Build succeeded toolbox-utxo ✅'",
     "clean": "rm -rf dist .turbo",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",
-  "types": "./dist/index.d.ts"
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0-development.106"
 }
