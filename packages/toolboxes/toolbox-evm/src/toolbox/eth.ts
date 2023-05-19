@@ -5,17 +5,17 @@ import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { Address, BaseDecimal, Chain } from '@thorswap-lib/types';
 
-import { EthereumApi } from '../api/eth/EthereumHybridApi.js';
+import { ethplorerApi, EthplorerApiType } from '../api/ethplorerApi.js';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.js';
 
 export const getBalance = async (
   provider: Provider,
-  api: EthereumApi,
+  api: EthplorerApiType,
   address: Address,
   assets?: AssetEntity[],
 ) => {
-  const tokenBalances = await api.getBalance({ address });
+  const tokenBalances = await api.getBalance(address);
 
   if (assets) {
     return tokenBalances.filter(({ asset }) =>
@@ -39,12 +39,12 @@ export const ETHToolbox = ({
   signer,
   provider,
 }: {
-  api?: EthereumApi;
+  api?: EthplorerApiType;
   ethplorerApiKey: string;
   signer?: Signer;
   provider: Provider | Web3Provider;
 }) => {
-  const ethApi = api || new EthereumApi({ apiKey: ethplorerApiKey });
+  const ethApi = api || ethplorerApi(ethplorerApiKey);
 
   return {
     ...BaseEVMToolbox({ signer, provider }),

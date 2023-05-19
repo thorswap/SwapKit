@@ -1,4 +1,3 @@
-export * from './api/index.js';
 export * from './networkHelpers.js';
 export * from './provider.js';
 export { AVAXToolbox } from './toolbox/avax.js';
