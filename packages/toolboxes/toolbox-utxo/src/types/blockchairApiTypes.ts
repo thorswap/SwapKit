@@ -1,21 +1,9 @@
 import { Address, Chain, TxHash } from '@thorswap-lib/types';
 
-export interface BlockchairBaseParams {
+export type BlockchairApiParams<T> = T & {
   chain: Chain;
-  apiKey?: string;
-}
-
-export interface BlockchairAddressParams extends BlockchairBaseParams {
-  address: Address;
-}
-
-export interface BlockchairAddressesParams extends BlockchairBaseParams {
-  addresses: Address[];
-}
-
-export interface BlockchairTransactionParams extends BlockchairBaseParams {
-  txHash: TxHash;
-}
+  apiKey: string;
+};
 
 export interface BlockchairMultipleBalancesResponse {
   [key: Address]: number;

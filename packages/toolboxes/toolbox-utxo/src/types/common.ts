@@ -1,29 +1,38 @@
-import { AmountWithBaseDenom, Chain, TxParams, WalletTxParams } from '@thorswap-lib/types';
+import { Chain, TxParams, UTXO, WalletTxParams } from '@thorswap-lib/types';
 
-import { UTXOApiClientType } from './commonApiTypes.js';
+import { BlockchairApiType } from '../api/blockchairApi.js';
+
+type TransactionType = {
+  toHex(): string;
+};
+
+export type TransactionBuilderType = {
+  inputs: any[];
+  sign(
+    vin: number,
+    keyPair: KeyPairType,
+    redeemScript?: Buffer,
+    hashType?: number,
+    witnessValue?: number,
+    witnessScript?: Buffer,
+    signatureAlgorithm?: string,
+  ): void;
+  build(): TransactionType;
+};
 
 export type UTXOChain = Chain.Bitcoin | Chain.BitcoinCash | Chain.Doge | Chain.Litecoin;
+
+export type KeyPairType = {
+  getAddress(index?: number): string;
+};
 
 export type Witness = {
   value: number;
   script: Buffer;
 };
-export type UTXO = {
-  hash: string;
-  index: number;
-  value: number;
-  witnessUtxo: Witness;
-  txHex?: string;
-};
-
-export type AddressBalance = {
-  confirmed: AmountWithBaseDenom;
-  unconfirmed: AmountWithBaseDenom;
-  address: string;
-};
 
 export type UTXOBaseToolboxParams = {
-  apiClient: UTXOApiClientType;
+  apiClient: BlockchairApiType;
   chain: UTXOChain;
 };
 
@@ -42,3 +51,10 @@ export type UTXOWalletTransferParams<T, U> = UTXOTransferParams & {
 };
 
 export type UTXOCreateKeyParams = { phrase?: string; wif?: string; derivationPath: string };
+
+export type TransferParams = UTXOWalletTransferParams<
+  { builder: TransactionBuilderType; utxos: UTXO[] },
+  TransactionType
+>;
+
+export type ScanUTXOsParams = { address: string; fetchTxHex?: boolean };

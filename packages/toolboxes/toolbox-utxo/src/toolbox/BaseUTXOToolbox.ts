@@ -1,5 +1,6 @@
+import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { Balance, Chain, FeeOption, FeeRates, Fees, UTXO } from '@thorswap-lib/types';
+import { Balance, BaseDecimal, Chain, FeeOption, FeeRates, Fees, UTXO } from '@thorswap-lib/types';
 import { fromSeed } from 'bip32';
 import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';
 import accumulative from 'coinselect/accumulative';
@@ -21,7 +22,7 @@ import {
   standardFeeRates,
 } from '../utils.js';
 
-export const createKeysForPath = ({
+const createKeysForPath = ({
   phrase,
   wif,
   derivationPath,
@@ -46,10 +47,7 @@ export const createKeysForPath = ({
   }
 };
 
-export const validateAddress = ({
-  address,
-  chain,
-}: { address: string } & UTXOBaseToolboxParams) => {
+const validateAddress = ({ address, chain }: { address: string } & UTXOBaseToolboxParams) => {
   try {
     btcLibAddress.toOutputScript(address, getNetwork(chain));
     return true;
@@ -58,10 +56,7 @@ export const validateAddress = ({
   }
 };
 
-export const getAddressFromKeys = ({
-  keys,
-  chain,
-}: { keys: ECPairInterface } & UTXOBaseToolboxParams) => {
+const getAddressFromKeys = ({ keys, chain }: { keys: ECPairInterface } & UTXOBaseToolboxParams) => {
   if (!keys) throw new Error('Keys must be provided');
 
   const method = Chain.Doge === chain ? payments.p2pkh : payments.p2wpkh;
@@ -71,7 +66,7 @@ export const getAddressFromKeys = ({
   return address;
 };
 
-export const transfer = async ({
+const transfer = async ({
   signTransaction,
   from,
   recipient,
@@ -96,31 +91,31 @@ export const transfer = async ({
   const signedPsbt = await signTransaction(psbt);
   signedPsbt.finalizeAllInputs(); // Finalise inputs
   // TX extracted and formatted to hex
-  return apiClient.broadcastTx({ txHex: signedPsbt.extractTransaction().toHex() });
+  return apiClient.broadcastTx(signedPsbt.extractTransaction().toHex());
 };
 
-export const getBalance = async ({
+const getBalance = async ({
   address,
   chain,
   apiClient,
 }: { address: string } & UTXOBaseToolboxParams): Promise<Balance[]> => [
-  { asset: getSignatureAssetFor(chain), amount: await apiClient.getBalanceAmount({ address }) },
+  {
+    asset: getSignatureAssetFor(chain),
+    amount: baseAmount(await apiClient.getBalance(address), BaseDecimal[chain]),
+  },
 ];
 
-export const getSuggestedFeeRate = ({ apiClient }: UTXOBaseToolboxParams) =>
-  apiClient.getSuggestedTxFee();
+const getFeeRates = async (params: UTXOBaseToolboxParams): Promise<FeeRates> =>
+  standardFeeRates(await params.apiClient.getSuggestedTxFee());
 
-export const getFeeRates = async (params: UTXOBaseToolboxParams): Promise<FeeRates> =>
-  standardFeeRates(await getSuggestedFeeRate(params));
-
-export const getFees = async ({
+const getFees = async ({
   chain,
   apiClient,
   memo,
 }: { memo?: string } & UTXOBaseToolboxParams): Promise<Fees> =>
   (await getFeesAndFeeRates({ apiClient, memo, chain })).fees;
 
-export const getFeesAndFeeRates = async ({
+const getFeesAndFeeRates = async ({
   apiClient,
   chain,
   memo,
@@ -131,7 +126,7 @@ export const getFeesAndFeeRates = async ({
   return { fees: calcFeesAsync(rates, calcFee, memo), rates };
 };
 
-export const buildTx = async ({
+const buildTx = async ({
   amount,
   recipient,
   memo,
@@ -173,6 +168,7 @@ export const buildTx = async ({
   // .inputs and .outputs will be undefined if no solution was found
   if (!inputs || !outputs) throw new Error('Insufficient Balance for transaction');
   const psbt = new Psbt({ network: getNetwork(chain) }); // Network-specific
+
   if (chain === Chain.Doge) psbt.setMaximumFeeRate(650000000);
 
   // psbt add input from accumulative inputs
@@ -208,17 +204,17 @@ export const buildTx = async ({
 };
 
 export const BaseUTXOToolbox = (baseToolboxParams: UTXOBaseToolboxParams) => ({
+  broadcastTx: baseToolboxParams.apiClient.broadcastTx,
   buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, ...baseToolboxParams }),
   createKeysForPath: (params: UTXOCreateKeyParams) =>
     createKeysForPath({ ...params, ...baseToolboxParams }),
-  validateAddress: (address: string) => validateAddress({ address, ...baseToolboxParams }),
   getAddressFromKeys: (keys: ECPairInterface) => getAddressFromKeys({ keys, ...baseToolboxParams }),
-  broadcastTx: baseToolboxParams.apiClient.broadcastTx,
-  transfer: (params: UTXOWalletTransferParams<Psbt, Psbt>) =>
-    transfer({ ...params, ...baseToolboxParams }),
   getBalance: (address: string) => getBalance({ address, ...baseToolboxParams }),
-  getSuggestedFeeRate: () => getSuggestedFeeRate(baseToolboxParams),
   getFeeRates: () => getFeeRates(baseToolboxParams),
   getFees: () => getFees(baseToolboxParams),
   getFeesAndFeeRates: () => getFeesAndFeeRates(baseToolboxParams),
+  getSuggestedFeeRate: baseToolboxParams.apiClient.getSuggestedTxFee,
+  transfer: (params: UTXOWalletTransferParams<Psbt, Psbt>) =>
+    transfer({ ...params, ...baseToolboxParams }),
+  validateAddress: (address: string) => validateAddress({ address, ...baseToolboxParams }),
 });
