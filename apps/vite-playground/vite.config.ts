@@ -31,7 +31,7 @@ export default defineConfig({
       '@thorswap-lib/trustwallet': resolve('../../packages/trustwallet/src'),
       '@thorswap-lib/trezor': resolve('../../packages/trezor/src'),
       '@thorswap-lib/walletconnect': resolve('../../packages/walletconnect/src'),
-      '@thorswap-lib/web-extensions': resolve('../../packages/web-extensions/src'),
+      '@thorswap-lib/xdefi': resolve('../../packages/xdefi/src'),
     },
   },
   server: {

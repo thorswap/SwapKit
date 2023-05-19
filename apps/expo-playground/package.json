@@ -16,7 +16,7 @@
     "@thorswap-lib/trustwallet": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "@thorswap-lib/walletconnect": "workspace:*",
-    "@thorswap-lib/web-extensions": "workspace:*",
+    "@thorswap-lib/xdefi": "workspace:*",
     "@tradle/react-native-http": "2.0.1",
     "asyncstorage-down": "4.2.0",
     "crypto-browserify": "3.12.0",

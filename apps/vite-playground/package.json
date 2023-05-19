@@ -14,7 +14,7 @@
     "@thorswap-lib/trustwallet": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "@thorswap-lib/walletconnect": "workspace:*",
-    "@thorswap-lib/web-extensions": "workspace:*",
+    "@thorswap-lib/xdefi": "workspace:*",
     "@walletconnect/qrcode-modal": "1.8.0",
     "@walletconnect/sign-client": "2.7.5",
     "@walletconnect/types": "2.7.2",

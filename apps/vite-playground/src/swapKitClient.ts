@@ -3,7 +3,7 @@ import { ledgerWallet } from '@thorswap-lib/ledger';
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { trezorWallet } from '@thorswap-lib/trezor';
 import { walletconnectWallet } from '@thorswap-lib/walletconnect';
-import { evmWallet, xdefiWallet } from '@thorswap-lib/web-extensions';
+import { xdefiWallet } from '@thorswap-lib/xdefi';
 
 let skClient: SwapKitCore;
 let stagenetClient: SwapKitCore;
