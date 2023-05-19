@@ -58,7 +58,6 @@ const getToolbox = async ({
     case Chain.BinanceSmartChain:
     case Chain.Avalanche:
     case Chain.Ethereum: {
-      debugger;
       if (chain === Chain.Ethereum && !ethplorerApiKey)
         throw new Error('Ethplorer API key not found');
       if (!covalentApiKey) throw new Error('Covalent API key not found');
@@ -66,10 +65,8 @@ const getToolbox = async ({
       const provider = getProvider(chain, rpcUrl);
       const signer = await getEVMSigner({ chain, derivationPath, provider });
 
-      debugger;
       const address = await signer.getAddress();
       const params = { api, signer, provider };
-      debugger;
       const walletMethods =
         chain === Chain.Ethereum
           ? //@ts-expect-error
