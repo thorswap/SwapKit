@@ -31,6 +31,7 @@
     "hot-insects-grin",
     "hungry-beers-pretend",
     "hungry-eyes-help",
+    "itchy-swans-battle",
     "large-crews-hug",
     "large-guests-allow",
     "lazy-cups-develop",
@@ -61,6 +62,7 @@
     "shy-deers-invite",
     "shy-tigers-smell",
     "six-hornets-pull",
+    "smart-ants-shake",
     "smooth-cherries-march",
     "stale-dancers-grin",
     "strange-elephants-camp",
@@ -71,6 +73,7 @@
     "tasty-waves-drop",
     "thick-apes-wave",
     "three-readers-protect",
+    "tidy-boxes-suffer",
     "violet-clocks-promise",
     "witty-mugs-drive"
   ],
@@ -89,7 +92,12 @@
     "@thorswap-lib/trezor": "1.0.0-development.1",
     "@thorswap-lib/trustwallet": "1.0.0-development.135",
     "@thorswap-lib/types": "1.0.0-development.60",
-    "@thorswap-lib/walletconnect": "1.0.1-development.5"
+    "@thorswap-lib/walletconnect": "1.0.1-development.5",
+    "@thorswap/generator": "0.0.0",
+    "@thorswap-lib/evm-web3-wallets": "1.0.0-development.0",
+    "@thorswap-lib/keplr": "1.0.0-development.0",
+    "@thorswap-lib/swapkit-sdk": "0.0.1-development.0",
+    "@thorswap-lib/xdefi": "1.0.0-development.0"
   },
   "mode": "pre",
   "tag": "development"
