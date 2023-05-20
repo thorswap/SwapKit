@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 1.0.0-development.107
+
+### Minor Changes
+
+- [#114](https://github.com/thorswap/SwapKit/pull/114) [`309347d`](https://github.com/thorswap/SwapKit/commit/309347d72277449dc59cdacafbaab82c40edb764) Thanks [@0x-General](https://github.com/0x-General)! - Fix BNB getBalance
+
 ## 1.0.0-development.106
 
 ### Patch Changes
