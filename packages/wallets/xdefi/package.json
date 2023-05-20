@@ -55,5 +55,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.1"
+  "version": "1.0.0-development.2"
 }
