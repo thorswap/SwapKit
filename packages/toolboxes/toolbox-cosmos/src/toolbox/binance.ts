@@ -8,7 +8,7 @@ import {
   postRequest,
   singleFee,
 } from '@thorswap-lib/helpers';
-import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { AssetEntity, getSignatureAssetFor, Amount } from '@thorswap-lib/swapkit-entities';
 import {
   Address,
   AmountWithBaseDenom,
@@ -55,7 +55,7 @@ const getBalance = async (address: Address, assets?: AssetEntity[]) => {
   return balances
     .map(({ symbol, free }) => ({
       asset: assetFromString(`${Chain.Binance}.${symbol}`) || getSignatureAssetFor(Chain.Binance),
-      amount: baseAmount(free, 8),
+      amount: baseAmount(Amount.fromAssetAmount(free, 8).baseAmount.toString() || 0, 8),
     }))
     .filter(
       (balance) =>
