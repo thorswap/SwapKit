@@ -57,7 +57,7 @@
     }
   },
   "scripts": {
-    "bootstrap": "rm --rf node_modules; dotenv -- pnpm install; dotenv -- pnpm build lint test",
+    "bootstrap": "rm --rf node_modules; pnpm install; pnpm build",
     "build": "turbo run build --token=turbotoken-oss-europe1",
     "clean": "turbo run clean",
     "dev:android": "turbo run dev:android --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
