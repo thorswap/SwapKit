@@ -4,37 +4,25 @@ import { keystoreWallet } from '@thorswap-lib/keystore';
 import { ledgerWallet } from '@thorswap-lib/ledger';
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { trezorWallet } from '@thorswap-lib/trezor';
-import { walletconnectWallet } from '@thorswap-lib/walletconnect';
 import { xdefiWallet } from '@thorswap-lib/xdefi';
 
-let skClient: SwapKitCore;
-let stagenetClient: SwapKitCore;
-
-export const getSwapKitClient = (stagenet?: boolean) => {
-  if (stagenet && stagenetClient) return stagenetClient;
-  if (!stagenet && skClient) return skClient;
-
+export const getSwapKitClient = ({
+  ethplorerApiKey = 'freekey',
+  covalentApiKey = '',
+  utxoApiKey = '',
+  stagenet,
+}: {
+  ethplorerApiKey?: string;
+  covalentApiKey?: string;
+  utxoApiKey?: string;
+  stagenet?: boolean;
+} = {}) => {
   const client = new SwapKitCore({ stagenet });
 
   client.extend({
-    config: {
-      ethplorerApiKey: 'freekey',
-      covalentApiKey: '',
-      utxoApiKey: '',
-    },
-    wallets: [
-      xdefiWallet,
-      ledgerWallet,
-      keystoreWallet,
-      trezorWallet,
-      walletconnectWallet,
-      keplrWallet,
-      evmWallet,
-    ],
+    config: { ethplorerApiKey, covalentApiKey, utxoApiKey },
+    wallets: [xdefiWallet, ledgerWallet, keystoreWallet, trezorWallet, keplrWallet, evmWallet],
   });
-
-  if (stagenet) stagenetClient = client;
-  else skClient = client;
 
   return client;
 };

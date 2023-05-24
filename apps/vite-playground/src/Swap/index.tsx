@@ -1,28 +1,25 @@
 import { QuoteRoute } from '@thorswap-lib/swapkit-api';
-import { AssetAmount } from '@thorswap-lib/swapkit-core';
+import { AssetAmount, SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { FeeOption } from '@thorswap-lib/types';
 import { useCallback } from 'react';
-
-import { getSwapKitClient } from '../swapKitClient';
 
 import { SwapInputs } from './SwapInputs';
 
 export default function Swap({
   inputAsset,
   outputAsset,
-  stagenet,
+  skClient,
 }: {
   inputAsset?: AssetAmount;
   outputAsset?: AssetAmount;
-  stagenet: boolean;
+  skClient?: SwapKitCore;
 }) {
   const handleSwap = useCallback(
     async (route: QuoteRoute) => {
       const inputChain = inputAsset?.asset.L1Chain;
       const outputChain = outputAsset?.asset.L1Chain;
-      if (!outputChain || !inputChain) return;
+      if (!outputChain || !inputChain || !skClient) return;
 
-      const skClient = getSwapKitClient(stagenet);
       const address = skClient.getAddress(outputChain);
 
       const txHash = await skClient.swap({
@@ -33,7 +30,7 @@ export default function Swap({
 
       window.open(skClient.getExplorerTxUrl(inputChain, txHash as string), '_blank');
     },
-    [inputAsset?.asset.L1Chain, outputAsset?.asset.L1Chain, stagenet],
+    [inputAsset?.asset.L1Chain, outputAsset?.asset.L1Chain, skClient],
   );
 
   return (
@@ -43,7 +40,7 @@ export default function Swap({
         handleSwap={handleSwap}
         inputAsset={inputAsset}
         outputAsset={outputAsset}
-        stagenet={stagenet}
+        skClient={skClient}
       />
     </>
   );

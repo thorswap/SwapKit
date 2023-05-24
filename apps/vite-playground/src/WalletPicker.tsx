@@ -1,14 +1,14 @@
 import { decryptFromKeystore } from '@thorswap-lib/keystore';
 import { getDerivationPathFor } from '@thorswap-lib/ledger';
+import { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { Chain, WalletOption } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 
-import { getSwapKitClient } from './swapKitClient';
 import { WalletDataType } from './types';
 
 type Props = {
   setWallet: (wallet: WalletDataType | WalletDataType[]) => void;
-  stagenet: boolean;
+  skClient?: SwapKitCore;
 };
 
 const walletOptions = Object.values(WalletOption).filter(
@@ -48,11 +48,10 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   [WalletOption.TRUSTWALLET_WEB]: EVMChainsSupported,
   [WalletOption.TRUSTWALLET]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   [WalletOption.XDEFI]: AllChainsSupported,
-  [WalletOption.WALLETCONNECT]: [Chain.Ethereum, Chain.Avalanche],
+  [WalletOption.WALLETCONNECT]: [], // [Chain.Ethereum, Chain.Avalanche],
 };
 
-export const WalletPicker = ({ setWallet, stagenet }: Props) => {
-  const skClient = getSwapKitClient(stagenet);
+export const WalletPicker = ({ skClient, setWallet }: Props) => {
   const [loading, setLoading] = useState(false);
   const [chains, setChains] = useState<Chain[]>([]);
   const connectWallet = useCallback(
