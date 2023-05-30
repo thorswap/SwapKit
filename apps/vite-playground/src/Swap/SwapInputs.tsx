@@ -1,18 +1,16 @@
 import { QuoteRoute, SwapKitApi } from '@thorswap-lib/swapkit-api';
+import { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { Amount, AssetAmount } from '@thorswap-lib/swapkit-entities';
 import { useCallback, useState } from 'react';
-
-import { getSwapKitClient } from '../swapKitClient';
 
 type Props = {
   inputAsset?: AssetAmount;
   outputAsset?: AssetAmount;
   handleSwap: (route: QuoteRoute) => Promise<void>;
-  stagenet: boolean;
+  skClient?: SwapKitCore;
 };
 
-export const SwapInputs = ({ stagenet, inputAsset, outputAsset, handleSwap }: Props) => {
-  const skClient = getSwapKitClient(stagenet);
+export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Props) => {
   const [loading, setLoading] = useState(false);
   const [inputAmount, setInputAmount] = useState<Amount | undefined>();
   const [routes, setRoutes] = useState<QuoteRoute[]>([]);
@@ -30,7 +28,7 @@ export const SwapInputs = ({ stagenet, inputAsset, outputAsset, handleSwap }: Pr
   );
 
   const fetchQuote = useCallback(async () => {
-    if (!inputAsset || !outputAsset || !inputAmount) return;
+    if (!inputAsset || !outputAsset || !inputAmount || !skClient) return;
 
     setLoading(true);
     setRoutes([]);

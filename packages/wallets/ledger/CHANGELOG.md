@@ -1,5 +1,13 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.182
+
+### Patch Changes
+
+- [#120](https://github.com/thorswap/SwapKit/pull/120) [`7efa3b2`](https://github.com/thorswap/SwapKit/commit/7efa3b2f8af8fb24b961d945ed3285ab1161018c) Thanks [@towanTG](https://github.com/towanTG)! - Fixes retrun value of ledger connection method
+
+- [#118](https://github.com/thorswap/SwapKit/pull/118) [`eedc3a5`](https://github.com/thorswap/SwapKit/commit/eedc3a530fe00bca923e59bc670cb1aa9fd125d9) Thanks [@towanTG](https://github.com/towanTG)! - Fixes connection issue with ledger devices
+
 ## 1.0.0-development.181
 
 ### Patch Changes

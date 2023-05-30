@@ -25,13 +25,8 @@ export const getSwapInParams = ({
     token,
   },
 }: Params) => {
-  const type = lowercasedGenericAbiMappings[contractAddress.toLowerCase()]
-    ? 'generic'
-    : contractAddress.toLowerCase() === AGG_CONTRACT_ADDRESS.PANGOLIN.toLowerCase()
-    ? 'pangolin'
-    : 'uniswap';
+  const isGeneric = !!lowercasedGenericAbiMappings[contractAddress.toLowerCase()];
 
-  const isGeneric = type === 'generic';
   if (isGeneric && !router) {
     throw new Error('Router is required on calldata for swapIn with GenericContract');
   }
@@ -39,8 +34,9 @@ export const getSwapInParams = ({
   /**
    * Data structure for contract calls
    * GENERIC: tcRouter, tcVault, tcMemo, token, amount, router, data, deadline
-   * UNISWAP: tcRouter, tcVault, tcMemo, token, amount, amountOutMin, deadline
-   * PANGOLIN: tcRouter, tcVault, tcMemo, token, amount, amountOutMin, deadline
+   * ETH_UNISWAP: tcRouter, tcVault, tcMemo, token, amount, amountOutMin, deadline
+   * AVAX_PANGOLIN: tcRouter, tcVault, tcMemo, token, amount, amountOutMin, deadline
+   * AVAX_WOOFI: tcRouter, tcVault, tcMemo, token, amount, amountOutMin, deadline
    */
 
   const baseParams = [

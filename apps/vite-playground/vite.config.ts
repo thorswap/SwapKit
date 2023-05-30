@@ -1,10 +1,11 @@
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
+import nodePolyfills from 'rollup-plugin-polyfill-node';
 import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // NOTE: Have to be added to fix: Uncaught ReferenceError: process is not defined
+  // NOTE: Have to be added to fix: Uncaught ReferenceError: process & global is not defined
   define: {
     'process.env': {},
     'process.version': JSON.stringify('v18.16.0'),
@@ -23,7 +24,6 @@ export default defineConfig({
       '@thorswap-lib/types': resolve('../../packages/swapkit/types/src'),
       '@thorswap-lib/trustwallet': resolve('../../packages/wallets/trustwallet/src'),
       '@thorswap-lib/trezor': resolve('../../packages/wallets/trezor/src'),
-      '@thorswap-lib/walletconnect': resolve('../../packages/wallets/walletconnect/src'),
       '@thorswap-lib/xdefi': resolve('../../packages/wallets/xdefi/src'),
 
       crypto: resolve('node_modules/crypto-browserify'),
@@ -37,6 +37,17 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+  },
+  base: '/SwapKit/',
+
+  build: {
+    target: 'es2020',
+    reportCompressedSize: true,
+    sourcemap: true,
+    rollupOptions: {
+      plugins: [nodePolyfills({ sourceMap: true })],
+      output: { sourcemap: true },
+    },
   },
 
   esbuild: {

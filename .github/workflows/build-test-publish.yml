@@ -91,3 +91,27 @@ jobs:
           version: pnpm ${{ steps.deployment-params.outputs.version }}
           publish: pnpm publish-packages
           setupGitUser: false
+
+  deploy-playground:
+    if: contains(github.ref_name, 'develop')
+    needs: [build, test, lint]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup-js-workflow
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Build vite playground
+        run: pnpm build:vite
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: './apps/vite-playground/dist'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

@@ -10,6 +10,16 @@
         "node_modules/.cache/**"
       ]
     },
+    "build-playground": {
+      "dependsOn": [
+        "^build",
+        "^build-playground"
+      ],
+      "outputs": [
+        "dist/**",
+        "node_modules/.cache/**"
+      ]
+    },
     "clean": {
       "cache": false
     },
