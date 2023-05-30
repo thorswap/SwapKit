@@ -6,6 +6,7 @@ declare global {
   interface Navigator {
     usb?: {
       getDevices: () => Promise<any[]>;
+      requestDevice: (requestObject: any) => Promise<any>;
       removeEventListener: (event: string, callback: (e: any) => void) => void;
       addEventListener: (event: string, callback: (e: any) => void) => void;
     };
@@ -16,7 +17,16 @@ const getLedgerDevices = async () => {
   if (typeof navigator?.usb?.getDevices !== 'function') return [];
 
   const devices = await navigator?.usb?.getDevices();
-  return devices.filter((d) => d.vendorId === ledgerUSBVendorId);
+  const existingDevices = devices.filter((d) => d.vendorId === ledgerUSBVendorId);
+  if (existingDevices.length > 0) return existingDevices[0];
+  const device = await navigator?.usb?.requestDevice({
+    filters: [
+      {
+        vendorId: ledgerUSBVendorId,
+      },
+    ],
+  });
+  return device;
 };
 
 export const getLedgerTransport = async () => {
