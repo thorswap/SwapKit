@@ -30,7 +30,7 @@ const getLedgerDevices = async () => {
 };
 
 export const getLedgerTransport = async () => {
-  const [device] = await getLedgerDevices();
+  const device = await getLedgerDevices();
   if (!device) throw new Error('No Ledger device found');
   await device.open();
   if (device.configuration === null) await device.selectConfiguration(1);
