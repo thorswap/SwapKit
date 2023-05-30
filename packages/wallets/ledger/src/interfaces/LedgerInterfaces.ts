@@ -17,7 +17,6 @@ export abstract class CommonLedgerInterface {
   public derivationPath: (number | string)[] | string = [];
   public transport: any;
   public ledgerApp: any;
-  public test: any;
   public chain: 'thor' | 'bnb' | 'sol' | 'cosmos' | 'eth' = 'thor';
 
   public checkOrCreateTransportAndLedger = async () => {

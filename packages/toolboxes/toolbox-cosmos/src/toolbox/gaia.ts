@@ -1,13 +1,14 @@
-import { cosmosclient, proto } from '@cosmos-client/core';
-import { baseAmount } from '@thorswap-lib/helpers';
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
+import { StargateClient, SigningStargateClient } from '@cosmjs/stargate';
+import { StdFee } from '@cosmjs/amino';
+import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
+import { baseAmount, assetToString } from '@thorswap-lib/helpers';
 import {
-  AmountWithBaseDenom,
-  Balance,
+  Asset,
   BaseDecimal,
   ChainId,
   DerivationPath,
   FeeType,
+  RPCUrl,
 } from '@thorswap-lib/types';
 
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
@@ -17,45 +18,21 @@ import { getAsset } from '../util.js';
 
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.js';
 
+const DEFAULT_FEE_MAINNET = {
+  amount: [{ denom: 'uatom', amount: '500' }],
+  gas: '200000',
+};
+
 export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxType => {
   const sdk = new CosmosSDKClient({
     server: server || 'https://node-router.thorswap.net/cosmos/rest',
     chainId: ChainId.Cosmos,
   });
 
-  const protoMsgSend = ({
-    from,
-    to,
-    amount,
-    denom,
-  }: {
-    from: string;
-    to: string;
-    amount: AmountWithBaseDenom;
-    denom: string;
-  }): proto.cosmos.bank.v1beta1.MsgSend =>
-    new proto.cosmos.bank.v1beta1.MsgSend({
-      from_address: from,
-      to_address: to,
-      amount: [
-        {
-          amount: amount.amount().toString(),
-          denom,
-        },
-      ],
-    });
-
   const baseToolbox: {
     sdk: CosmosSDKClient['sdk'];
-    signAndBroadcast: CosmosSDKClient['signAndBroadcast'];
-    getAccount: (
-      address: string | cosmosclient.PubKey | Uint8Array,
-    ) => Promise<proto.cosmos.auth.v1beta1.IBaseAccount>;
     validateAddress: (address: string) => boolean;
-    createKeyPair: (phrase: string) => proto.cosmos.crypto.secp256k1.PrivKey;
     getAddressFromMnemonic: (phrase: string) => string;
-    getBalance: (address: string, filterAssets?: AssetEntity[] | undefined) => Promise<Balance[]>;
-    transfer: (params: TransferParams) => Promise<string>;
   } = BaseCosmosToolbox({
     decimal: BaseDecimal.GAIA,
     derivationPath: DerivationPath.GAIA,
@@ -66,6 +43,56 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
   return {
     ...baseToolbox,
 
+    getAccount: async (address: string) => {
+      const client = await StargateClient.connect(RPCUrl.Cosmos);
+      return client.getAccount(address);
+    },
+    getBalance: async (address: string, filterAssets?: Asset[]) => {
+      const client = await StargateClient.connect(RPCUrl.Cosmos);
+      const balances = await client.getAllBalances(address);
+      return balances
+        .filter(({ denom }) => denom && getAsset(denom))
+        .map(({ denom, amount }) => ({
+          asset: getAsset(denom) as Asset,
+          amount: baseAmount(amount, BaseDecimal.GAIA),
+        }))
+        .filter(
+          ({ asset }) =>
+            !filterAssets ||
+            filterAssets.filter(
+              (filteredAsset) => assetToString(asset) === assetToString(filteredAsset),
+            ).length,
+        );
+    },
+    getSigner: async (phrase: string) => {
+      return DirectSecp256k1HdWallet.fromMnemonic(phrase, { prefix: sdk.prefix })
+    },
+    transfer: async ({
+      amount,
+      asset,
+      from,
+      to,
+      fee = DEFAULT_FEE_MAINNET,
+      memo = '',
+      signer
+    }: TransferParams) => {
+      debugger;
+      if (!signer) {
+        throw new Error('Signer not defined');
+      }
+
+      const signingClient = await SigningStargateClient.connectWithSigner(RPCUrl.Cosmos, signer);
+
+      const txResponse = await signingClient.sendTokens(
+        from,
+        to,
+        [{ denom: asset, amount }],
+        fee as StdFee,
+        memo
+      );
+
+      return txResponse.transactionHash;
+    },
     getFees: async () => {
       const baseFee = (await getFeeRateFromThorswap(ChainId.Cosmos)) || 500;
       return {
@@ -75,55 +102,5 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
         average: baseAmount(baseFee, BaseDecimal.GAIA),
       };
     },
-    protoMsgSend,
-    protoTxBody: ({
-      from,
-      to,
-      amount,
-      denom,
-      memo,
-    }: {
-      from: string;
-      to: string;
-      amount: AmountWithBaseDenom;
-      denom: string;
-      memo: string;
-    }): proto.cosmos.tx.v1beta1.TxBody => {
-      const msg = protoMsgSend({ from, to, amount, denom });
-
-      return new proto.cosmos.tx.v1beta1.TxBody({
-        messages: [cosmosclient.codec.instanceToProtoAny(msg)],
-        memo,
-      });
-    },
-    protoAuthInfo: ({
-      pubKey,
-      sequence,
-      mode,
-      fee,
-    }: {
-      pubKey: cosmosclient.PubKey;
-      sequence: Long.Long;
-      mode: proto.cosmos.tx.signing.v1beta1.SignMode;
-      fee?: proto.cosmos.tx.v1beta1.IFee;
-    }): proto.cosmos.tx.v1beta1.AuthInfo =>
-      new proto.cosmos.tx.v1beta1.AuthInfo({
-        signer_infos: [
-          {
-            public_key: new proto.google.protobuf.Any({
-              type_url: '/cosmos.crypto.secp256k1.PubKey',
-              // @ts-expect-error
-              value: pubKey.constructor.encode(pubKey).finish(),
-            }),
-            mode_info: {
-              single: {
-                mode,
-              },
-            },
-            sequence,
-          },
-        ],
-        fee,
-      }),
   };
 };
