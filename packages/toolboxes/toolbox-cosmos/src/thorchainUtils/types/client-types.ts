@@ -1,4 +1,6 @@
 import { cosmosclient, proto } from '@cosmos-client/core';
+import { Account as CosmosAccount } from '@cosmjs/stargate';
+import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { InlineResponse20075TxResponse } from '@cosmos-client/core/openapi';
 import { AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
 import {
@@ -101,43 +103,14 @@ export type ThorchainToolboxType = BaseCosmosToolboxType &
     loadAddressBalances: (address: string) => Promise<AssetAmount[]>;
   };
 
-export type GaiaToolboxType = BaseCosmosToolboxType &
+export type GaiaToolboxType = Omit<
+  BaseCosmosToolboxType,
+  'getAccount' | 'getBalance' | 'createKeyPair' | 'signAndBroadcast'
+> &
   CommonCosmosToolboxType & {
-    protoMsgSend: ({
-      from,
-      to,
-      amount,
-      denom,
-    }: {
-      from: string;
-      to: string;
-      amount: AmountWithBaseDenom;
-      denom: string;
-    }) => proto.cosmos.bank.v1beta1.MsgSend;
-    protoTxBody: ({
-      from,
-      to,
-      amount,
-      denom,
-      memo,
-    }: {
-      from: string;
-      to: string;
-      amount: AmountWithBaseDenom;
-      denom: string;
-      memo: string;
-    }) => proto.cosmos.tx.v1beta1.TxBody;
-    protoAuthInfo: ({
-      pubKey,
-      sequence,
-      mode,
-      fee,
-    }: {
-      pubKey: cosmosclient.PubKey;
-      sequence: Long.Long;
-      mode: proto.cosmos.tx.signing.v1beta1.SignMode;
-      fee?: proto.cosmos.tx.v1beta1.IFee;
-    }) => proto.cosmos.tx.v1beta1.AuthInfo;
+    getAccount: (address: string) => Promise<CosmosAccount | null>;
+    getBalance: (address: string, filterAssets?: AssetEntity[] | undefined) => Promise<Balance[]>;
+    getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
   };
 
 export type BinanceToolboxType = Omit<

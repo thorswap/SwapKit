@@ -10,7 +10,6 @@ const viteConfig = thorswapViteConfig(name, {
     },
     rollupOptions: {
       external: [
-        '@cosmos-client/core',
         '@ethersproject/abstract-signer',
         '@ethersproject/bignumber',
         '@ethersproject/bytes',

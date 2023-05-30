@@ -1,6 +1,7 @@
 {
   "author": "thorswap",
   "dependencies": {
+    "@cosmjs/stargate": "0.29.5",
     "@ledgerhq/devices": "8.0.2",
     "@ledgerhq/errors": "6.12.5",
     "@ledgerhq/hw-app-btc": "8.1.1",
@@ -16,13 +17,10 @@
     "bn.js": "5.2.1",
     "crypto-js": "4.1.1",
     "long": "4.0.0",
-    "ripemd160": "2.0.2",
-    "secp256k1": "5.0.0",
-    "sort-keys": "5.0.0"
+    "ripemd160": "2.0.2"
   },
   "description": "THORSwap Lib ledger",
   "devDependencies": {
-    "@cosmos-client/core": "0.45.13",
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/bignumber": "5.7.0",
     "@ethersproject/bytes": "5.7.0",
@@ -71,7 +69,6 @@
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/ledger",
   "peerDependencies": {
-    "@cosmos-client/core": "0.45.13",
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/bytes": "^5.7.0",
