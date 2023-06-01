@@ -902,7 +902,7 @@ importers:
         specifier: 2.0.6
         version: 2.0.6
       bip39:
-        specifier: ^3.0.4
+        specifier: ^3.1.0
         version: registry.npmjs.org/bip39@3.1.0
       bitcoinjs-lib:
         specifier: 5.2.0
