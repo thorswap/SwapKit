@@ -141,14 +141,14 @@ const getWalletMethodsForChain = async ({
     }
     case Chain.Cosmos: {
       const toolbox = GaiaToolbox({ server: api });
-      const privkey = await toolbox.createKeyPair(phrase);
+      const signer = await toolbox.getSigner(phrase);
       const from = await toolbox.getAddressFromMnemonic(phrase);
 
       const transfer = ({ asset, amount, recipient, memo }: TxParams) =>
         toolbox.transfer({
           from,
           to: recipient,
-          privkey,
+          signer,
           asset: getDenom(asset || AssetAtom),
           amount: amount.amount().toString(),
           memo,
