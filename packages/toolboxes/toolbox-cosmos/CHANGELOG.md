@@ -1,5 +1,15 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 1.0.0-development.108
+
+### Minor Changes
+
+- [#121](https://github.com/thorswap/SwapKit/pull/121) [`ca390db`](https://github.com/thorswap/SwapKit/commit/ca390db1e942ddf8a72b0094559792d90c400450) Thanks [@0x-General](https://github.com/0x-General)! - Migrate cosmos toolbox from @cosmos-client/core to @cosmjs
+
+### Patch Changes
+
+- [#122](https://github.com/thorswap/SwapKit/pull/122) [`10f2601`](https://github.com/thorswap/SwapKit/commit/10f26012df62898c11589375ddac342cc5a7672d) Thanks [@towanTG](https://github.com/towanTG)! - Fixes linting and building issue in cosmos tb and reiterates keystore atom wallet
+
 ## 1.0.0-development.107
 
 ### Minor Changes
