@@ -1,11 +1,7 @@
-import { derivationPathToString } from '@thorswap-lib/helpers';
 import { encodeSecp256k1Signature, serializeSignDoc } from '@cosmjs/amino';
 import { Secp256k1Signature } from '@cosmjs/crypto';
-import {
-  DerivationPathArray,
-  ErrorCode,
-  NetworkDerivationPath,
-} from '@thorswap-lib/types';
+import { derivationPathToString } from '@thorswap-lib/helpers';
+import { DerivationPathArray, ErrorCode, NetworkDerivationPath } from '@thorswap-lib/types';
 
 import { CommonLedgerInterface } from '../interfaces/LedgerInterfaces.js';
 
@@ -22,8 +18,7 @@ export class CosmosLedger extends CommonLedgerInterface {
 
   connect = async () => {
     await this.checkOrCreateTransportAndLedger();
-    const { publicKey, address } =
-      await this.getAddressAndPubKey();
+    const { publicKey, address } = await this.getAddressAndPubKey();
 
     this.pubKey = Buffer.from(publicKey, 'hex').toString('base64');
 
@@ -90,7 +85,7 @@ export class CosmosLedger extends CommonLedgerInterface {
       {
         address: addressAndPubKey.address,
         algo: 'secp256k1',
-        pubkey:  Buffer.from(addressAndPubKey.publicKey, 'hex'),
+        pubkey: Buffer.from(addressAndPubKey.publicKey, 'hex'),
       },
     ] as any[];
   };

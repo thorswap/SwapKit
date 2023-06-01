@@ -1,15 +1,8 @@
-import { StargateClient, SigningStargateClient } from '@cosmjs/stargate';
 import { StdFee } from '@cosmjs/amino';
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
-import { baseAmount, assetToString } from '@thorswap-lib/helpers';
-import {
-  Asset,
-  BaseDecimal,
-  ChainId,
-  DerivationPath,
-  FeeType,
-  RPCUrl,
-} from '@thorswap-lib/types';
+import { SigningStargateClient, StargateClient } from '@cosmjs/stargate';
+import { assetToString, baseAmount } from '@thorswap-lib/helpers';
+import { Asset, BaseDecimal, ChainId, DerivationPath, FeeType, RPCUrl } from '@thorswap-lib/types';
 
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
 import { GaiaToolboxType } from '../index.js';
@@ -65,7 +58,7 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
         );
     },
     getSigner: async (phrase: string) => {
-      return DirectSecp256k1HdWallet.fromMnemonic(phrase, { prefix: sdk.prefix })
+      return DirectSecp256k1HdWallet.fromMnemonic(phrase, { prefix: sdk.prefix });
     },
     transfer: async ({
       amount,
@@ -74,7 +67,7 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
       to,
       fee = DEFAULT_FEE_MAINNET,
       memo = '',
-      signer
+      signer,
     }: TransferParams) => {
       debugger;
       if (!signer) {
@@ -88,7 +81,7 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
         to,
         [{ denom: asset, amount }],
         fee as StdFee,
-        memo
+        memo,
       );
 
       return txResponse.transactionHash;

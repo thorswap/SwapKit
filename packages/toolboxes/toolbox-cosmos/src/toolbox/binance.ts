@@ -8,7 +8,7 @@ import {
   postRequest,
   singleFee,
 } from '@thorswap-lib/helpers';
-import { AssetEntity, getSignatureAssetFor, Amount } from '@thorswap-lib/swapkit-entities';
+import { Amount, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
   Address,
   AmountWithBaseDenom,

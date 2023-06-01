@@ -1,5 +1,5 @@
-import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { StdFee } from '@cosmjs/amino';
+import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { proto } from '@cosmos-client/core';
 import { Chain } from '@thorswap-lib/types';
 
