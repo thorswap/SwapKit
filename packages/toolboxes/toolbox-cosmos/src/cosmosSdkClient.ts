@@ -1,7 +1,6 @@
-import { cosmosclient, proto, rest } from '@cosmos-client/core';
-import { StargateClient } from '@cosmjs/stargate';
 import { normalizeBech32 } from '@cosmjs/encoding';
-import { ChainId, RPCUrl } from '@thorswap-lib/types';
+import { cosmosclient, proto, rest } from '@cosmos-client/core';
+import { ChainId } from '@thorswap-lib/types';
 import { fromSeed } from 'bip32';
 import * as bip39 from 'bip39';
 import Long from 'long';
