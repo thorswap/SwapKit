@@ -119,9 +119,28 @@ const getWalletMethodsForChain = async ({
       };
     }
 
-    case Chain.Binance:
+    case Chain.Binance: {
+      const toolbox = BinanceToolbox();
+      const privkey = await toolbox.createKeyPair(phrase);
+      const from = await toolbox.getAddressFromMnemonic(phrase);
+
+      const transfer = ({ asset, amount, recipient, memo }: TxParams) =>
+        toolbox.transfer({
+          from,
+          to: recipient,
+          privkey,
+          asset: getDenom(asset || AssetAtom),
+          amount: amount.amount().toString(),
+          memo,
+        });
+
+      return {
+        address: from,
+        walletMethods: { ...toolbox, transfer, getAddress: () => from },
+      };
+    }
     case Chain.Cosmos: {
-      const toolbox = chain === Chain.Binance ? BinanceToolbox() : GaiaToolbox({ server: api });
+      const toolbox = GaiaToolbox({ server: api });
       const privkey = await toolbox.createKeyPair(phrase);
       const from = await toolbox.getAddressFromMnemonic(phrase);
 
