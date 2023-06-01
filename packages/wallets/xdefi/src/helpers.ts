@@ -20,7 +20,7 @@ import {
   Chain,
   ChainId,
   ChainToChainId,
-  EIP1559TxParams,
+  EVMTxParams,
   FeeOption,
   TxHash,
   WalletTxParams,
@@ -135,7 +135,7 @@ export const getWalletMethodsForChain: any = ({
           ? AVAXToolbox(toolboxParams)
           : BSCToolbox(toolboxParams);
 
-      const sendTransaction = async (tx: EIP1559TxParams, feeOptionKey: FeeOption) => {
+      const sendTransaction = async (tx: EVMTxParams, feeOptionKey: FeeOption) => {
         const address = await provider.getSigner().getAddress();
         const feeData = await toolbox.getPriorityFeeData(feeOptionKey);
         const nonce = tx.nonce || (await provider.getTransactionCount(address));
@@ -152,10 +152,11 @@ export const getWalletMethodsForChain: any = ({
           const parsedValue = {
             ...transaction,
             chainId,
-            type: 2,
+            type: chain !== Chain.BinanceSmartChain ? 2 : 0,
             gasLimit: gasLimit.toHexString(),
-            maxFeePerGas: feeData.maxFeePerGas.toHexString(),
-            maxPriorityFeePerGas: feeData.maxPriorityFeePerGas.toHexString(),
+            gasPrice: feeData.gasPrice?.toHexString(),
+            maxFeePerGas: feeData.maxFeePerGas?.toHexString(),
+            maxPriorityFeePerGas: feeData.maxPriorityFeePerGas?.toHexString(),
             nonce,
             ...(!BigNumber.from(value || 0).isZero() ? { value } : {}),
           };

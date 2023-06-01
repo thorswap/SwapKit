@@ -61,7 +61,7 @@ export const BSCToolbox = ({
   const bscApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.BinanceSmartChain });
 
   return {
-    ...BaseEVMToolbox({ provider, signer }),
+    ...BaseEVMToolbox({ provider, signer, isEIP1559Compatible: false }),
     getNetworkParams,
     getBalance: (address: string, assets?: AssetEntity[]) =>
       getBalance(provider, bscApi, address, assets),

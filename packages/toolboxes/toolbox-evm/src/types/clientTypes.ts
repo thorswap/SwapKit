@@ -130,6 +130,7 @@ export type TxFormatter<T> = (tx: EIP1559TxParams<BigNumberish>) => EIP1559TxPar
 
 export type TransferParams = WalletTxParams & {
   gasLimit?: BigNumber;
+  gasPrice?: BigNumber;
   maxFeePerGas?: BigNumber;
   maxPriorityFeePerGas?: BigNumber;
   data?: string;
