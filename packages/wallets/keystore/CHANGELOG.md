@@ -1,5 +1,14 @@
 # @thorswap-lib/keystore
 
+## 1.0.0-development.164
+
+### Patch Changes
+
+- [#122](https://github.com/thorswap/SwapKit/pull/122) [`10f2601`](https://github.com/thorswap/SwapKit/commit/10f26012df62898c11589375ddac342cc5a7672d) Thanks [@towanTG](https://github.com/towanTG)! - Fixes linting and building issue in cosmos tb and reiterates keystore atom wallet
+
+- Updated dependencies [[`10f2601`](https://github.com/thorswap/SwapKit/commit/10f26012df62898c11589375ddac342cc5a7672d), [`ca390db`](https://github.com/thorswap/SwapKit/commit/ca390db1e942ddf8a72b0094559792d90c400450)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.108
+
 ## 1.0.0-development.163
 
 ### Patch Changes

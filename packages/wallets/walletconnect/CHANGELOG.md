@@ -1,5 +1,11 @@
 # @thorswap-lib/walletconnect
 
+## 1.0.1-development.19
+
+### Patch Changes
+
+- [#122](https://github.com/thorswap/SwapKit/pull/122) [`10f2601`](https://github.com/thorswap/SwapKit/commit/10f26012df62898c11589375ddac342cc5a7672d) Thanks [@towanTG](https://github.com/towanTG)! - Externalises dependencies
+
 ## 1.0.1-development.18
 
 ### Patch Changes
