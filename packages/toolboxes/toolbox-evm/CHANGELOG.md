@@ -1,5 +1,16 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.125
+
+### Patch Changes
+
+- [#124](https://github.com/thorswap/SwapKit/pull/124) [`24279fd`](https://github.com/thorswap/SwapKit/commit/24279fd2d780237d71c5e051bea7bc44dbc93788) Thanks [@towanTG](https://github.com/towanTG)! - Enables legacy tx for bsc
+
+- Updated dependencies [[`24279fd`](https://github.com/thorswap/SwapKit/commit/24279fd2d780237d71c5e051bea7bc44dbc93788)]:
+  - @thorswap-lib/types@1.0.0-development.85
+  - @thorswap-lib/helpers@0.0.0-development.83
+  - @thorswap-lib/swapkit-entities@1.0.0-development.91
+
 ## 1.0.0-development.124
 
 ### Patch Changes
