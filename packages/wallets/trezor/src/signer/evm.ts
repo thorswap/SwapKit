@@ -86,6 +86,7 @@ class TrezorSigner extends Signer {
     const { r, s, v } = result.payload;
 
     const signedTx = serialize(
+      //TODO: @towan add tx type detection
       { ...baseTx, nonce: BigNumber.from(baseTx.nonce).toNumber(), type: 2 },
       {
         r,

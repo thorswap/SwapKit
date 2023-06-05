@@ -43,17 +43,27 @@ export type TxParams = {
   feeOptionKey?: FeeOption;
 };
 
-export type EIP1559TxParams<T = BigNumberish> = {
-  nonce?: number;
-  from?: string;
+type EVMTxBaseParams<T = BigNumberish> = {
   to?: string;
+  from?: string;
+  nonce?: number;
+  gasLimit?: T;
   data?: string;
   value?: T;
-  gasLimit?: T;
-  maxFeePerGas?: T;
-  maxPriorityFeePerGas?: T;
   chainId?: number;
 };
+
+export type EIP1559TxParams<T = BigNumberish> = EVMTxBaseParams<T> & {
+  type?: number;
+  maxFeePerGas?: T;
+  maxPriorityFeePerGas?: T;
+};
+
+export type LegacyEVMTxParams<T = BigNumberish> = EVMTxBaseParams<T> & {
+  gasPrice?: T;
+};
+
+export type EVMTxParams = EIP1559TxParams | LegacyEVMTxParams;
 
 export type DepositParams = TxParams & {
   router?: string;
