@@ -36,7 +36,7 @@ export const getBalance = async (
 };
 
 export const getNetworkParams = () => ({
-  chainId: ChainId.BinanceSmartChain,
+  chainId: ChainId.BinanceSmartChainHex,
   chainName: 'BNB Smart Chain',
   nativeCurrency: {
     name: 'Binance Coin',
