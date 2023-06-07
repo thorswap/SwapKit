@@ -69,7 +69,6 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
       memo = '',
       signer,
     }: TransferParams) => {
-      debugger;
       if (!signer) {
         throw new Error('Signer not defined');
       }

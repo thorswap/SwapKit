@@ -27,7 +27,7 @@ const AllChainsSupported = [
   Chain.THORChain,
 ] as Chain[];
 
-const EVMChainsSupported = [Chain.Ethereum, Chain.Avalanche] as Chain[];
+const EVMChainsSupported = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain] as Chain[];
 
 export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   [WalletOption.BRAVE]: EVMChainsSupported,
