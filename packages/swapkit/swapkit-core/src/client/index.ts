@@ -159,7 +159,7 @@ export class SwapKitCore {
               ChainToChainId[evmChain] as
                 | ChainId.AvalancheHex
                 | ChainId.EthereumHex
-                | ChainId.BinanceSmartChain,
+                | ChainId.BinanceSmartChainHex,
             ),
           },
           feeOptionKey,

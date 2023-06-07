@@ -43,7 +43,7 @@ export const binanceSmartChainWalletMethods: any = async ({
 
   const from = await signer.getAddress();
   const preparedToolbox = prepareNetworkSwitch<typeof toolbox>({
-    chainId: ChainId.BinanceSmartChain,
+    chainId: ChainId.BinanceSmartChainHex,
     toolbox,
     provider,
   });
