@@ -57,7 +57,7 @@ const getXDEFIProvider = (chain: Chain) => {
     case Chain.THORChain:
       return window.xfi?.thorchain;
     case Chain.Cosmos:
-      return window.keplr;
+      return window.xfi?.keplr;
   }
 };
 
