@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.86
+
+### Patch Changes
+
+- [#126](https://github.com/thorswap/SwapKit/pull/126) [`575fb34`](https://github.com/thorswap/SwapKit/commit/575fb34edc0ef0940ad6c05e4e22a053b8a070db) Thanks [@towanTG](https://github.com/towanTG)! - Adds hex value for BSC chain id
+
 ## 1.0.0-development.85
 
 ### Patch Changes

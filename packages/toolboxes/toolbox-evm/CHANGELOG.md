@@ -1,5 +1,18 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.126
+
+### Patch Changes
+
+- [#126](https://github.com/thorswap/SwapKit/pull/126) [`575fb34`](https://github.com/thorswap/SwapKit/commit/575fb34edc0ef0940ad6c05e4e22a053b8a070db) Thanks [@towanTG](https://github.com/towanTG)! - Adds hex value for BSC chain id
+
+- [#126](https://github.com/thorswap/SwapKit/pull/126) [`575fb34`](https://github.com/thorswap/SwapKit/commit/575fb34edc0ef0940ad6c05e4e22a053b8a070db) Thanks [@towanTG](https://github.com/towanTG)! - Fixes balance issue and remove debugger
+
+- Updated dependencies [[`575fb34`](https://github.com/thorswap/SwapKit/commit/575fb34edc0ef0940ad6c05e4e22a053b8a070db)]:
+  - @thorswap-lib/types@1.0.0-development.86
+  - @thorswap-lib/helpers@0.0.0-development.84
+  - @thorswap-lib/swapkit-entities@1.0.0-development.92
+
 ## 1.0.0-development.125
 
 ### Patch Changes

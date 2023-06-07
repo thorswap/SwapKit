@@ -1,5 +1,12 @@
 []
 
+## 1.0.0-development.92
+
+### Patch Changes
+
+- Updated dependencies [[`575fb34`](https://github.com/thorswap/SwapKit/commit/575fb34edc0ef0940ad6c05e4e22a053b8a070db)]:
+  - @thorswap-lib/types@1.0.0-development.86
+
 ## 1.0.0-development.91
 
 ### Patch Changes
