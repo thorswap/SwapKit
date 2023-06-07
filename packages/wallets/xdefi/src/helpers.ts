@@ -187,7 +187,7 @@ export const getWalletMethodsForChain: any = ({
       const toolbox = GaiaToolbox({ server: api });
 
       const transfer = async ({ from, recipient, amount, asset, memo }: any) => {
-        const keplrClient = window.keplr;
+        const keplrClient = window.xfi?.keplr;
         const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
 
         const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });

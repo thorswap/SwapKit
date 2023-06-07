@@ -12,6 +12,7 @@ declare global {
       bitcoincash: any;
       dogecoin: any;
       ethereum: EthereumWindowProvider;
+      keplr: any;
       litecoin: any;
       thorchain: any;
     };
