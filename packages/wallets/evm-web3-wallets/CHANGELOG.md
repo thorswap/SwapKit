@@ -1,5 +1,15 @@
 # @thorswap-lib/evm-web3-wallets
 
+## 1.0.0-development.3
+
+### Patch Changes
+
+- [#126](https://github.com/thorswap/SwapKit/pull/126) [`575fb34`](https://github.com/thorswap/SwapKit/commit/575fb34edc0ef0940ad6c05e4e22a053b8a070db) Thanks [@towanTG](https://github.com/towanTG)! - Adds hex value for BSC chain id
+
+- Updated dependencies [[`575fb34`](https://github.com/thorswap/SwapKit/commit/575fb34edc0ef0940ad6c05e4e22a053b8a070db), [`575fb34`](https://github.com/thorswap/SwapKit/commit/575fb34edc0ef0940ad6c05e4e22a053b8a070db)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.126
+  - @thorswap-lib/types@1.0.0-development.86
+
 ## 1.0.0-development.2
 
 ### Patch Changes
