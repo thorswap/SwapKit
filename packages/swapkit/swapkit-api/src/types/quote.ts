@@ -47,10 +47,11 @@ type Calldata = {
   fromAsset: string;
   memo: string;
   router?: string;
-  tcMemo: string;
-  tcRouter: string;
-  tcVault: string;
-  token: string;
+  tcMemo?: string;
+  tcRouter?: string;
+  tcVault?: string;
+  token?: string;
+  vault?: string;
   userAddress: string;
 };
 

@@ -18,10 +18,12 @@ export const getSwapInParams = ({
     amountOutMin = '',
     data = '',
     deadline,
-    router = '',
+    memo,
+    router,
     tcMemo,
     tcRouter,
     tcVault,
+    vault,
     token,
   },
 }: Params) => {
@@ -36,19 +38,24 @@ export const getSwapInParams = ({
    * GENERIC: tcRouter, tcVault, tcMemo, token, amount, router, data, deadline
    * ETH_UNISWAP: tcRouter, tcVault, tcMemo, token, amount, amountOutMin, deadline
    * AVAX_PANGOLIN: tcRouter, tcVault, tcMemo, token, amount, amountOutMin, deadline
-   * AVAX_WOOFI: tcRouter, tcVault, tcMemo, token, amount, amountOutMin, deadline
+   * AVAX_WOOFI: router, vault, memo, token, amount, amountOutMin, deadline
    */
 
+  if (!tcVault && !vault) throw new Error('TC Vault is required on calldata');
+  if (!tcRouter && !router) throw new Error('TC Router is required on calldata');
+  if (!token) throw new Error('Token is required on calldata');
+
   const baseParams = [
-    toChecksumAddress(tcRouter),
-    toChecksumAddress(tcVault),
-    tcMemo.replace('{recipientAddress}', recipient),
+    // v2 contracts don't have tcVault, tcRouter, tcMemo but vault, router, memo
+    toChecksumAddress((tcRouter || router) as string),
+    toChecksumAddress((tcVault || vault) as string),
+    (tcMemo || memo).replace('{recipientAddress}', recipient),
     toChecksumAddress(token),
     amount,
   ];
 
   const contractParams = isGeneric
-    ? [toChecksumAddress(router), data, deadline]
+    ? [toChecksumAddress(router as string), data, deadline]
     : [amountOutMin, deadline];
 
   return [...baseParams, ...contractParams];
