@@ -14,7 +14,6 @@ const viteConfig = thorswapViteConfig(name, {
         '@ethersproject/bytes',
         '@ethersproject/providers',
         '@ethersproject/strings',
-        '@walletconnect/web3-provider',
         '@thorswap-lib/toolbox-evm',
       ],
     },
