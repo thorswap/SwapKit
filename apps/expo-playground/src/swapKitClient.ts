@@ -22,7 +22,7 @@ export const getSwapKitClient = () => {
     config: {
       ethplorerApiKey: 'freekey',
       covalentApiKey: 'freekey',
-      utxoApiKey: 'freekey',
+      utxoApiKey: undefined,
     },
     wallets,
   });
