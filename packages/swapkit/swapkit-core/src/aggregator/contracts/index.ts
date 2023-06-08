@@ -3,6 +3,7 @@ import { avaxWoofi } from './avaxWoofi.js';
 import { ethGeneric } from './ethGeneric.js';
 import { pangolin } from './pangolin.js';
 import { sushiswap } from './sushiswap.js';
+import { traderJoe } from './traderJoe.js';
 import { uniswapV2 } from './uniswapV2.js';
 import { uniswapV2Leg } from './uniswapV2Leg.js';
 import { uniswapV3_100 } from './uniswapV3_100.js';
@@ -27,6 +28,7 @@ export enum AGG_CONTRACT_ADDRESS {
   PANGOLIN = '0x942c6dA485FD6cEf255853ef83a149d43A73F18a',
   AVAX_GENERIC = '0x7C38b8B2efF28511ECc14a621e263857Fb5771d3',
   AVAX_WOOFI = '0x5505BE604dFA8A1ad402A71f8A357fba47F9bf5a',
+  TRADER_JOE = '0x3b7DbdD635B99cEa39D3d95Dbd0217F05e55B212',
 
   // ETH
   ETH_GENERIC = '0xd31f7e39afECEc4855fecc51b693F9A0Cec49fd2',
@@ -49,6 +51,7 @@ export const lowercasedContractAbiMapping = {
   // AVAX
   [AGG_CONTRACT_ADDRESS.PANGOLIN.toLowerCase()]: pangolin,
   [AGG_CONTRACT_ADDRESS.AVAX_WOOFI.toLowerCase()]: avaxWoofi,
+  [AGG_CONTRACT_ADDRESS.TRADER_JOE.toLowerCase()]: traderJoe,
   // ETH
   [AGG_CONTRACT_ADDRESS.SUSHISWAP.toLowerCase()]: sushiswap,
   [AGG_CONTRACT_ADDRESS.UNISWAP_V2.toLowerCase()]: uniswapV2,
