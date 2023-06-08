@@ -17,7 +17,7 @@ const App = () => {
   const [keys, setKeys] = useState({
     ethplorerApiKey: '',
     covalentApiKey: '',
-    utxoApiKey: '',
+    utxoApiKey: undefined,
   });
   const [{ inputAsset, outputAsset }, setSwapAssets] = useState<{
     inputAsset?: AssetAmount;
@@ -25,7 +25,13 @@ const App = () => {
   }>({});
 
   const skClient = useMemo(() => {
-    if (Object.values(keys).some((v) => !v)) return;
+    if (
+      Object.keys(keys)
+        .filter((key) => key !== 'utxoApiKey')
+        //@ts-expect-error
+        .some((key) => !keys[key])
+    )
+      return;
 
     return getSwapKitClient({ stagenet, ...keys });
   }, [keys, stagenet]);

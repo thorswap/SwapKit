@@ -483,10 +483,10 @@ export class SwapKitCore {
    * Wallet connection methods
    */
   connectXDEFI = async (_chains: Chain[]) => {
-    throwWalletError('connectXDEFI', 'web-extensions');
+    throwWalletError('connectXDEFI', 'xdefi');
   };
   connectEVMWallet = async (_chains: Chain[] | Chain, _wallet: EVMWalletOptions) => {
-    throwWalletError('connectEVMWallet', 'web-extensions');
+    throwWalletError('connectEVMWallet', 'evm-web3-wallets');
   };
   connectWalletconnect = async (_chains: Chain[], _options?: WalletConnectOption) => {
     throwWalletError('connectWalletconnect', 'walletconnect');
@@ -504,7 +504,7 @@ export class SwapKitCore {
     throwWalletError('connectTrustwallet', 'trustwallet');
   };
   connectKeplr = async () => {
-    throwWalletError('connectKeplr', 'web-extensions');
+    throwWalletError('connectKeplr', 'keplr');
   };
   disconnectChain = (chain: Chain) => {
     this.connectedChains[chain] = null;

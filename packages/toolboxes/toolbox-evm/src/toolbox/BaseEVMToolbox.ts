@@ -379,7 +379,7 @@ const sendTransaction = async (
   const nonce = tx.nonce || (await provider.getTransactionCount(address));
   const chainId = (await provider.getNetwork()).chainId;
 
-  const isEIP1559 = isEIP1559Transaction(tx);
+  const isEIP1559 = isEIP1559Transaction(tx) || isEIP1559Compatible;
 
   const feeData =
     (isEIP1559 &&
