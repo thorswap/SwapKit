@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.16
+
+### Patch Changes
+
+- [#131](https://github.com/thorswap/SwapKit/pull/131) [`bb55b4f`](https://github.com/thorswap/SwapKit/commit/bb55b4f732c7d0e204bcaf1ba20a13419ea3b851) Thanks [@towanTG](https://github.com/towanTG)! - Fixes swapins on AVAX and introduces logic for v2 TC contracts
+
 ## 0.1.0-development.15
 
 ### Patch Changes

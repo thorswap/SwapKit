@@ -1,5 +1,16 @@
 # @thorswap-lib/xdefi
 
+## 1.0.0-development.6
+
+### Patch Changes
+
+- [#128](https://github.com/thorswap/SwapKit/pull/128) [`7e0ff2c`](https://github.com/thorswap/SwapKit/commit/7e0ff2c8fbf8544d154f892bcf30b32dab38dcb6) Thanks [@towanTG](https://github.com/towanTG)! - Uses xfi injected atom wallet
+
+- [#130](https://github.com/thorswap/SwapKit/pull/130) [`cb614a6`](https://github.com/thorswap/SwapKit/commit/cb614a63df0bc6ec6e96e6b19793b4ead6c57033) Thanks [@towanTG](https://github.com/towanTG)! - Uses xdefi provider for cosmos
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.111
+
 ## 1.0.0-development.5
 
 ### Patch Changes
