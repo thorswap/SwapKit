@@ -43,13 +43,14 @@ export const getSwapInParams = ({
 
   if (!tcVault && !vault) throw new Error('TC Vault is required on calldata');
   if (!tcRouter && !router) throw new Error('TC Router is required on calldata');
+  if (!tcMemo && !memo) throw new Error('TC Memo is required on calldata');
   if (!token) throw new Error('Token is required on calldata');
 
   const baseParams = [
     // v2 contracts don't have tcVault, tcRouter, tcMemo but vault, router, memo
     toChecksumAddress((tcRouter || router) as string),
     toChecksumAddress((tcVault || vault) as string),
-    (tcMemo || memo).replace('{recipientAddress}', recipient),
+    ((tcMemo || memo) as string).replace('{recipientAddress}', recipient),
     toChecksumAddress(token),
     amount,
   ];
