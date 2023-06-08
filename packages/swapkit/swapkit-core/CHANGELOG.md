@@ -1,5 +1,13 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.173
+
+### Patch Changes
+
+- [#131](https://github.com/thorswap/SwapKit/pull/131) [`bb55b4f`](https://github.com/thorswap/SwapKit/commit/bb55b4f732c7d0e204bcaf1ba20a13419ea3b851) Thanks [@towanTG](https://github.com/towanTG)! - Fixes swapins on AVAX and introduces logic for v2 TC contracts
+
+- [#132](https://github.com/thorswap/SwapKit/pull/132) [`29b36d7`](https://github.com/thorswap/SwapKit/commit/29b36d7e92d51963e27e2899bd7bbef4672f2934) Thanks [@towanTG](https://github.com/towanTG)! - Improves typing and validity check for swap in call data
+
 ## 1.0.0-development.172
 
 ### Patch Changes
