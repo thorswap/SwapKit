@@ -1,5 +1,12 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.187
+
+### Patch Changes
+
+- Updated dependencies [[`a5a2fd7`](https://github.com/thorswap/SwapKit/commit/a5a2fd7003e1084830c6e6b9d8d9c56da157f20d)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.127
+
 ## 1.0.0-development.186
 
 ### Patch Changes
