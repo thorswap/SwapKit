@@ -29,8 +29,8 @@ module.exports = [
   { path: './packages/wallets/trezor/dist/index.es.js', name: 'trezor(esm)', limit: '500 KB' },
   { path: './packages/wallets/trustwallet/dist/index.cjs', name: 'trustwallet(cjs)', limit: '340 KB' },
   { path: './packages/wallets/trustwallet/dist/index.es.js', name: 'trustwallet(esm)', limit: '400 KB' },
-  { path: './packages/wallets/walletconnect/dist/index.cjs', name: 'walletconnect(cjs)', limit: '750 KB' },
-  { path: './packages/wallets/walletconnect/dist/index.es.js', name: 'walletconnect(esm)', limit: '800 KB' },
+  { path: './packages/wallets/walletconnect/dist/index.cjs', name: 'walletconnect(cjs)', limit: '850 KB' },
+  { path: './packages/wallets/walletconnect/dist/index.es.js', name: 'walletconnect(esm)', limit: '900 KB' },
   { path: './packages/wallets/xdefi/dist/index.cjs', name: 'xdefi(cjs)', limit: '5 KB' },
   { path: './packages/wallets/xdefi/dist/index.es.js', name: 'xdefi(esm)', limit: '5 KB' },
 ];

@@ -3,6 +3,7 @@
   "dependencies": {
     "@coinbase/wallet-sdk": "3.6.6",
     "@thorswap-lib/types": "workspace:*",
+    "@walletconnect/web3-provider": "1.8.0",
     "web3modal": "1.9.12"
   },
   "description": "THORSwap Lib walletconnect",
@@ -42,7 +43,6 @@
     "@ethersproject/bytes": "^5.7.0",
     "@ethersproject/providers": "5.7.2",
     "@ethersproject/strings": "^5.7.0",
-    "@walletconnect/web3-provider": "1.8.0",
     "@thorswap-lib/toolbox-evm": "workspace:*"
   },
   "publishConfig": {
