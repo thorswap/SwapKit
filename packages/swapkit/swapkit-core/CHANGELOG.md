@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.176
+
+### Patch Changes
+
+- [#140](https://github.com/thorswap/SwapKit/pull/140) [`9a141ed`](https://github.com/thorswap/SwapKit/commit/9a141ed1f17852ea9a71a66494d3bf14b00fc366) Thanks [@towanTG](https://github.com/towanTG)! - Improves web3provider check and fixes typescript
+
 ## 1.0.0-development.175
 
 ### Minor Changes

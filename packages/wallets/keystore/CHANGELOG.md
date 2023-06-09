@@ -1,5 +1,12 @@
 # @thorswap-lib/keystore
 
+## 1.0.0-development.169
+
+### Patch Changes
+
+- Updated dependencies [[`9a141ed`](https://github.com/thorswap/SwapKit/commit/9a141ed1f17852ea9a71a66494d3bf14b00fc366)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.128
+
 ## 1.0.0-development.168
 
 ### Patch Changes
