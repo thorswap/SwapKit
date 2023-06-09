@@ -91,7 +91,7 @@ export class SwapKitCore {
         if (!asset) throw new Error('Asset not recognised');
 
         const amount = new AssetAmount(asset, new Amount(amountIn, 0, asset.decimal));
-        const replacedMemo = memo.replace('{recipientAddress}', recipient);
+        const replacedMemo = memo?.replace('{recipientAddress}', recipient);
         const { address: inboundAddress } = await this._getInboundDataByChain(
           !asset.isSynth ? asset.chain : Chain.THORChain,
         );
