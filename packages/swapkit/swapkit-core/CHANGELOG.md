@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.175
+
+### Minor Changes
+
+- [#137](https://github.com/thorswap/SwapKit/pull/137) [`0e63eba`](https://github.com/thorswap/SwapKit/commit/0e63eba327223f6996e15ab0319bdb9fc6f1003e) Thanks [@0x-General](https://github.com/0x-General)! - Allow for custom memos in opening & closing loans
+
 ## 1.0.0-development.174
 
 ### Patch Changes
