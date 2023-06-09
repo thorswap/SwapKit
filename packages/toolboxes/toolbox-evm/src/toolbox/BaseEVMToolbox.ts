@@ -44,8 +44,7 @@ const isEIP1559Transaction = (tx: EVMTxParams) =>
   !!(tx as EIP1559TxParams).maxFeePerGas ||
   !!(tx as EIP1559TxParams).maxPriorityFeePerGas;
 
-const isWeb3Provider = (provider: Web3Provider) =>
-  !!provider.provider || !!provider.jsonRpcFetchFunc;
+const isWeb3Provider = (provider: any) => !!provider.provider || !!provider.jsonRpcFetchFunc;
 const createContract = (address: string, abi: any, provider: Provider) =>
   new Contract(address, abi, provider);
 
