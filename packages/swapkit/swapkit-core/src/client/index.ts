@@ -423,14 +423,16 @@ export class SwapKitCore {
     assetAmount,
     assetTicker,
     borrowAmount,
+    memo,
   }: {
     assetAmount: AssetAmount;
     assetTicker: string;
     borrowAmount?: Amount;
+    memo?: string;
   }) =>
     this._depositToPool({
       assetAmount,
-      memo: getMemoFor(MemoType.OPEN_LOAN, {
+      memo: memo || getMemoFor(MemoType.OPEN_LOAN, {
         asset: assetTicker,
         minAmount: borrowAmount?.assetAmount.toString(),
         address: this.getAddress(assetTicker.split('.')[0] as Chain),
@@ -441,14 +443,16 @@ export class SwapKitCore {
     assetAmount,
     assetTicker,
     borrowAmount,
+    memo,
   }: {
     assetAmount: AssetAmount;
     assetTicker: string;
     borrowAmount?: Amount;
+    memo?: string;
   }) =>
     this._depositToPool({
       assetAmount,
-      memo: getMemoFor(MemoType.CLOSE_LOAN, {
+      memo: memo || getMemoFor(MemoType.CLOSE_LOAN, {
         asset: assetTicker,
         minAmount: borrowAmount?.assetAmount.toString(),
         address: this.getAddress(assetTicker.split('.')[0] as Chain),
