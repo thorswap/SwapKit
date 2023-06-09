@@ -1,6 +1,9 @@
 {
   "author": "thorswap",
   "dependencies": {
+    "@ethersproject/abstract-signer": "^5.7.0",
+    "@ethersproject/providers": "^5.7.0",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/types": "workspace:*"
   },
   "description": "THORSwap Lib evm-web3-wallets",
@@ -32,11 +35,7 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/evm-web3-wallets",
-  "peerDependencies": {
-    "@ethersproject/abstract-signer": "^5.7.0",
-    "@ethersproject/providers": "^5.7.0",
-    "@thorswap-lib/toolbox-evm": "workspace:*"
-  },
+  "peerDependencies": {},
   "publishConfig": {
     "access": "public"
   },
