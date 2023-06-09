@@ -432,11 +432,13 @@ export class SwapKitCore {
   }) =>
     this._depositToPool({
       assetAmount,
-      memo: memo || getMemoFor(MemoType.OPEN_LOAN, {
-        asset: assetTicker,
-        minAmount: borrowAmount?.assetAmount.toString(),
-        address: this.getAddress(assetTicker.split('.')[0] as Chain),
-      }),
+      memo:
+        memo ||
+        getMemoFor(MemoType.OPEN_LOAN, {
+          asset: assetTicker,
+          minAmount: borrowAmount?.assetAmount.toString(),
+          address: this.getAddress(assetTicker.split('.')[0] as Chain),
+        }),
     });
 
   closeLoan = ({
@@ -452,11 +454,13 @@ export class SwapKitCore {
   }) =>
     this._depositToPool({
       assetAmount,
-      memo: memo || getMemoFor(MemoType.CLOSE_LOAN, {
-        asset: assetTicker,
-        minAmount: borrowAmount?.assetAmount.toString(),
-        address: this.getAddress(assetTicker.split('.')[0] as Chain),
-      }),
+      memo:
+        memo ||
+        getMemoFor(MemoType.CLOSE_LOAN, {
+          asset: assetTicker,
+          minAmount: borrowAmount?.assetAmount.toString(),
+          address: this.getAddress(assetTicker.split('.')[0] as Chain),
+        }),
     });
 
   registerThorname = (param: ThornameRegisterParam, amount: Amount) =>
