@@ -1,5 +1,16 @@
 # @thorswap-lib/keystore
 
+## 1.0.0-development.170
+
+### Patch Changes
+
+- Updated dependencies [[`2c2c508`](https://github.com/thorswap/SwapKit/commit/2c2c5087915dbf009f89d3d9be30c42486c81404), [`0f5914b`](https://github.com/thorswap/SwapKit/commit/0f5914bfa99cea17199ad200b34fea9be590132b)]:
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.109
+  - @thorswap-lib/toolbox-evm@1.0.0-development.129
+  - @thorswap-lib/swapkit-entities@1.0.0-development.93
+  - @thorswap-lib/helpers@0.0.0-development.85
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.112
+
 ## 1.0.0-development.169
 
 ### Patch Changes

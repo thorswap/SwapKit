@@ -1,5 +1,11 @@
 []
 
+## 1.0.0-development.93
+
+### Patch Changes
+
+- [`0f5914b`](https://github.com/thorswap/SwapKit/commit/0f5914bfa99cea17199ad200b34fea9be590132b) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix Lp estimation calc
+
 ## 1.0.0-development.92
 
 ### Patch Changes

@@ -207,7 +207,7 @@ const getAddressFromKeys = (keys: KeyPairType) => {
 };
 
 export const BCHToolbox = (
-  apiKey: string,
+  apiKey?: string,
   apiClientOrNodeUrl: BlockchairApiType | string = RPCUrl.BitcoinCash,
 ) => {
   const apiClient =

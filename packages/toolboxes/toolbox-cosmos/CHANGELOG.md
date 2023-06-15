@@ -1,5 +1,13 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 1.0.0-development.112
+
+### Patch Changes
+
+- Updated dependencies [[`0f5914b`](https://github.com/thorswap/SwapKit/commit/0f5914bfa99cea17199ad200b34fea9be590132b)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.93
+  - @thorswap-lib/helpers@0.0.0-development.85
+
 ## 1.0.0-development.111
 
 ### Patch Changes

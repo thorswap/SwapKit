@@ -142,6 +142,10 @@ export const getEstimatedPoolShare = ({
   const liquidityUnitsAfterAdd = numerator.div(denominator);
   const estimatedLiquidityUnits = Amount.fromMidgard(liquidityUnits).add(liquidityUnitsAfterAdd);
 
+  if (liquidityUnitsAfterAdd.assetAmount.toNumber() === 0) {
+    return estimatedLiquidityUnits.div(P).assetAmount.toNumber();
+  }
+
   // get pool units after add
   const newPoolUnits = P.add(estimatedLiquidityUnits);
 
