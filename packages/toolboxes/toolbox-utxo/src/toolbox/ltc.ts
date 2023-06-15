@@ -1,18 +1,17 @@
 import { Chain, RPCUrl } from '@thorswap-lib/types';
 
-import { LitecoinApi } from '../api/clients.js';
+import { blockchairApi, BlockchairApiType } from '../api/blockchairApi.js';
 
 import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
 
-export const LTCToolbox = (apiKey?: string, apiClientOrUrl?: LitecoinApi | string) =>
+export const LTCToolbox = (
+  apiKey?: string,
+  apiClientOrNodeUrl: BlockchairApiType | string = RPCUrl.Litecoin,
+) =>
   BaseUTXOToolbox({
     chain: Chain.Litecoin,
     apiClient:
-      apiClientOrUrl && typeof apiClientOrUrl !== 'string'
-        ? apiClientOrUrl
-        : new LitecoinApi({
-            apiKey,
-            nodeUrl: apiClientOrUrl || RPCUrl.Litecoin,
-            chain: Chain.Litecoin,
-          }),
+      typeof apiClientOrNodeUrl === 'string'
+        ? blockchairApi({ apiKey, nodeUrl: apiClientOrNodeUrl, chain: Chain.Litecoin })
+        : apiClientOrNodeUrl,
   });

@@ -158,7 +158,7 @@ const getToolbox = async ({
         });
 
         const txHex = await signTransaction(psbt, memo);
-        return toolbox.broadcastTx({ txHex });
+        return toolbox.broadcastTx(txHex);
       };
 
       const getAddress = async (path: DerivationPathArray = derivationPath) => {

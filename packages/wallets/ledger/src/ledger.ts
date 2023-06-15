@@ -121,7 +121,7 @@ const getToolbox = async ({
         });
         const txHex = await (signer as BitcoinLedger).signTransaction(psbt, inputs);
 
-        return toolbox.broadcastTx({ txHex });
+        return toolbox.broadcastTx(txHex);
       };
       return { ...toolbox, transfer };
     }
@@ -141,7 +141,7 @@ const getToolbox = async ({
 
         const txHex = await (signer as BitcoinCashLedger).signTransaction(psbt, inputs);
 
-        return toolbox.broadcastTx({ txHex });
+        return toolbox.broadcastTx(txHex);
       };
       return { ...toolbox, transfer };
     }
@@ -160,7 +160,7 @@ const getToolbox = async ({
         });
         const txHex = await (signer as DogecoinLedger).signTransaction(psbt, inputs);
 
-        return toolbox.broadcastTx({ txHex });
+        return toolbox.broadcastTx(txHex);
       };
       return { ...toolbox, transfer };
     }
@@ -179,7 +179,7 @@ const getToolbox = async ({
         });
         const txHex = await (signer as LitecoinLedger).signTransaction(psbt, inputs);
 
-        return toolbox.broadcastTx({ txHex });
+        return toolbox.broadcastTx(txHex);
       };
       return { ...toolbox, transfer };
     }

@@ -4,15 +4,7 @@ import {
   Transaction,
   TransactionBuilder,
 } from '@psf/bitcoincashjs-lib';
-import {
-  Address,
-  Chain,
-  DerivationPath,
-  FeeOption,
-  RPCUrl,
-  TxHash,
-  UTXO,
-} from '@thorswap-lib/types';
+import { Address, Chain, DerivationPath, FeeOption, RPCUrl, UTXO } from '@thorswap-lib/types';
 import {
   detectAddressNetwork,
   isValidAddress,
@@ -23,26 +15,21 @@ import {
 import { Psbt } from 'bitcoinjs-lib';
 import accumulative from 'coinselect/accumulative';
 
-import { BitcoincashApi } from '../api/clients.js';
+import { blockchairApi, BlockchairApiType } from '../api/blockchairApi.js';
 import {
   KeyPairType,
   TransactionBuilderType,
-  TransactionType,
-} from '../types/bitcoincashjs-types.js';
-import {
-  UTXOBaseToolboxParams,
+  TransferParams,
   UTXOBuildTxParams,
   UTXOChain,
-  UTXOWalletTransferParams,
 } from '../types/common.js';
 import { compileMemo, getNetwork, getSeed } from '../utils.js';
 
 import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
 
-type TransferParams = UTXOWalletTransferParams<
-  { builder: TransactionBuilderType; utxos: UTXO[] },
-  TransactionType
->;
+const chain = Chain.BitcoinCash as UTXOChain;
+
+const stripToCashAddress = (address: Address) => stripPrefix(toCashAddress(address));
 
 const buildBCHTx = async ({
   amount,
@@ -51,13 +38,13 @@ const buildBCHTx = async ({
   feeRate,
   sender,
   apiClient,
-}: UTXOBuildTxParams & UTXOBaseToolboxParams): Promise<{
+}: UTXOBuildTxParams & { apiClient: BlockchairApiType }): Promise<{
   builder: TransactionBuilderType;
   utxos: UTXO[];
 }> => {
   if (!validateAddress(recipient)) throw new Error('Invalid address');
   const utxos = await apiClient.scanUTXOs({
-    address: stripPrefix(toCashAddress(sender)),
+    address: stripToCashAddress(sender),
     fetchTxHex: true,
   });
 
@@ -72,7 +59,7 @@ const buildBCHTx = async ({
   // .inputs and .outputs will be undefined if no solution was found
   if (!inputs || !outputs) throw new Error('Balance insufficient for transaction');
 
-  const builder = new TransactionBuilder(getNetwork(Chain.BitcoinCash));
+  const builder = new TransactionBuilder(getNetwork(chain));
 
   await Promise.all(
     inputs.map(async (utxo: UTXO) => {
@@ -105,11 +92,9 @@ const transfer = async ({
   from,
   recipient,
   amount,
-  chain,
   apiClient,
   ...rest
-}: UTXOWalletTransferParams<{ builder: TransactionBuilderType; utxos: UTXO[] }, TransactionType> &
-  UTXOBaseToolboxParams): Promise<TxHash> => {
+}: TransferParams & { apiClient: BlockchairApiType }) => {
   if (!from) throw new Error('From address must be provided');
   if (!recipient) throw new Error('Recipient address must be provided');
   if (!signTransaction) throw new Error('signTransaction must be provided');
@@ -125,13 +110,12 @@ const transfer = async ({
     recipient,
     sender: from,
     apiClient,
-    chain: Chain.BitcoinCash,
   });
 
   const tx = await signTransaction({ builder, utxos });
   const txHex = tx.toHex();
 
-  return apiClient.broadcastTx({ txHex });
+  return apiClient.broadcastTx(txHex);
 };
 
 const buildTx = async ({
@@ -141,16 +125,12 @@ const buildTx = async ({
   feeRate,
   sender,
   apiClient,
-}: UTXOBuildTxParams & { apiClient: BitcoincashApi }): Promise<{
-  psbt: Psbt;
-  utxos: UTXO[];
-  inputs: UTXO[];
-}> => {
+}: UTXOBuildTxParams & { apiClient: BlockchairApiType }) => {
   const recipientCashAddress = toCashAddress(recipient);
   if (!validateAddress(recipientCashAddress)) throw new Error('Invalid address');
 
   const utxos = await apiClient.scanUTXOs({
-    address: stripPrefix(toCashAddress(sender)),
+    address: stripToCashAddress(sender),
     fetchTxHex: true,
   });
 
@@ -174,15 +154,11 @@ const buildTx = async ({
 
   // .inputs and .outputs will be undefined if no solution was found
   if (!inputs || !outputs) throw new Error('Balance insufficient for transaction');
-  const psbt = new Psbt({ network: getNetwork(Chain.BitcoinCash) }); // Network-specific
+  const psbt = new Psbt({ network: getNetwork(chain) }); // Network-specific
 
   //Inputs
-  inputs.forEach((utxo: UTXO) =>
-    psbt.addInput({
-      hash: utxo.hash,
-      index: utxo.index,
-      witnessUtxo: utxo.witnessUtxo,
-    }),
+  inputs.forEach(({ hash, index, witnessUtxo }: UTXO) =>
+    psbt.addInput({ hash, index, witnessUtxo }),
   );
 
   // Outputs
@@ -201,7 +177,7 @@ const buildTx = async ({
     }
   });
 
-  return { psbt, utxos, inputs };
+  return { psbt, utxos, inputs: inputs as UTXO[] };
 };
 
 const stripPrefix = (address: Address) => address.replace(/(bchtest:|bitcoincash:)/, '');
@@ -221,31 +197,25 @@ const createKeysForPath = ({
 }): KeyPairType => {
   if (!phrase) throw new Error('No phrase provided');
 
-  const masterHDNode = HDNode.fromSeedBuffer(getSeed(phrase), getNetwork(Chain.BitcoinCash));
+  const masterHDNode = HDNode.fromSeedBuffer(getSeed(phrase), getNetwork(chain));
   return masterHDNode.derivePath(derivationPath).keyPair;
 };
 
 const getAddressFromKeys = (keys: KeyPairType) => {
   const address = keys.getAddress(0);
-  return stripPrefix(toCashAddress(address));
+  return stripToCashAddress(address);
 };
 
-const chain = Chain.BitcoinCash as UTXOChain;
+export const BCHToolbox = (
+  apiKey: string,
+  apiClientOrNodeUrl: BlockchairApiType | string = RPCUrl.BitcoinCash,
+) => {
+  const apiClient =
+    typeof apiClientOrNodeUrl === 'string'
+      ? blockchairApi({ apiKey, nodeUrl: apiClientOrNodeUrl, chain })
+      : apiClientOrNodeUrl;
 
-export const BCHToolbox = (apiKey?: string, apiClientOrUrl?: BitcoincashApi | string) => {
-  const baseToolboxParams = {
-    chain,
-    apiClient:
-      apiClientOrUrl && typeof apiClientOrUrl !== 'string'
-        ? apiClientOrUrl
-        : new BitcoincashApi({
-            apiKey,
-            nodeUrl: apiClientOrUrl || RPCUrl.BitcoinCash,
-            chain,
-          }),
-  };
-
-  const { getBalance, ...toolbox } = BaseUTXOToolbox(baseToolboxParams);
+  const { getBalance, ...toolbox } = BaseUTXOToolbox({ chain, apiClient });
 
   return {
     ...toolbox,
@@ -253,9 +223,9 @@ export const BCHToolbox = (apiKey?: string, apiClientOrUrl?: BitcoincashApi | st
     validateAddress,
     createKeysForPath,
     getAddressFromKeys,
-    buildBCHTx: (params: UTXOBuildTxParams) => buildBCHTx({ ...params, ...baseToolboxParams }),
-    buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, ...baseToolboxParams }),
-    transfer: (params: TransferParams) => transfer({ ...params, ...baseToolboxParams }),
+    buildBCHTx: (params: UTXOBuildTxParams) => buildBCHTx({ ...params, apiClient }),
+    buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, apiClient }),
+    transfer: (params: TransferParams) => transfer({ ...params, apiClient }),
     getBalance: (address: string) => getBalance(stripPrefix(toCashAddress(address))),
   };
 };

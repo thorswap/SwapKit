@@ -919,9 +919,6 @@ importers:
       tiny-secp256k1:
         specifier: 1.1.6
         version: 1.1.6
-      uniqid:
-        specifier: 5.4.0
-        version: 5.4.0
     devDependencies:
       '@internal/config':
         specifier: workspace:*
@@ -14686,10 +14683,6 @@ packages:
       get-value: 2.0.6
       is-extendable: 0.1.1
       set-value: 2.0.1
-
-  /uniqid@5.4.0:
-    resolution: {integrity: sha512-38JRbJ4Fj94VmnC7G/J/5n5SC7Ab46OM5iNtSstB/ko3l1b5g7ALt4qzHFgGciFkyiRNtDXtLNb+VsxtMSE77A==}
-    dev: false
 
   /unique-filename@1.1.1:
     resolution: {integrity: sha512-Vmp0jIp2ln35UTXuryvjzkjGdRyf9b2lTXuSYUiPmzRcl3FDtYqAwOnTJkAngD9SWhnoJzDbTKwaOrZ+STtxNQ==}

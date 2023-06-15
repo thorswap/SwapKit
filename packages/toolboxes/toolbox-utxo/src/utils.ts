@@ -24,6 +24,7 @@ const TX_INPUT_BASE = 32 + 4 + 1 + 4; // 41
 const TX_INPUT_PUBKEYHASH = 107;
 const TX_OUTPUT_BASE = 8 + 1; //9
 const TX_OUTPUT_PUBKEYHASH = 25;
+const pid = typeof process !== 'undefined' && process.pid ? process.pid.toString(36) : '';
 
 export const compileMemo = (memo: string) => {
   const data = Buffer.from(memo, 'utf8'); // converts MEMO to buffer
@@ -133,3 +134,14 @@ export const getSeed = (phrase: string) => {
 
   return bip39.mnemonicToSeedSync(phrase);
 };
+
+let last = 0;
+const now = () => {
+  const time = Date.now();
+  const lastTime = last || time;
+  last = lastTime;
+
+  return time > last ? time : lastTime + 1;
+};
+
+export const uniqid = () => pid + now().toString(36);

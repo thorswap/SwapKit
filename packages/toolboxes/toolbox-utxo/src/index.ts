@@ -1,4 +1,3 @@
-export * from './api/index.js';
 export { BaseUTXOToolbox } from './toolbox/BaseUTXOToolbox.js';
 export { BCHToolbox } from './toolbox/bch.js';
 export { BTCToolbox } from './toolbox/btc.js';
