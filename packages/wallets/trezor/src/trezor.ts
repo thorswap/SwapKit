@@ -1,6 +1,7 @@
 import { derivationPathToString } from '@thorswap-lib/helpers';
 import { AVAXToolbox, BSCToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import {
+  BCHToolbox,
   BTCToolbox,
   DOGEToolbox,
   LTCToolbox,
@@ -60,7 +61,8 @@ const getToolbox = async ({
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey)
         throw new Error('Ethplorer API key not found');
-      if (!covalentApiKey) throw new Error('Covalent API key not found');
+      if (chain !== Chain.Ethereum && !covalentApiKey)
+        throw new Error('Covalent API key not found');
 
       const provider = getProvider(chain, rpcUrl);
       const signer = await getEVMSigner({ chain, derivationPath, provider });
@@ -69,25 +71,34 @@ const getToolbox = async ({
       const params = { api, signer, provider };
       const walletMethods =
         chain === Chain.Ethereum
-          ? //@ts-expect-error
-            ETHToolbox({ ...params, ethplorerApiKey })
-          : (chain === Chain.Avalanche ? AVAXToolbox : BSCToolbox)({ ...params, covalentApiKey });
+          ? ETHToolbox({ ...params, ethplorerApiKey: ethplorerApiKey as unknown as string })
+          : (chain === Chain.Avalanche ? AVAXToolbox : BSCToolbox)({
+              ...params,
+              covalentApiKey: covalentApiKey as unknown as string,
+            });
 
       return { address, walletMethods };
     }
 
     case Chain.Bitcoin:
+    case Chain.BitcoinCash:
     case Chain.Doge:
     case Chain.Litecoin: {
       if (!utxoApiKey || !api) throw new Error('UTXO API key not found');
       const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
       const toolbox = (
-        chain === Chain.Bitcoin ? BTCToolbox : chain === Chain.Litecoin ? LTCToolbox : DOGEToolbox
+        chain === Chain.Bitcoin
+          ? BTCToolbox
+          : chain === Chain.Litecoin
+          ? LTCToolbox
+          : chain === Chain.Doge
+          ? DOGEToolbox
+          : BCHToolbox
       )(utxoApiKey, api);
 
       const signTransaction = async (psbt: Psbt, memo: string = '') => {
-        //@ts-ignore
-        const result = await TrezorConnect.signTransaction({
+        const result = await //@ts-ignore
+        (TrezorConnect as unknown as TrezorConnect.TrezorConnect).signTransaction({
           coin,
           inputs: psbt.txInputs.map((input: any) => ({
             // Hardens the first 3 elements of the derivation path - required by trezor
@@ -151,8 +162,8 @@ const getToolbox = async ({
       };
 
       const getAddress = async (path: DerivationPathArray = derivationPath) => {
-        //@ts-ignore
-        const { success, payload } = await TrezorConnect.getAddress({
+        const { success, payload } = await //@ts-ignore
+        (TrezorConnect as unknown as TrezorConnect.TrezorConnect).getAddress({
           path: `m/${derivationPathToString(path)}`,
           coin,
         });
@@ -196,11 +207,11 @@ const connectTrezor =
     },
   }: ConnectWalletParams) =>
   async (chain: (typeof TREZOR_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
-    //@ts-ignore
-    const trezorStatus = await TrezorConnect.getDeviceState();
+    const trezorStatus = await //@ts-ignore
+    (TrezorConnect as unknown as TrezorConnect.TrezorConnect).getDeviceState();
     if (!trezorStatus.success) {
       //@ts-ignore
-      TrezorConnect.init({
+      (TrezorConnect as unknown as TrezorConnect.TrezorConnect).init({
         lazyLoad: true, // this param will prevent iframe injection until TrezorConnect.method will be called
         manifest: trezorManifest,
       });
