@@ -1,5 +1,11 @@
 # @thorswap-lib/trezor
 
+## 1.0.0-development.21
+
+### Patch Changes
+
+- [#143](https://github.com/thorswap/SwapKit/pull/143) [`6b8b641`](https://github.com/thorswap/SwapKit/commit/6b8b641ace764000bc04897b587a05e23dda653f) Thanks [@towanTG](https://github.com/towanTG)! - Fixes ETH wallet and improves typing
+
 ## 1.0.0-development.20
 
 ### Patch Changes
