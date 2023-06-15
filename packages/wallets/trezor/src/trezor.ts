@@ -97,9 +97,8 @@ const getToolbox = async ({
       )(utxoApiKey, api);
 
       const signTransaction = async (psbt: Psbt, memo: string = '') => {
-        const result = await (
-          TrezorConnect as unknown as TrezorConnect.TrezorConnect
-        ).signTransaction({
+        const result = await //@ts-ignore
+        (TrezorConnect as unknown as TrezorConnect.TrezorConnect).signTransaction({
           coin,
           inputs: psbt.txInputs.map((input: any) => ({
             // Hardens the first 3 elements of the derivation path - required by trezor
@@ -163,9 +162,8 @@ const getToolbox = async ({
       };
 
       const getAddress = async (path: DerivationPathArray = derivationPath) => {
-        const { success, payload } = await (
-          TrezorConnect as unknown as TrezorConnect.TrezorConnect
-        ).getAddress({
+        const { success, payload } = await //@ts-ignore
+        (TrezorConnect as unknown as TrezorConnect.TrezorConnect).getAddress({
           path: `m/${derivationPathToString(path)}`,
           coin,
         });
@@ -209,10 +207,10 @@ const connectTrezor =
     },
   }: ConnectWalletParams) =>
   async (chain: (typeof TREZOR_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
-    const trezorStatus = await (
-      TrezorConnect as unknown as TrezorConnect.TrezorConnect
-    ).getDeviceState();
+    const trezorStatus = await //@ts-ignore
+    (TrezorConnect as unknown as TrezorConnect.TrezorConnect).getDeviceState();
     if (!trezorStatus.success) {
+      //@ts-ignore
       (TrezorConnect as unknown as TrezorConnect.TrezorConnect).init({
         lazyLoad: true, // this param will prevent iframe injection until TrezorConnect.method will be called
         manifest: trezorManifest,
