@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-utxo
 
+## 1.0.0-development.110
+
+### Patch Changes
+
+- [#148](https://github.com/thorswap/SwapKit/pull/148) [`dd98d6e`](https://github.com/thorswap/SwapKit/commit/dd98d6e8ecced56c15c5cbd8edc005acf6f8cbe1) Thanks [@towanTG](https://github.com/towanTG)! - Fixes utxo api paths
+
 ## 1.0.0-development.109
 
 ### Patch Changes
