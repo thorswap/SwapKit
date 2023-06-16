@@ -98,7 +98,8 @@
     "three-readers-protect",
     "tidy-boxes-suffer",
     "violet-clocks-promise",
-    "witty-mugs-drive"
+    "witty-mugs-drive",
+    "yellow-lions-drive"
   ],
   "initialVersions": {
     "@internal/config": "0.0.0",
