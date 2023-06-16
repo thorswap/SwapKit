@@ -81,7 +81,7 @@ const getUnconfirmedBalance = async ({
   const url = `/dashboards/address/${address}?transaction_details=true${
     apiKey ? `&key=${apiKey}` : ''
   }`;
-  const response = await blockchairRequest<BlockchairAddressResponse>(`${baseUrl(chain)}/${url}`);
+  const response = await blockchairRequest<BlockchairAddressResponse>(`${baseUrl(chain)}${url}`);
 
   return response[address].address.balance;
 };
@@ -95,7 +95,7 @@ const getConfirmedBalance = async ({
 
   const url = `/addresses/balances?addresses=${address}${apiKey ? `&key=${apiKey}` : ''}`;
   const response = await blockchairRequest<BlockchairMultipleBalancesResponse>(
-    `${baseUrl(chain)}}/${url}`,
+    `${baseUrl(chain)}${url}`,
   );
 
   return response[address] || 0;
@@ -106,7 +106,7 @@ const getRawTx = async ({ chain, apiKey, txHash }: BlockchairParams<{ txHash?: s
 
   const url = `/raw/transaction/${txHash}${apiKey ? `?key=${apiKey}` : ''}`;
   const rawTxResponse = await blockchairRequest<BlockchairRawTransactionResponse>(
-    `${baseUrl(chain)}/${url}`,
+    `${baseUrl(chain)}${url}`,
   );
   return rawTxResponse[txHash].raw_transaction;
 };
@@ -123,7 +123,7 @@ const getUnspentTxs = async ({
   const url = `/outputs?q=is_spent(false),recipient(${address})?limit=100&offset=${offset}${
     apiKey ? `&key=${apiKey}` : ''
   }`;
-  const response = await blockchairRequest<BlockchairOutputsResponse[]>(`${baseUrl(chain)}/${url}`);
+  const response = await blockchairRequest<BlockchairOutputsResponse[]>(`${baseUrl(chain)}${url}`);
 
   const txs = response
     .filter(({ is_spent }) => !is_spent)
