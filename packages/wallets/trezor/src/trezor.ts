@@ -84,7 +84,7 @@ const getToolbox = async ({
     case Chain.BitcoinCash:
     case Chain.Doge:
     case Chain.Litecoin: {
-      if (!utxoApiKey || !api) throw new Error('UTXO API key not found');
+      if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
       const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
       const toolbox = (
         chain === Chain.Bitcoin
