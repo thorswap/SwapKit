@@ -120,7 +120,7 @@ const getUnspentTxs = async ({
   (UTXO & { script_hex: string; is_confirmed: boolean })[]
 > => {
   if (!address) throw new Error('address is required');
-  const url = `/outputs?q=is_spent(false),recipient(${address})?limit=100&offset=${offset}${
+  const url = `/outputs?q=is_spent(false),recipient(${address})&limit=100&offset=${offset}${
     apiKey ? `&key=${apiKey}` : ''
   }`;
   const response = await blockchairRequest<BlockchairOutputsResponse[]>(`${baseUrl(chain)}${url}`);
