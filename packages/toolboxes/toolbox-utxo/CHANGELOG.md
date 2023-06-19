@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-utxo
 
+## 1.0.0-development.111
+
+### Patch Changes
+
+- [#150](https://github.com/thorswap/SwapKit/pull/150) [`a7fca9d`](https://github.com/thorswap/SwapKit/commit/a7fca9d6536679e368ee005403e685b180b6913c) Thanks [@towanTG](https://github.com/towanTG)! - Fixes blockchair api url params
+
 ## 1.0.0-development.110
 
 ### Patch Changes
