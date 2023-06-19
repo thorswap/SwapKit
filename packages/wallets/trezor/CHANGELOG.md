@@ -1,5 +1,12 @@
 # @thorswap-lib/trezor
 
+## 1.0.0-development.25
+
+### Patch Changes
+
+- Updated dependencies [[`a7fca9d`](https://github.com/thorswap/SwapKit/commit/a7fca9d6536679e368ee005403e685b180b6913c)]:
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.111
+
 ## 1.0.0-development.24
 
 ### Patch Changes
