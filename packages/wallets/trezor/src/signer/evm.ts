@@ -15,6 +15,7 @@ interface TrezorEVMSignerParams {
 class TrezorSigner extends Signer {
   private chain: Chain;
   private derivationPath: DerivationPathArray;
+  private address: string | undefined;
   readonly provider: Provider | JsonRpcProvider;
 
   constructor({ chain, derivationPath, provider }: TrezorEVMSignerParams) {
@@ -25,15 +26,18 @@ class TrezorSigner extends Signer {
   }
 
   getAddress = async () => {
-    const result = await //@ts-ignore ts can't infer type
-    (TrezorConnect as unknown as TrezorConnect.TrezorConnect).ethereumGetAddress({
-      path: `m/${derivationPathToString(this.derivationPath)}`,
-      showOnTrezor: true,
-    });
+    if (!this.address) {
+      const result = await //@ts-ignore ts can't infer type
+      (TrezorConnect as unknown as TrezorConnect.TrezorConnect).ethereumGetAddress({
+        path: `m/${derivationPathToString(this.derivationPath)}`,
+        showOnTrezor: true,
+      });
 
-    if (!result.success) throw new Error(result.payload.error);
+      if (!result.success) throw new Error(result.payload.error);
+      this.address = result.payload.address;
+    }
 
-    return result.payload.address;
+    return this.address;
   };
 
   signMessage = async (message: string) => {

@@ -77,7 +77,7 @@ const getToolbox = async ({
               covalentApiKey: covalentApiKey as unknown as string,
             });
 
-      return { address, walletMethods };
+      return { address, walletMethods, getAddress: () => address };
     }
 
     case Chain.Bitcoin:
