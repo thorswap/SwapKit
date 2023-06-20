@@ -26,7 +26,7 @@ class TrezorSigner extends Signer {
   }
 
   getAddress = async () => {
-    if (!this.address) {
+    if (this.address === undefined) {
       const result = await //@ts-ignore ts can't infer type
       (TrezorConnect as unknown as TrezorConnect.TrezorConnect).ethereumGetAddress({
         path: `m/${derivationPathToString(this.derivationPath)}`,
@@ -37,7 +37,7 @@ class TrezorSigner extends Signer {
       this.address = result.payload.address;
     }
 
-    return this.address as string;
+    return this.address;
   };
 
   signMessage = async (message: string) => {
