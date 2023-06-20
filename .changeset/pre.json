@@ -40,6 +40,7 @@
     "hungry-beers-pretend",
     "hungry-eyes-help",
     "itchy-swans-battle",
+    "kind-emus-burn",
     "kind-moons-retire",
     "large-crews-hug",
     "large-guests-allow",
@@ -121,7 +122,8 @@
     "@thorswap-lib/evm-web3-wallets": "1.0.0-development.0",
     "@thorswap-lib/keplr": "1.0.0-development.0",
     "@thorswap-lib/swapkit-sdk": "0.0.1-development.0",
-    "@thorswap-lib/xdefi": "1.0.0-development.0"
+    "@thorswap-lib/xdefi": "1.0.0-development.0",
+    "@internal/config": "0.0.0"
   },
   "mode": "pre",
   "tag": "development"
