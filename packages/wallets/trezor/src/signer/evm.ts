@@ -37,7 +37,7 @@ class TrezorSigner extends Signer {
       this.address = result.payload.address;
     }
 
-    return this.address;
+    return this.address as string;
   };
 
   signMessage = async (message: string) => {
