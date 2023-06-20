@@ -1,5 +1,11 @@
 # @thorswap-lib/trezor
 
+## 1.0.0-development.26
+
+### Patch Changes
+
+- [#152](https://github.com/thorswap/SwapKit/pull/152) [`6dbbb61`](https://github.com/thorswap/SwapKit/commit/6dbbb61691a9cae771d6e9c9a624bc87a6466bbd) Thanks [@towanTG](https://github.com/towanTG)! - Fixes and caches the getAddress call for trezor
+
 ## 1.0.0-development.25
 
 ### Patch Changes
