@@ -103,8 +103,12 @@ class TrezorSigner extends Signer {
     return signedTx;
   };
 
-  connect = (provider: Provider) =>
-    new TrezorSigner({ chain: this.chain, derivationPath: this.derivationPath, provider });
+  connect = (provider: Provider): Signer =>
+    new TrezorSigner({
+      chain: this.chain,
+      derivationPath: this.derivationPath,
+      provider,
+    });
 }
 export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEVMSignerParams) =>
   new TrezorSigner({ chain, derivationPath, provider });
