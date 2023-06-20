@@ -1,5 +1,11 @@
 # @thorswap-lib/trezor
 
+## 1.0.0-development.27
+
+### Patch Changes
+
+- [#155](https://github.com/thorswap/SwapKit/pull/155) [`14fd23a`](https://github.com/thorswap/SwapKit/commit/14fd23a94513e5a9e0eadd5f2fc8036966bcf602) Thanks [@towanTG](https://github.com/towanTG)! - Small bug fix
+
 ## 1.0.0-development.26
 
 ### Patch Changes

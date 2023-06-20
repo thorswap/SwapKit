@@ -1,5 +1,12 @@
 # @thorswap-lib/swapkit-sdk
 
+## 0.0.1-development.19
+
+### Patch Changes
+
+- Updated dependencies [[`14fd23a`](https://github.com/thorswap/SwapKit/commit/14fd23a94513e5a9e0eadd5f2fc8036966bcf602)]:
+  - @thorswap-lib/trezor@1.0.0-development.27
+
 ## 0.0.1-development.18
 
 ### Patch Changes
