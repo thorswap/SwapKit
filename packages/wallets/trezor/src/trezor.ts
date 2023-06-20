@@ -1,3 +1,4 @@
+import { Signer } from '@ethersproject/abstract-signer';
 import { derivationPathToString } from '@thorswap-lib/helpers';
 import { AVAXToolbox, BSCToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import {
@@ -65,7 +66,7 @@ const getToolbox = async ({
         throw new Error('Covalent API key not found');
 
       const provider = getProvider(chain, rpcUrl);
-      const signer = await getEVMSigner({ chain, derivationPath, provider });
+      const signer = (await getEVMSigner({ chain, derivationPath, provider })) as Signer;
 
       const address = await signer.getAddress();
       const params = { api, signer, provider };
