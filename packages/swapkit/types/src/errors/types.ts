@@ -70,6 +70,8 @@ export enum ERROR_CODE {
   // 60xx - Airdrop
   ADDRESS_NOT_WHITELISTED = '6000',
   ADDRESS_ALREADY_CLAIMED = '6001',
+  // 90xx - Unhandled
+  TEMPORARY_ERROR = '9999', // use only when waiting for a PR to be merged
 }
 
 export type ErrorInfo = {
@@ -78,7 +80,7 @@ export type ErrorInfo = {
   type?: ERROR_TYPE;
   module: ERROR_MODULE;
   code: ERROR_CODE;
-  message: string;
+  message?: string | undefined;
   stack?: string;
   identifier?: string;
   options?: ApiErrorOptions;
