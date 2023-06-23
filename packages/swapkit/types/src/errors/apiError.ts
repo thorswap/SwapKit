@@ -1,26 +1,34 @@
-import { ApiErrorOptions, ERROR_CODE, ERROR_MODULE, ERROR_TYPE, ErrorInfo } from './types.js';
+import { ApiErrorOptions, ERROR_CODE, ERROR_MODULE, ERROR_TYPE, ErrorInfo } from './types';
+import { getDisplayMessage } from './displayMessages';
 
 export class ApiError extends Error {
   public readonly status: number;
+  public readonly version: string;
+  public readonly type?: ERROR_TYPE;
   public readonly module: ERROR_MODULE;
   public readonly code: ERROR_CODE;
-  public readonly type?: ERROR_TYPE;
   public readonly message: string;
+  public readonly display: string;
   public readonly stack?: string;
   public readonly options: ApiErrorOptions;
+  public readonly displayMessageParams?: string[];
 
   constructor({
     status,
+    version,
     module,
     code,
     message,
     type,
     options: { shouldLog, shouldThrow, shouldTrace } = {},
+    displayMessageParams = [],
   }: ErrorInfo) {
     super(message);
     this.status = status;
+    this.version = version ? version : 'NO_VERSION';
     this.module = module;
     this.message = message;
+    this.display = getDisplayMessage(this.code, this.displayMessageParams);
     this.code = code;
     this.type = type ? type : ERROR_TYPE.UNHANDLED_ERROR;
     this.options = {
@@ -29,27 +37,31 @@ export class ApiError extends Error {
       shouldThrow: shouldThrow || true,
     };
 
-    if (this.options.shouldTrace) Error.captureStackTrace(this);
+    if (this.options.shouldTrace) Error.captureStackTrace(this); // NodeJS Error supports this
   }
 
   public static fromErrorInfo(errorInfo: ErrorInfo) {
     return new ApiError(errorInfo);
   }
 
-  public identifier() {
-    return `${this.module}-${this.code}`;
+  public get identifier() {
+    return `${this.version || 'NO_VERSION'}-${this.type || 'NO_TYPE'}-${this.module}-${this.code}`;
+  }
+
+  public get displayMessage() {
+    return getDisplayMessage(this.code, this.displayMessageParams);
   }
 
   public handle() {
-    const message = `[${this.type}.${this.module}]: ${this.message}`;
+    const message = `[${this.identifier}]: ${this.message}`;
 
     if (this.options.shouldLog) console.error(message, '\n', this.stack || '');
-    if (this.options.shouldThrow) throw Error(message, { cause: this.stack });
+    if (this.options.shouldThrow) throw Error(message, { cause: this.stack }); // NodeJS Error supports this
 
     return this.returnErrorInfo();
   }
 
   public returnErrorInfo() {
-    return { ...this, identifier: this.identifier() };
+    return { ...this, identifier: this.identifier };
   }
 }
