@@ -1,5 +1,5 @@
-import { ApiErrorOptions, ERROR_CODE, ERROR_MODULE, ERROR_TYPE, ErrorInfo } from './types';
-import { getDisplayMessage } from './displayMessages';
+import { ApiErrorOptions, ERROR_CODE, ERROR_MODULE, ERROR_TYPE, ErrorInfo } from './types.js';
+import { getDisplayMessage } from './displayMessages.js';
 
 export class ApiError extends Error {
   public readonly status: number;
@@ -20,8 +20,12 @@ export class ApiError extends Error {
     code,
     message,
     type,
-    options: { shouldLog, shouldThrow, shouldTrace } = {},
-    displayMessageParams = [],
+    options: { shouldLog, shouldThrow, shouldTrace } = {
+      shouldLog: true,
+      shouldThrow: true,
+      shouldTrace: true,
+    },
+    displayMessageParams,
   }: ErrorInfo) {
     super(message);
     this.status = status;
@@ -36,6 +40,7 @@ export class ApiError extends Error {
       shouldTrace: shouldTrace || true,
       shouldThrow: shouldThrow || true,
     };
+    this.displayMessageParams = displayMessageParams || [];
 
     if (this.options.shouldTrace) Error.captureStackTrace(this); // NodeJS Error supports this
   }
