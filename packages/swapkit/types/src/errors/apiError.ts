@@ -3,7 +3,7 @@ import { getDisplayMessage } from './displayMessages';
 
 export class ApiError extends Error {
   public readonly status: number;
-  public readonly version: string;
+  public readonly revision: string;
   public readonly type?: ERROR_TYPE;
   public readonly module: ERROR_MODULE;
   public readonly code: ERROR_CODE;
@@ -15,7 +15,7 @@ export class ApiError extends Error {
 
   constructor({
     status,
-    version,
+    revision,
     module,
     code,
     message,
@@ -25,7 +25,7 @@ export class ApiError extends Error {
   }: ErrorInfo) {
     super(message);
     this.status = status;
-    this.version = version ? version : 'NO_VERSION';
+    this.revision = revision ? revision : 'NO_REVISION';
     this.module = module;
     this.message = message;
     this.display = getDisplayMessage(this.code, this.displayMessageParams);
@@ -45,7 +45,7 @@ export class ApiError extends Error {
   }
 
   public get identifier() {
-    return `${this.version || 'NO_VERSION'}-${this.type || 'NO_TYPE'}-${this.module}-${this.code}`;
+    return `${this.revision || 'NO_REVISION'}-${this.type || 'NO_TYPE'}-${this.module}-${this.code}`;
   }
 
   public get displayMessage() {

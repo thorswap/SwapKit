@@ -74,7 +74,7 @@ export enum ERROR_CODE {
 
 export type ErrorInfo = {
   status: number;
-  version: string;
+  revision: string;
   type?: ERROR_TYPE;
   module: ERROR_MODULE;
   code: ERROR_CODE;
