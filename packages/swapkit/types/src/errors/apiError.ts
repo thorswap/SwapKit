@@ -1,5 +1,5 @@
-import { ApiErrorOptions, ERROR_CODE, ERROR_MODULE, ERROR_TYPE, ErrorInfo } from './types.js';
 import { getDisplayMessage } from './displayMessages.js';
+import { ApiErrorOptions, ERROR_CODE, ERROR_MODULE, ERROR_TYPE, ErrorInfo } from './types.js';
 
 export class ApiError extends Error {
   public readonly status: number;
@@ -32,7 +32,7 @@ export class ApiError extends Error {
     this.revision = revision ? revision : 'NO_REVISION';
     this.module = module;
     this.message = message;
-    this.display = getDisplayMessage(this.code, this.displayMessageParams);
+    this.display = getDisplayMessage(code, displayMessageParams || []);
     this.code = code;
     this.type = type ? type : ERROR_TYPE.UNHANDLED_ERROR;
     this.options = {
@@ -50,11 +50,13 @@ export class ApiError extends Error {
   }
 
   public get identifier() {
-    return `${this.revision || 'NO_REVISION'}-${this.type || 'NO_TYPE'}-${this.module}-${this.code}`;
+    return `${this.revision || 'NO_REVISION'}-${this.type || 'NO_TYPE'}-${this.module}-${
+      this.code
+    }`;
   }
 
   public get displayMessage() {
-    return getDisplayMessage(this.code, this.displayMessageParams);
+    return getDisplayMessage(this.code, this.displayMessageParams || []);
   }
 
   public handle() {
