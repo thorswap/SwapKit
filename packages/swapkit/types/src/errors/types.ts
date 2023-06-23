@@ -60,8 +60,8 @@ export enum ERROR_CODE {
   INVALID_CHAIN = '2200',
   INVALID_ASSET = '2201',
   INVALID_ASSET_IDENTIFIER = '2202',
-  UNSUPPORTED_ASSET = '2203',
   UNSUPPORTED_CHAIN = '2204',
+  UNSUPPORTED_ASSET = '2203',
   UNSUPPORTED_ASSET_FOR_SWAPOUT = '2205',
   // 30xx - Thorchain
   THORNODE_QUOTE_GENERIC_ERROR = '3000',
@@ -74,13 +74,15 @@ export enum ERROR_CODE {
 
 export type ErrorInfo = {
   status: number;
+  revision: string;
+  type?: ERROR_TYPE;
   module: ERROR_MODULE;
   code: ERROR_CODE;
-  type?: ERROR_TYPE;
   message: string;
   stack?: string;
-  options?: ApiErrorOptions;
   identifier?: string;
+  options?: ApiErrorOptions;
+  displayMessageParams?: string[];
 };
 
 export type ApiErrorOptions = {
