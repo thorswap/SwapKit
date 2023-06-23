@@ -29,7 +29,7 @@ export class ApiError extends Error {
   }: ErrorInfo) {
     super(message);
     this.status = status;
-    this.revision = revision ? revision : 'NO_REVISION';
+    this.revision = revision || 'NO_REVISION';
     this.module = module;
     this.message = message;
     this.display = getDisplayMessage(code, displayMessageParams || []);
