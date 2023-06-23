@@ -27,14 +27,14 @@ export class ApiError extends Error {
     },
     displayMessageParams,
   }: ErrorInfo) {
-    super(message);
+    super(message || '');
     this.status = status;
     this.revision = revision || 'NO_REVISION';
     this.module = module;
-    this.message = message;
+    this.message = message || '';
     this.display = getDisplayMessage(code, displayMessageParams || []);
     this.code = code;
-    this.type = type ? type : ERROR_TYPE.UNHANDLED_ERROR;
+    this.type = type || ERROR_TYPE.UNHANDLED_ERROR;
     this.options = {
       shouldLog: shouldLog || true,
       shouldTrace: shouldTrace || true,
