@@ -26,6 +26,8 @@ export enum ERROR_MODULE {
   THORCHAIN_PROVIDER = '3000',
   // Utilities
   PROVIDER_UTIL = '4000',
+  // Aggregator
+  TXN_DETAILS = '5000',
   // AirDrop
   AIRDROP_UTIL = '6000',
 }
@@ -77,6 +79,7 @@ export enum ERROR_CODE {
   SYNTH_MINTING_CAP_REACHED = '3002',
   // 40xx - Code logic error (not the client's fault)
   INVALID_QUOTE_MODE = '4000',
+  NO_QUOTES = '4001',
   // 50xx - Service unavailable
   SERVICE_UNAVAILABLE_GENERIC = '5000',
   // 51xx - Missing gas data

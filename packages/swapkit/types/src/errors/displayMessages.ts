@@ -42,6 +42,7 @@ export const ERROR_DISPLAY_MESSAGES: Record<string, string> = {
     "Source address doesn't have enough synth balance for this quote.",
   [ERROR_CODE.SYNTH_MINTING_CAP_REACHED]: 'Synth minting cap reached.',
   [ERROR_CODE.INVALID_QUOTE_MODE]: 'Invalid quote mode.',
+  [ERROR_CODE.NO_QUOTES]: 'No quotes to service this request.',
   [ERROR_CODE.SERVICE_UNAVAILABLE_GENERIC]: 'Service unavailable.',
   [ERROR_CODE.MISSING_GAS_DATA_GENERIC]: 'Missing gas data.',
   [ERROR_CODE.MISSING_TOKEN_PRICE_GENERIC]: 'Missing token price.',
