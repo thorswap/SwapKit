@@ -25,6 +25,7 @@ export const ERROR_DISPLAY_MESSAGES: Record<string, string> = {
     'Destination address {0} invalid for buy chain.',
   [ERROR_CODE.PREFERRED_PROFVIDER_NOT_SUPPORTED]: 'Preferred provider not supported.',
   [ERROR_CODE.DESTINATION_ADDRESS_SMART_CONTRACT]: 'Destination address is a smart contract.',
+  [ERROR_CODE.BUY_AMOUNT_MUST_BE_POSITIVE_INTEGER]: 'Buy amount must be a positive integer.',
   [ERROR_CODE.INVALID_PROVIDER]: 'Invalid provider {0}.',
   [ERROR_CODE.MISSING_CROSS_CHAIN_PROVIDER]: 'Missing cross-chain provider.',
   [ERROR_CODE.MISSING_AVAX_PROVIDER]: 'Missing AVAX provider.',
