@@ -26,18 +26,27 @@ export enum ERROR_MODULE {
   THORCHAIN_PROVIDER = '3000',
   // Utilities
   PROVIDER_UTIL = '4000',
+  // Aggregator
+  TXN_DETAILS = '5000',
   // AirDrop
   AIRDROP_UTIL = '6000',
 }
 
 export enum ERROR_CODE {
-  // 10xx - Conditions
+  // 10xx - Generic
   INVALID_INPUT_PARAMETERS = '1000',
   UNKNOWN_PROVIDERS = '1001',
   CANNOT_FIND_INBOUND_ADDRESS = '1002',
   NO_INBOUND_ADDRESSES = '1003',
   CHAIN_HALTED_OR_UNSUPPORTED = '1004',
   MISSING_INPUT_PARAMETER = '1005',
+  // 11xx - Type error
+  INVALID_TYPE_GENERIC = '1100',
+  INVALID_NUMBER_STRING = '1101',
+  INVALID_NUMBER = '1102',
+  INVALID_BOOLEAN = '1103',
+  INVALID_OBJECT = '1104',
+  INVALID_ARRAY = '1105',
   // 20xx - Quote request parameters
   SELL_AMOUNT_MUST_BE_POSITIVE_INTEGER = '2000',
   SELL_BUY_ASSETS_ARE_THE_SAME = '2001',
@@ -49,6 +58,7 @@ export enum ERROR_CODE {
   DESTINATION_ADDRESS_INVALID_FOR_BUY_CHAIN = '2007',
   PREFERRED_PROFVIDER_NOT_SUPPORTED = '2008',
   DESTINATION_ADDRESS_SMART_CONTRACT = '2009',
+  BUY_AMOUNT_MUST_BE_POSITIVE_INTEGER = '2010',
   // 21xx - Quote request providers issue
   INVALID_PROVIDER = '2100',
   MISSING_CROSS_CHAIN_PROVIDER = '2101',
@@ -67,9 +77,20 @@ export enum ERROR_CODE {
   THORNODE_QUOTE_GENERIC_ERROR = '3000',
   NOT_ENOUGH_SYNTH_BALANCE = '3001',
   SYNTH_MINTING_CAP_REACHED = '3002',
+  // 40xx - Code logic error (not the client's fault)
+  INVALID_QUOTE_MODE = '4000',
+  NO_QUOTES = '4001',
+  // 50xx - Service unavailable
+  SERVICE_UNAVAILABLE_GENERIC = '5000',
+  // 51xx - Missing gas data
+  MISSING_GAS_DATA_GENERIC = '5100',
+  // 52xx - Missing token price
+  MISSING_TOKEN_PRICE_GENERIC = '5200',
   // 60xx - Airdrop
   ADDRESS_NOT_WHITELISTED = '6000',
   ADDRESS_ALREADY_CLAIMED = '6001',
+  // 90xx - Unhandled
+  TEMPORARY_ERROR = '9999', // use only when waiting for a PR to be merged
 }
 
 export type ErrorInfo = {
@@ -78,7 +99,7 @@ export type ErrorInfo = {
   type?: ERROR_TYPE;
   module: ERROR_MODULE;
   code: ERROR_CODE;
-  message: string;
+  message?: string | undefined;
   stack?: string;
   identifier?: string;
   options?: ApiErrorOptions;

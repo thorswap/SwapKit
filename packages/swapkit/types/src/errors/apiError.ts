@@ -27,35 +27,39 @@ export class ApiError extends Error {
     },
     displayMessageParams,
   }: ErrorInfo) {
-    super(message);
+    const safeMessage = message || getDisplayMessage(code, displayMessageParams || []) || '';
+    super(safeMessage);
+
     this.status = status;
     this.revision = revision || 'NO_REVISION';
     this.module = module;
-    this.message = message;
+    this.message = safeMessage;
     this.display = getDisplayMessage(code, displayMessageParams || []);
     this.code = code;
-    this.type = type ? type : ERROR_TYPE.UNHANDLED_ERROR;
+    this.type = type || ERROR_TYPE.UNHANDLED_ERROR;
     this.options = {
       shouldLog: shouldLog || true,
       shouldTrace: shouldTrace || true,
-      shouldThrow: shouldThrow || true,
+      shouldThrow: shouldThrow || false,
     };
     this.displayMessageParams = displayMessageParams || [];
 
-    if (this.options.shouldTrace) Error.captureStackTrace(this); // NodeJS Error supports this
+    if (this.options.shouldTrace) Error.captureStackTrace(this);
   }
 
-  public static fromErrorInfo(errorInfo: ErrorInfo) {
+  public static fromErrorInfo(errorInfo: ErrorInfo): ApiError {
     return new ApiError(errorInfo);
   }
 
-  public get identifier() {
-    return `${this.revision || 'NO_REVISION'}-${this.type || 'NO_TYPE'}-${this.module}-${
-      this.code
-    }`;
+  public toErrorInfo(): ErrorInfo {
+    return { ...this, identifier: this.identifier };
   }
 
-  public get displayMessage() {
+  public get identifier(): string {
+    return `${this.revision}-${this.type || 'NO_TYPE'}-${this.module}-${this.code}`;
+  }
+
+  public get displayMessage(): string {
     return getDisplayMessage(this.code, this.displayMessageParams || []);
   }
 
@@ -63,12 +67,8 @@ export class ApiError extends Error {
     const message = `[${this.identifier}]: ${this.message}`;
 
     if (this.options.shouldLog) console.error(message, '\n', this.stack || '');
-    if (this.options.shouldThrow) throw Error(message, { cause: this.stack }); // NodeJS Error supports this
+    if (this.options.shouldThrow) throw Error(message, { cause: this.stack });
 
-    return this.returnErrorInfo();
-  }
-
-  public returnErrorInfo() {
-    return { ...this, identifier: this.identifier };
+    return this.toErrorInfo();
   }
 }
