@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.20
+
+### Patch Changes
+
+- [#166](https://github.com/thorswap/SwapKit/pull/166) [`25e2169`](https://github.com/thorswap/SwapKit/commit/25e21695967a86ff41628933b42900f07fceecba) Thanks [@towanTG](https://github.com/towanTG)! - Strips bitcoincash addresses of prefix
+
 ## 0.1.0-development.19
 
 ### Patch Changes

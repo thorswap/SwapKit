@@ -1,5 +1,11 @@
 # @thorswap-lib/trezor
 
+## 1.0.0-development.32
+
+### Patch Changes
+
+- [#166](https://github.com/thorswap/SwapKit/pull/166) [`25e2169`](https://github.com/thorswap/SwapKit/commit/25e21695967a86ff41628933b42900f07fceecba) Thanks [@towanTG](https://github.com/towanTG)! - Improves bitcoincash prefix handling
+
 ## 1.0.0-development.31
 
 ### Patch Changes
