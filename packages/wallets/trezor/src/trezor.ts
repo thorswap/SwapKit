@@ -149,7 +149,8 @@ const getToolbox = async ({
             amount: input.value,
             script_type: scriptType.input,
           })),
-          outputs: psbt.txOutputs.map((output) => {
+          // Lint is not happy with the type of txOutputs
+          outputs: psbt.txOutputs.map((output: any) => {
             if (!output.address) {
               return {
                 op_return_data: Buffer.from(memo).toString('hex'),
