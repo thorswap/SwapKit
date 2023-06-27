@@ -17,6 +17,7 @@
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "@trezor/connect": "9.0.11",
     "@vitest/coverage-istanbul": "0.31.1",
+    "@types/bchaddrjs": "0.4.0",
     "bitcoinjs-lib": "5.2.0",
     "bchaddrjs": "0.5.2",
     "vite": "4.3.8",
