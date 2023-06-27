@@ -17,6 +17,7 @@ import {
   WalletOption,
 } from '@thorswap-lib/types';
 import TrezorConnect from '@trezor/connect-web';
+import { toCashAddress } from 'bchaddrjs';
 import { Psbt } from 'bitcoinjs-lib';
 
 import { getEVMSigner } from './signer/evm.js';
@@ -151,6 +152,11 @@ const getToolbox = async ({
           })),
           // Lint is not happy with the type of txOutputs
           outputs: psbt.txOutputs.map((output: any) => {
+            const outputAddress =
+              chain === Chain.BitcoinCash && output.address
+                ? toCashAddress(output.address)
+                : output.address;
+            // OP_RETURN
             if (!output.address) {
               return {
                 op_return_data: Buffer.from(memo).toString('hex'),
@@ -158,15 +164,18 @@ const getToolbox = async ({
                 script_type: 'PAYTOOPRETURN',
               };
             }
-            if (output.address === address) {
+
+            // Change Address
+            if (outputAddress === address) {
               return {
                 address_n,
                 amount: output.value,
                 script_type: scriptType.output,
               };
             }
+            // Outgoing UTXO
             return {
-              address: output.address,
+              address: outputAddress,
               amount: output.value,
               script_type: 'PAYTOADDRESS',
             };
@@ -194,6 +203,7 @@ const getToolbox = async ({
       }: UTXOTransferParams) => {
         if (!from) throw new Error('From address must be provided');
         if (!recipient) throw new Error('Recipient address must be provided');
+
         const { psbt, utxos } = await toolbox.buildTx({
           ...rest,
           memo,
