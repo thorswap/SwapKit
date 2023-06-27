@@ -60,7 +60,7 @@ export type DerivationPathArray = [number, number, number, number, number];
 
 export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   AVAX: [44, 60, 0, 0, 0],
-  BCH: [84, 145, 0, 0, 0],
+  BCH: [44, 145, 0, 0, 0],
   BNB: [44, 714, 0, 0, 0],
   BSC: [44, 60, 0, 0, 0],
   BTC: [84, 0, 0, 0, 0],
