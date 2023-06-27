@@ -129,7 +129,9 @@ const getToolbox = async ({
               ((payload as { error: string; code?: string }).error || 'Unknown error'),
           );
 
-        return payload.address;
+        return chain === Chain.BitcoinCash
+          ? (toolbox as ReturnType<typeof BCHToolbox>).stripPrefix(payload.address)
+          : payload.address;
       };
 
       const address = await getAddress();
@@ -138,6 +140,7 @@ const getToolbox = async ({
         const address_n = derivationPath.map((pathElement, index) =>
           index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
         );
+
         const result = await //@ts-ignore
         (TrezorConnect as unknown as TrezorConnect.TrezorConnect).signTransaction({
           coin,
@@ -150,12 +153,20 @@ const getToolbox = async ({
             amount: input.value,
             script_type: scriptType.input,
           })),
+
           // Lint is not happy with the type of txOutputs
           outputs: psbt.txOutputs.map((output: any) => {
             const outputAddress =
               chain === Chain.BitcoinCash && output.address
                 ? toCashAddress(output.address)
                 : output.address;
+
+            // Strip prefix from BCH address to compare with stripped address from Trezor
+            const isChangeAddress =
+              chain === Chain.BitcoinCash && outputAddress
+                ? (toolbox as ReturnType<typeof BCHToolbox>).stripPrefix(outputAddress) === address
+                : outputAddress === address;
+
             // OP_RETURN
             if (!output.address) {
               return {
@@ -166,13 +177,14 @@ const getToolbox = async ({
             }
 
             // Change Address
-            if (outputAddress === address) {
+            if (isChangeAddress) {
               return {
                 address_n,
                 amount: output.value,
                 script_type: scriptType.output,
               };
             }
+
             // Outgoing UTXO
             return {
               address: outputAddress,

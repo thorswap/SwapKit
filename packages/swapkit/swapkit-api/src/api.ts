@@ -4,8 +4,8 @@ import { GasRatesResponse, QuoteParams, QuoteResponse } from './types/index.js';
 
 const paramsToString = (params: QuoteParams) => {
   // Strip bitcoincash: prefix
-  if (params.recipientAddress?.startsWith('bitcoincash:')) {
-    params.recipientAddress = params.recipientAddress.replace('bitcoincash:', '');
+  if (params.recipientAddress) {
+    params.recipientAddress = params.recipientAddress.replace(/(bchtest:|bitcoincash:)/, '');
   }
   return new URLSearchParams(params).toString();
 };
