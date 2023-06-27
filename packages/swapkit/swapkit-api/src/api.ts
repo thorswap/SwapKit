@@ -2,7 +2,13 @@ import { ApiUrl } from '@thorswap-lib/types';
 
 import { GasRatesResponse, QuoteParams, QuoteResponse } from './types/index.js';
 
-const paramsToString = (params: any) => new URLSearchParams(params).toString();
+const paramsToString = (params: QuoteParams) => {
+  // Strip bitcoincash: prefix
+  if (params.recipientAddress) {
+    params.recipientAddress = params.recipientAddress.replace(/(bchtest:|bitcoincash:)/, '');
+  }
+  return new URLSearchParams(params).toString();
+};
 
 enum ApiEndpoints {
   Quote = '/aggregator/tokens/quote',
@@ -13,7 +19,7 @@ type RequestConfig = {
   onError?: (error: any) => void;
 };
 
-const fetchWrapper = <T>(url: ApiEndpoints, params?: any, config?: RequestConfig) =>
+const fetchWrapper = <T>(url: ApiEndpoints, params?: QuoteParams, config?: RequestConfig) =>
   fetch(`${ApiUrl.Thorswap}${url}${params ? `?${paramsToString(params)}` : ''}`)
     .then((res) => res.json() as Promise<T>)
     .catch((error) => {
