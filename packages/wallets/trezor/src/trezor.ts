@@ -13,6 +13,7 @@ import {
   ConnectWalletParams,
   DerivationPathArray,
   FeeOption,
+  UTXO,
   WalletOption,
 } from '@thorswap-lib/types';
 import TrezorConnect from '@trezor/connect-web';
@@ -87,6 +88,23 @@ const getToolbox = async ({
     case Chain.Litecoin: {
       if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
       const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
+
+      const scriptType:
+        | {
+            input: 'SPENDWITNESS' | 'SPENDP2SHWITNESS' | 'SPENDADDRESS';
+            output: 'PAYTOWITNESS' | 'PAYTOP2SHWITNESS' | 'PAYTOADDRESS';
+          }
+        | undefined =
+        derivationPath[0] === 84
+          ? { input: 'SPENDWITNESS', output: 'PAYTOWITNESS' }
+          : derivationPath[0] === 49
+          ? { input: 'SPENDP2SHWITNESS', output: 'PAYTOP2SHWITNESS' }
+          : derivationPath[0] === 44
+          ? { input: 'SPENDADDRESS', output: 'PAYTOADDRESS' }
+          : undefined;
+
+      if (!scriptType) throw new Error('Derivation path is not supported');
+
       const toolbox = (
         chain === Chain.Bitcoin
           ? BTCToolbox
@@ -97,20 +115,41 @@ const getToolbox = async ({
           : BCHToolbox
       )(utxoApiKey, api);
 
-      const signTransaction = async (psbt: Psbt, memo: string = '') => {
+      const getAddress = async (path: DerivationPathArray = derivationPath) => {
+        const { success, payload } = await //@ts-ignore
+        (TrezorConnect as unknown as TrezorConnect.TrezorConnect).getAddress({
+          path: `m/${derivationPathToString(path)}`,
+          coin,
+        });
+
+        if (!success)
+          throw new Error(
+            'Failed to get address: ' +
+              ((payload as { error: string; code?: string }).error || 'Unknown error'),
+          );
+
+        return payload.address;
+      };
+
+      const address = await getAddress();
+
+      const signTransaction = async (psbt: Psbt, utxos: UTXO[], memo: string = '') => {
+        const address_n = derivationPath.map((pathElement, index) =>
+          index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
+        );
         const result = await //@ts-ignore
         (TrezorConnect as unknown as TrezorConnect.TrezorConnect).signTransaction({
           coin,
-          inputs: psbt.txInputs.map((input: any) => ({
+          inputs: utxos.map((input) => ({
             // Hardens the first 3 elements of the derivation path - required by trezor
-            address_n: derivationPath.map((pathElement, index) =>
-              index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
-            ),
-            prev_hash: input.hash.reverse().toString('hex'),
+            address_n,
+            prev_hash: input.hash,
             prev_index: input.index,
             // object needs amount but does not use it for signing
-            amount: 0,
+            amount: input.value,
+            script_type: scriptType.input,
           })),
+          // Lint is not happy with the type of txOutputs
           outputs: psbt.txOutputs.map((output: any) => {
             if (!output.address) {
               return {
@@ -119,8 +158,15 @@ const getToolbox = async ({
                 script_type: 'PAYTOOPRETURN',
               };
             }
+            if (output.address === address) {
+              return {
+                address_n,
+                amount: output.value,
+                script_type: scriptType.output,
+              };
+            }
             return {
-              address: output.address as string,
+              address: output.address,
               amount: output.value,
               script_type: 'PAYTOADDRESS',
             };
@@ -148,7 +194,7 @@ const getToolbox = async ({
       }: UTXOTransferParams) => {
         if (!from) throw new Error('From address must be provided');
         if (!recipient) throw new Error('Recipient address must be provided');
-        const { psbt } = await toolbox.buildTx({
+        const { psbt, utxos } = await toolbox.buildTx({
           ...rest,
           memo,
           feeOptionKey,
@@ -158,27 +204,9 @@ const getToolbox = async ({
           fetchTxHex: chain === Chain.Doge,
         });
 
-        const txHex = await signTransaction(psbt, memo);
+        const txHex = await signTransaction(psbt, utxos, memo);
         return toolbox.broadcastTx(txHex);
       };
-
-      const getAddress = async (path: DerivationPathArray = derivationPath) => {
-        const { success, payload } = await //@ts-ignore
-        (TrezorConnect as unknown as TrezorConnect.TrezorConnect).getAddress({
-          path: `m/${derivationPathToString(path)}`,
-          coin,
-        });
-
-        if (!success)
-          throw new Error(
-            'Failed to get address: ' +
-              ((payload as { error: string; code?: string }).error || 'Unknown error'),
-          );
-
-        return payload.address;
-      };
-
-      const address = await getAddress();
 
       return {
         address,
