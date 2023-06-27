@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.89
+
+### Patch Changes
+
+- [#163](https://github.com/thorswap/SwapKit/pull/163) [`42b0409`](https://github.com/thorswap/SwapKit/commit/42b04098d3a0bd5fd19a22b03c34d21dbf961cb7) Thanks [@towanTG](https://github.com/towanTG)! - Fixes BCH derivation path and adds Trezor BCH support
+
 ## 1.0.0-development.88
 
 ### Minor Changes
