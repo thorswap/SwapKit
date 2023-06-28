@@ -1,5 +1,11 @@
 # @thorswap-lib/walletconnect
 
+## 1.1.0-development.31
+
+### Minor Changes
+
+- [#173](https://github.com/thorswap/SwapKit/pull/173) [`7a3ec02`](https://github.com/thorswap/SwapKit/commit/7a3ec020698a27782ac1d229e19e8327bca88a36) Thanks [@0x-General](https://github.com/0x-General)! - Make walletconnect project ID optional for type correctness
+
 ## 1.1.0-development.30
 
 ### Minor Changes
