@@ -1,5 +1,11 @@
 # @thorswap-lib/walletconnect
 
+## 1.1.0-development.29
+
+### Minor Changes
+
+- [#169](https://github.com/thorswap/SwapKit/pull/169) [`65cc764`](https://github.com/thorswap/SwapKit/commit/65cc764bb91620f98f7dd2216e834912972b2c89) Thanks [@0x-General](https://github.com/0x-General)! - Add walletconnect 2.0 for Avalanche and Ethereum
+
 ## 1.0.1-development.28
 
 ### Patch Changes
