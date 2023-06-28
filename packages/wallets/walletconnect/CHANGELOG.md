@@ -1,5 +1,11 @@
 # @thorswap-lib/walletconnect
 
+## 1.1.0-development.30
+
+### Minor Changes
+
+- [#171](https://github.com/thorswap/SwapKit/pull/171) [`be2db18`](https://github.com/thorswap/SwapKit/commit/be2db18ac6b84eebe773fde5750d88e98885e11a) Thanks [@0x-General](https://github.com/0x-General)! - Make covalent API key optional
+
 ## 1.1.0-development.29
 
 ### Minor Changes

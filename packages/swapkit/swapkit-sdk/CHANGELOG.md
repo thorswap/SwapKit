@@ -1,5 +1,13 @@
 # @thorswap-lib/swapkit-sdk
 
+## 0.0.1-development.26
+
+### Patch Changes
+
+- Updated dependencies [[`be2db18`](https://github.com/thorswap/SwapKit/commit/be2db18ac6b84eebe773fde5750d88e98885e11a)]:
+  - @thorswap-lib/walletconnect@1.1.0-development.30
+  - @thorswap-lib/swapkit-core@1.0.0-development.180
+
 ## 0.0.1-development.25
 
 ### Patch Changes
