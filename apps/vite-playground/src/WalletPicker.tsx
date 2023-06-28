@@ -48,7 +48,7 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   [WalletOption.TRUSTWALLET_WEB]: EVMChainsSupported,
   [WalletOption.TRUSTWALLET]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   [WalletOption.XDEFI]: AllChainsSupported,
-  [WalletOption.WALLETCONNECT]: [], // [Chain.Ethereum, Chain.Avalanche],
+  [WalletOption.WALLETCONNECT]: [Chain.Ethereum, Chain.Binance, Chain.Avalanche],
 };
 
 export const WalletPicker = ({ skClient, setWallet }: Props) => {
