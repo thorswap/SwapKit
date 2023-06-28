@@ -1,6 +1,7 @@
+import { Signer } from '@ethersproject/abstract-signer';
 import { hexlify } from '@ethersproject/bytes';
 import { toUtf8Bytes } from '@ethersproject/strings';
-import { ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
+import { AVAXToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import { Chain, WalletOption } from '@thorswap-lib/types';
 import QRCodeModal from '@walletconnect/qrcode-modal';
 import Client from '@walletconnect/sign-client';
@@ -11,16 +12,16 @@ import {
   DEFAULT_EIP155_METHODS,
   DEFAULT_LOGGER,
   DEFAULT_RELAY_URL,
-  ETHEREUM_MAINNET_ID,
 } from './constants.js';
 import { chainToChainId, getAddressByChain } from './helpers.js';
 import { getRequiredNamespaces } from './namespaces.js';
 
-const SUPPORTED_CHAINS = [Chain.Binance, Chain.Ethereum, Chain.THORChain] as const;
+const SUPPORTED_CHAINS = [Chain.Binance, Chain.Ethereum, Chain.THORChain, Chain.Avalanche] as const;
 
 const getToolbox = async ({
   chain,
   ethplorerApiKey,
+  covalentApiKey = '',
   address,
   walletconnectClient,
   session,
@@ -29,21 +30,30 @@ const getToolbox = async ({
   walletconnectClient: Client;
   session: SessionTypes.Struct;
   chain: (typeof SUPPORTED_CHAINS)[number];
+  covalentApiKey?: string;
   ethplorerApiKey?: string;
   address: string;
 }) => {
   const from = address;
 
   switch (chain) {
+    case Chain.Avalanche:
     case Chain.Ethereum: {
       if (!ethplorerApiKey) throw new Error('Ethplorer API key not found');
 
       const provider = getProvider(chain);
 
-      const toolbox = ETHToolbox({
-        provider,
-        ethplorerApiKey,
-      });
+      const toolbox =
+        chain === Chain.Ethereum
+          ? ETHToolbox({
+              provider,
+              ethplorerApiKey,
+            })
+          : AVAXToolbox({
+              provider,
+              covalentApiKey,
+              signer: undefined as unknown as Signer,
+            });
 
       const transfer = async (params: any) => {
         const txAmount = params.amount.amount().toHexString();
@@ -57,7 +67,7 @@ const getToolbox = async ({
         ).toHexString();
         const gasPrice = (await toolbox.estimateGasPrices()).fast.maxFeePerGas?.toHexString();
         const txHash: string = await walletconnectClient.request({
-          chainId: ETHEREUM_MAINNET_ID,
+          chainId: chainToChainId(chain),
           topic: session.topic,
           request: {
             method: DEFAULT_EIP155_METHODS.ETH_SEND_TRANSACTION,
@@ -130,10 +140,11 @@ const getWalletconnect = async (
 const connectWalletconnect =
   ({
     addChain,
-    config: { ethplorerApiKey, walletConnectProjectId },
+    config: { ethplorerApiKey, walletConnectProjectId, covalentApiKey },
   }: {
     addChain: any;
     config: {
+      covalentApiKey: string;
       ethplorerApiKey?: string;
       walletConnectProjectId: string;
     };
@@ -163,6 +174,7 @@ const connectWalletconnect =
         address,
         chain,
         ethplorerApiKey,
+        covalentApiKey,
       });
 
       addChain({

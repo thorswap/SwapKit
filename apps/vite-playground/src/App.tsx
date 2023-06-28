@@ -7,8 +7,9 @@ import { getSwapKitClient } from './swapKitClient';
 import { WalletDataType } from './types';
 import { Wallet } from './Wallet';
 import { WalletPicker } from './WalletPicker';
+import Send from './Send';
 
-const apiKeys = ['ethplorerApiKey', 'covalentApiKey', 'utxoApiKey'] as const;
+const apiKeys = ['ethplorerApiKey', 'covalentApiKey', 'utxoApiKey', 'walletConnectProjectId'] as const;
 
 const App = () => {
   const [widgetType, setWidgetType] = useState<'swap' | 'loan' | 'earn'>('swap');
@@ -17,6 +18,7 @@ const App = () => {
   const [keys, setKeys] = useState({
     ethplorerApiKey: '',
     covalentApiKey: '',
+    walletConnectProjectId: '',
     utxoApiKey: undefined,
   });
   const [{ inputAsset, outputAsset }, setSwapAssets] = useState<{
@@ -53,6 +55,7 @@ const App = () => {
     () => ({
       swap: <Swap inputAsset={inputAsset} outputAsset={outputAsset} skClient={skClient} />,
       loan: <Loan inputAsset={inputAsset} outputAsset={outputAsset} skClient={skClient} />,
+      send: <Send inputAsset={inputAsset} skClient={skClient} />,
       earn: <div>Earn</div>,
     }),
     [inputAsset, outputAsset, skClient],
