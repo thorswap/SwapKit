@@ -96,7 +96,7 @@ const getToolbox = async ({
 
 const getWalletconnect = async (
   chains: Chain[],
-  walletConnectProjectId: string,
+  walletConnectProjectId?: string,
   walletconnectOptions?: SignClientTypes.Options,
 ) => {
   try {
@@ -147,7 +147,7 @@ const connectWalletconnect =
     config: {
       covalentApiKey?: string;
       ethplorerApiKey?: string;
-      walletConnectProjectId: string;
+      walletConnectProjectId?: string;
     };
   }) =>
   async (
