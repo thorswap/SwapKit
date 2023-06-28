@@ -21,7 +21,7 @@ const SUPPORTED_CHAINS = [Chain.Binance, Chain.Ethereum, Chain.THORChain, Chain.
 const getToolbox = async ({
   chain,
   ethplorerApiKey,
-  covalentApiKey = '',
+  covalentApiKey,
   address,
   walletconnectClient,
   session,
@@ -40,6 +40,7 @@ const getToolbox = async ({
     case Chain.Avalanche:
     case Chain.Ethereum: {
       if (!ethplorerApiKey) throw new Error('Ethplorer API key not found');
+      if (!covalentApiKey) throw new Error('Covalent API key not found');
 
       const provider = getProvider(chain);
 
@@ -144,7 +145,7 @@ const connectWalletconnect =
   }: {
     addChain: any;
     config: {
-      covalentApiKey: string;
+      covalentApiKey?: string;
       ethplorerApiKey?: string;
       walletConnectProjectId: string;
     };
