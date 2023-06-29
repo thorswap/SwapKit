@@ -13,18 +13,15 @@
   "devDependencies": {
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/bignumber": "5.7.0",
-    "@ethersproject/bytes": "5.7.0",
-    "@ethersproject/contracts": "5.7.0",
-    "@ethersproject/strings": "5.7.0",
     "@internal/config": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@vitest/coverage-istanbul": "0.31.1",
+    "@vitest/coverage-istanbul": "0.32.2",
     "@walletconnect/types": "1.8.0",
     "bech32-buffer": "0.2.1",
     "cosmos-client": "0.39.2",
-    "vite": "4.3.8",
-    "vitest": "0.31.1"
+    "vite": "4.3.9",
+    "vitest": "0.32.2"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"
@@ -48,9 +45,6 @@
   "peerDependencies": {
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
-    "@ethersproject/bytes": "^5.7.0",
-    "@ethersproject/contracts": "^5.7.0",
-    "@ethersproject/strings": "^5.7.0",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "cosmos-client": "0.39.2"

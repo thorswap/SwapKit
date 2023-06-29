@@ -40,6 +40,10 @@
         "build"
       ]
     },
+    "preview-playground": {
+      "cache": false,
+      "persistent": true
+    },
     "publish": {
       "dependsOn": [
         "build"

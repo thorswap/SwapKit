@@ -9,8 +9,8 @@
 
     <!-- NOTE: Have to be added to fix: Uncaught ReferenceError: Buffer is not defined -->
     <script type="module">
-      import { Buffer } from 'buffer'
-      window.Buffer = Buffer
+      import Buffer from 'buffer'
+      window.Buffer = Buffer.Buffer
       window.global = window
     </script>
   </head>

@@ -12,9 +12,6 @@ const viteConfig = thorswapViteConfig(name, {
       external: [
         '@ethersproject/abstract-signer',
         '@ethersproject/bignumber',
-        '@ethersproject/bytes',
-        '@ethersproject/contracts',
-        '@ethersproject/strings',
         '@thorswap-lib/toolbox-cosmos',
         '@thorswap-lib/toolbox-evm',
         'bech32-buffer',

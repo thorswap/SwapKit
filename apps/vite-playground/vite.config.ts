@@ -5,6 +5,11 @@ import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    port: 3000,
+  },
+  base: '/SwapKit/',
+
   // NOTE: Have to be added to fix: Uncaught ReferenceError: process & global is not defined
   define: {
     'process.env': {},
@@ -26,26 +31,32 @@ export default defineConfig({
       '@thorswap-lib/trezor': resolve('../../packages/wallets/trezor/src'),
       '@thorswap-lib/xdefi': resolve('../../packages/wallets/xdefi/src'),
 
+      events: resolve('./polyfills/events.js'),
+      string_decoder: resolve('./polyfills/string_decoder.js'),
+
+      buffer: resolve('node_modules/buffer'),
       crypto: resolve('node_modules/crypto-browserify'),
-      http: 'stream-http',
-      https: 'https-browserify',
-      os: 'os-browserify/browser',
-      stream: 'readable-stream',
-      util: 'util',
-      url: 'url',
+      http: resolve('node_modules/stream-http'),
+      https: resolve('node_modules/https-browserify'),
+      os: resolve('node_modules/os-browserify/browser'),
+      stream: resolve('node_modules/stream-browserify'),
+      util: resolve('node_modules/util'),
+      url: resolve('node_modules/url'),
+      path: resolve('node_modules/path-browserify'),
+      _stream_transform: resolve('node_modules/readable-stream/transform'),
+      _stream_readable: resolve('node_modules/readable-stream/readable'),
+      _stream_writable: resolve('node_modules/readable-stream/writable'),
+      _stream_duplex: resolve('node_modules/readable-stream/duplex'),
+      _stream_passthrough: resolve('node_modules/readable-stream/passthrough'),
     },
   },
-  server: {
-    port: 3000,
-  },
-  base: '/SwapKit/',
 
   build: {
     target: 'es2020',
     reportCompressedSize: true,
     sourcemap: true,
     rollupOptions: {
-      plugins: [nodePolyfills({ sourceMap: true })],
+      plugins: [nodePolyfills()],
       output: { sourcemap: true },
     },
   },
