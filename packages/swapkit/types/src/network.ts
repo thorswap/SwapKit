@@ -75,6 +75,7 @@ export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
 };
 
 export enum BaseDecimal {
+  ARB = 18,
   AVAX = 18,
   BCH = 8,
   BNB = 8,
