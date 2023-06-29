@@ -1,6 +1,7 @@
 import { Chain } from '@thorswap-lib/types';
 
 const baseExplorerUrl: Record<Chain, string> = {
+  [Chain.Arbitrum]: 'https://arbiscan.io',
   [Chain.Avalanche]: 'https://snowtrace.io',
   [Chain.BinanceSmartChain]: 'https://bscscan.com',
   [Chain.Binance]: 'https://explorer.binance.org',
@@ -23,6 +24,7 @@ export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Cha
     case Chain.THORChain:
       return `${baseUrl}/tx/${txHash}`;
 
+    case Chain.Arbitrum:
     case Chain.Avalanche:
     case Chain.BinanceSmartChain:
     case Chain.Ethereum: {
@@ -46,6 +48,7 @@ export const getExplorerAddressUrl = ({ chain, address }: { address: string; cha
   const baseUrl = baseExplorerUrl[chain];
 
   switch (chain) {
+    case Chain.Arbitrum:
     case Chain.Avalanche:
     case Chain.Binance:
     case Chain.BinanceSmartChain:
