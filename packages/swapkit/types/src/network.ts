@@ -1,4 +1,5 @@
 export enum Chain {
+  Arbitrum = 'ARB',
   Avalanche = 'AVAX',
   Binance = 'BNB',
   BinanceSmartChain = 'BSC',
@@ -13,6 +14,7 @@ export enum Chain {
 
 export const SUPPORTED_CHAINS = [
   Chain.THORChain,
+  Chain.Arbitrum,
   Chain.Avalanche,
   Chain.Bitcoin,
   Chain.Ethereum,
@@ -59,6 +61,7 @@ export enum DerivationPath {
 export type DerivationPathArray = [number, number, number, number, number];
 
 export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
+  ARB: [44, 60, 0, 0, 0],
   AVAX: [44, 60, 0, 0, 0],
   BCH: [44, 145, 0, 0, 0],
   BNB: [44, 714, 0, 0, 0],
@@ -87,6 +90,8 @@ export enum BaseDecimal {
 export type EVMChain = Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche;
 
 export enum ChainId {
+  Arbitrum = '42161',
+  ArbitrumHex = '0xa4b1',
   Avalanche = '43114',
   AvalancheHex = '0xa86a',
   Binance = 'Binance-Chain-Tigris',
@@ -104,6 +109,7 @@ export enum ChainId {
 }
 
 export enum RPCUrl {
+  Arbitrum = 'https://arb1.arbitrum.io/rpc',
   Avalanche = 'https://node-router.thorswap.net/avalanche-c',
   BinanceSmartChain = 'https://bsc-dataseed.binance.org',
   Cosmos = 'https://node-router.thorswap.net/cosmos/rpc',
@@ -119,6 +125,7 @@ export enum ApiUrl {
 }
 
 export const ChainToRPC = {
+  [Chain.Arbitrum]: RPCUrl.Arbitrum,
   [Chain.Avalanche]: RPCUrl.Avalanche,
   [Chain.BinanceSmartChain]: RPCUrl.BinanceSmartChain,
   [Chain.Ethereum]: RPCUrl.Ethereum,
@@ -130,6 +137,7 @@ export const ChainToRPC = {
 };
 
 export const ChainToChainId: Record<Chain, ChainId> = {
+  [Chain.Arbitrum]: ChainId.Arbitrum,
   [Chain.Avalanche]: ChainId.Avalanche,
   [Chain.Binance]: ChainId.Binance,
   [Chain.BinanceSmartChain]: ChainId.BinanceSmartChain,
@@ -143,6 +151,7 @@ export const ChainToChainId: Record<Chain, ChainId> = {
 };
 
 export const ChainToHexChainId: Record<Chain, ChainId> = {
+  [Chain.Arbitrum]: ChainId.ArbitrumHex,
   [Chain.Avalanche]: ChainId.AvalancheHex,
   [Chain.Binance]: ChainId.Binance,
   [Chain.BinanceSmartChain]: ChainId.BinanceSmartChainHex,
@@ -156,6 +165,8 @@ export const ChainToHexChainId: Record<Chain, ChainId> = {
 };
 
 export const ChainIdToChain: Record<ChainId, Chain> = {
+  [ChainId.Arbitrum]: Chain.Arbitrum,
+  [ChainId.ArbitrumHex]: Chain.Arbitrum,
   [ChainId.AvalancheHex]: Chain.Avalanche,
   [ChainId.Avalanche]: Chain.Avalanche,
   [ChainId.Binance]: Chain.Binance,
