@@ -1372,15 +1372,12 @@ importers:
       '@ethersproject/abstract-signer':
         specifier: 5.7.0
         version: 5.7.0(patch_hash=25dytke5lh3fostylo3fnpzcxi)
-      '@ethersproject/bytes':
-        specifier: 5.7.0
+      '@ethersproject/bignumber':
+        specifier: ^5.7.0
         version: 5.7.0
       '@ethersproject/providers':
         specifier: 5.7.2
         version: 5.7.2
-      '@ethersproject/strings':
-        specifier: 5.7.0
-        version: 5.7.0
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config

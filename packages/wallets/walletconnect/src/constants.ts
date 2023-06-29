@@ -1,8 +1,11 @@
+import { Chain } from '@thorswap-lib/types';
+
 import { ClientMetadata } from './types.js';
 
 export const DEFAULT_RELAY_URL = 'wss://relay.walletconnect.com';
 
 export const ETHEREUM_MAINNET_ID = 'eip155:1';
+export const BSC_MAINNET_ID = 'eip155:56';
 export const AVALACHE_MAINNET_ID = 'eip155:43114';
 export const THORCHAIN_MAINNET_ID = 'cosmos:thorchain';
 export const BINANCE_MAINNET_ID = 'cosmos:Binance-Chain-Tigris';
@@ -74,3 +77,11 @@ export enum DEFAULT_NEAR_METHODS {
 }
 
 export enum DEFAULT_NEAR_EVENTS {}
+
+export const SUPPORTED_CHAINS = [
+  Chain.Binance,
+  Chain.BinanceSmartChain,
+  Chain.Ethereum,
+  Chain.THORChain,
+  Chain.Avalanche,
+] as const;

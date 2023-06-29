@@ -3,7 +3,9 @@ import { Chain } from '@thorswap-lib/types';
 import {
   AVALACHE_MAINNET_ID,
   BINANCE_MAINNET_ID,
+  BSC_MAINNET_ID,
   ETHEREUM_MAINNET_ID,
+  SUPPORTED_CHAINS,
   THORCHAIN_MAINNET_ID,
 } from './constants.js';
 
@@ -16,7 +18,7 @@ export const getAddressFromAccount = (account: string) => {
 };
 
 export const getAddressByChain = (
-  chain: Chain.Binance | Chain.THORChain | Chain.Ethereum | Chain.Avalanche,
+  chain: (typeof SUPPORTED_CHAINS)[number],
   accounts: string[],
 ): string =>
   getAddressFromAccount(
@@ -27,6 +29,8 @@ export const chainToChainId = (chain: Chain) => {
   switch (chain) {
     case Chain.Avalanche:
       return AVALACHE_MAINNET_ID;
+    case Chain.BinanceSmartChain:
+      return BSC_MAINNET_ID;
     case Chain.Ethereum:
       return ETHEREUM_MAINNET_ID;
     case Chain.Binance:
