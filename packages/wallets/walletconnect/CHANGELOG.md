@@ -1,5 +1,11 @@
 # @thorswap-lib/walletconnect
 
+## 1.1.0-development.32
+
+### Minor Changes
+
+- [#175](https://github.com/thorswap/SwapKit/pull/175) [`c646896`](https://github.com/thorswap/SwapKit/commit/c64689650aa25de5189753e171a5289fb920d763) Thanks [@0x-General](https://github.com/0x-General)! - Add signer to walletconnect
+
 ## 1.1.0-development.31
 
 ### Minor Changes
