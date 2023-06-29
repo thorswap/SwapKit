@@ -152,7 +152,8 @@ const connectWalletconnect =
         if (chain !== Chain.Ethereum && !covalentApiKey)
           throw new Error('Covalent API key not found');
 
-        const provider = getProvider(chain);
+        // TODO(@0xGeneral): Check on typings
+        const provider = getProvider(chain) as unknown as any;
         const signer = await getEVMSigner({ walletconnect, chain, provider });
         const toolbox =
           chain === Chain.Ethereum && ethplorerApiKey
