@@ -45,7 +45,6 @@
     "react-native-screens": "3.20.0",
     "react-native-url-polyfill": "1.3.0",
     "react-native-web": "0.18.12",
-    "readable-stream": "4.4.0",
     "stream-browserify": "3.0.0",
     "stream-http": "3.2.0",
     "url": "0.11.0",
@@ -53,12 +52,12 @@
     "uuid": "9.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.21.8",
+    "@babel/core": "7.22.5",
     "@babel/plugin-proposal-export-namespace-from": "7.18.9",
     "@thorswap-lib/types": "workspace:*",
-    "@types/react-native": "0.72.0",
+    "@types/react-native": "0.72.2",
     "babel-plugin-module-resolver": "5.0.0",
-    "typescript": "5.0.4"
+    "typescript": "5.1.6"
   },
   "eslintConfig": {
     "extends": "../../internal/eslint-config-thorswap"

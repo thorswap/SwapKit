@@ -15,10 +15,10 @@
     "@ethersproject/providers": "5.7.2",
     "@internal/config": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@vitest/coverage-istanbul": "0.31.1",
+    "@vitest/coverage-istanbul": "0.32.2",
     "@walletconnect/types": "2.7.4",
-    "vite": "4.3.8",
-    "vitest": "0.31.1"
+    "vite": "4.3.9",
+    "vitest": "0.32.2"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"

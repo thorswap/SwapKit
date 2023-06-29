@@ -26,7 +26,6 @@
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/bignumber": "5.7.0",
     "@ethersproject/bytes": "5.7.0",
-    "@ethersproject/contracts": "5.7.0",
     "@ethersproject/properties": "5.7.0",
     "@ethersproject/providers": "5.7.2",
     "@ethersproject/transactions": "5.7.0",
@@ -39,17 +38,17 @@
     "@types/crypto-js": "4.1.1",
     "@types/elliptic": "6.4.14",
     "@types/long": "4.0.2",
-    "@types/node": "20.2.1",
+    "@types/node": "20.3.2",
     "@types/ripemd160": "2.0.0",
     "@types/secp256k1": "4.0.3",
-    "@vitest/coverage-istanbul": "0.31.1",
+    "@vitest/coverage-istanbul": "0.32.2",
     "bchaddrjs": "0.5.2",
     "bitcoinjs-lib": "5.2.0",
     "coininfo": "5.2.1",
     "cosmos-client": "0.39.2",
     "elliptic": "6.5.4",
-    "vite": "4.3.8",
-    "vitest": "0.31.1"
+    "vite": "4.3.9",
+    "vitest": "0.32.2"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"
@@ -74,7 +73,6 @@
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/bytes": "^5.7.0",
-    "@ethersproject/contracts": "^5.7.0",
     "@ethersproject/properties": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
     "@ethersproject/transactions": "^5.7.0",

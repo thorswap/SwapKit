@@ -13,7 +13,6 @@ const viteConfig = thorswapViteConfig(name, {
         '@ethersproject/abstract-signer',
         '@ethersproject/bignumber',
         '@ethersproject/bytes',
-        '@ethersproject/contracts',
         '@ethersproject/properties',
         '@ethersproject/providers',
         '@ethersproject/transactions',
