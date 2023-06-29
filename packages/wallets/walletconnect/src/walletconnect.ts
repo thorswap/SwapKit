@@ -1,11 +1,10 @@
 import { Signer } from '@ethersproject/abstract-signer';
-import { hexlify } from '@ethersproject/bytes';
-import { toUtf8Bytes } from '@ethersproject/strings';
 import { AVAXToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import { Chain, WalletOption, EIP1559TxParams } from '@thorswap-lib/types';
 import QRCodeModal from '@walletconnect/qrcode-modal';
 import Client from '@walletconnect/sign-client';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
+import { BigNumber } from '@ethersproject/bignumber';
 
 import {
   DEFAULT_APP_METADATA,
@@ -44,50 +43,43 @@ const getToolbox = async ({
 
       const provider = getProvider(chain);
 
+      const signer = {
+        getAddress: async () => address,
+        _isSigner: true,
+        sendTransaction: async (tx: EIP1559TxParams) => {
+          const txHash: string = await walletconnectClient.request({
+            chainId: chainToChainId(chain),
+            topic: session.topic,
+            request: {
+              method: DEFAULT_EIP155_METHODS.ETH_SEND_TRANSACTION,
+              params: [
+                {
+                  from,
+                  to: tx.to?.toLocaleLowerCase(),
+                  data: tx.data || undefined,
+                  value: BigNumber.from(tx.value || 0).toHexString(),
+                },
+              ],
+            },
+          });
+          return txHash;
+        },
+      } as unknown as Signer;
+
       const toolbox =
         chain === Chain.Ethereum
           ? ETHToolbox({
               provider,
+              signer,
               ethplorerApiKey,
             })
           : AVAXToolbox({
               provider,
+              signer,
               covalentApiKey,
-              signer: undefined as unknown as Signer,
             });
 
-      const transfer = async (params: any) => {
-        const txAmount = params.amount.amount().toHexString();
-        const gasLimit = (
-          await toolbox.estimateGasLimit({
-            asset: params.asset,
-            recipient: params.recipient,
-            amount: params.amount,
-            memo: params.memo,
-          })
-        ).toHexString();
-        const gasPrice = (await toolbox.estimateGasPrices()).fast.maxFeePerGas?.toHexString();
-        const txHash: string = await walletconnectClient.request({
-          chainId: chainToChainId(chain),
-          topic: session.topic,
-          request: {
-            method: DEFAULT_EIP155_METHODS.ETH_SEND_TRANSACTION,
-            params: [
-              {
-                from,
-                to: params.recipient,
-                data: params.memo ? hexlify(toUtf8Bytes(params.memo)) : '0x',
-                gasPrice,
-                gasLimit,
-                value: txAmount,
-              },
-            ],
-          },
-        });
-        return txHash;
-      };
-
-      return { ...toolbox, transfer };
+      return toolbox;
     }
     default:
       throw new Error('Chain is not supported');
