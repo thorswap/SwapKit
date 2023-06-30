@@ -21,7 +21,12 @@ export enum ERROR_MODULE {
   UTIL_CONTROLLER = '1005',
   AIRDROP_CONTROLLER = '1006',
   // Entities
-  PROVIDER_ENTITY = '2000',
+  PROVIDER = '2000',
+  ASSET = '2001',
+  TOKEN_LIST = '2002',
+  // Quote entities
+  QUOTE = '2100',
+  QUOTE_TXN_DETAILS = '2101',
   // Providers
   THORCHAIN_PROVIDER = '3000',
   // Utilities
@@ -84,8 +89,11 @@ export enum ERROR_CODE {
   SERVICE_UNAVAILABLE_GENERIC = '5000',
   // 51xx - Missing gas data
   MISSING_GAS_DATA_GENERIC = '5100',
-  // 52xx - Missing token price
-  MISSING_TOKEN_PRICE_GENERIC = '5200',
+  // 52xx - Missing token info
+  MISSING_TOKEN_INFO_GENERIC = '5200',
+  CANT_FIND_TOKEN_LIST = '5201',
+  NO_PRICE = '5202',
+  PRICE_IS_STALE = '5203',
   // 60xx - Airdrop
   ADDRESS_NOT_WHITELISTED = '6000',
   ADDRESS_ALREADY_CLAIMED = '6001',
