@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.90
+
+### Minor Changes
+
+- [#179](https://github.com/thorswap/SwapKit/pull/179) [`e130475`](https://github.com/thorswap/SwapKit/commit/e130475dc389ab47c2c9126509cdc4730e6dc2b6) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Update error modules and types
+
 ## 1.0.0-development.89
 
 ### Patch Changes
