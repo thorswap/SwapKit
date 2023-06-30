@@ -4,7 +4,7 @@ import { Chain } from './network.js';
 import { WalletOption } from './wallet.js';
 
 type UTXOChains = Chain.Bitcoin | Chain.Litecoin | Chain.Doge | Chain.BitcoinCash;
-type EVMChains = Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche;
+type EVMChains = Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche | Chain.Arbitrum;
 
 type ConnectMethodNames =
   | 'connectXDEFI'
