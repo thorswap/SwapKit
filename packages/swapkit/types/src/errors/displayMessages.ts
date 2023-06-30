@@ -45,7 +45,10 @@ export const ERROR_DISPLAY_MESSAGES: Record<string, string> = {
   [ERROR_CODE.NO_QUOTES]: 'No quotes to service this request.',
   [ERROR_CODE.SERVICE_UNAVAILABLE_GENERIC]: 'Service unavailable.',
   [ERROR_CODE.MISSING_GAS_DATA_GENERIC]: 'Missing gas data.',
-  [ERROR_CODE.MISSING_TOKEN_PRICE_GENERIC]: 'Missing token price.',
+  [ERROR_CODE.MISSING_TOKEN_INFO_GENERIC]: 'Missing token info.',
+  [ERROR_CODE.CANT_FIND_TOKEN_LIST]: "Can't find tokenlist {0}.",
+  [ERROR_CODE.NO_PRICE]: 'No price for asset {0}.',
+  [ERROR_CODE.PRICE_IS_STALE]: 'Price is stale for asset {0}.',
   [ERROR_CODE.ADDRESS_NOT_WHITELISTED]: 'Address {0} not whitelisted for airdrop.',
   [ERROR_CODE.ADDRESS_ALREADY_CLAIMED]: 'Address {0} already claimed the airdrop.',
 };
