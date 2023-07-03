@@ -76,7 +76,7 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
 
       return singleSide
         ? `${memoType}:${chain}/${symbol}::t:0`
-        : `${memoType}:${chain}.${symbol}${address ? `:${address}` : ''}`;
+        : `${memoType}:${chain}.${symbol}:${address || ''}:t:0`;
     }
 
     case MemoType.WITHDRAW: {

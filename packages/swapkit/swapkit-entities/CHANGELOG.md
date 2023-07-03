@@ -1,5 +1,11 @@
 []
 
+## 1.0.0-development.98
+
+### Patch Changes
+
+- Change deposit memo to include aff
+
 ## 1.0.0-development.97
 
 ### Patch Changes

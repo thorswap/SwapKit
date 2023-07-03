@@ -50,7 +50,7 @@ describe('getMemoFor', () => {
         symbol: 'AVAX',
         address: '0xABC123',
       });
-      expect(result).toBe('+:AVAX.AVAX:0xABC123');
+      expect(result).toBe('+:AVAX.AVAX:0xABC123:t:0');
     });
   });
 
