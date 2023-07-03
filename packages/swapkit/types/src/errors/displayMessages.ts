@@ -31,6 +31,7 @@ export const ERROR_DISPLAY_MESSAGES: Record<string, string> = {
   [ERROR_CODE.MISSING_AVAX_PROVIDER]: 'Missing AVAX provider.',
   [ERROR_CODE.MISSING_BSC_PROVIDER]: 'Missing BSC provider.',
   [ERROR_CODE.MISSING_ETH_PROVIDER]: 'Missing ETH provider.',
+  [ERROR_CODE.MISSING_ARB_PROVIDER]: 'Missing ARB provider.',
   [ERROR_CODE.INVALID_PROVIDER_FOR_SWAP_OUT]: 'Invalid provider for swap out.',
   [ERROR_CODE.INVALID_CHAIN]: 'Invalid chain {0}.',
   [ERROR_CODE.INVALID_ASSET]: 'Invalid asset {0}.',
