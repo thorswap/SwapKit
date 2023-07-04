@@ -1,6 +1,6 @@
 import { getRequest } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { Asset, Chain, ChainToExplorerUrl } from '@thorswap-lib/types';
+import { Chain, ChainToExplorerUrl } from '@thorswap-lib/types';
 
 const THORNODE_MAINNET_URL = 'https://thornode.thorswap.net';
 const THORNODE_STAGENET_URL = 'https://stagenet-thornode.ninerealms.com';
@@ -21,7 +21,7 @@ type InboundAddressData = {
   router: string;
 }[];
 
-export const getAssetForBalance = ({ symbol, chain }: Asset) => {
+export const getAssetForBalance = ({ symbol, chain }: { symbol: string; chain: Chain }) => {
   const isSynth = symbol.includes('/');
   const assetChain = (isSynth ? symbol.split('/')?.[0] : chain)?.toUpperCase() as Chain;
   const assetSymbol = (isSynth ? symbol.split('/')?.[1] : symbol)?.toUpperCase();

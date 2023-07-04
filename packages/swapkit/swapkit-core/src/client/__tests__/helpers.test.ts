@@ -1,98 +1,71 @@
-import { Chain } from '@thorswap-lib/types';
+import { Chain, ChainToExplorerUrl } from '@thorswap-lib/types';
 import { describe, expect, test } from 'vitest';
 
-import { getExplorerAddressUrl, getExplorerTxUrl } from '../helpers.js';
+import {
+  getAssetForBalance,
+  getEmptyWalletStructure,
+  getExplorerAddressUrl,
+  getExplorerTxUrl,
+} from '../helpers.js';
 
-describe('Avalanche', () => {
-  test('getExplorerTxUrl returns correct URL for Avalanche', () => {
-    expect(getExplorerTxUrl({ chain: Chain.Avalanche, txHash: '12345' })).toBe(
-      'https://snowtrace.io/tx/0x12345',
+describe('Explorer URLs', () => {
+  Object.values(Chain)
+    .filter((c) => ![Chain.Litecoin, Chain.Dogecoin, Chain.Cosmos].includes(c))
+    .forEach((chain) => {
+      test(`getExplorerTxUrl returns correct URL for ${chain}`, () => {
+        expect(getExplorerTxUrl({ chain, txHash: '0x12345' })).toBe(
+          `${ChainToExplorerUrl[chain]}/tx/0x12345`,
+        );
+
+        expect(getExplorerAddressUrl({ chain, address: 'asdfg' })).toBe(
+          `${ChainToExplorerUrl[chain]}/address/asdfg`,
+        );
+      });
+    });
+
+  test('getExplorerTxUrl throws Error for unsupported Chain', () => {
+    expect(() =>
+      getExplorerTxUrl({ chain: 'unsupported' as Chain, txHash: '0x12345' }),
+    ).toThrowError('Unsupported chain: unsupported');
+  });
+  test('getExplorerAddressUrl throws Error for unsupported Chain', () => {
+    expect(() =>
+      getExplorerAddressUrl({ chain: 'unsupported' as Chain, address: 'asdfg' }),
+    ).toThrowError('Unsupported chain: unsupported');
+  });
+  test('getExplorerTxUrl adds 0x for EVM like chains', () => {
+    expect(getExplorerTxUrl({ chain: Chain.Ethereum, txHash: '12345' })).toBe(
+      'https://etherscan.io/tx/0x12345',
     );
   });
 
-  test('getExplorerAddressUrl returns correct URL for Avalanche', () => {
-    expect(getExplorerAddressUrl({ chain: Chain.Avalanche, address: 'abcde' })).toBe(
-      'https://snowtrace.io/address/abcde',
+  test('getExplorerTxUrl returns correct URL for Litecoin', () => {
+    expect(getExplorerTxUrl({ chain: Chain.Litecoin, txHash: 'efghi' })).toBe(
+      'https://ltc.bitaps.com/efghi',
     );
   });
-});
-describe('Binance Smart Chain', () => {
-  test('getExplorerTxUrl returns correct URL for Binance Smart Chain', () => {
-    expect(getExplorerTxUrl({ chain: Chain.BinanceSmartChain, txHash: '67890' })).toBe(
-      'https://bscscan.com/tx/0x67890',
-    );
-  });
-
-  test('getExplorerAddressUrl returns correct URL for Binance Smart Chain', () => {
-    expect(getExplorerAddressUrl({ chain: Chain.BinanceSmartChain, address: 'fghij' })).toBe(
-      'https://bscscan.com/address/fghij',
-    );
-  });
-});
-
-describe('Binance', () => {
-  test('getExplorerTxUrl returns correct URL for Binance', () => {
-    expect(getExplorerTxUrl({ chain: Chain.Binance, txHash: 'abcde' })).toBe(
-      'https://explorer.binance.org/tx/abcde',
+  test('getExplorerAddressUrl returns correct URL for Litecoin', () => {
+    expect(getExplorerAddressUrl({ chain: Chain.Litecoin, address: '12345' })).toBe(
+      'https://ltc.bitaps.com/12345',
     );
   });
 
-  test('getExplorerAddressUrl returns correct URL for Binance', () => {
-    expect(getExplorerAddressUrl({ chain: Chain.Binance, address: 'klmno' })).toBe(
-      'https://explorer.binance.org/address/klmno',
-    );
-  });
-});
-
-describe('Bitcoin Cash', () => {
-  test('getExplorerTxUrl returns correct URL for Bitcoin Cash', () => {
-    expect(getExplorerTxUrl({ chain: Chain.BitcoinCash, txHash: 'fghij' })).toBe(
-      'https://www.blockchain.com/bch/tx/fghij',
-    );
-  });
-
-  test('getExplorerAddressUrl returns correct URL for Bitcoin Cash', () => {
-    expect(getExplorerAddressUrl({ chain: Chain.BitcoinCash, address: 'pqrst' })).toBe(
-      'https://www.blockchain.com/bch/address/pqrst',
-    );
-  });
-});
-
-describe('Bitcoin', () => {
-  test('getExplorerTxUrl returns correct URL for Bitcoin', () => {
-    expect(getExplorerTxUrl({ chain: Chain.Bitcoin, txHash: 'klmno' })).toBe(
-      'https://blockstream.info/tx/klmno',
-    );
-  });
-
-  test('getExplorerAddressUrl returns correct URL for Bitcoin', () => {
-    expect(getExplorerAddressUrl({ chain: Chain.Bitcoin, address: 'uvwxy' })).toBe(
-      'https://blockstream.info/address/uvwxy',
-    );
-  });
-});
-
-describe('Cosmos', () => {
   test('getExplorerTxUrl returns correct URL for Cosmos', () => {
     expect(getExplorerTxUrl({ chain: Chain.Cosmos, txHash: 'pqrst' })).toBe(
       'https://cosmos.bigdipper.live/transactions/pqrst',
     );
   });
-
   test('getExplorerAddressUrl returns correct URL for Cosmos', () => {
     expect(getExplorerAddressUrl({ chain: Chain.Cosmos, address: 'zabcd' })).toBe(
       'https://cosmos.bigdipper.live/account/zabcd',
     );
   });
-});
 
-describe('Doge', () => {
   test('getExplorerTxUrl returns correct URL for Doge', () => {
     expect(getExplorerTxUrl({ chain: Chain.Dogecoin, txHash: 'uvwxy' })).toBe(
       'https://blockchair.com/dogecoin/transaction/uvwxy',
     );
   });
-
   test('getExplorerAddressUrl returns correct URL for Doge', () => {
     expect(getExplorerAddressUrl({ chain: Chain.Dogecoin, address: 'efghi' })).toBe(
       'https://blockchair.com/dogecoin/address/efghi',
@@ -100,72 +73,37 @@ describe('Doge', () => {
   });
 });
 
-describe('Litecoin', () => {
-  test('getExplorerTxUrl returns correct URL for Litecoin', () => {
-    expect(getExplorerTxUrl({ chain: Chain.Litecoin, txHash: 'efghi' })).toBe(
-      'https://ltc.bitaps.com/efghi',
-    );
-  });
-
-  test('getExplorerAddressUrl returns correct URL for Litecoin', () => {
-    expect(getExplorerAddressUrl({ chain: Chain.Litecoin, address: '12345' })).toBe(
-      'https://ltc.bitaps.com/12345',
+describe('getEmptyWalletStructure', () => {
+  test('returns empty wallet structure', () => {
+    expect(getEmptyWalletStructure()).toEqual(
+      Object.values(Chain).reduce((acc, chain) => {
+        acc[chain] = null;
+        return acc;
+      }, {} as Record<Chain, null>),
     );
   });
 });
 
-describe('Ethereum', () => {
-  test('getExplorerTxUrl returns correct URL for Ethereum', () => {
-    expect(getExplorerTxUrl({ chain: Chain.Ethereum, txHash: 'zabcd' })).toBe(
-      'https://etherscan.io/tx/0xzabcd',
-    );
-  });
+describe('getAssetForBalance', () => {
+  test('returns asset for balance token', () => {
+    const ethAsset = getAssetForBalance({ chain: Chain.Ethereum, symbol: 'ETH.ETH' });
+    const btcSynth = getAssetForBalance({ chain: Chain.Bitcoin, symbol: 'BTC/BTC' });
 
-  test('getExplorerAddressUrl returns correct URL for Ethereum', () => {
-    expect(getExplorerAddressUrl({ chain: Chain.Ethereum, address: '12345' })).toBe(
-      'https://etherscan.io/address/12345',
-    );
+    expect(ethAsset).toMatchObject({
+      chain: Chain.Ethereum,
+      symbol: 'ETH.ETH',
+      ticker: 'ETH.ETH',
+      decimal: 18,
+      name: 'ETH.ETH',
+      isSynth: false,
+    });
+
+    expect(btcSynth).toMatchObject({
+      chain: Chain.Bitcoin,
+      symbol: 'BTC',
+      isSynth: true,
+      ticker: 'BTC',
+      decimal: 8,
+    });
   });
 });
-
-describe('THORChain', () => {
-  test('getExplorerTxUrl returns correct URL for THORChain', () => {
-    expect(getExplorerTxUrl({ chain: Chain.THORChain, txHash: 'efghi' })).toBe(
-      'https://viewblock.io/thorchain/tx/efghi',
-    );
-  });
-
-  test('getExplorerAddressUrl returns correct URL for THORChain', () => {
-    expect(getExplorerAddressUrl({ chain: Chain.THORChain, address: '67890' })).toBe(
-      'https://viewblock.io/thorchain/address/67890',
-    );
-  });
-});
-
-describe('Polygon', () => {
-  test('getExplorerTxUrl returns correct URL for Polygon', () => {
-    expect(getExplorerTxUrl({ chain: Chain.Polygon, txHash: '12345' })).toBe(
-      'https://polygonscan.com/tx/0x12345',
-    );
-  });
-
-  test('getExplorerAddressUrl returns correct URL for Polygon', () => {
-    expect(getExplorerAddressUrl({ chain: Chain.Polygon, address: '67890' })).toBe(
-      'https://polygonscan.com/address/67890',
-    );
-  });
-});
-
-describe("Optimism", () => {
-  test("getExplorerTxUrl returns correct URL for Optimism", () => {
-    expect(getExplorerTxUrl({ chain: Chain.Optimism, txHash: "12345" })).toBe(
-      "https://optimistic.etherscan.io/tx/0x12345"
-    );
-  });
-
-  test("getExplorerAddressUrl returns correct URL for Optimism", () => {
-    expect(getExplorerAddressUrl({ chain: Chain.Optimism, address: "67890" })).toBe(
-      "https://optimistic.etherscan.io/address/67890"
-    );
-  });
-})
