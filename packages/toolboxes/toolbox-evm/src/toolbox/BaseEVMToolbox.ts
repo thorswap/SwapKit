@@ -34,6 +34,7 @@ import {
 const MAX_APPROVAL = BigNumber.from('2').pow('255').sub('1');
 
 const baseAssetAddress: Record<EVMChain, string> = {
+  [Chain.Arbitrum]: ContractAddress.ARB,
   [Chain.Ethereum]: ContractAddress.ETH,
   [Chain.Avalanche]: ContractAddress.AVAX,
   [Chain.BinanceSmartChain]: ContractAddress.BSC,

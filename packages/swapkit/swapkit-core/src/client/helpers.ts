@@ -42,6 +42,7 @@ export const getMimirData = (stagenet: boolean) => {
 };
 
 export const getEmptyWalletStructure = () => ({
+  [Chain.Arbitrum]: null,
   [Chain.Avalanche]: null,
   [Chain.Binance]: null,
   [Chain.BinanceSmartChain]: null,
