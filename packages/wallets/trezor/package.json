@@ -17,11 +17,11 @@
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "@trezor/connect": "9.0.11",
     "@types/bchaddrjs": "0.4.0",
-    "@vitest/coverage-istanbul": "0.32.2",
+    "@vitest/coverage-istanbul": "0.32.4",
     "bchaddrjs": "0.5.2",
     "bitcoinjs-lib": "5.2.0",
     "vite": "4.3.9",
-    "vitest": "0.32.2"
+    "vitest": "0.32.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"

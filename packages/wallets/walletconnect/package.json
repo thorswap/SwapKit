@@ -1,10 +1,10 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@coinbase/wallet-sdk": "3.6.6",
+    "@coinbase/wallet-sdk": "3.7.1",
     "@thorswap-lib/types": "workspace:*",
     "@walletconnect/qrcode-modal": "1.8.0",
-    "@walletconnect/sign-client": "^2.8.4",
+    "@walletconnect/sign-client": "^2.8.6",
     "@walletconnect/web3-provider": "1.8.0",
     "web3modal": "1.9.12"
   },
@@ -15,10 +15,10 @@
     "@ethersproject/providers": "5.7.2",
     "@internal/config": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@vitest/coverage-istanbul": "0.32.2",
+    "@vitest/coverage-istanbul": "0.32.4",
     "@walletconnect/types": "2.7.4",
     "vite": "4.3.9",
-    "vitest": "0.32.2"
+    "vitest": "0.32.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"
