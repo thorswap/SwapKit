@@ -6,7 +6,7 @@ import { getNetworkName } from '../network.js';
 describe('getNetworkName', () => {
   const casesWithExpectation: [Chain, string][] = [
     [Chain.Bitcoin, 'Bitcoin'],
-    [Chain.Doge, 'Dogecoin'],
+    [Chain.Dogecoin, 'Dogecoin'],
     [Chain.Litecoin, 'Litecoin'],
     [Chain.BitcoinCash, 'Bitcoin Cash'],
   ];

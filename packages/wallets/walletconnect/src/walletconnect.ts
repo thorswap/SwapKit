@@ -8,7 +8,7 @@ import {
   DEFAULT_APP_METADATA,
   DEFAULT_LOGGER,
   DEFAULT_RELAY_URL,
-  SUPPORTED_CHAINS,
+  WC_SUPPORTED_CHAINS,
 } from './constants.js';
 import { getEVMSigner } from './evmSigner.js';
 import { chainToChainId } from './helpers.js';
@@ -130,10 +130,10 @@ const connectWalletconnect =
     };
   }) =>
   async (
-    chains: (typeof SUPPORTED_CHAINS)[number][],
+    chains: (typeof WC_SUPPORTED_CHAINS)[number][],
     walletconnectOptions?: SignClientTypes.Options,
   ) => {
-    const chainsToConnect = chains.filter((chain) => SUPPORTED_CHAINS.includes(chain));
+    const chainsToConnect = chains.filter((chain) => WC_SUPPORTED_CHAINS.includes(chain));
     const walletconnect = await getWalletconnect(
       chainsToConnect,
       walletConnectProjectId,

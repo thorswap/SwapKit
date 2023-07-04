@@ -105,10 +105,13 @@ export type WalletMethods = {
   [Chain.BitcoinCash]: UTXOWallet<typeof BCHToolbox> | null;
   [Chain.Bitcoin]: UTXOWallet<typeof BTCToolbox> | null;
   [Chain.Cosmos]: CosmosBasedWallet<typeof GaiaToolbox> | null;
-  [Chain.Doge]: UTXOWallet<typeof DOGEToolbox> | null;
+  [Chain.Dogecoin]: UTXOWallet<typeof DOGEToolbox> | null;
   [Chain.Ethereum]: EVMWallet<typeof ETHToolbox> | null;
   [Chain.Litecoin]: UTXOWallet<typeof LTCToolbox> | null;
   [Chain.THORChain]: ThorchainWallet | null;
+  // TODO:
+  [Chain.Optimism]: EVMWallet<typeof ETHToolbox> | null;
+  [Chain.Polygon]: EVMWallet<typeof ETHToolbox> | null;
 };
 
 export enum QuoteMode {

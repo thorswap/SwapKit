@@ -26,7 +26,6 @@ import {
   AmountWithBaseDenom,
   BaseDecimal,
   Chain,
-  ChainId,
   ChainToChainId,
   EVMChain,
   EVMWalletOptions,
@@ -155,12 +154,7 @@ export class SwapKitCore {
             data,
             from,
             to: to.toLowerCase(),
-            chainId: parseInt(
-              ChainToChainId[evmChain] as
-                | ChainId.AvalancheHex
-                | ChainId.EthereumHex
-                | ChainId.BinanceSmartChainHex,
-            ),
+            chainId: parseInt(ChainToChainId[evmChain]),
           },
           feeOptionKey,
         ) as Promise<string>;

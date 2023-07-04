@@ -107,7 +107,7 @@ export const getMinAmountByChain = (chain: Chain) => {
   const minAmount = [Chain.Bitcoin, Chain.Litecoin, Chain.BitcoinCash].includes(chain)
     ? // 10001 satoshi
       10001
-    : [Chain.Doge].includes(chain)
+    : [Chain.Dogecoin].includes(chain)
     ? // 1 DOGE
       100000001
     : [Chain.Avalanche, Chain.Ethereum].includes(chain)

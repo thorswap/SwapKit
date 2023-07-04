@@ -20,7 +20,7 @@ const getDefaultTxFeeByChain = (chain: Chain) => {
   switch (chain) {
     case Chain.Bitcoin:
       return 127;
-    case Chain.Doge:
+    case Chain.Dogecoin:
       return 10000000;
     default:
       return 2;
@@ -33,7 +33,7 @@ const mapChainToBlockchairChain = (chain: Chain) => {
       return 'bitcoin-cash';
     case Chain.Litecoin:
       return 'litecoin';
-    case Chain.Doge:
+    case Chain.Dogecoin:
       return 'dogecoin';
     default:
       return 'bitcoin';

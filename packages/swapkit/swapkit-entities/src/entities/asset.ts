@@ -142,12 +142,21 @@ export const getSignatureAssetFor = (signature: Signature) => {
     case Chain.Binance:
     case Chain.BitcoinCash:
     case Chain.Bitcoin:
-    case Chain.Doge:
+    case Chain.Dogecoin:
     case Chain.Ethereum:
     case Chain.Litecoin: {
       const asset = new AssetEntity(signature, signature);
 
       cachedSignatureAssets[signature] = asset;
+      return asset;
+    }
+
+    case Chain.Polygon:
+    case Chain.Optimism:
+    case Chain.Arbitrum: {
+      const asset = new AssetEntity(signature, signature);
+      cachedSignatureAssets[signature] = asset;
+
       return asset;
     }
 

@@ -6,7 +6,7 @@ export const LEDGER_SUPPORTED_CHAINS = [
   Chain.Bitcoin,
   Chain.BitcoinCash,
   Chain.Cosmos,
-  Chain.Doge,
+  Chain.Dogecoin,
   Chain.Ethereum,
   Chain.Litecoin,
   Chain.THORChain,

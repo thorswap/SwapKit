@@ -10,7 +10,7 @@ const XDEFI_SUPPORTED_CHAINS = [
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
-  Chain.Doge,
+  Chain.Dogecoin,
   Chain.Ethereum,
   Chain.Litecoin,
   Chain.THORChain,

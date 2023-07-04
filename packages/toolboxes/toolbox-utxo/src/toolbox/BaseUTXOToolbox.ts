@@ -59,7 +59,7 @@ const validateAddress = ({ address, chain }: { address: string } & UTXOBaseToolb
 const getAddressFromKeys = ({ keys, chain }: { keys: ECPairInterface } & UTXOBaseToolboxParams) => {
   if (!keys) throw new Error('Keys must be provided');
 
-  const method = Chain.Doge === chain ? payments.p2pkh : payments.p2wpkh;
+  const method = Chain.Dogecoin === chain ? payments.p2pkh : payments.p2wpkh;
   const { address } = method({ pubkey: keys.publicKey, network: getNetwork(chain) });
   if (!address) throw new Error('Address not defined');
 
@@ -84,7 +84,7 @@ const transfer = async ({
     recipient,
     feeRate,
     sender: from,
-    fetchTxHex: chain === Chain.Doge,
+    fetchTxHex: chain === Chain.Dogecoin,
     chain,
     apiClient,
   });
@@ -169,15 +169,15 @@ const buildTx = async ({
   if (!inputs || !outputs) throw new Error('Insufficient Balance for transaction');
   const psbt = new Psbt({ network: getNetwork(chain) }); // Network-specific
 
-  if (chain === Chain.Doge) psbt.setMaximumFeeRate(650000000);
+  if (chain === Chain.Dogecoin) psbt.setMaximumFeeRate(650000000);
 
   // psbt add input from accumulative inputs
   inputs.forEach((utxo: UTXO) =>
     psbt.addInput({
       hash: utxo.hash,
       index: utxo.index,
-      ...(!!utxo.witnessUtxo && chain !== Chain.Doge && { witnessUtxo: utxo.witnessUtxo }),
-      ...(chain === Chain.Doge && {
+      ...(!!utxo.witnessUtxo && chain !== Chain.Dogecoin && { witnessUtxo: utxo.witnessUtxo }),
+      ...(chain === Chain.Dogecoin && {
         nonWitnessUtxo: utxo.txHex ? Buffer.from(utxo.txHex, 'hex') : undefined,
       }),
     }),

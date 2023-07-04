@@ -26,7 +26,7 @@ export const TREZOR_SUPPORTED_CHAINS = [
   Chain.Avalanche,
   Chain.Bitcoin,
   Chain.BitcoinCash,
-  Chain.Doge,
+  Chain.Dogecoin,
   Chain.Ethereum,
   Chain.BinanceSmartChain,
   Chain.Litecoin,
@@ -85,7 +85,7 @@ const getToolbox = async ({
 
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
-    case Chain.Doge:
+    case Chain.Dogecoin:
     case Chain.Litecoin: {
       if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
       const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
@@ -111,7 +111,7 @@ const getToolbox = async ({
           ? BTCToolbox
           : chain === Chain.Litecoin
           ? LTCToolbox
-          : chain === Chain.Doge
+          : chain === Chain.Dogecoin
           ? DOGEToolbox
           : BCHToolbox
       )(utxoApiKey, api);
@@ -223,7 +223,7 @@ const getToolbox = async ({
           recipient,
           feeRate: feeRate || (await toolbox.getFeeRates())[feeOptionKey || FeeOption.Fast],
           sender: from,
-          fetchTxHex: chain === Chain.Doge,
+          fetchTxHex: chain === Chain.Dogecoin,
         });
 
         const txHex = await signTransaction(psbt, utxos, memo);

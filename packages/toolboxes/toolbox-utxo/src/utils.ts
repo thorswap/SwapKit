@@ -100,7 +100,7 @@ export const getNetwork = (chain: Chain) => {
       return networks.bitcoin;
     case Chain.BitcoinCash:
       return coininfo.bitcoincash.main.toBitcoinJS();
-    case Chain.Doge:
+    case Chain.Dogecoin:
       // eslint-disable-next-line no-case-declarations
       const bip32 = {
         private: 0x04358394,

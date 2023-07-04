@@ -26,7 +26,7 @@ import { errorCodes } from './constants.js';
 import { buildTransferMsg, getAccounts, getAddressByChain } from './helpers.js';
 import { IAccount, WalletConnectOption } from './types.js';
 
-const SUPPORTED_CHAINS = [Chain.Binance, Chain.Ethereum, Chain.THORChain] as const;
+const TW_SUPPORTED_CHAINS = [Chain.Binance, Chain.Ethereum, Chain.THORChain] as const;
 const THORCHAIN_DEFAULT_GAS_FEE = '500000000';
 
 const fee = {
@@ -58,7 +58,7 @@ const getToolbox = async ({
   rpcUrl?: string;
   walletconnectClient: IConnector;
   stagenet?: boolean;
-  chain: (typeof SUPPORTED_CHAINS)[number];
+  chain: (typeof TW_SUPPORTED_CHAINS)[number];
   ethplorerApiKey?: string;
   address: string;
 }) => {
@@ -292,10 +292,10 @@ const getWalletconnect = async (walletconnectOptions: WalletConnectOption = {}) 
 const connectTrustwallet =
   ({ addChain, apis, rpcUrls, config: { ethplorerApiKey } }: ConnectWalletParams) =>
   async (
-    chains: (typeof SUPPORTED_CHAINS)[number][],
+    chains: (typeof TW_SUPPORTED_CHAINS)[number][],
     walletconnectOptions?: WalletConnectOption,
   ) => {
-    const chainsToConnect = chains.filter((chain) => SUPPORTED_CHAINS.includes(chain));
+    const chainsToConnect = chains.filter((chain) => TW_SUPPORTED_CHAINS.includes(chain));
     const walletconnectClient: IConnector = await getWalletconnect(walletconnectOptions);
 
     const promises = chainsToConnect.map(async (chain) => {

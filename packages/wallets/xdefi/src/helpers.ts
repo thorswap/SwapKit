@@ -50,7 +50,7 @@ const getXDEFIProvider = (chain: Chain) => {
       return window.xfi?.bitcoin;
     case Chain.BitcoinCash:
       return window.xfi?.bitcoincash;
-    case Chain.Doge:
+    case Chain.Dogecoin:
       return window.xfi?.dogecoin;
     case Chain.Litecoin:
       return window.xfi?.litecoin;
@@ -219,7 +219,7 @@ export const getWalletMethodsForChain: any = ({
     case Chain.BitcoinCash:
       return { ...BCHToolbox(utxoApiKey, rpcUrl), transfer };
 
-    case Chain.Doge:
+    case Chain.Dogecoin:
       return { ...DOGEToolbox(utxoApiKey, rpcUrl), transfer };
 
     case Chain.Litecoin:
