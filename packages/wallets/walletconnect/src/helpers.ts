@@ -5,7 +5,6 @@ import {
   BINANCE_MAINNET_ID,
   BSC_MAINNET_ID,
   ETHEREUM_MAINNET_ID,
-  SUPPORTED_CHAINS,
   THORCHAIN_MAINNET_ID,
 } from './constants.js';
 
@@ -17,10 +16,7 @@ export const getAddressFromAccount = (account: string) => {
   }
 };
 
-export const getAddressByChain = (
-  chain: (typeof SUPPORTED_CHAINS)[number],
-  accounts: string[],
-): string =>
+export const getAddressByChain = (chain: Chain, accounts: string[]): string =>
   getAddressFromAccount(
     accounts.find((account) => account.startsWith(chainToChainId(chain))) || '',
   );

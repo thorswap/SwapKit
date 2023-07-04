@@ -6,7 +6,7 @@ import type {
   GaiaToolbox,
   ThorchainToolboxType,
 } from '@thorswap-lib/toolbox-cosmos';
-import type { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
+import type { ARBToolbox, AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
 import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
 import {
   AmountWithBaseDenom,
@@ -98,6 +98,7 @@ export type UTXOWallet<
   };
 
 export type WalletMethods = {
+  [Chain.Arbitrum]: EVMWallet<typeof ARBToolbox> | null;
   [Chain.Avalanche]: EVMWallet<typeof AVAXToolbox> | null;
   [Chain.BinanceSmartChain]: EVMWallet<typeof BSCToolbox> | null;
   [Chain.Binance]: CosmosBasedWallet<typeof BinanceToolbox> | null;

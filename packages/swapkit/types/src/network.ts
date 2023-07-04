@@ -27,6 +27,7 @@ export const SUPPORTED_CHAINS = [
 ] as const;
 
 export enum ContractAddress {
+  ARB = '0x0000000000000000000000000000000000000000',
   AVAX = '0x0000000000000000000000000000000000000000',
   ETH = '0x0000000000000000000000000000000000000000',
   BSC = '0x0000000000000000000000000000000000000000',
@@ -46,6 +47,7 @@ export enum NetworkId {
 }
 
 export enum DerivationPath {
+  ARB = "m/44'/60'/0'/0",
   AVAX = "m/44'/60'/0'/0",
   BCH = "m/44'/145'/0'/0",
   BNB = "m/44'/714'/0'/0",
@@ -88,7 +90,7 @@ export enum BaseDecimal {
   THOR = 8,
 }
 
-export type EVMChain = Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche;
+export type EVMChain = Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche | Chain.Arbitrum;
 
 export enum ChainId {
   Arbitrum = '42161',
