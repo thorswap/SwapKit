@@ -1,7 +1,7 @@
 import { Chain } from '@thorswap-lib/types';
 import { describe, expect, test } from 'vitest';
 
-import { getExplorerAddressUrl, getExplorerTxUrl } from '../index.js';
+import { getExplorerAddressUrl, getExplorerTxUrl } from '../helpers.js';
 
 describe('Avalanche', () => {
   test('getExplorerTxUrl returns correct URL for Avalanche', () => {
@@ -155,3 +155,17 @@ describe('Polygon', () => {
     );
   });
 });
+
+describe("Optimism", () => {
+  test("getExplorerTxUrl returns correct URL for Optimism", () => {
+    expect(getExplorerTxUrl({ chain: Chain.Optimism, txHash: "12345" })).toBe(
+      "https://optimistic.etherscan.io/tx/0x12345"
+    );
+  });
+
+  test("getExplorerAddressUrl returns correct URL for Optimism", () => {
+    expect(getExplorerAddressUrl({ chain: Chain.Optimism, address: "67890" })).toBe(
+      "https://optimistic.etherscan.io/address/67890"
+    );
+  });
+})

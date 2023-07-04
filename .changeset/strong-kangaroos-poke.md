@@ -1,5 +1,4 @@
 ---
-'@thorswap-lib/swapkit-explorers': patch
 '@thorswap-lib/swapkit-entities': patch
 '@thorswap-lib/toolbox-cosmos': patch
 '@thorswap-lib/walletconnect': patch

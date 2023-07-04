@@ -5,8 +5,6 @@ module.exports = [
   { path: './packages/swapkit/swapkit-core/dist/index.es.js', name: 'core(esm)', limit: '50 KB' },
   { path: './packages/swapkit/swapkit-entities/dist/index.cjs', name: 'entities(cjs)', limit: '10 KB' },
   { path: './packages/swapkit/swapkit-entities/dist/index.es.js', name: 'entities(esm)', limit: '10 KB' },
-  { path: './packages/swapkit/swapkit-explorers/dist/index.cjs', name: 'explorers(cjs)', limit: '5 KB' },
-  { path: './packages/swapkit/swapkit-explorers/dist/index.es.js', name: 'explorers(esm)', limit: '5 KB' },
   { path: './packages/swapkit/swapkit-sdk/dist/index.cjs', name: 'swapkit-sdk(cjs)', limit: '4.5 MB' },
   { path: './packages/swapkit/swapkit-sdk/dist/index.es.js', name: 'swapkit-sdk(esm)', limit: '5 MB' },
   { path: './packages/swapkit/types/dist/index.cjs', name: 'types(cjs)', limit: '10 KB' },

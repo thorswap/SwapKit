@@ -18,7 +18,6 @@ docs:
 core:
 - packages/swapkit/swapkit-core/**/*
 - packages/swapkit/swapkit-entities/**/*
-- packages/swapkit/swapkit-explorers/**/*
 types:
 - packages/swapkit/types/src/**/*
 

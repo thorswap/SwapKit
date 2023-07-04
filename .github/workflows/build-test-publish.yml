@@ -52,7 +52,7 @@ jobs:
         run: pnpm test:coverage
       - uses: codecov/codecov-action@v3
         with:
-          files: ./internal/helpers/coverage/coverage-final.json,./packages/swapkit/swapkit-entities/coverage/coverage-final.json,./packages/swapkit/swapkit-explorers/coverage/coverage-final.json,./packages/toolboxes/toolbox-evm/coverage/coverage-final.json,
+          files: ./internal/helpers/coverage/coverage-final.json,./packages/swapkit/swapkit-entities/coverage/coverage-final.json,./packages/toolboxes/toolbox-evm/coverage/coverage-final.json,./packages/swapkit/swapkit-core/coverage/coverage-final.json
           flags: unittests
           name: swapkit-codecov
           fail_ci_if_error: false
