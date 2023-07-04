@@ -78,7 +78,7 @@ export enum DEFAULT_NEAR_METHODS {
 
 export enum DEFAULT_NEAR_EVENTS {}
 
-export const SUPPORTED_CHAINS = [
+export const WC_SUPPORTED_CHAINS = [
   Chain.Binance,
   Chain.BinanceSmartChain,
   Chain.Ethereum,

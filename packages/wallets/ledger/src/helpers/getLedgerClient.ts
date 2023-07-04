@@ -31,7 +31,7 @@ export const getLedgerClient = ({
       return new BitcoinLedger(derivationPath);
     case Chain.BitcoinCash:
       return new BitcoinCashLedger(derivationPath);
-    case Chain.Doge:
+    case Chain.Dogecoin:
       return new DogecoinLedger(derivationPath);
     case Chain.Litecoin:
       return new LitecoinLedger(derivationPath);

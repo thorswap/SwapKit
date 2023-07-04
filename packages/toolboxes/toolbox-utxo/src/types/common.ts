@@ -20,7 +20,7 @@ export type TransactionBuilderType = {
   build(): TransactionType;
 };
 
-export type UTXOChain = Chain.Bitcoin | Chain.BitcoinCash | Chain.Doge | Chain.Litecoin;
+export type UTXOChain = Chain.Bitcoin | Chain.BitcoinCash | Chain.Dogecoin | Chain.Litecoin;
 
 export type KeyPairType = {
   getAddress(index?: number): string;

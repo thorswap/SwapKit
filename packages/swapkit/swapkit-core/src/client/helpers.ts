@@ -41,16 +41,8 @@ export const getMimirData = (stagenet: boolean) => {
   return getRequest<Record<string, number>>(`${baseUrl}/thorchain/mimir`);
 };
 
-export const getEmptyWalletStructure = () => ({
-  [Chain.Arbitrum]: null,
-  [Chain.Avalanche]: null,
-  [Chain.Binance]: null,
-  [Chain.BinanceSmartChain]: null,
-  [Chain.BitcoinCash]: null,
-  [Chain.Bitcoin]: null,
-  [Chain.Cosmos]: null,
-  [Chain.Doge]: null,
-  [Chain.Ethereum]: null,
-  [Chain.Litecoin]: null,
-  [Chain.THORChain]: null,
-});
+export const getEmptyWalletStructure = () =>
+  (Object.values(Chain) as Chain[]).reduce((acc, chain) => {
+    acc[chain] = null;
+    return acc;
+  }, {} as Record<Chain, null>);

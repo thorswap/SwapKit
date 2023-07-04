@@ -9,7 +9,6 @@ import {
   EIP1559TxParams,
   FeeOption,
   Fees,
-  Network,
   WalletTxParams,
 } from '@thorswap-lib/types';
 
@@ -17,9 +16,6 @@ export enum EthNetwork {
   Test = 'goerli',
   Main = 'homestead',
 }
-
-export type ClientUrl = Record<Network, string>;
-export type ExplorerUrl = Record<Network, string>;
 
 export type TxOverrides = {
   nonce?: BigNumberish;

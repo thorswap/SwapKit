@@ -88,13 +88,13 @@ describe('Cosmos', () => {
 
 describe('Doge', () => {
   test('getExplorerTxUrl returns correct URL for Doge', () => {
-    expect(getExplorerTxUrl({ chain: Chain.Doge, txHash: 'uvwxy' })).toBe(
+    expect(getExplorerTxUrl({ chain: Chain.Dogecoin, txHash: 'uvwxy' })).toBe(
       'https://blockchair.com/dogecoin/transaction/uvwxy',
     );
   });
 
   test('getExplorerAddressUrl returns correct URL for Doge', () => {
-    expect(getExplorerAddressUrl({ chain: Chain.Doge, address: 'efghi' })).toBe(
+    expect(getExplorerAddressUrl({ chain: Chain.Dogecoin, address: 'efghi' })).toBe(
       'https://blockchair.com/dogecoin/address/efghi',
     );
   });

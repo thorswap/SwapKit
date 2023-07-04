@@ -1,21 +1,7 @@
-import { Chain } from '@thorswap-lib/types';
-
-const baseExplorerUrl: Record<Chain, string> = {
-  [Chain.Arbitrum]: 'https://arbiscan.io',
-  [Chain.Avalanche]: 'https://snowtrace.io',
-  [Chain.BinanceSmartChain]: 'https://bscscan.com',
-  [Chain.Binance]: 'https://explorer.binance.org',
-  [Chain.BitcoinCash]: 'https://www.blockchain.com/bch',
-  [Chain.Bitcoin]: 'https://blockstream.info',
-  [Chain.Cosmos]: 'https://cosmos.bigdipper.live',
-  [Chain.Doge]: 'https://blockchair.com/dogecoin',
-  [Chain.Ethereum]: 'https://etherscan.io',
-  [Chain.Litecoin]: 'https://ltc.bitaps.com',
-  [Chain.THORChain]: 'https://viewblock.io/thorchain',
-};
+import { Chain, ChainToExplorerUrl } from '@thorswap-lib/types';
 
 export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Chain }) => {
-  const baseUrl = baseExplorerUrl[chain];
+  const baseUrl = ChainToExplorerUrl[chain];
 
   switch (chain) {
     case Chain.Binance:
@@ -27,14 +13,14 @@ export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Cha
     case Chain.Arbitrum:
     case Chain.Avalanche:
     case Chain.BinanceSmartChain:
-    case Chain.Ethereum: {
-      const ensured0xTxHash = txHash.startsWith('0x') ? txHash : `0x${txHash}`;
-      return `${baseUrl}/tx/${ensured0xTxHash}`;
-    }
+    case Chain.Ethereum:
+    case Chain.Optimism:
+    case Chain.Polygon:
+      return `${baseUrl}/tx/${txHash.startsWith('0x') ? txHash : `0x${txHash}`}`;
 
     case Chain.Cosmos:
       return `${baseUrl}/transactions/${txHash}`;
-    case Chain.Doge:
+    case Chain.Dogecoin:
       return `${baseUrl}/transaction/${txHash.toLowerCase()}`;
     case Chain.Litecoin:
       return `${baseUrl}/${txHash}`;
@@ -45,7 +31,7 @@ export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Cha
 };
 
 export const getExplorerAddressUrl = ({ chain, address }: { address: string; chain: Chain }) => {
-  const baseUrl = baseExplorerUrl[chain];
+  const baseUrl = ChainToExplorerUrl[chain];
 
   switch (chain) {
     case Chain.Arbitrum:
@@ -54,8 +40,10 @@ export const getExplorerAddressUrl = ({ chain, address }: { address: string; cha
     case Chain.BinanceSmartChain:
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
-    case Chain.Doge:
+    case Chain.Dogecoin:
     case Chain.Ethereum:
+    case Chain.Optimism:
+    case Chain.Polygon:
     case Chain.THORChain:
       return `${baseUrl}/address/${address}`;
 

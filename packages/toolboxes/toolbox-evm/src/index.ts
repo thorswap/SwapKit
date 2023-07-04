@@ -20,3 +20,5 @@ export { ARBToolbox } from './toolbox/arb.js';
 export { AVAXToolbox } from './toolbox/avax.js';
 export { BSCToolbox } from './toolbox/bsc.js';
 export { ETHToolbox } from './toolbox/eth.js';
+export { MATICToolbox } from './toolbox/matic.js';
+export { OPToolbox } from './toolbox/op.js';

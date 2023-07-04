@@ -13,7 +13,7 @@ const keystoreWallets = [
   // Chain.Litecoin,
   // Chain.THORChain,
   // Chain.BitcoinCash,
-  // Chain.Doge,
+  // Chain.Dogecoin,
   Chain.THORChain,
   Chain.Cosmos,
   Chain.Binance,

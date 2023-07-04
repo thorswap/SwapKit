@@ -38,6 +38,8 @@ const baseAssetAddress: Record<EVMChain, string> = {
   [Chain.Ethereum]: ContractAddress.ETH,
   [Chain.Avalanche]: ContractAddress.AVAX,
   [Chain.BinanceSmartChain]: ContractAddress.BSC,
+  [Chain.Polygon]: ContractAddress.MATIC,
+  [Chain.Optimism]: ContractAddress.OP,
 };
 
 const isEIP1559Transaction = (tx: EVMTxParams) =>

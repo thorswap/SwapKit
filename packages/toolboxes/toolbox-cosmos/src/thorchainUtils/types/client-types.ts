@@ -3,15 +3,7 @@ import { Account as CosmosAccount } from '@cosmjs/stargate';
 import { cosmosclient, proto } from '@cosmos-client/core';
 import { InlineResponse20075TxResponse } from '@cosmos-client/core/openapi';
 import { AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
-import {
-  AmountWithBaseDenom,
-  Asset,
-  Balance,
-  ChainId,
-  Fees,
-  Network,
-  Tx,
-} from '@thorswap-lib/types';
+import { AmountWithBaseDenom, Asset, Balance, ChainId, Fees, Tx } from '@thorswap-lib/types';
 
 import { BNBTransaction } from '../../binanceUtils/transaction.js';
 import { CosmosSDKClient } from '../../cosmosSdkClient.js';
@@ -22,10 +14,6 @@ export type NodeUrl = {
   node: string;
   rpc: string;
 };
-
-export type ClientUrl = Record<Network, NodeUrl>;
-
-export type ChainIds = Record<Network, string>;
 
 export type DepositParam = {
   walletIndex?: number;

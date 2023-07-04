@@ -3,7 +3,7 @@ import { FixedNumber } from '@ethersproject/bignumber';
 import { Chain } from './network.js';
 import { WalletOption } from './wallet.js';
 
-type UTXOChains = Chain.Bitcoin | Chain.Litecoin | Chain.Doge | Chain.BitcoinCash;
+type UTXOChains = Chain.Bitcoin | Chain.Litecoin | Chain.Dogecoin | Chain.BitcoinCash;
 type EVMChains = Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche | Chain.Arbitrum;
 
 type ConnectMethodNames =

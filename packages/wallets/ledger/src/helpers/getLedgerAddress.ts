@@ -28,7 +28,7 @@ export const getLedgerAddress = async ({
 
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
-    case Chain.Doge:
+    case Chain.Dogecoin:
     case Chain.Litecoin: {
       await (ledgerClient as UTXOLedgerClients).connect();
       const address = await (ledgerClient as UTXOLedgerClients).getAddress();
