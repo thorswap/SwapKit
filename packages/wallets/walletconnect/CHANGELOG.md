@@ -1,5 +1,15 @@
 # @thorswap-lib/walletconnect
 
+## 1.1.0-development.36
+
+### Patch Changes
+
+- [#177](https://github.com/thorswap/SwapKit/pull/177) [`52f3a38`](https://github.com/thorswap/SwapKit/commit/52f3a38d8cb880185f8f066e09f132110b52b423) Thanks [@ochhii1337](https://github.com/ochhii1337)! - Add ARB Chain support
+
+- Updated dependencies [[`52f3a38`](https://github.com/thorswap/SwapKit/commit/52f3a38d8cb880185f8f066e09f132110b52b423), [`52f3a38`](https://github.com/thorswap/SwapKit/commit/52f3a38d8cb880185f8f066e09f132110b52b423)]:
+  - @thorswap-lib/types@1.0.0-development.92
+  - @thorswap-lib/toolbox-evm@1.0.0-development.136
+
 ## 1.1.0-development.35
 
 ### Patch Changes

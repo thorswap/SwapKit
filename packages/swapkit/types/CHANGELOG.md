@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.92
+
+### Minor Changes
+
+- [#177](https://github.com/thorswap/SwapKit/pull/177) [`52f3a38`](https://github.com/thorswap/SwapKit/commit/52f3a38d8cb880185f8f066e09f132110b52b423) Thanks [@ochhii1337](https://github.com/ochhii1337)! - Adding Arbitrum chain
+
 ## 1.0.0-development.91
 
 ### Patch Changes
