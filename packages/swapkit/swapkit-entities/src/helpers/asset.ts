@@ -21,6 +21,8 @@ export const getAssetType = (chain: Chain, ticker: string, isSynth = false) => {
       return ticker === 'ETH' ? 'Native' : 'ERC20';
     case Chain.Avalanche:
       return ticker === 'AVAX' ? 'Native' : 'AVAX';
+    case Chain.Arbitrum:
+      return ['ETH', 'ARB'].includes(ticker) ? 'Native' : 'ARBITRUM';
     default:
       return chain;
   }
