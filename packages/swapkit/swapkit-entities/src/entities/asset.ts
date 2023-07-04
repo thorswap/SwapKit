@@ -155,8 +155,9 @@ export const getSignatureAssetFor = (signature: Signature) => {
     case Chain.Optimism:
     case Chain.Arbitrum: {
       const asset = new AssetEntity(signature, signature);
-      cachedSignatureAssets[signature] = asset;
+      asset.setDecimal(18);
 
+      cachedSignatureAssets[signature] = asset;
       return asset;
     }
 

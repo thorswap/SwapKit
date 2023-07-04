@@ -6,7 +6,14 @@ import type {
   GaiaToolbox,
   ThorchainToolboxType,
 } from '@thorswap-lib/toolbox-cosmos';
-import type { ARBToolbox, AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
+import type {
+  ARBToolbox,
+  AVAXToolbox,
+  BSCToolbox,
+  ETHToolbox,
+  MATICToolbox,
+  OPToolbox,
+} from '@thorswap-lib/toolbox-evm';
 import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
 import {
   AmountWithBaseDenom,
@@ -109,9 +116,8 @@ export type WalletMethods = {
   [Chain.Ethereum]: EVMWallet<typeof ETHToolbox> | null;
   [Chain.Litecoin]: UTXOWallet<typeof LTCToolbox> | null;
   [Chain.THORChain]: ThorchainWallet | null;
-  // TODO:
-  [Chain.Optimism]: EVMWallet<typeof ETHToolbox> | null;
-  [Chain.Polygon]: EVMWallet<typeof ETHToolbox> | null;
+  [Chain.Optimism]: EVMWallet<typeof OPToolbox> | null;
+  [Chain.Polygon]: EVMWallet<typeof MATICToolbox> | null;
 };
 
 export enum QuoteMode {

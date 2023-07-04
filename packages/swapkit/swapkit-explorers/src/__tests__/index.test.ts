@@ -141,3 +141,17 @@ describe('THORChain', () => {
     );
   });
 });
+
+describe('Polygon', () => {
+  test('getExplorerTxUrl returns correct URL for Polygon', () => {
+    expect(getExplorerTxUrl({ chain: Chain.Polygon, txHash: '12345' })).toBe(
+      'https://polygonscan.com/tx/0x12345',
+    );
+  });
+
+  test('getExplorerAddressUrl returns correct URL for Polygon', () => {
+    expect(getExplorerAddressUrl({ chain: Chain.Polygon, address: '67890' })).toBe(
+      'https://polygonscan.com/address/67890',
+    );
+  });
+});
