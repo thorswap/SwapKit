@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.91
+
+### Patch Changes
+
+- [#181](https://github.com/thorswap/SwapKit/pull/181) [`7818f7b`](https://github.com/thorswap/SwapKit/commit/7818f7b82ecb4cb50c2c5c3ccc022e95f7cc74fa) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Add new providers errors
+
 ## 1.0.0-development.90
 
 ### Minor Changes
