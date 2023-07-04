@@ -5,7 +5,7 @@ description: Simple swapkit-core wallet extensions
 # Wallets
 
 {% hint style="info" %}
-Each wallet need specific [Toolbox](../../) installed to work properly. Check _Integrations_ section under chosen wallet
+Each wallet need specific [Toolbox](../toolboxes/) installed to work properly. Check _Integrations_ section under chosen wallet
 {% endhint %}
 
 * [Ledger](ledger.md)
