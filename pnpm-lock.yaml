@@ -138,9 +138,6 @@ importers:
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
         version: link:../../packages/swapkit/swapkit-entities
-      '@thorswap-lib/swapkit-explorers':
-        specifier: workspace:*
-        version: link:../../packages/swapkit/swapkit-explorers
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../packages/toolboxes/toolbox-cosmos
@@ -313,9 +310,6 @@ importers:
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
         version: link:../../packages/swapkit/swapkit-entities
-      '@thorswap-lib/swapkit-explorers':
-        specifier: workspace:*
-        version: link:../../packages/swapkit/swapkit-explorers
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../packages/toolboxes/toolbox-cosmos
@@ -548,9 +542,6 @@ importers:
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
         version: link:../swapkit-entities
-      '@thorswap-lib/swapkit-explorers':
-        specifier: workspace:*
-        version: link:../swapkit-explorers
       '@thorswap-lib/types':
         specifier: workspace:*
         version: link:../types
@@ -616,25 +607,6 @@ importers:
       bignumber.js:
         specifier: 9.1.1
         version: 9.1.1
-      vite:
-        specifier: 4.3.9
-        version: 4.3.9(@types/node@20.3.3)
-      vitest:
-        specifier: 0.32.4
-        version: 0.32.4
-
-  packages/swapkit/swapkit-explorers:
-    dependencies:
-      '@thorswap-lib/types':
-        specifier: workspace:*
-        version: link:../types
-    devDependencies:
-      '@internal/config':
-        specifier: workspace:*
-        version: link:../../../internal/config
-      '@vitest/coverage-istanbul':
-        specifier: 0.32.4
-        version: 0.32.4(vitest@0.32.4)
       vite:
         specifier: 4.3.9
         version: 4.3.9(@types/node@20.3.3)

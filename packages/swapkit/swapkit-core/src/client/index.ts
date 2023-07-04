@@ -18,7 +18,6 @@ import {
   MemoType,
   ThornameRegisterParam,
 } from '@thorswap-lib/swapkit-entities';
-import { getExplorerAddressUrl, getExplorerTxUrl } from '@thorswap-lib/swapkit-explorers';
 import type { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
 import type { WalletConnectOption } from '@thorswap-lib/trustwallet';
 import {
@@ -45,6 +44,8 @@ import { getSwapInParams } from '../aggregator/getSwapInParams.js';
 import {
   getAssetForBalance,
   getEmptyWalletStructure,
+  getExplorerAddressUrl,
+  getExplorerTxUrl,
   getInboundData,
   getMimirData,
 } from './helpers.js';

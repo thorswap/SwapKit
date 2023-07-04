@@ -1,5 +1,4 @@
 ---
-'@thorswap-lib/swapkit-explorers': patch
 '@thorswap-lib/evm-web3-wallets': patch
 '@thorswap-lib/swapkit-entities': patch
 '@thorswap-lib/toolbox-cosmos': patch
