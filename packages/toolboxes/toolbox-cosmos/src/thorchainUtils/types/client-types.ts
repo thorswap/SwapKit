@@ -1,3 +1,4 @@
+import { MultisigThresholdPubkey } from '@cosmjs/amino';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { Account as CosmosAccount } from '@cosmjs/stargate';
 import { cosmosclient, proto } from '@cosmos-client/core';
@@ -70,11 +71,8 @@ export type ThorchainToolboxType = BaseCosmosToolboxType &
     ) => Promise<string>;
     getAccAddress: (address: string) => cosmosclient.AccAddress;
     instanceToProto: (value: any) => proto.google.protobuf.Any;
-    createMultisig: (
-      pubKeys: string[],
-      threshold: number,
-    ) => proto.cosmos.crypto.multisig.LegacyAminoPubKey;
-    getMultisigAddress: (multisigPubKey: proto.cosmos.crypto.multisig.LegacyAminoPubKey) => string;
+    createMultisig: (pubKeys: string[], threshold: number) => MultisigThresholdPubkey;
+    getMultisigAddress: (multisigPubKey: MultisigThresholdPubkey) => string;
     mergeSignatures: (signatures: Uint8Array[]) => Uint8Array;
     exportSignature: (signature: Uint8Array) => string;
     importSignature: (signature: string) => Uint8Array;

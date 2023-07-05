@@ -184,7 +184,7 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.Binance: {
-      const toolbox = BinanceToolbox({ stagenet: false });
+      const toolbox = BinanceToolbox();
       const transfer = async (params: any) => {
         const { transaction, signMsg } = await toolbox.createTransactionAndSignMsg({
           ...params,
@@ -269,7 +269,7 @@ const getToolbox = async ({
       });
     }
     case Chain.THORChain: {
-      const toolbox = ThorchainToolbox({ stagenet: false });
+      const toolbox = ThorchainToolbox();
 
       const deposit = async ({ asset, amount, memo }: DepositParam) => {
         const account = await toolbox.getAccount(address);

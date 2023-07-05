@@ -174,7 +174,7 @@ export const getWalletMethodsForChain: any = ({
     }
 
     case Chain.THORChain: {
-      const toolbox = ThorchainToolbox({});
+      const toolbox = ThorchainToolbox();
 
       return {
         ...toolbox,
@@ -208,7 +208,7 @@ export const getWalletMethodsForChain: any = ({
 
     case Chain.Binance: {
       // @cosmos-client/core Type Inference issue
-      const toolbox = BinanceToolbox({});
+      const toolbox = BinanceToolbox();
 
       return { ...toolbox, transfer } as unknown as BinanceToolboxType;
     }
