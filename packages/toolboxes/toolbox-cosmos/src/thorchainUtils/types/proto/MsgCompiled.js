@@ -7,7 +7,7 @@ const $Writer = $protobuf.Writer;
 const $util = $protobuf.util;
 
 // Exported root namespace
-const $root = ($protobuf.roots['default'] || ($protobuf.roots['default'] = {}));
+const $root = $protobuf.roots['default'] || ($protobuf.roots['default'] = {});
 
 $root.common = (function () {
   /**
@@ -835,14 +835,12 @@ $root.common = (function () {
       if (message.toAddress != null && Object.hasOwnProperty.call(message, 'toAddress'))
         writer.uint32(/* id 4, wireType 2 =*/ 34).string(message.toAddress);
       if (message.coins?.length)
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < message.coins.length; ++i)
           $root.common.Coin.encode(
             message.coins[i],
             writer.uint32(/* id 5, wireType 2 =*/ 42).fork(),
           ).ldelim();
       if (message.gas?.length)
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let j = 0; j < message.gas.length; ++j)
           $root.common.Coin.encode(
             message.gas[j],
@@ -950,7 +948,7 @@ $root.common = (function () {
         if (!$util.isString(message.toAddress)) return 'toAddress: string expected';
       if (message.coins != null && message.hasOwnProperty('coins')) {
         if (!Array.isArray(message.coins)) return 'coins: array expected';
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+
         for (let i = 0; i < message.coins.length; ++i) {
           let error = $root.common.Coin.verify(message.coins[i]);
           if (error) return 'coins.' + error;
@@ -958,7 +956,7 @@ $root.common = (function () {
       }
       if (message.gas != null && message.hasOwnProperty('gas')) {
         if (!Array.isArray(message.gas)) return 'gas: array expected';
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+
         for (let j = 0; j < message.gas.length; ++j) {
           let error = $root.common.Coin.verify(message.gas[j]);
           if (error) return 'gas.' + error;
@@ -1126,7 +1124,6 @@ $root.common = (function () {
     Fee.encode = function encode(message, writer) {
       if (!writer) writer = $Writer.create();
       if (message.coins?.length)
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < message.coins.length; ++i)
           $root.common.Coin.encode(
             message.coins[i],
@@ -1210,7 +1207,7 @@ $root.common = (function () {
       if (typeof message !== 'object' || message === null) return 'object expected';
       if (message.coins != null && message.hasOwnProperty('coins')) {
         if (!Array.isArray(message.coins)) return 'coins: array expected';
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+
         for (let i = 0; i < message.coins.length; ++i) {
           let error = $root.common.Coin.verify(message.coins[i]);
           if (error) return 'coins.' + error;
@@ -1543,7 +1540,6 @@ $root.types = (function () {
     MsgDeposit.encode = function encode(message, writer) {
       if (!writer) writer = $Writer.create();
       if (message.coins?.length)
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < message.coins.length; ++i)
           $root.common.Coin.encode(
             message.coins[i],
@@ -1632,7 +1628,7 @@ $root.types = (function () {
       if (typeof message !== 'object' || message === null) return 'object expected';
       if (message.coins != null && message.hasOwnProperty('coins')) {
         if (!Array.isArray(message.coins)) return 'coins: array expected';
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+
         for (let i = 0; i < message.coins.length; ++i) {
           let error = $root.common.Coin.verify(message.coins[i]);
           if (error) return 'coins.' + error;
@@ -1812,7 +1808,6 @@ $root.types = (function () {
       if (message.toAddress != null && Object.hasOwnProperty.call(message, 'toAddress'))
         writer.uint32(/* id 2, wireType 2 =*/ 18).bytes(message.toAddress);
       if (message.amount?.length)
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < message.amount.length; ++i)
           $root.cosmos.base.v1beta1.Coin.encode(
             message.amount[i],
@@ -1913,7 +1908,7 @@ $root.types = (function () {
           return 'toAddress: buffer expected';
       if (message.amount != null && message.hasOwnProperty('amount')) {
         if (!Array.isArray(message.amount)) return 'amount: array expected';
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+
         for (let i = 0; i < message.amount.length; ++i) {
           let error = $root.cosmos.base.v1beta1.Coin.verify(message.amount[i]);
           if (error) return 'amount.' + error;

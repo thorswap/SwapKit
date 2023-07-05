@@ -1,16 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
-
-export enum MemoType {
-  BOND = 'BOND',
-  DEPOSIT = '+',
-  LEAVE = 'LEAVE',
-  THORNAME_REGISTER = '~',
-  UNBOND = 'UNBOND',
-  UPGRADE = 'SWITCH',
-  WITHDRAW = '-',
-  OPEN_LOAN = '$+',
-  CLOSE_LOAN = '$-',
-}
+import { Chain, MemoType } from '@thorswap-lib/types';
 
 export type ThornameRegisterParam = {
   name: string;
