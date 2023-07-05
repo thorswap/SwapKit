@@ -154,7 +154,7 @@ export const getWalletMethodsForChain: any = ({
             chainId,
             type: chain !== Chain.BinanceSmartChain ? 2 : 0,
             gasLimit: gasLimit.toHexString(),
-            gasPrice: feeData.gasPrice?.toHexString(),
+            gasPrice: 'gasPrice' in feeData ? feeData.gasPrice?.toHexString() : undefined,
             maxFeePerGas: feeData.maxFeePerGas?.toHexString(),
             maxPriorityFeePerGas: feeData.maxPriorityFeePerGas?.toHexString(),
             nonce,

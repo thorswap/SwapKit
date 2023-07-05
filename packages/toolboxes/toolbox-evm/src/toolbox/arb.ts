@@ -37,7 +37,7 @@ export const getBalance = async (api: CovalentApiType, address: Address) => {
 export const getNetworkParams = () => ({
   chainId: ChainId.ArbitrumHex,
   chainName: 'Arbitrum One',
-  nativeCurrency: { name: 'Ethereum', symbol: Chain.Ethereum, decimals: Chain.Ethereum },
+  nativeCurrency: { name: 'Ethereum', symbol: Chain.Ethereum, decimals: BaseDecimal.ETH },
   rpcUrls: [RPCUrl.Arbitrum],
   blockExplorerUrls: [ChainToExplorerUrl[Chain.Arbitrum]],
 });
