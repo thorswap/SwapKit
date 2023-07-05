@@ -8,17 +8,13 @@ import { Address, BaseDecimal, Chain, ChainId, FeeOption } from '@thorswap-lib/t
 
 import { covalentApi, CovalentApiType } from '../api/covalentApi.js';
 import { getProvider } from '../provider.js';
-import { FeeData } from '../types/clientTypes.js';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.js';
+import { formatUnits } from '@ethersproject/units';
 
 const MIN_AVAX_GAS = '25000000000';
 
-export const getPriorityFeeData = async ({
-  feeOptionKey = FeeOption.Average,
-}: {
-  feeOptionKey?: FeeOption;
-}): Promise<FeeData> => {
+export const estimateGasPrices = async () => {
   const { Avalanche } = await import('@avalabs/avalanchejs');
   try {
     const CCClient = new Avalanche(
@@ -28,29 +24,61 @@ export const getPriorityFeeData = async ({
       parseInt(ChainId.Avalanche),
     ).CChain();
 
-    const baseFee = BigNumber.from(parseInt(await CCClient.getBaseFee(), 16) / 1e9);
+    const baseFee = BigNumber.from(formatUnits(await CCClient.getBaseFee(), 'gwei'));
     const maxPriority = BigNumber.from(
-      parseInt(await CCClient.getMaxPriorityFeePerGas(), 16) / 1e9,
+      formatUnits(await CCClient.getMaxPriorityFeePerGas(), 'gwei'),
     );
     const maxFee = BigNumber.from(maxPriority).add(baseFee);
     if (maxFee < maxPriority) {
       throw new Error('Error: Max fee per gas cannot be less than max priority fee per gas');
     }
     return {
-      maxFeePerGas: baseFee.mul(Math.floor(gasFeeMultiplier[feeOptionKey] * 100)).div(100),
-      maxPriorityFeePerGas: maxPriority
-        .mul(Math.floor(gasFeeMultiplier[feeOptionKey] * 100))
-        .div(100),
+      [FeeOption.Average]: {
+        maxFeePerGas: baseFee.mul(Math.floor(gasFeeMultiplier[FeeOption.Average] * 100)).div(100),
+        maxPriorityFeePerGas: maxPriority
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Average] * 100))
+          .div(100),
+      },
+      [FeeOption.Fast]: {
+        maxFeePerGas: baseFee.mul(Math.floor(gasFeeMultiplier[FeeOption.Fast] * 100)).div(100),
+        maxPriorityFeePerGas: maxPriority
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Fast] * 100))
+          .div(100),
+      },
+      [FeeOption.Fastest]: {
+        maxFeePerGas: baseFee.mul(Math.floor(gasFeeMultiplier[FeeOption.Fastest] * 100)).div(100),
+        maxPriorityFeePerGas: maxPriority
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Fastest] * 100))
+          .div(100),
+      },
     };
   } catch (error) {
     console.info('DEFAULT GAS ESTIMATION');
+    const minAvaxGas = BigNumber.from(MIN_AVAX_GAS);
+    const maxPriority = BigNumber.from('1');
     return {
-      maxFeePerGas: BigNumber.from(MIN_AVAX_GAS)
-        .mul(Math.floor(gasFeeMultiplier[feeOptionKey] * 100))
-        .div(100),
-      maxPriorityFeePerGas: BigNumber.from('1500000000')
-        .mul(Math.floor(gasFeeMultiplier[feeOptionKey] * 100))
-        .div(100),
+      [FeeOption.Average]: {
+        maxFeePerGas: minAvaxGas
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Average] * 100))
+          .div(100),
+        maxPriorityFeePerGas: maxPriority
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Average] * 100))
+          .div(100),
+      },
+      [FeeOption.Fast]: {
+        maxFeePerGas: minAvaxGas.mul(Math.floor(gasFeeMultiplier[FeeOption.Fast] * 100)).div(100),
+        maxPriorityFeePerGas: maxPriority
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Fast] * 100))
+          .div(100),
+      },
+      [FeeOption.Fastest]: {
+        maxFeePerGas: minAvaxGas
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Fastest] * 100))
+          .div(100),
+        maxPriorityFeePerGas: maxPriority
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Fastest] * 100))
+          .div(100),
+      },
     };
   }
 };
@@ -105,6 +133,7 @@ export const AVAXToolbox = ({
   return {
     ...BaseEVMToolbox({ provider, signer }),
     getNetworkParams,
+    estimateGasPrices,
     getBalance: (address: string, assets?: AssetEntity[]) => getBalance(avaxApi, address, assets),
   };
 };

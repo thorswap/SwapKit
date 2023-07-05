@@ -168,13 +168,9 @@ const approve = async (
     );
   }
 
-  const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await getPriorityFeeData(
-    {
-      provider,
-      feeOptionKey,
-    },
-    isEIP1559Compatible,
-  );
+  const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = (
+    await estimateGasPrices(provider, isEIP1559Compatible)
+  )[feeOptionKey];
 
   const gasLimit = await estimateCall(provider, functionCallParams).catch(() =>
     BigNumber.from(gasLimitFallback),
@@ -341,19 +337,6 @@ const estimateGasLimit = async (
   }
 };
 
-const getPriorityFeeData = (
-  {
-    feeOptionKey = FeeOption.Average,
-    provider,
-  }: {
-    feeOptionKey?: FeeOption;
-    provider: Provider;
-  },
-  isEIP1559Compatible = true,
-) => {
-  return estimateGasPrices(provider, isEIP1559Compatible).then((prices) => prices[feeOptionKey]);
-};
-
 const sendTransaction = async (
   provider: Provider,
   tx: EVMTxParams,
@@ -389,7 +372,7 @@ const sendTransaction = async (
       (!(tx as EIP1559TxParams).maxFeePerGas || !(tx as EIP1559TxParams).maxPriorityFeePerGas)) ||
     !(tx as LegacyEVMTxParams).gasPrice
       ? Object.entries(
-          await getPriorityFeeData({ feeOptionKey, provider }, isEIP1559Compatible),
+          (await estimateGasPrices(provider, isEIP1559Compatible))[feeOptionKey],
         ).reduce(
           (acc, [k, v]) => ({ ...acc, [k]: BigNumber.from(v).toHexString() }),
           {} as {
@@ -541,8 +524,6 @@ export const BaseEVMToolbox = ({
   estimateCall: (params: EstimateCallParams) => estimateCall(provider, { ...params, signer }),
   estimateGasLimit: ({ asset, recipient, amount, memo }: WalletTxParams) =>
     estimateGasLimit(provider, { asset, recipient, amount, memo }),
-  getPriorityFeeData: (feeOptionKey = FeeOption.Average) =>
-    getPriorityFeeData({ feeOptionKey, provider }, isEIP1559Compatible),
   isApproved: (params: IsApprovedParams) => isApproved(provider, params),
   transfer: (params: TransferParams) => transfer(provider, params, signer, isEIP1559Compatible),
   sendTransaction: (params: EIP1559TxParams, feeOption: FeeOption) =>

@@ -1,3 +1,9 @@
+import {
+  estimateL1GasCost,
+  estimateL2GasCost,
+  estimateTotalGasCost,
+  getL1GasPrice,
+} from '@eth-optimism/sdk';
 import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { Web3Provider } from '@ethersproject/providers';
@@ -9,6 +15,7 @@ import {
   Chain,
   ChainId,
   ChainToExplorerUrl,
+  FeeOption,
   RPCUrl,
 } from '@thorswap-lib/types';
 
@@ -52,6 +59,40 @@ export const getNetworkParams = () => ({
   blockExplorerUrls: [ChainToExplorerUrl[Chain.Optimism]],
 });
 
+const estimateGasPrices = async (provider: Provider) => {
+  try {
+    const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await provider.getFeeData();
+    const l1GasPrice = await getL1GasPrice(provider);
+
+    if (!maxFeePerGas || !maxPriorityFeePerGas) throw new Error('No fee data available');
+
+    return {
+      [FeeOption.Average]: {
+        l1GasPrice,
+        gasPrice,
+        maxFeePerGas,
+        maxPriorityFeePerGas,
+      },
+      [FeeOption.Fast]: {
+        l1GasPrice: l1GasPrice.mul(15).div(10),
+        gasPrice: gasPrice?.mul(15).div(10),
+        maxFeePerGas,
+        maxPriorityFeePerGas: maxPriorityFeePerGas.mul(15).div(10),
+      },
+      [FeeOption.Fastest]: {
+        l1GasPrice: l1GasPrice.mul(2),
+        gasPrice: gasPrice?.mul(2),
+        maxFeePerGas,
+        maxPriorityFeePerGas: maxPriorityFeePerGas.mul(2),
+      },
+    };
+  } catch (error) {
+    throw new Error(
+      `Failed to estimate gas price: ${(error as any).msg ?? (error as any).toString()}`,
+    );
+  }
+};
+
 export const OPToolbox = ({
   api,
   provider,
@@ -67,7 +108,12 @@ export const OPToolbox = ({
 
   return {
     ...BaseEVMToolbox({ provider, signer }),
+    estimateTotalGasCost,
+    estimateL1GasCost,
+    estimateL2GasCost,
+    getL1GasPrice,
     getNetworkParams,
+    estimateGasPrices: () => estimateGasPrices(provider),
     getBalance: (address: string, assets?: AssetEntity[]) => getBalance(opApi, address, assets),
   };
 };
