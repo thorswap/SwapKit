@@ -1,5 +1,11 @@
-import { StdSignDoc, makeSignDoc as makeSignDocAmino } from '@cosmjs/amino';
-import { BinanceToolbox, DepositParam, ThorchainToolbox, getDenomWithChain, sortObject } from '@thorswap-lib/toolbox-cosmos';
+import { makeSignDoc as makeSignDocAmino, StdSignDoc } from '@cosmjs/amino';
+import {
+  BinanceToolbox,
+  DepositParam,
+  getDenomWithChain,
+  sortObject,
+  ThorchainToolbox,
+} from '@thorswap-lib/toolbox-cosmos';
 import { AVAXToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import { Chain, ChainId, WalletOption, WalletTxParams } from '@thorswap-lib/types';
 import QRCodeModal from '@walletconnect/qrcode-modal';
@@ -16,9 +22,9 @@ import {
   WC_SUPPORTED_CHAINS,
   THORCHAIN_MAINNET_ID,
 } from './constants.js';
+import { getEVMSigner } from './evmSigner.js';
 import { chainToChainId, getAddressByChain } from './helpers.js';
 import { getRequiredNamespaces } from './namespaces.js';
-import { getEVMSigner } from './evmSigner.js';
 
 const THORCHAIN_GAS_FEE = '500000000';
 const DEFAULT_THORCHAIN_FEE = {
@@ -117,14 +123,15 @@ const getToolbox = async ({
     case Chain.THORChain: {
       const toolbox = ThorchainToolbox({ stagenet: false });
 
-      const signRequest = (signDoc: StdSignDoc) => walletconnect?.client.request({
-        chainId: THORCHAIN_MAINNET_ID,
-        topic: session.topic,
-        request: {
-          method: DEFAULT_COSMOS_METHODS.COSMOS_SIGN_AMINO,
-          params: { signerAddress: address, signDoc },
-        },
-      });
+      const signRequest = (signDoc: StdSignDoc) =>
+        walletconnect?.client.request({
+          chainId: THORCHAIN_MAINNET_ID,
+          topic: session.topic,
+          request: {
+            method: DEFAULT_COSMOS_METHODS.COSMOS_SIGN_AMINO,
+            params: { signerAddress: address, signDoc },
+          },
+        });
 
       const transfer = async (params: WalletTxParams) => {
         const account = await toolbox.getAccount(from);
@@ -225,7 +232,7 @@ const getToolbox = async ({
         const res: any = await auth.txsPost(toolbox.sdk as any, stdTx, 'sync');
 
         return res.data?.txhash;
-      }
+      };
 
       return { ...toolbox, transfer, deposit };
     }
@@ -324,9 +331,8 @@ const connectWalletconnect =
         walletMethods: { ...toolbox, getAddress: () => address },
         wallet: { address, balance: [], walletType: WalletOption.WALLETCONNECT },
       });
-        return;
-      }
-    );
+      return;
+    });
 
     await Promise.all(promises);
 

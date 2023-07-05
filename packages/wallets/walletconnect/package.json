@@ -2,10 +2,12 @@
   "author": "thorswap",
   "dependencies": {
     "@coinbase/wallet-sdk": "3.7.1",
+    "@cosmjs/amino": "0.31.0",
     "@thorswap-lib/types": "workspace:*",
     "@walletconnect/qrcode-modal": "1.8.0",
     "@walletconnect/sign-client": "^2.8.6",
     "@walletconnect/web3-provider": "1.8.0",
+    "cosmos-client": "0.39.2",
     "web3modal": "1.9.12"
   },
   "description": "THORSwap Lib walletconnect",

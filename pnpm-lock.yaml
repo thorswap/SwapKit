@@ -1244,6 +1244,9 @@ importers:
       '@coinbase/wallet-sdk':
         specifier: 3.7.1
         version: 3.7.1
+      '@cosmjs/amino':
+        specifier: 0.31.0
+        version: 0.31.0
       '@ethersproject/strings':
         specifier: ^5.7.0
         version: 5.7.0
@@ -1259,6 +1262,9 @@ importers:
       '@walletconnect/web3-provider':
         specifier: 1.8.0
         version: 1.8.0(@babel/core@7.22.6)
+      cosmos-client:
+        specifier: 0.39.2
+        version: 0.39.2
       web3modal:
         specifier: 1.9.12
         version: 1.9.12(react-is@18.2.0)
@@ -7252,7 +7258,7 @@ packages:
       babel-plugin-syntax-jsx: 6.18.0
       lodash: 4.17.21
       picomatch: 2.3.1
-      styled-components: 5.3.11(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
+      styled-components: 5.3.11(react-dom@16.14.0)(react-is@18.2.0)(react@16.14.0)
     dev: false
 
   /babel-plugin-syntax-jsx@6.18.0:
@@ -15883,7 +15889,7 @@ packages:
     resolution: {integrity: sha512-0MP/Cxx5SzeeZ10p/bZI0S6MpgD+yxAhi1BOQ34jgnMXsCq3j1t6tQnZu+KdlL7dvJTLT3g9xN8tl10TqgFMcg==}
     dev: false
 
-  /styled-components@5.3.11(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0):
+  /styled-components@5.3.11(react-dom@16.14.0)(react-is@18.2.0)(react@16.14.0):
     resolution: {integrity: sha512-uuzIIfnVkagcVHv9nE0VPlHPSCmXIUGKfJ42LNjxCCTDTL5sgnJ8Z7GZBq0EnLYGln77tPpEpExt2+qa+cZqSw==}
     engines: {node: '>=10'}
     peerDependencies:
@@ -15899,8 +15905,8 @@ packages:
       babel-plugin-styled-components: 2.1.3(styled-components@5.3.11)
       css-to-react-native: 3.2.0
       hoist-non-react-statics: 3.3.2
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
+      react: 16.14.0
+      react-dom: 16.14.0(react@16.14.0)
       react-is: 18.2.0
       shallowequal: 1.1.0
       supports-color: 5.5.0
@@ -16915,7 +16921,7 @@ packages:
       prop-types: 15.8.1
       react: 16.14.0
       react-dom: 16.14.0(react@16.14.0)
-      styled-components: 5.3.11(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
+      styled-components: 5.3.11(react-dom@16.14.0)(react-is@18.2.0)(react@16.14.0)
       tslib: 1.14.1
     transitivePeerDependencies:
       - react-is
