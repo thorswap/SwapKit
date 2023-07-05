@@ -1,5 +1,12 @@
 # @thorswap-lib/keplr
 
+## 1.0.0-development.18
+
+### Patch Changes
+
+- Updated dependencies [[`fe28e06`](https://github.com/thorswap/SwapKit/commit/fe28e065055a448780f013aca3dac9db3340628b)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.123
+
 ## 1.0.0-development.17
 
 ### Patch Changes
