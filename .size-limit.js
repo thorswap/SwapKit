@@ -44,7 +44,7 @@ module.exports = [
   ...getSizeFor('wallets/keplr', 'xs'),
   ...getSizeFor('wallets/keystore', 's'),
   ...getSizeFor('wallets/ledger', 'xl'),
-  ...getSizeFor('wallets/trezor', 'l'),
+  ...getSizeFor('wallets/trezor', 'xl'),
   ...getSizeFor('wallets/walletconnect', 'l'),
   ...getSizeFor('wallets/xdefi', 'xs'),
 ];
