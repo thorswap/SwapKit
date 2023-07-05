@@ -148,9 +148,6 @@ importers:
       '@thorswap-lib/trezor':
         specifier: workspace:*
         version: link:../../packages/wallets/trezor
-      '@thorswap-lib/trustwallet':
-        specifier: workspace:*
-        version: link:../../packages/wallets/trustwallet
       '@thorswap-lib/types':
         specifier: workspace:*
         version: link:../../packages/swapkit/types
@@ -320,9 +317,6 @@ importers:
       '@thorswap-lib/trezor':
         specifier: workspace:*
         version: link:../../packages/wallets/trezor
-      '@thorswap-lib/trustwallet':
-        specifier: workspace:*
-        version: link:../../packages/wallets/trustwallet
       '@thorswap-lib/types':
         specifier: workspace:*
         version: link:../../packages/swapkit/types
@@ -565,9 +559,6 @@ importers:
       '@thorswap-lib/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/toolbox-utxo
-      '@thorswap-lib/trustwallet':
-        specifier: workspace:*
-        version: link:../../wallets/trustwallet
       '@thorswap-lib/walletconnect':
         specifier: workspace:*
         version: link:../../wallets/walletconnect
@@ -647,9 +638,6 @@ importers:
       '@thorswap-lib/trezor':
         specifier: workspace:*
         version: link:../../wallets/trezor
-      '@thorswap-lib/trustwallet':
-        specifier: workspace:*
-        version: link:../../wallets/trustwallet
       '@thorswap-lib/types':
         specifier: workspace:*
         version: link:../types
@@ -1244,64 +1232,6 @@ importers:
       bitcoinjs-lib:
         specifier: 5.2.0
         version: 5.2.0
-      vite:
-        specifier: 4.3.9
-        version: 4.3.9(@types/node@20.3.3)
-      vitest:
-        specifier: 0.32.4
-        version: 0.32.4
-
-  packages/wallets/trustwallet:
-    dependencies:
-      '@thorswap-lib/helpers':
-        specifier: workspace:*
-        version: link:../../../internal/helpers
-      '@thorswap-lib/types':
-        specifier: workspace:*
-        version: link:../../swapkit/types
-      '@walletconnect/client':
-        specifier: 1.8.0
-        version: 1.8.0
-      '@walletconnect/qrcode-modal':
-        specifier: 1.8.0
-        version: 1.8.0
-      '@walletconnect/web3-provider':
-        specifier: 1.8.0
-        version: 1.8.0(@babel/core@7.22.6)
-      base64-js:
-        specifier: 1.5.1
-        version: 1.5.1
-      bech32:
-        specifier: 2.0.0
-        version: 2.0.0
-    devDependencies:
-      '@ethersproject/abstract-signer':
-        specifier: 5.7.0
-        version: 5.7.0(patch_hash=25dytke5lh3fostylo3fnpzcxi)
-      '@ethersproject/bignumber':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@internal/config':
-        specifier: workspace:*
-        version: link:../../../internal/config
-      '@thorswap-lib/toolbox-cosmos':
-        specifier: workspace:*
-        version: link:../../toolboxes/toolbox-cosmos
-      '@thorswap-lib/toolbox-evm':
-        specifier: workspace:*
-        version: link:../../toolboxes/toolbox-evm
-      '@vitest/coverage-istanbul':
-        specifier: 0.32.4
-        version: 0.32.4(vitest@0.32.4)
-      '@walletconnect/types':
-        specifier: 1.8.0
-        version: 1.8.0
-      bech32-buffer:
-        specifier: 0.2.1
-        version: 0.2.1
-      cosmos-client:
-        specifier: 0.39.2
-        version: 0.39.2
       vite:
         specifier: 4.3.9
         version: 4.3.9(@types/node@20.3.3)
@@ -6975,6 +6905,7 @@ packages:
   /@walletconnect/types@1.8.0:
     resolution: {integrity: sha512-Cn+3I0V0vT9ghMuzh1KzZvCkiAxTq+1TR2eSqw5E5AVWfmCtECFkVZBP6uUJZ8YjwLqXheI+rnjqPy7sVM4Fyg==}
     deprecated: 'WalletConnect''s v1 SDKs are now deprecated. Please upgrade to a v2 SDK. For details see: https://docs.walletconnect.com/'
+    dev: false
 
   /@walletconnect/types@2.7.4:
     resolution: {integrity: sha512-Nagfz8DqLxf0UlVd7xopgBX60EJp1xUEq7J30ALlTbWqEhCHuLK/qPk5vGdJ9Q6+ZDpTW9ShLq1DNf+5nVpVDQ==}
@@ -7712,6 +7643,7 @@ packages:
   /bech32-buffer@0.2.1:
     resolution: {integrity: sha512-fCG1TyZuCN48Sdw97p/IR39fvqpFlWDVpG7qnuU1Uc3+Xtc/0uqAp8U7bMW/bGuVF5CcNVIXwxQsWwUr6un6FQ==}
     engines: {node: '>=8'}
+    dev: false
 
   /bech32@1.1.4:
     resolution: {integrity: sha512-s0IrSOzLlbvX7yp4WBfPITzpAU8sqQcpsmwXDiKwrG4r491vwCO/XpejasRNl0piBMe/DvP4Tz0mIS/X1DPJBQ==}

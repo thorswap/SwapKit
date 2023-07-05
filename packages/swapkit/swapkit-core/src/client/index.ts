@@ -18,7 +18,6 @@ import {
   ThornameRegisterParam,
 } from '@thorswap-lib/swapkit-entities';
 import type { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
-import type { WalletConnectOption } from '@thorswap-lib/trustwallet';
 import {
   AddChainWalletParams,
   AmountWithBaseDenom,
@@ -491,7 +490,7 @@ export class SwapKitCore {
   connectEVMWallet = async (_chains: Chain[] | Chain, _wallet: EVMWalletOptions) => {
     throwWalletError('connectEVMWallet', 'evm-web3-wallets');
   };
-  connectWalletconnect = async (_chains: Chain[], _options?: WalletConnectOption) => {
+  connectWalletconnect = async (_chains: Chain[], _options?: any) => {
     throwWalletError('connectWalletconnect', 'walletconnect');
   };
   connectKeystore = async (_chains: Chain[], _phrase: string) => {
@@ -502,9 +501,6 @@ export class SwapKitCore {
   };
   connectTrezor = async (_chains: Chain, _derivationPath: number[]) => {
     throwWalletError('connectTrezor', 'trezor');
-  };
-  connectTrustwallet = async (_chains: Chain[], _options?: WalletConnectOption) => {
-    throwWalletError('connectTrustwallet', 'trustwallet');
   };
   connectKeplr = async () => {
     throwWalletError('connectKeplr', 'keplr');

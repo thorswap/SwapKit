@@ -15,7 +15,6 @@ export const createSwapKit = async ({ swapkitConfig, ...extendParams }: SwapKitO
   const { keystoreWallet } = await import('@thorswap-lib/keystore');
   const { ledgerWallet } = await import('@thorswap-lib/ledger');
   const { trezorWallet } = await import('@thorswap-lib/trezor');
-  const { trustwalletWallet } = await import('@thorswap-lib/trustwallet');
   const { xdefiWallet } = await import('@thorswap-lib/xdefi');
 
   const swapKitClient = new SwapKitCore(swapkitConfig);
@@ -27,7 +26,6 @@ export const createSwapKit = async ({ swapkitConfig, ...extendParams }: SwapKitO
       keystoreWallet,
       ledgerWallet,
       trezorWallet,
-      trustwalletWallet,
       keplrWallet,
       xdefiWallet,
     ],
