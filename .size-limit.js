@@ -38,13 +38,13 @@ module.exports = [
 
   ...getSizeFor('toolboxes/toolbox-cosmos', 'xl'),
   ...getSizeFor('toolboxes/toolbox-evm', 'l'),
-  ...getSizeFor('toolboxes/toolbox-utxo', 'l'),
+  ...getSizeFor('toolboxes/toolbox-utxo', 'm'),
 
   ...getSizeFor('wallets/evm-web3-wallets', 'xs'),
   ...getSizeFor('wallets/keplr', 'xs'),
   ...getSizeFor('wallets/keystore', 's'),
   ...getSizeFor('wallets/ledger', 'xl'),
   ...getSizeFor('wallets/trezor', 'xl'),
-  ...getSizeFor('wallets/walletconnect', 'xl'),
+  ...getSizeFor('wallets/walletconnect', 'm'),
   ...getSizeFor('wallets/xdefi', 'xs'),
 ];
