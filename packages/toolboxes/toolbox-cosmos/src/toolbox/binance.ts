@@ -2,13 +2,12 @@ import { Secp256k1HdWallet } from '@cosmjs/amino';
 import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from '@cosmjs/crypto';
 import {
   assetFromString,
-  assetToString,
   baseAmount,
   getRequest,
   postRequest,
   singleFee,
 } from '@thorswap-lib/helpers';
-import { Amount, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
   Address,
   AmountWithBaseDenom,
@@ -18,6 +17,7 @@ import {
   DerivationPath,
 } from '@thorswap-lib/types';
 import { bech32 } from 'bech32';
+import { ec as EC } from 'elliptic';
 
 import { BNBTransaction } from '../binanceUtils/transaction.js';
 import { Account, AminoPrefix, Fees } from '../binanceUtils/types.js';
@@ -49,19 +49,13 @@ const getTransferFee = async () => {
   return transferFee;
 };
 
-const getBalance = async (address: Address, assets?: AssetEntity[]) => {
+const getBalance = async (address: Address) => {
   const balances = (await getAccount(address))?.balances || [];
 
-  return balances
-    .map(({ symbol, free }) => ({
-      asset: assetFromString(`${Chain.Binance}.${symbol}`) || getSignatureAssetFor(Chain.Binance),
-      amount: baseAmount(Amount.fromAssetAmount(free, 8).baseAmount.toString() || 0, 8),
-    }))
-    .filter(
-      (balance) =>
-        !assets ||
-        assets.filter((asset) => assetToString(balance.asset) === assetToString(asset)).length,
-    );
+  return balances.map(({ symbol, free }) => ({
+    asset: assetFromString(`${Chain.Binance}.${symbol}`) || getSignatureAssetFor(Chain.Binance),
+    amount: baseAmount(Amount.fromAssetAmount(free, 8).baseAmount.toString() || 0, 8),
+  }));
 };
 
 const getFees = async () => {
@@ -140,8 +134,8 @@ const createTransactionAndSignMsg = async ({ from, to, amount, asset, memo }: Tr
   };
 
   const signMsg = {
-    inputs: [{ address: from, coins: [{ amount: baseAmountValue, denom: asset }] }],
-    outputs: [{ address: to, coins: [{ amount: baseAmountValue, denom: asset }] }],
+    inputs: [{ address: from, coins: [coin] }],
+    outputs: [{ address: to, coins: [coin] }],
   };
 
   const transaction = await prepareTransaction(msg, from, null, memo);
@@ -178,6 +172,12 @@ const getAddressFromMnemonic = async (phrase: string) => {
   return address;
 };
 
+export const getPublicKey = (publicKey: string) => {
+  const ec = new EC('secp256k1');
+  const keyPair = ec.keyFromPublic(publicKey, 'hex');
+  return keyPair.getPublic();
+};
+
 export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolboxType => {
   const sdk = new CosmosSDKClient({
     server: BINANCE_MAINNET_API_URI,
@@ -206,5 +206,6 @@ export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolbox
     createTransactionAndSignMsg,
     createKeyPair,
     getAddressFromMnemonic,
+    getPublicKey,
   };
 };

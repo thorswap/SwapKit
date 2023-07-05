@@ -1,5 +1,30 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.186
+
+### Minor Changes
+
+- [#188](https://github.com/thorswap/SwapKit/pull/188) [`3066000`](https://github.com/thorswap/SwapKit/commit/30660006cd0551dfb2be606290b0448bf0181d72) Thanks [@0x-General](https://github.com/0x-General)! - Remove TrustWallet integration
+
+### Patch Changes
+
+- Updated dependencies [[`3066000`](https://github.com/thorswap/SwapKit/commit/30660006cd0551dfb2be606290b0448bf0181d72)]:
+  - @thorswap-lib/types@1.0.0-development.94
+  - @thorswap-lib/helpers@0.0.0-development.94
+  - @thorswap-lib/swapkit-entities@1.0.0-development.102
+
+## 1.0.0-development.185
+
+### Patch Changes
+
+- [#185](https://github.com/thorswap/SwapKit/pull/185) [`4e7b77a`](https://github.com/thorswap/SwapKit/commit/4e7b77adfd868ce26df05060f02dd2aab18dfa5d) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Bump dependencies
+
+- Updated dependencies [[`4e7b77a`](https://github.com/thorswap/SwapKit/commit/4e7b77adfd868ce26df05060f02dd2aab18dfa5d)]:
+  - @thorswap-lib/swapkit-explorers@1.0.0-development.44
+  - @thorswap-lib/swapkit-entities@1.0.0-development.101
+  - @thorswap-lib/types@1.0.0-development.93
+  - @thorswap-lib/helpers@0.0.0-development.93
+
 ## 1.0.0-development.184
 
 ### Patch Changes

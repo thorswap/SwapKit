@@ -1,5 +1,50 @@
 # @thorswap-lib/swapkit-sdk
 
+## 0.1.0-development.34
+
+### Minor Changes
+
+- [#188](https://github.com/thorswap/SwapKit/pull/188) [`3066000`](https://github.com/thorswap/SwapKit/commit/30660006cd0551dfb2be606290b0448bf0181d72) Thanks [@0x-General](https://github.com/0x-General)! - Remove TrustWallet integration
+
+### Patch Changes
+
+- Updated dependencies [[`3066000`](https://github.com/thorswap/SwapKit/commit/30660006cd0551dfb2be606290b0448bf0181d72)]:
+  - @thorswap-lib/evm-web3-wallets@1.0.0-development.15
+  - @thorswap-lib/swapkit-core@1.0.0-development.186
+  - @thorswap-lib/types@1.0.0-development.94
+  - @thorswap-lib/swapkit-api@0.1.0-development.25
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.122
+  - @thorswap-lib/toolbox-evm@1.0.0-development.138
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.120
+  - @thorswap-lib/keplr@1.0.0-development.17
+  - @thorswap-lib/keystore@1.0.0-development.182
+  - @thorswap-lib/ledger@1.0.0-development.201
+  - @thorswap-lib/trezor@1.0.0-development.38
+  - @thorswap-lib/walletconnect@1.1.0-development.38
+  - @thorswap-lib/xdefi@1.0.0-development.21
+
+## 0.0.1-development.33
+
+### Patch Changes
+
+- [#185](https://github.com/thorswap/SwapKit/pull/185) [`4e7b77a`](https://github.com/thorswap/SwapKit/commit/4e7b77adfd868ce26df05060f02dd2aab18dfa5d) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Bump dependencies
+
+- Updated dependencies [[`4e7b77a`](https://github.com/thorswap/SwapKit/commit/4e7b77adfd868ce26df05060f02dd2aab18dfa5d)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.121
+  - @thorswap-lib/evm-web3-wallets@1.0.0-development.14
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.119
+  - @thorswap-lib/toolbox-evm@1.0.0-development.137
+  - @thorswap-lib/walletconnect@1.1.0-development.37
+  - @thorswap-lib/swapkit-core@1.0.0-development.185
+  - @thorswap-lib/swapkit-api@0.1.0-development.24
+  - @thorswap-lib/trustwallet@1.0.0-development.170
+  - @thorswap-lib/keystore@1.0.0-development.181
+  - @thorswap-lib/ledger@1.0.0-development.200
+  - @thorswap-lib/trezor@1.0.0-development.37
+  - @thorswap-lib/types@1.0.0-development.93
+  - @thorswap-lib/keplr@1.0.0-development.16
+  - @thorswap-lib/xdefi@1.0.0-development.20
+
 ## 0.0.1-development.32
 
 ### Patch Changes

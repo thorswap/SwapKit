@@ -1,5 +1,17 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.94
+
+### Minor Changes
+
+- [#188](https://github.com/thorswap/SwapKit/pull/188) [`3066000`](https://github.com/thorswap/SwapKit/commit/30660006cd0551dfb2be606290b0448bf0181d72) Thanks [@0x-General](https://github.com/0x-General)! - Remove TrustWallet integration
+
+## 1.0.0-development.93
+
+### Patch Changes
+
+- [#185](https://github.com/thorswap/SwapKit/pull/185) [`4e7b77a`](https://github.com/thorswap/SwapKit/commit/4e7b77adfd868ce26df05060f02dd2aab18dfa5d) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Bump dependencies
+
 ## 1.0.0-development.92
 
 ### Minor Changes

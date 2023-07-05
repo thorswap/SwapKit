@@ -10,6 +10,8 @@
     "@ethersproject/contracts": "5.7.0",
     "@ethersproject/providers": "5.7.2",
     "@ethersproject/strings": "5.7.0",
+    "@ethersproject/transactions": "5.7.0",
+    "@ethersproject/units": "5.7.0",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*"
@@ -59,5 +61,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.136"
+  "version": "1.0.0-development.138"
 }

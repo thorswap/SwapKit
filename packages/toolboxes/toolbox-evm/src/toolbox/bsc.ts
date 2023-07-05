@@ -1,35 +1,29 @@
 import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
-import { Web3Provider } from '@ethersproject/providers';
+import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
-import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { Address, BaseDecimal, Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import {
+  Address,
+  BaseDecimal,
+  Chain,
+  ChainId,
+  ChainToExplorerUrl,
+  RPCUrl,
+} from '@thorswap-lib/types';
 
 import { covalentApi, CovalentApiType } from '../api/covalentApi.js';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.js';
 
-export const getBalance = async (
-  provider: Provider,
-  api: CovalentApiType,
-  address: Address,
-  assets?: AssetEntity[],
-) => {
+export const getBalance = async (provider: Provider, api: CovalentApiType, address: Address) => {
   const tokenBalances = await api.getBalance(address);
-
-  if (assets) {
-    return tokenBalances.filter((balance) =>
-      assets.find(
-        ({ chain, symbol }) => chain === balance.asset.chain && symbol === balance.asset.symbol,
-      ),
-    );
-  }
-
   const evmGasTokenBalance = await provider.getBalance(address);
+
   return [
     {
       asset: getSignatureAssetFor(Chain.BinanceSmartChain),
-      amount: baseAmount(evmGasTokenBalance, BaseDecimal.ETH),
+      amount: baseAmount(evmGasTokenBalance, BaseDecimal.BSC),
     },
     ...tokenBalances,
   ];
@@ -38,13 +32,9 @@ export const getBalance = async (
 export const getNetworkParams = () => ({
   chainId: ChainId.BinanceSmartChainHex,
   chainName: 'Smart Chain',
-  nativeCurrency: {
-    name: 'Binance Coin',
-    symbol: 'BNB',
-    decimals: 18,
-  },
+  nativeCurrency: { name: 'Binance Coin', symbol: Chain.Binance, decimals: BaseDecimal.BSC },
   rpcUrls: [RPCUrl.BinanceSmartChain],
-  blockExplorerUrls: ['https://bscscan.com/'],
+  blockExplorerUrls: [ChainToExplorerUrl[Chain.BinanceSmartChain]],
 });
 
 export const BSCToolbox = ({
@@ -56,14 +46,14 @@ export const BSCToolbox = ({
   api?: CovalentApiType;
   covalentApiKey: string;
   signer: Signer;
-  provider: Provider | Web3Provider;
+  provider: JsonRpcProvider | Web3Provider;
 }) => {
   const bscApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.BinanceSmartChain });
+  const baseToolbox = BaseEVMToolbox({ provider, signer, isEIP1559Compatible: false });
 
   return {
-    ...BaseEVMToolbox({ provider, signer, isEIP1559Compatible: false }),
+    ...baseToolbox,
     getNetworkParams,
-    getBalance: (address: string, assets?: AssetEntity[]) =>
-      getBalance(provider, bscApi, address, assets),
+    getBalance: (address: string) => getBalance(provider, bscApi, address),
   };
 };

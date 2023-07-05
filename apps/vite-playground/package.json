@@ -14,7 +14,6 @@
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "@thorswap-lib/trezor": "workspace:*",
-    "@thorswap-lib/trustwallet": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "@thorswap-lib/walletconnect": "workspace:*",
     "@thorswap-lib/xdefi": "workspace:*",

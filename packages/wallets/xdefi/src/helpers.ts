@@ -137,7 +137,7 @@ export const getWalletMethodsForChain: any = ({
 
       const sendTransaction = async (tx: EVMTxParams, feeOptionKey: FeeOption) => {
         const address = await provider.getSigner().getAddress();
-        const feeData = await toolbox.getPriorityFeeData(feeOptionKey);
+        const feeData = (await toolbox.estimateGasPrices())[feeOptionKey];
         const nonce = tx.nonce || (await provider.getTransactionCount(address));
         const chainId = (await provider.getNetwork()).chainId;
 
@@ -154,7 +154,7 @@ export const getWalletMethodsForChain: any = ({
             chainId,
             type: chain !== Chain.BinanceSmartChain ? 2 : 0,
             gasLimit: gasLimit.toHexString(),
-            gasPrice: feeData.gasPrice?.toHexString(),
+            gasPrice: 'gasPrice' in feeData ? feeData.gasPrice?.toHexString() : undefined,
             maxFeePerGas: feeData.maxFeePerGas?.toHexString(),
             maxPriorityFeePerGas: feeData.maxPriorityFeePerGas?.toHexString(),
             nonce,
