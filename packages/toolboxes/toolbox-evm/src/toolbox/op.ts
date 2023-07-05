@@ -1,5 +1,7 @@
 import { Provider, TransactionRequest } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
+import { BigNumber } from '@ethersproject/bignumber';
+import { Contract } from '@ethersproject/contracts';
 import { Web3Provider } from '@ethersproject/providers';
 import { serialize } from '@ethersproject/transactions';
 import { baseAmount } from '@thorswap-lib/helpers';
@@ -15,12 +17,10 @@ import {
 } from '@thorswap-lib/types';
 
 import { covalentApi, CovalentApiType } from '../api/covalentApi.js';
+import { gasOracleAbi } from '../contracts/op/gasOracle.js';
 import { getProvider } from '../provider.js';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.js';
-import { Contract } from '@ethersproject/contracts';
-import { gasOracleAbi } from '../contracts/op/gasOracle.js';
-import { BigNumber } from '@ethersproject/bignumber';
 
 const GAS_PRICE_ORACLE_ADDRESS = '0x420000000000000000000000000000000000000f';
 
@@ -32,28 +32,26 @@ export const getL1GasPrice = async (provider: Provider) => {
   return connectGasPriceOracle(provider).l1BaseFee();
 };
 
-const _serializeTx = async (provider: Provider, { data, from, to, gasPrice, type, gasLimit, nonce }: TransactionRequest) => {
-    return serialize({
-        data,
-        to,
-        gasPrice,
-        type,
-        gasLimit,
-        nonce: nonce
-            ? BigNumber.from(nonce).toNumber()
-            : from
-                ? await provider.getTransactionCount(from)
-                : 0,
-    });
+const _serializeTx = async (
+  provider: Provider,
+  { data, from, to, gasPrice, type, gasLimit, nonce }: TransactionRequest,
+) => {
+  return serialize({
+    data,
+    to,
+    gasPrice,
+    type,
+    gasLimit,
+    nonce: nonce
+      ? BigNumber.from(nonce).toNumber()
+      : from
+      ? await provider.getTransactionCount(from)
+      : 0,
+  });
 };
 
-export const estimateL1GasCost = async (
-  provider: Provider,
-  tx: TransactionRequest,
-) => {
-  return connectGasPriceOracle(provider).getL1Fee(
-    await _serializeTx(provider, tx),
-  );
+export const estimateL1GasCost = async (provider: Provider, tx: TransactionRequest) => {
+  return connectGasPriceOracle(provider).getL1Fee(await _serializeTx(provider, tx));
 };
 
 export const estimateL2GasCost = async (
@@ -71,13 +69,8 @@ export const estimateTotalGasCost = async (provider: Provider, tx: TransactionRe
   return l1GasCost.add(l2GasCost);
 };
 
-export const estimateL1Gas = async (
-  provider: Provider,
-  tx: TransactionRequest,
-) => {
-  return connectGasPriceOracle(provider).getL1GasUsed(
-    await _serializeTx(provider, tx),
-  );
+export const estimateL1Gas = async (provider: Provider, tx: TransactionRequest) => {
+  return connectGasPriceOracle(provider).getL1GasUsed(await _serializeTx(provider, tx));
 };
 
 export const getBalance = async (api: CovalentApiType, address: Address) => {
@@ -150,10 +143,11 @@ export const OPToolbox = ({
 
   return {
     ...baseToolbox,
-    estimateTotalGasCost,
-    estimateL1GasCost,
-    estimateL2GasCost,
-    getL1GasPrice,
+    estimateTotalGasCost: (tx: TransactionRequest) => estimateTotalGasCost(provider, tx),
+    estimateL1GasCost: (tx: TransactionRequest) => estimateL1GasCost(provider, tx),
+    estimateL2GasCost: (tx: TransactionRequest) => estimateL2GasCost(provider, tx),
+    getL1GasPrice: () => getL1GasPrice(provider),
+    estimateL1Gas: (tx: TransactionRequest) => estimateL1Gas(provider, tx),
     getNetworkParams,
     estimateGasPrices: () => estimateGasPrices(provider),
     getBalance: (address: string) => getBalance(opApi, address),
