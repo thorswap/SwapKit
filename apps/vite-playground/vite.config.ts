@@ -26,7 +26,6 @@ export default defineConfig({
       '@thorswap-lib/toolbox-cosmos': resolve('../../packages/toolboxes/toolbox-cosmos/src'),
       '@thorswap-lib/toolbox-utxo': resolve('../../packages/toolboxes/toolbox-utxo/src'),
       '@thorswap-lib/types': resolve('../../packages/swapkit/types/src'),
-      '@thorswap-lib/trustwallet': resolve('../../packages/wallets/trustwallet/src'),
       '@thorswap-lib/trezor': resolve('../../packages/wallets/trezor/src'),
       '@thorswap-lib/xdefi': resolve('../../packages/wallets/xdefi/src'),
 

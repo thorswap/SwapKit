@@ -14,7 +14,6 @@ export const getSwapKitClient = () => {
       require('@thorswap-lib/keystore').keystoreWallet,
       require('@thorswap-lib/xdefi').xdefiWallet,
       require('@thorswap-lib/walletconnect').walletconnectWallet,
-      require('@thorswap-lib/trustwallet').trustwalletWallet,
     ],
   });
 

@@ -12,7 +12,7 @@ type Props = {
 };
 
 const walletOptions = Object.values(WalletOption).filter(
-  (o) => ![WalletOption.KEPLR, WalletOption.TRUSTWALLET].includes(o),
+  (o) => ![WalletOption.KEPLR].includes(o),
 );
 
 const AllChainsSupported = [
@@ -46,7 +46,6 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   ],
   [WalletOption.METAMASK]: EVMChainsSupported,
   [WalletOption.TRUSTWALLET_WEB]: EVMChainsSupported,
-  [WalletOption.TRUSTWALLET]: [Chain.THORChain, Chain.Ethereum, Chain.Binance],
   [WalletOption.XDEFI]: AllChainsSupported,
   [WalletOption.WALLETCONNECT]: [Chain.Ethereum, Chain.Binance, Chain.Avalanche],
 };

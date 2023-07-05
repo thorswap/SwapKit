@@ -59,7 +59,6 @@ import { keplr } from '@thorswap-lib/keplr';
 import { keystoreWallet } from '@thorswap-lib/keystore';
 import { ledgerWallet } from '@thorswap-lib/ledger';
 import { trezorWallet } from '@thorswap-lib/trezor';
-import { trustwalletWallet } from '@thorswap-lib/trustwallet';
 import { walletconnectWallet } from '@thorswap-lib/walletconnect';
 
 const getSwapKitClient = () => {
@@ -78,7 +77,6 @@ const getSwapKitClient = () => {
       keystoreWallet,
       ledgerWallet,
       trezorWallet,
-      trustwalletWallet,
       walletconnectWallet,
       xdefiWallet,
     ],
@@ -155,8 +153,7 @@ This repo contains packages around SwapKit sdk and its integrations with differe
 | [@thorswap-lib/keystore](./packages/wallets/keystore/README.md)                 | Keystore implementation            | All chains supported by toolboxes                 |
 | [@thorswap-lib/ledger](./packages/wallets/ledger/README.md)                     | Ledger implementation              | All chains supported by toolboxes                 |
 | [@thorswap-lib/trezor](./packages/wallets/trezor/README.md)                     | Trezor implementation              | BTC, ETH, LTC, DOGE, BCH, AVAX                    |
-| [@thorswap-lib/trustwallet](./packages/wallets/trustwallet/README.md)           | Trustwallet implementation         | THOR, BNB, ETH                                    |
-| [@thorswap-lib/walletconnect](./packages/wallets/walletconnect/README.md)       | Walletconnect implementation       | ETH                                               |
+| [@thorswap-lib/walletconnect](./packages/wallets/walletconnect/README.md)       | Walletconnect implementation       | ETH, THOR, BNB, AVAX                              |
 | [@thorswap-lib/keplr](./packages/wallets/keplr/README.md)                       | Keplr implementation               | ATOM                                              |
 | [@thorswap-lib/xdefi](./packages/wallets/xdefi/README.md)                       | XDEFI implementation               | All chains                                        |
 | [@thorswap-lib/evm-web3-wallets](./packages/wallets/evm-web3-wallets/README.md) | EVM Browser Extensions             | [See more](./packages/wallets/evm-web3-wallets/README.md) |

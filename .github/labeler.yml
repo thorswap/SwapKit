@@ -34,8 +34,6 @@ ledger:
 - packages/wallets/ledger/src/**/*
 trezor:
 - packages/wallets/trezor/src/**/*
-tw:
-- packages/wallets/trustwallet/src/**/*
 wc:
 - packages/wallets/walletconnect/src/**/*
 xdefi:

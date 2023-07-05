@@ -9,7 +9,6 @@ type EVMChains = Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche | Ch
 type ConnectMethodNames =
   | 'connectXDEFI'
   | 'connectKeplr'
-  | 'connectTrustwallet'
   | 'connectWalletconnect'
   | 'connectKeystore'
   | 'connectLedger'

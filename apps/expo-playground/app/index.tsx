@@ -54,9 +54,6 @@ export default function App() {
       case WalletOption.METAMASK:
         return skClient.connectEVMWallet([Chain.Ethereum], WalletOption.METAMASK);
 
-      case WalletOption.TRUSTWALLET:
-        return skClient.connectTrustwallet([Chain.Ethereum]);
-
       default:
         break;
     }

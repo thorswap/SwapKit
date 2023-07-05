@@ -16,7 +16,6 @@
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
-    "@thorswap-lib/trustwallet": "workspace:*",
     "@thorswap-lib/walletconnect": "workspace:*",
     "@vitest/coverage-istanbul": "0.32.4",
     "vite": "4.3.9",
