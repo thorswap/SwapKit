@@ -29,7 +29,7 @@ import {
   EstimateCallParams,
   IsApprovedParams,
   TransferParams,
-} from '../types/index.js';
+} from '../types/clientTypes.js';
 
 const MAX_APPROVAL = BigNumber.from('2').pow('255').sub('1');
 

@@ -11,7 +11,8 @@ export {
   isDetected,
   toChecksumAddress,
 } from './toolbox/BaseEVMToolbox.js';
-export * from './types/index.js';
+export * from './types/clientTypes.js';
+export * from './types/ethplorer-api-types.js';
 
 /**
  * Toolboxes

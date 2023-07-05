@@ -2,7 +2,7 @@ import { getAddress } from '@ethersproject/address';
 import { assetFromString, baseAmount, getRequest } from '@thorswap-lib/helpers';
 import { Balance, Chain } from '@thorswap-lib/types';
 
-import { AddressInfo } from '../types/index.js';
+import { AddressInfo } from '../types/ethplorer-api-types.js';
 
 const baseUrl = 'https://api.ethplorer.io';
 

@@ -1,46 +1,11 @@
-import { Provider } from '@ethersproject/abstract-provider';
-import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
-import { BytesLike } from '@ethersproject/bytes';
 import { ContractInterface } from '@ethersproject/contracts';
-import {
-  Address,
-  AmountWithBaseDenom,
-  EIP1559TxParams,
-  FeeOption,
-  Fees,
-  WalletTxParams,
-} from '@thorswap-lib/types';
+import { Address, FeeOption, WalletTxParams } from '@thorswap-lib/types';
 
 export enum EthNetwork {
   Test = 'goerli',
   Main = 'homestead',
 }
-
-export type TxOverrides = {
-  nonce?: BigNumberish;
-
-  // mandatory: https://github.com/ethers-io/ethers.js/issues/469#issuecomment-475926538
-  gasLimit: BigNumberish;
-  gasPrice?: BigNumberish;
-  data?: BytesLike;
-  value?: BigNumberish;
-
-  // EIP-1559
-  maxPriorityFeePerGas?: BigNumberish;
-  maxFeePerGas?: BigNumberish;
-};
-
-export type GasPrices = Record<
-  FeeOption,
-  { maxFeePerGas: AmountWithBaseDenom; maxPriorityFeePerGas: AmountWithBaseDenom }
->;
-
-export type FeesWithGasPricesAndLimits = {
-  fees: Fees;
-  gasPrices: GasPrices;
-  gasLimit: BigNumber;
-};
 
 export type ApproveParams = {
   assetAddress: Address;
@@ -52,8 +17,6 @@ export type ApproveParams = {
   gasLimitFallback?: BigNumberish;
   nonce?: number;
 };
-
-export type EstimateApproveParams = Omit<ApproveParams, 'feeOptionKey' | 'gasLimitFallback'>;
 
 export type ApprovedParams = {
   assetAddress: Address;
@@ -76,21 +39,6 @@ export type EstimateCallParams = Pick<
   CallParams,
   'contractAddress' | 'abi' | 'funcName' | 'funcParams'
 >;
-
-export interface EVMChainClientParams {
-  chainId: number;
-  networkUrl: string;
-}
-
-export interface FeeData {
-  maxFeePerGas: BigNumber;
-  maxPriorityFeePerGas: BigNumber;
-}
-
-export type SendTransactionParams = {
-  signer?: Signer;
-  provider: Provider;
-};
 
 export type EthereumWindowProvider = import('@ethersproject/providers').ExternalProvider & {
   isMetaMask?: boolean;
@@ -121,8 +69,6 @@ declare global {
     braveSolana: any;
   }
 }
-
-export type TxFormatter<T> = (tx: EIP1559TxParams<BigNumberish>) => EIP1559TxParams<T>;
 
 export type TransferParams = WalletTxParams & {
   gasLimit?: BigNumber;

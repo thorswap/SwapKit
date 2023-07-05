@@ -2,7 +2,7 @@
   "author": "thorswap",
   "dependencies": {
     "@avalabs/avalanchejs": "3.17.0",
-    "@eth-optimism/sdk": "^3.0.0",
+    "@eth-optimism/sdk": "3.0.0",
     "@ethersproject/abstract-provider": "5.7.0",
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/address": "5.7.0",
@@ -11,6 +11,7 @@
     "@ethersproject/contracts": "5.7.0",
     "@ethersproject/providers": "5.7.2",
     "@ethersproject/strings": "5.7.0",
+    "@ethersproject/units": "5.7.0",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*"

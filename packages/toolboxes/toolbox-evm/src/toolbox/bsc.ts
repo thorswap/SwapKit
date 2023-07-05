@@ -32,11 +32,7 @@ export const getBalance = async (provider: Provider, api: CovalentApiType, addre
 export const getNetworkParams = () => ({
   chainId: ChainId.BinanceSmartChainHex,
   chainName: 'Smart Chain',
-  nativeCurrency: {
-    name: 'Binance Coin',
-    symbol: Chain.Binance,
-    decimals: BaseDecimal.BSC,
-  },
+  nativeCurrency: { name: 'Binance Coin', symbol: Chain.Binance, decimals: BaseDecimal.BSC },
   rpcUrls: [RPCUrl.BinanceSmartChain],
   blockExplorerUrls: [ChainToExplorerUrl[Chain.BinanceSmartChain]],
 });

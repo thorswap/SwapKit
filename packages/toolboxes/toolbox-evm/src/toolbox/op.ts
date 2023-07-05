@@ -39,11 +39,7 @@ export const getBalance = async (api: CovalentApiType, address: Address) => {
 export const getNetworkParams = () => ({
   chainId: ChainId.OptimismHex,
   chainName: 'Optimism',
-  nativeCurrency: {
-    name: 'Ethereum',
-    symbol: Chain.Ethereum,
-    decimals: BaseDecimal.ETH,
-  },
+  nativeCurrency: { name: 'Ethereum', symbol: Chain.Ethereum, decimals: BaseDecimal.ETH },
   rpcUrls: [RPCUrl.Optimism],
   blockExplorerUrls: [ChainToExplorerUrl[Chain.Optimism]],
 });

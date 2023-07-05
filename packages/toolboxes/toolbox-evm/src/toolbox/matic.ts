@@ -32,11 +32,7 @@ export const getBalance = async (api: CovalentApiType, address: Address) => {
 export const getNetworkParams = () => ({
   chainId: ChainId.PolygonHex,
   chainName: 'Polygon Mainnet',
-  nativeCurrency: {
-    name: 'Polygon',
-    symbol: Chain.Polygon,
-    decimals: BaseDecimal.MATIC,
-  },
+  nativeCurrency: { name: 'Polygon', symbol: Chain.Polygon, decimals: BaseDecimal.MATIC },
   rpcUrls: [RPCUrl.Polygon],
   blockExplorerUrls: [ChainToExplorerUrl[Chain.Polygon]],
 });
