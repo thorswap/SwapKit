@@ -34,5 +34,5 @@
     "test:coverage": "vitest run --coverage"
   },
   "type": "module",
-  "version": "0.0.0-development.93"
+  "version": "0.0.0-development.94"
 }

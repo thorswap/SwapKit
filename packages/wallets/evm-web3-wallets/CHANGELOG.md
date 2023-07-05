@@ -1,5 +1,17 @@
 # @thorswap-lib/evm-web3-wallets
 
+## 1.0.0-development.15
+
+### Minor Changes
+
+- [#188](https://github.com/thorswap/SwapKit/pull/188) [`3066000`](https://github.com/thorswap/SwapKit/commit/30660006cd0551dfb2be606290b0448bf0181d72) Thanks [@0x-General](https://github.com/0x-General)! - Remove TrustWallet integration
+
+### Patch Changes
+
+- Updated dependencies [[`3066000`](https://github.com/thorswap/SwapKit/commit/30660006cd0551dfb2be606290b0448bf0181d72)]:
+  - @thorswap-lib/types@1.0.0-development.94
+  - @thorswap-lib/toolbox-evm@1.0.0-development.138
+
 ## 1.0.0-development.14
 
 ### Patch Changes
