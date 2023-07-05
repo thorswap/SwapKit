@@ -2,15 +2,23 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Web3Provider } from '@ethersproject/providers';
+import { formatUnits } from '@ethersproject/units';
 import { baseAmount, gasFeeMultiplier } from '@thorswap-lib/helpers';
-import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { Address, BaseDecimal, Chain, ChainId, FeeOption } from '@thorswap-lib/types';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import {
+  Address,
+  BaseDecimal,
+  Chain,
+  ChainId,
+  ChainToExplorerUrl,
+  FeeOption,
+  RPCUrl,
+} from '@thorswap-lib/types';
 
 import { covalentApi, CovalentApiType } from '../api/covalentApi.js';
 import { getProvider } from '../provider.js';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.js';
-import { formatUnits } from '@ethersproject/units';
 
 const MIN_AVAX_GAS = '25000000000';
 
@@ -83,22 +91,12 @@ export const estimateGasPrices = async () => {
   }
 };
 
-export const getBalance = async (
-  api: CovalentApiType,
-  address: Address,
-  assets?: AssetEntity[],
-) => {
+export const getBalance = async (api: CovalentApiType, address: Address) => {
   const provider = getProvider(Chain.Avalanche);
   const tokenBalances = await api.getBalance(address);
 
-  if (assets) {
-    return tokenBalances.filter(({ asset }) =>
-      assets.find(({ chain, symbol }) => chain === asset.chain && symbol === asset.symbol),
-    );
-  }
-
   const evmGasTokenBalance = await provider.getBalance(address);
-  const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.ETH);
+  const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.AVAX);
   return [
     { asset: getSignatureAssetFor(Chain.Avalanche), amount: evmGasTokenBalanceAmount },
     ...tokenBalances,
@@ -108,13 +106,9 @@ export const getBalance = async (
 export const getNetworkParams = () => ({
   chainId: ChainId.AvalancheHex,
   chainName: 'Avalanche Mainnet C-Chain',
-  nativeCurrency: {
-    name: 'Avalanche',
-    symbol: 'AVAX',
-    decimals: 18,
-  },
-  rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
-  blockExplorerUrls: ['https://snowtrace.io/'],
+  nativeCurrency: { name: 'Avalanche', symbol: Chain.Avalanche, decimals: BaseDecimal.AVAX },
+  rpcUrls: [RPCUrl.Avalanche],
+  blockExplorerUrls: [ChainToExplorerUrl[Chain.Avalanche]],
 });
 
 export const AVAXToolbox = ({
@@ -129,11 +123,12 @@ export const AVAXToolbox = ({
   provider: Provider | Web3Provider;
 }) => {
   const avaxApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Avalanche });
+  const baseToolbox = BaseEVMToolbox({ provider, signer });
 
   return {
-    ...BaseEVMToolbox({ provider, signer }),
+    ...baseToolbox,
     getNetworkParams,
     estimateGasPrices,
-    getBalance: (address: string, assets?: AssetEntity[]) => getBalance(avaxApi, address, assets),
+    getBalance: (address: string) => getBalance(avaxApi, address),
   };
 };

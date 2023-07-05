@@ -2,13 +2,12 @@ import { Secp256k1HdWallet } from '@cosmjs/amino';
 import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from '@cosmjs/crypto';
 import {
   assetFromString,
-  assetToString,
   baseAmount,
   getRequest,
   postRequest,
   singleFee,
 } from '@thorswap-lib/helpers';
-import { Amount, AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
   Address,
   AmountWithBaseDenom,
@@ -49,19 +48,13 @@ const getTransferFee = async () => {
   return transferFee;
 };
 
-const getBalance = async (address: Address, assets?: AssetEntity[]) => {
+const getBalance = async (address: Address) => {
   const balances = (await getAccount(address))?.balances || [];
 
-  return balances
-    .map(({ symbol, free }) => ({
-      asset: assetFromString(`${Chain.Binance}.${symbol}`) || getSignatureAssetFor(Chain.Binance),
-      amount: baseAmount(Amount.fromAssetAmount(free, 8).baseAmount.toString() || 0, 8),
-    }))
-    .filter(
-      (balance) =>
-        !assets ||
-        assets.filter((asset) => assetToString(balance.asset) === assetToString(asset)).length,
-    );
+  return balances.map(({ symbol, free }) => ({
+    asset: assetFromString(`${Chain.Binance}.${symbol}`) || getSignatureAssetFor(Chain.Binance),
+    amount: baseAmount(Amount.fromAssetAmount(free, 8).baseAmount.toString() || 0, 8),
+  }));
 };
 
 const getFees = async () => {

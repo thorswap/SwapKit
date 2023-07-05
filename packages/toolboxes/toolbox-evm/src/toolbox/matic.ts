@@ -2,7 +2,7 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
-import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
   Address,
   BaseDecimal,
@@ -17,22 +17,12 @@ import { getProvider } from '../provider.js';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.js';
 
-export const getBalance = async (
-  api: CovalentApiType,
-  address: Address,
-  assets?: AssetEntity[],
-) => {
+export const getBalance = async (api: CovalentApiType, address: Address) => {
   const provider = getProvider(Chain.Polygon);
   const tokenBalances = await api.getBalance(address);
-
-  if (assets) {
-    return tokenBalances.filter(({ asset }) =>
-      assets.find(({ chain, symbol }) => chain === asset.chain && symbol === asset.symbol),
-    );
-  }
-
   const evmGasTokenBalance = await provider.getBalance(address);
   const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.MATIC);
+
   return [
     { asset: getSignatureAssetFor(Chain.Polygon), amount: evmGasTokenBalanceAmount },
     ...tokenBalances,
@@ -45,7 +35,7 @@ export const getNetworkParams = () => ({
   nativeCurrency: {
     name: 'Polygon',
     symbol: Chain.Polygon,
-    decimals: 18,
+    decimals: BaseDecimal.MATIC,
   },
   rpcUrls: [RPCUrl.Polygon],
   blockExplorerUrls: [ChainToExplorerUrl[Chain.Polygon]],
@@ -63,10 +53,11 @@ export const MATICToolbox = ({
   provider: Provider | Web3Provider;
 }) => {
   const maticApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Polygon });
+  const baseToolbox = BaseEVMToolbox({ provider, signer });
 
   return {
-    ...BaseEVMToolbox({ provider, signer }),
+    ...baseToolbox,
     getNetworkParams,
-    getBalance: (address: string, assets?: AssetEntity[]) => getBalance(maticApi, address, assets),
+    getBalance: (address: string) => getBalance(maticApi, address),
   };
 };

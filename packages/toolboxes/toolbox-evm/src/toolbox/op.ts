@@ -8,7 +8,7 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
-import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
   Address,
   BaseDecimal,
@@ -24,20 +24,9 @@ import { getProvider } from '../provider.js';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.js';
 
-export const getBalance = async (
-  api: CovalentApiType,
-  address: Address,
-  assets?: AssetEntity[],
-) => {
+export const getBalance = async (api: CovalentApiType, address: Address) => {
   const provider = getProvider(Chain.Optimism);
   const tokenBalances = await api.getBalance(address);
-
-  if (assets) {
-    return tokenBalances.filter(({ asset }) =>
-      assets.find(({ chain, symbol }) => chain === asset.chain && symbol === asset.symbol),
-    );
-  }
-
   const evmGasTokenBalance = await provider.getBalance(address);
   const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.OP);
 
@@ -53,7 +42,7 @@ export const getNetworkParams = () => ({
   nativeCurrency: {
     name: 'Ethereum',
     symbol: Chain.Ethereum,
-    decimals: 18,
+    decimals: BaseDecimal.ETH,
   },
   rpcUrls: [RPCUrl.Optimism],
   blockExplorerUrls: [ChainToExplorerUrl[Chain.Optimism]],
@@ -105,15 +94,16 @@ export const OPToolbox = ({
   provider: Provider | Web3Provider;
 }) => {
   const opApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Optimism });
+  const baseToolbox = BaseEVMToolbox({ provider, signer });
 
   return {
-    ...BaseEVMToolbox({ provider, signer }),
+    ...baseToolbox,
     estimateTotalGasCost,
     estimateL1GasCost,
     estimateL2GasCost,
     getL1GasPrice,
     getNetworkParams,
     estimateGasPrices: () => estimateGasPrices(provider),
-    getBalance: (address: string, assets?: AssetEntity[]) => getBalance(opApi, address, assets),
+    getBalance: (address: string) => getBalance(opApi, address),
   };
 };
