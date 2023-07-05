@@ -228,14 +228,9 @@ export type DexFees = {
 
 export type Fees = (Fee | TransferFee | DexFees)[];
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SignMsg {}
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface Msg {}
-
 export abstract class BaseMsg {
-  public abstract getSignMsg(): SignMsg;
-  public abstract getMsg(): Msg;
+  public abstract getSignMsg(): {};
+  public abstract getMsg(): {};
   public static defaultMsg(): object {
     return {};
   }
@@ -246,7 +241,7 @@ export interface StdSignMsg {
   accountNumber: number;
   sequence: number;
   baseMsg?: BaseMsg;
-  msg?: Msg;
+  msg?: {};
   memo: string;
   source: number;
   data?: Buffer | null | string;
@@ -258,7 +253,7 @@ export enum AminoPrefix {
 }
 
 export interface StdTx {
-  msg: Msg[];
+  msg: {}[];
   signatures: StdSignature[];
   memo: string;
   source: number;

@@ -4,7 +4,7 @@ import * as tinySecp from 'tiny-secp256k1';
 
 import { convertObjectToSignBytes, encodeBinaryByteArray, marshalBinary } from './amino/encoder.js';
 import { UVarInt } from './amino/varint.js';
-import { AminoPrefix, BaseMsg, SignMsg, StdSignature, StdSignMsg, StdTx } from './types.js';
+import { AminoPrefix, BaseMsg, StdSignature, StdSignMsg, StdTx } from './types.js';
 
 const sha256 = (hex: string) => {
   if (typeof hex !== 'string') throw new Error('sha256 expects a hex string');
@@ -86,7 +86,7 @@ export class BNBTransaction {
    * @param {SignMsg} concrete msg object
    * @return {Buffer}
    **/
-  getSignBytes(msg?: SignMsg): Buffer {
+  getSignBytes(msg?: {}): Buffer {
     msg = msg || this.baseMsg?.getSignMsg?.();
     const signMsg = {
       account_number: this.accountNumber.toString(),
@@ -125,7 +125,7 @@ export class BNBTransaction {
    * @param {SignMsg} concrete msg object
    * @return {Transaction}
    **/
-  sign(privateKey: string, msg?: SignMsg) {
+  sign(privateKey: string, msg?: {}) {
     if (!privateKey) {
       throw new Error('private key should not be null');
     }

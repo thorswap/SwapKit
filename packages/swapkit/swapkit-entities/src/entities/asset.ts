@@ -140,9 +140,9 @@ export const getSignatureAssetFor = (signature: Signature) => {
   switch (signature) {
     case Chain.Avalanche:
     case Chain.Binance:
-    case Chain.BitcoinCash:
     case Chain.Bitcoin:
-    case Chain.Doge:
+    case Chain.BitcoinCash:
+    case Chain.Dogecoin:
     case Chain.Ethereum:
     case Chain.Litecoin: {
       const asset = new AssetEntity(signature, signature);
@@ -151,16 +151,33 @@ export const getSignatureAssetFor = (signature: Signature) => {
       return asset;
     }
 
+    case Chain.Optimism:
+    case Chain.Arbitrum: {
+      const asset = new AssetEntity(signature, Chain.Ethereum);
+      asset.setDecimal(18);
+
+      cachedSignatureAssets[signature] = asset;
+      return asset;
+    }
+
     case Chain.BinanceSmartChain: {
-      const bscAsset = new AssetEntity(Chain.BinanceSmartChain, Chain.Binance);
+      const bscAsset = new AssetEntity(signature, Chain.Binance);
       bscAsset.setDecimal(18);
 
       cachedSignatureAssets[signature] = bscAsset;
       return bscAsset;
     }
 
+    case Chain.Polygon: {
+      const asset = new AssetEntity(signature, signature);
+      asset.setDecimal(18);
+
+      cachedSignatureAssets[signature] = asset;
+      return asset;
+    }
+
     case Chain.Cosmos: {
-      const asset = new AssetEntity(Chain.Cosmos, AssetSymbol.ATOM, false, AssetSymbol.ATOM);
+      const asset = new AssetEntity(signature, AssetSymbol.ATOM, false, AssetSymbol.ATOM);
 
       cachedSignatureAssets[signature] = asset;
       return asset;

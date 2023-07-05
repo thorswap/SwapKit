@@ -10,6 +10,8 @@
     "@ethersproject/contracts": "5.7.0",
     "@ethersproject/providers": "5.7.2",
     "@ethersproject/strings": "5.7.0",
+    "@ethersproject/transactions": "5.7.0",
+    "@ethersproject/units": "5.7.0",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*"
@@ -52,7 +54,7 @@
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "echo 'Build toolbox-evm 🛠'; vite build && echo 'Build succeeded toolbox-evm ✅'",
-    "clean": "rm -rf dist .turbo",
+    "clean": "rm -rf dist .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "vitest --run",
     "test:coverage": "vitest run --coverage"

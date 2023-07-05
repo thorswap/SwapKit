@@ -7,22 +7,29 @@ export const getAssetType = (chain: Chain, ticker: string, isSynth = false) => {
   switch (chain) {
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
-    case Chain.Doge:
+    case Chain.Dogecoin:
     case Chain.Litecoin:
     case Chain.THORChain:
       return 'Native';
+
     case Chain.Cosmos:
       return ticker === 'ATOM' ? 'Native' : 'GAIA';
     case Chain.Binance:
-      return ticker === 'BNB' ? 'Native' : 'BEP2';
+      return ticker === Chain.Binance ? 'Native' : 'BEP2';
     case Chain.BinanceSmartChain:
-      return ticker === 'BNB' ? 'Native' : 'BEP20';
+      return ticker === Chain.Binance ? 'Native' : 'BEP20';
     case Chain.Ethereum:
-      return ticker === 'ETH' ? 'Native' : 'ERC20';
+      return ticker === Chain.Ethereum ? 'Native' : 'ERC20';
     case Chain.Avalanche:
-      return ticker === 'AVAX' ? 'Native' : 'AVAX';
+      return ticker === Chain.Avalanche ? 'Native' : 'AVAX';
+    case Chain.Polygon:
+      return ticker === Chain.Polygon ? 'Native' : 'POLYGON';
+
     case Chain.Arbitrum:
-      return ['ETH', 'ARB'].includes(ticker) ? 'Native' : 'ARBITRUM';
+      return [Chain.Ethereum, Chain.Arbitrum].includes(ticker as Chain) ? 'Native' : 'ARBITRUM';
+    case Chain.Optimism:
+      return [Chain.Ethereum, Chain.Optimism].includes(ticker as Chain) ? 'Native' : 'OPTIMISM';
+
     default:
       return chain;
   }

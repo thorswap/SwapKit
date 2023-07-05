@@ -3,14 +3,34 @@ import { assetFromString, baseAmount, getRequest } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { Balance, ChainId, ChainIdToChain } from '@thorswap-lib/types';
 
-import { CovalentBalanceResponse } from '../types/covalentApiTypes.js';
-
-const baseUrl = 'https://api.covalenthq.com/v1';
+type CovalentBalanceResponse = {
+  address: string;
+  updated_at: string;
+  next_updated_at: string;
+  quote_currency: string;
+  items: {
+    contract_decimals: number;
+    contract_name: string;
+    contract_ticker_symbol: string;
+    contract_address: string;
+    supports_erc: null | any[];
+    logo_url: string;
+    last_transferred_at: string;
+    native_token: boolean;
+    type: string;
+    balance: number;
+    balance_24h: number;
+    quote_rate: number;
+    quote_rate_24h: number;
+    quote: number;
+    quote_24h: number;
+  }[];
+};
 
 export const covalentApi = ({ apiKey, chainId }: { apiKey: string; chainId: ChainId }) => ({
   getBalance: async (address: string) => {
     const { data } = await getRequest<{ data: CovalentBalanceResponse }>(
-      `${baseUrl}/${chainId}/address/${address}/balances_v2/`,
+      `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/`,
       { key: apiKey },
     );
 

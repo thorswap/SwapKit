@@ -22,7 +22,6 @@ export default defineConfig({
       '@thorswap-lib/ledger': resolve('../../packages/wallets/ledger/src'),
       '@thorswap-lib/swapkit-core': resolve('../../packages/swapkit/swapkit-core/src'),
       '@thorswap-lib/swapkit-entities': resolve('../../packages/swapkit/swapkit-entities/src'),
-      '@thorswap-lib/swapkit-explorers': resolve('../../packages/swapkit/swapkit-explorers/src'),
       '@thorswap-lib/toolbox-evm': resolve('../../packages/toolboxes/toolbox-evm/src'),
       '@thorswap-lib/toolbox-cosmos': resolve('../../packages/toolboxes/toolbox-cosmos/src'),
       '@thorswap-lib/toolbox-utxo': resolve('../../packages/toolboxes/toolbox-utxo/src'),

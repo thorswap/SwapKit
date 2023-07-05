@@ -2,35 +2,22 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
-import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { Address, BaseDecimal, Chain } from '@thorswap-lib/types';
 
 import { ethplorerApi, EthplorerApiType } from '../api/ethplorerApi.js';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.js';
 
-export const getBalance = async (
-  provider: Provider,
-  api: EthplorerApiType,
-  address: Address,
-  assets?: AssetEntity[],
-) => {
+export const getBalance = async (provider: Provider, api: EthplorerApiType, address: Address) => {
   const tokenBalances = await api.getBalance(address);
+  const evmGasTokenBalance = await provider.getBalance(address);
+  const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.ETH);
 
-  if (assets) {
-    return tokenBalances.filter(({ asset }) =>
-      assets.find(({ chain, symbol }) => chain === asset.chain && symbol === asset.symbol),
-    );
-  } else {
-    const evmGasTokenBalance = await provider.getBalance(address);
-    return [
-      {
-        asset: getSignatureAssetFor(Chain.Ethereum),
-        amount: baseAmount(evmGasTokenBalance, BaseDecimal.ETH),
-      },
-      ...tokenBalances,
-    ];
-  }
+  return [
+    { asset: getSignatureAssetFor(Chain.Ethereum), amount: evmGasTokenBalanceAmount },
+    ...tokenBalances,
+  ];
 };
 
 export const ETHToolbox = ({
@@ -45,10 +32,10 @@ export const ETHToolbox = ({
   provider: Provider | Web3Provider;
 }) => {
   const ethApi = api || ethplorerApi(ethplorerApiKey);
+  const baseToolbox = BaseEVMToolbox({ provider, signer });
 
   return {
-    ...BaseEVMToolbox({ signer, provider }),
-    getBalance: (address: string, assets?: AssetEntity[]) =>
-      getBalance(provider, ethApi, address, assets),
+    ...baseToolbox,
+    getBalance: (address: string) => getBalance(provider, ethApi, address),
   };
 };

@@ -41,7 +41,7 @@
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "echo 'Build swapkit-entities 🛠'; vite build && echo 'Build succeeded swapkit-entities ✅'",
-    "clean": "rm -rf dist .turbo",
+    "clean": "rm -rf dist .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "vitest --run",
     "test:coverage": "vitest run --coverage"

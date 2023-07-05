@@ -45,6 +45,7 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
   const wrappedMethods = methodsToWrap.reduce((object, methodName) => {
     if (!toolbox[methodName]) return object;
     const method = toolbox[methodName];
+
     return {
       ...object,
       [methodName]: wrapMethodWithNetworkSwitch<typeof method>(method, provider, chainId),

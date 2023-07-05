@@ -10,7 +10,6 @@
     "@thorswap-lib/swapkit-api": "workspace:*",
     "@thorswap-lib/swapkit-core": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
-    "@thorswap-lib/swapkit-explorers": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",

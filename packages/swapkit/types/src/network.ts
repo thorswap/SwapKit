@@ -6,38 +6,23 @@ export enum Chain {
   Bitcoin = 'BTC',
   BitcoinCash = 'BCH',
   Cosmos = 'GAIA',
-  Doge = 'DOGE',
+  Dogecoin = 'DOGE',
   Ethereum = 'ETH',
   Litecoin = 'LTC',
+  Optimism = 'OP',
+  Polygon = 'MATIC',
   THORChain = 'THOR',
 }
-
-export const SUPPORTED_CHAINS = [
-  Chain.THORChain,
-  Chain.Arbitrum,
-  Chain.Avalanche,
-  Chain.Bitcoin,
-  Chain.Ethereum,
-  Chain.Binance,
-  Chain.BinanceSmartChain,
-  Chain.Cosmos,
-  Chain.Doge,
-  Chain.BitcoinCash,
-  Chain.Litecoin,
-] as const;
 
 export enum ContractAddress {
   ARB = '0x0000000000000000000000000000000000000000',
   AVAX = '0x0000000000000000000000000000000000000000',
   ETH = '0x0000000000000000000000000000000000000000',
   BSC = '0x0000000000000000000000000000000000000000',
+  MATIC = '0x0000000000000000000000000000000000001010',
+  OP = '0x4200000000000000000000000000000000000042',
   USDC_SPL_MINT_ADDRESS = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
   USDC_SPL_TESTNET_MINT_ADDRESS = '6TEqT62wq5mbKQPubX9eFeNJRYXRJd79Hk51pZk7nZrB',
-}
-
-export enum Network {
-  Mainnet = 'mainnet',
-  Testnet = 'testnet',
 }
 
 export enum NetworkId {
@@ -57,6 +42,8 @@ export enum DerivationPath {
   ETH = "m/44'/60'/0'/0",
   GAIA = "m/44'/118'/0'/0",
   LTC = "m/84'/2'/0'/0",
+  MATIC = "m/44'/60'/0'/0",
+  OP = "m/44'/60'/0'/0",
   THOR = "m/44'/931'/0'/0",
 }
 
@@ -73,6 +60,8 @@ export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   ETH: [44, 60, 0, 0, 0],
   GAIA: [44, 118, 0, 0, 0],
   LTC: [84, 2, 0, 0, 0],
+  MATIC: [44, 60, 0, 0, 0],
+  OP: [44, 60, 0, 0, 0],
   THOR: [44, 931, 0, 0, 0],
 };
 
@@ -87,10 +76,18 @@ export enum BaseDecimal {
   ETH = 18,
   GAIA = 6,
   LTC = 8,
+  MATIC = 18,
+  OP = 18,
   THOR = 8,
 }
 
-export type EVMChain = Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche | Chain.Arbitrum;
+export type EVMChain =
+  | Chain.Ethereum
+  | Chain.BinanceSmartChain
+  | Chain.Avalanche
+  | Chain.Arbitrum
+  | Chain.Optimism
+  | Chain.Polygon;
 
 export enum ChainId {
   Arbitrum = '42161',
@@ -98,74 +95,77 @@ export enum ChainId {
   Avalanche = '43114',
   AvalancheHex = '0xa86a',
   Binance = 'Binance-Chain-Tigris',
+  BinanceHex = '',
   BinanceSmartChain = '56',
   BinanceSmartChainHex = '0x38',
   Bitcoin = 'bitcoin',
-  Bitcoincash = 'bitcoincash',
+  BitcoinHex = '',
+  BitcoinCash = 'bitcoincash',
+  BitcoinCashHex = '',
   Cosmos = 'cosmoshub-4',
+  CosmosHex = '',
   Dogecoin = 'dogecoin',
+  DogecoinHex = '',
   Ethereum = '1',
   EthereumHex = '0x1',
   Litecoin = 'litecoin',
-  Thorchain = 'thorchain-mainnet-v1',
-  ThorchainStagenet = 'thorchain-stagenet-v2',
+  LitecoinHex = '',
+  Optimism = '10',
+  OptimismHex = '0xa',
+  Polygon = '137',
+  PolygonHex = '0x89',
+  THORChain = 'thorchain-mainnet-v1',
+  THORChainHex = '',
+  THORChainStagenet = 'thorchain-stagenet-v2',
 }
 
 export enum RPCUrl {
   Arbitrum = 'https://arb1.arbitrum.io/rpc',
   Avalanche = 'https://node-router.thorswap.net/avalanche-c',
+  Binance = '',
   BinanceSmartChain = 'https://bsc-dataseed.binance.org',
+  Bitcoin = 'https://node-router.thorswap.net/bitcoin',
+  BitcoinCash = 'https://node-router.thorswap.net/bitcoin-cash',
   Cosmos = 'https://node-router.thorswap.net/cosmos/rpc',
+  Dogecoin = 'https://node-router.thorswap.net/dogecoin',
   Ethereum = 'https://node-router.thorswap.net/ethereum',
   Litecoin = 'https://node-router.thorswap.net/litecoin',
-  Bitcoin = 'https://node-router.thorswap.net/bitcoin',
-  Dogecoin = 'https://node-router.thorswap.net/dogecoin',
-  BitcoinCash = 'https://node-router.thorswap.net/bitcoin-cash',
+  Optimism = 'https://mainnet.optimism.io',
+  Polygon = 'https://polygon-rpc.com',
+  THORChain = 'https://rpc.thorswap.net',
 }
 
 export enum ApiUrl {
   Thorswap = 'https://api.thorswap.finance',
 }
 
-export const ChainToRPC = {
-  [Chain.Arbitrum]: RPCUrl.Arbitrum,
-  [Chain.Avalanche]: RPCUrl.Avalanche,
-  [Chain.BinanceSmartChain]: RPCUrl.BinanceSmartChain,
-  [Chain.Ethereum]: RPCUrl.Ethereum,
-  [Chain.Cosmos]: RPCUrl.Cosmos,
-  [Chain.Litecoin]: RPCUrl.Litecoin,
-  [Chain.Bitcoin]: RPCUrl.Bitcoin,
-  [Chain.Doge]: RPCUrl.Dogecoin,
-  [Chain.BitcoinCash]: RPCUrl.BitcoinCash,
-};
+type ChainNameType = keyof typeof Chain;
 
-export const ChainToChainId: Record<Chain, ChainId> = {
-  [Chain.Arbitrum]: ChainId.Arbitrum,
-  [Chain.Avalanche]: ChainId.Avalanche,
-  [Chain.Binance]: ChainId.Binance,
-  [Chain.BinanceSmartChain]: ChainId.BinanceSmartChain,
-  [Chain.Bitcoin]: ChainId.Bitcoin,
-  [Chain.BitcoinCash]: ChainId.Bitcoincash,
-  [Chain.Cosmos]: ChainId.Cosmos,
-  [Chain.Doge]: ChainId.Dogecoin,
-  [Chain.Ethereum]: ChainId.Ethereum,
-  [Chain.Litecoin]: ChainId.Litecoin,
-  [Chain.THORChain]: ChainId.Thorchain,
-};
+const chainNames = Object.keys(Chain) as ChainNameType[];
+const chains = Object.values(Chain) as Chain[];
 
-export const ChainToHexChainId: Record<Chain, ChainId> = {
-  [Chain.Arbitrum]: ChainId.ArbitrumHex,
-  [Chain.Avalanche]: ChainId.AvalancheHex,
-  [Chain.Binance]: ChainId.Binance,
-  [Chain.BinanceSmartChain]: ChainId.BinanceSmartChainHex,
-  [Chain.Bitcoin]: ChainId.Bitcoin,
-  [Chain.BitcoinCash]: ChainId.Bitcoincash,
-  [Chain.Cosmos]: ChainId.Cosmos,
-  [Chain.Doge]: ChainId.Dogecoin,
-  [Chain.Ethereum]: ChainId.EthereumHex,
-  [Chain.Litecoin]: ChainId.Litecoin,
-  [Chain.THORChain]: ChainId.Thorchain,
-};
+const ChainToChainName = chains.reduce((acc, chain) => {
+  const chainName = chainNames.find((key) => Chain[key as ChainNameType] === chain);
+
+  if (chainName) acc[chain] = chainName;
+
+  return acc;
+}, {} as { [key in Chain]: ChainNameType });
+
+export const ChainToChainId = chains.reduce((acc, chain) => {
+  acc[chain] = ChainId[ChainToChainName[chain]];
+  return acc;
+}, {} as { [key in Chain]: ChainId });
+
+export const ChainToRPC = chains.reduce((acc, chain) => {
+  acc[chain] = RPCUrl[ChainToChainName[chain]];
+  return acc;
+}, {} as { [key in Chain]: RPCUrl });
+
+export const ChainToHexChainId = chains.reduce((acc, chain) => {
+  acc[chain] = ChainId[`${ChainToChainName[chain]}Hex`];
+  return acc;
+}, {} as { [key in Chain]: ChainId });
 
 export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.Arbitrum]: Chain.Arbitrum,
@@ -176,12 +176,33 @@ export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.BinanceSmartChain]: Chain.BinanceSmartChain,
   [ChainId.BinanceSmartChainHex]: Chain.BinanceSmartChain,
   [ChainId.Bitcoin]: Chain.Bitcoin,
-  [ChainId.Bitcoincash]: Chain.BitcoinCash,
+  [ChainId.BitcoinCash]: Chain.BitcoinCash,
   [ChainId.Cosmos]: Chain.Cosmos,
-  [ChainId.Dogecoin]: Chain.Doge,
+  [ChainId.Dogecoin]: Chain.Dogecoin,
   [ChainId.EthereumHex]: Chain.Ethereum,
   [ChainId.Ethereum]: Chain.Ethereum,
   [ChainId.Litecoin]: Chain.Litecoin,
-  [ChainId.Thorchain]: Chain.THORChain,
-  [ChainId.ThorchainStagenet]: Chain.THORChain,
+  [ChainId.THORChain]: Chain.THORChain,
+  [ChainId.THORChainHex]: Chain.THORChain,
+  [ChainId.THORChainStagenet]: Chain.THORChain,
+  [ChainId.Optimism]: Chain.Optimism,
+  [ChainId.OptimismHex]: Chain.Optimism,
+  [ChainId.Polygon]: Chain.Polygon,
+  [ChainId.PolygonHex]: Chain.Polygon,
+};
+
+export const ChainToExplorerUrl: Record<Chain, string> = {
+  [Chain.Arbitrum]: 'https://arbiscan.io',
+  [Chain.Avalanche]: 'https://snowtrace.io',
+  [Chain.BinanceSmartChain]: 'https://bscscan.com',
+  [Chain.Binance]: 'https://explorer.binance.org',
+  [Chain.BitcoinCash]: 'https://www.blockchain.com/bch',
+  [Chain.Bitcoin]: 'https://blockstream.info',
+  [Chain.Cosmos]: 'https://cosmos.bigdipper.live',
+  [Chain.Dogecoin]: 'https://blockchair.com/dogecoin',
+  [Chain.Ethereum]: 'https://etherscan.io',
+  [Chain.Litecoin]: 'https://ltc.bitaps.com',
+  [Chain.Optimism]: 'https://optimistic.etherscan.io',
+  [Chain.Polygon]: 'https://polygonscan.com',
+  [Chain.THORChain]: 'https://viewblock.io/thorchain',
 };

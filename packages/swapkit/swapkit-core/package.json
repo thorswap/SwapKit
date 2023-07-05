@@ -5,7 +5,6 @@
     "@ethersproject/units": "5.7.0",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
-    "@thorswap-lib/swapkit-explorers": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "bignumber.js": "9.1.1"
   },
@@ -51,10 +50,10 @@
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "echo 'Build swapkit-core 🛠';NODE_OPTIONS=--max_old_space_size=16384 pnpm vite build && echo 'Build succeeded swapkit-core ✅'",
-    "clean": "rm -rf dist .turbo",
+    "clean": "rm -rf dist .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "echo 'vitest --run'",
-    "test:coverage": "echo 'vitest run --coverage'"
+    "test": "vitest --run",
+    "test:coverage": "vitest run --coverage"
   },
   "type": "module",
   "types": "./dist/index.d.ts",

@@ -17,3 +17,15 @@ export type Signature = {
 export enum ErrorCode {
   NoError = 0x9000,
 }
+
+export enum MemoType {
+  BOND = 'BOND',
+  DEPOSIT = '+',
+  LEAVE = 'LEAVE',
+  THORNAME_REGISTER = '~',
+  UNBOND = 'UNBOND',
+  UPGRADE = 'SWITCH',
+  WITHDRAW = '-',
+  OPEN_LOAN = '$+',
+  CLOSE_LOAN = '$-',
+}

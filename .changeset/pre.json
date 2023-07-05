@@ -127,7 +127,6 @@
     "@thorswap-lib/swapkit-api": "0.0.0",
     "@thorswap-lib/swapkit-core": "1.0.0-development.125",
     "@thorswap-lib/swapkit-entities": "0.3.0-development.61",
-    "@thorswap-lib/swapkit-explorers": "0.1.0-development.11",
     "@thorswap-lib/toolbox-cosmos": "0.1.0-development.70",
     "@thorswap-lib/toolbox-evm": "0.1.0-development.84",
     "@thorswap-lib/toolbox-utxo": "0.1.0-development.76",

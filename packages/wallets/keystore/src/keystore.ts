@@ -90,7 +90,7 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Bitcoin:
-    case Chain.Doge:
+    case Chain.Dogecoin:
     case Chain.Litecoin: {
       const toolbox =
         chain === Chain.Bitcoin

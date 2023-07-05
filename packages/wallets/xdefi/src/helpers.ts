@@ -50,7 +50,7 @@ const getXDEFIProvider = (chain: Chain) => {
       return window.xfi?.bitcoin;
     case Chain.BitcoinCash:
       return window.xfi?.bitcoincash;
-    case Chain.Doge:
+    case Chain.Dogecoin:
       return window.xfi?.dogecoin;
     case Chain.Litecoin:
       return window.xfi?.litecoin;
@@ -137,7 +137,7 @@ export const getWalletMethodsForChain: any = ({
 
       const sendTransaction = async (tx: EVMTxParams, feeOptionKey: FeeOption) => {
         const address = await provider.getSigner().getAddress();
-        const feeData = await toolbox.getPriorityFeeData(feeOptionKey);
+        const feeData = (await toolbox.estimateGasPrices())[feeOptionKey];
         const nonce = tx.nonce || (await provider.getTransactionCount(address));
         const chainId = (await provider.getNetwork()).chainId;
 
@@ -219,7 +219,7 @@ export const getWalletMethodsForChain: any = ({
     case Chain.BitcoinCash:
       return { ...BCHToolbox(utxoApiKey, rpcUrl), transfer };
 
-    case Chain.Doge:
+    case Chain.Dogecoin:
       return { ...DOGEToolbox(utxoApiKey, rpcUrl), transfer };
 
     case Chain.Litecoin:

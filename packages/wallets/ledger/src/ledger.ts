@@ -145,7 +145,7 @@ const getToolbox = async ({
       };
       return { ...toolbox, transfer };
     }
-    case Chain.Doge: {
+    case Chain.Dogecoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
 
       const toolbox = DOGEToolbox(utxoApiKey, rpcUrl);
@@ -296,7 +296,7 @@ const getToolbox = async ({
 
         const minifiedTx = stringifyKeysInOrder({
           account_number: account.account_number?.toString(),
-          chain_id: ChainId.Thorchain,
+          chain_id: ChainId.THORChain,
           fee,
           memo: '',
           msgs: unsignedMsgs,
@@ -345,7 +345,7 @@ const getToolbox = async ({
         // get tx signing msg
         const rawSendTx = stringifyKeysInOrder({
           account_number: accountNumber?.toString(),
-          chain_id: ChainId.Thorchain,
+          chain_id: ChainId.THORChain,
           fee,
           memo,
           msgs: [msg],

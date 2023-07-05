@@ -9,9 +9,9 @@ export const DOGEToolbox = (
   apiClientOrNodeUrl: BlockchairApiType | string = RPCUrl.Dogecoin,
 ) =>
   BaseUTXOToolbox({
-    chain: Chain.Doge,
+    chain: Chain.Dogecoin,
     apiClient:
       typeof apiClientOrNodeUrl === 'string'
-        ? blockchairApi({ apiKey, nodeUrl: apiClientOrNodeUrl, chain: Chain.Doge })
+        ? blockchairApi({ apiKey, nodeUrl: apiClientOrNodeUrl, chain: Chain.Dogecoin })
         : apiClientOrNodeUrl,
   });

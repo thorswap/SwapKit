@@ -15,10 +15,8 @@ import {
   getMinAmountByChain,
   getSignatureAssetFor,
   isGasAsset,
-  MemoType,
   ThornameRegisterParam,
 } from '@thorswap-lib/swapkit-entities';
-import { getExplorerAddressUrl, getExplorerTxUrl } from '@thorswap-lib/swapkit-explorers';
 import type { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
 import type { WalletConnectOption } from '@thorswap-lib/trustwallet';
 import {
@@ -26,12 +24,12 @@ import {
   AmountWithBaseDenom,
   BaseDecimal,
   Chain,
-  ChainId,
   ChainToChainId,
   EVMChain,
   EVMWalletOptions,
   ExtendParams,
   FeeOption,
+  MemoType,
   TCAvalancheDepositABI,
   TCEthereumVaultAbi,
   WalletOption,
@@ -46,6 +44,8 @@ import { getSwapInParams } from '../aggregator/getSwapInParams.js';
 import {
   getAssetForBalance,
   getEmptyWalletStructure,
+  getExplorerAddressUrl,
+  getExplorerTxUrl,
   getInboundData,
   getMimirData,
 } from './helpers.js';
@@ -155,12 +155,7 @@ export class SwapKitCore {
             data,
             from,
             to: to.toLowerCase(),
-            chainId: parseInt(
-              ChainToChainId[evmChain] as
-                | ChainId.AvalancheHex
-                | ChainId.EthereumHex
-                | ChainId.BinanceSmartChainHex,
-            ),
+            chainId: parseInt(ChainToChainId[evmChain]),
           },
           feeOptionKey,
         ) as Promise<string>;

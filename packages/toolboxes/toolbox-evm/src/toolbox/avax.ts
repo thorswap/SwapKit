@@ -2,23 +2,27 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Web3Provider } from '@ethersproject/providers';
+import { formatUnits } from '@ethersproject/units';
 import { baseAmount, gasFeeMultiplier } from '@thorswap-lib/helpers';
-import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { Address, BaseDecimal, Chain, ChainId, FeeOption } from '@thorswap-lib/types';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import {
+  Address,
+  BaseDecimal,
+  Chain,
+  ChainId,
+  ChainToExplorerUrl,
+  FeeOption,
+  RPCUrl,
+} from '@thorswap-lib/types';
 
 import { covalentApi, CovalentApiType } from '../api/covalentApi.js';
 import { getProvider } from '../provider.js';
-import { FeeData } from '../types/clientTypes.js';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.js';
 
 const MIN_AVAX_GAS = '25000000000';
 
-export const getPriorityFeeData = async ({
-  feeOptionKey = FeeOption.Average,
-}: {
-  feeOptionKey?: FeeOption;
-}): Promise<FeeData> => {
+export const estimateGasPrices = async () => {
   const { Avalanche } = await import('@avalabs/avalanchejs');
   try {
     const CCClient = new Avalanche(
@@ -28,49 +32,71 @@ export const getPriorityFeeData = async ({
       parseInt(ChainId.Avalanche),
     ).CChain();
 
-    const baseFee = BigNumber.from(parseInt(await CCClient.getBaseFee(), 16) / 1e9);
+    const baseFee = BigNumber.from(formatUnits(await CCClient.getBaseFee(), 'gwei'));
     const maxPriority = BigNumber.from(
-      parseInt(await CCClient.getMaxPriorityFeePerGas(), 16) / 1e9,
+      formatUnits(await CCClient.getMaxPriorityFeePerGas(), 'gwei'),
     );
     const maxFee = BigNumber.from(maxPriority).add(baseFee);
     if (maxFee < maxPriority) {
       throw new Error('Error: Max fee per gas cannot be less than max priority fee per gas');
     }
     return {
-      maxFeePerGas: baseFee.mul(Math.floor(gasFeeMultiplier[feeOptionKey] * 100)).div(100),
-      maxPriorityFeePerGas: maxPriority
-        .mul(Math.floor(gasFeeMultiplier[feeOptionKey] * 100))
-        .div(100),
+      [FeeOption.Average]: {
+        maxFeePerGas: baseFee.mul(Math.floor(gasFeeMultiplier[FeeOption.Average] * 100)).div(100),
+        maxPriorityFeePerGas: maxPriority
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Average] * 100))
+          .div(100),
+      },
+      [FeeOption.Fast]: {
+        maxFeePerGas: baseFee.mul(Math.floor(gasFeeMultiplier[FeeOption.Fast] * 100)).div(100),
+        maxPriorityFeePerGas: maxPriority
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Fast] * 100))
+          .div(100),
+      },
+      [FeeOption.Fastest]: {
+        maxFeePerGas: baseFee.mul(Math.floor(gasFeeMultiplier[FeeOption.Fastest] * 100)).div(100),
+        maxPriorityFeePerGas: maxPriority
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Fastest] * 100))
+          .div(100),
+      },
     };
   } catch (error) {
     console.info('DEFAULT GAS ESTIMATION');
+    const minAvaxGas = BigNumber.from(MIN_AVAX_GAS);
+    const maxPriority = BigNumber.from('1');
     return {
-      maxFeePerGas: BigNumber.from(MIN_AVAX_GAS)
-        .mul(Math.floor(gasFeeMultiplier[feeOptionKey] * 100))
-        .div(100),
-      maxPriorityFeePerGas: BigNumber.from('1500000000')
-        .mul(Math.floor(gasFeeMultiplier[feeOptionKey] * 100))
-        .div(100),
+      [FeeOption.Average]: {
+        maxFeePerGas: minAvaxGas
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Average] * 100))
+          .div(100),
+        maxPriorityFeePerGas: maxPriority
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Average] * 100))
+          .div(100),
+      },
+      [FeeOption.Fast]: {
+        maxFeePerGas: minAvaxGas.mul(Math.floor(gasFeeMultiplier[FeeOption.Fast] * 100)).div(100),
+        maxPriorityFeePerGas: maxPriority
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Fast] * 100))
+          .div(100),
+      },
+      [FeeOption.Fastest]: {
+        maxFeePerGas: minAvaxGas
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Fastest] * 100))
+          .div(100),
+        maxPriorityFeePerGas: maxPriority
+          .mul(Math.floor(gasFeeMultiplier[FeeOption.Fastest] * 100))
+          .div(100),
+      },
     };
   }
 };
 
-export const getBalance = async (
-  api: CovalentApiType,
-  address: Address,
-  assets?: AssetEntity[],
-) => {
+export const getBalance = async (api: CovalentApiType, address: Address) => {
   const provider = getProvider(Chain.Avalanche);
   const tokenBalances = await api.getBalance(address);
 
-  if (assets) {
-    return tokenBalances.filter(({ asset }) =>
-      assets.find(({ chain, symbol }) => chain === asset.chain && symbol === asset.symbol),
-    );
-  }
-
   const evmGasTokenBalance = await provider.getBalance(address);
-  const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.ETH);
+  const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.AVAX);
   return [
     { asset: getSignatureAssetFor(Chain.Avalanche), amount: evmGasTokenBalanceAmount },
     ...tokenBalances,
@@ -80,13 +106,9 @@ export const getBalance = async (
 export const getNetworkParams = () => ({
   chainId: ChainId.AvalancheHex,
   chainName: 'Avalanche Mainnet C-Chain',
-  nativeCurrency: {
-    name: 'Avalanche',
-    symbol: 'AVAX',
-    decimals: 18,
-  },
-  rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
-  blockExplorerUrls: ['https://snowtrace.io/'],
+  nativeCurrency: { name: 'Avalanche', symbol: Chain.Avalanche, decimals: BaseDecimal.AVAX },
+  rpcUrls: [RPCUrl.Avalanche],
+  blockExplorerUrls: [ChainToExplorerUrl[Chain.Avalanche]],
 });
 
 export const AVAXToolbox = ({
@@ -101,10 +123,12 @@ export const AVAXToolbox = ({
   provider: Provider | Web3Provider;
 }) => {
   const avaxApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Avalanche });
+  const baseToolbox = BaseEVMToolbox({ provider, signer });
 
   return {
-    ...BaseEVMToolbox({ provider, signer }),
+    ...baseToolbox,
     getNetworkParams,
-    getBalance: (address: string, assets?: AssetEntity[]) => getBalance(avaxApi, address, assets),
+    estimateGasPrices,
+    getBalance: (address: string) => getBalance(avaxApi, address),
   };
 };

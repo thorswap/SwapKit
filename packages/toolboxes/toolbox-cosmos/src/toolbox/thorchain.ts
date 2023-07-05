@@ -159,7 +159,7 @@ const broadcastMultisig = async (
 export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxType => {
   const sdk = new CosmosSDKClient({
     server: getTcNodeUrl(stagenet),
-    chainId: ChainId.Thorchain,
+    chainId: ChainId.THORChain,
     prefix: stagenet ? 'sthor' : 'thor',
   });
 

@@ -13,31 +13,31 @@ import {
 } from '@thorswap-lib/types';
 
 import { covalentApi, CovalentApiType } from '../api/covalentApi.js';
+import { getProvider } from '../provider.js';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.js';
 
-export const getBalance = async (provider: Provider, api: CovalentApiType, address: Address) => {
+export const getBalance = async (api: CovalentApiType, address: Address) => {
+  const provider = getProvider(Chain.Polygon);
   const tokenBalances = await api.getBalance(address);
   const evmGasTokenBalance = await provider.getBalance(address);
+  const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.MATIC);
 
   return [
-    {
-      asset: getSignatureAssetFor(Chain.BinanceSmartChain),
-      amount: baseAmount(evmGasTokenBalance, BaseDecimal.BSC),
-    },
+    { asset: getSignatureAssetFor(Chain.Polygon), amount: evmGasTokenBalanceAmount },
     ...tokenBalances,
   ];
 };
 
 export const getNetworkParams = () => ({
-  chainId: ChainId.BinanceSmartChainHex,
-  chainName: 'Smart Chain',
-  nativeCurrency: { name: 'Binance Coin', symbol: Chain.Binance, decimals: BaseDecimal.BSC },
-  rpcUrls: [RPCUrl.BinanceSmartChain],
-  blockExplorerUrls: [ChainToExplorerUrl[Chain.BinanceSmartChain]],
+  chainId: ChainId.PolygonHex,
+  chainName: 'Polygon Mainnet',
+  nativeCurrency: { name: 'Polygon', symbol: Chain.Polygon, decimals: BaseDecimal.MATIC },
+  rpcUrls: [RPCUrl.Polygon],
+  blockExplorerUrls: [ChainToExplorerUrl[Chain.Polygon]],
 });
 
-export const BSCToolbox = ({
+export const MATICToolbox = ({
   api,
   provider,
   signer,
@@ -48,12 +48,12 @@ export const BSCToolbox = ({
   signer: Signer;
   provider: Provider | Web3Provider;
 }) => {
-  const bscApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.BinanceSmartChain });
-  const baseToolbox = BaseEVMToolbox({ provider, signer, isEIP1559Compatible: false });
+  const maticApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Polygon });
+  const baseToolbox = BaseEVMToolbox({ provider, signer });
 
   return {
     ...baseToolbox,
     getNetworkParams,
-    getBalance: (address: string) => getBalance(provider, bscApi, address),
+    getBalance: (address: string) => getBalance(maticApi, address),
   };
 };
