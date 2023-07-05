@@ -39,5 +39,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.93"
+  "version": "1.0.0-development.94"
 }
