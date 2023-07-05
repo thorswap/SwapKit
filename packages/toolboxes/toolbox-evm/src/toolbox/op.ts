@@ -33,6 +33,7 @@ export const getBalance = async (
 
   const evmGasTokenBalance = await provider.getBalance(address);
   const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.OP);
+
   return [
     { asset: getSignatureAssetFor(Chain.Optimism), amount: evmGasTokenBalanceAmount },
     ...tokenBalances,
@@ -43,8 +44,8 @@ export const getNetworkParams = () => ({
   chainId: ChainId.OptimismHex,
   chainName: 'Optimism',
   nativeCurrency: {
-    name: 'Optimism',
-    symbol: Chain.Optimism,
+    name: 'Ethereum',
+    symbol: Chain.Ethereum,
     decimals: 18,
   },
   rpcUrls: [RPCUrl.Optimism],

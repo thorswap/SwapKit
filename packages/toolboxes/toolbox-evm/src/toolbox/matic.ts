@@ -41,7 +41,7 @@ export const getBalance = async (
 
 export const getNetworkParams = () => ({
   chainId: ChainId.PolygonHex,
-  chainName: 'Polygon',
+  chainName: 'Polygon Mainnet',
   nativeCurrency: {
     name: 'Polygon',
     symbol: Chain.Polygon,
