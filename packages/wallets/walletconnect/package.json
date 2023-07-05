@@ -14,6 +14,7 @@
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "5.7.2",
     "@internal/config": "workspace:*",
+    "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@vitest/coverage-istanbul": "0.32.4",
     "@walletconnect/types": "2.7.4",
@@ -43,6 +44,8 @@
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "5.7.2",
+    "@ethersproject/strings": "^5.7.0",
+    "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*"
   },
   "publishConfig": {

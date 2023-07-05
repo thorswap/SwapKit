@@ -43,9 +43,3 @@ export const getAddressFromPublicKey = (publicKeyHex: string, prefix?: string) =
   const hash = sha256ripemd160(hexed); // https://git.io/fAn8N
   return encodeAddress(hash, prefix);
 };
-
-export const getPublicKey = (publicKey: string) => {
-  const ec = new EC('secp256k1');
-  const keyPair = ec.keyFromPublic(publicKey, 'hex');
-  return keyPair.getPublic();
-};

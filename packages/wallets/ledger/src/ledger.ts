@@ -28,7 +28,6 @@ import {
 import { auth, StdTx } from 'cosmos-client/x/auth/index.js';
 
 import { AvalancheLedger } from './clients/avalanche.js';
-import { getPublicKey } from './clients/binance/helpers.js';
 import { BinanceLedger } from './clients/binance/index.js';
 import { BitcoinLedger } from './clients/bitcoin.js';
 import { BitcoinCashLedger } from './clients/bitcoincash.js';
@@ -201,7 +200,7 @@ const getToolbox = async ({
           derivationPath,
         );
 
-        const pubKey = getPublicKey(pubKeyResponse!.pk!.toString('hex'));
+        const pubKey = toolbox.getPublicKey(pubKeyResponse!.pk!.toString('hex'));
         const signedTx = transaction.addSignature(pubKey, signResponse!.signature);
 
         const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);

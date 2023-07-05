@@ -16,7 +16,10 @@ export const getAddressFromAccount = (account: string) => {
   }
 };
 
-export const getAddressByChain = (chain: Chain, accounts: string[]): string =>
+export const getAddressByChain = (
+  chain: Chain.Binance | Chain.THORChain | Chain.Ethereum | Chain.Avalanche | Chain.BinanceSmartChain,
+  accounts: string[],
+): string =>
   getAddressFromAccount(
     accounts.find((account) => account.startsWith(chainToChainId(chain))) || '',
   );

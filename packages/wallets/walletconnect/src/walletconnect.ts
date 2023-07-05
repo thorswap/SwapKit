@@ -1,83 +1,233 @@
-import { hexlify } from '@ethersproject/bytes';
-import { toUtf8Bytes } from '@ethersproject/strings';
-import { ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import { StdSignDoc, makeSignDoc as makeSignDocAmino } from '@cosmjs/amino';
+import { BinanceToolbox, DepositParam, ThorchainToolbox, getDenomWithChain, sortObject } from '@thorswap-lib/toolbox-cosmos';
+import { AVAXToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
+import { Chain, ChainId, WalletOption, WalletTxParams } from '@thorswap-lib/types';
 import QRCodeModal from '@walletconnect/qrcode-modal';
 import Client from '@walletconnect/sign-client';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
+import { auth, StdTx } from 'cosmos-client/x/auth/index.js';
 
 import {
+  BINANCE_MAINNET_ID,
   DEFAULT_APP_METADATA,
-  DEFAULT_EIP155_METHODS,
+  DEFAULT_COSMOS_METHODS,
   DEFAULT_LOGGER,
   DEFAULT_RELAY_URL,
   WC_SUPPORTED_CHAINS,
-  ETHEREUM_MAINNET_ID,
+  THORCHAIN_MAINNET_ID,
 } from './constants.js';
 import { chainToChainId, getAddressByChain } from './helpers.js';
 import { getRequiredNamespaces } from './namespaces.js';
+import { getEVMSigner } from './evmSigner.js';
 
-const SUPPORTED_CHAINS = [Chain.Binance, Chain.Ethereum, Chain.THORChain] as const;
+const THORCHAIN_GAS_FEE = '500000000';
+const DEFAULT_THORCHAIN_FEE = {
+  amount: [],
+  gas: THORCHAIN_GAS_FEE,
+};
+
+const SUPPORTED_CHAINS = [Chain.Binance, Chain.Ethereum, Chain.THORChain, Chain.Avalanche] as const;
 
 const getToolbox = async ({
   chain,
   ethplorerApiKey,
+  covalentApiKey = '',
+  walletconnect,
   address,
-  walletconnectClient,
   session,
 }: {
   // @ts-ignore
-  walletconnectClient: Client;
+  walletconnect: Walletconnect;
   session: SessionTypes.Struct;
   chain: (typeof SUPPORTED_CHAINS)[number];
+  covalentApiKey?: string;
   ethplorerApiKey?: string;
   address: string;
 }) => {
   const from = address;
 
   switch (chain) {
+    case Chain.Avalanche:
     case Chain.Ethereum: {
-      if (!ethplorerApiKey) throw new Error('Ethplorer API key not found');
+      if (chain === Chain.Ethereum && !ethplorerApiKey)
+        throw new Error('Ethplorer API key not found');
+      if (chain !== Chain.Ethereum && !covalentApiKey)
+        throw new Error('Covalent API key not found');
 
       const provider = getProvider(chain);
+      const signer = await getEVMSigner({ walletconnect, chain, provider });
 
-      const toolbox = ETHToolbox({
-        provider,
-        ethplorerApiKey,
-      });
+      const toolbox =
+        chain === Chain.Ethereum
+          ? ETHToolbox({
+              provider,
+              signer,
+              ethplorerApiKey: ethplorerApiKey as string,
+            })
+          : AVAXToolbox({
+              provider,
+              signer,
+              covalentApiKey,
+            });
 
+      return toolbox;
+    }
+    case Chain.Binance: {
+      const toolbox = BinanceToolbox();
       const transfer = async (params: any) => {
-        const txAmount = params.amount.amount().toHexString();
-        const gasLimit = (
-          await toolbox.estimateGasLimit({
-            asset: params.asset,
-            recipient: params.recipient,
-            amount: params.amount,
-            memo: params.memo,
-          })
-        ).toHexString();
-        const gasPrice = (await toolbox.estimateGasPrices()).fast.maxFeePerGas?.toHexString();
-        const txHash: string = await walletconnectClient.request({
-          chainId: ETHEREUM_MAINNET_ID,
+        const account = await toolbox.getAccount(from);
+        const txAmount = params.amount.amount().toString();
+        const { transaction, signMsg } = await toolbox.createTransactionAndSignMsg({
+          from,
+          to: params.recipient,
+          amount: txAmount,
+          asset: params.asset.ticker,
+          memo: params.memo,
+        });
+
+        const signDoc = sortObject({
+          account_number: account.account_number.toString(),
+          chain_id: ChainId.Binance,
+          data: null,
+          memo: params.memo,
+          msgs: [signMsg],
+          sequence: account.sequence.toString(),
+          source: '0',
+        });
+
+        const response: any = await walletconnect?.client.request({
+          chainId: BINANCE_MAINNET_ID,
           topic: session.topic,
           request: {
-            method: DEFAULT_EIP155_METHODS.ETH_SEND_TRANSACTION,
-            params: [
-              {
-                from,
-                to: params.recipient,
-                data: params.memo ? hexlify(toUtf8Bytes(params.memo)) : '0x',
-                gasPrice,
-                gasLimit,
-                value: txAmount,
-              },
-            ],
+            method: DEFAULT_COSMOS_METHODS.COSMOS_SIGN_AMINO,
+            params: { signerAddress: address, signDoc },
           },
         });
-        return txHash;
+
+        const signature = Buffer.from(response.signature, 'hex');
+        const publicKey = toolbox.getPublicKey(response.publicKey);
+        const signedTx = transaction.addSignature(publicKey, signature);
+
+        const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);
+
+        return res[0]?.hash;
+      };
+      return { ...toolbox, transfer };
+    }
+    case Chain.THORChain: {
+      const toolbox = ThorchainToolbox({ stagenet: false });
+
+      const signRequest = (signDoc: StdSignDoc) => walletconnect?.client.request({
+        chainId: THORCHAIN_MAINNET_ID,
+        topic: session.topic,
+        request: {
+          method: DEFAULT_COSMOS_METHODS.COSMOS_SIGN_AMINO,
+          params: { signerAddress: address, signDoc },
+        },
+      });
+
+      const transfer = async (params: WalletTxParams) => {
+        const account = await toolbox.getAccount(from);
+        if (!account?.account_number) throw new Error('Account not found');
+        const { account_number: accountNumber, sequence = '0' } = account;
+
+        const sendCoinsMessage = {
+          amount: [
+            {
+              amount: params.amount.amount().toString(),
+              denom: params.asset?.symbol.toLowerCase(),
+            },
+          ],
+          from_address: address,
+          to_address: params.recipient,
+        };
+
+        const msg = {
+          type: 'thorchain/MsgSend',
+          value: sendCoinsMessage,
+        };
+
+        const signDoc = makeSignDocAmino(
+          [msg],
+          DEFAULT_THORCHAIN_FEE,
+          ChainId.Thorchain,
+          params.memo,
+          accountNumber?.toString(),
+          sequence?.toString() || '0',
+        );
+
+        const signature: any = await signRequest(signDoc);
+
+        const txObj = {
+          msg: [msg],
+          fee: DEFAULT_THORCHAIN_FEE,
+          memo: params.memo,
+          signatures: [
+            {
+              ...signature,
+              sequence: sequence?.toString(),
+            },
+          ],
+        };
+
+        const stdTx = StdTx.fromJSON(txObj);
+
+        const res: any = await auth.txsPost(toolbox.sdk as any, stdTx, 'sync');
+
+        return res.data?.txhash;
       };
 
-      return { ...toolbox, transfer };
+      const deposit = async ({ asset, amount, memo }: DepositParam) => {
+        const account = await toolbox.getAccount(address);
+        if (!asset) throw new Error('invalid asset to deposit');
+        if (!account?.account_number) throw new Error('Account not found');
+        const { account_number: accountNumber, sequence = '0' } = account;
+
+        const msg = {
+          type: 'thorchain/MsgDeposit',
+          value: {
+            coins: [
+              {
+                amount: amount.amount().toString(),
+                asset: getDenomWithChain(asset).toUpperCase(),
+              },
+            ],
+            memo,
+            signer: address,
+          },
+        };
+
+        const signDoc = makeSignDocAmino(
+          [msg],
+          DEFAULT_THORCHAIN_FEE,
+          ChainId.Thorchain,
+          memo,
+          accountNumber?.toString(),
+          sequence?.toString() || '0',
+        );
+
+        const signature: any = await signRequest(signDoc);
+
+        const txObj = {
+          msg: [msg],
+          fee: DEFAULT_THORCHAIN_FEE,
+          memo,
+          signatures: [
+            {
+              ...signature,
+              sequence: sequence?.toString(),
+            },
+          ],
+        };
+
+        const stdTx = StdTx.fromJSON(txObj);
+
+        const res: any = await auth.txsPost(toolbox.sdk as any, stdTx, 'sync');
+
+        return res.data?.txhash;
+      }
+
+      return { ...toolbox, transfer, deposit };
     }
     default:
       throw new Error('Chain is not supported');
@@ -86,7 +236,7 @@ const getToolbox = async ({
 
 const getWalletconnect = async (
   chains: Chain[],
-  walletConnectProjectId: string,
+  walletConnectProjectId?: string,
   walletconnectOptions?: SignClientTypes.Options,
 ) => {
   try {
@@ -128,15 +278,18 @@ const getWalletconnect = async (
   return undefined;
 };
 
+export type Walletconnect = Awaited<ReturnType<typeof getWalletconnect>>;
+
 const connectWalletconnect =
   ({
     addChain,
-    config: { ethplorerApiKey, walletConnectProjectId },
+    config: { ethplorerApiKey, walletConnectProjectId, covalentApiKey },
   }: {
     addChain: any;
     config: {
+      covalentApiKey?: string;
       ethplorerApiKey?: string;
-      walletConnectProjectId: string;
+      walletConnectProjectId?: string;
     };
   }) =>
   async (
@@ -152,31 +305,28 @@ const connectWalletconnect =
 
     if (!walletconnect) throw new Error('Unable to establish connection through walletconnect');
 
-    const { session, accounts, client } = walletconnect;
+    const { session, accounts } = walletconnect;
 
     const promises = chainsToConnect.map(async (chain) => {
       const address = getAddressByChain(chain, accounts);
-      const getAddress = () => address;
 
       const toolbox = await getToolbox({
-        walletconnectClient: client,
         session,
         address,
         chain,
+        walletconnect,
         ethplorerApiKey,
+        covalentApiKey,
       });
 
-        const address = await signer.getAddress();
-
-        addChain({
-          chain,
-          walletMethods: { ...toolbox, getAddress: () => address },
-          wallet: { address, balance: [], walletType: WalletOption.WALLETCONNECT },
-        });
+      addChain({
+        chain,
+        walletMethods: { ...toolbox, getAddress: () => address },
+        wallet: { address, balance: [], walletType: WalletOption.WALLETCONNECT },
+      });
         return;
       }
-      throw new Error('Chain is not supported');
-    });
+    );
 
     await Promise.all(promises);
 
