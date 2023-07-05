@@ -1,5 +1,16 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.2
+
+### Minor Changes
+
+- [#168](https://github.com/thorswap/SwapKit/pull/168) [`fe28e06`](https://github.com/thorswap/SwapKit/commit/fe28e065055a448780f013aca3dac9db3340628b) Thanks [@0x-General](https://github.com/0x-General)! - Add BNB, AVAX & RUNE to walletconnect
+
+### Patch Changes
+
+- Updated dependencies [[`fe28e06`](https://github.com/thorswap/SwapKit/commit/fe28e065055a448780f013aca3dac9db3340628b)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.123
+
 ## 1.1.0-development.38
 
 ### Patch Changes
