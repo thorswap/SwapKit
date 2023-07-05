@@ -1,5 +1,15 @@
 # @thorswap-lib/walletconnect
 
+## 1.1.0-development.37
+
+### Patch Changes
+
+- [#185](https://github.com/thorswap/SwapKit/pull/185) [`4e7b77a`](https://github.com/thorswap/SwapKit/commit/4e7b77adfd868ce26df05060f02dd2aab18dfa5d) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Bump dependencies
+
+- Updated dependencies [[`4e7b77a`](https://github.com/thorswap/SwapKit/commit/4e7b77adfd868ce26df05060f02dd2aab18dfa5d)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.137
+  - @thorswap-lib/types@1.0.0-development.93
+
 ## 1.1.0-development.36
 
 ### Patch Changes
