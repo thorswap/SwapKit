@@ -30,12 +30,6 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
   const fetchQuote = useCallback(async () => {
     if (!inputAsset || !outputAsset || !inputAmount || !skClient) return;
 
-    await skClient.transfer({
-      assetAmount: new AssetAmount(inputAsset.asset, inputAmount),
-      recipient: skClient.getAddress(outputAsset.asset.L1Chain),
-      from: skClient.getAddress(outputAsset.asset.L1Chain),
-    });
-
     setLoading(true);
     setRoutes([]);
 
