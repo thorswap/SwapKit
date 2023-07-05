@@ -13,7 +13,7 @@ export const encoderHelper = (data: any): 0 | 1 | 2 => {
   throw new Error(`Invalid type "${dataType}"`); // Is this what's expected?
 };
 
-const sortObject = (obj: any): any => {
+export const sortObject = (obj: any): any => {
   if (obj === null) return null;
   if (typeof obj !== 'object') return obj;
   // arrays have typeof "object" in js!

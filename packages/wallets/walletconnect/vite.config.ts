@@ -10,9 +10,14 @@ const viteConfig = thorswapViteConfig(name, {
     },
     rollupOptions: {
       external: [
+        '@cosmjs/amino',
         '@ethersproject/abstract-signer',
+        '@ethersproject/bignumber',
         '@ethersproject/providers',
+        '@ethersproject/strings',
+        '@thorswap-lib/toolbox-cosmos',
         '@thorswap-lib/toolbox-evm',
+        'cosmos-client',
       ],
     },
   },

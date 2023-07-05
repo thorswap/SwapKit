@@ -17,6 +17,7 @@ import {
   DerivationPath,
 } from '@thorswap-lib/types';
 import { bech32 } from 'bech32';
+import { ec as EC } from 'elliptic';
 
 import { BNBTransaction } from '../binanceUtils/transaction.js';
 import { Account, AminoPrefix, Fees } from '../binanceUtils/types.js';
@@ -133,8 +134,8 @@ const createTransactionAndSignMsg = async ({ from, to, amount, asset, memo }: Tr
   };
 
   const signMsg = {
-    inputs: [{ address: from, coins: [{ amount: baseAmountValue, denom: asset }] }],
-    outputs: [{ address: to, coins: [{ amount: baseAmountValue, denom: asset }] }],
+    inputs: [{ address: from, coins: [coin] }],
+    outputs: [{ address: to, coins: [coin] }],
   };
 
   const transaction = await prepareTransaction(msg, from, null, memo);
@@ -171,6 +172,12 @@ const getAddressFromMnemonic = async (phrase: string) => {
   return address;
 };
 
+export const getPublicKey = (publicKey: string) => {
+  const ec = new EC('secp256k1');
+  const keyPair = ec.keyFromPublic(publicKey, 'hex');
+  return keyPair.getPublic();
+};
+
 export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolboxType => {
   const sdk = new CosmosSDKClient({
     server: BINANCE_MAINNET_API_URI,
@@ -199,5 +206,6 @@ export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolbox
     createTransactionAndSignMsg,
     createKeyPair,
     getAddressFromMnemonic,
+    getPublicKey,
   };
 };

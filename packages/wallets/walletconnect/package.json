@@ -10,13 +10,16 @@
   },
   "description": "THORSwap Lib walletconnect",
   "devDependencies": {
+    "@cosmjs/amino": "0.31.0",
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "5.7.2",
     "@internal/config": "workspace:*",
+    "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@vitest/coverage-istanbul": "0.32.4",
     "@walletconnect/types": "2.7.4",
+    "cosmos-client": "0.39.2",
     "vite": "4.3.9",
     "vitest": "0.32.4"
   },
@@ -40,10 +43,14 @@
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/walletconnect",
   "peerDependencies": {
-    "@ethersproject/abstract-signer": "5.7.0",
+    "@cosmjs/amino": "^0.31.0",
+    "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "5.7.2",
-    "@thorswap-lib/toolbox-evm": "workspace:*"
+    "@ethersproject/strings": "^5.7.0",
+    "@thorswap-lib/toolbox-cosmos": "workspace:*",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
+    "cosmos-client": "0.39.2"
   },
   "publishConfig": {
     "access": "public"
@@ -59,5 +66,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.1.0-development.38"
+  "version": "1.2.0-development.1"
 }

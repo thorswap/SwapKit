@@ -23,7 +23,7 @@ beforeEach<{
   toolbox: ReturnType<typeof ETHToolbox>;
 }>(async (context: any) => {
   context.ethers = hre.ethers;
-  const provider = await getProvider(Chain.Ethereum, 'http://127.0.0.1:8545/');
+  const provider = getProvider(Chain.Ethereum, 'http://127.0.0.1:8545/');
   const signer = await hre.ethers.getImpersonatedSigner(testAddress);
   context.provider = provider;
   context.toolbox = ETHToolbox({ ethplorerApiKey: 'freekey', provider, signer });

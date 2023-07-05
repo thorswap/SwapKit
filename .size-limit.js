@@ -13,7 +13,7 @@ const getSizeFor = (packagePath, sizeType) => {
   if (!size) throw new Error(`Unknown size type ${sizeType}`);
   const [prefixPath, packageName] = packagePath.split('/');
   const prefix =
-    prefixPath === 'swapkit' ? 'swapkit' : packagePath === 'toolboxes' ? 'toolbox' : 'wallet';
+    prefixPath === 'swapkit' ? 'swapkit' : prefixPath === 'toolboxes' ? 'toolbox' : 'wallet';
 
   return [
     {
@@ -34,17 +34,17 @@ module.exports = [
   ...getSizeFor('swapkit/swapkit-core', 's'),
   ...getSizeFor('swapkit/swapkit-entities', 'xs'),
   ...getSizeFor('swapkit/swapkit-sdk', 'xxxl'),
-  ...getSizeFor('swapkit/swapkit-types', 'xs'),
+  ...getSizeFor('swapkit/types', 'xs'),
 
   ...getSizeFor('toolboxes/toolbox-cosmos', 'xl'),
   ...getSizeFor('toolboxes/toolbox-evm', 'l'),
-  ...getSizeFor('toolboxes/toolbox-utxo', 'l'),
+  ...getSizeFor('toolboxes/toolbox-utxo', 'm'),
 
   ...getSizeFor('wallets/evm-web3-wallets', 'xs'),
   ...getSizeFor('wallets/keplr', 'xs'),
   ...getSizeFor('wallets/keystore', 's'),
   ...getSizeFor('wallets/ledger', 'xl'),
   ...getSizeFor('wallets/trezor', 'xl'),
-  ...getSizeFor('wallets/walletconnect', 'l'),
+  ...getSizeFor('wallets/walletconnect', 'm'),
   ...getSizeFor('wallets/xdefi', 'xs'),
 ];
