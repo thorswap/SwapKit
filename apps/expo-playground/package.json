@@ -67,10 +67,6 @@
     "metro-resolver": "0.76.3"
   },
   "private": true,
-  "resolutions": {
-    "metro": "0.76.3",
-    "metro-resolver": "0.76.3"
-  },
   "scripts": {
     "android": "expo run:android",
     "dev": "expo start --web",

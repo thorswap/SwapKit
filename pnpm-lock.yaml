@@ -5,6 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
+  typescript: 5.1.6
   axios@^0.x.x: ^0.27.2
   json5@<=1.0.1: ^1.0.2
   semver@<=4.3.2: ^4.3.6
@@ -4824,7 +4825,7 @@ packages:
       resolve: 1.22.2
       semver: 7.3.8
       source-map: 0.6.1
-      typescript: 5.0.4
+      typescript: 5.1.6
     transitivePeerDependencies:
       - '@types/node'
     dev: true
@@ -16975,12 +16976,6 @@ packages:
   /typeforce@1.18.0(patch_hash=glkhqh6j3bqaptuq6ho43mk6f4):
     resolution: {integrity: sha512-7uc1O8h1M1g0rArakJdf0uLRSSgFcYexrVoKo+bzJd32gd4gDy2L/Z+8/FjPnU9ydY3pEnVPtr9FyscYY60K1g==}
     patched: true
-
-  /typescript@5.0.4:
-    resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
-    engines: {node: '>=12.20'}
-    hasBin: true
-    dev: true
 
   /typescript@5.1.6:
     resolution: {integrity: sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==}

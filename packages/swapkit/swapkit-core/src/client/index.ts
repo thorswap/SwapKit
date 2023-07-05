@@ -15,7 +15,6 @@ import {
   getMinAmountByChain,
   getSignatureAssetFor,
   isGasAsset,
-  MemoType,
   ThornameRegisterParam,
 } from '@thorswap-lib/swapkit-entities';
 import type { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
@@ -30,6 +29,7 @@ import {
   EVMWalletOptions,
   ExtendParams,
   FeeOption,
+  MemoType,
   TCAvalancheDepositABI,
   TCEthereumVaultAbi,
   WalletOption,
