@@ -2,7 +2,7 @@ import { Provider, TransactionRequest } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber } from '@ethersproject/bignumber';
 import { Contract } from '@ethersproject/contracts';
-import { Web3Provider } from '@ethersproject/providers';
+import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { serialize } from '@ethersproject/transactions';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
@@ -136,7 +136,7 @@ export const OPToolbox = ({
   api?: CovalentApiType;
   covalentApiKey: string;
   signer: Signer;
-  provider: Provider | Web3Provider;
+  provider: JsonRpcProvider | Web3Provider;
 }) => {
   const opApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Optimism });
   const baseToolbox = BaseEVMToolbox({ provider, signer });

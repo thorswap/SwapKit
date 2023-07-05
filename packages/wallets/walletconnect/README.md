@@ -3,7 +3,7 @@
 ## Install:
 
 ```bash
-pnpm add @thorswap-lib/walletconnect
+pnpm add @thorswap-lib/walletconnect cosmos-client@0.39.2
 ```
 
 To use the walletconnect you need to [extend core](packages/swapkit/swapkit-core#swapkitcore-api) with `walletconnectWallet` and install the corresponding package for the chain you want to use.

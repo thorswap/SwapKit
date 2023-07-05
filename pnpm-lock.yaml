@@ -1244,9 +1244,6 @@ importers:
       '@coinbase/wallet-sdk':
         specifier: 3.7.1
         version: 3.7.1
-      '@cosmjs/amino':
-        specifier: 0.31.0
-        version: 0.31.0
       '@ethersproject/strings':
         specifier: ^5.7.0
         version: 5.7.0
@@ -1262,13 +1259,13 @@ importers:
       '@walletconnect/web3-provider':
         specifier: 1.8.0
         version: 1.8.0(@babel/core@7.22.6)
-      cosmos-client:
-        specifier: 0.39.2
-        version: 0.39.2
       web3modal:
         specifier: 1.9.12
         version: 1.9.12(react-is@18.2.0)
     devDependencies:
+      '@cosmjs/amino':
+        specifier: 0.31.0
+        version: 0.31.0
       '@ethersproject/abstract-signer':
         specifier: 5.7.0
         version: 5.7.0(patch_hash=25dytke5lh3fostylo3fnpzcxi)
@@ -1293,6 +1290,9 @@ importers:
       '@walletconnect/types':
         specifier: 2.7.4
         version: 2.7.4
+      cosmos-client:
+        specifier: 0.39.2
+        version: 0.39.2
       vite:
         specifier: 4.3.9
         version: 4.3.9(@types/node@20.3.3)
@@ -3142,7 +3142,6 @@ packages:
       '@cosmjs/encoding': 0.31.0
       '@cosmjs/math': 0.31.0
       '@cosmjs/utils': 0.31.0
-    dev: false
 
   /@cosmjs/crypto@0.31.0:
     resolution: {integrity: sha512-UaqCe6Tgh0pe1QlZ66E13t6FlIF86QrnBXXq+EN7Xe1Rouza3fJ1ojGlPleJZkBoq3tAyYVIOOqdZIxtVj/sIQ==}
@@ -3154,7 +3153,6 @@ packages:
       bn.js: 5.2.1
       elliptic: 6.5.4
       libsodium-wrappers-sumo: 0.7.11
-    dev: false
 
   /@cosmjs/encoding@0.31.0:
     resolution: {integrity: sha512-NYGQDRxT7MIRSlcbAezwxK0FqnaSPKCH7O32cmfpHNWorFxhy9lwmBoCvoe59Kd0HmArI4h+NGzLEfX3OLnA4Q==}
@@ -3162,7 +3160,6 @@ packages:
       base64-js: 1.5.1
       bech32: 1.1.4
       readonly-date: 1.0.0
-    dev: false
 
   /@cosmjs/json-rpc@0.31.0:
     resolution: {integrity: sha512-Ix2Cil2qysiLNrX+E0w3vtwCrqxGVq8jklpLA7B2vtMrw7tru/rS65fdFSy8ep0wUNLL6Ud32VXa5K0YObDOMA==}
@@ -3175,7 +3172,6 @@ packages:
     resolution: {integrity: sha512-Sb/8Ry/+gKJaYiV6X8q45kxXC9FoV98XCY1WXtu0JQwOi61VCG2VXsURQnVvZ/EhR/CuT/swOlNKrqEs3da0fw==}
     dependencies:
       bn.js: 5.2.1
-    dev: false
 
   /@cosmjs/proto-signing@0.31.0:
     resolution: {integrity: sha512-JNlyOJRkn8EKB9mCthkjr6lVX6eyVQ09PFdmB4/DR874E62dFTvQ+YvyKMAgN7K7Dcjj26dVlAD3f6Xs7YOGDg==}
@@ -3249,7 +3245,6 @@ packages:
 
   /@cosmjs/utils@0.31.0:
     resolution: {integrity: sha512-nNcycZWUYLNJlrIXgpcgVRqdl6BXjF4YlXdxobQWpW9Tikk61bEGeAFhDYtC0PwHlokCNw0KxWiHGJL4nL7Q5A==}
-    dev: false
 
   /@cosmos-client/core@0.45.13:
     resolution: {integrity: sha512-OTszam3HnH+PSRh9oW/NkEocrOuQnClCGxRmFSOk25Lck8CTtDeKLzkpNbeyFDJVyJvW5IGLL//n9f43UMwbXQ==}
@@ -7258,7 +7253,7 @@ packages:
       babel-plugin-syntax-jsx: 6.18.0
       lodash: 4.17.21
       picomatch: 2.3.1
-      styled-components: 5.3.11(react-dom@16.14.0)(react-is@18.2.0)(react@16.14.0)
+      styled-components: 5.3.11(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
     dev: false
 
   /babel-plugin-syntax-jsx@6.18.0:
@@ -12034,13 +12029,11 @@ packages:
 
   /libsodium-sumo@0.7.11:
     resolution: {integrity: sha512-bY+7ph7xpk51Ez2GbE10lXAQ5sJma6NghcIDaSPbM/G9elfrjLa0COHl/7P6Wb/JizQzl5UQontOOP1z0VwbLA==}
-    dev: false
 
   /libsodium-wrappers-sumo@0.7.11:
     resolution: {integrity: sha512-DGypHOmJbB1nZn89KIfGOAkDgfv5N6SBGC3Qvmy/On0P0WD1JQvNRS/e3UL3aFF+xC0m+MYz5M+MnRnK2HMrKQ==}
     dependencies:
       libsodium-sumo: 0.7.11
-    dev: false
 
   /lilconfig@2.1.0:
     resolution: {integrity: sha512-utWOt/GHzuUxnLKxB6dk81RoOeoNeHgbrXiuGk4yyF5qlRz+iIVWu56E2fqGHFrXz0QNUhLB/8nKqvRH66JKGQ==}
@@ -14746,7 +14739,6 @@ packages:
 
   /readonly-date@1.0.0:
     resolution: {integrity: sha512-tMKIV7hlk0h4mO3JTmmVuIlJVXjKk3Sep9Bf5OH0O+758ruuVkUy2J9SttDLm91IEX/WHlXPSpxMGjPj4beMIQ==}
-    dev: false
 
   /real-require@0.1.0:
     resolution: {integrity: sha512-r/H9MzAWtrv8aSVjPCMFpDMl5q66GqtmmRkRjpHTsp4zBAa+snZyiQNlMONiUmEJcsnaw0wCauJ2GWODr/aFkg==}
@@ -15889,7 +15881,7 @@ packages:
     resolution: {integrity: sha512-0MP/Cxx5SzeeZ10p/bZI0S6MpgD+yxAhi1BOQ34jgnMXsCq3j1t6tQnZu+KdlL7dvJTLT3g9xN8tl10TqgFMcg==}
     dev: false
 
-  /styled-components@5.3.11(react-dom@16.14.0)(react-is@18.2.0)(react@16.14.0):
+  /styled-components@5.3.11(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-uuzIIfnVkagcVHv9nE0VPlHPSCmXIUGKfJ42LNjxCCTDTL5sgnJ8Z7GZBq0EnLYGln77tPpEpExt2+qa+cZqSw==}
     engines: {node: '>=10'}
     peerDependencies:
@@ -15905,8 +15897,8 @@ packages:
       babel-plugin-styled-components: 2.1.3(styled-components@5.3.11)
       css-to-react-native: 3.2.0
       hoist-non-react-statics: 3.3.2
-      react: 16.14.0
-      react-dom: 16.14.0(react@16.14.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
       react-is: 18.2.0
       shallowequal: 1.1.0
       supports-color: 5.5.0
@@ -16921,7 +16913,7 @@ packages:
       prop-types: 15.8.1
       react: 16.14.0
       react-dom: 16.14.0(react@16.14.0)
-      styled-components: 5.3.11(react-dom@16.14.0)(react-is@18.2.0)(react@16.14.0)
+      styled-components: 5.3.11(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
       tslib: 1.14.1
     transitivePeerDependencies:
       - react-is

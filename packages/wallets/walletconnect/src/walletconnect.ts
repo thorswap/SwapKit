@@ -19,8 +19,8 @@ import {
   DEFAULT_COSMOS_METHODS,
   DEFAULT_LOGGER,
   DEFAULT_RELAY_URL,
-  WC_SUPPORTED_CHAINS,
   THORCHAIN_MAINNET_ID,
+  WC_SUPPORTED_CHAINS,
 } from './constants.js';
 import { getEVMSigner } from './evmSigner.js';
 import { chainToChainId, getAddressByChain } from './helpers.js';
@@ -32,7 +32,13 @@ const DEFAULT_THORCHAIN_FEE = {
   gas: THORCHAIN_GAS_FEE,
 };
 
-const SUPPORTED_CHAINS = [Chain.Binance, Chain.Ethereum, Chain.THORChain, Chain.Avalanche] as const;
+const SUPPORTED_CHAINS = [
+  Chain.Binance,
+  Chain.BinanceSmartChain,
+  Chain.Ethereum,
+  Chain.THORChain,
+  Chain.Avalanche,
+] as const;
 
 const getToolbox = async ({
   chain,
@@ -65,16 +71,8 @@ const getToolbox = async ({
 
       const toolbox =
         chain === Chain.Ethereum
-          ? ETHToolbox({
-              provider,
-              signer,
-              ethplorerApiKey: ethplorerApiKey as string,
-            })
-          : AVAXToolbox({
-              provider,
-              signer,
-              covalentApiKey,
-            });
+          ? ETHToolbox({ provider, signer, ethplorerApiKey: ethplorerApiKey as string })
+          : AVAXToolbox({ provider, signer, covalentApiKey });
 
       return toolbox;
     }
@@ -157,7 +155,7 @@ const getToolbox = async ({
         const signDoc = makeSignDocAmino(
           [msg],
           DEFAULT_THORCHAIN_FEE,
-          ChainId.Thorchain,
+          ChainId.THORChain,
           params.memo,
           accountNumber?.toString(),
           sequence?.toString() || '0',
@@ -207,7 +205,7 @@ const getToolbox = async ({
         const signDoc = makeSignDocAmino(
           [msg],
           DEFAULT_THORCHAIN_FEE,
-          ChainId.Thorchain,
+          ChainId.THORChain,
           memo,
           accountNumber?.toString(),
           sequence?.toString() || '0',

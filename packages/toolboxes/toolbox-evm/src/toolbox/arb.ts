@@ -1,6 +1,6 @@
 import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
-import { Web3Provider } from '@ethersproject/providers';
+import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
@@ -69,7 +69,7 @@ export const ARBToolbox = ({
   api?: CovalentApiType;
   covalentApiKey: string;
   signer: Signer;
-  provider: Provider | Web3Provider;
+  provider: JsonRpcProvider | Web3Provider;
 }) => {
   const arbApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Arbitrum });
   const baseToolbox = BaseEVMToolbox({ provider, signer, isEIP1559Compatible: false });

@@ -21,14 +21,7 @@ export const createSwapKit = async ({ swapkitConfig, ...extendParams }: SwapKitO
 
   swapKitClient.extend({
     ...extendParams,
-    wallets: [
-      evmWallet,
-      keystoreWallet,
-      ledgerWallet,
-      trezorWallet,
-      keplrWallet,
-      xdefiWallet,
-    ],
+    wallets: [evmWallet, keystoreWallet, ledgerWallet, trezorWallet, keplrWallet, xdefiWallet],
   });
 
   return swapKitClient;

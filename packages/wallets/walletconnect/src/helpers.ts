@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import { Chain, EVMChain } from '@thorswap-lib/types';
 
 import {
   AVALACHE_MAINNET_ID,
@@ -17,13 +17,7 @@ export const getAddressFromAccount = (account: string) => {
 };
 
 export const getAddressByChain = (
-  chain:
-    | Chain.Binance
-    | Chain.THORChain
-    | Chain.Ethereum
-    | Chain.Avalanche
-    | Chain.Arbitrum
-    | Chain.BinanceSmartChain,
+  chain: EVMChain | Chain.Binance | Chain.THORChain,
   accounts: string[],
 ): string =>
   getAddressFromAccount(

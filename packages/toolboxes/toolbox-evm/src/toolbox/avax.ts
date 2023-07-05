@@ -1,7 +1,6 @@
-import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber } from '@ethersproject/bignumber';
-import { Web3Provider } from '@ethersproject/providers';
+import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { formatUnits } from '@ethersproject/units';
 import { baseAmount, gasFeeMultiplier } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
@@ -120,7 +119,7 @@ export const AVAXToolbox = ({
   api?: CovalentApiType;
   covalentApiKey: string;
   signer: Signer;
-  provider: Provider | Web3Provider;
+  provider: JsonRpcProvider | Web3Provider;
 }) => {
   const avaxApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Avalanche });
   const baseToolbox = BaseEVMToolbox({ provider, signer });
