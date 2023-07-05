@@ -6,9 +6,9 @@
   "description": "THORSwap Lib swapkit-api",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@vitest/coverage-istanbul": "0.32.2",
+    "@vitest/coverage-istanbul": "0.32.4",
     "vite": "4.3.9",
-    "vitest": "0.32.2"
+    "vitest": "0.32.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"

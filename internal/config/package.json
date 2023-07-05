@@ -1,10 +1,10 @@
 {
   "devDependencies": {
-    "@vitest/coverage-istanbul": "0.32.2",
+    "@vitest/coverage-istanbul": "0.32.4",
     "rollup-plugin-visualizer": "5.9.2",
     "vite": "4.3.9",
     "vite-plugin-dts": "2.3.0",
-    "vitest": "0.32.2"
+    "vitest": "0.32.4"
   },
   "eslintConfig": {
     "extends": "../eslint-config-thorswap"

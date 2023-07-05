@@ -4,7 +4,7 @@
   "devDependencies": {
     "@ethersproject/bignumber": "5.7.0",
     "@internal/config": "workspace:*",
-    "@types/node": "20.3.2",
+    "@types/node": "20.3.3",
     "vite": "4.3.9"
   },
   "eslintConfig": {

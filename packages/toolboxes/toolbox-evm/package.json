@@ -17,14 +17,14 @@
   "description": "THORSwap toolbox-evm",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@keplr-wallet/types": "0.12.12",
+    "@keplr-wallet/types": "0.12.14",
     "@nomicfoundation/hardhat-network-helpers": "1.0.8",
     "@nomiclabs/hardhat-ethers": "2.2.3",
-    "@types/node": "20.3.2",
-    "@vitest/coverage-istanbul": "0.32.2",
+    "@types/node": "20.3.3",
+    "@vitest/coverage-istanbul": "0.32.4",
     "hardhat": "2.16.1",
     "vite": "4.3.9",
-    "vitest": "0.32.2"
+    "vitest": "0.32.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"

@@ -16,12 +16,12 @@
     "@internal/config": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@vitest/coverage-istanbul": "0.32.2",
+    "@vitest/coverage-istanbul": "0.32.4",
     "@walletconnect/types": "1.8.0",
     "bech32-buffer": "0.2.1",
     "cosmos-client": "0.39.2",
     "vite": "4.3.9",
-    "vitest": "0.32.2"
+    "vitest": "0.32.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"

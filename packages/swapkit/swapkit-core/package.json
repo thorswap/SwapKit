@@ -19,11 +19,11 @@
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "@thorswap-lib/trustwallet": "workspace:*",
     "@thorswap-lib/walletconnect": "workspace:*",
-    "@vitest/coverage-istanbul": "0.32.2",
+    "@vitest/coverage-istanbul": "0.32.4",
     "vite": "4.3.9",
     "vite-plugin-top-level-await": "1.3.1",
     "vite-plugin-wasm": "3.2.2",
-    "vitest": "0.32.2"
+    "vitest": "0.32.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"
