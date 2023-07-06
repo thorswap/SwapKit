@@ -23,6 +23,16 @@
 
 ## Reference
 
+* [API Reference](reference/api-reference/README.md)
+  * [Gas API](reference/api-reference/gas-api.md)
+  * [Lending API](reference/api-reference/lending-api.md)
+  * [Liquidity API](reference/api-reference/liquidity-api.md)
+  * [Quote API](reference/api-reference/quote-api.md)
+  * [THORName API](reference/api-reference/thorname-api.md)
+  * [Token API](reference/api-reference/token-api.md)
+  * [Token List API](reference/api-reference/token-list-api.md)
+  * [Tracker API](reference/api-reference/tracker-api.md)
+  * [Full API Reference](http://localhost:3000/doc)
 * [Toolboxes](reference/toolboxes/README.md)
   * [UTXO](reference/toolboxes/utxo.md)
   * [EVM](reference/toolboxes/evm.md)
@@ -42,12 +52,3 @@
   * [Explorers](reference/swapkit-sdk-methods/explorers.md)
   * [Types](reference/swapkit-sdk-methods/types.md)
 * [Smart Contracts](reference/smart-contracts.md)
-* [API Reference](reference/api-reference.md)
-
-***
-
-* [Page](page.md)
-
-## Group 1
-
-* [Page 1](group-1/page-1.md)

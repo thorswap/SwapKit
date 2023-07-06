@@ -2356,6 +2356,389 @@ paths:
                   message:
                     type: string
                     description: Message describing the problem.
+  "/thorname/registered/{thorname}":
+    get:
+      tags:
+      - Thorname
+      summary: Thorname is registered
+      description: Endpoint to get thorname registration status
+      parameters:
+      - name: thorname
+        in: path
+        required: true
+        description: value of thorname
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Boolean representing if the thorname is registered or not
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Message describing what required properties are missing
+                      or invalid.
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Message describing the problem.
+  "/thorname/chains/{thorname}":
+    get:
+      tags:
+      - Thorname
+      summary: Chains associated with thorname
+      description: Endpoint to get chains associated with thorname
+      parameters:
+      - name: thorname
+        in: path
+        required: true
+        description: value of thorname
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A JSON array chains
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Message describing what required properties are missing
+                      or invalid.
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Message describing the problem.
+  "/thorname/{thorname}":
+    get:
+      tags:
+      - Thorname
+      summary: Addresses associated with thorname
+      description: Endpoint to get chains and addresses associated with thorname
+      parameters:
+      - name: thorname
+        in: path
+        required: true
+        description: value of thorname
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A JSON array chains and addresses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/ThornameReverseLookupResponse"
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Message describing what required properties are missing
+                      or invalid.
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Message describing the problem.
+  "/thorname/chain":
+    get:
+      tags:
+      - Thorname
+      summary: Chain associated with thorname
+      description: Checks if specific chain is associated with thorname
+      parameters:
+      - name: thorname
+        in: query
+        required: true
+        description: value of thorname
+        schema:
+          type: string
+      - name: chain
+        in: query
+        required: true
+        description: chain name
+        schema:
+          type: string
+      responses:
+        '200':
+          description: boolean response depicting if the chain is associated with
+            thorname
+          content:
+            application/json:
+              schema:
+                type: boolean
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Message describing what required properties are missing
+                      or invalid.
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Message describing the problem.
+  "/thorname/rlookup":
+    get:
+      tags:
+      - Thorname
+      summary: Thornames associated with the address
+      description: Returns thornames associated with the address
+      parameters:
+      - name: address
+        in: query
+        required: true
+        description: value of address
+        schema:
+          type: string
+      - name: chain
+        in: query
+        required: true
+        description: value of chain
+        schema:
+          type: string
+      responses:
+        '200':
+          description: array of thornames associated with the address
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ThornameReverseLookupResponse"
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Message describing what required properties are missing
+                      or invalid.
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Message describing the problem.
+  "/tracker/v2/txn":
+    get:
+      tags:
+      - Tracker
+      summary: Track a transaction's status
+      description: Get a chain-by-chain breakdown of a transaction's overall progress
+      parameters:
+      - name: txn
+        in: query
+        required: true
+        description: a tracker request object
+        schema:
+          "$ref": "#/components/schemas/TrackerRequest"
+      responses:
+        '200':
+          description: A complete breakdown of a transaction's overall progress
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/TrackerResponse"
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: name of the error
+                  message:
+                    type: string
+                    description: details about this error
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Internal Server Error
+  "/lending/borrow":
+    get:
+      tags:
+      - Lending
+      summary: Get borrow details
+      description: Get borrow details
+      parameters:
+      - name: assetIn
+        in: query
+        required: true
+        description: The collateral asset
+        type: string
+      - name: assetOut
+        in: query
+        required: true
+        description: The asset to be borrowed, or received after a swap
+        type: string
+      - name: amount
+        in: query
+        required: true
+        description: The amount of collateral to be deposited into the protocol
+        type: string
+      - name: senderAddress
+        in: query
+        required: false
+        description: The sender of the collateral asset
+        type: string
+      - name: recipientAddress
+        in: query
+        required: false
+        description: The recipient of the assetOut
+        type: string
+      - name: affiliateAddress
+        in: query
+        required: false
+        description: The affiliate address
+        type: string
+      - name: affiliateBasisPoints
+        in: query
+        required: false
+        description: The affiliate basis points
+        type: string
+      responses:
+        '200':
+          description: A full quote of the borrow
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/LendingOpenResponse"
+  "/lending/loans":
+    get:
+      tags:
+      - Lending
+      summary: Get loan details
+      description: Get details of loans of provided address and asset
+      parameters:
+      - name: asset
+        in: query
+        required: true
+        description: The collateral asset
+        type: string
+      - name: address
+        in: query
+        required: true
+        description: The address of the user
+        type: string
+      responses:
+        '200':
+          description: Details of loans of provided address and asset
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/LoanDetailsResponse"
+  "/lending/asset/available":
+    get:
+      tags:
+      - Lending
+      summary: Get available asset for given pool
+      description: Get available asset for given pool
+      parameters:
+      - name: asset
+        in: query
+        required: true
+        description: Asset to check availability for
+        type: string
+      responses:
+        '200':
+          description: response for available asset
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/LendingAssetAvailableResponse"
+  "/stats/supply/circulating":
+    get:
+      tags:
+      - Supply stats
+      summary: Get Circulating supply of THOR
+      description: Get Circulating supply of THOR
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            text/plain:
+              schema:
+                type: number
+                example: 120744281
+                description: The circulating supply of the THOR in numerical format.
+  "/stats/supply/total":
+    get:
+      tags:
+      - Supply stats
+      summary: Get Total supply of THOR
+      description: Get Total supply of THOR
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            text/plain:
+              schema:
+                type: number
+                example: 469999996
+                description: The Total supply of the THOR in numerical format.
 definitions: {}
 responses: {}
 parameters: {}
