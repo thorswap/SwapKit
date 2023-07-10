@@ -23,6 +23,7 @@ type KeystoreOptions = {
   ethplorerApiKey?: string;
   utxoApiKey?: string;
   covalentApiKey?: string;
+  stagenet?: boolean;
 };
 
 type Params = KeystoreOptions & {
@@ -42,6 +43,7 @@ const getWalletMethodsForChain = async ({
   covalentApiKey,
   utxoApiKey,
   index,
+  stagenet,
 }: Params) => {
   const derivationPath = `${DerivationPath[chain]}/${index}`;
 
@@ -161,7 +163,7 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.THORChain: {
-      const walletMethods = thorchainWalletMethods({ phrase });
+      const walletMethods = thorchainWalletMethods({ phrase, stagenet });
 
       return { address: walletMethods.getAddress() as string, walletMethods };
     }
@@ -176,7 +178,7 @@ const connectKeystore =
     addChain,
     apis,
     rpcUrls,
-    config: { covalentApiKey, ethplorerApiKey, utxoApiKey },
+    config: { covalentApiKey, ethplorerApiKey, utxoApiKey, stagenet },
   }: ConnectWalletParams) =>
   async (chains: Chain[], phrase: string, index: number = 0) => {
     const promises = chains.map(async (chain) => {
@@ -189,6 +191,7 @@ const connectKeystore =
         ethplorerApiKey,
         phrase,
         utxoApiKey,
+        stagenet,
       });
 
       addChain({
