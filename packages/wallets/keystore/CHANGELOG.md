@@ -1,5 +1,11 @@
 # @thorswap-lib/keystore
 
+## 1.0.0-development.184
+
+### Minor Changes
+
+- [#193](https://github.com/thorswap/SwapKit/pull/193) [`63a8cd7`](https://github.com/thorswap/SwapKit/commit/63a8cd758b22bfadfd7cbd0d141179e1b0bcbee5) Thanks [@0x-General](https://github.com/0x-General)! - Fix stagenet on keystore THORChain
+
 ## 1.0.0-development.183
 
 ### Patch Changes

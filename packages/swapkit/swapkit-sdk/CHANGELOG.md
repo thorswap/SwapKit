@@ -1,5 +1,12 @@
 # @thorswap-lib/swapkit-sdk
 
+## 0.1.0-development.36
+
+### Patch Changes
+
+- Updated dependencies [[`63a8cd7`](https://github.com/thorswap/SwapKit/commit/63a8cd758b22bfadfd7cbd0d141179e1b0bcbee5)]:
+  - @thorswap-lib/keystore@1.0.0-development.184
+
 ## 0.1.0-development.35
 
 ### Patch Changes
