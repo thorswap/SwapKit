@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 overrides:
   typescript: 5.1.6
   axios@^0.x.x: ^0.27.2
@@ -183,7 +179,7 @@ importers:
         version: 13.1.1(expo@48.0.19)
       expo-router:
         specifier: 1.5.3
-        version: 1.5.3(expo-constants@14.2.1)(expo-linking@4.0.1)(expo-modules-autolinking@1.2.0)(expo-status-bar@1.4.4)(expo@48.0.19)(metro@0.76.6)(react-dom@18.2.0)(react-native-gesture-handler@2.10.1)(react-native-reanimated@2.14.4)(react-native-safe-area-context@4.6.4)(react-native-screens@3.22.0)(react-native@0.71.8)(react@18.2.0)
+        version: 1.5.3(expo-constants@14.2.1)(expo-linking@4.0.1)(expo-modules-autolinking@1.2.0)(expo-status-bar@1.4.4)(expo@48.0.19)(metro@0.76.7)(react-dom@18.2.0)(react-native-gesture-handler@2.10.1)(react-native-reanimated@2.14.4)(react-native-safe-area-context@4.6.4)(react-native-screens@3.22.0)(react-native@0.71.8)(react@18.2.0)
       expo-splash-screen:
         specifier: 0.18.2
         version: 0.18.2(expo-modules-autolinking@1.2.0)(expo@48.0.19)
@@ -349,7 +345,7 @@ importers:
         version: 18.2.0(react@18.2.0)
       rollup-plugin-polyfill-node:
         specifier: 0.12.0
-        version: 0.12.0(rollup@3.25.1)
+        version: 0.12.0(rollup@3.25.3)
       stream-browserify:
         specifier: 3.0.0
         version: 3.0.0
@@ -800,6 +796,9 @@ importers:
         specifier: 5.7.0
         version: 5.7.0
       '@ethersproject/bytes':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@ethersproject/constants':
         specifier: 5.7.0
         version: 5.7.0
       '@ethersproject/contracts':
@@ -2796,23 +2795,6 @@ packages:
       '@babel/parser': 7.22.5
       '@babel/types': 7.22.5
 
-  /@babel/traverse@7.22.5:
-    resolution: {integrity: sha512-7DuIjPgERaNo6r+PZwItpjCZEa5vyw4eJGufeLxrPdBXBoLcCJCIasvK6pK/9DVNrLZTLFhUGqaC6X/PA007TQ==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/code-frame': 7.22.5
-      '@babel/generator': 7.22.5
-      '@babel/helper-environment-visitor': 7.22.5
-      '@babel/helper-function-name': 7.22.5
-      '@babel/helper-hoist-variables': 7.22.5
-      '@babel/helper-split-export-declaration': 7.22.5
-      '@babel/parser': 7.22.5
-      '@babel/types': 7.22.5
-      debug: 4.3.4(supports-color@8.1.1)
-      globals: 11.12.0
-    transitivePeerDependencies:
-      - supports-color
-
   /@babel/traverse@7.22.5(supports-color@5.5.0):
     resolution: {integrity: sha512-7DuIjPgERaNo6r+PZwItpjCZEa5vyw4eJGufeLxrPdBXBoLcCJCIasvK6pK/9DVNrLZTLFhUGqaC6X/PA007TQ==}
     engines: {node: '>=6.9.0'}
@@ -2829,7 +2811,6 @@ packages:
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
-    dev: false
 
   /@babel/traverse@7.22.6:
     resolution: {integrity: sha512-53CijMvKlLIDlOTrdWiHileRddlIiwUIyCKqYa7lYnnPldXCG5dUSN38uT0cA6i7rHWNKJLH0VU/Kxdr1GzB3w==}
@@ -5243,7 +5224,7 @@ packages:
       nanoid: 3.3.6
     dev: false
 
-  /@rollup/plugin-inject@5.0.3(rollup@3.25.1):
+  /@rollup/plugin-inject@5.0.3(rollup@3.25.3):
     resolution: {integrity: sha512-411QlbL+z2yXpRWFXSmw/teQRMkXcAAC8aYTemc15gwJRpvEVDQwoe+N/HTFD8RFG8+88Bme9DK2V9CVm7hJdA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -5252,10 +5233,10 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.2(rollup@3.25.1)
+      '@rollup/pluginutils': 5.0.2(rollup@3.25.3)
       estree-walker: 2.0.2
       magic-string: 0.27.0
-      rollup: 3.25.1
+      rollup: 3.25.3
     dev: false
 
   /@rollup/plugin-virtual@3.0.1:
@@ -5268,7 +5249,7 @@ packages:
         optional: true
     dev: true
 
-  /@rollup/pluginutils@5.0.2(rollup@3.25.1):
+  /@rollup/pluginutils@5.0.2(rollup@3.25.3):
     resolution: {integrity: sha512-pTd9rIsP92h+B6wWwFbW8RkZv4hiR/xKsqre4SIuAOaOEQRxi0lqLke9k2/7WegC85GgUs9pjmOjCUi3In4vwA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -5280,7 +5261,7 @@ packages:
       '@types/estree': 1.0.1
       estree-walker: 2.0.2
       picomatch: 2.3.1
-      rollup: 3.25.1
+      rollup: 3.25.3
 
   /@rushstack/node-core-library@3.59.4:
     resolution: {integrity: sha512-YAKJDC6Mz/KA1D7bvB88WaRX3knt/ZuLzkRu5G9QADGSjLtvTWzCNCytRF2PCSaaHOZaZsWul4F1KQdgFgUDqA==}
@@ -8539,7 +8520,6 @@ packages:
     dependencies:
       ms: 2.1.2
       supports-color: 5.5.0
-    dev: false
 
   /debug@4.3.4(supports-color@8.1.1):
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
@@ -9839,7 +9819,7 @@ packages:
       expo: 48.0.19(@babel/core@7.22.6)
     dev: false
 
-  /expo-router@1.5.3(expo-constants@14.2.1)(expo-linking@4.0.1)(expo-modules-autolinking@1.2.0)(expo-status-bar@1.4.4)(expo@48.0.19)(metro@0.76.6)(react-dom@18.2.0)(react-native-gesture-handler@2.10.1)(react-native-reanimated@2.14.4)(react-native-safe-area-context@4.6.4)(react-native-screens@3.22.0)(react-native@0.71.8)(react@18.2.0):
+  /expo-router@1.5.3(expo-constants@14.2.1)(expo-linking@4.0.1)(expo-modules-autolinking@1.2.0)(expo-status-bar@1.4.4)(expo@48.0.19)(metro@0.76.7)(react-dom@18.2.0)(react-native-gesture-handler@2.10.1)(react-native-reanimated@2.14.4)(react-native-safe-area-context@4.6.4)(react-native-screens@3.22.0)(react-native@0.71.8)(react@18.2.0):
     resolution: {integrity: sha512-rZEoRpXjXpfcx549/MI7YRitaBGFOHpIGLO+cb18ecsShl3PzGPIDaBGMnTo0m1h7ip0sAIQg1EFrSAtM4LXLA==}
     peerDependencies:
       '@react-navigation/drawer': ^6.5.8
@@ -9869,7 +9849,7 @@ packages:
       expo-linking: 4.0.1(expo@48.0.19)
       expo-splash-screen: 0.18.2(expo-modules-autolinking@1.2.0)(expo@48.0.19)
       expo-status-bar: 1.4.4
-      metro: 0.76.6
+      metro: 0.76.7
       query-string: 7.1.3
       react-helmet-async: 1.3.0(react-dom@18.2.0)(react@18.2.0)
       react-native-gesture-handler: 2.10.1(react-native@0.71.8)(react@18.2.0)
@@ -12394,13 +12374,12 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /metro-babel-transformer@0.76.6:
-    resolution: {integrity: sha512-9Y04wJufg1TVAnexWc/iICN6TetUPXLRV/kXcUdtMwQcz7NMaENe1twtzaxkGD3D6MRXcMh9OhcUD/4UJyoyrw==}
+  /metro-babel-transformer@0.76.7:
+    resolution: {integrity: sha512-bgr2OFn0J4r0qoZcHrwEvccF7g9k3wdgTOgk6gmGHrtlZ1Jn3oCpklW/DfZ9PzHfjY2mQammKTc19g/EFGyOJw==}
     engines: {node: '>=16'}
     dependencies:
       '@babel/core': 7.22.6
       hermes-parser: 0.12.0
-      metro-source-map: 0.76.6
       nullthrows: 1.1.1
     transitivePeerDependencies:
       - supports-color
@@ -12409,8 +12388,8 @@ packages:
   /metro-cache-key@0.73.10:
     resolution: {integrity: sha512-JMVDl/EREDiUW//cIcUzRjKSwE2AFxVWk47cFBer+KA4ohXIG2CQPEquT56hOw1Y1s6gKNxxs1OlAOEsubrFjw==}
 
-  /metro-cache-key@0.76.6:
-    resolution: {integrity: sha512-npH9gAlO1cOBd7q0LIu6t+8A7Xq7hplweOt4VJVcLGhEYsa1NmIND0S73/Z7aYbID7bWsY7i8wOFFfgUxh8W0A==}
+  /metro-cache-key@0.76.7:
+    resolution: {integrity: sha512-0pecoIzwsD/Whn/Qfa+SDMX2YyasV0ndbcgUFx7w1Ct2sLHClujdhQ4ik6mvQmsaOcnGkIyN0zcceMDjC2+BFQ==}
     engines: {node: '>=16'}
     dev: false
 
@@ -12420,11 +12399,11 @@ packages:
       metro-core: 0.73.10
       rimraf: 3.0.2
 
-  /metro-cache@0.76.6:
-    resolution: {integrity: sha512-zrsNEiPJWQYq69IiR06gfiuYMmAxYt21CxLsrZLJdfU/jB1rvqZa43MuUWG129uxN8ZtjWKnUVl6LRZj+85XFw==}
+  /metro-cache@0.76.7:
+    resolution: {integrity: sha512-nWBMztrs5RuSxZRI7hgFgob5PhYDmxICh9FF8anm9/ito0u0vpPvRxt7sRu8fyeD2AHdXqE7kX32rWY0LiXgeg==}
     engines: {node: '>=16'}
     dependencies:
-      metro-core: 0.76.6
+      metro-core: 0.76.7
       rimraf: 3.0.2
     dev: false
 
@@ -12443,17 +12422,17 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /metro-config@0.76.6:
-    resolution: {integrity: sha512-fhlYLbIwrkNAJKBhGg7b4AeZHLKqXDBD8pN7K+BD/wHajhyUap7Vi97io/wMBuX41dIUvQgGCmF/y063IlXMJQ==}
+  /metro-config@0.76.7:
+    resolution: {integrity: sha512-CFDyNb9bqxZemiChC/gNdXZ7OQkIwmXzkrEXivcXGbgzlt/b2juCv555GWJHyZSlorwnwJfY3uzAFu4A9iRVfg==}
     engines: {node: '>=16'}
     dependencies:
       connect: 3.7.0
       cosmiconfig: 5.2.1
       jest-validate: 29.5.0
-      metro: 0.76.6
-      metro-cache: 0.76.6
-      metro-core: 0.76.6
-      metro-runtime: 0.76.6
+      metro: 0.76.7
+      metro-cache: 0.76.7
+      metro-core: 0.76.7
+      metro-runtime: 0.76.7
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -12467,12 +12446,12 @@ packages:
       lodash.throttle: 4.1.1
       metro-resolver: 0.73.10
 
-  /metro-core@0.76.6:
-    resolution: {integrity: sha512-T6gcggmNXWsd6wBABIVcFE7bXUh8oWlRk0sg521olUXK4RptoL4G5qg4lwJJqkVPBAYGiTBgyZnTjxAZsOGbpw==}
+  /metro-core@0.76.7:
+    resolution: {integrity: sha512-0b8KfrwPmwCMW+1V7ZQPkTy2tsEKZjYG9Pu1PTsu463Z9fxX7WaR0fcHFshv+J1CnQSUTwIGGjbNvj1teKe+pw==}
     engines: {node: '>=16'}
     dependencies:
       lodash.throttle: 4.1.1
-      metro-resolver: 0.76.6
+      metro-resolver: 0.76.7
     dev: false
 
   /metro-file-map@0.73.10:
@@ -12496,8 +12475,8 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /metro-file-map@0.76.6:
-    resolution: {integrity: sha512-XzfQOQ86nf9QgoZ+Ox9zE2hq8ief7F9jzqmzNslKPYs59cyCL9BSwrhj1knY7CSCsk0+SaBn2LAV2eGmNlbfVw==}
+  /metro-file-map@0.76.7:
+    resolution: {integrity: sha512-s+zEkTcJ4mOJTgEE2ht4jIo1DZfeWreQR3tpT3gDV/Y/0UQ8aJBTv62dE775z0GLsWZApiblAYZsj7ZE8P06nw==}
     engines: {node: '>=16'}
     dependencies:
       anymatch: 3.1.3
@@ -12534,8 +12513,8 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /metro-inspector-proxy@0.76.6:
-    resolution: {integrity: sha512-8jbbTYUoFne9vmOOW9gWfAk08rIlYe8ZBvIUg3mS1jYBblSSEby3tJcVwB+j6rqPKHBLtakYmPb4BoYqIvO91g==}
+  /metro-inspector-proxy@0.76.7:
+    resolution: {integrity: sha512-rNZ/6edTl/1qUekAhAbaFjczMphM50/UjtxiKulo6vqvgn/Mjd9hVqDvVYfAMZXqPvlusD88n38UjVYPkruLSg==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
@@ -12556,11 +12535,11 @@ packages:
     dependencies:
       terser: 5.18.1
 
-  /metro-minify-terser@0.76.6:
-    resolution: {integrity: sha512-CFwq3thxrNjhiYNeoTAB+XGmjLcUz7XdD03j+19zd+3W9FFGWd4GXePacVX+o2GeuKPerO5431F+W98lWV11pA==}
+  /metro-minify-terser@0.76.7:
+    resolution: {integrity: sha512-FQiZGhIxCzhDwK4LxyPMLlq0Tsmla10X7BfNGlYFK0A5IsaVKNJbETyTzhpIwc+YFRT4GkFFwgo0V2N5vxO5HA==}
     engines: {node: '>=16'}
     dependencies:
-      terser: 5.18.1
+      terser: 5.18.2
     dev: false
 
   /metro-minify-uglify@0.73.10:
@@ -12568,8 +12547,8 @@ packages:
     dependencies:
       uglify-es: 3.3.9
 
-  /metro-minify-uglify@0.76.6:
-    resolution: {integrity: sha512-/ydKCoJKuNKB5SHadSekOn6X00vglDtFEWYMrE3EJZPovyYT92ZBpQPOLPcGdgwsxUACssBwRSWoakQuooHEgw==}
+  /metro-minify-uglify@0.76.7:
+    resolution: {integrity: sha512-FuXIU3j2uNcSvQtPrAJjYWHruPiQ+EpE++J9Z+VznQKEHcIxMMoQZAfIF2IpZSrZYfLOjVFyGMvj41jQMxV1Vw==}
     engines: {node: '>=16'}
     dependencies:
       uglify-es: 3.3.9
@@ -12667,8 +12646,8 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /metro-react-native-babel-preset@0.76.6(@babel/core@7.22.6):
-    resolution: {integrity: sha512-WswDzpHAW7QuD+u8ICTY1D7mGGQUVeZWr/e9bxfCCsQurH9l1eO0uxGzciMmNr9CzI5DTMtGeaA6Ol+1AH8F2A==}
+  /metro-react-native-babel-preset@0.76.7(@babel/core@7.22.6):
+    resolution: {integrity: sha512-R25wq+VOSorAK3hc07NW0SmN8z9S/IR0Us0oGAsBcMZnsgkbOxu77Mduqf+f4is/wnWHc5+9bfiqdLnaMngiVw==}
     engines: {node: '>=16'}
     peerDependencies:
       '@babel/core': '*'
@@ -12751,8 +12730,8 @@ packages:
     dependencies:
       absolute-path: 0.0.0
 
-  /metro-resolver@0.76.6:
-    resolution: {integrity: sha512-npZbsYTauhBmWj8AsWCU/RZe2qUJ5mAS93QoqYPIGNqnXlVq7maga3z17jXvP9o5BgsfdxnEmBVHVzYHdSegGA==}
+  /metro-resolver@0.76.7:
+    resolution: {integrity: sha512-pC0Wgq29HHIHrwz23xxiNgylhI8Rq1V01kQaJ9Kz11zWrIdlrH0ZdnJ7GC6qA0ErROG+cXmJ0rJb8/SW1Zp2IA==}
     engines: {node: '>=16'}
     dev: false
 
@@ -12768,8 +12747,8 @@ packages:
       '@babel/runtime': 7.22.5
       react-refresh: 0.4.3
 
-  /metro-runtime@0.76.6:
-    resolution: {integrity: sha512-KWE1AhHrh69w/28/b9ebvE47je/K74XB0oVdAQeQLKUXb6iGhMBgoqpHwt3XO6dgYOWv901DKPp/aRahzDM4qA==}
+  /metro-runtime@0.76.7:
+    resolution: {integrity: sha512-MuWHubQHymUWBpZLwuKZQgA/qbb35WnDAKPo83rk7JRLIFPvzXSvFaC18voPuzJBt1V98lKQIonh6MiC9gd8Ug==}
     engines: {node: '>=16'}
     dependencies:
       '@babel/runtime': 7.22.5
@@ -12793,7 +12772,7 @@ packages:
   /metro-source-map@0.73.9:
     resolution: {integrity: sha512-l4VZKzdqafipriETYR6lsrwtavCF1+CMhCOY9XbyWeTrpGSNgJQgdeJpttzEZTHQQTLR0csQo0nD1ef3zEP6IQ==}
     dependencies:
-      '@babel/traverse': 7.22.5
+      '@babel/traverse': 7.22.5(supports-color@5.5.0)
       '@babel/types': 7.22.5
       invariant: 2.2.4
       metro-symbolicate: 0.73.9
@@ -12804,16 +12783,16 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /metro-source-map@0.76.6:
-    resolution: {integrity: sha512-If5SgizVsWrDYuTGNs2zZIjNY2nuF5nUgpjjRW7QC+46vcetdaxWEFdJa6BGBAe55vZzRlB2KaxQAeR1W+JJ2w==}
+  /metro-source-map@0.76.7:
+    resolution: {integrity: sha512-Prhx7PeRV1LuogT0Kn5VjCuFu9fVD68eefntdWabrksmNY6mXK8pRqzvNJOhTojh6nek+RxBzZeD6MIOOyXS6w==}
     engines: {node: '>=16'}
     dependencies:
       '@babel/traverse': 7.22.6
       '@babel/types': 7.22.5
       invariant: 2.2.4
-      metro-symbolicate: 0.76.6
+      metro-symbolicate: 0.76.7
       nullthrows: 1.1.1
-      ob1: 0.76.6
+      ob1: 0.76.7
       source-map: 0.5.7
       vlq: 1.0.1
     transitivePeerDependencies:
@@ -12848,13 +12827,13 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /metro-symbolicate@0.76.6:
-    resolution: {integrity: sha512-6o+OIQa5brLaknxN8xsCasXHxFuqfqhboWjf89klWKqqZnUzL/k94bJhhJrtlxswmOV6SSI3X9IREvdpy0wZqw==}
+  /metro-symbolicate@0.76.7:
+    resolution: {integrity: sha512-p0zWEME5qLSL1bJb93iq+zt5fz3sfVn9xFYzca1TJIpY5MommEaS64Va87lp56O0sfEIvh4307Oaf/ZzRjuLiQ==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
       invariant: 2.2.4
-      metro-source-map: 0.76.6
+      metro-source-map: 0.76.7
       nullthrows: 1.1.1
       source-map: 0.5.7
       through2: 2.0.5
@@ -12874,8 +12853,8 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /metro-transform-plugins@0.76.6:
-    resolution: {integrity: sha512-7uAmmFZjm5PxFjIRTbzLfqTZOyRh1kF1QU1z3sS4UHz451/khc1vg6qCWUQh8ELeHnV9/LVCGPUd60gHC4B5VA==}
+  /metro-transform-plugins@0.76.7:
+    resolution: {integrity: sha512-iSmnjVApbdivjuzb88Orb0JHvcEt5veVyFAzxiS5h0QB+zV79w6JCSqZlHCrbNOkOKBED//LqtKbFVakxllnNg==}
     engines: {node: '>=16'}
     dependencies:
       '@babel/core': 7.22.6
@@ -12909,8 +12888,8 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /metro-transform-worker@0.76.6:
-    resolution: {integrity: sha512-dCe6yqsrzH9NUIre2LjUsXs1gtgLii6TWGrmD9YySpN7ivPs3RA2cdA/e5mNi5sIx4i5d8vDwvePJ+ZXYj61/g==}
+  /metro-transform-worker@0.76.7:
+    resolution: {integrity: sha512-cGvELqFMVk9XTC15CMVzrCzcO6sO1lURfcbgjuuPdzaWuD11eEyocvkTX0DPiRjsvgAmicz4XYxVzgYl3MykDw==}
     engines: {node: '>=16'}
     dependencies:
       '@babel/core': 7.22.6
@@ -12918,12 +12897,12 @@ packages:
       '@babel/parser': 7.22.6
       '@babel/types': 7.22.5
       babel-preset-fbjs: 3.4.0(@babel/core@7.22.6)
-      metro: 0.76.6
-      metro-babel-transformer: 0.76.6
-      metro-cache: 0.76.6
-      metro-cache-key: 0.76.6
-      metro-source-map: 0.76.6
-      metro-transform-plugins: 0.76.6
+      metro: 0.76.7
+      metro-babel-transformer: 0.76.7
+      metro-cache: 0.76.7
+      metro-cache-key: 0.76.7
+      metro-source-map: 0.76.7
+      metro-transform-plugins: 0.76.7
       nullthrows: 1.1.1
     transitivePeerDependencies:
       - bufferutil
@@ -12941,7 +12920,7 @@ packages:
       '@babel/generator': 7.22.5
       '@babel/parser': 7.22.5
       '@babel/template': 7.22.5
-      '@babel/traverse': 7.22.5
+      '@babel/traverse': 7.22.5(supports-color@5.5.0)
       '@babel/types': 7.22.5
       absolute-path: 0.0.0
       accepts: 1.3.8
@@ -12993,8 +12972,8 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /metro@0.76.6:
-    resolution: {integrity: sha512-aHjD5GJaPT4B3goqgi5/UBbFJpvj7ZygLUPDkbKbkE3lMOf3fKo2b+o+3N1fCCENFWiNZLYHEA6Twrr+6140MA==}
+  /metro@0.76.7:
+    resolution: {integrity: sha512-67ZGwDeumEPnrHI+pEDSKH2cx+C81Gx8Mn5qOtmGUPm/Up9Y4I1H2dJZ5n17MWzejNo0XAvPh0QL0CrlJEODVQ==}
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
@@ -13020,22 +12999,22 @@ packages:
       jest-worker: 27.5.1
       jsc-safe-url: 0.2.4
       lodash.throttle: 4.1.1
-      metro-babel-transformer: 0.76.6
-      metro-cache: 0.76.6
-      metro-cache-key: 0.76.6
-      metro-config: 0.76.6
-      metro-core: 0.76.6
-      metro-file-map: 0.76.6
-      metro-inspector-proxy: 0.76.6
-      metro-minify-terser: 0.76.6
-      metro-minify-uglify: 0.76.6
-      metro-react-native-babel-preset: 0.76.6(@babel/core@7.22.6)
-      metro-resolver: 0.76.6
-      metro-runtime: 0.76.6
-      metro-source-map: 0.76.6
-      metro-symbolicate: 0.76.6
-      metro-transform-plugins: 0.76.6
-      metro-transform-worker: 0.76.6
+      metro-babel-transformer: 0.76.7
+      metro-cache: 0.76.7
+      metro-cache-key: 0.76.7
+      metro-config: 0.76.7
+      metro-core: 0.76.7
+      metro-file-map: 0.76.7
+      metro-inspector-proxy: 0.76.7
+      metro-minify-terser: 0.76.7
+      metro-minify-uglify: 0.76.7
+      metro-react-native-babel-preset: 0.76.7(@babel/core@7.22.6)
+      metro-resolver: 0.76.7
+      metro-runtime: 0.76.7
+      metro-source-map: 0.76.7
+      metro-symbolicate: 0.76.7
+      metro-transform-plugins: 0.76.7
+      metro-transform-worker: 0.76.7
       mime-types: 2.1.35
       node-fetch: 2.6.12
       nullthrows: 1.1.1
@@ -13500,8 +13479,8 @@ packages:
   /ob1@0.73.9:
     resolution: {integrity: sha512-kHOzCOFXmAM26fy7V/YuXNKne2TyRiXbFAvPBIbuedJCZZWQZHLdPzMeXJI4Egt6IcfDttRzN3jQ90wOwq1iNw==}
 
-  /ob1@0.76.6:
-    resolution: {integrity: sha512-yeLyF3Vao7K3TsXNUhIneyPei42Oe9PESzC7/udzKqnx+M6jmKZQ1nPXH5/zCMqMjqZ9to11it9q5uHUNexNUw==}
+  /ob1@0.76.7:
+    resolution: {integrity: sha512-BQdRtxxoUNfSoZxqeBGOyuT9nEYSn18xZHwGMb0mMVpn2NBcYbnyKY4BK2LIHRgw33CBGlUmE+KMaNvyTpLLtQ==}
     engines: {node: '>=16'}
     dev: false
 
@@ -15064,13 +15043,13 @@ packages:
       rollup-plugin-inject: 3.0.2
     dev: false
 
-  /rollup-plugin-polyfill-node@0.12.0(rollup@3.25.1):
+  /rollup-plugin-polyfill-node@0.12.0(rollup@3.25.3):
     resolution: {integrity: sha512-PWEVfDxLEKt8JX1nZ0NkUAgXpkZMTb85rO/Ru9AQ69wYW8VUCfDgP4CGRXXWYni5wDF0vIeR1UoF3Jmw/Lt3Ug==}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0 || ^3.0.0
     dependencies:
-      '@rollup/plugin-inject': 5.0.3(rollup@3.25.1)
-      rollup: 3.25.1
+      '@rollup/plugin-inject': 5.0.3(rollup@3.25.3)
+      rollup: 3.25.3
     dev: false
 
   /rollup-plugin-visualizer@5.9.2:
@@ -15097,6 +15076,14 @@ packages:
 
   /rollup@3.25.1:
     resolution: {integrity: sha512-tywOR+rwIt5m2ZAWSe5AIJcTat8vGlnPFAv15ycCrw33t6iFsXZ6mzHVFh2psSjxQPmI+xgzMZZizUAukBI4aQ==}
+    engines: {node: '>=14.18.0', npm: '>=8.0.0'}
+    hasBin: true
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
+  /rollup@3.25.3:
+    resolution: {integrity: sha512-ZT279hx8gszBj9uy5FfhoG4bZx8c+0A1sbqtr7Q3KNWIizpTdDEPZbV2xcbvHsnFp4MavCQYZyzApJ+virB8Yw==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
@@ -16055,6 +16042,17 @@ packages:
       commander: 2.20.3
       source-map-support: 0.5.21
 
+  /terser@5.18.2:
+    resolution: {integrity: sha512-Ah19JS86ypbJzTzvUCX7KOsEIhDaRONungA4aYBjEP3JZRf4ocuDzTg4QWZnPn9DEMiMYGJPiSOy7aykoCc70w==}
+    engines: {node: '>=10'}
+    hasBin: true
+    dependencies:
+      '@jridgewell/source-map': 0.3.3
+      acorn: 8.9.0
+      commander: 2.20.3
+      source-map-support: 0.5.21
+    dev: false
+
   /test-exclude@6.0.0:
     resolution: {integrity: sha512-cAGWPIyOHU6zlmg88jwm7VRyXnMN7iV68OGAbYDk/Mh/xC/pzVPlQtY6ngoIH/5/tciuhGfvESU8GrHrcxD56w==}
     engines: {node: '>=8'}
@@ -16721,7 +16719,7 @@ packages:
     dependencies:
       '@babel/parser': 7.22.5
       '@microsoft/api-extractor': 7.36.0
-      '@rollup/pluginutils': 5.0.2(rollup@3.25.1)
+      '@rollup/pluginutils': 5.0.2(rollup@3.25.3)
       '@rushstack/node-core-library': 3.59.4
       debug: 4.3.4(supports-color@8.1.1)
       fast-glob: 3.2.12
@@ -17391,3 +17389,7 @@ packages:
       bn.js: 4.12.0
       ethereumjs-util: 6.2.1
     dev: false
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

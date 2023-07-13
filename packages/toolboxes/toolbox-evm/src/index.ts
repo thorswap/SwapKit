@@ -9,6 +9,7 @@ export {
   getETHDefaultWallet,
   getTokenAddress,
   isDetected,
+  MAX_APPROVAL,
   toChecksumAddress,
 } from './toolbox/BaseEVMToolbox.js';
 export * from './types/clientTypes.js';

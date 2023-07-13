@@ -3,6 +3,7 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { getAddress } from '@ethersproject/address';
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { hexlify } from '@ethersproject/bytes';
+import { MaxInt256 } from '@ethersproject/constants';
 import { Contract } from '@ethersproject/contracts';
 import { Web3Provider } from '@ethersproject/providers';
 import { toUtf8Bytes } from '@ethersproject/strings';
@@ -31,7 +32,7 @@ import {
   TransferParams,
 } from '../types/clientTypes.js';
 
-const MAX_APPROVAL = BigNumber.from('2').pow('255').sub('1');
+export const MAX_APPROVAL = MaxInt256;
 
 const baseAssetAddress: Record<EVMChain, string> = {
   [Chain.Arbitrum]: ContractAddress.ARB,
