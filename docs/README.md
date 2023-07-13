@@ -9,7 +9,11 @@ description: >-
 
 ### 1. TypeScript/JavaScript SDK
 
+Implement our JS/TS SDK in any frontend, or backend, and build your UI/UX around cross-chain swapping.
 
+{% content-ref url="integrate-swapkit-sdk/install-swapkit-sdk.md" %}
+[install-swapkit-sdk.md](integrate-swapkit-sdk/install-swapkit-sdk.md)
+{% endcontent-ref %}
 
 ### 2. API (REST)
 

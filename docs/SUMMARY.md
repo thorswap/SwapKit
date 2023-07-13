@@ -21,6 +21,13 @@
   * [Lookup a Thorname](swapkit-api/swapkit-api/lookup-a-thorname.md)
 * [Integrating SwapKit API](swapkit-api/integrating-swapkit-api.md)
 
+## Integrate SwapKit SDK
+
+* [1⃣ Install SwapKit SDK](integrate-swapkit-sdk/install-swapkit-sdk.md)
+* [2⃣ Set up the SDK](integrate-swapkit-sdk/set-up-the-sdk.md)
+* [3⃣ Request a Route](integrate-swapkit-sdk/request-a-route.md)
+* [4⃣ Execute a Route](integrate-swapkit-sdk/execute-a-route.md)
+
 ## Reference
 
 * [API Reference](reference/api-reference/README.md)
