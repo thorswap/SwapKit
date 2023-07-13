@@ -2,41 +2,35 @@ import { AssetAmount } from '@thorswap-lib/swapkit-entities';
 import { useCallback, useMemo, useState } from 'react';
 
 import Loan from './Loan';
+import Send from './Send';
 import Swap from './Swap';
 import { getSwapKitClient } from './swapKitClient';
 import { WalletDataType } from './types';
 import { Wallet } from './Wallet';
 import { WalletPicker } from './WalletPicker';
-import Send from './Send';
 
-const apiKeys = ['ethplorerApiKey', 'covalentApiKey', 'utxoApiKey', 'walletConnectProjectId'] as const;
+const apiKeys = ['walletConnectProjectId'] as const;
 
 const App = () => {
   const [widgetType, setWidgetType] = useState<'swap' | 'loan' | 'earn'>('swap');
   const [wallet, setWallet] = useState<WalletDataType | WalletDataType[]>(null);
   const [stagenet, setStagenet] = useState(true);
+
+  /**
+   * NOTE: Test API keys - please use your own API keys in app as those will timeout, reach limits, etc.
+   */
   const [keys, setKeys] = useState({
-    ethplorerApiKey: '',
-    covalentApiKey: '',
+    covalentApiKey: 'cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q',
+    ethplorerApiKey: 'EK-xs8Hj-qG4HbLY-LoAu7',
+    utxoApiKey: 'A___Tcn5B16iC3mMj7QrzZCb2Ho1QBUf',
     walletConnectProjectId: '',
-    utxoApiKey: undefined,
   });
   const [{ inputAsset, outputAsset }, setSwapAssets] = useState<{
     inputAsset?: AssetAmount;
     outputAsset?: AssetAmount;
   }>({});
 
-  const skClient = useMemo(() => {
-    if (
-      Object.keys(keys)
-        .filter((key) => key !== 'utxoApiKey')
-        //@ts-expect-error
-        .some((key) => !keys[key])
-    )
-      return;
-
-    return getSwapKitClient({ stagenet, ...keys });
-  }, [keys, stagenet]);
+  const skClient = useMemo(() => getSwapKitClient({ ...keys, stagenet }), [keys, stagenet]);
 
   const setAsset = useCallback(
     (asset: AssetAmount) => {
