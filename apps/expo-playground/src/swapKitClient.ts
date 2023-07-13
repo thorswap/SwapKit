@@ -17,12 +17,15 @@ export const getSwapKitClient = () => {
     ],
   });
 
+  /**
+   * NOTE: Test API keys - please use your own API keys in app as those will timeout, reach limits, etc.
+   */
   client.extend({
     config: {
-      ethplorerApiKey: 'freekey',
-      covalentApiKey: 'freekey',
+      ethplorerApiKey: 'EK-xs8Hj-qG4HbLY-LoAu7',
+      covalentApiKey: 'cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q',
+      utxoApiKey: 'A___Tcn5B16iC3mMj7QrzZCb2Ho1QBUf',
       walletConnectProjectId: 'freekey',
-      utxoApiKey: undefined,
     },
     wallets,
   });
