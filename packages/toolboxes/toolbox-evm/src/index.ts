@@ -10,6 +10,7 @@ export {
   getTokenAddress,
   isDetected,
   toChecksumAddress,
+  MAX_APPROVAL,
 } from './toolbox/BaseEVMToolbox.js';
 export * from './types/clientTypes.js';
 export * from './types/ethplorer-api-types.js';
