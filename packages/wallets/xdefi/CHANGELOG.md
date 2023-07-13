@@ -1,5 +1,12 @@
 # @thorswap-lib/xdefi
 
+## 1.0.0-development.23
+
+### Patch Changes
+
+- Updated dependencies [[`2603d36`](https://github.com/thorswap/SwapKit/commit/2603d36c253928e520d1cc3c70ea8518f719c4bb)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.139
+
 ## 1.0.0-development.22
 
 ### Patch Changes
