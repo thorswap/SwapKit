@@ -19,8 +19,9 @@ import { blockchairApi, BlockchairApiType } from '../api/blockchairApi.js';
 import {
   KeyPairType,
   TransactionBuilderType,
-  TransferParams,
+  TransactionType,
   UTXOBuildTxParams,
+  UTXOWalletTransferParams,
 } from '../types/common.js';
 import { compileMemo, getNetwork, getSeed } from '../utils.js';
 
@@ -93,7 +94,9 @@ const transfer = async ({
   amount,
   apiClient,
   ...rest
-}: TransferParams & { apiClient: BlockchairApiType }) => {
+}: UTXOWalletTransferParams<{ builder: TransactionBuilderType; utxos: UTXO[] }, TransactionType> & {
+  apiClient: BlockchairApiType;
+}): Promise<string> => {
   if (!from) throw new Error('From address must be provided');
   if (!recipient) throw new Error('Recipient address must be provided');
   if (!signTransaction) throw new Error('signTransaction must be provided');
@@ -208,7 +211,7 @@ const getAddressFromKeys = (keys: KeyPairType) => {
 export const BCHToolbox = (
   apiKey?: string,
   apiClientOrNodeUrl: BlockchairApiType | string = RPCUrl.BitcoinCash,
-) => {
+): BCHToolboxType => {
   const apiClient =
     typeof apiClientOrNodeUrl === 'string'
       ? blockchairApi({ apiKey, nodeUrl: apiClientOrNodeUrl, chain })
@@ -222,9 +225,36 @@ export const BCHToolbox = (
     validateAddress,
     createKeysForPath,
     getAddressFromKeys,
-    buildBCHTx: (params: UTXOBuildTxParams) => buildBCHTx({ ...params, apiClient }),
+    buildBCHTx: (
+      params: UTXOBuildTxParams,
+    ): Promise<{ builder: TransactionBuilderType; utxos: UTXO[] }> =>
+      buildBCHTx({ ...params, apiClient }),
     buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, apiClient }),
-    transfer: (params: TransferParams) => transfer({ ...params, apiClient }),
+    transfer: (
+      params: UTXOWalletTransferParams<
+        { builder: TransactionBuilderType; utxos: UTXO[] },
+        TransactionType
+      >,
+    ): Promise<string> => transfer({ ...params, apiClient }),
     getBalance: (address: string) => getBalance(stripPrefix(toCashAddress(address))),
   };
+};
+
+export type BCHToolboxType = Omit<
+  ReturnType<typeof BaseUTXOToolbox>,
+  'transfer' | 'createKeysForPath' | 'getAddressFromKeys'
+> & {
+  stripPrefix: typeof stripPrefix;
+  validateAddress: typeof validateAddress;
+  createKeysForPath: typeof createKeysForPath;
+  getAddressFromKeys: typeof getAddressFromKeys;
+  buildBCHTx: (
+    params: UTXOBuildTxParams,
+  ) => Promise<{ builder: TransactionBuilderType; utxos: UTXO[] }>;
+  transfer: (
+    params: UTXOWalletTransferParams<
+      { builder: TransactionBuilderType; utxos: UTXO[] },
+      TransactionType
+    >,
+  ) => Promise<string>;
 };

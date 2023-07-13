@@ -2,7 +2,7 @@ import { TxParams, UTXO, UTXOChain, WalletTxParams } from '@thorswap-lib/types';
 
 import { BlockchairApiType } from '../api/blockchairApi.js';
 
-type TransactionType = {
+export type TransactionType = {
   toHex(): string;
 };
 
