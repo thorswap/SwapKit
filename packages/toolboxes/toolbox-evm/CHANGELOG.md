@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.139
+
+### Patch Changes
+
+- [#195](https://github.com/thorswap/SwapKit/pull/195) [`2603d36`](https://github.com/thorswap/SwapKit/commit/2603d36c253928e520d1cc3c70ea8518f719c4bb) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Max approval amount
+
 ## 1.0.0-development.138
 
 ### Patch Changes
