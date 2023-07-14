@@ -4,8 +4,13 @@ import { getAddress } from '@ethersproject/address';
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { hexlify } from '@ethersproject/bytes';
 import { MaxInt256 } from '@ethersproject/constants';
+<<<<<<< HEAD
 import { Contract } from '@ethersproject/contracts';
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
+=======
+import { Contract, PopulatedTransaction } from '@ethersproject/contracts';
+import { Web3Provider } from '@ethersproject/providers';
+>>>>>>> 003eefb (feat: more changes to fee calculation and safenumb intro)
 import { toUtf8Bytes } from '@ethersproject/strings';
 import { AssetEntity, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-entities';
 import {
@@ -342,7 +347,7 @@ const estimateGasLimit = async (
 };
 
 const sendTransaction = async (
-  provider: Provider,
+  provider: Provider | Web3Provider,
   tx: EVMTxParams,
   feeOptionKey: FeeOption = FeeOption.Fast,
   signer?: Signer,
@@ -470,13 +475,15 @@ export const getETHDefaultWallet = () => {
 };
 
 export const EIP1193SendTransaction = async (
-  provider: any, // Web3Provider,
+  provider: Provider | Web3Provider,
   { from, to, data, value }: EVMTxParams,
-): Promise<string> =>
-  provider.provider?.request?.({
+): Promise<string> => {
+  if (!isWeb3Provider(provider)) throw new Error('Provider is not EIP-1193 compatible');
+  return (provider as Web3Provider).provider?.request?.({
     method: 'eth_sendTransaction',
     params: [{ value: BigNumber.from(value || 0).toHexString(), from, to, data }],
   });
+};
 
 export const getChecksumAddressFromAsset = (asset: Asset, chain: EVMChain) => {
   const parsedAsset = getAssetEntity(asset);
@@ -500,6 +507,22 @@ export const getTokenAddress = ({ chain, symbol, ticker }: Asset, baseAssetChain
   } catch (err) {
     return null;
   }
+};
+
+export const getFeeForTransaction = async (
+  txObject: PopulatedTransaction | EIP1559TxParams,
+  feeOption: FeeOption,
+  provider: Provider | Web3Provider,
+  isEIP1559Compatible: boolean,
+) => {
+  const gasPrices = (await estimateGasPrices(provider, isEIP1559Compatible))[feeOption];
+  const gasLimit = await provider.estimateGas(txObject);
+
+  if (!isEIP1559Compatible) {
+    return gasPrices.gasPrice!.mul(gasLimit);
+  }
+
+  return gasPrices.maxFeePerGas!.add(gasPrices.maxPriorityFeePerGas!).mul(gasLimit);
 };
 
 export const BaseEVMToolbox = ({
@@ -532,4 +555,9 @@ export const BaseEVMToolbox = ({
   transfer: (params: TransferParams) => transfer(provider, params, signer, isEIP1559Compatible),
   sendTransaction: (params: EIP1559TxParams, feeOption: FeeOption) =>
     sendTransaction(provider, params, feeOption, signer, isEIP1559Compatible),
+  /**
+   * Estimate fee for transaction
+   */
+  getFeeForTransaction: (txObject: PopulatedTransaction | EIP1559TxParams, feeOption: FeeOption) =>
+    getFeeForTransaction(txObject, feeOption, provider, isEIP1559Compatible),
 });

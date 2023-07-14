@@ -6,6 +6,8 @@
   },
   "description": "THORSwap Lib swapkit-entities",
   "devDependencies": {
+    "@ethersproject/bignumber": "5.7.0",
+    "@ethersproject/units": "5.7.0",
     "@internal/config": "workspace:*",
     "@vitest/coverage-istanbul": "0.33.0",
     "bignumber.js": "9.1.1",
