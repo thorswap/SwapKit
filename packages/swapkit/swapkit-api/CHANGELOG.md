@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.26
+
+### Patch Changes
+
+- [`f626726`](https://github.com/thorswap/SwapKit/commit/f62672619ae7b199b737e5ff5165ebc310502654) Thanks [@chillios-ts](https://github.com/chillios-ts)! - chore: add txn detail endpoint to api
+
 ## 0.1.0-development.25
 
 ### Patch Changes
