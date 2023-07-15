@@ -23,7 +23,13 @@ export const getSwapKitClient = ({
   const client = new SwapKitCore({ stagenet });
 
   client.extend({
-    config: { ethplorerApiKey, covalentApiKey, utxoApiKey, walletConnectProjectId, stagenet },
+    config: {
+      ethplorerApiKey,
+      covalentApiKey,
+      utxoApiKey,
+      walletConnectProjectId,
+      stagenet,
+    },
     wallets: [
       xdefiWallet,
       ledgerWallet,
