@@ -16,7 +16,7 @@ import type {
 } from '@thorswap-lib/toolbox-evm';
 import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
 import {
-  AmountWithBaseDenom,
+  BaseWalletMethods,
   Chain,
   FeeOption,
   TxHash,
@@ -75,10 +75,6 @@ export type ChainWallet = {
 
 export type Wallet = Record<Chain, ChainWallet | null>;
 
-export type BaseWalletMethods = {
-  getAddress: () => string;
-};
-
 export type ThorchainWallet = BaseWalletMethods &
   ThorchainToolboxType & {
     transfer: (params: TxParams) => Promise<string>;
@@ -131,18 +127,6 @@ export enum QuoteMode {
   AVAX_TO_ETH = 'ARC20-ERC20',
   ETH_TO_AVAX = 'ERC20-ARC20',
 }
-
-export type FeeRate = number;
-export type FeeRates = Record<FeeOption, FeeRate>;
-
-export enum FeeType {
-  FlatFee = 'base',
-  PerByte = 'byte',
-}
-
-export type LegacyFees = Record<FeeOption, AmountWithBaseDenom> & {
-  type: FeeType;
-};
 
 export type SwapParams = {
   recipient: string;

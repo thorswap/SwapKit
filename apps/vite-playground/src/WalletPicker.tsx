@@ -11,9 +11,7 @@ type Props = {
   skClient?: SwapKitCore;
 };
 
-const walletOptions = Object.values(WalletOption).filter(
-  (o) => ![WalletOption.KEPLR].includes(o),
-);
+const walletOptions = Object.values(WalletOption).filter((o) => ![WalletOption.KEPLR].includes(o));
 
 const AllChainsSupported = [
   Chain.Avalanche,

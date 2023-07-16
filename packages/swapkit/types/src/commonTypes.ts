@@ -15,7 +15,7 @@ type ConnectMethodNames =
   | 'connectTrezor'
   | 'connectEVMWallet';
 
-type ConnectConfig = {
+export type ConnectConfig = {
   stagenet?: boolean;
   /**
    * @required for AVAX & BSC
