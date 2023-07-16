@@ -1,11 +1,16 @@
 ---
 description: >-
-  SwapKit is a multi-chain aggregation protocol that supports cross-chain swaps
-  across 9 blockchains, including native Bitcoin. As well as, #1 interface for
-  THORChain features.
+  SwapKit by THORSwap offers a composable, user-friendly Partner API/SDK on top
+  of THORChain's cross-chain liquidity protocol.
+cover: .gitbook/assets/image.png
+coverY: 0
 ---
 
 # 🏡 Getting Started
+
+THORSwap offers two distinct product paths, one being a user-friendly DEX aggregator interface and a gateway to all THORChain functionality, the other being a composable and easy to integrate third-party API for everyone to easily access THORSwap services.
+
+<figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
 
 ### 1. TypeScript/JavaScript SDK
 

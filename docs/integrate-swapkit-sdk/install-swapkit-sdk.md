@@ -14,9 +14,25 @@ This package is an all-in-one SDK for SwapKit. It includes all packages needed t
 
 We recommend installing the SDK via [pnpm](https://pnpm.io/).
 
-```
+{% tabs %}
+{% tab title="pnpm" %}
+```bash
 pnpm add @thorswap-lib/swapkit-sdk
 ```
+{% endtab %}
+
+{% tab title="yarn" %}
+```bash
+yarn add @thorswap-lib/swapkit-sdk
+```
+{% endtab %}
+
+{% tab title="npm" %}
+```bash
+npm add @thorswap-lib/swapkit-sdk
+```
+{% endtab %}
+{% endtabs %}
 
 {% hint style="success" %}
 As an integrator, you can monetize your SwapKit SDK integration and earn fees! See our [monetization guide](../monetization-earn-fees.md) for more info.
@@ -28,7 +44,6 @@ Contact our [business partnerships team](../partnership.md) to discover how you 
 
 ### Next steps
 
-* Set up the SDK
-* Request a Route
-* Execute a Route
-* Advanced
+* [Set up the SDK](set-up-the-sdk.md)
+* [Request Route & Execute swap](request-route-and-execute-swap.md)
+* [Partial installation & advanced configuration](wallets/)

@@ -1,37 +1,29 @@
-# COSMOS
+# Cosmos
 
 ### Installation
 
 {% tabs %}
 {% tab title="pnpm" %}
-
 ```bash
 pnpm add @thorswap-lib/toolbox-cosmos @cosmos-client/core@0.45.13
 ```
-
 {% endtab %}
 
 {% tab title="yarn" %}
-
 ```bash
 yarn add @thorswap-lib/toolbox-cosmos @cosmos-client/core@0.45.13
 ```
-
 {% endtab %}
 
 {% tab title="npm" %}
-
 ```bash
 npm add @thorswap-lib/toolbox-cosmos @cosmos-client/core@0.45.13
 ```
-
 {% endtab %}
 {% endtabs %}
 
-{% hint style="warn" %}
-
-#### Next section is only for bare implementations. If you use<a href="../swapkit-sdk-methods/core.md">swapkit-core</a> you are ready to use core methods right after wallet setup.
-
+{% hint style="info" %}
+**Next section is only for bare implementations. If you use**[**swapkit-core**](../../reference/swapkit-sdk-methods/core.md) **you are ready to use core methods right after wallet setup.**
 {% endhint %}
 
 ### Available Instances
