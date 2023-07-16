@@ -1,8 +1,9 @@
 import { isDetected } from '@thorswap-lib/toolbox-evm';
 import { Chain, WalletOption } from '@thorswap-lib/types';
 
-import { getWalletMethodsForChain, getXDEFIAddress } from './helpers.js';
+import { getWalletMethodsForChain } from './helpers.js';
 import { XDEFIConfig } from './types.js';
+import { getXDEFIAddress } from './walletHelpers.js';
 
 const XDEFI_SUPPORTED_CHAINS = [
   Chain.Avalanche,
