@@ -1,3 +1,4 @@
+import { createCosmJS } from '@thorswap-lib/toolbox-cosmos';
 import { Chain, ChainId, WalletTxParams } from '@thorswap-lib/types';
 
 type TransactionMethod = 'eth_signTransaction' | 'eth_sendTransaction' | 'transfer' | 'deposit';
@@ -81,7 +82,7 @@ export const getXDEFIAddress = async (chain: Chain) => {
   }
 };
 
-export const transfer = async (
+export const walletTransfer = async (
   { amount, asset, recipient, memo, gasLimit }: WalletTxParams & { gasLimit?: string },
   method: TransactionMethod = 'transfer',
 ) => {
@@ -108,3 +109,18 @@ export const transfer = async (
 
   return transaction({ method, params, chain: asset.chain });
 };
+
+export const cosmosTransfer =
+  (rpcUrl?: string) =>
+  async ({ from, recipient, amount, asset, memo }: any) => {
+    const keplrClient = window.xfi?.keplr;
+    const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
+    const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
+
+    const coins = [
+      { denom: asset?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: amount.amount().toString() },
+    ];
+
+    const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 'auto', memo);
+    return transactionHash;
+  };
