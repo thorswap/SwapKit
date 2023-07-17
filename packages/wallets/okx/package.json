@@ -54,5 +54,6 @@
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",
-  "types": "./dist/index.d.ts"
+  "types": "./dist/index.d.ts",
+  "version": "null-development.0"
 }
