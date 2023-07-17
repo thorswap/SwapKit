@@ -28,7 +28,7 @@ export const evmMethods = ({
 
   const toolboxParams = {
     provider,
-    signer: provider.getSigner(),
+    signer: provider.getSigner() as any,
     ethplorerApiKey: ethplorerApiKey as string,
     covalentApiKey: covalentApiKey as string,
   };

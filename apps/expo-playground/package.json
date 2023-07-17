@@ -50,7 +50,7 @@
     "uuid": "9.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.22.6",
+    "@babel/core": "7.22.9",
     "@babel/plugin-proposal-export-namespace-from": "7.18.9",
     "@thorswap-lib/types": "workspace:*",
     "@types/react-native": "0.72.2",

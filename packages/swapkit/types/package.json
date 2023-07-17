@@ -4,8 +4,8 @@
   "devDependencies": {
     "@ethersproject/bignumber": "5.7.0",
     "@internal/config": "workspace:*",
-    "@types/node": "20.3.3",
-    "vite": "4.3.9"
+    "@types/node": "20.4.2",
+    "vite": "4.4.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"

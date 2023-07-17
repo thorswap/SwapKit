@@ -32,11 +32,11 @@
     "web3modal": "1.9.12"
   },
   "devDependencies": {
-    "@types/react": "18.2.14",
-    "@types/react-dom": "18.2.6",
-    "@vitejs/plugin-react": "4.0.1",
+    "@types/react": "18.2.15",
+    "@types/react-dom": "18.2.7",
+    "@vitejs/plugin-react": "4.0.3",
     "typescript": "5.1.6",
-    "vite": "4.3.9"
+    "vite": "4.4.4"
   },
   "eslintConfig": {
     "extends": "../../internal/eslint-config-thorswap"
