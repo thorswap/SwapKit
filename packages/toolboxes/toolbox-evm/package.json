@@ -1,7 +1,6 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@avalabs/avalanchejs": "3.17.0",
     "@ethersproject/abstract-provider": "5.7.0",
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/address": "5.7.0",

@@ -1,10 +1,18 @@
 {
   "author": "thorswap",
-  "dependencies": {},
-  "description": "THORSwap Lib <%- packageName %>",
+  "dependencies": {
+    "@thorswap-lib/types": "workspace:*",
+    "bitcoinjs-lib": "5.2.0"
+  },
+  "description": "THORSwap Lib okx",
   "devDependencies": {
+    "@ethersproject/providers": "^5.7.0",
     "@internal/config": "workspace:*",
+    "@thorswap-lib/toolbox-cosmos": "workspace:*",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
+    "@thorswap-lib/toolbox-utxo": "workspace:*",
     "@vitest/coverage-istanbul": "0.33.0",
+    "long": "5.2.3",
     "vite": "4.4.4",
     "vitest": "0.33.0"
   },
@@ -26,14 +34,20 @@
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/<%- packageName %>",
+  "name": "@thorswap-lib/okx",
+  "peerDependencies": {
+    "@ethersproject/providers": "^5.7.0",
+    "@thorswap-lib/toolbox-cosmos": "workspace:*",
+    "@thorswap-lib/toolbox-evm": "workspace:*",
+    "@thorswap-lib/toolbox-utxo": "workspace:*"
+  },
   "publishConfig": {
     "access": "public"
   },
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "echo 'Build <%- packageName %> 🛠'; vite build && echo 'Build succeeded <%- packageName %> ✅'",
+    "build": "echo 'Build okx 🛠'; vite build && echo 'Build succeeded okx ✅'",
     "clean": "rm -rf dist .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest --run'",

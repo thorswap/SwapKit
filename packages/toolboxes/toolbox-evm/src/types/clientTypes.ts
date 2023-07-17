@@ -45,6 +45,7 @@ export type EthereumWindowProvider = import('@ethersproject/providers').External
   on: (event: string, callback?: () => void) => void;
   isBraveWallet?: boolean;
   isCoinbaseWallet?: boolean;
+  isOkxWallet?: boolean;
   overrideIsMetaMask?: boolean;
   selectedProvider?: EthereumWindowProvider;
   isTrust?: boolean;
@@ -67,6 +68,7 @@ declare global {
       thorchain: any;
     };
     braveSolana: any;
+    okxwallet?: EthereumWindowProvider;
   }
 }
 

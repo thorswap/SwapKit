@@ -87,11 +87,12 @@ export type CosmosBasedWallet<T extends typeof BinanceToolbox | typeof GaiaToolb
       transfer: (params: TxParams) => Promise<string>;
     };
 
-export type EVMWallet<T extends typeof AVAXToolbox | typeof BSCToolbox | typeof ETHToolbox> =
-  BaseWalletMethods &
-    ReturnType<T> & {
-      transfer: (params: TxParams) => Promise<string>;
-    };
+export type EVMWallet<
+  T extends typeof AVAXToolbox | typeof BSCToolbox | typeof ETHToolbox | typeof OPToolbox,
+> = BaseWalletMethods &
+  ReturnType<T> & {
+    transfer: (params: TxParams) => Promise<string>;
+  };
 
 export type UTXOWallet<
   T extends typeof BCHToolbox | typeof BTCToolbox | typeof DOGEToolbox | typeof LTCToolbox,

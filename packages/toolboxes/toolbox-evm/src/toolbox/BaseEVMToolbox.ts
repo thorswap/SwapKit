@@ -5,7 +5,7 @@ import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { hexlify } from '@ethersproject/bytes';
 import { MaxInt256 } from '@ethersproject/constants';
 import { Contract } from '@ethersproject/contracts';
-import { Web3Provider } from '@ethersproject/providers';
+import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
 import { toUtf8Bytes } from '@ethersproject/strings';
 import { AssetEntity, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-entities';
 import {
@@ -504,7 +504,7 @@ export const BaseEVMToolbox = ({
   signer,
   isEIP1559Compatible = true,
 }: {
-  signer?: Signer;
+  signer?: Signer | JsonRpcSigner;
   provider: Provider | Web3Provider;
   isEIP1559Compatible?: boolean;
 }) => ({

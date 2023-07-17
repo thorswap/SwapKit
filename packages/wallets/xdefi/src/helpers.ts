@@ -4,10 +4,10 @@ import {
   GaiaToolbox,
   ThorchainToolbox,
 } from '@thorswap-lib/toolbox-cosmos';
+import { getWeb3WalletMethods } from '@thorswap-lib/toolbox-evm';
 import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
 import { Chain, WalletTxParams } from '@thorswap-lib/types';
 
-import { evmMethods } from './evmMethods.js';
 import { cosmosTransfer, walletTransfer } from './walletHelpers.js';
 
 export type XDEFIConfig = {
@@ -38,7 +38,12 @@ export const getWalletMethodsForChain = ({
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
     case Chain.Avalanche:
-      return evmMethods({ chain, ethplorerApiKey, covalentApiKey });
+      return getWeb3WalletMethods({
+        chain,
+        ethplorerApiKey,
+        covalentApiKey,
+        ethereumWindowProvider: window.xfi?.ethereum,
+      });
 
     case Chain.Cosmos:
       return { ...GaiaToolbox({ server: api }), transfer: cosmosTransfer(rpcUrl) };
