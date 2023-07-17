@@ -28,8 +28,7 @@ export const evmMethods = ({
 
   const toolboxParams = {
     provider,
-    // TODO: check on web3 signer type
-    signer: provider.getSigner() as any,
+    signer: provider.getSigner(),
     ethplorerApiKey: ethplorerApiKey as string,
     covalentApiKey: covalentApiKey as string,
   };
@@ -58,7 +57,7 @@ export const evmMethods = ({
       const parsedValue = {
         ...transaction,
         chainId,
-        type: chain !== Chain.BinanceSmartChain ? 2 : 0,
+        type: feeData.maxFeePerGas ? 2 : 0,
         gasLimit: gasLimit.toHexString(),
         gasPrice: 'gasPrice' in feeData ? feeData.gasPrice?.toHexString() : undefined,
         maxFeePerGas: feeData.maxFeePerGas?.toHexString(),
