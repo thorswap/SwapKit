@@ -11,9 +11,9 @@
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
-    "@vitest/coverage-istanbul": "0.32.4",
-    "vite": "4.3.9",
-    "vitest": "0.32.4"
+    "@vitest/coverage-istanbul": "0.33.0",
+    "vite": "4.4.4",
+    "vitest": "0.33.0"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"

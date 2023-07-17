@@ -4,6 +4,7 @@ import {
   buildTransferTx,
   buildUnsignedTx,
   checkBalances,
+  DEFAULT_GAS_VALUE,
   DepositParam,
   getThorchainDenom,
   ThorchainToolbox,
@@ -71,7 +72,6 @@ export const thorchainWalletMethods = ({
   const toolbox = ThorchainToolbox({ stagenet });
   const keys = toolbox.createKeyPair(phrase);
   const fromAddress = toolbox.getAddressFromMnemonic(phrase);
-  const gasLimit = '5000000000';
 
   const transfer = async ({ asset = AssetRuneNative, amount, recipient, memo }: WalletTxParams) => {
     const accAddress = await toolbox.getAccount(fromAddress);
@@ -93,7 +93,7 @@ export const thorchainWalletMethods = ({
     const txBuilder = buildUnsignedTx({
       cosmosSdk: toolbox.sdk,
       txBody,
-      gasLimit,
+      gasLimit: DEFAULT_GAS_VALUE,
       signerPubkey: toolbox.instanceToProto(signerPubkey),
       sequence: (accAddress.sequence as Long) || Long.ZERO,
     });
