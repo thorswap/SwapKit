@@ -1,6 +1,6 @@
 export enum PackageType {
-  Wallet = 'Wallet',
-  Toolbox = 'Toolbox',
+  Wallet = 'Wallets',
+  Toolbox = 'Toolboxes',
   SwapKit = 'SwapKit',
 }
 

@@ -1,41 +1,9 @@
-import { Signer } from '@ethersproject/abstract-signer';
 import { Web3Provider } from '@ethersproject/providers';
-import { getETHDefaultWallet, isDetected } from '@thorswap-lib/toolbox-evm';
-import { Chain, EVMChain, EVMWalletOptions, WalletOption } from '@thorswap-lib/types';
+import { getETHDefaultWallet, getWeb3WalletMethods, isDetected } from '@thorswap-lib/toolbox-evm';
+import { EVMChain, EVMWalletOptions, WalletOption } from '@thorswap-lib/types';
 
 import { getWalletForType } from './helpers.js';
 import { EVMWalletConfig } from './types.js';
-import {
-  avalancheWalletMethods,
-  binanceSmartChainWalletMethods,
-  ethereumWalletMethods,
-} from './walletMethods.js';
-
-const getWalletMethodsForChain = ({
-  chain,
-  covalentApiKey,
-  ethplorerApiKey,
-  signer,
-  provider,
-}: {
-  chain: EVMChain;
-  covalentApiKey?: string;
-  ethplorerApiKey?: string;
-  signer: Signer;
-  provider: Web3Provider;
-}) => {
-  switch (chain) {
-    case Chain.Avalanche:
-      if (!covalentApiKey) throw new Error('Covalent API key not found');
-      return avalancheWalletMethods({ covalentApiKey, signer, provider });
-    case Chain.BinanceSmartChain:
-      if (!covalentApiKey) throw new Error('Covalent API key not found');
-      return binanceSmartChainWalletMethods({ covalentApiKey, signer, provider });
-    case Chain.Ethereum:
-      if (!ethplorerApiKey) throw new Error('Ethplorer API key not found');
-      return ethereumWalletMethods({ ethplorerApiKey, signer, provider });
-  }
-};
 
 const connectEVMWallet =
   ({
@@ -52,12 +20,11 @@ const connectEVMWallet =
       const signer = web3provider.getSigner();
       const address = await signer.getAddress();
 
-      const walletMethods = await getWalletMethodsForChain({
+      const walletMethods = await getWeb3WalletMethods({
         chain,
         ethplorerApiKey,
         covalentApiKey,
-        signer,
-        provider: web3provider,
+        ethereumWindowProvider: getWalletForType(walletType),
       });
 
       addChain({

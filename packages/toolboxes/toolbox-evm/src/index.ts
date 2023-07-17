@@ -1,4 +1,4 @@
-export * from './networkHelpers.js';
+export * from './helpers.js';
 export * from './provider.js';
 export {
   addAccountsChangedCallback,

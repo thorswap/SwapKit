@@ -39,6 +39,7 @@ export enum WalletOption {
   'TRUSTWALLET_WEB' = 'TRUSTWALLET_WEB',
   'LEDGER' = 'LEDGER',
   'KEPLR' = 'KEPLR',
+  'OKX' = 'OKX',
   'BRAVE' = 'BRAVE',
   'WALLETCONNECT' = 'WALLETCONNECT',
 }

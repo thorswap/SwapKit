@@ -1,5 +1,7 @@
-import { ExternalProvider } from '@ethersproject/providers';
-import { ChainId } from '@thorswap-lib/types';
+import { ExternalProvider, Web3Provider } from '@ethersproject/providers';
+import { Chain, ChainId, ChainToChainId } from '@thorswap-lib/types';
+
+import { AVAXToolbox, BSCToolbox, EthereumWindowProvider, ETHToolbox } from './index.js';
 
 type NetworkParams = {
   chainId: ChainId;
@@ -79,3 +81,46 @@ export const addEVMWalletNetwork = (provider: ExternalProvider, networkParams: N
 
 export const switchEVMWalletNetwork = (provider: ExternalProvider, chainId = ChainId.EthereumHex) =>
   providerRequest({ provider, method: 'wallet_switchEthereumChain', params: [{ chainId }] });
+
+export const getWeb3WalletMethods = ({
+  ethereumWindowProvider,
+  chain,
+  covalentApiKey,
+  ethplorerApiKey,
+}: {
+  ethereumWindowProvider: EthereumWindowProvider | undefined;
+  chain: Chain;
+  covalentApiKey?: string;
+  ethplorerApiKey?: string;
+}) => {
+  if (!ethereumWindowProvider) throw new Error('Requested web3 wallet is not installed');
+
+  if (
+    (chain !== Chain.Ethereum && !covalentApiKey) ||
+    (chain === Chain.Ethereum && !ethplorerApiKey)
+  ) {
+    throw new Error(`Missing API key for ${chain} chain`);
+  }
+
+  const provider = new Web3Provider(ethereumWindowProvider, 'any');
+
+  const toolboxParams = {
+    provider,
+    signer: provider.getSigner() as any,
+    ethplorerApiKey: ethplorerApiKey as string,
+    covalentApiKey: covalentApiKey as string,
+  };
+
+  const toolbox =
+    chain === Chain.Ethereum
+      ? ETHToolbox(toolboxParams)
+      : chain === Chain.Avalanche
+      ? AVAXToolbox(toolboxParams)
+      : BSCToolbox(toolboxParams);
+
+  return prepareNetworkSwitch<typeof toolbox>({
+    toolbox: { ...toolbox },
+    chainId: ChainToChainId[chain],
+    provider: ethereumWindowProvider,
+  });
+};
