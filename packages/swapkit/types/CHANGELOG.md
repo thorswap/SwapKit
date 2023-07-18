@@ -1,5 +1,13 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.95
+
+### Patch Changes
+
+- [`96843c0`](https://github.com/thorswap/SwapKit/commit/96843c0df7d35e0b8bcd749c8089da069637d983) Thanks [@chillios-ts](https://github.com/chillios-ts)! - chore: add api response
+
+- [#202](https://github.com/thorswap/SwapKit/pull/202) [`263b74e`](https://github.com/thorswap/SwapKit/commit/263b74e3d173512edf742a93b7e2820f4232ede3) Thanks [@towanTG](https://github.com/towanTG)! - Changes to web3 wallets and minor changes and type improvments
+
 ## 1.0.0-development.94
 
 ### Minor Changes

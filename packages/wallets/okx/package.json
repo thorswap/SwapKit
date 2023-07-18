@@ -1,8 +1,7 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@thorswap-lib/types": "workspace:*",
-    "bitcoinjs-lib": "5.2.0"
+    "@thorswap-lib/types": "workspace:*"
   },
   "description": "THORSwap Lib okx",
   "devDependencies": {
@@ -12,6 +11,7 @@
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "@vitest/coverage-istanbul": "0.33.0",
+    "bitcoinjs-lib": "5.2.0",
     "long": "5.2.3",
     "vite": "4.4.4",
     "vitest": "0.33.0"
@@ -39,7 +39,8 @@
     "@ethersproject/providers": "^5.7.0",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@thorswap-lib/toolbox-utxo": "workspace:*"
+    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "bitcoinjs-lib": "5.2.0"
   },
   "publishConfig": {
     "access": "public"
@@ -54,5 +55,6 @@
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",
-  "types": "./dist/index.d.ts"
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0-development.1"
 }
