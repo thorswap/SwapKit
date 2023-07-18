@@ -128,9 +128,8 @@ export class AssetEntity {
 }
 
 const THOR_MAINNET_SYMBOL = 'THOR-0XA5F2211B9B8170F694421F2046281775E8468044';
-const ETH_RUNE_SYMBOL = 'RUNE-0X3155BA85D5F96B2D030A4966AF206230E46849CB';
 
-type Signature = Chain | 'USD' | 'ETH_THOR' | 'ETH_RUNE' | 'BNB_RUNE' | 'THOR';
+type Signature = Chain | 'USD' | 'ETH_THOR' | 'THOR';
 
 // @ts-expect-error initialized in getSignatureAssetFor
 const cachedSignatureAssets: Record<Signature, AssetEntity> = {};
@@ -203,24 +202,6 @@ export const getSignatureAssetFor = (signature: Signature) => {
 
       cachedSignatureAssets[signature] = thorAsset;
       return thorAsset;
-    }
-
-    /**
-     * Remove after KillSwitch
-     */
-    case 'BNB_RUNE': {
-      const asset = new AssetEntity(Chain.Binance, 'RUNE-B1A');
-
-      cachedSignatureAssets[signature] = asset;
-      return asset;
-    }
-
-    case 'ETH_RUNE': {
-      const ethRune = new AssetEntity(Chain.Ethereum, ETH_RUNE_SYMBOL);
-      ethRune.setDecimal(18);
-
-      cachedSignatureAssets[signature] = ethRune;
-      return ethRune;
     }
 
     default: {

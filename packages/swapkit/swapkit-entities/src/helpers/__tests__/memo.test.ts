@@ -7,7 +7,6 @@ describe('getMemoFor', () => {
   describe('for Leave, Upgrade, and Bond', () => {
     [
       [MemoType.LEAVE, 'LEAVE:ABC123'],
-      [MemoType.UPGRADE, 'SWITCH:ABC123'],
       [MemoType.BOND, 'BOND:ABC123'],
     ].forEach(([memoType, expected]) => {
       it(`returns correct memo for ${memoType}`, () => {

@@ -48,10 +48,8 @@ export const bitcoincashWalletMethods = ({
     builder,
     utxos,
   }: Awaited<ReturnType<typeof toolbox.buildBCHTx>>) => {
-    const keyPair = toolbox.createKeysForPath({ phrase, derivationPath });
-
     utxos.forEach((utxo, index) => {
-      builder.sign(index, keyPair, undefined, 0x41, (utxo.witnessUtxo as Witness).value);
+      builder.sign(index, keys, undefined, 0x41, (utxo.witnessUtxo as Witness).value);
     });
 
     return builder.build();

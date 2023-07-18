@@ -56,7 +56,6 @@ import {
   QuoteMode,
   SwapParams,
   ThorchainWallet,
-  UpgradeParams,
   Wallet,
   WalletMethods,
   WithdrawParams,
@@ -518,21 +517,6 @@ export class SwapKitCore {
         apis,
         rpcUrls,
       });
-    });
-  };
-
-  /**
-   * remove after KillSwitch
-   */
-  upgrade = async ({ runeAmount, recipient }: UpgradeParams) => {
-    if (!recipient) throw new Error('rune wallet not found');
-
-    const thorchainAddress = this.getAddress(Chain.THORChain);
-    if (!thorchainAddress) throw new Error('thorchain wallet not found');
-
-    return this._depositToPool({
-      assetAmount: runeAmount,
-      memo: getMemoFor(MemoType.UPGRADE, { address: thorchainAddress }),
     });
   };
 
