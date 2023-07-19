@@ -1,14 +1,15 @@
 import { normalizeBech32 } from '@cosmjs/encoding';
 import { cosmosclient, proto, rest } from '@cosmos-client/core';
+import { HDKey } from '@scure/bip32';
+import * as bip39 from '@scure/bip39';
 import { ChainId } from '@thorswap-lib/types';
-import { fromSeed } from 'bip32';
-import * as bip39 from 'bip39';
 import Long from 'long';
 
 import { CosmosSDKClientParams, TransferParams } from './types.js';
+import { wordlist } from '@scure/bip39/wordlists/english';
 
 const getSeed = (phrase: string) => {
-  if (!bip39.validateMnemonic(phrase)) {
+  if (!bip39.validateMnemonic(phrase, wordlist)) {
     throw new Error('Invalid BIP39 phrase');
   }
 
@@ -60,8 +61,8 @@ export class CosmosSDKClient {
 
   getPrivKeyFromMnemonic = (mnemonic: string, derivationPath: string) => {
     this.setPrefix();
-    const node = fromSeed(getSeed(mnemonic));
-    const child = node.derivePath(derivationPath);
+    const node = HDKey.fromMasterSeed(getSeed(mnemonic));
+    const child = node.derive(derivationPath);
 
     if (!child.privateKey) throw new Error('child does not have a privateKey');
 
