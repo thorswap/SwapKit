@@ -1,5 +1,14 @@
 # @thorswap-lib/okx
 
+## 1.0.0-development.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.126
+  - @thorswap-lib/toolbox-evm@1.0.0-development.141
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.122
+
 ## null-development.0
 
 ### Patch Changes
