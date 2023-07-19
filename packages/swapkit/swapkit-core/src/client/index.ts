@@ -504,6 +504,9 @@ export class SwapKitCore {
   connectKeplr = async () => {
     throwWalletError('connectKeplr', 'keplr');
   };
+  connectOkx = async (_chains: Chain[]) => {
+    throwWalletError('connectOkx', 'okx');
+  };
   disconnectChain = (chain: Chain) => {
     this.connectedChains[chain] = null;
     this.connectedWallets[chain] = null;

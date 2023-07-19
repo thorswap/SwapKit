@@ -2,6 +2,7 @@ import { evmWallet } from '@thorswap-lib/evm-web3-wallets';
 import { keplrWallet } from '@thorswap-lib/keplr';
 import { keystoreWallet } from '@thorswap-lib/keystore';
 import { ledgerWallet } from '@thorswap-lib/ledger';
+import { okxWallet } from '@thorswap-lib/okx';
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { trezorWallet } from '@thorswap-lib/trezor';
 import { walletconnectWallet } from '@thorswap-lib/walletconnect';
@@ -32,6 +33,7 @@ export const getSwapKitClient = ({
     },
     wallets: [
       xdefiWallet,
+      okxWallet,
       ledgerWallet,
       keystoreWallet,
       trezorWallet,

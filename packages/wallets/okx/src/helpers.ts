@@ -1,6 +1,7 @@
-import { Web3Provider } from '@ethersproject/providers';
+import { baseAmount } from '@thorswap-lib/helpers';
+import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { createCosmJS, GaiaToolbox } from '@thorswap-lib/toolbox-cosmos';
-import { getWeb3WalletMethods } from '@thorswap-lib/toolbox-evm';
+import { getProvider, getWeb3WalletMethods } from '@thorswap-lib/toolbox-evm';
 import { BTCToolbox, UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
 import { Chain, ChainId } from '@thorswap-lib/types';
 import { Psbt } from 'bitcoinjs-lib';
@@ -43,15 +44,26 @@ export const getWalletForChain = async ({
     case Chain.Ethereum:
     case Chain.Avalanche:
     case Chain.BinanceSmartChain: {
-      if (!window.okxwallet) throw new Error('No okxwallet found');
-      const provider = new Web3Provider(window.okxwallet, 'any');
+      if (!window.okxwallet?.request) throw new Error('No okxwallet found');
       const evmWallet = getWeb3WalletMethods({
         chain,
         ethplorerApiKey,
         covalentApiKey,
         ethereumWindowProvider: window.okxwallet,
       });
-      return { ...evmWallet, getAddress: provider.getSigner().getAddress };
+
+      const address = (await window.okxwallet.request({ method: 'eth_requestAccounts' }))[0];
+      const getBalance = async () => {
+        const balances = await evmWallet.getBalance(address);
+        const gasAssetBalance = await getProvider(chain).getBalance(address);
+        const evmGasTokenBalanceAmount = baseAmount(gasAssetBalance, 18);
+        return [
+          { asset: getSignatureAssetFor(Chain.Ethereum), amount: evmGasTokenBalanceAmount },
+          ...balances.slice(1),
+        ];
+      };
+
+      return { ...evmWallet, getAddress: () => address, getBalance };
     }
 
     case Chain.Bitcoin: {

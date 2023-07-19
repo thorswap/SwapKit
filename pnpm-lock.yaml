@@ -296,6 +296,9 @@ importers:
       '@thorswap-lib/ledger':
         specifier: workspace:*
         version: link:../../packages/wallets/ledger
+      '@thorswap-lib/okx':
+        specifier: workspace:*
+        version: link:../../packages/wallets/okx
       '@thorswap-lib/swapkit-api':
         specifier: workspace:*
         version: link:../../packages/swapkit/swapkit-api
@@ -1183,6 +1186,9 @@ importers:
 
   packages/wallets/okx:
     dependencies:
+      '@thorswap-lib/helpers':
+        specifier: workspace:*
+        version: link:../../../internal/helpers
       '@thorswap-lib/types':
         specifier: workspace:*
         version: link:../../swapkit/types
@@ -1193,6 +1199,9 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
+      '@thorswap-lib/swapkit-entities':
+        specifier: workspace:*
+        version: link:../../swapkit/swapkit-entities
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/toolbox-cosmos
