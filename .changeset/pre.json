@@ -43,6 +43,7 @@
     "fuzzy-crabs-jog",
     "fuzzy-donuts-enjoy",
     "fuzzy-feet-visit",
+    "fuzzy-mayflies-pretend",
     "gentle-falcons-jog",
     "gentle-kiwis-give",
     "giant-boats-repair",
@@ -146,7 +147,8 @@
     "@thorswap-lib/keplr": "1.0.0-development.0",
     "@thorswap-lib/swapkit-sdk": "0.0.1-development.0",
     "@thorswap-lib/xdefi": "1.0.0-development.0",
-    "@internal/config": "0.0.0"
+    "@internal/config": "0.0.0",
+    "@thorswap-lib/okx": "1.0.0-development.1"
   },
   "mode": "pre",
   "tag": "development"
