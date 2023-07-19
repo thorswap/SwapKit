@@ -4,13 +4,8 @@ import { getAddress } from '@ethersproject/address';
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { hexlify } from '@ethersproject/bytes';
 import { MaxInt256 } from '@ethersproject/constants';
-<<<<<<< HEAD
-import { Contract } from '@ethersproject/contracts';
-import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
-=======
 import { Contract, PopulatedTransaction } from '@ethersproject/contracts';
-import { Web3Provider } from '@ethersproject/providers';
->>>>>>> 003eefb (feat: more changes to fee calculation and safenumb intro)
+import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
 import { toUtf8Bytes } from '@ethersproject/strings';
 import { AssetEntity, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-entities';
 import {
