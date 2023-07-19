@@ -4,7 +4,7 @@ import {
   Transaction,
   TransactionBuilder,
 } from '@psf/bitcoincashjs-lib';
-import { Address, Chain, DerivationPath, FeeOption, RPCUrl, UTXO } from '@thorswap-lib/types';
+import { Chain, DerivationPath, FeeOption, RPCUrl, UTXO, UTXOChain } from '@thorswap-lib/types';
 import {
   detectAddressNetwork,
   isValidAddress,
@@ -21,7 +21,6 @@ import {
   TransactionBuilderType,
   TransferParams,
   UTXOBuildTxParams,
-  UTXOChain,
 } from '../types/common.js';
 import { compileMemo, getNetwork, getSeed } from '../utils.js';
 
@@ -29,7 +28,7 @@ import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
 
 const chain = Chain.BitcoinCash as UTXOChain;
 
-const stripToCashAddress = (address: Address) => stripPrefix(toCashAddress(address));
+const stripToCashAddress = (address: string) => stripPrefix(toCashAddress(address));
 
 const buildBCHTx = async ({
   amount,
@@ -180,7 +179,7 @@ const buildTx = async ({
   return { psbt, utxos, inputs: inputs as UTXO[] };
 };
 
-const stripPrefix = (address: Address) => address.replace(/(bchtest:|bitcoincash:)/, '');
+const stripPrefix = (address: string) => address.replace(/(bchtest:|bitcoincash:)/, '');
 
 const validateAddress = (address: string, _chain?: UTXOChain) => {
   const startsWithBCH = address.startsWith('bitcoincash:');

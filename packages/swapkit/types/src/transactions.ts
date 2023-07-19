@@ -2,7 +2,6 @@ import { BigNumberish } from '@ethersproject/bignumber';
 
 import { AmountWithBaseDenom } from './amount.js';
 import { Asset } from './asset.js';
-import { Address } from './commonTypes.js';
 import { FeeOption } from './wallet.js';
 
 enum TxType {
@@ -38,7 +37,7 @@ export type Tx = {
 export type TxParams = {
   asset?: Asset;
   amount: AmountWithBaseDenom;
-  recipient: Address;
+  recipient: string;
   memo?: string; // optional memo to pass
   feeOptionKey?: FeeOption;
 };

@@ -1,10 +1,7 @@
 import { FixedNumber } from '@ethersproject/bignumber';
 
-import { Chain } from './network.js';
+import { Chain, CosmosChain, EVMChain, UTXOChain } from './network.js';
 import { WalletOption } from './wallet.js';
-
-type UTXOChains = Chain.Bitcoin | Chain.Litecoin | Chain.Dogecoin | Chain.BitcoinCash;
-type EVMChains = Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche | Chain.Arbitrum;
 
 type ConnectMethodNames =
   | 'connectXDEFI'
@@ -14,6 +11,12 @@ type ConnectMethodNames =
   | 'connectLedger'
   | 'connectTrezor'
   | 'connectEVMWallet';
+
+type ChainWallet = {
+  address: string;
+  balance: any[];
+  walletType: WalletOption;
+};
 
 export type ConnectConfig = {
   stagenet?: boolean;
@@ -42,21 +45,11 @@ export type ConnectConfig = {
   };
 };
 
-type ChainWallet = {
-  address: string;
-  balance: any[];
-  walletType: WalletOption;
-};
-
-type ParamsWithChain<T> = T & { chain: Chain };
-export type AddChainWalletParams = ParamsWithChain<{
+export type AddChainWalletParams = {
+  chain: Chain;
   wallet: ChainWallet;
   walletMethods: any;
-}>;
-
-export type TxHash = string;
-
-export type Address = string;
+};
 
 export type UTXO = {
   hash: string;
@@ -74,10 +67,10 @@ export type Witness = {
 export type FixedNumberish = string | number | FixedNumber;
 
 // TODO: Add types for api interface
-type ApisType = { [key in UTXOChains]?: string | any } & {
-  [key in EVMChains]?: string | any;
+type ApisType = { [key in UTXOChain]?: string | any } & {
+  [key in EVMChain]?: string | any;
 } & {
-  [key in Chain.Cosmos]?: string;
+  [key in CosmosChain]?: string;
 };
 
 export type ConnectWalletParams = {

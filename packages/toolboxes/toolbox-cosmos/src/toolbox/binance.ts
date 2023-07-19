@@ -9,7 +9,6 @@ import {
 } from '@thorswap-lib/helpers';
 import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
-  Address,
   AmountWithBaseDenom,
   BaseDecimal,
   Chain,
@@ -49,7 +48,7 @@ const getTransferFee = async () => {
   return transferFee;
 };
 
-const getBalance = async (address: Address) => {
+const getBalance = async (address: string) => {
   const balances = (await getAccount(address))?.balances || [];
 
   return balances.map(({ symbol, free }) => ({

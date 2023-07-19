@@ -1,7 +1,7 @@
 import { decryptFromKeystore } from '@thorswap-lib/keystore';
 import { getDerivationPathFor } from '@thorswap-lib/ledger';
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import { Chain, EVMChainList, WalletOption } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 
 import { WalletDataType } from './types';
@@ -25,11 +25,9 @@ const AllChainsSupported = [
   Chain.THORChain,
 ] as Chain[];
 
-const EVMChainsSupported = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain] as Chain[];
-
 export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
-  [WalletOption.BRAVE]: EVMChainsSupported,
-  [WalletOption.COINBASE_WEB]: EVMChainsSupported,
+  [WalletOption.BRAVE]: EVMChainList,
+  [WalletOption.COINBASE_WEB]: EVMChainList,
   [WalletOption.KEPLR]: [Chain.Cosmos],
   [WalletOption.KEYSTORE]: AllChainsSupported,
   [WalletOption.LEDGER]: AllChainsSupported,
@@ -42,8 +40,8 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.Avalanche,
     Chain.BinanceSmartChain,
   ],
-  [WalletOption.METAMASK]: EVMChainsSupported,
-  [WalletOption.TRUSTWALLET_WEB]: EVMChainsSupported,
+  [WalletOption.METAMASK]: EVMChainList,
+  [WalletOption.TRUSTWALLET_WEB]: EVMChainList,
   [WalletOption.XDEFI]: AllChainsSupported,
   [WalletOption.WALLETCONNECT]: [Chain.Ethereum, Chain.Binance, Chain.Avalanche, Chain.THORChain],
   [WalletOption.OKX]: [

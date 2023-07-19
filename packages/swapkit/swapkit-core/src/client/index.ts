@@ -1,8 +1,8 @@
 import { isHexString } from '@ethersproject/bytes';
 import { parseUnits } from '@ethersproject/units';
 import {
+  assetFromString,
   baseAmount,
-  createAssetObjFromAsset,
   gasFeeMultiplier,
   throwWalletError,
 } from '@thorswap-lib/helpers';
@@ -554,10 +554,10 @@ export class SwapKitCore {
     }: { asset: AssetEntity; contractAddress?: string; amount?: AmountWithBaseDenom },
     type: 'checkOnly' | 'approve' = 'checkOnly',
   ) => {
-    const isNativeEVM =
-      (asset.chain === Chain.Ethereum && asset.symbol === Chain.Ethereum) ||
-      (asset.chain === Chain.Avalanche && asset.symbol === Chain.Avalanche);
-    const isEVMChain = [Chain.Ethereum, Chain.Avalanche].includes(asset.chain);
+    const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(
+      asset.chain,
+    );
+    const isNativeEVM = isEVMChain && isGasAsset(asset);
     if (isNativeEVM || !isEVMChain || asset.isSynth) return true;
 
     const walletMethods = this.connectedWallets[asset.L1Chain as EVMChain];
@@ -621,17 +621,26 @@ export class SwapKitCore {
   };
 
   private _prepareTxParams = ({
-    assetAmount: { asset, amount },
+    assetAmount: {
+      asset: { L1Chain, isSynth, chain, symbol, decimal },
+      amount,
+    },
     ...restTxParams
   }: CoreTxParams & { router?: string }) => {
-    const amountWithBaseDenom = baseAmount(amount.baseAmount.toString(10), asset.decimal);
+    const amountWithBaseDenom = baseAmount(amount.baseAmount.toString(10), decimal);
+
+    const asset = assetFromString(
+      isSynth
+        ? `${Chain.THORChain}.${chain.toLowerCase()}/${symbol.toLowerCase()}`
+        : `${chain.toUpperCase()}.${symbol.toUpperCase()}`,
+    );
 
     return {
       ...restTxParams,
       memo: restTxParams.memo || '',
-      from: this.getAddress(asset.L1Chain),
+      from: this.getAddress(L1Chain),
       amount: amountWithBaseDenom,
-      asset: createAssetObjFromAsset(asset),
+      asset,
     };
   };
 }

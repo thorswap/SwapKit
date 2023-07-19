@@ -1,5 +1,5 @@
 import { getRequest, postRequest } from '@thorswap-lib/helpers';
-import { Chain, ChainToRPC, UTXO } from '@thorswap-lib/types';
+import { Chain, ChainToRPC, UTXO, UTXOChain } from '@thorswap-lib/types';
 
 import {
   BlockchairAddressResponse,
@@ -8,7 +8,6 @@ import {
   BlockchairRawTransactionResponse,
   BlockchairResponse,
   ScanUTXOsParams,
-  UTXOChain,
 } from '../types/index.js';
 import { uniqid } from '../utils.js';
 

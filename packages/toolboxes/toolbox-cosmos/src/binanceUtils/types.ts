@@ -1,5 +1,3 @@
-import { Address } from '@thorswap-lib/types';
-
 /**
  * Balance
  * @see https://docs.binance.org/api-reference/dex-api/paths.html#balance
@@ -35,7 +33,7 @@ export type Account = {
   /**
    * Address of the account
    */
-  address: Address;
+  address: string;
   /**
    * List of balances
    */
@@ -78,7 +76,7 @@ export type Tx = {
   /**
    * From address
    */
-  fromAddr: Address;
+  fromAddr: string;
   /**
    * Order ID
    */
@@ -90,7 +88,7 @@ export type Tx = {
   /**
    * To address
    */
-  toAddr: Address;
+  toAddr: string;
   /**
    * _no offical description_
    */

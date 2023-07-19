@@ -1,4 +1,4 @@
-import { Chain, TxParams, UTXO, WalletTxParams } from '@thorswap-lib/types';
+import { TxParams, UTXO, UTXOChain, WalletTxParams } from '@thorswap-lib/types';
 
 import { BlockchairApiType } from '../api/blockchairApi.js';
 
@@ -19,8 +19,6 @@ export type TransactionBuilderType = {
   ): void;
   build(): TransactionType;
 };
-
-export type UTXOChain = Chain.Bitcoin | Chain.BitcoinCash | Chain.Dogecoin | Chain.Litecoin;
 
 export type KeyPairType = {
   getAddress(index?: number): string;

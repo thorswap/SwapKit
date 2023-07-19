@@ -4,7 +4,6 @@ import {
   ChainId,
   ConnectWalletParams,
   WalletOption,
-  WalletStatus,
   WalletTxParams,
 } from '@thorswap-lib/types';
 
@@ -48,5 +47,5 @@ const connectKeplr =
 export const keplrWallet = {
   connectMethodName: 'connectKeplr' as const,
   connect: connectKeplr,
-  isDetected: () => (window?.keplr ? WalletStatus.Detected : WalletStatus.NotInstalled),
+  isDetected: () => !!window?.keplr,
 };

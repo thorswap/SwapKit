@@ -4,7 +4,6 @@ import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
-  Address,
   BaseDecimal,
   Chain,
   ChainId,
@@ -18,7 +17,7 @@ import { getProvider } from '../provider.js';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.js';
 
-export const getBalance = async (api: CovalentApiType, address: Address) => {
+export const getBalance = async (api: CovalentApiType, address: string) => {
   const provider = getProvider(Chain.Arbitrum);
   const tokenBalances = await api.getBalance(address);
 

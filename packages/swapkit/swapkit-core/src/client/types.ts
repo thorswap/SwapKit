@@ -15,14 +15,7 @@ import type {
   OPToolbox,
 } from '@thorswap-lib/toolbox-evm';
 import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
-import {
-  BaseWalletMethods,
-  Chain,
-  FeeOption,
-  TxHash,
-  TxParams,
-  WalletOption,
-} from '@thorswap-lib/types';
+import { BaseWalletMethods, Chain, FeeOption, TxParams, WalletOption } from '@thorswap-lib/types';
 
 export type CoreTxParams = {
   assetAmount: AssetAmount;
@@ -50,8 +43,8 @@ export type CreateLiquidityParams = {
 };
 
 export type AddLiquidityTxns = {
-  runeTx?: TxHash;
-  assetTx?: TxHash;
+  runeTx?: string;
+  assetTx?: string;
 };
 
 type LPType = 'sym' | 'rune' | 'asset';

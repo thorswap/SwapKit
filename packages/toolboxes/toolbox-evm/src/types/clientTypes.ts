@@ -1,6 +1,6 @@
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { ContractInterface } from '@ethersproject/contracts';
-import { Address, FeeOption, WalletTxParams } from '@thorswap-lib/types';
+import { FeeOption, WalletTxParams } from '@thorswap-lib/types';
 
 export enum EthNetwork {
   Test = 'goerli',
@@ -8,8 +8,8 @@ export enum EthNetwork {
 }
 
 export type ApproveParams = {
-  assetAddress: Address;
-  spenderAddress: Address;
+  assetAddress: string;
+  spenderAddress: string;
   feeOptionKey?: FeeOption;
   amount?: BigNumberish;
   from: string;
@@ -19,8 +19,8 @@ export type ApproveParams = {
 };
 
 export type ApprovedParams = {
-  assetAddress: Address;
-  spenderAddress: Address;
+  assetAddress: string;
+  spenderAddress: string;
   from: string;
 };
 
@@ -29,7 +29,7 @@ export type IsApprovedParams = ApprovedParams & {
 };
 
 export type CallParams = {
-  contractAddress: Address;
+  contractAddress: string;
   abi: ContractInterface;
   funcName: string;
   funcParams?: unknown[];
