@@ -25,7 +25,6 @@ type WithChain<T = {}> = T & { chain: Chain };
 export type MemoOptions<T extends MemoType> = {
   [MemoType.BOND]: WithAddress;
   [MemoType.LEAVE]: WithAddress;
-  [MemoType.UPGRADE]: WithAddress;
   [MemoType.CLOSE_LOAN]: WithAddress<{ asset: string; minAmount?: string }>;
   [MemoType.OPEN_LOAN]: WithAddress<{ asset: string; minAmount?: string }>;
   [MemoType.UNBOND]: WithAddress<{ unbondAmount: number }>;
@@ -43,7 +42,6 @@ export type MemoOptions<T extends MemoType> = {
 export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions<T>) => {
   switch (memoType) {
     case MemoType.LEAVE:
-    case MemoType.UPGRADE:
     case MemoType.BOND: {
       const { address } = options as MemoOptions<MemoType.BOND>;
       return `${memoType}:${address}`;

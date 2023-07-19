@@ -24,7 +24,6 @@ export enum MemoType {
   LEAVE = 'LEAVE',
   THORNAME_REGISTER = '~',
   UNBOND = 'UNBOND',
-  UPGRADE = 'SWITCH',
   WITHDRAW = '-',
   OPEN_LOAN = '$+',
   CLOSE_LOAN = '$-',
