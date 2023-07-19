@@ -1,8 +1,8 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@thorswap-lib/types": "workspace:*",
-    "bitcoinjs-lib": "5.2.0"
+    "@thorswap-lib/helpers": "workspace:*",
+    "@thorswap-lib/types": "workspace:*"
   },
   "description": "THORSwap Lib okx",
   "devDependencies": {

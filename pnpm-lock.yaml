@@ -1186,12 +1186,12 @@ importers:
 
   packages/wallets/okx:
     dependencies:
+      '@thorswap-lib/helpers':
+        specifier: workspace:*
+        version: link:../../../internal/helpers
       '@thorswap-lib/types':
         specifier: workspace:*
         version: link:../../swapkit/types
-      bitcoinjs-lib:
-        specifier: 5.2.0
-        version: 5.2.0
     devDependencies:
       '@ethersproject/providers':
         specifier: ^5.7.0
@@ -1214,6 +1214,9 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: 0.33.0
         version: 0.33.0(vitest@0.33.0)
+      bitcoinjs-lib:
+        specifier: 5.2.0
+        version: 5.2.0
       long:
         specifier: 5.2.3
         version: 5.2.3
