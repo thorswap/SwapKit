@@ -9,7 +9,11 @@ import { ethplorerApi, EthplorerApiType } from '../api/ethplorerApi.js';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.js';
 
-export const getBalance = async (provider: Provider, api: EthplorerApiType, address: Address) => {
+export const getBalance = async (
+  provider: Provider | Web3Provider,
+  api: EthplorerApiType,
+  address: Address,
+) => {
   const tokenBalances = await api.getBalance(address);
   const evmGasTokenBalance = await provider.getBalance(address);
   const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.ETH);

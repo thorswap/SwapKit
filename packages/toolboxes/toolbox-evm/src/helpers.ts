@@ -1,5 +1,5 @@
 import { ExternalProvider, Web3Provider } from '@ethersproject/providers';
-import { Chain, ChainId, ChainToChainId } from '@thorswap-lib/types';
+import { Chain, ChainId, ChainToHexChainId } from '@thorswap-lib/types';
 
 import { AVAXToolbox, BSCToolbox, EthereumWindowProvider, ETHToolbox } from './index.js';
 
@@ -106,7 +106,7 @@ export const getWeb3WalletMethods = ({
 
   const toolboxParams = {
     provider,
-    signer: provider.getSigner() as any,
+    signer: provider.getSigner(),
     ethplorerApiKey: ethplorerApiKey as string,
     covalentApiKey: covalentApiKey as string,
   };
@@ -120,7 +120,7 @@ export const getWeb3WalletMethods = ({
 
   return prepareNetworkSwitch<typeof toolbox>({
     toolbox: { ...toolbox },
-    chainId: ChainToChainId[chain],
+    chainId: ChainToHexChainId[chain],
     provider: ethereumWindowProvider,
   });
 };

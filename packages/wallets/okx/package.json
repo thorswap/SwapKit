@@ -1,12 +1,14 @@
 {
   "author": "thorswap",
   "dependencies": {
+    "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/types": "workspace:*"
   },
   "description": "THORSwap Lib okx",
   "devDependencies": {
     "@ethersproject/providers": "^5.7.0",
     "@internal/config": "workspace:*",
+    "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
@@ -37,6 +39,7 @@
   "name": "@thorswap-lib/okx",
   "peerDependencies": {
     "@ethersproject/providers": "^5.7.0",
+    "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
