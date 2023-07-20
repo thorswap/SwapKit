@@ -163,7 +163,29 @@ export type TxnResponse = {
   error?: { message: string };
 };
 
-export type ApiParams = QuoteParams | TxnParams;
+export type CachedPricesParams = {
+  tokens: string[];
+  metadata?: 'true' | 'false';
+  lookup?: 'true' | 'false';
+  sparkline?: 'true' | 'false';
+};
+
+export type CachedPricesResponse = {
+  identifier: string;
+  price_usd: number;
+  cg?: {
+    id?: string;
+    name?: string;
+    market_cap?: number;
+    total_volume?: number;
+    price_change_24h_usd?: number;
+    price_change_percentage_24h_usd?: number;
+    sparkline_in_7d?: string;
+    timestamp?: number;
+  };
+};
+
+export type ApiParams = QuoteParams | TxnParams | CachedPricesParams;
 
 type Calldata = {
   amount: string;
