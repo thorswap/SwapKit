@@ -1,5 +1,13 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.28
+
+### Patch Changes
+
+- [`5a6a90e`](https://github.com/thorswap/SwapKit/commit/5a6a90ec7144bdaef4f482a7488e4ecd46919f17) Thanks [@chillios-ts](https://github.com/chillios-ts)! - chore: add cached price endpoint
+
+- [`5a6a90e`](https://github.com/thorswap/SwapKit/commit/5a6a90ec7144bdaef4f482a7488e4ecd46919f17) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Bump api
+
 ## 0.1.0-development.27
 
 ### Patch Changes
