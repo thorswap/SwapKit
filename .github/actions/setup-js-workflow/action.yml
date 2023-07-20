@@ -10,10 +10,10 @@ runs:
         version: 8.6.3
         run_install: false
 
-    - uses: dtinth/setup-github-actions-caching-for-turbo@v1
-      with:
-        # Set the prefix for the cache keys.
-        cache-prefix: swapkit_
+    - name: Get pnpm cache directory
+      id: pnpm-cache-dir
+      shell: bash
+      run: echo "dir=$(pnpm store path)" >> $GITHUB_OUTPUT
 
     - uses: actions/cache@v3
       id: pnpm-cache
