@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.142
+
+### Patch Changes
+
+- [#205](https://github.com/thorswap/SwapKit/pull/205) [`bff667a`](https://github.com/thorswap/SwapKit/commit/bff667aefba654bd0a40172d15b55a54a4592a21) Thanks [@towanTG](https://github.com/towanTG)! - Fixes evm okx integrations
+
 ## 1.0.0-development.141
 
 ### Patch Changes
