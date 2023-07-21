@@ -20,7 +20,7 @@ const paramsToString = (params: { [key: string]: any }) => {
 };
 
 enum ApiEndpoints {
-  CachedPrices = '/tokenlist/cached-prices',
+  CachedPrices = '/tokenlist/cached-price',
   GasRates = '/resource-worker/gasPrice/getAll',
   Quote = '/aggregator/tokens/quote',
   Txn = '/apiusage/v2/txn',
@@ -57,7 +57,7 @@ const getCachedPrices = ({ tokens, ...options }: CachedPricesParams) => {
   if (options.lookup) body.append('lookup', 'true');
   if (options.sparkline) body.append('sparkline', 'true');
 
-  return postWrapper<CachedPricesResponse>(ApiEndpoints.CachedPrices, body.toString(), {
+  return postWrapper<CachedPricesResponse[]>(ApiEndpoints.CachedPrices, body.toString(), {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   });
 };
