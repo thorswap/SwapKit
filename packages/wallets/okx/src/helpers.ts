@@ -58,7 +58,7 @@ export const getWalletForChain = async ({
         const gasAssetBalance = await getProvider(chain).getBalance(address);
         const evmGasTokenBalanceAmount = baseAmount(gasAssetBalance, 18);
         return [
-          { asset: getSignatureAssetFor(Chain.Ethereum), amount: evmGasTokenBalanceAmount },
+          { asset: getSignatureAssetFor(chain), amount: evmGasTokenBalanceAmount },
           ...balances.slice(1),
         ];
       };
