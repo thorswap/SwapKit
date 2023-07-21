@@ -278,19 +278,21 @@ const getInputsOutputsFee = async ({
 };
 
 const calculateMaxSendableAmount = async ({
-  sender,
+  from,
+  to,
   memo,
   feeRate,
   feeOptionKey,
   chain,
   apiClient,
 }: {
-  sender: string;
+  from: string;
+  to: string;
   memo: string;
   feeOptionKey: FeeOption;
   feeRate: number;
 } & UTXOBaseToolboxParams): Promise<BigNumber> => {
-  const balance = (await getBalance({ address: sender, chain, apiClient }))[0];
+  const balance = (await getBalance({ address: from, chain, apiClient }))[0];
 
   const feeRateWhole = feeRate
     ? Math.floor(feeRate)
@@ -300,8 +302,8 @@ const calculateMaxSendableAmount = async ({
     chain,
     apiClient,
     memo,
-    sender,
-    recipient: sender,
+    sender: from,
+    recipient: to || from,
     amount: balance.amount,
     feeRate: feeRateWhole,
   });
@@ -334,21 +336,24 @@ export const BaseUTXOToolbox = (baseToolboxParams: UTXOBaseToolboxParams) => ({
    * Using a memo is optional.
    */
   calculateMaxSendableAmount: ({
-    address,
+    from,
+    to,
     memo = '',
     feeOptionKey = FeeOption.Fastest,
     feeRate,
   }: {
-    address: string;
+    from: string;
+    to: string;
     memo?: string;
     feeOptionKey?: FeeOption;
     feeRate: number;
   }): Promise<BigNumber> =>
     calculateMaxSendableAmount({
-      sender: address,
+      from,
       feeOptionKey,
       feeRate,
       memo,
+      to,
       ...baseToolboxParams,
     }),
 });

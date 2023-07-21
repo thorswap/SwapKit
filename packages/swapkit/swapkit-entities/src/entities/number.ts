@@ -1,30 +1,59 @@
-import { BigNumber, parseFixed } from '@ethersproject/bignumber';
+import { BigNumber, BigNumberish, parseFixed } from '@ethersproject/bignumber';
+import { isBytesLike } from '@ethersproject/bytes';
 import { formatUnits } from '@ethersproject/units';
+import { Denomination } from '@thorswap-lib/types';
 
-export class SafeNumber {
+export type Numberish = BigNumberish | SwapkitNumber;
+
+/*
+ * SwapkitNumber is a wrapper around BigNumber that stores the asset denominated
+ * value and the number of decimals.
+ * It allows calculations of asset and base denominated numbers without parsing.
+ */
+export class SwapkitNumber {
   value: string;
   decimals: number;
+  readonly _isSwapkitNumber = true;
 
-  constructor(value: string | number | undefined) {
-    if (value === '' || value === undefined) {
+  constructor(value: Numberish | undefined, decimals?: number, valueDenomination?: Denomination) {
+    if (value instanceof SwapkitNumber) {
+      this.value = value.value;
+      this.decimals = value.decimals;
+      return;
+    }
+
+    if (
+      valueDenomination === Denomination.Base ||
+      SwapkitNumber.isBaseDenominated(value, true) ||
+      value instanceof BigNumber
+    ) {
+      this.decimals = decimals || 18;
+      this.value = formatUnits(BigNumber.from(value), this.decimals);
+      return;
+    }
+
+    if (!value) {
       value = '0';
     }
     if (typeof value === 'number') {
       value = value.toString();
     }
-    if (!RegExp('^-?[0-9]+([.][0-9]+)?$').test(value)) {
+    if (typeof value === 'string' && !RegExp('^-?[0-9]+([.][0-9]+)?$').test(value)) {
       throw new Error(`Invalid number: ${value.toString()}`);
     }
-    this.value = value;
-    this.decimals = value.split('.')[1]?.length || 0;
+    this.value = value as string;
+    this.decimals = decimals || (value as string).split('.')[1]?.length || 0;
   }
 
-  static from(value: BigNumber | string | number | undefined) {
-    if (typeof value === 'string' || typeof value === 'number' || value === undefined) {
-      return new SafeNumber(value as string | number | undefined);
+  /*
+   * Create a SwapkitNumber from an asset denominated string or number value
+   */
+  static from(value: Numberish | undefined, decimals: number, valueDenomination: Denomination) {
+    if (value instanceof SwapkitNumber) {
+      return value;
     }
 
-    return new SafeNumber(formatUnits(value.toString(), 18));
+    return new SwapkitNumber(value, decimals, valueDenomination);
   }
 
   toString() {
@@ -35,39 +64,43 @@ export class SafeNumber {
     return this.toString();
   }
 
-  toBaseString() {
-    return formatUnits(parseFixed(this.value, this.decimals), 18);
+  toBaseString(decimals: number = 18) {
+    return formatUnits(parseFixed(this.value, this.decimals), decimals);
   }
 
   toNumber() {
+    return parseFloat(this.value);
+  }
+
+  toBaseNumber() {
     return BigNumber.from(this.value).toNumber();
   }
 
-  add(value: BigNumber | string | number | undefined) {
-    const numberToAdd = SafeNumber.from(value);
-    const decimals = Math.max(numberToAdd.decimals, this.decimals);
-    const baseValue = parseFixed(this.value, decimals);
+  add(value: Numberish | undefined, decimals?: number, denomination?: Denomination) {
+    const numberToAdd = SwapkitNumber.from(value, decimals, denomination);
+    const newDecimals = Math.max(numberToAdd.decimals, this.decimals);
+    const baseValue = parseFixed(this.value, newDecimals);
 
-    return new SafeNumber(
-      formatUnits(baseValue.add(parseFixed(numberToAdd.value, decimals)), decimals),
+    return new SwapkitNumber(
+      formatUnits(baseValue.add(parseFixed(numberToAdd.value, newDecimals)), newDecimals),
     );
   }
 
-  sub(value: BigNumber | string | number | undefined) {
-    const numberToSub = SafeNumber.from(value);
-    const decimals = Math.max(numberToSub.decimals, this.decimals);
-    const baseValue = parseFixed(this.value, decimals);
+  sub(value: Numberish | undefined, decimals?: number, denomination?: Denomination) {
+    const numberToSub = SwapkitNumber.from(value, decimals, denomination);
+    const newDecimals = Math.max(numberToSub.decimals, this.decimals);
+    const baseValue = parseFixed(this.value, newDecimals);
 
-    return new SafeNumber(
-      formatUnits(baseValue.sub(parseFixed(numberToSub.value, decimals)), decimals),
+    return new SwapkitNumber(
+      formatUnits(baseValue.sub(parseFixed(numberToSub.value, newDecimals)), newDecimals),
     );
   }
 
-  mul(value: BigNumber | string | number | undefined) {
-    const numberToMul = SafeNumber.from(value);
+  mul(value: Numberish | undefined, decimals?: number, denomination?: Denomination) {
+    const numberToMul = SwapkitNumber.from(value, decimals, denomination);
     const baseValue = parseFixed(this.value, this.decimals);
 
-    return new SafeNumber(
+    return new SwapkitNumber(
       formatUnits(
         baseValue.mul(parseFixed(numberToMul.value, numberToMul.decimals)),
         numberToMul.decimals + this.decimals,
@@ -75,52 +108,88 @@ export class SafeNumber {
     );
   }
 
-  div(value: BigNumber | string | number | undefined) {
+  div(value: Numberish | undefined, decimals?: number, denomination?: Denomination) {
     const baseValue = parseFixed(this.value, 18);
-    const numberToDiv = SafeNumber.from(value);
+    const numberToDiv = SwapkitNumber.from(value, decimals, denomination);
 
     const result = formatUnits(baseValue.div(parseFixed(numberToDiv.value, 18)), 18);
 
-    return new SafeNumber(result.replace(/\.?0+$/, ''));
+    return new SwapkitNumber(result.replace(/\.?0+$/, ''));
   }
 
-  eq(value: BigNumber | string | number | undefined) {
-    const numberToEq = SafeNumber.from(value);
-    const decimals = Math.max(numberToEq.decimals, this.decimals);
-    const baseValue = parseFixed(this.value, decimals);
+  e(value: Numberish | undefined, decimals?: number, denomination?: Denomination) {
+    const numberToEq = SwapkitNumber.from(value, decimals, denomination);
+    const newDecimals = Math.max(numberToEq.decimals, this.decimals);
+    const baseValue = parseFixed(this.value, newDecimals);
 
-    return baseValue.eq(parseFixed(numberToEq.value, decimals));
+    return baseValue.eq(parseFixed(numberToEq.value, newDecimals));
   }
 
-  gt(value: BigNumber | string | number | undefined) {
-    const numberToGt = SafeNumber.from(value);
-    const decimals = Math.max(numberToGt.decimals, this.decimals);
-    const baseValue = parseFixed(this.value, decimals);
+  gt(value: Numberish | undefined, decimals?: number, denomination?: Denomination) {
+    const numberToGt = SwapkitNumber.from(value, decimals, denomination);
+    const newDecimals = Math.max(numberToGt.decimals, this.decimals);
+    const baseValue = parseFixed(this.value, newDecimals);
 
-    return baseValue.gt(parseFixed(numberToGt.value, decimals));
+    return baseValue.gt(parseFixed(numberToGt.value, newDecimals));
   }
 
-  gte(value: BigNumber | string | number | undefined) {
-    const numberToGte = SafeNumber.from(value);
-    const decimals = Math.max(numberToGte.decimals, this.decimals);
-    const baseValue = parseFixed(this.value, decimals);
+  gte(value: Numberish | undefined, decimals?: number, denomination?: Denomination) {
+    const numberToGte = SwapkitNumber.from(value, decimals, denomination);
+    const newDecimals = Math.max(numberToGte.decimals, this.decimals);
+    const baseValue = parseFixed(this.value, newDecimals);
 
-    return baseValue.gte(parseFixed(numberToGte.value, decimals));
+    return baseValue.gte(parseFixed(numberToGte.value, newDecimals));
   }
 
-  lt(value: BigNumber | string | number | undefined) {
-    const numberToLt = SafeNumber.from(value);
-    const decimals = Math.max(numberToLt.decimals, this.decimals);
-    const baseValue = parseFixed(this.value, decimals);
+  lt(value: Numberish | undefined, decimals?: number, denomination?: Denomination) {
+    const numberToLt = SwapkitNumber.from(value, decimals, denomination);
+    const newDecimals = Math.max(numberToLt.decimals, this.decimals);
+    const baseValue = parseFixed(this.value, newDecimals);
 
-    return baseValue.lt(parseFixed(numberToLt.value, decimals));
+    return baseValue.lt(parseFixed(numberToLt.value, newDecimals));
   }
 
-  lte(value: BigNumber | string | number | undefined) {
-    const numberToLte = SafeNumber.from(value);
-    const decimals = Math.max(numberToLte.decimals, this.decimals);
-    const baseValue = parseFixed(this.value, decimals);
+  lte(value: Numberish | undefined, decimals?: number, denomination?: Denomination) {
+    const numberToLte = SwapkitNumber.from(value, decimals, denomination);
+    const newDecimals = Math.max(numberToLte.decimals, this.decimals);
+    const baseValue = parseFixed(this.value, newDecimals);
 
-    return baseValue.lte(parseFixed(numberToLte.value, decimals));
+    return baseValue.lte(parseFixed(numberToLte.value, newDecimals));
+  }
+
+  static isBaseDenominated(value: Numberish | undefined, strict: boolean = false) {
+    if (value instanceof SwapkitNumber) {
+      return false;
+    }
+
+    // First check if it is a bytesLike or a bigint
+    if (isBytesLike(value) || typeof value === 'bigint') {
+      return true;
+    }
+
+    // Strict mode:
+    // strings and numbers that are not bytesLike are interpreted as asset denominated
+    if (strict && (typeof value === 'string' || typeof value === 'number')) {
+      return false;
+    }
+
+    // Non-strict mode:
+    // Check if the string or number is a float
+    if (
+      !value ||
+      (typeof value === 'string' && (value as string).includes('.')) ||
+      (typeof value === 'number' && value % 1 !== 0)
+    ) {
+      return false;
+    }
+
+    // Try to parse it into a BigNumber to catch invalid values
+    try {
+      BigNumber.from(value);
+    } catch (error) {
+      throw new Error(`Invalid number: ${value.toString()}`);
+    }
+
+    return true;
   }
 }

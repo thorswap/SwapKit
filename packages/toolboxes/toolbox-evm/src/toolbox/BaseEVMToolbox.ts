@@ -555,4 +555,25 @@ export const BaseEVMToolbox = ({
    */
   getFeeForTransaction: (txObject: PopulatedTransaction | EIP1559TxParams, feeOption: FeeOption) =>
     getFeeForTransaction(txObject, feeOption, provider, isEIP1559Compatible),
+  calculateMaxSendableAmount: ({
+    from,
+    to,
+    memo = '',
+    feeOptionKey = FeeOption.Fastest,
+    feeRate,
+  }: {
+    from: string;
+    to: string;
+    memo?: string;
+    feeOptionKey?: FeeOption;
+    feeRate: number;
+  }): Promise<BigNumber> =>
+    calculateMaxSendableAmount({
+      from,
+      feeOptionKey,
+      feeRate,
+      memo,
+      to,
+      ...baseToolboxParams,
+    }),
 });
