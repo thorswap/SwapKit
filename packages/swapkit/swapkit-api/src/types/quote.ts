@@ -164,7 +164,7 @@ export type TxnResponse = {
 };
 
 export type CachedPricesParams = {
-  tokens: string[];
+  tokens: { identifier: string }[];
   metadata?: 'true' | 'false';
   lookup?: 'true' | 'false';
   sparkline?: 'true' | 'false';
