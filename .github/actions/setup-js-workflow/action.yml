@@ -5,6 +5,8 @@ author: 'Chillios'
 runs:
   using: 'composite'
   steps:
+    - uses: dtinth/setup-github-actions-caching-for-turbo@v1
+
     - uses: pnpm/action-setup@v2
       with:
         version: 8.6.3
