@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.29
+
+### Patch Changes
+
+- [`2e04df9`](https://github.com/thorswap/SwapKit/commit/2e04df96f2ecc2275e9dda2d5ccbd2ad6a5e8128) Thanks [@chillios-ts](https://github.com/chillios-ts)! - update types
+
 ## 0.1.0-development.28
 
 ### Patch Changes
