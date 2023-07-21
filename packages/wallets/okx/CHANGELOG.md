@@ -1,5 +1,11 @@
 # @thorswap-lib/okx
 
+## 1.0.0-development.7
+
+### Patch Changes
+
+- [#212](https://github.com/thorswap/SwapKit/pull/212) [`a90134b`](https://github.com/thorswap/SwapKit/commit/a90134bb85dd9a359916ae1dd9ccc2e0bdeb8ff4) Thanks [@towanTG](https://github.com/towanTG)! - Fixes chain gas asset and connection of multiple evm chains
+
 ## 1.0.0-development.6
 
 ### Patch Changes
