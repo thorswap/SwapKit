@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.30
+
+### Patch Changes
+
+- [`4496b0c`](https://github.com/thorswap/SwapKit/commit/4496b0c7f91a172d0d550945efaa6923b3b1b883) Thanks [@chillios-ts](https://github.com/chillios-ts)! - fix typing
+
 ## 0.1.0-development.29
 
 ### Patch Changes
