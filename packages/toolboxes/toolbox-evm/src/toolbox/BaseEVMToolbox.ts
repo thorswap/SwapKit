@@ -9,7 +9,6 @@ import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
 import { toUtf8Bytes } from '@ethersproject/strings';
 import { AssetEntity, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-entities';
 import {
-  Address,
   Asset,
   Chain,
   ContractAddress,
@@ -52,7 +51,7 @@ const isWeb3Provider = (provider: any) => !!provider.provider || !!provider.json
 const createContract = (address: string, abi: any, provider: Provider) =>
   new Contract(address, abi, provider);
 
-const validateAddress = (address: Address) => {
+const validateAddress = (address: string) => {
   try {
     getAddress(address);
     return true;

@@ -3,7 +3,7 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { Address, BaseDecimal, Chain } from '@thorswap-lib/types';
+import { BaseDecimal, Chain } from '@thorswap-lib/types';
 
 import { ethplorerApi, EthplorerApiType } from '../api/ethplorerApi.js';
 
@@ -12,7 +12,7 @@ import { BaseEVMToolbox } from './BaseEVMToolbox.js';
 export const getBalance = async (
   provider: Provider | Web3Provider,
   api: EthplorerApiType,
-  address: Address,
+  address: string,
 ) => {
   const tokenBalances = await api.getBalance(address);
   const evmGasTokenBalance = await provider.getBalance(address);

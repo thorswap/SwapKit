@@ -7,7 +7,6 @@ import { serialize } from '@ethersproject/transactions';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
-  Address,
   BaseDecimal,
   Chain,
   ChainId,
@@ -73,7 +72,7 @@ export const estimateL1Gas = async (provider: Provider, tx: TransactionRequest) 
   return connectGasPriceOracle(provider).getL1GasUsed(await _serializeTx(provider, tx));
 };
 
-export const getBalance = async (api: CovalentApiType, address: Address) => {
+export const getBalance = async (api: CovalentApiType, address: string) => {
   const provider = getProvider(Chain.Optimism);
   const tokenBalances = await api.getBalance(address);
   const evmGasTokenBalance = await provider.getBalance(address);

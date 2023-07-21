@@ -15,21 +15,17 @@ export enum FeeOption {
   Fastest = 'fastest',
 }
 
-export enum FeeType {
-  FlatFee = 'base',
-  PerByte = 'byte',
-}
-
 export type Balance = {
   asset: Asset;
   amount: AmountWithBaseDenom;
 };
 
 export type Fees = Record<FeeOption, AmountWithBaseDenom> & {
-  type?: FeeType;
+  type?: 'base' | 'byte';
 };
-export type FeeRate = number;
-export type FeeRates = Record<FeeOption, FeeRate>;
+
+export type FeeRates = Record<FeeOption, number>;
+
 export enum WalletOption {
   'KEYSTORE' = 'KEYSTORE',
   'XDEFI' = 'XDEFI',

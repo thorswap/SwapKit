@@ -1,7 +1,7 @@
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { Balance, BaseDecimal, Chain, FeeOption, FeeRates, Fees, UTXO } from '@thorswap-lib/types';
-import { fromSeed } from 'bip32';
+import { HDKey } from '@scure/bip32';
 import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';
 import accumulative from 'coinselect/accumulative';
 import { ECPairFactory, ECPairInterface } from 'ecpair';
@@ -35,7 +35,7 @@ const createKeysForPath = ({
     return ECPairFactory(tinySecp).fromWIF(wif, network);
   } else if (phrase) {
     const seed = getSeed(phrase);
-    const master = fromSeed(seed, network).derivePath(derivationPath);
+    const master = HDKey.fromMasterSeed(seed, network).derive(derivationPath);
 
     if (!master.privateKey) {
       throw new Error('Could not get private key from phrase');

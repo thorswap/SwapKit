@@ -11,14 +11,3 @@ export const assetFromString = (assetString: string) => {
 
   return { chain, symbol, ticker, synth };
 };
-
-export const createAssetObjFromAsset = (asset: {
-  chain: Chain;
-  isSynth: boolean;
-  symbol: string;
-}) =>
-  assetFromString(
-    asset.isSynth
-      ? `${Chain.THORChain}.${asset.chain.toLowerCase()}/${asset.symbol.toLowerCase()}`
-      : `${asset.chain.toUpperCase()}.${asset.symbol.toUpperCase()}`,
-  );

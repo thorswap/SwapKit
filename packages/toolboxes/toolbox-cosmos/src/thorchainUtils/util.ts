@@ -1,15 +1,7 @@
 import { cosmosclient, proto } from '@cosmos-client/core';
 import { assetFromString, assetToString, baseAmount, getRequest } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import {
-  Address,
-  AmountWithBaseDenom,
-  Asset,
-  Balance,
-  BaseDecimal,
-  Chain,
-  Fees,
-} from '@thorswap-lib/types';
+import { AmountWithBaseDenom, Asset, Balance, BaseDecimal, Chain, Fees } from '@thorswap-lib/types';
 import { decode } from 'bech32-buffer';
 import Long from 'long';
 
@@ -95,8 +87,8 @@ export const buildTransferTx = async ({
   nodeUrl,
   chainId,
 }: {
-  fromAddress: Address;
-  toAddress: Address;
+  fromAddress: string;
+  toAddress: string;
   assetAmount: AmountWithBaseDenom;
   assetDenom: string;
   memo?: string;

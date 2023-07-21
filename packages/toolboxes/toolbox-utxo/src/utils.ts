@@ -1,14 +1,5 @@
 import { baseAmount } from '@thorswap-lib/helpers';
-import {
-  AmountWithBaseDenom,
-  Chain,
-  FeeOption,
-  FeeRate,
-  FeeRates,
-  Fees,
-  FeeType,
-  UTXO,
-} from '@thorswap-lib/types';
+import { AmountWithBaseDenom, Chain, FeeOption, FeeRates, Fees, UTXO } from '@thorswap-lib/types';
 import * as bip39 from 'bip39';
 import { networks, opcodes, script } from 'bitcoinjs-lib';
 import coininfo from 'coininfo';
@@ -38,7 +29,7 @@ export const inputBytes = (input: UTXO) => {
   );
 };
 
-export const getFee = (inputs: UTXO[], feeRate: FeeRate, data: Buffer | null = null): number => {
+export const getFee = (inputs: UTXO[], feeRate: number, data: Buffer | null = null): number => {
   let sum =
     TX_EMPTY_SIZE +
     inputs.reduce((a, x) => a + inputBytes(x), 0) +
@@ -62,7 +53,7 @@ export const calcFees = <T, U extends unknown[]>(
 ): Fees => {
   return (Object.entries(feeRates) as [FeeOption, T][])
     .map(([k, v]) => [k, calcFee(v, ...args)] as const)
-    .reduce<Partial<Fees>>((a, [k, v]) => ((a[k] = v), a), { type: FeeType.PerByte }) as Fees;
+    .reduce<Partial<Fees>>((a, [k, v]) => ((a[k] = v), a), { type: 'byte' }) as Fees;
 };
 
 export const calcFeesAsync = <T, U extends unknown[]>(
@@ -72,7 +63,7 @@ export const calcFeesAsync = <T, U extends unknown[]>(
 ) =>
   (Object.entries(feeRates) as [FeeOption, T][])
     .map(([k, v]) => [k, calcFee(v, ...args)] as const)
-    .reduce<Partial<Fees>>((a, [k, v]) => ((a[k] = v), a), { type: FeeType.PerByte }) as Fees;
+    .reduce<Partial<Fees>>((a, [k, v]) => ((a[k] = v), a), { type: 'byte' }) as Fees;
 
 export const calcFee = (feeRate: number, memo?: string): AmountWithBaseDenom => {
   const compiledMemo = memo ? compileMemo(memo) : null;
@@ -117,10 +108,10 @@ export const getNetwork = (chain: Chain) => {
   }
 };
 
-export const singleFeeRate = (rate: FeeRate) =>
+export const singleFeeRate = (rate: number) =>
   Object.values(FeeOption).reduce<Partial<FeeRates>>((a, x) => ((a[x] = rate), a), {}) as FeeRates;
 
-export const standardFeeRates = (rate: FeeRate): FeeRates => ({
+export const standardFeeRates = (rate: number) => ({
   ...singleFeeRate(rate),
   [FeeOption.Average]: rate * 0.8,
   [FeeOption.Fastest]: rate * 2.0,

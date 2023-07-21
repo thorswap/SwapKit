@@ -13,6 +13,7 @@ export enum Chain {
   Polygon = 'MATIC',
   THORChain = 'THOR',
 }
+type ChainNameType = keyof typeof Chain;
 
 export enum ContractAddress {
   ARB = '0x0000000000000000000000000000000000000000',
@@ -21,8 +22,6 @@ export enum ContractAddress {
   BSC = '0x0000000000000000000000000000000000000000',
   MATIC = '0x0000000000000000000000000000000000001010',
   OP = '0x4200000000000000000000000000000000000042',
-  USDC_SPL_MINT_ADDRESS = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-  USDC_SPL_TESTNET_MINT_ADDRESS = '6TEqT62wq5mbKQPubX9eFeNJRYXRJd79Hk51pZk7nZrB',
 }
 
 export enum NetworkId {
@@ -83,11 +82,33 @@ export enum BaseDecimal {
 
 export type EVMChain =
   | Chain.Ethereum
-  | Chain.BinanceSmartChain
   | Chain.Avalanche
+  | Chain.BinanceSmartChain
   | Chain.Arbitrum
   | Chain.Optimism
   | Chain.Polygon;
+
+export const EVMChainList: EVMChain[] = [
+  Chain.Ethereum,
+  Chain.Avalanche,
+  Chain.BinanceSmartChain,
+  Chain.Arbitrum,
+  Chain.Optimism,
+  Chain.Polygon,
+];
+
+export type UTXOChain = Chain.Bitcoin | Chain.BitcoinCash | Chain.Dogecoin | Chain.Litecoin;
+
+export const UTXOChainList: Chain[] = [
+  Chain.Bitcoin,
+  Chain.BitcoinCash,
+  Chain.Dogecoin,
+  Chain.Litecoin,
+];
+
+export type CosmosChain = Chain.Cosmos | Chain.THORChain | Chain.Binance;
+
+export const CosmosChainList: CosmosChain[] = [Chain.Cosmos, Chain.THORChain, Chain.Binance];
 
 export enum ChainId {
   Arbitrum = '42161',
@@ -139,10 +160,8 @@ export enum ApiUrl {
   Thorswap = 'https://api.thorswap.finance',
 }
 
-type ChainNameType = keyof typeof Chain;
-
-const chainNames = Object.keys(Chain) as ChainNameType[];
 const chains = Object.values(Chain) as Chain[];
+const chainNames = Object.keys(Chain) as ChainNameType[];
 
 const ChainToChainName = chains.reduce((acc, chain) => {
   const chainName = chainNames.find((key) => Chain[key as ChainNameType] === chain);

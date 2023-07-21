@@ -1,4 +1,4 @@
-import { Address, Chain, TxHash } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 
 export type BlockchairApiParams<T> = T & {
   chain: Chain;
@@ -6,7 +6,7 @@ export type BlockchairApiParams<T> = T & {
 };
 
 export interface BlockchairMultipleBalancesResponse {
-  [key: Address]: number;
+  [key: string]: number;
 }
 
 export interface BlockchairVin {
@@ -34,14 +34,14 @@ export interface BlockchairVout {
 
 export interface BlockchairTransaction {
   block_id: number;
-  hash: TxHash;
+  hash: string;
   time: string;
   balance_change: number;
 }
 
 export interface BlockchairUtxo {
   block_id: number;
-  transaction_hash: TxHash;
+  transaction_hash: string;
   index: number;
   value: number;
 }
@@ -103,7 +103,7 @@ export interface BlockchairSpendingBlockData {
 }
 
 export interface BlockchairAddressResponse {
-  [key: Address]: {
+  [key: string]: {
     address: BlockchairAddressCoreData;
     transactions: BlockchairTransaction[];
     utxo: BlockchairUtxo[];
@@ -115,7 +115,7 @@ export interface BlockchairOutputsResponse
     BlockchairInputOutputCommonData {}
 
 export interface BlockchairRawTransactionResponse {
-  [key: TxHash]: {
+  [key: string]: {
     raw_transaction: string;
     decoded_raw_transaction: {
       txid: string;
@@ -133,7 +133,7 @@ export interface BlockchairRawTransactionResponse {
 
 export interface BlockchairMultipleAddressesResponse {
   addresses: {
-    [key: Address]: BlockchairAddressCoreData;
+    [key: string]: BlockchairAddressCoreData;
   };
   transactions: BlockchairTransaction[];
   utxo: BlockchairUtxo[];
@@ -184,7 +184,7 @@ export interface BlockchairResponse<T> {
 }
 
 export interface BlockchairDashboardTransactionResponse {
-  [key: TxHash]: {
+  [key: string]: {
     transaction: {
       block_id: number;
       id: number;

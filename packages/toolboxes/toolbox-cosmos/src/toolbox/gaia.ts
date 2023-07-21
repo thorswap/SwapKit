@@ -2,7 +2,7 @@ import { StdFee } from '@cosmjs/amino';
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import { SigningStargateClient, StargateClient } from '@cosmjs/stargate';
 import { assetToString, baseAmount } from '@thorswap-lib/helpers';
-import { Asset, BaseDecimal, ChainId, DerivationPath, FeeType, RPCUrl } from '@thorswap-lib/types';
+import { Asset, BaseDecimal, ChainId, DerivationPath, RPCUrl } from '@thorswap-lib/types';
 
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
 import { GaiaToolboxType } from '../index.js';
@@ -88,7 +88,7 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
     getFees: async () => {
       const baseFee = (await getFeeRateFromThorswap(ChainId.Cosmos)) || 500;
       return {
-        type: FeeType.FlatFee,
+        type: 'base',
         fast: baseAmount(baseFee * 1.5, BaseDecimal.GAIA),
         fastest: baseAmount(baseFee * 3, BaseDecimal.GAIA),
         average: baseAmount(baseFee, BaseDecimal.GAIA),
