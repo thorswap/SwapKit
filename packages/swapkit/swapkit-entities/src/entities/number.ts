@@ -48,7 +48,7 @@ export class SwapkitNumber {
   /*
    * Create a SwapkitNumber from an asset denominated string or number value
    */
-  static from(value: Numberish | undefined, decimals: number, valueDenomination: Denomination) {
+  static from(value: Numberish | undefined, decimals?: number, valueDenomination?: Denomination) {
     if (value instanceof SwapkitNumber) {
       return value;
     }
