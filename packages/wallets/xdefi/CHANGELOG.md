@@ -1,5 +1,14 @@
 # @thorswap-lib/xdefi
 
+## 1.0.0-development.31
+
+### Patch Changes
+
+- [#215](https://github.com/thorswap/SwapKit/pull/215) [`241d9b6`](https://github.com/thorswap/SwapKit/commit/241d9b6474a0654c7e00f510e8bdc884f12175d2) Thanks [@towanTG](https://github.com/towanTG)! - Fixes network swap for okx and xdefi
+
+- Updated dependencies [[`1841933`](https://github.com/thorswap/SwapKit/commit/1841933d0993429180673122e8a079fa39036fe3)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.143
+
 ## 1.0.0-development.30
 
 ### Patch Changes
