@@ -42,10 +42,13 @@ export const getMimirData = (stagenet: boolean) => {
 };
 
 export const getEmptyWalletStructure = () =>
-  (Object.values(Chain) as Chain[]).reduce((acc, chain) => {
-    acc[chain] = null;
-    return acc;
-  }, {} as Record<Chain, null>);
+  (Object.values(Chain) as Chain[]).reduce(
+    (acc, chain) => {
+      acc[chain] = null;
+      return acc;
+    },
+    {} as Record<Chain, null>,
+  );
 
 export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Chain }) => {
   const baseUrl = ChainToExplorerUrl[chain];

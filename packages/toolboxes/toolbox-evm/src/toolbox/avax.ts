@@ -2,7 +2,7 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, RPCUrl } from '@thorswap-lib/types';
+import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from '@thorswap-lib/types';
 
 import { covalentApi, CovalentApiType } from '../api/covalentApi.js';
 import { getProvider } from '../provider.js';
