@@ -37,7 +37,9 @@ export const getWalletForChain = async ({
   api?: any;
 }): Promise<
   | (ReturnType<typeof GaiaToolbox> & { getAddress: () => string | Promise<string> })
-  | (ReturnType<typeof getWeb3WalletMethods> & { getAddress: () => string | Promise<string> })
+  | (Awaited<ReturnType<typeof getWeb3WalletMethods>> & {
+      getAddress: () => string | Promise<string>;
+    })
   | (ReturnType<typeof BTCToolbox> & { getAddress: () => string | Promise<string> })
 > => {
   switch (chain) {
@@ -45,7 +47,7 @@ export const getWalletForChain = async ({
     case Chain.Avalanche:
     case Chain.BinanceSmartChain: {
       if (!window.okxwallet?.request) throw new Error('No okxwallet found');
-      const evmWallet = getWeb3WalletMethods({
+      const evmWallet = await getWeb3WalletMethods({
         chain,
         ethplorerApiKey,
         covalentApiKey,

@@ -73,9 +73,9 @@ export const wrapMethodWithNetworkSwitch = <T extends (...args: any[]) => any>(
 ) =>
   (async (...args: any[]) => {
     try {
-      await switchEVMWalletNetwork(provider, chainId)
+      await switchEVMWalletNetwork(provider, chainId);
     } catch (error) {
-      throw new Error(`Failed to switch network: ${error}`)
+      throw new Error(`Failed to switch network: ${error}`);
     }
     return func(...args);
   }) as unknown as T;
@@ -126,13 +126,17 @@ export const getWeb3WalletMethods = async ({
     chain === Chain.Ethereum
       ? ETHToolbox(toolboxParams)
       : chain === Chain.Avalanche
-        ? AVAXToolbox(toolboxParams)
-        : BSCToolbox(toolboxParams);
+      ? AVAXToolbox(toolboxParams)
+      : BSCToolbox(toolboxParams);
 
   try {
     chain !== Chain.Ethereum &&
-      await addEVMWalletNetwork(ethereumWindowProvider,
-        (toolbox as ReturnType<typeof AVAXToolbox> | ReturnType<typeof BSCToolbox>).getNetworkParams());
+      (await addEVMWalletNetwork(
+        ethereumWindowProvider,
+        (
+          toolbox as ReturnType<typeof AVAXToolbox> | ReturnType<typeof BSCToolbox>
+        ).getNetworkParams(),
+      ));
   } catch (error) {
     throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
   }

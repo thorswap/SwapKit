@@ -7,11 +7,7 @@ import { MaxInt256 } from '@ethersproject/constants';
 import { Contract } from '@ethersproject/contracts';
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
 import { toUtf8Bytes } from '@ethersproject/strings';
-import {
-  AssetEntity,
-  getSignatureAssetFor,
-  isGasAsset,
-} from '@thorswap-lib/swapkit-entities';
+import { AssetEntity, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-entities';
 import {
   Asset,
   Chain,
@@ -95,15 +91,15 @@ const call = async <T>(
   const contract = createContract(contractAddress, abi, provider);
   const result = await (signer
     ? contract.connect(signer)[funcName](...funcParams.slice(0, -1), {
-      ...(funcParams[funcParams.length - 1] as any),
-      /**
-       * nonce must be set due to a possible bug with ethers.js,
-       * expecting a synchronous nonce while the JsonRpcProvider delivers Promise
-       */
-      nonce:
-        (funcParams[funcParams.length - 1] as any).nonce ||
-        (await provider.getTransactionCount(signer.getAddress())),
-    })
+        ...(funcParams[funcParams.length - 1] as any),
+        /**
+         * nonce must be set due to a possible bug with ethers.js,
+         * expecting a synchronous nonce while the JsonRpcProvider delivers Promise
+         */
+        nonce:
+          (funcParams[funcParams.length - 1] as any).nonce ||
+          (await provider.getTransactionCount(signer.getAddress())),
+      })
     : contract[funcName](...funcParams));
 
   return typeof result?.hash === 'string' ? result?.hash : result;
@@ -374,17 +370,17 @@ const sendTransaction = async (
   const feeData =
     (isEIP1559 &&
       (!(tx as EIP1559TxParams).maxFeePerGas || !(tx as EIP1559TxParams).maxPriorityFeePerGas)) ||
-      !(tx as LegacyEVMTxParams).gasPrice
+    !(tx as LegacyEVMTxParams).gasPrice
       ? Object.entries(
-        (await estimateGasPrices(provider, isEIP1559Compatible))[feeOptionKey],
-      ).reduce(
-        (acc, [k, v]) => ({ ...acc, [k]: BigNumber.from(v).toHexString() }),
-        {} as {
-          maxFeePerGas?: string;
-          maxPriorityFeePerGas?: string;
-          gasPrice?: string;
-        },
-      )
+          (await estimateGasPrices(provider, isEIP1559Compatible))[feeOptionKey],
+        ).reduce(
+          (acc, [k, v]) => ({ ...acc, [k]: BigNumber.from(v).toHexString() }),
+          {} as {
+            maxFeePerGas?: string;
+            maxPriorityFeePerGas?: string;
+            gasPrice?: string;
+          },
+        )
       : {};
 
   let gasLimit: string;

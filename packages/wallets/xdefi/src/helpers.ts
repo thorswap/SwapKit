@@ -17,14 +17,14 @@ export type XDEFIConfig = {
 };
 
 // TODO: Fix type inference: swapkit-entities, bitcoinjs-lib, ecpair
-export const getWalletMethodsForChain = ({
+export const getWalletMethodsForChain = async ({
   chain,
   ethplorerApiKey,
   covalentApiKey,
   utxoApiKey,
   rpcUrl,
   api,
-}: { rpcUrl?: string; api?: any; chain: Chain } & XDEFIConfig): any => {
+}: { rpcUrl?: string; api?: any; chain: Chain } & XDEFIConfig): Promise<any> => {
   switch (chain) {
     case Chain.THORChain: {
       return {
@@ -38,7 +38,7 @@ export const getWalletMethodsForChain = ({
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
     case Chain.Avalanche:
-      return getWeb3WalletMethods({
+      return await getWeb3WalletMethods({
         chain,
         ethplorerApiKey,
         covalentApiKey,
