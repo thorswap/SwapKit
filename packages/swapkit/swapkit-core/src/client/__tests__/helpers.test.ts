@@ -76,10 +76,13 @@ describe('Explorer URLs', () => {
 describe('getEmptyWalletStructure', () => {
   test('returns empty wallet structure', () => {
     expect(getEmptyWalletStructure()).toEqual(
-      Object.values(Chain).reduce((acc, chain) => {
-        acc[chain] = null;
-        return acc;
-      }, {} as Record<Chain, null>),
+      Object.values(Chain).reduce(
+        (acc, chain) => {
+          acc[chain] = null;
+          return acc;
+        },
+        {} as Record<Chain, null>,
+      ),
     );
   });
 });
