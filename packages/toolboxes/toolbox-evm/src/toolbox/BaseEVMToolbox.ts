@@ -7,7 +7,7 @@ import { MaxInt256 } from '@ethersproject/constants';
 import { Contract, PopulatedTransaction } from '@ethersproject/contracts';
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
 import { toUtf8Bytes } from '@ethersproject/strings';
-import { AssetEntity, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-entities';
+import { Amount, AssetAmount, AssetEntity, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-entities';
 import {
   Asset,
   Chain,
@@ -374,17 +374,17 @@ const sendTransaction = async (
   const feeData =
     (isEIP1559 &&
       (!(tx as EIP1559TxParams).maxFeePerGas || !(tx as EIP1559TxParams).maxPriorityFeePerGas)) ||
-    !(tx as LegacyEVMTxParams).gasPrice
+      !(tx as LegacyEVMTxParams).gasPrice
       ? Object.entries(
-          (await estimateGasPrices(provider, isEIP1559Compatible))[feeOptionKey],
-        ).reduce(
-          (acc, [k, v]) => ({ ...acc, [k]: BigNumber.from(v).toHexString() }),
-          {} as {
-            maxFeePerGas?: string;
-            maxPriorityFeePerGas?: string;
-            gasPrice?: string;
-          },
-        )
+        (await estimateGasPrices(provider, isEIP1559Compatible))[feeOptionKey],
+      ).reduce(
+        (acc, [k, v]) => ({ ...acc, [k]: BigNumber.from(v).toHexString() }),
+        {} as {
+          maxFeePerGas?: string;
+          maxPriorityFeePerGas?: string;
+          gasPrice?: string;
+        },
+      )
       : {};
 
   let gasLimit: string;
@@ -520,6 +520,57 @@ export const getFeeForTransaction = async (
   return gasPrices.maxFeePerGas!.add(gasPrices.maxPriorityFeePerGas!).mul(gasLimit);
 };
 
+export const estimateMaxSendableAmount = async (
+  provider: Provider | Web3Provider,
+  {
+    from,
+    recipient,
+    memo = '',
+    feeOptionKey = FeeOption.Fastest,
+    asset,
+    balanceAmount,
+    ...rest
+  }: WalletTxParams & {
+    balanceAmount: Amount;
+    funcName?: string;
+    funcParams?: unknown[];
+  },
+  isEIP1559Compatible: boolean,
+  signer?: Signer,
+) => {
+  if (!asset) throw new Error('Asset must be provided');
+  const assetEntity = new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker);
+  if (
+    asset &&
+    !getSignatureAssetFor(asset.chain).shallowEq(
+      new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker),
+    )
+  ) {
+    return new AssetAmount(assetEntity, balanceAmount);
+  }
+
+  const { gasPrice, maxFeePerGas, maxPriorityFeePerGas } = (
+    await estimateGasPrices(provider, isEIP1559Compatible)
+  )[feeOptionKey];
+
+  const gasLimit = await estimateGasLimit(provider, { from, recipient, memo, signer, ...rest });
+
+  if (!isEIP1559Compatible && !gasPrice) throw new Error('No gas price available');
+  if (isEIP1559Compatible && !maxFeePerGas) throw new Error('No maxFeePerGas available');
+  const fee = BigNumber.from(gasLimit).mul(
+    isEIP1559Compatible ? maxFeePerGas!.add(maxPriorityFeePerGas || 1) : gasPrice!,
+  );
+  const maxSendableAmount = BigNumber.from(balanceAmount.baseAmount.toString()).sub(fee);
+
+  return new AssetAmount(
+    assetEntity,
+    Amount.fromBaseAmount(
+      maxSendableAmount.gt(0) ? maxSendableAmount.toString() : '0',
+      balanceAmount.decimal,
+    ),
+  );
+};
+
 export const BaseEVMToolbox = ({
   provider,
   signer,
@@ -551,29 +602,14 @@ export const BaseEVMToolbox = ({
   sendTransaction: (params: EIP1559TxParams, feeOption: FeeOption) =>
     sendTransaction(provider, params, feeOption, signer, isEIP1559Compatible),
   /**
-   * Estimate fee for transaction
-   */
+     * Estimate fee for transaction
+     */
   getFeeForTransaction: (txObject: PopulatedTransaction | EIP1559TxParams, feeOption: FeeOption) =>
     getFeeForTransaction(txObject, feeOption, provider, isEIP1559Compatible),
-  calculateMaxSendableAmount: ({
-    from,
-    to,
-    memo = '',
-    feeOptionKey = FeeOption.Fastest,
-    feeRate,
-  }: {
-    from: string;
-    to: string;
-    memo?: string;
-    feeOptionKey?: FeeOption;
-    feeRate: number;
-  }): Promise<BigNumber> =>
-    calculateMaxSendableAmount({
-      from,
-      feeOptionKey,
-      feeRate,
-      memo,
-      to,
-      ...baseToolboxParams,
-    }),
+  estimateMaxSendableAmount: (
+    params: WalletTxParams & {
+      balanceAmount: Amount;
+    },
+  ): Promise<AssetAmount> =>
+    estimateMaxSendableAmount(provider, params, isEIP1559Compatible, signer),
 });
