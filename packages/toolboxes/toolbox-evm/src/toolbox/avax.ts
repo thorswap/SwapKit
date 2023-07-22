@@ -25,7 +25,8 @@ export const getNetworkParams = () => ({
   chainId: ChainId.AvalancheHex,
   chainName: 'Avalanche Network',
   nativeCurrency: { name: 'Avalanche', symbol: Chain.Avalanche, decimals: BaseDecimal.AVAX },
-  rpcUrls: [RPCUrl.Avalanche],
+  // Use external rpc URL so wallets don't throw warning to user
+  rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
   blockExplorerUrls: [ChainToExplorerUrl[Chain.Avalanche]],
 });
 
