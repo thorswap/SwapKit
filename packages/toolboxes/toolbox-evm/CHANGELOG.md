@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.143
+
+### Patch Changes
+
+- [#214](https://github.com/thorswap/SwapKit/pull/214) [`1841933`](https://github.com/thorswap/SwapKit/commit/1841933d0993429180673122e8a079fa39036fe3) Thanks [@towanTG](https://github.com/towanTG)! - Fixes the network switch for metamask like wallets
+
 ## 1.0.0-development.142
 
 ### Patch Changes
