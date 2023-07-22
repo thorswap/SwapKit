@@ -28,11 +28,20 @@ type ProviderRequestParams = {
 
 const methodsToWrap = [
   'approve',
+  'approvedAmount',
   'call',
   'sendTransaction',
   'transfer',
   'getBalance',
   'isApproved',
+  'approvedAmount',
+  'EIP1193SendTransaction',
+  'getFeeData',
+  'broadcastTransaction',
+  'estimateCall',
+  'estimateGasLimit',
+  'estimateGasPrices',
+  'createContractTxObject',
 ];
 
 export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[]) => any }>({
@@ -63,9 +72,11 @@ export const wrapMethodWithNetworkSwitch = <T extends (...args: any[]) => any>(
   chainId: ChainId,
 ) =>
   (async (...args: any[]) => {
-    await switchEVMWalletNetwork(provider, chainId).catch(
-      (error) => new Error(`Failed to switch network: ${error.message}`),
-    );
+    try {
+      await switchEVMWalletNetwork(provider, chainId)
+    } catch (error) {
+      throw new Error(`Failed to switch network: ${error}`)
+    }
     return func(...args);
   }) as unknown as T;
 
@@ -82,7 +93,7 @@ export const addEVMWalletNetwork = (provider: ExternalProvider, networkParams: N
 export const switchEVMWalletNetwork = (provider: ExternalProvider, chainId = ChainId.EthereumHex) =>
   providerRequest({ provider, method: 'wallet_switchEthereumChain', params: [{ chainId }] });
 
-export const getWeb3WalletMethods = ({
+export const getWeb3WalletMethods = async ({
   ethereumWindowProvider,
   chain,
   covalentApiKey,
@@ -115,9 +126,16 @@ export const getWeb3WalletMethods = ({
     chain === Chain.Ethereum
       ? ETHToolbox(toolboxParams)
       : chain === Chain.Avalanche
-      ? AVAXToolbox(toolboxParams)
-      : BSCToolbox(toolboxParams);
+        ? AVAXToolbox(toolboxParams)
+        : BSCToolbox(toolboxParams);
 
+  try {
+    chain !== Chain.Ethereum &&
+      await addEVMWalletNetwork(ethereumWindowProvider,
+        (toolbox as ReturnType<typeof AVAXToolbox> | ReturnType<typeof BSCToolbox>).getNetworkParams());
+  } catch (error) {
+    throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
+  }
   return prepareNetworkSwitch<typeof toolbox>({
     toolbox: { ...toolbox },
     chainId: ChainToHexChainId[chain],

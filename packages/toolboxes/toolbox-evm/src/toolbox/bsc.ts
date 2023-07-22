@@ -26,7 +26,7 @@ export const getNetworkParams = () => ({
   chainId: ChainId.BinanceSmartChainHex,
   chainName: 'Smart Chain',
   nativeCurrency: { name: 'Binance Coin', symbol: Chain.Binance, decimals: BaseDecimal.BSC },
-  rpcUrls: [RPCUrl.BinanceSmartChain],
+  rpcUrls: ['https://bsc-dataseed.binance.org'],
   blockExplorerUrls: [ChainToExplorerUrl[Chain.BinanceSmartChain]],
 });
 
