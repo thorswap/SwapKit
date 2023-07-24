@@ -1,5 +1,11 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.12
+
+### Minor Changes
+
+- [#217](https://github.com/thorswap/SwapKit/pull/217) [`d96b553`](https://github.com/thorswap/SwapKit/commit/d96b55364917373339235311089126688cc80bb4) Thanks [@0x-General](https://github.com/0x-General)! - Change Walletconnect icon URL
+
 ## 2.0.0-development.11
 
 ### Patch Changes
