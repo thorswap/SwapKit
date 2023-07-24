@@ -185,7 +185,35 @@ export type CachedPricesResponse = {
   };
 };
 
-export type ApiParams = QuoteParams | TxnParams | CachedPricesParams;
+export type TokenlistProvidersResponse = {
+  provider: string;
+  nbTokens: number;
+}[];
+
+type Token = {
+  address: string;
+  chain: string;
+  ticker: string;
+  identifier: string;
+  decimals: number;
+  tokenlist: string;
+  logoURI: string;
+  chainId: string;
+};
+
+export type TokensParams = {
+  tokenlist: string;
+};
+
+export type TokensResponse = {
+  name: string;
+  timestamp: string;
+  version: { major: number; minor: number; patch: number };
+  keywords: string[];
+  tokens: Token[];
+};
+
+export type ApiParams = QuoteParams | TxnParams | CachedPricesParams | TokensParams;
 
 type Calldata = {
   amount: string;

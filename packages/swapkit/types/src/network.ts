@@ -157,7 +157,8 @@ export enum RPCUrl {
 }
 
 export enum ApiUrl {
-  Thorswap = 'https://api.thorswap.finance',
+  ThorswapApi = 'https://api.thorswap.finance',
+  ThorswapStatic = 'https://static.thorswap.net',
 }
 
 const chains = Object.values(Chain) as Chain[];

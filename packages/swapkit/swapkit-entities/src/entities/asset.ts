@@ -133,7 +133,7 @@ type Signature = Chain | 'USD' | 'ETH_THOR' | 'THOR';
 
 // @ts-expect-error initialized in getSignatureAssetFor
 const cachedSignatureAssets: Record<Signature, AssetEntity> = {};
-export const getSignatureAssetFor = (signature: Signature) => {
+export const getSignatureAssetFor = (signature: Signature, synth: boolean = false) => {
   if (cachedSignatureAssets[signature]) return cachedSignatureAssets[signature];
 
   switch (signature) {
@@ -144,7 +144,7 @@ export const getSignatureAssetFor = (signature: Signature) => {
     case Chain.Dogecoin:
     case Chain.Ethereum:
     case Chain.Litecoin: {
-      const asset = new AssetEntity(signature, signature);
+      const asset = new AssetEntity(signature, signature, synth);
 
       cachedSignatureAssets[signature] = asset;
       return asset;
@@ -152,7 +152,7 @@ export const getSignatureAssetFor = (signature: Signature) => {
 
     case Chain.Optimism:
     case Chain.Arbitrum: {
-      const asset = new AssetEntity(signature, Chain.Ethereum);
+      const asset = new AssetEntity(signature, Chain.Ethereum, synth);
       asset.setDecimal(18);
 
       cachedSignatureAssets[signature] = asset;
@@ -160,7 +160,7 @@ export const getSignatureAssetFor = (signature: Signature) => {
     }
 
     case Chain.BinanceSmartChain: {
-      const bscAsset = new AssetEntity(signature, Chain.Binance);
+      const bscAsset = new AssetEntity(signature, Chain.Binance, synth);
       bscAsset.setDecimal(18);
 
       cachedSignatureAssets[signature] = bscAsset;
@@ -168,7 +168,7 @@ export const getSignatureAssetFor = (signature: Signature) => {
     }
 
     case Chain.Polygon: {
-      const asset = new AssetEntity(signature, signature);
+      const asset = new AssetEntity(signature, signature, synth);
       asset.setDecimal(18);
 
       cachedSignatureAssets[signature] = asset;
@@ -176,28 +176,28 @@ export const getSignatureAssetFor = (signature: Signature) => {
     }
 
     case Chain.Cosmos: {
-      const asset = new AssetEntity(signature, AssetSymbol.ATOM, false, AssetSymbol.ATOM);
+      const asset = new AssetEntity(signature, AssetSymbol.ATOM, synth, AssetSymbol.ATOM);
 
       cachedSignatureAssets[signature] = asset;
       return asset;
     }
 
     case Chain.THORChain: {
-      const asset = new AssetEntity(Chain.THORChain, AssetSymbol.RUNE, false, AssetSymbol.RUNE);
+      const asset = new AssetEntity(Chain.THORChain, AssetSymbol.RUNE, synth, AssetSymbol.RUNE);
 
       cachedSignatureAssets[signature] = asset;
       return asset;
     }
 
     case 'USD': {
-      const asset = new AssetEntity(Chain.THORChain, 'USD-USD', false, 'USD-USD');
+      const asset = new AssetEntity(Chain.THORChain, 'USD-USD', synth, 'USD-USD');
 
       cachedSignatureAssets[signature] = asset;
       return asset;
     }
 
     case 'ETH_THOR': {
-      const thorAsset = new AssetEntity(Chain.Ethereum, THOR_MAINNET_SYMBOL);
+      const thorAsset = new AssetEntity(Chain.Ethereum, THOR_MAINNET_SYMBOL, synth);
       thorAsset.setDecimal(18);
 
       cachedSignatureAssets[signature] = thorAsset;
@@ -205,7 +205,7 @@ export const getSignatureAssetFor = (signature: Signature) => {
     }
 
     default: {
-      return new AssetEntity(Chain.THORChain, AssetSymbol.RUNE, false, AssetSymbol.RUNE);
+      return new AssetEntity(Chain.THORChain, AssetSymbol.RUNE, synth, AssetSymbol.RUNE);
     }
   }
 };
