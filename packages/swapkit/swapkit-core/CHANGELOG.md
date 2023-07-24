@@ -1,5 +1,13 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.190
+
+### Patch Changes
+
+- Updated dependencies [[`d90daf3`](https://github.com/thorswap/SwapKit/commit/d90daf31355ee9fa350867af5197e513891e3cd2)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.105
+  - @thorswap-lib/helpers@0.0.0-development.97
+
 ## 1.0.0-development.189
 
 ### Patch Changes

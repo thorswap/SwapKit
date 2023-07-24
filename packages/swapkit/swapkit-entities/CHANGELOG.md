@@ -1,5 +1,11 @@
 []
 
+## 1.0.0-development.105
+
+### Patch Changes
+
+- [`d90daf3`](https://github.com/thorswap/SwapKit/commit/d90daf31355ee9fa350867af5197e513891e3cd2) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Add Tokenlist & Providers endpoints
+
 ## 1.0.0-development.104
 
 ### Patch Changes
