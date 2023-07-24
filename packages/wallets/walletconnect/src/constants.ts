@@ -16,7 +16,7 @@ export const DEFAULT_APP_METADATA: ClientMetadata = {
   name: 'THORSwap',
   description: 'THORSwap multi-chain dex aggregator powered by THORChain',
   url: 'https://app.thorswap.finance/',
-  icons: ['https://thorswap.finance/assets/img/header_logo.png'],
+  icons: ['https://static.thorswap.finance/logo.png'],
 };
 
 /**
