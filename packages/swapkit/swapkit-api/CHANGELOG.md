@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.31
+
+### Patch Changes
+
+- [`d90daf3`](https://github.com/thorswap/SwapKit/commit/d90daf31355ee9fa350867af5197e513891e3cd2) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Add Tokenlist & Providers endpoints
+
 ## 0.1.0-development.30
 
 ### Patch Changes
