@@ -12,11 +12,11 @@ const viteConfig = thorswapViteConfig(name, {
       external: [
         '@ethersproject/bignumber',
         '@ethersproject/providers',
+        '@scure/bip39',
         '@thorswap-lib/toolbox-cosmos',
         '@thorswap-lib/toolbox-evm',
         '@thorswap-lib/toolbox-utxo',
         'bitcoinjs-lib',
-        'bip39',
       ],
     },
   },

@@ -3,7 +3,7 @@
 ## Install:
 
 ```bash
-pnpm add @thorswap-lib/toolbox-utxo bip39
+pnpm add @thorswap-lib/toolbox-utxo
 ```
 
 ### API:

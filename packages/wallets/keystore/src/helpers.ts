@@ -1,4 +1,5 @@
-import { entropyToMnemonic, generateMnemonic } from 'bip39';
+import { entropyToMnemonic, generateMnemonic } from '@scure/bip39';
+import { wordlist } from '@scure/bip39/wordlists/english';
 import { blake2bFinal, blake2bInit, blake2bUpdate } from 'blakejs';
 import crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
@@ -124,9 +125,9 @@ export const encryptToKeyStore = async (phrase: string, password: string) => {
 export const generatePhrase = (size = 12) => {
   const entropy = size === 12 ? 128 : 256;
   if (_isNode()) {
-    return entropyToMnemonic(crypto.randomBytes(entropy / 8));
+    return entropyToMnemonic(crypto.randomBytes(entropy / 8), wordlist);
   } else {
-    return generateMnemonic(entropy);
+    return generateMnemonic(wordlist, entropy);
   }
 };
 

@@ -1,6 +1,7 @@
+import { mnemonicToSeedSync, validateMnemonic } from '@scure/bip39';
+import { wordlist } from '@scure/bip39/wordlists/english';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { AmountWithBaseDenom, Chain, FeeOption, FeeRates, Fees, UTXO } from '@thorswap-lib/types';
-import * as bip39 from 'bip39';
 import { networks, opcodes, script } from 'bitcoinjs-lib';
 import coininfo from 'coininfo';
 
@@ -117,13 +118,13 @@ export const standardFeeRates = (rate: number) => ({
   [FeeOption.Fastest]: rate * 2.0,
 });
 
-export const validatePhrase = (phrase: string) => bip39.validateMnemonic(phrase);
+export const validatePhrase = (phrase: string) => validateMnemonic(phrase, wordlist);
 export const getSeed = (phrase: string) => {
   if (!validatePhrase(phrase)) {
     throw new Error('Invalid BIP39 phrase');
   }
 
-  return bip39.mnemonicToSeedSync(phrase);
+  return mnemonicToSeedSync(phrase);
 };
 
 let last = 0;

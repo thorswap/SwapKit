@@ -1,19 +1,19 @@
 import { normalizeBech32 } from '@cosmjs/encoding';
 import { cosmosclient, proto, rest } from '@cosmos-client/core';
 import { HDKey } from '@scure/bip32';
-import * as bip39 from '@scure/bip39';
+import { mnemonicToSeedSync, validateMnemonic } from '@scure/bip39';
+import { wordlist } from '@scure/bip39/wordlists/english';
 import { ChainId } from '@thorswap-lib/types';
 import Long from 'long';
 
 import { CosmosSDKClientParams, TransferParams } from './types.js';
-import { wordlist } from '@scure/bip39/wordlists/english';
 
 const getSeed = (phrase: string) => {
-  if (!bip39.validateMnemonic(phrase, wordlist)) {
+  if (!validateMnemonic(phrase, wordlist)) {
     throw new Error('Invalid BIP39 phrase');
   }
 
-  return bip39.mnemonicToSeedSync(phrase);
+  return mnemonicToSeedSync(phrase);
 };
 
 const DEFAULT_FEE_MAINNET = new proto.cosmos.tx.v1beta1.Fee({
