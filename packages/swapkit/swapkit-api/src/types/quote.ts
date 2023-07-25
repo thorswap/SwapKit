@@ -84,6 +84,19 @@ export enum TxStatus {
   RETRIES_EXCEEDED = 'retries_exceeded',
 }
 
+export enum StreamingSwapProgressStatus {
+  NOT_STARTED = 0,
+  SUCCESS = 1,
+  REFUNDED = 2,
+}
+
+export type StreamingSwapDetails = {
+  completed: number | null;
+  total: number | null;
+  refunded: number | null;
+  progress: StreamingSwapProgressStatus[] | null;
+}
+
 export type TxTrackerLeg = {
   hash?: string;
   chain: Chain;
@@ -106,6 +119,7 @@ export type TxTrackerLeg = {
   status?: TxStatus;
   waitingFor?: string;
   opaque?: any;
+  streamingSwapDetails?: StreamingSwapDetails;
 };
 
 export type TxTrackerDetails = {
@@ -116,6 +130,7 @@ export type TxTrackerDetails = {
   status?: TxStatus;
   startTimestamp?: number | null;
   estimatedDuration?: number | null;
+  isStreamingSwap?: boolean;
 };
 
 export type QuoteParams = {
