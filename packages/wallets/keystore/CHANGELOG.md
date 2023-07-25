@@ -1,5 +1,15 @@
 # @thorswap-lib/keystore
 
+## 1.0.0-development.198
+
+### Patch Changes
+
+- [`5bf547f`](https://github.com/thorswap/SwapKit/commit/5bf547fcb4722695220421f4eecdd4e71ed0ae41) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix seed conversion for keystore
+
+- Updated dependencies [[`5bf547f`](https://github.com/thorswap/SwapKit/commit/5bf547fcb4722695220421f4eecdd4e71ed0ae41)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.134
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.125
+
 ## 1.0.0-development.197
 
 ### Patch Changes

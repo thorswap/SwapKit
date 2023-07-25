@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 1.0.0-development.134
+
+### Patch Changes
+
+- [`5bf547f`](https://github.com/thorswap/SwapKit/commit/5bf547fcb4722695220421f4eecdd4e71ed0ae41) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix seed conversion for keystore
+
 ## 1.0.0-development.133
 
 ### Patch Changes
