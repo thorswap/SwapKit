@@ -27,6 +27,13 @@ export const ApiEndpoints = {
   TokenList: `${ApiUrl.ThorswapStatic}/tokenlist`,
 };
 
+const postWrapper = <T>(url: string, params: ApiParams | string, config?: RequestConfig) =>
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...(config?.headers || {}) },
+    body: typeof params === 'string' ? params : paramsToString(params),
+  }).then((res) => res.json() as Promise<T>);
+
 export const fetchWrapper = <T>(url: string, params?: ApiParams, config?: RequestConfig) =>
   fetch(`${url}${params ? `?${paramsToString(params)}` : ''}`)
     .then((res) => res.json() as Promise<T>)
@@ -35,22 +42,7 @@ export const fetchWrapper = <T>(url: string, params?: ApiParams, config?: Reques
       config?.onError?.(error);
       return Promise.reject(error);
     });
-export const postWrapper = <T>(url: string, params: ApiParams | string, config?: RequestConfig) =>
-  fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...(config?.headers || {}) },
-    body: typeof params === 'string' ? params : paramsToString(params),
-  })
-    .then((res) => res.json() as Promise<T>)
-    .catch((error) => {
-      console.error(error);
-      config?.onError?.(error);
-      return Promise.reject(error);
-    });
 
-/**
- * Advanced Endpoints
- */
 export const getCachedPrices = ({ tokens, ...options }: CachedPricesParams) => {
   const body = new URLSearchParams();
   tokens

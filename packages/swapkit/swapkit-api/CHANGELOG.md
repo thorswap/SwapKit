@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.32
+
+### Patch Changes
+
+- Bump api
+
 ## 0.1.0-development.31
 
 ### Patch Changes
