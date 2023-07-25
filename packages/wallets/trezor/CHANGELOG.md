@@ -1,5 +1,11 @@
 # @thorswap-lib/trezor
 
+## 1.0.0-development.46
+
+### Patch Changes
+
+- [#221](https://github.com/thorswap/SwapKit/pull/221) [`1e86beb`](https://github.com/thorswap/SwapKit/commit/1e86bebdb3ad375fd7c045c87fbe96c9caf3f081) Thanks [@towanTG](https://github.com/towanTG)! - Bumps ethersproject providers version
+
 ## 1.0.0-development.45
 
 ### Patch Changes
