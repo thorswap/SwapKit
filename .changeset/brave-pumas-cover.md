@@ -1,5 +1,5 @@
 ---
-'@thorswap-lib/types': major
+'@thorswap-lib/swapkit-api': patch
 ---
 
 Streaming swap tracker types
