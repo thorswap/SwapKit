@@ -1,5 +1,11 @@
 []
 
+## 1.0.0-development.106
+
+### Patch Changes
+
+- [`587c662`](https://github.com/thorswap/SwapKit/commit/587c662ab2da70140a93a2346c4a28eae24c5141) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Add vthor asset
+
 ## 1.0.0-development.105
 
 ### Patch Changes
