@@ -1,5 +1,28 @@
 # @thorswap-lib/swapkit-sdk
 
+## 0.1.0-development.51
+
+### Patch Changes
+
+- Updated dependencies [[`5646d66`](https://github.com/thorswap/SwapKit/commit/5646d66224cd669054de2f936d7807e332ee179d)]:
+  - @thorswap-lib/swapkit-api@0.1.0-development.33
+  - @thorswap-lib/swapkit-core@1.0.0-development.191
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.133
+  - @thorswap-lib/keplr@1.0.0-development.28
+  - @thorswap-lib/keystore@1.0.0-development.197
+  - @thorswap-lib/ledger@1.0.0-development.215
+  - @thorswap-lib/walletconnect@2.0.0-development.16
+  - @thorswap-lib/xdefi@1.0.0-development.35
+
+## 0.1.0-development.50
+
+### Patch Changes
+
+- [#221](https://github.com/thorswap/SwapKit/pull/221) [`1e86beb`](https://github.com/thorswap/SwapKit/commit/1e86bebdb3ad375fd7c045c87fbe96c9caf3f081) Thanks [@towanTG](https://github.com/towanTG)! - Adds walletconnect wallet integration to sdk
+
+- Updated dependencies [[`1e86beb`](https://github.com/thorswap/SwapKit/commit/1e86bebdb3ad375fd7c045c87fbe96c9caf3f081)]:
+  - @thorswap-lib/trezor@1.0.0-development.46
+
 ## 0.1.0-development.49
 
 ### Patch Changes

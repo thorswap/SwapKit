@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.33
+
+### Patch Changes
+
+- [#222](https://github.com/thorswap/SwapKit/pull/222) [`5646d66`](https://github.com/thorswap/SwapKit/commit/5646d66224cd669054de2f936d7807e332ee179d) Thanks [@0xepicode](https://github.com/0xepicode)! - Streaming swap tracker types
+
 ## 0.1.0-development.32
 
 ### Patch Changes
