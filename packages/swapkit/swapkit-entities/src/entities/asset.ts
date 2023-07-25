@@ -127,9 +127,10 @@ export class AssetEntity {
   }
 }
 
-const THOR_MAINNET_SYMBOL = 'THOR-0XA5F2211B9B8170F694421F2046281775E8468044';
+const THOR_MAINNET_SYMBOL = 'THOR-0xa5f2211B9b8170F694421f2046281775E8468044';
+const VTHOR_MAINNET_SYMBOL = 'VTHOR-0x815C23eCA83261b6Ec689b60Cc4a58b54BC24D8D';
 
-type Signature = Chain | 'USD' | 'ETH_THOR' | 'THOR';
+type Signature = Chain | 'USD' | 'ETH_THOR' | 'ETH_VTHOR';
 
 // @ts-expect-error initialized in getSignatureAssetFor
 const cachedSignatureAssets: Record<Signature, AssetEntity> = {};
@@ -202,6 +203,14 @@ export const getSignatureAssetFor = (signature: Signature, synth: boolean = fals
 
       cachedSignatureAssets[signature] = thorAsset;
       return thorAsset;
+    }
+
+    case 'ETH_VTHOR': {
+      const vthorAsset = new AssetEntity(Chain.Ethereum, VTHOR_MAINNET_SYMBOL, synth);
+      vthorAsset.setDecimal(18);
+
+      cachedSignatureAssets[signature] = vthorAsset;
+      return vthorAsset;
     }
 
     default: {
