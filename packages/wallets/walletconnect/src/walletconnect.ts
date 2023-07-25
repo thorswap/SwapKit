@@ -263,9 +263,7 @@ const getWalletconnect = async (
     // Open QRCode modal if a URI was returned (i.e. we're not connecting an existing pairing).
     if (uri) {
       // @ts-ignore
-      QRCodeModal.open(uri, () => {
-        console.log('EVENT', 'QR Code Modal closed');
-      });
+      QRCodeModal.open(uri, () => {});
     }
 
     const session = await approval();

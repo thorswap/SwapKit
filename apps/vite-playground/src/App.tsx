@@ -60,10 +60,6 @@ const App = () => {
       <h3>
         SwapKit Playground
         <div>
-          Paste api keys, it will unlock UI and create SwapKit Client
-          <div>
-            {`If you don't want to use one of apis type in "freekey": ethplorer -> ETH, covalent -> AVAX, BSC, utxo/blockchair -> BTC, LTC, DOGE, BCH`}
-          </div>
           {apiKeys.map((key) => (
             <input
               key={key}

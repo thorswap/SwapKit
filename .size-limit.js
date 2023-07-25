@@ -1,7 +1,7 @@
 const sizeMap = {
   xs: '10 KB',
   s: '100 KB',
-  m: '500 KB',
+  m: '250 KB',
   l: '1 MB',
   xl: '2 MB',
   xxl: '5 MB',
@@ -37,14 +37,14 @@ module.exports = [
   ...getSizeFor('swapkit/types', 'xs'),
 
   ...getSizeFor('toolboxes/toolbox-cosmos', 'xl'),
-  ...getSizeFor('toolboxes/toolbox-evm', 'l'),
+  ...getSizeFor('toolboxes/toolbox-evm', 'm'),
   ...getSizeFor('toolboxes/toolbox-utxo', 'm'),
 
   ...getSizeFor('wallets/evm-web3-wallets', 'xs'),
   ...getSizeFor('wallets/keplr', 'xs'),
-  ...getSizeFor('wallets/keystore', 's'),
+  ...getSizeFor('wallets/keystore', 'm'),
   ...getSizeFor('wallets/ledger', 'xl'),
-  ...getSizeFor('wallets/trezor', 'xl'),
+  ...getSizeFor('wallets/trezor', 'l'),
   ...getSizeFor('wallets/walletconnect', 'm'),
   ...getSizeFor('wallets/xdefi', 'xs'),
 ];

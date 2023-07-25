@@ -15,7 +15,6 @@
     "@thorswap-lib/types": "workspace:*",
     "@thorswap-lib/walletconnect": "workspace:*",
     "@thorswap-lib/xdefi": "workspace:*",
-    "bip39": "3.1.0",
     "cosmos-client": "0.39.2"
   },
   "description": "THORSwap Lib swapkit-sdk",

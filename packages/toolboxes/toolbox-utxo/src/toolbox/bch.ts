@@ -196,7 +196,7 @@ const createKeysForPath = ({
 }): KeyPairType => {
   if (!phrase) throw new Error('No phrase provided');
 
-  const masterHDNode = HDNode.fromSeedBuffer(getSeed(phrase), getNetwork(chain));
+  const masterHDNode = HDNode.fromSeedBuffer(Buffer.from(getSeed(phrase)), getNetwork(chain));
   return masterHDNode.derivePath(derivationPath).keyPair;
 };
 

@@ -31,7 +31,6 @@ const createKeysForPath = ({
   const network = getNetwork(chain);
 
   if (wif) {
-    //@ts-ignore
     return ECPairFactory(tinySecp).fromWIF(wif, network);
   } else if (phrase) {
     const seed = getSeed(phrase);
@@ -40,8 +39,7 @@ const createKeysForPath = ({
     if (!master.privateKey) {
       throw new Error('Could not get private key from phrase');
     }
-    //@ts-ignore
-    return ECPairFactory(tinySecp).fromPrivateKey(master.privateKey, { network });
+    return ECPairFactory(tinySecp).fromPrivateKey(Buffer.from(master.privateKey), { network });
   } else {
     throw new Error('Either phrase or wif must be provided');
   }

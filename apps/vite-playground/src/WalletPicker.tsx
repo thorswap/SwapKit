@@ -14,14 +14,18 @@ type Props = {
 const walletOptions = Object.values(WalletOption).filter((o) => ![WalletOption.KEPLR].includes(o));
 
 const AllChainsSupported = [
+  Chain.Arbitrum,
   Chain.Avalanche,
   Chain.Binance,
+  Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
   Chain.Cosmos,
   Chain.Dogecoin,
   Chain.Ethereum,
   Chain.Litecoin,
+  Chain.Optimism,
+  Chain.Polygon,
   Chain.THORChain,
 ] as Chain[];
 
@@ -108,6 +112,7 @@ export const WalletPicker = ({ skClient, setWallet }: Props) => {
           setWallet(walletDataArray.filter(Boolean));
           setLoading(false);
         } catch (e) {
+          console.error(e);
           alert(e);
         }
       }, 500);
@@ -164,7 +169,7 @@ export const WalletPicker = ({ skClient, setWallet }: Props) => {
               <label className="label">
                 <input
                   accept=".txt"
-                  disabled={!chains.length || isWalletDisabled(option)}
+                  disabled={!chains.length}
                   id="keystoreFile"
                   name={option}
                   onChange={handleKeystoreConnection}
