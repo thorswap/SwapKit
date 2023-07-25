@@ -45,7 +45,7 @@
   "peerDependencies": {
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/bignumber": "5.7.0",
-    "@ethersproject/providers": "5.7.0",
+    "@ethersproject/providers": "^5.7.0",
     "@ethersproject/transactions": "5.7.0",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
