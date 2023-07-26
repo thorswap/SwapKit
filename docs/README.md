@@ -16,8 +16,8 @@ THORSwap offers two distinct product paths, one being a user-friendly DEX aggreg
 
 Implement our JS/TS SDK in any frontend, or backend, and build your UI/UX around cross-chain swapping.
 
-{% content-ref url="swapkit-sdk/install-swapkit-sdk.md" %}
-[install-swapkit-sdk.md](swapkit-sdk/install-swapkit-sdk.md)
+{% content-ref url="integrate-swapkit-sdk/install-swapkit-sdk.md" %}
+[install-swapkit-sdk.md](integrate-swapkit-sdk/install-swapkit-sdk.md)
 {% endcontent-ref %}
 
 ### 2. API (REST)
