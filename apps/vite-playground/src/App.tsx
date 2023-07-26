@@ -8,6 +8,7 @@ import { getSwapKitClient } from './swapKitClient';
 import { WalletDataType } from './types';
 import { Wallet } from './Wallet';
 import { WalletPicker } from './WalletPicker';
+import TNS from './TNS';
 
 const apiKeys = ['walletConnectProjectId'] as const;
 
@@ -50,6 +51,7 @@ const App = () => {
       swap: <Swap inputAsset={inputAsset} outputAsset={outputAsset} skClient={skClient} />,
       loan: <Loan inputAsset={inputAsset} outputAsset={outputAsset} skClient={skClient} />,
       send: <Send inputAsset={inputAsset} skClient={skClient} />,
+      tns: <TNS skClient={skClient} />,
       earn: <div>Earn</div>,
     }),
     [inputAsset, outputAsset, skClient],
@@ -88,7 +90,6 @@ const App = () => {
               <select
                 onChange={(e) => setWidgetType(e.target.value as 'loan')}
                 style={{ marginBottom: 10 }}
-                value={widgetType}
               >
                 {Object.keys(Widgets).map((widget) => (
                   <option key={widget} value={widget}>

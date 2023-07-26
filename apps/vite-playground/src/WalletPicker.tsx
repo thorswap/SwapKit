@@ -151,7 +151,7 @@ export const WalletPicker = ({ skClient, setWallet }: Props) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       <div style={{ flexDirection: 'column' }}>
-        <select multiple style={{ width: 200, height: 200 }} value={chains}>
+        <select multiple style={{ width: 200, height: 200 }} value={chains} onChange={() => {}}>
           {Object.values(Chain).map((chain) => (
             <option key={chain} onClick={() => handleChainSelect(chain)} value={chain}>
               {chain}
