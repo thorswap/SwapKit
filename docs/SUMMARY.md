@@ -49,6 +49,8 @@
   * [Token API](reference/api-reference/token-api.md)
   * [Token List API](reference/api-reference/token-list-api.md)
   * [Tracker API](reference/api-reference/tracker-api.md)
+  * [Aggregator API](references/api-reference/aggregator-api.md)
+  * [Resource Worker API](references/api-reference/resource-worker-api.md)
   * [Full API Reference](http://localhost:3000/doc)
 * [SwapKit SDK Methods](reference/swapkit-sdk-methods/README.md)
   * [API SDK](reference/swapkit-sdk-methods/api-sdk.md)
