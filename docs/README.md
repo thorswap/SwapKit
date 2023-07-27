@@ -2,8 +2,6 @@
 description: >-
   SwapKit by THORSwap offers a composable, user-friendly Partner API/SDK on top
   of THORChain's cross-chain liquidity protocol.
-cover: .gitbook/assets/image.png
-coverY: 0
 ---
 
 # 🏡 Getting Started
