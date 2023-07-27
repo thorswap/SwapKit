@@ -20,6 +20,8 @@ export abstract class CommonLedgerInterface {
   public chain: 'thor' | 'bnb' | 'sol' | 'cosmos' | 'eth' = 'thor';
 
   public checkOrCreateTransportAndLedger = async () => {
+    if (this.transport && this.ledgerApp) return;
+
     // @ts-ignore Ledger typing is wrong
     if (!(await Transport.isSupported())) throw new Error('Ledger not supported');
 
