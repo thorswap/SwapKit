@@ -278,13 +278,13 @@ export class SwapKitCore {
             params.amount.amount().toString(),
             params.memo,
             new Date().setMinutes(new Date().getMinutes() + 10),
-            {
-              from: params.from,
-              value: getBigNumberFrom(
-                isGasAsset(assetAmount.asset) ? params.amount.amount().toString() : 0,
-              ).toHexString(),
-            },
           ],
+          txOverrides: {
+            from: params.from,
+            value: getBigNumberFrom(
+              isGasAsset(assetAmount.asset) ? params.amount.amount().toString() : 0,
+            ).toHexString(),
+          },
         }) as Promise<string>;
       }
       default:
