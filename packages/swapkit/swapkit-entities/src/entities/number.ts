@@ -1,6 +1,6 @@
 import { BigNumber, BigNumberish, parseFixed } from '@ethersproject/bignumber';
 import { isBytesLike } from '@ethersproject/bytes';
-import { formatUnits } from '@ethersproject/units';
+import { formatUnits } from '@ethersproject/utils';
 import { Denomination } from '@thorswap-lib/types';
 
 export type Numberish = BigNumberish | SwapkitNumber;
@@ -10,6 +10,7 @@ export type Numberish = BigNumberish | SwapkitNumber;
  * value and the number of decimals.
  * It allows calculations of asset and base denominated numbers without parsing.
  */
+
 export class SwapkitNumber {
   value: string;
   decimals: number;
@@ -73,7 +74,7 @@ export class SwapkitNumber {
   }
 
   toBaseNumber() {
-    return BigNumber.from(this.value).toNumber();
+    return parseFixed(this.value, this.decimals).toNumber();
   }
 
   add(value: Numberish | undefined, decimals?: number, denomination?: Denomination) {
