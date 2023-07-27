@@ -31,6 +31,7 @@ export type IsApprovedParams = ApprovedParams & {
 
 export type CallParams = {
   callProvider?: ReturnType<typeof getProvider>
+  from?: string;
   contractAddress: string;
   abi: ContractInterface;
   funcName: string;

@@ -1,5 +1,17 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.147
+
+### Patch Changes
+
+- Add from to `call`
+
+## 1.0.0-development.146
+
+### Patch Changes
+
+- [`81754e1`](https://github.com/thorswap/SwapKit/commit/81754e162739d64585a5fc5739dbb8e228ae8555) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Add call provider param
+
 ## 1.0.0-development.145
 
 ### Patch Changes

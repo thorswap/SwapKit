@@ -19,6 +19,8 @@ export abstract class EthereumLikeLedgerInterface extends Signer {
   public ledgerTimeout: number = 50000;
 
   checkOrCreateTransportAndLedger = async () => {
+    if (this.ledgerApp) return;
+
     // @ts-ignore Ledger typing is wrong
     if (!(await Transport.isSupported())) throw new Error('Ledger not supported');
 

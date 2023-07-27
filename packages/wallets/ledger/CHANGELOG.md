@@ -1,5 +1,25 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.219
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.147
+
+## 1.0.0-development.218
+
+### Patch Changes
+
+- Create and check transport only once
+
+## 1.0.0-development.217
+
+### Patch Changes
+
+- Updated dependencies [[`81754e1`](https://github.com/thorswap/SwapKit/commit/81754e162739d64585a5fc5739dbb8e228ae8555)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.146
+
 ## 1.0.0-development.216
 
 ### Patch Changes
