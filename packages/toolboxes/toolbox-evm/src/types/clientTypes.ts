@@ -1,6 +1,7 @@
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { ContractInterface } from '@ethersproject/contracts';
 import { FeeOption, WalletTxParams } from '@thorswap-lib/types';
+import { getProvider } from '../provider.js';
 
 export enum EthNetwork {
   Test = 'goerli',
@@ -29,6 +30,7 @@ export type IsApprovedParams = ApprovedParams & {
 };
 
 export type CallParams = {
+  callProvider?: ReturnType<typeof getProvider>
   contractAddress: string;
   abi: ContractInterface;
   funcName: string;

@@ -74,21 +74,22 @@ type WithSigner<T> = T & { signer?: Signer };
  */
 const call = async <T>(
   provider: Provider,
-  { signer, contractAddress, abi, funcName, funcParams = [] }: WithSigner<CallParams>,
+  { callProvider, signer, contractAddress, abi, funcName, funcParams = [] }: WithSigner<CallParams>,
 ): Promise<T> => {
+  const contractProvider = callProvider || provider;
   if (!contractAddress) throw new Error('contractAddress must be provided');
   if (isWeb3Provider(provider) && signer) {
-    const txObject = await createContractTxObject(provider, {
+    const txObject = await createContractTxObject(contractProvider, {
       contractAddress,
       abi,
       funcName,
       funcParams,
     });
 
-    return EIP1193SendTransaction(provider, txObject) as Promise<T>;
+    return EIP1193SendTransaction(contractProvider, txObject) as Promise<T>;
   }
 
-  const contract = createContract(contractAddress, abi, provider);
+  const contract = createContract(contractAddress, abi, contractProvider);
   const result = await (signer
     ? contract.connect(signer)[funcName](...funcParams.slice(0, -1), {
         ...(funcParams[funcParams.length - 1] as any),
