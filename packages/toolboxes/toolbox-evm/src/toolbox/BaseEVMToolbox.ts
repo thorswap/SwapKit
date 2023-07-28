@@ -98,7 +98,6 @@ const call = async <T>(
   provider: Provider,
   {
     callProvider,
-    from,
     signer,
     contractAddress,
     abi,
@@ -107,7 +106,6 @@ const call = async <T>(
     txOverrides,
   }: WithSigner<CallParams>,
 ): Promise<T> => {
-  // I don't think we need this anymore
   const contractProvider = callProvider || provider;
   if (!contractAddress) throw new Error('contractAddress must be provided');
 
@@ -129,9 +127,11 @@ const call = async <T>(
 
   // only use signer if the contract function is state changing
   if (isStateChanging && signer) {
-    const address = from || (signer && (await signer.getAddress())) || '';
+    const address = txOverrides?.from || await signer.getAddress();
 
-    return await contract.connect(signer)[funcName](...funcParams, {
+    if (!address) throw new Error('No signer address found');
+
+    return contract.connect(signer)[funcName](...funcParams, {
       ...txOverrides,
       /**
        * nonce must be set due to a possible bug with ethers.js,
@@ -140,6 +140,8 @@ const call = async <T>(
       nonce: txOverrides?.nonce || (await contractProvider.getTransactionCount(address)),
     });
   }
+
+  if (isStateChanging && !signer) throw new Error('Signer is not defined');
 
   const result = await contract[funcName](...funcParams, txOverrides);
 
@@ -209,7 +211,7 @@ const approve = async (
   };
 
   if (isWeb3Provider(provider)) {
-    return await EIP1193SendTransaction(
+    return EIP1193SendTransaction(
       provider,
       await createContractTxObject(provider, functionCallParams),
     );
@@ -412,7 +414,7 @@ const sendTransaction = async (
 
   // early return to skip gas estimation if provider is EIP-1193
   if (isWeb3Provider(provider)) {
-    return await EIP1193SendTransaction(provider, parsedTxObject);
+    return EIP1193SendTransaction(provider, parsedTxObject);
   }
 
   const address = from || (await signer.getAddress());
