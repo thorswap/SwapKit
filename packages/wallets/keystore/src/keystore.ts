@@ -144,7 +144,7 @@ const getWalletMethodsForChain = async ({
     case Chain.Cosmos: {
       const toolbox = GaiaToolbox({ server: api });
       const signer = await toolbox.getSigner(phrase);
-      const from = toolbox.getAddressFromMnemonic(phrase);
+      const from = await toolbox.getAddressFromMnemonic(phrase);
 
       const transfer = ({ asset, amount, recipient, memo }: TxParams) =>
         toolbox.transfer({
@@ -163,7 +163,7 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.THORChain: {
-      const walletMethods = thorchainWalletMethods({ phrase, stagenet });
+      const walletMethods = await thorchainWalletMethods({ phrase, stagenet });
 
       return { address: walletMethods.getAddress() as string, walletMethods };
     }

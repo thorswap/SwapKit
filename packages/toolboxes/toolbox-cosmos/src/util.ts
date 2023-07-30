@@ -1,6 +1,6 @@
 import { GasPrice, SigningStargateClient } from '@cosmjs/stargate';
 import { assetToString } from '@thorswap-lib/helpers';
-import { Asset, RPCUrl } from '@thorswap-lib/types';
+import { Asset, ChainId, RPCUrl } from '@thorswap-lib/types';
 
 import { AssetAtom, AssetMuon } from './types.js';
 
@@ -20,3 +20,16 @@ export const createCosmJS = ({ offlineSigner, rpcUrl }: { offlineSigner: any; rp
   SigningStargateClient.connectWithSigner(rpcUrl || RPCUrl.Cosmos, offlineSigner, {
     gasPrice: GasPrice.fromString('0.0003uatom'),
   });
+
+export const getRPC = (chainId: ChainId) => {
+  switch (chainId) {
+    case ChainId.Cosmos:
+      return RPCUrl.Cosmos;
+    case ChainId.Binance:
+      return RPCUrl.Binance;
+    case ChainId.THORChain:
+      return RPCUrl.THORChain;
+    default:
+      return RPCUrl.Cosmos;
+  }
+}

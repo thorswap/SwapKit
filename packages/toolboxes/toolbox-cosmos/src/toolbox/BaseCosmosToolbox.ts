@@ -1,10 +1,11 @@
-import type { proto } from '@cosmos-client/core';
-import { baseAmount } from '@thorswap-lib/helpers';
+import { assetToString, baseAmount } from '@thorswap-lib/helpers';
 import { SwapKitApi } from '@thorswap-lib/swapkit-api';
 import { Asset, ChainId, DerivationPath } from '@thorswap-lib/types';
+import { stringToPath } from '@cosmjs/crypto';
 
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
 import { BaseCosmosToolboxType } from '../thorchainUtils/types/client-types.js';
+import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 
 type Params = {
   sdk: CosmosSDKClient;
@@ -27,16 +28,15 @@ export const BaseCosmosToolbox = ({
 }: Params): BaseCosmosToolboxType => ({
   sdk: cosmosClientSdk.sdk,
   transfer: cosmosClientSdk.transfer,
-  buildSendTxBody: cosmosClientSdk.buildSendTxBody,
-  signAndBroadcast: cosmosClientSdk.signAndBroadcast,
+  getSigner: async (phrase: string) => {
+    return DirectSecp256k1HdWallet.fromMnemonic(phrase, { prefix: cosmosClientSdk.prefix, hdPaths: [stringToPath(`${DerivationPath.THOR}/0`)] });
+  },
   getAccount: cosmosClientSdk.getAccount,
   validateAddress: (address: string) => cosmosClientSdk.checkAddress(address),
-  createKeyPair: (phrase: string): proto.cosmos.crypto.secp256k1.PrivKey =>
-    cosmosClientSdk.getPrivKeyFromMnemonic(phrase, `${derivationPath}/0`),
   getAddressFromMnemonic: (phrase: string) =>
     cosmosClientSdk.getAddressFromMnemonic(phrase, `${derivationPath}/0`),
   getFeeRateFromThorswap,
-  getBalance: async (address: string) => {
+  getBalance: async (address: string, filterAssets?: Asset[]) => {
     const balances = await cosmosClientSdk.getBalance(address);
 
     return balances
@@ -44,6 +44,13 @@ export const BaseCosmosToolbox = ({
       .map(({ denom, amount }) => ({
         asset: getAsset(denom) as Asset,
         amount: baseAmount(amount, decimal),
-      }));
+      }))
+      .filter(
+        ({ asset }) =>
+          !filterAssets ||
+          filterAssets.filter(
+            (filteredAsset) => assetToString(asset) === assetToString(filteredAsset),
+          ).length,
+      );
   },
 });

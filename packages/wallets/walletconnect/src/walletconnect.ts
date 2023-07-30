@@ -133,8 +133,8 @@ const getToolbox = async ({
 
       const transfer = async (params: WalletTxParams) => {
         const account = await toolbox.getAccount(from);
-        if (!account?.account_number) throw new Error('Account not found');
-        const { account_number: accountNumber, sequence = '0' } = account;
+        if (!account) throw new Error('Account not found');
+        const { accountNumber, sequence = '0' } = account;
 
         const sendCoinsMessage = {
           amount: [
@@ -185,8 +185,8 @@ const getToolbox = async ({
       const deposit = async ({ asset, amount, memo }: DepositParam) => {
         const account = await toolbox.getAccount(address);
         if (!asset) throw new Error('invalid asset to deposit');
-        if (!account?.account_number) throw new Error('Account not found');
-        const { account_number: accountNumber, sequence = '0' } = account;
+        if (!account) throw new Error('Account not found');
+        const { accountNumber, sequence = 0 } = account;
 
         const msg = {
           type: 'thorchain/MsgDeposit',

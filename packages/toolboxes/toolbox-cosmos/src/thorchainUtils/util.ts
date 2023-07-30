@@ -3,6 +3,8 @@ import { assetFromString, assetToString, baseAmount, getRequest } from '@thorswa
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import { AmountWithBaseDenom, Asset, Balance, BaseDecimal, Chain, Fees } from '@thorswap-lib/types';
 import { decode } from 'bech32-buffer';
+import { fromByteArray } from 'base64-js';
+import { bech32 } from 'bech32';
 import Long from 'long';
 
 import { AssetRuneNative } from '../types.js';
@@ -18,6 +20,7 @@ const RUNE_ASSET = `${Chain.THORChain}.RUNE`;
 
 const isAssetRuneNative = (asset: Asset) => assetToString(asset) === RUNE_ASSET;
 
+// TODO - Remove with multisig rewrite to @cosmjs
 export const registerDespositCodecs = async (): Promise<void> => {
   cosmosclient.codec.register('/types.MsgDeposit', types.types.MsgDeposit);
 };
@@ -30,6 +33,7 @@ export const getDenomWithChain = ({ symbol }: Asset): string =>
     ? symbol.toLowerCase()
     : `${Chain.THORChain}.${symbol.toUpperCase()}`;
 
+// TODO - Remove with multisig rewrite to @cosmjs
 export const registerSendCodecs = async () => {
   cosmosclient.codec.register('/types.MsgSend', types.types.MsgSend);
 };
@@ -46,6 +50,7 @@ const getChainId = async (nodeUrl: string): Promise<string> => {
   }
 };
 
+// TODO - Remove with multisig rewrite to @cosmjs
 export const buildDepositTx = async ({
   msgNativeTx,
   nodeUrl,
@@ -78,6 +83,7 @@ export const buildDepositTx = async ({
   });
 };
 
+// TODO - Remove with multisig rewrite to @cosmjs
 export const buildTransferTx = async ({
   fromAddress,
   toAddress,
@@ -132,6 +138,7 @@ export const buildTransferTx = async ({
  * @param signers - boolean array of the signers
  * @returns
  */
+// TODO - Remove with multisig rewrite to @cosmjs
 export const buildAuthInfo = ({
   signerPubkey,
   sequence,
@@ -176,6 +183,7 @@ export const buildAuthInfo = ({
   });
 };
 
+// TODO - Remove with multisig rewrite to @cosmjs
 export const buildUnsignedTx = ({
   cosmosSdk,
   txBody,
@@ -240,3 +248,6 @@ export const checkBalances = async (
     }
   }
 };
+
+export const bech32ToBase64 = (address: string) =>
+  fromByteArray(Uint8Array.from(bech32.fromWords(bech32.decode(address).words)));

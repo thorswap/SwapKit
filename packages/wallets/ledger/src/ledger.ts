@@ -294,7 +294,7 @@ const getToolbox = async ({
         const sequence = account.sequence?.toString() || '0';
 
         const minifiedTx = stringifyKeysInOrder({
-          account_number: account.account_number?.toString(),
+          account_number: account.accountNumber.toString(),
           chain_id: ChainId.THORChain,
           fee,
           memo: '',
@@ -323,7 +323,7 @@ const getToolbox = async ({
         if (!account) throw new Error('invalid account');
         if (!asset) throw new Error('invalid asset');
 
-        const { account_number: accountNumber, sequence = '0' } = account;
+        const { accountNumber, sequence = '0' } = account;
 
         const sendCoinsMessage = {
           amount: [{ amount: amount.amount().toString(), denom: asset?.symbol.toLowerCase() }],
