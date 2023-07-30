@@ -1,7 +1,7 @@
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { Account } from '@cosmjs/stargate';
 import { baseAmount } from '@thorswap-lib/helpers';
-import { Balance, BaseDecimal, ChainId, DerivationPath, RPCUrl } from '@thorswap-lib/types';
+import { Balance, BaseDecimal, ChainId, DerivationPath } from '@thorswap-lib/types';
 
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
 import { GaiaToolboxType } from '../index.js';
