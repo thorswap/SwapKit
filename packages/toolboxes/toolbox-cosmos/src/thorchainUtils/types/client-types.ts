@@ -2,7 +2,7 @@ import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { Account as CosmosAccount } from '@cosmjs/stargate';
 import { cosmosclient, proto } from '@cosmos-client/core';
 import { InlineResponse20075TxResponse } from '@cosmos-client/core/openapi';
-import { AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
+import { AssetAmount } from '@thorswap-lib/swapkit-entities';
 import { AmountWithBaseDenom, Asset, Balance, ChainId, Fees, Tx } from '@thorswap-lib/types';
 import { curve } from 'elliptic';
 
@@ -17,6 +17,7 @@ export type NodeUrl = {
 };
 
 export type DepositParam = {
+  signer?: OfflineDirectSigner;
   walletIndex?: number;
   asset?: Asset;
   amount: AmountWithBaseDenom;
@@ -47,16 +48,12 @@ export type NodeInfoResponse = {
 
 export type BaseCosmosToolboxType = {
   sdk: CosmosSDKClient['sdk'];
-  signAndBroadcast: CosmosSDKClient['signAndBroadcast'];
-  getAccount: (
-    address: string | cosmosclient.PubKey | Uint8Array,
-  ) => Promise<proto.cosmos.auth.v1beta1.IBaseAccount>;
+  getAccount: (address: string) => Promise<CosmosAccount | null>;
+  getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
   validateAddress: (address: string) => boolean;
-  createKeyPair: (phrase: string) => proto.cosmos.crypto.secp256k1.PrivKey;
-  getAddressFromMnemonic: (phrase: string) => string;
-  getBalance: (address: string, filterAssets?: AssetEntity[] | undefined) => Promise<Balance[]>;
+  getAddressFromMnemonic: (phrase: string) => Promise<string>;
+  getBalance: (address: string) => Promise<Balance[]>;
   transfer: (params: TransferParams) => Promise<string>;
-  buildSendTxBody?: CosmosSDKClient['buildSendTxBody'];
   getFeeRateFromThorswap?: (chainId: ChainId) => Promise<number | undefined>;
 };
 
@@ -67,9 +64,8 @@ export type CommonCosmosToolboxType = {
 export type ThorchainToolboxType = BaseCosmosToolboxType &
   CommonCosmosToolboxType & {
     deposit: (
-      params: DepositParam & { from: string; privKey: proto.cosmos.crypto.secp256k1.PrivKey },
+      params: DepositParam & { from: string; },
     ) => Promise<string>;
-    getAccAddress: (address: string) => cosmosclient.AccAddress;
     instanceToProto: (value: any) => proto.google.protobuf.Any;
     createMultisig: (
       pubKeys: string[],
@@ -92,23 +88,16 @@ export type ThorchainToolboxType = BaseCosmosToolboxType &
     loadAddressBalances: (address: string) => Promise<AssetAmount[]>;
   };
 
-export type GaiaToolboxType = Omit<
-  BaseCosmosToolboxType,
-  'getAccount' | 'getBalance' | 'createKeyPair' | 'signAndBroadcast'
-> &
-  CommonCosmosToolboxType & {
-    getAccount: (address: string) => Promise<CosmosAccount | null>;
-    getBalance: (address: string, filterAssets?: AssetEntity[] | undefined) => Promise<Balance[]>;
-    getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
-  };
+export type GaiaToolboxType =
+  BaseCosmosToolboxType &
+  CommonCosmosToolboxType;
 
 export type BinanceToolboxType = Omit<
   BaseCosmosToolboxType,
-  'getAccount' | 'createKeyPair' | 'getAddressFromMnemonic'
+  'getAccount'
 > &
   CommonCosmosToolboxType & {
     createKeyPair: (phrase: string) => Promise<Uint8Array>;
-    getAddressFromMnemonic: (phrase: string) => Promise<string>;
     transfer: (params: TransferParams) => Promise<string>;
     getAccount: (address: string) => Promise<Account>;
     sendRawTransaction: (signedBz: string, sync: boolean) => Promise<any>;

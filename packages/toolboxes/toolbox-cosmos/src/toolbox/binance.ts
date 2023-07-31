@@ -1,4 +1,3 @@
-import { Secp256k1HdWallet } from '@cosmjs/amino';
 import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from '@cosmjs/crypto';
 import {
   assetFromString,
@@ -26,6 +25,7 @@ import { BinanceToolboxType } from '../index.js';
 import { TransferParams } from '../types.js';
 
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.js';
+import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 
 type ToolboxParams = {
   stagenet?: boolean;
@@ -161,16 +161,6 @@ const createKeyPair = async (phrase: string) => {
   return privkey;
 };
 
-const getAddressFromMnemonic = async (phrase: string) => {
-  const wallet = await Secp256k1HdWallet.fromMnemonic(phrase, {
-    prefix: 'bnb',
-    hdPaths: [derivationPath],
-  });
-  const [{ address }] = await wallet.getAccounts();
-
-  return address;
-};
-
 export const getPublicKey = (publicKey: string) => {
   const ec = new EC('secp256k1');
   const keyPair = ec.keyFromPublic(publicKey, 'hex');
@@ -186,8 +176,9 @@ export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolbox
 
   const baseToolbox: {
     sdk: CosmosSDKClient['sdk'];
-    signAndBroadcast: CosmosSDKClient['signAndBroadcast'];
     validateAddress: (address: string) => boolean;
+    getAddressFromMnemonic: (phrase: string) => Promise<string>;
+    getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
   } = BaseCosmosToolbox({
     sdk,
     derivationPath: DerivationPath.BNB,
@@ -204,7 +195,6 @@ export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolbox
     sendRawTransaction,
     createTransactionAndSignMsg,
     createKeyPair,
-    getAddressFromMnemonic,
     getPublicKey,
   };
 };

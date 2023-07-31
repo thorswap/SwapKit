@@ -1,18 +1,12 @@
-import { getTcChainId, getTcNodeUrl } from '@thorswap-lib/helpers';
 import {
   AssetRuneNative,
-  buildTransferTx,
-  buildUnsignedTx,
-  checkBalances,
-  DEFAULT_GAS_VALUE,
   DepositParam,
-  getThorchainDenom,
+  getDenom,
   ThorchainToolbox,
   ThorchainToolboxType,
 } from '@thorswap-lib/toolbox-cosmos';
 import { BCHToolbox, UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
 import { WalletTxParams, Witness } from '@thorswap-lib/types';
-import Long from 'long';
 
 type WalletMethodParams<T = {}> = T & { phrase: string };
 type UTXOWalletMethodParams = WalletMethodParams<{
@@ -63,44 +57,26 @@ export const bitcoincashWalletMethods = ({
   };
 };
 
-export const thorchainWalletMethods = ({
+export const thorchainWalletMethods = async ({
   phrase,
   stagenet,
-}: WalletMethodParams<{ stagenet?: boolean }>): ThorchainWallet => {
+}: WalletMethodParams<{ stagenet?: boolean }>): Promise<ThorchainWallet> => {
   const toolbox = ThorchainToolbox({ stagenet });
-  const keys = toolbox.createKeyPair(phrase);
-  const fromAddress = toolbox.getAddressFromMnemonic(phrase);
+  const fromAddress = await toolbox.getAddressFromMnemonic(phrase);
+  const signer = await toolbox.getSigner(phrase);
 
-  const transfer = async ({ asset = AssetRuneNative, amount, recipient, memo }: WalletTxParams) => {
-    const accAddress = await toolbox.getAccount(fromAddress);
-    const balances = await toolbox.getBalance(fromAddress);
-    const fees = await toolbox.getFees();
-    await checkBalances(balances, fees, amount, asset);
-
-    const signerPubkey = keys.pubKey();
-    const txBody = await buildTransferTx({
-      assetAmount: amount,
-      assetDenom: getThorchainDenom(asset),
-      chainId: getTcChainId(),
-      fromAddress,
+  const transfer = async ({ asset = AssetRuneNative, amount, recipient, memo }: WalletTxParams) =>
+    toolbox.transfer({
+      from: fromAddress,
+      to: recipient,
+      signer,
+      asset: getDenom(asset || AssetRuneNative),
+      amount: amount.amount().toString(),
       memo,
-      nodeUrl: getTcNodeUrl(),
-      toAddress: recipient,
     });
-
-    const txBuilder = buildUnsignedTx({
-      cosmosSdk: toolbox.sdk,
-      txBody,
-      gasLimit: DEFAULT_GAS_VALUE,
-      signerPubkey: toolbox.instanceToProto(signerPubkey),
-      sequence: (accAddress.sequence as Long) || Long.ZERO,
-    });
-
-    return toolbox.signAndBroadcast(txBuilder, keys, accAddress) || '';
-  };
 
   const deposit = async ({ asset = AssetRuneNative, amount, memo }: DepositParam) => {
-    return toolbox.deposit({ asset, amount, memo, from: fromAddress, privKey: keys });
+    return toolbox.deposit({ asset, amount, memo, from: fromAddress, signer });
   };
 
   return { ...toolbox, deposit, transfer, getAddress: () => fromAddress };

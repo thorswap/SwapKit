@@ -2,12 +2,11 @@ import { cosmosclient, proto, rest } from '@cosmos-client/core';
 import {
   baseAmount,
   getRequest,
-  getTcChainId,
   getTcNodeUrl,
   singleFee,
 } from '@thorswap-lib/helpers';
 import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { Balance, BaseDecimal, Chain, ChainId, DerivationPath, Fees } from '@thorswap-lib/types';
+import { Balance, BaseDecimal, Chain, ChainId, DerivationPath, Fees, RPCUrl } from '@thorswap-lib/types';
 import { fromByteArray, toByteArray } from 'base64-js';
 import Long from 'long';
 
@@ -19,10 +18,7 @@ import {
 } from '../thorchainUtils/types/client-types.js';
 import types from '../thorchainUtils/types/proto/MsgCompiled.js';
 import {
-  buildDepositTx,
-  buildUnsignedTx,
-  checkBalances,
-  DEFAULT_GAS_VALUE,
+  bech32ToBase64,
   getThorchainAsset,
   registerDespositCodecs,
   registerSendCodecs,
@@ -30,10 +26,25 @@ import {
 import { AssetRuneNative, TransferParams } from '../types.js';
 
 import { BaseCosmosToolbox } from './BaseCosmosToolbox.js';
+import { Account, SigningStargateClient, StdFee, defaultRegistryTypes } from '@cosmjs/stargate';
+import { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
 
 type ToolboxParams = {
   stagenet?: boolean;
 };
+
+const DEFAULT_THORCHAIN_FEE_MAINNET = {
+  amount: [],
+  gas: '500000000',
+};
+
+const createDefaultRegistry = () => {
+  return new Registry([
+    ...defaultRegistryTypes,
+    ['/types.MsgSend', { ...types.types.MsgSend }],
+    ['/types.MsgDeposit', { ...types.types.MsgDeposit }]
+  ]);
+}
 
 const getAssetFromBalance = ({ asset: { symbol, chain } }: Balance): AssetEntity => {
   const isSynth = symbol.includes('/');
@@ -165,15 +176,11 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
 
   const baseToolbox: {
     sdk: CosmosSDKClient['sdk'];
-    signAndBroadcast: CosmosSDKClient['signAndBroadcast'];
-    getAccount: (
-      address: string | cosmosclient.PubKey | Uint8Array,
-    ) => Promise<proto.cosmos.auth.v1beta1.IBaseAccount>;
+    getAccount: (address: string) => Promise<Account | null>;
     validateAddress: (address: string) => boolean;
-    createKeyPair: (phrase: string) => proto.cosmos.crypto.secp256k1.PrivKey;
-    getAddressFromMnemonic: (phrase: string) => string;
-    getBalance: (address: string, filterAssets?: AssetEntity[] | undefined) => Promise<Balance[]>;
-    transfer: (params: TransferParams) => Promise<string>;
+    getAddressFromMnemonic: (phrase: string) => Promise<string>;
+    getBalance: (address: string) => Promise<Balance[]>;
+    getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
   } = BaseCosmosToolbox({
     sdk,
     derivationPath: DerivationPath.THOR,
@@ -217,18 +224,21 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
   };
 
   const deposit = async ({
-    privKey,
+    signer,
     asset = AssetRuneNative,
     amount,
     memo,
     from,
-  }: DepositParam & { from: string; privKey: proto.cosmos.crypto.secp256k1.PrivKey }) => {
-    const accAddress = await baseToolbox.getAccount(from);
-    const balances = await baseToolbox.getBalance(from);
-    const fees = await getFees();
-    await checkBalances(balances, fees, amount, asset);
-    const signerPubkey = privKey.pubKey();
-    await checkBalances(balances, fees, amount, asset);
+  }: DepositParam & { from: string; }) => {
+    if (!signer) {
+      throw new Error('Signer not defined');
+    }
+
+    const signingClient = await SigningStargateClient.connectWithSigner(RPCUrl.THORChain, signer, {
+      registry: createDefaultRegistry()
+    });
+
+    const base64Address = bech32ToBase64(from);
 
     const assetObj = asset.symbol.includes('/')
       ? {
@@ -239,31 +249,68 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
         }
       : asset;
 
-    const depositTxBody = await buildDepositTx({
-      msgNativeTx: {
-        memo: memo,
-        signer: cosmosclient.AccAddress.fromString(from),
-        coins: [{ asset: assetObj, amount: amount.amount().toString() }],
+    const depositMsg = {
+      typeUrl: '/types.MsgDeposit',
+      value: {
+        signer: base64Address,
+        memo,
+        coins: [{ asset: assetObj, amount: amount.amount().toString() }]
       },
-      nodeUrl: getTcNodeUrl(stagenet),
-      chainId: getTcChainId(stagenet),
+    };
+
+    const txResponse = await signingClient.signAndBroadcast(
+      from,
+      [depositMsg],
+      DEFAULT_THORCHAIN_FEE_MAINNET as StdFee,
+      memo,
+    );
+
+    return txResponse.transactionHash;
+  };
+
+  const transfer = async ({
+    from,
+    to,
+    amount,
+    asset,
+    memo = '',
+    fee = DEFAULT_THORCHAIN_FEE_MAINNET,
+    signer
+  }: TransferParams) => {
+    if (!signer) {
+      throw new Error('Signer not defined');
+    }
+
+    const signingClient = await SigningStargateClient.connectWithSigner(RPCUrl.THORChain, signer, {
+      registry: createDefaultRegistry()
     });
 
-    const txBuilder = buildUnsignedTx({
-      cosmosSdk: baseToolbox.sdk,
-      txBody: depositTxBody,
-      gasLimit: DEFAULT_GAS_VALUE,
-      signerPubkey: cosmosclient.codec.instanceToProtoAny(signerPubkey),
-      sequence: (accAddress.sequence as Long) || Long.ZERO,
-    });
+    const base64From = bech32ToBase64(from);
+    const base64To = bech32ToBase64(to);
 
-    return baseToolbox.signAndBroadcast(txBuilder, privKey, accAddress) || '';
+    const sendMsg = {
+      typeUrl: '/types.MsgSend',
+      value: {
+        fromAddress: base64From,
+        toAddress: base64To,
+        amount: [{ amount, denom: asset }],
+      },
+    };
+
+    const txResponse = await signingClient.signAndBroadcast(
+      from,
+      [sendMsg],
+      fee as StdFee,
+      memo,
+    );
+
+    return txResponse.transactionHash;
   };
 
   return {
     ...baseToolbox,
     deposit,
-    getAccAddress: cosmosclient.AccAddress.fromString,
+    transfer,
     instanceToProto: cosmosclient.codec.instanceToProtoAny,
     getFees,
 
