@@ -2,7 +2,7 @@ import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { Account as CosmosAccount } from '@cosmjs/stargate';
 import { cosmosclient, proto } from '@cosmos-client/core';
 import { InlineResponse20075TxResponse } from '@cosmos-client/core/openapi';
-import { AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
+import { AssetAmount } from '@thorswap-lib/swapkit-entities';
 import { AmountWithBaseDenom, Asset, Balance, ChainId, Fees, Tx } from '@thorswap-lib/types';
 import { curve } from 'elliptic';
 

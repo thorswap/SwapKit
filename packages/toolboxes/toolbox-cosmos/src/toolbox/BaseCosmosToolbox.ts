@@ -1,4 +1,4 @@
-import { assetToString, baseAmount } from '@thorswap-lib/helpers';
+import { baseAmount } from '@thorswap-lib/helpers';
 import { SwapKitApi } from '@thorswap-lib/swapkit-api';
 import { Asset, ChainId, DerivationPath } from '@thorswap-lib/types';
 import { stringToPath } from '@cosmjs/crypto';

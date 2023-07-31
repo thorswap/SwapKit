@@ -9,7 +9,6 @@ import { TransferParams } from '../types.js';
 import { getAsset } from '../util.js';
 
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.js';
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 
 export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxType => {
   const sdk = new CosmosSDKClient({
