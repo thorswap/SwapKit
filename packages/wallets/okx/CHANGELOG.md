@@ -1,5 +1,12 @@
 # @thorswap-lib/okx
 
+## 1.0.0-development.16
+
+### Patch Changes
+
+- Updated dependencies [[`93dfcf2`](https://github.com/thorswap/SwapKit/commit/93dfcf29409908a5d5a5aab5cd998aa8d1364729)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.135
+
 ## 1.0.0-development.15
 
 ### Patch Changes
