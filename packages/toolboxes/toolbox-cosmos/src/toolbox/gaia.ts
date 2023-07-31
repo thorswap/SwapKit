@@ -22,7 +22,7 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
     validateAddress: (address: string) => boolean;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getAccount: (address: string) => Promise<Account | null>;
-    getBalance: (address: string, filterAssets?: AssetEntity[] | undefined) => Promise<Balance[]>;
+    getBalance: (address: string) => Promise<Balance[]>;
     transfer: (params: TransferParams) => Promise<string>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
   } = BaseCosmosToolbox({

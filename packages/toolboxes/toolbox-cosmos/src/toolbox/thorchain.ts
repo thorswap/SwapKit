@@ -179,7 +179,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     getAccount: (address: string) => Promise<Account | null>;
     validateAddress: (address: string) => boolean;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
-    getBalance: (address: string, filterAssets?: AssetEntity[] | undefined) => Promise<Balance[]>;
+    getBalance: (address: string) => Promise<Balance[]>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
   } = BaseCosmosToolbox({
     sdk,

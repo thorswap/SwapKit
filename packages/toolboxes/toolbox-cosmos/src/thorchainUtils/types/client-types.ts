@@ -52,7 +52,7 @@ export type BaseCosmosToolboxType = {
   getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
   validateAddress: (address: string) => boolean;
   getAddressFromMnemonic: (phrase: string) => Promise<string>;
-  getBalance: (address: string, filterAssets?: AssetEntity[] | undefined) => Promise<Balance[]>;
+  getBalance: (address: string) => Promise<Balance[]>;
   transfer: (params: TransferParams) => Promise<string>;
   getFeeRateFromThorswap?: (chainId: ChainId) => Promise<number | undefined>;
 };

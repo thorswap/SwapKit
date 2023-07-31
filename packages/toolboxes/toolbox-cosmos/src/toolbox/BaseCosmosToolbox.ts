@@ -36,7 +36,7 @@ export const BaseCosmosToolbox = ({
   getAddressFromMnemonic: (phrase: string) =>
     cosmosClientSdk.getAddressFromMnemonic(phrase, `${derivationPath}/0`),
   getFeeRateFromThorswap,
-  getBalance: async (address: string, filterAssets?: Asset[]) => {
+  getBalance: async (address: string) => {
     const balances = await cosmosClientSdk.getBalance(address);
 
     return balances
@@ -44,13 +44,6 @@ export const BaseCosmosToolbox = ({
       .map(({ denom, amount }) => ({
         asset: getAsset(denom) as Asset,
         amount: baseAmount(amount, decimal),
-      }))
-      .filter(
-        ({ asset }) =>
-          !filterAssets ||
-          filterAssets.filter(
-            (filteredAsset) => assetToString(asset) === assetToString(filteredAsset),
-          ).length,
-      );
+      }));
   },
 });
