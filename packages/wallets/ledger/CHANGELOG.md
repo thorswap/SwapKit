@@ -1,5 +1,16 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.220
+
+### Minor Changes
+
+- [#230](https://github.com/thorswap/SwapKit/pull/230) [`93dfcf2`](https://github.com/thorswap/SwapKit/commit/93dfcf29409908a5d5a5aab5cd998aa8d1364729) Thanks [@0x-General](https://github.com/0x-General)! - Move thorchain transactions to cosmjs
+
+### Patch Changes
+
+- Updated dependencies [[`93dfcf2`](https://github.com/thorswap/SwapKit/commit/93dfcf29409908a5d5a5aab5cd998aa8d1364729)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.135
+
 ## 1.0.0-development.219
 
 ### Patch Changes
