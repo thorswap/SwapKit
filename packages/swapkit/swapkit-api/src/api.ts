@@ -3,6 +3,7 @@ import {
   GasRatesResponse,
   QuoteParams,
   QuoteResponse,
+  ThornameResponse,
   TokenlistProvidersResponse,
   TxnResponse,
 } from './types/index.js';
@@ -15,4 +16,10 @@ export const SwapKitApi = {
   getTokenlistProviders: () =>
     fetchWrapper<TokenlistProvidersResponse>(ApiEndpoints.TokenlistProviders),
   getTokenList: (tokenlist: string) => fetchWrapper(ApiEndpoints.TokenList, { tokenlist }),
+  getThornameAddresses: (address: string) =>
+    fetchWrapper<ThornameResponse>(`${ApiEndpoints.Thorname}/${address}`),
+  getThornameRegisteredChains: (address: string) =>
+    fetchWrapper<string[]>(`${ApiEndpoints.Thorname}/chains/${address}`),
+  getThornameRlookup: (address: string, chain: string) =>
+    fetchWrapper(`${ApiEndpoints.Thorname}/rlookup`, { address, chain }),
 };

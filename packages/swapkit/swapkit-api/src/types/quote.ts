@@ -95,7 +95,7 @@ export type StreamingSwapDetails = {
   total: number | null;
   refunded: number | null;
   progress: StreamingSwapProgressStatus[] | null;
-}
+};
 
 export type TxTrackerLeg = {
   hash?: string;
@@ -228,7 +228,24 @@ export type TokensResponse = {
   tokens: Token[];
 };
 
-export type ApiParams = QuoteParams | TxnParams | CachedPricesParams | TokensParams;
+export type ThornameResponse = ThornameChainItem[];
+
+export type ThornameChainItem = {
+  address: string;
+  chain: string;
+};
+
+export type ThornameParams = {
+  address: string;
+  chain: string;
+};
+
+export type ApiParams =
+  | QuoteParams
+  | TxnParams
+  | CachedPricesParams
+  | TokensParams
+  | ThornameParams;
 
 type Calldata = {
   amount: string;
