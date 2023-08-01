@@ -1,13 +1,21 @@
 import { Chain, MemoType } from '@thorswap-lib/types';
 
 export type ThornameRegisterParam = {
+  owner?: string;
+} & ThornameTransferParam;
+
+export type ThornameSetPreferredAssetParam = {
+  preferredAsset: string;
+} & ThornameTransferParam;
+
+export type ThornameTransferParam = {
   name: string;
   chain: string;
   address: string;
-  owner?: string;
+  owner: string;
   preferredAsset?: string;
   expiryBlock?: string;
-};
+}
 
 const getShortenedSymbol = ({
   symbol,
@@ -37,6 +45,9 @@ export type MemoOptions<T extends MemoType> = {
     singleSide?: boolean;
   }>;
   [MemoType.THORNAME_REGISTER]: Omit<ThornameRegisterParam, 'preferredAsset' | 'expiryBlock'>;
+  [MemoType.THORNAME_UNREGISTER]: Omit<ThornameRegisterParam, 'preferredAsset'>;
+  [MemoType.THORNAME_TRANSFER]: Omit<ThornameTransferParam, 'preferredAsset' | 'expiryBlock'>;
+  [MemoType.THORNAME_SET_PREFERRED_ASSET]: Omit<ThornameSetPreferredAssetParam, 'expiryBlock'>;
 }[T];
 
 export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions<T>) => {
@@ -55,6 +66,24 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
     case MemoType.THORNAME_REGISTER: {
       const { name, chain, address, owner } = options as MemoOptions<MemoType.THORNAME_REGISTER>;
       return `${memoType}:${name}:${chain}:${address}${owner ? `:${owner}` : ''}`;
+    }
+
+    case MemoType.THORNAME_UNREGISTER: {
+      const { name, chain, address } = options as MemoOptions<MemoType.THORNAME_UNREGISTER>;
+      const expiryBlock = 1; // Set to block height in the past to unregister
+      return `${memoType}:${name}:${chain}:${address}::${expiryBlock}`;
+    }
+
+    case MemoType.THORNAME_TRANSFER: {
+      const { name, chain, address, owner } =
+        options as MemoOptions<MemoType.THORNAME_TRANSFER>;
+      return `${memoType}:${name}:${chain}:${address}:${owner}`;
+    }
+
+    case MemoType.THORNAME_SET_PREFERRED_ASSET: {
+      const { name, chain, address, preferredAsset } =
+        options as MemoOptions<MemoType.THORNAME_SET_PREFERRED_ASSET>;
+      return `${memoType}:${name}:${chain}:${address}:${preferredAsset}`;
     }
 
     case MemoType.DEPOSIT: {
