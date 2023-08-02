@@ -19,13 +19,13 @@ const paramsToString = (params: { [key: string]: any }) => {
  * Api Wrapper helpers
  */
 export const ApiEndpoints = {
-  CachedPrices: `${ApiUrl.Thorswap}/tokenlist/cached-price`,
-  GasRates: `${ApiUrl.Thorswap}/resource-worker/gasPrice/getAll`,
-  Quote: `${ApiUrl.Thorswap}/aggregator/tokens/quote`,
-  Txn: `${ApiUrl.Thorswap}/apiusage/v2/txn`,
-  TokenlistProviders: `${ApiUrl.Thorswap}/tokenlist/providers`,
-  TokenList: `${ApiUrl.Thorswap}/tokenlist`,
-  Thorname: `${ApiUrl.Thorswap}/thorname`,
+  CachedPrices: `${ApiUrl.ThorswapApi}/tokenlist/cached-price`,
+  GasRates: `${ApiUrl.ThorswapApi}/resource-worker/gasPrice/getAll`,
+  Quote: `${ApiUrl.ThorswapApi}/aggregator/tokens/quote`,
+  Txn: `${ApiUrl.ThorswapApi}/apiusage/v2/txn`,
+  TokenlistProviders: `${ApiUrl.ThorswapApi}/tokenlist/providers`,
+  TokenList: `${ApiUrl.ThorswapStatic}/tokenlist`,
+  Thorname: `${ApiUrl.ThorswapApi}/thorname`,
 };
 
 const postWrapper = <T>(url: string, params: ApiParams | string, config?: RequestConfig) =>
