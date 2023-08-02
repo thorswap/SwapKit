@@ -23,6 +23,7 @@ import {
   UTXOBuildTxParams,
   UTXOCreateKeyParams,
   UTXOWalletTransferParams,
+  TargetOutput,
 } from '../types/common.js';
 import {
   calcFee,
@@ -134,8 +135,6 @@ const getFeesAndFeeRates = async ({
   const rates = await getFeeRates({ apiClient, chain });
   return { fees: calcFeesAsync(rates, calcFee, memo), rates };
 };
-
-type TargetOutput = { address: string; value: number } | { script: Buffer; value: number };
 
 const getInputsAndTargetOutputs = async ({
   amount,

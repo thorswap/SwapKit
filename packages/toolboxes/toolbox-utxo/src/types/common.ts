@@ -56,3 +56,5 @@ export type TransferParams = UTXOWalletTransferParams<
 >;
 
 export type ScanUTXOsParams = { address: string; fetchTxHex?: boolean };
+
+export type TargetOutput = { address: string; value: number } | { script: Buffer; value: number };
