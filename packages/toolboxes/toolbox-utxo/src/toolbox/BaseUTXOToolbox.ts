@@ -84,7 +84,7 @@ const transfer = async ({
   apiClient,
   feeOptionKey,
   ...rest
-}: UTXOWalletTransferParams<Psbt, Psbt> & UTXOBaseToolboxParams): Promise<string> => {
+}: UTXOWalletTransferParams<Psbt, Psbt> & UTXOBaseToolboxParams) => {
   if (!from) throw new Error('From address must be provided');
   if (!recipient) throw new Error('Recipient address must be provided');
   const feeRate =
@@ -108,14 +108,14 @@ const getBalance = async ({
   address,
   chain,
   apiClient,
-}: { address: string } & UTXOBaseToolboxParams): Promise<Balance[]> => [
+}: { address: string } & UTXOBaseToolboxParams) => [
   {
     asset: getSignatureAssetFor(chain),
     amount: baseAmount(await apiClient.getBalance(address), BaseDecimal[chain]),
   },
 ];
 
-const getFeeRates = async (params: UTXOBaseToolboxParams): Promise<FeeRates> =>
+const getFeeRates = async (params: UTXOBaseToolboxParams) =>
   standardFeeRates(await params.apiClient.getSuggestedTxFee());
 
 const getFees = async ({
@@ -144,10 +144,7 @@ const getInputsAndTargetOutputs = async ({
   fetchTxHex = false,
   apiClient,
   chain,
-}: UTXOBuildTxParams & UTXOBaseToolboxParams): Promise<{
-  targetOutputs: TargetOutput[];
-  inputs: UTXO[];
-}> => {
+}: UTXOBuildTxParams & UTXOBaseToolboxParams) => {
   const inputs = await apiClient.scanUTXOs({
     address: sender,
     fetchTxHex,
@@ -346,7 +343,7 @@ export const BaseUTXOToolbox = (baseToolboxParams: UTXOBaseToolboxParams) => ({
     memo?: string;
     feeOptionKey?: FeeOption;
     feeRate: number;
-  }): Promise<BigNumber> =>
+  }) =>
     calculateMaxSendableAmount({
       from,
       feeOptionKey,
