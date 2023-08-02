@@ -5,11 +5,9 @@ import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
   AmountWithBaseDenom,
-  Balance,
   BaseDecimal,
   Chain,
   FeeOption,
-  FeeRates,
   Fees,
   UTXO,
 } from '@thorswap-lib/types';
@@ -19,11 +17,11 @@ import { ECPairFactory, ECPairInterface } from 'ecpair';
 import * as tinySecp from 'tiny-secp256k1';
 
 import {
+  TargetOutput,
   UTXOBaseToolboxParams,
   UTXOBuildTxParams,
   UTXOCreateKeyParams,
   UTXOWalletTransferParams,
-  TargetOutput,
 } from '../types/common.js';
 import {
   calcFee,

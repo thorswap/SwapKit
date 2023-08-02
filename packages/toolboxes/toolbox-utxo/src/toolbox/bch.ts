@@ -38,7 +38,10 @@ const buildBCHTx = async ({
   feeRate,
   sender,
   apiClient,
-}: UTXOBuildTxParams & { apiClient: BlockchairApiType }) => {
+}: UTXOBuildTxParams & { apiClient: BlockchairApiType }): Promise<{
+  builder: TransactionBuilderType;
+  utxos: UTXO[];
+}> => {
   if (!validateAddress(recipient)) throw new Error('Invalid address');
   const utxos = await apiClient.scanUTXOs({
     address: stripToCashAddress(sender),
@@ -222,17 +225,14 @@ export const BCHToolbox = (
     validateAddress,
     createKeysForPath,
     getAddressFromKeys,
-    buildBCHTx: (
-      params: UTXOBuildTxParams,
-    ): Promise<{ builder: TransactionBuilderType; utxos: UTXO[] }> =>
-      buildBCHTx({ ...params, apiClient }),
+    buildBCHTx: (params: UTXOBuildTxParams) => buildBCHTx({ ...params, apiClient }),
     buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, apiClient }),
     transfer: (
       params: UTXOWalletTransferParams<
         { builder: TransactionBuilderType; utxos: UTXO[] },
         TransactionType
       >,
-    ): Promise<string> => transfer({ ...params, apiClient }),
+    ) => transfer({ ...params, apiClient }),
     getBalance: (address: string) => getBalance(stripPrefix(toCashAddress(address))),
   };
 };
