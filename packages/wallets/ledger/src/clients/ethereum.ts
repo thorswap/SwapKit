@@ -23,7 +23,6 @@ export class EthereumLedger extends EthereumLikeLedgerInterface {
     this.chain = 'eth';
     this.derivationPath =
       typeof derivationPath === 'string' ? derivationPath : derivationPathToString(derivationPath);
-    
   }
 
   connect = (provider: Provider) =>

@@ -38,10 +38,7 @@ const buildBCHTx = async ({
   feeRate,
   sender,
   apiClient,
-}: UTXOBuildTxParams & { apiClient: BlockchairApiType }): Promise<{
-  builder: TransactionBuilderType;
-  utxos: UTXO[];
-}> => {
+}: UTXOBuildTxParams & { apiClient: BlockchairApiType }) => {
   if (!validateAddress(recipient)) throw new Error('Invalid address');
   const utxos = await apiClient.scanUTXOs({
     address: stripToCashAddress(sender),
@@ -96,7 +93,7 @@ const transfer = async ({
   ...rest
 }: UTXOWalletTransferParams<{ builder: TransactionBuilderType; utxos: UTXO[] }, TransactionType> & {
   apiClient: BlockchairApiType;
-}): Promise<string> => {
+}) => {
   if (!from) throw new Error('From address must be provided');
   if (!recipient) throw new Error('Recipient address must be provided');
   if (!signTransaction) throw new Error('signTransaction must be provided');
@@ -196,7 +193,7 @@ const createKeysForPath = ({
 }: {
   phrase?: string;
   derivationPath?: string;
-}): KeyPairType => {
+}) => {
   if (!phrase) throw new Error('No phrase provided');
 
   const masterHDNode = HDNode.fromSeedBuffer(Buffer.from(getSeed(phrase)), getNetwork(chain));
@@ -211,7 +208,7 @@ const getAddressFromKeys = (keys: KeyPairType) => {
 export const BCHToolbox = (
   apiKey?: string,
   apiClientOrNodeUrl: BlockchairApiType | string = RPCUrl.BitcoinCash,
-): BCHToolboxType => {
+) => {
   const apiClient =
     typeof apiClientOrNodeUrl === 'string'
       ? blockchairApi({ apiKey, nodeUrl: apiClientOrNodeUrl, chain })
@@ -238,23 +235,4 @@ export const BCHToolbox = (
     ): Promise<string> => transfer({ ...params, apiClient }),
     getBalance: (address: string) => getBalance(stripPrefix(toCashAddress(address))),
   };
-};
-
-export type BCHToolboxType = Omit<
-  ReturnType<typeof BaseUTXOToolbox>,
-  'transfer' | 'createKeysForPath' | 'getAddressFromKeys'
-> & {
-  stripPrefix: typeof stripPrefix;
-  validateAddress: typeof validateAddress;
-  createKeysForPath: typeof createKeysForPath;
-  getAddressFromKeys: typeof getAddressFromKeys;
-  buildBCHTx: (
-    params: UTXOBuildTxParams,
-  ) => Promise<{ builder: TransactionBuilderType; utxos: UTXO[] }>;
-  transfer: (
-    params: UTXOWalletTransferParams<
-      { builder: TransactionBuilderType; utxos: UTXO[] },
-      TransactionType
-    >,
-  ) => Promise<string>;
 };
