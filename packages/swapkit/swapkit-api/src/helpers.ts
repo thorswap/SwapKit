@@ -24,7 +24,7 @@ export const ApiEndpoints = {
   Quote: `${ApiUrl.ThorswapApi}/aggregator/tokens/quote`,
   Txn: `${ApiUrl.ThorswapApi}/apiusage/v2/txn`,
   TokenlistProviders: `${ApiUrl.ThorswapApi}/tokenlist/providers`,
-  TokenList: `${ApiUrl.ThorswapApi}/tokenlist`,
+  TokenList: `${ApiUrl.ThorswapStatic}/tokenlist`,
   Thorname: `${ApiUrl.ThorswapApi}/thorname`,
 };
 
