@@ -95,15 +95,15 @@ const call = async <T>(
   const contract = createContract(contractAddress, abi, contractProvider);
   const result = await (signer
     ? contract.connect(signer)[funcName](...funcParams.slice(0, -1), {
-        ...(funcParams[funcParams.length - 1] as any),
-        /**
-         * nonce must be set due to a possible bug with ethers.js,
-         * expecting a synchronous nonce while the JsonRpcProvider delivers Promise
-         */
-        nonce:
-          (funcParams[funcParams.length - 1] as any).nonce ||
-          (await contractProvider.getTransactionCount(address)),
-      })
+      ...(funcParams[funcParams.length - 1] as any),
+      /**
+       * nonce must be set due to a possible bug with ethers.js,
+       * expecting a synchronous nonce while the JsonRpcProvider delivers Promise
+       */
+      nonce:
+        (funcParams[funcParams.length - 1] as any).nonce ||
+        (await contractProvider.getTransactionCount(address)),
+    })
     : contract[funcName](...funcParams));
 
   return typeof result?.hash === 'string' ? result?.hash : result;
