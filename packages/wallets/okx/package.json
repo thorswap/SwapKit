@@ -12,7 +12,6 @@
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
-    "@thorswap-lib/swapkit-entities": "workspace:*",
     "@vitest/coverage-istanbul": "0.33.0",
     "bitcoinjs-lib": "5.2.0",
     "long": "5.2.3",

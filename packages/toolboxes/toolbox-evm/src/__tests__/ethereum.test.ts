@@ -1,5 +1,5 @@
-import { JsonRpcProvider } from '@ethersproject/providers';
 import { Contract } from '@ethersproject/contracts';
+import { JsonRpcProvider } from '@ethersproject/providers';
 import helpers from '@nomicfoundation/hardhat-network-helpers';
 import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
 import { Chain, erc20ABI } from '@thorswap-lib/types';
@@ -123,7 +123,6 @@ describe('Ethereum toolkit', () => {
         amount: '1000000',
       }),
     ).toBe(false);
-    console.log('approve')
     await toolbox.approve({
       assetAddress: USDCAddress,
       spenderAddress: emptyRecipient,

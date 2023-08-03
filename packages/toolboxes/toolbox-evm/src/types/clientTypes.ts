@@ -1,6 +1,7 @@
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { ContractInterface } from '@ethersproject/contracts';
 import { EVMTxParams, FeeOption, WalletTxParams } from '@thorswap-lib/types';
+
 import { getProvider } from '../provider.js';
 
 export enum EthNetwork {
@@ -95,8 +96,8 @@ export interface JsonFragment {
   readonly constant?: boolean;
   readonly stateMutability?: string;
 
-  readonly inputs?: ReadonlyArray<any>;
-  readonly outputs?: ReadonlyArray<any>;
+  readonly inputs?: readonly any[];
+  readonly outputs?: readonly any[];
 
   readonly gas?: string;
 }
