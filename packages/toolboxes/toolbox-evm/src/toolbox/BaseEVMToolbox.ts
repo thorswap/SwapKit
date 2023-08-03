@@ -50,7 +50,7 @@ const baseAssetAddress: Record<EVMChain, string> = {
 };
 
 const stateMutable = ['payable', 'nonpayable'];
-const nonStateMutable = ['view', 'pure'];
+// const nonStateMutable = ['view', 'pure'];
 
 const isEIP1559Transaction = (tx: EVMTxParams) =>
   (tx as EIP1559TxParams).type === 2 ||
@@ -75,11 +75,7 @@ const isStateChangingCall = (abi: ContractInterface, functionName: string) => {
     (fragment: any) => fragment.name === functionName,
   );
   if (!abiFragment) throw new Error(`No ABI fragment found for function ${functionName}`);
-  return (
-    !abiFragment.stateMutability ||
-    (stateMutable.includes(abiFragment.stateMutability) &&
-      nonStateMutable.includes(abiFragment.stateMutability))
-  );
+  return abiFragment.stateMutability && stateMutable.includes(abiFragment.stateMutability);
 };
 
 const getAssetEntity = (asset: Asset | undefined) =>
@@ -126,8 +122,10 @@ const call = async <T>(
   const contract = createContract(contractAddress, abi, contractProvider);
 
   // only use signer if the contract function is state changing
-  if (isStateChanging && signer) {
-    const address = txOverrides?.from || await signer.getAddress();
+  if (isStateChanging) {
+    if (!signer) throw new Error('Signer is not defined');
+
+    const address = txOverrides?.from || (await signer.getAddress());
 
     if (!address) throw new Error('No signer address found');
 
@@ -141,9 +139,7 @@ const call = async <T>(
     });
   }
 
-  if (isStateChanging && !signer) throw new Error('Signer is not defined');
-
-  const result = await contract[funcName](...funcParams, txOverrides);
+  const result = await contract[funcName](...funcParams);
 
   return typeof result?.hash === 'string' ? result?.hash : result;
 };
@@ -174,14 +170,9 @@ const isApproved = async (
   provider: Provider,
   { assetAddress, spenderAddress, from, amount = MAX_APPROVAL }: IsApprovedParams,
 ) =>
-  BigNumber.from(
-    await call<BigNumberish>(provider, {
-      contractAddress: assetAddress,
-      abi: erc20ABI,
-      funcName: 'allowance',
-      funcParams: [from, spenderAddress],
-    }),
-  ).gte(amount);
+  BigNumber.from(await approvedAmount(provider, { assetAddress, spenderAddress, from })).gte(
+    amount,
+  );
 
 const approve = async (
   provider: Provider,
