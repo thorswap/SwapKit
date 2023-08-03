@@ -82,6 +82,7 @@ export enum TxStatus {
   NOT_STARTED = 'not_started',
   NOT_FOUND = 'not_found',
   RETRIES_EXCEEDED = 'retries_exceeded',
+  STREAMING = 'streaming',
 }
 
 export enum StreamingSwapProgressStatus {
