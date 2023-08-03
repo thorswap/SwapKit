@@ -149,8 +149,7 @@ const createContractTxObject = async (
   { contractAddress, abi, funcName, funcParams = [], txOverrides }: CallParams,
 ) =>
   createContract(contractAddress, abi, provider).populateTransaction[funcName](
-    ...funcParams,
-    txOverrides,
+    ...funcParams.concat(txOverrides).filter((p) => typeof p !== 'undefined'),
   );
 
 const approvedAmount = async (

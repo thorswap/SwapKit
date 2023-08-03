@@ -1,8 +1,8 @@
-import { Contract } from '@ethersproject/contracts';
+import { BigNumber } from '@ethersproject/bignumber';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import helpers from '@nomicfoundation/hardhat-network-helpers';
 import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
-import { Chain, erc20ABI } from '@thorswap-lib/types';
+import { Chain, erc20ABI, FeeOption } from '@thorswap-lib/types';
 import hre from 'hardhat';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, ExpectStatic, test } from 'vitest';
 
@@ -25,8 +25,8 @@ beforeEach<{
 }>(async (context: any) => {
   context.ethers = hre.ethers;
   const provider = getProvider(Chain.Ethereum, 'http://127.0.0.1:8545/');
-  const signer = await hre.ethers.getImpersonatedSigner(testAddress);
   context.provider = provider;
+  const signer = await hre.ethers.getImpersonatedSigner(testAddress);
   context.toolbox = ETHToolbox({ ethplorerApiKey: 'freekey', provider, signer });
 }, 20000);
 
@@ -92,11 +92,10 @@ describe('Ethereum toolkit', () => {
     toolbox,
   }: {
     expect: ExpectStatic;
-    // ethers: typeof import('@nomiclabs/hardhat-ethers');
     provider: JsonRpcProvider;
     toolbox: ReturnType<typeof ETHToolbox>;
   }) => {
-    const USDC = new Contract(USDCAddress, erc20ABI, provider);
+    const USDC = toolbox.createContract(USDCAddress, erc20ABI, provider);
     const balance = await USDC.balanceOf(emptyRecipient);
     expect(balance.toString()).toBe('0');
     await toolbox.transfer({
@@ -138,5 +137,31 @@ describe('Ethereum toolkit', () => {
         amount: '1000000',
       }),
     ).toBe(true);
+  }, 10000);
+  test('Create contract tx object and sendTransaction', async ({
+    expect,
+    provider,
+    toolbox,
+  }: {
+    expect: ExpectStatic;
+    provider: JsonRpcProvider;
+    toolbox: ReturnType<typeof ETHToolbox>;
+  }) => {
+    const USDC = toolbox.createContract(USDCAddress, erc20ABI, provider);
+    const balance = await USDC.balanceOf(emptyRecipient);
+    expect(balance.toString()).toBe('0');
+
+    const txObject = await toolbox.createContractTxObject({
+      contractAddress: USDCAddress,
+      abi: erc20ABI,
+      funcName: 'transfer',
+      funcParams: [emptyRecipient, BigNumber.from('2222222')],
+      txOverrides: {
+        from: testAddress,
+      },
+    });
+
+    await toolbox.sendTransaction(txObject, FeeOption.Average);
+    expect((await USDC.balanceOf(emptyRecipient)).toString()).toBe('2222222');
   }, 10000);
 });
