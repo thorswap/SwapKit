@@ -1,16 +1,16 @@
+import { BigNumber } from '@ethersproject/bignumber';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import helpers from '@nomicfoundation/hardhat-network-helpers';
-// import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
-import { Chain, erc20ABI } from '@thorswap-lib/types';
+import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
+import { Chain, erc20ABI, FeeOption } from '@thorswap-lib/types';
 import hre from 'hardhat';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, ExpectStatic, test } from 'vitest';
 
 import { ETHToolbox } from '../index.js';
 import { getProvider } from '../provider.js';
-const testAddress = '0x37aabcc0fcc1aa75827013f49e767ae0a3a63b82';
+const testAddress = '0x6d6e022eE439C8aB8B7a7dBb0576f8090319CDc6';
 const emptyRecipient = '0xE29E61479420Dd1029A9946710Ac31A0d140e77F';
-// const FRAXAddress = '0x853d955aCEf822Db058eb8505911ED77F175b99e';
-const SHIBAddress = '0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE';
+const USDCAddress = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
 // Get latest block to use as base for reseting fork after test
 const block = await hre.ethers.provider.getBlock('latest');
 
@@ -25,8 +25,8 @@ beforeEach<{
 }>(async (context: any) => {
   context.ethers = hre.ethers;
   const provider = getProvider(Chain.Ethereum, 'http://127.0.0.1:8545/');
-  const signer = await hre.ethers.getImpersonatedSigner(testAddress);
   context.provider = provider;
+  const signer = await hre.ethers.getImpersonatedSigner(testAddress);
   context.toolbox = ETHToolbox({ ethplorerApiKey: 'freekey', provider, signer });
 }, 20000);
 
@@ -56,93 +56,112 @@ describe('Ethereum toolkit', () => {
         .find((balance) => balance.asset.symbol === 'ETH')
         ?.amount.amount()
         .toString(),
-    ).toBe('218097806619000');
+    ).toBe('20526000000000000');
     expect(
       balances
         .find(
-          (balance) => balance.asset.symbol === 'SHIB-0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE',
+          (balance) => balance.asset.symbol === 'USDC-0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
         )
         ?.amount.amount()
         .toString(),
-    ).toBe('741813263866114400866731');
+    ).toBe('6656178');
   }, 10000);
 
   test('Send ETH', async ({
     expect,
-    // toolbox,
-    // provider,
+    toolbox,
+    provider,
   }: {
     expect: ExpectStatic;
     provider: JsonRpcProvider;
     toolbox: ReturnType<typeof ETHToolbox>;
   }) => {
-    expect(true).toBe(true);
-    // expect((await provider.getBalance(emptyRecipient)).toString()).toBe('0');
-    // await toolbox.transfer({
-    //   recipient: emptyRecipient,
-    //   amount: baseAmount('218097806619000', 18),
-    //   asset: assetFromString('ETH.ETH'),
-    //   from: testAddress,
-    // });
-    // expect((await provider.getBalance(emptyRecipient)).toString()).toBe('218097806619000');
+    expect((await provider.getBalance(emptyRecipient)).toString()).toBe('0');
+    await toolbox.transfer({
+      recipient: emptyRecipient,
+      amount: baseAmount('10526000000000000', 18),
+      asset: assetFromString('ETH.ETH'),
+      from: testAddress,
+    });
+    expect((await provider.getBalance(emptyRecipient)).toString()).toBe('10526000000000000');
   }, 10000);
 
   test('Send Token', async ({
     expect,
-    ethers,
     provider,
-    // toolbox,
+    toolbox,
   }: {
     expect: ExpectStatic;
-    ethers: typeof import('@nomiclabs/hardhat-ethers');
     provider: JsonRpcProvider;
     toolbox: ReturnType<typeof ETHToolbox>;
   }) => {
-    //@ts-expect-error
-    const SHIB = new ethers.Contract(SHIBAddress, erc20ABI, provider);
-    const balance = await SHIB.balanceOf(emptyRecipient);
+    const USDC = toolbox.createContract(USDCAddress, erc20ABI, provider);
+    const balance = await USDC.balanceOf(emptyRecipient);
     expect(balance.toString()).toBe('0');
-    // await toolbox.transfer({
-    //   recipient: emptyRecipient,
-    //   amount: baseAmount('741813263866114400866731', 18),
-    //   asset: assetFromString('ETH.SHIB-0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE'),
-    //   from: testAddress,
-    // });
-    expect(true).toBe(true);
-    // expect((await SHIB.balanceOf(emptyRecipient)).toString()).toBe('741813263866114400866731');
+    await toolbox.transfer({
+      recipient: emptyRecipient,
+      amount: baseAmount('1000000', 6),
+      asset: assetFromString('ETH.USDC-0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'),
+      from: testAddress,
+    });
+    expect((await USDC.balanceOf(emptyRecipient)).toString()).toBe('1000000');
   }, 10000);
 
   test('Approve Token and validate approved amount', async ({
     expect,
-    // toolbox,
+    toolbox,
   }: {
     expect: ExpectStatic;
     toolbox: ReturnType<typeof ETHToolbox>;
   }) => {
-    expect(true).toBe(true);
-    // expect(
-    //   await toolbox.isApproved({
-    //     assetAddress: SHIBAddress,
-    //     spenderAddress: emptyRecipient,
-    //     from: testAddress,
-    //     amount: '10000000000000000',
-    //   }),
-    // ).toBe(false);
+    expect(
+      await toolbox.isApproved({
+        assetAddress: USDCAddress,
+        spenderAddress: emptyRecipient,
+        from: testAddress,
+        amount: '1000000',
+      }),
+    ).toBe(false);
+    await toolbox.approve({
+      assetAddress: USDCAddress,
+      spenderAddress: emptyRecipient,
+      amount: '1000000',
+      from: testAddress,
+    });
 
-    // await toolbox.approve({
-    //   assetAddress: SHIBAddress, // FRAX token address
-    //   spenderAddress: emptyRecipient,
-    //   amount: '10000000000000000',
-    //   from: testAddress,
-    // });
+    expect(
+      await toolbox.isApproved({
+        assetAddress: USDCAddress,
+        spenderAddress: emptyRecipient,
+        from: testAddress,
+        amount: '1000000',
+      }),
+    ).toBe(true);
+  }, 10000);
+  test('Create contract tx object and sendTransaction', async ({
+    expect,
+    provider,
+    toolbox,
+  }: {
+    expect: ExpectStatic;
+    provider: JsonRpcProvider;
+    toolbox: ReturnType<typeof ETHToolbox>;
+  }) => {
+    const USDC = toolbox.createContract(USDCAddress, erc20ABI, provider);
+    const balance = await USDC.balanceOf(emptyRecipient);
+    expect(balance.toString()).toBe('0');
 
-    // expect(
-    //   await toolbox.isApproved({
-    //     assetAddress: SHIBAddress,
-    //     spenderAddress: emptyRecipient,
-    //     from: testAddress,
-    //     amount: '10000000000000000',
-    //   }),
-    // ).toBe(true);
+    const txObject = await toolbox.createContractTxObject({
+      contractAddress: USDCAddress,
+      abi: erc20ABI,
+      funcName: 'transfer',
+      funcParams: [emptyRecipient, BigNumber.from('2222222')],
+      txOverrides: {
+        from: testAddress,
+      },
+    });
+
+    await toolbox.sendTransaction(txObject, FeeOption.Average);
+    expect((await USDC.balanceOf(emptyRecipient)).toString()).toBe('2222222');
   }, 10000);
 });

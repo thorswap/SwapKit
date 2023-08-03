@@ -1,6 +1,7 @@
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { ContractInterface } from '@ethersproject/contracts';
-import { FeeOption, WalletTxParams } from '@thorswap-lib/types';
+import { EVMTxParams, FeeOption, WalletTxParams } from '@thorswap-lib/types';
+
 import { getProvider } from '../provider.js';
 
 export enum EthNetwork {
@@ -30,17 +31,17 @@ export type IsApprovedParams = ApprovedParams & {
 };
 
 export type CallParams = {
-  callProvider?: ReturnType<typeof getProvider>
-  from?: string;
+  callProvider?: ReturnType<typeof getProvider>;
   contractAddress: string;
   abi: ContractInterface;
   funcName: string;
   funcParams?: unknown[];
+  txOverrides?: EVMTxParams;
 };
 
 export type EstimateCallParams = Pick<
   CallParams,
-  'contractAddress' | 'abi' | 'funcName' | 'funcParams'
+  'contractAddress' | 'abi' | 'funcName' | 'funcParams' | 'txOverrides'
 >;
 
 export type EthereumWindowProvider = import('@ethersproject/providers').ExternalProvider & {
@@ -84,3 +85,19 @@ export type TransferParams = WalletTxParams & {
   from: string;
   nonce?: number;
 };
+
+export interface JsonFragment {
+  readonly name?: string;
+  readonly type?: string;
+
+  readonly anonymous?: boolean;
+
+  readonly payable?: boolean;
+  readonly constant?: boolean;
+  readonly stateMutability?: string;
+
+  readonly inputs?: readonly any[];
+  readonly outputs?: readonly any[];
+
+  readonly gas?: string;
+}

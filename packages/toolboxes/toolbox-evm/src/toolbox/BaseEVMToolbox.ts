@@ -4,10 +4,16 @@ import { getAddress } from '@ethersproject/address';
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { hexlify } from '@ethersproject/bytes';
 import { MaxInt256 } from '@ethersproject/constants';
-import { Contract, PopulatedTransaction } from '@ethersproject/contracts';
+import { Contract, ContractInterface, PopulatedTransaction } from '@ethersproject/contracts';
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
 import { toUtf8Bytes } from '@ethersproject/strings';
-import { Amount, AssetAmount, AssetEntity, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-entities';
+import {
+  Amount,
+  AssetAmount,
+  AssetEntity,
+  getSignatureAssetFor,
+  isGasAsset,
+} from '@thorswap-lib/swapkit-entities';
 import {
   Asset,
   Chain,
@@ -28,6 +34,7 @@ import {
   CallParams,
   EstimateCallParams,
   IsApprovedParams,
+  JsonFragment,
   TransferParams,
 } from '../types/clientTypes.js';
 
@@ -41,6 +48,9 @@ const baseAssetAddress: Record<EVMChain, string> = {
   [Chain.Polygon]: ContractAddress.MATIC,
   [Chain.Optimism]: ContractAddress.OP,
 };
+
+const stateMutable = ['payable', 'nonpayable'];
+// const nonStateMutable = ['view', 'pure'];
 
 const isEIP1559Transaction = (tx: EVMTxParams) =>
   (tx as EIP1559TxParams).type === 2 ||
@@ -60,6 +70,14 @@ const validateAddress = (address: string) => {
   }
 };
 
+const isStateChangingCall = (abi: ContractInterface, functionName: string) => {
+  const abiFragment = (abi as JsonFragment[]).find(
+    (fragment: any) => fragment.name === functionName,
+  );
+  if (!abiFragment) throw new Error(`No ABI fragment found for function ${functionName}`);
+  return abiFragment.stateMutability && stateMutable.includes(abiFragment.stateMutability);
+};
+
 const getAssetEntity = (asset: Asset | undefined) =>
   asset
     ? new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker)
@@ -74,45 +92,65 @@ type WithSigner<T> = T & { signer?: Signer };
  */
 const call = async <T>(
   provider: Provider,
-  { callProvider, from, signer, contractAddress, abi, funcName, funcParams = [] }: WithSigner<CallParams>,
+  {
+    callProvider,
+    signer,
+    contractAddress,
+    abi,
+    funcName,
+    funcParams = [],
+    txOverrides,
+  }: WithSigner<CallParams>,
 ): Promise<T> => {
   const contractProvider = callProvider || provider;
   if (!contractAddress) throw new Error('contractAddress must be provided');
 
+  const isStateChanging = isStateChangingCall(abi, funcName);
 
-  if (isWeb3Provider(contractProvider) && signer) {
+  if (isStateChanging && isWeb3Provider(contractProvider) && signer) {
     const txObject = await createContractTxObject(contractProvider, {
       contractAddress,
       abi,
       funcName,
       funcParams,
+      txOverrides,
     });
 
     return EIP1193SendTransaction(contractProvider, txObject) as Promise<T>;
   }
 
-  const address = from || (signer && (await signer.getAddress())) || ''
   const contract = createContract(contractAddress, abi, contractProvider);
-  const result = await (signer
-    ? contract.connect(signer)[funcName](...funcParams.slice(0, -1), {
-      ...(funcParams[funcParams.length - 1] as any),
+
+  // only use signer if the contract function is state changing
+  if (isStateChanging) {
+    if (!signer) throw new Error('Signer is not defined');
+
+    const address = txOverrides?.from || (await signer.getAddress());
+
+    if (!address) throw new Error('No signer address found');
+
+    return contract.connect(signer)[funcName](...funcParams, {
+      ...txOverrides,
       /**
        * nonce must be set due to a possible bug with ethers.js,
        * expecting a synchronous nonce while the JsonRpcProvider delivers Promise
        */
-      nonce:
-        (funcParams[funcParams.length - 1] as any).nonce ||
-        (await contractProvider.getTransactionCount(address)),
-    })
-    : contract[funcName](...funcParams));
+      nonce: txOverrides?.nonce || (await contractProvider.getTransactionCount(address)),
+    });
+  }
+
+  const result = await contract[funcName](...funcParams);
 
   return typeof result?.hash === 'string' ? result?.hash : result;
 };
 
 const createContractTxObject = async (
   provider: Provider,
-  { contractAddress, abi, funcName, funcParams = [] }: CallParams,
-) => createContract(contractAddress, abi, provider).populateTransaction[funcName](...funcParams);
+  { contractAddress, abi, funcName, funcParams = [], txOverrides }: CallParams,
+) =>
+  createContract(contractAddress, abi, provider).populateTransaction[funcName](
+    ...funcParams.concat(txOverrides).filter((p) => typeof p !== 'undefined'),
+  );
 
 const approvedAmount = async (
   provider: Provider,
@@ -131,14 +169,9 @@ const isApproved = async (
   provider: Provider,
   { assetAddress, spenderAddress, from, amount = MAX_APPROVAL }: IsApprovedParams,
 ) =>
-  BigNumber.from(
-    await call<BigNumberish>(provider, {
-      contractAddress: assetAddress,
-      abi: erc20ABI,
-      funcName: 'allowance',
-      funcParams: [from, spenderAddress],
-    }),
-  ).gte(amount);
+  BigNumber.from(await approvedAmount(provider, { assetAddress, spenderAddress, from })).gte(
+    amount,
+  );
 
 const approve = async (
   provider: Provider,
@@ -155,7 +188,8 @@ const approve = async (
   isEIP1559Compatible = true,
 ) => {
   if (!amount) throw new Error('amount must be provided');
-  const funcParams = [spenderAddress, BigNumber.from(amount), { from }];
+  const funcParams = [spenderAddress, BigNumber.from(amount)];
+  const txOverrides = { from };
 
   const functionCallParams = {
     contractAddress: assetAddress,
@@ -163,10 +197,11 @@ const approve = async (
     funcName: 'approve',
     funcParams,
     signer,
+    txOverrides,
   };
 
   if (isWeb3Provider(provider)) {
-    return await EIP1193SendTransaction(
+    return EIP1193SendTransaction(
       provider,
       await createContractTxObject(provider, functionCallParams),
     );
@@ -182,17 +217,15 @@ const approve = async (
 
   return call<string>(provider, {
     ...functionCallParams,
-    funcParams: [
-      ...funcParams.slice(0, funcParams.length - 1),
-      {
-        from,
-        maxFeePerGas,
-        maxPriorityFeePerGas,
-        gasPrice,
-        gasLimit,
-        nonce,
-      },
-    ],
+    funcParams,
+    txOverrides: {
+      from,
+      maxFeePerGas,
+      maxPriorityFeePerGas,
+      gasPrice,
+      gasLimit,
+      nonce,
+    },
   });
 };
 
@@ -224,7 +257,8 @@ const transfer = async (
       contractAddress,
       abi: erc20ABI,
       funcName: 'transfer',
-      funcParams: [recipient, txAmount, { from }],
+      funcParams: [recipient, txAmount],
+      txOverrides: { from },
     });
   }
 
@@ -293,14 +327,15 @@ const estimateCall = async (
     abi,
     funcName,
     funcParams = [],
+    txOverrides,
   }: EstimateCallParams & { signer?: Signer },
 ) => {
   if (!contractAddress) throw new Error('contractAddress must be provided');
 
   const contract = createContract(contractAddress, abi, provider);
   return signer
-    ? contract.connect(signer).estimateGas[funcName](...funcParams)
-    : contract.estimateGas[funcName](...funcParams);
+    ? contract.connect(signer).estimateGas[funcName](...funcParams, txOverrides)
+    : contract.estimateGas[funcName](...funcParams, txOverrides);
 };
 
 const estimateGasLimit = async (
@@ -313,8 +348,14 @@ const estimateGasLimit = async (
     from,
     funcName,
     funcParams,
+    txOverrides,
     signer,
-  }: WalletTxParams & { funcName?: string; funcParams?: unknown[]; signer?: Signer },
+  }: WalletTxParams & {
+    funcName?: string;
+    funcParams?: unknown[];
+    signer?: Signer;
+    txOverrides?: EVMTxParams;
+  },
 ) => {
   const value = amount.amount();
   const parsedAsset = getAssetEntity(asset);
@@ -329,6 +370,7 @@ const estimateGasLimit = async (
       abi: erc20ABI,
       funcName,
       funcParams,
+      txOverrides,
       signer,
     });
   } else {
@@ -362,7 +404,7 @@ const sendTransaction = async (
 
   // early return to skip gas estimation if provider is EIP-1193
   if (isWeb3Provider(provider)) {
-    return await EIP1193SendTransaction(provider, parsedTxObject);
+    return EIP1193SendTransaction(provider, parsedTxObject);
   }
 
   const address = from || (await signer.getAddress());
@@ -374,17 +416,17 @@ const sendTransaction = async (
   const feeData =
     (isEIP1559 &&
       (!(tx as EIP1559TxParams).maxFeePerGas || !(tx as EIP1559TxParams).maxPriorityFeePerGas)) ||
-      !(tx as LegacyEVMTxParams).gasPrice
+    !(tx as LegacyEVMTxParams).gasPrice
       ? Object.entries(
-        (await estimateGasPrices(provider, isEIP1559Compatible))[feeOptionKey],
-      ).reduce(
-        (acc, [k, v]) => ({ ...acc, [k]: BigNumber.from(v).toHexString() }),
-        {} as {
-          maxFeePerGas?: string;
-          maxPriorityFeePerGas?: string;
-          gasPrice?: string;
-        },
-      )
+          (await estimateGasPrices(provider, isEIP1559Compatible))[feeOptionKey],
+        ).reduce(
+          (acc, [k, v]) => ({ ...acc, [k]: BigNumber.from(v).toHexString() }),
+          {} as {
+            maxFeePerGas?: string;
+            maxPriorityFeePerGas?: string;
+            gasPrice?: string;
+          },
+        )
       : {};
 
   let gasLimit: string;
@@ -602,8 +644,8 @@ export const BaseEVMToolbox = ({
   sendTransaction: (params: EIP1559TxParams, feeOption: FeeOption) =>
     sendTransaction(provider, params, feeOption, signer, isEIP1559Compatible),
   /**
-     * Estimate fee for transaction
-     */
+   * Estimate fee for transaction
+   */
   getFeeForTransaction: (txObject: PopulatedTransaction | EIP1559TxParams, feeOption: FeeOption) =>
     getFeeForTransaction(txObject, feeOption, provider, isEIP1559Compatible),
   estimateMaxSendableAmount: (

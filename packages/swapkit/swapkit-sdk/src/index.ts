@@ -1,11 +1,11 @@
 import { evmWallet } from '@thorswap-lib/evm-web3-wallets';
 import { keplrWallet } from '@thorswap-lib/keplr';
 import { keystoreWallet } from '@thorswap-lib/keystore';
-import { walletconnectWallet } from '@thorswap-lib/walletconnect';
 import { ledgerWallet } from '@thorswap-lib/ledger';
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { trezorWallet } from '@thorswap-lib/trezor';
 import { ExtendParams } from '@thorswap-lib/types';
+import { walletconnectWallet } from '@thorswap-lib/walletconnect';
 import { xdefiWallet } from '@thorswap-lib/xdefi';
 
 export * from '@thorswap-lib/swapkit-api';
@@ -19,7 +19,15 @@ export const createSwapKit = ({ config, ...extendParams }: SwapKitOptions = {}) 
   swapKitClient.extend({
     ...extendParams,
     config,
-    wallets: [evmWallet, keystoreWallet, ledgerWallet, trezorWallet, keplrWallet, walletconnectWallet, xdefiWallet],
+    wallets: [
+      evmWallet,
+      keystoreWallet,
+      ledgerWallet,
+      trezorWallet,
+      keplrWallet,
+      walletconnectWallet,
+      xdefiWallet,
+    ],
   });
 
   return swapKitClient;
