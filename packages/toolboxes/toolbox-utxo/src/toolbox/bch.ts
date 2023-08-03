@@ -19,8 +19,9 @@ import { blockchairApi, BlockchairApiType } from '../api/blockchairApi.js';
 import {
   KeyPairType,
   TransactionBuilderType,
-  TransferParams,
+  TransactionType,
   UTXOBuildTxParams,
+  UTXOWalletTransferParams,
 } from '../types/common.js';
 import { compileMemo, getNetwork, getSeed } from '../utils.js';
 
@@ -93,7 +94,9 @@ const transfer = async ({
   amount,
   apiClient,
   ...rest
-}: TransferParams & { apiClient: BlockchairApiType }) => {
+}: UTXOWalletTransferParams<{ builder: TransactionBuilderType; utxos: UTXO[] }, TransactionType> & {
+  apiClient: BlockchairApiType;
+}) => {
   if (!from) throw new Error('From address must be provided');
   if (!recipient) throw new Error('Recipient address must be provided');
   if (!signTransaction) throw new Error('signTransaction must be provided');
@@ -193,7 +196,7 @@ const createKeysForPath = ({
 }: {
   phrase?: string;
   derivationPath?: string;
-}): KeyPairType => {
+}) => {
   if (!phrase) throw new Error('No phrase provided');
 
   const masterHDNode = HDNode.fromSeedBuffer(Buffer.from(getSeed(phrase)), getNetwork(chain));
@@ -224,7 +227,12 @@ export const BCHToolbox = (
     getAddressFromKeys,
     buildBCHTx: (params: UTXOBuildTxParams) => buildBCHTx({ ...params, apiClient }),
     buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, apiClient }),
-    transfer: (params: TransferParams) => transfer({ ...params, apiClient }),
+    transfer: (
+      params: UTXOWalletTransferParams<
+        { builder: TransactionBuilderType; utxos: UTXO[] },
+        TransactionType
+      >,
+    ) => transfer({ ...params, apiClient }),
     getBalance: (address: string) => getBalance(stripPrefix(toCashAddress(address))),
   };
 };

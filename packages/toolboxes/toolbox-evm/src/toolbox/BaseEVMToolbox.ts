@@ -4,10 +4,10 @@ import { getAddress } from '@ethersproject/address';
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { hexlify } from '@ethersproject/bytes';
 import { MaxInt256 } from '@ethersproject/constants';
-import { Contract } from '@ethersproject/contracts';
+import { Contract, PopulatedTransaction } from '@ethersproject/contracts';
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
 import { toUtf8Bytes } from '@ethersproject/strings';
-import { AssetEntity, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-entities';
+import { Amount, AssetAmount, AssetEntity, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-entities';
 import {
   Asset,
   Chain,
@@ -95,15 +95,15 @@ const call = async <T>(
   const contract = createContract(contractAddress, abi, contractProvider);
   const result = await (signer
     ? contract.connect(signer)[funcName](...funcParams.slice(0, -1), {
-        ...(funcParams[funcParams.length - 1] as any),
-        /**
-         * nonce must be set due to a possible bug with ethers.js,
-         * expecting a synchronous nonce while the JsonRpcProvider delivers Promise
-         */
-        nonce:
-          (funcParams[funcParams.length - 1] as any).nonce ||
-          (await contractProvider.getTransactionCount(address)),
-      })
+      ...(funcParams[funcParams.length - 1] as any),
+      /**
+       * nonce must be set due to a possible bug with ethers.js,
+       * expecting a synchronous nonce while the JsonRpcProvider delivers Promise
+       */
+      nonce:
+        (funcParams[funcParams.length - 1] as any).nonce ||
+        (await contractProvider.getTransactionCount(address)),
+    })
     : contract[funcName](...funcParams));
 
   return typeof result?.hash === 'string' ? result?.hash : result;
@@ -342,7 +342,7 @@ const estimateGasLimit = async (
 };
 
 const sendTransaction = async (
-  provider: Provider,
+  provider: Provider | Web3Provider,
   tx: EVMTxParams,
   feeOptionKey: FeeOption = FeeOption.Fast,
   signer?: Signer,
@@ -374,17 +374,17 @@ const sendTransaction = async (
   const feeData =
     (isEIP1559 &&
       (!(tx as EIP1559TxParams).maxFeePerGas || !(tx as EIP1559TxParams).maxPriorityFeePerGas)) ||
-    !(tx as LegacyEVMTxParams).gasPrice
+      !(tx as LegacyEVMTxParams).gasPrice
       ? Object.entries(
-          (await estimateGasPrices(provider, isEIP1559Compatible))[feeOptionKey],
-        ).reduce(
-          (acc, [k, v]) => ({ ...acc, [k]: BigNumber.from(v).toHexString() }),
-          {} as {
-            maxFeePerGas?: string;
-            maxPriorityFeePerGas?: string;
-            gasPrice?: string;
-          },
-        )
+        (await estimateGasPrices(provider, isEIP1559Compatible))[feeOptionKey],
+      ).reduce(
+        (acc, [k, v]) => ({ ...acc, [k]: BigNumber.from(v).toHexString() }),
+        {} as {
+          maxFeePerGas?: string;
+          maxPriorityFeePerGas?: string;
+          gasPrice?: string;
+        },
+      )
       : {};
 
   let gasLimit: string;
@@ -470,13 +470,15 @@ export const getETHDefaultWallet = () => {
 };
 
 export const EIP1193SendTransaction = async (
-  provider: any, // Web3Provider,
+  provider: Provider | Web3Provider,
   { from, to, data, value }: EVMTxParams,
-): Promise<string> =>
-  provider.provider?.request?.({
+): Promise<string> => {
+  if (!isWeb3Provider(provider)) throw new Error('Provider is not EIP-1193 compatible');
+  return (provider as Web3Provider).provider?.request?.({
     method: 'eth_sendTransaction',
     params: [{ value: BigNumber.from(value || 0).toHexString(), from, to, data }],
   });
+};
 
 export const getChecksumAddressFromAsset = (asset: Asset, chain: EVMChain) => {
   const parsedAsset = getAssetEntity(asset);
@@ -500,6 +502,73 @@ export const getTokenAddress = ({ chain, symbol, ticker }: Asset, baseAssetChain
   } catch (err) {
     return null;
   }
+};
+
+export const getFeeForTransaction = async (
+  txObject: PopulatedTransaction | EIP1559TxParams,
+  feeOption: FeeOption,
+  provider: Provider | Web3Provider,
+  isEIP1559Compatible: boolean,
+) => {
+  const gasPrices = (await estimateGasPrices(provider, isEIP1559Compatible))[feeOption];
+  const gasLimit = await provider.estimateGas(txObject);
+
+  if (!isEIP1559Compatible) {
+    return gasPrices.gasPrice!.mul(gasLimit);
+  }
+
+  return gasPrices.maxFeePerGas!.add(gasPrices.maxPriorityFeePerGas!).mul(gasLimit);
+};
+
+export const estimateMaxSendableAmount = async (
+  provider: Provider | Web3Provider,
+  {
+    from,
+    recipient,
+    memo = '',
+    feeOptionKey = FeeOption.Fastest,
+    asset,
+    balanceAmount,
+    ...rest
+  }: WalletTxParams & {
+    balanceAmount: Amount;
+    funcName?: string;
+    funcParams?: unknown[];
+  },
+  isEIP1559Compatible: boolean,
+  signer?: Signer,
+) => {
+  if (!asset) throw new Error('Asset must be provided');
+  const assetEntity = new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker);
+  if (
+    asset &&
+    !getSignatureAssetFor(asset.chain).shallowEq(
+      new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker),
+    )
+  ) {
+    return new AssetAmount(assetEntity, balanceAmount);
+  }
+
+  const { gasPrice, maxFeePerGas, maxPriorityFeePerGas } = (
+    await estimateGasPrices(provider, isEIP1559Compatible)
+  )[feeOptionKey];
+
+  const gasLimit = await estimateGasLimit(provider, { from, recipient, memo, signer, ...rest });
+
+  if (!isEIP1559Compatible && !gasPrice) throw new Error('No gas price available');
+  if (isEIP1559Compatible && !maxFeePerGas) throw new Error('No maxFeePerGas available');
+  const fee = BigNumber.from(gasLimit).mul(
+    isEIP1559Compatible ? maxFeePerGas!.add(maxPriorityFeePerGas || 1) : gasPrice!,
+  );
+  const maxSendableAmount = BigNumber.from(balanceAmount.baseAmount.toString()).sub(fee);
+
+  return new AssetAmount(
+    assetEntity,
+    Amount.fromBaseAmount(
+      maxSendableAmount.gt(0) ? maxSendableAmount.toString() : '0',
+      balanceAmount.decimal,
+    ),
+  );
 };
 
 export const BaseEVMToolbox = ({
@@ -532,4 +601,15 @@ export const BaseEVMToolbox = ({
   transfer: (params: TransferParams) => transfer(provider, params, signer, isEIP1559Compatible),
   sendTransaction: (params: EIP1559TxParams, feeOption: FeeOption) =>
     sendTransaction(provider, params, feeOption, signer, isEIP1559Compatible),
+  /**
+     * Estimate fee for transaction
+     */
+  getFeeForTransaction: (txObject: PopulatedTransaction | EIP1559TxParams, feeOption: FeeOption) =>
+    getFeeForTransaction(txObject, feeOption, provider, isEIP1559Compatible),
+  estimateMaxSendableAmount: (
+    params: WalletTxParams & {
+      balanceAmount: Amount;
+    },
+  ): Promise<AssetAmount> =>
+    estimateMaxSendableAmount(provider, params, isEIP1559Compatible, signer),
 });

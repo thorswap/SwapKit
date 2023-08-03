@@ -1,6 +1,8 @@
 {
   "author": "thorswap",
   "dependencies": {
+    "@ethersproject/bignumber": "5.7.0",
+    "@ethersproject/units": "5.7.0",
     "@psf/bitcoincashjs-lib": "4.0.3",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",

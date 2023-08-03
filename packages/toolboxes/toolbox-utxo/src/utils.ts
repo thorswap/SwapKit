@@ -114,8 +114,8 @@ export const singleFeeRate = (rate: number) =>
 
 export const standardFeeRates = (rate: number) => ({
   ...singleFeeRate(rate),
-  [FeeOption.Average]: rate * 0.8,
-  [FeeOption.Fastest]: rate * 2.0,
+  [FeeOption.Fast]: Math.floor(rate * 1.5),
+  [FeeOption.Fastest]: Math.floor(rate * 2.0),
 });
 
 export const validatePhrase = (phrase: string) => validateMnemonic(phrase, wordlist);

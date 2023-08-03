@@ -851,6 +851,12 @@ importers:
 
   packages/toolboxes/toolbox-utxo:
     dependencies:
+      '@ethersproject/bignumber':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@ethersproject/units':
+        specifier: 5.7.0
+        version: 5.7.0
       '@psf/bitcoincashjs-lib':
         specifier: 4.0.3
         version: 4.0.3
