@@ -1,6 +1,6 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
 import helpers from '@nomicfoundation/hardhat-network-helpers';
-import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
+// import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
 import { Chain, erc20ABI } from '@thorswap-lib/types';
 import hre from 'hardhat';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, ExpectStatic, test } from 'vitest';
@@ -9,7 +9,7 @@ import { ETHToolbox } from '../index.js';
 import { getProvider } from '../provider.js';
 const testAddress = '0x37aabcc0fcc1aa75827013f49e767ae0a3a63b82';
 const emptyRecipient = '0xE29E61479420Dd1029A9946710Ac31A0d140e77F';
-const FRAXAddress = '0x853d955aCEf822Db058eb8505911ED77F175b99e';
+// const FRAXAddress = '0x853d955aCEf822Db058eb8505911ED77F175b99e';
 const SHIBAddress = '0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE';
 // Get latest block to use as base for reseting fork after test
 const block = await hre.ethers.provider.getBlock('latest');
@@ -69,8 +69,8 @@ describe('Ethereum toolkit', () => {
 
   test('Send ETH', async ({
     expect,
-    toolbox,
-    provider,
+    // toolbox,
+    // provider,
   }: {
     expect: ExpectStatic;
     provider: JsonRpcProvider;
@@ -91,7 +91,7 @@ describe('Ethereum toolkit', () => {
     expect,
     ethers,
     provider,
-    toolbox,
+    // toolbox,
   }: {
     expect: ExpectStatic;
     ethers: typeof import('@nomiclabs/hardhat-ethers');
