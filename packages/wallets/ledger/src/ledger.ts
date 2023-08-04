@@ -48,7 +48,6 @@ type LedgerConfig = {
 
 const THORCHAIN_DEPOSIT_GAS_FEE = '500000000';
 const THORCHAIN_SEND_GAS_FEE = '500000000';
-
 // reduce memo length by removing trade limit
 const reduceMemo = (memo?: string, affiliateAddress = 't') => {
   if (!memo?.includes('=:')) return memo;

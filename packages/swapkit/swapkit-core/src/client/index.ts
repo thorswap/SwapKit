@@ -70,7 +70,7 @@ export class SwapKitCore {
     this.stagenet = !!stagenet;
   }
 
-  swap = async ({ recipient, route, feeOptionKey }: SwapParams) => {
+  swap = async ({ streamSwap, recipient, route, feeOptionKey }: SwapParams) => {
     const quoteMode = route.meta.quoteMode as QuoteMode;
     const evmChain = [
       QuoteMode.ETH_TO_ETH,
@@ -84,12 +84,14 @@ export class SwapKitCore {
       case QuoteMode.TC_SUPPORTED_TO_AVAX:
       case QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED:
       case QuoteMode.TC_SUPPORTED_TO_ETH: {
-        const { fromAsset, amountIn, memo } = route.calldata;
+        const { fromAsset, amountIn, memo, memoStreamingSwap } = route.calldata;
         const asset = AssetEntity.fromAssetString(fromAsset);
         if (!asset) throw new Error('Asset not recognised');
 
+        const swapMemo = (streamSwap ? memoStreamingSwap || memo : memo) as string;
+
         const amount = new AssetAmount(asset, new Amount(amountIn, 0, asset.decimal));
-        const replacedMemo = memo?.replace('{recipientAddress}', recipient);
+        const replacedMemo = swapMemo?.replace('{recipientAddress}', recipient);
         const { address: inboundAddress } = await this._getInboundDataByChain(
           !asset.isSynth ? asset.chain : Chain.THORChain,
         );
@@ -117,6 +119,8 @@ export class SwapKitCore {
 
         const provider = getProvider(evmChain);
         const { calldata, contract: contractAddress } = route;
+        if (!contractAddress) throw new Error('Contract address not found');
+
         const abi = lowercasedContractAbiMapping[contractAddress.toLowerCase()];
         if (!abi) throw new Error(`Contract ABI not found for ${contractAddress}`);
 
