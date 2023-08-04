@@ -1,8 +1,8 @@
 # SwapKit
 
-🚧🚧🚧🚧🚧🚧
+🚧🚧🚧🚧🚧
 ALPHA version of SwapKit SDK. Under heavy development. Use at your own risk.
-🚧🚧🚧🚧🚧🚧
+🚧🚧🚧🚧🚧
 
 ## Usage
 

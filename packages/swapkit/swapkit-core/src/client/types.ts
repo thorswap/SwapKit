@@ -124,6 +124,7 @@ export enum QuoteMode {
 
 export type SwapParams = {
   recipient: string;
+  streamSwap?: boolean;
   route: QuoteRoute;
   feeOptionKey: FeeOption;
 };

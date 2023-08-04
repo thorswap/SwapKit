@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import { Chain, ErrorCode } from '@thorswap-lib/types';
 
 export enum TransactionType {
   // Old quote mode
@@ -147,27 +147,37 @@ export type QuoteParams = {
 export type QuoteResponse = { quoteId: string; routes: QuoteRoute[] };
 
 export type QuoteRoute = {
+  approvalTarget?: string;
+  approvalToken?: string;
+  calldata: Calldata;
+  complete: boolean;
+  contract?: string;
+  contractInfo: string;
+  contractMethod?: string;
+  estimatedTime: number;
+  expectedOutput: string;
+  expectedOutputMaxSlippage: string;
+  expectedOutputMaxSlippageUSD: string;
+  expectedOutputUSD: string;
+  fees: Fees;
+  inboundAddress?: string;
+  index: number;
+  meta: Meta;
+  optimal: boolean;
   path: string;
   providers: string[];
   subProviders: string[];
   swaps: Swaps;
-  expectedOutput: string;
-  expectedOutputMaxSlippage: string;
-  expectedOutputUSD: string;
-  expectedOutputMaxSlippageUSD: string;
-  transaction?: any;
-  optimal: boolean;
-  complete: boolean;
-  fees: Fees;
-  meta: Meta;
-  inboundAddress: string;
   targetAddress: string;
-  calldata: Calldata;
-  contract: string;
-  contractMethod: string;
-  contractInfo: string;
-  index: number;
-  estimatedTime: number;
+  transaction?: any;
+  streamingSwap?: {
+    estimatedTime: number;
+    fees: Fees;
+    expectedOutput: string;
+    expectedOutputMaxSlippage: string;
+    expectedOutputUSD: string;
+    expectedOutputMaxSlippageUSD: string;
+  };
 };
 
 export type TxnParams = { txHash: string };
@@ -253,30 +263,49 @@ type Calldata = {
   amountIn: string;
   amountOut: string;
   amountOutMin: string;
+  assetAddress?: string;
   data?: string;
-  deadline: string;
+  deadline?: string;
   expiration: number;
-  fromAsset: string;
+  fromAsset?: string;
   memo: string;
+  memoStreamingSwap?: string;
   router?: string;
   tcMemo?: string;
   tcRouter?: string;
   tcVault?: string;
   token?: string;
-  vault?: string;
   userAddress: string;
+  vault?: string;
 };
 
 type Meta = {
-  sellChain: string;
-  sellChainGasRate: string;
   buyChain: string;
-  buyChainGasRate: string;
-  priceProtectionRequired: boolean;
-  priceProtectionDetected: boolean;
-  quoteMode: string;
+  buyChainGasRate: number;
+  hasStreamingSwap: boolean;
   lastLegEffectiveSlipPercentage: number;
-  thornodeMeta?: any;
+  priceProtectionDetected: boolean;
+  priceProtectionRequired: boolean;
+  providerBuyAssetAmount: { buyAmount: number; chain: string; symbol: string; ticker: string };
+  quoteMode: string;
+  sellChain: string;
+  sellChainGasRate: number;
+  warnings: { warningCode: ErrorCode; warningMessage: string }[];
+  thornodeMeta?: {
+    dustThreshold?: number;
+    expectedAmountOut: number;
+    expectedAmountOutStreaming: number;
+    fees: { affiliate: number; asset: string; outbound: number };
+    inboundConfirmationBlocks?: number;
+    inboundConfirmationSeconds?: number;
+    maxStreamingSwaps: number;
+    notes: string;
+    outboundDelayBlocks: number;
+    outboundDelaySeconds: number;
+    streamingSwapBlocks: number;
+    totalSwapSeconds: number;
+    warning: string;
+  };
 };
 
 type SwapItem = { from: string; to: string; toTokenAddress: string; parts: Part[] };
