@@ -1,11 +1,11 @@
+import { stringToPath } from '@cosmjs/crypto';
+import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { SwapKitApi } from '@thorswap-lib/swapkit-api';
 import { Asset, ChainId, DerivationPath } from '@thorswap-lib/types';
-import { stringToPath } from '@cosmjs/crypto';
 
 import { CosmosSDKClient } from '../cosmosSdkClient.js';
 import { BaseCosmosToolboxType } from '../thorchainUtils/types/client-types.js';
-import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 
 type Params = {
   sdk: CosmosSDKClient;
@@ -28,9 +28,11 @@ export const BaseCosmosToolbox = ({
 }: Params): BaseCosmosToolboxType => ({
   sdk: cosmosClientSdk.sdk,
   transfer: cosmosClientSdk.transfer,
-  getSigner: async (phrase: string) => {
-    return DirectSecp256k1HdWallet.fromMnemonic(phrase, { prefix: cosmosClientSdk.prefix, hdPaths: [stringToPath(`${DerivationPath.THOR}/0`)] });
-  },
+  getSigner: (phrase: string) =>
+    DirectSecp256k1HdWallet.fromMnemonic(phrase, {
+      prefix: cosmosClientSdk.prefix,
+      hdPaths: [stringToPath(`${derivationPath}/0`)],
+    }),
   getAccount: cosmosClientSdk.getAccount,
   validateAddress: (address: string) => cosmosClientSdk.checkAddress(address),
   getAddressFromMnemonic: (phrase: string) =>

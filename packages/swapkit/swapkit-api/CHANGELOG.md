@@ -1,5 +1,14 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.35
+
+### Patch Changes
+
+- Bump
+
+- Updated dependencies []:
+  - @thorswap-lib/types@1.0.0-development.96
+
 ## 0.1.0-development.34
 
 ### Minor Changes
