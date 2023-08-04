@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-utxo
 
+## 1.0.0-development.126
+
+### Patch Changes
+
+- [#228](https://github.com/thorswap/SwapKit/pull/228) [`e750716`](https://github.com/thorswap/SwapKit/commit/e7507166918a313295f36e2b386c44e84c39ddcd) Thanks [@towanTG](https://github.com/towanTG)! - Adds exact fee calculation for address and max sendable balance
+
 ## 1.0.0-development.125
 
 ### Patch Changes

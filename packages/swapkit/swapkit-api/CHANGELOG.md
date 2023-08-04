@@ -1,5 +1,15 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.34
+
+### Minor Changes
+
+- [#232](https://github.com/thorswap/SwapKit/pull/232) [`08d7dc8`](https://github.com/thorswap/SwapKit/commit/08d7dc8ef3f4d3f64fffebd810ebbb7a39c33a6c) Thanks [@ochhii1337](https://github.com/ochhii1337)! - Add thorname endpoints
+
+### Patch Changes
+
+- [#228](https://github.com/thorswap/SwapKit/pull/228) [`e750716`](https://github.com/thorswap/SwapKit/commit/e7507166918a313295f36e2b386c44e84c39ddcd) Thanks [@towanTG](https://github.com/towanTG)! - Fixes API type imports
+
 ## 0.1.0-development.33
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @thorswap-lib/okx
 
+## 1.0.0-development.17
+
+### Patch Changes
+
+- Updated dependencies [[`e750716`](https://github.com/thorswap/SwapKit/commit/e7507166918a313295f36e2b386c44e84c39ddcd), [`e750716`](https://github.com/thorswap/SwapKit/commit/e7507166918a313295f36e2b386c44e84c39ddcd), [`43d7bbb`](https://github.com/thorswap/SwapKit/commit/43d7bbb5038b0b68d5977f36df398aeb8ade9cad)]:
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.126
+  - @thorswap-lib/toolbox-evm@1.0.0-development.148
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.136
+
 ## 1.0.0-development.16
 
 ### Patch Changes

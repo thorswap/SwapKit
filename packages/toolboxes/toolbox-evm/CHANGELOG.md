@@ -1,5 +1,13 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.148
+
+### Patch Changes
+
+- [#228](https://github.com/thorswap/SwapKit/pull/228) [`e750716`](https://github.com/thorswap/SwapKit/commit/e7507166918a313295f36e2b386c44e84c39ddcd) Thanks [@towanTG](https://github.com/towanTG)! - Introduces dedicated maxSendableAmount method
+
+- [#229](https://github.com/thorswap/SwapKit/pull/229) [`43d7bbb`](https://github.com/thorswap/SwapKit/commit/43d7bbb5038b0b68d5977f36df398aeb8ade9cad) Thanks [@towanTG](https://github.com/towanTG)! - Changes EVM calls to decrease provider requests and improve stability
+
 ## 1.0.0-development.147
 
 ### Patch Changes
