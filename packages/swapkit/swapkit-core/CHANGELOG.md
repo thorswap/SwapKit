@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.192
+
+### Patch Changes
+
+- [#229](https://github.com/thorswap/SwapKit/pull/229) [`43d7bbb`](https://github.com/thorswap/SwapKit/commit/43d7bbb5038b0b68d5977f36df398aeb8ade9cad) Thanks [@towanTG](https://github.com/towanTG)! - Changes EVM calls to decrease provider requests and improve stability
+
 ## 1.0.0-development.191
 
 ### Patch Changes
