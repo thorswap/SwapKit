@@ -2,6 +2,14 @@ import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
 import { ContractInterface } from '@ethersproject/contracts';
 import { EVMTxParams, FeeOption, WalletTxParams } from '@thorswap-lib/types';
 
+import {
+  ARBToolbox,
+  AVAXToolbox,
+  BSCToolbox,
+  ETHToolbox,
+  MATICToolbox,
+  OPToolbox,
+} from '../index.js';
 import { getProvider } from '../provider.js';
 
 export enum EthNetwork {
@@ -101,3 +109,12 @@ export interface JsonFragment {
 
   readonly gas?: string;
 }
+
+export type EVMToolbox = ReturnType<
+  | typeof AVAXToolbox
+  | typeof ETHToolbox
+  | typeof BSCToolbox
+  | typeof OPToolbox
+  | typeof ARBToolbox
+  | typeof MATICToolbox
+>;

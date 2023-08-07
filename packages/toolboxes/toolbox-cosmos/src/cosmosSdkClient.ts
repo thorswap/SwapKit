@@ -1,8 +1,8 @@
-import { normalizeBech32 } from '@cosmjs/encoding';
 import { Secp256k1HdWallet, StdFee } from '@cosmjs/amino';
 import { stringToPath } from '@cosmjs/crypto';
-import { cosmosclient } from '@cosmos-client/core';
+import { normalizeBech32 } from '@cosmjs/encoding';
 import { SigningStargateClient, StargateClient } from '@cosmjs/stargate';
+import { cosmosclient } from '@cosmos-client/core';
 import { ChainId } from '@thorswap-lib/types';
 
 import { CosmosSDKClientParams, TransferParams } from './types.js';
@@ -65,13 +65,16 @@ export class CosmosSDKClient {
     asset,
     memo = '',
     fee = DEFAULT_COSMOS_FEE_MAINNET,
-    signer
+    signer,
   }: TransferParams) => {
     if (!signer) {
       throw new Error('Signer not defined');
     }
 
-    const signingClient = await SigningStargateClient.connectWithSigner(getRPC(this.chainId), signer);
+    const signingClient = await SigningStargateClient.connectWithSigner(
+      getRPC(this.chainId),
+      signer,
+    );
 
     const txResponse = await signingClient.sendTokens(
       from,

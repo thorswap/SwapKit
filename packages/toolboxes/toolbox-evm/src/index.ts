@@ -1,14 +1,11 @@
 export * from './helpers.js';
 export * from './provider.js';
 export {
-  addAccountsChangedCallback,
   BaseEVMToolbox,
   EIP1193SendTransaction,
   getBigNumberFrom,
   getChecksumAddressFromAsset,
-  getETHDefaultWallet,
   getTokenAddress,
-  isDetected,
   MAX_APPROVAL,
   toChecksumAddress,
 } from './toolbox/BaseEVMToolbox.js';

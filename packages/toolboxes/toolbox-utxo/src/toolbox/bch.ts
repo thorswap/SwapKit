@@ -208,10 +208,32 @@ const getAddressFromKeys = (keys: KeyPairType) => {
   return stripToCashAddress(address);
 };
 
+// needed because TS can not infer types
+type bchMethods = {
+  stripPrefix: (address: string) => string;
+  validateAddress: (address: string, chain?: UTXOChain) => boolean;
+  createKeysForPath: (params: { phrase?: string; derivationPath?: string }) => KeyPairType;
+  getAddressFromKeys: (keys: KeyPairType) => string;
+  buildBCHTx: (
+    params: UTXOBuildTxParams,
+  ) => Promise<{ builder: TransactionBuilderType; utxos: UTXO[] }>;
+  buildTx: (params: UTXOBuildTxParams) => Promise<{ psbt: Psbt }>;
+  transfer: (
+    params: UTXOWalletTransferParams<
+      { builder: TransactionBuilderType; utxos: UTXO[] },
+      TransactionType
+    >,
+  ) => Promise<string>;
+};
+
 export const BCHToolbox = (
   apiKey?: string,
   apiClientOrNodeUrl: BlockchairApiType | string = RPCUrl.BitcoinCash,
-) => {
+): Omit<
+  ReturnType<typeof BaseUTXOToolbox>,
+  'getAddressFromKeys' | 'transfer' | 'createKeysForPath'
+> &
+  bchMethods => {
   const apiClient =
     typeof apiClientOrNodeUrl === 'string'
       ? blockchairApi({ apiKey, nodeUrl: apiClientOrNodeUrl, chain })

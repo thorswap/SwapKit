@@ -7,7 +7,7 @@ import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
 export const DOGEToolbox = (
   apiKey?: string,
   apiClientOrNodeUrl: BlockchairApiType | string = RPCUrl.Dogecoin,
-) =>
+): ReturnType<typeof BaseUTXOToolbox> =>
   BaseUTXOToolbox({
     chain: Chain.Dogecoin,
     apiClient:

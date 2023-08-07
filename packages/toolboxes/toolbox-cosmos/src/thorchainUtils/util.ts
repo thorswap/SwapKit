@@ -2,9 +2,9 @@ import { cosmosclient, proto } from '@cosmos-client/core';
 import { assetFromString, assetToString, baseAmount, getRequest } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import { AmountWithBaseDenom, Asset, Balance, BaseDecimal, Chain, Fees } from '@thorswap-lib/types';
-import { decode } from 'bech32-buffer';
 import { fromByteArray } from 'base64-js';
 import { bech32 } from 'bech32';
+import { decode } from 'bech32-buffer';
 import Long from 'long';
 
 import { AssetRuneNative } from '../types.js';

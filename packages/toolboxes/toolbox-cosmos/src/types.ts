@@ -2,6 +2,8 @@ import { StdFee } from '@cosmjs/amino';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { Chain, ChainId } from '@thorswap-lib/types';
 
+import { BinanceToolboxType, GaiaToolboxType, ThorchainToolboxType } from './index.js';
+
 export type CosmosSDKClientParams = {
   server: string;
   chainId: ChainId;
@@ -37,3 +39,5 @@ export const AssetRuneNative = {
   symbol: 'RUNE',
   ticker: 'RUNE',
 };
+
+export type CosmosLikeToolbox = GaiaToolboxType | BinanceToolboxType | ThorchainToolboxType;

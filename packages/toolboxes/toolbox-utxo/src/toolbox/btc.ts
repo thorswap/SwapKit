@@ -7,7 +7,7 @@ import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
 export const BTCToolbox = (
   apiKey?: string,
   apiClientOrNodeUrl: BlockchairApiType | string = RPCUrl.Bitcoin,
-) =>
+): ReturnType<typeof BaseUTXOToolbox> =>
   BaseUTXOToolbox({
     chain: Chain.Bitcoin,
     apiClient:
