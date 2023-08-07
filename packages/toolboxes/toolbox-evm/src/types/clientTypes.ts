@@ -1,5 +1,6 @@
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
-import { ContractInterface } from '@ethersproject/contracts';
+import { ContractInterface, PopulatedTransaction } from '@ethersproject/contracts';
+import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import { EVMTxParams, FeeOption, WalletTxParams } from '@thorswap-lib/types';
 
 import {
@@ -118,3 +119,16 @@ export type EVMToolbox = ReturnType<
   | typeof ARBToolbox
   | typeof MATICToolbox
 >;
+
+export type EVMMaxSendableAmountsParams = {
+  from: string;
+  toolbox: EVMToolbox;
+  asset?: AssetEntity | string;
+  feeOptionKey?: FeeOption;
+  memo?: string;
+  abi?: ContractInterface;
+  funcName?: string;
+  contractAddress?: string;
+  funcParams?: unknown[];
+  txOverrides?: Partial<PopulatedTransaction>;
+};

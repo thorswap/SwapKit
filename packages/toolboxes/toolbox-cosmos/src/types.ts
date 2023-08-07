@@ -1,6 +1,7 @@
 import { StdFee } from '@cosmjs/amino';
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
-import { Chain, ChainId } from '@thorswap-lib/types';
+import { AssetEntity } from '@thorswap-lib/swapkit-entities';
+import { Chain, ChainId, FeeOption } from '@thorswap-lib/types';
 
 import { BinanceToolboxType, GaiaToolboxType, ThorchainToolboxType } from './index.js';
 
@@ -41,3 +42,10 @@ export const AssetRuneNative = {
 };
 
 export type CosmosLikeToolbox = GaiaToolboxType | BinanceToolboxType | ThorchainToolboxType;
+
+export type CosmosMaxSendableAmountParams = {
+  toolbox: CosmosLikeToolbox;
+  from: string;
+  asset?: AssetEntity | string;
+  feeOptionKey?: FeeOption;
+};

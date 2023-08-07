@@ -1,4 +1,4 @@
-import { TxParams, UTXO, UTXOChain, WalletTxParams } from '@thorswap-lib/types';
+import { FeeOption, TxParams, UTXO, UTXOChain, WalletTxParams } from '@thorswap-lib/types';
 
 import { BlockchairApiType } from '../api/blockchairApi.js';
 import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '../index.js';
@@ -63,3 +63,12 @@ export type TargetOutput = { address: string; value: number } | { script: Buffer
 export type UTXOToolbox = ReturnType<
   typeof BTCToolbox | typeof BCHToolbox | typeof DOGEToolbox | typeof LTCToolbox
 >;
+
+export type UTXOMaxSendableAmountParams = {
+  from: string;
+  to?: string;
+  memo?: string;
+  feeOptionKey?: FeeOption;
+  feeRate?: number;
+  toolbox: UTXOToolbox;
+};

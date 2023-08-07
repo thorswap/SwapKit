@@ -3,7 +3,7 @@ import { assetToString, baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { AmountWithBaseDenom, Asset, ChainId, FeeOption, RPCUrl } from '@thorswap-lib/types';
 
-import { AssetAtom, AssetMuon, CosmosLikeToolbox } from './types.js';
+import { AssetAtom, AssetMuon, CosmosMaxSendableAmountParams } from './types.js';
 
 export const getDenom = (asset: Asset) => {
   if (assetToString(asset) === assetToString(AssetAtom)) return 'uatom';
@@ -40,12 +40,7 @@ export const estimateMaxSendableAmount = async ({
   toolbox,
   asset,
   feeOptionKey = FeeOption.Fast,
-}: {
-  toolbox: CosmosLikeToolbox;
-  from: string;
-  asset?: AssetEntity | string;
-  feeOptionKey?: FeeOption;
-}): Promise<AmountWithBaseDenom> => {
+}: CosmosMaxSendableAmountParams): Promise<AmountWithBaseDenom> => {
   const assetEntity = typeof asset === 'string' ? AssetEntity.fromAssetString(asset) : asset;
   const balance = (await toolbox.getBalance(from)).find((balance) =>
     asset

@@ -1,5 +1,4 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { ContractInterface, PopulatedTransaction } from '@ethersproject/contracts';
 import { ExternalProvider, Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
@@ -10,7 +9,7 @@ import {
   BSCToolbox,
   EthereumWindowProvider,
   ETHToolbox,
-  EVMToolbox,
+  EVMMaxSendableAmountsParams,
 } from './index.js';
 
 type NetworkParams = {
@@ -168,18 +167,7 @@ export const estimateMaxSendableAmount = async ({
   funcParams,
   contractAddress,
   txOverrides,
-}: {
-  from: string;
-  toolbox: EVMToolbox;
-  asset?: AssetEntity | string;
-  feeOptionKey?: FeeOption;
-  memo?: string;
-  abi?: ContractInterface;
-  funcName?: string;
-  contractAddress?: string;
-  funcParams?: unknown[];
-  txOverrides?: Partial<PopulatedTransaction>;
-}) => {
+}: EVMMaxSendableAmountsParams) => {
   const assetEntity = typeof asset === 'string' ? AssetEntity.fromAssetString(asset) : asset;
   const balance = (await toolbox.getBalance(from)).find((balance) =>
     assetEntity

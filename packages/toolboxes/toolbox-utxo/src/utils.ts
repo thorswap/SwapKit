@@ -5,7 +5,7 @@ import { AmountWithBaseDenom, Chain, FeeOption, FeeRates, Fees, UTXO } from '@th
 import { networks, opcodes, script } from 'bitcoinjs-lib';
 import coininfo from 'coininfo';
 
-import { UTXOToolbox } from './index.js';
+import { UTXOMaxSendableAmountParams } from './index.js';
 
 /**
  * Minimum transaction fee
@@ -147,14 +147,7 @@ export const estimateMaxSendableAmount = async ({
   feeRate,
   feeOptionKey = FeeOption.Fast,
   toolbox,
-}: {
-  from: string;
-  to?: string;
-  memo?: string;
-  feeOptionKey?: FeeOption;
-  feeRate?: number;
-  toolbox: UTXOToolbox;
-}): Promise<AmountWithBaseDenom> => {
+}: UTXOMaxSendableAmountParams): Promise<AmountWithBaseDenom> => {
   const balance = (await toolbox.getBalance(from))[0];
 
   const feeRateWhole = feeRate ? Math.floor(feeRate) : (await toolbox.getFeeRates())[feeOptionKey];
