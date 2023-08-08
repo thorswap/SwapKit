@@ -7,13 +7,7 @@ import { MaxInt256 } from '@ethersproject/constants';
 import { Contract, ContractInterface, PopulatedTransaction } from '@ethersproject/contracts';
 import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
 import { toUtf8Bytes } from '@ethersproject/strings';
-import {
-  Amount,
-  AssetAmount,
-  AssetEntity,
-  getSignatureAssetFor,
-  isGasAsset,
-} from '@thorswap-lib/swapkit-entities';
+import { AssetEntity, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-entities';
 import {
   Asset,
   Chain,
@@ -24,7 +18,6 @@ import {
   EVMTxParams,
   FeeOption,
   LegacyEVMTxParams,
-  WalletOption,
   WalletTxParams,
 } from '@thorswap-lib/types';
 
@@ -463,53 +456,11 @@ const sendTransaction = async (
   }
 };
 
-const listWeb3EVMWallets = () => {
-  const metamaskEnabled = window?.ethereum && !window.ethereum?.isBraveWallet;
-  const xdefiEnabled = window?.xfi || window?.ethereum?.__XDEFI;
-  const braveEnabled = window?.ethereum?.isBraveWallet;
-  const trustEnabled = window?.ethereum?.isTrust || window?.trustwallet;
-  const coinbaseEnabled =
-    (window?.ethereum?.overrideIsMetaMask &&
-      window?.ethereum?.selectedProvider?.isCoinbaseWallet) ||
-    window?.coinbaseWalletExtension;
-
-  const wallets = [];
-  if (metamaskEnabled) wallets.push(WalletOption.METAMASK);
-  if (xdefiEnabled) wallets.push(WalletOption.XDEFI);
-  if (braveEnabled) wallets.push(WalletOption.BRAVE);
-  if (trustEnabled) wallets.push(WalletOption.TRUSTWALLET_WEB);
-  if (coinbaseEnabled) wallets.push(WalletOption.COINBASE_WEB);
-
-  return wallets;
-};
-
-const isWeb3Detected = () => {
-  return typeof window.ethereum !== 'undefined';
-};
-
 /**
  * Exported helper functions
  */
 export const getBigNumberFrom = (value: string | number | BigNumber) => BigNumber.from(value);
 export const toChecksumAddress = (address: string) => getAddress(address);
-export const isDetected = (walletOption: WalletOption) => {
-  return listWeb3EVMWallets().includes(walletOption);
-};
-
-export const addAccountsChangedCallback = (callback: () => void) => {
-  window.ethereum?.on('accountsChanged', () => callback());
-  window.xfi?.ethereum.on('accountsChanged', () => callback());
-};
-
-export const getETHDefaultWallet = () => {
-  const { isTrust, isBraveWallet, __XDEFI, overrideIsMetaMask, selectedProvider } =
-    window?.ethereum || {};
-  if (isTrust) return WalletOption.TRUSTWALLET_WEB;
-  if (isBraveWallet) return WalletOption.BRAVE;
-  if (overrideIsMetaMask && selectedProvider?.isCoinbaseWallet) return WalletOption.COINBASE_WEB;
-  if (__XDEFI) WalletOption.XDEFI;
-  return WalletOption.METAMASK;
-};
 
 export const EIP1193SendTransaction = async (
   provider: Provider | Web3Provider,
@@ -562,57 +513,6 @@ export const getFeeForTransaction = async (
   return gasPrices.maxFeePerGas!.add(gasPrices.maxPriorityFeePerGas!).mul(gasLimit);
 };
 
-export const estimateMaxSendableAmount = async (
-  provider: Provider | Web3Provider,
-  {
-    from,
-    recipient,
-    memo = '',
-    feeOptionKey = FeeOption.Fastest,
-    asset,
-    balanceAmount,
-    ...rest
-  }: WalletTxParams & {
-    balanceAmount: Amount;
-    funcName?: string;
-    funcParams?: unknown[];
-  },
-  isEIP1559Compatible: boolean,
-  signer?: Signer,
-) => {
-  if (!asset) throw new Error('Asset must be provided');
-  const assetEntity = new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker);
-  if (
-    asset &&
-    !getSignatureAssetFor(asset.chain).shallowEq(
-      new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker),
-    )
-  ) {
-    return new AssetAmount(assetEntity, balanceAmount);
-  }
-
-  const { gasPrice, maxFeePerGas, maxPriorityFeePerGas } = (
-    await estimateGasPrices(provider, isEIP1559Compatible)
-  )[feeOptionKey];
-
-  const gasLimit = await estimateGasLimit(provider, { from, recipient, memo, signer, ...rest });
-
-  if (!isEIP1559Compatible && !gasPrice) throw new Error('No gas price available');
-  if (isEIP1559Compatible && !maxFeePerGas) throw new Error('No maxFeePerGas available');
-  const fee = BigNumber.from(gasLimit).mul(
-    isEIP1559Compatible ? maxFeePerGas!.add(maxPriorityFeePerGas || 1) : gasPrice!,
-  );
-  const maxSendableAmount = BigNumber.from(balanceAmount.baseAmount.toString()).sub(fee);
-
-  return new AssetAmount(
-    assetEntity,
-    Amount.fromBaseAmount(
-      maxSendableAmount.gt(0) ? maxSendableAmount.toString() : '0',
-      balanceAmount.decimal,
-    ),
-  );
-};
-
 export const BaseEVMToolbox = ({
   provider,
   signer,
@@ -622,36 +522,20 @@ export const BaseEVMToolbox = ({
   provider: Provider | Web3Provider;
   isEIP1559Compatible?: boolean;
 }) => ({
-  addAccountsChangedCallback,
-  broadcastTransaction: provider.sendTransaction,
-  createContract,
-  getETHDefaultWallet,
-  isDetected,
-  isWeb3Detected,
-  listWeb3EVMWallets,
-  validateAddress,
   approve: (params: ApproveParams) => approve(provider, params, signer, isEIP1559Compatible),
   approvedAmount: (params: ApprovedParams) => approvedAmount(provider, params),
+  broadcastTransaction: provider.sendTransaction,
   call: (params: CallParams) => call(provider, { ...params, signer }),
+  createContract,
   createContractTxObject: (params: CallParams) => createContractTxObject(provider, params),
   EIP1193SendTransaction: (tx: EIP1559TxParams) => EIP1193SendTransaction(provider, tx),
-  estimateGasPrices: () => estimateGasPrices(provider, isEIP1559Compatible),
   estimateCall: (params: EstimateCallParams) => estimateCall(provider, { ...params, signer }),
   estimateGasLimit: ({ asset, recipient, amount, memo }: WalletTxParams) =>
     estimateGasLimit(provider, { asset, recipient, amount, memo, signer }),
+  estimateGasPrices: () => estimateGasPrices(provider, isEIP1559Compatible),
   isApproved: (params: IsApprovedParams) => isApproved(provider, params),
-  transfer: (params: TransferParams) => transfer(provider, params, signer, isEIP1559Compatible),
   sendTransaction: (params: EIP1559TxParams, feeOption: FeeOption) =>
     sendTransaction(provider, params, feeOption, signer, isEIP1559Compatible),
-  /**
-   * Estimate fee for transaction
-   */
-  getFeeForTransaction: (txObject: PopulatedTransaction | EIP1559TxParams, feeOption: FeeOption) =>
-    getFeeForTransaction(txObject, feeOption, provider, isEIP1559Compatible),
-  estimateMaxSendableAmount: (
-    params: WalletTxParams & {
-      balanceAmount: Amount;
-    },
-  ): Promise<AssetAmount> =>
-    estimateMaxSendableAmount(provider, params, isEIP1559Compatible, signer),
+  transfer: (params: TransferParams) => transfer(provider, params, signer, isEIP1559Compatible),
+  validateAddress,
 });

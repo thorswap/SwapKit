@@ -17,7 +17,21 @@ import {
   isGasAsset,
   ThornameRegisterParam,
 } from '@thorswap-lib/swapkit-entities';
-import type { AVAXToolbox, BSCToolbox, ETHToolbox } from '@thorswap-lib/toolbox-evm';
+import {
+  CosmosMaxSendableAmountParams,
+  estimateMaxSendableAmount as cosmosEstimateMax,
+} from '@thorswap-lib/toolbox-cosmos';
+import type {
+  AVAXToolbox,
+  BSCToolbox,
+  ETHToolbox,
+  EVMMaxSendableAmountsParams,
+} from '@thorswap-lib/toolbox-evm';
+import { estimateMaxSendableAmount as evmEstimateMax } from '@thorswap-lib/toolbox-evm';
+import {
+  estimateMaxSendableAmount as utxoEstimateMax,
+  UTXOMaxSendableAmountParams,
+} from '@thorswap-lib/toolbox-utxo';
 import {
   AddChainWalletParams,
   AmountWithBaseDenom,
@@ -60,7 +74,6 @@ import {
   WalletMethods,
   WithdrawParams,
 } from './types.js';
-
 export class SwapKitCore {
   public connectedChains: Wallet = getEmptyWalletStructure();
   public connectedWallets: WalletMethods = getEmptyWalletStructure();
@@ -525,6 +538,41 @@ export class SwapKitCore {
         rpcUrls,
       });
     });
+  };
+
+  estimateMaxSendableAmount = ({
+    chain,
+    params,
+  }: {
+    chain: Chain;
+    params:
+      | UTXOMaxSendableAmountParams
+      | EVMMaxSendableAmountsParams
+      | CosmosMaxSendableAmountParams;
+  }): Promise<AmountWithBaseDenom> => {
+    switch (chain) {
+      case Chain.Arbitrum:
+      case Chain.Avalanche:
+      case Chain.BinanceSmartChain:
+      case Chain.Ethereum:
+      case Chain.Optimism:
+      case Chain.Polygon:
+        return evmEstimateMax(params as EVMMaxSendableAmountsParams);
+
+      case Chain.Bitcoin:
+      case Chain.BitcoinCash:
+      case Chain.Dogecoin:
+      case Chain.Litecoin:
+        return utxoEstimateMax(params as UTXOMaxSendableAmountParams);
+
+      case Chain.Binance:
+      case Chain.THORChain:
+      case Chain.Cosmos:
+        return cosmosEstimateMax(params as CosmosMaxSendableAmountParams);
+
+      default:
+        throw new Error(`Unsupported chain: ${chain}`);
+    }
   };
 
   /**

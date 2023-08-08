@@ -1,10 +1,9 @@
-import { BigNumber } from '@ethersproject/bignumber';
-import { parseUnits } from '@ethersproject/units';
 import { HDKey } from '@scure/bip32';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
   AmountWithBaseDenom,
+  Balance,
   BaseDecimal,
   Chain,
   FeeOption,
@@ -271,47 +270,14 @@ const getInputsOutputsFee = async ({
   return accumulative(inputs, targetOutputs, feeRateWhole);
 };
 
-const calculateMaxSendableAmount = async ({
-  from,
-  to,
-  memo,
-  feeRate,
-  feeOptionKey,
-  chain,
-  apiClient,
-}: {
-  from: string;
-  to: string;
-  memo: string;
-  feeOptionKey: FeeOption;
-  feeRate: number;
-} & UTXOBaseToolboxParams): Promise<BigNumber> => {
-  const balance = (await getBalance({ address: from, chain, apiClient }))[0];
-
-  const feeRateWhole = feeRate
-    ? Math.floor(feeRate)
-    : (await getFeeRates({ chain, apiClient }))[feeOptionKey];
-
-  const { fee } = await getInputsOutputsFee({
-    chain,
-    apiClient,
-    memo,
-    sender: from,
-    recipient: to || from,
-    amount: balance.amount,
-    feeRate: feeRateWhole,
-  });
-
-  return parseUnits(balance.amount.minus(baseAmount(fee, 8)).amount.toString(), 8);
-};
-
 export const BaseUTXOToolbox = (baseToolboxParams: UTXOBaseToolboxParams) => ({
   broadcastTx: baseToolboxParams.apiClient.broadcastTx,
   buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, ...baseToolboxParams }),
   createKeysForPath: (params: UTXOCreateKeyParams) =>
     createKeysForPath({ ...params, ...baseToolboxParams }),
   getAddressFromKeys: (keys: ECPairInterface) => getAddressFromKeys({ keys, ...baseToolboxParams }),
-  getBalance: (address: string) => getBalance({ address, ...baseToolboxParams }),
+  getBalance: (address: string): Promise<Balance[]> =>
+    getBalance({ address, ...baseToolboxParams }),
   getFeeRates: () => getFeeRates(baseToolboxParams),
   getFees: () => getFees(baseToolboxParams),
   getFeesAndFeeRates: () => getFeesAndFeeRates(baseToolboxParams),
@@ -323,31 +289,4 @@ export const BaseUTXOToolbox = (baseToolboxParams: UTXOBaseToolboxParams) => ({
     getInputsOutputsFee({ ...params, ...baseToolboxParams }),
   getFeeForTransaction: async (params: UTXOBuildTxParams): Promise<AmountWithBaseDenom> =>
     baseAmount((await getInputsOutputsFee({ ...params, ...baseToolboxParams })).fee, 8),
-  /**
-   * Calculates the maximum amount that can be sent to a recipient with the same script type as the sender.
-   *
-   * Default is a high feeRate.
-   * Using a memo is optional.
-   */
-  calculateMaxSendableAmount: ({
-    from,
-    to,
-    memo = '',
-    feeOptionKey = FeeOption.Fastest,
-    feeRate,
-  }: {
-    from: string;
-    to: string;
-    memo?: string;
-    feeOptionKey?: FeeOption;
-    feeRate: number;
-  }) =>
-    calculateMaxSendableAmount({
-      from,
-      feeOptionKey,
-      feeRate,
-      memo,
-      to,
-      ...baseToolboxParams,
-    }),
 });

@@ -1,8 +1,9 @@
 import { GasPrice, SigningStargateClient } from '@cosmjs/stargate';
-import { assetToString } from '@thorswap-lib/helpers';
-import { Asset, ChainId, RPCUrl } from '@thorswap-lib/types';
+import { assetToString, baseAmount } from '@thorswap-lib/helpers';
+import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { AmountWithBaseDenom, Asset, ChainId, FeeOption, RPCUrl } from '@thorswap-lib/types';
 
-import { AssetAtom, AssetMuon } from './types.js';
+import { AssetAtom, AssetMuon, CosmosMaxSendableAmountParams } from './types.js';
 
 export const getDenom = (asset: Asset) => {
   if (assetToString(asset) === assetToString(AssetAtom)) return 'uatom';
@@ -32,4 +33,28 @@ export const getRPC = (chainId: ChainId) => {
     default:
       return RPCUrl.Cosmos;
   }
-}
+};
+
+export const estimateMaxSendableAmount = async ({
+  from,
+  toolbox,
+  asset,
+  feeOptionKey = FeeOption.Fast,
+}: CosmosMaxSendableAmountParams): Promise<AmountWithBaseDenom> => {
+  const assetEntity = typeof asset === 'string' ? AssetEntity.fromAssetString(asset) : asset;
+  const balance = (await toolbox.getBalance(from)).find((balance) =>
+    asset
+      ? balance.asset.symbol === assetEntity?.symbol
+      : balance.asset.symbol === getSignatureAssetFor(balance.asset.chain)?.symbol,
+  );
+
+  if (!balance) return baseAmount(0);
+
+  if (assetEntity && getSignatureAssetFor(balance.asset.chain).shallowEq(assetEntity)) {
+    return balance.amount;
+  }
+
+  const fees = await toolbox.getFees();
+
+  return balance.amount.minus(fees[feeOptionKey]);
+};

@@ -1,7 +1,16 @@
+import { BigNumber } from '@ethersproject/bignumber';
 import { ExternalProvider, Web3Provider } from '@ethersproject/providers';
-import { Chain, ChainId, ChainToHexChainId } from '@thorswap-lib/types';
+import { baseAmount } from '@thorswap-lib/helpers';
+import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { Chain, ChainId, ChainToHexChainId, FeeOption, WalletOption } from '@thorswap-lib/types';
 
-import { AVAXToolbox, BSCToolbox, EthereumWindowProvider, ETHToolbox } from './index.js';
+import {
+  AVAXToolbox,
+  BSCToolbox,
+  EthereumWindowProvider,
+  ETHToolbox,
+  EVMMaxSendableAmountsParams,
+} from './index.js';
 
 type NetworkParams = {
   chainId: ChainId;
@@ -145,4 +154,99 @@ export const getWeb3WalletMethods = async ({
     chainId: ChainToHexChainId[chain],
     provider: ethereumWindowProvider,
   });
+};
+
+export const estimateMaxSendableAmount = async ({
+  toolbox,
+  from,
+  memo = '',
+  feeOptionKey = FeeOption.Fastest,
+  asset,
+  abi,
+  funcName,
+  funcParams,
+  contractAddress,
+  txOverrides,
+}: EVMMaxSendableAmountsParams) => {
+  const assetEntity = typeof asset === 'string' ? AssetEntity.fromAssetString(asset) : asset;
+  const balance = (await toolbox.getBalance(from)).find((balance) =>
+    assetEntity
+      ? balance.asset.symbol === assetEntity.symbol
+      : balance.asset.symbol === getSignatureAssetFor(balance.asset.chain)?.symbol,
+  );
+
+  if (!balance) return baseAmount(0);
+
+  if (assetEntity && getSignatureAssetFor(balance.asset.chain).shallowEq(assetEntity)) {
+    return balance.amount;
+  }
+
+  const gasLimit =
+    abi && funcName && funcParams && contractAddress
+      ? await toolbox.estimateCall({
+          contractAddress,
+          abi,
+          funcName,
+          funcParams,
+          txOverrides,
+        })
+      : await toolbox.estimateGasLimit({
+          from,
+          recipient: from,
+          memo,
+          amount: baseAmount('1', 18),
+        });
+
+  const fees = (await toolbox.estimateGasPrices())[feeOptionKey];
+
+  if (!fees.gasPrice && !fees.maxFeePerGas) throw new Error('Could not fetch fee data');
+  const fee = BigNumber.from(gasLimit).mul(
+    !fees.gasPrice ? fees.maxFeePerGas!.add(fees.maxPriorityFeePerGas || 1) : fees.gasPrice!,
+  );
+  const maxSendableAmount = BigNumber.from(balance.amount.toString()).sub(fee);
+
+  return baseAmount(maxSendableAmount, 18);
+};
+
+export const addAccountsChangedCallback = (callback: () => void) => {
+  window.ethereum?.on('accountsChanged', () => callback());
+  window.xfi?.ethereum.on('accountsChanged', () => callback());
+};
+
+export const getETHDefaultWallet = () => {
+  const { isTrust, isBraveWallet, __XDEFI, overrideIsMetaMask, selectedProvider } =
+    window?.ethereum || {};
+  if (isTrust) return WalletOption.TRUSTWALLET_WEB;
+  if (isBraveWallet) return WalletOption.BRAVE;
+  if (overrideIsMetaMask && selectedProvider?.isCoinbaseWallet) return WalletOption.COINBASE_WEB;
+  if (__XDEFI) WalletOption.XDEFI;
+  return WalletOption.METAMASK;
+};
+
+export const isDetected = (walletOption: WalletOption) => {
+  return listWeb3EVMWallets().includes(walletOption);
+};
+
+const listWeb3EVMWallets = () => {
+  const metamaskEnabled = window?.ethereum && !window.ethereum?.isBraveWallet;
+  const xdefiEnabled = window?.xfi || window?.ethereum?.__XDEFI;
+  const braveEnabled = window?.ethereum?.isBraveWallet;
+  const trustEnabled = window?.ethereum?.isTrust || window?.trustwallet;
+  const coinbaseEnabled =
+    (window?.ethereum?.overrideIsMetaMask &&
+      window?.ethereum?.selectedProvider?.isCoinbaseWallet) ||
+    window?.coinbaseWalletExtension;
+
+  const wallets = [];
+  if (metamaskEnabled) wallets.push(WalletOption.METAMASK);
+  if (xdefiEnabled) wallets.push(WalletOption.XDEFI);
+  if (braveEnabled) wallets.push(WalletOption.BRAVE);
+  if (trustEnabled) wallets.push(WalletOption.TRUSTWALLET_WEB);
+  if (coinbaseEnabled) wallets.push(WalletOption.COINBASE_WEB);
+
+  return wallets;
+};
+
+export const isWeb3Detected = () => {
+  return typeof window.ethereum !== 'undefined';
 };

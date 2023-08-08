@@ -7,7 +7,7 @@ import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
 export const LTCToolbox = (
   apiKey?: string,
   apiClientOrNodeUrl: BlockchairApiType | string = RPCUrl.Litecoin,
-) =>
+): ReturnType<typeof BaseUTXOToolbox> =>
   BaseUTXOToolbox({
     chain: Chain.Litecoin,
     apiClient:

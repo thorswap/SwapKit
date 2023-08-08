@@ -1,12 +1,17 @@
+import { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
+import { Account, defaultRegistryTypes, SigningStargateClient, StdFee } from '@cosmjs/stargate';
 import { cosmosclient, proto, rest } from '@cosmos-client/core';
-import {
-  baseAmount,
-  getRequest,
-  getTcNodeUrl,
-  singleFee,
-} from '@thorswap-lib/helpers';
+import { baseAmount, getRequest, getTcNodeUrl, singleFee } from '@thorswap-lib/helpers';
 import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { Balance, BaseDecimal, Chain, ChainId, DerivationPath, Fees, RPCUrl } from '@thorswap-lib/types';
+import {
+  Balance,
+  BaseDecimal,
+  Chain,
+  ChainId,
+  DerivationPath,
+  Fees,
+  RPCUrl,
+} from '@thorswap-lib/types';
 import { fromByteArray, toByteArray } from 'base64-js';
 import Long from 'long';
 
@@ -26,8 +31,6 @@ import {
 import { AssetRuneNative, TransferParams } from '../types.js';
 
 import { BaseCosmosToolbox } from './BaseCosmosToolbox.js';
-import { Account, SigningStargateClient, StdFee, defaultRegistryTypes } from '@cosmjs/stargate';
-import { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
 
 type ToolboxParams = {
   stagenet?: boolean;
@@ -42,9 +45,9 @@ const createDefaultRegistry = () => {
   return new Registry([
     ...defaultRegistryTypes,
     ['/types.MsgSend', { ...types.types.MsgSend }],
-    ['/types.MsgDeposit', { ...types.types.MsgDeposit }]
+    ['/types.MsgDeposit', { ...types.types.MsgDeposit }],
   ]);
-}
+};
 
 const getAssetFromBalance = ({ asset: { symbol, chain } }: Balance): AssetEntity => {
   const isSynth = symbol.includes('/');
@@ -229,13 +232,13 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     amount,
     memo,
     from,
-  }: DepositParam & { from: string; }) => {
+  }: DepositParam & { from: string }) => {
     if (!signer) {
       throw new Error('Signer not defined');
     }
 
     const signingClient = await SigningStargateClient.connectWithSigner(RPCUrl.THORChain, signer, {
-      registry: createDefaultRegistry()
+      registry: createDefaultRegistry(),
     });
 
     const base64Address = bech32ToBase64(from);
@@ -254,7 +257,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
       value: {
         signer: base64Address,
         memo,
-        coins: [{ asset: assetObj, amount: amount.amount().toString() }]
+        coins: [{ asset: assetObj, amount: amount.amount().toString() }],
       },
     };
 
@@ -275,14 +278,14 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     asset,
     memo = '',
     fee = DEFAULT_THORCHAIN_FEE_MAINNET,
-    signer
+    signer,
   }: TransferParams) => {
     if (!signer) {
       throw new Error('Signer not defined');
     }
 
     const signingClient = await SigningStargateClient.connectWithSigner(RPCUrl.THORChain, signer, {
-      registry: createDefaultRegistry()
+      registry: createDefaultRegistry(),
     });
 
     const base64From = bech32ToBase64(from);
@@ -297,12 +300,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
       },
     };
 
-    const txResponse = await signingClient.signAndBroadcast(
-      from,
-      [sendMsg],
-      fee as StdFee,
-      memo,
-    );
+    const txResponse = await signingClient.signAndBroadcast(from, [sendMsg], fee as StdFee, memo);
 
     return txResponse.transactionHash;
   };

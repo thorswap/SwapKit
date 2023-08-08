@@ -1,4 +1,5 @@
 import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from '@cosmjs/crypto';
+import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   assetFromString,
   baseAmount,
@@ -25,7 +26,6 @@ import { BinanceToolboxType } from '../index.js';
 import { TransferParams } from '../types.js';
 
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.js';
-import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 
 type ToolboxParams = {
   stagenet?: boolean;

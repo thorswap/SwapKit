@@ -63,9 +63,7 @@ export type CommonCosmosToolboxType = {
 
 export type ThorchainToolboxType = BaseCosmosToolboxType &
   CommonCosmosToolboxType & {
-    deposit: (
-      params: DepositParam & { from: string; },
-    ) => Promise<string>;
+    deposit: (params: DepositParam & { from: string }) => Promise<string>;
     instanceToProto: (value: any) => proto.google.protobuf.Any;
     createMultisig: (
       pubKeys: string[],
@@ -88,14 +86,9 @@ export type ThorchainToolboxType = BaseCosmosToolboxType &
     loadAddressBalances: (address: string) => Promise<AssetAmount[]>;
   };
 
-export type GaiaToolboxType =
-  BaseCosmosToolboxType &
-  CommonCosmosToolboxType;
+export type GaiaToolboxType = BaseCosmosToolboxType & CommonCosmosToolboxType;
 
-export type BinanceToolboxType = Omit<
-  BaseCosmosToolboxType,
-  'getAccount'
-> &
+export type BinanceToolboxType = Omit<BaseCosmosToolboxType, 'getAccount'> &
   CommonCosmosToolboxType & {
     createKeyPair: (phrase: string) => Promise<Uint8Array>;
     transfer: (params: TransferParams) => Promise<string>;
