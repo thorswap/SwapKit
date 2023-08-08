@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.194
+
+### Patch Changes
+
+- [#237](https://github.com/thorswap/SwapKit/pull/237) [`99a6339`](https://github.com/thorswap/SwapKit/commit/99a63395466777ea48ac116a5ef31049a9de726b) Thanks [@towanTG](https://github.com/towanTG)! - Exposes max sendable balance
+
 ## 1.0.0-development.193
 
 ### Patch Changes

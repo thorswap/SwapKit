@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.150
+
+### Patch Changes
+
+- [#237](https://github.com/thorswap/SwapKit/pull/237) [`99a6339`](https://github.com/thorswap/SwapKit/commit/99a63395466777ea48ac116a5ef31049a9de726b) Thanks [@towanTG](https://github.com/towanTG)! - Improves max sendable balance estimation
+
 ## 1.0.0-development.149
 
 ### Patch Changes
