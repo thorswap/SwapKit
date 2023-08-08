@@ -549,7 +549,7 @@ export class SwapKitCore {
       | UTXOMaxSendableAmountParams
       | EVMMaxSendableAmountsParams
       | CosmosMaxSendableAmountParams;
-  }) => {
+  }): Promise<AmountWithBaseDenom> => {
     switch (chain) {
       case Chain.Arbitrum:
       case Chain.Avalanche:
