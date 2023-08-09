@@ -131,7 +131,7 @@ const call = async <T>(
       nonce: txOverrides?.nonce || (await contractProvider.getTransactionCount(address)),
     });
 
-    typeof result?.hash === 'string' ? result?.hash : result;
+    return typeof result?.hash === 'string' ? result?.hash : result;
   }
 
   const result = await contract[funcName](...funcParams);
@@ -247,7 +247,7 @@ const transfer = async (
     const contractAddress = await getTokenAddress(parsedAsset, chain);
     if (!contractAddress) throw new Error('No contract address found');
     // Transfer ERC20
-    return call(provider, {
+    return call<string>(provider, {
       signer,
       contractAddress,
       abi: erc20ABI,
