@@ -1,5 +1,16 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.195
+
+### Patch Changes
+
+- [#244](https://github.com/thorswap/SwapKit/pull/244) [`f9e75d0`](https://github.com/thorswap/SwapKit/commit/f9e75d0a4da37bce499885290c06289ea80e3245) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Update PK, signer and custom wallets handling
+
+- Updated dependencies [[`f9e75d0`](https://github.com/thorswap/SwapKit/commit/f9e75d0a4da37bce499885290c06289ea80e3245)]:
+  - @thorswap-lib/types@1.0.0-development.97
+  - @thorswap-lib/helpers@0.0.0-development.100
+  - @thorswap-lib/swapkit-entities@1.0.0-development.108
+
 ## 1.0.0-development.194
 
 ### Patch Changes

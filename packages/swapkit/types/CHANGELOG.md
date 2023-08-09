@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.97
+
+### Patch Changes
+
+- [#244](https://github.com/thorswap/SwapKit/pull/244) [`f9e75d0`](https://github.com/thorswap/SwapKit/commit/f9e75d0a4da37bce499885290c06289ea80e3245) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Update PK, signer and custom wallets handling
+
 ## 1.0.0-development.96
 
 ### Patch Changes
