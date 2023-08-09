@@ -74,7 +74,8 @@ import {
   WalletMethods,
   WithdrawParams,
 } from './types.js';
-export class SwapKitCore {
+
+export class SwapKitCore<T = ''> {
   public connectedChains: Wallet = getEmptyWalletStructure();
   public connectedWallets: WalletMethods = getEmptyWalletStructure();
   public readonly stagenet: boolean = false;
@@ -529,8 +530,9 @@ export class SwapKitCore {
     this.connectedWallets[chain] = null;
   };
 
-  extend = ({ wallets, config, apis = {}, rpcUrls = {} }: ExtendParams) => {
+  extend = ({ wallets, config, apis = {}, rpcUrls = {} }: ExtendParams<T>) => {
     wallets.forEach((wallet) => {
+      // @ts-expect-error
       this[wallet.connectMethodName] = wallet.connect({
         addChain: this._addConnectedChain,
         config: config || {},

@@ -14,6 +14,8 @@ import {
 } from 'bchaddrjs';
 import { Psbt } from 'bitcoinjs-lib';
 import accumulative from 'coinselect/accumulative';
+import { ECPairFactory } from 'ecpair';
+import * as tinySecp from 'tiny-secp256k1';
 
 import { blockchairApi, BlockchairApiType } from '../api/blockchairApi.js';
 import {
@@ -27,21 +29,40 @@ import { compileMemo, getNetwork, getSeed } from '../utils.js';
 
 import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
 
+// needed because TS can not infer types
+type BCHMethods = {
+  stripPrefix: (address: string) => string;
+  validateAddress: (address: string, chain?: UTXOChain) => boolean;
+  createKeysForPath: (params: {
+    wif?: string;
+    phrase?: string;
+    derivationPath?: string;
+  }) => KeyPairType;
+  getAddressFromKeys: (keys: KeyPairType) => string;
+  buildBCHTx: (
+    params: UTXOBuildTxParams & { apiClient: BlockchairApiType },
+  ) => Promise<{ builder: TransactionBuilderType; utxos: UTXO[] }>;
+  buildTx: (params: UTXOBuildTxParams) => Promise<{ psbt: Psbt }>;
+  transfer: (
+    params: UTXOWalletTransferParams<
+      { builder: TransactionBuilderType; utxos: UTXO[] },
+      TransactionType
+    >,
+  ) => Promise<string>;
+};
+
 const chain = Chain.BitcoinCash as UTXOChain;
 
 const stripToCashAddress = (address: string) => stripPrefix(toCashAddress(address));
 
-const buildBCHTx = async ({
+const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
   amount,
   recipient,
   memo,
   feeRate,
   sender,
   apiClient,
-}: UTXOBuildTxParams & { apiClient: BlockchairApiType }): Promise<{
-  builder: TransactionBuilderType;
-  utxos: UTXO[];
-}> => {
+}) => {
   if (!validateAddress(recipient)) throw new Error('Invalid address');
   const utxos = await apiClient.scanUTXOs({
     address: stripToCashAddress(sender),
@@ -190,40 +211,29 @@ const validateAddress = (address: string, _chain?: UTXOChain) => {
   return isValidAddress(address) && detectAddressNetwork(address) === bchNetwork.Mainnet;
 };
 
-const createKeysForPath = ({
+const createKeysForPath: BCHMethods['createKeysForPath'] = ({
   phrase,
   derivationPath = `${DerivationPath.BCH}/0`,
-}: {
-  phrase?: string;
-  derivationPath?: string;
+  wif,
 }) => {
+  const network = getNetwork(chain);
+
+  if (wif) return ECPairFactory(tinySecp).fromWIF(wif, network);
   if (!phrase) throw new Error('No phrase provided');
 
-  const masterHDNode = HDNode.fromSeedBuffer(Buffer.from(getSeed(phrase)), getNetwork(chain));
-  return masterHDNode.derivePath(derivationPath).keyPair;
+  const masterHDNode = HDNode.fromSeedBuffer(Buffer.from(getSeed(phrase)), network);
+  const keyPair = masterHDNode.derivePath(derivationPath).keyPair;
+  // TODO: Figure out same pattern as in BTC
+  // const testWif = keyPair.toWIF();
+  // const k = ECPairFactory(tinySecp).fromWIF(testWif, network);
+  // const a = payments.p2pkh({ pubkey: k.publicKey, network });
+
+  return keyPair;
 };
 
 const getAddressFromKeys = (keys: KeyPairType) => {
   const address = keys.getAddress(0);
   return stripToCashAddress(address);
-};
-
-// needed because TS can not infer types
-type bchMethods = {
-  stripPrefix: (address: string) => string;
-  validateAddress: (address: string, chain?: UTXOChain) => boolean;
-  createKeysForPath: (params: { phrase?: string; derivationPath?: string }) => KeyPairType;
-  getAddressFromKeys: (keys: KeyPairType) => string;
-  buildBCHTx: (
-    params: UTXOBuildTxParams,
-  ) => Promise<{ builder: TransactionBuilderType; utxos: UTXO[] }>;
-  buildTx: (params: UTXOBuildTxParams) => Promise<{ psbt: Psbt }>;
-  transfer: (
-    params: UTXOWalletTransferParams<
-      { builder: TransactionBuilderType; utxos: UTXO[] },
-      TransactionType
-    >,
-  ) => Promise<string>;
 };
 
 export const BCHToolbox = (
@@ -233,7 +243,7 @@ export const BCHToolbox = (
   ReturnType<typeof BaseUTXOToolbox>,
   'getAddressFromKeys' | 'transfer' | 'createKeysForPath'
 > &
-  bchMethods => {
+  BCHMethods => {
   const apiClient =
     typeof apiClientOrNodeUrl === 'string'
       ? blockchairApi({ apiKey, nodeUrl: apiClientOrNodeUrl, chain })

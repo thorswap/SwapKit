@@ -24,6 +24,7 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
     getBalance: (address: string) => Promise<Balance[]>;
     transfer: (params: TransferParams) => Promise<string>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
+    getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
   } = BaseCosmosToolbox({
     decimal: BaseDecimal.GAIA,
     derivationPath: DerivationPath.GAIA,

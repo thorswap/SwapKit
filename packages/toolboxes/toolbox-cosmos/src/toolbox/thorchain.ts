@@ -184,6 +184,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getBalance: (address: string) => Promise<Balance[]>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
+    getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
   } = BaseCosmosToolbox({
     sdk,
     derivationPath: DerivationPath.THOR,

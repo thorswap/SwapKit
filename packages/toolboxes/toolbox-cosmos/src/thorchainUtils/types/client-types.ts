@@ -50,6 +50,7 @@ export type BaseCosmosToolboxType = {
   sdk: CosmosSDKClient['sdk'];
   getAccount: (address: string) => Promise<CosmosAccount | null>;
   getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
+  getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
   validateAddress: (address: string) => boolean;
   getAddressFromMnemonic: (phrase: string) => Promise<string>;
   getBalance: (address: string) => Promise<Balance[]>;

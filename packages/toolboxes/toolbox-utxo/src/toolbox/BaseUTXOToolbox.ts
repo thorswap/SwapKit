@@ -276,6 +276,13 @@ export const BaseUTXOToolbox = (baseToolboxParams: UTXOBaseToolboxParams) => ({
   createKeysForPath: (params: UTXOCreateKeyParams) =>
     createKeysForPath({ ...params, ...baseToolboxParams }),
   getAddressFromKeys: (keys: ECPairInterface) => getAddressFromKeys({ keys, ...baseToolboxParams }),
+  getPrivateKeyFromMnemonic: ({
+    phrase,
+    derivationPath,
+  }: {
+    phrase: string;
+    derivationPath: string;
+  }) => createKeysForPath({ phrase, derivationPath, ...baseToolboxParams }).toWIF(),
   getBalance: (address: string): Promise<Balance[]> =>
     getBalance({ address, ...baseToolboxParams }),
   getFeeRates: () => getFeeRates(baseToolboxParams),
