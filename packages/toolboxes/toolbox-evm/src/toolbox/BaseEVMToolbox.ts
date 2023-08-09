@@ -122,7 +122,7 @@ const call = async <T>(
 
     if (!address) throw new Error('No signer address found');
 
-    return contract.connect(signer)[funcName](...funcParams, {
+    const result = await contract.connect(signer)[funcName](...funcParams, {
       ...txOverrides,
       /**
        * nonce must be set due to a possible bug with ethers.js,
@@ -130,6 +130,8 @@ const call = async <T>(
        */
       nonce: txOverrides?.nonce || (await contractProvider.getTransactionCount(address)),
     });
+
+    typeof result?.hash === 'string' ? result?.hash : result;
   }
 
   const result = await contract[funcName](...funcParams);
