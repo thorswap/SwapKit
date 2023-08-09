@@ -38,16 +38,16 @@ class WalletconnectSigner extends Signer {
 
   signMessage = async (message: string) => {
     // this is probably broken
-    const txHash = await this.walletconnect?.client.request({
+    const txHash = (await this.walletconnect?.client.request({
       chainId: chainToChainId(this.chain),
       topic: this.walletconnect.session.topic,
       request: {
         method: DEFAULT_EIP155_METHODS.ETH_SIGN,
         params: [message],
       },
-    });
+    })) as string;
 
-    return txHash as string;
+    return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
   };
 
   signTransaction = async ({ from, to, value, data }: EVMTxParams) => {
@@ -61,16 +61,16 @@ class WalletconnectSigner extends Signer {
       data,
     };
 
-    const txHash = await this.walletconnect?.client.request({
+    const txHash = (await this.walletconnect?.client.request({
       chainId: chainToChainId(this.chain),
       topic: this.walletconnect.session.topic,
       request: {
         method: DEFAULT_EIP155_METHODS.ETH_SIGN_TRANSACTION,
         params: [baseTx],
       },
-    });
+    })) as string;
 
-    return txHash as string;
+    return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
   };
 
   connect = (provider: Provider) =>
