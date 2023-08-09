@@ -1,5 +1,13 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.151
+
+### Patch Changes
+
+- [#241](https://github.com/thorswap/SwapKit/pull/241) [`b411cb3`](https://github.com/thorswap/SwapKit/commit/b411cb331897ffb19e4bd10ff9883ba0e90db396) Thanks [@towanTG](https://github.com/towanTG)! - Fixes EVM call return value when state was changed
+
+- [#242](https://github.com/thorswap/SwapKit/pull/242) [`4430cc1`](https://github.com/thorswap/SwapKit/commit/4430cc1092912caa0de115fe0224adcf40e0248c) Thanks [@towanTG](https://github.com/towanTG)! - Fixes bug in previous change
+
 ## 1.0.0-development.150
 
 ### Patch Changes
