@@ -1,5 +1,11 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.24
+
+### Patch Changes
+
+- [#239](https://github.com/thorswap/SwapKit/pull/239) [`1b458f9`](https://github.com/thorswap/SwapKit/commit/1b458f993f5a3e75a06ba14958affe696f1e934f) Thanks [@towanTG](https://github.com/towanTG)! - Fixes raw transaction string iOS app is returning
+
 ## 2.0.0-development.23
 
 ### Patch Changes
