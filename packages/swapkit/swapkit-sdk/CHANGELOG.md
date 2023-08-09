@@ -1,5 +1,13 @@
 # @thorswap-lib/swapkit-sdk
 
+## 0.1.0-development.60
+
+### Patch Changes
+
+- Updated dependencies [[`1b458f9`](https://github.com/thorswap/SwapKit/commit/1b458f993f5a3e75a06ba14958affe696f1e934f)]:
+  - @thorswap-lib/walletconnect@2.0.0-development.24
+  - @thorswap-lib/swapkit-core@1.0.0-development.194
+
 ## 0.1.0-development.59
 
 ### Patch Changes
