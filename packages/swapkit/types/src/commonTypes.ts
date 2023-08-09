@@ -4,13 +4,14 @@ import { Chain, CosmosChain, EVMChain, UTXOChain } from './network.js';
 import { WalletOption } from './wallet.js';
 
 type ConnectMethodNames =
-  | 'connectXDEFI'
+  | 'connectEVMWallet'
   | 'connectKeplr'
-  | 'connectWalletconnect'
   | 'connectKeystore'
   | 'connectLedger'
+  | 'connectOkx'
   | 'connectTrezor'
-  | 'connectEVMWallet';
+  | 'connectWalletconnect'
+  | 'connectXDEFI';
 
 type ChainWallet = {
   address: string;
@@ -80,13 +81,13 @@ export type ConnectWalletParams = {
   apis: ApisType;
 };
 
-export type ExtendParams = {
+export type ExtendParams<WalletConnectMethodNames = ''> = {
   excludedChains?: Chain[];
   config?: ConnectConfig;
   rpcUrls?: { [chain in Chain]?: string };
   apis?: ApisType;
   wallets: {
-    connectMethodName: ConnectMethodNames;
+    connectMethodName: ConnectMethodNames | WalletConnectMethodNames;
     connect: (params: ConnectWalletParams) => (...params: any) => Promise<any>;
   }[];
 };
