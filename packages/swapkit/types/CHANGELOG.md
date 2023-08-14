@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.99
+
+### Minor Changes
+
+- [#251](https://github.com/thorswap/SwapKit/pull/251) [`fbbb514`](https://github.com/thorswap/SwapKit/commit/fbbb5143113ee17e62b4a42a81dbc4b762e5e8fd) Thanks [@ochhii1337](https://github.com/ochhii1337)! - Add error code
+
 ## 1.0.0-development.98
 
 ### Patch Changes

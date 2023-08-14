@@ -1,5 +1,14 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.28
+
+### Patch Changes
+
+- Updated dependencies [[`fbbb514`](https://github.com/thorswap/SwapKit/commit/fbbb5143113ee17e62b4a42a81dbc4b762e5e8fd)]:
+  - @thorswap-lib/types@1.0.0-development.99
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.141
+  - @thorswap-lib/toolbox-evm@1.0.0-development.154
+
 ## 2.0.0-development.27
 
 ### Patch Changes
