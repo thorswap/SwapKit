@@ -1,5 +1,17 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.227
+
+### Patch Changes
+
+- Updated dependencies [[`fbbb514`](https://github.com/thorswap/SwapKit/commit/fbbb5143113ee17e62b4a42a81dbc4b762e5e8fd)]:
+  - @thorswap-lib/types@1.0.0-development.99
+  - @thorswap-lib/helpers@0.0.0-development.102
+  - @thorswap-lib/swapkit-entities@1.0.0-development.110
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.141
+  - @thorswap-lib/toolbox-evm@1.0.0-development.154
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.131
+
 ## 1.0.0-development.226
 
 ### Patch Changes
