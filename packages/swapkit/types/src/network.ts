@@ -164,28 +164,40 @@ export enum ApiUrl {
 const chains = Object.values(Chain) as Chain[];
 const chainNames = Object.keys(Chain) as ChainNameType[];
 
-const ChainToChainName = chains.reduce((acc, chain) => {
-  const chainName = chainNames.find((key) => Chain[key as ChainNameType] === chain);
+const ChainToChainName = chains.reduce(
+  (acc, chain) => {
+    const chainName = chainNames.find((key) => Chain[key as ChainNameType] === chain);
 
-  if (chainName) acc[chain] = chainName;
+    if (chainName) acc[chain] = chainName;
 
-  return acc;
-}, {} as { [key in Chain]: ChainNameType });
+    return acc;
+  },
+  {} as { [key in Chain]: ChainNameType },
+);
 
-export const ChainToChainId = chains.reduce((acc, chain) => {
-  acc[chain] = ChainId[ChainToChainName[chain]];
-  return acc;
-}, {} as { [key in Chain]: ChainId });
+export const ChainToChainId = chains.reduce(
+  (acc, chain) => {
+    acc[chain] = ChainId[ChainToChainName[chain]];
+    return acc;
+  },
+  {} as { [key in Chain]: ChainId },
+);
 
-export const ChainToRPC = chains.reduce((acc, chain) => {
-  acc[chain] = RPCUrl[ChainToChainName[chain]];
-  return acc;
-}, {} as { [key in Chain]: RPCUrl });
+export const ChainToRPC = chains.reduce(
+  (acc, chain) => {
+    acc[chain] = RPCUrl[ChainToChainName[chain]];
+    return acc;
+  },
+  {} as { [key in Chain]: RPCUrl },
+);
 
-export const ChainToHexChainId = chains.reduce((acc, chain) => {
-  acc[chain] = ChainId[`${ChainToChainName[chain]}Hex`];
-  return acc;
-}, {} as { [key in Chain]: ChainId });
+export const ChainToHexChainId = chains.reduce(
+  (acc, chain) => {
+    acc[chain] = ChainId[`${ChainToChainName[chain]}Hex`];
+    return acc;
+  },
+  {} as { [key in Chain]: ChainId },
+);
 
 export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.Arbitrum]: Chain.Arbitrum,

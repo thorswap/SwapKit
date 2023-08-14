@@ -136,7 +136,7 @@ const getToolbox = async ({
 
       const address = await getAddress();
 
-      const signTransaction = async (psbt: Psbt, utxos: UTXO[], memo: string = '') => {
+      const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '') => {
         const address_n = derivationPath.map((pathElement, index) =>
           index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
         );
@@ -144,7 +144,7 @@ const getToolbox = async ({
         const result = await //@ts-ignore
         (TrezorConnect as unknown as TrezorConnect.TrezorConnect).signTransaction({
           coin,
-          inputs: utxos.map((input) => ({
+          inputs: inputs.map((input) => ({
             // Hardens the first 3 elements of the derivation path - required by trezor
             address_n,
             prev_hash: input.hash,
@@ -216,7 +216,7 @@ const getToolbox = async ({
         if (!from) throw new Error('From address must be provided');
         if (!recipient) throw new Error('Recipient address must be provided');
 
-        const { psbt, utxos } = await toolbox.buildTx({
+        const { psbt, inputs } = await toolbox.buildTx({
           ...rest,
           memo,
           feeOptionKey,
@@ -226,7 +226,7 @@ const getToolbox = async ({
           fetchTxHex: chain === Chain.Dogecoin,
         });
 
-        const txHex = await signTransaction(psbt, utxos, memo);
+        const txHex = await signTransaction(psbt, inputs, memo);
         return toolbox.broadcastTx(txHex);
       };
 
