@@ -1,5 +1,18 @@
 # @thorswap-lib/trezor
 
+## 1.0.0-development.55
+
+### Patch Changes
+
+- [#248](https://github.com/thorswap/SwapKit/pull/248) [`d9c33c5`](https://github.com/thorswap/SwapKit/commit/d9c33c56d395ed1162b2394f814cb5e1a2594518) Thanks [@towanTG](https://github.com/towanTG)! - Fixes issue with too many UTXO inputs for Transaction
+
+- Updated dependencies [[`2944b3e`](https://github.com/thorswap/SwapKit/commit/2944b3eef557b7462ca6eafc968cc4504114b4c7), [`b933d1e`](https://github.com/thorswap/SwapKit/commit/b933d1e01b4efd1cb30a3678c4ed100e4eb57327)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.109
+  - @thorswap-lib/types@1.0.0-development.98
+  - @thorswap-lib/helpers@0.0.0-development.101
+  - @thorswap-lib/toolbox-evm@1.0.0-development.153
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.130
+
 ## 1.0.0-development.54
 
 ### Patch Changes

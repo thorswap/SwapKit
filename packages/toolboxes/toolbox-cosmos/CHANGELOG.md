@@ -1,5 +1,19 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 1.0.0-development.140
+
+### Minor Changes
+
+- [#247](https://github.com/thorswap/SwapKit/pull/247) [`30b0658`](https://github.com/thorswap/SwapKit/commit/30b0658b95736ad32a306b32994740b83e02c256) Thanks [@0x-General](https://github.com/0x-General)! - Fix THORChain send on Keystore
+
+### Patch Changes
+
+- Updated dependencies [[`2944b3e`](https://github.com/thorswap/SwapKit/commit/2944b3eef557b7462ca6eafc968cc4504114b4c7), [`b933d1e`](https://github.com/thorswap/SwapKit/commit/b933d1e01b4efd1cb30a3678c4ed100e4eb57327)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.109
+  - @thorswap-lib/types@1.0.0-development.98
+  - @thorswap-lib/helpers@0.0.0-development.101
+  - @thorswap-lib/swapkit-api@0.1.0-development.37
+
 ## 1.0.0-development.139
 
 ### Patch Changes
