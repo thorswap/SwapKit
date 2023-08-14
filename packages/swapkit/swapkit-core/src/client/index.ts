@@ -85,7 +85,7 @@ export class SwapKitCore<T = ''> {
   }
 
   swap = async ({ streamSwap, recipient, route, feeOptionKey }: SwapParams) => {
-    const { buyChain, quoteMode } = route.meta;
+    const { quoteMode } = route.meta;
     const evmChain = [
       QuoteMode.ETH_TO_ETH,
       QuoteMode.ETH_TO_AVAX,
@@ -103,9 +103,6 @@ export class SwapKitCore<T = ''> {
         const { fromAsset, amountIn, memo, memoStreamingSwap } = route.calldata;
         const asset = AssetEntity.fromAssetString(fromAsset);
         if (!asset) throw new Error('Asset not recognised');
-
-        const isAddressValid = this.validateAddress({ address: recipient, chain: buyChain });
-        if (!isAddressValid) throw new Error('Invalid recipient address');
 
         const swapMemo = (streamSwap ? memoStreamingSwap || memo : memo) as string;
         const amount = new AssetAmount(asset, new Amount(amountIn, 0, asset.decimal));
@@ -130,9 +127,6 @@ export class SwapKitCore<T = ''> {
       case QuoteMode.ETH_TO_TC_SUPPORTED: {
         const { calldata, contract: contractAddress } = route;
         if (!contractAddress) throw new Error('Contract address not found');
-
-        const isAddressValid = this.validateAddress({ address: recipient, chain: buyChain });
-        if (!isAddressValid) throw new Error('Invalid recipient address');
 
         const { getProvider, toChecksumAddress } = await import('@thorswap-lib/toolbox-evm');
 
