@@ -14,11 +14,11 @@ export class AssetAmount extends Amount {
   public readonly amount: Amount;
 
   constructor(asset: AssetEntity, amount: Amount) {
-    super(amount.assetAmount, AmountType.ASSET_AMOUNT, asset.decimal);
+    super(amount.assetAmount, AmountType.ASSET_AMOUNT, amount.decimal);
     this.asset = asset;
 
     // make sure amount has same decimal as asset
-    this.amount = new Amount(amount.assetAmount, AmountType.ASSET_AMOUNT, asset.decimal);
+    this.amount = new Amount(amount.assetAmount, AmountType.ASSET_AMOUNT, amount.decimal);
   }
 
   add(amount: AssetAmount) {
