@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.98
+
+### Patch Changes
+
+- [`b933d1e`](https://github.com/thorswap/SwapKit/commit/b933d1e01b4efd1cb30a3678c4ed100e4eb57327) Thanks [@0xepicode](https://github.com/0xepicode)! - Add API types
+
 ## 1.0.0-development.97
 
 ### Patch Changes

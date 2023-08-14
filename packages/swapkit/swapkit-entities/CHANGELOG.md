@@ -1,5 +1,14 @@
 []
 
+## 1.0.0-development.109
+
+### Patch Changes
+
+- [#249](https://github.com/thorswap/SwapKit/pull/249) [`2944b3e`](https://github.com/thorswap/SwapKit/commit/2944b3eef557b7462ca6eafc968cc4504114b4c7) Thanks [@towanTG](https://github.com/towanTG)! - Fixes decimal bug for some erc20 tokens
+
+- Updated dependencies [[`b933d1e`](https://github.com/thorswap/SwapKit/commit/b933d1e01b4efd1cb30a3678c4ed100e4eb57327)]:
+  - @thorswap-lib/types@1.0.0-development.98
+
 ## 1.0.0-development.108
 
 ### Patch Changes
