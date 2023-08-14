@@ -246,11 +246,11 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
 
     const assetObj = asset.symbol.includes('/')
       ? {
-          chain: (asset.symbol.split('/')[0] as any).toLowerCase(),
-          symbol: asset.symbol.split('/')[1].toLowerCase(),
-          ticker: asset.symbol.split('/')[1].toLowerCase(),
-          synth: true,
-        }
+        chain: (asset.symbol.split('/')[0] as any).toLowerCase(),
+        symbol: asset.symbol.split('/')[1].toLowerCase(),
+        ticker: asset.symbol.split('/')[1].toLowerCase(),
+        synth: true,
+      }
       : asset;
 
     const depositMsg = {
@@ -297,7 +297,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
       value: {
         fromAddress: base64From,
         toAddress: base64To,
-        amount: [{ amount, denom: asset }],
+        amount: [{ amount, denom: asset.toLowerCase() }],
       },
     };
 
