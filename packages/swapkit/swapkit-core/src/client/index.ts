@@ -43,6 +43,7 @@ import {
   ExtendParams,
   FeeOption,
   MemoType,
+  QuoteMode,
   TCAvalancheDepositABI,
   TCEthereumVaultAbi,
   WalletOption,
@@ -67,7 +68,6 @@ import {
   CoreTxParams,
   CreateLiquidityParams,
   EVMWallet,
-  QuoteMode,
   SwapParams,
   ThorchainWallet,
   Wallet,
@@ -85,7 +85,7 @@ export class SwapKitCore<T = ''> {
   }
 
   swap = async ({ streamSwap, recipient, route, feeOptionKey }: SwapParams) => {
-    const quoteMode = route.meta.quoteMode as QuoteMode;
+    const { buyChain, quoteMode } = route.meta;
     const evmChain = [
       QuoteMode.ETH_TO_ETH,
       QuoteMode.ETH_TO_AVAX,
@@ -93,6 +93,8 @@ export class SwapKitCore<T = ''> {
     ].includes(quoteMode)
       ? Chain.Ethereum
       : Chain.Avalanche;
+
+    if (!route.complete) return Promise.reject(new Error('Route is not complete'));
 
     switch (quoteMode) {
       case QuoteMode.TC_SUPPORTED_TO_AVAX:
@@ -102,9 +104,12 @@ export class SwapKitCore<T = ''> {
         const asset = AssetEntity.fromAssetString(fromAsset);
         if (!asset) throw new Error('Asset not recognised');
 
-        const swapMemo = (streamSwap ? memoStreamingSwap || memo : memo) as string;
+        const isAddressValid = this.validateAddress({ address: recipient, chain: buyChain });
+        if (!isAddressValid) throw new Error('Invalid recipient address');
 
+        const swapMemo = (streamSwap ? memoStreamingSwap || memo : memo) as string;
         const amount = new AssetAmount(asset, new Amount(amountIn, 0, asset.decimal));
+
         const replacedMemo = swapMemo?.replace('{recipientAddress}', recipient);
         const { address: inboundAddress } = await this._getInboundDataByChain(
           !asset.isSynth ? asset.chain : Chain.THORChain,
@@ -123,22 +128,27 @@ export class SwapKitCore<T = ''> {
       case QuoteMode.AVAX_TO_TC_SUPPORTED:
       case QuoteMode.ETH_TO_AVAX:
       case QuoteMode.ETH_TO_TC_SUPPORTED: {
+        const { calldata, contract: contractAddress } = route;
+        if (!contractAddress) throw new Error('Contract address not found');
+
+        const isAddressValid = this.validateAddress({ address: recipient, chain: buyChain });
+        if (!isAddressValid) throw new Error('Invalid recipient address');
+
         const { getProvider, toChecksumAddress } = await import('@thorswap-lib/toolbox-evm');
+
+        const provider = getProvider(evmChain);
         const walletMethods = this.connectedWallets[evmChain];
         const from = this.getAddress(evmChain);
+        const abi = lowercasedContractAbiMapping[contractAddress.toLowerCase()];
 
         if (!walletMethods?.sendTransaction || !from) {
           throw new Error(`Wallet is missing for ${evmChain} Chain.`);
         }
 
-        const provider = getProvider(evmChain);
-        const { calldata, contract: contractAddress } = route;
-        if (!contractAddress) throw new Error('Contract address not found');
-
-        const abi = lowercasedContractAbiMapping[contractAddress.toLowerCase()];
         if (!abi) throw new Error(`Contract ABI not found for ${contractAddress}`);
 
         const contract = walletMethods.createContract?.(contractAddress, abi, provider);
+
         const tx = await contract.populateTransaction.swapIn(
           ...getSwapInParams({
             toChecksumAddress,

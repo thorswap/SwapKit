@@ -1,4 +1,4 @@
-import { Chain, ErrorCode } from '@thorswap-lib/types';
+import { Chain, ErrorCode, QuoteMode } from '@thorswap-lib/types';
 
 export enum TransactionType {
   // Old quote mode
@@ -282,15 +282,15 @@ type Calldata = {
 };
 
 type Meta = {
-  buyChain: string;
+  buyChain: Chain;
   buyChainGasRate: number;
   hasStreamingSwap: boolean;
   lastLegEffectiveSlipPercentage: number;
   priceProtectionDetected: boolean;
   priceProtectionRequired: boolean;
   providerBuyAssetAmount: { buyAmount: number; chain: string; symbol: string; ticker: string };
-  quoteMode: string;
-  sellChain: string;
+  quoteMode: QuoteMode;
+  sellChain: Chain;
   sellChainGasRate: number;
   warnings: { warningCode: ErrorCode; warningMessage: string }[];
   thornodeMeta?: {
