@@ -91,3 +91,15 @@ export type ExtendParams<WalletConnectMethodNames = ''> = {
     connect: (params: ConnectWalletParams) => (...params: any) => Promise<any>;
   }[];
 };
+
+export enum QuoteMode {
+  TC_SUPPORTED_TO_TC_SUPPORTED = 'TC-TC',
+  ETH_TO_TC_SUPPORTED = 'ERC20-TC',
+  TC_SUPPORTED_TO_ETH = 'TC-ERC20',
+  ETH_TO_ETH = 'ERC20-ERC20',
+  AVAX_TO_AVAX = 'ARC20-ARC20',
+  AVAX_TO_TC_SUPPORTED = 'ARC20-TC',
+  TC_SUPPORTED_TO_AVAX = 'TC-ARC20',
+  AVAX_TO_ETH = 'ARC20-ERC20',
+  ETH_TO_AVAX = 'ERC20-ARC20',
+}
