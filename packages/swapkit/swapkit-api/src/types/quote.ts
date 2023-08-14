@@ -69,6 +69,8 @@ export enum TransactionType {
   TRANSFER_FROM_TC = 'TRANSFER:OUT',
   // Unsupported
   UNSUPPORTED = 'UNSUPPORTED',
+  // Lending
+  TC_LENDING = 'TC:LENDING',
 }
 
 export enum TxStatus {
