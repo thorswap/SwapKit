@@ -947,6 +947,76 @@ importers:
         specifier: 0.33.0
         version: 0.33.0
 
+  packages/wallets/keepkey:
+    dependencies:
+      '@ethersproject/hdnode':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@ethersproject/wallet':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@thorswap-lib/helpers':
+        specifier: workspace:*
+        version: link:../../../internal/helpers
+      '@thorswap-lib/swapkit-entities':
+        specifier: workspace:*
+        version: link:../../swapkit/swapkit-entities
+      '@thorswap-lib/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
+      blakejs:
+        specifier: 1.2.1
+        version: 1.2.1
+      long:
+        specifier: 4.0.0
+        version: 4.0.0
+      uuid:
+        specifier: 9.0.0
+        version: 9.0.0
+    devDependencies:
+      '@ethersproject/bignumber':
+        specifier: 5.7.0
+        version: 5.7.0
+      '@ethersproject/providers':
+        specifier: 5.7.2
+        version: 5.7.2
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+      '@scure/bip39':
+        specifier: 1.2.1
+        version: 1.2.1
+      '@thorswap-lib/toolbox-cosmos':
+        specifier: workspace:*
+        version: link:../../toolboxes/toolbox-cosmos
+      '@thorswap-lib/toolbox-evm':
+        specifier: workspace:*
+        version: link:../../toolboxes/toolbox-evm
+      '@thorswap-lib/toolbox-utxo':
+        specifier: workspace:*
+        version: link:../../toolboxes/toolbox-utxo
+      '@types/long':
+        specifier: 4.0.2
+        version: 4.0.2
+      '@types/uniqid':
+        specifier: 5.3.2
+        version: 5.3.2
+      '@types/uuid':
+        specifier: 9.0.2
+        version: 9.0.2
+      '@vitest/coverage-istanbul':
+        specifier: 0.33.0
+        version: 0.33.0(vitest@0.33.0)
+      bitcoinjs-lib:
+        specifier: 5.2.0
+        version: 5.2.0
+      vite:
+        specifier: 4.4.4
+        version: 4.4.4(@types/node@20.4.2)
+      vitest:
+        specifier: 0.33.0
+        version: 0.33.0
+
   packages/wallets/keplr:
     dependencies:
       '@thorswap-lib/types':
@@ -6039,7 +6109,7 @@ packages:
   /@types/connect@3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 20.4.2
     dev: false
 
   /@types/crypto-js@4.1.1:
@@ -6246,7 +6316,7 @@ packages:
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 20.4.2
 
   /@types/yargs-parser@21.0.0:
     resolution: {integrity: sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA==}
@@ -10267,6 +10337,7 @@ packages:
 
   /glob@6.0.4:
     resolution: {integrity: sha512-MKZeRNyYZAVVVG1oZeLaWie1uweH40m9AZwIwxyPbTSX4hHrVYSzLg0Ro5Z5R7XKkIX+Cc6oD1rqeDJnwsB8/A==}
+    requiresBuild: true
     dependencies:
       inflight: 1.0.6
       inherits: 2.0.4
@@ -12575,6 +12646,7 @@ packages:
   /ncp@2.0.0:
     resolution: {integrity: sha512-zIdGUrPRFTUELUvr3Gmc7KZ2Sw/h1PiVM0Af/oHB6zgnV1ikqSfRk+TOufi79aHYCW3NiOXmr1BP5nWbzojLaA==}
     hasBin: true
+    requiresBuild: true
     dev: false
     optional: true
 
@@ -14045,6 +14117,7 @@ packages:
   /rimraf@2.4.5:
     resolution: {integrity: sha512-J5xnxTyqaiw06JjMftq7L9ouA448dw/E7dKghkP9WpKNuwmARNNg+Gk8/u5ryb9N/Yo2+z3MCwuqFK/+qPOPfQ==}
     hasBin: true
+    requiresBuild: true
     dependencies:
       glob: 6.0.4
     dev: false
