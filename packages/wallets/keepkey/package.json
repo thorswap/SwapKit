@@ -41,6 +41,7 @@
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/keepkey",
   "peerDependencies": {
+    "@keepkey/keepkey-sdk": "0.2.41",
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/bignumber": "5.7.0",
     "@ethersproject/providers": "^5.7.0",
