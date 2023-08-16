@@ -169,7 +169,8 @@ const getToolbox = async ({
           memo: params.memo,
           signatures: [
             {
-              ...signature,
+              // The request coming from TW Android are different from those coming from iOS.
+              ...(typeof signature.signature === 'string' ? signature : signature.signature),
               sequence: sequence?.toString(),
             },
           ],
@@ -219,7 +220,8 @@ const getToolbox = async ({
           memo,
           signatures: [
             {
-              ...signature,
+              // The request coming from TW Android are different from those coming from iOS.
+              ...(typeof signature.signature === 'string' ? signature : signature.signature),
               sequence: sequence?.toString(),
             },
           ],
@@ -263,7 +265,7 @@ const getWalletconnect = async (
     // Open QRCode modal if a URI was returned (i.e. we're not connecting an existing pairing).
     if (uri) {
       // @ts-ignore
-      QRCodeModal.open(uri, () => {});
+      QRCodeModal.open(uri, () => { });
     }
 
     const session = await approval();
@@ -295,45 +297,45 @@ const connectWalletconnect =
       walletConnectProjectId?: string;
     };
   }) =>
-  async (
-    chains: (typeof WC_SUPPORTED_CHAINS)[number][],
-    walletconnectOptions?: SignClientTypes.Options,
-  ) => {
-    const chainsToConnect = chains.filter((chain) => WC_SUPPORTED_CHAINS.includes(chain));
-    const walletconnect = await getWalletconnect(
-      chainsToConnect,
-      walletConnectProjectId,
-      walletconnectOptions,
-    );
+    async (
+      chains: (typeof WC_SUPPORTED_CHAINS)[number][],
+      walletconnectOptions?: SignClientTypes.Options,
+    ) => {
+      const chainsToConnect = chains.filter((chain) => WC_SUPPORTED_CHAINS.includes(chain));
+      const walletconnect = await getWalletconnect(
+        chainsToConnect,
+        walletConnectProjectId,
+        walletconnectOptions,
+      );
 
-    if (!walletconnect) throw new Error('Unable to establish connection through walletconnect');
+      if (!walletconnect) throw new Error('Unable to establish connection through walletconnect');
 
-    const { session, accounts } = walletconnect;
+      const { session, accounts } = walletconnect;
 
-    const promises = chainsToConnect.map(async (chain) => {
-      const address = getAddressByChain(chain, accounts);
+      const promises = chainsToConnect.map(async (chain) => {
+        const address = getAddressByChain(chain, accounts);
 
-      const toolbox = await getToolbox({
-        session,
-        address,
-        chain,
-        walletconnect,
-        ethplorerApiKey,
-        covalentApiKey,
+        const toolbox = await getToolbox({
+          session,
+          address,
+          chain,
+          walletconnect,
+          ethplorerApiKey,
+          covalentApiKey,
+        });
+
+        addChain({
+          chain,
+          walletMethods: { ...toolbox, getAddress: () => address },
+          wallet: { address, balance: [], walletType: WalletOption.WALLETCONNECT },
+        });
+        return;
       });
 
-      addChain({
-        chain,
-        walletMethods: { ...toolbox, getAddress: () => address },
-        wallet: { address, balance: [], walletType: WalletOption.WALLETCONNECT },
-      });
-      return;
-    });
+      await Promise.all(promises);
 
-    await Promise.all(promises);
-
-    return true;
-  };
+      return true;
+    };
 
 export const walletconnectWallet = {
   connectMethodName: 'connectWalletconnect' as const,
