@@ -8,17 +8,17 @@ const viteConfig = thorswapViteConfig(name, {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
     },
-    rollupOptions: {
-      external: [
-        '@ethersproject/bignumber',
-        '@ethersproject/providers',
-        '@scure/bip39',
-        '@thorswap-lib/toolbox-cosmos',
-        '@thorswap-lib/toolbox-evm',
-        '@thorswap-lib/toolbox-utxo',
-        'bitcoinjs-lib',
-      ],
-    },
+  },
+  rollupOptions: {
+    external: [
+      '@ethersproject/abstract-signer',
+      '@ethersproject/bignumber',
+      '@ethersproject/providers',
+      '@ethersproject/transactions',
+      '@thorswap-lib/toolbox-evm',
+      '@thorswap-lib/toolbox-utxo',
+      'bitcoinjs-lib',
+    ],
   },
 });
 

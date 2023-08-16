@@ -1,2 +1,1 @@
-export * from './helpers.js';
-export { keepkeyWallet } from './keepkey.js';
+export * from './keepkey.js';
