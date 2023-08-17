@@ -1,5 +1,11 @@
 []
 
+## 1.0.0-development.112
+
+### Minor Changes
+
+- [#259](https://github.com/thorswap/SwapKit/pull/259) [`0da29b0`](https://github.com/thorswap/SwapKit/commit/0da29b0ca4a929edbf4c425e443cdd873ad87917) Thanks [@mfaizan1](https://github.com/mfaizan1)! - added saversApr proper to PoolDetail
+
 ## 1.0.0-development.111
 
 ### Patch Changes

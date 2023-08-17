@@ -1,5 +1,12 @@
 # @thorswap-lib/keplr
 
+## 1.0.0-development.39
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.144
+
 ## 1.0.0-development.38
 
 ### Patch Changes
