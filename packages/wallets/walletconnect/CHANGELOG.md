@@ -1,5 +1,24 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.31
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.144
+  - @thorswap-lib/toolbox-evm@1.0.0-development.156
+
+## 2.0.0-development.30
+
+### Minor Changes
+
+- [#256](https://github.com/thorswap/SwapKit/pull/256) [`8e1b6dd`](https://github.com/thorswap/SwapKit/commit/8e1b6dd5c7a7cb6bba8cf2e16137380681964f01) Thanks [@0x-General](https://github.com/0x-General)! - Fix walletconnect signatures on iOS
+
+### Patch Changes
+
+- Updated dependencies [[`1d06d16`](https://github.com/thorswap/SwapKit/commit/1d06d16f9457f4268cf4bc4705a2678b2f895c87)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.143
+
 ## 2.0.0-development.29
 
 ### Patch Changes
