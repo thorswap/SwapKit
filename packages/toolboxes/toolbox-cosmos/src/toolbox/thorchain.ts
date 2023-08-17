@@ -1,17 +1,15 @@
 import { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
 import { Account, defaultRegistryTypes, SigningStargateClient, StdFee } from '@cosmjs/stargate';
 import { cosmosclient, proto, rest } from '@cosmos-client/core';
-import { baseAmount, getRequest, getTcNodeUrl, singleFee } from '@thorswap-lib/helpers';
-import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
 import {
-  Balance,
-  BaseDecimal,
-  Chain,
-  ChainId,
-  DerivationPath,
-  Fees,
-  RPCUrl,
-} from '@thorswap-lib/types';
+  baseAmount,
+  getRequest,
+  getTcNodeUrl,
+  getTcRpcUrl,
+  singleFee,
+} from '@thorswap-lib/helpers';
+import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
+import { Balance, BaseDecimal, Chain, ChainId, DerivationPath, Fees } from '@thorswap-lib/types';
 import { fromByteArray, toByteArray } from 'base64-js';
 import Long from 'long';
 
@@ -171,10 +169,13 @@ const broadcastMultisig = async (
 };
 
 export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxType => {
+  const rpcUrl = getTcRpcUrl(stagenet);
+
   const sdk = new CosmosSDKClient({
     server: getTcNodeUrl(stagenet),
     chainId: ChainId.THORChain,
     prefix: stagenet ? 'sthor' : 'thor',
+    stagenet,
   });
 
   const baseToolbox: {
@@ -238,7 +239,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
       throw new Error('Signer not defined');
     }
 
-    const signingClient = await SigningStargateClient.connectWithSigner(RPCUrl.THORChain, signer, {
+    const signingClient = await SigningStargateClient.connectWithSigner(rpcUrl, signer, {
       registry: createDefaultRegistry(),
     });
 
@@ -246,11 +247,11 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
 
     const assetObj = asset.symbol.includes('/')
       ? {
-        chain: (asset.symbol.split('/')[0] as any).toLowerCase(),
-        symbol: asset.symbol.split('/')[1].toLowerCase(),
-        ticker: asset.symbol.split('/')[1].toLowerCase(),
-        synth: true,
-      }
+          chain: (asset.symbol.split('/')[0] as any).toLowerCase(),
+          symbol: asset.symbol.split('/')[1].toLowerCase(),
+          ticker: asset.symbol.split('/')[1].toLowerCase(),
+          synth: true,
+        }
       : asset;
 
     const depositMsg = {
@@ -285,7 +286,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
       throw new Error('Signer not defined');
     }
 
-    const signingClient = await SigningStargateClient.connectWithSigner(RPCUrl.THORChain, signer, {
+    const signingClient = await SigningStargateClient.connectWithSigner(rpcUrl, signer, {
       registry: createDefaultRegistry(),
     });
 
