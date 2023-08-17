@@ -5,6 +5,7 @@ import { ledgerWallet } from '@thorswap-lib/ledger';
 import { okxWallet } from '@thorswap-lib/okx';
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { trezorWallet } from '@thorswap-lib/trezor';
+import { keepkeyWallet } from '@thorswap-lib/keepkey';
 import { walletconnectWallet } from '@thorswap-lib/walletconnect';
 import { xdefiWallet } from '@thorswap-lib/xdefi';
 
@@ -36,6 +37,7 @@ export const getSwapKitClient = ({
       okxWallet,
       ledgerWallet,
       keystoreWallet,
+      keepkeyWallet,
       trezorWallet,
       keplrWallet,
       evmWallet,

@@ -88,7 +88,7 @@ export const WalletPicker = ({ skClient, setWallet }: Props) => {
         }
         case WalletOption.KEEPKEY: {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
-          return skClient.connectKeepkey(chains[0], derivationPath);
+          return skClient.connectKeepKey(chains[0], derivationPath);
         }
         case WalletOption.TREZOR: {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
