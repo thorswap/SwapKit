@@ -223,7 +223,8 @@ const connectKeepKey =
     };
     // init
     const sdk = await KeepKeySdk.create(config);
-    
+    if (config.apiKey !== apiKey)
+      localStorage.setItem("apiKey", config.apiKey);
 
     const { address, walletMethods } = await getToolbox({
       sdk,
