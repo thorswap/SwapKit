@@ -526,6 +526,9 @@ export class SwapKitCore<T = ''> {
   connectLedger = async (_chains: Chain, _derivationPath: number[]) => {
     throwWalletError('connectLedger', 'ledger');
   };
+  connectKeepKey = async (_chains: Chain, _derivationPath: number[]) => {
+    throwWalletError('connectKeepKey', 'keepkey');
+  };
   connectTrezor = async (_chains: Chain, _derivationPath: number[]) => {
     throwWalletError('connectTrezor', 'trezor');
   };
