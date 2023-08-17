@@ -18,6 +18,7 @@ export interface PoolDetail {
   synthUnits: string;
   units: string;
   volume24h: string;
+  saversAPR: string;
 }
 
 export class Pool {
