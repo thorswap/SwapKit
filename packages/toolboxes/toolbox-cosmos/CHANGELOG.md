@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 1.0.0-development.143
+
+### Patch Changes
+
+- [#257](https://github.com/thorswap/SwapKit/pull/257) [`1d06d16`](https://github.com/thorswap/SwapKit/commit/1d06d16f9457f4268cf4bc4705a2678b2f895c87) Thanks [@towanTG](https://github.com/towanTG)! - Fixes RPC urls for TC stagenet
+
 ## 1.0.0-development.142
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @thorswap-lib/keystore
 
+## 1.0.0-development.210
+
+### Patch Changes
+
+- Updated dependencies [[`1d06d16`](https://github.com/thorswap/SwapKit/commit/1d06d16f9457f4268cf4bc4705a2678b2f895c87)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.143
+
 ## 1.0.0-development.209
 
 ### Patch Changes
