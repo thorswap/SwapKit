@@ -5,10 +5,17 @@ import { AmountWithBaseDenom, Asset, ChainId, FeeOption, RPCUrl } from '@thorswa
 
 import { AssetAtom, AssetMuon, CosmosMaxSendableAmountParams } from './types.js';
 
-export const getDenom = (asset: Asset) => {
-  if (assetToString(asset) === assetToString(AssetAtom)) return 'uatom';
-  if (assetToString(asset) === assetToString(AssetMuon)) return 'umuon';
-  return asset.symbol;
+export const getDenom = ({ chain, symbol }: Asset) => {
+  const assetString = assetToString({ chain, symbol });
+
+  switch (assetString) {
+    case assetToString(AssetAtom):
+      return 'uatom';
+    case assetToString(AssetMuon):
+      return 'umuon';
+    default:
+      return symbol;
+  }
 };
 
 export const getAsset = (denom: string) => {
@@ -22,14 +29,14 @@ export const createCosmJS = ({ offlineSigner, rpcUrl }: { offlineSigner: any; rp
     gasPrice: GasPrice.fromString('0.0003uatom'),
   });
 
-export const getRPC = (chainId: ChainId) => {
+export const getRPC = (chainId: ChainId, stagenet?: boolean) => {
   switch (chainId) {
     case ChainId.Cosmos:
       return RPCUrl.Cosmos;
     case ChainId.Binance:
       return RPCUrl.Binance;
     case ChainId.THORChain:
-      return RPCUrl.THORChain;
+      return stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain;
     default:
       return RPCUrl.Cosmos;
   }

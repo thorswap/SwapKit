@@ -10,6 +10,7 @@ import {
 import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
   AmountWithBaseDenom,
+  ApiUrl,
   BaseDecimal,
   Chain,
   ChainId,
@@ -33,7 +34,6 @@ type ToolboxParams = {
 
 const derivationPath = stringToPath(`${DerivationPath.BNB}/0`);
 
-const MAINNET_THORNODE_API_BASE = 'https://thornode.thorswap.net/thorchain';
 const BINANCE_MAINNET_API_URI = 'https://dex.binance.org';
 
 const getAccount = (address: string): Promise<Account> =>
@@ -77,7 +77,7 @@ const getFees = async () => {
 };
 
 const getFeeRateFromThorchain = async () => {
-  const respData = await getRequest(`${MAINNET_THORNODE_API_BASE}/inbound_addresses`);
+  const respData = await getRequest(`${ApiUrl.ThornodeMainnet}/thorchain/inbound_addresses`);
   if (!Array.isArray(respData)) throw new Error('bad response from Thornode API');
 
   const chainData = respData.find(
