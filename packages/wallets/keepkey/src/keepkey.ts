@@ -1,5 +1,6 @@
 import { Signer } from '@ethersproject/abstract-signer';
 import { KeepKeySdk } from '@keepkey/keepkey-sdk';
+import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
 import { AVAXToolbox, BSCToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import {
   BCHToolbox,
@@ -82,7 +83,8 @@ const getToolbox = async (params: Params) => {
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
-      //const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
+      const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
+      console.log('coin: ', coin);
 
       const scriptType =
         derivationPath[0] === 84
@@ -106,22 +108,19 @@ const getToolbox = async (params: Params) => {
 
       const utxoMethods = toolbox(utxoApiKey || '', api);
 
-      // Placeholder functions
-      const getAddress = async function () {
+      //getAddress
+      const getAddress = async function (coin: string) {
         try {
-          //Unsigned TX
-          let addressInfo = {
-            address_n: [2147483732, 2147483648, 2147483648, 0, 0],
-            script_type: 'p2wpkh',
-            coin: 'Bitcoin',
-          };
+          console.log('coin: ', coin);
+          let addressInfo = addressInfoForCoin(coin, false, 'p2wkh');
+          console.log('addressInfo: ', addressInfo);
           let response = await sdk.address.utxoGetAddress(addressInfo);
           return response.address;
         } catch (e) {
           console.error(e);
         }
       };
-      const address = await getAddress();
+      const address = await getAddress(coin);
       const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '') => {
         const address_n = derivationPath.map((pathElement, index) =>
           index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
@@ -200,6 +199,7 @@ const getToolbox = async (params: Params) => {
         });
 
         const txHex = await signTransaction(psbt, inputs, memo);
+        console.log('txHex: ', txHex);
         return toolbox.broadcastTx(txHex);
       };
 
@@ -250,7 +250,7 @@ const connectKeepKey =
     addChain({
       chain,
       walletMethods,
-      wallet: { address, balance: [], walletType: WalletOption.TREZOR },
+      wallet: { address, balance: [], walletType: WalletOption.KEEPKEY },
     });
 
     return true;

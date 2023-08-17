@@ -6,7 +6,7 @@ import { useCallback, useState } from 'react';
 
 import { WalletDataType } from './types';
 
-type Props = {
+type Props = {f
   setWallet: (wallet: WalletDataType | WalletDataType[]) => void;
   skClient?: SwapKitCore;
 };

@@ -89,8 +89,9 @@ class KeepKeySigner extends Signer {
     console.log('baseTx: ', baseTx);
 
     let responseSign = await this.sdk.eth.ethSignTransaction(baseTx);
-
-    return responseSign.seraialized;
+    console.log('responseSign: ', responseSign);
+    console.log('responseSign: ', responseSign.serialized);
+    return responseSign.serialized;
   };
 
   connect = (provider: Provider) =>

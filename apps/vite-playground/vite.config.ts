@@ -9,7 +9,6 @@ export default defineConfig({
     port: 3000,
   },
   base: '/SwapKit/',
-
   // NOTE: Have to be added to fix: Uncaught ReferenceError: process & global is not defined
   define: {
     'process.env': {},

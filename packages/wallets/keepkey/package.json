@@ -2,6 +2,7 @@
   "author": "highlander",
   "dependencies": {
     "@keepkey/keepkey-sdk": "^0.2.49",
+    "@pioneer-platform/pioneer-coins": "^8.1.79",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*"
