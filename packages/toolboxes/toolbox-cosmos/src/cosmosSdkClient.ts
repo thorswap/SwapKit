@@ -3,6 +3,7 @@ import { stringToPath } from '@cosmjs/crypto';
 import { normalizeBech32 } from '@cosmjs/encoding';
 import { SigningStargateClient, StargateClient } from '@cosmjs/stargate';
 import { cosmosclient } from '@cosmos-client/core';
+import { getTcRpcUrl } from '@thorswap-lib/helpers';
 import { ChainId } from '@thorswap-lib/types';
 
 import { CosmosSDKClientParams, TransferParams } from './types.js';
@@ -18,9 +19,12 @@ export class CosmosSDKClient {
   server: string;
   chainId: ChainId;
   prefix = '';
+  rpcUrl;
 
   // by default, cosmos chain
-  constructor({ server, chainId, prefix = 'cosmos' }: CosmosSDKClientParams) {
+  constructor({ server, chainId, prefix = 'cosmos', stagenet = false }: CosmosSDKClientParams) {
+    this.rpcUrl =
+      stagenet && chainId === ChainId.THORChain ? getTcRpcUrl(stagenet) : getRPC(chainId);
     this.server = server;
     this.chainId = chainId;
     this.sdk = new cosmosclient.CosmosSDK(server, this.chainId);
@@ -47,14 +51,12 @@ export class CosmosSDKClient {
   };
 
   getBalance = async (address: string) => {
-    const rpc = getRPC(this.chainId);
-    const client = await StargateClient.connect(rpc);
+    const client = await StargateClient.connect(this.rpcUrl);
     return client.getAllBalances(address);
   };
 
   getAccount = async (address: string) => {
-    const rpc = getRPC(this.chainId);
-    const client = await StargateClient.connect(rpc);
+    const client = await StargateClient.connect(this.rpcUrl);
     return client.getAccount(address);
   };
 
@@ -71,10 +73,7 @@ export class CosmosSDKClient {
       throw new Error('Signer not defined');
     }
 
-    const signingClient = await SigningStargateClient.connectWithSigner(
-      getRPC(this.chainId),
-      signer,
-    );
+    const signingClient = await SigningStargateClient.connectWithSigner(this.rpcUrl, signer);
 
     const txResponse = await signingClient.sendTokens(
       from,

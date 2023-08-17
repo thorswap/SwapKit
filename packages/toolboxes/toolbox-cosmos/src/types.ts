@@ -9,6 +9,7 @@ export type CosmosSDKClientParams = {
   server: string;
   chainId: ChainId;
   prefix?: string;
+  stagenet?: boolean;
 };
 
 export type TransferParams = {
