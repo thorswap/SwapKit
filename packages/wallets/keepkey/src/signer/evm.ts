@@ -4,12 +4,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { JsonRpcProvider, Provider } from '@ethersproject/providers';
 // import { serialize } from '@ethersproject/transactions';
 // import { derivationPathToString } from '@thorswap-lib/helpers';
-import {
-  Chain,
-  ChainToChainId,
-  DerivationPathArray,
-  EVMTxParams,
-} from '@thorswap-lib/types';
+import { Chain, ChainToChainId, DerivationPathArray, EVMTxParams } from '@thorswap-lib/types';
 // import TrezorConnect from '@trezor/connect-web';
 
 interface KeepKeyEVMSignerParams {
@@ -37,14 +32,16 @@ class KeepKeySigner extends Signer {
 
   getAddress = async () => {
     if (!this.address) {
-      //ETH path 
+      //ETH path
       let addressInfo = {
         addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
         coin: 'Ethereum',
         scriptType: 'ethereum',
-        showDisplay: false
-      }
-      let response = await this.sdk.address.ethereumGetAddress({ address_n: addressInfo.addressNList })
+        showDisplay: false,
+      };
+      let response = await this.sdk.address.ethereumGetAddress({
+        address_n: addressInfo.addressNList,
+      });
       this.address = response.address;
     }
 
@@ -53,10 +50,10 @@ class KeepKeySigner extends Signer {
 
   signMessage = async (message: string) => {
     let input = {
-      "address":this.address,
-      message:"foobar"
-    }
-    let response = await this.sdk.ethSign(input)
+      address: this.address,
+      message: message, //must be hex encoded
+    };
+    let response = await this.sdk.ethSign(input);
     return response;
   };
 
@@ -71,34 +68,28 @@ class KeepKeySigner extends Signer {
     const isEIP1559 = 'maxFeePerGas' in restTx && 'maxPriorityFeePerGas' in restTx;
 
     const baseTx = {
-      "addressNList": [
-        2147483692,
-        2147483708,
-        2147483648,
-        0,
-        0
-      ],
-      from:this.address,
+      addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
+      from: this.address,
       chainId: BigNumber.from(ChainToChainId[this.chain]).toNumber(),
       to,
       value: BigNumber.from(value || 0).toHexString(),
       gasLimit: BigNumber.from(gasLimit).toHexString(),
       nonce: BigNumber.from(
-          nonce || (await this.provider.getTransactionCount(from, 'pending')),
+        nonce || (await this.provider.getTransactionCount(from, 'pending')),
       ).toHexString(),
       data,
       ...(isEIP1559
-          ? {
-            maxFeePerGas: BigNumber.from(restTx.maxFeePerGas).toHexString(),
+        ? {
+            maxFeePerGas: BigNumber.from(restTx?.maxFeePerGas).toHexString(),
             maxPriorityFeePerGas: BigNumber.from(restTx.maxPriorityFeePerGas).toHexString(),
           }
-          : //@ts-expect-error ts cant infer type of restTx
+        : //@ts-expect-error ts cant infer type of restTx
           { gasPrice: BigNumber.from(restTx.gasPrice).toHexString() }),
     };
-    console.log("baseTx: ", baseTx)
+    console.log('baseTx: ', baseTx);
 
-    let responseSign = await this.sdk.eth.ethSignTransaction(baseTx)
-    
+    let responseSign = await this.sdk.eth.ethSignTransaction(baseTx);
+
     return responseSign.seraialized;
   };
 

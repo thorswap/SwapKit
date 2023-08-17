@@ -11,6 +11,7 @@
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@thorswap-lib/keepkey": "workspace:*",
     "@thorswap-lib/trezor": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "@thorswap-lib/walletconnect": "workspace:*",
