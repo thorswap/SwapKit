@@ -26,6 +26,7 @@ type KeepKeyOptions = {
 };
 
 type Params = KeepKeyOptions & {
+  sdk: any;
   chain: Chain;
   derivationPath: DerivationPathArray;
   rpcUrl?: string;
@@ -33,7 +34,7 @@ type Params = KeepKeyOptions & {
 };
 
 const getToolbox = async (params: Params) => {
-  const { api, rpcUrl, chain, ethplorerApiKey, covalentApiKey, derivationPath, utxoApiKey } =
+  const { sdk, api, rpcUrl, chain, ethplorerApiKey, covalentApiKey, derivationPath, utxoApiKey } =
     params;
 
   switch (chain) {
@@ -41,7 +42,7 @@ const getToolbox = async (params: Params) => {
     case Chain.Avalanche:
     case Chain.Ethereum:
       const provider = getProvider(chain, rpcUrl);
-      const signer = (await getEVMSigner({ chain, derivationPath, provider })) as Signer;
+      const signer = (await getEVMSigner({ sdk, chain, derivationPath, provider })) as Signer;
       const address = await signer.getAddress();
 
       if (chain === Chain.Ethereum && !ethplorerApiKey)
@@ -89,7 +90,25 @@ const getToolbox = async (params: Params) => {
       const utxoMethods = toolbox(utxoApiKey, api);
 
       // Placeholder functions
-      const getAddress = async () => 'PlaceholderAddress';
+      const getAddress = async function(){
+        try{
+
+          //Unsigned TX
+          // let addressInfo = {
+          //   address_n: [2147483732, 2147483648, 2147483648, 0, 0],
+          //   script_type: 'p2wpkh',
+          //   coin:'Bitcoin'
+          // }
+          // let response = await sdk.address.utxoGetAddress({
+          //   address_n: addressInfo.addressNList,
+          //   script_type:addressInfo.scriptType,
+          //   coin:addressInfo.coin
+          // })
+          return "address"
+        }catch(e){
+          
+        }
+      }
       const signTransaction = async () => 'PlaceholderSignedTransaction';
       const transfer = async () => 'PlaceholderTransfer';
 

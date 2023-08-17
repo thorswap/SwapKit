@@ -1,30 +1,34 @@
 import { Signer } from '@ethersproject/abstract-signer';
+import { BigNumber } from '@ethersproject/bignumber';
 // import { BigNumber } from '@ethersproject/bignumber';
 import { JsonRpcProvider, Provider } from '@ethersproject/providers';
 // import { serialize } from '@ethersproject/transactions';
 // import { derivationPathToString } from '@thorswap-lib/helpers';
 import {
   Chain,
-  // ChainToChainId,
+  ChainToChainId,
   DerivationPathArray,
   EVMTxParams,
 } from '@thorswap-lib/types';
 // import TrezorConnect from '@trezor/connect-web';
 
-interface TrezorEVMSignerParams {
+interface KeepKeyEVMSignerParams {
+  sdk: any;
   chain: Chain;
   derivationPath: DerivationPathArray;
   provider: Provider | JsonRpcProvider;
 }
 
 class KeepKeySigner extends Signer {
+  private sdk: any;
   private chain: Chain;
   private derivationPath: DerivationPathArray;
   private address: string;
   readonly provider: Provider | JsonRpcProvider;
 
-  constructor({ chain, derivationPath, provider }: TrezorEVMSignerParams) {
+  constructor({ sdk, chain, derivationPath, provider }: KeepKeyEVMSignerParams) {
     super();
+    this.sdk = sdk;
     this.chain = chain;
     this.derivationPath = derivationPath;
     this.provider = provider;
@@ -33,17 +37,27 @@ class KeepKeySigner extends Signer {
 
   getAddress = async () => {
     if (!this.address) {
-      let address = '';
-
-      this.address = address;
+      //ETH path 
+      let addressInfo = {
+        addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
+        coin: 'Ethereum',
+        scriptType: 'ethereum',
+        showDisplay: false
+      }
+      let response = await this.sdk.address.ethereumGetAddress({ address_n: addressInfo.addressNList })
+      this.address = response.address;
     }
 
     return this.address;
   };
 
   signMessage = async (message: string) => {
-    console.log('message:', message);
-    return '0x00000000000000';
+    let input = {
+      "address":this.address,
+      message:"foobar"
+    }
+    let response = await this.sdk.ethSign(input)
+    return response;
   };
 
   signTransaction = async ({ from, to, value, gasLimit, nonce, data, ...restTx }: EVMTxParams) => {
@@ -54,18 +68,47 @@ class KeepKeySigner extends Signer {
     if (!nonce) throw new Error('Missing nonce');
     if (!data) throw new Error('Missing data');
     if (!restTx) throw new Error('Missing restTx');
+    const isEIP1559 = 'maxFeePerGas' in restTx && 'maxPriorityFeePerGas' in restTx;
 
-    const signedTx = '0xasdasdasdasdasdasdasdasdasadasdasdas';
+    const baseTx = {
+      "addressNList": [
+        2147483692,
+        2147483708,
+        2147483648,
+        0,
+        0
+      ],
+      from:this.address,
+      chainId: BigNumber.from(ChainToChainId[this.chain]).toNumber(),
+      to,
+      value: BigNumber.from(value || 0).toHexString(),
+      gasLimit: BigNumber.from(gasLimit).toHexString(),
+      nonce: BigNumber.from(
+          nonce || (await this.provider.getTransactionCount(from, 'pending')),
+      ).toHexString(),
+      data,
+      ...(isEIP1559
+          ? {
+            maxFeePerGas: BigNumber.from(restTx.maxFeePerGas).toHexString(),
+            maxPriorityFeePerGas: BigNumber.from(restTx.maxPriorityFeePerGas).toHexString(),
+          }
+          : //@ts-expect-error ts cant infer type of restTx
+          { gasPrice: BigNumber.from(restTx.gasPrice).toHexString() }),
+    };
+    console.log("baseTx: ", baseTx)
 
-    return signedTx;
+    let responseSign = await this.sdk.eth.ethSignTransaction(baseTx)
+    
+    return responseSign.seraialized;
   };
 
   connect = (provider: Provider) =>
     new KeepKeySigner({
+      sdk: this.sdk,
       chain: this.chain,
       derivationPath: this.derivationPath,
       provider,
     });
 }
-export const getEVMSigner = async ({ chain, derivationPath, provider }: TrezorEVMSignerParams) =>
-  new KeepKeySigner({ chain, derivationPath, provider });
+export const getEVMSigner = async ({ sdk, chain, derivationPath, provider }: any) =>
+  new KeepKeySigner({ sdk, chain, derivationPath, provider });
