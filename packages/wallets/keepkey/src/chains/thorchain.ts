@@ -117,6 +117,7 @@ export const thorchainWalletMethods = async function (params: any) {
                 value: {
                   amount: {
                     amount: amount.toString(),
+                    //TODO bignum? BigNumber.from(value || 0)
                     denom: 'rune',
                   },
                   from_address: from,

@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { addressInfoForCoin, COIN_MAP_KEEPKEY_LONG } from '@pioneer-platform/pioneer-coins';
 import {
   BCHToolbox,
@@ -17,6 +16,7 @@ import {
 } from '@thorswap-lib/types';
 import { toCashAddress } from 'bchaddrjs';
 import { Psbt } from 'bitcoinjs-lib';
+import { BigNumber } from '@ethersproject/bignumber';
 
 export const utxoWalletMethods = async function (params: any) {
   try {
@@ -25,25 +25,16 @@ export const utxoWalletMethods = async function (params: any) {
     if (!stagenet) stagenet = false;
     if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
     console.log('derivationPath: ', derivationPath);
-
-    const scriptType =
-      derivationPath[0] === 84
-        ? { input: 'SPENDWITNESS', output: 'PAYTOWITNESS' }
-        : derivationPath[0] === 49
-        ? { input: 'SPENDP2SHWITNESS', output: 'PAYTOP2SHWITNESS' }
-        : derivationPath[0] === 44
-        ? { input: 'SPENDADDRESS', output: 'PAYTOADDRESS' }
-        : undefined;
-    console.log('scriptType: ', scriptType);
-    if (!scriptType) throw new Error('Derivation path is not supported');
-    console.log('chain: ', chain);
     let toolbox;
+    let isSegwit: boolean = false;
 
     switch (chain) {
       case Chain.Bitcoin:
+        isSegwit = true;
         toolbox = BTCToolbox(utxoApiKey, api);
         break;
       case Chain.Litecoin:
+        isSegwit = true;
         toolbox = LTCToolbox(utxoApiKey, api);
         break;
       case Chain.Dogecoin:
@@ -56,6 +47,9 @@ export const utxoWalletMethods = async function (params: any) {
         throw Error('unsupported chain! ' + chain);
     }
 
+    if (!scriptType) throw new Error('Derivation path is not supported');
+    console.log('chain: ', chain);
+
     console.log('utxoApiKey: ', utxoApiKey);
     console.log('api: ', api);
     const utxoMethods = toolbox;
@@ -64,7 +58,14 @@ export const utxoWalletMethods = async function (params: any) {
     const getAddress = async function () {
       try {
         //TODO custom script types?
-        let addressInfo = addressInfoForCoin(chain, false, 'p2wkh');
+        let scriptType;
+        if (isSegwit) {
+          scriptType = 'p2sh';
+        } else {
+          scriptType = 'p2wkh';
+        }
+        let addressInfo = addressInfoForCoin(chain, false, scriptType);
+        console.log('addressInfo: ', addressInfo);
         let response = await sdk.address.utxoGetAddress(addressInfo);
         return response.address;
       } catch (e) {
@@ -73,35 +74,40 @@ export const utxoWalletMethods = async function (params: any) {
     };
     const address = await getAddress();
 
-    const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '') => {
+    const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '', amount: any) => {
       const address_n = derivationPath.map((pathElement, index) =>
         index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
       );
+
       console.log('address_n: ', address_n);
       let outputs: any = psbt.txOutputs.map((output: any) => {
-        const outputAddress =
-          chain === Chain.BitcoinCash && output.address
-            ? toCashAddress(output.address)
-            : output.address;
+        console.log('output: ', output);
+        let outputAddress = output.address;
 
-        // Strip prefix from BCH address to compare with stripped address from Trezor
-        const isChangeAddress =
-          chain === Chain.BitcoinCash && outputAddress
-            ? (toolbox as ReturnType<typeof BCHToolbox>).stripPrefix(outputAddress) === address
-            : outputAddress === address;
+        if (chain === Chain.BitcoinCash && output.address) {
+          outputAddress = toCashAddress(output.address);
+        }
+
+        let isChangeAddress = false;
+
+        if (chain === Chain.BitcoinCash && outputAddress) {
+          const strippedAddress = (toolbox as ReturnType<typeof BCHToolbox>).stripPrefix(
+            outputAddress,
+          );
+          isChangeAddress = strippedAddress === address;
+        } else {
+          isChangeAddress = outputAddress === address;
+        }
+
         console.log('isChangeAddress: ', isChangeAddress);
-
-        // OP_RETURN
         if (!output.address) {
           return {
-            // @ts-ignore
             op_return_data: Buffer.from(memo).toString('hex'),
             amount: '0',
             script_type: 'PAYTOOPRETURN',
           };
         }
 
-        // Change Address
         if (isChangeAddress) {
           return {
             address_n,
@@ -113,18 +119,17 @@ export const utxoWalletMethods = async function (params: any) {
           };
         }
 
-        // Outgoing UTXO
         return {
           address: outputAddress,
-          amount: output.value,
+          amount: BigNumber.from(value || 0),
           addressType: 'spend',
           script_type: 'PAYTOADDRESS',
         };
       });
-      console.log("outputs: PRE: ",outputs)
+      console.log('outputs: PRE: ', outputs);
       let outputsKeepKey = [];
       for (const output of outputs) {
-        console.log("output: PRE: ",output)
+        console.log('output: PRE: ', output);
         const outputKeepKey: any = {
           scriptType: 'p2pkh',
           addressType: output.addressType,
@@ -160,6 +165,15 @@ export const utxoWalletMethods = async function (params: any) {
       memo,
       ...rest
     }: UTXOTransferParams) => {
+      console.log('transfer params: ', {
+        from,
+        recipient,
+        feeOptionKey,
+        feeRate,
+        memo,
+        ...rest,
+      });
+      if (!amount) throw new Error('Amount must be provided');
       if (!from) throw new Error('From address must be provided');
       if (!recipient) throw new Error('Recipient address must be provided');
       console.log('params: ', {
@@ -183,7 +197,7 @@ export const utxoWalletMethods = async function (params: any) {
         recipient,
         feeRate: feeRate || (await toolbox.getFeeRates())[feeOptionKey || FeeOption.Fast],
         sender: from,
-        fetchTxHex: chain === Chain.Dogecoin,
+        fetchTxHex: chain,
       });
 
       //convert inputs for keepkey
@@ -198,7 +212,7 @@ export const utxoWalletMethods = async function (params: any) {
           hex: input.txHex,
         };
         //if segwit I need script
-        if (input.witnessUtxo) {
+        if (input.witnessUtxo && isSegwit) {
           inputKeepKey.scriptType = 'p2sh';
           console.log(input.witnessUtxo);
           console.log(input.witnessUtxo.script);
@@ -219,7 +233,7 @@ export const utxoWalletMethods = async function (params: any) {
       }
       inputs = inputsKeepKey;
 
-      const txHex = await signTransaction(psbt, inputs, memo);
+      const txHex = await signTransaction(psbt, inputs, memo, amount);
       console.log('txHex: ', txHex);
       return toolbox.broadcastTx(txHex);
     };

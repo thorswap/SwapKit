@@ -958,8 +958,8 @@ importers:
         specifier: ^0.2.49
         version: 0.2.49
       '@pioneer-platform/pioneer-coins':
-        specifier: ^8.1.80
-        version: 8.1.80(@types/node@20.4.2)
+        specifier: ^8.1.82
+        version: 8.1.82(@types/node@20.4.2)
       '@thorswap-lib/helpers':
         specifier: workspace:*
         version: link:../../../internal/helpers
@@ -5069,8 +5069,8 @@ packages:
       - '@types/node'
     dev: false
 
-  /@pioneer-platform/pioneer-coins@8.1.80(@types/node@20.4.2):
-    resolution: {integrity: sha512-QaUHjOdvHzSYiTwMtGj2JivU+aVIcwhPRH8QVLkp/I7GNsHesdJp4+tgEpPHLZMNonMQBovOUknct5Y2oq4BYA==}
+  /@pioneer-platform/pioneer-coins@8.1.82(@types/node@20.4.2):
+    resolution: {integrity: sha512-q9gqeIKKke28F3nJQRSNj/5W5eUA6gx/ID0/qbj6Dcyhl+tZS+zM22O7Qce2/jqCKiHUNzVLVEGurSGI3qZ8OA==}
     dependencies:
       '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.4.2)
       bech32: 1.1.4

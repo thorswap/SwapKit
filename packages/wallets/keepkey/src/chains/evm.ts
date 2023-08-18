@@ -58,6 +58,7 @@ class KeepKeySigner extends Signer {
   };
 
   signTransaction = async ({ from, to, value, gasLimit, nonce, data, ...restTx }: EVMTxParams) => {
+    console.log('params: ', { from, to, value, gasLimit, nonce, data, ...restTx });
     if (!from) throw new Error('Missing from address');
     if (!to) throw new Error('Missing to address');
     if (!gasLimit) throw new Error('Missing gasLimit');

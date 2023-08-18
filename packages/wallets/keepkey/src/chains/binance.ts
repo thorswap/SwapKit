@@ -11,8 +11,8 @@ export const binanceWalletMethods = async function (params: any) {
 
     const getAddress = async () =>
       (
-        await sdk.address.cosmosGetAddress({
-          address_n: addressInfoForCoin(Chain.Cosmos, false).address_n,
+        await sdk.address.binanceGetAddress({
+          address_n: addressInfoForCoin(Chain.Binance, false).address_n,
         })
       ).address;
 
@@ -65,7 +65,7 @@ export const binanceWalletMethods = async function (params: any) {
             signatures: [],
             memo,
           },
-          sequence: accountInfo.sequence,
+          sequence: accountInfo.sequence.toString(),
           accountNumber: accountInfo.account_number.toString(),
         };
 
@@ -111,9 +111,9 @@ export const binanceWalletMethods = async function (params: any) {
     };
 
     return {
+      ...toolbox,
       getAddress,
       transfer,
-      ...toolbox,
     };
   } catch (e) {
     console.error(e);

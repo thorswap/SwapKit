@@ -85,7 +85,7 @@ export const cosmosWalletMethods = async function (params: any) {
     //TODO transfer
     const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
       let from = await getAddress();
-      return toolbox.transfer({
+      return signTransactionTransfer({
         from,
         to: recipient,
         asset: getDenom(asset || AssetAtom),
@@ -96,11 +96,10 @@ export const cosmosWalletMethods = async function (params: any) {
     //TODO deposit
 
     return {
+      ...toolbox,
       getAddress,
       signTransactionTransfer,
       transfer,
-      // getBalance,
-      ...toolbox,
     };
   } catch (e) {
     console.error(e);

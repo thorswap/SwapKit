@@ -1,6 +1,13 @@
 import { Signer } from '@ethersproject/abstract-signer';
 import { KeepKeySdk } from '@keepkey/keepkey-sdk';
-import { AVAXToolbox, BSCToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
+import {
+  ARBToolbox,
+  AVAXToolbox,
+  BSCToolbox,
+  ETHToolbox,
+  getProvider,
+  MATICToolbox,
+} from '@thorswap-lib/toolbox-evm';
 import { Chain, ConnectWalletParams, DerivationPathArray, WalletOption } from '@thorswap-lib/types';
 
 import { binanceWalletMethods } from './chains/binance.js';
@@ -54,23 +61,35 @@ const getToolbox = async (params: Params) => {
     case Chain.Polygon:
     case Chain.Avalanche:
     case Chain.Ethereum: {
+      console.log('chain: ', chain);
       const provider = getProvider(chain, rpcUrl || '');
+      console.log('provider: ', provider);
       const signer = (await getEVMSigner({ sdk, chain, derivationPath, provider })) as Signer;
       const address = await signer.getAddress();
-
+      console.log('address: ', address);
       if (chain === Chain.Ethereum && !ethplorerApiKey)
         throw new Error('Ethplorer API key not found');
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
 
       const evmParams = { api, signer, provider };
-      const walletMethods =
-        chain === Chain.Ethereum
-          ? ETHToolbox({ ...evmParams, ethplorerApiKey: ethplorerApiKey as string })
-          : (chain === Chain.Avalanche ? AVAXToolbox : BSCToolbox)({
-              ...evmParams,
-              covalentApiKey: covalentApiKey as string,
-            });
+      const walletMethods = (() => {
+        if (chain === Chain.Ethereum) {
+          return ETHToolbox({ ...evmParams, ethplorerApiKey: ethplorerApiKey as string });
+        } else if (chain === Chain.Avalanche) {
+          return AVAXToolbox({ ...evmParams, covalentApiKey: covalentApiKey as string });
+        } else if (chain === Chain.BinanceSmartChain) {
+          return BSCToolbox({ ...evmParams, covalentApiKey: covalentApiKey as string });
+        } else if (chain === Chain.Arbitrum) {
+          return ARBToolbox({ ...evmParams, covalentApiKey: covalentApiKey as string });
+        } else if (chain === Chain.Optimism) {
+          return MATICToolbox({ ...evmParams, covalentApiKey: covalentApiKey as string });
+        } else if (chain === Chain.Polygon) {
+          return Toolbox({ ...evmParams, covalentApiKey: covalentApiKey as string });
+        } else {
+          throw new Error('Chain not supported chain: ' + chain);
+        }
+      })();
 
       return { address, walletMethods: { ...walletMethods, getAddress: () => address } };
     }
@@ -103,7 +122,7 @@ const getToolbox = async (params: Params) => {
       };
       console.log('params: ', params);
       const walletMethods = await utxoWalletMethods(params);
-      let address = await walletMethods.getAddress(Chain);
+      let address = await walletMethods.getAddress();
       return { address, walletMethods };
     }
     default:
