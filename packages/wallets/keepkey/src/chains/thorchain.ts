@@ -105,78 +105,82 @@ export const thorchainWalletMethods = async function (params: any) {
     let signTransactionTransfer = async (params: any) => {
       try {
         console.log('params: ', params);
-        //TODO use toolbox to build this tx
+        let { amount, to, from, memo } = params;
+        let addressInfo = addressInfoForCoin(Chain.THORChain, false, 'p2wkh');
+        console.log('amount: ', amount);
+        console.log('to: ', to);
+        console.log('addressInfo: ', addressInfo);
+        console.log('toolbox: ', toolbox);
+        console.log('toolbox: ', toolbox.sdk);
 
-        // //TODO
-        // //this is placeholder
-        // let msg = {
-        //   "addressNList":[
-        //     2147483692,
-        //     2147483766,
-        //     2147483648,
-        //     0,
-        //     0
-        //   ],
-        //   "tx":{
-        //     "msgs":[
-        //       {
-        //         "type": "thorchain/MsgSend",
-        //         "value": {
-        //           "amount":
-        //             {
-        //               "amount": "100",
-        //               "denom": "urune"
-        //             }
-        //           ,
-        //           "from_address": "thor1ls33ayg26kmltw7jjy55p32ghjna09zp74t4az",
-        //           "to_address": "thor1wy58774wagy4hkljz9mchhqtgk949zdwwe80d5"
-        //         }
-        //       }
-        //     ],
-        //     "fee":{
-        //       "gas":"0",
-        //       "amount":[
-        //         {
-        //           "denom":"urune",
-        //           "amount":"1000"
-        //         }
-        //       ]
-        //     },
-        //     "signatures":[
-        //
-        //     ],
-        //     "memo":"1234"
-        //   },
-        //   "sequence":"8",
-        //   accountNumber:""
-        // }
-        // console.log("msg.tx.msgs: ",msg.tx.msgs)
-        // let input = {
-        //   signDoc: {
-        //     // "accountNumber":"574492",
-        //     // "chainId":"cosmoshub-4",
-        //     "account_number":"95421",
-        //     "chain_id":"cosmoshub-4",
-        //     msgs: msg.tx.msgs,
-        //     memo: msg.tx.memo ?? '',
-        //     sequence: msg.sequence,
-        //     fee: {
-        //       "amount": [
-        //         {
-        //           "amount": "2500",
-        //           "denom": "uatom"
-        //         }
-        //       ],
-        //       "gas": "250000"
-        //     },
-        //   },
-        //   signerAddress: address,
-        // }
-        // console.log("input import: ",input)
-        // let responseSign = await sdk.thorchain.thorchainSignAminoTransfer(input)
-        // return responseSign.signDoc
+        let accountInfo = await toolbox.getAccount(from);
+        console.log('accountInfo: ', accountInfo);
 
-        return '';
+        //TODO
+        //this is placeholder
+        let msg = {
+          addressNList: addressInfo.address_n,
+          tx: {
+            msgs: [
+              {
+                type: 'thorchain/MsgSend',
+                value: {
+                  amount: {
+                    amount: amount.toString(),
+                    denom: 'urune',
+                  },
+                  from_address: from,
+                  to_address: to,
+                },
+              },
+            ],
+            fee: {
+              gas: '0',
+              amount: [
+                {
+                  denom: 'urune',
+                  amount: '1000',
+                },
+              ],
+            },
+            signatures: [],
+            memo,
+          },
+          sequence: accountInfo.sequence.toString(),
+          accountNumber: accountInfo.accountNumber.toString(),
+        };
+        console.log('msg.tx.msgs: ', msg.tx.msgs);
+        let input = {
+          signDoc: {
+            account_number: accountInfo.accountNumber.toString(),
+            chain_id: 'thorchain',
+            msgs: msg.tx.msgs,
+            memo: msg.tx.memo ?? '',
+            sequence: accountInfo.sequence.toString(),
+            fee: {
+              amount: [
+                {
+                  amount: '2500',
+                  denom: 'uatom',
+                },
+              ],
+              gas: '250000',
+            },
+          },
+          signerAddress: from,
+        };
+        console.log('input import: ', input);
+        let responseSign = await sdk.thorchain.thorchainSignAminoTransfer({
+          addressNList: addressInfo.address_n,
+          chain_id: 'thorchain',
+          account_number: accountInfo.accountNumber.toString(),
+          sequence: accountInfo.sequence.toString(),
+          tx: input.signDoc,
+        });
+        console.log('responseSign: ', responseSign);
+        return responseSign.signDoc;
+
+        // return '';
       } catch (e) {
         console.error(e);
       }
@@ -204,10 +208,10 @@ export const thorchainWalletMethods = async function (params: any) {
     };
 
     return {
+      ...toolbox,
       getAddress,
       transfer,
       deposit,
-      ...toolbox,
     };
   } catch (e) {
     console.error(e);
