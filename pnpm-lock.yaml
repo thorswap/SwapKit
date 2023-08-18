@@ -955,14 +955,17 @@ importers:
         specifier: ^0.2.49
         version: 0.2.49
       '@pioneer-platform/pioneer-coins':
-        specifier: ^8.1.79
-        version: 8.1.79(@types/node@20.4.2)
+        specifier: ^8.1.80
+        version: 8.1.80(@types/node@20.4.2)
       '@thorswap-lib/helpers':
         specifier: workspace:*
         version: link:../../../internal/helpers
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
         version: link:../../swapkit/swapkit-entities
+      '@thorswap-lib/toolbox-cosmos':
+        specifier: workspace:1.0.0-development.144
+        version: link:../../toolboxes/toolbox-cosmos
       '@thorswap-lib/types':
         specifier: workspace:*
         version: link:../../swapkit/types
@@ -5063,8 +5066,8 @@ packages:
       - '@types/node'
     dev: false
 
-  /@pioneer-platform/pioneer-coins@8.1.79(@types/node@20.4.2):
-    resolution: {integrity: sha512-dqKimGTnsC5XH5jh+2i/ure0f7bSOKyVKOKkLgYUJRMODC7ywU80Y9Y/ODMQqdgm8jNLMAdh1LBPthVv8E7Kbg==}
+  /@pioneer-platform/pioneer-coins@8.1.80(@types/node@20.4.2):
+    resolution: {integrity: sha512-QaUHjOdvHzSYiTwMtGj2JivU+aVIcwhPRH8QVLkp/I7GNsHesdJp4+tgEpPHLZMNonMQBovOUknct5Y2oq4BYA==}
     dependencies:
       '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.4.2)
       bech32: 1.1.4

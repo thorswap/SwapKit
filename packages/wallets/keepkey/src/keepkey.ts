@@ -20,16 +20,25 @@ import {
 import { toCashAddress } from 'bchaddrjs';
 import { Psbt } from 'bitcoinjs-lib';
 
-import { getEVMSigner } from './signer/evm.js';
+import { getEVMSigner } from './chains/evm.js';
+import { thorchainWalletMethods } from './chains/thorchain.js';
+import { cosmosWalletMethods } from './chains/cosmos.js';
+import { binanceWalletMethods } from './chains/binance.js';
 
 export const KEEPKEY_SUPPORTED_CHAINS = [
+  Chain.Arbitrum,
   Chain.Avalanche,
+  Chain.Binance,
+  Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
+  Chain.Cosmos,
   Chain.Dogecoin,
   Chain.Ethereum,
-  Chain.BinanceSmartChain,
   Chain.Litecoin,
+  Chain.Optimism,
+  Chain.Polygon,
+  Chain.THORChain,
 ] as const;
 
 type KeepKeyOptions = {
@@ -56,6 +65,9 @@ const getToolbox = async (params: Params) => {
 
   switch (chain) {
     case Chain.BinanceSmartChain:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon:
     case Chain.Avalanche:
     case Chain.Ethereum: {
       const provider = getProvider(chain, rpcUrl || '');
@@ -77,6 +89,21 @@ const getToolbox = async (params: Params) => {
             });
 
       return { address, walletMethods: { ...walletMethods, getAddress: () => address } };
+    }
+    case Chain.Binance: {
+      const walletMethods = await binanceWalletMethods({ sdk, stagenet: false });
+      let address = await walletMethods.getAddress();
+      return { address, walletMethods };
+    }
+    case Chain.Cosmos: {
+      const walletMethods = await cosmosWalletMethods({ sdk, api, stagenet: false });
+      let address = await walletMethods.getAddress();
+      return { address, walletMethods };
+    }
+    case Chain.THORChain: {
+      const walletMethods = await thorchainWalletMethods({ sdk, stagenet: false });
+      let address = await walletMethods.getAddress();
+      return { address, walletMethods };
     }
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
@@ -111,9 +138,8 @@ const getToolbox = async (params: Params) => {
       //getAddress
       const getAddress = async function (coin: string) {
         try {
-          console.log('coin: ', coin);
+          //TODO custom script types?
           let addressInfo = addressInfoForCoin(coin, false, 'p2wkh');
-          console.log('addressInfo: ', addressInfo);
           let response = await sdk.address.utxoGetAddress(addressInfo);
           return response.address;
         } catch (e) {
@@ -172,6 +198,7 @@ const getToolbox = async (params: Params) => {
           version: 1,
           locktime: 0,
         };
+        console.log('txToSign: ', txToSign);
         let responseSign = await sdk.utxo.utxoSignTransaction(txToSign);
 
         return responseSign.serialized;
@@ -226,8 +253,8 @@ const connectKeepKey =
     const config: any = {
       apiKey,
       pairingInfo: {
-        name: 'KeepKey-template Demo App',
-        imageUrl: 'https://pioneers.dev/coins/keepkey.png',
+        name: 'swapKit-demo-app',
+        imageUrl: 'https://thorswap.finance/assets/img/header_logo.png',
         basePath: spec,
         url: 'http://localhost:1646',
       },
