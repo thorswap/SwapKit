@@ -93,14 +93,16 @@ const getToolbox = async (params: Params) => {
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      const walletMethods = await utxoWalletMethods({
+      let params = {
         api,
         sdk,
-        chain: Chain,
+        chain,
         stagenet: false,
         utxoApiKey,
         derivationPath,
-      });
+      };
+      console.log('params: ', params);
+      const walletMethods = await utxoWalletMethods(params);
       let address = await walletMethods.getAddress(Chain);
       return { address, walletMethods };
     }

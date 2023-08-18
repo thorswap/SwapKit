@@ -24,8 +24,6 @@ export const utxoWalletMethods = async function (params: any) {
     let { sdk, stagenet, chain, utxoApiKey, api, derivationPath } = params;
     if (!stagenet) stagenet = false;
     if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
-    const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
-    console.log('coin: ', coin);
 
     const scriptType =
       derivationPath[0] === 84
@@ -37,30 +35,43 @@ export const utxoWalletMethods = async function (params: any) {
         : undefined;
 
     if (!scriptType) throw new Error('Derivation path is not supported');
+    console.log('chain: ', chain);
+    let toolbox;
 
-    const toolbox =
-      chain === Chain.Bitcoin
-        ? BTCToolbox
-        : chain === Chain.Litecoin
-        ? LTCToolbox
-        : chain === Chain.Dogecoin
-        ? DOGEToolbox
-        : BCHToolbox;
+    switch (chain) {
+      case Chain.Bitcoin:
+        toolbox = BTCToolbox(utxoApiKey, api);
+        break;
+      case Chain.Litecoin:
+        toolbox = LTCToolbox(utxoApiKey, api);
+        break;
+      case Chain.Dogecoin:
+        toolbox = DOGEToolbox(utxoApiKey, api);
+        break;
+      case Chain.BitcoinCash:
+        toolbox = BCHToolbox(utxoApiKey, api);
+        break;
+      default:
+        throw Error('unsupported chain! ' + chain);
+    }
 
-    const utxoMethods = toolbox(utxoApiKey || '', api);
+    console.log('utxoApiKey: ', utxoApiKey);
+    console.log('api: ', api);
+    const utxoMethods = toolbox;
 
     //getAddress
-    const getAddress = async function (coin: string) {
+    const getAddress = async function () {
       try {
         //TODO custom script types?
-        let addressInfo = addressInfoForCoin(coin, false, 'p2wkh');
+        let addressInfo = addressInfoForCoin(chain, false, 'p2wkh');
         let response = await sdk.address.utxoGetAddress(addressInfo);
         return response.address;
       } catch (e) {
         console.error(e);
       }
     };
-    const address = await getAddress(coin);
+    const address = await getAddress();
+
     const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '') => {
       const address_n = derivationPath.map((pathElement, index) =>
         index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
@@ -130,6 +141,7 @@ export const utxoWalletMethods = async function (params: any) {
       if (!recipient) throw new Error('Recipient address must be provided');
 
       console.log('feeRate: ', feeRate);
+      console.log('toolbox: ', toolbox);
 
       let feeRates = await toolbox.getFeeRates();
       console.log('feeRates: ', feeRates);
