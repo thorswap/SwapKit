@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
@@ -13,6 +15,7 @@ export default defineConfig({
   define: {
     'process.env': {},
     'process.version': JSON.stringify('v18.16.0'),
+    'process.env.VITE_BLOCKCHAIR_API_KEY': JSON.stringify(process.env.VITE_BLOCKCHAIR_API_KEY),
   },
   plugins: [react()],
   resolve: {
