@@ -1,6 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   AssetRuneNative,
   DepositParam,
@@ -29,73 +27,73 @@ export const thorchainWalletMethods = async function (params: any) {
         console.log('params: ', params);
         //TODO use toolbox to build this tx
 
-        // let msg = {
-        //   "addressNList": [
-        //     2147483692,
-        //     2147484579,
-        //     2147483648,
-        //     0,
-        //     0
-        //   ],
-        //   "tx": {
-        //     "fee": {
-        //       "amount": [
-        //         {
-        //           "amount": "0",
-        //           "denom": "rune"
-        //         }
-        //       ],
-        //       "gas": "500000000"
-        //     },
-        //     "msg": [
-        //       {
-        //         "type": "thorchain/MsgDeposit",
-        //         "value": {
-        //           "coins": [
-        //             {
-        //               "asset": "THOR.RUNE",
-        //               "amount": "70000000000"
-        //             }
-        //           ],
-        //           "memo": "s:ETH.FOX-52D:0x27de622cc44c55b53caF299eCedccdAB29aC98A8:2937014586539:ss:30",
-        //           "signer": "thor1qnxqpu6a6m5wwsh4k2rt74xfunz259caqyqw27"
-        //         }
-        //       }
-        //     ],
-        //     "signatures": [],
-        //     "memo": "s:ETH.FOX-52D:0x27de622cc44c55b53caF299eCedccdAB29aC98A8:2937014586539:ss:30"
-        //   },
-        //   "chain_id": "thorchain-mainnet-v1",
-        //   "account_number": "70145",
-        //   "sequence": "0"
-        // }
-        // console.log("msg.tx.msgs: ",msg.tx.msg)
-        // let input = {
-        //   signDoc: {
-        //     // "accountNumber":"574492",
-        //     // "chainId":"cosmoshub-4",
-        //     "account_number":"95421",
-        //     "chain_id":"cosmoshub-4",
-        //     msgs: msg.tx.msg,
-        //     memo: msg.tx.memo ?? '',
-        //     sequence: msg.sequence,
-        //     fee: {
-        //       "amount": [
-        //         {
-        //           "amount": "2500",
-        //           "denom": "uatom"
-        //         }
-        //       ],
-        //       "gas": "250000"
-        //     },
-        //   },
-        //   signerAddress: address,
-        // }
-        // console.log("input: ",input)
-        // let responseSign = await sdk.thorchain.thorchainSignAminoDeposit(input)
-        // return responseSign.signDoc
+        console.log('params: ', params);
+        let { amount, from, memo } = params;
+        let addressInfo = addressInfoForCoin(Chain.THORChain, false, 'p2wkh');
+        let accountInfo = await toolbox.getAccount(from);
+        console.log('accountInfo: ', accountInfo);
 
-        return '';
+        let msg = {
+          addressNList: addressInfo.address_n,
+          tx: {
+            msgs: [
+              {
+                type: 'thorchain/MsgDeposit',
+                value: {
+                  amount: {
+                    amount: amount.toString(),
+                    asset: 'THOR.RUNE',
+                  },
+                  signer: from,
+                  memo,
+                },
+              },
+            ],
+            fee: {
+              gas: '0',
+              amount: [
+                {
+                  denom: 'rune',
+                  amount: '1000',
+                },
+              ],
+            },
+            signatures: [],
+            memo,
+          },
+          sequence: accountInfo.sequence.toString(),
+          accountNumber: accountInfo.accountNumber.toString(),
+        };
+        console.log('msg.tx.msgs: ', msg.tx.msgs);
+        let input = {
+          signDoc: {
+            account_number: accountInfo.accountNumber.toString(),
+            chain_id: 'thorchain',
+            msgs: msg.tx.msgs,
+            memo: msg.tx.memo ?? '',
+            sequence: accountInfo.sequence.toString(),
+            fee: {
+              amount: [
+                {
+                  amount: '2500',
+                  denom: 'rune',
+                },
+              ],
+              gas: '250000',
+            },
+          },
+          signerAddress: from,
+        };
+        console.log('input import: ', input);
+        let responseSign = await sdk.thorchain.thorchainSignAminoDeposit({
+          addressNList: addressInfo.address_n,
+          chain_id: 'thorchain',
+          account_number: accountInfo.accountNumber.toString(),
+          sequence: accountInfo.sequence.toString(),
+          tx: input.signDoc,
+        });
+        console.log('responseSign: ', responseSign);
+        return responseSign.signDoc;
       } catch (e) {
         console.error(e);
       }
@@ -107,17 +105,9 @@ export const thorchainWalletMethods = async function (params: any) {
         console.log('params: ', params);
         let { amount, to, from, memo } = params;
         let addressInfo = addressInfoForCoin(Chain.THORChain, false, 'p2wkh');
-        console.log('amount: ', amount);
-        console.log('to: ', to);
-        console.log('addressInfo: ', addressInfo);
-        console.log('toolbox: ', toolbox);
-        console.log('toolbox: ', toolbox.sdk);
-
         let accountInfo = await toolbox.getAccount(from);
         console.log('accountInfo: ', accountInfo);
 
-        //TODO
-        //this is placeholder
         let msg = {
           addressNList: addressInfo.address_n,
           tx: {
@@ -127,7 +117,7 @@ export const thorchainWalletMethods = async function (params: any) {
                 value: {
                   amount: {
                     amount: amount.toString(),
-                    denom: 'urune',
+                    denom: 'rune',
                   },
                   from_address: from,
                   to_address: to,
@@ -138,7 +128,7 @@ export const thorchainWalletMethods = async function (params: any) {
               gas: '0',
               amount: [
                 {
-                  denom: 'urune',
+                  denom: 'rune',
                   amount: '1000',
                 },
               ],

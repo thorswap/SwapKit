@@ -1,6 +1,4 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { AssetAtom, BinanceToolbox, getDenom } from '@thorswap-lib/toolbox-cosmos';
 import { Chain, TxParams } from '@thorswap-lib/types';
 
@@ -18,91 +16,84 @@ export const binanceWalletMethods = async function (params: any) {
         })
       ).address;
 
-    //TODO signTransaction
     const signTransactionTransfer = async function (params: any) {
       try {
         console.log('params: ', params);
-        //TODO use toolbox to build this tx
+        let { amount, to, from, memo } = params;
+        let addressInfo = addressInfoForCoin(Chain.Binance, false);
+        let accountInfo = await toolbox.getAccount(from);
 
         //Unsigned TX
-        // let msg = {
-        //   "addressNList":[
-        //     2147483692,
-        //     2147483766,
-        //     2147483648,
-        //     0,
-        //     0
-        //   ],
-        //   "tx":{
-        //     "msg":[
-        //       {
-        //         "inputs": [
-        //           {
-        //             "address": "bnb1afwh46v6nn30nkmugw5swdmsyjmlxslgjfugre",
-        //             "coins": [
-        //               {
-        //                 "amount": 1000,
-        //                 "denom": "BNB"
-        //               }
-        //             ]
-        //           }
-        //         ],
-        //         "outputs": [
-        //           {
-        //             "address": "bnb1v7wds8atg9pxss86vq5qjuz38wqsadq7e5m2rr",
-        //             "coins": [
-        //               {
-        //                 "amount": 1000,
-        //                 "denom": "BNB"
-        //               }
-        //             ]
-        //           }
-        //         ]
-        //       }
-        //     ],
-        //     "fee":{
-        //       "gas":"0",
-        //       "amount":[
-        //         {
-        //           "denom":"uatom",
-        //           "amount":"1000"
-        //         }
-        //       ]
-        //     },
-        //     "signatures":[
-        //
-        //     ],
-        //     "memo":"1234"
-        //   },
-        //   "sequence":"8",
-        //   accountNumber:""
-        // }
-        //
-        // let input = {
-        //   signDoc: {
-        //     "account_number": "471113",
-        //     "chain_id": "Binance-Chain-Tigris",
-        //     msgs: msg.tx.msg,
-        //     memo: msg.tx.memo ?? '',
-        //     "source": "0",
-        //     sequence: msg.sequence,
-        //     fee: {
-        //       "amount": [
-        //         {
-        //           "amount": "2500",
-        //           "denom": "uatom"
-        //         }
-        //       ],
-        //       "gas": "250000"
-        //     },
-        //   },
-        //   signerAddress: address,
-        // }
-        // console.log("input: ",input)
-        // let responseSign = await sdk.bnb.bnbSignTransaction(input)
-        // console.log("responseSign: ",responseSign)
+        let msg = {
+          addressNList: addressInfo.address_n,
+          tx: {
+            msg: [
+              {
+                inputs: [
+                  {
+                    address: from,
+                    coins: [
+                      {
+                        amount: amount,
+                        denom: 'BNB',
+                      },
+                    ],
+                  },
+                ],
+                outputs: [
+                  {
+                    address: to,
+                    coins: [
+                      {
+                        amount: 1000,
+                        denom: 'BNB',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            fee: {
+              gas: '0',
+              amount: [
+                {
+                  denom: 'uatom',
+                  amount: '1000',
+                },
+              ],
+            },
+            signatures: [],
+            memo,
+          },
+          sequence: accountInfo.sequence,
+          accountNumber: accountInfo.account_number.toString(),
+        };
 
-        return '';
+        let input = {
+          signDoc: {
+            account_number: accountInfo.account_number.toString(),
+            chain_id: 'Binance-Chain-Tigris',
+            msgs: msg.tx.msg,
+            memo: msg.tx.memo ?? '',
+            source: '0',
+            sequence: msg.sequence,
+            fee: {
+              amount: [
+                {
+                  amount: '2500',
+                  denom: 'uatom',
+                },
+              ],
+              gas: '250000',
+            },
+          },
+          signerAddress: from,
+        };
+        console.log('input: ', input);
+        let responseSign = await sdk.bnb.bnbSignTransaction(input);
+        console.log('responseSign: ', responseSign);
+
+        return responseSign;
       } catch (e) {
         console.error(e);
       }
