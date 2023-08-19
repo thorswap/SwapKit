@@ -146,7 +146,6 @@ const getInputsAndTargetOutputs = async ({
     address: sender,
     fetchTxHex,
   });
-  console.log('inputs: ', inputs);
   if (!validateAddress({ address: recipient, chain, apiClient })) {
     throw new Error('Invalid address');
   }

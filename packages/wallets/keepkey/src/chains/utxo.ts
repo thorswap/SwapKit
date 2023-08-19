@@ -9,9 +9,6 @@ import {
 } from '@thorswap-lib/toolbox-utxo';
 import {
   Chain,
-  // WalletOption,
-  // ConnectWalletParams,
-  // DerivationPathArray,
   FeeOption,
   UTXO,
 } from '@thorswap-lib/types';

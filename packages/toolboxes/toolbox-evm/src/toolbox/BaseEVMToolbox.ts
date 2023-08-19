@@ -239,9 +239,7 @@ const transfer = async (
   signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
-  console.log("amount: ", amount)
   const txAmount = amount.amount();
-  console.log("txAmount: ", txAmount)
   const parsedAsset: AssetEntity = getAssetEntity(asset);
   const chain = parsedAsset.L1Chain as EVMChain;
 
