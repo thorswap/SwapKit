@@ -58,7 +58,6 @@ class KeepKeySigner extends Signer {
   };
 
   signTransaction = async ({ from, to, value, gasLimit, nonce, data, ...restTx }: EVMTxParams) => {
-    console.log('params: ', { from, to, value, gasLimit, nonce, data, ...restTx });
     if (!from) throw new Error('Missing from address');
     if (!to) throw new Error('Missing to address');
     if (!gasLimit) throw new Error('Missing gasLimit');
@@ -87,11 +86,8 @@ class KeepKeySigner extends Signer {
         : //@ts-expect-error ts cant infer type of restTx
           { gasPrice: BigNumber.from(restTx.gasPrice).toHexString() }),
     };
-    console.log('baseTx: ', baseTx);
 
     let responseSign = await this.sdk.eth.ethSignTransaction(baseTx);
-    console.log('responseSign: ', responseSign);
-    console.log('responseSign: ', responseSign.serialized);
     return responseSign.serialized;
   };
 

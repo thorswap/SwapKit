@@ -7,8 +7,6 @@ export const cosmosWalletMethods = async function (params: any) {
     let { sdk, stagenet, api } = params;
     if (!stagenet) stagenet = false;
     const toolbox = GaiaToolbox({ server: api });
-    console.log('toolbox: ', toolbox);
-
     const getAddress = async () =>
       (
         await sdk.address.cosmosGetAddress({
@@ -16,10 +14,8 @@ export const cosmosWalletMethods = async function (params: any) {
         })
       ).address;
 
-    //TODO signTransaction
     let signTransactionTransfer = async function (params: any) {
       try {
-        console.log('params: ', params);
         let { amount, to, from, memo } = params;
         let addressInfo = addressInfoForCoin(Chain.Cosmos, false);
         let accountInfo = await toolbox.getAccount(from);
@@ -74,15 +70,12 @@ export const cosmosWalletMethods = async function (params: any) {
           },
           signerAddress: from,
         };
-        console.log('input: ', input);
         let responseSign = await sdk.cosmos.cosmosSignAmino(input);
-        console.log('responseSign: ', responseSign);
-        return '';
+        return responseSign;
       } catch (e) {
         console.error(e);
       }
     };
-    //TODO transfer
     const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
       let from = await getAddress();
       return signTransactionTransfer({
@@ -93,7 +86,6 @@ export const cosmosWalletMethods = async function (params: any) {
         memo,
       });
     };
-    //TODO deposit
 
     return {
       ...toolbox,

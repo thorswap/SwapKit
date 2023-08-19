@@ -7,7 +7,6 @@ export const binanceWalletMethods = async function (params: any) {
     let { sdk, stagenet } = params;
     if (!stagenet) stagenet = false;
     const toolbox = BinanceToolbox();
-    console.log('toolbox: ', toolbox);
 
     const getAddress = async () =>
       (
@@ -18,7 +17,6 @@ export const binanceWalletMethods = async function (params: any) {
 
     const signTransactionTransfer = async function (params: any) {
       try {
-        console.log('params: ', params);
         let { amount, to, from, memo } = params;
         let addressInfo = addressInfoForCoin(Chain.Binance, false);
         let accountInfo = await toolbox.getAccount(from);
@@ -89,9 +87,7 @@ export const binanceWalletMethods = async function (params: any) {
           },
           signerAddress: from,
         };
-        console.log('input: ', JSON.stringify(input));
         let responseSign = await sdk.bnb.bnbSignTransaction(input);
-        console.log('responseSign: ', responseSign);
 
         return responseSign;
       } catch (e) {

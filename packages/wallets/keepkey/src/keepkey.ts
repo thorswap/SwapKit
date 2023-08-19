@@ -62,12 +62,9 @@ const getToolbox = async (params: Params) => {
     case Chain.Polygon:
     case Chain.Avalanche:
     case Chain.Ethereum: {
-      console.log('chain: ', chain);
       const provider = getProvider(chain, rpcUrl || '');
-      console.log('provider: ', provider);
       const signer = (await getEVMSigner({ sdk, chain, derivationPath, provider })) as Signer;
       const address = await signer.getAddress();
-      console.log('address: ', address);
       if (chain === Chain.Ethereum && !ethplorerApiKey)
         throw new Error('Ethplorer API key not found');
       if (chain !== Chain.Ethereum && !covalentApiKey)
@@ -121,7 +118,6 @@ const getToolbox = async (params: Params) => {
         utxoApiKey,
         derivationPath,
       };
-      console.log('params: ', params);
       const walletMethods = await utxoWalletMethods(params);
       let address = await walletMethods.getAddress();
       return { address, walletMethods };

@@ -12,7 +12,6 @@ export const thorchainWalletMethods = async function (params: any) {
     let { sdk, stagenet } = params;
     if (!stagenet) stagenet = false;
     const toolbox = ThorchainToolbox({ stagenet });
-    console.log('toolbox: ', toolbox);
 
     const getAddress = async () =>
       (
@@ -24,14 +23,10 @@ export const thorchainWalletMethods = async function (params: any) {
     //TODO signTransaction
     let signTransactionDeposit = async (params: any) => {
       try {
-        console.log('params: ', params);
         //TODO use toolbox to build this tx
-
-        console.log('params: ', params);
         let { amount, from, memo } = params;
         let addressInfo = addressInfoForCoin(Chain.THORChain, false, 'p2wkh');
         let accountInfo = await toolbox.getAccount(from);
-        console.log('accountInfo: ', accountInfo);
 
         let msg = {
           addressNList: addressInfo.address_n,
@@ -64,7 +59,6 @@ export const thorchainWalletMethods = async function (params: any) {
           sequence: accountInfo.sequence.toString(),
           accountNumber: accountInfo.accountNumber.toString(),
         };
-        console.log('msg.tx.msgs: ', msg.tx.msgs);
         let input = {
           signDoc: {
             account_number: accountInfo.accountNumber.toString(),
@@ -84,7 +78,6 @@ export const thorchainWalletMethods = async function (params: any) {
           },
           signerAddress: from,
         };
-        console.log('input import: ', input);
         let responseSign = await sdk.thorchain.thorchainSignAminoDeposit({
           addressNList: addressInfo.address_n,
           chain_id: 'thorchain',
@@ -92,7 +85,6 @@ export const thorchainWalletMethods = async function (params: any) {
           sequence: accountInfo.sequence.toString(),
           tx: input.signDoc,
         });
-        console.log('responseSign: ', responseSign);
         return responseSign.signDoc;
       } catch (e) {
         console.error(e);
@@ -102,11 +94,9 @@ export const thorchainWalletMethods = async function (params: any) {
     //TODO signDesposit
     let signTransactionTransfer = async (params: any) => {
       try {
-        console.log('params: ', params);
         let { amount, to, from, memo } = params;
         let addressInfo = addressInfoForCoin(Chain.THORChain, false, 'p2wkh');
         let accountInfo = await toolbox.getAccount(from);
-        console.log('accountInfo: ', accountInfo);
 
         let msg = {
           addressNList: addressInfo.address_n,
@@ -140,7 +130,6 @@ export const thorchainWalletMethods = async function (params: any) {
           sequence: accountInfo.sequence.toString(),
           accountNumber: accountInfo.accountNumber.toString(),
         };
-        console.log('msg.tx.msgs: ', msg.tx.msgs);
         let input = {
           signDoc: {
             account_number: accountInfo.accountNumber.toString(),
@@ -160,7 +149,6 @@ export const thorchainWalletMethods = async function (params: any) {
           },
           signerAddress: from,
         };
-        console.log('input import: ', input);
         let responseSign = await sdk.thorchain.thorchainSignAminoTransfer({
           addressNList: addressInfo.address_n,
           chain_id: 'thorchain',
@@ -168,7 +156,6 @@ export const thorchainWalletMethods = async function (params: any) {
           sequence: accountInfo.sequence.toString(),
           tx: input.signDoc,
         });
-        console.log('responseSign: ', responseSign);
         return responseSign.signDoc;
 
         // return '';

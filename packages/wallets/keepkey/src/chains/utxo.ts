@@ -31,11 +31,9 @@ let normalizeAddressNlist = function(derivationPath: any){
 
 export const utxoWalletMethods = async function (params: any) {
   try {
-    console.log('params: ', params);
     let { sdk, stagenet, chain, utxoApiKey, api, derivationPath } = params;
     if (!stagenet) stagenet = false;
     if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
-    console.log('derivationPath: ', derivationPath);
     let toolbox;
     let isSegwit: boolean = false;
 
@@ -57,9 +55,6 @@ export const utxoWalletMethods = async function (params: any) {
       default:
         throw Error('unsupported chain! ' + chain);
     }
-    console.log('isSegwit: ', isSegwit);
-    console.log('utxoApiKey: ', utxoApiKey);
-    console.log('api: ', api);
     const utxoMethods = toolbox;
     //getAddress
     const getAddress = async function () {
@@ -74,7 +69,6 @@ export const utxoWalletMethods = async function (params: any) {
         let addressInfo = addressInfoForCoin(chain, false, scriptType);
         let addressNlist = normalizeAddressNlist(derivationPath);
         addressInfo.address_n = addressNlist;
-        console.log('addressInfo: ', addressInfo);
         let response = await sdk.address.utxoGetAddress(addressInfo);
         return response.address;
       } catch (e) {
@@ -84,15 +78,10 @@ export const utxoWalletMethods = async function (params: any) {
     const address = await getAddress();
 
     const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '', amount: any) => {
-      console.log('amount: ', amount);
-      console.log('from amount: ', BigNumber.from(amount || 0));
       const address_n = derivationPath.map((pathElement, index) =>
         index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
       );
-
-      console.log('address_n: ', address_n);
       let outputs: any = psbt.txOutputs.map((output: any) => {
-        console.log('output: ', output);
         let outputAddress = output.address;
 
         if (chain === Chain.BitcoinCash && output.address) {
@@ -109,8 +98,6 @@ export const utxoWalletMethods = async function (params: any) {
         } else {
           isChangeAddress = outputAddress === address;
         }
-
-        console.log('isChangeAddress: ', isChangeAddress);
         if (!output.address) {
           return {
             op_return_data: Buffer.from(memo).toString('hex'),
@@ -137,10 +124,8 @@ export const utxoWalletMethods = async function (params: any) {
           script_type: 'PAYTOADDRESS',
         };
       });
-      console.log('outputs: PRE: ', outputs);
       let outputsKeepKey = [];
       for (const output of outputs) {
-        console.log('output: PRE: ', output);
         const outputKeepKey: any = {
           scriptType: 'p2pkh',
           addressType: output.addressType,
@@ -162,9 +147,7 @@ export const utxoWalletMethods = async function (params: any) {
         version: 1,
         locktime: 0,
       };
-      console.log('txToSign: ', txToSign);
       let responseSign = await sdk.utxo.utxoSignTransaction(txToSign);
-      console.log('responseSign: ', responseSign);
       return responseSign.serializedTx;
     };
 
@@ -176,30 +159,8 @@ export const utxoWalletMethods = async function (params: any) {
       memo,
       ...rest
     }: UTXOTransferParams) => {
-      console.log('transfer params: ', {
-        from,
-        recipient,
-        feeOptionKey,
-        feeRate,
-        memo,
-        ...rest,
-      });
       if (!from) throw new Error('From address must be provided');
       if (!recipient) throw new Error('Recipient address must be provided');
-      console.log('params: ', {
-        from,
-        recipient,
-        feeOptionKey,
-        feeRate,
-        memo,
-        ...rest,
-      });
-      console.log('feeRate: ', feeRate);
-      console.log('toolbox: ', toolbox);
-
-      let feeRates = await toolbox.getFeeRates();
-      console.log('feeRates: ', feeRates);
-
       let { psbt, inputs } = await toolbox.buildTx({
         ...rest,
         memo,
@@ -213,7 +174,6 @@ export const utxoWalletMethods = async function (params: any) {
       //convert inputs for keepkey
       let inputsKeepKey = [];
       for (const input of inputs) {
-        console.log('PRE: input: ', input);
         const inputKeepKey = {
           scriptType: 'p2pkh',
           amount: input.value.toString(),
@@ -224,9 +184,6 @@ export const utxoWalletMethods = async function (params: any) {
         //if segwit I need script
         if (input.witnessUtxo && isSegwit) {
           inputKeepKey.scriptType = 'p2sh';
-          console.log(input.witnessUtxo);
-          console.log(input.witnessUtxo.script);
-          console.log(input.witnessUtxo.script);
           //add script sig
           const scriptHex = input.witnessUtxo.script
             .map((byte) => byte.toString(16).padStart(2, '0'))
@@ -244,7 +201,6 @@ export const utxoWalletMethods = async function (params: any) {
       inputs = inputsKeepKey;
 
       const txHex = await signTransaction(psbt, inputs, memo, amount);
-      console.log('txHex: ', txHex);
       return toolbox.broadcastTx(txHex);
     };
 
