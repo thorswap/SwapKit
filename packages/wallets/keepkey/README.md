@@ -1,21 +1,21 @@
-# @thorswap-lib/trezor
+# @thorswap-lib/keepkey
 
 ## Install:
 
 ```bash
-pnpm add @thorswap-lib/trezor
+pnpm add @thorswap-lib/keepkey
 ```
 
-To use the trezor you need to [extend core](packages/swapkit/swapkit-core#swapkitcore-api) with `trezorWallet` and install the corresponding package for the chain you want to use.
+To use KeepKey-sdk you need to have keepkey desktop installed [get started](https://keepkey.com/get-started)
 
 ```ts
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { trezorWallet } from '@thorswap-lib/trezor';
+import { keepkeyWallet } from '@thorswap-lib/trezor';
 
 const client = new SwapKitCore();
 
 client.extend({
-  wallets: [trezorWallet],
+  wallets: [keepkeyWallet],
 });
 ```
 
@@ -30,10 +30,10 @@ client.extend({
 | ETH              | ✅     | [@thorswap-lib/toolbox-evm](../toolbox-evm/README.md)                            |
 | AVAX             | ✅     | [@thorswap-lib/toolbox-evm](../toolbox-evm/README.md)                            |
 | BSC              | ✅     | [@thorswap-lib/toolbox-evm](../toolbox-evm/README.md)                            |
-| COSMOS (ATOM)    | ❌     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md)                      |
-| BNB              | ❌     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md)                      |
-| THORCHAIN (RUNE) | ❌     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md) cosmos-client@0.39.2 |
+| COSMOS (ATOM)    | ✅     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md)                      |
+| BNB              | ✅     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md)                      |
+| THORCHAIN (RUNE) | ✅     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md) cosmos-client@0.39.2 |
 
 ## Links:
 
-[Playground & Docs](https://trezor.github.io/trezor-suite/connect-explorer/#/)
+[Playground & Docs](https://github.com/BitHighlander/keepkey-template)

@@ -131,6 +131,19 @@ const getToolbox = async (params: Params) => {
   }
 };
 
+export const checkKeepkeyAvailability = async (spec:string) => {
+  try {
+    const response = await fetch(spec);
+    if (response.status === 200) {
+      return true;
+    }
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+  return false;
+};
+
 const connectKeepKey =
   ({
     apis,
@@ -140,6 +153,26 @@ const connectKeepKey =
   }: ConnectWalletParams) =>
   async (chain: (typeof KEEPKEY_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
     const spec = 'http://localhost:1646/spec/swagger.json';
+
+    //test spec: if offline, launch keepkey-bridge
+    let attempt = 0;
+    const checkAndLaunch = async () => {
+      attempt++;
+      if (!(await checkKeepkeyAvailability(spec))) {
+        if (attempt === 3) {
+          alert(
+            'KeepKey desktop is required for keepkey-sdk, please go to https://keepkey.com/get-started',
+          );
+        } else {
+          window.location.assign('keepkey://launch');
+          await new Promise((resolve) => setTimeout(resolve, 30000));
+          checkAndLaunch();
+        }
+      }
+    };
+
+    checkAndLaunch();
+
     const apiKey = localStorage.getItem('apiKey') || '1234';
     const config: any = {
       apiKey,
