@@ -71,7 +71,7 @@ class KeepKeySigner extends Signer {
     const baseTx = {
       addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
       from: this.address,
-      chainId: BigNumber.from(ChainToChainId[this.chain]).toNumber(),
+      chainId: BigNumber.from(ChainToChainId[this.chain]).toHexString(),
       to,
       value: BigNumber.from(value || 0).toHexString(),
       gasLimit: BigNumber.from(gasLimit).toHexString(),

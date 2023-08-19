@@ -89,7 +89,7 @@ export const binanceWalletMethods = async function (params: any) {
           },
           signerAddress: from,
         };
-        console.log('input: ', input);
+        console.log('input: ', JSON.stringify(input));
         let responseSign = await sdk.bnb.bnbSignTransaction(input);
         console.log('responseSign: ', responseSign);
 

@@ -1,3 +1,4 @@
+import { BigNumber } from '@ethersproject/bignumber';
 import { addressInfoForCoin, COIN_MAP_KEEPKEY_LONG } from '@pioneer-platform/pioneer-coins';
 import {
   BCHToolbox,
@@ -16,7 +17,17 @@ import {
 } from '@thorswap-lib/types';
 import { toCashAddress } from 'bchaddrjs';
 import { Psbt } from 'bitcoinjs-lib';
-import { BigNumber } from '@ethersproject/bignumber';
+
+let normalizeAddressNlist = function(derivationPath: any){
+  let addressNlist = [
+    0x80000000 + derivationPath[0],
+    0x80000000 + derivationPath[1],
+    0x80000000 + derivationPath[2],
+    derivationPath[3],
+    derivationPath[4],
+  ];
+  return addressNlist
+}
 
 export const utxoWalletMethods = async function (params: any) {
   try {
@@ -46,25 +57,23 @@ export const utxoWalletMethods = async function (params: any) {
       default:
         throw Error('unsupported chain! ' + chain);
     }
-
-    if (!scriptType) throw new Error('Derivation path is not supported');
-    console.log('chain: ', chain);
-
+    console.log('isSegwit: ', isSegwit);
     console.log('utxoApiKey: ', utxoApiKey);
     console.log('api: ', api);
     const utxoMethods = toolbox;
-
     //getAddress
     const getAddress = async function () {
       try {
         //TODO custom script types?
         let scriptType;
         if (isSegwit) {
-          scriptType = 'p2sh';
+          scriptType = 'p2wpkh';
         } else {
-          scriptType = 'p2wkh';
+          scriptType = 'p2sh';
         }
         let addressInfo = addressInfoForCoin(chain, false, scriptType);
+        let addressNlist = normalizeAddressNlist(derivationPath);
+        addressInfo.address_n = addressNlist;
         console.log('addressInfo: ', addressInfo);
         let response = await sdk.address.utxoGetAddress(addressInfo);
         return response.address;
@@ -75,6 +84,8 @@ export const utxoWalletMethods = async function (params: any) {
     const address = await getAddress();
 
     const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '', amount: any) => {
+      console.log('amount: ', amount);
+      console.log('from amount: ', BigNumber.from(amount || 0));
       const address_n = derivationPath.map((pathElement, index) =>
         index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
       );
@@ -121,7 +132,7 @@ export const utxoWalletMethods = async function (params: any) {
 
         return {
           address: outputAddress,
-          amount: BigNumber.from(value || 0),
+          amount: BigNumber.from(amount || 0),
           addressType: 'spend',
           script_type: 'PAYTOADDRESS',
         };
@@ -173,7 +184,6 @@ export const utxoWalletMethods = async function (params: any) {
         memo,
         ...rest,
       });
-      if (!amount) throw new Error('Amount must be provided');
       if (!from) throw new Error('From address must be provided');
       if (!recipient) throw new Error('Recipient address must be provided');
       console.log('params: ', {

@@ -7,6 +7,7 @@ import {
   ETHToolbox,
   getProvider,
   MATICToolbox,
+  OPToolbox,
 } from '@thorswap-lib/toolbox-evm';
 import { Chain, ConnectWalletParams, DerivationPathArray, WalletOption } from '@thorswap-lib/types';
 
@@ -83,9 +84,9 @@ const getToolbox = async (params: Params) => {
         } else if (chain === Chain.Arbitrum) {
           return ARBToolbox({ ...evmParams, covalentApiKey: covalentApiKey as string });
         } else if (chain === Chain.Optimism) {
-          return MATICToolbox({ ...evmParams, covalentApiKey: covalentApiKey as string });
+          return OPToolbox({ ...evmParams, covalentApiKey: covalentApiKey as string });
         } else if (chain === Chain.Polygon) {
-          return Toolbox({ ...evmParams, covalentApiKey: covalentApiKey as string });
+          return MATICToolbox({ ...evmParams, covalentApiKey: covalentApiKey as string });
         } else {
           throw new Error('Chain not supported chain: ' + chain);
         }
