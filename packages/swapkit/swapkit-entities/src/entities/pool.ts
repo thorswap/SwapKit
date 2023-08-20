@@ -19,6 +19,8 @@ export interface PoolDetail {
   units: string;
   volume24h: string;
   saversAPR: string;
+  saversDepth: string;
+  saversUnits: string;
 }
 
 export class Pool {

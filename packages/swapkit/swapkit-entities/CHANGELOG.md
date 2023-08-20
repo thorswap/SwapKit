@@ -1,5 +1,11 @@
 []
 
+## 1.0.0-development.113
+
+### Minor Changes
+
+- [#262](https://github.com/thorswap/SwapKit/pull/262) [`38647ca`](https://github.com/thorswap/SwapKit/commit/38647ca84781c585ab57833b3dd2bdc1a259c42e) Thanks [@mfaizan1](https://github.com/mfaizan1)! - add saversDepth and saversUnit to PoolDetail interface
+
 ## 1.0.0-development.112
 
 ### Minor Changes
