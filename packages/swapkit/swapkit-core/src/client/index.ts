@@ -1,5 +1,3 @@
-import { isHexString } from '@ethersproject/bytes';
-import { parseUnits } from '@ethersproject/units';
 import { assetFromString, baseAmount, gasFeeMultiplier, SwapKitError } from '@thorswap-lib/helpers';
 import {
   Amount,
@@ -32,7 +30,6 @@ import {
   AmountWithBaseDenom,
   BaseDecimal,
   Chain,
-  ChainToChainId,
   EVMChain,
   EVMWalletOptions,
   ExtendParams,
@@ -48,7 +45,11 @@ import {
   AGG_CONTRACT_ADDRESS,
   lowercasedContractAbiMapping,
 } from '../aggregator/contracts/index.js';
-import { getSwapInParams } from '../aggregator/getSwapInParams.js';
+import {
+  getSameEVMParams,
+  getSwapInParams,
+  getSwapOutParams,
+} from '../aggregator/getSwapParams.js';
 
 import {
   getAssetForBalance,
@@ -106,24 +107,18 @@ export class SwapKitCore<T = ''> {
         case QuoteMode.TC_SUPPORTED_TO_AVAX:
         case QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED:
         case QuoteMode.TC_SUPPORTED_TO_ETH: {
-          const { fromAsset, amountIn, memo, memoStreamingSwap } = route.calldata;
-          const asset = AssetEntity.fromAssetString(fromAsset);
+          const asset = AssetEntity.fromAssetString(route.calldata.fromAsset);
           if (!asset) throw new SwapKitError('core_swap_asset_not_recognized');
 
-          const swapMemo = (streamSwap ? memoStreamingSwap || memo : memo) as string;
-          const amount = new AssetAmount(asset, new Amount(amountIn, 0, asset.decimal));
-
-          const replacedMemo = swapMemo?.replace('{recipientAddress}', recipient);
           const { address: inboundAddress } = await this._getInboundDataByChain(
             !asset.isSynth ? asset.chain : Chain.THORChain,
           );
 
           return this.deposit({
+            ...getSwapOutParams({ recipient, streamSwap, callData: route.calldata }),
             feeOptionKey,
-            recipient: inboundAddress,
             router: route.contract,
-            assetAmount: amount,
-            memo: replacedMemo,
+            recipient: inboundAddress,
           });
         }
 
@@ -151,6 +146,7 @@ export class SwapKitCore<T = ''> {
 
           const tx = await contract.populateTransaction.swapIn(
             ...getSwapInParams({
+              streamSwap,
               toChecksumAddress,
               contractAddress: contractAddress as AGG_CONTRACT_ADDRESS,
               recipient,
@@ -170,21 +166,8 @@ export class SwapKitCore<T = ''> {
           }
           if (!route?.transaction) throw new SwapKitError('core_swap_route_transaction_not_found');
 
-          const { data, from, to, value: txValue } = route.transaction;
-          const value = !isHexString(txValue)
-            ? parseUnits(txValue, 'wei').toHexString()
-            : parseInt(txValue, 16) > 0
-            ? txValue
-            : undefined;
-
           return walletMethods.sendTransaction(
-            {
-              value,
-              data,
-              from,
-              to: to.toLowerCase(),
-              chainId: parseInt(ChainToChainId[evmChain]),
-            },
+            getSameEVMParams({ transaction: route.transaction, evmChain }),
             feeOptionKey,
           ) as Promise<string>;
         }
