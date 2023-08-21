@@ -57,7 +57,7 @@
     }
   },
   "scripts": {
-    "bootstrap": "rm --rf node_modules; pnpm install; pnpm build",
+    "bootstrap": "rm -rf node_modules; pnpm install; pnpm build",
     "build": "turbo run build --token=turbotoken-oss-europe1",
     "build:vite": "turbo run build-playground --token=turbotoken-oss-europe1 --concurrency=30",
     "preview:vite": "turbo run preview-playground --token=turbotoken-oss-europe1 --concurrency=30",
