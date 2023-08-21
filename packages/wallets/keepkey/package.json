@@ -5,7 +5,6 @@
     "@pioneer-platform/pioneer-coins": "^8.1.82",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
-    "@thorswap-lib/toolbox-cosmos": "workspace:1.0.0-development.144",
     "@thorswap-lib/types": "workspace:*"
   },
   "description": "THORSwap Lib keepkey",
