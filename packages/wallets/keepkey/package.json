@@ -1,5 +1,5 @@
 {
-  "author": "highlander",
+  "author": "thorswap",
   "dependencies": {
     "@keepkey/keepkey-sdk": "^0.2.49",
     "@pioneer-platform/pioneer-coins": "^8.1.82",
@@ -14,6 +14,7 @@
     "@ethersproject/providers": "5.7.2",
     "@ethersproject/transactions": "5.7.0",
     "@internal/config": "workspace:*",
+    "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "@types/bchaddrjs": "0.4.0",
@@ -48,6 +49,7 @@
     "@ethersproject/providers": "^5.7.0",
     "@ethersproject/transactions": "5.7.0",
     "@keepkey/keepkey-sdk": "0.2.41",
+    "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "bitcoinjs-lib": "5.2.0"
