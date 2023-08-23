@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.202
+
+### Patch Changes
+
+- [#265](https://github.com/thorswap/SwapKit/pull/265) [`a47b96b`](https://github.com/thorswap/SwapKit/commit/a47b96b42506590c3061c28398385eae9c6eb358) Thanks [@chillios-ts](https://github.com/chillios-ts)! - enable streaming swaps
+
 ## 1.0.0-development.201
 
 ### Patch Changes
