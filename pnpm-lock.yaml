@@ -1093,6 +1093,15 @@ importers:
         specifier: 2.0.2
         version: 2.0.2
     devDependencies:
+      '@cosmjs/encoding':
+        specifier: 0.31.0
+        version: 0.31.0
+      '@cosmjs/math':
+        specifier: 0.31.0
+        version: 0.31.0
+      '@cosmjs/proto-signing':
+        specifier: 0.31.0
+        version: 0.31.0
       '@ethersproject/abstract-signer':
         specifier: 5.7.0
         version: 5.7.0(patch_hash=25dytke5lh3fostylo3fnpzcxi)

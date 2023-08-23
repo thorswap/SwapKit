@@ -203,7 +203,6 @@ const getToolbox = async ({
           signedGasLimit,
           undefined,
           undefined,
-          // @ts-expect-error
           signMode,
         );
 
@@ -285,7 +284,6 @@ const getToolbox = async ({
           signedGasLimit,
           undefined,
           undefined,
-          // @ts-expect-error
           signMode
         );
 
