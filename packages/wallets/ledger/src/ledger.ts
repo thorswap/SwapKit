@@ -1,4 +1,7 @@
-import { GasPrice, SigningStargateClient } from '@cosmjs/stargate';
+import { fromBase64 } from '@cosmjs/encoding';
+import { Int53 } from '@cosmjs/math';
+import { encodePubkey, makeAuthInfoBytes, TxBodyEncodeObject } from '@cosmjs/proto-signing';
+import { GasPrice, SigningStargateClient, StargateClient } from '@cosmjs/stargate';
 import {
   BinanceToolbox,
   DepositParam,
@@ -7,9 +10,6 @@ import {
   getDenomWithChain,
   ThorchainToolbox,
 } from '@thorswap-lib/toolbox-cosmos';
-import { Int53 } from '@cosmjs/math';
-import { StargateClient } from '@cosmjs/stargate';
-import { fromBase64 } from '@cosmjs/encoding';
 import { AVAXToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import {
   BCHToolbox,
@@ -18,8 +18,6 @@ import {
   LTCToolbox,
   UTXOBuildTxParams,
 } from '@thorswap-lib/toolbox-utxo';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
-import { TxBodyEncodeObject, encodePubkey, makeAuthInfoBytes } from '@cosmjs/proto-signing';
 import {
   ApiUrl,
   Chain,
@@ -32,6 +30,7 @@ import {
   WalletTxParams,
 } from '@thorswap-lib/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
 import { AvalancheLedger } from './clients/avalanche.js';
 import { BinanceLedger } from './clients/binance/index.js';
@@ -99,15 +98,15 @@ const getToolbox = async ({
   address: string;
   chain: (typeof LEDGER_SUPPORTED_CHAINS)[number];
   signer:
-  | AvalancheLedger
-  | BinanceLedger
-  | BitcoinLedger
-  | BitcoinCashLedger
-  | DogecoinLedger
-  | EthereumLedger
-  | LitecoinLedger
-  | THORChainLedger
-  | CosmosLedger;
+    | AvalancheLedger
+    | BinanceLedger
+    | BitcoinLedger
+    | BitcoinCashLedger
+    | DogecoinLedger
+    | EthereumLedger
+    | LitecoinLedger
+    | THORChainLedger
+    | CosmosLedger;
   derivationPath?: DerivationPathArray;
 }) => {
   switch (chain) {
@@ -333,7 +332,7 @@ const getToolbox = async ({
           signedGasLimit,
           undefined,
           undefined,
-          signMode
+          signMode,
         );
 
         const txRaw = TxRaw.fromPartial({
@@ -417,7 +416,7 @@ const getToolbox = async ({
           signedGasLimit,
           undefined,
           undefined,
-          signMode
+          signMode,
         );
 
         const txRaw = TxRaw.fromPartial({
@@ -448,31 +447,31 @@ const connectLedger =
     apis,
     rpcUrls,
   }: ConnectWalletParams) =>
-    async (chain: (typeof LEDGER_SUPPORTED_CHAINS)[number], derivationPath?: DerivationPathArray) => {
-      const ledgerClient = getLedgerClient({ chain, derivationPath });
-      if (!ledgerClient) return;
+  async (chain: (typeof LEDGER_SUPPORTED_CHAINS)[number], derivationPath?: DerivationPathArray) => {
+    const ledgerClient = getLedgerClient({ chain, derivationPath });
+    if (!ledgerClient) return;
 
-      const address = await getLedgerAddress({ chain, ledgerClient });
-      const toolbox = await getToolbox({
-        address,
-        api: apis[chain as Chain.Avalanche],
-        chain,
-        covalentApiKey,
-        derivationPath,
-        ethplorerApiKey,
-        rpcUrl: rpcUrls[chain],
-        signer: ledgerClient,
-        utxoApiKey,
-      });
+    const address = await getLedgerAddress({ chain, ledgerClient });
+    const toolbox = await getToolbox({
+      address,
+      api: apis[chain as Chain.Avalanche],
+      chain,
+      covalentApiKey,
+      derivationPath,
+      ethplorerApiKey,
+      rpcUrl: rpcUrls[chain],
+      signer: ledgerClient,
+      utxoApiKey,
+    });
 
-      addChain({
-        chain,
-        walletMethods: { ...toolbox, getAddress: () => address },
-        wallet: { address, balance: [], walletType: WalletOption.LEDGER },
-      });
+    addChain({
+      chain,
+      walletMethods: { ...toolbox, getAddress: () => address },
+      wallet: { address, balance: [], walletType: WalletOption.LEDGER },
+    });
 
-      return true;
-    };
+    return true;
+  };
 
 export const ledgerWallet = {
   connectMethodName: 'connectLedger' as const,

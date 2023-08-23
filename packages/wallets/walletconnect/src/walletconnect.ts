@@ -1,5 +1,8 @@
 import { makeSignDoc as makeSignDocAmino, StdSignDoc } from '@cosmjs/amino';
+import { fromBase64 } from '@cosmjs/encoding';
 import { Int53 } from '@cosmjs/math';
+import { encodePubkey, makeAuthInfoBytes, TxBodyEncodeObject } from '@cosmjs/proto-signing';
+import { StargateClient } from '@cosmjs/stargate';
 import {
   BinanceToolbox,
   DepositParam,
@@ -7,16 +10,13 @@ import {
   sortObject,
   ThorchainToolbox,
 } from '@thorswap-lib/toolbox-cosmos';
-import { fromBase64 } from '@cosmjs/encoding';
-import { StargateClient } from '@cosmjs/stargate';
-import { TxBodyEncodeObject, encodePubkey, makeAuthInfoBytes } from '@cosmjs/proto-signing';
 import { AVAXToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import { ApiUrl, Chain, ChainId, WalletOption, WalletTxParams } from '@thorswap-lib/types';
 import QRCodeModal from '@walletconnect/qrcode-modal';
 import Client from '@walletconnect/sign-client';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
 import {
   BINANCE_MAINNET_ID,
@@ -209,7 +209,13 @@ const getToolbox = async ({
         const txRaw = TxRaw.fromPartial({
           bodyBytes: signedTxBodyBytes,
           authInfoBytes: signedAuthInfoBytes,
-          signatures: [fromBase64((typeof signature.signature === 'string' ? signature.signature : signature.signature.signature))],
+          signatures: [
+            fromBase64(
+              typeof signature.signature === 'string'
+                ? signature.signature
+                : signature.signature.signature,
+            ),
+          ],
         });
         const txBytes = TxRaw.encode(txRaw).finish();
 
@@ -284,13 +290,19 @@ const getToolbox = async ({
           signedGasLimit,
           undefined,
           undefined,
-          signMode
+          signMode,
         );
 
         const txRaw = TxRaw.fromPartial({
           bodyBytes: signedTxBodyBytes,
           authInfoBytes: signedAuthInfoBytes,
-          signatures: [fromBase64((typeof signature.signature === 'string' ? signature.signature : signature.signature.signature))],
+          signatures: [
+            fromBase64(
+              typeof signature.signature === 'string'
+                ? signature.signature
+                : signature.signature.signature,
+            ),
+          ],
         });
         const txBytes = TxRaw.encode(txRaw).finish();
 

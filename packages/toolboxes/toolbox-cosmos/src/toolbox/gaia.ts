@@ -17,7 +17,6 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
   });
 
   const baseToolbox: {
-
     validateAddress: (address: string) => boolean;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getAccount: (address: string) => Promise<Account | null>;

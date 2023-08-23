@@ -1,8 +1,14 @@
+import { createMultisigThresholdPubkey, encodeSecp256k1Pubkey } from '@cosmjs/amino';
 import { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
-import { Account, defaultRegistryTypes, SigningStargateClient, StdFee, AminoTypes } from '@cosmjs/stargate';
+import {
+  Account,
+  AminoTypes,
+  defaultRegistryTypes,
+  SigningStargateClient,
+  StdFee,
+} from '@cosmjs/stargate';
 import { baseAmount, getRequest, singleFee } from '@thorswap-lib/helpers';
 import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { encodeSecp256k1Pubkey, createMultisigThresholdPubkey } from '@cosmjs/amino';
 import {
   ApiUrl,
   Balance,
@@ -21,11 +27,7 @@ import {
   ThorchainToolboxType,
 } from '../thorchainUtils/types/client-types.js';
 import types from '../thorchainUtils/types/proto/MsgCompiled.js';
-import {
-  base64ToBech32,
-  bech32ToBase64,
-  getThorchainAsset,
-} from '../thorchainUtils/util.js';
+import { base64ToBech32, bech32ToBase64, getThorchainAsset } from '../thorchainUtils/util.js';
 import { AssetRuneNative, TransferParams } from '../types.js';
 import { getRPC } from '../util.js';
 
@@ -48,34 +50,35 @@ const createDefaultRegistry = () => {
   ]);
 };
 
-const createDefaultAminoTypes = () => new AminoTypes({
-  "/types.MsgSend": {
-    aminoType: 'thorchain/MsgSend',
-    toAmino: (params: any) => ({
-      from_address: base64ToBech32(params.fromAddress),
-      to_address: base64ToBech32(params.toAddress),
-      amount: [...params.amount],
-    }),
-    fromAmino: (params: any) => ({
-      fromAddress: bech32ToBase64(params.from_address),
-      toAddress: bech32ToBase64(params.to_address),
-      amount: [...params.amount],
-    }),
-  },
-  "/types.MsgDeposit": {
-    aminoType: 'thorchain/MsgDeposit',
-    toAmino: (params: any) => ({
-      signer: base64ToBech32(params.signer),
-      memo: params.memo,
-      coins: [...params.coins],
-    }),
-    fromAmino: (params: any) => ({
-      signer: bech32ToBase64(params.signer),
-      memo: params.memo,
-      coins: [...params.coins],
-    }),
-  },
-})
+const createDefaultAminoTypes = () =>
+  new AminoTypes({
+    '/types.MsgSend': {
+      aminoType: 'thorchain/MsgSend',
+      toAmino: (params: any) => ({
+        from_address: base64ToBech32(params.fromAddress),
+        to_address: base64ToBech32(params.toAddress),
+        amount: [...params.amount],
+      }),
+      fromAmino: (params: any) => ({
+        fromAddress: bech32ToBase64(params.from_address),
+        toAddress: bech32ToBase64(params.to_address),
+        amount: [...params.amount],
+      }),
+    },
+    '/types.MsgDeposit': {
+      aminoType: 'thorchain/MsgDeposit',
+      toAmino: (params: any) => ({
+        signer: base64ToBech32(params.signer),
+        memo: params.memo,
+        coins: [...params.coins],
+      }),
+      fromAmino: (params: any) => ({
+        signer: bech32ToBase64(params.signer),
+        memo: params.memo,
+        coins: [...params.coins],
+      }),
+    },
+  });
 
 const getAssetFromBalance = ({ asset: { symbol, chain } }: Balance): AssetEntity => {
   const isSynth = symbol.includes('/');
@@ -87,7 +90,7 @@ const getAssetFromBalance = ({ asset: { symbol, chain } }: Balance): AssetEntity
 
 const createMultisig = (pubKeys: string[], threshold: number) =>
   createMultisigThresholdPubkey(
-    pubKeys.map(pubKey => encodeSecp256k1Pubkey(toByteArray(pubKey))),
+    pubKeys.map((pubKey) => encodeSecp256k1Pubkey(toByteArray(pubKey))),
     threshold,
   );
 

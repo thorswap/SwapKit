@@ -3,10 +3,10 @@ import { stringToPath } from '@cosmjs/crypto';
 import { normalizeBech32 } from '@cosmjs/encoding';
 import { SigningStargateClient, StargateClient } from '@cosmjs/stargate';
 import { ChainId } from '@thorswap-lib/types';
+import { fromByteArray } from 'base64-js';
 
 import { CosmosSDKClientParams, TransferParams } from './types.js';
 import { getRPC } from './util.js';
-import { fromByteArray } from 'base64-js';
 
 const DEFAULT_COSMOS_FEE_MAINNET = {
   amount: [{ denom: 'uatom', amount: '500' }],

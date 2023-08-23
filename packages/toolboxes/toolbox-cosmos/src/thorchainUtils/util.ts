@@ -1,10 +1,19 @@
 import { toBech32 } from '@cosmjs/encoding';
+import { StargateClient } from '@cosmjs/stargate';
 import { assetFromString, assetToString, baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { AmountWithBaseDenom, ApiUrl, Asset, Balance, BaseDecimal, Chain, ChainId, Fees } from '@thorswap-lib/types';
+import {
+  AmountWithBaseDenom,
+  ApiUrl,
+  Asset,
+  Balance,
+  BaseDecimal,
+  Chain,
+  ChainId,
+  Fees,
+} from '@thorswap-lib/types';
 import { fromByteArray, toByteArray } from 'base64-js';
 import { bech32 } from 'bech32';
-import { StargateClient } from '@cosmjs/stargate';
 
 import { AssetRuneNative } from '../types.js';
 

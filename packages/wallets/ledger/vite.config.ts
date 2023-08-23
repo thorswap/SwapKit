@@ -20,6 +20,7 @@ const viteConfig = thorswapViteConfig(name, {
         '@thorswap-lib/toolbox-evm',
         '@thorswap-lib/toolbox-utxo',
         'bitcoinjs-lib',
+        'cosmjs-types',
         'coininfo',
         'crypto',
         'elliptic',

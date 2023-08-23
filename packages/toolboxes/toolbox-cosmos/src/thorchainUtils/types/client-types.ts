@@ -1,7 +1,7 @@
+import { MultisigThresholdPubkey } from '@cosmjs/amino';
 import { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
 import { Account as CosmosAccount, AminoTypes } from '@cosmjs/stargate';
 import { AssetAmount } from '@thorswap-lib/swapkit-entities';
-import { MultisigThresholdPubkey } from '@cosmjs/amino';
 import { AmountWithBaseDenom, Asset, Balance, ChainId, Fees, Tx } from '@thorswap-lib/types';
 import { curve } from 'elliptic';
 
@@ -65,10 +65,7 @@ export type ThorchainToolboxType = BaseCosmosToolboxType &
     deposit: (params: DepositParam & { from: string }) => Promise<string>;
     createDefaultRegistry: () => Registry;
     createDefaultAminoTypes: () => AminoTypes;
-    createMultisig: (
-      pubKeys: string[],
-      threshold: number,
-    ) => MultisigThresholdPubkey;
+    createMultisig: (pubKeys: string[], threshold: number) => MultisigThresholdPubkey;
     exportSignature: (signature: Uint8Array) => string;
     importSignature: (signature: string) => Uint8Array;
     loadAddressBalances: (address: string) => Promise<AssetAmount[]>;
