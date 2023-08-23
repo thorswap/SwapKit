@@ -7,6 +7,9 @@ import {
   getDenomWithChain,
   ThorchainToolbox,
 } from '@thorswap-lib/toolbox-cosmos';
+import { Int53 } from '@cosmjs/math';
+import { StargateClient } from '@cosmjs/stargate';
+import { fromBase64 } from '@cosmjs/encoding';
 import { AVAXToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import {
   BCHToolbox,
@@ -15,7 +18,10 @@ import {
   LTCToolbox,
   UTXOBuildTxParams,
 } from '@thorswap-lib/toolbox-utxo';
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
+import { TxBodyEncodeObject, encodePubkey, makeAuthInfoBytes } from '@cosmjs/proto-signing';
 import {
+  ApiUrl,
   Chain,
   ChainId,
   ConnectWalletParams,
@@ -25,7 +31,7 @@ import {
   WalletOption,
   WalletTxParams,
 } from '@thorswap-lib/types';
-import { auth, StdTx } from 'cosmos-client/x/auth/index.js';
+import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
 
 import { AvalancheLedger } from './clients/avalanche.js';
 import { BinanceLedger } from './clients/binance/index.js';
@@ -93,15 +99,15 @@ const getToolbox = async ({
   address: string;
   chain: (typeof LEDGER_SUPPORTED_CHAINS)[number];
   signer:
-    | AvalancheLedger
-    | BinanceLedger
-    | BitcoinLedger
-    | BitcoinCashLedger
-    | DogecoinLedger
-    | EthereumLedger
-    | LitecoinLedger
-    | THORChainLedger
-    | CosmosLedger;
+  | AvalancheLedger
+  | BinanceLedger
+  | BitcoinLedger
+  | BitcoinCashLedger
+  | DogecoinLedger
+  | EthereumLedger
+  | LitecoinLedger
+  | THORChainLedger
+  | CosmosLedger;
   derivationPath?: DerivationPathArray;
 }) => {
   switch (chain) {
@@ -273,6 +279,7 @@ const getToolbox = async ({
         const account = await toolbox.getAccount(address);
         if (!asset) throw new Error('invalid asset to deposit');
         if (!account) throw new Error('invalid account');
+        if (!account.pubkey) throw new Error('Account pubkey not found');
 
         const unsignedMsgs = recursivelyOrderKeys([
           {
@@ -296,7 +303,7 @@ const getToolbox = async ({
           account_number: account.accountNumber.toString(),
           chain_id: ChainId.THORChain,
           fee,
-          memo: '',
+          memo,
           msgs: unsignedMsgs,
           sequence,
         });
@@ -305,22 +312,48 @@ const getToolbox = async ({
 
         if (!signatures) throw new Error('tx signing failed');
 
-        const { data }: any = await auth.txsPost(
-          toolbox.sdk as any,
-          StdTx.fromJSON({ msg: unsignedMsgs, fee, memo: '', signatures }),
-          'sync',
+        const aminoTypes = toolbox.createDefaultAminoTypes();
+        const registry = toolbox.createDefaultRegistry();
+        const signedTxBody: TxBodyEncodeObject = {
+          typeUrl: '/cosmos.tx.v1beta1.TxBody',
+          value: {
+            messages: unsignedMsgs.map((msg: any) => aminoTypes.fromAmino(msg)),
+            memo,
+          },
+        };
+
+        const signMode = SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
+
+        const signedTxBodyBytes = registry.encode(signedTxBody);
+        const signedGasLimit = Int53.fromString(fee.gas).toNumber();
+        const pubkey = encodePubkey(account.pubkey);
+        const signedAuthInfoBytes = makeAuthInfoBytes(
+          [{ pubkey, sequence: Number(sequence) }],
+          fee.amount,
+          signedGasLimit,
+          undefined,
+          undefined,
+          signMode
         );
 
-        if (!data.logs) throw new Error(`Transaction Failed: ${data.logs}`);
+        const txRaw = TxRaw.fromPartial({
+          bodyBytes: signedTxBodyBytes,
+          authInfoBytes: signedAuthInfoBytes,
+          signatures: [fromBase64(signatures[0].signature)],
+        });
 
-        // return tx hash
-        return data?.txhash || '';
+        const txBytes = TxRaw.encode(txRaw).finish();
+
+        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const result = await broadcaster.broadcastTx(txBytes);
+        return result.transactionHash;
       };
 
       const transfer = async ({ memo = '', amount, asset, recipient }: WalletTxParams) => {
         const account = await toolbox.getAccount(address);
         if (!account) throw new Error('invalid account');
         if (!asset) throw new Error('invalid asset');
+        if (!account.pubkey) throw new Error('Account pubkey not found');
 
         const { accountNumber, sequence = '0' } = account;
 
@@ -363,15 +396,41 @@ const getToolbox = async ({
           signatures,
         };
 
-        const stdTx = StdTx.fromJSON(txObj);
+        const aminoTypes = toolbox.createDefaultAminoTypes();
+        const registry = toolbox.createDefaultRegistry();
+        const signedTxBody: TxBodyEncodeObject = {
+          typeUrl: '/cosmos.tx.v1beta1.TxBody',
+          value: {
+            messages: txObj.msg.map((msg) => aminoTypes.fromAmino(msg)),
+            memo,
+          },
+        };
 
-        // broadcast tx
-        const { data }: any = await auth.txsPost(toolbox.sdk as any, stdTx, 'sync');
+        const signMode = SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
 
-        if (!data.logs) throw new Error(`Transaction Failed: ${data.logs}`);
+        const signedTxBodyBytes = registry.encode(signedTxBody);
+        const signedGasLimit = Int53.fromString(fee.gas).toNumber();
+        const pubkey = encodePubkey(account.pubkey);
+        const signedAuthInfoBytes = makeAuthInfoBytes(
+          [{ pubkey, sequence: Number(sequence) }],
+          fee.amount,
+          signedGasLimit,
+          undefined,
+          undefined,
+          signMode
+        );
 
-        // return tx hash
-        return data?.txhash || '';
+        const txRaw = TxRaw.fromPartial({
+          bodyBytes: signedTxBodyBytes,
+          authInfoBytes: signedAuthInfoBytes,
+          signatures: [fromBase64(signatures[0].signature)],
+        });
+
+        const txBytes = TxRaw.encode(txRaw).finish();
+
+        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const result = await broadcaster.broadcastTx(txBytes);
+        return result.transactionHash;
       };
 
       return { ...toolbox, deposit, transfer };
@@ -389,31 +448,31 @@ const connectLedger =
     apis,
     rpcUrls,
   }: ConnectWalletParams) =>
-  async (chain: (typeof LEDGER_SUPPORTED_CHAINS)[number], derivationPath?: DerivationPathArray) => {
-    const ledgerClient = getLedgerClient({ chain, derivationPath });
-    if (!ledgerClient) return;
+    async (chain: (typeof LEDGER_SUPPORTED_CHAINS)[number], derivationPath?: DerivationPathArray) => {
+      const ledgerClient = getLedgerClient({ chain, derivationPath });
+      if (!ledgerClient) return;
 
-    const address = await getLedgerAddress({ chain, ledgerClient });
-    const toolbox = await getToolbox({
-      address,
-      api: apis[chain as Chain.Avalanche],
-      chain,
-      covalentApiKey,
-      derivationPath,
-      ethplorerApiKey,
-      rpcUrl: rpcUrls[chain],
-      signer: ledgerClient,
-      utxoApiKey,
-    });
+      const address = await getLedgerAddress({ chain, ledgerClient });
+      const toolbox = await getToolbox({
+        address,
+        api: apis[chain as Chain.Avalanche],
+        chain,
+        covalentApiKey,
+        derivationPath,
+        ethplorerApiKey,
+        rpcUrl: rpcUrls[chain],
+        signer: ledgerClient,
+        utxoApiKey,
+      });
 
-    addChain({
-      chain,
-      walletMethods: { ...toolbox, getAddress: () => address },
-      wallet: { address, balance: [], walletType: WalletOption.LEDGER },
-    });
+      addChain({
+        chain,
+        walletMethods: { ...toolbox, getAddress: () => address },
+        wallet: { address, balance: [], walletType: WalletOption.LEDGER },
+      });
 
-    return true;
-  };
+      return true;
+    };
 
 export const ledgerWallet = {
   connectMethodName: 'connectLedger' as const,

@@ -24,7 +24,6 @@
   },
   "description": "THORSwap Lib toolbox-cosmos",
   "devDependencies": {
-    "@cosmos-client/core": "0.45.13",
     "@internal/config": "workspace:*",
     "@types/bn.js": "5.1.1",
     "@types/crypto-js": "4.1.1",
@@ -55,9 +54,6 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/toolbox-cosmos",
-  "peerDependencies": {
-    "@cosmos-client/core": "^0.45.13"
-  },
   "publishConfig": {
     "access": "public"
   },

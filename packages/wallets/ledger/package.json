@@ -45,7 +45,6 @@
     "bchaddrjs": "0.5.2",
     "bitcoinjs-lib": "5.2.0",
     "coininfo": "5.2.1",
-    "cosmos-client": "0.39.2",
     "elliptic": "6.5.4",
     "vite": "4.4.4",
     "vitest": "0.33.0"
@@ -83,7 +82,6 @@
     "bchaddrjs": "0.5.2",
     "bitcoinjs-lib": "5.2.0",
     "coininfo": "^5.2.1",
-    "cosmos-client": "0.39.2",
     "elliptic": "^6.5.4"
   },
   "publishConfig": {

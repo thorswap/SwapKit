@@ -21,7 +21,6 @@ const viteConfig = thorswapViteConfig(name, {
         '@thorswap-lib/toolbox-utxo',
         'bitcoinjs-lib',
         'coininfo',
-        'cosmos-client',
         'crypto',
         'elliptic',
       ],

@@ -30,6 +30,6 @@ client.extend({
 | BSC              | ✅    | [@thorswap-lib/toolbox-evm](../toolboxes/toolbox-evm/README.md)                            |
 | COSMOS (ATOM)    | ✅    | [@thorswap-lib/toolbox-cosmos](../toolboxes/toolbox-cosmos/README.md)                      |
 | BNB              | ✅    | [@thorswap-lib/toolbox-cosmos](../toolboxes/toolbox-cosmos/README.md)                      |
-| THORCHAIN (RUNE) | ✅    | [@thorswap-lib/toolbox-cosmos](../toolboxes/toolbox-cosmos/README.md) cosmos-client@0.39.2 |
+| THORCHAIN (RUNE) | ✅    | [@thorswap-lib/toolbox-cosmos](../toolboxes/toolbox-cosmos/README.md) |
 
 ## Links

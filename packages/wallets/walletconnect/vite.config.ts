@@ -17,7 +17,6 @@ const viteConfig = thorswapViteConfig(name, {
         '@ethersproject/strings',
         '@thorswap-lib/toolbox-cosmos',
         '@thorswap-lib/toolbox-evm',
-        'cosmos-client',
       ],
     },
   },
