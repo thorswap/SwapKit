@@ -11,6 +11,10 @@
   "description": "THORSwap Lib walletconnect",
   "devDependencies": {
     "@cosmjs/amino": "0.31.0",
+    "@cosmjs/encoding": "0.31.0",
+    "@cosmjs/stargate": "0.31.0",
+    "@cosmjs/math": "0.31.0",
+    "@cosmjs/proto-signing": "0.31.0",
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "5.7.2",
@@ -43,6 +47,10 @@
   "name": "@thorswap-lib/walletconnect",
   "peerDependencies": {
     "@cosmjs/amino": "^0.31.0",
+    "@cosmjs/encoding": "0.31.0",
+    "@cosmjs/stargate": "0.31.0",
+    "@cosmjs/math": "0.31.0",
+    "@cosmjs/proto-signing": "0.31.0",
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "5.7.2",
