@@ -64,22 +64,16 @@ const createDefaultAminoTypes = () => new AminoTypes({
   },
   "/types.MsgDeposit": {
     aminoType: 'thorchain/MsgDeposit',
-    toAmino: (params: any) => {
-      console.log('toAmino', params)
-      return {
-        signer: base64ToBech32(params.signer),
-        memo: params.memo,
-        coins: [...params.coins],
-      }
-    },
-    fromAmino: (params: any) => {
-      console.log('fromAmino', params);
-      return {
-        signer: bech32ToBase64(params.signer),
-        memo: params.memo,
-        coins: [...params.coins],
-      }
-    },
+    toAmino: (params: any) => ({
+      signer: base64ToBech32(params.signer),
+      memo: params.memo,
+      coins: [...params.coins],
+    }),
+    fromAmino: (params: any) => ({
+      signer: bech32ToBase64(params.signer),
+      memo: params.memo,
+      coins: [...params.coins],
+    }),
   },
 })
 
