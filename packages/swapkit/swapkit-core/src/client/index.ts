@@ -533,8 +533,11 @@ export class SwapKitCore<T = ''> {
   connectLedger = async (_chains: Chain, _derivationPath: number[]): Promise<void> => {
     throw new SwapKitError('core_wallet_ledger_not_installed');
   };
-  connectTrezor = async (_chains: Chain, _derivationPath: number[]): Promise<void> => {
-    throw new SwapKitError('core_wallet_trezor_not_installed');
+  connectKeepKey = async (_chains: Chain, _derivationPath: number[]) => {
+    throwWalletError('connectKeepKey', 'keepkey');
+  };
+  connectTrezor = async (_chains: Chain, _derivationPath: number[]) => {
+    throwWalletError('connectTrezor', 'trezor');
   };
   connectKeplr = async (): Promise<void> => {
     throw new SwapKitError('core_wallet_keplr_not_installed');

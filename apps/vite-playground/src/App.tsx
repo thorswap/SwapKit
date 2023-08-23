@@ -5,10 +5,10 @@ import Loan from './Loan';
 import Send from './Send';
 import Swap from './Swap';
 import { getSwapKitClient } from './swapKitClient';
+import TNS from './TNS';
 import { WalletDataType } from './types';
 import { Wallet } from './Wallet';
 import { WalletPicker } from './WalletPicker';
-import TNS from './TNS';
 
 const apiKeys = ['walletConnectProjectId'] as const;
 
@@ -20,12 +20,14 @@ const App = () => {
   /**
    * NOTE: Test API keys - please use your own API keys in app as those will timeout, reach limits, etc.
    */
-  const [keys, setKeys] = useState({
-    covalentApiKey: 'cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q',
-    ethplorerApiKey: 'EK-xs8Hj-qG4HbLY-LoAu7',
-    utxoApiKey: 'A___Tcn5B16iC3mMj7QrzZCb2Ho1QBUf',
-    walletConnectProjectId: '',
-  });
+  const config = {
+    covalentApiKey: import.meta.env.VITE_COVALENT_API_KEY || 'cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q',
+    ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || 'EK-xs8Hj-qG4HbLY-LoAu7',
+    utxoApiKey: import.meta.env.VITE_BLOCKCHAIR_API_KEY || 'A___Tcn5B16iC3mMj7QrzZCb2Ho1QBUf',
+    walletConnectProjectId: import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || '',
+  };
+  console.log('config: ', config);
+  const [keys, setKeys] = useState(config);
   const [{ inputAsset, outputAsset }, setSwapAssets] = useState<{
     inputAsset?: AssetAmount;
     outputAsset?: AssetAmount;

@@ -44,6 +44,7 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.Avalanche,
     Chain.BinanceSmartChain,
   ],
+  [WalletOption.KEEPKEY]: AllChainsSupported,
   [WalletOption.METAMASK]: EVMChainList,
   [WalletOption.TRUSTWALLET_WEB]: EVMChainList,
   [WalletOption.XDEFI]: AllChainsSupported,
@@ -77,7 +78,10 @@ export const WalletPicker = ({ skClient, setWallet }: Props) => {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 1 });
           return skClient.connectLedger(chains[0], derivationPath);
         }
-
+        case WalletOption.KEEPKEY: {
+          const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
+          return skClient.connectKeepKey(chains[0], derivationPath);
+        }
         case WalletOption.TREZOR: {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
           return skClient.connectTrezor(chains[0], derivationPath);
