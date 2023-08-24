@@ -1,17 +1,15 @@
 import { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
 import { Account, defaultRegistryTypes, SigningStargateClient, StdFee } from '@cosmjs/stargate';
 import { cosmosclient, proto, rest } from '@cosmos-client/core';
-import { baseAmount, getRequest, singleFee } from '@thorswap-lib/helpers';
-import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
 import {
-  ApiUrl,
-  Balance,
-  BaseDecimal,
-  Chain,
-  ChainId,
-  DerivationPath,
-  Fees,
-} from '@thorswap-lib/types';
+  baseAmount,
+  getRequest,
+  getTcNodeUrl,
+  getTcRpcUrl,
+  singleFee,
+} from '@thorswap-lib/helpers';
+import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
+import { Balance, BaseDecimal, Chain, ChainId, DerivationPath, Fees } from '@thorswap-lib/types';
 import { fromByteArray, toByteArray } from 'base64-js';
 import Long from 'long';
 
@@ -29,7 +27,6 @@ import {
   registerSendCodecs,
 } from '../thorchainUtils/util.js';
 import { AssetRuneNative, TransferParams } from '../types.js';
-import { getRPC } from '../util.js';
 
 import { BaseCosmosToolbox } from './BaseCosmosToolbox.js';
 
@@ -172,11 +169,10 @@ const broadcastMultisig = async (
 };
 
 export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxType => {
-  const rpcUrl = getRPC(ChainId.THORChain, stagenet);
-  const nodeUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
+  const rpcUrl = getTcRpcUrl(stagenet);
 
   const sdk = new CosmosSDKClient({
-    server: nodeUrl,
+    server: getTcNodeUrl(stagenet),
     chainId: ChainId.THORChain,
     prefix: stagenet ? 'sthor' : 'thor',
     stagenet,
@@ -219,7 +215,9 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     try {
       const {
         int_64_values: { NativeTransactionFee: fee },
-      } = await getRequest<ThorchainConstantsResponse>(`${nodeUrl}/thorchain/constants`);
+      } = await getRequest<ThorchainConstantsResponse>(
+        `${getTcNodeUrl(stagenet)}/thorchain/constants`,
+      );
 
       // validate data
       if (!fee || isNaN(fee) || fee < 0) throw Error(`Invalid fee: ${fee.toString()}`);
