@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.203
+
+### Patch Changes
+
+- return tx from transactions with wrapped error
+
 ## 1.0.0-development.202
 
 ### Patch Changes

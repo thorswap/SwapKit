@@ -228,8 +228,12 @@ export class SwapKitCore<T = ''> {
     if (!walletInstance) throw new SwapKitError('core_wallet_connection_not_found');
 
     const txParams = this._prepareTxParams(params);
-    // TODO: fix type
-    return walletInstance.transfer(txParams) as Promise<string>;
+
+    try {
+      return await walletInstance.transfer(txParams);
+    } catch (error) {
+      throw new SwapKitError('core_swap_transaction_error', error);
+    }
   };
 
   deposit = async ({
@@ -247,9 +251,9 @@ export class SwapKitCore<T = ''> {
     try {
       switch (chain) {
         case Chain.THORChain:
-          return recipient === ''
+          return await (recipient === ''
             ? (walletInstance as ThorchainWallet).deposit(params)
-            : (walletInstance as ThorchainWallet).transfer(params);
+            : (walletInstance as ThorchainWallet).transfer(params));
         case Chain.Ethereum:
         case Chain.BinanceSmartChain:
         case Chain.Avalanche: {
@@ -260,7 +264,7 @@ export class SwapKitCore<T = ''> {
           const { asset } = assetAmount;
           const abi = chain === Chain.Avalanche ? TCAvalancheDepositABI : TCEthereumVaultAbi;
 
-          return (
+          return (await (
             walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
           ).call({
             abi,
@@ -280,10 +284,12 @@ export class SwapKitCore<T = ''> {
                 isGasAsset(assetAmount.asset) ? params.amount.amount().toString() : 0,
               ).toHexString(),
             },
-          }) as Promise<string>;
+          })) as Promise<string>;
         }
-        default:
-          return walletInstance.transfer(params) as Promise<string>;
+
+        default: {
+          return await walletInstance.transfer(params);
+        }
       }
     } catch (error) {
       throw new SwapKitError('core_transaction_deposit_error', error);
@@ -294,8 +300,10 @@ export class SwapKitCore<T = ''> {
    * TC related Methods
    */
   createLiquidity = async ({ runeAmount, assetAmount }: CreateLiquidityParams) => {
-    if (runeAmount.lte(0) || assetAmount.lte(0))
+    if (runeAmount.lte(0) || assetAmount.lte(0)) {
       throw new SwapKitError('core_transaction_create_liquidity_invalid_params');
+    }
+
     let runeTx = '';
     let assetTx = '';
 
@@ -394,7 +402,7 @@ export class SwapKitCore<T = ''> {
         : asset;
 
     try {
-      return this._depositToPool({
+      const txHash = await this._depositToPool({
         assetAmount: getMinAmountByChain(from === 'asset' ? asset.chain : Chain.THORChain),
         memo:
           memo ||
@@ -405,14 +413,16 @@ export class SwapKitCore<T = ''> {
             singleSide: false,
           }),
       });
+
+      return txHash;
     } catch (error) {
       throw new SwapKitError('core_transaction_withdraw_error', error);
     }
   };
 
-  addSavings = ({ assetAmount, memo }: { assetAmount: AssetAmount; memo?: string }) => {
+  addSavings = async ({ assetAmount, memo }: { assetAmount: AssetAmount; memo?: string }) => {
     try {
-      this._depositToPool({
+      const txHash = await this._depositToPool({
         assetAmount,
         memo:
           memo ||
@@ -422,12 +432,14 @@ export class SwapKitCore<T = ''> {
             singleSide: true,
           }),
       });
+
+      return txHash;
     } catch (error) {
       throw new SwapKitError('core_transaction_deposit_to_pool_error', error);
     }
   };
 
-  withdrawSavings = ({
+  withdrawSavings = async ({
     memo,
     asset,
     percent,
@@ -435,17 +447,22 @@ export class SwapKitCore<T = ''> {
     memo?: string;
     asset: AssetEntity;
     percent: Amount;
-  }) =>
-    this._depositToPool({
-      assetAmount: getMinAmountByChain(asset.chain),
-      memo:
-        memo ||
-        getMemoFor(MemoType.WITHDRAW, {
-          ...asset,
-          basisPoints: percent.mul(100).assetAmount.toNumber(),
-          singleSide: true,
-        }),
-    });
+  }) => {
+    try {
+      await this._depositToPool({
+        assetAmount: getMinAmountByChain(asset.chain),
+        memo:
+          memo ||
+          getMemoFor(MemoType.WITHDRAW, {
+            ...asset,
+            basisPoints: percent.mul(100).assetAmount.toNumber(),
+            singleSide: true,
+          }),
+      });
+    } catch (error) {
+      throw new SwapKitError('core_transaction_withdraw_error', error);
+    }
+  };
 
   openLoan = ({
     assetAmount,
