@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.204
+
+### Patch Changes
+
+- [#269](https://github.com/thorswap/SwapKit/pull/269) [`d6783ab`](https://github.com/thorswap/SwapKit/commit/d6783ab4194bcc1d4c7bfec07c2edf7f69bc4f65) Thanks [@0xepicode](https://github.com/0xepicode)! - return tx from withdrawSavings method
+
 ## 1.0.0-development.203
 
 ### Patch Changes
