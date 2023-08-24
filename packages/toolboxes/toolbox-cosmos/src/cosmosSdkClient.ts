@@ -3,6 +3,7 @@ import { stringToPath } from '@cosmjs/crypto';
 import { normalizeBech32 } from '@cosmjs/encoding';
 import { SigningStargateClient, StargateClient } from '@cosmjs/stargate';
 import { cosmosclient } from '@cosmos-client/core';
+import { getTcRpcUrl } from '@thorswap-lib/helpers';
 import { ChainId } from '@thorswap-lib/types';
 
 import { CosmosSDKClientParams, TransferParams } from './types.js';
@@ -22,7 +23,8 @@ export class CosmosSDKClient {
 
   // by default, cosmos chain
   constructor({ server, chainId, prefix = 'cosmos', stagenet = false }: CosmosSDKClientParams) {
-    this.rpcUrl = getRPC(chainId, stagenet);
+    this.rpcUrl =
+      stagenet && chainId === ChainId.THORChain ? getTcRpcUrl(stagenet) : getRPC(chainId);
     this.server = server;
     this.chainId = chainId;
     this.sdk = new cosmosclient.CosmosSDK(server, this.chainId);

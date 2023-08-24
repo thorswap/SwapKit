@@ -49,7 +49,6 @@ export type AddLiquidityTxns = {
 
 type LPType = 'sym' | 'rune' | 'asset';
 export type WithdrawParams = {
-  memo?: string;
   asset: AssetEntity;
   percent: Amount;
   from: LPType;

@@ -154,14 +154,11 @@ export enum RPCUrl {
   Optimism = 'https://mainnet.optimism.io',
   Polygon = 'https://polygon-rpc.com',
   THORChain = 'https://rpc.thorswap.net',
-  THORChainStagenet = 'https://stagenet-rpc.ninerealms.com',
 }
 
 export enum ApiUrl {
   ThorswapApi = 'https://api.thorswap.finance',
   ThorswapStatic = 'https://static.thorswap.net',
-  ThornodeMainnet = 'https://thornode.thorswap.net',
-  ThornodeStagenet = 'https://stagenet.thornode.thorswap.net',
 }
 
 const chains = Object.values(Chain) as Chain[];

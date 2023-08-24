@@ -1,4 +1,11 @@
-import { assetFromString, baseAmount, gasFeeMultiplier, SwapKitError } from '@thorswap-lib/helpers';
+import { isHexString } from '@ethersproject/bytes';
+import { parseUnits } from '@ethersproject/units';
+import {
+  assetFromString,
+  baseAmount,
+  gasFeeMultiplier,
+  throwWalletError,
+} from '@thorswap-lib/helpers';
 import {
   Amount,
   AmountType,
@@ -30,6 +37,7 @@ import {
   AmountWithBaseDenom,
   BaseDecimal,
   Chain,
+  ChainToChainId,
   EVMChain,
   EVMWalletOptions,
   ExtendParams,
@@ -45,11 +53,7 @@ import {
   AGG_CONTRACT_ADDRESS,
   lowercasedContractAbiMapping,
 } from '../aggregator/contracts/index.js';
-import {
-  getSameEVMParams,
-  getSwapInParams,
-  getSwapOutParams,
-} from '../aggregator/getSwapParams.js';
+import { getSwapInParams } from '../aggregator/getSwapInParams.js';
 
 import {
   getAssetForBalance,
@@ -80,16 +84,6 @@ export class SwapKitCore<T = ''> {
     this.stagenet = !!stagenet;
   }
 
-  getAddress = (chain: Chain) => this.connectedChains[chain]?.address || '';
-  getExplorerTxUrl = (chain: Chain, txHash: string) => getExplorerTxUrl({ chain, txHash });
-  getWallet = <T extends Chain>(chain: Chain) => this.connectedWallets[chain] as WalletMethods[T];
-  getExplorerAddressUrl = (chain: Chain, address: string) =>
-    getExplorerAddressUrl({ chain, address });
-  getBalance = async (chain: Chain, refresh?: boolean) => {
-    if (!refresh) return this.connectedChains[chain]?.balance || [];
-    return (await this.getWalletByChain(chain))?.balance || [];
-  };
-
   swap = async ({ streamSwap, recipient, route, feeOptionKey }: SwapParams) => {
     const { quoteMode } = route.meta;
     const evmChain = [
@@ -100,79 +94,96 @@ export class SwapKitCore<T = ''> {
       ? Chain.Ethereum
       : Chain.Avalanche;
 
-    if (!route.complete) throw new SwapKitError('core_swap_route_not_complete');
+    if (!route.complete) return Promise.reject(new Error('Route is not complete'));
 
-    try {
-      switch (quoteMode) {
-        case QuoteMode.AVAX_TO_AVAX:
-        case QuoteMode.ETH_TO_ETH: {
-          const walletMethods = this.connectedWallets[evmChain];
-          if (!walletMethods?.sendTransaction) {
-            throw new SwapKitError('core_wallet_connection_not_found');
-          }
-          if (!route?.transaction) throw new SwapKitError('core_swap_route_transaction_not_found');
+    switch (quoteMode) {
+      case QuoteMode.TC_SUPPORTED_TO_AVAX:
+      case QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED:
+      case QuoteMode.TC_SUPPORTED_TO_ETH: {
+        const { fromAsset, amountIn, memo, memoStreamingSwap } = route.calldata;
+        const asset = AssetEntity.fromAssetString(fromAsset);
+        if (!asset) throw new Error('Asset not recognised');
 
-          return walletMethods.sendTransaction(
-            getSameEVMParams({ transaction: route.transaction, evmChain }),
-            feeOptionKey,
-          ) as Promise<string>;
-        }
+        const swapMemo = (streamSwap ? memoStreamingSwap || memo : memo) as string;
+        const amount = new AssetAmount(asset, new Amount(amountIn, 0, asset.decimal));
 
-        case QuoteMode.TC_SUPPORTED_TO_AVAX:
-        case QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED:
-        case QuoteMode.TC_SUPPORTED_TO_ETH: {
-          const asset = AssetEntity.fromAssetString(route.calldata.fromAsset);
-          if (!asset) throw new SwapKitError('core_swap_asset_not_recognized');
-          const { address } = await this._getInboundDataByChain(asset.L1Chain);
+        const replacedMemo = swapMemo?.replace('{recipientAddress}', recipient);
+        const { address: inboundAddress } = await this._getInboundDataByChain(
+          !asset.isSynth ? asset.chain : Chain.THORChain,
+        );
 
-          return this.deposit({
-            ...getSwapOutParams({ recipient, streamSwap, callData: route.calldata }),
-            feeOptionKey,
-            router: route.contract,
-            recipient: address,
-          });
-        }
-
-        case QuoteMode.AVAX_TO_ETH:
-        case QuoteMode.AVAX_TO_TC_SUPPORTED:
-        case QuoteMode.ETH_TO_AVAX:
-        case QuoteMode.ETH_TO_TC_SUPPORTED: {
-          const { calldata, contract: contractAddress } = route;
-          if (!contractAddress) throw new SwapKitError('core_swap_contract_not_found');
-
-          const walletMethods = this.connectedWallets[evmChain];
-          const from = this.getAddress(evmChain);
-          if (!walletMethods?.sendTransaction || !from) {
-            throw new SwapKitError('core_wallet_connection_not_found');
-          }
-
-          const { getProvider, toChecksumAddress } = await import('@thorswap-lib/toolbox-evm');
-          const provider = getProvider(evmChain);
-          const abi = lowercasedContractAbiMapping[contractAddress.toLowerCase()];
-
-          if (!abi) throw new SwapKitError('core_swap_contract_not_supported', { contractAddress });
-
-          const contract = walletMethods.createContract?.(contractAddress, abi, provider);
-
-          const tx = await contract.populateTransaction.swapIn(
-            ...getSwapInParams({
-              streamSwap,
-              toChecksumAddress,
-              contractAddress: contractAddress as AGG_CONTRACT_ADDRESS,
-              recipient,
-              calldata,
-            }),
-            { from },
-          );
-
-          return walletMethods.sendTransaction(tx, feeOptionKey) as Promise<string>;
-        }
-
-        default:
-          throw new SwapKitError('core_swap_quote_mode_not_supported', { quoteMode });
+        return this.deposit({
+          feeOptionKey,
+          recipient: inboundAddress,
+          router: route.contract,
+          assetAmount: amount,
+          memo: replacedMemo,
+        });
       }
-    } catch (error) {
-      throw new SwapKitError('core_swap_transaction_error', error);
+
+      case QuoteMode.AVAX_TO_ETH:
+      case QuoteMode.AVAX_TO_TC_SUPPORTED:
+      case QuoteMode.ETH_TO_AVAX:
+      case QuoteMode.ETH_TO_TC_SUPPORTED: {
+        const { calldata, contract: contractAddress } = route;
+        if (!contractAddress) throw new Error('Contract address not found');
+
+        const { getProvider, toChecksumAddress } = await import('@thorswap-lib/toolbox-evm');
+
+        const provider = getProvider(evmChain);
+        const walletMethods = this.connectedWallets[evmChain];
+        const from = this.getAddress(evmChain);
+        const abi = lowercasedContractAbiMapping[contractAddress.toLowerCase()];
+
+        if (!walletMethods?.sendTransaction || !from) {
+          throw new Error(`Wallet is missing for ${evmChain} Chain.`);
+        }
+
+        if (!abi) throw new Error(`Contract ABI not found for ${contractAddress}`);
+
+        const contract = walletMethods.createContract?.(contractAddress, abi, provider);
+
+        const tx = await contract.populateTransaction.swapIn(
+          ...getSwapInParams({
+            toChecksumAddress,
+            contractAddress: contractAddress as AGG_CONTRACT_ADDRESS,
+            recipient,
+            calldata,
+          }),
+          { from },
+        );
+
+        return walletMethods.sendTransaction(tx, feeOptionKey) as Promise<string>;
+      }
+
+      case QuoteMode.AVAX_TO_AVAX:
+      case QuoteMode.ETH_TO_ETH: {
+        const walletMethods = this.connectedWallets[evmChain];
+        if (!walletMethods?.sendTransaction) throw new Error('Chain client not found');
+        if (!route?.transaction) throw new Error('Transaction in route not found');
+
+        const { data, from, to, value: txValue } = route.transaction;
+        const value = !isHexString(txValue)
+          ? parseUnits(txValue, 'wei').toHexString()
+          : parseInt(txValue, 16) > 0
+          ? txValue
+          : undefined;
+
+        return walletMethods.sendTransaction(
+          {
+            value,
+            data,
+            from,
+            to: to.toLowerCase(),
+            chainId: parseInt(ChainToChainId[evmChain]),
+          },
+          feeOptionKey,
+        ) as Promise<string>;
+      }
+
+      default: {
+        throw new Error(`Quote mode ${quoteMode} not supported`);
+      }
     }
   };
 
@@ -184,6 +195,23 @@ export class SwapKitCore<T = ''> {
     contractAddress: string,
     amount?: AmountWithBaseDenom,
   ) => this._approve({ asset, amount, contractAddress }, 'approve');
+
+  getAddress = (chain: Chain) => this.connectedChains[chain]?.address || '';
+
+  getBalance = async (chain: Chain, refresh?: boolean) => {
+    if (!this.connectedChains[chain]?.address) return [];
+    if (!refresh) return this.connectedChains[chain]?.balance || [];
+    const chainData = await this.getWalletByChain(chain);
+
+    return chainData?.balance || [];
+  };
+
+  getExplorerAddressUrl = (chain: Chain, address: string) =>
+    getExplorerAddressUrl({ chain, address });
+
+  getExplorerTxUrl = (chain: Chain, txHash: string) => getExplorerTxUrl({ chain, txHash });
+
+  getWallet = <T extends Chain>(chain: Chain) => this.connectedWallets[chain] as WalletMethods[T];
 
   getWalletByChain = async (chain: Chain) => {
     const address = this.getAddress(chain);
@@ -225,7 +253,7 @@ export class SwapKitCore<T = ''> {
     const chain = params.assetAmount.asset.L1Chain;
     const walletInstance = this.connectedWallets[chain];
 
-    if (!walletInstance) throw new SwapKitError('core_wallet_connection_not_found');
+    if (!walletInstance) throw new Error('Chain is not connected');
 
     const txParams = this._prepareTxParams(params);
     // TODO: fix type
@@ -240,53 +268,49 @@ export class SwapKitCore<T = ''> {
   }: CoreTxParams & { router?: string }) => {
     const chain = assetAmount.asset.L1Chain;
     const walletInstance = this.connectedWallets[chain];
-    if (!walletInstance) throw new SwapKitError('core_wallet_connection_not_found');
+    if (!walletInstance) throw new Error(`Chain ${chain} is not connected`);
 
     const params = this._prepareTxParams({ assetAmount, recipient, router, ...rest });
 
-    try {
-      switch (chain) {
-        case Chain.THORChain:
-          return recipient === ''
-            ? (walletInstance as ThorchainWallet).deposit(params)
-            : (walletInstance as ThorchainWallet).transfer(params);
-        case Chain.Ethereum:
-        case Chain.BinanceSmartChain:
-        case Chain.Avalanche: {
-          const { getBigNumberFrom, getChecksumAddressFromAsset } = await import(
-            '@thorswap-lib/toolbox-evm'
-          );
+    switch (chain) {
+      case Chain.THORChain:
+        return recipient === ''
+          ? (walletInstance as ThorchainWallet).deposit(params)
+          : (walletInstance as ThorchainWallet).transfer(params);
+      case Chain.Ethereum:
+      case Chain.BinanceSmartChain:
+      case Chain.Avalanche: {
+        const { getBigNumberFrom, getChecksumAddressFromAsset } = await import(
+          '@thorswap-lib/toolbox-evm'
+        );
 
-          const { asset } = assetAmount;
-          const abi = chain === Chain.Avalanche ? TCAvalancheDepositABI : TCEthereumVaultAbi;
+        const { asset } = assetAmount;
+        const abi = chain === Chain.Avalanche ? TCAvalancheDepositABI : TCEthereumVaultAbi;
 
-          return (
-            walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
-          ).call({
-            abi,
-            contractAddress:
-              router || ((await this._getInboundDataByChain(chain as EVMChain)).router as string),
-            funcName: 'depositWithExpiry',
-            funcParams: [
-              recipient,
-              getChecksumAddressFromAsset(asset, asset?.chain as EVMChain),
-              params.amount.amount().toString(),
-              params.memo,
-              new Date().setMinutes(new Date().getMinutes() + 10),
-            ],
-            txOverrides: {
-              from: params.from,
-              value: getBigNumberFrom(
-                isGasAsset(assetAmount.asset) ? params.amount.amount().toString() : 0,
-              ).toHexString(),
-            },
-          }) as Promise<string>;
-        }
-        default:
-          return walletInstance.transfer(params) as Promise<string>;
+        return (
+          walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
+        ).call({
+          abi,
+          contractAddress:
+            router || ((await this._getInboundDataByChain(chain as EVMChain)).router as string),
+          funcName: 'depositWithExpiry',
+          funcParams: [
+            recipient,
+            getChecksumAddressFromAsset(asset, asset?.chain as EVMChain),
+            params.amount.amount().toString(),
+            params.memo,
+            new Date().setMinutes(new Date().getMinutes() + 10),
+          ],
+          txOverrides: {
+            from: params.from,
+            value: getBigNumberFrom(
+              isGasAsset(assetAmount.asset) ? params.amount.amount().toString() : 0,
+            ).toHexString(),
+          },
+        }) as Promise<string>;
       }
-    } catch (error) {
-      throw new SwapKitError('core_transaction_deposit_error', error);
+      default:
+        return walletInstance.transfer(params) as Promise<string>;
     }
   };
 
@@ -294,36 +318,24 @@ export class SwapKitCore<T = ''> {
    * TC related Methods
    */
   createLiquidity = async ({ runeAmount, assetAmount }: CreateLiquidityParams) => {
-    if (runeAmount.lte(0) || assetAmount.lte(0))
-      throw new SwapKitError('core_transaction_create_liquidity_invalid_params');
-    let runeTx = '';
-    let assetTx = '';
+    if (runeAmount.lte(0) || assetAmount.lte(0)) throw new Error('Amount should be specified');
 
-    try {
-      runeTx = await this._depositToPool({
+    return {
+      runeTx: await this._depositToPool({
         assetAmount: runeAmount,
         memo: getMemoFor(MemoType.DEPOSIT, {
           ...assetAmount.asset,
           address: this.getAddress(assetAmount.asset.chain),
         }),
-      });
-    } catch (error) {
-      throw new SwapKitError('core_transaction_create_liquidity_rune_error', error);
-    }
-
-    try {
-      assetTx = await this._depositToPool({
+      }),
+      assetTx: await this._depositToPool({
         assetAmount,
         memo: getMemoFor(MemoType.DEPOSIT, {
           ...assetAmount.asset,
           address: this.getAddress(Chain.THORChain),
         }),
-      });
-    } catch (error) {
-      throw new SwapKitError('core_transaction_create_liquidity_asset_error', error);
-    }
-
-    return { runeTx, assetTx };
+      }),
+    };
   };
 
   addLiquidity = async ({
@@ -343,12 +355,8 @@ export class SwapKitCore<T = ''> {
     const runeAddress = includeRuneAddress ? runeAddr || this.getAddress(Chain.THORChain) : '';
     const assetAddress = isSym || mode === 'asset' ? assetAddr || this.getAddress(chain) : '';
 
-    if (!runeTransfer && !assetTransfer) {
-      throw new SwapKitError('core_transaction_add_liquidity_invalid_params');
-    }
-    if (includeRuneAddress && !runeAddress) {
-      throw new SwapKitError('core_transaction_add_liquidity_no_rune_address');
-    }
+    if (!runeTransfer && !assetTransfer) throw new Error('Invalid Asset Amount or Mode');
+    if (includeRuneAddress && !runeAddress) throw new Error('Rune address not found');
 
     let runeTx, assetTx;
 
@@ -363,7 +371,8 @@ export class SwapKitCore<T = ''> {
           }),
         });
       } catch (error) {
-        throw new SwapKitError('core_transaction_add_liquidity_rune_error', error);
+        console.error(error);
+        runeTx = 'failed';
       }
     }
 
@@ -378,14 +387,15 @@ export class SwapKitCore<T = ''> {
           }),
         });
       } catch (error) {
-        throw new SwapKitError('core_transaction_add_liquidity_asset_error', error);
+        console.error(error);
+        assetTx = 'failed';
       }
     }
 
     return { runeTx, assetTx };
   };
 
-  withdraw = async ({ memo, asset, percent, from, to }: WithdrawParams) => {
+  withdraw = async ({ asset, percent, from, to }: WithdrawParams) => {
     const targetAsset =
       to === 'rune'
         ? getSignatureAssetFor(Chain.THORChain)
@@ -393,58 +403,35 @@ export class SwapKitCore<T = ''> {
         ? undefined
         : asset;
 
-    try {
-      return this._depositToPool({
-        assetAmount: getMinAmountByChain(from === 'asset' ? asset.chain : Chain.THORChain),
-        memo:
-          memo ||
-          getMemoFor(MemoType.WITHDRAW, {
-            ...asset,
-            basisPoints: percent.mul(100).assetAmount.toNumber(),
-            targetAssetString: targetAsset?.toString(),
-            singleSide: false,
-          }),
-      });
-    } catch (error) {
-      throw new SwapKitError('core_transaction_withdraw_error', error);
-    }
+    return this._depositToPool({
+      assetAmount: getMinAmountByChain(from === 'asset' ? asset.chain : Chain.THORChain),
+      memo: getMemoFor(MemoType.WITHDRAW, {
+        ...asset,
+        basisPoints: percent.mul(100).assetAmount.toNumber(),
+        targetAssetString: targetAsset?.toString(),
+        singleSide: false,
+      }),
+    });
   };
 
-  addSavings = ({ assetAmount, memo }: { assetAmount: AssetAmount; memo?: string }) => {
-    try {
-      this._depositToPool({
-        assetAmount,
-        memo:
-          memo ||
-          getMemoFor(MemoType.DEPOSIT, {
-            chain: assetAmount.asset.chain,
-            symbol: assetAmount.asset.symbol,
-            singleSide: true,
-          }),
-      });
-    } catch (error) {
-      throw new SwapKitError('core_transaction_deposit_to_pool_error', error);
-    }
-  };
+  addSavings = (assetAmount: AssetAmount) =>
+    this._depositToPool({
+      assetAmount,
+      memo: getMemoFor(MemoType.DEPOSIT, {
+        chain: assetAmount.asset.chain,
+        symbol: assetAmount.asset.symbol,
+        singleSide: true,
+      }),
+    });
 
-  withdrawSavings = ({
-    memo,
-    asset,
-    percent,
-  }: {
-    memo?: string;
-    asset: AssetEntity;
-    percent: Amount;
-  }) =>
+  withdrawSavings = ({ asset, percent }: { asset: AssetEntity; percent: Amount }) =>
     this._depositToPool({
       assetAmount: getMinAmountByChain(asset.chain),
-      memo:
-        memo ||
-        getMemoFor(MemoType.WITHDRAW, {
-          ...asset,
-          basisPoints: percent.mul(100).assetAmount.toNumber(),
-          singleSide: true,
-        }),
+      memo: getMemoFor(MemoType.WITHDRAW, {
+        ...asset,
+        basisPoints: percent.mul(100).assetAmount.toNumber(),
+        singleSide: true,
+      }),
     });
 
   openLoan = ({
@@ -518,20 +505,20 @@ export class SwapKitCore<T = ''> {
   /**
    * Wallet connection methods
    */
-  connectXDEFI = async (_chains: Chain[]): Promise<void> => {
-    throw new SwapKitError('core_wallet_xdefi_not_installed');
+  connectXDEFI = async (_chains: Chain[]) => {
+    throwWalletError('connectXDEFI', 'xdefi');
   };
-  connectEVMWallet = async (_chains: Chain[] | Chain, _wallet: EVMWalletOptions): Promise<void> => {
-    throw new SwapKitError('core_wallet_evmwallet_not_installed');
+  connectEVMWallet = async (_chains: Chain[] | Chain, _wallet: EVMWalletOptions) => {
+    throwWalletError('connectEVMWallet', 'evm-web3-wallets');
   };
-  connectWalletconnect = async (_chains: Chain[], _options?: any): Promise<void> => {
-    throw new SwapKitError('core_wallet_walletconnect_not_installed');
+  connectWalletconnect = async (_chains: Chain[], _options?: any) => {
+    throwWalletError('connectWalletconnect', 'walletconnect');
   };
-  connectKeystore = async (_chains: Chain[], _phrase: string): Promise<void> => {
-    throw new SwapKitError('core_wallet_keystore_not_installed');
+  connectKeystore = async (_chains: Chain[], _phrase: string) => {
+    throwWalletError('connectKeystore', 'keystore');
   };
-  connectLedger = async (_chains: Chain, _derivationPath: number[]): Promise<void> => {
-    throw new SwapKitError('core_wallet_ledger_not_installed');
+  connectLedger = async (_chains: Chain, _derivationPath: number[]) => {
+    throwWalletError('connectLedger', 'ledger');
   };
   connectKeepKey = async (_chains: Chain, _derivationPath: number[]) => {
     throwWalletError('connectKeepKey', 'keepkey');
@@ -539,11 +526,11 @@ export class SwapKitCore<T = ''> {
   connectTrezor = async (_chains: Chain, _derivationPath: number[]) => {
     throwWalletError('connectTrezor', 'trezor');
   };
-  connectKeplr = async (): Promise<void> => {
-    throw new SwapKitError('core_wallet_keplr_not_installed');
+  connectKeplr = async () => {
+    throwWalletError('connectKeplr', 'keplr');
   };
-  connectOkx = async (_chains: Chain[]): Promise<void> => {
-    throw new SwapKitError('core_wallet_okx_not_installed');
+  connectOkx = async (_chains: Chain[]) => {
+    throwWalletError('connectOkx', 'okx');
   };
   disconnectChain = (chain: Chain) => {
     this.connectedChains[chain] = null;
@@ -551,19 +538,15 @@ export class SwapKitCore<T = ''> {
   };
 
   extend = ({ wallets, config, apis = {}, rpcUrls = {} }: ExtendParams<T>) => {
-    try {
-      wallets.forEach((wallet) => {
-        // @ts-expect-error
-        this[wallet.connectMethodName] = wallet.connect({
-          addChain: this._addConnectedChain,
-          config: config || {},
-          apis,
-          rpcUrls,
-        });
+    wallets.forEach((wallet) => {
+      // @ts-expect-error
+      this[wallet.connectMethodName] = wallet.connect({
+        addChain: this._addConnectedChain,
+        config: config || {},
+        apis,
+        rpcUrls,
       });
-    } catch (error) {
-      throw new SwapKitError('core_extend_error', error);
-    }
+    });
   };
 
   estimateMaxSendableAmount = ({
@@ -597,7 +580,7 @@ export class SwapKitCore<T = ''> {
         return cosmosEstimateMax(params as CosmosMaxSendableAmountParams);
 
       default:
-        throw new SwapKitError('core_estimated_max_spendable_chain_not_supported');
+        throw new Error(`Unsupported chain: ${chain}`);
     }
   };
 
@@ -611,8 +594,10 @@ export class SwapKitCore<T = ''> {
     const inboundData = await getInboundData(this.stagenet);
     const chainAddressData = inboundData.find((item) => item.chain === chain);
 
-    if (!chainAddressData) throw new SwapKitError('core_inbound_data_not_found');
-    if (chainAddressData?.halted) throw new SwapKitError('core_chain_halted');
+    if (!chainAddressData) throw new Error('pool address not found');
+    if (chainAddressData?.halted) {
+      throw new Error('Network temporarily halted, please try again later.');
+    }
 
     return chainAddressData;
   };
@@ -639,7 +624,9 @@ export class SwapKitCore<T = ''> {
     const walletMethods = this.connectedWallets[asset.L1Chain as EVMChain];
     const walletAction = type === 'checkOnly' ? walletMethods?.isApproved : walletMethods?.approve;
 
-    if (!walletAction) throw new SwapKitError('core_wallet_connection_not_found');
+    if (!walletAction) {
+      throw new Error(`Wallet not connected for ${asset.L1Chain}`);
+    }
 
     const { getTokenAddress } = await import('@thorswap-lib/toolbox-evm');
     const assetAddress = getTokenAddress(asset, asset.L1Chain as EVMChain);
@@ -647,8 +634,7 @@ export class SwapKitCore<T = ''> {
     // We could use the signer in the approve method of the toolbox @chillios
     const from = this.getAddress(asset.L1Chain);
 
-    if (!assetAddress || !from)
-      throw new SwapKitError('core_approve_asset_address_or_from_not_found');
+    if (!assetAddress || !from) throw new Error('Asset address && from address not found');
 
     return walletAction({
       amount: amount?.amount(),
@@ -689,7 +675,7 @@ export class SwapKitCore<T = ''> {
 
     // check if trading is halted or not
     if (mimir['HALTCHAINGLOBAL'] === 1 || mimir['HALTTHORCHAIN'] === 1) {
-      throw new SwapKitError('core_chain_halted');
+      throw new Error('THORChain network is halted now, please try again later.');
     }
 
     return this.deposit({ assetAmount, recipient: '', memo });

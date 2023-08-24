@@ -1,5 +1,5 @@
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { Amount, AmountType, AssetAmount } from '@thorswap-lib/swapkit-entities';
+import { Amount, AssetAmount } from '@thorswap-lib/swapkit-entities';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 
@@ -10,23 +10,24 @@ export default function Send({
   skClient?: SwapKitCore;
   inputAsset?: AssetAmount;
 }) {
-  const [inputAmount, setInputAmount] = useState('');
-  const [sendAmount, setSendAmount] = useState<Amount | undefined>();
+  const [inputAmount, setInputAmount] = useState<Amount | undefined>();
   const [recipient, setRecipient] = useState('');
 
-  const handleInputChange = (value: string) => {
-    setInputAmount(value);
+  const setAmount = useCallback(
+    (amountValue: string) => {
+      if (!inputAsset) return;
 
-    if (!inputAsset) return;
-    const float = parseFloat(value);
-    const amount = new Amount(float, AmountType.ASSET_AMOUNT, inputAsset.asset.decimal);
-    setSendAmount(amount);
-  }
+      const value = parseFloat(amountValue);
+      const amount = Amount.fromNormalAmount(value);
 
+      setInputAmount(amount.gt(inputAsset.amount) ? inputAsset.amount : amount);
+    },
+    [inputAsset],
+  );
 
   const handleSend = useCallback(async () => {
     if (!inputAsset || !inputAmount || !skClient) return;
-    const assetAmount = new AssetAmount(inputAsset.asset, sendAmount);
+    const assetAmount = new AssetAmount(inputAsset.asset, inputAmount);
 
     const txHash = await skClient.transfer({
       assetAmount,
@@ -35,7 +36,7 @@ export default function Send({
     });
 
     window.open(`${skClient.getExplorerTxUrl(Chain.THORChain, txHash as string)}`, '_blank');
-  }, [inputAsset, inputAmount, skClient, recipient, sendAmount]);
+  }, [inputAsset, inputAmount, skClient, recipient]);
 
   return (
     <div>
@@ -44,7 +45,7 @@ export default function Send({
       <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
         <div>
           <div>
-            <span>Input Asset: </span>
+            <span>Input Asset:</span>
             {inputAsset?.amount.toSignificant(6)} {inputAsset?.asset.ticker}
           </div>
         </div>
@@ -53,9 +54,9 @@ export default function Send({
           <div>
             <span>Input Amount:</span>
             <input
-              onChange={(e) => handleInputChange(e.target.value)}
+              onChange={(e) => setAmount(e.target.value)}
               placeholder="0.0"
-              value={inputAmount}
+              value={inputAmount?.toSignificant(6)}
             />
           </div>
 
