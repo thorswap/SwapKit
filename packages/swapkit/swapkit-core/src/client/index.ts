@@ -449,7 +449,7 @@ export class SwapKitCore<T = ''> {
     percent: Amount;
   }) => {
     try {
-      await this._depositToPool({
+      const txHash = await this._depositToPool({
         assetAmount: getMinAmountByChain(asset.chain),
         memo:
           memo ||
@@ -459,6 +459,8 @@ export class SwapKitCore<T = ''> {
             singleSide: true,
           }),
       });
+
+      return txHash;
     } catch (error) {
       throw new SwapKitError('core_transaction_withdraw_error', error);
     }
