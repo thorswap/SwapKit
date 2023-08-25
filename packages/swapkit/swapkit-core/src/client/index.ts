@@ -166,8 +166,8 @@ export class SwapKitCore<T = ''> {
         const value = !isHexString(txValue)
           ? parseUnits(txValue, 'wei').toHexString()
           : parseInt(txValue, 16) > 0
-          ? txValue
-          : undefined;
+            ? txValue
+            : undefined;
 
         return walletMethods.sendTransaction(
           {
@@ -256,8 +256,12 @@ export class SwapKitCore<T = ''> {
     if (!walletInstance) throw new Error('Chain is not connected');
 
     const txParams = this._prepareTxParams(params);
-    // TODO: fix type
-    return walletInstance.transfer(txParams) as Promise<string>;
+
+    try {
+      return await walletInstance.transfer(txParams);
+    } catch (error) {
+      throw new SwapKitError('core_swap_transaction_error', error);
+    }
   };
 
   deposit = async ({
@@ -272,45 +276,51 @@ export class SwapKitCore<T = ''> {
 
     const params = this._prepareTxParams({ assetAmount, recipient, router, ...rest });
 
-    switch (chain) {
-      case Chain.THORChain:
-        return recipient === ''
-          ? (walletInstance as ThorchainWallet).deposit(params)
-          : (walletInstance as ThorchainWallet).transfer(params);
-      case Chain.Ethereum:
-      case Chain.BinanceSmartChain:
-      case Chain.Avalanche: {
-        const { getBigNumberFrom, getChecksumAddressFromAsset } = await import(
-          '@thorswap-lib/toolbox-evm'
-        );
+    try {
+      switch (chain) {
+        case Chain.THORChain:
+          return await (recipient === ''
+            ? (walletInstance as ThorchainWallet).deposit(params)
+            : (walletInstance as ThorchainWallet).transfer(params));
+        case Chain.Ethereum:
+        case Chain.BinanceSmartChain:
+        case Chain.Avalanche: {
+          const { getBigNumberFrom, getChecksumAddressFromAsset } = await import(
+            '@thorswap-lib/toolbox-evm'
+          );
 
-        const { asset } = assetAmount;
-        const abi = chain === Chain.Avalanche ? TCAvalancheDepositABI : TCEthereumVaultAbi;
+          const { asset } = assetAmount;
+          const abi = chain === Chain.Avalanche ? TCAvalancheDepositABI : TCEthereumVaultAbi;
 
-        return (
-          walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
-        ).call({
-          abi,
-          contractAddress:
-            router || ((await this._getInboundDataByChain(chain as EVMChain)).router as string),
-          funcName: 'depositWithExpiry',
-          funcParams: [
-            recipient,
-            getChecksumAddressFromAsset(asset, asset?.chain as EVMChain),
-            params.amount.amount().toString(),
-            params.memo,
-            new Date().setMinutes(new Date().getMinutes() + 10),
-          ],
-          txOverrides: {
-            from: params.from,
-            value: getBigNumberFrom(
-              isGasAsset(assetAmount.asset) ? params.amount.amount().toString() : 0,
-            ).toHexString(),
-          },
-        }) as Promise<string>;
+          return (await (
+            walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
+          ).call({
+            abi,
+            contractAddress:
+              router || ((await this._getInboundDataByChain(chain as EVMChain)).router as string),
+            funcName: 'depositWithExpiry',
+            funcParams: [
+              recipient,
+              getChecksumAddressFromAsset(asset, asset?.chain as EVMChain),
+              params.amount.amount().toString(),
+              params.memo,
+              new Date().setMinutes(new Date().getMinutes() + 10),
+            ],
+            txOverrides: {
+              from: params.from,
+              value: getBigNumberFrom(
+                isGasAsset(assetAmount.asset) ? params.amount.amount().toString() : 0,
+              ).toHexString(),
+            },
+          })) as Promise<string>;
+        }
+
+        default: {
+          return await walletInstance.transfer(params);
+        }
       }
-      default:
-        return walletInstance.transfer(params) as Promise<string>;
+    } catch (error) {
+      throw new SwapKitError('core_transaction_deposit_error', error);
     }
   };
 
@@ -318,7 +328,12 @@ export class SwapKitCore<T = ''> {
    * TC related Methods
    */
   createLiquidity = async ({ runeAmount, assetAmount }: CreateLiquidityParams) => {
-    if (runeAmount.lte(0) || assetAmount.lte(0)) throw new Error('Amount should be specified');
+    if (runeAmount.lte(0) || assetAmount.lte(0)) {
+      throw new SwapKitError('core_transaction_create_liquidity_invalid_params');
+    }
+
+    let runeTx = '';
+    let assetTx = '';
 
     return {
       runeTx: await this._depositToPool({
@@ -400,308 +415,341 @@ export class SwapKitCore<T = ''> {
       to === 'rune'
         ? getSignatureAssetFor(Chain.THORChain)
         : (from === 'sym' && to === 'sym') || from === 'rune' || from === 'asset'
-        ? undefined
-        : asset;
+          ? undefined
+          : asset;
 
-    return this._depositToPool({
-      assetAmount: getMinAmountByChain(from === 'asset' ? asset.chain : Chain.THORChain),
-      memo: getMemoFor(MemoType.WITHDRAW, {
-        ...asset,
-        basisPoints: percent.mul(100).assetAmount.toNumber(),
-        targetAssetString: targetAsset?.toString(),
-        singleSide: false,
-      }),
-    });
-  };
-
-  addSavings = (assetAmount: AssetAmount) =>
-    this._depositToPool({
-      assetAmount,
-      memo: getMemoFor(MemoType.DEPOSIT, {
-        chain: assetAmount.asset.chain,
-        symbol: assetAmount.asset.symbol,
-        singleSide: true,
-      }),
-    });
-
-  withdrawSavings = ({ asset, percent }: { asset: AssetEntity; percent: Amount }) =>
-    this._depositToPool({
-      assetAmount: getMinAmountByChain(asset.chain),
-      memo: getMemoFor(MemoType.WITHDRAW, {
-        ...asset,
-        basisPoints: percent.mul(100).assetAmount.toNumber(),
-        singleSide: true,
-      }),
-    });
-
-  openLoan = ({
-    assetAmount,
-    assetTicker,
-    borrowAmount,
-    memo,
-  }: {
-    assetAmount: AssetAmount;
-    assetTicker: string;
-    borrowAmount?: Amount;
-    memo?: string;
-  }) =>
-    this._depositToPool({
-      assetAmount,
-      memo:
-        memo ||
-        getMemoFor(MemoType.OPEN_LOAN, {
-          asset: assetTicker,
-          minAmount: borrowAmount?.assetAmount.toString(),
-          address: this.getAddress(assetTicker.split('.')[0] as Chain),
-        }),
-    });
-
-  closeLoan = ({
-    assetAmount,
-    assetTicker,
-    borrowAmount,
-    memo,
-  }: {
-    assetAmount: AssetAmount;
-    assetTicker: string;
-    borrowAmount?: Amount;
-    memo?: string;
-  }) =>
-    this._depositToPool({
-      assetAmount,
-      memo:
-        memo ||
-        getMemoFor(MemoType.CLOSE_LOAN, {
-          asset: assetTicker,
-          minAmount: borrowAmount?.assetAmount.toString(),
-          address: this.getAddress(assetTicker.split('.')[0] as Chain),
-        }),
-    });
-
-  registerThorname = (param: ThornameRegisterParam, amount: Amount) =>
-    this._thorchainTransfer({
-      memo: getMemoFor(MemoType.THORNAME_REGISTER, param),
-      assetAmount: new AssetAmount(getSignatureAssetFor(Chain.THORChain), amount),
-    });
-
-  bond = (address: string, amount: Amount) =>
-    this._thorchainTransfer({
-      memo: getMemoFor(MemoType.BOND, { address }),
-      assetAmount: new AssetAmount(getSignatureAssetFor(Chain.THORChain), amount),
-    });
-
-  unbond = (address: string, unbondAmount: number) =>
-    this._thorchainTransfer({
-      memo: getMemoFor(MemoType.UNBOND, { address, unbondAmount }),
-      assetAmount: getMinAmountByChain(Chain.THORChain),
-    });
-
-  leave = (address: string) =>
-    this._thorchainTransfer({
-      memo: getMemoFor(MemoType.LEAVE, { address }),
-      assetAmount: getMinAmountByChain(Chain.THORChain),
-    });
-
-  /**
-   * Wallet connection methods
-   */
-  connectXDEFI = async (_chains: Chain[]) => {
-    throwWalletError('connectXDEFI', 'xdefi');
-  };
-  connectEVMWallet = async (_chains: Chain[] | Chain, _wallet: EVMWalletOptions) => {
-    throwWalletError('connectEVMWallet', 'evm-web3-wallets');
-  };
-  connectWalletconnect = async (_chains: Chain[], _options?: any) => {
-    throwWalletError('connectWalletconnect', 'walletconnect');
-  };
-  connectKeystore = async (_chains: Chain[], _phrase: string) => {
-    throwWalletError('connectKeystore', 'keystore');
-  };
-  connectLedger = async (_chains: Chain, _derivationPath: number[]) => {
-    throwWalletError('connectLedger', 'ledger');
-  };
-  connectKeepKey = async (_chains: Chain, _derivationPath: number[]) => {
-    throwWalletError('connectKeepKey', 'keepkey');
-  };
-  connectTrezor = async (_chains: Chain, _derivationPath: number[]) => {
-    throwWalletError('connectTrezor', 'trezor');
-  };
-  connectKeplr = async () => {
-    throwWalletError('connectKeplr', 'keplr');
-  };
-  connectOkx = async (_chains: Chain[]) => {
-    throwWalletError('connectOkx', 'okx');
-  };
-  disconnectChain = (chain: Chain) => {
-    this.connectedChains[chain] = null;
-    this.connectedWallets[chain] = null;
-  };
-
-  extend = ({ wallets, config, apis = {}, rpcUrls = {} }: ExtendParams<T>) => {
-    wallets.forEach((wallet) => {
-      // @ts-expect-error
-      this[wallet.connectMethodName] = wallet.connect({
-        addChain: this._addConnectedChain,
-        config: config || {},
-        apis,
-        rpcUrls,
+    try {
+      const txHash = await this._depositToPool({
+        assetAmount: getMinAmountByChain(from === 'asset' ? asset.chain : Chain.THORChain),
+        memo:
+          memo ||
+          getMemoFor(MemoType.WITHDRAW, {
+            ...asset,
+            basisPoints: percent.mul(100).assetAmount.toNumber(),
+            targetAssetString: targetAsset?.toString(),
+            singleSide: false,
+          }),
       });
-    });
-  };
 
-  estimateMaxSendableAmount = ({
-    chain,
-    params,
-  }: {
-    chain: Chain;
-    params:
-      | UTXOMaxSendableAmountParams
-      | EVMMaxSendableAmountsParams
-      | CosmosMaxSendableAmountParams;
-  }): Promise<AmountWithBaseDenom> => {
-    switch (chain) {
-      case Chain.Arbitrum:
-      case Chain.Avalanche:
-      case Chain.BinanceSmartChain:
-      case Chain.Ethereum:
-      case Chain.Optimism:
-      case Chain.Polygon:
-        return evmEstimateMax(params as EVMMaxSendableAmountsParams);
-
-      case Chain.Bitcoin:
-      case Chain.BitcoinCash:
-      case Chain.Dogecoin:
-      case Chain.Litecoin:
-        return utxoEstimateMax(params as UTXOMaxSendableAmountParams);
-
-      case Chain.Binance:
-      case Chain.THORChain:
-      case Chain.Cosmos:
-        return cosmosEstimateMax(params as CosmosMaxSendableAmountParams);
-
-      default:
-        throw new Error(`Unsupported chain: ${chain}`);
+      return txHash;
+    } catch (error) {
+      throw new SwapKitError('core_transaction_withdraw_error', error);
     }
   };
+
+  addSavings = async ({ assetAmount, memo }: { assetAmount: AssetAmount; memo?: string }) => {
+    try {
+      const txHash = await this._depositToPool({
+        assetAmount,
+        memo:
+          memo ||
+          getMemoFor(MemoType.DEPOSIT, {
+            chain: assetAmount.asset.chain,
+            symbol: assetAmount.asset.symbol,
+            singleSide: true,
+          }),
+      });
+
+      return txHash;
+    } catch (error) {
+      throw new SwapKitError('core_transaction_deposit_to_pool_error', error);
+    }
+  };
+
+  withdrawSavings = ({
+    memo,
+    asset,
+    percent,
+  }: {
+    memo?: string;
+    asset: AssetEntity;
+    percent: Amount;
+  }) =>
+    this._depositToPool({
+      assetAmount: getMinAmountByChain(asset.chain),
+      memo:
+        memo ||
+        getMemoFor(MemoType.WITHDRAW, {
+          ...asset,
+          basisPoints: percent.mul(100).assetAmount.toNumber(),
+          singleSide: true,
+        }),
+    });
+
+      return txHash;
+    } catch (error) {
+  throw new SwapKitError('core_transaction_withdraw_error', error);
+}
+  };
+
+openLoan = ({
+  assetAmount,
+  assetTicker,
+  borrowAmount,
+  memo,
+}: {
+  assetAmount: AssetAmount;
+  assetTicker: string;
+  borrowAmount?: Amount;
+  memo?: string;
+}) =>
+  this._depositToPool({
+    assetAmount,
+    memo:
+      memo ||
+      getMemoFor(MemoType.OPEN_LOAN, {
+        asset: assetTicker,
+        minAmount: borrowAmount?.assetAmount.toString(),
+        address: this.getAddress(assetTicker.split('.')[0] as Chain),
+      }),
+  });
+
+closeLoan = ({
+  assetAmount,
+  assetTicker,
+  borrowAmount,
+  memo,
+}: {
+  assetAmount: AssetAmount;
+  assetTicker: string;
+  borrowAmount?: Amount;
+  memo?: string;
+}) =>
+  this._depositToPool({
+    assetAmount,
+    memo:
+      memo ||
+      getMemoFor(MemoType.CLOSE_LOAN, {
+        asset: assetTicker,
+        minAmount: borrowAmount?.assetAmount.toString(),
+        address: this.getAddress(assetTicker.split('.')[0] as Chain),
+      }),
+  });
+
+registerThorname = (param: ThornameRegisterParam, amount: Amount) =>
+  this._thorchainTransfer({
+    memo: getMemoFor(MemoType.THORNAME_REGISTER, param),
+    assetAmount: new AssetAmount(getSignatureAssetFor(Chain.THORChain), amount),
+  });
+
+bond = (address: string, amount: Amount) =>
+  this._thorchainTransfer({
+    memo: getMemoFor(MemoType.BOND, { address }),
+    assetAmount: new AssetAmount(getSignatureAssetFor(Chain.THORChain), amount),
+  });
+
+unbond = (address: string, unbondAmount: number) =>
+  this._thorchainTransfer({
+    memo: getMemoFor(MemoType.UNBOND, { address, unbondAmount }),
+    assetAmount: getMinAmountByChain(Chain.THORChain),
+  });
+
+leave = (address: string) =>
+  this._thorchainTransfer({
+    memo: getMemoFor(MemoType.LEAVE, { address }),
+    assetAmount: getMinAmountByChain(Chain.THORChain),
+  });
+
+/**
+ * Wallet connection methods
+ */
+connectXDEFI = async (_chains: Chain[]) => {
+  throwWalletError('connectXDEFI', 'xdefi');
+};
+connectEVMWallet = async (_chains: Chain[] | Chain, _wallet: EVMWalletOptions) => {
+  throwWalletError('connectEVMWallet', 'evm-web3-wallets');
+};
+connectWalletconnect = async (_chains: Chain[], _options?: any) => {
+  throwWalletError('connectWalletconnect', 'walletconnect');
+};
+connectKeystore = async (_chains: Chain[], _phrase: string) => {
+  throwWalletError('connectKeystore', 'keystore');
+};
+connectLedger = async (_chains: Chain, _derivationPath: number[]) => {
+  throwWalletError('connectLedger', 'ledger');
+};
+connectKeepKey = async (_chains: Chain, _derivationPath: number[]) => {
+  throwWalletError('connectKeepKey', 'keepkey');
+};
+connectTrezor = async (_chains: Chain, _derivationPath: number[]) => {
+  throwWalletError('connectTrezor', 'trezor');
+};
+connectKeplr = async () => {
+  throwWalletError('connectKeplr', 'keplr');
+};
+connectOkx = async (_chains: Chain[]) => {
+  throwWalletError('connectOkx', 'okx');
+};
+disconnectChain = (chain: Chain) => {
+  this.connectedChains[chain] = null;
+  this.connectedWallets[chain] = null;
+};
+
+extend = ({ wallets, config, apis = {}, rpcUrls = {} }: ExtendParams<T>) => {
+  wallets.forEach((wallet) => {
+    // @ts-expect-error
+    this[wallet.connectMethodName] = wallet.connect({
+      addChain: this._addConnectedChain,
+      config: config || {},
+      apis,
+      rpcUrls,
+    });
+  });
+};
+
+estimateMaxSendableAmount = ({
+  chain,
+  params,
+}: {
+  chain: Chain;
+  params:
+  | UTXOMaxSendableAmountParams
+  | EVMMaxSendableAmountsParams
+  | CosmosMaxSendableAmountParams;
+}): Promise<AmountWithBaseDenom> => {
+  switch (chain) {
+    case Chain.Arbitrum:
+    case Chain.Avalanche:
+    case Chain.BinanceSmartChain:
+    case Chain.Ethereum:
+    case Chain.Optimism:
+    case Chain.Polygon:
+      return evmEstimateMax(params as EVMMaxSendableAmountsParams);
+
+    case Chain.Bitcoin:
+    case Chain.BitcoinCash:
+    case Chain.Dogecoin:
+    case Chain.Litecoin:
+      return utxoEstimateMax(params as UTXOMaxSendableAmountParams);
+
+    case Chain.Binance:
+    case Chain.THORChain:
+    case Chain.Cosmos:
+      return cosmosEstimateMax(params as CosmosMaxSendableAmountParams);
+
+    default:
+      throw new Error(`Unsupported chain: ${chain}`);
+  }
+};
 
   /**
    * Private methods (internal use only ¯\_(ツ)_/¯)
    */
   private _getInboundDataByChain = async (chain: Chain) => {
-    if (chain === Chain.THORChain) {
-      return { gas_rate: '0', router: '0', address: '', halted: false, chain: Chain.THORChain };
-    }
-    const inboundData = await getInboundData(this.stagenet);
-    const chainAddressData = inboundData.find((item) => item.chain === chain);
+  if (chain === Chain.THORChain) {
+    return { gas_rate: '0', router: '0', address: '', halted: false, chain: Chain.THORChain };
+  }
+  const inboundData = await getInboundData(this.stagenet);
+  const chainAddressData = inboundData.find((item) => item.chain === chain);
 
-    if (!chainAddressData) throw new Error('pool address not found');
-    if (chainAddressData?.halted) {
-      throw new Error('Network temporarily halted, please try again later.');
-    }
+  if (!chainAddressData) throw new Error('pool address not found');
+  if (chainAddressData?.halted) {
+    throw new Error('Network temporarily halted, please try again later.');
+  }
 
-    return chainAddressData;
-  };
+  return chainAddressData;
+};
 
   private _addConnectedChain = ({ chain, wallet, walletMethods }: AddChainWalletParams) => {
-    this.connectedChains[chain] = wallet;
-    this.connectedWallets[chain] = walletMethods;
-  };
+  this.connectedChains[chain] = wallet;
+  this.connectedWallets[chain] = walletMethods;
+};
 
   private _approve = async <T = string>(
-    {
-      asset,
-      contractAddress,
-      amount,
-    }: { asset: AssetEntity; contractAddress?: string; amount?: AmountWithBaseDenom },
-    type: 'checkOnly' | 'approve' = 'checkOnly',
-  ) => {
-    const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(
-      asset.chain,
-    );
-    const isNativeEVM = isEVMChain && isGasAsset(asset);
-    if (isNativeEVM || !isEVMChain || asset.isSynth) return true;
+  {
+    asset,
+    contractAddress,
+    amount,
+  }: { asset: AssetEntity; contractAddress?: string; amount?: AmountWithBaseDenom },
+  type: 'checkOnly' | 'approve' = 'checkOnly',
+) => {
+  const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(
+    asset.chain,
+  );
+  const isNativeEVM = isEVMChain && isGasAsset(asset);
+  if (isNativeEVM || !isEVMChain || asset.isSynth) return true;
 
-    const walletMethods = this.connectedWallets[asset.L1Chain as EVMChain];
-    const walletAction = type === 'checkOnly' ? walletMethods?.isApproved : walletMethods?.approve;
+  const walletMethods = this.connectedWallets[asset.L1Chain as EVMChain];
+  const walletAction = type === 'checkOnly' ? walletMethods?.isApproved : walletMethods?.approve;
 
-    if (!walletAction) {
-      throw new Error(`Wallet not connected for ${asset.L1Chain}`);
-    }
+  if (!walletAction) {
+    throw new Error(`Wallet not connected for ${asset.L1Chain}`);
+  }
 
-    const { getTokenAddress } = await import('@thorswap-lib/toolbox-evm');
-    const assetAddress = getTokenAddress(asset, asset.L1Chain as EVMChain);
-    // TODO: I dont think we need this @towan
-    // We could use the signer in the approve method of the toolbox @chillios
-    const from = this.getAddress(asset.L1Chain);
+  const { getTokenAddress } = await import('@thorswap-lib/toolbox-evm');
+  const assetAddress = getTokenAddress(asset, asset.L1Chain as EVMChain);
+  // TODO: I dont think we need this @towan
+  // We could use the signer in the approve method of the toolbox @chillios
+  const from = this.getAddress(asset.L1Chain);
 
-    if (!assetAddress || !from) throw new Error('Asset address && from address not found');
+  if (!assetAddress || !from) throw new Error('Asset address && from address not found');
 
-    return walletAction({
-      amount: amount?.amount(),
-      assetAddress,
-      from,
-      spenderAddress:
-        contractAddress || ((await this._getInboundDataByChain(asset.L1Chain)).router as string),
-    }) as Promise<T>;
-  };
+  return walletAction({
+    amount: amount?.amount(),
+    assetAddress,
+    from,
+    spenderAddress:
+      contractAddress || ((await this._getInboundDataByChain(asset.L1Chain)).router as string),
+  }) as Promise<T>;
+};
 
   private _depositToPool = async ({
-    assetAmount,
-    memo,
-    feeOptionKey = FeeOption.Fast,
-  }: {
-    assetAmount: AssetAmount;
-    memo: string;
-    feeOptionKey?: FeeOption;
-  }) => {
-    const {
-      gas_rate,
-      router,
-      address: poolAddress,
-    } = await this._getInboundDataByChain(assetAmount.asset.chain);
-    const feeRate = (parseInt(gas_rate) || 0) * gasFeeMultiplier[feeOptionKey];
+  assetAmount,
+  memo,
+  feeOptionKey = FeeOption.Fast,
+}: {
+  assetAmount: AssetAmount;
+  memo: string;
+  feeOptionKey?: FeeOption;
+}) => {
+  const {
+    gas_rate,
+    router,
+    address: poolAddress,
+  } = await this._getInboundDataByChain(assetAmount.asset.chain);
+  const feeRate = (parseInt(gas_rate) || 0) * gasFeeMultiplier[feeOptionKey];
 
-    return this.deposit({ assetAmount, recipient: poolAddress, memo, router, feeRate });
-  };
+  return this.deposit({ assetAmount, recipient: poolAddress, memo, router, feeRate });
+};
 
   private _thorchainTransfer = async ({
-    memo,
-    assetAmount,
-  }: {
-    assetAmount: AssetAmount;
-    memo: string;
-  }) => {
-    const mimir = await getMimirData(this.stagenet);
+  memo,
+  assetAmount,
+}: {
+  assetAmount: AssetAmount;
+  memo: string;
+}) => {
+  const mimir = await getMimirData(this.stagenet);
 
-    // check if trading is halted or not
-    if (mimir['HALTCHAINGLOBAL'] === 1 || mimir['HALTTHORCHAIN'] === 1) {
-      throw new Error('THORChain network is halted now, please try again later.');
-    }
+  // check if trading is halted or not
+  if (mimir['HALTCHAINGLOBAL'] === 1 || mimir['HALTTHORCHAIN'] === 1) {
+    throw new Error('THORChain network is halted now, please try again later.');
+  }
 
-    return this.deposit({ assetAmount, recipient: '', memo });
-  };
+  return this.deposit({ assetAmount, recipient: '', memo });
+};
 
   private _prepareTxParams = ({
-    assetAmount: {
-      asset: { L1Chain, isSynth, chain, symbol, decimal },
-      amount,
-    },
-    ...restTxParams
-  }: CoreTxParams & { router?: string }) => {
-    const amountWithBaseDenom = baseAmount(amount.baseAmount.toString(10), decimal);
+  assetAmount: {
+    asset: { L1Chain, isSynth, chain, symbol, decimal },
+    amount,
+  },
+  ...restTxParams
+}: CoreTxParams & { router?: string }) => {
+  const amountWithBaseDenom = baseAmount(amount.baseAmount.toString(10), decimal);
 
-    const asset = assetFromString(
-      isSynth
-        ? `${Chain.THORChain}.${chain.toLowerCase()}/${symbol.toLowerCase()}`
-        : `${chain.toUpperCase()}.${symbol.toUpperCase()}`,
-    );
+  const asset = assetFromString(
+    isSynth
+      ? `${Chain.THORChain}.${chain.toLowerCase()}/${symbol.toLowerCase()}`
+      : `${chain.toUpperCase()}.${symbol.toUpperCase()}`,
+  );
 
-    return {
-      ...restTxParams,
-      memo: restTxParams.memo || '',
-      from: this.getAddress(L1Chain),
-      amount: amountWithBaseDenom,
-      asset,
-    };
+  return {
+    ...restTxParams,
+    memo: restTxParams.memo || '',
+    from: this.getAddress(L1Chain),
+    amount: amountWithBaseDenom,
+    asset,
   };
+};
 }

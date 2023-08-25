@@ -1,5 +1,26 @@
 # @thorswap-lib/swapkit-sdk
 
+## 0.1.0-development.72
+
+### Patch Changes
+
+- Updated dependencies [[`d6783ab`](https://github.com/thorswap/SwapKit/commit/d6783ab4194bcc1d4c7bfec07c2edf7f69bc4f65)]:
+  - @thorswap-lib/swapkit-core@1.0.0-development.204
+
+## 0.1.0-development.71
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-core@1.0.0-development.203
+
+## 0.1.0-development.70
+
+### Patch Changes
+
+- Updated dependencies [[`a47b96b`](https://github.com/thorswap/SwapKit/commit/a47b96b42506590c3061c28398385eae9c6eb358)]:
+  - @thorswap-lib/swapkit-core@1.0.0-development.202
+
 ## 0.1.0-development.69
 
 ### Patch Changes
