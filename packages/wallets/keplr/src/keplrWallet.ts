@@ -29,7 +29,7 @@ const connectKeplr =
         { denom: asset?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: amount.amount().toString() },
       ];
 
-      const { transactionHash } = await cosmJS.sendTokens(address, recipient, coins, 'auto', memo);
+      const { transactionHash } = await cosmJS.sendTokens(address, recipient, coins, 1.6, memo);
       return transactionHash;
     };
 
