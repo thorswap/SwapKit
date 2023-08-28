@@ -2,7 +2,7 @@
   "author": "thorswap",
   "dependencies": {
     "@thorswap-lib/types": "workspace:*",
-    "@walletconnect/qrcode-modal": "1.8.0",
+    "@walletconnect/modal": "^2.6.1",
     "@walletconnect/sign-client": "2.8.6"
   },
   "description": "THORSwap Lib walletconnect",

@@ -12,7 +12,7 @@ import {
 } from '@thorswap-lib/toolbox-cosmos';
 import { AVAXToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
 import { ApiUrl, Chain, ChainId, WalletOption, WalletTxParams } from '@thorswap-lib/types';
-import QRCodeModal from '@walletconnect/qrcode-modal';
+import { WalletConnectModal } from '@walletconnect/modal'
 import Client from '@walletconnect/sign-client';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
@@ -323,7 +323,11 @@ const getWalletconnect = async (
   walletConnectProjectId?: string,
   walletconnectOptions?: SignClientTypes.Options,
 ) => {
+  let modal: WalletConnectModal | undefined;
   try {
+    if (!walletConnectProjectId) {
+      throw new Error('Error while setting up walletconnect connection: Project ID not specified');
+    }
     const requiredNamespaces = getRequiredNamespaces(chains.map(chainToChainId));
 
     // @ts-ignore
@@ -339,10 +343,16 @@ const getWalletconnect = async (
       requiredNamespaces,
     });
 
+    modal = new WalletConnectModal({
+      projectId: walletConnectProjectId,
+      chains: chains.map(chainToChainId)
+    });
+
     // Open QRCode modal if a URI was returned (i.e. we're not connecting an existing pairing).
     if (uri) {
-      // @ts-ignore
-      QRCodeModal.open(uri, () => {});
+      await modal.openModal({
+        uri
+      });
     }
 
     const session = await approval();
@@ -354,8 +364,9 @@ const getWalletconnect = async (
   } catch (e) {
     console.error(e);
   } finally {
-    // @ts-ignore
-    QRCodeModal.close();
+    if (modal) {
+      modal.closeModal();
+    }
   }
   return undefined;
 };
