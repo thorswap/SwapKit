@@ -23,7 +23,6 @@ export default function Send({
     setSendAmount(amount);
   }
 
-
   const handleSend = useCallback(async () => {
     if (!inputAsset || !inputAmount || !sendAmount || !skClient) return;
     const assetAmount = new AssetAmount(inputAsset.asset, sendAmount);
