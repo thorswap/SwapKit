@@ -5,12 +5,13 @@ import Loan from './Loan';
 import Send from './Send';
 import Swap from './Swap';
 import { getSwapKitClient } from './swapKitClient';
-import TNS from './TNS';
 import { WalletDataType } from './types';
 import { Wallet } from './Wallet';
 import { WalletPicker } from './WalletPicker';
+import TNS from './TNS';
 
 const apiKeys = ['walletConnectProjectId'] as const;
+
 
 const App = () => {
   const [widgetType, setWidgetType] = useState<'swap' | 'loan' | 'earn'>('swap');
@@ -26,7 +27,6 @@ const App = () => {
     utxoApiKey: import.meta.env.VITE_BLOCKCHAIR_API_KEY || 'A___Tcn5B16iC3mMj7QrzZCb2Ho1QBUf',
     walletConnectProjectId: import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || '',
   };
-  console.log('config: ', config);
   const [keys, setKeys] = useState(config);
   const [{ inputAsset, outputAsset }, setSwapAssets] = useState<{
     inputAsset?: AssetAmount;

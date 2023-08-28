@@ -19,13 +19,12 @@ export default function Send({
 
     if (!inputAsset) return;
     const float = parseFloat(value);
-    const amount = new Amount(float, AmountType.ASSET_AMOUNT, inputAsset.asset.decimal);
+    const amount = new Amount(float, AmountType.ASSET_AMOUNT, inputAsset.decimal);
     setSendAmount(amount);
   }
 
-
   const handleSend = useCallback(async () => {
-    if (!inputAsset || !inputAmount || !skClient) return;
+    if (!inputAsset || !inputAmount || !sendAmount || !skClient) return;
     const assetAmount = new AssetAmount(inputAsset.asset, sendAmount);
 
     const txHash = await skClient.transfer({

@@ -61,7 +61,6 @@ class KeepKeySigner extends Signer {
     if (!from) throw new Error('Missing from address');
     if (!to) throw new Error('Missing to address');
     if (!gasLimit) throw new Error('Missing gasLimit');
-    if (!value) throw new Error('Missing value');
     if (!nonce) throw new Error('Missing nonce');
     if (!data) throw new Error('Missing data');
     if (!restTx) throw new Error('Missing restTx');
