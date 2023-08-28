@@ -22,7 +22,7 @@ import { ec as EC } from 'elliptic';
 import { BNBTransaction } from '../binanceUtils/transaction.js';
 import { Account, AminoPrefix, Fees } from '../binanceUtils/types.js';
 import { isTransferFee } from '../binanceUtils/utils.js';
-import { CosmosSDKClient } from '../cosmosSdkClient.js';
+import { CosmosClient } from '../cosmosClient.js';
 import { BinanceToolboxType } from '../index.js';
 import { TransferParams } from '../types.js';
 
@@ -168,20 +168,20 @@ export const getPublicKey = (publicKey: string) => {
 };
 
 export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolboxType => {
-  const sdk = new CosmosSDKClient({
+  const client = new CosmosClient({
     server: BINANCE_MAINNET_API_URI,
     chainId: ChainId.Binance,
     prefix: stagenet ? 'tbnb' : 'bnb',
   });
 
   const baseToolbox: {
-    sdk: CosmosSDKClient['sdk'];
     validateAddress: (address: string) => boolean;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
+    getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
   } = BaseCosmosToolbox({
-    sdk,
+    client,
     derivationPath: DerivationPath.BNB,
     decimal: BaseDecimal.BNB, // not used
     getAsset: () => null, // not used

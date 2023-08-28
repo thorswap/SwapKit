@@ -3,7 +3,7 @@ import { Account } from '@cosmjs/stargate';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { Balance, BaseDecimal, ChainId, DerivationPath } from '@thorswap-lib/types';
 
-import { CosmosSDKClient } from '../cosmosSdkClient.js';
+import { CosmosClient } from '../cosmosClient.js';
 import { GaiaToolboxType } from '../index.js';
 import { TransferParams } from '../types.js';
 import { getAsset } from '../util.js';
@@ -11,13 +11,12 @@ import { getAsset } from '../util.js';
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.js';
 
 export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxType => {
-  const sdk = new CosmosSDKClient({
+  const client = new CosmosClient({
     server: server || 'https://node-router.thorswap.net/cosmos/rest',
     chainId: ChainId.Cosmos,
   });
 
   const baseToolbox: {
-    sdk: CosmosSDKClient['sdk'];
     validateAddress: (address: string) => boolean;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getAccount: (address: string) => Promise<Account | null>;
@@ -25,11 +24,12 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
     transfer: (params: TransferParams) => Promise<string>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
+    getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
   } = BaseCosmosToolbox({
     decimal: BaseDecimal.GAIA,
     derivationPath: DerivationPath.GAIA,
     getAsset,
-    sdk,
+    client,
   });
 
   return {

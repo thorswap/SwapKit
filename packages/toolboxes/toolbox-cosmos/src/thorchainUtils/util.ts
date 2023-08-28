@@ -1,17 +1,21 @@
-import { cosmosclient, proto } from '@cosmos-client/core';
-import { assetFromString, assetToString, baseAmount, getRequest } from '@thorswap-lib/helpers';
+import { toBech32 } from '@cosmjs/encoding';
+import { StargateClient } from '@cosmjs/stargate';
+import { assetFromString, assetToString, baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { AmountWithBaseDenom, Asset, Balance, BaseDecimal, Chain, Fees } from '@thorswap-lib/types';
-import { fromByteArray } from 'base64-js';
+import {
+  AmountWithBaseDenom,
+  ApiUrl,
+  Asset,
+  Balance,
+  BaseDecimal,
+  Chain,
+  ChainId,
+  Fees,
+} from '@thorswap-lib/types';
+import { fromByteArray, toByteArray } from 'base64-js';
 import { bech32 } from 'bech32';
-import { decode } from 'bech32-buffer';
-import Long from 'long';
 
 import { AssetRuneNative } from '../types.js';
-
-import { NodeInfoResponse } from './types/index.js';
-import { MsgNativeTx } from './types/messages.js';
-import types from './types/proto/MsgCompiled.js';
 
 export const DEFAULT_GAS_VALUE = '5000000000';
 export const DEPOSIT_GAS_VALUE = '5000000000';
@@ -19,11 +23,6 @@ export const DEPOSIT_GAS_VALUE = '5000000000';
 const RUNE_ASSET = `${Chain.THORChain}.RUNE`;
 
 const isAssetRuneNative = (asset: Asset) => assetToString(asset) === RUNE_ASSET;
-
-// TODO - Remove with multisig rewrite to @cosmjs
-export const registerDespositCodecs = async (): Promise<void> => {
-  cosmosclient.codec.register('/types.MsgDeposit', types.types.MsgDeposit);
-};
 
 export const getThorchainDenom = (asset: Asset) =>
   assetToString(asset) === RUNE_ASSET ? 'rune' : asset.symbol.toLowerCase();
@@ -33,180 +32,104 @@ export const getDenomWithChain = ({ symbol }: Asset): string =>
     ? symbol.toLowerCase()
     : `${Chain.THORChain}.${symbol.toUpperCase()}`;
 
-// TODO - Remove with multisig rewrite to @cosmjs
-export const registerSendCodecs = async () => {
-  cosmosclient.codec.register('/types.MsgSend', types.types.MsgSend);
-};
-
-const getChainId = async (nodeUrl: string): Promise<string> => {
-  const response = await getRequest<NodeInfoResponse>(
-    `${nodeUrl}/cosmos/base/tendermint/v1beta1/node_info`,
-  );
-
-  if (response?.default_node_info?.network) {
-    return response?.default_node_info?.network;
-  } else {
-    throw new Error('Could not parse chain id');
-  }
-};
-
-// TODO - Remove with multisig rewrite to @cosmjs
 export const buildDepositTx = async ({
-  msgNativeTx,
-  nodeUrl,
-  chainId,
+  signer,
+  memo = '',
+  assetAmount,
+  asset,
 }: {
-  msgNativeTx: MsgNativeTx;
-  nodeUrl: string;
-  chainId: string;
-}): Promise<proto.cosmos.tx.v1beta1.TxBody> => {
-  await registerDespositCodecs();
-  const networkChainId = await getChainId(nodeUrl);
-  if (!networkChainId || chainId !== networkChainId) {
-    throw new Error(`Invalid network (asked: ${chainId} / returned: ${networkChainId}`);
+  signer: string;
+  memo?: string;
+  assetAmount: AmountWithBaseDenom;
+  asset: Asset;
+}) => {
+  const client = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+  const accountOnChain = await client.getAccount(signer);
+
+  if (!accountOnChain) {
+    throw new Error('Account does not exist');
   }
 
-  const signerAddr = msgNativeTx.signer.toString();
-  const signerDecoded = decode(signerAddr);
+  const base64Signer = bech32ToBase64(signer);
 
-  const msgDepositObj = {
-    coins: msgNativeTx.coins,
-    memo: msgNativeTx.memo,
-    signer: signerDecoded.data,
+  const msgDeposit = {
+    coins: [
+      {
+        amount: assetAmount.amount().toString(),
+        asset: getDenomWithChain(asset).toUpperCase(),
+      },
+    ],
+    memo,
+    signer: base64Signer,
+  };
+  const msg = {
+    typeUrl: '/types.MsgDeposit',
+    value: msgDeposit,
+  };
+  const fee = {
+    amount: [],
+    gas: '5000000000',
   };
 
-  const depositMsg = types.types.MsgDeposit.fromObject(msgDepositObj);
+  const depositTx = {
+    accountNumber: accountOnChain.accountNumber,
+    sequence: accountOnChain.sequence,
+    chainId: ChainId.THORChain,
+    msgs: [msg],
+    fee: fee,
+    memo,
+  };
 
-  return new proto.cosmos.tx.v1beta1.TxBody({
-    messages: [cosmosclient.codec.instanceToProtoAny(depositMsg)],
-    memo: msgNativeTx.memo,
-  });
+  return depositTx;
 };
 
-// TODO - Remove with multisig rewrite to @cosmjs
 export const buildTransferTx = async ({
   fromAddress,
   toAddress,
   assetAmount,
   assetDenom,
   memo = '',
-  nodeUrl,
-  chainId,
 }: {
   fromAddress: string;
   toAddress: string;
   assetAmount: AmountWithBaseDenom;
   assetDenom: string;
   memo?: string;
-  nodeUrl: string;
-  chainId: string;
-}): Promise<proto.cosmos.tx.v1beta1.TxBody> => {
-  await registerSendCodecs();
-  const networkChainId = await getChainId(nodeUrl);
-  if (!networkChainId || chainId !== networkChainId) {
-    throw new Error(`Invalid network (asked: ${chainId} / returned: ${networkChainId}`);
+}) => {
+  const client = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+  const accountOnChain = await client.getAccount(fromAddress);
+
+  if (!accountOnChain) {
+    throw new Error('Account does not exist');
   }
 
-  const fromDecoded = decode(fromAddress);
-  const toDecoded = decode(toAddress);
+  const base64FromAddress = bech32ToBase64(fromAddress);
+  const base64ToAddress = bech32ToBase64(toAddress);
 
-  const transferObj = {
-    fromAddress: fromDecoded.data,
-    toAddress: toDecoded.data,
-    amount: [
-      {
-        amount: assetAmount.amount().toString(),
-        denom: assetDenom,
-      },
-    ],
+  const msgSend = {
+    fromAddress: base64FromAddress,
+    toAddress: base64ToAddress,
+    amount: [{ amount: assetAmount.amount().toString(), denom: assetDenom }],
+  };
+  const msg = {
+    typeUrl: '/types.MsgSend',
+    value: msgSend,
+  };
+  const fee = {
+    amount: [],
+    gas: '5000000000',
   };
 
-  const transferMsg = types.types.MsgSend.fromObject(transferObj);
-
-  return new proto.cosmos.tx.v1beta1.TxBody({
-    messages: [cosmosclient.codec.instanceToProtoAny(transferMsg)],
+  const transferTx = {
+    accountNumber: accountOnChain.accountNumber,
+    sequence: accountOnChain.sequence,
+    chainId: ChainId.THORChain,
+    msgs: [msg],
+    fee: fee,
     memo,
-  });
-};
+  };
 
-/**
- * Builds auth info
- *
- * @param signerPubkey - signerPubkey string
- * @param sequence - account sequence
- * @param gasLimit - transaction gas limit
- * @param signers - boolean array of the signers
- * @returns
- */
-// TODO - Remove with multisig rewrite to @cosmjs
-export const buildAuthInfo = ({
-  signerPubkey,
-  sequence,
-  gasLimit,
-  signers = [],
-}: {
-  signerPubkey: proto.google.protobuf.Any;
-  sequence: Long;
-  gasLimit: string;
-  signers?: boolean[];
-}) => {
-  const isMultisig = signers.length > 0;
-  return new proto.cosmos.tx.v1beta1.AuthInfo({
-    signer_infos: [
-      {
-        public_key: signerPubkey,
-        mode_info: isMultisig
-          ? {
-              multi: {
-                bitarray: proto.cosmos.crypto.multisig.v1beta1.CompactBitArray.from(signers),
-                mode_infos: signers
-                  .filter((signer) => signer)
-                  .map(() => ({
-                    single: {
-                      mode: proto.cosmos.tx.signing.v1beta1.SignMode.SIGN_MODE_DIRECT,
-                    },
-                  })),
-              },
-            }
-          : {
-              single: {
-                mode: proto.cosmos.tx.signing.v1beta1.SignMode.SIGN_MODE_DIRECT,
-              },
-            },
-        sequence: sequence,
-      },
-    ],
-    fee: {
-      amount: null,
-      gas_limit: Long.fromString(gasLimit),
-    },
-  });
-};
-
-// TODO - Remove with multisig rewrite to @cosmjs
-export const buildUnsignedTx = ({
-  cosmosSdk,
-  txBody,
-  signerPubkey,
-  sequence,
-  gasLimit,
-  signers = [],
-}: {
-  cosmosSdk: cosmosclient.CosmosSDK;
-  txBody: proto.cosmos.tx.v1beta1.TxBody;
-  signerPubkey: proto.google.protobuf.Any;
-  sequence: Long;
-  gasLimit: string;
-  signers?: boolean[];
-}): cosmosclient.TxBuilder => {
-  const authInfo = buildAuthInfo({
-    signerPubkey,
-    sequence,
-    gasLimit,
-    signers,
-  });
-
-  return new cosmosclient.TxBuilder(cosmosSdk, txBody, authInfo);
+  return transferTx;
 };
 
 export const getThorchainAsset = (denom: string): Asset | null => {
@@ -251,3 +174,6 @@ export const checkBalances = async (
 
 export const bech32ToBase64 = (address: string) =>
   fromByteArray(Uint8Array.from(bech32.fromWords(bech32.decode(address).words)));
+
+export const base64ToBech32 = (address: string, prefix = 'thor') =>
+  toBech32(prefix, toByteArray(address));

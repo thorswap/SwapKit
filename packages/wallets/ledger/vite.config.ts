@@ -10,6 +10,11 @@ const viteConfig = thorswapViteConfig(name, {
     },
     rollupOptions: {
       external: [
+        '@cosmjs/amino',
+        '@cosmjs/encoding',
+        '@cosmjs/math',
+        '@cosmjs/proto-signing',
+        '@cosmjs/stargate',
         '@ethersproject/abstract-signer',
         '@ethersproject/bignumber',
         '@ethersproject/bytes',
@@ -20,8 +25,8 @@ const viteConfig = thorswapViteConfig(name, {
         '@thorswap-lib/toolbox-evm',
         '@thorswap-lib/toolbox-utxo',
         'bitcoinjs-lib',
+        'cosmjs-types',
         'coininfo',
-        'cosmos-client',
         'crypto',
         'elliptic',
       ],

@@ -1,4 +1,8 @@
 import { makeSignDoc as makeSignDocAmino, StdSignDoc } from '@cosmjs/amino';
+import { fromBase64 } from '@cosmjs/encoding';
+import { Int53 } from '@cosmjs/math';
+import { encodePubkey, makeAuthInfoBytes, TxBodyEncodeObject } from '@cosmjs/proto-signing';
+import { StargateClient } from '@cosmjs/stargate';
 import {
   BinanceToolbox,
   DepositParam,
@@ -7,11 +11,12 @@ import {
   ThorchainToolbox,
 } from '@thorswap-lib/toolbox-cosmos';
 import { AVAXToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
-import { Chain, ChainId, WalletOption, WalletTxParams } from '@thorswap-lib/types';
+import { ApiUrl, Chain, ChainId, WalletOption, WalletTxParams } from '@thorswap-lib/types';
 import QRCodeModal from '@walletconnect/qrcode-modal';
 import Client from '@walletconnect/sign-client';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
-import { auth, StdTx } from 'cosmos-client/x/auth/index.js';
+import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
+import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
 import {
   BINANCE_MAINNET_ID,
@@ -134,7 +139,8 @@ const getToolbox = async ({
       const transfer = async (params: WalletTxParams) => {
         const account = await toolbox.getAccount(from);
         if (!account) throw new Error('Account not found');
-        const { accountNumber, sequence = '0' } = account;
+        if (!account.pubkey) throw new Error('Account pubkey not found');
+        const { accountNumber, sequence = 0 } = account;
 
         const sendCoinsMessage = {
           amount: [
@@ -176,17 +182,53 @@ const getToolbox = async ({
           ],
         };
 
-        const stdTx = StdTx.fromJSON(txObj);
+        const aminoTypes = toolbox.createDefaultAminoTypes();
+        const registry = toolbox.createDefaultRegistry();
+        const signedTxBody: TxBodyEncodeObject = {
+          typeUrl: '/cosmos.tx.v1beta1.TxBody',
+          value: {
+            messages: txObj.msg.map((msg) => aminoTypes.fromAmino(msg)),
+            memo: txObj.memo,
+          },
+        };
 
-        const res: any = await auth.txsPost(toolbox.sdk as any, stdTx, 'sync');
+        const signMode = SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
 
-        return res.data?.txhash;
+        const signedTxBodyBytes = registry.encode(signedTxBody);
+        const signedGasLimit = Int53.fromString(txObj.fee.gas).toNumber();
+        const pubkey = encodePubkey(account.pubkey);
+        const signedAuthInfoBytes = makeAuthInfoBytes(
+          [{ pubkey, sequence }],
+          txObj.fee.amount,
+          signedGasLimit,
+          undefined,
+          undefined,
+          signMode,
+        );
+
+        const txRaw = TxRaw.fromPartial({
+          bodyBytes: signedTxBodyBytes,
+          authInfoBytes: signedAuthInfoBytes,
+          signatures: [
+            fromBase64(
+              typeof signature.signature === 'string'
+                ? signature.signature
+                : signature.signature.signature,
+            ),
+          ],
+        });
+        const txBytes = TxRaw.encode(txRaw).finish();
+
+        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const result = await broadcaster.broadcastTx(txBytes);
+        return result.transactionHash;
       };
 
       const deposit = async ({ asset, amount, memo }: DepositParam) => {
         const account = await toolbox.getAccount(address);
         if (!asset) throw new Error('invalid asset to deposit');
         if (!account) throw new Error('Account not found');
+        if (!account.pubkey) throw new Error('Account pubkey not found');
         const { accountNumber, sequence = 0 } = account;
 
         const msg = {
@@ -227,11 +269,46 @@ const getToolbox = async ({
           ],
         };
 
-        const stdTx = StdTx.fromJSON(txObj);
+        const aminoTypes = toolbox.createDefaultAminoTypes();
+        const registry = toolbox.createDefaultRegistry();
+        const signedTxBody: TxBodyEncodeObject = {
+          typeUrl: '/cosmos.tx.v1beta1.TxBody',
+          value: {
+            messages: txObj.msg.map((msg) => aminoTypes.fromAmino(msg)),
+            memo: txObj.memo,
+          },
+        };
 
-        const res: any = await auth.txsPost(toolbox.sdk as any, stdTx, 'sync');
+        const signMode = SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
 
-        return res.data?.txhash;
+        const signedTxBodyBytes = registry.encode(signedTxBody);
+        const signedGasLimit = Int53.fromString(txObj.fee.gas).toNumber();
+        const pubkey = encodePubkey(account.pubkey);
+        const signedAuthInfoBytes = makeAuthInfoBytes(
+          [{ pubkey, sequence }],
+          txObj.fee.amount,
+          signedGasLimit,
+          undefined,
+          undefined,
+          signMode,
+        );
+
+        const txRaw = TxRaw.fromPartial({
+          bodyBytes: signedTxBodyBytes,
+          authInfoBytes: signedAuthInfoBytes,
+          signatures: [
+            fromBase64(
+              typeof signature.signature === 'string'
+                ? signature.signature
+                : signature.signature.signature,
+            ),
+          ],
+        });
+        const txBytes = TxRaw.encode(txRaw).finish();
+
+        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const result = await broadcaster.broadcastTx(txBytes);
+        return result.transactionHash;
       };
 
       return { ...toolbox, transfer, deposit };

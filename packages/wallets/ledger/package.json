@@ -23,6 +23,11 @@
   },
   "description": "THORSwap Lib ledger",
   "devDependencies": {
+    "@cosmjs/amino": "0.31.0",
+    "@cosmjs/encoding": "0.31.0",
+    "@cosmjs/stargate": "0.31.0",
+    "@cosmjs/math": "0.31.0",
+    "@cosmjs/proto-signing": "0.31.0",
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/bignumber": "5.7.0",
     "@ethersproject/bytes": "5.7.0",
@@ -45,7 +50,7 @@
     "bchaddrjs": "0.5.2",
     "bitcoinjs-lib": "5.2.0",
     "coininfo": "5.2.1",
-    "cosmos-client": "0.39.2",
+    "cosmjs-types": "0.8.0",
     "elliptic": "6.5.4",
     "vite": "4.4.4",
     "vitest": "0.33.0"
@@ -70,6 +75,11 @@
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/ledger",
   "peerDependencies": {
+    "@cosmjs/amino": "0.31.0",
+    "@cosmjs/encoding": "0.31.0",
+    "@cosmjs/math": "0.31.0",
+    "@cosmjs/proto-signing": "0.31.0",
+    "@cosmjs/stargate": "0.31.0",
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/bytes": "^5.7.0",
@@ -83,7 +93,7 @@
     "bchaddrjs": "0.5.2",
     "bitcoinjs-lib": "5.2.0",
     "coininfo": "^5.2.1",
-    "cosmos-client": "0.39.2",
+    "cosmjs-types": "^0.8.0",
     "elliptic": "^6.5.4"
   },
   "publishConfig": {

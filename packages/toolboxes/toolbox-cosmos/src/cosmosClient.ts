@@ -2,8 +2,8 @@ import { Secp256k1HdWallet, StdFee } from '@cosmjs/amino';
 import { stringToPath } from '@cosmjs/crypto';
 import { normalizeBech32 } from '@cosmjs/encoding';
 import { SigningStargateClient, StargateClient } from '@cosmjs/stargate';
-import { cosmosclient } from '@cosmos-client/core';
 import { ChainId } from '@thorswap-lib/types';
+import { fromByteArray } from 'base64-js';
 
 import { CosmosSDKClientParams, TransferParams } from './types.js';
 import { getRPC } from './util.js';
@@ -13,8 +13,7 @@ const DEFAULT_COSMOS_FEE_MAINNET = {
   gas: '200000',
 };
 
-export class CosmosSDKClient {
-  sdk: cosmosclient.CosmosSDK;
+export class CosmosClient {
   server: string;
   chainId: ChainId;
   prefix = '';
@@ -25,7 +24,6 @@ export class CosmosSDKClient {
     this.rpcUrl = getRPC(chainId, stagenet);
     this.server = server;
     this.chainId = chainId;
-    this.sdk = new cosmosclient.CosmosSDK(server, this.chainId);
     this.prefix = prefix;
   }
 
@@ -36,6 +34,15 @@ export class CosmosSDKClient {
     });
     const [{ address }] = await wallet.getAccounts();
     return address;
+  };
+
+  getPubKeyFromMnemonic = async (mnemonic: string, derivationPath: string) => {
+    const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, {
+      prefix: this.prefix,
+      hdPaths: [stringToPath(derivationPath)],
+    });
+
+    return fromByteArray((await wallet.getAccounts())[0].pubkey);
   };
 
   checkAddress = (address: string) => {
