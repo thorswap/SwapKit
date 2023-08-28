@@ -1,5 +1,18 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.33
+
+### Minor Changes
+
+- [#267](https://github.com/thorswap/SwapKit/pull/267) [`4c63065`](https://github.com/thorswap/SwapKit/commit/4c63065a2409ac6cc3cf9c29815b3e0c6836c6e3) Thanks [@0x-General](https://github.com/0x-General)! - Migrate to cosmjs
+
+- [#273](https://github.com/thorswap/SwapKit/pull/273) [`f05757a`](https://github.com/thorswap/SwapKit/commit/f05757ad55b154ea3ea42c3d5ce00290dcd414e8) Thanks [@0x-General](https://github.com/0x-General)! - Update walletconnect modal
+
+### Patch Changes
+
+- Updated dependencies [[`4c63065`](https://github.com/thorswap/SwapKit/commit/4c63065a2409ac6cc3cf9c29815b3e0c6836c6e3)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.146
+
 ## 2.0.0-development.32
 
 ### Patch Changes
