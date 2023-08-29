@@ -1,5 +1,11 @@
 # @thorswap-lib/evm-web3-wallets
 
+## 1.0.0-development.35
+
+### Minor Changes
+
+- [#267](https://github.com/thorswap/SwapKit/pull/267) [`4c63065`](https://github.com/thorswap/SwapKit/commit/4c63065a2409ac6cc3cf9c29815b3e0c6836c6e3) Thanks [@0x-General](https://github.com/0x-General)! - Migrate to cosmjs
+
 ## 1.0.0-development.34
 
 ### Patch Changes

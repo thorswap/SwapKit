@@ -1,5 +1,16 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.232
+
+### Minor Changes
+
+- [#267](https://github.com/thorswap/SwapKit/pull/267) [`4c63065`](https://github.com/thorswap/SwapKit/commit/4c63065a2409ac6cc3cf9c29815b3e0c6836c6e3) Thanks [@0x-General](https://github.com/0x-General)! - Migrate to cosmjs
+
+### Patch Changes
+
+- Updated dependencies [[`4c63065`](https://github.com/thorswap/SwapKit/commit/4c63065a2409ac6cc3cf9c29815b3e0c6836c6e3)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.146
+
 ## 1.0.0-development.231
 
 ### Patch Changes

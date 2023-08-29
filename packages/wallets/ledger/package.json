@@ -110,5 +110,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.231"
+  "version": "1.0.0-development.232"
 }
