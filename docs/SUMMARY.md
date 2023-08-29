@@ -7,19 +7,6 @@
 * [💰 Monetization / Earn Fees](monetization-earn-fees.md)
 * [🤝 Partnership](partnership.md)
 
-## SwapKit API
-
-* [⚙ SwapKit API](swapkit-api/swapkit-api/README.md)
-  * [Requesting supported Chains](swapkit-api/swapkit-api/requesting-supported-chains.md)
-  * [Requesting supported Providers](swapkit-api/swapkit-api/requesting-supported-providers.md)
-  * [Requesting a Quote](swapkit-api/swapkit-api/requesting-a-quote.md)
-  * [Requesting a Gas Price](swapkit-api/swapkit-api/requesting-a-gas-price.md)
-  * [Requesting to Add Liquidity](swapkit-api/swapkit-api/requesting-to-add-liquidity.md)
-  * [Requesting to Withdraw Liquidity](swapkit-api/swapkit-api/requesting-to-withdraw-liquidity.md)
-  * [Request a transactions status](swapkit-api/swapkit-api/request-a-transactions-status.md)
-  * [Lookup a Thorname](swapkit-api/swapkit-api/lookup-a-thorname.md)
-* [Integrating SwapKit API](swapkit-api/integrating-swapkit-api.md)
-
 ## SwapKit SDK
 
 * [1⃣ Install SwapKit SDK](integrate-swapkit-sdk/install-swapkit-sdk.md)
@@ -37,6 +24,19 @@
   * [UTXO](integrate-swapkit-sdk/toolboxes/utxo.md)
   * [EVM](integrate-swapkit-sdk/toolboxes/evm.md)
   * [Cosmos](integrate-swapkit-sdk/toolboxes/cosmos.md)
+
+## SwapKit API
+
+* [⚙ SwapKit API](swapkit-api/swapkit-api/README.md)
+  * [Requesting supported Chains](swapkit-api/swapkit-api/requesting-supported-chains.md)
+  * [Requesting supported Providers](swapkit-api/swapkit-api/requesting-supported-providers.md)
+  * [Requesting a Quote](swapkit-api/swapkit-api/requesting-a-quote.md)
+  * [Requesting a Gas Price](swapkit-api/swapkit-api/requesting-a-gas-price.md)
+  * [Requesting to Add Liquidity](swapkit-api/swapkit-api/requesting-to-add-liquidity.md)
+  * [Requesting to Withdraw Liquidity](swapkit-api/swapkit-api/requesting-to-withdraw-liquidity.md)
+  * [Request a transactions status](swapkit-api/swapkit-api/request-a-transactions-status.md)
+  * [Lookup a Thorname](swapkit-api/swapkit-api/lookup-a-thorname.md)
+* [Advanced - Integrating SwapKit API](swapkit-api/integrating-swapkit-api.md)
 
 ## 📚 References
 
