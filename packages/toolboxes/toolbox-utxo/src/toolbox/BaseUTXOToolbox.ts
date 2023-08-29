@@ -179,7 +179,7 @@ const buildTx = async ({
   });
 
   const feeRateWhole = Math.ceil(feeRate);
-  debugger;
+
   const { inputs, outputs } = accumulative({
     inputs: utxos,
     outputs: targetOutputs,
