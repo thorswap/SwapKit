@@ -19,6 +19,7 @@ import * as tinySecp from 'tiny-secp256k1';
 import { blockchairApi, BlockchairApiType } from '../api/blockchairApi.js';
 import {
   KeyPairType,
+  TargetOutput,
   TransactionBuilderType,
   TransactionType,
   UTXOBuildTxParams,
@@ -71,7 +72,7 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
   const feeRateWhole = Number(feeRate.toFixed(0));
   const compiledMemo = memo ? compileMemo(memo) : null;
 
-  const targetOutputs = [];
+  const targetOutputs: TargetOutput[] = [];
   // output to recipient
   targetOutputs.push({ address: recipient, value: amount.amount().toNumber() });
   const { inputs, outputs } = accumulative({

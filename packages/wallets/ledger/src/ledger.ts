@@ -24,6 +24,7 @@ import {
   ChainId,
   ConnectWalletParams,
   DerivationPathArray,
+  FeeOption,
   RPCUrl,
   TxParams,
   WalletOption,
@@ -115,7 +116,7 @@ const getToolbox = async ({
       const toolbox = BTCToolbox(utxoApiKey, rpcUrl);
 
       const transfer = async (params: UTXOBuildTxParams) => {
-        const feeRate = params.feeRate || (await toolbox.getSuggestedFeeRate());
+        const feeRate = params.feeRate || (await toolbox.getFeeRates())[FeeOption.Average];
         const { psbt, inputs } = await toolbox.buildTx({
           ...params,
           sender: address,
@@ -133,7 +134,7 @@ const getToolbox = async ({
 
       const toolbox = BCHToolbox(utxoApiKey, rpcUrl);
       const transfer = async (params: UTXOBuildTxParams) => {
-        const feeRate = await toolbox.getSuggestedFeeRate();
+        const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];
         const { psbt, inputs } = await toolbox.buildTx({
           ...params,
           feeRate,
@@ -153,7 +154,7 @@ const getToolbox = async ({
 
       const toolbox = DOGEToolbox(utxoApiKey, rpcUrl);
       const transfer = async (params: UTXOBuildTxParams) => {
-        const feeRate = await toolbox.getSuggestedFeeRate();
+        const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];
         const { psbt, inputs } = await toolbox.buildTx({
           ...params,
           feeRate,
@@ -172,7 +173,7 @@ const getToolbox = async ({
 
       const toolbox = LTCToolbox(utxoApiKey, rpcUrl);
       const transfer = async (params: UTXOBuildTxParams) => {
-        const feeRate = await toolbox.getSuggestedFeeRate();
+        const feeRate = await (await toolbox.getFeeRates())[FeeOption.Average];
         const { psbt, inputs } = await toolbox.buildTx({
           ...params,
           feeRate,

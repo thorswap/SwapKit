@@ -1,6 +1,4 @@
-import { TargetOutput } from '@thorswap-lib/toolbox-utxo';
-
-import { UTXOCalculateTxSizeParams } from '../types/index.js';
+import { TargetOutput, UTXOCalculateTxSizeParams } from '../types/index.js';
 import {
   calculateTxSize,
   getInputSize,

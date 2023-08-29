@@ -1,8 +1,11 @@
-import { TargetOutput } from '@thorswap-lib/toolbox-utxo';
 import { UTXO } from '@thorswap-lib/types';
 import { opcodes, script } from 'bitcoinjs-lib';
 
-import { UTXOCalculateTxSizeParams, UTXOInputWithScriptType } from '../types/index.js';
+import {
+  TargetOutput,
+  UTXOCalculateTxSizeParams,
+  UTXOInputWithScriptType,
+} from '../types/index.js';
 
 /**
  * Minimum transaction fee
