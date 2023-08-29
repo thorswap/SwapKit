@@ -1,5 +1,24 @@
 # @thorswap-lib/swapkit-sdk
 
+## 0.1.0-development.73
+
+### Minor Changes
+
+- [#267](https://github.com/thorswap/SwapKit/pull/267) [`4c63065`](https://github.com/thorswap/SwapKit/commit/4c63065a2409ac6cc3cf9c29815b3e0c6836c6e3) Thanks [@0x-General](https://github.com/0x-General)! - Migrate to cosmjs
+
+### Patch Changes
+
+- Updated dependencies [[`4c63065`](https://github.com/thorswap/SwapKit/commit/4c63065a2409ac6cc3cf9c29815b3e0c6836c6e3), [`f4d7866`](https://github.com/thorswap/SwapKit/commit/f4d78660ba88c549188de369e4b4436f3b1f3394), [`f05757a`](https://github.com/thorswap/SwapKit/commit/f05757ad55b154ea3ea42c3d5ce00290dcd414e8)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.146
+  - @thorswap-lib/evm-web3-wallets@1.0.0-development.35
+  - @thorswap-lib/walletconnect@2.0.0-development.33
+  - @thorswap-lib/ledger@1.0.0-development.232
+  - @thorswap-lib/trezor@1.0.0-development.60
+  - @thorswap-lib/keplr@1.0.0-development.41
+  - @thorswap-lib/xdefi@1.0.0-development.51
+  - @thorswap-lib/swapkit-core@1.0.0-development.204
+  - @thorswap-lib/keystore@1.0.0-development.213
+
 ## 0.1.0-development.72
 
 ### Patch Changes
