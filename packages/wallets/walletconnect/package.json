@@ -2,8 +2,8 @@
   "author": "thorswap",
   "dependencies": {
     "@thorswap-lib/types": "workspace:*",
-    "@walletconnect/modal": "^2.6.1",
-    "@walletconnect/sign-client": "2.8.6"
+    "@walletconnect/modal": "2.6.1",
+    "@walletconnect/sign-client": "2.10.0"
   },
   "description": "THORSwap Lib walletconnect",
   "devDependencies": {
@@ -19,7 +19,7 @@
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@vitest/coverage-istanbul": "0.33.0",
-    "@walletconnect/types": "2.9.0",
+    "@walletconnect/types": "2.10.0",
     "cosmjs-types": "0.8.0",
     "vite": "4.4.4",
     "vitest": "0.33.0"
@@ -51,7 +51,7 @@
     "@cosmjs/stargate": "0.31.0",
     "@ethersproject/abstract-signer": "^5.7.0",
     "@ethersproject/bignumber": "^5.7.0",
-    "@ethersproject/providers": "5.7.2",
+    "@ethersproject/providers": "^5.7.0",
     "@ethersproject/strings": "^5.7.0",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",

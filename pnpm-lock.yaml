@@ -714,6 +714,9 @@ importers:
       bn.js:
         specifier: 5.2.1
         version: 5.2.1
+      cosmjs-types:
+        specifier: 0.8.0
+        version: 0.8.0
       crypto-js:
         specifier: 4.1.1
         version: 4.1.1
@@ -1029,15 +1032,6 @@ importers:
 
   packages/wallets/ledger:
     dependencies:
-      '@cosmjs/amino':
-        specifier: 0.31.0
-        version: 0.31.0
-      '@cosmjs/crypto':
-        specifier: 0.31.0
-        version: 0.31.0
-      '@cosmjs/stargate':
-        specifier: 0.31.0
-        version: 0.31.0
       '@ledgerhq/devices':
         specifier: 8.0.4
         version: 8.0.4
@@ -1068,25 +1062,16 @@ importers:
       '@thorswap-lib/types':
         specifier: workspace:*
         version: link:../../swapkit/types
-      base64-js:
-        specifier: 1.5.1
-        version: 1.5.1
-      bech32:
-        specifier: 2.0.0
-        version: 2.0.0
-      bn.js:
-        specifier: 5.2.1
-        version: 5.2.1
-      crypto-js:
-        specifier: 4.1.1
-        version: 4.1.1
-      long:
-        specifier: 4.0.0
-        version: 4.0.0
       ripemd160:
         specifier: 2.0.2
         version: 2.0.2
     devDependencies:
+      '@cosmjs/amino':
+        specifier: 0.31.0
+        version: 0.31.0
+      '@cosmjs/crypto':
+        specifier: 0.31.0
+        version: 0.31.0
       '@cosmjs/encoding':
         specifier: 0.31.0
         version: 0.31.0
@@ -1094,6 +1079,9 @@ importers:
         specifier: 0.31.0
         version: 0.31.0
       '@cosmjs/proto-signing':
+        specifier: 0.31.0
+        version: 0.31.0
+      '@cosmjs/stargate':
         specifier: 0.31.0
         version: 0.31.0
       '@ethersproject/abstract-signer':
@@ -1153,21 +1141,36 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: 0.33.0
         version: 0.33.0(vitest@0.33.0)
+      base64-js:
+        specifier: 1.5.1
+        version: 1.5.1
       bchaddrjs:
         specifier: 0.5.2
         version: 0.5.2
+      bech32:
+        specifier: 2.0.0
+        version: 2.0.0
       bitcoinjs-lib:
         specifier: 5.2.0
         version: 5.2.0
+      bn.js:
+        specifier: 5.2.1
+        version: 5.2.1
       coininfo:
         specifier: 5.2.1
         version: 5.2.1
       cosmjs-types:
         specifier: 0.8.0
         version: 0.8.0
+      crypto-js:
+        specifier: 4.1.1
+        version: 4.1.1
       elliptic:
         specifier: 6.5.4
         version: 6.5.4
+      long:
+        specifier: 4.0.0
+        version: 4.0.0
       vite:
         specifier: 4.4.4
         version: 4.4.4(@types/node@20.4.2)
@@ -1285,11 +1288,11 @@ importers:
         specifier: workspace:*
         version: link:../../swapkit/types
       '@walletconnect/modal':
-        specifier: ^2.6.1
+        specifier: 2.6.1
         version: 2.6.1(react@18.2.0)
       '@walletconnect/sign-client':
-        specifier: 2.8.6
-        version: 2.8.6
+        specifier: 2.10.0
+        version: 2.10.0
     devDependencies:
       '@cosmjs/amino':
         specifier: 0.31.0
@@ -1328,8 +1331,8 @@ importers:
         specifier: 0.33.0
         version: 0.33.0(vitest@0.33.0)
       '@walletconnect/types':
-        specifier: 2.9.0
-        version: 2.9.0
+        specifier: 2.10.0
+        version: 2.10.0
       cosmjs-types:
         specifier: 0.8.0
         version: 0.8.0
@@ -6548,22 +6551,22 @@ packages:
       - typescript
     dev: true
 
-  /@walletconnect/core@2.8.6:
-    resolution: {integrity: sha512-rnSqm1KJLcww/v6+UH8JeibQkJ3EKgyUDPfEK0stSEkrIUIcXaFlq3Et8S+vgV8bPhI0MVUhAhFL5OJZ3t2ryg==}
+  /@walletconnect/core@2.10.0:
+    resolution: {integrity: sha512-Z8pdorfIMueuiBXLdnf7yloiO9JIiobuxN3j0OTal+MYc4q5/2O7d+jdD1DAXbLi1taJx3x60UXT/FPVkjIqIQ==}
     dependencies:
       '@walletconnect/heartbeat': 1.2.1
       '@walletconnect/jsonrpc-provider': 1.0.13
       '@walletconnect/jsonrpc-types': 1.0.3
       '@walletconnect/jsonrpc-utils': 1.0.8
-      '@walletconnect/jsonrpc-ws-connection': 1.0.12
+      '@walletconnect/jsonrpc-ws-connection': 1.0.13
       '@walletconnect/keyvaluestorage': 1.0.2
       '@walletconnect/logger': 2.0.1
       '@walletconnect/relay-api': 1.0.9
       '@walletconnect/relay-auth': 1.0.4
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.8.6
-      '@walletconnect/utils': 2.8.6
+      '@walletconnect/types': 2.10.0
+      '@walletconnect/utils': 2.10.0
       events: 3.3.0
       lodash.isequal: 4.5.0
       uint8arrays: 3.1.1
@@ -6615,8 +6618,8 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@walletconnect/jsonrpc-ws-connection@1.0.12:
-    resolution: {integrity: sha512-HAcadga3Qjt1Cqy+qXEW6zjaCs8uJGdGQrqltzl3OjiK4epGZRdvSzTe63P+t/3z+D2wG+ffEPn0GVcDozmN1w==}
+  /@walletconnect/jsonrpc-ws-connection@1.0.13:
+    resolution: {integrity: sha512-mfOM7uFH4lGtQxG+XklYuFBj6dwVvseTt5/ahOkkmpcAEgz2umuzu7fTR+h5EmjQBdrmYyEBOWADbeaFNxdySg==}
     dependencies:
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/safe-json': 1.0.2
@@ -6700,17 +6703,17 @@ packages:
       tslib: 1.14.1
     dev: false
 
-  /@walletconnect/sign-client@2.8.6:
-    resolution: {integrity: sha512-rOFTKTHP7oJfXgYHX7+SdB8VbcsEE3ZFG/bMdmZboWaBim1mrY3vUyDdKrNr0VgI3AwBiEQezQDfKxBX0pMSQQ==}
+  /@walletconnect/sign-client@2.10.0:
+    resolution: {integrity: sha512-hbDljDS53kR/It3oXD91UkcOsT6diNnW5+Zzksm0YEfwww5dop/YfNlcdnc8+jKUhWOL/YDPNQCjzsCSNlVzbw==}
     dependencies:
-      '@walletconnect/core': 2.8.6
+      '@walletconnect/core': 2.10.0
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.1
       '@walletconnect/jsonrpc-utils': 1.0.8
       '@walletconnect/logger': 2.0.1
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.8.6
-      '@walletconnect/utils': 2.8.6
+      '@walletconnect/types': 2.10.0
+      '@walletconnect/utils': 2.10.0
       events: 3.3.0
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
@@ -6724,8 +6727,8 @@ packages:
     dependencies:
       tslib: 1.14.1
 
-  /@walletconnect/types@2.8.6:
-    resolution: {integrity: sha512-Z/PFa3W1XdxeTcCtdR6lUsFgZfU/69wWJBPyclPwn7cu1+eriuCr6XZXQpJjib3flU+HnwHiXeUuqZaheehPxw==}
+  /@walletconnect/types@2.10.0:
+    resolution: {integrity: sha512-kSTA/WZnbKdEbvbXSW16Ty6dOSzOZCHnGg6JH7q1MuraalD2HuNg00lVVu7QAZ/Rj1Gn9DAkrgP5Wd5a8Xq//Q==}
     dependencies:
       '@walletconnect/events': 1.0.1
       '@walletconnect/heartbeat': 1.2.1
@@ -6736,24 +6739,9 @@ packages:
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - lokijs
-    dev: false
 
-  /@walletconnect/types@2.9.0:
-    resolution: {integrity: sha512-ORopsMfSRvUYqtjKKd6scfg8o4/aGebipLxx92AuuUgMTERSU6cGmIrK6rdLu7W6FBJkmngPLEGc9mRqAb9Lug==}
-    dependencies:
-      '@walletconnect/events': 1.0.1
-      '@walletconnect/heartbeat': 1.2.1
-      '@walletconnect/jsonrpc-types': 1.0.3
-      '@walletconnect/keyvaluestorage': 1.0.2
-      '@walletconnect/logger': 2.0.1
-      events: 3.3.0
-    transitivePeerDependencies:
-      - '@react-native-async-storage/async-storage'
-      - lokijs
-    dev: true
-
-  /@walletconnect/utils@2.8.6:
-    resolution: {integrity: sha512-wcy6e5+COYo7tfNnW8YqidnATdJDIW6vDiWWE7A1F78Sl/VflkaevB9cIgyn8eLdxC1SxXgGoeC2oLP90nnHJg==}
+  /@walletconnect/utils@2.10.0:
+    resolution: {integrity: sha512-9GRyEz/7CJW+G04RvrjPET5k7hOEsB9b3fF9cWDk/iDCxSWpbkU/hv/urRB36C+gvQMAZgIZYX3dHfzJWkY/2g==}
     dependencies:
       '@stablelib/chacha20poly1305': 1.0.1
       '@stablelib/hkdf': 1.0.1
@@ -6763,7 +6751,7 @@ packages:
       '@walletconnect/relay-api': 1.0.9
       '@walletconnect/safe-json': 1.0.2
       '@walletconnect/time': 1.0.2
-      '@walletconnect/types': 2.8.6
+      '@walletconnect/types': 2.10.0
       '@walletconnect/window-getters': 1.0.1
       '@walletconnect/window-metadata': 1.0.1
       detect-browser: 5.3.0
@@ -8189,7 +8177,6 @@ packages:
 
   /crypto-js@4.1.1:
     resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
-    dev: false
 
   /crypto-random-string@1.0.0:
     resolution: {integrity: sha512-GsVpkFPlycH7/fRR7Dhcmnoii54gV1nz7y4CWyeFS14N+JVBBhY+r8amRHE4BwSYal7BPTDp8isvAlCxyFt3Hg==}
