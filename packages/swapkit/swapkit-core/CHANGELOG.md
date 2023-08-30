@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.206
+
+### Patch Changes
+
+- [#279](https://github.com/thorswap/SwapKit/pull/279) [`19c91fc`](https://github.com/thorswap/SwapKit/commit/19c91fc174cdd9ff45cb630af469cfa338183377) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fixes bug with default TC approval / approved amount check
+
 ## 1.0.0-development.205
 
 ### Patch Changes
