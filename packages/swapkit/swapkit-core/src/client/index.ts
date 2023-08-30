@@ -207,7 +207,8 @@ export class SwapKitCore<T = ''> {
     return { ...(this.connectedChains[chain] || {}), balance };
   };
 
-  isAssetApproved = (asset: AssetEntity) => this._approve<boolean>({ asset }, 'checkOnly');
+  isAssetApproved = (asset: AssetEntity, amount?: AmountWithBaseDenom) =>
+    this._approve<boolean>({ asset, amount }, 'checkOnly');
 
   isAssetApprovedForContract = (
     asset: AssetEntity,
