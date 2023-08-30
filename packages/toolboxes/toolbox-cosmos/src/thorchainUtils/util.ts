@@ -4,13 +4,13 @@ import { assetFromString, assetToString, baseAmount } from '@thorswap-lib/helper
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import {
   AmountWithBaseDenom,
-  ApiUrl,
   Asset,
   Balance,
   BaseDecimal,
   Chain,
   ChainId,
   Fees,
+  RPCUrl,
 } from '@thorswap-lib/types';
 import { fromByteArray, toByteArray } from 'base64-js';
 import { bech32 } from 'bech32';
@@ -37,13 +37,15 @@ export const buildDepositTx = async ({
   memo = '',
   assetAmount,
   asset,
+  isStagenet = false,
 }: {
+  isStagenet?: boolean;
   signer: string;
   memo?: string;
   assetAmount: AmountWithBaseDenom;
   asset: Asset;
 }) => {
-  const client = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+  const client = await StargateClient.connect(isStagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain);
   const accountOnChain = await client.getAccount(signer);
 
   if (!accountOnChain) {
@@ -89,14 +91,16 @@ export const buildTransferTx = async ({
   assetAmount,
   assetDenom,
   memo = '',
+  isStagenet = false,
 }: {
+  isStagenet?: boolean;
   fromAddress: string;
   toAddress: string;
   assetAmount: AmountWithBaseDenom;
   assetDenom: string;
   memo?: string;
 }) => {
-  const client = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+  const client = await StargateClient.connect(isStagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain);
   const accountOnChain = await client.getAccount(fromAddress);
 
   if (!accountOnChain) {
