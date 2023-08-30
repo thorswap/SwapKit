@@ -1,5 +1,14 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.40
+
+### Patch Changes
+
+- [#278](https://github.com/thorswap/SwapKit/pull/278) [`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix CosmJS deps
+
+- Updated dependencies [[`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee)]:
+  - @thorswap-lib/types@1.0.0-development.101
+
 ## 0.1.0-development.39
 
 ### Patch Changes

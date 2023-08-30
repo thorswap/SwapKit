@@ -1,5 +1,17 @@
 # @thorswap-lib/xdefi
 
+## 1.0.0-development.52
+
+### Patch Changes
+
+- [#278](https://github.com/thorswap/SwapKit/pull/278) [`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix CosmJS deps
+
+- Updated dependencies [[`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee), [`b6ae5b6`](https://github.com/thorswap/SwapKit/commit/b6ae5b6c2fd044eccfb381ff04e3aaea70f652a3)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.147
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.135
+  - @thorswap-lib/toolbox-evm@1.0.0-development.158
+  - @thorswap-lib/types@1.0.0-development.101
+
 ## 1.0.0-development.51
 
 ### Minor Changes
