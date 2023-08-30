@@ -1,5 +1,18 @@
 # @thorswap-lib/swapkit-sdk
 
+## 0.1.0-development.76
+
+### Patch Changes
+
+- Updated dependencies [[`df188b1`](https://github.com/thorswap/SwapKit/commit/df188b1c0839717feb58c52c046c2e37caef20d8)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.148
+  - @thorswap-lib/swapkit-core@1.0.0-development.206
+  - @thorswap-lib/keplr@1.0.0-development.43
+  - @thorswap-lib/keystore@1.0.0-development.215
+  - @thorswap-lib/ledger@1.0.0-development.234
+  - @thorswap-lib/walletconnect@2.0.0-development.35
+  - @thorswap-lib/xdefi@1.0.0-development.53
+
 ## 0.1.0-development.75
 
 ### Patch Changes

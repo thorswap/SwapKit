@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 1.0.0-development.148
+
+### Minor Changes
+
+- [#281](https://github.com/thorswap/SwapKit/pull/281) [`df188b1`](https://github.com/thorswap/SwapKit/commit/df188b1c0839717feb58c52c046c2e37caef20d8) Thanks [@0x-General](https://github.com/0x-General)! - Use RPC instead of API URL in thorchain tx creation
+
 ## 1.0.0-development.147
 
 ### Patch Changes
