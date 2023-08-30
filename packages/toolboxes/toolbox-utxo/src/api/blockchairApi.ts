@@ -9,7 +9,7 @@ import {
   BlockchairResponse,
   ScanUTXOsParams,
 } from '../types/index.js';
-import { uniqid } from '../utils.js';
+import { uniqid } from '../utils/index.js';
 
 type BlockchairParams<T> = T & { chain: Chain; apiKey?: string };
 
@@ -154,7 +154,7 @@ const scanUTXOs = async ({
   fetchTxHex = true,
 }: BlockchairParams<ScanUTXOsParams>) => {
   const utxos = await getUnspentTxs({ chain, address, apiKey });
-  const results: UTXO[] = [];
+  const results = [];
 
   for (const { hash, index, script_hex, value } of utxos) {
     let txHex;
@@ -162,6 +162,7 @@ const scanUTXOs = async ({
       txHex = await getRawTx({ txHash: hash, chain, apiKey });
     }
     results.push({
+      address,
       hash,
       index,
       txHex,

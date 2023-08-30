@@ -872,9 +872,6 @@ importers:
       coininfo:
         specifier: 5.2.1
         version: 5.2.1
-      coinselect:
-        specifier: 3.1.13
-        version: 3.1.13
       ecpair:
         specifier: 2.0.1
         version: 2.0.1
@@ -7934,10 +7931,6 @@ packages:
     resolution: {integrity: sha512-mqSQIhAMgeiySzS0Ei33qno0oN/JQt9X3I6J1zx4eIYUnObGPuoLOrpssoqU84ZQoIpJGt3mQdEd2dL3sZJADw==}
     dependencies:
       safe-buffer: 5.2.1
-
-  /coinselect@3.1.13:
-    resolution: {integrity: sha512-iJOrKH/7N9gX0jRkxgOHuGjvzvoxUMSeylDhH1sHn+CjLjdin5R0Hz2WEBu/jrZV5OrHcm+6DMzxwu9zb5mSZg==}
-    dev: false
 
   /color-convert@1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}

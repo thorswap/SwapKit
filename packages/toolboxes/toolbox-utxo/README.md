@@ -17,7 +17,6 @@ pnpm add @thorswap-lib/toolbox-utxo
 | `broadcastTx`         | broadcast tx to blockchain                        |
 | `transfer`            | base transfer method                              |
 | `getBalance`          | get balance                                       |
-| `getSuggestedFeeRate` | get suggested fee rate                            |
 | `getFeeRates`         | get fee rates                                     |
 | `getFees`             | get fees                                          |
 | `getFeesAndGasRates`  | get fees for tx and gas rates                     |

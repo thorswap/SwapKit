@@ -12,7 +12,6 @@
     "@scure/bip39": "1.2.1",
     "bitcoinjs-lib": "5.2.0",
     "coininfo": "5.2.1",
-    "coinselect": "3.1.13",
     "ecpair": "2.0.1",
     "tiny-secp256k1": "1.1.6"
   },

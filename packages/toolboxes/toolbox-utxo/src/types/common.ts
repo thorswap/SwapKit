@@ -2,6 +2,7 @@ import { FeeOption, TxParams, UTXO, UTXOChain, WalletTxParams } from '@thorswap-
 
 import { BlockchairApiType } from '../api/blockchairApi.js';
 import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '../index.js';
+import { UTXOScriptType } from '../utils/index.js';
 
 export type TransactionType = {
   toHex(): string;
@@ -64,11 +65,18 @@ export type UTXOToolbox = ReturnType<
   typeof BTCToolbox | typeof BCHToolbox | typeof DOGEToolbox | typeof LTCToolbox
 >;
 
-export type UTXOMaxSendableAmountParams = {
+export type UTXOEstimateFeeParams = {
   from: string;
-  to?: string;
+  recipients?: number | TargetOutput[];
   memo?: string;
   feeOptionKey?: FeeOption;
   feeRate?: number;
-  toolbox: UTXOToolbox;
+};
+
+export type UTXOInputWithScriptType = UTXO & { type: UTXOScriptType; address: string };
+
+export type UTXOCalculateTxSizeParams = {
+  inputs: (UTXOInputWithScriptType | UTXO)[];
+  outputs?: TargetOutput[];
+  feeRate: number;
 };

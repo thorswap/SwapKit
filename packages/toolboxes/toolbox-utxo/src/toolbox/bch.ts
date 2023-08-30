@@ -13,19 +13,19 @@ import {
   toLegacyAddress,
 } from 'bchaddrjs';
 import { Psbt } from 'bitcoinjs-lib';
-import accumulative from 'coinselect/accumulative';
 import { ECPairFactory } from 'ecpair';
 import * as tinySecp from 'tiny-secp256k1';
 
 import { blockchairApi, BlockchairApiType } from '../api/blockchairApi.js';
 import {
   KeyPairType,
+  TargetOutput,
   TransactionBuilderType,
   TransactionType,
   UTXOBuildTxParams,
   UTXOWalletTransferParams,
 } from '../types/common.js';
-import { compileMemo, getNetwork, getSeed } from '../utils.js';
+import { accumulative, compileMemo, getNetwork, getSeed } from '../utils/index.js';
 
 import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
 
@@ -72,10 +72,14 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
   const feeRateWhole = Number(feeRate.toFixed(0));
   const compiledMemo = memo ? compileMemo(memo) : null;
 
-  const targetOutputs = [];
+  const targetOutputs: TargetOutput[] = [];
   // output to recipient
   targetOutputs.push({ address: recipient, value: amount.amount().toNumber() });
-  const { inputs, outputs } = accumulative(utxos, targetOutputs, feeRateWhole);
+  const { inputs, outputs } = accumulative({
+    inputs: utxos,
+    outputs: targetOutputs,
+    feeRate: feeRateWhole,
+  });
 
   // .inputs and .outputs will be undefined if no solution was found
   if (!inputs || !outputs) throw new Error('Balance insufficient for transaction');
@@ -173,7 +177,11 @@ const buildTx = async ({
     targetOutputs.push({ script: compiledMemo, value: 0 });
   }
 
-  const { inputs, outputs } = accumulative(utxos, targetOutputs, feeRateWhole);
+  const { inputs, outputs } = accumulative({
+    inputs: utxos,
+    outputs: targetOutputs,
+    feeRate: feeRateWhole,
+  });
 
   // .inputs and .outputs will be undefined if no solution was found
   if (!inputs || !outputs) throw new Error('Balance insufficient for transaction');
