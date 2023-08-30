@@ -1,5 +1,18 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.158
+
+### Patch Changes
+
+- [#278](https://github.com/thorswap/SwapKit/pull/278) [`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix CosmJS deps
+
+- [#276](https://github.com/thorswap/SwapKit/pull/276) [`b6ae5b6`](https://github.com/thorswap/SwapKit/commit/b6ae5b6c2fd044eccfb381ff04e3aaea70f652a3) Thanks [@towanTG](https://github.com/towanTG)! - Adds UTXO accumulative coinselect and UTXO size estimation
+
+- Updated dependencies [[`b2f09cf`](https://github.com/thorswap/SwapKit/commit/b2f09cf948db94bba1a58669597c2aa885789df4), [`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.114
+  - @thorswap-lib/types@1.0.0-development.101
+  - @thorswap-lib/helpers@0.0.0-development.106
+
 ## 1.0.0-development.157
 
 ### Patch Changes
