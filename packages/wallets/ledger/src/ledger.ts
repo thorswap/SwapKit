@@ -110,10 +110,12 @@ const getToolbox = async ({
     | CosmosLedger;
   derivationPath?: DerivationPathArray;
 }) => {
+  const utxoParams = { apiKey: utxoApiKey, rpcUrl, apiClient: api };
+
   switch (chain) {
     case Chain.Bitcoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-      const toolbox = BTCToolbox(utxoApiKey, rpcUrl);
+      const toolbox = BTCToolbox(utxoParams);
 
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = params.feeRate || (await toolbox.getFeeRates())[FeeOption.Average];
@@ -132,7 +134,7 @@ const getToolbox = async ({
     case Chain.BitcoinCash: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
 
-      const toolbox = BCHToolbox(utxoApiKey, rpcUrl);
+      const toolbox = BCHToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];
         const { psbt, inputs } = await toolbox.buildTx({
@@ -152,7 +154,7 @@ const getToolbox = async ({
     case Chain.Dogecoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
 
-      const toolbox = DOGEToolbox(utxoApiKey, rpcUrl);
+      const toolbox = DOGEToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];
         const { psbt, inputs } = await toolbox.buildTx({
@@ -171,7 +173,7 @@ const getToolbox = async ({
     case Chain.Litecoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
 
-      const toolbox = LTCToolbox(utxoApiKey, rpcUrl);
+      const toolbox = LTCToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = await (await toolbox.getFeeRates())[FeeOption.Average];
         const { psbt, inputs } = await toolbox.buildTx({

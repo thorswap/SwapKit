@@ -57,7 +57,9 @@ export class CosmosClient {
 
   getBalance = async (address: string) => {
     const client = await StargateClient.connect(this.rpcUrl);
-    return client.getAllBalances(address);
+    return client.getAllBalances(address) as unknown as Promise<
+      { denom: string; amount: string }[]
+    >;
   };
 
   getAccount = async (address: string) => {

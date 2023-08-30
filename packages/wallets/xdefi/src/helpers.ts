@@ -52,13 +52,21 @@ export const getWalletMethodsForChain = async ({
       return { ...BinanceToolbox(), transfer: walletTransfer };
 
     case Chain.Bitcoin:
-      return { ...BTCToolbox(utxoApiKey, rpcUrl), transfer: walletTransfer };
     case Chain.BitcoinCash:
-      return { ...BCHToolbox(utxoApiKey, rpcUrl), transfer: walletTransfer };
     case Chain.Dogecoin:
-      return { ...DOGEToolbox(utxoApiKey, rpcUrl), transfer: walletTransfer };
-    case Chain.Litecoin:
-      return { ...LTCToolbox(utxoApiKey, rpcUrl), transfer: walletTransfer };
+    case Chain.Litecoin: {
+      const params = { rpcUrl, utxoApiKey, apiClient: api };
+      const toolbox =
+        chain === Chain.Bitcoin
+          ? BTCToolbox(params)
+          : chain === Chain.BitcoinCash
+          ? BCHToolbox(params)
+          : chain === Chain.Dogecoin
+          ? DOGEToolbox(params)
+          : LTCToolbox(params);
+
+      return { ...toolbox, transfer: walletTransfer };
+    }
 
     default:
       return null;

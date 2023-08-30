@@ -13,6 +13,7 @@ type UTXOWalletMethodParams = WalletMethodParams<{
   derivationPath: string;
   rpcUrl?: string;
   utxoApiKey: string;
+  api?: any;
 }>;
 
 /**
@@ -28,13 +29,15 @@ type ThorchainWallet = BaseWalletMethods &
     deposit: (params: DepositParam) => Promise<string>;
   };
 
+// TODO: Typing
 export const bitcoincashWalletMethods = ({
   rpcUrl,
   derivationPath,
   utxoApiKey,
   phrase,
-}: UTXOWalletMethodParams) => {
-  const toolbox = BCHToolbox(utxoApiKey, rpcUrl);
+  api,
+}: UTXOWalletMethodParams): any => {
+  const toolbox = BCHToolbox({ rpcUrl, apiKey: utxoApiKey, apiClient: api });
   const keys = toolbox.createKeysForPath({ phrase, derivationPath });
   const address = toolbox.getAddressFromKeys(keys);
 

@@ -1,5 +1,5 @@
-import { getRequest, postRequest } from '@thorswap-lib/helpers';
-import { Chain, ChainToRPC, UTXO, UTXOChain } from '@thorswap-lib/types';
+import { getRequest } from '@thorswap-lib/helpers';
+import { Chain, UTXO, UTXOChain } from '@thorswap-lib/types';
 
 import {
   BlockchairAddressResponse,
@@ -9,7 +9,6 @@ import {
   BlockchairResponse,
   ScanUTXOsParams,
 } from '../types/index.js';
-import { uniqid } from '../utils/index.js';
 
 type BlockchairParams<T> = T & { chain: Chain; apiKey?: string };
 
@@ -173,39 +172,7 @@ const scanUTXOs = async ({
   return results;
 };
 
-const broadcastTx = async ({ txHash, nodeUrl }: { txHash: string; nodeUrl: string }) => {
-  const response = await postRequest<{ id: string; result: string; error: string | null }>(
-    nodeUrl,
-    JSON.stringify({
-      jsonrpc: '2.0',
-      method: 'sendrawtransaction',
-      params: [txHash],
-      id: uniqid(),
-    }),
-    { 'Content-Type': 'application/json', Accept: 'application/json' },
-  );
-
-  if (response.error) {
-    throw new Error(`failed to broadcast a transaction: ${response.error}`);
-  }
-
-  if (response.result.includes('"code":-26')) {
-    throw new Error('Invalid transaction: the transaction amount was too low');
-  }
-
-  return response.result;
-};
-
-export const blockchairApi = ({
-  apiKey,
-  chain,
-  nodeUrl,
-}: {
-  nodeUrl?: string;
-  apiKey?: string;
-  chain: UTXOChain;
-}) => ({
-  broadcastTx: (txHash: string) => broadcastTx({ txHash, nodeUrl: nodeUrl || ChainToRPC[chain] }),
+export const blockchairApi = ({ apiKey, chain }: { apiKey?: string; chain: UTXOChain }) => ({
   getConfirmedBalance: (address: string) => getConfirmedBalance({ chain, address, apiKey }),
   getRawTx: (txHash: string) => getRawTx({ txHash, chain, apiKey }),
   getSuggestedTxFee: () => getSuggestedTxFee(chain),

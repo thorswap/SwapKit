@@ -1,6 +1,5 @@
 import BitcoinApp from '@ledgerhq/hw-app-btc';
 import CosmosApp from '@ledgerhq/hw-app-cosmos';
-import Transport from '@ledgerhq/hw-transport-webusb';
 import type { UTXO } from '@thorswap-lib/types';
 import { toCashAddress } from 'bchaddrjs';
 import { type Network as BTCNetwork, networks, type Psbt } from 'bitcoinjs-lib';
@@ -21,9 +20,6 @@ export abstract class CommonLedgerInterface {
 
   public checkOrCreateTransportAndLedger = async () => {
     if (this.transport && this.ledgerApp) return;
-
-    // @ts-ignore Ledger typing is wrong
-    if (!(await Transport.isSupported())) throw new Error('Ledger not supported');
 
     try {
       this.transport ||= await getLedgerTransport();
@@ -95,11 +91,8 @@ export abstract class UTXOLedgerInterface {
   };
 
   private checkBtcAppAndCreateTransportWebUSB = async (checkBtcApp: boolean = true) => {
-    // @ts-ignore Ledger typing is wrong
-    const isSupported = await Transport.isSupported();
-
-    if ((checkBtcApp && !this.btcApp) || !isSupported) {
-      const errorData = JSON.stringify({ checkBtcApp, btcApp: this.btcApp, isSupported });
+    if (checkBtcApp && !this.btcApp) {
+      const errorData = JSON.stringify({ checkBtcApp, btcApp: this.btcApp });
       throw new Error(`Ledger connection failed: \n${errorData}`);
     }
 
