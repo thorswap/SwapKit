@@ -1,5 +1,14 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.41
+
+### Patch Changes
+
+- Bump allWq
+
+- Updated dependencies []:
+  - @thorswap-lib/types@1.0.0-development.102
+
 ## 0.1.0-development.40
 
 ### Patch Changes

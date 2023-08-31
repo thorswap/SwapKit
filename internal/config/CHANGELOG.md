@@ -1,5 +1,11 @@
 # @internal/config
 
+## 0.0.1-development.2
+
+### Patch Changes
+
+- Bump allWq
+
 ## 0.0.1-development.1
 
 ### Patch Changes

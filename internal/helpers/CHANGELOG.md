@@ -1,5 +1,15 @@
 # @thorswap-lib/helpers
 
+## 0.0.0-development.107
+
+### Patch Changes
+
+- Bump allWq
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.115
+  - @thorswap-lib/types@1.0.0-development.102
+
 ## 0.0.0-development.106
 
 ### Patch Changes

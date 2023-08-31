@@ -1,5 +1,23 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.37
+
+### Patch Changes
+
+- Bump allWq
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.150
+  - @thorswap-lib/toolbox-evm@1.0.0-development.159
+  - @thorswap-lib/types@1.0.0-development.102
+
+## 2.0.0-development.36
+
+### Patch Changes
+
+- Updated dependencies [[`5aa432b`](https://github.com/thorswap/SwapKit/commit/5aa432bedabc1f939b79722a79f017319b97e585), [`8162ab0`](https://github.com/thorswap/SwapKit/commit/8162ab02aa875ff52fa6ba8b19de793097d7ec1d)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.149
+
 ## 2.0.0-development.35
 
 ### Patch Changes

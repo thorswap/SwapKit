@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.102
+
+### Patch Changes
+
+- Bump allWq
+
 ## 1.0.0-development.101
 
 ### Patch Changes

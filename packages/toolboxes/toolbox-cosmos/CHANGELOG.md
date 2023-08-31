@@ -1,5 +1,27 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 1.0.0-development.150
+
+### Patch Changes
+
+- Bump allWq
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.115
+  - @thorswap-lib/swapkit-api@0.1.0-development.41
+  - @thorswap-lib/types@1.0.0-development.102
+  - @thorswap-lib/helpers@0.0.0-development.107
+
+## 1.0.0-development.149
+
+### Minor Changes
+
+- [#284](https://github.com/thorswap/SwapKit/pull/284) [`5aa432b`](https://github.com/thorswap/SwapKit/commit/5aa432bedabc1f939b79722a79f017319b97e585) Thanks [@0x-General](https://github.com/0x-General)! - Move web multisig utils into cosmos toolbox
+
+### Patch Changes
+
+- [#283](https://github.com/thorswap/SwapKit/pull/283) [`8162ab0`](https://github.com/thorswap/SwapKit/commit/8162ab02aa875ff52fa6ba8b19de793097d7ec1d) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Allow custom API clients
+
 ## 1.0.0-development.148
 
 ### Minor Changes
