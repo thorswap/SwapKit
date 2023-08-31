@@ -1,5 +1,13 @@
 # @thorswap-lib/xdefi
 
+## 1.0.0-development.54
+
+### Patch Changes
+
+- Updated dependencies [[`5aa432b`](https://github.com/thorswap/SwapKit/commit/5aa432bedabc1f939b79722a79f017319b97e585), [`8162ab0`](https://github.com/thorswap/SwapKit/commit/8162ab02aa875ff52fa6ba8b19de793097d7ec1d)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.149
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.136
+
 ## 1.0.0-development.53
 
 ### Patch Changes
