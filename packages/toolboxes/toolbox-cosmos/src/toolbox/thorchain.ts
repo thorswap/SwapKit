@@ -327,6 +327,8 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     transfer,
     getFees,
 
+    createDefaultAminoTypes,
+    createDefaultRegistry,
     secp256k1HdWalletFromMnemonic,
     signMultisigTx,
     broadcastMultisigTx,
