@@ -1,13 +1,13 @@
-import { MultisigThresholdPubkey } from '@cosmjs/amino';
+import { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
 import { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
-import { Account as CosmosAccount, AminoTypes } from '@cosmjs/stargate';
+import { AminoTypes, Account as CosmosAccount } from '@cosmjs/stargate';
 import { AssetAmount } from '@thorswap-lib/swapkit-entities';
 import { AmountWithBaseDenom, Asset, Balance, ChainId, Fees, Tx } from '@thorswap-lib/types';
 import { curve } from 'elliptic';
 
 import { BNBTransaction } from '../../binanceUtils/transaction.js';
 import { Account } from '../../index.js';
-import { TransferParams } from '../../types.js';
+import { Signer, TransferParams } from '../../types.js';
 
 export type NodeUrl = {
   node: string;
@@ -66,8 +66,24 @@ export type ThorchainToolboxType = BaseCosmosToolboxType &
     createDefaultRegistry: () => Registry;
     createDefaultAminoTypes: () => AminoTypes;
     createMultisig: (pubKeys: string[], threshold: number) => MultisigThresholdPubkey;
-    exportSignature: (signature: Uint8Array) => string;
     importSignature: (signature: string) => Uint8Array;
+    secp256k1HdWalletFromMnemonic: (
+      mnemonic: string,
+      path?: string,
+      isStagenet?: boolean,
+    ) => Promise<Secp256k1HdWallet>;
+    signMultisigTx: (
+      wallet: Secp256k1HdWallet,
+      tx: string,
+    ) => Promise<{ signature: string; bodyBytes: Uint8Array }>;
+    broadcastMultisigTx: (
+      tx: string,
+      signers: Signer[],
+      threshold: number,
+      bodyBytes: Uint8Array,
+      isStagenet?: boolean,
+    ) => Promise<string>;
+    pubkeyToAddress: (pubkey: Pubkey, prefix: string) => string;
     loadAddressBalances: (address: string) => Promise<AssetAmount[]>;
   };
 

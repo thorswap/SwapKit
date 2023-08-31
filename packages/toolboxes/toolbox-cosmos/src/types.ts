@@ -5,6 +5,8 @@ import { Chain, ChainId, FeeOption } from '@thorswap-lib/types';
 
 import { BinanceToolboxType, GaiaToolboxType, ThorchainToolboxType } from './index.js';
 
+export type { MultisigThresholdPubkey } from '@cosmjs/amino';
+
 export type CosmosSDKClientParams = {
   server: string;
   chainId: ChainId;
@@ -40,6 +42,11 @@ export const AssetRuneNative = {
   chain: Chain.THORChain,
   symbol: 'RUNE',
   ticker: 'RUNE',
+};
+
+export type Signer = {
+  pubKey: string;
+  signature: string;
 };
 
 export type CosmosLikeToolbox = GaiaToolboxType | BinanceToolboxType | ThorchainToolboxType;

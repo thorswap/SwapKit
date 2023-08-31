@@ -45,7 +45,9 @@ export const buildDepositTx = async ({
   assetAmount: AmountWithBaseDenom;
   asset: Asset;
 }) => {
-  const client = await StargateClient.connect(isStagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain);
+  const client = await StargateClient.connect(
+    isStagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
+  );
   const accountOnChain = await client.getAccount(signer);
 
   if (!accountOnChain) {
@@ -100,7 +102,9 @@ export const buildTransferTx = async ({
   assetDenom: string;
   memo?: string;
 }) => {
-  const client = await StargateClient.connect(isStagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain);
+  const client = await StargateClient.connect(
+    isStagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
+  );
   const accountOnChain = await client.getAccount(fromAddress);
 
   if (!accountOnChain) {
