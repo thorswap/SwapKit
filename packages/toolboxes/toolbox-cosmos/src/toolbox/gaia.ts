@@ -1,7 +1,7 @@
 import { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { Account } from '@cosmjs/stargate';
 import { baseAmount } from '@thorswap-lib/helpers';
-import { Balance, BaseDecimal, ChainId, DerivationPath } from '@thorswap-lib/types';
+import { ApiUrl, Balance, BaseDecimal, ChainId, DerivationPath } from '@thorswap-lib/types';
 
 import { CosmosClient } from '../cosmosClient.js';
 import { GaiaToolboxType } from '../index.js';
@@ -12,7 +12,7 @@ import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.j
 
 export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxType => {
   const client = new CosmosClient({
-    server: server || 'https://node-router.thorswap.net/cosmos/rest',
+    server: server || ApiUrl.Cosmos,
     chainId: ChainId.Cosmos,
   });
 

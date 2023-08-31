@@ -77,7 +77,7 @@ export const getWalletForChain = async ({
       const wallet = window.okxwallet.bitcoin;
       const address = (await wallet.connect()).address;
 
-      const toolbox = BTCToolbox(utxoApiKey);
+      const toolbox = BTCToolbox({ rpcUrl, apiKey: utxoApiKey, apiClient: api });
       const signTransaction = async (psbt: Psbt) => {
         const signedPsbt = await wallet.signPsbt(psbt.toHex(), { from: address, type: 'list' });
 

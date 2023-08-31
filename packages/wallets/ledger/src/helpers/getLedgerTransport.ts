@@ -1,6 +1,5 @@
 import { ledgerUSBVendorId } from '@ledgerhq/devices';
 import { DisconnectedDevice } from '@ledgerhq/errors';
-import Transport from '@ledgerhq/hw-transport-webusb';
 
 declare global {
   interface Navigator {
@@ -54,6 +53,12 @@ export const getLedgerTransport = async () => {
     console.error(error);
     throw new Error(error.message);
   }
+
+  const Transport = await import('@ledgerhq/hw-transport-webusb');
+  // @ts-ignore Ledger typing is wrong
+  const isSupported = await Transport.isSupported();
+
+  if (!isSupported) throw new Error('WebUSB not supported');
 
   // @ts-ignore Ledger typing is wrong
   const transport = new Transport(device, iface.interfaceNumber);

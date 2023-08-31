@@ -4,7 +4,6 @@ import { joinSignature } from '@ethersproject/bytes';
 import { resolveProperties } from '@ethersproject/properties';
 import { serialize, UnsignedTransaction } from '@ethersproject/transactions';
 import EthereumApp, { ledgerService } from '@ledgerhq/hw-app-eth';
-import Transport from '@ledgerhq/hw-transport-webusb';
 import { ChainId } from '@thorswap-lib/types';
 import { BN } from 'bn.js';
 
@@ -20,10 +19,6 @@ export abstract class EthereumLikeLedgerInterface extends Signer {
 
   checkOrCreateTransportAndLedger = async () => {
     if (this.ledgerApp) return;
-
-    // @ts-ignore Ledger typing is wrong
-    if (!(await Transport.isSupported())) throw new Error('Ledger not supported');
-
     const transport = await getLedgerTransport();
     // @ts-ignore Ledger typing is wrong
     this.ledgerApp ||= new EthereumApp(transport);

@@ -94,12 +94,14 @@ const getWalletMethodsForChain = async ({
     case Chain.Bitcoin:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
+      const params = { rpcUrl, apiKey: utxoApiKey, apiClient: api };
+
       const toolbox =
         chain === Chain.Bitcoin
-          ? BTCToolbox(utxoApiKey, rpcUrl)
+          ? BTCToolbox(params)
           : chain === Chain.Litecoin
-          ? LTCToolbox(utxoApiKey, rpcUrl)
-          : DOGEToolbox(utxoApiKey, rpcUrl);
+          ? LTCToolbox(params)
+          : DOGEToolbox(params);
 
       const keys = toolbox.createKeysForPath({ phrase, derivationPath });
       const address = toolbox.getAddressFromKeys(keys);
