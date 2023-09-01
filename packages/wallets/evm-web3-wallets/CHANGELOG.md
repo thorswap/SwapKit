@@ -1,5 +1,31 @@
 # @thorswap-lib/evm-web3-wallets
 
+## 1.0.0-development.37
+
+### Patch Changes
+
+- Bump allWq
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.159
+  - @thorswap-lib/types@1.0.0-development.102
+
+## 1.0.0-development.36
+
+### Patch Changes
+
+- [#278](https://github.com/thorswap/SwapKit/pull/278) [`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix CosmJS deps
+
+- Updated dependencies [[`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee), [`b6ae5b6`](https://github.com/thorswap/SwapKit/commit/b6ae5b6c2fd044eccfb381ff04e3aaea70f652a3)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.158
+  - @thorswap-lib/types@1.0.0-development.101
+
+## 1.0.0-development.35
+
+### Minor Changes
+
+- [#267](https://github.com/thorswap/SwapKit/pull/267) [`4c63065`](https://github.com/thorswap/SwapKit/commit/4c63065a2409ac6cc3cf9c29815b3e0c6836c6e3) Thanks [@0x-General](https://github.com/0x-General)! - Migrate to cosmjs
+
 ## 1.0.0-development.34
 
 ### Patch Changes

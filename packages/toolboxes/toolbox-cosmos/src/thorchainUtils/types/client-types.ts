@@ -1,15 +1,13 @@
-import { OfflineDirectSigner } from '@cosmjs/proto-signing';
-import { Account as CosmosAccount } from '@cosmjs/stargate';
-import { cosmosclient, proto } from '@cosmos-client/core';
-import { InlineResponse20075TxResponse } from '@cosmos-client/core/openapi';
+import { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
+import { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
+import { AminoTypes, Account as CosmosAccount } from '@cosmjs/stargate';
 import { AssetAmount } from '@thorswap-lib/swapkit-entities';
 import { AmountWithBaseDenom, Asset, Balance, ChainId, Fees, Tx } from '@thorswap-lib/types';
 import { curve } from 'elliptic';
 
 import { BNBTransaction } from '../../binanceUtils/transaction.js';
-import { CosmosSDKClient } from '../../cosmosSdkClient.js';
 import { Account } from '../../index.js';
-import { TransferParams } from '../../types.js';
+import { Signer, TransferParams } from '../../types.js';
 
 export type NodeUrl = {
   node: string;
@@ -47,12 +45,12 @@ export type NodeInfoResponse = {
 };
 
 export type BaseCosmosToolboxType = {
-  sdk: CosmosSDKClient['sdk'];
   getAccount: (address: string) => Promise<CosmosAccount | null>;
   getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
   getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
   validateAddress: (address: string) => boolean;
   getAddressFromMnemonic: (phrase: string) => Promise<string>;
+  getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
   getBalance: (address: string) => Promise<Balance[]>;
   transfer: (params: TransferParams) => Promise<string>;
   getFeeRateFromThorswap?: (chainId: ChainId) => Promise<number | undefined>;
@@ -65,25 +63,27 @@ export type CommonCosmosToolboxType = {
 export type ThorchainToolboxType = BaseCosmosToolboxType &
   CommonCosmosToolboxType & {
     deposit: (params: DepositParam & { from: string }) => Promise<string>;
-    instanceToProto: (value: any) => proto.google.protobuf.Any;
-    createMultisig: (
-      pubKeys: string[],
-      threshold: number,
-    ) => proto.cosmos.crypto.multisig.LegacyAminoPubKey;
-    getMultisigAddress: (multisigPubKey: proto.cosmos.crypto.multisig.LegacyAminoPubKey) => string;
-    mergeSignatures: (signatures: Uint8Array[]) => Uint8Array;
-    exportSignature: (signature: Uint8Array) => string;
+    createDefaultRegistry: () => Registry;
+    createDefaultAminoTypes: () => AminoTypes;
+    createMultisig: (pubKeys: string[], threshold: number) => MultisigThresholdPubkey;
     importSignature: (signature: string) => Uint8Array;
-    exportMultisigTx: (txBuilder: cosmosclient.TxBuilder) => unknown;
-    importMultisigTx: (
-      cosmosSdk: cosmosclient.CosmosSDK,
-      tx: any,
-    ) => Promise<cosmosclient.TxBuilder>;
-    broadcastMultisig: (
-      cosmosSdk: cosmosclient.CosmosSDK,
-      tx: any,
-      signatures: string[],
-    ) => Promise<InlineResponse20075TxResponse | undefined>;
+    secp256k1HdWalletFromMnemonic: (
+      mnemonic: string,
+      path?: string,
+      isStagenet?: boolean,
+    ) => Promise<Secp256k1HdWallet>;
+    signMultisigTx: (
+      wallet: Secp256k1HdWallet,
+      tx: string,
+    ) => Promise<{ signature: string; bodyBytes: Uint8Array }>;
+    broadcastMultisigTx: (
+      tx: string,
+      signers: Signer[],
+      threshold: number,
+      bodyBytes: Uint8Array,
+      isStagenet?: boolean,
+    ) => Promise<string>;
+    pubkeyToAddress: (pubkey: Pubkey, prefix: string) => string;
     loadAddressBalances: (address: string) => Promise<AssetAmount[]>;
   };
 

@@ -13,19 +13,20 @@ import {
   toLegacyAddress,
 } from 'bchaddrjs';
 import { Psbt } from 'bitcoinjs-lib';
-import accumulative from 'coinselect/accumulative';
 import { ECPairFactory } from 'ecpair';
 import * as tinySecp from 'tiny-secp256k1';
 
 import { blockchairApi, BlockchairApiType } from '../api/blockchairApi.js';
+import { broadcastTx } from '../api/rpcApi.js';
 import {
   KeyPairType,
+  TargetOutput,
   TransactionBuilderType,
   TransactionType,
   UTXOBuildTxParams,
   UTXOWalletTransferParams,
 } from '../types/common.js';
-import { compileMemo, getNetwork, getSeed } from '../utils.js';
+import { accumulative, compileMemo, getNetwork, getSeed } from '../utils/index.js';
 
 import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
 
@@ -72,10 +73,14 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
   const feeRateWhole = Number(feeRate.toFixed(0));
   const compiledMemo = memo ? compileMemo(memo) : null;
 
-  const targetOutputs = [];
+  const targetOutputs: TargetOutput[] = [];
   // output to recipient
   targetOutputs.push({ address: recipient, value: amount.amount().toNumber() });
-  const { inputs, outputs } = accumulative(utxos, targetOutputs, feeRateWhole);
+  const { inputs, outputs } = accumulative({
+    inputs: utxos,
+    outputs: targetOutputs,
+    feeRate: feeRateWhole,
+  });
 
   // .inputs and .outputs will be undefined if no solution was found
   if (!inputs || !outputs) throw new Error('Balance insufficient for transaction');
@@ -114,16 +119,19 @@ const transfer = async ({
   recipient,
   amount,
   apiClient,
+  broadcastTx,
+  getFeeRates,
   ...rest
 }: UTXOWalletTransferParams<{ builder: TransactionBuilderType; utxos: UTXO[] }, TransactionType> & {
   apiClient: BlockchairApiType;
+  broadcastTx: (txHash: string) => Promise<string>;
+  getFeeRates: () => Promise<Record<FeeOption, number>>;
 }) => {
   if (!from) throw new Error('From address must be provided');
   if (!recipient) throw new Error('Recipient address must be provided');
   if (!signTransaction) throw new Error('signTransaction must be provided');
 
-  const feeRate =
-    rest.feeRate || (await BaseUTXOToolbox({ chain, apiClient }).getFeeRates())[FeeOption.Fast];
+  const feeRate = rest.feeRate || (await getFeeRates())[FeeOption.Fast];
 
   // try out if psbt tx is faster/better/nicer
   const { builder, utxos } = await buildBCHTx({
@@ -138,7 +146,7 @@ const transfer = async ({
   const tx = await signTransaction({ builder, utxos });
   const txHex = tx.toHex();
 
-  return apiClient.broadcastTx(txHex);
+  return broadcastTx(txHex);
 };
 
 const buildTx = async ({
@@ -173,7 +181,11 @@ const buildTx = async ({
     targetOutputs.push({ script: compiledMemo, value: 0 });
   }
 
-  const { inputs, outputs } = accumulative(utxos, targetOutputs, feeRateWhole);
+  const { inputs, outputs } = accumulative({
+    inputs: utxos,
+    outputs: targetOutputs,
+    feeRate: feeRateWhole,
+  });
 
   // .inputs and .outputs will be undefined if no solution was found
   if (!inputs || !outputs) throw new Error('Balance insufficient for transaction');
@@ -236,20 +248,25 @@ const getAddressFromKeys = (keys: KeyPairType) => {
   return stripToCashAddress(address);
 };
 
-export const BCHToolbox = (
-  apiKey?: string,
-  apiClientOrNodeUrl: BlockchairApiType | string = RPCUrl.BitcoinCash,
-): Omit<
+export const BCHToolbox = ({
+  apiKey,
+  rpcUrl = RPCUrl.BitcoinCash,
+  apiClient: client,
+}: {
+  apiKey?: string;
+  rpcUrl?: string;
+  apiClient?: BlockchairApiType;
+}): Omit<
   ReturnType<typeof BaseUTXOToolbox>,
   'getAddressFromKeys' | 'transfer' | 'createKeysForPath'
 > &
   BCHMethods => {
-  const apiClient =
-    typeof apiClientOrNodeUrl === 'string'
-      ? blockchairApi({ apiKey, nodeUrl: apiClientOrNodeUrl, chain })
-      : apiClientOrNodeUrl;
-
-  const { getBalance, ...toolbox } = BaseUTXOToolbox({ chain, apiClient });
+  const apiClient = client || blockchairApi({ apiKey, chain });
+  const { getBalance, ...toolbox } = BaseUTXOToolbox({
+    chain,
+    apiClient,
+    broadcastTx: (txHash: string) => broadcastTx({ txHash, rpcUrl }),
+  });
 
   return {
     ...toolbox,
@@ -258,13 +275,19 @@ export const BCHToolbox = (
     createKeysForPath,
     getAddressFromKeys,
     buildBCHTx: (params: UTXOBuildTxParams) => buildBCHTx({ ...params, apiClient }),
+    getBalance: (address: string) => getBalance(stripPrefix(toCashAddress(address))),
     buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, apiClient }),
     transfer: (
       params: UTXOWalletTransferParams<
         { builder: TransactionBuilderType; utxos: UTXO[] },
         TransactionType
       >,
-    ) => transfer({ ...params, apiClient }),
-    getBalance: (address: string) => getBalance(stripPrefix(toCashAddress(address))),
+    ) =>
+      transfer({
+        ...params,
+        getFeeRates: toolbox.getFeeRates,
+        broadcastTx: toolbox.broadcastTx,
+        apiClient,
+      }),
   };
 };

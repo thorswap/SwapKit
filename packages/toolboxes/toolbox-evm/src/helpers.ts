@@ -181,6 +181,10 @@ export const estimateMaxSendableAmount = async ({
     return balance.amount;
   }
 
+  if ([abi, funcName, funcParams, contractAddress].some((param) => !param)) {
+    throw new Error('Missing required parameters for smart contract estimateMaxSendableAmount');
+  }
+
   const gasLimit =
     abi && funcName && funcParams && contractAddress
       ? await toolbox.estimateCall({

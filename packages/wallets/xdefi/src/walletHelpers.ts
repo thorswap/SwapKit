@@ -121,6 +121,6 @@ export const cosmosTransfer =
       { denom: asset?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: amount.amount().toString() },
     ];
 
-    const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 'auto', memo);
+    const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 1.6, memo);
     return transactionHash;
   };

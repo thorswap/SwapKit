@@ -1,7 +1,6 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@cosmos-client/core": "0.45.13",
     "@thorswap-lib/evm-web3-wallets": "workspace:*",
     "@thorswap-lib/keplr": "workspace:*",
     "@thorswap-lib/keystore": "workspace:*",
@@ -14,8 +13,7 @@
     "@thorswap-lib/trezor": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "@thorswap-lib/walletconnect": "workspace:*",
-    "@thorswap-lib/xdefi": "workspace:*",
-    "cosmos-client": "0.39.2"
+    "@thorswap-lib/xdefi": "workspace:*"
   },
   "description": "THORSwap Lib swapkit-sdk",
   "devDependencies": {
@@ -57,5 +55,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "0.1.0-development.72"
+  "version": "0.1.0-development.78"
 }

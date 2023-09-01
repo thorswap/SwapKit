@@ -105,16 +105,16 @@ const getToolbox = async ({
           : undefined;
 
       if (!scriptType) throw new Error('Derivation path is not supported');
+      const params = { api, apiKey: utxoApiKey, rpcUrl };
 
-      const toolbox = (
+      const toolbox =
         chain === Chain.Bitcoin
-          ? BTCToolbox
+          ? BTCToolbox(params)
           : chain === Chain.Litecoin
-          ? LTCToolbox
+          ? LTCToolbox(params)
           : chain === Chain.Dogecoin
-          ? DOGEToolbox
-          : BCHToolbox
-      )(utxoApiKey, api);
+          ? DOGEToolbox(params)
+          : BCHToolbox(params);
 
       const getAddress = async (path: DerivationPathArray = derivationPath) => {
         const { success, payload } = await //@ts-ignore

@@ -1,5 +1,41 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.208
+
+### Patch Changes
+
+- Bump allWq
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.115
+  - @thorswap-lib/types@1.0.0-development.102
+  - @thorswap-lib/helpers@0.0.0-development.107
+
+## 1.0.0-development.207
+
+### Patch Changes
+
+- [#283](https://github.com/thorswap/SwapKit/pull/283) [`8162ab0`](https://github.com/thorswap/SwapKit/commit/8162ab02aa875ff52fa6ba8b19de793097d7ec1d) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Allow custom API clients
+
+## 1.0.0-development.206
+
+### Patch Changes
+
+- [#279](https://github.com/thorswap/SwapKit/pull/279) [`19c91fc`](https://github.com/thorswap/SwapKit/commit/19c91fc174cdd9ff45cb630af469cfa338183377) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fixes bug with default TC approval / approved amount check
+
+## 1.0.0-development.205
+
+### Patch Changes
+
+- [#278](https://github.com/thorswap/SwapKit/pull/278) [`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix CosmJS deps
+
+- [#276](https://github.com/thorswap/SwapKit/pull/276) [`b6ae5b6`](https://github.com/thorswap/SwapKit/commit/b6ae5b6c2fd044eccfb381ff04e3aaea70f652a3) Thanks [@towanTG](https://github.com/towanTG)! - Adds UTXO accumulative coinselect and UTXO size estimation
+
+- Updated dependencies [[`b2f09cf`](https://github.com/thorswap/SwapKit/commit/b2f09cf948db94bba1a58669597c2aa885789df4), [`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.114
+  - @thorswap-lib/types@1.0.0-development.101
+  - @thorswap-lib/helpers@0.0.0-development.106
+
 ## 1.0.0-development.204
 
 ### Patch Changes

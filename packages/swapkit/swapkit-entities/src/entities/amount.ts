@@ -192,6 +192,19 @@ export class Amount {
     return `${newValue.toFixed(decimalPlaces)}${suffixNum > 0 ? ` ${suffixes[suffixNum]}` : ''}`;
   }
 
+  toMidgard() {
+    return new Amount(
+      new BigNumber(
+        this.baseAmount
+          .dividedBy(10 ** this.decimal)
+          .multipliedBy(10 ** BaseDecimal.THOR)
+          .toFixed(),
+      ),
+      AmountType.BASE_AMOUNT,
+      BaseDecimal.THOR,
+    );
+  }
+
   private toSignificantBigNumber(
     significantDigits = 8,
     format: BigNumber.Format = BN_FORMAT,

@@ -1,5 +1,52 @@
 # @thorswap-lib/keplr
 
+## 1.0.0-development.45
+
+### Patch Changes
+
+- Bump allWq
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.150
+  - @thorswap-lib/types@1.0.0-development.102
+
+## 1.0.0-development.44
+
+### Patch Changes
+
+- Updated dependencies [[`5aa432b`](https://github.com/thorswap/SwapKit/commit/5aa432bedabc1f939b79722a79f017319b97e585), [`8162ab0`](https://github.com/thorswap/SwapKit/commit/8162ab02aa875ff52fa6ba8b19de793097d7ec1d)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.149
+
+## 1.0.0-development.43
+
+### Patch Changes
+
+- Updated dependencies [[`df188b1`](https://github.com/thorswap/SwapKit/commit/df188b1c0839717feb58c52c046c2e37caef20d8)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.148
+
+## 1.0.0-development.42
+
+### Patch Changes
+
+- [#278](https://github.com/thorswap/SwapKit/pull/278) [`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix CosmJS deps
+
+- Updated dependencies [[`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.147
+  - @thorswap-lib/types@1.0.0-development.101
+
+## 1.0.0-development.41
+
+### Minor Changes
+
+- [#267](https://github.com/thorswap/SwapKit/pull/267) [`4c63065`](https://github.com/thorswap/SwapKit/commit/4c63065a2409ac6cc3cf9c29815b3e0c6836c6e3) Thanks [@0x-General](https://github.com/0x-General)! - Migrate to cosmjs
+
+### Patch Changes
+
+- [#272](https://github.com/thorswap/SwapKit/pull/272) [`f4d7866`](https://github.com/thorswap/SwapKit/commit/f4d78660ba88c549188de369e4b4436f3b1f3394) Thanks [@towanTG](https://github.com/towanTG)! - Increases the GAIA gas as auto estimation fails
+
+- Updated dependencies [[`4c63065`](https://github.com/thorswap/SwapKit/commit/4c63065a2409ac6cc3cf9c29815b3e0c6836c6e3)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.146
+
 ## 1.0.0-development.40
 
 ### Patch Changes

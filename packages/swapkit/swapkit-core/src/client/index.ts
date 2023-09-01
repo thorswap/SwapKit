@@ -21,10 +21,7 @@ import type {
   EVMMaxSendableAmountsParams,
 } from '@thorswap-lib/toolbox-evm';
 import { estimateMaxSendableAmount as evmEstimateMax } from '@thorswap-lib/toolbox-evm';
-import {
-  estimateMaxSendableAmount as utxoEstimateMax,
-  UTXOMaxSendableAmountParams,
-} from '@thorswap-lib/toolbox-utxo';
+import { UTXOEstimateFeeParams, UTXOToolbox } from '@thorswap-lib/toolbox-utxo';
 import {
   AddChainWalletParams,
   AmountWithBaseDenom,
@@ -210,7 +207,8 @@ export class SwapKitCore<T = ''> {
     return { ...(this.connectedChains[chain] || {}), balance };
   };
 
-  isAssetApproved = (asset: AssetEntity) => this._approve<boolean>({ asset }, 'checkOnly');
+  isAssetApproved = (asset: AssetEntity, amount?: AmountWithBaseDenom) =>
+    this._approve<boolean>({ asset, amount }, 'checkOnly');
 
   isAssetApprovedForContract = (
     asset: AssetEntity,
@@ -587,11 +585,13 @@ export class SwapKitCore<T = ''> {
     params,
   }: {
     chain: Chain;
-    params:
-      | UTXOMaxSendableAmountParams
-      | EVMMaxSendableAmountsParams
-      | CosmosMaxSendableAmountParams;
+    params: Omit<
+      UTXOEstimateFeeParams | EVMMaxSendableAmountsParams | CosmosMaxSendableAmountParams,
+      'toolbox'
+    >;
   }): Promise<AmountWithBaseDenom> => {
+    const toolbox = this.getWallet<typeof chain>(chain);
+
     switch (chain) {
       case Chain.Arbitrum:
       case Chain.Avalanche:
@@ -599,18 +599,24 @@ export class SwapKitCore<T = ''> {
       case Chain.Ethereum:
       case Chain.Optimism:
       case Chain.Polygon:
-        return evmEstimateMax(params as EVMMaxSendableAmountsParams);
+        return evmEstimateMax({
+          ...params,
+          toolbox,
+        } as EVMMaxSendableAmountsParams);
 
       case Chain.Bitcoin:
       case Chain.BitcoinCash:
       case Chain.Dogecoin:
       case Chain.Litecoin:
-        return utxoEstimateMax(params as UTXOMaxSendableAmountParams);
+        return (toolbox as UTXOToolbox).estimateMaxSendableAmount(params as UTXOEstimateFeeParams);
 
       case Chain.Binance:
       case Chain.THORChain:
       case Chain.Cosmos:
-        return cosmosEstimateMax(params as CosmosMaxSendableAmountParams);
+        return cosmosEstimateMax({
+          ...params,
+          toolbox,
+        } as CosmosMaxSendableAmountParams);
 
       default:
         throw new SwapKitError('core_estimated_max_spendable_chain_not_supported');

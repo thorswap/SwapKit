@@ -1,5 +1,44 @@
 # @thorswap-lib/trezor
 
+## 1.0.0-development.63
+
+### Patch Changes
+
+- Bump allWq
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.115
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.137
+  - @thorswap-lib/toolbox-evm@1.0.0-development.159
+  - @thorswap-lib/types@1.0.0-development.102
+  - @thorswap-lib/helpers@0.0.0-development.107
+
+## 1.0.0-development.62
+
+### Patch Changes
+
+- Updated dependencies [[`8162ab0`](https://github.com/thorswap/SwapKit/commit/8162ab02aa875ff52fa6ba8b19de793097d7ec1d)]:
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.136
+
+## 1.0.0-development.61
+
+### Patch Changes
+
+- [#278](https://github.com/thorswap/SwapKit/pull/278) [`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix CosmJS deps
+
+- Updated dependencies [[`b2f09cf`](https://github.com/thorswap/SwapKit/commit/b2f09cf948db94bba1a58669597c2aa885789df4), [`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee), [`b6ae5b6`](https://github.com/thorswap/SwapKit/commit/b6ae5b6c2fd044eccfb381ff04e3aaea70f652a3)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.114
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.135
+  - @thorswap-lib/toolbox-evm@1.0.0-development.158
+  - @thorswap-lib/types@1.0.0-development.101
+  - @thorswap-lib/helpers@0.0.0-development.106
+
+## 1.0.0-development.60
+
+### Minor Changes
+
+- [#267](https://github.com/thorswap/SwapKit/pull/267) [`4c63065`](https://github.com/thorswap/SwapKit/commit/4c63065a2409ac6cc3cf9c29815b3e0c6836c6e3) Thanks [@0x-General](https://github.com/0x-General)! - Migrate to cosmjs
+
 ## 1.0.0-development.59
 
 ### Patch Changes

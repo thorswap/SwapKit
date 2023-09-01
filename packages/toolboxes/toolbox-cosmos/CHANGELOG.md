@@ -1,5 +1,51 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 1.0.0-development.150
+
+### Patch Changes
+
+- Bump allWq
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.115
+  - @thorswap-lib/swapkit-api@0.1.0-development.41
+  - @thorswap-lib/types@1.0.0-development.102
+  - @thorswap-lib/helpers@0.0.0-development.107
+
+## 1.0.0-development.149
+
+### Minor Changes
+
+- [#284](https://github.com/thorswap/SwapKit/pull/284) [`5aa432b`](https://github.com/thorswap/SwapKit/commit/5aa432bedabc1f939b79722a79f017319b97e585) Thanks [@0x-General](https://github.com/0x-General)! - Move web multisig utils into cosmos toolbox
+
+### Patch Changes
+
+- [#283](https://github.com/thorswap/SwapKit/pull/283) [`8162ab0`](https://github.com/thorswap/SwapKit/commit/8162ab02aa875ff52fa6ba8b19de793097d7ec1d) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Allow custom API clients
+
+## 1.0.0-development.148
+
+### Minor Changes
+
+- [#281](https://github.com/thorswap/SwapKit/pull/281) [`df188b1`](https://github.com/thorswap/SwapKit/commit/df188b1c0839717feb58c52c046c2e37caef20d8) Thanks [@0x-General](https://github.com/0x-General)! - Use RPC instead of API URL in thorchain tx creation
+
+## 1.0.0-development.147
+
+### Patch Changes
+
+- [#278](https://github.com/thorswap/SwapKit/pull/278) [`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix CosmJS deps
+
+- Updated dependencies [[`b2f09cf`](https://github.com/thorswap/SwapKit/commit/b2f09cf948db94bba1a58669597c2aa885789df4), [`c3c51d6`](https://github.com/thorswap/SwapKit/commit/c3c51d648cd9d5dedbef7557e6aff3947b5ca0ee)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.114
+  - @thorswap-lib/swapkit-api@0.1.0-development.40
+  - @thorswap-lib/types@1.0.0-development.101
+  - @thorswap-lib/helpers@0.0.0-development.106
+
+## 1.0.0-development.146
+
+### Minor Changes
+
+- [#267](https://github.com/thorswap/SwapKit/pull/267) [`4c63065`](https://github.com/thorswap/SwapKit/commit/4c63065a2409ac6cc3cf9c29815b3e0c6836c6e3) Thanks [@0x-General](https://github.com/0x-General)! - Migrate to cosmjs
+
 ## 1.0.0-development.145
 
 ### Patch Changes

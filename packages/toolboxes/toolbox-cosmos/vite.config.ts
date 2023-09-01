@@ -9,9 +9,6 @@ const viteConfig = thorswapViteConfig(name, {
       entry: resolve(__dirname, 'src/index.ts'),
     },
   },
-  rollupOptions: {
-    external: ['@cosmos-client/core'],
-  },
 });
 
 export default viteConfig;

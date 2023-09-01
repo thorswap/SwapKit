@@ -4,11 +4,11 @@ import { baseAmount } from '@thorswap-lib/helpers';
 import { SwapKitApi } from '@thorswap-lib/swapkit-api';
 import { Asset, ChainId, DerivationPath } from '@thorswap-lib/types';
 
-import { CosmosSDKClient } from '../cosmosSdkClient.js';
+import { CosmosClient } from '../cosmosClient.js';
 import { BaseCosmosToolboxType } from '../thorchainUtils/types/client-types.js';
 
 type Params = {
-  sdk: CosmosSDKClient;
+  client: CosmosClient;
   getAsset: (asset: string) => Asset | null;
   decimal: number;
   derivationPath: DerivationPath;
@@ -24,24 +24,25 @@ export const BaseCosmosToolbox = ({
   decimal,
   derivationPath,
   getAsset,
-  sdk: cosmosClientSdk,
+  client: cosmosClient,
 }: Params): BaseCosmosToolboxType => ({
-  sdk: cosmosClientSdk.sdk,
-  transfer: cosmosClientSdk.transfer,
+  transfer: cosmosClient.transfer,
   getSigner: (phrase: string) =>
     DirectSecp256k1HdWallet.fromMnemonic(phrase, {
-      prefix: cosmosClientSdk.prefix,
+      prefix: cosmosClient.prefix,
       hdPaths: [stringToPath(`${derivationPath}/0`)],
     }),
   getSignerFromPrivateKey: (privateKey: Uint8Array) =>
-    DirectSecp256k1Wallet.fromKey(privateKey, cosmosClientSdk.prefix),
-  getAccount: cosmosClientSdk.getAccount,
-  validateAddress: (address: string) => cosmosClientSdk.checkAddress(address),
+    DirectSecp256k1Wallet.fromKey(privateKey, cosmosClient.prefix),
+  getAccount: cosmosClient.getAccount,
+  validateAddress: (address: string) => cosmosClient.checkAddress(address),
   getAddressFromMnemonic: (phrase: string) =>
-    cosmosClientSdk.getAddressFromMnemonic(phrase, `${derivationPath}/0`),
+    cosmosClient.getAddressFromMnemonic(phrase, `${derivationPath}/0`),
+  getPubKeyFromMnemonic: (phrase: string) =>
+    cosmosClient.getPubKeyFromMnemonic(phrase, `${derivationPath}/0`),
   getFeeRateFromThorswap,
   getBalance: async (address: string) => {
-    const balances = await cosmosClientSdk.getBalance(address);
+    const balances = await cosmosClient.getBalance(address);
 
     return balances
       .filter(({ denom }) => denom && getAsset(denom))

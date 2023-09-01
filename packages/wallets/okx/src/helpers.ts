@@ -17,7 +17,7 @@ export const cosmosTransfer =
       { denom: asset?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: amount.amount().toString() },
     ];
 
-    const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 'auto', memo);
+    const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 1.6, memo);
     return transactionHash;
   };
 
@@ -77,7 +77,7 @@ export const getWalletForChain = async ({
       const wallet = window.okxwallet.bitcoin;
       const address = (await wallet.connect()).address;
 
-      const toolbox = BTCToolbox(utxoApiKey);
+      const toolbox = BTCToolbox({ rpcUrl, apiKey: utxoApiKey, apiClient: api });
       const signTransaction = async (psbt: Psbt) => {
         const signedPsbt = await wallet.signPsbt(psbt.toHex(), { from: address, type: 'list' });
 
