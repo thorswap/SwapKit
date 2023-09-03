@@ -1,12 +1,12 @@
-import { AvalancheLedger } from './clients/avalanche.js';
-import { BinanceLedger } from './clients/binance/index.js';
-import { BitcoinLedger } from './clients/bitcoin.js';
-import { BitcoinCashLedger } from './clients/bitcoincash.js';
-import { CosmosLedger } from './clients/cosmos.js';
-import { DogecoinLedger } from './clients/dogecoin.js';
-import { EthereumLedger } from './clients/ethereum.js';
-import { LitecoinLedger } from './clients/litecoin.js';
-import { THORChainLedger } from './clients/thorchain/index.js';
+import type { AvalancheLedger } from './clients/avalanche.ts';
+import type { BinanceLedger } from './clients/binance/index.ts';
+import type { BitcoinLedger } from './clients/bitcoin.ts';
+import type { BitcoinCashLedger } from './clients/bitcoincash.ts';
+import type { CosmosLedger } from './clients/cosmos.ts';
+import type { DogecoinLedger } from './clients/dogecoin.ts';
+import type { EthereumLedger } from './clients/ethereum.ts';
+import type { LitecoinLedger } from './clients/litecoin.ts';
+import type { THORChainLedger } from './clients/thorchain/index.ts';
 
 export type UTXOLedgerClients = BitcoinLedger | BitcoinCashLedger | DogecoinLedger | LitecoinLedger;
 export type CosmosLedgerClients = CosmosLedger | THORChainLedger | BinanceLedger;

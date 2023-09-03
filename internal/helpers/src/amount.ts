@@ -1,5 +1,5 @@
 import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
-import { AmountWithBaseDenom, Denomination } from '@thorswap-lib/types';
+import type { AmountWithBaseDenom } from '@thorswap-lib/types';
 
 type Value = BigNumberish | AmountWithBaseDenom;
 
@@ -10,7 +10,6 @@ export const baseAmount = (value?: BigNumberish, decimal: number = 8): AmountWit
   const amount = BigNumber.from(value || 0);
 
   return {
-    type: Denomination.Base,
     amount: () => amount,
     plus: (v: Value, d: number = decimal) =>
       baseAmount(amount.add(isBigNumberValue(v) ? v : (v as AmountWithBaseDenom).amount()), d),

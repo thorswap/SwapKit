@@ -1,15 +1,15 @@
-import { avaxGeneric } from './avaxGeneric.js';
-import { avaxWoofi } from './avaxWoofi.js';
-import { ethGeneric } from './ethGeneric.js';
-import { pangolin } from './pangolin.js';
-import { sushiswap } from './sushiswap.js';
-import { traderJoe } from './traderJoe.js';
-import { uniswapV2 } from './uniswapV2.js';
-import { uniswapV2Leg } from './uniswapV2Leg.js';
-import { uniswapV3_100 } from './uniswapV3_100.js';
-import { uniswapV3_500 } from './uniswapV3_500.js';
-import { uniswapV3_3000 } from './uniswapV3_3000.js';
-import { uniswapV3_10000 } from './uniswapV3_10000.js';
+import { avaxGeneric } from './avaxGeneric.ts';
+import { avaxWoofi } from './avaxWoofi.ts';
+import { ethGeneric } from './ethGeneric.ts';
+import { pangolin } from './pangolin.ts';
+import { sushiswap } from './sushiswap.ts';
+import { traderJoe } from './traderJoe.ts';
+import { uniswapV2 } from './uniswapV2.ts';
+import { uniswapV2Leg } from './uniswapV2Leg.ts';
+import { uniswapV3_100 } from './uniswapV3_100.ts';
+import { uniswapV3_500 } from './uniswapV3_500.ts';
+import { uniswapV3_3000 } from './uniswapV3_3000.ts';
+import { uniswapV3_10000 } from './uniswapV3_10000.ts';
 
 type AbiTypes =
   | typeof avaxGeneric

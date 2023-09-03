@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { derivationPathToString } from '../derivationPath.js';
+import { derivationPathToString } from '../derivationPath.ts';
 
 describe('derivationPathToString', () => {
   it('should return the correct string for a full path', () => {

@@ -1,13 +1,14 @@
-import { Provider } from '@ethersproject/abstract-provider';
-import { Signer } from '@ethersproject/abstract-signer';
-import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
+import type { Provider } from '@ethersproject/abstract-provider';
+import type { Signer } from '@ethersproject/abstract-signer';
+import type { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from '@thorswap-lib/types';
 
-import { covalentApi, CovalentApiType } from '../api/covalentApi.js';
+import type { CovalentApiType } from '../api/covalentApi.ts';
+import { covalentApi } from '../api/covalentApi.ts';
 
-import { BaseEVMToolbox } from './BaseEVMToolbox.js';
+import { BaseEVMToolbox } from './BaseEVMToolbox.ts';
 
 export const getBalance = async (provider: Provider, api: CovalentApiType, address: string) => {
   const tokenBalances = await api.getBalance(address);

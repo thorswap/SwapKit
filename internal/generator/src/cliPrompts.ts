@@ -1,6 +1,6 @@
-import { QuestionCollection } from 'inquirer';
+import type { QuestionCollection } from 'inquirer';
 
-import { CliOptions, PackageType } from './cliTypes.js';
+import { type CliOptions, PackageType } from './cliTypes.ts';
 
 export const questions: QuestionCollection<CliOptions> = [
   {

@@ -1,4 +1,5 @@
-import { Chain, MemoType } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
+import { MemoType } from '@thorswap-lib/types';
 
 export type ThornameRegisterParam = {
   name: string;

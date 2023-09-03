@@ -1,17 +1,13 @@
-import { makeSignDoc as makeSignDocAmino, StdSignDoc } from '@cosmjs/amino';
+import type { StdSignDoc } from '@cosmjs/amino';
+import { makeSignDoc as makeSignDocAmino } from '@cosmjs/amino';
 import { fromBase64 } from '@cosmjs/encoding';
 import { Int53 } from '@cosmjs/math';
-import { encodePubkey, makeAuthInfoBytes, TxBodyEncodeObject } from '@cosmjs/proto-signing';
+import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
+import { encodePubkey, makeAuthInfoBytes } from '@cosmjs/proto-signing';
 import { StargateClient } from '@cosmjs/stargate';
-import {
-  BinanceToolbox,
-  DepositParam,
-  getDenomWithChain,
-  sortObject,
-  ThorchainToolbox,
-} from '@thorswap-lib/toolbox-cosmos';
-import { AVAXToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
-import { ApiUrl, Chain, ChainId, WalletOption, WalletTxParams } from '@thorswap-lib/types';
+import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
+import type { WalletTxParams } from '@thorswap-lib/types';
+import { ApiUrl, Chain, ChainId, WalletOption } from '@thorswap-lib/types';
 import { WalletConnectModal } from '@walletconnect/modal';
 import Client from '@walletconnect/sign-client';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
@@ -26,10 +22,10 @@ import {
   DEFAULT_RELAY_URL,
   THORCHAIN_MAINNET_ID,
   WC_SUPPORTED_CHAINS,
-} from './constants.js';
-import { getEVMSigner } from './evmSigner.js';
-import { chainToChainId, getAddressByChain } from './helpers.js';
-import { getRequiredNamespaces } from './namespaces.js';
+} from './constants.ts';
+import { getEVMSigner } from './evmSigner.ts';
+import { chainToChainId, getAddressByChain } from './helpers.ts';
+import { getRequiredNamespaces } from './namespaces.ts';
 
 const THORCHAIN_GAS_FEE = '500000000';
 const DEFAULT_THORCHAIN_FEE = {
@@ -71,6 +67,8 @@ const getToolbox = async ({
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
 
+      const { getProvider, ETHToolbox, AVAXToolbox } = await import('@thorswap-lib/toolbox-evm');
+
       const provider = getProvider(chain);
       const signer = await getEVMSigner({ walletconnect, chain, provider });
 
@@ -82,6 +80,7 @@ const getToolbox = async ({
       return toolbox;
     }
     case Chain.Binance: {
+      const { sortObject, BinanceToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = BinanceToolbox();
       const transfer = async (params: any) => {
         const account = await toolbox.getAccount(from);
@@ -124,6 +123,7 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.THORChain: {
+      const { getDenomWithChain, ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = ThorchainToolbox({ stagenet: false });
 
       const signRequest = (signDoc: StdSignDoc) =>
@@ -183,7 +183,7 @@ const getToolbox = async ({
         };
 
         const aminoTypes = toolbox.createDefaultAminoTypes();
-        const registry = toolbox.createDefaultRegistry();
+        const registry = await toolbox.createDefaultRegistry();
         const signedTxBody: TxBodyEncodeObject = {
           typeUrl: '/cosmos.tx.v1beta1.TxBody',
           value: {
@@ -270,7 +270,7 @@ const getToolbox = async ({
         };
 
         const aminoTypes = toolbox.createDefaultAminoTypes();
-        const registry = toolbox.createDefaultRegistry();
+        const registry = await toolbox.createDefaultRegistry();
         const signedTxBody: TxBodyEncodeObject = {
           typeUrl: '/cosmos.tx.v1beta1.TxBody',
           value: {
@@ -428,5 +428,4 @@ const connectWalletconnect =
 export const walletconnectWallet = {
   connectMethodName: 'connectWalletconnect' as const,
   connect: connectWalletconnect,
-  isDetected: () => true,
 };

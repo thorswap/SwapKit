@@ -2,10 +2,10 @@ import { stringToPath } from '@cosmjs/crypto';
 import { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } from '@cosmjs/proto-signing';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { SwapKitApi } from '@thorswap-lib/swapkit-api';
-import { Asset, ChainId, DerivationPath } from '@thorswap-lib/types';
+import type { Asset, ChainId, DerivationPath } from '@thorswap-lib/types';
 
-import { CosmosClient } from '../cosmosClient.js';
-import { BaseCosmosToolboxType } from '../thorchainUtils/types/client-types.js';
+import type { CosmosClient } from '../cosmosClient.ts';
+import type { BaseCosmosToolboxType } from '../thorchainUtils/types/client-types.ts';
 
 type Params = {
   client: CosmosClient;

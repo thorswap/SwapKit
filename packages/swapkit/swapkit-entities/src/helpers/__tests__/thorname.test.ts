@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { getTHORNameCost, validateTHORName } from '../thorname.js';
+import { getTHORNameCost, validateTHORName } from '../thorname.ts';
 
 describe('getTHORNameCost', () => {
   describe('for correct values', () => {

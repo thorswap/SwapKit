@@ -1,19 +1,19 @@
-import { getProvider } from '@thorswap-lib/toolbox-evm';
-import { Chain, DerivationPathArray } from '@thorswap-lib/types';
+import type { DerivationPathArray } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 
-import { AvalancheLedger } from '../clients/avalanche.js';
-import { BinanceLedger } from '../clients/binance/index.js';
-import { BitcoinLedger } from '../clients/bitcoin.js';
-import { BitcoinCashLedger } from '../clients/bitcoincash.js';
-import { CosmosLedger } from '../clients/cosmos.js';
-import { DogecoinLedger } from '../clients/dogecoin.js';
-import { EthereumLedger } from '../clients/ethereum.js';
-import { LitecoinLedger } from '../clients/litecoin.js';
-import { THORChainLedger } from '../clients/thorchain/index.js';
+import { AvalancheLedger } from '../clients/avalanche.ts';
+import { BinanceLedger } from '../clients/binance/index.ts';
+import { BitcoinLedger } from '../clients/bitcoin.ts';
+import { BitcoinCashLedger } from '../clients/bitcoincash.ts';
+import { CosmosLedger } from '../clients/cosmos.ts';
+import { DogecoinLedger } from '../clients/dogecoin.ts';
+import { EthereumLedger } from '../clients/ethereum.ts';
+import { LitecoinLedger } from '../clients/litecoin.ts';
+import { THORChainLedger } from '../clients/thorchain/index.ts';
 
-import { LEDGER_SUPPORTED_CHAINS } from './ledgerSupportedChains.js';
+import type { LEDGER_SUPPORTED_CHAINS } from './ledgerSupportedChains.ts';
 
-export const getLedgerClient = ({
+export const getLedgerClient = async ({
   chain,
   derivationPath,
 }: {
@@ -36,15 +36,11 @@ export const getLedgerClient = ({
     case Chain.Litecoin:
       return new LitecoinLedger(derivationPath);
     case Chain.Ethereum:
-      return new EthereumLedger({
-        provider: getProvider(Chain.Ethereum),
-        derivationPath,
-      });
     case Chain.Avalanche: {
-      return new AvalancheLedger({
-        provider: getProvider(Chain.Avalanche),
-        derivationPath,
-      });
+      const { getProvider } = await import('@thorswap-lib/toolbox-evm');
+      const params = { provider: getProvider(chain), derivationPath };
+
+      return chain === Chain.Avalanche ? new AvalancheLedger(params) : new EthereumLedger(params);
     }
   }
 };

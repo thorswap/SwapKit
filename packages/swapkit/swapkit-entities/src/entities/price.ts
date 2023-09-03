@@ -1,10 +1,10 @@
 import { BigNumber } from 'bignumber.js';
 
-import { BN_FORMAT } from '../helpers/asset.js';
+import { BN_FORMAT } from '../helpers/asset.ts';
 
-import { Amount, AmountType, Rounding } from './amount.js';
-import { AssetEntity as Asset, AssetEntity } from './asset.js';
-import { Pool } from './pool.js';
+import { Amount, AmountType, Rounding } from './amount.ts';
+import type { AssetEntity as Asset, AssetEntity } from './asset.ts';
+import type { Pool } from './pool.ts';
 
 const poolByAsset = (asset: AssetEntity, pools: Pool[]) =>
   pools.find((pool) => asset.shallowEq(pool.asset));

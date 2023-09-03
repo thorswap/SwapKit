@@ -1,7 +1,7 @@
 import { Chain } from '@thorswap-lib/types';
 import { describe, expect, it } from 'vitest';
 
-import { getAssetType } from '../asset.js';
+import { getAssetType } from '../asset.ts';
 
 const tickerMap: Record<string, string> = {
   [Chain.THORChain]: 'RUNE',

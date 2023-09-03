@@ -1,4 +1,4 @@
-export { getLedgerAddress } from './getLedgerAddress.js';
-export { getLedgerClient } from './getLedgerClient.js';
-export { getLedgerTransport } from './getLedgerTransport.js';
-export { LEDGER_SUPPORTED_CHAINS } from './ledgerSupportedChains.js';
+export { getLedgerAddress } from './getLedgerAddress.ts';
+export { getLedgerClient } from './getLedgerClient.ts';
+export { getLedgerTransport } from './getLedgerTransport.ts';
+export { LEDGER_SUPPORTED_CHAINS } from './ledgerSupportedChains.ts';

@@ -25,6 +25,7 @@ module.exports = {
         '@typescript-eslint/adjacent-overload-signatures': 'error',
         '@typescript-eslint/array-type': 'error',
         '@typescript-eslint/consistent-type-assertions': ['error', { assertionStyle: 'as' }],
+        '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
         '@typescript-eslint/member-delimiter-style': 'error',
         '@typescript-eslint/no-array-constructor': 'error',
         '@typescript-eslint/no-dynamic-delete': 'error',

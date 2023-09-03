@@ -4,7 +4,7 @@ import { keystoreWallet } from '@thorswap-lib/keystore';
 import { ledgerWallet } from '@thorswap-lib/ledger';
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { trezorWallet } from '@thorswap-lib/trezor';
-import { ExtendParams } from '@thorswap-lib/types';
+import type { ExtendParams } from '@thorswap-lib/types';
 import { walletconnectWallet } from '@thorswap-lib/walletconnect';
 import { xdefiWallet } from '@thorswap-lib/xdefi';
 

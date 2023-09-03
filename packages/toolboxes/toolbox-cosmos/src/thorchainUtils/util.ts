@@ -2,20 +2,12 @@ import { toBech32 } from '@cosmjs/encoding';
 import { StargateClient } from '@cosmjs/stargate';
 import { assetFromString, assetToString, baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import {
-  AmountWithBaseDenom,
-  Asset,
-  Balance,
-  BaseDecimal,
-  Chain,
-  ChainId,
-  Fees,
-  RPCUrl,
-} from '@thorswap-lib/types';
+import type { AmountWithBaseDenom, Asset, Balance, Fees } from '@thorswap-lib/types';
+import { BaseDecimal, Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
 import { fromByteArray, toByteArray } from 'base64-js';
 import { bech32 } from 'bech32';
 
-import { AssetRuneNative } from '../types.js';
+import { AssetRuneNative } from '../types.ts';
 
 export const DEFAULT_GAS_VALUE = '5000000000';
 export const DEPOSIT_GAS_VALUE = '5000000000';

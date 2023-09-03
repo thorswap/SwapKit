@@ -1,5 +1,5 @@
-import { AmountWithBaseDenom } from './amount.js';
-import { Asset } from './asset.js';
+import type { AmountWithBaseDenom } from './amount.ts';
+import type { Asset } from './asset.ts';
 
 export const MOCK_PHRASE =
   'image rally need wedding health address purse army antenna leopard sea gain';

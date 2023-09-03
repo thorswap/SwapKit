@@ -1,12 +1,13 @@
-import { Secp256k1HdWallet, StdFee } from '@cosmjs/amino';
+import type { StdFee } from '@cosmjs/amino';
+import { Secp256k1HdWallet } from '@cosmjs/amino';
 import { stringToPath } from '@cosmjs/crypto';
 import { normalizeBech32 } from '@cosmjs/encoding';
 import { SigningStargateClient, StargateClient } from '@cosmjs/stargate';
-import { ChainId } from '@thorswap-lib/types';
+import type { ChainId } from '@thorswap-lib/types';
 import { fromByteArray } from 'base64-js';
 
-import { CosmosSDKClientParams, TransferParams } from './types.js';
-import { getRPC } from './util.js';
+import type { CosmosSDKClientParams, TransferParams } from './types.ts';
+import { getRPC } from './util.ts';
 
 const DEFAULT_COSMOS_FEE_MAINNET = {
   amount: [{ denom: 'uatom', amount: '500' }],

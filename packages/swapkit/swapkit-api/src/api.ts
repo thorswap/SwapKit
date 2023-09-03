@@ -1,12 +1,12 @@
-import { ApiEndpoints, fetchWrapper, getCachedPrices } from './helpers.js';
-import {
+import { ApiEndpoints, fetchWrapper, getCachedPrices } from './helpers.ts';
+import type {
   GasRatesResponse,
   QuoteParams,
   QuoteResponse,
   ThornameResponse,
   TokenlistProvidersResponse,
   TxnResponse,
-} from './types/index.js';
+} from './types/index.ts';
 
 export const SwapKitApi = {
   getCachedPrices,

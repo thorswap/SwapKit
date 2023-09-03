@@ -1,8 +1,8 @@
-import { isDetected } from '@thorswap-lib/toolbox-evm';
 import { Chain, WalletOption } from '@thorswap-lib/types';
 
-import { getWalletMethodsForChain, XDEFIConfig } from './helpers.js';
-import { getXDEFIAddress } from './walletHelpers.js';
+import type { XDEFIConfig } from './helpers.ts';
+import { getWalletMethodsForChain } from './helpers.ts';
+import { getXDEFIAddress } from './walletHelpers.ts';
 
 const XDEFI_SUPPORTED_CHAINS = [
   Chain.Avalanche,
@@ -49,5 +49,4 @@ const connectXDEFI =
 export const xdefiWallet = {
   connectMethodName: 'connectXDEFI' as const,
   connect: connectXDEFI,
-  isDetected,
 };

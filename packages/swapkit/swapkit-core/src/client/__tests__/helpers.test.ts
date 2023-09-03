@@ -6,7 +6,7 @@ import {
   getEmptyWalletStructure,
   getExplorerAddressUrl,
   getExplorerTxUrl,
-} from '../helpers.js';
+} from '../helpers.ts';
 
 describe('Explorer URLs', () => {
   Object.values(Chain)

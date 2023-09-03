@@ -1,13 +1,13 @@
-import { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
-import { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
-import { AminoTypes, Account as CosmosAccount } from '@cosmjs/stargate';
-import { AssetAmount } from '@thorswap-lib/swapkit-entities';
-import { AmountWithBaseDenom, Asset, Balance, ChainId, Fees, Tx } from '@thorswap-lib/types';
-import { curve } from 'elliptic';
+import type { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
+import type { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
+import type { Account as CosmosAccount, AminoTypes } from '@cosmjs/stargate';
+import type { AssetAmount } from '@thorswap-lib/swapkit-entities';
+import type { AmountWithBaseDenom, Asset, Balance, ChainId, Fees, Tx } from '@thorswap-lib/types';
+import type { curve } from 'elliptic';
 
-import { BNBTransaction } from '../../binanceUtils/transaction.js';
-import { Account } from '../../index.js';
-import { Signer, TransferParams } from '../../types.js';
+import type { BNBTransaction } from '../../binanceUtils/transaction.ts';
+import type { Account } from '../../index.ts';
+import type { Signer, TransferParams } from '../../types.ts';
 
 export type NodeUrl = {
   node: string;
@@ -63,7 +63,7 @@ export type CommonCosmosToolboxType = {
 export type ThorchainToolboxType = BaseCosmosToolboxType &
   CommonCosmosToolboxType & {
     deposit: (params: DepositParam & { from: string }) => Promise<string>;
-    createDefaultRegistry: () => Registry;
+    createDefaultRegistry: () => Promise<Registry>;
     createDefaultAminoTypes: () => AminoTypes;
     createMultisig: (pubKeys: string[], threshold: number) => MultisigThresholdPubkey;
     importSignature: (signature: string) => Uint8Array;

@@ -1,8 +1,8 @@
-import { BigNumberish } from '@ethersproject/bignumber';
+import type { BigNumberish } from '@ethersproject/bignumber';
 
-import { AmountWithBaseDenom } from './amount.js';
-import { Asset } from './asset.js';
-import { FeeOption } from './wallet.js';
+import type { AmountWithBaseDenom } from './amount.ts';
+import type { Asset } from './asset.ts';
+import type { FeeOption } from './wallet.ts';
 
 enum TxType {
   Transfer = 'transfer',

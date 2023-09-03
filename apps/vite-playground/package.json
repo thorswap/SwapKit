@@ -31,11 +31,11 @@
     "util": "0.12.5"
   },
   "devDependencies": {
-    "@types/react": "18.2.15",
+    "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
-    "@vitejs/plugin-react": "4.0.3",
-    "typescript": "5.1.6",
-    "vite": "4.4.4"
+    "@vitejs/plugin-react": "4.0.4",
+    "typescript": "5.2.2",
+    "vite": "4.4.9"
   },
   "eslintConfig": {
     "extends": "../../internal/eslint-config-thorswap"

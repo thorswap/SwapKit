@@ -1,5 +1,5 @@
 import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
-import { Amount, AssetAmount, AssetEntity, Pool } from '@thorswap-lib/swapkit-entities';
+import type { Amount, AssetAmount, AssetEntity, Pool } from '@thorswap-lib/swapkit-entities';
 import type {
   BinanceToolbox,
   DepositParam,
@@ -15,7 +15,13 @@ import type {
   OPToolbox,
 } from '@thorswap-lib/toolbox-evm';
 import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
-import { BaseWalletMethods, Chain, FeeOption, TxParams, WalletOption } from '@thorswap-lib/types';
+import type {
+  BaseWalletMethods,
+  Chain,
+  FeeOption,
+  TxParams,
+  WalletOption,
+} from '@thorswap-lib/types';
 
 export type CoreTxParams = {
   assetAmount: AssetAmount;

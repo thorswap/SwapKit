@@ -1,4 +1,4 @@
-import { Chain } from './network.js';
+import type { Chain } from './network.ts';
 
 export enum AssetSymbol {
   THOR = 'THOR',
