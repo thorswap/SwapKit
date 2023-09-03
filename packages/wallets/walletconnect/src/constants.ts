@@ -1,6 +1,6 @@
 import { Chain } from '@thorswap-lib/types';
 
-import { ClientMetadata } from './types.js';
+import type { ClientMetadata } from './types.ts';
 
 export const DEFAULT_RELAY_URL = 'wss://relay.walletconnect.com';
 

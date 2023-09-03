@@ -4,7 +4,8 @@ import {
   Transaction,
   TransactionBuilder,
 } from '@psf/bitcoincashjs-lib';
-import { Chain, DerivationPath, FeeOption, RPCUrl, UTXO, UTXOChain } from '@thorswap-lib/types';
+import type { UTXO, UTXOChain } from '@thorswap-lib/types';
+import { Chain, DerivationPath, FeeOption, RPCUrl } from '@thorswap-lib/types';
 import {
   detectAddressNetwork,
   isValidAddress,
@@ -16,19 +17,20 @@ import { Psbt } from 'bitcoinjs-lib';
 import { ECPairFactory } from 'ecpair';
 import * as tinySecp from 'tiny-secp256k1';
 
-import { blockchairApi, BlockchairApiType } from '../api/blockchairApi.js';
-import { broadcastTx } from '../api/rpcApi.js';
-import {
+import type { BlockchairApiType } from '../api/blockchairApi.ts';
+import { blockchairApi } from '../api/blockchairApi.ts';
+import { broadcastTx } from '../api/rpcApi.ts';
+import type {
   KeyPairType,
   TargetOutput,
   TransactionBuilderType,
   TransactionType,
   UTXOBuildTxParams,
   UTXOWalletTransferParams,
-} from '../types/common.js';
-import { accumulative, compileMemo, getNetwork, getSeed } from '../utils/index.js';
+} from '../types/common.ts';
+import { accumulative, compileMemo, getNetwork, getSeed } from '../utils/index.ts';
 
-import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
+import { BaseUTXOToolbox } from './BaseUTXOToolbox.ts';
 
 // needed because TS can not infer types
 type BCHMethods = {

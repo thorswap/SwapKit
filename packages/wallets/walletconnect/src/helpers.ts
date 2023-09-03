@@ -1,4 +1,5 @@
-import { Chain, EVMChain } from '@thorswap-lib/types';
+import type { EVMChain } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 
 import {
   AVALACHE_MAINNET_ID,
@@ -6,7 +7,7 @@ import {
   BSC_MAINNET_ID,
   ETHEREUM_MAINNET_ID,
   THORCHAIN_MAINNET_ID,
-} from './constants.js';
+} from './constants.ts';
 
 export const getAddressFromAccount = (account: string) => {
   try {

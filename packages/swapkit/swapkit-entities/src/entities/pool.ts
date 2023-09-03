@@ -1,7 +1,7 @@
 import { BaseDecimal } from '@thorswap-lib/types';
 
-import { Amount } from './amount.js';
-import { AssetEntity as Asset } from './asset.js';
+import { Amount } from './amount.ts';
+import { AssetEntity as Asset } from './asset.ts';
 
 export interface PoolDetail {
   annualPercentageRate: string;

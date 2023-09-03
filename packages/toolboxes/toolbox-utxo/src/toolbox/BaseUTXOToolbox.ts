@@ -1,26 +1,21 @@
 import { HDKey } from '@scure/bip32';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import {
-  AmountWithBaseDenom,
-  Balance,
-  BaseDecimal,
-  Chain,
-  FeeOption,
-  UTXO,
-} from '@thorswap-lib/types';
+import type { AmountWithBaseDenom, Balance, UTXO } from '@thorswap-lib/types';
+import { BaseDecimal, Chain, FeeOption } from '@thorswap-lib/types';
 import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';
-import { ECPairFactory, ECPairInterface } from 'ecpair';
+import type { ECPairInterface } from 'ecpair';
+import { ECPairFactory } from 'ecpair';
 import * as tinySecp from 'tiny-secp256k1';
 
-import {
+import type {
   TargetOutput,
   UTXOBaseToolboxParams,
   UTXOBuildTxParams,
   UTXOCreateKeyParams,
   UTXOEstimateFeeParams,
   UTXOWalletTransferParams,
-} from '../types/common.js';
+} from '../types/common.ts';
 import {
   accumulative,
   calculateTxSize,
@@ -30,7 +25,7 @@ import {
   MIN_TX_FEE,
   standardFeeRates,
   UTXOScriptType,
-} from '../utils/index.js';
+} from '../utils/index.ts';
 
 const createKeysForPath = ({
   phrase,

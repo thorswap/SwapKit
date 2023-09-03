@@ -1,11 +1,13 @@
 import { isHexString } from '@ethersproject/bytes';
 import { parseUnits } from '@ethersproject/units';
 import { SwapKitError } from '@thorswap-lib/helpers';
-import { QuoteRoute } from '@thorswap-lib/swapkit-api';
+import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
 import { Amount, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { ChainToChainId, EVMChain } from '@thorswap-lib/types';
+import type { EVMChain } from '@thorswap-lib/types';
+import { ChainToChainId } from '@thorswap-lib/types';
 
-import { AGG_CONTRACT_ADDRESS, lowercasedGenericAbiMappings } from './contracts/index.js';
+import type { AGG_CONTRACT_ADDRESS } from './contracts/index.ts';
+import { lowercasedGenericAbiMappings } from './contracts/index.ts';
 
 type SameEVMParams = {
   evmChain: EVMChain;

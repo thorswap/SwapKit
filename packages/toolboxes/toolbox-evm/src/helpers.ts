@@ -1,16 +1,12 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { ExternalProvider, Web3Provider } from '@ethersproject/providers';
+import type { ExternalProvider } from '@ethersproject/providers';
+import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { Chain, ChainId, ChainToHexChainId, FeeOption, WalletOption } from '@thorswap-lib/types';
 
-import {
-  AVAXToolbox,
-  BSCToolbox,
-  EthereumWindowProvider,
-  ETHToolbox,
-  EVMMaxSendableAmountsParams,
-} from './index.js';
+import type { EthereumWindowProvider, EVMMaxSendableAmountsParams } from './index.ts';
+import { AVAXToolbox, BSCToolbox, ETHToolbox } from './index.ts';
 
 type NetworkParams = {
   chainId: ChainId;

@@ -1,5 +1,5 @@
-export * from './helpers.js';
-export * from './provider.js';
+export * from './helpers.ts';
+export * from './provider.ts';
 export {
   BaseEVMToolbox,
   EIP1193SendTransaction,
@@ -8,16 +8,16 @@ export {
   getTokenAddress,
   MAX_APPROVAL,
   toChecksumAddress,
-} from './toolbox/BaseEVMToolbox.js';
-export * from './types/clientTypes.js';
-export * from './types/ethplorer-api-types.js';
+} from './toolbox/BaseEVMToolbox.ts';
+export * from './types/clientTypes.ts';
+export * from './types/ethplorer-api-types.ts';
 
 /**
  * Toolboxes
  */
-export { ARBToolbox } from './toolbox/arb.js';
-export { AVAXToolbox } from './toolbox/avax.js';
-export { BSCToolbox } from './toolbox/bsc.js';
-export { ETHToolbox } from './toolbox/eth.js';
-export { MATICToolbox } from './toolbox/matic.js';
-export { OPToolbox } from './toolbox/op.js';
+export { ARBToolbox } from './toolbox/arb.ts';
+export { AVAXToolbox } from './toolbox/avax.ts';
+export { BSCToolbox } from './toolbox/bsc.ts';
+export { ETHToolbox } from './toolbox/eth.ts';
+export { MATICToolbox } from './toolbox/matic.ts';
+export { OPToolbox } from './toolbox/op.ts';

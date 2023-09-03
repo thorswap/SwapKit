@@ -1,6 +1,6 @@
 import { postRequest } from '@thorswap-lib/helpers';
 
-import { uniqid } from '../index.js';
+import { uniqid } from '../index.ts';
 
 export const broadcastTx = async ({ txHash, rpcUrl }: { txHash: string; rpcUrl: string }) => {
   const response = await postRequest<{ id: string; result: string; error: string | null }>(

@@ -1,5 +1,6 @@
-import { getDisplayMessage } from './displayMessages.js';
-import { ApiErrorOptions, ERROR_CODE, ERROR_MODULE, ERROR_TYPE, ErrorInfo } from './types.js';
+import { getDisplayMessage } from './displayMessages.ts';
+import type { ApiErrorOptions, ERROR_CODE, ERROR_MODULE, ErrorInfo } from './types.ts';
+import { ERROR_TYPE } from './types.ts';
 
 export class ApiError extends Error {
   public readonly status: number;

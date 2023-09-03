@@ -1,3 +1,3 @@
-export * from './coinselect.js';
-export * from './txSize.js';
-export * from './utils.js';
+export * from './coinselect.ts';
+export * from './txSize.ts';
+export * from './utils.ts';

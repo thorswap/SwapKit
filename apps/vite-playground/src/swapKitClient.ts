@@ -1,14 +1,8 @@
-import { evmWallet } from '@thorswap-lib/evm-web3-wallets';
-import { keplrWallet } from '@thorswap-lib/keplr';
-import { keystoreWallet } from '@thorswap-lib/keystore';
-import { ledgerWallet } from '@thorswap-lib/ledger';
-import { okxWallet } from '@thorswap-lib/okx';
-import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { trezorWallet } from '@thorswap-lib/trezor';
-import { walletconnectWallet } from '@thorswap-lib/walletconnect';
-import { xdefiWallet } from '@thorswap-lib/xdefi';
+import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
 
-export const getSwapKitClient = ({
+let skClient: SwapKitCore | undefined;
+
+export const getSwapKitClient = async ({
   ethplorerApiKey = 'freekey',
   covalentApiKey = '',
   utxoApiKey = '',
@@ -21,6 +15,18 @@ export const getSwapKitClient = ({
   walletConnectProjectId?: string;
   stagenet?: boolean;
 } = {}) => {
+  if (skClient) return skClient;
+
+  const { evmWallet } = await import('@thorswap-lib/evm-web3-wallets');
+  const { keplrWallet } = await import('@thorswap-lib/keplr');
+  const { keystoreWallet } = await import('@thorswap-lib/keystore');
+  const { ledgerWallet } = await import('@thorswap-lib/ledger');
+  const { okxWallet } = await import('@thorswap-lib/okx');
+  const { SwapKitCore } = await import('@thorswap-lib/swapkit-core');
+  const { trezorWallet } = await import('@thorswap-lib/trezor');
+  const { walletconnectWallet } = await import('@thorswap-lib/walletconnect');
+  const { xdefiWallet } = await import('@thorswap-lib/xdefi');
+
   const client = new SwapKitCore({ stagenet });
 
   client.extend({
@@ -42,6 +48,8 @@ export const getSwapKitClient = ({
       walletconnectWallet,
     ],
   });
+
+  skClient = client;
 
   return client;
 };

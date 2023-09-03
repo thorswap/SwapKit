@@ -1,7 +1,7 @@
 import { Chain } from '@thorswap-lib/types';
 import { describe, expect, it } from 'vitest';
 
-import { getNetworkName } from '../network.js';
+import { getNetworkName } from '../network.ts';
 
 describe('getNetworkName', () => {
   const casesWithExpectation: [Chain, string][] = [

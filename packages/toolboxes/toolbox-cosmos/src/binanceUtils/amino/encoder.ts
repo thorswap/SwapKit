@@ -1,7 +1,7 @@
 // @ts-ignore no typings for this package
 import { string as VarString } from 'protocol-buffers-encodings';
 
-import { UVarInt } from './varint.js';
+import { UVarInt } from './varint.ts';
 
 export const encoderHelper = (data: any): 0 | 1 | 2 => {
   const dataType = typeof data;

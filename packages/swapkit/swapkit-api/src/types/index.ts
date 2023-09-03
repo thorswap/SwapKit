@@ -1,2 +1,2 @@
-export * from './gasRates.js';
-export * from './quote.js';
+export * from './gasRates.ts';
+export * from './quote.ts';

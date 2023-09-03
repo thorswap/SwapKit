@@ -1,3 +1,3 @@
-export { sortObject } from './amino/encoder.js';
-export * from './types.js';
-export * from './utils.js';
+export { sortObject } from './amino/encoder.ts';
+export * from './types.ts';
+export * from './utils.ts';

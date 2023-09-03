@@ -1,9 +1,10 @@
 import { encodeSecp256k1Signature, serializeSignDoc } from '@cosmjs/amino';
 import { Secp256k1Signature } from '@cosmjs/crypto';
 import { derivationPathToString } from '@thorswap-lib/helpers';
-import { DerivationPathArray, ErrorCode, NetworkDerivationPath } from '@thorswap-lib/types';
+import type { DerivationPathArray } from '@thorswap-lib/types';
+import { ErrorCode, NetworkDerivationPath } from '@thorswap-lib/types';
 
-import { CommonLedgerInterface } from '../interfaces/LedgerInterfaces.js';
+import { CommonLedgerInterface } from '../interfaces/LedgerInterfaces.ts';
 
 export class CosmosLedger extends CommonLedgerInterface {
   private pubKey: string | null = null;

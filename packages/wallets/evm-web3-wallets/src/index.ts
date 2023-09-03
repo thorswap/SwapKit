@@ -1,1 +1,1 @@
-export { evmWallet } from './evmWallet.js';
+export { evmWallet } from './evmWallet.ts';

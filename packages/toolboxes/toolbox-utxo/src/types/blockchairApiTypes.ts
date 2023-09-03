@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 
 export type BlockchairApiParams<T> = T & {
   chain: Chain;

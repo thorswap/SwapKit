@@ -1,7 +1,8 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { assetFromString, baseAmount, getRequest } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { Balance, ChainId, ChainIdToChain } from '@thorswap-lib/types';
+import type { Balance, ChainId } from '@thorswap-lib/types';
+import { ChainIdToChain } from '@thorswap-lib/types';
 
 type CovalentBalanceResponse = {
   address: string;

@@ -1,9 +1,10 @@
 import { derivationPathToString } from '@thorswap-lib/helpers';
-import { DerivationPathArray, NetworkDerivationPath } from '@thorswap-lib/types';
+import type { DerivationPathArray } from '@thorswap-lib/types';
+import { NetworkDerivationPath } from '@thorswap-lib/types';
 // @ts-expect-error
 import coininfo from 'coininfo';
 
-import { UTXOLedgerInterface } from '../interfaces/LedgerInterfaces.js';
+import { UTXOLedgerInterface } from '../interfaces/LedgerInterfaces.ts';
 
 export class DogecoinLedger extends UTXOLedgerInterface {
   constructor(derivationPath: DerivationPathArray = NetworkDerivationPath.DOGE) {

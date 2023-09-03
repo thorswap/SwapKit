@@ -1,9 +1,10 @@
-import { StdFee } from '@cosmjs/amino';
-import { OfflineDirectSigner } from '@cosmjs/proto-signing';
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { Chain, ChainId, FeeOption } from '@thorswap-lib/types';
+import type { StdFee } from '@cosmjs/amino';
+import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
+import type { AssetEntity } from '@thorswap-lib/swapkit-entities';
+import type { ChainId, FeeOption } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 
-import { BinanceToolboxType, GaiaToolboxType, ThorchainToolboxType } from './index.js';
+import type { BinanceToolboxType, GaiaToolboxType, ThorchainToolboxType } from './index.ts';
 
 export type { MultisigThresholdPubkey } from '@cosmjs/amino';
 

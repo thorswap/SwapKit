@@ -10,7 +10,7 @@ import {
   DEFAULT_POLKADOT_METHODS,
   DEFAULT_SOLANA_EVENTS,
   DEFAULT_SOLANA_METHODS,
-} from './constants.js';
+} from './constants.ts';
 
 export const getNamespacesFromChains = (chains: string[]) => {
   const supportedNamespaces: string[] = [];

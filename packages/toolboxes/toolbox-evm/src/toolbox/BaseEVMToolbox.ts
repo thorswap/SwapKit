@@ -1,27 +1,25 @@
-import { Provider } from '@ethersproject/abstract-provider';
-import { Signer } from '@ethersproject/abstract-signer';
+import type { Provider } from '@ethersproject/abstract-provider';
+import type { Signer } from '@ethersproject/abstract-signer';
 import { getAddress } from '@ethersproject/address';
-import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
-import { hexlify } from '@ethersproject/bytes';
+import type { BigNumberish } from '@ethersproject/bignumber';
+import { BigNumber } from '@ethersproject/bignumber';
 import { MaxInt256 } from '@ethersproject/constants';
-import { Contract, ContractInterface, PopulatedTransaction } from '@ethersproject/contracts';
-import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
+import type { ContractInterface, PopulatedTransaction } from '@ethersproject/contracts';
+import { Contract } from '@ethersproject/contracts';
+import type { JsonRpcSigner, Web3Provider } from '@ethersproject/providers';
 import { toUtf8Bytes } from '@ethersproject/strings';
 import { AssetEntity, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-entities';
-import {
+import type {
   Asset,
-  Chain,
-  ContractAddress,
   EIP1559TxParams,
-  erc20ABI,
   EVMChain,
   EVMTxParams,
-  FeeOption,
   LegacyEVMTxParams,
   WalletTxParams,
 } from '@thorswap-lib/types';
+import { Chain, ContractAddress, erc20ABI, FeeOption } from '@thorswap-lib/types';
 
-import {
+import type {
   ApprovedParams,
   ApproveParams,
   CallParams,
@@ -29,7 +27,7 @@ import {
   IsApprovedParams,
   JsonFragment,
   TransferParams,
-} from '../types/clientTypes.js';
+} from '../types/clientTypes.ts';
 
 export const MAX_APPROVAL = MaxInt256;
 
@@ -244,7 +242,7 @@ const transfer = async (
   const chain = parsedAsset.L1Chain as EVMChain;
 
   if (!isGasAsset(parsedAsset)) {
-    const contractAddress = await getTokenAddress(parsedAsset, chain);
+    const contractAddress = getTokenAddress(parsedAsset, chain);
     if (!contractAddress) throw new Error('No contract address found');
     // Transfer ERC20
     return call<string>(provider, {
@@ -256,6 +254,8 @@ const transfer = async (
       txOverrides: { from },
     });
   }
+
+  const { hexlify } = await import('@ethersproject/bytes');
 
   // Transfer ETH
   const txObject = {

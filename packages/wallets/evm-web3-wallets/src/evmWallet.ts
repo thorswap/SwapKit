@@ -1,9 +1,9 @@
 import { Web3Provider } from '@ethersproject/providers';
-import { getETHDefaultWallet, getWeb3WalletMethods, isDetected } from '@thorswap-lib/toolbox-evm';
-import { EVMChain, EVMWalletOptions, WalletOption } from '@thorswap-lib/types';
+import type { EVMChain, EVMWalletOptions } from '@thorswap-lib/types';
+import { WalletOption } from '@thorswap-lib/types';
 
-import { getWalletForType } from './helpers.js';
-import { EVMWalletConfig } from './types.js';
+import { getWalletForType } from './helpers.ts';
+import type { EVMWalletConfig } from './types.ts';
 
 const connectEVMWallet =
   ({
@@ -15,6 +15,7 @@ const connectEVMWallet =
   }) =>
   async (chains: EVMChain[], walletType: EVMWalletOptions = WalletOption.METAMASK) => {
     const promises = chains.map(async (chain) => {
+      const { getWeb3WalletMethods } = await import('@thorswap-lib/toolbox-evm');
       const web3provider = new Web3Provider(getWalletForType(walletType), 'any');
       await web3provider.send('eth_requestAccounts', []);
       const signer = web3provider.getSigner();
@@ -42,6 +43,4 @@ const connectEVMWallet =
 export const evmWallet = {
   connectMethodName: 'connectEVMWallet' as const,
   connect: connectEVMWallet,
-  isDetected,
-  getETHDefaultWallet,
 };

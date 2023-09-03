@@ -1,9 +1,11 @@
 import { GasPrice, SigningStargateClient } from '@cosmjs/stargate';
 import { assetToString, baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { AmountWithBaseDenom, Asset, ChainId, FeeOption, RPCUrl } from '@thorswap-lib/types';
+import type { AmountWithBaseDenom, Asset } from '@thorswap-lib/types';
+import { ChainId, FeeOption, RPCUrl } from '@thorswap-lib/types';
 
-import { AssetAtom, AssetMuon, CosmosMaxSendableAmountParams } from './types.js';
+import type { CosmosMaxSendableAmountParams } from './types.ts';
+import { AssetAtom, AssetMuon } from './types.ts';
 
 export const getDenom = ({ chain, symbol }: Asset) => {
   const assetString = assetToString({ chain, symbol });

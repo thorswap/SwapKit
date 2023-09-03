@@ -1,15 +1,14 @@
-import BitcoinApp from '@ledgerhq/hw-app-btc';
-import CosmosApp from '@ledgerhq/hw-app-cosmos';
+import type BitcoinApp from '@ledgerhq/hw-app-btc';
 import type { UTXO } from '@thorswap-lib/types';
 import { toCashAddress } from 'bchaddrjs';
 import { type Network as BTCNetwork, networks, type Psbt } from 'bitcoinjs-lib';
 
-import { BinanceApp } from '../clients/binance/lib.js';
-import { THORChainApp } from '../clients/thorchain/lib.js';
-import { getLedgerTransport } from '../helpers/getLedgerTransport.js';
+import { BinanceApp } from '../clients/binance/lib.ts';
+import { THORChainApp } from '../clients/thorchain/lib.ts';
+import { getLedgerTransport } from '../helpers/getLedgerTransport.ts';
 
-import { CreateTransactionArg } from './types.js';
-import { signUTXOTransaction } from './utxo.js';
+import type { CreateTransactionArg } from './types.ts';
+import { signUTXOTransaction } from './utxo.ts';
 
 export abstract class CommonLedgerInterface {
   public ledgerTimeout: number = 50000;
@@ -34,6 +33,8 @@ export abstract class CommonLedgerInterface {
         }
 
         case 'cosmos': {
+          const { default: CosmosApp } = await import('@ledgerhq/hw-app-cosmos');
+
           // @ts-ignore Ledger typing is wrong
           return (this.ledgerApp ||= new CosmosApp(this.transport));
         }
@@ -58,6 +59,8 @@ export abstract class UTXOLedgerInterface {
 
   public connect = async () => {
     await this.checkBtcAppAndCreateTransportWebUSB(false);
+
+    const { default: BitcoinApp } = await import('@ledgerhq/hw-app-btc');
 
     // @ts-ignore Ledger typing is wrong
     this.btcApp = new BitcoinApp(this.transport);

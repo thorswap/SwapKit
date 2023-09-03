@@ -1,4 +1,4 @@
-import { ERROR_CODE } from './types.js';
+import { ERROR_CODE } from './types.ts';
 
 export const ERROR_DISPLAY_MESSAGES: Record<string, string> = {
   [ERROR_CODE.INVALID_INPUT_PARAMETERS]: 'Invalid input parameters: {0}.',

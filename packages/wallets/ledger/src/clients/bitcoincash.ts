@@ -1,10 +1,11 @@
 import { derivationPathToString } from '@thorswap-lib/helpers';
-import { DerivationPathArray, NetworkDerivationPath } from '@thorswap-lib/types';
+import type { DerivationPathArray } from '@thorswap-lib/types';
+import { NetworkDerivationPath } from '@thorswap-lib/types';
 // @ts-expect-error
 import coininfo from 'coininfo';
 
-import { getWalletFormatFor } from '../helpers/derivationPath.js';
-import { UTXOLedgerInterface } from '../interfaces/LedgerInterfaces.js';
+import { getWalletFormatFor } from '../helpers/derivationPath.ts';
+import { UTXOLedgerInterface } from '../interfaces/LedgerInterfaces.ts';
 
 export class BitcoinCashLedger extends UTXOLedgerInterface {
   constructor(derivationPath: DerivationPathArray = NetworkDerivationPath.BCH) {

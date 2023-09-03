@@ -1,9 +1,9 @@
-import { StdSignature } from '@thorswap-lib/toolbox-cosmos';
-import { EthereumWindowProvider } from '@thorswap-lib/toolbox-evm';
+import type { StdSignature } from '@thorswap-lib/toolbox-cosmos';
+import type { EthereumWindowProvider } from '@thorswap-lib/toolbox-evm';
 
-import { AminoSignResponse, OfflineAminoSigner, StdSignDoc } from './types.js';
+import type { AminoSignResponse, OfflineAminoSigner, StdSignDoc } from './types.ts';
 
-export { okxWallet } from './okxWallet.js';
+export { okxWallet } from './okxWallet.ts';
 
 declare global {
   interface Window {

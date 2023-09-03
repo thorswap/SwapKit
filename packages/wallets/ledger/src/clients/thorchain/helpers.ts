@@ -1,6 +1,6 @@
 import { ErrorCode } from '@thorswap-lib/types';
 
-import { CLA, errorCodeToString, INS, PAYLOAD_TYPE, processErrorResponse } from './common.js';
+import { CLA, errorCodeToString, INS, PAYLOAD_TYPE, processErrorResponse } from './common.ts';
 
 const signSendChunkv1 = async (app: any, chunkIdx: any, chunkNum: any, chunk: any) => {
   return app.transport

@@ -1,8 +1,8 @@
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { createCosmJS, GaiaToolbox } from '@thorswap-lib/toolbox-cosmos';
-import { getProvider, getWeb3WalletMethods } from '@thorswap-lib/toolbox-evm';
-import { BTCToolbox, UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
+import type { GaiaToolbox } from '@thorswap-lib/toolbox-cosmos';
+import type { getWeb3WalletMethods } from '@thorswap-lib/toolbox-evm';
+import type { BTCToolbox, UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
 import { Chain, ChainId } from '@thorswap-lib/types';
 import { Psbt } from 'bitcoinjs-lib';
 
@@ -11,6 +11,10 @@ export const cosmosTransfer =
   async ({ from, recipient, amount, asset, memo }: any) => {
     const keplrClient = window.okxwallet?.keplr;
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
+    if (!offlineSigner) throw new Error('No cosmos okxwallet found');
+
+    const { createCosmJS } = await import('@thorswap-lib/toolbox-cosmos');
+
     const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
 
     const coins = [
@@ -47,6 +51,9 @@ export const getWalletForChain = async ({
     case Chain.Avalanche:
     case Chain.BinanceSmartChain: {
       if (!window.okxwallet?.request) throw new Error('No okxwallet found');
+
+      const { getWeb3WalletMethods, getProvider } = await import('@thorswap-lib/toolbox-evm');
+
       const evmWallet = await getWeb3WalletMethods({
         chain,
         ethplorerApiKey,
@@ -74,6 +81,8 @@ export const getWalletForChain = async ({
         throw new Error('No utxoApiKey provided');
       }
 
+      const { BTCToolbox } = await import('@thorswap-lib/toolbox-utxo');
+
       const wallet = window.okxwallet.bitcoin;
       const address = (await wallet.connect()).address;
 
@@ -99,6 +108,8 @@ export const getWalletForChain = async ({
       const wallet = window.okxwallet.keplr;
       await wallet.enable(ChainId.Cosmos);
       const [{ address }] = await wallet.getOfflineSignerOnlyAmino(ChainId.Cosmos).getAccounts();
+      const { GaiaToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+
       return {
         ...GaiaToolbox({ server: api }),
         transfer: cosmosTransfer(rpcUrl),

@@ -1,14 +1,15 @@
-import { AssetAmount } from '@thorswap-lib/swapkit-entities';
-import { useCallback, useMemo, useState } from 'react';
+import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import type { AssetAmount } from '@thorswap-lib/swapkit-entities';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Loan from './Loan';
 import Send from './Send';
 import Swap from './Swap';
 import { getSwapKitClient } from './swapKitClient';
-import { WalletDataType } from './types';
+import TNS from './TNS';
+import type { WalletDataType } from './types';
 import { Wallet } from './Wallet';
 import { WalletPicker } from './WalletPicker';
-import TNS from './TNS';
 
 const apiKeys = ['walletConnectProjectId'] as const;
 
@@ -16,6 +17,7 @@ const App = () => {
   const [widgetType, setWidgetType] = useState<'swap' | 'loan' | 'earn'>('swap');
   const [wallet, setWallet] = useState<WalletDataType | WalletDataType[]>(null);
   const [stagenet, setStagenet] = useState(true);
+  const [skClient, setSkClient] = useState<SwapKitCore | null>(null);
 
   /**
    * NOTE: Test API keys - please use your own API keys in app as those will timeout, reach limits, etc.
@@ -31,7 +33,9 @@ const App = () => {
     outputAsset?: AssetAmount;
   }>({});
 
-  const skClient = useMemo(() => getSwapKitClient({ ...keys, stagenet }), [keys, stagenet]);
+  useEffect(() => {
+    getSwapKitClient({ ...keys, stagenet }).then(setSkClient);
+  }, [keys, stagenet]);
 
   const setAsset = useCallback(
     (asset: AssetAmount) => {
@@ -48,10 +52,15 @@ const App = () => {
 
   const Widgets = useMemo(
     () => ({
-      swap: <Swap inputAsset={inputAsset} outputAsset={outputAsset} skClient={skClient} />,
-      loan: <Loan inputAsset={inputAsset} outputAsset={outputAsset} skClient={skClient} />,
-      send: <Send inputAsset={inputAsset} skClient={skClient} />,
-      tns: <TNS skClient={skClient} />,
+      swap: skClient ? (
+        <Swap inputAsset={inputAsset} outputAsset={outputAsset} skClient={skClient} />
+      ) : null,
+      // eslint-disable-next-line react/jsx-pascal-case
+      tns: skClient ? <TNS skClient={skClient} /> : null,
+      loan: skClient ? (
+        <Loan inputAsset={inputAsset} outputAsset={outputAsset} skClient={skClient} />
+      ) : null,
+      send: skClient ? <Send inputAsset={inputAsset} skClient={skClient} /> : null,
       earn: <div>Earn</div>,
     }),
     [inputAsset, outputAsset, skClient],
@@ -84,7 +93,7 @@ const App = () => {
           }}
         >
           <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
-            <WalletPicker setWallet={setWallet} skClient={skClient} />
+            {skClient && <WalletPicker setWallet={setWallet} skClient={skClient} />}
 
             <div>
               <select

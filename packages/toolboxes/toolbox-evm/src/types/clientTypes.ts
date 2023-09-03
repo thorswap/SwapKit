@@ -1,17 +1,19 @@
-import { BigNumber, BigNumberish } from '@ethersproject/bignumber';
-import { ContractInterface, PopulatedTransaction } from '@ethersproject/contracts';
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { EVMTxParams, FeeOption, WalletTxParams } from '@thorswap-lib/types';
+import type { BigNumber, BigNumberish } from '@ethersproject/bignumber';
+import type { ContractInterface, PopulatedTransaction } from '@ethersproject/contracts';
+import type { ExternalProvider } from '@ethersproject/providers';
+import type { Keplr } from '@keplr-wallet/types';
+import type { AssetEntity } from '@thorswap-lib/swapkit-entities';
+import type { EVMTxParams, FeeOption, WalletTxParams } from '@thorswap-lib/types';
 
-import {
+import type {
   ARBToolbox,
   AVAXToolbox,
   BSCToolbox,
   ETHToolbox,
   MATICToolbox,
   OPToolbox,
-} from '../index.js';
-import { getProvider } from '../provider.js';
+} from '../index.ts';
+import type { getProvider } from '../provider.ts';
 
 export enum EthNetwork {
   Test = 'goerli',
@@ -53,7 +55,7 @@ export type EstimateCallParams = Pick<
   'contractAddress' | 'abi' | 'funcName' | 'funcParams' | 'txOverrides'
 >;
 
-export type EthereumWindowProvider = import('@ethersproject/providers').ExternalProvider & {
+export type EthereumWindowProvider = ExternalProvider & {
   isMetaMask?: boolean;
   on: (event: string, callback?: () => void) => void;
   isBraveWallet?: boolean;
@@ -67,7 +69,7 @@ export type EthereumWindowProvider = import('@ethersproject/providers').External
 
 declare global {
   interface Window {
-    keplr: import('@keplr-wallet/types').Keplr;
+    keplr: Keplr;
     ethereum: EthereumWindowProvider;
     trustwallet: EthereumWindowProvider;
     coinbaseWalletExtension: EthereumWindowProvider;

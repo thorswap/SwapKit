@@ -1,10 +1,12 @@
 import { enc, SHA256 } from 'crypto-js';
-import { curve, ec as EC } from 'elliptic';
+import type { curve } from 'elliptic';
+import { ec as EC } from 'elliptic';
 import * as tinySecp from 'tiny-secp256k1';
 
-import { convertObjectToSignBytes, encodeBinaryByteArray, marshalBinary } from './amino/encoder.js';
-import { UVarInt } from './amino/varint.js';
-import { AminoPrefix, BaseMsg, StdSignature, StdSignMsg, StdTx } from './types.js';
+import { convertObjectToSignBytes, encodeBinaryByteArray, marshalBinary } from './amino/encoder.ts';
+import { UVarInt } from './amino/varint.ts';
+import type { BaseMsg, StdSignature, StdSignMsg, StdTx } from './types.ts';
+import { AminoPrefix } from './types.ts';
 
 const sha256 = (hex: string) => {
   if (typeof hex !== 'string') throw new Error('sha256 expects a hex string');

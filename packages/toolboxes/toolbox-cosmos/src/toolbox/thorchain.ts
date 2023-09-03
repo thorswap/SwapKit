@@ -5,43 +5,35 @@ import {
   Secp256k1HdWallet,
 } from '@cosmjs/amino';
 import { stringToPath } from '@cosmjs/crypto';
-import { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
+import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
+import { Registry } from '@cosmjs/proto-signing';
+import type { Account, StdFee } from '@cosmjs/stargate';
 import {
-  Account,
   AminoTypes,
   defaultRegistryTypes,
   makeMultisignedTx,
   SigningStargateClient,
   StargateClient,
-  StdFee,
 } from '@cosmjs/stargate';
 import { baseAmount, getRequest, singleFee } from '@thorswap-lib/helpers';
 import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
-import {
-  ApiUrl,
-  Balance,
-  BaseDecimal,
-  Chain,
-  ChainId,
-  DerivationPath,
-  Fees,
-  RPCUrl,
-} from '@thorswap-lib/types';
+import type { Balance, Chain, Fees } from '@thorswap-lib/types';
+import { ApiUrl, BaseDecimal, ChainId, DerivationPath, RPCUrl } from '@thorswap-lib/types';
 import { fromByteArray, toByteArray } from 'base64-js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
-import { CosmosClient } from '../cosmosClient.js';
-import {
+import { CosmosClient } from '../cosmosClient.ts';
+import type {
   DepositParam,
   ThorchainConstantsResponse,
   ThorchainToolboxType,
-} from '../thorchainUtils/types/client-types.js';
-import types from '../thorchainUtils/types/proto/MsgCompiled.js';
-import { base64ToBech32, bech32ToBase64, getThorchainAsset } from '../thorchainUtils/util.js';
-import { AssetRuneNative, Signer, TransferParams } from '../types.js';
-import { getRPC } from '../util.js';
+} from '../thorchainUtils/types/client-types.ts';
+import { base64ToBech32, bech32ToBase64, getThorchainAsset } from '../thorchainUtils/util.ts';
+import type { Signer, TransferParams } from '../types.ts';
+import { AssetRuneNative } from '../types.ts';
+import { getRPC } from '../util.ts';
 
-import { BaseCosmosToolbox } from './BaseCosmosToolbox.js';
+import { BaseCosmosToolbox } from './BaseCosmosToolbox.ts';
 
 type ToolboxParams = {
   stagenet?: boolean;
@@ -62,11 +54,13 @@ const secp256k1HdWalletFromMnemonic = (
     prefix: isStagenet ? 'sthor' : 'thor',
   });
 
-const createDefaultRegistry = () => {
+const createDefaultRegistry = async () => {
+  const types = await import('../thorchainUtils/types/proto/MsgCompiled.js');
+
   return new Registry([
     ...defaultRegistryTypes,
-    ['/types.MsgSend', { ...types.types.MsgSend }],
-    ['/types.MsgDeposit', { ...types.types.MsgDeposit }],
+    ['/types.MsgSend', { ...types.default.MsgSend }],
+    ['/types.MsgDeposit', { ...types.default.MsgDeposit }],
   ]);
 };
 
@@ -116,7 +110,7 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
   const address = (await wallet.getAccounts())[0].address;
 
   const signingClient = await SigningStargateClient.offline(wallet, {
-    registry: createDefaultRegistry(),
+    registry: await createDefaultRegistry(),
     aminoTypes: createDefaultAminoTypes(),
   });
 
@@ -254,7 +248,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     }
 
     const signingClient = await SigningStargateClient.connectWithSigner(rpcUrl, signer, {
-      registry: createDefaultRegistry(),
+      registry: await createDefaultRegistry(),
     });
 
     const base64Address = bech32ToBase64(from);
@@ -301,7 +295,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     }
 
     const signingClient = await SigningStargateClient.connectWithSigner(rpcUrl, signer, {
-      registry: createDefaultRegistry(),
+      registry: await createDefaultRegistry(),
     });
 
     const base64From = bech32ToBase64(from);

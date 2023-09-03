@@ -1,9 +1,10 @@
 import { Chain, RPCUrl } from '@thorswap-lib/types';
 
-import { blockchairApi, BlockchairApiType } from '../api/blockchairApi.js';
-import { broadcastTx } from '../api/rpcApi.js';
+import type { BlockchairApiType } from '../api/blockchairApi.ts';
+import { blockchairApi } from '../api/blockchairApi.ts';
+import { broadcastTx } from '../api/rpcApi.ts';
 
-import { BaseUTXOToolbox } from './BaseUTXOToolbox.js';
+import { BaseUTXOToolbox } from './BaseUTXOToolbox.ts';
 
 export const DOGEToolbox = ({
   apiKey,

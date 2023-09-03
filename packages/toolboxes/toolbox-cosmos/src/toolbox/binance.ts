@@ -1,5 +1,5 @@
 import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from '@cosmjs/crypto';
-import { OfflineDirectSigner } from '@cosmjs/proto-signing';
+import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   assetFromString,
   baseAmount,
@@ -8,25 +8,20 @@ import {
   singleFee,
 } from '@thorswap-lib/helpers';
 import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import {
-  AmountWithBaseDenom,
-  ApiUrl,
-  BaseDecimal,
-  Chain,
-  ChainId,
-  DerivationPath,
-} from '@thorswap-lib/types';
+import type { AmountWithBaseDenom } from '@thorswap-lib/types';
+import { ApiUrl, BaseDecimal, Chain, ChainId, DerivationPath } from '@thorswap-lib/types';
 import { bech32 } from 'bech32';
 import { ec as EC } from 'elliptic';
 
-import { BNBTransaction } from '../binanceUtils/transaction.js';
-import { Account, AminoPrefix, Fees } from '../binanceUtils/types.js';
-import { isTransferFee } from '../binanceUtils/utils.js';
-import { CosmosClient } from '../cosmosClient.js';
-import { BinanceToolboxType } from '../index.js';
-import { TransferParams } from '../types.js';
+import { BNBTransaction } from '../binanceUtils/transaction.ts';
+import type { Account, Fees } from '../binanceUtils/types.ts';
+import { AminoPrefix } from '../binanceUtils/types.ts';
+import { isTransferFee } from '../binanceUtils/utils.ts';
+import { CosmosClient } from '../cosmosClient.ts';
+import type { BinanceToolboxType } from '../index.ts';
+import type { TransferParams } from '../types.ts';
 
-import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.js';
+import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.ts';
 
 type ToolboxParams = {
   stagenet?: boolean;
