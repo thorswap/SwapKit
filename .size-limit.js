@@ -17,12 +17,12 @@ const getSizeFor = (packagePath, sizeType) => {
 
   return [
     {
-      path: `./packages/${packagePath}/dist/index.cjs`,
+      path: `./packages/${packagePath}/dist/*.cjs`,
       limit: size,
       name: `${prefix} - ${packageName}(cjs, ${size})`,
     },
     {
-      path: `./packages/${packagePath}/dist/index.es.js`,
+      path: `./packages/${packagePath}/dist/*.js`,
       limit: size,
       name: `${prefix} - ${packageName}(es, ${size})`,
     },

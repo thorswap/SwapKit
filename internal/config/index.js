@@ -21,7 +21,11 @@ const baseConfig = (name) =>
         external: builtinModules,
         input: 'src/index.ts',
         plugins: rollupPlugins,
-        output: { inlineDynamicImports: true, sourcemap: true },
+        output: ({ format }) => ({
+          entryFileNames: ({ name }) => `${name}.${format === 'cjs' ? 'cjs' : 'js'}`,
+          preserveModules: false,
+          sourcemap: true,
+        }),
       },
     },
 

@@ -1,5 +1,4 @@
 import { toBech32 } from '@cosmjs/encoding';
-import { StargateClient } from '@cosmjs/stargate';
 import { assetFromString, assetToString, baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import type { AmountWithBaseDenom, Asset, Balance, Fees } from '@thorswap-lib/types';
@@ -37,6 +36,7 @@ export const buildDepositTx = async ({
   assetAmount: AmountWithBaseDenom;
   asset: Asset;
 }) => {
+  const { StargateClient } = await import('@cosmjs/stargate');
   const client = await StargateClient.connect(
     isStagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
   );
@@ -94,6 +94,7 @@ export const buildTransferTx = async ({
   assetDenom: string;
   memo?: string;
 }) => {
+  const { StargateClient } = await import('@cosmjs/stargate');
   const client = await StargateClient.connect(
     isStagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
   );

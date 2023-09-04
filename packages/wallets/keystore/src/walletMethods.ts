@@ -32,7 +32,7 @@ export const bitcoincashWalletMethods = async ({
 }: UTXOWalletMethodParams) => {
   const { BCHToolbox } = await import('@thorswap-lib/toolbox-utxo');
   const toolbox = BCHToolbox({ rpcUrl, apiKey: utxoApiKey, apiClient: api });
-  const keys = toolbox.createKeysForPath({ phrase, derivationPath });
+  const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
   const address = toolbox.getAddressFromKeys(keys);
 
   const signTransaction = async ({

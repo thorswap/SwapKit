@@ -117,14 +117,14 @@ const fetchQuote = (sender: string, recipient: string) => {
   return fetch(`${baseUrl}/tokens/quote?${paramsStr}`).then(res => res.json())
 }
 
-const swap = () => {
+const swap = async () => {
   const senderAddress = '0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC'
   const recipient = 'bc1qcalsdh8v03f5xztc04gzqlkqhx2y07dakv7f5c'
   const { routes } = fetchQuote()
   // select best route from routes -> it has `optimal` flag set to true
   const route = routes[0]
 
-  if (getSwapKitClient().validateAddress({ chain: Chain.BTC, address: recipient })) {
+  if (await getSwapKitClient().validateAddress({ chain: Chain.BTC, address: recipient })) {
     const txHash = await SKClient.swap({
       route,
       // Fee option multiplier -> it will be used if wallet supports gas calculation params

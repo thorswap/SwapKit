@@ -1,8 +1,5 @@
 import { fromBase64 } from '@cosmjs/encoding';
-import { Int53 } from '@cosmjs/math';
 import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
-import { encodePubkey, makeAuthInfoBytes } from '@cosmjs/proto-signing';
-import { GasPrice, SigningStargateClient, StargateClient } from '@cosmjs/stargate';
 import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
 import type { UTXOBuildTxParams } from '@thorswap-lib/toolbox-utxo';
 import type {
@@ -222,6 +219,8 @@ const getToolbox = async ({
           value: sendCoinsMessage,
         };
 
+        const { GasPrice, SigningStargateClient } = await import('@cosmjs/stargate');
+
         const signingClient = await SigningStargateClient.connectWithSigner(
           RPCUrl.Cosmos,
           signer as CosmosLedger,
@@ -262,11 +261,16 @@ const getToolbox = async ({
       const { getDenomWithChain, ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = ThorchainToolbox({ stagenet: false });
 
+      // TODO (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
       const deposit = async ({ asset, amount, memo }: DepositParam) => {
         const account = await toolbox.getAccount(address);
         if (!asset) throw new Error('invalid asset to deposit');
         if (!account) throw new Error('invalid account');
         if (!account.pubkey) throw new Error('Account pubkey not found');
+
+        const { Int53 } = await import('@cosmjs/math');
+        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
+        const { StargateClient } = await import('@cosmjs/stargate');
 
         const unsignedMsgs = recursivelyOrderKeys([
           {
@@ -299,7 +303,7 @@ const getToolbox = async ({
 
         if (!signatures) throw new Error('tx signing failed');
 
-        const aminoTypes = toolbox.createDefaultAminoTypes();
+        const aminoTypes = await toolbox.createDefaultAminoTypes();
         const registry = await toolbox.createDefaultRegistry();
         const signedTxBody: TxBodyEncodeObject = {
           typeUrl: '/cosmos.tx.v1beta1.TxBody',
@@ -336,11 +340,15 @@ const getToolbox = async ({
         return result.transactionHash;
       };
 
+      // TODO (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
       const transfer = async ({ memo = '', amount, asset, recipient }: WalletTxParams) => {
         const account = await toolbox.getAccount(address);
         if (!account) throw new Error('invalid account');
         if (!asset) throw new Error('invalid asset');
         if (!account.pubkey) throw new Error('Account pubkey not found');
+
+        const { Int53 } = await import('@cosmjs/math');
+        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
 
         const { accountNumber, sequence = '0' } = account;
 
@@ -383,7 +391,7 @@ const getToolbox = async ({
           signatures,
         };
 
-        const aminoTypes = toolbox.createDefaultAminoTypes();
+        const aminoTypes = await toolbox.createDefaultAminoTypes();
         const registry = await toolbox.createDefaultRegistry();
         const signedTxBody: TxBodyEncodeObject = {
           typeUrl: '/cosmos.tx.v1beta1.TxBody',
@@ -414,6 +422,8 @@ const getToolbox = async ({
         });
 
         const txBytes = TxRaw.encode(txRaw).finish();
+
+        const { StargateClient } = await import('@cosmjs/stargate');
 
         const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
         const result = await broadcaster.broadcastTx(txBytes);

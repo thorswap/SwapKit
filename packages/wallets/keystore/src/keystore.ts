@@ -98,7 +98,7 @@ const getWalletMethodsForChain = async ({
           ? LTCToolbox(params)
           : DOGEToolbox(params);
 
-      const keys = toolbox.createKeysForPath({ phrase, derivationPath });
+      const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
       const address = toolbox.getAddressFromKeys(keys);
 
       const signTransaction = async (psbt: Psbt) => {

@@ -48,7 +48,7 @@ export type BaseCosmosToolboxType = {
   getAccount: (address: string) => Promise<CosmosAccount | null>;
   getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
   getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
-  validateAddress: (address: string) => boolean;
+  validateAddress: (address: string) => Promise<boolean>;
   getAddressFromMnemonic: (phrase: string) => Promise<string>;
   getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
   getBalance: (address: string) => Promise<Balance[]>;
@@ -64,8 +64,8 @@ export type ThorchainToolboxType = BaseCosmosToolboxType &
   CommonCosmosToolboxType & {
     deposit: (params: DepositParam & { from: string }) => Promise<string>;
     createDefaultRegistry: () => Promise<Registry>;
-    createDefaultAminoTypes: () => AminoTypes;
-    createMultisig: (pubKeys: string[], threshold: number) => MultisigThresholdPubkey;
+    createDefaultAminoTypes: () => Promise<AminoTypes>;
+    createMultisig: (pubKeys: string[], threshold: number) => Promise<MultisigThresholdPubkey>;
     importSignature: (signature: string) => Uint8Array;
     secp256k1HdWalletFromMnemonic: (
       mnemonic: string,
@@ -83,7 +83,7 @@ export type ThorchainToolboxType = BaseCosmosToolboxType &
       bodyBytes: Uint8Array,
       isStagenet?: boolean,
     ) => Promise<string>;
-    pubkeyToAddress: (pubkey: Pubkey, prefix: string) => string;
+    pubkeyToAddress: (pubkey: Pubkey, prefix: string) => Promise<string>;
     loadAddressBalances: (address: string) => Promise<AssetAmount[]>;
   };
 

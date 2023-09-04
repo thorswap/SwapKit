@@ -12,7 +12,7 @@ export type TransactionBuilderType = {
   inputs: any[];
   sign(
     vin: number,
-    keyPair: KeyPairType,
+    keyPair: { getAddress: (index?: number) => string },
     redeemScript?: Buffer,
     hashType?: number,
     witnessValue?: number,
@@ -20,10 +20,6 @@ export type TransactionBuilderType = {
     signatureAlgorithm?: string,
   ): void;
   build(): TransactionType;
-};
-
-export type KeyPairType = {
-  getAddress(index?: number): string;
 };
 
 export type Witness = {
