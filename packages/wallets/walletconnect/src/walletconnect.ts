@@ -1,10 +1,5 @@
-import type { StdSignDoc } from '@cosmjs/amino';
-import { makeSignDoc as makeSignDocAmino } from '@cosmjs/amino';
-import { fromBase64 } from '@cosmjs/encoding';
-import { Int53 } from '@cosmjs/math';
+import { type StdSignDoc } from '@cosmjs/amino';
 import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
-import { encodePubkey, makeAuthInfoBytes } from '@cosmjs/proto-signing';
-import { StargateClient } from '@cosmjs/stargate';
 import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
 import type { WalletTxParams } from '@thorswap-lib/types';
 import { ApiUrl, Chain, ChainId, WalletOption } from '@thorswap-lib/types';
@@ -158,7 +153,13 @@ const getToolbox = async ({
           value: sendCoinsMessage,
         };
 
-        const signDoc = makeSignDocAmino(
+        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
+        const { makeSignDoc } = await import('@cosmjs/amino');
+        const { fromBase64 } = await import('@cosmjs/encoding');
+        const { StargateClient } = await import('@cosmjs/stargate');
+        const { Int53 } = await import('@cosmjs/math');
+
+        const signDoc = makeSignDoc(
           [msg],
           DEFAULT_THORCHAIN_FEE,
           ChainId.THORChain,
@@ -182,7 +183,7 @@ const getToolbox = async ({
           ],
         };
 
-        const aminoTypes = toolbox.createDefaultAminoTypes();
+        const aminoTypes = await toolbox.createDefaultAminoTypes();
         const registry = await toolbox.createDefaultRegistry();
         const signedTxBody: TxBodyEncodeObject = {
           typeUrl: '/cosmos.tx.v1beta1.TxBody',
@@ -245,7 +246,13 @@ const getToolbox = async ({
           },
         };
 
-        const signDoc = makeSignDocAmino(
+        const { makeSignDoc } = await import('@cosmjs/amino');
+        const { fromBase64 } = await import('@cosmjs/encoding');
+        const { StargateClient } = await import('@cosmjs/stargate');
+        const { Int53 } = await import('@cosmjs/math');
+        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
+
+        const signDoc = makeSignDoc(
           [msg],
           DEFAULT_THORCHAIN_FEE,
           ChainId.THORChain,
@@ -269,7 +276,7 @@ const getToolbox = async ({
           ],
         };
 
-        const aminoTypes = toolbox.createDefaultAminoTypes();
+        const aminoTypes = await toolbox.createDefaultAminoTypes();
         const registry = await toolbox.createDefaultRegistry();
         const signedTxBody: TxBodyEncodeObject = {
           typeUrl: '/cosmos.tx.v1beta1.TxBody',

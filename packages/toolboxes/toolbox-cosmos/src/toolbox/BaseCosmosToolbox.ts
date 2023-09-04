@@ -1,5 +1,3 @@
-import { stringToPath } from '@cosmjs/crypto';
-import { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } from '@cosmjs/proto-signing';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { SwapKitApi } from '@thorswap-lib/swapkit-api';
 import type { Asset, ChainId, DerivationPath } from '@thorswap-lib/types';
@@ -27,13 +25,21 @@ export const BaseCosmosToolbox = ({
   client: cosmosClient,
 }: Params): BaseCosmosToolboxType => ({
   transfer: cosmosClient.transfer,
-  getSigner: (phrase: string) =>
-    DirectSecp256k1HdWallet.fromMnemonic(phrase, {
+  getSigner: async (phrase: string) => {
+    const { DirectSecp256k1HdWallet } = await import('@cosmjs/proto-signing');
+    const { stringToPath } = await import('@cosmjs/crypto');
+
+    return DirectSecp256k1HdWallet.fromMnemonic(phrase, {
       prefix: cosmosClient.prefix,
       hdPaths: [stringToPath(`${derivationPath}/0`)],
-    }),
-  getSignerFromPrivateKey: (privateKey: Uint8Array) =>
-    DirectSecp256k1Wallet.fromKey(privateKey, cosmosClient.prefix),
+    });
+  },
+  getSignerFromPrivateKey: async (privateKey: Uint8Array) => {
+    const { DirectSecp256k1Wallet } = await import('@cosmjs/proto-signing');
+
+    return DirectSecp256k1Wallet.fromKey(privateKey, cosmosClient.prefix);
+  },
+
   getAccount: cosmosClient.getAccount,
   validateAddress: (address: string) => cosmosClient.checkAddress(address),
   getAddressFromMnemonic: (phrase: string) =>

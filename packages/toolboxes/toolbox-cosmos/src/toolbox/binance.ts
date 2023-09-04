@@ -1,4 +1,3 @@
-import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from '@cosmjs/crypto';
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import {
   assetFromString,
@@ -26,8 +25,6 @@ import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.t
 type ToolboxParams = {
   stagenet?: boolean;
 };
-
-const derivationPath = stringToPath(`${DerivationPath.BNB}/0`);
 
 const BINANCE_MAINNET_API_URI = 'https://dex.binance.org';
 
@@ -140,7 +137,7 @@ const createTransactionAndSignMsg = async ({ from, to, amount, asset, memo }: Tr
 const transfer = async (params: TransferParams): Promise<string> => {
   const { transaction, signMsg } = await createTransactionAndSignMsg(params);
   const hex = Buffer.from(params.privkey as Uint8Array).toString('hex');
-  const signedTx = transaction.sign(hex, signMsg);
+  const signedTx = await transaction.sign(hex, signMsg);
 
   const res = await sendRawTransaction(signedTx.serialize(), true);
 
@@ -148,6 +145,11 @@ const transfer = async (params: TransferParams): Promise<string> => {
 };
 
 const createKeyPair = async (phrase: string) => {
+  const { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } = await import(
+    '@cosmjs/crypto'
+  );
+
+  const derivationPath = stringToPath(`${DerivationPath.BNB}/0`);
   const mnemonicChecked = new EnglishMnemonic(phrase);
   const seed = await Bip39.mnemonicToSeed(mnemonicChecked);
 
@@ -170,7 +172,7 @@ export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolbox
   });
 
   const baseToolbox: {
-    validateAddress: (address: string) => boolean;
+    validateAddress: (address: string) => Promise<boolean>;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;

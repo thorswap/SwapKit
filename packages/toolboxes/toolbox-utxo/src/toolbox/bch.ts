@@ -15,13 +15,11 @@ import {
 } from 'bchaddrjs';
 import { Psbt } from 'bitcoinjs-lib';
 import { ECPairFactory } from 'ecpair';
-import * as tinySecp from 'tiny-secp256k1';
 
 import type { BlockchairApiType } from '../api/blockchairApi.ts';
 import { blockchairApi } from '../api/blockchairApi.ts';
 import { broadcastTx } from '../api/rpcApi.ts';
 import type {
-  KeyPairType,
   TargetOutput,
   TransactionBuilderType,
   TransactionType,
@@ -40,8 +38,8 @@ type BCHMethods = {
     wif?: string;
     phrase?: string;
     derivationPath?: string;
-  }) => KeyPairType;
-  getAddressFromKeys: (keys: KeyPairType) => string;
+  }) => Promise<{ getAddress: (index?: number) => string }>;
+  getAddressFromKeys: (keys: { getAddress: (index?: number) => string }) => string;
   buildBCHTx: (
     params: UTXOBuildTxParams & { apiClient: BlockchairApiType },
   ) => Promise<{ builder: TransactionBuilderType; utxos: UTXO[] }>;
@@ -225,14 +223,17 @@ const validateAddress = (address: string, _chain?: UTXOChain) => {
   return isValidAddress(address) && detectAddressNetwork(address) === bchNetwork.Mainnet;
 };
 
-const createKeysForPath: BCHMethods['createKeysForPath'] = ({
+const createKeysForPath: BCHMethods['createKeysForPath'] = async ({
   phrase,
   derivationPath = `${DerivationPath.BCH}/0`,
   wif,
 }) => {
   const network = getNetwork(chain);
 
-  if (wif) return ECPairFactory(tinySecp).fromWIF(wif, network);
+  if (wif) {
+    const tinySecp = await import('tiny-secp256k1');
+    return ECPairFactory(tinySecp).fromWIF(wif, network);
+  }
   if (!phrase) throw new Error('No phrase provided');
 
   const masterHDNode = HDNode.fromSeedBuffer(Buffer.from(getSeed(phrase)), network);
@@ -245,7 +246,7 @@ const createKeysForPath: BCHMethods['createKeysForPath'] = ({
   return keyPair;
 };
 
-const getAddressFromKeys = (keys: KeyPairType) => {
+const getAddressFromKeys = (keys: { getAddress: (index?: number) => string }) => {
   const address = keys.getAddress(0);
   return stripToCashAddress(address);
 };
