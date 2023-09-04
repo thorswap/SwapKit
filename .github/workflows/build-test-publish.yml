@@ -87,7 +87,6 @@ jobs:
       - name: Change nightly changeset
         if: contains(github.ref_name, 'nightly')
         run: |
-          echo 'publishName="Nightly"' >> $GITHUB_OUTPUT
           pnpm changeset pre exit
           pnpm changeset version --snapshot nightly
 
@@ -106,10 +105,20 @@ jobs:
 
       - name: Create Pull Request or Publish to npm
         uses: changesets/action@v1
+        if: contains(github.ref_name, 'main') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'develop')
         with:
           title: ":tada: Publish ${{ steps.deployment-params.outputs.publishName }}"
           version: pnpm version-bump
           publish: pnpm publish-packages
+          setupGitUser: false
+
+      - name: Publish Nightly to npm
+        uses: changesets/action@v1
+        if: contains(github.ref_name, 'nightly')
+        with:
+          title: ":tada: Publish Nightly"
+          version: pnpm version-bump
+          publish: pnpm publish-packages --tag nightly
           setupGitUser: false
 
       - name: Revert base changeset
@@ -122,6 +131,9 @@ jobs:
         run: |
           pnpm changeset pre exit
           pnpm changeset pre enter development
+
+      - name: Remove npmrc config
+        run: rm .npmrc
 
   deploy-playground:
     if: contains(github.ref_name, 'develop')
