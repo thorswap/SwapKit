@@ -6,6 +6,7 @@ on:
     branches:
       - develop
       - main
+      - beta
       - nightly
 
   pull_request:
@@ -67,7 +68,7 @@ jobs:
         run: pnpm lint
 
   publish:
-    if: contains(github.ref_name, 'develop') || contains(github.ref_name, 'main') || contains(github.ref_name, 'nightly')
+    if: contains(github.ref_name, 'develop') || contains(github.ref_name, 'main') || contains(github.ref_name, 'nightly') || contains(github.ref_name, 'beta')
     needs: [build, test, lint]
     runs-on: ubuntu-latest
     steps:
@@ -77,31 +78,49 @@ jobs:
         shell: bash
         id: deployment-params
         run: |
-          echo "version=$([ "${{ github.ref_name }}" = "main" ] && echo "version-release" || echo "version-bump")" >> $GITHUB_OUTPUT
-          echo "publishName=$([ "${{ github.ref_name }}" = "main" ] && echo "Release" || echo "Pre-Release")" >> $GITHUB_OUTPUT
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
       - name: Copy npmrc config
         run: cp .npmrc.prod .npmrc
 
-      - name: Change changeset nightly prelease
+      - name: Change nightly changeset
         if: contains(github.ref_name, 'nightly')
         run: |
+          echo 'publishName="Nightly"' >> $GITHUB_OUTPUT
           pnpm changeset pre exit
           pnpm changeset version --snapshot nightly
+
+      - name: Change beta changeset
+        if: contains(github.ref_name, 'beta')
+        run: |
+          echo 'publishName="Beta"' >> $GITHUB_OUTPUT
+          pnpm changeset pre exit
+          pnpm changeset pre enter beta
+
+      - name: Change stable changeset
+        if: contains(github.ref_name, 'main')
+        run: |
+          echo 'publishName="Release"' >> $GITHUB_OUTPUT
+          pnpm changeset pre exit
 
       - name: Create Pull Request or Publish to npm
         uses: changesets/action@v1
         with:
           title: ":tada: Publish ${{ steps.deployment-params.outputs.publishName }}"
-          version: pnpm ${{ steps.deployment-params.outputs.version }}
+          version: pnpm version-bump
           publish: pnpm publish-packages
           setupGitUser: false
 
-      - name: Revert changeset nightly prelease
-        if: contains(github.ref_name, 'nightly')
+      - name: Revert base changeset
+        if: contains(github.ref_name, 'nightly') || contains(github.ref_name, 'main')
         run: |
+          pnpm changeset pre enter development
+
+      - name: Revert changeset beta prelease
+        if: contains(github.ref_name, 'beta')
+        run: |
+          pnpm changeset pre exit
           pnpm changeset pre enter development
 
   deploy-playground:
