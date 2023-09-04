@@ -123,6 +123,9 @@ jobs:
           pnpm changeset pre exit
           pnpm changeset pre enter development
 
+      - name: Remove npmrc config
+        run: rm .npmrc
+
   deploy-playground:
     if: contains(github.ref_name, 'develop')
     needs: [build, test, lint]
