@@ -48,7 +48,7 @@
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "echo 'Build swapkit-core 🛠';NODE_OPTIONS=--max_old_space_size=16384 pnpm vite build && echo 'Build succeeded swapkit-core ✅'",
+    "build": "NODE_OPTIONS=--max_old_space_size=16384 vite build",
     "clean": "rm -rf dist .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "vitest --run",

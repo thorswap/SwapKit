@@ -43,7 +43,7 @@
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "echo 'Build evm-web3-wallets 🛠'; vite build && echo 'Build succeeded evm-web3-wallets ✅'",
+    "build": "vite build",
     "clean": "rm -rf dist .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest --run'",

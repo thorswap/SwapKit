@@ -1,5 +1,5 @@
 {
-  "mode": "exit",
+  "mode": "pre",
   "tag": "development",
   "initialVersions": {
     "@internal/config": "0.0.1-development.2",
@@ -7,7 +7,7 @@
     "@thorswap-lib/swapkit-api": "0.1.0-development.41",
     "@thorswap-lib/swapkit-core": "1.0.0-development.208",
     "@thorswap-lib/swapkit-entities": "1.0.0-development.115",
-    "@thorswap-lib/swapkit-sdk": "0.1.0-development.78",
+    "@thorswap-lib/swapkit-sdk": "0.1.0-development.79",
     "@thorswap-lib/types": "1.0.0-development.102",
     "@thorswap-lib/toolbox-cosmos": "1.0.0-development.150",
     "@thorswap-lib/toolbox-evm": "1.0.0-development.159",
@@ -18,7 +18,7 @@
     "@thorswap-lib/ledger": "1.0.0-development.236",
     "@thorswap-lib/okx": "1.0.0-development.32",
     "@thorswap-lib/trezor": "1.0.0-development.63",
-    "@thorswap-lib/walletconnect": "2.0.0-development.37",
+    "@thorswap-lib/walletconnect": "2.0.0-development.38",
     "@thorswap-lib/xdefi": "1.0.0-development.55"
   },
   "changesets": []
