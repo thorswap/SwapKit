@@ -51,7 +51,7 @@
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "echo 'Build toolbox-utxo 🛠'; vite build && echo 'Build succeeded toolbox-utxo ✅'",
+    "build": "vite build",
     "clean": "rm -rf dist .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest --run'",

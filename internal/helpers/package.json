@@ -27,7 +27,7 @@
     "bignumber.js": "^9.1.1"
   },
   "scripts": {
-    "build": "echo 'Build @thorswap-lib/helpers 🛠'; vite build && echo 'Build succeeded @thorswap-lib/helpers ✅';",
+    "build": "vite build",
     "clean": "rm -rf dist .turbo node_modules",
     "lint": "eslint --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "vitest --run",
