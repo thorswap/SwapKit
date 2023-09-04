@@ -1,6 +1,6 @@
 import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber } from '@ethersproject/bignumber';
-import { JsonRpcProvider, Provider } from '@ethersproject/providers';
+import { JsonRpcProvider, Provider, TransactionRequest } from '@ethersproject/providers';
 import { EVMChain, EVMTxParams } from '@thorswap-lib/types';
 
 import { DEFAULT_EIP155_METHODS } from './constants.js';
@@ -71,6 +71,17 @@ class WalletconnectSigner extends Signer {
     })) as string;
 
     return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
+  };
+
+  sendTransaction = async (transaction: TransactionRequest) => {
+    return this.walletconnect?.client.request({
+      chainId: chainToChainId(this.chain),
+      topic: this.walletconnect.session.topic,
+      request: {
+        method: DEFAULT_EIP155_METHODS.ETH_SEND_TRANSACTION,
+        params: [transaction],
+      },
+    });
   };
 
   connect = (provider: Provider) =>
