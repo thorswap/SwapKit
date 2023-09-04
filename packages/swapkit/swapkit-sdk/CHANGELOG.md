@@ -626,7 +626,6 @@
 
 ### Minor Changes
 
-- [#188](https://github.com/thorswap/SwapKit/pull/188) [`3066000`](https://github.com/thorswap/SwapKit/commit/30660006cd0551dfb2be606290b0448bf0181d72) Thanks [@0x-General](https://github.com/0x-General)! - Remove TrustWallet integration
 
 ### Patch Changes
 
@@ -659,7 +658,6 @@
   - @thorswap-lib/walletconnect@1.1.0-development.37
   - @thorswap-lib/swapkit-core@1.0.0-development.185
   - @thorswap-lib/swapkit-api@0.1.0-development.24
-  - @thorswap-lib/trustwallet@1.0.0-development.170
   - @thorswap-lib/keystore@1.0.0-development.181
   - @thorswap-lib/ledger@1.0.0-development.200
   - @thorswap-lib/trezor@1.0.0-development.37
@@ -684,7 +682,6 @@
   - @thorswap-lib/keystore@1.0.0-development.180
   - @thorswap-lib/ledger@1.0.0-development.199
   - @thorswap-lib/trezor@1.0.0-development.36
-  - @thorswap-lib/trustwallet@1.0.0-development.169
   - @thorswap-lib/xdefi@1.0.0-development.19
 
 ## 0.0.1-development.31
@@ -703,7 +700,6 @@
   - @thorswap-lib/keystore@1.0.0-development.179
   - @thorswap-lib/ledger@1.0.0-development.198
   - @thorswap-lib/trezor@1.0.0-development.35
-  - @thorswap-lib/trustwallet@1.0.0-development.168
   - @thorswap-lib/walletconnect@1.1.0-development.35
   - @thorswap-lib/xdefi@1.0.0-development.18
 
@@ -719,7 +715,6 @@
   - @thorswap-lib/keystore@1.0.0-development.178
   - @thorswap-lib/ledger@1.0.0-development.197
   - @thorswap-lib/trezor@1.0.0-development.34
-  - @thorswap-lib/trustwallet@1.0.0-development.167
   - @thorswap-lib/keplr@1.0.0-development.13
   - @thorswap-lib/xdefi@1.0.0-development.17
   - @thorswap-lib/evm-web3-wallets@1.0.0-development.11
@@ -741,7 +736,6 @@
   - @thorswap-lib/keystore@1.0.0-development.177
   - @thorswap-lib/ledger@1.0.0-development.196
   - @thorswap-lib/trezor@1.0.0-development.33
-  - @thorswap-lib/trustwallet@1.0.0-development.166
   - @thorswap-lib/walletconnect@1.1.0-development.33
   - @thorswap-lib/xdefi@1.0.0-development.16
 
@@ -789,7 +783,6 @@
   - @thorswap-lib/keplr@1.0.0-development.11
   - @thorswap-lib/keystore@1.0.0-development.176
   - @thorswap-lib/ledger@1.0.0-development.195
-  - @thorswap-lib/trustwallet@1.0.0-development.165
   - @thorswap-lib/xdefi@1.0.0-development.15
 
 ## 0.0.1-development.23
@@ -808,7 +801,6 @@
   - @thorswap-lib/evm-web3-wallets@1.0.0-development.9
   - @thorswap-lib/keplr@1.0.0-development.10
   - @thorswap-lib/keystore@1.0.0-development.175
-  - @thorswap-lib/trustwallet@1.0.0-development.164
   - @thorswap-lib/walletconnect@1.0.1-development.28
   - @thorswap-lib/xdefi@1.0.0-development.14
 
@@ -835,7 +827,6 @@
   - @thorswap-lib/keystore@1.0.0-development.174
   - @thorswap-lib/ledger@1.0.0-development.193
   - @thorswap-lib/trezor@1.0.0-development.29
-  - @thorswap-lib/trustwallet@1.0.0-development.163
   - @thorswap-lib/walletconnect@1.0.1-development.27
   - @thorswap-lib/xdefi@1.0.0-development.13
 
@@ -855,7 +846,6 @@
   - @thorswap-lib/keystore@1.0.0-development.173
   - @thorswap-lib/ledger@1.0.0-development.192
   - @thorswap-lib/trezor@1.0.0-development.28
-  - @thorswap-lib/trustwallet@1.0.0-development.162
   - @thorswap-lib/walletconnect@1.0.1-development.26
   - @thorswap-lib/xdefi@1.0.0-development.12
 
@@ -917,7 +907,6 @@
   - @thorswap-lib/keystore@1.0.0-development.170
   - @thorswap-lib/xdefi@1.0.0-development.9
   - @thorswap-lib/evm-web3-wallets@1.0.0-development.6
-  - @thorswap-lib/trustwallet@1.0.0-development.161
   - @thorswap-lib/walletconnect@1.0.1-development.25
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.112
   - @thorswap-lib/keplr@1.0.0-development.7
@@ -940,7 +929,6 @@
   - @thorswap-lib/keystore@1.0.0-development.169
   - @thorswap-lib/ledger@1.0.0-development.188
   - @thorswap-lib/trezor@1.0.0-development.20
-  - @thorswap-lib/trustwallet@1.0.0-development.160
   - @thorswap-lib/walletconnect@1.0.1-development.24
   - @thorswap-lib/xdefi@1.0.0-development.8
 
@@ -971,7 +959,6 @@
   - @thorswap-lib/keystore@1.0.0-development.168
   - @thorswap-lib/ledger@1.0.0-development.187
   - @thorswap-lib/trezor@1.0.0-development.19
-  - @thorswap-lib/trustwallet@1.0.0-development.159
   - @thorswap-lib/walletconnect@1.0.1-development.22
 
 ## 0.0.1-development.8
@@ -986,7 +973,6 @@
   - @thorswap-lib/keplr@1.0.0-development.6
   - @thorswap-lib/keystore@1.0.0-development.167
   - @thorswap-lib/ledger@1.0.0-development.186
-  - @thorswap-lib/trustwallet@1.0.0-development.158
 
 ## 0.0.1-development.7
 
@@ -1001,7 +987,6 @@
   - @thorswap-lib/keystore@1.0.0-development.166
   - @thorswap-lib/ledger@1.0.0-development.185
   - @thorswap-lib/trezor@1.0.0-development.18
-  - @thorswap-lib/trustwallet@1.0.0-development.157
   - @thorswap-lib/walletconnect@1.0.1-development.21
   - @thorswap-lib/xdefi@1.0.0-development.5
   - @thorswap-lib/swapkit-api@0.1.0-development.15
@@ -1021,7 +1006,6 @@
   - @thorswap-lib/keystore@1.0.0-development.165
   - @thorswap-lib/ledger@1.0.0-development.184
   - @thorswap-lib/trezor@1.0.0-development.17
-  - @thorswap-lib/trustwallet@1.0.0-development.156
   - @thorswap-lib/walletconnect@1.0.1-development.20
   - @thorswap-lib/swapkit-api@0.1.0-development.14
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.109
@@ -1039,7 +1023,6 @@
   - @thorswap-lib/walletconnect@1.0.1-development.19
   - @thorswap-lib/swapkit-core@1.0.0-development.170
   - @thorswap-lib/keplr@1.0.0-development.3
-  - @thorswap-lib/trustwallet@1.0.0-development.155
   - @thorswap-lib/xdefi@1.0.0-development.3
 
 ## 0.0.1-development.4
@@ -1066,7 +1049,6 @@
   - @thorswap-lib/keplr@1.0.0-development.2
   - @thorswap-lib/keystore@1.0.0-development.163
   - @thorswap-lib/ledger@1.0.0-development.181
-  - @thorswap-lib/trustwallet@1.0.0-development.154
   - @thorswap-lib/xdefi@1.0.0-development.2
 
 ## 0.0.1-development.1
@@ -1084,7 +1066,6 @@
   - @thorswap-lib/toolbox-utxo@1.0.0-development.106
   - @thorswap-lib/swapkit-api@0.1.0-development.13
   - @thorswap-lib/toolbox-evm@1.0.0-development.124
-  - @thorswap-lib/trustwallet@1.0.0-development.153
   - @thorswap-lib/keystore@1.0.0-development.162
   - @thorswap-lib/ledger@1.0.0-development.180
   - @thorswap-lib/keplr@1.0.0-development.1
