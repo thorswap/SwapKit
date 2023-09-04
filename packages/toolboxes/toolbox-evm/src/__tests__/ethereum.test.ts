@@ -6,6 +6,7 @@ import { Chain, erc20ABI, FeeOption } from '@thorswap-lib/types';
 import hre from 'hardhat';
 import type { ExpectStatic } from 'vitest';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, test } from 'vitest';
+import type ethers from '@nomiclabs/hardhat-ethers'
 
 import { ETHToolbox } from '../index.ts';
 import { getProvider } from '../provider.ts';
@@ -20,7 +21,7 @@ beforeAll(() => {
 });
 
 beforeEach<{
-  ethers: typeof import('@nomiclabs/hardhat-ethers');
+  ethers: typeof ethers;
   provider: JsonRpcProvider;
   toolbox: ReturnType<typeof ETHToolbox>;
 }>(async (context: any) => {
