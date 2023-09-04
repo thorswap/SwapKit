@@ -1,5 +1,55 @@
 # @thorswap-lib/swapkit-sdk
 
+## 0.1.0-development.82
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.140
+  - @thorswap-lib/swapkit-core@1.0.0-development.210
+  - @thorswap-lib/keystore@1.0.0-development.220
+  - @thorswap-lib/ledger@1.0.0-development.239
+  - @thorswap-lib/trezor@1.0.0-development.66
+  - @thorswap-lib/xdefi@1.0.0-development.58
+
+## 0.1.0-development.81
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-core@1.0.0-development.210
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.152
+  - @thorswap-lib/toolbox-evm@1.0.0-development.161
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.139
+  - @thorswap-lib/keystore@1.0.0-development.219
+  - @thorswap-lib/ledger@1.0.0-development.238
+  - @thorswap-lib/trezor@1.0.0-development.65
+  - @thorswap-lib/keplr@1.0.0-development.47
+  - @thorswap-lib/walletconnect@2.0.0-development.40
+  - @thorswap-lib/xdefi@1.0.0-development.57
+  - @thorswap-lib/evm-web3-wallets@1.0.0-development.39
+
+## 0.1.0-development.80
+
+### Patch Changes
+
+- [`f5af891`](https://github.com/thorswap/SwapKit/commit/f5af8917fb5514894e567f1adfd4718c0a0608c5) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Use dynamic imports
+
+- Updated dependencies [[`f5af891`](https://github.com/thorswap/SwapKit/commit/f5af8917fb5514894e567f1adfd4718c0a0608c5)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.151
+  - @thorswap-lib/evm-web3-wallets@1.0.0-development.38
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.138
+  - @thorswap-lib/toolbox-evm@1.0.0-development.160
+  - @thorswap-lib/walletconnect@2.0.0-development.39
+  - @thorswap-lib/swapkit-core@1.0.0-development.209
+  - @thorswap-lib/swapkit-api@0.1.0-development.42
+  - @thorswap-lib/keystore@1.0.0-development.218
+  - @thorswap-lib/ledger@1.0.0-development.237
+  - @thorswap-lib/trezor@1.0.0-development.64
+  - @thorswap-lib/types@1.0.0-development.103
+  - @thorswap-lib/keplr@1.0.0-development.46
+  - @thorswap-lib/xdefi@1.0.0-development.56
+
 ## 0.1.0-development.79
 
 ### Patch Changes
@@ -633,7 +683,6 @@
 ## 0.1.0-development.34
 
 ### Minor Changes
-
 
 ### Patch Changes
 

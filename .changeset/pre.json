@@ -21,5 +21,9 @@
     "@thorswap-lib/walletconnect": "2.0.0-development.38",
     "@thorswap-lib/xdefi": "1.0.0-development.55"
   },
-  "changesets": []
+  "changesets": [
+    "hot-dots-own",
+    "hot-pears-wash",
+    "soft-coats-repair"
+  ]
 }

@@ -32,7 +32,7 @@ const createKeysForPath = async ({
   derivationPath,
   chain,
 }: UTXOCreateKeyParams & UTXOBaseToolboxParams): Promise<ECPairInterface> => {
-  if (!wif || !phrase) throw new Error('Either phrase or wif must be provided');
+  if (!wif && !phrase) throw new Error('Either phrase or wif must be provided');
 
   const tinySecp = await import('tiny-secp256k1');
   const factory = ECPairFactory(tinySecp);
@@ -40,7 +40,7 @@ const createKeysForPath = async ({
 
   if (wif) return factory.fromWIF(wif, network);
 
-  const seed = getSeed(phrase);
+  const seed = getSeed(phrase as string);
   const master = HDKey.fromMasterSeed(seed, network).derive(derivationPath);
 
   if (!master.privateKey) {

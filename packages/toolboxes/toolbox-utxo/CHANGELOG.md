@@ -1,5 +1,30 @@
 # @thorswap-lib/toolbox-utxo
 
+## 1.0.0-development.140
+
+### Patch Changes
+
+- fix utxo for phrase
+
+## 1.0.0-development.139
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.117
+  - @thorswap-lib/helpers@0.0.0-development.109
+
+## 1.0.0-development.138
+
+### Patch Changes
+
+- [`f5af891`](https://github.com/thorswap/SwapKit/commit/f5af8917fb5514894e567f1adfd4718c0a0608c5) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Use dynamic imports
+
+- Updated dependencies [[`f5af891`](https://github.com/thorswap/SwapKit/commit/f5af8917fb5514894e567f1adfd4718c0a0608c5)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.116
+  - @thorswap-lib/types@1.0.0-development.103
+  - @thorswap-lib/helpers@0.0.0-development.108
+
 ## 1.0.0-development.137
 
 ### Patch Changes
