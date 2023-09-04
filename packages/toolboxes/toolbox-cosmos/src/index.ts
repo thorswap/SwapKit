@@ -1,7 +1,7 @@
-export * from './binanceUtils/index.js';
-export * from './thorchainUtils/index.js';
-export { BinanceToolbox } from './toolbox/binance.js';
-export { GaiaToolbox } from './toolbox/gaia.js';
-export { ThorchainToolbox } from './toolbox/thorchain.js';
-export * from './types.js';
-export * from './util.js';
+export * from './binanceUtils/index.ts';
+export * from './thorchainUtils/index.ts';
+export { BinanceToolbox } from './toolbox/binance.ts';
+export { GaiaToolbox } from './toolbox/gaia.ts';
+export { ThorchainToolbox } from './toolbox/thorchain.ts';
+export * from './types.ts';
+export * from './util.ts';

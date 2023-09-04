@@ -1,10 +1,11 @@
 import { enc, SHA256 } from 'crypto-js';
-import { curve, ec as EC } from 'elliptic';
-import * as tinySecp from 'tiny-secp256k1';
+import type { curve } from 'elliptic';
+import { ec as EC } from 'elliptic';
 
-import { convertObjectToSignBytes, encodeBinaryByteArray, marshalBinary } from './amino/encoder.js';
-import { UVarInt } from './amino/varint.js';
-import { AminoPrefix, BaseMsg, StdSignature, StdSignMsg, StdTx } from './types.js';
+import { convertObjectToSignBytes, encodeBinaryByteArray, marshalBinary } from './amino/encoder.ts';
+import { UVarInt } from './amino/varint.ts';
+import type { BaseMsg, StdSignature, StdSignMsg, StdTx } from './types.ts';
+import { AminoPrefix } from './types.ts';
 
 const sha256 = (hex: string) => {
   if (typeof hex !== 'string') throw new Error('sha256 expects a hex string');
@@ -19,7 +20,9 @@ const generatePubKey = (privateKey: Buffer) => {
   return keypair.getPublic();
 };
 
-const generateSignature = (signBytesHex: string, privateKey: string | Buffer) => {
+const generateSignature = async (signBytesHex: string, privateKey: string | Buffer) => {
+  const tinySecp = await import('tiny-secp256k1');
+
   const msgHash = sha256(signBytesHex);
   const msgHashHex = Buffer.from(msgHash, 'hex');
   const signature = tinySecp.sign(
@@ -125,17 +128,17 @@ export class BNBTransaction {
    * @param {SignMsg} concrete msg object
    * @return {Transaction}
    **/
-  sign(privateKey: string, msg?: {}) {
+  sign = async (privateKey: string, msg?: {}) => {
     if (!privateKey) {
       throw new Error('private key should not be null');
     }
 
     const signBytes = this.getSignBytes(msg);
     const privKeyBuf = Buffer.from(privateKey, 'hex');
-    const signature = generateSignature(signBytes.toString('hex'), privKeyBuf);
+    const signature = await generateSignature(signBytes.toString('hex'), privKeyBuf);
     this.addSignature(generatePubKey(privKeyBuf), signature);
     return this;
-  }
+  };
 
   /**
    * encode signed transaction to hex which is compatible with amino

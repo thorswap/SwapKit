@@ -1,3 +1,3 @@
-export * from './constants.js';
-export * from './types.js';
-export * from './walletconnect.js';
+export * from './constants.ts';
+export * from './types.ts';
+export * from './walletconnect.ts';

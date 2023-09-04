@@ -1,11 +1,10 @@
 import { Signer } from '@ethersproject/abstract-signer';
-import { BigNumber } from '@ethersproject/bignumber';
-import { JsonRpcProvider, Provider, TransactionRequest } from '@ethersproject/providers';
-import { EVMChain, EVMTxParams } from '@thorswap-lib/types';
+import type { JsonRpcProvider, Provider, TransactionRequest } from '@ethersproject/providers';
+import type { EVMChain, EVMTxParams } from '@thorswap-lib/types';
 
-import { DEFAULT_EIP155_METHODS } from './constants.js';
-import { chainToChainId, getAddressByChain } from './helpers.js';
-import { Walletconnect } from './walletconnect.js';
+import { DEFAULT_EIP155_METHODS } from './constants.ts';
+import { chainToChainId, getAddressByChain } from './helpers.ts';
+import type { Walletconnect } from './walletconnect.ts';
 
 interface WalletconnectEVMSignerParams {
   chain: EVMChain;
@@ -53,6 +52,8 @@ class WalletconnectSigner extends Signer {
   signTransaction = async ({ from, to, value, data }: EVMTxParams) => {
     if (!from) throw new Error('Missing from address');
     if (!to) throw new Error('Missing to address');
+
+    const { BigNumber } = await import('@ethersproject/bignumber');
 
     const baseTx = {
       from,

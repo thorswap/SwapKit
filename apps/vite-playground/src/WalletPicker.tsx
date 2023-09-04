@@ -1,10 +1,10 @@
 import { decryptFromKeystore } from '@thorswap-lib/keystore';
 import { getDerivationPathFor } from '@thorswap-lib/ledger';
-import { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { Chain, EVMChainList, WalletOption } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 
-import { WalletDataType } from './types';
+import type { WalletDataType } from './types';
 
 type Props = {
   setWallet: (wallet: WalletDataType | WalletDataType[]) => void;
@@ -151,7 +151,7 @@ export const WalletPicker = ({ skClient, setWallet }: Props) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       <div style={{ flexDirection: 'column' }}>
-        <select multiple style={{ width: 200, height: 200 }} value={chains} onChange={() => {}}>
+        <select multiple onChange={() => {}} style={{ width: 200, height: 200 }} value={chains}>
           {Object.values(Chain).map((chain) => (
             <option key={chain} onClick={() => handleChainSelect(chain)} value={chain}>
               {chain}

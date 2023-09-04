@@ -28,8 +28,8 @@ import {
   INS,
   P1_VALUES,
   processErrorResponse,
-} from './common.js';
-import { publicKeyv2, serializePathv2, signSendChunkv2 } from './helpers.js';
+} from './common.ts';
+import { publicKeyv2, serializePathv2, signSendChunkv2 } from './helpers.ts';
 
 export class THORChainApp {
   transport: any;

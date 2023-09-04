@@ -1,13 +1,15 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { JsonRpcProvider } from '@ethersproject/providers';
+import type { JsonRpcProvider } from '@ethersproject/providers';
 import helpers from '@nomicfoundation/hardhat-network-helpers';
 import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
 import { Chain, erc20ABI, FeeOption } from '@thorswap-lib/types';
 import hre from 'hardhat';
-import { afterAll, afterEach, beforeAll, beforeEach, describe, ExpectStatic, test } from 'vitest';
+import type { ExpectStatic } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, test } from 'vitest';
+import type ethers from '@nomiclabs/hardhat-ethers'
 
-import { ETHToolbox } from '../index.js';
-import { getProvider } from '../provider.js';
+import { ETHToolbox } from '../index.ts';
+import { getProvider } from '../provider.ts';
 const testAddress = '0x6d6e022eE439C8aB8B7a7dBb0576f8090319CDc6';
 const emptyRecipient = '0xE29E61479420Dd1029A9946710Ac31A0d140e77F';
 const USDCAddress = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
@@ -19,7 +21,7 @@ beforeAll(() => {
 });
 
 beforeEach<{
-  ethers: typeof import('@nomiclabs/hardhat-ethers');
+  ethers: typeof ethers;
   provider: JsonRpcProvider;
   toolbox: ReturnType<typeof ETHToolbox>;
 }>(async (context: any) => {

@@ -1,4 +1,5 @@
 import { assetFromString, baseAmount, gasFeeMultiplier, SwapKitError } from '@thorswap-lib/helpers';
+import type { ThornameRegisterParam } from '@thorswap-lib/swapkit-entities';
 import {
   Amount,
   AmountType,
@@ -8,45 +9,44 @@ import {
   getMinAmountByChain,
   getSignatureAssetFor,
   isGasAsset,
-  ThornameRegisterParam,
 } from '@thorswap-lib/swapkit-entities';
-import {
+import type {
+  CosmosLikeToolbox,
   CosmosMaxSendableAmountParams,
-  estimateMaxSendableAmount as cosmosEstimateMax,
 } from '@thorswap-lib/toolbox-cosmos';
 import type {
   AVAXToolbox,
   BSCToolbox,
   ETHToolbox,
   EVMMaxSendableAmountsParams,
+  EVMToolbox,
 } from '@thorswap-lib/toolbox-evm';
-import { estimateMaxSendableAmount as evmEstimateMax } from '@thorswap-lib/toolbox-evm';
-import { UTXOEstimateFeeParams, UTXOToolbox } from '@thorswap-lib/toolbox-utxo';
-import {
+import type { UTXOEstimateFeeParams, UTXOToolbox } from '@thorswap-lib/toolbox-utxo';
+import type {
   AddChainWalletParams,
   AmountWithBaseDenom,
-  BaseDecimal,
-  Chain,
   EVMChain,
   EVMWalletOptions,
   ExtendParams,
+  WalletOption,
+} from '@thorswap-lib/types';
+import {
+  BaseDecimal,
+  Chain,
   FeeOption,
   MemoType,
   QuoteMode,
   TCAvalancheDepositABI,
   TCEthereumVaultAbi,
-  WalletOption,
 } from '@thorswap-lib/types';
 
-import {
-  AGG_CONTRACT_ADDRESS,
-  lowercasedContractAbiMapping,
-} from '../aggregator/contracts/index.js';
+import type { AGG_CONTRACT_ADDRESS } from '../aggregator/contracts/index.ts';
+import { lowercasedContractAbiMapping } from '../aggregator/contracts/index.ts';
 import {
   getSameEVMParams,
   getSwapInParams,
   getSwapOutParams,
-} from '../aggregator/getSwapParams.js';
+} from '../aggregator/getSwapParams.ts';
 
 import {
   getAssetForBalance,
@@ -55,8 +55,8 @@ import {
   getExplorerTxUrl,
   getInboundData,
   getMimirData,
-} from './helpers.js';
-import {
+} from './helpers.ts';
+import type {
   AddLiquidityParams,
   CoreTxParams,
   CreateLiquidityParams,
@@ -66,7 +66,7 @@ import {
   Wallet,
   WalletMethods,
   WithdrawParams,
-} from './types.js';
+} from './types.ts';
 
 export class SwapKitCore<T = ''> {
   public connectedChains: Wallet = getEmptyWalletStructure();
@@ -580,7 +580,7 @@ export class SwapKitCore<T = ''> {
     }
   };
 
-  estimateMaxSendableAmount = ({
+  estimateMaxSendableAmount = async ({
     chain,
     params,
   }: {
@@ -590,7 +590,7 @@ export class SwapKitCore<T = ''> {
       'toolbox'
     >;
   }): Promise<AmountWithBaseDenom> => {
-    const toolbox = this.getWallet<typeof chain>(chain);
+    const walletMethods = this.getWallet<typeof chain>(chain);
 
     switch (chain) {
       case Chain.Arbitrum:
@@ -598,25 +598,26 @@ export class SwapKitCore<T = ''> {
       case Chain.BinanceSmartChain:
       case Chain.Ethereum:
       case Chain.Optimism:
-      case Chain.Polygon:
-        return evmEstimateMax({
-          ...params,
-          toolbox,
-        } as EVMMaxSendableAmountsParams);
+      case Chain.Polygon: {
+        const { estimateMaxSendableAmount } = await import('@thorswap-lib/toolbox-evm');
+        return estimateMaxSendableAmount({ ...params, toolbox: walletMethods as EVMToolbox });
+      }
 
       case Chain.Bitcoin:
       case Chain.BitcoinCash:
       case Chain.Dogecoin:
       case Chain.Litecoin:
-        return (toolbox as UTXOToolbox).estimateMaxSendableAmount(params as UTXOEstimateFeeParams);
+        return (walletMethods as UTXOToolbox).estimateMaxSendableAmount(params);
 
       case Chain.Binance:
       case Chain.THORChain:
-      case Chain.Cosmos:
-        return cosmosEstimateMax({
+      case Chain.Cosmos: {
+        const { estimateMaxSendableAmount } = await import('@thorswap-lib/toolbox-cosmos');
+        return estimateMaxSendableAmount({
           ...params,
-          toolbox,
-        } as CosmosMaxSendableAmountParams);
+          toolbox: walletMethods as CosmosLikeToolbox,
+        });
+      }
 
       default:
         throw new SwapKitError('core_estimated_max_spendable_chain_not_supported');

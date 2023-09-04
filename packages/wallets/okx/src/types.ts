@@ -1,4 +1,4 @@
-import Long from 'long';
+import type Long from 'long';
 
 export type OKXConfig = {
   covalentApiKey?: string;

@@ -1,16 +1,16 @@
 import { Chain } from '@thorswap-lib/types';
 
-import { CosmosLedgerClients, EVMLedgerClients, UTXOLedgerClients } from '../types.js';
+import type { CosmosLedgerClients, EVMLedgerClients, UTXOLedgerClients } from '../types.ts';
 
-import { getLedgerClient } from './getLedgerClient.js';
-import { LEDGER_SUPPORTED_CHAINS } from './ledgerSupportedChains.js';
+import type { getLedgerClient } from './getLedgerClient.ts';
+import type { LEDGER_SUPPORTED_CHAINS } from './ledgerSupportedChains.ts';
 
 export const getLedgerAddress = async ({
   chain,
   ledgerClient,
 }: {
   chain: (typeof LEDGER_SUPPORTED_CHAINS)[number];
-  ledgerClient: ReturnType<typeof getLedgerClient>;
+  ledgerClient: Awaited<ReturnType<typeof getLedgerClient>>;
 }) => {
   if (!ledgerClient) return '';
 

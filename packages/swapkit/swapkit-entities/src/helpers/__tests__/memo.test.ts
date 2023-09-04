@@ -1,7 +1,7 @@
 import { Chain, MemoType } from '@thorswap-lib/types';
 import { describe, expect, it } from 'vitest';
 
-import { getMemoFor } from '../memo.js';
+import { getMemoFor } from '../memo.ts';
 
 describe('getMemoFor', () => {
   describe('for Leave, Upgrade, and Bond', () => {

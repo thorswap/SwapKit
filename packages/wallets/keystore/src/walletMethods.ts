@@ -1,12 +1,6 @@
-import {
-  AssetRuneNative,
-  DepositParam,
-  getDenom,
-  ThorchainToolbox,
-  ThorchainToolboxType,
-} from '@thorswap-lib/toolbox-cosmos';
-import { BCHToolbox, UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
-import { WalletTxParams, Witness } from '@thorswap-lib/types';
+import type { DepositParam, ThorchainToolboxType } from '@thorswap-lib/toolbox-cosmos';
+import type { UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
+import type { WalletTxParams, Witness } from '@thorswap-lib/types';
 
 type WalletMethodParams<T = {}> = T & { phrase: string };
 type UTXOWalletMethodParams = WalletMethodParams<{
@@ -29,16 +23,16 @@ type ThorchainWallet = BaseWalletMethods &
     deposit: (params: DepositParam) => Promise<string>;
   };
 
-// TODO: Typing
-export const bitcoincashWalletMethods = ({
+export const bitcoincashWalletMethods = async ({
   rpcUrl,
   derivationPath,
   utxoApiKey,
   phrase,
   api,
-}: UTXOWalletMethodParams): any => {
+}: UTXOWalletMethodParams) => {
+  const { BCHToolbox } = await import('@thorswap-lib/toolbox-utxo');
   const toolbox = BCHToolbox({ rpcUrl, apiKey: utxoApiKey, apiClient: api });
-  const keys = toolbox.createKeysForPath({ phrase, derivationPath });
+  const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
   const address = toolbox.getAddressFromKeys(keys);
 
   const signTransaction = async ({
@@ -64,6 +58,9 @@ export const thorchainWalletMethods = async ({
   phrase,
   stagenet,
 }: WalletMethodParams<{ stagenet?: boolean }>): Promise<ThorchainWallet> => {
+  const { AssetRuneNative, getDenom, ThorchainToolbox } = await import(
+    '@thorswap-lib/toolbox-cosmos'
+  );
   const toolbox = ThorchainToolbox({ stagenet });
   const fromAddress = await toolbox.getAddressFromMnemonic(phrase);
   const signer = await toolbox.getSigner(phrase);

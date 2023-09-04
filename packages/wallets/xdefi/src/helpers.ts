@@ -1,14 +1,7 @@
-import {
-  BinanceToolbox,
-  DEFAULT_GAS_VALUE,
-  GaiaToolbox,
-  ThorchainToolbox,
-} from '@thorswap-lib/toolbox-cosmos';
-import { getWeb3WalletMethods } from '@thorswap-lib/toolbox-evm';
-import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
-import { Chain, WalletTxParams } from '@thorswap-lib/types';
+import type { WalletTxParams } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 
-import { cosmosTransfer, walletTransfer } from './walletHelpers.js';
+import { cosmosTransfer, walletTransfer } from './walletHelpers.ts';
 
 export type XDEFIConfig = {
   covalentApiKey?: string;
@@ -27,6 +20,8 @@ export const getWalletMethodsForChain = async ({
 }: { rpcUrl?: string; api?: any; chain: Chain } & XDEFIConfig): Promise<any> => {
   switch (chain) {
     case Chain.THORChain: {
+      const { DEFAULT_GAS_VALUE, ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+
       return {
         ...ThorchainToolbox({ stagenet: false }),
         deposit: (tx: WalletTxParams) => walletTransfer({ ...tx, recipient: '' }, 'deposit'),
@@ -35,26 +30,36 @@ export const getWalletMethodsForChain = async ({
       };
     }
 
+    case Chain.Cosmos: {
+      const { GaiaToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      return { ...GaiaToolbox({ server: api }), transfer: cosmosTransfer(rpcUrl) };
+    }
+
+    case Chain.Binance: {
+      const { BinanceToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      return { ...BinanceToolbox(), transfer: walletTransfer };
+    }
+
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
-    case Chain.Avalanche:
+    case Chain.Avalanche: {
+      const { getWeb3WalletMethods } = await import('@thorswap-lib/toolbox-evm');
+
       return await getWeb3WalletMethods({
         chain,
         ethplorerApiKey,
         covalentApiKey,
         ethereumWindowProvider: window.xfi?.ethereum,
       });
-
-    case Chain.Cosmos:
-      return { ...GaiaToolbox({ server: api }), transfer: cosmosTransfer(rpcUrl) };
-
-    case Chain.Binance:
-      return { ...BinanceToolbox(), transfer: walletTransfer };
+    }
 
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
+      const { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } = await import(
+        '@thorswap-lib/toolbox-utxo'
+      );
       const params = { rpcUrl, utxoApiKey, apiClient: api };
       const toolbox =
         chain === Chain.Bitcoin

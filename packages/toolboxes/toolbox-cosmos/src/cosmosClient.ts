@@ -1,12 +1,9 @@
-import { Secp256k1HdWallet, StdFee } from '@cosmjs/amino';
-import { stringToPath } from '@cosmjs/crypto';
-import { normalizeBech32 } from '@cosmjs/encoding';
-import { SigningStargateClient, StargateClient } from '@cosmjs/stargate';
-import { ChainId } from '@thorswap-lib/types';
+import type { StdFee } from '@cosmjs/amino';
+import type { ChainId } from '@thorswap-lib/types';
 import { fromByteArray } from 'base64-js';
 
-import { CosmosSDKClientParams, TransferParams } from './types.js';
-import { getRPC } from './util.js';
+import type { CosmosSDKClientParams, TransferParams } from './types.ts';
+import { getRPC } from './util.ts';
 
 const DEFAULT_COSMOS_FEE_MAINNET = {
   amount: [{ denom: 'uatom', amount: '500' }],
@@ -28,27 +25,22 @@ export class CosmosClient {
   }
 
   getAddressFromMnemonic = async (mnemonic: string, derivationPath: string) => {
-    const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, {
-      prefix: this.prefix,
-      hdPaths: [stringToPath(derivationPath)],
-    });
+    const wallet = await this.#getWallet(mnemonic, derivationPath);
     const [{ address }] = await wallet.getAccounts();
     return address;
   };
 
   getPubKeyFromMnemonic = async (mnemonic: string, derivationPath: string) => {
-    const wallet = await Secp256k1HdWallet.fromMnemonic(mnemonic, {
-      prefix: this.prefix,
-      hdPaths: [stringToPath(derivationPath)],
-    });
+    const wallet = await this.#getWallet(mnemonic, derivationPath);
 
     return fromByteArray((await wallet.getAccounts())[0].pubkey);
   };
 
-  checkAddress = (address: string) => {
+  checkAddress = async (address: string) => {
     if (!address.startsWith(this.prefix)) return false;
 
     try {
+      const { normalizeBech32 } = await import('@cosmjs/encoding');
       return normalizeBech32(address) === address.toLocaleLowerCase();
     } catch (err) {
       return false;
@@ -56,14 +48,14 @@ export class CosmosClient {
   };
 
   getBalance = async (address: string) => {
-    const client = await StargateClient.connect(this.rpcUrl);
+    const client = await this.#getClient();
     return client.getAllBalances(address) as unknown as Promise<
       { denom: string; amount: string }[]
     >;
   };
 
   getAccount = async (address: string) => {
-    const client = await StargateClient.connect(this.rpcUrl);
+    const client = await this.#getClient();
     return client.getAccount(address);
   };
 
@@ -80,8 +72,8 @@ export class CosmosClient {
       throw new Error('Signer not defined');
     }
 
+    const { SigningStargateClient } = await import('@cosmjs/stargate');
     const signingClient = await SigningStargateClient.connectWithSigner(this.rpcUrl, signer);
-
     const txResponse = await signingClient.sendTokens(
       from,
       to,
@@ -91,5 +83,20 @@ export class CosmosClient {
     );
 
     return txResponse.transactionHash;
+  };
+
+  #getClient = async () => {
+    const { StargateClient } = await import('@cosmjs/stargate');
+    return await StargateClient.connect(this.rpcUrl);
+  };
+
+  #getWallet = async (mnemonic: string, derivationPath: string) => {
+    const { Secp256k1HdWallet } = await import('@cosmjs/amino');
+    const { stringToPath } = await import('@cosmjs/crypto');
+
+    return await Secp256k1HdWallet.fromMnemonic(mnemonic, {
+      prefix: this.prefix,
+      hdPaths: [stringToPath(derivationPath)],
+    });
   };
 }

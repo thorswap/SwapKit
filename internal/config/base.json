@@ -3,6 +3,7 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": true,
     "alwaysStrict": true,
     "baseUrl": "./",
     "declaration": true,
@@ -17,7 +18,7 @@
       "ES2021",
       "ES2022"
     ],
-    "module": "Node16",
+    "module": "NodeNext",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,

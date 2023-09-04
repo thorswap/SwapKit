@@ -1,9 +1,9 @@
-import { defineReadOnly } from '@ethersproject/properties';
-import { Provider } from '@ethersproject/providers';
+import type { Provider } from '@ethersproject/providers';
 import { derivationPathToString } from '@thorswap-lib/helpers';
-import { ChainId, DerivationPathArray, NetworkDerivationPath } from '@thorswap-lib/types';
+import type { DerivationPathArray } from '@thorswap-lib/types';
+import { ChainId, NetworkDerivationPath } from '@thorswap-lib/types';
 
-import { EthereumLikeLedgerInterface } from '../interfaces/EthereumLikeLedgerInterface.js';
+import { EthereumLikeLedgerInterface } from '../interfaces/EthereumLikeLedgerInterface.ts';
 
 export class AvalancheLedger extends EthereumLikeLedgerInterface {
   constructor({
@@ -15,9 +15,7 @@ export class AvalancheLedger extends EthereumLikeLedgerInterface {
     derivationPath?: DerivationPathArray | string;
     chainId?: ChainId;
   }) {
-    super();
-
-    defineReadOnly(this, 'provider', provider || null);
+    super(provider);
 
     this.chainId = chainId || ChainId.Avalanche;
     this.chain = 'avax';

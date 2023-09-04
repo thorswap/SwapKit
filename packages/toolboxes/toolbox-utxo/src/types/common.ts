@@ -1,8 +1,8 @@
-import { FeeOption, TxParams, UTXO, UTXOChain, WalletTxParams } from '@thorswap-lib/types';
+import type { FeeOption, TxParams, UTXO, UTXOChain, WalletTxParams } from '@thorswap-lib/types';
 
-import { BlockchairApiType } from '../api/blockchairApi.js';
-import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '../index.js';
-import { UTXOScriptType } from '../utils/index.js';
+import type { BlockchairApiType } from '../api/blockchairApi.ts';
+import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '../index.ts';
+import type { UTXOScriptType } from '../utils/index.ts';
 
 export type TransactionType = {
   toHex(): string;
@@ -12,7 +12,7 @@ export type TransactionBuilderType = {
   inputs: any[];
   sign(
     vin: number,
-    keyPair: KeyPairType,
+    keyPair: { getAddress: (index?: number) => string },
     redeemScript?: Buffer,
     hashType?: number,
     witnessValue?: number,
@@ -20,10 +20,6 @@ export type TransactionBuilderType = {
     signatureAlgorithm?: string,
   ): void;
   build(): TransactionType;
-};
-
-export type KeyPairType = {
-  getAddress(index?: number): string;
 };
 
 export type Witness = {

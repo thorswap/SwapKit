@@ -1,1 +1,1 @@
-export * from './SwapKitError.js';
+export * from './SwapKitError.ts';

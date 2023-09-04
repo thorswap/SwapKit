@@ -1,1 +1,1 @@
-export * from './client-types.js';
+export * from './client-types.ts';

@@ -1,9 +1,8 @@
-import { Provider, TransactionRequest } from '@ethersproject/abstract-provider';
-import { Signer } from '@ethersproject/abstract-signer';
-import { BigNumber } from '@ethersproject/bignumber';
+import type { Provider, TransactionRequest } from '@ethersproject/abstract-provider';
+import type { Signer } from '@ethersproject/abstract-signer';
+import type { BigNumber } from '@ethersproject/bignumber';
 import { Contract } from '@ethersproject/contracts';
-import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
-import { serialize } from '@ethersproject/transactions';
+import type { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
@@ -15,11 +14,12 @@ import {
   RPCUrl,
 } from '@thorswap-lib/types';
 
-import { covalentApi, CovalentApiType } from '../api/covalentApi.js';
-import { gasOracleAbi } from '../contracts/op/gasOracle.js';
-import { getProvider } from '../provider.js';
+import type { CovalentApiType } from '../api/covalentApi.ts';
+import { covalentApi } from '../api/covalentApi.ts';
+import { gasOracleAbi } from '../contracts/op/gasOracle.ts';
+import { getProvider } from '../provider.ts';
 
-import { BaseEVMToolbox } from './BaseEVMToolbox.js';
+import { BaseEVMToolbox } from './BaseEVMToolbox.ts';
 
 const GAS_PRICE_ORACLE_ADDRESS = '0x420000000000000000000000000000000000000f';
 
@@ -35,6 +35,9 @@ const _serializeTx = async (
   provider: Provider,
   { data, from, to, gasPrice, type, gasLimit, nonce }: TransactionRequest,
 ) => {
+  const { serialize } = await import('@ethersproject/transactions');
+  const { BigNumber } = await import('@ethersproject/bignumber');
+
   return serialize({
     data,
     to,

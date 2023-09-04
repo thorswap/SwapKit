@@ -1,14 +1,10 @@
-import {
-  DerivationPathArray,
-  ErrorCode,
-  GetAddressAndPubKeyResponse,
-  NetworkDerivationPath,
-} from '@thorswap-lib/types';
+import type { DerivationPathArray, GetAddressAndPubKeyResponse } from '@thorswap-lib/types';
+import { ErrorCode, NetworkDerivationPath } from '@thorswap-lib/types';
 import { fromByteArray } from 'base64-js';
 
-import { CommonLedgerInterface } from '../../interfaces/LedgerInterfaces.js';
+import { CommonLedgerInterface } from '../../interfaces/LedgerInterfaces.ts';
 
-import { getSignature } from './utils.js';
+import { getSignature } from './utils.ts';
 
 export class THORChainLedger extends CommonLedgerInterface {
   private pubKey: string | null = null;

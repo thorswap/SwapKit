@@ -1,26 +1,20 @@
 import { HDKey } from '@scure/bip32';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import {
-  AmountWithBaseDenom,
-  Balance,
-  BaseDecimal,
-  Chain,
-  FeeOption,
-  UTXO,
-} from '@thorswap-lib/types';
+import type { AmountWithBaseDenom, Balance, UTXO } from '@thorswap-lib/types';
+import { BaseDecimal, Chain, FeeOption } from '@thorswap-lib/types';
 import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';
-import { ECPairFactory, ECPairInterface } from 'ecpair';
-import * as tinySecp from 'tiny-secp256k1';
+import type { ECPairInterface } from 'ecpair';
+import { ECPairFactory } from 'ecpair';
 
-import {
+import type {
   TargetOutput,
   UTXOBaseToolboxParams,
   UTXOBuildTxParams,
   UTXOCreateKeyParams,
   UTXOEstimateFeeParams,
   UTXOWalletTransferParams,
-} from '../types/common.js';
+} from '../types/common.ts';
 import {
   accumulative,
   calculateTxSize,
@@ -30,29 +24,29 @@ import {
   MIN_TX_FEE,
   standardFeeRates,
   UTXOScriptType,
-} from '../utils/index.js';
+} from '../utils/index.ts';
 
-const createKeysForPath = ({
+const createKeysForPath = async ({
   phrase,
   wif,
   derivationPath,
   chain,
-}: UTXOCreateKeyParams & UTXOBaseToolboxParams): ECPairInterface => {
+}: UTXOCreateKeyParams & UTXOBaseToolboxParams): Promise<ECPairInterface> => {
+  if (!wif || !phrase) throw new Error('Either phrase or wif must be provided');
+
+  const tinySecp = await import('tiny-secp256k1');
+  const factory = ECPairFactory(tinySecp);
   const network = getNetwork(chain);
 
-  if (wif) {
-    return ECPairFactory(tinySecp).fromWIF(wif, network);
-  } else if (phrase) {
-    const seed = getSeed(phrase);
-    const master = HDKey.fromMasterSeed(seed, network).derive(derivationPath);
+  if (wif) return factory.fromWIF(wif, network);
 
-    if (!master.privateKey) {
-      throw new Error('Could not get private key from phrase');
-    }
-    return ECPairFactory(tinySecp).fromPrivateKey(Buffer.from(master.privateKey), { network });
-  } else {
-    throw new Error('Either phrase or wif must be provided');
+  const seed = getSeed(phrase);
+  const master = HDKey.fromMasterSeed(seed, network).derive(derivationPath);
+
+  if (!master.privateKey) {
+    throw new Error('Could not get private key from phrase');
   }
+  return factory.fromPrivateKey(Buffer.from(master.privateKey), { network });
 };
 
 const validateAddress = ({ address, chain }: { address: string } & UTXOBaseToolboxParams) => {
@@ -308,13 +302,13 @@ export const BaseUTXOToolbox = (
   createKeysForPath: (params: UTXOCreateKeyParams) =>
     createKeysForPath({ ...params, ...baseToolboxParams }),
 
-  getPrivateKeyFromMnemonic: ({
+  getPrivateKeyFromMnemonic: async ({
     phrase,
     derivationPath,
   }: {
     phrase: string;
     derivationPath: string;
-  }) => createKeysForPath({ phrase, derivationPath, ...baseToolboxParams }).toWIF(),
+  }) => (await createKeysForPath({ phrase, derivationPath, ...baseToolboxParams })).toWIF(),
 
   getBalance: (address: string): Promise<Balance[]> =>
     getBalance({ address, ...baseToolboxParams }),

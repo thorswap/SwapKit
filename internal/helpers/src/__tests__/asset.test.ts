@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { assetFromString, assetToString } from '../asset.js';
+import { assetFromString, assetToString } from '../asset.ts';
 import { Chain } from '@thorswap-lib/types';
 
 describe('assetToString', () => {

@@ -1,6 +1,6 @@
-import { questions } from './cliPrompts.js';
-import { copyFiles } from './copyFiles.js';
-import { log, messages } from './log.js';
+import { questions } from './cliPrompts.ts';
+import { copyFiles } from './copyFiles.ts';
+import { log, messages } from './log.ts';
 
 export const libGenerator = () => {
   log.accent(messages.logo);

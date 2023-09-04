@@ -1,6 +1,6 @@
 import { AssetSymbol, BaseDecimal, Chain } from '@thorswap-lib/types';
 
-import { getAssetType, getNetworkName } from '../helpers/index.js';
+import { getAssetType, getNetworkName } from '../helpers/index.ts';
 
 /**
  * L1 asset format:

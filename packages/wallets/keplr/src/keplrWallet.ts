@@ -1,29 +1,19 @@
-import { createCosmJS, GaiaToolbox } from '@thorswap-lib/toolbox-cosmos';
-import {
-  Chain,
-  ChainId,
-  ConnectWalletParams,
-  WalletOption,
-  WalletTxParams,
-} from '@thorswap-lib/types';
-
-declare global {
-  interface Window {
-    keplr: import('@keplr-wallet/types').Keplr;
-  }
-}
+import type { Keplr } from '@keplr-wallet/types';
+import type { ConnectWalletParams, WalletTxParams } from '@thorswap-lib/types';
+import { Chain, ChainId, WalletOption } from '@thorswap-lib/types';
 
 const connectKeplr =
   ({ addChain, rpcUrls }: ConnectWalletParams) =>
-  async (client?: any) => {
-    const keplrClient = client || window.keplr;
+  async (client?: Keplr) => {
+    const keplrClient = (client || (window as any).keplr) as Keplr | undefined;
     keplrClient?.enable(ChainId.Cosmos);
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
     if (!offlineSigner) throw new Error('Could not load offlineSigner');
+    const { GaiaToolbox, createCosmJS } = await import('@thorswap-lib/toolbox-cosmos');
 
-    const [{ address }] = await offlineSigner.getAccounts();
     const cosmJS = await createCosmJS({ offlineSigner, rpcUrl: rpcUrls[Chain.Cosmos] });
 
+    const [{ address }] = await offlineSigner.getAccounts();
     const transfer = async ({ asset, recipient, memo, amount }: WalletTxParams) => {
       const coins = [
         { denom: asset?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: amount.amount().toString() },
@@ -33,11 +23,9 @@ const connectKeplr =
       return transactionHash;
     };
 
-    const toolbox = GaiaToolbox();
-
     addChain({
       chain: Chain.Cosmos,
-      walletMethods: { ...toolbox, getAddress: () => address, transfer },
+      walletMethods: { ...GaiaToolbox(), getAddress: () => address, transfer },
       wallet: { address, balance: [], walletType: WalletOption.KEPLR },
     });
 
@@ -47,5 +35,4 @@ const connectKeplr =
 export const keplrWallet = {
   connectMethodName: 'connectKeplr' as const,
   connect: connectKeplr,
-  isDetected: () => !!window?.keplr,
 };

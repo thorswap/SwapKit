@@ -1,48 +1,28 @@
 import { fromBase64 } from '@cosmjs/encoding';
-import { Int53 } from '@cosmjs/math';
-import { encodePubkey, makeAuthInfoBytes, TxBodyEncodeObject } from '@cosmjs/proto-signing';
-import { GasPrice, SigningStargateClient, StargateClient } from '@cosmjs/stargate';
-import {
-  BinanceToolbox,
-  DepositParam,
-  GaiaToolbox,
-  getDenom,
-  getDenomWithChain,
-  ThorchainToolbox,
-} from '@thorswap-lib/toolbox-cosmos';
-import { AVAXToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
-import {
-  BCHToolbox,
-  BTCToolbox,
-  DOGEToolbox,
-  LTCToolbox,
-  UTXOBuildTxParams,
-} from '@thorswap-lib/toolbox-utxo';
-import {
-  ApiUrl,
-  Chain,
-  ChainId,
+import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
+import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
+import type { UTXOBuildTxParams } from '@thorswap-lib/toolbox-utxo';
+import type {
   ConnectWalletParams,
   DerivationPathArray,
-  FeeOption,
-  RPCUrl,
   TxParams,
-  WalletOption,
   WalletTxParams,
 } from '@thorswap-lib/types';
+import { ApiUrl, Chain, ChainId, FeeOption, RPCUrl, WalletOption } from '@thorswap-lib/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
-import { AvalancheLedger } from './clients/avalanche.js';
-import { BinanceLedger } from './clients/binance/index.js';
-import { BitcoinLedger } from './clients/bitcoin.js';
-import { BitcoinCashLedger } from './clients/bitcoincash.js';
-import { CosmosLedger } from './clients/cosmos.js';
-import { DogecoinLedger } from './clients/dogecoin.js';
-import { EthereumLedger } from './clients/ethereum.js';
-import { LitecoinLedger } from './clients/litecoin.js';
-import { THORChainLedger } from './clients/thorchain/index.js';
-import { getLedgerAddress, getLedgerClient, LEDGER_SUPPORTED_CHAINS } from './helpers/index.js';
+import type { AvalancheLedger } from './clients/avalanche.ts';
+import type { BinanceLedger } from './clients/binance/index.ts';
+import type { BitcoinLedger } from './clients/bitcoin.ts';
+import type { BitcoinCashLedger } from './clients/bitcoincash.ts';
+import type { CosmosLedger } from './clients/cosmos.ts';
+import type { DogecoinLedger } from './clients/dogecoin.ts';
+import type { EthereumLedger } from './clients/ethereum.ts';
+import type { LitecoinLedger } from './clients/litecoin.ts';
+import type { THORChainLedger } from './clients/thorchain/index.ts';
+import type { LEDGER_SUPPORTED_CHAINS } from './helpers/index.ts';
+import { getLedgerAddress, getLedgerClient } from './helpers/index.ts';
 
 type LedgerConfig = {
   api?: any;
@@ -115,6 +95,7 @@ const getToolbox = async ({
   switch (chain) {
     case Chain.Bitcoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
+      const { BTCToolbox } = await import('@thorswap-lib/toolbox-utxo');
       const toolbox = BTCToolbox(utxoParams);
 
       const transfer = async (params: UTXOBuildTxParams) => {
@@ -133,7 +114,7 @@ const getToolbox = async ({
     }
     case Chain.BitcoinCash: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-
+      const { BCHToolbox } = await import('@thorswap-lib/toolbox-utxo');
       const toolbox = BCHToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];
@@ -153,7 +134,7 @@ const getToolbox = async ({
     }
     case Chain.Dogecoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-
+      const { DOGEToolbox } = await import('@thorswap-lib/toolbox-utxo');
       const toolbox = DOGEToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];
@@ -172,7 +153,7 @@ const getToolbox = async ({
     }
     case Chain.Litecoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-
+      const { LTCToolbox } = await import('@thorswap-lib/toolbox-utxo');
       const toolbox = LTCToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = await (await toolbox.getFeeRates())[FeeOption.Average];
@@ -190,6 +171,7 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.Binance: {
+      const { BinanceToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = BinanceToolbox({ stagenet: false });
       const transfer = async (params: any) => {
         const { transaction, signMsg } = await toolbox.createTransactionAndSignMsg({
@@ -216,7 +198,9 @@ const getToolbox = async ({
       };
       return { ...toolbox, transfer };
     }
+
     case Chain.Cosmos: {
+      const { getDenom, GaiaToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = GaiaToolbox();
       const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
         const from = address;
@@ -225,12 +209,7 @@ const getToolbox = async ({
         const gasPrice = '0.007uatom';
 
         const sendCoinsMessage = {
-          amount: [
-            {
-              amount: amount.amount().toString(),
-              denom: getDenom(asset),
-            },
-          ],
+          amount: [{ amount: amount.amount().toString(), denom: getDenom(asset) }],
           fromAddress: from,
           toAddress: recipient,
         };
@@ -239,6 +218,8 @@ const getToolbox = async ({
           typeUrl: '/cosmos.bank.v1beta1.MsgSend',
           value: sendCoinsMessage,
         };
+
+        const { GasPrice, SigningStargateClient } = await import('@cosmjs/stargate');
 
         const signingClient = await SigningStargateClient.connectWithSigner(
           RPCUrl.Cosmos,
@@ -256,6 +237,7 @@ const getToolbox = async ({
 
     case Chain.Ethereum: {
       if (!ethplorerApiKey) throw new Error('Ethplorer API key is not defined');
+      const { ETHToolbox, getProvider } = await import('@thorswap-lib/toolbox-evm');
 
       return ETHToolbox({
         api,
@@ -266,6 +248,7 @@ const getToolbox = async ({
     }
     case Chain.Avalanche: {
       if (!covalentApiKey) throw new Error('Covalent API key is not defined');
+      const { AVAXToolbox, getProvider } = await import('@thorswap-lib/toolbox-evm');
 
       return AVAXToolbox({
         api,
@@ -275,26 +258,32 @@ const getToolbox = async ({
       });
     }
     case Chain.THORChain: {
+      const { getDenomWithChain, ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = ThorchainToolbox({ stagenet: false });
 
+      // TODO (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
       const deposit = async ({ asset, amount, memo }: DepositParam) => {
         const account = await toolbox.getAccount(address);
         if (!asset) throw new Error('invalid asset to deposit');
         if (!account) throw new Error('invalid account');
         if (!account.pubkey) throw new Error('Account pubkey not found');
 
+        const { Int53 } = await import('@cosmjs/math');
+        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
+        const { StargateClient } = await import('@cosmjs/stargate');
+
         const unsignedMsgs = recursivelyOrderKeys([
           {
             type: 'thorchain/MsgDeposit',
             value: {
+              memo,
+              signer: address,
               coins: [
                 {
                   amount: amount.amount().toString(),
                   asset: getDenomWithChain(asset).toUpperCase(),
                 },
               ],
-              memo,
-              signer: address,
             },
           },
         ]);
@@ -314,8 +303,8 @@ const getToolbox = async ({
 
         if (!signatures) throw new Error('tx signing failed');
 
-        const aminoTypes = toolbox.createDefaultAminoTypes();
-        const registry = toolbox.createDefaultRegistry();
+        const aminoTypes = await toolbox.createDefaultAminoTypes();
+        const registry = await toolbox.createDefaultRegistry();
         const signedTxBody: TxBodyEncodeObject = {
           typeUrl: '/cosmos.tx.v1beta1.TxBody',
           value: {
@@ -351,11 +340,15 @@ const getToolbox = async ({
         return result.transactionHash;
       };
 
+      // TODO (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
       const transfer = async ({ memo = '', amount, asset, recipient }: WalletTxParams) => {
         const account = await toolbox.getAccount(address);
         if (!account) throw new Error('invalid account');
         if (!asset) throw new Error('invalid asset');
         if (!account.pubkey) throw new Error('Account pubkey not found');
+
+        const { Int53 } = await import('@cosmjs/math');
+        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
 
         const { accountNumber, sequence = '0' } = account;
 
@@ -398,8 +391,8 @@ const getToolbox = async ({
           signatures,
         };
 
-        const aminoTypes = toolbox.createDefaultAminoTypes();
-        const registry = toolbox.createDefaultRegistry();
+        const aminoTypes = await toolbox.createDefaultAminoTypes();
+        const registry = await toolbox.createDefaultRegistry();
         const signedTxBody: TxBodyEncodeObject = {
           typeUrl: '/cosmos.tx.v1beta1.TxBody',
           value: {
@@ -430,6 +423,8 @@ const getToolbox = async ({
 
         const txBytes = TxRaw.encode(txRaw).finish();
 
+        const { StargateClient } = await import('@cosmjs/stargate');
+
         const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
@@ -451,7 +446,7 @@ const connectLedger =
     rpcUrls,
   }: ConnectWalletParams) =>
   async (chain: (typeof LEDGER_SUPPORTED_CHAINS)[number], derivationPath?: DerivationPathArray) => {
-    const ledgerClient = getLedgerClient({ chain, derivationPath });
+    const ledgerClient = await getLedgerClient({ chain, derivationPath });
     if (!ledgerClient) return;
 
     const address = await getLedgerAddress({ chain, ledgerClient });
@@ -479,5 +474,4 @@ const connectLedger =
 export const ledgerWallet = {
   connectMethodName: 'connectLedger' as const,
   connect: connectLedger,
-  isDetected: () => true,
 };

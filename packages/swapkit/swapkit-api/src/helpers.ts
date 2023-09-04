@@ -1,6 +1,6 @@
 import { ApiUrl } from '@thorswap-lib/types';
 
-import { ApiParams, CachedPricesParams, CachedPricesResponse } from './types/index.js';
+import type { ApiParams, CachedPricesParams, CachedPricesResponse } from './types/index.ts';
 
 type RequestConfig = {
   onError?: (error: any) => void;

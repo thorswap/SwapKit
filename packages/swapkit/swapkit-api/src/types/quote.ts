@@ -1,4 +1,4 @@
-import { Chain, ErrorCode, QuoteMode } from '@thorswap-lib/types';
+import type { Chain, ErrorCode, QuoteMode } from '@thorswap-lib/types';
 
 export enum TransactionType {
   // Old quote mode

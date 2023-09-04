@@ -1,26 +1,13 @@
-import { Signer } from '@ethersproject/abstract-signer';
+import type { Signer } from '@ethersproject/abstract-signer';
 import { derivationPathToString } from '@thorswap-lib/helpers';
-import { AVAXToolbox, BSCToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
-import {
-  BCHToolbox,
-  BTCToolbox,
-  DOGEToolbox,
-  LTCToolbox,
-  UTXOTransferParams,
-} from '@thorswap-lib/toolbox-utxo';
-import {
-  Chain,
-  ConnectWalletParams,
-  DerivationPathArray,
-  FeeOption,
-  UTXO,
-  WalletOption,
-} from '@thorswap-lib/types';
+import type { UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
+import type { ConnectWalletParams, DerivationPathArray, UTXO } from '@thorswap-lib/types';
+import { Chain, FeeOption, WalletOption } from '@thorswap-lib/types';
 import TrezorConnect from '@trezor/connect-web';
 import { toCashAddress } from 'bchaddrjs';
-import { Psbt } from 'bitcoinjs-lib';
+import type { Psbt } from 'bitcoinjs-lib';
 
-import { getEVMSigner } from './signer/evm.js';
+import { getEVMSigner } from './signer/evm.ts';
 
 export const TREZOR_SUPPORTED_CHAINS = [
   Chain.Avalanche,
@@ -67,6 +54,10 @@ const getToolbox = async ({
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
 
+      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
+        '@thorswap-lib/toolbox-evm'
+      );
+
       const provider = getProvider(chain, rpcUrl);
       const signer = (await getEVMSigner({ chain, derivationPath, provider })) as Signer;
 
@@ -89,6 +80,10 @@ const getToolbox = async ({
     case Chain.Litecoin: {
       if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
       const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
+
+      const { BTCToolbox, BCHToolbox, LTCToolbox, DOGEToolbox } = await import(
+        '@thorswap-lib/toolbox-utxo'
+      );
 
       const scriptType:
         | {
@@ -290,5 +285,4 @@ const connectTrezor =
 export const trezorWallet = {
   connectMethodName: 'connectTrezor' as const,
   connect: connectTrezor,
-  isDetected: () => true,
 };

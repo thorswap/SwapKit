@@ -1,5 +1,5 @@
-import { createCosmJS } from '@thorswap-lib/toolbox-cosmos';
-import { Chain, ChainId, WalletTxParams } from '@thorswap-lib/types';
+import type { WalletTxParams } from '@thorswap-lib/types';
+import { Chain, ChainId } from '@thorswap-lib/types';
 
 type TransactionMethod = 'eth_signTransaction' | 'eth_sendTransaction' | 'transfer' | 'deposit';
 
@@ -113,8 +113,8 @@ export const walletTransfer = async (
 export const cosmosTransfer =
   (rpcUrl?: string) =>
   async ({ from, recipient, amount, asset, memo }: any) => {
-    const keplrClient = window.xfi?.keplr;
-    const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
+    const { createCosmJS } = await import('@thorswap-lib/toolbox-cosmos');
+    const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
     const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
 
     const coins = [

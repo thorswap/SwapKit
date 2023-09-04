@@ -1,12 +1,13 @@
 import { Chain } from '@thorswap-lib/types';
-import { BigNumber } from 'bignumber.js';
+import type { BigNumber } from 'bignumber.js';
 
-import { BN_FORMAT } from '../helpers/asset.js';
+import { BN_FORMAT } from '../helpers/asset.ts';
 
-import { Amount, AmountType, Rounding } from './amount.js';
-import { AssetEntity, getSignatureAssetFor } from './asset.js';
-import { Pool } from './pool.js';
-import { Price } from './price.js';
+import { Amount, AmountType, Rounding } from './amount.ts';
+import type { AssetEntity } from './asset.ts';
+import { getSignatureAssetFor } from './asset.ts';
+import type { Pool } from './pool.ts';
+import { Price } from './price.ts';
 
 export class AssetAmount extends Amount {
   public readonly asset: AssetEntity;

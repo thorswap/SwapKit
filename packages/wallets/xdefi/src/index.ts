@@ -1,6 +1,6 @@
 import type { EthereumWindowProvider } from '@thorswap-lib/toolbox-evm';
 
-export { xdefiWallet } from './xdefiWallet.js';
+export { xdefiWallet } from './xdefiWallet.ts';
 
 declare global {
   interface Window {

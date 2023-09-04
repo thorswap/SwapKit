@@ -1,2 +1,2 @@
-export * from './blockchairApiTypes.js';
-export * from './common.js';
+export * from './blockchairApiTypes.ts';
+export * from './common.ts';

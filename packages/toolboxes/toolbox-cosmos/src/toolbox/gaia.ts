@@ -1,14 +1,15 @@
-import { OfflineDirectSigner } from '@cosmjs/proto-signing';
-import { Account } from '@cosmjs/stargate';
+import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
+import type { Account } from '@cosmjs/stargate';
 import { baseAmount } from '@thorswap-lib/helpers';
-import { ApiUrl, Balance, BaseDecimal, ChainId, DerivationPath } from '@thorswap-lib/types';
+import type { Balance } from '@thorswap-lib/types';
+import { ApiUrl, BaseDecimal, ChainId, DerivationPath } from '@thorswap-lib/types';
 
-import { CosmosClient } from '../cosmosClient.js';
-import { GaiaToolboxType } from '../index.js';
-import { TransferParams } from '../types.js';
-import { getAsset } from '../util.js';
+import { CosmosClient } from '../cosmosClient.ts';
+import type { GaiaToolboxType } from '../index.ts';
+import type { TransferParams } from '../types.ts';
+import { getAsset } from '../util.ts';
 
-import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.js';
+import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.ts';
 
 export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxType => {
   const client = new CosmosClient({
@@ -17,7 +18,7 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
   });
 
   const baseToolbox: {
-    validateAddress: (address: string) => boolean;
+    validateAddress: (address: string) => Promise<boolean>;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getAccount: (address: string) => Promise<Account | null>;
     getBalance: (address: string) => Promise<Balance[]>;

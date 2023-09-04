@@ -1,7 +1,7 @@
-export { BaseUTXOToolbox } from './toolbox/BaseUTXOToolbox.js';
-export { BCHToolbox } from './toolbox/bch.js';
-export { BTCToolbox } from './toolbox/btc.js';
-export { DOGEToolbox } from './toolbox/doge.js';
-export { LTCToolbox } from './toolbox/ltc.js';
-export * from './types/index.js';
-export * from './utils/index.js';
+export { BaseUTXOToolbox } from './toolbox/BaseUTXOToolbox.ts';
+export { BCHToolbox } from './toolbox/bch.ts';
+export { BTCToolbox } from './toolbox/btc.ts';
+export { DOGEToolbox } from './toolbox/doge.ts';
+export { LTCToolbox } from './toolbox/ltc.ts';
+export * from './types/index.ts';
+export * from './utils/index.ts';

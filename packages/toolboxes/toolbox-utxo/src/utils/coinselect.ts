@@ -1,4 +1,4 @@
-import { TargetOutput, UTXOCalculateTxSizeParams } from '../types/index.js';
+import type { TargetOutput, UTXOCalculateTxSizeParams } from '../types/index.ts';
 import {
   calculateTxSize,
   getInputSize,
@@ -6,7 +6,7 @@ import {
   getScriptTypeForAddress,
   TX_OVERHEAD,
   UTXOScriptType,
-} from '../utils/index.js';
+} from '../utils/index.ts';
 
 export const accumulative = ({
   inputs,
