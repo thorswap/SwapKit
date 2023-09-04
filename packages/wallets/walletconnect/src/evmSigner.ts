@@ -1,5 +1,5 @@
 import { Signer } from '@ethersproject/abstract-signer';
-import type { JsonRpcProvider, Provider } from '@ethersproject/providers';
+import type { JsonRpcProvider, Provider, TransactionRequest } from '@ethersproject/providers';
 import type { EVMChain, EVMTxParams } from '@thorswap-lib/types';
 
 import { DEFAULT_EIP155_METHODS } from './constants.ts';

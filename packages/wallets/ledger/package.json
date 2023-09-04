@@ -33,7 +33,7 @@
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "@types/bchaddrjs": "0.4.0",
     "@types/bn.js": "5.1.1",
-    "@types/crypto-js": "4.1.1",
+    "@types/crypto-js": "4.1.2",
     "@types/elliptic": "6.4.14",
     "@types/long": "4.0.2",
     "@types/node": "20.5.9",
