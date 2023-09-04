@@ -1,5 +1,11 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.38
+
+### Patch Changes
+
+- [#287](https://github.com/thorswap/SwapKit/pull/287) [`bb9b38a`](https://github.com/thorswap/SwapKit/commit/bb9b38a56f0147556b841355531fa86b61cd0b0e) Thanks [@towanTG](https://github.com/towanTG)! - Implements walletconnect sendTransaction as eth_signTransaction is not wildly supported
+
 ## 2.0.0-development.37
 
 ### Patch Changes
