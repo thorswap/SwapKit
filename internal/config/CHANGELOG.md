@@ -1,5 +1,11 @@
 # @internal/config
 
+## 0.0.1
+
+### Patch Changes
+
+- [`a618b19`](https://github.com/thorswap/SwapKit/commit/a618b192e08847558920194502e7d955a7213110) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Use dynamic imports
+
 ## 0.0.1-development.2
 
 ### Patch Changes

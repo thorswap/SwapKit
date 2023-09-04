@@ -1,5 +1,19 @@
 # @thorswap-lib/keystore
 
+## 1.0.0
+
+### Patch Changes
+
+- [`a618b19`](https://github.com/thorswap/SwapKit/commit/a618b192e08847558920194502e7d955a7213110) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Use dynamic imports
+
+- Updated dependencies [[`a618b19`](https://github.com/thorswap/SwapKit/commit/a618b192e08847558920194502e7d955a7213110)]:
+  - @thorswap-lib/swapkit-entities@1.0.0
+  - @thorswap-lib/toolbox-cosmos@1.0.0
+  - @thorswap-lib/toolbox-utxo@1.0.0
+  - @thorswap-lib/toolbox-evm@1.0.0
+  - @thorswap-lib/types@1.0.0
+  - @thorswap-lib/helpers@0.0.0
+
 ## 1.0.0-development.217
 
 ### Patch Changes
