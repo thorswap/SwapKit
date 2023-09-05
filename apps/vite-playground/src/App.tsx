@@ -16,7 +16,7 @@ const apiKeys = ['walletConnectProjectId'] as const;
 const App = () => {
   const [widgetType, setWidgetType] = useState<'swap' | 'loan' | 'earn'>('swap');
   const [wallet, setWallet] = useState<WalletDataType | WalletDataType[]>(null);
-  const [stagenet, setStagenet] = useState(true);
+  const [stagenet, setStagenet] = useState(false);
   const [skClient, setSkClient] = useState<SwapKitCore | null>(null);
 
   /**
@@ -34,7 +34,13 @@ const App = () => {
   }>({});
 
   useEffect(() => {
-    getSwapKitClient({ ...keys, stagenet }).then(setSkClient);
+    setSkClient(null);
+
+    getSwapKitClient({ ...keys, stagenet }).then((client) => {
+      setTimeout(() => {
+        setSkClient(client);
+      }, 1000);
+    });
   }, [keys, stagenet]);
 
   const setAsset = useCallback(

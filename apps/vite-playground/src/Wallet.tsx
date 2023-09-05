@@ -1,6 +1,6 @@
-import { AssetAmount } from '@thorswap-lib/swapkit-entities';
+import type { AssetAmount } from '@thorswap-lib/swapkit-entities';
 
-import { WalletDataType } from './types';
+import type { WalletDataType } from './types';
 
 type Props = {
   walletData: WalletDataType;
@@ -15,9 +15,7 @@ export const Wallet = ({ walletData, setAsset }: Props) => {
       <div>
         <span>
           {walletData?.walletType} {walletData?.balance?.[0]?.asset.L1Chain} wallet address:{' '}
-          {walletData?.address?.slice(0, 6)}
-          ...
-          {walletData?.address?.slice(-4)}
+          {walletData?.address}
         </span>
       </div>
 

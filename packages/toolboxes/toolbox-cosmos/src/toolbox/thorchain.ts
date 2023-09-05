@@ -51,8 +51,8 @@ const createDefaultRegistry = async () => {
 
   return new Registry([
     ...defaultRegistryTypes,
-    ['/types.MsgSend', { ...types.default.MsgSend }],
-    ['/types.MsgDeposit', { ...types.default.MsgDeposit }],
+    ['/types.MsgSend', { ...types.default.types.MsgSend }],
+    ['/types.MsgDeposit', { ...types.default.types.MsgDeposit }],
   ]);
 };
 

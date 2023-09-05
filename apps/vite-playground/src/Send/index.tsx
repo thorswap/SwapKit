@@ -1,4 +1,4 @@
-import { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { Amount, AmountType, AssetAmount } from '@thorswap-lib/swapkit-entities';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
@@ -21,11 +21,10 @@ export default function Send({
     const float = parseFloat(value);
     const amount = new Amount(float, AmountType.ASSET_AMOUNT, inputAsset.asset.decimal);
     setSendAmount(amount);
-  }
-
+  };
 
   const handleSend = useCallback(async () => {
-    if (!inputAsset || !inputAmount || !skClient) return;
+    if (!inputAsset || !inputAmount || !skClient || !sendAmount) return;
     const assetAmount = new AssetAmount(inputAsset.asset, sendAmount);
 
     const txHash = await skClient.transfer({
@@ -62,7 +61,7 @@ export default function Send({
           <div>
             <span>Recipient:</span>
             <input
-              onChange={e => setRecipient(e.target.value)}
+              onChange={(e) => setRecipient(e.target.value)}
               placeholder="address"
               value={recipient}
             />
