@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 1.0.0-development.154
+
+### Patch Changes
+
+- [`30dc18b`](https://github.com/thorswap/SwapKit/commit/30dc18b93214b3b0a36b51b173bd7ba0d0325b2e) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix cosmos register messages
+
 ## 1.0.0-development.153
 
 ### Patch Changes

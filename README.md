@@ -1,10 +1,16 @@
-# SwapKit
+# SwapKit SDK
 
-🚧🚧🚧🚧🚧
-ALPHA version of SwapKit SDK. Under heavy development. Use at your own risk.
-🚧🚧🚧🚧🚧
+
+_Integrate Blockchains easily_
 
 ## Usage
+
+### Documentation
+
+- [Getting Started](https://docs.thorswap.finance/swapkit-docs)
+- [Installation](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/install-swapkit-sdk)
+- [Setup](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/set-up-the-sdk)
+- [Request Quote & Execute Swap](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/request-route-and-execute-swap)
 
 ### Full Integration Example
 
