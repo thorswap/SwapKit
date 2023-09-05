@@ -1,5 +1,14 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.42
+
+### Patch Changes
+
+- [#292](https://github.com/thorswap/SwapKit/pull/292) [`28c782d`](https://github.com/thorswap/SwapKit/commit/28c782d7804e19bc6a415d87d30a2adc9f9846f0) Thanks [@towanTG](https://github.com/towanTG)! - Changes walletconnect modal to improve load speed and stability
+
+- Updated dependencies [[`30dc18b`](https://github.com/thorswap/SwapKit/commit/30dc18b93214b3b0a36b51b173bd7ba0d0325b2e)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.154
+
 ## 2.0.0-development.41
 
 ### Patch Changes
