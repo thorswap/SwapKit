@@ -49,7 +49,7 @@ export const getLedgerTransport = async () => {
     throw new Error(error.message);
   }
 
-  const Transport = await import('@ledgerhq/hw-transport-webusb');
+  const { default: Transport } = await import('@ledgerhq/hw-transport-webusb');
   // @ts-ignore Ledger typing is wrong
   const isSupported = await Transport.isSupported();
   if (!isSupported) throw new Error('WebUSB not supported');

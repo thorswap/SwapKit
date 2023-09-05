@@ -1,5 +1,11 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.240
+
+### Patch Changes
+
+- Fix isSupported on transport ledger
+
 ## 1.0.0-development.239
 
 ### Patch Changes
