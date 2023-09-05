@@ -2,8 +2,7 @@
   "author": "thorswap",
   "dependencies": {
     "@thorswap-lib/types": "workspace:*",
-    "@walletconnect/modal": "2.6.1",
-    "@walletconnect/sign-client": "2.10.0"
+    "@walletconnect/modal-sign-html": "^2.6.1"
   },
   "description": "THORSwap Lib walletconnect",
   "devDependencies": {
