@@ -3,10 +3,10 @@ import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
 import type { WalletTxParams } from '@thorswap-lib/types';
 import { ApiUrl, Chain, ChainId, WalletOption } from '@thorswap-lib/types';
-import { WalletConnectModal } from '@walletconnect/modal';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
+import type {WalletConnectModalSign} from "@walletconnect/modal-sign-html";
 
 import {
   BINANCE_MAINNET_ID,
@@ -328,17 +328,17 @@ const getWalletconnect = async (
   walletConnectProjectId?: string,
   walletconnectOptions?: SignClientTypes.Options,
 ) => {
-  let modal: WalletConnectModal | undefined;
+  let modal: WalletConnectModalSign | undefined;
   try {
+    console.log('walletConnectProjectId', walletConnectProjectId)
     if (!walletConnectProjectId) {
       throw new Error('Error while setting up walletconnect connection: Project ID not specified');
     }
     const requiredNamespaces = getRequiredNamespaces(chains.map(chainToChainId));
 
-    const { default: Client } = await import('@walletconnect/sign-client');
+    const { WalletConnectModalSign } = await import('@walletconnect/modal-sign-html');
 
-    // @ts-expect-error `default` type is wrong
-    const client = await Client.init({
+    const client = new WalletConnectModalSign({
       logger: DEFAULT_LOGGER,
       relayUrl: DEFAULT_RELAY_URL,
       projectId: walletConnectProjectId,
@@ -346,23 +346,10 @@ const getWalletconnect = async (
       ...walletconnectOptions?.core,
     });
 
-    const { uri, approval } = await client.connect({
+    const session = await client.connect({
       requiredNamespaces,
     });
 
-    modal = new WalletConnectModal({
-      projectId: walletConnectProjectId,
-      chains: chains.map(chainToChainId),
-    });
-
-    // Open QRCode modal if a URI was returned (i.e. we're not connecting an existing pairing).
-    if (uri) {
-      await modal.openModal({
-        uri,
-      });
-    }
-
-    const session = await approval();
     const accounts = Object.values(session.namespaces)
       .map((namespace: any) => namespace.accounts)
       .flat();
