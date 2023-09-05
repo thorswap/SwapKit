@@ -1,10 +1,9 @@
-import { type StdSignDoc } from '@cosmjs/amino';
+import type { StdSignDoc } from '@cosmjs/amino';
 import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
 import type { WalletTxParams } from '@thorswap-lib/types';
 import { ApiUrl, Chain, ChainId, WalletOption } from '@thorswap-lib/types';
 import { WalletConnectModal } from '@walletconnect/modal';
-import Client from '@walletconnect/sign-client';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
@@ -44,7 +43,6 @@ const getToolbox = async ({
   address,
   session,
 }: {
-  // @ts-ignore
   walletconnect: Walletconnect;
   session: SessionTypes.Struct;
   chain: (typeof SUPPORTED_CHAINS)[number];
@@ -337,7 +335,9 @@ const getWalletconnect = async (
     }
     const requiredNamespaces = getRequiredNamespaces(chains.map(chainToChainId));
 
-    // @ts-ignore
+    const { default: Client } = await import('@walletconnect/sign-client');
+
+    // @ts-expect-error `default` type is wrong
     const client = await Client.init({
       logger: DEFAULT_LOGGER,
       relayUrl: DEFAULT_RELAY_URL,

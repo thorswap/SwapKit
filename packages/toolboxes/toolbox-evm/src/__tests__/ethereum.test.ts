@@ -1,12 +1,12 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import type { JsonRpcProvider } from '@ethersproject/providers';
 import helpers from '@nomicfoundation/hardhat-network-helpers';
+import type ethers from '@nomiclabs/hardhat-ethers';
 import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
 import { Chain, erc20ABI, FeeOption } from '@thorswap-lib/types';
 import hre from 'hardhat';
 import type { ExpectStatic } from 'vitest';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, test } from 'vitest';
-import type ethers from '@nomiclabs/hardhat-ethers'
 
 import { ETHToolbox } from '../index.ts';
 import { getProvider } from '../provider.ts';

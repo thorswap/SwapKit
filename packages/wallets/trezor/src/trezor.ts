@@ -112,8 +112,9 @@ const getToolbox = async ({
           : BCHToolbox(params);
 
       const getAddress = async (path: DerivationPathArray = derivationPath) => {
-        const { success, payload } = await //@ts-ignore
-        (TrezorConnect as unknown as TrezorConnect.TrezorConnect).getAddress({
+        const { success, payload } = await (
+          TrezorConnect as unknown as TrezorConnect.TrezorConnect
+        ).getAddress({
           path: `m/${derivationPathToString(path)}`,
           coin,
         });
@@ -136,8 +137,9 @@ const getToolbox = async ({
           index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
         );
 
-        const result = await //@ts-ignore
-        (TrezorConnect as unknown as TrezorConnect.TrezorConnect).signTransaction({
+        const result = await (
+          TrezorConnect as unknown as TrezorConnect.TrezorConnect
+        ).signTransaction({
           coin,
           inputs: inputs.map((input) => ({
             // Hardens the first 3 elements of the derivation path - required by trezor
@@ -253,14 +255,11 @@ const connectTrezor =
     },
   }: ConnectWalletParams) =>
   async (chain: (typeof TREZOR_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
-    const trezorStatus = await //@ts-ignore
-    (TrezorConnect as unknown as TrezorConnect.TrezorConnect).getDeviceState();
-    if (!trezorStatus.success) {
-      //@ts-ignore
-      (TrezorConnect as unknown as TrezorConnect.TrezorConnect).init({
-        lazyLoad: true, // this param will prevent iframe injection until TrezorConnect.method will be called
-        manifest: trezorManifest,
-      });
+    const TConnect = TrezorConnect as unknown as TrezorConnect.TrezorConnect;
+    const { success } = await TConnect.getDeviceState();
+
+    if (!success) {
+      TConnect.init({ lazyLoad: true, manifest: trezorManifest });
     }
 
     const { address, walletMethods } = await getToolbox({

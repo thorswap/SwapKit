@@ -35,7 +35,7 @@ export abstract class CommonLedgerInterface {
         case 'cosmos': {
           const { default: CosmosApp } = await import('@ledgerhq/hw-app-cosmos');
 
-          // @ts-ignore Ledger typing is wrong
+          // @ts-expect-error `default` typing is wrong
           return (this.ledgerApp ||= new CosmosApp(this.transport));
         }
       }
@@ -48,7 +48,7 @@ export abstract class CommonLedgerInterface {
 
 export abstract class UTXOLedgerInterface {
   public addressNetwork: BTCNetwork = networks.bitcoin;
-  // @ts-ignore Ledger typing is wrong
+  // @ts-expect-error `default` typing is wrong
   public btcApp: InstanceType<typeof BitcoinApp> | null = null;
   public chain: 'bch' | 'btc' | 'ltc' | 'doge' = 'btc';
   public derivationPath = '';
@@ -62,7 +62,7 @@ export abstract class UTXOLedgerInterface {
 
     const { default: BitcoinApp } = await import('@ledgerhq/hw-app-btc');
 
-    // @ts-ignore Ledger typing is wrong
+    // @ts-expect-error `default` typing is wrong
     this.btcApp = new BitcoinApp(this.transport);
   };
 

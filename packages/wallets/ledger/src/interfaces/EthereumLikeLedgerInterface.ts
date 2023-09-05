@@ -11,7 +11,7 @@ export abstract class EthereumLikeLedgerInterface extends Signer {
   public chain: 'eth' | 'avax' | 'bsc' = 'eth';
   public chainId: ChainId = ChainId.Ethereum;
   public derivationPath: string = '';
-  // @ts-ignore Ledger typing is wrong
+  // @ts-expect-error `default` typing is wrong
   public ledgerApp: InstanceType<typeof EthereumApp> | null = null;
   public ledgerTimeout: number = 50000;
 
@@ -30,7 +30,7 @@ export abstract class EthereumLikeLedgerInterface extends Signer {
     const transport = await getLedgerTransport();
     const { default: EthereumApp } = await import('@ledgerhq/hw-app-eth');
 
-    // @ts-ignore Ledger typing is wrong
+    // @ts-expect-error `default` typing is wrong
     this.ledgerApp ||= new EthereumApp(transport);
   };
 

@@ -1,4 +1,4 @@
-// @ts-ignore no typings for this package
+// @ts-expect-error no typings for this package
 import { string as VarString } from 'protocol-buffers-encodings';
 
 import { UVarInt } from './varint.ts';

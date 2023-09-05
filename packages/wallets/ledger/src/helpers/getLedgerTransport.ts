@@ -49,14 +49,14 @@ export const getLedgerTransport = async () => {
     throw new Error(error.message);
   }
 
-  const Transport = await import('@ledgerhq/hw-transport-webusb');
-  // @ts-ignore Ledger typing is wrong
+  const { default: Transport } = await import('@ledgerhq/hw-transport-webusb');
+  // @ts-expect-error Ledger typing is wrong
   const isSupported = await Transport.isSupported();
   if (!isSupported) throw new Error('WebUSB not supported');
 
   const { DisconnectedDevice } = await import('@ledgerhq/errors');
 
-  // @ts-ignore Ledger typing is wrong
+  // @ts-expect-error Ledger typing is wrong
   const transport = new Transport(device, iface.interfaceNumber);
 
   const onDisconnect = (e: any) => {

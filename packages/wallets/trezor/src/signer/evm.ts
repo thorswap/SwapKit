@@ -27,8 +27,9 @@ class TrezorSigner extends Signer {
 
   getAddress = async () => {
     if (!this.address) {
-      const result = await // @ts-ignore ts cant infer type of TrezorConnect
-      (TrezorConnect as unknown as TrezorConnect.TrezorConnect).ethereumGetAddress({
+      const result = await (
+        TrezorConnect as unknown as TrezorConnect.TrezorConnect
+      ).ethereumGetAddress({
         path: `m/${derivationPathToString(this.derivationPath)}`,
         showOnTrezor: true,
       });
@@ -41,8 +42,9 @@ class TrezorSigner extends Signer {
   };
 
   signMessage = async (message: string) => {
-    const result = await // @ts-ignore ts cant infer type of TrezorConnect
-    (TrezorConnect as unknown as TrezorConnect.TrezorConnect).ethereumSignMessage({
+    const result = await (
+      TrezorConnect as unknown as TrezorConnect.TrezorConnect
+    ).ethereumSignMessage({
       path: `m/${derivationPathToString(this.derivationPath)}`,
       message,
     });
@@ -85,8 +87,9 @@ class TrezorSigner extends Signer {
           { gasPrice: BigNumber.from(restTx.gasPrice).toHexString() }),
     };
 
-    const result = await // @ts-ignore ts cant infer type of TrezorConnect
-    (TrezorConnect as unknown as TrezorConnect.TrezorConnect).ethereumSignTransaction({
+    const result = await (
+      TrezorConnect as unknown as TrezorConnect.TrezorConnect
+    ).ethereumSignTransaction({
       path: `m/${derivationPathToString(this.derivationPath)}`,
       transaction: baseTx,
     });
