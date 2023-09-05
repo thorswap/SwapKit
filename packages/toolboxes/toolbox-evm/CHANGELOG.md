@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.162
+
+### Patch Changes
+
+- [`b68c31d`](https://github.com/thorswap/SwapKit/commit/b68c31d75c29702abec0c4fb45534a28cf39f868) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Update Ledger type annotations
+
 ## 1.0.0-development.161
 
 ### Patch Changes

@@ -169,8 +169,8 @@ const createMultisig = async (pubKeys: string[], threshold: number) => {
 
 const importSignature = (signature: string) => toByteArray(signature);
 
-const __REEXPORT__pubkeyToAddress = (pubkey: Pubkey, prefix = 'thor') => {
-  const { pubkeyToAddress } = require('@cosmjs/amino');
+const __REEXPORT__pubkeyToAddress = async (pubkey: Pubkey, prefix = 'thor') => {
+  const { pubkeyToAddress } = await import('@cosmjs/amino');
 
   return pubkeyToAddress(pubkey, prefix);
 };

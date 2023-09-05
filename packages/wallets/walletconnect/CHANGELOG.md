@@ -1,5 +1,15 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.41
+
+### Patch Changes
+
+- [`b68c31d`](https://github.com/thorswap/SwapKit/commit/b68c31d75c29702abec0c4fb45534a28cf39f868) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Update Ledger type annotations
+
+- Updated dependencies [[`b68c31d`](https://github.com/thorswap/SwapKit/commit/b68c31d75c29702abec0c4fb45534a28cf39f868)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.153
+  - @thorswap-lib/toolbox-evm@1.0.0-development.162
+
 ## 2.0.0-development.40
 
 ### Patch Changes
