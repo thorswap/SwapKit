@@ -8,6 +8,7 @@
     "@thorswap-lib/ledger": "workspace:*",
     "@thorswap-lib/okx": "workspace:*",
     "@thorswap-lib/swapkit-api": "workspace:*",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/swapkit-core": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",

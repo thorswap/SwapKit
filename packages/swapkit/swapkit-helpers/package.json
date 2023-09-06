@@ -1,15 +1,19 @@
 {
   "author": "thorswap",
   "dependencies": {},
-  "description": "THORSwap Lib <%- packageName %>",
+  "description": "THORSwap Lib swapkit-helpers",
   "devDependencies": {
     "@internal/config": "workspace:*",
+    "@thorswap-lib/types": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.3",
     "vite": "4.4.9",
     "vitest": "0.34.3"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"
+  },
+  "peerDependencies": {
+    "@thorswap-lib/types": "workspace:*"
   },
   "exports": {
     ".": {
@@ -26,7 +30,7 @@
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/<%- packageName %>",
+  "name": "@thorswap-lib/swapkit-helpers",
   "publishConfig": {
     "access": "public"
   },

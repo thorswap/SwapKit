@@ -3,10 +3,10 @@ import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
 import type { WalletTxParams } from '@thorswap-lib/types';
 import { ApiUrl, Chain, ChainId, WalletOption } from '@thorswap-lib/types';
+import type { WalletConnectModalSign } from '@walletconnect/modal-sign-html';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
-import type {WalletConnectModalSign} from "@walletconnect/modal-sign-html";
 
 import {
   BINANCE_MAINNET_ID,
@@ -330,7 +330,6 @@ const getWalletconnect = async (
 ) => {
   let modal: WalletConnectModalSign | undefined;
   try {
-    console.log('walletConnectProjectId', walletConnectProjectId)
     if (!walletConnectProjectId) {
       throw new Error('Error while setting up walletconnect connection: Project ID not specified');
     }

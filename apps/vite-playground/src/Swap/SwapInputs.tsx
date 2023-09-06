@@ -1,6 +1,9 @@
-import { QuoteRoute, SwapKitApi } from '@thorswap-lib/swapkit-api';
-import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { Amount, AssetAmount } from '@thorswap-lib/swapkit-entities';
+import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
+import { SwapKitApi } from '@thorswap-lib/swapkit-api';
+import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import type { AssetAmount } from '@thorswap-lib/swapkit-entities';
+import { Amount } from '@thorswap-lib/swapkit-entities';
+import { SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
 import { useCallback, useState } from 'react';
 
 type Props = {
@@ -17,8 +20,12 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
 
   const setAmount = useCallback(
     (amountValue: string) => {
-      if (!inputAsset) return;
+      const a = new SwapKitNumber(amountValue);
+      const b = new SwapKitNumber(amountValue);
 
+      console.log(a.add(1.1, '1.1'));
+
+      if (!inputAsset) return;
       const value = parseFloat(amountValue);
 
       const amount = Amount.fromNormalAmount(value);
@@ -72,7 +79,6 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
           <input
             onChange={(e) => setAmount(e.target.value)}
             placeholder="0.0"
-            type="number"
             value={inputAmount?.toSignificant(6)}
           />
         </div>

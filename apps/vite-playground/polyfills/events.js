@@ -237,7 +237,7 @@ function _addListener(target, type, listener, prepend) {
   return target;
 }
 function emitWarning(e) {
-  typeof console.warn === 'function' ? console.warn(e) : console.log(e);
+  typeof console.warn === 'function' ? console.warn(e) : console.info(e);
 }
 EventEmitter.prototype.addListener = function addListener(type, listener) {
   return _addListener(this, type, listener, false);
