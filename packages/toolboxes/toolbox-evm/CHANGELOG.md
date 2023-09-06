@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.163
+
+### Patch Changes
+
+- [#293](https://github.com/thorswap/SwapKit/pull/293) [`dd51842`](https://github.com/thorswap/SwapKit/commit/dd5184291270e9539ad113e56567961015e879a7) Thanks [@towanTG](https://github.com/towanTG)! - Uses Signer sendTransaction as default sign + send transaction method
+
 ## 1.0.0-development.162
 
 ### Patch Changes
