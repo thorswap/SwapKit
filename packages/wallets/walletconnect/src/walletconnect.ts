@@ -330,7 +330,6 @@ const getWalletconnect = async (
 ) => {
   let modal: WalletConnectModalSign | undefined;
   try {
-    console.log('walletConnectProjectId', walletConnectProjectId)
     if (!walletConnectProjectId) {
       throw new Error('Error while setting up walletconnect connection: Project ID not specified');
     }
