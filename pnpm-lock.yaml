@@ -280,6 +280,9 @@ importers:
       '@thorswap-lib/evm-web3-wallets':
         specifier: workspace:*
         version: link:../../packages/wallets/evm-web3-wallets
+      '@thorswap-lib/helpers':
+        specifier: workspace:*
+        version: link:../../internal/helpers
       '@thorswap-lib/keplr':
         specifier: workspace:*
         version: link:../../packages/wallets/keplr
@@ -322,6 +325,9 @@ importers:
       '@thorswap-lib/xdefi':
         specifier: workspace:*
         version: link:../../packages/wallets/xdefi
+      base64-js:
+        specifier: 1.5.1
+        version: 1.5.1
       buffer:
         specifier: 6.0.3
         version: 6.0.3
