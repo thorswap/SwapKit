@@ -79,7 +79,7 @@ export class SwapKitNumber {
       return (acc * this.#decimalMultiplier) / value;
     }, this.bigIntValue);
 
-    const value = this.#formatToSafeValue(result, decimal);
+    const value = this.#formatBigIntToSafeValue(result, decimal);
 
     return new SwapKitNumber({ decimal, value, bigIntValue: result });
   }
@@ -148,7 +148,7 @@ export class SwapKitNumber {
   //     return value;
   //   }
 
-  #formatToSafeValue(value: AllowedValueType, decimal?: number) {
+  #formatBigIntToSafeValue(value: bigint, decimal?: number) {
     const stringResult = value.toString();
     const SKNDecimal = decimal || this.decimal;
     const decimalIndex = stringResult.length - SKNDecimal;
