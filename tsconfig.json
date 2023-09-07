@@ -1,6 +1,4 @@
 {
-  "compilerOptions": {
-    "resolveJsonModule": true
-  },
-  "include": ["env.d.ts", "internal/**/*", "packages/**/*"]
+  "include": ["env.d.ts", "internal/**/*", "packages/**/*", "apps/**/*", "__tests__/**/*.test.ts"],
+  "exclude": ["node_modules"]
 }

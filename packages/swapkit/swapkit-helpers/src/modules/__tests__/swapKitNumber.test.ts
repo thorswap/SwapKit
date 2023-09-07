@@ -65,6 +65,12 @@ describe('SwapKitNumber', () => {
       const result = skNumber1.div(skNumber2, skNumber3);
       expect(result.value).toBe(4);
       expect(result.bigIntValue).toBe(400000000n);
+
+      const skNumber4 = new SwapKitNumber(10.12);
+      const skNumber5 = new SwapKitNumber(0.0001);
+      const result2 = skNumber4.div(skNumber5);
+      expect(result2.value).toBe(101200);
+      expect(result2.bigIntValue).toBe(10120000000000n);
     });
 
     test('divides different type numbers correctly', () => {
@@ -72,6 +78,54 @@ describe('SwapKitNumber', () => {
       const result = skNumber1.div(5, '0.5');
       expect(result.value).toBe(8);
       expect(result.bigIntValue).toBe(800000000n);
+    });
+  });
+
+  describe('gt', () => {
+    test('greater than', () => {
+      const skNumber1 = new SwapKitNumber(10);
+      const skNumber2 = new SwapKitNumber('5');
+      expect(skNumber1.gt(skNumber2)).toBe(true);
+      expect(skNumber2.gt(skNumber1)).toBe(false);
+    });
+  });
+
+  describe('gte', () => {
+    test('greater than or equal', () => {
+      const skNumber1 = new SwapKitNumber(10);
+      const skNumber2 = new SwapKitNumber('5');
+      expect(skNumber1.gte(skNumber2)).toBe(true);
+      expect(skNumber1.gte(skNumber1)).toBe(true);
+      expect(skNumber2.gte(skNumber1)).toBe(false);
+    });
+  });
+
+  describe('lt', () => {
+    test('less than', () => {
+      const skNumber1 = new SwapKitNumber(10);
+      const skNumber2 = new SwapKitNumber('5');
+      expect(skNumber1.lt(skNumber2)).toBe(false);
+      expect(skNumber2.lt(skNumber1)).toBe(true);
+    });
+  });
+
+  describe('lte', () => {
+    test('less than or equal', () => {
+      const skNumber1 = new SwapKitNumber(10);
+      const skNumber2 = new SwapKitNumber('5');
+      expect(skNumber1.lte(skNumber2)).toBe(false);
+      expect(skNumber1.lte(skNumber1)).toBe(true);
+      expect(skNumber2.lte(skNumber1)).toBe(true);
+    });
+  });
+
+  describe('eq', () => {
+    test('equal', () => {
+      const skNumber1 = new SwapKitNumber(10);
+      const skNumber2 = new SwapKitNumber('5');
+      expect(skNumber1.eq(skNumber2)).toBe(false);
+      expect(skNumber1.eq(skNumber1)).toBe(true);
+      expect(skNumber2.eq(skNumber1)).toBe(false);
     });
   });
 

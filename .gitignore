@@ -12,3 +12,4 @@ internal/**/.turbo
 coverage/
 .DS_Store
 *.log
+.npmrc

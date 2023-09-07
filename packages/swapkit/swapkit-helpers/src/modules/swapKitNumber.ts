@@ -1,6 +1,8 @@
 import { SwapKitError } from './swapKitError.ts';
 
-type SwapKitValueType = bigint | number | string;
+type AllowedValueType = bigint | number | string;
+type ArithmeticMethod = 'add' | 'sub' | 'mul' | 'div';
+type SwapKitValueType = SwapKitNumber | string | number;
 
 type Params = string | number | { decimal?: number; value: number | string; bigIntValue?: bigint };
 
@@ -21,27 +23,37 @@ export class SwapKitNumber {
     this.#setValue(value, complexInit ? valueOrParams.bigIntValue : undefined);
   }
 
-  add(...args: (SwapKitNumber | string | number)[]) {
+  add(...args: SwapKitValueType[]) {
     return this.#arithmetics('add', ...args);
   }
-  sub(...args: (SwapKitNumber | string | number)[]) {
+  sub(...args: SwapKitValueType[]) {
     return this.#arithmetics('sub', ...args);
   }
-  mul(...args: (SwapKitNumber | string | number)[]) {
+  mul(...args: SwapKitValueType[]) {
     return this.#arithmetics('mul', ...args);
   }
-  div(...args: (SwapKitNumber | string | number)[]) {
+  div(...args: SwapKitValueType[]) {
     return this.#arithmetics('div', ...args);
   }
 
-  /**
-   * Private methods
-   */
-  #arithmetics(
-    method: 'add' | 'sub' | 'mul' | 'div',
-    ...args: (SwapKitNumber | string | number)[]
-  ) {
-    const decimal = this.#ensureSameDecimal(this, ...args);
+  gt(value: SwapKitValueType) {
+    return this.bigIntValue > this.#getBigIntValue(value);
+  }
+  gte(value: SwapKitValueType) {
+    return this.bigIntValue >= this.#getBigIntValue(value);
+  }
+  lt(value: SwapKitValueType) {
+    return this.bigIntValue < this.#getBigIntValue(value);
+  }
+  lte(value: SwapKitValueType) {
+    return this.bigIntValue <= this.#getBigIntValue(value);
+  }
+  eq(value: SwapKitValueType) {
+    return this.bigIntValue === this.#getBigIntValue(value);
+  }
+
+  #arithmetics(method: ArithmeticMethod, ...args: SwapKitValueType[]) {
+    const decimal = this.#retrieveSingleDecimal(this, ...args);
 
     const result = args.reduce((acc, arg) => {
       const value = this.#getBigIntValue(arg, decimal);
@@ -71,14 +83,23 @@ export class SwapKitNumber {
     return new SwapKitNumber({ decimal, value, bigIntValue: result });
   }
 
-  #setValue(value: SwapKitValueType, bigIntValue?: bigint) {
+  #setValue(value: AllowedValueType, bigIntValue?: bigint) {
     const rawValue = this.#toRawValue(value);
 
     this.value = !rawValue || isNaN(rawValue) ? 0 : rawValue;
     this.bigIntValue = bigIntValue || this.#toBigInt(this.value);
   }
 
-  #ensureSameDecimal(...args: (SwapKitNumber | SwapKitValueType)[]) {
+  #getBigIntValue(value: SwapKitValueType, decimal?: number) {
+    if (value instanceof SwapKitNumber) {
+      return value.bigIntValue;
+    }
+
+    // TODO (@Chillios): Check if that doesn't lose precision
+    return this.#toBigInt(this.#toRawValue(value), decimal);
+  }
+
+  #retrieveSingleDecimal(...args: (SwapKitNumber | AllowedValueType)[]) {
     const decimals = args
       .map((arg) => (arg instanceof SwapKitNumber ? arg.decimal : undefined))
       .filter(Boolean) as number[];
@@ -90,19 +111,10 @@ export class SwapKitNumber {
     return decimals[0] || DEFAULT_DECIMAL;
   }
 
-  #getBigIntValue(value: number | string | SwapKitNumber, decimal?: number) {
-    if (value instanceof SwapKitNumber) {
-      return value.bigIntValue;
-    }
-
-    // TODO (@Chillios): Check if that doesn't lose precision
-    return this.#toBigInt(this.#toRawValue(value), decimal);
-  }
-
   /**
    * Formatters
    */
-  #toRawValue(value: SwapKitValueType) {
+  #toRawValue(value: AllowedValueType) {
     const splitValue = `${value}`.replaceAll(',', '.').split('.');
 
     return parseFloat(
@@ -119,7 +131,7 @@ export class SwapKitNumber {
     return BigInt(Math.round(parseFloat(value.toString()) * multiplier));
   }
 
-  #toNumber(value: bigint | number | string) {
+  #toNumber(value: AllowedValueType) {
     if (typeof value === 'bigint') return Number(BigInt.asUintN(64, value));
     if (typeof value === 'string') return this.#toRawValue(value);
     return value;

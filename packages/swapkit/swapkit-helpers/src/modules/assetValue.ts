@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import { BaseDecimal, Chain } from '@thorswap-lib/types';
 
 import { SwapKitNumber } from './swapKitNumber.ts';
 
@@ -49,6 +49,40 @@ const getAssetInfo = (identifier: string) => {
   };
 };
 
+// TODO (@Chillos, @Towan): implement this function properly as current only fits our token list
+const getAVAXAssetDecimal = async (symbol: string) => {
+  if (symbol.includes('USDT') || symbol.includes('USDC')) return 6;
+  if (['BTC.b', 'WBTC.e'].includes(symbol)) return 8;
+  if (symbol === 'Time') return 9;
+
+  return BaseDecimal.AVAX;
+};
+
+const getETHAssetDecimal = async (symbol: string) => {
+  if (symbol === Chain.Ethereum) return BaseDecimal.ETH;
+
+  return BaseDecimal.ETH;
+};
+
+const getBSCAssetDecimal = async (symbol: string) => {
+  if (symbol === Chain.Ethereum) return BaseDecimal.BSC;
+
+  return BaseDecimal.BSC;
+};
+
+const getDecimal = async ({ chain, symbol }: { chain: Chain; symbol: string }) => {
+  switch (chain) {
+    case Chain.Ethereum:
+      return getETHAssetDecimal(symbol);
+    case Chain.Avalanche:
+      return getAVAXAssetDecimal(symbol);
+    case Chain.BinanceSmartChain:
+      return getBSCAssetDecimal(symbol);
+    default:
+      return BaseDecimal[chain];
+  }
+};
+
 export class AssetValue extends SwapKitNumber {
   address?: string;
   chain: Chain;
@@ -79,9 +113,18 @@ export class AssetValue extends SwapKitNumber {
    * @param value asset amount in number or string
    */
   static async fromString(assetString: string, value: number | string = 0) {
-    const decimal = await new Promise<number>((resolve) => resolve(18));
+    const decimal = await getDecimal(getAssetInfo(assetString));
 
     return new AssetValue({ decimal, value, identifier: assetString });
+  }
+
+  static fromStringStatic(assetValue: string, value: number | string = 0) {
+    // TODO (@Chillios): implement this with @thorswap-lib/tokens
+    // Record<tokenIdentifier, TokenResponse>
+    const tokens = {} as Record<string, { decimal: number; identifier: string }>;
+    const { decimal, identifier } = tokens[assetValue] ?? { decimal: 8, identifier: '' };
+
+    return new AssetValue({ decimal, value, identifier });
   }
 
   get assetValue() {
