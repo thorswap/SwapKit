@@ -185,7 +185,7 @@ describe('SwapKitNumber', () => {
 
       const result = skNumber1.div(skNumber2);
 
-      // The exact result of 1.000000000000000010 / -2 is -0.500000000000000000
+      // The exact result of 1.000000000000000010 / -2 is -0.500000000000000005
       expect(result.value).toBe('-0.500000000000000005');
       expect(result.bigIntValue).toBe(-500000000000000005n);
     });
