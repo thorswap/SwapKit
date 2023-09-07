@@ -1,12 +1,12 @@
 type AllowedValueType = bigint | number | string;
 type ArithmeticMethod = 'add' | 'sub' | 'mul' | 'div';
-type SwapKitValueType = SwapKitNumber | string | number;
+type SwapKitValueType = BaseSwapKitNumber | string | number;
 
 type Params = string | number | { decimal?: number; value: number | string; bigIntValue?: bigint };
 
 const DEFAULT_DECIMAL = 8;
 
-export class SwapKitNumber {
+export class BaseSwapKitNumber {
   #decimalMultiplier: bigint = 10n ** 8n;
   bigIntValue: bigint = 0n;
   decimal?: number;
@@ -39,19 +39,23 @@ export class SwapKitNumber {
   }
 
   gt(value: SwapKitValueType) {
-    return this.bigIntValue > this.#getBigIntValue(value);
+    return this.bigIntValue > this.getBigIntValue(value);
   }
   gte(value: SwapKitValueType) {
-    return this.bigIntValue >= this.#getBigIntValue(value);
+    return this.bigIntValue >= this.getBigIntValue(value);
   }
   lt(value: SwapKitValueType) {
-    return this.bigIntValue < this.#getBigIntValue(value);
+    return this.bigIntValue < this.getBigIntValue(value);
   }
   lte(value: SwapKitValueType) {
-    return this.bigIntValue <= this.#getBigIntValue(value);
+    return this.bigIntValue <= this.getBigIntValue(value);
   }
-  eq(value: SwapKitValueType) {
-    return this.bigIntValue === this.#getBigIntValue(value);
+
+  getBigIntValue(value: SwapKitValueType, decimal?: number) {
+    if (typeof value === 'object') return value.bigIntValue;
+
+    // TODO (@Chillios): Check if that doesn't lose precision
+    return this.#toBigInt(this.#toSafeValue(value), decimal);
   }
 
   #arithmetics(method: ArithmeticMethod, ...args: SwapKitValueType[]) {
@@ -60,8 +64,7 @@ export class SwapKitNumber {
     const precisionDecimalMultiplier = 10n ** BigInt(precisionDecimal);
 
     const result = args.reduce((acc, arg) => {
-      const value = this.#getBigIntValue(arg, precisionDecimal);
-
+      const value = this.getBigIntValue(arg, precisionDecimal);
       if ('div' === method && value === 0n) throw new RangeError('Division by zero');
 
       /**
@@ -85,7 +88,7 @@ export class SwapKitNumber {
 
     const value = this.#formatBigIntToSafeValue(result, finalDecimal);
 
-    return new SwapKitNumber({ decimal: precisionDecimal, value, bigIntValue: result });
+    return new BaseSwapKitNumber({ decimal: precisionDecimal, value, bigIntValue: result });
   }
 
   #setValue(value: AllowedValueType, bigIntValue?: bigint) {
@@ -96,21 +99,10 @@ export class SwapKitNumber {
     this.bigIntValue = bigIntValue || this.#toBigInt(this.safeValue);
   }
 
-  #getBigIntValue(value: SwapKitValueType, decimal?: number) {
-    if (!decimal && value instanceof SwapKitNumber) {
-      return value.bigIntValue;
-    }
-
-    return this.#toBigInt(
-      value instanceof SwapKitNumber ? value.safeValue : this.#toSafeValue(value),
-      decimal,
-    );
-  }
-
-  #retrievePrecisionDecimal(...args: (SwapKitNumber | AllowedValueType)[]) {
+  #retrievePrecisionDecimal(...args: (BaseSwapKitNumber | AllowedValueType)[]) {
     const decimals = args
       .map((arg) =>
-        arg instanceof SwapKitNumber ? arg.decimal : this.#getDecimals(this.#toSafeValue(arg)),
+        typeof arg === 'object' ? arg.decimal : this.#getDecimals(this.#toSafeValue(arg)),
       )
       .filter(Boolean) as number[];
     return Math.max(...decimals, DEFAULT_DECIMAL);
@@ -148,7 +140,7 @@ export class SwapKitNumber {
 
   #formatBigIntToSafeValue(value: bigint, decimal?: number) {
     const stringResult = value.toString();
-    const SKNDecimal = decimal || this.decimal;
+    const SKNDecimal = decimal || this.decimal || DEFAULT_DECIMAL;
     const decimalIndex = stringResult.length - SKNDecimal;
     return `${stringResult.slice(0, decimalIndex)}.${stringResult.slice(-SKNDecimal)}`.replace(
       /\.?0*$/,
@@ -158,7 +150,7 @@ export class SwapKitNumber {
 
   #formatSafeValueToBigIntString(value: string, decimal?: number) {
     const numberParts = value.split('.');
-    const SKNDecimal = decimal || this.decimal;
+    const SKNDecimal = decimal || this.decimal || DEFAULT_DECIMAL;
     const integerPart = numberParts[0];
     const decimalPart = (numberParts[1] || '').padEnd(SKNDecimal, '0');
 
@@ -168,5 +160,11 @@ export class SwapKitNumber {
   #getDecimals(value: string) {
     const decimals = value.split('.')[1]?.length || 0;
     return Math.max(decimals, DEFAULT_DECIMAL);
+  }
+}
+
+export class SwapKitNumber extends BaseSwapKitNumber {
+  eq(value: SwapKitValueType) {
+    return this.bigIntValue === this.getBigIntValue(value);
   }
 }
