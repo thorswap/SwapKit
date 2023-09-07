@@ -125,6 +125,16 @@ describe('SwapKitNumber', () => {
       // If we round it to 2 decimal places, we should get 5.61
       expect(result.value).toBe('5.61');
       expect(result.bigIntValue).toBe(560880000n);
+
+      const skNumber3 = new SwapKitNumber({ decimal: 2, value: 1.23 });
+      const skNumber4 = new SwapKitNumber(-1.234567891);
+
+      const result2 = skNumber3.mul(skNumber4);
+
+      // The exact result of 1.23 * -1.234567891 is -1,518518505
+      // If we round it to 2 decimal places, we should get 5.61
+      expect(result2.value).toBe('-1.52');
+      expect(result2.bigIntValue).toBe(-1518518505n);
     });
   });
 
