@@ -15,7 +15,7 @@ import {
 import { toCashAddress } from 'bchaddrjs';
 import { Psbt } from 'bitcoinjs-lib';
 
-let normalizeAddressNlist = function(derivationPath: any){
+let normalizeAddressNlist = function (derivationPath: any) {
   let addressNlist = [
     0x80000000 + derivationPath[0],
     0x80000000 + derivationPath[1],
@@ -29,25 +29,45 @@ let normalizeAddressNlist = function(derivationPath: any){
 export const utxoWalletMethods = async function (params: any) {
   try {
     let { sdk, stagenet, chain, utxoApiKey, api, derivationPath } = params;
-    if (!stagenet) stagenet = false;
-    if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
+    
+    if (!utxoApiKey && !api)
+      throw new Error('UTXO API key not found');
+
+    const scriptType:
+      | {
+        input: 'SPENDWITNESS' | 'SPENDP2SHWITNESS' | 'SPENDADDRESS';
+        output: 'PAYTOWITNESS' | 'PAYTOP2SHWITNESS' | 'PAYTOADDRESS';
+      }
+      | undefined =
+      derivationPath[0] === 84
+        ? { input: 'SPENDWITNESS', output: 'PAYTOWITNESS' }
+        : derivationPath[0] === 49
+          ? { input: 'SPENDP2SHWITNESS', output: 'PAYTOP2SHWITNESS' }
+          : derivationPath[0] === 44
+            ? { input: 'SPENDADDRESS', output: 'PAYTOADDRESS' }
+            : undefined;
+
+    if (!scriptType) throw new Error('Derivation path is not supported');
+    
+    stagenet = !!stagenet
     let toolbox;
-    let isSegwit: boolean = false;
+    let isSegwit = false;
+    const toolboxParams = { api, apiKey: utxoApiKey, }
 
     switch (chain) {
       case Chain.Bitcoin:
         isSegwit = true;
-        toolbox = BTCToolbox(utxoApiKey, api);
+        toolbox = BTCToolbox(toolboxParams);
         break;
       case Chain.Litecoin:
         isSegwit = true;
-        toolbox = LTCToolbox(utxoApiKey, api);
+        toolbox = LTCToolbox(toolboxParams);
         break;
       case Chain.Dogecoin:
-        toolbox = DOGEToolbox(utxoApiKey, api);
+        toolbox = DOGEToolbox(toolboxParams);
         break;
       case Chain.BitcoinCash:
-        toolbox = BCHToolbox(utxoApiKey, api);
+        toolbox = BCHToolbox(toolboxParams);
         break;
       default:
         throw Error('unsupported chain! ' + chain);
@@ -57,12 +77,13 @@ export const utxoWalletMethods = async function (params: any) {
     const getAddress = async function () {
       try {
         //TODO custom script types?
-        let scriptType;
-        if (isSegwit) {
-          scriptType = 'p2wpkh';
-        } else {
-          scriptType = 'p2sh';
-        }
+        // let scriptType;
+        // if (isSegwit) {
+        //   scriptType = 'p2wpkh';
+        // } else {
+        //   scriptType = 'p2sh';
+        // }
+        let scriptType = 'p2pkh'; // TODO: remove (just for dogecoin)
         let addressInfo = addressInfoForCoin(chain, false, scriptType);
         let addressNlist = normalizeAddressNlist(derivationPath);
         addressInfo.address_n = addressNlist;
@@ -74,11 +95,11 @@ export const utxoWalletMethods = async function (params: any) {
     };
     const address = await getAddress();
 
-    const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '', amount: any) => {
+    const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '') => {
       const address_n = derivationPath.map((pathElement, index) =>
         index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
       );
-      let outputs: any = psbt.txOutputs.map((output: any) => {
+      let outputs: any[] = psbt.txOutputs.map((output: any) => {
         let outputAddress = output.address;
 
         if (chain === Chain.BitcoinCash && output.address) {
@@ -116,7 +137,7 @@ export const utxoWalletMethods = async function (params: any) {
 
         return {
           address: outputAddress,
-          amount: BigNumber.from(amount || 0),
+          amount: BigNumber.from(output.value || 0),
           addressType: 'spend',
           script_type: 'PAYTOADDRESS',
         };
@@ -197,7 +218,7 @@ export const utxoWalletMethods = async function (params: any) {
       }
       inputs = inputsKeepKey;
 
-      const txHex = await signTransaction(psbt, inputs, memo, amount);
+      const txHex = await signTransaction(psbt, inputs, memo);
       return toolbox.broadcastTx(txHex);
     };
 
