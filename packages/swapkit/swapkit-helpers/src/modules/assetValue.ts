@@ -1,6 +1,6 @@
 import type { Chain } from '@thorswap-lib/types';
 
-import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers.ts';
+import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers/asset.ts';
 
 import { BaseSwapKitNumber } from './swapKitNumber.ts';
 

@@ -56,6 +56,10 @@ export class BaseSwapKitNumber {
     return this.#toBigInt(this.#toSafeValue(value), decimal);
   }
 
+  toString() {
+    return this.safeValue;
+  }
+
   #arithmetics(method: ArithmeticMethod, ...args: SwapKitValueType[]) {
     const finalDecimal = Math.log10(parseFloat(this.#decimalMultiplier.toString()));
     const precisionDecimal = this.#retrievePrecisionDecimal(this, ...args);
