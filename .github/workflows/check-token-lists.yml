@@ -1,8 +1,9 @@
 name: Check Token List
 
 on:
+  workflow_dispatch:
   schedule:
-    - cron: "0 */1 * * *"
+    - cron: '0 12,0 * * *'
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -30,5 +31,3 @@ jobs:
           commit_message: "Update Token List"
           force: false
           target_branch: bot/token-list-update
-
-

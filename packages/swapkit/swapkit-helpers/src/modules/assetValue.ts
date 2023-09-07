@@ -35,12 +35,10 @@ export class AssetValue extends BaseSwapKitNumber {
     this.isGasAsset = assetInfo.isGasAsset;
   }
 
-  /**
-   * Create AssetValue from string
-   * @param assetString string in format of `CHAIN.TICKER-ADDRESS`
-   * @param value asset amount in number or string
-   */
-  static async fromIdentifier(assetString: string, value: number | string = 0) {
+  static async fromIdentifier(
+    assetString: `${Chain}.${string}` | `${Chain}.${string}-${string}`,
+    value: number | string = 0,
+  ) {
     const decimal = await getDecimal(getAssetInfo(assetString));
     return new AssetValue({ decimal, value, identifier: assetString });
   }

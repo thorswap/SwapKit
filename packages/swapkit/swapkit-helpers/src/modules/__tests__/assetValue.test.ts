@@ -5,7 +5,7 @@ import { AssetValue } from '../assetValue.ts';
 
 describe('AssetValue', () => {
   describe('fromString', () => {
-    test('creates AssetValue from string', async () => {
+    test('creates AssetValue from string', () => {
       const ethAsset = AssetValue.fromString(Chain.Ethereum);
 
       expect(ethAsset).toMatchObject({
@@ -19,21 +19,23 @@ describe('AssetValue', () => {
         value: 0,
         bigIntValue: 0n,
       });
+    });
+  });
 
-      const fakeAvaxUSDCAssetString = 'AVAX.USDC-0x1234567890';
-      const fakeAvaxUSDCAsset = await AssetValue.fromIdentifier(fakeAvaxUSDCAssetString);
+  describe('fromIdentifier', async () => {
+    const fakeAvaxUSDCAssetString = 'AVAX.USDC-0x1234567890';
+    const fakeAvaxUSDCAsset = await AssetValue.fromIdentifier(fakeAvaxUSDCAssetString);
 
-      expect(fakeAvaxUSDCAsset).toMatchObject({
-        address: '0x1234567890',
-        chain: Chain.Avalanche,
-        decimal: 6,
-        isGasAsset: false,
-        isSynthetic: false,
-        symbol: 'USDC-0x1234567890',
-        ticker: 'USDC',
-        value: 0,
-        bigIntValue: 0n,
-      });
+    expect(fakeAvaxUSDCAsset).toMatchObject({
+      address: '0x1234567890',
+      chain: Chain.Avalanche,
+      decimal: 6,
+      isGasAsset: false,
+      isSynthetic: false,
+      symbol: 'USDC-0x1234567890',
+      ticker: 'USDC',
+      value: 0,
+      bigIntValue: 0n,
     });
   });
 });
