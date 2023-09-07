@@ -15,7 +15,7 @@ export const SwapKitApi = {
   getTxnDetails: (txHash: string) => fetchWrapper<TxnResponse>(ApiEndpoints.Txn, { txHash }),
   getTokenlistProviders: () =>
     fetchWrapper<TokenlistProvidersResponse>(ApiEndpoints.TokenlistProviders),
-  getTokenList: (tokenlist: string) => fetchWrapper(ApiEndpoints.TokenList, { tokenlist }),
+  getTokenList: (tokenlist: string) => fetchWrapper(`${ApiEndpoints.TokenList}/${tokenlist}.json`),
   getThornameAddresses: (address: string) =>
     fetchWrapper<ThornameResponse>(`${ApiEndpoints.Thorname}/${address}`),
   getThornameRegisteredChains: (address: string) =>

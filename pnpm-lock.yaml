@@ -675,6 +675,24 @@ importers:
         specifier: 0.34.3
         version: 0.34.3
 
+  packages/swapkit/tokens:
+    devDependencies:
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+      '@thorswap-lib/swapkit-api':
+        specifier: workspace:*
+        version: link:../swapkit-api
+      '@vitest/coverage-istanbul':
+        specifier: 0.34.3
+        version: 0.34.3(vitest@0.34.3)
+      vite:
+        specifier: 4.4.9
+        version: 4.4.9(@types/node@20.5.9)
+      vitest:
+        specifier: 0.34.3
+        version: 0.34.3
+
   packages/swapkit/types:
     devDependencies:
       '@ethersproject/bignumber':
@@ -1676,10 +1694,6 @@ packages:
 
   /@babel/helper-validator-option@7.22.15:
     resolution: {integrity: sha512-bMn7RmyFjY/mdECUbgn9eoSY4vqvacUnS9i9vGAGttgFWesO6B4CYWA7XlpbWgBt71iv/hfbPlynohStqnu5hA==}
-    engines: {node: '>=6.9.0'}
-
-  /@babel/helper-validator-option@7.22.5:
-    resolution: {integrity: sha512-R3oB6xlIVKUnxNUxbmgq7pKjxpru24zlimpE8WK47fACIlM0II/Hm1RS8IaOI7NgCr6LNS+jl5l75m20npAziw==}
     engines: {node: '>=6.9.0'}
 
   /@babel/helper-wrap-function@7.22.10:
@@ -2985,7 +2999,7 @@ packages:
     dependencies:
       '@babel/core': 7.22.15
       '@babel/helper-plugin-utils': 7.22.5
-      '@babel/helper-validator-option': 7.22.5
+      '@babel/helper-validator-option': 7.22.15
       '@babel/plugin-syntax-jsx': 7.22.5(@babel/core@7.22.15)
       '@babel/plugin-transform-modules-commonjs': 7.22.11(@babel/core@7.22.15)
       '@babel/plugin-transform-typescript': 7.22.11(@babel/core@7.22.15)
