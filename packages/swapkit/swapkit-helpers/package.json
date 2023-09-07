@@ -40,8 +40,8 @@
     "build": "vite build",
     "clean": "rm -rf dist .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "echo 'vitest --run'",
-    "test:coverage": "echo 'vitest run --coverage'"
+    "test": "vitest --run",
+    "test:coverage": "vitest run --coverage"
   },
   "type": "module",
   "types": "./dist/index.d.ts"
