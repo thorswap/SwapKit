@@ -7,6 +7,7 @@ import { useCallback, useState } from 'react';
 import type { WalletDataType } from './types';
 
 type Props = {
+  setPhrase: (phrase: string) => void;
   setWallet: (wallet: WalletDataType | WalletDataType[]) => void;
   skClient?: SwapKitCore;
 };
@@ -57,7 +58,7 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   ],
 };
 
-export const WalletPicker = ({ skClient, setWallet }: Props) => {
+export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
   const [loading, setLoading] = useState(false);
   const [chains, setChains] = useState<Chain[]>([]);
   const connectWallet = useCallback(
@@ -106,6 +107,8 @@ export const WalletPicker = ({ skClient, setWallet }: Props) => {
         try {
           const phrases = await decryptFromKeystore(JSON.parse(keystoreFile), password);
 
+          setPhrase(phrases);
+
           await skClient.connectKeystore(chains, phrases);
           const walletDataArray = await Promise.all(chains.map(skClient.getWalletByChain));
 
@@ -117,7 +120,7 @@ export const WalletPicker = ({ skClient, setWallet }: Props) => {
         }
       }, 500);
     },
-    [chains, setWallet, skClient],
+    [chains, setWallet, skClient, setPhrase],
   );
 
   const handleConnection = useCallback(

@@ -10,12 +10,14 @@ import TNS from './TNS';
 import type { WalletDataType } from './types';
 import { Wallet } from './Wallet';
 import { WalletPicker } from './WalletPicker';
+import Multisig from './Multisig';
 
 const apiKeys = ['walletConnectProjectId'] as const;
 
 const App = () => {
   const [widgetType, setWidgetType] = useState<'swap' | 'loan' | 'earn'>('swap');
   const [wallet, setWallet] = useState<WalletDataType | WalletDataType[]>(null);
+  const [phrase, setPhrase] = useState('');
   const [stagenet, setStagenet] = useState(false);
   const [skClient, setSkClient] = useState<SwapKitCore | null>(null);
 
@@ -68,8 +70,9 @@ const App = () => {
       ) : null,
       send: skClient ? <Send inputAsset={inputAsset} skClient={skClient} /> : null,
       earn: <div>Earn</div>,
+      multisig: skClient ? <Multisig inputAsset={inputAsset} skClient={skClient} stagenet={stagenet} phrase={phrase} /> : null,
     }),
-    [inputAsset, outputAsset, skClient],
+    [inputAsset, outputAsset, skClient, phrase],
   );
 
   return (
@@ -99,7 +102,7 @@ const App = () => {
           }}
         >
           <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
-            {skClient && <WalletPicker setWallet={setWallet} skClient={skClient} />}
+            {skClient && <WalletPicker setWallet={setWallet} skClient={skClient} setPhrase={setPhrase} />}
 
             <div>
               <select
