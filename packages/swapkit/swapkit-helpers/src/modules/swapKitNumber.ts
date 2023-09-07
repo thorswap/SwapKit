@@ -61,8 +61,9 @@ export class BaseSwapKitNumber {
   }
 
   getBigIntValue(value: SwapKitValueType, decimal?: number) {
-    if (typeof value === 'object') return value.bigIntValue;
+    if (!decimal && typeof value === 'object') return value.bigIntValue;
 
+    value = typeof value === 'object' ? value.value : value;
     return this.#toBigInt(this.#toSafeValue(value), decimal);
   }
 
@@ -95,7 +96,6 @@ export class BaseSwapKitNumber {
          * (200000000n * 100000000n (decimals)) / 200000000n => 100000000n
          */
         if ('mul' === method) return (acc * value) / precisionDecimalMultiplier;
-
         // 'div' === method
         return (acc * precisionDecimalMultiplier) / value;
       },

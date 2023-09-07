@@ -178,6 +178,17 @@ describe('SwapKitNumber', () => {
       expect(result.value).toBe('0.5');
       expect(result.bigIntValue).toBe(50000000n);
     });
+
+    test('divides a number with 18 decimals by a negative number with less decimals', () => {
+      const skNumber1 = new SwapKitNumber({ value: '1.000000000000000010', decimal: 18 });
+      const skNumber2 = new SwapKitNumber({ value: '-2', decimal: 1 });
+
+      const result = skNumber1.div(skNumber2);
+
+      // The exact result of 1.000000000000000010 / -2 is -0.500000000000000000
+      expect(result.value).toBe('-0.500000000000000005');
+      expect(result.bigIntValue).toBe(-500000000000000005n);
+    });
   });
 
   describe('gt', () => {
