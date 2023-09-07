@@ -32,6 +32,7 @@ export enum WalletOption {
   'METAMASK' = 'METAMASK',
   'COINBASE_WEB' = 'COINBASE_WEB',
   'TREZOR' = 'TREZOR',
+  'KEEPKEY' = 'KEEPKEY',
   'TRUSTWALLET_WEB' = 'TRUSTWALLET_WEB',
   'LEDGER' = 'LEDGER',
   'KEPLR' = 'KEPLR',

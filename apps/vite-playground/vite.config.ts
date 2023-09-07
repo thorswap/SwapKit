@@ -14,6 +14,7 @@ export default defineConfig({
   define: {
     'process.env': {},
     'process.version': JSON.stringify('v18.16.0'),
+    'process.env.VITE_BLOCKCHAIR_API_KEY': JSON.stringify(process.env.VITE_BLOCKCHAIR_API_KEY),
   },
   plugins: [react()],
   resolve: {
@@ -26,6 +27,7 @@ export default defineConfig({
       '@thorswap-lib/toolbox-cosmos': resolve('../../packages/toolboxes/toolbox-cosmos/src'),
       '@thorswap-lib/toolbox-utxo': resolve('../../packages/toolboxes/toolbox-utxo/src'),
       '@thorswap-lib/types': resolve('../../packages/swapkit/types/src'),
+      '@thorswap-lib/keepkey': resolve('../../packages/wallets/keepkey/src'),
       '@thorswap-lib/trezor': resolve('../../packages/wallets/trezor/src'),
       '@thorswap-lib/xdefi': resolve('../../packages/wallets/xdefi/src'),
 

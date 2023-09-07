@@ -3,6 +3,7 @@ import { keplrWallet } from '@thorswap-lib/keplr';
 import { keystoreWallet } from '@thorswap-lib/keystore';
 import { ledgerWallet } from '@thorswap-lib/ledger';
 import { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import { keepkeyWallet } from '@thorswap-lib/keepkey';
 import { trezorWallet } from '@thorswap-lib/trezor';
 import type { ExtendParams } from '@thorswap-lib/types';
 import { walletconnectWallet } from '@thorswap-lib/walletconnect';
@@ -23,6 +24,7 @@ export const createSwapKit = ({ config, ...extendParams }: SwapKitOptions = {}) 
       evmWallet,
       keystoreWallet,
       ledgerWallet,
+      keepkeyWallet,
       trezorWallet,
       keplrWallet,
       walletconnectWallet,
