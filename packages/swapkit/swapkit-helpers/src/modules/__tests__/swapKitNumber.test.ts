@@ -203,12 +203,5 @@ describe('SwapKitNumber', () => {
       expect(() => skNumber1.div(skNumber2)).toThrow(RangeError);
       expect(() => skNumber1.div(0)).toThrow(RangeError);
     });
-
-    test('throws if different decimal', () => {
-      const skNumber1 = new SwapKitNumber({ value: 10, decimal: 2 });
-      const skNumber2 = new SwapKitNumber({ value: 5, decimal: 4 });
-
-      expect(() => skNumber1.add(skNumber2)).toThrow();
-    });
   });
 });

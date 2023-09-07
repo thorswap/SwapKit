@@ -6,8 +6,7 @@ import { AssetValue } from '../assetValue.ts';
 describe('AssetValue', () => {
   describe('fromString', () => {
     test('creates AssetValue from string', async () => {
-      const ethAssetString = 'ETH.ETH';
-      const ethAsset = await AssetValue.fromString(ethAssetString);
+      const ethAsset = AssetValue.fromString(Chain.Ethereum);
 
       expect(ethAsset).toMatchObject({
         address: undefined,
@@ -22,7 +21,7 @@ describe('AssetValue', () => {
       });
 
       const fakeAvaxUSDCAssetString = 'AVAX.USDC-0x1234567890';
-      const fakeAvaxUSDCAsset = await AssetValue.fromString(fakeAvaxUSDCAssetString);
+      const fakeAvaxUSDCAsset = await AssetValue.fromIdentifier(fakeAvaxUSDCAssetString);
 
       expect(fakeAvaxUSDCAsset).toMatchObject({
         address: '0x1234567890',
