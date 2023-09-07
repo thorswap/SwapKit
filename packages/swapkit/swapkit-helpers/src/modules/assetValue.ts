@@ -1,6 +1,6 @@
 import type { Chain } from '@thorswap-lib/types';
 
-import { getDecimal, isGasAsset } from '../helpers.js';
+import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers.ts';
 
 import { BaseSwapKitNumber } from './swapKitNumber.ts';
 
@@ -16,6 +16,7 @@ export class AssetValue extends BaseSwapKitNumber {
   isGasAsset = false;
   symbol: string;
   ticker: string;
+  type: ReturnType<typeof getAssetType>;
   value = 0;
 
   constructor(params: AssetValueParams) {
@@ -25,6 +26,7 @@ export class AssetValue extends BaseSwapKitNumber {
       'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
     const assetInfo = getAssetInfo(identifier);
 
+    this.type = getAssetType(assetInfo);
     this.chain = assetInfo.chain;
     this.ticker = assetInfo.ticker;
     this.symbol = assetInfo.symbol;
@@ -38,19 +40,22 @@ export class AssetValue extends BaseSwapKitNumber {
    * @param assetString string in format of `CHAIN.TICKER-ADDRESS`
    * @param value asset amount in number or string
    */
-  static async fromString(assetString: string, value: number | string = 0) {
+  static async fromIdentifier(assetString: string, value: number | string = 0) {
     const decimal = await getDecimal(getAssetInfo(assetString));
-
     return new AssetValue({ decimal, value, identifier: assetString });
   }
 
-  static fromStringSync(assetValue: string, value: number | string = 0) {
+  static fromIdentifierSync(assetValue: string, value: number | string = 0) {
     // TODO (@Chillios): implement this with @thorswap-lib/tokens
     // Record<tokenIdentifier, TokenResponse>
     const tokens = {} as Record<string, { decimal: number; identifier: string }>;
-    const { decimal, identifier } = tokens[assetValue] ?? { decimal: 8, identifier: '' };
+    const tokenInfo = tokens[assetValue] ?? { decimal: 8, identifier: '' };
 
-    return new AssetValue({ decimal, value, identifier });
+    return new AssetValue({ ...tokenInfo, value });
+  }
+
+  static fromString(assetString: 'ETH.THOR' | 'ETH.vTHOR' | Chain, value: number | string = 0) {
+    return new AssetValue({ value, ...getCommonAssetInfo(assetString) });
   }
 
   get assetValue() {

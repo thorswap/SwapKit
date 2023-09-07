@@ -61,3 +61,64 @@ export const getDecimal = async ({ chain, symbol }: { chain: Chain; symbol: stri
       return BaseDecimal[chain];
   }
 };
+
+export const getCommonAssetInfo = (
+  assetString: 'ETH.THOR' | 'ETH.vTHOR' | Chain,
+): { identifier: string; decimal: number } => {
+  switch (assetString) {
+    case 'ETH.THOR':
+      return { identifier: 'ETH.THOR-0xa5f2211B9b8170F694421f2046281775E8468044', decimal: 18 };
+    case 'ETH.vTHOR':
+      return { identifier: 'ETH.vTHOR-0x815C23eCA83261b6Ec689b60Cc4a58b54BC24D8D', decimal: 18 };
+
+    case Chain.Cosmos:
+      return { identifier: 'GAIA.ATOM', decimal: BaseDecimal[assetString] };
+    case Chain.THORChain:
+      return { identifier: 'THOR.RUNE', decimal: BaseDecimal[assetString] };
+    case Chain.BinanceSmartChain:
+      return { identifier: 'BSC.BNB', decimal: BaseDecimal[assetString] };
+
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+      return { identifier: 'ETH.ETH', decimal: BaseDecimal[assetString] };
+
+    case Chain.BitcoinCash:
+    case Chain.Litecoin:
+    case Chain.Dogecoin:
+    case Chain.Binance:
+    case Chain.Avalanche:
+    case Chain.Polygon:
+    case Chain.Bitcoin:
+    case Chain.Ethereum:
+      return { identifier: `${assetString}.${assetString}`, decimal: BaseDecimal[assetString] };
+  }
+};
+
+export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
+  switch (chain) {
+    case Chain.Bitcoin:
+    case Chain.BitcoinCash:
+    case Chain.Dogecoin:
+    case Chain.Litecoin:
+    case Chain.THORChain:
+      return 'Native';
+
+    case Chain.Cosmos:
+      return symbol === 'ATOM' ? 'Native' : 'GAIA';
+    case Chain.Binance:
+      return symbol === Chain.Binance ? 'Native' : 'BEP2';
+    case Chain.BinanceSmartChain:
+      return symbol === Chain.Binance ? 'Native' : 'BEP20';
+    case Chain.Ethereum:
+      return symbol === Chain.Ethereum ? 'Native' : 'ERC20';
+    case Chain.Avalanche:
+      return symbol === Chain.Avalanche ? 'Native' : 'AVAX';
+    case Chain.Polygon:
+      return symbol === Chain.Polygon ? 'Native' : 'POLYGON';
+
+    case Chain.Arbitrum:
+      return [Chain.Ethereum, Chain.Arbitrum].includes(symbol as Chain) ? 'Native' : 'ARBITRUM';
+    case Chain.Optimism:
+      return [Chain.Ethereum, Chain.Optimism].includes(symbol as Chain) ? 'Native' : 'OPTIMISM';
+  }
+};
