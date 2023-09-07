@@ -11,12 +11,12 @@ describe('SwapKitNumber', () => {
       const skNumber3 = new SwapKitNumber('0.000000001');
       expect(skNumber1.value).toBe(1);
       expect(skNumber2.value).toBe(1);
-      expect(skNumber3.value).toBe(0.000000001);
-      expect(skNumber4.value).toBe(0.000000001);
+      expect(skNumber3.safeValue).toBe('0.000000001');
+      expect(skNumber4.safeValue).toBe('0.000000001');
       expect(skNumber1.bigIntValue).toBe(100000000n);
       expect(skNumber2.bigIntValue).toBe(100000000n);
-      expect(skNumber2.bigIntValue).toBe(1n);
-      expect(skNumber2.bigIntValue).toBe(1n);
+      expect(skNumber3.bigIntValue).toBe(1n);
+      expect(skNumber4.bigIntValue).toBe(1n);
     });
   });
 
@@ -87,7 +87,7 @@ describe('SwapKitNumber', () => {
       const skNumber1 = new SwapKitNumber({ value: 1000000, decimal: 4 });
       const result = skNumber1.mul('0.00001');
       expect(result.value).toBe(10);
-      expect(result.bigIntValue).toBe(100000n);
+      expect(result.bigIntValue).toBe(1000000000n);
     });
   });
 
@@ -117,7 +117,7 @@ describe('SwapKitNumber', () => {
       const skNumber1 = new SwapKitNumber({ value: '1.2', decimal: 2 });
       const result = skNumber1.div(0.001);
       expect(result.value).toBe(1200);
-      expect(result.bigIntValue).toBe(120000n);
+      expect(result.bigIntValue).toBe(120000000000n);
     });
 
     test('divides smaller number by larger number', () => {
@@ -182,12 +182,6 @@ describe('SwapKitNumber', () => {
       const skNumber2 = new SwapKitNumber('0');
       expect(() => skNumber1.div(skNumber2)).toThrow(RangeError);
       expect(() => skNumber1.div(0)).toThrow(RangeError);
-    });
-
-    test('throws if different decimal', () => {
-      const skNumber1 = new SwapKitNumber({ value: 10, decimal: 2 });
-      const skNumber2 = new SwapKitNumber({ value: 5, decimal: 4 });
-      expect(() => skNumber1.add(skNumber2)).toThrow();
     });
   });
 });
