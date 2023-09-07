@@ -67,8 +67,7 @@ describe('SwapKitNumber', () => {
       expect(result.bigIntValue).toBe(400000000n);
 
       const skNumber4 = new SwapKitNumber(10.12);
-      const skNumber5 = new SwapKitNumber(0.0001);
-      const result2 = skNumber4.div(skNumber5);
+      const result2 = skNumber4.div(0.0001);
       expect(result2.value).toBe(101200);
       expect(result2.bigIntValue).toBe(10120000000000n);
     });
