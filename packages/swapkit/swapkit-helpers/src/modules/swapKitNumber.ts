@@ -13,6 +13,7 @@ export class SwapKitNumber {
   bigIntValue: bigint = 0n;
   decimal?: number;
   value: number = 0;
+  safeValue: string = '0';
 
   constructor(valueOrParams: Params) {
     const complexInit = typeof valueOrParams === 'object';
@@ -70,24 +71,26 @@ export class SwapKitNumber {
        * 200000000n * 200000000n => 40000000000000000n
        * 200000000n / 200000000n => 1n
        * So we do the following:
-       * 200000000n * 200000000n = 40000000000000000n / 200000000n => 200000000n
-       * 200000000n / 200000000n = 1n * 100000000n => 100000000n
+       * 200000000n * 200000000n = 40000000000000000n / 100000000n (decimals) => 400000000n
+       * (200000000n * 100000000n (decimals)) / 200000000n => 100000000n
        */
       if ('mul' === method) return (acc * value) / this.#decimalMultiplier;
       // 'div' === method
-      return (acc / value) * this.#decimalMultiplier;
+      return (acc * this.#decimalMultiplier) / value;
     }, this.bigIntValue);
 
-    const value = this.#toNumber(result) / this.#toNumber(this.#decimalMultiplier);
+    const value = this.#formatToSafeValue(result, decimal);
 
     return new SwapKitNumber({ decimal, value, bigIntValue: result });
   }
 
   #setValue(value: AllowedValueType, bigIntValue?: bigint) {
     const rawValue = this.#toRawValue(value);
+    const safeValue = this.#toSafeValue(value);
 
     this.value = !rawValue || isNaN(rawValue) ? 0 : rawValue;
-    this.bigIntValue = bigIntValue || this.#toBigInt(this.value);
+    this.safeValue = !safeValue ? '0' : safeValue;
+    this.bigIntValue = bigIntValue || this.#toBigInt(this.safeValue);
   }
 
   #getBigIntValue(value: SwapKitValueType, decimal?: number) {
@@ -96,7 +99,7 @@ export class SwapKitNumber {
     }
 
     // TODO (@Chillios): Check if that doesn't lose precision
-    return this.#toBigInt(this.#toRawValue(value), decimal);
+    return this.#toBigInt(this.#toSafeValue(value), decimal);
   }
 
   #retrieveSingleDecimal(...args: (SwapKitNumber | AllowedValueType)[]) {
@@ -115,25 +118,52 @@ export class SwapKitNumber {
    * Formatters
    */
   #toRawValue(value: AllowedValueType) {
-    const splitValue = `${value}`.replaceAll(',', '.').split('.');
-
-    return parseFloat(
-      splitValue.length > 1
-        ? `${splitValue.slice(0, -1).join('')}.${splitValue.at(-1)}`
-        : splitValue[0],
-    );
+    return parseFloat(this.#toSafeValue(value));
   }
 
-  #toBigInt(value: bigint | number, decimal?: number) {
+  #toSafeValue(value: AllowedValueType) {
+    const splitValue = `${value}`.replaceAll(',', '.').split('.');
+
+    return splitValue.length > 1
+      ? `${splitValue.slice(0, -1).join('')}.${splitValue.at(-1)}`
+      : splitValue[0];
+  }
+
+  #toBigInt(value: string, decimal?: number) {
     const multiplier =
       typeof decimal === 'number' ? 10 ** decimal : parseFloat(this.#decimalMultiplier.toString());
 
-    return BigInt(Math.round(parseFloat(value.toString()) * multiplier));
+    return BigInt(
+      this.#formatSafeValueToBigIntString(
+        this.#toSafeValue(value.toString()),
+        Math.log10(multiplier),
+      ),
+    );
+    // return BigInt(Math.round(parseFloat(value.toString()) * multiplier));
   }
 
-  #toNumber(value: AllowedValueType) {
-    if (typeof value === 'bigint') return Number(BigInt.asUintN(64, value));
-    if (typeof value === 'string') return this.#toRawValue(value);
-    return value;
+  //   #toNumber(value: AllowedValueType) {
+  //     if (typeof value === 'bigint') return Number(BigInt.asIntN(64, value));
+  //     if (typeof value === 'string') return this.#toRawValue(value);
+  //     return value;
+  //   }
+
+  #formatToSafeValue(value: AllowedValueType, decimal?: number) {
+    const stringResult = value.toString();
+    const SKNDecimal = decimal || this.decimal;
+    const decimalIndex = stringResult.length - SKNDecimal;
+    return `${stringResult.slice(0, decimalIndex)}.${stringResult.slice(-SKNDecimal)}`.replace(
+      /\.?0*$/,
+      '',
+    );
+  }
+
+  #formatSafeValueToBigIntString(value: string, decimal?: number) {
+    const numberParts = value.split('.');
+    const SKNDecimal = decimal || this.decimal;
+    const integerPart = numberParts[0];
+    const decimalPart = (numberParts[1] || '').padEnd(SKNDecimal, '0');
+
+    return `${integerPart}${decimalPart}`;
   }
 }

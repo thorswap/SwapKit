@@ -3,6 +3,23 @@ import { describe, expect, test } from 'vitest';
 import { SwapKitNumber } from '../swapKitNumber.ts';
 
 describe('SwapKitNumber', () => {
+  describe('create', () => {
+    test('creates numbers correctly', () => {
+      const skNumber1 = new SwapKitNumber(1);
+      const skNumber2 = new SwapKitNumber('1');
+      const skNumber4 = new SwapKitNumber(0.000000001);
+      const skNumber3 = new SwapKitNumber('0.000000001');
+      expect(skNumber1.value).toBe(1);
+      expect(skNumber2.value).toBe(1);
+      expect(skNumber3.value).toBe(0.000000001);
+      expect(skNumber4.value).toBe(0.000000001);
+      expect(skNumber1.bigIntValue).toBe(100000000n);
+      expect(skNumber2.bigIntValue).toBe(100000000n);
+      expect(skNumber2.bigIntValue).toBe(1n);
+      expect(skNumber2.bigIntValue).toBe(1n);
+    });
+  });
+
   describe('add', () => {
     test('adds same type numbers correctly', () => {
       const skNumber1 = new SwapKitNumber(10);
@@ -37,6 +54,16 @@ describe('SwapKitNumber', () => {
       expect(result.value).toBe(3.5);
       expect(result.bigIntValue).toBe(350000000n);
     });
+
+    test('can process negative results', () => {
+      const skNumber1 = new SwapKitNumber(10);
+      const result0 = skNumber1.sub(10);
+      const resultMinus = result0.sub('10');
+      expect(result0.value).toBe(0);
+      expect(resultMinus.value).toBe(-10);
+      expect(result0.bigIntValue).toBe(0n);
+      expect(resultMinus.bigIntValue).toBe(-1000000000n);
+    });
   });
 
   describe('mul', () => {
@@ -54,6 +81,13 @@ describe('SwapKitNumber', () => {
       const result = skNumber1.mul(6, '0.5');
       expect(result.value).toBe(30);
       expect(result.bigIntValue).toBe(3000000000n);
+    });
+
+    test('multiplies numbers correctly if decimals of SKN is lower than number multiplied with', () => {
+      const skNumber1 = new SwapKitNumber({ value: 1000000, decimal: 4 });
+      const result = skNumber1.mul('0.00001');
+      expect(result.value).toBe(10);
+      expect(result.bigIntValue).toBe(100000n);
     });
   });
 
@@ -77,6 +111,20 @@ describe('SwapKitNumber', () => {
       const result = skNumber1.div(5, '0.5');
       expect(result.value).toBe(8);
       expect(result.bigIntValue).toBe(800000000n);
+    });
+
+    test('divides different type numbers correctly when decimal is set', () => {
+      const skNumber1 = new SwapKitNumber({ value: '1.2', decimal: 2 });
+      const result = skNumber1.div(0.001);
+      expect(result.value).toBe(1200);
+      expect(result.bigIntValue).toBe(120000n);
+    });
+
+    test('divides smaller number by larger number', () => {
+      const skNumber1 = new SwapKitNumber(1);
+      const result = skNumber1.div(2);
+      expect(result.value).toBe(0.5);
+      expect(result.bigIntValue).toBe(50000000n);
     });
   });
 
