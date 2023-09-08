@@ -79,10 +79,6 @@ export class BaseSwapKitNumber {
     return this.#toBigInt(this.#toSafeValue(value), decimal);
   }
 
-  toString() {
-    return this.value;
-  }
-
   #arithmetics(method: ArithmeticMethod, ...args: SwapKitValueType[]) {
     const precisionDecimal = this.#retrievePrecisionDecimal(this, ...args);
     const precisionDecimalMultiplier = toMultiplier(precisionDecimal);
@@ -213,5 +209,9 @@ export class BaseSwapKitNumber {
 export class SwapKitNumber extends BaseSwapKitNumber {
   eq(value: SwapKitValueType) {
     return this.bigIntValue === this.getBigIntValue(value);
+  }
+
+  toString() {
+    return this.value;
   }
 }

@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest';
 import { SwapKitNumber } from '../swapKitNumber.ts';
 
 describe('SwapKitNumber', () => {
-  describe('create', () => {
+  describe('constructors', () => {
     test('creates numbers correctly', () => {
       const skNumber1 = new SwapKitNumber(1);
       expect(skNumber1.value).toBe('1');
@@ -21,10 +21,6 @@ describe('SwapKitNumber', () => {
       expect(skNumber4.value).toBe('0.000000001');
       expect(skNumber4.bigIntValue).toBe(1n);
 
-      const skNumber5 = SwapKitNumber.fromBigInt(1n);
-      expect(skNumber5.value).toBe('0.00000001');
-      expect(skNumber5.bigIntValue).toBe(1n);
-
       const skNumber6 = new SwapKitNumber({ value: 0.1005, decimal: 3 });
       expect(skNumber6.value).toBe('0.101');
       expect(skNumber6.bigIntValue).toBe(10050000n);
@@ -32,16 +28,17 @@ describe('SwapKitNumber', () => {
       const skNumber7 = new SwapKitNumber({ value: -0.1005, decimal: 3 });
       expect(skNumber7.value).toBe('-0.101');
       expect(skNumber7.bigIntValue).toBe(-10050000n);
+      expect(skNumber7.decimal).toBe(3);
+      expect(skNumber7.unsafeNumber).toBe(0);
+      expect(skNumber7.decimalMultiplier).toBe(100000000n);
+      expect(skNumber7.toString()).toBe('-0.101');
     });
 
-    test('should correctly create an instance from a BigInt', () => {
-      const decimal = 12;
-      const value = 12345678901234n; // BigInt value
-      const skNumber = SwapKitNumber.fromBigInt(value, decimal);
+    test('creates SwapKitInstance from BigInt: (12.345678901234, decimals: 12)', () => {
+      const skNumber = SwapKitNumber.fromBigInt(12345678901234n, 12);
 
-      // The value should be '12.345678901234' because we specified 12 as the decimal
       expect(skNumber.value).toBe('12.345678901234');
-      expect(skNumber.bigIntValue).toBe(value);
+      expect(skNumber.bigIntValue).toBe(12345678901234n);
     });
   });
 

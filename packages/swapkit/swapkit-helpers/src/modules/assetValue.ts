@@ -35,7 +35,7 @@ export class AssetValue extends BaseSwapKitNumber {
   }
 
   static async fromIdentifier(
-    assetString: `${Chain}.${string}` | `${Chain}.${string}-${string}`,
+    assetString: `${Chain}.${string}` | `${Chain}/${string}` | `${Chain}.${string}-${string}`,
     value: number | string = 0,
   ) {
     const decimal = await getDecimal(getAssetInfo(assetString));
@@ -59,13 +59,18 @@ export class AssetValue extends BaseSwapKitNumber {
     return `${this.value} ${this.ticker}`;
   }
 
+  toString() {
+    return `${this.chain}${this.isSynthetic ? '/' : '.'}${this.symbol}`;
+  }
+
   eq({ chain, symbol }: { chain: Chain; symbol: string }) {
     return this.chain === chain && this.symbol === symbol;
   }
 }
 
 const getAssetInfo = (identifier: string) => {
-  const [chain, symbol] = identifier.split('.') as [Chain, string];
+  const isSynthetic = identifier.includes('/');
+  const [chain, symbol] = identifier.split(isSynthetic ? '/' : '.') as [Chain, string];
   const [ticker, address] = symbol.split('-') as [string, string?];
 
   return {
@@ -73,7 +78,7 @@ const getAssetInfo = (identifier: string) => {
     ticker,
     symbol,
     address,
-    isSynthetic: symbol.includes('/'),
+    isSynthetic,
     isGasAsset: isGasAsset({ chain, symbol }),
   };
 };

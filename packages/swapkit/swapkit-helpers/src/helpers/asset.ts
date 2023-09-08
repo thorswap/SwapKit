@@ -11,16 +11,15 @@ export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) 
     case Chain.Avalanche:
       return symbol === chain;
 
+    // @TODO (@Towan) check if this is correct
     case Chain.Arbitrum:
-      // @TODO (@Towan) check if this is correct
-      return [Chain.Ethereum, Chain.Arbitrum].includes(chain);
+    case Chain.Optimism:
+      return 'ETH' === symbol;
 
     case Chain.Cosmos:
       return symbol === 'ATOM';
     case Chain.Polygon:
       return symbol === 'MATIC';
-    case Chain.Optimism:
-      return symbol === 'OP';
     case Chain.BinanceSmartChain:
       return symbol === 'BNB';
     case Chain.THORChain:
@@ -80,8 +79,6 @@ export const getCommonAssetInfo = (
 
     case Chain.Arbitrum:
     case Chain.Optimism:
-      return { identifier: 'ETH.ETH', decimal: BaseDecimal[assetString] };
-
     case Chain.BitcoinCash:
     case Chain.Litecoin:
     case Chain.Dogecoin:
