@@ -22,20 +22,22 @@ describe('AssetValue', () => {
     });
   });
 
-  describe('fromIdentifier', async () => {
-    const fakeAvaxUSDCAssetString = 'AVAX.USDC-0x1234567890';
-    const fakeAvaxUSDCAsset = await AssetValue.fromIdentifier(fakeAvaxUSDCAssetString);
+  describe('fromIdentifier', () => {
+    test('creates AssetValue from string', async () => {
+      const fakeAvaxUSDCAssetString = 'AVAX.USDC-0x1234567890';
+      const fakeAvaxUSDCAsset = await AssetValue.fromIdentifier(fakeAvaxUSDCAssetString);
 
-    expect(fakeAvaxUSDCAsset).toMatchObject({
-      address: '0x1234567890',
-      chain: Chain.Avalanche,
-      decimal: 6,
-      isGasAsset: false,
-      isSynthetic: false,
-      symbol: 'USDC-0x1234567890',
-      ticker: 'USDC',
-      value: 0,
-      bigIntValue: 0n,
+      expect(fakeAvaxUSDCAsset).toMatchObject({
+        address: '0x1234567890',
+        chain: Chain.Avalanche,
+        decimal: 6,
+        isGasAsset: false,
+        isSynthetic: false,
+        symbol: 'USDC-0x1234567890',
+        ticker: 'USDC',
+        value: 0,
+        bigIntValue: 0n,
+      });
     });
   });
 });
