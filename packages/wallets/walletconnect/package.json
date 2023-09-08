@@ -70,5 +70,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "2.0.0-development.43"
+  "version": "2.0.0-development.44"
 }
