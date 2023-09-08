@@ -1,5 +1,12 @@
 # @thorswap-lib/swapkit-sdk
 
+## 0.1.0-development.88
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/ledger@1.0.0-development.244
+
 ## 0.1.0-development.87
 
 ### Patch Changes

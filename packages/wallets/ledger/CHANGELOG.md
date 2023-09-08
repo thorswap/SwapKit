@@ -1,5 +1,11 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.244
+
+### Patch Changes
+
+- Fix ledger init
+
 ## 1.0.0-development.243
 
 ### Patch Changes
