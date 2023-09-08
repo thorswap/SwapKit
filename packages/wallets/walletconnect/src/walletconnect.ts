@@ -3,10 +3,10 @@ import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
 import type { WalletTxParams } from '@thorswap-lib/types';
 import { ApiUrl, Chain, ChainId, WalletOption } from '@thorswap-lib/types';
+import type { WalletConnectModalSign } from '@walletconnect/modal-sign-html';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
-import type {WalletConnectModalSign} from "@walletconnect/modal-sign-html";
 
 import {
   BINANCE_MAINNET_ID,
@@ -54,13 +54,16 @@ const getToolbox = async ({
 
   switch (chain) {
     case Chain.Avalanche:
+    case Chain.BinanceSmartChain:
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey)
         throw new Error('Ethplorer API key not found');
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
 
-      const { getProvider, ETHToolbox, AVAXToolbox } = await import('@thorswap-lib/toolbox-evm');
+      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
+        '@thorswap-lib/toolbox-evm'
+      );
 
       const provider = getProvider(chain);
       const signer = await getEVMSigner({ walletconnect, chain, provider });
@@ -68,7 +71,9 @@ const getToolbox = async ({
       const toolbox =
         chain === Chain.Ethereum
           ? ETHToolbox({ provider, signer, ethplorerApiKey: ethplorerApiKey as string })
-          : AVAXToolbox({ provider, signer, covalentApiKey });
+          : chain === Chain.Avalanche
+          ? AVAXToolbox({ provider, signer, covalentApiKey })
+          : BSCToolbox({ provider, signer, covalentApiKey });
 
       return toolbox;
     }
