@@ -1,13 +1,11 @@
-import { Signer } from '@ethersproject/abstract-signer';
-import type { Provider } from '@ethersproject/providers';
-import type { UnsignedTransaction } from '@ethersproject/transactions';
 import type EthereumApp from '@ledgerhq/hw-app-eth';
 import { ChainId } from '@thorswap-lib/types';
 import { BN } from 'bn.js';
+import { type Provider, VoidSigner } from 'ethers';
 
 import { getLedgerTransport } from '../helpers/getLedgerTransport.ts';
 
-export abstract class EthereumLikeLedgerInterface extends Signer {
+export abstract class EthereumLikeLedgerInterface extends VoidSigner {
   public chain: 'eth' | 'avax' | 'bsc' = 'eth';
   public chainId: ChainId = ChainId.Ethereum;
   public derivationPath: string = '';
@@ -16,7 +14,7 @@ export abstract class EthereumLikeLedgerInterface extends Signer {
   public ledgerTimeout: number = 50000;
 
   constructor(provider: Provider) {
-    super();
+    super('');
 
     Object.defineProperty(this, 'provider', {
       enumerable: true,
@@ -57,23 +55,21 @@ export abstract class EthereumLikeLedgerInterface extends Signer {
 
     if (!sig) throw new Error('Signing failed');
 
-    const { joinSignature } = await import('@ethersproject/bytes');
+    const { Signature } = await import('ethers');
 
     sig.r = '0x' + sig.r;
     sig.s = '0x' + sig.s;
-    return joinSignature(sig);
+    return Signature.from(sig).serialized;
   };
 
   signTransaction = async (rawTx: any) => {
     await this.checkOrCreateTransportAndLedger();
-    const { resolveProperties } = await import('@ethersproject/properties');
+    const { resolveProperties } = await import('ethers/utils');
 
     const tx: any = await resolveProperties(rawTx);
-    const transactionCount = await this.getTransactionCount();
+    const transactionCount = await this.provider?.getTransactionCount(tx.from);
 
-    const { BigNumber } = await import('@ethersproject/bignumber');
-
-    const baseTx: UnsignedTransaction = {
+    const baseTx = {
       chainId: BigNumber.from(rawTx.chainId || this.chainId).toNumber(),
       data: tx.data || undefined,
       gasLimit: tx.gasLimit || undefined,
@@ -90,8 +86,9 @@ export abstract class EthereumLikeLedgerInterface extends Signer {
       type: tx.type || 2,
     };
 
-    const { serialize } = await import('@ethersproject/transactions');
-    const unsignedTx = serialize(baseTx).slice(2);
+    const { Transaction } = await import('ethers/transaction');
+    // TODO: Check this signature
+    const unsignedTx = Transaction.from(baseTx).serialized;
 
     const { ledgerService } = await import('@ledgerhq/hw-app-eth');
 
@@ -109,13 +106,11 @@ export abstract class EthereumLikeLedgerInterface extends Signer {
 
     if (!signature) throw new Error('Could not sign transaction');
 
-    return (
-      '0x' +
-      serialize(baseTx, {
-        v: new BN(parseInt(signature.v, 16)).toNumber(),
-        r: '0x' + signature.r,
-        s: '0x' + signature.s,
-      }).slice(2)
-    );
+    const { r, s, v } = signature;
+
+    return Transaction.from({
+      ...baseTx,
+      signature: { v: new BN(parseInt(v, 16)).toNumber(), r: '0x' + r, s: '0x' + s },
+    }).serialized;
   };
 }

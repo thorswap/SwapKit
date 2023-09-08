@@ -1,4 +1,3 @@
-import { BigNumber } from '@ethersproject/bignumber';
 import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { getRequest } from '@thorswap-lib/swapkit-helpers';

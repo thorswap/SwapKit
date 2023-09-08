@@ -1,6 +1,6 @@
-import type { BigNumber, FixedNumber } from '@ethersproject/bignumber';
+import type { BigNumberish } from 'ethers';
 
-type AmountWithDenom<U = BigNumber | FixedNumber> = {
+type AmountWithDenom<U = BigNumberish> = {
   amount: () => U;
   plus: (value: U | AmountWithDenom<U>, decimal?: number) => AmountWithDenom<U>;
   minus: (value: U | AmountWithDenom<U>, decimal?: number) => AmountWithDenom<U>;
@@ -14,4 +14,4 @@ type AmountWithDenom<U = BigNumber | FixedNumber> = {
   decimal: number;
 };
 
-export type AmountWithBaseDenom = AmountWithDenom<BigNumber>;
+export type AmountWithBaseDenom = AmountWithDenom<BigNumberish>;

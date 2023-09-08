@@ -9,7 +9,7 @@ const viteConfig = thorswapViteConfig(name, {
       entry: resolve(__dirname, 'src/index.ts'),
     },
     rollupOptions: {
-      external: ['bignumber.js', '@ethersproject/bignumber'],
+      external: ['bignumber.js'],
     },
   },
 });

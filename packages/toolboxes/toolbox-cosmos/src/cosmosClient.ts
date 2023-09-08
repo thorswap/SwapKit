@@ -1,6 +1,6 @@
 import type { StdFee } from '@cosmjs/amino';
+import { base64 } from '@scure/base';
 import type { ChainId } from '@thorswap-lib/types';
-import { fromByteArray } from 'base64-js';
 
 import type { CosmosSDKClientParams, TransferParams } from './types.ts';
 import { getRPC } from './util.ts';
@@ -33,7 +33,7 @@ export class CosmosClient {
   getPubKeyFromMnemonic = async (mnemonic: string, derivationPath: string) => {
     const wallet = await this.#getWallet(mnemonic, derivationPath);
 
-    return fromByteArray((await wallet.getAccounts())[0].pubkey);
+    return base64.encode((await wallet.getAccounts())[0].pubkey);
   };
 
   checkAddress = async (address: string) => {

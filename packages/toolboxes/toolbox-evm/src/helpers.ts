@@ -1,9 +1,7 @@
-import { BigNumber } from '@ethersproject/bignumber';
-import type { ExternalProvider } from '@ethersproject/providers';
-import { Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { Chain, ChainId, ChainToHexChainId, FeeOption, WalletOption } from '@thorswap-lib/types';
+import type { JsonRpcProvider } from 'ethers';
 
 import type { EthereumWindowProvider, EVMMaxSendableAmountsParams } from './index.ts';
 import { AVAXToolbox, BSCToolbox, ETHToolbox } from './index.ts';
@@ -21,7 +19,7 @@ type NetworkParams = {
 };
 
 type ProviderRequestParams = {
-  provider?: ExternalProvider;
+  provider?: JsonRpcProvider;
   params?: any;
   method:
     | 'wallet_addEthereumChain'
@@ -56,7 +54,7 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
 }: {
   toolbox: T;
   chainId: ChainId;
-  provider?: ExternalProvider;
+  provider?: JsonRpcProvider;
 }) => {
   const wrappedMethods = methodsToWrap.reduce((object, methodName) => {
     if (!toolbox[methodName]) return object;
@@ -73,7 +71,7 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
 
 export const wrapMethodWithNetworkSwitch = <T extends (...args: any[]) => any>(
   func: T,
-  provider: ExternalProvider,
+  provider: JsonRpcProvider,
   chainId: ChainId,
 ) =>
   (async (...args: any[]) => {
@@ -86,16 +84,16 @@ export const wrapMethodWithNetworkSwitch = <T extends (...args: any[]) => any>(
   }) as unknown as T;
 
 const providerRequest = async ({ provider, params, method }: ProviderRequestParams) => {
-  if (!provider?.request) throw new Error('Provider not found');
+  if (!provider?.send) throw new Error('Provider not found');
 
   const providerParams = params ? (Array.isArray(params) ? params : [params]) : [];
-  return provider.request({ method, params: providerParams });
+  return provider.send(method, providerParams);
 };
 
-export const addEVMWalletNetwork = (provider: ExternalProvider, networkParams: NetworkParams) =>
+export const addEVMWalletNetwork = (provider: JsonRpcProvider, networkParams: NetworkParams) =>
   providerRequest({ provider, method: 'wallet_addEthereumChain', params: [networkParams] });
 
-export const switchEVMWalletNetwork = (provider: ExternalProvider, chainId = ChainId.EthereumHex) =>
+export const switchEVMWalletNetwork = (provider: JsonRpcProvider, chainId = ChainId.EthereumHex) =>
   providerRequest({ provider, method: 'wallet_switchEthereumChain', params: [{ chainId }] });
 
 export const getWeb3WalletMethods = async ({
@@ -118,7 +116,9 @@ export const getWeb3WalletMethods = async ({
     throw new Error(`Missing API key for ${chain} chain`);
   }
 
-  const provider = new Web3Provider(ethereumWindowProvider, 'any');
+  const { BrowserProvider } = await import('ethers/providers');
+
+  const provider = new BrowserProvider(ethereumWindowProvider, 'any');
 
   const toolboxParams = {
     provider,
@@ -200,6 +200,7 @@ export const estimateMaxSendableAmount = async ({
   const fees = (await toolbox.estimateGasPrices())[feeOptionKey];
 
   if (!fees.gasPrice && !fees.maxFeePerGas) throw new Error('Could not fetch fee data');
+
   const fee = BigNumber.from(gasLimit).mul(
     !fees.gasPrice ? fees.maxFeePerGas!.add(fees.maxPriorityFeePerGas || 1) : fees.gasPrice!,
   );

@@ -1,4 +1,4 @@
-import { bech32 } from 'bech32';
+import { bech32 } from '@scure/base';
 import { enc, RIPEMD160, SHA256 } from 'crypto-js';
 import { ec as EC } from 'elliptic';
 

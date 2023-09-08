@@ -1,6 +1,6 @@
-import type { BigNumberish } from '@ethersproject/bignumber';
-import { BigNumber } from '@ethersproject/bignumber';
 import type { AmountWithBaseDenom } from '@thorswap-lib/types';
+
+type BigNumberish = any | string | number;
 
 type Value = BigNumberish | AmountWithBaseDenom;
 

@@ -1,6 +1,7 @@
 import type { Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import type { Account, StdFee } from '@cosmjs/stargate';
+import { base64 } from '@scure/base';
 import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
 import { getRequest } from '@thorswap-lib/swapkit-helpers';
 import type { AmountWithBaseDenom, Balance, Chain } from '@thorswap-lib/types';
@@ -12,7 +13,6 @@ import {
   FeeOption,
   RPCUrl,
 } from '@thorswap-lib/types';
-import { fromByteArray, toByteArray } from 'base64-js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
 import { CosmosClient } from '../cosmosClient.ts';
@@ -96,7 +96,7 @@ const createDefaultAminoTypes = async () => {
   });
 };
 
-const exportSignature = (signature: Uint8Array) => fromByteArray(signature);
+const exportSignature = (signature: Uint8Array) => base64.encode(signature);
 
 const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
   const { msgs, accountNumber, sequence, chainId, fee, memo } = JSON.parse(tx);
@@ -134,10 +134,10 @@ const broadcastMultisigTx = async (
 
   const addressesAndSignatures: [string, Uint8Array][] = signers.map((signer) => [
     pubkeyToAddress(
-      encodeSecp256k1Pubkey(toByteArray(signer.pubKey)),
+      encodeSecp256k1Pubkey(base64.decode(signer.pubKey)),
       isStagenet ? 'sthor' : 'thor',
     ),
-    toByteArray(signer.signature),
+    base64.decode(signer.signature),
   ]);
 
   const broadcaster = await StargateClient.connect(
@@ -169,12 +169,12 @@ const getAssetFromBalance = ({ asset: { symbol, chain } }: Balance): AssetEntity
 const createMultisig = async (pubKeys: string[], threshold: number) => {
   const { encodeSecp256k1Pubkey, createMultisigThresholdPubkey } = await import('@cosmjs/amino');
   return createMultisigThresholdPubkey(
-    pubKeys.map((pubKey) => encodeSecp256k1Pubkey(toByteArray(pubKey))),
+    pubKeys.map((pubKey) => encodeSecp256k1Pubkey(base64.decode(pubKey))),
     threshold,
   );
 };
 
-const importSignature = (signature: string) => toByteArray(signature);
+const importSignature = (signature: string) => base64.decode(signature);
 
 const __REEXPORT__pubkeyToAddress = async (pubkey: Pubkey, prefix = 'thor') => {
   const { pubkeyToAddress } = await import('@cosmjs/amino');

@@ -1,5 +1,3 @@
-import { HDNode } from '@ethersproject/hdnode';
-import { Wallet } from '@ethersproject/wallet';
 import type { UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
 import type { ConnectWalletParams, TxParams } from '@thorswap-lib/types';
 import { Chain, DerivationPath, WalletOption } from '@thorswap-lib/types';
@@ -45,15 +43,16 @@ const getWalletMethodsForChain = async ({
         throw new Error('Covalent API key not found');
       }
 
+      const { Mnemonic, HDNodeWallet } = await import('ethers/wallet');
       const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
         '@thorswap-lib/toolbox-evm'
       );
 
-      const hdNode = HDNode.fromMnemonic(phrase);
-      const derivedPath = hdNode.derivePath(derivationPath);
-
       const provider = getProvider(chain, rpcUrl);
-      const wallet = new Wallet(derivedPath).connect(provider);
+      const wallet = HDNodeWallet.fromMnemonic(Mnemonic.fromPhrase(phrase))
+        .derivePath(derivationPath)
+        .connect(provider);
+
       const params = { api, provider, signer: wallet as any };
 
       const toolbox =
@@ -64,10 +63,10 @@ const getWalletMethodsForChain = async ({
           : BSCToolbox({ ...params, covalentApiKey: covalentApiKey! });
 
       return {
-        address: derivedPath.address,
+        address: wallet.address,
         walletMethods: {
           ...toolbox,
-          getAddress: () => derivedPath.address,
+          getAddress: () => wallet.address,
         },
       };
     }

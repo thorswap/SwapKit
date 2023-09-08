@@ -3,7 +3,6 @@ export * from './provider.ts';
 export {
   BaseEVMToolbox,
   EIP1193SendTransaction,
-  getBigNumberFrom,
   getChecksumAddressFromAsset,
   getTokenAddress,
   MAX_APPROVAL,

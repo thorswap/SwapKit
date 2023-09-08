@@ -33,6 +33,7 @@ import type {
 import {
   BaseDecimal,
   Chain,
+  ChainToChainId,
   FeeOption,
   MemoType,
   QuoteMode,
@@ -42,11 +43,7 @@ import {
 
 import type { AGG_CONTRACT_ADDRESS } from '../aggregator/contracts/index.ts';
 import { lowercasedContractAbiMapping } from '../aggregator/contracts/index.ts';
-import {
-  getSameEVMParams,
-  getSwapInParams,
-  getSwapOutParams,
-} from '../aggregator/getSwapParams.ts';
+import { getSwapInParams, getSwapOutParams } from '../aggregator/getSwapParams.ts';
 
 import {
   getAssetForBalance,
@@ -109,10 +106,22 @@ export class SwapKitCore<T = ''> {
           }
           if (!route?.transaction) throw new SwapKitError('core_swap_route_transaction_not_found');
 
-          return walletMethods.sendTransaction(
-            getSameEVMParams({ transaction: route.transaction, evmChain }),
-            feeOptionKey,
-          ) as Promise<string>;
+          const { isHexString, parseUnits } = await import('ethers');
+          const { data, from, to, value } = route.transaction;
+
+          const params = {
+            data,
+            from,
+            to: to.toLowerCase(),
+            chainId: parseInt(ChainToChainId[evmChain]),
+            value: !isHexString(value)
+              ? parseUnits(value, 'wei').toString(16)
+              : parseInt(value, 16) > 0
+              ? value
+              : undefined,
+          };
+
+          return walletMethods.sendTransaction(params, feeOptionKey) as Promise<string>;
         }
 
         case QuoteMode.TC_SUPPORTED_TO_AVAX:

@@ -1,4 +1,4 @@
-import type { BigNumberish } from '@ethersproject/bignumber';
+import type { BigNumberish } from 'ethers';
 
 import type { AmountWithBaseDenom } from './amount.ts';
 import type { Asset } from './asset.ts';

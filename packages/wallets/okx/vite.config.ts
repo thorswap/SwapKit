@@ -11,7 +11,6 @@ const viteConfig = thorswapViteConfig(name, {
     rollupOptions: {
       external: [
         'bitcoinjs-lib',
-        '@ethersproject/providers',
         '@thorswap-lib/toolbox-cosmos',
         '@thorswap-lib/toolbox-evm',
         '@thorswap-lib/toolbox-utxo',

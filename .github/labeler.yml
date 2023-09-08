@@ -13,7 +13,6 @@ maintenance:
 
 docs:
 - apps/vite-playground/src/**/*
-- apps/expo-playground/src/**/*
 
 core:
 - packages/swapkit/swapkit-core/**/*

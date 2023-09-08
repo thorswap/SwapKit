@@ -1,4 +1,4 @@
-import type { FixedNumber } from '@ethersproject/bignumber';
+import type { FixedNumber } from 'ethers';
 
 import type { Chain, CosmosChain, EVMChain, UTXOChain } from './network.ts';
 import type { WalletOption } from './wallet.ts';

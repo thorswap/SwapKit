@@ -1,4 +1,5 @@
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
+import { bech32 } from '@scure/base';
 import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
 import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { getRequest, postRequest } from '@thorswap-lib/swapkit-helpers';
@@ -11,7 +12,6 @@ import {
   DerivationPath,
   FeeOption,
 } from '@thorswap-lib/types';
-import { bech32 } from 'bech32';
 import { ec as EC } from 'elliptic';
 
 import { BNBTransaction } from '../binanceUtils/transaction.ts';

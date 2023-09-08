@@ -47,10 +47,8 @@
       "semver@<=4.3.2": "^4.3.6"
     },
     "patchedDependencies": {
-      "@ethersproject/abstract-signer@5.7.0": "patches/@ethersproject-abstract-signer-npm-5.7.0-f61d0a970e.patch",
       "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
       "typeforce@1.18.0": "patches/typeforce@1.18.0.patch",
-      "asyncstorage-down@4.2.0": "patches/asyncstorage-down-npm-4.2.0-d323e014ba.patch",
       "@changesets/assemble-release-plan@5.2.3": "patches/@changesets__assemble-release-plan@5.2.3.patch",
       "@changesets/cli@2.26.1": "patches/@changesets__cli@2.26.1.patch"
     }
@@ -61,9 +59,6 @@
     "build:vite": "turbo run build-playground --token=turbotoken-oss-europe1 --concurrency=30",
     "preview:vite": "turbo run preview-playground --token=turbotoken-oss-europe1 --concurrency=30",
     "clean": "turbo run clean",
-    "dev:android": "turbo run dev:android --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
-    "dev:expo": "turbo run dev --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
-    "dev:ios": "turbo run dev:ios --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
     "dev:vite": "turbo run dev --concurrency=30 --filter=\"{./apps/vite-playground}...\"",
     "generate": "cd ./internal/generator; pnpm generate; cd ../..",
     "lint": "turbo run lint --token=turbotoken-oss-europe1",

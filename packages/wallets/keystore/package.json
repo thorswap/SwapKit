@@ -1,19 +1,14 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@ethersproject/hdnode": "5.7.0",
-    "@ethersproject/wallet": "5.7.0",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "blakejs": "1.2.1",
-    "long": "4.0.0",
     "uuid": "9.0.0"
   },
   "description": "THORSwap Lib keystore",
   "devDependencies": {
-    "@ethersproject/bignumber": "5.7.0",
-    "@ethersproject/providers": "5.7.2",
     "@internal/config": "workspace:*",
     "@scure/bip39": "1.2.1",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
@@ -24,6 +19,7 @@
     "@types/uuid": "9.0.3",
     "@vitest/coverage-istanbul": "0.34.4",
     "bitcoinjs-lib": "5.2.0",
+    "ethers": "6.7.1",
     "vite": "4.4.9",
     "vitest": "0.34.4"
   },
@@ -47,12 +43,11 @@
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/keystore",
   "peerDependencies": {
-    "@ethersproject/bignumber": "^5.7.0",
-    "@ethersproject/providers": "^5.7.0",
     "@scure/bip39": "1.2.1",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "ethers": "^6.7.1",
     "bitcoinjs-lib": "^5.2.0"
   },
   "publishConfig": {

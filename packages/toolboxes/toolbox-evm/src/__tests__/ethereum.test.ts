@@ -1,10 +1,8 @@
-import { BigNumber } from '@ethersproject/bignumber';
-import type { JsonRpcProvider } from '@ethersproject/providers';
+import hre from '@nomicfoundation/hardhat-ethers';
 import helpers from '@nomicfoundation/hardhat-network-helpers';
-import type ethers from '@nomiclabs/hardhat-ethers';
 import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
 import { Chain, erc20ABI, FeeOption } from '@thorswap-lib/types';
-import hre from 'hardhat';
+import type { ethers, JsonRpcProvider } from 'ethers';
 import type { ExpectStatic } from 'vitest';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, test } from 'vitest';
 
@@ -25,7 +23,7 @@ beforeEach<{
   provider: JsonRpcProvider;
   toolbox: ReturnType<typeof ETHToolbox>;
 }>(async (context: any) => {
-  context.ethers = hre.ethers;
+  context.ethers = hre.artifact;
   const provider = getProvider(Chain.Ethereum, 'http://127.0.0.1:8545/');
   context.provider = provider;
   const signer = await hre.ethers.getImpersonatedSigner(testAddress);

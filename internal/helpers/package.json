@@ -1,7 +1,6 @@
 {
   "description": "THORSwap Lib - Helper library for THORSwap",
   "devDependencies": {
-    "@ethersproject/bignumber": "5.7.0",
     "@internal/config": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.4",
@@ -20,7 +19,6 @@
   "main": "./src/index.ts",
   "name": "@thorswap-lib/helpers",
   "peerDependencies": {
-    "@ethersproject/bignumber": "^5.7.0",
     "bignumber.js": "^9.1.2"
   },
   "scripts": {

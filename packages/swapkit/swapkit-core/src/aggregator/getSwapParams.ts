@@ -1,18 +1,9 @@
-import { isHexString } from '@ethersproject/bytes';
-import { parseUnits } from '@ethersproject/units';
 import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
 import { Amount, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
 import { SwapKitError } from '@thorswap-lib/swapkit-helpers';
-import type { EVMChain } from '@thorswap-lib/types';
-import { ChainToChainId } from '@thorswap-lib/types';
 
 import type { AGG_CONTRACT_ADDRESS } from './contracts/index.ts';
 import { lowercasedGenericAbiMappings } from './contracts/index.ts';
-
-type SameEVMParams = {
-  evmChain: EVMChain;
-  transaction: QuoteRoute['transaction'];
-};
 
 type SwapInParams = {
   calldata: QuoteRoute['calldata'];
@@ -27,21 +18,6 @@ type SwapOutParams = {
   streamSwap?: boolean;
   recipient: string;
 };
-
-export const getSameEVMParams = ({
-  evmChain,
-  transaction: { data, from, to, value },
-}: SameEVMParams) => ({
-  data,
-  from,
-  to: to.toLowerCase(),
-  chainId: parseInt(ChainToChainId[evmChain]),
-  value: !isHexString(value)
-    ? parseUnits(value, 'wei').toHexString()
-    : parseInt(value, 16) > 0
-    ? value
-    : undefined,
-});
 
 export const getSwapOutParams = ({
   streamSwap,

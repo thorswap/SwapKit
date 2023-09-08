@@ -1,8 +1,7 @@
-import type { Signer } from '@ethersproject/abstract-signer';
-import type { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from '@thorswap-lib/types';
+import type { BrowserProvider, JsonRpcProvider, VoidSigner } from 'ethers';
 
 import type { CovalentApiType } from '../api/covalentApi.ts';
 import { covalentApi } from '../api/covalentApi.ts';
@@ -39,8 +38,8 @@ export const AVAXToolbox = ({
 }: {
   api?: CovalentApiType;
   covalentApiKey: string;
-  signer: Signer;
-  provider: JsonRpcProvider | Web3Provider;
+  signer: VoidSigner;
+  provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const avaxApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Avalanche });
   const baseToolbox = BaseEVMToolbox({ provider, signer });

@@ -1,10 +1,9 @@
 import { toBech32 } from '@cosmjs/encoding';
+import { base64, bech32 } from '@scure/base';
 import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import type { AmountWithBaseDenom, Asset, Balance, Fees } from '@thorswap-lib/types';
 import { BaseDecimal, Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
-import { fromByteArray, toByteArray } from 'base64-js';
-import { bech32 } from 'bech32';
 
 import { AssetRuneNative } from '../types.ts';
 
@@ -167,7 +166,7 @@ export const checkBalances = async (
 };
 
 export const bech32ToBase64 = (address: string) =>
-  fromByteArray(Uint8Array.from(bech32.fromWords(bech32.decode(address).words)));
+  base64.encode(Uint8Array.from(bech32.fromWords(bech32.decode(address).words)));
 
 export const base64ToBech32 = (address: string, prefix = 'thor') =>
-  toBech32(prefix, toByteArray(address));
+  toBech32(prefix, base64.decode(address));

@@ -1,6 +1,5 @@
-import { Signer } from '@ethersproject/abstract-signer';
-import type { JsonRpcProvider, Provider, TransactionRequest } from '@ethersproject/providers';
 import type { EVMChain, EVMTxParams } from '@thorswap-lib/types';
+import { type JsonRpcProvider, type Provider, type TransactionRequest, VoidSigner } from 'ethers';
 
 import { DEFAULT_EIP155_METHODS } from './constants.ts';
 import { chainToChainId, getAddressByChain } from './helpers.ts';
@@ -12,14 +11,14 @@ interface WalletconnectEVMSignerParams {
   provider: Provider | JsonRpcProvider;
 }
 
-class WalletconnectSigner extends Signer {
+class WalletconnectSigner extends VoidSigner {
+  address: string;
   private chain: EVMChain;
   private walletconnect: Walletconnect;
-  private address: string;
   readonly provider: Provider | JsonRpcProvider;
 
   constructor({ chain, provider, walletconnect }: WalletconnectEVMSignerParams) {
-    super();
+    super('');
     this.chain = chain;
     this.walletconnect = walletconnect;
     this.provider = provider;
@@ -53,8 +52,6 @@ class WalletconnectSigner extends Signer {
     if (!from) throw new Error('Missing from address');
     if (!to) throw new Error('Missing to address');
 
-    const { BigNumber } = await import('@ethersproject/bignumber');
-
     const baseTx = {
       from,
       to,
@@ -85,12 +82,15 @@ class WalletconnectSigner extends Signer {
     });
   };
 
-  connect = (provider: Provider) =>
-    new WalletconnectSigner({
+  connect = (provider: Provider | null) => {
+    if (!provider) throw new Error('Missing provider');
+
+    return new WalletconnectSigner({
       chain: this.chain,
       walletconnect: this.walletconnect,
       provider,
     });
+  };
 }
 export const getEVMSigner = async ({
   chain,

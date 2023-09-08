@@ -1,9 +1,7 @@
-import type { BigNumber, BigNumberish } from '@ethersproject/bignumber';
-import type { ContractInterface, PopulatedTransaction } from '@ethersproject/contracts';
-import type { ExternalProvider } from '@ethersproject/providers';
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import type { EVMTxParams, FeeOption, WalletTxParams } from '@thorswap-lib/types';
+import type { BigNumberish, ContractInterface, JsonRpcProvider, Transaction } from 'ethers';
 
 import type {
   ARBToolbox,
@@ -55,7 +53,7 @@ export type EstimateCallParams = Pick<
   'contractAddress' | 'abi' | 'funcName' | 'funcParams' | 'txOverrides'
 >;
 
-export type EthereumWindowProvider = ExternalProvider & {
+export type EthereumWindowProvider = JsonRpcProvider & {
   isMetaMask?: boolean;
   on: (event: string, callback?: () => void) => void;
   isBraveWallet?: boolean;
@@ -88,10 +86,10 @@ declare global {
 }
 
 export type TransferParams = WalletTxParams & {
-  gasLimit?: BigNumber;
-  gasPrice?: BigNumber;
-  maxFeePerGas?: BigNumber;
-  maxPriorityFeePerGas?: BigNumber;
+  gasLimit?: BigNumberish;
+  gasPrice?: BigNumberish;
+  maxFeePerGas?: BigNumberish;
+  maxPriorityFeePerGas?: BigNumberish;
   data?: string;
   from: string;
   nonce?: number;
@@ -132,5 +130,5 @@ export type EVMMaxSendableAmountsParams = {
   funcName?: string;
   contractAddress?: string;
   funcParams?: unknown[];
-  txOverrides?: Partial<PopulatedTransaction>;
+  txOverrides?: Partial<Transaction>;
 };

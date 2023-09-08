@@ -1,8 +1,3 @@
-import type { Provider, TransactionRequest } from '@ethersproject/abstract-provider';
-import type { Signer } from '@ethersproject/abstract-signer';
-import type { BigNumber } from '@ethersproject/bignumber';
-import { Contract } from '@ethersproject/contracts';
-import type { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import {
@@ -13,6 +8,7 @@ import {
   FeeOption,
   RPCUrl,
 } from '@thorswap-lib/types';
+import type { BrowserProvider, JsonRpcProvider, TransactionRequest, VoidSigner } from 'ethers';
 
 import type { CovalentApiType } from '../api/covalentApi.ts';
 import { covalentApi } from '../api/covalentApi.ts';
@@ -23,24 +19,28 @@ import { BaseEVMToolbox } from './BaseEVMToolbox.ts';
 
 const GAS_PRICE_ORACLE_ADDRESS = '0x420000000000000000000000000000000000000f';
 
-export const connectGasPriceOracle = (provider: Provider) => {
+export const connectGasPriceOracle = async (provider: JsonRpcProvider | BrowserProvider) => {
+  const { Contract } = await import('ethers/contract');
   return new Contract(GAS_PRICE_ORACLE_ADDRESS, gasOracleAbi, provider);
 };
 
-export const getL1GasPrice = async (provider: Provider) => {
-  return connectGasPriceOracle(provider).l1BaseFee();
+export const getL1GasPrice = async (
+  provider: JsonRpcProvider | BrowserProvider,
+): Promise<bigint> => {
+  return (await connectGasPriceOracle(provider)).l1BaseFee();
 };
 
 const _serializeTx = async (
-  provider: Provider,
+  provider: JsonRpcProvider | BrowserProvider,
   { data, from, to, gasPrice, type, gasLimit, nonce }: TransactionRequest,
 ) => {
-  const { serialize } = await import('@ethersproject/transactions');
-  const { BigNumber } = await import('@ethersproject/bignumber');
+  if (!to) throw new Error('Missing to address');
 
-  return serialize({
+  const { Transaction } = await import('ethers/transaction');
+
+  return Transaction.from({
     data,
-    to,
+    to: to as string,
     gasPrice,
     type,
     gasLimit,
@@ -49,30 +49,39 @@ const _serializeTx = async (
       : from
       ? await provider.getTransactionCount(from)
       : 0,
-  });
+  }).serialized;
 };
 
-export const estimateL1GasCost = async (provider: Provider, tx: TransactionRequest) => {
-  return connectGasPriceOracle(provider).getL1Fee(await _serializeTx(provider, tx));
+export const estimateL1GasCost = async (
+  provider: JsonRpcProvider | BrowserProvider,
+  tx: TransactionRequest,
+) => {
+  return (await connectGasPriceOracle(provider)).getL1Fee(await _serializeTx(provider, tx));
 };
 
 export const estimateL2GasCost = async (
-  provider: Provider,
+  provider: JsonRpcProvider | BrowserProvider,
   tx: TransactionRequest,
 ): Promise<BigNumber> => {
-  const l2GasPrice = await provider.getGasPrice();
+  const l2GasPrice = await provider.send('eth_gasPrice', []);
   const l2GasCost = await provider.estimateGas(tx);
   return l2GasPrice.mul(l2GasCost);
 };
 
-export const estimateTotalGasCost = async (provider: Provider, tx: TransactionRequest) => {
+export const estimateTotalGasCost = async (
+  provider: JsonRpcProvider | BrowserProvider,
+  tx: TransactionRequest,
+) => {
   const l1GasCost = await estimateL1GasCost(provider, tx);
   const l2GasCost = await estimateL2GasCost(provider, tx);
   return l1GasCost.add(l2GasCost);
 };
 
-export const estimateL1Gas = async (provider: Provider, tx: TransactionRequest) => {
-  return connectGasPriceOracle(provider).getL1GasUsed(await _serializeTx(provider, tx));
+export const estimateL1Gas = async (
+  provider: JsonRpcProvider | BrowserProvider,
+  tx: TransactionRequest,
+) => {
+  return (await connectGasPriceOracle(provider)).getL1GasUsed(await _serializeTx(provider, tx));
 };
 
 export const getBalance = async (api: CovalentApiType, address: string) => {
@@ -95,13 +104,14 @@ export const getNetworkParams = () => ({
   blockExplorerUrls: [ChainToExplorerUrl[Chain.Optimism]],
 });
 
-const estimateGasPrices = async (provider: Provider) => {
+const estimateGasPrices = async (provider: JsonRpcProvider | BrowserProvider) => {
   try {
     const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await provider.getFeeData();
     const l1GasPrice = await getL1GasPrice(provider);
 
     if (!maxFeePerGas || !maxPriorityFeePerGas) throw new Error('No fee data available');
 
+    const price = gasPrice as bigint;
     return {
       [FeeOption.Average]: {
         l1GasPrice,
@@ -110,16 +120,16 @@ const estimateGasPrices = async (provider: Provider) => {
         maxPriorityFeePerGas,
       },
       [FeeOption.Fast]: {
-        l1GasPrice: l1GasPrice.mul(15).div(10),
-        gasPrice: gasPrice?.mul(15).div(10),
+        l1GasPrice: (l1GasPrice * 15n) / 10n,
+        gasPrice: (price * 15n) / 10n,
         maxFeePerGas,
-        maxPriorityFeePerGas: maxPriorityFeePerGas.mul(15).div(10),
+        maxPriorityFeePerGas: (maxPriorityFeePerGas * 15n) / 10n,
       },
       [FeeOption.Fastest]: {
-        l1GasPrice: l1GasPrice.mul(2),
-        gasPrice: gasPrice?.mul(2),
+        l1GasPrice: l1GasPrice * 2n,
+        gasPrice: price * 2n,
         maxFeePerGas,
-        maxPriorityFeePerGas: maxPriorityFeePerGas.mul(2),
+        maxPriorityFeePerGas: maxPriorityFeePerGas * 2n,
       },
     };
   } catch (error) {
@@ -137,8 +147,8 @@ export const OPToolbox = ({
 }: {
   api?: CovalentApiType;
   covalentApiKey: string;
-  signer: Signer;
-  provider: JsonRpcProvider | Web3Provider;
+  signer: VoidSigner;
+  provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const opApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Optimism });
   const baseToolbox = BaseEVMToolbox({ provider, signer });

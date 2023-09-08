@@ -1,4 +1,3 @@
-import { getAddress } from '@ethersproject/address';
 import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
 import { getRequest } from '@thorswap-lib/swapkit-helpers';
 import type { Balance } from '@thorswap-lib/types';
@@ -9,6 +8,7 @@ const baseUrl = 'https://api.ethplorer.io';
 
 export const ethplorerApi = (apiKey = 'freekey') => ({
   getBalance: async (address: string) => {
+    const { getAddress } = await import('ethers/address');
     const { tokens } = await getRequest<AddressInfo>(`${baseUrl}/getAddressInfo/${address}`, {
       apiKey,
     });
