@@ -2,7 +2,7 @@ import { postRequest } from '@thorswap-lib/swapkit-helpers';
 
 import { uniqid } from '../index.ts';
 
-export const broadcastTx = async ({ txHash, rpcUrl }: { txHash: string; rpcUrl: string }) => {
+export const broadcastUTXOTx = async ({ txHash, rpcUrl }: { txHash: string; rpcUrl: string }) => {
   const response = await postRequest<{ id: string; result: string; error: string | null }>(
     rpcUrl,
     JSON.stringify({

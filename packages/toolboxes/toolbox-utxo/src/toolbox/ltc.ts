@@ -2,7 +2,7 @@ import { Chain, RPCUrl } from '@thorswap-lib/types';
 
 import type { BlockchairApiType } from '../api/blockchairApi.ts';
 import { blockchairApi } from '../api/blockchairApi.ts';
-import { broadcastTx } from '../api/rpcApi.ts';
+import { broadcastUTXOTx } from '../api/rpcApi.ts';
 
 import { BaseUTXOToolbox } from './BaseUTXOToolbox.ts';
 
@@ -17,6 +17,6 @@ export const LTCToolbox = ({
 }): ReturnType<typeof BaseUTXOToolbox> =>
   BaseUTXOToolbox({
     chain: Chain.Litecoin,
-    broadcastTx: (txHash: string) => broadcastTx({ txHash, rpcUrl }),
+    broadcastTx: (txHash: string) => broadcastUTXOTx({ txHash, rpcUrl }),
     apiClient: apiClient || blockchairApi({ apiKey, chain: Chain.Litecoin }),
   });

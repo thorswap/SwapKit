@@ -4,10 +4,10 @@
     "@ethersproject/bignumber": "5.7.0",
     "@internal/config": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
-    "@vitest/coverage-istanbul": "0.34.3",
+    "@vitest/coverage-istanbul": "0.34.4",
     "bignumber.js": "9.1.2",
     "vite": "4.4.9",
-    "vitest": "0.34.3"
+    "vitest": "0.34.4"
   },
   "eslintConfig": {
     "extends": "../eslint-config-thorswap"

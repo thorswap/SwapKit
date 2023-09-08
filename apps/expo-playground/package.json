@@ -45,12 +45,12 @@
     "react-native-web": "0.19.8",
     "stream-browserify": "3.0.0",
     "stream-http": "3.2.0",
-    "url": "0.11.1",
+    "url": "0.11.2",
     "util": "0.12.5",
     "uuid": "9.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.22.15",
+    "@babel/core": "7.22.17",
     "@babel/plugin-proposal-export-namespace-from": "7.18.9",
     "@thorswap-lib/types": "workspace:*",
     "@types/react-native": "0.72.2",

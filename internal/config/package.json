@@ -1,10 +1,10 @@
 {
   "devDependencies": {
     "@rollup/plugin-terser": "0.4.3",
-    "@vitest/coverage-istanbul": "0.34.3",
+    "@vitest/coverage-istanbul": "0.34.4",
     "vite": "4.4.9",
     "vite-plugin-dts": "3.5.3",
-    "vitest": "0.34.3"
+    "vitest": "0.34.4"
   },
   "eslintConfig": {
     "extends": "../eslint-config-thorswap"

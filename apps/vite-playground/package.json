@@ -8,9 +8,9 @@
     "@thorswap-lib/ledger": "workspace:*",
     "@thorswap-lib/okx": "workspace:*",
     "@thorswap-lib/swapkit-api": "workspace:*",
-    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/swapkit-core": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
@@ -28,7 +28,7 @@
     "rollup-plugin-polyfill-node": "0.12.0",
     "stream-browserify": "3.0.0",
     "stream-http": "3.2.0",
-    "url": "0.11.1",
+    "url": "0.11.2",
     "util": "0.12.5"
   },
   "devDependencies": {

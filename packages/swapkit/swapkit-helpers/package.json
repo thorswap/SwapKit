@@ -1,14 +1,13 @@
 {
   "author": "thorswap",
-  "dependencies": {},
   "description": "THORSwap Lib swapkit-helpers",
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@thorswap-lib/tokens": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
-    "@vitest/coverage-istanbul": "0.34.3",
+    "@vitest/coverage-istanbul": "0.34.4",
     "vite": "4.4.9",
-    "vitest": "0.34.3"
+    "vitest": "0.34.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"

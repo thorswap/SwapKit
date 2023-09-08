@@ -18,7 +18,7 @@ import { ECPairFactory } from 'ecpair';
 
 import type { BlockchairApiType } from '../api/blockchairApi.ts';
 import { blockchairApi } from '../api/blockchairApi.ts';
-import { broadcastTx } from '../api/rpcApi.ts';
+import { broadcastUTXOTx } from '../api/rpcApi.ts';
 import type {
   TargetOutput,
   TransactionBuilderType,
@@ -268,7 +268,7 @@ export const BCHToolbox = ({
   const { getBalance, ...toolbox } = BaseUTXOToolbox({
     chain,
     apiClient,
-    broadcastTx: (txHash: string) => broadcastTx({ txHash, rpcUrl }),
+    broadcastTx: (txHash: string) => broadcastUTXOTx({ txHash, rpcUrl }),
   });
 
   return {

@@ -9,9 +9,9 @@
     "@ethersproject/providers": "5.7.2",
     "@internal/config": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@vitest/coverage-istanbul": "0.34.3",
+    "@vitest/coverage-istanbul": "0.34.4",
     "vite": "4.4.9",
-    "vitest": "0.34.3"
+    "vitest": "0.34.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"
