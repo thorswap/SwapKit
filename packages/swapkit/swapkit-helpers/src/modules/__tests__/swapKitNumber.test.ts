@@ -28,6 +28,16 @@ describe('SwapKitNumber', () => {
       expect(skNumber7.value).toBe('-0.101');
       expect(skNumber7.bigIntValue).toBe(-10050000n);
     });
+
+    test('should correctly create an instance from a BigInt', () => {
+      const decimal = 12;
+      const value = 12345678901234n; // BigInt value
+      const skNumber = SwapKitNumber.fromBigInt(value, decimal);
+
+      // The value should be '12.345678901234' because we specified 12 as the decimal
+      expect(skNumber.value).toBe('12.345678901234');
+      expect(skNumber.bigIntValue).toBe(value);
+    });
   });
 
   describe('add', () => {
@@ -188,6 +198,17 @@ describe('SwapKitNumber', () => {
       // The exact result of 1.000000000000000010 / -2 is -0.500000000000000005
       expect(result.value).toBe('-0.500000000000000005');
       expect(result.bigIntValue).toBe(-500000000000000005n);
+    });
+
+    test('divides a number with 2 decimals by a negative number with more decimals', () => {
+      const skNumber1 = new SwapKitNumber({ value: '2', decimal: 2 });
+      const skNumber2 = new SwapKitNumber({ value: '-0.000005', decimal: 18 });
+
+      const result = skNumber1.div(skNumber2);
+
+      // The exact result of 2 / -0.000005 is -400000
+      expect(result.value).toBe('-400000');
+      expect(result.bigIntValue).toBe(-40000000000000n);
     });
   });
 
