@@ -48,7 +48,13 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   [WalletOption.METAMASK]: EVMChainList,
   [WalletOption.TRUSTWALLET_WEB]: EVMChainList,
   [WalletOption.XDEFI]: AllChainsSupported,
-  [WalletOption.WALLETCONNECT]: [Chain.Ethereum, Chain.Binance, Chain.Avalanche, Chain.THORChain],
+  [WalletOption.WALLETCONNECT]: [
+    Chain.Ethereum,
+    Chain.Binance,
+    Chain.BinanceSmartChain,
+    Chain.Avalanche,
+    Chain.THORChain,
+  ],
   [WalletOption.OKX]: [
     Chain.Ethereum,
     Chain.Avalanche,
