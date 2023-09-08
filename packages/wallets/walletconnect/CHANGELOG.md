@@ -1,5 +1,11 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.44
+
+### Patch Changes
+
+- [#299](https://github.com/thorswap/SwapKit/pull/299) [`6bbed1e`](https://github.com/thorswap/SwapKit/commit/6bbed1edbf0c0c65f82e9f6d332ee21022768e5d) Thanks [@towanTG](https://github.com/towanTG)! - Enables BSC for walletconnect
+
 ## 2.0.0-development.43
 
 ### Patch Changes
