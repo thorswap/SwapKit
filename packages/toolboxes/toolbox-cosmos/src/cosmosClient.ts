@@ -49,9 +49,15 @@ export class CosmosClient {
 
   getBalance = async (address: string) => {
     const client = await this.#getClient();
-    return client.getAllBalances(address) as unknown as Promise<
+
+    const allBalances = (await client.getAllBalances(address)) as unknown as Promise<
       { denom: string; amount: string }[]
     >;
+
+    const b = await client.getBalance(address, 'RUNE');
+    debugger;
+
+    return allBalances || [b];
   };
 
   getAccount = async (address: string) => {

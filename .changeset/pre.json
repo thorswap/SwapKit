@@ -22,8 +22,10 @@
     "@thorswap-lib/xdefi": "1.0.0-development.55"
   },
   "changesets": [
+    "chilly-pots-perform",
     "hot-dots-own",
     "hot-pears-wash",
+    "metal-rules-bake",
     "ninety-toes-destroy",
     "old-lemons-give",
     "perfect-hornets-chew",
@@ -31,6 +33,7 @@
     "purple-nails-kiss",
     "soft-coats-repair",
     "tame-beans-vanish",
-    "thirty-pigs-burn"
+    "thirty-pigs-burn",
+    "witty-eagles-run"
   ]
 }

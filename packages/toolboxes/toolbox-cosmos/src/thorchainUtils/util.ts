@@ -1,10 +1,10 @@
 import { toBech32 } from '@cosmjs/encoding';
+import { bech32 } from '@scure/base';
 import { assetFromString, assetToString, baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import type { AmountWithBaseDenom, Asset, Balance, Fees } from '@thorswap-lib/types';
 import { BaseDecimal, Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
 import { fromByteArray, toByteArray } from 'base64-js';
-import { bech32 } from 'bech32';
 
 import { AssetRuneNative } from '../types.ts';
 
