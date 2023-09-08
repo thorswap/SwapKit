@@ -1,5 +1,6 @@
 import { fromBase64 } from '@cosmjs/encoding';
-import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
+import { Int53 } from '@cosmjs/math';
+import { encodePubkey, makeAuthInfoBytes, type TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
 import type { UTXOBuildTxParams } from '@thorswap-lib/toolbox-utxo';
 import type {
@@ -268,8 +269,6 @@ const getToolbox = async ({
         if (!account) throw new Error('invalid account');
         if (!account.pubkey) throw new Error('Account pubkey not found');
 
-        const { Int53 } = await import('@cosmjs/math');
-        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
         const { StargateClient } = await import('@cosmjs/stargate');
 
         const unsignedMsgs = recursivelyOrderKeys([
@@ -346,9 +345,6 @@ const getToolbox = async ({
         if (!account) throw new Error('invalid account');
         if (!asset) throw new Error('invalid asset');
         if (!account.pubkey) throw new Error('Account pubkey not found');
-
-        const { Int53 } = await import('@cosmjs/math');
-        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
 
         const { accountNumber, sequence = '0' } = account;
 

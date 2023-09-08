@@ -692,6 +692,9 @@ importers:
       '@cosmjs/stargate':
         specifier: 0.31.1
         version: 0.31.1
+      '@scure/base':
+        specifier: 1.1.3
+        version: 1.1.3
       '@scure/bip32':
         specifier: 1.3.2
         version: 1.3.2
@@ -710,9 +713,6 @@ importers:
       base64-js:
         specifier: 1.5.1
         version: 1.5.1
-      bech32:
-        specifier: 2.0.0
-        version: 2.0.0
       bech32-buffer:
         specifier: 0.2.1
         version: 0.2.1
@@ -1110,6 +1110,9 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
+      '@scure/base':
+        specifier: 1.1.3
+        version: 1.1.3
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/toolbox-cosmos
@@ -1152,9 +1155,6 @@ importers:
       bchaddrjs:
         specifier: 0.5.2
         version: 0.5.2
-      bech32:
-        specifier: 2.0.0
-        version: 2.0.0
       bitcoinjs-lib:
         specifier: 5.2.0
         version: 5.2.0
@@ -5894,9 +5894,6 @@ packages:
       string-argv: 0.3.2
     dev: true
 
-  /@scure/base@1.1.1:
-    resolution: {integrity: sha512-ZxOhsSyxYwLJj3pLZCefNitxsj093tb2vq90mp2txoYeBqbcjDjqFhyM8eUjq/uFm6zJ+mUuqxlS2FkuSY1MTA==}
-
   /@scure/base@1.1.3:
     resolution: {integrity: sha512-/+SgoRjLq7Xlf0CWuLHq2LUZeL/w65kfzAPG5NH9pcmBhs+nunQTn4gvdwgMTIXnt9b2C/1SeL2XiysZEyIC9Q==}
 
@@ -5927,7 +5924,7 @@ packages:
     resolution: {integrity: sha512-Z3/Fsz1yr904dduJD0NpiyRHhRYHdcnyh73FZWiV+/qhWi83wNJ3NWolYqCEN+ZWsUz2TWwajJggcRE9r1zUYg==}
     dependencies:
       '@noble/hashes': 1.3.1
-      '@scure/base': 1.1.1
+      '@scure/base': 1.1.3
 
   /@segment/loosely-validate-event@2.0.0:
     resolution: {integrity: sha512-ZMCSfztDBqwotkl848ODgVcAmN4OItEWDCkshcKz0/W6gGSQayuuCtWV/MlodFivAZD793d6UgANd6wCXUfrIw==}

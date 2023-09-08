@@ -1,5 +1,32 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.247
+
+### Patch Changes
+
+- fix last time ledger
+
+## 1.0.0-development.246
+
+### Patch Changes
+
+- Maybe fix import'
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.155
+
+## 1.0.0-development.245
+
+### Patch Changes
+
+- One more
+
+## 1.0.0-development.244
+
+### Patch Changes
+
+- Fix ledger init
+
 ## 1.0.0-development.243
 
 ### Patch Changes

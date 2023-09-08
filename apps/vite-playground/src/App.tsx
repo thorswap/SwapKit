@@ -3,6 +3,7 @@ import type { AssetAmount } from '@thorswap-lib/swapkit-entities';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Loan from './Loan';
+import Multisig from './Multisig';
 import Send from './Send';
 import Swap from './Swap';
 import { getSwapKitClient } from './swapKitClient';
@@ -10,7 +11,6 @@ import TNS from './TNS';
 import type { WalletDataType } from './types';
 import { Wallet } from './Wallet';
 import { WalletPicker } from './WalletPicker';
-import Multisig from './Multisig';
 
 const apiKeys = ['walletConnectProjectId'] as const;
 
@@ -70,7 +70,9 @@ const App = () => {
       ) : null,
       send: skClient ? <Send inputAsset={inputAsset} skClient={skClient} /> : null,
       earn: <div>Earn</div>,
-      multisig: skClient ? <Multisig inputAsset={inputAsset} skClient={skClient} stagenet={stagenet} phrase={phrase} /> : null,
+      multisig: skClient ? (
+        <Multisig inputAsset={inputAsset} phrase={phrase} skClient={skClient} stagenet={stagenet} />
+      ) : null,
     }),
     [inputAsset, outputAsset, skClient, phrase],
   );
@@ -102,7 +104,9 @@ const App = () => {
           }}
         >
           <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
-            {skClient && <WalletPicker setWallet={setWallet} skClient={skClient} setPhrase={setPhrase} />}
+            {skClient && (
+              <WalletPicker setPhrase={setPhrase} setWallet={setWallet} skClient={skClient} />
+            )}
 
             <div>
               <select
