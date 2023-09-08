@@ -3,30 +3,36 @@ export const DEFAULT_DECIMAL = 8;
 export const decimalFromMultiplier = (multiplier: bigint) =>
   Math.log10(parseFloat(multiplier.toString()));
 
-export const formatBigIntToSafeValue = (value: bigint, decimal?: number) => {
-  const decimalToUseForConversion = decimal || DEFAULT_DECIMAL;
+export const formatBigIntToSafeValue = ({
+  value,
+  bigIntDecimal = DEFAULT_DECIMAL,
+  decimal = DEFAULT_DECIMAL,
+}: {
+  value: bigint;
+  bigIntDecimal?: number;
+  decimal?: number;
+}) => {
   const isNegative = value < 0n;
-
   let valueString = value.toString().substring(isNegative ? 1 : 0);
 
-  const padLength = decimalToUseForConversion - (valueString.length - 1);
+  const padLength = decimal - (valueString.length - 1);
 
   if (padLength > 0) {
     valueString = '0'.repeat(padLength) + valueString;
   }
 
-  const decimalIndex = valueString.length - decimalToUseForConversion;
-  let decimalString = valueString.slice(-decimalToUseForConversion);
+  const decimalIndex = valueString.length - decimal;
+  let decimalString = valueString.slice(-decimal);
 
   // Check if we need to round up
-  if (parseInt(decimalString[decimalToUseForConversion]) >= 5) {
+  if (parseInt(decimalString[bigIntDecimal]) >= 5) {
     // Increment the last decimal place and slice off the rest
-    decimalString = `${decimalString.substring(0, decimalToUseForConversion - 1)}${(
-      parseInt(decimalString[decimalToUseForConversion - 1]) + 1
+    decimalString = `${decimalString.substring(0, bigIntDecimal - 1)}${(
+      parseInt(decimalString[bigIntDecimal - 1]) + 1
     ).toString()}`;
   } else {
     // Just slice off the extra digits
-    decimalString = decimalString.substring(0, decimalToUseForConversion);
+    decimalString = decimalString.substring(0, bigIntDecimal);
   }
 
   return `${isNegative ? '-' : ''}${valueString.slice(0, decimalIndex)}.${decimalString}`.replace(

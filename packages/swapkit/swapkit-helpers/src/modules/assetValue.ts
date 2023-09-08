@@ -17,7 +17,6 @@ export class AssetValue extends BaseSwapKitNumber {
   symbol: string;
   ticker: string;
   type: ReturnType<typeof getAssetType>;
-  value = 0;
 
   constructor(params: AssetValueParams) {
     super({ decimal: params.decimal, value: params.value });

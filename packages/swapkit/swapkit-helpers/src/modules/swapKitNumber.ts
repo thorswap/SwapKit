@@ -12,11 +12,9 @@ const toMultiplier = (decimal: number) => 10n ** BigInt(decimal);
 type Params = string | number | { decimal?: number; value: number | string };
 
 export class BaseSwapKitNumber {
-  #decimalMultiplier: bigint = 10n ** 8n;
+  decimalMultiplier: bigint = 10n ** 8n;
   bigIntValue: bigint = 0n;
   decimal?: number;
-  //   value: number = 0;
-  //   safeValue: string = '0';
 
   constructor(valueOrParams: Params) {
     const complexInit = typeof valueOrParams === 'object';
@@ -24,25 +22,28 @@ export class BaseSwapKitNumber {
 
     this.decimal = complexInit ? valueOrParams.decimal : undefined;
     // use the multiplier to keep track of decimal point - defaults to 8 if lower than 8
-    this.#decimalMultiplier = toMultiplier(
+    this.decimalMultiplier = toMultiplier(
       Math.max(this.#getFloatDecimals(this.#toSafeValue(value)), this.decimal || 0),
     );
     this.#setValue(value);
   }
 
   get unsafeNumber() {
-    return parseFloat((this.bigIntValue / this.#decimalMultiplier).toString());
+    return parseFloat((this.bigIntValue / this.decimalMultiplier).toString());
   }
 
   get value() {
-    return this.#formatBigIntToSafeValue(
+    return this.formatBigIntToSafeValue(
       this.bigIntValue,
-      this.decimal || this.#decimalsFromMultipler(),
+      this.decimal || decimalFromMultiplier(this.decimalMultiplier),
     );
   }
 
   static fromBigInt(value: bigint, decimal?: number) {
-    return new BaseSwapKitNumber({ decimal, value: formatBigIntToSafeValue(value, decimal) });
+    return new BaseSwapKitNumber({
+      decimal,
+      value: formatBigIntToSafeValue({ value, bigIntDecimal: decimal, decimal }),
+    });
   }
 
   add(...args: SwapKitValueType[]) {
@@ -69,10 +70,6 @@ export class BaseSwapKitNumber {
   }
   lte(value: SwapKitValueType) {
     return this.bigIntValue <= this.getBigIntValue(value);
-  }
-
-  decimalsFromMultiplier(multiplier: bigint = this.#decimalMultiplier) {
-    return Math.log10(parseFloat(multiplier.toString()));
   }
 
   getBigIntValue(value: SwapKitValueType, decimal?: number) {
@@ -115,10 +112,14 @@ export class BaseSwapKitNumber {
         return (acc * precisionDecimalMultiplier) / value;
       },
       //normalize is to precision multiplier base
-      (this.bigIntValue * precisionDecimalMultiplier) / this.#decimalMultiplier,
+      (this.bigIntValue * precisionDecimalMultiplier) / this.decimalMultiplier,
     );
 
-    const value = this.#formatBigIntToSafeValue(result, precisionDecimal);
+    const value = formatBigIntToSafeValue({
+      bigIntDecimal: precisionDecimal,
+      decimal: Math.max(precisionDecimal, decimalFromMultiplier(this.decimalMultiplier)),
+      value: result,
+    });
 
     return new BaseSwapKitNumber({ decimal: this.decimal, value });
   }
@@ -136,7 +137,7 @@ export class BaseSwapKitNumber {
     const decimals = args
       .map((arg) =>
         typeof arg === 'object'
-          ? arg.decimal || arg.#decimalsFromMultipler()
+          ? arg.decimal || decimalFromMultiplier(arg.decimalMultiplier)
           : this.#getFloatDecimals(this.#toSafeValue(arg)),
       )
       .filter(Boolean) as number[];
@@ -144,8 +145,8 @@ export class BaseSwapKitNumber {
   }
 
   #toBigInt(value: string, decimal?: number) {
-    const multiplier = decimal ? toMultiplier(decimal) : this.#decimalMultiplier;
-    const padDecimal = this.#getDecimal(this.decimalsFromMultiplier(multiplier));
+    const multiplier = decimal ? toMultiplier(decimal) : this.decimalMultiplier;
+    const padDecimal = decimalFromMultiplier(multiplier);
     const [integerPart, decimalPart = ''] = value.split('.');
 
     return BigInt(`${integerPart}${decimalPart.padEnd(padDecimal, '0')}`);
@@ -167,10 +168,12 @@ export class BaseSwapKitNumber {
       : splitValue[0];
   }
 
-  #formatBigIntToSafeValue(value: bigint, decimal?: number) {
-    const decimalFromMultiplier = this.#decimalsFromMultipler();
-    const bigIntDecimal = this.#getDecimal(decimal);
-    const decimalToUseForConversion = Math.max(bigIntDecimal, decimalFromMultiplier);
+  formatBigIntToSafeValue(value: bigint, decimal?: number) {
+    const bigIntDecimal = decimal || this.decimal || DEFAULT_DECIMAL;
+    const decimalToUseForConversion = Math.max(
+      bigIntDecimal,
+      decimalFromMultiplier(this.decimalMultiplier),
+    );
     const isNegative = value < 0n;
 
     let valueString = value.toString().substring(isNegative ? 1 : 0);
@@ -201,17 +204,9 @@ export class BaseSwapKitNumber {
     );
   }
 
-  #getDecimal(decimal?: number) {
-    return decimal || this.decimal || DEFAULT_DECIMAL;
-  }
-
   #getFloatDecimals(value: string) {
     const decimals = value.split('.')[1]?.length || 0;
     return Math.max(decimals, DEFAULT_DECIMAL);
-  }
-
-  #decimalsFromMultipler(multiplier: bigint = this.#decimalMultiplier) {
-    return decimalFromMultiplier(multiplier);
   }
 }
 

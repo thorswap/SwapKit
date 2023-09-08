@@ -6,25 +6,30 @@ describe('SwapKitNumber', () => {
   describe('create', () => {
     test('creates numbers correctly', () => {
       const skNumber1 = new SwapKitNumber(1);
-      const skNumber2 = new SwapKitNumber('1');
-      const skNumber3 = new SwapKitNumber('0.0000000001');
-      const skNumber4 = new SwapKitNumber(0.000000001);
-      const skNumber5 = new SwapKitNumber(1n);
-      const skNumber6 = new SwapKitNumber({ value: 0.1005, decimal: 3 });
-      const skNumber7 = new SwapKitNumber({ value: -0.1005, decimal: 3 });
-
       expect(skNumber1.value).toBe('1');
       expect(skNumber1.bigIntValue).toBe(100000000n);
+
+      const skNumber2 = new SwapKitNumber('1');
       expect(skNumber2.value).toBe('1');
       expect(skNumber2.bigIntValue).toBe(100000000n);
+
+      const skNumber3 = new SwapKitNumber('0.0000000001');
       expect(skNumber3.value).toBe('0.0000000001');
       expect(skNumber3.bigIntValue).toBe(1n);
+
+      const skNumber4 = new SwapKitNumber(0.000000001);
       expect(skNumber4.value).toBe('0.000000001');
       expect(skNumber4.bigIntValue).toBe(1n);
-      expect(skNumber5.value).toBe('1');
-      expect(skNumber5.bigIntValue).toBe(100000000n);
+
+      const skNumber5 = SwapKitNumber.fromBigInt(1n);
+      expect(skNumber5.value).toBe('0.00000001');
+      expect(skNumber5.bigIntValue).toBe(1n);
+
+      const skNumber6 = new SwapKitNumber({ value: 0.1005, decimal: 3 });
       expect(skNumber6.value).toBe('0.101');
       expect(skNumber6.bigIntValue).toBe(10050000n);
+
+      const skNumber7 = new SwapKitNumber({ value: -0.1005, decimal: 3 });
       expect(skNumber7.value).toBe('-0.101');
       expect(skNumber7.bigIntValue).toBe(-10050000n);
     });
