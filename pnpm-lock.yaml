@@ -473,13 +473,6 @@ importers:
         version: 4.4.9(@types/node@20.5.9)
 
   internal/helpers:
-    dependencies:
-      '@thorswap-lib/swapkit-entities':
-        specifier: workspace:*
-        version: link:../../packages/swapkit/swapkit-entities
-      '@thorswap-lib/types':
-        specifier: workspace:*
-        version: link:../../packages/swapkit/types
     devDependencies:
       '@ethersproject/bignumber':
         specifier: 5.7.0
@@ -487,6 +480,9 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../config
+      '@thorswap-lib/types':
+        specifier: workspace:*
+        version: link:../../packages/swapkit/types
       '@vitest/coverage-istanbul':
         specifier: 0.34.3
         version: 0.34.3(vitest@0.34.3)
@@ -610,6 +606,9 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
+      '@thorswap-lib/tokens':
+        specifier: workspace:*
+        version: link:../tokens
       '@thorswap-lib/types':
         specifier: workspace:*
         version: link:../types
@@ -749,6 +748,9 @@ importers:
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
         version: link:../../swapkit/swapkit-entities
+      '@thorswap-lib/swapkit-helpers':
+        specifier: workspace:*
+        version: link:../../swapkit/swapkit-helpers
       '@thorswap-lib/types':
         specifier: workspace:*
         version: link:../../swapkit/types
@@ -858,6 +860,9 @@ importers:
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
         version: link:../../swapkit/swapkit-entities
+      '@thorswap-lib/swapkit-helpers':
+        specifier: workspace:*
+        version: link:../../swapkit/swapkit-helpers
       '@thorswap-lib/types':
         specifier: workspace:*
         version: link:../../swapkit/types
@@ -913,6 +918,9 @@ importers:
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
         version: link:../../swapkit/swapkit-entities
+      '@thorswap-lib/swapkit-helpers':
+        specifier: workspace:*
+        version: link:../../swapkit/swapkit-helpers
       '@thorswap-lib/types':
         specifier: workspace:*
         version: link:../../swapkit/types
@@ -1155,6 +1163,9 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
+      '@thorswap-lib/swapkit-helpers':
+        specifier: workspace:*
+        version: link:../../swapkit/swapkit-helpers
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/toolbox-cosmos
@@ -1301,6 +1312,9 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
+      '@thorswap-lib/swapkit-helpers':
+        specifier: workspace:*
+        version: link:../../swapkit/swapkit-helpers
       '@thorswap-lib/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/toolbox-evm

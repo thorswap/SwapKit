@@ -1,5 +1,5 @@
-import { getRequest } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
+import { getRequest } from '@thorswap-lib/swapkit-helpers';
 import { ApiUrl, Chain, ChainToExplorerUrl } from '@thorswap-lib/types';
 
 type InboundAddressData = {

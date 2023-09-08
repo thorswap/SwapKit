@@ -10,6 +10,7 @@
     "@scure/bip32": "1.3.2",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-api": "workspace:*",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "base64-js": "1.5.1",

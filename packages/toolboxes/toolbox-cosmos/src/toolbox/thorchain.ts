@@ -1,8 +1,8 @@
 import type { Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import type { Account, StdFee } from '@cosmjs/stargate';
-import { baseAmount, getRequest } from '@thorswap-lib/helpers';
 import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
+import { getRequest } from '@thorswap-lib/swapkit-helpers';
 import type { AmountWithBaseDenom, Balance, Chain } from '@thorswap-lib/types';
 import {
   ApiUrl,

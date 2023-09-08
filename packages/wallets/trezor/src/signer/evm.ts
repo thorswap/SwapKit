@@ -1,6 +1,6 @@
 import { Signer } from '@ethersproject/abstract-signer';
 import type { JsonRpcProvider, Provider } from '@ethersproject/providers';
-import { derivationPathToString } from '@thorswap-lib/helpers';
+import { derivationPathToString } from '@thorswap-lib/swapkit-helpers';
 import type { Chain, DerivationPathArray, EVMTxParams } from '@thorswap-lib/types';
 import { ChainToChainId } from '@thorswap-lib/types';
 import TrezorConnect from '@trezor/connect-web';

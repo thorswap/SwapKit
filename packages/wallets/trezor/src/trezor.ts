@@ -1,5 +1,5 @@
 import type { Signer } from '@ethersproject/abstract-signer';
-import { derivationPathToString } from '@thorswap-lib/helpers';
+import { derivationPathToString } from '@thorswap-lib/swapkit-helpers';
 import type { UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
 import type { ConnectWalletParams, DerivationPathArray, UTXO } from '@thorswap-lib/types';
 import { Chain, FeeOption, WalletOption } from '@thorswap-lib/types';

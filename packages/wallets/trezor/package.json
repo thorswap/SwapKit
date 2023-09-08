@@ -13,6 +13,7 @@
     "@ethersproject/providers": "5.7.2",
     "@ethersproject/transactions": "5.7.0",
     "@internal/config": "workspace:*",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "@trezor/connect": "9.1.1",
@@ -47,6 +48,7 @@
     "@ethersproject/bignumber": "5.7.0",
     "@ethersproject/providers": "^5.7.0",
     "@ethersproject/transactions": "5.7.0",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "bitcoinjs-lib": "5.2.0"

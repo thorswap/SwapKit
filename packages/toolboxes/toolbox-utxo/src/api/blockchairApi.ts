@@ -1,4 +1,4 @@
-import { getRequest } from '@thorswap-lib/helpers';
+import { getRequest } from '@thorswap-lib/swapkit-helpers';
 import type { UTXO, UTXOChain } from '@thorswap-lib/types';
 import { Chain } from '@thorswap-lib/types';
 
@@ -10,7 +10,6 @@ import type {
   BlockchairResponse,
   ScanUTXOsParams,
 } from '../types/index.ts';
-
 type BlockchairParams<T> = T & { chain: Chain; apiKey?: string };
 
 const baseUrl = (chain: Chain) => `https://api.blockchair.com/${mapChainToBlockchairChain(chain)}`;

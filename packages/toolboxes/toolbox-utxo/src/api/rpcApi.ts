@@ -1,4 +1,4 @@
-import { postRequest } from '@thorswap-lib/helpers';
+import { postRequest } from '@thorswap-lib/swapkit-helpers';
 
 import { uniqid } from '../index.ts';
 

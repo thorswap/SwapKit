@@ -8,6 +8,7 @@
     "@scure/bip39": "1.2.1",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "bchaddrjs": "0.5.2",
     "bitcoinjs-lib": "5.2.0",

@@ -1,5 +1,5 @@
 import { toBech32 } from '@cosmjs/encoding';
-import { assetFromString, assetToString, baseAmount } from '@thorswap-lib/helpers';
+import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import type { AmountWithBaseDenom, Asset, Balance, Fees } from '@thorswap-lib/types';
 import { BaseDecimal, Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
@@ -10,13 +10,6 @@ import { AssetRuneNative } from '../types.ts';
 
 export const DEFAULT_GAS_VALUE = '5000000000';
 export const DEPOSIT_GAS_VALUE = '5000000000';
-
-const RUNE_ASSET = `${Chain.THORChain}.RUNE`;
-
-const isAssetRuneNative = (asset: Asset) => assetToString(asset) === RUNE_ASSET;
-
-export const getThorchainDenom = (asset: Asset) =>
-  assetToString(asset) === RUNE_ASSET ? 'rune' : asset.symbol.toLowerCase();
 
 export const getDenomWithChain = ({ symbol }: Asset): string =>
   symbol.toUpperCase() !== 'RUNE'
@@ -134,7 +127,7 @@ export const buildTransferTx = async ({
 };
 
 export const getThorchainAsset = (denom: string): Asset | null => {
-  if (denom === getThorchainDenom(AssetRuneNative)) return AssetRuneNative;
+  if (denom === 'rune') return AssetRuneNative;
   const parsedDenom = denom.includes('/') ? denom.toLowerCase() : denom.toUpperCase();
   return assetFromString(`${Chain.THORChain}.${parsedDenom}`);
 };
@@ -153,14 +146,14 @@ export const checkBalances = async (
   asset: Asset,
 ) => {
   const runeBalance =
-    balances.filter(({ asset }) => isAssetRuneNative(asset))[0]?.amount ??
+    balances.filter(({ asset }) => asset.symbol === 'RUNE')[0]?.amount ??
     baseAmount(0, BaseDecimal.THOR);
   const assetBalance =
     balances.filter(
-      ({ asset: assetInList }) => assetToString(assetInList) === assetToString(asset),
+      ({ asset: { chain, symbol } }) => `${chain}.${symbol}` === `${asset.chain}.${asset.symbol}`,
     )[0]?.amount ?? baseAmount(0, BaseDecimal.THOR);
 
-  if (isAssetRuneNative(asset)) {
+  if (asset.symbol === 'RUNE') {
     // amount + fee < runeBalance
     if (runeBalance.lt(amount.plus(fees.average))) {
       throw new Error('insufficient funds');

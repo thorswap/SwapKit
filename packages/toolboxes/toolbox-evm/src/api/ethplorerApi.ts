@@ -1,10 +1,10 @@
 import { getAddress } from '@ethersproject/address';
-import { assetFromString, baseAmount, getRequest } from '@thorswap-lib/helpers';
+import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
+import { getRequest } from '@thorswap-lib/swapkit-helpers';
 import type { Balance } from '@thorswap-lib/types';
 import { Chain } from '@thorswap-lib/types';
 
 import type { AddressInfo } from '../types/ethplorer-api-types.ts';
-
 const baseUrl = 'https://api.ethplorer.io';
 
 export const ethplorerApi = (apiKey = 'freekey') => ({

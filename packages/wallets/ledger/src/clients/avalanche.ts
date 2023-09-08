@@ -1,5 +1,5 @@
 import type { Provider } from '@ethersproject/providers';
-import { derivationPathToString } from '@thorswap-lib/helpers';
+import { derivationPathToString } from '@thorswap-lib/swapkit-helpers';
 import type { DerivationPathArray } from '@thorswap-lib/types';
 import { ChainId, NetworkDerivationPath } from '@thorswap-lib/types';
 

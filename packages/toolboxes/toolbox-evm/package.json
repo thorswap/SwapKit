@@ -14,6 +14,7 @@
     "@ethersproject/units": "5.7.0",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/types": "workspace:*"
   },
   "description": "THORSwap toolbox-evm",

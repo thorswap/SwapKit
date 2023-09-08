@@ -1,4 +1,4 @@
-import { derivationPathToString } from '@thorswap-lib/helpers';
+import { derivationPathToString } from '@thorswap-lib/swapkit-helpers';
 import type { DerivationPathArray } from '@thorswap-lib/types';
 import { ErrorCode, NetworkDerivationPath } from '@thorswap-lib/types';
 
