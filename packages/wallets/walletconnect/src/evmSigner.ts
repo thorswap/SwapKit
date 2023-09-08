@@ -75,13 +75,21 @@ class WalletconnectSigner extends Signer {
     // return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
   };
 
-  sendTransaction = async (transaction: TransactionRequest) => {
+  sendTransaction = async ({ from, to, value, data }: TransactionRequest) => {
+    const { BigNumber } = await import('@ethersproject/bignumber');
+    const baseTx = {
+      from,
+      to,
+      value: BigNumber.from(value || 0).toHexString(),
+      data,
+    };
+
     return this.walletconnect?.client.request({
       chainId: chainToChainId(this.chain),
       topic: this.walletconnect.session.topic,
       request: {
         method: DEFAULT_EIP155_METHODS.ETH_SEND_TRANSACTION,
-        params: [transaction],
+        params: [baseTx],
       },
     });
   };
