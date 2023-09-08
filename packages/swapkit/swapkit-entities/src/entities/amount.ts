@@ -1,8 +1,6 @@
 import { BaseDecimal } from '@thorswap-lib/types';
 import { BigNumber } from 'bignumber.js';
 
-import { BN_FORMAT } from '../helpers/asset.ts';
-
 export enum Rounding {
   ROUND_DOWN,
   ROUND_HALF_UP,
@@ -23,6 +21,17 @@ const roundingMode = {
 export const EMPTY_FORMAT: BigNumber.Format = {
   groupSeparator: '',
   decimalSeparator: '.',
+};
+
+export const BN_FORMAT = {
+  prefix: '',
+  decimalSeparator: '.',
+  groupSeparator: ',',
+  groupSize: 3,
+  secondaryGroupSize: 0,
+  fractionGroupSeparator: ' ',
+  fractionGroupSize: 0,
+  suffix: '',
 };
 
 export class Amount {

@@ -1,10 +1,17 @@
 import type { Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import type { Account, StdFee } from '@cosmjs/stargate';
-import { baseAmount, getRequest, singleFee } from '@thorswap-lib/helpers';
+import { baseAmount, getRequest } from '@thorswap-lib/helpers';
 import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
-import type { Balance, Chain, Fees } from '@thorswap-lib/types';
-import { ApiUrl, BaseDecimal, ChainId, DerivationPath, RPCUrl } from '@thorswap-lib/types';
+import type { AmountWithBaseDenom, Balance, Chain } from '@thorswap-lib/types';
+import {
+  ApiUrl,
+  BaseDecimal,
+  ChainId,
+  DerivationPath,
+  FeeOption,
+  RPCUrl,
+} from '@thorswap-lib/types';
 import { fromByteArray, toByteArray } from 'base64-js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
@@ -219,19 +226,28 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     }
   };
 
-  const getFees = async (): Promise<Fees> => {
+  const getFees = async () => {
+    let fee: AmountWithBaseDenom;
+
     try {
       const {
-        int_64_values: { NativeTransactionFee: fee },
+        int_64_values: { NativeTransactionFee: nativeFee },
       } = await getRequest<ThorchainConstantsResponse>(`${nodeUrl}/thorchain/constants`);
 
       // validate data
-      if (!fee || isNaN(fee) || fee < 0) throw Error(`Invalid fee: ${fee.toString()}`);
+      if (!nativeFee || isNaN(nativeFee) || nativeFee < 0)
+        throw Error(`Invalid nativeFee: ${nativeFee.toString()}`);
 
-      return singleFee(baseAmount(fee));
+      fee = baseAmount(nativeFee);
     } catch {
-      return singleFee(baseAmount(0.02, BaseDecimal.THOR));
+      fee = baseAmount(0.02, BaseDecimal.THOR);
     }
+
+    return {
+      [FeeOption.Average]: fee,
+      [FeeOption.Fast]: fee,
+      [FeeOption.Fastest]: fee,
+    };
   };
 
   const deposit = async ({

@@ -1,7 +1,5 @@
 import { AssetSymbol, BaseDecimal, Chain } from '@thorswap-lib/types';
 
-import { getAssetType, getNetworkName } from '../helpers/index.ts';
-
 /**
  * L1 asset format:
  * - CHAIN.SYMBOL (Raw string, URL)
@@ -53,9 +51,9 @@ export class AssetEntity {
     this.chain = chain;
     this.symbol = symbol.toUpperCase();
     this.ticker = ticker || symbol.toUpperCase().split('-')[0];
-    this.type = getAssetType(chain, this.ticker, isSynth);
+    this.type = 'Broken - MIGRATION';
     this.name = isSynth ? `Synth ${this.ticker}` : this.ticker;
-    this.network = getNetworkName(chain, this.ticker);
+    this.network = 'Broken - MIGRATION';
     this.decimal = isSynth ? BaseDecimal.THOR : BaseDecimal[chain];
     this.isSynth = isSynth;
     this.L1Chain = isSynth ? Chain.THORChain : chain;

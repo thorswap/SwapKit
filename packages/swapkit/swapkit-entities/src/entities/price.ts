@@ -1,8 +1,6 @@
 import { BigNumber } from 'bignumber.js';
 
-import { BN_FORMAT } from '../helpers/asset.ts';
-
-import { Amount, AmountType, Rounding } from './amount.ts';
+import { Amount, AmountType, BN_FORMAT, Rounding } from './amount.ts';
 import type { AssetEntity as Asset, AssetEntity } from './asset.ts';
 import type { Pool } from './pool.ts';
 

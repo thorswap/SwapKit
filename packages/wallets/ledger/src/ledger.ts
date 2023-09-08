@@ -209,7 +209,7 @@ const getToolbox = async ({
         const gasPrice = '0.007uatom';
 
         const sendCoinsMessage = {
-          amount: [{ amount: amount.amount().toString(), denom: getDenom(asset) }],
+          amount: [{ amount: amount.amount().toString(), denom: getDenom(asset.symbol) }],
           fromAddress: from,
           toAddress: recipient,
         };

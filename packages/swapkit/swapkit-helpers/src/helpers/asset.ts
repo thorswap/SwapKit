@@ -1,31 +1,4 @@
-import { BaseDecimal, Chain } from '@thorswap-lib/types';
-
-export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
-  switch (chain) {
-    case Chain.Bitcoin:
-    case Chain.BitcoinCash:
-    case Chain.Litecoin:
-    case Chain.Dogecoin:
-    case Chain.Binance:
-    case Chain.Ethereum:
-    case Chain.Avalanche:
-      return symbol === chain;
-
-    // @TODO (@Towan) check if this is correct
-    case Chain.Arbitrum:
-    case Chain.Optimism:
-      return 'ETH' === symbol;
-
-    case Chain.Cosmos:
-      return symbol === 'ATOM';
-    case Chain.Polygon:
-      return symbol === 'MATIC';
-    case Chain.BinanceSmartChain:
-      return symbol === 'BNB';
-    case Chain.THORChain:
-      return symbol === 'RUNE';
-  }
-};
+import { BaseDecimal, Chain, FeeOption } from '@thorswap-lib/types';
 
 // TODO (@Chillos, @Towan): implement this function properly as current only fits our token list
 const getAVAXAssetDecimal = async (symbol: string) => {
@@ -61,6 +34,39 @@ export const getDecimal = async ({ chain, symbol }: { chain: Chain; symbol: stri
   }
 };
 
+export const gasFeeMultiplier: Record<FeeOption, number> = {
+  [FeeOption.Average]: 1.2,
+  [FeeOption.Fast]: 1.5,
+  [FeeOption.Fastest]: 2,
+};
+
+export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
+  switch (chain) {
+    case Chain.Bitcoin:
+    case Chain.BitcoinCash:
+    case Chain.Litecoin:
+    case Chain.Dogecoin:
+    case Chain.Binance:
+    case Chain.Ethereum:
+    case Chain.Avalanche:
+      return symbol === chain;
+
+    // @TODO (@Towan) check if this is correct
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+      return 'ETH' === symbol;
+
+    case Chain.Cosmos:
+      return symbol === 'ATOM';
+    case Chain.Polygon:
+      return symbol === 'MATIC';
+    case Chain.BinanceSmartChain:
+      return symbol === 'BNB';
+    case Chain.THORChain:
+      return symbol === 'RUNE';
+  }
+};
+
 export const getCommonAssetInfo = (
   assetString: 'ETH.THOR' | 'ETH.vTHOR' | Chain,
 ): { identifier: string; decimal: number } => {
@@ -92,6 +98,8 @@ export const getCommonAssetInfo = (
 };
 
 export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
+  if (symbol.includes('/')) return 'Synth';
+
   switch (chain) {
     case Chain.Bitcoin:
     case Chain.BitcoinCash:

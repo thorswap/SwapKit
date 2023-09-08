@@ -1,4 +1,4 @@
 {
   "extends": "@internal/config/base.json",
-  "include": ["./src", "./src/**/*"]
+  "include": ["./src", "./src/**/*", "../swapkit-helpers/src/helpers/__tests__/asset.test.ts", "../swapkit-helpers/src/helpers/liquidity.ts"]
 }

@@ -533,6 +533,9 @@ importers:
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
         version: link:../swapkit-entities
+      '@thorswap-lib/swapkit-helpers':
+        specifier: workspace:*
+        version: link:../swapkit-helpers
       '@thorswap-lib/types':
         specifier: workspace:*
         version: link:../types

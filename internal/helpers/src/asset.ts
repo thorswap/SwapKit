@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import type { Chain } from '@thorswap-lib/types';
 
 export const assetToString = ({ chain, symbol }: { chain: Chain; symbol: string }) =>
   `${chain}.${symbol}`;

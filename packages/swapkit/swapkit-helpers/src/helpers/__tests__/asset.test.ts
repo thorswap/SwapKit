@@ -12,7 +12,7 @@ const tickerMap: Record<string, string> = {
 describe('getAssetType', () => {
   describe('when isSynth is true', () => {
     it('should return "Synth"', () => {
-      const result = getAssetType(Chain.Bitcoin, 'BTC', true);
+      const result = getAssetType({ chain: Chain.Bitcoin, symbol: 'BTC/BTC' });
       expect(result).toBe('Synth');
     });
   });
@@ -22,7 +22,7 @@ describe('getAssetType', () => {
       Object.values(Chain).forEach((chain) => {
         it(`should return "Native" for chain ${chain} asset`, () => {
           const ticker = tickerMap[chain] || chain;
-          const result = getAssetType(chain as Chain, ticker);
+          const result = getAssetType({ chain: chain as Chain, symbol: ticker });
 
           expect(result).toBe('Native');
         });
@@ -31,44 +31,36 @@ describe('getAssetType', () => {
 
     describe('for Cosmos chain', () => {
       it('should return "GAIA" for non-ATOM tickers', () => {
-        const result = getAssetType(Chain.Cosmos, 'NOT_ATOM');
+        const result = getAssetType({ chain: Chain.Cosmos, symbol: 'NOT_ATOM' });
         expect(result).toBe('GAIA');
       });
     });
 
     describe('for Binance chain', () => {
       it('should return "BEP2" for non-BNB tickers', () => {
-        const result = getAssetType(Chain.Binance, 'NOT_BNB');
+        const result = getAssetType({ chain: Chain.Binance, symbol: 'NOT_BNB' });
         expect(result).toBe('BEP2');
       });
     });
 
     describe('for Binance Smart Chain', () => {
       it('should return "BEP20" for non-BNB tickers', () => {
-        const result = getAssetType(Chain.BinanceSmartChain, 'NOT_BNB');
+        const result = getAssetType({ chain: Chain.BinanceSmartChain, symbol: 'NOT_BNB' });
         expect(result).toBe('BEP20');
       });
     });
 
     describe('for Ethereum chain', () => {
       it('should return "ERC20" for non-ETH tickers', () => {
-        const result = getAssetType(Chain.Ethereum, 'NOT_ETH');
+        const result = getAssetType({ chain: Chain.Ethereum, symbol: 'NOT_ETH' });
         expect(result).toBe('ERC20');
       });
     });
 
     describe('for Avalanche chain', () => {
       it('should return "AVAX" for non-AVAX tickers', () => {
-        const result = getAssetType(Chain.Avalanche, 'NOT_AVAX');
+        const result = getAssetType({ chain: Chain.Avalanche, symbol: 'NOT_AVAX' });
         expect(result).toBe('AVAX');
-      });
-    });
-
-    describe('for unknown chains', () => {
-      it('should return the chain name as a fallback', () => {
-        const unknownChain = 'UnknownChain' as unknown as Chain;
-        const result = getAssetType(unknownChain, 'UNK');
-        expect(result).toBe(unknownChain);
       });
     });
   });

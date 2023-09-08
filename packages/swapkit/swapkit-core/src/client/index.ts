@@ -1,15 +1,15 @@
-import { assetFromString, baseAmount, gasFeeMultiplier, SwapKitError } from '@thorswap-lib/helpers';
-import type { ThornameRegisterParam } from '@thorswap-lib/swapkit-entities';
+import { assetFromString, baseAmount, SwapKitError } from '@thorswap-lib/helpers';
 import {
   Amount,
   AmountType,
   AssetAmount,
   AssetEntity,
-  getMemoFor,
   getMinAmountByChain,
   getSignatureAssetFor,
   isGasAsset,
 } from '@thorswap-lib/swapkit-entities';
+import type { ThornameRegisterParam } from '@thorswap-lib/swapkit-helpers';
+import { gasFeeMultiplier, getMemoFor } from '@thorswap-lib/swapkit-helpers';
 import type {
   CosmosLikeToolbox,
   CosmosMaxSendableAmountParams,

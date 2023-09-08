@@ -1,14 +1,15 @@
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
-import {
-  assetFromString,
-  baseAmount,
-  getRequest,
-  postRequest,
-  singleFee,
-} from '@thorswap-lib/helpers';
+import { assetFromString, baseAmount, getRequest, postRequest } from '@thorswap-lib/helpers';
 import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import type { AmountWithBaseDenom } from '@thorswap-lib/types';
-import { ApiUrl, BaseDecimal, Chain, ChainId, DerivationPath } from '@thorswap-lib/types';
+import {
+  ApiUrl,
+  BaseDecimal,
+  Chain,
+  ChainId,
+  DerivationPath,
+  FeeOption,
+} from '@thorswap-lib/types';
 import { bech32 } from 'bech32';
 import { ec as EC } from 'elliptic';
 
@@ -65,7 +66,11 @@ const getFees = async () => {
     singleTxFee = baseAmount(transferFee.fixed_fee_params.fee);
   }
 
-  return singleFee(singleTxFee);
+  return {
+    [FeeOption.Average]: singleTxFee,
+    [FeeOption.Fast]: singleTxFee,
+    [FeeOption.Fastest]: singleTxFee,
+  };
 };
 
 const getFeeRateFromThorchain = async () => {

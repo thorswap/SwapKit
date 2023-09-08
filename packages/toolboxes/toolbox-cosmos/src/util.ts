@@ -1,27 +1,16 @@
-import { assetToString, baseAmount } from '@thorswap-lib/helpers';
+import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import type { AmountWithBaseDenom, Asset } from '@thorswap-lib/types';
+import type { AmountWithBaseDenom } from '@thorswap-lib/types';
 import { ChainId, FeeOption, RPCUrl } from '@thorswap-lib/types';
 
 import type { CosmosMaxSendableAmountParams } from './types.ts';
 import { AssetAtom, AssetMuon } from './types.ts';
 
-export const getDenom = ({ chain, symbol }: Asset) => {
-  const assetString = assetToString({ chain, symbol });
-
-  switch (assetString) {
-    case assetToString(AssetAtom):
-      return 'uatom';
-    case assetToString(AssetMuon):
-      return 'umuon';
-    default:
-      return symbol;
-  }
-};
+export const getDenom = (symbol: string) => `u${symbol.toLowerCase()}`;
 
 export const getAsset = (denom: string) => {
-  if (denom === getDenom(AssetAtom)) return AssetAtom;
-  if (denom === getDenom(AssetMuon)) return AssetMuon;
+  if (denom === getDenom(AssetAtom.symbol)) return AssetAtom;
+  if (denom === getDenom(AssetMuon.symbol)) return AssetMuon;
   return null;
 };
 

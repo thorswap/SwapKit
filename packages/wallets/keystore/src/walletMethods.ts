@@ -70,7 +70,7 @@ export const thorchainWalletMethods = async ({
       from: fromAddress,
       to: recipient,
       signer,
-      asset: getDenom(asset || AssetRuneNative),
+      asset: getDenom(asset.symbol || 'RUNE'),
       amount: amount.amount().toString(),
       memo,
     });

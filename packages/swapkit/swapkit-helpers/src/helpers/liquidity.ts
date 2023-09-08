@@ -1,6 +1,6 @@
 import { BaseDecimal } from '@thorswap-lib/types';
 
-import { Amount } from '../entities/amount.ts';
+import { Amount } from '../../../swapkit-entities/src/entities/amount.ts';
 
 type ShareParams<T = {}> = T & {
   liquidityUnits: string;

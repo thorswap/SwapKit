@@ -119,7 +119,7 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Binance: {
-      const { getDenom, AssetAtom, BinanceToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { getDenom, BinanceToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = BinanceToolbox();
       const privkey = await toolbox.createKeyPair(phrase);
       const from = await toolbox.getAddressFromMnemonic(phrase);
@@ -129,7 +129,7 @@ const getWalletMethodsForChain = async ({
           from,
           to: recipient,
           privkey,
-          asset: getDenom(asset || AssetAtom),
+          asset: getDenom(asset?.symbol || 'ATOM'),
           amount: amount.amount().toString(),
           memo,
         });
@@ -140,7 +140,7 @@ const getWalletMethodsForChain = async ({
       };
     }
     case Chain.Cosmos: {
-      const { getDenom, AssetAtom, GaiaToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { getDenom, GaiaToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = GaiaToolbox({ server: api });
       const signer = await toolbox.getSigner(phrase);
       const from = await toolbox.getAddressFromMnemonic(phrase);
@@ -150,7 +150,7 @@ const getWalletMethodsForChain = async ({
           from,
           to: recipient,
           signer,
-          asset: getDenom(asset || AssetAtom),
+          asset: getDenom(asset?.symbol || 'ATOM'),
           amount: amount.amount().toString(),
           memo,
         });
