@@ -1,13 +1,11 @@
+// @ts-ignore
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
-import {
-  AssetRuneNative,
-  DepositParam,
-  getDenom,
-  ThorchainToolbox,
-} from '@thorswap-lib/toolbox-cosmos';
-import { Chain, WalletTxParams } from '@thorswap-lib/types';
+import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
+import { AssetRuneNative, getDenom, ThorchainToolbox } from '@thorswap-lib/toolbox-cosmos';
+import type { WalletTxParams } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 
-export const thorchainWalletMethods = async function (params: any) {
+export const thorchainWalletMethods: any = async function (params: any) {
   try {
     let { sdk, stagenet } = params;
     if (!stagenet) stagenet = false;
@@ -56,16 +54,16 @@ export const thorchainWalletMethods = async function (params: any) {
             signatures: [],
             memo,
           },
-          sequence: accountInfo.sequence.toString(),
-          accountNumber: accountInfo.accountNumber.toString(),
+          sequence: accountInfo?.sequence.toString(),
+          accountNumber: accountInfo?.accountNumber.toString(),
         };
         let input = {
           signDoc: {
-            account_number: accountInfo.accountNumber.toString(),
+            account_number: accountInfo?.accountNumber.toString(),
             chain_id: 'thorchain',
             msgs: msg.tx.msgs,
             memo: msg.tx.memo ?? '',
-            sequence: accountInfo.sequence.toString(),
+            sequence: accountInfo?.sequence.toString(),
             fee: {
               amount: [
                 {
@@ -81,8 +79,8 @@ export const thorchainWalletMethods = async function (params: any) {
         let responseSign = await sdk.thorchain.thorchainSignAminoDeposit({
           addressNList: addressInfo.address_n,
           chain_id: 'thorchain',
-          account_number: accountInfo.accountNumber.toString(),
-          sequence: accountInfo.sequence.toString(),
+          account_number: accountInfo?.accountNumber.toString(),
+          sequence: accountInfo?.sequence.toString(),
           tx: input.signDoc,
         });
         return responseSign.signDoc;
@@ -127,21 +125,21 @@ export const thorchainWalletMethods = async function (params: any) {
             signatures: [],
             memo,
           },
-          sequence: accountInfo.sequence.toString(),
-          accountNumber: accountInfo.accountNumber.toString(),
+          sequence: accountInfo?.sequence.toString(),
+          accountNumber: accountInfo?.accountNumber.toString(),
         };
         let input = {
           signDoc: {
-            account_number: accountInfo.accountNumber.toString(),
+            account_number: accountInfo?.accountNumber.toString(),
             chain_id: 'thorchain',
             msgs: msg.tx.msgs,
             memo: msg.tx.memo ?? '',
-            sequence: accountInfo.sequence.toString(),
+            sequence: accountInfo?.sequence.toString(),
             fee: {
               amount: [
                 {
                   amount: '2500',
-                  denom: 'uatom',
+                  denom: 'rune',
                 },
               ],
               gas: '250000',
@@ -152,8 +150,8 @@ export const thorchainWalletMethods = async function (params: any) {
         let responseSign = await sdk.thorchain.thorchainSignAminoTransfer({
           addressNList: addressInfo.address_n,
           chain_id: 'thorchain',
-          account_number: accountInfo.accountNumber.toString(),
-          sequence: accountInfo.sequence.toString(),
+          account_number: accountInfo?.accountNumber.toString(),
+          sequence: accountInfo?.sequence.toString(),
           tx: input.signDoc,
         });
         return responseSign.signDoc;
@@ -193,5 +191,6 @@ export const thorchainWalletMethods = async function (params: any) {
     };
   } catch (e) {
     console.error(e);
+    throw e;
   }
 };

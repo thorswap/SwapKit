@@ -1,7 +1,9 @@
+// @ts-ignore
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
-import { Amount } from '@thorswap-lib/swapkit-entities';
+import type { Amount } from '@thorswap-lib/swapkit-entities';
 import { AssetAtom, GaiaToolbox, getDenom } from '@thorswap-lib/toolbox-cosmos';
-import { Chain, TxParams } from '@thorswap-lib/types';
+import type { TxParams } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 
 export type SignTransactionTransferParams = {
   amount: Amount;
@@ -10,7 +12,7 @@ export type SignTransactionTransferParams = {
   memo: string;
 };
 
-export const cosmosWalletMethods = async function (params: any) {
+export const cosmosWalletMethods: any = async function (params: any) {
   try {
     let { sdk, stagenet, api } = params;
     if (!stagenet) stagenet = false;
@@ -26,7 +28,6 @@ export const cosmosWalletMethods = async function (params: any) {
       try {
         console.log('cosmos params', params);
         const { amount, to, from, memo } = params;
-        const addressInfo = addressInfoForCoin(Chain.Cosmos, false);
         const accountInfo = await toolbox.getAccount(from);
 
         const body = {
@@ -36,9 +37,9 @@ export const cosmosWalletMethods = async function (params: any) {
               amount: [
                 {
                   denom: 'uatom',
-                  amount: '1000'
-                }
-              ]
+                  amount: '1000',
+                },
+              ],
             },
             msgs: [
               {
@@ -47,21 +48,21 @@ export const cosmosWalletMethods = async function (params: any) {
                     {
                       denom: 'uatom',
                       amount, // todo: decimals are correct?
-                    }
+                    },
                   ],
                   to_address: to,
-                  from_address: from
+                  from_address: from,
                 },
-                type: 'cosmos-sdk/MsgSend'
-              }
+                type: 'cosmos-sdk/MsgSend',
+              },
             ],
             memo,
-            sequence: accountInfo.sequence.toString(),
+            sequence: accountInfo?.sequence.toString(),
             chain_id: 'cosmoshub-4',
-            account_number: accountInfo.accountNumber.toString(),
+            account_number: accountInfo?.accountNumber.toString(),
           },
-          signerAddress: from
-        }
+          signerAddress: from,
+        };
         console.log('cosmos body', body);
         return sdk.cosmos.cosmosSignAmino(body);
       } catch (e) {
@@ -69,21 +70,14 @@ export const cosmosWalletMethods = async function (params: any) {
       }
     };
     const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
-      console.log('transfer, amount is', amount )
       let from = await getAddress();
-      console.log('transfer', {
-        from,
-        to: recipient,
-        asset: getDenom(asset || AssetAtom),
-        amount: amount,
-        memo,
-      })
       return signTransactionTransfer({
         from,
         to: recipient,
         asset: getDenom(asset || AssetAtom),
+        // @ts-ignore
         amount: amount.amount().toString(),
-        memo,
+        memo: memo || '',
       });
     };
 
@@ -95,5 +89,6 @@ export const cosmosWalletMethods = async function (params: any) {
     };
   } catch (e) {
     console.error(e);
+    throw e;
   }
 };

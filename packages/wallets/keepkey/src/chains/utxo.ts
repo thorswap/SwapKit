@@ -1,19 +1,12 @@
 import { BigNumber } from '@ethersproject/bignumber';
+// @ts-ignore
 import { addressInfoForCoin, COIN_MAP_KEEPKEY_LONG } from '@pioneer-platform/pioneer-coins';
-import {
-  BCHToolbox,
-  BTCToolbox,
-  DOGEToolbox,
-  LTCToolbox,
-  UTXOTransferParams,
-} from '@thorswap-lib/toolbox-utxo';
-import {
-  Chain,
-  FeeOption,
-  UTXO,
-} from '@thorswap-lib/types';
+import type { UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
+import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
+import type { UTXO } from '@thorswap-lib/types';
+import { Chain, FeeOption } from '@thorswap-lib/types';
 import { toCashAddress } from 'bchaddrjs';
-import { Psbt } from 'bitcoinjs-lib';
+import type { Psbt } from 'bitcoinjs-lib';
 
 let normalizeAddressNlist = function (derivationPath: any) {
   let addressNlist = [
@@ -23,36 +16,32 @@ let normalizeAddressNlist = function (derivationPath: any) {
     derivationPath[3],
     derivationPath[4],
   ];
-  return addressNlist
-}
+  return addressNlist;
+};
 
-export const utxoWalletMethods = async function (params: any) {
+export const utxoWalletMethods: any = async function (params: any) {
   try {
-    let { sdk, stagenet, chain, utxoApiKey, api, derivationPath } = params;
-    
-    if (!utxoApiKey && !api)
-      throw new Error('UTXO API key not found');
+    let { sdk, chain, utxoApiKey, api, derivationPath } = params;
+    if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
 
     const scriptType:
       | {
-        input: 'SPENDWITNESS' | 'SPENDP2SHWITNESS' | 'SPENDADDRESS';
-        output: 'PAYTOWITNESS' | 'PAYTOP2SHWITNESS' | 'PAYTOADDRESS';
-      }
+          input: 'SPENDWITNESS' | 'SPENDP2SHWITNESS' | 'SPENDADDRESS';
+          output: 'PAYTOWITNESS' | 'PAYTOP2SHWITNESS' | 'PAYTOADDRESS';
+        }
       | undefined =
       derivationPath[0] === 84
         ? { input: 'SPENDWITNESS', output: 'PAYTOWITNESS' }
         : derivationPath[0] === 49
-          ? { input: 'SPENDP2SHWITNESS', output: 'PAYTOP2SHWITNESS' }
-          : derivationPath[0] === 44
-            ? { input: 'SPENDADDRESS', output: 'PAYTOADDRESS' }
-            : undefined;
+        ? { input: 'SPENDP2SHWITNESS', output: 'PAYTOP2SHWITNESS' }
+        : derivationPath[0] === 44
+        ? { input: 'SPENDADDRESS', output: 'PAYTOADDRESS' }
+        : undefined;
 
     if (!scriptType) throw new Error('Derivation path is not supported');
-    
-    stagenet = !!stagenet
-    let toolbox;
+    let toolbox: any = {};
     let isSegwit = false;
-    const toolboxParams = { api, apiKey: utxoApiKey, }
+    const toolboxParams = { api, apiKey: utxoApiKey };
 
     switch (chain) {
       case Chain.Bitcoin:
@@ -96,7 +85,7 @@ export const utxoWalletMethods = async function (params: any) {
     const address = await getAddress();
 
     const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '') => {
-      const address_n = derivationPath.map((pathElement, index) =>
+      const address_n = derivationPath.map((pathElement: number, index: number) =>
         index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
       );
       let outputs: any[] = psbt.txOutputs.map((output: any) => {
@@ -169,7 +158,7 @@ export const utxoWalletMethods = async function (params: any) {
       return responseSign.serializedTx;
     };
 
-    const transfer = async ({
+    const transfer: any = async ({
       from,
       recipient,
       feeOptionKey,
@@ -192,7 +181,7 @@ export const utxoWalletMethods = async function (params: any) {
       //convert inputs for keepkey
       let inputsKeepKey = [];
       for (const input of inputs) {
-        const inputKeepKey = {
+        const inputKeepKey: any = {
           scriptType: 'p2pkh',
           amount: input.value.toString(),
           vout: input.index,
@@ -204,7 +193,9 @@ export const utxoWalletMethods = async function (params: any) {
           inputKeepKey.scriptType = 'p2sh';
           //add script sig
           const scriptHex = input.witnessUtxo.script
-            .map((byte) => byte.toString(16).padStart(2, '0'))
+            .map((byte: { toString: (arg0: number) => string }) =>
+              byte.toString(16).padStart(2, '0'),
+            )
             .join('');
 
           // Construct the scriptSig object
@@ -225,5 +216,6 @@ export const utxoWalletMethods = async function (params: any) {
     return { ...utxoMethods, getAddress, signTransaction, transfer };
   } catch (e) {
     console.error(e);
+    throw e;
   }
 };
