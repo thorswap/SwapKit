@@ -54,10 +54,7 @@ export class CosmosClient {
       { denom: string; amount: string }[]
     >;
 
-    const b = await client.getBalance(address, 'RUNE');
-    debugger;
-
-    return allBalances || [b];
+    return allBalances;
   };
 
   getAccount = async (address: string) => {

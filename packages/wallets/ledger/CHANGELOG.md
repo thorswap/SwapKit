@@ -1,5 +1,18 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.249
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.156
+
+## 1.0.0-development.248
+
+### Patch Changes
+
+- @cosmjs fix
+
 ## 1.0.0-development.247
 
 ### Patch Changes

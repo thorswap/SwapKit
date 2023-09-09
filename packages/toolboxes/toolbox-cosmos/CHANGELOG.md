@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 1.0.0-development.156
+
+### Patch Changes
+
+- remove debug part
+
 ## 1.0.0-development.155
 
 ### Patch Changes
