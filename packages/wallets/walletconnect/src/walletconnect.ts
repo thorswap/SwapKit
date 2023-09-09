@@ -1,6 +1,8 @@
-import type { StdSignDoc } from '@cosmjs/amino';
+import { makeSignDoc, type StdSignDoc } from '@cosmjs/amino';
+import { fromBase64 } from '@cosmjs/encoding';
 import { Int53 } from '@cosmjs/math';
 import { encodePubkey, makeAuthInfoBytes, type TxBodyEncodeObject } from '@cosmjs/proto-signing';
+import { StargateClient } from '@cosmjs/stargate';
 import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
 import type { WalletTxParams } from '@thorswap-lib/types';
 import { ApiUrl, Chain, ChainId, WalletOption } from '@thorswap-lib/types';
@@ -157,10 +159,6 @@ const getToolbox = async ({
           value: sendCoinsMessage,
         };
 
-        const { makeSignDoc } = await import('@cosmjs/amino');
-        const { fromBase64 } = await import('@cosmjs/encoding');
-        const { StargateClient } = await import('@cosmjs/stargate');
-
         const signDoc = makeSignDoc(
           [msg],
           DEFAULT_THORCHAIN_FEE,
@@ -247,12 +245,6 @@ const getToolbox = async ({
             signer: address,
           },
         };
-
-        const { makeSignDoc } = await import('@cosmjs/amino');
-        const { fromBase64 } = await import('@cosmjs/encoding');
-        const { StargateClient } = await import('@cosmjs/stargate');
-        const { Int53 } = await import('@cosmjs/math');
-        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
 
         const signDoc = makeSignDoc(
           [msg],

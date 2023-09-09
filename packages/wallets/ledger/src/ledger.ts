@@ -1,6 +1,7 @@
 import { fromBase64 } from '@cosmjs/encoding';
 import { Int53 } from '@cosmjs/math';
 import { encodePubkey, makeAuthInfoBytes, type TxBodyEncodeObject } from '@cosmjs/proto-signing';
+import { StargateClient } from '@cosmjs/stargate';
 import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
 import type { UTXOBuildTxParams } from '@thorswap-lib/toolbox-utxo';
 import type {
@@ -269,8 +270,6 @@ const getToolbox = async ({
         if (!account) throw new Error('invalid account');
         if (!account.pubkey) throw new Error('Account pubkey not found');
 
-        const { StargateClient } = await import('@cosmjs/stargate');
-
         const unsignedMsgs = recursivelyOrderKeys([
           {
             type: 'thorchain/MsgDeposit',
@@ -418,8 +417,6 @@ const getToolbox = async ({
         });
 
         const txBytes = TxRaw.encode(txRaw).finish();
-
-        const { StargateClient } = await import('@cosmjs/stargate');
 
         const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
         const result = await broadcaster.broadcastTx(txBytes);

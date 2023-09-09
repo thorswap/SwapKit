@@ -1,5 +1,11 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.248
+
+### Patch Changes
+
+- @cosmjs fix
+
 ## 1.0.0-development.247
 
 ### Patch Changes
