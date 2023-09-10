@@ -222,7 +222,9 @@ const getToolbox = async ({
         });
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain);
+        const broadcaster = await StargateClient.connect(
+          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
+        );
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -309,7 +311,9 @@ const getToolbox = async ({
         });
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChainStagenet);
+        const broadcaster = await StargateClient.connect(
+          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChainStagenet,
+        );
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -402,6 +406,7 @@ const connectWalletconnect =
         walletconnect,
         ethplorerApiKey,
         covalentApiKey,
+        stagenet,
       });
 
       addChain({
