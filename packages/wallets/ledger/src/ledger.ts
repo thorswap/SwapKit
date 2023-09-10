@@ -10,7 +10,7 @@ import type {
   TxParams,
   WalletTxParams,
 } from '@thorswap-lib/types';
-import { ApiUrl, Chain, ChainId, FeeOption, RPCUrl, WalletOption } from '@thorswap-lib/types';
+import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from '@thorswap-lib/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
@@ -77,6 +77,7 @@ const getToolbox = async ({
   utxoApiKey,
   signer,
   derivationPath,
+  stagenet = false,
 }: LedgerConfig & {
   address: string;
   chain: (typeof LEDGER_SUPPORTED_CHAINS)[number];
@@ -91,6 +92,7 @@ const getToolbox = async ({
     | THORChainLedger
     | CosmosLedger;
   derivationPath?: DerivationPathArray;
+  stagenet?: boolean;
 }) => {
   const utxoParams = { apiKey: utxoApiKey, rpcUrl, apiClient: api };
 
@@ -333,7 +335,7 @@ const getToolbox = async ({
 
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const broadcaster = await StargateClient.connect(stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain);
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -418,7 +420,7 @@ const getToolbox = async ({
 
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const broadcaster = await StargateClient.connect(stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain);
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -434,7 +436,7 @@ const getToolbox = async ({
 const connectLedger =
   ({
     addChain,
-    config: { covalentApiKey, ethplorerApiKey, utxoApiKey },
+    config: { covalentApiKey, ethplorerApiKey, utxoApiKey, stagenet },
     apis,
     rpcUrls,
   }: ConnectWalletParams) =>
@@ -453,6 +455,7 @@ const connectLedger =
       rpcUrl: rpcUrls[chain],
       signer: ledgerClient,
       utxoApiKey,
+      stagenet,
     });
 
     addChain({
