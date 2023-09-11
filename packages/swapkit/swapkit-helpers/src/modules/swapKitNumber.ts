@@ -8,7 +8,9 @@ type AllowedValueType = bigint | number | string;
 type ArithmeticMethod = 'add' | 'sub' | 'mul' | 'div';
 
 const toMultiplier = (decimal: number) => 10n ** BigInt(decimal);
-type Params = string | number | { decimal?: number; value: number | string };
+
+export type SwapKitValueType = BaseSwapKitNumber | string | number;
+type Params = SwapKitValueType | { decimal?: number; value: number | string };
 
 export class BaseSwapKitNumber {
   decimalMultiplier: bigint = 10n ** 8n;
@@ -43,6 +45,13 @@ export class BaseSwapKitNumber {
       decimal,
       value: formatBigIntToSafeValue({ value, bigIntDecimal: decimal, decimal }),
     });
+  }
+
+  static shiftDecimals({ value, from, to }: { value: SwapKitValueType; from: number; to: number }) {
+    return BaseSwapKitNumber.fromBigInt(
+      (new BaseSwapKitNumber(value).bigIntValue * toMultiplier(to)) / toMultiplier(from),
+      to,
+    );
   }
 
   add(...args: SwapKitValueType[]) {
@@ -200,8 +209,6 @@ export class BaseSwapKitNumber {
     return Math.max(decimals, DEFAULT_DECIMAL);
   }
 }
-
-type SwapKitValueType = BaseSwapKitNumber | string | number;
 
 export class SwapKitNumber extends BaseSwapKitNumber {
   eq(value: SwapKitValueType) {

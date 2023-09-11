@@ -685,6 +685,9 @@ importers:
       '@thorswap-lib/swapkit-api':
         specifier: workspace:*
         version: link:../swapkit-api
+      '@thorswap-lib/types':
+        specifier: workspace:*
+        version: link:../types
       '@types/fs-extra':
         specifier: 11.0.1
         version: 11.0.1
