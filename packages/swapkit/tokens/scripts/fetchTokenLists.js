@@ -10,6 +10,16 @@ const getTokens = async () => {
 
     console.info({ [provider]: tokenList.count });
 
+    const tokens = tokenList.tokens.map(({ address, chain, identifier, decimals, logoURL }) => ({
+      address,
+      chain,
+      identifier,
+      decimals,
+      logoURL,
+    }));
+
+    tokenList.tokens = tokens;
+
     fs.outputFile(
       `./src/tokenLists/${provider}.ts`,
       `export const list = ${JSON.stringify(tokenList)} as const;`,

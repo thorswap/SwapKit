@@ -1,4 +1,16 @@
-import type { Chain } from '@thorswap-lib/types';
+import type {
+  CoinGeckoList,
+  PancakeswapETHList,
+  PancakeswapList,
+  PangolinList,
+  StargateARBList,
+  SushiswapList,
+  ThorchainList,
+  TraderjoeList,
+  UniswapList,
+  WoofiList,
+} from '@thorswap-lib/tokens';
+import { BaseDecimal, Chain } from '@thorswap-lib/types';
 
 import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers/asset.ts';
 
@@ -8,6 +20,20 @@ type AssetValueParams = { decimal: number; value: number | string } & (
   | { chain: Chain; symbol: string }
   | { identifier: string }
 );
+
+type TokenNames =
+  | (typeof CoinGeckoList)['tokens'][number]['identifier']
+  | (typeof PancakeswapETHList)['tokens'][number]['identifier']
+  | (typeof PancakeswapList)['tokens'][number]['identifier']
+  | (typeof PangolinList)['tokens'][number]['identifier']
+  | (typeof StargateARBList)['tokens'][number]['identifier']
+  | (typeof SushiswapList)['tokens'][number]['identifier']
+  | (typeof ThorchainList)['tokens'][number]['identifier']
+  | (typeof TraderjoeList)['tokens'][number]['identifier']
+  | (typeof WoofiList)['tokens'][number]['identifier']
+  | (typeof UniswapList)['tokens'][number]['identifier'];
+
+let staticTokensMap: Map<TokenNames, { decimal: number; identifier: string }> | undefined;
 
 export class AssetValue extends BaseSwapKitNumber {
   address?: string;
@@ -34,6 +60,41 @@ export class AssetValue extends BaseSwapKitNumber {
     this.isGasAsset = assetInfo.isGasAsset;
   }
 
+  static async loadStaticAssets() {
+    return new Promise<{ ok: true } | { ok: false; message: string; error: any }>(
+      async (resolve, reject) => {
+        try {
+          const tokensPackage = await import('@thorswap-lib/tokens');
+          const tokensMap = Object.values(tokensPackage).reduce((acc, { tokens }) => {
+            tokens.forEach(({ identifier, chain, ...rest }) => {
+              acc.set(identifier as TokenNames, {
+                identifier,
+                decimal:
+                  'decimals' in rest
+                    ? rest.decimals
+                    : BaseDecimal[(chain === 'ARBITRUM' ? Chain.Arbitrum : chain) as Chain],
+              });
+            });
+
+            return acc;
+          }, new Map<TokenNames, { decimal: number; identifier: string }>());
+
+          staticTokensMap = tokensMap;
+
+          resolve({ ok: true });
+        } catch (error) {
+          console.error(error);
+          reject({
+            ok: false,
+            error,
+            message:
+              "Couldn't load static assets. Ensure you have installed @thorswap-lib/tokens package",
+          });
+        }
+      },
+    );
+  }
+
   static async fromIdentifier(
     assetString: `${Chain}.${string}` | `${Chain}/${string}` | `${Chain}.${string}-${string}`,
     value: number | string = 0,
@@ -42,11 +103,15 @@ export class AssetValue extends BaseSwapKitNumber {
     return new AssetValue({ decimal, value, identifier: assetString });
   }
 
-  static fromIdentifierSync(assetValue: string, value: number | string = 0) {
-    // TODO (@Chillios): implement this with @thorswap-lib/tokens
-    // Record<tokenIdentifier, TokenResponse>
-    const tokens = {} as Record<string, { decimal: number; identifier: string }>;
-    const tokenInfo = tokens[assetValue] ?? { decimal: 8, identifier: '' };
+  static fromIdentifierSync(assetValue: TokenNames, value: number | string = 0) {
+    if (!staticTokensMap) {
+      throw new Error('Static assets not loaded, call await AssetValue.loadStaticAssets() first');
+    }
+    const tokenInfo = staticTokensMap.get(assetValue);
+
+    if (!tokenInfo) {
+      throw new Error(`Asset ${assetValue} not found - check if it's in the tokens package list`);
+    }
 
     return new AssetValue({ ...tokenInfo, value });
   }
