@@ -1,5 +1,11 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.48
+
+### Minor Changes
+
+- [#302](https://github.com/thorswap/SwapKit/pull/302) [`1b9b564`](https://github.com/thorswap/SwapKit/commit/1b9b564b8e5519a13b7a9ba922281b88232a2acc) Thanks [@0x-General](https://github.com/0x-General)! - Use RPC url instead of API for walletconnect and ledger on THORChain
+
 ## 2.0.0-development.47
 
 ### Patch Changes
