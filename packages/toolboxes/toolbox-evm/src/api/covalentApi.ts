@@ -1,7 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
+import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { getRequest } from '@thorswap-lib/swapkit-helpers';
+import { assetFromString, getRequest } from '@thorswap-lib/swapkit-helpers';
 import type { Balance, ChainId } from '@thorswap-lib/types';
 import { ChainIdToChain } from '@thorswap-lib/types';
 

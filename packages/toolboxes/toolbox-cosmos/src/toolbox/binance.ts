@@ -1,7 +1,7 @@
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
-import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
+import { baseAmount } from '@thorswap-lib/helpers';
 import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { getRequest, postRequest } from '@thorswap-lib/swapkit-helpers';
+import { assetFromString, getRequest, postRequest } from '@thorswap-lib/swapkit-helpers';
 import type { AmountWithBaseDenom } from '@thorswap-lib/types';
 import {
   ApiUrl,

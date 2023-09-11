@@ -18,8 +18,8 @@ export class BaseSwapKitNumber {
   constructor(valueOrParams: Params) {
     const complexInit = typeof valueOrParams === 'object';
     const value = complexInit ? valueOrParams.value : valueOrParams;
-
     this.decimal = complexInit ? valueOrParams.decimal : undefined;
+
     // use the multiplier to keep track of decimal point - defaults to 8 if lower than 8
     this.decimalMultiplier = toMultiplier(
       Math.max(this.#getFloatDecimals(this.#toSafeValue(value)), this.decimal || 0),
@@ -78,6 +78,42 @@ export class BaseSwapKitNumber {
     return this.#toBigInt(this.#toSafeValue(value), decimal);
   }
 
+  formatBigIntToSafeValue(value: bigint, decimal?: number) {
+    const bigIntDecimal = decimal || this.decimal || DEFAULT_DECIMAL;
+    const decimalToUseForConversion = Math.max(
+      bigIntDecimal,
+      decimalFromMultiplier(this.decimalMultiplier),
+    );
+    const isNegative = value < 0n;
+
+    let valueString = value.toString().substring(isNegative ? 1 : 0);
+
+    const padLength = decimalToUseForConversion - (valueString.length - 1);
+
+    if (padLength > 0) {
+      valueString = '0'.repeat(padLength) + valueString;
+    }
+
+    const decimalIndex = valueString.length - decimalToUseForConversion;
+    let decimalString = valueString.slice(-decimalToUseForConversion);
+
+    // Check if we need to round up
+    if (parseInt(decimalString[bigIntDecimal]) >= 5) {
+      // Increment the last decimal place and slice off the rest
+      decimalString = `${decimalString.substring(0, bigIntDecimal - 1)}${(
+        parseInt(decimalString[bigIntDecimal - 1]) + 1
+      ).toString()}`;
+    } else {
+      // Just slice off the extra digits
+      decimalString = decimalString.substring(0, bigIntDecimal);
+    }
+
+    return `${isNegative ? '-' : ''}${valueString.slice(0, decimalIndex)}.${decimalString}`.replace(
+      /\.?0*$/,
+      '',
+    );
+  }
+
   #arithmetics(method: ArithmeticMethod, ...args: SwapKitValueType[]) {
     const precisionDecimal = this.#retrievePrecisionDecimal(this, ...args);
     const precisionDecimalMultiplier = toMultiplier(precisionDecimal);
@@ -120,10 +156,6 @@ export class BaseSwapKitNumber {
   }
 
   #setValue(value: AllowedValueType, bigIntValue?: bigint) {
-    // const rawValue = this.#toRawValue(value);
-    // this.value = !rawValue || isNaN(rawValue) ? 0 : rawValue;
-    // this.safeValue = safeValue;
-
     const safeValue = this.#toSafeValue(value) || '0';
     this.bigIntValue = bigIntValue || this.#toBigInt(safeValue);
   }
@@ -161,42 +193,6 @@ export class BaseSwapKitNumber {
     return splitValue.length > 1
       ? `${splitValue.slice(0, -1).join('')}.${splitValue.at(-1)}`
       : splitValue[0];
-  }
-
-  formatBigIntToSafeValue(value: bigint, decimal?: number) {
-    const bigIntDecimal = decimal || this.decimal || DEFAULT_DECIMAL;
-    const decimalToUseForConversion = Math.max(
-      bigIntDecimal,
-      decimalFromMultiplier(this.decimalMultiplier),
-    );
-    const isNegative = value < 0n;
-
-    let valueString = value.toString().substring(isNegative ? 1 : 0);
-
-    const padLength = decimalToUseForConversion - (valueString.length - 1);
-
-    if (padLength > 0) {
-      valueString = '0'.repeat(padLength) + valueString;
-    }
-
-    const decimalIndex = valueString.length - decimalToUseForConversion;
-    let decimalString = valueString.slice(-decimalToUseForConversion);
-
-    // Check if we need to round up
-    if (parseInt(decimalString[bigIntDecimal]) >= 5) {
-      // Increment the last decimal place and slice off the rest
-      decimalString = `${decimalString.substring(0, bigIntDecimal - 1)}${(
-        parseInt(decimalString[bigIntDecimal - 1]) + 1
-      ).toString()}`;
-    } else {
-      // Just slice off the extra digits
-      decimalString = decimalString.substring(0, bigIntDecimal);
-    }
-
-    return `${isNegative ? '-' : ''}${valueString.slice(0, decimalIndex)}.${decimalString}`.replace(
-      /\.?0*$/,
-      '',
-    );
   }
 
   #getFloatDecimals(value: string) {

@@ -192,4 +192,12 @@ describe('AssetValue', () => {
       );
     });
   });
+
+  describe('loadStaticAssets', () => {
+    test('loads static assets from `@thorswap-lib/tokens` lists', async () => {
+      // Dummy test - think of sth more meaningful
+      const { ok } = await AssetValue.loadStaticAssets();
+      expect(ok).toBe(true);
+    });
+  });
 });

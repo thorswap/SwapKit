@@ -1,6 +1,6 @@
 import { getAddress } from '@ethersproject/address';
-import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
-import { getRequest } from '@thorswap-lib/swapkit-helpers';
+import { baseAmount } from '@thorswap-lib/helpers';
+import { assetFromString, getRequest } from '@thorswap-lib/swapkit-helpers';
 import type { Balance } from '@thorswap-lib/types';
 import { Chain } from '@thorswap-lib/types';
 
