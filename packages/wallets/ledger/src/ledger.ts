@@ -262,7 +262,7 @@ const getToolbox = async ({
       });
     }
     case Chain.THORChain: {
-      const { getDenomWithChain, ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = ThorchainToolbox({ stagenet: false });
 
       // TODO (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
@@ -273,19 +273,7 @@ const getToolbox = async ({
         if (!account.pubkey) throw new Error('Account pubkey not found');
 
         const unsignedMsgs = recursivelyOrderKeys([
-          {
-            type: 'thorchain/MsgDeposit',
-            value: {
-              memo,
-              signer: address,
-              coins: [
-                {
-                  amount: amount.amount().toString(),
-                  asset: getDenomWithChain(asset).toUpperCase(),
-                },
-              ],
-            },
-          },
+          toolbox.createDepositMessage(asset, amount, address, memo)
         ]);
         const fee = { amount: [], gas: THORCHAIN_DEPOSIT_GAS_FEE };
         const sequence = account.sequence?.toString() || '0';
@@ -308,7 +296,7 @@ const getToolbox = async ({
         const signedTxBody: TxBodyEncodeObject = {
           typeUrl: '/cosmos.tx.v1beta1.TxBody',
           value: {
-            messages: unsignedMsgs.map((msg: any) => aminoTypes.fromAmino(msg)),
+            messages: toolbox.createDepositMessage(asset, amount, address, memo, true).map((msg: any) => aminoTypes.fromAmino(msg)),
             memo,
           },
         };
