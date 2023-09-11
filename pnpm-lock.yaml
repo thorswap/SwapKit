@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 overrides:
   typescript: 5.2.2
   json5@<=1.0.1: ^1.0.2
@@ -607,6 +603,9 @@ importers:
       '@thorswap-lib/evm-web3-wallets':
         specifier: workspace:*
         version: link:../../wallets/evm-web3-wallets
+      '@thorswap-lib/keepkey':
+        specifier: workspace:*
+        version: link:../../wallets/keepkey
       '@thorswap-lib/keplr':
         specifier: workspace:*
         version: link:../../wallets/keplr
@@ -17265,3 +17264,7 @@ packages:
     optionalDependencies:
       commander: 9.5.0
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
