@@ -1,6 +1,4 @@
-import type { BigNumberish } from 'ethers';
-
-import type { AmountWithBaseDenom } from './amount.ts';
+import type { SwapKitNumber } from './amount.ts';
 import type { Asset } from './asset.ts';
 import type { FeeOption } from './wallet.ts';
 
@@ -11,13 +9,13 @@ enum TxType {
 
 type TxTo = {
   to: string; // address
-  amount: AmountWithBaseDenom; // amount
+  amount: SwapKitNumber; // amount
   asset?: Asset; // asset
 };
 
 type TxFrom = {
   from: string; // address or tx id
-  amount: AmountWithBaseDenom; // amount
+  amount: SwapKitNumber; // amount
   asset?: Asset; // asset
 };
 
@@ -36,29 +34,29 @@ export type Tx = {
 
 export type TxParams = {
   asset?: Asset;
-  amount: AmountWithBaseDenom;
+  amount: SwapKitNumber;
   recipient: string;
   memo?: string; // optional memo to pass
   feeOptionKey?: FeeOption;
 };
 
-type EVMTxBaseParams<T = BigNumberish> = {
+type EVMTxBaseParams<T = bigint> = {
   to?: string;
   from?: string;
   nonce?: number;
   gasLimit?: T;
   data?: string;
   value?: T;
-  chainId?: number;
+  chainId?: T;
 };
 
-export type EIP1559TxParams<T = BigNumberish> = EVMTxBaseParams<T> & {
+export type EIP1559TxParams<T = bigint> = EVMTxBaseParams<T> & {
   type?: number;
   maxFeePerGas?: T;
   maxPriorityFeePerGas?: T;
 };
 
-export type LegacyEVMTxParams<T = BigNumberish> = EVMTxBaseParams<T> & {
+export type LegacyEVMTxParams<T = bigint> = EVMTxBaseParams<T> & {
   gasPrice?: T;
 };
 

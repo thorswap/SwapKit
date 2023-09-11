@@ -11,13 +11,15 @@ import { Chain, ContractAddress, erc20ABI, FeeOption } from '@thorswap-lib/types
 import type {
   BigNumberish,
   BrowserProvider,
-  ContractInterface,
+  Fragment,
+  JsonFragment,
   Provider,
-  VoidSigner,
+  Signer,
 } from 'ethers';
 import { getAddress } from 'ethers/address';
 import { MaxInt256 } from 'ethers/constants';
 
+import { SwapKitNumber } from '../../../../swapkit/swapkit-helpers/src/index.ts';
 import type {
   ApprovedParams,
   ApproveParams,
@@ -47,10 +49,17 @@ const isEIP1559Transaction = (tx: EVMTxParams) =>
   !!(tx as EIP1559TxParams).maxPriorityFeePerGas;
 
 const isBrowserProvider = (provider: any) => !!provider.provider || !!provider.jsonRpcFetchFunc;
-const createContract = async (address: string, abi: any, provider: Provider) => {
+const createContract = async (
+  address: string,
+  abi: readonly (JsonFragment | Fragment)[],
+  provider: Provider,
+) => {
   const { Contract } = await import('ethers/contract');
-  return new Contract(address, abi, provider);
+  const { Interface } = await import('ethers/abi');
+  return new Contract(address, Interface.from(abi), provider);
 };
+
+export const toHexString = (value: BigInt) => '0x' + value.toString(16);
 
 const validateAddress = (address: string) => {
   try {
@@ -61,7 +70,7 @@ const validateAddress = (address: string) => {
   }
 };
 
-const isStateChangingCall = (abi: ContractInterface, functionName: string) => {
+const isStateChangingCall = (abi: readonly JsonFragment[], functionName: string) => {
   const abiFragment = abi.find((fragment: any) => fragment.name === functionName) as any;
   if (!abiFragment) throw new Error(`No ABI fragment found for function ${functionName}`);
   return abiFragment.stateMutability && stateMutable.includes(abiFragment.stateMutability);
@@ -72,7 +81,7 @@ const getAssetEntity = (asset: Asset | undefined) =>
     ? new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker)
     : getSignatureAssetFor(Chain.Ethereum);
 
-type WithSigner<T> = T & { signer?: VoidSigner };
+type WithSigner<T> = T & { signer?: Signer };
 
 /**
  * @info call contract function
@@ -142,30 +151,28 @@ const createContractTxObject = async (
   provider: Provider,
   { contractAddress, abi, funcName, funcParams = [], txOverrides }: CallParams,
 ) =>
-  createContract(contractAddress, abi, provider).populateTransaction[funcName](
-    ...funcParams.concat(txOverrides).filter((p) => typeof p !== 'undefined'),
-  );
+  (await createContract(contractAddress, abi, provider))
+    .getFunction(funcName)
+    .populateTransaction(...funcParams.concat(txOverrides).filter((p) => typeof p !== 'undefined'));
 
 const approvedAmount = async (
   provider: Provider,
   { assetAddress, spenderAddress, from }: IsApprovedParams,
 ) =>
-  BigNumber.from(
-    await call<BigNumberish>(provider, {
-      contractAddress: assetAddress,
-      abi: erc20ABI as any,
-      funcName: 'allowance',
-      funcParams: [from, spenderAddress],
-    }),
-  ).toString();
+  await call<BigNumberish>(provider, {
+    contractAddress: assetAddress,
+    abi: erc20ABI as any,
+    funcName: 'allowance',
+    funcParams: [from, spenderAddress],
+  }).toString();
 
 const isApproved = async (
   provider: Provider,
   { assetAddress, spenderAddress, from, amount = MAX_APPROVAL }: IsApprovedParams,
 ) =>
-  BigNumber.from(await approvedAmount(provider, { assetAddress, spenderAddress, from })).gte(
-    amount,
-  );
+  SwapKitNumber.fromBigInt(
+    BigInt(await approvedAmount(provider, { assetAddress, spenderAddress, from })),
+  ).gte(SwapKitNumber.fromBigInt(BigInt(amount)));
 
 const approve = async (
   provider: Provider,
@@ -178,16 +185,16 @@ const approve = async (
     from,
     nonce,
   }: ApproveParams,
-  signer?: VoidSigner,
+  signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
   if (!amount) throw new Error('amount must be provided');
-  const funcParams = [spenderAddress, BigNumber.from(amount)];
+  const funcParams = [spenderAddress, BigInt(amount)];
   const txOverrides = { from };
 
   const functionCallParams = {
     contractAddress: assetAddress,
-    abi: erc20ABI as any,
+    abi: erc20ABI,
     funcName: 'approve',
     funcParams,
     signer,
@@ -206,7 +213,7 @@ const approve = async (
   )[feeOptionKey];
 
   const gasLimit = await estimateCall(provider, functionCallParams).catch(() =>
-    BigNumber.from(gasLimitFallback),
+    BigInt(gasLimitFallback ?? 0),
   );
 
   return call<string>(provider, {
@@ -235,10 +242,11 @@ const transfer = async (
     from,
     ...tx
   }: TransferParams,
-  signer?: VoidSigner,
+  signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
-  const txAmount = amount.amount();
+  // TODO - this might be wrong
+  const txAmount = amount.bigIntValue;
   const parsedAsset: AssetEntity = getAssetEntity(asset);
   const chain = parsedAsset.L1Chain as EVMChain;
 
@@ -324,14 +332,17 @@ const estimateCall = async (
     funcName,
     funcParams = [],
     txOverrides,
-  }: EstimateCallParams & { signer?: VoidSigner },
+  }: WithSigner<EstimateCallParams>,
 ) => {
   if (!contractAddress) throw new Error('contractAddress must be provided');
 
   const contract = await createContract(contractAddress, abi, provider);
   return signer
-    ? contract.connect(signer).estimateGas[funcName](...funcParams, txOverrides)
-    : contract.estimateGas[funcName](...funcParams, txOverrides);
+    ? contract
+        .connect(signer)
+        .getFunction(funcName)
+        .estimateGas(...funcParams, txOverrides)
+    : contract.getFunction(funcName).estimateGas(...funcParams, txOverrides);
 };
 
 const estimateGasLimit = async (
@@ -349,12 +360,12 @@ const estimateGasLimit = async (
   }: WalletTxParams & {
     funcName?: string;
     funcParams?: unknown[];
-    signer?: VoidSigner;
+    signer?: Signer;
     txOverrides?: EVMTxParams;
   },
 ) => {
   const { hexlify, toUtf8Bytes } = await import('ethers/utils');
-  const value = amount.amount();
+  const value = amount.bigIntValue;
   const parsedAsset = getAssetEntity(asset);
   const assetAddress = !isGasAsset(parsedAsset)
     ? getTokenAddress(parsedAsset, parsedAsset.L1Chain as EVMChain)
@@ -385,7 +396,7 @@ const sendTransaction = async (
   provider: Provider | BrowserProvider,
   tx: EVMTxParams,
   feeOptionKey: FeeOption = FeeOption.Fast,
-  signer?: VoidSigner,
+  signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
   if (!signer) throw new Error('Signer is not defined');
@@ -397,7 +408,7 @@ const sendTransaction = async (
     data: data || '0x',
     to,
     from,
-    value: BigNumber.from(value || 0).toHexString(),
+    value: BigInt(value || 0),
   };
 
   // early return to skip gas estimation if provider is EIP-1193
@@ -418,7 +429,7 @@ const sendTransaction = async (
       ? Object.entries(
           (await estimateGasPrices(provider, isEIP1559Compatible))[feeOptionKey],
         ).reduce(
-          (acc, [k, v]) => ({ ...acc, [k]: BigNumber.from(v).toHexString() }),
+          (acc, [k, v]) => ({ ...acc, [k]: BigInt(v).toString(16) }),
           {} as {
             maxFeePerGas?: string;
             maxPriorityFeePerGas?: string;
@@ -429,9 +440,7 @@ const sendTransaction = async (
 
   let gasLimit: string;
   try {
-    gasLimit = BigNumber.from(
-      tx.gasLimit || ((await provider.estimateGas(tx)) * 11n) / 10n,
-    ).toHexString();
+    gasLimit = toHexString(tx.gasLimit || ((await provider.estimateGas(tx)) * 11n) / 10n);
   } catch (error) {
     throw new Error(`Error estimating gas limit: ${JSON.stringify(error)}`);
   }
@@ -472,7 +481,7 @@ export const EIP1193SendTransaction = async (
 ): Promise<string> => {
   if (!isBrowserProvider(provider)) throw new Error('Provider is not EIP-1193 compatible');
   return (provider as BrowserProvider).send('eth_sendTransaction', [
-    { value: BigNumber.from(value || 0).toHexString(), from, to, data } as any,
+    { value: toHexString(BigInt(value || 0)), from, to, data } as any,
   ]);
 };
 
@@ -521,7 +530,7 @@ export const BaseEVMToolbox = ({
   signer,
   isEIP1559Compatible = true,
 }: {
-  signer?: VoidSigner;
+  signer?: Signer;
   provider: Provider | BrowserProvider;
   isEIP1559Compatible?: boolean;
 }) => ({

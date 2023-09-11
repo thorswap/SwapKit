@@ -65,11 +65,13 @@ class TrezorSigner extends VoidSigner {
     if (!isEIP1559 && (('gasPrice' in restTx && !restTx.gasPrice) || !('gasPrice' in restTx)))
       throw new Error('Missing gasPrice');
 
+    const { toHexString } = await import('@thorswap-lib/toolbox-evm');
+
     const baseTx = {
-      chainId: BigNumber.from(ChainToChainId[this.chain]).toNumber(),
+      chainId: BigInt(ChainToChainId[this.chain]),
       to,
-      value: BigNumber.from(value || 0).toHexString(),
-      gasLimit: BigNumber.from(gasLimit).toHexString(),
+      value: toHexString(value || 0n),
+      gasLimit: toHexString(gasLimit),
       nonce: BigNumber.from(
         nonce || (await this.provider.getTransactionCount(from, 'pending')),
       ).toHexString(),

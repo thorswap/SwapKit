@@ -1,4 +1,4 @@
-import type { AmountWithBaseDenom } from './amount.ts';
+import type { SwapKitNumber } from './amount.ts';
 import type { Asset } from './asset.ts';
 
 export const MOCK_PHRASE =
@@ -17,10 +17,10 @@ export enum FeeOption {
 
 export type Balance = {
   asset: Asset;
-  amount: AmountWithBaseDenom;
+  amount: SwapKitNumber;
 };
 
-export type Fees = Record<FeeOption, AmountWithBaseDenom> & {
+export type Fees = Record<FeeOption, SwapKitNumber> & {
   type?: 'base' | 'byte';
 };
 

@@ -2,8 +2,11 @@ import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { Chain, ChainId, ChainToHexChainId, FeeOption, WalletOption } from '@thorswap-lib/types';
 import type { JsonRpcProvider } from 'ethers';
+import type { EIP1193Provider } from 'hardhat/types/provider.js';
 
-import type { EthereumWindowProvider, EVMMaxSendableAmountsParams } from './index.ts';
+import { SwapKitNumber } from '../../../swapkit/swapkit-helpers/src/index.ts';
+
+import type { EVMMaxSendableAmountsParams } from './index.ts';
 import { AVAXToolbox, BSCToolbox, ETHToolbox } from './index.ts';
 
 type NetworkParams = {
@@ -102,7 +105,7 @@ export const getWeb3WalletMethods = async ({
   covalentApiKey,
   ethplorerApiKey,
 }: {
-  ethereumWindowProvider: EthereumWindowProvider | undefined;
+  ethereumWindowProvider: EIP1193Provider | undefined;
   chain: Chain;
   covalentApiKey?: string;
   ethplorerApiKey?: string;
@@ -171,7 +174,7 @@ export const estimateMaxSendableAmount = async ({
       : balance.asset.symbol === getSignatureAssetFor(balance.asset.chain)?.symbol,
   );
 
-  if (!balance) return baseAmount(0);
+  if (!balance) return new SwapKitNumber(0);
 
   if (assetEntity && getSignatureAssetFor(balance.asset.chain).shallowEq(assetEntity)) {
     return balance.amount;
@@ -201,10 +204,10 @@ export const estimateMaxSendableAmount = async ({
 
   if (!fees.gasPrice && !fees.maxFeePerGas) throw new Error('Could not fetch fee data');
 
-  const fee = BigNumber.from(gasLimit).mul(
+  const fee = SwapKitNumber.fromBigInt(gasLimit).mul(
     !fees.gasPrice ? fees.maxFeePerGas!.add(fees.maxPriorityFeePerGas || 1) : fees.gasPrice!,
   );
-  const maxSendableAmount = BigNumber.from(balance.amount.toString()).sub(fee);
+  const maxSendableAmount = SwapKitNumber.fromBigInt(balance.amount.toString()).sub(fee);
 
   return baseAmount(maxSendableAmount, 18);
 };

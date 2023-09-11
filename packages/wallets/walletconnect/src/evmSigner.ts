@@ -51,11 +51,12 @@ class WalletconnectSigner extends VoidSigner {
   signTransaction = async ({ from, to, value, data }: EVMTxParams) => {
     if (!from) throw new Error('Missing from address');
     if (!to) throw new Error('Missing to address');
+    const { toHexString } = await import('@thorswap-lib/toolbox-evm');
 
     const baseTx = {
       from,
       to,
-      value: BigNumber.from(value || 0).toHexString(),
+      value: toHexString(value || 0n),
       data,
     };
 

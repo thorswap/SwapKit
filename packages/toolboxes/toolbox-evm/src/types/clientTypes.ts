@@ -1,7 +1,7 @@
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import type { EVMTxParams, FeeOption, WalletTxParams } from '@thorswap-lib/types';
-import type { BigNumberish, ContractInterface, JsonRpcProvider, Transaction } from 'ethers';
+import type { FeeOption, WalletTxParams } from '@thorswap-lib/types';
+import type { BigNumberish, JsonFragment, JsonRpcProvider, Transaction } from 'ethers';
 
 import type {
   ARBToolbox,
@@ -42,10 +42,10 @@ export type IsApprovedParams = ApprovedParams & {
 export type CallParams = {
   callProvider?: ReturnType<typeof getProvider>;
   contractAddress: string;
-  abi: ContractInterface;
+  abi: readonly JsonFragment[];
   funcName: string;
   funcParams?: unknown[];
-  txOverrides?: EVMTxParams;
+  txOverrides?: Partial<Transaction>;
 };
 
 export type EstimateCallParams = Pick<
@@ -86,30 +86,14 @@ declare global {
 }
 
 export type TransferParams = WalletTxParams & {
-  gasLimit?: BigNumberish;
-  gasPrice?: BigNumberish;
-  maxFeePerGas?: BigNumberish;
-  maxPriorityFeePerGas?: BigNumberish;
+  gasLimit?: bigint;
+  gasPrice?: bigint;
+  maxFeePerGas?: bigint;
+  maxPriorityFeePerGas?: bigint;
   data?: string;
   from: string;
   nonce?: number;
 };
-
-export interface JsonFragment {
-  readonly name?: string;
-  readonly type?: string;
-
-  readonly anonymous?: boolean;
-
-  readonly payable?: boolean;
-  readonly constant?: boolean;
-  readonly stateMutability?: string;
-
-  readonly inputs?: readonly any[];
-  readonly outputs?: readonly any[];
-
-  readonly gas?: string;
-}
 
 export type EVMToolbox = ReturnType<
   | typeof AVAXToolbox
@@ -126,7 +110,7 @@ export type EVMMaxSendableAmountsParams = {
   asset?: AssetEntity | string;
   feeOptionKey?: FeeOption;
   memo?: string;
-  abi?: ContractInterface;
+  abi?: readonly JsonFragment[];
   funcName?: string;
   contractAddress?: string;
   funcParams?: unknown[];

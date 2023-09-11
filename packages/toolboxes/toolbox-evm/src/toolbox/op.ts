@@ -44,11 +44,7 @@ const _serializeTx = async (
     gasPrice,
     type,
     gasLimit,
-    nonce: nonce
-      ? BigNumber.from(nonce).toNumber()
-      : from
-      ? await provider.getTransactionCount(from)
-      : 0,
+    nonce: nonce ? nonce : from ? await provider.getTransactionCount(from) : 0,
   }).serialized;
 };
 
@@ -62,7 +58,7 @@ export const estimateL1GasCost = async (
 export const estimateL2GasCost = async (
   provider: JsonRpcProvider | BrowserProvider,
   tx: TransactionRequest,
-): Promise<BigNumber> => {
+) => {
   const l2GasPrice = await provider.send('eth_gasPrice', []);
   const l2GasCost = await provider.estimateGas(tx);
   return l2GasPrice.mul(l2GasCost);
