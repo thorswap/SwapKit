@@ -6,7 +6,6 @@ import {
 
 type AllowedValueType = bigint | number | string;
 type ArithmeticMethod = 'add' | 'sub' | 'mul' | 'div';
-type SwapKitValueType = BaseSwapKitNumber | string | number;
 
 const toMultiplier = (decimal: number) => 10n ** BigInt(decimal);
 type Params = string | number | { decimal?: number; value: number | string };
@@ -205,6 +204,8 @@ export class BaseSwapKitNumber {
     return Math.max(decimals, DEFAULT_DECIMAL);
   }
 }
+
+type SwapKitValueType = BaseSwapKitNumber | string | number;
 
 export class SwapKitNumber extends BaseSwapKitNumber {
   eq(value: SwapKitValueType) {

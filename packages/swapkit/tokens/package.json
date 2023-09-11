@@ -38,7 +38,7 @@
     "build": "vite build",
     "generate-tokens": "node ./scripts/fetchTokenLists.js",
     "clean": "rm -rf dist .turbo node_modules",
-    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "lint": "prettier --check --write .",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },

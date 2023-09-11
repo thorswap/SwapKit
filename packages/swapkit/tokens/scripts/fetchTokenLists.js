@@ -10,10 +10,11 @@ const getTokens = async () => {
 
     console.info({ [provider]: tokenList.count });
 
-    fs.outputJSON(`./src/tokenLists/${provider}.json`, JSON.stringify(tokenList, null, 2), {
-      encoding: 'utf8',
-      flag: 'w',
-    });
+    fs.outputFile(
+      `./src/tokenLists/${provider}.ts`,
+      `export const list = ${JSON.stringify(tokenList)} as const;`,
+      { flag: 'w' },
+    );
   });
 };
 
