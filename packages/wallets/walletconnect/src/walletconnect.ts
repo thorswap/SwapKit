@@ -126,7 +126,7 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.THORChain: {
-      const { getDenomWithChain, ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = ThorchainToolbox({ stagenet });
 
       const signRequest = (signDoc: StdSignDoc) =>
@@ -236,22 +236,8 @@ const getToolbox = async ({
         if (!account.pubkey) throw new Error('Account pubkey not found');
         const { accountNumber, sequence = 0 } = account;
 
-        const msg = {
-          type: 'thorchain/MsgDeposit',
-          value: {
-            coins: [
-              {
-                amount: amount.amount().toString(),
-                asset: getDenomWithChain(asset).toUpperCase(),
-              },
-            ],
-            memo,
-            signer: address,
-          },
-        };
-
         const signDoc = makeSignDoc(
-          [msg],
+          [toolbox.createDepositMessage(asset, amount, address, memo)],
           DEFAULT_THORCHAIN_FEE,
           ChainId.THORChain,
           memo,
@@ -262,7 +248,7 @@ const getToolbox = async ({
         const signature: any = await signRequest(signDoc);
 
         const txObj = {
-          msg: [msg],
+          msg: [toolbox.createDepositMessage(asset, amount, address, memo, true)],
           fee: DEFAULT_THORCHAIN_FEE,
           memo,
           signatures: [
@@ -312,7 +298,7 @@ const getToolbox = async ({
         const txBytes = TxRaw.encode(txRaw).finish();
 
         const broadcaster = await StargateClient.connect(
-          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChainStagenet,
+          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
         );
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
