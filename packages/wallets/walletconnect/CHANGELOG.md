@@ -1,5 +1,50 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.49
+
+### Minor Changes
+
+- [#304](https://github.com/thorswap/SwapKit/pull/304) [`fff475a`](https://github.com/thorswap/SwapKit/commit/fff475ae73b47f8ee0c21e247a275e8380d4d221) Thanks [@0x-General](https://github.com/0x-General)! - Fix deposit broadcasting
+
+### Patch Changes
+
+- Updated dependencies [[`fff475a`](https://github.com/thorswap/SwapKit/commit/fff475ae73b47f8ee0c21e247a275e8380d4d221)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.157
+
+## 2.0.0-development.48
+
+### Minor Changes
+
+- [#302](https://github.com/thorswap/SwapKit/pull/302) [`1b9b564`](https://github.com/thorswap/SwapKit/commit/1b9b564b8e5519a13b7a9ba922281b88232a2acc) Thanks [@0x-General](https://github.com/0x-General)! - Use RPC url instead of API for walletconnect and ledger on THORChain
+
+## 2.0.0-development.47
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.156
+
+## 2.0.0-development.46
+
+### Patch Changes
+
+- @cosmjs fix
+
+## 2.0.0-development.45
+
+### Patch Changes
+
+- Maybe fix import'
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.155
+
+## 2.0.0-development.44
+
+### Patch Changes
+
+- [#299](https://github.com/thorswap/SwapKit/pull/299) [`6bbed1e`](https://github.com/thorswap/SwapKit/commit/6bbed1edbf0c0c65f82e9f6d332ee21022768e5d) Thanks [@towanTG](https://github.com/towanTG)! - Enables BSC for walletconnect
+
 ## 2.0.0-development.43
 
 ### Patch Changes

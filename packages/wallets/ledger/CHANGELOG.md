@@ -1,5 +1,62 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.251
+
+### Minor Changes
+
+- [#304](https://github.com/thorswap/SwapKit/pull/304) [`fff475a`](https://github.com/thorswap/SwapKit/commit/fff475ae73b47f8ee0c21e247a275e8380d4d221) Thanks [@0x-General](https://github.com/0x-General)! - Fix deposit broadcasting
+
+### Patch Changes
+
+- Updated dependencies [[`fff475a`](https://github.com/thorswap/SwapKit/commit/fff475ae73b47f8ee0c21e247a275e8380d4d221)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.157
+
+## 1.0.0-development.250
+
+### Minor Changes
+
+- [#302](https://github.com/thorswap/SwapKit/pull/302) [`1b9b564`](https://github.com/thorswap/SwapKit/commit/1b9b564b8e5519a13b7a9ba922281b88232a2acc) Thanks [@0x-General](https://github.com/0x-General)! - Use RPC url instead of API for walletconnect and ledger on THORChain
+
+## 1.0.0-development.249
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.156
+
+## 1.0.0-development.248
+
+### Patch Changes
+
+- @cosmjs fix
+
+## 1.0.0-development.247
+
+### Patch Changes
+
+- fix last time ledger
+
+## 1.0.0-development.246
+
+### Patch Changes
+
+- Maybe fix import'
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.155
+
+## 1.0.0-development.245
+
+### Patch Changes
+
+- One more
+
+## 1.0.0-development.244
+
+### Patch Changes
+
+- Fix ledger init
+
 ## 1.0.0-development.243
 
 ### Patch Changes

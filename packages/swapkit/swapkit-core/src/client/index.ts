@@ -186,7 +186,7 @@ export class SwapKitCore<T = ''> {
     const address = this.getAddress(chain);
     if (!address) return null;
 
-    const balances = (await this.getWallet(chain)?.getBalance(address)) ?? [
+    const balances = (await this.getWallet(chain)?.getBalance(address)) || [
       { asset: getSignatureAssetFor(chain), amount: baseAmount(0, BaseDecimal[chain]) },
     ];
 
