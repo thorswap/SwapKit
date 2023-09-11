@@ -1,5 +1,16 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.49
+
+### Minor Changes
+
+- [#304](https://github.com/thorswap/SwapKit/pull/304) [`fff475a`](https://github.com/thorswap/SwapKit/commit/fff475ae73b47f8ee0c21e247a275e8380d4d221) Thanks [@0x-General](https://github.com/0x-General)! - Fix deposit broadcasting
+
+### Patch Changes
+
+- Updated dependencies [[`fff475a`](https://github.com/thorswap/SwapKit/commit/fff475ae73b47f8ee0c21e247a275e8380d4d221)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.157
+
 ## 2.0.0-development.48
 
 ### Minor Changes
