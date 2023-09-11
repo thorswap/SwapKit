@@ -5,7 +5,7 @@ import { encodePubkey, makeAuthInfoBytes, type TxBodyEncodeObject } from '@cosmj
 import { StargateClient } from '@cosmjs/stargate';
 import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
 import type { WalletTxParams } from '@thorswap-lib/types';
-import { ApiUrl, Chain, ChainId, WalletOption } from '@thorswap-lib/types';
+import { Chain, ChainId, RPCUrl, WalletOption } from '@thorswap-lib/types';
 import type { WalletConnectModalSign } from '@walletconnect/modal-sign-html';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
@@ -45,12 +45,14 @@ const getToolbox = async ({
   walletconnect,
   address,
   session,
+  stagenet = false,
 }: {
   walletconnect: Walletconnect;
   session: SessionTypes.Struct;
   chain: (typeof SUPPORTED_CHAINS)[number];
   covalentApiKey?: string;
   ethplorerApiKey?: string;
+  stagenet?: boolean;
   address: string;
 }) => {
   const from = address;
@@ -125,7 +127,7 @@ const getToolbox = async ({
     }
     case Chain.THORChain: {
       const { getDenomWithChain, ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
-      const toolbox = ThorchainToolbox({ stagenet: false });
+      const toolbox = ThorchainToolbox({ stagenet });
 
       const signRequest = (signDoc: StdSignDoc) =>
         walletconnect?.client.request({
@@ -220,7 +222,9 @@ const getToolbox = async ({
         });
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const broadcaster = await StargateClient.connect(
+          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
+        );
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -307,7 +311,9 @@ const getToolbox = async ({
         });
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const broadcaster = await StargateClient.connect(
+          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChainStagenet,
+        );
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -365,13 +371,14 @@ export type Walletconnect = Awaited<ReturnType<typeof getWalletconnect>>;
 const connectWalletconnect =
   ({
     addChain,
-    config: { ethplorerApiKey, walletConnectProjectId, covalentApiKey },
+    config: { ethplorerApiKey, walletConnectProjectId, covalentApiKey, stagenet = false },
   }: {
     addChain: any;
     config: {
       covalentApiKey?: string;
       ethplorerApiKey?: string;
       walletConnectProjectId?: string;
+      stagenet?: boolean;
     };
   }) =>
   async (
@@ -399,6 +406,7 @@ const connectWalletconnect =
         walletconnect,
         ethplorerApiKey,
         covalentApiKey,
+        stagenet,
       });
 
       addChain({
