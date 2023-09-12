@@ -1,8 +1,3 @@
 # @thorswap-lib/types
 
-## Install:
-
-```bash
-pnpm add @thorswap-lib/types
-```
-
+- [Docs](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/types)

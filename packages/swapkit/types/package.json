@@ -3,7 +3,7 @@
   "description": "THORSwap Lib types",
   "devDependencies": {
     "@ethersproject/bignumber": "5.7.0",
-    "@internal/config": "workspace:*",
+    "@thorswap-internal/config": "workspace:*",
     "@types/node": "20.5.9",
     "vite": "4.4.9"
   },
@@ -32,7 +32,7 @@
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "vite build",
+    "build": "bunx --bun vite build",
     "clean": "rm -rf dist .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'No tests yet'"

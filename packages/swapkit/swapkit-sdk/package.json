@@ -1,23 +1,23 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@thorswap-lib/evm-web3-wallets": "workspace:*",
-    "@thorswap-lib/keplr": "workspace:*",
-    "@thorswap-lib/keystore": "workspace:*",
-    "@thorswap-lib/ledger": "workspace:*",
-    "@thorswap-lib/swapkit-api": "workspace:*",
-    "@thorswap-lib/swapkit-core": "workspace:*",
-    "@thorswap-lib/toolbox-cosmos": "workspace:*",
-    "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@thorswap-lib/toolbox-utxo": "workspace:*",
-    "@thorswap-lib/trezor": "workspace:*",
-    "@thorswap-lib/types": "workspace:*",
-    "@thorswap-lib/walletconnect": "workspace:*",
-    "@thorswap-lib/xdefi": "workspace:*"
+    "@thorswap-lib/evm-web3-wallets": "*",
+    "@thorswap-lib/keplr": "*",
+    "@thorswap-lib/keystore": "*",
+    "@thorswap-lib/ledger": "*",
+    "@thorswap-lib/swapkit-api": "*",
+    "@thorswap-lib/swapkit-core": "*",
+    "@thorswap-lib/toolbox-cosmos": "*",
+    "@thorswap-lib/toolbox-evm": "*",
+    "@thorswap-lib/toolbox-utxo": "*",
+    "@thorswap-lib/trezor": "*",
+    "@thorswap-lib/types": "*",
+    "@thorswap-lib/walletconnect": "*",
+    "@thorswap-lib/xdefi": "*"
   },
   "description": "THORSwap Lib swapkit-sdk",
   "devDependencies": {
-    "@internal/config": "workspace:*",
+    "@thorswap-internal/config": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.3",
     "vite": "4.4.9",
     "vitest": "0.34.3"

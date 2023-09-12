@@ -1,6 +1,5 @@
 {
   "devDependencies": {
-    "@rollup/plugin-terser": "0.4.3",
     "@vitest/coverage-istanbul": "0.34.3",
     "vite": "4.4.9",
     "vite-plugin-dts": "3.5.3",
@@ -10,9 +9,12 @@
     "extends": "../eslint-config-thorswap"
   },
   "main": "index.js",
-  "name": "@internal/config",
+  "name": "@thorswap-internal/config",
   "private": true,
-  "scripts": {},
+  "files": [
+    "./base.json",
+    "./index.js"
+  ],
   "type": "module",
-  "version": "0.0.1-development.3"
+  "version": "0.0.0"
 }

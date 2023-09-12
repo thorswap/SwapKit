@@ -5,22 +5,20 @@
     "kleur": "4.1.5"
   },
   "devDependencies": {
-    "@internal/config": "workspace:*",
+    "@thorswap-internal/config": "workspace:*",
     "@types/ejs": "3.1.2",
     "@types/inquirer": "9.0.3",
     "@types/node": "20.5.9",
-    "@types/node-fetch": "2.6.4",
-    "vite": "4.4.9"
+    "@types/node-fetch": "2.6.4"
   },
   "eslintConfig": {
     "extends": "../eslint-config-thorswap"
   },
   "main": "index.js",
-  "name": "@thorswap/generator",
+  "name": "@thorswap-internal/generator",
   "private": true,
   "scripts": {
-    "build": "vite build",
-    "generate": "pnpm build; node ./dist/index.js"
+    "generate": "bun ./src/index.ts"
   },
   "type": "module"
 }

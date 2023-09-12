@@ -1,9 +1,3 @@
 # @thorswap-lib/toolbox-evm
 
-## Install:
-
-```bash
-pnpm add @thorswap-lib/toolbox-evm
-```
-
-## Links:
+- [Docs](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/evm)

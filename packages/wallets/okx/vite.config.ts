@@ -1,4 +1,4 @@
-import thorswapViteConfig from '@internal/config';
+import thorswapViteConfig from '@thorswap-internal/config';
 import { resolve } from 'path';
 
 import { name } from './package.json';

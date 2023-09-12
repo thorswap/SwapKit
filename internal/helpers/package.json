@@ -1,12 +1,12 @@
 {
   "dependencies": {
-    "@thorswap-lib/swapkit-entities": "workspace:*",
-    "@thorswap-lib/types": "workspace:*"
+    "@thorswap-lib/swapkit-entities": "*",
+    "@thorswap-lib/types": "*"
   },
   "description": "THORSwap Lib - Helper library for THORSwap",
   "devDependencies": {
     "@ethersproject/bignumber": "5.7.0",
-    "@internal/config": "workspace:*",
+    "@thorswap-internal/config": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.3",
     "bignumber.js": "9.1.2",
     "vite": "4.4.9",
@@ -27,7 +27,7 @@
     "bignumber.js": "^9.1.2"
   },
   "scripts": {
-    "build": "vite build",
+    "build": "bunx --bun vite build",
     "clean": "rm -rf dist .turbo node_modules",
     "lint": "eslint --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "vitest --run",

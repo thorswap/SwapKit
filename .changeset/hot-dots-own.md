@@ -16,7 +16,7 @@
 '@thorswap-lib/xdefi': patch
 '@thorswap-lib/okx': patch
 '@thorswap-lib/helpers': patch
-'@internal/config': patch
+'@thorswap-internal/config': patch
 ---
 
 Use dynamic imports

@@ -1,4 +1,4 @@
 {
-  "extends": "@internal/config/base.json",
+  "extends": "../../../internal/config/base.json",
   "include": ["./src", "test"],
 }

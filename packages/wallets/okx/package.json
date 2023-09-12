@@ -1,17 +1,17 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@thorswap-lib/helpers": "workspace:*",
-    "@thorswap-lib/types": "workspace:*"
+    "@thorswap-lib/helpers": "*",
+    "@thorswap-lib/types": "*"
   },
   "description": "THORSwap Lib okx",
   "devDependencies": {
     "@ethersproject/providers": "^5.7.0",
-    "@internal/config": "workspace:*",
-    "@thorswap-lib/swapkit-entities": "workspace:*",
-    "@thorswap-lib/toolbox-cosmos": "workspace:*",
-    "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@thorswap-internal/config": "workspace:*",
+    "@thorswap-lib/swapkit-entities": "*",
+    "@thorswap-lib/toolbox-cosmos": "*",
+    "@thorswap-lib/toolbox-evm": "*",
+    "@thorswap-lib/toolbox-utxo": "*",
     "@vitest/coverage-istanbul": "0.34.3",
     "bitcoinjs-lib": "5.2.0",
     "long": "5.2.3",
@@ -39,10 +39,10 @@
   "name": "@thorswap-lib/okx",
   "peerDependencies": {
     "@ethersproject/providers": "^5.7.0",
-    "@thorswap-lib/swapkit-entities": "workspace:*",
-    "@thorswap-lib/toolbox-cosmos": "workspace:*",
-    "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@thorswap-lib/swapkit-entities": "*",
+    "@thorswap-lib/toolbox-cosmos": "*",
+    "@thorswap-lib/toolbox-evm": "*",
+    "@thorswap-lib/toolbox-utxo": "*",
     "bitcoinjs-lib": "5.2.0"
   },
   "publishConfig": {
@@ -51,7 +51,7 @@
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "vite build",
+    "build": "bunx --bun vite build",
     "clean": "rm -rf dist .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest --run'",

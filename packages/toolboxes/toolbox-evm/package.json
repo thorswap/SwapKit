@@ -12,13 +12,13 @@
     "@ethersproject/strings": "5.7.0",
     "@ethersproject/transactions": "5.7.0",
     "@ethersproject/units": "5.7.0",
-    "@thorswap-lib/helpers": "workspace:*",
-    "@thorswap-lib/swapkit-entities": "workspace:*",
-    "@thorswap-lib/types": "workspace:*"
+    "@thorswap-lib/helpers": "*",
+    "@thorswap-lib/swapkit-entities": "*",
+    "@thorswap-lib/types": "*"
   },
   "description": "THORSwap toolbox-evm",
   "devDependencies": {
-    "@internal/config": "workspace:*",
+    "@thorswap-internal/config": "workspace:*",
     "@keplr-wallet/types": "0.12.22",
     "@nomicfoundation/hardhat-network-helpers": "1.0.9",
     "@nomiclabs/hardhat-ethers": "2.2.3",
@@ -53,7 +53,7 @@
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "vite build",
+    "build": "bunx --bun vite build",
     "clean": "rm -rf dist .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "vitest --run",

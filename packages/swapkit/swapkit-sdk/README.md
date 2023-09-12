@@ -4,11 +4,7 @@
 
 All-in-one SDK for SwapKit. It includes all the packages needed to use all SwapKit features.
 
-## Install
-
-```bash
-pnpm add @thorswap-lib/swapkit-sdk
-```
+## [Install](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/install-swapkit-sdk)
 
 ```tsx
 import { createSwapKit, SwapKitCore } from '@thorswap-lib/swapkit-sdk';
