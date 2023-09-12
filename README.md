@@ -52,6 +52,15 @@ npm install @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit
 
 </details>
 
+<details>
+<summary>bun</summary>
+
+```bash
+bun add @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-core
+```
+
+</details>
+
 #### Usage
 
 Architecture of SwapKit SDK is pretty simple. It's based on the concept of toolboxes. Each toolbox is responsible for interacting with specific blockchain. For example, `@thorswap-lib/toolbox-evm` is responsible for interacting with ETH, AVAX, BSC, etc. Toolboxes are extending SwapKitCore instance with methods to interact with specific blockchain. SwapKitCore is responsible for managing wallets and providing unified interface for interacting with them. To extend SDK with wallet support you need to pass array of wallets to `extend` method. Wallets are responsible for interacting with specific wallet provider. After `extend` method is called, you can start connecting to wallets and interacting with them.

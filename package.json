@@ -39,21 +39,6 @@
   "publishConfig": {
     "access": "restricted"
   },
-  "pnpm": {
-    "overrides": {
-      "typescript": "5.2.2",
-      "json5@<=1.0.1": "^1.0.2",
-      "semver@<=4.3.2": "^4.3.6"
-    },
-    "patchedDependencies": {
-      "@ethersproject/abstract-signer@5.7.0": "patches/@ethersproject-abstract-signer-npm-5.7.0-f61d0a970e.patch",
-      "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
-      "typeforce@1.18.0": "patches/typeforce@1.18.0.patch",
-      "asyncstorage-down@4.2.0": "patches/asyncstorage-down-npm-4.2.0-d323e014ba.patch",
-      "@changesets/assemble-release-plan@5.2.3": "patches/@changesets__assemble-release-plan@5.2.3.patch",
-      "@changesets/cli@2.26.1": "patches/@changesets__cli@2.26.1.patch"
-    }
-  },
   "scripts": {
     "bootstrap": "rm -rf node_modules; pnpm install; pnpm build",
     "build": "turbo run build --token=turbotoken-oss-europe1",
@@ -71,5 +56,12 @@
     "test": "dotenv -- turbo run test --token=turbotoken-oss-europe1",
     "test:coverage": "dotenv -- turbo run test:coverage",
     "version-bump": "dotenv -- pnpm changeset version"
-  }
+  },
+  "workspaces": [
+    "apps/*",
+    "internal/*",
+    "packages/swapkit/*",
+    "packages/toolboxes/*",
+    "packages/wallets/*"
+  ]
 }
