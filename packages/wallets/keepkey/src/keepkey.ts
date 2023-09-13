@@ -44,7 +44,7 @@ type KeepKeyOptions = {
 };
 
 type Params = KeepKeyOptions & {
-  sdk: any;
+  sdk: KeepKeySdk;
   chain: Chain;
   derivationPath: DerivationPathArray;
   rpcUrl?: string;
@@ -181,11 +181,11 @@ const connectKeepKey =
     };
 
     // init
-    const sdk = await KeepKeySdk.create(config);
+    const keepKeySdk = await KeepKeySdk.create(config);
     if (config.apiKey !== apiKey) localStorage.setItem('apiKey', config.apiKey);
 
     const { address, walletMethods } = await getToolbox({
-      sdk,
+      sdk: keepKeySdk,
       api: apis[chain],
       rpcUrl: rpcUrls[chain],
       chain,

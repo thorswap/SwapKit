@@ -942,6 +942,9 @@ importers:
 
   packages/wallets/keepkey:
     dependencies:
+      '@cosmjs/stargate':
+        specifier: 0.31.1
+        version: 0.31.1
       '@keepkey/keepkey-sdk':
         specifier: ^0.2.49
         version: 0.2.49
