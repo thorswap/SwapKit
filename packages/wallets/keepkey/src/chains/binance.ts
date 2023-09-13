@@ -1,13 +1,20 @@
-// @ts-ignore
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
 import { AssetAtom, BinanceToolbox, getDenom } from '@thorswap-lib/toolbox-cosmos';
 import type { TxParams } from '@thorswap-lib/types';
-import { Chain } from '@thorswap-lib/types';
+import { Chain, ChainId } from '@thorswap-lib/types';
+import { KeepKeyParams } from '../keepkey.ts';
 
-export const binanceWalletMethods: any = async function (params: any) {
+type SignTransactionTransferParams = {
+  asset: string;
+  amount: any;
+  to: string;
+  from: string;
+  memo: string | undefined;
+};
+
+export const binanceWalletMethods: any = async function (params: KeepKeyParams) {
   try {
-    let { sdk, stagenet } = params;
-    if (!stagenet) stagenet = false;
+    let { sdk } = params;
     const toolbox = BinanceToolbox();
 
     const getAddress = async () =>
@@ -17,81 +24,54 @@ export const binanceWalletMethods: any = async function (params: any) {
         })
       ).address;
 
-    const signTransactionTransfer = async function (params: any) {
+    const signTransactionTransfer = async function (params: SignTransactionTransferParams) {
       try {
         let { amount, to, from, memo } = params;
         let addressInfo = addressInfoForCoin(Chain.Binance, false);
         let accountInfo = await toolbox.getAccount(from);
 
-        //Unsigned TX
-        let msg = {
-          addressNList: addressInfo.address_n,
-          tx: {
-            msg: [
+        const body = {
+          signDoc: {
+            account_number: accountInfo?.account_number.toString() ?? '0',
+            chain_id: ChainId.Binance,
+            msgs: [
               {
-                inputs: [
-                  {
-                    address: from,
-                    coins: [
-                      {
-                        amount: amount,
-                        denom: 'BNB',
-                      },
-                    ],
-                  },
-                ],
                 outputs: [
                   {
                     address: to,
                     coins: [
                       {
-                        amount: 1000,
-                        denom: 'BNB',
+                        denom: Chain.Binance,
+                        amount
+                      },
+                    ],
+                  },
+                ],
+                inputs: [
+                  {
+                    address: from,
+                    coins: [
+                      {
+                        denom: Chain.Binance,
+                        amount
+                        
                       },
                     ],
                   },
                 ],
               },
             ],
-            fee: {
-              gas: '0',
-              amount: [
-                {
-                  denom: 'uatom',
-                  amount: '1000',
-                },
-              ],
-            },
-            signatures: [],
             memo,
+            sequence: accountInfo?.sequence.toString() ?? '0',
+            source: addressInfo?.source?.toString() ?? '0'
           },
-          sequence: accountInfo.sequence.toString(),
-          accountNumber: accountInfo.account_number.toString(),
-        };
+          signerAddress: from
+        }
 
-        let input = {
-          signDoc: {
-            account_number: accountInfo.account_number.toString(),
-            chain_id: 'Binance-Chain-Tigris',
-            msgs: msg.tx.msg,
-            memo: msg.tx.memo ?? '',
-            source: '0',
-            sequence: msg.sequence,
-            fee: {
-              amount: [
-                {
-                  amount: '2500',
-                  denom: 'uatom',
-                },
-              ],
-              gas: '250000',
-            },
-          },
-          signerAddress: from,
-        };
-        let responseSign = await sdk.bnb.bnbSignTransaction(input);
+        const keepKeyResponse = await sdk.bnb.bnbSignTransaction(body);
 
-        return responseSign;
+        const broadcastResponse = await toolbox.sendRawTransaction(keepKeyResponse?.serialized, true);
+        return broadcastResponse?.[0]?.hash;
       } catch (e) {
         console.error(e);
       }
