@@ -296,7 +296,7 @@ const getToolbox = async ({
         const signedTxBody: TxBodyEncodeObject = {
           typeUrl: '/cosmos.tx.v1beta1.TxBody',
           value: {
-            messages: toolbox.createDepositMessage(asset, amount, address, memo, true).map((msg: any) => aminoTypes.fromAmino(msg)),
+            messages: [aminoTypes.fromAmino(toolbox.createDepositMessage(asset, amount, address, memo, true))],
             memo,
           },
         };
