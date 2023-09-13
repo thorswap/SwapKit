@@ -2,6 +2,8 @@ import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
 
 let skClient: SwapKitCore | undefined;
 
+export const clearSwapkitClient = () => skClient = undefined;
+
 export const getSwapKitClient = async ({
   ethplorerApiKey = 'freekey',
   covalentApiKey = '',

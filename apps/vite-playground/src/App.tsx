@@ -6,7 +6,7 @@ import Loan from './Loan';
 import Multisig from './Multisig';
 import Send from './Send';
 import Swap from './Swap';
-import { getSwapKitClient } from './swapKitClient';
+import { clearSwapkitClient, getSwapKitClient } from './swapKitClient';
 import TNS from './TNS';
 import type { WalletDataType } from './types';
 import { Wallet } from './Wallet';
@@ -37,6 +37,7 @@ const App = () => {
 
   useEffect(() => {
     setSkClient(null);
+    clearSwapkitClient();
 
     getSwapKitClient({ ...keys, stagenet }).then((client) => {
       setTimeout(() => {
