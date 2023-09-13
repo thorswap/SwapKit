@@ -1,4 +1,4 @@
-import { Signer } from '@ethersproject/abstract-signer';
+import type { Signer } from '@ethersproject/abstract-signer';
 import { KeepKeySdk } from '@keepkey/keepkey-sdk';
 import {
   ARBToolbox,
@@ -9,7 +9,8 @@ import {
   MATICToolbox,
   OPToolbox,
 } from '@thorswap-lib/toolbox-evm';
-import { Chain, ConnectWalletParams, DerivationPathArray, WalletOption } from '@thorswap-lib/types';
+import type { ConnectWalletParams, DerivationPathArray } from '@thorswap-lib/types';
+import { Chain, WalletOption } from '@thorswap-lib/types';
 
 import { binanceWalletMethods } from './chains/binance.js';
 import { cosmosWalletMethods } from './chains/cosmos.js';
@@ -127,7 +128,7 @@ const getToolbox = async (params: Params) => {
   }
 };
 
-export const checkKeepkeyAvailability = async (spec:string) => {
+export const checkKeepkeyAvailability = async (spec: string) => {
   try {
     const response = await fetch(spec);
     if (response.status === 200) {

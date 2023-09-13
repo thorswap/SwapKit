@@ -3,7 +3,7 @@ import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import type { Account, StdFee } from '@cosmjs/stargate';
 import { baseAmount, getRequest, singleFee } from '@thorswap-lib/helpers';
 import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
-import type { Balance, Chain, Fees } from '@thorswap-lib/types';
+import type { AmountWithBaseDenom, Asset, Balance, Chain, Fees } from '@thorswap-lib/types';
 import { ApiUrl, BaseDecimal, ChainId, DerivationPath, RPCUrl } from '@thorswap-lib/types';
 import { fromByteArray, toByteArray } from 'base64-js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
@@ -14,7 +14,12 @@ import type {
   ThorchainConstantsResponse,
   ThorchainToolboxType,
 } from '../thorchainUtils/types/client-types.ts';
-import { base64ToBech32, bech32ToBase64, getThorchainAsset } from '../thorchainUtils/util.ts';
+import {
+  base64ToBech32,
+  bech32ToBase64,
+  getDenomWithChain,
+  getThorchainAsset,
+} from '../thorchainUtils/util.ts';
 import type { Signer, TransferParams } from '../types.ts';
 import { AssetRuneNative } from '../types.ts';
 import { getRPC } from '../util.ts';
@@ -108,6 +113,39 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
 
   return { signature: exportSignature(signature), bodyBytes };
 };
+
+const createAssetObj = (asset: Asset, forBroadcasting = false) => {
+  if (!forBroadcasting) return getDenomWithChain(asset).toUpperCase();
+
+  return asset.symbol.includes('/')
+    ? {
+        chain: (asset.symbol.split('/')[0] as any).toLowerCase(),
+        symbol: asset.symbol.split('/')[1].toLowerCase(),
+        ticker: asset.symbol.split('/')[1].toLowerCase(),
+        synth: true,
+      }
+    : asset;
+};
+
+const createDepositMessage = (
+  asset: Asset,
+  amount: AmountWithBaseDenom,
+  address: string,
+  memo = '',
+  forBroadcasting = false,
+) => ({
+  type: 'thorchain/MsgDeposit',
+  value: {
+    coins: [
+      {
+        amount: amount.amount().toString(),
+        asset: createAssetObj(asset, forBroadcasting),
+      },
+    ],
+    memo,
+    signer: address,
+  },
+});
 
 const broadcastMultisigTx = async (
   tx: string,
@@ -321,6 +359,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     transfer,
     getFees,
 
+    createDepositMessage,
     createDefaultAminoTypes,
     createDefaultRegistry,
     secp256k1HdWalletFromMnemonic,

@@ -1,8 +1,10 @@
+// @ts-ignore
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
 import { AssetAtom, BinanceToolbox, getDenom } from '@thorswap-lib/toolbox-cosmos';
-import { Chain, TxParams } from '@thorswap-lib/types';
+import type { TxParams } from '@thorswap-lib/types';
+import { Chain } from '@thorswap-lib/types';
 
-export const binanceWalletMethods = async function (params: any) {
+export const binanceWalletMethods: any = async function (params: any) {
   try {
     let { sdk, stagenet } = params;
     if (!stagenet) stagenet = false;
@@ -113,5 +115,6 @@ export const binanceWalletMethods = async function (params: any) {
     };
   } catch (e) {
     console.error(e);
+    throw e;
   }
 };

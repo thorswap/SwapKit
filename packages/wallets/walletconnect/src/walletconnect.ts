@@ -1,12 +1,15 @@
-import type { StdSignDoc } from '@cosmjs/amino';
-import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
+import { makeSignDoc, type StdSignDoc } from '@cosmjs/amino';
+import { fromBase64 } from '@cosmjs/encoding';
+import { Int53 } from '@cosmjs/math';
+import { encodePubkey, makeAuthInfoBytes, type TxBodyEncodeObject } from '@cosmjs/proto-signing';
+import { StargateClient } from '@cosmjs/stargate';
 import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
 import type { WalletTxParams } from '@thorswap-lib/types';
-import { ApiUrl, Chain, ChainId, WalletOption } from '@thorswap-lib/types';
+import { Chain, ChainId, RPCUrl, WalletOption } from '@thorswap-lib/types';
+import type { WalletConnectModalSign } from '@walletconnect/modal-sign-html';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
-import type {WalletConnectModalSign} from "@walletconnect/modal-sign-html";
 
 import {
   BINANCE_MAINNET_ID,
@@ -42,25 +45,30 @@ const getToolbox = async ({
   walletconnect,
   address,
   session,
+  stagenet = false,
 }: {
   walletconnect: Walletconnect;
   session: SessionTypes.Struct;
   chain: (typeof SUPPORTED_CHAINS)[number];
   covalentApiKey?: string;
   ethplorerApiKey?: string;
+  stagenet?: boolean;
   address: string;
 }) => {
   const from = address;
 
   switch (chain) {
     case Chain.Avalanche:
+    case Chain.BinanceSmartChain:
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey)
         throw new Error('Ethplorer API key not found');
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
 
-      const { getProvider, ETHToolbox, AVAXToolbox } = await import('@thorswap-lib/toolbox-evm');
+      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
+        '@thorswap-lib/toolbox-evm'
+      );
 
       const provider = getProvider(chain);
       const signer = await getEVMSigner({ walletconnect, chain, provider });
@@ -68,7 +76,9 @@ const getToolbox = async ({
       const toolbox =
         chain === Chain.Ethereum
           ? ETHToolbox({ provider, signer, ethplorerApiKey: ethplorerApiKey as string })
-          : AVAXToolbox({ provider, signer, covalentApiKey });
+          : chain === Chain.Avalanche
+          ? AVAXToolbox({ provider, signer, covalentApiKey })
+          : BSCToolbox({ provider, signer, covalentApiKey });
 
       return toolbox;
     }
@@ -116,8 +126,8 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.THORChain: {
-      const { getDenomWithChain, ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
-      const toolbox = ThorchainToolbox({ stagenet: false });
+      const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const toolbox = ThorchainToolbox({ stagenet });
 
       const signRequest = (signDoc: StdSignDoc) =>
         walletconnect?.client.request({
@@ -150,12 +160,6 @@ const getToolbox = async ({
           type: 'thorchain/MsgSend',
           value: sendCoinsMessage,
         };
-
-        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
-        const { makeSignDoc } = await import('@cosmjs/amino');
-        const { fromBase64 } = await import('@cosmjs/encoding');
-        const { StargateClient } = await import('@cosmjs/stargate');
-        const { Int53 } = await import('@cosmjs/math');
 
         const signDoc = makeSignDoc(
           [msg],
@@ -218,7 +222,9 @@ const getToolbox = async ({
         });
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const broadcaster = await StargateClient.connect(
+          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
+        );
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -230,28 +236,8 @@ const getToolbox = async ({
         if (!account.pubkey) throw new Error('Account pubkey not found');
         const { accountNumber, sequence = 0 } = account;
 
-        const msg = {
-          type: 'thorchain/MsgDeposit',
-          value: {
-            coins: [
-              {
-                amount: amount.amount().toString(),
-                asset: getDenomWithChain(asset).toUpperCase(),
-              },
-            ],
-            memo,
-            signer: address,
-          },
-        };
-
-        const { makeSignDoc } = await import('@cosmjs/amino');
-        const { fromBase64 } = await import('@cosmjs/encoding');
-        const { StargateClient } = await import('@cosmjs/stargate');
-        const { Int53 } = await import('@cosmjs/math');
-        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
-
         const signDoc = makeSignDoc(
-          [msg],
+          [toolbox.createDepositMessage(asset, amount, address, memo)],
           DEFAULT_THORCHAIN_FEE,
           ChainId.THORChain,
           memo,
@@ -262,7 +248,7 @@ const getToolbox = async ({
         const signature: any = await signRequest(signDoc);
 
         const txObj = {
-          msg: [msg],
+          msg: [toolbox.createDepositMessage(asset, amount, address, memo, true)],
           fee: DEFAULT_THORCHAIN_FEE,
           memo,
           signatures: [
@@ -311,7 +297,9 @@ const getToolbox = async ({
         });
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const broadcaster = await StargateClient.connect(
+          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
+        );
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -369,13 +357,14 @@ export type Walletconnect = Awaited<ReturnType<typeof getWalletconnect>>;
 const connectWalletconnect =
   ({
     addChain,
-    config: { ethplorerApiKey, walletConnectProjectId, covalentApiKey },
+    config: { ethplorerApiKey, walletConnectProjectId, covalentApiKey, stagenet = false },
   }: {
     addChain: any;
     config: {
       covalentApiKey?: string;
       ethplorerApiKey?: string;
       walletConnectProjectId?: string;
+      stagenet?: boolean;
     };
   }) =>
   async (
@@ -403,6 +392,7 @@ const connectWalletconnect =
         walletconnect,
         ethplorerApiKey,
         covalentApiKey,
+        stagenet,
       });
 
       addChain({

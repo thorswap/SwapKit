@@ -28,7 +28,7 @@ const viteConfig = thorswapViteConfig(name, {
         '@types/bchaddrjs',
         'base64-js',
         'bchaddrjs',
-        'bech32',
+        '@scure/base',
         'bitcoinjs-lib',
         'bn.js',
         'coininfo',

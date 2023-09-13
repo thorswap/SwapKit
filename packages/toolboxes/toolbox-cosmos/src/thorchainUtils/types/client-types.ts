@@ -63,6 +63,13 @@ export type CommonCosmosToolboxType = {
 export type ThorchainToolboxType = BaseCosmosToolboxType &
   CommonCosmosToolboxType & {
     deposit: (params: DepositParam & { from: string }) => Promise<string>;
+    createDepositMessage: (
+      asset: Asset,
+      amount: AmountWithBaseDenom,
+      address: string,
+      memo?: string,
+      forBroadcasting?: boolean,
+    ) => any;
     createDefaultRegistry: () => Promise<Registry>;
     createDefaultAminoTypes: () => Promise<AminoTypes>;
     createMultisig: (pubKeys: string[], threshold: number) => Promise<MultisigThresholdPubkey>;

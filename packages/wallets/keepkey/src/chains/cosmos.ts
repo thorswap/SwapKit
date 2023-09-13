@@ -106,4 +106,4 @@ export const cosmosWalletMethods = async function (params: CosmosWalletMethodsPa
   } catch (e) {
     console.error(e);
   }
-};
+}

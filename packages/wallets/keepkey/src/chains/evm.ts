@@ -1,10 +1,11 @@
 import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber } from '@ethersproject/bignumber';
 // import { BigNumber } from '@ethersproject/bignumber';
-import { JsonRpcProvider, Provider } from '@ethersproject/providers';
+import type { JsonRpcProvider, Provider } from '@ethersproject/providers';
 // import { serialize } from '@ethersproject/transactions';
 // import { derivationPathToString } from '@thorswap-lib/helpers';
-import { Chain, ChainToChainId, DerivationPathArray, EVMTxParams } from '@thorswap-lib/types';
+import type { Chain, DerivationPathArray, EVMTxParams } from '@thorswap-lib/types';
+import { ChainToChainId } from '@thorswap-lib/types';
 // import TrezorConnect from '@trezor/connect-web';
 
 interface KeepKeyEVMSignerParams {
