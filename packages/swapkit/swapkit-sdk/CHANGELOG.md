@@ -1,5 +1,12 @@
 # @thorswap-lib/swapkit-sdk
 
+## 0.1.0-development.96
+
+### Patch Changes
+
+- Updated dependencies [[`480b315`](https://github.com/thorswap/SwapKit/commit/480b315f6b48ebe10fc9007e850072033e252b40)]:
+  - @thorswap-lib/ledger@1.0.0-development.252
+
 ## 0.1.0-development.95
 
 ### Patch Changes
