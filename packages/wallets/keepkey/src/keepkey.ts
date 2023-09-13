@@ -15,7 +15,7 @@ import { Chain, WalletOption } from '@thorswap-lib/types';
 import { binanceWalletMethods } from './chains/binance.js';
 import { cosmosWalletMethods } from './chains/cosmos.js';
 import { getEVMSigner } from './chains/evm.js';
-import { thorchainWalletMethods } from './chains/thorchain.js';
+import { thorChainWalletMethods } from './chains/thorchain.js';
 import { utxoWalletMethods } from './chains/utxo.js';
 
 export const KEEPKEY_SUPPORTED_CHAINS = [
@@ -100,7 +100,7 @@ const getToolbox = async (params: KeepKeyParams) => {
       return { address, walletMethods };
     }
     case Chain.THORChain: {
-      const walletMethods = await thorchainWalletMethods({ sdk, stagenet: false });
+      const walletMethods = await thorChainWalletMethods({ sdk, stagenet: false });
       let address = await walletMethods.getAddress();
       return { address, walletMethods };
     }
