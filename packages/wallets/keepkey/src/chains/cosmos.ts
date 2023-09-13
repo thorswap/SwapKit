@@ -1,21 +1,25 @@
-// @ts-ignore
+import { KeepKeySdk } from '@keepkey/keepkey-sdk';
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
-import type { Amount } from '@thorswap-lib/swapkit-entities';
 import { AssetAtom, GaiaToolbox, getDenom } from '@thorswap-lib/toolbox-cosmos';
-import type { TxParams } from '@thorswap-lib/types';
-import { Chain } from '@thorswap-lib/types';
+import { Chain, RPCUrl, TxParams } from '@thorswap-lib/types';
+import { StargateClient } from '@cosmjs/stargate';
 
 export type SignTransactionTransferParams = {
-  amount: Amount;
+  asset: string;
+  amount: any;
   to: string;
   from: string;
-  memo: string;
+  memo: string | undefined;
 };
 
-export const cosmosWalletMethods: any = async function (params: any) {
+type CosmosWalletMethodsParams = {
+  sdk: KeepKeySdk;
+  api?: any;
+};
+
+export const cosmosWalletMethods = async function (params: CosmosWalletMethodsParams) {
   try {
-    let { sdk, stagenet, api } = params;
-    if (!stagenet) stagenet = false;
+    let { sdk, api } = params;
     const toolbox = GaiaToolbox({ server: api });
     const getAddress = async () =>
       (
@@ -26,18 +30,18 @@ export const cosmosWalletMethods: any = async function (params: any) {
 
     let signTransactionTransfer = async function (params: SignTransactionTransferParams) {
       try {
-        console.log('cosmos params', params);
         const { amount, to, from, memo } = params;
         const accountInfo = await toolbox.getAccount(from);
-
+        
         const body = {
           signDoc: {
+            // TODO: Have gas passed in as a param, ideally a value from a real-time API
             fee: {
-              gas: '0',
+              gas: '290000',
               amount: [
                 {
                   denom: 'uatom',
-                  amount: '1000',
+                  amount: '5000',
                 },
               ],
             },
@@ -47,48 +51,59 @@ export const cosmosWalletMethods: any = async function (params: any) {
                   amount: [
                     {
                       denom: 'uatom',
-                      amount, // todo: decimals are correct?
-                    },
+                      amount
+                    }
                   ],
                   to_address: to,
-                  from_address: from,
+                  from_address: from
                 },
-                type: 'cosmos-sdk/MsgSend',
-              },
+                type: 'cosmos-sdk/MsgSend'
+              }
             ],
             memo,
             sequence: accountInfo?.sequence.toString(),
             chain_id: 'cosmoshub-4',
             account_number: accountInfo?.accountNumber.toString(),
           },
-          signerAddress: from,
-        };
-        console.log('cosmos body', body);
-        return sdk.cosmos.cosmosSignAmino(body);
+          signerAddress: from
+        }
+
+        const keepKeySignedTx = await sdk.cosmos.cosmosSignAmino(body);
+
+        const decodedBytes = atob(keepKeySignedTx.serialized);
+        const uint8Array = new Uint8Array(decodedBytes.length);
+        for (let i = 0; i < decodedBytes.length; i++) {
+          uint8Array[i] = decodedBytes.charCodeAt(i);
+        }
+
+        const client = await StargateClient.connect(RPCUrl.Cosmos)
+        const response = await client.broadcastTx(uint8Array);
+
+        return response.transactionHash
       } catch (e) {
         console.error(e);
       }
     };
+
     const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
       let from = await getAddress();
-      return signTransactionTransfer({
+      const response = await signTransactionTransfer({
         from,
         to: recipient,
         asset: getDenom(asset || AssetAtom),
-        // @ts-ignore
         amount: amount.amount().toString(),
-        memo: memo || '',
+        memo,
       });
+
+      return response;
     };
 
     return {
       ...toolbox,
       getAddress,
-      signTransactionTransfer,
       transfer,
     };
   } catch (e) {
     console.error(e);
-    throw e;
   }
-};
+}

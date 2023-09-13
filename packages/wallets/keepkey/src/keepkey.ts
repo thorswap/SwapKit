@@ -34,25 +34,22 @@ export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.THORChain,
 ] as const;
 
+// todo...remove this copypasta?
 type KeepKeyOptions = {
   ethplorerApiKey?: string;
   utxoApiKey?: string;
   covalentApiKey?: string;
-  trezorManifest?: {
-    email: string;
-    appUrl: string;
-  };
 };
 
-type Params = KeepKeyOptions & {
-  sdk: any;
+export type KeepKeyParams = KeepKeyOptions & {
+  sdk: KeepKeySdk;
   chain: Chain;
   derivationPath: DerivationPathArray;
   rpcUrl?: string;
   api?: any;
 };
 
-const getToolbox = async (params: Params) => {
+const getToolbox = async (params: KeepKeyParams) => {
   const { sdk, api, rpcUrl, chain, ethplorerApiKey, covalentApiKey, derivationPath, utxoApiKey } =
     params;
 
@@ -93,12 +90,12 @@ const getToolbox = async (params: Params) => {
       return { address, walletMethods: { ...walletMethods, getAddress: () => address } };
     }
     case Chain.Binance: {
-      const walletMethods = await binanceWalletMethods({ sdk, stagenet: false });
+      const walletMethods = await binanceWalletMethods({ sdk });
       let address = await walletMethods.getAddress();
       return { address, walletMethods };
     }
     case Chain.Cosmos: {
-      const walletMethods = await cosmosWalletMethods({ sdk, api, stagenet: false });
+      const walletMethods = await cosmosWalletMethods({ sdk, api });
       let address = await walletMethods.getAddress();
       return { address, walletMethods };
     }
@@ -151,7 +148,7 @@ const connectKeepKey =
   async (chain: (typeof KEEPKEY_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
     const spec = 'http://localhost:1646/spec/swagger.json';
 
-    //test spec: if offline, launch keepkey-bridge
+    // test spec: if offline, launch keepkey-bridge
     let attempt = 0;
     const checkAndLaunch = async () => {
       attempt++;
@@ -168,7 +165,7 @@ const connectKeepKey =
       }
     };
 
-    checkAndLaunch();
+    await checkAndLaunch();
 
     const apiKey = localStorage.getItem('apiKey') || '1234';
     const config: any = {
@@ -182,11 +179,11 @@ const connectKeepKey =
     };
 
     // init
-    const sdk = await KeepKeySdk.create(config);
+    const keepKeySdk = await KeepKeySdk.create(config);
     if (config.apiKey !== apiKey) localStorage.setItem('apiKey', config.apiKey);
 
     const { address, walletMethods } = await getToolbox({
-      sdk,
+      sdk: keepKeySdk,
       api: apis[chain],
       rpcUrl: rpcUrls[chain],
       chain,
