@@ -2,14 +2,23 @@
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
 import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
 import { AssetRuneNative, getDenom, ThorchainToolbox } from '@thorswap-lib/toolbox-cosmos';
-import type { WalletTxParams } from '@thorswap-lib/types';
-import { Chain } from '@thorswap-lib/types';
+import type { TxParams, WalletTxParams } from '@thorswap-lib/types';
+import { Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
+import { KeepKeyParams } from '../keepkey.ts';
+import { StargateClient } from '@cosmjs/stargate';
 
-export const thorchainWalletMethods: any = async function (params: any) {
+type SignTransactionTransferParams = {
+  asset: string;
+  amount: any;
+  to: string;
+  from: string;
+  memo: string | undefined;
+}
+
+export const thorChainWalletMethods = async function (params: KeepKeyParams) {
   try {
-    let { sdk, stagenet } = params;
-    if (!stagenet) stagenet = false;
-    const toolbox = ThorchainToolbox({ stagenet });
+    const { sdk } = params;
+    const toolbox = ThorchainToolbox({ stagenet: !'smeshnet' });
 
     const getAddress = async () =>
       (
@@ -18,162 +27,73 @@ export const thorchainWalletMethods: any = async function (params: any) {
         })
       ).address;
 
-    //TODO signTransaction
-    let signTransactionDeposit = async (params: any) => {
+    const signTransactionTransfer = async (params: SignTransactionTransferParams) => {
       try {
-        //TODO use toolbox to build this tx
-        let { amount, from, memo } = params;
-        let addressInfo = addressInfoForCoin(Chain.THORChain, false, 'p2wkh');
-        let accountInfo = await toolbox.getAccount(from);
+        const { amount, asset, to, from, memo } = params;
+        console.log('amount!!!!!!!!', amount);
+        const addressInfo = addressInfoForCoin(Chain.THORChain, false); // @highlander no witness script here
+        const accountInfo = await toolbox.getAccount(from);
 
-        let msg = {
-          addressNList: addressInfo.address_n,
-          tx: {
-            msgs: [
-              {
-                type: 'thorchain/MsgDeposit',
-                value: {
-                  amount: {
-                    amount: amount.toString(),
-                    asset: 'THOR.RUNE',
-                  },
-                  signer: from,
-                  memo,
-                },
-              },
-            ],
-            fee: {
-              gas: '0',
-              amount: [
-                {
-                  denom: 'rune',
-                  amount: '1000',
-                },
-              ],
-            },
-            signatures: [],
-            memo,
-          },
-          sequence: accountInfo?.sequence.toString(),
-          accountNumber: accountInfo?.accountNumber.toString(),
-        };
-        let input = {
+        const body = {
           signDoc: {
-            account_number: accountInfo?.accountNumber.toString(),
-            chain_id: 'thorchain',
-            msgs: msg.tx.msgs,
-            memo: msg.tx.memo ?? '',
-            sequence: accountInfo?.sequence.toString(),
+            account_number: accountInfo?.accountNumber?.toString() ?? '0',
+            chain_id: ChainId.THORChain,
+            // TODO: fees should not be hardcoded
             fee: {
-              amount: [
-                {
-                  amount: '2500',
-                  denom: 'rune',
-                },
-              ],
-              gas: '250000',
+              gas: '500000000',
+              amount: []
             },
-          },
-          signerAddress: from,
-        };
-        let responseSign = await sdk.thorchain.thorchainSignAminoDeposit({
-          addressNList: addressInfo.address_n,
-          chain_id: 'thorchain',
-          account_number: accountInfo?.accountNumber.toString(),
-          sequence: accountInfo?.sequence.toString(),
-          tx: input.signDoc,
-        });
-        return responseSign.signDoc;
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    //TODO signDesposit
-    let signTransactionTransfer = async (params: any) => {
-      try {
-        let { amount, to, from, memo } = params;
-        let addressInfo = addressInfoForCoin(Chain.THORChain, false, 'p2wkh');
-        let accountInfo = await toolbox.getAccount(from);
-
-        let msg = {
-          addressNList: addressInfo.address_n,
-          tx: {
-            msgs: [
+            msg: [
               {
-                type: 'thorchain/MsgSend',
                 value: {
                   amount: {
-                    amount: amount.toString(),
-                    //TODO bignum? BigNumber.from(value || 0)
                     denom: 'rune',
+                    amount: amount.amount().toString()
                   },
-                  from_address: from,
                   to_address: to,
+                  from_address: from
                 },
-              },
+                type: 'thorchain/MsgSend'
+              }
             ],
-            fee: {
-              gas: '0',
-              amount: [
-                {
-                  denom: 'rune',
-                  amount: '1000',
-                },
-              ],
-            },
-            signatures: [],
             memo,
+            sequence: accountInfo?.sequence.toString() ?? '0',
+            source: addressInfo?.source?.toString() ?? '0'
           },
-          sequence: accountInfo?.sequence.toString(),
-          accountNumber: accountInfo?.accountNumber.toString(),
-        };
-        let input = {
-          signDoc: {
-            account_number: accountInfo?.accountNumber.toString(),
-            chain_id: 'thorchain',
-            msgs: msg.tx.msgs,
-            memo: msg.tx.memo ?? '',
-            sequence: accountInfo?.sequence.toString(),
-            fee: {
-              amount: [
-                {
-                  amount: '2500',
-                  denom: 'rune',
-                },
-              ],
-              gas: '250000',
-            },
-          },
-          signerAddress: from,
-        };
-        let responseSign = await sdk.thorchain.thorchainSignAminoTransfer({
-          addressNList: addressInfo.address_n,
-          chain_id: 'thorchain',
-          account_number: accountInfo?.accountNumber.toString(),
-          sequence: accountInfo?.sequence.toString(),
-          tx: input.signDoc,
-        });
-        return responseSign.signDoc;
+          signerAddress: from
+        }
 
-        // return '';
+        const [keepKeyResponse, stargateClient] = await Promise.all([
+          sdk.thorchain.thorchainSignAminoTransfer(body),
+          StargateClient.connect(RPCUrl.THORChain)
+        ])
+
+        const decodedBytes = atob(keepKeyResponse.serialized)
+        const uint8Array = new Uint8Array(decodedBytes.length)
+        for (let i = 0; i < decodedBytes.length; i++) {
+          uint8Array[i] = decodedBytes.charCodeAt(i)
+        }
+
+        const broadcastResponse = await stargateClient.broadcastTx(uint8Array)
+
+        return broadcastResponse.transactionHash
       } catch (e) {
         console.error(e);
       }
-    };
+    }
 
     const transfer = async ({
       asset = AssetRuneNative,
       amount,
       recipient,
-      memo,
-    }: WalletTxParams) => {
+      memo
+    }: TxParams) => {
       let fromAddress = await getAddress();
       return signTransactionTransfer({
         from: fromAddress,
         to: recipient,
         asset: getDenom(asset || AssetRuneNative),
-        amount: amount.amount().toString(),
+        amount,
         memo,
       });
     };
@@ -181,16 +101,15 @@ export const thorchainWalletMethods: any = async function (params: any) {
     const deposit = async ({ asset = AssetRuneNative, amount, memo }: DepositParam) => {
       let fromAddress = await getAddress();
       return signTransactionDeposit({ asset, amount, memo, from: fromAddress });
-    };
+    }
 
     return {
       ...toolbox,
       getAddress,
       transfer,
-      deposit,
-    };
+      deposit
+    }
   } catch (e) {
     console.error(e);
-    throw e;
   }
-};
+}

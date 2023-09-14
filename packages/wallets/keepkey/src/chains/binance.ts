@@ -1,6 +1,5 @@
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
 import { AssetAtom, BinanceToolbox, getDenom } from '@thorswap-lib/toolbox-cosmos';
-import type { TxParams } from '@thorswap-lib/types';
 import { Chain, ChainId } from '@thorswap-lib/types';
 import { KeepKeyParams } from '../keepkey.ts';
 
@@ -14,7 +13,7 @@ type SignTransactionTransferParams = {
 
 export const binanceWalletMethods: any = async function (params: KeepKeyParams) {
   try {
-    let { sdk } = params;
+    const { sdk } = params;
     const toolbox = BinanceToolbox();
 
     const getAddress = async () =>
@@ -26,9 +25,9 @@ export const binanceWalletMethods: any = async function (params: KeepKeyParams) 
 
     const signTransactionTransfer = async function (params: SignTransactionTransferParams) {
       try {
-        let { amount, to, from, memo } = params;
-        let addressInfo = addressInfoForCoin(Chain.Binance, false);
-        let accountInfo = await toolbox.getAccount(from);
+        const  { amount, to, from, memo } = params;
+        const addressInfo = addressInfoForCoin(Chain.Binance, false);
+        const accountInfo = await toolbox.getAccount(from);
 
         const body = {
           signDoc: {
@@ -54,7 +53,6 @@ export const binanceWalletMethods: any = async function (params: KeepKeyParams) 
                       {
                         denom: Chain.Binance,
                         amount
-                        
                       },
                     ],
                   },
@@ -77,10 +75,10 @@ export const binanceWalletMethods: any = async function (params: KeepKeyParams) 
       }
     };
 
-    const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
-      let from = await getAddress();
+    const transfer = async ({ asset, amount, recipient, sender, memo }: TxParams) => {
+      const from = await getAddress();
       return signTransactionTransfer({
-        from: from,
+        from: sender,
         to: recipient,
         asset: getDenom(asset || AssetAtom),
         amount: amount.amount().toString(),

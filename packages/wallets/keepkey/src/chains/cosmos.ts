@@ -86,14 +86,14 @@ export const cosmosWalletMethods = async function (params: CosmosWalletMethodsPa
     };
 
     const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
-      let from = await getAddress();
+      let from = await getAddress()
       const response = await signTransactionTransfer({
         from,
         to: recipient,
         asset: getDenom(asset || AssetAtom),
         amount: amount.amount().toString(),
         memo,
-      });
+      })
 
       return response;
     };
