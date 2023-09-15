@@ -252,19 +252,17 @@ export const estimateMaxSendableAmount = async ({
   feeRate,
   feeOptionKey = FeeOption.Fast,
   recipients = 1,
-  ...baseParams
+  apiClient,
 }: UTXOEstimateFeeParams & UTXOBaseToolboxParams): Promise<AmountWithBaseDenom> => {
-  const balance = (await getBalance({ address: from, ...baseParams }))[0];
-  const feeRateWhole = feeRate
-    ? Math.ceil(feeRate)
-    : (await getFeeRates(baseParams.apiClient))[feeOptionKey];
-  const inputs = (
-    await baseParams.apiClient.scanUTXOs({
-      address: from,
-    })
-  ).map((utxo) => ({
+  const addressData = await apiClient.getAddressData(from);
+  const balance = baseAmount(addressData.address.balance, BaseDecimal.BTC);
+  const feeRateWhole = feeRate ? Math.ceil(feeRate) : (await getFeeRates(apiClient))[feeOptionKey];
+  // TODO: use node to get utxo data for witness data
+  const inputs = addressData.utxo.map((utxo) => ({
     ...utxo,
-    type: utxo.witnessUtxo ? UTXOScriptType.P2WPKH : UTXOScriptType.P2PKH,
+    // type: utxo.witnessUtxo ? UTXOScriptType.P2WPKH : UTXOScriptType.P2PKH,
+    type: UTXOScriptType.P2PKH,
+    hash: '',
   }));
 
   let outputs =
@@ -285,7 +283,7 @@ export const estimateMaxSendableAmount = async ({
 
   const fee = Math.max(MIN_TX_FEE, txSize * feeRateWhole);
 
-  return baseAmount(balance.amount.minus(baseAmount(fee, 8)).amount(), 8);
+  return baseAmount(balance.minus(baseAmount(fee, 8)).amount(), 8);
 };
 
 export const BaseUTXOToolbox = (

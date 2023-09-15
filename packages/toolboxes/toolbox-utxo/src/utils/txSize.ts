@@ -43,7 +43,7 @@ export const OutputSizes: Record<UTXOScriptType, number> = {
 };
 
 export const getScriptTypeForAddress = (address: string) => {
-  if (address.startsWith('bc1') || address.startsWith('lt1')) {
+  if (address.startsWith('bc1') || address.startsWith('ltc1')) {
     return UTXOScriptType.P2WPKH;
   }
   //   if (address.startsWith('3') || address.startsWith('M')) {
