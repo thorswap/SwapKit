@@ -96,6 +96,7 @@ const getToolbox = async (params: KeepKeyParams) => {
     }
     case Chain.Cosmos: {
       const walletMethods = await cosmosWalletMethods({ sdk, api });
+      // @ts-ignore
       let address = await walletMethods.getAddress();
       return { address, walletMethods };
     }

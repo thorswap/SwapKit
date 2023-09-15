@@ -273,7 +273,7 @@ const getToolbox = async ({
         if (!account.pubkey) throw new Error('Account pubkey not found');
 
         const unsignedMsgs = recursivelyOrderKeys([
-          toolbox.createDepositMessage(asset, amount, address, memo)
+          toolbox.createDepositMessage(asset, amount, address, memo),
         ]);
         const fee = { amount: [], gas: THORCHAIN_DEPOSIT_GAS_FEE };
         const sequence = account.sequence?.toString() || '0';
@@ -296,7 +296,11 @@ const getToolbox = async ({
         const signedTxBody: TxBodyEncodeObject = {
           typeUrl: '/cosmos.tx.v1beta1.TxBody',
           value: {
-            messages: [aminoTypes.fromAmino(toolbox.createDepositMessage(asset, amount, address, memo, true))],
+            messages: [
+              aminoTypes.fromAmino(
+                toolbox.createDepositMessage(asset, amount, address, memo, true),
+              ),
+            ],
             memo,
           },
         };
@@ -323,7 +327,9 @@ const getToolbox = async ({
 
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain);
+        const broadcaster = await StargateClient.connect(
+          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
+        );
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -408,7 +414,9 @@ const getToolbox = async ({
 
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain);
+        const broadcaster = await StargateClient.connect(
+          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
+        );
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };

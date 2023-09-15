@@ -1,1 +1,2 @@
-export * from './keepkey.js';
+// @ts-ignore
+export * from './keepkey.ts';

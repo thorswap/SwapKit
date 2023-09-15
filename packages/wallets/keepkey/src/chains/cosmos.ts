@@ -1,8 +1,10 @@
-import { KeepKeySdk } from '@keepkey/keepkey-sdk';
+import { StargateClient } from '@cosmjs/stargate';
+import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
+// @ts-ignore
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
 import { AssetAtom, GaiaToolbox, getDenom } from '@thorswap-lib/toolbox-cosmos';
-import { Chain, RPCUrl, TxParams } from '@thorswap-lib/types';
-import { StargateClient } from '@cosmjs/stargate';
+import type { TxParams } from '@thorswap-lib/types';
+import { Chain, RPCUrl } from '@thorswap-lib/types';
 
 export type SignTransactionTransferParams = {
   asset: string;
@@ -17,7 +19,7 @@ type CosmosWalletMethodsParams = {
   api?: any;
 };
 
-export const cosmosWalletMethods = async function (params: CosmosWalletMethodsParams) {
+export const cosmosWalletMethods: any = async function (params: CosmosWalletMethodsParams) {
   try {
     let { sdk, api } = params;
     const toolbox = GaiaToolbox({ server: api });
@@ -32,7 +34,7 @@ export const cosmosWalletMethods = async function (params: CosmosWalletMethodsPa
       try {
         const { amount, to, from, memo } = params;
         const accountInfo = await toolbox.getAccount(from);
-        
+
         const body = {
           signDoc: {
             // TODO: Have gas passed in as a param, ideally a value from a real-time API
@@ -51,23 +53,24 @@ export const cosmosWalletMethods = async function (params: CosmosWalletMethodsPa
                   amount: [
                     {
                       denom: 'uatom',
-                      amount
-                    }
+                      amount,
+                    },
                   ],
                   to_address: to,
-                  from_address: from
+                  from_address: from,
                 },
-                type: 'cosmos-sdk/MsgSend'
-              }
+                type: 'cosmos-sdk/MsgSend',
+              },
             ],
             memo,
             sequence: accountInfo?.sequence.toString(),
             chain_id: 'cosmoshub-4',
             account_number: accountInfo?.accountNumber.toString(),
           },
-          signerAddress: from
-        }
+          signerAddress: from,
+        };
 
+        // @ts-ignore
         const keepKeySignedTx = await sdk.cosmos.cosmosSignAmino(body);
 
         const decodedBytes = atob(keepKeySignedTx.serialized);
@@ -76,24 +79,25 @@ export const cosmosWalletMethods = async function (params: CosmosWalletMethodsPa
           uint8Array[i] = decodedBytes.charCodeAt(i);
         }
 
-        const client = await StargateClient.connect(RPCUrl.Cosmos)
+        const client = await StargateClient.connect(RPCUrl.Cosmos);
         const response = await client.broadcastTx(uint8Array);
 
-        return response.transactionHash
+        return response.transactionHash;
       } catch (e) {
         console.error(e);
+        throw e;
       }
     };
 
     const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
-      let from = await getAddress()
+      let from = await getAddress();
       const response = await signTransactionTransfer({
         from,
         to: recipient,
         asset: getDenom(asset || AssetAtom),
         amount: amount.amount().toString(),
         memo,
-      })
+      });
 
       return response;
     };
@@ -105,5 +109,6 @@ export const cosmosWalletMethods = async function (params: CosmosWalletMethodsPa
     };
   } catch (e) {
     console.error(e);
+    throw e;
   }
-}
+};

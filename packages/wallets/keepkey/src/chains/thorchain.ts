@@ -1,11 +1,13 @@
 // @ts-ignore
-import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
-import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
-import { AssetRuneNative, getDenom, ThorchainToolbox } from '@thorswap-lib/toolbox-cosmos';
-import type { TxParams, WalletTxParams } from '@thorswap-lib/types';
-import { Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
-import { KeepKeyParams } from '../keepkey.ts';
 import { StargateClient } from '@cosmjs/stargate';
+// @ts-ignore
+import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
+import { AssetRuneNative, getDenom, ThorchainToolbox } from '@thorswap-lib/toolbox-cosmos';
+import type { TxParams } from '@thorswap-lib/types';
+import { Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
+
+// @ts-ignore
+import type { KeepKeyParams } from '../keepkey.ts';
 
 type SignTransactionTransferParams = {
   asset: string;
@@ -13,10 +15,10 @@ type SignTransactionTransferParams = {
   to: string;
   from: string;
   memo: string | undefined;
-}
+};
 
 // @ts-ignore
-export const thorChainWalletMethods = async function (params: KeepKeyParams) {
+export const thorChainWalletMethods: any = async function (params: KeepKeyParams) {
   try {
     const { sdk } = params;
     const toolbox = ThorchainToolbox({ stagenet: !'smeshnet' });
@@ -40,54 +42,52 @@ export const thorChainWalletMethods = async function (params: KeepKeyParams) {
             chain_id: ChainId.THORChain,
             fee: {
               gas: '500000000',
-              amount: []
+              amount: [],
             },
             msgs: [
               {
                 value: {
-                  amount: [{
-                    denom: asset.toLowerCase(),
-                    amount: amount.amount().toString()
-                  }],
+                  amount: [
+                    {
+                      denom: asset.toLowerCase(),
+                      amount: amount.amount().toString(),
+                    },
+                  ],
                   to_address: to,
-                  from_address: from
+                  from_address: from,
                 },
-                type: 'thorchain/MsgSend'
-              }
+                type: 'thorchain/MsgSend',
+              },
             ],
             memo,
             sequence: accountInfo?.sequence.toString() ?? '0',
-            source: addressInfo?.source?.toString() ?? '0'
+            source: addressInfo?.source?.toString() ?? '0',
           },
-          signerAddress: from
-        }
+          signerAddress: from,
+        };
 
         const [keepKeyResponse, stargateClient] = await Promise.all([
+          // @ts-ignore
           sdk.thorchain.thorchainSignAminoTransfer(body),
-          StargateClient.connect(RPCUrl.THORChain)
-        ])
+          StargateClient.connect(RPCUrl.THORChain),
+        ]);
 
-        const decodedBytes = atob(keepKeyResponse.serialized)
-        const uint8Array = new Uint8Array(decodedBytes.length)
+        const decodedBytes = atob(keepKeyResponse.serialized);
+        const uint8Array = new Uint8Array(decodedBytes.length);
         for (let i = 0; i < decodedBytes.length; i++) {
-          uint8Array[i] = decodedBytes.charCodeAt(i)
+          uint8Array[i] = decodedBytes.charCodeAt(i);
         }
 
-        const broadcastResponse = await stargateClient.broadcastTx(uint8Array)
+        const broadcastResponse = await stargateClient.broadcastTx(uint8Array);
 
-        return broadcastResponse.transactionHash
+        return broadcastResponse.transactionHash;
       } catch (e) {
         console.error(e);
-        throw e
+        throw e;
       }
-    }
+    };
 
-    const transfer = async ({
-      asset = AssetRuneNative,
-      amount,
-      recipient,
-      memo
-    }: TxParams) => {
+    const transfer = async ({ asset = AssetRuneNative, amount, recipient, memo }: TxParams) => {
       let fromAddress = await getAddress();
       return signTransactionTransfer({
         from: fromAddress,
@@ -108,8 +108,8 @@ export const thorChainWalletMethods = async function (params: KeepKeyParams) {
       getAddress,
       transfer,
       // deposit
-    }
+    };
   } catch (e) {
     console.error(e);
   }
-}
+};

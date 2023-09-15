@@ -1,8 +1,11 @@
+// @ts-ignore
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
 import { AssetAtom, BinanceToolbox, getDenom } from '@thorswap-lib/toolbox-cosmos';
 import type { TxParams } from '@thorswap-lib/types';
 import { Chain, ChainId } from '@thorswap-lib/types';
-import { KeepKeyParams } from '../keepkey.ts';
+
+// @ts-ignore
+import type { KeepKeyParams } from '../keepkey.js';
 
 type SignTransactionTransferParams = {
   asset: string;
@@ -26,7 +29,7 @@ export const binanceWalletMethods: any = async function (params: KeepKeyParams) 
 
     const signTransactionTransfer = async function (params: SignTransactionTransferParams) {
       try {
-        const  { amount, to, from, memo } = params;
+        const { amount, to, from, memo } = params;
         const addressInfo = addressInfoForCoin(Chain.Binance, false);
         const accountInfo = await toolbox.getAccount(from);
 
@@ -42,7 +45,7 @@ export const binanceWalletMethods: any = async function (params: KeepKeyParams) 
                     coins: [
                       {
                         denom: Chain.Binance,
-                        amount
+                        amount,
                       },
                     ],
                   },
@@ -53,7 +56,7 @@ export const binanceWalletMethods: any = async function (params: KeepKeyParams) 
                     coins: [
                       {
                         denom: Chain.Binance,
-                        amount
+                        amount,
                       },
                     ],
                   },
@@ -62,14 +65,18 @@ export const binanceWalletMethods: any = async function (params: KeepKeyParams) 
             ],
             memo,
             sequence: accountInfo?.sequence.toString() ?? '0',
-            source: addressInfo?.source?.toString() ?? '0'
+            source: addressInfo?.source?.toString() ?? '0',
           },
-          signerAddress: from
-        }
+          signerAddress: from,
+        };
 
+        // @ts-ignore
         const keepKeyResponse = await sdk.bnb.bnbSignTransaction(body);
 
-        const broadcastResponse = await toolbox.sendRawTransaction(keepKeyResponse?.serialized, true);
+        const broadcastResponse = await toolbox.sendRawTransaction(
+          keepKeyResponse?.serialized,
+          true,
+        );
         return broadcastResponse?.[0]?.hash;
       } catch (e) {
         console.error(e);
@@ -79,6 +86,7 @@ export const binanceWalletMethods: any = async function (params: KeepKeyParams) 
     const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
       let from = await getAddress();
       return signTransactionTransfer({
+        // @ts-ignore
         from: from,
         to: recipient,
         asset: getDenom(asset || AssetAtom),

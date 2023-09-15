@@ -7,22 +7,11 @@ import type { UTXO } from '@thorswap-lib/types';
 import { Chain, FeeOption } from '@thorswap-lib/types';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
-import * as bitcoin from 'bitcoinjs-lib';
-
-let normalizeAddressNlist = function (derivationPath: any) {
-  let addressNlist = [
-    0x80000000 + derivationPath[0],
-    0x80000000 + derivationPath[1],
-    0x80000000 + derivationPath[2],
-    derivationPath[3],
-    derivationPath[4],
-  ];
-  return addressNlist;
-};
 
 export const utxoWalletMethods: any = async function (params: any) {
   try {
     let { sdk, chain, utxoApiKey, api, derivationPath } = params;
+    console.log('derivationPath: ', derivationPath);
     if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
     let toolbox: any = {};
     let isSegwit = false;
@@ -57,7 +46,7 @@ export const utxoWalletMethods: any = async function (params: any) {
           scriptType = 'p2pkh';
         }
         let addressInfo = addressInfoForCoin(chain, false, scriptType);
-        console.log("addressInfo",addressInfo)
+        console.log('addressInfo', addressInfo);
         let response = await sdk.address.utxoGetAddress(addressInfo);
         return response.address;
       } catch (e) {
@@ -68,7 +57,7 @@ export const utxoWalletMethods: any = async function (params: any) {
 
     const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '') => {
       let outputs: any[] = psbt.txOutputs.map((output: any) => {
-        console.log("output: ",output)
+        console.log('output: ', output);
         let outputAddress = output.address;
 
         if (chain === Chain.BitcoinCash && output.address) {
@@ -85,27 +74,15 @@ export const utxoWalletMethods: any = async function (params: any) {
         } else {
           outputAddress = outputAddress === address;
         }
-        if(output.address){
-          isChangeAddress = true
+        if (output.address) {
+          isChangeAddress = true;
         }
-        //TODO op_return logic
-        // if (!output.address) {
-        //   return {
-        //     op_return_data: Buffer.from(memo).toString('hex'),
-        //     amount: '0',
-        //     script_type: 'PAYTOOPRETURN',
-        //   };
-        // }
 
         if (isChangeAddress) {
           return {
-            addressNList: isSegwit ? [
-              2147483732,
-              2147483648,
-              2147483648,
-              0,
-              0
-            ] : [ 2147483692, 2147483648, 2147483648, 0, 0 ],
+            addressNList: isSegwit
+              ? [2147483732, 2147483648, 2147483648, 0, 0]
+              : [2147483692, 2147483648, 2147483648, 0, 0],
             isChange: true,
             addressType: 'change',
             amount: output.value,
@@ -129,29 +106,28 @@ export const utxoWalletMethods: any = async function (params: any) {
         if (output.address) outputKeepKey.address = output.address;
         if (output.isChange) {
           outputKeepKey.isChange = true;
-          outputKeepKey.addressNList = isSegwit ? [
-            2147483732,
-            2147483648,
-            2147483648,
-            0,
-            0
-          ] : [ 2147483692, 2147483648, 2147483648, 0, 0 ], //@TODO don't hardcode master, lookup new index blockbook! address re-use bad, shame!
-          outputKeepKey.scriptType = isSegwit ? 'p2wpkh' : 'p2pkh'
+          (outputKeepKey.addressNList = isSegwit
+            ? [2147483732, 2147483648, 2147483648, 0, 0]
+            : [2147483692, 2147483648, 2147483648, 0, 0]), //@TODO don't hardcode master, lookup new index blockbook! address re-use bad, shame!
+            (outputKeepKey.scriptType = isSegwit ? 'p2wpkh' : 'p2pkh');
         }
         outputsKeepKey.push(outputKeepKey);
       }
       outputs = outputsKeepKey;
 
-      let txToSign = {
+      let txToSign: any = {
         coin: COIN_MAP_KEEPKEY_LONG[chain],
         inputs,
         outputs,
         version: 1,
         locktime: 0,
       };
-      console.log("txToSign:",txToSign)
+      if (memo) {
+        txToSign.opReturnData = Buffer.from(memo, 'utf-8');
+      }
+      console.log('txToSign:', txToSign);
       let responseSign = await sdk.utxo.utxoSignTransaction(txToSign);
-      console.log("responseSign:",responseSign)
+      console.log('responseSign:', responseSign);
       return responseSign.serializedTx;
     };
 
@@ -174,20 +150,16 @@ export const utxoWalletMethods: any = async function (params: any) {
         sender: from,
         fetchTxHex: chain,
       });
-      console.log("psbt: ",psbt)
-      console.log("inputs: ",inputs)
+      console.log('psbt: ', psbt);
+      console.log('inputs: ', inputs);
 
       //convert inputs for keepkey
       let inputsKeepKey = [];
       for (const input of inputs) {
         const inputKeepKey: any = {
-          addressNList: isSegwit ? [
-              2147483732,
-              2147483648,
-              2147483648,
-              0,
-              0
-          ] : [ 2147483692, 2147483648, 2147483648, 0, 0 ], //@TODO don't hardcode master, lookup on blockbook what input this is for and what path that address is!
+          addressNList: isSegwit
+            ? [2147483732, 2147483648, 2147483648, 0, 0]
+            : [2147483692, 2147483648, 2147483648, 0, 0], //@TODO don't hardcode master, lookup on blockbook what input this is for and what path that address is!
           scriptType: 'p2pkh',
           amount: input.value.toString(),
           vout: input.index,
@@ -197,14 +169,13 @@ export const utxoWalletMethods: any = async function (params: any) {
         //if segwit I need script
         if (input.witnessUtxo && isSegwit) {
           inputKeepKey.scriptType = 'p2wpkh';
-
         }
         inputsKeepKey.push(inputKeepKey);
       }
       inputs = inputsKeepKey;
 
       const txHex = await signTransaction(psbt, inputs, memo);
-      console.log("txHex: ", txHex);
+      console.log('txHex: ', txHex);
       return toolbox.broadcastTx(txHex);
     };
 
