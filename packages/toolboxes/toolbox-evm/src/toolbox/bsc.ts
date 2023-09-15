@@ -1,9 +1,6 @@
-import type { Provider } from '@ethersproject/abstract-provider';
-import type { Signer } from '@ethersproject/abstract-signer';
-import type { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
-import { baseAmount } from '@thorswap-lib/helpers';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from '@thorswap-lib/types';
+import type { BrowserProvider, JsonRpcProvider, Provider, Signer } from 'ethers';
 
 import type { CovalentApiType } from '../api/covalentApi.ts';
 import { covalentApi } from '../api/covalentApi.ts';
@@ -15,10 +12,12 @@ export const getBalance = async (provider: Provider, api: CovalentApiType, addre
   const evmGasTokenBalance = await provider.getBalance(address);
 
   return [
-    {
-      asset: getSignatureAssetFor(Chain.BinanceSmartChain),
-      amount: baseAmount(evmGasTokenBalance, BaseDecimal.BSC),
-    },
+    new AssetValue({
+      chain: Chain.BinanceSmartChain,
+      symbol: Chain.BinanceSmartChain,
+      value: evmGasTokenBalance,
+      decimal: BaseDecimal.BSC,
+    }),
     ...tokenBalances,
   ];
 };
@@ -40,7 +39,7 @@ export const BSCToolbox = ({
   api?: CovalentApiType;
   covalentApiKey: string;
   signer: Signer;
-  provider: JsonRpcProvider | Web3Provider;
+  provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const bscApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.BinanceSmartChain });
   const baseToolbox = BaseEVMToolbox({ provider, signer, isEIP1559Compatible: false });

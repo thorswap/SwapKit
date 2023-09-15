@@ -1,12 +1,11 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@thorswap-lib/helpers": "workspace:*",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/types": "workspace:*"
   },
   "description": "THORSwap Lib okx",
   "devDependencies": {
-    "@ethersproject/providers": "^5.7.0",
     "@internal/config": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
@@ -14,7 +13,7 @@
     "@thorswap-lib/toolbox-utxo": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.4",
     "bitcoinjs-lib": "5.2.0",
-    "long": "5.2.3",
+    "ethers": "6.7.1",
     "vite": "4.4.9",
     "vitest": "0.34.4"
   },
@@ -38,12 +37,12 @@
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/okx",
   "peerDependencies": {
-    "@ethersproject/providers": "^5.7.0",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
-    "bitcoinjs-lib": "5.2.0"
+    "bitcoinjs-lib": "5.2.0",
+    "ethers": "^6.7.1"
   },
   "publishConfig": {
     "access": "public"

@@ -1,6 +1,6 @@
 import type { StdFee } from '@cosmjs/amino';
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
-import type { AssetEntity } from '@thorswap-lib/swapkit-entities';
+import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import type { ChainId, FeeOption } from '@thorswap-lib/types';
 import { Chain } from '@thorswap-lib/types';
 
@@ -55,6 +55,6 @@ export type CosmosLikeToolbox = GaiaToolboxType | BinanceToolboxType | Thorchain
 export type CosmosMaxSendableAmountParams = {
   toolbox: CosmosLikeToolbox;
   from: string;
-  asset?: AssetEntity | string;
+  asset?: AssetValue | string;
   feeOptionKey?: FeeOption;
 };

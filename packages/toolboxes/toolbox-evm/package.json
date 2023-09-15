@@ -1,28 +1,17 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@ethersproject/abstract-provider": "5.7.0",
-    "@ethersproject/abstract-signer": "5.7.0",
-    "@ethersproject/address": "5.7.0",
-    "@ethersproject/bignumber": "5.7.0",
-    "@ethersproject/bytes": "5.7.0",
-    "@ethersproject/constants": "5.7.0",
-    "@ethersproject/contracts": "5.7.0",
-    "@ethersproject/providers": "5.7.2",
-    "@ethersproject/strings": "5.7.0",
-    "@ethersproject/transactions": "5.7.0",
-    "@ethersproject/units": "5.7.0",
-    "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/swapkit-helpers": "workspace:*",
-    "@thorswap-lib/types": "workspace:*"
+    "@thorswap-lib/types": "workspace:*",
+    "ethers": "6.7.1"
   },
   "description": "THORSwap toolbox-evm",
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@keplr-wallet/types": "0.12.23",
     "@nomicfoundation/hardhat-network-helpers": "1.0.9",
-    "@nomiclabs/hardhat-ethers": "2.2.3",
+    "@nomicfoundation/hardhat-ethers": "3.0.4",
     "@types/node": "20.5.9",
     "@vitest/coverage-istanbul": "0.34.4",
     "hardhat": "2.17.2",

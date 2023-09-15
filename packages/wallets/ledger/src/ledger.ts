@@ -209,7 +209,7 @@ const getToolbox = async ({
         const gasPrice = '0.007uatom';
 
         const sendCoinsMessage = {
-          amount: [{ amount: amount.amount().toString(), denom: getDenom(asset.symbol) }],
+          amount: [{ amount: amount.baseValue, denom: getDenom(asset.symbol) }],
           fromAddress: from,
           toAddress: recipient,
         };
@@ -280,7 +280,7 @@ const getToolbox = async ({
               signer: address,
               coins: [
                 {
-                  amount: amount.amount().toString(),
+                  amount: amount.baseValue,
                   asset: getDenomWithChain(asset).toUpperCase(),
                 },
               ],
@@ -353,7 +353,7 @@ const getToolbox = async ({
         const { accountNumber, sequence = '0' } = account;
 
         const sendCoinsMessage = {
-          amount: [{ amount: amount.amount().toString(), denom: asset?.symbol.toLowerCase() }],
+          amount: [{ amount: amount.baseValue, denom: asset?.symbol.toLowerCase() }],
           from_address: address,
           to_address: recipient,
         };

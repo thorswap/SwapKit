@@ -2,9 +2,9 @@
   "author": "thorswap",
   "description": "THORSwap Lib types",
   "devDependencies": {
-    "@ethersproject/bignumber": "5.7.0",
     "@internal/config": "workspace:*",
     "@types/node": "20.5.9",
+    "ethers": "6.7.1",
     "vite": "4.4.9"
   },
   "eslintConfig": {

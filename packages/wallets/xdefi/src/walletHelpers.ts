@@ -1,3 +1,4 @@
+import { toHexString } from '@thorswap-lib/toolbox-evm';
 import type { WalletTxParams } from '@thorswap-lib/types';
 import { Chain, ChainId } from '@thorswap-lib/types';
 
@@ -93,7 +94,7 @@ export const walletTransfer = async (
    * UTXO/Cosmos requires amount to be number
    */
   const parsedAmount =
-    method === 'eth_sendTransaction' ? amount.amount().toHexString() : amount.amount().toNumber();
+    method === 'eth_sendTransaction' ? toHexString(amount.baseValueBigInt) : amount.baseValueNumber;
 
   const from = await getXDEFIAddress(asset.chain);
   const params = [

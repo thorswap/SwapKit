@@ -1,6 +1,6 @@
+import { base64 } from '@scure/base';
 import type { DerivationPathArray, GetAddressAndPubKeyResponse } from '@thorswap-lib/types';
 import { ErrorCode, NetworkDerivationPath } from '@thorswap-lib/types';
-import { fromByteArray } from 'base64-js';
 
 import { CommonLedgerInterface } from '../../interfaces/LedgerInterfaces.ts';
 
@@ -23,7 +23,7 @@ export class THORChainLedger extends CommonLedgerInterface {
     const { compressed_pk, bech32_address }: GetAddressAndPubKeyResponse =
       await this.getAddressAndPubKey();
 
-    this.pubKey = fromByteArray(compressed_pk);
+    this.pubKey = base64.encode(compressed_pk);
 
     return bech32_address;
   };

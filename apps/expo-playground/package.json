@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "@craftzdog/react-native-buffer": "6.0.5",
-    "@ethersproject/shims": "5.7.0",
     "@react-native-async-storage/async-storage": "1.19.3",
     "@thorswap-lib/keystore": "workspace:*",
     "@thorswap-lib/ledger": "workspace:*",

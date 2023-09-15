@@ -28,7 +28,6 @@
 
 - Updated dependencies []:
   - @thorswap-lib/swapkit-entities@1.0.0-development.117
-  - @thorswap-lib/helpers@0.0.0-development.109
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.152
   - @thorswap-lib/toolbox-evm@1.0.0-development.161
   - @thorswap-lib/toolbox-utxo@1.0.0-development.139
@@ -45,7 +44,6 @@
   - @thorswap-lib/toolbox-utxo@1.0.0-development.138
   - @thorswap-lib/toolbox-evm@1.0.0-development.160
   - @thorswap-lib/types@1.0.0-development.103
-  - @thorswap-lib/helpers@0.0.0-development.108
 
 ## 1.0.0-development.217
 
@@ -59,7 +57,6 @@
   - @thorswap-lib/toolbox-utxo@1.0.0-development.137
   - @thorswap-lib/toolbox-evm@1.0.0-development.159
   - @thorswap-lib/types@1.0.0-development.102
-  - @thorswap-lib/helpers@0.0.0-development.107
 
 ## 1.0.0-development.216
 
@@ -88,7 +85,6 @@
   - @thorswap-lib/toolbox-utxo@1.0.0-development.135
   - @thorswap-lib/toolbox-evm@1.0.0-development.158
   - @thorswap-lib/types@1.0.0-development.101
-  - @thorswap-lib/helpers@0.0.0-development.106
 
 ## 1.0.0-development.213
 
@@ -103,7 +99,6 @@
 
 - Updated dependencies [[`38647ca`](https://github.com/thorswap/SwapKit/commit/38647ca84781c585ab57833b3dd2bdc1a259c42e)]:
   - @thorswap-lib/swapkit-entities@1.0.0-development.113
-  - @thorswap-lib/helpers@0.0.0-development.105
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.145
   - @thorswap-lib/toolbox-evm@1.0.0-development.157
   - @thorswap-lib/toolbox-utxo@1.0.0-development.134
@@ -114,7 +109,6 @@
 
 - Updated dependencies [[`0da29b0`](https://github.com/thorswap/SwapKit/commit/0da29b0ca4a929edbf4c425e443cdd873ad87917)]:
   - @thorswap-lib/swapkit-entities@1.0.0-development.112
-  - @thorswap-lib/helpers@0.0.0-development.104
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.144
   - @thorswap-lib/toolbox-evm@1.0.0-development.156
   - @thorswap-lib/toolbox-utxo@1.0.0-development.133
@@ -132,7 +126,6 @@
 
 - Updated dependencies [[`282f83b`](https://github.com/thorswap/SwapKit/commit/282f83b7d6f7e6337aa0763ad958279f66ed7023)]:
   - @thorswap-lib/types@1.0.0-development.100
-  - @thorswap-lib/helpers@0.0.0-development.103
   - @thorswap-lib/swapkit-entities@1.0.0-development.111
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.142
   - @thorswap-lib/toolbox-evm@1.0.0-development.155
@@ -144,7 +137,6 @@
 
 - Updated dependencies [[`fbbb514`](https://github.com/thorswap/SwapKit/commit/fbbb5143113ee17e62b4a42a81dbc4b762e5e8fd)]:
   - @thorswap-lib/types@1.0.0-development.99
-  - @thorswap-lib/helpers@0.0.0-development.102
   - @thorswap-lib/swapkit-entities@1.0.0-development.110
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.141
   - @thorswap-lib/toolbox-evm@1.0.0-development.154
@@ -158,7 +150,6 @@
   - @thorswap-lib/swapkit-entities@1.0.0-development.109
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.140
   - @thorswap-lib/types@1.0.0-development.98
-  - @thorswap-lib/helpers@0.0.0-development.101
   - @thorswap-lib/toolbox-evm@1.0.0-development.153
   - @thorswap-lib/toolbox-utxo@1.0.0-development.130
 
@@ -170,7 +161,6 @@
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.139
   - @thorswap-lib/toolbox-utxo@1.0.0-development.129
   - @thorswap-lib/types@1.0.0-development.97
-  - @thorswap-lib/helpers@0.0.0-development.100
   - @thorswap-lib/swapkit-entities@1.0.0-development.108
   - @thorswap-lib/toolbox-evm@1.0.0-development.152
 
@@ -202,7 +192,6 @@
   - @thorswap-lib/toolbox-utxo@1.0.0-development.127
   - @thorswap-lib/toolbox-evm@1.0.0-development.149
   - @thorswap-lib/types@1.0.0-development.96
-  - @thorswap-lib/helpers@0.0.0-development.99
 
 ## 1.0.0-development.202
 
@@ -261,7 +250,6 @@
 
 - Updated dependencies [[`587c662`](https://github.com/thorswap/SwapKit/commit/587c662ab2da70140a93a2346c4a28eae24c5141)]:
   - @thorswap-lib/swapkit-entities@1.0.0-development.106
-  - @thorswap-lib/helpers@0.0.0-development.98
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.132
   - @thorswap-lib/toolbox-evm@1.0.0-development.145
   - @thorswap-lib/toolbox-utxo@1.0.0-development.124
@@ -279,7 +267,6 @@
 
 - Updated dependencies [[`d90daf3`](https://github.com/thorswap/SwapKit/commit/d90daf31355ee9fa350867af5197e513891e3cd2)]:
   - @thorswap-lib/swapkit-entities@1.0.0-development.105
-  - @thorswap-lib/helpers@0.0.0-development.97
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.130
   - @thorswap-lib/toolbox-evm@1.0.0-development.144
   - @thorswap-lib/toolbox-utxo@1.0.0-development.123
@@ -327,7 +314,6 @@
 
 - Updated dependencies [[`2d6dcc9`](https://github.com/thorswap/SwapKit/commit/2d6dcc9584c2e25d3095f6f54fb3747247fd4db9)]:
   - @thorswap-lib/swapkit-entities@1.0.0-development.104
-  - @thorswap-lib/helpers@0.0.0-development.96
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.126
   - @thorswap-lib/toolbox-evm@1.0.0-development.141
   - @thorswap-lib/toolbox-utxo@1.0.0-development.122
@@ -339,7 +325,6 @@
 - Updated dependencies [[`96843c0`](https://github.com/thorswap/SwapKit/commit/96843c0df7d35e0b8bcd749c8089da069637d983), [`263b74e`](https://github.com/thorswap/SwapKit/commit/263b74e3d173512edf742a93b7e2820f4232ede3)]:
   - @thorswap-lib/types@1.0.0-development.95
   - @thorswap-lib/toolbox-evm@1.0.0-development.140
-  - @thorswap-lib/helpers@0.0.0-development.95
   - @thorswap-lib/swapkit-entities@1.0.0-development.103
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.125
   - @thorswap-lib/toolbox-utxo@1.0.0-development.121
@@ -377,7 +362,6 @@
 
 - Updated dependencies [[`3066000`](https://github.com/thorswap/SwapKit/commit/30660006cd0551dfb2be606290b0448bf0181d72)]:
   - @thorswap-lib/types@1.0.0-development.94
-  - @thorswap-lib/helpers@0.0.0-development.94
   - @thorswap-lib/swapkit-entities@1.0.0-development.102
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.122
   - @thorswap-lib/toolbox-evm@1.0.0-development.138
@@ -395,7 +379,6 @@
   - @thorswap-lib/toolbox-utxo@1.0.0-development.119
   - @thorswap-lib/toolbox-evm@1.0.0-development.137
   - @thorswap-lib/types@1.0.0-development.93
-  - @thorswap-lib/helpers@0.0.0-development.93
 
 ## 1.0.0-development.180
 
@@ -404,7 +387,6 @@
 - Updated dependencies [[`52f3a38`](https://github.com/thorswap/SwapKit/commit/52f3a38d8cb880185f8f066e09f132110b52b423), [`52f3a38`](https://github.com/thorswap/SwapKit/commit/52f3a38d8cb880185f8f066e09f132110b52b423)]:
   - @thorswap-lib/types@1.0.0-development.92
   - @thorswap-lib/toolbox-evm@1.0.0-development.136
-  - @thorswap-lib/helpers@0.0.0-development.92
   - @thorswap-lib/swapkit-entities@1.0.0-development.100
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.120
   - @thorswap-lib/toolbox-utxo@1.0.0-development.118
@@ -415,7 +397,6 @@
 
 - Updated dependencies [[`7818f7b`](https://github.com/thorswap/SwapKit/commit/7818f7b82ecb4cb50c2c5c3ccc022e95f7cc74fa)]:
   - @thorswap-lib/types@1.0.0-development.91
-  - @thorswap-lib/helpers@0.0.0-development.91
   - @thorswap-lib/swapkit-entities@1.0.0-development.99
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.119
   - @thorswap-lib/toolbox-evm@1.0.0-development.135
@@ -427,7 +408,6 @@
 
 - Updated dependencies []:
   - @thorswap-lib/swapkit-entities@1.0.0-development.98
-  - @thorswap-lib/helpers@0.0.0-development.90
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.118
   - @thorswap-lib/toolbox-evm@1.0.0-development.134
   - @thorswap-lib/toolbox-utxo@1.0.0-development.116
@@ -438,7 +418,6 @@
 
 - Updated dependencies [[`e130475`](https://github.com/thorswap/SwapKit/commit/e130475dc389ab47c2c9126509cdc4730e6dc2b6)]:
   - @thorswap-lib/types@1.0.0-development.90
-  - @thorswap-lib/helpers@0.0.0-development.89
   - @thorswap-lib/swapkit-entities@1.0.0-development.97
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.117
   - @thorswap-lib/toolbox-evm@1.0.0-development.133
@@ -457,7 +436,6 @@
 
 - Updated dependencies [[`42b0409`](https://github.com/thorswap/SwapKit/commit/42b04098d3a0bd5fd19a22b03c34d21dbf961cb7)]:
   - @thorswap-lib/types@1.0.0-development.89
-  - @thorswap-lib/helpers@0.0.0-development.88
   - @thorswap-lib/swapkit-entities@1.0.0-development.96
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.115
   - @thorswap-lib/toolbox-evm@1.0.0-development.132
@@ -469,7 +447,6 @@
 
 - Updated dependencies [[`59d8429`](https://github.com/thorswap/SwapKit/commit/59d8429ad4913d3f4acbe69291d7cd1f2442c8ea)]:
   - @thorswap-lib/types@1.0.0-development.88
-  - @thorswap-lib/helpers@0.0.0-development.87
   - @thorswap-lib/swapkit-entities@1.0.0-development.95
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.114
   - @thorswap-lib/toolbox-evm@1.0.0-development.131
@@ -481,7 +458,6 @@
 
 - Updated dependencies [[`d76233f`](https://github.com/thorswap/SwapKit/commit/d76233f1faf458cdffaccd138e0d66f2291f6992)]:
   - @thorswap-lib/types@1.0.0-development.87
-  - @thorswap-lib/helpers@0.0.0-development.86
   - @thorswap-lib/swapkit-entities@1.0.0-development.94
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.113
   - @thorswap-lib/toolbox-evm@1.0.0-development.130
@@ -509,7 +485,6 @@
   - @thorswap-lib/toolbox-utxo@1.0.0-development.109
   - @thorswap-lib/toolbox-evm@1.0.0-development.129
   - @thorswap-lib/swapkit-entities@1.0.0-development.93
-  - @thorswap-lib/helpers@0.0.0-development.85
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.112
 
 ## 1.0.0-development.169
@@ -541,7 +516,6 @@
   - @thorswap-lib/toolbox-evm@1.0.0-development.126
   - @thorswap-lib/types@1.0.0-development.86
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.110
-  - @thorswap-lib/helpers@0.0.0-development.84
   - @thorswap-lib/swapkit-entities@1.0.0-development.92
   - @thorswap-lib/toolbox-utxo@1.0.0-development.108
 
@@ -552,7 +526,6 @@
 - Updated dependencies [[`24279fd`](https://github.com/thorswap/SwapKit/commit/24279fd2d780237d71c5e051bea7bc44dbc93788)]:
   - @thorswap-lib/toolbox-evm@1.0.0-development.125
   - @thorswap-lib/types@1.0.0-development.85
-  - @thorswap-lib/helpers@0.0.0-development.83
   - @thorswap-lib/swapkit-entities@1.0.0-development.91
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.109
   - @thorswap-lib/toolbox-utxo@1.0.0-development.107
@@ -584,7 +557,6 @@
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.106
   - @thorswap-lib/toolbox-utxo@1.0.0-development.106
   - @thorswap-lib/toolbox-evm@1.0.0-development.124
-  - @thorswap-lib/helpers@0.0.0-development.82
   - @thorswap-lib/types@1.0.0-development.84
 
 ## 1.0.0-development.161
@@ -598,7 +570,6 @@
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.105
   - @thorswap-lib/toolbox-utxo@1.0.0-development.105
   - @thorswap-lib/toolbox-evm@1.0.0-development.123
-  - @thorswap-lib/helpers@0.0.0-development.81
   - @thorswap-lib/types@1.0.0-development.83
 
 ## 1.0.0-development.160
@@ -607,7 +578,6 @@
 
 - Updated dependencies [[`453c6c3`](https://github.com/thorswap/SwapKit/commit/453c6c3dfeb4e4cbd0777aa0ff69b0300d62917f)]:
   - @thorswap-lib/swapkit-entities@1.0.0-development.88
-  - @thorswap-lib/helpers@0.0.0-development.80
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.104
   - @thorswap-lib/toolbox-evm@1.0.0-development.122
   - @thorswap-lib/toolbox-utxo@1.0.0-development.104
@@ -629,7 +599,6 @@
 
 - Updated dependencies [[`eda3d7c`](https://github.com/thorswap/SwapKit/commit/eda3d7cdc4d56f0d879c14b2246583aaa604ebd0)]:
   - @thorswap-lib/types@1.0.0-development.82
-  - @thorswap-lib/helpers@0.0.0-development.79
   - @thorswap-lib/swapkit-entities@1.0.0-development.87
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.102
   - @thorswap-lib/toolbox-evm@1.0.0-development.121
@@ -641,7 +610,6 @@
 
 - Updated dependencies [[`fc91e93`](https://github.com/thorswap/SwapKit/commit/fc91e93d5d9ceb6b92e0ce645ed308783067eae0)]:
   - @thorswap-lib/types@1.0.0-development.81
-  - @thorswap-lib/helpers@0.0.0-development.78
   - @thorswap-lib/swapkit-entities@1.0.0-development.86
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.101
   - @thorswap-lib/toolbox-evm@1.0.0-development.120
@@ -662,7 +630,6 @@
 
 - Updated dependencies [[`6cd7025`](https://github.com/thorswap/SwapKit/commit/6cd70256164568fb96b4397f027340a874d76ddc)]:
   - @thorswap-lib/types@1.0.0-development.80
-  - @thorswap-lib/helpers@0.0.0-development.77
   - @thorswap-lib/swapkit-entities@1.0.0-development.85
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.100
   - @thorswap-lib/toolbox-evm@1.0.0-development.118
@@ -674,7 +641,6 @@
 
 - Updated dependencies [[`718d67d`](https://github.com/thorswap/SwapKit/commit/718d67de91cf4a2c562d8fa904ea8275d5d7c087), [`718d67d`](https://github.com/thorswap/SwapKit/commit/718d67de91cf4a2c562d8fa904ea8275d5d7c087)]:
   - @thorswap-lib/swapkit-entities@1.0.0-development.84
-  - @thorswap-lib/helpers@0.0.0-development.76
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.99
   - @thorswap-lib/toolbox-evm@1.0.0-development.117
   - @thorswap-lib/toolbox-utxo@1.0.0-development.100
@@ -690,7 +656,6 @@
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.98
   - @thorswap-lib/toolbox-utxo@1.0.0-development.99
   - @thorswap-lib/toolbox-evm@1.0.0-development.116
-  - @thorswap-lib/helpers@0.0.0-development.75
   - @thorswap-lib/types@1.0.0-development.79
 
 ## 1.0.0-development.152
@@ -711,7 +676,6 @@
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.97
   - @thorswap-lib/toolbox-utxo@1.0.0-development.98
   - @thorswap-lib/toolbox-evm@1.0.0-development.114
-  - @thorswap-lib/helpers@0.0.0-development.74
   - @thorswap-lib/types@1.0.0-development.78
 
 ## 1.0.0-development.150
@@ -720,7 +684,6 @@
 
 - Updated dependencies []:
   - @thorswap-lib/types@1.0.0-development.77
-  - @thorswap-lib/helpers@0.0.0-development.73
   - @thorswap-lib/swapkit-entities@1.0.0-development.81
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.96
   - @thorswap-lib/toolbox-evm@1.0.0-development.113
@@ -732,7 +695,6 @@
 
 - Updated dependencies []:
   - @thorswap-lib/types@1.0.0-development.76
-  - @thorswap-lib/helpers@0.0.0-development.72
   - @thorswap-lib/swapkit-entities@1.0.0-development.80
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.95
   - @thorswap-lib/toolbox-evm@1.0.0-development.112
@@ -747,7 +709,6 @@
 - Updated dependencies [[`90befbf`](https://github.com/thorswap/SwapKit/commit/90befbf1e12274f844e47357a10d55b052c4f28a)]:
   - @thorswap-lib/toolbox-evm@1.0.0-development.111
   - @thorswap-lib/types@1.0.0-development.75
-  - @thorswap-lib/helpers@0.0.0-development.71
   - @thorswap-lib/swapkit-entities@1.0.0-development.79
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.94
   - @thorswap-lib/toolbox-utxo@1.0.0-development.95
@@ -759,7 +720,6 @@
 - Updated dependencies [[`5c79d64`](https://github.com/thorswap/SwapKit/commit/5c79d64c65983fb8ca5a829fbc060f4ee1ab6458), [`670e0a6`](https://github.com/thorswap/SwapKit/commit/670e0a6308cc4b891bb2ec95d7188a61e7dcb631)]:
   - @thorswap-lib/swapkit-entities@1.0.0-development.78
   - @thorswap-lib/types@1.0.0-development.74
-  - @thorswap-lib/helpers@0.0.0-development.70
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.93
   - @thorswap-lib/toolbox-evm@1.0.0-development.110
   - @thorswap-lib/toolbox-utxo@1.0.0-development.94
@@ -779,7 +739,6 @@
 
 - Updated dependencies [[`6bebf50`](https://github.com/thorswap/SwapKit/commit/6bebf50ee8f39e0aa48a56f2f5a8ac4a5b0ce50a), [`aef5622`](https://github.com/thorswap/SwapKit/commit/aef5622f547640867b7f335bac3a0b33e75d03c1)]:
   - @thorswap-lib/toolbox-utxo@1.0.0-development.93
-  - @thorswap-lib/helpers@0.0.0-development.69
   - @thorswap-lib/types@1.0.0-development.73
   - @thorswap-lib/swapkit-entities@1.0.0-development.77
   - @thorswap-lib/toolbox-cosmos@1.0.0-development.92
@@ -805,7 +764,6 @@
 
 - Updated dependencies []:
   - @thorswap-lib/swapkit-entities@0.3.0-development.76
-  - @thorswap-lib/helpers@0.0.0-development.68
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.89
   - @thorswap-lib/toolbox-evm@0.1.0-development.107
   - @thorswap-lib/toolbox-utxo@0.1.0-development.92
@@ -828,7 +786,6 @@
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.88
   - @thorswap-lib/toolbox-utxo@0.1.0-development.91
   - @thorswap-lib/toolbox-evm@0.1.0-development.105
-  - @thorswap-lib/helpers@0.0.0-development.67
   - @thorswap-lib/types@1.0.0-development.72
 
 ## 1.0.0-development.139
@@ -842,7 +799,6 @@
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.87
   - @thorswap-lib/toolbox-utxo@0.1.0-development.90
   - @thorswap-lib/toolbox-evm@0.1.0-development.104
-  - @thorswap-lib/helpers@0.0.0-development.66
   - @thorswap-lib/types@1.0.0-development.71
 
 ## 1.0.0-development.138
@@ -856,7 +812,6 @@
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.86
   - @thorswap-lib/toolbox-utxo@0.1.0-development.89
   - @thorswap-lib/toolbox-evm@0.1.0-development.103
-  - @thorswap-lib/helpers@0.0.0-development.65
   - @thorswap-lib/types@1.0.0-development.70
 
 ## 1.0.0-development.137
@@ -869,7 +824,6 @@
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.85
   - @thorswap-lib/toolbox-evm@0.1.0-development.102
   - @thorswap-lib/types@1.0.0-development.69
-  - @thorswap-lib/helpers@0.0.0-development.64
   - @thorswap-lib/swapkit-entities@0.3.0-development.72
   - @thorswap-lib/toolbox-utxo@0.1.0-development.88
 
@@ -880,7 +834,6 @@
 - Updated dependencies [[`ede1285`](https://github.com/thorswap/SwapKit/commit/ede1285e71d57a74dc4ef8a8a8fa615a1ab7244f)]:
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.84
   - @thorswap-lib/types@1.0.0-development.68
-  - @thorswap-lib/helpers@0.0.0-development.63
   - @thorswap-lib/swapkit-entities@0.3.0-development.71
   - @thorswap-lib/toolbox-evm@0.1.0-development.101
   - @thorswap-lib/toolbox-utxo@0.1.0-development.87
@@ -891,7 +844,6 @@
 
 - Updated dependencies [[`520fff8`](https://github.com/thorswap/SwapKit/commit/520fff8cea4b0132211636e96a2ae94f46725e5b)]:
   - @thorswap-lib/types@1.0.0-development.67
-  - @thorswap-lib/helpers@0.0.0-development.62
   - @thorswap-lib/swapkit-entities@0.3.0-development.70
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.83
   - @thorswap-lib/toolbox-evm@0.1.0-development.100
@@ -959,7 +911,6 @@
   - @thorswap-lib/toolbox-evm@0.1.0-development.96
   - @thorswap-lib/types@1.0.0-development.66
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.79
-  - @thorswap-lib/helpers@0.0.0-development.61
   - @thorswap-lib/swapkit-entities@0.3.0-development.69
 
 ## 1.0.0-development.126
@@ -982,7 +933,6 @@
 
 - Updated dependencies []:
   - @thorswap-lib/swapkit-entities@0.3.0-development.68
-  - @thorswap-lib/helpers@0.0.0-development.60
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.78
   - @thorswap-lib/toolbox-evm@0.1.0-development.93
   - @thorswap-lib/toolbox-utxo@0.1.0-development.83
@@ -993,7 +943,6 @@
 
 - Updated dependencies [[`5a50af8`](https://github.com/thorswap/SwapKit/commit/5a50af87a3207426cc8dc9da2d7d751148fb89d1)]:
   - @thorswap-lib/swapkit-entities@0.3.0-development.67
-  - @thorswap-lib/helpers@0.0.0-development.59
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.77
   - @thorswap-lib/toolbox-evm@0.1.0-development.92
   - @thorswap-lib/toolbox-utxo@0.1.0-development.82
@@ -1016,7 +965,6 @@
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.76
   - @thorswap-lib/toolbox-utxo@0.1.0-development.81
   - @thorswap-lib/toolbox-evm@0.1.0-development.90
-  - @thorswap-lib/helpers@0.0.0-development.58
   - @thorswap-lib/types@1.0.0-development.65
 
 ## 1.0.0-development.120
@@ -1025,7 +973,6 @@
 
 - Updated dependencies [[`2d16a48`](https://github.com/thorswap/SwapKit/commit/2d16a488511efc65385def9cf7a309e84bf4f62b)]:
   - @thorswap-lib/types@1.0.0-development.64
-  - @thorswap-lib/helpers@0.0.0-development.57
   - @thorswap-lib/swapkit-entities@0.3.0-development.65
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.75
   - @thorswap-lib/toolbox-evm@0.1.0-development.89
@@ -1049,7 +996,6 @@
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.74
   - @thorswap-lib/toolbox-utxo@0.1.0-development.79
   - @thorswap-lib/toolbox-evm@0.1.0-development.87
-  - @thorswap-lib/helpers@0.0.0-development.56
   - @thorswap-lib/types@1.0.0-development.63
 
 ## 1.0.0-development.117
@@ -1065,7 +1011,6 @@
 
 - Updated dependencies [[`1fe5ac5`](https://github.com/thorswap/SwapKit/commit/1fe5ac5fe14eb1bb677c2d824578963622d176db)]:
   - @thorswap-lib/types@1.0.0-development.62
-  - @thorswap-lib/helpers@0.0.0-development.55
   - @thorswap-lib/swapkit-entities@0.3.0-development.63
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.72
   - @thorswap-lib/toolbox-evm@0.1.0-development.86
@@ -1078,7 +1023,6 @@
 - Updated dependencies [[`f4ad63c`](https://github.com/thorswap/SwapKit/commit/f4ad63cf5715bc198e44aad29d031acaeffd8434)]:
   - @thorswap-lib/toolbox-evm@0.1.0-development.85
   - @thorswap-lib/types@1.0.0-development.61
-  - @thorswap-lib/helpers@0.0.0-development.54
   - @thorswap-lib/swapkit-entities@0.3.0-development.62
   - @thorswap-lib/toolbox-cosmos@0.1.0-development.71
   - @thorswap-lib/toolbox-utxo@0.1.0-development.77

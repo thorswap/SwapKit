@@ -1,5 +1,6 @@
 import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
-import type { Amount, AssetAmount, AssetEntity, Pool } from '@thorswap-lib/swapkit-entities';
+import type { Pool } from '@thorswap-lib/swapkit-entities';
+import type { AssetValue, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
 import type {
   BinanceToolbox,
   DepositParam,
@@ -24,7 +25,7 @@ import type {
 } from '@thorswap-lib/types';
 
 export type CoreTxParams = {
-  assetAmount: AssetAmount;
+  assetAmount: SwapKitNumber;
   recipient: string;
   memo?: string;
   feeOptionKey?: FeeOption;
@@ -36,16 +37,16 @@ export type CoreTxParams = {
 export type AddLiquidityParams = {
   pool: Pool;
   isPendingSymmAsset?: boolean;
-  runeAmount?: AssetAmount;
-  assetAmount?: AssetAmount;
+  runeAmount?: SwapKitNumber;
+  assetAmount?: SwapKitNumber;
   runeAddr?: string;
   assetAddr?: string;
   mode?: LPType;
 };
 
 export type CreateLiquidityParams = {
-  runeAmount: AssetAmount;
-  assetAmount: AssetAmount;
+  runeAmount: SwapKitNumber;
+  assetAmount: SwapKitNumber;
 };
 
 export type AddLiquidityTxns = {
@@ -56,20 +57,20 @@ export type AddLiquidityTxns = {
 type LPType = 'sym' | 'rune' | 'asset';
 export type WithdrawParams = {
   memo?: string;
-  asset: AssetEntity;
-  percent: Amount;
+  asset: AssetValue;
+  percent: SwapKitNumber;
   from: LPType;
   to: LPType;
 };
 
 export type UpgradeParams = {
-  runeAmount: AssetAmount;
+  runeAmount: SwapKitNumber;
   recipient: string;
 };
 
 export type ChainWallet = {
   address: string;
-  balance: AssetAmount[];
+  balance: SwapKitNumber[];
   walletType: WalletOption;
 };
 

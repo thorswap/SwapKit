@@ -1,6 +1,6 @@
-import { Web3Provider } from '@ethersproject/providers';
 import type { EVMChain, EVMWalletOptions } from '@thorswap-lib/types';
 import { WalletOption } from '@thorswap-lib/types';
+import type { Eip1193Provider } from 'ethers';
 
 import { getWalletForType } from './helpers.ts';
 import type { EVMWalletConfig } from './types.ts';
@@ -16,15 +16,21 @@ const connectEVMWallet =
   async (chains: EVMChain[], walletType: EVMWalletOptions = WalletOption.METAMASK) => {
     const promises = chains.map(async (chain) => {
       const { getWeb3WalletMethods } = await import('@thorswap-lib/toolbox-evm');
-      const web3provider = new Web3Provider(getWalletForType(walletType), 'any');
+      const { BrowserProvider } = await import('ethers/providers');
+      const web3provider = new BrowserProvider(
+        //TODO fix typing
+        // @ts-expect-error
+        getWalletForType(walletType) as Eip1193Provider,
+        'any',
+      );
       await web3provider.send('eth_requestAccounts', []);
-      const signer = web3provider.getSigner();
-      const address = await signer.getAddress();
+      const address = await (await web3provider.getSigner()).getAddress();
 
       const walletMethods = await getWeb3WalletMethods({
         chain,
         ethplorerApiKey,
         covalentApiKey,
+        //@ts-expect-error TODO fix browser provider typing
         ethereumWindowProvider: getWalletForType(walletType),
       });
 

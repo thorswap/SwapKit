@@ -1,4 +1,3 @@
-import { baseAmount } from '@thorswap-lib/helpers';
 import {
   Amount,
   AmountType,
@@ -29,7 +28,6 @@ import type {
 import type { UTXOEstimateFeeParams, UTXOToolbox } from '@thorswap-lib/toolbox-utxo';
 import type {
   AddChainWalletParams,
-  AmountWithBaseDenom,
   EVMChain,
   EVMWalletOptions,
   ExtendParams,
@@ -38,6 +36,7 @@ import type {
 import {
   BaseDecimal,
   Chain,
+  ChainToChainId,
   FeeOption,
   MemoType,
   QuoteMode,
@@ -47,11 +46,7 @@ import {
 
 import type { AGG_CONTRACT_ADDRESS } from '../aggregator/contracts/index.ts';
 import { lowercasedContractAbiMapping } from '../aggregator/contracts/index.ts';
-import {
-  getSameEVMParams,
-  getSwapInParams,
-  getSwapOutParams,
-} from '../aggregator/getSwapParams.ts';
+import { getSwapInParams, getSwapOutParams } from '../aggregator/getSwapParams.ts';
 
 import {
   getAssetForBalance,
@@ -114,10 +109,22 @@ export class SwapKitCore<T = ''> {
           }
           if (!route?.transaction) throw new SwapKitError('core_swap_route_transaction_not_found');
 
-          return walletMethods.sendTransaction(
-            getSameEVMParams({ transaction: route.transaction, evmChain }),
-            feeOptionKey,
-          ) as Promise<string>;
+          const { isHexString, parseUnits } = await import('ethers');
+          const { data, from, to, value } = route.transaction;
+
+          const params = {
+            data,
+            from,
+            to: to.toLowerCase(),
+            chainId: BigInt(ChainToChainId[evmChain]),
+            value: value
+              ? new SwapKitNumber({
+                  value: !isHexString(value) ? parseUnits(value, 'wei').toString(16) : value,
+                }).baseValueBigInt
+              : 0n,
+          };
+
+          return walletMethods.sendTransaction(params, feeOptionKey) as Promise<string>;
         }
 
         case QuoteMode.TC_SUPPORTED_TO_AVAX:
@@ -156,7 +163,9 @@ export class SwapKitCore<T = ''> {
 
           const contract = walletMethods.createContract?.(contractAddress, abi, provider);
 
-          const tx = await contract.populateTransaction.swapIn(
+          const tx = await (
+            await contract
+          ).swapIn.populateTransaction(
             ...getSwapInParams({
               streamSwap,
               toChecksumAddress,
@@ -178,27 +187,24 @@ export class SwapKitCore<T = ''> {
     }
   };
 
-  approveAsset = (asset: AssetEntity, amount?: AmountWithBaseDenom) =>
-    this._approve({ asset, amount }, 'approve');
+  approveAsset = (assetValue: AssetValue) => this._approve({ assetValue }, 'approve');
 
-  approveAssetForContract = (
-    asset: AssetEntity,
-    contractAddress: string,
-    amount?: AmountWithBaseDenom,
-  ) => this._approve({ asset, amount, contractAddress }, 'approve');
+  approveAssetForContract = (contractAddress: string, assetValue: AssetValue) =>
+    this._approve({ assetValue, contractAddress }, 'approve');
 
   getWalletByChain = async (chain: Chain) => {
     const address = this.getAddress(chain);
     if (!address) return null;
 
     const balances = (await this.getWallet(chain)?.getBalance(address)) ?? [
-      { asset: getSignatureAssetFor(chain), amount: baseAmount(0, BaseDecimal[chain]) },
+      new AssetValue({ ...getSignatureAssetFor(chain), value: 0, decimal: BaseDecimal[chain] }),
     ];
 
+    // TODO do we still need this?
     const balance = balances.map(
-      ({ amount, asset }) =>
+      (assetValue) =>
         new AssetAmount(
-          getAssetForBalance(asset),
+          getAssetForBalance(assetValue),
           new Amount(amount.amount().toString() || '0', AmountType.BASE_AMOUNT, amount.decimal),
         ),
     );
@@ -651,18 +657,14 @@ export class SwapKitCore<T = ''> {
   };
 
   private _approve = async <T = string>(
-    {
-      asset,
-      contractAddress,
-      amount,
-    }: { asset: AssetEntity; contractAddress?: string; amount?: AmountWithBaseDenom },
+    { assetValue, contractAddress }: { assetValue: AssetValue; contractAddress?: string },
     type: 'checkOnly' | 'approve' = 'checkOnly',
   ) => {
     const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(
-      asset.chain,
+      assetValue.chain,
     );
-    const isNativeEVM = isEVMChain && isGasAsset(asset);
-    if (isNativeEVM || !isEVMChain || asset.isSynth) return true;
+    const isNativeEVM = isEVMChain && isGasAsset(assetValue);
+    if (isNativeEVM || !isEVMChain || assetValue.isSynth) return true;
 
     const walletMethods = this.connectedWallets[asset.L1Chain as EVMChain];
     const walletAction = type === 'checkOnly' ? walletMethods?.isApproved : walletMethods?.approve;

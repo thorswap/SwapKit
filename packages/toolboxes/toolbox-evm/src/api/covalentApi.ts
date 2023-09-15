@@ -1,8 +1,6 @@
-import { BigNumber } from '@ethersproject/bignumber';
-import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { assetFromString, getRequest } from '@thorswap-lib/swapkit-helpers';
-import type { Balance, ChainId } from '@thorswap-lib/types';
+import { AssetValue, getRequest } from '@thorswap-lib/swapkit-helpers';
+import type { ChainId } from '@thorswap-lib/types';
 import { ChainIdToChain } from '@thorswap-lib/types';
 
 type CovalentBalanceResponse = {
@@ -45,18 +43,29 @@ export type CovalentApiType = ReturnType<typeof covalentApi>;
 const mapBalanceResponseToBalance = async (
   data: CovalentBalanceResponse,
   chainId: ChainId,
-): Promise<Balance[]> =>
+): Promise<AssetValue[]> =>
   data.items
-    .map(({ balance, contract_decimals, contract_ticker_symbol, contract_address }) => ({
-      amount: baseAmount(BigNumber.from(balance.toString()), contract_decimals),
-      asset:
-        (contract_address !== '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' &&
-          assetFromString(
-            `${ChainIdToChain[chainId]}.${contract_ticker_symbol}-${contract_address}`,
-          )) ||
-        getSignatureAssetFor(ChainIdToChain[chainId]),
-    }))
-    .filter(({ asset: { symbol, ticker } }) => {
+    .map(
+      ({ balance, contract_decimals, contract_ticker_symbol, contract_address }) =>
+        new AssetValue({
+          value: BigInt(balance),
+          decimal: contract_decimals,
+          ...{
+            chain: ChainIdToChain[chainId],
+            symbol: `${ChainIdToChain[chainId]}.${contract_ticker_symbol}-${contract_address}`,
+          },
+        }),
+    )
+    //     {
+    //   amount: new SwapKitNumber(balance.toString()), contract_decimals),
+    //   asset:
+    //     (contract_address !== '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' &&
+    //       assetFromString(
+    //         `${ChainIdToChain[chainId]}.${contract_ticker_symbol}-${contract_address}`,
+    //       )) ||
+    //     getSignatureAssetFor(ChainIdToChain[chainId]),
+    // }))
+    .filter(({ symbol, ticker }) => {
       const signatureAsset = getSignatureAssetFor(ChainIdToChain[chainId]);
       return !(symbol === signatureAsset.symbol && ticker === signatureAsset.ticker);
     });

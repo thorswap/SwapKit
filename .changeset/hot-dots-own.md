@@ -15,7 +15,6 @@
 '@thorswap-lib/keplr': patch
 '@thorswap-lib/xdefi': patch
 '@thorswap-lib/okx': patch
-'@thorswap-lib/helpers': patch
 '@internal/config': patch
 ---
 

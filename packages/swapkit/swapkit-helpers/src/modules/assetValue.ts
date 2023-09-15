@@ -52,46 +52,6 @@ const getStaticToken = (identifier: TokenNames) => {
 };
 
 export class AssetValue extends BaseSwapKitNumber {
-  address?: string;
-  chain: Chain;
-  isSynthetic = false;
-  isGasAsset = false;
-  symbol: string;
-  ticker: string;
-  type: ReturnType<typeof getAssetType>;
-
-  constructor(params: AssetValueParams) {
-    super(
-      params.value instanceof BaseSwapKitNumber
-        ? params.value
-        : { decimal: params.decimal, value: params.value },
-    );
-
-    const identifier =
-      'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
-    const assetInfo = getAssetInfo(identifier);
-
-    this.type = getAssetType(assetInfo);
-    this.chain = assetInfo.chain;
-    this.ticker = assetInfo.ticker;
-    this.symbol = assetInfo.symbol;
-    this.address = assetInfo.address;
-    this.isSynthetic = assetInfo.isSynthetic;
-    this.isGasAsset = assetInfo.isGasAsset;
-  }
-
-  get assetValue() {
-    return `${this.value} ${this.ticker}`;
-  }
-
-  toString() {
-    return `${this.chain}${this.isSynthetic ? '/' : '.'}${this.symbol}`;
-  }
-
-  eq({ chain, symbol }: { chain: Chain; symbol: string }) {
-    return this.chain === chain && this.symbol === symbol;
-  }
-
   static async fromIdentifier(
     assetString: `${Chain}.${string}` | `${Chain}/${string}` | `${Chain}.${string}-${string}`,
     value: number | string = 0,
@@ -157,6 +117,46 @@ export class AssetValue extends BaseSwapKitNumber {
         }
       },
     );
+  }
+
+  address?: string;
+  chain: Chain;
+  isSynthetic = false;
+  isGasAsset = false;
+  symbol: string;
+  ticker: string;
+  type: ReturnType<typeof getAssetType>;
+
+  constructor(params: AssetValueParams) {
+    super(
+      params.value instanceof BaseSwapKitNumber
+        ? params.value
+        : { decimal: params.decimal, value: params.value },
+    );
+
+    const identifier =
+      'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
+    const assetInfo = getAssetInfo(identifier);
+
+    this.type = getAssetType(assetInfo);
+    this.chain = assetInfo.chain;
+    this.ticker = assetInfo.ticker;
+    this.symbol = assetInfo.symbol;
+    this.address = assetInfo.address;
+    this.isSynthetic = assetInfo.isSynthetic;
+    this.isGasAsset = assetInfo.isGasAsset;
+  }
+
+  get assetValue() {
+    return `${this.value} ${this.ticker}`;
+  }
+
+  toString() {
+    return `${this.chain}${this.isSynthetic ? '/' : '.'}${this.symbol}`;
+  }
+
+  eq({ chain, symbol }: { chain: Chain; symbol: string }) {
+    return this.chain === chain && this.symbol === symbol;
   }
 }
 

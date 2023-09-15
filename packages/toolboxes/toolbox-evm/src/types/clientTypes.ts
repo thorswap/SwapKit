@@ -1,9 +1,7 @@
-import type { BigNumber, BigNumberish } from '@ethersproject/bignumber';
-import type { ContractInterface, PopulatedTransaction } from '@ethersproject/contracts';
-import type { ExternalProvider } from '@ethersproject/providers';
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import type { EVMTxParams, FeeOption, WalletTxParams } from '@thorswap-lib/types';
+import type { FeeOption, WalletTxParams } from '@thorswap-lib/types';
+import type { BigNumberish, BrowserProvider, JsonFragment, Transaction } from 'ethers';
 
 import type {
   ARBToolbox,
@@ -44,10 +42,10 @@ export type IsApprovedParams = ApprovedParams & {
 export type CallParams = {
   callProvider?: ReturnType<typeof getProvider>;
   contractAddress: string;
-  abi: ContractInterface;
+  abi: readonly JsonFragment[];
   funcName: string;
   funcParams?: unknown[];
-  txOverrides?: EVMTxParams;
+  txOverrides?: Partial<Transaction>;
 };
 
 export type EstimateCallParams = Pick<
@@ -55,7 +53,7 @@ export type EstimateCallParams = Pick<
   'contractAddress' | 'abi' | 'funcName' | 'funcParams' | 'txOverrides'
 >;
 
-export type EthereumWindowProvider = ExternalProvider & {
+export type EthereumWindowProvider = BrowserProvider & {
   isMetaMask?: boolean;
   on: (event: string, callback?: () => void) => void;
   isBraveWallet?: boolean;
@@ -88,30 +86,14 @@ declare global {
 }
 
 export type TransferParams = WalletTxParams & {
-  gasLimit?: BigNumber;
-  gasPrice?: BigNumber;
-  maxFeePerGas?: BigNumber;
-  maxPriorityFeePerGas?: BigNumber;
+  gasLimit?: bigint;
+  gasPrice?: bigint;
+  maxFeePerGas?: bigint;
+  maxPriorityFeePerGas?: bigint;
   data?: string;
   from: string;
   nonce?: number;
 };
-
-export interface JsonFragment {
-  readonly name?: string;
-  readonly type?: string;
-
-  readonly anonymous?: boolean;
-
-  readonly payable?: boolean;
-  readonly constant?: boolean;
-  readonly stateMutability?: string;
-
-  readonly inputs?: readonly any[];
-  readonly outputs?: readonly any[];
-
-  readonly gas?: string;
-}
 
 export type EVMToolbox = ReturnType<
   | typeof AVAXToolbox
@@ -128,9 +110,9 @@ export type EVMMaxSendableAmountsParams = {
   asset?: AssetEntity | string;
   feeOptionKey?: FeeOption;
   memo?: string;
-  abi?: ContractInterface;
+  abi?: readonly JsonFragment[];
   funcName?: string;
   contractAddress?: string;
   funcParams?: unknown[];
-  txOverrides?: Partial<PopulatedTransaction>;
+  txOverrides?: Partial<Transaction>;
 };

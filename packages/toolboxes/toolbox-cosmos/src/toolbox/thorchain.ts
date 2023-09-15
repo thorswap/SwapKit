@@ -1,9 +1,9 @@
 import type { Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import type { Account, StdFee } from '@cosmjs/stargate';
-import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { getRequest } from '@thorswap-lib/swapkit-helpers';
-import type { AmountWithBaseDenom, Balance, Chain } from '@thorswap-lib/types';
+import { base64 } from '@scure/base';
+import { getRequest, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
+import type { Balance } from '@thorswap-lib/types';
 import {
   ApiUrl,
   BaseDecimal,
@@ -12,7 +12,6 @@ import {
   FeeOption,
   RPCUrl,
 } from '@thorswap-lib/types';
-import { fromByteArray, toByteArray } from 'base64-js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
 import { CosmosClient } from '../cosmosClient.ts';
@@ -96,7 +95,7 @@ const createDefaultAminoTypes = async () => {
   });
 };
 
-const exportSignature = (signature: Uint8Array) => fromByteArray(signature);
+const exportSignature = (signature: Uint8Array) => base64.encode(signature);
 
 const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
   const { msgs, accountNumber, sequence, chainId, fee, memo } = JSON.parse(tx);
@@ -134,10 +133,10 @@ const broadcastMultisigTx = async (
 
   const addressesAndSignatures: [string, Uint8Array][] = signers.map((signer) => [
     pubkeyToAddress(
-      encodeSecp256k1Pubkey(toByteArray(signer.pubKey)),
+      encodeSecp256k1Pubkey(base64.decode(signer.pubKey)),
       isStagenet ? 'sthor' : 'thor',
     ),
-    toByteArray(signer.signature),
+    base64.decode(signer.signature),
   ]);
 
   const broadcaster = await StargateClient.connect(
@@ -158,23 +157,15 @@ const broadcastMultisigTx = async (
   return transactionHash;
 };
 
-const getAssetFromBalance = ({ asset: { symbol, chain } }: Balance): AssetEntity => {
-  const isSynth = symbol.includes('/');
-
-  if (!isSynth) return new AssetEntity(chain, symbol);
-  const [nativeChain, nativeSymbol] = symbol.split('/');
-  return new AssetEntity(nativeChain?.toUpperCase() as Chain, nativeSymbol?.toUpperCase(), true);
-};
-
 const createMultisig = async (pubKeys: string[], threshold: number) => {
   const { encodeSecp256k1Pubkey, createMultisigThresholdPubkey } = await import('@cosmjs/amino');
   return createMultisigThresholdPubkey(
-    pubKeys.map((pubKey) => encodeSecp256k1Pubkey(toByteArray(pubKey))),
+    pubKeys.map((pubKey) => encodeSecp256k1Pubkey(base64.decode(pubKey))),
     threshold,
   );
 };
 
-const importSignature = (signature: string) => toByteArray(signature);
+const importSignature = (signature: string) => base64.decode(signature);
 
 const __REEXPORT__pubkeyToAddress = async (pubkey: Pubkey, prefix = 'thor') => {
   const { pubkeyToAddress } = await import('@cosmjs/amino');
@@ -212,22 +203,14 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     try {
       const balances: Balance[] = await baseToolbox.getBalance(address);
 
-      return balances.map((data) => {
-        const asset = getAssetFromBalance(data);
-        const amount = new Amount(
-          data.amount.amount().toString(),
-          AmountType.BASE_AMOUNT,
-          asset.decimal,
-        );
-        return new AssetAmount(asset, amount);
-      });
+      return balances;
     } catch (error) {
       return Promise.reject(error);
     }
   };
 
   const getFees = async () => {
-    let fee: AmountWithBaseDenom;
+    let fee: SwapKitNumber;
 
     try {
       const {
@@ -238,9 +221,9 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
       if (!nativeFee || isNaN(nativeFee) || nativeFee < 0)
         throw Error(`Invalid nativeFee: ${nativeFee.toString()}`);
 
-      fee = baseAmount(nativeFee);
+      fee = new SwapKitNumber(nativeFee);
     } catch {
-      fee = baseAmount(0.02, BaseDecimal.THOR);
+      fee = new SwapKitNumber({ value: 0.02, decimal: BaseDecimal.THOR });
     }
 
     return {
@@ -282,7 +265,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
       value: {
         signer: base64Address,
         memo,
-        coins: [{ asset: assetObj, amount: amount.amount().toString() }],
+        coins: [{ asset: assetObj, amount: amount.baseValue }],
       },
     };
 
@@ -335,6 +318,8 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     ...baseToolbox,
     deposit,
     transfer,
+    //TODO fix typing
+    //@ts-expect-error
     getFees,
 
     createDefaultAminoTypes,

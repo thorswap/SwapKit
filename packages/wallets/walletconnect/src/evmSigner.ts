@@ -1,6 +1,6 @@
-import { Signer } from '@ethersproject/abstract-signer';
-import type { JsonRpcProvider, Provider, TransactionRequest } from '@ethersproject/providers';
 import type { EVMChain, EVMTxParams } from '@thorswap-lib/types';
+import type { JsonRpcProvider, Provider, TransactionRequest } from 'ethers';
+import { AbstractSigner } from 'ethers';
 
 import { DEFAULT_EIP155_METHODS } from './constants.ts';
 import { chainToChainId, getAddressByChain } from './helpers.ts';
@@ -12,14 +12,15 @@ interface WalletconnectEVMSignerParams {
   provider: Provider | JsonRpcProvider;
 }
 
-class WalletconnectSigner extends Signer {
+class WalletconnectSigner extends AbstractSigner {
+  address: string;
+
   private chain: EVMChain;
   private walletconnect: Walletconnect;
-  private address: string;
   readonly provider: Provider | JsonRpcProvider;
 
   constructor({ chain, provider, walletconnect }: WalletconnectEVMSignerParams) {
-    super();
+    super(provider);
     this.chain = chain;
     this.walletconnect = walletconnect;
     this.provider = provider;
@@ -52,13 +53,12 @@ class WalletconnectSigner extends Signer {
   signTransaction = async ({ from, to, value, data }: EVMTxParams) => {
     if (!from) throw new Error('Missing from address');
     if (!to) throw new Error('Missing to address');
-
-    const { BigNumber } = await import('@ethersproject/bignumber');
+    const { toHexString } = await import('@thorswap-lib/toolbox-evm');
 
     const baseTx = {
       from,
       to,
-      value: BigNumber.from(value || 0).toHexString(),
+      value: toHexString(value || 0n),
       data,
     };
 
@@ -74,6 +74,33 @@ class WalletconnectSigner extends Signer {
     return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
   };
 
+  //TODO implement this
+  signTypedData = async () => {
+    throw new Error('this method is not implemented');
+
+    // if (!from) throw new Error('Missing from address');
+    // if (!to) throw new Error('Missing to address');
+    // const { toHexString } = await import('@thorswap-lib/toolbox-evm');
+
+    // const baseTx = {
+    //   from,
+    //   to,
+    //   value: toHexString(value || 0n),
+    //   data,
+    // };
+
+    // const txHash = (await this.walletconnect?.client.request({
+    //   chainId: chainToChainId(this.chain),
+    //   topic: this.walletconnect.session.topic,
+    //   request: {
+    //     method: DEFAULT_EIP155_METHODS.ETH_SIGN_TYPED_DATA,
+    //     params: [baseTx],
+    //   },
+    // })) as string;
+
+    // return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
+  };
+
   sendTransaction = async (transaction: TransactionRequest) => {
     return this.walletconnect?.client.request({
       chainId: chainToChainId(this.chain),
@@ -85,12 +112,15 @@ class WalletconnectSigner extends Signer {
     });
   };
 
-  connect = (provider: Provider) =>
-    new WalletconnectSigner({
+  connect = (provider: Provider | null) => {
+    if (!provider) throw new Error('Missing provider');
+
+    return new WalletconnectSigner({
       chain: this.chain,
       walletconnect: this.walletconnect,
       provider,
     });
+  };
 }
 export const getEVMSigner = async ({
   chain,

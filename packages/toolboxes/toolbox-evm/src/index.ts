@@ -3,11 +3,11 @@ export * from './provider.ts';
 export {
   BaseEVMToolbox,
   EIP1193SendTransaction,
-  getBigNumberFrom,
   getChecksumAddressFromAsset,
   getTokenAddress,
   MAX_APPROVAL,
   toChecksumAddress,
+  toHexString,
 } from './toolbox/BaseEVMToolbox.ts';
 export * from './types/clientTypes.ts';
 export * from './types/ethplorer-api-types.ts';

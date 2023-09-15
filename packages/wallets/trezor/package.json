@@ -1,17 +1,13 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "@trezor/connect-web": "9.1.2"
   },
   "description": "THORSwap Lib trezor",
   "devDependencies": {
-    "@ethersproject/abstract-signer": "5.7.0",
-    "@ethersproject/bignumber": "5.7.0",
-    "@ethersproject/providers": "5.7.2",
-    "@ethersproject/transactions": "5.7.0",
     "@internal/config": "workspace:*",
     "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
@@ -21,6 +17,7 @@
     "@vitest/coverage-istanbul": "0.34.4",
     "bchaddrjs": "0.5.2",
     "bitcoinjs-lib": "5.2.0",
+    "ethers": "6.7.1",
     "vite": "4.4.9",
     "vitest": "0.34.4"
   },
@@ -44,14 +41,11 @@
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/trezor",
   "peerDependencies": {
-    "@ethersproject/abstract-signer": "5.7.0",
-    "@ethersproject/bignumber": "5.7.0",
-    "@ethersproject/providers": "^5.7.0",
-    "@ethersproject/transactions": "5.7.0",
     "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
-    "bitcoinjs-lib": "5.2.0"
+    "bitcoinjs-lib": "5.2.0",
+    "ethers": "^6.7.1"
   },
   "publishConfig": {
     "access": "public"

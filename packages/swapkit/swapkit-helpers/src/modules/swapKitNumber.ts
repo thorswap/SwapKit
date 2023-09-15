@@ -13,6 +13,20 @@ export type SwapKitValueType = BaseSwapKitNumber | string | number;
 type Params = SwapKitValueType | { decimal?: number; value: number | string };
 
 export class BaseSwapKitNumber {
+  static fromBigInt(value: bigint, decimal?: number) {
+    return new BaseSwapKitNumber({
+      decimal,
+      value: formatBigIntToSafeValue({ value, bigIntDecimal: decimal, decimal }),
+    });
+  }
+
+  static shiftDecimals({ value, from, to }: { value: SwapKitValueType; from: number; to: number }) {
+    return BaseSwapKitNumber.fromBigInt(
+      (new BaseSwapKitNumber(value).bigIntValue * toMultiplier(to)) / toMultiplier(from),
+      to,
+    );
+  }
+
   decimalMultiplier: bigint = 10n ** 8n;
   bigIntValue: bigint = 0n;
   decimal?: number;
@@ -32,25 +46,19 @@ export class BaseSwapKitNumber {
   get unsafeNumber() {
     return parseFloat((this.bigIntValue / this.decimalMultiplier).toString());
   }
-
+  get baseValue() {
+    return this.#getBaseValue('string') as string;
+  }
+  get baseValueNumber() {
+    return this.#getBaseValue('number') as number;
+  }
+  get baseValueBigInt() {
+    return this.#getBaseValue('number') as bigint;
+  }
   get value() {
     return this.formatBigIntToSafeValue(
       this.bigIntValue,
       this.decimal || decimalFromMultiplier(this.decimalMultiplier),
-    );
-  }
-
-  static fromBigInt(value: bigint, decimal?: number) {
-    return new BaseSwapKitNumber({
-      decimal,
-      value: formatBigIntToSafeValue({ value, bigIntDecimal: decimal, decimal }),
-    });
-  }
-
-  static shiftDecimals({ value, from, to }: { value: SwapKitValueType; from: number; to: number }) {
-    return BaseSwapKitNumber.fromBigInt(
-      (new BaseSwapKitNumber(value).bigIntValue * toMultiplier(to)) / toMultiplier(from),
-      to,
     );
   }
 
@@ -66,7 +74,6 @@ export class BaseSwapKitNumber {
   div(...args: SwapKitValueType[]) {
     return this.#arithmetics('div', ...args);
   }
-
   gt(value: SwapKitValueType) {
     return this.bigIntValue > this.getBigIntValue(value);
   }
@@ -123,7 +130,7 @@ export class BaseSwapKitNumber {
     );
   }
 
-  #arithmetics(method: ArithmeticMethod, ...args: SwapKitValueType[]) {
+  #arithmetics(method: ArithmeticMethod, ...args: SwapKitValueType[]): this {
     const precisionDecimal = this.#retrievePrecisionDecimal(this, ...args);
     const precisionDecimalMultiplier = toMultiplier(precisionDecimal);
 
@@ -161,7 +168,8 @@ export class BaseSwapKitNumber {
       value: result,
     });
 
-    return new BaseSwapKitNumber({ decimal: this.decimal, value });
+    // @ts-expect-error - we know that the constructor is the same as the current class
+    return new this.constructor({ decimal: this.decimal, value });
   }
 
   #setValue(value: AllowedValueType, bigIntValue?: bigint) {
@@ -207,6 +215,19 @@ export class BaseSwapKitNumber {
   #getFloatDecimals(value: string) {
     const decimals = value.split('.')[1]?.length || 0;
     return Math.max(decimals, DEFAULT_DECIMAL);
+  }
+
+  #getBaseValue<T extends 'number' | 'string' | 'bigint'>(type: T) {
+    const divisor = this.decimalMultiplier / toMultiplier(this.decimal || 0);
+    const baseValue = this.bigIntValue / divisor;
+    switch (type) {
+      case 'number':
+        return Number(baseValue);
+      case 'string':
+        return baseValue.toString();
+      default:
+        return baseValue;
+    }
   }
 }
 

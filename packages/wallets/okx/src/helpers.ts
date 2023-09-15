@@ -1,9 +1,8 @@
-import { baseAmount } from '@thorswap-lib/helpers';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import type { GaiaToolbox } from '@thorswap-lib/toolbox-cosmos';
 import type { getWeb3WalletMethods } from '@thorswap-lib/toolbox-evm';
 import type { BTCToolbox, UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
-import { Chain, ChainId } from '@thorswap-lib/types';
+import { BaseDecimal, Chain, ChainId } from '@thorswap-lib/types';
 import { Psbt } from 'bitcoinjs-lib';
 
 export const cosmosTransfer =
@@ -50,7 +49,7 @@ export const getWalletForChain = async ({
     case Chain.Ethereum:
     case Chain.Avalanche:
     case Chain.BinanceSmartChain: {
-      if (!window.okxwallet?.request) throw new Error('No okxwallet found');
+      if (!window.okxwallet?.send) throw new Error('No okxwallet found');
 
       const { getWeb3WalletMethods, getProvider } = await import('@thorswap-lib/toolbox-evm');
 
@@ -61,13 +60,19 @@ export const getWalletForChain = async ({
         ethereumWindowProvider: window.okxwallet,
       });
 
-      const address = (await window.okxwallet.request({ method: 'eth_requestAccounts' }))[0];
+      //TODO I think we use wrong provider Type
+      //@ts-expect-error
+      const address: string = await window.okxwallet.send('eth_requestAccounts', []);
       const getBalance = async () => {
         const balances = await evmWallet.getBalance(address);
         const gasAssetBalance = await getProvider(chain).getBalance(address);
-        const evmGasTokenBalanceAmount = baseAmount(gasAssetBalance, 18);
         return [
-          { asset: getSignatureAssetFor(chain), amount: evmGasTokenBalanceAmount },
+          new AssetValue({
+            chain,
+            symbol: chain,
+            value: gasAssetBalance,
+            decimal: BaseDecimal[chain],
+          }),
           ...balances.slice(1),
         ];
       };
