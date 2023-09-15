@@ -283,7 +283,7 @@ export const estimateMaxSendableAmount = async ({
 
   const fee = Math.max(MIN_TX_FEE, txSize * feeRateWhole);
 
-  return baseAmount(balance.amount.minus(baseAmount(fee, 8)).amount(), 8);
+  return baseAmount(balance.minus(baseAmount(fee, 8)).amount(), 8);
 };
 
 export const BaseUTXOToolbox = (
