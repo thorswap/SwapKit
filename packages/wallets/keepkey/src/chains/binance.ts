@@ -1,5 +1,6 @@
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
 import { AssetAtom, BinanceToolbox, getDenom } from '@thorswap-lib/toolbox-cosmos';
+import type { TxParams } from '@thorswap-lib/types';
 import { Chain, ChainId } from '@thorswap-lib/types';
 import { KeepKeyParams } from '../keepkey.ts';
 
@@ -75,10 +76,10 @@ export const binanceWalletMethods: any = async function (params: KeepKeyParams) 
       }
     };
 
-    const transfer = async ({ asset, amount, recipient, sender, memo }: TxParams) => {
-      const from = await getAddress();
+    const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
+      let from = await getAddress();
       return signTransactionTransfer({
-        from: sender,
+        from: from,
         to: recipient,
         asset: getDenom(asset || AssetAtom),
         amount: amount.amount().toString(),

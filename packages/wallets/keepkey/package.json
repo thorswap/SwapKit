@@ -2,8 +2,8 @@
   "author": "thorswap",
   "dependencies": {
     "@cosmjs/stargate": "0.31.1",
-    "@keepkey/keepkey-sdk": "^0.2.49",
-    "@pioneer-platform/pioneer-coins": "^8.1.82",
+    "@keepkey/keepkey-sdk": "^0.2.52",
+    "@pioneer-platform/pioneer-coins": "^8.1.83",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*"

@@ -15,6 +15,7 @@ type SignTransactionTransferParams = {
   memo: string | undefined;
 }
 
+// @ts-ignore
 export const thorChainWalletMethods = async function (params: KeepKeyParams) {
   try {
     const { sdk } = params;
@@ -30,7 +31,6 @@ export const thorChainWalletMethods = async function (params: KeepKeyParams) {
     const signTransactionTransfer = async (params: SignTransactionTransferParams) => {
       try {
         const { amount, asset, to, from, memo } = params;
-        console.log('amount!!!!!!!!', amount);
         const addressInfo = addressInfoForCoin(Chain.THORChain, false); // @highlander no witness script here
         const accountInfo = await toolbox.getAccount(from);
 
@@ -38,18 +38,17 @@ export const thorChainWalletMethods = async function (params: KeepKeyParams) {
           signDoc: {
             account_number: accountInfo?.accountNumber?.toString() ?? '0',
             chain_id: ChainId.THORChain,
-            // TODO: fees should not be hardcoded
             fee: {
               gas: '500000000',
               amount: []
             },
-            msg: [
+            msgs: [
               {
                 value: {
-                  amount: {
-                    denom: 'rune',
+                  amount: [{
+                    denom: asset.toLowerCase(),
                     amount: amount.amount().toString()
-                  },
+                  }],
                   to_address: to,
                   from_address: from
                 },
@@ -79,6 +78,7 @@ export const thorChainWalletMethods = async function (params: KeepKeyParams) {
         return broadcastResponse.transactionHash
       } catch (e) {
         console.error(e);
+        throw e
       }
     }
 
@@ -98,16 +98,16 @@ export const thorChainWalletMethods = async function (params: KeepKeyParams) {
       });
     };
 
-    const deposit = async ({ asset = AssetRuneNative, amount, memo }: DepositParam) => {
-      let fromAddress = await getAddress();
-      return signTransactionDeposit({ asset, amount, memo, from: fromAddress });
-    }
+    // const deposit = async ({ asset = AssetRuneNative, amount, memo }: DepositParam) => {
+    //   let fromAddress = await getAddress();
+    //   return signTransactionDeposit({ asset, amount, memo, from: fromAddress });
+    // }
 
     return {
       ...toolbox,
       getAddress,
       transfer,
-      deposit
+      // deposit
     }
   } catch (e) {
     console.error(e);

@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 overrides:
   typescript: 5.2.2
   json5@<=1.0.1: ^1.0.2
@@ -945,11 +949,11 @@ importers:
         specifier: 0.31.1
         version: 0.31.1
       '@keepkey/keepkey-sdk':
-        specifier: ^0.2.49
-        version: 0.2.49
+        specifier: ^0.2.52
+        version: 0.2.52
       '@pioneer-platform/pioneer-coins':
-        specifier: ^8.1.82
-        version: 8.1.82(@types/node@20.5.9)
+        specifier: ^8.1.83
+        version: 8.1.83(@types/node@20.5.9)
       '@thorswap-lib/helpers':
         specifier: workspace:*
         version: link:../../../internal/helpers
@@ -4797,8 +4801,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: false
 
-  /@keepkey/keepkey-sdk@0.2.49:
-    resolution: {integrity: sha512-rVfj4P2dbJZgsZRh3+BQ8UpdZYfUYgD+nxiSUkG96dj8Q8qC0PY2vErzGeRtJ/L6CN7RqD3mShTeN0KNtS2aEQ==}
+  /@keepkey/keepkey-sdk@0.2.52:
+    resolution: {integrity: sha512-Qp1hLI8aRGOQWwduGcyB+xwxzZE9UtJ2PqWLqATH1mEon26rkMQTUk1hrGn2oNO5cxqamzK94iGqeSR7p5Y2nA==}
     dev: false
 
   /@keplr-wallet/types@0.12.22:
@@ -5472,8 +5476,8 @@ packages:
       - '@types/node'
     dev: false
 
-  /@pioneer-platform/pioneer-coins@8.1.82(@types/node@20.5.9):
-    resolution: {integrity: sha512-q9gqeIKKke28F3nJQRSNj/5W5eUA6gx/ID0/qbj6Dcyhl+tZS+zM22O7Qce2/jqCKiHUNzVLVEGurSGI3qZ8OA==}
+  /@pioneer-platform/pioneer-coins@8.1.83(@types/node@20.5.9):
+    resolution: {integrity: sha512-jkzCgC0lGQczUdCBlvs2toK+4aX0NLpRQnqqC4VqgD7vIRUl+BHJeTPO5ajHB2DZArJ8NC6+g/+MtgEK+XE+dw==}
     dependencies:
       '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.5.9)
       bech32: 1.1.4
@@ -17267,7 +17271,3 @@ packages:
     optionalDependencies:
       commander: 9.5.0
     dev: true
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
