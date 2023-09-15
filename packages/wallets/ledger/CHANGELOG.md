@@ -1,5 +1,11 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.252
+
+### Minor Changes
+
+- [#309](https://github.com/thorswap/SwapKit/pull/309) [`480b315`](https://github.com/thorswap/SwapKit/commit/480b315f6b48ebe10fc9007e850072033e252b40) Thanks [@0x-General](https://github.com/0x-General)! - Fix ledger deposit txs
+
 ## 1.0.0-development.251
 
 ### Minor Changes
