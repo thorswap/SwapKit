@@ -2,6 +2,7 @@
   "author": "thorswap",
   "dependencies": {
     "@thorswap-lib/swapkit-entities": "workspace:*",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "@trezor/connect-web": "9.1.2"
   },

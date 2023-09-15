@@ -1,6 +1,6 @@
 import { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, RPCUrl } from '@thorswap-lib/types';
-import type { BrowserProvider, JsonRpcProvider, VoidSigner } from 'ethers';
+import type { BrowserProvider, JsonRpcProvider, Signer } from 'ethers';
 
 import type { CovalentApiType } from '../api/covalentApi.ts';
 import { covalentApi } from '../api/covalentApi.ts';
@@ -40,7 +40,7 @@ export const MATICToolbox = ({
 }: {
   api?: CovalentApiType;
   covalentApiKey: string;
-  signer: VoidSigner;
+  signer: Signer;
   provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const maticApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Polygon });

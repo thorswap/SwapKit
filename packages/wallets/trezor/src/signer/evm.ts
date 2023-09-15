@@ -1,8 +1,9 @@
-import { derivationPathToString } from '@thorswap-lib/swapkit-helpers';
+import { derivationPathToString, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
 import type { Chain, DerivationPathArray, EVMTxParams } from '@thorswap-lib/types';
 import { ChainToChainId } from '@thorswap-lib/types';
 import TrezorConnect from '@trezor/connect-web';
-import { type JsonRpcProvider, type Provider, VoidSigner } from 'ethers/providers';
+import { AbstractSigner } from 'ethers';
+import { type JsonRpcProvider, type Provider } from 'ethers/providers';
 
 interface TrezorEVMSignerParams {
   chain: Chain;
@@ -10,14 +11,14 @@ interface TrezorEVMSignerParams {
   provider: Provider | JsonRpcProvider;
 }
 
-class TrezorSigner extends VoidSigner {
+class TrezorSigner extends AbstractSigner {
   address: string;
   private chain: Chain;
   private derivationPath: DerivationPathArray;
   readonly provider: Provider | JsonRpcProvider;
 
   constructor({ chain, derivationPath, provider }: TrezorEVMSignerParams) {
-    super('');
+    super(provider);
     this.chain = chain;
     this.derivationPath = derivationPath;
     this.provider = provider;
@@ -53,6 +54,11 @@ class TrezorSigner extends VoidSigner {
     return result.payload.signature;
   };
 
+  //TODO implement signTypedData
+  signTypedData(): Promise<string> {
+    throw new Error('this method is not implemented');
+  }
+
   signTransaction = async ({ from, to, value, gasLimit, nonce, data, ...restTx }: EVMTxParams) => {
     if (!from) throw new Error('Missing from address');
     if (!to) throw new Error('Missing to address');
@@ -68,18 +74,16 @@ class TrezorSigner extends VoidSigner {
     const { toHexString } = await import('@thorswap-lib/toolbox-evm');
 
     const baseTx = {
-      chainId: BigInt(ChainToChainId[this.chain]),
+      chainId: parseInt(ChainToChainId[this.chain], 16),
       to,
       value: toHexString(value || 0n),
       gasLimit: toHexString(gasLimit),
-      nonce: BigNumber.from(
-        nonce || (await this.provider.getTransactionCount(from, 'pending')),
-      ).toHexString(),
+      nonce: (nonce || (await this.provider.getTransactionCount(from, 'pending'))).toString(),
       data,
       ...(isEIP1559
         ? {
-            maxFeePerGas: BigNumber.from(restTx.maxFeePerGas).toHexString(),
-            maxPriorityFeePerGas: BigNumber.from(restTx.maxPriorityFeePerGas).toHexString(),
+            maxFeePerGas: toHexString(restTx.maxFeePerGas),
+            maxPriorityFeePerGas: toHexString(restTx.maxPriorityFeePerGas),
           }
         : //@ts-expect-error ts cant infer type of restTx
           { gasPrice: BigNumber.from(restTx.gasPrice).toHexString() }),
@@ -99,9 +103,9 @@ class TrezorSigner extends VoidSigner {
     const { Transaction } = await import('ethers/transaction');
     const hash = Transaction.from({
       ...baseTx,
-      nonce: BigNumber.from(baseTx.nonce).toNumber(),
+      nonce: parseInt(baseTx.nonce),
       type: isEIP1559 ? 2 : 0,
-      signature: { r, s, v: BigNumber.from(v).toNumber() },
+      signature: { r, s, v: new SwapKitNumber(v).baseValueNumber },
     }).serialized;
 
     if (!hash) throw new Error('Failed to sign transaction');

@@ -60,7 +60,7 @@ const createContract = async (
   return new Contract(address, Interface.from(abi), provider);
 };
 
-export const toHexString = (value: BigInt) => '0x' + value.toString(16);
+export const toHexString = (value?: BigInt) => (value ? '0x' + value.toString(16) : '');
 
 const validateAddress = (address: string) => {
   try {

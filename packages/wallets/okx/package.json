@@ -1,6 +1,7 @@
 {
   "author": "thorswap",
   "dependencies": {
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/types": "workspace:*"
   },
   "description": "THORSwap Lib okx",

@@ -7,7 +7,7 @@ import {
   FeeOption,
   RPCUrl,
 } from '@thorswap-lib/types';
-import type { BrowserProvider, JsonRpcProvider, Provider, VoidSigner } from 'ethers';
+import type { BrowserProvider, JsonRpcProvider, Provider, Signer } from 'ethers';
 
 import type { CovalentApiType } from '../api/covalentApi.ts';
 import { covalentApi } from '../api/covalentApi.ts';
@@ -66,7 +66,7 @@ export const ARBToolbox = ({
 }: {
   api?: CovalentApiType;
   covalentApiKey: string;
-  signer: VoidSigner;
+  signer: Signer;
   provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const arbApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Arbitrum });

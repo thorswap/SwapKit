@@ -1,5 +1,6 @@
 import type { EVMChain, EVMTxParams } from '@thorswap-lib/types';
-import { type JsonRpcProvider, type Provider, type TransactionRequest, VoidSigner } from 'ethers';
+import type { JsonRpcProvider, Provider, TransactionRequest } from 'ethers';
+import { AbstractSigner } from 'ethers';
 
 import { DEFAULT_EIP155_METHODS } from './constants.ts';
 import { chainToChainId, getAddressByChain } from './helpers.ts';
@@ -11,14 +12,15 @@ interface WalletconnectEVMSignerParams {
   provider: Provider | JsonRpcProvider;
 }
 
-class WalletconnectSigner extends VoidSigner {
+class WalletconnectSigner extends AbstractSigner<Provider | JsonRpcProvider> {
   address: string;
+
   private chain: EVMChain;
   private walletconnect: Walletconnect;
   readonly provider: Provider | JsonRpcProvider;
 
   constructor({ chain, provider, walletconnect }: WalletconnectEVMSignerParams) {
-    super('');
+    super(provider);
     this.chain = chain;
     this.walletconnect = walletconnect;
     this.provider = provider;
@@ -70,6 +72,33 @@ class WalletconnectSigner extends VoidSigner {
     })) as string;
 
     return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
+  };
+
+  //TODO implement this
+  signTypedData = async (params: EVMTxParams) => {
+    throw new Error('this method is not implemented');
+
+    // if (!from) throw new Error('Missing from address');
+    // if (!to) throw new Error('Missing to address');
+    // const { toHexString } = await import('@thorswap-lib/toolbox-evm');
+
+    // const baseTx = {
+    //   from,
+    //   to,
+    //   value: toHexString(value || 0n),
+    //   data,
+    // };
+
+    // const txHash = (await this.walletconnect?.client.request({
+    //   chainId: chainToChainId(this.chain),
+    //   topic: this.walletconnect.session.topic,
+    //   request: {
+    //     method: DEFAULT_EIP155_METHODS.ETH_SIGN_TYPED_DATA,
+    //     params: [baseTx],
+    //   },
+    // })) as string;
+
+    // return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
   };
 
   sendTransaction = async (transaction: TransactionRequest) => {

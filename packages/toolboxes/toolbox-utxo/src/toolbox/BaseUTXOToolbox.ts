@@ -321,7 +321,10 @@ export const BaseUTXOToolbox = (
     getInputsOutputsFee({ ...params, ...baseToolboxParams }),
 
   getFeeForTransaction: async (params: UTXOBuildTxParams) =>
-    baseAmount((await getInputsOutputsFee({ ...params, ...baseToolboxParams })).fee, 8),
+    new SwapKitNumber({
+      value: (await getInputsOutputsFee({ ...params, ...baseToolboxParams })).fee,
+      decimal: 8,
+    }),
 
   estimateMaxSendableAmount: async (params: UTXOEstimateFeeParams) =>
     estimateMaxSendableAmount({ ...params, ...baseToolboxParams }),

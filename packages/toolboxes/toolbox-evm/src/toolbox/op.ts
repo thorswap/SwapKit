@@ -7,7 +7,7 @@ import {
   FeeOption,
   RPCUrl,
 } from '@thorswap-lib/types';
-import type { BrowserProvider, JsonRpcProvider, TransactionRequest, VoidSigner } from 'ethers';
+import type { BrowserProvider, JsonRpcProvider, Signer, TransactionRequest } from 'ethers';
 
 import type { CovalentApiType } from '../api/covalentApi.ts';
 import { covalentApi } from '../api/covalentApi.ts';
@@ -146,7 +146,7 @@ export const OPToolbox = ({
 }: {
   api?: CovalentApiType;
   covalentApiKey: string;
-  signer: VoidSigner;
+  signer: Signer;
   provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const opApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Optimism });
