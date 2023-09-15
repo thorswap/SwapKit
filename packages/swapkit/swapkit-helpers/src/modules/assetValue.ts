@@ -10,8 +10,7 @@ import type {
   UniswapList,
   WoofiList,
 } from '@thorswap-lib/tokens';
-import type { Chain } from '@thorswap-lib/types';
-import { BaseDecimal } from '@thorswap-lib/types';
+import { BaseDecimal, Chain } from '@thorswap-lib/types';
 
 import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers/asset.ts';
 
@@ -51,13 +50,20 @@ const getStaticToken = (identifier: TokenNames) => {
   return tokenInfo;
 };
 
+const createAssetValue = async (assetString: string, value: number | string = 0) => {
+  const decimal = await getDecimal(getAssetInfo(assetString));
+  return new AssetValue({ decimal, value, identifier: assetString });
+};
+
 export class AssetValue extends BaseSwapKitNumber {
+  static async fromString(assetString: string, value: number | string = 0) {
+    return createAssetValue(assetString, value);
+  }
   static async fromIdentifier(
     assetString: `${Chain}.${string}` | `${Chain}/${string}` | `${Chain}.${string}-${string}`,
     value: number | string = 0,
   ) {
-    const decimal = await getDecimal(getAssetInfo(assetString));
-    return new AssetValue({ decimal, value, identifier: assetString });
+    return createAssetValue(assetString, value);
   }
 
   static fromIdentifierSync(identifier: TokenNames, value: number | string = 0) {
@@ -66,7 +72,10 @@ export class AssetValue extends BaseSwapKitNumber {
     return new AssetValue({ ...tokenInfo, value });
   }
 
-  static fromString(assetString: 'ETH.THOR' | 'ETH.vTHOR' | Chain, value: number | string = 0) {
+  static fromChainOrSignature(
+    assetString: 'ETH.THOR' | 'ETH.vTHOR' | Chain,
+    value: number | string = 0,
+  ) {
     return new AssetValue({ value, ...getCommonAssetInfo(assetString) });
   }
 
@@ -159,6 +168,25 @@ export class AssetValue extends BaseSwapKitNumber {
     return this.chain === chain && this.symbol === symbol;
   }
 }
+
+export const getMinAmountByChain = (chain: Chain) => {
+  const asset = AssetValue.fromChainOrSignature(chain);
+  const minAmount = [Chain.Bitcoin, Chain.Litecoin, Chain.BitcoinCash].includes(chain)
+    ? // 10001 satoshi
+      10001
+    : [Chain.Dogecoin].includes(chain)
+    ? // 1 DOGE
+      100000001
+    : [Chain.Avalanche, Chain.Ethereum].includes(chain)
+    ? //  10 gwei
+      10 * 10 ** 9
+    : chain === Chain.THORChain
+    ? // 0 RUNE
+      0
+    : 1;
+
+  return asset.add(minAmount);
+};
 
 const getAssetInfo = (identifier: string) => {
   const isSynthetic = identifier.includes('/');

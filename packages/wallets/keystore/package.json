@@ -1,7 +1,6 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "blakejs": "1.2.1",
     "uuid": "9.0.0"
@@ -10,6 +9,7 @@
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@scure/bip39": "1.2.1",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
@@ -43,6 +43,7 @@
   "name": "@thorswap-lib/keystore",
   "peerDependencies": {
     "@scure/bip39": "1.2.1",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",

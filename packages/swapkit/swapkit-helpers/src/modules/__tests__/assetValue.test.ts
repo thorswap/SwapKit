@@ -14,7 +14,7 @@ describe('AssetValue', () => {
       });
       expect(fakeAvaxUSDCAsset.assetValue).toBe('1234567890 USDC');
 
-      const thor = AssetValue.fromString('ETH.THOR');
+      const thor = AssetValue.fromChainOrSignature('ETH.THOR');
       expect(thor.assetValue).toBe('0 THOR');
 
       const ethSynth = new AssetValue({
@@ -29,9 +29,9 @@ describe('AssetValue', () => {
 
   describe('eq', () => {
     test('checks if assets are same chain and symbol', () => {
-      const firstThor = AssetValue.fromString('ETH.THOR');
-      const secondThor = AssetValue.fromString('ETH.THOR');
-      const vThor = AssetValue.fromString('ETH.vTHOR');
+      const firstThor = AssetValue.fromChainOrSignature('ETH.THOR');
+      const secondThor = AssetValue.fromChainOrSignature('ETH.THOR');
+      const vThor = AssetValue.fromChainOrSignature('ETH.vTHOR');
       const firstUsdc = new AssetValue({
         chain: Chain.Avalanche,
         symbol: 'USDC-01234',
@@ -69,7 +69,7 @@ describe('AssetValue', () => {
       });
       expect(fakeAvaxUSDCAsset.toString()).toBe('AVAX.USDC-01234');
 
-      const thor = AssetValue.fromString('ETH.THOR');
+      const thor = AssetValue.fromChainOrSignature('ETH.THOR');
       expect(thor.toString()).toBe('ETH.THOR-0xa5f2211B9b8170F694421f2046281775E8468044');
 
       const ethSynth = await AssetValue.fromIdentifier('ETH/ETH');
@@ -101,13 +101,13 @@ describe('AssetValue', () => {
     test.todo('creates AssetValue from string via `@thorswap-lib/tokens` lists', () => {});
   });
 
-  describe('fromString', () => {
+  describe('fromChainOrSignature', () => {
     test('creates AssetValue from common asset string or chain', () => {
       const customBaseAsset = [Chain.Cosmos, Chain.BinanceSmartChain, Chain.THORChain];
       Object.values(Chain)
         .filter((c) => !customBaseAsset.includes(c))
         .forEach((chain) => {
-          const asset = AssetValue.fromString(chain);
+          const asset = AssetValue.fromChainOrSignature(chain);
           expect(asset).toEqual(
             expect.objectContaining({
               address: undefined,
@@ -122,7 +122,7 @@ describe('AssetValue', () => {
           );
         });
 
-      const cosmosAsset = AssetValue.fromString(Chain.Cosmos);
+      const cosmosAsset = AssetValue.fromChainOrSignature(Chain.Cosmos);
       expect(cosmosAsset).toEqual(
         expect.objectContaining({
           address: undefined,
@@ -136,7 +136,7 @@ describe('AssetValue', () => {
         }),
       );
 
-      const bscAsset = AssetValue.fromString(Chain.BinanceSmartChain);
+      const bscAsset = AssetValue.fromChainOrSignature(Chain.BinanceSmartChain);
       expect(bscAsset).toEqual(
         expect.objectContaining({
           address: undefined,
@@ -150,7 +150,7 @@ describe('AssetValue', () => {
         }),
       );
 
-      const thorAsset = AssetValue.fromString(Chain.THORChain);
+      const thorAsset = AssetValue.fromChainOrSignature(Chain.THORChain);
       expect(thorAsset).toEqual(
         expect.objectContaining({
           address: undefined,
@@ -164,7 +164,7 @@ describe('AssetValue', () => {
         }),
       );
 
-      const thor = AssetValue.fromString('ETH.THOR');
+      const thor = AssetValue.fromChainOrSignature('ETH.THOR');
       expect(thor).toEqual(
         expect.objectContaining({
           address: '0xa5f2211B9b8170F694421f2046281775E8468044',
@@ -177,7 +177,7 @@ describe('AssetValue', () => {
         }),
       );
 
-      const vthor = AssetValue.fromString('ETH.vTHOR');
+      const vthor = AssetValue.fromChainOrSignature('ETH.vTHOR');
       expect(vthor).toEqual(
         expect.objectContaining({
           address: '0x815C23eCA83261b6Ec689b60Cc4a58b54BC24D8D',

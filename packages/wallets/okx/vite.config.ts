@@ -14,7 +14,6 @@ const viteConfig = thorswapViteConfig(name, {
         '@thorswap-lib/toolbox-cosmos',
         '@thorswap-lib/toolbox-evm',
         '@thorswap-lib/toolbox-utxo',
-        '@thorswap-lib/swapkit-entities',
       ],
     },
   },

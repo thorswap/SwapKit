@@ -169,7 +169,7 @@ export const estimateMaxSendableAmount = async ({
   const balance = (await toolbox.getBalance(from)).find((balance) =>
     assetEntity
       ? balance.symbol === assetEntity.symbol
-      : balance.symbol === AssetValue.fromString(balance.chain)?.symbol,
+      : balance.symbol === AssetValue.fromChainOrSignature(balance.chain)?.symbol,
   );
 
   if (!balance) return new SwapKitNumber(0);
@@ -218,7 +218,7 @@ export const estimateMaxSendableAmount = async ({
       : fees.gasPrice!);
   const maxSendableAmount = SwapKitNumber.fromBigInt(balance.baseValueBigInt).sub(fee.toString());
 
-  return AssetValue.fromString(balance.chain, maxSendableAmount.value);
+  return AssetValue.fromChainOrSignature(balance.chain, maxSendableAmount.value);
 };
 
 export const addAccountsChangedCallback = (callback: () => void) => {

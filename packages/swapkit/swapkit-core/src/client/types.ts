@@ -25,7 +25,7 @@ import type {
 } from '@thorswap-lib/types';
 
 export type CoreTxParams = {
-  assetAmount: SwapKitNumber;
+  assetValue: AssetValue;
   recipient: string;
   memo?: string;
   feeOptionKey?: FeeOption;
@@ -34,33 +34,9 @@ export type CoreTxParams = {
   from?: string;
 };
 
-export type AddLiquidityParams = {
-  pool: Pool;
-  isPendingSymmAsset?: boolean;
-  runeAmount?: SwapKitNumber;
-  assetAmount?: SwapKitNumber;
-  runeAddr?: string;
-  assetAddr?: string;
-  mode?: LPType;
-};
-
-export type CreateLiquidityParams = {
-  runeAmount: SwapKitNumber;
-  assetAmount: SwapKitNumber;
-};
-
 export type AddLiquidityTxns = {
   runeTx?: string;
   assetTx?: string;
-};
-
-type LPType = 'sym' | 'rune' | 'asset';
-export type WithdrawParams = {
-  memo?: string;
-  asset: AssetValue;
-  percent: SwapKitNumber;
-  from: LPType;
-  to: LPType;
 };
 
 export type UpgradeParams = {

@@ -1,4 +1,3 @@
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import { AssetValue, getRequest } from '@thorswap-lib/swapkit-helpers';
 import type { ChainId } from '@thorswap-lib/types';
 import { ChainIdToChain } from '@thorswap-lib/types';
@@ -34,38 +33,15 @@ export const covalentApi = ({ apiKey, chainId }: { apiKey: string; chainId: Chai
       { key: apiKey },
     );
 
-    return mapBalanceResponseToBalance(data || { items: [] }, chainId);
+    return (data?.items || []).map(
+      ({ balance, contract_decimals, contract_ticker_symbol, contract_address }) =>
+        new AssetValue({
+          value: balance,
+          decimal: contract_decimals,
+          identifier: `${ChainIdToChain[chainId]}.${contract_ticker_symbol}-${contract_address}`,
+        }),
+    );
   },
 });
 
 export type CovalentApiType = ReturnType<typeof covalentApi>;
-
-const mapBalanceResponseToBalance = async (
-  data: CovalentBalanceResponse,
-  chainId: ChainId,
-): Promise<AssetValue[]> =>
-  data.items
-    .map(
-      ({ balance, contract_decimals, contract_ticker_symbol, contract_address }) =>
-        new AssetValue({
-          value: BigInt(balance),
-          decimal: contract_decimals,
-          ...{
-            chain: ChainIdToChain[chainId],
-            symbol: `${ChainIdToChain[chainId]}.${contract_ticker_symbol}-${contract_address}`,
-          },
-        }),
-    )
-    //     {
-    //   amount: new SwapKitNumber(balance.toString()), contract_decimals),
-    //   asset:
-    //     (contract_address !== '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee' &&
-    //       assetFromString(
-    //         `${ChainIdToChain[chainId]}.${contract_ticker_symbol}-${contract_address}`,
-    //       )) ||
-    //     getSignatureAssetFor(ChainIdToChain[chainId]),
-    // }))
-    .filter(({ symbol, ticker }) => {
-      const signatureAsset = getSignatureAssetFor(ChainIdToChain[chainId]);
-      return !(symbol === signatureAsset.symbol && ticker === signatureAsset.ticker);
-    });

@@ -1,4 +1,3 @@
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import { getRequest } from '@thorswap-lib/swapkit-helpers';
 import { ApiUrl, Chain, ChainToExplorerUrl } from '@thorswap-lib/types';
 
@@ -18,14 +17,6 @@ type InboundAddressData = {
   router: string;
 }[];
 
-export const getAssetForBalance = ({ symbol, chain }: { symbol: string; chain: Chain }) => {
-  const isSynth = symbol.includes('/');
-  const assetChain = (isSynth ? symbol.split('/')?.[0] : chain)?.toUpperCase() as Chain;
-  const assetSymbol = (isSynth ? symbol.split('/')?.[1] : symbol)?.toUpperCase();
-
-  return new AssetEntity(assetChain, assetSymbol, isSynth);
-};
-
 export const getInboundData = (stagenet: boolean) => {
   const baseUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
 
@@ -41,6 +32,7 @@ export const getMimirData = (stagenet: boolean) => {
 export const getEmptyWalletStructure = () =>
   (Object.values(Chain) as Chain[]).reduce(
     (acc, chain) => {
+      re;
       acc[chain] = null;
       return acc;
     },

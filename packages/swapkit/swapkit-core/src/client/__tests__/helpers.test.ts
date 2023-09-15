@@ -1,12 +1,7 @@
 import { Chain, ChainToExplorerUrl } from '@thorswap-lib/types';
 import { describe, expect, test } from 'vitest';
 
-import {
-  getAssetForBalance,
-  getEmptyWalletStructure,
-  getExplorerAddressUrl,
-  getExplorerTxUrl,
-} from '../helpers.ts';
+import { getEmptyWalletStructure, getExplorerAddressUrl, getExplorerTxUrl } from '../helpers.ts';
 
 describe('Explorer URLs', () => {
   Object.values(Chain)
@@ -84,29 +79,5 @@ describe('getEmptyWalletStructure', () => {
         {} as Record<Chain, null>,
       ),
     );
-  });
-});
-
-describe('getAssetForBalance', () => {
-  test('returns asset for balance token', () => {
-    const ethAsset = getAssetForBalance({ chain: Chain.Ethereum, symbol: 'ETH.ETH' });
-    const btcSynth = getAssetForBalance({ chain: Chain.Bitcoin, symbol: 'BTC/BTC' });
-
-    expect(ethAsset).toMatchObject({
-      chain: Chain.Ethereum,
-      symbol: 'ETH.ETH',
-      ticker: 'ETH.ETH',
-      decimal: 18,
-      name: 'ETH.ETH',
-      isSynth: false,
-    });
-
-    expect(btcSynth).toMatchObject({
-      chain: Chain.Bitcoin,
-      symbol: 'BTC',
-      isSynth: true,
-      ticker: 'BTC',
-      decimal: 8,
-    });
   });
 });

@@ -1,5 +1,5 @@
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { AssetValue, getCommonAssetInfo, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
+import type { SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
+import { AssetValue, getCommonAssetInfo } from '@thorswap-lib/swapkit-helpers';
 import { ChainId, FeeOption, RPCUrl } from '@thorswap-lib/types';
 
 import type { CosmosMaxSendableAmountParams } from './types.ts';
@@ -48,19 +48,12 @@ export const estimateMaxSendableAmount = async ({
   // fix typing
   const assetEntity =
     typeof asset === 'string' ? await AssetValue.fromIdentifier(asset as any) : asset;
-  const balance = (await toolbox.getBalance(from)).find((balance) =>
+  const balances = await toolbox.getBalance(from);
+  const balance = balances.find(({ symbol }) =>
     asset
-      ? balance.symbol === assetEntity?.symbol
-      : balance.symbol ===
-        AssetValue.fromIdentifierSync(getCommonAssetInfo(balance.chain).identifier).symbol,
+      ? symbol === assetEntity?.symbol
+      : symbol === AssetValue.fromChainOrSignature(balance.chain).symbol,
   );
-
-  if (!balance) return new SwapKitNumber(0);
-
-  // TODO - what are we doing with this
-  if (!getSignatureAssetFor(balance.chain).shallowEq(assetEntity as any)) {
-    return balance;
-  }
 
   const fees = await toolbox.getFees();
 

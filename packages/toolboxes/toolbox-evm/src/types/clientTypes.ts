@@ -1,5 +1,5 @@
 import type { Keplr } from '@keplr-wallet/types';
-import type { AssetEntity } from '@thorswap-lib/swapkit-entities';
+import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import type { FeeOption, WalletTxParams } from '@thorswap-lib/types';
 import type { BigNumberish, BrowserProvider, JsonFragment, Transaction } from 'ethers';
 
@@ -107,7 +107,7 @@ export type EVMToolbox = ReturnType<
 export type EVMMaxSendableAmountsParams = {
   from: string;
   toolbox: EVMToolbox;
-  asset?: AssetEntity | string;
+  assetValue: AssetValue;
   feeOptionKey?: FeeOption;
   memo?: string;
   abi?: readonly JsonFragment[];

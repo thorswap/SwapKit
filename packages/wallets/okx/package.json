@@ -7,7 +7,6 @@
   "description": "THORSwap Lib okx",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
@@ -37,7 +36,6 @@
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/okx",
   "peerDependencies": {
-    "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",

@@ -13,28 +13,6 @@ type SwapInParams = {
   toChecksumAddress: (address: string) => string;
 };
 
-type SwapOutParams = {
-  callData: QuoteRoute['calldata'];
-  streamSwap?: boolean;
-  recipient: string;
-};
-
-export const getSwapOutParams = ({
-  streamSwap,
-  recipient,
-  callData: { fromAsset, amountIn, memo, memoStreamingSwap },
-}: SwapOutParams) => {
-  const asset = AssetEntity.fromAssetString(fromAsset);
-  if (!asset) throw new SwapKitError('core_swap_asset_not_recognized');
-
-  const swapMemo = (streamSwap ? memoStreamingSwap || memo : memo) as string;
-
-  return {
-    assetAmount: new AssetAmount(asset, new Amount(amountIn, 0, asset.decimal)),
-    memo: swapMemo?.replace('{recipientAddress}', recipient),
-  };
-};
-
 export const getSwapInParams = ({
   streamSwap,
   contractAddress,
