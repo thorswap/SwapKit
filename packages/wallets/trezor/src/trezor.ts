@@ -5,7 +5,6 @@ import { Chain, FeeOption, WalletOption } from '@thorswap-lib/types';
 import TrezorConnect from '@trezor/connect-web';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
-import type { VoidSigner } from 'ethers';
 
 import { getEVMSigner } from './signer/evm.ts';
 
@@ -59,7 +58,7 @@ const getToolbox = async ({
       );
 
       const provider = getProvider(chain, rpcUrl);
-      const signer = (await getEVMSigner({ chain, derivationPath, provider })) as VoidSigner;
+      const signer = await getEVMSigner({ chain, derivationPath, provider });
 
       const address = await signer.getAddress();
       const params = { api, signer, provider };
