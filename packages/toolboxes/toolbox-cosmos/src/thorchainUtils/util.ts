@@ -1,8 +1,8 @@
 import { toBech32 } from '@cosmjs/encoding';
 import { base64, bech32 } from '@scure/base';
-import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
-import { AssetEntity } from '@thorswap-lib/swapkit-entities';
-import type { AmountWithBaseDenom, Asset, Balance, Fees } from '@thorswap-lib/types';
+import { assetFromString } from '@thorswap-lib/helpers';
+import { SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
+import type { Asset, Balance, Fees } from '@thorswap-lib/types';
 import { BaseDecimal, Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
 
 import { AssetRuneNative } from '../types.ts';
@@ -25,7 +25,7 @@ export const buildDepositTx = async ({
   isStagenet?: boolean;
   signer: string;
   memo?: string;
-  assetAmount: AmountWithBaseDenom;
+  assetAmount: SwapKitNumber;
   asset: Asset;
 }) => {
   const { StargateClient } = await import('@cosmjs/stargate');
@@ -43,7 +43,7 @@ export const buildDepositTx = async ({
   const msgDeposit = {
     coins: [
       {
-        amount: assetAmount.amount().toString(),
+        amount: assetAmount.baseValue,
         asset: getDenomWithChain(asset).toUpperCase(),
       },
     ],
@@ -82,7 +82,7 @@ export const buildTransferTx = async ({
   isStagenet?: boolean;
   fromAddress: string;
   toAddress: string;
-  assetAmount: AmountWithBaseDenom;
+  assetAmount: SwapKitNumber;
   assetDenom: string;
   memo?: string;
 }) => {
@@ -102,7 +102,7 @@ export const buildTransferTx = async ({
   const msgSend = {
     fromAddress: base64FromAddress,
     toAddress: base64ToAddress,
-    amount: [{ amount: assetAmount.amount().toString(), denom: assetDenom }],
+    amount: [{ amount: assetAmount.baseValue, denom: assetDenom }],
   };
   const msg = {
     typeUrl: '/types.MsgSend',
@@ -131,35 +131,28 @@ export const getThorchainAsset = (denom: string): Asset | null => {
   return assetFromString(`${Chain.THORChain}.${parsedDenom}`);
 };
 
-export const createAssetFromAssetObj = (asset: Asset) => {
-  const [chain, ...symbolArray] = asset.symbol.split(asset.synth ? '/' : '.');
-  const symbol = symbolArray.join('.');
-
-  return new AssetEntity(chain as Chain, symbol, asset.synth);
-};
-
 export const checkBalances = async (
   balances: Balance[],
   fees: Fees,
-  amount: AmountWithBaseDenom,
+  amount: SwapKitNumber,
   asset: Asset,
 ) => {
-  const runeBalance =
-    balances.filter(({ asset }) => asset.symbol === 'RUNE')[0]?.amount ??
-    baseAmount(0, BaseDecimal.THOR);
+  const zeroValue = new SwapKitNumber({ value: 0, decimal: BaseDecimal.THOR });
+
+  const runeBalance = balances.find(({ symbol }) => symbol === 'RUNE') ?? zeroValue;
   const assetBalance =
-    balances.filter(
-      ({ asset: { chain, symbol } }) => `${chain}.${symbol}` === `${asset.chain}.${asset.symbol}`,
-    )[0]?.amount ?? baseAmount(0, BaseDecimal.THOR);
+    balances.find(
+      ({ chain, symbol }) => `${chain}.${symbol}` === `${asset.chain}.${asset.symbol}`,
+    ) ?? zeroValue;
 
   if (asset.symbol === 'RUNE') {
     // amount + fee < runeBalance
-    if (runeBalance.lt(amount.plus(fees.average))) {
+    if (runeBalance.lt(amount.add(fees.average.value))) {
       throw new Error('insufficient funds');
     }
   } else {
     // amount < assetBalances && runeBalance < fee
-    if (assetBalance.lt(amount) || runeBalance.lt(fees.average)) {
+    if (assetBalance.lt(amount) || runeBalance.lt(fees.average.value)) {
       throw new Error('insufficient funds');
     }
   }

@@ -1,9 +1,6 @@
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { bech32 } from '@scure/base';
-import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
-import { Amount, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { getRequest, postRequest } from '@thorswap-lib/swapkit-helpers';
-import type { AmountWithBaseDenom } from '@thorswap-lib/types';
+import { AssetValue, getRequest, postRequest, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
 import {
   ApiUrl,
   BaseDecimal,
@@ -45,26 +42,36 @@ const getTransferFee = async () => {
 const getBalance = async (address: string) => {
   const balances = (await getAccount(address))?.balances || [];
 
-  return balances.map(({ symbol, free }) => ({
-    asset: assetFromString(`${Chain.Binance}.${symbol}`) || getSignatureAssetFor(Chain.Binance),
-    amount: baseAmount(Amount.fromAssetAmount(free, 8).baseAmount.toString() || 0, 8),
-  }));
+  return balances.map(
+    ({ symbol, free }) =>
+      new AssetValue({
+        chain: Chain.Binance,
+        symbol: symbol,
+        value: free,
+        decimal: 8,
+      }),
+  );
 };
 
-const getFees = async () => {
-  let singleTxFee: AmountWithBaseDenom | undefined = undefined;
+// TODO fix typing
+const getFees = async (): Promise<any> => {
+  let singleTxFee: SwapKitNumber | undefined = undefined;
 
   try {
-    singleTxFee = baseAmount(
-      (await getFeeRateFromThorswap(ChainId.Binance)) || (await getFeeRateFromThorchain()),
-    );
+    singleTxFee = new SwapKitNumber({
+      value: (await getFeeRateFromThorswap(ChainId.Binance)) || (await getFeeRateFromThorchain()),
+      decimal: 8,
+    });
   } catch (error) {
     console.error(error);
   }
 
   if (!singleTxFee) {
     const transferFee = await getTransferFee();
-    singleTxFee = baseAmount(transferFee.fixed_fee_params.fee);
+    singleTxFee = new SwapKitNumber({
+      value: transferFee.fixed_fee_params.fee,
+      decimal: 8,
+    });
   }
 
   return {
@@ -117,7 +124,7 @@ const createTransactionAndSignMsg = async ({ from, to, amount, asset, memo }: Tr
   const accCode = decodeAddress(from);
   const toAccCode = decodeAddress(to);
 
-  const baseAmountValue = baseAmount(amount).amount().toNumber();
+  const baseAmountValue = new SwapKitNumber(amount).baseValueNumber;
 
   const coin = {
     denom: asset,

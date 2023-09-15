@@ -4,7 +4,7 @@ import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../hel
 
 import { BaseSwapKitNumber } from './swapKitNumber.ts';
 
-type AssetValueParams = { decimal: number; value: number | string } & (
+type AssetValueParams = { decimal: number; value: number | string | bigint } & (
   | { chain: Chain; symbol: string }
   | { identifier: string }
 );

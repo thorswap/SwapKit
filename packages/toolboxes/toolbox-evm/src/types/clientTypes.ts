@@ -1,7 +1,7 @@
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetEntity } from '@thorswap-lib/swapkit-entities';
 import type { FeeOption, WalletTxParams } from '@thorswap-lib/types';
-import type { BigNumberish, JsonFragment, JsonRpcProvider, Transaction } from 'ethers';
+import type { BigNumberish, BrowserProvider, JsonFragment, Transaction } from 'ethers';
 
 import type {
   ARBToolbox,
@@ -53,7 +53,7 @@ export type EstimateCallParams = Pick<
   'contractAddress' | 'abi' | 'funcName' | 'funcParams' | 'txOverrides'
 >;
 
-export type EthereumWindowProvider = JsonRpcProvider & {
+export type EthereumWindowProvider = BrowserProvider & {
   isMetaMask?: boolean;
   on: (event: string, callback?: () => void) => void;
   isBraveWallet?: boolean;

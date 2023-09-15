@@ -9,7 +9,7 @@ type ArithmeticMethod = 'add' | 'sub' | 'mul' | 'div';
 type SwapKitValueType = BaseSwapKitNumber | string | number;
 
 const toMultiplier = (decimal: number) => 10n ** BigInt(decimal);
-type Params = string | number | { decimal?: number; value: number | string };
+type Params = string | number | bigint | { decimal?: number; value: number | string | bigint };
 
 export class BaseSwapKitNumber {
   decimalMultiplier: bigint = 10n ** 8n;
@@ -37,6 +37,33 @@ export class BaseSwapKitNumber {
       this.bigIntValue,
       this.decimal || decimalFromMultiplier(this.decimalMultiplier),
     );
+  }
+
+  get baseValue() {
+    return this.#baseValue('string') as string;
+  }
+
+  get baseValueNumber() {
+    return this.#baseValue('number') as number;
+  }
+
+  get baseValueBigInt() {
+    return this.#baseValue('number') as bigint;
+  }
+
+  #baseValue(type: 'number' | 'string' | 'bigint') {
+    const divisor = this.decimalMultiplier / toMultiplier(this.decimal || 0);
+    const baseValue = this.bigIntValue / divisor;
+    switch (type) {
+      case 'bigint':
+        return baseValue;
+      case 'number':
+        return Number(baseValue);
+      case 'string':
+        return baseValue.toString();
+      default:
+        return undefined;
+    }
   }
 
   static fromBigInt(value: bigint, decimal?: number) {
@@ -117,7 +144,17 @@ export class BaseSwapKitNumber {
       value: result,
     });
 
-    return new BaseSwapKitNumber({ decimal: this.decimal, value });
+    return this.instanceWithNewValue({ decimal: this.decimal, value });
+  }
+
+  instanceWithNewValue({
+    decimal,
+    value,
+  }: {
+    decimal: number | undefined;
+    value: string | number;
+  }) {
+    return this.constructor({ decimal, value });
   }
 
   #setValue(value: AllowedValueType, bigIntValue?: bigint) {

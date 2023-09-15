@@ -1,5 +1,36 @@
-import type { SwapKitNumber } from './amount.ts';
-import type { Asset } from './asset.ts';
+type SwapKitValueType = number | string | bigint;
+
+interface IBaseSwapKitNumber {
+  decimalMultiplier: bigint;
+  bigIntValue: bigint;
+  decimal?: number;
+  unsafeNumber: number;
+  value: string;
+  baseValue: string;
+  baseValueNumber: number;
+  baseValueBigInt: bigint;
+  add(...args: SwapKitValueType[]): IBaseSwapKitNumber;
+  sub(...args: SwapKitValueType[]): IBaseSwapKitNumber;
+  mul(...args: SwapKitValueType[]): IBaseSwapKitNumber;
+  div(...args: SwapKitValueType[]): IBaseSwapKitNumber;
+  gt(value: SwapKitValueType): boolean;
+  gte(value: SwapKitValueType): boolean;
+  lt(value: SwapKitValueType): boolean;
+  lte(value: SwapKitValueType): boolean;
+  getBigIntValue(value: SwapKitValueType, decimal?: number): bigint;
+  instanceWithNewValue({
+    decimal,
+    value,
+  }: {
+    decimal: number | undefined;
+    value: string | number;
+  }): IBaseSwapKitNumber;
+}
+
+export interface ISwapKitNumber extends IBaseSwapKitNumber {
+  eq(value: SwapKitValueType): boolean;
+  toString(): string;
+}
 
 export const MOCK_PHRASE =
   'image rally need wedding health address purse army antenna leopard sea gain';
@@ -15,12 +46,9 @@ export enum FeeOption {
   Fastest = 'fastest',
 }
 
-export type Balance = {
-  asset: Asset;
-  amount: SwapKitNumber;
-};
-
-export type Fees = Record<FeeOption, SwapKitNumber> & {
+//TODO fix circular dependency
+// export type Fees = Record<FeeOption, SwapKitNumber> & {
+export type Fees = Record<FeeOption, ISwapKitNumber> & {
   type?: 'base' | 'byte';
 };
 

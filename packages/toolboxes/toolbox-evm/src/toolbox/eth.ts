@@ -1,7 +1,6 @@
-import { baseAmount } from '@thorswap-lib/helpers';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import { BaseDecimal, Chain } from '@thorswap-lib/types';
-import type { BrowserProvider, JsonRpcProvider, Provider, VoidSigner } from 'ethers';
+import type { BrowserProvider, JsonRpcProvider, Provider, Signer } from 'ethers';
 
 import type { EthplorerApiType } from '../api/ethplorerApi.ts';
 import { ethplorerApi } from '../api/ethplorerApi.ts';
@@ -15,10 +14,14 @@ export const getBalance = async (
 ) => {
   const tokenBalances = await api.getBalance(address);
   const evmGasTokenBalance = await provider.getBalance(address);
-  const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.ETH);
 
   return [
-    { asset: getSignatureAssetFor(Chain.Ethereum), amount: evmGasTokenBalanceAmount },
+    new AssetValue({
+      chain: Chain.Ethereum,
+      symbol: Chain.Ethereum,
+      value: evmGasTokenBalance,
+      decimal: BaseDecimal.ETH,
+    }),
     ...tokenBalances,
   ];
 };
@@ -31,7 +34,7 @@ export const ETHToolbox = ({
 }: {
   api?: EthplorerApiType;
   ethplorerApiKey: string;
-  signer?: VoidSigner;
+  signer?: Signer;
   provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const ethApi = api || ethplorerApi(ethplorerApiKey);

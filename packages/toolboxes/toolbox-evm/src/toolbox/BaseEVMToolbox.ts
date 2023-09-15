@@ -1,4 +1,4 @@
-import { AssetEntity, getSignatureAssetFor, isGasAsset } from '@thorswap-lib/swapkit-entities';
+import { AssetValue, isGasAsset } from '@thorswap-lib/swapkit-helpers';
 import type {
   Asset,
   EIP1559TxParams,
@@ -11,6 +11,7 @@ import { Chain, ContractAddress, erc20ABI, FeeOption } from '@thorswap-lib/types
 import type {
   BigNumberish,
   BrowserProvider,
+  ContractTransaction,
   Fragment,
   JsonFragment,
   Provider,
@@ -75,11 +76,6 @@ const isStateChangingCall = (abi: readonly JsonFragment[], functionName: string)
   if (!abiFragment) throw new Error(`No ABI fragment found for function ${functionName}`);
   return abiFragment.stateMutability && stateMutable.includes(abiFragment.stateMutability);
 };
-
-const getAssetEntity = (asset: Asset | undefined) =>
-  asset
-    ? new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker)
-    : getSignatureAssetFor(Chain.Ethereum);
 
 type WithSigner<T> = T & { signer?: Signer };
 
@@ -247,8 +243,8 @@ const transfer = async (
 ) => {
   // TODO - this might be wrong
   const txAmount = amount.bigIntValue;
-  const parsedAsset: AssetEntity = getAssetEntity(asset);
-  const chain = parsedAsset.L1Chain as EVMChain;
+  const parsedAsset = await AssetValue.fromIdentifier(`${asset?.chain}.${asset?.symbol}`, 0);
+  const chain = parsedAsset.chain as EVMChain;
 
   if (!isGasAsset(parsedAsset)) {
     const contractAddress = getTokenAddress(parsedAsset, chain);
@@ -366,9 +362,8 @@ const estimateGasLimit = async (
 ) => {
   const { hexlify, toUtf8Bytes } = await import('ethers/utils');
   const value = amount.bigIntValue;
-  const parsedAsset = getAssetEntity(asset);
-  const assetAddress = !isGasAsset(parsedAsset)
-    ? getTokenAddress(parsedAsset, parsedAsset.L1Chain as EVMChain)
+  const assetAddress = !isGasAsset({ ...asset })
+    ? getTokenAddress(asset, asset.chain as EVMChain)
     : null;
 
   if (assetAddress && funcName) {
@@ -477,7 +472,7 @@ export const toChecksumAddress = (address: string) => getAddress(address);
 
 export const EIP1193SendTransaction = async (
   provider: Provider | BrowserProvider,
-  { from, to, data, value }: EVMTxParams,
+  { from, to, data, value }: EVMTxParams | ContractTransaction,
 ): Promise<string> => {
   if (!isBrowserProvider(provider)) throw new Error('Provider is not EIP-1193 compatible');
   return (provider as BrowserProvider).send('eth_sendTransaction', [
@@ -486,8 +481,7 @@ export const EIP1193SendTransaction = async (
 };
 
 export const getChecksumAddressFromAsset = (asset: Asset, chain: EVMChain) => {
-  const parsedAsset = getAssetEntity(asset);
-  const assetAddress = getTokenAddress(parsedAsset, chain);
+  const assetAddress = getTokenAddress(asset, chain);
 
   if (assetAddress) {
     return getAddress(assetAddress.toLowerCase());

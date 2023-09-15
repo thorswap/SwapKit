@@ -1,8 +1,8 @@
 import { HDKey } from '@scure/bip32';
 import { baseAmount } from '@thorswap-lib/helpers';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import type { AmountWithBaseDenom, Balance, UTXO } from '@thorswap-lib/types';
-import { BaseDecimal, Chain, FeeOption } from '@thorswap-lib/types';
+import { AssetValue } from '@thorswap-lib/swapkit-helpers';
+import type { UTXO } from '@thorswap-lib/types';
+import { Chain, FeeOption } from '@thorswap-lib/types';
 import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';
 import type { ECPairInterface } from 'ecpair';
 import { ECPairFactory } from 'ecpair';
@@ -102,10 +102,7 @@ const getBalance = async ({
   chain,
   apiClient,
 }: { address: string } & UTXOBaseToolboxParams) => [
-  {
-    asset: getSignatureAssetFor(chain),
-    amount: baseAmount(await apiClient.getBalance(address), BaseDecimal[chain]),
-  },
+  await AssetValue.fromIdentifier(`${chain}.${chain}`, await apiClient.getBalance(address)),
 ];
 
 const getFeeRates = async (apiClient: UTXOBaseToolboxParams['apiClient']) =>
@@ -136,7 +133,7 @@ const getInputsAndTargetOutputs = async ({
   //1. add output amount and recipient to targets
   targetOutputs.push({
     address: recipient,
-    value: amount.amount().toNumber(),
+    value: Number(amount.getBigIntValue),
   });
   //2. add output memo to targets (optional)
   if (compiledMemo) {
@@ -253,7 +250,7 @@ export const estimateMaxSendableAmount = async ({
   feeOptionKey = FeeOption.Fast,
   recipients = 1,
   ...baseParams
-}: UTXOEstimateFeeParams & UTXOBaseToolboxParams): Promise<AmountWithBaseDenom> => {
+}: UTXOEstimateFeeParams & UTXOBaseToolboxParams) => {
   const balance = (await getBalance({ address: from, ...baseParams }))[0];
   const feeRateWhole = feeRate
     ? Math.ceil(feeRate)
@@ -285,7 +282,11 @@ export const estimateMaxSendableAmount = async ({
 
   const fee = Math.max(MIN_TX_FEE, txSize * feeRateWhole);
 
-  return baseAmount(balance.amount.minus(baseAmount(fee, 8)).amount(), 8);
+  return new AssetValue({
+    ...balance,
+    value: balance.sub(fee).value,
+    decimal: balance.decimal!,
+  });
 };
 
 export const BaseUTXOToolbox = (
@@ -310,8 +311,7 @@ export const BaseUTXOToolbox = (
     derivationPath: string;
   }) => (await createKeysForPath({ phrase, derivationPath, ...baseToolboxParams })).toWIF(),
 
-  getBalance: (address: string): Promise<Balance[]> =>
-    getBalance({ address, ...baseToolboxParams }),
+  getBalance: (address: string) => getBalance({ address, ...baseToolboxParams }),
 
   getFeeRates: () => getFeeRates(baseToolboxParams.apiClient),
 
@@ -321,9 +321,9 @@ export const BaseUTXOToolbox = (
   getInputsOutputsFee: (params: UTXOBuildTxParams) =>
     getInputsOutputsFee({ ...params, ...baseToolboxParams }),
 
-  getFeeForTransaction: async (params: UTXOBuildTxParams): Promise<AmountWithBaseDenom> =>
+  getFeeForTransaction: async (params: UTXOBuildTxParams) =>
     baseAmount((await getInputsOutputsFee({ ...params, ...baseToolboxParams })).fee, 8),
 
-  estimateMaxSendableAmount: async (params: UTXOEstimateFeeParams): Promise<AmountWithBaseDenom> =>
+  estimateMaxSendableAmount: async (params: UTXOEstimateFeeParams) =>
     estimateMaxSendableAmount({ ...params, ...baseToolboxParams }),
 });

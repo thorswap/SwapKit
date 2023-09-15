@@ -24,7 +24,6 @@ import type {
 import type { UTXOEstimateFeeParams, UTXOToolbox } from '@thorswap-lib/toolbox-utxo';
 import type {
   AddChainWalletParams,
-  AmountWithBaseDenom,
   EVMChain,
   EVMWalletOptions,
   ExtendParams,

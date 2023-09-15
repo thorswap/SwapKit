@@ -1,8 +1,8 @@
 import type { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
 import type { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
 import type { Account as CosmosAccount, AminoTypes } from '@cosmjs/stargate';
-import type { AssetAmount } from '@thorswap-lib/swapkit-entities';
-import type { AmountWithBaseDenom, Asset, Balance, ChainId, Fees, Tx } from '@thorswap-lib/types';
+import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
+import type { Asset, ChainId, Fees, Tx } from '@thorswap-lib/types';
 import type { curve } from 'elliptic';
 
 import type { BNBTransaction } from '../../binanceUtils/transaction.ts';
@@ -18,7 +18,7 @@ export type DepositParam = {
   signer?: OfflineDirectSigner;
   walletIndex?: number;
   asset?: Asset;
-  amount: AmountWithBaseDenom;
+  amount: AssetValue;
   memo: string;
 };
 
@@ -51,7 +51,7 @@ export type BaseCosmosToolboxType = {
   validateAddress: (address: string) => Promise<boolean>;
   getAddressFromMnemonic: (phrase: string) => Promise<string>;
   getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
-  getBalance: (address: string) => Promise<Balance[]>;
+  getBalance: (address: string) => Promise<AssetValue[]>;
   transfer: (params: TransferParams) => Promise<string>;
   getFeeRateFromThorswap?: (chainId: ChainId) => Promise<number | undefined>;
 };
@@ -84,7 +84,7 @@ export type ThorchainToolboxType = BaseCosmosToolboxType &
       isStagenet?: boolean,
     ) => Promise<string>;
     pubkeyToAddress: (pubkey: Pubkey, prefix: string) => Promise<string>;
-    loadAddressBalances: (address: string) => Promise<AssetAmount[]>;
+    loadAddressBalances: (address: string) => Promise<AssetValue[]>;
   };
 
 export type GaiaToolboxType = BaseCosmosToolboxType & CommonCosmosToolboxType;

@@ -75,7 +75,7 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
 
   const targetOutputs: TargetOutput[] = [];
   // output to recipient
-  targetOutputs.push({ address: recipient, value: amount.amount().toNumber() });
+  targetOutputs.push({ address: recipient, value: amount.baseValueNumber });
   const { inputs, outputs } = accumulative({
     inputs: utxos,
     outputs: targetOutputs,
@@ -173,7 +173,7 @@ const buildTx = async ({
   // output to recipient
   targetOutputs.push({
     address: toLegacyAddress(recipient),
-    value: amount.amount().toNumber(),
+    value: amount.baseValueNumber,
   });
 
   //2. add output memo to targets (optional)

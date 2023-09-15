@@ -1,6 +1,5 @@
-import type { SwapKitNumber } from './amount.ts';
 import type { Asset } from './asset.ts';
-import type { FeeOption } from './wallet.ts';
+import type { FeeOption, ISwapKitNumber } from './wallet.ts';
 
 enum TxType {
   Transfer = 'transfer',
@@ -9,13 +8,13 @@ enum TxType {
 
 type TxTo = {
   to: string; // address
-  amount: SwapKitNumber; // amount
+  amount: ISwapKitNumber; // amount
   asset?: Asset; // asset
 };
 
 type TxFrom = {
   from: string; // address or tx id
-  amount: SwapKitNumber; // amount
+  amount: ISwapKitNumber; // amount
   asset?: Asset; // asset
 };
 
@@ -33,8 +32,9 @@ export type Tx = {
 };
 
 export type TxParams = {
+  // TODO combine asset and amount into assetValue after figuring out typing
   asset?: Asset;
-  amount: SwapKitNumber;
+  amount: ISwapKitNumber;
   recipient: string;
   memo?: string; // optional memo to pass
   feeOptionKey?: FeeOption;

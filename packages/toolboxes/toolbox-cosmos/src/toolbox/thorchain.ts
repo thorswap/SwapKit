@@ -2,9 +2,8 @@ import type { Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import type { Account, StdFee } from '@cosmjs/stargate';
 import { base64 } from '@scure/base';
-import { Amount, AmountType, AssetAmount, AssetEntity } from '@thorswap-lib/swapkit-entities';
-import { getRequest } from '@thorswap-lib/swapkit-helpers';
-import type { AmountWithBaseDenom, Balance, Chain } from '@thorswap-lib/types';
+import { getRequest, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
+import type { Balance } from '@thorswap-lib/types';
 import {
   ApiUrl,
   BaseDecimal,
@@ -158,14 +157,6 @@ const broadcastMultisigTx = async (
   return transactionHash;
 };
 
-const getAssetFromBalance = ({ asset: { symbol, chain } }: Balance): AssetEntity => {
-  const isSynth = symbol.includes('/');
-
-  if (!isSynth) return new AssetEntity(chain, symbol);
-  const [nativeChain, nativeSymbol] = symbol.split('/');
-  return new AssetEntity(nativeChain?.toUpperCase() as Chain, nativeSymbol?.toUpperCase(), true);
-};
-
 const createMultisig = async (pubKeys: string[], threshold: number) => {
   const { encodeSecp256k1Pubkey, createMultisigThresholdPubkey } = await import('@cosmjs/amino');
   return createMultisigThresholdPubkey(
@@ -212,22 +203,14 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     try {
       const balances: Balance[] = await baseToolbox.getBalance(address);
 
-      return balances.map((data) => {
-        const asset = getAssetFromBalance(data);
-        const amount = new Amount(
-          data.amount.amount().toString(),
-          AmountType.BASE_AMOUNT,
-          asset.decimal,
-        );
-        return new AssetAmount(asset, amount);
-      });
+      return balances;
     } catch (error) {
       return Promise.reject(error);
     }
   };
 
   const getFees = async () => {
-    let fee: AmountWithBaseDenom;
+    let fee: SwapKitNumber;
 
     try {
       const {
@@ -238,9 +221,9 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
       if (!nativeFee || isNaN(nativeFee) || nativeFee < 0)
         throw Error(`Invalid nativeFee: ${nativeFee.toString()}`);
 
-      fee = baseAmount(nativeFee);
+      fee = new SwapKitNumber(nativeFee);
     } catch {
-      fee = baseAmount(0.02, BaseDecimal.THOR);
+      fee = new SwapKitNumber({ value: 0.02, decimal: BaseDecimal.THOR });
     }
 
     return {
@@ -282,7 +265,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
       value: {
         signer: base64Address,
         memo,
-        coins: [{ asset: assetObj, amount: amount.amount().toString() }],
+        coins: [{ asset: assetObj, amount: amount.baseValue }],
       },
     };
 
@@ -335,6 +318,8 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     ...baseToolbox,
     deposit,
     transfer,
+    //TODO fix typing
+    //@ts-expect-error
     getFees,
 
     createDefaultAminoTypes,

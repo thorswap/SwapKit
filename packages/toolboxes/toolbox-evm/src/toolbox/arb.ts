@@ -1,5 +1,4 @@
-import { baseAmount } from '@thorswap-lib/helpers';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import {
   BaseDecimal,
   Chain,
@@ -21,13 +20,14 @@ export const getBalance = async (api: CovalentApiType, address: string) => {
   const tokenBalances = await api.getBalance(address);
 
   const evmGasTokenBalance = await provider.getBalance(address);
-  const evmGasTokenBalanceAmount = baseAmount(evmGasTokenBalance, BaseDecimal.ARB);
 
   return [
-    {
-      asset: getSignatureAssetFor(Chain.Arbitrum),
-      amount: evmGasTokenBalanceAmount,
-    },
+    new AssetValue({
+      chain: Chain.Arbitrum,
+      symbol: Chain.Arbitrum,
+      value: evmGasTokenBalance,
+      decimal: BaseDecimal.ARB,
+    }),
     ...tokenBalances,
   ];
 };

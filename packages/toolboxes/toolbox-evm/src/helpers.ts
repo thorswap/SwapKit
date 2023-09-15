@@ -1,10 +1,6 @@
-import { baseAmount } from '@thorswap-lib/helpers';
-import { AssetEntity, getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
+import { AssetValue, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
 import { Chain, ChainId, ChainToHexChainId, FeeOption, WalletOption } from '@thorswap-lib/types';
-import type { JsonRpcProvider } from 'ethers';
-import type { EIP1193Provider } from 'hardhat/types/provider.js';
-
-import { SwapKitNumber } from '../../../swapkit/swapkit-helpers/src/index.ts';
+import type { BrowserProvider, Eip1193Provider } from 'ethers';
 
 import type { EVMMaxSendableAmountsParams } from './index.ts';
 import { AVAXToolbox, BSCToolbox, ETHToolbox } from './index.ts';
@@ -22,7 +18,7 @@ type NetworkParams = {
 };
 
 type ProviderRequestParams = {
-  provider?: JsonRpcProvider;
+  provider?: BrowserProvider;
   params?: any;
   method:
     | 'wallet_addEthereumChain'
@@ -57,7 +53,7 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
 }: {
   toolbox: T;
   chainId: ChainId;
-  provider?: JsonRpcProvider;
+  provider?: BrowserProvider;
 }) => {
   const wrappedMethods = methodsToWrap.reduce((object, methodName) => {
     if (!toolbox[methodName]) return object;
@@ -74,7 +70,7 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
 
 export const wrapMethodWithNetworkSwitch = <T extends (...args: any[]) => any>(
   func: T,
-  provider: JsonRpcProvider,
+  provider: BrowserProvider,
   chainId: ChainId,
 ) =>
   (async (...args: any[]) => {
@@ -93,10 +89,10 @@ const providerRequest = async ({ provider, params, method }: ProviderRequestPara
   return provider.send(method, providerParams);
 };
 
-export const addEVMWalletNetwork = (provider: JsonRpcProvider, networkParams: NetworkParams) =>
+export const addEVMWalletNetwork = (provider: BrowserProvider, networkParams: NetworkParams) =>
   providerRequest({ provider, method: 'wallet_addEthereumChain', params: [networkParams] });
 
-export const switchEVMWalletNetwork = (provider: JsonRpcProvider, chainId = ChainId.EthereumHex) =>
+export const switchEVMWalletNetwork = (provider: BrowserProvider, chainId = ChainId.EthereumHex) =>
   providerRequest({ provider, method: 'wallet_switchEthereumChain', params: [{ chainId }] });
 
 export const getWeb3WalletMethods = async ({
@@ -105,7 +101,7 @@ export const getWeb3WalletMethods = async ({
   covalentApiKey,
   ethplorerApiKey,
 }: {
-  ethereumWindowProvider: EIP1193Provider | undefined;
+  ethereumWindowProvider: Eip1193Provider | undefined;
   chain: Chain;
   covalentApiKey?: string;
   ethplorerApiKey?: string;
@@ -125,7 +121,7 @@ export const getWeb3WalletMethods = async ({
 
   const toolboxParams = {
     provider,
-    signer: provider.getSigner(),
+    signer: await provider.getSigner(),
     ethplorerApiKey: ethplorerApiKey as string,
     covalentApiKey: covalentApiKey as string,
   };
@@ -140,7 +136,7 @@ export const getWeb3WalletMethods = async ({
   try {
     chain !== Chain.Ethereum &&
       (await addEVMWalletNetwork(
-        ethereumWindowProvider,
+        provider,
         (
           toolbox as ReturnType<typeof AVAXToolbox> | ReturnType<typeof BSCToolbox>
         ).getNetworkParams(),
@@ -151,7 +147,7 @@ export const getWeb3WalletMethods = async ({
   return prepareNetworkSwitch<typeof toolbox>({
     toolbox: { ...toolbox },
     chainId: ChainToHexChainId[chain],
-    provider: ethereumWindowProvider,
+    provider,
   });
 };
 
@@ -167,17 +163,22 @@ export const estimateMaxSendableAmount = async ({
   contractAddress,
   txOverrides,
 }: EVMMaxSendableAmountsParams) => {
-  const assetEntity = typeof asset === 'string' ? AssetEntity.fromAssetString(asset) : asset;
+  const assetEntity =
+    //TODO fix typing
+    typeof asset === 'string' ? await AssetValue.fromIdentifier(asset as any) : asset;
   const balance = (await toolbox.getBalance(from)).find((balance) =>
     assetEntity
-      ? balance.asset.symbol === assetEntity.symbol
-      : balance.asset.symbol === getSignatureAssetFor(balance.asset.chain)?.symbol,
+      ? balance.symbol === assetEntity.symbol
+      : balance.symbol === AssetValue.fromString(balance.chain)?.symbol,
   );
 
   if (!balance) return new SwapKitNumber(0);
 
-  if (assetEntity && getSignatureAssetFor(balance.asset.chain).shallowEq(assetEntity)) {
-    return balance.amount;
+  if (
+    assetEntity &&
+    (balance.chain !== assetEntity.chain || balance.symbol !== assetEntity?.symbol)
+  ) {
+    return balance;
   }
 
   if ([abi, funcName, funcParams, contractAddress].some((param) => !param)) {
@@ -197,19 +198,27 @@ export const estimateMaxSendableAmount = async ({
           from,
           recipient: from,
           memo,
-          amount: baseAmount('1', 18),
+          // TODO fix typing
+          //@ts-expect-error
+          amount: new SwapKitNumber({ value: '1', decimal: 18 }),
         });
 
   const fees = (await toolbox.estimateGasPrices())[feeOptionKey];
 
-  if (!fees.gasPrice && !fees.maxFeePerGas) throw new Error('Could not fetch fee data');
+  const isFeeEIP1559Compatible = 'maxFeePerGas' in fees;
+  const isFeeEVMLegacyCompatible = 'gasPrice' in fees;
 
-  const fee = SwapKitNumber.fromBigInt(gasLimit).mul(
-    !fees.gasPrice ? fees.maxFeePerGas!.add(fees.maxPriorityFeePerGas || 1) : fees.gasPrice!,
-  );
-  const maxSendableAmount = SwapKitNumber.fromBigInt(balance.amount.toString()).sub(fee);
+  if (!isFeeEVMLegacyCompatible && !isFeeEIP1559Compatible)
+    throw new Error('Could not fetch fee data');
 
-  return baseAmount(maxSendableAmount, 18);
+  const fee =
+    gasLimit *
+    (isFeeEIP1559Compatible
+      ? fees.maxFeePerGas! + (fees.maxPriorityFeePerGas! || 1n)
+      : fees.gasPrice!);
+  const maxSendableAmount = SwapKitNumber.fromBigInt(balance.baseValueBigInt).sub(fee.toString());
+
+  return AssetValue.fromString(balance.chain, maxSendableAmount.value);
 };
 
 export const addAccountsChangedCallback = (callback: () => void) => {
