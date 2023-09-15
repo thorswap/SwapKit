@@ -60,7 +60,9 @@ export const getWalletForChain = async ({
         ethereumWindowProvider: window.okxwallet,
       });
 
-      const address = (await window.okxwallet.send('eth_requestAccounts', []))[0];
+      //TODO I think we use wrong provider Type
+      //@ts-expect-error
+      const address: string = await window.okxwallet.send('eth_requestAccounts', []);
       const getBalance = async () => {
         const balances = await evmWallet.getBalance(address);
         const gasAssetBalance = await getProvider(chain).getBalance(address);

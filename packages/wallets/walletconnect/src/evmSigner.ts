@@ -12,7 +12,7 @@ interface WalletconnectEVMSignerParams {
   provider: Provider | JsonRpcProvider;
 }
 
-class WalletconnectSigner extends AbstractSigner<Provider | JsonRpcProvider> {
+class WalletconnectSigner extends AbstractSigner {
   address: string;
 
   private chain: EVMChain;
@@ -75,7 +75,7 @@ class WalletconnectSigner extends AbstractSigner<Provider | JsonRpcProvider> {
   };
 
   //TODO implement this
-  signTypedData = async (params: EVMTxParams) => {
+  signTypedData = async () => {
     throw new Error('this method is not implemented');
 
     // if (!from) throw new Error('Missing from address');

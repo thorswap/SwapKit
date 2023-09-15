@@ -23,7 +23,8 @@ type ThorchainWallet = BaseWalletMethods &
     deposit: (params: DepositParam) => Promise<string>;
   };
 
-export const bitcoincashWalletMethods = async ({
+// TODO fix typing
+export const bitcoincashWalletMethods: any = async ({
   rpcUrl,
   derivationPath,
   utxoApiKey,
@@ -71,7 +72,7 @@ export const thorchainWalletMethods = async ({
       to: recipient,
       signer,
       asset: getDenom(asset.symbol || 'RUNE'),
-      amount: amount.amount().toString(),
+      amount: amount.value,
       memo,
     });
 

@@ -1,5 +1,5 @@
 import { HDKey } from '@scure/bip32';
-import { AssetValue } from '@thorswap-lib/swapkit-helpers';
+import { AssetValue, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
 import type { UTXO } from '@thorswap-lib/types';
 import { Chain, FeeOption } from '@thorswap-lib/types';
 import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';

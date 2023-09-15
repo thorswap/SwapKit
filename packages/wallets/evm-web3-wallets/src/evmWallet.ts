@@ -30,6 +30,7 @@ const connectEVMWallet =
         chain,
         ethplorerApiKey,
         covalentApiKey,
+        //@ts-expect-error TODO fix browser provider typing
         ethereumWindowProvider: getWalletForType(walletType),
       });
 

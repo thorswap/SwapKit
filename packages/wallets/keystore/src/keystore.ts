@@ -129,7 +129,7 @@ const getWalletMethodsForChain = async ({
           to: recipient,
           privkey,
           asset: getDenom(asset?.symbol || 'ATOM'),
-          amount: amount.amount().toString(),
+          amount: amount.value,
           memo,
         });
 
@@ -150,7 +150,7 @@ const getWalletMethodsForChain = async ({
           to: recipient,
           signer,
           asset: getDenom(asset?.symbol || 'ATOM'),
-          amount: amount.amount().toString(),
+          amount: amount.value,
           memo,
         });
 
