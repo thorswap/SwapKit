@@ -1,4 +1,3 @@
-import { baseAmount } from '@thorswap-lib/helpers';
 import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
 import type { GaiaToolbox } from '@thorswap-lib/toolbox-cosmos';
 import type { getWeb3WalletMethods } from '@thorswap-lib/toolbox-evm';

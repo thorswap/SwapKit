@@ -5,15 +5,14 @@ import { AssetValue } from '../assetValue.ts';
 
 describe('AssetValue', () => {
   describe('assetValue', () => {
-    test.todo('returns asset ticker with value', () => {
-      // TODO: @Towan - Check on this tests
+    test('returns asset ticker with value', () => {
       const fakeAvaxUSDCAsset = new AssetValue({
         decimal: 6,
         value: 1234567890,
         chain: Chain.Avalanche,
         symbol: 'USDC-01234',
       });
-      expect(fakeAvaxUSDCAsset.assetValue).toBe('123456.7890 USDC');
+      expect(fakeAvaxUSDCAsset.assetValue).toBe('1234567890 USDC');
 
       const thor = AssetValue.fromString('ETH.THOR');
       expect(thor.assetValue).toBe('0 THOR');
@@ -190,6 +189,14 @@ describe('AssetValue', () => {
           ticker: 'vTHOR',
         }),
       );
+    });
+  });
+
+  describe('loadStaticAssets', () => {
+    test('loads static assets from `@thorswap-lib/tokens` lists', async () => {
+      // Dummy test - think of sth more meaningful
+      const { ok } = await AssetValue.loadStaticAssets();
+      expect(ok).toBe(true);
     });
   });
 });

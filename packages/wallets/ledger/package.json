@@ -8,7 +8,6 @@
     "@ledgerhq/hw-app-eth": "6.34.5",
     "@ledgerhq/hw-transport": "6.28.8",
     "@ledgerhq/hw-transport-webusb": "6.27.19",
-    "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "ripemd160": "2.0.2"
@@ -93,7 +92,7 @@
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist .turbo node_modules",
+    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"

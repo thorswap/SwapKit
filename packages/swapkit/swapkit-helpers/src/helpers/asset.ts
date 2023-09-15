@@ -127,3 +127,12 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
       return [Chain.Ethereum, Chain.Optimism].includes(symbol as Chain) ? 'Native' : 'OPTIMISM';
   }
 };
+
+export const assetFromString = (assetString: string) => {
+  const [chain, ...symbolArray] = assetString.split('.') as [Chain, ...(string | undefined)[]];
+  const synth = assetString.includes('/');
+  const symbol = symbolArray.join('.');
+  const ticker = symbol?.split('-')?.[0];
+
+  return { chain, symbol, ticker, synth };
+};

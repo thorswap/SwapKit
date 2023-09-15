@@ -1,8 +1,9 @@
 import hre from '@nomicfoundation/hardhat-ethers';
 import helpers from '@nomicfoundation/hardhat-network-helpers';
-import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
+import type ethers from '@nomiclabs/hardhat-ethers';
+import { assetFromString } from '@thorswap-lib/swapkit-helpers';
 import { Chain, erc20ABI, FeeOption } from '@thorswap-lib/types';
-import type { ethers, JsonRpcProvider } from 'ethers';
+import type { JsonRpcProvider } from 'ethers';
 import type { ExpectStatic } from 'vitest';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, test } from 'vitest';
 

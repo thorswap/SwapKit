@@ -3,7 +3,6 @@
   "tag": "development",
   "initialVersions": {
     "@internal/config": "0.0.1-development.2",
-    "@thorswap-lib/helpers": "0.0.0-development.107",
     "@thorswap-lib/swapkit-api": "0.1.0-development.41",
     "@thorswap-lib/swapkit-core": "1.0.0-development.208",
     "@thorswap-lib/swapkit-entities": "1.0.0-development.115",

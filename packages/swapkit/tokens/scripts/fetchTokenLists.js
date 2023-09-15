@@ -1,18 +1,31 @@
 import { SwapKitApi } from '@thorswap-lib/swapkit-api';
+import { Chain } from '@thorswap-lib/types';
 import fs from 'fs-extra';
 
 const getTokens = async () => {
-  const providers = (await SwapKitApi.getTokenlistProviders()).map(({ provider }) => provider);
+  SwapKitApi.getTokenlistProviders().then((providers) => {
+    providers.forEach(async ({ provider }) => {
+      const tokenList = await SwapKitApi.getTokenList(provider);
 
-  console.info({ providers });
-  providers.forEach(async (provider) => {
-    const tokenList = await SwapKitApi.getTokenList(provider);
+      console.info({ [provider]: tokenList.count });
 
-    console.info({ [provider]: tokenList.count });
+      const tokens = tokenList.tokens.map(({ address, chain, identifier, decimals, logoURL }) => ({
+        address,
+        chain: chain === 'ARBITRUM' ? Chain.Arbitrum : chain,
+        identifier: identifier.startsWith('ARBITRUM.')
+          ? identifier.replace('ARBITRUM', Chain.Arbitrum)
+          : identifier,
+        decimals,
+        logoURL,
+      }));
 
-    fs.outputJSON(`./src/tokenLists/${provider}.json`, JSON.stringify(tokenList, null, 2), {
-      encoding: 'utf8',
-      flag: 'w',
+      tokenList.tokens = tokens;
+
+      fs.outputFile(
+        `./src/tokenLists/${provider}.ts`,
+        `export const list = ${JSON.stringify(tokenList)} as const;`,
+        { flag: 'w' },
+      );
     });
   });
 };

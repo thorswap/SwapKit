@@ -1,7 +1,6 @@
 import { toBech32 } from '@cosmjs/encoding';
 import { base64, bech32 } from '@scure/base';
-import { assetFromString } from '@thorswap-lib/helpers';
-import { SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
+import { assetFromString, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
 import type { Asset, Balance, Fees } from '@thorswap-lib/types';
 import { BaseDecimal, Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
 

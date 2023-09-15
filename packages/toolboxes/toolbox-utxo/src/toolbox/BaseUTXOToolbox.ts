@@ -1,5 +1,4 @@
 import { HDKey } from '@scure/bip32';
-import { baseAmount } from '@thorswap-lib/helpers';
 import { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import type { UTXO } from '@thorswap-lib/types';
 import { Chain, FeeOption } from '@thorswap-lib/types';

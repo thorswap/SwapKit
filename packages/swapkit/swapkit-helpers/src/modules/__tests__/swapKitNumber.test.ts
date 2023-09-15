@@ -42,6 +42,38 @@ describe('SwapKitNumber', () => {
     });
   });
 
+  describe('shiftDecimals', () => {
+    test('shifts up and bumps number', () => {
+      const skNumber = new SwapKitNumber(1);
+      expect(skNumber.value).toBe('1');
+      expect(skNumber.bigIntValue).toBe(100000000n);
+
+      const shiftedSkNumber = SwapKitNumber.shiftDecimals({
+        value: skNumber,
+        from: 6,
+        to: 8,
+      });
+
+      expect(shiftedSkNumber.value).toBe('100');
+      expect(shiftedSkNumber.bigIntValue).toBe(10000000000n);
+    });
+
+    test.skip('shifts down and rounds down number', () => {
+      const skNumber = new SwapKitNumber(2.12345678);
+      expect(skNumber.value).toBe('2.12345678');
+      expect(skNumber.bigIntValue).toBe(212345678n);
+
+      const shiftedSkNumber = SwapKitNumber.shiftDecimals({
+        value: skNumber,
+        from: 8,
+        to: 6,
+      });
+
+      expect(shiftedSkNumber.value).toBe('2.123456');
+      expect(shiftedSkNumber.bigIntValue).toBe(2123456n);
+    });
+  });
+
   describe('add', () => {
     test('adds same type numbers correctly', () => {
       const skNumber1 = new SwapKitNumber(10);

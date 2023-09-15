@@ -1,5 +1,4 @@
-import { assetFromString } from '@thorswap-lib/helpers';
-import { AssetValue, getRequest } from '@thorswap-lib/swapkit-helpers';
+import { assetFromString, AssetValue, getRequest } from '@thorswap-lib/swapkit-helpers';
 import { Chain } from '@thorswap-lib/types';
 
 import type { AddressInfo } from '../types/ethplorer-api-types.ts';

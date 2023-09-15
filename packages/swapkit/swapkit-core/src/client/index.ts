@@ -1,4 +1,3 @@
-import { assetFromString, baseAmount } from '@thorswap-lib/helpers';
 import {
   Amount,
   AmountType,
@@ -9,7 +8,12 @@ import {
   isGasAsset,
 } from '@thorswap-lib/swapkit-entities';
 import type { ThornameRegisterParam } from '@thorswap-lib/swapkit-helpers';
-import { gasFeeMultiplier, getMemoFor, SwapKitError } from '@thorswap-lib/swapkit-helpers';
+import {
+  assetFromString,
+  gasFeeMultiplier,
+  getMemoFor,
+  SwapKitError,
+} from '@thorswap-lib/swapkit-helpers';
 import type {
   CosmosLikeToolbox,
   CosmosMaxSendableAmountParams,

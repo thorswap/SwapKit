@@ -1,7 +1,6 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
@@ -45,7 +44,7 @@
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist .turbo node_modules",
+    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "vitest --run",
     "test:coverage": "vitest run --coverage"
