@@ -107,10 +107,12 @@ export class SwapKitCore<T = ''> {
           if (!walletMethods?.sendTransaction) {
             throw new SwapKitError('core_wallet_connection_not_found');
           }
-          if (!route?.transaction) throw new SwapKitError('core_swap_route_transaction_not_found');
+
+          const transaction = streamSwap ? route?.streamingSwap?.transaction : route?.transaction;
+          if (!transaction) throw new SwapKitError('core_swap_route_transaction_not_found');
 
           return walletMethods.sendTransaction(
-            getSameEVMParams({ transaction: route.transaction, evmChain }),
+            getSameEVMParams({ transaction, evmChain }),
             feeOptionKey,
           ) as Promise<string>;
         }

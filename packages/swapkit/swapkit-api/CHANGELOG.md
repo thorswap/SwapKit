@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.43
+
+### Patch Changes
+
+- [#313](https://github.com/thorswap/SwapKit/pull/313) [`9369554`](https://github.com/thorswap/SwapKit/commit/936955497fc462c4af7922c940eac3914d43893e) Thanks [@0xepicode](https://github.com/0xepicode)! - Add transaction property to streamingSwap details
+
 ## 0.1.0-development.42
 
 ### Patch Changes
