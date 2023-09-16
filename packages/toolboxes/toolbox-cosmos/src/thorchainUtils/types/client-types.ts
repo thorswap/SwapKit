@@ -2,12 +2,26 @@ import type { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from '@cosmjs
 import type { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
 import type { Account as CosmosAccount, AminoTypes } from '@cosmjs/stargate';
 import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
-import type { Asset, ChainId, Fees, Tx } from '@thorswap-lib/types';
+import type { Asset, ChainId, Fees } from '@thorswap-lib/types';
 import type { curve } from 'elliptic';
 
 import type { BNBTransaction } from '../../binanceUtils/transaction.ts';
 import type { Account } from '../../index.ts';
 import type { Signer, TransferParams } from '../../types.ts';
+
+enum TxType {
+  Transfer = 'transfer',
+  Unknown = 'unknown',
+}
+
+type Tx = {
+  asset: Asset; // asset
+  from: { from: string }[]; // list of "from" txs. BNC will have one `TxFrom` only, `BTC` might have many transactions going "in" (based on UTXO)
+  to: { to: string }[]; // list of "to" transactions. BNC will have one `TxTo` only, `BTC` might have many transactions going "out" (based on UTXO)
+  date: Date; // timestamp of tx
+  type: TxType; // type
+  hash: string; // Tx hash
+};
 
 export type NodeUrl = {
   node: string;

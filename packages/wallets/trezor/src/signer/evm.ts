@@ -1,5 +1,5 @@
 import { derivationPathToString, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
-import type { Chain, DerivationPathArray, EVMTxParams } from '@thorswap-lib/types';
+import type { Chain, DerivationPathArray } from '@thorswap-lib/types';
 import { ChainToChainId } from '@thorswap-lib/types';
 import TrezorConnect from '@trezor/connect-web';
 import { AbstractSigner } from 'ethers';

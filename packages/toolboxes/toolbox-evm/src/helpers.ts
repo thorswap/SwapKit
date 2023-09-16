@@ -46,6 +46,8 @@ const methodsToWrap = [
   'createContractTxObject',
 ];
 
+export const toHexString = (value?: BigInt) => (value ? '0x' + value.toString(16) : '');
+
 export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[]) => any }>({
   toolbox,
   chainId,

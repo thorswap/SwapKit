@@ -1,6 +1,6 @@
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
-import type { FeeOption, WalletTxParams } from '@thorswap-lib/types';
+import type { EVMTxBaseParams, FeeOption, WalletTxParams } from '@thorswap-lib/types';
 import type { BigNumberish, BrowserProvider, JsonFragment, Transaction } from 'ethers';
 
 import type {
@@ -116,3 +116,15 @@ export type EVMMaxSendableAmountsParams = {
   funcParams?: unknown[];
   txOverrides?: Partial<Transaction>;
 };
+
+export type EIP1559TxParams<T = bigint> = EVMTxBaseParams<T> & {
+  type?: number;
+  maxFeePerGas?: T;
+  maxPriorityFeePerGas?: T;
+};
+
+export type LegacyEVMTxParams<T = bigint> = EVMTxBaseParams<T> & {
+  gasPrice?: T;
+};
+
+export type EVMTxParams = EIP1559TxParams | LegacyEVMTxParams;

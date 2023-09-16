@@ -1,5 +1,5 @@
 import type { SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
-import { AssetValue, getCommonAssetInfo } from '@thorswap-lib/swapkit-helpers';
+import { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import { ChainId, FeeOption, RPCUrl } from '@thorswap-lib/types';
 
 import type { CosmosMaxSendableAmountParams } from './types.ts';

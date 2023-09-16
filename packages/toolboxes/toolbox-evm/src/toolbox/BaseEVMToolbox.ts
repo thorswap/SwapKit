@@ -1,12 +1,5 @@
 import { AssetValue, isGasAsset } from '@thorswap-lib/swapkit-helpers';
-import type {
-  Asset,
-  EIP1559TxParams,
-  EVMChain,
-  EVMTxParams,
-  LegacyEVMTxParams,
-  WalletTxParams,
-} from '@thorswap-lib/types';
+import type { Asset, EVMChain, WalletTxParams } from '@thorswap-lib/types';
 import { Chain, ContractAddress, erc20ABI, FeeOption } from '@thorswap-lib/types';
 import type {
   BigNumberish,
@@ -25,10 +18,14 @@ import type {
   ApprovedParams,
   ApproveParams,
   CallParams,
+  EIP1559TxParams,
   EstimateCallParams,
+  EVMTxParams,
   IsApprovedParams,
+  LegacyEVMTxParams,
   TransferParams,
 } from '../types/clientTypes.ts';
+import { toHexString } from '../helpers.ts';
 
 export const MAX_APPROVAL = MaxInt256;
 
@@ -59,8 +56,6 @@ const createContract = async (
   const { Interface } = await import('ethers/abi');
   return new Contract(address, Interface.from(abi), provider);
 };
-
-export const toHexString = (value?: BigInt) => (value ? '0x' + value.toString(16) : '');
 
 const validateAddress = (address: string) => {
   try {

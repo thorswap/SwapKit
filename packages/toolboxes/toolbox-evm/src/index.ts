@@ -7,7 +7,6 @@ export {
   getTokenAddress,
   MAX_APPROVAL,
   toChecksumAddress,
-  toHexString,
 } from './toolbox/BaseEVMToolbox.ts';
 export * from './types/clientTypes.ts';
 export * from './types/ethplorer-api-types.ts';

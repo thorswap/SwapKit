@@ -14,7 +14,8 @@ import { BaseDecimal, Chain } from '@thorswap-lib/types';
 
 import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers/asset.ts';
 
-import { BaseSwapKitNumber, type SwapKitValueType } from './swapKitNumber.ts';
+import { BaseSwapKitNumber } from './baseNumber.ts';
+import type { SwapKitValueType } from './swapKitNumber.ts';
 
 type AssetValueParams = { decimal: number; value: SwapKitValueType } & (
   | { chain: Chain; symbol: string }
