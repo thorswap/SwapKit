@@ -239,7 +239,6 @@ export class SwapKitCore<T = ''> {
       switch (chain) {
         case Chain.THORChain: {
           const wallet = walletInstance as ThorchainWallet;
-          // @ts-expect-error Will dissapear after wallet refactor
           return await (recipient === '' ? wallet.deposit(params) : wallet.transfer(params));
         }
 

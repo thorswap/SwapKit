@@ -8,7 +8,6 @@ import type {
   BlockchairOutputsResponse,
   BlockchairRawTransactionResponse,
   BlockchairResponse,
-  ScanUTXOsParams,
 } from '../types/index.ts';
 type BlockchairParams<T> = T & { chain: Chain; apiKey?: string };
 
@@ -151,7 +150,7 @@ const scanUTXOs = async ({
   chain,
   apiKey,
   fetchTxHex = true,
-}: BlockchairParams<ScanUTXOsParams>) => {
+}: BlockchairParams<{ address: string; fetchTxHex?: boolean }>) => {
   const utxos = await getUnspentTxs({ chain, address, apiKey });
   const results = [];
 
@@ -177,7 +176,8 @@ export const blockchairApi = ({ apiKey, chain }: { apiKey?: string; chain: UTXOC
   getRawTx: (txHash: string) => getRawTx({ txHash, chain, apiKey }),
   getSuggestedTxFee: () => getSuggestedTxFee(chain),
   getBalance: (address: string) => getUnconfirmedBalance({ address, chain, apiKey }),
-  scanUTXOs: (params: ScanUTXOsParams) => scanUTXOs({ ...params, chain, apiKey }),
+  scanUTXOs: (params: { address: string; fetchTxHex?: boolean }) =>
+    scanUTXOs({ ...params, chain, apiKey }),
 });
 
 export type BlockchairApiType = ReturnType<typeof blockchairApi>;

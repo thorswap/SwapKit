@@ -1,4 +1,4 @@
-import { AssetSymbol, BaseDecimal, Chain } from '@thorswap-lib/types';
+import { BaseDecimal, Chain } from '@thorswap-lib/types';
 
 /**
  * L1 asset format:
@@ -175,14 +175,14 @@ export const getSignatureAssetFor = (signature: Signature, synth: boolean = fals
     }
 
     case Chain.Cosmos: {
-      const asset = new AssetEntity(signature, AssetSymbol.ATOM, synth, AssetSymbol.ATOM);
+      const asset = new AssetEntity(signature, 'ATOM', synth, 'ATOM');
 
       cachedSignatureAssets[signature] = asset;
       return asset;
     }
 
     case Chain.THORChain: {
-      const asset = new AssetEntity(Chain.THORChain, AssetSymbol.RUNE, synth, AssetSymbol.RUNE);
+      const asset = new AssetEntity(Chain.THORChain, 'RUNE', synth, 'RUNE');
 
       cachedSignatureAssets[signature] = asset;
       return asset;
@@ -212,7 +212,7 @@ export const getSignatureAssetFor = (signature: Signature, synth: boolean = fals
     }
 
     default: {
-      return new AssetEntity(Chain.THORChain, AssetSymbol.RUNE, synth, AssetSymbol.RUNE);
+      return new AssetEntity(Chain.THORChain, 'RUNE', synth, 'RUNE');
     }
   }
 };

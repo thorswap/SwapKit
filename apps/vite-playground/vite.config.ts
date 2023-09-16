@@ -22,7 +22,6 @@ export default defineConfig({
       '@thorswap-lib/ledger': resolve('../../packages/wallets/ledger/src'),
       '@thorswap-lib/swapkit-api': resolve('../../packages/swapkit/swapkit-api/src'),
       '@thorswap-lib/swapkit-core': resolve('../../packages/swapkit/swapkit-core/src'),
-      '@thorswap-lib/swapkit-entities': resolve('../../packages/swapkit/swapkit-entities/src'),
       '@thorswap-lib/swapkit-helpers': resolve('../../packages/swapkit/swapkit-helpers/src'),
       '@thorswap-lib/toolbox-cosmos': resolve('../../packages/toolboxes/toolbox-cosmos/src'),
       '@thorswap-lib/toolbox-evm': resolve('../../packages/toolboxes/toolbox-evm/src'),
@@ -56,6 +55,7 @@ export default defineConfig({
     reportCompressedSize: true,
     sourcemap: true,
     rollupOptions: {
+      // @ts-expect-error
       plugins: [nodePolyfills()],
       output: { sourcemap: true },
     },

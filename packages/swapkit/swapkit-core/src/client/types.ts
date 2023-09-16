@@ -1,5 +1,4 @@
 import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
-import type { Pool } from '@thorswap-lib/swapkit-entities';
 import type { AssetValue, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
 import type {
   BinanceToolbox,
@@ -16,13 +15,7 @@ import type {
   OPToolbox,
 } from '@thorswap-lib/toolbox-evm';
 import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
-import type {
-  BaseWalletMethods,
-  Chain,
-  FeeOption,
-  TxParams,
-  WalletOption,
-} from '@thorswap-lib/types';
+import type { BaseWalletMethods, Chain, FeeOption, WalletOption } from '@thorswap-lib/types';
 
 export type CoreTxParams = {
   assetValue: AssetValue;
@@ -54,28 +47,28 @@ export type Wallet = Record<Chain, ChainWallet | null>;
 
 export type ThorchainWallet = BaseWalletMethods &
   ThorchainToolboxType & {
-    transfer: (params: TxParams) => Promise<string>;
+    transfer: (params: CoreTxParams) => Promise<string>;
     deposit: (params: DepositParam) => Promise<string>;
   };
 
 export type CosmosBasedWallet<T extends typeof BinanceToolbox | typeof GaiaToolbox> =
   BaseWalletMethods &
     ReturnType<T> & {
-      transfer: (params: TxParams) => Promise<string>;
+      transfer: (params: CoreTxParams) => Promise<string>;
     };
 
 export type EVMWallet<
   T extends typeof AVAXToolbox | typeof BSCToolbox | typeof ETHToolbox | typeof OPToolbox,
 > = BaseWalletMethods &
   ReturnType<T> & {
-    transfer: (params: TxParams) => Promise<string>;
+    transfer: (params: CoreTxParams) => Promise<string>;
   };
 
 export type UTXOWallet<
   T extends typeof BCHToolbox | typeof BTCToolbox | typeof DOGEToolbox | typeof LTCToolbox,
 > = BaseWalletMethods &
   ReturnType<T> & {
-    transfer: (prams: TxParams) => Promise<string>;
+    transfer: (prams: CoreTxParams) => Promise<string>;
   };
 
 export type WalletMethods = {

@@ -1,6 +1,6 @@
 import { BaseDecimal } from '@thorswap-lib/types';
 
-import { Amount } from '../../../swapkit-entities/src/entities/amount.ts';
+import { SwapKitNumber } from '../index.ts';
 
 type ShareParams<T = {}> = T & {
   liquidityUnits: string;
@@ -13,21 +13,6 @@ type PoolParams<T = {}> = T & {
   runeDepth: string;
   assetDepth: string;
 };
-
-// formula: Total Balance * liquidity Units / total Units
-export const getRuneShare = ({
-  liquidityUnits,
-  poolUnits,
-  runeDepth,
-}: ShareParams<{ runeDepth: string }>) =>
-  Amount.fromBaseAmount(runeDepth, BaseDecimal.THOR).mul(liquidityUnits).div(poolUnits);
-
-export const getAssetShare = ({
-  liquidityUnits,
-  poolUnits,
-  assetDepth,
-}: ShareParams<{ assetDepth: string }>) =>
-  Amount.fromBaseAmount(assetDepth, BaseDecimal.THOR).mul(liquidityUnits).div(poolUnits);
 
 /**
  *  Ref: https://gitlab.com/thorchain/thornode/-/issues/657
@@ -45,9 +30,9 @@ export const getAsymmetricRuneShare = ({
   poolUnits,
   runeDepth,
 }: ShareParams<{ runeDepth: string }>) => {
-  const s = Amount.fromMidgard(liquidityUnits);
-  const T = Amount.fromBaseAmount(poolUnits, BaseDecimal.THOR);
-  const A = Amount.fromBaseAmount(runeDepth, BaseDecimal.THOR);
+  const s = toTCSwapKitNumber(liquidityUnits);
+  const T = toTCSwapKitNumber(poolUnits);
+  const A = toTCSwapKitNumber(runeDepth);
 
   const part1 = s.mul(A);
   const part2 = T.mul(T).mul(2);
@@ -56,9 +41,8 @@ export const getAsymmetricRuneShare = ({
   const part5 = T.mul(T).mul(T);
 
   const numerator = part1.mul(part2.sub(part3).add(part4));
-  const amount = numerator.div(part5);
 
-  return amount;
+  return numerator.div(part5);
 };
 
 export const getAsymmetricAssetShare = ({
@@ -66,9 +50,9 @@ export const getAsymmetricAssetShare = ({
   poolUnits,
   assetDepth,
 }: ShareParams<{ assetDepth: string }>) => {
-  const s = Amount.fromMidgard(liquidityUnits);
-  const T = Amount.fromBaseAmount(poolUnits, BaseDecimal.THOR);
-  const A = Amount.fromBaseAmount(assetDepth, BaseDecimal.THOR);
+  const s = toTCSwapKitNumber(liquidityUnits);
+  const T = toTCSwapKitNumber(poolUnits);
+  const A = toTCSwapKitNumber(assetDepth);
 
   const part1 = s.mul(A);
   const part2 = T.mul(T).mul(2);
@@ -77,9 +61,7 @@ export const getAsymmetricAssetShare = ({
   const numerator = part1.mul(part2.sub(part3).add(part4));
   const part5 = T.mul(T).mul(T);
 
-  const amount = numerator.div(part5);
-
-  return amount;
+  return numerator.div(part5);
 };
 
 export const getAsymmetricRuneWithdrawAmount = ({
@@ -98,6 +80,9 @@ export const getAsymmetricAssetWithdrawAmount = ({
 }: ShareParams<{ percent: number; assetDepth: string }>) =>
   getAsymmetricAssetShare({ assetDepth, liquidityUnits, poolUnits }).mul(percent);
 
+const toTCSwapKitNumber = (value: string) =>
+  new SwapKitNumber({ value, decimal: BaseDecimal.THOR });
+
 export const getSymmetricWithdraw = ({
   liquidityUnits,
   poolUnits,
@@ -109,8 +94,8 @@ export const getSymmetricWithdraw = ({
   assetDepth: string;
   percent: number;
 }>) => ({
-  assetAmount: getAssetShare({ liquidityUnits, poolUnits, assetDepth }).mul(percent),
-  runeAmount: getRuneShare({ liquidityUnits, poolUnits, runeDepth }).mul(percent),
+  assetAmount: toTCSwapKitNumber(assetDepth).mul(liquidityUnits).div(poolUnits).mul(percent),
+  runeAmount: toTCSwapKitNumber(runeDepth).mul(liquidityUnits).div(poolUnits).mul(percent),
 });
 
 export const getEstimatedPoolShare = ({
@@ -126,11 +111,11 @@ export const getEstimatedPoolShare = ({
   runeDepth: string;
   assetDepth: string;
 }>) => {
-  const R = Amount.fromBaseAmount(runeDepth, BaseDecimal.THOR);
-  const A = Amount.fromBaseAmount(assetDepth, BaseDecimal.THOR);
-  const P = Amount.fromBaseAmount(poolUnits, BaseDecimal.THOR);
-  const runeAddAmount = Amount.fromBaseAmount(runeAmount, BaseDecimal.THOR);
-  const assetAddAmount = Amount.fromBaseAmount(assetAmount, BaseDecimal.THOR);
+  const R = toTCSwapKitNumber(runeDepth);
+  const A = toTCSwapKitNumber(assetDepth);
+  const P = toTCSwapKitNumber(poolUnits);
+  const runeAddAmount = toTCSwapKitNumber(runeAmount);
+  const assetAddAmount = toTCSwapKitNumber(assetAmount);
 
   // liquidityUnits = P * (r*A + a*R + 2*r*a) / (r*A + a*R + 2*R*A)
   const rA = runeAddAmount.mul(A);
@@ -140,16 +125,16 @@ export const getEstimatedPoolShare = ({
   const numerator = P.mul(rA.add(aR.add(ra.mul(2))));
   const denominator = rA.add(aR.add(RA.mul(2)));
   const liquidityUnitsAfterAdd = numerator.div(denominator);
-  const estimatedLiquidityUnits = Amount.fromMidgard(liquidityUnits).add(liquidityUnitsAfterAdd);
+  const estimatedLiquidityUnits = toTCSwapKitNumber(liquidityUnits).add(liquidityUnitsAfterAdd);
 
-  if (liquidityUnitsAfterAdd.assetAmount.toNumber() === 0) {
-    return estimatedLiquidityUnits.div(P).assetAmount.toNumber();
+  if (liquidityUnitsAfterAdd.baseValueNumber === 0) {
+    return estimatedLiquidityUnits.div(P).baseValueNumber;
   }
 
   // get pool units after add
   const newPoolUnits = P.add(estimatedLiquidityUnits);
 
-  return estimatedLiquidityUnits.div(newPoolUnits).assetAmount.toNumber();
+  return estimatedLiquidityUnits.div(newPoolUnits).baseValueNumber;
 };
 
 export const getLiquiditySlippage = ({
@@ -159,14 +144,14 @@ export const getLiquiditySlippage = ({
   assetDepth,
 }: PoolParams) => {
   // formula: (t * R - T * r)/ (T*r + R*T)
-  const R = Amount.fromBaseAmount(runeDepth, BaseDecimal.THOR);
-  const T = Amount.fromBaseAmount(assetDepth, BaseDecimal.THOR);
-  const assetAddAmount = Amount.fromBaseAmount(assetAmount, BaseDecimal.THOR);
-  const runeAddAmount = Amount.fromBaseAmount(runeAmount, BaseDecimal.THOR);
+  const R = toTCSwapKitNumber(runeDepth);
+  const T = toTCSwapKitNumber(assetDepth);
+  const assetAddAmount = toTCSwapKitNumber(assetAmount);
+  const runeAddAmount = toTCSwapKitNumber(runeAmount);
 
   const numerator = assetAddAmount.mul(R).sub(T.mul(runeAddAmount));
   const denominator = T.mul(runeAddAmount).add(R.mul(T));
 
   // set absolute value of percent, no negative allowed
-  return numerator.div(denominator).assetAmount.absoluteValue().toNumber();
+  return Math.abs(numerator.div(denominator).baseValueNumber);
 };

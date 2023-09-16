@@ -1,10 +1,10 @@
-import type { UTXO } from '@thorswap-lib/types';
 import { opcodes, script } from 'bitcoinjs-lib';
 
 import type {
   TargetOutput,
   UTXOCalculateTxSizeParams,
   UTXOInputWithScriptType,
+  UTXOType,
 } from '../types/index.ts';
 
 /**
@@ -78,7 +78,7 @@ export const calculateTxSize = ({ inputs, outputs, feeRate }: UTXOCalculateTxSiz
   return TX_OVERHEAD + inputSize + outputSize;
 };
 
-export const getInputSize = (input: UTXOInputWithScriptType | UTXO) => {
+export const getInputSize = (input: UTXOInputWithScriptType | UTXOType) => {
   if ('type' in input) {
     return InputSizes[input.type];
   }
@@ -89,7 +89,7 @@ export const getInputSize = (input: UTXOInputWithScriptType | UTXO) => {
 };
 
 export const getOutputSize = (output: TargetOutput, scriptType?: UTXOScriptType) => {
-  if ('script' in output) {
+  if (output?.script) {
     return OP_RETURN_OVERHEAD + output.script.length + (output.script.length >= 74 ? 2 : 1);
   }
   if (scriptType) {

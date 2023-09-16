@@ -1,19 +1,13 @@
 import { HDKey } from '@scure/bip32';
 import { AssetValue, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
-import type { UTXO } from '@thorswap-lib/types';
+import type { UTXOChain } from '@thorswap-lib/types';
 import { Chain, FeeOption } from '@thorswap-lib/types';
 import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';
 import type { ECPairInterface } from 'ecpair';
 import { ECPairFactory } from 'ecpair';
 
-import type {
-  TargetOutput,
-  UTXOBaseToolboxParams,
-  UTXOBuildTxParams,
-  UTXOCreateKeyParams,
-  UTXOEstimateFeeParams,
-  UTXOWalletTransferParams,
-} from '../types/common.ts';
+import type { BlockchairApiType } from '../api/blockchairApi.ts';
+import type { TargetOutput, UTXOBaseToolboxParams, UTXOType } from '../types/common.ts';
 import {
   accumulative,
   calculateTxSize,
@@ -30,7 +24,12 @@ const createKeysForPath = async ({
   wif,
   derivationPath,
   chain,
-}: UTXOCreateKeyParams & UTXOBaseToolboxParams): Promise<ECPairInterface> => {
+}: {
+  phrase?: string;
+  wif?: string;
+  derivationPath: string;
+  chain: Chain;
+}) => {
   if (!wif && !phrase) throw new Error('Either phrase or wif must be provided');
 
   const tinySecp = await import('tiny-secp256k1');
@@ -75,16 +74,23 @@ const transfer = async ({
   apiClient,
   feeOptionKey,
   broadcastTx,
-  ...rest
-}: UTXOWalletTransferParams<Psbt, Psbt> &
-  UTXOBaseToolboxParams & { broadcastTx: (txHex: string) => Promise<string> }) => {
+  feeRate,
+}: {
+  apiClient: BlockchairApiType;
+  broadcastTx: (txHex: string) => Promise<string>;
+  chain: UTXOChain;
+  feeOptionKey?: FeeOption;
+  feeRate?: number;
+  from: string;
+  recipient: string;
+  signTransaction: (psbt: Psbt) => Promise<Psbt>;
+}) => {
   if (!from) throw new Error('From address must be provided');
   if (!recipient) throw new Error('Recipient address must be provided');
-  const feeRate = rest.feeRate || (await getFeeRates(apiClient))[feeOptionKey || FeeOption.Fast];
+  const txFeeRate = feeRate || (await getFeeRates(apiClient))[feeOptionKey || FeeOption.Fast];
   const { psbt } = await buildTx({
-    ...rest,
     recipient,
-    feeRate,
+    feeRate: txFeeRate,
     sender: from,
     fetchTxHex: chain === Chain.Dogecoin,
     chain,
@@ -104,18 +110,26 @@ const getBalance = async ({
   await AssetValue.fromIdentifier(`${chain}.${chain}`, await apiClient.getBalance(address)),
 ];
 
-const getFeeRates = async (apiClient: UTXOBaseToolboxParams['apiClient']) =>
+const getFeeRates = async (apiClient: BlockchairApiType) =>
   standardFeeRates(await apiClient.getSuggestedTxFee());
 
 const getInputsAndTargetOutputs = async ({
-  amount,
+  assetValue,
   recipient,
   memo,
   sender,
   fetchTxHex = false,
   apiClient,
   chain,
-}: UTXOBuildTxParams & UTXOBaseToolboxParams) => {
+}: {
+  assetValue: AssetValue;
+  recipient: string;
+  memo?: string;
+  sender: string;
+  fetchTxHex?: boolean;
+  apiClient: BlockchairApiType;
+  chain: UTXOChain;
+}) => {
   const inputs = await apiClient.scanUTXOs({
     address: sender,
     fetchTxHex,
@@ -125,25 +139,20 @@ const getInputsAndTargetOutputs = async ({
     throw new Error('Invalid address');
   }
 
-  const compiledMemo = memo ? compileMemo(memo) : null;
-
-  const targetOutputs: TargetOutput[] = [];
-
   //1. add output amount and recipient to targets
-  targetOutputs.push({
-    address: recipient,
-    value: Number(amount.getBigIntValue),
-  });
   //2. add output memo to targets (optional)
-  if (compiledMemo) {
-    targetOutputs.push({ script: compiledMemo, value: 0 });
-  }
 
-  return { inputs, targetOutputs };
+  return {
+    inputs,
+    targetOutputs: [
+      { address: recipient, value: Number(assetValue.getBigIntValue) },
+      ...(memo ? [{ address: '', script: compileMemo(memo), value: 0 }] : []),
+    ],
+  };
 };
 
 const buildTx = async ({
-  amount,
+  assetValue,
   recipient,
   memo,
   feeRate,
@@ -151,31 +160,33 @@ const buildTx = async ({
   fetchTxHex = false,
   apiClient,
   chain,
-}: UTXOBuildTxParams & UTXOBaseToolboxParams): Promise<{
+}: {
+  assetValue?: AssetValue;
+  recipient: string;
+  memo?: string;
+  feeRate: number;
+  sender: string;
+  fetchTxHex?: boolean;
+  apiClient: BlockchairApiType;
+  chain: UTXOChain;
+}): Promise<{
   psbt: Psbt;
-  utxos: UTXO[];
-  inputs: UTXO[];
+  utxos: UTXOType[];
+  inputs: UTXOType[];
 }> => {
   const compiledMemo = memo ? compileMemo(memo) : null;
 
-  const { inputs: utxos, targetOutputs } = await getInputsAndTargetOutputs({
-    amount,
+  const inputsAndOutputs = await getInputsAndTargetOutputs({
+    assetValue,
     recipient,
     memo,
     sender,
     fetchTxHex,
     apiClient,
     chain,
-    feeRate,
   });
 
-  const feeRateWhole = Math.ceil(feeRate);
-
-  const { inputs, outputs } = accumulative({
-    inputs: utxos,
-    outputs: targetOutputs,
-    feeRate: feeRateWhole,
-  });
+  const { inputs, outputs } = accumulative({ ...inputsAndOutputs, feeRate });
 
   // .inputs and .outputs will be undefined if no solution was found
   if (!inputs || !outputs) throw new Error('Insufficient Balance for transaction');
@@ -184,7 +195,7 @@ const buildTx = async ({
   if (chain === Chain.Dogecoin) psbt.setMaximumFeeRate(650000000);
 
   // psbt add input from accumulative inputs
-  inputs.forEach((utxo: UTXO) =>
+  inputs.forEach((utxo: UTXOType) =>
     psbt.addInput({
       hash: utxo.hash,
       index: utxo.index,
@@ -217,15 +228,15 @@ const buildTx = async ({
 
 const getInputsOutputsFee = async ({
   amount,
-  recipient,
-  memo,
-  feeRate,
-  sender,
-  fetchTxHex = false,
   apiClient,
   chain,
   feeOptionKey = FeeOption.Fast,
-}: UTXOBuildTxParams & UTXOBaseToolboxParams) => {
+  feeRate,
+  fetchTxHex = false,
+  memo,
+  recipient,
+  sender,
+}: any) => {
   const { inputs, targetOutputs } = await getInputsAndTargetOutputs({
     amount,
     recipient,
@@ -248,17 +259,18 @@ export const estimateMaxSendableAmount = async ({
   feeRate,
   feeOptionKey = FeeOption.Fast,
   recipients = 1,
-  ...baseParams
-}: UTXOEstimateFeeParams & UTXOBaseToolboxParams) => {
-  const balance = (await getBalance({ address: from, ...baseParams }))[0];
-  const feeRateWhole = feeRate
-    ? Math.ceil(feeRate)
-    : (await getFeeRates(baseParams.apiClient))[feeOptionKey];
-  const inputs = (
-    await baseParams.apiClient.scanUTXOs({
-      address: from,
-    })
-  ).map((utxo) => ({
+  chain,
+  apiClient,
+}: UTXOBaseToolboxParams & {
+  recipients?: number | TargetOutput[];
+  memo?: string;
+  feeRate?: number;
+  feeOptionKey?: FeeOption;
+  from: string;
+}) => {
+  const [balance] = await getBalance({ address: from, apiClient, chain });
+  const feeRateWhole = feeRate ? Math.ceil(feeRate) : (await getFeeRates(apiClient))[feeOptionKey];
+  const inputs = (await apiClient.scanUTXOs({ address: from })).map((utxo) => ({
     ...utxo,
     type: utxo.witnessUtxo ? UTXOScriptType.P2WPKH : UTXOScriptType.P2PKH,
   }));
@@ -270,7 +282,7 @@ export const estimateMaxSendableAmount = async ({
 
   if (memo) {
     const compiledMemo = compileMemo(memo);
-    outputs.push({ script: compiledMemo, value: 0 });
+    outputs.push({ address: from, script: compiledMemo, value: 0 });
   }
 
   const txSize = await calculateTxSize({
@@ -295,12 +307,11 @@ export const BaseUTXOToolbox = (
   apiClient: baseToolboxParams.apiClient,
   broadcastTx: baseToolboxParams.broadcastTx,
   calculateTxSize,
-  buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, ...baseToolboxParams }),
+  buildTx: (params: any) => buildTx({ ...params, ...baseToolboxParams }),
   getAddressFromKeys: (keys: ECPairInterface) => getAddressFromKeys({ keys, ...baseToolboxParams }),
   validateAddress: (address: string) => validateAddress({ address, ...baseToolboxParams }),
 
-  createKeysForPath: (params: UTXOCreateKeyParams) =>
-    createKeysForPath({ ...params, ...baseToolboxParams }),
+  createKeysForPath: (params: any) => createKeysForPath({ ...params, ...baseToolboxParams }),
 
   getPrivateKeyFromMnemonic: async ({
     phrase,
@@ -314,18 +325,16 @@ export const BaseUTXOToolbox = (
 
   getFeeRates: () => getFeeRates(baseToolboxParams.apiClient),
 
-  transfer: (params: UTXOWalletTransferParams<Psbt, Psbt>) =>
-    transfer({ ...params, ...baseToolboxParams }),
+  transfer: (params: any) => transfer({ ...params, ...baseToolboxParams }),
 
-  getInputsOutputsFee: (params: UTXOBuildTxParams) =>
-    getInputsOutputsFee({ ...params, ...baseToolboxParams }),
+  getInputsOutputsFee: (params: any) => getInputsOutputsFee({ ...params, ...baseToolboxParams }),
 
-  getFeeForTransaction: async (params: UTXOBuildTxParams) =>
+  getFeeForTransaction: async (params: any) =>
     new SwapKitNumber({
       value: (await getInputsOutputsFee({ ...params, ...baseToolboxParams })).fee,
       decimal: 8,
     }),
 
-  estimateMaxSendableAmount: async (params: UTXOEstimateFeeParams) =>
+  estimateMaxSendableAmount: async (params: any) =>
     estimateMaxSendableAmount({ ...params, ...baseToolboxParams }),
 });

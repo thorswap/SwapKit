@@ -31,8 +31,7 @@ export type NodeUrl = {
 export type DepositParam = {
   signer?: OfflineDirectSigner;
   walletIndex?: number;
-  asset?: Asset;
-  amount: AssetValue;
+  assetValue: AssetValue;
   memo: string;
 };
 

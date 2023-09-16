@@ -51,7 +51,7 @@ jobs:
         run: pnpm test:coverage
       - uses: codecov/codecov-action@v3
         with:
-          files: ./internal/helpers/coverage/coverage-final.json,./packages/swapkit/swapkit-entities/coverage/coverage-final.json,./packages/toolboxes/toolbox-evm/coverage/coverage-final.json,./packages/swapkit/swapkit-core/coverage/coverage-final.json
+          files: ./internal/helpers/coverage/coverage-final.json,./packages/toolboxes/toolbox-evm/coverage/coverage-final.json,./packages/swapkit/swapkit-core/coverage/coverage-final.json
           flags: unittests
           name: swapkit-codecov
           fail_ci_if_error: false
@@ -107,7 +107,7 @@ jobs:
         uses: changesets/action@v1
         if: contains(github.ref_name, 'main') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'develop')
         with:
-          title: ":tada: Publish ${{ steps.deployment-params.outputs.publishName }}"
+          title: ':tada: Publish ${{ steps.deployment-params.outputs.publishName }}'
           version: pnpm version-bump
           publish: pnpm publish-packages
           setupGitUser: false
@@ -116,7 +116,7 @@ jobs:
         uses: changesets/action@v1
         if: contains(github.ref_name, 'nightly')
         with:
-          title: ":tada: Publish Nightly"
+          title: ':tada: Publish Nightly'
           version: pnpm version-bump
           publish: pnpm publish-packages --tag nightly
           setupGitUser: false

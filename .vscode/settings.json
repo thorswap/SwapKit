@@ -1,5 +1,8 @@
 {
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
   "javascript.format.enable": false,
   "javascript.preferences.importModuleSpecifier": "relative",
   "javascript.updateImportsOnFileMove.enabled": "always",

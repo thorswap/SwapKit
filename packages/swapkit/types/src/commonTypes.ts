@@ -52,14 +52,6 @@ export type AddChainWalletParams = {
   walletMethods: any;
 };
 
-export type UTXO = {
-  hash: string;
-  index: number;
-  value: number;
-  txHex?: string;
-  witnessUtxo?: Witness;
-};
-
 export type Witness = {
   value: number;
   script: Buffer;
@@ -103,3 +95,10 @@ export enum QuoteMode {
   AVAX_TO_ETH = 'ARC20-ERC20',
   ETH_TO_AVAX = 'ERC20-ARC20',
 }
+
+export type Asset = {
+  chain: Chain;
+  symbol: string;
+  ticker: string;
+  synth?: boolean;
+};

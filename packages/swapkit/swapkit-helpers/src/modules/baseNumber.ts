@@ -231,6 +231,7 @@ export class BaseSwapKitNumber {
   #getBaseValue<T extends 'number' | 'string' | 'bigint'>(type: T) {
     const divisor = this.decimalMultiplier / toMultiplier(this.decimal || 0);
     const baseValue = this.bigIntValue / divisor;
+
     switch (type) {
       case 'number':
         return Number(baseValue);

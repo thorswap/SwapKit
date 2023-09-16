@@ -14,6 +14,7 @@ import { getAddress } from 'ethers/address';
 import { MaxInt256 } from 'ethers/constants';
 
 import { SwapKitNumber } from '../../../../swapkit/swapkit-helpers/src/index.ts';
+import { toHexString } from '../helpers.ts';
 import type {
   ApprovedParams,
   ApproveParams,
@@ -25,7 +26,6 @@ import type {
   LegacyEVMTxParams,
   TransferParams,
 } from '../types/clientTypes.ts';
-import { toHexString } from '../helpers.ts';
 
 export const MAX_APPROVAL = MaxInt256;
 

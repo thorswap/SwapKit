@@ -1,5 +1,5 @@
 import type { UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
-import type { ConnectWalletParams, TxParams } from '@thorswap-lib/types';
+import type { ConnectWalletParams } from '@thorswap-lib/types';
 import { Chain, DerivationPath, WalletOption } from '@thorswap-lib/types';
 import type { Psbt } from 'bitcoinjs-lib';
 

@@ -1,4 +1,8 @@
-import type { FeeOption } from './wallet.ts';
+export enum FeeOption {
+  Average = 'average',
+  Fast = 'fast',
+  Fastest = 'fastest',
+}
 
 export type WalletTxParams = {
   feeOptionKey?: FeeOption;

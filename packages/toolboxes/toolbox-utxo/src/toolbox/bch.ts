@@ -19,13 +19,7 @@ import { ECPairFactory } from 'ecpair';
 import type { BlockchairApiType } from '../api/blockchairApi.ts';
 import { blockchairApi } from '../api/blockchairApi.ts';
 import { broadcastUTXOTx } from '../api/rpcApi.ts';
-import type {
-  TargetOutput,
-  TransactionBuilderType,
-  TransactionType,
-  UTXOBuildTxParams,
-  UTXOWalletTransferParams,
-} from '../types/common.ts';
+import type { TargetOutput, TransactionBuilderType } from '../types/common.ts';
 import { accumulative, compileMemo, getNetwork, getSeed } from '../utils/index.ts';
 
 import { BaseUTXOToolbox } from './BaseUTXOToolbox.ts';
@@ -70,7 +64,6 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
     fetchTxHex: true,
   });
 
-  const feeRateWhole = Number(feeRate.toFixed(0));
   const compiledMemo = memo ? compileMemo(memo) : null;
 
   const targetOutputs: TargetOutput[] = [];
@@ -79,7 +72,7 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
   const { inputs, outputs } = accumulative({
     inputs: utxos,
     outputs: targetOutputs,
-    feeRate: feeRateWhole,
+    feeRate: Number(feeRate.toFixed(0)),
   });
 
   // .inputs and .outputs will be undefined if no solution was found
