@@ -179,6 +179,7 @@ export type QuoteRoute = {
     expectedOutputMaxSlippage: string;
     expectedOutputUSD: string;
     expectedOutputMaxSlippageUSD: string;
+    transaction?: any;
   };
 };
 

@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-utxo
 
+## 1.0.0-development.141
+
+### Patch Changes
+
+- [#315](https://github.com/thorswap/SwapKit/pull/315) [`084ed17`](https://github.com/thorswap/SwapKit/commit/084ed1797255f3ed4e2090959ba9d7d6fa1fbaec) Thanks [@towanTG](https://github.com/towanTG)! - Fixes ltc type identification
+
 ## 1.0.0-development.140
 
 ### Patch Changes

@@ -70,7 +70,7 @@ const blockchairRequest = async <T extends any>(url: string): Promise<T> => {
   return response.data as T;
 };
 
-const getUnconfirmedBalance = async ({
+const getAddressData = async ({
   address,
   chain,
   apiKey,
@@ -82,7 +82,15 @@ const getUnconfirmedBalance = async ({
   }`;
   const response = await blockchairRequest<BlockchairAddressResponse>(`${baseUrl(chain)}${url}`);
 
-  return response[address].address.balance;
+  return response[address];
+};
+
+const getUnconfirmedBalance = async ({
+  address,
+  chain,
+  apiKey,
+}: BlockchairParams<{ address?: string }>) => {
+  return (await getAddressData({ address, chain, apiKey })).address.balance;
 };
 
 const getConfirmedBalance = async ({
@@ -178,6 +186,7 @@ export const blockchairApi = ({ apiKey, chain }: { apiKey?: string; chain: UTXOC
   getRawTx: (txHash: string) => getRawTx({ txHash, chain, apiKey }),
   getSuggestedTxFee: () => getSuggestedTxFee(chain),
   getBalance: (address: string) => getUnconfirmedBalance({ address, chain, apiKey }),
+  getAddressData: (address: string) => getAddressData({ address, chain, apiKey }),
   scanUTXOs: (params: ScanUTXOsParams) => scanUTXOs({ ...params, chain, apiKey }),
 });
 
