@@ -278,8 +278,21 @@ export class SwapKitCore<T = ''> {
           return await walletInstance.transfer(params);
         }
       }
-    } catch (error) {
-      throw new SwapKitError('core_transaction_deposit_error', error);
+    } catch (error: any) {
+      // TODO: Distinguish between different errors
+      const errorMessage = (error?.message || error?.toString()).toLowerCase();
+      const isInsufficientFunds = errorMessage?.includes('insufficient funds');
+      const isGas = errorMessage?.includes('gas');
+      const isServer = errorMessage?.includes('server');
+      const errorKey = isInsufficientFunds
+        ? 'core_transaction_deposit_insufficient_funds_error'
+        : isGas
+        ? 'core_transaction_deposit_gas_error'
+        : isServer
+        ? 'core_transaction_deposit_server_error'
+        : 'core_transaction_deposit_error';
+
+      throw new SwapKitError(errorKey, error);
     }
   };
 
