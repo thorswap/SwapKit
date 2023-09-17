@@ -64,8 +64,6 @@ export const utxoWalletMethods: any = async function (params: any) {
           outputAddress = toCashAddress(output.address);
         }
 
-        let isChangeAddress = false;
-
         if (chain === Chain.BitcoinCash && outputAddress) {
           const strippedAddress = (toolbox as ReturnType<typeof BCHToolbox>).stripPrefix(
             outputAddress,
@@ -74,15 +72,11 @@ export const utxoWalletMethods: any = async function (params: any) {
         } else {
           outputAddress = outputAddress === address;
         }
-        if (output.address) {
-          isChangeAddress = true;
-        }
-
-        if (isChangeAddress) {
+        if (output.change) {
           return {
             addressNList: isSegwit
-              ? [2147483732, 2147483648, 2147483648, 0, 0]
-              : [2147483692, 2147483648, 2147483648, 0, 0],
+                ? [2147483732, 2147483648, 2147483648, 0, 0]
+                : [2147483692, 2147483648, 2147483648, 0, 0],
             isChange: true,
             addressType: 'change',
             amount: output.value,

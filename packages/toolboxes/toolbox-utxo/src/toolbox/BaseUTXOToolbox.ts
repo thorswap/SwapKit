@@ -203,6 +203,7 @@ const buildTx = async ({
   outputs.forEach((output: any) => {
     if (!output.address) {
       //an empty address means this is the change address
+      output.change = true; //must mark change for kk validation
       output.address = sender;
     }
     if (!output.script) {
@@ -258,7 +259,7 @@ export const estimateMaxSendableAmount = async ({
   const balance = baseAmount(addressData.address.balance, BaseDecimal.BTC);
   const feeRateWhole = feeRate ? Math.ceil(feeRate) : (await getFeeRates(apiClient))[feeOptionKey];
   // TODO: use node to get utxo data for witness data
-  const inputs = addressData.utxo.map((utxo) => ({
+  const inputs = addressData.utxo.map((utxo: any) => ({
     ...utxo,
     // type: utxo.witnessUtxo ? UTXOScriptType.P2WPKH : UTXOScriptType.P2PKH,
     type: UTXOScriptType.P2PKH,
