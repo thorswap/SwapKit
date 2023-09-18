@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 overrides:
   typescript: 5.2.2
   json5@<=1.0.1: ^1.0.2
@@ -952,8 +948,8 @@ importers:
         specifier: ^0.2.52
         version: 0.2.52
       '@pioneer-platform/pioneer-coins':
-        specifier: ^8.1.83
-        version: 8.1.83(@types/node@20.5.9)
+        specifier: ^8.1.84
+        version: 8.1.84(@types/node@20.5.9)
       '@thorswap-lib/helpers':
         specifier: workspace:*
         version: link:../../../internal/helpers
@@ -5476,8 +5472,8 @@ packages:
       - '@types/node'
     dev: false
 
-  /@pioneer-platform/pioneer-coins@8.1.83(@types/node@20.5.9):
-    resolution: {integrity: sha512-jkzCgC0lGQczUdCBlvs2toK+4aX0NLpRQnqqC4VqgD7vIRUl+BHJeTPO5ajHB2DZArJ8NC6+g/+MtgEK+XE+dw==}
+  /@pioneer-platform/pioneer-coins@8.1.84(@types/node@20.5.9):
+    resolution: {integrity: sha512-odZTQOM/5tN5+1KLQpKXORRPf8WiCz1rf67md1+munjZLvrGxPnHlP+3qnWmRfO+BExRdErx850K3NMr9Jx/LA==}
     dependencies:
       '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.5.9)
       bech32: 1.1.4
@@ -17271,3 +17267,7 @@ packages:
     optionalDependencies:
       commander: 9.5.0
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false

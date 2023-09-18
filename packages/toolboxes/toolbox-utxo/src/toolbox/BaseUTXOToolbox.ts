@@ -203,7 +203,6 @@ const buildTx = async ({
   outputs.forEach((output: any) => {
     if (!output.address) {
       //an empty address means this is the change address
-      output.change = true; //must mark change for kk validation
       output.address = sender;
     }
     if (!output.script) {

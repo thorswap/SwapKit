@@ -3,7 +3,7 @@
   "dependencies": {
     "@cosmjs/stargate": "0.31.1",
     "@keepkey/keepkey-sdk": "^0.2.52",
-    "@pioneer-platform/pioneer-coins": "^8.1.83",
+    "@pioneer-platform/pioneer-coins": "^8.1.84",
     "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/types": "workspace:*"
