@@ -1,3 +1,5 @@
+import { Chain, type UTXOChain } from '@thorswap-lib/types';
+
 import type { TargetOutput, UTXOCalculateTxSizeParams } from '../types/index.ts';
 import {
   calculateTxSize,
@@ -8,11 +10,26 @@ import {
   UTXOScriptType,
 } from '../utils/index.ts';
 
+export const getDustThreshold = (chain: UTXOChain) => {
+  switch (chain) {
+    case Chain.Bitcoin:
+    case Chain.BitcoinCash:
+      return 550;
+    case Chain.Litecoin:
+      return 5500;
+    case Chain.Dogecoin:
+      return 100000;
+    default:
+      throw new Error('Invalid Chain');
+  }
+};
+
 export const accumulative = ({
   inputs,
   outputs,
   feeRate,
-}: UTXOCalculateTxSizeParams & { outputs: TargetOutput[] }) => {
+  chain = Chain.Bitcoin,
+}: UTXOCalculateTxSizeParams & { outputs: TargetOutput[]; chain: UTXOChain }) => {
   feeRate = Math.ceil(feeRate);
   const newTxType =
     'address' in inputs[0] ? getScriptTypeForAddress(inputs[0].address) : UTXOScriptType.P2PKH;
@@ -52,7 +69,10 @@ export const accumulative = ({
       const remainderAfterExtraOutput = inputsValue - (amountToSend + feeAfterExtraOutput);
 
       // is it worth a change output aka can we send it in the future?
-      if (remainderAfterExtraOutput > getInputSize({} as any) * feeRate) {
+      if (
+        remainderAfterExtraOutput >
+        Math.max(getInputSize({} as any) * feeRate, getDustThreshold(chain))
+      ) {
         return {
           inputs: inputsToUse,
           outputs: outputs.concat({ value: remainderAfterExtraOutput, address: '' }),
