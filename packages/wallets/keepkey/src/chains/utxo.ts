@@ -1,4 +1,3 @@
-import { BigNumber } from '@ethersproject/bignumber';
 // @ts-ignore
 import { addressInfoForCoin, COIN_MAP_KEEPKEY_LONG } from '@pioneer-platform/pioneer-coins';
 import type { UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
@@ -43,7 +42,6 @@ export const utxoWalletMethods: any = async function (params: any) {
       scriptType = 'p2pkh';
     }
     let addressInfo = addressInfoForCoin(chain, false, scriptType);
-    console.log('addressInfo', addressInfo);
     //getAddress
     const getAddress = async function () {
       try {
@@ -55,7 +53,6 @@ export const utxoWalletMethods: any = async function (params: any) {
           scriptType = 'p2pkh';
         }
         let addressInfo = addressInfoForCoin(chain, false, scriptType);
-        console.log('addressInfo', addressInfo);
         let response = await sdk.address.utxoGetAddress(addressInfo);
         return response.address;
       } catch (e) {
@@ -66,9 +63,7 @@ export const utxoWalletMethods: any = async function (params: any) {
     
     const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '') => {
       let outputs: any[] = psbt.txOutputs.map((output: any) => {
-        console.log('output: ', output);
         let outputAddress = output.address;
-        console.log('outputAddress: ', outputAddress);
         if (chain === Chain.BitcoinCash && output.address) {
           outputAddress = toCashAddress(output.address);
           const strippedAddress = (toolbox as ReturnType<typeof BCHToolbox>).stripPrefix(
@@ -76,9 +71,7 @@ export const utxoWalletMethods: any = async function (params: any) {
           );
           outputAddress = strippedAddress;
         }
-        console.log('outputAddress: ', outputAddress);
         if (output.change || output.address == address) {
-          console.log('isSegwit: ', isSegwit);
           return {
             addressNList: addressInfo.address_n,
             isChange: true,
@@ -105,9 +98,7 @@ export const utxoWalletMethods: any = async function (params: any) {
       if (memo) {
         txToSign.opReturnData = Buffer.from(memo, 'utf-8');
       }
-      console.log('txToSign:', txToSign);
       let responseSign = await sdk.utxo.utxoSignTransaction(txToSign);
-      console.log('responseSign:', responseSign);
       return responseSign.serializedTx;
     };
 
@@ -130,9 +121,6 @@ export const utxoWalletMethods: any = async function (params: any) {
         sender: from,
         fetchTxHex: chain,
       });
-      console.log('psbt: ', psbt);
-      console.log('inputs: ', inputs);
-
       //convert inputs for keepkey
       let inputsKeepKey = [];
       for (const input of inputs) {
@@ -153,7 +141,6 @@ export const utxoWalletMethods: any = async function (params: any) {
       inputs = inputsKeepKey;
 
       const txHex = await signTransaction(psbt, inputs, memo);
-      console.log('txHex: ', txHex);
       return toolbox.broadcastTx(txHex);
     };
 
