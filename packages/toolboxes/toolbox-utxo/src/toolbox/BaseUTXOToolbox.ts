@@ -19,9 +19,10 @@ import {
   accumulative,
   calculateTxSize,
   compileMemo,
+  getDustThreshold,
+  getInputSize,
   getNetwork,
   getSeed,
-  MIN_TX_FEE,
   standardFeeRates,
   UTXOScriptType,
 } from '../utils/index.ts';
@@ -179,6 +180,7 @@ const buildTx = async ({
     inputs: utxos,
     outputs: targetOutputs,
     feeRate: feeRateWhole,
+    chain,
   });
 
   // .inputs and .outputs will be undefined if no solution was found
@@ -243,7 +245,7 @@ const getInputsOutputsFee = async ({
 
   const feeRateWhole = feeRate ? Math.floor(feeRate) : (await getFeeRates(apiClient))[feeOptionKey];
 
-  return accumulative({ inputs, outputs: targetOutputs, feeRate: feeRateWhole });
+  return accumulative({ inputs, outputs: targetOutputs, feeRate: feeRateWhole, chain });
 };
 
 export const estimateMaxSendableAmount = async ({
@@ -253,17 +255,26 @@ export const estimateMaxSendableAmount = async ({
   feeOptionKey = FeeOption.Fast,
   recipients = 1,
   apiClient,
+  chain,
 }: UTXOEstimateFeeParams & UTXOBaseToolboxParams): Promise<AmountWithBaseDenom> => {
   const addressData = await apiClient.getAddressData(from);
-  const balance = baseAmount(addressData.address.balance, BaseDecimal.BTC);
   const feeRateWhole = feeRate ? Math.ceil(feeRate) : (await getFeeRates(apiClient))[feeOptionKey];
   // TODO: use node to get utxo data for witness data
-  const inputs = addressData.utxo.map((utxo) => ({
-    ...utxo,
-    // type: utxo.witnessUtxo ? UTXOScriptType.P2WPKH : UTXOScriptType.P2PKH,
-    type: UTXOScriptType.P2PKH,
-    hash: '',
-  }));
+  const inputs = addressData.utxo
+    .map((utxo) => ({
+      ...utxo,
+      // type: utxo.witnessUtxo ? UTXOScriptType.P2WPKH : UTXOScriptType.P2PKH,
+      type: UTXOScriptType.P2PKH,
+      hash: '',
+    }))
+    .filter(
+      (utxo) => utxo.value > Math.max(getDustThreshold(chain), getInputSize(utxo) * feeRateWhole),
+    );
+
+  const balance = baseAmount(
+    inputs.reduce((sum, utxo) => (sum += utxo.value), 0),
+    BaseDecimal.BTC,
+  );
 
   let outputs =
     typeof recipients === 'number'
@@ -281,7 +292,7 @@ export const estimateMaxSendableAmount = async ({
     feeRate: feeRateWhole,
   });
 
-  const fee = Math.max(MIN_TX_FEE, txSize * feeRateWhole);
+  const fee = txSize * feeRateWhole;
 
   return baseAmount(balance.minus(baseAmount(fee, 8)).amount(), 8);
 };
