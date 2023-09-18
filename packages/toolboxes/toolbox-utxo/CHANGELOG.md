@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-utxo
 
+## 1.0.0-development.142
+
+### Patch Changes
+
+- [#317](https://github.com/thorswap/SwapKit/pull/317) [`db36ce4`](https://github.com/thorswap/SwapKit/commit/db36ce4d9e8216cd3bf54ad33c6a72a9b606bd90) Thanks [@towanTG](https://github.com/towanTG)! - Improves max sendable amount calculation for utxo chains
+
 ## 1.0.0-development.141
 
 ### Patch Changes
