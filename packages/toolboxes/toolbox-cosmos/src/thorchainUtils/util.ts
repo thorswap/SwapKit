@@ -1,7 +1,8 @@
 import { toBech32 } from '@cosmjs/encoding';
 import { base64, bech32 } from '@scure/base';
+import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import { assetFromString, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
-import type { Asset, Balance, Fees } from '@thorswap-lib/types';
+import type { Asset, FeeOption } from '@thorswap-lib/types';
 import { BaseDecimal, Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
 
 import { AssetRuneNative } from '../types.ts';
@@ -131,8 +132,8 @@ export const getThorchainAsset = (denom: string): Asset | null => {
 };
 
 export const checkBalances = async (
-  balances: Balance[],
-  fees: Fees,
+  balances: AssetValue[],
+  fees: Record<FeeOption, AssetValue>,
   amount: SwapKitNumber,
   asset: Asset,
 ) => {

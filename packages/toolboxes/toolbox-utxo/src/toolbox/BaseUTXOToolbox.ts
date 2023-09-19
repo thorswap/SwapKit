@@ -7,7 +7,13 @@ import type { ECPairInterface } from 'ecpair';
 import { ECPairFactory } from 'ecpair';
 
 import type { BlockchairApiType } from '../api/blockchairApi.ts';
-import type { TargetOutput, UTXOBaseToolboxParams, UTXOType } from '../types/common.ts';
+import type {
+  TargetOutput,
+  UTXOBaseToolboxParams,
+  UTXOBuildTxParams,
+  UTXOType,
+  UTXOWalletTransferParams,
+} from '../types/common.ts';
 import {
   accumulative,
   calculateTxSize,
@@ -75,16 +81,8 @@ const transfer = async ({
   feeOptionKey,
   broadcastTx,
   feeRate,
-}: {
-  apiClient: BlockchairApiType;
-  broadcastTx: (txHex: string) => Promise<string>;
-  chain: UTXOChain;
-  feeOptionKey?: FeeOption;
-  feeRate?: number;
-  from: string;
-  recipient: string;
-  signTransaction: (psbt: Psbt) => Promise<Psbt>;
-}) => {
+  assetValue,
+}: UTXOWalletTransferParams<Psbt, Psbt>) => {
   if (!from) throw new Error('From address must be provided');
   if (!recipient) throw new Error('Recipient address must be provided');
   const txFeeRate = feeRate || (await getFeeRates(apiClient))[feeOptionKey || FeeOption.Fast];
@@ -95,6 +93,7 @@ const transfer = async ({
     fetchTxHex: chain === Chain.Dogecoin,
     chain,
     apiClient,
+    assetValue,
   });
   const signedPsbt = await signTransaction(psbt);
   signedPsbt.finalizeAllInputs(); // Finalise inputs
@@ -144,7 +143,7 @@ const getInputsAndTargetOutputs = async ({
 
   return {
     inputs,
-    targetOutputs: [
+    outputs: [
       { address: recipient, value: Number(assetValue.getBigIntValue) },
       ...(memo ? [{ address: '', script: compileMemo(memo), value: 0 }] : []),
     ],
@@ -160,16 +159,7 @@ const buildTx = async ({
   fetchTxHex = false,
   apiClient,
   chain,
-}: {
-  assetValue?: AssetValue;
-  recipient: string;
-  memo?: string;
-  feeRate: number;
-  sender: string;
-  fetchTxHex?: boolean;
-  apiClient: BlockchairApiType;
-  chain: UTXOChain;
-}): Promise<{
+}: UTXOBuildTxParams): Promise<{
   psbt: Psbt;
   utxos: UTXOType[];
   inputs: UTXOType[];
@@ -223,11 +213,11 @@ const buildTx = async ({
     }
   });
 
-  return { psbt, utxos, inputs };
+  return { psbt, utxos: inputsAndOutputs.inputs, inputs };
 };
 
 const getInputsOutputsFee = async ({
-  amount,
+  assetValue,
   apiClient,
   chain,
   feeOptionKey = FeeOption.Fast,
@@ -236,21 +226,31 @@ const getInputsOutputsFee = async ({
   memo,
   recipient,
   sender,
-}: any) => {
-  const { inputs, targetOutputs } = await getInputsAndTargetOutputs({
-    amount,
+}: {
+  assetValue: AssetValue;
+  recipient: string;
+  memo?: string;
+  feeRate: number;
+  sender: string;
+  fetchTxHex?: boolean;
+  apiClient: BlockchairApiType;
+  chain: UTXOChain;
+  feeOptionKey?: FeeOption;
+  feeeRate?: number;
+}) => {
+  const inputsAndOutputs = await getInputsAndTargetOutputs({
+    assetValue,
     recipient,
     memo,
     sender,
     fetchTxHex,
     apiClient,
     chain,
-    feeRate,
   });
 
   const feeRateWhole = feeRate ? Math.floor(feeRate) : (await getFeeRates(apiClient))[feeOptionKey];
 
-  return accumulative({ inputs, outputs: targetOutputs, feeRate: feeRateWhole });
+  return accumulative({ ...inputsAndOutputs, feeRate: feeRateWhole });
 };
 
 export const estimateMaxSendableAmount = async ({
@@ -277,7 +277,7 @@ export const estimateMaxSendableAmount = async ({
 
   let outputs =
     typeof recipients === 'number'
-      ? Array.from({ length: recipients }, () => ({ address: from, value: 0 }))
+      ? (Array.from({ length: recipients }, () => ({ address: from, value: 0 })) as TargetOutput[])
       : recipients;
 
   if (memo) {

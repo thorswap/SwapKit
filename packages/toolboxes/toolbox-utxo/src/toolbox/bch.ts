@@ -4,7 +4,7 @@ import {
   Transaction,
   TransactionBuilder,
 } from '@psf/bitcoincashjs-lib';
-import type { UTXO, UTXOChain } from '@thorswap-lib/types';
+import type { UTXOChain } from '@thorswap-lib/types';
 import { Chain, DerivationPath, FeeOption, RPCUrl } from '@thorswap-lib/types';
 import {
   detectAddressNetwork,
@@ -19,7 +19,14 @@ import { ECPairFactory } from 'ecpair';
 import type { BlockchairApiType } from '../api/blockchairApi.ts';
 import { blockchairApi } from '../api/blockchairApi.ts';
 import { broadcastUTXOTx } from '../api/rpcApi.ts';
-import type { TargetOutput, TransactionBuilderType } from '../types/common.ts';
+import type {
+  TargetOutput,
+  TransactionBuilderType,
+  TransactionType,
+  UTXOBuildTxParams,
+  UTXOWalletTransferParams,
+} from '../types/common.ts';
+import type { UTXOType } from '../types/index.ts';
 import { accumulative, compileMemo, getNetwork, getSeed } from '../utils/index.ts';
 
 import { BaseUTXOToolbox } from './BaseUTXOToolbox.ts';
@@ -36,11 +43,11 @@ type BCHMethods = {
   getAddressFromKeys: (keys: { getAddress: (index?: number) => string }) => string;
   buildBCHTx: (
     params: UTXOBuildTxParams & { apiClient: BlockchairApiType },
-  ) => Promise<{ builder: TransactionBuilderType; utxos: UTXO[] }>;
+  ) => Promise<{ builder: TransactionBuilderType; utxos: UTXOType[] }>;
   buildTx: (params: UTXOBuildTxParams) => Promise<{ psbt: Psbt }>;
   transfer: (
     params: UTXOWalletTransferParams<
-      { builder: TransactionBuilderType; utxos: UTXO[] },
+      { builder: TransactionBuilderType; utxos: UTXOType[] },
       TransactionType
     >,
   ) => Promise<string>;
@@ -51,7 +58,7 @@ const chain = Chain.BitcoinCash as UTXOChain;
 const stripToCashAddress = (address: string) => stripPrefix(toCashAddress(address));
 
 const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
-  amount,
+  assetValue,
   recipient,
   memo,
   feeRate,
@@ -68,7 +75,7 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
 
   const targetOutputs: TargetOutput[] = [];
   // output to recipient
-  targetOutputs.push({ address: recipient, value: amount.baseValueNumber });
+  targetOutputs.push({ address: recipient, value: assetValue.baseValueNumber });
   const { inputs, outputs } = accumulative({
     inputs: utxos,
     outputs: targetOutputs,
@@ -81,7 +88,7 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
   const builder = new TransactionBuilder(getNetwork(chain));
 
   await Promise.all(
-    inputs.map(async (utxo: UTXO) => {
+    inputs.map(async (utxo: UTXOType) => {
       const txHex = await apiClient.getRawTx(utxo.hash);
       builder.addInput(Transaction.fromBuffer(Buffer.from(txHex, 'hex')), utxo.index);
     }),
@@ -110,12 +117,15 @@ const transfer = async ({
   signTransaction,
   from,
   recipient,
-  amount,
+  assetValue,
   apiClient,
   broadcastTx,
   getFeeRates,
   ...rest
-}: UTXOWalletTransferParams<{ builder: TransactionBuilderType; utxos: UTXO[] }, TransactionType> & {
+}: UTXOWalletTransferParams<
+  { builder: TransactionBuilderType; utxos: UTXOType[] },
+  TransactionType
+> & {
   apiClient: BlockchairApiType;
   broadcastTx: (txHash: string) => Promise<string>;
   getFeeRates: () => Promise<Record<FeeOption, number>>;
@@ -129,7 +139,7 @@ const transfer = async ({
   // try out if psbt tx is faster/better/nicer
   const { builder, utxos } = await buildBCHTx({
     ...rest,
-    amount,
+    assetValue,
     feeRate,
     recipient,
     sender: from,
@@ -143,7 +153,7 @@ const transfer = async ({
 };
 
 const buildTx = async ({
-  amount,
+  assetValue,
   recipient,
   memo,
   feeRate,
@@ -161,12 +171,12 @@ const buildTx = async ({
   const feeRateWhole = Number(feeRate.toFixed(0));
   const compiledMemo = memo ? compileMemo(memo) : null;
 
-  const targetOutputs = [];
+  const targetOutputs = [] as TargetOutput[];
 
   // output to recipient
   targetOutputs.push({
     address: toLegacyAddress(recipient),
-    value: amount.baseValueNumber,
+    value: assetValue.baseValueNumber,
   });
 
   //2. add output memo to targets (optional)
@@ -185,7 +195,7 @@ const buildTx = async ({
   const psbt = new Psbt({ network: getNetwork(chain) }); // Network-specific
 
   //Inputs
-  inputs.forEach(({ hash, index, witnessUtxo }: UTXO) =>
+  inputs.forEach(({ hash, index, witnessUtxo }: UTXOType) =>
     psbt.addInput({ hash, index, witnessUtxo }),
   );
 
@@ -205,7 +215,7 @@ const buildTx = async ({
     }
   });
 
-  return { psbt, utxos, inputs: inputs as UTXO[] };
+  return { psbt, utxos, inputs: inputs as UTXOType[] };
 };
 
 const stripPrefix = (address: string) => address.replace(/(bchtest:|bitcoincash:)/, '');
@@ -275,7 +285,7 @@ export const BCHToolbox = ({
     buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, apiClient }),
     transfer: (
       params: UTXOWalletTransferParams<
-        { builder: TransactionBuilderType; utxos: UTXO[] },
+        { builder: TransactionBuilderType; utxos: UTXOType[] },
         TransactionType
       >,
     ) =>

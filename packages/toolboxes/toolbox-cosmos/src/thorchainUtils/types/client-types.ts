@@ -2,7 +2,7 @@ import type { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from '@cosmjs
 import type { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
 import type { Account as CosmosAccount, AminoTypes } from '@cosmjs/stargate';
 import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
-import type { Asset, ChainId, Fees } from '@thorswap-lib/types';
+import type { Asset, ChainId, FeeOption } from '@thorswap-lib/types';
 import type { curve } from 'elliptic';
 
 import type { BNBTransaction } from '../../binanceUtils/transaction.ts';
@@ -22,6 +22,8 @@ type Tx = {
   type: TxType; // type
   hash: string; // Tx hash
 };
+
+export type Fees = Record<FeeOption, AssetValue>;
 
 export type NodeUrl = {
   node: string;

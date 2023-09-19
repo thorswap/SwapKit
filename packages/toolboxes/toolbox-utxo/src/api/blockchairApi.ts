@@ -1,6 +1,5 @@
 import { getRequest } from '@thorswap-lib/swapkit-helpers';
-import type { UTXO, UTXOChain } from '@thorswap-lib/types';
-import { Chain } from '@thorswap-lib/types';
+import { Chain, type UTXOChain } from '@thorswap-lib/types';
 
 import type {
   BlockchairAddressResponse,
@@ -8,6 +7,7 @@ import type {
   BlockchairOutputsResponse,
   BlockchairRawTransactionResponse,
   BlockchairResponse,
+  UTXOType,
 } from '../types/index.ts';
 type BlockchairParams<T> = T & { chain: Chain; apiKey?: string };
 
@@ -114,7 +114,7 @@ const getUnspentTxs = async ({
   apiKey,
   offset = 0,
 }: BlockchairParams<{ offset?: number; address: string }>): Promise<
-  (UTXO & { script_hex: string; is_confirmed: boolean })[]
+  (UTXOType & { script_hex: string; is_confirmed: boolean })[]
 > => {
   if (!address) throw new Error('address is required');
   const url = `/outputs?q=is_spent(false),recipient(${address})&limit=100&offset=${offset}${
@@ -131,7 +131,7 @@ const getUnspentTxs = async ({
       txHex: spending_signature_hex,
       script_hex,
       is_confirmed: block_id !== -1,
-    })) as (UTXO & { script_hex: string; is_confirmed: boolean })[];
+    })) as (UTXOType & { script_hex: string; is_confirmed: boolean })[];
 
   if (response.length !== 100) return txs;
 
