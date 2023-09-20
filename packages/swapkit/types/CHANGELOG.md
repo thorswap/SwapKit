@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.104
+
+### Patch Changes
+
+- [#319](https://github.com/thorswap/SwapKit/pull/319) [`669d116`](https://github.com/thorswap/SwapKit/commit/669d1165b68bf1c9796a12ca9e65e02ba83deaf5) Thanks [@towanTG](https://github.com/towanTG)! - Updates Thorchain stagenet URL
+
 ## 1.0.0-development.103
 
 ### Patch Changes

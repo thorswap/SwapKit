@@ -80,6 +80,7 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
     inputs: utxos,
     outputs: targetOutputs,
     feeRate: feeRateWhole,
+    chain,
   });
 
   // .inputs and .outputs will be undefined if no solution was found
@@ -185,6 +186,7 @@ const buildTx = async ({
     inputs: utxos,
     outputs: targetOutputs,
     feeRate: feeRateWhole,
+    chain,
   });
 
   // .inputs and .outputs will be undefined if no solution was found

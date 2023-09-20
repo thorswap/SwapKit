@@ -160,7 +160,7 @@ export enum RPCUrl {
 export enum ApiUrl {
   Cosmos = 'https://node-router.thorswap.net/cosmos/rest',
   ThornodeMainnet = 'https://thornode.thorswap.net',
-  ThornodeStagenet = 'https://stagenet.thornode.thorswap.net',
+  ThornodeStagenet = 'https://stagenet-thornode.ninerealms.com',
   ThorswapApi = 'https://api.thorswap.finance',
   ThorswapStatic = 'https://static.thorswap.net',
 }
