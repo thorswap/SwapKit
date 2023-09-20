@@ -31,11 +31,13 @@ import type {
   WalletOption,
 } from '@thorswap-lib/types';
 import {
+  AGG_SWAP,
   BaseDecimal,
   Chain,
   FeeOption,
   MemoType,
-  QuoteMode,
+  SWAP_IN,
+  SWAP_OUT,
   TCAvalancheDepositABI,
   TCEthereumVaultAbi,
 } from '@thorswap-lib/types';
@@ -89,87 +91,76 @@ export class SwapKitCore<T = ''> {
 
   swap = async ({ streamSwap, recipient, route, feeOptionKey }: SwapParams) => {
     const { quoteMode } = route.meta;
-    const evmChain = [
-      QuoteMode.ETH_TO_ETH,
-      QuoteMode.ETH_TO_AVAX,
-      QuoteMode.ETH_TO_TC_SUPPORTED,
-    ].includes(quoteMode)
+    const evmChain = quoteMode.startsWith('ERC20-')
       ? Chain.Ethereum
-      : Chain.Avalanche;
+      : quoteMode.startsWith('ARC20-')
+      ? Chain.Avalanche
+      : Chain.BinanceSmartChain;
 
     if (!route.complete) throw new SwapKitError('core_swap_route_not_complete');
 
     try {
-      switch (quoteMode) {
-        case QuoteMode.AVAX_TO_AVAX:
-        case QuoteMode.ETH_TO_ETH: {
-          const walletMethods = this.connectedWallets[evmChain];
-          if (!walletMethods?.sendTransaction) {
-            throw new SwapKitError('core_wallet_connection_not_found');
-          }
-
-          const transaction = streamSwap ? route?.streamingSwap?.transaction : route?.transaction;
-          if (!transaction) throw new SwapKitError('core_swap_route_transaction_not_found');
-
-          return walletMethods.sendTransaction(
-            getSameEVMParams({ transaction, evmChain }),
-            feeOptionKey,
-          ) as Promise<string>;
+      if (AGG_SWAP.includes(quoteMode)) {
+        const walletMethods = this.connectedWallets[evmChain];
+        if (!walletMethods?.sendTransaction) {
+          throw new SwapKitError('core_wallet_connection_not_found');
         }
 
-        case QuoteMode.TC_SUPPORTED_TO_AVAX:
-        case QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED:
-        case QuoteMode.TC_SUPPORTED_TO_ETH: {
-          const asset = AssetEntity.fromAssetString(route.calldata.fromAsset);
-          if (!asset) throw new SwapKitError('core_swap_asset_not_recognized');
-          const { address } = await this._getInboundDataByChain(asset.L1Chain);
+        const transaction = streamSwap ? route?.streamingSwap?.transaction : route?.transaction;
+        if (!transaction) throw new SwapKitError('core_swap_route_transaction_not_found');
 
-          return this.deposit({
-            ...getSwapOutParams({ recipient, streamSwap, callData: route.calldata }),
-            feeOptionKey,
-            router: route.contract,
-            recipient: address,
-          });
-        }
-
-        case QuoteMode.AVAX_TO_ETH:
-        case QuoteMode.AVAX_TO_TC_SUPPORTED:
-        case QuoteMode.ETH_TO_AVAX:
-        case QuoteMode.ETH_TO_TC_SUPPORTED: {
-          const { calldata, contract: contractAddress } = route;
-          if (!contractAddress) throw new SwapKitError('core_swap_contract_not_found');
-
-          const walletMethods = this.connectedWallets[evmChain];
-          const from = this.getAddress(evmChain);
-          if (!walletMethods?.sendTransaction || !from) {
-            throw new SwapKitError('core_wallet_connection_not_found');
-          }
-
-          const { getProvider, toChecksumAddress } = await import('@thorswap-lib/toolbox-evm');
-          const provider = getProvider(evmChain);
-          const abi = lowercasedContractAbiMapping[contractAddress.toLowerCase()];
-
-          if (!abi) throw new SwapKitError('core_swap_contract_not_supported', { contractAddress });
-
-          const contract = walletMethods.createContract?.(contractAddress, abi, provider);
-
-          const tx = await contract.populateTransaction.swapIn(
-            ...getSwapInParams({
-              streamSwap,
-              toChecksumAddress,
-              contractAddress: contractAddress as AGG_CONTRACT_ADDRESS,
-              recipient,
-              calldata,
-            }),
-            { from },
-          );
-
-          return walletMethods.sendTransaction(tx, feeOptionKey) as Promise<string>;
-        }
-
-        default:
-          throw new SwapKitError('core_swap_quote_mode_not_supported', { quoteMode });
+        return walletMethods.sendTransaction(
+          getSameEVMParams({ transaction, evmChain }),
+          feeOptionKey,
+        ) as Promise<string>;
       }
+
+      if (SWAP_OUT.includes(quoteMode)) {
+        const asset = AssetEntity.fromAssetString(route.calldata.fromAsset);
+        if (!asset) throw new SwapKitError('core_swap_asset_not_recognized');
+        const { address } = await this._getInboundDataByChain(asset.L1Chain);
+
+        return this.deposit({
+          ...getSwapOutParams({ recipient, streamSwap, callData: route.calldata }),
+          feeOptionKey,
+          router: route.contract,
+          recipient: address,
+        });
+      }
+
+      if (SWAP_IN.includes(quoteMode)) {
+        const { calldata, contract: contractAddress } = route;
+        if (!contractAddress) throw new SwapKitError('core_swap_contract_not_found');
+
+        const walletMethods = this.connectedWallets[evmChain];
+        const from = this.getAddress(evmChain);
+        if (!walletMethods?.sendTransaction || !from) {
+          throw new SwapKitError('core_wallet_connection_not_found');
+        }
+
+        const { getProvider, toChecksumAddress } = await import('@thorswap-lib/toolbox-evm');
+        const provider = getProvider(evmChain);
+        const abi = lowercasedContractAbiMapping[contractAddress.toLowerCase()];
+
+        if (!abi) throw new SwapKitError('core_swap_contract_not_supported', { contractAddress });
+
+        const contract = walletMethods.createContract?.(contractAddress, abi, provider);
+
+        const tx = await contract.populateTransaction.swapIn(
+          ...getSwapInParams({
+            streamSwap,
+            toChecksumAddress,
+            contractAddress: contractAddress as AGG_CONTRACT_ADDRESS,
+            recipient,
+            calldata,
+          }),
+          { from },
+        );
+
+        return walletMethods.sendTransaction(tx, feeOptionKey) as Promise<string>;
+      }
+
+      throw new SwapKitError('core_swap_quote_mode_not_supported', { quoteMode });
     } catch (error) {
       throw new SwapKitError('core_swap_transaction_error', error);
     }
