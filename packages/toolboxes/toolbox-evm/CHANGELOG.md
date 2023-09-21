@@ -1,5 +1,25 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.166
+
+### Patch Changes
+
+- [#323](https://github.com/thorswap/SwapKit/pull/323) [`0fb7dce`](https://github.com/thorswap/SwapKit/commit/0fb7dce1837816028e248b8f014a268a75a54190) Thanks [@towanTG](https://github.com/towanTG)! - Fixes calls when using gasPrice and adds BSC TC vault ABI
+
+- Updated dependencies [[`0fb7dce`](https://github.com/thorswap/SwapKit/commit/0fb7dce1837816028e248b8f014a268a75a54190)]:
+  - @thorswap-lib/types@1.0.0-development.106
+  - @thorswap-lib/helpers@0.0.0-development.112
+  - @thorswap-lib/swapkit-entities@1.0.0-development.120
+
+## 1.0.0-development.165
+
+### Patch Changes
+
+- Updated dependencies [[`96b6212`](https://github.com/thorswap/SwapKit/commit/96b6212b57d3b66cdfc3fd014e9dc71fe8907a84)]:
+  - @thorswap-lib/types@1.0.0-development.105
+  - @thorswap-lib/helpers@0.0.0-development.111
+  - @thorswap-lib/swapkit-entities@1.0.0-development.119
+
 ## 1.0.0-development.164
 
 ### Patch Changes

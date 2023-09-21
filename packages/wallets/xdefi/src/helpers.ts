@@ -1,5 +1,5 @@
 import type { WalletTxParams } from '@thorswap-lib/types';
-import { Chain } from '@thorswap-lib/types';
+import { BaseDecimal, Chain, ChainId, ChainToHexChainId } from '@thorswap-lib/types';
 
 import { cosmosTransfer, walletTransfer } from './walletHelpers.ts';
 
@@ -43,13 +43,90 @@ export const getWalletMethodsForChain = async ({
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
     case Chain.Avalanche: {
-      const { getWeb3WalletMethods } = await import('@thorswap-lib/toolbox-evm');
+      const {
+        getProvider,
+        prepareNetworkSwitch,
+        ETHToolbox,
+        AVAXToolbox,
+        BSCToolbox,
+        addEVMWalletNetwork,
+        covalentApi,
+      } = await import('@thorswap-lib/toolbox-evm');
+      const { Web3Provider } = await import('@ethersproject/providers');
 
-      return await getWeb3WalletMethods({
-        chain,
-        ethplorerApiKey,
-        covalentApiKey,
-        ethereumWindowProvider: window.xfi?.ethereum,
+      const ethereumWindowProvider = window.xfi?.ethereum;
+      if (!ethereumWindowProvider) throw new Error('Requested web3 wallet is not installed');
+
+      if (
+        (chain !== Chain.Ethereum && !covalentApiKey) ||
+        (chain === Chain.Ethereum && !ethplorerApiKey)
+      ) {
+        throw new Error(`Missing API key for ${chain} chain`);
+      }
+
+      const provider = new Web3Provider(ethereumWindowProvider, 'any');
+
+      const toolboxParams = {
+        provider,
+        signer: provider.getSigner(),
+        ethplorerApiKey: ethplorerApiKey as string,
+        covalentApiKey: covalentApiKey as string,
+      };
+
+      const toolbox =
+        chain === Chain.Ethereum
+          ? ETHToolbox(toolboxParams)
+          : chain === Chain.Avalanche
+          ? AVAXToolbox(toolboxParams)
+          : BSCToolbox(toolboxParams);
+
+      try {
+        chain !== Chain.Ethereum &&
+          (await addEVMWalletNetwork(
+            ethereumWindowProvider,
+            (
+              toolbox as ReturnType<typeof AVAXToolbox> | ReturnType<typeof BSCToolbox>
+            ).getNetworkParams(),
+          ));
+      } catch (error) {
+        throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
+      }
+
+      // Overwrite xdefi BSC getbalance due to race condition in their app
+      const bscGetBalanceOverwrite =
+        chain === Chain.BinanceSmartChain
+          ? {
+              getBalance: async (address: string) => {
+                const { getSignatureAssetFor } = await import('@thorswap-lib/swapkit-entities');
+                const { baseAmount } = await import('@thorswap-lib/helpers');
+
+                const api = covalentApi({
+                  apiKey: covalentApiKey!,
+                  chainId: ChainId.BinanceSmartChain,
+                });
+
+                const tokenBalances = await api.getBalance(address);
+                const provider = getProvider(Chain.BinanceSmartChain);
+                const evmGasTokenBalance = await provider.getBalance(address);
+
+                return [
+                  {
+                    asset: getSignatureAssetFor(Chain.BinanceSmartChain),
+                    amount: baseAmount(evmGasTokenBalance, BaseDecimal.BSC),
+                  },
+                  ...tokenBalances,
+                ];
+              },
+            }
+          : {};
+
+      return prepareNetworkSwitch({
+        toolbox: {
+          ...toolbox,
+          ...bscGetBalanceOverwrite,
+        },
+        chainId: ChainToHexChainId[chain],
+        provider: window.xfi?.ethereum,
       });
     }
 
