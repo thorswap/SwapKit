@@ -1,5 +1,11 @@
 # @thorswap-lib/xdefi
 
+## 1.0.0-development.72
+
+### Patch Changes
+
+- [#327](https://github.com/thorswap/SwapKit/pull/327) [`2fed3e8`](https://github.com/thorswap/SwapKit/commit/2fed3e87ecf26977dcdf265650ca1ba46ec596d5) Thanks [@towanTG](https://github.com/towanTG)! - Adapt getBalance for other EVM chains
+
 ## 1.0.0-development.71
 
 ### Patch Changes
