@@ -1,5 +1,12 @@
 # @thorswap-lib/swapkit-sdk
 
+## 0.1.0-development.104
+
+### Patch Changes
+
+- Updated dependencies [[`2fed3e8`](https://github.com/thorswap/SwapKit/commit/2fed3e87ecf26977dcdf265650ca1ba46ec596d5)]:
+  - @thorswap-lib/xdefi@1.0.0-development.72
+
 ## 0.1.0-development.103
 
 ### Patch Changes
