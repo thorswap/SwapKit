@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.106
+
+### Patch Changes
+
+- [#323](https://github.com/thorswap/SwapKit/pull/323) [`0fb7dce`](https://github.com/thorswap/SwapKit/commit/0fb7dce1837816028e248b8f014a268a75a54190) Thanks [@towanTG](https://github.com/towanTG)! - Fixes calls when using gasPrice and adds BSC TC vault ABI
+
 ## 1.0.0-development.105
 
 ### Patch Changes
