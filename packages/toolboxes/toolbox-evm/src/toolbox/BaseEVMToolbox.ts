@@ -48,8 +48,8 @@ const isEIP1559Transaction = (tx: EVMTxParams) =>
   !!(tx as EIP1559TxParams).maxFeePerGas ||
   !!(tx as EIP1559TxParams).maxPriorityFeePerGas;
 
-const isWeb3Provider = (provider: any) => !!provider.provider || !!provider.jsonRpcFetchFunc;
-const createContract = (address: string, abi: any, provider: Provider) =>
+export const isWeb3Provider = (provider: any) => !!provider.provider || !!provider.jsonRpcFetchFunc;
+export const createContract = (address: string, abi: any, provider: Provider) =>
   new Contract(address, abi, provider);
 
 const validateAddress = (address: string) => {
@@ -61,7 +61,7 @@ const validateAddress = (address: string) => {
   }
 };
 
-const isStateChangingCall = (abi: ContractInterface, functionName: string) => {
+export const isStateChangingCall = (abi: ContractInterface, functionName: string) => {
   const abiFragment = (abi as JsonFragment[]).find(
     (fragment: any) => fragment.name === functionName,
   );
@@ -74,7 +74,7 @@ const getAssetEntity = (asset: Asset | undefined) =>
     ? new AssetEntity(asset.chain, asset.symbol, asset.synth, asset.ticker)
     : getSignatureAssetFor(Chain.Ethereum);
 
-type WithSigner<T> = T & { signer?: Signer };
+export type WithSigner<T> = T & { signer?: Signer };
 
 /**
  * @info call contract function
@@ -137,7 +137,7 @@ const call = async <T>(
   return typeof result?.hash === 'string' ? result?.hash : result;
 };
 
-const createContractTxObject = async (
+export const createContractTxObject = async (
   provider: Provider,
   { contractAddress, abi, funcName, funcParams = [], txOverrides }: CallParams,
 ) =>
@@ -481,7 +481,10 @@ export const getChecksumAddressFromAsset = (asset: Asset, chain: EVMChain) => {
 
 export const getTokenAddress = ({ chain, symbol, ticker }: Asset, baseAssetChain: EVMChain) => {
   try {
-    if (chain === baseAssetChain && symbol === baseAssetChain && ticker === baseAssetChain) {
+    if (
+      (chain === baseAssetChain && symbol === baseAssetChain && ticker === baseAssetChain) ||
+      (chain === Chain.BinanceSmartChain && symbol === 'BNB' && ticker === 'BNB')
+    ) {
       return baseAssetAddress[baseAssetChain];
     }
 
