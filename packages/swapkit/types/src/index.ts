@@ -1,5 +1,5 @@
 export { erc20ABI } from './abis/erc20.ts';
-export { TCAvalancheDepositABI, TCEthereumVaultAbi } from './abis/tcEthVault.ts';
+export { TCAvalancheDepositABI, TCBscDepositABI, TCEthereumVaultAbi } from './abis/tcEthVault.ts';
 export * from './amount.ts';
 export * from './asset.ts';
 export * from './commonTypes.ts';

@@ -39,6 +39,7 @@ import {
   SWAP_IN,
   SWAP_OUT,
   TCAvalancheDepositABI,
+  TCBscDepositABI,
   TCEthereumVaultAbi,
 } from '@thorswap-lib/types';
 
@@ -253,7 +254,12 @@ export class SwapKitCore<T = ''> {
           );
 
           const { asset } = assetAmount;
-          const abi = chain === Chain.Avalanche ? TCAvalancheDepositABI : TCEthereumVaultAbi;
+          const abi =
+            chain === Chain.Avalanche
+              ? TCAvalancheDepositABI
+              : chain === Chain.BinanceSmartChain
+              ? TCBscDepositABI
+              : TCEthereumVaultAbi;
 
           return (await (
             walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
