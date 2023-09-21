@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.167
+
+### Patch Changes
+
+- [#325](https://github.com/thorswap/SwapKit/pull/325) [`c781971`](https://github.com/thorswap/SwapKit/commit/c78197113aa4624675670618637d4c551b38d723) Thanks [@towanTG](https://github.com/towanTG)! - Exports EVM apis
+
 ## 1.0.0-development.166
 
 ### Patch Changes
