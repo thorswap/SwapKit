@@ -1360,6 +1360,12 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
+      '@thorswap-lib/helpers':
+        specifier: workspace:*
+        version: link:../../../internal/helpers
+      '@thorswap-lib/swapkit-entities':
+        specifier: workspace:*
+        version: link:../../swapkit/swapkit-entities
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/toolbox-cosmos

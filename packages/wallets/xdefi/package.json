@@ -8,6 +8,8 @@
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
     "@internal/config": "workspace:*",
+    "@thorswap-lib/helpers": "workspace:*",
+    "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*",
@@ -37,6 +39,8 @@
   "peerDependencies": {
     "@ethersproject/bignumber": "^5.7.0",
     "@ethersproject/providers": "^5.7.0",
+    "@thorswap-lib/helpers": "workspace:*",
+    "@thorswap-lib/swapkit-entities": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@thorswap-lib/toolbox-evm": "workspace:*",
     "@thorswap-lib/toolbox-utxo": "workspace:*"
