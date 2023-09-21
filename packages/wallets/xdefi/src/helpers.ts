@@ -1,5 +1,5 @@
 import type { WalletTxParams } from '@thorswap-lib/types';
-import { Chain } from '@thorswap-lib/types';
+import { BaseDecimal, Chain } from '@thorswap-lib/types';
 
 import { cosmosTransfer, walletTransfer } from './walletHelpers.ts';
 
@@ -43,14 +43,42 @@ export const getWalletMethodsForChain = async ({
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
     case Chain.Avalanche: {
-      const { getWeb3WalletMethods } = await import('@thorswap-lib/toolbox-evm');
+      const { getWeb3WalletMethods, getProvider } = await import('@thorswap-lib/toolbox-evm');
 
-      return await getWeb3WalletMethods({
+      const web3WalletMethods = await getWeb3WalletMethods({
         chain,
         ethplorerApiKey,
         covalentApiKey,
         ethereumWindowProvider: window.xfi?.ethereum,
       });
+
+      // Overwrite xdefi BSC getbalance due to race condition in their app
+      const bscGetBalanceOverwrite =
+        chain === Chain.BinanceSmartChain
+          ? {
+              getBalance: async (address: string) => {
+                const { getSignatureAssetFor } = await import('@thorswap-lib/swapkit-entities');
+                const { baseAmount } = await import('@thorswap-lib/helpers');
+
+                const tokenBalances = await api.getBalance(address);
+                const provider = getProvider(Chain.BinanceSmartChain);
+                const evmGasTokenBalance = await provider.getBalance(address);
+
+                return [
+                  {
+                    asset: getSignatureAssetFor(Chain.BinanceSmartChain),
+                    amount: baseAmount(evmGasTokenBalance, BaseDecimal.BSC),
+                  },
+                  ...tokenBalances,
+                ];
+              },
+            }
+          : {};
+
+      return {
+        ...web3WalletMethods,
+        ...bscGetBalanceOverwrite,
+      };
     }
 
     case Chain.Bitcoin:
