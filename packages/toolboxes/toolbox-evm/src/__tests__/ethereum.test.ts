@@ -27,14 +27,13 @@ beforeEach<{
   context.ethers = hre.artifacts;
   const provider = getProvider(Chain.Ethereum, 'http://127.0.0.1:8545/');
   context.provider = provider;
-  const signer = await hre.ethers.getImpersonatedSigner(testAddress);
-  // @ts-expect-error
+  const signer = (await hre.ethers.getImpersonatedSigner(testAddress)) as any;
   context.toolbox = ETHToolbox({ ethplorerApiKey: 'freekey', provider, signer });
 }, 20000);
 
 afterEach(async () => {
-  //@ts-expect-error
-  await helpers.reset(hre.network.config.forking.url, block.number);
+  // @ts-expect-error Hardhat types are not up to date
+  await helpers.reset(hre.network.config?.forking?.url, block?.number);
 }, 20000);
 
 afterAll(() => {

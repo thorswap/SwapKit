@@ -1,4 +1,4 @@
-import type { EthereumWindowProvider } from '@thorswap-lib/toolbox-evm';
+import type { Eip1193Provider } from 'ethers';
 
 export type EVMWalletConfig = {
   ethplorerApiKey?: string;
@@ -7,15 +7,15 @@ export type EVMWalletConfig = {
 
 declare global {
   interface Window {
-    ethereum: EthereumWindowProvider;
-    trustwallet: EthereumWindowProvider;
-    coinbaseWalletExtension: EthereumWindowProvider;
+    ethereum: Eip1193Provider;
+    trustwallet: Eip1193Provider;
+    coinbaseWalletExtension: Eip1193Provider;
     xfi?: {
       binance: any;
       bitcoin: any;
       bitcoincash: any;
       dogecoin: any;
-      ethereum: EthereumWindowProvider;
+      ethereum: Eip1193Provider;
       litecoin: any;
       thorchain: any;
     };

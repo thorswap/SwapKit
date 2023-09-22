@@ -86,8 +86,9 @@ class TrezorSigner extends AbstractSigner {
             maxFeePerGas: toHexString(restTx.maxFeePerGas),
             maxPriorityFeePerGas: toHexString(restTx.maxPriorityFeePerGas),
           }
-        : //@ts-expect-error ts cant infer type of restTx
-          { gasPrice: BigNumber.from(restTx.gasPrice).toHexString() }),
+        : ('gasPrice' in restTx && { gasPrice: toHexString(restTx.gasPrice) }) || {
+            gasPrice: '0x0',
+          }),
     };
 
     const result = await (
