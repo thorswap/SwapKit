@@ -246,6 +246,26 @@ describe('SwapKitNumber', () => {
     });
   });
 
+  describe('shitcoin cases', () => {
+    test('multiply huge numbers', () => {
+      const skNumber1 = new SwapKitNumber({ value: 1_000_000_000_000_001, decimal: 18 });
+      const skNumber2 = new SwapKitNumber({ value: 987_654_321_000, decimal: 18 });
+
+      const result = skNumber1.mul(skNumber2);
+      expect(result.value).toBe('987654321000000987654321000');
+      expect(result.bigIntValue).toBe(987654321000000987654321000000000000000000000n);
+    });
+
+    test('divide huge numbers', () => {
+      const skNumber1 = new SwapKitNumber({ value: 1_000_000_000_000_001, decimal: 18 });
+      const skNumber2 = new SwapKitNumber({ value: 987_654_321_000, decimal: 18 });
+
+      const result = skNumber1.div(skNumber2);
+      expect(result.value).toBe('1012.4999999873447625');
+      expect(result.bigIntValue).toBe(1012499999987344762500n);
+    });
+  });
+
   describe('gt', () => {
     test('greater than', () => {
       const skNumber1 = new SwapKitNumber(10);
