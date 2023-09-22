@@ -15,7 +15,7 @@ export const getBalance = async (provider: Provider, api: CovalentApiType, addre
     new AssetValue({
       chain: Chain.BinanceSmartChain,
       symbol: Chain.BinanceSmartChain,
-      value: evmGasTokenBalance,
+      value: evmGasTokenBalance.toString(),
       decimal: BaseDecimal.BSC,
     }),
     ...tokenBalances,

@@ -1,3 +1,4 @@
+import type { EVMTxParams } from '@thorswap-lib/toolbox-evm';
 import type { EVMChain } from '@thorswap-lib/types';
 import type { JsonRpcProvider, Provider, TransactionRequest } from 'ethers';
 import { AbstractSigner } from 'ethers';

@@ -93,6 +93,7 @@ export type TransferParams = WalletTxParams & {
   data?: string;
   from: string;
   nonce?: number;
+  assetValue: AssetValue;
 };
 
 export type EVMToolbox = ReturnType<

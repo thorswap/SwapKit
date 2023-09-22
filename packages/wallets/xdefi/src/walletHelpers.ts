@@ -1,5 +1,6 @@
+import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import { toHexString } from '@thorswap-lib/toolbox-evm';
-import type { WalletTxParams } from '@thorswap-lib/types';
+import type { FeeOption } from '@thorswap-lib/types';
 import { Chain, ChainId } from '@thorswap-lib/types';
 
 type TransactionMethod = 'eth_signTransaction' | 'eth_sendTransaction' | 'transfer' | 'deposit';
@@ -10,6 +11,15 @@ type TransactionParams = {
   decimal: number;
   recipient: string;
   memo?: string;
+};
+
+export type WalletTxParams = {
+  feeOptionKey?: FeeOption;
+  from?: string;
+  memo?: string;
+  recipient: string;
+  assetValue: AssetValue;
+  gasLimit?: string | bigint | undefined;
 };
 
 const getXDEFIProvider = (chain: Chain) => {
@@ -84,23 +94,25 @@ export const getXDEFIAddress = async (chain: Chain) => {
 };
 
 export const walletTransfer = async (
-  { amount, asset, recipient, memo, gasLimit }: WalletTxParams & { gasLimit?: string },
+  { assetValue, recipient, memo, gasLimit }: WalletTxParams & { assetValue: AssetValue },
   method: TransactionMethod = 'transfer',
 ) => {
-  if (!asset) throw new Error('Asset is not defined');
+  if (!assetValue) throw new Error('Asset is not defined');
 
   /**
    * EVM requires amount to be hex string
    * UTXO/Cosmos requires amount to be number
    */
   const parsedAmount =
-    method === 'eth_sendTransaction' ? toHexString(amount.baseValueBigInt) : amount.baseValueNumber;
+    method === 'eth_sendTransaction'
+      ? toHexString(assetValue.baseValueBigInt)
+      : assetValue.baseValueNumber;
 
-  const from = await getXDEFIAddress(asset.chain);
+  const from = await getXDEFIAddress(assetValue.chain);
   const params = [
     {
-      amount: { amount: parsedAmount, decimals: amount.decimal },
-      asset,
+      amount: { amount: parsedAmount, decimals: assetValue.decimal },
+      asset: assetValue.symbol,
       from,
       memo,
       recipient,
@@ -108,7 +120,7 @@ export const walletTransfer = async (
     },
   ];
 
-  return transaction({ method, params, chain: asset.chain });
+  return transaction({ method, params, chain: assetValue.chain });
 };
 
 export const cosmosTransfer =

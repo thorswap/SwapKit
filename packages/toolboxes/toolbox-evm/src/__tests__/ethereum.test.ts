@@ -1,9 +1,9 @@
-import hre from '@nomicfoundation/hardhat-ethers';
+import type ethers from '@nomicfoundation/hardhat-ethers';
 import helpers from '@nomicfoundation/hardhat-network-helpers';
-import type ethers from '@nomiclabs/hardhat-ethers';
-import { assetFromString } from '@thorswap-lib/swapkit-helpers';
+import { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import { Chain, erc20ABI, FeeOption } from '@thorswap-lib/types';
 import type { JsonRpcProvider } from 'ethers';
+import hre from 'hardhat';
 import type { ExpectStatic } from 'vitest';
 import { afterAll, afterEach, beforeAll, beforeEach, describe, test } from 'vitest';
 
@@ -24,7 +24,7 @@ beforeEach<{
   provider: JsonRpcProvider;
   toolbox: ReturnType<typeof ETHToolbox>;
 }>(async (context: any) => {
-  context.ethers = hre.artifact;
+  //   context.ethers = hre.artifact;
   const provider = getProvider(Chain.Ethereum, 'http://127.0.0.1:8545/');
   context.provider = provider;
   const signer = await hre.ethers.getImpersonatedSigner(testAddress);
@@ -52,19 +52,11 @@ describe('Ethereum toolkit', () => {
     toolbox: ReturnType<typeof ETHToolbox>;
   }) => {
     const balances = await toolbox.getBalance(testAddress);
+    expect(balances.find((balance) => balance.symbol === 'ETH')?.value).toBe('20526000000000000');
     expect(
       balances
-        .find((balance) => balance.asset.symbol === 'ETH')
-        ?.amount.amount()
-        .toString(),
-    ).toBe('20526000000000000');
-    expect(
-      balances
-        .find(
-          (balance) => balance.asset.symbol === 'USDC-0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-        )
-        ?.amount.amount()
-        .toString(),
+        .find((balance) => balance.symbol === 'USDC-0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48')
+        ?.value.toString(),
     ).toBe('6656178');
   }, 10000);
 
@@ -80,8 +72,7 @@ describe('Ethereum toolkit', () => {
     expect((await provider.getBalance(emptyRecipient)).toString()).toBe('0');
     await toolbox.transfer({
       recipient: emptyRecipient,
-      amount: baseAmount('10526000000000000', 18),
-      asset: assetFromString('ETH.ETH'),
+      assetValue: await AssetValue.fromIdentifier('ETH.ETH', '10526000000000000'),
       from: testAddress,
     });
     expect((await provider.getBalance(emptyRecipient)).toString()).toBe('10526000000000000');
@@ -96,13 +87,15 @@ describe('Ethereum toolkit', () => {
     provider: JsonRpcProvider;
     toolbox: ReturnType<typeof ETHToolbox>;
   }) => {
-    const USDC = toolbox.createContract(USDCAddress, erc20ABI, provider);
+    const USDC = await toolbox.createContract(USDCAddress, erc20ABI, provider);
     const balance = await USDC.balanceOf(emptyRecipient);
     expect(balance.toString()).toBe('0');
     await toolbox.transfer({
       recipient: emptyRecipient,
-      amount: baseAmount('1000000', 6),
-      asset: assetFromString('ETH.USDC-0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'),
+      assetValue: await AssetValue.fromIdentifier(
+        'ETH.USDC-0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+        '1000000',
+      ),
       from: testAddress,
     });
     expect((await USDC.balanceOf(emptyRecipient)).toString()).toBe('1000000');
@@ -148,7 +141,7 @@ describe('Ethereum toolkit', () => {
     provider: JsonRpcProvider;
     toolbox: ReturnType<typeof ETHToolbox>;
   }) => {
-    const USDC = toolbox.createContract(USDCAddress, erc20ABI, provider);
+    const USDC = await toolbox.createContract(USDCAddress, erc20ABI, provider);
     const balance = await USDC.balanceOf(emptyRecipient);
     expect(balance.toString()).toBe('0');
 
@@ -156,7 +149,7 @@ describe('Ethereum toolkit', () => {
       contractAddress: USDCAddress,
       abi: erc20ABI,
       funcName: 'transfer',
-      funcParams: [emptyRecipient, BigNumber.from('2222222')],
+      funcParams: [emptyRecipient, BigInt('2222222')],
       txOverrides: {
         from: testAddress,
       },

@@ -2,8 +2,8 @@ import type { Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import type { Account, StdFee } from '@cosmjs/stargate';
 import { base64 } from '@scure/base';
+import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import { getRequest, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
-import type { Balance } from '@thorswap-lib/types';
 import {
   ApiUrl,
   BaseDecimal,
@@ -22,8 +22,7 @@ import type {
 } from '../thorchainUtils/types/client-types.ts';
 import { base64ToBech32, bech32ToBase64, getThorchainAsset } from '../thorchainUtils/util.ts';
 import type { Signer, TransferParams } from '../types.ts';
-import { AssetRuneNative } from '../types.ts';
-import { getRPC } from '../util.ts';
+import { getDenom, getRPC } from '../util.ts';
 
 import { BaseCosmosToolbox } from './BaseCosmosToolbox.ts';
 
@@ -189,7 +188,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     validateAddress: (address: string) => Promise<boolean>;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
-    getBalance: (address: string) => Promise<Balance[]>;
+    getBalance: (address: string) => Promise<AssetValue[]>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
   } = BaseCosmosToolbox({
@@ -201,7 +200,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
 
   const loadAddressBalances = async (address: string) => {
     try {
-      const balances: Balance[] = await baseToolbox.getBalance(address);
+      const balances: AssetValue[] = await baseToolbox.getBalance(address);
 
       return balances;
     } catch (error) {
@@ -233,13 +232,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     };
   };
 
-  const deposit = async ({
-    signer,
-    asset = AssetRuneNative,
-    amount,
-    memo,
-    from,
-  }: DepositParam & { from: string }) => {
+  const deposit = async ({ signer, assetValue, memo, from }: DepositParam & { from: string }) => {
     if (!signer) {
       throw new Error('Signer not defined');
     }
@@ -251,21 +244,21 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
 
     const base64Address = bech32ToBase64(from);
 
-    const assetObj = asset.symbol.includes('/')
+    const assetObj = assetValue.symbol.includes('/')
       ? {
-          chain: (asset.symbol.split('/')[0] as any).toLowerCase(),
-          symbol: asset.symbol.split('/')[1].toLowerCase(),
-          ticker: asset.symbol.split('/')[1].toLowerCase(),
+          chain: (assetValue.symbol.split('/')[0] as any).toLowerCase(),
+          symbol: assetValue.symbol.split('/')[1].toLowerCase(),
+          ticker: assetValue.symbol.split('/')[1].toLowerCase(),
           synth: true,
         }
-      : asset;
+      : assetValue;
 
     const depositMsg = {
       typeUrl: '/types.MsgDeposit',
       value: {
         signer: base64Address,
         memo,
-        coins: [{ asset: assetObj, amount: amount.baseValue }],
+        coins: [{ asset: assetObj, amount: assetValue.baseValue }],
       },
     };
 
@@ -282,8 +275,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
   const transfer = async ({
     from,
     to,
-    amount,
-    asset,
+    assetValue,
     memo = '',
     fee = DEFAULT_THORCHAIN_FEE_MAINNET,
     signer,
@@ -305,7 +297,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
       value: {
         fromAddress: base64From,
         toAddress: base64To,
-        amount: [{ amount, denom: asset.toLowerCase() }],
+        amount: [{ amount: assetValue.baseValueNumber, denom: getDenom(assetValue.symbol) }],
       },
     };
 

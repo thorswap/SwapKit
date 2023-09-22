@@ -1,6 +1,10 @@
-import type { DepositParam, ThorchainToolboxType } from '@thorswap-lib/toolbox-cosmos';
-import type { UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
-import type { WalletTxParams, Witness } from '@thorswap-lib/types';
+import type {
+  DepositParam,
+  ThorchainToolboxType,
+  TransferParams,
+} from '@thorswap-lib/toolbox-cosmos';
+import type { TransactionType, UTXOWalletTransferParams } from '@thorswap-lib/toolbox-utxo';
+import type { Witness } from '@thorswap-lib/types';
 
 type WalletMethodParams<T = {}> = T & { phrase: string };
 type UTXOWalletMethodParams = WalletMethodParams<{
@@ -19,7 +23,7 @@ type BaseWalletMethods = {
 
 type ThorchainWallet = BaseWalletMethods &
   Omit<ThorchainToolboxType, 'transfer' | 'deposit'> & {
-    transfer: (params: WalletTxParams) => Promise<string>;
+    transfer: (params: TransferParams) => Promise<string>;
     deposit: (params: DepositParam) => Promise<string>;
   };
 
@@ -50,8 +54,12 @@ export const bitcoincashWalletMethods: any = async ({
   return {
     ...toolbox,
     getAddress: () => address,
-    transfer: (params: UTXOTransferParams) =>
-      toolbox.transfer({ ...params, from: address, signTransaction }),
+    transfer: (
+      params: UTXOWalletTransferParams<
+        Awaited<ReturnType<typeof toolbox.buildBCHTx>>,
+        TransactionType
+      >,
+    ) => toolbox.transfer({ ...params, from: address, signTransaction }),
   };
 };
 
@@ -59,25 +67,22 @@ export const thorchainWalletMethods = async ({
   phrase,
   stagenet,
 }: WalletMethodParams<{ stagenet?: boolean }>): Promise<ThorchainWallet> => {
-  const { AssetRuneNative, getDenom, ThorchainToolbox } = await import(
-    '@thorswap-lib/toolbox-cosmos'
-  );
+  const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
   const toolbox = ThorchainToolbox({ stagenet });
   const fromAddress = await toolbox.getAddressFromMnemonic(phrase);
   const signer = await toolbox.getSigner(phrase);
 
-  const transfer = async ({ asset = AssetRuneNative, amount, recipient, memo }: WalletTxParams) =>
+  const transfer = async ({ assetValue, to, memo }: TransferParams) =>
     toolbox.transfer({
       from: fromAddress,
-      to: recipient,
+      to,
       signer,
-      asset: getDenom(asset.symbol || 'RUNE'),
-      amount: amount.value,
+      assetValue,
       memo,
     });
 
-  const deposit = async ({ asset = AssetRuneNative, amount, memo }: DepositParam) => {
-    return toolbox.deposit({ asset, amount, memo, from: fromAddress, signer });
+  const deposit = async ({ assetValue, memo }: DepositParam) => {
+    return toolbox.deposit({ assetValue, memo, from: fromAddress, signer });
   };
 
   return { ...toolbox, deposit, transfer, getAddress: () => fromAddress };

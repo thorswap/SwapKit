@@ -223,22 +223,16 @@ const approve = async (
 
 const transfer = async (
   provider: Provider | BrowserProvider,
-  {
-    asset,
-    memo,
-    amount,
-    recipient,
-    feeOptionKey = FeeOption.Fast,
-    data,
-    from,
-    ...tx
-  }: TransferParams,
+  { assetValue, memo, recipient, feeOptionKey = FeeOption.Fast, data, from, ...tx }: TransferParams,
   signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
   // TODO - this might be wrong
-  const txAmount = amount.bigIntValue;
-  const parsedAsset = await AssetValue.fromIdentifier(`${asset?.chain}.${asset?.symbol}`, 0);
+  const txAmount = assetValue.bigIntValue;
+  const parsedAsset = await AssetValue.fromIdentifier(
+    `${assetValue?.chain}.${assetValue?.symbol}`,
+    0,
+  );
   const chain = parsedAsset.chain as EVMChain;
 
   if (!isGasAsset(parsedAsset)) {
@@ -339,9 +333,8 @@ const estimateCall = async (
 const estimateGasLimit = async (
   provider: Provider,
   {
-    asset,
+    assetValue,
     recipient,
-    amount,
     memo,
     from,
     funcName,
@@ -349,6 +342,7 @@ const estimateGasLimit = async (
     txOverrides,
     signer,
   }: WalletTxParams & {
+    assetValue: AssetValue;
     funcName?: string;
     funcParams?: unknown[];
     signer?: Signer;
@@ -356,9 +350,9 @@ const estimateGasLimit = async (
   },
 ) => {
   const { hexlify, toUtf8Bytes } = await import('ethers/utils');
-  const value = amount.bigIntValue;
-  const assetAddress = !isGasAsset({ ...asset })
-    ? getTokenAddress(asset, asset.chain as EVMChain)
+  const value = assetValue.bigIntValue;
+  const assetAddress = !isGasAsset({ ...assetValue })
+    ? getTokenAddress(assetValue, assetValue.chain as EVMChain)
     : null;
 
   if (assetAddress && funcName) {
@@ -531,8 +525,12 @@ export const BaseEVMToolbox = ({
   createContractTxObject: (params: CallParams) => createContractTxObject(provider, params),
   EIP1193SendTransaction: (tx: EIP1559TxParams) => EIP1193SendTransaction(provider, tx),
   estimateCall: (params: EstimateCallParams) => estimateCall(provider, { ...params, signer }),
-  estimateGasLimit: ({ asset, recipient, amount, memo }: WalletTxParams) =>
-    estimateGasLimit(provider, { asset, recipient, amount, memo, signer }),
+  estimateGasLimit: ({
+    assetValue,
+    recipient,
+    memo,
+  }: WalletTxParams & { assetValue: AssetValue }) =>
+    estimateGasLimit(provider, { assetValue, recipient, memo, signer }),
   estimateGasPrices: () => estimateGasPrices(provider, isEIP1559Compatible),
   isApproved: (params: IsApprovedParams) => isApproved(provider, params),
   sendTransaction: (params: EIP1559TxParams, feeOption: FeeOption) =>

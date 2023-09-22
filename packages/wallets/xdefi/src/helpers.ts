@@ -1,6 +1,6 @@
-import type { WalletTxParams } from '@thorswap-lib/types';
 import { Chain } from '@thorswap-lib/types';
 
+import type { WalletTxParams } from './walletHelpers.ts';
 import { cosmosTransfer, walletTransfer } from './walletHelpers.ts';
 
 export type XDEFIConfig = {

@@ -43,6 +43,9 @@ const errorMessages = {
   core_transaction_add_liquidity_asset_error: 10308,
   core_transaction_withdraw_error: 10309,
   core_transaction_deposit_to_pool_error: 10310,
+  core_transaction_deposit_insufficient_funds_error: 10311,
+  core_transaction_deposit_gas_error: 10312,
+  core_transaction_deposit_server_error: 10313,
 
   /**
    * Wallets
@@ -55,7 +58,7 @@ const errorMessages = {
   helpers_number_different_decimals: 99101,
 } as const;
 
-type Keys = keyof typeof errorMessages;
+export type Keys = keyof typeof errorMessages;
 
 export class SwapKitError extends Error {
   constructor(errorKey: Keys, sourceError?: any) {

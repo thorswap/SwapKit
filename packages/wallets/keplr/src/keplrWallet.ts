@@ -1,4 +1,5 @@
 import type { Keplr } from '@keplr-wallet/types';
+import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import type { ConnectWalletParams, WalletTxParams } from '@thorswap-lib/types';
 import { Chain, ChainId, WalletOption } from '@thorswap-lib/types';
 
@@ -14,9 +15,16 @@ const connectKeplr =
     const cosmJS = await createCosmJS({ offlineSigner, rpcUrl: rpcUrls[Chain.Cosmos] });
 
     const [{ address }] = await offlineSigner.getAccounts();
-    const transfer = async ({ asset, recipient, memo, amount }: WalletTxParams) => {
+    const transfer = async ({
+      assetValue,
+      recipient,
+      memo,
+    }: WalletTxParams & { assetValue: AssetValue }) => {
       const coins = [
-        { denom: asset?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: amount.amount().toString() },
+        {
+          denom: assetValue?.symbol === 'MUON' ? 'umuon' : 'uatom',
+          amount: assetValue.baseValue,
+        },
       ];
 
       const { transactionHash } = await cosmJS.sendTokens(address, recipient, coins, 1.6, memo);

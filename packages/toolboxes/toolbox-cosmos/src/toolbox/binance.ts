@@ -16,7 +16,7 @@ import type { Account, Fees } from '../binanceUtils/types.ts';
 import { AminoPrefix } from '../binanceUtils/types.ts';
 import { isTransferFee } from '../binanceUtils/utils.ts';
 import { CosmosClient } from '../cosmosClient.ts';
-import type { BinanceToolboxType } from '../index.ts';
+import { type BinanceToolboxType, getDenom } from '../index.ts';
 import type { TransferParams } from '../types.ts';
 
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.ts';
@@ -120,15 +120,13 @@ const prepareTransaction = async (
 
 const decodeAddress = (value: string) => Buffer.from(bech32.fromWords(bech32.decode(value).words));
 
-const createTransactionAndSignMsg = async ({ from, to, amount, asset, memo }: TransferParams) => {
+const createTransactionAndSignMsg = async ({ from, to, assetValue, memo }: TransferParams) => {
   const accCode = decodeAddress(from);
   const toAccCode = decodeAddress(to);
 
-  const baseAmountValue = new SwapKitNumber(amount).baseValueNumber;
-
   const coin = {
-    denom: asset,
-    amount: baseAmountValue,
+    denom: getDenom(assetValue.symbol),
+    amount: assetValue.baseValueNumber,
   };
 
   const msg = {

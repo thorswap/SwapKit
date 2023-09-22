@@ -17,7 +17,7 @@ export const getBalance = async (api: CovalentApiType, address: string) => {
     new AssetValue({
       chain: Chain.Polygon,
       symbol: Chain.Polygon,
-      value: evmGasTokenBalance,
+      value: evmGasTokenBalance.toString(),
       decimal: BaseDecimal.MATIC,
     }),
     ...tokenBalances,

@@ -19,7 +19,7 @@ export const getBalance = async (
     new AssetValue({
       chain: Chain.Ethereum,
       symbol: Chain.Ethereum,
-      value: evmGasTokenBalance,
+      value: evmGasTokenBalance.toString(),
       decimal: BaseDecimal.ETH,
     }),
     ...tokenBalances,

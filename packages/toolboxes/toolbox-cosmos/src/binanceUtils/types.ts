@@ -224,7 +224,7 @@ export type DexFees = {
   dex_fee_fields: DexFee[];
 };
 
-export type Fees = (Fee | TransferFee | DexFees)[];
+export type BNBFees = (Fee | TransferFee | DexFees)[];
 
 export abstract class BaseMsg {
   public abstract getSignMsg(): {};

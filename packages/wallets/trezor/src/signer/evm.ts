@@ -1,4 +1,5 @@
 import { derivationPathToString, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
+import type { EVMTxParams } from '@thorswap-lib/toolbox-evm';
 import type { Chain, DerivationPathArray } from '@thorswap-lib/types';
 import { ChainToChainId } from '@thorswap-lib/types';
 import TrezorConnect from '@trezor/connect-web';

@@ -1,4 +1,3 @@
-import type { SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
 import { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import { ChainId, FeeOption, RPCUrl } from '@thorswap-lib/types';
 
@@ -44,18 +43,20 @@ export const estimateMaxSendableAmount = async ({
   toolbox,
   asset,
   feeOptionKey = FeeOption.Fast,
-}: CosmosMaxSendableAmountParams): Promise<SwapKitNumber | AssetValue> => {
+}: CosmosMaxSendableAmountParams): Promise<AssetValue> => {
   // fix typing
   const assetEntity =
     typeof asset === 'string' ? await AssetValue.fromIdentifier(asset as any) : asset;
   const balances = await toolbox.getBalance(from);
-  const balance = balances.find(({ symbol }) =>
+  const balance = balances.find(({ symbol, chain }) =>
     asset
       ? symbol === assetEntity?.symbol
-      : symbol === AssetValue.fromChainOrSignature(balance.chain).symbol,
+      : symbol === AssetValue.fromChainOrSignature(chain).symbol,
   );
 
   const fees = await toolbox.getFees();
+
+  if (!balance) return AssetValue.fromChainOrSignature(assetEntity?.chain || fees.average.chain, 0);
 
   return balance.sub(fees[feeOptionKey].value);
 };

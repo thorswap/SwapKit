@@ -3,7 +3,7 @@ import { base64 } from '@scure/base';
 import type { ChainId } from '@thorswap-lib/types';
 
 import type { CosmosSDKClientParams, TransferParams } from './types.ts';
-import { getRPC } from './util.ts';
+import { getDenom, getRPC } from './util.ts';
 
 const DEFAULT_COSMOS_FEE_MAINNET = {
   amount: [{ denom: 'uatom', amount: '500' }],
@@ -62,8 +62,7 @@ export class CosmosClient {
   transfer = async ({
     from,
     to,
-    amount,
-    asset,
+    assetValue,
     memo = '',
     fee = DEFAULT_COSMOS_FEE_MAINNET,
     signer,
@@ -77,7 +76,7 @@ export class CosmosClient {
     const txResponse = await signingClient.sendTokens(
       from,
       to,
-      [{ denom: asset, amount }],
+      [{ denom: getDenom(assetValue.symbol), amount: assetValue.baseValue }],
       fee as StdFee,
       memo,
     );

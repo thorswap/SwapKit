@@ -20,8 +20,7 @@ export type TransferParams = {
   signer?: OfflineDirectSigner;
   from: string;
   to: string;
-  amount: string;
-  asset: string;
+  assetValue: AssetValue;
   memo?: string;
   fee?: StdFee;
 };

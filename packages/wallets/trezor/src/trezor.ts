@@ -1,6 +1,6 @@
 import { derivationPathToString } from '@thorswap-lib/swapkit-helpers';
-import type { UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
-import type { ConnectWalletParams, DerivationPathArray, UTXO } from '@thorswap-lib/types';
+import type { UTXOTransferParams, UTXOType } from '@thorswap-lib/toolbox-utxo';
+import type { ConnectWalletParams, DerivationPathArray } from '@thorswap-lib/types';
 import { Chain, FeeOption, WalletOption } from '@thorswap-lib/types';
 import TrezorConnect from '@trezor/connect-web';
 import { toCashAddress } from 'bchaddrjs';
@@ -131,7 +131,7 @@ const getToolbox = async ({
 
       const address = await getAddress();
 
-      const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '') => {
+      const signTransaction = async (psbt: Psbt, inputs: UTXOType[], memo: string = '') => {
         const address_n = derivationPath.map((pathElement, index) =>
           index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
         );

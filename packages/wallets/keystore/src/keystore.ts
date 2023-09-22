@@ -1,3 +1,4 @@
+import type { TransferParams } from '@thorswap-lib/toolbox-cosmos';
 import type { UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
 import type { ConnectWalletParams } from '@thorswap-lib/types';
 import { Chain, DerivationPath, WalletOption } from '@thorswap-lib/types';
@@ -118,18 +119,17 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Binance: {
-      const { getDenom, BinanceToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { BinanceToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = BinanceToolbox();
       const privkey = await toolbox.createKeyPair(phrase);
       const from = await toolbox.getAddressFromMnemonic(phrase);
 
-      const transfer = ({ asset, amount, recipient, memo }: TxParams) =>
+      const transfer = ({ assetValue, to, memo }: TransferParams) =>
         toolbox.transfer({
           from,
-          to: recipient,
+          to,
+          assetValue,
           privkey,
-          asset: getDenom(asset?.symbol || 'ATOM'),
-          amount: amount.value,
           memo,
         });
 
@@ -139,18 +139,17 @@ const getWalletMethodsForChain = async ({
       };
     }
     case Chain.Cosmos: {
-      const { getDenom, GaiaToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { GaiaToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = GaiaToolbox({ server: api });
       const signer = await toolbox.getSigner(phrase);
       const from = await toolbox.getAddressFromMnemonic(phrase);
 
-      const transfer = ({ asset, amount, recipient, memo }: TxParams) =>
+      const transfer = ({ assetValue, to, memo }: TransferParams) =>
         toolbox.transfer({
           from,
-          to: recipient,
+          to,
           signer,
-          asset: getDenom(asset?.symbol || 'ATOM'),
-          amount: amount.value,
+          assetValue,
           memo,
         });
 

@@ -1,13 +1,8 @@
 import { fromBase64 } from '@cosmjs/encoding';
 import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
-import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
+import type { DepositParam, TransferParams } from '@thorswap-lib/toolbox-cosmos';
 import type { UTXOBuildTxParams } from '@thorswap-lib/toolbox-utxo';
-import type {
-  ConnectWalletParams,
-  DerivationPathArray,
-  TxParams,
-  WalletTxParams,
-} from '@thorswap-lib/types';
+import type { ConnectWalletParams, DerivationPathArray } from '@thorswap-lib/types';
 import { ApiUrl, Chain, ChainId, FeeOption, RPCUrl, WalletOption } from '@thorswap-lib/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
@@ -202,16 +197,16 @@ const getToolbox = async ({
     case Chain.Cosmos: {
       const { getDenom, GaiaToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = GaiaToolbox();
-      const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
+      const transfer = async ({ assetValue, to, memo }: TransferParams) => {
         const from = address;
-        if (!asset) throw new Error('invalid asset');
+        if (!assetValue) throw new Error('invalid asset');
         // TODO - create fallback for gas price estimation if internal api has error
         const gasPrice = '0.007uatom';
 
         const sendCoinsMessage = {
-          amount: [{ amount: amount.baseValue, denom: getDenom(asset.symbol) }],
+          amount: [{ amount: assetValue.baseValue, denom: getDenom(assetValue.symbol) }],
           fromAddress: from,
-          toAddress: recipient,
+          toAddress: to,
         };
 
         const msg = {
@@ -262,9 +257,9 @@ const getToolbox = async ({
       const toolbox = ThorchainToolbox({ stagenet: false });
 
       // TODO (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
-      const deposit = async ({ asset, amount, memo }: DepositParam) => {
+      const deposit = async ({ assetValue, memo }: DepositParam) => {
         const account = await toolbox.getAccount(address);
-        if (!asset) throw new Error('invalid asset to deposit');
+        if (!assetValue) throw new Error('invalid asset to deposit');
         if (!account) throw new Error('invalid account');
         if (!account.pubkey) throw new Error('Account pubkey not found');
 
@@ -280,8 +275,8 @@ const getToolbox = async ({
               signer: address,
               coins: [
                 {
-                  amount: amount.baseValue,
-                  asset: getDenomWithChain(asset).toUpperCase(),
+                  amount: assetValue.baseValue,
+                  asset: getDenomWithChain(assetValue).toUpperCase(),
                 },
               ],
             },
@@ -341,10 +336,10 @@ const getToolbox = async ({
       };
 
       // TODO (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
-      const transfer = async ({ memo = '', amount, asset, recipient }: WalletTxParams) => {
+      const transfer = async ({ memo = '', assetValue, to }: TransferParams) => {
         const account = await toolbox.getAccount(address);
         if (!account) throw new Error('invalid account');
-        if (!asset) throw new Error('invalid asset');
+        if (!assetValue) throw new Error('invalid asset');
         if (!account.pubkey) throw new Error('Account pubkey not found');
 
         const { Int53 } = await import('@cosmjs/math');
@@ -353,9 +348,9 @@ const getToolbox = async ({
         const { accountNumber, sequence = '0' } = account;
 
         const sendCoinsMessage = {
-          amount: [{ amount: amount.baseValue, denom: asset?.symbol.toLowerCase() }],
+          amount: [{ amount: assetValue.baseValue, denom: assetValue?.symbol.toLowerCase() }],
           from_address: address,
-          to_address: recipient,
+          to_address: to,
         };
 
         const msg = {

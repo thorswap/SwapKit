@@ -11,5 +11,5 @@ export * from './helpers/others.ts';
  * Modules
  */
 export { AssetValue, getMinAmountByChain } from './modules/assetValue.ts';
-export { SwapKitError } from './modules/swapKitError.ts';
+export { type Keys, SwapKitError } from './modules/swapKitError.ts';
 export { SwapKitNumber } from './modules/swapKitNumber.ts';

@@ -1,7 +1,8 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@thorswap-lib/types": "workspace:*"
+    "@thorswap-lib/types": "workspace:*",
+    "@thorswap-lib/swapkit-helpers": "workspace:*"
   },
   "description": "THORSwap Lib keplr",
   "devDependencies": {

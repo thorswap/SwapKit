@@ -75,6 +75,7 @@ const getAddressFromKeys = ({ keys, chain }: { keys: ECPairInterface } & UTXOBas
 const transfer = async ({
   signTransaction,
   from,
+  memo,
   recipient,
   chain,
   apiClient,
@@ -94,6 +95,7 @@ const transfer = async ({
     chain,
     apiClient,
     assetValue,
+    memo,
   });
   const signedPsbt = await signTransaction(psbt);
   signedPsbt.finalizeAllInputs(); // Finalise inputs

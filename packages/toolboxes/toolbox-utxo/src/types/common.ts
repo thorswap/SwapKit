@@ -1,6 +1,5 @@
 import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import type { FeeOption, UTXOChain } from '@thorswap-lib/types';
-import type { Psbt } from 'bitcoinjs-lib';
 
 import type { BlockchairApiType } from '../api/blockchairApi.ts';
 import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '../index.ts';
@@ -77,8 +76,8 @@ export type UTXOTransferParams = {
   feeRate?: number;
   from: string;
   recipient: string;
-  signTransaction: (psbt: Psbt) => Promise<Psbt>;
   assetValue: AssetValue;
+  memo?: string;
 };
 
 export type UTXOWalletTransferParams<T, U> = UTXOTransferParams & {

@@ -1,4 +1,4 @@
-import type { ThornameRegisterParam } from '@thorswap-lib/swapkit-helpers';
+import type { Keys, ThornameRegisterParam } from '@thorswap-lib/swapkit-helpers';
 import {
   AssetValue,
   gasFeeMultiplier,
@@ -7,18 +7,9 @@ import {
   SwapKitError,
   SwapKitNumber,
 } from '@thorswap-lib/swapkit-helpers';
-import type {
-  CosmosLikeToolbox,
-  CosmosMaxSendableAmountParams,
-} from '@thorswap-lib/toolbox-cosmos';
-import type {
-  AVAXToolbox,
-  BSCToolbox,
-  ETHToolbox,
-  EVMMaxSendableAmountsParams,
-  EVMToolbox,
-} from '@thorswap-lib/toolbox-evm';
-import type { UTXOEstimateFeeParams, UTXOToolbox } from '@thorswap-lib/toolbox-utxo';
+import type { CosmosLikeToolbox } from '@thorswap-lib/toolbox-cosmos';
+import type { AVAXToolbox, BSCToolbox, ETHToolbox, EVMToolbox } from '@thorswap-lib/toolbox-evm';
+import type { UTXOToolbox } from '@thorswap-lib/toolbox-utxo';
 import type {
   AddChainWalletParams,
   EVMChain,
@@ -283,7 +274,7 @@ export class SwapKitCore<T = ''> {
       const isInsufficientFunds = errorMessage?.includes('insufficient funds');
       const isGas = errorMessage?.includes('gas');
       const isServer = errorMessage?.includes('server');
-      const errorKey = isInsufficientFunds
+      const errorKey: Keys = isInsufficientFunds
         ? 'core_transaction_deposit_insufficient_funds_error'
         : isGas
         ? 'core_transaction_deposit_gas_error'
@@ -533,11 +524,13 @@ export class SwapKitCore<T = ''> {
     params,
   }: {
     chain: Chain;
-    params: Omit<
-      UTXOEstimateFeeParams | EVMMaxSendableAmountsParams | CosmosMaxSendableAmountParams,
-      'toolbox'
-    >;
-  }) => {
+    // TODO fix typing
+    params: any;
+    // params: Omit<
+    //   UTXOEstimateFeeParams | EVMMaxSendableAmountsParams | CosmosMaxSendableAmountParams,
+    //   'toolbox'
+    // >;
+  }): Promise<AssetValue> => {
     const walletMethods = this.getWallet<typeof chain>(chain);
 
     switch (chain) {

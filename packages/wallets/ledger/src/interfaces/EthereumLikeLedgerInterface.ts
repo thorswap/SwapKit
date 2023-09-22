@@ -70,7 +70,8 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
     const transactionCount = await this.provider?.getTransactionCount(tx.from);
 
     const baseTx = {
-      chainId: BigNumber.from(rawTx.chainId || this.chainId).toNumber(),
+      // TODO parse this to number
+      chainId: rawTx.chainId || this.chainId,
       data: tx.data || undefined,
       gasLimit: tx.gasLimit || undefined,
       ...(tx.gasPrice && { gasPrice: tx.gasPrice || undefined }),
@@ -79,8 +80,7 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
           maxFeePerGas: tx.maxFeePerGas || undefined,
           maxPriorityFeePerGas: tx.maxPriorityFeePerGas || undefined,
         }),
-      nonce:
-        tx.nonce !== undefined ? BigNumber.from(tx.nonce.toString()).toNumber() : transactionCount,
+      nonce: tx.nonce !== undefined ? Number(tx.nonce.toString()) : transactionCount,
       to: tx.to || undefined,
       value: tx.value || undefined,
       type: tx.type || 2,

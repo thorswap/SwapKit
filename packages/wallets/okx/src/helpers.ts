@@ -57,11 +57,11 @@ export const getWalletForChain = async ({
         chain,
         ethplorerApiKey,
         covalentApiKey,
+        //TODO I think we use wrong provider Type
+        //@ts-expect-error
         ethereumWindowProvider: window.okxwallet,
       });
 
-      //TODO I think we use wrong provider Type
-      //@ts-expect-error
       const address: string = await window.okxwallet.send('eth_requestAccounts', []);
       const getBalance = async () => {
         const balances = await evmWallet.getBalance(address);
@@ -70,13 +70,15 @@ export const getWalletForChain = async ({
           new AssetValue({
             chain,
             symbol: chain,
-            value: gasAssetBalance,
+            value: gasAssetBalance.toString(),
             decimal: BaseDecimal[chain],
           }),
           ...balances.slice(1),
         ];
       };
 
+      //TODO we got two different assetValue types
+      //@ts-expect-error
       return { ...evmWallet, getAddress: () => address, getBalance };
     }
 

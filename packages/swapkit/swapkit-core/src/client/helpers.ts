@@ -32,7 +32,6 @@ export const getMimirData = (stagenet: boolean) => {
 export const getEmptyWalletStructure = () =>
   (Object.values(Chain) as Chain[]).reduce(
     (acc, chain) => {
-      re;
       acc[chain] = null;
       return acc;
     },

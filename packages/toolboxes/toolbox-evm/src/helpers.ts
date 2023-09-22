@@ -158,28 +158,22 @@ export const estimateMaxSendableAmount = async ({
   from,
   memo = '',
   feeOptionKey = FeeOption.Fastest,
-  asset,
+  assetValue,
   abi,
   funcName,
   funcParams,
   contractAddress,
   txOverrides,
 }: EVMMaxSendableAmountsParams) => {
-  const assetEntity =
-    //TODO fix typing
-    typeof asset === 'string' ? await AssetValue.fromIdentifier(asset as any) : asset;
   const balance = (await toolbox.getBalance(from)).find((balance) =>
-    assetEntity
-      ? balance.symbol === assetEntity.symbol
+    assetValue
+      ? balance.symbol === assetValue.symbol
       : balance.symbol === AssetValue.fromChainOrSignature(balance.chain)?.symbol,
   );
 
   if (!balance) return new SwapKitNumber(0);
 
-  if (
-    assetEntity &&
-    (balance.chain !== assetEntity.chain || balance.symbol !== assetEntity?.symbol)
-  ) {
+  if (assetValue && (balance.chain !== assetValue.chain || balance.symbol !== assetValue?.symbol)) {
     return balance;
   }
 
@@ -201,7 +195,6 @@ export const estimateMaxSendableAmount = async ({
           recipient: from,
           memo,
           // TODO fix typing
-          //@ts-expect-error
           amount: new SwapKitNumber({ value: '1', decimal: 18 }),
         });
 

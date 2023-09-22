@@ -1,7 +1,6 @@
 import type { StdSignDoc } from '@cosmjs/amino';
 import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
-import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
-import type { WalletTxParams } from '@thorswap-lib/types';
+import type { DepositParam, TransferParams } from '@thorswap-lib/toolbox-cosmos';
 import { ApiUrl, Chain, ChainId, WalletOption } from '@thorswap-lib/types';
 import type { WalletConnectModalSign } from '@walletconnect/modal-sign-html';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
@@ -75,22 +74,20 @@ const getToolbox = async ({
     case Chain.Binance: {
       const { sortObject, BinanceToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = BinanceToolbox();
-      const transfer = async (params: any) => {
+      const transfer = async ({ to, assetValue, memo }: TransferParams) => {
         const account = await toolbox.getAccount(from);
-        const txAmount = params.amount.amount().toString();
         const { transaction, signMsg } = await toolbox.createTransactionAndSignMsg({
           from,
-          to: params.recipient,
-          amount: txAmount,
-          asset: params.asset.ticker,
-          memo: params.memo,
+          to,
+          assetValue,
+          memo,
         });
 
         const signDoc = sortObject({
           account_number: account.account_number.toString(),
           chain_id: ChainId.Binance,
           data: null,
-          memo: params.memo,
+          memo,
           msgs: [signMsg],
           sequence: account.sequence.toString(),
           source: '0',
@@ -129,7 +126,7 @@ const getToolbox = async ({
           },
         });
 
-      const transfer = async (params: WalletTxParams) => {
+      const transfer = async ({ assetValue, ...params }: TransferParams) => {
         const account = await toolbox.getAccount(from);
         if (!account) throw new Error('Account not found');
         if (!account.pubkey) throw new Error('Account pubkey not found');
@@ -138,12 +135,12 @@ const getToolbox = async ({
         const sendCoinsMessage = {
           amount: [
             {
-              amount: params.amount.amount().toString(),
-              denom: params.asset?.symbol.toLowerCase(),
+              amount: assetValue.baseValue,
+              denom: assetValue.symbol.toLowerCase(),
             },
           ],
           from_address: address,
-          to_address: params.recipient,
+          to_address: params.to,
         };
 
         const msg = {
@@ -223,9 +220,9 @@ const getToolbox = async ({
         return result.transactionHash;
       };
 
-      const deposit = async ({ asset, amount, memo }: DepositParam) => {
+      const deposit = async ({ assetValue, memo }: DepositParam) => {
         const account = await toolbox.getAccount(address);
-        if (!asset) throw new Error('invalid asset to deposit');
+        if (!assetValue) throw new Error('invalid asset to deposit');
         if (!account) throw new Error('Account not found');
         if (!account.pubkey) throw new Error('Account pubkey not found');
         const { accountNumber, sequence = 0 } = account;
@@ -235,8 +232,8 @@ const getToolbox = async ({
           value: {
             coins: [
               {
-                amount: amount.amount().toString(),
-                asset: getDenomWithChain(asset).toUpperCase(),
+                amount: assetValue.baseValue,
+                asset: getDenomWithChain(assetValue).toUpperCase(),
               },
             ],
             memo,
