@@ -1,7 +1,7 @@
 export const list = {
   name: 'PancakeSwap Extended',
-  timestamp: '2023-08-01T14:34:34.912Z',
-  version: { major: 2, minor: 16, patch: 154 },
+  timestamp: '2023-08-31T14:37:19.571Z',
+  version: { major: 2, minor: 16, patch: 158 },
   keywords: ['pancakeswap', 'extended'],
   tokens: [
     {
@@ -530,6 +530,12 @@ export const list = {
       address: '0x5Ec3AdBDae549Dce842e24480Eb2434769e22B2E',
       chain: 'BSC',
       identifier: 'BSC.CVP-0X5EC3ADBDAE549DCE842E24480EB2434769E22B2E',
+      decimals: 18,
+    },
+    {
+      address: '0x14778860E937f509e651192a90589dE711Fb88a9',
+      chain: 'BSC',
+      identifier: 'BSC.CYBER-0X14778860E937F509E651192A90589DE711FB88A9',
       decimals: 18,
     },
     {
@@ -1145,6 +1151,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0xF95a5532D67C944dfa7EDDD2f8c358Fe0dc7FAc2',
+      chain: 'BSC',
+      identifier: 'BSC.MBX-0XF95A5532D67C944DFA7EDDD2F8C358FE0DC7FAC2',
+      decimals: 18,
+    },
+    {
       address: '0x5fE80d2CD054645b9419657d3d10d26391780A7B',
       chain: 'BSC',
       identifier: 'BSC.MCB-0X5FE80D2CD054645B9419657D3D10D26391780A7B',
@@ -1199,9 +1211,15 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0xCF1B55D79E824da0Ae0652F96C66fe33263d743f',
+      chain: 'BSC',
+      identifier: 'BSC.MIX-0XCF1B55D79E824DA0AE0652F96C66FE33263D743F',
+      decimals: 18,
+    },
+    {
       address: '0x398f7827DcCbeFe6990478876bBF3612D93baF05',
       chain: 'BSC',
-      identifier: 'BSC.MIX-0X398F7827DCCBEFE6990478876BBF3612D93BAF05',
+      identifier: 'BSC.MIXOLD-0X398F7827DCCBEFE6990478876BBF3612D93BAF05',
       decimals: 18,
     },
     {
@@ -1547,9 +1565,15 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x61dc650C10Ec3c758d251Cd2D1Ab45AF1A43e941',
+      chain: 'BSC',
+      identifier: 'BSC.RPG-0X61DC650C10EC3C758D251CD2D1AB45AF1A43E941',
+      decimals: 18,
+    },
+    {
       address: '0xc2098a8938119A52B1F7661893c0153A6CB116d5',
       chain: 'BSC',
-      identifier: 'BSC.RPG-0XC2098A8938119A52B1F7661893C0153A6CB116D5',
+      identifier: 'BSC.RPGOLD-0XC2098A8938119A52B1F7661893C0153A6CB116D5',
       decimals: 18,
     },
     {
@@ -1943,6 +1967,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x52242cbAb41e290E9E17CCC50Cc437bB60020a9d',
+      chain: 'BSC',
+      identifier: 'BSC.WNCG-0X52242CBAB41E290E9E17CCC50CC437BB60020A9D',
+      decimals: 18,
+    },
+    {
       address: '0xAD6742A35fB341A9Cc6ad674738Dd8da98b94Fb1',
       chain: 'BSC',
       identifier: 'BSC.WOM-0XAD6742A35FB341A9CC6AD674738DD8DA98B94FB1',
@@ -2093,5 +2123,5 @@ export const list = {
       decimals: 18,
     },
   ],
-  count: 348,
+  count: 353,
 } as const;

@@ -1,7 +1,7 @@
 export const list = {
   name: 'PancakeSwap Ethereum Default',
-  timestamp: '2023-07-25T05:33:58.759Z',
-  version: { major: 1, minor: 0, patch: 23 },
+  timestamp: '2023-09-21T11:50:26.697Z',
+  version: { major: 1, minor: 0, patch: 30 },
   keywords: ['pancakeswap', 'default', 'ethereum'],
   tokens: [
     {
@@ -244,6 +244,48 @@ export const list = {
       identifier: 'ETH.WLD-0X163F8C2467924BE0AE7B5347228CABF260318753',
       decimals: 18,
     },
+    {
+      address: '0xc0B314a8c08637685Fc3daFC477b92028c540CFB',
+      chain: 'ETH',
+      identifier: 'ETH.WOM-0XC0B314A8C08637685FC3DAFC477B92028C540CFB',
+      decimals: 18,
+    },
+    {
+      address: '0x14778860E937f509e651192a90589dE711Fb88a9',
+      chain: 'ETH',
+      identifier: 'ETH.CYBER-0X14778860E937F509E651192A90589DE711FB88A9',
+      decimals: 18,
+    },
+    {
+      address: '0xA35b1B31Ce002FBF2058D22F30f95D405200A15b',
+      chain: 'ETH',
+      identifier: 'ETH.ETHx-0XA35B1B31CE002FBF2058D22F30F95D405200A15B',
+      decimals: 18,
+    },
+    {
+      address: '0x4691937a7508860F876c9c0a2a617E7d9E945D4B',
+      chain: 'ETH',
+      identifier: 'ETH.WOO-0X4691937A7508860F876C9C0A2A617E7D9E945D4B',
+      decimals: 18,
+    },
+    {
+      address: '0x1a7e4e63778B4f12a199C062f3eFdD288afCBce8',
+      chain: 'ETH',
+      identifier: 'ETH.agEUR-0X1A7E4E63778B4F12A199C062F3EFDD288AFCBCE8',
+      decimals: 18,
+    },
+    {
+      address: '0x6c3ea9036406852006290770BEdFcAbA0e23A0e8',
+      chain: 'ETH',
+      identifier: 'ETH.PYUSD-0X6C3EA9036406852006290770BEDFCABA0E23A0E8',
+      decimals: 6,
+    },
+    {
+      address: '0xF51092Fe93B4E9282f42c459F05D93D2D079549e',
+      chain: 'ETH',
+      identifier: 'ETH.ROCI-0XF51092FE93B4E9282F42C459F05D93D2D079549E',
+      decimals: 18,
+    },
   ],
-  count: 40,
+  count: 47,
 } as const;

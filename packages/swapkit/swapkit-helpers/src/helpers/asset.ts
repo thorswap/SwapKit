@@ -1,13 +1,14 @@
-import { BaseDecimal, Chain, FeeOption } from '@thorswap-lib/types';
+import type { EVMChain } from '@thorswap-lib/types';
+import { BaseDecimal, Chain, ChainToRPC, FeeOption } from '@thorswap-lib/types';
 
 import { postRequest } from './others.ts';
 
 const getDecimalMethodHex = '0x313ce567';
 
-const getEthContractDecimals = async (to: string) => {
+const getContractDecimals = async ({ chain, to }: { chain: EVMChain; to: string }) => {
   try {
     const response = await postRequest<string>(
-      'https://node-router.thorswap.net/ethereum',
+      ChainToRPC[chain],
       JSON.stringify({
         method: 'eth_call',
         params: [{ to: to.toLowerCase(), data: getDecimalMethodHex }, 'latest'],
@@ -23,7 +24,7 @@ const getEthContractDecimals = async (to: string) => {
     return parseInt(BigInt(result).toString());
   } catch (error) {
     console.error(error);
-    return BaseDecimal.ETH;
+    return BaseDecimal[chain];
   }
 };
 
@@ -31,18 +32,17 @@ const getETHAssetDecimal = async (symbol: string) => {
   if (symbol === Chain.Ethereum) return BaseDecimal.ETH;
   const [, address] = symbol.split('-');
 
-  if (address?.startsWith('0x')) return getEthContractDecimals(address.toLowerCase());
-
-  return BaseDecimal.ETH;
+  return address?.startsWith('0x')
+    ? getContractDecimals({ chain: Chain.Ethereum, to: address })
+    : BaseDecimal.ETH;
 };
 
-// TODO (@Chillos, @Towan): implement this function properly as current only fits our token list
 const getAVAXAssetDecimal = async (symbol: string) => {
-  if (symbol.includes('USDT') || symbol.includes('USDC')) return 6;
-  if (['BTC.b', 'WBTC.e'].includes(symbol)) return 8;
-  if (symbol === 'Time') return 9;
+  const [, address] = symbol.split('-');
 
-  return BaseDecimal.AVAX;
+  return address?.startsWith('0x')
+    ? getContractDecimals({ chain: Chain.Avalanche, to: address })
+    : BaseDecimal.AVAX;
 };
 
 const getBSCAssetDecimal = async (symbol: string) => {

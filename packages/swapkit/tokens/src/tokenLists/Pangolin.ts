@@ -1,7 +1,7 @@
 export const list = {
   name: 'Pangolin Tokenlist',
-  timestamp: '2023-07-28T17:00:00+00:00',
-  version: { major: 10, minor: 0, patch: 0 },
+  timestamp: '2023-08-08T13:00:00+00:00',
+  version: { major: 11, minor: 0, patch: 0 },
   keywords: [],
   tokens: [
     {
@@ -323,9 +323,9 @@ export const list = {
       decimals: 18,
     },
     {
-      address: '0x340fE1D898ECCAad394e2ba0fC1F93d27c7b717A',
+      address: '0x3Ab1C9aDb065F3FcA0059652Cd7A52B05C98f9a9',
       chain: 'AVAX',
-      identifier: 'AVAX.ORBS-0X340FE1D898ECCAAD394E2BA0FC1F93D27C7B717A',
+      identifier: 'AVAX.ORBS-0X3AB1C9ADB065F3FCA0059652CD7A52B05C98F9A9',
       decimals: 18,
     },
     {

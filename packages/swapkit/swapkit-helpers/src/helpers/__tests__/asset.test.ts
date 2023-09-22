@@ -67,8 +67,22 @@ describe('getAssetType', () => {
 });
 
 describe('getDecimal', () => {
+  /**
+   * Test out native
+   */
+  Object.values(Chain)
+    .filter((c) => ![Chain.Ethereum, Chain.Avalanche].includes(c))
+    .forEach((chain) => {
+      describe(chain, () => {
+        it(`returns proper decimal for native ${chain} asset`, async () => {
+          const decimal = await getDecimal({ chain, symbol: chain });
+          expect(decimal).toBe(BaseDecimal[chain]);
+        });
+      });
+    });
+
   describe('ETH', () => {
-    it.only("returns proper decimal for eth and it's assets", async () => {
+    it("returns proper decimal for eth and it's assets", async () => {
       const ethDecimal = await getDecimal({ chain: Chain.Ethereum, symbol: 'ETH' });
       expect(ethDecimal).toBe(BaseDecimal.ETH);
 
@@ -101,6 +115,43 @@ describe('getDecimal', () => {
         symbol: 'HOMI-0xCa208BfD69ae6D2667f1FCbE681BAe12767c0078',
       });
       expect(shitcoinDecimal).toBe(0);
+    });
+  });
+
+  describe('AVAX', () => {
+    it("returns proper decimal for avax and it's assets", async () => {
+      const avaxDecimal = await getDecimal({ chain: Chain.Avalanche, symbol: 'AVAX' });
+      expect(avaxDecimal).toBe(BaseDecimal.AVAX);
+
+      const wbtceDecimal = await getDecimal({
+        chain: Chain.Avalanche,
+        symbol: 'WBTC.e-0x50b7545627a5162f82a992c33b87adc75187b218',
+      });
+      expect(wbtceDecimal).toBe(8);
+
+      const btcbDecimal = await getDecimal({
+        chain: Chain.Avalanche,
+        symbol: 'BTC.b-0x152b9d0FdC40C096757F570A51E494bd4b943E50',
+      });
+      expect(btcbDecimal).toBe(8);
+
+      const timeDecimal = await getDecimal({
+        chain: Chain.Avalanche,
+        symbol: 'TIME-0xb54f16fB19478766A268F172C9480f8da1a7c9C3',
+      });
+      expect(timeDecimal).toBe(9);
+
+      const usdtDecimal = await getDecimal({
+        chain: Chain.Avalanche,
+        symbol: 'USDT-0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7',
+      });
+      expect(usdtDecimal).toBe(6);
+
+      const usdcDecimal = await getDecimal({
+        chain: Chain.Avalanche,
+        symbol: 'USDC-0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
+      });
+      expect(usdcDecimal).toBe(6);
     });
   });
 });

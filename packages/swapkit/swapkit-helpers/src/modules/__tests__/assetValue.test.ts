@@ -10,7 +10,7 @@ describe('AssetValue', () => {
         decimal: 6,
         value: 1234567890,
         chain: Chain.Avalanche,
-        symbol: 'USDC-01234',
+        symbol: 'USDC-0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
       });
       expect(fakeAvaxUSDCAsset.assetValue).toBe('1234567890 USDC');
 
@@ -34,13 +34,13 @@ describe('AssetValue', () => {
       const vThor = AssetValue.fromChainOrSignature('ETH.vTHOR');
       const firstUsdc = new AssetValue({
         chain: Chain.Avalanche,
-        symbol: 'USDC-01234',
+        symbol: 'USDC-0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
         decimal: 6,
         value: 1234567890,
       });
       const secondUsdc = new AssetValue({
         chain: Chain.Avalanche,
-        symbol: 'USDC-01234',
+        symbol: 'USDC-0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
         decimal: 6,
         value: 1234,
       });
@@ -65,9 +65,11 @@ describe('AssetValue', () => {
         decimal: 6,
         value: 1234567890,
         chain: Chain.Avalanche,
-        symbol: 'USDC-01234',
+        symbol: 'USDC-0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
       });
-      expect(fakeAvaxUSDCAsset.toString()).toBe('AVAX.USDC-01234');
+      expect(fakeAvaxUSDCAsset.toString()).toBe(
+        'AVAX.USDC-0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
+      );
 
       const thor = AssetValue.fromChainOrSignature('ETH.THOR');
       expect(thor.toString()).toBe('ETH.THOR-0xa5f2211B9b8170F694421f2046281775E8468044');
@@ -78,19 +80,18 @@ describe('AssetValue', () => {
   });
 
   describe('fromIdentifier', () => {
-    // TODO: Add more test cases for different decimals fetched from getDecimal
     test('creates AssetValue from string', async () => {
-      const fakeAvaxUSDCAssetString = 'AVAX.USDC-0x1234567890';
+      const fakeAvaxUSDCAssetString = 'AVAX.USDC-0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E';
       const fakeAvaxUSDCAsset = await AssetValue.fromIdentifier(fakeAvaxUSDCAssetString);
 
       expect(fakeAvaxUSDCAsset).toEqual(
         expect.objectContaining({
-          address: '0x1234567890',
+          address: '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
           chain: Chain.Avalanche,
           decimal: 6,
           isGasAsset: false,
           isSynthetic: false,
-          symbol: 'USDC-0x1234567890',
+          symbol: 'USDC-0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
           ticker: 'USDC',
         }),
       );

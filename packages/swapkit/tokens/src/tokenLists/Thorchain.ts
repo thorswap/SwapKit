@@ -1,6 +1,6 @@
 export const list = {
   name: 'thorchain',
-  timestamp: '2023-08-03T14:30:46.058Z',
+  timestamp: '2023-09-22T04:53:17.919Z',
   version: { major: 1, minor: 0, patch: 0 },
   keywords: ['THORChain'],
   tokens: [
@@ -18,6 +18,7 @@ export const list = {
     { address: 'BD1', chain: 'BNB', identifier: 'BNB.BUSD-BD1', decimals: 8 },
     { address: '1C9', chain: 'BNB', identifier: 'BNB.ETH-1C9', decimals: 8 },
     { address: '8C2', chain: 'BNB', identifier: 'BNB.TWT-8C2', decimals: 8 },
+    { chain: 'BSC', identifier: 'BSC.BNB', decimals: 8 },
     { chain: 'BTC', identifier: 'BTC.BTC', decimals: 8 },
     { chain: 'DOGE', identifier: 'DOGE.DOGE', decimals: 8 },
     {
@@ -46,9 +47,15 @@ export const list = {
       decimals: 8,
     },
     {
-      address: '0x584BC13C7D411C00C01A62E8019472DE68768430',
+      address: '0x056FD409E1D7A124BD7017459DFEA2F387B6D5CD',
       chain: 'ETH',
-      identifier: 'ETH.HEGIC-0X584BC13C7D411C00C01A62E8019472DE68768430',
+      identifier: 'ETH.GUSD-0X056FD409E1D7A124BD7017459DFEA2F387B6D5CD',
+      decimals: 8,
+    },
+    {
+      address: '0x5F98805A4E8BE255A32880FDEC7F6728C6568BA0',
+      chain: 'ETH',
+      identifier: 'ETH.LUSD-0X5F98805A4E8BE255A32880FDEC7F6728C6568BA0',
       decimals: 8,
     },
     {
@@ -79,6 +86,12 @@ export const list = {
       address: '0xA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48',
       chain: 'ETH',
       identifier: 'ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48',
+      decimals: 8,
+    },
+    {
+      address: '0x8E870D67F660D95D5BE530380D0EC0BD388289E1',
+      chain: 'ETH',
+      identifier: 'ETH.USDP-0X8E870D67F660D95D5BE530380D0EC0BD388289E1',
       decimals: 8,
     },
     {
@@ -115,5 +128,5 @@ export const list = {
     { chain: 'LTC', identifier: 'LTC.LTC', decimals: 8 },
     { chain: 'THOR', identifier: 'THOR.RUNE', decimals: 8 },
   ],
-  count: 30,
+  count: 33,
 } as const;
