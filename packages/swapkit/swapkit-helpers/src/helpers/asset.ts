@@ -2,14 +2,15 @@ import { BaseDecimal, Chain, FeeOption } from '@thorswap-lib/types';
 
 import { postRequest } from './others.ts';
 
+const getDecimalMethodHex = '0x313ce567';
+
 const getEthContractDecimals = async (to: string) => {
-  // Hex string
   try {
     const response = await postRequest<string>(
       'https://node-router.thorswap.net/ethereum',
       JSON.stringify({
         method: 'eth_call',
-        params: [{ to: to.toLowerCase(), data: '0x313ce567' }, 'latest'],
+        params: [{ to: to.toLowerCase(), data: getDecimalMethodHex }, 'latest'],
         id: 44,
         jsonrpc: '2.0',
       }),

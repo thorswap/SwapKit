@@ -77,6 +77,30 @@ describe('getDecimal', () => {
         symbol: 'USDC-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
       });
       expect(usdcDecimal).toBe(6);
+
+      const wbtcDecimal = await getDecimal({
+        chain: Chain.Ethereum,
+        symbol: 'WBTC-0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
+      });
+      expect(wbtcDecimal).toBe(8);
+
+      const decDecimal = await getDecimal({
+        chain: Chain.Ethereum,
+        symbol: 'ZIL-0x05f4a42e251f2d52b8ed15e9fedaacfcef1fad27',
+      });
+      expect(decDecimal).toBe(12);
+
+      const kindDecimal = await getDecimal({
+        chain: Chain.Ethereum,
+        symbol: 'KIND-0x4618519de4c304f3444ffa7f812dddc2971cc688',
+      });
+      expect(kindDecimal).toBe(8);
+
+      const shitcoinDecimal = await getDecimal({
+        chain: Chain.Ethereum,
+        symbol: 'HOMI-0xCa208BfD69ae6D2667f1FCbE681BAe12767c0078',
+      });
+      expect(shitcoinDecimal).toBe(0);
     });
   });
 });
