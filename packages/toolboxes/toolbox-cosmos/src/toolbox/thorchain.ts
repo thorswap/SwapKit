@@ -310,10 +310,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     ...baseToolbox,
     deposit,
     transfer,
-    //TODO fix typing
-    //@ts-expect-error
     getFees,
-
     createDefaultAminoTypes,
     createDefaultRegistry,
     secp256k1HdWalletFromMnemonic,

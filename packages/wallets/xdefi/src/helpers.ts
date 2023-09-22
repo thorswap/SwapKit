@@ -49,8 +49,6 @@ export const getWalletMethodsForChain = async ({
         chain,
         ethplorerApiKey,
         covalentApiKey,
-        // TODO fix browser wallet typing
-        //@ts-expect-error
         ethereumWindowProvider: window.xfi?.ethereum,
       });
     }

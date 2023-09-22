@@ -56,7 +56,7 @@ export const estimateMaxSendableAmount = async ({
 
   const fees = await toolbox.getFees();
 
-  if (!balance) return AssetValue.fromChainOrSignature(assetEntity?.chain || fees.average.chain, 0);
+  if (!balance) return AssetValue.fromChainOrSignature(assetEntity?.chain || balances[0]?.chain, 0);
 
   return balance.sub(fees[feeOptionKey].value);
 };

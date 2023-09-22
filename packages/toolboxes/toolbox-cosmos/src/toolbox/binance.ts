@@ -53,8 +53,7 @@ const getBalance = async (address: string) => {
   );
 };
 
-// TODO fix typing
-const getFees = async (): Promise<any> => {
+const getFees = async () => {
   let singleTxFee: SwapKitNumber | undefined = undefined;
 
   try {

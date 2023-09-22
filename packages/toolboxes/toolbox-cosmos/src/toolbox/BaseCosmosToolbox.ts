@@ -52,8 +52,7 @@ export const BaseCosmosToolbox = ({
     return Promise.all(
       balances
         .filter(({ denom }) => denom && getAsset(denom))
-        // TODO fix typing
-        .map(async ({ denom, amount }) => await AssetValue.fromIdentifier(denom as any, amount)),
+        .map(async ({ denom, amount }) => await AssetValue.fromString(denom, amount)),
     );
   },
 });

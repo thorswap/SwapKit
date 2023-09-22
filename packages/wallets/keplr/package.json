@@ -6,7 +6,7 @@
   "description": "THORSwap Lib keplr",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@keplr-wallet/types": "0.12.23",
+    "@keplr-wallet/types": "0.12.27",
     "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.4",

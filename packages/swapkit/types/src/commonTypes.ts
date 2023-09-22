@@ -59,7 +59,6 @@ export type Witness = {
 
 export type FixedNumberish = string | number | FixedNumber;
 
-// TODO: Add types for api interface
 type ApisType = { [key in UTXOChain]?: string | any } & {
   [key in EVMChain]?: string | any;
 } & {

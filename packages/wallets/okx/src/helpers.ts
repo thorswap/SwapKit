@@ -4,6 +4,7 @@ import type { getWeb3WalletMethods } from '@thorswap-lib/toolbox-evm';
 import type { BTCToolbox, UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
 import { BaseDecimal, Chain, ChainId } from '@thorswap-lib/types';
 import { Psbt } from 'bitcoinjs-lib';
+import type { Eip1193Provider } from 'ethers';
 
 export const cosmosTransfer =
   (rpcUrl?: string) =>
@@ -57,9 +58,7 @@ export const getWalletForChain = async ({
         chain,
         ethplorerApiKey,
         covalentApiKey,
-        //TODO I think we use wrong provider Type
-        //@ts-expect-error
-        ethereumWindowProvider: window.okxwallet,
+        ethereumWindowProvider: window.okxwallet as unknown as Eip1193Provider,
       });
 
       const address: string = await window.okxwallet.send('eth_requestAccounts', []);

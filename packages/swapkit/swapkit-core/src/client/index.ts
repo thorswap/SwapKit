@@ -266,7 +266,6 @@ export class SwapKitCore<T = ''> {
         }
       }
     } catch (error: any) {
-      // TODO: Distinguish between different errors
       const errorMessage = (error?.message || error?.toString()).toLowerCase();
       const isInsufficientFunds = errorMessage?.includes('insufficient funds');
       const isGas = errorMessage?.includes('gas');
@@ -521,12 +520,7 @@ export class SwapKitCore<T = ''> {
     params,
   }: {
     chain: Chain;
-    // TODO fix typing
-    params: any;
-    // params: Omit<
-    //   UTXOEstimateFeeParams | EVMMaxSendableAmountsParams | CosmosMaxSendableAmountParams,
-    //   'toolbox'
-    // >;
+    params: { from: string; recipient: string; assetValue: AssetValue };
   }): Promise<any> => {
     const walletMethods = this.getWallet<typeof chain>(chain);
 

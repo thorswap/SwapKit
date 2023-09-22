@@ -7,7 +7,6 @@
   "description": "THORSwap toolbox-evm",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@keplr-wallet/types": "0.12.23",
     "@nomicfoundation/hardhat-ethers": "3.0.4",
     "@nomicfoundation/hardhat-network-helpers": "1.0.9",
     "@thorswap-lib/swapkit-helpers": "workspace:*",
