@@ -10,7 +10,13 @@ const viteConfig = thorswapViteConfig(name, {
     },
   },
   rollupOptions: {
-    external: ['@thorswap-lib/toolbox-evm', '@thorswap-lib/toolbox-utxo', 'bitcoinjs-lib'],
+    external: [
+      '@thorswap-lib/swapkit-helpers',
+      '@thorswap-lib/toolbox-evm',
+      '@thorswap-lib/toolbox-utxo',
+      'bitcoinjs-lib',
+      'ethers',
+    ],
   },
 });
 

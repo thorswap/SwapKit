@@ -9,7 +9,7 @@ const viteConfig = thorswapViteConfig(name, {
       entry: resolve(__dirname, 'src/index.ts'),
     },
     rollupOptions: {
-      external: ['@thorswap-lib/toolbox-evm'],
+      external: ['@thorswap-lib/toolbox-evm', 'ethers'],
     },
   },
 });

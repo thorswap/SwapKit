@@ -3,8 +3,7 @@ import type { EVMTxParams } from '@thorswap-lib/toolbox-evm';
 import type { Chain, DerivationPathArray } from '@thorswap-lib/types';
 import { ChainToChainId } from '@thorswap-lib/types';
 import TrezorConnect from '@trezor/connect-web';
-import { AbstractSigner } from 'ethers';
-import { type JsonRpcProvider, type Provider } from 'ethers/providers';
+import { AbstractSigner, type JsonRpcProvider, type Provider } from 'ethers';
 
 interface TrezorEVMSignerParams {
   chain: Chain;
@@ -102,7 +101,7 @@ class TrezorSigner extends AbstractSigner {
 
     const { r, s, v } = result.payload;
 
-    const { Transaction } = await import('ethers/transaction');
+    const { Transaction } = await import('ethers');
     const hash = Transaction.from({
       ...baseTx,
       nonce: parseInt(baseTx.nonce),

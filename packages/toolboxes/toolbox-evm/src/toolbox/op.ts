@@ -19,7 +19,7 @@ import { BaseEVMToolbox } from './BaseEVMToolbox.ts';
 const GAS_PRICE_ORACLE_ADDRESS = '0x420000000000000000000000000000000000000f';
 
 export const connectGasPriceOracle = async (provider: JsonRpcProvider | BrowserProvider) => {
-  const { Contract } = await import('ethers/contract');
+  const { Contract } = await import('ethers');
   return new Contract(GAS_PRICE_ORACLE_ADDRESS, gasOracleAbi, provider);
 };
 
@@ -35,7 +35,7 @@ const _serializeTx = async (
 ) => {
   if (!to) throw new Error('Missing to address');
 
-  const { Transaction } = await import('ethers/transaction');
+  const { Transaction } = await import('ethers');
 
   return Transaction.from({
     data,

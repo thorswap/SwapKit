@@ -117,7 +117,7 @@ export const getWeb3WalletMethods = async ({
     throw new Error(`Missing API key for ${chain} chain`);
   }
 
-  const { BrowserProvider } = await import('ethers/providers');
+  const { BrowserProvider } = await import('ethers');
 
   const provider = new BrowserProvider(ethereumWindowProvider, 'any');
 

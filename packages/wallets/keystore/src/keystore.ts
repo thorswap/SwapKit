@@ -44,7 +44,7 @@ const getWalletMethodsForChain = async ({
         throw new Error('Covalent API key not found');
       }
 
-      const { Mnemonic, HDNodeWallet } = await import('ethers/wallet');
+      const { Mnemonic, HDNodeWallet } = await import('ethers');
       const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
         '@thorswap-lib/toolbox-evm'
       );

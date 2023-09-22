@@ -52,8 +52,7 @@ const createContract = async (
   abi: readonly (JsonFragment | Fragment)[],
   provider: Provider,
 ) => {
-  const { Contract } = await import('ethers/contract');
-  const { Interface } = await import('ethers/abi');
+  const { Interface, Contract } = await import('ethers');
   return new Contract(address, Interface.from(abi), provider);
 };
 
@@ -249,7 +248,7 @@ const transfer = async (
     });
   }
 
-  const { hexlify, toUtf8Bytes } = await import('ethers/utils');
+  const { hexlify, toUtf8Bytes } = await import('ethers');
 
   // Transfer ETH
   const txObject = {
@@ -349,7 +348,7 @@ const estimateGasLimit = async (
     txOverrides?: EVMTxParams;
   },
 ) => {
-  const { hexlify, toUtf8Bytes } = await import('ethers/utils');
+  const { hexlify, toUtf8Bytes } = await import('ethers');
   const value = assetValue.bigIntValue;
   const assetAddress = !isGasAsset({ ...assetValue })
     ? getTokenAddress(assetValue, assetValue.chain as EVMChain)

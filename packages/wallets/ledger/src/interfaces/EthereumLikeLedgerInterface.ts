@@ -64,7 +64,7 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
 
   signTransaction = async (rawTx: any) => {
     await this.checkOrCreateTransportAndLedger();
-    const { resolveProperties } = await import('ethers/utils');
+    const { resolveProperties } = await import('ethers');
 
     const tx: any = await resolveProperties(rawTx);
     const transactionCount = await this.provider?.getTransactionCount(tx.from);
@@ -86,7 +86,7 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
       type: tx.type || 2,
     };
 
-    const { Transaction } = await import('ethers/transaction');
+    const { Transaction } = await import('ethers');
     // TODO: Check this signature
     const unsignedTx = Transaction.from(baseTx).serialized;
 

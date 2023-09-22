@@ -6,7 +6,7 @@ const baseUrl = 'https://api.ethplorer.io';
 
 export const ethplorerApi = (apiKey = 'freekey') => ({
   getBalance: async (address: string) => {
-    const { getAddress } = await import('ethers/address');
+    const { getAddress } = await import('ethers');
     const { tokens } = await getRequest<AddressInfo>(`${baseUrl}/getAddressInfo/${address}`, {
       apiKey,
     });
