@@ -24,10 +24,11 @@ beforeEach<{
   provider: JsonRpcProvider;
   toolbox: ReturnType<typeof ETHToolbox>;
 }>(async (context: any) => {
-  //   context.ethers = hre.artifact;
+  context.ethers = hre.artifacts;
   const provider = getProvider(Chain.Ethereum, 'http://127.0.0.1:8545/');
   context.provider = provider;
   const signer = await hre.ethers.getImpersonatedSigner(testAddress);
+  // @ts-expect-error
   context.toolbox = ETHToolbox({ ethplorerApiKey: 'freekey', provider, signer });
 }, 20000);
 

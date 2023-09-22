@@ -12,7 +12,7 @@ import {
 import { ec as EC } from 'elliptic';
 
 import { BNBTransaction } from '../binanceUtils/transaction.ts';
-import type { Account, Fees } from '../binanceUtils/types.ts';
+import type { Account, BNBFees } from '../binanceUtils/types.ts';
 import { AminoPrefix } from '../binanceUtils/types.ts';
 import { isTransferFee } from '../binanceUtils/utils.ts';
 import { CosmosClient } from '../cosmosClient.ts';
@@ -31,7 +31,7 @@ const getAccount = (address: string): Promise<Account> =>
   getRequest<Account>(`${BINANCE_MAINNET_API_URI}/api/v1/account/${address}`);
 
 const getTransferFee = async () => {
-  const feesArray = await getRequest<Fees>(`${BINANCE_MAINNET_API_URI}/api/v1/fees`);
+  const feesArray = await getRequest<BNBFees>(`${BINANCE_MAINNET_API_URI}/api/v1/fees`);
 
   const [transferFee] = feesArray.filter(isTransferFee);
   if (!transferFee) throw new Error('failed to get transfer fees');

@@ -530,7 +530,7 @@ export class SwapKitCore<T = ''> {
     //   UTXOEstimateFeeParams | EVMMaxSendableAmountsParams | CosmosMaxSendableAmountParams,
     //   'toolbox'
     // >;
-  }): Promise<AssetValue> => {
+  }): Promise<any> => {
     const walletMethods = this.getWallet<typeof chain>(chain);
 
     switch (chain) {
@@ -701,4 +701,3 @@ export class SwapKitCore<T = ''> {
     assetValue,
   });
 }
-haha;

@@ -164,14 +164,16 @@ export const estimateMaxSendableAmount = async ({
   funcParams,
   contractAddress,
   txOverrides,
-}: EVMMaxSendableAmountsParams) => {
-  const balance = (await toolbox.getBalance(from)).find((balance) =>
+}: EVMMaxSendableAmountsParams): Promise<AssetValue> => {
+  const balance = (await toolbox.getBalance(from)).find(({ symbol, chain }) =>
     assetValue
-      ? balance.symbol === assetValue.symbol
-      : balance.symbol === AssetValue.fromChainOrSignature(balance.chain)?.symbol,
+      ? symbol === assetValue.symbol
+      : symbol === AssetValue.fromChainOrSignature(chain)?.symbol,
   );
 
-  if (!balance) return new SwapKitNumber(0);
+  const fees = (await toolbox.estimateGasPrices())[feeOptionKey];
+
+  if (!balance) return AssetValue.fromChainOrSignature(assetValue.chain, 0);
 
   if (assetValue && (balance.chain !== assetValue.chain || balance.symbol !== assetValue?.symbol)) {
     return balance;
@@ -194,11 +196,8 @@ export const estimateMaxSendableAmount = async ({
           from,
           recipient: from,
           memo,
-          // TODO fix typing
-          amount: new SwapKitNumber({ value: '1', decimal: 18 }),
+          assetValue,
         });
-
-  const fees = (await toolbox.estimateGasPrices())[feeOptionKey];
 
   const isFeeEIP1559Compatible = 'maxFeePerGas' in fees;
   const isFeeEVMLegacyCompatible = 'gasPrice' in fees;

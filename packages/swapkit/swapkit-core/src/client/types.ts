@@ -15,7 +15,11 @@ import type {
   OPToolbox,
 } from '@thorswap-lib/toolbox-evm';
 import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@thorswap-lib/toolbox-utxo';
-import type { BaseWalletMethods, Chain, FeeOption, WalletOption } from '@thorswap-lib/types';
+import type { Chain, FeeOption, WalletOption } from '@thorswap-lib/types';
+
+type BaseWalletMethods = {
+  getAddress: () => Promise<string> | string;
+};
 
 export type CoreTxParams = {
   assetValue: AssetValue;
@@ -39,7 +43,7 @@ export type UpgradeParams = {
 
 export type ChainWallet = {
   address: string;
-  balance: SwapKitNumber[];
+  balance: (typeof AssetValue)[];
   walletType: WalletOption;
 };
 

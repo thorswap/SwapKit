@@ -7,6 +7,7 @@ import type {
   ContractTransaction,
   Fragment,
   JsonFragment,
+  JsonRpcSigner,
   Provider,
   Signer,
 } from 'ethers';
@@ -513,7 +514,7 @@ export const BaseEVMToolbox = ({
   signer,
   isEIP1559Compatible = true,
 }: {
-  signer?: Signer;
+  signer?: Signer | JsonRpcSigner;
   provider: Provider | BrowserProvider;
   isEIP1559Compatible?: boolean;
 }) => ({
