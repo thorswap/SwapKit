@@ -1,5 +1,40 @@
 import { BaseDecimal, Chain, FeeOption } from '@thorswap-lib/types';
 
+import { postRequest } from './others.ts';
+
+const getEthContractDecimals = async (to: string) => {
+  // Hex string
+  try {
+    const response = await postRequest<string>(
+      'https://node-router.thorswap.net/ethereum',
+      JSON.stringify({
+        method: 'eth_call',
+        params: [{ to: to.toLowerCase(), data: '0x313ce567' }, 'latest'],
+        id: 44,
+        jsonrpc: '2.0',
+      }),
+      { accept: '*/*', 'cache-control': 'no-cache', 'content-type': 'application/json' },
+      true,
+    );
+
+    const { result } = JSON.parse(response) as { result: string };
+
+    return parseInt(BigInt(result).toString());
+  } catch (error) {
+    console.error(error);
+    return BaseDecimal.ETH;
+  }
+};
+
+const getETHAssetDecimal = async (symbol: string) => {
+  if (symbol === Chain.Ethereum) return BaseDecimal.ETH;
+  const [, address] = symbol.split('-');
+
+  if (address?.startsWith('0x')) return getEthContractDecimals(address.toLowerCase());
+
+  return BaseDecimal.ETH;
+};
+
 // TODO (@Chillos, @Towan): implement this function properly as current only fits our token list
 const getAVAXAssetDecimal = async (symbol: string) => {
   if (symbol.includes('USDT') || symbol.includes('USDC')) return 6;
@@ -7,20 +42,6 @@ const getAVAXAssetDecimal = async (symbol: string) => {
   if (symbol === 'Time') return 9;
 
   return BaseDecimal.AVAX;
-};
-
-const getETHAssetDecimal = async (symbol: string) => {
-  if (symbol === Chain.Ethereum) return BaseDecimal.ETH;
-
-  // Call contract and get decimals
-  // const assetAddress = symbol.slice(ticker.length + 1);
-
-  // const contract = await getCustomContract(assetAddress, erc20ABI);
-  // const contractDecimals = await contract.decimals();
-
-  // return contractDecimals.toNumber() as number;
-
-  return BaseDecimal.ETH;
 };
 
 const getBSCAssetDecimal = async (symbol: string) => {

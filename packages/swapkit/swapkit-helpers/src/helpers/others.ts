@@ -44,15 +44,11 @@ export const getRequest = async <T>(
 
 export const postRequest = async <T>(
   url: string,
-  data: string,
+  body: string,
   headers?: Record<string, string>,
   parseAsString = false,
 ): Promise<T> => {
-  const response = await fetch(`${url}`, {
-    method: 'POST',
-    headers,
-    body: data,
-  });
+  const response = await fetch(`${url}`, { method: 'POST', headers, body });
 
   return parseAsString ? response.text() : response.json();
 };

@@ -1,7 +1,7 @@
-import { Chain } from '@thorswap-lib/types';
+import { BaseDecimal, Chain } from '@thorswap-lib/types';
 import { describe, expect, it } from 'vitest';
 
-import { getAssetType } from '../asset.ts';
+import { getAssetType, getDecimal } from '../asset.ts';
 
 const tickerMap: Record<string, string> = {
   [Chain.THORChain]: 'RUNE',
@@ -62,6 +62,21 @@ describe('getAssetType', () => {
         const result = getAssetType({ chain: Chain.Avalanche, symbol: 'NOT_AVAX' });
         expect(result).toBe('AVAX');
       });
+    });
+  });
+});
+
+describe('getDecimal', () => {
+  describe('ETH', () => {
+    it.only("returns proper decimal for eth and it's assets", async () => {
+      const ethDecimal = await getDecimal({ chain: Chain.Ethereum, symbol: 'ETH' });
+      expect(ethDecimal).toBe(BaseDecimal.ETH);
+
+      const usdcDecimal = await getDecimal({
+        chain: Chain.Ethereum,
+        symbol: 'USDC-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+      });
+      expect(usdcDecimal).toBe(6);
     });
   });
 });

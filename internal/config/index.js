@@ -20,7 +20,7 @@ const beforeWriteFile = (filePath, content) => {
   content = content.replaceAll('  #private;', '');
 
   if (content.includes('#private')) {
-    console.log("################# Don't write file: ", filePath);
+    console.log('################# Drop file: ', filePath);
     return false;
   }
 
