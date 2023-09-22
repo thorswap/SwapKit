@@ -5,11 +5,35 @@ import { defineConfig } from 'vitest/config';
 
 const rollupPlugins = [];
 
+// (
+//   filePath: string,
+//   content: string
+// ) => Promise<
+//   | void
+//   | false
+//   | {
+//     filePath?: string,
+//     content?: string
+//   }
+// >
+const beforeWriteFile = (filePath, content) => {
+  content = content.replaceAll('  #private;', '');
+
+  if (content.includes('#private')) {
+    console.log("################# Don't write file: ", filePath);
+    return false;
+  }
+
+  return { content, filePath };
+};
+
 /** (name: string) => @type {import('vitest/config').UserConfig} */
 const baseConfig = (name) =>
   defineConfig({
     base: './',
-    plugins: [dts({ clearPureImport: true, rollupTypes: true })],
+    plugins: [
+      dts({ skipDiagnostics: false, clearPureImport: true, rollupTypes: true, beforeWriteFile }),
+    ],
     build: {
       lib: {
         name,

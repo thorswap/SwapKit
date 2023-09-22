@@ -1,5 +1,4 @@
 import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import type { AssetAmount } from '@thorswap-lib/swapkit-entities';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Loan from './Loan';
@@ -29,8 +28,8 @@ const App = () => {
     walletConnectProjectId: '',
   });
   const [{ inputAsset, outputAsset }, setSwapAssets] = useState<{
-    inputAsset?: AssetAmount;
-    outputAsset?: AssetAmount;
+    inputAsset?: any;
+    outputAsset?: any;
   }>({});
 
   useEffect(() => {
@@ -44,7 +43,7 @@ const App = () => {
   }, [keys, stagenet]);
 
   const setAsset = useCallback(
-    (asset: AssetAmount) => {
+    (asset: any) => {
       if (!inputAsset) {
         setSwapAssets({ inputAsset: asset });
       } else if (!outputAsset) {

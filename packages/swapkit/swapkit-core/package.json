@@ -1,8 +1,8 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "bignumber.js": "9.1.2"
   },
   "description": "THORSwap Lib swapkit-core",

@@ -12,11 +12,19 @@ const getAVAXAssetDecimal = async (symbol: string) => {
 const getETHAssetDecimal = async (symbol: string) => {
   if (symbol === Chain.Ethereum) return BaseDecimal.ETH;
 
+  // Call contract and get decimals
+  // const assetAddress = symbol.slice(ticker.length + 1);
+
+  // const contract = await getCustomContract(assetAddress, erc20ABI);
+  // const contractDecimals = await contract.decimals();
+
+  // return contractDecimals.toNumber() as number;
+
   return BaseDecimal.ETH;
 };
 
 const getBSCAssetDecimal = async (symbol: string) => {
-  if (symbol === Chain.Ethereum) return BaseDecimal.BSC;
+  if (symbol === Chain.BinanceSmartChain) return BaseDecimal.BSC;
 
   return BaseDecimal.BSC;
 };

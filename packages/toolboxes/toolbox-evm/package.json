@@ -1,8 +1,6 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@thorswap-lib/swapkit-entities": "workspace:*",
-    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "ethers": "6.7.1"
   },
@@ -10,8 +8,9 @@
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@keplr-wallet/types": "0.12.23",
-    "@nomicfoundation/hardhat-network-helpers": "1.0.9",
     "@nomicfoundation/hardhat-ethers": "3.0.4",
+    "@nomicfoundation/hardhat-network-helpers": "1.0.9",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@types/node": "20.5.9",
     "@vitest/coverage-istanbul": "0.34.4",
     "hardhat": "2.17.2",
@@ -20,6 +19,9 @@
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config-thorswap"
+  },
+  "peerDependencies": {
+    "@thorswap-lib/swapkit-helpers": "workspace:*"
   },
   "exports": {
     ".": {

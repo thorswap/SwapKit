@@ -77,8 +77,6 @@ export const getWalletForChain = async ({
         ];
       };
 
-      //TODO we got two different assetValue types
-      //@ts-expect-error
       return { ...evmWallet, getAddress: () => address, getBalance };
     }
 

@@ -13,6 +13,7 @@ import type {
 import { BaseDecimal, Chain } from '@thorswap-lib/types';
 
 import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers/asset.ts';
+import { validateIdentifier } from '../helpers/validators.ts';
 
 import { BaseSwapKitNumber } from './baseNumber.ts';
 import type { SwapKitValueType } from './swapKitNumber.ts';
@@ -52,6 +53,8 @@ const getStaticToken = (identifier: TokenNames) => {
 };
 
 const createAssetValue = async (assetString: string, value: number | string = 0) => {
+  validateIdentifier(assetString);
+
   const decimal = await getDecimal(getAssetInfo(assetString));
   return new AssetValue({ decimal, value, identifier: assetString });
 };

@@ -1,5 +1,4 @@
 import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { Amount, AmountType, AssetAmount } from '@thorswap-lib/swapkit-entities';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 

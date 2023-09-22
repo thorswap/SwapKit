@@ -1,7 +1,5 @@
+// THORChain base amount is 1e8
 export const DEFAULT_DECIMAL = 8;
-
-export const decimalFromMultiplier = (multiplier: bigint) =>
-  Math.log10(parseFloat(multiplier.toString()));
 
 export const formatBigIntToSafeValue = ({
   value,

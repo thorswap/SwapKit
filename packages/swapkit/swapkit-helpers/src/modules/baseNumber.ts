@@ -1,15 +1,16 @@
-import {
-  decimalFromMultiplier,
-  DEFAULT_DECIMAL,
-  formatBigIntToSafeValue,
-} from '../helpers/number.ts';
+import { DEFAULT_DECIMAL, formatBigIntToSafeValue } from '../helpers/number.ts';
 
 type AllowedValueType = bigint | number | string;
 type ArithmeticMethod = 'add' | 'sub' | 'mul' | 'div';
 
 const toMultiplier = (decimal: number) => 10n ** BigInt(decimal);
+const decimalFromMultiplier = (multiplier: bigint) => Math.log10(parseFloat(multiplier.toString()));
 
 export class BaseSwapKitNumber {
+  decimalMultiplier: bigint = 10n ** 8n;
+  bigIntValue: bigint = 0n;
+  decimal?: number;
+
   static fromBigInt(value: bigint, decimal?: number) {
     return new BaseSwapKitNumber({
       decimal,
@@ -31,10 +32,6 @@ export class BaseSwapKitNumber {
       to,
     );
   }
-
-  decimalMultiplier: bigint = 10n ** 8n;
-  bigIntValue: bigint = 0n;
-  decimal?: number;
 
   constructor(
     valueOrParams:
@@ -96,6 +93,9 @@ export class BaseSwapKitNumber {
   }
   lte(value: BaseSwapKitNumber | string | number) {
     return this.bigIntValue <= this.getBigIntValue(value);
+  }
+  eqValue(value: BaseSwapKitNumber | string | number) {
+    return this.bigIntValue === this.getBigIntValue(value);
   }
 
   getBigIntValue(value: BaseSwapKitNumber | string | number, decimal?: number) {

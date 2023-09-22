@@ -4,7 +4,6 @@
     "@psf/bitcoincashjs-lib": "4.0.3",
     "@scure/bip32": "1.3.2",
     "@scure/bip39": "1.2.1",
-    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/types": "workspace:*",
     "bchaddrjs": "0.5.2",
     "bitcoinjs-lib": "5.2.0",
@@ -15,6 +14,7 @@
   "description": "THORSwap toolbox-utxo",
   "devDependencies": {
     "@internal/config": "workspace:*",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@types/bchaddrjs": "0.4.0",
     "@types/node": "20.5.9",
     "@types/tiny-secp256k1": "1.0.0",
@@ -37,6 +37,9 @@
     "src/",
     "dist/"
   ],
+  "peerDependencies": {
+    "@thorswap-lib/swapkit-helpers": "workspace:*"
+  },
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "MIT",
   "main": "./dist/index.cjs",

@@ -43,7 +43,7 @@ export type UpgradeParams = {
 
 export type ChainWallet = {
   address: string;
-  balance: (typeof AssetValue)[];
+  balance: AssetValue[];
   walletType: WalletOption;
 };
 

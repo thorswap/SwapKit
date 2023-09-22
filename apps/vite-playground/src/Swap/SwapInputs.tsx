@@ -1,8 +1,6 @@
 import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
 import { SwapKitApi } from '@thorswap-lib/swapkit-api';
 import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import type { AssetAmount } from '@thorswap-lib/swapkit-entities';
-import { Amount } from '@thorswap-lib/swapkit-entities';
 import { useCallback, useState } from 'react';
 
 type Props = {

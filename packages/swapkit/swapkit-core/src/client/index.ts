@@ -236,9 +236,7 @@ export class SwapKitCore<T = ''> {
         case Chain.Ethereum:
         case Chain.BinanceSmartChain:
         case Chain.Avalanche: {
-          const { toHexString, getChecksumAddressFromAsset } = await import(
-            '@thorswap-lib/toolbox-evm'
-          );
+          const { getChecksumAddressFromAsset } = await import('@thorswap-lib/toolbox-evm');
 
           const abi = chain === Chain.Avalanche ? TCAvalancheDepositABI : TCEthereumVaultAbi;
 
@@ -257,10 +255,7 @@ export class SwapKitCore<T = ''> {
               params.memo,
               new Date().setMinutes(new Date().getMinutes() + 10),
             ],
-            txOverrides: {
-              from: params.from,
-              value: toHexString(assetValue.baseValueBigInt),
-            },
+            txOverrides: { from: params.from, value: assetValue.baseValueBigInt },
           })) as Promise<string>;
         }
 

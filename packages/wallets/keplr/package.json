@@ -1,13 +1,13 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@thorswap-lib/types": "workspace:*",
-    "@thorswap-lib/swapkit-helpers": "workspace:*"
+    "@thorswap-lib/types": "workspace:*"
   },
   "description": "THORSwap Lib keplr",
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@keplr-wallet/types": "0.12.23",
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.4",
     "vite": "4.4.9",
@@ -33,6 +33,7 @@
   "module": "./dist/index.es.js",
   "name": "@thorswap-lib/keplr",
   "peerDependencies": {
+    "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@thorswap-lib/toolbox-cosmos": "workspace:*"
   },
   "publishConfig": {

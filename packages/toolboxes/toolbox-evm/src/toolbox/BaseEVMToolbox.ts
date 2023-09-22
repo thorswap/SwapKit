@@ -1,4 +1,4 @@
-import { AssetValue, isGasAsset } from '@thorswap-lib/swapkit-helpers';
+import { AssetValue, isGasAsset, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
 import type { Asset, EVMChain, WalletTxParams } from '@thorswap-lib/types';
 import { Chain, ContractAddress, erc20ABI, FeeOption } from '@thorswap-lib/types';
 import type {
@@ -14,7 +14,6 @@ import type {
 import { getAddress } from 'ethers/address';
 import { MaxInt256 } from 'ethers/constants';
 
-import { SwapKitNumber } from '../../../../swapkit/swapkit-helpers/src/index.ts';
 import { toHexString } from '../helpers.ts';
 import type {
   ApprovedParams,

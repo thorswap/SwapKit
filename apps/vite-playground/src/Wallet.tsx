@@ -1,10 +1,8 @@
-import type { AssetAmount } from '@thorswap-lib/swapkit-entities';
-
 import type { WalletDataType } from './types';
 
 type Props = {
   walletData: WalletDataType;
-  setAsset: (asset: AssetAmount) => void;
+  setAsset: (asset: any) => void;
 };
 
 export const Wallet = ({ walletData, setAsset }: Props) => {

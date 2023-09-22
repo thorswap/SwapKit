@@ -186,9 +186,9 @@ const buildTx = async ({
 
   if (chain === Chain.Dogecoin) psbt.setMaximumFeeRate(650000000);
 
-  // psbt add input from accumulative inputs
   inputs.forEach((utxo: UTXOType) =>
     psbt.addInput({
+      // @ts-expect-error TODO: check on this if that's needed as seems unused from types
       hash: utxo.hash,
       index: utxo.index,
       ...(!!utxo.witnessUtxo && chain !== Chain.Dogecoin && { witnessUtxo: utxo.witnessUtxo }),
@@ -198,7 +198,6 @@ const buildTx = async ({
     }),
   );
 
-  // psbt add outputs from accumulative outputs
   outputs.forEach((output: any) => {
     if (!output.address) {
       //an empty address means this is the change address
