@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.216
+
+### Patch Changes
+
+- [#329](https://github.com/thorswap/SwapKit/pull/329) [`62cce7e`](https://github.com/thorswap/SwapKit/commit/62cce7ee5b6a54c592505c2099373bc6667aff8e) Thanks [@towanTG](https://github.com/towanTG)! - Adds BSC aggregator ABIs
+
 ## 1.0.0-development.215
 
 ### Patch Changes
