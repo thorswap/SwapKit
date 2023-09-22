@@ -63,7 +63,9 @@ export class SwapKitCore<T = ''> {
     getExplorerAddressUrl({ chain, address });
   getBalance = async (chain: Chain, refresh?: boolean) => {
     if (!refresh) return this.connectedChains[chain]?.balance || [];
-    return (await this.getWalletByChain(chain))?.balance || [];
+    const wallet = await this.getWalletByChain(chain);
+
+    return wallet?.balance || [];
   };
 
   swap = async ({ streamSwap, recipient, route, feeOptionKey }: SwapParams) => {
@@ -192,7 +194,7 @@ export class SwapKitCore<T = ''> {
       walletType: this.connectedChains[chain]?.walletType as WalletOption,
     };
 
-    return { ...(this.connectedChains[chain] || {}), balance };
+    return structuredClone(this.connectedChains[chain]);
   };
 
   approveAssetValue = (assetValue: AssetValue) => this.#approve({ assetValue, type: 'approve' });
