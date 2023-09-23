@@ -32,7 +32,7 @@ module.exports = [
   ...getSizeFor('swapkit/swapkit-entities', 'xs'),
   ...getSizeFor('swapkit/swapkit-helpers', 'xs'),
   ...getSizeFor('swapkit/swapkit-sdk', 'xxl'),
-  ...getSizeFor('swapkit/tokens', 's'),
+  ...getSizeFor('swapkit/tokens', 'l'),
   ...getSizeFor('swapkit/types', 'xs'),
 
   ...getSizeFor('toolboxes/toolbox-cosmos', 'l'),

@@ -3,7 +3,6 @@
     "@esbuild-plugins/node-globals-polyfill": "0.2.3",
     "@esbuild-plugins/node-modules-polyfill": "0.2.2",
     "@thorswap-lib/evm-web3-wallets": "workspace:*",
-    "@thorswap-lib/helpers": "workspace:*",
     "@thorswap-lib/keplr": "workspace:*",
     "@thorswap-lib/keystore": "workspace:*",
     "@thorswap-lib/ledger": "workspace:*",

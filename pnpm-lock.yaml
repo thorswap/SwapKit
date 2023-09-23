@@ -272,9 +272,6 @@ importers:
       '@thorswap-lib/evm-web3-wallets':
         specifier: workspace:*
         version: link:../../packages/wallets/evm-web3-wallets
-      '@thorswap-lib/helpers':
-        specifier: workspace:*
-        version: link:../../internal/helpers
       '@thorswap-lib/keplr':
         specifier: workspace:*
         version: link:../../packages/wallets/keplr
@@ -498,6 +495,9 @@ importers:
       '@thorswap-lib/swapkit-api':
         specifier: workspace:*
         version: link:../swapkit-api
+      '@thorswap-lib/tokens':
+        specifier: workspace:*
+        version: link:../tokens
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/toolbox-cosmos

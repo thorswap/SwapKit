@@ -10,8 +10,9 @@ const viteConfig = thorswapViteConfig(name, {
     },
     rollupOptions: {
       external: [
-        '@thorswap-lib/toolbox-evm',
+        '@thorswap-lib/tokens',
         '@thorswap-lib/toolbox-cosmos',
+        '@thorswap-lib/toolbox-evm',
         '@thorswap-lib/toolbox-utxo',
         'typeforce',
       ],
