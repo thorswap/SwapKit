@@ -10,12 +10,9 @@ on:
       - nightly
 
   pull_request:
-    paths:
-      - 'packages/**'
-      - 'internal/**'
-      - 'pnpm.lock'
-      - 'package.json'
-      - 'turbo.json'
+    branches:
+      - develop
+      - main
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -81,6 +78,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
+
       - name: Copy npmrc config
         run: cp .npmrc.prod .npmrc
 
@@ -104,6 +102,7 @@ jobs:
           pnpm changeset pre exit
 
       - name: Create Pull Request or Publish to npm
+        id: changesets
         uses: changesets/action@v1
         if: contains(github.ref_name, 'main') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'develop')
         with:
@@ -111,6 +110,20 @@ jobs:
           version: pnpm version-bump
           publish: pnpm publish-packages
           setupGitUser: false
+
+      - name: Internal Discord Notification
+        if: ${{ steps.changesets.outputs.published == 'true' }}
+        uses: sarisia/actions-status-discord@82409b24a08684f54ea5baa6b376e36dad37fb81
+        with:
+          noprefix: ${{ job.status == 'success' }}
+          avatar_url: https://static.thorswap.finance/logo.png
+          color: ${{ contains(github.ref_name, 'main') && '0x00aa00' || '0x3af3f4' }}
+          # outputs.publishedPackages: [{"name": "@xx/xx", "version": "1.2.0"}, {"name": "@xx/xy", "version": "0.8.9"}]
+          description: "Internal build ${{ job.status }}: ${{ github.ref_name }}: ${{ steps.changesets.outputs.publishedPackages }}"
+          status: success
+          url: 'https://github.com/thorswap/swapkit/releases'
+          username: SwapKit - ${{ github.ref_name }}
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
 
       - name: Publish Nightly to npm
         uses: changesets/action@v1
@@ -134,6 +147,7 @@ jobs:
 
       - name: Remove npmrc config
         run: rm .npmrc
+
 
   deploy-playground:
     if: contains(github.ref_name, 'develop')

@@ -1,5 +1,75 @@
 # @thorswap-lib/swapkit-sdk
 
+## 0.1.0-development.108
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-api@0.1.0-development.49
+  - @thorswap-lib/swapkit-core@1.0.0-development.216
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.164
+  - @thorswap-lib/keplr@1.0.0-development.59
+  - @thorswap-lib/keystore@1.0.0-development.236
+  - @thorswap-lib/ledger@1.0.0-development.262
+  - @thorswap-lib/walletconnect@2.0.0-development.57
+  - @thorswap-lib/xdefi@1.0.0-development.75
+
+## 0.1.0-development.107
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-api@0.1.0-development.48
+  - @thorswap-lib/swapkit-core@1.0.0-development.216
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.163
+  - @thorswap-lib/keplr@1.0.0-development.58
+  - @thorswap-lib/keystore@1.0.0-development.235
+  - @thorswap-lib/ledger@1.0.0-development.261
+  - @thorswap-lib/walletconnect@2.0.0-development.56
+  - @thorswap-lib/xdefi@1.0.0-development.74
+
+## 0.1.0-development.106
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-api@0.1.0-development.47
+  - @thorswap-lib/swapkit-core@1.0.0-development.216
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.162
+  - @thorswap-lib/keplr@1.0.0-development.57
+  - @thorswap-lib/keystore@1.0.0-development.234
+  - @thorswap-lib/ledger@1.0.0-development.260
+  - @thorswap-lib/walletconnect@2.0.0-development.55
+  - @thorswap-lib/xdefi@1.0.0-development.73
+
+## 0.1.0-development.105
+
+### Patch Changes
+
+- Updated dependencies [[`62cce7e`](https://github.com/thorswap/SwapKit/commit/62cce7ee5b6a54c592505c2099373bc6667aff8e)]:
+  - @thorswap-lib/swapkit-core@1.0.0-development.216
+
+## 0.1.0-development.104
+
+### Patch Changes
+
+- Updated dependencies [[`2fed3e8`](https://github.com/thorswap/SwapKit/commit/2fed3e87ecf26977dcdf265650ca1ba46ec596d5)]:
+  - @thorswap-lib/xdefi@1.0.0-development.72
+
+## 0.1.0-development.103
+
+### Patch Changes
+
+- Updated dependencies [[`c781971`](https://github.com/thorswap/SwapKit/commit/c78197113aa4624675670618637d4c551b38d723), [`c781971`](https://github.com/thorswap/SwapKit/commit/c78197113aa4624675670618637d4c551b38d723)]:
+  - @thorswap-lib/xdefi@1.0.0-development.71
+  - @thorswap-lib/toolbox-evm@1.0.0-development.167
+  - @thorswap-lib/swapkit-core@1.0.0-development.215
+  - @thorswap-lib/evm-web3-wallets@1.0.0-development.45
+  - @thorswap-lib/keystore@1.0.0-development.233
+  - @thorswap-lib/ledger@1.0.0-development.259
+  - @thorswap-lib/trezor@1.0.0-development.74
+  - @thorswap-lib/walletconnect@2.0.0-development.54
+
 ## 0.1.0-development.102
 
 ### Patch Changes

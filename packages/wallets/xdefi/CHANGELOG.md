@@ -1,5 +1,41 @@
 # @thorswap-lib/xdefi
 
+## 1.0.0-development.75
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.164
+
+## 1.0.0-development.74
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.163
+
+## 1.0.0-development.73
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.162
+
+## 1.0.0-development.72
+
+### Patch Changes
+
+- [#327](https://github.com/thorswap/SwapKit/pull/327) [`2fed3e8`](https://github.com/thorswap/SwapKit/commit/2fed3e87ecf26977dcdf265650ca1ba46ec596d5) Thanks [@towanTG](https://github.com/towanTG)! - Adapt getBalance for other EVM chains
+
+## 1.0.0-development.71
+
+### Patch Changes
+
+- [#325](https://github.com/thorswap/SwapKit/pull/325) [`c781971`](https://github.com/thorswap/SwapKit/commit/c78197113aa4624675670618637d4c551b38d723) Thanks [@towanTG](https://github.com/towanTG)! - Overwrites get balance for bsc due to race condition
+
+- Updated dependencies [[`c781971`](https://github.com/thorswap/SwapKit/commit/c78197113aa4624675670618637d4c551b38d723)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.167
+
 ## 1.0.0-development.70
 
 ### Patch Changes

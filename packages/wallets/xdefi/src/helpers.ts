@@ -1,5 +1,5 @@
 import type { WalletTxParams } from '@thorswap-lib/types';
-import { BaseDecimal, Chain, ChainId, ChainToHexChainId } from '@thorswap-lib/types';
+import { BaseDecimal, Chain, ChainToChainId, ChainToHexChainId } from '@thorswap-lib/types';
 
 import { cosmosTransfer, walletTransfer } from './walletHelpers.ts';
 
@@ -51,6 +51,7 @@ export const getWalletMethodsForChain = async ({
         BSCToolbox,
         addEVMWalletNetwork,
         covalentApi,
+        ethplorerApi,
       } = await import('@thorswap-lib/toolbox-evm');
       const { Web3Provider } = await import('@ethersproject/providers');
 
@@ -92,38 +93,34 @@ export const getWalletMethodsForChain = async ({
         throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
       }
 
-      // Overwrite xdefi BSC getbalance due to race condition in their app
-      const bscGetBalanceOverwrite =
-        chain === Chain.BinanceSmartChain
-          ? {
-              getBalance: async (address: string) => {
-                const { getSignatureAssetFor } = await import('@thorswap-lib/swapkit-entities');
-                const { baseAmount } = await import('@thorswap-lib/helpers');
-
-                const api = covalentApi({
-                  apiKey: covalentApiKey!,
-                  chainId: ChainId.BinanceSmartChain,
-                });
-
-                const tokenBalances = await api.getBalance(address);
-                const provider = getProvider(Chain.BinanceSmartChain);
-                const evmGasTokenBalance = await provider.getBalance(address);
-
-                return [
-                  {
-                    asset: getSignatureAssetFor(Chain.BinanceSmartChain),
-                    amount: baseAmount(evmGasTokenBalance, BaseDecimal.BSC),
-                  },
-                  ...tokenBalances,
-                ];
-              },
-            }
-          : {};
-
+      // Overwrite xdefi getbalance due to race condition in their app when connecting multiple evm wallets
       return prepareNetworkSwitch({
         toolbox: {
           ...toolbox,
-          ...bscGetBalanceOverwrite,
+          getBalance: async (address: string) => {
+            const { getSignatureAssetFor } = await import('@thorswap-lib/swapkit-entities');
+            const { baseAmount } = await import('@thorswap-lib/helpers');
+
+            const api =
+              chain === Chain.Ethereum
+                ? ethplorerApi(ethplorerApiKey!)
+                : covalentApi({
+                    apiKey: covalentApiKey!,
+                    chainId: ChainToChainId[chain],
+                  });
+
+            const tokenBalances = await api.getBalance(address);
+            const provider = getProvider(chain);
+            const evmGasTokenBalance = await provider.getBalance(address);
+
+            return [
+              {
+                asset: getSignatureAssetFor(chain),
+                amount: baseAmount(evmGasTokenBalance, BaseDecimal[chain]),
+              },
+              ...tokenBalances,
+            ];
+          },
         },
         chainId: ChainToHexChainId[chain],
         provider: window.xfi?.ethereum,
