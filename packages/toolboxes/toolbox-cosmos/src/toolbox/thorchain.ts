@@ -114,6 +114,25 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
   return { signature: exportSignature(signature), bodyBytes };
 };
 
+const createDepositMessage = (
+  assetValue: AssetValue,
+  address: string,
+  memo = '',
+  forBroadcasting = false,
+) => ({
+  type: 'thorchain/MsgDeposit',
+  value: {
+    coins: [
+      {
+        amount: assetValue.baseValue,
+        asset: !forBroadcasting ? assetValue.symbol : assetValue,
+      },
+    ],
+    memo,
+    signer: address,
+  },
+});
+
 const broadcastMultisigTx = async (
   tx: string,
   signers: Signer[],
@@ -311,6 +330,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     deposit,
     transfer,
     getFees,
+    createDepositMessage,
     createDefaultAminoTypes,
     createDefaultRegistry,
     secp256k1HdWalletFromMnemonic,

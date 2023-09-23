@@ -1,5 +1,78 @@
 # @thorswap-lib/keplr
 
+## 1.0.0-development.59
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.164
+
+## 1.0.0-development.58
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.163
+
+## 1.0.0-development.57
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.162
+
+## 1.0.0-development.56
+
+### Patch Changes
+
+- Updated dependencies [[`0fb7dce`](https://github.com/thorswap/SwapKit/commit/0fb7dce1837816028e248b8f014a268a75a54190)]:
+  - @thorswap-lib/types@1.0.0-development.106
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.161
+
+## 1.0.0-development.55
+
+### Patch Changes
+
+- Updated dependencies [[`96b6212`](https://github.com/thorswap/SwapKit/commit/96b6212b57d3b66cdfc3fd014e9dc71fe8907a84)]:
+  - @thorswap-lib/types@1.0.0-development.105
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.160
+
+## 1.0.0-development.54
+
+### Patch Changes
+
+- Updated dependencies [[`669d116`](https://github.com/thorswap/SwapKit/commit/669d1165b68bf1c9796a12ca9e65e02ba83deaf5)]:
+  - @thorswap-lib/types@1.0.0-development.104
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.159
+
+## 1.0.0-development.53
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.158
+
+## 1.0.0-development.52
+
+### Patch Changes
+
+- Updated dependencies [[`fff475a`](https://github.com/thorswap/SwapKit/commit/fff475ae73b47f8ee0c21e247a275e8380d4d221)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.157
+
+## 1.0.0-development.51
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.156
+
+## 1.0.0-development.50
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.155
+
 ## 1.0.0-development.49
 
 ### Patch Changes

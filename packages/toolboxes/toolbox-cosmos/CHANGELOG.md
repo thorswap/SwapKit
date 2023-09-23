@@ -1,5 +1,81 @@
 # @thorswap-lib/toolbox-cosmos
 
+## 1.0.0-development.164
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-api@0.1.0-development.49
+
+## 1.0.0-development.163
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-api@0.1.0-development.48
+
+## 1.0.0-development.162
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/swapkit-api@0.1.0-development.47
+
+## 1.0.0-development.161
+
+### Patch Changes
+
+- Updated dependencies [[`0fb7dce`](https://github.com/thorswap/SwapKit/commit/0fb7dce1837816028e248b8f014a268a75a54190)]:
+  - @thorswap-lib/types@1.0.0-development.106
+  - @thorswap-lib/helpers@0.0.0-development.112
+  - @thorswap-lib/swapkit-api@0.1.0-development.46
+  - @thorswap-lib/swapkit-entities@1.0.0-development.120
+
+## 1.0.0-development.160
+
+### Patch Changes
+
+- Updated dependencies [[`96b6212`](https://github.com/thorswap/SwapKit/commit/96b6212b57d3b66cdfc3fd014e9dc71fe8907a84)]:
+  - @thorswap-lib/types@1.0.0-development.105
+  - @thorswap-lib/helpers@0.0.0-development.111
+  - @thorswap-lib/swapkit-api@0.1.0-development.45
+  - @thorswap-lib/swapkit-entities@1.0.0-development.119
+
+## 1.0.0-development.159
+
+### Patch Changes
+
+- Updated dependencies [[`669d116`](https://github.com/thorswap/SwapKit/commit/669d1165b68bf1c9796a12ca9e65e02ba83deaf5)]:
+  - @thorswap-lib/types@1.0.0-development.104
+  - @thorswap-lib/helpers@0.0.0-development.110
+  - @thorswap-lib/swapkit-api@0.1.0-development.44
+  - @thorswap-lib/swapkit-entities@1.0.0-development.118
+
+## 1.0.0-development.158
+
+### Patch Changes
+
+- Updated dependencies [[`9369554`](https://github.com/thorswap/SwapKit/commit/936955497fc462c4af7922c940eac3914d43893e)]:
+  - @thorswap-lib/swapkit-api@0.1.0-development.43
+
+## 1.0.0-development.157
+
+### Minor Changes
+
+- [#304](https://github.com/thorswap/SwapKit/pull/304) [`fff475a`](https://github.com/thorswap/SwapKit/commit/fff475ae73b47f8ee0c21e247a275e8380d4d221) Thanks [@0x-General](https://github.com/0x-General)! - Fix deposit broadcasting
+
+## 1.0.0-development.156
+
+### Patch Changes
+
+- remove debug part
+
+## 1.0.0-development.155
+
+### Patch Changes
+
+- Maybe fix import'
+
 ## 1.0.0-development.154
 
 ### Patch Changes

@@ -21,6 +21,7 @@ const viteConfig = thorswapViteConfig(name, {
         '@thorswap-lib/toolbox-evm',
         '@thorswap-lib/toolbox-utxo',
         'bchaddrjs',
+        '@scure/base',
         'bitcoinjs-lib',
         'bn.js',
         'coininfo',

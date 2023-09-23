@@ -1,4 +1,3 @@
-import type { EVMTxParams } from '@thorswap-lib/toolbox-evm';
 import type { EVMChain } from '@thorswap-lib/types';
 import type { JsonRpcProvider, Provider, TransactionRequest } from 'ethers';
 import { AbstractSigner } from 'ethers';
@@ -51,28 +50,30 @@ class WalletconnectSigner extends AbstractSigner {
     return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
   };
 
-  signTransaction = async ({ from, to, value, data }: EVMTxParams) => {
-    if (!from) throw new Error('Missing from address');
-    if (!to) throw new Error('Missing to address');
-    const { toHexString } = await import('@thorswap-lib/toolbox-evm');
+  signTransaction = () => {
+    throw new Error('signTransaction not implemented for walletconnect');
+    // if (!from) throw new Error('Missing from address');
+    // if (!to) throw new Error('Missing to address');
 
-    const baseTx = {
-      from,
-      to,
-      value: toHexString(value || 0n),
-      data,
-    };
+    // const { BigNumber } = await import('@ethersproject/bignumber');
 
-    const txHash = (await this.walletconnect?.client.request({
-      chainId: chainToChainId(this.chain),
-      topic: this.walletconnect.session.topic,
-      request: {
-        method: DEFAULT_EIP155_METHODS.ETH_SIGN_TRANSACTION,
-        params: [baseTx],
-      },
-    })) as string;
+    // const baseTx = {
+    //   from,
+    //   to,
+    //   value: BigNumber.from(value || 0).toHexString(),
+    //   data,
+    // };
 
-    return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
+    // const txHash = (await this.walletconnect?.client.request({
+    //   chainId: chainToChainId(this.chain),
+    //   topic: this.walletconnect.session.topic,
+    //   request: {
+    //     method: DEFAULT_EIP155_METHODS.ETH_SIGN_TRANSACTION,
+    //     params: [baseTx],
+    //   },
+    // })) as string;
+
+    // return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
   };
 
   //TODO implement this
@@ -102,13 +103,21 @@ class WalletconnectSigner extends AbstractSigner {
     // return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
   };
 
-  sendTransaction = async (transaction: TransactionRequest) => {
+  sendTransaction = async ({ from, to, value, data }: TransactionRequest) => {
+    const { toHexString } = await import('@thorswap-lib/toolbox-evm');
+
+    const baseTx = {
+      from,
+      to,
+      value: toHexString(BigInt(value || 0)),
+      data,
+    };
     return this.walletconnect?.client.request({
       chainId: chainToChainId(this.chain),
       topic: this.walletconnect.session.topic,
       request: {
         method: DEFAULT_EIP155_METHODS.ETH_SEND_TRANSACTION,
-        params: [transaction],
+        params: [baseTx],
       },
     });
   };

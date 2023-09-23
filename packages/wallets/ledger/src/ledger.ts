@@ -3,7 +3,7 @@ import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import type { DepositParam, TransferParams } from '@thorswap-lib/toolbox-cosmos';
 import type { UTXOBuildTxParams } from '@thorswap-lib/toolbox-utxo';
 import type { ConnectWalletParams, DerivationPathArray } from '@thorswap-lib/types';
-import { ApiUrl, Chain, ChainId, FeeOption, RPCUrl, WalletOption } from '@thorswap-lib/types';
+import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from '@thorswap-lib/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
@@ -70,6 +70,7 @@ const getToolbox = async ({
   utxoApiKey,
   signer,
   derivationPath,
+  stagenet = false,
 }: LedgerConfig & {
   address: string;
   chain: (typeof LEDGER_SUPPORTED_CHAINS)[number];
@@ -84,6 +85,7 @@ const getToolbox = async ({
     | THORChainLedger
     | CosmosLedger;
   derivationPath?: DerivationPathArray;
+  stagenet?: boolean;
 }) => {
   const utxoParams = { apiKey: utxoApiKey, rpcUrl, apiClient: api };
 
@@ -253,7 +255,7 @@ const getToolbox = async ({
       });
     }
     case Chain.THORChain: {
-      const { getDenomWithChain, ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = ThorchainToolbox({ stagenet: false });
 
       // TODO (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
@@ -262,10 +264,6 @@ const getToolbox = async ({
         if (!assetValue) throw new Error('invalid asset to deposit');
         if (!account) throw new Error('invalid account');
         if (!account.pubkey) throw new Error('Account pubkey not found');
-
-        const { Int53 } = await import('@cosmjs/math');
-        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
-        const { StargateClient } = await import('@cosmjs/stargate');
 
         const unsignedMsgs = recursivelyOrderKeys([
           {
@@ -303,7 +301,11 @@ const getToolbox = async ({
         const signedTxBody: TxBodyEncodeObject = {
           typeUrl: '/cosmos.tx.v1beta1.TxBody',
           value: {
-            messages: unsignedMsgs.map((msg: any) => aminoTypes.fromAmino(msg)),
+            messages: [
+              aminoTypes.fromAmino(
+                toolbox.createDepositMessage(asset, amount, address, memo, true),
+              ),
+            ],
             memo,
           },
         };
@@ -330,7 +332,9 @@ const getToolbox = async ({
 
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const broadcaster = await StargateClient.connect(
+          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
+        );
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -341,9 +345,6 @@ const getToolbox = async ({
         if (!account) throw new Error('invalid account');
         if (!assetValue) throw new Error('invalid asset');
         if (!account.pubkey) throw new Error('Account pubkey not found');
-
-        const { Int53 } = await import('@cosmjs/math');
-        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
 
         const { accountNumber, sequence = '0' } = account;
 
@@ -418,9 +419,9 @@ const getToolbox = async ({
 
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const { StargateClient } = await import('@cosmjs/stargate');
-
-        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const broadcaster = await StargateClient.connect(
+          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
+        );
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -436,7 +437,7 @@ const getToolbox = async ({
 const connectLedger =
   ({
     addChain,
-    config: { covalentApiKey, ethplorerApiKey, utxoApiKey },
+    config: { covalentApiKey, ethplorerApiKey, utxoApiKey, stagenet },
     apis,
     rpcUrls,
   }: ConnectWalletParams) =>
@@ -455,6 +456,7 @@ const connectLedger =
       rpcUrl: rpcUrls[chain],
       signer: ledgerClient,
       utxoApiKey,
+      stagenet,
     });
 
     addChain({

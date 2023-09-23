@@ -1,5 +1,43 @@
 # @thorswap-lib/evm-web3-wallets
 
+## 1.0.0-development.45
+
+### Patch Changes
+
+- Updated dependencies [[`c781971`](https://github.com/thorswap/SwapKit/commit/c78197113aa4624675670618637d4c551b38d723)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.167
+
+## 1.0.0-development.44
+
+### Patch Changes
+
+- Updated dependencies [[`0fb7dce`](https://github.com/thorswap/SwapKit/commit/0fb7dce1837816028e248b8f014a268a75a54190)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.166
+  - @thorswap-lib/types@1.0.0-development.106
+
+## 1.0.0-development.43
+
+### Patch Changes
+
+- Updated dependencies [[`96b6212`](https://github.com/thorswap/SwapKit/commit/96b6212b57d3b66cdfc3fd014e9dc71fe8907a84)]:
+  - @thorswap-lib/types@1.0.0-development.105
+  - @thorswap-lib/toolbox-evm@1.0.0-development.165
+
+## 1.0.0-development.42
+
+### Patch Changes
+
+- Updated dependencies [[`669d116`](https://github.com/thorswap/SwapKit/commit/669d1165b68bf1c9796a12ca9e65e02ba83deaf5)]:
+  - @thorswap-lib/types@1.0.0-development.104
+  - @thorswap-lib/toolbox-evm@1.0.0-development.164
+
+## 1.0.0-development.41
+
+### Patch Changes
+
+- Updated dependencies [[`dd51842`](https://github.com/thorswap/SwapKit/commit/dd5184291270e9539ad113e56567961015e879a7)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.163
+
 ## 1.0.0-development.40
 
 ### Patch Changes

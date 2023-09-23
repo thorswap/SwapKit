@@ -47,19 +47,23 @@ const getToolbox = async ({
   chain: (typeof SUPPORTED_CHAINS)[number];
   covalentApiKey?: string;
   ethplorerApiKey?: string;
+  stagenet?: boolean;
   address: string;
 }) => {
   const from = address;
 
   switch (chain) {
     case Chain.Avalanche:
+    case Chain.BinanceSmartChain:
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey)
         throw new Error('Ethplorer API key not found');
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
 
-      const { getProvider, ETHToolbox, AVAXToolbox } = await import('@thorswap-lib/toolbox-evm');
+      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
+        '@thorswap-lib/toolbox-evm'
+      );
 
       const provider = getProvider(chain);
       const signer = await getEVMSigner({ walletconnect, chain, provider });
@@ -67,7 +71,9 @@ const getToolbox = async ({
       const toolbox =
         chain === Chain.Ethereum
           ? ETHToolbox({ provider, signer, ethplorerApiKey: ethplorerApiKey as string })
-          : AVAXToolbox({ provider, signer, covalentApiKey });
+          : chain === Chain.Avalanche
+          ? AVAXToolbox({ provider, signer, covalentApiKey })
+          : BSCToolbox({ provider, signer, covalentApiKey });
 
       return toolbox;
     }
@@ -366,13 +372,14 @@ export type Walletconnect = Awaited<ReturnType<typeof getWalletconnect>>;
 const connectWalletconnect =
   ({
     addChain,
-    config: { ethplorerApiKey, walletConnectProjectId, covalentApiKey },
+    config: { ethplorerApiKey, walletConnectProjectId, covalentApiKey, stagenet = false },
   }: {
     addChain: any;
     config: {
       covalentApiKey?: string;
       ethplorerApiKey?: string;
       walletConnectProjectId?: string;
+      stagenet?: boolean;
     };
   }) =>
   async (
@@ -400,6 +407,7 @@ const connectWalletconnect =
         walletconnect,
         ethplorerApiKey,
         covalentApiKey,
+        stagenet,
       });
 
       addChain({

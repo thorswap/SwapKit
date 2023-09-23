@@ -1,3 +1,5 @@
+export * from './api/covalentApi.ts';
+export * from './api/ethplorerApi.ts';
 export * from './helpers.ts';
 export * from './provider.ts';
 export {

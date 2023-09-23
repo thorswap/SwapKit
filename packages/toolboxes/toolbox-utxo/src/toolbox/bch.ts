@@ -79,7 +79,8 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
   const { inputs, outputs } = accumulative({
     inputs: utxos,
     outputs: targetOutputs,
-    feeRate: Number(feeRate.toFixed(0)),
+    feeRate,
+    chain,
   });
 
   // .inputs and .outputs will be undefined if no solution was found
@@ -188,6 +189,7 @@ const buildTx = async ({
     inputs: utxos,
     outputs: targetOutputs,
     feeRate: feeRateWhole,
+    chain,
   });
 
   // .inputs and .outputs will be undefined if no solution was found
@@ -196,7 +198,6 @@ const buildTx = async ({
 
   //Inputs
   inputs.forEach(({ hash, index, witnessUtxo }: UTXOType) =>
-    // @ts-expect-error Check if th is is needed as seems unused from types
     psbt.addInput({ hash, index, witnessUtxo }),
   );
 

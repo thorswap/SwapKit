@@ -1,5 +1,54 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.216
+
+### Patch Changes
+
+- [#329](https://github.com/thorswap/SwapKit/pull/329) [`62cce7e`](https://github.com/thorswap/SwapKit/commit/62cce7ee5b6a54c592505c2099373bc6667aff8e) Thanks [@towanTG](https://github.com/towanTG)! - Adds BSC aggregator ABIs
+
+## 1.0.0-development.215
+
+### Patch Changes
+
+- [#323](https://github.com/thorswap/SwapKit/pull/323) [`0fb7dce`](https://github.com/thorswap/SwapKit/commit/0fb7dce1837816028e248b8f014a268a75a54190) Thanks [@towanTG](https://github.com/towanTG)! - Fixes calls when using gasPrice and adds BSC TC vault ABI
+
+- Updated dependencies [[`0fb7dce`](https://github.com/thorswap/SwapKit/commit/0fb7dce1837816028e248b8f014a268a75a54190)]:
+  - @thorswap-lib/types@1.0.0-development.106
+  - @thorswap-lib/helpers@0.0.0-development.112
+  - @thorswap-lib/swapkit-entities@1.0.0-development.120
+
+## 1.0.0-development.214
+
+### Patch Changes
+
+- [#321](https://github.com/thorswap/SwapKit/pull/321) [`96b6212`](https://github.com/thorswap/SwapKit/commit/96b6212b57d3b66cdfc3fd014e9dc71fe8907a84) Thanks [@towanTG](https://github.com/towanTG)! - Adds BSC quote modes and refactors some code
+
+- Updated dependencies [[`96b6212`](https://github.com/thorswap/SwapKit/commit/96b6212b57d3b66cdfc3fd014e9dc71fe8907a84)]:
+  - @thorswap-lib/types@1.0.0-development.105
+  - @thorswap-lib/helpers@0.0.0-development.111
+  - @thorswap-lib/swapkit-entities@1.0.0-development.119
+
+## 1.0.0-development.213
+
+### Patch Changes
+
+- Updated dependencies [[`669d116`](https://github.com/thorswap/SwapKit/commit/669d1165b68bf1c9796a12ca9e65e02ba83deaf5)]:
+  - @thorswap-lib/types@1.0.0-development.104
+  - @thorswap-lib/helpers@0.0.0-development.110
+  - @thorswap-lib/swapkit-entities@1.0.0-development.118
+
+## 1.0.0-development.212
+
+### Patch Changes
+
+- [#313](https://github.com/thorswap/SwapKit/pull/313) [`9369554`](https://github.com/thorswap/SwapKit/commit/936955497fc462c4af7922c940eac3914d43893e) Thanks [@0xepicode](https://github.com/0xepicode)! - Add transaction property to streamingSwap details
+
+## 1.0.0-development.211
+
+### Patch Changes
+
+- Maybe fix import'
+
 ## 1.0.0-development.210
 
 ### Patch Changes

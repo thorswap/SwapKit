@@ -1,6 +1,8 @@
 import { avaxGeneric } from './avaxGeneric.ts';
 import { avaxWoofi } from './avaxWoofi.ts';
+import { bscGeneric } from './bscGeneric.ts';
 import { ethGeneric } from './ethGeneric.ts';
+import { pancakeV2 } from './pancakeV2.ts';
 import { pangolin } from './pangolin.ts';
 import { sushiswap } from './sushiswap.ts';
 import { traderJoe } from './traderJoe.ts';
@@ -14,9 +16,11 @@ import { uniswapV3_10000 } from './uniswapV3_10000.ts';
 type AbiTypes =
   | typeof avaxGeneric
   | typeof avaxWoofi
+  | typeof bscGeneric
   | typeof ethGeneric
   | typeof sushiswap
   | typeof uniswapV2
+  | typeof pancakeV2
   | typeof uniswapV2Leg
   | typeof uniswapV3_100
   | typeof uniswapV3_10000
@@ -29,6 +33,10 @@ export enum AGG_CONTRACT_ADDRESS {
   AVAX_GENERIC = '0x7C38b8B2efF28511ECc14a621e263857Fb5771d3',
   AVAX_WOOFI = '0x5505BE604dFA8A1ad402A71f8A357fba47F9bf5a',
   AVAX_TRADER_JOE = '0x3b7DbdD635B99cEa39D3d95Dbd0217F05e55B212',
+
+  // BSC
+  BSC_GENERIC = '0xB6fA6f1DcD686F4A573Fd243a6FABb4ba36Ba98c',
+  BSC_PANCAKE_V2 = '0x30912B38618D3D37De3191A4FFE982C65a9aEC2E',
 
   // ETH
   ETH_GENERIC = '0xd31f7e39afECEc4855fecc51b693F9A0Cec49fd2',
@@ -43,6 +51,7 @@ export enum AGG_CONTRACT_ADDRESS {
 
 export const lowercasedGenericAbiMappings = {
   [AGG_CONTRACT_ADDRESS.AVAX_GENERIC.toLowerCase()]: avaxGeneric,
+  [AGG_CONTRACT_ADDRESS.BSC_GENERIC.toLowerCase()]: bscGeneric,
   [AGG_CONTRACT_ADDRESS.ETH_GENERIC.toLowerCase()]: ethGeneric,
 };
 
@@ -52,6 +61,8 @@ export const lowercasedContractAbiMapping = {
   [AGG_CONTRACT_ADDRESS.PANGOLIN.toLowerCase()]: pangolin,
   [AGG_CONTRACT_ADDRESS.AVAX_WOOFI.toLowerCase()]: avaxWoofi,
   [AGG_CONTRACT_ADDRESS.AVAX_TRADER_JOE.toLowerCase()]: traderJoe,
+  // BSC
+  [AGG_CONTRACT_ADDRESS.BSC_PANCAKE_V2.toLowerCase()]: pancakeV2,
   // ETH
   [AGG_CONTRACT_ADDRESS.SUSHISWAP.toLowerCase()]: sushiswap,
   [AGG_CONTRACT_ADDRESS.UNISWAP_V2.toLowerCase()]: uniswapV2,

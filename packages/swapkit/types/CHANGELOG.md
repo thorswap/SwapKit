@@ -1,5 +1,23 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.106
+
+### Patch Changes
+
+- [#323](https://github.com/thorswap/SwapKit/pull/323) [`0fb7dce`](https://github.com/thorswap/SwapKit/commit/0fb7dce1837816028e248b8f014a268a75a54190) Thanks [@towanTG](https://github.com/towanTG)! - Fixes calls when using gasPrice and adds BSC TC vault ABI
+
+## 1.0.0-development.105
+
+### Patch Changes
+
+- [#321](https://github.com/thorswap/SwapKit/pull/321) [`96b6212`](https://github.com/thorswap/SwapKit/commit/96b6212b57d3b66cdfc3fd014e9dc71fe8907a84) Thanks [@towanTG](https://github.com/towanTG)! - Adds BSC quote modes and refactors some code
+
+## 1.0.0-development.104
+
+### Patch Changes
+
+- [#319](https://github.com/thorswap/SwapKit/pull/319) [`669d116`](https://github.com/thorswap/SwapKit/commit/669d1165b68bf1c9796a12ca9e65e02ba83deaf5) Thanks [@towanTG](https://github.com/towanTG)! - Updates Thorchain stagenet URL
+
 ## 1.0.0-development.103
 
 ### Patch Changes

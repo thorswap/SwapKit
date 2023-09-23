@@ -1,5 +1,66 @@
 # @thorswap-lib/trezor
 
+## 1.0.0-development.74
+
+### Patch Changes
+
+- Updated dependencies [[`c781971`](https://github.com/thorswap/SwapKit/commit/c78197113aa4624675670618637d4c551b38d723)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.167
+
+## 1.0.0-development.73
+
+### Patch Changes
+
+- Updated dependencies [[`0fb7dce`](https://github.com/thorswap/SwapKit/commit/0fb7dce1837816028e248b8f014a268a75a54190)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.166
+  - @thorswap-lib/types@1.0.0-development.106
+  - @thorswap-lib/helpers@0.0.0-development.112
+  - @thorswap-lib/swapkit-entities@1.0.0-development.120
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.145
+
+## 1.0.0-development.72
+
+### Patch Changes
+
+- Updated dependencies [[`96b6212`](https://github.com/thorswap/SwapKit/commit/96b6212b57d3b66cdfc3fd014e9dc71fe8907a84)]:
+  - @thorswap-lib/types@1.0.0-development.105
+  - @thorswap-lib/helpers@0.0.0-development.111
+  - @thorswap-lib/swapkit-entities@1.0.0-development.119
+  - @thorswap-lib/toolbox-evm@1.0.0-development.165
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.144
+
+## 1.0.0-development.71
+
+### Patch Changes
+
+- Updated dependencies [[`669d116`](https://github.com/thorswap/SwapKit/commit/669d1165b68bf1c9796a12ca9e65e02ba83deaf5)]:
+  - @thorswap-lib/types@1.0.0-development.104
+  - @thorswap-lib/helpers@0.0.0-development.110
+  - @thorswap-lib/swapkit-entities@1.0.0-development.118
+  - @thorswap-lib/toolbox-evm@1.0.0-development.164
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.143
+
+## 1.0.0-development.70
+
+### Patch Changes
+
+- Updated dependencies [[`db36ce4`](https://github.com/thorswap/SwapKit/commit/db36ce4d9e8216cd3bf54ad33c6a72a9b606bd90)]:
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.142
+
+## 1.0.0-development.69
+
+### Patch Changes
+
+- Updated dependencies [[`084ed17`](https://github.com/thorswap/SwapKit/commit/084ed1797255f3ed4e2090959ba9d7d6fa1fbaec)]:
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.141
+
+## 1.0.0-development.68
+
+### Patch Changes
+
+- Updated dependencies [[`dd51842`](https://github.com/thorswap/SwapKit/commit/dd5184291270e9539ad113e56567961015e879a7)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.163
+
 ## 1.0.0-development.67
 
 ### Patch Changes

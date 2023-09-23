@@ -1,5 +1,50 @@
 # @thorswap-lib/swapkit-api
 
+## 0.1.0-development.49
+
+### Patch Changes
+
+- Bump for api
+
+## 0.1.0-development.48
+
+### Patch Changes
+
+- Try out sth
+
+## 0.1.0-development.47
+
+### Patch Changes
+
+- Bump for test
+
+## 0.1.0-development.46
+
+### Patch Changes
+
+- Updated dependencies [[`0fb7dce`](https://github.com/thorswap/SwapKit/commit/0fb7dce1837816028e248b8f014a268a75a54190)]:
+  - @thorswap-lib/types@1.0.0-development.106
+
+## 0.1.0-development.45
+
+### Patch Changes
+
+- Updated dependencies [[`96b6212`](https://github.com/thorswap/SwapKit/commit/96b6212b57d3b66cdfc3fd014e9dc71fe8907a84)]:
+  - @thorswap-lib/types@1.0.0-development.105
+
+## 0.1.0-development.44
+
+### Patch Changes
+
+- Updated dependencies [[`669d116`](https://github.com/thorswap/SwapKit/commit/669d1165b68bf1c9796a12ca9e65e02ba83deaf5)]:
+  - @thorswap-lib/types@1.0.0-development.104
+
+## 0.1.0-development.43
+
+### Patch Changes
+
+- [#313](https://github.com/thorswap/SwapKit/pull/313) [`9369554`](https://github.com/thorswap/SwapKit/commit/936955497fc462c4af7922c940eac3914d43893e) Thanks [@0xepicode](https://github.com/0xepicode)! - Add transaction property to streamingSwap details
+
 ## 0.1.0-development.42
 
 ### Patch Changes

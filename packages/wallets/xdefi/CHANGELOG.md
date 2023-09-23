@@ -1,5 +1,120 @@
 # @thorswap-lib/xdefi
 
+## 1.0.0-development.75
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.164
+
+## 1.0.0-development.74
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.163
+
+## 1.0.0-development.73
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.162
+
+## 1.0.0-development.72
+
+### Patch Changes
+
+- [#327](https://github.com/thorswap/SwapKit/pull/327) [`2fed3e8`](https://github.com/thorswap/SwapKit/commit/2fed3e87ecf26977dcdf265650ca1ba46ec596d5) Thanks [@towanTG](https://github.com/towanTG)! - Adapt getBalance for other EVM chains
+
+## 1.0.0-development.71
+
+### Patch Changes
+
+- [#325](https://github.com/thorswap/SwapKit/pull/325) [`c781971`](https://github.com/thorswap/SwapKit/commit/c78197113aa4624675670618637d4c551b38d723) Thanks [@towanTG](https://github.com/towanTG)! - Overwrites get balance for bsc due to race condition
+
+- Updated dependencies [[`c781971`](https://github.com/thorswap/SwapKit/commit/c78197113aa4624675670618637d4c551b38d723)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.167
+
+## 1.0.0-development.70
+
+### Patch Changes
+
+- Updated dependencies [[`0fb7dce`](https://github.com/thorswap/SwapKit/commit/0fb7dce1837816028e248b8f014a268a75a54190)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.166
+  - @thorswap-lib/types@1.0.0-development.106
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.161
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.145
+
+## 1.0.0-development.69
+
+### Patch Changes
+
+- Updated dependencies [[`96b6212`](https://github.com/thorswap/SwapKit/commit/96b6212b57d3b66cdfc3fd014e9dc71fe8907a84)]:
+  - @thorswap-lib/types@1.0.0-development.105
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.160
+  - @thorswap-lib/toolbox-evm@1.0.0-development.165
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.144
+
+## 1.0.0-development.68
+
+### Patch Changes
+
+- Updated dependencies [[`669d116`](https://github.com/thorswap/SwapKit/commit/669d1165b68bf1c9796a12ca9e65e02ba83deaf5)]:
+  - @thorswap-lib/types@1.0.0-development.104
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.159
+  - @thorswap-lib/toolbox-evm@1.0.0-development.164
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.143
+
+## 1.0.0-development.67
+
+### Patch Changes
+
+- Updated dependencies [[`db36ce4`](https://github.com/thorswap/SwapKit/commit/db36ce4d9e8216cd3bf54ad33c6a72a9b606bd90)]:
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.142
+
+## 1.0.0-development.66
+
+### Patch Changes
+
+- Updated dependencies [[`084ed17`](https://github.com/thorswap/SwapKit/commit/084ed1797255f3ed4e2090959ba9d7d6fa1fbaec)]:
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.141
+
+## 1.0.0-development.65
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.158
+
+## 1.0.0-development.64
+
+### Patch Changes
+
+- Updated dependencies [[`fff475a`](https://github.com/thorswap/SwapKit/commit/fff475ae73b47f8ee0c21e247a275e8380d4d221)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.157
+
+## 1.0.0-development.63
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.156
+
+## 1.0.0-development.62
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.155
+
+## 1.0.0-development.61
+
+### Patch Changes
+
+- Updated dependencies [[`dd51842`](https://github.com/thorswap/SwapKit/commit/dd5184291270e9539ad113e56567961015e879a7)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.163
+
 ## 1.0.0-development.60
 
 ### Patch Changes

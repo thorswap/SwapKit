@@ -18,9 +18,10 @@ import {
   accumulative,
   calculateTxSize,
   compileMemo,
+  getDustThreshold,
+  getInputSize,
   getNetwork,
   getSeed,
-  MIN_TX_FEE,
   standardFeeRates,
   UTXOScriptType,
 } from '../utils/index.ts';
@@ -178,7 +179,7 @@ const buildTx = async ({
     chain,
   });
 
-  const { inputs, outputs } = accumulative({ ...inputsAndOutputs, feeRate });
+  const { inputs, outputs } = accumulative({ ...inputsAndOutputs, feeRate, chain });
 
   // .inputs and .outputs will be undefined if no solution was found
   if (!inputs || !outputs) throw new Error('Insufficient Balance for transaction');
@@ -188,7 +189,6 @@ const buildTx = async ({
 
   inputs.forEach((utxo: UTXOType) =>
     psbt.addInput({
-      // @ts-expect-error TODO: check on this if that's needed as seems unused from types
       hash: utxo.hash,
       index: utxo.index,
       ...(!!utxo.witnessUtxo && chain !== Chain.Dogecoin && { witnessUtxo: utxo.witnessUtxo }),
@@ -251,7 +251,7 @@ const getInputsOutputsFee = async ({
 
   const feeRateWhole = feeRate ? Math.floor(feeRate) : (await getFeeRates(apiClient))[feeOptionKey];
 
-  return accumulative({ ...inputsAndOutputs, feeRate: feeRateWhole });
+  return accumulative({ ...inputsAndOutputs, feeRate: feeRateWhole, chain });
 };
 
 export const estimateMaxSendableAmount = async ({
@@ -269,12 +269,23 @@ export const estimateMaxSendableAmount = async ({
   feeOptionKey?: FeeOption;
   from: string;
 }) => {
-  const [balance] = await getBalance({ address: from, apiClient, chain });
+  const addressData = await apiClient.getAddressData(from);
   const feeRateWhole = feeRate ? Math.ceil(feeRate) : (await getFeeRates(apiClient))[feeOptionKey];
-  const inputs = (await apiClient.scanUTXOs({ address: from })).map((utxo) => ({
-    ...utxo,
-    type: utxo.witnessUtxo ? UTXOScriptType.P2WPKH : UTXOScriptType.P2PKH,
-  }));
+  const inputs = addressData.utxo
+    .map((utxo) => ({
+      ...utxo,
+      // type: utxo.witnessUtxo ? UTXOScriptType.P2WPKH : UTXOScriptType.P2PKH,
+      type: UTXOScriptType.P2PKH,
+      hash: '',
+    }))
+    .filter(
+      (utxo) => utxo.value > Math.max(getDustThreshold(chain), getInputSize(utxo) * feeRateWhole),
+    );
+
+  const balance = AssetValue.fromChainOrSignature(
+    chain,
+    inputs.reduce((sum, utxo) => (sum += utxo.value), 0),
+  );
 
   let outputs =
     typeof recipients === 'number'
@@ -292,7 +303,7 @@ export const estimateMaxSendableAmount = async ({
     feeRate: feeRateWhole,
   });
 
-  const fee = Math.max(MIN_TX_FEE, txSize * feeRateWhole);
+  const fee = txSize * feeRateWhole;
 
   return new AssetValue({
     ...balance,

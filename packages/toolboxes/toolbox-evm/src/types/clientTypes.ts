@@ -1,4 +1,3 @@
-import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import type { EVMTxBaseParams, FeeOption, WalletTxParams } from '@thorswap-lib/types';
 import type { BigNumberish, BrowserProvider, JsonFragment, Transaction } from 'ethers';
@@ -67,7 +66,6 @@ export type EthereumWindowProvider = BrowserProvider & {
 
 declare global {
   interface Window {
-    keplr: Keplr;
     ethereum: EthereumWindowProvider;
     trustwallet: EthereumWindowProvider;
     coinbaseWalletExtension: EthereumWindowProvider;

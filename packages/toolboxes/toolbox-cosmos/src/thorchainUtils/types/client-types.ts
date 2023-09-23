@@ -76,6 +76,12 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
   deposit: (params: DepositParam & { from: string }) => Promise<string>;
   createDefaultRegistry: () => Promise<Registry>;
   createDefaultAminoTypes: () => Promise<AminoTypes>;
+  createDepositMessage: (
+    assetValue: AssetValue,
+    address: string,
+    memo?: string,
+    forBroadcasting?: boolean,
+  ) => any;
   createMultisig: (pubKeys: string[], threshold: number) => Promise<MultisigThresholdPubkey>;
   importSignature: (signature: string) => Uint8Array;
   secp256k1HdWalletFromMnemonic: (

@@ -2,7 +2,7 @@ import { toBech32 } from '@cosmjs/encoding';
 import { base64, bech32 } from '@scure/base';
 import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import { assetFromString, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
-import type { Asset, FeeOption } from '@thorswap-lib/types';
+import type { FeeOption } from '@thorswap-lib/types';
 import { BaseDecimal, Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
 
 import { AssetRuneNative } from '../types.ts';
@@ -10,7 +10,7 @@ import { AssetRuneNative } from '../types.ts';
 export const DEFAULT_GAS_VALUE = '5000000000';
 export const DEPOSIT_GAS_VALUE = '5000000000';
 
-export const getDenomWithChain = ({ symbol }: Asset): string =>
+export const getDenomWithChain = ({ symbol }: AssetValue): string =>
   symbol.toUpperCase() !== 'RUNE'
     ? symbol.toLowerCase()
     : `${Chain.THORChain}.${symbol.toUpperCase()}`;
@@ -26,7 +26,7 @@ export const buildDepositTx = async ({
   signer: string;
   memo?: string;
   assetAmount: SwapKitNumber;
-  asset: Asset;
+  asset: AssetValue;
 }) => {
   const { StargateClient } = await import('@cosmjs/stargate');
   const client = await StargateClient.connect(
@@ -125,7 +125,7 @@ export const buildTransferTx = async ({
   return transferTx;
 };
 
-export const getThorchainAsset = (denom: string): Asset | null => {
+export const getThorchainAsset = (denom: string): AssetValue | null => {
   if (denom === 'rune') return AssetRuneNative;
   const parsedDenom = denom.includes('/') ? denom.toLowerCase() : denom.toUpperCase();
   return assetFromString(`${Chain.THORChain}.${parsedDenom}`);
@@ -135,7 +135,7 @@ export const checkBalances = async (
   balances: AssetValue[],
   fees: Record<FeeOption, AssetValue>,
   amount: SwapKitNumber,
-  asset: Asset,
+  asset: AssetValue,
 ) => {
   const zeroValue = new SwapKitNumber({ value: 0, decimal: BaseDecimal.THOR });
 

@@ -46,8 +46,9 @@ const isEIP1559Transaction = (tx: EVMTxParams) =>
   !!(tx as EIP1559TxParams).maxFeePerGas ||
   !!(tx as EIP1559TxParams).maxPriorityFeePerGas;
 
-const isBrowserProvider = (provider: any) => !!provider.provider || !!provider.jsonRpcFetchFunc;
-const createContract = async (
+export const isBrowserProvider = (provider: any) =>
+  !!provider.provider || !!provider.jsonRpcFetchFunc;
+export const createContract = async (
   address: string,
   abi: readonly (JsonFragment | Fragment)[],
   provider: Provider,
@@ -65,13 +66,13 @@ const validateAddress = (address: string) => {
   }
 };
 
-const isStateChangingCall = (abi: readonly JsonFragment[], functionName: string) => {
+export const isStateChangingCall = (abi: readonly JsonFragment[], functionName: string) => {
   const abiFragment = abi.find((fragment: any) => fragment.name === functionName) as any;
   if (!abiFragment) throw new Error(`No ABI fragment found for function ${functionName}`);
   return abiFragment.stateMutability && stateMutable.includes(abiFragment.stateMutability);
 };
 
-type WithSigner<T> = T & { signer?: Signer };
+export type WithSigner<T> = T & { signer?: Signer };
 
 /**
  * @info call contract function
@@ -137,7 +138,7 @@ const call = async <T>(
   return typeof result?.hash === 'string' ? result?.hash : result;
 };
 
-const createContractTxObject = async (
+export const createContractTxObject = async (
   provider: Provider,
   { contractAddress, abi, funcName, funcParams = [], txOverrides }: CallParams,
 ) =>
@@ -438,16 +439,10 @@ const sendTransaction = async (
       ...feeData,
     };
 
-    try {
-      const txHex = await signer.signTransaction(txObject);
-      const response = await provider.broadcastTransaction(txHex);
+    const txHex = await signer.signTransaction(txObject);
+    const response = await provider.broadcastTransaction(txHex);
 
-      return typeof response?.hash === 'string' ? response.hash : response;
-    } catch (error) {
-      const response = await signer.sendTransaction(txObject);
-
-      return typeof response?.hash === 'string' ? response.hash : response;
-    }
+    return typeof response?.hash === 'string' ? response.hash : response;
   } catch (error) {
     throw new Error(`Error sending transaction: ${JSON.stringify(error)}`);
   }
@@ -480,7 +475,10 @@ export const getChecksumAddressFromAsset = (asset: Asset, chain: EVMChain) => {
 
 export const getTokenAddress = ({ chain, symbol, ticker }: Asset, baseAssetChain: EVMChain) => {
   try {
-    if (chain === baseAssetChain && symbol === baseAssetChain && ticker === baseAssetChain) {
+    if (
+      (chain === baseAssetChain && symbol === baseAssetChain && ticker === baseAssetChain) ||
+      (chain === Chain.BinanceSmartChain && symbol === 'BNB' && ticker === 'BNB')
+    ) {
       return baseAssetAddress[baseAssetChain];
     }
 

@@ -2,9 +2,10 @@ import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Loan from './Loan';
+import Multisig from './Multisig';
 import Send from './Send';
 import Swap from './Swap';
-import { getSwapKitClient } from './swapKitClient';
+import { clearSwapkitClient, getSwapKitClient } from './swapKitClient';
 import TNS from './TNS';
 import type { WalletDataType } from './types';
 import { Wallet } from './Wallet';
@@ -15,6 +16,7 @@ const apiKeys = ['walletConnectProjectId'] as const;
 const App = () => {
   const [widgetType, setWidgetType] = useState<'swap' | 'loan' | 'earn'>('swap');
   const [wallet, setWallet] = useState<WalletDataType | WalletDataType[]>(null);
+  const [phrase, setPhrase] = useState('');
   const [stagenet, setStagenet] = useState(false);
   const [skClient, setSkClient] = useState<SwapKitCore | null>(null);
 
@@ -34,6 +36,7 @@ const App = () => {
 
   useEffect(() => {
     setSkClient(null);
+    clearSwapkitClient();
 
     getSwapKitClient({ ...keys, stagenet }).then((client) => {
       setTimeout(() => {
@@ -67,8 +70,11 @@ const App = () => {
       ) : null,
       send: skClient ? <Send inputAsset={inputAsset} skClient={skClient} /> : null,
       earn: <div>Earn</div>,
+      multisig: skClient ? (
+        <Multisig inputAsset={inputAsset} phrase={phrase} skClient={skClient} stagenet={stagenet} />
+      ) : null,
     }),
-    [inputAsset, outputAsset, skClient],
+    [inputAsset, outputAsset, skClient, phrase],
   );
 
   return (
@@ -98,7 +104,9 @@ const App = () => {
           }}
         >
           <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
-            {skClient && <WalletPicker setWallet={setWallet} skClient={skClient} />}
+            {skClient && (
+              <WalletPicker setPhrase={setPhrase} setWallet={setWallet} skClient={skClient} />
+            )}
 
             <div>
               <select

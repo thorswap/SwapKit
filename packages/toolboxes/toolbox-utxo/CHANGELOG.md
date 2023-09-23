@@ -1,5 +1,44 @@
 # @thorswap-lib/toolbox-utxo
 
+## 1.0.0-development.145
+
+### Patch Changes
+
+- Updated dependencies [[`0fb7dce`](https://github.com/thorswap/SwapKit/commit/0fb7dce1837816028e248b8f014a268a75a54190)]:
+  - @thorswap-lib/types@1.0.0-development.106
+  - @thorswap-lib/helpers@0.0.0-development.112
+  - @thorswap-lib/swapkit-entities@1.0.0-development.120
+
+## 1.0.0-development.144
+
+### Patch Changes
+
+- Updated dependencies [[`96b6212`](https://github.com/thorswap/SwapKit/commit/96b6212b57d3b66cdfc3fd014e9dc71fe8907a84)]:
+  - @thorswap-lib/types@1.0.0-development.105
+  - @thorswap-lib/helpers@0.0.0-development.111
+  - @thorswap-lib/swapkit-entities@1.0.0-development.119
+
+## 1.0.0-development.143
+
+### Patch Changes
+
+- Updated dependencies [[`669d116`](https://github.com/thorswap/SwapKit/commit/669d1165b68bf1c9796a12ca9e65e02ba83deaf5)]:
+  - @thorswap-lib/types@1.0.0-development.104
+  - @thorswap-lib/helpers@0.0.0-development.110
+  - @thorswap-lib/swapkit-entities@1.0.0-development.118
+
+## 1.0.0-development.142
+
+### Patch Changes
+
+- [#317](https://github.com/thorswap/SwapKit/pull/317) [`db36ce4`](https://github.com/thorswap/SwapKit/commit/db36ce4d9e8216cd3bf54ad33c6a72a9b606bd90) Thanks [@towanTG](https://github.com/towanTG)! - Improves max sendable amount calculation for utxo chains
+
+## 1.0.0-development.141
+
+### Patch Changes
+
+- [#315](https://github.com/thorswap/SwapKit/pull/315) [`084ed17`](https://github.com/thorswap/SwapKit/commit/084ed1797255f3ed4e2090959ba9d7d6fa1fbaec) Thanks [@towanTG](https://github.com/towanTG)! - Fixes ltc type identification
+
 ## 1.0.0-development.140
 
 ### Patch Changes

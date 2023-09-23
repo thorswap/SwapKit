@@ -1,5 +1,162 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.262
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.164
+
+## 1.0.0-development.261
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.163
+
+## 1.0.0-development.260
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.162
+
+## 1.0.0-development.259
+
+### Patch Changes
+
+- Updated dependencies [[`c781971`](https://github.com/thorswap/SwapKit/commit/c78197113aa4624675670618637d4c551b38d723)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.167
+
+## 1.0.0-development.258
+
+### Patch Changes
+
+- Updated dependencies [[`0fb7dce`](https://github.com/thorswap/SwapKit/commit/0fb7dce1837816028e248b8f014a268a75a54190)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.166
+  - @thorswap-lib/types@1.0.0-development.106
+  - @thorswap-lib/helpers@0.0.0-development.112
+  - @thorswap-lib/swapkit-entities@1.0.0-development.120
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.161
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.145
+
+## 1.0.0-development.257
+
+### Patch Changes
+
+- [#321](https://github.com/thorswap/SwapKit/pull/321) [`96b6212`](https://github.com/thorswap/SwapKit/commit/96b6212b57d3b66cdfc3fd014e9dc71fe8907a84) Thanks [@towanTG](https://github.com/towanTG)! - Adds BSC quote modes and refactors some code
+
+- Updated dependencies [[`96b6212`](https://github.com/thorswap/SwapKit/commit/96b6212b57d3b66cdfc3fd014e9dc71fe8907a84)]:
+  - @thorswap-lib/types@1.0.0-development.105
+  - @thorswap-lib/helpers@0.0.0-development.111
+  - @thorswap-lib/swapkit-entities@1.0.0-development.119
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.160
+  - @thorswap-lib/toolbox-evm@1.0.0-development.165
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.144
+
+## 1.0.0-development.256
+
+### Patch Changes
+
+- Updated dependencies [[`669d116`](https://github.com/thorswap/SwapKit/commit/669d1165b68bf1c9796a12ca9e65e02ba83deaf5)]:
+  - @thorswap-lib/types@1.0.0-development.104
+  - @thorswap-lib/helpers@0.0.0-development.110
+  - @thorswap-lib/swapkit-entities@1.0.0-development.118
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.159
+  - @thorswap-lib/toolbox-evm@1.0.0-development.164
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.143
+
+## 1.0.0-development.255
+
+### Patch Changes
+
+- Updated dependencies [[`db36ce4`](https://github.com/thorswap/SwapKit/commit/db36ce4d9e8216cd3bf54ad33c6a72a9b606bd90)]:
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.142
+
+## 1.0.0-development.254
+
+### Patch Changes
+
+- Updated dependencies [[`084ed17`](https://github.com/thorswap/SwapKit/commit/084ed1797255f3ed4e2090959ba9d7d6fa1fbaec)]:
+  - @thorswap-lib/toolbox-utxo@1.0.0-development.141
+
+## 1.0.0-development.253
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.158
+
+## 1.0.0-development.252
+
+### Minor Changes
+
+- [#309](https://github.com/thorswap/SwapKit/pull/309) [`480b315`](https://github.com/thorswap/SwapKit/commit/480b315f6b48ebe10fc9007e850072033e252b40) Thanks [@0x-General](https://github.com/0x-General)! - Fix ledger deposit txs
+
+## 1.0.0-development.251
+
+### Minor Changes
+
+- [#304](https://github.com/thorswap/SwapKit/pull/304) [`fff475a`](https://github.com/thorswap/SwapKit/commit/fff475ae73b47f8ee0c21e247a275e8380d4d221) Thanks [@0x-General](https://github.com/0x-General)! - Fix deposit broadcasting
+
+### Patch Changes
+
+- Updated dependencies [[`fff475a`](https://github.com/thorswap/SwapKit/commit/fff475ae73b47f8ee0c21e247a275e8380d4d221)]:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.157
+
+## 1.0.0-development.250
+
+### Minor Changes
+
+- [#302](https://github.com/thorswap/SwapKit/pull/302) [`1b9b564`](https://github.com/thorswap/SwapKit/commit/1b9b564b8e5519a13b7a9ba922281b88232a2acc) Thanks [@0x-General](https://github.com/0x-General)! - Use RPC url instead of API for walletconnect and ledger on THORChain
+
+## 1.0.0-development.249
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.156
+
+## 1.0.0-development.248
+
+### Patch Changes
+
+- @cosmjs fix
+
+## 1.0.0-development.247
+
+### Patch Changes
+
+- fix last time ledger
+
+## 1.0.0-development.246
+
+### Patch Changes
+
+- Maybe fix import'
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-cosmos@1.0.0-development.155
+
+## 1.0.0-development.245
+
+### Patch Changes
+
+- One more
+
+## 1.0.0-development.244
+
+### Patch Changes
+
+- Fix ledger init
+
+## 1.0.0-development.243
+
+### Patch Changes
+
+- Updated dependencies [[`dd51842`](https://github.com/thorswap/SwapKit/commit/dd5184291270e9539ad113e56567961015e879a7)]:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.163
+
 ## 1.0.0-development.242
 
 ### Patch Changes
