@@ -191,7 +191,6 @@ export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolbox
     client,
     derivationPath: DerivationPath.BNB,
     decimal: BaseDecimal.BNB, // not used
-    getAsset: () => null, // not used
   });
 
   return {

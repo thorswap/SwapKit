@@ -1469,4 +1469,5 @@ export const list = {
     },
   ],
   count: 244,
+  logo: 'https://static.thorswap.net/token-list/images/eth.uni-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984.png',
 } as const;

@@ -10,20 +10,18 @@ const sizeMap = {
 const getSizeFor = (packagePath, sizeType) => {
   const size = sizeMap[sizeType];
   if (!size) throw new Error(`Unknown size type ${sizeType}`);
-  const [prefixPath, packageName] = packagePath.split('/');
-  const prefix =
-    prefixPath === 'swapkit' ? 'swapkit' : prefixPath === 'toolboxes' ? 'toolbox' : 'wallet';
+  const [, packageName] = packagePath.split('/');
 
   return [
     {
-      path: `./packages/${packagePath}/dist/*.cjs`,
       limit: size,
-      name: `${prefix} - ${packageName}(cjs, ${size})`,
+      path: `./packages/${packagePath}/dist/*.cjs`,
+      name: `@thorswap-lib/${packageName} - CommonJS`,
     },
     {
-      path: `./packages/${packagePath}/dist/*.js`,
       limit: size,
-      name: `${prefix} - ${packageName}(es, ${size})`,
+      path: `./packages/${packagePath}/dist/*.js`,
+      name: `@thorswap-lib/${packageName} - ES Modules`,
     },
   ];
 };

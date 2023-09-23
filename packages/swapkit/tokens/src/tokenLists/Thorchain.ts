@@ -1,6 +1,6 @@
 export const list = {
   name: 'thorchain',
-  timestamp: '2023-09-22T04:53:17.919Z',
+  timestamp: '2023-09-23T13:06:14.701Z',
   version: { major: 1, minor: 0, patch: 0 },
   keywords: ['THORChain'],
   tokens: [
@@ -129,4 +129,5 @@ export const list = {
     { chain: 'THOR', identifier: 'THOR.RUNE', decimals: 8 },
   ],
   count: 33,
+  logo: 'https://app.thorswap.finance/assets/asset-rune-43bdc185.svg',
 } as const;

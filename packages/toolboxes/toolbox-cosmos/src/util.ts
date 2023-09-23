@@ -2,15 +2,8 @@ import { AssetValue } from '@thorswap-lib/swapkit-helpers';
 import { ChainId, FeeOption, RPCUrl } from '@thorswap-lib/types';
 
 import type { CosmosMaxSendableAmountParams } from './types.ts';
-import { AssetAtom, AssetMuon } from './types.ts';
 
 export const getDenom = (symbol: string) => `u${symbol.toLowerCase()}`;
-
-export const getAsset = (denom: string) => {
-  if (denom === getDenom(AssetAtom.symbol)) return AssetAtom;
-  if (denom === getDenom(AssetMuon.symbol)) return AssetMuon;
-  return null;
-};
 
 export const createCosmJS = async ({
   offlineSigner,

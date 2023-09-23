@@ -6,7 +6,6 @@ import { ApiUrl, BaseDecimal, ChainId, DerivationPath } from '@thorswap-lib/type
 import { CosmosClient } from '../cosmosClient.ts';
 import type { GaiaToolboxType } from '../index.ts';
 import type { TransferParams } from '../types.ts';
-import { getAsset } from '../util.ts';
 
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.ts';
 
@@ -28,7 +27,6 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
   } = BaseCosmosToolbox({
     decimal: BaseDecimal.GAIA,
     derivationPath: DerivationPath.GAIA,
-    getAsset,
     client,
   });
 

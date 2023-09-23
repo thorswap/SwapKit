@@ -288,4 +288,5 @@ export const list = {
     },
   ],
   count: 47,
+  logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/7186.png',
 } as const;

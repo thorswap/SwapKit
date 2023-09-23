@@ -1008,4 +1008,5 @@ export const list = {
     },
   ],
   count: 167,
+  logo: 'https://static.thorswap.net/token-list/images/avax.png-0x60781c2586d68229fde47564546784ab3faca982.png',
 } as const;

@@ -198,6 +198,8 @@ const buildTx = async ({
 
   //Inputs
   inputs.forEach(({ hash, index, witnessUtxo }: UTXOType) =>
+    // TODO:
+    // @ts-expect-error
     psbt.addInput({ hash, index, witnessUtxo }),
   );
 

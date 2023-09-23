@@ -1,13 +1,12 @@
 import { SwapKitApi } from '@thorswap-lib/swapkit-api';
 import { AssetValue } from '@thorswap-lib/swapkit-helpers';
-import type { Asset, ChainId, DerivationPath } from '@thorswap-lib/types';
+import type { ChainId, DerivationPath } from '@thorswap-lib/types';
 
 import type { CosmosClient } from '../cosmosClient.ts';
 import type { BaseCosmosToolboxType } from '../thorchainUtils/types/client-types.ts';
 
 type Params = {
   client: CosmosClient;
-  getAsset: (asset: string) => Asset | null;
   decimal: number;
   derivationPath: DerivationPath;
 };
@@ -20,7 +19,6 @@ export const getFeeRateFromThorswap = async (chainId: ChainId) => {
 
 export const BaseCosmosToolbox = ({
   derivationPath,
-  getAsset,
   client: cosmosClient,
 }: Params): BaseCosmosToolboxType => ({
   transfer: cosmosClient.transfer,
@@ -51,7 +49,7 @@ export const BaseCosmosToolbox = ({
 
     return Promise.all(
       balances
-        .filter(({ denom }) => denom && getAsset(denom))
+        .filter(({ denom }) => denom)
         .map(async ({ denom, amount }) => await AssetValue.fromString(denom, amount)),
     );
   },

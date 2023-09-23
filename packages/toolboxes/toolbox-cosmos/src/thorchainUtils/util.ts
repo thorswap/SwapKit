@@ -1,11 +1,9 @@
 import { toBech32 } from '@cosmjs/encoding';
 import { base64, bech32 } from '@scure/base';
 import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
-import { assetFromString, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
+import { SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
 import type { FeeOption } from '@thorswap-lib/types';
 import { BaseDecimal, Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
-
-import { AssetRuneNative } from '../types.ts';
 
 export const DEFAULT_GAS_VALUE = '5000000000';
 export const DEPOSIT_GAS_VALUE = '5000000000';
@@ -123,12 +121,6 @@ export const buildTransferTx = async ({
   };
 
   return transferTx;
-};
-
-export const getThorchainAsset = (denom: string): AssetValue | null => {
-  if (denom === 'rune') return AssetRuneNative;
-  const parsedDenom = denom.includes('/') ? denom.toLowerCase() : denom.toUpperCase();
-  return assetFromString(`${Chain.THORChain}.${parsedDenom}`);
 };
 
 export const checkBalances = async (

@@ -1,7 +1,6 @@
 export const list = {
   name: 'Stargate Arbitrum',
-  timestamp: '1695358397663',
-  version: { major: 1, minor: 0, patch: 0 },
+  timestamp: '1695474373818',
   tokens: [
     {
       address: '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8',
@@ -29,4 +28,5 @@ export const list = {
     },
   ],
   count: 4,
+  logo: 'https://static.thorswap.net/token-list/images/eth.stg-0xaf5191b0de278c7286d6c7cc6ab6bb8a73ba2cd6.png',
 } as const;

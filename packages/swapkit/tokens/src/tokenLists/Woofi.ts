@@ -42,4 +42,5 @@ export const list = {
     },
   ],
   count: 6,
+  logo: 'https://static.thorswap.net/token-list/images/eth.woo-0x4691937a7508860f876c9c0a2a617e7d9e945d4b.png',
 } as const;

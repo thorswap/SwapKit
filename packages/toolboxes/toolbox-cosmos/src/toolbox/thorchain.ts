@@ -20,7 +20,7 @@ import type {
   ThorchainConstantsResponse,
   ThorchainToolboxType,
 } from '../thorchainUtils/types/client-types.ts';
-import { base64ToBech32, bech32ToBase64, getThorchainAsset } from '../thorchainUtils/util.ts';
+import { base64ToBech32, bech32ToBase64 } from '../thorchainUtils/util.ts';
 import type { Signer, TransferParams } from '../types.ts';
 import { getDenom, getRPC } from '../util.ts';
 
@@ -214,7 +214,6 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     client,
     derivationPath: DerivationPath.THOR,
     decimal: BaseDecimal.THOR,
-    getAsset: getThorchainAsset,
   });
 
   const loadAddressBalances = async (address: string) => {
