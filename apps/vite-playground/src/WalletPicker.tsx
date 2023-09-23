@@ -46,7 +46,21 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.BinanceSmartChain,
   ],
   [WalletOption.KEEPKEY]: AllChainsSupported,
-  [WalletOption.METAMASK]: EVMChainList,
+  [WalletOption.KEEPKEY]: AllChainsSupported,
+  [WalletOption.METAMASK]: [
+    Chain.Arbitrum, //Snap has everything but bnb beacon chain, because sillyness
+    Chain.Avalanche,
+    Chain.BinanceSmartChain,
+    Chain.Bitcoin,
+    Chain.BitcoinCash,
+    Chain.Cosmos,
+    Chain.Dogecoin,
+    Chain.Ethereum,
+    Chain.Litecoin,
+    Chain.Optimism,
+    Chain.Polygon,
+    Chain.THORChain,
+  ],
   [WalletOption.TRUSTWALLET_WEB]: EVMChainList,
   [WalletOption.XDEFI]: AllChainsSupported,
   [WalletOption.WALLETCONNECT]: [
@@ -77,10 +91,12 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.OKX:
           return skClient.connectOkx(chains);
         case WalletOption.COINBASE_WEB:
-        case WalletOption.METAMASK:
         case WalletOption.TRUSTWALLET_WEB:
           return skClient.connectEVMWallet(chains, option);
-
+        case WalletOption.METAMASK: {
+          const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
+          return skClient.connectMetaMask(chains[0], derivationPath);
+        }
         case WalletOption.LEDGER: {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 1 });
           return skClient.connectLedger(chains[0], derivationPath);
