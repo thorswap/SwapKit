@@ -31,13 +31,8 @@ import type { AGG_CONTRACT_ADDRESS } from '../aggregator/contracts/index.ts';
 import { lowercasedContractAbiMapping } from '../aggregator/contracts/index.ts';
 import { getSwapInParams } from '../aggregator/getSwapParams.ts';
 
-import {
-  getEmptyWalletStructure,
-  getExplorerAddressUrl,
-  getExplorerTxUrl,
-  getInboundData,
-  getMimirData,
-} from './helpers.ts';
+import { getExplorerAddressUrl, getExplorerTxUrl } from './explorerUrls.ts';
+import { getInboundData, getMimirData } from './thornode.ts';
 import type {
   CoreTxParams,
   EVMWallet,
@@ -46,6 +41,15 @@ import type {
   Wallet,
   WalletMethods,
 } from './types.ts';
+
+const getEmptyWalletStructure = () =>
+  (Object.values(Chain) as Chain[]).reduce(
+    (acc, chain) => {
+      acc[chain] = null;
+      return acc;
+    },
+    {} as Record<Chain, null>,
+  );
 
 export class SwapKitCore<T = ''> {
   public connectedChains: Wallet = getEmptyWalletStructure();

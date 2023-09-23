@@ -1,7 +1,7 @@
 import { Chain, ChainToExplorerUrl } from '@thorswap-lib/types';
 import { describe, expect, test } from 'vitest';
 
-import { getEmptyWalletStructure, getExplorerAddressUrl, getExplorerTxUrl } from '../helpers.ts';
+import { getExplorerAddressUrl, getExplorerTxUrl } from '../thornode.ts';
 
 describe('Explorer URLs', () => {
   Object.values(Chain)
@@ -64,20 +64,6 @@ describe('Explorer URLs', () => {
   test('getExplorerAddressUrl returns correct URL for Doge', () => {
     expect(getExplorerAddressUrl({ chain: Chain.Dogecoin, address: 'efghi' })).toBe(
       'https://blockchair.com/dogecoin/address/efghi',
-    );
-  });
-});
-
-describe('getEmptyWalletStructure', () => {
-  test('returns empty wallet structure', () => {
-    expect(getEmptyWalletStructure()).toEqual(
-      Object.values(Chain).reduce(
-        (acc, chain) => {
-          acc[chain] = null;
-          return acc;
-        },
-        {} as Record<Chain, null>,
-      ),
     );
   });
 });

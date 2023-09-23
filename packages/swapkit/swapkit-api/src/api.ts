@@ -1,5 +1,7 @@
-import { ApiEndpoints, fetchWrapper, getCachedPrices } from './helpers.ts';
+import { ApiEndpoints, FetchWrapper } from './fetchWrapper.ts';
 import type {
+  CachedPricesParams,
+  CachedPricesResponse,
   GasRatesResponse,
   QuoteParams,
   QuoteResponse,
@@ -8,18 +10,34 @@ import type {
   TxnResponse,
 } from './types/index.ts';
 
+const getCachedPrices = ({ tokens, ...options }: CachedPricesParams) => {
+  const body = new URLSearchParams();
+  tokens
+    .filter((token, index, sourceArr) => sourceArr.findIndex((t) => t === token) === index)
+    .forEach((token) => body.append('tokens', JSON.stringify(token)));
+
+  if (options.metadata) body.append('metadata', 'true');
+  if (options.lookup) body.append('lookup', 'true');
+  if (options.sparkline) body.append('sparkline', 'true');
+
+  return FetchWrapper.post<CachedPricesResponse[]>(ApiEndpoints.CachedPrices, body.toString(), {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  });
+};
+
 export const SwapKitApi = {
   getCachedPrices,
-  getQuote: (params: QuoteParams) => fetchWrapper<QuoteResponse>(ApiEndpoints.Quote, params),
-  getGasRates: () => fetchWrapper<GasRatesResponse>(ApiEndpoints.GasRates),
-  getTxnDetails: (txHash: string) => fetchWrapper<TxnResponse>(ApiEndpoints.Txn, { txHash }),
+  getQuote: (params: QuoteParams) => FetchWrapper.get<QuoteResponse>(ApiEndpoints.Quote, params),
+  getGasRates: () => FetchWrapper.get<GasRatesResponse>(ApiEndpoints.GasRates),
+  getTxnDetails: (txHash: string) => FetchWrapper.get<TxnResponse>(ApiEndpoints.Txn, { txHash }),
   getTokenlistProviders: () =>
-    fetchWrapper<TokenlistProvidersResponse>(ApiEndpoints.TokenlistProviders),
-  getTokenList: (tokenlist: string) => fetchWrapper(`${ApiEndpoints.TokenList}/${tokenlist}.json`),
+    FetchWrapper.get<TokenlistProvidersResponse>(ApiEndpoints.TokenlistProviders),
+  getTokenList: (tokenlist: string) =>
+    FetchWrapper.get(`${ApiEndpoints.TokenList}/${tokenlist}.json`),
   getThornameAddresses: (address: string) =>
-    fetchWrapper<ThornameResponse>(`${ApiEndpoints.Thorname}/${address}`),
+    FetchWrapper.get<ThornameResponse>(`${ApiEndpoints.Thorname}/${address}`),
   getThornameRegisteredChains: (address: string) =>
-    fetchWrapper<string[]>(`${ApiEndpoints.Thorname}/chains/${address}`),
+    FetchWrapper.get<string[]>(`${ApiEndpoints.Thorname}/chains/${address}`),
   getThornameRlookup: (address: string, chain: string) =>
-    fetchWrapper(`${ApiEndpoints.Thorname}/rlookup`, { address, chain }),
+    FetchWrapper.get(`${ApiEndpoints.Thorname}/rlookup`, { address, chain }),
 };
