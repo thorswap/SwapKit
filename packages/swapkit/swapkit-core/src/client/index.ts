@@ -18,6 +18,7 @@ import type {
   WalletOption,
 } from '@thorswap-lib/types';
 import {
+  AGG_SWAP,
   Chain,
   ChainToChainId,
   FeeOption,
@@ -148,9 +149,11 @@ export class SwapKitCore<T = ''> {
 
         if (!abi) throw new SwapKitError('core_swap_contract_not_supported', { contractAddress });
 
-        const contract = walletMethods.createContract?.(contractAddress, abi, provider);
+        const contract = await walletMethods.createContract?.(contractAddress, abi, provider);
 
-        const tx = await contract.populateTransaction.swapIn(
+        // TODO: (@Towan) Contract evm methods should be generic
+        // @ts-expect-error
+        const tx = await contract.populateTransaction.swapIn?.(
           ...getSwapInParams({
             streamSwap,
             toChecksumAddress,

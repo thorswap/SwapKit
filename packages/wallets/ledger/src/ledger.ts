@@ -1,5 +1,7 @@
 import { fromBase64 } from '@cosmjs/encoding';
-import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
+import { Int53 } from '@cosmjs/math';
+import { encodePubkey, makeAuthInfoBytes, type TxBodyEncodeObject } from '@cosmjs/proto-signing';
+import { StargateClient } from '@cosmjs/stargate';
 import type { DepositParam, TransferParams } from '@thorswap-lib/toolbox-cosmos';
 import type { UTXOBuildTxParams } from '@thorswap-lib/toolbox-utxo';
 import type { ConnectWalletParams, DerivationPathArray } from '@thorswap-lib/types';
@@ -255,7 +257,7 @@ const getToolbox = async ({
       });
     }
     case Chain.THORChain: {
-      const { ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { getDenomWithChain, ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = ThorchainToolbox({ stagenet: false });
 
       // TODO (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
@@ -302,9 +304,7 @@ const getToolbox = async ({
           typeUrl: '/cosmos.tx.v1beta1.TxBody',
           value: {
             messages: [
-              aminoTypes.fromAmino(
-                toolbox.createDepositMessage(asset, amount, address, memo, true),
-              ),
+              aminoTypes.fromAmino(toolbox.createDepositMessage(assetValue, address, memo, true)),
             ],
             memo,
           },

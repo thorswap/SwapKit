@@ -1,7 +1,7 @@
 import { Chain, ChainToExplorerUrl } from '@thorswap-lib/types';
 import { describe, expect, test } from 'vitest';
 
-import { getExplorerAddressUrl, getExplorerTxUrl } from '../thornode.ts';
+import { getExplorerAddressUrl, getExplorerTxUrl } from '../explorerUrls.ts';
 
 describe('Explorer URLs', () => {
   Object.values(Chain)
