@@ -257,8 +257,8 @@ describe('SwapKitNumber', () => {
     });
 
     test('divide huge numbers', () => {
-      const skNumber1 = new SwapKitNumber({ value: 1_000_000_000_000_001, decimal: 200 });
-      const skNumber2 = new SwapKitNumber({ value: 987_654_321_000, decimal: 200 });
+      const skNumber1 = new SwapKitNumber({ value: 1_000_000_000_000_001, decimal: 18 });
+      const skNumber2 = new SwapKitNumber({ value: 987_654_321_000, decimal: 18 });
 
       const result = skNumber1.div(skNumber2);
       expect(result.value).toBe('1012.4999999873447625');

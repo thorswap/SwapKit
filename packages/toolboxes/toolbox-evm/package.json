@@ -8,6 +8,7 @@
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@nomicfoundation/hardhat-ethers": "3.0.4",
+    "@nomicfoundation/hardhat-toolbox": "3.0.0",
     "@nomicfoundation/hardhat-network-helpers": "1.0.9",
     "@thorswap-lib/swapkit-helpers": "workspace:*",
     "@types/node": "20.5.9",

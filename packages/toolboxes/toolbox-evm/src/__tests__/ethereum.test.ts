@@ -32,8 +32,7 @@ beforeEach<{
 }, 20000);
 
 afterEach(async () => {
-  // @ts-expect-error Hardhat types are not up to date
-  await helpers.reset(hre.network.config?.forking?.url, block?.number);
+  await helpers.reset(hre.config.networks.hardhat.forking?.url, block?.number);
 }, 20000);
 
 afterAll(() => {
