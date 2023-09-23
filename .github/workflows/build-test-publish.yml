@@ -1,4 +1,8 @@
 name: Run build, test & publish
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
+  NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
 on:
   workflow_dispatch:
@@ -8,19 +12,10 @@ on:
       - main
       - beta
       - nightly
-
   pull_request:
-    paths:
-      - 'packages/**'
-      - 'internal/**'
-      - 'pnpm.lock'
-      - 'package.json'
-      - 'turbo.json'
-
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
-  NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+    branches:
+      - develop
+      - main
 
 jobs:
   build:
