@@ -1,5 +1,5 @@
 import { AssetValue } from '@swapkit/helpers';
-import { BaseDecimal, Chain } from '@swapkit/types';
+import { Chain } from '@swapkit/types';
 import type { BrowserProvider, JsonRpcProvider, JsonRpcSigner, Provider, Signer } from 'ethers';
 
 import type { EthplorerApiType } from '../api/ethplorerApi.ts';
@@ -12,16 +12,15 @@ export const getBalance = async (
   api: EthplorerApiType,
   address: string,
 ) => {
+  console.log('getting balance', address);
+
   const tokenBalances = await api.getBalance(address);
   const evmGasTokenBalance = await provider.getBalance(address);
 
+  console.log(evmGasTokenBalance, provider, api);
+
   return [
-    new AssetValue({
-      chain: Chain.Ethereum,
-      symbol: Chain.Ethereum,
-      value: evmGasTokenBalance.toString(),
-      decimal: BaseDecimal.ETH,
-    }),
+    AssetValue.fromChainOrSignature(Chain.Ethereum, evmGasTokenBalance.toString()),
     ...tokenBalances,
   ];
 };
