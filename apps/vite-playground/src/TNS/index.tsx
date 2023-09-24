@@ -1,4 +1,4 @@
-import { Amount, SwapKitCore, getTHORNameCost } from '@thorswap-lib/swapkit-core';
+import { AssetValue, type SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 
@@ -9,20 +9,21 @@ export default function TNS({ skClient }: { skClient: SwapKitCore }) {
   const registerTns = useCallback(async () => {
     // const owner = skClient.getAddress(Chain.THORChain);
     const address = skClient.getAddress(selectedChain);
-    const params = { address, name, chain: selectedChain };
 
     try {
-      const txHash = await skClient.registerThorname(
-        params,
-        Amount.fromNormalAmount(getTHORNameCost(1)),
-      );
+      const txHash = await skClient.registerThorname({
+        assetValue: AssetValue.fromChainOrSignature(Chain.THORChain, 1),
+        address,
+        name,
+        chain: selectedChain,
+      });
 
       window.open(`${skClient.getExplorerTxUrl(Chain.THORChain, txHash as string)}`, '_blank');
     } catch (e) {
       console.error(e);
       alert(e);
     }
-  }, [name, selectedChain]);
+  }, [name, selectedChain, skClient]);
 
   return (
     <div>
@@ -33,7 +34,8 @@ export default function TNS({ skClient }: { skClient: SwapKitCore }) {
           style={{
             pointerEvents: skClient ? 'all' : 'none',
             opacity: skClient ? 1 : 0.5,
-          }}>
+          }}
+        >
           <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
             <div>
               <select onChange={(e) => setSelectedChain(e.target.value as Chain)}>
@@ -44,7 +46,7 @@ export default function TNS({ skClient }: { skClient: SwapKitCore }) {
                 ))}
               </select>
 
-              <input value={name} onChange={(e) => setName(e.target.value)} />
+              <input onChange={(e) => setName(e.target.value)} value={name} />
 
               <button onClick={registerTns} type="button">
                 Register

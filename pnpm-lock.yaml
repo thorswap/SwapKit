@@ -293,6 +293,9 @@ importers:
       '@thorswap-lib/swapkit-helpers':
         specifier: workspace:*
         version: link:../../packages/swapkit/swapkit-helpers
+      '@thorswap-lib/tokens':
+        specifier: workspace:*
+        version: link:../../packages/swapkit/tokens
       '@thorswap-lib/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../packages/toolboxes/toolbox-cosmos

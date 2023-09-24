@@ -1,8 +1,8 @@
-import { BaseSwapKitNumber } from './baseNumber.ts';
+import { BigIntArithmetics } from './bigIntArithmetics.ts';
 
-export type SwapKitValueType = BaseSwapKitNumber | string | number;
+export type SwapKitValueType = BigIntArithmetics | string | number;
 
-export class SwapKitNumber extends BaseSwapKitNumber {
+export class SwapKitNumber extends BigIntArithmetics {
   eq(value: SwapKitValueType) {
     return this.eqValue(value);
   }

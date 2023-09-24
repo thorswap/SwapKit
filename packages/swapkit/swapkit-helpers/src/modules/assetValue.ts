@@ -15,7 +15,7 @@ import { BaseDecimal, Chain } from '@thorswap-lib/types';
 import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers/asset.ts';
 import { validateIdentifier } from '../helpers/validators.ts';
 
-import { BaseSwapKitNumber } from './baseNumber.ts';
+import { BigIntArithmetics } from './bigIntArithmetics.ts';
 import type { SwapKitValueType } from './swapKitNumber.ts';
 
 type AssetValueParams = { decimal: number; value: SwapKitValueType } & (
@@ -59,7 +59,7 @@ const createAssetValue = async (assetString: string, value: number | string = 0)
   return new AssetValue({ decimal, value, identifier: assetString });
 };
 
-export class AssetValue extends BaseSwapKitNumber {
+export class AssetValue extends BigIntArithmetics {
   static async fromString(assetString: string, value: number | string = 0) {
     return createAssetValue(assetString, value);
   }
@@ -80,7 +80,9 @@ export class AssetValue extends BaseSwapKitNumber {
     assetString: 'ETH.THOR' | 'ETH.vTHOR' | Chain,
     value: number | string = 0,
   ) {
-    return new AssetValue({ value, ...getCommonAssetInfo(assetString) });
+    const { decimal, identifier } = getCommonAssetInfo(assetString);
+
+    return new AssetValue({ value, decimal, identifier });
   }
 
   static async fromTCQuote(identifier: TCTokenNames, value: number | string = 0) {
@@ -142,7 +144,7 @@ export class AssetValue extends BaseSwapKitNumber {
 
   constructor(params: AssetValueParams) {
     super(
-      params.value instanceof BaseSwapKitNumber
+      params.value instanceof BigIntArithmetics
         ? params.value
         : { decimal: params.decimal, value: params.value },
     );

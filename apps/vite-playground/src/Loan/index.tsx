@@ -1,4 +1,4 @@
-import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 
@@ -8,12 +8,12 @@ export default function Loan({
   skClient,
 }: {
   skClient?: SwapKitCore;
-  inputAsset?: AssetAmount;
-  outputAsset?: AssetAmount;
+  inputAsset?: AssetValue;
+  outputAsset?: AssetValue;
 }) {
   const [openLoan] = useState(true);
-  const [inputAmount, setInputAmount] = useState<Amount | undefined>();
-  const [borrowAmount, setBorrowAmount] = useState<Amount | undefined>();
+  const [inputAmount, setInputAmount] = useState<AssetValue | undefined>();
+  const [borrowAmount, setBorrowAmount] = useState<AssetValue | undefined>();
 
   const setAmount = useCallback(
     (amountValue: string, type: 'input' | 'borrow' = 'input') => {

@@ -6,13 +6,13 @@ type ArithmeticMethod = 'add' | 'sub' | 'mul' | 'div';
 const toMultiplier = (decimal: number) => 10n ** BigInt(decimal);
 const decimalFromMultiplier = (multiplier: bigint) => Math.log10(parseFloat(multiplier.toString()));
 
-export class BaseSwapKitNumber {
+export class BigIntArithmetics {
   decimalMultiplier: bigint = 10n ** 8n;
   bigIntValue: bigint = 0n;
   decimal?: number;
 
   static fromBigInt(value: bigint, decimal?: number) {
-    return new BaseSwapKitNumber({
+    return new BigIntArithmetics({
       decimal,
       value: formatBigIntToSafeValue({ value, bigIntDecimal: decimal, decimal }),
     });
@@ -23,19 +23,19 @@ export class BaseSwapKitNumber {
     from,
     to,
   }: {
-    value: BaseSwapKitNumber | string | number;
+    value: BigIntArithmetics | string | number;
     from: number;
     to: number;
   }) {
-    return BaseSwapKitNumber.fromBigInt(
-      (new BaseSwapKitNumber(value).bigIntValue * toMultiplier(to)) / toMultiplier(from),
+    return BigIntArithmetics.fromBigInt(
+      (new BigIntArithmetics(value).bigIntValue * toMultiplier(to)) / toMultiplier(from),
       to,
     );
   }
 
   constructor(
     valueOrParams:
-      | BaseSwapKitNumber
+      | BigIntArithmetics
       | string
       | number
       | { decimal?: number; value: number | string },
@@ -70,35 +70,35 @@ export class BaseSwapKitNumber {
     );
   }
 
-  add(...args: (BaseSwapKitNumber | string | number)[]) {
+  add(...args: (BigIntArithmetics | string | number)[]) {
     return this.#arithmetics('add', ...args);
   }
-  sub(...args: (BaseSwapKitNumber | string | number)[]) {
+  sub(...args: (BigIntArithmetics | string | number)[]) {
     return this.#arithmetics('sub', ...args);
   }
-  mul(...args: (BaseSwapKitNumber | string | number)[]) {
+  mul(...args: (BigIntArithmetics | string | number)[]) {
     return this.#arithmetics('mul', ...args);
   }
-  div(...args: (BaseSwapKitNumber | string | number)[]) {
+  div(...args: (BigIntArithmetics | string | number)[]) {
     return this.#arithmetics('div', ...args);
   }
-  gt(value: BaseSwapKitNumber | string | number) {
+  gt(value: BigIntArithmetics | string | number) {
     return this.bigIntValue > this.getBigIntValue(value);
   }
-  gte(value: BaseSwapKitNumber | string | number) {
+  gte(value: BigIntArithmetics | string | number) {
     return this.bigIntValue >= this.getBigIntValue(value);
   }
-  lt(value: BaseSwapKitNumber | string | number) {
+  lt(value: BigIntArithmetics | string | number) {
     return this.bigIntValue < this.getBigIntValue(value);
   }
-  lte(value: BaseSwapKitNumber | string | number) {
+  lte(value: BigIntArithmetics | string | number) {
     return this.bigIntValue <= this.getBigIntValue(value);
   }
-  eqValue(value: BaseSwapKitNumber | string | number) {
+  eqValue(value: BigIntArithmetics | string | number) {
     return this.bigIntValue === this.getBigIntValue(value);
   }
 
-  getBigIntValue(value: BaseSwapKitNumber | string | number, decimal?: number) {
+  getBigIntValue(value: BigIntArithmetics | string | number, decimal?: number) {
     if (!decimal && typeof value === 'object') return value.bigIntValue;
 
     value = typeof value === 'object' ? value.value : value;
@@ -141,7 +141,22 @@ export class BaseSwapKitNumber {
     );
   }
 
-  #arithmetics(method: ArithmeticMethod, ...args: (BaseSwapKitNumber | string | number)[]): this {
+  toSignificant(significantDigits?: number) {
+    const value = this.value.split('.');
+    const integer = value[0];
+    const decimal = value[1];
+
+    if (decimal) {
+      return `${integer}.${decimal.slice(0, significantDigits || this.decimal)}`.replace(
+        /\.?0*$/,
+        '',
+      );
+    }
+
+    return integer;
+  }
+
+  #arithmetics(method: ArithmeticMethod, ...args: (BigIntArithmetics | string | number)[]): this {
     const precisionDecimal = this.#retrievePrecisionDecimal(this, ...args);
     const precisionDecimalMultiplier = toMultiplier(precisionDecimal);
 
@@ -180,7 +195,7 @@ export class BaseSwapKitNumber {
     });
 
     // @ts-expect-error - we know that the constructor is the same as the current class
-    return new this.constructor({ decimal: this.decimal, value });
+    return new this.constructor({ decimal: this.decimal, value, identifier: this.toString() });
   }
 
   #setValue(value: AllowedValueType, bigIntValue?: bigint) {
@@ -188,7 +203,7 @@ export class BaseSwapKitNumber {
     this.bigIntValue = bigIntValue || this.#toBigInt(safeValue);
   }
 
-  #retrievePrecisionDecimal(...args: (BaseSwapKitNumber | AllowedValueType)[]) {
+  #retrievePrecisionDecimal(...args: (BigIntArithmetics | AllowedValueType)[]) {
     const decimals = args
       .map((arg) =>
         typeof arg === 'object'

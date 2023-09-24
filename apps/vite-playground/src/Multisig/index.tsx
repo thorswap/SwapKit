@@ -1,9 +1,7 @@
-import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { ThorchainToolbox, buildTransferTx, getThorchainDenom } from '@thorswap-lib/toolbox-cosmos';
-import { Amount, AmountType, AssetAmount } from '@thorswap-lib/swapkit-entities';
-import { baseAmount } from '@thorswap-lib/helpers';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { AssetValue, SwapKitCore } from '@thorswap-lib/swapkit-core';
+import { buildTransferTx, ThorchainToolbox } from '@thorswap-lib/toolbox-cosmos';
 import { fromByteArray } from 'base64-js';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 export default function Multisig({
   inputAsset,
@@ -12,20 +10,18 @@ export default function Multisig({
   phrase,
 }: {
   skClient?: SwapKitCore;
-  inputAsset?: AssetAmount;
+  inputAsset?: AssetValue;
   stagenet?: boolean;
   phrase: string;
 }) {
   const toolbox = useMemo(() => ThorchainToolbox({ stagenet }), [stagenet]);
   const [pubkeys, setPubkeys] = useState({ 0: '', 1: '' });
   const [threshold, setThreshold] = useState(2);
-  const [inputAmount, setInputAmount] = useState('');
-  const [sendAmount, setSendAmount] = useState<Amount | undefined>();
   const [recipient, setRecipient] = useState('');
   const [memo, setMemo] = useState('');
   const [address, setAddress] = useState('');
   const [transaction, setTransaction] = useState<any | undefined>(undefined);
-  const [signatures, setSignatures] = useState<{[key: string]: string}>({});
+  const [signatures, setSignatures] = useState<{ [key: string]: string }>({});
   const [bodyBytes, setBodyBytes] = useState<Uint8Array>(new Uint8Array([]));
   const [transactionHash, setTransactionHash] = useState('');
   const [isBroadcasting, setIsBroadcasting] = useState(false);
@@ -51,11 +47,11 @@ export default function Multisig({
   }, [toolbox, pubkeys, threshold, setAddress]);
 
   const handlePubkeyChange = (index: number, value: string) => {
-    setPubkeys(pubkeys => ({
+    setPubkeys((pubkeys) => ({
       ...pubkeys,
-      [index]: value
+      [index]: value,
     }));
-  }
+  };
 
   const handleInputChange = (value: string) => {
     setInputAmount(value);
@@ -87,7 +83,7 @@ export default function Multisig({
     setBodyBytes(signature.bodyBytes);
     const [account] = await wallet.getAccounts();
     const pubkey = fromByteArray(account.pubkey);
-    setSignatures(signatures => ({
+    setSignatures((signatures) => ({
       ...signatures,
       [pubkey]: signature.signature,
     }));
@@ -97,9 +93,9 @@ export default function Multisig({
     setIsBroadcasting(true);
     const txHash = await toolbox.broadcastMultisigTx(
       JSON.stringify(transaction),
-      Object.entries(signatures).map(([pubKey, signature]) => ({pubKey, signature})),
+      Object.entries(signatures).map(([pubKey, signature]) => ({ pubKey, signature })),
       threshold,
-      bodyBytes
+      bodyBytes,
     );
     setIsBroadcasting(false);
     setTransactionHash(txHash);
@@ -107,7 +103,6 @@ export default function Multisig({
 
   return (
     <div>
-
       <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
         <div>
           <h4>Multisig</h4>
@@ -115,10 +110,10 @@ export default function Multisig({
           <div>
             <span>Threshold:</span>
             <input
-              onChange={e => setThreshold(+e.target.value)}
+              onChange={(e) => setThreshold(+e.target.value)}
+              step="1"
+              type="number"
               value={threshold}
-              type='number'
-              step='1'
             />
           </div>
           <div>
@@ -127,7 +122,7 @@ export default function Multisig({
               {Object.values(pubkeys).map((pubkey, index) => (
                 <div key={index}>
                   <input
-                    onChange={e => handlePubkeyChange(index, e.target.value)}
+                    onChange={(e) => handlePubkeyChange(index, e.target.value)}
                     placeholder="Base 64 pubkey"
                     value={pubkey}
                   />
@@ -152,7 +147,7 @@ export default function Multisig({
               <div>
                 <span>Input Amount:</span>
                 <input
-                  onChange={e => handleInputChange(e.target.value)}
+                  onChange={(e) => handleInputChange(e.target.value)}
                   placeholder="0.0"
                   value={inputAmount}
                 />
@@ -161,18 +156,14 @@ export default function Multisig({
               <div>
                 <span>Recipient:</span>
                 <input
-                  onChange={e => setRecipient(e.target.value)}
+                  onChange={(e) => setRecipient(e.target.value)}
                   placeholder="address"
                   value={recipient}
                 />
               </div>
               <div>
                 <span>Memo:</span>
-                <input
-                  onChange={e => setMemo(e.target.value)}
-                  placeholder="memo"
-                  value={memo}
-                />
+                <input onChange={(e) => setMemo(e.target.value)} placeholder="memo" value={memo} />
               </div>
 
               <button disabled={!inputAsset} onClick={handleCreateTransaction} type="button">
@@ -190,23 +181,23 @@ export default function Multisig({
                     <div>There are currently no signatures</div>
                   ) : (
                     Object.entries(signatures).map(([pubkey, signature]) => (
-                      <div key={pubkey}>{pubkey} --&gt; {signature} </div>
+                      <div key={pubkey}>
+                        {pubkey} --&gt; {signature}{' '}
+                      </div>
                     ))
                   )}
                 </div>
                 {Object.entries(signatures).length >= threshold && (
-                  <button
-                    onClick={handleBroadcastTransaction}
-                    disabled={isBroadcasting}
-                  >
+                  <button disabled={isBroadcasting} onClick={handleBroadcastTransaction}>
                     Broadcast
                   </button>
                 )}
-                {isBroadcasting && (
-                  <div>Broadcasting...</div>
-                )}
+                {isBroadcasting && <div>Broadcasting...</div>}
                 {transactionHash && (
-                  <div>Hooray! The transaction was sent successfully. Here's your transaction hash {transactionHash}</div>
+                  <div>
+                    Hooray! The transaction was sent successfully. Here's your transaction hash{' '}
+                    {transactionHash}
+                  </div>
                 )}
               </div>
             )}

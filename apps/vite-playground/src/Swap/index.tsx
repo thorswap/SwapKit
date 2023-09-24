@@ -1,5 +1,5 @@
 import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
-import type { AssetAmount, SwapKitCore } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { FeeOption } from '@thorswap-lib/types';
 import { useCallback } from 'react';
 
@@ -10,14 +10,14 @@ export default function Swap({
   outputAsset,
   skClient,
 }: {
-  inputAsset?: AssetAmount;
-  outputAsset?: AssetAmount;
+  inputAsset?: AssetValue;
+  outputAsset?: AssetValue;
   skClient?: SwapKitCore;
 }) {
   const handleSwap = useCallback(
     async (route: QuoteRoute) => {
-      const inputChain = inputAsset?.asset.L1Chain;
-      const outputChain = outputAsset?.asset.L1Chain;
+      const inputChain = inputAsset?.chain;
+      const outputChain = outputAsset?.chain;
       if (!outputChain || !inputChain || !skClient) return;
 
       const address = skClient.getAddress(outputChain);
@@ -30,7 +30,7 @@ export default function Swap({
 
       window.open(skClient.getExplorerTxUrl(inputChain, txHash as string), '_blank');
     },
-    [inputAsset?.asset.L1Chain, outputAsset?.asset.L1Chain, skClient],
+    [inputAsset, outputAsset?.chain, skClient],
   );
 
   return (

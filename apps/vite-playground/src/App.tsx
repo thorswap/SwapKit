@@ -1,4 +1,5 @@
 import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import { AssetValue } from '@thorswap-lib/swapkit-core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Loan from './Loan';
@@ -19,6 +20,7 @@ const App = () => {
   const [phrase, setPhrase] = useState('');
   const [stagenet, setStagenet] = useState(false);
   const [skClient, setSkClient] = useState<SwapKitCore | null>(null);
+  const [assetListLoaded, setAssetListLoaded] = useState(false);
 
   /**
    * NOTE: Test API keys - please use your own API keys in app as those will timeout, reach limits, etc.
@@ -30,18 +32,22 @@ const App = () => {
     walletConnectProjectId: '',
   });
   const [{ inputAsset, outputAsset }, setSwapAssets] = useState<{
-    inputAsset?: any;
-    outputAsset?: any;
+    inputAsset?: AssetValue;
+    outputAsset?: AssetValue;
   }>({});
+
+  useEffect(() => {
+    AssetValue.loadStaticAssets().then(({ ok }) => {
+      setAssetListLoaded(ok);
+    });
+  }, []);
 
   useEffect(() => {
     setSkClient(null);
     clearSwapkitClient();
 
     getSwapKitClient({ ...keys, stagenet }).then((client) => {
-      setTimeout(() => {
-        setSkClient(client);
-      }, 1000);
+      setTimeout(() => setSkClient(client), 500);
     });
   }, [keys, stagenet]);
 
@@ -74,13 +80,14 @@ const App = () => {
         <Multisig inputAsset={inputAsset} phrase={phrase} skClient={skClient} stagenet={stagenet} />
       ) : null,
     }),
-    [inputAsset, outputAsset, skClient, phrase],
+    [skClient, inputAsset, outputAsset, phrase, stagenet],
   );
 
   return (
     <div>
       <h3>
-        SwapKit Playground
+        SwapKit Playground -{' '}
+        {assetListLoaded ? '🚀 Asset List Loaded 🚀' : '🔄 Loading Asset List...'}
         <div>
           {apiKeys.map((key) => (
             <input

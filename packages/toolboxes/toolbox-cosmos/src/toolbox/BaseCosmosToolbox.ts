@@ -1,6 +1,6 @@
 import { SwapKitApi } from '@thorswap-lib/swapkit-api';
 import { AssetValue } from '@thorswap-lib/swapkit-helpers';
-import type { ChainId, DerivationPath } from '@thorswap-lib/types';
+import { Chain, type ChainId, type DerivationPath } from '@thorswap-lib/types';
 
 import type { CosmosClient } from '../cosmosClient.ts';
 import type { BaseCosmosToolboxType } from '../thorchainUtils/types/client-types.ts';
@@ -15,6 +15,22 @@ export const getFeeRateFromThorswap = async (chainId: ChainId) => {
   const response = await SwapKitApi.getGasRates();
 
   return response.find((gas) => gas.chainId === chainId)?.gas;
+};
+
+// TODO: figure out some better way to initialize from base value
+export const getAssetFromDenom = async (denom: string, amount: string) => {
+  switch (denom) {
+    case 'rune':
+      return AssetValue.fromChainOrSignature(Chain.THORChain, parseInt(amount) / 1e8);
+    case 'bnb':
+      return AssetValue.fromChainOrSignature(Chain.Binance, parseInt(amount) / 1e8);
+    case 'uatom':
+    case 'atom':
+      return AssetValue.fromChainOrSignature(Chain.Cosmos, parseInt(amount) / 1e6);
+
+    default:
+      return AssetValue.fromString(denom, parseInt(amount) / 1e8);
+  }
 };
 
 export const BaseCosmosToolbox = ({
@@ -50,7 +66,15 @@ export const BaseCosmosToolbox = ({
     return Promise.all(
       balances
         .filter(({ denom }) => denom)
-        .map(async ({ denom, amount }) => await AssetValue.fromString(denom, amount)),
+        .map(async ({ denom, amount }) => {
+          try {
+            return await getAssetFromDenom(denom, amount);
+          } catch (error) {
+            console.error(error);
+            return null;
+          }
+        })
+        .filter(Boolean) as Promise<AssetValue>[],
     );
   },
 });

@@ -1,45 +1,46 @@
 import type { QuoteRoute } from '@thorswap-lib/swapkit-api';
 import { SwapKitApi } from '@thorswap-lib/swapkit-api';
-import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
+import type { AssetValue, SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { useCallback, useState } from 'react';
 
 type Props = {
-  inputAsset?: AssetAmount;
-  outputAsset?: AssetAmount;
+  inputAsset?: AssetValue;
+  outputAsset?: AssetValue;
   handleSwap: (route: QuoteRoute) => Promise<void>;
   skClient?: SwapKitCore;
 };
 
 export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [inputAmount, setInputAmount] = useState<Amount | undefined>();
+  const [inputAssetValue, setInput] = useState<AssetValue | undefined>();
   const [routes, setRoutes] = useState<QuoteRoute[]>([]);
 
   const setAmount = useCallback(
     (amountValue: string) => {
       if (!inputAsset) return;
-      const value = parseFloat(amountValue);
 
-      const amount = Amount.fromNormalAmount(value);
-      setInputAmount(amount.gt(inputAsset.amount) ? inputAsset.amount : amount);
+      // ... LoL
+      const amount = inputAsset.mul(0).add(amountValue);
+
+      setInput(amount.gt(inputAsset) ? inputAsset : amount);
     },
     [inputAsset],
   );
 
   const fetchQuote = useCallback(async () => {
-    if (!inputAsset || !outputAsset || !inputAmount || !skClient) return;
+    if (!inputAsset || !outputAsset || !inputAssetValue || !skClient) return;
 
     setLoading(true);
     setRoutes([]);
 
-    const senderAddress = skClient.getAddress(inputAsset.asset.L1Chain);
-    const recipientAddress = skClient.getAddress(outputAsset.asset.L1Chain);
+    const senderAddress = skClient.getAddress(inputAsset.chain);
+    const recipientAddress = skClient.getAddress(outputAsset.chain);
 
     try {
       const { routes } = await SwapKitApi.getQuote({
-        sellAsset: inputAsset.asset.toString(),
-        sellAmount: inputAmount.assetAmount.toString(),
-        buyAsset: outputAsset.asset.toString(),
+        sellAsset: inputAsset.toString(),
+        sellAmount: inputAssetValue.toSignificant(inputAssetValue.decimal),
+        buyAsset: outputAsset.toString(),
         senderAddress,
         recipientAddress,
         slippage: '3',
@@ -49,19 +50,19 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
     } finally {
       setLoading(false);
     }
-  }, [inputAmount, inputAsset, outputAsset, skClient]);
+  }, [inputAssetValue, inputAsset, outputAsset, skClient]);
 
   return (
     <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
       <div>
         <div>
           <span>Input Asset:</span>
-          {inputAsset?.amount.toSignificant(6)} {inputAsset?.asset.ticker}
+          {inputAsset?.toSignificant(6)} {inputAsset?.ticker}
         </div>
 
         <div>
           <span>Output Asset:</span>
-          {outputAsset?.amount.toSignificant(6)} {outputAsset?.asset.ticker}
+          {outputAsset?.toSignificant(6)} {outputAsset?.ticker}
         </div>
       </div>
 
@@ -71,7 +72,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
           <input
             onChange={(e) => setAmount(e.target.value)}
             placeholder="0.0"
-            value={inputAmount?.toSignificant(6)}
+            value={inputAssetValue?.toSignificant(inputAssetValue.decimal)}
           />
         </div>
 
@@ -88,8 +89,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
               <div key={route.contract}>
                 {route.meta?.quoteMode} ({route.providers.join(',')}){' '}
                 <button onClick={() => handleSwap(route)} type="button">
-                  {'SWAP =>'} Estimated Output: {route.expectedOutput} {outputAsset?.asset.ticker}{' '}
-                  ($
+                  {'SWAP =>'} Estimated Output: {route.expectedOutput} {outputAsset?.ticker} ($
                   {parseFloat(route.expectedOutputUSD).toFixed(4)})
                 </button>
               </div>

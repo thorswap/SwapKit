@@ -20,14 +20,14 @@ export default defineConfig({
     alias: {
       '@thorswap-lib/keystore': resolve('../../packages/wallets/keystore/src'),
       '@thorswap-lib/ledger': resolve('../../packages/wallets/ledger/src'),
-      '@thorswap-lib/swapkit-api': resolve('../../packages/swapkit/swapkit-api/src'),
       '@thorswap-lib/swapkit-core': resolve('../../packages/swapkit/swapkit-core/src'),
       '@thorswap-lib/swapkit-helpers': resolve('../../packages/swapkit/swapkit-helpers/src'),
+      '@thorswap-lib/tokens': resolve('../../packages/swapkit/tokens/src'),
       '@thorswap-lib/toolbox-cosmos': resolve('../../packages/toolboxes/toolbox-cosmos/src'),
       '@thorswap-lib/toolbox-evm': resolve('../../packages/toolboxes/toolbox-evm/src'),
       '@thorswap-lib/toolbox-utxo': resolve('../../packages/toolboxes/toolbox-utxo/src'),
-      '@thorswap-lib/types': resolve('../../packages/swapkit/types/src'),
       '@thorswap-lib/trezor': resolve('../../packages/wallets/trezor/src'),
+      '@thorswap-lib/types': resolve('../../packages/swapkit/types/src'),
       '@thorswap-lib/xdefi': resolve('../../packages/wallets/xdefi/src'),
 
       events: resolve('./polyfills/events.js'),

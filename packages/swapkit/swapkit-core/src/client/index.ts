@@ -118,19 +118,16 @@ export class SwapKitCore<T = ''> {
         const asset = await AssetValue.fromString(route.calldata.fromAsset);
         if (!asset) throw new SwapKitError('core_swap_asset_not_recognized');
 
-        const { address } = await this.#getInboundDataByChain(asset.chain);
-        const { amountIn, memo, memoStreamingSwap } = route.calldata;
+        const { address: recipient } = await this.#getInboundDataByChain(asset.chain);
+        const {
+          contract: router,
+          calldata: { amountIn, memo, memoStreamingSwap },
+        } = route;
 
-        const assetValue = asset.add(amountIn);
+        const assetValue = asset.add(SwapKitNumber.fromBigInt(BigInt(amountIn), asset.decimal));
         const swapMemo = (streamSwap ? memoStreamingSwap || memo : memo) as string;
 
-        return this.deposit({
-          assetValue,
-          memo: swapMemo,
-          feeOptionKey,
-          router: route.contract,
-          recipient: address,
-        });
+        return this.deposit({ assetValue, memo: swapMemo, feeOptionKey, router, recipient });
       }
 
       if (SWAP_IN.includes(quoteMode)) {
@@ -187,7 +184,7 @@ export class SwapKitCore<T = ''> {
       walletType: this.connectedChains[chain]?.walletType as WalletOption,
     };
 
-    return structuredClone(this.connectedChains[chain]);
+    return { ...this.connectedChains[chain] };
   };
 
   approveAssetValue = (assetValue: AssetValue) => this.#approve({ assetValue, type: 'approve' });
