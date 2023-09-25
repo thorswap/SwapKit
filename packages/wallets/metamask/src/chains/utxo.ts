@@ -17,11 +17,9 @@ export const utxoWalletMethods: any = async function (params: any) {
     const toolboxParams = { api, apiKey: utxoApiKey };
     switch (chain) {
       case Chain.Bitcoin:
-        isSegwit = true;
         toolbox = BTCToolbox(toolboxParams);
         break;
       case Chain.Litecoin:
-        isSegwit = true;
         toolbox = LTCToolbox(toolboxParams);
         break;
       case Chain.Dogecoin:
@@ -53,6 +51,7 @@ export const utxoWalletMethods: any = async function (params: any) {
           scriptType = 'p2pkh';
         }
         let addressInfo = addressInfoForCoin(chain, false, scriptType);
+        console.log('addressInfo: ', addressInfo);
         console.log('wallet: ', wallet);
         let response = await wallet.btcGetAddress(addressInfo);
         console.log("response: ", response);

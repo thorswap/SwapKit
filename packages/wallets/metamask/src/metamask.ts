@@ -160,7 +160,7 @@ const connectMetaMask =
       //if not installed install snap
       if (!isSnapInstalled) {
         //install it
-        const result = await enableShapeShiftSnap(SNAP_ID);
+        const result = await enableShapeShiftSnap(SNAP_ID, '1.0.0');
         console.log('result: ', result);
       }
 
@@ -177,7 +177,7 @@ const connectMetaMask =
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         });
-        console.log("accounts: ", accounts);
+        console.log('accounts: ', accounts);
 
         const { address, walletMethods } = await getToolbox({
           wallet: walletMetaMask,
