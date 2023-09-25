@@ -193,7 +193,7 @@ const connectMetaMask =
         addChain({
           chain,
           walletMethods,
-          wallet: { address, balance: [], walletType: WalletOption.KEEPKEY },
+          wallet: { address, balance: [], walletType: WalletOption.METAMASK },
         });
       }
     }

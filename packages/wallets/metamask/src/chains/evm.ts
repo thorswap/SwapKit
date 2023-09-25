@@ -40,10 +40,10 @@ class MetaMaskSigner extends Signer {
         scriptType: 'ethereum',
         showDisplay: false,
       };
-      let response = await this.wallet.ethereumGetAddress({
-        address_n: addressInfo.addressNList,
+      let response = await this.wallet.ethGetAddress({
+        addressaddressNList: addressInfo.addressNList,
       });
-      this.address = response.address;
+      this.address = response;
     }
 
     return this.address;
@@ -87,7 +87,7 @@ class MetaMaskSigner extends Signer {
           { gasPrice: BigNumber.from(restTx.gasPrice).toHexString() }),
     };
 
-    let responseSign = await this.sdk.eth.ethSignTransaction(baseTx);
+    let responseSign = await this.wallet.ethSignTx(baseTx);
     return responseSign.serialized;
   };
 

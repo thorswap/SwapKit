@@ -26,9 +26,9 @@ export const thorChainWalletMethods: any = async function (params: MetaMaskParam
     const getAddress = async () =>
       (
         await wallet.thorchainGetAddress({
-          address_n: addressInfoForCoin(Chain.THORChain, false).address_n,
+        addressNList: addressInfoForCoin(Chain.THORChain, false).address_n,
         })
-      ).address;
+      );
 
     const signTransactionTransfer = async (params: SignTransactionTransferParams) => {
       try {
@@ -68,7 +68,7 @@ export const thorChainWalletMethods: any = async function (params: MetaMaskParam
 
         const [metaMaskResponse, stargateClient] = await Promise.all([
           // @ts-ignore
-          wallet.thorchainSignAminoTransfer(body),
+          wallet.thorchainSignTx(body),
           StargateClient.connect(RPCUrl.THORChain),
         ]);
 

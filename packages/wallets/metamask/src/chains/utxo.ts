@@ -51,11 +51,14 @@ export const utxoWalletMethods: any = async function (params: any) {
           scriptType = 'p2pkh';
         }
         let addressInfo = addressInfoForCoin(chain, false, scriptType);
-        console.log('addressInfo: ', addressInfo);
-        console.log('wallet: ', wallet);
+        addressInfo = {
+          addressNList: addressInfo.address_n,
+          coin: addressInfo.coin,
+          scriptType: 'p2pkh', //no segwit due to limitations in MM snaps
+          showDisplay: false,
+        };
         let response = await wallet.btcGetAddress(addressInfo);
-        console.log("response: ", response);
-        return response.address;
+        return response;
       } catch (e) {
         console.error(e);
       }
@@ -99,7 +102,7 @@ export const utxoWalletMethods: any = async function (params: any) {
       if (memo) {
         txToSign.opReturnData = Buffer.from(memo, 'utf-8');
       }
-      let responseSign = await wallet.btcSignTransaction(txToSign);
+      let responseSign = await wallet.btcSignTx(txToSign);
       return responseSign.serializedTx;
     };
 

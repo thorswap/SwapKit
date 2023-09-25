@@ -14,7 +14,7 @@ export type SignTransactionTransferParams = {
 };
 
 type CosmosWalletMethodsParams = {
-  wallet: wallet;
+  wallet: any;
   api?: any;
 };
 
@@ -23,11 +23,9 @@ export const cosmosWalletMethods: any = async function (params: CosmosWalletMeth
     let { wallet, api } = params;
     const toolbox = GaiaToolbox({ server: api });
     const getAddress = async () =>
-      (
-        await wallet.cosmosGetAddress({
-          address_n: addressInfoForCoin(Chain.Cosmos, false).address_n,
-        })
-      ).address;
+      await wallet.cosmosGetAddress({
+        addressNList: addressInfoForCoin(Chain.Cosmos, false).address_n,
+      });
 
     let signTransactionTransfer = async function (params: SignTransactionTransferParams) {
       try {
@@ -70,7 +68,7 @@ export const cosmosWalletMethods: any = async function (params: CosmosWalletMeth
         };
 
         // @ts-ignore
-        const keepKeySignedTx = await sdk.cosmos.cosmosSignAmino(body);
+        const keepKeySignedTx = await wallet.cosmosSignTx(body);
 
         const decodedBytes = atob(keepKeySignedTx.serialized);
         const uint8Array = new Uint8Array(decodedBytes.length);
