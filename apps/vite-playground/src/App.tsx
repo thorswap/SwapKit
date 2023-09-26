@@ -1,9 +1,9 @@
 import type { SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { AssetValue } from '@thorswap-lib/swapkit-core';
+import Multisig from 'Multisig/Multisig';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Loan from './Loan';
-import Multisig from './Multisig';
 import Send from './Send';
 import Swap from './Swap';
 import { clearSwapkitClient, getSwapKitClient } from './swapKitClient';

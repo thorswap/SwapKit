@@ -8,38 +8,42 @@ export default function Loan({
   skClient,
 }: {
   skClient?: SwapKitCore;
-  inputAsset?: AssetValue;
+  inputAsset: AssetValue;
   outputAsset?: AssetValue;
 }) {
-  const [openLoan] = useState(true);
-  const [inputAmount, setInputAmount] = useState<AssetValue | undefined>();
-  const [borrowAmount, setBorrowAmount] = useState<AssetValue | undefined>();
+  const [isOpenLoanMode] = useState(true);
+  const [inputAssetValue, setInput] = useState<AssetValue | undefined>();
+  const [borrowAssetValue, setBorrow] = useState<AssetValue | undefined>();
 
-  const setAmount = useCallback(
-    (amountValue: string, type: 'input' | 'borrow' = 'input') => {
+  const getValue = useCallback(
+    (amountValue: string) => {
       if (!inputAsset) return;
-
-      const value = parseFloat(amountValue);
-      const amount = Amount.fromNormalAmount(value);
-      const setFunction = type === 'input' ? setInputAmount : setBorrowAmount;
-
-      setFunction(amount.gt(inputAsset.amount) ? inputAsset.amount : amount);
+      return inputAsset.mul(0).add(amountValue);
     },
     [inputAsset],
   );
 
-  const handleLoanAction = useCallback(async () => {
-    if (!inputAsset || !outputAsset || !inputAmount || !skClient) return;
-    const assetAmount = new AssetAmount(inputAsset.asset, inputAmount);
+  const setAmount = useCallback(
+    (amountValue: string, type: 'input' | 'borrow' = 'input') => {
+      const amount = getValue(amountValue);
+      const setFunction = type === 'input' ? setInput : setBorrow;
 
-    const txHash = await (openLoan ? skClient.openLoan : skClient.closeLoan)({
-      assetAmount,
-      borrowAmount,
-      assetTicker: `${outputAsset.asset.chain}.${outputAsset.asset.ticker}`,
+      setFunction(amount?.gt(inputAsset) ? inputAsset : amount);
+    },
+    [getValue, inputAsset],
+  );
+
+  const handleLoanAction = useCallback(async () => {
+    if (!borrowAssetValue || !inputAssetValue || !skClient) return;
+
+    const txHash = await skClient.loan({
+      type: isOpenLoanMode ? 'open' : 'close',
+      assetValue: inputAssetValue,
+      minAmount: borrowAssetValue,
     });
 
     window.open(`${skClient.getExplorerTxUrl(Chain.THORChain, txHash as string)}`, '_blank');
-  }, [inputAsset, outputAsset, inputAmount, openLoan, borrowAmount, skClient]);
+  }, [borrowAssetValue, inputAssetValue, skClient, isOpenLoanMode]);
 
   return (
     <div>
@@ -49,12 +53,12 @@ export default function Loan({
         <div>
           <div>
             <span>Input Asset:</span>
-            {inputAsset?.amount.toSignificant(6)} {inputAsset?.asset.ticker}
+            {inputAsset?.toSignificant(6)} {inputAsset?.ticker}
           </div>
 
           <div>
             <span>Borrow Asset:</span>
-            {outputAsset?.asset.ticker}
+            {outputAsset?.ticker}
           </div>
         </div>
 
@@ -65,7 +69,7 @@ export default function Loan({
               onChange={(e) => setAmount(e.target.value)}
               placeholder="0.0"
               type="number"
-              value={inputAmount?.toSignificant(6)}
+              value={inputAssetValue?.toSignificant(6)}
             />
           </div>
           <div>
@@ -74,12 +78,12 @@ export default function Loan({
               onChange={(e) => setAmount(e.target.value, 'borrow')}
               placeholder="0.0"
               type="number"
-              value={borrowAmount?.toSignificant(6)}
+              value={borrowAssetValue?.toSignificant(6)}
             />
           </div>
 
           <button disabled={!inputAsset || !outputAsset} onClick={handleLoanAction} type="button">
-            {openLoan ? 'Open Loan' : 'Close Loan'}
+            {isOpenLoanMode ? 'Open Loan' : 'Close Loan'}
           </button>
         </div>
       </div>

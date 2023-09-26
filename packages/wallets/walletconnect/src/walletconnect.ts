@@ -236,12 +236,7 @@ const getToolbox = async ({
         const msg = {
           type: 'thorchain/MsgDeposit',
           value: {
-            coins: [
-              {
-                amount: assetValue.baseValue,
-                asset: getDenomWithChain(assetValue).toUpperCase(),
-              },
-            ],
+            coins: [{ amount: assetValue.baseValue, asset: getDenomWithChain(assetValue) }],
             memo,
             signer: address,
           },

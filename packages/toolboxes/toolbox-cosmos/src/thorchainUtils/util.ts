@@ -6,25 +6,23 @@ import type { FeeOption } from '@thorswap-lib/types';
 import { BaseDecimal, Chain, ChainId, RPCUrl } from '@thorswap-lib/types';
 
 export const DEFAULT_GAS_VALUE = '5000000000';
-export const DEPOSIT_GAS_VALUE = '5000000000';
 
-export const getDenomWithChain = ({ symbol }: AssetValue): string =>
-  symbol.toUpperCase() !== 'RUNE'
+export const getDenomWithChain = ({ symbol }: AssetValue) =>
+  (symbol.toUpperCase() !== 'RUNE'
     ? symbol.toLowerCase()
-    : `${Chain.THORChain}.${symbol.toUpperCase()}`;
+    : `${Chain.THORChain}.${symbol.toUpperCase()}`
+  ).toUpperCase();
 
 export const buildDepositTx = async ({
   signer,
   memo = '',
-  assetAmount,
-  asset,
+  assetValue,
   isStagenet = false,
 }: {
   isStagenet?: boolean;
   signer: string;
   memo?: string;
-  assetAmount: SwapKitNumber;
-  asset: AssetValue;
+  assetValue: AssetValue;
 }) => {
   const { StargateClient } = await import('@cosmjs/stargate');
   const client = await StargateClient.connect(
@@ -36,52 +34,36 @@ export const buildDepositTx = async ({
     throw new Error('Account does not exist');
   }
 
-  const base64Signer = bech32ToBase64(signer);
-
-  const msgDeposit = {
-    coins: [
+  return {
+    memo,
+    accountNumber: accountOnChain.accountNumber,
+    chainId: ChainId.THORChain,
+    fee: { amount: [], gas: DEFAULT_GAS_VALUE },
+    sequence: accountOnChain.sequence,
+    msgs: [
       {
-        amount: assetAmount.baseValue,
-        asset: getDenomWithChain(asset).toUpperCase(),
+        typeUrl: '/types.MsgDeposit',
+        value: {
+          coins: [{ amount: assetValue.baseValue, asset: getDenomWithChain(assetValue) }],
+          signer: bech32ToBase64(signer),
+          memo,
+        },
       },
     ],
-    memo,
-    signer: base64Signer,
   };
-  const msg = {
-    typeUrl: '/types.MsgDeposit',
-    value: msgDeposit,
-  };
-  const fee = {
-    amount: [],
-    gas: '5000000000',
-  };
-
-  const depositTx = {
-    accountNumber: accountOnChain.accountNumber,
-    sequence: accountOnChain.sequence,
-    chainId: ChainId.THORChain,
-    msgs: [msg],
-    fee: fee,
-    memo,
-  };
-
-  return depositTx;
 };
 
 export const buildTransferTx = async ({
   fromAddress,
   toAddress,
-  assetAmount,
-  assetDenom,
+  assetValue,
   memo = '',
   isStagenet = false,
 }: {
   isStagenet?: boolean;
   fromAddress: string;
   toAddress: string;
-  assetAmount: SwapKitNumber;
-  assetDenom: string;
+  assetValue: AssetValue;
   memo?: string;
 }) => {
   const { StargateClient } = await import('@cosmjs/stargate');
@@ -100,51 +82,39 @@ export const buildTransferTx = async ({
   const msgSend = {
     fromAddress: base64FromAddress,
     toAddress: base64ToAddress,
-    amount: [{ amount: assetAmount.baseValue, denom: assetDenom }],
+    amount: [{ amount: assetValue.baseValue, denom: getDenomWithChain(assetValue).toLowerCase() }],
   };
-  const msg = {
-    typeUrl: '/types.MsgSend',
-    value: msgSend,
-  };
-  const fee = {
-    amount: [],
-    gas: '5000000000',
-  };
-
-  const transferTx = {
+  return {
+    memo,
     accountNumber: accountOnChain.accountNumber,
     sequence: accountOnChain.sequence,
     chainId: ChainId.THORChain,
-    msgs: [msg],
-    fee: fee,
-    memo,
+    msgs: [{ typeUrl: '/types.MsgSend', value: msgSend }],
+    fee: { amount: [], gas: DEFAULT_GAS_VALUE },
   };
-
-  return transferTx;
 };
 
 export const checkBalances = async (
   balances: AssetValue[],
   fees: Record<FeeOption, AssetValue>,
-  amount: SwapKitNumber,
-  asset: AssetValue,
+  assetValue: AssetValue,
 ) => {
   const zeroValue = new SwapKitNumber({ value: 0, decimal: BaseDecimal.THOR });
 
   const runeBalance = balances.find(({ symbol }) => symbol === 'RUNE') ?? zeroValue;
   const assetBalance =
     balances.find(
-      ({ chain, symbol }) => `${chain}.${symbol}` === `${asset.chain}.${asset.symbol}`,
+      ({ chain, symbol }) => `${chain}.${symbol}` === `${assetValue.chain}.${assetValue.symbol}`,
     ) ?? zeroValue;
 
-  if (asset.symbol === 'RUNE') {
+  if (assetValue.symbol === 'RUNE') {
     // amount + fee < runeBalance
-    if (runeBalance.lt(amount.add(fees.average.value))) {
+    if (runeBalance.lt(assetValue.add(fees.average.value))) {
       throw new Error('insufficient funds');
     }
   } else {
     // amount < assetBalances && runeBalance < fee
-    if (assetBalance.lt(amount) || runeBalance.lt(fees.average.value)) {
+    if (assetBalance.lt(assetValue) || runeBalance.lt(fees.average.value)) {
       throw new Error('insufficient funds');
     }
   }

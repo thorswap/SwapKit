@@ -276,7 +276,7 @@ const getToolbox = async ({
               coins: [
                 {
                   amount: assetValue.baseValue,
-                  asset: getDenomWithChain(assetValue).toUpperCase(),
+                  asset: getDenomWithChain(assetValue),
                 },
               ],
             },
