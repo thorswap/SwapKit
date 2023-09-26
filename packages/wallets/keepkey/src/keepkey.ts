@@ -9,7 +9,7 @@ import {
   MATICToolbox,
   OPToolbox,
 } from '@thorswap-lib/toolbox-evm';
-import type { ConnectWalletParams, DerivationPathArray } from '@thorswap-lib/types';
+import type { ConnectWalletParams } from '@thorswap-lib/types';
 import { Chain, WalletOption } from '@thorswap-lib/types';
 
 import { binanceWalletMethods } from './chains/binance.js';
@@ -44,7 +44,6 @@ type KeepKeyOptions = {
 export type KeepKeyParams = KeepKeyOptions & {
   sdk: KeepKeySdk;
   chain: Chain;
-  derivationPath: DerivationPathArray;
   rpcUrl?: string;
   api?: any;
 };
@@ -146,7 +145,7 @@ const connectKeepKey =
     addChain,
     config: { covalentApiKey, ethplorerApiKey = 'freekey', utxoApiKey },
   }: ConnectWalletParams) =>
-  async (chain: (typeof KEEPKEY_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
+  async (chains) => {
     const spec = 'http://localhost:1646/spec/swagger.json';
 
     // test spec: if offline, launch keepkey-bridge
@@ -183,22 +182,23 @@ const connectKeepKey =
     const keepKeySdk = await KeepKeySdk.create(config);
     if (config.apiKey !== apiKey) localStorage.setItem('apiKey', config.apiKey);
 
-    const { address, walletMethods } = await getToolbox({
-      sdk: keepKeySdk,
-      api: apis[chain],
-      rpcUrl: rpcUrls[chain],
-      chain,
-      covalentApiKey,
-      ethplorerApiKey,
-      utxoApiKey,
-      derivationPath,
-    });
+    for (const chain of chains) {
+      const { address, walletMethods } = await getToolbox({
+        sdk: keepKeySdk,
+        api: apis[chain],
+        rpcUrl: rpcUrls[chain],
+        chain,
+        covalentApiKey,
+        ethplorerApiKey,
+        utxoApiKey,
+      });
 
-    addChain({
-      chain,
-      walletMethods,
-      wallet: { address, balance: [], walletType: WalletOption.KEEPKEY },
-    });
+      addChain({
+        chain,
+        walletMethods,
+        wallet: { address, balance: [], walletType: WalletOption.KEEPKEY },
+      });
+    }
 
     return true;
   };
