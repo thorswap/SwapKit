@@ -1,5 +1,11 @@
 # @thorswap-lib/toolbox-utxo
 
+## 1.0.0-development.147
+
+### Patch Changes
+
+- [`29629b2`](https://github.com/thorswap/SwapKit/commit/29629b2080c2b0bbd253df9e299562d4fc9c0468) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Always use minimal fee
+
 ## 1.0.0-development.146
 
 ### Patch Changes
