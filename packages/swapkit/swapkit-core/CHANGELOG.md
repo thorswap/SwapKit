@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.218
+
+### Patch Changes
+
+- fix traderjoe abi
+
 ## 1.0.0-development.217
 
 ### Patch Changes
