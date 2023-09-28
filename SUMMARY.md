@@ -1,0 +1,59 @@
+# Table of contents
+
+* [🏡 Getting Started](README.md)
+  * [🏆 Why SwapKit?](readme/why-swapkit.md)
+  * [❓ FAQ](readme/faq.md)
+* [⚡ Powered by SwapKit](powered-by-swapkit.md)
+* [💰 Monetization / Earn Fees](monetization-earn-fees.md)
+* [🤝 Partnership](partnership.md)
+
+## SwapKit SDK
+
+* [1⃣ Install SwapKit SDK](swapkit-sdk/install-swapkit-sdk.md)
+* [2⃣ Set up the SDK](swapkit-sdk/set-up-the-sdk.md)
+* [3⃣ Request Route & Execute Swap](swapkit-sdk/request-route-and-execute-swap.md)
+* [💸 Wallets](swapkit-sdk/wallets/README.md)
+  * [Ledger](swapkit-sdk/wallets/ledger.md)
+  * [Trezor](swapkit-sdk/wallets/trezor.md)
+  * [Keystore](swapkit-sdk/wallets/keystore.md)
+  * [WalletConnect](swapkit-sdk/wallets/walletconnect.md)
+  * [XDEFI](swapkit-sdk/wallets/xdefi.md)
+  * [Keplr](swapkit-sdk/wallets/keplr.md)
+  * [EVM Web Extensions](swapkit-sdk/wallets/evm-web-extensions.md)
+* [🧰 Toolboxes](swapkit-sdk/toolboxes/README.md)
+  * [UTXO](swapkit-sdk/toolboxes/utxo.md)
+  * [EVM](swapkit-sdk/toolboxes/evm.md)
+  * [Cosmos](swapkit-sdk/toolboxes/cosmos.md)
+
+## SwapKit API
+
+* [⚙ SwapKit API](swapkit-api/swapkit-api/README.md)
+  * [Requesting supported Chains](swapkit-api/swapkit-api/requesting-supported-chains.md)
+  * [Requesting supported Providers](swapkit-api/swapkit-api/requesting-supported-providers.md)
+  * [Requesting a Quote](swapkit-api/swapkit-api/requesting-a-quote.md)
+  * [Requesting a Gas Price](swapkit-api/swapkit-api/requesting-a-gas-price.md)
+  * [Requesting to Add Liquidity](swapkit-api/swapkit-api/requesting-to-add-liquidity.md)
+  * [Requesting to Withdraw Liquidity](swapkit-api/swapkit-api/requesting-to-withdraw-liquidity.md)
+  * [Request a transactions status](swapkit-api/swapkit-api/request-a-transactions-status.md)
+  * [Lookup a Thorname](swapkit-api/swapkit-api/lookup-a-thorname.md)
+* [Advanced - Integrating SwapKit API](swapkit-api/integrating-swapkit-api.md)
+
+## 📚 References
+
+* [API Reference](references/api-reference/README.md)
+  * [Gas API](references/api-reference/gas-api.md)
+  * [Lending API](references/api-reference/lending-api.md)
+  * [Liquidity API](references/api-reference/liquidity-api.md)
+  * [Quote API](references/api-reference/quote-api.md)
+  * [THORName API](references/api-reference/thorname-api.md)
+  * [Token API](references/api-reference/token-api.md)
+  * [Token List API](references/api-reference/token-list-api.md)
+  * [Tracker API](references/api-reference/tracker-api.md)
+  * [Aggregator API](references/api-reference/aggregator-api.md)
+  * [Resource Worker API](references/api-reference/resource-worker-api.md)
+  * [Full API Reference](http://localhost:3000/doc)
+* [SwapKit SDK Methods](references/swapkit-sdk-methods/README.md)
+  * [API SDK](references/swapkit-sdk-methods/api-sdk.md)
+  * [Core](references/swapkit-sdk-methods/core.md)
+  * [Types](references/swapkit-sdk-methods/types.md)
+* [Smart Contracts](references/smart-contracts.md)
