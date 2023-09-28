@@ -51,12 +51,13 @@ export class CosmosClient {
     const client = await this.#getClient();
 
     const allBalances = (await client.getAllBalances(address)) as unknown as {
-      denom: string; amount: string
+      denom: string;
+      amount: string;
     }[];
 
-    return allBalances.map(balance => ({
+    return allBalances.map((balance) => ({
       ...balance,
-      denom: balance.denom.includes('/') ? balance.denom.toUpperCase() : balance.denom
+      denom: balance.denom.includes('/') ? balance.denom.toUpperCase() : balance.denom,
     }));
   };
 

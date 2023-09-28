@@ -195,7 +195,7 @@ export const getMinAmountByChain = (chain: Chain) => {
 };
 
 const getAssetInfo = (identifier: string) => {
-  const isSynthetic = identifier.includes('/');
+  const isSynthetic = identifier.slice(0, 10).includes('/');
   const [chain, symbol] = identifier.split(isSynthetic ? '/' : '.') as [Chain, string];
   const [ticker, address] = symbol.split('-') as [string, string?];
 

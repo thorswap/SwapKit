@@ -198,8 +198,8 @@ const buildTx = async ({
 
   //Inputs
   inputs.forEach(({ hash, index, witnessUtxo }: UTXOType) =>
-    // TODO:
-    // @ts-expect-error
+    // TODO: (@Towan, @Chillios) - Check on this as types says it's not defined
+    // @ts-ignore
     psbt.addInput({ hash, index, witnessUtxo }),
   );
 

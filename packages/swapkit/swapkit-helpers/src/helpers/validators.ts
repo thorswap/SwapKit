@@ -3,10 +3,12 @@ import { Chain } from '@thorswap-lib/types';
 const supportedChains = Object.values(Chain);
 
 export const validateIdentifier = (identifier: string = '') => {
-  const [chain] = identifier.split('.') as [Chain, string];
+  const uppercasedIdentifier = identifier.toUpperCase();
+
+  const [chain] = uppercasedIdentifier.split('.') as [Chain, string];
   if (supportedChains.includes(chain)) return true;
 
-  const [synthChain] = identifier.split('/') as [Chain, string];
+  const [synthChain] = uppercasedIdentifier.split('/') as [Chain, string];
   if (supportedChains.includes(synthChain)) return true;
 
   throw new Error(
