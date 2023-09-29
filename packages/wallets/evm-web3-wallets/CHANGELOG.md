@@ -1,5 +1,12 @@
 # @thorswap-lib/evm-web3-wallets
 
+## 1.0.0-development.47
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @thorswap-lib/toolbox-evm@1.0.0-development.169
+
 ## 1.0.0-development.46
 
 ### Patch Changes
