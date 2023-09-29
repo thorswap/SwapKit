@@ -1,5 +1,11 @@
 # @thorswap-lib/ledger
 
+## 1.0.0-development.266
+
+### Patch Changes
+
+- [#337](https://github.com/thorswap/SwapKit/pull/337) [`064ebe2`](https://github.com/thorswap/SwapKit/commit/064ebe29ed6a631058ad87c6a071bfa9e21ec325) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Thorchain pubkey
+
 ## 1.0.0-development.265
 
 ### Patch Changes
