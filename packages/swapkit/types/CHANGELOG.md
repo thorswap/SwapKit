@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.107
+
+### Patch Changes
+
+- [#332](https://github.com/thorswap/SwapKit/pull/332) [`1e14ca1`](https://github.com/thorswap/SwapKit/commit/1e14ca19720d5b73d71f24e7924db84a79e0411a) Thanks [@towanTG](https://github.com/towanTG)! - Fix transaction type enum
+
 ## 1.0.0-development.106
 
 ### Patch Changes
