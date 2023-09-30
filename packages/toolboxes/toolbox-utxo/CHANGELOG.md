@@ -1,5 +1,28 @@
 # @thorswap-lib/toolbox-utxo
 
+## 1.0.0-development.148
+
+### Patch Changes
+
+- Updated dependencies [[`68d493d`](https://github.com/thorswap/SwapKit/commit/68d493dde0c631fa6d39e4029083436d89a8a16d)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.122
+  - @thorswap-lib/helpers@0.0.0-development.114
+
+## 1.0.0-development.147
+
+### Patch Changes
+
+- [`29629b2`](https://github.com/thorswap/SwapKit/commit/29629b2080c2b0bbd253df9e299562d4fc9c0468) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Always use minimal fee
+
+## 1.0.0-development.146
+
+### Patch Changes
+
+- Updated dependencies [[`1e14ca1`](https://github.com/thorswap/SwapKit/commit/1e14ca19720d5b73d71f24e7924db84a79e0411a)]:
+  - @thorswap-lib/types@1.0.0-development.107
+  - @thorswap-lib/helpers@0.0.0-development.113
+  - @thorswap-lib/swapkit-entities@1.0.0-development.121
+
 ## 1.0.0-development.145
 
 ### Patch Changes

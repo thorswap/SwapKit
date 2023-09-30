@@ -21,6 +21,8 @@ const getDefaultTxFeeByChain = (chain: Chain) => {
       return 127;
     case Chain.Dogecoin:
       return 10000000;
+    case Chain.Litecoin:
+      return 1000;
     default:
       return 2;
   }
@@ -56,7 +58,9 @@ const getSuggestedTxFee = async (chain: Chain) => {
       numBlocks: number;
       feeByBlockTarget: { 1: number; 3: number };
     }>(`https://app.bitgo.com/api/v2/${chain.toLowerCase()}/tx/fee`);
-    return feePerKb / 1000; // feePerKb to feePerByte
+    const suggestedFee = feePerKb / 1000;
+
+    return Math.max(suggestedFee, getDefaultTxFeeByChain(chain));
   } catch (error) {
     return getDefaultTxFeeByChain(chain);
   }

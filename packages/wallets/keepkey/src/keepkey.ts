@@ -9,7 +9,7 @@ import {
   MATICToolbox,
   OPToolbox,
 } from '@thorswap-lib/toolbox-evm';
-import type { ConnectWalletParams, DerivationPathArray } from '@thorswap-lib/types';
+import type { ConnectWalletParams } from '@thorswap-lib/types';
 import { Chain, WalletOption } from '@thorswap-lib/types';
 
 import { binanceWalletMethods } from './chains/binance.js';
@@ -44,14 +44,12 @@ type KeepKeyOptions = {
 export type KeepKeyParams = KeepKeyOptions & {
   sdk: KeepKeySdk;
   chain: Chain;
-  derivationPath: DerivationPathArray;
   rpcUrl?: string;
   api?: any;
 };
 
 const getToolbox = async (params: KeepKeyParams) => {
-  const { sdk, api, rpcUrl, chain, ethplorerApiKey, covalentApiKey, derivationPath, utxoApiKey } =
-    params;
+  const { sdk, api, rpcUrl, chain, ethplorerApiKey, covalentApiKey, utxoApiKey } = params;
 
   switch (chain) {
     case Chain.BinanceSmartChain:
@@ -61,7 +59,7 @@ const getToolbox = async (params: KeepKeyParams) => {
     case Chain.Avalanche:
     case Chain.Ethereum: {
       const provider = getProvider(chain, rpcUrl || '');
-      const signer = (await getEVMSigner({ sdk, chain, derivationPath, provider })) as Signer;
+      const signer = (await getEVMSigner({ sdk, chain, provider })) as Signer;
       const address = await signer.getAddress();
       if (chain === Chain.Ethereum && !ethplorerApiKey)
         throw new Error('Ethplorer API key not found');
@@ -115,7 +113,6 @@ const getToolbox = async (params: KeepKeyParams) => {
         chain,
         stagenet: false,
         utxoApiKey,
-        derivationPath,
       };
       const walletMethods = await utxoWalletMethods(params);
       let address = await walletMethods.getAddress();
@@ -146,7 +143,7 @@ const connectKeepKey =
     addChain,
     config: { covalentApiKey, ethplorerApiKey = 'freekey', utxoApiKey },
   }: ConnectWalletParams) =>
-  async (chain: (typeof KEEPKEY_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
+  async (chains: any) => {
     const spec = 'http://localhost:1646/spec/swagger.json';
 
     // test spec: if offline, launch keepkey-bridge
@@ -183,22 +180,25 @@ const connectKeepKey =
     const keepKeySdk = await KeepKeySdk.create(config);
     if (config.apiKey !== apiKey) localStorage.setItem('apiKey', config.apiKey);
 
-    const { address, walletMethods } = await getToolbox({
-      sdk: keepKeySdk,
-      api: apis[chain],
-      rpcUrl: rpcUrls[chain],
-      chain,
-      covalentApiKey,
-      ethplorerApiKey,
-      utxoApiKey,
-      derivationPath,
-    });
+    for (const chain of chains) {
+      const { address, walletMethods } = await getToolbox({
+        sdk: keepKeySdk,
+        //@ts-ignore
+        api: apis[chain],
+        //@ts-ignore
+        rpcUrl: rpcUrls[chain],
+        chain,
+        covalentApiKey,
+        ethplorerApiKey,
+        utxoApiKey,
+      });
 
-    addChain({
-      chain,
-      walletMethods,
-      wallet: { address, balance: [], walletType: WalletOption.KEEPKEY },
-    });
+      addChain({
+        chain,
+        walletMethods,
+        wallet: { address, balance: [], walletType: WalletOption.KEEPKEY },
+      });
+    }
 
     return true;
   };

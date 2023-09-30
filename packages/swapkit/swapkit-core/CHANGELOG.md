@@ -1,5 +1,28 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.219
+
+### Patch Changes
+
+- Updated dependencies [[`68d493d`](https://github.com/thorswap/SwapKit/commit/68d493dde0c631fa6d39e4029083436d89a8a16d)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.122
+  - @thorswap-lib/helpers@0.0.0-development.114
+
+## 1.0.0-development.218
+
+### Patch Changes
+
+- fix traderjoe abi
+
+## 1.0.0-development.217
+
+### Patch Changes
+
+- Updated dependencies [[`1e14ca1`](https://github.com/thorswap/SwapKit/commit/1e14ca19720d5b73d71f24e7924db84a79e0411a)]:
+  - @thorswap-lib/types@1.0.0-development.107
+  - @thorswap-lib/helpers@0.0.0-development.113
+  - @thorswap-lib/swapkit-entities@1.0.0-development.121
+
 ## 1.0.0-development.216
 
 ### Patch Changes
