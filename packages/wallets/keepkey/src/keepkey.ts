@@ -49,8 +49,7 @@ export type KeepKeyParams = KeepKeyOptions & {
 };
 
 const getToolbox = async (params: KeepKeyParams) => {
-  const { sdk, api, rpcUrl, chain, ethplorerApiKey, covalentApiKey, derivationPath, utxoApiKey } =
-    params;
+  const { sdk, api, rpcUrl, chain, ethplorerApiKey, covalentApiKey, utxoApiKey } = params;
 
   switch (chain) {
     case Chain.BinanceSmartChain:
@@ -60,7 +59,7 @@ const getToolbox = async (params: KeepKeyParams) => {
     case Chain.Avalanche:
     case Chain.Ethereum: {
       const provider = getProvider(chain, rpcUrl || '');
-      const signer = (await getEVMSigner({ sdk, chain, derivationPath, provider })) as Signer;
+      const signer = (await getEVMSigner({ sdk, chain, provider })) as Signer;
       const address = await signer.getAddress();
       if (chain === Chain.Ethereum && !ethplorerApiKey)
         throw new Error('Ethplorer API key not found');
@@ -114,7 +113,6 @@ const getToolbox = async (params: KeepKeyParams) => {
         chain,
         stagenet: false,
         utxoApiKey,
-        derivationPath,
       };
       const walletMethods = await utxoWalletMethods(params);
       let address = await walletMethods.getAddress();
@@ -145,7 +143,7 @@ const connectKeepKey =
     addChain,
     config: { covalentApiKey, ethplorerApiKey = 'freekey', utxoApiKey },
   }: ConnectWalletParams) =>
-  async (chains) => {
+  async (chains: any) => {
     const spec = 'http://localhost:1646/spec/swagger.json';
 
     // test spec: if offline, launch keepkey-bridge
@@ -185,7 +183,9 @@ const connectKeepKey =
     for (const chain of chains) {
       const { address, walletMethods } = await getToolbox({
         sdk: keepKeySdk,
+        //@ts-ignore
         api: apis[chain],
+        //@ts-ignore
         rpcUrl: rpcUrls[chain],
         chain,
         covalentApiKey,

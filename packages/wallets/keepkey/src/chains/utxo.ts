@@ -60,18 +60,18 @@ export const utxoWalletMethods: any = async function (params: any) {
       }
     };
     const address = await getAddress();
-    
+
     const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '') => {
       let outputs: any[] = psbt.txOutputs.map((output: any) => {
         let outputAddress = output.address;
         if (chain === Chain.BitcoinCash && output.address) {
           outputAddress = toCashAddress(output.address);
           const strippedAddress = (toolbox as ReturnType<typeof BCHToolbox>).stripPrefix(
-              outputAddress,
+            outputAddress,
           );
           outputAddress = strippedAddress;
         }
-        if (output.change || output.address == address) {
+        if (output.change || output.address === address) {
           return {
             addressNList: addressInfo.address_n,
             isChange: true,
@@ -80,31 +80,35 @@ export const utxoWalletMethods: any = async function (params: any) {
             scriptType: isSegwit ? 'p2wpkh' : 'p2pkh',
           };
         } else {
-          if(outputAddress){
+          if (outputAddress) {
             return {
               address: outputAddress,
               amount: output.value,
-              addressType: 'spend'
+              addressType: 'spend',
             };
+          } else {
+            //else opReturn DO NOT ADD
+            //HDwallet will handle opReturn do not send as an output to keepkey
+            return null;
           }
-          //else opReturn DO NOT ADD
-          //HDwallet will handle opReturn do not send output to keepkey
         }
       });
       function removeNullAndEmptyObjectsFromArray(arr: any[]): any[] {
-        return arr.filter((item) => item !== null && typeof item === 'object' && Object.keys(item).length !== 0);
+        return arr.filter(
+          (item) => item !== null && typeof item === 'object' && Object.keys(item).length !== 0,
+        );
       }
       let txToSign: any = {
         coin: COIN_MAP_KEEPKEY_LONG[chain],
         inputs,
-        outputs:removeNullAndEmptyObjectsFromArray(outputs),
+        outputs: removeNullAndEmptyObjectsFromArray(outputs),
         version: 1,
         locktime: 0,
       };
       if (memo) {
-        txToSign.opReturnData = memo
+        txToSign.opReturnData = memo;
       }
-      console.log("txToSign: ", txToSign);
+      console.log('txToSign: ', txToSign);
       let responseSign = await sdk.utxo.utxoSignTransaction(txToSign);
       return responseSign.serializedTx;
     };

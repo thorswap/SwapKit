@@ -245,7 +245,7 @@ const getInputsOutputsFee = async ({
 
   const feeRateWhole = feeRate ? Math.floor(feeRate) : (await getFeeRates(apiClient))[feeOptionKey];
 
-  return accumulative({ inputs, outputs: targetOutputs, feeRate: feeRateWhole });
+  return accumulative({ chain, inputs, outputs: targetOutputs, feeRate: feeRateWhole });
 };
 
 export const estimateMaxSendableAmount = async ({
