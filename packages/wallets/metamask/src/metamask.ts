@@ -146,7 +146,7 @@ const connectMetaMask =
     addChain,
     config: { covalentApiKey, ethplorerApiKey = 'freekey', utxoApiKey },
   }: ConnectWalletParams) =>
-  async (chain: (typeof KEEPKEY_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
+  async (chains: (typeof METAMASK_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
     //is metamask available?
     const isMetaMaskAvailable = (): boolean => {
       return (window as any).ethereum !== undefined && (window as any).ethereum.isMetaMask;
@@ -179,22 +179,24 @@ const connectMetaMask =
         });
         console.log('accounts: ', accounts);
 
-        const { address, walletMethods } = await getToolbox({
-          wallet: walletMetaMask,
-          api: apis[chain],
-          rpcUrl: rpcUrls[chain],
-          chain,
-          covalentApiKey,
-          ethplorerApiKey,
-          utxoApiKey,
-          derivationPath,
-        });
+        for (const chain of chains) {
+          const { address, walletMethods } = await getToolbox({
+            wallet: walletMetaMask,
+            api: apis[chain],
+            rpcUrl: rpcUrls[chain],
+            chain,
+            covalentApiKey,
+            ethplorerApiKey,
+            utxoApiKey,
+            derivationPath,
+          });
 
-        addChain({
-          chain,
-          walletMethods,
-          wallet: { address, balance: [], walletType: WalletOption.METAMASK },
-        });
+          addChain({
+            chain,
+            walletMethods,
+            wallet: { address, balance: [], walletType: WalletOption.METAMASK },
+          });
+        }
       }
     }
     return true;
