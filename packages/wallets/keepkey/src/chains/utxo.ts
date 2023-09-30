@@ -80,24 +80,31 @@ export const utxoWalletMethods: any = async function (params: any) {
             scriptType: isSegwit ? 'p2wpkh' : 'p2pkh',
           };
         } else {
-          return {
-            address: outputAddress,
-            amount: output.value,
-            addressType: 'spend'
-          };
+          if(outputAddress){
+            return {
+              address: outputAddress,
+              amount: output.value,
+              addressType: 'spend'
+            };
+          }
+          //else opReturn DO NOT ADD
+          //HDwallet will handle opReturn do not send output to keepkey
         }
       });
-
+      function removeNullAndEmptyObjectsFromArray(arr: any[]): any[] {
+        return arr.filter((item) => item !== null && typeof item === 'object' && Object.keys(item).length !== 0);
+      }
       let txToSign: any = {
         coin: COIN_MAP_KEEPKEY_LONG[chain],
         inputs,
-        outputs,
+        outputs:removeNullAndEmptyObjectsFromArray(outputs),
         version: 1,
         locktime: 0,
       };
       if (memo) {
-        txToSign.opReturnData = Buffer.from(memo, 'utf-8');
+        txToSign.opReturnData = memo
       }
+      console.log("txToSign: ", txToSign);
       let responseSign = await sdk.utxo.utxoSignTransaction(txToSign);
       return responseSign.serializedTx;
     };

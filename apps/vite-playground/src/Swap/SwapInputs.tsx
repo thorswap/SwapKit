@@ -35,8 +35,19 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
 
     const senderAddress = skClient.getAddress(inputAsset.asset.L1Chain);
     const recipientAddress = skClient.getAddress(outputAsset.asset.L1Chain);
+    console.log("inputAsset: ",inputAsset)
+    console.log("outputAsset: ",outputAsset)
 
     try {
+      let entry = {
+        sellAsset: inputAsset.asset.toString(),
+        sellAmount: inputAmount.assetAmount.toString(),
+        buyAsset: outputAsset.asset.toString(),
+        senderAddress,
+        recipientAddress,
+        slippage: '3',
+      }
+      console.log("entry: ",entry)
       const { routes } = await SwapKitApi.getQuote({
         sellAsset: inputAsset.asset.toString(),
         sellAmount: inputAmount.assetAmount.toString(),
