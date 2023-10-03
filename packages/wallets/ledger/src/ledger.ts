@@ -265,7 +265,7 @@ const getToolbox = async ({
         const account = await toolbox.getAccount(address);
         if (!assetValue) throw new Error('invalid asset to deposit');
         if (!account) throw new Error('invalid account');
-        if (!account.pubkey) throw new Error('Account pubkey not found');
+        if (!(signer as THORChainLedger).pubkey) throw new Error('Account pubkey not found');
 
         const unsignedMsgs = recursivelyOrderKeys([
           {
@@ -314,7 +314,10 @@ const getToolbox = async ({
 
         const signedTxBodyBytes = registry.encode(signedTxBody);
         const signedGasLimit = Int53.fromString(fee.gas).toNumber();
-        const pubkey = encodePubkey(account.pubkey);
+        const pubkey = encodePubkey({
+          type: 'tendermint/PubKeySecp256k1',
+          value: (signer as THORChainLedger).pubkey!,
+        });
         const signedAuthInfoBytes = makeAuthInfoBytes(
           [{ pubkey, sequence: Number(sequence) }],
           fee.amount,
@@ -345,6 +348,7 @@ const getToolbox = async ({
         if (!account) throw new Error('invalid account');
         if (!assetValue) throw new Error('invalid asset');
         if (!account.pubkey) throw new Error('Account pubkey not found');
+        if (!(signer as THORChainLedger).pubkey) throw new Error('Account pubkey not found');
 
         const { accountNumber, sequence = '0' } = account;
 
@@ -401,7 +405,10 @@ const getToolbox = async ({
 
         const signedTxBodyBytes = registry.encode(signedTxBody);
         const signedGasLimit = Int53.fromString(fee.gas).toNumber();
-        const pubkey = encodePubkey(account.pubkey);
+        const pubkey = encodePubkey({
+          type: 'tendermint/PubKeySecp256k1',
+          value: (signer as THORChainLedger).pubkey!,
+        });
         const signedAuthInfoBytes = makeAuthInfoBytes(
           [{ pubkey, sequence: Number(sequence) }],
           fee.amount,

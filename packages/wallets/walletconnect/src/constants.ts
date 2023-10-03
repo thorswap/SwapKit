@@ -42,6 +42,7 @@ export enum DEFAULT_EIP_155_EVENTS {
 export enum DEFAULT_COSMOS_METHODS {
   COSMOS_SIGN_DIRECT = 'cosmos_signDirect',
   COSMOS_SIGN_AMINO = 'cosmos_signAmino',
+  COSMOS_GET_ACCOUNTS = 'cosmos_getAccounts',
 }
 
 export enum DEFAULT_COSMOS_EVENTS {}

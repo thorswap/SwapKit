@@ -1,5 +1,13 @@
 # @thorswap-lib/toolbox-evm
 
+## 1.0.0-development.169
+
+### Patch Changes
+
+- Updated dependencies [[`68d493d`](https://github.com/thorswap/SwapKit/commit/68d493dde0c631fa6d39e4029083436d89a8a16d)]:
+  - @thorswap-lib/swapkit-entities@1.0.0-development.122
+  - @thorswap-lib/helpers@0.0.0-development.114
+
 ## 1.0.0-development.168
 
 ### Patch Changes

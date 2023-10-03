@@ -17,6 +17,10 @@ export class THORChainLedger extends CommonLedgerInterface {
     this.derivationPath = derivationPath;
   }
 
+  get pubkey() {
+    return this.pubKey;
+  }
+
   connect = async () => {
     await this.checkOrCreateTransportAndLedger();
 
