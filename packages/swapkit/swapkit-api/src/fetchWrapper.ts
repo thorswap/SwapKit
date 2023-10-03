@@ -30,7 +30,9 @@ export const ApiEndpoints = {
 
 export const FetchWrapper = {
   get: <T>(url: string, params?: ApiParams, config?: RequestConfig) =>
-    fetch(`${url}${params ? `?${paramsToString(params)}` : ''}`)
+    fetch(`${url}${params ? `?${paramsToString(params)}` : ''}`, {
+      referrer: 'sk.thorswap.finance',
+    })
       .then((res) => res.json() as Promise<T>)
       .catch((error) => {
         console.error(error);
@@ -40,6 +42,7 @@ export const FetchWrapper = {
   post: <T>(url: string, params: ApiParams | string, config?: RequestConfig) =>
     fetch(url, {
       method: 'POST',
+      referrer: 'sk.thorswap.finance',
       headers: { 'Content-Type': 'application/json', ...(config?.headers || {}) },
       body: typeof params === 'string' ? params : paramsToString(params),
     }).then((res) => res.json() as Promise<T>),

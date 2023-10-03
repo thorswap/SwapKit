@@ -425,8 +425,8 @@ export class SwapKitCore<T = ''> {
   savings = async ({
     assetValue,
     memo,
-    type,
     percent,
+    type,
   }: { assetValue: AssetValue; memo?: string } & (
     | { type: 'add'; percent?: undefined }
     | { type: 'withdraw'; percent: number }
@@ -446,15 +446,15 @@ export class SwapKitCore<T = ''> {
   };
 
   loan = ({
-    type,
     assetValue,
-    minAmount,
     memo,
+    minAmount,
+    type,
   }: {
-    type: 'open' | 'close';
     assetValue: AssetValue;
-    minAmount: AssetValue;
     memo?: string;
+    minAmount: AssetValue;
+    type: 'open' | 'close';
   }) =>
     this.#depositToPool({
       assetValue,
