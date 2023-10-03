@@ -239,5 +239,5 @@ export const list = {
     },
   ],
   count: 39,
-  logo: 'eth.1inch-0x111111111117dc0aa78b770fa6a738034120c302.png',
+  logo: 'https://static.thorswap.net/token-list/images/eth.1inch-0x111111111117dc0aa78b770fa6a738034120c302.png',
 } as const;

@@ -1,7 +1,7 @@
 export const list = {
   name: 'PancakeSwap Extended',
-  timestamp: '2023-08-31T14:37:19.571Z',
-  version: { major: 2, minor: 16, patch: 158 },
+  timestamp: '2023-09-29T08:59:59.800Z',
+  version: { major: 2, minor: 16, patch: 160 },
   keywords: ['pancakeswap', 'extended'],
   tokens: [
     {
@@ -1811,6 +1811,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0xCE7de646e7208a4Ef112cb6ed5038FA6cC6b12e3',
+      chain: 'BSC',
+      identifier: 'BSC.TRX-0XCE7DE646E7208A4EF112CB6ED5038FA6CC6B12E3',
+      decimals: 6,
+    },
+    {
       address: '0x990E7154bB999FAa9b2fa5Ed29E822703311eA85',
       chain: 'BSC',
       identifier: 'BSC.TT-0X990E7154BB999FAA9B2FA5ED29E822703311EA85',
@@ -2123,6 +2129,6 @@ export const list = {
       decimals: 18,
     },
   ],
-  count: 353,
+  count: 354,
   logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/7186.png',
 } as const;
