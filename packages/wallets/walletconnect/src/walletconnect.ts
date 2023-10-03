@@ -3,7 +3,7 @@ import { fromBase64 } from '@cosmjs/encoding';
 import { Int53 } from '@cosmjs/math';
 import { encodePubkey, makeAuthInfoBytes, type TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import { StargateClient } from '@cosmjs/stargate';
-import type { DepositParam } from '@thorswap-lib/toolbox-cosmos';
+import type { BaseCosmosToolboxType, DepositParam } from '@thorswap-lib/toolbox-cosmos';
 import type { WalletTxParams } from '@thorswap-lib/types';
 import { Chain, ChainId, RPCUrl, WalletOption } from '@thorswap-lib/types';
 import type { WalletConnectModalSign } from '@walletconnect/modal-sign-html';
@@ -395,9 +395,37 @@ const connectWalletconnect =
         stagenet,
       });
 
+      const getAccount = async (address: string) => {
+        const account = await (toolbox as unknown as BaseCosmosToolboxType).getAccount(address);
+        const [walletconnectAccount] = await walletconnect?.client.request({
+          chainId: THORCHAIN_MAINNET_ID,
+          topic: session.topic,
+          request: {
+            method: DEFAULT_COSMOS_METHODS.COSMOS_GET_ACCOUNTS,
+            params: {},
+          },
+        }) as {
+          address: string;
+          algo: string;
+          pubkey: string;
+        }[];
+
+        return {
+          ...account,
+          address: walletconnectAccount.address,
+          pubkey: {
+            type: walletconnectAccount.algo,
+            value: walletconnectAccount.pubkey
+          }
+        };
+      };
+
       addChain({
         chain,
-        walletMethods: { ...toolbox, getAddress: () => address },
+        walletMethods: {
+          ...toolbox,
+          getAddress: () => address,
+          getAccount: chain === Chain.THORChain ? getAccount : (toolbox as unknown as BaseCosmosToolboxType).getAccount },
         wallet: { address, balance: [], walletType: WalletOption.WALLETCONNECT },
       });
       return;
