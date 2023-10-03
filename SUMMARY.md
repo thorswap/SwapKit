@@ -40,6 +40,12 @@
 
 ## 📚 References
 
+* [SwapKit Packages Reference](references/swapkit-sdk-methods/README.md)
+  * [@swapkit/api](references/swapkit-sdk-methods/core.md)
+  * [@swapkit/core](references/swapkit-sdk-methods/core-1.md)
+  * [@swapkit/helpers](references/swapkit-sdk-methods/core-2.md)
+  * [@swapkit/sdk](references/swapkit-sdk-methods/core-3.md)
+  * [@swapkit/types](references/swapkit-sdk-methods/core-4.md)
 * [API Reference](references/api-reference/README.md)
   * [Gas API](references/api-reference/gas-api.md)
   * [Lending API](references/api-reference/lending-api.md)
@@ -52,8 +58,5 @@
   * [Aggregator API](references/api-reference/aggregator-api.md)
   * [Resource Worker API](references/api-reference/resource-worker-api.md)
   * [Full API Reference](http://localhost:3000/doc)
-* [SwapKit SDK Methods](references/swapkit-sdk-methods/README.md)
-  * [API SDK](references/swapkit-sdk-methods/api-sdk.md)
-  * [Core](references/swapkit-sdk-methods/core.md)
-  * [Types](references/swapkit-sdk-methods/types.md)
-* [Smart Contracts](references/smart-contracts.md)
+* [✨ Smart Contracts](references/smart-contracts.md)
+* [🏗 V1 Migration](references/v1-migration.md)

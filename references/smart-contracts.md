@@ -2,7 +2,7 @@
 description: Full list of smart contracts utilised by SwapKit SDK
 ---
 
-# Smart Contracts
+# ✨ Smart Contracts
 
 ### Ethereum
 
