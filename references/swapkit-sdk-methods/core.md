@@ -1,71 +1,40 @@
----
-description: Simple SwapKit API wrapper with typings helpers to keep fetches organized
----
-
-# @swapkit/api
+# @swapkit/core
 
 ### Installation
 
 {% tabs %}
 {% tab title="pnpm" %}
 ```bash
-pnpm add @swapkit/api
+pnpm add @swapkit/core
 ```
 {% endtab %}
 
 {% tab title="yarn" %}
 ```bash
-yarn add @swapkit/api
+yarn add @swapkit/core
 ```
 {% endtab %}
 
 {% tab title="npm" %}
 ```bash
-npm add @swapkit/api
+npm add @swapkit/core
 ```
 {% endtab %}
 {% endtabs %}
 
-### Usage
+### Class properties
 
-Methods are wrapped in simple `SwapKitApi` object. Any types referenced in methods table are exported from `@swapkit/api` package as well
-
-```typescript
-import { SwapKitApi, type CachedPricesResponse } from '@swapkit/api'
-
-const cachedPrices = await SwapKitApi.getCachedPrices({
-  tokens: [{ identifier: 'BTC.BTC' }]
-});
-
-// Typings can be taken from directly from package
-const btcPrice: CachedPricesResponse[number] = cachedPrices.find(
-  ({ identifier }) => identifier === 'BTC.BTC'
-);
-```
+<table data-full-width="true"><thead><tr><th width="212.5">Property</th><th width="503">Description</th><th>Return Data</th></tr></thead><tbody><tr><td><code>connectedChains</code></td><td>connected chains data after usage of <code>connectX</code> method</td><td><pre class="language-typescript"><code class="lang-typescript">{
+  address: string;
+  balance: AssetValue[];
+  walletType: WalletOption
+}
+</code></pre></td></tr><tr><td><code>connectedWallets</code></td><td>connected wallet methods after usage of <code>connectX</code> method</td><td><a href="../../swapkit-sdk/wallets/">Wallet Docs</a></td></tr></tbody></table>
 
 ### Methods
 
-<table data-full-width="true"><thead><tr><th width="322.5">Method</th><th>Type References</th></tr></thead><tbody><tr><td><code>getCachedPrices</code></td><td><pre class="language-typescript"><code class="lang-typescript">({
-  tokens: { identifier: string }[];
-  metadata?: "true" | "false" | undefined;
-  lookup?: "true" | "false" | undefined;
-  sparkline?: "true" | "false" | undefined;
-}) => Promise&#x3C;CachedPricesResponse[]>
-</code></pre></td></tr><tr><td><code>getQuote</code></td><td><pre class="language-typescript"><code class="lang-typescript">({
-    affiliateBasisPoints?: string | undefined;
-    buyAsset: string;
-    recipientAddress?: string | undefined;
-    sellAmount: string;
-    sellAsset: string;
-    senderAddress?: string | undefined;
-    slippage: string;
-}) => Promise&#x3C;QuoteResponse>
-</code></pre></td></tr><tr><td><code>getGasRates</code></td><td><pre class="language-typescript"><code class="lang-typescript">() => Promise&#x3C;GasRatesResponse>
-</code></pre></td></tr><tr><td><code>getTxnDetails</code></td><td><pre class="language-typescript"><code class="lang-typescript"><strong>(txHash: string) => Promise&#x3C;TxnResponse>;
-</strong></code></pre></td></tr><tr><td><code>getTokenlistProviders</code></td><td><pre class="language-typescript"><code class="lang-typescript">() => Promise&#x3C;TokenlistProvidersResponse>;
-</code></pre></td></tr><tr><td><code>getTokenList</code></td><td><pre class="language-typescript"><code class="lang-typescript">(tokenlist: string) => Promise&#x3C;TODO>;
-</code></pre></td></tr><tr><td><code>getThornameAddresses</code></td><td><pre class="language-typescript"><code class="lang-typescript">(address: string) => Promise&#x3C;ThornameResponse>;
-</code></pre></td></tr><tr><td><code>getThornameRegisteredChains</code></td><td><pre class="language-typescript"><code class="lang-typescript">(address: string) => Promise&#x3C;string[]>;
-</code></pre></td></tr><tr><td><code>getThornameRlookup</code></td><td><pre class="language-typescript"><code class="lang-typescript">(address: string, chain: string) => Promise&#x3C;unknown>;
-</code></pre></td></tr></tbody></table>
+<table data-full-width="true"><thead><tr><th width="306.5">Method</th><th>Params</th></tr></thead><tbody><tr><td><code>approveAssetValue</code></td><td></td></tr><tr><td><code>approveAssetForContract</code></td><td></td></tr><tr><td><code>isAssetValueApproved</code></td><td></td></tr><tr><td><code>disconnectChain</code> </td><td></td></tr><tr><td><code>extend</code> </td><td></td></tr><tr><td><code>getAddress</code> </td><td></td></tr><tr><td><code>getExplorerAddressUrl</code> </td><td></td></tr><tr><td><code>getExplorerTxUrl</code> </td><td></td></tr><tr><td><code>getWalletByChain</code> </td><td></td></tr><tr><td><code>getWallet</code> </td><td></td></tr><tr><td><code>swap</code></td><td></td></tr><tr><td><code>validateAddress</code> </td><td></td></tr></tbody></table>
 
+### THORChain Methods (included in instance) - Required [COSMOS](../../swapkit-sdk/toolboxes/cosmos.md) Toolbox
+
+<table data-full-width="true"><thead><tr><th width="309.5">Method</th><th>Description</th></tr></thead><tbody><tr><td><code>savings</code> </td><td></td></tr><tr><td><code>loan</code> </td><td></td></tr><tr><td><code>addLiquidity</code> </td><td></td></tr><tr><td><code>createLiquidity</code></td><td></td></tr><tr><td><code>withdraw</code></td><td></td></tr><tr><td><code>registerThorname</code></td><td></td></tr><tr><td><code>nodeAction</code> </td><td></td></tr><tr><td><code>deposit</code> </td><td></td></tr><tr><td><code>transfer</code></td><td></td></tr></tbody></table>

@@ -41,11 +41,12 @@
 ## 📚 References
 
 * [SwapKit Packages Reference](references/swapkit-sdk-methods/README.md)
-  * [@swapkit/api](references/swapkit-sdk-methods/core.md)
-  * [@swapkit/core](references/swapkit-sdk-methods/core-1.md)
+  * [@swapkit/api](<references/swapkit-sdk-methods/core (1).md>)
+  * [@swapkit/core](references/swapkit-sdk-methods/core.md)
   * [@swapkit/helpers](references/swapkit-sdk-methods/core-2.md)
   * [@swapkit/sdk](references/swapkit-sdk-methods/core-3.md)
-  * [@swapkit/types](references/swapkit-sdk-methods/core-4.md)
+  * [@swapkit/tokens](references/swapkit-sdk-methods/core-4.md)
+  * [@swapkit/types](references/swapkit-sdk-methods/core-5.md)
 * [API Reference](references/api-reference/README.md)
   * [Gas API](references/api-reference/gas-api.md)
   * [Lending API](references/api-reference/lending-api.md)
