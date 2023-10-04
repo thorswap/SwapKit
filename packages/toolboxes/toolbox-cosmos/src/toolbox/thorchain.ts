@@ -292,7 +292,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
 
   const transfer = async ({
     from,
-    to,
+    recipient,
     assetValue,
     memo = '',
     fee = DEFAULT_THORCHAIN_FEE_MAINNET,
@@ -308,14 +308,14 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     });
 
     const base64From = bech32ToBase64(from);
-    const base64To = bech32ToBase64(to);
+    const base64To = bech32ToBase64(recipient);
 
     const sendMsg = {
       typeUrl: '/types.MsgSend',
       value: {
         fromAddress: base64From,
         toAddress: base64To,
-        amount: [{ amount: assetValue.baseValueNumber, denom: getDenom(assetValue.symbol) }],
+        amount: [{ amount: assetValue.baseValueNumber.toString(), denom: getDenom(assetValue.symbol) }],
       },
     };
 

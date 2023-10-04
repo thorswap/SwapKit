@@ -19,7 +19,7 @@ export type TransferParams = {
   privkey?: Uint8Array;
   signer?: OfflineDirectSigner;
   from: string;
-  to: string;
+  recipient: string;
   assetValue: AssetValue;
   memo?: string;
   fee?: StdFee;

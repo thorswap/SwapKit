@@ -1,4 +1,4 @@
-import type { AssetValue, SwapKitCore } from '@thorswap-lib/swapkit-core';
+import { AssetValue, SwapKitCore } from '@thorswap-lib/swapkit-core';
 import { Chain } from '@thorswap-lib/types';
 import { useCallback, useState } from 'react';
 
@@ -14,15 +14,17 @@ export default function Send({
 
   const handleInputChange = useCallback(
     (value: string) => {
-      setInput(inputAssetValue.mul(0).add(value));
+      setInput(inputAssetValue ? inputAssetValue.mul(0).add(value) : inputAsset.mul(0).add(value));
     },
-    [inputAssetValue],
+    [inputAssetValue, inputAsset],
   );
 
   const handleSend = useCallback(async () => {
     if (!inputAsset || !inputAssetValue.gt(0) || !skClient) return;
 
+    const from = skClient.getAddress(inputAsset.chain);
     const txHash = await skClient.transfer({
+      from,
       assetValue: inputAssetValue,
       memo: '',
       recipient,
@@ -49,7 +51,7 @@ export default function Send({
             <input
               onChange={(e) => handleInputChange(e.target.value)}
               placeholder="0.0"
-              value={inputAssetValue.toSignificant(6)}
+              value={inputAssetValue?.toSignificant(6)}
             />
           </div>
 

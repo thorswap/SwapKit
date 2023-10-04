@@ -68,7 +68,7 @@ export class CosmosClient {
 
   transfer = async ({
     from,
-    to,
+    recipient,
     assetValue,
     memo = '',
     fee = DEFAULT_COSMOS_FEE_MAINNET,
@@ -82,7 +82,7 @@ export class CosmosClient {
     const signingClient = await SigningStargateClient.connectWithSigner(this.rpcUrl, signer);
     const txResponse = await signingClient.sendTokens(
       from,
-      to,
+      recipient,
       [{ denom: getDenom(assetValue.symbol), amount: assetValue.baseValue }],
       fee as StdFee,
       memo,

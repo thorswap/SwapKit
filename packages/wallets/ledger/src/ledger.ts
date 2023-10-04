@@ -201,7 +201,7 @@ const getToolbox = async ({
     case Chain.Cosmos: {
       const { getDenom, GaiaToolbox } = await import('@thorswap-lib/toolbox-cosmos');
       const toolbox = GaiaToolbox();
-      const transfer = async ({ assetValue, to, memo }: TransferParams) => {
+      const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
         const from = address;
         if (!assetValue) throw new Error('invalid asset');
         // TODO - create fallback for gas price estimation if internal api has error
@@ -210,7 +210,7 @@ const getToolbox = async ({
         const sendCoinsMessage = {
           amount: [{ amount: assetValue.baseValue, denom: getDenom(assetValue.symbol) }],
           fromAddress: from,
-          toAddress: to,
+          toAddress: recipient,
         };
 
         const msg = {

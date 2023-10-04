@@ -72,10 +72,10 @@ export const thorchainWalletMethods = async ({
   const fromAddress = await toolbox.getAddressFromMnemonic(phrase);
   const signer = await toolbox.getSigner(phrase);
 
-  const transfer = async ({ assetValue, to, memo }: TransferParams) =>
+  const transfer = async ({ assetValue, recipient, memo }: TransferParams) =>
     toolbox.transfer({
       from: fromAddress,
-      to,
+      recipient,
       signer,
       assetValue,
       memo,

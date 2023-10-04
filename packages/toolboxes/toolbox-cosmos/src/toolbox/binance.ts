@@ -119,9 +119,9 @@ const prepareTransaction = async (
 
 const decodeAddress = (value: string) => Buffer.from(bech32.fromWords(bech32.decode(value).words));
 
-const createTransactionAndSignMsg = async ({ from, to, assetValue, memo }: TransferParams) => {
+const createTransactionAndSignMsg = async ({ from, recipient, assetValue, memo }: TransferParams) => {
   const accCode = decodeAddress(from);
-  const toAccCode = decodeAddress(to);
+  const toAccCode = decodeAddress(recipient);
 
   const coin = {
     denom: getDenom(assetValue.symbol),
@@ -136,7 +136,7 @@ const createTransactionAndSignMsg = async ({ from, to, assetValue, memo }: Trans
 
   const signMsg = {
     inputs: [{ address: from, coins: [coin] }],
-    outputs: [{ address: to, coins: [coin] }],
+    outputs: [{ address: recipient, coins: [coin] }],
   };
 
   const transaction = await prepareTransaction(msg, from, null, memo);
