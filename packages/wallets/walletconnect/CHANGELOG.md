@@ -1,5 +1,11 @@
 # @thorswap-lib/walletconnect
 
+## 2.0.0-development.60
+
+### Minor Changes
+
+- [#339](https://github.com/thorswap/SwapKit/pull/339) [`2f1e564`](https://github.com/thorswap/SwapKit/commit/2f1e5642e16e246dda63c56f54a878c2825800e4) Thanks [@0x-General](https://github.com/0x-General)! - Get account pubkey from walletconnect directly
+
 ## 2.0.0-development.59
 
 ### Patch Changes
