@@ -41,7 +41,7 @@ const getAVAXAssetDecimal = async (symbol: string) => {
   const [, address] = symbol.split('-');
 
   return address?.startsWith('0x')
-    ? getContractDecimals({ chain: Chain.Avalanche, to: address })
+    ? getContractDecimals({ chain: Chain.Avalanche, to: address.toLowerCase() })
     : BaseDecimal.AVAX;
 };
 

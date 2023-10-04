@@ -98,8 +98,47 @@ describe('AssetValue', () => {
     });
   });
 
+  describe('fromString', () => {
+    test('creates AssetValue from string', () => {
+      test('creates AssetValue from string', async () => {
+        const fakeAvaxAssetString = 'AVAX.ASDF-1234';
+        const fakeAvaxAsset = await AssetValue.fromString(fakeAvaxAssetString);
+
+        expect(fakeAvaxAsset).toEqual(
+          expect.objectContaining({
+            address: '1234',
+            chain: Chain.Avalanche,
+            decimal: 10,
+            isGasAsset: false,
+            isSynthetic: false,
+            symbol: 'ASDF-1234',
+            ticker: 'ASDF',
+          }),
+        );
+      });
+    });
+  });
+
   describe('fromIdentifierSync', () => {
-    test.todo('creates AssetValue from string via `@thorswap-lib/tokens` lists', () => {});
+    test.todo(
+      '(same as fromIdentifier) - creates AssetValue from string via `@thorswap-lib/tokens` lists',
+      () => {},
+    );
+  });
+
+  describe('fromStringSync', () => {
+    test.todo(
+      '(same as fromString) - creates AssetValue from string via `@thorswap-lib/tokens` lists',
+      () => {},
+    );
+
+    test('returns undefined if string is not in `@thorswap-lib/tokens` lists', async () => {
+      await AssetValue.loadStaticAssets();
+      const fakeAvaxUSDCAssetString = 'AVAX.USDC-1234';
+      const fakeAvaxUSDCAsset = AssetValue.fromStringSync(fakeAvaxUSDCAssetString);
+
+      expect(fakeAvaxUSDCAsset).toBeUndefined();
+    });
   });
 
   describe('fromChainOrSignature', () => {

@@ -45,11 +45,7 @@ const getStaticToken = (identifier: TokenNames) => {
   }
   const tokenInfo = staticTokensMap.get(identifier);
 
-  if (!tokenInfo) {
-    throw new Error(`Asset ${identifier} not found - check if it's in the tokens package list`);
-  }
-
-  return tokenInfo;
+  return tokenInfo || { decimal: BaseDecimal.THOR, identifier: '' };
 };
 
 const createAssetValue = async (assetString: string, value: number | string = 0) => {
@@ -63,6 +59,17 @@ export class AssetValue extends BigIntArithmetics {
   static async fromString(assetString: string, value: number | string = 0) {
     return createAssetValue(assetString, value);
   }
+
+  static fromStringSync(assetString: string, value: number | string = 0) {
+    const { decimal, identifier: tokenIdentifier } = getStaticToken(
+      assetString as unknown as TokenNames,
+    );
+
+    return tokenIdentifier
+      ? new AssetValue({ decimal, identifier: tokenIdentifier, value })
+      : undefined;
+  }
+
   static async fromIdentifier(
     assetString: `${Chain}.${string}` | `${Chain}/${string}` | `${Chain}.${string}-${string}`,
     value: number | string = 0,
@@ -71,9 +78,9 @@ export class AssetValue extends BigIntArithmetics {
   }
 
   static fromIdentifierSync(identifier: TokenNames, value: number | string = 0) {
-    const tokenInfo = getStaticToken(identifier);
+    const { decimal, identifier: tokenIdentifier } = getStaticToken(identifier);
 
-    return new AssetValue({ ...tokenInfo, value });
+    return new AssetValue({ decimal, identifier: tokenIdentifier, value });
   }
 
   static fromChainOrSignature(

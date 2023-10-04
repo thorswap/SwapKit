@@ -36,7 +36,7 @@ export const getRequest = async <T>(
 
   const response = await fetch(
     `${url}${params ? `?${new URLSearchParams(queryParams).toString()}` : ''}`,
-    { method: 'GET', mode: 'cors', credentials: 'omit', referrer: 'sk.thorswap.net' },
+    { method: 'GET', mode: 'cors', credentials: 'omit', referrer: 'https://sk.thorswap.net' },
   );
 
   return response.json();
@@ -52,7 +52,7 @@ export const postRequest = async <T>(
     body,
     headers,
     method: 'POST',
-    referrer: 'sk.thorswap.net',
+    referrer: 'https://sk.thorswap.net',
   });
 
   return parseAsString ? response.text() : response.json();
