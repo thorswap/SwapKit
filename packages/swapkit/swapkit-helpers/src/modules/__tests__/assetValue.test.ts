@@ -18,12 +18,13 @@ describe('AssetValue', () => {
       expect(thor.assetValue).toBe('0 THOR');
 
       const ethSynth = new AssetValue({
-        chain: Chain.Ethereum,
+        chain: Chain.THORChain,
         symbol: 'ETH/ETH',
         decimal: 18,
         value: 1234567890,
       });
-      expect(ethSynth.assetValue).toBe('1234567890 ETH');
+      expect(ethSynth.assetValue).toBe('1234567890 ETH/ETH');
+      expect(ethSynth.toString()).toBe('THOR.ETH/ETH');
     });
   });
 
@@ -75,7 +76,7 @@ describe('AssetValue', () => {
       expect(thor.toString()).toBe('ETH.THOR-0xa5f2211B9b8170F694421f2046281775E8468044');
 
       const ethSynth = await AssetValue.fromIdentifier('ETH/ETH');
-      expect(ethSynth.toString()).toBe('ETH/ETH');
+      expect(ethSynth.toString()).toBe('THOR.ETH/ETH');
     });
   });
 

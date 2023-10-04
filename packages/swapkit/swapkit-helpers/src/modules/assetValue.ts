@@ -174,7 +174,7 @@ export class AssetValue extends BigIntArithmetics {
   }
 
   toString() {
-    return `${this.chain}${this.isSynthetic ? '/' : '.'}${this.symbol}`;
+    return `${this.chain}.${this.symbol}`;
   }
 
   eq({ chain, symbol }: { chain: Chain; symbol: string }) {
@@ -202,16 +202,20 @@ export const getMinAmountByChain = (chain: Chain) => {
 };
 
 const getAssetInfo = (identifier: string) => {
-  const isSynthetic = identifier.slice(0, 10).includes('/');
-  const [chain, symbol] = identifier.split(isSynthetic ? '/' : '.') as [Chain, string];
+  const isSynthetic = identifier.slice(0, 14).includes('/');
+  const adjustedIdentifier = identifier.includes('.')
+    ? identifier
+    : `${Chain.THORChain}.${identifier}`;
+
+  const [chain, symbol] = adjustedIdentifier.split('.') as [Chain, string];
   const [ticker, address] = symbol.split('-') as [string, string?];
 
   return {
-    chain,
-    ticker,
-    symbol,
     address,
-    isSynthetic,
+    chain,
     isGasAsset: isGasAsset({ chain, symbol }),
+    isSynthetic,
+    symbol,
+    ticker: isSynthetic ? symbol : ticker,
   };
 };
