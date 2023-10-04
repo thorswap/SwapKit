@@ -43,7 +43,7 @@ const getStaticToken = (identifier: TokenNames) => {
   if (!staticTokensMap) {
     throw new Error('Static assets not loaded, call await AssetValue.loadStaticAssets() first');
   }
-  const tokenInfo = staticTokensMap.get(identifier);
+  const tokenInfo = staticTokensMap.get(identifier.toUpperCase() as TokenNames);
 
   return tokenInfo || { decimal: BaseDecimal.THOR, identifier: '' };
 };
@@ -114,16 +114,19 @@ export class AssetValue extends BigIntArithmetics {
     return new Promise<{ ok: true } | { ok: false; message: string; error: any }>(
       async (resolve, reject) => {
         try {
-          const tokensPackage = await import('@thorswap-lib/tokens');
-          const tokensMap = Object.values(tokensPackage).reduce((acc, { tokens }) => {
-            tokens.forEach(({ identifier, chain, ...rest }) => {
-              const decimal = 'decimals' in rest ? rest.decimals : BaseDecimal[chain];
+          const { ThorchainList, ...tokensPackage } = await import('@thorswap-lib/tokens');
+          const tokensMap = [ThorchainList, ...Object.values(tokensPackage)].reduce(
+            (acc, { tokens }) => {
+              tokens.forEach(({ identifier, chain, ...rest }) => {
+                const decimal = 'decimals' in rest ? rest.decimals : BaseDecimal[chain];
 
-              acc.set(identifier as TokenNames, { identifier, decimal });
-            });
+                acc.set(identifier as TokenNames, { identifier, decimal });
+              });
 
-            return acc;
-          }, new Map<TokenNames, { decimal: number; identifier: string }>());
+              return acc;
+            },
+            new Map<TokenNames, { decimal: number; identifier: string }>(),
+          );
 
           staticTokensMap = tokensMap;
 
@@ -211,11 +214,11 @@ const getAssetInfo = (identifier: string) => {
   const [ticker, address] = symbol.split('-') as [string, string?];
 
   return {
-    address,
+    address: address?.toLowerCase(),
     chain,
     isGasAsset: isGasAsset({ chain, symbol }),
     isSynthetic,
-    symbol,
+    symbol: address ? `${ticker}-${address?.toLowerCase() ?? ''}` : symbol,
     ticker: isSynthetic ? symbol : ticker,
   };
 };

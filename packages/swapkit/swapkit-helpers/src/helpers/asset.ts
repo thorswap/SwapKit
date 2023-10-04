@@ -102,9 +102,9 @@ export const getCommonAssetInfo = (
 ): { identifier: string; decimal: number } => {
   switch (assetString) {
     case 'ETH.THOR':
-      return { identifier: 'ETH.THOR-0xa5f2211B9b8170F694421f2046281775E8468044', decimal: 18 };
+      return { identifier: 'ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044', decimal: 18 };
     case 'ETH.vTHOR':
-      return { identifier: 'ETH.vTHOR-0x815C23eCA83261b6Ec689b60Cc4a58b54BC24D8D', decimal: 18 };
+      return { identifier: 'ETH.vTHOR-0x815c23eca83261b6ec689b60cc4a58b54bc24d8d', decimal: 18 };
 
     case Chain.Cosmos:
       return { identifier: 'GAIA.ATOM', decimal: BaseDecimal[assetString] };
