@@ -12,12 +12,8 @@ export const getBalance = async (
   api: EthplorerApiType,
   address: string,
 ) => {
-  console.log('getting balance', address);
-
   const tokenBalances = await api.getBalance(address);
   const evmGasTokenBalance = await provider.getBalance(address);
-
-  console.log(evmGasTokenBalance, provider, api);
 
   return [
     AssetValue.fromChainOrSignature(Chain.Ethereum, evmGasTokenBalance.toString()),

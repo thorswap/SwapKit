@@ -1,10 +1,11 @@
-import { AssetValue, isGasAsset, SwapKitNumber } from '@swapkit/helpers';
+import type { AssetValue } from '@swapkit/helpers';
+import { isGasAsset, SwapKitNumber } from '@swapkit/helpers';
 import type { Asset, EVMChain, WalletTxParams } from '@swapkit/types';
 import { Chain, ContractAddress, erc20ABI, FeeOption } from '@swapkit/types';
 import type {
-  BigNumberish,
   BrowserProvider,
   ContractTransaction,
+  Eip1193Provider,
   Fragment,
   JsonFragment,
   JsonRpcSigner,
@@ -46,8 +47,8 @@ const isEIP1559Transaction = (tx: EVMTxParams) =>
   !!(tx as EIP1559TxParams).maxFeePerGas ||
   !!(tx as EIP1559TxParams).maxPriorityFeePerGas;
 
-export const isBrowserProvider = (provider: any) =>
-  !!provider.provider || !!provider.jsonRpcFetchFunc;
+export const isBrowserProvider = (provider: any): provider is Eip1193Provider =>
+  'request' in provider;
 export const createContract = async (
   address: string,
   abi: readonly (JsonFragment | Fragment)[],
@@ -107,7 +108,6 @@ const call = async <T>(
 
     return EIP1193SendTransaction(contractProvider, txObject) as Promise<T>;
   }
-
   const contract = await createContract(contractAddress, abi, contractProvider);
 
   // only use signer if the contract function is state changing
@@ -120,9 +120,13 @@ const call = async <T>(
 
     const connectedContract = contract.connect(signer);
 
-    // @ts-expect-error TODO: Check if that calls contract function
-    const result = await connectedContract[funcName](...funcParams, {
+    const gasLimit = await connectedContract
+      .getFunction(funcName)
+      .estimateGas(...funcParams, txOverrides);
+
+    const result = await connectedContract.getFunction(funcName)(...funcParams, {
       ...txOverrides,
+      gasLimit,
       /**
        * nonce must be set due to a possible bug with ethers.js,
        * expecting a synchronous nonce while the JsonRpcProvider delivers Promise
@@ -150,20 +154,21 @@ const approvedAmount = async (
   provider: Provider,
   { assetAddress, spenderAddress, from }: IsApprovedParams,
 ) =>
-  await call<BigNumberish>(provider, {
+  await call<bigint>(provider, {
     contractAddress: assetAddress,
     abi: erc20ABI as any,
     funcName: 'allowance',
     funcParams: [from, spenderAddress],
-  }).toString();
+  });
 
 const isApproved = async (
   provider: Provider,
   { assetAddress, spenderAddress, from, amount = MAX_APPROVAL }: IsApprovedParams,
-) =>
-  SwapKitNumber.fromBigInt(
-    BigInt(await approvedAmount(provider, { assetAddress, spenderAddress, from })),
+) => {
+  return SwapKitNumber.fromBigInt(
+    await approvedAmount(provider, { assetAddress, spenderAddress, from }),
   ).gte(SwapKitNumber.fromBigInt(BigInt(amount)));
+};
 
 const approve = async (
   provider: Provider,
@@ -227,17 +232,16 @@ const transfer = async (
   signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
-  // TODO - this might be wrong
-  const txAmount = assetValue.bigIntValue;
-  const parsedAsset = await AssetValue.fromIdentifier(
-    `${assetValue?.chain}.${assetValue?.symbol}`,
-    0,
-  );
-  const chain = parsedAsset.chain as EVMChain;
+  const txAmount = assetValue.baseValueBigInt;
+  const chain = assetValue.chain as EVMChain;
 
-  if (!isGasAsset(parsedAsset)) {
-    const contractAddress = getTokenAddress(parsedAsset, chain);
+  if (!isGasAsset(assetValue)) {
+    const contractAddress = getTokenAddress(assetValue, chain);
     if (!contractAddress) throw new Error('No contract address found');
+
+    const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = (
+      await estimateGasPrices(provider, isEIP1559Compatible)
+    )[feeOptionKey];
     // Transfer ERC20
     return call<string>(provider, {
       signer,
@@ -245,7 +249,7 @@ const transfer = async (
       abi: erc20ABI,
       funcName: 'transfer',
       funcParams: [recipient, txAmount],
-      txOverrides: { from },
+      txOverrides: { from, maxFeePerGas, maxPriorityFeePerGas, gasPrice },
     });
   }
 
@@ -404,16 +408,17 @@ const sendTransaction = async (
   const nonce = tx.nonce || (await provider.getTransactionCount(address));
   const chainId = (await provider.getNetwork()).chainId;
 
-  const isEIP1559 = isEIP1559Transaction(tx) || isEIP1559Compatible;
+  const isEIP1559 = isEIP1559Transaction(parsedTxObject) || isEIP1559Compatible;
 
   const feeData =
     (isEIP1559 &&
-      (!(tx as EIP1559TxParams).maxFeePerGas || !(tx as EIP1559TxParams).maxPriorityFeePerGas)) ||
-    !(tx as LegacyEVMTxParams).gasPrice
+      (!(parsedTxObject as EIP1559TxParams).maxFeePerGas ||
+        !(parsedTxObject as EIP1559TxParams).maxPriorityFeePerGas)) ||
+    !(parsedTxObject as LegacyEVMTxParams).gasPrice
       ? Object.entries(
           (await estimateGasPrices(provider, isEIP1559Compatible))[feeOptionKey],
         ).reduce(
-          (acc, [k, v]) => ({ ...acc, [k]: BigInt(v).toString(16) }),
+          (acc, [k, v]) => ({ ...acc, [k]: toHexString(BigInt(v)) }),
           {} as {
             maxFeePerGas?: string;
             maxPriorityFeePerGas?: string;
@@ -421,10 +426,11 @@ const sendTransaction = async (
           },
         )
       : {};
-
   let gasLimit: string;
   try {
-    gasLimit = toHexString(tx.gasLimit || ((await provider.estimateGas(tx)) * 11n) / 10n);
+    gasLimit = toHexString(
+      parsedTxObject.gasLimit || ((await provider.estimateGas(parsedTxObject)) * 11n) / 10n,
+    );
   } catch (error) {
     throw new Error(`Error estimating gas limit: ${JSON.stringify(error)}`);
   }
@@ -439,10 +445,14 @@ const sendTransaction = async (
       ...feeData,
     };
 
-    const txHex = await signer.signTransaction(txObject);
-    const response = await provider.broadcastTransaction(txHex);
-
-    return typeof response?.hash === 'string' ? response.hash : response;
+    try {
+      const response = await signer.sendTransaction(txObject);
+      return typeof response?.hash === 'string' ? response.hash : response;
+    } catch (error) {
+      const txHex = await signer.signTransaction(txObject);
+      const response = await provider.broadcastTransaction(txHex);
+      return typeof response?.hash === 'string' ? response.hash : response;
+    }
   } catch (error) {
     throw new Error(`Error sending transaction: ${JSON.stringify(error)}`);
   }
