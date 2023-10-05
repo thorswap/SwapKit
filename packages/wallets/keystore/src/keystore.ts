@@ -124,10 +124,10 @@ const getWalletMethodsForChain = async ({
       const privkey = await toolbox.createKeyPair(phrase);
       const from = await toolbox.getAddressFromMnemonic(phrase);
 
-      const transfer = ({ assetValue, to, memo }: TransferParams) =>
+      const transfer = ({ assetValue, recipient, memo }: TransferParams) =>
         toolbox.transfer({
           from,
-          to,
+          recipient,
           assetValue,
           privkey,
           memo,
@@ -144,10 +144,10 @@ const getWalletMethodsForChain = async ({
       const signer = await toolbox.getSigner(phrase);
       const from = await toolbox.getAddressFromMnemonic(phrase);
 
-      const transfer = ({ assetValue, to, memo }: TransferParams) =>
+      const transfer = ({ assetValue, recipient, memo }: TransferParams) =>
         toolbox.transfer({
           from,
-          to,
+          recipient,
           signer,
           assetValue,
           memo,

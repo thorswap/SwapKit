@@ -5,7 +5,7 @@ import type { CosmosMaxSendableAmountParams } from './types.ts';
 
 export const getDenom = (symbol: string, isThorchain = false) => isThorchain
   ? symbol.toLowerCase()
-  : `u${symbol.toLowerCase()}`;
+  : symbol;
 
 export const createCosmJS = async ({
   offlineSigner,

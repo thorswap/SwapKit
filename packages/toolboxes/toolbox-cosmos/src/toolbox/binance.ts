@@ -124,7 +124,7 @@ const createTransactionAndSignMsg = async ({ from, recipient, assetValue, memo }
   const toAccCode = decodeAddress(recipient);
 
   const coin = {
-    denom: getDenom(assetValue.symbol),
+    denom: getDenom(assetValue.symbol).toUpperCase(),
     amount: assetValue.baseValueNumber,
   };
 
