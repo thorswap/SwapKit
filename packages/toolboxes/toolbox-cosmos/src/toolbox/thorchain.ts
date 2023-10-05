@@ -315,7 +315,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
       value: {
         fromAddress: base64From,
         toAddress: base64To,
-        amount: [{ amount: assetValue.baseValueNumber.toString(), denom: getDenom(assetValue.symbol) }],
+        amount: [{ amount: assetValue.baseValueNumber.toString(), denom: getDenom(assetValue.symbol, true) }],
       },
     };
 
