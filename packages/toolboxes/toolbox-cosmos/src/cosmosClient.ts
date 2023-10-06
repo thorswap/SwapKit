@@ -83,7 +83,7 @@ export class CosmosClient {
     const txResponse = await signingClient.sendTokens(
       from,
       recipient,
-      [{ denom: getDenom(assetValue.symbol), amount: assetValue.baseValue }],
+      [{ denom: getDenom(`u${assetValue.symbol}`).toLowerCase(), amount: assetValue.baseValue }],
       fee as StdFee,
       memo,
     );
