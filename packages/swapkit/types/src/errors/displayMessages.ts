@@ -39,6 +39,8 @@ export const ERROR_DISPLAY_MESSAGES: Record<string, string> = {
   [ERROR_CODE.UNSUPPORTED_ASSET]: 'Unsupported asset {0}.',
   [ERROR_CODE.UNSUPPORTED_ASSET_FOR_SWAPOUT]: 'Unsupported asset {0} for swap out.',
   [ERROR_CODE.THORNODE_QUOTE_GENERIC_ERROR]: 'ThorNode quote generic error.',
+  [ERROR_CODE.INVALID_SOURCE_ADDRESS]: 'Invalid source address {0}',
+  [ERROR_CODE.INVALID_DESTINATION_ADDRESS]: 'Invalid destination address {0}',
   [ERROR_CODE.NOT_ENOUGH_SYNTH_BALANCE]:
     "Source address doesn't have enough synth balance for this quote.",
   [ERROR_CODE.SYNTH_MINTING_CAP_REACHED]: 'Synth minting cap reached.',
