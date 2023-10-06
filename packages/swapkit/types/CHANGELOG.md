@@ -1,5 +1,11 @@
 # @thorswap-lib/types
 
+## 1.0.0-development.108
+
+### Minor Changes
+
+- [#342](https://github.com/thorswap/SwapKit/pull/342) [`cff00df`](https://github.com/thorswap/SwapKit/commit/cff00dfc31b55dd960d78dbfe622b9cea82915b8) Thanks [@0x-General](https://github.com/0x-General)! - Add error messages for screening
+
 ## 1.0.0-development.107
 
 ### Patch Changes
