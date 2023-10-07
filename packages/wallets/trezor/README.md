@@ -1,16 +1,16 @@
-# @thorswap-lib/trezor
+# @swapkit/wallet-trezor
 
 ## Install:
 
 ```bash
-pnpm add @thorswap-lib/trezor
+pnpm add @swapkit/wallet-trezor
 ```
 
 To use the trezor you need to [extend core](packages/swapkit/swapkit-core#swapkitcore-api) with `trezorWallet` and install the corresponding package for the chain you want to use.
 
 ```ts
-import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { trezorWallet } from '@thorswap-lib/trezor';
+import { SwapKitCore } from '@swapkit/core';
+import { trezorWallet } from '@swapkit/wallet-trezor';
 
 const client = new SwapKitCore();
 
@@ -23,16 +23,16 @@ client.extend({
 
 | chain            | status | package                      |
 | ---------------- | ------ | ---------------------------- |
-| BTC              | ✅     | [@thorswap-lib/toolbox-utxo](../toolbox-utxo/README.md)                          |
-| LTC              | ✅     | [@thorswap-lib/toolbox-utxo](../toolbox-utxo/README.md)                          |
-| BCH              | ✅     | [@thorswap-lib/toolbox-utxo](../toolbox-utxo/README.md)                          |
-| DOGE             | ✅     | [@thorswap-lib/toolbox-utxo](../toolbox-utxo/README.md)                          |
-| ETH              | ✅     | [@thorswap-lib/toolbox-evm](../toolbox-evm/README.md)                            |
-| AVAX             | ✅     | [@thorswap-lib/toolbox-evm](../toolbox-evm/README.md)                            |
-| BSC              | ✅     | [@thorswap-lib/toolbox-evm](../toolbox-evm/README.md)                            |
-| COSMOS (ATOM)    | ❌     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md)                      |
-| BNB              | ❌     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md)                      |
-| THORCHAIN (RUNE) | ❌     | [@thorswap-lib/toolbox-cosmos](../toolbox-cosmos/README.md) |
+| BTC              | ✅     | [@swapkit/toolbox-utxo](../toolbox-utxo/README.md)                          |
+| LTC              | ✅     | [@swapkit/toolbox-utxo](../toolbox-utxo/README.md)                          |
+| BCH              | ✅     | [@swapkit/toolbox-utxo](../toolbox-utxo/README.md)                          |
+| DOGE             | ✅     | [@swapkit/toolbox-utxo](../toolbox-utxo/README.md)                          |
+| ETH              | ✅     | [@swapkit/toolbox-evm](../toolbox-evm/README.md)                            |
+| AVAX             | ✅     | [@swapkit/toolbox-evm](../toolbox-evm/README.md)                            |
+| BSC              | ✅     | [@swapkit/toolbox-evm](../toolbox-evm/README.md)                            |
+| COSMOS (ATOM)    | ❌     | [@swapkit/toolbox-cosmos](../toolbox-cosmos/README.md)                      |
+| BNB              | ❌     | [@swapkit/toolbox-cosmos](../toolbox-cosmos/README.md)                      |
+| THORCHAIN (RUNE) | ❌     | [@swapkit/toolbox-cosmos](../toolbox-cosmos/README.md) |
 
 ## Links:
 

@@ -3,7 +3,7 @@ release:
 
 maintenance:
   - ./internal/config/**/*
-  - ./internal/eslint-config-thorswap/**/*
+  - ./internal/eslint-config/**/*
   - ./internal/generator/**/*
   - ./package.json
   - ./tsconfig.json
@@ -12,7 +12,8 @@ maintenance:
   - .vscode/**/*
 
 docs:
-  - apps/vite-playground/src/**/*
+  - internal/playground/src/**/*
+  - docs/**/*
 
 core:
   - packages/swapkit/swapkit-core/**/*
@@ -33,10 +34,10 @@ ledger:
 trezor:
   - packages/wallets/trezor/src/**/*
 wc:
-  - packages/wallets/walletconnect/src/**/*
+  - packages/wallets/wc/src/**/*
 xdefi:
   - packages/wallets/xdefi/src/**/*
 keplr:
   - packages/wallets/keplr/src/**/*
-evm-web3-wallets:
-  - packages/wallets/evm-web3-wallets/src/**/*
+evm-extensions:
+  - packages/wallets/evm-extensions/src/**/*

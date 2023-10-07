@@ -1,4 +1,4 @@
 {
-  "include": ["env.d.ts", "internal/**/*", "packages/**/*", "apps/**/*", "__tests__/**/*.test.ts"],
+  "include": ["env.d.ts", "internal/**/*", "packages/**/*"],
   "exclude": ["node_modules"]
 }

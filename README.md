@@ -24,13 +24,13 @@ _Integrate Blockchains easily_
 <summary>Partial Installation</summary>
 
 If you want to install one part of SwapKit SDK, you can install it separate instances of wallets & toolboxes.
-For example, if you want to use SwapKit SDK with EVM chains and Ledger wallet, you can install `@thorswap-lib/toolbox-evm`, `@thorswap-lib/ledger` and `@thorswap-lib/swapkit-core` packages.
+For example, if you want to use SwapKit SDK with EVM chains and Ledger wallet, you can install `@swapkit/toolbox-evm`, `@swapkit/wallet-ledger` and `@swapkit/core` packages.
 
 <details>
 <summary>pnpm</summary>
 
 ```bash
-pnpm add @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-core
+pnpm add @swapkit/toolbox-evm @swapkit/wallet-ledger @swapkit/core
 ```
 
 </details>
@@ -38,7 +38,7 @@ pnpm add @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-co
 <summary>yarn</summary>
 
 ```bash
-yarn add @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-core
+yarn add @swapkit/toolbox-evm @swapkit/wallet-ledger @swapkit/core
 ```
 
 </details>
@@ -47,25 +47,25 @@ yarn add @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-co
 <summary>npm</summary>
 
 ```bash
-npm install @thorswap-lib/toolbox-evm @thorswap-lib/ledger @thorswap-lib/swapkit-core
+npm install @swapkit/toolbox-evm @swapkit/wallet-ledger @swapkit/core
 ```
 
 </details>
 
 #### Usage
 
-Architecture of SwapKit SDK is pretty simple. It's based on the concept of toolboxes. Each toolbox is responsible for interacting with specific blockchain. For example, `@thorswap-lib/toolbox-evm` is responsible for interacting with ETH, AVAX, BSC, etc. Toolboxes are extending SwapKitCore instance with methods to interact with specific blockchain. SwapKitCore is responsible for managing wallets and providing unified interface for interacting with them. To extend SDK with wallet support you need to pass array of wallets to `extend` method. Wallets are responsible for interacting with specific wallet provider. After `extend` method is called, you can start connecting to wallets and interacting with them.
+Architecture of SwapKit SDK is pretty simple. It's based on the concept of toolboxes. Each toolbox is responsible for interacting with specific blockchain. For example, `@swapkit/toolbox-evm` is responsible for interacting with ETH, AVAX, BSC, etc. Toolboxes are extending SwapKitCore instance with methods to interact with specific blockchain. SwapKitCore is responsible for managing wallets and providing unified interface for interacting with them. To extend SDK with wallet support you need to pass array of wallets to `extend` method. Wallets are responsible for interacting with specific wallet provider. After `extend` method is called, you can start connecting to wallets and interacting with them.
 
 ```typescript
-import { Chain, FeeOption } from '@thorswap-lib/types';
-import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { xdefiWallet } from '@thorswap-lib/xdefi';
-import { evmWallet } from '@thorswap-lib/evm-web3-wallets';
-import { keplr } from '@thorswap-lib/keplr';
-import { keystoreWallet } from '@thorswap-lib/keystore';
-import { ledgerWallet } from '@thorswap-lib/ledger';
-import { trezorWallet } from '@thorswap-lib/trezor';
-import { walletconnectWallet } from '@thorswap-lib/walletconnect';
+import { Chain, FeeOption } from '@swapkit/types';
+import { SwapKitCore } from '@swapkit/core';
+import { xdefiWallet } from '@swapkit/wallet-xdefi';
+import { evmWallet } from '@swapkit/wallet-evm-extensions';
+import { keplr } from '@swapkit/wallet-keplr';
+import { keystoreWallet } from '@swapkit/wallet-keystore';
+import { ledgerWallet } from '@swapkit/wallet-ledger';
+import { trezorWallet } from '@swapkit/wallet-trezor';
+import { walletconnectWallet } from '@swapkit/wallet-wc';
 
 const getSwapKitClient = () => {
   const client = new SwapKitCore()
@@ -152,17 +152,17 @@ This repo contains packages around SwapKit sdk and its integrations with differe
 
 | Package                                                                 | Description                        | Chains                                            |
 | ----------------------------------------------------------------------- | ---------------------------------- | ------------------------------------------------- |
-| [@thorswap-lib/swapkit-core](./packages/swapkit/swapkit-core/README.md)         | Core package for SwapKit           | -                                                 |
-| [@thorswap-lib/toolbox-evm](./packages/toolboxes/toolbox-evm/README.md)           | Toolkit to integrate EVM chain     | ETH, AVAX, BSC                                    |
-| [@thorswap-lib/toolbox-utxo](./packages/toolboxes/toolbox-utxo/README.md)         | Toolkit to integrate UTXO chain    | BTC, LTC, DOGE, BCH                               |
-| [@thorswap-lib/toolbox-cosmos](./packages/toolboxes/toolbox-cosmos/README.md)     | Toolkit to integrate Cosmos chains | THOR, ATOM, BNB                                   |
-| [@thorswap-lib/keystore](./packages/wallets/keystore/README.md)                 | Keystore implementation            | All chains supported by toolboxes                 |
-| [@thorswap-lib/ledger](./packages/wallets/ledger/README.md)                     | Ledger implementation              | All chains supported by toolboxes                 |
-| [@thorswap-lib/trezor](./packages/wallets/trezor/README.md)                     | Trezor implementation              | BTC, ETH, LTC, DOGE, BCH, AVAX                    |
-| [@thorswap-lib/walletconnect](./packages/wallets/walletconnect/README.md)       | Walletconnect implementation       | ETH, THOR, BNB, AVAX                              |
-| [@thorswap-lib/keplr](./packages/wallets/keplr/README.md)                       | Keplr implementation               | ATOM                                              |
-| [@thorswap-lib/xdefi](./packages/wallets/xdefi/README.md)                       | XDEFI implementation               | All chains                                        |
-| [@thorswap-lib/evm-web3-wallets](./packages/wallets/evm-web3-wallets/README.md) | EVM Browser Extensions             | [See more](./packages/wallets/evm-web3-wallets/README.md) |
+| [@swapkit/core](./packages/swapkit/swapkit-core/README.md)         | Core package for SwapKit           | -                                                 |
+| [@swapkit/toolbox-evm](./packages/toolboxes/toolbox-evm/README.md)           | Toolkit to integrate EVM chain     | ETH, AVAX, BSC                                    |
+| [@swapkit/toolbox-utxo](./packages/toolboxes/toolbox-utxo/README.md)         | Toolkit to integrate UTXO chain    | BTC, LTC, DOGE, BCH                               |
+| [@swapkit/toolbox-cosmos](./packages/toolboxes/toolbox-cosmos/README.md)     | Toolkit to integrate Cosmos chains | THOR, ATOM, BNB                                   |
+| [@swapkit/wallet-keystore](./packages/wallets/keystore/README.md)                 | Keystore implementation            | All chains supported by toolboxes                 |
+| [@swapkit/wallet-ledger](./packages/wallets/ledger/README.md)                     | Ledger implementation              | All chains supported by toolboxes                 |
+| [@swapkit/wallet-trezor](./packages/wallets/trezor/README.md)                     | Trezor implementation              | BTC, ETH, LTC, DOGE, BCH, AVAX                    |
+| [@swapkit/wallet-wc](./packages/wallets/walletconnect/README.md)       | Walletconnect implementation       | ETH, THOR, BNB, AVAX                              |
+| [@swapkit/wallet-keplr](./packages/wallets/keplr/README.md)                       | Keplr implementation               | ATOM                                              |
+| [@swapkit/wallet-xdefi](./packages/wallets/xdefi/README.md)                       | XDEFI implementation               | All chains                                        |
+| [@swapkit/wallet-evm-extensions](./packages/wallets/evm-web3-wallets/README.md) | EVM Browser Extensions             | [See more](./packages/wallets/evm-web3-wallets/README.md) |
 
 ## Contributing
 

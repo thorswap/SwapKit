@@ -1,18 +1,18 @@
 {
-  "author": "thorswap",
+  "author": "swapkit-oss-team",
   "dependencies": {
-    "@thorswap-lib/types": "workspace:*",
+    "@swapkit/types": "workspace:*",
     "blakejs": "1.2.1",
     "uuid": "9.0.0"
   },
-  "description": "THORSwap Lib keystore",
+  "description": "SwapKit Lib keystore",
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@scure/bip39": "1.2.1",
-    "@thorswap-lib/swapkit-helpers": "workspace:*",
-    "@thorswap-lib/toolbox-cosmos": "workspace:*",
-    "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*",
     "@types/long": "4.0.2",
     "@types/uniqid": "5.3.2",
     "@types/uuid": "9.0.3",
@@ -23,7 +23,7 @@
     "vitest": "0.34.4"
   },
   "eslintConfig": {
-    "extends": "../../../internal/eslint-config-thorswap"
+    "extends": "../../../internal/eslint-config"
   },
   "exports": {
     ".": {
@@ -40,13 +40,13 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/keystore",
+  "name": "@swapkit/wallet-keystore",
   "peerDependencies": {
     "@scure/bip39": "1.2.1",
-    "@thorswap-lib/swapkit-helpers": "workspace:*",
-    "@thorswap-lib/toolbox-cosmos": "workspace:*",
-    "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*",
     "ethers": "^6.7.1",
     "bitcoinjs-lib": "^5.2.0"
   },
@@ -64,5 +64,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.239"
+  "version": "1.0.0-rc.0"
 }

@@ -13,10 +13,10 @@
     "vite": "4.4.9"
   },
   "eslintConfig": {
-    "extends": "../eslint-config-thorswap"
+    "extends": "../eslint-config"
   },
   "main": "index.js",
-  "name": "@thorswap/generator",
+  "name": "@internal/generator",
   "private": true,
   "scripts": {
     "build": "vite build",

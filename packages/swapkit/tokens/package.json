@@ -1,10 +1,10 @@
 {
-  "author": "thorswap",
-  "description": "THORSwap Lib tokens",
+  "author": "swapkit-oss-team",
+  "description": "SwapKit Lib tokens",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@thorswap-lib/swapkit-api": "workspace:*",
-    "@thorswap-lib/types": "workspace:*",
+    "@swapkit/api": "workspace:*",
+    "@swapkit/types": "workspace:*",
     "@types/fs-extra": "11.0.1",
     "@vitest/coverage-istanbul": "0.34.4",
     "fs-extra": "11.1.1",
@@ -12,7 +12,7 @@
     "vitest": "0.34.4"
   },
   "eslintConfig": {
-    "extends": "../../../internal/eslint-config-thorswap"
+    "extends": "../../../internal/eslint-config"
   },
   "exports": {
     ".": {
@@ -29,7 +29,7 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/tokens",
+  "name": "@swapkit/tokens",
   "publishConfig": {
     "access": "public"
   },
@@ -45,5 +45,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.1"
+  "version": "1.0.0-rc.0"
 }

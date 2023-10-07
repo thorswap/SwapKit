@@ -2,10 +2,10 @@ import { fromBase64 } from '@cosmjs/encoding';
 import { Int53 } from '@cosmjs/math';
 import { encodePubkey, makeAuthInfoBytes, type TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import { StargateClient } from '@cosmjs/stargate';
-import type { DepositParam, TransferParams } from '@thorswap-lib/toolbox-cosmos';
-import type { UTXOBuildTxParams } from '@thorswap-lib/toolbox-utxo';
-import type { ConnectWalletParams, DerivationPathArray } from '@thorswap-lib/types';
-import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from '@thorswap-lib/types';
+import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
+import type { UTXOBuildTxParams } from '@swapkit/toolbox-utxo';
+import type { ConnectWalletParams, DerivationPathArray } from '@swapkit/types';
+import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from '@swapkit/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
@@ -94,7 +94,7 @@ const getToolbox = async ({
   switch (chain) {
     case Chain.Bitcoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-      const { BTCToolbox } = await import('@thorswap-lib/toolbox-utxo');
+      const { BTCToolbox } = await import('@swapkit/toolbox-utxo');
       const toolbox = BTCToolbox(utxoParams);
 
       const transfer = async (params: UTXOBuildTxParams) => {
@@ -113,7 +113,7 @@ const getToolbox = async ({
     }
     case Chain.BitcoinCash: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-      const { BCHToolbox } = await import('@thorswap-lib/toolbox-utxo');
+      const { BCHToolbox } = await import('@swapkit/toolbox-utxo');
       const toolbox = BCHToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];
@@ -133,7 +133,7 @@ const getToolbox = async ({
     }
     case Chain.Dogecoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-      const { DOGEToolbox } = await import('@thorswap-lib/toolbox-utxo');
+      const { DOGEToolbox } = await import('@swapkit/toolbox-utxo');
       const toolbox = DOGEToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];
@@ -152,7 +152,7 @@ const getToolbox = async ({
     }
     case Chain.Litecoin: {
       if (!utxoApiKey) throw new Error('UTXO API key is not defined');
-      const { LTCToolbox } = await import('@thorswap-lib/toolbox-utxo');
+      const { LTCToolbox } = await import('@swapkit/toolbox-utxo');
       const toolbox = LTCToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = await (await toolbox.getFeeRates())[FeeOption.Average];
@@ -170,7 +170,7 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.Binance: {
-      const { BinanceToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = BinanceToolbox({ stagenet: false });
       const transfer = async (params: any) => {
         const { transaction, signMsg } = await toolbox.createTransactionAndSignMsg({
@@ -199,7 +199,7 @@ const getToolbox = async ({
     }
 
     case Chain.Cosmos: {
-      const { getDenom, GaiaToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { getDenom, GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = GaiaToolbox();
       const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
         const from = address;
@@ -208,7 +208,12 @@ const getToolbox = async ({
         const gasPrice = '0.007uatom';
 
         const sendCoinsMessage = {
-          amount: [{ amount: assetValue.baseValue, denom: getDenom(`u${assetValue.symbol}`).toLowerCase() }],
+          amount: [
+            {
+              amount: assetValue.baseValue,
+              denom: getDenom(`u${assetValue.symbol}`).toLowerCase(),
+            },
+          ],
           fromAddress: from,
           toAddress: recipient,
         };
@@ -236,7 +241,7 @@ const getToolbox = async ({
 
     case Chain.Ethereum: {
       if (!ethplorerApiKey) throw new Error('Ethplorer API key is not defined');
-      const { ETHToolbox, getProvider } = await import('@thorswap-lib/toolbox-evm');
+      const { ETHToolbox, getProvider } = await import('@swapkit/toolbox-evm');
 
       return ETHToolbox({
         api,
@@ -247,7 +252,7 @@ const getToolbox = async ({
     }
     case Chain.Avalanche: {
       if (!covalentApiKey) throw new Error('Covalent API key is not defined');
-      const { AVAXToolbox, getProvider } = await import('@thorswap-lib/toolbox-evm');
+      const { AVAXToolbox, getProvider } = await import('@swapkit/toolbox-evm');
 
       return AVAXToolbox({
         api,
@@ -257,7 +262,7 @@ const getToolbox = async ({
       });
     }
     case Chain.THORChain: {
-      const { getDenomWithChain, ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { getDenomWithChain, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = ThorchainToolbox({ stagenet: false });
 
       // TODO (@Chillios): Same parts in methods + can extract StargateClient init to toolbox

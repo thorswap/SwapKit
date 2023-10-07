@@ -1,8 +1,8 @@
-# @thorswap-lib/types
+# @swapkit/types
 
 ## Install:
 
 ```bash
-pnpm add @thorswap-lib/types
+pnpm add @swapkit/types
 ```
 

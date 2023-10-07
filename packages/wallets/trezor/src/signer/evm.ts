@@ -1,7 +1,7 @@
-import { derivationPathToString, SwapKitNumber } from '@thorswap-lib/swapkit-helpers';
-import type { EVMTxParams } from '@thorswap-lib/toolbox-evm';
-import type { Chain, DerivationPathArray } from '@thorswap-lib/types';
-import { ChainToChainId } from '@thorswap-lib/types';
+import { derivationPathToString, SwapKitNumber } from '@swapkit/helpers';
+import type { EVMTxParams } from '@swapkit/toolbox-evm';
+import type { Chain, DerivationPathArray } from '@swapkit/types';
+import { ChainToChainId } from '@swapkit/types';
 import TrezorConnect from '@trezor/connect-web';
 import { AbstractSigner, type JsonRpcProvider, type Provider } from 'ethers';
 
@@ -71,7 +71,7 @@ class TrezorSigner extends AbstractSigner {
     if (!isEIP1559 && (('gasPrice' in restTx && !restTx.gasPrice) || !('gasPrice' in restTx)))
       throw new Error('Missing gasPrice');
 
-    const { toHexString } = await import('@thorswap-lib/toolbox-evm');
+    const { toHexString } = await import('@swapkit/toolbox-evm');
 
     const baseTx = {
       chainId: parseInt(ChainToChainId[this.chain], 16),

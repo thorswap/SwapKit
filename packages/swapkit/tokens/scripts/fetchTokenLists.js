@@ -1,5 +1,5 @@
-import { SwapKitApi } from '@thorswap-lib/swapkit-api';
-import { Chain } from '@thorswap-lib/types';
+import { SwapKitApi } from '@swapkit/api';
+import { Chain } from '@swapkit/types';
 import fs from 'fs-extra';
 
 const getTokens = async () => {
