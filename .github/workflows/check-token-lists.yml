@@ -7,11 +7,6 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
-  NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-
 jobs:
   check-and-update:
     runs-on: ubuntu-latest
