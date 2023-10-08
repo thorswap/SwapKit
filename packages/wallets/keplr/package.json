@@ -1,20 +1,20 @@
 {
-  "author": "thorswap",
+  "author": "swapkit-oss-team",
   "dependencies": {
-    "@thorswap-lib/types": "workspace:*"
+    "@swapkit/types": "workspace:*"
   },
-  "description": "THORSwap Lib keplr",
+  "description": "SwapKit Lib keplr",
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@keplr-wallet/types": "0.12.27",
-    "@thorswap-lib/swapkit-helpers": "workspace:*",
-    "@thorswap-lib/toolbox-cosmos": "workspace:*",
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.4",
     "vite": "4.4.9",
     "vitest": "0.34.4"
   },
   "eslintConfig": {
-    "extends": "../../../internal/eslint-config-thorswap"
+    "extends": "../../../internal/eslint-config"
   },
   "exports": {
     ".": {
@@ -31,10 +31,10 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/keplr",
+  "name": "@swapkit/wallet-keplr",
   "peerDependencies": {
-    "@thorswap-lib/swapkit-helpers": "workspace:*",
-    "@thorswap-lib/toolbox-cosmos": "workspace:*"
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
@@ -50,5 +50,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.61"
+  "version": "1.0.0-rc.0"
 }

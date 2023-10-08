@@ -1,7 +1,7 @@
 {
-  "author": "thorswap",
+  "author": "swapkit",
   "dependencies": {},
-  "description": "THORSwap Lib <%- packageName %>",
+  "description": "SwapKit Lib <%- packageName %>",
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.3",
@@ -9,7 +9,7 @@
     "vitest": "0.34.3"
   },
   "eslintConfig": {
-    "extends": "../../../internal/eslint-config-thorswap"
+    "extends": "../../../internal/eslint-config"
   },
   "exports": {
     ".": {
@@ -26,7 +26,7 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/<%- packageName %>",
+  "name": "@swapkit/<%- packageName %>",
   "publishConfig": {
     "access": "public"
   },

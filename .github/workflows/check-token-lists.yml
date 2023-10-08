@@ -1,14 +1,11 @@
 name: Check Token List
+env:
+  NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 12,0 * * *'
-
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
-  NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+    - cron: '0 0 * * *'
 
 jobs:
   check-and-update:
@@ -26,8 +23,15 @@ jobs:
         uses: devops-infra/action-commit-push@73d3ffed46e0782df6f046d15049aae82569b389
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          add_timestamp: true
+          add_timestamp: false
           commit_prefix: "[Token List Update]"
           commit_message: "Update Token List"
-          force: false
+          force: true
           target_branch: bot/token-list-update
+
+
+      - name: Publish Token List
+        run: |
+          pnpm changeset version --snapshot nightly
+          cd packages/swapkit/tokens
+          npm publish

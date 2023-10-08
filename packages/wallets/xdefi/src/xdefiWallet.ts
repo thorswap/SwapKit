@@ -1,4 +1,4 @@
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import { Chain, WalletOption } from '@swapkit/types';
 
 import type { XDEFIConfig } from './helpers.ts';
 import { getWalletMethodsForChain } from './helpers.ts';

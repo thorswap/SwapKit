@@ -1,5 +1,5 @@
-import { AssetValue } from '@thorswap-lib/swapkit-helpers';
-import { Chain, ChainToChainId, ChainToHexChainId } from '@thorswap-lib/types';
+import { AssetValue } from '@swapkit/helpers';
+import { Chain, ChainToChainId, ChainToHexChainId } from '@swapkit/types';
 
 import type { WalletTxParams } from './walletHelpers.ts';
 import { cosmosTransfer, walletTransfer } from './walletHelpers.ts';
@@ -21,7 +21,7 @@ export const getWalletMethodsForChain = async ({
 }: { rpcUrl?: string; api?: any; chain: Chain } & XDEFIConfig): Promise<any> => {
   switch (chain) {
     case Chain.THORChain: {
-      const { DEFAULT_GAS_VALUE, ThorchainToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { DEFAULT_GAS_VALUE, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
 
       return {
         ...ThorchainToolbox({ stagenet: false }),
@@ -32,12 +32,12 @@ export const getWalletMethodsForChain = async ({
     }
 
     case Chain.Cosmos: {
-      const { GaiaToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
       return { ...GaiaToolbox({ server: api }), transfer: cosmosTransfer(rpcUrl) };
     }
 
     case Chain.Binance: {
-      const { BinanceToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
       return { ...BinanceToolbox(), transfer: walletTransfer };
     }
 
@@ -53,7 +53,7 @@ export const getWalletMethodsForChain = async ({
         addEVMWalletNetwork,
         covalentApi,
         ethplorerApi,
-      } = await import('@thorswap-lib/toolbox-evm');
+      } = await import('@swapkit/toolbox-evm');
       const { BrowserProvider } = await import('ethers');
 
       const ethereumWindowProvider = window.xfi?.ethereum;
@@ -129,7 +129,7 @@ export const getWalletMethodsForChain = async ({
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       const { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } = await import(
-        '@thorswap-lib/toolbox-utxo'
+        '@swapkit/toolbox-utxo'
       );
       const params = { rpcUrl, utxoApiKey, apiClient: api };
       const toolbox =

@@ -16,35 +16,35 @@ const getSizeFor = (packagePath, sizeType) => {
     {
       limit: size,
       path: `./packages/${packagePath}/dist/*.cjs`,
-      name: `@thorswap-lib/${packageName} - CommonJS`,
+      name: `@swapkit/${packageName} - CommonJS`,
     },
     {
       limit: size,
       path: `./packages/${packagePath}/dist/*.js`,
-      name: `@thorswap-lib/${packageName} - ES Modules`,
+      name: `@swapkit/${packageName} - ES Modules`,
     },
   ];
 };
 
 module.exports = [
-  ...getSizeFor('swapkit/swapkit-api', 'xs'),
-  ...getSizeFor('swapkit/swapkit-core', 's'),
-  ...getSizeFor('swapkit/swapkit-entities', 'xs'),
-  ...getSizeFor('swapkit/swapkit-helpers', 'xs'),
-  ...getSizeFor('swapkit/swapkit-sdk', 'xxl'),
+  ...getSizeFor('swapkit/api', 'xs'),
+  ...getSizeFor('swapkit/core', 's'),
+  ...getSizeFor('swapkit/entities', 'xs'),
+  ...getSizeFor('swapkit/helpers', 'xs'),
+  ...getSizeFor('swapkit/sdk', 'xxl'),
   ...getSizeFor('swapkit/tokens', 'l'),
   ...getSizeFor('swapkit/types', 'xs'),
 
-  ...getSizeFor('toolboxes/toolbox-cosmos', 'l'),
-  ...getSizeFor('toolboxes/toolbox-evm', 'm'),
-  ...getSizeFor('toolboxes/toolbox-utxo', 'm'),
+  ...getSizeFor('toolboxes/cosmos', 'l'),
+  ...getSizeFor('toolboxes/evm', 'm'),
+  ...getSizeFor('toolboxes/utxo', 'm'),
 
-  ...getSizeFor('wallets/evm-web3-wallets', 'xs'),
+  ...getSizeFor('wallets/evm-extensions', 'xs'),
   ...getSizeFor('wallets/keplr', 'xs'),
   ...getSizeFor('wallets/keystore', 's'),
   ...getSizeFor('wallets/ledger', 'xl'),
   ...getSizeFor('wallets/okx', 'xs'),
   ...getSizeFor('wallets/trezor', 'l'),
-  ...getSizeFor('wallets/walletconnect', 'm'),
+  ...getSizeFor('wallets/wc', 'm'),
   ...getSizeFor('wallets/xdefi', 's'),
 ];

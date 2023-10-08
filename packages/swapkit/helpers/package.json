@@ -1,0 +1,49 @@
+{
+  "author": "swapkit-oss-team",
+  "description": "SwapKit Lib swapkit-helpers",
+  "devDependencies": {
+    "@internal/config": "workspace:*",
+    "@swapkit/tokens": "workspace:*",
+    "@swapkit/types": "workspace:*",
+    "@vitest/coverage-istanbul": "0.34.4",
+    "vite": "4.4.9",
+    "vitest": "0.34.4"
+  },
+  "eslintConfig": {
+    "extends": "../../../internal/eslint-config"
+  },
+  "peerDependencies": {
+    "@swapkit/types": "workspace:*"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "Apache-2.0",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@swapkit/helpers",
+  "publishConfig": {
+    "access": "public"
+  },
+  "react-native": "./src/index.ts",
+  "repository": "https://github.com/thorswap/SwapKit.git",
+  "scripts": {
+    "build": "vite build",
+    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
+    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "test": "vitest --run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0-rc.0"
+}

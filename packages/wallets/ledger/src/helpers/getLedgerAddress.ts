@@ -1,4 +1,4 @@
-import { Chain } from '@thorswap-lib/types';
+import { Chain } from '@swapkit/types';
 
 import type { CosmosLedgerClients, EVMLedgerClients, UTXOLedgerClients } from '../types.ts';
 

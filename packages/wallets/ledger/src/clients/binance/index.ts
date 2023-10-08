@@ -1,5 +1,5 @@
-import type { DerivationPathArray } from '@thorswap-lib/types';
-import { NetworkDerivationPath } from '@thorswap-lib/types';
+import type { DerivationPathArray } from '@swapkit/types';
+import { NetworkDerivationPath } from '@swapkit/types';
 
 import { CommonLedgerInterface } from '../../interfaces/LedgerInterfaces.ts';
 

@@ -1,7 +1,7 @@
 import type { Keplr } from '@keplr-wallet/types';
-import type { AssetValue } from '@thorswap-lib/swapkit-helpers';
-import type { ConnectWalletParams, WalletTxParams } from '@thorswap-lib/types';
-import { Chain, ChainId, WalletOption } from '@thorswap-lib/types';
+import type { AssetValue } from '@swapkit/helpers';
+import type { ConnectWalletParams, WalletTxParams } from '@swapkit/types';
+import { Chain, ChainId, WalletOption } from '@swapkit/types';
 
 const connectKeplr =
   ({ addChain, rpcUrls }: ConnectWalletParams) =>
@@ -10,7 +10,7 @@ const connectKeplr =
     keplrClient?.enable(ChainId.Cosmos);
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
     if (!offlineSigner) throw new Error('Could not load offlineSigner');
-    const { GaiaToolbox, createCosmJS } = await import('@thorswap-lib/toolbox-cosmos');
+    const { GaiaToolbox, createCosmJS } = await import('@swapkit/toolbox-cosmos');
 
     const cosmJS = await createCosmJS({ offlineSigner, rpcUrl: rpcUrls[Chain.Cosmos] });
 

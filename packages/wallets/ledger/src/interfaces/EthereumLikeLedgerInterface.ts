@@ -1,5 +1,5 @@
 import type EthereumApp from '@ledgerhq/hw-app-eth';
-import { ChainId } from '@thorswap-lib/types';
+import { ChainId } from '@swapkit/types';
 import { BN } from 'bn.js';
 import { type Provider, VoidSigner } from 'ethers';
 
