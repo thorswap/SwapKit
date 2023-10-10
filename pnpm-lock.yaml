@@ -215,13 +215,13 @@ importers:
       '@swapkit/tokens':
         specifier: workspace:*
         version: link:../../packages/swapkit/tokens
-      '@swapkit/toolbox-cosmos':
+      '@swapkit/cosmos':
         specifier: workspace:*
         version: link:../../packages/toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@swapkit/evm':
         specifier: workspace:*
         version: link:../../packages/toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@swapkit/utxo':
         specifier: workspace:*
         version: link:../../packages/toolboxes/utxo
       '@swapkit/types':
@@ -344,13 +344,13 @@ importers:
       '@swapkit/tokens':
         specifier: workspace:*
         version: link:../tokens
-      '@swapkit/toolbox-cosmos':
+      '@swapkit/cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@swapkit/evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@swapkit/utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
       '@swapkit/wallet-wc':
@@ -429,13 +429,13 @@ importers:
       '@swapkit/core':
         specifier: workspace:*
         version: link:../core
-      '@swapkit/toolbox-cosmos':
+      '@swapkit/cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@swapkit/evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@swapkit/utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
       '@swapkit/types':
@@ -713,7 +713,7 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
-      '@swapkit/toolbox-evm':
+      '@swapkit/evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
       '@vitest/coverage-istanbul':
@@ -744,7 +744,7 @@ importers:
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
-      '@swapkit/toolbox-cosmos':
+      '@swapkit/cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
       '@vitest/coverage-istanbul':
@@ -778,13 +778,13 @@ importers:
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
-      '@swapkit/toolbox-cosmos':
+      '@swapkit/cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@swapkit/evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@swapkit/utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
       '@types/long':
@@ -869,13 +869,13 @@ importers:
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
-      '@swapkit/toolbox-cosmos':
+      '@swapkit/cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@swapkit/evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@swapkit/utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
       '@types/bchaddrjs':
@@ -948,13 +948,13 @@ importers:
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
-      '@swapkit/toolbox-cosmos':
+      '@swapkit/cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@swapkit/evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@swapkit/utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
       '@vitest/coverage-istanbul':
@@ -988,10 +988,10 @@ importers:
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
-      '@swapkit/toolbox-evm':
+      '@swapkit/evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@swapkit/utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
       '@trezor/connect':
@@ -1046,10 +1046,10 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
-      '@swapkit/toolbox-cosmos':
+      '@swapkit/cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@swapkit/evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
       '@vitest/coverage-istanbul':
@@ -1086,13 +1086,13 @@ importers:
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
-      '@swapkit/toolbox-cosmos':
+      '@swapkit/cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@swapkit/evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@swapkit/utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
       '@vitest/coverage-istanbul':

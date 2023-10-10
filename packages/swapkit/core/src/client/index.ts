@@ -1,3 +1,5 @@
+import type { CosmosLikeToolbox } from '@swapkit/cosmos';
+import type { AVAXToolbox, BSCToolbox, ETHToolbox, EVMToolbox } from '@swapkit/evm';
 import type { Keys, ThornameRegisterParam } from '@swapkit/helpers';
 import {
   AssetValue,
@@ -7,9 +9,6 @@ import {
   SwapKitError,
   SwapKitNumber,
 } from '@swapkit/helpers';
-import type { CosmosLikeToolbox } from '@swapkit/toolbox-cosmos';
-import type { AVAXToolbox, BSCToolbox, ETHToolbox, EVMToolbox } from '@swapkit/toolbox-evm';
-import type { UTXOToolbox } from '@swapkit/toolbox-utxo';
 import type {
   AddChainWalletParams,
   EVMChain,
@@ -29,6 +28,7 @@ import {
   TCBscDepositABI,
   TCEthereumVaultAbi,
 } from '@swapkit/types';
+import type { UTXOToolbox } from '@swapkit/utxo';
 
 import type { AGG_CONTRACT_ADDRESS } from '../aggregator/contracts/index.ts';
 import { lowercasedContractAbiMapping } from '../aggregator/contracts/index.ts';
@@ -140,7 +140,7 @@ export class SwapKitCore<T = ''> {
           throw new SwapKitError('core_wallet_connection_not_found');
         }
 
-        const { getProvider, toChecksumAddress } = await import('@swapkit/toolbox-evm');
+        const { getProvider, toChecksumAddress } = await import('@swapkit/evm');
         const provider = getProvider(evmChain);
         const abi = lowercasedContractAbiMapping[contractAddress.toLowerCase()];
 
@@ -228,7 +228,7 @@ export class SwapKitCore<T = ''> {
         case Chain.Ethereum:
         case Chain.BinanceSmartChain:
         case Chain.Avalanche: {
-          const { getChecksumAddressFromAsset } = await import('@swapkit/toolbox-evm');
+          const { getChecksumAddressFromAsset } = await import('@swapkit/evm');
 
           const abi =
             chain === Chain.Avalanche
@@ -526,7 +526,7 @@ export class SwapKitCore<T = ''> {
       case Chain.Ethereum:
       case Chain.Optimism:
       case Chain.Polygon: {
-        const { estimateMaxSendableAmount } = await import('@swapkit/toolbox-evm');
+        const { estimateMaxSendableAmount } = await import('@swapkit/evm');
         return estimateMaxSendableAmount({
           ...params,
           toolbox: walletMethods as EVMToolbox,
@@ -542,7 +542,7 @@ export class SwapKitCore<T = ''> {
       case Chain.Binance:
       case Chain.THORChain:
       case Chain.Cosmos: {
-        const { estimateMaxSendableAmount } = await import('@swapkit/toolbox-cosmos');
+        const { estimateMaxSendableAmount } = await import('@swapkit/cosmos');
         return estimateMaxSendableAmount({
           ...params,
           toolbox: walletMethods as CosmosLikeToolbox,

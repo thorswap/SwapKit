@@ -1,7 +1,7 @@
-import type { TransferParams } from '@swapkit/toolbox-cosmos';
-import type { UTXOTransferParams } from '@swapkit/toolbox-utxo';
+import type { TransferParams } from '@swapkit/cosmos';
 import type { ConnectWalletParams } from '@swapkit/types';
 import { Chain, DerivationPath, WalletOption } from '@swapkit/types';
+import type { UTXOTransferParams } from '@swapkit/utxo';
 import type { Psbt } from 'bitcoinjs-lib';
 
 import { bitcoincashWalletMethods, thorchainWalletMethods } from './walletMethods.ts';
@@ -45,9 +45,7 @@ const getWalletMethodsForChain = async ({
       }
 
       const { Mnemonic, HDNodeWallet } = await import('ethers');
-      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
-        '@swapkit/toolbox-evm'
-      );
+      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import('@swapkit/evm');
 
       const provider = getProvider(chain, rpcUrl);
       const wallet = HDNodeWallet.fromMnemonic(Mnemonic.fromPhrase(phrase))
@@ -89,7 +87,7 @@ const getWalletMethodsForChain = async ({
     case Chain.Litecoin: {
       const params = { rpcUrl, apiKey: utxoApiKey, apiClient: api };
 
-      const { BTCToolbox, LTCToolbox, DOGEToolbox } = await import('@swapkit/toolbox-utxo');
+      const { BTCToolbox, LTCToolbox, DOGEToolbox } = await import('@swapkit/utxo');
 
       const toolbox =
         chain === Chain.Bitcoin
@@ -119,7 +117,7 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Binance: {
-      const { BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { BinanceToolbox } = await import('@swapkit/cosmos');
       const toolbox = BinanceToolbox();
       const privkey = await toolbox.createKeyPair(phrase);
       const from = await toolbox.getAddressFromMnemonic(phrase);
@@ -139,7 +137,7 @@ const getWalletMethodsForChain = async ({
       };
     }
     case Chain.Cosmos: {
-      const { GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { GaiaToolbox } = await import('@swapkit/cosmos');
       const toolbox = GaiaToolbox({ server: api });
       const signer = await toolbox.getSigner(phrase);
       const from = await toolbox.getAddressFromMnemonic(phrase);

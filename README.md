@@ -26,9 +26,9 @@ This repo contains packages around SwapKit sdk and its integrations with differe
 | [@swapkit/sdk](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-3)                    | All-in-one package for SwapKit                         |
 | [@swapkit/tokens](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-4)                 | Static tokens lists with decimals & contract addresses |
 | [@swapkit/types](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-5)                  | Types & enums for SwapKit                              |
-| [@swapkit/toolbox-cosmos](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/cosmos)                  | Integrate Cosmos chains                                |
-| [@swapkit/toolbox-evm](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/evm)                        | Integrate EVM chain                                    |
-| [@swapkit/toolbox-utxo](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/utxo)                      | Integrate UTXO chain                                   |
+| [@swapkit/cosmos](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/cosmos)                  | Integrate Cosmos chains                                |
+| [@swapkit/evm](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/evm)                        | Integrate EVM chain                                    |
+| [@swapkit/utxo](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/utxo)                      | Integrate UTXO chain                                   |
 | [@swapkit/wallet-evm-extensions](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/evm-web-extensions) | EVM Browser Extensions                                 |
 | [@swapkit/wallet-keplr](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/keplr)                       | Keplr Wallet                                           |
 | [@swapkit/wallet-keystore](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/keystore)                 | Keystore Wallet                                        |

@@ -3,9 +3,9 @@
   "dependencies": {
     "@swapkit/api": "workspace:*",
     "@swapkit/core": "workspace:*",
-    "@swapkit/toolbox-cosmos": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*",
+    "@swapkit/cosmos": "workspace:*",
+    "@swapkit/evm": "workspace:*",
+    "@swapkit/utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
     "@swapkit/wallet-evm-extensions": "workspace:*",
     "@swapkit/wallet-keplr": "workspace:*",

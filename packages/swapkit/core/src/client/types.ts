@@ -1,11 +1,10 @@
 import type { QuoteRoute } from '@swapkit/api';
-import type { AssetValue, SwapKitNumber } from '@swapkit/helpers';
 import type {
   BinanceToolbox,
   DepositParam,
   GaiaToolbox,
   ThorchainToolboxType,
-} from '@swapkit/toolbox-cosmos';
+} from '@swapkit/cosmos';
 import type {
   ARBToolbox,
   AVAXToolbox,
@@ -13,8 +12,9 @@ import type {
   ETHToolbox,
   MATICToolbox,
   OPToolbox,
-} from '@swapkit/toolbox-evm';
-import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/toolbox-utxo';
+} from '@swapkit/evm';
+import type { AssetValue, SwapKitNumber } from '@swapkit/helpers';
+import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/utxo';
 import type { Chain, FeeOption, WalletOption } from '@swapkit/types';
 
 type BaseWalletMethods = {

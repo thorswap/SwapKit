@@ -9,7 +9,7 @@ const viteConfig = thorswapViteConfig(name, {
       entry: resolve(__dirname, 'src/index.ts'),
     },
     rollupOptions: {
-      external: ['@swapkit/helpers', '@swapkit/toolbox-cosmos'],
+      external: ['@swapkit/helpers', '@swapkit/cosmos'],
     },
   },
 });

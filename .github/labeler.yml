@@ -21,11 +21,11 @@ types:
   - packages/swapkit/types/src/**/*
 
 cosmos:
-  - packages/toolboxes/toolbox-cosmos/src/**/*
+  - packages/toolboxes/cosmos/src/**/*
 evm:
-  - packages/toolboxes/toolbox-evm/src/**/*
+  - packages/toolboxes/evm/src/**/*
 utxo:
-  - packages/toolboxes/toolbox-utxo/src/**/*
+  - packages/toolboxes/utxo/src/**/*
 
 keystore:
   - packages/wallets/keystore/src/**/*

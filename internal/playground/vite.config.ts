@@ -20,12 +20,12 @@ export default defineConfig({
     alias: {
       '@swapkit/wallet-keystore': resolve('../../packages/wallets/keystore/src'),
       '@swapkit/wallet-ledger': resolve('../../packages/wallets/ledger/src'),
-      '@swapkit/core': resolve('../../packages/swapkit/swapkit-core/src'),
-      '@swapkit/helpers': resolve('../../packages/swapkit/swapkit-helpers/src'),
+      '@swapkit/core': resolve('../../packages/swapkit/core/src'),
+      '@swapkit/helpers': resolve('../../packages/swapkit/helpers/src'),
       '@swapkit/tokens': resolve('../../packages/swapkit/tokens/src'),
-      '@swapkit/toolbox-cosmos': resolve('../../packages/toolboxes/toolbox-cosmos/src'),
-      '@swapkit/toolbox-evm': resolve('../../packages/toolboxes/toolbox-evm/src'),
-      '@swapkit/toolbox-utxo': resolve('../../packages/toolboxes/toolbox-utxo/src'),
+      '@swapkit/cosmos': resolve('../../packages/toolboxes/cosmos/src'),
+      '@swapkit/evm': resolve('../../packages/toolboxes/evm/src'),
+      '@swapkit/utxo': resolve('../../packages/toolboxes/utxo/src'),
       '@swapkit/wallet-trezor': resolve('../../packages/wallets/trezor/src'),
       '@swapkit/types': resolve('../../packages/swapkit/types/src'),
       '@swapkit/wallet-xdefi': resolve('../../packages/wallets/xdefi/src'),
@@ -55,7 +55,6 @@ export default defineConfig({
     reportCompressedSize: true,
     sourcemap: true,
     rollupOptions: {
-      // @ts-expect-error
       plugins: [nodePolyfills()],
       output: { sourcemap: true },
     },

@@ -38,7 +38,7 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/toolbox-evm",
+  "name": "@swapkit/evm",
   "publishConfig": {
     "access": "public"
   },

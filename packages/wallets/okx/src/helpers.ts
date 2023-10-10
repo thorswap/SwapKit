@@ -1,7 +1,7 @@
+import type { GaiaToolbox } from '@swapkit/cosmos';
+import type { getWeb3WalletMethods } from '@swapkit/evm';
 import { AssetValue } from '@swapkit/helpers';
-import type { GaiaToolbox } from '@swapkit/toolbox-cosmos';
-import type { getWeb3WalletMethods } from '@swapkit/toolbox-evm';
-import type { BTCToolbox, UTXOTransferParams } from '@swapkit/toolbox-utxo';
+import type { BTCToolbox, UTXOTransferParams } from '@swapkit/utxo';
 import { BaseDecimal, Chain, ChainId } from '@swapkit/types';
 import { Psbt } from 'bitcoinjs-lib';
 import type { Eip1193Provider } from 'ethers';
@@ -13,7 +13,7 @@ export const cosmosTransfer =
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
     if (!offlineSigner) throw new Error('No cosmos okxwallet found');
 
-    const { createCosmJS } = await import('@swapkit/toolbox-cosmos');
+    const { createCosmJS } = await import('@swapkit/cosmos');
 
     const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
 
@@ -52,7 +52,7 @@ export const getWalletForChain = async ({
     case Chain.BinanceSmartChain: {
       if (!window.okxwallet?.send) throw new Error('No okxwallet found');
 
-      const { getWeb3WalletMethods, getProvider } = await import('@swapkit/toolbox-evm');
+      const { getWeb3WalletMethods, getProvider } = await import('@swapkit/evm');
 
       const evmWallet = await getWeb3WalletMethods({
         chain,
@@ -85,7 +85,7 @@ export const getWalletForChain = async ({
         throw new Error('No utxoApiKey provided');
       }
 
-      const { BTCToolbox } = await import('@swapkit/toolbox-utxo');
+      const { BTCToolbox } = await import('@swapkit/utxo');
 
       const wallet = window.okxwallet.bitcoin;
       const address = (await wallet.connect()).address;
@@ -112,7 +112,7 @@ export const getWalletForChain = async ({
       const wallet = window.okxwallet.keplr;
       await wallet.enable(ChainId.Cosmos);
       const [{ address }] = await wallet.getOfflineSignerOnlyAmino(ChainId.Cosmos).getAccounts();
-      const { GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { GaiaToolbox } = await import('@swapkit/cosmos');
 
       return {
         ...GaiaToolbox({ server: api }),
