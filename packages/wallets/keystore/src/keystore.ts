@@ -44,15 +44,13 @@ const getWalletMethodsForChain = async ({
         throw new Error('Covalent API key not found');
       }
 
-      const { Mnemonic, HDNodeWallet } = await import('ethers');
+      const { HDNodeWallet } = await import('ethers');
       const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import('@swapkit/evm');
 
       const provider = getProvider(chain, rpcUrl);
-      const wallet = HDNodeWallet.fromMnemonic(Mnemonic.fromPhrase(phrase))
-        .derivePath(derivationPath)
-        .connect(provider);
+      const wallet = HDNodeWallet.fromPhrase(phrase).connect(provider);
 
-      const params = { api, provider, signer: wallet as any };
+      const params = { api, provider, signer: wallet };
 
       const toolbox =
         chain === Chain.Ethereum
@@ -136,6 +134,7 @@ const getWalletMethodsForChain = async ({
         walletMethods: { ...toolbox, transfer, getAddress: () => from },
       };
     }
+
     case Chain.Cosmos: {
       const { GaiaToolbox } = await import('@swapkit/cosmos');
       const toolbox = GaiaToolbox({ server: api });

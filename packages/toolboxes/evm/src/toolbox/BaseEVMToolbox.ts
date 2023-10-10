@@ -7,6 +7,7 @@ import type {
   ContractTransaction,
   Eip1193Provider,
   Fragment,
+  HDNodeWallet,
   JsonFragment,
   JsonRpcSigner,
   Provider,
@@ -520,7 +521,7 @@ export const BaseEVMToolbox = ({
   signer,
   isEIP1559Compatible = true,
 }: {
-  signer?: Signer | JsonRpcSigner;
+  signer?: Signer | JsonRpcSigner | HDNodeWallet;
   provider: Provider | BrowserProvider;
   isEIP1559Compatible?: boolean;
 }) => ({

@@ -2,8 +2,8 @@ import type { SwapKitCore } from '@swapkit/core';
 import { AssetValue } from '@swapkit/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
-import Multisig from './Multisig';
 import Loan from './Loan';
+import Multisig from './Multisig';
 import Send from './Send';
 import Swap from './Swap';
 import { clearSwapkitClient, getSwapKitClient } from './swapKitClient';

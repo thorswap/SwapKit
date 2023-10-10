@@ -1,11 +1,10 @@
-import { AssetValue } from '@swapkit/helpers';
 import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, FeeOption, RPCUrl } from '@swapkit/types';
 import type { BrowserProvider, JsonRpcProvider, Signer, TransactionRequest } from 'ethers';
 
 import type { CovalentApiType } from '../api/covalentApi.ts';
 import { covalentApi } from '../api/covalentApi.ts';
 import { gasOracleAbi } from '../contracts/op/gasOracle.ts';
-import { getProvider } from '../provider.ts';
+import { getBalance } from '../index.ts';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.ts';
 
@@ -70,22 +69,6 @@ export const estimateL1Gas = async (
   tx: TransactionRequest,
 ) => {
   return (await connectGasPriceOracle(provider)).getL1GasUsed(await _serializeTx(provider, tx));
-};
-
-export const getBalance = async (api: CovalentApiType, address: string) => {
-  const provider = getProvider(Chain.Optimism);
-  const tokenBalances = await api.getBalance(address);
-  const evmGasTokenBalance = await provider.getBalance(address);
-
-  return [
-    new AssetValue({
-      chain: Chain.Optimism,
-      symbol: Chain.Optimism,
-      value: evmGasTokenBalance.toString(),
-      decimal: BaseDecimal.OP,
-    }),
-    ...tokenBalances,
-  ];
 };
 
 export const getNetworkParams = () => ({
@@ -154,6 +137,6 @@ export const OPToolbox = ({
     estimateL1Gas: (tx: TransactionRequest) => estimateL1Gas(provider, tx),
     getNetworkParams,
     estimateGasPrices: () => estimateGasPrices(provider),
-    getBalance: (address: string) => getBalance(opApi, address),
+    getBalance: (address: string) => getBalance(provider, opApi, address, Chain.Optimism),
   };
 };

@@ -1,7 +1,7 @@
-import { decryptFromKeystore } from '@swapkit/wallet-keystore';
-import { getDerivationPathFor } from '@swapkit/wallet-ledger';
 import type { SwapKitCore } from '@swapkit/core';
 import { Chain, EVMChainList, WalletOption } from '@swapkit/types';
+import { decryptFromKeystore } from '@swapkit/wallet-keystore';
+import { getDerivationPathFor } from '@swapkit/wallet-ledger';
 import { useCallback, useState } from 'react';
 
 import type { WalletDataType } from './types';
@@ -112,7 +112,6 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         if (!password) return alert('password is required');
         try {
           const phrases = await decryptFromKeystore(JSON.parse(keystoreFile), password);
-
           setPhrase(phrases);
 
           await skClient.connectKeystore(chains, phrases);

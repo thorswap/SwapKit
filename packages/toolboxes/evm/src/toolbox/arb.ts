@@ -1,29 +1,11 @@
-import { AssetValue } from '@swapkit/helpers';
 import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, FeeOption, RPCUrl } from '@swapkit/types';
 import type { BrowserProvider, JsonRpcProvider, Provider, Signer } from 'ethers';
 
 import type { CovalentApiType } from '../api/covalentApi.ts';
 import { covalentApi } from '../api/covalentApi.ts';
-import { getProvider } from '../provider.ts';
+import { getBalance } from '../index.ts';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.ts';
-
-export const getBalance = async (api: CovalentApiType, address: string) => {
-  const provider = getProvider(Chain.Arbitrum);
-  const tokenBalances = await api.getBalance(address);
-
-  const evmGasTokenBalance = await provider.getBalance(address);
-
-  return [
-    new AssetValue({
-      chain: Chain.Arbitrum,
-      symbol: Chain.Arbitrum,
-      value: evmGasTokenBalance.toString(),
-      decimal: BaseDecimal.ARB,
-    }),
-    ...tokenBalances,
-  ];
-};
 
 export const getNetworkParams = () => ({
   chainId: ChainId.ArbitrumHex,
@@ -69,6 +51,6 @@ export const ARBToolbox = ({
     ...baseToolbox,
     getNetworkParams,
     estimateGasPrices: () => estimateGasPrices(provider),
-    getBalance: (address: string) => getBalance(arbApi, address),
+    getBalance: (address: string) => getBalance(provider, arbApi, address, Chain.Arbitrum),
   };
 };

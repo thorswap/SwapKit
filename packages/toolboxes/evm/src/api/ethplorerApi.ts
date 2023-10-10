@@ -1,4 +1,4 @@
-import { assetFromString, AssetValue, getRequest } from '@swapkit/helpers';
+import { assetFromString, AssetValue, formatBigIntToSafeValue, getRequest } from '@swapkit/helpers';
 import { Chain } from '@swapkit/types';
 
 import type { AddressInfo } from '../types/ethplorer-api-types.ts';
@@ -12,7 +12,7 @@ export const ethplorerApi = (apiKey = 'freekey') => ({
     });
 
     return tokens
-      ? tokens.reduce((acc, token) => {
+      ? tokens.reduce((acc, token): AssetValue[] => {
           const { symbol, decimals, address } = token.tokenInfo;
 
           const tokenAsset = assetFromString(`${Chain.Ethereum}.${symbol}-${getAddress(address)}`);
@@ -22,7 +22,10 @@ export const ethplorerApi = (apiKey = 'freekey') => ({
               new AssetValue({
                 chain: tokenAsset.chain,
                 symbol: tokenAsset.symbol,
-                value: token.rawBalance,
+                value: formatBigIntToSafeValue({
+                  value: BigInt(token.rawBalance),
+                  decimal: parseInt(decimals),
+                }),
                 decimal: parseInt(decimals),
               }),
             ];

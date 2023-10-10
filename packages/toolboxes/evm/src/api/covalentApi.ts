@@ -1,4 +1,4 @@
-import { AssetValue, getRequest } from '@swapkit/helpers';
+import { AssetValue, formatBigIntToSafeValue, getRequest } from '@swapkit/helpers';
 import type { ChainId } from '@swapkit/types';
 import { ChainIdToChain } from '@swapkit/types';
 
@@ -36,7 +36,7 @@ export const covalentApi = ({ apiKey, chainId }: { apiKey: string; chainId: Chai
     return (data?.items || []).map(
       ({ balance, contract_decimals, contract_ticker_symbol, contract_address }) =>
         new AssetValue({
-          value: balance,
+          value: formatBigIntToSafeValue({ value: BigInt(balance), decimal: contract_decimals }),
           decimal: contract_decimals,
           identifier: `${ChainIdToChain[chainId]}.${contract_ticker_symbol}-${contract_address}`,
         }),

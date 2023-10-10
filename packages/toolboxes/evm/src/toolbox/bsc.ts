@@ -1,10 +1,9 @@
-import { AssetValue } from '@swapkit/helpers';
 import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from '@swapkit/types';
 import type { BrowserProvider, JsonRpcProvider, Provider, Signer } from 'ethers';
 
 import type { CovalentApiType } from '../api/covalentApi.ts';
 import { covalentApi } from '../api/covalentApi.ts';
-import type { CallParams } from '../index.ts';
+import { type CallParams, getBalance } from '../index.ts';
 
 import type { WithSigner } from './BaseEVMToolbox.ts';
 import {
@@ -13,21 +12,6 @@ import {
   isBrowserProvider,
   isStateChangingCall,
 } from './BaseEVMToolbox.ts';
-
-export const getBalance = async (provider: Provider, api: CovalentApiType, address: string) => {
-  const tokenBalances = await api.getBalance(address);
-  const evmGasTokenBalance = await provider.getBalance(address);
-
-  return [
-    new AssetValue({
-      chain: Chain.BinanceSmartChain,
-      symbol: Chain.BinanceSmartChain,
-      value: evmGasTokenBalance.toString(),
-      decimal: BaseDecimal.BSC,
-    }),
-    ...tokenBalances,
-  ];
-};
 
 export const getNetworkParams = () => ({
   chainId: ChainId.BinanceSmartChainHex,
@@ -114,6 +98,6 @@ export const BSCToolbox = ({
     ...baseToolbox,
     call: (params: CallParams) => call(provider, { signer, ...params }),
     getNetworkParams,
-    getBalance: (address: string) => getBalance(provider, bscApi, address),
+    getBalance: (address: string) => getBalance(provider, bscApi, address, Chain.BinanceSmartChain),
   };
 };

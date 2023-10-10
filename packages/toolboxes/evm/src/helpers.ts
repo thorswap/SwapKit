@@ -1,8 +1,16 @@
-import { AssetValue, SwapKitNumber } from '@swapkit/helpers';
-import { Chain, ChainId, ChainToHexChainId, FeeOption, WalletOption } from '@swapkit/types';
-import type { BrowserProvider, Eip1193Provider } from 'ethers';
+import { AssetValue, formatBigIntToSafeValue, SwapKitNumber } from '@swapkit/helpers';
+import {
+  BaseDecimal,
+  Chain,
+  ChainId,
+  ChainToHexChainId,
+  type EVMChain,
+  FeeOption,
+  WalletOption,
+} from '@swapkit/types';
+import type { BrowserProvider, Eip1193Provider, JsonRpcProvider } from 'ethers';
 
-import type { EVMMaxSendableAmountsParams } from './index.ts';
+import type { CovalentApiType, EthplorerApiType, EVMMaxSendableAmountsParams } from './index.ts';
 import { AVAXToolbox, BSCToolbox, ETHToolbox } from './index.ts';
 
 type NetworkParams = {
@@ -256,4 +264,22 @@ const listWeb3EVMWallets = () => {
 
 export const isWeb3Detected = () => {
   return typeof window.ethereum !== 'undefined';
+};
+
+export const getBalance = async (
+  provider: JsonRpcProvider | BrowserProvider,
+  api: CovalentApiType | EthplorerApiType,
+  address: string,
+  chain: EVMChain,
+) => {
+  const tokenBalances = await api.getBalance(address);
+  const evmGasTokenBalance = await provider.getBalance(address);
+
+  return [
+    AssetValue.fromChainOrSignature(
+      chain,
+      formatBigIntToSafeValue({ value: evmGasTokenBalance, decimal: BaseDecimal[chain] }),
+    ),
+    ...tokenBalances,
+  ];
 };

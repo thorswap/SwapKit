@@ -1,28 +1,11 @@
-import { AssetValue } from '@swapkit/helpers';
 import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, RPCUrl } from '@swapkit/types';
 import type { BrowserProvider, JsonRpcProvider, Signer } from 'ethers';
 
 import type { CovalentApiType } from '../api/covalentApi.ts';
 import { covalentApi } from '../api/covalentApi.ts';
-import { getProvider } from '../provider.ts';
+import { getBalance } from '../index.ts';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.ts';
-
-export const getBalance = async (api: CovalentApiType, address: string) => {
-  const provider = getProvider(Chain.Polygon);
-  const tokenBalances = await api.getBalance(address);
-  const evmGasTokenBalance = await provider.getBalance(address);
-
-  return [
-    new AssetValue({
-      chain: Chain.Polygon,
-      symbol: Chain.Polygon,
-      value: evmGasTokenBalance.toString(),
-      decimal: BaseDecimal.MATIC,
-    }),
-    ...tokenBalances,
-  ];
-};
 
 export const getNetworkParams = () => ({
   chainId: ChainId.PolygonHex,
@@ -49,6 +32,6 @@ export const MATICToolbox = ({
   return {
     ...baseToolbox,
     getNetworkParams,
-    getBalance: (address: string) => getBalance(maticApi, address),
+    getBalance: (address: string) => getBalance(provider, maticApi, address, Chain.Polygon),
   };
 };

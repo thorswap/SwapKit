@@ -1,25 +1,11 @@
-import { AssetValue } from '@swapkit/helpers';
 import { Chain } from '@swapkit/types';
-import type { BrowserProvider, JsonRpcProvider, JsonRpcSigner, Provider, Signer } from 'ethers';
+import type { BrowserProvider, JsonRpcProvider, JsonRpcSigner, Signer } from 'ethers';
 
 import type { EthplorerApiType } from '../api/ethplorerApi.ts';
 import { ethplorerApi } from '../api/ethplorerApi.ts';
+import { getBalance } from '../index.ts';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.ts';
-
-export const getBalance = async (
-  provider: Provider | BrowserProvider,
-  api: EthplorerApiType,
-  address: string,
-) => {
-  const tokenBalances = await api.getBalance(address);
-  const evmGasTokenBalance = await provider.getBalance(address);
-
-  return [
-    AssetValue.fromChainOrSignature(Chain.Ethereum, evmGasTokenBalance.toString()),
-    ...tokenBalances,
-  ];
-};
 
 export const ETHToolbox = ({
   api,
@@ -37,6 +23,6 @@ export const ETHToolbox = ({
 
   return {
     ...baseToolbox,
-    getBalance: (address: string) => getBalance(provider, ethApi, address),
+    getBalance: (address: string) => getBalance(provider, ethApi, address, Chain.Ethereum),
   };
 };

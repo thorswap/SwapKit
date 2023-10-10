@@ -1,29 +1,11 @@
-import { AssetValue } from '@swapkit/helpers';
 import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from '@swapkit/types';
 import type { BrowserProvider, JsonRpcProvider, Signer } from 'ethers';
 
 import type { CovalentApiType } from '../api/covalentApi.ts';
 import { covalentApi } from '../api/covalentApi.ts';
-import { getProvider } from '../provider.ts';
+import { getBalance } from '../index.ts';
 
 import { BaseEVMToolbox } from './BaseEVMToolbox.ts';
-
-export const getBalance = async (api: CovalentApiType, address: string) => {
-  const provider = getProvider(Chain.Avalanche);
-  const tokenBalances = await api.getBalance(address);
-
-  const evmGasTokenBalance = await provider.getBalance(address);
-
-  return [
-    new AssetValue({
-      chain: Chain.Avalanche,
-      symbol: Chain.Avalanche,
-      value: evmGasTokenBalance.toString(),
-      decimal: BaseDecimal.AVAX,
-    }),
-    ...tokenBalances,
-  ];
-};
 
 export const getNetworkParams = () => ({
   chainId: ChainId.AvalancheHex,
@@ -51,6 +33,6 @@ export const AVAXToolbox = ({
   return {
     ...baseToolbox,
     getNetworkParams,
-    getBalance: (address: string) => getBalance(avaxApi, address),
+    getBalance: (address: string) => getBalance(provider, avaxApi, address, Chain.Avalanche),
   };
 };
