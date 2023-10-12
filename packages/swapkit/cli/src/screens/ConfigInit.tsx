@@ -180,16 +180,17 @@ const ConfigInit = () => {
         />
       ) : focus === CEI.STAGENET ? (
         <Box>
-          <Text>{itemLabels[focus] + ': '}</Text>
+          <Text color="green">{itemLabels[focus]}</Text>
+          <Text>: </Text>
           <SelectInput items={staganetItems} onSelect={staganetOnSelect} />
         </Box>
       ) : focus === CEI.TREZOR_CREDENTIALS ? (
         <Box flexDirection="column">
           <Text>{itemLabels[focus]}</Text>
-          <Box flexDirection="column">
+          <Box flexDirection="column" marginTop={1}>
             <Box>
               <Text color="green">Email</Text>
-              <Text>:</Text>
+              <Text>: </Text>
               <TextInput
                 focus={inputFocus === 0 ? true : false}
                 onChange={setQuery}
@@ -199,7 +200,7 @@ const ConfigInit = () => {
             </Box>
             <Box>
               <Text color="green">App URL</Text>
-              <Text>:</Text>
+              <Text>: </Text>
               <TextInput
                 focus={inputFocus === 1 ? true : false}
                 onChange={setQuery2}
@@ -213,7 +214,8 @@ const ConfigInit = () => {
         <>{handleSubmit()}</>
       ) : (
         <Box>
-          <Text>{itemLabels[focus] + ': '}</Text>
+          <Text color="green">{itemLabels[focus]}</Text>
+          <Text>: </Text>
           <TextInput onChange={setQuery} onSubmit={handleSubmit} value={query} />
         </Box>
       )}
