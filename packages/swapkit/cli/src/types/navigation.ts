@@ -1,0 +1,18 @@
+export enum NavigationScreens {
+  WELCOME_SCREEN,
+  SWAPKIT_MENU,
+
+  CONFIG_EDIT,
+  CONFIG_INIT,
+}
+
+export enum ConfigEditItems {
+  COVALENT_API_KEY,
+  ETHPLORER_API_KEY,
+  UTXO_API_KEY,
+  WALLET_CONNECT_PROJECT_ID,
+  TREZOR_CREDENTIALS,
+  STAGENET,
+
+  FINISH,
+}
