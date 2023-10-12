@@ -2,14 +2,22 @@ import { Box, render } from 'ink';
 import React, { useCallback, useMemo, useState } from 'react';
 
 import ConfigInit from './screens/ConfigInit.js';
+import Exit from './screens/Exit.js';
 import WelcomeScreen from './screens/WelcomeScreen.js';
 import { NavigationScreens as NS } from './types/navigation.js';
 import { ConfigContext, useConfig } from './util/useConfig.js';
 
+export const NavigationContext = React.createContext<{
+  navigation: NS;
+  setNavigation: (item: any) => void;
+}>({
+  navigation: NS.WELCOME_SCREEN,
+  setNavigation: () => {},
+});
+
 const Demo = () => {
   const [navigation, setNavigation] = useState(NS.WELCOME_SCREEN);
 
-  console.log('loading config');
   const { config, setConfig } = useConfig();
 
   const handleSelect = useCallback((item: any) => {
@@ -22,7 +30,9 @@ const Demo = () => {
         return <WelcomeScreen onSelect={handleSelect} />;
       case NS.CONFIG_INIT:
       case NS.CONFIG_EDIT:
-        return <ConfigInit setNavigation={setNavigation} />;
+        return <ConfigInit />;
+      case NS.EXIT:
+        return <Exit />;
       default:
         console.log('default');
         return false;
@@ -30,11 +40,13 @@ const Demo = () => {
   }, [handleSelect, navigation]);
 
   return (
-    <ConfigContext.Provider value={{ config, setConfig }}>
-      <Box flexDirection="column" margin={2}>
-        {output}
-      </Box>
-    </ConfigContext.Provider>
+    <NavigationContext.Provider value={{ navigation, setNavigation }}>
+      <ConfigContext.Provider value={{ config, setConfig }}>
+        <Box flexDirection="column" margin={2}>
+          {output}
+        </Box>
+      </ConfigContext.Provider>
+    </NavigationContext.Provider>
   );
 };
 

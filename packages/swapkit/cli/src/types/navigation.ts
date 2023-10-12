@@ -4,6 +4,7 @@ export enum NavigationScreens {
 
   CONFIG_EDIT,
   CONFIG_INIT,
+  EXIT,
 }
 
 export enum ConfigEditItems {
