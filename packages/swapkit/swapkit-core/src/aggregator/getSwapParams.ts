@@ -46,7 +46,7 @@ export const getSameEVMParams = ({
 export const getSwapOutParams = ({
   streamSwap,
   recipient,
-  callData: { fromAsset, amountIn, memo, memoStreamingSwap },
+  callData: { fromAsset, amountIn, memo, memoStreamingSwap, expiration },
 }: SwapOutParams) => {
   const asset = AssetEntity.fromAssetString(fromAsset);
   if (!asset) throw new SwapKitError('core_swap_asset_not_recognized');
@@ -56,6 +56,7 @@ export const getSwapOutParams = ({
   return {
     assetAmount: new AssetAmount(asset, new Amount(amountIn, 0, asset.decimal)),
     memo: swapMemo?.replace('{recipientAddress}', recipient),
+    expiration: parseInt(expiration.toString()),
   };
 };
 
