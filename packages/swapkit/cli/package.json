@@ -1,0 +1,58 @@
+{
+  "author": "swapkit",
+  "description": "SwapKit Lib cli",
+  "dependencies": {
+    "@swapkit/sdk": "workspace:*",
+    "ink": "4.4.1",
+    "ink-select-input": "5.0.0",
+    "ink-text-input": "5.0.1",
+    "react": "18.2.0"
+  },
+  "devDependencies": {
+    "@internal/config": "workspace:*",
+    "@rollup/plugin-babel": "6.0.4",
+    "@sindresorhus/tsconfig": "5.0.0",
+    "@types/ink-select-input": "3.0.2",
+    "@types/react": "18.2.21",
+    "@vitest/coverage-istanbul": "0.34.3",
+    "vite": "4.4.9",
+    "vite-plugin-babel": "1.1.3",
+    "vitest": "0.34.3"
+  },
+  "eslintConfig": {
+    "extends": "../../../internal/eslint-config"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "Apache-2.0",
+  "main": "./dist/index.js",
+  "bin": {
+    "swapkit-cli": "./dist/index.js"
+  },
+  "module": "./dist/index.es.js",
+  "name": "@swapkit/cli",
+  "publishConfig": {
+    "access": "public"
+  },
+  "react-native": "./src/index.ts",
+  "repository": "https://github.com/thorswap/SwapKit.git",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
+    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "test": "echo 'vitest --run'",
+    "test:coverage": "echo 'vitest run --coverage'"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts"
+}
