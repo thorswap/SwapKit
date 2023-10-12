@@ -273,7 +273,7 @@ export class SwapKitCore<T = ''> {
               getChecksumAddressFromAsset(asset, asset?.chain as EVMChain),
               params.amount.amount().toString(),
               params.memo,
-              new Date().setMinutes(new Date().getMinutes() + 10),
+              Math.floor(new Date().setMinutes(new Date().getMinutes() + 10) / 1000),
             ],
             txOverrides: {
               from: params.from,
