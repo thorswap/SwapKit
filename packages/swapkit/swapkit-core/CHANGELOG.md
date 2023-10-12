@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.221
+
+### Patch Changes
+
+- [#345](https://github.com/thorswap/SwapKit/pull/345) [`b1da4eba`](https://github.com/thorswap/SwapKit/commit/b1da4eba8ad84afeac529499705a67494a1898a1) Thanks [@towanTG](https://github.com/towanTG)! - Changes expiry for TC router contract from ms to s
+
 ## 1.0.0-development.220
 
 ### Patch Changes

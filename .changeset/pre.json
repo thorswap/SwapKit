@@ -22,6 +22,7 @@
     "@thorswap-lib/xdefi": "1.0.0-development.55"
   },
   "changesets": [
+    "breezy-jars-mate",
     "chilly-pots-perform",
     "curvy-beans-smoke",
     "dull-meals-impress",
