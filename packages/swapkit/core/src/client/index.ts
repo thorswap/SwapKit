@@ -250,7 +250,7 @@ export class SwapKitCore<T = ''> {
               // TODO: (@Towan) Re-Check on that conversion 🙏
               assetValue.baseValueBigInt.toString(),
               params.memo,
-              Math.floor(new Date().setMinutes(new Date().getMinutes() + 10) / 1000),
+              rest.expiration,
             ],
             txOverrides: { from: params.from, value: assetValue.baseValueBigInt },
           })) as Promise<string>;

@@ -29,6 +29,7 @@ export type CoreTxParams = {
   feeRate?: number;
   data?: string;
   from?: string;
+  expiration?: number;
 };
 
 export type AddLiquidityTxns = {
