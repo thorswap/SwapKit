@@ -2,17 +2,19 @@ import type { ConnectConfig } from '@swapkit/sdk';
 import { Box, Text } from 'ink';
 import SelectInput from 'ink-select-input';
 import TextInput from 'ink-text-input';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
+import { NavigationContext } from '../source.js';
 import { ConfigEditItems as CEI, NavigationScreens as NS } from '../types/navigation.js';
 import { ConfigContext, saveConfig } from '../util/useConfig.js';
 
-type Props = {
-  setNavigation: (item: any) => void;
-};
-
-const ConfigInit = ({ setNavigation }: Props) => {
+const ConfigInit = () => {
   const [query, setQuery] = useState('');
+  const [nav, setNav] = useState(false);
+  const [updateConfig, setUpdateConfig] = useState(false);
+
+  const { setNavigation } = useContext(NavigationContext);
+  const { config, setConfig } = useContext(ConfigContext);
 
   const [focus, setFocus] = useState(-1);
 
@@ -21,15 +23,20 @@ const ConfigInit = ({ setNavigation }: Props) => {
   const [inputFocus, setInputFocus] = useState(0);
   const [query2, setQuery2] = useState('');
 
-  const { config, setConfig } = useContext(ConfigContext);
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { configFile: _, ...rest } = config;
   const [initConfig, setInitconfig] = useState<ConnectConfig>(rest);
 
-  const handleSubmit = useCallback(() => {
-    console.log('focus', focus);
+  useEffect(() => {
+    if (nav) {
+      setNavigation(NS.WELCOME_SCREEN);
+    }
+    if (updateConfig) {
+      setConfig({ ...initConfig, configFile: true });
+    }
+  }, [nav, setNavigation, updateConfig, initConfig, setConfig]);
 
+  const handleSubmit = useCallback(() => {
     switch (focus) {
       case CEI.COVALENT_API_KEY:
         setInitconfig({ ...initConfig, covalentApiKey: query });
@@ -53,9 +60,9 @@ const ConfigInit = ({ setNavigation }: Props) => {
         });
         break;
       case CEI.FINISH:
-        setNavigation(NS.WELCOME_SCREEN);
+        setNav(true);
+        setUpdateConfig(true);
         saveConfig(initConfig);
-        setConfig({ ...initConfig, configFile: true });
         break;
     }
 
@@ -65,7 +72,7 @@ const ConfigInit = ({ setNavigation }: Props) => {
     setQuery2('');
 
     setInputFocus(0);
-  }, [focus, initConfig, query, query2, setConfig, setNavigation]);
+  }, [focus, initConfig, query, query2]);
 
   const handleEmailSubmit = () => {
     setInputFocus(1);
@@ -81,7 +88,6 @@ const ConfigInit = ({ setNavigation }: Props) => {
   );
 
   const handleSelect = useCallback((item: any) => {
-    console.log(item);
     setLastSelect(item.value);
     setFocus(item.value);
   }, []);

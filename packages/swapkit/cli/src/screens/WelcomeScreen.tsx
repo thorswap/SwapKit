@@ -22,11 +22,19 @@ const WelcomeScreen = ({ onSelect }: Props) => {
           label: 'Edit SwapKit Config',
           value: NS.CONFIG_EDIT,
         },
+        {
+          label: 'Exit',
+          value: NS.EXIT,
+        },
       ]
     : [
         {
           label: 'Initialize SwapKit Config',
           value: NS.CONFIG_INIT,
+        },
+        {
+          label: 'Exit',
+          value: NS.EXIT,
         },
       ];
 
