@@ -1,5 +1,11 @@
 # @thorswap-lib/swapkit-core
 
+## 1.0.0-development.222
+
+### Patch Changes
+
+- [#347](https://github.com/thorswap/SwapKit/pull/347) [`8d0157fd`](https://github.com/thorswap/SwapKit/commit/8d0157fd2421d078c5edf5485ab2f2a12b4a7889) Thanks [@towanTG](https://github.com/towanTG)! - Uses quote expiration from quote route
+
 ## 1.0.0-development.221
 
 ### Patch Changes
