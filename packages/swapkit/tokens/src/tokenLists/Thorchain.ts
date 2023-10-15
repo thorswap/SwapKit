@@ -1,6 +1,6 @@
 export const list = {
   name: 'thorchain',
-  timestamp: '2023-09-30T07:54:02.485Z',
+  timestamp: '2023-10-14T00:32:38.443Z',
   version: { major: 1, minor: 0, patch: 0 },
   keywords: ['THORChain'],
   tokens: [
@@ -19,6 +19,12 @@ export const list = {
     { address: '1C9', chain: 'BNB', identifier: 'BNB.ETH-1C9', decimals: 8 },
     { address: '8C2', chain: 'BNB', identifier: 'BNB.TWT-8C2', decimals: 8 },
     { chain: 'BSC', identifier: 'BSC.BNB', decimals: 8 },
+    {
+      address: '0x8AC76A51CC950D9822D68B83FE1AD97B32CD580D',
+      chain: 'BSC',
+      identifier: 'BSC.USDC-0X8AC76A51CC950D9822D68B83FE1AD97B32CD580D',
+      decimals: 8,
+    },
     { chain: 'BTC', identifier: 'BTC.BTC', decimals: 8 },
     { chain: 'DOGE', identifier: 'DOGE.DOGE', decimals: 8 },
     {
@@ -128,6 +134,6 @@ export const list = {
     { chain: 'LTC', identifier: 'LTC.LTC', decimals: 8 },
     { chain: 'THOR', identifier: 'THOR.RUNE', decimals: 8 },
   ],
-  count: 33,
+  count: 34,
   logo: 'https://app.thorswap.finance/assets/asset-rune-43bdc185.svg',
 } as const;

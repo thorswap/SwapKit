@@ -1,6 +1,6 @@
 export const list = {
   name: 'Uniswap Labs Default',
-  timestamp: '2023-09-12T17:06:25.768Z',
+  timestamp: '2023-10-13T22:01:54.315Z',
   version: { major: 11, minor: 6, patch: 0 },
   keywords: ['uniswap', 'default'],
   tokens: [
@@ -38,6 +38,12 @@ export const list = {
       address: '0x91Af0fBB28ABA7E31403Cb457106Ce79397FD4E6',
       chain: 'ETH',
       identifier: 'ETH.AERGO-0X91AF0FBB28ABA7E31403CB457106CE79397FD4E6',
+      decimals: 18,
+    },
+    {
+      address: '0x1a7e4e63778B4f12a199C062f3eFdD288afCBce8',
+      chain: 'ETH',
+      identifier: 'ETH.agEUR-0X1A7E4E63778B4F12A199C062F3EFDD288AFCBCE8',
       decimals: 18,
     },
     {
@@ -266,6 +272,12 @@ export const list = {
       address: '0xBe9895146f7AF43049ca1c1AE358B0541Ea49704',
       chain: 'ETH',
       identifier: 'ETH.cbETH-0XBE9895146F7AF43049CA1C1AE358B0541EA49704',
+      decimals: 18,
+    },
+    {
+      address: '0x3294395e62F4eB6aF3f1Fcf89f5602D90Fb3Ef69',
+      chain: 'ETH',
+      identifier: 'ETH.CELO-0X3294395E62F4EB6AF3F1FCF89F5602D90FB3EF69',
       decimals: 18,
     },
     {
@@ -1426,6 +1438,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x70e8dE73cE538DA2bEEd35d14187F6959a8ecA96',
+      chain: 'ETH',
+      identifier: 'ETH.XSGD-0X70E8DE73CE538DA2BEED35D14187F6959A8ECA96',
+      decimals: 6,
+    },
+    {
       address: '0x55296f69f40Ea6d20E478533C15A6B08B654E758',
       chain: 'ETH',
       identifier: 'ETH.XYO-0X55296F69F40EA6D20E478533C15A6B08B654E758',
@@ -1468,6 +1486,6 @@ export const list = {
       decimals: 18,
     },
   ],
-  count: 244,
+  count: 247,
   logo: 'https://static.thorswap.net/token-list/images/eth.uni-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984.png',
 } as const;
