@@ -1,7 +1,7 @@
 import { derivationPathToString } from '@swapkit/helpers';
+import type { UTXOTransferParams, UTXOType } from '@swapkit/toolbox-utxo';
 import type { ConnectWalletParams, DerivationPathArray } from '@swapkit/types';
 import { Chain, FeeOption, WalletOption } from '@swapkit/types';
-import type { UTXOTransferParams, UTXOType } from '@swapkit/utxo';
 import TrezorConnect from '@trezor/connect-web';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
@@ -53,7 +53,9 @@ const getToolbox = async ({
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
 
-      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import('@swapkit/evm');
+      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
+        '@swapkit/toolbox-evm'
+      );
 
       const provider = getProvider(chain, rpcUrl);
       const signer = await getEVMSigner({ chain, derivationPath, provider });
@@ -78,7 +80,9 @@ const getToolbox = async ({
       if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
       const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
 
-      const { BTCToolbox, BCHToolbox, LTCToolbox, DOGEToolbox } = await import('@swapkit/utxo');
+      const { BTCToolbox, BCHToolbox, LTCToolbox, DOGEToolbox } = await import(
+        '@swapkit/toolbox-utxo'
+      );
 
       const scriptType:
         | {

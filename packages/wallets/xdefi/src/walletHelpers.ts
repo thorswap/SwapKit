@@ -1,5 +1,5 @@
 import type { Keplr } from '@keplr-wallet/types';
-import { toHexString } from '@swapkit/evm';
+import { toHexString } from '@swapkit/toolbox-evm';
 import type { AssetValue } from '@swapkit/helpers';
 import type { FeeOption } from '@swapkit/types';
 import { Chain, ChainId } from '@swapkit/types';
@@ -137,7 +137,7 @@ export const walletTransfer = async (
 export const cosmosTransfer =
   (rpcUrl?: string) =>
   async ({ from, recipient, amount, asset, memo }: any) => {
-    const { createCosmJS } = await import('@swapkit/cosmos');
+    const { createCosmJS } = await import('@swapkit/toolbox-cosmos');
     const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
     const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
 

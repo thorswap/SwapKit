@@ -1,6 +1,6 @@
 import type { StdSignDoc } from '@cosmjs/amino';
 import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
-import type { BaseCosmosToolboxType, DepositParam, TransferParams } from '@swapkit/cosmos';
+import type { BaseCosmosToolboxType, DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
 import { ApiUrl, Chain, ChainId, WalletOption } from '@swapkit/types';
 import type { WalletConnectModalSign } from '@walletconnect/modal-sign-html';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
@@ -62,7 +62,7 @@ const getToolbox = async ({
         throw new Error('Covalent API key not found');
 
       const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
-        '@swapkit/evm'
+        '@swapkit/toolbox-evm'
       );
 
       const provider = getProvider(chain);
@@ -78,7 +78,7 @@ const getToolbox = async ({
       return toolbox;
     }
     case Chain.Binance: {
-      const { sortObject, BinanceToolbox } = await import('@swapkit/cosmos');
+      const { sortObject, BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = BinanceToolbox();
       const transfer = async ({ recipient, assetValue, memo }: TransferParams) => {
         const account = await toolbox.getAccount(from);
@@ -119,7 +119,7 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.THORChain: {
-      const { getDenomWithChain, ThorchainToolbox } = await import('@swapkit/cosmos');
+      const { getDenomWithChain, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = ThorchainToolbox({ stagenet: false });
 
       const signRequest = (signDoc: StdSignDoc) =>

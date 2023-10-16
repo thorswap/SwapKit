@@ -1,5 +1,4 @@
-import type { DepositParam, ThorchainToolboxType, TransferParams } from '@swapkit/cosmos';
-import type { TransactionType, UTXOWalletTransferParams } from '@swapkit/utxo';
+import type { TransactionType, UTXOWalletTransferParams } from '@swapkit/toolbox-utxo';
 import type { Witness } from '@swapkit/types';
 
 type WalletMethodParams<T = {}> = T & { phrase: string };
@@ -31,7 +30,7 @@ export const bitcoincashWalletMethods: any = async ({
   phrase,
   api,
 }: UTXOWalletMethodParams) => {
-  const { BCHToolbox } = await import('@swapkit/utxo');
+  const { BCHToolbox } = await import('@swapkit/toolbox-utxo');
   const toolbox = BCHToolbox({ rpcUrl, apiKey: utxoApiKey, apiClient: api });
   const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
   const address = toolbox.getAddressFromKeys(keys);

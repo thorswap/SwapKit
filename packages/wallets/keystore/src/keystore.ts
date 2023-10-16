@@ -45,7 +45,9 @@ const getWalletMethodsForChain = async ({
       }
 
       const { HDNodeWallet } = await import('ethers');
-      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import('@swapkit/evm');
+      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
+        '@swapkit/toolbox-evm'
+      );
 
       const provider = getProvider(chain, rpcUrl);
       const wallet = HDNodeWallet.fromPhrase(phrase).connect(provider);
@@ -85,7 +87,7 @@ const getWalletMethodsForChain = async ({
     case Chain.Litecoin: {
       const params = { rpcUrl, apiKey: utxoApiKey, apiClient: api };
 
-      const { BTCToolbox, LTCToolbox, DOGEToolbox } = await import('@swapkit/utxo');
+      const { BTCToolbox, LTCToolbox, DOGEToolbox } = await import('@swapkit/toolbox-utxo');
 
       const toolbox =
         chain === Chain.Bitcoin
@@ -115,7 +117,7 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Binance: {
-      const { BinanceToolbox } = await import('@swapkit/cosmos');
+      const { BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = BinanceToolbox();
       const privkey = await toolbox.createKeyPair(phrase);
       const from = await toolbox.getAddressFromMnemonic(phrase);
@@ -136,7 +138,7 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Cosmos: {
-      const { GaiaToolbox } = await import('@swapkit/cosmos');
+      const { GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = GaiaToolbox({ server: api });
       const signer = await toolbox.getSigner(phrase);
       const from = await toolbox.getAddressFromMnemonic(phrase);

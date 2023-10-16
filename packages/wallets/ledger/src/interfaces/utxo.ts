@@ -1,4 +1,4 @@
-import type { UTXOType } from '@swapkit/utxo';
+import type { UTXOType } from '@swapkit/toolbox-utxo';
 import { type Psbt, Transaction } from 'bitcoinjs-lib';
 
 import type { CreateTransactionArg } from './types.ts';

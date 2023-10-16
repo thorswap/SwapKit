@@ -6,7 +6,7 @@
   "description": "SwapKit Lib evm-extensions",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@swapkit/evm": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.4",
     "ethers": "6.7.1",
     "vite": "4.4.9",
@@ -32,7 +32,7 @@
   "module": "./dist/index.es.js",
   "name": "@swapkit/wallet-evm-extensions",
   "peerDependencies": {
-    "@swapkit/evm": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
     "ethers": "^6.7.1"
   },
   "publishConfig": {

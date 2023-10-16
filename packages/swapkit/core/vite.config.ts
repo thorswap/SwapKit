@@ -11,9 +11,9 @@ const viteConfig = thorswapViteConfig(name, {
     rollupOptions: {
       external: [
         '@swapkit/tokens',
-        '@swapkit/cosmos',
-        '@swapkit/evm',
-        '@swapkit/utxo',
+        '@swapkit/toolbox-cosmos',
+        '@swapkit/toolbox-evm',
+        '@swapkit/toolbox-utxo',
         'typeforce',
       ],
     },

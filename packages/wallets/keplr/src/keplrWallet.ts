@@ -10,7 +10,7 @@ const connectKeplr =
     keplrClient?.enable(ChainId.Cosmos);
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
     if (!offlineSigner) throw new Error('Could not load offlineSigner');
-    const { GaiaToolbox, createCosmJS } = await import('@swapkit/cosmos');
+    const { GaiaToolbox, createCosmJS } = await import('@swapkit/toolbox-cosmos');
 
     const cosmJS = await createCosmJS({ offlineSigner, rpcUrl: rpcUrls[Chain.Cosmos] });
 

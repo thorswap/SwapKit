@@ -21,7 +21,7 @@ export const getWalletMethodsForChain = async ({
 }: { rpcUrl?: string; api?: any; chain: Chain } & XDEFIConfig): Promise<any> => {
   switch (chain) {
     case Chain.THORChain: {
-      const { DEFAULT_GAS_VALUE, ThorchainToolbox } = await import('@swapkit/cosmos');
+      const { DEFAULT_GAS_VALUE, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
 
       return {
         ...ThorchainToolbox({ stagenet: false }),
@@ -32,12 +32,12 @@ export const getWalletMethodsForChain = async ({
     }
 
     case Chain.Cosmos: {
-      const { GaiaToolbox } = await import('@swapkit/cosmos');
+      const { GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
       return { ...GaiaToolbox({ server: api }), transfer: cosmosTransfer(rpcUrl) };
     }
 
     case Chain.Binance: {
-      const { BinanceToolbox } = await import('@swapkit/cosmos');
+      const { BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
       return { ...BinanceToolbox(), transfer: walletTransfer };
     }
 
@@ -53,7 +53,7 @@ export const getWalletMethodsForChain = async ({
         addEVMWalletNetwork,
         covalentApi,
         ethplorerApi,
-      } = await import('@swapkit/evm');
+      } = await import('@swapkit/toolbox-evm');
       const { BrowserProvider } = await import('ethers');
 
       const ethereumWindowProvider = window.xfi?.ethereum;
@@ -129,7 +129,7 @@ export const getWalletMethodsForChain = async ({
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       const { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } = await import(
-        '@swapkit/utxo'
+        '@swapkit/toolbox-utxo'
       );
       const params = { rpcUrl, utxoApiKey, apiClient: api };
       const toolbox =

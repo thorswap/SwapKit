@@ -1,5 +1,5 @@
 import type { AssetValue, SwapKitCore } from '@swapkit/core';
-import { buildTransferTx, ThorchainToolbox } from '@swapkit/cosmos';
+import { buildTransferTx, ThorchainToolbox } from '@swapkit/toolbox-cosmos';
 import { fromByteArray } from 'base64-js';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 

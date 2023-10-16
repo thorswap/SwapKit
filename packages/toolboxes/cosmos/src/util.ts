@@ -38,9 +38,7 @@ export const estimateMaxSendableAmount = async ({
   asset,
   feeOptionKey = FeeOption.Fast,
 }: CosmosMaxSendableAmountParams): Promise<AssetValue> => {
-  // fix typing
-  const assetEntity =
-    typeof asset === 'string' ? await AssetValue.fromIdentifier(asset as any) : asset;
+  const assetEntity = typeof asset === 'string' ? await AssetValue.fromString(asset) : asset;
   const balances = await toolbox.getBalance(from);
   const balance = balances.find(({ symbol, chain }) =>
     asset

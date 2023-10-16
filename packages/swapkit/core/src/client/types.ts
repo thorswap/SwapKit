@@ -4,7 +4,8 @@ import type {
   DepositParam,
   GaiaToolbox,
   ThorchainToolboxType,
-} from '@swapkit/cosmos';
+} from '@swapkit/toolbox-cosmos';
+import type { AssetValue, SwapKitNumber } from '@swapkit/helpers';
 import type {
   ARBToolbox,
   AVAXToolbox,
@@ -12,9 +13,8 @@ import type {
   ETHToolbox,
   MATICToolbox,
   OPToolbox,
-} from '@swapkit/evm';
-import type { AssetValue, SwapKitNumber } from '@swapkit/helpers';
-import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/utxo';
+} from '@swapkit/toolbox-evm';
+import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/toolbox-utxo';
 import type { Chain, FeeOption, WalletOption } from '@swapkit/types';
 
 type BaseWalletMethods = {

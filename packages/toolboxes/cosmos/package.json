@@ -54,7 +54,7 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/cosmos",
+  "name": "@swapkit/toolbox-cosmos",
   "publishConfig": {
     "access": "public"
   },

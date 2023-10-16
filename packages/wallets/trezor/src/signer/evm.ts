@@ -1,4 +1,4 @@
-import type { EVMTxParams } from '@swapkit/evm';
+import type { EVMTxParams } from '@swapkit/toolbox-evm';
 import { derivationPathToString, SwapKitNumber } from '@swapkit/helpers';
 import type { Chain, DerivationPathArray } from '@swapkit/types';
 import { ChainToChainId } from '@swapkit/types';
@@ -71,7 +71,7 @@ class TrezorSigner extends AbstractSigner {
     if (!isEIP1559 && (('gasPrice' in restTx && !restTx.gasPrice) || !('gasPrice' in restTx)))
       throw new Error('Missing gasPrice');
 
-    const { toHexString } = await import('@swapkit/evm');
+    const { toHexString } = await import('@swapkit/toolbox-evm');
 
     const baseTx = {
       chainId: parseInt(ChainToChainId[this.chain], 16),

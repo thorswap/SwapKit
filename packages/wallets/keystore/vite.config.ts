@@ -12,9 +12,9 @@ const viteConfig = thorswapViteConfig(name, {
       external: [
         '@scure/bip39',
         '@swapkit/helpers',
-        '@swapkit/cosmos',
-        '@swapkit/evm',
-        '@swapkit/utxo',
+        '@swapkit/toolbox-cosmos',
+        '@swapkit/toolbox-evm',
+        '@swapkit/toolbox-utxo',
         'ethers',
         'bitcoinjs-lib',
       ],

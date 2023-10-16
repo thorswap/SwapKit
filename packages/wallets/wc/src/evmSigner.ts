@@ -82,7 +82,7 @@ class WalletconnectSigner extends AbstractSigner {
 
     // if (!from) throw new Error('Missing from address');
     // if (!to) throw new Error('Missing to address');
-    // const { toHexString } = await import('@swapkit/evm');
+    // const { toHexString } = await import('@swapkit/toolbox-evm');
 
     // const baseTx = {
     //   from,
@@ -104,7 +104,7 @@ class WalletconnectSigner extends AbstractSigner {
   };
 
   sendTransaction = async ({ from, to, value, data }: TransactionRequest) => {
-    const { toHexString } = await import('@swapkit/evm');
+    const { toHexString } = await import('@swapkit/toolbox-evm');
 
     const baseTx = {
       from,

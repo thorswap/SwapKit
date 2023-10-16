@@ -37,7 +37,7 @@ export const getLedgerClient = async ({
       return new LitecoinLedger(derivationPath);
     case Chain.Ethereum:
     case Chain.Avalanche: {
-      const { getProvider } = await import('@swapkit/evm');
+      const { getProvider } = await import('@swapkit/toolbox-evm');
       const params = { provider: getProvider(chain), derivationPath };
 
       return chain === Chain.Avalanche ? new AvalancheLedger(params) : new EthereumLedger(params);

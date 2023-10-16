@@ -1,5 +1,5 @@
 import type BitcoinApp from '@ledgerhq/hw-app-btc';
-import type { UTXOType } from '@swapkit/utxo';
+import type { UTXOType } from '@swapkit/toolbox-utxo';
 import { toCashAddress } from 'bchaddrjs';
 import { type Network as BTCNetwork, networks, type Psbt } from 'bitcoinjs-lib';
 
