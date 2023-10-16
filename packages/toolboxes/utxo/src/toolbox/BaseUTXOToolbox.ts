@@ -147,7 +147,7 @@ const getInputsAndTargetOutputs = async ({
   return {
     inputs,
     outputs: [
-      { address: recipient, value: Number(assetValue.getBigIntValue) },
+      { address: recipient, value: Number(assetValue.bigIntValue) },
       ...(memo ? [{ address: '', script: compileMemo(memo), value: 0 }] : []),
     ],
   };
