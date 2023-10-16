@@ -9,19 +9,6 @@ type UTXOWalletMethodParams = WalletMethodParams<{
   api?: any;
 }>;
 
-/**
- * Duplicated Wallet types - to be removed later
- */
-type BaseWalletMethods = {
-  getAddress: () => Promise<string> | string;
-};
-
-type ThorchainWallet = BaseWalletMethods &
-  Omit<ThorchainToolboxType, 'transfer' | 'deposit'> & {
-    transfer: (params: TransferParams) => Promise<string>;
-    deposit: (params: DepositParam) => Promise<string>;
-  };
-
 // TODO fix typing
 export const bitcoincashWalletMethods: any = async ({
   rpcUrl,
@@ -56,29 +43,4 @@ export const bitcoincashWalletMethods: any = async ({
       >,
     ) => toolbox.transfer({ ...params, from: address, signTransaction }),
   };
-};
-
-export const thorchainWalletMethods = async ({
-  phrase,
-  stagenet,
-}: WalletMethodParams<{ stagenet?: boolean }>): Promise<ThorchainWallet> => {
-  const { ThorchainToolbox } = await import('@swapkit/cosmos');
-  const toolbox = ThorchainToolbox({ stagenet });
-  const fromAddress = await toolbox.getAddressFromMnemonic(phrase);
-  const signer = await toolbox.getSigner(phrase);
-
-  const transfer = async ({ assetValue, recipient, memo }: TransferParams) =>
-    toolbox.transfer({
-      from: fromAddress,
-      recipient,
-      signer,
-      assetValue,
-      memo,
-    });
-
-  const deposit = async ({ assetValue, memo }: DepositParam) => {
-    return toolbox.deposit({ assetValue, memo, from: fromAddress, signer });
-  };
-
-  return { ...toolbox, deposit, transfer, getAddress: () => fromAddress };
 };

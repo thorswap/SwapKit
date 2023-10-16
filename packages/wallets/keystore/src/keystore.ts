@@ -1,10 +1,10 @@
-import type { TransferParams } from '@swapkit/cosmos';
+import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
+import type { UTXOTransferParams } from '@swapkit/toolbox-utxo';
 import type { ConnectWalletParams } from '@swapkit/types';
 import { Chain, DerivationPath, WalletOption } from '@swapkit/types';
-import type { UTXOTransferParams } from '@swapkit/utxo';
 import type { Psbt } from 'bitcoinjs-lib';
 
-import { bitcoincashWalletMethods, thorchainWalletMethods } from './walletMethods.ts';
+import { bitcoincashWalletMethods } from './walletMethods.ts';
 
 type KeystoreOptions = {
   ethplorerApiKey?: string;
@@ -158,10 +158,30 @@ const getWalletMethodsForChain = async ({
       };
     }
 
+    case Chain.Maya:
     case Chain.THORChain: {
-      const walletMethods = await thorchainWalletMethods({ phrase, stagenet });
+      const { MayaToolbox, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
+      const toolbox =
+        chain === Chain.THORChain ? ThorchainToolbox({ stagenet }) : MayaToolbox({ stagenet });
+      const fromAddress = await toolbox.getAddressFromMnemonic(phrase);
+      const signer = await toolbox.getSigner(phrase);
 
-      return { address: walletMethods.getAddress() as string, walletMethods };
+      const transfer = async ({ assetValue, recipient, memo }: TransferParams) =>
+        toolbox.transfer({
+          from: fromAddress,
+          recipient,
+          signer,
+          assetValue,
+          memo,
+        });
+
+      const deposit = async ({ assetValue, memo }: DepositParam) => {
+        return toolbox.deposit({ assetValue, memo, from: fromAddress, signer });
+      };
+
+      const walletMethods = { ...toolbox, deposit, transfer, getAddress: () => fromAddress };
+
+      return { address: fromAddress, walletMethods };
     }
 
     default:

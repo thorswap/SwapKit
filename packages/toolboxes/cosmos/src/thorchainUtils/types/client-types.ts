@@ -104,6 +104,8 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
   loadAddressBalances: (address: string) => Promise<AssetValue[]>;
 };
 
+export type MayaToolboxType = ThorchainToolboxType;
+
 export type GaiaToolboxType = BaseCosmosToolboxType & {
   getFees: () => Promise<Fees>;
 };

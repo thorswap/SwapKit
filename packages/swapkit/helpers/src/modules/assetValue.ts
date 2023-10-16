@@ -12,6 +12,7 @@ import type {
 } from '@swapkit/tokens';
 import { BaseDecimal, Chain } from '@swapkit/types';
 
+import type { CommonAssetString } from '../helpers/asset.ts';
 import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers/asset.ts';
 import { validateIdentifier } from '../helpers/validators.ts';
 
@@ -83,10 +84,7 @@ export class AssetValue extends BigIntArithmetics {
     return new AssetValue({ decimal, identifier: tokenIdentifier, value });
   }
 
-  static fromChainOrSignature(
-    assetString: 'ETH.THOR' | 'ETH.vTHOR' | Chain,
-    value: number | string = 0,
-  ) {
+  static fromChainOrSignature(assetString: CommonAssetString, value: number | string = 0) {
     const { decimal, identifier } = getCommonAssetInfo(assetString);
 
     return new AssetValue({ value, decimal, identifier });
@@ -187,21 +185,27 @@ export class AssetValue extends BigIntArithmetics {
 
 export const getMinAmountByChain = (chain: Chain) => {
   const asset = AssetValue.fromChainOrSignature(chain);
-  const minAmount = [Chain.Bitcoin, Chain.Litecoin, Chain.BitcoinCash].includes(chain)
-    ? // 10001 satoshi
-      10001
-    : [Chain.Dogecoin].includes(chain)
-    ? // 1 DOGE
-      100000001
-    : [Chain.Avalanche, Chain.Ethereum].includes(chain)
-    ? //  10 gwei
-      10 * 10 ** 9
-    : chain === Chain.THORChain
-    ? // 0 RUNE
-      0
-    : 1;
 
-  return asset.add(minAmount);
+  switch (chain) {
+    case Chain.Bitcoin:
+    case Chain.Litecoin:
+    case Chain.BitcoinCash:
+      return asset.add(10001);
+
+    case Chain.Dogecoin:
+      return asset.add(100000001);
+
+    case Chain.Avalanche:
+    case Chain.Ethereum:
+      return asset.add(10 * 10 ** 9);
+
+    case Chain.THORChain:
+    case Chain.Maya:
+      return asset.add(0);
+
+    default:
+      return asset.add(1);
+  }
 };
 
 const getAssetInfo = (identifier: string) => {
