@@ -2,7 +2,7 @@ import type { AssetValue } from '@swapkit/helpers';
 import { isGasAsset, SwapKitNumber } from '@swapkit/helpers';
 import type { Asset, EVMChain, WalletTxParams } from '@swapkit/types';
 import { Chain, ContractAddress, erc20ABI, FeeOption } from '@swapkit/types';
-import type {
+import {
   BrowserProvider,
   ContractTransaction,
   Eip1193Provider,
@@ -48,8 +48,7 @@ const isEIP1559Transaction = (tx: EVMTxParams) =>
   !!(tx as EIP1559TxParams).maxFeePerGas ||
   !!(tx as EIP1559TxParams).maxPriorityFeePerGas;
 
-export const isBrowserProvider = (provider: any): provider is Eip1193Provider =>
-  'request' in provider;
+export const isBrowserProvider = (provider: any) => provider instanceof BrowserProvider;
 export const createContract = async (
   address: string,
   abi: readonly (JsonFragment | Fragment)[],
@@ -450,7 +449,10 @@ const sendTransaction = async (
       const response = await signer.sendTransaction(txObject);
       return typeof response?.hash === 'string' ? response.hash : response;
     } catch (error) {
-      const txHex = await signer.signTransaction(txObject);
+      const txHex = await signer.signTransaction({
+        ...txObject,
+        from: address,
+      });
       const response = await provider.broadcastTransaction(txHex);
       return typeof response?.hash === 'string' ? response.hash : response;
     }

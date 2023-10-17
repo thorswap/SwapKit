@@ -81,7 +81,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return skClient.connectEVMWallet(chains, option);
 
         case WalletOption.LEDGER: {
-          const derivationPath = getDerivationPathFor({ chain: chains[0], index: 1 });
+          const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
           return skClient.connectLedger(chains[0], derivationPath);
         }
 

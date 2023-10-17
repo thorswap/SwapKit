@@ -51,13 +51,13 @@ describe('Ethereum toolkit', () => {
     toolbox: ReturnType<typeof ETHToolbox>;
   }) => {
     const balances = await toolbox.getBalance(testAddress);
-    expect(balances.find((balance) => balance.symbol === 'ETH')?.value).toBe('20526000000000000');
+    expect(balances.find((balance) => balance.symbol === 'ETH')?.baseValue).toBe('20526000000000000');
     expect(
       balances.find(
         (balance) =>
           balance.symbol.toLowerCase() ===
           'USDC-0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'.toLowerCase(),
-      )?.value,
+      )?.baseValue,
     ).toBe('6656178');
   }, 10000);
 

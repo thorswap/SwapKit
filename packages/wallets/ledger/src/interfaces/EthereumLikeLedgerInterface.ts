@@ -1,4 +1,5 @@
 import type EthereumApp from '@ledgerhq/hw-app-eth';
+import type { TransactionRequest} from 'ethers';
 import { ChainId } from '@swapkit/types';
 import { BN } from 'bn.js';
 import { type Provider, VoidSigner } from 'ethers';
@@ -62,16 +63,14 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
     return Signature.from(sig).serialized;
   };
 
-  signTransaction = async (rawTx: any) => {
+  signTransaction = async (tx: TransactionRequest) => {
     await this.checkOrCreateTransportAndLedger();
-    const { resolveProperties } = await import('ethers');
 
-    const tx: any = await resolveProperties(rawTx);
-    const transactionCount = await this.provider?.getTransactionCount(tx.from);
+    const transactionCount = await this.provider?.getTransactionCount(tx.from || await this.getAddress());
 
     const baseTx = {
       // TODO parse this to number
-      chainId: rawTx.chainId || this.chainId,
+      chainId: tx.chainId || this.chainId,
       data: tx.data || undefined,
       gasLimit: tx.gasLimit || undefined,
       ...(tx.gasPrice && { gasPrice: tx.gasPrice || undefined }),
@@ -80,15 +79,19 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
           maxFeePerGas: tx.maxFeePerGas || undefined,
           maxPriorityFeePerGas: tx.maxPriorityFeePerGas || undefined,
         }),
-      nonce: tx.nonce !== undefined ? Number(tx.nonce.toString()) : transactionCount,
-      to: tx.to || undefined,
+      nonce:
+        tx.nonce !== undefined
+          ? Number((tx.nonce || transactionCount || 0).toString())
+          : transactionCount,
+      to: tx.to?.toString() || undefined,
       value: tx.value || undefined,
       type: tx.type || 2,
     };
 
     const { Transaction } = await import('ethers');
     // TODO: Check this signature
-    const unsignedTx = Transaction.from(baseTx).serialized;
+    const transaction = Transaction.from(baseTx);
+    const unsignedTx = transaction.unsignedSerialized.slice(2);
 
     const { ledgerService } = await import('@ledgerhq/hw-app-eth');
 

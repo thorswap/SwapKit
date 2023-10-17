@@ -187,7 +187,8 @@ export class SwapKitCore<T = ''> {
     return { ...this.connectedChains[chain] };
   };
 
-  approveAssetValue = (assetValue: AssetValue) => this.#approve({ assetValue, type: 'approve' });
+  approveAssetValue = (assetValue: AssetValue, contractAddress: string) =>
+    this.#approve({ assetValue, type: 'approve', contractAddress });
 
   isAssetValueApproved = (assetValue: AssetValue, contractAddress?: string) =>
     this.#approve<boolean>({ assetValue, contractAddress, type: 'checkOnly' });

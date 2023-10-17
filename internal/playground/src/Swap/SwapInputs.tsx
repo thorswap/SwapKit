@@ -1,7 +1,7 @@
 import type { QuoteRoute } from '@swapkit/api';
 import { SwapKitApi } from '@swapkit/api';
 import type { AssetValue, SwapKitCore } from '@swapkit/core';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 type Props = {
   inputAsset?: AssetValue;
@@ -52,6 +52,15 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
     }
   }, [inputAssetValue, inputAsset, outputAsset, skClient]);
 
+  const swap = async (route: QuoteRoute, inputAssetValue: AssetValue) => {
+    if (!inputAsset || !outputAsset || !inputAssetValue || !skClient) return;
+
+
+
+    await skClient
+      .isAssetValueApproved(inputAssetValue, route.approvalTarget) ? handleSwap(route): skClient.approveAssetValue(inputAssetValue, route.approvalTarget);
+  }
+
   return (
     <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
       <div>
@@ -88,7 +97,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
             {routes.map((route) => (
               <div key={route.contract}>
                 {route.meta?.quoteMode} ({route.providers.join(',')}){' '}
-                <button onClick={() => handleSwap(route)} type="button">
+                <button onClick={() => swap(route, inputAssetValue)} type="button">
                   {'SWAP =>'} Estimated Output: {route.expectedOutput} {outputAsset?.ticker} ($
                   {parseFloat(route.expectedOutputUSD).toFixed(4)})
                 </button>
