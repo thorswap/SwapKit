@@ -1,5 +1,5 @@
-import type { DerivationPathArray } from '@thorswap-lib/types';
-import { Chain } from '@thorswap-lib/types';
+import type { DerivationPathArray } from '@swapkit/types';
+import { Chain } from '@swapkit/types';
 
 import { AvalancheLedger } from '../clients/avalanche.ts';
 import { BinanceLedger } from '../clients/binance/index.ts';
@@ -37,7 +37,7 @@ export const getLedgerClient = async ({
       return new LitecoinLedger(derivationPath);
     case Chain.Ethereum:
     case Chain.Avalanche: {
-      const { getProvider } = await import('@thorswap-lib/toolbox-evm');
+      const { getProvider } = await import('@swapkit/toolbox-evm');
       const params = { provider: getProvider(chain), derivationPath };
 
       return chain === Chain.Avalanche ? new AvalancheLedger(params) : new EthereumLedger(params);

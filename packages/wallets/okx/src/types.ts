@@ -1,5 +1,3 @@
-import type Long from 'long';
-
 export type OKXConfig = {
   covalentApiKey?: string;
   ethplorerApiKey?: string;
@@ -83,7 +81,7 @@ export interface SignDoc {
    */
   chainId: string;
   /** account_number is the account number of the account in state */
-  accountNumber: Long;
+  accountNumber: any;
 }
 
 /**

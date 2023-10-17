@@ -1,5 +1,4 @@
 packages:
-  - 'apps/**'
   - 'internal/**'
   - 'packages/swapkit/**'
   - 'packages/toolboxes/**'

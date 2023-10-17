@@ -1,19 +1,19 @@
 {
   "devDependencies": {
-    "@babel/core": "7.22.15",
+    "@babel/core": "7.22.20",
     "@babel/eslint-parser": "7.22.15",
     "@changesets/changelog-github": "0.4.8",
     "@changesets/cli": "2.26.1",
-    "@size-limit/file": "8.2.6",
-    "@typescript-eslint/eslint-plugin": "6.6.0",
-    "@typescript-eslint/parser": "6.6.0",
+    "@size-limit/file": "9.0.0",
+    "@typescript-eslint/eslint-plugin": "6.7.2",
+    "@typescript-eslint/parser": "6.7.2",
     "dotenv-cli": "7.3.0",
-    "eslint": "8.48.0",
+    "eslint": "8.50.0",
     "eslint-config-prettier": "9.0.0",
     "eslint-plugin-babel": "5.3.1",
     "eslint-plugin-eslint-comments": "3.2.0",
     "eslint-plugin-import": "2.28.1",
-    "eslint-plugin-jest": "27.2.3",
+    "eslint-plugin-jest": "27.4.0",
     "eslint-plugin-prettier": "5.0.0",
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-react-hooks": "4.6.0",
@@ -21,9 +21,10 @@
     "eslint-plugin-unused-imports": "3.0.0",
     "prettier": "3.0.3",
     "react": "18.2.0",
-    "size-limit": "8.2.6",
-    "turbo": "1.10.13",
-    "typescript": "5.2.2"
+    "size-limit": "9.0.0",
+    "turbo": "1.10.14",
+    "typescript": "5.2.2",
+    "vitest": "0.34.5"
   },
   "prettier": {
     "bracketSameLine": true,
@@ -41,15 +42,13 @@
   },
   "pnpm": {
     "overrides": {
+      "ethers": "^6.7.1",
       "typescript": "5.2.2",
       "json5@<=1.0.1": "^1.0.2",
       "semver@<=4.3.2": "^4.3.6"
     },
     "patchedDependencies": {
-      "@ethersproject/abstract-signer@5.7.0": "patches/@ethersproject-abstract-signer-npm-5.7.0-f61d0a970e.patch",
       "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
-      "typeforce@1.18.0": "patches/typeforce@1.18.0.patch",
-      "asyncstorage-down@4.2.0": "patches/asyncstorage-down-npm-4.2.0-d323e014ba.patch",
       "@changesets/assemble-release-plan@5.2.3": "patches/@changesets__assemble-release-plan@5.2.3.patch",
       "@changesets/cli@2.26.1": "patches/@changesets__cli@2.26.1.patch"
     }
@@ -57,15 +56,13 @@
   "scripts": {
     "bootstrap": "rm -rf node_modules; pnpm install; pnpm build",
     "build": "turbo run build --token=turbotoken-oss-europe1",
-    "build:vite": "turbo run build-playground --token=turbotoken-oss-europe1 --concurrency=30",
-    "preview:vite": "turbo run preview-playground --token=turbotoken-oss-europe1 --concurrency=30",
+    "build:playground": "turbo run build-playground --token=turbotoken-oss-europe1 --concurrency=30",
+    "preview:playground": "turbo run preview-playground --token=turbotoken-oss-europe1 --concurrency=30",
     "clean": "turbo run clean",
-    "dev:android": "turbo run dev:android --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
-    "dev:expo": "turbo run dev --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
-    "dev:ios": "turbo run dev:ios --concurrency=30 --filter=\"{./apps/expo-playground}...\"",
-    "dev:vite": "turbo run dev --concurrency=30 --filter=\"{./apps/vite-playground}...\"",
+    "dev:playground": "turbo run dev --concurrency=30 --filter=\"{./internal/playground}...\"",
     "generate": "cd ./internal/generator; pnpm generate; cd ../..",
-    "lint": "turbo run lint --token=turbotoken-oss-europe1",
+    "generate:tokens": "cd ./packages/swapkit/tokens; pnpm run generate-tokens; cd ../../..; pnpm run lint",
+    "lint": "turbo run lint --token=turbotoken-oss-europe1 --filter=!./packages/swapkit/swapkit-sdk",
     "postinstall": "rm -rf ./.git/hooks/pre-commit ./.git/hooks/prepare-commit-msg",
     "publish-packages": "turbo run build lint --token=turbotoken-oss-europe1 && pnpm version-bump && pnpm changeset publish",
     "test": "dotenv -- turbo run test --token=turbotoken-oss-europe1",

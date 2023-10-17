@@ -1,8 +1,7 @@
-import type { Signer } from '@ethersproject/abstract-signer';
-import { derivationPathToString } from '@thorswap-lib/helpers';
-import type { UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
-import type { ConnectWalletParams, DerivationPathArray, UTXO } from '@thorswap-lib/types';
-import { Chain, FeeOption, WalletOption } from '@thorswap-lib/types';
+import { derivationPathToString } from '@swapkit/helpers';
+import type { UTXOTransferParams, UTXOType } from '@swapkit/toolbox-utxo';
+import type { ConnectWalletParams, DerivationPathArray } from '@swapkit/types';
+import { Chain, FeeOption, WalletOption } from '@swapkit/types';
 import TrezorConnect from '@trezor/connect-web';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
@@ -55,11 +54,11 @@ const getToolbox = async ({
         throw new Error('Covalent API key not found');
 
       const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
-        '@thorswap-lib/toolbox-evm'
+        '@swapkit/toolbox-evm'
       );
 
       const provider = getProvider(chain, rpcUrl);
-      const signer = (await getEVMSigner({ chain, derivationPath, provider })) as Signer;
+      const signer = await getEVMSigner({ chain, derivationPath, provider });
 
       const address = await signer.getAddress();
       const params = { api, signer, provider };
@@ -82,7 +81,7 @@ const getToolbox = async ({
       const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
 
       const { BTCToolbox, BCHToolbox, LTCToolbox, DOGEToolbox } = await import(
-        '@thorswap-lib/toolbox-utxo'
+        '@swapkit/toolbox-utxo'
       );
 
       const scriptType:
@@ -132,7 +131,7 @@ const getToolbox = async ({
 
       const address = await getAddress();
 
-      const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '') => {
+      const signTransaction = async (psbt: Psbt, inputs: UTXOType[], memo: string = '') => {
         const address_n = derivationPath.map((pathElement, index) =>
           index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
         );

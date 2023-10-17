@@ -4,20 +4,17 @@
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "allowImportingTsExtensions": true,
+    "noEmit": true,
     "alwaysStrict": true,
     "baseUrl": "./",
     "declaration": true,
     "declarationMap": true,
+    "disableSizeLimit": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "isolatedModules": true,
-    "lib": [
-      "ES2020",
-      "DOM",
-      "ES2021",
-      "ES2022"
-    ],
+    "lib": ["DOM", "ES2020", "ES2021", "ES2022"],
     "module": "NodeNext",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
@@ -37,7 +34,6 @@
     "target": "ES2020",
     "useDefineForClassFields": true
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["./src/**/*", "*.test.ts"],
+  "exclude": ["node_modules"]
 }

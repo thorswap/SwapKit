@@ -1,4 +1,4 @@
-import type { FixedNumber } from '@ethersproject/bignumber';
+import type { FixedNumber } from 'ethers';
 
 import type { Chain, CosmosChain, EVMChain, UTXOChain } from './network.ts';
 import type { WalletOption } from './wallet.ts';
@@ -52,14 +52,6 @@ export type AddChainWalletParams = {
   walletMethods: any;
 };
 
-export type UTXO = {
-  hash: string;
-  index: number;
-  value: number;
-  txHex?: string;
-  witnessUtxo?: Witness;
-};
-
 export type Witness = {
   value: number;
   script: Buffer;
@@ -67,7 +59,6 @@ export type Witness = {
 
 export type FixedNumberish = string | number | FixedNumber;
 
-// TODO: Add types for api interface
 type ApisType = { [key in UTXOChain]?: string | any } & {
   [key in EVMChain]?: string | any;
 } & {
@@ -111,7 +102,15 @@ export enum QuoteMode {
   BSC_TO_BSC = 'BEP20-BEP20',
 }
 
+export type Asset = {
+  chain: Chain;
+  symbol: string;
+  ticker: string;
+  synth?: boolean;
+};
+
 export const AGG_SWAP = [QuoteMode.ETH_TO_ETH, QuoteMode.AVAX_TO_AVAX, QuoteMode.BSC_TO_BSC];
+
 export const SWAP_IN = [
   QuoteMode.ETH_TO_TC_SUPPORTED,
   QuoteMode.ETH_TO_AVAX,
@@ -123,6 +122,7 @@ export const SWAP_IN = [
   QuoteMode.BSC_TO_ETH,
   QuoteMode.BSC_TO_AVAX,
 ];
+
 export const SWAP_OUT = [
   QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED,
   QuoteMode.TC_SUPPORTED_TO_ETH,
