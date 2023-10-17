@@ -1,34 +1,29 @@
 {
-  "author": "thorswap",
+  "author": "swapkit-oss-team",
   "dependencies": {
-    "@ethersproject/hdnode": "5.7.0",
-    "@ethersproject/wallet": "5.7.0",
-    "@thorswap-lib/helpers": "workspace:*",
-    "@thorswap-lib/swapkit-entities": "workspace:*",
-    "@thorswap-lib/types": "workspace:*",
+    "@swapkit/types": "workspace:*",
     "blakejs": "1.2.1",
-    "long": "4.0.0",
     "uuid": "9.0.0"
   },
-  "description": "THORSwap Lib keystore",
+  "description": "SwapKit Lib keystore",
   "devDependencies": {
-    "@ethersproject/bignumber": "5.7.0",
-    "@ethersproject/providers": "5.7.2",
     "@internal/config": "workspace:*",
     "@scure/bip39": "1.2.1",
-    "@thorswap-lib/toolbox-cosmos": "workspace:*",
-    "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*",
     "@types/long": "4.0.2",
     "@types/uniqid": "5.3.2",
     "@types/uuid": "9.0.3",
-    "@vitest/coverage-istanbul": "0.34.3",
+    "@vitest/coverage-istanbul": "0.34.4",
     "bitcoinjs-lib": "5.2.0",
+    "ethers": "6.7.1",
     "vite": "4.4.9",
-    "vitest": "0.34.3"
+    "vitest": "0.34.4"
   },
   "eslintConfig": {
-    "extends": "../../../internal/eslint-config-thorswap"
+    "extends": "../../../internal/eslint-config"
   },
   "exports": {
     ".": {
@@ -42,17 +37,17 @@
     "dist/"
   ],
   "homepage": "https://github.com/thorswap/SwapKit",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/keystore",
+  "name": "@swapkit/wallet-keystore",
   "peerDependencies": {
-    "@ethersproject/bignumber": "^5.7.0",
-    "@ethersproject/providers": "^5.7.0",
     "@scure/bip39": "1.2.1",
-    "@thorswap-lib/toolbox-cosmos": "workspace:*",
-    "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@thorswap-lib/toolbox-utxo": "workspace:*",
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*",
+    "ethers": "^6.7.1",
     "bitcoinjs-lib": "^5.2.0"
   },
   "publishConfig": {
@@ -62,12 +57,12 @@
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist .turbo node_modules",
+    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.240"
+  "version": "1.0.0-rc.1"
 }

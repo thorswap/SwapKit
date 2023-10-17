@@ -1,0 +1,73 @@
+{
+  "author": "swapkit-oss-team",
+  "dependencies": {
+    "@cosmjs/amino": "0.31.1",
+    "@cosmjs/crypto": "0.31.1",
+    "@cosmjs/encoding": "0.31.1",
+    "@cosmjs/math": "0.31.1",
+    "@cosmjs/proto-signing": "0.31.1",
+    "@cosmjs/stargate": "0.31.1",
+    "@scure/base": "1.1.3",
+    "@scure/bip32": "1.3.2",
+    "@swapkit/api": "workspace:*",
+    "@swapkit/types": "workspace:*",
+    "bn.js": "5.2.1",
+    "cosmjs-types": "0.8.0",
+    "crypto-js": "4.1.1",
+    "elliptic": "6.5.4",
+    "protobufjs": "7.2.5",
+    "protocol-buffers-encodings": "1.2.0",
+    "tiny-secp256k1": "1.1.6"
+  },
+  "description": "SwapKit Lib toolbox cosmos",
+  "devDependencies": {
+    "@internal/config": "workspace:*",
+    "@swapkit/helpers": "workspace:*",
+    "@types/bn.js": "5.1.1",
+    "@types/crypto-js": "4.1.2",
+    "@types/elliptic": "6.4.14",
+    "@types/long": "4.0.2",
+    "@types/node": "20.5.9",
+    "@types/tiny-secp256k1": "1.0.0",
+    "@vitest/coverage-istanbul": "0.34.4",
+    "vite": "4.4.9",
+    "vitest": "0.34.4"
+  },
+  "peerDependencies": {
+    "@swapkit/helpers": "workspace:*"
+  },
+  "eslintConfig": {
+    "extends": "../../../internal/eslint-config"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "Apache-2.0",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@swapkit/toolbox-cosmos",
+  "publishConfig": {
+    "access": "public"
+  },
+  "react-native": "./src/index.ts",
+  "repository": "https://github.com/thorswap/SwapKit.git",
+  "scripts": {
+    "build": "vite build",
+    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
+    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "test": "echo 'vitest --run'",
+    "test:coverage": "echo 'vitest run --coverage'"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0-rc.1"
+}

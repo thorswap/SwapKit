@@ -8,9 +8,6 @@
   ],
   "commit": false,
   "fixed": [],
-  "ignore": [
-    "@thorswap/*"
-  ],
   "linked": [],
   "updateInternalDependencies": "patch"
 }

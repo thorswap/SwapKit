@@ -1,0 +1,69 @@
+{
+  "author": "swapkit-oss-team",
+  "dependencies": {
+    "@swapkit/types": "workspace:*",
+    "@walletconnect/modal-sign-html": "^2.6.1"
+  },
+  "description": "SwapKit Lib walletconnect",
+  "devDependencies": {
+    "@cosmjs/amino": "0.31.1",
+    "@cosmjs/encoding": "0.31.1",
+    "@cosmjs/math": "0.31.1",
+    "@cosmjs/proto-signing": "0.31.1",
+    "@cosmjs/stargate": "0.31.1",
+    "@internal/config": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@vitest/coverage-istanbul": "0.34.4",
+    "@walletconnect/types": "2.10.0",
+    "cosmjs-types": "0.8.0",
+    "ethers": "6.7.1",
+    "vite": "4.4.9",
+    "vitest": "0.34.4"
+  },
+  "eslintConfig": {
+    "extends": "../../../internal/eslint-config"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "Apache-2.0",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@swapkit/wallet-wc",
+  "peerDependencies": {
+    "@cosmjs/amino": "0.31.1",
+    "@cosmjs/encoding": "0.31.1",
+    "@cosmjs/math": "0.31.1",
+    "@cosmjs/proto-signing": "0.31.1",
+    "@cosmjs/stargate": "0.31.1",
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "cosmjs-types": "^0.8.0",
+    "ethers": "^6.7.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "react-native": "./src/index.ts",
+  "repository": "https://github.com/thorswap/SwapKit.git",
+  "scripts": {
+    "build": "vite build",
+    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
+    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "test": "echo 'vitest --run'",
+    "test:coverage": "echo 'vitest run --coverage'"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0-rc.1"
+}

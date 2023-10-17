@@ -1,5 +1,5 @@
 import type BitcoinApp from '@ledgerhq/hw-app-btc';
-import type { UTXO } from '@thorswap-lib/types';
+import type { UTXOType } from '@swapkit/toolbox-utxo';
 import { toCashAddress } from 'bchaddrjs';
 import { type Network as BTCNetwork, networks, type Psbt } from 'bitcoinjs-lib';
 
@@ -66,7 +66,7 @@ export abstract class UTXOLedgerInterface {
     this.btcApp = new BitcoinApp(this.transport);
   };
 
-  public signTransaction = async (psbt: Psbt, inputUtxos: UTXO[]) => {
+  public signTransaction = async (psbt: Psbt, inputUtxos: UTXOType[]) => {
     await this.checkBtcAppAndCreateTransportWebUSB();
 
     return signUTXOTransaction(

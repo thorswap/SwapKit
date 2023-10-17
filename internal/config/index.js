@@ -5,11 +5,35 @@ import { defineConfig } from 'vitest/config';
 
 const rollupPlugins = [];
 
+// (
+//   filePath: string,
+//   content: string
+// ) => Promise<
+//   | void
+//   | false
+//   | {
+//     filePath?: string,
+//     content?: string
+//   }
+// >
+const beforeWriteFile = (filePath, content) => {
+  content = content.replaceAll('  #private;', '');
+
+  if (content.includes('#private')) {
+    console.log('################# Drop file: ', filePath);
+    return false;
+  }
+
+  return { content, filePath };
+};
+
 /** (name: string) => @type {import('vitest/config').UserConfig} */
-const baseConfig = (name) =>
+const baseConfig = (name, external) =>
   defineConfig({
     base: './',
-    plugins: [dts({ clearPureImport: true, rollupTypes: true })],
+    plugins: [
+      dts({ skipDiagnostics: false, clearPureImport: true, rollupTypes: true, beforeWriteFile }),
+    ],
     build: {
       lib: {
         name,
@@ -18,10 +42,11 @@ const baseConfig = (name) =>
       },
       commonjsOptions: { transformMixedEsModules: true },
       rollupOptions: {
-        external: builtinModules,
+        external,
         input: 'src/index.ts',
         plugins: rollupPlugins,
         output: ({ format }) => ({
+          external: builtinModules,
           entryFileNames: ({ name }) => `${name}.${format === 'cjs' ? 'cjs' : 'js'}`,
           preserveModules: false,
           sourcemap: true,

@@ -9,6 +9,7 @@ export enum Chain {
   Dogecoin = 'DOGE',
   Ethereum = 'ETH',
   Litecoin = 'LTC',
+  Maya = 'MAYA',
   Optimism = 'OP',
   Polygon = 'MATIC',
   THORChain = 'THOR',
@@ -42,6 +43,7 @@ export enum DerivationPath {
   GAIA = "m/44'/118'/0'/0",
   LTC = "m/84'/2'/0'/0",
   MATIC = "m/44'/60'/0'/0",
+  MAYA = "m/44'/931'/0'/0",
   OP = "m/44'/60'/0'/0",
   THOR = "m/44'/931'/0'/0",
 }
@@ -60,6 +62,7 @@ export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   GAIA: [44, 118, 0, 0, 0],
   LTC: [84, 2, 0, 0, 0],
   MATIC: [44, 60, 0, 0, 0],
+  MAYA: [44, 931, 0, 0, 0],
   OP: [44, 60, 0, 0, 0],
   THOR: [44, 931, 0, 0, 0],
 };
@@ -71,11 +74,14 @@ export enum BaseDecimal {
   BNB = 8,
   BSC = 18,
   BTC = 8,
+  DASH = 8,
   DOGE = 8,
   ETH = 18,
   GAIA = 6,
+  KUJI = 6,
   LTC = 8,
   MATIC = 18,
+  MAYA = 10,
   OP = 18,
   THOR = 8,
 }
@@ -116,27 +122,22 @@ export enum ChainId {
   Avalanche = '43114',
   AvalancheHex = '0xa86a',
   Binance = 'Binance-Chain-Tigris',
-  BinanceHex = '',
   BinanceSmartChain = '56',
   BinanceSmartChainHex = '0x38',
   Bitcoin = 'bitcoin',
-  BitcoinHex = '',
   BitcoinCash = 'bitcoincash',
-  BitcoinCashHex = '',
   Cosmos = 'cosmoshub-4',
-  CosmosHex = '',
   Dogecoin = 'dogecoin',
-  DogecoinHex = '',
   Ethereum = '1',
   EthereumHex = '0x1',
   Litecoin = 'litecoin',
-  LitecoinHex = '',
+  Maya = 'mayachain-mainnet-v1',
+  MayaStagenet = 'mayachain-stagenet-v1',
   Optimism = '10',
   OptimismHex = '0xa',
   Polygon = '137',
   PolygonHex = '0x89',
   THORChain = 'thorchain-mainnet-v1',
-  THORChainHex = '',
   THORChainStagenet = 'thorchain-stagenet-v2',
 }
 
@@ -151,6 +152,8 @@ export enum RPCUrl {
   Dogecoin = 'https://node-router.thorswap.net/dogecoin',
   Ethereum = 'https://node-router.thorswap.net/ethereum',
   Litecoin = 'https://node-router.thorswap.net/litecoin',
+  Maya = 'https://tendermint.mayachain.info',
+  MayaStagenet = 'https://stagenet.tendermint.mayachain.info',
   Optimism = 'https://mainnet.optimism.io',
   Polygon = 'https://polygon-rpc.com',
   THORChain = 'https://rpc.thorswap.net',
@@ -159,6 +162,8 @@ export enum RPCUrl {
 
 export enum ApiUrl {
   Cosmos = 'https://node-router.thorswap.net/cosmos/rest',
+  MayanodeMainnet = 'https://mayanode.mayachain.info',
+  MayanodeStagenet = 'https://stagenet.mayanode.mayachain.info',
   ThornodeMainnet = 'https://thornode.thorswap.net',
   ThornodeStagenet = 'https://stagenet-thornode.ninerealms.com',
   ThorswapApi = 'https://api.thorswap.finance',
@@ -197,34 +202,37 @@ export const ChainToRPC = chains.reduce(
 
 export const ChainToHexChainId = chains.reduce(
   (acc, chain) => {
-    acc[chain] = ChainId[`${ChainToChainName[chain]}Hex`];
+    const chainString = `${ChainToChainName[chain]}Hex` as keyof typeof ChainId;
+
+    acc[chain] = ChainId[chainString];
     return acc;
   },
   {} as { [key in Chain]: ChainId },
 );
 
 export const ChainIdToChain: Record<ChainId, Chain> = {
-  [ChainId.Arbitrum]: Chain.Arbitrum,
   [ChainId.ArbitrumHex]: Chain.Arbitrum,
+  [ChainId.Arbitrum]: Chain.Arbitrum,
   [ChainId.AvalancheHex]: Chain.Avalanche,
   [ChainId.Avalanche]: Chain.Avalanche,
-  [ChainId.Binance]: Chain.Binance,
-  [ChainId.BinanceSmartChain]: Chain.BinanceSmartChain,
   [ChainId.BinanceSmartChainHex]: Chain.BinanceSmartChain,
-  [ChainId.Bitcoin]: Chain.Bitcoin,
+  [ChainId.BinanceSmartChain]: Chain.BinanceSmartChain,
+  [ChainId.Binance]: Chain.Binance,
   [ChainId.BitcoinCash]: Chain.BitcoinCash,
+  [ChainId.Bitcoin]: Chain.Bitcoin,
   [ChainId.Cosmos]: Chain.Cosmos,
   [ChainId.Dogecoin]: Chain.Dogecoin,
   [ChainId.EthereumHex]: Chain.Ethereum,
   [ChainId.Ethereum]: Chain.Ethereum,
   [ChainId.Litecoin]: Chain.Litecoin,
-  [ChainId.THORChain]: Chain.THORChain,
-  [ChainId.THORChainHex]: Chain.THORChain,
-  [ChainId.THORChainStagenet]: Chain.THORChain,
-  [ChainId.Optimism]: Chain.Optimism,
+  [ChainId.MayaStagenet]: Chain.Maya,
+  [ChainId.Maya]: Chain.Maya,
   [ChainId.OptimismHex]: Chain.Optimism,
-  [ChainId.Polygon]: Chain.Polygon,
+  [ChainId.Optimism]: Chain.Optimism,
   [ChainId.PolygonHex]: Chain.Polygon,
+  [ChainId.Polygon]: Chain.Polygon,
+  [ChainId.THORChainStagenet]: Chain.THORChain,
+  [ChainId.THORChain]: Chain.THORChain,
 };
 
 export const ChainToExplorerUrl: Record<Chain, string> = {
@@ -238,6 +246,7 @@ export const ChainToExplorerUrl: Record<Chain, string> = {
   [Chain.Dogecoin]: 'https://blockchair.com/dogecoin',
   [Chain.Ethereum]: 'https://etherscan.io',
   [Chain.Litecoin]: 'https://ltc.bitaps.com',
+  [Chain.Maya]: 'https://explorer.mayachain.info',
   [Chain.Optimism]: 'https://optimistic.etherscan.io',
   [Chain.Polygon]: 'https://polygonscan.com',
   [Chain.THORChain]: 'https://viewblock.io/thorchain',

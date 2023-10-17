@@ -1,11 +1,11 @@
-import type { UTXO } from '@thorswap-lib/types';
+import type { UTXOType } from '@swapkit/toolbox-utxo';
 import { type Psbt, Transaction } from 'bitcoinjs-lib';
 
 import type { CreateTransactionArg } from './types.ts';
 
 type Params = {
   psbt: Psbt;
-  inputUtxos: UTXO[];
+  inputUtxos: UTXOType[];
   btcApp: any;
   derivationPath: string;
 };

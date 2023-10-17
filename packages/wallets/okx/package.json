@@ -1,25 +1,23 @@
 {
-  "author": "thorswap",
+  "author": "swapkit-oss-team",
   "dependencies": {
-    "@thorswap-lib/helpers": "workspace:*",
-    "@thorswap-lib/types": "workspace:*"
+    "@swapkit/types": "workspace:*"
   },
-  "description": "THORSwap Lib okx",
+  "description": "SwapKit Lib okx",
   "devDependencies": {
-    "@ethersproject/providers": "^5.7.0",
     "@internal/config": "workspace:*",
-    "@thorswap-lib/swapkit-entities": "workspace:*",
-    "@thorswap-lib/toolbox-cosmos": "workspace:*",
-    "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@thorswap-lib/toolbox-utxo": "workspace:*",
-    "@vitest/coverage-istanbul": "0.34.3",
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*",
+    "@vitest/coverage-istanbul": "0.34.4",
     "bitcoinjs-lib": "5.2.0",
-    "long": "5.2.3",
+    "ethers": "6.7.1",
     "vite": "4.4.9",
-    "vitest": "0.34.3"
+    "vitest": "0.34.4"
   },
   "eslintConfig": {
-    "extends": "../../../internal/eslint-config-thorswap"
+    "extends": "../../../internal/eslint-config"
   },
   "exports": {
     ".": {
@@ -33,17 +31,17 @@
     "dist/"
   ],
   "homepage": "https://github.com/thorswap/SwapKit",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/okx",
+  "name": "@swapkit/wallet-okx",
   "peerDependencies": {
-    "@ethersproject/providers": "^5.7.0",
-    "@thorswap-lib/swapkit-entities": "workspace:*",
-    "@thorswap-lib/toolbox-cosmos": "workspace:*",
-    "@thorswap-lib/toolbox-evm": "workspace:*",
-    "@thorswap-lib/toolbox-utxo": "workspace:*",
-    "bitcoinjs-lib": "5.2.0"
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*",
+    "bitcoinjs-lib": "5.2.0",
+    "ethers": "^6.7.1"
   },
   "publishConfig": {
     "access": "public"
@@ -52,12 +50,12 @@
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist .turbo node_modules",
+    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.55"
+  "version": "1.0.0-rc.1"
 }

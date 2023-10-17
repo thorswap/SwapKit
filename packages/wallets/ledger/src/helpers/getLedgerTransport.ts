@@ -1,23 +1,23 @@
-declare global {
-  interface Navigator {
-    usb?: {
-      getDevices: () => Promise<any[]>;
-      requestDevice: (requestObject: any) => Promise<any>;
-      removeEventListener: (event: string, callback: (e: any) => void) => void;
-      addEventListener: (event: string, callback: (e: any) => void) => void;
-    };
-  }
-}
+const getNavigatorUsb = () =>
+  // @ts-ignore
+  navigator?.usb as unknown as {
+    getDevices: () => Promise<any[]>;
+    requestDevice: (requestObject: any) => Promise<any>;
+    removeEventListener: (event: string, callback: (e: any) => void) => void;
+    addEventListener: (event: string, callback: (e: any) => void) => void;
+  };
 
 const getLedgerDevices = async () => {
-  if (typeof navigator?.usb?.getDevices !== 'function') return [];
+  const navigatorUsb = getNavigatorUsb();
+
+  if (typeof navigatorUsb?.getDevices !== 'function') return [];
 
   const { ledgerUSBVendorId } = await import('@ledgerhq/devices');
 
-  const devices = await navigator?.usb?.getDevices();
+  const devices = await navigatorUsb?.getDevices();
   const existingDevices = devices.filter((d) => d.vendorId === ledgerUSBVendorId);
   if (existingDevices.length > 0) return existingDevices[0];
-  const device = await navigator?.usb?.requestDevice({
+  const device = await navigatorUsb?.requestDevice({
     filters: [{ vendorId: ledgerUSBVendorId }],
   });
   return device;
@@ -61,12 +61,12 @@ export const getLedgerTransport = async () => {
 
   const onDisconnect = (e: any) => {
     if (device === e.device) {
-      navigator?.usb?.removeEventListener('disconnect', onDisconnect);
+      getNavigatorUsb()?.removeEventListener('disconnect', onDisconnect);
 
       transport._emitDisconnect(new DisconnectedDevice());
     }
   };
-  navigator?.usb?.addEventListener('disconnect', onDisconnect);
+  getNavigatorUsb()?.addEventListener('disconnect', onDisconnect);
 
   return transport;
 };

@@ -40,7 +40,7 @@ export const copyFiles = async ({ packageType, packageName }: CliOptions) => {
 
   return copyDir(LIB_FILES, packagePath, options);
 
-  // TODO: Use in future for custom package types
+  //
   // switch (packageType) {
   //   case PackageType.Wallet:
   //   case PackageType.Toolbox:

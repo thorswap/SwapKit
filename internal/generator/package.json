@@ -13,14 +13,14 @@
     "vite": "4.4.9"
   },
   "eslintConfig": {
-    "extends": "../eslint-config-thorswap"
+    "extends": "../eslint-config"
   },
   "main": "index.js",
-  "name": "@thorswap/generator",
+  "name": "@internal/generator",
   "private": true,
   "scripts": {
-    "build": "vite build",
-    "generate": "pnpm build; node ./dist/index.js"
+    "build:cli": "vite build",
+    "generate": "pnpm build:cli; node ./dist/index.js"
   },
   "type": "module"
 }

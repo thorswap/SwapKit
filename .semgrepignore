@@ -1,4 +1,3 @@
 src/copyFiles.ts
-apps/expo-playground/android/app/src/main/AndroidManifest.xml
 .github/actions/setup-js-workflow/action.yml
 .github/workflows/build-test-publish.yml

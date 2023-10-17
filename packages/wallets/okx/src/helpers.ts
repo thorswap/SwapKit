@@ -1,10 +1,10 @@
-import { baseAmount } from '@thorswap-lib/helpers';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import type { GaiaToolbox } from '@thorswap-lib/toolbox-cosmos';
-import type { getWeb3WalletMethods } from '@thorswap-lib/toolbox-evm';
-import type { BTCToolbox, UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
-import { Chain, ChainId } from '@thorswap-lib/types';
+import { AssetValue } from '@swapkit/helpers';
+import type { GaiaToolbox } from '@swapkit/toolbox-cosmos';
+import type { getWeb3WalletMethods } from '@swapkit/toolbox-evm';
+import type { BTCToolbox, UTXOTransferParams } from '@swapkit/toolbox-utxo';
+import { BaseDecimal, Chain, ChainId } from '@swapkit/types';
 import { Psbt } from 'bitcoinjs-lib';
+import type { Eip1193Provider } from 'ethers';
 
 export const cosmosTransfer =
   (rpcUrl?: string) =>
@@ -13,7 +13,7 @@ export const cosmosTransfer =
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
     if (!offlineSigner) throw new Error('No cosmos okxwallet found');
 
-    const { createCosmJS } = await import('@thorswap-lib/toolbox-cosmos');
+    const { createCosmJS } = await import('@swapkit/toolbox-cosmos');
 
     const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
 
@@ -50,24 +50,28 @@ export const getWalletForChain = async ({
     case Chain.Ethereum:
     case Chain.Avalanche:
     case Chain.BinanceSmartChain: {
-      if (!window.okxwallet?.request) throw new Error('No okxwallet found');
+      if (!window.okxwallet?.send) throw new Error('No okxwallet found');
 
-      const { getWeb3WalletMethods, getProvider } = await import('@thorswap-lib/toolbox-evm');
+      const { getWeb3WalletMethods, getProvider } = await import('@swapkit/toolbox-evm');
 
       const evmWallet = await getWeb3WalletMethods({
         chain,
         ethplorerApiKey,
         covalentApiKey,
-        ethereumWindowProvider: window.okxwallet,
+        ethereumWindowProvider: window.okxwallet as unknown as Eip1193Provider,
       });
 
-      const address = (await window.okxwallet.request({ method: 'eth_requestAccounts' }))[0];
+      const address: string = await window.okxwallet.send('eth_requestAccounts', []);
       const getBalance = async () => {
         const balances = await evmWallet.getBalance(address);
         const gasAssetBalance = await getProvider(chain).getBalance(address);
-        const evmGasTokenBalanceAmount = baseAmount(gasAssetBalance, 18);
         return [
-          { asset: getSignatureAssetFor(chain), amount: evmGasTokenBalanceAmount },
+          new AssetValue({
+            chain,
+            symbol: chain,
+            value: gasAssetBalance.toString(),
+            decimal: BaseDecimal[chain],
+          }),
           ...balances.slice(1),
         ];
       };
@@ -81,7 +85,7 @@ export const getWalletForChain = async ({
         throw new Error('No utxoApiKey provided');
       }
 
-      const { BTCToolbox } = await import('@thorswap-lib/toolbox-utxo');
+      const { BTCToolbox } = await import('@swapkit/toolbox-utxo');
 
       const wallet = window.okxwallet.bitcoin;
       const address = (await wallet.connect()).address;
@@ -108,7 +112,7 @@ export const getWalletForChain = async ({
       const wallet = window.okxwallet.keplr;
       await wallet.enable(ChainId.Cosmos);
       const [{ address }] = await wallet.getOfflineSignerOnlyAmino(ChainId.Cosmos).getAccounts();
-      const { GaiaToolbox } = await import('@thorswap-lib/toolbox-cosmos');
+      const { GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
 
       return {
         ...GaiaToolbox({ server: api }),

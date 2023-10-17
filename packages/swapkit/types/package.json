@@ -1,14 +1,14 @@
 {
-  "author": "thorswap",
-  "description": "THORSwap Lib types",
+  "author": "swapkit-oss-team",
+  "description": "SwapKit Lib types",
   "devDependencies": {
-    "@ethersproject/bignumber": "5.7.0",
     "@internal/config": "workspace:*",
     "@types/node": "20.5.9",
+    "ethers": "6.7.1",
     "vite": "4.4.9"
   },
   "eslintConfig": {
-    "extends": "../../../internal/eslint-config-thorswap"
+    "extends": "../../../internal/eslint-config"
   },
   "exports": {
     ".": {
@@ -22,10 +22,10 @@
     "dist/"
   ],
   "homepage": "https://github.com/thorswap/SwapKit",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@thorswap-lib/types",
+  "name": "@swapkit/types",
   "publishConfig": {
     "access": "public"
   },
@@ -33,11 +33,11 @@
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist .turbo node_modules",
+    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'No tests yet'"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-development.108"
+  "version": "1.0.0-rc.0"
 }

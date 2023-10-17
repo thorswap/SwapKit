@@ -1,4 +1,4 @@
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import { Chain, WalletOption } from '@swapkit/types';
 
 import { getWalletForChain } from './helpers.ts';
 import type { OKXConfig } from './types.ts';
@@ -24,9 +24,9 @@ const connectOkx =
       await chainsToConnect;
       const walletMethods = await getWalletForChain({
         chain,
-        utxoApiKey,
         covalentApiKey,
         ethplorerApiKey,
+        utxoApiKey,
       });
 
       // Unwrap the address from a possible promise

@@ -1,7 +1,5 @@
 export { erc20ABI } from './abis/erc20.ts';
 export { TCAvalancheDepositABI, TCBscDepositABI, TCEthereumVaultAbi } from './abis/tcEthVault.ts';
-export * from './amount.ts';
-export * from './asset.ts';
 export * from './commonTypes.ts';
 export * from './errors/index.ts';
 export * from './network.ts';

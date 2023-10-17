@@ -1,6 +1,7 @@
 import type { Keplr } from '@keplr-wallet/types';
-import type { ConnectWalletParams, WalletTxParams } from '@thorswap-lib/types';
-import { Chain, ChainId, WalletOption } from '@thorswap-lib/types';
+import type { AssetValue } from '@swapkit/helpers';
+import type { ConnectWalletParams, WalletTxParams } from '@swapkit/types';
+import { Chain, ChainId, WalletOption } from '@swapkit/types';
 
 const connectKeplr =
   ({ addChain, rpcUrls }: ConnectWalletParams) =>
@@ -9,14 +10,21 @@ const connectKeplr =
     keplrClient?.enable(ChainId.Cosmos);
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
     if (!offlineSigner) throw new Error('Could not load offlineSigner');
-    const { GaiaToolbox, createCosmJS } = await import('@thorswap-lib/toolbox-cosmos');
+    const { GaiaToolbox, createCosmJS } = await import('@swapkit/toolbox-cosmos');
 
     const cosmJS = await createCosmJS({ offlineSigner, rpcUrl: rpcUrls[Chain.Cosmos] });
 
     const [{ address }] = await offlineSigner.getAccounts();
-    const transfer = async ({ asset, recipient, memo, amount }: WalletTxParams) => {
+    const transfer = async ({
+      assetValue,
+      recipient,
+      memo,
+    }: WalletTxParams & { assetValue: AssetValue }) => {
       const coins = [
-        { denom: asset?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: amount.amount().toString() },
+        {
+          denom: assetValue?.symbol === 'MUON' ? 'umuon' : 'uatom',
+          amount: assetValue.baseValue,
+        },
       ];
 
       const { transactionHash } = await cosmJS.sendTokens(address, recipient, coins, 1.6, memo);
