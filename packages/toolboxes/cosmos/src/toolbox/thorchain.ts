@@ -186,18 +186,14 @@ const __REEXPORT__pubkeyToAddress = (prefix: string) => async (pubkey: Pubkey) =
 };
 
 export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): ThorchainToolboxType => {
-  const rpcUrl = getRPC(ChainId.THORChain, stagenet);
+  const isThorchain = chain === Chain.THORChain;
+  const chainId = isThorchain ? ChainId.THORChain : ChainId.Maya;
   const nodeUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
   const prefix = `${stagenet ? 's' : ''}${chain.toLowerCase()}`;
   const derivationPath = DerivationPath[chain];
+  const rpcUrl = getRPC(chainId, stagenet);
 
-  const client = new CosmosClient({
-    server: nodeUrl,
-    chainId: ChainId.THORChain,
-    prefix,
-    stagenet,
-  });
-
+  const client = new CosmosClient({ server: nodeUrl, chainId, prefix, stagenet });
   const defaultFee = getDefaultChainFee(chain);
 
   const baseToolbox: {
@@ -223,9 +219,7 @@ export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): Thorch
   const getFees = async () => {
     let fee: SwapKitNumber;
 
-    const constantsUrl = `${nodeUrl}/${
-      chain === Chain.THORChain ? 'thorchain' : 'mayachain'
-    }/constants}`;
+    const constantsUrl = `${nodeUrl}/${isThorchain ? 'thorchain' : 'mayachain'}/constants}`;
 
     try {
       const {
@@ -238,10 +232,7 @@ export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): Thorch
 
       fee = new SwapKitNumber(nativeFee);
     } catch {
-      fee = new SwapKitNumber({
-        value: chain === Chain.THORChain ? 0.02 : 1,
-        decimal: BaseDecimal[chain],
-      });
+      fee = new SwapKitNumber({ value: isThorchain ? 0.02 : 1, decimal: BaseDecimal[chain] });
     }
 
     return { [FeeOption.Average]: fee, [FeeOption.Fast]: fee, [FeeOption.Fastest]: fee };
@@ -262,13 +253,13 @@ export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): Thorch
         memo,
         coins: [
           {
+            amount: assetValue.baseValue,
             asset: {
               chain: assetValue.chain.toLowerCase(),
               symbol: assetValue.ticker.toLowerCase(),
               ticker: assetValue.ticker.toLowerCase(),
               synth: assetValue.isSynthetic,
             },
-            amount: assetValue.baseValue,
           },
         ],
       },

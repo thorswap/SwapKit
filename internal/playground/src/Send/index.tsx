@@ -1,5 +1,4 @@
 import type { AssetValue, SwapKitCore } from '@swapkit/core';
-import { Chain } from '@swapkit/types';
 import { useCallback, useState } from 'react';
 
 export default function Send({
@@ -30,7 +29,7 @@ export default function Send({
       recipient,
     });
 
-    window.open(`${skClient.getExplorerTxUrl(Chain.THORChain, txHash as string)}`, '_blank');
+    window.open(`${skClient.getExplorerTxUrl(inputAssetValue.chain, txHash as string)}`, '_blank');
   }, [inputAsset, inputAssetValue, skClient, recipient]);
 
   return (
