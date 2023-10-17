@@ -130,8 +130,7 @@ const VTHOR_MAINNET_SYMBOL = 'VTHOR-0x815C23eCA83261b6Ec689b60Cc4a58b54BC24D8D';
 
 type Signature = Chain | 'USD' | 'ETH_THOR' | 'ETH_VTHOR';
 
-// @ts-expect-error initialized in getSignatureAssetFor
-const cachedSignatureAssets: Record<Signature, AssetEntity> = {};
+const cachedSignatureAssets = {} as Record<Signature, AssetEntity>;
 export const getSignatureAssetFor = (signature: Signature, synth: boolean = false) => {
   if (cachedSignatureAssets[signature]) return cachedSignatureAssets[signature];
 

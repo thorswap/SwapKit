@@ -1,5 +1,5 @@
-import type { GaiaToolbox } from '@swapkit/toolbox-cosmos';
 import { AssetValue } from '@swapkit/helpers';
+import type { GaiaToolbox } from '@swapkit/toolbox-cosmos';
 import type { getWeb3WalletMethods } from '@swapkit/toolbox-evm';
 import type { BTCToolbox, UTXOTransferParams } from '@swapkit/toolbox-utxo';
 import { BaseDecimal, Chain, ChainId } from '@swapkit/types';

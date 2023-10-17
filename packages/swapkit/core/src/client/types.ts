@@ -87,9 +87,10 @@ export type WalletMethods = {
   [Chain.Dogecoin]: UTXOWallet<typeof DOGEToolbox> | null;
   [Chain.Ethereum]: EVMWallet<typeof ETHToolbox> | null;
   [Chain.Litecoin]: UTXOWallet<typeof LTCToolbox> | null;
-  [Chain.THORChain]: ThorchainWallet | null;
+  [Chain.Maya]: ThorchainWallet | null;
   [Chain.Optimism]: EVMWallet<typeof OPToolbox> | null;
   [Chain.Polygon]: EVMWallet<typeof MATICToolbox> | null;
+  [Chain.THORChain]: ThorchainWallet | null;
 };
 
 export type SwapParams = {

@@ -2,8 +2,7 @@ import type { AssetValue } from '@swapkit/helpers';
 import { isGasAsset, SwapKitNumber } from '@swapkit/helpers';
 import type { Asset, EVMChain, WalletTxParams } from '@swapkit/types';
 import { Chain, ContractAddress, erc20ABI, FeeOption } from '@swapkit/types';
-import {
-  BrowserProvider,
+import type {
   ContractTransaction,
   Fragment,
   HDNodeWallet,
@@ -12,6 +11,7 @@ import {
   Provider,
   Signer,
 } from 'ethers';
+import { BrowserProvider } from 'ethers';
 import { getAddress } from 'ethers/address';
 import { MaxInt256 } from 'ethers/constants';
 
@@ -373,7 +373,6 @@ const estimateGasLimit = async (
       from,
       to: recipient,
       value,
-      // TODO: Check if memo is a valid hex string
       data: memo ? hexlify(toUtf8Bytes(memo)) : undefined,
     });
   }

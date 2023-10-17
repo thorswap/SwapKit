@@ -121,10 +121,25 @@ describe('AssetValue', () => {
   });
 
   describe('fromIdentifierSync', () => {
-    test.todo(
-      '(same as fromIdentifier) - creates AssetValue from string via `@swapkit/tokens` lists',
-      () => {},
-    );
+    test('(same as fromIdentifier) - creates AssetValue from string via `@swapkit/tokens` lists', async () => {
+      await AssetValue.loadStaticAssets();
+      const thor = AssetValue.fromIdentifierSync(
+        'ARB.USDT-0XFD086BC7CD5C481DCC9C85EBE478A1C0B69FCBB9',
+      );
+
+      expect(thor).toBeDefined();
+      expect(thor).toEqual(
+        expect.objectContaining({
+          address: '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9',
+          chain: Chain.Arbitrum,
+          decimal: 6,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: 'USDT-0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9',
+          ticker: 'USDT',
+        }),
+      );
+    });
   });
 
   describe('fromStringSync', () => {
@@ -181,7 +196,7 @@ describe('AssetValue', () => {
         expect.objectContaining({
           address: undefined,
           chain: Chain.Cosmos,
-          decimal: BaseDecimal[Chain.Cosmos],
+          decimal: BaseDecimal.GAIA,
           isGasAsset: true,
           isSynthetic: false,
           symbol: 'ATOM',
@@ -195,7 +210,7 @@ describe('AssetValue', () => {
         expect.objectContaining({
           address: undefined,
           chain: Chain.BinanceSmartChain,
-          decimal: BaseDecimal[Chain.BinanceSmartChain],
+          decimal: BaseDecimal.BSC,
           isGasAsset: true,
           isSynthetic: false,
           symbol: 'BNB',
@@ -209,11 +224,25 @@ describe('AssetValue', () => {
         expect.objectContaining({
           address: undefined,
           chain: Chain.THORChain,
-          decimal: BaseDecimal[Chain.THORChain],
+          decimal: BaseDecimal.THOR,
           isGasAsset: true,
           isSynthetic: false,
           symbol: 'RUNE',
           ticker: 'RUNE',
+          type: 'Native',
+        }),
+      );
+
+      const cacaoAsset = AssetValue.fromChainOrSignature(Chain.Maya);
+      expect(cacaoAsset).toEqual(
+        expect.objectContaining({
+          address: undefined,
+          chain: Chain.Maya,
+          decimal: BaseDecimal.MAYA,
+          isGasAsset: true,
+          isSynthetic: false,
+          symbol: 'CACAO',
+          ticker: 'CACAO',
           type: 'Native',
         }),
       );

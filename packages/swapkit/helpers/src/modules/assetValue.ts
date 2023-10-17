@@ -1,5 +1,6 @@
 import type {
   CoinGeckoList,
+  MayaList,
   PancakeswapETHList,
   PancakeswapList,
   PangolinList,
@@ -29,6 +30,7 @@ type TCTokenNames = (typeof ThorchainList)['tokens'][number]['identifier'];
 type TokenNames =
   | TCTokenNames
   | (typeof CoinGeckoList)['tokens'][number]['identifier']
+  | (typeof MayaList)['tokens'][number]['identifier']
   | (typeof PancakeswapETHList)['tokens'][number]['identifier']
   | (typeof PancakeswapList)['tokens'][number]['identifier']
   | (typeof PangolinList)['tokens'][number]['identifier']
@@ -112,11 +114,17 @@ export class AssetValue extends BigIntArithmetics {
     return new Promise<{ ok: true } | { ok: false; message: string; error: any }>(
       async (resolve, reject) => {
         try {
-          const { ThorchainList, ...tokensPackage } = await import('@swapkit/tokens');
-          const tokensMap = [ThorchainList, ...Object.values(tokensPackage)].reduce(
+          const {
+            // Omit ThorchainList from import to avoid decimals conflict (TC uses 8 for all)
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            ThorchainList: _ThorchainList,
+            NativeList,
+            ...tokensPackage
+          } = await import('@swapkit/tokens');
+          const tokensMap = [NativeList, ...Object.values(tokensPackage)].reduce(
             (acc, { tokens }) => {
               tokens.forEach(({ identifier, chain, ...rest }) => {
-                const decimal = 'decimals' in rest ? rest.decimals : BaseDecimal[chain];
+                const decimal = 'decimals' in rest ? rest.decimals : BaseDecimal[chain as Chain];
 
                 acc.set(identifier as TokenNames, { identifier, decimal });
               });

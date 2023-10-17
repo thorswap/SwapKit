@@ -1,5 +1,5 @@
-import type { EVMTxParams } from '@swapkit/toolbox-evm';
 import { derivationPathToString, SwapKitNumber } from '@swapkit/helpers';
+import type { EVMTxParams } from '@swapkit/toolbox-evm';
 import type { Chain, DerivationPathArray } from '@swapkit/types';
 import { ChainToChainId } from '@swapkit/types';
 import TrezorConnect from '@trezor/connect-web';
@@ -54,7 +54,7 @@ class TrezorSigner extends AbstractSigner {
     return result.payload.signature;
   };
 
-  //TODO implement signTypedData
+  // ANCHOR (@Towan): implement signTypedData
   signTypedData(): Promise<string> {
     throw new Error('this method is not implemented');
   }

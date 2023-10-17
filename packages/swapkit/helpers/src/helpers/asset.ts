@@ -83,7 +83,6 @@ export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) 
     case Chain.Avalanche:
       return symbol === chain;
 
-    // @TODO (@Towan) check if this is correct
     case Chain.Arbitrum:
     case Chain.Optimism:
       return 'ETH' === symbol;

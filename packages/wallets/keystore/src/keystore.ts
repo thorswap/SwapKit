@@ -1,10 +1,12 @@
 import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
-import type { UTXOTransferParams } from '@swapkit/toolbox-utxo';
-import type { ConnectWalletParams } from '@swapkit/types';
+import type {
+  TransactionType,
+  UTXOTransferParams,
+  UTXOWalletTransferParams,
+} from '@swapkit/toolbox-utxo';
+import type { ConnectWalletParams, Witness } from '@swapkit/types';
 import { Chain, DerivationPath, WalletOption } from '@swapkit/types';
 import type { Psbt } from 'bitcoinjs-lib';
-
-import { bitcoincashWalletMethods } from './walletMethods.ts';
 
 type KeystoreOptions = {
   ethplorerApiKey?: string;
@@ -51,7 +53,6 @@ const getWalletMethodsForChain = async ({
 
       const provider = getProvider(chain, rpcUrl);
       const wallet = HDNodeWallet.fromPhrase(phrase).connect(provider);
-
       const params = { api, provider, signer: wallet };
 
       const toolbox =
@@ -72,14 +73,34 @@ const getWalletMethodsForChain = async ({
 
     case Chain.BitcoinCash: {
       if (!utxoApiKey) throw new Error('UTXO API key not found');
-      const walletMethods = await bitcoincashWalletMethods({
-        rpcUrl,
-        phrase,
-        derivationPath,
-        utxoApiKey,
-      });
+      const { BCHToolbox } = await import('@swapkit/toolbox-utxo');
+      const toolbox = BCHToolbox({ rpcUrl, apiKey: utxoApiKey, apiClient: api });
+      const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
+      const address = toolbox.getAddressFromKeys(keys);
 
-      return { address: walletMethods.getAddress(), walletMethods };
+      const signTransaction = async ({
+        builder,
+        utxos,
+      }: Awaited<ReturnType<typeof toolbox.buildBCHTx>>) => {
+        utxos.forEach((utxo, index) => {
+          builder.sign(index, keys, undefined, 0x41, (utxo.witnessUtxo as Witness).value);
+        });
+
+        return builder.build();
+      };
+
+      const walletMethods = {
+        ...toolbox,
+        getAddress: () => address,
+        transfer: (
+          params: UTXOWalletTransferParams<
+            Awaited<ReturnType<typeof toolbox.buildBCHTx>>,
+            TransactionType
+          >,
+        ) => toolbox.transfer({ ...params, from: address, signTransaction }),
+      };
+
+      return { address, walletMethods };
     }
 
     case Chain.Bitcoin:
@@ -120,11 +141,11 @@ const getWalletMethodsForChain = async ({
       const { BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = BinanceToolbox();
       const privkey = await toolbox.createKeyPair(phrase);
-      const from = await toolbox.getAddressFromMnemonic(phrase);
+      const address = await toolbox.getAddressFromMnemonic(phrase);
 
       const transfer = ({ assetValue, recipient, memo }: TransferParams) =>
         toolbox.transfer({
-          from,
+          from: address,
           recipient,
           assetValue,
           privkey,
@@ -132,8 +153,8 @@ const getWalletMethodsForChain = async ({
         });
 
       return {
-        address: from,
-        walletMethods: { ...toolbox, transfer, getAddress: () => from },
+        address,
+        walletMethods: { ...toolbox, transfer, getAddress: () => address },
       };
     }
 
@@ -141,11 +162,11 @@ const getWalletMethodsForChain = async ({
       const { GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = GaiaToolbox({ server: api });
       const signer = await toolbox.getSigner(phrase);
-      const from = await toolbox.getAddressFromMnemonic(phrase);
+      const address = await toolbox.getAddressFromMnemonic(phrase);
 
       const transfer = ({ assetValue, recipient, memo }: TransferParams) =>
         toolbox.transfer({
-          from,
+          from: address,
           recipient,
           signer,
           assetValue,
@@ -153,8 +174,8 @@ const getWalletMethodsForChain = async ({
         });
 
       return {
-        address: from,
-        walletMethods: { ...toolbox, transfer, getAddress: () => from },
+        address,
+        walletMethods: { ...toolbox, transfer, getAddress: () => address },
       };
     }
 
@@ -163,12 +184,12 @@ const getWalletMethodsForChain = async ({
       const { MayaToolbox, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox =
         chain === Chain.THORChain ? ThorchainToolbox({ stagenet }) : MayaToolbox({ stagenet });
-      const fromAddress = await toolbox.getAddressFromMnemonic(phrase);
+      const address = await toolbox.getAddressFromMnemonic(phrase);
       const signer = await toolbox.getSigner(phrase);
 
       const transfer = async ({ assetValue, recipient, memo }: TransferParams) =>
         toolbox.transfer({
-          from: fromAddress,
+          from: address,
           recipient,
           signer,
           assetValue,
@@ -176,12 +197,12 @@ const getWalletMethodsForChain = async ({
         });
 
       const deposit = async ({ assetValue, memo }: DepositParam) => {
-        return toolbox.deposit({ assetValue, memo, from: fromAddress, signer });
+        return toolbox.deposit({ assetValue, memo, from: address, signer });
       };
 
-      const walletMethods = { ...toolbox, deposit, transfer, getAddress: () => fromAddress };
+      const walletMethods = { ...toolbox, deposit, transfer, getAddress: () => address };
 
-      return { address: fromAddress, walletMethods };
+      return { address, walletMethods };
     }
 
     default:

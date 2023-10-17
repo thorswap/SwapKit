@@ -76,7 +76,7 @@ class WalletconnectSigner extends AbstractSigner {
     // return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
   };
 
-  //TODO implement this
+  // ANCHOR (@Towan) - Implement in future
   signTypedData = async () => {
     throw new Error('this method is not implemented');
 

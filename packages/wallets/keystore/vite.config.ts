@@ -8,17 +8,6 @@ const viteConfig = thorswapViteConfig(name, {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
     },
-    rollupOptions: {
-      external: [
-        '@scure/bip39',
-        '@swapkit/helpers',
-        '@swapkit/toolbox-cosmos',
-        '@swapkit/toolbox-evm',
-        '@swapkit/toolbox-utxo',
-        'ethers',
-        'bitcoinjs-lib',
-      ],
-    },
   },
 });
 

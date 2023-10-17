@@ -204,7 +204,7 @@ const getToolbox = async ({
       const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
         const from = address;
         if (!assetValue) throw new Error('invalid asset');
-        // TODO - create fallback for gas price estimation if internal api has error
+        // ANCHOR (@0xGeneral) - create fallback for gas price estimation if internal api has error
         const gasPrice = '0.007uatom';
 
         const sendCoinsMessage = {
@@ -265,7 +265,7 @@ const getToolbox = async ({
       const { getDenomWithChain, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = ThorchainToolbox({ stagenet: false });
 
-      // TODO (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
+      // ANCHOR (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
       const deposit = async ({ assetValue, memo }: DepositParam) => {
         const account = await toolbox.getAccount(address);
         if (!assetValue) throw new Error('invalid asset to deposit');
@@ -347,7 +347,7 @@ const getToolbox = async ({
         return result.transactionHash;
       };
 
-      // TODO (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
+      // ANCHOR (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
       const transfer = async ({ memo = '', assetValue, recipient }: TransferParams) => {
         const account = await toolbox.getAccount(address);
         if (!account) throw new Error('invalid account');

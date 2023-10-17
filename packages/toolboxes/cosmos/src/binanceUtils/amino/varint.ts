@@ -36,9 +36,6 @@ function VarIntFunc(signed: boolean) {
 
     buffer[offset + i] = bn.andln(0xff);
 
-    // TODO
-    // encode.bytes = i + 1
-
     return buffer;
   };
 

@@ -389,7 +389,7 @@ export class SwapKitCore<T = ''> {
     from,
     to,
   }: {
-    memo: string;
+    memo?: string;
     assetValue: AssetValue;
     percent: number;
     from: 'sym' | 'rune' | 'asset';
@@ -498,7 +498,7 @@ export class SwapKitCore<T = ''> {
   extend = ({ wallets, config, apis = {}, rpcUrls = {} }: ExtendParams<T>) => {
     try {
       wallets.forEach((wallet) => {
-        // @ts-expect-error
+        // @ts-expect-error ANCHOR - Not Worth
         this[wallet.connectMethodName] = wallet.connect({
           addChain: this.#addConnectedChain,
           config: config || {},
@@ -517,7 +517,7 @@ export class SwapKitCore<T = ''> {
   }: {
     chain: Chain;
     params: { from: string; recipient: string; assetValue: AssetValue };
-  }): Promise<any> => {
+  }) => {
     const walletMethods = this.getWallet<typeof chain>(chain);
 
     switch (chain) {

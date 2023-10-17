@@ -1,8 +1,8 @@
 import type EthereumApp from '@ledgerhq/hw-app-eth';
-import type { TransactionRequest} from 'ethers';
 import { ChainId } from '@swapkit/types';
 import { BN } from 'bn.js';
-import { type Provider, VoidSigner } from 'ethers';
+import type { Provider, TransactionRequest } from 'ethers';
+import { VoidSigner } from 'ethers';
 
 import { getLedgerTransport } from '../helpers/getLedgerTransport.ts';
 
@@ -66,10 +66,11 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
   signTransaction = async (tx: TransactionRequest) => {
     await this.checkOrCreateTransportAndLedger();
 
-    const transactionCount = await this.provider?.getTransactionCount(tx.from || await this.getAddress());
+    const transactionCount = await this.provider?.getTransactionCount(
+      tx.from || (await this.getAddress()),
+    );
 
     const baseTx = {
-      // TODO parse this to number
       chainId: tx.chainId || this.chainId,
       data: tx.data || undefined,
       gasLimit: tx.gasLimit || undefined,

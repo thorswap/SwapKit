@@ -75,7 +75,7 @@ export const BSCToolbox = ({
       const address = txOverrides?.from || (await signer.getAddress());
       if (!address) throw new Error('No signer address found');
 
-      const result = contract.connect(signer).getFunction(funcName)(...funcParams, {
+      const result = await contract.connect(signer).getFunction(funcName)(...funcParams, {
         ...feeData,
         ...txOverrides,
         /**
@@ -84,14 +84,13 @@ export const BSCToolbox = ({
          */
         nonce: txOverrides?.nonce || (await contractProvider.getTransactionCount(address)),
       });
-      // TODO fix typing
-      //@ts-expect-error
-      return typeof result?.hash === 'string' ? result?.hash : result;
+
+      return typeof result === 'string' ? result : result?.hash;
     }
 
     const result = await contract.getFunction(funcName)(...funcParams);
 
-    return typeof result?.hash === 'string' ? result?.hash : result;
+    return typeof result === 'string' ? result : result?.hash;
   };
 
   return {

@@ -20,9 +20,6 @@ patchedDependencies:
   cipher-base@1.0.4:
     hash: jhokeuf3q37bjhh6zmamqu7qp4
     path: patches/cipher-base-npm-1.0.4-2e98b97140.patch
-  typeforce@1.18.0:
-    hash: glkhqh6j3bqaptuq6ho43mk6f4
-    path: patches/typeforce@1.18.0.patch
 
 importers:
 
@@ -118,6 +115,9 @@ importers:
       vite-plugin-dts:
         specifier: 3.5.3
         version: 3.5.3(typescript@5.2.2)(vite@4.4.9)
+      vite-plugin-externalize-deps:
+        specifier: 0.7.0
+        version: 0.7.0(vite@4.4.9)
       vitest:
         specifier: 0.34.4
         version: 0.34.4
@@ -287,9 +287,6 @@ importers:
       url:
         specifier: 0.11.2
         version: 0.11.2
-      util:
-        specifier: 0.12.5
-        version: 0.12.5
     devDependencies:
       '@types/react':
         specifier: 18.2.21
@@ -453,6 +450,9 @@ importers:
       '@swapkit/wallet-ledger':
         specifier: workspace:*
         version: link:../../wallets/ledger
+      '@swapkit/wallet-okx':
+        specifier: workspace:*
+        version: link:../../wallets/okx
       '@swapkit/wallet-trezor':
         specifier: workspace:*
         version: link:../../wallets/trezor
@@ -3278,7 +3278,7 @@ packages:
       merkle-lib: 2.0.10
       randombytes: 2.1.0
       safe-buffer: 5.2.1
-      typeforce: 1.18.0(patch_hash=glkhqh6j3bqaptuq6ho43mk6f4)
+      typeforce: 1.18.0
       varuint-bitcoin: 1.1.2
       wif: 2.0.6
     dev: false
@@ -3902,7 +3902,7 @@ packages:
       int64-buffer: 1.0.1
       pushdata-bitcoin: 1.0.1
       tiny-secp256k1: 1.1.6
-      typeforce: 1.18.0(patch_hash=glkhqh6j3bqaptuq6ho43mk6f4)
+      typeforce: 1.18.0
       varuint-bitcoin: 1.1.2
       wif: 2.0.6
 
@@ -5459,7 +5459,7 @@ packages:
       create-hash: 1.2.0
       create-hmac: 1.1.7
       tiny-secp256k1: 1.1.6
-      typeforce: 1.18.0(patch_hash=glkhqh6j3bqaptuq6ho43mk6f4)
+      typeforce: 1.18.0
       wif: 2.0.6
 
   /bip66@1.1.5:
@@ -5486,7 +5486,7 @@ packages:
       pushdata-bitcoin: 1.0.1
       randombytes: 2.1.0
       tiny-secp256k1: 1.1.6
-      typeforce: 1.18.0(patch_hash=glkhqh6j3bqaptuq6ho43mk6f4)
+      typeforce: 1.18.0
       varuint-bitcoin: 1.1.2
       wif: 2.0.6
 
@@ -6441,7 +6441,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       randombytes: 2.1.0
-      typeforce: 1.18.0(patch_hash=glkhqh6j3bqaptuq6ho43mk6f4)
+      typeforce: 1.18.0
       wif: 2.0.6
     dev: false
 
@@ -11838,9 +11838,8 @@ packages:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
     dev: true
 
-  /typeforce@1.18.0(patch_hash=glkhqh6j3bqaptuq6ho43mk6f4):
+  /typeforce@1.18.0:
     resolution: {integrity: sha512-7uc1O8h1M1g0rArakJdf0uLRSSgFcYexrVoKo+bzJd32gd4gDy2L/Z+8/FjPnU9ydY3pEnVPtr9FyscYY60K1g==}
-    patched: true
 
   /typescript@5.2.2:
     resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
@@ -12106,6 +12105,14 @@ packages:
       - '@types/node'
       - rollup
       - supports-color
+    dev: true
+
+  /vite-plugin-externalize-deps@0.7.0(vite@4.4.9):
+    resolution: {integrity: sha512-do2gPrR79Tm8UKcqsw3RTAtN4YO8GkVRBckWdJWINZ3Qdp3KN9S1oyUZxKszTB/iyg4zdOUweLOeBI8t86QVow==}
+    peerDependencies:
+      vite: ^2.0.0 || ^3.0.0 || ^4.0.0
+    dependencies:
+      vite: 4.4.9(@types/node@20.5.9)
     dev: true
 
   /vite-plugin-top-level-await@1.3.1(vite@4.4.9):

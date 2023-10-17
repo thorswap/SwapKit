@@ -1,6 +1,6 @@
 import type { Keplr } from '@keplr-wallet/types';
-import { toHexString } from '@swapkit/toolbox-evm';
 import type { AssetValue } from '@swapkit/helpers';
+import { toHexString } from '@swapkit/toolbox-evm';
 import type { FeeOption } from '@swapkit/types';
 import { Chain, ChainId } from '@swapkit/types';
 import type { Eip1193Provider } from 'ethers';

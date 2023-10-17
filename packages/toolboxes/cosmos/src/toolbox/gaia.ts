@@ -32,8 +32,7 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
 
   return {
     ...baseToolbox,
-    //TODO fix typing
-    getFees: async (): Promise<any> => {
+    getFees: async () => {
       const baseFee = (await getFeeRateFromThorswap(ChainId.Cosmos)) || 500;
       return {
         type: 'base',

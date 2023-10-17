@@ -1,6 +1,7 @@
 import { builtinModules } from 'module';
 import { mergeConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import { externalizeDeps } from 'vite-plugin-externalize-deps';
 import { defineConfig } from 'vitest/config';
 
 const rollupPlugins = [];
@@ -32,6 +33,13 @@ const baseConfig = (name) =>
   defineConfig({
     base: './',
     plugins: [
+      externalizeDeps({
+        deps: false,
+        devDeps: true,
+        nodeBuiltins: true,
+        optionalDeps: true,
+        peerDeps: true,
+      }),
       dts({ skipDiagnostics: false, clearPureImport: true, rollupTypes: true, beforeWriteFile }),
     ],
     build: {

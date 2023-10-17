@@ -4,6 +4,7 @@ import { evmWallet } from '@swapkit/wallet-evm-extensions';
 import { keplrWallet } from '@swapkit/wallet-keplr';
 import { keystoreWallet } from '@swapkit/wallet-keystore';
 import { ledgerWallet } from '@swapkit/wallet-ledger';
+import { okxWallet } from '@swapkit/wallet-okx';
 import { trezorWallet } from '@swapkit/wallet-trezor';
 import { walletconnectWallet } from '@swapkit/wallet-wc';
 import { xdefiWallet } from '@swapkit/wallet-xdefi';
@@ -21,10 +22,11 @@ export const createSwapKit = ({ config, ...extendParams }: SwapKitOptions = {}) 
     config,
     wallets: [
       evmWallet,
+      keplrWallet,
       keystoreWallet,
       ledgerWallet,
+      okxWallet,
       trezorWallet,
-      keplrWallet,
       walletconnectWallet,
       xdefiWallet,
     ],
