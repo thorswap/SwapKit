@@ -246,7 +246,7 @@ export const ChainToExplorerUrl: Record<Chain, string> = {
   [Chain.Dogecoin]: 'https://blockchair.com/dogecoin',
   [Chain.Ethereum]: 'https://etherscan.io',
   [Chain.Litecoin]: 'https://ltc.bitaps.com',
-  [Chain.Maya]: 'https://explorer.mayachain.info',
+  [Chain.Maya]: 'https://www.mayascan.org',
   [Chain.Optimism]: 'https://optimistic.etherscan.io',
   [Chain.Polygon]: 'https://polygonscan.com',
   [Chain.THORChain]: 'https://viewblock.io/thorchain',
