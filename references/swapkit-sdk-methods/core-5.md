@@ -115,7 +115,6 @@ export enum ChainId {
   BitcoinCash = 'bitcoincash',
   Cosmos = 'cosmoshub-4',
   Dogecoin = 'dogecoin',
-  DogecoinHex = '',
   Ethereum = '1',
   EthereumHex = '0x1',
   Litecoin = 'litecoin',
