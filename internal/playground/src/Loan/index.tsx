@@ -1,5 +1,4 @@
 import type { AssetValue, SwapKitCore } from '@swapkit/core';
-import { Chain } from '@swapkit/types';
 import { useCallback, useState } from 'react';
 
 export default function Loan({
@@ -42,7 +41,7 @@ export default function Loan({
       minAmount: borrowAssetValue,
     });
 
-    window.open(`${skClient.getExplorerTxUrl(Chain.THORChain, txHash as string)}`, '_blank');
+    window.open(`${skClient.getExplorerTxUrl(inputAssetValue.chain, txHash as string)}`, '_blank');
   }, [borrowAssetValue, inputAssetValue, skClient, isOpenLoanMode]);
 
   return (
