@@ -1,4 +1,3 @@
-import type { CosmosLikeToolbox } from '@swapkit/toolbox-cosmos';
 import type { Keys, ThornameRegisterParam } from '@swapkit/helpers';
 import {
   AssetValue,
@@ -8,6 +7,7 @@ import {
   SwapKitError,
   SwapKitNumber,
 } from '@swapkit/helpers';
+import type { CosmosLikeToolbox } from '@swapkit/toolbox-cosmos';
 import type { AVAXToolbox, BSCToolbox, ETHToolbox, EVMToolbox } from '@swapkit/toolbox-evm';
 import type { UTXOToolbox } from '@swapkit/toolbox-utxo';
 import type {

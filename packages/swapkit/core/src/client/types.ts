@@ -1,11 +1,11 @@
 import type { QuoteRoute } from '@swapkit/api';
+import type { AssetValue, SwapKitNumber } from '@swapkit/helpers';
 import type {
   BinanceToolbox,
   DepositParam,
   GaiaToolbox,
   ThorchainToolboxType,
 } from '@swapkit/toolbox-cosmos';
-import type { AssetValue, SwapKitNumber } from '@swapkit/helpers';
 import type {
   ARBToolbox,
   AVAXToolbox,
