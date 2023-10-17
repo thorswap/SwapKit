@@ -1,23 +1,27 @@
-import { baseAmount } from '@thorswap-lib/helpers';
-import { getSignatureAssetFor } from '@thorswap-lib/swapkit-entities';
-import { createCosmJS, GaiaToolbox } from '@thorswap-lib/toolbox-cosmos';
-import { getProvider, getWeb3WalletMethods } from '@thorswap-lib/toolbox-evm';
-import { BTCToolbox, UTXOTransferParams } from '@thorswap-lib/toolbox-utxo';
-import { Chain, ChainId } from '@thorswap-lib/types';
+import { AssetValue } from '@swapkit/helpers';
+import type { GaiaToolbox } from '@swapkit/toolbox-cosmos';
+import type { getWeb3WalletMethods } from '@swapkit/toolbox-evm';
+import type { BTCToolbox, UTXOTransferParams } from '@swapkit/toolbox-utxo';
+import { BaseDecimal, Chain, ChainId } from '@swapkit/types';
 import { Psbt } from 'bitcoinjs-lib';
+import type { Eip1193Provider } from 'ethers';
 
 export const cosmosTransfer =
   (rpcUrl?: string) =>
   async ({ from, recipient, amount, asset, memo }: any) => {
     const keplrClient = window.okxwallet?.keplr;
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
+    if (!offlineSigner) throw new Error('No cosmos okxwallet found');
+
+    const { createCosmJS } = await import('@swapkit/toolbox-cosmos');
+
     const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
 
     const coins = [
       { denom: asset?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: amount.amount().toString() },
     ];
 
-    const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 'auto', memo);
+    const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 1.6, memo);
     return transactionHash;
   };
 
@@ -46,21 +50,28 @@ export const getWalletForChain = async ({
     case Chain.Ethereum:
     case Chain.Avalanche:
     case Chain.BinanceSmartChain: {
-      if (!window.okxwallet?.request) throw new Error('No okxwallet found');
+      if (!window.okxwallet?.send) throw new Error('No okxwallet found');
+
+      const { getWeb3WalletMethods, getProvider } = await import('@swapkit/toolbox-evm');
+
       const evmWallet = await getWeb3WalletMethods({
         chain,
         ethplorerApiKey,
         covalentApiKey,
-        ethereumWindowProvider: window.okxwallet,
+        ethereumWindowProvider: window.okxwallet as unknown as Eip1193Provider,
       });
 
-      const address = (await window.okxwallet.request({ method: 'eth_requestAccounts' }))[0];
+      const address: string = await window.okxwallet.send('eth_requestAccounts', []);
       const getBalance = async () => {
         const balances = await evmWallet.getBalance(address);
         const gasAssetBalance = await getProvider(chain).getBalance(address);
-        const evmGasTokenBalanceAmount = baseAmount(gasAssetBalance, 18);
         return [
-          { asset: getSignatureAssetFor(chain), amount: evmGasTokenBalanceAmount },
+          new AssetValue({
+            chain,
+            symbol: chain,
+            value: gasAssetBalance.toString(),
+            decimal: BaseDecimal[chain],
+          }),
           ...balances.slice(1),
         ];
       };
@@ -74,10 +85,12 @@ export const getWalletForChain = async ({
         throw new Error('No utxoApiKey provided');
       }
 
+      const { BTCToolbox } = await import('@swapkit/toolbox-utxo');
+
       const wallet = window.okxwallet.bitcoin;
       const address = (await wallet.connect()).address;
 
-      const toolbox = BTCToolbox(utxoApiKey);
+      const toolbox = BTCToolbox({ rpcUrl, apiKey: utxoApiKey, apiClient: api });
       const signTransaction = async (psbt: Psbt) => {
         const signedPsbt = await wallet.signPsbt(psbt.toHex(), { from: address, type: 'list' });
 
@@ -99,6 +112,8 @@ export const getWalletForChain = async ({
       const wallet = window.okxwallet.keplr;
       await wallet.enable(ChainId.Cosmos);
       const [{ address }] = await wallet.getOfflineSignerOnlyAmino(ChainId.Cosmos).getAccounts();
+      const { GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
+
       return {
         ...GaiaToolbox({ server: api }),
         transfer: cosmosTransfer(rpcUrl),

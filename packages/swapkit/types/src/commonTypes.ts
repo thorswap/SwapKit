@@ -1,7 +1,7 @@
-import { FixedNumber } from '@ethersproject/bignumber';
+import type { FixedNumber } from 'ethers';
 
-import { Chain, CosmosChain, EVMChain, UTXOChain } from './network.js';
-import { WalletOption } from './wallet.js';
+import type { Chain, CosmosChain, EVMChain, UTXOChain } from './network.ts';
+import type { WalletOption } from './wallet.ts';
 
 type ConnectMethodNames =
   | 'connectEVMWallet'
@@ -52,14 +52,6 @@ export type AddChainWalletParams = {
   walletMethods: any;
 };
 
-export type UTXO = {
-  hash: string;
-  index: number;
-  value: number;
-  txHex?: string;
-  witnessUtxo?: Witness;
-};
-
 export type Witness = {
   value: number;
   script: Buffer;
@@ -67,7 +59,6 @@ export type Witness = {
 
 export type FixedNumberish = string | number | FixedNumber;
 
-// TODO: Add types for api interface
 type ApisType = { [key in UTXOChain]?: string | any } & {
   [key in EVMChain]?: string | any;
 } & {
@@ -94,12 +85,47 @@ export type ExtendParams<WalletConnectMethodNames = ''> = {
 
 export enum QuoteMode {
   TC_SUPPORTED_TO_TC_SUPPORTED = 'TC-TC',
-  ETH_TO_TC_SUPPORTED = 'ERC20-TC',
   TC_SUPPORTED_TO_ETH = 'TC-ERC20',
-  ETH_TO_ETH = 'ERC20-ERC20',
-  AVAX_TO_AVAX = 'ARC20-ARC20',
-  AVAX_TO_TC_SUPPORTED = 'ARC20-TC',
   TC_SUPPORTED_TO_AVAX = 'TC-ARC20',
-  AVAX_TO_ETH = 'ARC20-ERC20',
+  TC_SUPPORTED_TO_BSC = 'TC-BEP20',
+  ETH_TO_TC_SUPPORTED = 'ERC20-TC',
+  ETH_TO_ETH = 'ERC20-ERC20',
   ETH_TO_AVAX = 'ERC20-ARC20',
+  ETH_TO_BSC = 'ERC20-BEP20',
+  AVAX_TO_TC_SUPPORTED = 'ARC20-TC',
+  AVAX_TO_ETH = 'ARC20-ERC20',
+  AVAX_TO_AVAX = 'ARC20-ARC20',
+  AVAX_TO_BSC = 'ARC20-BEP20',
+  BSC_TO_TC_SUPPORTED = 'BEP20-TC',
+  BSC_TO_ETH = 'BEP20-ERC20',
+  BSC_TO_AVAX = 'BEP20-ARC20',
+  BSC_TO_BSC = 'BEP20-BEP20',
 }
+
+export type Asset = {
+  chain: Chain;
+  symbol: string;
+  ticker: string;
+  synth?: boolean;
+};
+
+export const AGG_SWAP = [QuoteMode.ETH_TO_ETH, QuoteMode.AVAX_TO_AVAX, QuoteMode.BSC_TO_BSC];
+
+export const SWAP_IN = [
+  QuoteMode.ETH_TO_TC_SUPPORTED,
+  QuoteMode.ETH_TO_AVAX,
+  QuoteMode.ETH_TO_BSC,
+  QuoteMode.AVAX_TO_TC_SUPPORTED,
+  QuoteMode.AVAX_TO_ETH,
+  QuoteMode.AVAX_TO_BSC,
+  QuoteMode.BSC_TO_TC_SUPPORTED,
+  QuoteMode.BSC_TO_ETH,
+  QuoteMode.BSC_TO_AVAX,
+];
+
+export const SWAP_OUT = [
+  QuoteMode.TC_SUPPORTED_TO_TC_SUPPORTED,
+  QuoteMode.TC_SUPPORTED_TO_ETH,
+  QuoteMode.TC_SUPPORTED_TO_AVAX,
+  QuoteMode.TC_SUPPORTED_TO_BSC,
+];

@@ -1,8 +1,9 @@
-import { DerivationPathArray, NetworkDerivationPath } from '@thorswap-lib/types';
+import type { DerivationPathArray } from '@swapkit/types';
+import { NetworkDerivationPath } from '@swapkit/types';
 
-import { CommonLedgerInterface } from '../../interfaces/LedgerInterfaces.js';
+import { CommonLedgerInterface } from '../../interfaces/LedgerInterfaces.ts';
 
-import { getAddressFromPublicKey } from './helpers.js';
+import { getAddressFromPublicKey } from './helpers.ts';
 
 export class BinanceLedger extends CommonLedgerInterface {
   constructor(derivationPath: DerivationPathArray = NetworkDerivationPath.BNB) {

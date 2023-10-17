@@ -2,7 +2,7 @@ import { render } from 'ejs';
 import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'fs';
 import { join, resolve } from 'path';
 
-import { CliOptions } from './cliTypes.js';
+import type { CliOptions } from './cliTypes.ts';
 
 const copyDir = async (source: string, dest: string, options: any) => {
   mkdirSync(dest);
@@ -40,7 +40,7 @@ export const copyFiles = async ({ packageType, packageName }: CliOptions) => {
 
   return copyDir(LIB_FILES, packagePath, options);
 
-  // TODO: Use in future for custom package types
+  //
   // switch (packageType) {
   //   case PackageType.Wallet:
   //   case PackageType.Toolbox:

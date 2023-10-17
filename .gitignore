@@ -9,6 +9,8 @@ internal/**/.turbo
 
 .env
 *.mjs
+!*.config.mjs
 coverage/
 .DS_Store
 *.log
+.npmrc

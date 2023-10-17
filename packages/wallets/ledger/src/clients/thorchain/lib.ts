@@ -14,8 +14,8 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************* */
-import { ErrorCode } from '@thorswap-lib/types';
-import { bech32 } from 'bech32';
+import { bech32 } from '@scure/base';
+import { ErrorCode } from '@swapkit/types';
 import crypto from 'crypto';
 import Ripemd160 from 'ripemd160';
 
@@ -28,8 +28,8 @@ import {
   INS,
   P1_VALUES,
   processErrorResponse,
-} from './common.js';
-import { publicKeyv2, serializePathv2, signSendChunkv2 } from './helpers.js';
+} from './common.ts';
+import { publicKeyv2, serializePathv2, signSendChunkv2 } from './helpers.ts';
 
 export class THORChainApp {
   transport: any;
@@ -64,7 +64,12 @@ export class THORChainApp {
     }
     const hashSha256 = crypto.createHash('sha256').update(pk).digest();
     const hashRip = new Ripemd160().update(hashSha256).digest();
-    return bech32.encode(hrp, bech32.toWords(hashRip));
+    // @ts-ignore
+    const encode = bech32.encode || bech32.bech32.encode;
+    // @ts-ignore
+    const toWords = bech32.toWords || bech32.bech32.toWords;
+
+    return encode(hrp, toWords(hashRip));
   }
 
   async serializePath(path: string) {

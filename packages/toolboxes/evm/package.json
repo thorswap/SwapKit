@@ -1,0 +1,57 @@
+{
+  "author": "swapkit-oss-team",
+  "dependencies": {
+    "@swapkit/types": "workspace:*",
+    "ethers": "6.7.1"
+  },
+  "description": "THORSwap evm",
+  "devDependencies": {
+    "@internal/config": "workspace:*",
+    "@nomicfoundation/hardhat-ethers": "3.0.4",
+    "@nomicfoundation/hardhat-toolbox": "3.0.0",
+    "@nomicfoundation/hardhat-network-helpers": "1.0.9",
+    "@swapkit/helpers": "workspace:*",
+    "@types/node": "20.5.9",
+    "@vitest/coverage-istanbul": "0.34.4",
+    "hardhat": "2.17.2",
+    "vite": "4.4.9",
+    "vitest": "0.34.4"
+  },
+  "eslintConfig": {
+    "extends": "../../../internal/eslint-config"
+  },
+  "peerDependencies": {
+    "@swapkit/helpers": "workspace:*"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "Apache-2.0",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@swapkit/toolbox-evm",
+  "publishConfig": {
+    "access": "public"
+  },
+  "react-native": "./src/index.ts",
+  "repository": "https://github.com/thorswap/SwapKit.git",
+  "scripts": {
+    "build": "vite build",
+    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
+    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "test": "vitest --run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0-rc.0"
+}

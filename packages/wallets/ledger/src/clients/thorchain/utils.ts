@@ -1,4 +1,4 @@
-import { fromByteArray } from 'base64-js';
+import { base64 } from '@scure/base';
 
 export const getSignature = (signatureArray: any) => {
   // Check Type Length Value encoding
@@ -60,5 +60,5 @@ export const getSignature = (signatureArray: any) => {
     throw new Error('Invalid signatures: must be 32 bytes each');
   }
 
-  return fromByteArray(Buffer.concat([rSignature, sSignature]));
+  return base64.encode(Buffer.concat([rSignature, sSignature]));
 };

@@ -1,1 +1,1 @@
-export * from './trezor.js';
+export * from './trezor.ts';

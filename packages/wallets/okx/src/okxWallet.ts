@@ -1,8 +1,7 @@
-import { isDetected } from '@thorswap-lib/toolbox-evm';
-import { Chain, WalletOption } from '@thorswap-lib/types';
+import { Chain, WalletOption } from '@swapkit/types';
 
-import { getWalletForChain } from './helpers.js';
-import { OKXConfig } from './types.js';
+import { getWalletForChain } from './helpers.ts';
+import type { OKXConfig } from './types.ts';
 
 const OKX_SUPPORTED_CHAINS = [
   Chain.Avalanche,
@@ -25,9 +24,9 @@ const connectOkx =
       await chainsToConnect;
       const walletMethods = await getWalletForChain({
         chain,
-        utxoApiKey,
         covalentApiKey,
         ethplorerApiKey,
+        utxoApiKey,
       });
 
       // Unwrap the address from a possible promise
@@ -48,5 +47,4 @@ const connectOkx =
 export const okxWallet = {
   connectMethodName: 'connectOkx' as const,
   connect: connectOkx,
-  isDetected,
 };

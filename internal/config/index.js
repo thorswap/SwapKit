@@ -1,56 +1,61 @@
-import { mergeConfig } from 'vite';
-import { defineConfig } from 'vitest/config'
-import dts from 'vite-plugin-dts';
 import { builtinModules } from 'module';
-import { visualizer } from 'rollup-plugin-visualizer';
+import { mergeConfig } from 'vite';
+import dts from 'vite-plugin-dts';
+import { defineConfig } from 'vitest/config';
 
 const rollupPlugins = [];
 
-/** (name: string) => @type {import('vitest/config').UserConfig} */
-const baseConfig = (name) => {
-  if (process.env.VITE_ANALYZE) {
-    /**
-     * bright blue bold italic underline
-     */
-    console.info('\x1b[1m\x1b[34m\x1b[3m\x1b[4m%s\x1b[0m', 'Vite Analyze Enabled');
+// (
+//   filePath: string,
+//   content: string
+// ) => Promise<
+//   | void
+//   | false
+//   | {
+//     filePath?: string,
+//     content?: string
+//   }
+// >
+const beforeWriteFile = (filePath, content) => {
+  content = content.replaceAll('  #private;', '');
 
-    rollupPlugins.push(visualizer({
-      emitFile: true,
-      sourcemap: true,
-      filename: "stats.html",
-      title: name,
-    }));
+  if (content.includes('#private')) {
+    console.log('################# Drop file: ', filePath);
+    return false;
   }
 
-return defineConfig({
+  return { content, filePath };
+};
+
+/** (name: string) => @type {import('vitest/config').UserConfig} */
+const baseConfig = (name, external) =>
+  defineConfig({
     base: './',
-    plugins: [dts({  clearPureImport: true, rollupTypes: true })],
+    plugins: [
+      dts({ skipDiagnostics: false, clearPureImport: true, rollupTypes: true, beforeWriteFile }),
+    ],
     build: {
       lib: {
         name,
         formats: ['es', 'cjs'],
         fileName: (format) => `index.${format === 'cjs' ? 'cjs' : `${format}.js`}`,
       },
-      commonjsOptions: {
-        transformMixedEsModules: true,
-      },
+      commonjsOptions: { transformMixedEsModules: true },
       rollupOptions: {
-        external: builtinModules,
+        external,
         input: 'src/index.ts',
         plugins: rollupPlugins,
-        output: {
-          inlineDynamicImports: true,
+        output: ({ format }) => ({
+          external: builtinModules,
+          entryFileNames: ({ name }) => `${name}.${format === 'cjs' ? 'cjs' : 'js'}`,
+          preserveModules: false,
           sourcemap: true,
-        },
+        }),
       },
     },
 
-    test: {
-      coverage: {
-        provider: 'istanbul'
-      }
-    },
-  })
-}
+    test: { coverage: { provider: 'istanbul' } },
+  });
 
-export default (name, /** @type {import('vite').UserConfig} */ config = {}) => mergeConfig(baseConfig(name), config);
+export default (name, /** @type {import('vite').UserConfig} */ config = {}) =>
+  mergeConfig(baseConfig(name), config);

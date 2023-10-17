@@ -4,15 +4,10 @@
   "baseBranch": "main",
   "changelog": [
     "@changesets/changelog-github",
-    {
-      "repo": "thorswap/SwapKit"
-    }
+    { "repo": "thorswap/SwapKit" }
   ],
   "commit": false,
   "fixed": [],
-  "ignore": [
-    "@thorswap/*"
-  ],
   "linked": [],
   "updateInternalDependencies": "patch"
 }

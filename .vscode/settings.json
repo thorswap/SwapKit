@@ -1,18 +1,12 @@
 {
+  "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": false
+    "source.fixAll.eslint": true
   },
-  "editor.formatOnSave": true,
   "javascript.format.enable": false,
   "javascript.preferences.importModuleSpecifier": "relative",
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.preferences.importModuleSpecifier": "relative",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "excalidraw.theme": "dark",
-  "excalidraw.image": {
-    "exportScale": 1,
-    "exportWithBackground": true,
-    "exportWithDarkMode": true
-  }
+  "typescript.updateImportsOnFileMove.enabled": "always"
 }

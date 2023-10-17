@@ -1,9 +1,8 @@
-import { encodeSecp256k1Signature, serializeSignDoc } from '@cosmjs/amino';
-import { Secp256k1Signature } from '@cosmjs/crypto';
-import { derivationPathToString } from '@thorswap-lib/helpers';
-import { DerivationPathArray, ErrorCode, NetworkDerivationPath } from '@thorswap-lib/types';
+import { derivationPathToString } from '@swapkit/helpers';
+import type { DerivationPathArray } from '@swapkit/types';
+import { ErrorCode, NetworkDerivationPath } from '@swapkit/types';
 
-import { CommonLedgerInterface } from '../interfaces/LedgerInterfaces.js';
+import { CommonLedgerInterface } from '../interfaces/LedgerInterfaces.ts';
 
 export class CosmosLedger extends CommonLedgerInterface {
   private pubKey: string | null = null;
@@ -63,6 +62,9 @@ export class CosmosLedger extends CommonLedgerInterface {
     if (accountIndex === -1) {
       throw new Error(`Address ${signerAddress} not found in wallet`);
     }
+
+    const { encodeSecp256k1Signature, serializeSignDoc } = await import('@cosmjs/amino');
+    const { Secp256k1Signature } = await import('@cosmjs/crypto');
 
     const message = serializeSignDoc(signDoc);
     const signature = await this.ledgerApp.sign(this.derivationPath, message);

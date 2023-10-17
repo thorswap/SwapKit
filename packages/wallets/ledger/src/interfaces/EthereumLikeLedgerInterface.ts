@@ -1,31 +1,35 @@
-import { Signer } from '@ethersproject/abstract-signer';
-import { BigNumber } from '@ethersproject/bignumber';
-import { joinSignature } from '@ethersproject/bytes';
-import { resolveProperties } from '@ethersproject/properties';
-import { serialize, UnsignedTransaction } from '@ethersproject/transactions';
-import EthereumApp, { ledgerService } from '@ledgerhq/hw-app-eth';
-import Transport from '@ledgerhq/hw-transport-webusb';
-import { ChainId } from '@thorswap-lib/types';
+import type EthereumApp from '@ledgerhq/hw-app-eth';
+import { ChainId } from '@swapkit/types';
 import { BN } from 'bn.js';
+import type { Provider, TransactionRequest } from 'ethers';
+import { VoidSigner } from 'ethers';
 
-import { getLedgerTransport } from '../helpers/getLedgerTransport.js';
+import { getLedgerTransport } from '../helpers/getLedgerTransport.ts';
 
-export abstract class EthereumLikeLedgerInterface extends Signer {
+export abstract class EthereumLikeLedgerInterface extends VoidSigner {
   public chain: 'eth' | 'avax' | 'bsc' = 'eth';
   public chainId: ChainId = ChainId.Ethereum;
   public derivationPath: string = '';
-  // @ts-ignore Ledger typing is wrong
+  // @ts-expect-error `default` typing is wrong
   public ledgerApp: InstanceType<typeof EthereumApp> | null = null;
   public ledgerTimeout: number = 50000;
 
+  constructor(provider: Provider) {
+    super('');
+
+    Object.defineProperty(this, 'provider', {
+      enumerable: true,
+      value: provider || null,
+      writable: false,
+    });
+  }
+
   checkOrCreateTransportAndLedger = async () => {
     if (this.ledgerApp) return;
-
-    // @ts-ignore Ledger typing is wrong
-    if (!(await Transport.isSupported())) throw new Error('Ledger not supported');
-
     const transport = await getLedgerTransport();
-    // @ts-ignore Ledger typing is wrong
+    const { default: EthereumApp } = await import('@ledgerhq/hw-app-eth');
+
+    // @ts-expect-error `default` typing is wrong
     this.ledgerApp ||= new EthereumApp(transport);
   };
 
@@ -51,18 +55,23 @@ export abstract class EthereumLikeLedgerInterface extends Signer {
     const sig = await this.ledgerApp?.signPersonalMessage(this.derivationPath, messageHex);
 
     if (!sig) throw new Error('Signing failed');
+
+    const { Signature } = await import('ethers');
+
     sig.r = '0x' + sig.r;
     sig.s = '0x' + sig.s;
-    return joinSignature(sig);
+    return Signature.from(sig).serialized;
   };
 
-  signTransaction = async (rawTx: any) => {
+  signTransaction = async (tx: TransactionRequest) => {
     await this.checkOrCreateTransportAndLedger();
-    const tx: any = await resolveProperties(rawTx);
-    const transactionCount = await this.getTransactionCount();
 
-    const baseTx: UnsignedTransaction = {
-      chainId: BigNumber.from(rawTx.chainId || this.chainId).toNumber(),
+    const transactionCount = await this.provider?.getTransactionCount(
+      tx.from || (await this.getAddress()),
+    );
+
+    const baseTx = {
+      chainId: tx.chainId || this.chainId,
       data: tx.data || undefined,
       gasLimit: tx.gasLimit || undefined,
       ...(tx.gasPrice && { gasPrice: tx.gasPrice || undefined }),
@@ -72,13 +81,19 @@ export abstract class EthereumLikeLedgerInterface extends Signer {
           maxPriorityFeePerGas: tx.maxPriorityFeePerGas || undefined,
         }),
       nonce:
-        tx.nonce !== undefined ? BigNumber.from(tx.nonce.toString()).toNumber() : transactionCount,
-      to: tx.to || undefined,
+        tx.nonce !== undefined
+          ? Number((tx.nonce || transactionCount || 0).toString())
+          : transactionCount,
+      to: tx.to?.toString() || undefined,
       value: tx.value || undefined,
       type: tx.type || 2,
     };
 
-    const unsignedTx = serialize(baseTx).slice(2);
+    const { Transaction } = await import('ethers');
+    // ledger expects the tx to be serialized without the 0x prefix
+    const unsignedTx = Transaction.from(baseTx).unsignedSerialized.slice(2);
+
+    const { ledgerService } = await import('@ledgerhq/hw-app-eth');
 
     const resolution = await ledgerService.resolveTransaction(
       unsignedTx,
@@ -94,13 +109,11 @@ export abstract class EthereumLikeLedgerInterface extends Signer {
 
     if (!signature) throw new Error('Could not sign transaction');
 
-    return (
-      '0x' +
-      serialize(baseTx, {
-        v: new BN(parseInt(signature.v, 16)).toNumber(),
-        r: '0x' + signature.r,
-        s: '0x' + signature.s,
-      }).slice(2)
-    );
+    const { r, s, v } = signature;
+
+    return Transaction.from({
+      ...baseTx,
+      signature: { v: new BN(parseInt(v, 16)).toNumber(), r: '0x' + r, s: '0x' + s },
+    }).serialized;
   };
 }

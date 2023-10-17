@@ -1,16 +1,14 @@
-import BitcoinApp from '@ledgerhq/hw-app-btc';
-import CosmosApp from '@ledgerhq/hw-app-cosmos';
-import Transport from '@ledgerhq/hw-transport-webusb';
-import type { UTXO } from '@thorswap-lib/types';
+import type BitcoinApp from '@ledgerhq/hw-app-btc';
+import type { UTXOType } from '@swapkit/toolbox-utxo';
 import { toCashAddress } from 'bchaddrjs';
 import { type Network as BTCNetwork, networks, type Psbt } from 'bitcoinjs-lib';
 
-import { BinanceApp } from '../clients/binance/lib.js';
-import { THORChainApp } from '../clients/thorchain/lib.js';
-import { getLedgerTransport } from '../helpers/getLedgerTransport.js';
+import { BinanceApp } from '../clients/binance/lib.ts';
+import { THORChainApp } from '../clients/thorchain/lib.ts';
+import { getLedgerTransport } from '../helpers/getLedgerTransport.ts';
 
-import { CreateTransactionArg } from './types.js';
-import { signUTXOTransaction } from './utxo.js';
+import type { CreateTransactionArg } from './types.ts';
+import { signUTXOTransaction } from './utxo.ts';
 
 export abstract class CommonLedgerInterface {
   public ledgerTimeout: number = 50000;
@@ -21,9 +19,6 @@ export abstract class CommonLedgerInterface {
 
   public checkOrCreateTransportAndLedger = async () => {
     if (this.transport && this.ledgerApp) return;
-
-    // @ts-ignore Ledger typing is wrong
-    if (!(await Transport.isSupported())) throw new Error('Ledger not supported');
 
     try {
       this.transport ||= await getLedgerTransport();
@@ -38,7 +33,9 @@ export abstract class CommonLedgerInterface {
         }
 
         case 'cosmos': {
-          // @ts-ignore Ledger typing is wrong
+          const { default: CosmosApp } = await import('@ledgerhq/hw-app-cosmos');
+
+          // @ts-expect-error `default` typing is wrong
           return (this.ledgerApp ||= new CosmosApp(this.transport));
         }
       }
@@ -51,7 +48,7 @@ export abstract class CommonLedgerInterface {
 
 export abstract class UTXOLedgerInterface {
   public addressNetwork: BTCNetwork = networks.bitcoin;
-  // @ts-ignore Ledger typing is wrong
+  // @ts-expect-error `default` typing is wrong
   public btcApp: InstanceType<typeof BitcoinApp> | null = null;
   public chain: 'bch' | 'btc' | 'ltc' | 'doge' = 'btc';
   public derivationPath = '';
@@ -63,11 +60,13 @@ export abstract class UTXOLedgerInterface {
   public connect = async () => {
     await this.checkBtcAppAndCreateTransportWebUSB(false);
 
-    // @ts-ignore Ledger typing is wrong
+    const { default: BitcoinApp } = await import('@ledgerhq/hw-app-btc');
+
+    // @ts-expect-error `default` typing is wrong
     this.btcApp = new BitcoinApp(this.transport);
   };
 
-  public signTransaction = async (psbt: Psbt, inputUtxos: UTXO[]) => {
+  public signTransaction = async (psbt: Psbt, inputUtxos: UTXOType[]) => {
     await this.checkBtcAppAndCreateTransportWebUSB();
 
     return signUTXOTransaction(
@@ -95,11 +94,8 @@ export abstract class UTXOLedgerInterface {
   };
 
   private checkBtcAppAndCreateTransportWebUSB = async (checkBtcApp: boolean = true) => {
-    // @ts-ignore Ledger typing is wrong
-    const isSupported = await Transport.isSupported();
-
-    if ((checkBtcApp && !this.btcApp) || !isSupported) {
-      const errorData = JSON.stringify({ checkBtcApp, btcApp: this.btcApp, isSupported });
+    if (checkBtcApp && !this.btcApp) {
+      const errorData = JSON.stringify({ checkBtcApp, btcApp: this.btcApp });
       throw new Error(`Ledger connection failed: \n${errorData}`);
     }
 

@@ -1,2 +1,2 @@
-export * from './apiError.js';
-export * from './types.js';
+export * from './apiError.ts';
+export * from './types.ts';

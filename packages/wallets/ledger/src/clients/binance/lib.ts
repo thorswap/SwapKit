@@ -1,4 +1,3 @@
-// @ts-nocheck
 /********************************************************************************
  *   Binance Chain Ledger App Interface
  *   (c) 2018-2019 Binance
@@ -17,8 +16,6 @@
  *  limitations under the License.
  *******************************************************************************
  */
-
-import type Transport from '@ledgerhq/hw-transport';
 
 const DEFAULT_LEDGER_INTERACTIVE_TIMEOUT = 50000;
 const DEFAULT_LEDGER_NONINTERACTIVE_TIMEOUT = 3000;
@@ -86,7 +83,7 @@ interface ReturnResponse {
  * @static
  */
 export class BinanceApp {
-  private _transport: Transport;
+  private _transport: any;
   private _interactiveTimeout: number;
   private _nonInteractiveTimeout: number;
   /**
@@ -96,7 +93,7 @@ export class BinanceApp {
    * @param {Number} nonInteractiveTimeout The non-interactive timeout in ms. Default 3s.
    */
   constructor(
-    transport: Transport,
+    transport: any,
     interactiveTimeout: number = DEFAULT_LEDGER_INTERACTIVE_TIMEOUT,
     nonInteractiveTimeout: number = DEFAULT_LEDGER_NONINTERACTIVE_TIMEOUT,
   ) {

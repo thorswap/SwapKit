@@ -1,30 +1,24 @@
-import { ledgerUSBVendorId } from '@ledgerhq/devices';
-import { DisconnectedDevice } from '@ledgerhq/errors';
-import Transport from '@ledgerhq/hw-transport-webusb';
-
-declare global {
-  interface Navigator {
-    usb?: {
-      getDevices: () => Promise<any[]>;
-      requestDevice: (requestObject: any) => Promise<any>;
-      removeEventListener: (event: string, callback: (e: any) => void) => void;
-      addEventListener: (event: string, callback: (e: any) => void) => void;
-    };
-  }
-}
+const getNavigatorUsb = () =>
+  // @ts-ignore
+  navigator?.usb as unknown as {
+    getDevices: () => Promise<any[]>;
+    requestDevice: (requestObject: any) => Promise<any>;
+    removeEventListener: (event: string, callback: (e: any) => void) => void;
+    addEventListener: (event: string, callback: (e: any) => void) => void;
+  };
 
 const getLedgerDevices = async () => {
-  if (typeof navigator?.usb?.getDevices !== 'function') return [];
+  const navigatorUsb = getNavigatorUsb();
 
-  const devices = await navigator?.usb?.getDevices();
+  if (typeof navigatorUsb?.getDevices !== 'function') return [];
+
+  const { ledgerUSBVendorId } = await import('@ledgerhq/devices');
+
+  const devices = await navigatorUsb?.getDevices();
   const existingDevices = devices.filter((d) => d.vendorId === ledgerUSBVendorId);
   if (existingDevices.length > 0) return existingDevices[0];
-  const device = await navigator?.usb?.requestDevice({
-    filters: [
-      {
-        vendorId: ledgerUSBVendorId,
-      },
-    ],
+  const device = await navigatorUsb?.requestDevice({
+    filters: [{ vendorId: ledgerUSBVendorId }],
   });
   return device;
 };
@@ -55,17 +49,24 @@ export const getLedgerTransport = async () => {
     throw new Error(error.message);
   }
 
-  // @ts-ignore Ledger typing is wrong
+  const { default: Transport } = await import('@ledgerhq/hw-transport-webusb');
+  // @ts-expect-error Ledger typing is wrong
+  const isSupported = await Transport.isSupported();
+  if (!isSupported) throw new Error('WebUSB not supported');
+
+  const { DisconnectedDevice } = await import('@ledgerhq/errors');
+
+  // @ts-expect-error Ledger typing is wrong
   const transport = new Transport(device, iface.interfaceNumber);
 
   const onDisconnect = (e: any) => {
     if (device === e.device) {
-      navigator?.usb?.removeEventListener('disconnect', onDisconnect);
+      getNavigatorUsb()?.removeEventListener('disconnect', onDisconnect);
 
       transport._emitDisconnect(new DisconnectedDevice());
     }
   };
-  navigator?.usb?.addEventListener('disconnect', onDisconnect);
+  getNavigatorUsb()?.addEventListener('disconnect', onDisconnect);
 
   return transport;
 };

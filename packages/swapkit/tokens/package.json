@@ -1,0 +1,49 @@
+{
+  "author": "swapkit-oss-team",
+  "description": "SwapKit Lib tokens",
+  "devDependencies": {
+    "@internal/config": "workspace:*",
+    "@swapkit/api": "workspace:*",
+    "@swapkit/types": "workspace:*",
+    "@types/fs-extra": "11.0.1",
+    "@vitest/coverage-istanbul": "0.34.4",
+    "fs-extra": "11.1.1",
+    "vite": "4.4.9",
+    "vitest": "0.34.4"
+  },
+  "eslintConfig": {
+    "extends": "../../../internal/eslint-config"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "Apache-2.0",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@swapkit/tokens",
+  "publishConfig": {
+    "access": "public"
+  },
+  "react-native": "./src/index.ts",
+  "repository": "https://github.com/thorswap/SwapKit.git",
+  "scripts": {
+    "build": "vite build",
+    "generate-tokens": "node ./scripts/fetchTokenLists.js",
+    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
+    "lint": "prettier --check --write .",
+    "test": "echo 'vitest --run'",
+    "test:coverage": "echo 'vitest run --coverage'"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0-rc.0"
+}

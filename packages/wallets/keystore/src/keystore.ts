@@ -1,23 +1,12 @@
-import { HDNode } from '@ethersproject/hdnode';
-import { Wallet } from '@ethersproject/wallet';
-import { AssetAtom, BinanceToolbox, GaiaToolbox, getDenom } from '@thorswap-lib/toolbox-cosmos';
-import { AVAXToolbox, BSCToolbox, ETHToolbox, getProvider } from '@thorswap-lib/toolbox-evm';
-import {
-  BTCToolbox,
-  DOGEToolbox,
-  LTCToolbox,
+import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
+import type {
+  TransactionType,
   UTXOTransferParams,
-} from '@thorswap-lib/toolbox-utxo';
-import {
-  Chain,
-  ConnectWalletParams,
-  DerivationPath,
-  TxParams,
-  WalletOption,
-} from '@thorswap-lib/types';
-import { Psbt } from 'bitcoinjs-lib';
-
-import { bitcoincashWalletMethods, thorchainWalletMethods } from './walletMethods.js';
+  UTXOWalletTransferParams,
+} from '@swapkit/toolbox-utxo';
+import type { ConnectWalletParams, Witness } from '@swapkit/types';
+import { Chain, DerivationPath, WalletOption } from '@swapkit/types';
+import type { Psbt } from 'bitcoinjs-lib';
 
 type KeystoreOptions = {
   ethplorerApiKey?: string;
@@ -51,18 +40,20 @@ const getWalletMethodsForChain = async ({
     case Chain.BinanceSmartChain:
     case Chain.Avalanche:
     case Chain.Ethereum: {
-      if (chain === Chain.Ethereum) {
-        if (!ethplorerApiKey) throw new Error('Ethplorer API key not found');
-      } else {
-        if (!covalentApiKey) throw new Error('Covalent API key not found');
+      if (chain === Chain.Ethereum && !ethplorerApiKey) {
+        throw new Error('Ethplorer API key not found');
+      } else if (!covalentApiKey) {
+        throw new Error('Covalent API key not found');
       }
 
-      const hdNode = HDNode.fromMnemonic(phrase);
-      const derivedPath = hdNode.derivePath(derivationPath);
+      const { HDNodeWallet } = await import('ethers');
+      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
+        '@swapkit/toolbox-evm'
+      );
 
       const provider = getProvider(chain, rpcUrl);
-      const wallet = new Wallet(derivedPath).connect(provider);
-      const params = { api, provider, signer: wallet as any };
+      const wallet = HDNodeWallet.fromPhrase(phrase).connect(provider);
+      const params = { api, provider, signer: wallet };
 
       const toolbox =
         chain === Chain.Ethereum
@@ -72,36 +63,61 @@ const getWalletMethodsForChain = async ({
           : BSCToolbox({ ...params, covalentApiKey: covalentApiKey! });
 
       return {
-        address: derivedPath.address,
+        address: wallet.address,
         walletMethods: {
           ...toolbox,
-          getAddress: () => derivedPath.address,
+          getAddress: () => wallet.address,
         },
       };
     }
 
     case Chain.BitcoinCash: {
       if (!utxoApiKey) throw new Error('UTXO API key not found');
-      const walletMethods = bitcoincashWalletMethods({
-        rpcUrl,
-        phrase,
-        derivationPath,
-        utxoApiKey,
-      });
-      return { address: walletMethods.getAddress(), walletMethods };
+      const { BCHToolbox } = await import('@swapkit/toolbox-utxo');
+      const toolbox = BCHToolbox({ rpcUrl, apiKey: utxoApiKey, apiClient: api });
+      const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
+      const address = toolbox.getAddressFromKeys(keys);
+
+      const signTransaction = async ({
+        builder,
+        utxos,
+      }: Awaited<ReturnType<typeof toolbox.buildBCHTx>>) => {
+        utxos.forEach((utxo, index) => {
+          builder.sign(index, keys, undefined, 0x41, (utxo.witnessUtxo as Witness).value);
+        });
+
+        return builder.build();
+      };
+
+      const walletMethods = {
+        ...toolbox,
+        getAddress: () => address,
+        transfer: (
+          params: UTXOWalletTransferParams<
+            Awaited<ReturnType<typeof toolbox.buildBCHTx>>,
+            TransactionType
+          >,
+        ) => toolbox.transfer({ ...params, from: address, signTransaction }),
+      };
+
+      return { address, walletMethods };
     }
 
     case Chain.Bitcoin:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
+      const params = { rpcUrl, apiKey: utxoApiKey, apiClient: api };
+
+      const { BTCToolbox, LTCToolbox, DOGEToolbox } = await import('@swapkit/toolbox-utxo');
+
       const toolbox =
         chain === Chain.Bitcoin
-          ? BTCToolbox(utxoApiKey, rpcUrl)
+          ? BTCToolbox(params)
           : chain === Chain.Litecoin
-          ? LTCToolbox(utxoApiKey, rpcUrl)
-          : DOGEToolbox(utxoApiKey, rpcUrl);
+          ? LTCToolbox(params)
+          : DOGEToolbox(params);
 
-      const keys = toolbox.createKeysForPath({ phrase, derivationPath });
+      const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
       const address = toolbox.getAddressFromKeys(keys);
 
       const signTransaction = async (psbt: Psbt) => {
@@ -122,50 +138,71 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Binance: {
+      const { BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = BinanceToolbox();
       const privkey = await toolbox.createKeyPair(phrase);
-      const from = await toolbox.getAddressFromMnemonic(phrase);
+      const address = await toolbox.getAddressFromMnemonic(phrase);
 
-      const transfer = ({ asset, amount, recipient, memo }: TxParams) =>
+      const transfer = ({ assetValue, recipient, memo }: TransferParams) =>
         toolbox.transfer({
-          from,
-          to: recipient,
+          from: address,
+          recipient,
+          assetValue,
           privkey,
-          asset: getDenom(asset || AssetAtom),
-          amount: amount.amount().toString(),
           memo,
         });
 
       return {
-        address: from,
-        walletMethods: { ...toolbox, transfer, getAddress: () => from },
+        address,
+        walletMethods: { ...toolbox, transfer, getAddress: () => address },
       };
     }
+
     case Chain.Cosmos: {
+      const { GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = GaiaToolbox({ server: api });
       const signer = await toolbox.getSigner(phrase);
-      const from = await toolbox.getAddressFromMnemonic(phrase);
+      const address = await toolbox.getAddressFromMnemonic(phrase);
 
-      const transfer = ({ asset, amount, recipient, memo }: TxParams) =>
+      const transfer = ({ assetValue, recipient, memo }: TransferParams) =>
         toolbox.transfer({
-          from,
-          to: recipient,
+          from: address,
+          recipient,
           signer,
-          asset: getDenom(asset || AssetAtom),
-          amount: amount.amount().toString(),
+          assetValue,
           memo,
         });
 
       return {
-        address: from,
-        walletMethods: { ...toolbox, transfer, getAddress: () => from },
+        address,
+        walletMethods: { ...toolbox, transfer, getAddress: () => address },
       };
     }
 
+    case Chain.Maya:
     case Chain.THORChain: {
-      const walletMethods = await thorchainWalletMethods({ phrase, stagenet });
+      const { MayaToolbox, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
+      const toolbox =
+        chain === Chain.THORChain ? ThorchainToolbox({ stagenet }) : MayaToolbox({ stagenet });
+      const address = await toolbox.getAddressFromMnemonic(phrase);
+      const signer = await toolbox.getSigner(phrase);
 
-      return { address: walletMethods.getAddress() as string, walletMethods };
+      const transfer = async ({ assetValue, recipient, memo }: TransferParams) =>
+        toolbox.transfer({
+          from: address,
+          recipient,
+          signer,
+          assetValue,
+          memo,
+        });
+
+      const deposit = async ({ assetValue, memo }: DepositParam) => {
+        return toolbox.deposit({ assetValue, memo, from: address, signer });
+      };
+
+      const walletMethods = { ...toolbox, deposit, transfer, getAddress: () => address };
+
+      return { address, walletMethods };
     }
 
     default:
@@ -209,5 +246,4 @@ const connectKeystore =
 export const keystoreWallet = {
   connectMethodName: 'connectKeystore' as const,
   connect: connectKeystore,
-  isDetected: () => true,
 };
