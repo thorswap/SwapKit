@@ -60,7 +60,6 @@ class TrezorSigner extends AbstractSigner {
   }
 
   signTransaction = async ({ from, to, value, gasLimit, nonce, data, ...restTx }: EVMTxParams) => {
-    if (!from) throw new Error('Missing from address');
     if (!to) throw new Error('Missing to address');
     if (!gasLimit) throw new Error('Missing gasLimit');
 
@@ -74,11 +73,14 @@ class TrezorSigner extends AbstractSigner {
     const { toHexString } = await import('@swapkit/toolbox-evm');
 
     const baseTx = {
+      from: from || (await this.getAddress()),
       chainId: parseInt(ChainToChainId[this.chain], 16),
       to,
       value: toHexString(value || 0n),
       gasLimit: toHexString(gasLimit),
-      nonce: (nonce || (await this.provider.getTransactionCount(from, 'pending'))).toString(),
+      nonce: (
+        nonce || (await this.provider.getTransactionCount(await this.getAddress(), 'pending'))
+      ).toString(),
       data,
       ...(isEIP1559
         ? {

@@ -5,7 +5,6 @@ import { Chain, ContractAddress, erc20ABI, FeeOption } from '@swapkit/types';
 import {
   BrowserProvider,
   ContractTransaction,
-  Eip1193Provider,
   Fragment,
   HDNodeWallet,
   JsonFragment,

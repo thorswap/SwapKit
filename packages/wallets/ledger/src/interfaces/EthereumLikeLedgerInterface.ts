@@ -89,9 +89,8 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
     };
 
     const { Transaction } = await import('ethers');
-    // TODO: Check this signature
-    const transaction = Transaction.from(baseTx);
-    const unsignedTx = transaction.unsignedSerialized.slice(2);
+    // ledger expects the tx to be serialized without the 0x prefix
+    const unsignedTx = Transaction.from(baseTx).unsignedSerialized.slice(2);
 
     const { ledgerService } = await import('@ledgerhq/hw-app-eth');
 

@@ -157,7 +157,7 @@ describe('AssetValue', () => {
 
   describe('fromChainOrSignature', () => {
     test('creates AssetValue from common asset string or chain', () => {
-      const customBaseAsset = [Chain.Cosmos, Chain.BinanceSmartChain, Chain.THORChain];
+      const customBaseAsset = [Chain.Cosmos, Chain.BinanceSmartChain, Chain.THORChain, Chain.Maya];
       Object.values(Chain)
         .filter((c) => !customBaseAsset.includes(c))
         .forEach((chain) => {
