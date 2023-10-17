@@ -1,7 +1,6 @@
 import { builtinModules } from 'module';
 import { mergeConfig } from 'vite';
 import dts from 'vite-plugin-dts';
-import { externalizeDeps } from 'vite-plugin-externalize-deps';
 import { defineConfig } from 'vitest/config';
 
 const rollupPlugins = [];
@@ -29,17 +28,10 @@ const beforeWriteFile = (filePath, content) => {
 };
 
 /** (name: string) => @type {import('vitest/config').UserConfig} */
-const baseConfig = (name) =>
+const baseConfig = (name, external) =>
   defineConfig({
     base: './',
     plugins: [
-      externalizeDeps({
-        deps: false,
-        devDeps: true,
-        nodeBuiltins: true,
-        optionalDeps: true,
-        peerDeps: true,
-      }),
       dts({ skipDiagnostics: false, clearPureImport: true, rollupTypes: true, beforeWriteFile }),
     ],
     build: {
@@ -50,10 +42,11 @@ const baseConfig = (name) =>
       },
       commonjsOptions: { transformMixedEsModules: true },
       rollupOptions: {
-        external: builtinModules,
+        external,
         input: 'src/index.ts',
         plugins: rollupPlugins,
         output: ({ format }) => ({
+          external: builtinModules,
           entryFileNames: ({ name }) => `${name}.${format === 'cjs' ? 'cjs' : 'js'}`,
           preserveModules: false,
           sourcemap: true,

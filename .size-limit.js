@@ -12,16 +12,18 @@ const getSizeFor = (packagePath, sizeType) => {
   if (!size) throw new Error(`Unknown size type ${sizeType}`);
   const [, packageName] = packagePath.split('/');
 
+  const packagePrefix = packagePath.includes('toolboxes') ? 'toolbox-' : packagePath.includes('wallets') ? 'wallet-' : '';
+
   return [
     {
       limit: size,
       path: `./packages/${packagePath}/dist/*.cjs`,
-      name: `@swapkit/${packageName} - CommonJS`,
+      name: `@swapkit/${packagePrefix}${packageName} - CommonJS`,
     },
     {
       limit: size,
       path: `./packages/${packagePath}/dist/*.js`,
-      name: `@swapkit/${packageName} - ES Modules`,
+      name: `@swapkit/${packagePrefix}${packageName} - ES Modules`,
     },
   ];
 };

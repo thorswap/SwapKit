@@ -27,6 +27,7 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@swapkit/<%- packageName %>",
+  "peerDependencies": {},
   "publishConfig": {
     "access": "public"
   },

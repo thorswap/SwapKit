@@ -19,8 +19,8 @@
   "name": "@internal/generator",
   "private": true,
   "scripts": {
-    "build": "vite build",
-    "generate": "pnpm build; node ./dist/index.js"
+    "build:cli": "vite build",
+    "generate": "pnpm build:cli; node ./dist/index.js"
   },
   "type": "module"
 }
