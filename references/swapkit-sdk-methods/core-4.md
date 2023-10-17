@@ -1,3 +1,7 @@
+---
+description: Static token lists with addresses, identifiers, chains & decimals
+---
+
 # @swapkit/tokens
 
 ### Installation
@@ -5,40 +9,25 @@
 {% tabs %}
 {% tab title="pnpm" %}
 ```bash
-pnpm add @swapkit/sdk
+pnpm add @swapkit/tokens
 ```
 {% endtab %}
 
 {% tab title="yarn" %}
 ```bash
-yarn add @swapkit/sdk
+yarn add @swapkit/tokens
 ```
 {% endtab %}
 
 {% tab title="npm" %}
 ```bash
-npm add @swapkit/sdk
+npm add @swapkit/tokens
 ```
 {% endtab %}
 {% endtabs %}
 
 ### Usage
 
-
-
 ```typescript
-import { createSwapKit, Chain, ConnectConfig, ApisType } from '@swapkit/sdk'
-
-const config: {
-  apis?: ApisType;
-  excludedChains?: Chain[];
-  config?: ConnectConfig;
-  rpcUrls?: { [key in Chain]?: string }
-} = {}
-
-const skClient = createSwapKit(config)
-
-await skClient.connectLedger(Chain.BTC)
-
-const txHash = await skClient.swap(...)
+import { OneInchList, CoingeckoList, ThorchainList } from '@swapkit/tokens'
 ```

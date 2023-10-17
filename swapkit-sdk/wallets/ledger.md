@@ -5,19 +5,19 @@
 {% tabs %}
 {% tab title="pnpm" %}
 ```bash
-pnpm add @thorswap-lib/ledger
+pnpm add @swapkit/wallet-ledger
 ```
 {% endtab %}
 
 {% tab title="yarn" %}
 ```bash
-yarn add @thorswap-lib/ledger
+yarn add @swapkit/wallet-ledger
 ```
 {% endtab %}
 
 {% tab title="npm" %}
 ```bash
-npm add @thorswap-lib/ledger
+npm add @swapkit/wallet-ledger
 ```
 {% endtab %}
 {% endtabs %}
@@ -33,9 +33,8 @@ npm add @thorswap-lib/ledger
 #### Example:&#x20;
 
 ````typescript
-import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { ledgerWallet } from '@thorswap-lib/ledger';
-import { Chain } from '@thorswap-lib/types';
+import { SwapKitCore, Chain } from '@swapkit/core';
+import { ledgerWallet } from '@swapkit/wallet-ledger';
 
 const client = new SwapKitCore();
 client.extend({ wallets: [ledgerWallet] });

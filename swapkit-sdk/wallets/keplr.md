@@ -5,19 +5,19 @@
 {% tabs %}
 {% tab title="pnpm" %}
 ```bash
-pnpm add @thorswap-lib/trustwallet
+pnpm add @swapkit/wallet-keplr
 ```
 {% endtab %}
 
 {% tab title="yarn" %}
 ```bash
-yarn add @thorswap-lib/trustwallet
+yarn add @swapkit/wallet-keplr
 ```
 {% endtab %}
 
 {% tab title="npm" %}
 ```bash
-npm add @thorswap-lib/trustwallet
+npm add @swapkit/wallet-keplr
 ```
 {% endtab %}
 {% endtabs %}
@@ -33,12 +33,11 @@ npm add @thorswap-lib/trustwallet
 #### Example:&#x20;
 
 ```typescript
-import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { trustwalletWallet } from '@thorswap-lib/ledger';
-import { Chain } from '@thorswap-lib/types';
+import { SwapKitCore, Chain } from '@swapkit/core';
+import { keplrWallet } from '@swapkit/wallet-keplr';
 
 const client = new SwapKitCore();
-client.extend({ wallets: [trustwalletWallet] });
+client.extend({ wallets: [keplrWallet] });
 
 await client.connectKeplr()
 ```

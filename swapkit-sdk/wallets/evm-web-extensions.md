@@ -1,23 +1,27 @@
-# EVM Web Extensions
+---
+description: Wallets handled via browser extensions
+---
+
+# EVM Extensions
 
 ### Installation
 
 {% tabs %}
 {% tab title="pnpm" %}
 ```bash
-pnpm add @thorswap-lib/evm-web3-wallets
+pnpm add @swapkit/wallet-evm-extensions
 ```
 {% endtab %}
 
 {% tab title="yarn" %}
 ```bash
-yarn add @thorswap-lib/evm-web3-wallets
+yarn add @swapkit/wallet-evm-extensions
 ```
 {% endtab %}
 
 {% tab title="npm" %}
 ```bash
-npm add @thorswap-lib/evm-web3-wallets
+npm add @swapkit/wallet-evm-extensions
 ```
 {% endtab %}
 {% endtabs %}
@@ -33,9 +37,8 @@ npm add @thorswap-lib/evm-web3-wallets
 #### Example:&#x20;
 
 ```typescript
-import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { evmWallet } from '@thorswap-lib/evm-web3-wallets';
-import { Chain, WalletOption } from '@thorswap-lib/types';
+@oaimport { SwapKitCore, Chain, WalletOption } from '@swapkit/core';
+import { evmWallet } from '@swapkit/wallet-evm-extensions';
 
 const client = new SwapKitCore();
 client.extend({ wallets: [evmWallet] });
@@ -46,4 +49,4 @@ await client.connectEVMWallet([Chain.ETH], WalletOption.METAMASK)
 
 ### Usage
 
-Wallets are used via `swapkit-core` . Check out it's API Reference
+Wallets are used via `core` . Check out it's API Reference

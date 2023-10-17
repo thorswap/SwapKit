@@ -5,19 +5,19 @@
 {% tabs %}
 {% tab title="pnpm" %}
 ```bash
-pnpm add @thorswap-lib/toolbox-evm
+pnpm add @swapkit/toolbox-evm
 ```
 {% endtab %}
 
 {% tab title="yarn" %}
 ```bash
-yarn add @thorswap-lib/toolbox-evm
+yarn add @swapkit/toolbox-evm
 ```
 {% endtab %}
 
 {% tab title="npm" %}
 ```bash
-npm add @thorswap-lib/toolbox-evm
+npm add @swapkit/toolbox-evm
 ```
 {% endtab %}
 {% endtabs %}
@@ -29,7 +29,7 @@ npm add @thorswap-lib/toolbox-evm
 ### Available Instances
 
 ```typescript
-import { ETHToolbox, AVAXToolbox, BSCToolbox } from '@thorswap-lib/toolbox-evm'
+import { ETHToolbox, AVAXToolbox, BSCToolbox } from '@swapkit/toolbox-evm'
 
 const ethToolbox = ETHToolbox({
   api?: EthplorerApiType; // { getBalance: (address: string) => Promise<Balance[]> };

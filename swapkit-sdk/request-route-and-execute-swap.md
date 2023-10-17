@@ -35,8 +35,8 @@ The recipientAddress **must** be a valid address for the `buyAsset` blockchain. 
 After creating the `quoteParams` object, you can pass it to the `getQuote` function of the `SwapKitApi` class.
 
 ```typescript
-// or directly from @thorswap-lib/swapkit-api
-import { SwapKitApi } from '@thorswap-lib/swapkit-sdk'
+// or directly from @swapkit/api
+import { SwapKitApi } from '@swapkit/sdk'
 
 const quoteParams = {
     sellAsset: 'BTC.BTC',
@@ -53,7 +53,7 @@ const { routes } = await SwapKitApi.getQuote(quoteParams);
 ### Step 3: Choose fee option multiplier, route & execute swap
 
 ```typescript
-import { FeeOption } from '@thorswap-lib/swapkit-sdk';
+import { FeeOption } from '@swapkit/sdk';
 
 const bestRoute = routes.find(({ optimal }) => optimal)
 
@@ -78,7 +78,7 @@ Executing ERC20 Swaps with tokens on EVM chains need approval spending. Check if
 {% endhint %}
 
 ```typescript
-import { AmountWithBaseDenom, AssetEntity } from '@thorswap-lib/swapkit-sdk'
+import { AmountWithBaseDenom, AssetEntity } from '@swapkit/sdk'
 
 const isApproved = skClient.isAssetApprovedForContract(
   asset, // AssetEntity

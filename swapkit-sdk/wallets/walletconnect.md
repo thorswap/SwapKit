@@ -5,19 +5,19 @@
 {% tabs %}
 {% tab title="pnpm" %}
 ```bash
-pnpm add @thorswap-lib/walletconnect
+pnpm add @swapkit/wallet-wc
 ```
 {% endtab %}
 
 {% tab title="yarn" %}
 ```bash
-yarn add @thorswap-lib/walletconnect
+yarn add @swapkit/wallet-wc
 ```
 {% endtab %}
 
 {% tab title="npm" %}
 ```bash
-npm add @thorswap-lib/walletconnect
+npm add @swapkit/wallet-wc
 ```
 {% endtab %}
 {% endtabs %}
@@ -33,9 +33,8 @@ npm add @thorswap-lib/walletconnect
 #### Example:&#x20;
 
 ```typescript
-import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { walletconnectWallet } from '@thorswap-lib/walletconnect';
-import { Chain } from '@thorswap-lib/types';
+import { SwapKitCore, Chain } from '@swapkit/core';
+import { walletconnectWallet } from '@swapkit/wallet-wc';
 
 const client = new SwapKitCore();
 client.extend({ wallets: [walletconnectWallet] });

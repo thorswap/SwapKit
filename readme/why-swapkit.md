@@ -36,6 +36,7 @@ SwapKit supports the following wallets:
 * XDefi
 * Web extensions
 * WalletConnect 2.0
+* OKX wallet
 
 #### DEX Aggregation
 

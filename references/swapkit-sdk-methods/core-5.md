@@ -178,5 +178,137 @@ export enum WalletOption {
 ### Type References
 
 ```typescript
-type TODO = {}
+type AddChainWalletParams = {
+    chain: Chain;
+    wallet: ChainWallet;
+    walletMethods: any;
+};
+
+type Asset = {
+    chain: Chain;
+    symbol: string;
+    ticker: string;
+    synth?: boolean;
+};
+
+type ChainWallet = {
+    address: string;
+    balance: any[];
+    walletType: WalletOption;
+};
+
+type ConnectConfig = {
+    stagenet?: boolean;
+    /**
+     * @required for AVAX & BSC
+     */
+    covalentApiKey?: string;
+    /**
+     * @required for ETH
+     */
+    ethplorerApiKey?: string;
+    /**
+     * @required for BTC, LTC, DOGE & BCH
+     */
+    utxoApiKey?: string;
+    /**
+     * @required for Walletconnect
+     */
+    walletConnectProjectId?: string;
+    /**
+     * @optional for Trezor config
+     */
+    trezorManifest?: {
+        email: string;
+        appUrl: string;
+    };
+};
+
+type ConnectMethodNames = 'connectEVMWallet' | 'connectKeplr' | 'connectKeystore' | 'connectLedger' | 'connectOkx' | 'connectTrezor' | 'connectWalletconnect' | 'connectXDEFI';
+
+type ConnectWalletParams = {
+    addChain: (params: AddChainWalletParams) => void;
+    config: ConnectConfig;
+    rpcUrls: {
+        [chain in Chain]?: string;
+    };
+    apis: ApisType;
+};
+
+type CosmosChain = Chain.Cosmos | Chain.THORChain | Chain.Binance;
+
+type DerivationPathArray = [number, number, number, number, number]
+
+type ErrorInfo = {
+    status: number;
+    revision: string;
+    type?: ERROR_TYPE;
+    module: ERROR_MODULE;
+    code: ERROR_CODE;
+    message?: string | undefined;
+    stack?: string;
+    identifier?: string;
+    options?: ApiErrorOptions;
+    displayMessageParams?: string[];
+};
+
+type EVMChain = Chain.Ethereum | Chain.Avalanche | Chain.BinanceSmartChain | Chain.Arbitrum | Chain.Optimism | Chain.Polygon;
+
+type EVMTxBaseParams<T = bigint> = {
+    to?: string;
+    from?: string;
+    nonce?: number;
+    gasLimit?: T;
+    data?: string;
+    value?: T;
+    chainId?: T;
+};
+
+type EVMWalletOptions = WalletOption.BRAVE | WalletOption.METAMASK | WalletOption.TRUSTWALLET_WEB | WalletOption.COINBASE_WEB;
+
+type ExtendParams<WalletConnectMethodNames = ''> = {
+    excludedChains?: Chain[];
+    config?: ConnectConfig;
+    rpcUrls?: {
+        [chain in Chain]?: string;
+    };
+    apis?: ApisType;
+    wallets: {
+        connectMethodName: ConnectMethodNames | WalletConnectMethodNames;
+        connect: (params: ConnectWalletParams) => (...params: any) => Promise<any>;
+    }[];
+};
+
+type FixedNumberish = string | number | FixedNumber;
+
+type GetAddressAndPubKeyResponse = {
+    bech32_address: string;
+    compressed_pk: any;
+    error_message: string;
+    return_code: number;
+};
+
+type Signature = {
+    pub_key: {
+        type: string;
+        value: string;
+    };
+    sequence: string;
+    signature: string;
+};
+
+type UTXOChain = Chain.Bitcoin | Chain.BitcoinCash | Chain.Dogecoin | Chain.Litecoin;
+
+type WalletTxParams = {
+    feeOptionKey?: FeeOption;
+    from?: string;
+    memo?: string;
+    recipient: string;
+};
+
+type Witness = {
+    value: number;
+    script: Buffer;
+};
+
 ```

@@ -16,7 +16,12 @@ With V1 release we change License of SwapKit packages from `MIT` to `Apache Lice
 
 ## Package name changes
 
-With `v1` we change naming of packages with additional change of organisation name. This both cuts out clearly a `alpha` versions from official release & keep naming of SDK simpler.
+With `v1` we change naming of packages with additional change of organisation name. This both cuts out clearly a `alpha` versions from official release & keep naming of SDK simpler.\
+
+
+{% hint style="danger" %}
+`@thorswap-lib packages will be deprecated and will be`**`removed in future`**
+{% endhint %}
 
 | Alpha Version                    | V1 Stable                               |
 | -------------------------------- | --------------------------------------- |

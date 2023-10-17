@@ -5,19 +5,19 @@
 {% tabs %}
 {% tab title="pnpm" %}
 ```bash
-pnpm add @thorswap-lib/toolbox-cosmos @cosmos-client/core@0.45.13
+pnpm add @swapkit/toolbox-cosmos
 ```
 {% endtab %}
 
 {% tab title="yarn" %}
 ```bash
-yarn add @thorswap-lib/toolbox-cosmos @cosmos-client/core@0.45.13
+yarn add @swapkit/toolbox-cosmos
 ```
 {% endtab %}
 
 {% tab title="npm" %}
 ```bash
-npm add @thorswap-lib/toolbox-cosmos @cosmos-client/core@0.45.13
+npm add @swapkit/toolbox-cosmos
 ```
 {% endtab %}
 {% endtabs %}
@@ -29,19 +29,9 @@ npm add @thorswap-lib/toolbox-cosmos @cosmos-client/core@0.45.13
 ### Available Instances
 
 ```typescript
-import {
-  BTCToolbox,
-  DOGEToolbox,
-  LTCToolbox,
-  BCHToolbox,
-} from "@thorswap-lib/toolbox-utxo";
+import { MayaToolbox, THORToolbox, GAIAToolbox, BNBToolbox } from "@swapkit/toolbox-cosmos";
 
-// utxoApiKey = Blockchair Api Key https://blockchair.com/api
-// rpcUrl = Custom rpc endpoint that can be provided to broadcast to and fetch data from blockchain
-const dogeToolbox = DOGEToolbox(utxoApiKey, rpcUrl);
-const bchToolbox = BCHToolbox(utxoApiKey, rpcUrl);
-const btcToolbox = BTCToolbox(utxoApiKey, rpcUrl);
-const ltcToolbox = LTCToolbox(utxoApiKey, rpcUrl);
+// TODO
 ```
 
 ### Instance Methods

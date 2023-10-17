@@ -5,19 +5,19 @@
 {% tabs %}
 {% tab title="pnpm" %}
 ```bash
-pnpm add @thorswap-lib/toolbox-utxo
+pnpm add @swapkit/toolbox-utxo
 ```
 {% endtab %}
 
 {% tab title="yarn" %}
 ```bash
-yarn add @thorswap-lib/toolbox-utxo
+yarn add @swapkit/toolbox-utxo
 ```
 {% endtab %}
 
 {% tab title="npm" %}
 ```bash
-npm add @thorswap-lib/toolbox-utxo
+npm add @swapkit/toolbox-utxo
 ```
 {% endtab %}
 {% endtabs %}
@@ -34,7 +34,7 @@ import {
   DOGEToolbox,
   LTCToolbox,
   BCHToolbox,
-} from "@thorswap-lib/toolbox-utxo";
+} from "@swapkit/toolbox-utxo";
 
 // utxoApiKey = Blockchair Api Key https://blockchair.com/api
 // rpcUrl = Custom rpc endpoint that can be provided to broadcast to and fetch data from blockchain

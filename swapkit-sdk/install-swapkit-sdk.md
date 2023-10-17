@@ -17,19 +17,19 @@ We recommend installing the SDK via [pnpm](https://pnpm.io/).
 {% tabs %}
 {% tab title="pnpm" %}
 ```bash
-pnpm add @thorswap-lib/swapkit-sdk
+pnpm add @swapkit/sdk
 ```
 {% endtab %}
 
 {% tab title="yarn" %}
 ```bash
-yarn add @thorswap-lib/swapkit-sdk
+yarn add @swapkit/sdk
 ```
 {% endtab %}
 
 {% tab title="npm" %}
 ```bash
-npm add @thorswap-lib/swapkit-sdk
+npm add @swapkit/sdk
 ```
 {% endtab %}
 {% endtabs %}

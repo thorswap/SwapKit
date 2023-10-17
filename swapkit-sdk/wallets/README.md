@@ -22,8 +22,7 @@ Each wallet need specific [Toolbox](../toolboxes/) installed to work properly. C
 #### Example:
 
 ```typescript
-import { Chain, DerivationPath } from '@thorswap-lib/types'
-import { SwapKitCore } from '@thorswap-lib/swapkit-core'
+import { SwapKitCore, Chain, DerivationPath } from '@swapkit/core'
 
 const client = new SwapKitCore()
 

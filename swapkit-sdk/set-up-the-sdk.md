@@ -7,7 +7,7 @@ description: After installing the SDK, you first need to set it up.
 To get started, you have to instantiate and configure the SwapKit SDK:
 
 ```typescript
-import { createSwapKit } from '@thorswap-lib/swapkit-sdk'
+import { createSwapKit } from '@swapkit/sdk'
 
 const swapKitClient = createSwapKit({
   config: {
@@ -46,7 +46,7 @@ SwapKit supports several wallet options, including: Keystore, Trezor, Ledger, Wa
 Below is a example `connectWallet` that can be used to connect any wallet in the frontend of your dApp:
 
 ```typescript
-import { AssetAmount, Chain, createSwapKit, WalletOption } from '@thorswap-lib/swapkit-sdk'
+import { AssetAmount, Chain, createSwapKit, WalletOption } from '@swapkit/sdk'
 
 const client = createSwapKit();
 const connectChains = [Chain.Ethereum, Chain.Bitcoin, Chain.THORChain]

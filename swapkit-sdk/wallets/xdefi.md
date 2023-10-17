@@ -5,19 +5,19 @@
 {% tabs %}
 {% tab title="pnpm" %}
 ```bash
-pnpm add @thorswap-lib/xdefi
+pnpm add @swapkit/xdefi
 ```
 {% endtab %}
 
 {% tab title="yarn" %}
 ```bash
-yarn add @thorswap-lib/xdefi
+yarn add @swapkit/xdefi
 ```
 {% endtab %}
 
 {% tab title="npm" %}
 ```bash
-npm add @thorswap-lib/xdefi
+npm add @swapkit/xdefi
 ```
 {% endtab %}
 {% endtabs %}
@@ -33,9 +33,8 @@ npm add @thorswap-lib/xdefi
 #### Example:&#x20;
 
 ```typescript
-import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { xdefiWallet } from '@thorswap-lib/xdefi';
-import { Chain } from '@thorswap-lib/types';
+import { SwapKitCore, Chain } from '@swapkit/core';
+import { xdefiWallet } from '@swapkit/xdefi';
 
 const client = new SwapKitCore();
 client.extend({ wallets: [xdefiWallet] });
