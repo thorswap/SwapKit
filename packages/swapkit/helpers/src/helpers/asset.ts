@@ -5,6 +5,8 @@ import { postRequest } from './others.ts';
 
 const getDecimalMethodHex = '0x313ce567';
 
+export type CommonAssetString = 'MAYA.MAYA' | 'ETH.THOR' | 'ETH.vTHOR' | Chain;
+
 const getContractDecimals = async ({ chain, to }: { chain: EVMChain; to: string }) => {
   try {
     const response = await postRequest<string>(
@@ -86,6 +88,9 @@ export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) 
     case Chain.Optimism:
       return 'ETH' === symbol;
 
+    case Chain.Maya:
+      return symbol === 'CACAO';
+
     case Chain.Cosmos:
       return symbol === 'ATOM';
     case Chain.Polygon:
@@ -98,7 +103,7 @@ export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) 
 };
 
 export const getCommonAssetInfo = (
-  assetString: 'ETH.THOR' | 'ETH.vTHOR' | Chain,
+  assetString: CommonAssetString,
 ): { identifier: string; decimal: number } => {
   switch (assetString) {
     case 'ETH.THOR':
@@ -112,6 +117,10 @@ export const getCommonAssetInfo = (
       return { identifier: 'THOR.RUNE', decimal: BaseDecimal[assetString] };
     case Chain.BinanceSmartChain:
       return { identifier: 'BSC.BNB', decimal: BaseDecimal[assetString] };
+    case Chain.Maya:
+      return { identifier: 'MAYA.CACAO', decimal: BaseDecimal.MAYA };
+    case 'MAYA.MAYA':
+      return { identifier: 'MAYA.MAYA', decimal: 4 };
 
     case Chain.Arbitrum:
     case Chain.Optimism:
@@ -137,6 +146,9 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
     case Chain.Litecoin:
     case Chain.THORChain:
       return 'Native';
+
+    case Chain.Maya:
+      return 'MAYA';
 
     case Chain.Cosmos:
       return symbol === 'ATOM' ? 'Native' : 'GAIA';

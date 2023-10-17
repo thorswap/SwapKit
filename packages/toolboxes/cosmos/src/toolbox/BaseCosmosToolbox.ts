@@ -27,6 +27,10 @@ export const getAssetFromDenom = async (denom: string, amount: string) => {
     case 'uatom':
     case 'atom':
       return AssetValue.fromChainOrSignature(Chain.Cosmos, parseInt(amount) / 1e6);
+    case 'cacao':
+      return AssetValue.fromChainOrSignature(Chain.Maya, parseInt(amount) / 1e10);
+    case 'maya':
+      return AssetValue.fromChainOrSignature('MAYA.MAYA', parseInt(amount) / 1e4);
 
     default:
       return AssetValue.fromString(denom, parseInt(amount) / 1e8);

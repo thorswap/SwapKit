@@ -4,12 +4,13 @@ import type { Account, StdFee } from '@cosmjs/stargate';
 import { base64 } from '@scure/base';
 import type { AssetValue } from '@swapkit/helpers';
 import { getRequest, SwapKitNumber } from '@swapkit/helpers';
-import { ApiUrl, BaseDecimal, ChainId, DerivationPath, FeeOption, RPCUrl } from '@swapkit/types';
+import { ApiUrl, BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from '@swapkit/types';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
 import { CosmosClient } from '../cosmosClient.ts';
 import type {
   DepositParam,
+  MayaToolboxType,
   ThorchainConstantsResponse,
   ThorchainToolboxType,
 } from '../thorchainUtils/types/client-types.ts';
@@ -20,30 +21,39 @@ import { getDenom, getRPC } from '../util.ts';
 import { BaseCosmosToolbox } from './BaseCosmosToolbox.ts';
 
 type ToolboxParams = {
+  chain: Chain.THORChain | Chain.Maya;
   stagenet?: boolean;
 };
 
-const DEFAULT_THORCHAIN_FEE_MAINNET = {
-  amount: [],
-  gas: '500000000',
+const getDefaultChainFee = (chain: Chain.THORChain | Chain.Maya) => {
+  switch (chain) {
+    case Chain.Maya:
+      return {
+        amount: [],
+        gas: '10000000000',
+      };
+    default:
+      return {
+        amount: [],
+        gas: '500000000',
+      };
+  }
 };
 
-const secp256k1HdWalletFromMnemonic = async (
-  mnemonic: string,
-  path = `${DerivationPath.THOR}/0`,
-  isStagenet = false,
-) => {
-  const { Secp256k1HdWallet } = await import('@cosmjs/amino');
-  const { stringToPath } = await import('@cosmjs/crypto');
+const secp256k1HdWalletFromMnemonic =
+  ({ prefix, derivationPath }: { prefix: string; derivationPath: string }) =>
+  async (mnemonic: string, index: number = 0) => {
+    const { Secp256k1HdWallet } = await import('@cosmjs/amino');
+    const { stringToPath } = await import('@cosmjs/crypto');
 
-  return Secp256k1HdWallet.fromMnemonic(mnemonic, {
-    hdPaths: [stringToPath(path)],
-    prefix: isStagenet ? 'sthor' : 'thor',
-  });
-};
+    return Secp256k1HdWallet.fromMnemonic(mnemonic, {
+      hdPaths: [stringToPath(`${derivationPath}/${index}`)],
+      prefix,
+    });
+  };
 
 const createDefaultRegistry = async () => {
-  const types = await import('../thorchainUtils/types/proto/MsgCompiled.js');
+  const types = await import('../thorchainUtils/types/proto/MsgCompiled.ts');
   const { Registry } = await import('@cosmjs/proto-signing');
   const { defaultRegistryTypes } = await import('@cosmjs/stargate');
 
@@ -126,47 +136,38 @@ const createDepositMessage = (
   },
 });
 
-const broadcastMultisigTx = async (
-  tx: string,
-  signers: Signer[],
-  threshold: number,
-  bodyBytes: Uint8Array,
-  isStagenet = false,
-) => {
-  const { sequence, fee } = JSON.parse(tx);
-  const multisigPubkey = await createMultisig(
-    signers.map((signer) => signer.pubKey),
-    threshold,
-  );
+const broadcastMultisigTx =
+  ({ prefix, rpcUrl }: { prefix: string; rpcUrl: string }) =>
+  async (tx: string, signers: Signer[], threshold: number, bodyBytes: Uint8Array) => {
+    const { sequence, fee } = JSON.parse(tx);
+    const multisigPubkey = await createMultisig(
+      signers.map((signer) => signer.pubKey),
+      threshold,
+    );
 
-  const { pubkeyToAddress, encodeSecp256k1Pubkey } = await import('@cosmjs/amino');
-  const { StargateClient, makeMultisignedTx } = await import('@cosmjs/stargate');
+    const { pubkeyToAddress, encodeSecp256k1Pubkey } = await import('@cosmjs/amino');
+    const { StargateClient, makeMultisignedTx } = await import('@cosmjs/stargate');
 
-  const addressesAndSignatures: [string, Uint8Array][] = signers.map((signer) => [
-    pubkeyToAddress(
-      encodeSecp256k1Pubkey(base64.decode(signer.pubKey)),
-      isStagenet ? 'sthor' : 'thor',
-    ),
-    base64.decode(signer.signature),
-  ]);
+    const addressesAndSignatures: [string, Uint8Array][] = signers.map((signer) => [
+      pubkeyToAddress(encodeSecp256k1Pubkey(base64.decode(signer.pubKey)), prefix),
+      base64.decode(signer.signature),
+    ]);
 
-  const broadcaster = await StargateClient.connect(
-    isStagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
-  );
-  const signedTx = makeMultisignedTx(
-    multisigPubkey,
-    sequence,
-    fee,
-    bodyBytes,
-    new Map<string, Uint8Array>(addressesAndSignatures),
-  );
+    const broadcaster = await StargateClient.connect(rpcUrl);
+    const signedTx = makeMultisignedTx(
+      multisigPubkey,
+      sequence,
+      fee,
+      bodyBytes,
+      new Map<string, Uint8Array>(addressesAndSignatures),
+    );
 
-  const { transactionHash } = await broadcaster.broadcastTx(
-    Uint8Array.from(TxRaw.encode(signedTx).finish()),
-  );
+    const { transactionHash } = await broadcaster.broadcastTx(
+      Uint8Array.from(TxRaw.encode(signedTx).finish()),
+    );
 
-  return transactionHash;
-};
+    return transactionHash;
+  };
 
 const createMultisig = async (pubKeys: string[], threshold: number) => {
   const { encodeSecp256k1Pubkey, createMultisigThresholdPubkey } = await import('@cosmjs/amino');
@@ -178,22 +179,26 @@ const createMultisig = async (pubKeys: string[], threshold: number) => {
 
 const importSignature = (signature: string) => base64.decode(signature);
 
-const __REEXPORT__pubkeyToAddress = async (pubkey: Pubkey, prefix = 'thor') => {
+const __REEXPORT__pubkeyToAddress = (prefix: string) => async (pubkey: Pubkey) => {
   const { pubkeyToAddress } = await import('@cosmjs/amino');
 
   return pubkeyToAddress(pubkey, prefix);
 };
 
-export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxType => {
+export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): ThorchainToolboxType => {
   const rpcUrl = getRPC(ChainId.THORChain, stagenet);
   const nodeUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
+  const prefix = `${stagenet ? 's' : ''}${chain.toLowerCase()}`;
+  const derivationPath = DerivationPath[chain];
 
   const client = new CosmosClient({
     server: nodeUrl,
     chainId: ChainId.THORChain,
-    prefix: stagenet ? 'sthor' : 'thor',
+    prefix,
     stagenet,
   });
+
+  const defaultFee = getDefaultChainFee(chain);
 
   const baseToolbox: {
     getAccount: (address: string) => Promise<Account | null>;
@@ -203,11 +208,7 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     getBalance: (address: string) => Promise<AssetValue[]>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
-  } = BaseCosmosToolbox({
-    client,
-    derivationPath: DerivationPath.THOR,
-    decimal: BaseDecimal.THOR,
-  });
+  } = BaseCosmosToolbox({ client, derivationPath, decimal: BaseDecimal[chain] });
 
   const loadAddressBalances = async (address: string) => {
     try {
@@ -222,10 +223,14 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
   const getFees = async () => {
     let fee: SwapKitNumber;
 
+    const constantsUrl = `${nodeUrl}/${
+      chain === Chain.THORChain ? 'thorchain' : 'mayachain'
+    }/constants}`;
+
     try {
       const {
         int_64_values: { NativeTransactionFee: nativeFee },
-      } = await getRequest<ThorchainConstantsResponse>(`${nodeUrl}/thorchain/constants`);
+      } = await getRequest<ThorchainConstantsResponse>(constantsUrl);
 
       // validate data
       if (!nativeFee || isNaN(nativeFee) || nativeFee < 0)
@@ -233,52 +238,43 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
 
       fee = new SwapKitNumber(nativeFee);
     } catch {
-      fee = new SwapKitNumber({ value: 0.02, decimal: BaseDecimal.THOR });
+      fee = new SwapKitNumber({
+        value: chain === Chain.THORChain ? 0.02 : 1,
+        decimal: BaseDecimal[chain],
+      });
     }
 
-    return {
-      [FeeOption.Average]: fee,
-      [FeeOption.Fast]: fee,
-      [FeeOption.Fastest]: fee,
-    };
+    return { [FeeOption.Average]: fee, [FeeOption.Fast]: fee, [FeeOption.Fastest]: fee };
   };
 
   const deposit = async ({ signer, assetValue, memo, from }: DepositParam & { from: string }) => {
-    if (!signer) {
-      throw new Error('Signer not defined');
-    }
+    if (!signer) throw new Error('Signer not defined');
 
     const { SigningStargateClient } = await import('@cosmjs/stargate');
     const signingClient = await SigningStargateClient.connectWithSigner(rpcUrl, signer, {
       registry: await createDefaultRegistry(),
     });
 
-    const base64Address = bech32ToBase64(from);
-
-    const assetObj = assetValue.symbol.includes('/')
-      ? {
-          chain: (assetValue.symbol.split('/')[0] as any).toLowerCase(),
-          symbol: assetValue.symbol.split('/')[1].toLowerCase(),
-          ticker: assetValue.symbol.split('/')[1].toLowerCase(),
-          synth: true,
-        }
-      : assetValue;
-
     const depositMsg = {
       typeUrl: '/types.MsgDeposit',
       value: {
-        signer: base64Address,
+        signer: bech32ToBase64(from),
         memo,
-        coins: [{ asset: assetObj, amount: assetValue.baseValue }],
+        coins: [
+          {
+            asset: {
+              chain: assetValue.chain.toLowerCase(),
+              symbol: assetValue.ticker.toLowerCase(),
+              ticker: assetValue.ticker.toLowerCase(),
+              synth: assetValue.isSynthetic,
+            },
+            amount: assetValue.baseValue,
+          },
+        ],
       },
     };
 
-    const txResponse = await signingClient.signAndBroadcast(
-      from,
-      [depositMsg],
-      DEFAULT_THORCHAIN_FEE_MAINNET as StdFee,
-      memo,
-    );
+    const txResponse = await signingClient.signAndBroadcast(from, [depositMsg], defaultFee, memo);
 
     return txResponse.transactionHash;
   };
@@ -288,26 +284,21 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     recipient,
     assetValue,
     memo = '',
-    fee = DEFAULT_THORCHAIN_FEE_MAINNET,
+    fee = defaultFee,
     signer,
   }: TransferParams) => {
-    if (!signer) {
-      throw new Error('Signer not defined');
-    }
+    if (!signer) throw new Error('Signer not defined');
 
     const { SigningStargateClient } = await import('@cosmjs/stargate');
     const signingClient = await SigningStargateClient.connectWithSigner(rpcUrl, signer, {
       registry: await createDefaultRegistry(),
     });
 
-    const base64From = bech32ToBase64(from);
-    const base64To = bech32ToBase64(recipient);
-
     const sendMsg = {
       typeUrl: '/types.MsgSend',
       value: {
-        fromAddress: base64From,
-        toAddress: base64To,
+        fromAddress: bech32ToBase64(from),
+        toAddress: bech32ToBase64(recipient),
         amount: [
           {
             amount: assetValue.baseValueNumber.toString(),
@@ -330,12 +321,22 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams): ThorchainToolboxT
     createDepositMessage,
     createDefaultAminoTypes,
     createDefaultRegistry,
-    secp256k1HdWalletFromMnemonic,
+    secp256k1HdWalletFromMnemonic: secp256k1HdWalletFromMnemonic({ derivationPath, prefix }),
     signMultisigTx,
-    broadcastMultisigTx,
+    broadcastMultisigTx: broadcastMultisigTx({ prefix, rpcUrl }),
     createMultisig,
     importSignature,
     loadAddressBalances,
-    pubkeyToAddress: __REEXPORT__pubkeyToAddress,
+    pubkeyToAddress: __REEXPORT__pubkeyToAddress(prefix),
   };
+};
+
+export const ThorchainToolbox = ({
+  stagenet = false,
+}: { stagenet?: boolean } = {}): ThorchainToolboxType => {
+  return BaseThorchainToolbox({ chain: Chain.THORChain, stagenet });
+};
+
+export const MayaToolbox = ({ stagenet = false }: { stagenet?: boolean } = {}): MayaToolboxType => {
+  return BaseThorchainToolbox({ chain: Chain.Maya, stagenet });
 };

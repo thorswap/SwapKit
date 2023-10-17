@@ -84,11 +84,7 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
   ) => any;
   createMultisig: (pubKeys: string[], threshold: number) => Promise<MultisigThresholdPubkey>;
   importSignature: (signature: string) => Uint8Array;
-  secp256k1HdWalletFromMnemonic: (
-    mnemonic: string,
-    path?: string,
-    isStagenet?: boolean,
-  ) => Promise<Secp256k1HdWallet>;
+  secp256k1HdWalletFromMnemonic: (mnemonic: string, index?: number) => Promise<Secp256k1HdWallet>;
   signMultisigTx: (
     wallet: Secp256k1HdWallet,
     tx: string,
@@ -103,6 +99,8 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
   pubkeyToAddress: (pubkey: Pubkey, prefix: string) => Promise<string>;
   loadAddressBalances: (address: string) => Promise<AssetValue[]>;
 };
+
+export type MayaToolboxType = ThorchainToolboxType;
 
 export type GaiaToolboxType = BaseCosmosToolboxType & {
   getFees: () => Promise<Fees>;
