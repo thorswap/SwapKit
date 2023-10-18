@@ -12,13 +12,19 @@
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "@swapkit/wallet-wc": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.4",
     "ethers": "6.7.1",
     "vite": "4.4.9",
     "vite-plugin-top-level-await": "1.3.1",
     "vite-plugin-wasm": "3.2.2",
     "vitest": "0.34.4"
+  },
+  "peerDependencies": {
+    "@swapkit/api": "workspace:*",
+    "@swapkit/tokens": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"

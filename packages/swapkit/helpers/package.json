@@ -13,6 +13,7 @@
     "extends": "../../../internal/eslint-config"
   },
   "peerDependencies": {
+    "@swapkit/tokens": "workspace:*",
     "@swapkit/types": "workspace:*"
   },
   "exports": {

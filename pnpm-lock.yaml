@@ -350,9 +350,6 @@ importers:
       '@swapkit/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
-      '@swapkit/wallet-wc':
-        specifier: workspace:*
-        version: link:../../wallets/wc
       '@vitest/coverage-istanbul':
         specifier: 0.34.4
         version: 0.34.4(vitest@0.34.4)
