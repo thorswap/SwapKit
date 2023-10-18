@@ -226,7 +226,18 @@ const approve = async (
 
 const transfer = async (
   provider: Provider | BrowserProvider,
-  { assetValue, memo, recipient, feeOptionKey = FeeOption.Fast, data, from, maxFeePerGas, maxPriorityFeePerGas, gasPrice, ...tx }: TransferParams,
+  {
+    assetValue,
+    memo,
+    recipient,
+    feeOptionKey = FeeOption.Fast,
+    data,
+    from,
+    maxFeePerGas,
+    maxPriorityFeePerGas,
+    gasPrice,
+    ...tx
+  }: TransferParams,
   signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
@@ -245,7 +256,7 @@ const transfer = async (
       funcName: 'transfer',
       funcParams: [recipient, txAmount],
       txOverrides: { from, maxFeePerGas, maxPriorityFeePerGas, gasPrice },
-      feeOption: feeOptionKey
+      feeOption: feeOptionKey,
     });
   }
 

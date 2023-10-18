@@ -2,11 +2,11 @@ import type EthereumApp from '@ledgerhq/hw-app-eth';
 import { ChainId } from '@swapkit/types';
 import { BN } from 'bn.js';
 import type { Provider, TransactionRequest } from 'ethers';
-import { VoidSigner } from 'ethers';
+import { AbstractSigner } from 'ethers';
 
 import { getLedgerTransport } from '../helpers/getLedgerTransport.ts';
 
-export abstract class EthereumLikeLedgerInterface extends VoidSigner {
+export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
   public chain: 'eth' | 'avax' | 'bsc' = 'eth';
   public chainId: ChainId = ChainId.Ethereum;
   public derivationPath: string = '';
@@ -15,7 +15,7 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
   public ledgerTimeout: number = 50000;
 
   constructor(provider: Provider) {
-    super('');
+    super(provider);
 
     Object.defineProperty(this, 'provider', {
       enumerable: true,
@@ -120,10 +120,12 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
   sendTransaction = async (tx: TransactionRequest) => {
     if (!this.provider) throw new Error('No provider set');
 
-    const signedTxHex = await this.signTransaction(tx)
+    const signedTxHex = await this.signTransaction(tx);
 
-    return await this.provider.broadcastTransaction(
-      signedTxHex,
-    );
+    return await this.provider.broadcastTransaction(signedTxHex);
   };
+
+  signTypedData(): Promise<string> {
+    throw new Error('Method not implemented.');
+  }
 }

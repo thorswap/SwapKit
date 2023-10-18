@@ -81,7 +81,7 @@ class TrezorSigner extends AbstractSigner {
 
     if (isEIP1559 && !maxFeePerGas) throw new Error('Missing maxFeePerGas');
     if (isEIP1559 && !maxPriorityFeePerGas) throw new Error('Missing maxFeePerGas');
-    if (!isEIP1559 && !gasPrice ) throw new Error('Missing gasPrice');
+    if (!isEIP1559 && !gasPrice) throw new Error('Missing gasPrice');
 
     const { toHexString } = await import('@swapkit/toolbox-evm');
 
