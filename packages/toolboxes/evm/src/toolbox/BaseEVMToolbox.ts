@@ -97,7 +97,7 @@ const call = async <T>(
   if (!contractAddress) throw new Error('contractAddress must be provided');
 
   const isStateChanging = isStateChangingCall(abi, funcName);
-    debugger
+
   if (isStateChanging && isBrowserProvider(contractProvider) && signer) {
     const txObject = await createContractTxObject(contractProvider, {
       contractAddress,
@@ -430,7 +430,6 @@ const sendTransaction = async (
     throw new Error(`Error estimating gas limit: ${JSON.stringify(error)}`);
   }
 
-  debugger
   try {
     const txObject = {
       ...parsedTxObject,
