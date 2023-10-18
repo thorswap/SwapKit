@@ -45,6 +45,7 @@ export type CallParams = {
   funcName: string;
   funcParams?: unknown[];
   txOverrides?: Partial<Transaction>;
+  feeOption?: FeeOption;
 };
 
 export type EstimateCallParams = Pick<

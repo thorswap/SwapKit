@@ -15,13 +15,13 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
   public ledgerTimeout: number = 50000;
 
   constructor(provider: Provider) {
-    super('');
+    super('', provider);
 
-    Object.defineProperty(this, 'provider', {
-      enumerable: true,
-      value: provider || null,
-      writable: false,
-    });
+    // Object.defineProperty(this, 'provider', {
+    //   enumerable: true,
+    //   value: provider || null,
+    //   writable: false,
+    // });
   }
 
   checkOrCreateTransportAndLedger = async () => {
@@ -72,20 +72,20 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
 
     const baseTx = {
       chainId: tx.chainId || this.chainId,
-      data: tx.data || undefined,
-      gasLimit: tx.gasLimit || undefined,
-      ...(tx.gasPrice && { gasPrice: tx.gasPrice || undefined }),
+      data: tx.data,
+      gasLimit: tx.gasLimit,
+      ...(tx.gasPrice && { gasPrice: tx.gasPrice }),
       ...(!tx.gasPrice &&
         tx.maxFeePerGas && {
-          maxFeePerGas: tx.maxFeePerGas || undefined,
-          maxPriorityFeePerGas: tx.maxPriorityFeePerGas || undefined,
+          maxFeePerGas: tx.maxFeePerGas,
+          maxPriorityFeePerGas: tx.maxPriorityFeePerGas,
         }),
       nonce:
         tx.nonce !== undefined
           ? Number((tx.nonce || transactionCount || 0).toString())
           : transactionCount,
-      to: tx.to?.toString() || undefined,
-      value: tx.value || undefined,
+      to: tx.to?.toString(),
+      value: tx.value,
       type: tx.type || 2,
     };
 
@@ -115,5 +115,63 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
       ...baseTx,
       signature: { v: new BN(parseInt(v, 16)).toNumber(), r: '0x' + r, s: '0x' + s },
     }).serialized;
+  };
+
+  sendTransaction = async (tx: TransactionRequest) => {
+    if (!this.provider) throw new Error('No provider set');
+    await this.checkOrCreateTransportAndLedger();
+
+    const transactionCount = await this.provider?.getTransactionCount(
+      tx.from || (await this.getAddress()),
+    );
+
+    const baseTx = {
+      // TODO parse this to number
+      chainId: tx.chainId || this.chainId,
+      data: tx.data,
+      gasLimit: tx.gasLimit,
+      ...(tx.gasPrice && { gasPrice: tx.gasPrice }),
+      ...(!tx.gasPrice &&
+        tx.maxFeePerGas && {
+          maxFeePerGas: tx.maxFeePerGas,
+          maxPriorityFeePerGas: tx.maxPriorityFeePerGas,
+        }),
+      nonce:
+        tx.nonce !== undefined
+          ? Number((tx.nonce || transactionCount || 0).toString())
+          : transactionCount,
+      to: tx.to?.toString(),
+      value: tx.value,
+      type: tx.type || 2,
+    };
+
+    const { Transaction } = await import('ethers');
+    // ledger expects the tx to be serialized without the 0x prefix
+    const unsignedTx = Transaction.from(baseTx).unsignedSerialized.slice(2);
+
+    const { ledgerService } = await import('@ledgerhq/hw-app-eth');
+
+    const resolution = await ledgerService.resolveTransaction(
+      unsignedTx,
+      {},
+      { externalPlugins: true, erc20: true },
+    );
+
+    const signature = await this.ledgerApp?.signTransaction(
+      this.derivationPath,
+      unsignedTx,
+      resolution,
+    );
+
+    if (!signature) throw new Error('Could not sign transaction');
+
+    const { r, s, v } = signature;
+
+    return await this.provider.broadcastTransaction(
+      Transaction.from({
+        ...baseTx,
+        signature: { v: new BN(parseInt(v, 16)).toNumber(), r: '0x' + r, s: '0x' + s },
+      }).serialized,
+    );
   };
 }
