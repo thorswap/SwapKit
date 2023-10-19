@@ -44,7 +44,7 @@
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/keepkey",
+  "name": "@swapkit/wallet-keepkey",
   "peerDependencies": {
     "@ethersproject/abstract-signer": "5.7.0",
     "@ethersproject/bignumber": "5.7.0",

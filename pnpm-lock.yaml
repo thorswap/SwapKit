@@ -230,6 +230,9 @@ importers:
       '@swapkit/wallet-evm-extensions':
         specifier: workspace:*
         version: link:../../packages/wallets/evm-extensions
+      '@swapkit/wallet-keepkey':
+        specifier: workspace:*
+        version: link:../../packages/wallets/keepkey
       '@swapkit/wallet-keplr':
         specifier: workspace:*
         version: link:../../packages/wallets/keplr
