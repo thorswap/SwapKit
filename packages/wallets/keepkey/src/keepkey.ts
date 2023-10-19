@@ -17,7 +17,7 @@ import { cosmosWalletMethods } from './chains/cosmos.js';
 import { getEVMSigner } from './chains/evm.js';
 import { thorChainWalletMethods } from './chains/thorchain.js';
 import { utxoWalletMethods } from './chains/utxo.js';
-
+const spec = 'http://localhost:1646/spec/swagger.json';
 export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
   Chain.Avalanche,
@@ -144,7 +144,7 @@ const connectKeepKey =
     config: { covalentApiKey, ethplorerApiKey = 'freekey', utxoApiKey },
   }: ConnectWalletParams) =>
   async (chains: any) => {
-    const spec = 'http://localhost:1646/spec/swagger.json';
+    
 
     // test spec: if offline, launch keepkey-bridge
     let attempt = 0;
@@ -206,5 +206,5 @@ const connectKeepKey =
 export const keepkeyWallet = {
   connectMethodName: 'connectKeepKey' as const,
   connect: connectKeepKey,
-  isDetected: () => true,
+  isDetected: async () => checkKeepkeyAvailability(),
 };

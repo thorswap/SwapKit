@@ -5,8 +5,9 @@
     "@keepkey/keepkey-sdk": "^0.2.52",
     "@pioneer-platform/pioneer-coins": "^8.1.84",
     "@swapkit/helpers": "workspace:*",
+    "@swapkit/types": "workspace:*",
     "@thorswap-lib/swapkit-entities": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "ethers": "6.7.1"
   },
   "description": "THORSwap Lib keepkey",
   "devDependencies": {

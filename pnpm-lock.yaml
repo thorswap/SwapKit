@@ -749,6 +749,9 @@ importers:
       '@thorswap-lib/swapkit-entities':
         specifier: workspace:*
         version: link:../../swapkit/entities
+      ethers:
+        specifier: ^6.7.1
+        version: 6.7.1
     devDependencies:
       '@ethersproject/abstract-signer':
         specifier: 5.7.0

@@ -2,10 +2,10 @@
 import { StargateClient } from '@cosmjs/stargate';
 // @ts-ignore
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
-import { AssetRuneNative, getDenom, ThorchainToolbox } from '@swapkit/toolbox-cosmos';
-import type { TxParams } from '@swapkit/types';
+import { getDenom, ThorchainToolbox } from '@swapkit/toolbox-cosmos';
+import type { } from '@swapkit/types';
 import { Chain, ChainId, RPCUrl } from '@swapkit/types';
-
+import type { TransferParams } from '@swapkit/toolbox-cosmos';
 // @ts-ignore
 import type { KeepKeyParams } from '../keepkey.ts';
 
@@ -87,13 +87,13 @@ export const thorChainWalletMethods: any = async function (params: KeepKeyParams
       }
     };
 
-    const transfer = async ({ asset = AssetRuneNative, amount, recipient, memo }: TxParams) => {
+    const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
       let fromAddress = await getAddress();
       return signTransactionTransfer({
         from: fromAddress,
         to: recipient,
-        asset: getDenom(asset || AssetRuneNative),
-        amount,
+        asset: assetValue?.symbol,
+        amount:assetValue.baseValue.toString(),
         memo,
       });
     };

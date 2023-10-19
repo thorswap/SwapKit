@@ -13,6 +13,7 @@
     "@swapkit/wallet-evm-extensions": "workspace:*",
     "@swapkit/wallet-keplr": "workspace:*",
     "@swapkit/wallet-keystore": "workspace:*",
+    "@swapkit/wallet-keepkey": "workspace:*",
     "@swapkit/wallet-ledger": "workspace:*",
     "@swapkit/wallet-okx": "workspace:*",
     "@swapkit/wallet-trezor": "workspace:*",

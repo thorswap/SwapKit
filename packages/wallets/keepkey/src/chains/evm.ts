@@ -1,12 +1,13 @@
 import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber } from '@ethersproject/bignumber';
 // import { BigNumber } from '@ethersproject/bignumber';
-import type { JsonRpcProvider, Provider } from '@ethersproject/providers';
 // import { serialize } from '@ethersproject/transactions';
 // import { derivationPathToString } from '@pioneer-platform/helpers';
-import type { Chain, DerivationPathArray, EVMTxParams } from '@swapkit/types';
+import type { Chain, DerivationPathArray } from '@swapkit/types';
 import { ChainToChainId } from '@swapkit/types';
+import type { EVMTxParams } from '@swapkit/toolbox-evm';
 // import TrezorConnect from '@trezor/connect-web';
+import { AbstractSigner, type JsonRpcProvider, type Provider } from 'ethers';
 
 interface KeepKeyEVMSignerParams {
   sdk: any;
@@ -15,7 +16,7 @@ interface KeepKeyEVMSignerParams {
   provider: Provider | JsonRpcProvider;
 }
 
-class KeepKeySigner extends Signer {
+class KeepKeySigner extends AbstractSigner {
   private sdk: any;
   private chain: Chain;
   private derivationPath: DerivationPathArray;
@@ -58,6 +59,11 @@ class KeepKeySigner extends Signer {
     return response;
   };
 
+  // @TODO: implement signTypedData
+  signTypedData(): Promise<string> {
+    throw new Error('this method is not implemented');
+  }
+  
   signTransaction = async ({ from, to, value, gasLimit, nonce, data, ...restTx }: EVMTxParams) => {
     if (!from) throw new Error('Missing from address');
     if (!to) throw new Error('Missing to address');

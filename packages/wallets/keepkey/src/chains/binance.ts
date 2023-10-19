@@ -1,8 +1,10 @@
 // @ts-ignore
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
-import { AssetAtom, BinanceToolbox, getDenom } from '@swapkit/toolbox-cosmos';
-import type { TxParams } from '@swapkit/types';
+import { BinanceToolbox, getDenom } from '@swapkit/toolbox-cosmos';
+import type { } from '@swapkit/types';
 import { Chain, ChainId } from '@swapkit/types';
+import type { AssetValue } from '@swapkit/helpers';
+import type { WalletTxParams } from '@swapkit/types';
 
 // @ts-ignore
 import type { KeepKeyParams } from '../keepkey.js';
@@ -83,14 +85,14 @@ export const binanceWalletMethods: any = async function (params: KeepKeyParams) 
       }
     };
 
-    const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
+    const transfer = async ({ assetValue, recipient, memo }: WalletTxParams  & { assetValue: AssetValue }) => {
       let from = await getAddress();
       return signTransactionTransfer({
         // @ts-ignore
         from: from,
         to: recipient,
-        asset: getDenom(asset || AssetAtom),
-        amount: amount.amount().toString(),
+        asset: assetValue?.symbol,
+        amount: assetValue.baseValue.toString(),
         memo,
       });
     };

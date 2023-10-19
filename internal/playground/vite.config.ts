@@ -19,6 +19,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@swapkit/wallet-keystore': resolve('../../packages/wallets/keystore/src'),
+      '@swapkit/wallet-keepkey': resolve('../../packages/wallets/keepkey/src'),
       '@swapkit/wallet-ledger': resolve('../../packages/wallets/ledger/src'),
       '@swapkit/core': resolve('../../packages/swapkit/core/src'),
       '@swapkit/helpers': resolve('../../packages/swapkit/helpers/src'),

@@ -1,10 +1,13 @@
 import { StargateClient } from '@cosmjs/stargate';
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
+import type { TransferParams } from '@swapkit/toolbox-cosmos';
+
 // @ts-ignore
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
-import { AssetAtom, GaiaToolbox, getDenom } from '@swapkit/toolbox-cosmos';
-import type { TxParams } from '@swapkit/types';
+import { GaiaToolbox, getDenom } from '@swapkit/toolbox-cosmos';
+import type { WalletTxParams } from '@swapkit/types';
 import { Chain, RPCUrl } from '@swapkit/types';
+import type { AssetValue } from '@swapkit/helpers';
 
 export type SignTransactionTransferParams = {
   asset: string;
@@ -89,13 +92,13 @@ export const cosmosWalletMethods: any = async function (params: CosmosWalletMeth
       }
     };
 
-    const transfer = async ({ asset, amount, recipient, memo }: TxParams) => {
+    const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
       let from = await getAddress();
       const response = await signTransactionTransfer({
         from,
         to: recipient,
-        asset: getDenom(asset || AssetAtom),
-        amount: amount.amount().toString(),
+        asset: assetValue?.symbol === 'MUON' ? 'umuon' : 'uatom',
+        amount: assetValue.baseValue.toString(),
         memo,
       });
 
