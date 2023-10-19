@@ -81,6 +81,7 @@ export type WithSigner<T> = T & { signer?: Signer };
  */
 const call = async <T>(
   provider: Provider,
+  isEIP1559Compatible: boolean,
   {
     callProvider,
     signer,
@@ -89,6 +90,7 @@ const call = async <T>(
     funcName,
     funcParams = [],
     txOverrides,
+    feeOption = FeeOption.Fast,
   }: WithSigner<CallParams>,
 ): Promise<T> => {
   const contractProvider = callProvider || provider;
@@ -118,14 +120,21 @@ const call = async <T>(
     if (!address) throw new Error('No signer address found');
 
     const connectedContract = contract.connect(signer);
+    const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = (
+      await estimateGasPrices(provider, isEIP1559Compatible)
+    )[feeOption];
 
     const gasLimit = await connectedContract
       .getFunction(funcName)
       .estimateGas(...funcParams, txOverrides);
 
-    const result = await connectedContract.getFunction(funcName)(...funcParams, {
+    // @ts-expect-error
+    const result = await connectedContract[funcName](...funcParams, {
       ...txOverrides,
       gasLimit,
+      maxFeePerGas,
+      maxPriorityFeePerGas,
+      gasPrice,
       /**
        * nonce must be set due to a possible bug with ethers.js,
        * expecting a synchronous nonce while the JsonRpcProvider delivers Promise
@@ -153,7 +162,7 @@ const approvedAmount = async (
   provider: Provider,
   { assetAddress, spenderAddress, from }: IsApprovedParams,
 ) =>
-  await call<bigint>(provider, {
+  await call<bigint>(provider, true, {
     contractAddress: assetAddress,
     abi: erc20ABI as any,
     funcName: 'allowance',
@@ -203,31 +212,32 @@ const approve = async (
     );
   }
 
-  const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = (
-    await estimateGasPrices(provider, isEIP1559Compatible)
-  )[feeOptionKey];
-
-  const gasLimit = await estimateCall(provider, functionCallParams).catch(() =>
-    BigInt(gasLimitFallback ?? 0),
-  );
-
-  return call<string>(provider, {
+  return call<string>(provider, isEIP1559Compatible, {
     ...functionCallParams,
     funcParams,
     txOverrides: {
       from,
-      maxFeePerGas,
-      maxPriorityFeePerGas,
-      gasPrice,
-      gasLimit,
       nonce,
+      gasLimit: gasLimitFallback ? BigInt(gasLimitFallback.toString()) : undefined,
     },
+    feeOption: feeOptionKey,
   });
 };
 
 const transfer = async (
   provider: Provider | BrowserProvider,
-  { assetValue, memo, recipient, feeOptionKey = FeeOption.Fast, data, from, ...tx }: TransferParams,
+  {
+    assetValue,
+    memo,
+    recipient,
+    feeOptionKey = FeeOption.Fast,
+    data,
+    from,
+    maxFeePerGas,
+    maxPriorityFeePerGas,
+    gasPrice,
+    ...tx
+  }: TransferParams,
   signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
@@ -238,17 +248,15 @@ const transfer = async (
     const contractAddress = getTokenAddress(assetValue, chain);
     if (!contractAddress) throw new Error('No contract address found');
 
-    const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = (
-      await estimateGasPrices(provider, isEIP1559Compatible)
-    )[feeOptionKey];
     // Transfer ERC20
-    return call<string>(provider, {
+    return call<string>(provider, isEIP1559Compatible, {
       signer,
       contractAddress,
       abi: erc20ABI,
       funcName: 'transfer',
       funcParams: [recipient, txAmount],
       txOverrides: { from, maxFeePerGas, maxPriorityFeePerGas, gasPrice },
+      feeOption: feeOptionKey,
     });
   }
 
@@ -528,7 +536,7 @@ export const BaseEVMToolbox = ({
   approve: (params: ApproveParams) => approve(provider, params, signer, isEIP1559Compatible),
   approvedAmount: (params: ApprovedParams) => approvedAmount(provider, params),
   broadcastTransaction: provider.broadcastTransaction,
-  call: (params: CallParams) => call(provider, { ...params, signer }),
+  call: (params: CallParams) => call(provider, isEIP1559Compatible, { ...params, signer }),
   createContract,
   createContractTxObject: (params: CallParams) => createContractTxObject(provider, params),
   EIP1193SendTransaction: (tx: EIP1559TxParams) => EIP1193SendTransaction(provider, tx),

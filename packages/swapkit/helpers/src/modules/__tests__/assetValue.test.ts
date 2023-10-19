@@ -20,11 +20,21 @@ describe('AssetValue', () => {
       const ethSynth = new AssetValue({
         chain: Chain.THORChain,
         symbol: 'ETH/ETH',
-        decimal: 18,
+        decimal: 8,
         value: 1234567890,
       });
+
       expect(ethSynth.assetValue).toBe('1234567890 ETH/ETH');
       expect(ethSynth.toString()).toBe('THOR.ETH/ETH');
+
+      const atomDerived = new AssetValue({
+        identifier: 'THOR.ATOM',
+        decimal: 6,
+        value: 123456789,
+      });
+
+      expect(atomDerived.assetValue).toBe('123456789 ATOM');
+      expect(atomDerived.toString()).toBe('THOR.ATOM');
     });
   });
 

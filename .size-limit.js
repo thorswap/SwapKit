@@ -1,5 +1,6 @@
 const sizeMap = {
-  xs: '10 KB',
+  xxs: '10 KB',
+  xs: '50 KB',
   s: '100 KB',
   m: '250 KB',
   l: '1 MB',
@@ -29,24 +30,23 @@ const getSizeFor = (packagePath, sizeType) => {
 };
 
 module.exports = [
-  ...getSizeFor('swapkit/api', 'xs'),
-  ...getSizeFor('swapkit/core', 's'),
-  ...getSizeFor('swapkit/entities', 'xs'),
-  ...getSizeFor('swapkit/helpers', 'xs'),
+  ...getSizeFor('swapkit/api', 'xxs'),
+  ...getSizeFor('swapkit/core', 'xs'),
+  ...getSizeFor('swapkit/helpers', 'xxs'),
   ...getSizeFor('swapkit/sdk', 'xxl'),
-  ...getSizeFor('swapkit/tokens', 'l'),
-  ...getSizeFor('swapkit/types', 'xs'),
+  ...getSizeFor('swapkit/tokens', 'xl'),
+  ...getSizeFor('swapkit/types', 'xxs'),
 
   ...getSizeFor('toolboxes/cosmos', 'l'),
   ...getSizeFor('toolboxes/evm', 'm'),
   ...getSizeFor('toolboxes/utxo', 'm'),
 
-  ...getSizeFor('wallets/evm-extensions', 'xs'),
-  ...getSizeFor('wallets/keplr', 'xs'),
-  ...getSizeFor('wallets/keystore', 's'),
+  ...getSizeFor('wallets/evm-extensions', 'xxs'),
+  ...getSizeFor('wallets/keplr', 'xxs'),
+  ...getSizeFor('wallets/keystore', 'xs'),
   ...getSizeFor('wallets/ledger', 'xl'),
-  ...getSizeFor('wallets/okx', 'xs'),
-  ...getSizeFor('wallets/trezor', 'l'),
+  ...getSizeFor('wallets/okx', 'xxs'),
+  ...getSizeFor('wallets/trezor', 's'),
   ...getSizeFor('wallets/wc', 'm'),
-  ...getSizeFor('wallets/xdefi', 's'),
+  ...getSizeFor('wallets/xdefi', 'xxs'),
 ];

@@ -2,11 +2,11 @@ import type EthereumApp from '@ledgerhq/hw-app-eth';
 import { ChainId } from '@swapkit/types';
 import { BN } from 'bn.js';
 import type { Provider, TransactionRequest } from 'ethers';
-import { VoidSigner } from 'ethers';
+import { AbstractSigner } from 'ethers';
 
 import { getLedgerTransport } from '../helpers/getLedgerTransport.ts';
 
-export abstract class EthereumLikeLedgerInterface extends VoidSigner {
+export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
   public chain: 'eth' | 'avax' | 'bsc' = 'eth';
   public chainId: ChainId = ChainId.Ethereum;
   public derivationPath: string = '';
@@ -15,7 +15,7 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
   public ledgerTimeout: number = 50000;
 
   constructor(provider: Provider) {
-    super('');
+    super(provider);
 
     Object.defineProperty(this, 'provider', {
       enumerable: true,
@@ -72,20 +72,20 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
 
     const baseTx = {
       chainId: tx.chainId || this.chainId,
-      data: tx.data || undefined,
-      gasLimit: tx.gasLimit || undefined,
-      ...(tx.gasPrice && { gasPrice: tx.gasPrice || undefined }),
+      data: tx.data,
+      gasLimit: tx.gasLimit,
+      ...(tx.gasPrice && { gasPrice: tx.gasPrice }),
       ...(!tx.gasPrice &&
         tx.maxFeePerGas && {
-          maxFeePerGas: tx.maxFeePerGas || undefined,
-          maxPriorityFeePerGas: tx.maxPriorityFeePerGas || undefined,
+          maxFeePerGas: tx.maxFeePerGas,
+          maxPriorityFeePerGas: tx.maxPriorityFeePerGas,
         }),
       nonce:
         tx.nonce !== undefined
           ? Number((tx.nonce || transactionCount || 0).toString())
           : transactionCount,
-      to: tx.to?.toString() || undefined,
-      value: tx.value || undefined,
+      to: tx.to?.toString(),
+      value: tx.value,
       type: tx.type || 2,
     };
 
@@ -116,4 +116,16 @@ export abstract class EthereumLikeLedgerInterface extends VoidSigner {
       signature: { v: new BN(parseInt(v, 16)).toNumber(), r: '0x' + r, s: '0x' + s },
     }).serialized;
   };
+
+  sendTransaction = async (tx: TransactionRequest) => {
+    if (!this.provider) throw new Error('No provider set');
+
+    const signedTxHex = await this.signTransaction(tx);
+
+    return await this.provider.broadcastTransaction(signedTxHex);
+  };
+
+  signTypedData(): Promise<string> {
+    throw new Error('Method not implemented.');
+  }
 }
