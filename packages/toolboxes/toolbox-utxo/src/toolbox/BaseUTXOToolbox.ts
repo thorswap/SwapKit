@@ -192,6 +192,7 @@ const buildTx = async ({
   // psbt add input from accumulative inputs
   inputs.forEach((utxo: UTXO) =>
     psbt.addInput({
+      // @ts-expect-error
       hash: utxo.hash,
       index: utxo.index,
       ...(!!utxo.witnessUtxo && chain !== Chain.Dogecoin && { witnessUtxo: utxo.witnessUtxo }),

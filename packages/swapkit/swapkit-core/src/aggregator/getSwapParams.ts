@@ -58,7 +58,7 @@ export const getSwapOutParams = ({
     memo: swapMemo?.replace('{recipientAddress}', recipient),
     expiration: expiration
       ? parseInt(expiration.toString())
-      : Math.floor(new Date().setMinutes(new Date().getMinutes() + 10) / 1000).toString(),
+      : Math.floor(new Date().setMinutes(new Date().getMinutes() + 10) / 1000),
   };
 };
 
