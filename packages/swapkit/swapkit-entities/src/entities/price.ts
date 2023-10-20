@@ -33,6 +33,7 @@ export class Price extends Amount {
     pools?: Pool[];
     priceAmount?: Amount;
   }) {
+    
     const amount = Amount.fromAssetAmount(
       priceAmount ? priceAmount.assetAmount : 1,
       baseAsset.decimal,
