@@ -1,4 +1,4 @@
-import { Chain, RPCUrl } from '@swapkit/types';
+import { Chain, RPCUrl } from '@coinmasters/types';
 
 import type { BlockchairApiType } from '../api/blockchairApi.ts';
 import { blockchairApi } from '../api/blockchairApi.ts';

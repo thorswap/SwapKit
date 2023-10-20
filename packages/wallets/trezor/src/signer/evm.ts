@@ -1,6 +1,6 @@
-import { derivationPathToString, SwapKitNumber } from '@swapkit/helpers';
-import type { Chain, DerivationPathArray } from '@swapkit/types';
-import { ChainToChainId } from '@swapkit/types';
+import { derivationPathToString, SwapKitNumber } from '@coinmasters/helpers';
+import type { Chain, DerivationPathArray } from '@coinmasters/types';
+import { ChainToChainId } from '@coinmasters/types';
 import TrezorConnect from '@trezor/connect-web';
 import {
   AbstractSigner,
@@ -83,7 +83,7 @@ class TrezorSigner extends AbstractSigner {
     if (isEIP1559 && !maxPriorityFeePerGas) throw new Error('Missing maxFeePerGas');
     if (!isEIP1559 && !gasPrice) throw new Error('Missing gasPrice');
 
-    const { toHexString } = await import('@swapkit/toolbox-evm');
+    const { toHexString } = await import('@coinmasters/toolbox-evm');
 
     const formattedTx = {
       from: from?.toString() || (await this.getAddress()),

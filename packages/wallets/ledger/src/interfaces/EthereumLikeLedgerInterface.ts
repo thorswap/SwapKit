@@ -1,5 +1,5 @@
 import type EthereumApp from '@ledgerhq/hw-app-eth';
-import { ChainId } from '@swapkit/types';
+import { ChainId } from '@coinmasters/types';
 import { BN } from 'bn.js';
 import type { Provider, TransactionRequest } from 'ethers';
 import { AbstractSigner } from 'ethers';

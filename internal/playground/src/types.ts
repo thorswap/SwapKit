@@ -1,4 +1,4 @@
-import type { SwapKitCore } from '@swapkit/core';
+import type { SwapKitCore } from '@coinmasters/core';
 
 export type WalletDataType = Awaited<
   ReturnType<InstanceType<typeof SwapKitCore>['getWalletByChain']>

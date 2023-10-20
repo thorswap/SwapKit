@@ -1,7 +1,7 @@
-import type { SwapKitCore } from '@swapkit/core';
-import { Chain, EVMChainList, WalletOption } from '@swapkit/types';
-import { decryptFromKeystore } from '@swapkit/wallet-keystore';
-import { getDerivationPathFor } from '@swapkit/wallet-ledger';
+import type { SwapKitCore } from '@coinmasters/core';
+import { Chain, EVMChainList, WalletOption } from '@coinmasters/types';
+import { decryptFromKeystore } from '@coinmasters/wallet-keystore';
+import { getDerivationPathFor } from '@coinmasters/wallet-ledger';
 import { useCallback, useState } from 'react';
 
 import type { WalletDataType } from './types';

@@ -1,6 +1,6 @@
-import type { QuoteRoute } from '@swapkit/api';
-import type { AssetValue, SwapKitCore } from '@swapkit/core';
-import { FeeOption } from '@swapkit/types';
+import type { QuoteRoute } from '@coinmasters/api';
+import type { AssetValue, SwapKitCore } from '@coinmasters/core';
+import { FeeOption } from '@coinmasters/types';
 import { useCallback } from 'react';
 
 import { SwapInputs } from './SwapInputs';

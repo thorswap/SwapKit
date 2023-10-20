@@ -1,4 +1,4 @@
-import type { QuoteRoute } from '@swapkit/api';
+import type { QuoteRoute } from '@coinmasters/api';
 
 import type { AGG_CONTRACT_ADDRESS } from './contracts/index.ts';
 import { lowercasedGenericAbiMappings } from './contracts/index.ts';

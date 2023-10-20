@@ -15,7 +15,7 @@
  *  limitations under the License.
  ******************************************************************************* */
 import { bech32 } from '@scure/base';
-import { ErrorCode } from '@swapkit/types';
+import { ErrorCode } from '@coinmasters/types';
 import crypto from 'crypto';
 import Ripemd160 from 'ripemd160';
 

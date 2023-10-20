@@ -1,4 +1,4 @@
-import { ErrorCode } from '@swapkit/types';
+import { ErrorCode } from '@coinmasters/types';
 
 import { CLA, errorCodeToString, INS, PAYLOAD_TYPE, processErrorResponse } from './common.ts';
 

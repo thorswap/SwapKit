@@ -1,4 +1,4 @@
-import { BaseDecimal, Chain } from '@swapkit/types';
+import { BaseDecimal, Chain } from '@coinmasters/types';
 import { describe, expect, it } from 'vitest';
 
 import { getAssetType, getDecimal } from '../asset.ts';

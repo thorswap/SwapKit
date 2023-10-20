@@ -1,6 +1,6 @@
-import { derivationPathToString } from '@swapkit/helpers';
-import type { DerivationPathArray } from '@swapkit/types';
-import { NetworkDerivationPath } from '@swapkit/types';
+import { derivationPathToString } from '@coinmasters/helpers';
+import type { DerivationPathArray } from '@coinmasters/types';
+import { NetworkDerivationPath } from '@coinmasters/types';
 import { networks } from 'bitcoinjs-lib';
 
 import { getWalletFormatFor } from '../helpers/derivationPath.ts';

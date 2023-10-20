@@ -1,4 +1,4 @@
-import { BaseDecimal, Chain } from '@swapkit/types';
+import { BaseDecimal, Chain } from '@coinmasters/types';
 import { describe, expect, test } from 'vitest';
 
 import { AssetValue } from '../assetValue.ts';
@@ -131,7 +131,7 @@ describe('AssetValue', () => {
   });
 
   describe('fromIdentifierSync', () => {
-    test('(same as fromIdentifier) - creates AssetValue from string via `@swapkit/tokens` lists', async () => {
+    test('(same as fromIdentifier) - creates AssetValue from string via `@coinmasters/tokens` lists', async () => {
       await AssetValue.loadStaticAssets();
       const thor = AssetValue.fromIdentifierSync(
         'ARB.USDT-0XFD086BC7CD5C481DCC9C85EBE478A1C0B69FCBB9',
@@ -153,7 +153,7 @@ describe('AssetValue', () => {
   });
 
   describe('fromStringSync', () => {
-    test('creates AssetValue from string via `@swapkit/tokens` lists', async () => {
+    test('creates AssetValue from string via `@coinmasters/tokens` lists', async () => {
       await AssetValue.loadStaticAssets();
       const thor = AssetValue.fromStringSync('ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044');
 
@@ -171,7 +171,7 @@ describe('AssetValue', () => {
       );
     });
 
-    test('returns undefined if string is not in `@swapkit/tokens` lists', async () => {
+    test('returns undefined if string is not in `@coinmasters/tokens` lists', async () => {
       await AssetValue.loadStaticAssets();
       const fakeAvaxUSDCAssetString = 'AVAX.USDC-1234';
       const fakeAvaxUSDCAsset = AssetValue.fromStringSync(fakeAvaxUSDCAssetString);
@@ -286,7 +286,7 @@ describe('AssetValue', () => {
   });
 
   describe('loadStaticAssets', () => {
-    test('loads static assets from `@swapkit/tokens` lists', async () => {
+    test('loads static assets from `@coinmasters/tokens` lists', async () => {
       // Dummy test - think of sth more meaningful
       const { ok } = await AssetValue.loadStaticAssets();
       expect(ok).toBe(true);

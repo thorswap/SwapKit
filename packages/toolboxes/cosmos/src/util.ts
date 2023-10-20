@@ -1,5 +1,5 @@
-import { AssetValue } from '@swapkit/helpers';
-import { ChainId, FeeOption, RPCUrl } from '@swapkit/types';
+import { AssetValue } from '@coinmasters/helpers';
+import { ChainId, FeeOption, RPCUrl } from '@coinmasters/types';
 
 import type { CosmosMaxSendableAmountParams } from './types.ts';
 

@@ -1,7 +1,7 @@
 import type ethers from '@nomicfoundation/hardhat-ethers';
 import helpers from '@nomicfoundation/hardhat-network-helpers';
-import { AssetValue } from '@swapkit/helpers';
-import { Chain, erc20ABI, FeeOption } from '@swapkit/types';
+import { AssetValue } from '@coinmasters/helpers';
+import { Chain, erc20ABI, FeeOption } from '@coinmasters/types';
 import type { JsonRpcProvider } from 'ethers';
 import hre from 'hardhat';
 import type { ExpectStatic } from 'vitest';

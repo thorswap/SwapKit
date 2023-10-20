@@ -1,17 +1,17 @@
 {
   "author": "swapkit-oss-team",
   "dependencies": {
-    "@swapkit/types": "workspace:*",
-    "@swapkit/helpers": "workspace:*"
+    "@coinmasters/types": "workspace:*",
+    "@coinmasters/helpers": "workspace:*"
   },
   "description": "SwapKit Lib core",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@swapkit/api": "workspace:*",
-    "@swapkit/tokens": "workspace:*",
-    "@swapkit/toolbox-cosmos": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*",
+    "@coinmasters/api": "workspace:*",
+    "@coinmasters/tokens": "workspace:*",
+    "@coinmasters/toolbox-cosmos": "workspace:*",
+    "@coinmasters/toolbox-evm": "workspace:*",
+    "@coinmasters/toolbox-utxo": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.4",
     "ethers": "6.7.1",
     "vite": "4.4.9",
@@ -20,11 +20,11 @@
     "vitest": "0.34.4"
   },
   "peerDependencies": {
-    "@swapkit/api": "workspace:*",
-    "@swapkit/tokens": "workspace:*",
-    "@swapkit/toolbox-cosmos": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*"
+    "@coinmasters/api": "workspace:*",
+    "@coinmasters/tokens": "workspace:*",
+    "@coinmasters/toolbox-cosmos": "workspace:*",
+    "@coinmasters/toolbox-evm": "workspace:*",
+    "@coinmasters/toolbox-utxo": "workspace:*"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
@@ -44,7 +44,7 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/core",
+  "name": "@coinmasters/core",
   "publishConfig": {
     "access": "public"
   },

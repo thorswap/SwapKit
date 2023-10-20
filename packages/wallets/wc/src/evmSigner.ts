@@ -1,4 +1,4 @@
-import type { EVMChain } from '@swapkit/types';
+import type { EVMChain } from '@coinmasters/types';
 import type { JsonRpcProvider, Provider, TransactionRequest } from 'ethers';
 import { AbstractSigner } from 'ethers';
 
@@ -82,7 +82,7 @@ class WalletconnectSigner extends AbstractSigner {
 
     // if (!from) throw new Error('Missing from address');
     // if (!to) throw new Error('Missing to address');
-    // const { toHexString } = await import('@swapkit/toolbox-evm');
+    // const { toHexString } = await import('@coinmasters/toolbox-evm');
 
     // const baseTx = {
     //   from,
@@ -104,7 +104,7 @@ class WalletconnectSigner extends AbstractSigner {
   };
 
   sendTransaction = async ({ from, to, value, data }: TransactionRequest) => {
-    const { toHexString } = await import('@swapkit/toolbox-evm');
+    const { toHexString } = await import('@coinmasters/toolbox-evm');
 
     const baseTx = {
       from,

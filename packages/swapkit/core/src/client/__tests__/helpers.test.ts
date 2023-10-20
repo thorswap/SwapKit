@@ -1,4 +1,4 @@
-import { Chain, ChainToExplorerUrl } from '@swapkit/types';
+import { Chain, ChainToExplorerUrl } from '@coinmasters/types';
 import { describe, expect, test } from 'vitest';
 
 import { getExplorerAddressUrl, getExplorerTxUrl } from '../explorerUrls.ts';

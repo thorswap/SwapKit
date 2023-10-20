@@ -1,6 +1,6 @@
-import { AssetValue, formatBigIntToSafeValue, getRequest } from '@swapkit/helpers';
-import type { ChainId } from '@swapkit/types';
-import { ChainIdToChain } from '@swapkit/types';
+import { AssetValue, formatBigIntToSafeValue, getRequest } from '@coinmasters/helpers';
+import type { ChainId } from '@coinmasters/types';
+import { ChainIdToChain } from '@coinmasters/types';
 
 type CovalentBalanceResponse = {
   address: string;

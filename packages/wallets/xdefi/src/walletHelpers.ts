@@ -1,8 +1,8 @@
 import type { Keplr } from '@keplr-wallet/types';
-import type { AssetValue } from '@swapkit/helpers';
-import { toHexString } from '@swapkit/toolbox-evm';
-import type { FeeOption } from '@swapkit/types';
-import { Chain, ChainId } from '@swapkit/types';
+import type { AssetValue } from '@coinmasters/helpers';
+import { toHexString } from '@coinmasters/toolbox-evm';
+import type { FeeOption } from '@coinmasters/types';
+import { Chain, ChainId } from '@coinmasters/types';
 import type { Eip1193Provider } from 'ethers';
 
 type TransactionMethod = 'eth_signTransaction' | 'eth_sendTransaction' | 'transfer' | 'deposit';
@@ -137,7 +137,7 @@ export const walletTransfer = async (
 export const cosmosTransfer =
   (rpcUrl?: string) =>
   async ({ from, recipient, amount, asset, memo }: any) => {
-    const { createCosmJS } = await import('@swapkit/toolbox-cosmos');
+    const { createCosmJS } = await import('@coinmasters/toolbox-cosmos');
     const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
     const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
 

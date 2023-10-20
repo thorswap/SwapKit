@@ -1,4 +1,4 @@
-import { WalletOption } from '@swapkit/types';
+import { WalletOption } from '@coinmasters/types';
 
 export const getWalletForType = (
   walletType:

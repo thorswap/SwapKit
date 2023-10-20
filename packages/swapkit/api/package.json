@@ -1,7 +1,7 @@
 {
   "author": "swapkit-oss-team",
   "dependencies": {
-    "@swapkit/types": "workspace:*"
+    "@coinmasters/types": "workspace:*"
   },
   "description": "SwapKit Lib swapkit-api",
   "devDependencies": {
@@ -28,7 +28,7 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/api",
+  "name": "@coinmasters/api",
   "publishConfig": {
     "access": "public"
   },

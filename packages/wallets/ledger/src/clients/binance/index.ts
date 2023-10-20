@@ -1,5 +1,5 @@
-import type { DerivationPathArray } from '@swapkit/types';
-import { NetworkDerivationPath } from '@swapkit/types';
+import type { DerivationPathArray } from '@coinmasters/types';
+import { NetworkDerivationPath } from '@coinmasters/types';
 
 import { CommonLedgerInterface } from '../../interfaces/LedgerInterfaces.ts';
 

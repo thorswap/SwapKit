@@ -1,15 +1,15 @@
 {
   "author": "swapkit-oss-team",
   "dependencies": {
-    "@swapkit/types": "workspace:*",
+    "@coinmasters/types": "workspace:*",
     "@trezor/connect-web": "9.1.2"
   },
   "description": "SwapKit Lib trezor",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*",
+    "@coinmasters/helpers": "workspace:*",
+    "@coinmasters/toolbox-evm": "workspace:*",
+    "@coinmasters/toolbox-utxo": "workspace:*",
     "@trezor/connect": "9.1.2",
     "@types/bchaddrjs": "0.4.0",
     "@vitest/coverage-istanbul": "0.34.4",
@@ -37,11 +37,11 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/wallet-trezor",
+  "name": "@coinmasters/wallet-trezor",
   "peerDependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*",
+    "@coinmasters/helpers": "workspace:*",
+    "@coinmasters/toolbox-evm": "workspace:*",
+    "@coinmasters/toolbox-utxo": "workspace:*",
     "bitcoinjs-lib": "5.2.0",
     "ethers": "^6.7.1"
   },

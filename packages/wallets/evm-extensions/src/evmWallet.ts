@@ -1,5 +1,5 @@
-import type { EVMChain, EVMWalletOptions } from '@swapkit/types';
-import { WalletOption } from '@swapkit/types';
+import type { EVMChain, EVMWalletOptions } from '@coinmasters/types';
+import { WalletOption } from '@coinmasters/types';
 
 import { getWalletForType } from './helpers.ts';
 import type { EVMWalletConfig } from './types.ts';
@@ -14,7 +14,7 @@ const connectEVMWallet =
   }) =>
   async (chains: EVMChain[], walletType: EVMWalletOptions = WalletOption.METAMASK) => {
     const promises = chains.map(async (chain) => {
-      const { getWeb3WalletMethods } = await import('@swapkit/toolbox-evm');
+      const { getWeb3WalletMethods } = await import('@coinmasters/toolbox-evm');
       const { BrowserProvider } = await import('ethers');
       const web3provider = new BrowserProvider(getWalletForType(walletType), 'any');
       await web3provider.send('eth_requestAccounts', []);

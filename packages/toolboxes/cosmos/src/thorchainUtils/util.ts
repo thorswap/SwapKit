@@ -1,9 +1,9 @@
 import { toBech32 } from '@cosmjs/encoding';
 import { base64, bech32 } from '@scure/base';
-import type { AssetValue } from '@swapkit/helpers';
-import { SwapKitNumber } from '@swapkit/helpers';
-import type { FeeOption } from '@swapkit/types';
-import { BaseDecimal, Chain, ChainId, RPCUrl } from '@swapkit/types';
+import type { AssetValue } from '@coinmasters/helpers';
+import { SwapKitNumber } from '@coinmasters/helpers';
+import type { FeeOption } from '@coinmasters/types';
+import { BaseDecimal, Chain, ChainId, RPCUrl } from '@coinmasters/types';
 
 export const DEFAULT_GAS_VALUE = '5000000000';
 

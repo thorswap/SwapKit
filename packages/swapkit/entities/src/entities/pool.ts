@@ -1,4 +1,4 @@
-import { BaseDecimal } from '@swapkit/types';
+import { BaseDecimal } from '@coinmasters/types';
 
 import { Amount } from './amount.ts';
 import { AssetEntity as Asset } from './asset.ts';

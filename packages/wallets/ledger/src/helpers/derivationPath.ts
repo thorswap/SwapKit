@@ -1,4 +1,4 @@
-import { Chain, NetworkDerivationPath } from '@swapkit/types';
+import { Chain, NetworkDerivationPath } from '@coinmasters/types';
 
 type Params = {
   index: number;

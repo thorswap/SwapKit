@@ -1,5 +1,5 @@
-import type { EVMChain } from '@swapkit/types';
-import { BaseDecimal, Chain, ChainToRPC, FeeOption } from '@swapkit/types';
+import type { EVMChain } from '@coinmasters/types';
+import { BaseDecimal, Chain, ChainToRPC, FeeOption } from '@coinmasters/types';
 
 import { postRequest } from './others.ts';
 

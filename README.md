@@ -20,23 +20,23 @@ This repo contains packages around SwapKit sdk and its integrations with differe
 
 | Package                                                                                                             | Description                                            |
 | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| [@swapkit/api](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core)                      | SwapKit API wrapper                                    |
-| [@swapkit/core](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-1)                   | Core package for SwapKit                               |
-| [@swapkit/helpers](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-2)                | Helpers for Assets & BigInt handle                     |
-| [@swapkit/sdk](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-3)                    | All-in-one package for SwapKit                         |
-| [@swapkit/tokens](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-4)                 | Static tokens lists with decimals & contract addresses |
-| [@swapkit/types](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-5)                  | Types & enums for SwapKit                              |
-| [@swapkit/toolbox-cosmos](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/cosmos)                  | Integrate Cosmos chains                                |
-| [@swapkit/toolbox-evm](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/evm)                        | Integrate EVM chain                                    |
-| [@swapkit/toolbox-utxo](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/utxo)                      | Integrate UTXO chain                                   |
-| [@swapkit/wallet-evm-extensions](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/evm-web-extensions) | EVM Browser Extensions                                 |
-| [@swapkit/wallet-keplr](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/keplr)                       | Keplr Wallet                                           |
-| [@swapkit/wallet-keystore](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/keystore)                 | Keystore Wallet                                        |
-| [@swapkit/wallet-ledger](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/ledger)                     | Ledger Wallet                                          |
-| [@swapkit/wallet-okx](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/okx)                  | OKX Wallet                                   |
-| [@swapkit/wallet-trezor](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/trezor)                     | Trezor Wallet                                          |
-| [@swapkit/wallet-wc](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/walletconnect)                  | Walletconnect Wallet                                   |
-| [@swapkit/wallet-xdefi](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/xdefi)                       | XDEFI Wallet                                           |
+| [@coinmasters/api](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core)                      | SwapKit API wrapper                                    |
+| [@coinmasters/core](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-1)                   | Core package for SwapKit                               |
+| [@coinmasters/helpers](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-2)                | Helpers for Assets & BigInt handle                     |
+| [@coinmasters/sdk](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-3)                    | All-in-one package for SwapKit                         |
+| [@coinmasters/tokens](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-4)                 | Static tokens lists with decimals & contract addresses |
+| [@coinmasters/types](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-5)                  | Types & enums for SwapKit                              |
+| [@coinmasters/toolbox-cosmos](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/cosmos)                  | Integrate Cosmos chains                                |
+| [@coinmasters/toolbox-evm](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/evm)                        | Integrate EVM chain                                    |
+| [@coinmasters/toolbox-utxo](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/utxo)                      | Integrate UTXO chain                                   |
+| [@coinmasters/wallet-evm-extensions](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/evm-web-extensions) | EVM Browser Extensions                                 |
+| [@coinmasters/wallet-keplr](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/keplr)                       | Keplr Wallet                                           |
+| [@coinmasters/wallet-keystore](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/keystore)                 | Keystore Wallet                                        |
+| [@coinmasters/wallet-ledger](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/ledger)                     | Ledger Wallet                                          |
+| [@coinmasters/wallet-okx](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/okx)                  | OKX Wallet                                   |
+| [@coinmasters/wallet-trezor](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/trezor)                     | Trezor Wallet                                          |
+| [@coinmasters/wallet-wc](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/walletconnect)                  | Walletconnect Wallet                                   |
+| [@coinmasters/wallet-xdefi](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/xdefi)                       | XDEFI Wallet                                           |
 
 ## Contributing
 

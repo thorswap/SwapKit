@@ -3,8 +3,8 @@
   "description": "SwapKit Lib tokens",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@swapkit/api": "workspace:*",
-    "@swapkit/types": "workspace:*",
+    "@coinmasters/api": "workspace:*",
+    "@coinmasters/types": "workspace:*",
     "@types/fs-extra": "11.0.1",
     "@vitest/coverage-istanbul": "0.34.4",
     "fs-extra": "11.1.1",
@@ -29,7 +29,7 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/tokens",
+  "name": "@coinmasters/tokens",
   "publishConfig": {
     "access": "public"
   },

@@ -1,5 +1,5 @@
 ---
-'@swapkit/toolbox-cosmos': patch
+'@coinmasters/toolbox-cosmos': patch
 ---
 
 Fix Maya chain connection

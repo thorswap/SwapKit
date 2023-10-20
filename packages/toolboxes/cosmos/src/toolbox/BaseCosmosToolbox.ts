@@ -1,6 +1,6 @@
-import { SwapKitApi } from '@swapkit/api';
-import { AssetValue } from '@swapkit/helpers';
-import { Chain, type ChainId, type DerivationPath } from '@swapkit/types';
+import { SwapKitApi } from '@coinmasters/api';
+import { AssetValue } from '@coinmasters/helpers';
+import { Chain, type ChainId, type DerivationPath } from '@coinmasters/types';
 
 import type { CosmosClient } from '../cosmosClient.ts';
 import type { BaseCosmosToolboxType } from '../thorchainUtils/types/client-types.ts';

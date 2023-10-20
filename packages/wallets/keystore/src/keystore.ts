@@ -1,11 +1,11 @@
-import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
+import type { DepositParam, TransferParams } from '@coinmasters/toolbox-cosmos';
 import type {
   TransactionType,
   UTXOTransferParams,
   UTXOWalletTransferParams,
-} from '@swapkit/toolbox-utxo';
-import type { ConnectWalletParams, Witness } from '@swapkit/types';
-import { Chain, DerivationPath, WalletOption } from '@swapkit/types';
+} from '@coinmasters/toolbox-utxo';
+import type { ConnectWalletParams, Witness } from '@coinmasters/types';
+import { Chain, DerivationPath, WalletOption } from '@coinmasters/types';
 import type { Psbt } from 'bitcoinjs-lib';
 
 type KeystoreOptions = {
@@ -48,7 +48,7 @@ const getWalletMethodsForChain = async ({
 
       const { HDNodeWallet } = await import('ethers');
       const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
-        '@swapkit/toolbox-evm'
+        '@coinmasters/toolbox-evm'
       );
 
       const provider = getProvider(chain, rpcUrl);
@@ -73,7 +73,7 @@ const getWalletMethodsForChain = async ({
 
     case Chain.BitcoinCash: {
       if (!utxoApiKey) throw new Error('UTXO API key not found');
-      const { BCHToolbox } = await import('@swapkit/toolbox-utxo');
+      const { BCHToolbox } = await import('@coinmasters/toolbox-utxo');
       const toolbox = BCHToolbox({ rpcUrl, apiKey: utxoApiKey, apiClient: api });
       const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
       const address = toolbox.getAddressFromKeys(keys);
@@ -108,7 +108,7 @@ const getWalletMethodsForChain = async ({
     case Chain.Litecoin: {
       const params = { rpcUrl, apiKey: utxoApiKey, apiClient: api };
 
-      const { BTCToolbox, LTCToolbox, DOGEToolbox } = await import('@swapkit/toolbox-utxo');
+      const { BTCToolbox, LTCToolbox, DOGEToolbox } = await import('@coinmasters/toolbox-utxo');
 
       const toolbox =
         chain === Chain.Bitcoin
@@ -138,7 +138,7 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Binance: {
-      const { BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { BinanceToolbox } = await import('@coinmasters/toolbox-cosmos');
       const toolbox = BinanceToolbox();
       const privkey = await toolbox.createKeyPair(phrase);
       const address = await toolbox.getAddressFromMnemonic(phrase);
@@ -159,7 +159,7 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Cosmos: {
-      const { GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { GaiaToolbox } = await import('@coinmasters/toolbox-cosmos');
       const toolbox = GaiaToolbox({ server: api });
       const signer = await toolbox.getSigner(phrase);
       const address = await toolbox.getAddressFromMnemonic(phrase);
@@ -181,7 +181,7 @@ const getWalletMethodsForChain = async ({
 
     case Chain.Maya:
     case Chain.THORChain: {
-      const { MayaToolbox, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { MayaToolbox, ThorchainToolbox } = await import('@coinmasters/toolbox-cosmos');
       const toolbox =
         chain === Chain.THORChain ? ThorchainToolbox({ stagenet }) : MayaToolbox({ stagenet });
       const address = await toolbox.getAddressFromMnemonic(phrase);

@@ -203,55 +203,55 @@ importers:
       '@esbuild-plugins/node-modules-polyfill':
         specifier: 0.2.2
         version: 0.2.2(esbuild@0.19.3)
-      '@swapkit/api':
+      '@coinmasters/api':
         specifier: workspace:*
         version: link:../../packages/swapkit/api
-      '@swapkit/core':
+      '@coinmasters/core':
         specifier: workspace:*
         version: link:../../packages/swapkit/core
-      '@swapkit/helpers':
+      '@coinmasters/helpers':
         specifier: workspace:*
         version: link:../../packages/swapkit/helpers
-      '@swapkit/tokens':
+      '@coinmasters/tokens':
         specifier: workspace:*
         version: link:../../packages/swapkit/tokens
-      '@swapkit/toolbox-cosmos':
+      '@coinmasters/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../packages/toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@coinmasters/toolbox-evm':
         specifier: workspace:*
         version: link:../../packages/toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@coinmasters/toolbox-utxo':
         specifier: workspace:*
         version: link:../../packages/toolboxes/utxo
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../../packages/swapkit/types
-      '@swapkit/wallet-evm-extensions':
+      '@coinmasters/wallet-evm-extensions':
         specifier: workspace:*
         version: link:../../packages/wallets/evm-extensions
-      '@swapkit/wallet-keepkey':
+      '@coinmasters/wallet-keepkey':
         specifier: workspace:*
         version: link:../../packages/wallets/keepkey
-      '@swapkit/wallet-keplr':
+      '@coinmasters/wallet-keplr':
         specifier: workspace:*
         version: link:../../packages/wallets/keplr
-      '@swapkit/wallet-keystore':
+      '@coinmasters/wallet-keystore':
         specifier: workspace:*
         version: link:../../packages/wallets/keystore
-      '@swapkit/wallet-ledger':
+      '@coinmasters/wallet-ledger':
         specifier: workspace:*
         version: link:../../packages/wallets/ledger
-      '@swapkit/wallet-okx':
+      '@coinmasters/wallet-okx':
         specifier: workspace:*
         version: link:../../packages/wallets/okx
-      '@swapkit/wallet-trezor':
+      '@coinmasters/wallet-trezor':
         specifier: workspace:*
         version: link:../../packages/wallets/trezor
-      '@swapkit/wallet-wc':
+      '@coinmasters/wallet-wc':
         specifier: workspace:*
         version: link:../../packages/wallets/wc
-      '@swapkit/wallet-xdefi':
+      '@coinmasters/wallet-xdefi':
         specifier: workspace:*
         version: link:../../packages/wallets/xdefi
       base64-js:
@@ -309,7 +309,7 @@ importers:
 
   packages/swapkit/api:
     dependencies:
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../types
     devDependencies:
@@ -328,29 +328,29 @@ importers:
 
   packages/swapkit/core:
     dependencies:
-      '@swapkit/helpers':
+      '@coinmasters/helpers':
         specifier: workspace:*
         version: link:../helpers
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../types
     devDependencies:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
-      '@swapkit/api':
+      '@coinmasters/api':
         specifier: workspace:*
         version: link:../api
-      '@swapkit/tokens':
+      '@coinmasters/tokens':
         specifier: workspace:*
         version: link:../tokens
-      '@swapkit/toolbox-cosmos':
+      '@coinmasters/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@coinmasters/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@coinmasters/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
       '@vitest/coverage-istanbul':
@@ -374,7 +374,7 @@ importers:
 
   packages/swapkit/entities:
     dependencies:
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../types
       tiny-invariant:
@@ -402,10 +402,10 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
-      '@swapkit/tokens':
+      '@coinmasters/tokens':
         specifier: workspace:*
         version: link:../tokens
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../types
       '@vitest/coverage-istanbul':
@@ -420,46 +420,46 @@ importers:
 
   packages/swapkit/sdk:
     dependencies:
-      '@swapkit/api':
+      '@coinmasters/api':
         specifier: workspace:*
         version: link:../api
-      '@swapkit/core':
+      '@coinmasters/core':
         specifier: workspace:*
         version: link:../core
-      '@swapkit/toolbox-cosmos':
+      '@coinmasters/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@coinmasters/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@coinmasters/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../types
-      '@swapkit/wallet-evm-extensions':
+      '@coinmasters/wallet-evm-extensions':
         specifier: workspace:*
         version: link:../../wallets/evm-extensions
-      '@swapkit/wallet-keplr':
+      '@coinmasters/wallet-keplr':
         specifier: workspace:*
         version: link:../../wallets/keplr
-      '@swapkit/wallet-keystore':
+      '@coinmasters/wallet-keystore':
         specifier: workspace:*
         version: link:../../wallets/keystore
-      '@swapkit/wallet-ledger':
+      '@coinmasters/wallet-ledger':
         specifier: workspace:*
         version: link:../../wallets/ledger
-      '@swapkit/wallet-okx':
+      '@coinmasters/wallet-okx':
         specifier: workspace:*
         version: link:../../wallets/okx
-      '@swapkit/wallet-trezor':
+      '@coinmasters/wallet-trezor':
         specifier: workspace:*
         version: link:../../wallets/trezor
-      '@swapkit/wallet-wc':
+      '@coinmasters/wallet-wc':
         specifier: workspace:*
         version: link:../../wallets/wc
-      '@swapkit/wallet-xdefi':
+      '@coinmasters/wallet-xdefi':
         specifier: workspace:*
         version: link:../../wallets/xdefi
     devDependencies:
@@ -481,10 +481,10 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
-      '@swapkit/api':
+      '@coinmasters/api':
         specifier: workspace:*
         version: link:../api
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../types
       '@types/fs-extra':
@@ -544,10 +544,10 @@ importers:
       '@scure/bip32':
         specifier: 1.3.2
         version: 1.3.2
-      '@swapkit/api':
+      '@coinmasters/api':
         specifier: workspace:*
         version: link:../../swapkit/api
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../../swapkit/types
       bn.js:
@@ -575,7 +575,7 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
-      '@swapkit/helpers':
+      '@coinmasters/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
       '@types/bn.js':
@@ -608,7 +608,7 @@ importers:
 
   packages/toolboxes/evm:
     dependencies:
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../../swapkit/types
       ethers:
@@ -627,7 +627,7 @@ importers:
       '@nomicfoundation/hardhat-toolbox':
         specifier: 3.0.0
         version: 3.0.0(@nomicfoundation/hardhat-chai-matchers@2.0.2)(@nomicfoundation/hardhat-ethers@3.0.4)(@nomicfoundation/hardhat-network-helpers@1.0.9)(@nomicfoundation/hardhat-verify@1.1.1)(@typechain/ethers-v6@0.4.3)(@typechain/hardhat@8.0.3)(@types/chai@4.3.6)(@types/mocha@10.0.1)(@types/node@20.5.9)(chai@4.3.8)(ethers@6.7.1)(hardhat-gas-reporter@1.0.9)(hardhat@2.17.2)(solidity-coverage@0.8.5)(ts-node@10.9.1)(typechain@8.3.1)(typescript@5.2.2)
-      '@swapkit/helpers':
+      '@coinmasters/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
       '@types/node':
@@ -657,7 +657,7 @@ importers:
       '@scure/bip39':
         specifier: 1.2.1
         version: 1.2.1
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../../swapkit/types
       bchaddrjs:
@@ -679,7 +679,7 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
-      '@swapkit/helpers':
+      '@coinmasters/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
       '@types/bchaddrjs':
@@ -706,14 +706,14 @@ importers:
 
   packages/wallets/evm-extensions:
     dependencies:
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../../swapkit/types
     devDependencies:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
-      '@swapkit/toolbox-evm':
+      '@coinmasters/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
       '@vitest/coverage-istanbul':
@@ -740,10 +740,10 @@ importers:
       '@pioneer-platform/pioneer-coins':
         specifier: ^8.1.84
         version: 8.1.86(@types/node@20.5.9)
-      '@swapkit/helpers':
+      '@coinmasters/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../../swapkit/types
       '@thorswap-lib/swapkit-entities':
@@ -768,13 +768,13 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
-      '@swapkit/toolbox-cosmos':
+      '@coinmasters/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@coinmasters/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@coinmasters/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
       '@types/bchaddrjs':
@@ -798,7 +798,7 @@ importers:
 
   packages/wallets/keplr:
     dependencies:
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../../swapkit/types
     devDependencies:
@@ -808,10 +808,10 @@ importers:
       '@keplr-wallet/types':
         specifier: 0.12.27
         version: 0.12.27
-      '@swapkit/helpers':
+      '@coinmasters/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
-      '@swapkit/toolbox-cosmos':
+      '@coinmasters/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
       '@vitest/coverage-istanbul':
@@ -826,7 +826,7 @@ importers:
 
   packages/wallets/keystore:
     dependencies:
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../../swapkit/types
       blakejs:
@@ -842,16 +842,16 @@ importers:
       '@scure/bip39':
         specifier: 1.2.1
         version: 1.2.1
-      '@swapkit/helpers':
+      '@coinmasters/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
-      '@swapkit/toolbox-cosmos':
+      '@coinmasters/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@coinmasters/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@coinmasters/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
       '@types/long':
@@ -902,7 +902,7 @@ importers:
       '@ledgerhq/hw-transport-webusb':
         specifier: 6.27.19
         version: 6.27.19
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../../swapkit/types
       ripemd160:
@@ -933,16 +933,16 @@ importers:
       '@scure/base':
         specifier: 1.1.3
         version: 1.1.3
-      '@swapkit/helpers':
+      '@coinmasters/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
-      '@swapkit/toolbox-cosmos':
+      '@coinmasters/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@coinmasters/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@coinmasters/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
       '@types/bchaddrjs':
@@ -1005,23 +1005,23 @@ importers:
 
   packages/wallets/okx:
     dependencies:
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../../swapkit/types
     devDependencies:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
-      '@swapkit/helpers':
+      '@coinmasters/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
-      '@swapkit/toolbox-cosmos':
+      '@coinmasters/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@coinmasters/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@coinmasters/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
       '@vitest/coverage-istanbul':
@@ -1042,7 +1042,7 @@ importers:
 
   packages/wallets/trezor:
     dependencies:
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../../swapkit/types
       '@trezor/connect-web':
@@ -1052,13 +1052,13 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
-      '@swapkit/helpers':
+      '@coinmasters/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
-      '@swapkit/toolbox-evm':
+      '@coinmasters/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@coinmasters/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
       '@trezor/connect':
@@ -1088,7 +1088,7 @@ importers:
 
   packages/wallets/wc:
     dependencies:
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../../swapkit/types
       '@walletconnect/modal-sign-html':
@@ -1113,10 +1113,10 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
-      '@swapkit/toolbox-cosmos':
+      '@coinmasters/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@coinmasters/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
       '@vitest/coverage-istanbul':
@@ -1140,7 +1140,7 @@ importers:
 
   packages/wallets/xdefi:
     dependencies:
-      '@swapkit/types':
+      '@coinmasters/types':
         specifier: workspace:*
         version: link:../../swapkit/types
     devDependencies:
@@ -1150,16 +1150,16 @@ importers:
       '@keplr-wallet/types':
         specifier: 0.12.27
         version: 0.12.27
-      '@swapkit/helpers':
+      '@coinmasters/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
-      '@swapkit/toolbox-cosmos':
+      '@coinmasters/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
-      '@swapkit/toolbox-evm':
+      '@coinmasters/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
-      '@swapkit/toolbox-utxo':
+      '@coinmasters/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
       '@vitest/coverage-istanbul':

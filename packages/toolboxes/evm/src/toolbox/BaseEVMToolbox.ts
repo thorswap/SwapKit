@@ -1,7 +1,7 @@
-import type { AssetValue } from '@swapkit/helpers';
-import { isGasAsset, SwapKitNumber } from '@swapkit/helpers';
-import type { Asset, EVMChain, WalletTxParams } from '@swapkit/types';
-import { Chain, ContractAddress, erc20ABI, FeeOption } from '@swapkit/types';
+import type { AssetValue } from '@coinmasters/helpers';
+import { isGasAsset, SwapKitNumber } from '@coinmasters/helpers';
+import type { Asset, EVMChain, WalletTxParams } from '@coinmasters/types';
+import { Chain, ContractAddress, erc20ABI, FeeOption } from '@coinmasters/types';
 import type {
   ContractTransaction,
   Fragment,

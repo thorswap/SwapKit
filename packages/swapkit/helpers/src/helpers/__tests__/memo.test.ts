@@ -1,4 +1,4 @@
-import { Chain, MemoType } from '@swapkit/types';
+import { Chain, MemoType } from '@coinmasters/types';
 import { describe, expect, it } from 'vitest';
 
 import { getMemoFor } from '../memo.ts';

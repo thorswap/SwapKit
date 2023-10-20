@@ -3,9 +3,9 @@ import { BigNumber } from '@ethersproject/bignumber';
 // import { BigNumber } from '@ethersproject/bignumber';
 // import { serialize } from '@ethersproject/transactions';
 // import { derivationPathToString } from '@pioneer-platform/helpers';
-import type { Chain, DerivationPathArray } from '@swapkit/types';
-import { ChainToChainId } from '@swapkit/types';
-import type { EVMTxParams } from '@swapkit/toolbox-evm';
+import type { Chain, DerivationPathArray } from '@coinmasters/types';
+import { ChainToChainId } from '@coinmasters/types';
+import type { EVMTxParams } from '@coinmasters/toolbox-evm';
 // import TrezorConnect from '@trezor/connect-web';
 import { AbstractSigner, type JsonRpcProvider, type Provider } from 'ethers';
 

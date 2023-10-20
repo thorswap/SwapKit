@@ -1,5 +1,5 @@
-import { getRequest } from '@swapkit/helpers';
-import { Chain, type UTXOChain } from '@swapkit/types';
+import { getRequest } from '@coinmasters/helpers';
+import { Chain, type UTXOChain } from '@coinmasters/types';
 
 import type {
   BlockchairAddressResponse,

@@ -1,4 +1,4 @@
-import { BaseDecimal } from '@swapkit/types';
+import { BaseDecimal } from '@coinmasters/types';
 
 import { SwapKitNumber } from '../index.ts';
 

@@ -2,10 +2,10 @@
 import { StargateClient } from '@cosmjs/stargate';
 // @ts-ignore
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
-import { getDenom, ThorchainToolbox } from '@swapkit/toolbox-cosmos';
-import type { } from '@swapkit/types';
-import { Chain, ChainId, RPCUrl } from '@swapkit/types';
-import type { TransferParams } from '@swapkit/toolbox-cosmos';
+import { getDenom, ThorchainToolbox } from '@coinmasters/toolbox-cosmos';
+import type { } from '@coinmasters/types';
+import { Chain, ChainId, RPCUrl } from '@coinmasters/types';
+import type { TransferParams } from '@coinmasters/toolbox-cosmos';
 // @ts-ignore
 import type { KeepKeyParams } from '../keepkey.ts';
 

@@ -1,4 +1,4 @@
-import { BaseDecimal, Chain } from '@swapkit/types';
+import { BaseDecimal, Chain } from '@coinmasters/types';
 
 /**
  * L1 asset format:

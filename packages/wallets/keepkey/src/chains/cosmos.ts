@@ -1,13 +1,13 @@
 import { StargateClient } from '@cosmjs/stargate';
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
-import type { TransferParams } from '@swapkit/toolbox-cosmos';
+import type { TransferParams } from '@coinmasters/toolbox-cosmos';
 
 // @ts-ignore
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
-import { GaiaToolbox, getDenom } from '@swapkit/toolbox-cosmos';
-import type { WalletTxParams } from '@swapkit/types';
-import { Chain, RPCUrl } from '@swapkit/types';
-import type { AssetValue } from '@swapkit/helpers';
+import { GaiaToolbox, getDenom } from '@coinmasters/toolbox-cosmos';
+import type { WalletTxParams } from '@coinmasters/types';
+import { Chain, RPCUrl } from '@coinmasters/types';
+import type { AssetValue } from '@coinmasters/helpers';
 
 export type SignTransactionTransferParams = {
   asset: string;

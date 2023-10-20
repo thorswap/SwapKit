@@ -10,8 +10,8 @@ import type {
   TraderjoeList,
   UniswapList,
   WoofiList,
-} from '@swapkit/tokens';
-import { BaseDecimal, Chain } from '@swapkit/types';
+} from '@coinmasters/tokens';
+import { BaseDecimal, Chain } from '@coinmasters/types';
 
 import type { CommonAssetString } from '../helpers/asset.ts';
 import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers/asset.ts';
@@ -120,7 +120,7 @@ export class AssetValue extends BigIntArithmetics {
             ThorchainList: _ThorchainList,
             NativeList,
             ...tokensPackage
-          } = await import('@swapkit/tokens');
+          } = await import('@coinmasters/tokens');
           const tokensMap = [NativeList, ...Object.values(tokensPackage)].reduce(
             (acc, { tokens }) => {
               tokens.forEach(({ identifier, chain, ...rest }) => {
@@ -143,7 +143,7 @@ export class AssetValue extends BigIntArithmetics {
             ok: false,
             error,
             message:
-              "Couldn't load static assets. Ensure you have installed @swapkit/tokens package",
+              "Couldn't load static assets. Ensure you have installed @coinmasters/tokens package",
           });
         }
       },

@@ -1,4 +1,4 @@
-import { postRequest } from '@swapkit/helpers';
+import { postRequest } from '@coinmasters/helpers';
 
 import { uniqid } from '../index.ts';
 

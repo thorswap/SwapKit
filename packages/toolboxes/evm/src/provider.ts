@@ -1,5 +1,5 @@
-import type { EVMChain } from '@swapkit/types';
-import { ChainToRPC } from '@swapkit/types';
+import type { EVMChain } from '@coinmasters/types';
+import { ChainToRPC } from '@coinmasters/types';
 import { JsonRpcProvider } from 'ethers/providers';
 
 export const getProvider = (chain: EVMChain, customUrl?: string) => {

@@ -1,5 +1,5 @@
-import type { StdSignature } from '@swapkit/toolbox-cosmos';
-import type { EthereumWindowProvider } from '@swapkit/toolbox-evm';
+import type { StdSignature } from '@coinmasters/toolbox-cosmos';
+import type { EthereumWindowProvider } from '@coinmasters/toolbox-evm';
 
 import type { AminoSignResponse, OfflineAminoSigner, StdSignDoc } from './types.ts';
 

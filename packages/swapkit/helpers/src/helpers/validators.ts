@@ -1,4 +1,4 @@
-import { Chain } from '@swapkit/types';
+import { Chain } from '@coinmasters/types';
 
 const supportedChains = Object.values(Chain);
 

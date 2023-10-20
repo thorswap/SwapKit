@@ -1,4 +1,4 @@
-import { AssetValue, formatBigIntToSafeValue, SwapKitNumber } from '@swapkit/helpers';
+import { AssetValue, formatBigIntToSafeValue, SwapKitNumber } from '@coinmasters/helpers';
 import {
   BaseDecimal,
   Chain,
@@ -7,7 +7,7 @@ import {
   type EVMChain,
   FeeOption,
   WalletOption,
-} from '@swapkit/types';
+} from '@coinmasters/types';
 import type { BrowserProvider, Eip1193Provider, JsonRpcProvider } from 'ethers';
 
 import type { CovalentApiType, EthplorerApiType, EVMMaxSendableAmountsParams } from './index.ts';

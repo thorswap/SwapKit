@@ -1,4 +1,4 @@
-import { Chain, type UTXOChain } from '@swapkit/types';
+import { Chain, type UTXOChain } from '@coinmasters/types';
 
 import type { TargetOutput, UTXOCalculateTxSizeParams } from '../types/index.ts';
 import {

@@ -1,6 +1,6 @@
 import { mnemonicToSeedSync, validateMnemonic } from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
-import { Chain, FeeOption } from '@swapkit/types';
+import { Chain, FeeOption } from '@coinmasters/types';
 import { networks } from 'bitcoinjs-lib';
 import coininfo from 'coininfo';
 

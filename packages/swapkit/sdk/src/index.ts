@@ -1,17 +1,17 @@
-import { SwapKitCore } from '@swapkit/core';
-import type { ExtendParams } from '@swapkit/types';
-import { evmWallet } from '@swapkit/wallet-evm-extensions';
-import { keplrWallet } from '@swapkit/wallet-keplr';
-import { keystoreWallet } from '@swapkit/wallet-keystore';
-import { KeepKeyWallet } from '@swapkit/keepkey';
-import { ledgerWallet } from '@swapkit/wallet-ledger';
-import { okxWallet } from '@swapkit/wallet-okx';
-import { trezorWallet } from '@swapkit/wallet-trezor';
-import { walletconnectWallet } from '@swapkit/wallet-wc';
-import { xdefiWallet } from '@swapkit/wallet-xdefi';
+import { SwapKitCore } from '@coinmasters/core';
+import type { ExtendParams } from '@coinmasters/types';
+import { evmWallet } from '@coinmasters/wallet-evm-extensions';
+import { keplrWallet } from '@coinmasters/wallet-keplr';
+import { keystoreWallet } from '@coinmasters/wallet-keystore';
+import { KeepKeyWallet } from '@coinmasters/keepkey';
+import { ledgerWallet } from '@coinmasters/wallet-ledger';
+import { okxWallet } from '@coinmasters/wallet-okx';
+import { trezorWallet } from '@coinmasters/wallet-trezor';
+import { walletconnectWallet } from '@coinmasters/wallet-wc';
+import { xdefiWallet } from '@coinmasters/wallet-xdefi';
 
-export * from '@swapkit/api';
-export * from '@swapkit/core';
+export * from '@coinmasters/api';
+export * from '@coinmasters/core';
 
 type SwapKitOptions = Omit<ExtendParams, 'wallets'>;
 

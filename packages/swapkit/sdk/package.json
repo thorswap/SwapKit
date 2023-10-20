@@ -1,20 +1,20 @@
 {
   "author": "swapkit-oss-team",
   "dependencies": {
-    "@swapkit/api": "workspace:*",
-    "@swapkit/core": "workspace:*",
-    "@swapkit/toolbox-cosmos": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*",
-    "@swapkit/types": "workspace:*",
-    "@swapkit/wallet-evm-extensions": "workspace:*",
-    "@swapkit/wallet-keplr": "workspace:*",
-    "@swapkit/wallet-keystore": "workspace:*",
-    "@swapkit/wallet-ledger": "workspace:*",
-    "@swapkit/wallet-okx": "workspace:*",
-    "@swapkit/wallet-trezor": "workspace:*",
-    "@swapkit/wallet-wc": "workspace:*",
-    "@swapkit/wallet-xdefi": "workspace:*"
+    "@coinmasters/api": "workspace:*",
+    "@coinmasters/core": "workspace:*",
+    "@coinmasters/toolbox-cosmos": "workspace:*",
+    "@coinmasters/toolbox-evm": "workspace:*",
+    "@coinmasters/toolbox-utxo": "workspace:*",
+    "@coinmasters/types": "workspace:*",
+    "@coinmasters/wallet-evm-extensions": "workspace:*",
+    "@coinmasters/wallet-keplr": "workspace:*",
+    "@coinmasters/wallet-keystore": "workspace:*",
+    "@coinmasters/wallet-ledger": "workspace:*",
+    "@coinmasters/wallet-okx": "workspace:*",
+    "@coinmasters/wallet-trezor": "workspace:*",
+    "@coinmasters/wallet-wc": "workspace:*",
+    "@coinmasters/wallet-xdefi": "workspace:*"
   },
   "description": "SwapKit Lib swapkit-sdk",
   "devDependencies": {
@@ -41,7 +41,7 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/sdk",
+  "name": "@coinmasters/sdk",
   "publishConfig": {
     "access": "public"
   },

@@ -1,4 +1,4 @@
-import { Chain } from '@swapkit/types';
+import { Chain } from '@coinmasters/types';
 import type { BigNumber } from 'bignumber.js';
 
 import { Amount, AmountType, BN_FORMAT, Rounding } from './amount.ts';

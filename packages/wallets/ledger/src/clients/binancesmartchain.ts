@@ -1,6 +1,6 @@
-import { derivationPathToString } from '@swapkit/helpers';
-import type { DerivationPathArray } from '@swapkit/types';
-import { ChainId, NetworkDerivationPath } from '@swapkit/types';
+import { derivationPathToString } from '@coinmasters/helpers';
+import type { DerivationPathArray } from '@coinmasters/types';
+import { ChainId, NetworkDerivationPath } from '@coinmasters/types';
 import type { Provider } from 'ethers';
 
 import { EthereumLikeLedgerInterface } from '../interfaces/EthereumLikeLedgerInterface.ts';

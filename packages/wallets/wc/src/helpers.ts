@@ -1,5 +1,5 @@
-import type { EVMChain } from '@swapkit/types';
-import { Chain } from '@swapkit/types';
+import type { EVMChain } from '@coinmasters/types';
+import { Chain } from '@coinmasters/types';
 
 import {
   AVALACHE_MAINNET_ID,

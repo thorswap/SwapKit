@@ -1,4 +1,4 @@
-import { Chain, ChainToExplorerUrl } from '@swapkit/types';
+import { Chain, ChainToExplorerUrl } from '@coinmasters/types';
 
 export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Chain }) => {
   const baseUrl = ChainToExplorerUrl[chain];

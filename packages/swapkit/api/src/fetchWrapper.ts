@@ -1,4 +1,4 @@
-import { ApiUrl } from '@swapkit/types';
+import { ApiUrl } from '@coinmasters/types';
 
 import type { ApiParams } from './types/index.ts';
 

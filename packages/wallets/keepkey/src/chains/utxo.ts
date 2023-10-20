@@ -1,9 +1,9 @@
 // @ts-ignore
 import { addressInfoForCoin, COIN_MAP_KEEPKEY_LONG } from '@pioneer-platform/pioneer-coins';
-import type { UTXOTransferParams } from '@swapkit/toolbox-utxo';
-import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/toolbox-utxo';
-import type { UTXO } from '@swapkit/types';
-import { Chain, FeeOption } from '@swapkit/types';
+import type { UTXOTransferParams } from '@coinmasters/toolbox-utxo';
+import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@coinmasters/toolbox-utxo';
+import type { UTXO } from '@coinmasters/types';
+import { Chain, FeeOption } from '@coinmasters/types';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
 

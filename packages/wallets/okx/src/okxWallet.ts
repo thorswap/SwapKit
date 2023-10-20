@@ -1,4 +1,4 @@
-import { Chain, WalletOption } from '@swapkit/types';
+import { Chain, WalletOption } from '@coinmasters/types';
 
 import { getWalletForChain } from './helpers.ts';
 import type { OKXConfig } from './types.ts';

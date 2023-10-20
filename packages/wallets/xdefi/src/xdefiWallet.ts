@@ -1,5 +1,5 @@
-import { AssetValue } from '@swapkit/helpers';
-import { Chain, ChainToChainId, ChainToHexChainId, WalletOption } from '@swapkit/types';
+import { AssetValue } from '@coinmasters/helpers';
+import { Chain, ChainToChainId, ChainToHexChainId, WalletOption } from '@coinmasters/types';
 
 import type { WalletTxParams } from './walletHelpers.ts';
 import { cosmosTransfer, getXDEFIAddress, walletTransfer } from './walletHelpers.ts';
@@ -32,7 +32,7 @@ const getWalletMethodsForChain = async ({
 }: { rpcUrl?: string; api?: any; chain: Chain } & XDEFIConfig): Promise<any> => {
   switch (chain) {
     case Chain.THORChain: {
-      const { DEFAULT_GAS_VALUE, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { DEFAULT_GAS_VALUE, ThorchainToolbox } = await import('@coinmasters/toolbox-cosmos');
 
       return {
         ...ThorchainToolbox({ stagenet: false }),
@@ -43,12 +43,12 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Cosmos: {
-      const { GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { GaiaToolbox } = await import('@coinmasters/toolbox-cosmos');
       return { ...GaiaToolbox({ server: api }), transfer: cosmosTransfer(rpcUrl) };
     }
 
     case Chain.Binance: {
-      const { BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { BinanceToolbox } = await import('@coinmasters/toolbox-cosmos');
       return { ...BinanceToolbox(), transfer: walletTransfer };
     }
 
@@ -64,7 +64,7 @@ const getWalletMethodsForChain = async ({
         addEVMWalletNetwork,
         covalentApi,
         ethplorerApi,
-      } = await import('@swapkit/toolbox-evm');
+      } = await import('@coinmasters/toolbox-evm');
       const { BrowserProvider } = await import('ethers');
 
       const ethereumWindowProvider = window.xfi?.ethereum;
@@ -140,7 +140,7 @@ const getWalletMethodsForChain = async ({
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       const { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } = await import(
-        '@swapkit/toolbox-utxo'
+        '@coinmasters/toolbox-utxo'
       );
       const params = { rpcUrl, utxoApiKey, apiClient: api };
       const toolbox =

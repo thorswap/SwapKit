@@ -19,12 +19,12 @@ const getSizeFor = (packagePath, sizeType) => {
     {
       limit: size,
       path: `./packages/${packagePath}/dist/*.cjs`,
-      name: `@swapkit/${packagePrefix}${packageName} - CommonJS`,
+      name: `@coinmasters/${packagePrefix}${packageName} - CommonJS`,
     },
     {
       limit: size,
       path: `./packages/${packagePath}/dist/*.js`,
-      name: `@swapkit/${packagePrefix}${packageName} - ES Modules`,
+      name: `@coinmasters/${packagePrefix}${packageName} - ES Modules`,
     },
   ];
 };

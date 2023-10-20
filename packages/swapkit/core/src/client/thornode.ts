@@ -1,6 +1,6 @@
-import { getRequest } from '@swapkit/helpers';
-import type { Chain } from '@swapkit/types';
-import { ApiUrl } from '@swapkit/types';
+import { getRequest } from '@coinmasters/helpers';
+import type { Chain } from '@coinmasters/types';
+import { ApiUrl } from '@coinmasters/types';
 
 type InboundAddressData = {
   address: string;

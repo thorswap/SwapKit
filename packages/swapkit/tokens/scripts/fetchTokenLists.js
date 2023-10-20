@@ -1,5 +1,5 @@
-import { SwapKitApi } from '@swapkit/api';
-import { Chain } from '@swapkit/types';
+import { SwapKitApi } from '@coinmasters/api';
+import { Chain } from '@coinmasters/types';
 import fs from 'fs-extra';
 
 const getTokens = async () => {

@@ -1,6 +1,6 @@
 import { base64 } from '@scure/base';
-import type { DerivationPathArray, GetAddressAndPubKeyResponse } from '@swapkit/types';
-import { ErrorCode, NetworkDerivationPath } from '@swapkit/types';
+import type { DerivationPathArray, GetAddressAndPubKeyResponse } from '@coinmasters/types';
+import { ErrorCode, NetworkDerivationPath } from '@coinmasters/types';
 
 import { CommonLedgerInterface } from '../../interfaces/LedgerInterfaces.ts';
 

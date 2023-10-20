@@ -1,4 +1,4 @@
-import type { Chain, ErrorCode, QuoteMode } from '@swapkit/types';
+import type { Chain, ErrorCode, QuoteMode } from '@coinmasters/types';
 
 export enum TransactionType {
   // Old quote mode

@@ -1,5 +1,5 @@
-import type { Chain } from '@swapkit/types';
-import { MemoType } from '@swapkit/types';
+import type { Chain } from '@coinmasters/types';
+import { MemoType } from '@coinmasters/types';
 
 export type ThornameRegisterParam = {
   name: string;

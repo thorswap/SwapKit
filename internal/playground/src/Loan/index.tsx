@@ -1,4 +1,4 @@
-import type { AssetValue, SwapKitCore } from '@swapkit/core';
+import type { AssetValue, SwapKitCore } from '@coinmasters/core';
 import { useCallback, useState } from 'react';
 
 export default function Loan({

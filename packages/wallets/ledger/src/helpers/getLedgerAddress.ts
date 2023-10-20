@@ -1,4 +1,4 @@
-import { Chain } from '@swapkit/types';
+import { Chain } from '@coinmasters/types';
 
 import type { CosmosLedgerClients, EVMLedgerClients, UTXOLedgerClients } from '../types.ts';
 

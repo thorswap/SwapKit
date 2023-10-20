@@ -1,12 +1,12 @@
 {
   "author": "swapkit-oss-team",
   "dependencies": {
-    "@swapkit/types": "workspace:*"
+    "@coinmasters/types": "workspace:*"
   },
   "description": "SwapKit Lib evm-extensions",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
+    "@coinmasters/toolbox-evm": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.4",
     "ethers": "6.7.1",
     "vite": "4.4.9",
@@ -30,9 +30,9 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/wallet-evm-extensions",
+  "name": "@coinmasters/wallet-evm-extensions",
   "peerDependencies": {
-    "@swapkit/toolbox-evm": "workspace:*",
+    "@coinmasters/toolbox-evm": "workspace:*",
     "ethers": "^6.7.1"
   },
   "publishConfig": {

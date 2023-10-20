@@ -1,10 +1,10 @@
 // @ts-ignore
 import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
-import { BinanceToolbox, getDenom } from '@swapkit/toolbox-cosmos';
-import type { } from '@swapkit/types';
-import { Chain, ChainId } from '@swapkit/types';
-import type { AssetValue } from '@swapkit/helpers';
-import type { WalletTxParams } from '@swapkit/types';
+import { BinanceToolbox, getDenom } from '@coinmasters/toolbox-cosmos';
+import type { } from '@coinmasters/types';
+import { Chain, ChainId } from '@coinmasters/types';
+import type { AssetValue } from '@coinmasters/helpers';
+import type { WalletTxParams } from '@coinmasters/types';
 
 // @ts-ignore
 import type { KeepKeyParams } from '../keepkey.js';

@@ -26,7 +26,7 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/<%- packageName %>",
+  "name": "@coinmasters/<%- packageName %>",
   "peerDependencies": {},
   "publishConfig": {
     "access": "public"

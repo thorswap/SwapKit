@@ -1,5 +1,5 @@
-import { assetFromString, AssetValue, formatBigIntToSafeValue, getRequest } from '@swapkit/helpers';
-import { Chain } from '@swapkit/types';
+import { assetFromString, AssetValue, formatBigIntToSafeValue, getRequest } from '@coinmasters/helpers';
+import { Chain } from '@coinmasters/types';
 
 import type { AddressInfo } from '../types/ethplorer-api-types.ts';
 const baseUrl = 'https://api.ethplorer.io';

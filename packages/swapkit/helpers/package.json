@@ -3,8 +3,8 @@
   "description": "SwapKit Lib swapkit-helpers",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@swapkit/tokens": "workspace:*",
-    "@swapkit/types": "workspace:*",
+    "@coinmasters/tokens": "workspace:*",
+    "@coinmasters/types": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.4",
     "vite": "4.4.9",
     "vitest": "0.34.4"
@@ -13,8 +13,8 @@
     "extends": "../../../internal/eslint-config"
   },
   "peerDependencies": {
-    "@swapkit/tokens": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "@coinmasters/tokens": "workspace:*",
+    "@coinmasters/types": "workspace:*"
   },
   "exports": {
     ".": {
@@ -31,7 +31,7 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/helpers",
+  "name": "@coinmasters/helpers",
   "publishConfig": {
     "access": "public"
   },

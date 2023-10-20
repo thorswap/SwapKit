@@ -1,4 +1,4 @@
-import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from '@swapkit/types';
+import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from '@coinmasters/types';
 import type { BrowserProvider, JsonRpcProvider, Signer } from 'ethers';
 
 import type { CovalentApiType } from '../api/covalentApi.ts';

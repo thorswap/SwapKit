@@ -1,5 +1,5 @@
-import { AssetValue, type SwapKitCore } from '@swapkit/core';
-import { Chain } from '@swapkit/types';
+import { AssetValue, type SwapKitCore } from '@coinmasters/core';
+import { Chain } from '@coinmasters/types';
 import { useCallback, useState } from 'react';
 
 export default function TNS({ skClient }: { skClient: SwapKitCore }) {

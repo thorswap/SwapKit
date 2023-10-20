@@ -1,5 +1,5 @@
-import type { AssetValue } from '@swapkit/helpers';
-import type { FeeOption, UTXOChain } from '@swapkit/types';
+import type { AssetValue } from '@coinmasters/helpers';
+import type { FeeOption, UTXOChain } from '@coinmasters/types';
 
 import type { BlockchairApiType } from '../api/blockchairApi.ts';
 import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '../index.ts';

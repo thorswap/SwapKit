@@ -1,4 +1,4 @@
-# @swapkit/toolbox-cosmos
+# @coinmasters/toolbox-cosmos
 
 ## 1.0.0-rc.1
 
