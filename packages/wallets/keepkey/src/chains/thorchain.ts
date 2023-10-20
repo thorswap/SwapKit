@@ -17,6 +17,13 @@ type SignTransactionTransferParams = {
   memo: string | undefined;
 };
 
+type SignTransactionDepositParams = {
+  asset: string;
+  amount: any;
+  from: string;
+  memo: string | undefined;
+};
+
 // @ts-ignore
 export const thorChainWalletMethods: any = async function (params: KeepKeyParams) {
   try {
@@ -98,16 +105,81 @@ export const thorChainWalletMethods: any = async function (params: KeepKeyParams
       });
     };
 
-    // const deposit = async ({ asset = AssetRuneNative, amount, memo }: DepositParam) => {
-    //   let fromAddress = await getAddress();
-    //   return signTransactionDeposit({ asset, amount, memo, from: fromAddress });
-    // }
+    const signTransactionDeposit = async (params: SignTransactionDepositParams) => {
+      try {
+        const { amount, asset, to, from, memo } = params;
+        const addressInfo = addressInfoForCoin(Chain.THORChain, false); // @highlander no witness script here
+        const accountInfo = await toolbox.getAccount(from);
+
+        const body = {
+          signDoc: {
+            account_number: accountInfo?.accountNumber?.toString() ?? '0',
+            chain_id: ChainId.THORChain,
+            fee: {
+              gas: '500000000',
+              amount: [{
+                "amount": "2500",
+                "denom": "rune"
+              }
+              ],
+            },
+            msgs: [
+              {
+                value: {
+                  coins: [
+                    {
+                      asset: 'THOR.'+asset.toUpperCase(),
+                      amount: amount.toString(),
+                    },
+                  ],
+                  memo,
+                  signer:from,
+                },
+                type: 'thorchain/MsgDeposit',
+              },
+            ],
+            memo,
+            sequence: accountInfo?.sequence.toString() ?? '0',
+            source: addressInfo?.source?.toString() ?? '0',
+          },
+          signerAddress: from,
+        };
+        console.log("body: ",body)
+        const [keepKeyResponse, stargateClient] = await Promise.all([
+          // @ts-ignore
+          sdk.thorchain.thorchainSignAminoDeposit(body),
+          StargateClient.connect(RPCUrl.THORChain),
+        ]);
+
+        const decodedBytes = atob(keepKeyResponse.serialized);
+        const uint8Array = new Uint8Array(decodedBytes.length);
+        for (let i = 0; i < decodedBytes.length; i++) {
+          uint8Array[i] = decodedBytes.charCodeAt(i);
+        }
+
+        const broadcastResponse = await stargateClient.broadcastTx(uint8Array);
+
+        return broadcastResponse.transactionHash;
+      } catch (e) {
+        console.error(e);
+        throw e;
+      }
+    };
+
+    const deposit = async (params: any) => {
+      console.log("params", params)
+      const { assetValue, amount, memo } = params;
+      let fromAddress = await getAddress();
+      let paramsDeposit = { asset:assetValue.symbol, amount:assetValue.baseValue.toString(), memo, from: fromAddress }
+      console.log("paramsDeposit: ",paramsDeposit)
+      return signTransactionDeposit(paramsDeposit);
+    }
 
     return {
       ...toolbox,
       getAddress,
       transfer,
-      // deposit
+      deposit
     };
   } catch (e) {
     console.error(e);
