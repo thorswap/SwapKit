@@ -1,12 +1,8 @@
 import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber } from '@ethersproject/bignumber';
-// import { BigNumber } from '@ethersproject/bignumber';
-// import { serialize } from '@ethersproject/transactions';
-// import { derivationPathToString } from '@pioneer-platform/helpers';
-import type { Chain, DerivationPathArray } from '@coinmasters/types';
-import { ChainToChainId } from '@coinmasters/types';
-import type { EVMTxParams } from '@coinmasters/toolbox-evm';
-// import TrezorConnect from '@trezor/connect-web';
+import type { Chain, DerivationPathArray } from '@swapkit/types';
+import { ChainToChainId } from '@swapkit/types';
+import type { EVMTxParams } from '@swapkit/toolbox-evm';
 import { AbstractSigner, type JsonRpcProvider, type Provider } from 'ethers';
 
 interface KeepKeyEVMSignerParams {
@@ -21,20 +17,19 @@ class KeepKeySigner extends AbstractSigner {
   private chain: Chain;
   private derivationPath: DerivationPathArray;
   private address: string;
-  readonly provider: Provider | JsonRpcProvider;
+  private _innerProvider: Provider | JsonRpcProvider;
 
   constructor({ sdk, chain, derivationPath, provider }: KeepKeyEVMSignerParams) {
     super();
     this.sdk = sdk;
     this.chain = chain;
     this.derivationPath = derivationPath;
-    this.provider = provider;
+    this._innerProvider = provider;
     this.address = '';
   }
 
-  getAddress = async () => {
+  async getAddress() {
     if (!this.address) {
-      //ETH path
       let addressInfo = {
         addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
         coin: 'Ethereum',
@@ -46,31 +41,28 @@ class KeepKeySigner extends AbstractSigner {
       });
       this.address = response.address;
     }
-
     return this.address;
-  };
+  }
 
-  signMessage = async (message: string) => {
+  async signMessage(message: string) {
     let input = {
       address: this.address,
-      message: message, //must be hex encoded
+      message: message,
     };
     let response = await this.sdk.ethSign(input);
     return response;
-  };
+  }
 
-  // @TODO: implement signTypedData
   signTypedData(): Promise<string> {
     throw new Error('this method is not implemented');
   }
-  
-  signTransaction = async ({ from, to, value, gasLimit, nonce, data, ...restTx }: EVMTxParams) => {
+
+  async signTransaction({ from, to, value, gasLimit, nonce, data, ...restTx }: EVMTxParams) {
     if (!from) throw new Error('Missing from address');
     if (!to) throw new Error('Missing to address');
     if (!gasLimit) throw new Error('Missing gasLimit');
     if (!nonce) throw new Error('Missing nonce');
     if (!data) throw new Error('Missing data');
-    if (!restTx) throw new Error('Missing restTx');
     const isEIP1559 = 'maxFeePerGas' in restTx && 'maxPriorityFeePerGas' in restTx;
 
     const baseTx = {
@@ -81,29 +73,30 @@ class KeepKeySigner extends AbstractSigner {
       value: BigNumber.from(value || 0).toHexString(),
       gasLimit: BigNumber.from(gasLimit).toHexString(),
       nonce: BigNumber.from(
-        nonce || (await this.provider.getTransactionCount(from, 'pending')),
+        nonce || (await this._innerProvider.getTransactionCount(from, 'pending')),
       ).toHexString(),
       data,
       ...(isEIP1559
         ? {
-            maxFeePerGas: BigNumber.from(restTx?.maxFeePerGas).toHexString(),
-            maxPriorityFeePerGas: BigNumber.from(restTx.maxPriorityFeePerGas).toHexString(),
-          }
-        : //@ts-expect-error ts cant infer type of restTx
-          { gasPrice: BigNumber.from(restTx.gasPrice).toHexString() }),
+          maxFeePerGas: BigNumber.from(restTx?.maxFeePerGas).toHexString(),
+          maxPriorityFeePerGas: BigNumber.from(restTx.maxPriorityFeePerGas).toHexString(),
+        }
+        : { gasPrice: BigNumber.from(restTx.gasPrice).toHexString() }),
     };
 
     let responseSign = await this.sdk.eth.ethSignTransaction(baseTx);
     return responseSign.serialized;
-  };
+  }
 
-  connect = (provider: Provider) =>
-    new KeepKeySigner({
+  connect(provider: Provider) {
+    return new KeepKeySigner({
       sdk: this.sdk,
       chain: this.chain,
       derivationPath: this.derivationPath,
       provider,
     });
+  }
 }
+
 export const getEVMSigner = async ({ sdk, chain, derivationPath, provider }: any) =>
   new KeepKeySigner({ sdk, chain, derivationPath, provider });
