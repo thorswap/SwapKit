@@ -17,12 +17,12 @@ runs:
       shell: bash
       run: echo "dir=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-    - uses: actions/cache@v3
-      id: pnpm-cache
-      with:
-        path: ${{ steps.pnpm-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ hashFiles('pnpm-lock.yaml') }}
-        restore-keys: ${{ runner.os }}-node-
+    # - uses: actions/cache@v3
+    #   id: pnpm-cache
+    #   with:
+    #     path: ${{ steps.pnpm-cache-dir.outputs.dir }}
+    #     key: ${{ runner.os }}-node-${{ hashFiles('pnpm-lock.yaml') }}
+    #     restore-keys: ${{ runner.os }}-node-
 
     - name: Use Node.js 18.16
       uses: actions/setup-node@v3
