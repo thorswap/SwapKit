@@ -6,30 +6,30 @@
  */
 // import loggerdog from "@pioneer-platform/loggerdog";
 // @ts-ignore
-import { shortListSymbolToCaip } from "@pioneer-platform/pioneer-caip";
-// @ts-ignore
-import Pioneer from "@pioneer-platform/pioneer-client";
-import {
-  getPaths,
-  COIN_MAP_LONG,
-  // @ts-ignore
-} from "@pioneer-platform/pioneer-coins";
 // import * as Events from "@pioneer-platform/pioneer-events";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { SwapKitCore } from "@coinmasters/core";
+
+import { SwapKitCore } from '@coinmasters/core';
+import { shortListSymbolToCaip } from '@pioneer-platform/pioneer-caip';
+// @ts-ignore
+import Pioneer from '@pioneer-platform/pioneer-client';
+import {
+  COIN_MAP_LONG,
+  getPaths,
+  // @ts-ignore
+} from '@pioneer-platform/pioneer-coins';
 // import { Chain, EVMChainList, WalletOption } from "@coinmasters/types";
-import EventEmitter from "events";
-// @ts-ignore
-// @ts-ignore
-
-import { initializeWallets } from "./connect";
-import { availableChainsByWallet } from "./support";
+import EventEmitter from 'events';
 
 // @ts-ignore
 // @ts-ignore
+import { initializeWallets } from './connect';
+import { availableChainsByWallet } from './support';
+
+// @ts-ignore
+// @ts-ignore
 // @ts-ignore
 
-const TAG = " | Pioneer-sdk | ";
+const TAG = ' | Pioneer-sdk | ';
 
 export interface PioneerSDKConfig {
   blockchains: any;
@@ -126,9 +126,9 @@ export class SDK {
 
   // @ts-ignore
   constructor(spec: string, config: PioneerSDKConfig) {
-    this.status = "preInit";
-    this.spec = config.spec || "https://pioneers.dev/spec/swagger";
-    this.wss = config.wss || "wss://pioneers.dev";
+    this.status = 'preInit';
+    this.spec = config.spec || 'https://pioneers.dev/spec/swagger';
+    this.wss = config.wss || 'wss://pioneers.dev';
     this.username = config.username;
     this.queryKey = config.queryKey;
     this.ethplorerApiKey = config.ethplorerApiKey;
@@ -141,7 +141,7 @@ export class SDK {
     this.nfts = [];
     this.pioneer = null;
     this.swapKit = null;
-    this.context = "";
+    this.context = '';
     this.pubkeyContext = null;
     this.assetContext = null;
     this.blockchainContext = null;
@@ -154,18 +154,17 @@ export class SDK {
     this.init = async function () {
       const tag = `${TAG} | init | `;
       try {
-        if (!this.username) throw Error("username required!");
-        if (!this.queryKey) throw Error("queryKey required!");
-        if (!this.wss) throw Error("wss required!");
-        if (!this.ethplorerApiKey) throw Error("ethplorerApiKey required!");
-        if (!this.covalentApiKey) throw Error("covalentApiKey required!");
-        if (!this.utxoApiKey) throw Error("utxoApiKey required!");
-        if (!this.walletConnectProjectId)
-          throw Error("walletConnectProjectId required!");
+        if (!this.username) throw Error('username required!');
+        if (!this.queryKey) throw Error('queryKey required!');
+        if (!this.wss) throw Error('wss required!');
+        if (!this.ethplorerApiKey) throw Error('ethplorerApiKey required!');
+        if (!this.covalentApiKey) throw Error('covalentApiKey required!');
+        if (!this.utxoApiKey) throw Error('utxoApiKey required!');
+        if (!this.walletConnectProjectId) throw Error('walletConnectProjectId required!');
 
         const PioneerClient = new Pioneer(config.spec, config);
         this.pioneer = await PioneerClient.init();
-        if (!this.pioneer) throw Error("Fialed to init pioneer server!");
+        if (!this.pioneer) throw Error('Fialed to init pioneer server!');
 
         // init wallets
         const { wallets, walletsVerbose } = await initializeWallets();
@@ -179,7 +178,7 @@ export class SDK {
         const { ethplorerApiKey } = this;
         const { covalentApiKey } = this;
         const { utxoApiKey } = this;
-        if (!utxoApiKey) throw Error("Unable to get utxoApiKey!");
+        if (!utxoApiKey) throw Error('Unable to get utxoApiKey!');
         const { walletConnectProjectId } = this;
         const stagenet = false;
         const configKit = {
@@ -194,13 +193,13 @@ export class SDK {
         };
         // log.info(tag, "configKit: ", configKit);
         await this.swapKit.extend(configKit);
-        this.events.emit("SET_STATUS", "init");
+        this.events.emit('SET_STATUS', 'init');
         // done registering, now get the user
         // this.refresh()
-        if (!this.pioneer) throw Error("Failed to init pioneer server!");
+        if (!this.pioneer) throw Error('Failed to init pioneer server!');
         return this.pioneer;
       } catch (e) {
-        console.error(tag, "e: ", e);
+        console.error(tag, 'e: ', e);
         throw e;
       }
     };
@@ -208,7 +207,7 @@ export class SDK {
       const tag = `${TAG} | pairWallet | `;
       try {
         // log.debug(tag, "Pairing Wallet");
-        if (!wallet) throw Error("Must have wallet to pair!");
+        if (!wallet) throw Error('Must have wallet to pair!');
 
         // filter wallets by type
         const walletSelected = this.wallets.find((w: any) => w.type === wallet);
@@ -220,28 +219,23 @@ export class SDK {
         // log.info(tag,"walletSelected.wallet.connectMethodName: ",walletSelected.wallet.connectMethodName)
         // log.info("AllChainsSupported: ", AllChainsSupported);
         const resultPair =
-          await this.swapKit[walletSelected.wallet.connectMethodName](
-            AllChainsSupported
-          );
+          await this.swapKit[walletSelected.wallet.connectMethodName](AllChainsSupported);
         // log.info("resultPair: ", resultPair);
         // log.info("this.swapKit: ", this.swapKit);
         if (resultPair) {
           // update
-          const matchingWalletIndex = this.wallets.findIndex(
-            (w) => w.type === wallet
-          );
+          const matchingWalletIndex = this.wallets.findIndex((w) => w.type === wallet);
           // log.info(tag, "matchingWalletIndex: ", matchingWalletIndex);
           // get balances
-          const ethAddress = await this.swapKit.getAddress("ETH");
-          if (!ethAddress)
-            throw Error("Failed to get eth address! can not pair wallet");
+          const ethAddress = await this.swapKit.getAddress('ETH');
+          if (!ethAddress) throw Error('Failed to get eth address! can not pair wallet');
           const context = `${wallet.toLowerCase()}:${ethAddress}.wallet`;
           // log.info(tag, "context: ", context);
-          this.events.emit("CONTEXT", context);
+          this.events.emit('CONTEXT', context);
           // add context to wallet
           this.wallets[matchingWalletIndex].context = context;
           this.wallets[matchingWalletIndex].connected = true;
-          this.wallets[matchingWalletIndex].status = "connected";
+          this.wallets[matchingWalletIndex].status = 'connected';
           this.setContext(context);
           this.refresh(context);
         } else {
@@ -249,9 +243,9 @@ export class SDK {
         }
         return true;
       } catch (e) {
-        console.error(tag, "e: ", e);
+        console.error(tag, 'e: ', e);
         // response:
-        console.error(tag, "e: ", JSON.stringify(e));
+        console.error(tag, 'e: ', JSON.stringify(e));
         // log.error(tag, "e2: ", e.response)
         // log.error(tag, "e3: ", e.response.data)
         throw e;
@@ -262,11 +256,8 @@ export class SDK {
       try {
         // verify context exists
         // log.info(tag, "context: ", context);
-        const walletWithContext = this.wallets.find(
-          (wallet: any) => wallet.context === context
-        );
-        if (!walletWithContext)
-          throw Error(`Context does not exist! ${context}`);
+        const walletWithContext = this.wallets.find((wallet: any) => wallet.context === context);
+        if (!walletWithContext) throw Error(`Context does not exist! ${context}`);
         // log.info(tag, "walletWithContext: ", walletWithContext);
 
         // get chains of wallet
@@ -274,7 +265,7 @@ export class SDK {
         // get address array
         const addressArray = await Promise.all(
           // @ts-ignore
-          chains.map(this.swapKit.getAddress)
+          chains.map(this.swapKit.getAddress),
         );
         // log.info(tag, "addressArray: ", addressArray);
         for (let i = 0; i < chains.length; i++) {
@@ -284,8 +275,8 @@ export class SDK {
             context, // TODO this is not right?
             // wallet:walletSelected.type,
             symbol: chain,
-            blockchain: COIN_MAP_LONG[chain] || "unknown",
-            type: "address",
+            blockchain: COIN_MAP_LONG[chain] || 'unknown',
+            type: 'address',
             caip: shortListSymbolToCaip[chain],
             master: address,
             pubkey: address,
@@ -293,34 +284,41 @@ export class SDK {
           };
           this.pubkeys.push(pubkey);
         }
-        this.events.emit("SET_PUBKEYS", this.pubkeys);
+        this.events.emit('SET_PUBKEYS', this.pubkeys);
         // set pubkeys
+        console.log('this.swapKit: ', this.swapKit);
         // calculate walletDaa
         const walletDataArray = await Promise.all(
           // @ts-ignore
-          chains.map(this.swapKit.getWalletByChain)
+          chains.map(this.swapKit.getWalletByChain),
         );
-        // log.info(tag, "walletDataArray: ", walletDataArray);
+        console.log(tag, 'walletDataArray: ', walletDataArray);
         // set balances
+        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < walletDataArray.length; i++) {
           const walletData: any = walletDataArray[i];
-          // log.info(tag, "walletData: ", walletData);
+          console.log(tag, 'walletData: ', walletData);
           // const chain = chains[i];
           // log.info(tag, "chain: ", chain);
-          for (let j = 0; j < walletData.balance.length; j++) {
-            const balance = walletData.balance[j];
-            // log.info(tag, "balance: ", balance);
-            this.balances.push(balance);
+          if (walletData) {
+            // eslint-disable-next-line @typescript-eslint/prefer-for-of
+            for (let j = 0; j < walletData.balance.length; j++) {
+              const balance = walletData.balance[j];
+              console.log('balance: ', balance);
+              console.log('balance: ', balance.assetValue);
+              console.log('balance: ', balance.baseValueNumber);
+              // console.log('balance: ', balance);
+              if (balance && balance?.baseValueNumber > 0) {
+                this.balances.push(balance);
+              }
+            }
           }
         }
-        this.events.emit("SET_BALANCES", this.balances);
+        this.events.emit('SET_BALANCES', this.balances);
         this.assetContext = this.balances[0];
-        this.events.emit("SET_ASSET_CONTEXT", this.assetContext);
+        this.events.emit('SET_ASSET_CONTEXT', this.assetContext);
         this.outboundAssetContext = this.balances[1];
-        this.events.emit(
-          "SET_OUTBOUND_ASSET_CONTEXT",
-          this.outboundAssetContext
-        );
+        this.events.emit('SET_OUTBOUND_ASSET_CONTEXT', this.outboundAssetContext);
         // set defaults
         // if(!this.blockchainContext)this.blockchainContext = primaryBlockchains['eip155:1/slip44:60']
         // if(!this.assetContext)this.assetContext = primaryAssets['eip155:1/slip44:60']
@@ -338,7 +336,7 @@ export class SDK {
         // this.events.emit("SET_PUBKEY_CONTEXT", this.pubkeyContext);
         return true;
       } catch (e) {
-        console.error(tag, "e: ", e);
+        console.error(tag, 'e: ', e);
         throw e;
       }
     };
@@ -346,14 +344,12 @@ export class SDK {
       const tag = `${TAG} | setContext | `;
       try {
         // log.info(tag, "context: ", context);
-        const isContextExist = this.wallets.some(
-          (wallet: any) => wallet.context === context
-        );
+        const isContextExist = this.wallets.some((wallet: any) => wallet.context === context);
         // log.info(tag, "isContextExist: ", isContextExist);
         if (isContextExist) {
           // if success
           this.context = context;
-          this.events.emit("CONTEXT", context);
+          this.events.emit('CONTEXT', context);
           // TODO refresh
           // if(this.blockchainContext && this.assetContext){
           //     //update pubkey context
@@ -385,7 +381,7 @@ export class SDK {
           return { success: true };
         }
         throw Error(
-          `Wallet context not found paired! con not set context to unpaired wallet!${context}`
+          `Wallet context not found paired! con not set context to unpaired wallet!${context}`,
         );
       } catch (e) {
         console.error(tag, e);
@@ -397,30 +393,26 @@ export class SDK {
       try {
         if (asset && this.assetContext && this.assetContext !== asset) {
           this.assetContext = asset;
-          this.events.emit("SET_ASSET_CONTEXT", asset);
+          this.events.emit('SET_ASSET_CONTEXT', asset);
           return { success: true };
         }
         return { success: false, error: `already asset context=${asset}` };
       } catch (e) {
-        console.error(tag, "e: ", e);
+        console.error(tag, 'e: ', e);
         throw e;
       }
     };
     this.setOutboundAssetContext = async function (asset: any) {
       const tag = `${TAG} | setOutputAssetContext | `;
       try {
-        if (
-          asset &&
-          this.outboundAssetContext &&
-          this.outboundAssetContext !== asset
-        ) {
+        if (asset && this.outboundAssetContext && this.outboundAssetContext !== asset) {
           this.outboundAssetContext = asset;
-          this.events.emit("SET_OUTBOUND_ASSET_CONTEXT", asset);
+          this.events.emit('SET_OUTBOUND_ASSET_CONTEXT', asset);
           return { success: true };
         }
         return { success: false, error: `already asset context=${asset}` };
       } catch (e) {
-        console.error(tag, "e: ", e);
+        console.error(tag, 'e: ', e);
         throw e;
       }
     };

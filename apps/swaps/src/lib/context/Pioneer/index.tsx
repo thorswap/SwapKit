@@ -352,6 +352,11 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       // @ts-ignore
       dispatch({ type: WalletActions.SET_APP, payload: appInit });
 
+      setTimeout(() => {
+        console.log("STARTING KEEPKEY BRO")
+        connectWallet('KEEPKEY');
+      }, 2000); // 1000 milliseconds = 1 second
+
       // events
       // @ts-ignore
       const { events } = appInit;
@@ -369,42 +374,12 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       });
 
       // TODO why dis no worky
-
+      //TODO if keepkey available always connect
       // @TODO if any wallet been connected before connect
     } catch (e) {
       console.error(e);
     }
   };
-
-  // useEffect(() => {
-  //   if (state && state.app) {
-  //     // if keepkey available, connect
-  //     // @ts-ignore
-  //     dispatch({
-  //       type: WalletActions.SET_PUBKEY_CONTEXT,
-  //       payload: state.app.pubkeyContext,
-  //     });
-  //     // @ts-ignore
-  //     dispatch({
-  //       type: WalletActions.SET_ASSET_CONTEXT,
-  //       payload: state.app.assetContext,
-  //     });
-  //     // @ts-ignore
-  //     dispatch({
-  //       type: WalletActions.SET_BLOCKCHAIN_CONTEXT,
-  //       payload: state.app.blockchainContext,
-  //     });
-  //     // @ts-ignore
-  //     dispatch({ type: WalletActions.SET_CONTEXT, payload: state.app.context });
-  //   }
-  // }, [
-  //   state,
-  //   state?.app,
-  //   state?.app?.context,
-  //   state?.app?.assetContext,
-  //   state?.app?.blockchainContext,
-  //   state?.app?.pubkeyContext,
-  // ]);
 
   // end
   const value: any = useMemo(

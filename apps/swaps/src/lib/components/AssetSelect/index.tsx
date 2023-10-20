@@ -130,16 +130,16 @@ export default function AssetSelect({ onClose }: any) {
                   <Avatar
                     size="xl"
                     src={`https://pioneers.dev/coins/${
-                      COIN_MAP_LONG[asset?.asset?.network]
+                      COIN_MAP_LONG[asset?.chain]
                     }.png`}
                   />
 
                   <Box>
-                    <Text fontSize="md">Asset: {asset?.asset?.name}</Text>
-                    <Text fontSize="md">Network: {asset?.asset?.network}</Text>
-                    <Text fontSize="md">Symbol: {asset?.asset?.symbol}</Text>
+                    <Text fontSize="md">Asset: {asset?.name}</Text>
+                    <Text fontSize="md">Network: {asset?.chain}</Text>
+                    <Text fontSize="md">Symbol: {asset?.symbol}</Text>
                     <Text fontSize="md">
-                      Balance: {asset?.assetAmount.toString()}{" "}
+                      Balance: {asset?.assetValue.toString()}{" "}
                     </Text>
                   </Box>
                 </HStack>

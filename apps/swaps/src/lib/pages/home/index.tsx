@@ -1,33 +1,32 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { SettingsIcon, AddIcon } from "@chakra-ui/icons";
+import { AddIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
+  Box,
   Button,
-  useDisclosure,
+  Flex,
   Modal,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  ModalOverlay,
   ModalContent,
+  ModalFooter,
   ModalHeader,
-  Flex,
-  Box,
+  ModalOverlay,
   SimpleGrid, // Add SimpleGrid
-} from "@chakra-ui/react";
+  useDisclosure,
+} from '@chakra-ui/react';
 // import { COIN_MAP_LONG } from "@pioneer-platform/pioneer-coins";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { FeeOption } from "@coinmasters/types";
-import { useEffect, useState } from "react";
+import { FeeOption } from '@coinmasters/types';
+import { useEffect, useState } from 'react';
 
-import AssetSelect from "../../components/AssetSelect";
-import OutputSelect from "../../components/OutputSelect";
-import { usePioneer } from "../../context/Pioneer";
+import AssetSelect from '../../components/AssetSelect';
+import OutputSelect from '../../components/OutputSelect';
+import { usePioneer } from '../../context/Pioneer';
 
 // import backgroundImage from "lib/assets/background/thorfox.webp"; // Adjust the path
 // import ForkMeBanner from "lib/components/ForkMe";
-import BeginSwap from "./steps/BeginSwap"; // Updated import here
-import CompleteSwap from "./steps/CompleteSwap"; // Updated import here
-import SelectAssets from "./steps/SelectAssets";
+import BeginSwap from './steps/BeginSwap'; // Updated import here
+import CompleteSwap from './steps/CompleteSwap'; // Updated import here
+import SelectAssets from './steps/SelectAssets';
 
 const Home = () => {
   const { state, onStart } = usePioneer();
@@ -37,24 +36,17 @@ const Home = () => {
   const [modalType, setModalType] = useState(null);
   const [txHash, setTxhash] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedButton, setSelectedButton] = useState("quick"); // Initial selected button is "Quick"
+  const [selectedButton, setSelectedButton] = useState('quick'); // Initial selected button is "Quick"
   const [isContinueDisabled, setIsContinueDisabled] = useState(true); // Initial continue button is disabled
   const handleClick = (button: any) => {
     setSelectedButton(button);
   };
-  const [continueButtonContent, setContinueButtonContent] =
-    useState("Continue"); // Initial continue button content is "Continue"
+  const [continueButtonContent, setContinueButtonContent] = useState('Continue'); // Initial continue button content is "Continue"
   // const [assets] = useState([]); // Array to store assets
   const [showGoBack, setShowGoBack] = useState(false);
 
   useEffect(() => {
-    if (
-      app &&
-      app.swapKit &&
-      assetContext &&
-      outboundAssetContext &&
-      step === 0
-    ) {
+    if (app && app.swapKit && assetContext && outboundAssetContext && step === 0) {
       setIsContinueDisabled(false);
     }
   }, [app, assetContext, blockchainContext, outboundAssetContext, step]);
@@ -64,13 +56,13 @@ const Home = () => {
       setShowGoBack(false);
     }
     if (step === 1) {
-      setContinueButtonContent("Sign Transaction");
+      setContinueButtonContent('Sign Transaction');
     }
   }, [step]);
 
   //start the context provider
   useEffect(() => {
-    onStart()
+    onStart();
   }, []);
 
   const openModal = (type: any) => {
@@ -92,10 +84,10 @@ const Home = () => {
           recipient: assetContext.address,
           feeOptionKey: FeeOption.Fast,
         };
-        console.log("swapParams: ", swapParams);
+        console.log('swapParams: ', swapParams);
         // console.log("swapKit: ", swapKit);
         // const txHash = await swapKit.swap(swapParams);
-        console.log("txHash: ", txHash);
+        console.log('txHash: ', txHash);
         setTxhash(txHash);
         setStep((prevStep) => prevStep + 1);
       }
@@ -118,8 +110,8 @@ const Home = () => {
       case 0:
         return (
           <SelectAssets
-            openModal={openModal}
             handleClick={handleClick}
+            openModal={openModal}
             selectedButton={selectedButton}
           />
         );
@@ -142,12 +134,12 @@ const Home = () => {
           <ModalCloseButton />
           <ModalBody>
             {/* Render content based on modalType */}
-            {modalType === "Select Asset" && (
+            {modalType === 'Select Asset' && (
               <div>
                 <AssetSelect onClose={onClose} />
               </div>
             )}
-            {modalType === "Select Outbound" && (
+            {modalType === 'Select Outbound' && (
               <div>
                 <OutputSelect onClose={onClose} onlyOwned={false} />
               </div>
@@ -161,38 +153,31 @@ const Home = () => {
         </ModalContent>
       </Modal>
       <Box
-        w="35rem"
-        mx="auto"
-        mt="5rem"
-        boxShadow="rgb(0 0 0 / 8%) 0rem 0.37rem 0.62rem"
-        borderRadius="1.37rem 1.37rem 0 0"
         bg="black"
+        borderRadius="1.37rem 1.37rem 0 0"
+        boxShadow="rgb(0 0 0 / 8%) 0rem 0.37rem 0.62rem"
+        mt="5rem"
+        mx="auto"
+        w="35rem"
       >
         <Flex
           alignItems="center"
-          p="1rem 1.25rem 0.5rem"
           color="rgb(86, 90, 105)"
           justifyContent="space-between"
+          p="1rem 1.25rem 0.5rem"
         >
           <h1>Swap</h1>
           <SettingsIcon
-            fontSize="1.25rem"
+            _hover={{ color: 'rgb(128,128,128)' }}
             cursor="pointer"
-            _hover={{ color: "rgb(128,128,128)" }}
-            onClick={() => openModal("settings")}
+            fontSize="1.25rem"
+            onClick={() => openModal('settings')}
           />
         </Flex>
         {renderStepContent()}
       </Box>
-      <Flex
-        w="35rem"
-        mx="auto"
-        flexDirection="column"
-        alignItems="center"
-        bg="black"
-        p="2rem"
-      >
-        <SimpleGrid columns={2} spacing={4} width="full" mb={4}>
+      <Flex alignItems="center" bg="black" flexDirection="column" mx="auto" p="2rem" w="35rem">
+        <SimpleGrid columns={2} mb={4} spacing={4} width="full">
           {/* {assets.map((asset: any) => ( */}
           {/*  <Button */}
           {/*    key={asset.network} */}
@@ -206,11 +191,11 @@ const Home = () => {
           {/* ))} */}
         </SimpleGrid>
         <Button
-          onClick={() => handleClickContinue()}
-          leftIcon={<AddIcon />}
           colorScheme="blue"
           isDisabled={isContinueDisabled}
+          leftIcon={<AddIcon />}
           mt={4}
+          onClick={() => handleClickContinue()}
         >
           {continueButtonContent}
         </Button>

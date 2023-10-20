@@ -66,17 +66,17 @@ const BeginSwap: React.FC<BeginSwapProps> = ({
                 <Avatar
                   size="xl"
                   src={`https://pioneers.dev/coins/${
-                    COIN_MAP_LONG[assetContext?.asset?.network]
+                    COIN_MAP_LONG[assetContext?.chain]
                   }.png`}
                 />
                 {/* <Box border="1px solid #fff" borderRadius="8px" width="100%"> */}
                 {/*  <Text>name: {assetContext?.asset?.name}</Text> */}
                 {/* </Box> */}
                 <Box border="1px solid #fff" borderRadius="8px" width="100%">
-                  <Text>Network: {assetContext?.asset?.network}</Text>
+                  <Text>Network: {assetContext?.chain}</Text>
                 </Box>
                 <Box border="1px solid #fff" borderRadius="8px" width="100%">
-                  <Text>Asset: {assetContext?.asset?.symbol}</Text>
+                  <Text>Asset: {assetContext?.ticker}</Text>
                 </Box>
               </>
             )}
@@ -105,17 +105,17 @@ const BeginSwap: React.FC<BeginSwapProps> = ({
                 <Avatar
                   size="xl"
                   src={`https://pioneers.dev/coins/${
-                    COIN_MAP_LONG[outboundAssetContext?.asset?.network]
+                    COIN_MAP_LONG[outboundAssetContext?.chain]
                   }.png`}
                 />
                 {/* <Box border="1px solid #fff" borderRadius="8px" width="100%"> */}
-                {/*  <Text>name: {outboundAssetContext?.asset?.name}</Text> */}
+                {/*  <Text>name: {outboundAssetContext?.name}</Text> */}
                 {/* </Box> */}
                 <Box border="1px solid #fff" borderRadius="8px" width="100%">
-                  <Text>Network: {outboundAssetContext?.asset?.network}</Text>
+                  <Text>Network: {outboundAssetContext?.chain}</Text>
                 </Box>
                 <Box border="1px solid #fff" borderRadius="8px" width="100%">
-                  <Text>Asset: {outboundAssetContext?.asset?.symbol}</Text>
+                  <Text>Asset: {outboundAssetContext?.ticker}</Text>
                 </Box>
               </div>
             )}
