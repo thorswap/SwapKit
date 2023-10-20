@@ -1,7 +1,8 @@
 {
+  "name": "@apps/swaps",
   "dependencies": {
-    "@esbuild-plugins/node-globals-polyfill": "0.2.3",
-    "@esbuild-plugins/node-modules-polyfill": "0.2.2",
+    "@chakra-ui/icons": "^2.1.1",
+    "@chakra-ui/react": "^2.8.1",
     "@coinmasters/api": "workspace:*",
     "@coinmasters/core": "workspace:*",
     "@coinmasters/helpers": "workspace:*",
@@ -11,14 +12,23 @@
     "@coinmasters/toolbox-utxo": "workspace:*",
     "@coinmasters/types": "workspace:*",
     "@coinmasters/wallet-evm-extensions": "workspace:*",
+    "@coinmasters/wallet-keepkey": "workspace:*",
     "@coinmasters/wallet-keplr": "workspace:*",
     "@coinmasters/wallet-keystore": "workspace:*",
-    "@coinmasters/wallet-keepkey": "workspace:*",
     "@coinmasters/wallet-ledger": "workspace:*",
     "@coinmasters/wallet-okx": "workspace:*",
     "@coinmasters/wallet-trezor": "workspace:*",
     "@coinmasters/wallet-wc": "workspace:*",
     "@coinmasters/wallet-xdefi": "workspace:*",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@esbuild-plugins/node-globals-polyfill": "0.2.3",
+    "@esbuild-plugins/node-modules-polyfill": "0.2.2",
+    "@fontsource/plus-jakarta-sans": "^5.0.15",
+    "@pioneer-platform/pioneer-caip": "^8.1.81",
+    "@pioneer-platform/pioneer-client": "^9.0.19",
+    "@pioneer-platform/pioneer-coins": "^8.1.84",
+    "@types/uuid": "^9.0.6",
     "base64-js": "1.5.1",
     "buffer": "6.0.3",
     "crypto-browserify": "3.12.0",
@@ -27,10 +37,14 @@
     "path-browserify": "1.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-icons": "^4.11.0",
+    "react-router-dom": "^6.16.0",
     "rollup-plugin-polyfill-node": "0.12.0",
     "stream-browserify": "3.0.0",
     "stream-http": "3.2.0",
-    "url": "0.11.2"
+    "url": "0.11.2",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/react": "18.2.21",
@@ -42,7 +56,6 @@
   "eslintConfig": {
     "extends": "../../internal/eslint-config"
   },
-  "name": "@internal/swaps",
   "private": true,
   "scripts": {
     "build-playground": "NODE_OPTIONS=--max_old_space_size=16384 vite build",

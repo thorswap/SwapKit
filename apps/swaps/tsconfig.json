@@ -21,5 +21,8 @@
     "strictNullChecks": true,
     "target": "ESNext",
     "types": ["vite/client"],
+    "paths": {
+      "~/*": ["./*"]
+    }
   }
 }

@@ -1,5 +1,4 @@
 {
-  "name": "@apps/swaps",
   "dependencies": {
     "@esbuild-plugins/node-globals-polyfill": "0.2.3",
     "@esbuild-plugins/node-modules-polyfill": "0.2.2",
@@ -43,6 +42,7 @@
   "eslintConfig": {
     "extends": "../../internal/eslint-config"
   },
+  "name": "@internal/playground",
   "private": true,
   "scripts": {
     "build-playground": "NODE_OPTIONS=--max_old_space_size=16384 vite build",
