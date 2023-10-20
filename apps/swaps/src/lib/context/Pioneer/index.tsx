@@ -16,41 +16,41 @@
                                               - Highlander
 
 */
-import EventEmitter from "events";
+import EventEmitter from 'events';
 import {
   createContext,
-  useReducer,
   useContext,
-  useMemo,
   useEffect,
+  useMemo,
+  useReducer,
   // useState,
-} from "react";
+} from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 
-import { SDK } from "./sdk";
+import { SDK } from './sdk';
 
 const eventEmitter = new EventEmitter();
 
 export enum WalletActions {
-  SET_STATUS = "SET_STATUS",
-  SET_USERNAME = "SET_USERNAME",
-  OPEN_MODAL = "OPEN_MODAL",
-  SET_API = "SET_API",
-  SET_APP = "SET_APP",
-  SET_WALLETS = "SET_WALLETS",
-  SET_CONTEXT = "SET_CONTEXT",
-  SET_ASSET_CONTEXT = "SET_ASSET_CONTEXT",
-  SET_BLOCKCHAIN_CONTEXT = "SET_BLOCKCHAIN_CONTEXT",
-  SET_PUBKEY_CONTEXT = "SET_PUBKEY_CONTEXT",
-  SET_OUTBOUND_CONTEXT = "SET_OUTBOUND_CONTEXT",
-  SET_OUTBOUND_ASSET_CONTEXT = "SET_OUTBOUND_ASSET_CONTEXT",
-  SET_OUTBOUND_BLOCKCHAIN_CONTEXT = "SET_OUTBOUND_BLOCKCHAIN_CONTEXT",
-  SET_OUTBOUND_PUBKEY_CONTEXT = "SET_OUTBOUND_PUBKEY_CONTEXT",
-  SET_BALANCES = "SET_BALANCES",
-  SET_PUBKEYS = "SET_PUBKEYS",
-  ADD_WALLET = "ADD_WALLET",
-  RESET_STATE = "RESET_STATE",
+  SET_STATUS = 'SET_STATUS',
+  SET_USERNAME = 'SET_USERNAME',
+  OPEN_MODAL = 'OPEN_MODAL',
+  SET_API = 'SET_API',
+  SET_APP = 'SET_APP',
+  SET_WALLETS = 'SET_WALLETS',
+  SET_CONTEXT = 'SET_CONTEXT',
+  SET_ASSET_CONTEXT = 'SET_ASSET_CONTEXT',
+  SET_BLOCKCHAIN_CONTEXT = 'SET_BLOCKCHAIN_CONTEXT',
+  SET_PUBKEY_CONTEXT = 'SET_PUBKEY_CONTEXT',
+  SET_OUTBOUND_CONTEXT = 'SET_OUTBOUND_CONTEXT',
+  SET_OUTBOUND_ASSET_CONTEXT = 'SET_OUTBOUND_ASSET_CONTEXT',
+  SET_OUTBOUND_BLOCKCHAIN_CONTEXT = 'SET_OUTBOUND_BLOCKCHAIN_CONTEXT',
+  SET_OUTBOUND_PUBKEY_CONTEXT = 'SET_OUTBOUND_PUBKEY_CONTEXT',
+  SET_BALANCES = 'SET_BALANCES',
+  SET_PUBKEYS = 'SET_PUBKEYS',
+  ADD_WALLET = 'ADD_WALLET',
+  RESET_STATE = 'RESET_STATE',
 }
 
 export interface InitialState {
@@ -76,14 +76,14 @@ export interface InitialState {
 }
 
 const initialState: InitialState = {
-  status: "disconnected",
-  username: "",
-  serviceKey: "",
-  queryKey: "",
-  context: "",
-  assetContext: "",
-  blockchainContext: "",
-  pubkeyContext: "",
+  status: 'disconnected',
+  username: '',
+  serviceKey: '',
+  queryKey: '',
+  context: '',
+  assetContext: '',
+  blockchainContext: '',
+  pubkeyContext: '',
   outboundContext: null,
   outboundAssetContext: null,
   outboundBlockchainContext: null,
@@ -150,7 +150,7 @@ export type ActionTypes =
 const reducer = (state: InitialState, action: ActionTypes) => {
   switch (action.type) {
     case WalletActions.SET_STATUS:
-      eventEmitter.emit("SET_STATUS", action.payload);
+      eventEmitter.emit('SET_STATUS', action.payload);
       return { ...state, status: action.payload };
 
     case WalletActions.SET_USERNAME:
@@ -224,12 +224,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
 
 const PioneerContext = createContext(initialState);
 
-export const PioneerProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}): JSX.Element => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+export const PioneerProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
   // @ts-ignore
   const [state, dispatch] = useReducer(reducer, initialState);
   // const [isModalOpen, setIsModalOpen] = useState(false);
@@ -249,15 +244,12 @@ export const PioneerProvider = ({
   const connectWallet = async function (wallet: string) {
     try {
       if (state && state?.app) {
-        console.log("connectWallet: ", wallet);
+        console.log('connectWallet: ', wallet);
         const successKeepKey = await state.app.pairWallet(wallet);
-        console.log("successKeepKey: ", successKeepKey);
-        console.log("state.app.assetContext: ", state.app.assetContext);
-        console.log(
-          "state.app.blockchainContext: ",
-          state.app.blockchainContext
-        );
-        console.log("state.app.context: ", state.app.context);
+        console.log('successKeepKey: ', successKeepKey);
+        console.log('state.app.assetContext: ', state.app.assetContext);
+        console.log('state.app.blockchainContext: ', state.app.blockchainContext);
+        console.log('state.app.context: ', state.app.context);
         if (state && state.app) {
           // @ts-ignore
           dispatch({
@@ -289,8 +281,8 @@ export const PioneerProvider = ({
   const onStart = async function () {
     try {
       // const serviceKey: string | null = localStorage.getItem("serviceKey"); // KeepKey api key
-      let queryKey: string | null = localStorage.getItem("queryKey");
-      let username: string | null = localStorage.getItem("username");
+      let queryKey: string | null = localStorage.getItem('queryKey');
+      let username: string | null = localStorage.getItem('username');
       // @ts-ignore
       dispatch({ type: WalletActions.SET_USERNAME, payload: username });
       // if auto connecting
@@ -298,33 +290,33 @@ export const PioneerProvider = ({
 
       if (!queryKey) {
         queryKey = `key:${uuidv4()}`;
-        localStorage.setItem("queryKey", queryKey);
+        localStorage.setItem('queryKey', queryKey);
       }
       if (!username) {
         username = `user:${uuidv4()}`;
         username = username.substring(0, 13);
-        localStorage.setItem("username", username);
+        localStorage.setItem('username', username);
       }
       const blockchains = [
-        "bitcoin",
-        "ethereum",
-        "thorchain",
-        "bitcoincash",
-        "litecoin",
-        "binance",
-        "cosmos",
-        "dogecoin",
+        'bitcoin',
+        'ethereum',
+        'thorchain',
+        'bitcoincash',
+        'litecoin',
+        'binance',
+        'cosmos',
+        'dogecoin',
       ];
 
       // @TODO add custom paths from localstorage
       const paths: any = [];
-      console.log("VITE_PIONEER_URL_SPEC: ");
+      console.log('VITE_PIONEER_URL_SPEC: ');
       const spec =
         // @ts-ignore
-        "https://pioneers.dev/spec/swagger.json";
+        'https://pioneers.dev/spec/swagger.json';
       // @ts-ignore
-      console.log("spec: ", spec);
-      const wss = "wss://pioneers.dev";
+      console.log('spec: ', spec);
+      const wss = 'wss://pioneers.dev';
       const configPioneer: any = {
         blockchains,
         username,
@@ -335,29 +327,26 @@ export const PioneerProvider = ({
         // @ts-ignore
         ethplorerApiKey:
           // @ts-ignore
-          import.meta.env.VITE_ETHPLORER_API_KEY || "EK-xs8Hj-qG4HbLY-LoAu7",
+          import.meta.env.VITE_ETHPLORER_API_KEY || 'EK-xs8Hj-qG4HbLY-LoAu7',
         // @ts-ignore
         covalentApiKey:
           // @ts-ignore
-          import.meta.env.VITE_COVALENT_API_KEY ||
-          "cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q",
+          import.meta.env.VITE_COVALENT_API_KEY || 'cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q',
         // @ts-ignore
         utxoApiKey: import.meta.env.VITE_BLOCKCHAIR_API_KEY,
         // @ts-ignore
         walletConnectProjectId:
           // @ts-ignore
-          import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID ||
-          "18224df5f72924a5f6b3569fbd56ae16",
+          import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || '18224df5f72924a5f6b3569fbd56ae16',
       };
-      if (!configPioneer.utxoApiKey)
-        throw Error("blockchair api key required!");
+      if (!configPioneer.utxoApiKey) throw Error('blockchair api key required!');
       const appInit = new SDK(spec, configPioneer);
       // @ts-ignore
       const api = await appInit.init();
 
       // set wallets to available wallets
       // @ts-ignore
-      console.log("appInit.wallets: ", appInit.wallets);
+      console.log('appInit.wallets: ', appInit.wallets);
       // @ts-ignore
       dispatch({ type: WalletActions.SET_API, payload: api });
       // @ts-ignore
@@ -383,62 +372,54 @@ export const PioneerProvider = ({
 
       // @TODO if any wallet been connected before connect
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.error(e);
     }
   };
 
-  // onstart get data
-  useEffect(() => {
-    onStart();
-  }, []);
-
-  useEffect(() => {
-    if (state && state.app) {
-      // if keepkey available, connect
-      // @ts-ignore
-      dispatch({
-        type: WalletActions.SET_PUBKEY_CONTEXT,
-        payload: state.app.pubkeyContext,
-      });
-      // @ts-ignore
-      dispatch({
-        type: WalletActions.SET_ASSET_CONTEXT,
-        payload: state.app.assetContext,
-      });
-      // @ts-ignore
-      dispatch({
-        type: WalletActions.SET_BLOCKCHAIN_CONTEXT,
-        payload: state.app.blockchainContext,
-      });
-      // @ts-ignore
-      dispatch({ type: WalletActions.SET_CONTEXT, payload: state.app.context });
-    }
-  }, [
-    state,
-    state?.app,
-    state?.app?.context,
-    state?.app?.assetContext,
-    state?.app?.blockchainContext,
-    state?.app?.pubkeyContext,
-  ]);
+  // useEffect(() => {
+  //   if (state && state.app) {
+  //     // if keepkey available, connect
+  //     // @ts-ignore
+  //     dispatch({
+  //       type: WalletActions.SET_PUBKEY_CONTEXT,
+  //       payload: state.app.pubkeyContext,
+  //     });
+  //     // @ts-ignore
+  //     dispatch({
+  //       type: WalletActions.SET_ASSET_CONTEXT,
+  //       payload: state.app.assetContext,
+  //     });
+  //     // @ts-ignore
+  //     dispatch({
+  //       type: WalletActions.SET_BLOCKCHAIN_CONTEXT,
+  //       payload: state.app.blockchainContext,
+  //     });
+  //     // @ts-ignore
+  //     dispatch({ type: WalletActions.SET_CONTEXT, payload: state.app.context });
+  //   }
+  // }, [
+  //   state,
+  //   state?.app,
+  //   state?.app?.context,
+  //   state?.app?.assetContext,
+  //   state?.app?.blockchainContext,
+  //   state?.app?.pubkeyContext,
+  // ]);
 
   // end
   const value: any = useMemo(
-    () => ({ state, dispatch, connectWallet }),
-    [connectWallet, state]
+    () => ({ state, dispatch, connectWallet, onStart }),
+    [connectWallet, state],
   );
 
-  return (
-    <PioneerContext.Provider value={value}>{children}</PioneerContext.Provider>
-  );
+  return <PioneerContext.Provider value={value}>{children}</PioneerContext.Provider>;
 };
 
 export interface usePioneerType {
   state: any;
   dispatch: any;
+  onStart: () => void;
   connectWallet: (wallet: string) => void;
 }
 
-export const usePioneer = (): usePioneerType =>
-  useContext(PioneerContext as any);
+export const usePioneer = (): usePioneerType => useContext(PioneerContext as any);

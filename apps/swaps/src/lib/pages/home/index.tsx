@@ -30,7 +30,7 @@ import CompleteSwap from "./steps/CompleteSwap"; // Updated import here
 import SelectAssets from "./steps/SelectAssets";
 
 const Home = () => {
-  const { state } = usePioneer();
+  const { state, onStart } = usePioneer();
   const { app, assetContext, outboundAssetContext, blockchainContext } = state;
   // steps
   const [step, setStep] = useState(0);
@@ -67,6 +67,11 @@ const Home = () => {
       setContinueButtonContent("Sign Transaction");
     }
   }, [step]);
+
+  //start the context provider
+  useEffect(() => {
+    onStart()
+  }, []);
 
   const openModal = (type: any) => {
     // @ts-ignore
@@ -109,7 +114,6 @@ const Home = () => {
   };
 
   const renderStepContent = () => {
-    console.log("step: ", step);
     switch (step) {
       case 0:
         return (
@@ -124,8 +128,7 @@ const Home = () => {
       case 2:
         return <CompleteSwap txHash={txHash} />;
       default:
-        setStep(0);
-        return "true";
+        return null;
     }
   };
 
