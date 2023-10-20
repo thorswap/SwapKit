@@ -1,4 +1,9 @@
-import { assetFromString, AssetValue, formatBigIntToSafeValue, getRequest } from '@coinmasters/helpers';
+import {
+  assetFromString,
+  AssetValue,
+  formatBigIntToSafeValue,
+  getRequest,
+} from '@coinmasters/helpers';
 import { Chain } from '@coinmasters/types';
 
 import type { AddressInfo } from '../types/ethplorer-api-types.ts';

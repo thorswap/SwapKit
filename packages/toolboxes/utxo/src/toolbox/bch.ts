@@ -1,11 +1,11 @@
+import type { UTXOChain } from '@coinmasters/types';
+import { Chain, DerivationPath, FeeOption, RPCUrl } from '@coinmasters/types';
 import {
   address as bchAddress,
   HDNode,
   Transaction,
   TransactionBuilder,
 } from '@psf/bitcoincashjs-lib';
-import type { UTXOChain } from '@coinmasters/types';
-import { Chain, DerivationPath, FeeOption, RPCUrl } from '@coinmasters/types';
 import {
   detectAddressNetwork,
   isValidAddress,

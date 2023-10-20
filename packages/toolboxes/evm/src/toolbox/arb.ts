@@ -1,4 +1,11 @@
-import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, FeeOption, RPCUrl } from '@coinmasters/types';
+import {
+  BaseDecimal,
+  Chain,
+  ChainId,
+  ChainToExplorerUrl,
+  FeeOption,
+  RPCUrl,
+} from '@coinmasters/types';
 import type { BrowserProvider, JsonRpcProvider, Provider, Signer } from 'ethers';
 
 import type { CovalentApiType } from '../api/covalentApi.ts';

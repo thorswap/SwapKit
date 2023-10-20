@@ -1,7 +1,7 @@
-import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@coinmasters/helpers';
 import type { ConnectWalletParams, WalletTxParams } from '@coinmasters/types';
 import { Chain, ChainId, WalletOption } from '@coinmasters/types';
+import type { Keplr } from '@keplr-wallet/types';
 
 const connectKeplr =
   ({ addChain, rpcUrls }: ConnectWalletParams) =>

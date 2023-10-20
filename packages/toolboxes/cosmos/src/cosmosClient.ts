@@ -1,6 +1,6 @@
+import type { ChainId } from '@coinmasters/types';
 import type { StdFee } from '@cosmjs/amino';
 import { base64 } from '@scure/base';
-import type { ChainId } from '@coinmasters/types';
 
 import type { CosmosSDKClientParams, TransferParams } from './types.ts';
 import { getDenom, getRPC } from './util.ts';

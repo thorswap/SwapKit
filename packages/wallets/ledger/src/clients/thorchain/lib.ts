@@ -14,8 +14,8 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************* */
-import { bech32 } from '@scure/base';
 import { ErrorCode } from '@coinmasters/types';
+import { bech32 } from '@scure/base';
 import crypto from 'crypto';
 import Ripemd160 from 'ripemd160';
 

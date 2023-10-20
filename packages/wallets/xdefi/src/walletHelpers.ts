@@ -1,8 +1,8 @@
-import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@coinmasters/helpers';
 import { toHexString } from '@coinmasters/toolbox-evm';
 import type { FeeOption } from '@coinmasters/types';
 import { Chain, ChainId } from '@coinmasters/types';
+import type { Keplr } from '@keplr-wallet/types';
 import type { Eip1193Provider } from 'ethers';
 
 type TransactionMethod = 'eth_signTransaction' | 'eth_sendTransaction' | 'transfer' | 'deposit';

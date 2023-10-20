@@ -1,7 +1,7 @@
-import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
-import type { Account } from '@cosmjs/stargate';
 import { type AssetValue, SwapKitNumber } from '@coinmasters/helpers';
 import { ApiUrl, BaseDecimal, ChainId, DerivationPath } from '@coinmasters/types';
+import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
+import type { Account } from '@cosmjs/stargate';
 
 import { CosmosClient } from '../cosmosClient.ts';
 import type { GaiaToolboxType } from '../index.ts';
