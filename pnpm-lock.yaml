@@ -145,9 +145,6 @@ importers:
       '@coinmasters/wallet-ledger':
         specifier: workspace:*
         version: link:../../packages/wallets/ledger
-      '@coinmasters/wallet-okx':
-        specifier: workspace:*
-        version: link:../../packages/wallets/okx
       '@coinmasters/wallet-trezor':
         specifier: workspace:*
         version: link:../../packages/wallets/trezor
