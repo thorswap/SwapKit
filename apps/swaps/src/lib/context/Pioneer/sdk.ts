@@ -9,9 +9,12 @@
 // import * as Events from "@pioneer-platform/pioneer-events";
 
 import { SwapKitCore } from '@coinmasters/core';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { shortListSymbolToCaip } from '@pioneer-platform/pioneer-caip';
 // @ts-ignore
+// eslint-disable-next-line import/no-extraneous-dependencies
 import Pioneer from '@pioneer-platform/pioneer-client';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   COIN_MAP_LONG,
   getPaths,
@@ -297,28 +300,65 @@ export class SDK {
         // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < walletDataArray.length; i++) {
           const walletData: any = walletDataArray[i];
-          console.log(tag, 'walletData: ', walletData);
+          // console.log(tag, 'walletData: ', walletData);
           // const chain = chains[i];
           // log.info(tag, "chain: ", chain);
           if (walletData) {
             // eslint-disable-next-line @typescript-eslint/prefer-for-of
             for (let j = 0; j < walletData.balance.length; j++) {
               const balance = walletData.balance[j];
-              console.log('balance: ', balance);
-              console.log('balance: ', balance.assetValue);
-              console.log('balance: ', balance.baseValueNumber);
               // console.log('balance: ', balance);
               if (balance && balance?.baseValueNumber > 0) {
+                balance.context = context;
                 this.balances.push(balance);
               }
             }
           }
         }
+
+        //TODO pick better default assets (last used)
         this.events.emit('SET_BALANCES', this.balances);
         this.assetContext = this.balances[0];
         this.events.emit('SET_ASSET_CONTEXT', this.assetContext);
         this.outboundAssetContext = this.balances[1];
         this.events.emit('SET_OUTBOUND_ASSET_CONTEXT', this.outboundAssetContext);
+
+        //
+        let pubkeysRegister = this.pubkeys.filter((pubkey) => pubkey.context === context);
+        let balancesRegister = this.balances
+          .map((balance: any) => {
+            let balanceString: any = {};
+            // Assuming these properties already exist in each balance
+            balanceString.symbol = balance.symbol;
+            balanceString.chain = balance.chain;
+            balanceString.ticker = balance.ticker;
+            balanceString.type = balance.type;
+            balanceString.balance = balance.value;
+            balanceString.context = balance.context;
+            return balanceString;
+          })
+          .filter((balance) => balance.context === context);
+
+        let register: any = {
+          username: this.username,
+          blockchains: this.blockchains,
+          publicAddress: 'none',
+          context: 'none',
+          walletDescription: {
+            context: 'none',
+            type: 'none',
+          },
+          data: {
+            pubkeys: [pubkeysRegister],
+            balances: [balancesRegister],
+          },
+          queryKey: this.queryKey,
+          auth: 'lol',
+          provider: 'lol',
+        };
+        console.log('register: ', register);
+        console.log('register: ', JSON.stringify(register));
+
         // set defaults
         // if(!this.blockchainContext)this.blockchainContext = primaryBlockchains['eip155:1/slip44:60']
         // if(!this.assetContext)this.assetContext = primaryAssets['eip155:1/slip44:60']
