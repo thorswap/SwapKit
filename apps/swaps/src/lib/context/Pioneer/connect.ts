@@ -18,8 +18,8 @@ export async function initializeWallets() {
   const { ledgerWallet } = await import('@coinmasters/wallet-ledger');
   // const { okxWallet } = await import('@coinmasters/wallet-okx');
   const { trezorWallet } = await import('@coinmasters/wallet-trezor');
-  const { walletconnectWallet } = await import('@coinmasters/wallet-wc');
-  const { xdefiWallet } = await import('@coinmasters/wallet-xdefi');
+  // const { walletconnectWallet } = await import('@coinmasters/wallet-wc');
+  // const { xdefiWallet } = await import('@coinmasters/wallet-xdefi');
 
   // Initialize and push each wallet into the wallets array
   const walletKeepKey = {
@@ -102,26 +102,26 @@ export async function initializeWallets() {
   };
   wallets.push(trezorWallet);
   walletsVerbose.push(walletTrezor);
-  const walletWalletConnect = {
-    type: WalletOption.WALLETCONNECT,
-    icon: 'https://pioneers.dev/coins/walletconnect.png',
-    chains: availableChainsByWallet[WalletOption.WALLETCONNECT],
-    wallet: walletconnectWallet,
-    status: 'offline',
-    isConnected: false,
-  };
-  wallets.push(walletconnectWallet);
-  walletsVerbose.push(walletWalletConnect);
-  const walletXDefi = {
-    type: WalletOption.XDEFI,
-    icon: 'https://pioneers.dev/coins/xdefi.png',
-    chains: availableChainsByWallet[WalletOption.XDEFI],
-    wallet: xdefiWallet,
-    status: 'offline',
-    isConnected: false,
-  };
-  wallets.push(xdefiWallet);
-  walletsVerbose.push(walletXDefi);
+  // const walletWalletConnect = {
+  //   type: WalletOption.WALLETCONNECT,
+  //   icon: 'https://pioneers.dev/coins/walletconnect.png',
+  //   chains: availableChainsByWallet[WalletOption.WALLETCONNECT],
+  //   wallet: walletconnectWallet,
+  //   status: 'offline',
+  //   isConnected: false,
+  // };
+  // wallets.push(walletconnectWallet);
+  // walletsVerbose.push(walletWalletConnect);
+  // const walletXDefi = {
+  //   type: WalletOption.XDEFI,
+  //   icon: 'https://pioneers.dev/coins/xdefi.png',
+  //   chains: availableChainsByWallet[WalletOption.XDEFI],
+  //   wallet: xdefiWallet,
+  //   status: 'offline',
+  //   isConnected: false,
+  // };
+  // wallets.push(xdefiWallet);
+  // walletsVerbose.push(walletXDefi);
 
   // TODO test each for detection
 

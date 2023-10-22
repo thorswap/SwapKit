@@ -16,8 +16,6 @@
     "@coinmasters/wallet-keystore": "workspace:*",
     "@coinmasters/wallet-ledger": "workspace:*",
     "@coinmasters/wallet-trezor": "workspace:*",
-    "@coinmasters/wallet-wc": "workspace:*",
-    "@coinmasters/wallet-xdefi": "workspace:*",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@esbuild-plugins/node-globals-polyfill": "0.2.3",
