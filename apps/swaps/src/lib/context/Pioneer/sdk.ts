@@ -297,6 +297,7 @@ export class SDK {
         );
         console.log(tag, 'walletDataArray: ', walletDataArray);
         // set balances
+        let balancesSwapKit: any = [];
         // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < walletDataArray.length; i++) {
           const walletData: any = walletDataArray[i];
@@ -310,22 +311,15 @@ export class SDK {
               // console.log('balance: ', balance);
               if (balance && balance?.baseValueNumber > 0) {
                 balance.context = context;
-                this.balances.push(balance);
+                balancesSwapKit.push(balance);
               }
             }
           }
         }
 
-        //TODO pick better default assets (last used)
-        this.events.emit('SET_BALANCES', this.balances);
-        this.assetContext = this.balances[0];
-        this.events.emit('SET_ASSET_CONTEXT', this.assetContext);
-        this.outboundAssetContext = this.balances[1];
-        this.events.emit('SET_OUTBOUND_ASSET_CONTEXT', this.outboundAssetContext);
-
         //
         let pubkeysRegister = this.pubkeys.filter((pubkey) => pubkey.context === context);
-        let balancesRegister = this.balances
+        let balancesRegister = balancesSwapKit
           .map((balance: any) => {
             let balanceString: any = {};
             // Assuming these properties already exist in each balance
@@ -349,8 +343,8 @@ export class SDK {
             type: 'none',
           },
           data: {
-            pubkeys: [pubkeysRegister],
-            balances: [balancesRegister],
+            pubkeys: pubkeysRegister,
+            balances: balancesRegister,
           },
           queryKey: this.queryKey,
           auth: 'lol',
@@ -360,9 +354,20 @@ export class SDK {
         console.log('register: ', JSON.stringify(register));
         let result = await this.pioneer.Register(register);
         console.log('result: ', result);
+        console.log('result: ', result.data);
+        console.log('result: ', result.data.balances);
 
-        if(result.data.balances)this.balances = result.data.balances
+        if (result.data.balances) {
+          console.log("Setting balances!")
+          this.balances = result.data.balances;
+        }
 
+        //TODO pick better default assets (last used)
+        this.events.emit('SET_BALANCES', result.data.balances);
+        this.assetContext = this.balances[0];
+        this.events.emit('SET_ASSET_CONTEXT', this.assetContext);
+        this.outboundAssetContext = this.balances[1];
+        this.events.emit('SET_OUTBOUND_ASSET_CONTEXT', this.outboundAssetContext);
         // set defaults
         // if(!this.blockchainContext)this.blockchainContext = primaryBlockchains['eip155:1/slip44:60']
         // if(!this.assetContext)this.assetContext = primaryAssets['eip155:1/slip44:60']

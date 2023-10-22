@@ -1,35 +1,34 @@
+import React, { useEffect, useState } from 'react';
 import {
+  Avatar,
   Box,
   Button,
-  Card,
-  CardBody,
-  Checkbox,
-  HStack,
+  Flex,
   Input,
   InputGroup,
   InputLeftElement,
   Stack,
   Text,
-  Avatar,
+  Checkbox,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { Search2Icon } from "@chakra-ui/icons";
-import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins'; // Add your import
-import { useEffect, useState } from 'react';
-
+import { Search2Icon, ChevronUpIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { usePioneer } from '../../context/Pioneer';
+import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
 
-export default function AssetSelect({ onClose }: any) {
+export default function AssetSelect({ onClose }) {
   const { state } = usePioneer();
   const { app, balances } = state;
   const [currentPage, setCurrentPage] = useState([]);
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [showOwnedAssets, setShowOwnedAssets] = useState(false);
   const [totalAssets, setTotalAssets] = useState(0);
+  const [search, setSearch] = useState('');
+  const [sortOrder, setSortOrder] = useState('desc');
   const itemsPerPage = 6;
   const cardWidth = useBreakpointValue({ base: '90%', md: '60%', lg: '40%' });
 
-  const handleSelectClick = async (asset: any) => {
+  const handleSelectClick = async (asset) => {
     try {
       app.setAssetContext(asset);
       onClose();
@@ -38,15 +37,34 @@ export default function AssetSelect({ onClose }: any) {
     }
   };
 
-  const filteredAssets = currentPage.filter((asset: any) => {
-    // Only show assets with a valueUsd
-    return showOwnedAssets ? true : asset.valueUsd !== null;
-  });
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+    setCurrentPageIndex(0);
+  };
+
+  const toggleSortOrder = () => {
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  };
+
+  const filteredAssets = currentPage
+    .filter((asset) => {
+      return (
+        (showOwnedAssets ? asset.valueUsd !== null : true) &&
+        asset?.name?.toLowerCase().includes(search.toLowerCase()) &&
+        (asset.valueUsd ? parseFloat(asset.valueUsd) >= 1 : false)
+      );
+    })
+    .sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return (a.valueUsd || 0) - (b.valueUsd || 0);
+      } else {
+        return (b.valueUsd || 0) - (a.valueUsd || 0);
+      }
+    });
 
   useEffect(() => {
-    // Update total assets count based on the filtered assets
     setTotalAssets(filteredAssets.length);
-  }, [showOwnedAssets, currentPage]);
+  }, [showOwnedAssets, currentPage, search, sortOrder]);
 
   const fetchPage = async () => {
     try {
@@ -72,11 +90,8 @@ export default function AssetSelect({ onClose }: any) {
           <Search2Icon color="gray.300" />
         </InputLeftElement>
         <Input
-          onChange={() => {
-            setTimeout(() => {
-              setCurrentPageIndex(0);
-            }, 1000);
-          }}
+          value={search}
+          onChange={handleSearchChange}
           placeholder="Bitcoin..."
           type="text"
         />
@@ -86,42 +101,36 @@ export default function AssetSelect({ onClose }: any) {
         <Checkbox isChecked={showOwnedAssets} onChange={() => setShowOwnedAssets(!showOwnedAssets)}>
           Show only owned assets
         </Checkbox>
-        {filteredAssets.map((asset: any) => (
-          <Box key={asset.name}>
-            <Card>
-              <CardBody>
-                <HStack
-                  alignItems="center"
-                  borderRadius="md"
-                  boxShadow="sm"
-                  maxW={cardWidth}
-                  p={5}
-                  spacing={4}
-                  width="100%"
-                >
-                  <Avatar
-                    size="xl"
-                    src={`https://pioneers.dev/coins/${COIN_MAP_LONG[asset?.chain]}.png`}
-                  />
-                  <Box>
-                    <Text fontSize="md">Asset: {asset?.name}</Text>
-                    <Text fontSize="md">Network: {asset?.chain}</Text>
-                    <Text fontSize="md">Symbol: {asset?.symbol}</Text>
-                    <Text fontSize="md">valueUsd: {asset?.valueUsd}</Text>
-                    <Text fontSize="md">Balance: {asset?.assetValue.toString()} </Text>
-                  </Box>
-                </HStack>
-                <HStack mt={2} spacing={2}>
-                  <Button onClick={() => handleSelectClick(asset)} size="sm" variant="outline">
-                    Select
-                  </Button>
-                </HStack>
-              </CardBody>
-            </Card>
+        <Button onClick={toggleSortOrder} size="sm">
+          Sort by Value {sortOrder === 'asc' ? <ChevronUpIcon /> : <ChevronDownIcon />}
+        </Button>
+        {filteredAssets.map((asset:any, index: number) => (
+          <Box key={index}>
+            <Flex
+              alignItems="center"
+              borderRadius="md"
+              width={cardWidth}
+              border="1px solid #fff"
+              boxShadow="sm"
+              p={2}
+              spacing={2}
+            >
+              <Avatar
+                size="md"
+                src={`https://pioneers.dev/coins/${COIN_MAP_LONG[asset?.chain]}.png`}
+              />
+              <Box ml={3}>
+                <Text fontSize="sm">Asset: {asset?.symbol}</Text>
+                <Text fontSize="sm">Value USD: {typeof asset?.valueUsd === 'string' ? (+asset.valueUsd).toFixed(2).toLocaleString('en-US', { style: 'currency', currency: 'USD' }) : ''}</Text>
+              </Box>
+              <Button ml="auto" onClick={() => handleSelectClick(asset)} size="sm" variant="outline">
+                Select
+              </Button>
+            </Flex>
           </Box>
         ))}
       </Box>
-      <HStack mt={4}>
+      <Flex justifyContent="space-between" mt={4}>
         <Button
           isDisabled={currentPageIndex === 0}
           onClick={() => setCurrentPageIndex(currentPageIndex - 1)}
@@ -129,12 +138,12 @@ export default function AssetSelect({ onClose }: any) {
           Previous Page
         </Button>
         <Button
-          isDisabled={currentPage.length < itemsPerPage}
+          isDisabled={filteredAssets.length < itemsPerPage}
           onClick={() => setCurrentPageIndex(currentPageIndex + 1)}
         >
           Next Page
         </Button>
-      </HStack>
+      </Flex>
     </Stack>
   );
 }

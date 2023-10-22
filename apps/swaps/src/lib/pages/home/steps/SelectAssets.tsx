@@ -27,11 +27,17 @@ const BeginSwap: React.FC<BeginSwapProps> = ({
   selectedButton,
 }) => {
   const { state } = usePioneer();
-  const { assetContext, outboundAssetContext } = state;
+  const { assetContext, outboundAssetContext, app } = state;
 
-  // const switchAssets = function () {
-  //   // console.log("Switching assets!");
-  // };
+  const switchAssets = function () {
+    let currentInput = assetContext;
+    let currentOutput = outboundAssetContext;
+    console.log("currentInput: ", currentInput);
+    console.log("currentOutput: ", currentOutput);
+    console.log("Switching assets!");
+    app.setOutboundAssetContext(currentInput);
+    app.setAssetContext(currentOutput);
+  };
 
   return (
     <div>
@@ -82,7 +88,7 @@ const BeginSwap: React.FC<BeginSwapProps> = ({
             )}
           </Box>
           <ArrowUpDownIcon
-            // onClick={() => switchAssets()}
+            onClick={() => switchAssets()}
             color="white"
             boxSize="2rem"
           />
