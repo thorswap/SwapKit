@@ -313,7 +313,7 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       console.log('VITE_PIONEER_URL_SPEC: ');
       const spec =
         // @ts-ignore
-        'https://pioneers.dev/spec/swagger.json';
+        import.meta.env.VITE_PIONEER_URL_SPEC || 'https://swaps.pro/spec/swagger.json';
       // @ts-ignore
       console.log('spec: ', spec);
       const wss = 'wss://pioneers.dev';

@@ -341,7 +341,7 @@ export class SDK {
 
         let register: any = {
           username: this.username,
-          blockchains: this.blockchains,
+          blockchains: [],
           publicAddress: 'none',
           context: 'none',
           walletDescription: {
@@ -358,6 +358,10 @@ export class SDK {
         };
         console.log('register: ', register);
         console.log('register: ', JSON.stringify(register));
+        let result = await this.pioneer.Register(register);
+        console.log('result: ', result);
+
+        if(result.data.balances)this.balances = result.data.balances
 
         // set defaults
         // if(!this.blockchainContext)this.blockchainContext = primaryBlockchains['eip155:1/slip44:60']

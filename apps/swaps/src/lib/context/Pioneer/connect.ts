@@ -12,7 +12,7 @@ export async function initializeWallets() {
 
   const { keepkeyWallet } = await import('@coinmasters/wallet-keepkey');
   // const { evmWallet } = await import("@coinmasters/evm-web3-wallets");
-  const { keplrWallet } = await import('@coinmasters/wallet-keplr');
+  // const { keplrWallet } = await import('@coinmasters/wallet-keplr');
   const { keystoreWallet } = await import('@coinmasters/wallet-keystore');
   // const { metamaskWallet } = await import("@coinmasters/wallet-metamask");
   const { ledgerWallet } = await import('@coinmasters/wallet-ledger');
@@ -52,16 +52,16 @@ export async function initializeWallets() {
   // };
   // wallets.push(evmWallet);
   // walletsVerbose.push(walletEVM);
-  const walletKeplr = {
-    type: WalletOption.KEPLR,
-    icon: 'https://pioneers.dev/coins/keplr.png',
-    chains: availableChainsByWallet[WalletOption.KEPLR],
-    wallet: keplrWallet,
-    status: 'offline',
-    isConnected: false,
-  };
-  wallets.push(keplrWallet);
-  walletsVerbose.push(walletKeplr);
+  // const walletKeplr = {
+  //   type: WalletOption.KEPLR,
+  //   icon: 'https://pioneers.dev/coins/keplr.png',
+  //   chains: availableChainsByWallet[WalletOption.KEPLR],
+  //   wallet: keplrWallet,
+  //   status: 'offline',
+  //   isConnected: false,
+  // };
+  // wallets.push(keplrWallet);
+  // walletsVerbose.push(walletKeplr);
   const walletKeystore = {
     type: WalletOption.KEYSTORE,
     icon: 'https://pioneers.dev/coins/keystore.png',

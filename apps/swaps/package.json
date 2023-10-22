@@ -13,7 +13,6 @@
     "@coinmasters/types": "workspace:*",
     "@coinmasters/wallet-evm-extensions": "workspace:*",
     "@coinmasters/wallet-keepkey": "workspace:*",
-    "@coinmasters/wallet-keplr": "workspace:*",
     "@coinmasters/wallet-keystore": "workspace:*",
     "@coinmasters/wallet-ledger": "workspace:*",
     "@coinmasters/wallet-okx": "workspace:*",

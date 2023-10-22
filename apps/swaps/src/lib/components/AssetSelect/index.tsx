@@ -1,31 +1,23 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/*
-    Asset Select
-      -Highlander
- */
-
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Search2Icon } from "@chakra-ui/icons";
 import {
-  Avatar,
   Box,
   Button,
-  Checkbox,
-  HStack,
-  Stack,
-  InputGroup,
-  InputLeftElement,
-  Input,
-  Text,
   Card,
   CardBody,
+  Checkbox,
+  HStack,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Stack,
+  Text,
+  Avatar,
   useBreakpointValue,
-} from "@chakra-ui/react";
-// @ts-ignore
-import { COIN_MAP_LONG } from "@pioneer-platform/pioneer-coins";
-import { useState, useEffect } from "react";
+} from '@chakra-ui/react';
+import { Search2Icon } from "@chakra-ui/icons";
+import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins'; // Add your import
+import { useEffect, useState } from 'react';
 
-import { usePioneer } from "../../context/Pioneer";
+import { usePioneer } from '../../context/Pioneer';
 
 export default function AssetSelect({ onClose }: any) {
   const { state } = usePioneer();
@@ -35,7 +27,7 @@ export default function AssetSelect({ onClose }: any) {
   const [showOwnedAssets, setShowOwnedAssets] = useState(false);
   const [totalAssets, setTotalAssets] = useState(0);
   const itemsPerPage = 6;
-  const cardWidth = useBreakpointValue({ base: "90%", md: "60%", lg: "40%" });
+  const cardWidth = useBreakpointValue({ base: '90%', md: '60%', lg: '40%' });
 
   const handleSelectClick = async (asset: any) => {
     try {
@@ -46,39 +38,23 @@ export default function AssetSelect({ onClose }: any) {
     }
   };
 
-  // const onSearch = async function (searchQuery: string) {
-  //   try {
-  //     if (!api) {
-  //       alert("Failed to init API!");
-  //       return;
-  //     }
-  //     // console.log("searchQuery: ", searchQuery);
-  //     const search = {
-  //       limit: itemsPerPage,
-  //       skip: currentPageIndex * itemsPerPage, // Use currentPageIndex for pagination
-  //       collection: "assets",
-  //       searchQuery,
-  //       searchFields: ["name", "symbol"],
-  //     };
-  //
-  //     const info = await api.SearchAtlas(search);
-  //     const currentPageData = info.data.results;
-  //     setCurrentPage(currentPageData);
-  //     setTotalAssets(info.data.total); // Update total assets count
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
+  const filteredAssets = currentPage.filter((asset: any) => {
+    // Only show assets with a valueUsd
+    return showOwnedAssets ? true : asset.valueUsd !== null;
+  });
+
+  useEffect(() => {
+    // Update total assets count based on the filtered assets
+    setTotalAssets(filteredAssets.length);
+  }, [showOwnedAssets, currentPage]);
 
   const fetchPage = async () => {
     try {
       if (balances) {
         setShowOwnedAssets(true);
         setCurrentPage(balances);
-        // load balances
-        console.log("balances: ", balances);
-        // setCurrentPage(currentPageData);
-        setTotalAssets(balances.length); // Update total assets count
+        console.log('balances: ', balances);
+        setTotalAssets(balances.length);
       }
     } catch (e) {
       console.error(e);
@@ -96,59 +72,47 @@ export default function AssetSelect({ onClose }: any) {
           <Search2Icon color="gray.300" />
         </InputLeftElement>
         <Input
-          placeholder="Bitcoin..."
-          type="text"
           onChange={() => {
             setTimeout(() => {
-              setCurrentPageIndex(0); // Reset pageIndex when searching
-              // onSearch(e.target.value || "");
+              setCurrentPageIndex(0);
             }, 1000);
           }}
+          placeholder="Bitcoin..."
+          type="text"
         />
       </InputGroup>
       <Box>
         <Text fontSize="2xl">Total Assets: {totalAssets}</Text>
-        <Checkbox
-          isChecked={showOwnedAssets}
-          onChange={() => setShowOwnedAssets(!showOwnedAssets)}
-        >
+        <Checkbox isChecked={showOwnedAssets} onChange={() => setShowOwnedAssets(!showOwnedAssets)}>
           Show only owned assets
         </Checkbox>
-        {currentPage.map((asset: any) => (
+        {filteredAssets.map((asset: any) => (
           <Box key={asset.name}>
             <Card>
               <CardBody>
                 <HStack
-                  spacing={4}
                   alignItems="center"
-                  p={5}
                   borderRadius="md"
                   boxShadow="sm"
-                  width="100%"
                   maxW={cardWidth}
+                  p={5}
+                  spacing={4}
+                  width="100%"
                 >
                   <Avatar
                     size="xl"
-                    src={`https://pioneers.dev/coins/${
-                      COIN_MAP_LONG[asset?.chain]
-                    }.png`}
+                    src={`https://pioneers.dev/coins/${COIN_MAP_LONG[asset?.chain]}.png`}
                   />
-
                   <Box>
                     <Text fontSize="md">Asset: {asset?.name}</Text>
                     <Text fontSize="md">Network: {asset?.chain}</Text>
                     <Text fontSize="md">Symbol: {asset?.symbol}</Text>
-                    <Text fontSize="md">
-                      Balance: {asset?.assetValue.toString()}{" "}
-                    </Text>
+                    <Text fontSize="md">valueUsd: {asset?.valueUsd}</Text>
+                    <Text fontSize="md">Balance: {asset?.assetValue.toString()} </Text>
                   </Box>
                 </HStack>
                 <HStack mt={2} spacing={2}>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => handleSelectClick(asset)}
-                  >
+                  <Button onClick={() => handleSelectClick(asset)} size="sm" variant="outline">
                     Select
                   </Button>
                 </HStack>
