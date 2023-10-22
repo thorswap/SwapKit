@@ -58,9 +58,9 @@
   },
   "private": true,
   "scripts": {
-    "build-playground": "NODE_OPTIONS=--max_old_space_size=16384 vite build",
+    "build": "NODE_OPTIONS=--max_old_space_size=16384 vite build",
     "dev": "vite",
-    "preview-playground": "vite preview"
+    "serve": "vite preview"
   },
   "type": "module",
   "version": null
