@@ -14,9 +14,8 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 // import { COIN_MAP_LONG } from "@pioneer-platform/pioneer-coins";
-import { FeeOption } from '@coinmasters/types';
 import { useEffect, useState } from 'react';
-
+import { FeeOption } from '@coinmasters/types';
 import AssetSelect from '../../components/AssetSelect';
 import OutputSelect from '../../components/OutputSelect';
 import SignTransaction from '../../components/SignTransaction';
@@ -104,6 +103,7 @@ const Home = () => {
   //start the context provider
   useEffect(() => {
     if (step === 1 && txHash) {
+      setShowGoBack(false);
       // check if confirmed
       // if confirmed
       setStep((prevStep) => prevStep + 1)

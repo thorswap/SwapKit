@@ -6,16 +6,19 @@ import { usePioneer } from '../../context/Pioneer';
 export default function SignTransaction({ route, onClose, setTxhash }: any) {
   const { state } = usePioneer();
   const { app, balances, assetContext, outboundAssetContext } = state;
+  const [requireUserSign, setRequireUserSign] = useState(false);
   const [isApproved, setIsApproved] = useState(false);
 
-  const handleSwap = async (route: QuoteRoute) => {
+  const handleSwap = async () => {
     const inputChain = assetContext?.chain;
     const outputChain = outboundAssetContext?.chain;
     if (!assetContext || !outboundAssetContext || !app || !app?.swapKit) return;
 
     const address = app?.swapKit.getAddress(outputChain);
+    console.log('address: ', address);
 
-    let txHash = 'fakeTxHashBro';
+    console.log('route: ', route);
+    let txHash = '4F6AF1BC8C7A6D7F3BF7F9E9A2C7D6D85407C7A5E07FE72B9E90D9B91567D2FF';
     // const txHash = await app?.swapKit.swap({
     //   route,
     //   recipient: address,
@@ -23,7 +26,7 @@ export default function SignTransaction({ route, onClose, setTxhash }: any) {
     // });
     console.log('txHash: ', txHash);
     setTxhash(txHash);
-    onClose()
+    onClose();
   };
 
   let approveTransaction = async () => {
@@ -34,8 +37,8 @@ export default function SignTransaction({ route, onClose, setTxhash }: any) {
 
   return (
     <Stack spacing={4}>
-      {isApproved ? (
-        <div>is Approved</div>
+      {requireUserSign ? (
+        <div>You Must Sign the Transaction on your device! ... </div>
       ) : (
         <div>
           {JSON.stringify(route)}

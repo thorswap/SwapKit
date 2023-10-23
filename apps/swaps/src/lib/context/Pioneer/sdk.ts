@@ -88,7 +88,7 @@ export class SDK {
   // @ts-ignore
   private outboundPubkeyContext: any;
 
-  private swapKit: any;
+  private swapKit: SwapKitCore;
 
   private pioneer: any;
 
