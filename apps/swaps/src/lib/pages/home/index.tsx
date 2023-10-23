@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { AddIcon, SettingsIcon } from '@chakra-ui/icons';
 import {
   Box,
@@ -20,6 +19,7 @@ import { useEffect, useState } from 'react';
 
 import AssetSelect from '../../components/AssetSelect';
 import OutputSelect from '../../components/OutputSelect';
+import SignTransaction from '../../components/SignTransaction';
 import { usePioneer } from '../../context/Pioneer';
 
 // import backgroundImage from "lib/assets/background/thorfox.webp"; // Adjust the path
@@ -34,6 +34,7 @@ const Home = () => {
   // steps
   const [step, setStep] = useState(0);
   const [modalType, setModalType] = useState(null);
+  const [route, setRoute] = useState(null);
   const [txHash, setTxhash] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedButton, setSelectedButton] = useState('quick'); // Initial selected button is "Quick"
@@ -66,8 +67,6 @@ const Home = () => {
   }, []);
 
   const openModal = (type: any) => {
-    // @ts-ignore
-    console.log(`TESTING BRO ${import.meta.env.VITE_BLOCKCHAIR_API_KEY}`);
     setModalType(type);
     onOpen();
   };
@@ -86,10 +85,11 @@ const Home = () => {
         };
         console.log('swapParams: ', swapParams);
         // console.log("swapKit: ", swapKit);
+        openModal('Confirm Trade');
         // const txHash = await swapKit.swap(swapParams);
-        console.log('txHash: ', txHash);
-        setTxhash(txHash);
-        setStep((prevStep) => prevStep + 1);
+        // console.log('txHash: ', txHash);
+        // setTxhash(txHash);
+        // setStep((prevStep) => prevStep + 1);
       }
       if (step === 1) {
         // check if confirmed
@@ -100,6 +100,15 @@ const Home = () => {
       console.error(e);
     }
   };
+
+  //start the context provider
+  useEffect(() => {
+    if (step === 1 && txHash) {
+      // check if confirmed
+      // if confirmed
+      setStep((prevStep) => prevStep + 1)
+    }
+  }, [txHash]);
 
   const goBack = () => {
     setStep((prevStep) => prevStep - 1);
@@ -116,7 +125,7 @@ const Home = () => {
           />
         );
       case 1:
-        return <BeginSwap />;
+        return <BeginSwap setRoute={setRoute} />;
       case 2:
         return <CompleteSwap txHash={txHash} />;
       default:
@@ -142,6 +151,11 @@ const Home = () => {
             {modalType === 'Select Outbound' && (
               <div>
                 <OutputSelect onClose={onClose} onlyOwned={false} />
+              </div>
+            )}
+            {modalType === 'Confirm Trade' && (
+              <div>
+                <SignTransaction onClose={onClose} route={route} setTxhash={setTxhash} />
               </div>
             )}
           </ModalBody>

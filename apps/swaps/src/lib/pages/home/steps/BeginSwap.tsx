@@ -1,18 +1,49 @@
-import { CardHeader, Box, Button, HStack, Card, Heading, TableContainer, Table, Thead, Tr, Th, Tbody, Td, CardBody, Stack, StackDivider } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Heading,
+  HStack,
+  Slider,
+  SliderFilledTrack,
+  SliderMark,
+  SliderThumb,
+  SliderTrack,
+  Stack,
+  StackDivider,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
 import { SwapKitApi } from '@coinmasters/api';
+import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
 import { useCallback, useEffect, useState } from 'react';
-import { FeeOption } from '@coinmasters/types';
 
 import CalculatingComponent from '../../../components/CalculatingComponent';
 import { usePioneer } from '../../../context/Pioneer';
 
-const BeginSwap = () => {
+const labelStyles = {
+  mt: '2',
+  ml: '-2.5',
+  fontSize: 'sm',
+};
+
+const BeginSwap = ({ setRoute }) => {
   const { state } = usePioneer();
   const { app, assetContext, outboundAssetContext } = state;
   const [showGif, setShowGif] = useState(true);
   const [currentRouteIndex, setCurrentRouteIndex] = useState(0); // New state for current route index
   const [inputAmount, setInputAmount] = useState<Amount | undefined>();
-
+  const [sliderValue, setSliderValue] = useState(50);
+  const [rate, setRate] = useState<Amount | undefined>();
+  const [amountOut, setAmountOut] = useState<Amount | undefined>();
   const [routes, setRoutes] = useState<any[]>([]);
 
   const handlePreviousRoute = () => {
@@ -30,25 +61,12 @@ const BeginSwap = () => {
   };
 
   const fetchQuote = useCallback(async () => {
-    console.log('fetchQuote: ', fetchQuote);
-
-    // default = max amount
-    console.log('balance: ', assetContext?.assetAmount?.toString());
-    console.log('balance: ', assetContext?.balance);
-    console.log('balance: ', assetContext);
-    // // YOLO balance as amount?
-    const amountSelect = parseFloat(assetContext?.balance);
+    let amountSelect = parseFloat(assetContext?.balance);
+    amountSelect = amountSelect * (sliderValue / 100);
+    setInputAmount(amountSelect);
     console.log('amountSelect: ', amountSelect);
-    // const amountSelectAsset = Amount.fromNormalAmount(amountSelect);
-    // setInputAmount(amountSelectAsset);
     const senderAddress = app.swapKit.getAddress(assetContext.chain);
     const recipientAddress = app.swapKit.getAddress(outboundAssetContext.chain);
-    console.log('senderAddress: ', senderAddress);
-    console.log('recipientAddress: ', recipientAddress);
-
-    console.log('assetContext: ', assetContext);
-    console.log('outboundAssetContext: ', outboundAssetContext);
-
     try {
       const entry = {
         sellAsset: assetContext.chain + '.' + assetContext.symbol,
@@ -62,10 +80,16 @@ const BeginSwap = () => {
 
       const { routes } = await SwapKitApi.getQuote(entry);
       console.log('routes: ', routes);
-      if(routes && routes.length > 0) {
+      if (routes && routes.length > 0) {
+        setRoute(routes[0]);
         setRoutes(routes || []);
+        console.log('inputAmount: ', inputAmount);
+        console.log('routes[0].expectedOutput: ', routes[0].expectedOutput);
+        setAmountOut(routes[0].expectedOutput);
+        let rate = inputAmount / parseFloat(routes[0].expectedOutput);
+        console.log('rate: ', rate);
+        setRate(rate);
       }
-
     } catch (e: any) {
       console.error('ERROR: ', e);
       // alert(`Failed to get quote! ${e.message}`);
@@ -79,44 +103,52 @@ const BeginSwap = () => {
     }
   }, [routes]);
 
-  // build swap
-  // const buildSwap = async function () {
-  //   try {
-  //     // fetchQuote();
-  //   } catch (e) {
-  //     // console.error(e);
-  //   }
-  // };
-  //
   useEffect(() => {
     fetchQuote();
   }, [fetchQuote]);
 
-  const handleSwap = useCallback(
-    async (route: QuoteRoute) => {
-      const inputChain = assetContext?.chain;
-      const outputChain = outboundAssetContext?.chain;
-      if (!assetContext || !outboundAssetContext || !app || !app?.swapKit)
-        return;
+  let timeoutId = null;
 
-      const address = app?.swapKit.getAddress(outputChain);
+  const onSliderChange = async function (val) {
+    try {
+      console.log('val: ', val);
+      setSliderValue(val);
 
-      const txHash = await app?.swapKit.swap({
-        route,
-        recipient: address,
-        feeOptionKey: FeeOption.Fast,
-      });
+      // Calculate amountIn based on sliderValue
+      let newAmountIn = (val / 100) * parseFloat(assetContext?.balance || '0');
+      console.log('newAmountIn: ', newAmountIn);
+      setInputAmount(newAmountIn);
 
-      window.open(
-        app?.swapKit.getExplorerTxUrl(inputChain, txHash as string),
-        "_blank"
-      );
-    },
-    [
-      assetContext?.chain,
-      outboundAssetContext?.chain,
-    ]
-  );
+      // Calculate amountOut using rate and newAmountIn
+      if (rate) {
+        let newAmountOut = newAmountIn / rate;
+        console.log('newAmountOut: ', newAmountOut);
+        setAmountOut(newAmountOut);
+      }
+
+      // Clear any previous timeout
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      // Set a new timeout to call fetchQuote after 3 seconds of slider inactivity
+      timeoutId = setTimeout(() => {
+        fetchQuote(); // Call fetchQuote here
+        timeoutId = null; // Reset the timeout ID
+      }, 3000); // 3000 milliseconds (3 seconds)
+    } catch (e) {
+      // Handle errors here
+    }
+  };
+
+  useEffect(() => {
+    // Cleanup the timeout when the component unmounts
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, []);
 
   return (
     <Box>
@@ -126,15 +158,68 @@ const BeginSwap = () => {
         </Box>
       ) : (
         <Box>
-          input: {inputAmount?.toString() || ''}
-           {routes && routes.length > 0 && (
+          {routes && routes.length > 0 && (
             <Card key={currentRouteIndex} mb={5}>
               <CardHeader>
-                <Heading size="md">
-                  Route: {routes[currentRouteIndex].path || "N/A"}
-                </Heading>
+                <Heading size="md">Route: {routes[currentRouteIndex].path || 'N/A'}</Heading>
               </CardHeader>
               <CardBody>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div>
+                    <h1>
+                      {' '}
+                      input: {inputAmount?.toString() || ''} ({assetContext.symbol})
+                    </h1>
+                    <small>
+                      {' '}
+                      (available): {assetContext?.balance || ''} ({assetContext.symbol})
+                    </small>
+                  </div>
+                  <Avatar
+                    size="xl"
+                    src={`https://pioneers.dev/coins/${COIN_MAP_LONG[assetContext?.chain]}.png`}
+                  />
+                  <Avatar
+                    size="xl"
+                    src={`https://pioneers.dev/coins/${
+                      COIN_MAP_LONG[outboundAssetContext?.chain]
+                    }.png`}
+                  />
+                  <div>
+                    <h1>
+                      {' '}
+                      output: {amountOut?.toString() || ''} ({outboundAssetContext.symbol})
+                    </h1>
+                  </div>
+                </div>
+                <br />
+                <br />
+                <Slider aria-label="slider-ex-6" onChange={(val) => onSliderChange(val)}>
+                  <SliderMark value={25} {...labelStyles}>
+                    25%
+                  </SliderMark>
+                  <SliderMark value={50} {...labelStyles}>
+                    50%
+                  </SliderMark>
+                  <SliderMark value={75} {...labelStyles}>
+                    75%
+                  </SliderMark>
+                  <SliderMark
+                    bg="blue.500"
+                    color="white"
+                    ml="-5"
+                    mt="-10"
+                    textAlign="center"
+                    value={sliderValue}
+                    w="12"
+                  >
+                    {sliderValue}%
+                  </SliderMark>
+                  <SliderTrack>
+                    <SliderFilledTrack />
+                  </SliderTrack>
+                  <SliderThumb />
+                </Slider>
                 <Stack divider={<StackDivider />} spacing="4">
                   {/* Expected Output */}
                   {/* {routes[currentRouteIndex].expectedOutput && ( */}
@@ -207,7 +292,7 @@ const BeginSwap = () => {
                                     <Td>{input.value}</Td>
                                     <Td>{input.address}</Td>
                                   </Tr>
-                                )
+                                ),
                               )}
                             </Tbody>
                           </Table>
@@ -216,11 +301,9 @@ const BeginSwap = () => {
                     )}
                 </Stack>
               </CardBody>
-              <Button onClick={() => handleSwap(routes[currentRouteIndex])}>
-                Select Route
-              </Button>
+              <Button onClick={() => handleSwap(routes[currentRouteIndex])}>Select Route</Button>
             </Card>
-           )}
+          )}
           {/* Pagination Buttons */}
           <HStack spacing={4}>
             <Button isDisabled={currentRouteIndex === 0} onClick={handlePreviousRoute}>
