@@ -39,6 +39,7 @@ export type CosmosLikeToolbox =
   | BinanceToolboxType
   | ThorchainToolboxType
   | MayaToolboxType;
+  | KujiraToolboxType;
 
 export type CosmosMaxSendableAmountParams = {
   toolbox: CosmosLikeToolbox;
