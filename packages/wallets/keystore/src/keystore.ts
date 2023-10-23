@@ -179,6 +179,27 @@ const getWalletMethodsForChain = async ({
       };
     }
 
+    case Chain.Kujira: {
+      const { KujiraToolbox } = await import('@swapkit/toolbox-cosmos');
+      const toolbox = KujiraToolbox({ server: api });
+      const signer = await toolbox.getSigner(phrase);
+      const address = await toolbox.getAddressFromMnemonic(phrase);
+
+      const transfer = ({ assetValue, recipient, memo }: TransferParams) =>
+        toolbox.transfer({
+          from: address,
+          recipient,
+          signer,
+          assetValue,
+          memo,
+        });
+
+      return {
+        address,
+        walletMethods: { ...toolbox, transfer, getAddress: () => address },
+      };
+    }
+
     case Chain.Maya:
     case Chain.THORChain: {
       const { MayaToolbox, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
