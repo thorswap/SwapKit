@@ -83,6 +83,19 @@ export const getAsymmetricAssetWithdrawAmount = ({
 const toTCSwapKitNumber = (value: string) =>
   new SwapKitNumber({ value, decimal: BaseDecimal.THOR });
 
+export const getSymmetricPoolShare = ({
+  liquidityUnits,
+  poolUnits,
+  runeDepth,
+  assetDepth,
+}: ShareParams<{
+  runeDepth: string;
+  assetDepth: string;
+}>) => ({
+  assetAmount: toTCSwapKitNumber(assetDepth).mul(liquidityUnits).div(poolUnits),
+  runeAmount: toTCSwapKitNumber(runeDepth).mul(liquidityUnits).div(poolUnits),
+});
+
 export const getSymmetricWithdraw = ({
   liquidityUnits,
   poolUnits,
@@ -93,10 +106,12 @@ export const getSymmetricWithdraw = ({
   runeDepth: string;
   assetDepth: string;
   percent: number;
-}>) => ({
-  assetAmount: toTCSwapKitNumber(assetDepth).mul(liquidityUnits).div(poolUnits).mul(percent),
-  runeAmount: toTCSwapKitNumber(runeDepth).mul(liquidityUnits).div(poolUnits).mul(percent),
-});
+}>) =>
+  Object.fromEntries(
+    Object.entries(getSymmetricPoolShare({ liquidityUnits, poolUnits, runeDepth, assetDepth })).map(
+      ([name, value]) => [name, value.mul(percent)],
+    ),
+  );
 
 export const getEstimatedPoolShare = ({
   runeDepth,
