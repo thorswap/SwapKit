@@ -3,6 +3,9 @@ import { resolve } from 'path';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
 import { defineConfig } from 'vite';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
+
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
@@ -18,18 +21,42 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@coinmasters/wallet-keystore': resolve('../../packages/wallets/keystore/src'),
-      '@coinmasters/wallet-keepkey': resolve('../../packages/wallets/keepkey/src'),
-      '@coinmasters/wallet-ledger': resolve('../../packages/wallets/ledger/src'),
-      '@coinmasters/core': resolve('../../packages/swapkit/core/src'),
-      '@coinmasters/helpers': resolve('../../packages/swapkit/helpers/src'),
-      '@coinmasters/tokens': resolve('../../packages/swapkit/tokens/src'),
-      '@coinmasters/toolbox-cosmos': resolve('../../packages/toolboxes/cosmos/src'),
-      '@coinmasters/toolbox-evm': resolve('../../packages/toolboxes/evm/src'),
-      '@coinmasters/toolbox-utxo': resolve('../../packages/toolboxes/utxo/src'),
-      '@coinmasters/wallet-trezor': resolve('../../packages/wallets/trezor/src'),
-      '@coinmasters/types': resolve('../../packages/swapkit/types/src'),
-      '@coinmasters/wallet-xdefi': resolve('../../packages/wallets/xdefi/src'),
+      '@coinmasters/wallet-keystore': isProduction
+        ? resolve('node_modules/@coinmasters/wallet-keystore/dist')
+        : resolve('../../packages/wallets/keystore/src'),
+      '@coinmasters/wallet-keepkey': isProduction
+        ? resolve('node_modules/@coinmasters/wallet-keepkey/dist')
+        : resolve('../../packages/wallets/keepkey/src'),
+      '@coinmasters/wallet-ledger': isProduction
+        ? resolve('node_modules/@coinmasters/wallet-ledger/dist')
+        : resolve('../../packages/wallets/ledger/src'),
+      '@coinmasters/core': isProduction
+        ? resolve('node_modules/@coinmasters/core/dist')
+        : resolve('../../packages/swapkit/core/src'),
+      '@coinmasters/helpers': isProduction
+        ? resolve('node_modules/@coinmasters/helpers/dist')
+        : resolve('../../packages/swapkit/helpers/src'),
+      '@coinmasters/tokens': isProduction
+        ? resolve('node_modules/@coinmasters/tokens/dist')
+        : resolve('../../packages/swapkit/tokens/src'),
+      '@coinmasters/toolbox-cosmos': isProduction
+        ? resolve('node_modules/@coinmasters/toolbox-cosmos/dist')
+        : resolve('../../packages/toolboxes/cosmos/src'),
+      '@coinmasters/toolbox-evm': isProduction
+        ? resolve('node_modules/@coinmasters/toolbox-evm/dist')
+        : resolve('../../packages/toolboxes/evm/src'),
+      '@coinmasters/toolbox-utxo': isProduction
+        ? resolve('node_modules/@coinmasters/toolbox-utxo/dist')
+        : resolve('../../packages/toolboxes/utxo/src'),
+      '@coinmasters/wallet-trezor': isProduction
+        ? resolve('node_modules/@coinmasters/wallet-trezor/dist')
+        : resolve('../../packages/wallets/trezor/src'),
+      '@coinmasters/types': isProduction
+        ? resolve('node_modules/@coinmasters/types/dist')
+        : resolve('../../packages/swapkit/types/src'),
+      '@coinmasters/wallet-xdefi': isProduction
+        ? resolve('node_modules/@coinmasters/wallet-xdefi/dist')
+        : resolve('../../packages/wallets/xdefi/src'),
 
       events: resolve('./polyfills/events.js'),
       string_decoder: resolve('./polyfills/string_decoder.js'),
