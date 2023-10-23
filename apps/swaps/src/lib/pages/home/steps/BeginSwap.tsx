@@ -35,7 +35,7 @@ const labelStyles = {
   fontSize: 'sm',
 };
 
-const BeginSwap = ({ setRoute }) => {
+const BeginSwap = ({ setRoute, setQuoteId }) => {
   const { state } = usePioneer();
   const { app, assetContext, outboundAssetContext } = state;
   const [showGif, setShowGif] = useState(true);
@@ -78,7 +78,8 @@ const BeginSwap = ({ setRoute }) => {
       };
       console.log('entry: ', entry);
 
-      const { routes } = await SwapKitApi.getQuote(entry);
+      const { routes, quoteId } = await SwapKitApi.getQuote(entry);
+      setQuoteId(quoteId);
       console.log('routes: ', routes);
       if (routes && routes.length > 0) {
         setRoute(routes[0]);
@@ -112,6 +113,7 @@ const BeginSwap = ({ setRoute }) => {
   const onSliderChange = async function (val) {
     try {
       console.log('val: ', val);
+      console.log('rate: ', rate);
       setSliderValue(val);
 
       // Calculate amountIn based on sliderValue
@@ -132,10 +134,10 @@ const BeginSwap = ({ setRoute }) => {
       }
 
       // Set a new timeout to call fetchQuote after 3 seconds of slider inactivity
-      timeoutId = setTimeout(() => {
-        fetchQuote(); // Call fetchQuote here
-        timeoutId = null; // Reset the timeout ID
-      }, 3000); // 3000 milliseconds (3 seconds)
+      // timeoutId = setTimeout(() => {
+      //   fetchQuote(); // Call fetchQuote here
+      //   timeoutId = null; // Reset the timeout ID
+      // }, 3000); // 3000 milliseconds (3 seconds)
     } catch (e) {
       // Handle errors here
     }

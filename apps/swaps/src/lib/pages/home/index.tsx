@@ -13,9 +13,10 @@ import {
   SimpleGrid, // Add SimpleGrid
   useDisclosure,
 } from '@chakra-ui/react';
+import { FeeOption } from '@coinmasters/types';
 // import { COIN_MAP_LONG } from "@pioneer-platform/pioneer-coins";
 import { useEffect, useState } from 'react';
-import { FeeOption } from '@coinmasters/types';
+
 import AssetSelect from '../../components/AssetSelect';
 import OutputSelect from '../../components/OutputSelect';
 import SignTransaction from '../../components/SignTransaction';
@@ -34,6 +35,7 @@ const Home = () => {
   const [step, setStep] = useState(0);
   const [modalType, setModalType] = useState(null);
   const [route, setRoute] = useState(null);
+  const [quoteId, setQuoteId] = useState(null);
   const [txHash, setTxhash] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedButton, setSelectedButton] = useState('quick'); // Initial selected button is "Quick"
@@ -106,7 +108,7 @@ const Home = () => {
       setShowGoBack(false);
       // check if confirmed
       // if confirmed
-      setStep((prevStep) => prevStep + 1)
+      setStep((prevStep) => prevStep + 1);
     }
   }, [txHash]);
 
@@ -125,9 +127,9 @@ const Home = () => {
           />
         );
       case 1:
-        return <BeginSwap setRoute={setRoute} />;
+        return <BeginSwap setRoute={setRoute} setQuoteId={setQuoteId} />;
       case 2:
-        return <CompleteSwap txHash={txHash} />;
+        return <CompleteSwap quoteId={quoteId} route={route} txHash={txHash} />;
       default:
         return null;
     }
@@ -181,6 +183,7 @@ const Home = () => {
           p="1rem 1.25rem 0.5rem"
         >
           <h1>Swap</h1>
+          {quoteId && (<div>{quoteId}</div>)}
           <SettingsIcon
             _hover={{ color: 'rgb(128,128,128)' }}
             cursor="pointer"

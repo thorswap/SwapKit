@@ -1,19 +1,10 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { ArrowUpDownIcon } from "@chakra-ui/icons";
-import {
-  Avatar,
-  Button,
-  Flex,
-  Box,
-  Text,
-  HStack,
-  Spinner,
-} from "@chakra-ui/react";
+import { ArrowUpDownIcon } from '@chakra-ui/icons';
+import { Avatar, Box, Button, Flex, HStack, Spinner, Text } from '@chakra-ui/react';
 // @ts-ignore
-import { COIN_MAP_LONG } from "@pioneer-platform/pioneer-coins";
-import type React from "react";
+import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
+import React from 'react';
 
-import { usePioneer } from "../../../context/Pioneer";
+import { usePioneer } from '../../../context/Pioneer';
 
 interface BeginSwapProps {
   openModal: any; // Replace 'any' with the actual type of 'openModal'
@@ -21,59 +12,47 @@ interface BeginSwapProps {
   selectedButton: any; // Replace 'any' with the actual type of 'selectedButton'
 }
 
-const BeginSwap: React.FC<BeginSwapProps> = ({
-  openModal,
-  handleClick,
-  selectedButton,
-}) => {
+const BeginSwap: React.FC<BeginSwapProps> = ({ openModal, handleClick, selectedButton }) => {
   const { state } = usePioneer();
   const { assetContext, outboundAssetContext, app } = state;
 
   const switchAssets = function () {
     let currentInput = assetContext;
     let currentOutput = outboundAssetContext;
-    console.log("currentInput: ", currentInput);
-    console.log("currentOutput: ", currentOutput);
-    console.log("Switching assets!");
+    console.log('currentInput: ', currentInput);
+    console.log('currentOutput: ', currentOutput);
+    console.log('Switching assets!');
     app.setOutboundAssetContext(currentInput);
     app.setAssetContext(currentOutput);
   };
 
   return (
     <div>
-      <Flex
-        mx="auto"
-        alignItems="center"
-        justifyContent="center"
-        bg="black"
-        p="2rem"
-      >
+      <Flex alignItems="center" bg="black" justifyContent="center" mx="auto" p="2rem">
         <HStack
-          spacing={4} // Adjust the spacing between the two boxes
           maxWidth="35rem" // Set maximum width for the container
+          spacing={4} // Adjust the spacing between the two boxes
           width="100%" // Ensure the container takes full width
         >
           <Box
-            flex="1" // Adjust the flex property to control the width
-            h="10rem"
+            _hover={{ color: 'rgb(128,128,128)' }}
+            alignItems="center"
             border="1px solid #fff"
             borderRadius="8px"
             display="flex"
+            flex="1" // Adjust the flex property to control the width
             flexDirection="column"
-            alignItems="center"
+            h="10rem"
             justifyContent="center"
-            _hover={{ color: "rgb(128,128,128)" }}
-            onClick={() => openModal("Select Asset")}
+            onClick={() => openModal('Select Asset')}
           >
             {!assetContext ? (
-              <Spinner size="lg" color="blue.500" />
+              <Spinner color="blue.500" size="lg" />
             ) : (
               <>
                 <Avatar
                   size="xl"
-                  src={`https://pioneers.dev/coins/${
-                    COIN_MAP_LONG[assetContext?.chain]
-                  }.png`}
+                  src={`https://pioneers.dev/coins/${COIN_MAP_LONG[assetContext?.chain]}.png`}
                 />
                 {/* <Box border="1px solid #fff" borderRadius="8px" width="100%"> */}
                 {/*  <Text>name: {assetContext?.asset?.name}</Text> */}
@@ -87,25 +66,21 @@ const BeginSwap: React.FC<BeginSwapProps> = ({
               </>
             )}
           </Box>
-          <ArrowUpDownIcon
-            onClick={() => switchAssets()}
-            color="white"
-            boxSize="2rem"
-          />
+          <ArrowUpDownIcon boxSize="2rem" color="white" onClick={() => switchAssets()} />
           <Box
-            flex="1" // Adjust the flex property to control the width
-            h="10rem"
+            _hover={{ color: 'rgb(128,128,128)' }}
+            alignItems="center"
             border="1px solid #fff"
             borderRadius="8px"
             display="flex"
+            flex="1" // Adjust the flex property to control the width
             flexDirection="column"
-            alignItems="center"
+            h="10rem"
             justifyContent="center"
-            _hover={{ color: "rgb(128,128,128)" }}
-            onClick={() => openModal("Select Outbound")}
+            onClick={() => openModal('Select Outbound')}
           >
             {!outboundAssetContext ? (
-              <Spinner size="lg" color="blue.500" />
+              <Spinner color="blue.500" size="lg" />
             ) : (
               <div>
                 <Avatar
@@ -128,24 +103,18 @@ const BeginSwap: React.FC<BeginSwapProps> = ({
           </Box>
         </HStack>
       </Flex>
-      <Flex
-        mx="auto"
-        alignItems="center"
-        justifyContent="center"
-        bg="black"
-        p="2rem"
-      >
+      <Flex alignItems="center" bg="black" justifyContent="center" mx="auto" p="2rem">
         <Button
-          onClick={() => handleClick("quick")}
-          colorScheme={selectedButton === "quick" ? "blue" : "gray"}
+          colorScheme={selectedButton === 'quick' ? 'blue' : 'gray'}
+          onClick={() => handleClick('quick')}
           variant="outline"
           width="48%"
         >
           Quick
         </Button>
         <Button
-          onClick={() => handleClick("precise")}
-          colorScheme={selectedButton === "precise" ? "blue" : "gray"}
+          colorScheme={selectedButton === 'precise' ? 'blue' : 'gray'}
+          onClick={() => handleClick('precise')}
           variant="outline"
           width="48%"
         >

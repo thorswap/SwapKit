@@ -1,11 +1,11 @@
 import { Helmet } from "react-helmet";
 
-const APP_NAME = "vite-react-chakra-starter";
+const APP_NAME = "Swaps.PRO";
 
 const Meta = () => {
   return (
     <Helmet>
-      <title>Vite React Chakra Starter</title>
+      <title>{APP_NAME}</title>
       <meta name="description" content="Vite React Chakra Starter Template" />
 
       <meta name="application-name" content={APP_NAME} />

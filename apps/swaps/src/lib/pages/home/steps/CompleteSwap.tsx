@@ -11,13 +11,17 @@ import completedGif from '../../../assets/gif/completed.gif'; // Import the GIF 
 // @ts-ignore
 import shiftingGif from '../../../assets/gif/shifting.gif';
 
-const BeginSwap = ({ txHash }: any) => {
+const BeginSwap = ({ route,txHash,quoteId }: any) => {
   const [isCompleted, setIsCompleted] = useState(false);
   const transactionUrl = `https://etherscan.io/tx/${txHash}`; // Replace with your transaction URL
 
   let lookupTx = async () => {
     try {
-      let txInfo = await SwapKitApi.getTxnDetails(txHash);
+      console.log('txHash: ', txHash)
+      console.log('route: ', route)
+      // console.log('sellAmount: ', route)
+
+      let txInfo = await SwapKitApi.getTxnDetails(txHash,route, quoteId);
       console.log('txInfo: ', txInfo);
     } catch (e) {
       console.error(e);
