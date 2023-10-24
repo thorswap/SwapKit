@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import { ChevronDownIcon, ChevronUpIcon, Search2Icon } from '@chakra-ui/icons';
 import {
   Avatar,
   Box,
   Button,
+  Checkbox,
   Flex,
   Input,
   InputGroup,
   InputLeftElement,
   Stack,
   Text,
-  Checkbox,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { Search2Icon, ChevronUpIcon, ChevronDownIcon } from '@chakra-ui/icons';
-import { usePioneer } from '../../context/Pioneer';
 import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
+import React, { useEffect, useState } from 'react';
+
+import { usePioneer } from '../../context/Pioneer';
 
 export default function OutputSelect({ onClose }) {
   const { state } = usePioneer();
@@ -89,12 +90,7 @@ export default function OutputSelect({ onClose }) {
         <InputLeftElement pointerEvents="none">
           <Search2Icon color="gray.300" />
         </InputLeftElement>
-        <Input
-          value={search}
-          onChange={handleSearchChange}
-          placeholder="Bitcoin..."
-          type="text"
-        />
+        <Input onChange={handleSearchChange} placeholder="Bitcoin..." type="text" value={search} />
       </InputGroup>
       <Box>
         <Text fontSize="2xl">Total Assets: {totalAssets}</Text>
@@ -104,16 +100,16 @@ export default function OutputSelect({ onClose }) {
         <Button onClick={toggleSortOrder} size="sm">
           Sort by Value {sortOrder === 'asc' ? <ChevronUpIcon /> : <ChevronDownIcon />}
         </Button>
-        {filteredAssets.map((asset:any, index: number) => (
+        {filteredAssets.map((asset: any, index: number) => (
           <Box key={index}>
             <Flex
               alignItems="center"
-              borderRadius="md"
-              width={cardWidth}
               border="1px solid #fff"
+              borderRadius="md"
               boxShadow="sm"
               p={2}
               spacing={2}
+              width={cardWidth}
             >
               <Avatar
                 size="md"
@@ -121,9 +117,21 @@ export default function OutputSelect({ onClose }) {
               />
               <Box ml={3}>
                 <Text fontSize="sm">Asset: {asset?.symbol}</Text>
-                <Text fontSize="sm">Value USD: {typeof asset?.valueUsd === 'string' ? (+asset.valueUsd).toFixed(2).toLocaleString('en-US', { style: 'currency', currency: 'USD' }) : ''}</Text>
+                <Text fontSize="sm">
+                  Value USD:{' '}
+                  {typeof asset?.valueUsd === 'string'
+                    ? (+asset.valueUsd)
+                        .toFixed(2)
+                        .toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+                    : ''}
+                </Text>
               </Box>
-              <Button ml="auto" onClick={() => handleSelectClick(asset)} size="sm" variant="outline">
+              <Button
+                ml="auto"
+                onClick={() => handleSelectClick(asset)}
+                size="sm"
+                variant="outline"
+              >
                 Select
               </Button>
             </Flex>

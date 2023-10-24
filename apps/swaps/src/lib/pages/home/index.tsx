@@ -13,6 +13,7 @@ import {
   SimpleGrid, // Add SimpleGrid
   useDisclosure,
 } from '@chakra-ui/react';
+import { SwapKitApi } from '@coinmasters/api';
 import { FeeOption } from '@coinmasters/types';
 // import { COIN_MAP_LONG } from "@pioneer-platform/pioneer-coins";
 import { useEffect, useState } from 'react';
@@ -34,9 +35,11 @@ const Home = () => {
   // steps
   const [step, setStep] = useState(0);
   const [modalType, setModalType] = useState(null);
+  const [routes, setRoutes] = useState([]);
   const [route, setRoute] = useState(null);
-  const [quoteId, setQuoteId] = useState(null);
+  const [quoteId, setQuoteId] = useState('');
   const [txHash, setTxhash] = useState(null);
+  const [inputAmount, setInputAmount] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedButton, setSelectedButton] = useState('quick'); // Initial selected button is "Quick"
   const [isContinueDisabled, setIsContinueDisabled] = useState(true); // Initial continue button is disabled
@@ -58,7 +61,7 @@ const Home = () => {
       setShowGoBack(false);
     }
     if (step === 1) {
-      setContinueButtonContent('Sign Transaction');
+      setContinueButtonContent('Accept Route');
     }
   }, [step]);
 
@@ -72,9 +75,44 @@ const Home = () => {
     onOpen();
   };
 
+  const fetchQuote = async () => {
+    let amountSelect;
+    if (!inputAmount || inputAmount === 0) {
+      amountSelect = parseFloat(assetContext?.balance);
+      setInputAmount(amountSelect);
+    } else {
+      amountSelect = inputAmount;
+    }
+
+    console.log('amountSelect: ', amountSelect);
+    const senderAddress = app.swapKit.getAddress(assetContext.chain);
+    const recipientAddress = app.swapKit.getAddress(outboundAssetContext.chain);
+    try {
+      const entry = {
+        sellAsset: assetContext.chain + '.' + assetContext.symbol,
+        sellAmount: assetContext.balance,
+        buyAsset: outboundAssetContext.chain + '.' + outboundAssetContext.symbol,
+        senderAddress,
+        recipientAddress,
+        slippage: '3',
+      };
+      console.log('entry: ', entry);
+
+      const result = await SwapKitApi.getQuote(entry);
+      if (result && result.routes && result.routes.length > 0) {
+        setQuoteId(result?.quoteId);
+        setRoutes(result?.routes);
+      }
+    } catch (e: any) {
+      console.error('ERROR: ', e);
+      // alert(`Failed to get quote! ${e.message}`);
+    }
+  };
+
   const handleClickContinue = () => {
     try {
       if (step === 0) {
+        fetchQuote();
         setStep((prevStep) => prevStep + 1);
         setShowGoBack(true);
         return;
@@ -85,6 +123,7 @@ const Home = () => {
           feeOptionKey: FeeOption.Fast,
         };
         console.log('swapParams: ', swapParams);
+        fetchQuote();
         // console.log("swapKit: ", swapKit);
         openModal('Confirm Trade');
         // const txHash = await swapKit.swap(swapParams);
@@ -127,7 +166,15 @@ const Home = () => {
           />
         );
       case 1:
-        return <BeginSwap setRoute={setRoute} setQuoteId={setQuoteId} />;
+        return (
+          <BeginSwap
+            fetchQuote={fetchQuote}
+            routes={routes}
+            setInputAmount={setInputAmount}
+            setQuoteId={setQuoteId}
+            setRoute={setRoute}
+          />
+        );
       case 2:
         return <CompleteSwap quoteId={quoteId} route={route} txHash={txHash} />;
       default:
@@ -157,7 +204,12 @@ const Home = () => {
             )}
             {modalType === 'Confirm Trade' && (
               <div>
-                <SignTransaction onClose={onClose} route={route} setTxhash={setTxhash} />
+                <SignTransaction
+                  inputAmount={inputAmount}
+                  onClose={onClose}
+                  route={route}
+                  setTxhash={setTxhash}
+                />
               </div>
             )}
           </ModalBody>
@@ -183,7 +235,7 @@ const Home = () => {
           p="1rem 1.25rem 0.5rem"
         >
           <h1>Swap</h1>
-          {quoteId && (<div>{quoteId}</div>)}
+          {quoteId && <div>{quoteId}</div>}
           <SettingsIcon
             _hover={{ color: 'rgb(128,128,128)' }}
             cursor="pointer"

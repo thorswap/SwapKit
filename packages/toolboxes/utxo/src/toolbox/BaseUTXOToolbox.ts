@@ -109,7 +109,7 @@ const getBalance = async ({
   chain,
   apiClient,
 }: { address: string } & UTXOBaseToolboxParams) => [
-  await AssetValue.fromIdentifier(`${chain}.${chain}`, await apiClient.getBalance(address)),
+  await AssetValue.fromIdentifier(`${chain}.${chain}`, (await apiClient.getBalance(address)/100000000)),
 ];
 
 const getFeeRates = async (apiClient: BlockchairApiType) =>

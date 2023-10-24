@@ -35,19 +35,18 @@ const labelStyles = {
   fontSize: 'sm',
 };
 
-const BeginSwap = ({ setRoute, setQuoteId }) => {
+const BeginSwap = ({ setRoutes, setQuoteId, setInputAmount, routes, fetchQuote }) => {
   const { state } = usePioneer();
   const { app, assetContext, outboundAssetContext } = state;
   const [showGif, setShowGif] = useState(true);
   const [currentRouteIndex, setCurrentRouteIndex] = useState(0); // New state for current route index
-  const [inputAmount, setInputAmount] = useState<Amount | undefined>();
+  const [inputAmountLocal, setInputAmountLocal] = useState<Amount | undefined>();
   const [sliderValue, setSliderValue] = useState(50);
   const [rate, setRate] = useState<Amount | undefined>();
   const [amountOut, setAmountOut] = useState<Amount | undefined>();
-  const [routes, setRoutes] = useState<any[]>([]);
 
   const handlePreviousRoute = () => {
-    setRoutes([]);
+    // setRoutes([]);
     setShowGif(true);
     if (currentRouteIndex > 0) {
       setCurrentRouteIndex(currentRouteIndex - 1);
@@ -60,53 +59,12 @@ const BeginSwap = ({ setRoute, setQuoteId }) => {
     }
   };
 
-  const fetchQuote = useCallback(async () => {
-    let amountSelect = parseFloat(assetContext?.balance);
-    amountSelect = amountSelect * (sliderValue / 100);
-    setInputAmount(amountSelect);
-    console.log('amountSelect: ', amountSelect);
-    const senderAddress = app.swapKit.getAddress(assetContext.chain);
-    const recipientAddress = app.swapKit.getAddress(outboundAssetContext.chain);
-    try {
-      const entry = {
-        sellAsset: assetContext.chain + '.' + assetContext.symbol,
-        sellAmount: assetContext.balance,
-        buyAsset: outboundAssetContext.chain + '.' + outboundAssetContext.symbol,
-        senderAddress,
-        recipientAddress,
-        slippage: '3',
-      };
-      console.log('entry: ', entry);
-
-      const { routes, quoteId } = await SwapKitApi.getQuote(entry);
-      setQuoteId(quoteId);
-      console.log('routes: ', routes);
-      if (routes && routes.length > 0) {
-        setRoute(routes[0]);
-        setRoutes(routes || []);
-        console.log('inputAmount: ', inputAmount);
-        console.log('routes[0].expectedOutput: ', routes[0].expectedOutput);
-        setAmountOut(routes[0].expectedOutput);
-        let rate = inputAmount / parseFloat(routes[0].expectedOutput);
-        console.log('rate: ', rate);
-        setRate(rate);
-      }
-    } catch (e: any) {
-      console.error('ERROR: ', e);
-      // alert(`Failed to get quote! ${e.message}`);
-    }
-  }, [assetContext, outboundAssetContext, app]);
-
   // wait for routes
   useEffect(() => {
     if (routes && routes.length > 0) {
       setShowGif(false);
     }
   }, [routes]);
-
-  useEffect(() => {
-    fetchQuote();
-  }, [fetchQuote]);
 
   let timeoutId = null;
 
@@ -120,7 +78,7 @@ const BeginSwap = ({ setRoute, setQuoteId }) => {
       let newAmountIn = (val / 100) * parseFloat(assetContext?.balance || '0');
       console.log('newAmountIn: ', newAmountIn);
       setInputAmount(newAmountIn);
-
+      setInputAmountLocal(newAmountIn);
       // Calculate amountOut using rate and newAmountIn
       if (rate) {
         let newAmountOut = newAmountIn / rate;
@@ -170,7 +128,7 @@ const BeginSwap = ({ setRoute, setQuoteId }) => {
                   <div>
                     <h1>
                       {' '}
-                      input: {inputAmount?.toString() || ''} ({assetContext.symbol})
+                      input: {inputAmountLocal?.toString() || ''} ({assetContext.symbol})
                     </h1>
                     <small>
                       {' '}
@@ -303,7 +261,7 @@ const BeginSwap = ({ setRoute, setQuoteId }) => {
                     )}
                 </Stack>
               </CardBody>
-              <Button onClick={() => handleSwap(routes[currentRouteIndex])}>Select Route</Button>
+              {/*<Button onClick={() => handleSwap(routes[currentRouteIndex])}>Select Route</Button>*/}
             </Card>
           )}
           {/* Pagination Buttons */}

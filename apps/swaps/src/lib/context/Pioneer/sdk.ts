@@ -308,7 +308,7 @@ export class SDK {
             // eslint-disable-next-line @typescript-eslint/prefer-for-of
             for (let j = 0; j < walletData.balance.length; j++) {
               const balance = walletData.balance[j];
-              // console.log('balance: ', balance);
+              console.log('balance: ', balance);
               if (balance && balance?.baseValueNumber > 0) {
                 balance.context = context;
                 balancesSwapKit.push(balance);

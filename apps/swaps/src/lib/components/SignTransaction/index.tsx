@@ -1,9 +1,10 @@
 import { Button, Stack, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
-
+import { FeeOption } from '@coinmasters/types';
+import { SwapKitApi } from '@coinmasters/api';
 import { usePioneer } from '../../context/Pioneer';
 
-export default function SignTransaction({ route, onClose, setTxhash }: any) {
+export default function SignTransaction({ route, onClose, setTxhash, inputAmount }: any) {
   const { state } = usePioneer();
   const { app, balances, assetContext, outboundAssetContext } = state;
   const [requireUserSign, setRequireUserSign] = useState(false);
@@ -18,12 +19,12 @@ export default function SignTransaction({ route, onClose, setTxhash }: any) {
     console.log('address: ', address);
 
     console.log('route: ', route);
-    let txHash = '4F6AF1BC8C7A6D7F3BF7F9E9A2C7D6D85407C7A5E07FE72B9E90D9B91567D2FF';
-    // const txHash = await app?.swapKit.swap({
-    //   route,
-    //   recipient: address,
-    //   feeOptionKey: FeeOption.Fast,
-    // });
+    // let txHash = '4F6AF1BC8C7A6D7F3BF7F9E9A2C7D6D85407C7A5E07FE72B9E90D9B91567D2FF';
+    const txHash = await app?.swapKit.swap({
+      route,
+      recipient: address,
+      feeOptionKey: FeeOption.Fast,
+    });
     console.log('txHash: ', txHash);
     setTxhash(txHash);
     onClose();
