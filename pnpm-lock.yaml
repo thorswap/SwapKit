@@ -441,6 +441,9 @@ importers:
       '@swapkit/wallet-evm-extensions':
         specifier: workspace:*
         version: link:../../wallets/evm-extensions
+      '@swapkit/wallet-keepkey':
+        specifier: workspace:*
+        version: link:../../wallets/keepkey
       '@swapkit/wallet-keplr':
         specifier: workspace:*
         version: link:../../wallets/keplr
@@ -744,16 +747,7 @@ importers:
       '@cosmjs/stargate':
         specifier: 0.31.1
         version: 0.31.1
-      '@ethersproject/abstract-signer':
-        specifier: 5.7.0
-        version: 5.7.0
       '@ethersproject/bignumber':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/providers':
-        specifier: 5.7.2
-        version: 5.7.2
-      '@ethersproject/transactions':
         specifier: 5.7.0
         version: 5.7.0
       '@internal/config':

@@ -1,9 +1,9 @@
 import { SwapKitCore } from '@swapkit/core';
 import type { ExtendParams } from '@swapkit/types';
 import { evmWallet } from '@swapkit/wallet-evm-extensions';
+import { keepkeyWallet } from '@swapkit/wallet-keepkey';
 import { keplrWallet } from '@swapkit/wallet-keplr';
 import { keystoreWallet } from '@swapkit/wallet-keystore';
-import { KeepKeyWallet } from '@swapkit/keepkey';
 import { ledgerWallet } from '@swapkit/wallet-ledger';
 import { okxWallet } from '@swapkit/wallet-okx';
 import { trezorWallet } from '@swapkit/wallet-trezor';

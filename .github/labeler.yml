@@ -27,8 +27,9 @@ evm:
 utxo:
   - packages/toolboxes/utxo/src/**/*
 
-keystore:
-  - packages/wallets/keystore/src/**/*
+keystore: packages/wallets/keystore/src/**/*
+keepkey:
+  - packages/wallets/keepkey/src/**/*
 ledger:
   - packages/wallets/ledger/src/**/*
 trezor:

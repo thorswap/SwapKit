@@ -10,6 +10,7 @@
     "@swapkit/wallet-evm-extensions": "workspace:*",
     "@swapkit/wallet-keplr": "workspace:*",
     "@swapkit/wallet-keystore": "workspace:*",
+    "@swapkit/wallet-keepkey": "workspace:*",
     "@swapkit/wallet-ledger": "workspace:*",
     "@swapkit/wallet-okx": "workspace:*",
     "@swapkit/wallet-trezor": "workspace:*",
@@ -56,5 +57,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.2"
+  "version": "1.0.0-rc.3"
 }

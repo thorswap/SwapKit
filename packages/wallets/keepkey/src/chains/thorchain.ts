@@ -147,6 +147,6 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
 
     return { ...toolbox, getAddress: () => fromAddress, transfer, deposit };
   } catch (e) {
-    console.error(e);
+    throw e;
   }
 };

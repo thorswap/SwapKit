@@ -185,7 +185,7 @@ const checkAndLaunch = async () => {
   }
 };
 
-const connectKeepKey =
+const connectKeepkey =
   ({
     apis,
     rpcUrls,
@@ -217,8 +217,8 @@ const connectKeepKey =
   };
 
 export const keepkeyWallet = {
-  connectMethodName: 'connectKeepKey' as const,
-  connect: connectKeepKey,
+  connectMethodName: 'connectKeepkey' as const,
+  connect: connectKeepkey,
   // TODO - @Highlander - check if keepkey is connected
   isDetected: () => checkKeepkeyAvailability('http://localhost:1646/spec/swagger.json'),
 };
