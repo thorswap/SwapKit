@@ -62,7 +62,6 @@ const getSuggestedTxFee = async (chain: Chain) => {
   } catch (error) {
     return getDefaultTxFeeByChain(chain);
   }
-  //   }
 };
 
 const blockchairRequest = async <T extends any>(url: string): Promise<T> => {
@@ -79,12 +78,22 @@ const getAddressData = async ({
 }: BlockchairParams<{ address?: string }>) => {
   if (!address) throw new Error('address is required');
 
-  const url = `/dashboards/address/${address}?transaction_details=true${
-    apiKey ? `&key=${apiKey}` : ''
-  }`;
-  const response = await blockchairRequest<BlockchairAddressResponse>(`${baseUrl(chain)}${url}`);
+  try {
+    const url = `/dashboards/address/${address}?transaction_details=true${
+      apiKey ? `&key=${apiKey}` : ''
+    }`;
+    const response = await blockchairRequest<BlockchairAddressResponse>(`${baseUrl(chain)}${url}`);
 
-  return response[address];
+    return response[address];
+  } catch (error) {
+    return {
+      utxo: [],
+      address: {
+        balance: 0,
+        transaction_count: 0,
+      },
+    };
+  }
 };
 
 const getUnconfirmedBalance = async ({
@@ -101,23 +110,32 @@ const getConfirmedBalance = async ({
   apiKey,
 }: BlockchairParams<{ address?: string }>) => {
   if (!address) throw new Error('address is required');
+  try {
+    const url = `/addresses/balances?addresses=${address}${apiKey ? `&key=${apiKey}` : ''}`;
+    const response = await blockchairRequest<BlockchairMultipleBalancesResponse>(
+      `${baseUrl(chain)}${url}`,
+    );
 
-  const url = `/addresses/balances?addresses=${address}${apiKey ? `&key=${apiKey}` : ''}`;
-  const response = await blockchairRequest<BlockchairMultipleBalancesResponse>(
-    `${baseUrl(chain)}${url}`,
-  );
-
-  return response[address] || 0;
+    return response[address] || 0;
+  } catch (error) {
+    console.error(error);
+    return 0;
+  }
 };
 
 const getRawTx = async ({ chain, apiKey, txHash }: BlockchairParams<{ txHash?: string }>) => {
   if (!txHash) throw new Error('txHash is required');
 
-  const url = `/raw/transaction/${txHash}${apiKey ? `?key=${apiKey}` : ''}`;
-  const rawTxResponse = await blockchairRequest<BlockchairRawTransactionResponse>(
-    `${baseUrl(chain)}${url}`,
-  );
-  return rawTxResponse[txHash].raw_transaction;
+  try {
+    const url = `/raw/transaction/${txHash}${apiKey ? `?key=${apiKey}` : ''}`;
+    const rawTxResponse = await blockchairRequest<BlockchairRawTransactionResponse>(
+      `${baseUrl(chain)}${url}`,
+    );
+    return rawTxResponse[txHash].raw_transaction;
+  } catch (error) {
+    console.error(error);
+    return '';
+  }
 };
 
 const getUnspentTxs = async ({
@@ -129,32 +147,39 @@ const getUnspentTxs = async ({
   (UTXOType & { script_hex: string; is_confirmed: boolean })[]
 > => {
   if (!address) throw new Error('address is required');
-  const url = `/outputs?q=is_spent(false),recipient(${address})&limit=100&offset=${offset}${
-    apiKey ? `&key=${apiKey}` : ''
-  }`;
-  const response = await blockchairRequest<BlockchairOutputsResponse[]>(`${baseUrl(chain)}${url}`);
+  try {
+    const url = `/outputs?q=is_spent(false),recipient(${address})&limit=100&offset=${offset}${
+      apiKey ? `&key=${apiKey}` : ''
+    }`;
+    const response = await blockchairRequest<BlockchairOutputsResponse[]>(
+      `${baseUrl(chain)}${url}`,
+    );
 
-  const txs = response
-    .filter(({ is_spent }) => !is_spent)
-    .map(({ script_hex, block_id, transaction_hash, index, value, spending_signature_hex }) => ({
-      hash: transaction_hash,
-      index,
-      value,
-      txHex: spending_signature_hex,
-      script_hex,
-      is_confirmed: block_id !== -1,
-    })) as (UTXOType & { script_hex: string; is_confirmed: boolean })[];
+    const txs = response
+      .filter(({ is_spent }) => !is_spent)
+      .map(({ script_hex, block_id, transaction_hash, index, value, spending_signature_hex }) => ({
+        hash: transaction_hash,
+        index,
+        value,
+        txHex: spending_signature_hex,
+        script_hex,
+        is_confirmed: block_id !== -1,
+      })) as (UTXOType & { script_hex: string; is_confirmed: boolean })[];
 
-  if (response.length !== 100) return txs;
+    if (response.length !== 100) return txs;
 
-  const nextBatch = await getUnspentTxs({
-    address,
-    chain,
-    apiKey,
-    offset: response[99].transaction_id,
-  });
+    const nextBatch = await getUnspentTxs({
+      address,
+      chain,
+      apiKey,
+      offset: response[99].transaction_id,
+    });
 
-  return txs.concat(nextBatch);
+    return txs.concat(nextBatch);
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };
 
 const scanUTXOs = async ({
