@@ -64,6 +64,7 @@ export class THORChainApp {
     }
     const hashSha256 = crypto.createHash('sha256').update(pk).digest();
     const hashRip = new Ripemd160().update(hashSha256).digest();
+    // FIXME: migrate to typed version of bech32
     // @ts-ignore
     const encode = bech32.encode || bech32.bech32.encode;
     // @ts-ignore

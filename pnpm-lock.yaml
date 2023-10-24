@@ -731,28 +731,19 @@ importers:
 
   packages/wallets/keepkey:
     dependencies:
-      '@cosmjs/stargate':
-        specifier: 0.31.1
-        version: 0.31.1
       '@keepkey/keepkey-sdk':
         specifier: ^0.2.52
         version: 0.2.52
       '@pioneer-platform/pioneer-coins':
-        specifier: ^8.1.84
+        specifier: ^8.1.86
         version: 8.1.86(@types/node@20.5.9)
-      '@swapkit/helpers':
-        specifier: workspace:*
-        version: link:../../swapkit/helpers
-      '@swapkit/types':
-        specifier: workspace:*
-        version: link:../../swapkit/types
-      '@thorswap-lib/swapkit-entities':
-        specifier: workspace:*
-        version: link:../../swapkit/entities
       ethers:
         specifier: ^6.7.1
         version: 6.7.1
     devDependencies:
+      '@cosmjs/stargate':
+        specifier: 0.31.1
+        version: 0.31.1
       '@ethersproject/abstract-signer':
         specifier: 5.7.0
         version: 5.7.0
@@ -768,6 +759,9 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
+      '@swapkit/helpers':
+        specifier: workspace:*
+        version: link:../../swapkit/helpers
       '@swapkit/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
@@ -777,6 +771,9 @@ importers:
       '@swapkit/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
+      '@swapkit/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
       '@types/bchaddrjs':
         specifier: 0.4.0
         version: 0.4.0

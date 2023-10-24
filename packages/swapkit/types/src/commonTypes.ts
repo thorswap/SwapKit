@@ -45,6 +45,10 @@ export type ConnectConfig = {
     email: string;
     appUrl: string;
   };
+  /**
+   * @optional for KeepKey config
+   */
+  keepkeyApiKey?: string;
 };
 
 export type AddChainWalletParams = {
