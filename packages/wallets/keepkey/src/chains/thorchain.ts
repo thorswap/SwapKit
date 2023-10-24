@@ -1,6 +1,6 @@
 import { StargateClient } from '@cosmjs/stargate';
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
-import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
+import { addressInfoForCoin, AddressInfo } from '../codex';
 import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
 import { ThorchainToolbox } from '@swapkit/toolbox-cosmos';
 import type {} from '@swapkit/types';
@@ -57,9 +57,7 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
             ],
             memo: memo || '',
             sequence: accountInfo?.sequence.toString() ?? '0',
-            // FIXME: @highlander - this type is missing from source signature
-            // @ts-expect-error
-            source: addressInfo?.source?.toString() ?? '0',
+            source: '0',
           },
           signerAddress: from,
         });
