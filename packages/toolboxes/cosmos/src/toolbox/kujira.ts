@@ -4,7 +4,7 @@ import { type AssetValue, SwapKitNumber } from '@swapkit/helpers';
 import { ApiUrl, BaseDecimal, ChainId, DerivationPath } from '@swapkit/types';
 
 import { CosmosClient } from '../cosmosClient.ts';
-import type { GaiaToolboxType } from '../index.ts';
+import type { KujiraToolboxType } from '../index.ts';
 import type { TransferParams } from '../types.ts';
 
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.ts';

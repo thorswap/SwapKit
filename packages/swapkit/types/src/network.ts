@@ -8,6 +8,7 @@ export enum Chain {
   Cosmos = 'GAIA',
   Dogecoin = 'DOGE',
   Ethereum = 'ETH',
+  Kujira = 'KUJI',
   Litecoin = 'LTC',
   Maya = 'MAYA',
   Optimism = 'OP',
@@ -25,12 +26,6 @@ export enum ContractAddress {
   OP = '0x4200000000000000000000000000000000000042',
 }
 
-export enum NetworkId {
-  Ethereum = 60,
-  Binance = 714,
-  THORChain = 931,
-}
-
 export enum DerivationPath {
   ARB = "m/44'/60'/0'/0",
   AVAX = "m/44'/60'/0'/0",
@@ -41,6 +36,7 @@ export enum DerivationPath {
   DOGE = "m/44'/3'/0'/0",
   ETH = "m/44'/60'/0'/0",
   GAIA = "m/44'/118'/0'/0",
+  KUJI = "m/44'/931'/0'/0",
   LTC = "m/84'/2'/0'/0",
   MATIC = "m/44'/60'/0'/0",
   MAYA = "m/44'/931'/0'/0",
@@ -60,6 +56,7 @@ export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   DOGE: [44, 3, 0, 0, 0],
   ETH: [44, 60, 0, 0, 0],
   GAIA: [44, 118, 0, 0, 0],
+  KUJI: [44, 931, 0, 0, 0],
   LTC: [84, 2, 0, 0, 0],
   MATIC: [44, 60, 0, 0, 0],
   MAYA: [44, 931, 0, 0, 0],
@@ -112,7 +109,12 @@ export const UTXOChainList: Chain[] = [
   Chain.Litecoin,
 ];
 
-export type CosmosChain = Chain.Cosmos | Chain.THORChain | Chain.Binance;
+export type CosmosChain =
+  | Chain.Cosmos
+  | Chain.THORChain
+  | Chain.Binance
+  | Chain.Maya
+  | Chain.Kujira;
 
 export const CosmosChainList: CosmosChain[] = [Chain.Cosmos, Chain.THORChain, Chain.Binance];
 
@@ -128,6 +130,7 @@ export enum ChainId {
   BitcoinCash = 'bitcoincash',
   Cosmos = 'cosmoshub-4',
   Dogecoin = 'dogecoin',
+  Kujira = 'kujira',
   Ethereum = '1',
   EthereumHex = '0x1',
   Litecoin = 'litecoin',
@@ -149,6 +152,7 @@ export enum RPCUrl {
   Bitcoin = 'https://node-router.thorswap.net/bitcoin',
   BitcoinCash = 'https://node-router.thorswap.net/bitcoin-cash',
   Cosmos = 'https://node-router.thorswap.net/cosmos/rpc',
+  Kujira = 'https://kujira.chainapsis.com',
   Dogecoin = 'https://node-router.thorswap.net/dogecoin',
   Ethereum = 'https://node-router.thorswap.net/ethereum',
   Litecoin = 'https://node-router.thorswap.net/litecoin',
@@ -223,6 +227,7 @@ export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.Cosmos]: Chain.Cosmos,
   [ChainId.Dogecoin]: Chain.Dogecoin,
   [ChainId.EthereumHex]: Chain.Ethereum,
+  [ChainId.Kujira]: Chain.Kujira,
   [ChainId.Ethereum]: Chain.Ethereum,
   [ChainId.Litecoin]: Chain.Litecoin,
   [ChainId.MayaStagenet]: Chain.Maya,
@@ -244,6 +249,7 @@ export const ChainToExplorerUrl: Record<Chain, string> = {
   [Chain.Bitcoin]: 'https://blockstream.info',
   [Chain.Cosmos]: 'https://cosmos.bigdipper.live',
   [Chain.Dogecoin]: 'https://blockchair.com/dogecoin',
+  [Chain.Kujira]: 'https://finder.kujira.network/kaiyo-1',
   [Chain.Ethereum]: 'https://etherscan.io',
   [Chain.Litecoin]: 'https://ltc.bitaps.com',
   [Chain.Maya]: 'https://www.mayascan.org',
