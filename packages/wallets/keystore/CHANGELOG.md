@@ -1,5 +1,17 @@
 # @swapkit/wallet-keystore
 
+## 1.0.0-rc.6
+
+### Patch Changes
+
+- Bump typings
+
+## 1.0.0-rc.5
+
+### Patch Changes
+
+- Update keystore for crypto import
+
 ## 1.0.0-rc.4
 
 ### Patch Changes

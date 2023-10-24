@@ -1,5 +1,11 @@
 # @swapkit/core
 
+## 1.0.0-rc.4
+
+### Patch Changes
+
+- Bump typings
+
 ## 1.0.0-rc.3
 
 ### Patch Changes

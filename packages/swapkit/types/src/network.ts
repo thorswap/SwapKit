@@ -166,6 +166,7 @@ export enum RPCUrl {
 
 export enum ApiUrl {
   Cosmos = 'https://node-router.thorswap.net/cosmos/rest',
+  Kujira = 'https://kujira-api.chainapsis.com',
   MayanodeMainnet = 'https://mayanode.mayachain.info',
   MayanodeStagenet = 'https://stagenet.mayanode.mayachain.info',
   ThornodeMainnet = 'https://thornode.thorswap.net',

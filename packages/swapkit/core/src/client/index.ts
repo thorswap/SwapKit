@@ -393,7 +393,7 @@ export class SwapKitCore<T = ''> {
     assetValue: AssetValue;
     percent: number;
     from: 'sym' | 'rune' | 'asset';
-    to: 'sym' | 'rune';
+    to: 'sym' | 'rune' | 'asset';
   }) => {
     const targetAsset =
       to === 'rune'

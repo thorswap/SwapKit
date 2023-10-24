@@ -8,6 +8,7 @@
   "description": "SwapKit Lib keystore",
   "devDependencies": {
     "@internal/config": "workspace:*",
+    "@rollup/plugin-node-resolve": "15.2.3",
     "@scure/bip39": "1.2.1",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
@@ -64,5 +65,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.4"
+  "version": "1.0.0-rc.6"
 }

@@ -90,6 +90,9 @@ export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) 
     case Chain.Maya:
       return symbol === 'CACAO';
 
+    case Chain.Kujira:
+      return symbol === 'KUJI';
+
     case Chain.Cosmos:
       return symbol === 'ATOM';
     case Chain.Polygon:
@@ -121,6 +124,7 @@ export const getCommonAssetInfo = (
     case 'MAYA.MAYA':
       return { identifier: 'MAYA.MAYA', decimal: 4 };
 
+    case Chain.Kujira:
     case Chain.Arbitrum:
     case Chain.Optimism:
     case Chain.BitcoinCash:
@@ -149,6 +153,8 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
 
     case Chain.Cosmos:
       return symbol === 'ATOM' ? 'Native' : 'GAIA';
+    case Chain.Kujira:
+      return symbol === 'KUJI' ? 'Native' : 'KUJI';
     case Chain.Binance:
       return symbol === Chain.Binance ? 'Native' : 'BEP2';
     case Chain.BinanceSmartChain:
