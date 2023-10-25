@@ -4,6 +4,7 @@ import type {
   BinanceToolbox,
   DepositParam,
   GaiaToolbox,
+  KujiraToolbox,
   ThorchainToolboxType,
 } from '@swapkit/toolbox-cosmos';
 import type {
@@ -86,6 +87,7 @@ export type WalletMethods = {
   [Chain.Cosmos]: CosmosBasedWallet<typeof GaiaToolbox> | null;
   [Chain.Dogecoin]: UTXOWallet<typeof DOGEToolbox> | null;
   [Chain.Ethereum]: EVMWallet<typeof ETHToolbox> | null;
+  [Chain.Kujira]: CosmosBasedWallet<typeof KujiraToolbox> | null;
   [Chain.Litecoin]: UTXOWallet<typeof LTCToolbox> | null;
   [Chain.Maya]: ThorchainWallet | null;
   [Chain.Optimism]: EVMWallet<typeof OPToolbox> | null;
