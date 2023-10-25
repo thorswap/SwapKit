@@ -13,6 +13,7 @@ export const KujiraToolbox = ({ server }: { server?: string } = {}): KujiraToolb
   const client = new CosmosClient({
     server: server || ApiUrl.Kujira,
     chainId: ChainId.Kujira,
+    prefix: 'kujira',
   });
 
   const baseToolbox: {

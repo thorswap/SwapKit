@@ -576,7 +576,7 @@ export class SwapKitCore<T = ''> {
   connectTrezor = async (_chains: Chain, _derivationPath: number[]): Promise<void> => {
     throw new SwapKitError('core_wallet_trezor_not_installed');
   };
-  connectKeplr = async (): Promise<void> => {
+  connectKeplr = async (_chain: Chain): Promise<void> => {
     throw new SwapKitError('core_wallet_keplr_not_installed');
   };
   connectOkx = async (_chains: Chain[]): Promise<void> => {

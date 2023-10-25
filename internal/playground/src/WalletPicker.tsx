@@ -27,6 +27,8 @@ const AllChainsSupported = [
   Chain.Litecoin,
   Chain.Optimism,
   Chain.Polygon,
+  Chain.Maya,
+  Chain.Kujira,
   Chain.THORChain,
 ] as Chain[];
 
@@ -159,7 +161,10 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
   const handleMultipleSelect = useCallback(
     (e: any) => {
       const selectedChains = Array.from(e.target.selectedOptions).map((o: any) => o.value);
-      setChains(selectedChains);
+
+      if (selectedChains.length > 1) {
+        setChains(selectedChains);
+      }
     },
     [setChains],
   );
@@ -186,6 +191,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
 
             Chain.THORChain,
             Chain.Arbitrum,
+            Chain.Kujira,
             Chain.Maya,
             Chain.Optimism,
             Chain.Polygon,
