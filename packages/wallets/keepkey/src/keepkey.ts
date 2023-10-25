@@ -48,15 +48,6 @@ type KeepKeyOptions = {
   derivationPath?: any;
 };
 
-// type EVMWallet = {
-//   derivationPath: DerivationPathArray;
-//   ethplorerApiKey: string;
-//   covalentApiKey: string;
-//   chain: any;
-//   rpcUrl: string;
-//   api: string;
-// };
-
 const getEVMWalletMethods = async ({
   api,
   sdk,
@@ -65,7 +56,7 @@ const getEVMWalletMethods = async ({
   covalentApiKey,
   rpcUrl,
   derivationPath = [2147483692, 2147483708, 2147483648, 0, 0],
-}: any) => {
+}: EVMWallet) => {
   const provider = getProvider(chain as EVMChain, rpcUrl);
   const signer = new KeepKeySigner({ sdk, chain, derivationPath, provider });
   const address = await signer.getAddress();

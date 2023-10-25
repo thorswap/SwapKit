@@ -1,10 +1,11 @@
 import { StargateClient } from '@cosmjs/stargate';
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
-import { addressInfoForCoin } from '../coins';
 import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
 import { ThorchainToolbox } from '@swapkit/toolbox-cosmos';
 import type {} from '@swapkit/types';
 import { Chain, ChainId, RPCUrl } from '@swapkit/types';
+
+import { addressInfoForCoin } from '../coins';
 
 type SignTransactionTransferParams = {
   asset: string;
@@ -24,10 +25,9 @@ type SignTransactionDepositParams = {
 export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) => {
   try {
     const toolbox = ThorchainToolbox({ stagenet: !'smeshnet' });
-    const addressInfo = addressInfoForCoin(Chain.THORChain, false);
-    const { address: fromAddress } = await sdk.address.thorchainGetAddress({
-      address_n: addressInfo.address_n,
-    });
+    const { address: fromAddress } = (await sdk.address.thorchainGetAddress({
+      address_n: addressInfoForCoin(Chain.Binance, false).address_n,
+    })) as { address: string };
 
     const signTransactionTransfer = async ({
       amount,

@@ -1,9 +1,10 @@
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
-import { addressInfoForCoin } from '../coins';
 import type { AssetValue } from '@swapkit/helpers';
 import { BinanceToolbox } from '@swapkit/toolbox-cosmos';
 import type { WalletTxParams } from '@swapkit/types';
 import { Chain, ChainId } from '@swapkit/types';
+
+import { addressInfoForCoin } from '../coins.ts';
 
 type SignTransactionTransferParams = {
   asset: string;
@@ -17,9 +18,9 @@ export const binanceWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) =>
   try {
     const toolbox = BinanceToolbox();
 
-    const { address: fromAddress } = await sdk.address.binanceGetAddress({
+    const { address: fromAddress } = (await sdk.address.binanceGetAddress({
       address_n: addressInfoForCoin(Chain.Binance, false).address_n,
-    });
+    })) as { address: string };
 
     const signTransactionTransfer = async ({
       amount,

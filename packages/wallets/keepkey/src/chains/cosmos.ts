@@ -4,7 +4,7 @@ import type { TransferParams } from '@swapkit/toolbox-cosmos';
 import { GaiaToolbox } from '@swapkit/toolbox-cosmos';
 import { Chain, ChainId, RPCUrl } from '@swapkit/types';
 
-import { addressInfoForCoin } from '../coins';
+import { addressInfoForCoin } from '../coins.ts';
 
 export type SignTransactionTransferParams = {
   asset: string;
@@ -16,17 +16,18 @@ export type SignTransactionTransferParams = {
 
 export const cosmosWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; api: string }) => {
   try {
-    const { address: fromAddress } = await sdk.address.cosmosGetAddress({
-      address_n: addressInfoForCoin(Chain.Cosmos, false).address_n,
-    });
+    const { address: fromAddress } = (await sdk.address.cosmosGetAddress({
+      address_n: addressInfoForCoin(Chain.Binance, false).address_n,
+    })) as { address: string };
 
     const toolbox = GaiaToolbox({ server: api });
-    const fees = await toolbox.getFeeRateFromThorswap(ChainId.Cosmos);
+    //@ts-ignore
+    const fees = await toolbox?.getFeeRateFromThorswap(ChainId.Cosmos);
 
     //TODO get this from @swapkit/toolbox-cosmos/cosmosClient? would need export
     const DEFAULT_COSMOS_FEE_MAINNET = {
       //fee's possibly null?
-      amount: [{ denom: 'uatom', amount: String(fees || '500') }],
+      amount: [{ denom: 'uatom', amount: String(fees ?? '500') }],
       gas: '200000',
     };
 
