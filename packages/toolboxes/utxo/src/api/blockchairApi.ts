@@ -57,7 +57,6 @@ const getSuggestedTxFee = async (chain: Chain) => {
       feeByBlockTarget: { 1: number; 3: number };
     }>(`https://app.bitgo.com/api/v2/${chain.toLowerCase()}/tx/fee`);
     const suggestedFee = feePerKb / 1000;
-
     return Math.max(suggestedFee, getDefaultTxFeeByChain(chain));
   } catch (error) {
     return getDefaultTxFeeByChain(chain);

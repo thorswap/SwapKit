@@ -3,6 +3,11 @@ import { ChainId, FeeOption, RPCUrl } from '@swapkit/types';
 
 import type { CosmosMaxSendableAmountParams } from './types.ts';
 
+export const DEFAULT_COSMOS_FEE_MAINNET = {
+  amount: [{ denom: 'uatom', amount: '500' }],
+  gas: '200000',
+};
+
 export const getDenom = (symbol: string, isThorchain = false) =>
   isThorchain ? symbol.toLowerCase() : symbol;
 
