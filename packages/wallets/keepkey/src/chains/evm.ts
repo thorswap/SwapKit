@@ -16,15 +16,15 @@ export class KeepKeySigner extends AbstractSigner {
   private chain: Chain;
   private derivationPath: DerivationPathArray;
   private address: string;
-  #innerProvider: Provider | JsonRpcProvider;
+  readonly provider: Provider | JsonRpcProvider;
 
   constructor({ sdk, chain, derivationPath, provider }: KeepKeyEVMSignerParams) {
     super();
     this.sdk = sdk;
     this.chain = chain;
     this.derivationPath = derivationPath;
-    this.#innerProvider = provider;
     this.address = '';
+    this.provider = provider;
   }
 
   signTypedData(): Promise<string> {
@@ -58,7 +58,7 @@ export class KeepKeySigner extends AbstractSigner {
     maxPriorityFeePerGas,
     gasPrice,
     ...restTx
-  }: EVMTxParams) => {
+  }: EVMTxParams | any) => {
     if (!from) throw new Error('Missing from address');
     if (!to) throw new Error('Missing to address');
     if (!gasLimit) throw new Error('Missing gasLimit');

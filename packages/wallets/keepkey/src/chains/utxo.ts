@@ -4,7 +4,7 @@ import { Chain, FeeOption } from '@swapkit/types';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
 
-import { addressInfoForCoin, Coin } from '../coins';
+import { addressInfoForCoin, Coin } from '../coins.ts';
 // TODO: Refactor to toolbox usage
 export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api }: any) {
   try {
@@ -96,7 +96,7 @@ export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api }
         );
       }
       let txToSign: any = {
-        coin: Coin[chain],
+        coin: Coin[chain as keyof typeof Coin],
         inputs,
         outputs: removeNullAndEmptyObjectsFromArray(outputs),
         version: 1,

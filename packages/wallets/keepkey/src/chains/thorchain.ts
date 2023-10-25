@@ -5,7 +5,7 @@ import { ThorchainToolbox } from '@swapkit/toolbox-cosmos';
 import type {} from '@swapkit/types';
 import { Chain, ChainId, RPCUrl } from '@swapkit/types';
 
-import { addressInfoForCoin } from '../coins';
+import { addressInfoForCoin } from '../coins.ts';
 
 type SignTransactionTransferParams = {
   asset: string;
@@ -57,7 +57,6 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
             ],
             memo: memo || '',
             sequence: accountInfo?.sequence.toString() ?? '0',
-            source: '0',
           },
           signerAddress: from,
         });

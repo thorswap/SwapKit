@@ -393,7 +393,7 @@ export const addressInfoForCoin = (
   const addressInfo: AddressInfo = {
     address_n: entry.addressNListMaster,
     path: addressNListToBIP32(entry.addressNListMaster),
-    coin: Coin[symbol.toUpperCase()],
+    coin: Coin[symbol.toUpperCase() as keyof typeof Coin],
     script_type: scriptType || entry.script_type,
     showDisplay: entry.showDisplay,
   };

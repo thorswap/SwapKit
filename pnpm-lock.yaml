@@ -747,9 +747,6 @@ importers:
       '@cosmjs/stargate':
         specifier: 0.31.1
         version: 0.31.1
-      '@ethersproject/bignumber':
-        specifier: 5.7.0
-        version: 5.7.0
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config

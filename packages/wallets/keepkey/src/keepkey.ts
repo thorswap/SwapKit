@@ -16,7 +16,7 @@ import { cosmosWalletMethods } from './chains/cosmos.js';
 import { KeepKeySigner } from './chains/evm.ts';
 import { thorchainWalletMethods } from './chains/thorchain.ts';
 import { utxoWalletMethods } from './chains/utxo.js';
-export { PairingInfo } from '@keepkey/keepkey-sdk';
+export type { PairingInfo } from '@keepkey/keepkey-sdk';
 
 export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
@@ -33,6 +33,17 @@ export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.Polygon,
   Chain.THORChain,
 ] as const;
+
+interface KeepKeyConfig {
+  apiKey: string;
+  pairingInfo: {
+    name: string;
+    imageUrl: string;
+    basePath: string;
+    url: string;
+  };
+  // Add other properties as needed
+}
 
 /*
  * KeepKey Wallet
@@ -56,7 +67,7 @@ const getEVMWalletMethods = async ({
   covalentApiKey,
   rpcUrl,
   derivationPath = [2147483692, 2147483708, 2147483648, 0, 0],
-}: EVMWallet) => {
+}: any) => {
   const provider = getProvider(chain as EVMChain, rpcUrl);
   const signer = new KeepKeySigner({ sdk, chain, derivationPath, provider });
   const address = await signer.getAddress();
@@ -177,7 +188,7 @@ const connectKeepkey =
     addChain,
     config: { covalentApiKey, ethplorerApiKey = 'freekey', utxoApiKey },
   }: ConnectWalletParams) =>
-  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, config) => {
+  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, config: KeepKeyConfig) => {
     await checkAndLaunch();
 
     //only build this once for all assets
