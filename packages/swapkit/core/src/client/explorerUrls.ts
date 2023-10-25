@@ -8,6 +8,7 @@ export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Cha
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
     case Chain.Maya:
+    case Chain.Kujira:
     case Chain.THORChain:
       return `${baseUrl}/tx/${txHash}`;
 
@@ -46,6 +47,7 @@ export const getExplorerAddressUrl = ({ chain, address }: { address: string; cha
     case Chain.Maya:
     case Chain.Optimism:
     case Chain.Polygon:
+    case Chain.Kujira:
     case Chain.THORChain:
       return `${baseUrl}/address/${address}`;
 
