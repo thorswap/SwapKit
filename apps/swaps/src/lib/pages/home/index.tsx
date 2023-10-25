@@ -41,6 +41,8 @@ const Home = () => {
   const [txHash, setTxhash] = useState(null);
   const [inputAmount, setInputAmount] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [currentRouteIndex, setCurrentRouteIndex] = useState(0); // New state for current route index
+
   const [selectedButton, setSelectedButton] = useState('quick'); // Initial selected button is "Quick"
   const [isContinueDisabled, setIsContinueDisabled] = useState(true); // Initial continue button is disabled
   const handleClick = (button: any) => {
@@ -102,6 +104,8 @@ const Home = () => {
       if (result && result.routes && result.routes.length > 0) {
         setQuoteId(result?.quoteId);
         setRoutes(result?.routes);
+        console.log("currentRouteIndex: ", currentRouteIndex)
+        setRoute(result?.routes[currentRouteIndex || 0]);
       }
     } catch (e: any) {
       console.error('ERROR: ', e);
@@ -168,11 +172,12 @@ const Home = () => {
       case 1:
         return (
           <BeginSwap
-            fetchQuote={fetchQuote}
             routes={routes}
+            inputAmount={inputAmount}
             setInputAmount={setInputAmount}
-            setQuoteId={setQuoteId}
             setRoute={setRoute}
+            currentRouteIndex={currentRouteIndex}
+            setCurrentRouteIndex={setCurrentRouteIndex}
           />
         );
       case 2:
@@ -209,6 +214,7 @@ const Home = () => {
                   onClose={onClose}
                   route={route}
                   setTxhash={setTxhash}
+                  currentRouteIndex={currentRouteIndex}
                 />
               </div>
             )}

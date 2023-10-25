@@ -72,7 +72,8 @@ export const cosmosWalletMethods: any = async function (params: CosmosWalletMeth
           },
           signerAddress: from,
         };
-
+        console.log("body: ", body)
+        console.log("body: ", JSON.stringify(body))
         // @ts-ignore
         const keepKeySignedTx = await sdk.cosmos.cosmosSignAmino(body);
 

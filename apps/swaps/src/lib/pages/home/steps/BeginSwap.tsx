@@ -35,15 +35,30 @@ const labelStyles = {
   fontSize: 'sm',
 };
 
-const BeginSwap = ({ setRoutes, setQuoteId, setInputAmount, routes, fetchQuote }) => {
+const BeginSwap = ({ inputAmount, setInputAmount, routes, fetchQuote, currentRouteIndex, setCurrentRouteIndex }) => {
   const { state } = usePioneer();
   const { app, assetContext, outboundAssetContext } = state;
   const [showGif, setShowGif] = useState(true);
-  const [currentRouteIndex, setCurrentRouteIndex] = useState(0); // New state for current route index
   const [inputAmountLocal, setInputAmountLocal] = useState<Amount | undefined>();
-  const [sliderValue, setSliderValue] = useState(50);
+  const [sliderValue, setSliderValue] = useState(100);
   const [rate, setRate] = useState<Amount | undefined>();
   const [amountOut, setAmountOut] = useState<Amount | undefined>();
+
+  useEffect(() => {
+    if(routes && routes.length > 0) {
+      //select current route index as 0
+      console.log('currentRouteIndex: ', currentRouteIndex);
+      let routeLocal = routes[currentRouteIndex];
+      if(routeLocal && routeLocal.expectedOutput) {
+        console.log('routeLocal: ', routeLocal);
+        console.log('inputAmount: ', inputAmount);
+        let rate = inputAmount / routeLocal.expectedOutput
+        setRate(rate)
+        console.log('rate: ', rate);
+        setAmountOut(routeLocal.expectedOutput);
+      }
+    }
+  }, [routes, routes.length]);
 
   const handlePreviousRoute = () => {
     // setRoutes([]);
