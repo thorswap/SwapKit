@@ -8,7 +8,7 @@ interface KeepKeyEVMSignerParams {
   sdk: KeepKeySdk;
   chain: Chain;
   derivationPath: DerivationPathArray;
-  provider: any; //TODO fixme
+  provider: Provider | JsonRpcProvider | any; //TODO fixme
 }
 
 export class KeepKeySigner extends AbstractSigner {
@@ -64,22 +64,26 @@ export class KeepKeySigner extends AbstractSigner {
     if (!gasLimit) throw new Error('Missing gasLimit');
     if (!nonce) throw new Error('Missing nonce');
     if (!data) throw new Error('Missing data');
-    const isEIP1559 = 'maxFeePerGas' in restTx && 'maxPriorityFeePerGas' in restTx;
+
+    const isEIP1559 = maxFeePerGas && maxPriorityFeePerGas;
+
     if (isEIP1559 && !maxFeePerGas) throw new Error('Missing maxFeePerGas');
     if (isEIP1559 && !maxPriorityFeePerGas) throw new Error('Missing maxFeePerGas');
+
     if (!isEIP1559 && !gasPrice) throw new Error('Missing gasPrice');
     const { toHexString } = await import('@swapkit/toolbox-evm');
-    const responseSign = await this.sdk.eth.ethSignTransaction({
+    const nonceValue = nonce
+      ? BigInt(nonce)
+      : BigInt(await this.provider.getTransactionCount(await this.getAddress(), 'pending'));
+    const nonceHex = '0x' + nonceValue.toString(16);
+    let input = {
       gas: toHexString(BigInt(gasLimit)),
       addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
       from: this.address,
       chainId: toHexString(BigInt(ChainToChainId[this.chain])),
       to,
       value: toHexString(BigInt(value || 0)),
-      nonce: (
-        nonce?.toString() ||
-        (await this.provider.getTransactionCount(await this.getAddress(), 'pending'))
-      ).toString(),
+      nonce: nonceHex,
       data,
       ...(isEIP1559
         ? {
@@ -90,7 +94,8 @@ export class KeepKeySigner extends AbstractSigner {
             gasPrice:
               'gasPrice' in restTx ? toHexString(BigInt(gasPrice?.toString() || '0')) : undefined, // Fixed syntax error and structure here
           }),
-    });
+    };
+    const responseSign = await this.sdk.eth.ethSignTransaction(input);
     return responseSign.serialized;
   };
 

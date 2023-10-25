@@ -8,7 +8,7 @@ import {
   MATICToolbox,
   OPToolbox,
 } from '@swapkit/toolbox-evm';
-import type { ConnectWalletParams, DerivationPathArray, EVMChain } from '@swapkit/types';
+import type { ConnectWalletParams, EVMChain } from '@swapkit/types';
 import { Chain, WalletOption } from '@swapkit/types';
 
 import { binanceWalletMethods } from './chains/binance.js';
@@ -35,12 +35,12 @@ export const KEEPKEY_SUPPORTED_CHAINS = [
 ] as const;
 
 /*
-  * KeepKey Wallet
+ * KeepKey Wallet
  */
 type KeepKeyOptions = {
   sdk: KeepKeySdk;
   api?: string;
-  rpcUrl?: any;
+  rpcUrl?: string;
   ethplorerApiKey?: string;
   utxoApiKey?: string;
   covalentApiKey?: string;
@@ -48,14 +48,14 @@ type KeepKeyOptions = {
   derivationPath?: any;
 };
 
-type EVMWallet = {
-  derivationPath: DerivationPathArray;
-  ethplorerApiKey: string;
-  covalentApiKey: string;
-  chain: any;
-  rpcUrl: string;
-  api: string;
-};
+// type EVMWallet = {
+//   derivationPath: DerivationPathArray;
+//   ethplorerApiKey: string;
+//   covalentApiKey: string;
+//   chain: any;
+//   rpcUrl: string;
+//   api: string;
+// };
 
 const getEVMWalletMethods = async ({
   api,
@@ -63,14 +63,15 @@ const getEVMWalletMethods = async ({
   chain,
   ethplorerApiKey,
   covalentApiKey,
-  rpcUrl = '',
+  rpcUrl,
   derivationPath = [2147483692, 2147483708, 2147483648, 0, 0],
 }: any) => {
+  console.log("rpcUrl:",rpcUrl)
   const provider = getProvider(chain as EVMChain, rpcUrl);
   const signer = new KeepKeySigner({ sdk, chain, derivationPath, provider });
   const address = await signer.getAddress();
   const evmParams = { api, signer, provider };
-
+  console.log("evmParams: ",evmParams)
   switch (chain) {
     case Chain.Ethereum:
       return { ...ETHToolbox({ ...evmParams, ethplorerApiKey }), getAddress: () => address };
@@ -84,7 +85,6 @@ const getEVMWalletMethods = async ({
       return { ...MATICToolbox({ ...evmParams, covalentApiKey }), getAddress: () => address };
     case Chain.Avalanche:
       return { ...AVAXToolbox({ ...evmParams, covalentApiKey }), getAddress: () => address };
-
     default:
       throw new Error('Chain not supported');
   }
@@ -190,6 +190,7 @@ const connectKeepkey =
   async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, config) => {
     await checkAndLaunch();
 
+    //only build this once for all assets
     const keepKeySdk = await KeepKeySdk.create(config);
 
     for (const chain of chains) {
