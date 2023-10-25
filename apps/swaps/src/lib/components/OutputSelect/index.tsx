@@ -109,7 +109,6 @@ export default function OutputSelect({ onClose }) {
               boxShadow="sm"
               p={2}
               spacing={2}
-              width={cardWidth}
             >
               <Avatar
                 size="md"

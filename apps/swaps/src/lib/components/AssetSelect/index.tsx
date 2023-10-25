@@ -104,16 +104,17 @@ export default function AssetSelect({ onClose }) {
         <Button onClick={toggleSortOrder} size="sm">
           Sort by Value {sortOrder === 'asc' ? <ChevronUpIcon /> : <ChevronDownIcon />}
         </Button>
+        <br />
+        <br />
         {filteredAssets.map((asset:any, index: number) => (
           <Box key={index}>
             <Flex
               alignItems="center"
               borderRadius="md"
-              width={cardWidth}
               border="1px solid #fff"
+              bg="black"
               boxShadow="sm"
-              p={2}
-              spacing={2}
+              padding={2}
             >
               <Avatar
                 size="md"

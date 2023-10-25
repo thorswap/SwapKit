@@ -192,7 +192,7 @@ const Home = () => {
       {/* <ForkMeBanner /> */}
       <Modal isOpen={isOpen} onClose={() => onClose()} size="xl">
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg="black">
           <ModalHeader>{modalType}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

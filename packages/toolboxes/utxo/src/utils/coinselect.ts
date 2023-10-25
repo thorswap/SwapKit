@@ -34,6 +34,7 @@ export const accumulative = ({
   const newTxType =
     'address' in inputs[0] ? getScriptTypeForAddress(inputs[0].address) : UTXOScriptType.P2PKH;
   // skip input if adding it would cost more than input is worth
+  console.log('feeRate: ', feeRate);
   const filteredInputs = inputs.filter((input) => getInputSize(input) * feeRate <= input.value);
 
   const txSizeWithoutInputs =

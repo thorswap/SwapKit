@@ -83,7 +83,7 @@ class KeepKeySigner extends AbstractSigner {
         }
         : { gasPrice: BigNumber.from(restTx.gasPrice).toHexString() }),
     };
-
+    console.log("baseTx: ", baseTx)
     let responseSign = await this.sdk.eth.ethSignTransaction(baseTx);
     return responseSign.serialized;
   }

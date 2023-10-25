@@ -25,6 +25,7 @@ import {
 import { SwapKitApi } from '@coinmasters/api';
 import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
 import { useCallback, useEffect, useState } from 'react';
+import MiddleEllipsis from "../../../components/MiddleEllipsis";
 
 import CalculatingComponent from '../../../components/CalculatingComponent';
 import { usePioneer } from '../../../context/Pioneer';
@@ -143,11 +144,12 @@ const BeginSwap = ({ inputAmount, setInputAmount, routes, fetchQuote, currentRou
                   <div>
                     <h1>
                       {' '}
-                      input: {inputAmountLocal?.toString() || ''} ({assetContext.symbol})
+                      input: {inputAmountLocal?.toString() || ''} (<MiddleEllipsis text={assetContext.symbol}/>)
                     </h1>
                     <small>
                       {' '}
-                      (available): {assetContext?.balance || ''} ({assetContext.symbol})
+                      (available):
+                      {assetContext?.balance || ''} (<MiddleEllipsis text={assetContext.symbol}/>)
                     </small>
                   </div>
                   <Avatar
@@ -163,7 +165,7 @@ const BeginSwap = ({ inputAmount, setInputAmount, routes, fetchQuote, currentRou
                   <div>
                     <h1>
                       {' '}
-                      output: {amountOut?.toString() || ''} ({outboundAssetContext.symbol})
+                      output: {amountOut?.toString() || ''} ({<MiddleEllipsis text={outboundAssetContext.symbol}/>})
                     </h1>
                   </div>
                 </div>
