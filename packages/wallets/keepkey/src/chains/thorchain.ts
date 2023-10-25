@@ -1,6 +1,6 @@
 import { StargateClient } from '@cosmjs/stargate';
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
-import { addressInfoForCoin, AddressInfo } from '../codex';
+import { addressInfoForCoin } from '../coins';
 import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
 import { ThorchainToolbox } from '@swapkit/toolbox-cosmos';
 import type {} from '@swapkit/types';

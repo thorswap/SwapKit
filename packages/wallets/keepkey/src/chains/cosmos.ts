@@ -4,7 +4,7 @@ import type { TransferParams } from '@swapkit/toolbox-cosmos';
 import { GaiaToolbox } from '@swapkit/toolbox-cosmos';
 import { Chain, ChainId, RPCUrl } from '@swapkit/types';
 
-import { addressInfoForCoin } from '../codex';
+import { addressInfoForCoin } from '../coins';
 
 export type SignTransactionTransferParams = {
   asset: string;
