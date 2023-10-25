@@ -8,7 +8,6 @@
   "description": "THORSwap Lib keepkey",
   "devDependencies": {
     "@cosmjs/stargate": "0.31.1",
-    "@ethersproject/bignumber": "5.7.0",
     "@internal/config": "workspace:*",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
