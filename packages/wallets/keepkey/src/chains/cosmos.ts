@@ -16,7 +16,6 @@ export type SignTransactionTransferParams = {
 
 export const cosmosWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; api: string }) => {
   try {
-    console.log(addressInfoForCoin(Chain.Cosmos, false));
     const { address: fromAddress } = await sdk.address.cosmosGetAddress({
       address_n: addressInfoForCoin(Chain.Cosmos, false).address_n,
     });

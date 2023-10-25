@@ -66,12 +66,11 @@ const getEVMWalletMethods = async ({
   rpcUrl,
   derivationPath = [2147483692, 2147483708, 2147483648, 0, 0],
 }: any) => {
-  console.log("rpcUrl:",rpcUrl)
   const provider = getProvider(chain as EVMChain, rpcUrl);
   const signer = new KeepKeySigner({ sdk, chain, derivationPath, provider });
   const address = await signer.getAddress();
   const evmParams = { api, signer, provider };
-  console.log("evmParams: ",evmParams)
+
   switch (chain) {
     case Chain.Ethereum:
       return { ...ETHToolbox({ ...evmParams, ethplorerApiKey }), getAddress: () => address };
