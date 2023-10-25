@@ -17,7 +17,7 @@ export type SignTransactionTransferParams = {
 export const cosmosWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; api: string }) => {
   try {
     const { address: fromAddress } = (await sdk.address.cosmosGetAddress({
-      address_n: addressInfoForCoin(Chain.Binance, false).address_n,
+      address_n: addressInfoForCoin(Chain.Cosmos, false).address_n,
     })) as { address: string };
 
     const toolbox = GaiaToolbox({ server: api });

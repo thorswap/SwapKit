@@ -123,20 +123,18 @@ const getToolbox = async ({
 
       return { address: walletMethods.getAddress(), walletMethods };
     }
-
-    case Chain.Binance:
-    case Chain.Cosmos:
-    case Chain.THORChain: {
-      const walletMethods =
-        chain === Chain.Binance
-          ? await binanceWalletMethods({ sdk })
-          : chain === Chain.Cosmos
-          ? await cosmosWalletMethods({ sdk, api })
-          : await thorchainWalletMethods({ sdk });
-
+    case Chain.Binance: {
+      const walletMethods = await binanceWalletMethods({ sdk });
       return { address: await walletMethods.getAddress(), walletMethods };
     }
-
+    case Chain.Cosmos: {
+      const walletMethods = await cosmosWalletMethods({ sdk });
+      return { address: await walletMethods.getAddress(), walletMethods };
+    }
+    case Chain.THORChain: {
+      const walletMethods = await thorchainWalletMethods({ sdk });
+      return { address: await walletMethods.getAddress(), walletMethods };
+    }
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
     case Chain.Dogecoin:

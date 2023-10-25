@@ -69,7 +69,7 @@ export const BaseCosmosToolbox = ({
   getFeeRateFromThorswap,
   getBalance: async (address: string) => {
     const balances = await cosmosClient.getBalance(address);
-
+    //@chillios note: this returns empty instead of 0 for 0 balance (non-standard)
     return Promise.all(
       balances
         .filter(({ denom }) => denom)

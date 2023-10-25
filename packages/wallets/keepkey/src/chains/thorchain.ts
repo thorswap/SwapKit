@@ -26,7 +26,7 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
   try {
     const toolbox = ThorchainToolbox({ stagenet: !'smeshnet' });
     const { address: fromAddress } = (await sdk.address.thorchainGetAddress({
-      address_n: addressInfoForCoin(Chain.Binance, false).address_n,
+      address_n: addressInfoForCoin(Chain.THORChain, false).address_n,
     })) as { address: string };
 
     const signTransactionTransfer = async ({
@@ -39,7 +39,6 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
       try {
         const accountInfo = await toolbox.getAccount(from);
         const stargateClient = await StargateClient.connect(RPCUrl.THORChain);
-
         const keepKeyResponse = await sdk.thorchain.thorchainSignAminoTransfer({
           signDoc: {
             account_number: accountInfo?.accountNumber?.toString() ?? '0',
@@ -48,7 +47,7 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
             msgs: [
               {
                 value: {
-                  amount: [{ denom: asset.toLowerCase(), amount: amount.amount().toString() }],
+                  amount: [{ denom: asset.toLowerCase(), amount: amount.toString() }],
                   to_address: to,
                   from_address: from,
                 },
