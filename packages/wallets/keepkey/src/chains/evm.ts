@@ -8,7 +8,7 @@ interface KeepKeyEVMSignerParams {
   sdk: KeepKeySdk;
   chain: Chain;
   derivationPath: DerivationPathArray;
-  provider: Provider | JsonRpcProvider;
+  provider: any; //TODO fixme
 }
 
 export class KeepKeySigner extends AbstractSigner {
