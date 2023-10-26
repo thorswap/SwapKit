@@ -203,6 +203,43 @@ importers:
       '@esbuild-plugins/node-modules-polyfill':
         specifier: 0.2.2
         version: 0.2.2(esbuild@0.19.3)
+      base64-js:
+        specifier: 1.5.1
+        version: 1.5.1
+      buffer:
+        specifier: 6.0.3
+        version: 6.0.3
+      crypto-browserify:
+        specifier: 3.12.0
+        version: 3.12.0
+      https-browserify:
+        specifier: 1.0.0
+        version: 1.0.0
+      os-browserify:
+        specifier: 0.3.0
+        version: 0.3.0
+      path-browserify:
+        specifier: 1.0.1
+        version: 1.0.1
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      react-dom:
+        specifier: 18.2.0
+        version: 18.2.0(react@18.2.0)
+      rollup-plugin-polyfill-node:
+        specifier: 0.12.0
+        version: 0.12.0(rollup@3.29.2)
+      stream-browserify:
+        specifier: 3.0.0
+        version: 3.0.0
+      stream-http:
+        specifier: 3.2.0
+        version: 3.2.0
+      url:
+        specifier: 0.11.2
+        version: 0.11.2
+    devDependencies:
       '@swapkit/api':
         specifier: workspace:*
         version: link:../../packages/swapkit/api
@@ -254,43 +291,6 @@ importers:
       '@swapkit/wallet-xdefi':
         specifier: workspace:*
         version: link:../../packages/wallets/xdefi
-      base64-js:
-        specifier: 1.5.1
-        version: 1.5.1
-      buffer:
-        specifier: 6.0.3
-        version: 6.0.3
-      crypto-browserify:
-        specifier: 3.12.0
-        version: 3.12.0
-      https-browserify:
-        specifier: 1.0.0
-        version: 1.0.0
-      os-browserify:
-        specifier: 0.3.0
-        version: 0.3.0
-      path-browserify:
-        specifier: 1.0.1
-        version: 1.0.1
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
-      rollup-plugin-polyfill-node:
-        specifier: 0.12.0
-        version: 0.12.0(rollup@3.29.2)
-      stream-browserify:
-        specifier: 3.0.0
-        version: 3.0.0
-      stream-http:
-        specifier: 3.2.0
-        version: 3.2.0
-      url:
-        specifier: 0.11.2
-        version: 0.11.2
-    devDependencies:
       '@types/react':
         specifier: 18.2.21
         version: 18.2.21
