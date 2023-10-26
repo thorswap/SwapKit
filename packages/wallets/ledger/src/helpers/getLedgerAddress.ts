@@ -22,6 +22,7 @@ export const getLedgerAddress = async ({
     }
 
     case Chain.Ethereum:
+    case Chain.BinanceSmartChain:
     case Chain.Avalanche: {
       return (ledgerClient as EVMLedgerClients).getAddress();
     }

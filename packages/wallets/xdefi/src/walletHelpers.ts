@@ -99,7 +99,10 @@ export const walletTransfer = async (
   const params = [
     {
       amount: { amount: parsedAmount, decimals: amount.decimal },
-      asset,
+      asset: {
+        ...asset,
+        symbol: asset.symbol.toUpperCase(),
+      },
       from,
       memo,
       recipient,
