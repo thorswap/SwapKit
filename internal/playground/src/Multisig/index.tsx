@@ -10,7 +10,7 @@ export default function Multisig({
   phrase,
 }: {
   skClient?: SwapKitCore;
-  inputAsset: AssetValue;
+  inputAsset?: AssetValue;
   stagenet?: boolean;
   phrase: string;
 }) {
@@ -26,7 +26,7 @@ export default function Multisig({
   const [transactionHash, setTransactionHash] = useState('');
   const [isBroadcasting, setIsBroadcasting] = useState(false);
   const [nonMultisigPubKey, setNonMultisigPugKey] = useState('');
-  const [inputAssetValue, setInput] = useState<AssetValue>(inputAsset.mul(0));
+  const [inputAssetValue, setInput] = useState(inputAsset?.mul(0));
 
   const loadPubKey = useCallback(async () => {
     if (phrase) {
@@ -56,13 +56,13 @@ export default function Multisig({
 
   const handleInputChange = useCallback(
     (value: string) => {
-      setInput(inputAsset.mul(0).add(value));
+      inputAsset && setInput(inputAsset.mul(0).add(value));
     },
     [inputAsset],
   );
 
   const handleCreateTransaction = useCallback(async () => {
-    if (!inputAssetValue.gt(0) || !skClient) return;
+    if (!inputAssetValue?.gt(0) || !skClient) return;
     const transferTx = await buildTransferTx({
       isStagenet: stagenet,
       memo,
@@ -149,7 +149,7 @@ export default function Multisig({
                 <input
                   onChange={(e) => handleInputChange(e.target.value)}
                   placeholder="0.0"
-                  value={inputAssetValue.toSignificant(6)}
+                  value={inputAssetValue?.toSignificant(6)}
                 />
               </div>
 

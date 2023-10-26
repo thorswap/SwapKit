@@ -21,7 +21,7 @@
     "@swapkit/wallet-xdefi": "1.0.0-rc.0",
     "@internal/config": "0.0.0-internal.0",
     "@thorswap-lib/swapkit-entities": "1.0.0-rc.0",
-    "@internal/playground": "null-rc.0"
+    "@internal/playground": "0.0.0-internal.0"
   },
   "changesets": [
     "clean-poems-work",

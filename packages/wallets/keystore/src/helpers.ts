@@ -1,6 +1,7 @@
 import { generateMnemonic } from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
 import { blake2bFinal, blake2bInit, blake2bUpdate } from 'blakejs';
+import crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 
 const cipher = 'aes-128-ctr';
@@ -39,9 +40,6 @@ const toHexByte = (byte: number) => (byte < 0x10 ? `0${byte.toString(16)}` : byt
 const toHex = (buffer: Buffer | Uint8Array) => Array.from(buffer).map(toHexByte).join('');
 const _isNode = () => typeof window === 'undefined';
 
-const getCrypto = () =>
-  _isNode() ? (crypto as any) : import('crypto').then(({ default: crypto }) => crypto);
-
 /**
  * Gets data's 256 bit blake hash.
  * @param data buffer or hexadecimal string
@@ -63,7 +61,6 @@ const pbkdf2Async = async (
   keylen: number,
   digest: string,
 ) => {
-  const crypto = await getCrypto();
   return new Promise<Buffer>((resolve, reject) => {
     crypto.pbkdf2(passphrase, salt, iterations, keylen, digest, (err: any, drived: any) => {
       if (err) {
@@ -77,7 +74,6 @@ const pbkdf2Async = async (
 
 export const encryptToKeyStore = async (phrase: string, password: string) => {
   const ID = _isNode() ? require('uuid').v4() : uuidv4();
-  const crypto = await getCrypto();
   const salt = crypto.randomBytes(32);
   const iv = crypto.randomBytes(16);
   const kdfParams = {
@@ -129,7 +125,6 @@ export const generatePhrase = (size = 12) => {
 };
 
 export const decryptFromKeystore = async (keystore: Keystore, password: string) => {
-  const crypto = await getCrypto();
   const kdfparams = keystore.crypto.kdfparams;
   const derivedKey = await pbkdf2Async(
     Buffer.from(password),

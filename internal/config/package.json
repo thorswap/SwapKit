@@ -4,7 +4,7 @@
     "@vitest/coverage-istanbul": "0.34.4",
     "vite": "4.4.9",
     "vite-plugin-dts": "3.5.3",
-    "vite-plugin-externalize-deps": "0.7.0",
+    "vite-plugin-node-polyfills": "0.15.0",
     "vitest": "0.34.4"
   },
   "eslintConfig": {

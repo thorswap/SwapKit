@@ -7,7 +7,7 @@ export default function Loan({
   skClient,
 }: {
   skClient?: SwapKitCore;
-  inputAsset: AssetValue;
+  inputAsset?: AssetValue;
   outputAsset?: AssetValue;
 }) {
   const [isOpenLoanMode] = useState(true);
@@ -27,7 +27,7 @@ export default function Loan({
       const amount = getValue(amountValue);
       const setFunction = type === 'input' ? setInput : setBorrow;
 
-      setFunction(amount?.gt(inputAsset) ? inputAsset : amount);
+      setFunction(inputAsset && amount?.gt(inputAsset) ? inputAsset : amount);
     },
     [getValue, inputAsset],
   );
