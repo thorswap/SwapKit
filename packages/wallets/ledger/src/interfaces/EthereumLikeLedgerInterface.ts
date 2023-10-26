@@ -87,7 +87,7 @@ export abstract class EthereumLikeLedgerInterface extends Signer {
         tx.nonce !== undefined ? BigNumber.from(tx.nonce.toString()).toNumber() : transactionCount,
       to: tx.to || undefined,
       value: tx.value || undefined,
-      type: tx.type || 2,
+      type: !isNaN(tx.type) ? tx.type : tx.maxFeePerGas ? 2 : 0,
     };
 
     const { serialize } = await import('@ethersproject/transactions');
