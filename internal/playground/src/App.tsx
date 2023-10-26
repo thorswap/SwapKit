@@ -133,10 +133,18 @@ const App = () => {
 
           {Array.isArray(wallet) ? (
             wallet.map((walletData) => (
-              <Wallet key={walletData?.address} setAsset={setAsset} walletData={walletData} />
+              <Wallet
+                key={`${walletData?.address}-${walletData?.balance?.[0].chain}`}
+                setAsset={setAsset}
+                walletData={walletData}
+              />
             ))
           ) : (
-            <Wallet key={wallet?.address} setAsset={setAsset} walletData={wallet} />
+            <Wallet
+              key={`${wallet?.address}-${wallet?.balance?.[0].chain}`}
+              setAsset={setAsset}
+              walletData={wallet}
+            />
           )}
         </div>
       </div>

@@ -6,20 +6,20 @@ export default function Send({
   skClient,
 }: {
   skClient?: SwapKitCore;
-  inputAsset: AssetValue;
+  inputAsset?: AssetValue;
 }) {
-  const [inputAssetValue, setInput] = useState<AssetValue>(inputAsset?.mul(0));
+  const [inputAssetValue, setInput] = useState(inputAsset?.mul(0));
   const [recipient, setRecipient] = useState('');
 
   const handleInputChange = useCallback(
     (value: string) => {
-      setInput(inputAssetValue ? inputAssetValue.mul(0).add(value) : inputAsset.mul(0).add(value));
+      setInput(inputAssetValue ? inputAssetValue.mul(0).add(value) : inputAsset?.mul(0).add(value));
     },
     [inputAssetValue, inputAsset],
   );
 
   const handleSend = useCallback(async () => {
-    if (!inputAsset || !inputAssetValue.gt(0) || !skClient) return;
+    if (!inputAsset || !inputAssetValue?.gt(0) || !skClient) return;
 
     const from = skClient.getAddress(inputAsset.chain);
     const txHash = await skClient.transfer({

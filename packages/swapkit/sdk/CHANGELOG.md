@@ -20,6 +20,42 @@
   - @coinmasters/types@1.0.0
   - @coinmasters/toolbox-utxo@1.0.0
 
+## 1.0.0-rc.8
+
+### Patch Changes
+
+- [#363](https://github.com/thorswap/SwapKit/pull/363) [`0e1d996`](https://github.com/thorswap/SwapKit/commit/0e1d99672a809f8e9017241930d3f1ce9ff6fc11) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix nodejs environment
+
+- Updated dependencies [[`0e1d996`](https://github.com/thorswap/SwapKit/commit/0e1d99672a809f8e9017241930d3f1ce9ff6fc11), [`0e1d996`](https://github.com/thorswap/SwapKit/commit/0e1d99672a809f8e9017241930d3f1ce9ff6fc11)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.3
+  - @swapkit/toolbox-cosmos@1.0.0-rc.4
+  - @swapkit/wallet-keystore@1.0.0-rc.8
+  - @swapkit/toolbox-utxo@1.0.0-rc.3
+  - @swapkit/wallet-ledger@1.0.0-rc.6
+  - @swapkit/wallet-trezor@1.0.0-rc.4
+  - @swapkit/types@1.0.0-rc.1
+  - @swapkit/toolbox-evm@1.0.0-rc.3
+  - @swapkit/wallet-keplr@1.0.0-rc.4
+  - @swapkit/wallet-xdefi@1.0.0-rc.6
+  - @swapkit/core@1.0.0-rc.6
+  - @swapkit/api@1.0.0-rc.1
+  - @swapkit/wallet-okx@1.0.0-rc.6
+  - @swapkit/wallet-wc@1.0.0-rc.5
+
+## 1.0.0-rc.7
+
+### Patch Changes
+
+- Updated dependencies [[`7f73203`](https://github.com/thorswap/SwapKit/commit/7f7320316051a25d7acd9733700560f3f9619500)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.3
+  - @swapkit/core@1.0.0-rc.5
+  - @swapkit/wallet-keplr@1.0.0-rc.3
+  - @swapkit/wallet-keystore@1.0.0-rc.7
+  - @swapkit/wallet-ledger@1.0.0-rc.5
+  - @swapkit/wallet-okx@1.0.0-rc.5
+  - @swapkit/wallet-wc@1.0.0-rc.4
+  - @swapkit/wallet-xdefi@1.0.0-rc.5
+
 ## 1.0.0-rc.6
 
 ### Patch Changes
