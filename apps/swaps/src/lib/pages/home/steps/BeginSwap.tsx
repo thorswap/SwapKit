@@ -36,15 +36,13 @@ const labelStyles = {
   fontSize: 'sm',
 };
 
-const BeginSwap = ({ inputAmount, setInputAmount, routes, fetchQuote, currentRouteIndex, setCurrentRouteIndex }) => {
+const BeginSwap = ({ sliderValue, setSliderValue, routes, fetchQuote, currentRouteIndex, setCurrentRouteIndex }) => {
   const { state } = usePioneer();
-  const { app, assetContext, outboundAssetContext } = state;
+  const { assetContext, outboundAssetContext } = state;
   const [showGif, setShowGif] = useState(true);
-  const [inputAmountLocal, setInputAmountLocal] = useState<Amount | undefined>();
-  const [sliderValue, setSliderValue] = useState(100);
   const [rate, setRate] = useState<Amount | undefined>();
   const [amountOut, setAmountOut] = useState<Amount | undefined>();
-
+  const [inputAmount, setInputAmount] = useState(0);
   useEffect(() => {
     if(routes && routes.length > 0) {
       //select current route index as 0
@@ -94,7 +92,6 @@ const BeginSwap = ({ inputAmount, setInputAmount, routes, fetchQuote, currentRou
       let newAmountIn = (val / 100) * parseFloat(assetContext?.balance || '0');
       console.log('newAmountIn: ', newAmountIn);
       setInputAmount(newAmountIn);
-      setInputAmountLocal(newAmountIn);
       // Calculate amountOut using rate and newAmountIn
       if (rate) {
         let newAmountOut = newAmountIn / rate;
@@ -144,7 +141,7 @@ const BeginSwap = ({ inputAmount, setInputAmount, routes, fetchQuote, currentRou
                   <div>
                     <h1>
                       {' '}
-                      input: {inputAmountLocal?.toString() || ''} (<MiddleEllipsis text={assetContext.symbol}/>)
+                      input: {inputAmount?.toString() || ''} (<MiddleEllipsis text={assetContext.symbol}/>)
                     </h1>
                     <small>
                       {' '}

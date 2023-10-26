@@ -25,6 +25,9 @@ export const getRPC = (chainId: ChainId, stagenet?: boolean) => {
       return RPCUrl.Cosmos;
     case ChainId.Binance:
       return RPCUrl.Binance;
+    case ChainId.Kujira:
+      return RPCUrl.Kujira;
+
     case ChainId.THORChain:
       return stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain;
     case ChainId.Maya:

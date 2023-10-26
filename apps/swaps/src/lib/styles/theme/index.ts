@@ -21,33 +21,7 @@ export const theme = extendTheme({
     },
   },
   styles: {
-    global: () => ({
-      body: {
-        backgroundColor: 'black',
-        color: 'white',
-      },
-      p: {
-      },
-
-      heading: {
-        fontSize: '75px',
-      },
-
-      // Style for Webkit scrollbars
-      '::-webkit-scrollbar': {
-        width: '4px',
-      },
-      '::-webkit-scrollbar-track': {
-        backgroundColor: 'black',
-      },
-      '::-webkit-scrollbar-thumb': {
-        backgroundColor: 'limegreen',
-        borderRadius: '0px',
-      },
-      // Style for Firefox scrollbars
-      scrollbarWidth: 'thin',
-      scrollbarColor: 'limegreen black',
-    }),
+    global: () => ({}),
   },
   config,
 });

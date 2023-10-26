@@ -8,6 +8,13 @@
   - @coinmasters/toolbox-evm@1.0.0
   - @coinmasters/types@1.0.0
 
+## 1.0.0-rc.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/toolbox-evm@1.0.0-rc.2
+
 ## 1.0.0-rc.1
 
 ### Patch Changes

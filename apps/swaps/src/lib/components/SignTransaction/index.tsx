@@ -44,7 +44,8 @@ export default function SignTransaction({ route, onClose, setTxhash, inputAmount
         <div>You Must Sign the Transaction on your device! ... </div>
       ) : (
         <div>
-          {JSON.stringify(route)}
+          {/*{JSON.stringify(route)}*/}
+          <h2>memo: {route.calldata.memo}</h2>
           <h2>path: {route?.path}</h2>
           <h2>input: {inputAmount}</h2>
           <h2>expectedOutput: {route?.expectedOutput}</h2>

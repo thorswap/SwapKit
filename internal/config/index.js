@@ -1,4 +1,3 @@
-import { builtinModules } from 'module';
 import { mergeConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { defineConfig } from 'vitest/config';
@@ -46,7 +45,6 @@ const baseConfig = (name, external) =>
         input: 'src/index.ts',
         plugins: rollupPlugins,
         output: ({ format }) => ({
-          external: builtinModules,
           entryFileNames: ({ name }) => `${name}.${format === 'cjs' ? 'cjs' : 'js'}`,
           preserveModules: false,
           sourcemap: true,

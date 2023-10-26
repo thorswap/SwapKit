@@ -6,6 +6,7 @@ import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import type {
   BinanceToolboxType,
   GaiaToolboxType,
+  KujiraToolboxType,
   MayaToolboxType,
   ThorchainToolboxType,
 } from './index.ts';
@@ -38,7 +39,8 @@ export type CosmosLikeToolbox =
   | GaiaToolboxType
   | BinanceToolboxType
   | ThorchainToolboxType
-  | MayaToolboxType;
+  | MayaToolboxType
+  | KujiraToolboxType;
 
 export type CosmosMaxSendableAmountParams = {
   toolbox: CosmosLikeToolbox;

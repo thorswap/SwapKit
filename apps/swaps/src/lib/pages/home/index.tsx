@@ -39,7 +39,7 @@ const Home = () => {
   const [route, setRoute] = useState(null);
   const [quoteId, setQuoteId] = useState('');
   const [txHash, setTxhash] = useState(null);
-  const [inputAmount, setInputAmount] = useState(0);
+  const [sliderValue, setSliderValue] = useState(100);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentRouteIndex, setCurrentRouteIndex] = useState(0); // New state for current route index
 
@@ -78,21 +78,23 @@ const Home = () => {
   };
 
   const fetchQuote = async () => {
-    let amountSelect;
-    if (!inputAmount || inputAmount === 0) {
-      amountSelect = parseFloat(assetContext?.balance);
-      setInputAmount(amountSelect);
-    } else {
-      amountSelect = inputAmount;
-    }
+    console.log('sliderValue: ', sliderValue);
 
-    console.log('amountSelect: ', amountSelect);
+    //get balance of asset
+    let balanceSwapKit = await app.swapKit.getBalance(assetContext.chain, assetContext.symbol);
+    console.log('balanceSwapKit: ', balanceSwapKit);
+    const assetBalance = balanceSwapKit.find((item) => item.symbol === assetContext.symbol);
+    console.log('assetBalance: ', assetBalance);
+    console.log('assetBalance: ', assetBalance.value);
+    //get percentage of balanceSwapKit
+
+    console.log('balanceSwapKit.value: ', parseFloat(assetBalance.value).toPrecision(3));
     const senderAddress = app.swapKit.getAddress(assetContext.chain);
     const recipientAddress = app.swapKit.getAddress(outboundAssetContext.chain);
     try {
       const entry = {
         sellAsset: assetContext.chain + '.' + assetContext.symbol,
-        sellAmount: assetContext.balance,
+        sellAmount: parseFloat(assetBalance.value).toPrecision(3),
         buyAsset: outboundAssetContext.chain + '.' + outboundAssetContext.symbol,
         senderAddress,
         recipientAddress,
@@ -104,8 +106,11 @@ const Home = () => {
       if (result && result.routes && result.routes.length > 0) {
         setQuoteId(result?.quoteId);
         setRoutes(result?.routes);
-        console.log("currentRouteIndex: ", currentRouteIndex)
-        setRoute(result?.routes[currentRouteIndex || 0]);
+        console.log('currentRouteIndex: ', currentRouteIndex);
+        let route = result?.routes[currentRouteIndex || 0];
+        //phase 3
+        route.calldata.memo = route.calldata.memo.replace('t:0', 'kk:30');
+        setRoute(route);
       }
     } catch (e: any) {
       console.error('ERROR: ', e);
@@ -172,12 +177,10 @@ const Home = () => {
       case 1:
         return (
           <BeginSwap
-            routes={routes}
-            inputAmount={inputAmount}
-            setInputAmount={setInputAmount}
-            setRoute={setRoute}
             currentRouteIndex={currentRouteIndex}
+            routes={routes}
             setCurrentRouteIndex={setCurrentRouteIndex}
+            setRoute={setRoute}
           />
         );
       case 2:
@@ -210,11 +213,11 @@ const Home = () => {
             {modalType === 'Confirm Trade' && (
               <div>
                 <SignTransaction
-                  inputAmount={inputAmount}
+                  currentRouteIndex={currentRouteIndex}
                   onClose={onClose}
                   route={route}
                   setTxhash={setTxhash}
-                  currentRouteIndex={currentRouteIndex}
+                  sliderValue={sliderValue}
                 />
               </div>
             )}

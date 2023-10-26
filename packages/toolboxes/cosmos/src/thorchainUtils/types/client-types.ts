@@ -106,6 +106,10 @@ export type GaiaToolboxType = BaseCosmosToolboxType & {
   getFees: () => Promise<Fees>;
 };
 
+export type KujiraToolboxType = BaseCosmosToolboxType & {
+  getFees: () => Promise<Fees>;
+};
+
 export type BinanceToolboxType = Omit<BaseCosmosToolboxType, 'getAccount'> & {
   getFees: () => Promise<Fees>;
   createKeyPair: (phrase: string) => Promise<Uint8Array>;

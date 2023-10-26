@@ -1,5 +1,5 @@
 import { AssetValue } from '@coinmasters/helpers';
-import { Chain, ChainToChainId, ChainToHexChainId, WalletOption } from '@coinmasters/types';
+import { Chain, ChainToChainId, ChainToHexChainId, RPCUrl, WalletOption } from '@coinmasters/types';
 
 import type { WalletTxParams } from './walletHelpers.ts';
 import { cosmosTransfer, getXDEFIAddress, walletTransfer } from './walletHelpers.ts';
@@ -18,6 +18,7 @@ const XDEFI_SUPPORTED_CHAINS = [
   Chain.BitcoinCash,
   Chain.Dogecoin,
   Chain.Ethereum,
+  Chain.Kujira,
   Chain.Litecoin,
   Chain.THORChain,
 ] as const;
@@ -44,7 +45,17 @@ const getWalletMethodsForChain = async ({
 
     case Chain.Cosmos: {
       const { GaiaToolbox } = await import('@coinmasters/toolbox-cosmos');
-      return { ...GaiaToolbox({ server: api }), transfer: cosmosTransfer(rpcUrl) };
+      return {
+        ...GaiaToolbox({ server: api }),
+        transfer: cosmosTransfer({ chainId: ChainId.Cosmos, rpcUrl: rpcUrl || RPCUrl.Cosmos }),
+      };
+    }
+    case Chain.Kujira: {
+      const { KujiraToolbox } = await import('@coinmasters/toolbox-cosmos');
+      return {
+        ...KujiraToolbox(),
+        transfer: cosmosTransfer({ chainId: ChainId.Kujira, rpcUrl: rpcUrl || RPCUrl.Kujira }),
+      };
     }
 
     case Chain.Binance: {

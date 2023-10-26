@@ -62,6 +62,7 @@ export class THORChainApp {
     if (pk.length !== 33) {
       throw new Error('expected compressed public key [31 bytes]');
     }
+
     const hashSha256 = crypto.createHash('sha256').update(pk).digest();
     const hashRip = new Ripemd160().update(hashSha256).digest();
     // @ts-ignore

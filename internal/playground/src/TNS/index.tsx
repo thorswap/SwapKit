@@ -12,7 +12,7 @@ export default function TNS({ skClient }: { skClient: SwapKitCore }) {
 
     try {
       const txHash = await skClient.registerThorname({
-        assetValue: AssetValue.fromChainOrSignature(Chain.THORChain, 1),
+        assetValue: AssetValue.fromChainOrSignature(Chain.THORChain, 11),
         address,
         name,
         chain: selectedChain,
