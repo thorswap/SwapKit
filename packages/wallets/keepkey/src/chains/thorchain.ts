@@ -1,10 +1,11 @@
 import { StargateClient } from '@cosmjs/stargate';
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
-import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
 import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
 import { ThorchainToolbox } from '@swapkit/toolbox-cosmos';
 import type {} from '@swapkit/types';
 import { Chain, ChainId, RPCUrl } from '@swapkit/types';
+
+import { addressInfoForCoin } from '../coins.ts';
 
 type SignTransactionTransferParams = {
   asset: string;
@@ -24,10 +25,9 @@ type SignTransactionDepositParams = {
 export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) => {
   try {
     const toolbox = ThorchainToolbox({ stagenet: !'smeshnet' });
-    const addressInfo = addressInfoForCoin(Chain.THORChain, false);
-    const { address: fromAddress } = await sdk.address.thorchainGetAddress({
-      address_n: addressInfo.address_n,
-    });
+    const { address: fromAddress } = (await sdk.address.thorchainGetAddress({
+      address_n: addressInfoForCoin(Chain.THORChain, false).address_n,
+    })) as { address: string };
 
     const signTransactionTransfer = async ({
       amount,
@@ -39,7 +39,6 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
       try {
         const accountInfo = await toolbox.getAccount(from);
         const stargateClient = await StargateClient.connect(RPCUrl.THORChain);
-
         const keepKeyResponse = await sdk.thorchain.thorchainSignAminoTransfer({
           signDoc: {
             account_number: accountInfo?.accountNumber?.toString() ?? '0',
@@ -48,7 +47,7 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
             msgs: [
               {
                 value: {
-                  amount: [{ denom: asset.toLowerCase(), amount: amount.amount().toString() }],
+                  amount: [{ denom: asset.toLowerCase(), amount: amount.toString() }],
                   to_address: to,
                   from_address: from,
                 },
@@ -57,9 +56,6 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
             ],
             memo: memo || '',
             sequence: accountInfo?.sequence.toString() ?? '0',
-            // FIXME: @highlander - this type is missing from source signature
-            // @ts-expect-error
-            source: addressInfo?.source?.toString() ?? '0',
           },
           signerAddress: from,
         });

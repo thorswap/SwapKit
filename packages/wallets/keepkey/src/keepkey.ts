@@ -8,7 +8,7 @@ import {
   MATICToolbox,
   OPToolbox,
 } from '@swapkit/toolbox-evm';
-import type { ConnectWalletParams, DerivationPathArray, EVMChain } from '@swapkit/types';
+import type { ConnectWalletParams, EVMChain } from '@swapkit/types';
 import { Chain, WalletOption } from '@swapkit/types';
 
 import { binanceWalletMethods } from './chains/binance.js';
@@ -16,6 +16,7 @@ import { cosmosWalletMethods } from './chains/cosmos.js';
 import { KeepKeySigner } from './chains/evm.ts';
 import { thorchainWalletMethods } from './chains/thorchain.ts';
 import { utxoWalletMethods } from './chains/utxo.js';
+export type { PairingInfo } from '@keepkey/keepkey-sdk';
 
 export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
@@ -33,42 +34,40 @@ export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.THORChain,
 ] as const;
 
+interface KeepKeyConfig {
+  apiKey: string;
+  pairingInfo: {
+    name: string;
+    imageUrl: string;
+    basePath: string;
+    url: string;
+  };
+  // Add other properties as needed
+}
+
+/*
+ * KeepKey Wallet
+ */
 type KeepKeyOptions = {
-  keepkeyApiKey?: string;
+  sdk: KeepKeySdk;
+  api?: string;
+  rpcUrl?: string;
   ethplorerApiKey?: string;
   utxoApiKey?: string;
   covalentApiKey?: string;
+  chain: Chain;
+  derivationPath?: any;
 };
-
-const getKeepKeySdk = async (apiKey: string) =>
-  KeepKeySdk.create({
-    apiKey,
-    pairingInfo: {
-      // TODO: @highlander - check what should be passed there
-      url: '',
-      name: 'SwapKit - KeepKey',
-      imageUrl: 'https://thorswap.finance/assets/img/header_logo.png',
-    },
-  });
 
 const getEVMWalletMethods = async ({
   api,
-  apiKey,
+  sdk,
   chain,
-  ethplorerApiKey = '',
-  covalentApiKey = '',
-  rpcUrl = '',
+  ethplorerApiKey,
+  covalentApiKey,
+  rpcUrl,
   derivationPath = [2147483692, 2147483708, 2147483648, 0, 0],
-}: {
-  derivationPath: DerivationPathArray;
-  ethplorerApiKey: string;
-  covalentApiKey: string;
-  apiKey: string;
-  chain: EVMChain;
-  rpcUrl: string;
-  api?: any;
-}) => {
-  const sdk = await getKeepKeySdk(apiKey);
+}: any) => {
   const provider = getProvider(chain as EVMChain, rpcUrl);
   const signer = new KeepKeySigner({ sdk, chain, derivationPath, provider });
   const address = await signer.getAddress();
@@ -87,21 +86,20 @@ const getEVMWalletMethods = async ({
       return { ...MATICToolbox({ ...evmParams, covalentApiKey }), getAddress: () => address };
     case Chain.Avalanche:
       return { ...AVAXToolbox({ ...evmParams, covalentApiKey }), getAddress: () => address };
-
     default:
       throw new Error('Chain not supported');
   }
 };
 
 const getToolbox = async ({
+  sdk,
   api,
-  keepkeyApiKey = '',
-  rpcUrl = '',
+  rpcUrl,
   chain,
-  ethplorerApiKey = '',
-  covalentApiKey = '',
-  utxoApiKey = '',
-}: KeepKeyOptions & { chain: Chain; rpcUrl?: string; api?: any }) => {
+  covalentApiKey,
+  ethplorerApiKey,
+  utxoApiKey,
+}: KeepKeyOptions) => {
   switch (chain) {
     case Chain.BinanceSmartChain:
     case Chain.Arbitrum:
@@ -114,8 +112,8 @@ const getToolbox = async ({
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
       const walletMethods = await getEVMWalletMethods({
+        sdk,
         api,
-        apiKey: keepkeyApiKey,
         chain,
         covalentApiKey,
         derivationPath: [2147483692, 2147483708, 2147483648, 0, 0],
@@ -125,26 +123,22 @@ const getToolbox = async ({
 
       return { address: walletMethods.getAddress(), walletMethods };
     }
-
-    case Chain.Binance:
-    case Chain.Cosmos:
-    case Chain.THORChain: {
-      const sdk = await getKeepKeySdk(keepkeyApiKey);
-      const walletMethods =
-        chain === Chain.Binance
-          ? await binanceWalletMethods({ sdk })
-          : chain === Chain.Cosmos
-          ? await cosmosWalletMethods({ sdk, api })
-          : await thorchainWalletMethods({ sdk });
-
+    case Chain.Binance: {
+      const walletMethods = await binanceWalletMethods({ sdk });
       return { address: await walletMethods.getAddress(), walletMethods };
     }
-
+    case Chain.Cosmos: {
+      const walletMethods = await cosmosWalletMethods({ sdk });
+      return { address: await walletMethods.getAddress(), walletMethods };
+    }
+    case Chain.THORChain: {
+      const walletMethods = await thorchainWalletMethods({ sdk });
+      return { address: await walletMethods.getAddress(), walletMethods };
+    }
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      const sdk = await getKeepKeySdk(keepkeyApiKey);
       const walletMethods = await utxoWalletMethods({ api, sdk, chain, utxoApiKey });
       return { address: await walletMethods.getAddress(), walletMethods };
     }
@@ -167,7 +161,7 @@ export const checkKeepkeyAvailability = async (spec: string) => {
   return false;
 };
 
-// TODO: write down more info around this part of connection with docs url
+// kk-sdk docs: https://medium.com/@highlander_35968/building-on-the-keepkey-sdk-2023fda41f38
 // test spec: if offline, launch keepkey-bridge
 let attempt = 0;
 const checkAndLaunch = async () => {
@@ -190,14 +184,17 @@ const connectKeepkey =
     apis,
     rpcUrls,
     addChain,
-    config: { keepkeyApiKey = '1234', covalentApiKey, ethplorerApiKey = 'freekey', utxoApiKey },
+    config: { covalentApiKey, ethplorerApiKey = 'freekey', utxoApiKey },
   }: ConnectWalletParams) =>
-  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS) => {
+  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, config: KeepKeyConfig) => {
     await checkAndLaunch();
+
+    //only build this once for all assets
+    const keepKeySdk = await KeepKeySdk.create(config);
 
     for (const chain of chains) {
       const { address, walletMethods } = await getToolbox({
-        keepkeyApiKey,
+        sdk: keepKeySdk,
         api: apis[chain],
         rpcUrl: rpcUrls[chain],
         chain,
@@ -213,12 +210,11 @@ const connectKeepkey =
       });
     }
 
-    return true;
+    return config.apiKey;
   };
 
 export const keepkeyWallet = {
   connectMethodName: 'connectKeepkey' as const,
   connect: connectKeepkey,
-  // TODO - @Highlander - check if keepkey is connected
   isDetected: () => checkKeepkeyAvailability('http://localhost:1646/spec/swagger.json'),
 };

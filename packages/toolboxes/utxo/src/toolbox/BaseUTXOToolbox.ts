@@ -109,7 +109,11 @@ const getBalance = async ({
   chain,
   apiClient,
 }: { address: string } & UTXOBaseToolboxParams) => [
-  await AssetValue.fromIdentifier(`${chain}.${chain}`, await apiClient.getBalance(address)),
+  //@TODO @chillios why is this returning in satoshi?
+  await AssetValue.fromIdentifier(
+    `${chain}.${chain}`,
+    (await apiClient.getBalance(address)) / 100000000,
+  ),
 ];
 
 const getFeeRates = async (apiClient: BlockchairApiType) =>
@@ -178,7 +182,9 @@ const buildTx = async ({
     apiClient,
     chain,
   });
-
+  //Blockchairs Doge API recomendations are WAYY wrong
+  if (chain === Chain.Dogecoin) feeRate = 100000;
+  if (chain === Chain.BitcoinCash) feeRate = 100000;
   const { inputs, outputs } = accumulative({ ...inputsAndOutputs, feeRate, chain });
 
   // .inputs and .outputs will be undefined if no solution was found

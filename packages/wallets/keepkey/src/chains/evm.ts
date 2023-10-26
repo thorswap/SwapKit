@@ -1,4 +1,3 @@
-import { BigNumber } from '@ethersproject/bignumber';
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
 import type { EVMTxParams } from '@swapkit/toolbox-evm';
 import type { Chain, DerivationPathArray } from '@swapkit/types';
@@ -9,7 +8,7 @@ interface KeepKeyEVMSignerParams {
   sdk: KeepKeySdk;
   chain: Chain;
   derivationPath: DerivationPathArray;
-  provider: Provider | JsonRpcProvider;
+  provider: Provider | JsonRpcProvider | any; //TODO fixme
 }
 
 export class KeepKeySigner extends AbstractSigner {
@@ -17,15 +16,15 @@ export class KeepKeySigner extends AbstractSigner {
   private chain: Chain;
   private derivationPath: DerivationPathArray;
   private address: string;
-  #innerProvider: Provider | JsonRpcProvider;
+  readonly provider: Provider | JsonRpcProvider;
 
   constructor({ sdk, chain, derivationPath, provider }: KeepKeyEVMSignerParams) {
     super();
     this.sdk = sdk;
     this.chain = chain;
     this.derivationPath = derivationPath;
-    this.#innerProvider = provider;
     this.address = '';
+    this.provider = provider;
   }
 
   signTypedData(): Promise<string> {
@@ -48,35 +47,55 @@ export class KeepKeySigner extends AbstractSigner {
     return response as string;
   };
 
-  signTransaction = async ({ from, to, value, gasLimit, nonce, data, ...restTx }: EVMTxParams) => {
+  signTransaction = async ({
+    from,
+    to,
+    value,
+    gasLimit,
+    nonce,
+    data,
+    maxFeePerGas,
+    maxPriorityFeePerGas,
+    gasPrice,
+    ...restTx
+  }: EVMTxParams | any) => {
     if (!from) throw new Error('Missing from address');
     if (!to) throw new Error('Missing to address');
     if (!gasLimit) throw new Error('Missing gasLimit');
     if (!nonce) throw new Error('Missing nonce');
     if (!data) throw new Error('Missing data');
-    const isEIP1559 = 'maxFeePerGas' in restTx && 'maxPriorityFeePerGas' in restTx;
 
-    const responseSign = await this.sdk.eth.ethSignTransaction({
-      // TODO: @highlander - check if this is needed
-      // gasLimit: BigNumber.from(gasLimit).toHexString(),
+    const isEIP1559 = maxFeePerGas && maxPriorityFeePerGas;
+
+    if (isEIP1559 && !maxFeePerGas) throw new Error('Missing maxFeePerGas');
+    if (isEIP1559 && !maxPriorityFeePerGas) throw new Error('Missing maxFeePerGas');
+
+    if (!isEIP1559 && !gasPrice) throw new Error('Missing gasPrice');
+    const { toHexString } = await import('@swapkit/toolbox-evm');
+    const nonceValue = nonce
+      ? BigInt(nonce)
+      : BigInt(await this.provider.getTransactionCount(await this.getAddress(), 'pending'));
+    const nonceHex = '0x' + nonceValue.toString(16);
+    let input = {
+      gas: toHexString(BigInt(gasLimit)),
       addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
       from: this.address,
-      chainId: BigNumber.from(ChainToChainId[this.chain]).toHexString(),
+      chainId: toHexString(BigInt(ChainToChainId[this.chain])),
       to,
-      value: BigNumber.from(value || 0).toHexString(),
-      nonce: BigNumber.from(
-        nonce || (await this.#innerProvider.getTransactionCount(from, 'pending')),
-      ).toHexString(),
+      value: toHexString(BigInt(value || 0)),
+      nonce: nonceHex,
       data,
       ...(isEIP1559
         ? {
-            maxFeePerGas: BigNumber.from(restTx?.maxFeePerGas).toHexString(),
-            maxPriorityFeePerGas: BigNumber.from(restTx.maxPriorityFeePerGas).toHexString(),
+            maxFeePerGas: toHexString(BigInt(maxFeePerGas?.toString() || '0')),
+            maxPriorityFeePerGas: toHexString(BigInt(maxPriorityFeePerGas?.toString() || '0')),
           }
         : {
-            gasPrice: 'gasPrice' in restTx ? BigNumber.from(restTx?.gasPrice).toHexString() : '0',
+            gasPrice:
+              'gasPrice' in restTx ? toHexString(BigInt(gasPrice?.toString() || '0')) : undefined, // Fixed syntax error and structure here
           }),
-    });
+    };
+    const responseSign = await this.sdk.eth.ethSignTransaction(input);
     return responseSign.serialized;
   };
 

@@ -1,9 +1,10 @@
 import { StargateClient } from '@cosmjs/stargate';
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
-import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
 import type { TransferParams } from '@swapkit/toolbox-cosmos';
-import { GaiaToolbox } from '@swapkit/toolbox-cosmos';
+import { DEFAULT_COSMOS_FEE_MAINNET, GaiaToolbox } from '@swapkit/toolbox-cosmos';
 import { Chain, ChainId, RPCUrl } from '@swapkit/types';
+
+import { addressInfoForCoin } from '../coins.ts';
 
 export type SignTransactionTransferParams = {
   asset: string;
@@ -15,11 +16,15 @@ export type SignTransactionTransferParams = {
 
 export const cosmosWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; api: string }) => {
   try {
-    const { address: fromAddress } = await sdk.address.thorchainGetAddress({
+    const { address: fromAddress } = (await sdk.address.cosmosGetAddress({
       address_n: addressInfoForCoin(Chain.Cosmos, false).address_n,
-    });
+    })) as { address: string };
 
     const toolbox = GaiaToolbox({ server: api });
+    DEFAULT_COSMOS_FEE_MAINNET.amount[0].amount = String(
+      (await toolbox?.getFeeRateFromThorswap(ChainId.Cosmos)) ?? '500',
+    );
+
     const signTransactionTransfer = async ({
       amount,
       to,
@@ -27,14 +32,12 @@ export const cosmosWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; 
       memo = '',
     }: SignTransactionTransferParams) => {
       try {
-        const accountInfo = await toolbox.getAccount(from);
-        // FIXME: @highlander - this type is missing from source signature
+        const accountInfo = await toolbox.getAccount(fromAddress);
 
         const keepKeySignedTx = await sdk.cosmos.cosmosSignAmino({
-          signerAddress: from,
+          signerAddress: fromAddress,
           signDoc: {
-            // TODO: Have gas passed in as a param, ideally a value from a real-time API
-            fee: { gas: '290000', amount: [{ denom: 'uatom', amount: '5000' }] },
+            fee: DEFAULT_COSMOS_FEE_MAINNET,
             memo,
             sequence: accountInfo?.sequence.toString() ?? '',
             chain_id: ChainId.Cosmos,
