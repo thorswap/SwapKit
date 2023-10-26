@@ -1,7 +1,7 @@
 import { HDKey } from '@scure/bip32';
 import { AssetValue, SwapKitNumber } from '@swapkit/helpers';
 import type { UTXOChain } from '@swapkit/types';
-import { Chain, FeeOption } from '@swapkit/types';
+import { BaseDecimal, Chain, FeeOption } from '@swapkit/types';
 import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';
 import type { ECPairInterface } from 'ecpair';
 import { ECPairFactory } from 'ecpair';
@@ -108,13 +108,12 @@ const getBalance = async ({
   address,
   chain,
   apiClient,
-}: { address: string } & UTXOBaseToolboxParams) => [
-  //@TODO @chillios why is this returning in satoshi?
-  await AssetValue.fromIdentifier(
-    `${chain}.${chain}`,
-    (await apiClient.getBalance(address)) / 100000000,
-  ),
-];
+}: { address: string } & UTXOBaseToolboxParams) => {
+  const balance = (await apiClient.getBalance(address)) / 10 ** BaseDecimal[chain];
+  const asset = await AssetValue.fromIdentifier(`${chain}.${chain}`, balance);
+
+  return [asset];
+};
 
 const getFeeRates = async (apiClient: BlockchairApiType) =>
   standardFeeRates(await apiClient.getSuggestedTxFee());

@@ -27,7 +27,7 @@ const App = () => {
    */
   const [keys, setKeys] = useState({
     covalentApiKey: import.meta.env.VITE_COVALENT_API_KEY || 'cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q',
-    ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || 'EK-xs8Hj-qG4HbLY-LoAu7',
+    ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || 'freekey',
     utxoApiKey: import.meta.env.VITE_BLOCKCHAIR_API_KEY || 'A___Tcn5B16iC3mMj7QrzZCb2Ho1QBUf',
     walletConnectProjectId: '',
   });
@@ -133,10 +133,18 @@ const App = () => {
 
           {Array.isArray(wallet) ? (
             wallet.map((walletData) => (
-              <Wallet key={walletData?.address} setAsset={setAsset} walletData={walletData} />
+              <Wallet
+                key={`${walletData?.address}-${walletData?.balance?.[0].chain}`}
+                setAsset={setAsset}
+                walletData={walletData}
+              />
             ))
           ) : (
-            <Wallet key={wallet?.address} setAsset={setAsset} walletData={wallet} />
+            <Wallet
+              key={`${wallet?.address}-${wallet?.balance?.[0].chain}`}
+              setAsset={setAsset}
+              walletData={wallet}
+            />
           )}
         </div>
       </div>

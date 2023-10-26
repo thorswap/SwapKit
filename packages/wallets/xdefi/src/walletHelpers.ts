@@ -1,5 +1,6 @@
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@swapkit/helpers';
+import type { TransferParams } from '@swapkit/toolbox-cosmos';
 import { toHexString } from '@swapkit/toolbox-evm';
 import type { FeeOption } from '@swapkit/types';
 import { Chain, ChainId } from '@swapkit/types';
@@ -135,14 +136,14 @@ export const walletTransfer = async (
 };
 
 export const cosmosTransfer =
-  (rpcUrl?: string) =>
-  async ({ from, recipient, amount, asset, memo }: any) => {
+  ({ chainId, rpcUrl }: { chainId: ChainId.Cosmos | ChainId.Kujira; rpcUrl?: string }) =>
+  async ({ from, recipient, assetValue, memo }: TransferParams) => {
     const { createCosmJS } = await import('@swapkit/toolbox-cosmos');
-    const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
+    const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(chainId);
     const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
 
     const coins = [
-      { denom: asset?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: amount.amount().toString() },
+      { denom: assetValue?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: assetValue.baseValue },
     ];
 
     const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 1.6, memo);

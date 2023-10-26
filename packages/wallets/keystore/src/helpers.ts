@@ -39,9 +39,6 @@ const toHexByte = (byte: number) => (byte < 0x10 ? `0${byte.toString(16)}` : byt
 const toHex = (buffer: Buffer | Uint8Array) => Array.from(buffer).map(toHexByte).join('');
 const _isNode = () => typeof window === 'undefined';
 
-const getCrypto = () =>
-  _isNode() ? (crypto as any) : import('crypto').then(({ default: crypto }) => crypto);
-
 /**
  * Gets data's 256 bit blake hash.
  * @param data buffer or hexadecimal string

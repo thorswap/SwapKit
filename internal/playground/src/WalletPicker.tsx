@@ -27,6 +27,8 @@ const AllChainsSupported = [
   Chain.Litecoin,
   Chain.Optimism,
   Chain.Polygon,
+  Chain.Maya,
+  Chain.Kujira,
   Chain.THORChain,
 ] as Chain[];
 
@@ -176,7 +178,10 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
   const handleMultipleSelect = useCallback(
     (e: any) => {
       const selectedChains = Array.from(e.target.selectedOptions).map((o: any) => o.value);
-      setChains(selectedChains);
+
+      if (selectedChains.length > 1) {
+        setChains(selectedChains);
+      }
     },
     [setChains],
   );
@@ -184,8 +189,30 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       <div style={{ flexDirection: 'column' }}>
-        <select multiple onChange={() => {}} style={{ width: 200, height: 200 }} value={chains}>
-          {Object.values(Chain).map((chain) => (
+        <select
+          multiple
+          onChange={handleMultipleSelect}
+          style={{ width: 50, height: 400 }}
+          value={chains}
+        >
+          {[
+            Chain.Avalanche,
+            Chain.Binance,
+            Chain.BinanceSmartChain,
+            Chain.Bitcoin,
+            Chain.BitcoinCash,
+            Chain.Cosmos,
+            Chain.Dogecoin,
+            Chain.Ethereum,
+            Chain.Litecoin,
+
+            Chain.THORChain,
+            Chain.Arbitrum,
+            Chain.Kujira,
+            Chain.Maya,
+            Chain.Optimism,
+            Chain.Polygon,
+          ].map((chain) => (
             <option key={chain} onClick={() => handleChainSelect(chain)} value={chain}>
               {chain}
             </option>

@@ -2,16 +2,19 @@
   "mode": "pre",
   "tag": "rc",
   "initialVersions": {
+    "@internal/config": "0.0.0-internal.0",
+    "@internal/playground": "0.0.0-internal.0",
     "@swapkit/api": "1.0.0-rc.0",
     "@swapkit/core": "1.0.0-rc.0",
     "@swapkit/helpers": "1.0.0-rc.0",
     "@swapkit/sdk": "1.0.0-rc.0",
-    "@swapkit/types": "1.0.0-rc.0",
     "@swapkit/tokens": "1.0.0-rc.0",
     "@swapkit/toolbox-cosmos": "1.0.0-rc.0",
     "@swapkit/toolbox-evm": "1.0.0-rc.0",
     "@swapkit/toolbox-utxo": "1.0.0-rc.0",
+    "@swapkit/types": "1.0.0-rc.0",
     "@swapkit/wallet-evm-extensions": "1.0.0-rc.0",
+    "@swapkit/wallet-keepkey": "1.0.0-rc.0",
     "@swapkit/wallet-keplr": "1.0.0-rc.0",
     "@swapkit/wallet-keystore": "1.0.0-rc.0",
     "@swapkit/wallet-ledger": "1.0.0-rc.0",
@@ -19,15 +22,13 @@
     "@swapkit/wallet-trezor": "1.0.0-rc.0",
     "@swapkit/wallet-wc": "1.0.0-rc.0",
     "@swapkit/wallet-xdefi": "1.0.0-rc.0",
-    "@internal/config": "0.0.0-internal.0",
-    "@thorswap-lib/swapkit-entities": "1.0.0-rc.0",
-    "@internal/playground": "null-rc.0",
-    "@swapkit/wallet-keepkey": "3.0.1"
+    "@thorswap-lib/swapkit-entities": "1.0.0-rc.0"
   },
   "changesets": [
     "clean-poems-work",
     "fluffy-penguins-worry",
     "kind-tools-trade",
+    "lucky-planets-share",
     "many-cycles-watch",
     "pretty-walls-flow",
     "yellow-kings-float"
