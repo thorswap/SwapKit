@@ -1,5 +1,6 @@
 import { mergeConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import { defineConfig } from 'vitest/config';
 
 const rollupPlugins = [];
@@ -31,6 +32,7 @@ const baseConfig = (name, external) =>
   defineConfig({
     base: './',
     plugins: [
+      nodePolyfills(),
       dts({ skipDiagnostics: false, clearPureImport: true, rollupTypes: true, beforeWriteFile }),
     ],
     build: {
