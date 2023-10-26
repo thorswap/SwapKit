@@ -16,6 +16,7 @@ import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
 import type { AvalancheLedger } from './clients/avalanche.ts';
 import type { BinanceLedger } from './clients/binance/index.ts';
+import type { BSCLedger } from './clients/binancesmartchain.ts';
 import type { BitcoinLedger } from './clients/bitcoin.ts';
 import type { BitcoinCashLedger } from './clients/bitcoincash.ts';
 import type { CosmosLedger } from './clients/cosmos.ts';
@@ -86,6 +87,7 @@ const getToolbox = async ({
     | BinanceLedger
     | BitcoinLedger
     | BitcoinCashLedger
+    | BSCLedger
     | DogecoinLedger
     | EthereumLedger
     | LitecoinLedger
@@ -258,6 +260,17 @@ const getToolbox = async ({
         api,
         signer: signer as AvalancheLedger,
         provider: getProvider(Chain.Avalanche, rpcUrl),
+        covalentApiKey,
+      });
+    }
+    case Chain.BinanceSmartChain: {
+      if (!covalentApiKey) throw new Error('Covalent API key is not defined');
+      const { BSCToolbox, getProvider } = await import('@thorswap-lib/toolbox-evm');
+
+      return BSCToolbox({
+        api,
+        signer: signer as BSCLedger,
+        provider: getProvider(Chain.BinanceSmartChain, rpcUrl),
         covalentApiKey,
       });
     }

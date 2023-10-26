@@ -397,14 +397,14 @@ const connectWalletconnect =
 
       const getAccount = async (address: string) => {
         const account = await (toolbox as unknown as BaseCosmosToolboxType).getAccount(address);
-        const [walletconnectAccount] = await walletconnect?.client.request({
+        const [walletconnectAccount] = (await walletconnect?.client.request({
           chainId: THORCHAIN_MAINNET_ID,
           topic: session.topic,
           request: {
             method: DEFAULT_COSMOS_METHODS.COSMOS_GET_ACCOUNTS,
             params: {},
           },
-        }) as {
+        })) as {
           address: string;
           algo: string;
           pubkey: string;
@@ -415,8 +415,8 @@ const connectWalletconnect =
           address: walletconnectAccount.address,
           pubkey: {
             type: walletconnectAccount.algo,
-            value: walletconnectAccount.pubkey
-          }
+            value: walletconnectAccount.pubkey,
+          },
         };
       };
 
@@ -425,7 +425,11 @@ const connectWalletconnect =
         walletMethods: {
           ...toolbox,
           getAddress: () => address,
-          getAccount: chain === Chain.THORChain ? getAccount : (toolbox as unknown as BaseCosmosToolboxType).getAccount },
+          getAccount:
+            chain === Chain.THORChain
+              ? getAccount
+              : (toolbox as unknown as BaseCosmosToolboxType).getAccount,
+        },
         wallet: { address, balance: [], walletType: WalletOption.WALLETCONNECT },
       });
       return;
