@@ -192,7 +192,6 @@ const buildTx = async ({
   // psbt add input from accumulative inputs
   inputs.forEach((utxo: UTXO) =>
     psbt.addInput({
-      //@ts-expect-error TODO not sure why type is incompatible all of the sudden
       hash: utxo.hash,
       index: utxo.index,
       ...(!!utxo.witnessUtxo && chain !== Chain.Dogecoin && { witnessUtxo: utxo.witnessUtxo }),
