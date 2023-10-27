@@ -108,7 +108,7 @@ importers:
         version: 0.34.4(vitest@0.34.4)
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
       vite-plugin-dts:
         specifier: 3.5.3
         version: 3.5.3(typescript@5.2.2)(vite@4.4.9)
@@ -296,7 +296,7 @@ importers:
         version: 5.2.2
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
 
   packages/swapkit/api:
     dependencies:
@@ -312,44 +312,89 @@ importers:
         version: 0.34.4(vitest@0.34.4)
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
       vitest:
         specifier: 0.34.4
         version: 0.34.4
 
   packages/swapkit/cli:
     dependencies:
+      '@swapkit/core':
+        specifier: workspace:*
+        version: link:../core
       '@swapkit/sdk':
         specifier: workspace:*
         version: link:../sdk
+      '@swapkit/wallet-keystore':
+        specifier: workspace:*
+        version: link:../../wallets/keystore
+      buffer:
+        specifier: 6.0.3
+        version: 6.0.3
+      crypto-browserify:
+        specifier: 3.12.0
+        version: 3.12.0
+      https-browserify:
+        specifier: 1.0.0
+        version: 1.0.0
       ink:
         specifier: 4.4.1
         version: 4.4.1(@types/react@18.2.21)(react@18.2.0)
       ink-select-input:
         specifier: 5.0.0
         version: 5.0.0(ink@4.4.1)(react@18.2.0)
+      ink-spinner:
+        specifier: ^5.0.0
+        version: 5.0.0(ink@4.4.1)(react@18.2.0)
       ink-text-input:
         specifier: 5.0.1
         version: 5.0.1(ink@4.4.1)(react@18.2.0)
+      os-browserify:
+        specifier: 0.3.0
+        version: 0.3.0
+      path-browserify:
+        specifier: 1.0.1
+        version: 1.0.1
       react:
         specifier: 18.2.0
         version: 18.2.0
+      rollup-plugin-polyfill-node:
+        specifier: 0.12.0
+        version: 0.12.0(rollup@3.29.2)
+      stream-browserify:
+        specifier: 3.0.0
+        version: 3.0.0
+      stream-http:
+        specifier: 3.2.0
+        version: 3.2.0
+      url:
+        specifier: 0.11.2
+        version: 0.11.2
+      util:
+        specifier: 0.12.5
+        version: 0.12.5
     devDependencies:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
       '@rollup/plugin-babel':
         specifier: 6.0.4
-        version: 6.0.4(@babel/core@7.23.0)
+        version: 6.0.4(@babel/core@7.22.20)(rollup@3.29.2)
       '@sindresorhus/tsconfig':
         specifier: 5.0.0
         version: 5.0.0
       '@types/ink-select-input':
-        specifier: ^3.0.2
+        specifier: 3.0.2
         version: 3.0.2
+      '@types/node':
+        specifier: 20.5.9
+        version: 20.5.9
       '@types/react':
         specifier: 18.2.21
         version: 18.2.21
+      '@vitejs/plugin-react':
+        specifier: 4.0.4
+        version: 4.0.4(vite@4.4.9)
       '@vitest/coverage-istanbul':
         specifier: 0.34.3
         version: 0.34.3(vitest@0.34.3)
@@ -358,7 +403,7 @@ importers:
         version: 4.4.9(@types/node@20.5.9)
       vite-plugin-babel:
         specifier: 1.1.3
-        version: 1.1.3(@babel/core@7.23.0)(vite@4.4.9)
+        version: 1.1.3(@babel/core@7.22.20)(vite@4.4.9)
       vitest:
         specifier: 0.34.3
         version: 0.34.3
@@ -398,7 +443,7 @@ importers:
         version: 6.7.1
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
       vite-plugin-top-level-await:
         specifier: 1.3.1
         version: 1.3.1(vite@4.4.9)
@@ -429,7 +474,7 @@ importers:
         version: 9.1.2
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
       vitest:
         specifier: 0.34.4
         version: 0.34.4
@@ -450,7 +495,7 @@ importers:
         version: 0.34.4(vitest@0.34.4)
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
       vitest:
         specifier: 0.34.4
         version: 0.34.4
@@ -508,7 +553,7 @@ importers:
         version: 0.34.4(vitest@0.34.4)
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
       vitest:
         specifier: 0.34.4
         version: 0.34.4
@@ -535,7 +580,7 @@ importers:
         version: 11.1.1
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
       vitest:
         specifier: 0.34.4
         version: 0.34.4
@@ -761,7 +806,7 @@ importers:
         version: 6.7.1
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
       vitest:
         specifier: 0.34.4
         version: 0.34.4
@@ -789,7 +834,7 @@ importers:
         version: 0.34.4(vitest@0.34.4)
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
       vitest:
         specifier: 0.34.4
         version: 0.34.4
@@ -850,7 +895,7 @@ importers:
         version: 6.7.1
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
       vitest:
         specifier: 0.34.4
         version: 0.34.4
@@ -1014,7 +1059,7 @@ importers:
         version: 6.7.1
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
       vitest:
         specifier: 0.34.4
         version: 0.34.4
@@ -1060,7 +1105,7 @@ importers:
         version: 6.7.1
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
       vitest:
         specifier: 0.34.4
         version: 0.34.4
@@ -1112,7 +1157,7 @@ importers:
         version: 6.7.1
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
       vitest:
         specifier: 0.34.4
         version: 0.34.4
@@ -1149,7 +1194,7 @@ importers:
         version: 6.7.1
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.6.3)
+        version: 4.4.9(@types/node@20.5.9)
       vitest:
         specifier: 0.34.4
         version: 0.34.4
@@ -1231,7 +1276,7 @@ packages:
       '@babel/traverse': 7.23.0
       '@babel/types': 7.23.0
       convert-source-map: 2.0.0
-      debug: 4.3.4
+      debug: 4.3.4(supports-color@8.1.1)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -1428,23 +1473,23 @@ packages:
       '@babel/types': 7.23.0
     dev: true
 
-  /@babel/plugin-transform-react-jsx-self@7.22.5(@babel/core@7.23.0):
+  /@babel/plugin-transform-react-jsx-self@7.22.5(@babel/core@7.22.20):
     resolution: {integrity: sha512-nTh2ogNUtxbiSbxaT4Ds6aXnXEipHweN9YRgOX/oNXdf0cCrGn/+2LozFa3lnPV5D90MkjhgckCPBrsoSc1a7g==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.23.0
+      '@babel/core': 7.22.20
       '@babel/helper-plugin-utils': 7.22.5
     dev: true
 
-  /@babel/plugin-transform-react-jsx-source@7.22.5(@babel/core@7.23.0):
+  /@babel/plugin-transform-react-jsx-source@7.22.5(@babel/core@7.22.20):
     resolution: {integrity: sha512-yIiRO6yobeEIaI0RTbIr8iAK9FcBHLtZq0S89ZPjDLQXBA4xvghaKqI0etp/tF3htTM0sazJKKLz9oEiGRtu7w==}
     engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
     dependencies:
-      '@babel/core': 7.23.0
+      '@babel/core': 7.22.20
       '@babel/helper-plugin-utils': 7.22.5
     dev: true
 
@@ -3421,7 +3466,7 @@ packages:
       '@psf/bitcoincash-ops': 2.0.0
     dev: false
 
-  /@rollup/plugin-babel@6.0.4(@babel/core@7.23.0):
+  /@rollup/plugin-babel@6.0.4(@babel/core@7.22.20)(rollup@3.29.2):
     resolution: {integrity: sha512-YF7Y52kFdFT/xVSuVdjkV5ZdX/3YtmX0QulG+x0taQOtJdHYzVU61aSSkAgVJ7NOv6qPkIYiJSgSWWN/DM5sGw==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -3434,9 +3479,10 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@babel/core': 7.23.0
+      '@babel/core': 7.22.20
       '@babel/helper-module-imports': 7.22.15
-      '@rollup/pluginutils': 5.0.4
+      '@rollup/pluginutils': 5.0.4(rollup@3.29.2)
+      rollup: 3.29.2
     dev: true
 
   /@rollup/plugin-inject@5.0.3(rollup@3.29.2):
@@ -3492,20 +3538,6 @@ packages:
     peerDependenciesMeta:
       rollup:
         optional: true
-    dev: true
-
-  /@rollup/pluginutils@5.0.4:
-    resolution: {integrity: sha512-0KJnIoRI8A+a1dqOYLxH8vBf8bphDmty5QvIm2hqm7oFCFYKCAZWWd2hXgMibaPsNDhI0AtpYfQZJG47pt/k4g==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@types/estree': 1.0.1
-      estree-walker: 2.0.2
-      picomatch: 2.3.1
     dev: true
 
   /@rollup/pluginutils@5.0.4(rollup@3.29.2):
@@ -4675,11 +4707,11 @@ packages:
     peerDependencies:
       vite: ^4.2.0
     dependencies:
-      '@babel/core': 7.23.0
-      '@babel/plugin-transform-react-jsx-self': 7.22.5(@babel/core@7.23.0)
-      '@babel/plugin-transform-react-jsx-source': 7.22.5(@babel/core@7.23.0)
+      '@babel/core': 7.22.20
+      '@babel/plugin-transform-react-jsx-self': 7.22.5(@babel/core@7.22.20)
+      '@babel/plugin-transform-react-jsx-source': 7.22.5(@babel/core@7.22.20)
       react-refresh: 0.14.0
-      vite: 4.4.9(@types/node@20.6.3)
+      vite: 4.4.9(@types/node@20.5.9)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4852,7 +4884,7 @@ packages:
   /@vue/compiler-core@3.3.4:
     resolution: {integrity: sha512-cquyDNvZ6jTbf/+x+AgM2Arrp6G4Dzbb0R64jiG804HRMfRiFXWI6kqUVqZ6ZR0bQhIoQjB4+2bhNtVwndW15g==}
     dependencies:
-      '@babel/parser': 7.22.16
+      '@babel/parser': 7.23.0
       '@vue/shared': 3.3.4
       estree-walker: 2.0.2
       source-map-js: 1.0.2
@@ -6463,18 +6495,6 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.3
-    dev: true
-
-  /debug@4.3.4:
-    resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
-    engines: {node: '>=6.0'}
-    peerDependencies:
-      supports-color: '*'
-    peerDependenciesMeta:
-      supports-color:
-        optional: true
-    dependencies:
-      ms: 2.1.2
     dev: true
 
   /debug@4.3.4(supports-color@8.1.1):
@@ -8548,6 +8568,18 @@ packages:
       react: 18.2.0
     dev: false
 
+  /ink-spinner@5.0.0(ink@4.4.1)(react@18.2.0):
+    resolution: {integrity: sha512-EYEasbEjkqLGyPOUc8hBJZNuC5GvXGMLu0w5gdTNskPc7Izc5vO3tdQEYnzvshucyGCBXc86ig0ujXPMWaQCdA==}
+    engines: {node: '>=14.16'}
+    peerDependencies:
+      ink: '>=4.0.0'
+      react: '>=18.0.0'
+    dependencies:
+      cli-spinners: 2.9.0
+      ink: 4.4.1(@types/react@18.2.21)(react@18.2.0)
+      react: 18.2.0
+    dev: false
+
   /ink-text-input@5.0.1(ink@4.4.1)(react@18.2.0):
     resolution: {integrity: sha512-crnsYJalG4EhneOFnr/q+Kzw1RgmXI2KsBaLFE6mpiIKxAtJLUnvygOF2IUKO8z4nwkSkveGRBMd81RoYdRSag==}
     engines: {node: '>=14.16'}
@@ -9026,7 +9058,7 @@ packages:
     resolution: {integrity: sha512-n3s8EwkdFIJCG3BPKBYvskgXGoy88ARzvegkitk60NxRdwltLOTaH7CUiMRXvwYorl0Q712iEjcWB+fK/MrWVw==}
     engines: {node: '>=10'}
     dependencies:
-      debug: 4.3.4
+      debug: 4.3.4(supports-color@8.1.1)
       istanbul-lib-coverage: 3.2.0
       source-map: 0.6.1
     transitivePeerDependencies:
@@ -12509,7 +12541,7 @@ packages:
     hasBin: true
     dependencies:
       cac: 6.7.14
-      debug: 4.3.4
+      debug: 4.3.4(supports-color@8.1.1)
       mlly: 1.4.2
       pathe: 1.1.1
       picocolors: 1.0.0
@@ -12547,7 +12579,7 @@ packages:
       - terser
     dev: true
 
-  /vite-node@0.34.5(@types/node@20.6.3):
+  /vite-node@0.34.5(@types/node@20.5.9):
     resolution: {integrity: sha512-RNZ+DwbCvDoI5CbCSQSyRyzDTfFvFauvMs6Yq4ObJROKlIKuat1KgSX/Ako5rlDMfVCyMcpMRMTkJBxd6z8YRA==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -12557,7 +12589,7 @@ packages:
       mlly: 1.4.2
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 4.4.9(@types/node@20.6.3)
+      vite: 4.4.9(@types/node@20.5.9)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -12569,13 +12601,13 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-babel@1.1.3(@babel/core@7.23.0)(vite@4.4.9):
+  /vite-plugin-babel@1.1.3(@babel/core@7.22.20)(vite@4.4.9):
     resolution: {integrity: sha512-WE8ORQm8530kj0geiDL1r/+P2MaU0b+5wL5E8Jq07aounFwRIUeJXziGiMr2DFQs78vaefB5GRKh257M8Z6gFQ==}
     peerDependencies:
       '@babel/core': ^7.0.0
       vite: ^2.7.0 || ^3.0.0 || ^4.0.0
     dependencies:
-      '@babel/core': 7.23.0
+      '@babel/core': 7.22.20
       vite: 4.4.9(@types/node@20.5.9)
     dev: true
 
@@ -12595,7 +12627,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       kolorist: 1.8.0
       typescript: 5.2.2
-      vite: 4.4.9(@types/node@20.6.3)
+      vite: 4.4.9(@types/node@20.5.9)
       vue-tsc: 1.8.8(typescript@5.2.2)
     transitivePeerDependencies:
       - '@types/node'
@@ -12625,7 +12657,7 @@ packages:
       '@rollup/plugin-virtual': 3.0.1
       '@swc/core': 1.3.66
       uuid: 9.0.0
-      vite: 4.4.9(@types/node@20.6.3)
+      vite: 4.4.9(@types/node@20.5.9)
     transitivePeerDependencies:
       - '@swc/helpers'
       - rollup
@@ -12636,7 +12668,7 @@ packages:
     peerDependencies:
       vite: ^2 || ^3 || ^4
     dependencies:
-      vite: 4.4.9(@types/node@20.6.3)
+      vite: 4.4.9(@types/node@20.5.9)
     dev: true
 
   /vite@4.4.9(@types/node@20.5.9):
@@ -12668,42 +12700,6 @@ packages:
         optional: true
     dependencies:
       '@types/node': 20.5.9
-      esbuild: 0.18.20
-      postcss: 8.4.30
-      rollup: 3.29.2
-    optionalDependencies:
-      fsevents: 2.3.3
-    dev: true
-
-  /vite@4.4.9(@types/node@20.6.3):
-    resolution: {integrity: sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': '>= 14'
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      '@types/node': 20.6.3
       esbuild: 0.18.20
       postcss: 8.4.30
       rollup: 3.29.2
@@ -12754,7 +12750,7 @@ packages:
       acorn-walk: 8.2.0
       cac: 6.7.14
       chai: 4.3.8
-      debug: 4.3.4
+      debug: 4.3.4(supports-color@8.1.1)
       local-pkg: 0.4.3
       magic-string: 0.30.3
       pathe: 1.1.1
@@ -12874,7 +12870,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.6
       '@types/chai-subset': 1.3.3
-      '@types/node': 20.6.3
+      '@types/node': 20.5.9
       '@vitest/expect': 0.34.5
       '@vitest/runner': 0.34.5
       '@vitest/snapshot': 0.34.5
@@ -12893,8 +12889,8 @@ packages:
       strip-literal: 1.3.0
       tinybench: 2.5.1
       tinypool: 0.7.0
-      vite: 4.4.9(@types/node@20.6.3)
-      vite-node: 0.34.5(@types/node@20.6.3)
+      vite: 4.4.9(@types/node@20.5.9)
+      vite-node: 0.34.5(@types/node@20.5.9)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less

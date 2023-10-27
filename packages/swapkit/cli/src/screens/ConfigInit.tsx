@@ -10,7 +10,7 @@ import { ConfigContext, saveConfig } from '../util/useConfig.js';
 
 const ConfigInit = () => {
   const [query, setQuery] = useState('');
-  const [nav, setNav] = useState(false);
+  const [goBack, setGoBack] = useState(false);
   const [updateConfig, setUpdateConfig] = useState(false);
 
   const { setNavigation } = useContext(NavigationContext);
@@ -28,13 +28,13 @@ const ConfigInit = () => {
   const [initConfig, setInitconfig] = useState<ConnectConfig>(rest);
 
   useEffect(() => {
-    if (nav) {
+    if (goBack) {
       setNavigation(NS.WELCOME_SCREEN);
     }
     if (updateConfig) {
       setConfig({ ...initConfig, configFile: true });
     }
-  }, [nav, setNavigation, updateConfig, initConfig, setConfig]);
+  }, [goBack, setNavigation, updateConfig, initConfig, setConfig]);
 
   const handleSubmit = useCallback(() => {
     switch (focus) {
@@ -60,7 +60,7 @@ const ConfigInit = () => {
         });
         break;
       case CEI.FINISH:
-        setNav(true);
+        setGoBack(true);
         setUpdateConfig(true);
         saveConfig(initConfig);
         break;
@@ -80,17 +80,17 @@ const ConfigInit = () => {
 
   const staganetOnSelect = useCallback(
     (item: any | (() => any)) => {
-      setInitconfig({ ...initConfig, stagenet: item.value === 1 ? true : false });
+      setInitconfig({ ...initConfig, stagenet: item.value });
 
       setFocus(-1);
     },
     [initConfig],
   );
 
-  const handleSelect = useCallback((item: any) => {
+  const handleSelect = (item: any) => {
     setLastSelect(item.value);
     setFocus(item.value);
-  }, []);
+  };
 
   const itemLabels = [
     'Covalent API Key',
@@ -140,11 +140,11 @@ const ConfigInit = () => {
   const staganetItems = [
     {
       label: 'true',
-      value: 1,
+      value: true,
     },
     {
       label: 'false',
-      value: 0,
+      value: false,
     },
   ];
 

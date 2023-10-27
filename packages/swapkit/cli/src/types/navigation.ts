@@ -4,6 +4,9 @@ export enum NavigationScreens {
 
   CONFIG_EDIT,
   CONFIG_INIT,
+
+  CONNECT_KEYSTORE,
+
   EXIT,
 }
 
