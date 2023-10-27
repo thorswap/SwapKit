@@ -2,15 +2,18 @@ import { Text } from 'ink';
 import SelectInput from 'ink-select-input';
 import React, { useContext } from 'react';
 
+import { NavigationContext } from '../source.js';
 import { NavigationScreens as NS } from '../types/navigation.js';
 import { ConfigContext } from '../util/useConfig.js';
 
-type Props = {
-  onSelect: (item: any) => void;
-};
-
-const WelcomeScreen = ({ onSelect }: Props) => {
+const WelcomeScreen = () => {
   const { config } = useContext(ConfigContext);
+
+  const { setNavigation } = useContext(NavigationContext);
+
+  const handleSelect = (item: any) => {
+    setNavigation(item.value);
+  };
 
   const items = config.configFile
     ? [
@@ -43,7 +46,7 @@ const WelcomeScreen = ({ onSelect }: Props) => {
       <Text bold color="magenta">
         Welcome to SwapKit CLI
       </Text>
-      <SelectInput items={items} onSelect={onSelect} />
+      <SelectInput items={items} onSelect={handleSelect} />
     </>
   );
 };

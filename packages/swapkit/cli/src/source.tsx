@@ -1,11 +1,14 @@
 import { Box, render } from 'ink';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import ConfigInit from './screens/ConfigInit.js';
+import ConnectKeystore from './screens/ConnectKeystore.js';
 import Exit from './screens/Exit.js';
+import SwapKitMenu from './screens/SwapKitMenu.js';
 import WelcomeScreen from './screens/WelcomeScreen.js';
 import { NavigationScreens as NS } from './types/navigation.js';
 import { ConfigContext, useConfig } from './util/useConfig.js';
+import { SwapKitContext, useSwapKit } from './util/useSwapKit.js';
 
 export const NavigationContext = React.createContext<{
   navigation: NS;
@@ -20,31 +23,38 @@ const Demo = () => {
 
   const { config, setConfig } = useConfig();
 
-  const handleSelect = useCallback((item: any) => {
-    setNavigation(item.value);
-  }, []);
+  const { swapkit } = useSwapKit(config);
 
   const output = useMemo(() => {
     switch (navigation) {
       case NS.WELCOME_SCREEN:
-        return <WelcomeScreen onSelect={handleSelect} />;
+        return <WelcomeScreen />;
+
+      case NS.SWAPKIT_MENU:
+        return <SwapKitMenu />;
+      case NS.CONNECT_KEYSTORE:
+        return <ConnectKeystore />;
+
       case NS.CONFIG_INIT:
       case NS.CONFIG_EDIT:
         return <ConfigInit />;
+
       case NS.EXIT:
         return <Exit />;
       default:
         console.log('default');
         return false;
     }
-  }, [handleSelect, navigation]);
+  }, [navigation]);
 
   return (
     <NavigationContext.Provider value={{ navigation, setNavigation }}>
       <ConfigContext.Provider value={{ config, setConfig }}>
-        <Box flexDirection="column" margin={2}>
-          {output}
-        </Box>
+        <SwapKitContext.Provider value={{ swapkit }}>
+          <Box flexDirection="column" margin={2}>
+            {output}
+          </Box>
+        </SwapKitContext.Provider>
       </ConfigContext.Provider>
     </NavigationContext.Provider>
   );
