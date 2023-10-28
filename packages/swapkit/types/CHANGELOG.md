@@ -1,5 +1,17 @@
 # @swapkit/types
 
+## 1.0.0-rc.3
+
+### Patch Changes
+
+- bump for keystore update
+
+## 1.0.0-rc.2
+
+### Patch Changes
+
+- [`4ad62d8`](https://github.com/thorswap/SwapKit/commit/4ad62d82fb9f236753a2a2ee0c17cd3a8d57f23a) Thanks [@chillios-ts](https://github.com/chillios-ts)! - fix rpc connection
+
 ## 1.0.0-rc.1
 
 ### Patch Changes

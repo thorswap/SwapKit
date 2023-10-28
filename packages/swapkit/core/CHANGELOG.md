@@ -1,5 +1,35 @@
 # @swapkit/core
 
+## 1.0.0-rc.8
+
+### Patch Changes
+
+- bump for keystore update
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.6
+  - @swapkit/helpers@1.0.0-rc.4
+  - @swapkit/tokens@1.0.0-rc.3
+  - @swapkit/toolbox-utxo@1.0.0-rc.5
+  - @swapkit/types@1.0.0-rc.3
+  - @swapkit/toolbox-evm@1.0.0-rc.5
+  - @swapkit/api@1.0.0-rc.3
+
+## 1.0.0-rc.7
+
+### Patch Changes
+
+- [`4ad62d8`](https://github.com/thorswap/SwapKit/commit/4ad62d82fb9f236753a2a2ee0c17cd3a8d57f23a) Thanks [@chillios-ts](https://github.com/chillios-ts)! - fix rpc connection
+
+- Updated dependencies [[`4ad62d8`](https://github.com/thorswap/SwapKit/commit/4ad62d82fb9f236753a2a2ee0c17cd3a8d57f23a), [`4ad62d8`](https://github.com/thorswap/SwapKit/commit/4ad62d82fb9f236753a2a2ee0c17cd3a8d57f23a)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.5
+  - @swapkit/helpers@1.0.0-rc.3
+  - @swapkit/tokens@1.0.0-rc.2
+  - @swapkit/toolbox-utxo@1.0.0-rc.4
+  - @swapkit/types@1.0.0-rc.2
+  - @swapkit/toolbox-evm@1.0.0-rc.4
+  - @swapkit/api@1.0.0-rc.2
+
 ## 1.0.0-rc.6
 
 ### Patch Changes
