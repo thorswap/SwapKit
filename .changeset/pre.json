@@ -24,9 +24,11 @@
     "@internal/playground": "0.0.0-internal.0"
   },
   "changesets": [
+    "chilly-bears-lick",
     "clean-pets-doubt",
     "clean-poems-work",
     "fluffy-penguins-worry",
+    "funny-poets-joke",
     "kind-tools-trade",
     "lucky-planets-share",
     "many-cycles-watch",
