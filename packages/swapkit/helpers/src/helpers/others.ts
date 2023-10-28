@@ -23,23 +23,28 @@ export const getRequest = async <T>(
   url: string,
   params?: { [key in string]?: any },
 ): Promise<T> => {
-  const queryParams = Object.entries(params || {}).reduce(
-    (acc, [key, value]) => {
-      if (value) {
-        acc[key] = value;
-      }
+  try {
+    const queryParams = Object.entries(params || {}).reduce(
+      (acc, [key, value]) => {
+        if (value) {
+          acc[key] = value;
+        }
 
-      return acc;
-    },
-    {} as { [key in string]: any },
-  );
+        return acc;
+      },
+      {} as { [key in string]: any },
+    );
 
-  const response = await fetch(
-    `${url}${params ? `?${new URLSearchParams(queryParams).toString()}` : ''}`,
-    { method: 'GET', mode: 'cors', credentials: 'omit', referrer: 'https://sk.thorswap.net' },
-  );
+    const response = await fetch(
+      `${url}${params ? `?${new URLSearchParams(queryParams).toString()}` : ''}`,
+      { method: 'GET', mode: 'cors', credentials: 'omit', referrer: 'https://sk.thorswap.net' },
+    );
 
-  return response.json();
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    return {} as T;
+  }
 };
 
 export const postRequest = async <T>(
@@ -48,12 +53,16 @@ export const postRequest = async <T>(
   headers?: Record<string, string>,
   parseAsString = false,
 ): Promise<T> => {
-  const response = await fetch(`${url}`, {
-    body,
-    headers,
-    method: 'POST',
-    referrer: 'https://sk.thorswap.net',
-  });
+  try {
+    const response = await fetch(`${url}`, {
+      body,
+      headers,
+      method: 'POST',
+      referrer: 'https://sk.thorswap.net',
+    });
 
-  return parseAsString ? response.text() : response.json();
+    return parseAsString ? response.text() : response.json();
+  } catch (error) {
+    return {} as T;
+  }
 };

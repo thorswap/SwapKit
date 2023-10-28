@@ -6,8 +6,4 @@ export class SwapKitNumber extends BigIntArithmetics {
   eq(value: SwapKitValueType) {
     return this.eqValue(value);
   }
-
-  toString() {
-    return this.value;
-  }
 }

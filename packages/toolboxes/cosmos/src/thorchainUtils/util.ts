@@ -5,6 +5,8 @@ import { SwapKitNumber } from '@swapkit/helpers';
 import type { FeeOption } from '@swapkit/types';
 import { BaseDecimal, Chain, ChainId, RPCUrl } from '@swapkit/types';
 
+import { createStargateClient } from '../util.ts';
+
 export const DEFAULT_GAS_VALUE = '5000000000';
 
 export const getDenomWithChain = ({ symbol }: AssetValue) =>
@@ -24,8 +26,7 @@ export const buildDepositTx = async ({
   memo?: string;
   assetValue: AssetValue;
 }) => {
-  const { StargateClient } = await import('@cosmjs/stargate');
-  const client = await StargateClient.connect(
+  const client = await createStargateClient(
     isStagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
   );
   const accountOnChain = await client.getAccount(signer);
@@ -66,8 +67,7 @@ export const buildTransferTx = async ({
   assetValue: AssetValue;
   memo?: string;
 }) => {
-  const { StargateClient } = await import('@cosmjs/stargate');
-  const client = await StargateClient.connect(
+  const client = await createStargateClient(
     isStagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
   );
   const accountOnChain = await client.getAccount(fromAddress);
@@ -109,12 +109,12 @@ export const checkBalances = async (
 
   if (assetValue.symbol === 'RUNE') {
     // amount + fee < runeBalance
-    if (runeBalance.lt(assetValue.add(fees.average.value))) {
+    if (runeBalance.lt(assetValue.add(fees.average))) {
       throw new Error('insufficient funds');
     }
   } else {
     // amount < assetBalances && runeBalance < fee
-    if (assetBalance.lt(assetValue) || runeBalance.lt(fees.average.value)) {
+    if (assetBalance.lt(assetValue) || runeBalance.lt(fees.average)) {
       throw new Error('insufficient funds');
     }
   }
