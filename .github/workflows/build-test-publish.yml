@@ -135,13 +135,13 @@ jobs:
       - name: Revert base changeset
         if: contains(github.ref_name, 'nightly') || contains(github.ref_name, 'main')
         run: |
-          pnpm changeset pre enter development
+          pnpm changeset pre enter rc
 
       - name: Revert changeset beta prelease
         if: contains(github.ref_name, 'beta')
         run: |
           pnpm changeset pre exit
-          pnpm changeset pre enter development
+          pnpm changeset pre enter rc
 
   deploy-playground:
     if: contains(github.ref_name, 'develop')
