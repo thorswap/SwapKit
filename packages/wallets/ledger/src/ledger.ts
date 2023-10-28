@@ -1,8 +1,7 @@
 import { fromBase64 } from '@cosmjs/encoding';
 import { Int53 } from '@cosmjs/math';
 import { encodePubkey, makeAuthInfoBytes, type TxBodyEncodeObject } from '@cosmjs/proto-signing';
-import { StargateClient } from '@cosmjs/stargate';
-import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
+import { type DepositParam, type TransferParams } from '@swapkit/toolbox-cosmos';
 import type { UTXOBuildTxParams } from '@swapkit/toolbox-utxo';
 import type { ConnectWalletParams, DerivationPathArray } from '@swapkit/types';
 import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from '@swapkit/types';
@@ -199,7 +198,9 @@ const getToolbox = async ({
     }
 
     case Chain.Cosmos: {
-      const { getDenom, GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { createSigningStargateClient, getDenom, GaiaToolbox } = await import(
+        '@swapkit/toolbox-cosmos'
+      );
       const toolbox = GaiaToolbox();
       const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
         const from = address;
@@ -223,9 +224,9 @@ const getToolbox = async ({
           value: sendCoinsMessage,
         };
 
-        const { GasPrice, SigningStargateClient } = await import('@cosmjs/stargate');
+        const { GasPrice } = await import('@cosmjs/stargate');
 
-        const signingClient = await SigningStargateClient.connectWithSigner(
+        const signingClient = await createSigningStargateClient(
           RPCUrl.Cosmos,
           signer as CosmosLedger,
           { gasPrice: GasPrice.fromString(gasPrice) },
@@ -262,7 +263,9 @@ const getToolbox = async ({
       });
     }
     case Chain.THORChain: {
-      const { getDenomWithChain, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { createStargateClient, getDenomWithChain, ThorchainToolbox } = await import(
+        '@swapkit/toolbox-cosmos'
+      );
       const toolbox = ThorchainToolbox({ stagenet: false });
 
       // ANCHOR (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
@@ -340,7 +343,7 @@ const getToolbox = async ({
 
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(
+        const broadcaster = await createStargateClient(
           stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
         );
         const result = await broadcaster.broadcastTx(txBytes);
@@ -431,7 +434,7 @@ const getToolbox = async ({
 
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(
+        const broadcaster = await createStargateClient(
           stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
         );
         const result = await broadcaster.broadcastTx(txBytes);

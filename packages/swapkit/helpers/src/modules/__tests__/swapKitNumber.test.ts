@@ -135,9 +135,9 @@ describe('SwapKitNumber', () => {
         expect(usdLikeNumber.toSignificant(3)).toBe('1230');
         expect(usdLikeNumber.toSignificant(4)).toBe('1234');
         expect(usdLikeNumber.toSignificant(5)).toBe('1234.5');
-        expect(usdLikeNumber.toSignificant(6)).toBe('1234.56');
-        expect(usdLikeNumber.toSignificant(7)).toBe('1234.56');
-        expect(usdLikeNumber.toSignificant(8)).toBe('1234.56');
+        expect(usdLikeNumber.toSignificant(6)).toBe('1234.57');
+        expect(usdLikeNumber.toSignificant(7)).toBe('1234.57');
+        expect(usdLikeNumber.toSignificant(8)).toBe('1234.57');
 
         const ethLikeNumber = new SwapKitNumber({ value: 0.00005678, decimal: 18 });
         expect(ethLikeNumber.toSignificant(2)).toBe('0.000056');

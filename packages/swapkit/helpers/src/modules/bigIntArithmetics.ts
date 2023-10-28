@@ -213,7 +213,6 @@ export class BigIntArithmetics {
     const decimal = dec || '';
     const valueLength = parseInt(integer) ? integer.length + decimal.length : decimal.length;
 
-    console.log(integer, decimal, valueLength, significantDigits);
     if (valueLength <= significantDigits) {
       return this.getValue('string');
     }
@@ -222,10 +221,20 @@ export class BigIntArithmetics {
       return integer.slice(0, significantDigits).padEnd(integer.length, '0');
     }
 
-    return `${integer}.${decimal.slice(0, significantDigits - integer.length)}`.padEnd(
-      valueLength - significantDigits,
+    if (parseInt(integer)) {
+      return `${integer}.${decimal.slice(0, significantDigits - integer.length)}`.padEnd(
+        valueLength - significantDigits,
+        '0',
+      );
+    }
+
+    const trimmedDecimal = parseInt(decimal);
+    const slicedDecimal = `${trimmedDecimal}`.slice(0, significantDigits);
+
+    return `0.${slicedDecimal.padStart(
+      decimal.length - `${trimmedDecimal}`.length + slicedDecimal.length,
       '0',
-    );
+    )}`;
   }
 
   #arithmetics(method: 'add' | 'sub' | 'mul' | 'div', ...args: InitialisationValueType[]): this {
