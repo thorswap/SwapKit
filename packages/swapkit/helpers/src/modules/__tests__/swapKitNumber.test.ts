@@ -108,22 +108,45 @@ describe('SwapKitNumber', () => {
   });
 
   describe('toSignificant', () => {
-    test('returns first significant number of digits', () => {
-      const usdLikeNumber = new SwapKitNumber(1234.5678);
-      expect(usdLikeNumber.toSignificant(2)).toBe('1200');
-      expect(usdLikeNumber.toSignificant(3)).toBe('1230');
-      expect(usdLikeNumber.toSignificant(4)).toBe('1234');
-      expect(usdLikeNumber.toSignificant(5)).toBe('1234.5');
-      expect(usdLikeNumber.toSignificant(6)).toBe('1234.56');
-      expect(usdLikeNumber.toSignificant(7)).toBe('1234.567');
-      expect(usdLikeNumber.toSignificant(8)).toBe('1234.5678');
+    describe('normal cases', () => {
+      test.only('returns first significant number of digits', () => {
+        const usdLikeNumber = new SwapKitNumber(1234.5678);
+        expect(usdLikeNumber.toSignificant(2)).toBe('1200');
+        expect(usdLikeNumber.toSignificant(3)).toBe('1230');
+        expect(usdLikeNumber.toSignificant(4)).toBe('1234');
+        expect(usdLikeNumber.toSignificant(5)).toBe('1234.5');
+        expect(usdLikeNumber.toSignificant(6)).toBe('1234.56');
+        expect(usdLikeNumber.toSignificant(7)).toBe('1234.567');
+        expect(usdLikeNumber.toSignificant(8)).toBe('1234.5678');
 
-      const btcLikeNumber = new SwapKitNumber(0.00005678);
-      expect(btcLikeNumber.toSignificant(2)).toBe('0.000056');
-      expect(btcLikeNumber.toSignificant(3)).toBe('0.0000567');
-      expect(btcLikeNumber.toSignificant(4)).toBe('0.00005678');
-      expect(btcLikeNumber.toSignificant(5)).toBe('0.00005678');
-      expect(btcLikeNumber.toSignificant(8)).toBe('0.00005678');
+        const btcLikeNumber = new SwapKitNumber(0.00005678);
+        expect(btcLikeNumber.toSignificant(2)).toBe('0.000056');
+        expect(btcLikeNumber.toSignificant(3)).toBe('0.0000567');
+        expect(btcLikeNumber.toSignificant(4)).toBe('0.00005678');
+        expect(btcLikeNumber.toSignificant(5)).toBe('0.00005678');
+        expect(btcLikeNumber.toSignificant(8)).toBe('0.00005678');
+      });
+    });
+
+    describe('custom decimals', () => {
+      test('returns first significant number of digits', () => {
+        const usdLikeNumber = new SwapKitNumber({ value: 1234.5678, decimal: 2 });
+        expect(usdLikeNumber.toSignificant(2)).toBe('1200');
+        expect(usdLikeNumber.toSignificant(3)).toBe('1230');
+        expect(usdLikeNumber.toSignificant(4)).toBe('1234');
+        expect(usdLikeNumber.toSignificant(5)).toBe('1234.5');
+        expect(usdLikeNumber.toSignificant(6)).toBe('1234.56');
+        expect(usdLikeNumber.toSignificant(7)).toBe('1234.56');
+        expect(usdLikeNumber.toSignificant(8)).toBe('1234.56');
+
+        const ethLikeNumber = new SwapKitNumber({ value: 0.00005678, decimal: 18 });
+        expect(ethLikeNumber.toSignificant(2)).toBe('0.000056');
+        expect(ethLikeNumber.toSignificant(3)).toBe('0.0000567');
+        expect(ethLikeNumber.toSignificant(4)).toBe('0.00005678');
+        expect(ethLikeNumber.toSignificant(5)).toBe('0.00005678');
+        expect(ethLikeNumber.toSignificant(8)).toBe('0.00005678');
+        expect(ethLikeNumber.toSignificant(18)).toBe('0.00005678');
+      });
     });
   });
 

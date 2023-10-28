@@ -208,12 +208,15 @@ export class BigIntArithmetics {
   }
 
   toSignificant(significantDigits: number = 6) {
-    const value = this.getValue('string').split('.');
-    const integer = value[0];
-    const decimal = value[1] || '';
-    const valueLength = integer.length + decimal.length;
+    const [int, dec] = this.getValue('string').split('.');
+    const integer = int || '';
+    const decimal = dec || '';
+    const valueLength = parseInt(integer) ? integer.length + decimal.length : decimal.length;
 
-    if (valueLength <= significantDigits) return this.getValue('string');
+    console.log(integer, decimal, valueLength, significantDigits);
+    if (valueLength <= significantDigits) {
+      return this.getValue('string');
+    }
 
     if (integer.length >= significantDigits) {
       return integer.slice(0, significantDigits).padEnd(integer.length, '0');
