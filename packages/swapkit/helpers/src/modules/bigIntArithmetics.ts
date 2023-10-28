@@ -90,12 +90,21 @@ export class BigIntArithmetics {
     this.#setValue(value);
   }
 
+  /**
+   * @deprecated Use `getBaseValue('string')` instead
+   */
   get baseValue() {
     return this.getBaseValue('string') as string;
   }
+  /**
+   * @deprecated Use `getBaseValue('number')` instead
+   */
   get baseValueNumber() {
     return this.getBaseValue('number') as number;
   }
+  /**
+   * @deprecated Use `getBaseValue('bigint')` instead
+   */
   get baseValueBigInt() {
     return this.getBaseValue('bigint') as bigint;
   }

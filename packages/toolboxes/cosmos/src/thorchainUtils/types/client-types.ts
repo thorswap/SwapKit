@@ -66,7 +66,7 @@ export type BaseCosmosToolboxType = {
   validateAddress: (address: string) => Promise<boolean>;
   getAddressFromMnemonic: (phrase: string) => Promise<string>;
   getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
-  getBalance: (address: string) => Promise<AssetValue[]>;
+  getBalance: (address: string, potentialScamFilter?: boolean) => Promise<AssetValue[]>;
   transfer: (params: TransferParams) => Promise<string>;
   getFeeRateFromThorswap?: (chainId: ChainId) => Promise<number | undefined>;
 };

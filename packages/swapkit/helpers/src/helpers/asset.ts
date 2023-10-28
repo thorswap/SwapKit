@@ -1,6 +1,8 @@
 import type { EVMChain } from '@swapkit/types';
 import { BaseDecimal, Chain, ChainToRPC, FeeOption } from '@swapkit/types';
 
+import type { AssetValue } from '../index.ts';
+
 import { postRequest } from './others.ts';
 
 const getDecimalMethodHex = '0x313ce567';
@@ -181,3 +183,10 @@ export const assetFromString = (assetString: string) => {
 
   return { chain, symbol, ticker, synth };
 };
+
+const potentialScamRegex = new RegExp(
+  /(.)\1{6}|\.ORG|\.NET|\.FINANCE|\.COM|WWW|HTTP|\\\\|\/\/|[\s$%:[\]]/,
+  'gmi',
+);
+export const filterAssets = (assets: AssetValue[]) =>
+  assets.filter((asset) => !potentialScamRegex.test(asset.toString()));

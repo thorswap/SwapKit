@@ -1,5 +1,5 @@
 import { HDKey } from '@scure/bip32';
-import { AssetValue, SwapKitNumber } from '@swapkit/helpers';
+import { AssetValue, filterAssets, SwapKitNumber } from '@swapkit/helpers';
 import type { UTXOChain } from '@swapkit/types';
 import { BaseDecimal, Chain, FeeOption } from '@swapkit/types';
 import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';
@@ -334,7 +334,11 @@ export const BaseUTXOToolbox = (
     derivationPath: string;
   }) => (await createKeysForPath({ phrase, derivationPath, ...baseToolboxParams })).toWIF(),
 
-  getBalance: (address: string) => getBalance({ address, ...baseToolboxParams }),
+  getBalance: async (address: string, potentialScamFilter?: boolean) => {
+    const balances = await getBalance({ address, ...baseToolboxParams });
+
+    return potentialScamFilter ? filterAssets(balances) : balances;
+  },
 
   getFeeRates: () => getFeeRates(baseToolboxParams.apiClient),
 

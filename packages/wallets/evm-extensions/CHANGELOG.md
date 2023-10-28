@@ -1,5 +1,15 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.0.0-rc.7
+
+### Patch Changes
+
+- add scam filter for balances
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.5
+  - @swapkit/toolbox-evm@1.0.0-rc.7
+
 ## 1.0.0-rc.6
 
 ### Patch Changes
