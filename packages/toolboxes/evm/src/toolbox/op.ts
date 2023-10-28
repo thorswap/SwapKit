@@ -137,6 +137,7 @@ export const OPToolbox = ({
     estimateL1Gas: (tx: TransactionRequest) => estimateL1Gas(provider, tx),
     getNetworkParams,
     estimateGasPrices: () => estimateGasPrices(provider),
-    getBalance: (address: string) => getBalance(provider, opApi, address, Chain.Optimism),
+    getBalance: (address: string, potentialScamFilter?: boolean) =>
+      getBalance({ provider, api: opApi, address, chain: Chain.Optimism, potentialScamFilter }),
   };
 };

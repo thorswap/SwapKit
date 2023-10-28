@@ -1,5 +1,14 @@
 # @swapkit/api
 
+## 1.0.0-rc.5
+
+### Patch Changes
+
+- add scam filter for balances
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.5
+
 ## 1.0.0-rc.4
 
 ### Patch Changes

@@ -1,5 +1,34 @@
 # @internal/playground
 
+## 0.0.0-rc.6
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/core@1.0.0-rc.11
+
+## 0.0.0-rc.5
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.7
+  - @swapkit/toolbox-cosmos@1.0.0-rc.8
+  - @swapkit/wallet-keystore@1.0.0-rc.12
+  - @swapkit/helpers@1.0.0-rc.6
+  - @swapkit/tokens@1.0.0-rc.5
+  - @swapkit/toolbox-utxo@1.0.0-rc.7
+  - @swapkit/wallet-ledger@1.0.0-rc.10
+  - @swapkit/wallet-trezor@1.0.0-rc.8
+  - @swapkit/types@1.0.0-rc.5
+  - @swapkit/toolbox-evm@1.0.0-rc.7
+  - @swapkit/wallet-keplr@1.0.0-rc.8
+  - @swapkit/wallet-xdefi@1.0.0-rc.10
+  - @swapkit/core@1.0.0-rc.10
+  - @swapkit/api@1.0.0-rc.5
+  - @swapkit/wallet-okx@1.0.0-rc.10
+  - @swapkit/wallet-wc@1.0.0-rc.9
+
 ## 0.0.0-rc.4
 
 ### Patch Changes

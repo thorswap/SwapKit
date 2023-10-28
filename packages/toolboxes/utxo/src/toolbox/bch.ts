@@ -4,6 +4,7 @@ import {
   Transaction,
   TransactionBuilder,
 } from '@psf/bitcoincashjs-lib';
+import { filterAssets } from '@swapkit/helpers';
 import type { UTXOChain } from '@swapkit/types';
 import { Chain, DerivationPath, FeeOption, RPCUrl } from '@swapkit/types';
 import {
@@ -285,7 +286,10 @@ export const BCHToolbox = ({
     createKeysForPath,
     getAddressFromKeys,
     buildBCHTx: (params: UTXOBuildTxParams) => buildBCHTx({ ...params, apiClient }),
-    getBalance: (address: string) => getBalance(stripPrefix(toCashAddress(address))),
+    getBalance: async (address: string, potentialScamFilter?: boolean) => {
+      const balances = await getBalance(stripPrefix(toCashAddress(address)));
+      return potentialScamFilter ? filterAssets(balances) : balances;
+    },
     buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, apiClient }),
     transfer: (
       params: UTXOWalletTransferParams<

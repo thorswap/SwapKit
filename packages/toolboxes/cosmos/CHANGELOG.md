@@ -1,5 +1,16 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.8
+
+### Patch Changes
+
+- add scam filter for balances
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.6
+  - @swapkit/types@1.0.0-rc.5
+  - @swapkit/api@1.0.0-rc.5
+
 ## 1.0.0-rc.7
 
 ### Patch Changes

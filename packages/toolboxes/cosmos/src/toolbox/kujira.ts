@@ -20,7 +20,7 @@ export const KujiraToolbox = ({ server }: { server?: string } = {}): KujiraToolb
     validateAddress: (address: string) => Promise<boolean>;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getAccount: (address: string) => Promise<Account | null>;
-    getBalance: (address: string) => Promise<AssetValue[]>;
+    getBalance: (address: string, potentialScamFilter?: boolean) => Promise<AssetValue[]>;
     transfer: (params: TransferParams) => Promise<string>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;

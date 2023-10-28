@@ -1,4 +1,4 @@
-import { AssetValue } from '@swapkit/helpers';
+import { AssetValue, filterAssets } from '@swapkit/helpers';
 import {
   Chain,
   ChainId,
@@ -128,7 +128,7 @@ const getWalletMethodsForChain = async ({
       return prepareNetworkSwitch({
         toolbox: {
           ...toolbox,
-          getBalance: async (address: string) => {
+          getBalance: async (address: string, potentialScamFilter?: boolean) => {
             const api =
               chain === Chain.Ethereum
                 ? ethplorerApi(ethplorerApiKey!)
@@ -141,10 +141,12 @@ const getWalletMethodsForChain = async ({
             const provider = getProvider(chain);
             const evmGasTokenBalance = await provider.getBalance(address);
 
-            return [
+            const balances = [
               AssetValue.fromChainOrSignature(chain, evmGasTokenBalance.toString()),
               ...tokenBalances,
             ];
+
+            return potentialScamFilter ? filterAssets(balances) : balances;
           },
         },
         chainId: ChainToHexChainId[chain],
