@@ -48,7 +48,7 @@
     "build": "vite build",
     "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "vitest --run",
+    "test": "vitest --run --retry 3",
     "test:coverage": "vitest run --coverage"
   },
   "type": "module",

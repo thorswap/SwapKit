@@ -3,7 +3,7 @@ import type { AssetValue } from '@swapkit/helpers';
 import type { TransferParams } from '@swapkit/toolbox-cosmos';
 import { toHexString } from '@swapkit/toolbox-evm';
 import type { FeeOption } from '@swapkit/types';
-import { Chain, ChainId } from '@swapkit/types';
+import { Chain, ChainId, RPCUrl } from '@swapkit/types';
 import type { Eip1193Provider } from 'ethers';
 
 type TransactionMethod = 'eth_signTransaction' | 'eth_sendTransaction' | 'transfer' | 'deposit';
@@ -138,9 +138,9 @@ export const walletTransfer = async (
 export const cosmosTransfer =
   ({ chainId, rpcUrl }: { chainId: ChainId.Cosmos | ChainId.Kujira; rpcUrl?: string }) =>
   async ({ from, recipient, assetValue, memo }: TransferParams) => {
-    const { createCosmJS } = await import('@swapkit/toolbox-cosmos');
+    const { createSigningStargateClient } = await import('@swapkit/toolbox-cosmos');
     const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(chainId);
-    const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
+    const cosmJS = await createSigningStargateClient(rpcUrl || RPCUrl.Cosmos, offlineSigner);
 
     const coins = [
       { denom: assetValue?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: assetValue.baseValue },

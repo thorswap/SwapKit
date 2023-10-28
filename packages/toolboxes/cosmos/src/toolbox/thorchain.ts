@@ -16,7 +16,13 @@ import type {
 } from '../thorchainUtils/types/client-types.ts';
 import { base64ToBech32, bech32ToBase64 } from '../thorchainUtils/util.ts';
 import type { Signer, TransferParams } from '../types.ts';
-import { getDenom, getRPC } from '../util.ts';
+import {
+  createOfflineStargateClient,
+  createSigningStargateClient,
+  createStargateClient,
+  getDenom,
+  getRPC,
+} from '../util.ts';
 
 import { BaseCosmosToolbox } from './BaseCosmosToolbox.ts';
 
@@ -28,15 +34,9 @@ type ToolboxParams = {
 const getDefaultChainFee = (chain: Chain.THORChain | Chain.Maya) => {
   switch (chain) {
     case Chain.Maya:
-      return {
-        amount: [],
-        gas: '10000000000',
-      };
+      return { amount: [], gas: '10000000000' };
     default:
-      return {
-        amount: [],
-        gas: '500000000',
-      };
+      return { amount: [], gas: '500000000' };
   }
 };
 
@@ -103,8 +103,7 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
   const { msgs, accountNumber, sequence, chainId, fee, memo } = JSON.parse(tx);
 
   const address = (await wallet.getAccounts())[0].address;
-  const { SigningStargateClient } = await import('@cosmjs/stargate');
-  const signingClient = await SigningStargateClient.offline(wallet, {
+  const signingClient = await createOfflineStargateClient(wallet, {
     registry: await createDefaultRegistry(),
     aminoTypes: await createDefaultAminoTypes(),
   });
@@ -146,14 +145,14 @@ const broadcastMultisigTx =
     );
 
     const { pubkeyToAddress, encodeSecp256k1Pubkey } = await import('@cosmjs/amino');
-    const { StargateClient, makeMultisignedTx } = await import('@cosmjs/stargate');
+    const { makeMultisignedTx } = await import('@cosmjs/stargate');
 
     const addressesAndSignatures: [string, Uint8Array][] = signers.map((signer) => [
       pubkeyToAddress(encodeSecp256k1Pubkey(base64.decode(signer.pubKey)), prefix),
       base64.decode(signer.signature),
     ]);
 
-    const broadcaster = await StargateClient.connect(rpcUrl);
+    const broadcaster = await createStargateClient(rpcUrl);
     const signedTx = makeMultisignedTx(
       multisigPubkey,
       sequence,
@@ -241,10 +240,8 @@ export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): Thorch
   const deposit = async ({ signer, assetValue, memo, from }: DepositParam & { from: string }) => {
     if (!signer) throw new Error('Signer not defined');
 
-    const { SigningStargateClient } = await import('@cosmjs/stargate');
-    const signingClient = await SigningStargateClient.connectWithSigner(rpcUrl, signer, {
-      registry: await createDefaultRegistry(),
-    });
+    const registry = await createDefaultRegistry();
+    const signingClient = await createSigningStargateClient(rpcUrl, signer, { registry });
 
     const depositMsg = {
       typeUrl: '/types.MsgDeposit',
@@ -280,10 +277,8 @@ export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): Thorch
   }: TransferParams) => {
     if (!signer) throw new Error('Signer not defined');
 
-    const { SigningStargateClient } = await import('@cosmjs/stargate');
-    const signingClient = await SigningStargateClient.connectWithSigner(rpcUrl, signer, {
-      registry: await createDefaultRegistry(),
-    });
+    const registry = await createDefaultRegistry();
+    const signingClient = await createSigningStargateClient(rpcUrl, signer, { registry });
 
     const sendMsg = {
       typeUrl: '/types.MsgSend',

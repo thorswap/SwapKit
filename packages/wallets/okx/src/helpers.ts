@@ -2,7 +2,7 @@ import { AssetValue } from '@swapkit/helpers';
 import type { GaiaToolbox } from '@swapkit/toolbox-cosmos';
 import type { getWeb3WalletMethods } from '@swapkit/toolbox-evm';
 import type { BTCToolbox, UTXOTransferParams } from '@swapkit/toolbox-utxo';
-import { BaseDecimal, Chain, ChainId } from '@swapkit/types';
+import { BaseDecimal, Chain, ChainId, RPCUrl } from '@swapkit/types';
 import { Psbt } from 'bitcoinjs-lib';
 import type { Eip1193Provider } from 'ethers';
 
@@ -13,9 +13,9 @@ export const cosmosTransfer =
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
     if (!offlineSigner) throw new Error('No cosmos okxwallet found');
 
-    const { createCosmJS } = await import('@swapkit/toolbox-cosmos');
+    const { createSigningStargateClient } = await import('@swapkit/toolbox-cosmos');
 
-    const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
+    const cosmJS = await createSigningStargateClient(rpcUrl || RPCUrl.Cosmos, offlineSigner);
 
     const coins = [
       { denom: asset?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: amount.amount().toString() },

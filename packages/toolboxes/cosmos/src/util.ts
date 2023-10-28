@@ -1,3 +1,5 @@
+import type { OfflineSigner } from '@cosmjs/proto-signing';
+import type { SigningStargateClientOptions } from '@cosmjs/stargate';
 import { AssetValue } from '@swapkit/helpers';
 import { ChainId, FeeOption, RPCUrl } from '@swapkit/types';
 
@@ -6,17 +8,32 @@ import type { CosmosMaxSendableAmountParams } from './types.ts';
 export const getDenom = (symbol: string, isThorchain = false) =>
   isThorchain ? symbol.toLowerCase() : symbol;
 
-export const createCosmJS = async ({
-  offlineSigner,
-  rpcUrl,
-}: {
-  offlineSigner: any;
-  rpcUrl?: string;
-}) => {
+export const createStargateClient = async (url: string) => {
+  const { StargateClient } = await import('@cosmjs/stargate');
+
+  return StargateClient.connect({ url, headers: { referer: 'https://sk.thorswap.net/' } });
+};
+
+export const createSigningStargateClient = async (
+  url: string,
+  signer: any,
+  options: SigningStargateClientOptions = {},
+) => {
   const { SigningStargateClient, GasPrice } = await import('@cosmjs/stargate');
-  return SigningStargateClient.connectWithSigner(rpcUrl || RPCUrl.Cosmos, offlineSigner, {
-    gasPrice: GasPrice.fromString('0.0003uatom'),
-  });
+
+  return SigningStargateClient.connectWithSigner(
+    { url, headers: { referer: 'https://sk.thorswap.net/' } },
+    signer,
+    { gasPrice: GasPrice.fromString('0.0003uatom'), ...options },
+  );
+};
+
+export const createOfflineStargateClient = async (
+  wallet: OfflineSigner,
+  registry?: SigningStargateClientOptions,
+) => {
+  const { SigningStargateClient } = await import('@cosmjs/stargate');
+  return SigningStargateClient.offline(wallet, registry);
 };
 
 export const getRPC = (chainId: ChainId, stagenet?: boolean) => {
@@ -56,5 +73,5 @@ export const estimateMaxSendableAmount = async ({
 
   if (!balance) return AssetValue.fromChainOrSignature(assetEntity?.chain || balances[0]?.chain, 0);
 
-  return balance.sub(fees[feeOptionKey].value);
+  return balance.sub(fees[feeOptionKey]);
 };

@@ -220,7 +220,7 @@ export const estimateMaxSendableAmount = async ({
       : fees.gasPrice!);
   const maxSendableAmount = SwapKitNumber.fromBigInt(balance.baseValueBigInt).sub(fee.toString());
 
-  return AssetValue.fromChainOrSignature(balance.chain, maxSendableAmount.value);
+  return AssetValue.fromChainOrSignature(balance.chain, maxSendableAmount.getValue('string'));
 };
 
 export const addAccountsChangedCallback = (callback: () => void) => {

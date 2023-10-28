@@ -1,7 +1,7 @@
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@swapkit/helpers';
 import type { ConnectWalletParams, WalletTxParams } from '@swapkit/types';
-import { Chain, ChainToChainId, WalletOption } from '@swapkit/types';
+import { Chain, ChainToChainId, RPCUrl, WalletOption } from '@swapkit/types';
 
 const connectKeplr =
   ({ addChain, rpcUrls }: ConnectWalletParams) =>
@@ -11,11 +11,14 @@ const connectKeplr =
     keplrClient?.enable(chainId);
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(chainId);
     if (!offlineSigner) throw new Error('Could not load offlineSigner');
-    const { getDenom, KujiraToolbox, GaiaToolbox, createCosmJS } = await import(
+    const { getDenom, createSigningStargateClient, KujiraToolbox, GaiaToolbox } = await import(
       '@swapkit/toolbox-cosmos'
     );
 
-    const cosmJS = await createCosmJS({ offlineSigner, rpcUrl: rpcUrls[chain] });
+    const cosmJS = await createSigningStargateClient(
+      rpcUrls[chain] || RPCUrl.Cosmos,
+      offlineSigner,
+    );
 
     const [{ address }] = await offlineSigner.getAccounts();
     const transfer = async ({

@@ -310,11 +310,7 @@ export const estimateMaxSendableAmount = async ({
 
   const fee = txSize * feeRateWhole;
 
-  return new AssetValue({
-    ...balance,
-    value: balance.sub(fee).value,
-    decimal: balance.decimal!,
-  });
+  return new AssetValue({ ...balance, value: balance.sub(fee), decimal: balance.decimal! });
 };
 
 export const BaseUTXOToolbox = (
