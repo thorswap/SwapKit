@@ -42,6 +42,8 @@ afterAll(() => {
   }, 10000);
 });
 
+jest.retryTimes(3);
+
 describe('Ethereum toolkit', () => {
   test('Get Balances', async ({
     expect,

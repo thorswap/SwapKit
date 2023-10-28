@@ -59,6 +59,46 @@ const createAssetValue = async (assetString: string, value: number | string = 0)
 };
 
 export class AssetValue extends BigIntArithmetics {
+  address?: string;
+  chain: Chain;
+  isSynthetic = false;
+  isGasAsset = false;
+  symbol: string;
+  ticker: string;
+  type: ReturnType<typeof getAssetType>;
+
+  constructor(params: AssetValueParams) {
+    super(
+      params.value instanceof BigIntArithmetics
+        ? params.value
+        : { decimal: params.decimal, value: params.value },
+    );
+
+    const identifier =
+      'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
+    const assetInfo = getAssetInfo(identifier);
+
+    this.type = getAssetType(assetInfo);
+    this.chain = assetInfo.chain;
+    this.ticker = assetInfo.ticker;
+    this.symbol = assetInfo.symbol;
+    this.address = assetInfo.address;
+    this.isSynthetic = assetInfo.isSynthetic;
+    this.isGasAsset = assetInfo.isGasAsset;
+  }
+
+  get assetValue() {
+    return `${this.getValue('string')} ${this.ticker}`;
+  }
+
+  toString() {
+    return `${this.chain}.${this.symbol}`;
+  }
+
+  eq({ chain, symbol }: { chain: Chain; symbol: string }) {
+    return this.chain === chain && this.symbol === symbol;
+  }
+
   static async fromString(assetString: string, value: number | string = 0) {
     return createAssetValue(assetString, value);
   }
@@ -148,46 +188,6 @@ export class AssetValue extends BigIntArithmetics {
         }
       },
     );
-  }
-
-  address?: string;
-  chain: Chain;
-  isSynthetic = false;
-  isGasAsset = false;
-  symbol: string;
-  ticker: string;
-  type: ReturnType<typeof getAssetType>;
-
-  constructor(params: AssetValueParams) {
-    super(
-      params.value instanceof BigIntArithmetics
-        ? params.value
-        : { decimal: params.decimal, value: params.value },
-    );
-
-    const identifier =
-      'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
-    const assetInfo = getAssetInfo(identifier);
-
-    this.type = getAssetType(assetInfo);
-    this.chain = assetInfo.chain;
-    this.ticker = assetInfo.ticker;
-    this.symbol = assetInfo.symbol;
-    this.address = assetInfo.address;
-    this.isSynthetic = assetInfo.isSynthetic;
-    this.isGasAsset = assetInfo.isGasAsset;
-  }
-
-  get assetValue() {
-    return `${this.value} ${this.ticker}`;
-  }
-
-  toString() {
-    return `${this.chain}.${this.symbol}`;
-  }
-
-  eq({ chain, symbol }: { chain: Chain; symbol: string }) {
-    return this.chain === chain && this.symbol === symbol;
   }
 }
 
