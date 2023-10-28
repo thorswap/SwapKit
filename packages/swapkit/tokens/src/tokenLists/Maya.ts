@@ -19,7 +19,12 @@ export const list = {
       identifier: 'ETH.USDT-0XDAC17F958D2EE523A2206206994597C13D831EC7',
       decimals: 6,
     },
+    {
+      chain: 'KUJI',
+      identifier: 'KUJI.USK',
+      decimals: 6,
+    },
   ],
-  count: 7,
+  count: 8,
   logo: 'https://static.thorswap.finance/logo.png',
 } as const;
