@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.5
+
+### Patch Changes
+
+- Fix cache
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.4
+  - @swapkit/types@1.0.0-rc.4
+
 ## 1.0.0-rc.4
 
 ### Patch Changes

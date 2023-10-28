@@ -1,5 +1,17 @@
 # @swapkit/wallet-trezor
 
+## 1.0.0-rc.7
+
+### Patch Changes
+
+- Fix cache
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.5
+  - @swapkit/toolbox-utxo@1.0.0-rc.6
+  - @swapkit/types@1.0.0-rc.4
+  - @swapkit/toolbox-evm@1.0.0-rc.6
+
 ## 1.0.0-rc.6
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @swapkit/core
 
+## 1.0.0-rc.9
+
+### Patch Changes
+
+- Fix cache
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.7
+  - @swapkit/helpers@1.0.0-rc.5
+  - @swapkit/tokens@1.0.0-rc.4
+  - @swapkit/toolbox-utxo@1.0.0-rc.6
+  - @swapkit/types@1.0.0-rc.4
+  - @swapkit/toolbox-evm@1.0.0-rc.6
+  - @swapkit/api@1.0.0-rc.4
+
 ## 1.0.0-rc.8
 
 ### Patch Changes

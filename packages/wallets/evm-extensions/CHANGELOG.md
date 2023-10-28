@@ -1,5 +1,15 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.0.0-rc.6
+
+### Patch Changes
+
+- Fix cache
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.4
+  - @swapkit/toolbox-evm@1.0.0-rc.6
+
 ## 1.0.0-rc.5
 
 ### Patch Changes
