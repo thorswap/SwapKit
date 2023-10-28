@@ -1,4 +1,4 @@
-import { AssetValue, formatBigIntToSafeValue, SwapKitNumber } from '@swapkit/helpers';
+import { AssetValue, filterAssets, formatBigIntToSafeValue, SwapKitNumber } from '@swapkit/helpers';
 import {
   BaseDecimal,
   Chain,
@@ -266,20 +266,28 @@ export const isWeb3Detected = () => {
   return typeof window.ethereum !== 'undefined';
 };
 
-export const getBalance = async (
-  provider: JsonRpcProvider | BrowserProvider,
-  api: CovalentApiType | EthplorerApiType,
-  address: string,
-  chain: EVMChain,
-) => {
+export const getBalance = async ({
+  provider,
+  api,
+  address,
+  chain,
+  potentialScamFilter,
+}: {
+  provider: JsonRpcProvider | BrowserProvider;
+  api: CovalentApiType | EthplorerApiType;
+  address: string;
+  chain: EVMChain;
+  potentialScamFilter?: boolean;
+}) => {
   const tokenBalances = await api.getBalance(address);
   const evmGasTokenBalance = await provider.getBalance(address);
-
-  return [
+  const balances = [
     AssetValue.fromChainOrSignature(
       chain,
       formatBigIntToSafeValue({ value: evmGasTokenBalance, decimal: BaseDecimal[chain] }),
     ),
     ...tokenBalances,
   ];
+
+  return potentialScamFilter ? filterAssets(balances) : balances;
 };

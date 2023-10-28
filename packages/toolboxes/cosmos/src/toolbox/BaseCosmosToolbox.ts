@@ -1,5 +1,5 @@
 import { SwapKitApi } from '@swapkit/api';
-import { AssetValue } from '@swapkit/helpers';
+import { AssetValue, filterAssets } from '@swapkit/helpers';
 import { Chain, type ChainId, type DerivationPath } from '@swapkit/types';
 
 import type { CosmosClient } from '../cosmosClient.ts';
@@ -67,21 +67,14 @@ export const BaseCosmosToolbox = ({
   getPubKeyFromMnemonic: (phrase: string) =>
     cosmosClient.getPubKeyFromMnemonic(phrase, `${derivationPath}/0`),
   getFeeRateFromThorswap,
-  getBalance: async (address: string) => {
-    const balances = await cosmosClient.getBalance(address);
-
-    return Promise.all(
-      balances
+  getBalance: async (address: string, potentialScamFilter?: boolean) => {
+    const denomBalances = await cosmosClient.getBalance(address);
+    const balances = await Promise.all(
+      denomBalances
         .filter(({ denom }) => denom)
-        .map(async ({ denom, amount }) => {
-          try {
-            return await getAssetFromDenom(denom, amount);
-          } catch (error) {
-            console.error(error);
-            return null;
-          }
-        })
-        .filter(Boolean) as Promise<AssetValue>[],
+        .map(({ denom, amount }) => getAssetFromDenom(denom, amount)),
     );
+
+    return potentialScamFilter ? filterAssets(balances) : balances;
   },
 });

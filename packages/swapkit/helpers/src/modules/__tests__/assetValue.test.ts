@@ -13,6 +13,10 @@ describe('AssetValue', () => {
         symbol: 'USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
       });
       expect(fakeAvaxUSDCAsset.assetValue).toBe('1234567890 USDC');
+      expect(fakeAvaxUSDCAsset.toString()).toBe(
+        'AVAX.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
+      );
+      expect(fakeAvaxUSDCAsset.toString(true)).toBe('AVAX.USDC');
 
       const thor = AssetValue.fromChainOrSignature('ETH.THOR');
       expect(thor.assetValue).toBe('0 THOR');
@@ -26,6 +30,8 @@ describe('AssetValue', () => {
 
       expect(ethSynth.assetValue).toBe('1234567890 ETH/ETH');
       expect(ethSynth.toString()).toBe('THOR.ETH/ETH');
+      expect(ethSynth.toString(true)).toBe('ETH/ETH');
+      expect(ethSynth.mul(21.37).getValue('string')).toBe('26382715809.3');
 
       const atomDerived = new AssetValue({
         identifier: 'THOR.ATOM',
@@ -35,6 +41,7 @@ describe('AssetValue', () => {
 
       expect(atomDerived.assetValue).toBe('123456789 ATOM');
       expect(atomDerived.toString()).toBe('THOR.ATOM');
+      expect(atomDerived.toString(true)).toBe('THOR.ATOM');
     });
   });
 

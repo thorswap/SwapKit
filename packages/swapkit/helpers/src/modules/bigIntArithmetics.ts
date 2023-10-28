@@ -90,12 +90,21 @@ export class BigIntArithmetics {
     this.#setValue(value);
   }
 
+  /**
+   * @deprecated Use `getBaseValue('string')` instead
+   */
   get baseValue() {
     return this.getBaseValue('string') as string;
   }
+  /**
+   * @deprecated Use `getBaseValue('number')` instead
+   */
   get baseValueNumber() {
     return this.getBaseValue('number') as number;
   }
+  /**
+   * @deprecated Use `getBaseValue('bigint')` instead
+   */
   get baseValueBigInt() {
     return this.getBaseValue('bigint') as bigint;
   }
@@ -171,7 +180,11 @@ export class BigIntArithmetics {
   getBigIntValue(value: InitialisationValueType, decimal?: number) {
     if (!decimal && typeof value === 'object') return value.bigIntValue;
 
-    return this.#toBigInt(this.#toSafeValue(getStringValue(value)), decimal);
+    const stringValue = getStringValue(value);
+    const safeValue = this.#toSafeValue(stringValue);
+
+    if (safeValue === '0' || safeValue === 'undefined') return 0n;
+    return this.#toBigInt(safeValue, decimal);
   }
 
   formatBigIntToSafeValue(value: bigint, decimal?: number) {
@@ -301,7 +314,7 @@ export class BigIntArithmetics {
   #toBigInt(value: string, decimal?: number) {
     const multiplier = decimal ? toMultiplier(decimal) : this.decimalMultiplier;
     const padDecimal = decimalFromMultiplier(multiplier);
-    const [integerPart, decimalPart = ''] = value.split('.');
+    const [integerPart = '', decimalPart = ''] = value.split('.');
 
     return BigInt(`${integerPart}${decimalPart.padEnd(padDecimal, '0')}`);
   }

@@ -1,5 +1,24 @@
 # @swapkit/wallet-wc
 
+## 1.0.0-rc.10
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.9
+  - @swapkit/toolbox-evm@1.0.0-rc.8
+
+## 1.0.0-rc.9
+
+### Patch Changes
+
+- add scam filter for balances
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.8
+  - @swapkit/types@1.0.0-rc.5
+  - @swapkit/toolbox-evm@1.0.0-rc.7
+
 ## 1.0.0-rc.8
 
 ### Patch Changes

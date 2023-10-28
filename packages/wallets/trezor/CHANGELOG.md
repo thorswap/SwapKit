@@ -1,5 +1,26 @@
 # @swapkit/wallet-trezor
 
+## 1.0.0-rc.9
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.7
+  - @swapkit/toolbox-evm@1.0.0-rc.8
+  - @swapkit/toolbox-utxo@1.0.0-rc.8
+
+## 1.0.0-rc.8
+
+### Patch Changes
+
+- add scam filter for balances
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.6
+  - @swapkit/toolbox-utxo@1.0.0-rc.7
+  - @swapkit/types@1.0.0-rc.5
+  - @swapkit/toolbox-evm@1.0.0-rc.7
+
 ## 1.0.0-rc.7
 
 ### Patch Changes

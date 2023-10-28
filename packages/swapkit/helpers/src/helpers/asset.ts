@@ -1,6 +1,8 @@
 import type { EVMChain } from '@swapkit/types';
 import { BaseDecimal, Chain, ChainToRPC, FeeOption } from '@swapkit/types';
 
+import type { AssetValue } from '../index.ts';
+
 import { postRequest } from './others.ts';
 
 const getDecimalMethodHex = '0x313ce567';
@@ -152,9 +154,9 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
       return 'Native';
 
     case Chain.Cosmos:
-      return symbol === 'ATOM' ? 'Native' : 'GAIA';
+      return symbol === 'ATOM' ? 'Native' : Chain.Cosmos;
     case Chain.Kujira:
-      return symbol === 'KUJI' ? 'Native' : 'KUJI';
+      return symbol === Chain.Kujira ? 'Native' : Chain.Kujira;
     case Chain.Binance:
       return symbol === Chain.Binance ? 'Native' : 'BEP2';
     case Chain.BinanceSmartChain:
@@ -162,7 +164,7 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
     case Chain.Ethereum:
       return symbol === Chain.Ethereum ? 'Native' : 'ERC20';
     case Chain.Avalanche:
-      return symbol === Chain.Avalanche ? 'Native' : 'AVAX';
+      return symbol === Chain.Avalanche ? 'Native' : Chain.Avalanche;
     case Chain.Polygon:
       return symbol === Chain.Polygon ? 'Native' : 'POLYGON';
 
@@ -181,3 +183,13 @@ export const assetFromString = (assetString: string) => {
 
   return { chain, symbol, ticker, synth };
 };
+
+const potentialScamRegex = new RegExp(
+  /(.)\1{6}|\.ORG|\.NET|\.FINANCE|\.COM|WWW|HTTP|\\\\|\/\/|[\s$%:[\]]/,
+  'gmi',
+);
+export const filterAssets = (assets: AssetValue[]) =>
+  assets.filter(
+    (asset) =>
+      !potentialScamRegex.test(asset.toString()) && !asset.toString().includes('undefined'),
+  );
