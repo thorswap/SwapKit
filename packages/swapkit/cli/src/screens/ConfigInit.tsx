@@ -5,7 +5,7 @@ import TextInput from 'ink-text-input';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { NavigationContext } from '../source.js';
-import { ConfigEditItems as CEI, NavigationScreens as NS } from '../types/navigation.js';
+import { ConfigEditItems as CEI } from '../types/navigation.js';
 import { ConfigContext, saveConfig } from '../util/useConfig.js';
 
 const ConfigInit = () => {
@@ -16,7 +16,7 @@ const ConfigInit = () => {
   const { setNavigation } = useContext(NavigationContext);
   const { config, setConfig } = useContext(ConfigContext);
 
-  const [focus, setFocus] = useState(-1);
+  const [focus, setFocus] = useState<CEI | -1>(-1);
 
   const [lastSelect, setLastSelect] = useState(0);
 
@@ -29,7 +29,7 @@ const ConfigInit = () => {
 
   useEffect(() => {
     if (goBack) {
-      setNavigation(NS.WELCOME_SCREEN);
+      setNavigation('WelcomeScreen');
     }
     if (updateConfig) {
       setConfig({ ...initConfig, configFile: true });
@@ -79,7 +79,7 @@ const ConfigInit = () => {
   };
 
   const staganetOnSelect = useCallback(
-    (item: any | (() => any)) => {
+    (item: (typeof staganetItems)[number]) => {
       setInitconfig({ ...initConfig, stagenet: item.value });
 
       setFocus(-1);
@@ -87,40 +87,41 @@ const ConfigInit = () => {
     [initConfig],
   );
 
-  const handleSelect = (item: any) => {
+  const handleSelect = (item: (typeof items)[number]) => {
     setLastSelect(item.value);
     setFocus(item.value);
   };
 
-  const itemLabels = [
-    'Covalent API Key',
-    'Ethplorer API Key',
-    'Utxo API Key',
-    'Wallet Connect Project ID',
-    'Trezor Credentials',
-    'Stagenet',
-  ];
+  const itemLabels = {
+    [CEI.COVALENT_API_KEY]: 'Covalent API Key',
+    [CEI.ETHPLORER_API_KEY]: 'Ethplorer API Key',
+    [CEI.UTXO_API_KEY]: 'Utxo API Key',
+    [CEI.WALLET_CONNECT_PROJECT_ID]: 'Wallet Connect Project ID',
+    [CEI.TREZOR_CREDENTIALS]: 'Trezor Credentials',
+    [CEI.STAGENET]: 'Stagenet',
+    [CEI.FINISH]: 'Finish',
+  };
 
   const items = [
     {
-      label: itemLabels[0] + ': ' + initConfig.covalentApiKey,
+      label: itemLabels[CEI.COVALENT_API_KEY] + ': ' + initConfig.covalentApiKey,
       value: CEI.COVALENT_API_KEY,
     },
     {
-      label: itemLabels[1] + ': ' + initConfig.ethplorerApiKey,
+      label: itemLabels[CEI.ETHPLORER_API_KEY] + ': ' + initConfig.ethplorerApiKey,
       value: CEI.ETHPLORER_API_KEY,
     },
     {
-      label: itemLabels[2] + ': ' + initConfig.utxoApiKey,
+      label: itemLabels[CEI.UTXO_API_KEY] + ': ' + initConfig.utxoApiKey,
       value: CEI.UTXO_API_KEY,
     },
     {
-      label: itemLabels[3] + ': ' + initConfig.walletConnectProjectId,
+      label: itemLabels[CEI.WALLET_CONNECT_PROJECT_ID] + ': ' + initConfig.walletConnectProjectId,
       value: CEI.WALLET_CONNECT_PROJECT_ID,
     },
     {
       label:
-        itemLabels[4] +
+        itemLabels[CEI.TREZOR_CREDENTIALS] +
         ': ' +
         initConfig.trezorManifest?.email +
         ' ' +
@@ -128,11 +129,11 @@ const ConfigInit = () => {
       value: CEI.TREZOR_CREDENTIALS,
     },
     {
-      label: itemLabels[5] + ': ' + initConfig.stagenet,
+      label: itemLabels[CEI.STAGENET] + ': ' + initConfig.stagenet,
       value: CEI.STAGENET,
     },
     {
-      label: 'Finish',
+      label: itemLabels[CEI.FINISH],
       value: CEI.FINISH,
     },
   ];

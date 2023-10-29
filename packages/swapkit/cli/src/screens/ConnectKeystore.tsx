@@ -6,7 +6,6 @@ import TextInput from 'ink-text-input';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { NavigationContext } from '../source.js';
-import { NavigationScreens as NS } from '../types/navigation.js';
 import { useJsonFile } from '../util/useJsonFile.js';
 import { SwapKitContext } from '../util/useSwapKit.js';
 
@@ -34,11 +33,11 @@ const ConnectKeystore = () => {
     //Chain.Polygon,
     //Chain.THORChain,
   ];
-  const { swapkit } = useContext(SwapKitContext);
+  const { swapkit, setKeystoreConnected } = useContext(SwapKitContext);
 
   useEffect(() => {
     if (goBack) {
-      setNavigation(NS.SWAPKIT_MENU);
+      setNavigation('SwapkitMenu');
     }
   }, [goBack, setNavigation]);
 
@@ -49,6 +48,7 @@ const ConnectKeystore = () => {
     decryptFromKeystore(keystoreFile, password).then(
       (res) => {
         swapkit.connectKeystore(connectChains, res).then(() => {
+          setKeystoreConnected(true);
           setGoBack(true);
         });
       },

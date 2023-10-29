@@ -3,30 +3,43 @@ import SelectInput from 'ink-select-input';
 import React, { useContext } from 'react';
 
 import { NavigationContext } from '../source.js';
-import { NavigationScreens as NS } from '../types/navigation.js';
+import type { SelectNavigatonParams } from '../types/navigation.js';
 import { SwapKitContext } from '../util/useSwapKit.js';
 
 const SwapKitMenu = () => {
   const { setNavigation } = useContext(NavigationContext);
 
-  const { swapkit } = useContext(SwapKitContext);
+  const { keystoreConnected } = useContext(SwapKitContext);
 
-  const handleSelect = (item: any) => {
+  const handleSelect = (item: SelectNavigatonParams) => {
     setNavigation(item.value);
   };
 
-  console.log(swapkit.connectedWallets);
-
-  const items = [
-    {
-      label: 'Connect Keystore',
-      value: NS.CONNECT_KEYSTORE,
-    },
-    {
-      label: 'Exit',
-      value: NS.WELCOME_SCREEN,
-    },
-  ];
+  const items: SelectNavigatonParams[] = keystoreConnected
+    ? [
+        {
+          label: 'Swap',
+          value: 'Swap',
+        },
+        {
+          label: 'Check Balance',
+          value: 'CheckBalance',
+        },
+        {
+          label: 'Back',
+          value: 'WelcomeScreen',
+        },
+      ]
+    : [
+        {
+          label: 'Connect Keystore',
+          value: 'ConnectKeystore',
+        },
+        {
+          label: 'Back',
+          value: 'WelcomeScreen',
+        },
+      ];
 
   return (
     <>

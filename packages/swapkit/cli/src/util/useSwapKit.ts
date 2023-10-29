@@ -7,7 +7,9 @@ const { SwapKitCore } = await import('@swapkit/core');
 
 export const SwapKitContext = createContext<{
   swapkit: SKC;
-}>({ swapkit: new SwapKitCore() });
+  keystoreConnected: boolean;
+  setKeystoreConnected: (connected: boolean) => void;
+}>({ swapkit: new SwapKitCore(), keystoreConnected: false, setKeystoreConnected: () => {} });
 
 export const useSwapKit = (config: Config) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
