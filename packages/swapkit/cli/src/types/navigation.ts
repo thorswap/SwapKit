@@ -1,14 +1,24 @@
 export enum NavigationScreens {
-  WELCOME_SCREEN,
-  SWAPKIT_MENU,
+  WELCOME_SCREEN = 'WelcomeScreen',
+  SWAPKIT_MENU = 'SwapkitMenu',
 
-  CONFIG_EDIT,
-  CONFIG_INIT,
+  CONFIG_EDIT = 'ConfigEdit',
+  CONFIG_INIT = 'ConfigInit',
 
-  CONNECT_KEYSTORE,
+  CONNECT_KEYSTORE = 'ConnectKeystore',
 
-  EXIT,
+  SWAP = 'Swap',
+  CHECK_BALANCE = 'CheckBalance',
+
+  EXIT = 'Exit',
 }
+
+export type NavigationParams = `${NavigationScreens}`;
+
+export type SelectNavigatonParams = {
+  label: string;
+  value: NavigationParams;
+};
 
 export enum ConfigEditItems {
   COVALENT_API_KEY,

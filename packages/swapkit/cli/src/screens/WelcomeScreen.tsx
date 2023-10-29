@@ -3,7 +3,7 @@ import SelectInput from 'ink-select-input';
 import React, { useContext } from 'react';
 
 import { NavigationContext } from '../source.js';
-import { NavigationScreens as NS } from '../types/navigation.js';
+import type { SelectNavigatonParams } from '../types/navigation.js';
 import { ConfigContext } from '../util/useConfig.js';
 
 const WelcomeScreen = () => {
@@ -11,33 +11,33 @@ const WelcomeScreen = () => {
 
   const { setNavigation } = useContext(NavigationContext);
 
-  const handleSelect = (item: any) => {
+  const handleSelect = (item: SelectNavigatonParams) => {
     setNavigation(item.value);
   };
 
-  const items = config.configFile
+  const items: SelectNavigatonParams[] = config.configFile
     ? [
         {
           label: 'Open SwapKit Menu',
-          value: NS.SWAPKIT_MENU,
+          value: 'SwapkitMenu',
         },
         {
           label: 'Edit SwapKit Config',
-          value: NS.CONFIG_EDIT,
+          value: 'ConfigEdit',
         },
         {
           label: 'Exit',
-          value: NS.EXIT,
+          value: 'Exit',
         },
       ]
     : [
         {
           label: 'Initialize SwapKit Config',
-          value: NS.CONFIG_INIT,
+          value: 'ConfigInit',
         },
         {
           label: 'Exit',
-          value: NS.EXIT,
+          value: 'Exit',
         },
       ];
 
