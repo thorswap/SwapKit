@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.9
+
+### Patch Changes
+
+- [`2c7f246`](https://github.com/thorswap/SwapKit/commit/2c7f2467b43686fb3665e8899383705f435af85f) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Bump fetch wraper
+
+- Updated dependencies [[`2c7f246`](https://github.com/thorswap/SwapKit/commit/2c7f2467b43686fb3665e8899383705f435af85f)]:
+  - @swapkit/tokens@1.0.0-rc.6
+  - @swapkit/types@1.0.0-rc.6
+
 ## 1.0.0-rc.8
 
 ### Patch Changes
