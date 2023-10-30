@@ -1,5 +1,17 @@
 # @swapkit/core
 
+## 1.0.0-rc.13
+
+### Patch Changes
+
+- [#368](https://github.com/thorswap/SwapKit/pull/368) [`9d5ffa4`](https://github.com/thorswap/SwapKit/commit/9d5ffa44619b41419e7fb51034b21e24a96e5411) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix evm transfers
+
+- Updated dependencies [[`9d5ffa4`](https://github.com/thorswap/SwapKit/commit/9d5ffa44619b41419e7fb51034b21e24a96e5411), [`9d5ffa4`](https://github.com/thorswap/SwapKit/commit/9d5ffa44619b41419e7fb51034b21e24a96e5411)]:
+  - @swapkit/helpers@1.0.0-rc.8
+  - @swapkit/toolbox-evm@1.0.0-rc.9
+  - @swapkit/toolbox-utxo@1.0.0-rc.9
+  - @swapkit/toolbox-cosmos@1.0.0-rc.10
+
 ## 1.0.0-rc.12
 
 ### Patch Changes
