@@ -25,7 +25,7 @@ type LedgerConfig = {
   rpcUrl?: string;
   covalentApiKey?: string;
   ethplorerApiKey?: string;
-  utxoApiKey?: string;
+  blockchairApiKey?: string;
 };
 
 const THORCHAIN_DEPOSIT_GAS_FEE = '500000000';
@@ -68,7 +68,7 @@ const getToolbox = async ({
   chain,
   covalentApiKey,
   ethplorerApiKey,
-  utxoApiKey,
+  blockchairApiKey,
   signer,
   derivationPath,
   stagenet = false,
@@ -88,11 +88,10 @@ const getToolbox = async ({
   derivationPath?: DerivationPathArray;
   stagenet?: boolean;
 }) => {
-  const utxoParams = { apiKey: utxoApiKey, rpcUrl, apiClient: api };
+  const utxoParams = { apiKey: blockchairApiKey, rpcUrl, apiClient: api };
 
   switch (chain) {
     case Chain.Bitcoin: {
-      if (!utxoApiKey) throw new Error('UTXO API key is not defined');
       const { BTCToolbox } = await import('@swapkit/toolbox-utxo');
       const toolbox = BTCToolbox(utxoParams);
 
@@ -111,7 +110,6 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.BitcoinCash: {
-      if (!utxoApiKey) throw new Error('UTXO API key is not defined');
       const { BCHToolbox } = await import('@swapkit/toolbox-utxo');
       const toolbox = BCHToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
@@ -131,7 +129,6 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.Dogecoin: {
-      if (!utxoApiKey) throw new Error('UTXO API key is not defined');
       const { DOGEToolbox } = await import('@swapkit/toolbox-utxo');
       const toolbox = DOGEToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
@@ -150,7 +147,6 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.Litecoin: {
-      if (!utxoApiKey) throw new Error('UTXO API key is not defined');
       const { LTCToolbox } = await import('@swapkit/toolbox-utxo');
       const toolbox = LTCToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
@@ -452,7 +448,7 @@ const getToolbox = async ({
 const connectLedger =
   ({
     addChain,
-    config: { covalentApiKey, ethplorerApiKey, utxoApiKey, stagenet },
+    config: { covalentApiKey, ethplorerApiKey, blockchairApiKey, utxoApiKey, stagenet },
     apis,
     rpcUrls,
   }: ConnectWalletParams) =>
@@ -470,7 +466,7 @@ const connectLedger =
       ethplorerApiKey,
       rpcUrl: rpcUrls[chain],
       signer: ledgerClient,
-      utxoApiKey,
+      blockchairApiKey: blockchairApiKey || utxoApiKey,
       stagenet,
     });
 

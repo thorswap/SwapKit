@@ -20,7 +20,7 @@ export const TREZOR_SUPPORTED_CHAINS = [
 
 type TrezorOptions = {
   ethplorerApiKey?: string;
-  utxoApiKey?: string;
+  blockchairApiKey?: string;
   covalentApiKey?: string;
   trezorManifest?: {
     email: string;
@@ -42,7 +42,7 @@ const getToolbox = async ({
   ethplorerApiKey,
   covalentApiKey,
   derivationPath,
-  utxoApiKey,
+  blockchairApiKey,
 }: Params) => {
   switch (chain) {
     case Chain.BinanceSmartChain:
@@ -77,7 +77,7 @@ const getToolbox = async ({
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
+      if (!api) throw new Error('API not found');
       const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
 
       const { BTCToolbox, BCHToolbox, LTCToolbox, DOGEToolbox } = await import(
@@ -99,7 +99,7 @@ const getToolbox = async ({
           : undefined;
 
       if (!scriptType) throw new Error('Derivation path is not supported');
-      const params = { api, apiKey: utxoApiKey, rpcUrl };
+      const params = { api, apiKey: blockchairApiKey, rpcUrl };
 
       const toolbox =
         chain === Chain.Bitcoin
@@ -248,8 +248,9 @@ const connectTrezor =
     addChain,
     config: {
       covalentApiKey,
-      ethplorerApiKey = 'freekey',
+      ethplorerApiKey,
       utxoApiKey,
+      blockchairApiKey,
       trezorManifest = { appUrl: '', email: '' },
     },
   }: ConnectWalletParams) =>
@@ -267,7 +268,7 @@ const connectTrezor =
       chain,
       covalentApiKey,
       ethplorerApiKey,
-      utxoApiKey,
+      blockchairApiKey: blockchairApiKey || utxoApiKey,
       derivationPath,
     });
 

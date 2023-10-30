@@ -14,6 +14,7 @@ import { cosmosTransfer, getXDEFIAddress, walletTransfer } from './walletHelpers
 type XDEFIConfig = {
   covalentApiKey?: string;
   ethplorerApiKey?: string;
+  blockchairApiKey?: string;
   utxoApiKey?: string;
 };
 
@@ -34,7 +35,7 @@ const getWalletMethodsForChain = async ({
   chain,
   ethplorerApiKey,
   covalentApiKey,
-  utxoApiKey,
+  blockchairApiKey,
   rpcUrl,
   api,
 }: { rpcUrl?: string; api?: any; chain: Chain } & XDEFIConfig): Promise<any> => {
@@ -162,7 +163,7 @@ const getWalletMethodsForChain = async ({
       const { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } = await import(
         '@swapkit/toolbox-utxo'
       );
-      const params = { rpcUrl, utxoApiKey, apiClient: api };
+      const params = { rpcUrl, blockchairApiKey, apiClient: api };
       const toolbox =
         chain === Chain.Bitcoin
           ? BTCToolbox(params)
@@ -183,7 +184,7 @@ const getWalletMethodsForChain = async ({
 const connectXDEFI =
   ({
     addChain,
-    config: { covalentApiKey, ethplorerApiKey, utxoApiKey },
+    config: { covalentApiKey, ethplorerApiKey, blockchairApiKey, utxoApiKey },
   }: {
     addChain: any;
     config: XDEFIConfig;
@@ -193,7 +194,7 @@ const connectXDEFI =
       const address = await getXDEFIAddress(chain);
       const walletMethods = await getWalletMethodsForChain({
         chain,
-        utxoApiKey,
+        blockchairApiKey: blockchairApiKey || utxoApiKey,
         covalentApiKey,
         ethplorerApiKey,
       });
