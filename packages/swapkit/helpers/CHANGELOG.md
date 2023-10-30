@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.8
+
+### Patch Changes
+
+- [#368](https://github.com/thorswap/SwapKit/pull/368) [`9d5ffa4`](https://github.com/thorswap/SwapKit/commit/9d5ffa44619b41419e7fb51034b21e24a96e5411) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix evm transfers
+
 ## 1.0.0-rc.7
 
 ### Patch Changes
