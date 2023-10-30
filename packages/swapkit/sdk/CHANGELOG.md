@@ -1,5 +1,27 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.16
+
+### Patch Changes
+
+- [`2c7f246`](https://github.com/thorswap/SwapKit/commit/2c7f2467b43686fb3665e8899383705f435af85f) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Bump fetch wraper
+
+- Updated dependencies [[`2c7f246`](https://github.com/thorswap/SwapKit/commit/2c7f2467b43686fb3665e8899383705f435af85f)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.10
+  - @swapkit/toolbox-cosmos@1.0.0-rc.11
+  - @swapkit/wallet-keystore@1.0.0-rc.15
+  - @swapkit/toolbox-utxo@1.0.0-rc.10
+  - @swapkit/wallet-ledger@1.0.0-rc.13
+  - @swapkit/wallet-trezor@1.0.0-rc.11
+  - @swapkit/types@1.0.0-rc.6
+  - @swapkit/toolbox-evm@1.0.0-rc.10
+  - @swapkit/wallet-keplr@1.0.0-rc.11
+  - @swapkit/wallet-xdefi@1.0.0-rc.13
+  - @swapkit/core@1.0.0-rc.14
+  - @swapkit/api@1.0.0-rc.6
+  - @swapkit/wallet-okx@1.0.0-rc.13
+  - @swapkit/wallet-wc@1.0.0-rc.12
+
 ## 1.0.0-rc.15
 
 ### Patch Changes
