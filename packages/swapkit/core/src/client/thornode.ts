@@ -1,4 +1,4 @@
-import { getRequest } from '@swapkit/helpers';
+import { RequestClient } from '@swapkit/helpers';
 import type { Chain } from '@swapkit/types';
 import { ApiUrl } from '@swapkit/types';
 
@@ -21,11 +21,11 @@ type InboundAddressData = {
 export const getInboundData = (stagenet: boolean) => {
   const baseUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
 
-  return getRequest<InboundAddressData>(`${baseUrl}/thorchain/inbound_addresses`);
+  return RequestClient.get<InboundAddressData>(`${baseUrl}/thorchain/inbound_addresses`);
 };
 
 export const getMimirData = (stagenet: boolean) => {
   const baseUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
 
-  return getRequest<Record<string, number>>(`${baseUrl}/thorchain/mimir`);
+  return RequestClient.get<Record<string, number>>(`${baseUrl}/thorchain/mimir`);
 };
