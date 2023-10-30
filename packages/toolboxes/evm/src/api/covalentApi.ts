@@ -1,4 +1,4 @@
-import { AssetValue, filterAssets, formatBigIntToSafeValue, getRequest } from '@swapkit/helpers';
+import { AssetValue, filterAssets, formatBigIntToSafeValue, RequestClient } from '@swapkit/helpers';
 import type { ChainId } from '@swapkit/types';
 import { ChainIdToChain } from '@swapkit/types';
 
@@ -28,9 +28,9 @@ type CovalentBalanceResponse = {
 
 export const covalentApi = ({ apiKey, chainId }: { apiKey: string; chainId: ChainId }) => ({
   getBalance: async (address: string, potentialScamFilter?: boolean) => {
-    const { data } = await getRequest<{ data: CovalentBalanceResponse }>(
+    const { data } = await RequestClient.get<{ data: CovalentBalanceResponse }>(
       `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/`,
-      { key: apiKey },
+      { searchParams: { key: apiKey } },
     );
 
     const balances = (data?.items || []).map(

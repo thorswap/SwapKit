@@ -1,6 +1,9 @@
 {
   "author": "swapkit-oss-team",
   "description": "SwapKit Lib swapkit-helpers",
+  "dependencies": {
+    "ky": "1.1.2"
+  },
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@swapkit/tokens": "workspace:*",

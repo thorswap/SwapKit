@@ -3,7 +3,7 @@ import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import type { Account, StdFee } from '@cosmjs/stargate';
 import { base64 } from '@scure/base';
 import type { AssetValue } from '@swapkit/helpers';
-import { getRequest, SwapKitNumber } from '@swapkit/helpers';
+import { RequestClient, SwapKitNumber } from '@swapkit/helpers';
 import { ApiUrl, BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from '@swapkit/types';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
@@ -223,7 +223,7 @@ export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): Thorch
     try {
       const {
         int_64_values: { NativeTransactionFee: nativeFee },
-      } = await getRequest<ThorchainConstantsResponse>(constantsUrl);
+      } = await RequestClient.get<ThorchainConstantsResponse>(constantsUrl);
 
       // validate data
       if (!nativeFee || isNaN(nativeFee) || nativeFee < 0)

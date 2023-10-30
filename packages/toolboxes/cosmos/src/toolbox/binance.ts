@@ -1,6 +1,6 @@
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { bech32 } from '@scure/base';
-import { AssetValue, getRequest, postRequest, SwapKitNumber } from '@swapkit/helpers';
+import { AssetValue, RequestClient, SwapKitNumber } from '@swapkit/helpers';
 import { ApiUrl, BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from '@swapkit/types';
 import { ec as EC } from 'elliptic';
 
@@ -21,10 +21,10 @@ type ToolboxParams = {
 const BINANCE_MAINNET_API_URI = 'https://dex.binance.org';
 
 const getAccount = (address: string): Promise<Account> =>
-  getRequest<Account>(`${BINANCE_MAINNET_API_URI}/api/v1/account/${address}`);
+  RequestClient.get<Account>(`${BINANCE_MAINNET_API_URI}/api/v1/account/${address}`);
 
 const getTransferFee = async () => {
-  const feesArray = await getRequest<BNBFees>(`${BINANCE_MAINNET_API_URI}/api/v1/fees`);
+  const feesArray = await RequestClient.get<BNBFees>(`${BINANCE_MAINNET_API_URI}/api/v1/fees`);
 
   const [transferFee] = feesArray.filter(isTransferFee);
   if (!transferFee) throw new Error('failed to get transfer fees');
@@ -74,7 +74,7 @@ const getFees = async () => {
 };
 
 const getFeeRateFromThorchain = async () => {
-  const respData = await getRequest(`${ApiUrl.ThornodeMainnet}/thorchain/inbound_addresses`);
+  const respData = await RequestClient.get(`${ApiUrl.ThornodeMainnet}/thorchain/inbound_addresses`);
   if (!Array.isArray(respData)) throw new Error('bad response from Thornode API');
 
   const chainData = respData.find(
@@ -85,9 +85,13 @@ const getFeeRateFromThorchain = async () => {
 };
 
 const sendRawTransaction = (signedBz: string, sync = true) =>
-  postRequest<any>(`${BINANCE_MAINNET_API_URI}/api/v1/broadcast?sync=${sync}`, signedBz, {
-    'content-type': 'text/plain',
-  });
+  RequestClient.post<{ hash: string }[]>(
+    `${BINANCE_MAINNET_API_URI}/api/v1/broadcast?sync=${sync}`,
+    {
+      body: signedBz,
+      headers: { 'content-type': 'text/plain' },
+    },
+  );
 
 const prepareTransaction = async (
   msg: any,

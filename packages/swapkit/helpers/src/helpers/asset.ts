@@ -1,9 +1,7 @@
 import type { EVMChain } from '@swapkit/types';
 import { BaseDecimal, Chain, ChainToRPC, FeeOption } from '@swapkit/types';
 
-import type { AssetValue } from '../index.ts';
-
-import { postRequest } from './others.ts';
+import { type AssetValue, RequestClient } from '../index.ts';
 
 const getDecimalMethodHex = '0x313ce567';
 
@@ -11,19 +9,15 @@ export type CommonAssetString = 'MAYA.MAYA' | 'ETH.THOR' | 'ETH.vTHOR' | Chain;
 
 const getContractDecimals = async ({ chain, to }: { chain: EVMChain; to: string }) => {
   try {
-    const response = await postRequest<string>(
-      ChainToRPC[chain],
-      JSON.stringify({
-        method: 'eth_call',
-        params: [{ to: to.toLowerCase(), data: getDecimalMethodHex }, 'latest'],
+    const { result } = await RequestClient.post<{ result: string }>(ChainToRPC[chain], {
+      headers: { accept: '*/*', 'cache-control': 'no-cache' },
+      body: JSON.stringify({
         id: 44,
         jsonrpc: '2.0',
+        method: 'eth_call',
+        params: [{ to: to.toLowerCase(), data: getDecimalMethodHex }, 'latest'],
       }),
-      { accept: '*/*', 'cache-control': 'no-cache', 'content-type': 'application/json' },
-      true,
-    );
-
-    const { result } = JSON.parse(response) as { result: string };
+    });
 
     return parseInt(BigInt(result).toString());
   } catch (error) {

@@ -389,6 +389,10 @@ importers:
         version: 0.34.4
 
   packages/swapkit/helpers:
+    dependencies:
+      ky:
+        specifier: 1.1.2
+        version: 1.1.2
     devDependencies:
       '@internal/config':
         specifier: workspace:*
@@ -8833,6 +8837,11 @@ packages:
   /kolorist@1.8.0:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
     dev: true
+
+  /ky@1.1.2:
+    resolution: {integrity: sha512-voehdKw8MleNTfcAVlZ9nObJQiWXvb5b3sYpVP6s8VYEdrmnbs7aYdNfAE0nC8wch8TXjH1ksnwTOvYcxrf1Gw==}
+    engines: {node: '>=18'}
+    dev: false
 
   /level-supports@4.0.1:
     resolution: {integrity: sha512-PbXpve8rKeNcZ9C1mUicC9auIYFyGpkV9/i6g76tLgANwWhtG2v7I4xNBUlkn3lE2/dZF3Pi0ygYGtLc4RXXdA==}

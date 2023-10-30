@@ -117,7 +117,9 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           setPhrase(phrases);
 
           await skClient.connectKeystore(chains, phrases);
-          const walletDataArray = await Promise.all(chains.map(skClient.getWalletByChain));
+          const walletDataArray = await Promise.all(
+            chains.map((chain) => skClient.getWalletByChain(chain, true)),
+          );
 
           setWallet(walletDataArray.filter(Boolean));
           setLoading(false);
@@ -136,7 +138,9 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
       setLoading(true);
       await connectWallet(option);
 
-      const walletDataArray = await Promise.all(chains.map(skClient.getWalletByChain));
+      const walletDataArray = await Promise.all(
+        chains.map((chain) => skClient.getWalletByChain(chain, true)),
+      );
 
       setWallet(walletDataArray.filter(Boolean));
       setLoading(false);

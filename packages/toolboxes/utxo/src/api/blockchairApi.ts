@@ -1,4 +1,4 @@
-import { getRequest } from '@swapkit/helpers';
+import { RequestClient } from '@swapkit/helpers';
 import { Chain, type UTXOChain } from '@swapkit/types';
 
 import type {
@@ -50,7 +50,7 @@ const getSuggestedTxFee = async (chain: Chain) => {
   try {
     //Use Bitgo API for fee estimation
     //Refer: https://app.bitgo.com/docs/#operation/v2.tx.getfeeestimate
-    const { feePerKb } = await getRequest<{
+    const { feePerKb } = await RequestClient.get<{
       feePerKb: number;
       cpfpFeePerKb: number;
       numBlocks: number;
@@ -66,13 +66,13 @@ const getSuggestedTxFee = async (chain: Chain) => {
 
 const blockchairRequest = async <T extends any>(url: string, apiKey?: string): Promise<T> => {
   try {
-    const response = await getRequest<BlockchairResponse<T>>(url);
+    const response = await RequestClient.get<BlockchairResponse<T>>(url);
     if (!response || response.context.code !== 200) throw new Error(`failed to query ${url}`);
 
     return response.data as T;
   } catch (error) {
     if (!apiKey) throw error;
-    const response = await getRequest<BlockchairResponse<T>>(
+    const response = await RequestClient.get<BlockchairResponse<T>>(
       `${url}${apiKey ? `&key=${apiKey}` : ''}`,
     );
 

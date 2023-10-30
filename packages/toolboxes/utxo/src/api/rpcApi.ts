@@ -1,17 +1,18 @@
-import { postRequest } from '@swapkit/helpers';
+import { RequestClient } from '@swapkit/helpers';
 
 import { uniqid } from '../index.ts';
 
 export const broadcastUTXOTx = async ({ txHash, rpcUrl }: { txHash: string; rpcUrl: string }) => {
-  const response = await postRequest<{ id: string; result: string; error: string | null }>(
+  const response = await RequestClient.post<{ id: string; result: string; error: string | null }>(
     rpcUrl,
-    JSON.stringify({
-      jsonrpc: '2.0',
-      method: 'sendrawtransaction',
-      params: [txHash],
-      id: uniqid(),
-    }),
-    { 'Content-Type': 'application/json', Accept: 'application/json' },
+    {
+      body: JSON.stringify({
+        jsonrpc: '2.0',
+        method: 'sendrawtransaction',
+        params: [txHash],
+        id: uniqid(),
+      }),
+    },
   );
 
   if (response.error) {

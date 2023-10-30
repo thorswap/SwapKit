@@ -79,15 +79,13 @@ describe('AssetValue', () => {
 
   describe('toString', () => {
     test('returns asset value string/identifier', async () => {
-      const fakeAvaxUSDCAsset = new AssetValue({
+      const avaxUSDCAsset = new AssetValue({
         decimal: 6,
         value: 1234567890,
         chain: Chain.Avalanche,
         symbol: 'USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
       });
-      expect(fakeAvaxUSDCAsset.toString()).toBe(
-        'AVAX.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
-      );
+      expect(avaxUSDCAsset.toString()).toBe('AVAX.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e');
 
       const thor = AssetValue.fromChainOrSignature('ETH.THOR');
       expect(thor.toString()).toBe('ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044');
@@ -99,10 +97,11 @@ describe('AssetValue', () => {
 
   describe('fromIdentifier', () => {
     test('creates AssetValue from string', async () => {
-      const fakeAvaxUSDCAssetString = 'AVAX.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e';
-      const fakeAvaxUSDCAsset = await AssetValue.fromIdentifier(fakeAvaxUSDCAssetString);
+      const avaxUSDCAsset = await AssetValue.fromIdentifier(
+        'AVAX.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
+      );
 
-      expect(fakeAvaxUSDCAsset).toEqual(
+      expect(avaxUSDCAsset).toEqual(
         expect.objectContaining({
           address: '0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
           chain: Chain.Avalanche,
