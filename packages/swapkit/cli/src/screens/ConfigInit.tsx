@@ -5,7 +5,8 @@ import TextInput from 'ink-text-input';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { NavigationContext } from '../source.js';
-import { ConfigEditItems as CEI } from '../types/navigation.js';
+import type { ConfigEditItems } from '../types/navigation.js';
+import { CONFIG_EDIT_ITEMS as CEI } from '../types/navigation.js';
 import { ConfigContext, saveConfig } from '../util/useConfig.js';
 
 const ConfigInit = () => {
@@ -16,7 +17,7 @@ const ConfigInit = () => {
   const { setNavigation } = useContext(NavigationContext);
   const { config, setConfig } = useContext(ConfigContext);
 
-  const [focus, setFocus] = useState<CEI | -1>(-1);
+  const [focus, setFocus] = useState<ConfigEditItems | -1>(-1);
 
   const [lastSelect, setLastSelect] = useState(0);
 
@@ -88,8 +89,8 @@ const ConfigInit = () => {
   );
 
   const handleSelect = (item: (typeof items)[number]) => {
-    setLastSelect(item.value);
-    setFocus(item.value);
+    setLastSelect(item.value.index);
+    setFocus(item.value.value);
   };
 
   const itemLabels = {
@@ -102,22 +103,25 @@ const ConfigInit = () => {
     [CEI.FINISH]: 'Finish',
   };
 
-  const items = [
+  const items: {
+    label: string;
+    value: { value: ConfigEditItems; index: number };
+  }[] = [
     {
       label: itemLabels[CEI.COVALENT_API_KEY] + ': ' + initConfig.covalentApiKey,
-      value: CEI.COVALENT_API_KEY,
+      value: { value: CEI.COVALENT_API_KEY, index: 0 },
     },
     {
       label: itemLabels[CEI.ETHPLORER_API_KEY] + ': ' + initConfig.ethplorerApiKey,
-      value: CEI.ETHPLORER_API_KEY,
+      value: { value: CEI.ETHPLORER_API_KEY, index: 1 },
     },
     {
       label: itemLabels[CEI.UTXO_API_KEY] + ': ' + initConfig.utxoApiKey,
-      value: CEI.UTXO_API_KEY,
+      value: { value: CEI.UTXO_API_KEY, index: 2 },
     },
     {
       label: itemLabels[CEI.WALLET_CONNECT_PROJECT_ID] + ': ' + initConfig.walletConnectProjectId,
-      value: CEI.WALLET_CONNECT_PROJECT_ID,
+      value: { value: CEI.WALLET_CONNECT_PROJECT_ID, index: 3 },
     },
     {
       label:
@@ -126,15 +130,15 @@ const ConfigInit = () => {
         initConfig.trezorManifest?.email +
         ' ' +
         initConfig.trezorManifest?.appUrl,
-      value: CEI.TREZOR_CREDENTIALS,
+      value: { value: CEI.TREZOR_CREDENTIALS, index: 4 },
     },
     {
       label: itemLabels[CEI.STAGENET] + ': ' + initConfig.stagenet,
-      value: CEI.STAGENET,
+      value: { value: CEI.STAGENET, index: 5 },
     },
     {
       label: itemLabels[CEI.FINISH],
-      value: CEI.FINISH,
+      value: { value: CEI.FINISH, index: 6 },
     },
   ];
 
