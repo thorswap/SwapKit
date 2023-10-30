@@ -14,7 +14,7 @@ const OKX_SUPPORTED_CHAINS = [
 const connectOkx =
   ({
     addChain,
-    config: { covalentApiKey, ethplorerApiKey, utxoApiKey },
+    config: { covalentApiKey, ethplorerApiKey, utxoApiKey, blockchairApiKey },
   }: {
     addChain: any;
     config: OKXConfig;
@@ -26,7 +26,7 @@ const connectOkx =
         chain,
         covalentApiKey,
         ethplorerApiKey,
-        utxoApiKey,
+        blockchairApiKey: blockchairApiKey || utxoApiKey,
       });
 
       // Unwrap the address from a possible promise

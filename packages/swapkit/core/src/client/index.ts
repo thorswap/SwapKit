@@ -120,13 +120,20 @@ export class SwapKitCore<T = ''> {
         const { address: recipient } = await this.#getInboundDataByChain(asset.chain);
         const {
           contract: router,
-          calldata: { amountIn, memo, memoStreamingSwap },
+          calldata: { expiration, amountIn, memo, memoStreamingSwap },
         } = route;
 
         const assetValue = asset.add(SwapKitNumber.fromBigInt(BigInt(amountIn), asset.decimal));
         const swapMemo = (streamSwap ? memoStreamingSwap || memo : memo) as string;
 
-        return this.deposit({ assetValue, memo: swapMemo, feeOptionKey, router, recipient });
+        return this.deposit({
+          expiration,
+          assetValue,
+          memo: swapMemo,
+          feeOptionKey,
+          router,
+          recipient,
+        });
       }
 
       if (SWAP_IN.includes(quoteMode)) {
@@ -147,9 +154,7 @@ export class SwapKitCore<T = ''> {
 
         const contract = await walletMethods.createContract?.(contractAddress, abi, provider);
 
-        // TODO: (@Towan) Contract evm methods should be generic
-        // @ts-expect-error
-        const tx = await contract.populateTransaction.swapIn?.(
+        const tx = await contract.getFunction('swapIn').populateTransaction(
           ...getSwapInParams({
             streamSwap,
             toChecksumAddress,
@@ -237,7 +242,7 @@ export class SwapKitCore<T = ''> {
               ? TCBscDepositABI
               : TCEthereumVaultAbi;
 
-          return (await (
+          const response = await (
             walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
           ).call({
             abi,
@@ -248,12 +253,17 @@ export class SwapKitCore<T = ''> {
               recipient,
               getChecksumAddressFromAsset({ chain, symbol, ticker }, chain),
               // TODO: (@Towan) Re-Check on that conversion 🙏
-              assetValue.baseValueBigInt.toString(),
+              assetValue.getBaseValue('bigint').toString(),
               params.memo,
               rest.expiration,
             ],
-            txOverrides: { from: params.from, value: assetValue.baseValueBigInt },
-          })) as Promise<string>;
+            txOverrides: {
+              from: params.from,
+              value: assetValue.isGasAsset ? assetValue.getBaseValue('bigint') : undefined,
+            },
+          });
+
+          return response as string;
         }
 
         default: {

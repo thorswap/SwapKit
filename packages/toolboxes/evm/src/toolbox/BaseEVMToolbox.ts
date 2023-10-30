@@ -124,9 +124,7 @@ const call = async <T>(
       await estimateGasPrices(provider, isEIP1559Compatible)
     )[feeOption];
 
-    const gasLimit = await connectedContract
-      .getFunction(funcName)
-      .estimateGas(...funcParams, txOverrides);
+    const gasLimit = await contract.getFunction(funcName).estimateGas(...funcParams, txOverrides);
 
     // @ts-expect-error
     const result = await connectedContract[funcName](...funcParams, {

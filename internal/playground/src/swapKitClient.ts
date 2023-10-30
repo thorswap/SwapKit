@@ -8,11 +8,13 @@ export const getSwapKitClient = async ({
   ethplorerApiKey = 'freekey',
   covalentApiKey = '',
   utxoApiKey = '',
+  blockchairApiKey = '',
   walletConnectProjectId = '',
   stagenet,
 }: {
   ethplorerApiKey?: string;
   covalentApiKey?: string;
+  blockchairApiKey?: string;
   utxoApiKey?: string;
   walletConnectProjectId?: string;
   stagenet?: boolean;
@@ -35,7 +37,7 @@ export const getSwapKitClient = async ({
     config: {
       ethplorerApiKey,
       covalentApiKey,
-      utxoApiKey,
+      blockchairApiKey: blockchairApiKey || utxoApiKey,
       walletConnectProjectId,
       stagenet,
     },

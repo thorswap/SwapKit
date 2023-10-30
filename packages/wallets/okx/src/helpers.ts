@@ -29,14 +29,14 @@ export const getWalletForChain = async ({
   chain,
   ethplorerApiKey,
   covalentApiKey,
-  utxoApiKey,
+  blockchairApiKey,
   rpcUrl,
   api,
 }: {
   chain: Chain;
   ethplorerApiKey?: string;
   covalentApiKey?: string;
-  utxoApiKey?: string;
+  blockchairApiKey?: string;
   rpcUrl?: string;
   api?: any;
 }): Promise<
@@ -81,16 +81,13 @@ export const getWalletForChain = async ({
 
     case Chain.Bitcoin: {
       if (!window.okxwallet?.bitcoin) throw new Error('No bitcoin okxwallet found');
-      if (!utxoApiKey) {
-        throw new Error('No utxoApiKey provided');
-      }
 
       const { BTCToolbox } = await import('@swapkit/toolbox-utxo');
 
       const wallet = window.okxwallet.bitcoin;
       const address = (await wallet.connect()).address;
 
-      const toolbox = BTCToolbox({ rpcUrl, apiKey: utxoApiKey, apiClient: api });
+      const toolbox = BTCToolbox({ rpcUrl, apiKey: blockchairApiKey, apiClient: api });
       const signTransaction = async (psbt: Psbt) => {
         const signedPsbt = await wallet.signPsbt(psbt.toHex(), { from: address, type: 'list' });
 

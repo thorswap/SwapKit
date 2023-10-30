@@ -1,3 +1,5 @@
+import { BaseDecimal } from '@swapkit/types';
+
 import type { SwapKitNumber } from './swapKitNumber.ts';
 
 type NumberPrimitivesType = {
@@ -141,7 +143,7 @@ export class BigIntArithmetics {
     return this.bigIntValue === this.getBigIntValue(value);
   }
 
-  getValue<T extends 'number' | 'string' | 'bigint'>(type: T): NumberPrimitivesType[T] {
+  getValue<T extends 'number' | 'string'>(type: T): NumberPrimitivesType[T] {
     const value = this.formatBigIntToSafeValue(
       this.bigIntValue,
       this.decimal || decimalFromMultiplier(this.decimalMultiplier),
@@ -156,12 +158,12 @@ export class BigIntArithmetics {
         return value;
       default:
         // @ts-expect-error False positive
-        return this.bigIntValue;
+        return (this.bigIntValue * BigInt(this.decimal || 8n)) / this.decimalMultiplier;
     }
   }
 
   getBaseValue<T extends 'number' | 'string' | 'bigint'>(type: T): NumberPrimitivesType[T] {
-    const divisor = this.decimalMultiplier / toMultiplier(this.decimal || 0);
+    const divisor = this.decimalMultiplier / toMultiplier(this.decimal || BaseDecimal.THOR);
     const baseValue = this.bigIntValue / divisor;
 
     switch (type) {
@@ -173,7 +175,7 @@ export class BigIntArithmetics {
         return baseValue.toString();
       default:
         // @ts-expect-error False positive
-        return this.bigIntValue;
+        return baseValue;
     }
   }
 

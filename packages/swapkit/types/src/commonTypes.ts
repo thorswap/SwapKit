@@ -30,7 +30,11 @@ export type ConnectConfig = {
    */
   ethplorerApiKey?: string;
   /**
-   * @required for BTC, LTC, DOGE & BCH
+   * @required for BTC, BCH, LTC, DOGE
+   */
+  blockchairApiKey?: string;
+  /**
+   * @deprecated - use blockchairApiKey instead
    */
   utxoApiKey?: string;
   /**

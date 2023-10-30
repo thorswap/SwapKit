@@ -28,7 +28,7 @@ const App = () => {
   const [keys, setKeys] = useState({
     covalentApiKey: 'cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q',
     ethplorerApiKey: 'EK-xs8Hj-qG4HbLY-LoAu7',
-    utxoApiKey: 'A___tGP43RZzjreJb0J1aoTn469SEqmQ',
+    // blockchairApiKey: 'A___tGP43RZzjreJb0J1aoTn469SEqmQ',
     walletConnectProjectId: '',
   });
   const [{ inputAsset, outputAsset }, setSwapAssets] = useState<{
