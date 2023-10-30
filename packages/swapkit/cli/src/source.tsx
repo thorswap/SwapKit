@@ -8,21 +8,21 @@ import Exit from './screens/Exit.js';
 import Swap from './screens/Swap.js';
 import SwapKitMenu from './screens/SwapKitMenu.js';
 import WelcomeScreen from './screens/WelcomeScreen.js';
-import type { NavigationParams } from './types/navigation.js';
-import { NavigationScreens as NS } from './types/navigation.js';
+import type { NavigationScreens } from './types/navigation.js';
+import { NAVIGATION_SCREENS as NS } from './types/navigation.js';
 import { ConfigContext, useConfig } from './util/useConfig.js';
 import { SwapKitContext, useSwapKit } from './util/useSwapKit.js';
 
 export const NavigationContext = React.createContext<{
-  navigation: NavigationParams;
-  setNavigation: (screen: NavigationParams) => void;
+  navigation: NavigationScreens;
+  setNavigation: (screen: NavigationScreens) => void;
 }>({
   navigation: 'WelcomeScreen',
   setNavigation: () => {},
 });
 
 const Demo = () => {
-  const [navigation, setNavigation] = useState<NavigationParams>('WelcomeScreen');
+  const [navigation, setNavigation] = useState<NavigationScreens>('WelcomeScreen');
 
   const { config, setConfig } = useConfig();
 
