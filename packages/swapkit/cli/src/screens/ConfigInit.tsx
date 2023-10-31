@@ -106,22 +106,27 @@ const ConfigInit = () => {
   const items: {
     label: string;
     value: { value: ConfigEditItems; index: number };
+    key?: string;
   }[] = [
     {
       label: itemLabels[CEI.COVALENT_API_KEY] + ': ' + initConfig.covalentApiKey,
       value: { value: CEI.COVALENT_API_KEY, index: 0 },
+      key: 'covalent',
     },
     {
       label: itemLabels[CEI.ETHPLORER_API_KEY] + ': ' + initConfig.ethplorerApiKey,
       value: { value: CEI.ETHPLORER_API_KEY, index: 1 },
+      key: 'ethplorer',
     },
     {
       label: itemLabels[CEI.UTXO_API_KEY] + ': ' + initConfig.utxoApiKey,
       value: { value: CEI.UTXO_API_KEY, index: 2 },
+      key: 'utxo',
     },
     {
       label: itemLabels[CEI.WALLET_CONNECT_PROJECT_ID] + ': ' + initConfig.walletConnectProjectId,
       value: { value: CEI.WALLET_CONNECT_PROJECT_ID, index: 3 },
+      key: 'walletConnect',
     },
     {
       label:
@@ -131,14 +136,17 @@ const ConfigInit = () => {
         ' ' +
         initConfig.trezorManifest?.appUrl,
       value: { value: CEI.TREZOR_CREDENTIALS, index: 4 },
+      key: 'trezor',
     },
     {
       label: itemLabels[CEI.STAGENET] + ': ' + initConfig.stagenet,
       value: { value: CEI.STAGENET, index: 5 },
+      key: 'stagenet',
     },
     {
       label: itemLabels[CEI.FINISH],
       value: { value: CEI.FINISH, index: 6 },
+      key: 'finish',
     },
   ];
 
