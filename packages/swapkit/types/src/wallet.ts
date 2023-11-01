@@ -1,5 +1,6 @@
 export enum WalletOption {
   'KEYSTORE' = 'KEYSTORE',
+  'KEEPKEY' = 'KEEPKEY',
   'XDEFI' = 'XDEFI',
   'METAMASK' = 'METAMASK',
   'COINBASE_WEB' = 'COINBASE_WEB',

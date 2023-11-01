@@ -7,6 +7,7 @@ type ConnectMethodNames =
   | 'connectEVMWallet'
   | 'connectKeplr'
   | 'connectKeystore'
+  | 'connectKeepkey'
   | 'connectLedger'
   | 'connectOkx'
   | 'connectTrezor'

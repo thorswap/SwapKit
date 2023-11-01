@@ -506,7 +506,9 @@ export class SwapKitCore<T = ''> {
 
   extend = ({ wallets, config, apis = {}, rpcUrls = {} }: ExtendParams<T>) => {
     try {
+      console.log("wallets: ",wallets)
       wallets.forEach((wallet) => {
+        console.log("wallet: ",wallet)
         // @ts-expect-error ANCHOR - Not Worth
         this[wallet.connectMethodName] = wallet.connect({
           addChain: this.#addConnectedChain,
@@ -578,6 +580,9 @@ export class SwapKitCore<T = ''> {
   };
   connectKeystore = async (_chains: Chain[], _phrase: string): Promise<void> => {
     throw new SwapKitError('core_wallet_keystore_not_installed');
+  };
+  connectKeepKey = async (_chains: Chain[]): Promise<void> => {
+    throw new SwapKitError('core_wallet_keepkey_not_installed');
   };
   connectLedger = async (_chains: Chain, _derivationPath: number[]): Promise<void> => {
     throw new SwapKitError('core_wallet_ledger_not_installed');
