@@ -252,6 +252,24 @@ export class BigIntArithmetics {
     )}`;
   }
 
+  toFixed(fixedDigits: number = 6) {
+    const [int, dec] = this.getValue('string').split('.');
+    const integer = int || '';
+    const decimal = dec || '';
+
+    if (parseInt(integer)) {
+      return `${integer}.${decimal.slice(0, fixedDigits)}`.padEnd(fixedDigits, '0');
+    }
+
+    const trimmedDecimal = parseInt(decimal);
+    const slicedDecimal = `${trimmedDecimal}`.slice(0, fixedDigits);
+
+    return `0.${slicedDecimal.padStart(
+      decimal.length - `${trimmedDecimal}`.length + slicedDecimal.length,
+      '0',
+    )}`;
+  }
+
   #arithmetics(method: 'add' | 'sub' | 'mul' | 'div', ...args: InitialisationValueType[]): this {
     const precisionDecimal = this.#retrievePrecisionDecimal(this, ...args);
     const precisionDecimalMultiplier = toMultiplier(precisionDecimal);
