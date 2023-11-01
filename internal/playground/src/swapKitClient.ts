@@ -34,6 +34,13 @@ export const getSwapKitClient = async ({
 
   const client = new SwapKitCore({ stagenet });
 
+  let keepkeyPairingInfo = {
+    name: 'swapKit-demo-app',
+    imageUrl: 'https://thorswap.finance/assets/img/header_logo.png',
+    basePath: 'http://localhost:1646/spec/swagger.json',
+    url: 'http://localhost:1646',
+  }
+
   client.extend({
     config: {
       ethplorerApiKey,
@@ -41,6 +48,7 @@ export const getSwapKitClient = async ({
       blockchairApiKey: blockchairApiKey || utxoApiKey,
       walletConnectProjectId,
       stagenet,
+      keepkeyPairingInfo
     },
     wallets: [
       xdefiWallet,

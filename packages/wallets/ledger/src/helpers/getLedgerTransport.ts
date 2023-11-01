@@ -1,4 +1,5 @@
 const getNavigatorUsb = () =>
+  // FIXME: This is a hack to get around the fact that the `navigator.usb` type
   // @ts-ignore
   navigator?.usb as unknown as {
     getDevices: () => Promise<any[]>;

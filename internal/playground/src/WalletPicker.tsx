@@ -89,7 +89,19 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         }
 
         case WalletOption.KEEPKEY: {
-          return skClient.connectKeepKey(chains);
+          let keepkeyApiKey = localStorage.getItem('keepkeyApiKey');
+          const config: any = {
+            apiKey: keepkeyApiKey || '1234',
+            pairingInfo: {
+              name: 'swapKit-demo-app',
+              imageUrl: 'https://thorswap.finance/assets/img/header_logo.png',
+              basePath: 'http://localhost:1646/spec/swagger.json',
+              url: 'http://localhost:1646',
+            },
+          };
+          let responsePair = await skClient.connectKeepkey(chains, config);
+          if (responsePair !== keepkeyApiKey) localStorage.setItem('keepkeyApiKey', responsePair);
+          return true;
         }
 
         case WalletOption.TREZOR: {
@@ -141,7 +153,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
     async (option: WalletOption) => {
       if (!skClient) return alert('client is not ready');
       setLoading(true);
-      await connectWallet(option);
+      connectWallet(option);
 
       const walletDataArray = await Promise.all(
         chains.map((chain) => skClient.getWalletByChain(chain, true)),
@@ -210,6 +222,34 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             </option>
           ))}
         </select>
+        {/*<select*/}
+        {/*  multiple*/}
+        {/*  onChange={handleMultipleSelect}*/}
+        {/*  style={{ width: 50, height: 400 }}*/}
+        {/*  value={chains}*/}
+        {/*>*/}
+        {/*  {[*/}
+        {/*    Chain.Avalanche,*/}
+        {/*    Chain.Binance,*/}
+        {/*    Chain.BinanceSmartChain,*/}
+        {/*    Chain.Bitcoin,*/}
+        {/*    Chain.BitcoinCash,*/}
+        {/*    Chain.Cosmos,*/}
+        {/*    Chain.Dogecoin,*/}
+        {/*    Chain.Ethereum,*/}
+        {/*    Chain.Litecoin,*/}
+
+        {/*    Chain.THORChain,*/}
+        {/*    Chain.Arbitrum,*/}
+        {/*    Chain.Maya,*/}
+        {/*    Chain.Optimism,*/}
+        {/*    Chain.Polygon,*/}
+        {/*  ].map((chain) => (*/}
+        {/*    <option key={chain} onClick={() => handleChainSelect(chain)} value={chain}>*/}
+        {/*      {chain}*/}
+        {/*    </option>*/}
+        {/*  ))}*/}
+        {/*</select>*/}
 
         {loading && <div>Loading...</div>}
       </div>

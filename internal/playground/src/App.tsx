@@ -27,7 +27,7 @@ const App = () => {
    */
   const [keys, setKeys] = useState({
     covalentApiKey: import.meta.env.VITE_COVALENT_API_KEY || 'cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q',
-    ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || 'EK-xs8Hj-qG4HbLY-LoAu7',
+    ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || 'freekey',
     utxoApiKey: import.meta.env.VITE_BLOCKCHAIR_API_KEY || 'A___Tcn5B16iC3mMj7QrzZCb2Ho1QBUf',
     walletConnectProjectId: '',
   });
