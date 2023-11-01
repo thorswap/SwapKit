@@ -99,9 +99,6 @@ const getToolbox = async ({
   ethplorerApiKey,
   blockchairApiKey,
 }: KeepKeyOptions) => {
-  console.log('getToolbox blockchairApiKey: ', blockchairApiKey);
-  console.log('getToolbox ethplorerApiKey: ', ethplorerApiKey);
-
   switch (chain) {
     case Chain.BinanceSmartChain:
     case Chain.Arbitrum:
@@ -190,9 +187,6 @@ const connectKeepkey =
   }: ConnectWalletParams) =>
   async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, config: any) => {
     await checkAndLaunch();
-    console.log('connectKeepkey blockchairApiKey: ', blockchairApiKey);
-    console.log('connectKeepkey blockchairApiKey: ', blockchairApiKey);
-    console.log('connectKeepkey ethplorerApiKey: ', ethplorerApiKey);
     //only build this once for all assets
     const keepKeySdk = await KeepKeySdk.create(config);
 
