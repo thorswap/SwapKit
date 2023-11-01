@@ -42,7 +42,6 @@ interface KeepKeyConfig {
     basePath: string;
     url: string;
   };
-  // Add other properties as needed
 }
 
 /*
@@ -53,7 +52,7 @@ type KeepKeyOptions = {
   api?: string;
   rpcUrl?: string;
   ethplorerApiKey?: string;
-  utxoApiKey?: string;
+  blockchairApiKey?: string;
   covalentApiKey?: string;
   chain: Chain;
   derivationPath?: any;
@@ -98,8 +97,11 @@ const getToolbox = async ({
   chain,
   covalentApiKey,
   ethplorerApiKey,
-  utxoApiKey,
+  blockchairApiKey,
 }: KeepKeyOptions) => {
+  console.log('getToolbox blockchairApiKey: ', blockchairApiKey);
+  console.log('getToolbox ethplorerApiKey: ', ethplorerApiKey);
+
   switch (chain) {
     case Chain.BinanceSmartChain:
     case Chain.Arbitrum:
@@ -139,7 +141,7 @@ const getToolbox = async ({
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      const walletMethods = await utxoWalletMethods({ api, sdk, chain, utxoApiKey });
+      const walletMethods = await utxoWalletMethods({ api, sdk, chain, blockchairApiKey });
       return { address: await walletMethods.getAddress(), walletMethods };
     }
 
@@ -184,11 +186,13 @@ const connectKeepkey =
     apis,
     rpcUrls,
     addChain,
-    config: { covalentApiKey, ethplorerApiKey = 'freekey', utxoApiKey },
+    config: { covalentApiKey, ethplorerApiKey, blockchairApiKey },
   }: ConnectWalletParams) =>
-  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, config: KeepKeyConfig) => {
+  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, config: any) => {
     await checkAndLaunch();
-
+    console.log('connectKeepkey blockchairApiKey: ', blockchairApiKey);
+    console.log('connectKeepkey blockchairApiKey: ', blockchairApiKey);
+    console.log('connectKeepkey ethplorerApiKey: ', ethplorerApiKey);
     //only build this once for all assets
     const keepKeySdk = await KeepKeySdk.create(config);
 
@@ -200,7 +204,7 @@ const connectKeepkey =
         chain,
         covalentApiKey,
         ethplorerApiKey,
-        utxoApiKey,
+        blockchairApiKey,
       });
 
       addChain({

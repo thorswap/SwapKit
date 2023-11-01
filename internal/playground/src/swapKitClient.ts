@@ -40,7 +40,7 @@ export const getSwapKitClient = async ({
     basePath: 'http://localhost:1646/spec/swagger.json',
     url: 'http://localhost:1646',
   }
-
+  console.log("getSwapKitClient utxoApiKey: ",utxoApiKey)
   client.extend({
     config: {
       ethplorerApiKey,

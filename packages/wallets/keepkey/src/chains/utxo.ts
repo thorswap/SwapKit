@@ -6,12 +6,12 @@ import type { Psbt } from 'bitcoinjs-lib';
 
 import { addressInfoForCoin, Coin } from '../coins.ts';
 // TODO: Refactor to toolbox usage
-export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api }: any) {
+export const utxoWalletMethods = async function ({ sdk, chain, blockchairApiKey, api }: any) {
   try {
-    if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
+    if (!blockchairApiKey && !api) throw new Error('UTXO API key not found');
     let toolbox: any = {};
     let isSegwit = false;
-    const toolboxParams = { api, apiKey: utxoApiKey };
+    const toolboxParams = { api, apiKey: blockchairApiKey };
     switch (chain) {
       case Chain.Bitcoin:
         isSegwit = true;
