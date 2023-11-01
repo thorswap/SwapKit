@@ -14,3 +14,4 @@ coverage/
 .DS_Store
 *.log
 .npmrc
+config.json
