@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.10
+
+### Patch Changes
+
+- [#372](https://github.com/thorswap/SwapKit/pull/372) [`1550fe6`](https://github.com/thorswap/SwapKit/commit/1550fe6477bc7e4b42e4cd6c57ed4e2df722c7af) Thanks [@towanTG](https://github.com/towanTG)! - Adds toFixed to bigIntArithmetics
+
 ## 1.0.0-rc.9
 
 ### Patch Changes
