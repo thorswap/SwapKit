@@ -270,6 +270,20 @@ export class BigIntArithmetics {
     )}`;
   }
 
+  toAbbreviation(digits = 2) {
+    const value = this.getValue('number');
+    const abbreviations = ['', 'K', 'M', 'B', 'T', 'Q', 'Qi', 'S'];
+    const tier = Math.floor(Math.log10(Math.abs(value)) / 3);
+    const suffix = abbreviations[tier];
+
+    if (!suffix) return value;
+
+    const scale = 10 ** (tier * 3);
+    const scaled = value / scale;
+
+    return `${scaled.toFixed(digits)}${suffix}`;
+  }
+
   #arithmetics(method: 'add' | 'sub' | 'mul' | 'div', ...args: InitialisationValueType[]): this {
     const precisionDecimal = this.#retrievePrecisionDecimal(this, ...args);
     const precisionDecimalMultiplier = toMultiplier(precisionDecimal);

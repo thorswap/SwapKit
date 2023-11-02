@@ -153,6 +153,37 @@ describe('SwapKitNumber', () => {
     });
   });
 
+  describe('toAbbreviation', () => {
+    test('returns abbreviation with up to 3 integer digits', () => {
+      const skNumber = new SwapKitNumber(1234.5678);
+      expect(skNumber.toAbbreviation()).toBe('1.23K');
+
+      const skNumber2 = new SwapKitNumber(1234567.5678);
+      expect(skNumber2.toAbbreviation()).toBe('1.23M');
+
+      const skNumber3 = new SwapKitNumber(1234567890.5678);
+      expect(skNumber3.toAbbreviation()).toBe('1.23B');
+
+      const skNumber4 = new SwapKitNumber(1234567890123.5678);
+      expect(skNumber4.toAbbreviation()).toBe('1.23T');
+
+      const skNumber5 = new SwapKitNumber(1234567890123456.5678);
+      expect(skNumber5.toAbbreviation()).toBe('1.23Q');
+
+      const skNumber6 = new SwapKitNumber(1234567890123456789.5678);
+      expect(skNumber6.toAbbreviation()).toBe('1.23Qi');
+
+      const skNumber7 = new SwapKitNumber(1234567890123456789012.5678);
+      expect(skNumber7.toAbbreviation()).toBe('1.23S');
+
+      const skNumber8 = new SwapKitNumber(1234.5678);
+      expect(skNumber8.toAbbreviation(0)).toBe('1K');
+
+      const skNumber9 = new SwapKitNumber(1234.5678);
+      expect(skNumber9.toAbbreviation(1)).toBe('1.2K');
+    });
+  });
+
   describe('add', () => {
     test('adds same type numbers correctly', () => {
       const skNumber1 = new SwapKitNumber(10);
