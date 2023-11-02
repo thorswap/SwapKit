@@ -181,6 +181,9 @@ describe('SwapKitNumber', () => {
 
       const skNumber9 = new SwapKitNumber(1234.5678);
       expect(skNumber9.toAbbreviation(1)).toBe('1.2K');
+
+      const skNumber10 = new SwapKitNumber(123456.78);
+      expect(skNumber10.toAbbreviation()).toBe('123.46K');
     });
   });
 

@@ -1,5 +1,17 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.13
+
+### Patch Changes
+
+- fix typing for abbreviation
+
+## 1.0.0-rc.12
+
+### Patch Changes
+
+- Add `toAbbreviation`
+
 ## 1.0.0-rc.11
 
 ### Patch Changes

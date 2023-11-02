@@ -276,7 +276,7 @@ export class BigIntArithmetics {
     const tier = Math.floor(Math.log10(Math.abs(value)) / 3);
     const suffix = abbreviations[tier];
 
-    if (!suffix) return value;
+    if (!suffix) return this.getValue('string');
 
     const scale = 10 ** (tier * 3);
     const scaled = value / scale;
