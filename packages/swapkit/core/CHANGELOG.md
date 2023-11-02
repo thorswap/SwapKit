@@ -1,5 +1,15 @@
 # @swapkit/core
 
+## 1.0.0-rc.17
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.12
+  - @swapkit/toolbox-cosmos@1.0.0-rc.14
+  - @swapkit/toolbox-evm@1.0.0-rc.13
+  - @swapkit/toolbox-utxo@1.0.0-rc.13
+
 ## 1.0.0-rc.16
 
 ### Patch Changes
