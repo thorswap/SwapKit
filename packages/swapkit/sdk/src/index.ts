@@ -3,7 +3,7 @@ import type { ExtendParams } from '@coinmasters/types';
 import { evmWallet } from '@coinmasters/wallet-evm-extensions';
 import { keplrWallet } from '@coinmasters/wallet-keplr';
 import { keystoreWallet } from '@coinmasters/wallet-keystore';
-import { KeepKeyWallet } from '@coinmasters/keepkey';
+import { keepkeyWallet } from '@coinmasters/wallet-keepkey';
 import { ledgerWallet } from '@coinmasters/wallet-ledger';
 import { okxWallet } from '@coinmasters/wallet-okx';
 import { trezorWallet } from '@coinmasters/wallet-trezor';

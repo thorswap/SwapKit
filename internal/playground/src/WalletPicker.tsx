@@ -103,7 +103,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         }
 
         case WalletOption.KEEPKEY: {
-          return skClient.connectKeepKey(chains);
+          return skClient.connectKeepKey(chains, config);
         }
 
         case WalletOption.TREZOR: {

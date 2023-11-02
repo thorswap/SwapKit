@@ -1,24 +1,19 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@cosmjs/stargate": "0.31.1",
     "@keepkey/keepkey-sdk": "^0.2.52",
-    "@pioneer-platform/pioneer-coins": "^8.1.84",
-    "@coinmasters/helpers": "workspace:*",
-    "@coinmasters/types": "workspace:*",
-    "@thorswap-lib/swapkit-entities": "workspace:*",
-    "ethers": "6.7.1"
+    "@pioneer-platform/pioneer-coins": "^8.1.86",
+    "ethers": "^6.7.1"
   },
   "description": "THORSwap Lib keepkey",
   "devDependencies": {
-    "@ethersproject/abstract-signer": "5.7.0",
-    "@ethersproject/bignumber": "5.7.0",
-    "@ethersproject/providers": "5.7.2",
-    "@ethersproject/transactions": "5.7.0",
+    "@cosmjs/stargate": "0.31.1",
     "@internal/config": "workspace:*",
+    "@coinmasters/helpers": "workspace:*",
     "@coinmasters/toolbox-cosmos": "workspace:*",
     "@coinmasters/toolbox-evm": "workspace:*",
     "@coinmasters/toolbox-utxo": "workspace:*",
+    "@coinmasters/types": "workspace:*",
     "@types/bchaddrjs": "0.4.0",
     "@vitest/coverage-istanbul": "0.33.0",
     "bchaddrjs": "0.5.2",
@@ -27,7 +22,7 @@
     "vitest": "0.33.0"
   },
   "eslintConfig": {
-    "extends": "../../../internal/eslint-config-thorswap"
+    "extends": "../../../internal/eslint-config"
   },
   "exports": {
     ".": {
@@ -46,14 +41,12 @@
   "module": "./dist/index.es.js",
   "name": "@coinmasters/wallet-keepkey",
   "peerDependencies": {
-    "@ethersproject/abstract-signer": "5.7.0",
-    "@ethersproject/bignumber": "5.7.0",
-    "@ethersproject/providers": "^5.7.0",
-    "@ethersproject/transactions": "5.7.0",
-    "@keepkey/keepkey-sdk": "0.2.41",
+    "@cosmjs/stargate": "0.31.1",
+    "@coinmasters/helpers": "workspace:*",
     "@coinmasters/toolbox-cosmos": "workspace:*",
     "@coinmasters/toolbox-evm": "workspace:*",
     "@coinmasters/toolbox-utxo": "workspace:*",
+    "@coinmasters/types": "workspace:*",
     "bitcoinjs-lib": "5.2.0"
   },
   "publishConfig": {
@@ -70,5 +63,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "3.0.2"
+  "version": "3.0.1"
 }

@@ -9,12 +9,9 @@
 // import * as Events from "@pioneer-platform/pioneer-events";
 
 import { SwapKitCore } from '@coinmasters/core';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { shortListSymbolToCaip } from '@pioneer-platform/pioneer-caip';
 // @ts-ignore
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Pioneer from '@pioneer-platform/pioneer-client';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   COIN_MAP_LONG,
   getPaths,
@@ -41,6 +38,7 @@ export interface PioneerSDKConfig {
   spec: string;
   wss: string;
   paths: string;
+  keepkeyApiKey: string;
   ethplorerApiKey: string;
   covalentApiKey: string;
   utxoApiKey: string;
@@ -128,12 +126,14 @@ export class SDK {
   private setOutboundAssetContext: (asset: any) => Promise<any>;
 
   // @ts-ignore
+  private keepkeyApiKey: string;
   constructor(spec: string, config: PioneerSDKConfig) {
     this.status = 'preInit';
     this.spec = config.spec || 'https://pioneers.dev/spec/swagger';
     this.wss = config.wss || 'wss://pioneers.dev';
     this.username = config.username;
     this.queryKey = config.queryKey;
+    this.keepkeyApiKey = config.keepkeyApiKey;
     this.ethplorerApiKey = config.ethplorerApiKey;
     this.covalentApiKey = config.covalentApiKey;
     this.utxoApiKey = config.utxoApiKey;
@@ -221,8 +221,27 @@ export class SDK {
         // log.info(tag,"walletSelected.wallet.connectMethodName: ",walletSelected)
         // log.info(tag,"walletSelected.wallet.connectMethodName: ",walletSelected.wallet.connectMethodName)
         // log.info("AllChainsSupported: ", AllChainsSupported);
-        const resultPair =
-          await this.swapKit[walletSelected.wallet.connectMethodName](AllChainsSupported);
+
+        let resultPair;
+        if (walletSelected.type === 'KEEPKEY') {
+          const config: any = {
+            apiKey: this.keepkeyApiKey || '1234',
+            pairingInfo: {
+              name: 'swapKit-demo-app',
+              imageUrl: 'https://thorswap.finance/assets/img/header_logo.png',
+              basePath: 'http://localhost:1646/spec/swagger.json',
+              url: 'http://localhost:1646',
+            },
+          };
+          resultPair = await this.swapKit[walletSelected.wallet.connectMethodName](
+            AllChainsSupported,
+            config,
+          );
+          if (resultPair !== config.apiKey) this.keepkeyApiKey = resultPair;
+        } else {
+          resultPair =
+            await this.swapKit[walletSelected.wallet.connectMethodName](AllChainsSupported);
+        }
         // log.info("resultPair: ", resultPair);
         // log.info("this.swapKit: ", this.swapKit);
         if (resultPair) {
@@ -358,7 +377,7 @@ export class SDK {
         console.log('result: ', result.data.balances);
 
         if (result.data.balances) {
-          console.log("Setting balances!")
+          console.log('Setting balances!');
           this.balances = result.data.balances;
         }
 

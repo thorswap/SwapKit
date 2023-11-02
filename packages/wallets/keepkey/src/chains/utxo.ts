@@ -1,16 +1,13 @@
-// @ts-ignore
-import { addressInfoForCoin, COIN_MAP_KEEPKEY_LONG } from '@pioneer-platform/pioneer-coins';
-import type { UTXOTransferParams } from '@coinmasters/toolbox-utxo';
+import type { UTXOTransferParams, UTXOType } from '@coinmasters/toolbox-utxo';
 import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@coinmasters/toolbox-utxo';
-import type { UTXO } from '@coinmasters/types';
 import { Chain, FeeOption } from '@coinmasters/types';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
 
-export const utxoWalletMethods: any = async function (params: any) {
+import { addressInfoForCoin, Coin } from '../coins.ts';
+// TODO: Refactor to toolbox usage
+export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api }: any) {
   try {
-    let { sdk, chain, utxoApiKey, api, derivationPath } = params;
-    console.log('derivationPath: ', derivationPath);
     if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
     let toolbox: any = {};
     let isSegwit = false;
@@ -61,7 +58,7 @@ export const utxoWalletMethods: any = async function (params: any) {
     };
     const address = await getAddress();
 
-    const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '') => {
+    const signTransaction = async (psbt: Psbt, inputs: UTXOType[], memo: string = '') => {
       let outputs: any[] = psbt.txOutputs.map((output: any) => {
         let outputAddress = output.address;
         if (chain === Chain.BitcoinCash && output.address) {
@@ -99,7 +96,7 @@ export const utxoWalletMethods: any = async function (params: any) {
         );
       }
       let txToSign: any = {
-        coin: COIN_MAP_KEEPKEY_LONG[chain],
+        coin: Coin[chain as keyof typeof Coin],
         inputs,
         outputs: removeNullAndEmptyObjectsFromArray(outputs),
         version: 1,
@@ -108,7 +105,6 @@ export const utxoWalletMethods: any = async function (params: any) {
       if (memo) {
         txToSign.opReturnData = memo;
       }
-      console.log('txToSign: ', txToSign);
       let responseSign = await sdk.utxo.utxoSignTransaction(txToSign);
       return responseSign.serializedTx;
     };

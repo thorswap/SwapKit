@@ -1,13 +1,10 @@
+import type { TransferParams } from '@coinmasters/toolbox-cosmos';
+import { GaiaToolbox } from '@coinmasters/toolbox-cosmos';
+import { Chain, ChainId, RPCUrl } from '@coinmasters/types';
 import { StargateClient } from '@cosmjs/stargate';
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
-import type { TransferParams } from '@coinmasters/toolbox-cosmos';
 
-// @ts-ignore
-import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
-import { GaiaToolbox, getDenom } from '@coinmasters/toolbox-cosmos';
-import type { WalletTxParams } from '@coinmasters/types';
-import { Chain, RPCUrl } from '@coinmasters/types';
-import type { AssetValue } from '@coinmasters/helpers';
+import { addressInfoForCoin } from '../coins.ts';
 
 export type SignTransactionTransferParams = {
   asset: string;
@@ -17,68 +14,52 @@ export type SignTransactionTransferParams = {
   memo: string | undefined;
 };
 
-type CosmosWalletMethodsParams = {
-  sdk: KeepKeySdk;
-  api?: any;
+const DEFAULT_COSMOS_FEE_MAINNET = {
+  amount: [{ denom: 'uatom', amount: '500' }],
+  gas: '200000',
 };
 
-export const cosmosWalletMethods: any = async function (params: CosmosWalletMethodsParams) {
+export const cosmosWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; api: string }) => {
   try {
-    let { sdk, api } = params;
+    const { address: fromAddress } = (await sdk.address.cosmosGetAddress({
+      address_n: addressInfoForCoin(Chain.Cosmos, false).address_n,
+    })) as { address: string };
+
     const toolbox = GaiaToolbox({ server: api });
-    const getAddress = async () =>
-      (
-        await sdk.address.cosmosGetAddress({
-          address_n: addressInfoForCoin(Chain.Cosmos, false).address_n,
-        })
-      ).address;
+    DEFAULT_COSMOS_FEE_MAINNET.amount[0].amount = String(
+      //@ts-ignore
+      (await toolbox?.getFeeRateFromThorswap(ChainId.Cosmos)) ?? '500',
+    );
 
-    let signTransactionTransfer = async function (params: SignTransactionTransferParams) {
+    const signTransactionTransfer = async ({
+      amount,
+      to,
+      from,
+      memo = '',
+    }: SignTransactionTransferParams) => {
       try {
-        const { amount, to, from, memo } = params;
-        const accountInfo = await toolbox.getAccount(from);
+        const accountInfo = await toolbox.getAccount(fromAddress);
 
-        const body = {
+        const keepKeySignedTx = await sdk.cosmos.cosmosSignAmino({
+          signerAddress: fromAddress,
           signDoc: {
-            // TODO: Have gas passed in as a param, ideally a value from a real-time API
-            fee: {
-              gas: '290000',
-              amount: [
-                {
-                  denom: 'uatom',
-                  amount: '5000',
-                },
-              ],
-            },
+            fee: DEFAULT_COSMOS_FEE_MAINNET,
+            memo,
+            sequence: accountInfo?.sequence.toString() ?? '',
+            chain_id: ChainId.Cosmos,
+            account_number: accountInfo?.accountNumber.toString() ?? '',
             msgs: [
               {
-                value: {
-                  amount: [
-                    {
-                      denom: 'uatom',
-                      amount,
-                    },
-                  ],
-                  to_address: to,
-                  from_address: from,
-                },
+                value: { amount: [{ denom: 'uatom', amount }], to_address: to, from_address: from },
                 type: 'cosmos-sdk/MsgSend',
               },
             ],
-            memo,
-            sequence: accountInfo?.sequence.toString(),
-            chain_id: 'cosmoshub-4',
-            account_number: accountInfo?.accountNumber.toString(),
           },
-          signerAddress: from,
-        };
-        console.log("body: ", body)
-        console.log("body: ", JSON.stringify(body))
-        // @ts-ignore
-        const keepKeySignedTx = await sdk.cosmos.cosmosSignAmino(body);
+        });
 
         const decodedBytes = atob(keepKeySignedTx.serialized);
         const uint8Array = new Uint8Array(decodedBytes.length);
+
         for (let i = 0; i < decodedBytes.length; i++) {
           uint8Array[i] = decodedBytes.charCodeAt(i);
         }
@@ -93,24 +74,16 @@ export const cosmosWalletMethods: any = async function (params: CosmosWalletMeth
       }
     };
 
-    const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
-      let from = await getAddress();
-      const response = await signTransactionTransfer({
-        from,
+    const transfer = ({ assetValue, recipient, memo }: TransferParams) =>
+      signTransactionTransfer({
+        from: fromAddress,
         to: recipient,
         asset: assetValue?.symbol === 'MUON' ? 'umuon' : 'uatom',
         amount: assetValue.baseValue.toString(),
         memo,
       });
 
-      return response;
-    };
-
-    return {
-      ...toolbox,
-      getAddress,
-      transfer,
-    };
+    return { ...toolbox, getAddress: () => fromAddress, transfer };
   } catch (e) {
     console.error(e);
     throw e;

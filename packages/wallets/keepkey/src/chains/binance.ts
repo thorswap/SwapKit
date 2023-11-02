@@ -1,13 +1,10 @@
-// @ts-ignore
-import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
-import { BinanceToolbox, getDenom } from '@coinmasters/toolbox-cosmos';
-import type { } from '@coinmasters/types';
-import { Chain, ChainId } from '@coinmasters/types';
 import type { AssetValue } from '@coinmasters/helpers';
+import { BinanceToolbox } from '@coinmasters/toolbox-cosmos';
 import type { WalletTxParams } from '@coinmasters/types';
+import { Chain, ChainId } from '@coinmasters/types';
+import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
 
-// @ts-ignore
-import type { KeepKeyParams } from '../keepkey.js';
+import { addressInfoForCoin } from '../coins.ts';
 
 type SignTransactionTransferParams = {
   asset: string;
@@ -17,63 +14,38 @@ type SignTransactionTransferParams = {
   memo: string | undefined;
 };
 
-export const binanceWalletMethods: any = async function (params: KeepKeyParams) {
+export const binanceWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) => {
   try {
-    const { sdk } = params;
     const toolbox = BinanceToolbox();
 
-    const getAddress = async () =>
-      (
-        await sdk.address.binanceGetAddress({
-          address_n: addressInfoForCoin(Chain.Binance, false).address_n,
-        })
-      ).address;
+    const { address: fromAddress } = (await sdk.address.binanceGetAddress({
+      address_n: addressInfoForCoin(Chain.Binance, false).address_n,
+    })) as { address: string };
 
-    const signTransactionTransfer = async function (params: SignTransactionTransferParams) {
+    const signTransactionTransfer = async ({
+      amount,
+      to,
+      memo = '',
+    }: SignTransactionTransferParams) => {
       try {
-        const { amount, to, from, memo } = params;
-        const addressInfo = addressInfoForCoin(Chain.Binance, false);
-        const accountInfo = await toolbox.getAccount(from);
+        const accountInfo = await toolbox.getAccount(fromAddress);
 
-        const body = {
+        const keepKeyResponse = await sdk.bnb.bnbSignTransaction({
+          signerAddress: fromAddress,
           signDoc: {
             account_number: accountInfo?.account_number.toString() ?? '0',
             chain_id: ChainId.Binance,
-            msgs: [
-              {
-                outputs: [
-                  {
-                    address: to,
-                    coins: [
-                      {
-                        denom: Chain.Binance,
-                        amount,
-                      },
-                    ],
-                  },
-                ],
-                inputs: [
-                  {
-                    address: from,
-                    coins: [
-                      {
-                        denom: Chain.Binance,
-                        amount,
-                      },
-                    ],
-                  },
-                ],
-              },
-            ],
             memo,
             sequence: accountInfo?.sequence.toString() ?? '0',
-            source: addressInfo?.source?.toString() ?? '0',
+            source: '0',
+            msgs: [
+              {
+                outputs: [{ address: to, coins: [{ denom: Chain.Binance, amount }] }],
+                inputs: [{ address: fromAddress, coins: [{ denom: Chain.Binance, amount }] }],
+              },
+            ],
           },
-          signerAddress: from,
-        };
-
-        // @ts-ignore
-        const keepKeyResponse = await sdk.bnb.bnbSignTransaction(body);
+        });
 
         const broadcastResponse = await toolbox.sendRawTransaction(
           keepKeyResponse?.serialized,
@@ -85,23 +57,20 @@ export const binanceWalletMethods: any = async function (params: KeepKeyParams) 
       }
     };
 
-    const transfer = async ({ assetValue, recipient, memo }: WalletTxParams  & { assetValue: AssetValue }) => {
-      let from = await getAddress();
-      return signTransactionTransfer({
-        // @ts-ignore
-        from: from,
+    const transfer = ({
+      assetValue,
+      recipient,
+      memo,
+    }: WalletTxParams & { assetValue: AssetValue }) =>
+      signTransactionTransfer({
+        from: fromAddress,
         to: recipient,
         asset: assetValue?.symbol,
         amount: assetValue.baseValue.toString(),
         memo,
       });
-    };
 
-    return {
-      ...toolbox,
-      getAddress,
-      transfer,
-    };
+    return { ...toolbox, getAddress: () => fromAddress, transfer };
   } catch (e) {
     console.error(e);
     throw e;

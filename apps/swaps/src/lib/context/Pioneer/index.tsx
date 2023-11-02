@@ -20,12 +20,10 @@ import EventEmitter from 'events';
 import {
   createContext,
   useContext,
-  useEffect,
   useMemo,
   useReducer,
   // useState,
 } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { v4 as uuidv4 } from 'uuid';
 
 import { SDK } from './sdk';
@@ -240,7 +238,7 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
   // };
 
   // TODO add wallet to state
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   const connectWallet = async function (wallet: string) {
     try {
       if (state && state?.app) {
@@ -283,6 +281,7 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       // const serviceKey: string | null = localStorage.getItem("serviceKey"); // KeepKey api key
       let queryKey: string | null = localStorage.getItem('queryKey');
       let username: string | null = localStorage.getItem('username');
+      let keepkeyApiKey: string | null = localStorage.getItem('keepkeyApiKey');
       // @ts-ignore
       dispatch({ type: WalletActions.SET_USERNAME, payload: username });
       // if auto connecting
@@ -321,6 +320,7 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
         blockchains,
         username,
         queryKey,
+        keepkeyApiKey,
         spec,
         wss,
         paths,
@@ -341,6 +341,10 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       };
       if (!configPioneer.utxoApiKey) throw Error('blockchair api key required!');
       const appInit = new SDK(spec, configPioneer);
+
+      if (appInit.keepkeyApiKey !== keepkeyApiKey)
+        localStorage.setItem('keepkeyApiKey', appInit.keepkeyApiKey);
+
       // @ts-ignore
       const api = await appInit.init();
 
@@ -353,7 +357,7 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       dispatch({ type: WalletActions.SET_APP, payload: appInit });
 
       setTimeout(() => {
-        console.log("STARTING KEEPKEY BRO")
+        console.log('STARTING KEEPKEY BRO');
         connectWallet('KEEPKEY');
       }, 2000); // 1000 milliseconds = 1 second
 

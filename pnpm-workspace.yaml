@@ -3,5 +3,6 @@ packages:
   - 'internal/**'
   - 'packages/swapkit/**'
   - 'packages/toolboxes/**'
+  - 'packages/pioneer/**'
   - 'packages/wallets/**'
   - '!internal/generator/template/**'
