@@ -238,9 +238,7 @@ export class SwapKitCore<T = ''> {
               ? TCBscDepositABI
               : TCEthereumVaultAbi;
 
-          return (await (
-            walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
-          ).call({
+          let inputs = {
             abi,
             contractAddress:
               router || ((await this.#getInboundDataByChain(chain as EVMChain)).router as string),
@@ -251,10 +249,14 @@ export class SwapKitCore<T = ''> {
               // TODO: (@Towan) Re-Check on that conversion 🙏
               assetValue.baseValueBigInt.toString(),
               params.memo,
-              rest.expiration,
+              rest.expiration || new Date().getTime(),
             ],
-            txOverrides: { from: params.from, value: assetValue.baseValueBigInt },
-          })) as Promise<string>;
+            txOverrides: { from: params.from },
+          }
+          console.log('inputs; ', inputs);
+          let result = await walletInstance.call(inputs)
+          console.log('result; ', result);
+          return result
         }
 
         default: {
