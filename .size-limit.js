@@ -32,7 +32,7 @@ const getSizeFor = (packagePath, sizeType) => {
 module.exports = [
   ...getSizeFor('swapkit/api', 'xxs'),
   ...getSizeFor('swapkit/core', 'xs'),
-  ...getSizeFor('swapkit/helpers', 'xxs'),
+  ...getSizeFor('swapkit/helpers', 'xs'),
   ...getSizeFor('swapkit/sdk', 'xxl'),
   ...getSizeFor('swapkit/tokens', 'xl'),
   ...getSizeFor('swapkit/types', 'xxs'),

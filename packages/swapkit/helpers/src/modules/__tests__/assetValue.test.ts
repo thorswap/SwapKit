@@ -77,6 +77,16 @@ describe('AssetValue', () => {
     });
   });
 
+  describe('from bigint', () => {
+    test('returns asset value with correct decimal', async () => {
+      const avaxUSDCAsset = await AssetValue.fromIdentifier(
+        `${Chain.Avalanche}.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e`,
+        1234567800n,
+      );
+      expect(avaxUSDCAsset.getValue('string')).toBe('1234.5678');
+    });
+  });
+
   describe('toString', () => {
     test('returns asset value string/identifier', async () => {
       const avaxUSDCAsset = new AssetValue({

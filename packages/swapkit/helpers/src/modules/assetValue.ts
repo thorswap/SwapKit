@@ -17,8 +17,14 @@ import type { CommonAssetString } from '../helpers/asset.ts';
 import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers/asset.ts';
 import { validateIdentifier } from '../helpers/validators.ts';
 
-import { BigIntArithmetics } from './bigIntArithmetics.ts';
+import type { NumberPrimitives } from './bigIntArithmetics.ts';
+import { BigIntArithmetics, formatBigIntToSafeValue } from './bigIntArithmetics.ts';
 import type { SwapKitValueType } from './swapKitNumber.ts';
+
+const safeValue = (value: NumberPrimitives, decimal: number) =>
+  typeof value === 'bigint'
+    ? formatBigIntToSafeValue({ value, bigIntDecimal: decimal, decimal })
+    : value;
 
 type AssetValueParams = { decimal: number; value: SwapKitValueType } & (
   | { chain: Chain; symbol: string }
@@ -51,11 +57,13 @@ const getStaticToken = (identifier: TokenNames) => {
   return tokenInfo || { decimal: BaseDecimal.THOR, identifier: '' };
 };
 
-const createAssetValue = async (assetString: string, value: number | string = 0) => {
+const createAssetValue = async (assetString: string, value: NumberPrimitives = 0) => {
   validateIdentifier(assetString);
 
   const decimal = await getDecimal(getAssetInfo(assetString));
-  return new AssetValue({ decimal, value, identifier: assetString });
+  const parsedValue = safeValue(value, decimal);
+
+  return new AssetValue({ decimal, value: parsedValue, identifier: assetString });
 };
 
 export class AssetValue extends BigIntArithmetics {
@@ -105,47 +113,51 @@ export class AssetValue extends BigIntArithmetics {
     return this.chain === chain && this.symbol === symbol;
   }
 
-  static async fromString(assetString: string, value: number | string = 0) {
+  static async fromString(assetString: string, value: NumberPrimitives = 0) {
     return createAssetValue(assetString, value);
   }
 
-  static fromStringSync(assetString: string, value: number | string = 0) {
+  static fromStringSync(assetString: string, value: NumberPrimitives = 0) {
     const { decimal, identifier: tokenIdentifier } = getStaticToken(
       assetString as unknown as TokenNames,
     );
 
+    const parsedValue = safeValue(value, decimal);
+
     return tokenIdentifier
-      ? new AssetValue({ decimal, identifier: tokenIdentifier, value })
+      ? new AssetValue({ decimal, identifier: tokenIdentifier, value: parsedValue })
       : undefined;
   }
 
   static async fromIdentifier(
     assetString: `${Chain}.${string}` | `${Chain}/${string}` | `${Chain}.${string}-${string}`,
-    value: number | string = 0,
+    value: NumberPrimitives = 0,
   ) {
     return createAssetValue(assetString, value);
   }
 
-  static fromIdentifierSync(identifier: TokenNames, value: number | string = 0) {
+  static fromIdentifierSync(identifier: TokenNames, value: NumberPrimitives = 0) {
     const { decimal, identifier: tokenIdentifier } = getStaticToken(identifier);
+    const parsedValue = safeValue(value, decimal);
 
-    return new AssetValue({ decimal, identifier: tokenIdentifier, value });
+    return new AssetValue({ decimal, identifier: tokenIdentifier, value: parsedValue });
   }
 
-  static fromChainOrSignature(assetString: CommonAssetString, value: number | string = 0) {
+  static fromChainOrSignature(assetString: CommonAssetString, value: NumberPrimitives = 0) {
     const { decimal, identifier } = getCommonAssetInfo(assetString);
+    const parsedValue = safeValue(value, decimal);
 
-    return new AssetValue({ value, decimal, identifier });
+    return new AssetValue({ value: parsedValue, decimal, identifier });
   }
 
-  static async fromTCQuote(identifier: TCTokenNames, value: number | string = 0) {
+  static async fromTCQuote(identifier: TCTokenNames, value: NumberPrimitives = 0) {
     const decimal = await getDecimal(getAssetInfo(identifier));
     const shiftedValue = this.shiftDecimals({ value, from: BaseDecimal.THOR, to: decimal });
 
     return new AssetValue({ value: shiftedValue, identifier, decimal });
   }
 
-  static fromTCQuoteStatic(identifier: TCTokenNames, value: number | string = 0) {
+  static fromTCQuoteStatic(identifier: TCTokenNames, value: NumberPrimitives = 0) {
     const tokenInfo = getStaticToken(identifier);
     const shiftedValue = this.shiftDecimals({
       value,

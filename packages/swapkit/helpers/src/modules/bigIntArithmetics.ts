@@ -7,7 +7,7 @@ type NumberPrimitivesType = {
   number: number;
   string: string;
 };
-type NumberPrimitives = bigint | number | string;
+export type NumberPrimitives = bigint | number | string;
 type InitialisationValueType = NumberPrimitives | BigIntArithmetics | SwapKitNumber;
 
 type SKBigIntParams = InitialisationValueType | { decimal?: number; value: number | string };
@@ -75,7 +75,7 @@ export class BigIntArithmetics {
     from: number;
     to: number;
   }) {
-    return BigIntArithmetics.fromBigInt(
+    return this.fromBigInt(
       (new BigIntArithmetics(value).bigIntValue * toMultiplier(to)) / toMultiplier(from),
       to,
     );
