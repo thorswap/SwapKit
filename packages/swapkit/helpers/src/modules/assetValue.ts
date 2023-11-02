@@ -17,7 +17,7 @@ import type { CommonAssetString } from '../helpers/asset.ts';
 import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers/asset.ts';
 import { validateIdentifier } from '../helpers/validators.ts';
 
-import { BigIntArithmetics } from './bigIntArithmetics.ts';
+import { BigIntArithmetics, formatBigIntToSafeValue } from './bigIntArithmetics.ts';
 import type { SwapKitValueType } from './swapKitNumber.ts';
 
 type AssetValueParams = { decimal: number; value: SwapKitValueType } & (
@@ -51,11 +51,16 @@ const getStaticToken = (identifier: TokenNames) => {
   return tokenInfo || { decimal: BaseDecimal.THOR, identifier: '' };
 };
 
-const createAssetValue = async (assetString: string, value: number | string = 0) => {
+const createAssetValue = async (assetString: string, value: number | string | bigint = 0) => {
   validateIdentifier(assetString);
 
   const decimal = await getDecimal(getAssetInfo(assetString));
-  return new AssetValue({ decimal, value, identifier: assetString });
+  const parsedValue =
+    typeof value === 'bigint'
+      ? formatBigIntToSafeValue({ value, bigIntDecimal: decimal, decimal })
+      : value;
+
+  return new AssetValue({ decimal, value: parsedValue, identifier: assetString });
 };
 
 export class AssetValue extends BigIntArithmetics {
@@ -105,7 +110,7 @@ export class AssetValue extends BigIntArithmetics {
     return this.chain === chain && this.symbol === symbol;
   }
 
-  static async fromString(assetString: string, value: number | string = 0) {
+  static async fromString(assetString: string, value: number | string | bigint = 0) {
     return createAssetValue(assetString, value);
   }
 

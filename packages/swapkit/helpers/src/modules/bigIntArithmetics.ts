@@ -75,7 +75,7 @@ export class BigIntArithmetics {
     from: number;
     to: number;
   }) {
-    return BigIntArithmetics.fromBigInt(
+    return this.fromBigInt(
       (new BigIntArithmetics(value).bigIntValue * toMultiplier(to)) / toMultiplier(from),
       to,
     );
