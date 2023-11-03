@@ -705,7 +705,6 @@ function makeState(status, pools, nativeIn, nativeOut, actions, inDetails, outDe
 
 function Track({ txHash }) {
   // ------------------------------ params ------------------------------
-  console.log('txHash: ', txHash);
   let txid = txHash;
   // strip 0x prefix
   if (txid.startsWith('0x')) {

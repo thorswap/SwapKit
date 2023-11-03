@@ -18,13 +18,15 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import { usePioneer } from '../context/Pioneer';
-
+// Import the image from the assets
+import blueMoonImage from '../assets/png/blueMoon.png';
 const PROJECT_NAME = 'Swaps.PRO';
 
 const HeaderNew = () => {
+  const navigate = useNavigate();
   const { state, connectWallet } = usePioneer();
   const {
     // api,
@@ -50,6 +52,16 @@ const HeaderNew = () => {
     if (state.app?.wallets?.some((wallet: any) => wallet.isConnected)) {
       setIsOpen(false);
     }
+  };
+
+  const handleLogoClick = () => {
+    // Add additional stuff here before navigating
+    console.log('The logo was clicked!');
+
+    // Navigate to the homepage
+    navigate('/');
+    // Force a full page reload
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -175,12 +187,9 @@ const HeaderNew = () => {
           </DrawerOverlay>
         </Drawer>
       )}
-      <HStack spacing={8}>
-        <RouterLink to="/">
-          <Box>
-            <Text fontSize="3xl">{PROJECT_NAME}</Text>
-          </Box>
-        </RouterLink>
+      <HStack spacing={4} onClick={handleLogoClick} alignItems="center">
+        <Avatar name='logo' src={blueMoonImage} />
+        <Text fontSize="3xl">{PROJECT_NAME}</Text>
       </HStack>
       <Button onClick={handleOpen}>Connect</Button>
     </Flex>
