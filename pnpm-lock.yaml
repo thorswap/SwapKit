@@ -166,6 +166,9 @@ importers:
       '@fontsource/plus-jakarta-sans':
         specifier: ^5.0.15
         version: 5.0.15
+      '@fontsource/roboto':
+        specifier: ^5.0.8
+        version: 5.0.8
       '@pioneer-platform/pioneer-caip':
         specifier: ^8.1.81
         version: 8.1.81
@@ -214,6 +217,9 @@ importers:
       react-router-dom:
         specifier: ^6.16.0
         version: 6.16.0(react-dom@18.2.0)(react@18.2.0)
+      react-spinners:
+        specifier: ^0.13.8
+        version: 0.13.8(react-dom@18.2.0)(react@18.2.0)
       rollup-plugin-polyfill-node:
         specifier: 0.12.0
         version: 0.12.0(rollup@3.29.2)
@@ -3945,6 +3951,10 @@ packages:
 
   /@fontsource/plus-jakarta-sans@5.0.15:
     resolution: {integrity: sha512-o37CGvg0TTui9qxhWcSks6PMjLolt85HUUE+qJey+Jze0YhfSUQQe2gkYHHzidLDBrsHhlaxgM+pZej6AD9dog==}
+    dev: false
+
+  /@fontsource/roboto@5.0.8:
+    resolution: {integrity: sha512-XxPltXs5R31D6UZeLIV1td3wTXU3jzd3f2DLsXI8tytMGBkIsGcc9sIyiupRtA8y73HAhuSCeweOoBqf6DbWCA==}
     dev: false
 
   /@fortaine/fetch-event-source@3.0.6:
@@ -13271,6 +13281,16 @@ packages:
       react: ^16.3.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /react-spinners@0.13.8(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-3e+k56lUkPj0vb5NDXPVFAOkPC//XyhKPJjvcGjyMNPWsBKpplfeyialP74G7H7+It7KzhtET+MvGqbKgAqpZA==}
+    peerDependencies:
+      react: ^16.0.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-style-singleton@2.2.1(@types/react@18.2.21)(react@18.2.0):
