@@ -1,4 +1,6 @@
-// @ts-ignore
+
+import { HamburgerIcon } from '@chakra-ui/icons';
+
 import {
   Avatar,
   Badge,
@@ -18,11 +20,11 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { usePioneer } from '../context/Pioneer';
 // Import the image from the assets
 import blueMoonImage from '../assets/png/blueMoon.png';
+import { usePioneer } from '../context/Pioneer';
 const PROJECT_NAME = 'Swaps.PRO';
 
 const HeaderNew = () => {
@@ -63,6 +65,16 @@ const HeaderNew = () => {
     // Force a full page reload
     window.location.reload();
   };
+
+  //History
+  const handleHistoryClick = () => {
+    try{
+      //
+      console.log('The history was clicked!');
+    }catch(e){
+      console.error(e)
+    }
+  }
 
   useEffect(() => {
     if (state.app?.wallets) {
@@ -187,11 +199,22 @@ const HeaderNew = () => {
           </DrawerOverlay>
         </Drawer>
       )}
-      <HStack spacing={4} onClick={handleLogoClick} alignItems="center">
-        <Avatar name='logo' src={blueMoonImage} />
+      <HStack alignItems="center" onClick={handleLogoClick} spacing={4}>
+        <Avatar name="logo" src={blueMoonImage} />
         <Text fontSize="3xl">{PROJECT_NAME}</Text>
       </HStack>
-      <Button onClick={handleOpen}>Connect</Button>
+      {context ? (
+        <div>
+          <Button onClick={handleOpen}>Connected</Button>
+          <Button leftIcon={<HamburgerIcon />} onClick={handleHistoryClick} colorScheme='green' variant='solid'>
+            <small>History</small>
+          </Button>
+        </div>
+      ) : (
+        <div>
+          <Button onClick={handleOpen}>Connect</Button>
+        </div>
+      )}
     </Flex>
   );
 };
