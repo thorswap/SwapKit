@@ -20,6 +20,12 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      '@coinmasters/wallet-okx': isProduction
+        ? '@coinmasters/wallet-okx'
+        : resolve('../../packages/wallets/okx/src'),
+      '@coinmasters/wallet-keplr': isProduction
+        ? '@coinmasters/wallet-keplr'
+        : resolve('../../packages/wallets/keplr/src'),
       '@coinmasters/wallet-metamask': isProduction
         ? '@coinmasters/wallet-metamask'
         : resolve('../../packages/wallets/metamask/src'),

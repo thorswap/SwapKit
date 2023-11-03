@@ -139,6 +139,9 @@ importers:
       '@coinmasters/wallet-keepkey':
         specifier: workspace:*
         version: link:../../packages/wallets/keepkey
+      '@coinmasters/wallet-keplr':
+        specifier: workspace:*
+        version: link:../../packages/wallets/keplr
       '@coinmasters/wallet-keystore':
         specifier: workspace:*
         version: link:../../packages/wallets/keystore
@@ -148,12 +151,18 @@ importers:
       '@coinmasters/wallet-metamask':
         specifier: workspace:*
         version: link:../../packages/wallets/metamask
+      '@coinmasters/wallet-okx':
+        specifier: workspace:*
+        version: link:../../packages/wallets/okx
       '@coinmasters/wallet-trezor':
         specifier: workspace:*
         version: link:../../packages/wallets/trezor
       '@coinmasters/wallet-wc':
         specifier: workspace:*
         version: link:../../packages/wallets/wc
+      '@coinmasters/wallet-xdefi':
+        specifier: workspace:*
+        version: link:../../packages/wallets/xdefi
       '@emotion/react':
         specifier: ^11.11.1
         version: 11.11.1(@types/react@18.2.21)(react@18.2.0)
