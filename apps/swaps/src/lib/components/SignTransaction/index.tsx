@@ -1,9 +1,9 @@
-import { Button, Stack, Text } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import { Button, Card, Stack, Text } from '@chakra-ui/react';
 import { FeeOption } from '@coinmasters/types';
-import { SwapKitApi } from '@coinmasters/api';
+import React, { useState } from 'react';
+
 import { usePioneer } from '../../context/Pioneer';
-import FeesComponent from '../FeesDisplay'; // Adjust the import path according to your file structure
+// Adjust the import path according to your file structure
 
 export default function SignTransaction({ route, onClose, setTxhash, inputAmount }: any) {
   const { state } = usePioneer();
@@ -20,9 +20,6 @@ export default function SignTransaction({ route, onClose, setTxhash, inputAmount
     console.log('address: ', address);
 
     console.log('route: ', route);
-    //let txHash = '95E617AA12E5523A909BADCF56783801ED65254589F0542CC9F2391B749C9D06'
-    //let txHash = '4F6AF1BC8C7A6D7F3BF7F9E9A2C7D6D85407C7A5E07FE72B9E90D9B91567D2FF';
-    // let txHash = '0x8b1c6d53c63605454626816cd4086b297341880389418634738b57fb5b985685';
     const txHash = await app?.swapKit.swap({
       route,
       recipient: address,
@@ -45,14 +42,15 @@ export default function SignTransaction({ route, onClose, setTxhash, inputAmount
         <div>You Must Sign the Transaction on your device! ... </div>
       ) : (
         <div>
-          {/*{JSON.stringify(route)}*/}
-          <h2>memo: {route.calldata.memo}</h2>
-          <h2>path: {route?.path}</h2>
-          <h2>input: {inputAmount}</h2>
-          <h2>expectedOutput: {route?.expectedOutput}</h2>
-          <small>{/*<FeesComponent />*/}</small>
-          <Text>Sign Transaction</Text>
-          <Button onClick={approveTransaction}>Approve</Button>
+          <Card>
+            {/*{JSON.stringify(route)}*/}
+            <h2>path: {route?.path}</h2>
+            <h2>input: {inputAmount}</h2>
+            <h2>expectedOutput: {route?.expectedOutput}</h2>
+            <small>{/*<FeesComponent />*/}</small>
+            <Text>Sign Transaction</Text>
+            <Button onClick={approveTransaction}>Approve</Button>
+          </Card>
         </div>
       )}
     </Stack>

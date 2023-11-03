@@ -26,7 +26,6 @@ import {
   Button,
   Card,
   Center,
-  ChakraProvider,
   CircularProgress,
   Divider,
   Flex,
@@ -704,10 +703,10 @@ function makeState(status, pools, nativeIn, nativeOut, actions, inDetails, outDe
 // Track
 ////////////////////////////////////////////////////////////////////////////////////////
 
-function Track({txHash}) {
+function Track({ txHash }) {
   // ------------------------------ params ------------------------------
-  console.log("txHash: ",txHash)
-  let txid = txHash
+  console.log('txHash: ', txHash);
+  let txid = txHash;
   // strip 0x prefix
   if (txid.startsWith('0x')) {
     txid = txid.slice(2);
@@ -1050,7 +1049,7 @@ function Track({txHash}) {
 
   if (state?.isOutbound) {
     return (
-      <ChakraProvider theme={theme}>
+
         <AlertDialog isOpen>
           <AlertDialogOverlay>
             <AlertDialogContent width="100%">
@@ -1071,7 +1070,7 @@ function Track({txHash}) {
             </AlertDialogContent>
           </AlertDialogOverlay>
         </AlertDialog>
-      </ChakraProvider>
+
     );
   }
 
@@ -1611,7 +1610,6 @@ function Track({txHash}) {
                     (row, index) =>
                       row && (
                         <Box
-                          _hover={{ backgroundColor: 'gray.100' }}
                           as="tr"
                           cursor="pointer"
                           fontFamily="mono"
@@ -1690,7 +1688,6 @@ function Track({txHash}) {
                       (row, index) =>
                         row && (
                           <Box
-                            _hover={{ backgroundColor: 'gray.100' }}
                             as="tr"
                             cursor="pointer"
                             fontFamily="mono"
@@ -1743,9 +1740,9 @@ function Track({txHash}) {
     );
   } else if (!state) {
     content = (
-      <Card height="md" p={3} variant="outline" width="sm">
+      <Card p={3} variant="outline">
         <Center height="full">
-          <Spinner size="xl" />
+          <img alt="shiftingGif" borderRadius="md" src={shiftingGif} />
         </Center>
       </Card>
     );
@@ -1837,7 +1834,7 @@ function Track({txHash}) {
             </VStack>
           </HStack>
           <Divider mb={3} mt={3} />
-          {(activeStep == 3) ? (
+          {activeStep == 3 ? (
             <div>
               <img alt="completedGif" src={completedGif} />
             </div>
@@ -1857,7 +1854,7 @@ function Track({txHash}) {
           <Stepper gap="0" index={activeStep} size="sm">
             {steps.slice(0, 3).map((step, index) => (
               <Step gap="0" key={index}>
-                <StepIndicator bg="white">
+                <StepIndicator >
                   <StepStatus complete={<StepIcon />} />
                 </StepIndicator>
                 <StepSeparator _horizontal={{ ml: '0' }} />
@@ -1871,7 +1868,6 @@ function Track({txHash}) {
                   <AccordionButton>
                     <Box
                       as="span"
-                      color={activeStep === index && activeStep <= 2 ? '' : 'gray.400'}
                       flex="1"
                       textAlign="left"
                     >
@@ -1894,7 +1890,6 @@ function Track({txHash}) {
                             row && (
                               <Tr>
                                 <HStack
-                                  fontFamily="mono"
                                   fontSize="sm"
                                   letterSpacing="normal"
                                   width="full"

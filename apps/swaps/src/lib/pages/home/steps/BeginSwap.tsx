@@ -22,12 +22,11 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { SwapKitApi } from '@coinmasters/api';
 import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
-import { useCallback, useEffect, useState } from 'react';
-import MiddleEllipsis from "../../../components/MiddleEllipsis";
+import { useEffect, useState } from 'react';
 
 import CalculatingComponent from '../../../components/CalculatingComponent';
+import MiddleEllipsis from '../../../components/MiddleEllipsis';
 import { usePioneer } from '../../../context/Pioneer';
 
 const labelStyles = {
@@ -36,7 +35,14 @@ const labelStyles = {
   fontSize: 'sm',
 };
 
-const BeginSwap = ({ sliderValue, setSliderValue, routes, fetchQuote, currentRouteIndex, setCurrentRouteIndex }) => {
+const BeginSwap = ({
+  sliderValue,
+  setSliderValue,
+  routes,
+  fetchQuote,
+  currentRouteIndex,
+  setCurrentRouteIndex,
+}) => {
   const { state } = usePioneer();
   const { assetContext, outboundAssetContext } = state;
   const [showGif, setShowGif] = useState(true);
@@ -44,15 +50,15 @@ const BeginSwap = ({ sliderValue, setSliderValue, routes, fetchQuote, currentRou
   const [amountOut, setAmountOut] = useState<Amount | undefined>();
   const [inputAmount, setInputAmount] = useState(0);
   useEffect(() => {
-    if(routes && routes.length > 0) {
+    if (routes && routes.length > 0) {
       //select current route index as 0
       console.log('currentRouteIndex: ', currentRouteIndex);
       let routeLocal = routes[currentRouteIndex];
-      if(routeLocal && routeLocal.expectedOutput) {
+      if (routeLocal && routeLocal.expectedOutput) {
         console.log('routeLocal: ', routeLocal);
         console.log('inputAmount: ', inputAmount);
-        let rate = inputAmount / routeLocal.expectedOutput
-        setRate(rate)
+        let rate = inputAmount / routeLocal.expectedOutput;
+        setRate(rate);
         console.log('rate: ', rate);
         setAmountOut(routeLocal.expectedOutput);
       }
@@ -86,14 +92,18 @@ const BeginSwap = ({ sliderValue, setSliderValue, routes, fetchQuote, currentRou
     try {
       console.log('val: ', val);
       console.log('rate: ', rate);
-      setSliderValue(val);
+      console.log('assetContext?.balance: ', assetContext?.balance);
 
       // Calculate amountIn based on sliderValue
       let newAmountIn = (val / 100) * parseFloat(assetContext?.balance || '0');
       console.log('newAmountIn: ', newAmountIn);
       setInputAmount(newAmountIn);
+
       // Calculate amountOut using rate and newAmountIn
       if (rate) {
+        //
+        console.log('rate: ', rate);
+
         let newAmountOut = newAmountIn / rate;
         console.log('newAmountOut: ', newAmountOut);
         setAmountOut(newAmountOut);
@@ -103,7 +113,7 @@ const BeginSwap = ({ sliderValue, setSliderValue, routes, fetchQuote, currentRou
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
-
+      setSliderValue(val);
       // Set a new timeout to call fetchQuote after 3 seconds of slider inactivity
       // timeoutId = setTimeout(() => {
       //   fetchQuote(); // Call fetchQuote here
@@ -141,12 +151,13 @@ const BeginSwap = ({ sliderValue, setSliderValue, routes, fetchQuote, currentRou
                   <div>
                     <h1>
                       {' '}
-                      input: {inputAmount?.toString() || ''} (<MiddleEllipsis text={assetContext.symbol}/>)
+                      input: {inputAmount?.toString() || ''} (
+                      <MiddleEllipsis text={assetContext.symbol} />)
                     </h1>
                     <small>
                       {' '}
                       (available):
-                      {assetContext?.balance || ''} (<MiddleEllipsis text={assetContext.symbol}/>)
+                      {assetContext?.balance || ''} (<MiddleEllipsis text={assetContext.symbol} />)
                     </small>
                   </div>
                   <Avatar
@@ -162,7 +173,8 @@ const BeginSwap = ({ sliderValue, setSliderValue, routes, fetchQuote, currentRou
                   <div>
                     <h1>
                       {' '}
-                      output: {amountOut?.toString() || ''} ({<MiddleEllipsis text={outboundAssetContext.symbol}/>})
+                      output: {amountOut?.toString() || ''} (
+                      <MiddleEllipsis text={outboundAssetContext.symbol} />)
                     </h1>
                   </div>
                 </div>
@@ -195,54 +207,6 @@ const BeginSwap = ({ sliderValue, setSliderValue, routes, fetchQuote, currentRou
                   <SliderThumb />
                 </Slider>
                 <Stack divider={<StackDivider />} spacing="4">
-                  {/* Expected Output */}
-                  {/* {routes[currentRouteIndex].expectedOutput && ( */}
-                  {/*  <Box> */}
-                  {/*    <Heading size="xs" textTransform="uppercase"> */}
-                  {/*      Expected Output */}
-                  {/*    </Heading> */}
-                  {/*    <Text>{routes[currentRouteIndex].expectedOutput}</Text> */}
-                  {/*  </Box> */}
-                  {/* )} */}
-                  {/* Fees */}
-                  {/* {routes[currentRouteIndex].fees && */}
-                  {/*  routes[currentRouteIndex].fees.THOR && ( */}
-                  {/*    <Box> */}
-                  {/*      <Heading size="xs" textTransform="uppercase"> */}
-                  {/*        Fees */}
-                  {/*      </Heading> */}
-                  {/*      {routes[currentRouteIndex].fees.THOR.map((fee: any) => ( */}
-                  {/*        <Text key={fee.type}> */}
-                  {/*          Type: {fee.type}, Asset: {fee.asset}, Total Fee:{" "} */}
-                  {/*          {fee.totalFeeUSD} USD */}
-                  {/*        </Text> */}
-                  {/*      ))} */}
-                  {/*    </Box> */}
-                  {/*  )} */}
-                  {/* Meta */}
-                  {/* {routes[currentRouteIndex].meta && ( */}
-                  {/*  <Box> */}
-                  {/*    <Heading size="xs" textTransform="uppercase"> */}
-                  {/*      Meta */}
-                  {/*    </Heading> */}
-                  {/*    <Text> */}
-                  {/*      Sell Chain: {routes[currentRouteIndex].meta.sellChain} */}
-                  {/*    </Text> */}
-                  {/*    <Text> */}
-                  {/*      Buy Chain: {routes[currentRouteIndex].meta.buyChain} */}
-                  {/*    </Text> */}
-                  {/*    <Text> */}
-                  {/*      Price Protection Required:{" "} */}
-                  {/*      {routes[currentRouteIndex].meta.priceProtectionRequired */}
-                  {/*        ? "Yes" */}
-                  {/*        : "No"} */}
-                  {/*    </Text> */}
-                  {/*    <Text> */}
-                  {/*      Quote Mode: {routes[currentRouteIndex].meta.quoteMode} */}
-                  {/*    </Text> */}
-                  {/*  </Box> */}
-                  {/* )} */}
-                  {/* Transaction */}
                   {routes[currentRouteIndex].transaction &&
                     routes[currentRouteIndex].transaction.inputs && (
                       <Box>

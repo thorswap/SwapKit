@@ -75,6 +75,7 @@ export class KeepKeySigner extends AbstractSigner {
       ? BigInt(nonce)
       : BigInt(await this.provider.getTransactionCount(await this.getAddress(), 'pending'));
     const nonceHex = '0x' + nonceValue.toString(16);
+    console.log('value: ', value);
     let input = {
       gas: toHexString(BigInt(gasLimit)),
       addressNList: [2147483692, 2147483708, 2147483648, 0, 0],

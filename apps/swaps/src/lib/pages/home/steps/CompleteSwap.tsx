@@ -16,16 +16,9 @@ const BeginSwap = ({ route, txHash, quoteId }: any) => {
   const [isCompleted, setIsCompleted] = useState(false);
   const transactionUrl = `https://etherscan.io/tx/${txHash}`; // Replace with your transaction URL
 
-  // useEffect(() => {
-  //   const timeoutId = setTimeout(() => {
-  //     setIsCompleted(true);
-  //   }, 4000); // 4 seconds timeout
-  //
-  //   return () => clearTimeout(timeoutId); // Clear the timeout if the component is unmounted
-  // }, []);
-
   return (
     <div>
+      <Button>{txHash}</Button>
       <Track txHash={txHash}/>
     </div>
   );

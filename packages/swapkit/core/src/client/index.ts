@@ -8,7 +8,7 @@ import {
   SwapKitNumber,
 } from '@coinmasters/helpers';
 import type { CosmosLikeToolbox } from '@coinmasters/toolbox-cosmos';
-import type { AVAXToolbox, BSCToolbox, ETHToolbox, EVMToolbox } from '@coinmasters/toolbox-evm';
+import type { EVMToolbox } from '@coinmasters/toolbox-evm';
 import type { UTXOToolbox } from '@coinmasters/toolbox-utxo';
 import type {
   AddChainWalletParams,
@@ -36,14 +36,7 @@ import { getSwapInParams } from '../aggregator/getSwapParams.ts';
 
 import { getExplorerAddressUrl, getExplorerTxUrl } from './explorerUrls.ts';
 import { getInboundData, getMimirData } from './thornode.ts';
-import type {
-  CoreTxParams,
-  EVMWallet,
-  SwapParams,
-  ThorchainWallet,
-  Wallet,
-  WalletMethods,
-} from './types.ts';
+import type { CoreTxParams, SwapParams, ThorchainWallet, Wallet, WalletMethods } from './types.ts';
 
 const getEmptyWalletStructure = () =>
   (Object.values(Chain) as Chain[]).reduce(
@@ -121,13 +114,20 @@ export class SwapKitCore<T = ''> {
         const { address: recipient } = await this.#getInboundDataByChain(asset.chain);
         const {
           contract: router,
-          calldata: { amountIn, memo, memoStreamingSwap },
+          calldata: { expiration, amountIn, memo, memoStreamingSwap },
         } = route;
 
         const assetValue = asset.add(SwapKitNumber.fromBigInt(BigInt(amountIn), asset.decimal));
         const swapMemo = (streamSwap ? memoStreamingSwap || memo : memo) as string;
 
-        return this.deposit({ assetValue, memo: swapMemo, feeOptionKey, router, recipient });
+        return this.deposit({
+          expiration,
+          assetValue,
+          memo: swapMemo,
+          feeOptionKey,
+          router,
+          recipient,
+        });
       }
 
       if (SWAP_IN.includes(quoteMode)) {
@@ -148,9 +148,7 @@ export class SwapKitCore<T = ''> {
 
         const contract = await walletMethods.createContract?.(contractAddress, abi, provider);
 
-        // TODO: (@Towan) Contract evm methods should be generic
-        // @ts-expect-error
-        const tx = await contract.populateTransaction.swapIn?.(
+        const tx = await contract.getFunction('swapIn').populateTransaction(
           ...getSwapInParams({
             streamSwap,
             toChecksumAddress,
@@ -247,16 +245,20 @@ export class SwapKitCore<T = ''> {
               recipient,
               getChecksumAddressFromAsset({ chain, symbol, ticker }, chain),
               // TODO: (@Towan) Re-Check on that conversion 🙏
+              // assetValue.getBaseValue('bigint').toString(),
               assetValue.baseValueBigInt.toString(),
               params.memo,
               rest.expiration || new Date().getTime(),
             ],
-            txOverrides: { from: params.from },
-          }
+            txOverrides: {
+              from: params.from,
+              value: assetValue.isGasAsset ? assetValue.baseValueBigInt.toString() : undefined,
+            },
+          };
           console.log('inputs; ', inputs);
-          let result = await walletInstance.call(inputs)
+          let result = await walletInstance.call(inputs);
           console.log('result; ', result);
-          return result
+          return result;
         }
 
         default: {

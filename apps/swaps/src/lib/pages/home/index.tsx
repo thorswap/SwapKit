@@ -39,7 +39,7 @@ const Home = () => {
   const [route, setRoute] = useState(null);
   const [quoteId, setQuoteId] = useState('');
   const [txHash, setTxhash] = useState(null);
-  const [sliderValue, setSliderValue] = useState(100);
+  const [sliderValue, setSliderValue] = useState(50);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentRouteIndex, setCurrentRouteIndex] = useState(0); // New state for current route index
 
@@ -92,9 +92,10 @@ const Home = () => {
     const senderAddress = app.swapKit.getAddress(assetContext.chain);
     const recipientAddress = app.swapKit.getAddress(outboundAssetContext.chain);
     try {
+      let newAmountIn = (sliderValue / 100) * parseFloat(assetContext?.balance || '0');
       const entry = {
         sellAsset: assetContext.chain + '.' + assetContext.symbol,
-        sellAmount: parseFloat(assetBalance.value).toPrecision(3),
+        sellAmount: parseFloat(newAmountIn).toPrecision(3),
         buyAsset: outboundAssetContext.chain + '.' + outboundAssetContext.symbol,
         senderAddress,
         recipientAddress,
@@ -179,6 +180,7 @@ const Home = () => {
           <BeginSwap
             currentRouteIndex={currentRouteIndex}
             routes={routes}
+            setSliderValue={setSliderValue}
             setCurrentRouteIndex={setCurrentRouteIndex}
             setRoute={setRoute}
           />
