@@ -1774,8 +1774,8 @@ function Track() {
             <Image maxHeight="50px" src={`/logos/${queryLogo}`} />
           </Flex>
         )}
-        <Card p={3} variant="outline" width="sm">
-          <HStack justify="space-between" width="full">
+        <Card p={3} variant="outline">
+          <HStack>
             {progress}
             <Spacer />
             <Link isExternal href={viewblockURL(`thorchain/tx/${txid}`, queryNetwork)}>
@@ -1787,8 +1787,6 @@ function Track() {
               </Button>
             </Link>
           </HStack>
-          <Divider mb={3} mt={3} />
-          <img alt="shiftingGif" borderRadius="md" height="600px" src={shiftingGif} width="600px" />
           <Divider mb={3} mt={3} />
           <HStack pb={0} pt={2} px={1}>
             <VStack>
@@ -1836,6 +1834,9 @@ function Track() {
               ))}
             </VStack>
           </HStack>
+          <Divider mb={3} mt={3} />
+          <img alt="shiftingGif" borderRadius="md" height="600px" src={shiftingGif} width="600px" />
+
           <Divider mb={3} mt={2} />
           <Stepper gap="0" index={activeStep} size="sm">
             {steps.slice(0, 3).map((step, index) => (
