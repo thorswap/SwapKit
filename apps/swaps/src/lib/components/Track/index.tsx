@@ -1,8 +1,4 @@
 import '@fontsource/roboto';
-// @ts-ignore
-import completedGif from '../../assets/gif/completed.gif'; // Import the GIF here
-// @ts-ignore
-import shiftingGif from '../../assets/gif/shifting.gif';
 
 import {
   ArrowRightIcon,
@@ -70,6 +66,11 @@ import axios from 'axios';
 import React from 'react';
 // import Icon from 'react-crypto-icons';
 import { BeatLoader } from 'react-spinners';
+
+// @ts-ignore
+import completedGif from '../../assets/gif/completed.gif'; // Import the GIF here
+// @ts-ignore
+import shiftingGif from '../../assets/gif/shifting.gif';
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // Config
@@ -703,9 +704,10 @@ function makeState(status, pools, nativeIn, nativeOut, actions, inDetails, outDe
 // Track
 ////////////////////////////////////////////////////////////////////////////////////////
 
-function Track() {
+function Track({txHash}) {
   // ------------------------------ params ------------------------------
-  let txid = '0xc5c03ae2fb65dadb78da90bd3930b897908d0606c6b979c77799475eebd413c4';
+  console.log("txHash: ",txHash)
+  let txid = txHash
   // strip 0x prefix
   if (txid.startsWith('0x')) {
     txid = txid.slice(2);
@@ -1514,7 +1516,7 @@ function Track() {
   if (!isValidTxID(txid)) {
     content = (
       <Box>
-        <Card >
+        <Card>
           <Flex>
             <Heading size="sm">Chain Status</Heading>
             <Spacer />
@@ -1835,7 +1837,21 @@ function Track() {
             </VStack>
           </HStack>
           <Divider mb={3} mt={3} />
-          <img alt="shiftingGif" borderRadius="md" height="600px" src={shiftingGif} width="600px" />
+          {(activeStep == 3) ? (
+            <div>
+              <img alt="completedGif" src={completedGif} />
+            </div>
+          ) : (
+            <div>
+              <img
+                alt="shiftingGif"
+                borderRadius="md"
+                height="600px"
+                src={shiftingGif}
+                width="600px"
+              />
+            </div>
+          )}
 
           <Divider mb={3} mt={2} />
           <Stepper gap="0" index={activeStep} size="sm">
@@ -1905,12 +1921,7 @@ function Track() {
 
   // ------------------------------ wrapper ------------------------------
 
-  return (
-      <Box
-      >
-        {content}
-      </Box>
-  );
+  return <Box>{content}</Box>;
 }
 
 export default Track;

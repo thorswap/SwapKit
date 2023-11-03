@@ -26,7 +26,7 @@ const BeginSwap = ({ route, txHash, quoteId }: any) => {
 
   return (
     <div>
-      <Track/>
+      <Track txHash={txHash}/>
     </div>
   );
 };
