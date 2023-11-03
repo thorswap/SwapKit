@@ -16,6 +16,7 @@ import {
 import { SwapKitApi } from '@coinmasters/api';
 import { FeeOption } from '@coinmasters/types';
 // import { COIN_MAP_LONG } from "@pioneer-platform/pioneer-coins";
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import AssetSelect from '../../components/AssetSelect';
@@ -31,6 +32,7 @@ import SelectAssets from './steps/SelectAssets';
 
 const Home = () => {
   const { state, onStart } = usePioneer();
+  let { txid } = useParams<{ txid?: string }>();
   const { app, assetContext, outboundAssetContext, blockchainContext } = state;
   // steps
   const [step, setStep] = useState(0);
@@ -69,6 +71,11 @@ const Home = () => {
 
   //start the context provider
   useEffect(() => {
+    if(txid){
+      //set the txid
+      setTxhash(txid);
+      setStep(2);
+    }
     onStart();
   }, []);
 

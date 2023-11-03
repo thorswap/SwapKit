@@ -9,6 +9,10 @@ export const routes: Array<PathRouteProps> = [
     element: <Home />,
   },
   {
+    path: "/txid/:txid",
+    element: <Home />,
+  },
+  {
     path: "*",
     element: <Home />,
   },

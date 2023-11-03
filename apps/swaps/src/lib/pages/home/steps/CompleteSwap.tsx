@@ -13,12 +13,8 @@ import shiftingGif from '../../../assets/gif/shifting.gif';
 import Track from '../../../components/Track';
 
 const BeginSwap = ({ route, txHash, quoteId }: any) => {
-  const [isCompleted, setIsCompleted] = useState(false);
-  const transactionUrl = `https://etherscan.io/tx/${txHash}`; // Replace with your transaction URL
-
   return (
     <div>
-      <Button>{txHash}</Button>
       <Track txHash={txHash}/>
     </div>
   );

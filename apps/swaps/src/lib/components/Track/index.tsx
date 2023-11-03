@@ -1842,7 +1842,6 @@ function Track({ txHash }) {
             <div>
               <img
                 alt="shiftingGif"
-                borderRadius="md"
                 height="600px"
                 src={shiftingGif}
                 width="600px"
@@ -1881,7 +1880,7 @@ function Track({ txHash }) {
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
-                <AccordionPanel bg="gray.50" p={2}>
+                <AccordionPanel p={2}>
                   <TableContainer>
                     <Table size="sm">
                       <Tbody>
