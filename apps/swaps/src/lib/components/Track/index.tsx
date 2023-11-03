@@ -1,4 +1,8 @@
 import '@fontsource/roboto';
+// @ts-ignore
+import completedGif from '../../assets/gif/completed.gif'; // Import the GIF here
+// @ts-ignore
+import shiftingGif from '../../assets/gif/shifting.gif';
 
 import {
   ArrowRightIcon,
@@ -1509,8 +1513,8 @@ function Track() {
   let content = null;
   if (!isValidTxID(txid)) {
     content = (
-      <Box maxWidth="3xl" width="100%">
-        <Card my={3} p={3} variant="outline">
+      <Box>
+        <Card >
           <Flex>
             <Heading size="sm">Chain Status</Heading>
             <Spacer />
@@ -1767,7 +1771,7 @@ function Track() {
       <Box>
         {queryLogo && (
           <Flex justifyContent="center" m={6}>
-            <Image maxHeight="50px" maxWidth="150px" src={`/logos/${queryLogo}`} />
+            <Image maxHeight="50px" src={`/logos/${queryLogo}`} />
           </Flex>
         )}
         <Card p={3} variant="outline" width="sm">
@@ -1783,6 +1787,8 @@ function Track() {
               </Button>
             </Link>
           </HStack>
+          <Divider mb={3} mt={3} />
+          <img alt="shiftingGif" borderRadius="md" height="600px" src={shiftingGif} width="600px" />
           <Divider mb={3} mt={3} />
           <HStack pb={0} pt={2} px={1}>
             <VStack>
@@ -1899,20 +1905,10 @@ function Track() {
   // ------------------------------ wrapper ------------------------------
 
   return (
-    <ChakraProvider theme={theme}>
       <Box
-        alignItems="center"
-        bg="gray.100"
-        display="flex"
-        flexDirection="column"
-        fontFamily="Roboto"
-        justifyContent="center"
-        minHeight="100vh"
-        p={2}
       >
         {content}
       </Box>
-    </ChakraProvider>
   );
 }
 

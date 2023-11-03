@@ -26,26 +26,7 @@ const BeginSwap = ({ route, txHash, quoteId }: any) => {
 
   return (
     <div>
-      {isCompleted ? (
-        <div>
-          <img alt="completedGif" src={completedGif} />
-          <a href={transactionUrl} rel="noopener noreferrer" target="_blank">
-            View Transaction
-          </a>
-        </div>
-      ) : (
-        <div>
-          <Track/>
-          <Text mb={2}>
-            Your transaction has been sent and is currently processing. Please wait for a moment as
-            the transaction is being confirmed on the blockchain.
-          </Text>
-          <Text fontWeight="bold" mb={3}>
-            Waiting for confirmations...
-          </Text>
-          <img alt="shiftingGif" borderRadius="md" height="600px" src={shiftingGif} width="600px" />
-        </div>
-      )}
+      <Track/>
     </div>
   );
 };
