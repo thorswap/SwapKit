@@ -1,40 +1,39 @@
 import type { EVMTxParams } from '@coinmasters/toolbox-evm';
 import type { Chain, DerivationPathArray } from '@coinmasters/types';
 import { ChainToChainId } from '@coinmasters/types';
-import type { KeepKeySdk, TypesEthSignature } from '@keepkey/keepkey-sdk';
 import { AbstractSigner, type JsonRpcProvider, type Provider } from 'ethers';
 
-interface KeepKeyEVMSignerParams {
-  sdk: KeepKeySdk;
+interface MetaMaskEVMSignerParams {
+  wallet: any;
   chain: Chain;
   derivationPath: DerivationPathArray;
   provider: Provider | JsonRpcProvider | any; //TODO fixme
 }
 
-export class KeepKeySigner extends AbstractSigner {
-  private sdk: KeepKeySdk;
+export class MetaMaskSigner extends AbstractSigner {
+  private wallet: any;
   private chain: Chain;
   private derivationPath: DerivationPathArray;
   private address: string;
   readonly provider: Provider | JsonRpcProvider;
 
-  constructor({ sdk, chain, derivationPath, provider }: KeepKeyEVMSignerParams) {
+  constructor({ wallet, chain, derivationPath, provider }: MetaMaskEVMSignerParams) {
     super();
-    this.sdk = sdk;
+    this.wallet = wallet;
     this.chain = chain;
     this.derivationPath = derivationPath;
     this.address = '';
     this.provider = provider;
   }
 
-  signTypedData = async (typedData: any): Promise<TypesEthSignature> => {
+  signTypedData = async (typedData: any): Promise<any> => {
     try {
       let input = {
         addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
         address: this.address,
         typedData: typedData,
       };
-      const responseSign = await this.sdk.eth.ethSignTypedData(input);
+      const responseSign = await this.wallet.ethSignTypedData(input);
       console.log('responseSign: ', responseSign);
       return responseSign;
     } catch (error) {
@@ -45,16 +44,21 @@ export class KeepKeySigner extends AbstractSigner {
 
   getAddress = async () => {
     if (this.address) return this.address;
-    const { address } = await this.sdk.address.ethereumGetAddress({
-      address_n: [2147483692, 2147483708, 2147483648, 0, 0],
-    });
-
+    let payload = {
+      addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
+      coin: 'Ethereum',
+      scriptType: 'ethereum',
+      showDisplay: false
+    }
+    console.log("payload: ",payload)
+    const address = await this.wallet.ethGetAddress(payload);
+    console.log("address: ",address)
     this.address = address;
     return address;
   };
 
   signMessage = async (message: string) => {
-    const response = await this.sdk.eth.ethSign({ address: this.address, message });
+    const response = await this.wallet.ethSign({ address: this.address, message });
 
     return response as string;
   };
@@ -107,13 +111,13 @@ export class KeepKeySigner extends AbstractSigner {
               'gasPrice' in restTx ? toHexString(BigInt(gasPrice?.toString() || '0')) : undefined, // Fixed syntax error and structure here
           }),
     };
-    const responseSign = await this.sdk.eth.ethSignTransaction(input);
+    const responseSign = await this.wallet.ethSignTransaction(input);
     return responseSign.serialized;
   };
 
   connect = (provider: Provider) =>
-    new KeepKeySigner({
-      sdk: this.sdk,
+    new MetaMaskSigner({
+      wallet: this.wallet,
       chain: this.chain,
       derivationPath: this.derivationPath,
       provider,

@@ -11,6 +11,7 @@
     "@coinmasters/toolbox-evm": "workspace:*",
     "@coinmasters/toolbox-utxo": "workspace:*",
     "@coinmasters/types": "workspace:*",
+    "@coinmasters/wallet-metamask": "workspace:*",
     "@coinmasters/wallet-evm-extensions": "workspace:*",
     "@coinmasters/wallet-keepkey": "workspace:*",
     "@coinmasters/wallet-keystore": "workspace:*",

@@ -14,7 +14,7 @@ export async function initializeWallets() {
   // const { evmWallet } = await import("@coinmasters/evm-web3-wallets");
   // const { keplrWallet } = await import('@coinmasters/wallet-keplr');
   const { keystoreWallet } = await import('@coinmasters/wallet-keystore');
-  // const { metamaskWallet } = await import("@coinmasters/wallet-metamask");
+  const { metamaskWallet } = await import("@coinmasters/wallet-metamask");
   const { ledgerWallet } = await import('@coinmasters/wallet-ledger');
   // const { okxWallet } = await import('@coinmasters/wallet-okx');
   const { trezorWallet } = await import('@coinmasters/wallet-trezor');
@@ -32,16 +32,16 @@ export async function initializeWallets() {
   };
   wallets.push(keepkeyWallet);
   walletsVerbose.push(walletKeepKey);
-  // const walletMetaMask = {
-  //   type: WalletOption.METAMASK,
-  //   icon: "https://pioneers.dev/coins/metamask.png",
-  //   chains: availableChainsByWallet[WalletOption.METAMASK],
-  //   wallet: metamaskWallet,
-  //   status: "offline",
-  //   isConnected: false,
-  // };
-  // wallets.push(metamaskWallet);
-  // walletsVerbose.push(walletMetaMask);
+  const walletMetaMask = {
+    type: WalletOption.METAMASK,
+    icon: "https://pioneers.dev/coins/metamask.png",
+    chains: availableChainsByWallet[WalletOption.METAMASK],
+    wallet: metamaskWallet,
+    status: "offline",
+    isConnected: false,
+  };
+  wallets.push(metamaskWallet);
+  walletsVerbose.push(walletMetaMask);
   // const walletEVM = {
   //   type: "EVM", // TODO
   //   icon: "https://pioneers.dev/coins/evm.png",

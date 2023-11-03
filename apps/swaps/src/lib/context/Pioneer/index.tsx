@@ -356,10 +356,10 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       // @ts-ignore
       dispatch({ type: WalletActions.SET_APP, payload: appInit });
 
-      setTimeout(() => {
-        console.log('STARTING KEEPKEY BRO');
-        connectWallet('KEEPKEY');
-      }, 2000); // 1000 milliseconds = 1 second
+      // setTimeout(() => {
+      //   console.log('STARTING KEEPKEY BRO');
+      //   connectWallet('KEEPKEY');
+      // }, 2000); // 1000 milliseconds = 1 second
 
       // events
       // @ts-ignore

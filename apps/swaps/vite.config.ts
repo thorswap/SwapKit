@@ -20,6 +20,9 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
+      '@coinmasters/wallet-metamask': isProduction
+        ? '@coinmasters/wallet-metamask'
+        : resolve('../../packages/wallets/metamask/src'),
       '@coinmasters/wallet-keystore': isProduction
         ? '@coinmasters/wallet-keystore'
         : resolve('../../packages/wallets/keystore/src'),
