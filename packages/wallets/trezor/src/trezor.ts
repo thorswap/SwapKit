@@ -1,7 +1,7 @@
-import { derivationPathToString } from '@coinmasters/helpers';
 import type { UTXOTransferParams, UTXOType } from '@coinmasters/toolbox-utxo';
 import type { ConnectWalletParams, DerivationPathArray } from '@coinmasters/types';
 import { Chain, FeeOption, WalletOption } from '@coinmasters/types';
+import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
 import TrezorConnect from '@trezor/connect-web';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
@@ -35,6 +35,14 @@ type Params = TrezorOptions & {
   api?: any;
 };
 
+//for the record this is a horrible way to store a path. stripping the m/ and ' is a dangerous assumption
+function pathToSwapkitPathFormat(path: string): number[] {
+  // Remove the "m/" prefix and all apostrophes, then split by '/'
+  const components = path.replace('m/', '').replace(/'/g, '').split('/');
+  // Convert each component to a number and return the array
+  return components.map(Number);
+}
+
 const getToolbox = async ({
   api,
   rpcUrl,
@@ -58,7 +66,7 @@ const getToolbox = async ({
       );
 
       const provider = getProvider(chain, rpcUrl);
-      const signer = await getEVMSigner({ chain, derivationPath, provider });
+      const signer = await getEVMSigner({ chain, derivationPath:pathToSwapkitPathFormat(derivationPath), provider });
 
       const address = await signer.getAddress();
       const params = { api, signer, provider };
@@ -84,17 +92,19 @@ const getToolbox = async ({
         '@coinmasters/toolbox-utxo'
       );
 
+      let swapKitArrayPath = pathToSwapkitPathFormat(derivationPath);
+
       const scriptType:
         | {
             input: 'SPENDWITNESS' | 'SPENDP2SHWITNESS' | 'SPENDADDRESS';
             output: 'PAYTOWITNESS' | 'PAYTOP2SHWITNESS' | 'PAYTOADDRESS';
           }
         | undefined =
-        derivationPath[0] === 84
+        swapKitArrayPath[0] === 84
           ? { input: 'SPENDWITNESS', output: 'PAYTOWITNESS' }
-          : derivationPath[0] === 49
+          : swapKitArrayPath[0] === 49
           ? { input: 'SPENDP2SHWITNESS', output: 'PAYTOP2SHWITNESS' }
-          : derivationPath[0] === 44
+          : swapKitArrayPath[0] === 44
           ? { input: 'SPENDADDRESS', output: 'PAYTOADDRESS' }
           : undefined;
 
@@ -110,11 +120,11 @@ const getToolbox = async ({
           ? DOGEToolbox(params)
           : BCHToolbox(params);
 
-      const getAddress = async (path: DerivationPathArray = derivationPath) => {
+      const getAddress = async () => {
         const { success, payload } = await (
           TrezorConnect as unknown as TrezorConnect.TrezorConnect
         ).getAddress({
-          path: `m/${derivationPathToString(path)}`,
+          path: derivationPath,
           coin,
         });
 
@@ -237,7 +247,7 @@ const getToolbox = async ({
       };
     }
     default:
-      throw new Error('Chain not supported');
+      throw new Error('Chain not supported chain: ' + chain);
   }
 };
 
@@ -253,29 +263,36 @@ const connectTrezor =
       trezorManifest = { appUrl: '', email: '' },
     },
   }: ConnectWalletParams) =>
-  async (chain: (typeof TREZOR_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
+  async (chains: any, derivationPath: DerivationPathArray) => {
     const TConnect = TrezorConnect as unknown as TrezorConnect.TrezorConnect;
     const { success } = await TConnect.getDeviceState();
 
     if (!success) {
       TConnect.init({ lazyLoad: true, manifest: trezorManifest });
     }
+    for (const chain of chains) {
+      console.log('chains: ', chains);
+      let addressInfo = addressInfoForCoin(chain, false);
+      derivationPath = addressInfo.path;
+      console.log(chain, 'derivationPath: ', derivationPath);
 
-    const { address, walletMethods } = await getToolbox({
-      api: apis[chain as Chain.Ethereum],
-      rpcUrl: rpcUrls[chain],
-      chain,
-      covalentApiKey,
-      ethplorerApiKey,
-      utxoApiKey,
-      derivationPath,
-    });
+      //TODO if derivationPath set, else get defaults
+      const { address, walletMethods } = await getToolbox({
+        api: apis[chain as Chain.Ethereum],
+        rpcUrl: rpcUrls[chain],
+        chain,
+        covalentApiKey,
+        ethplorerApiKey,
+        utxoApiKey,
+        derivationPath,
+      });
 
-    addChain({
-      chain,
-      walletMethods,
-      wallet: { address, balance: [], walletType: WalletOption.TREZOR },
-    });
+      addChain({
+        chain,
+        walletMethods,
+        wallet: { address, balance: [], walletType: WalletOption.TREZOR },
+      });
+    }
 
     return true;
   };

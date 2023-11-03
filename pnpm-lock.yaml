@@ -1366,6 +1366,9 @@ importers:
       '@coinmasters/types':
         specifier: workspace:*
         version: link:../../swapkit/types
+      '@pioneer-platform/pioneer-coins':
+        specifier: ^8.1.86
+        version: 8.1.86(@types/node@20.5.9)
       '@trezor/connect-web':
         specifier: 9.1.2
         version: 9.1.2

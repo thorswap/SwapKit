@@ -215,10 +215,11 @@ export class SDK {
         // filter wallets by type
         const walletSelected = this.wallets.find((w: any) => w.type === wallet);
         // log.info(tag,"walletSelected: ",walletSelected)
-
+        console.log(tag, 'wallet: ', wallet);
         // supported chains
-        const AllChainsSupported = availableChainsByWallet[walletSelected.type];
-        // log.info(tag,"walletSelected.wallet.connectMethodName: ",walletSelected)
+        const AllChainsSupported = availableChainsByWallet[wallet];
+        console.log(tag, 'AllChainsSupported: ', AllChainsSupported);
+        console.log(tag, 'AllChainsSupported: ', AllChainsSupported.length);
         // log.info(tag,"walletSelected.wallet.connectMethodName: ",walletSelected.wallet.connectMethodName)
         // log.info("AllChainsSupported: ", AllChainsSupported);
 

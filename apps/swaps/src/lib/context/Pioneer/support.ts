@@ -29,8 +29,6 @@ export const availableChainsByWallet: any = {
     Chain.Litecoin,
     Chain.Dogecoin,
     Chain.Ethereum,
-    Chain.Avalanche,
-    Chain.BinanceSmartChain,
   ],
   [WalletOption.KEEPKEY]: AllChainsSupported,
   [WalletOption.METAMASK]: [

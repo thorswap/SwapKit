@@ -2,14 +2,15 @@
   "author": "swapkit-oss-team",
   "dependencies": {
     "@coinmasters/types": "workspace:*",
+    "@pioneer-platform/pioneer-coins": "^8.1.86",
     "@trezor/connect-web": "9.1.2"
   },
   "description": "SwapKit Lib trezor",
   "devDependencies": {
-    "@internal/config": "workspace:*",
     "@coinmasters/helpers": "workspace:*",
     "@coinmasters/toolbox-evm": "workspace:*",
     "@coinmasters/toolbox-utxo": "workspace:*",
+    "@internal/config": "workspace:*",
     "@trezor/connect": "9.1.2",
     "@types/bchaddrjs": "0.4.0",
     "@vitest/coverage-istanbul": "0.34.4",
