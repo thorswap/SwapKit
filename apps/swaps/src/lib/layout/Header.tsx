@@ -1,6 +1,4 @@
-
 import { HamburgerIcon } from '@chakra-ui/icons';
-
 import {
   Avatar,
   Badge,
@@ -68,13 +66,13 @@ const HeaderNew = () => {
 
   //History
   const handleHistoryClick = () => {
-    try{
+    try {
       //
       console.log('The history was clicked!');
-    }catch(e){
-      console.error(e)
+    } catch (e) {
+      console.error(e);
     }
-  }
+  };
 
   useEffect(() => {
     if (state.app?.wallets) {
@@ -206,9 +204,12 @@ const HeaderNew = () => {
       {context ? (
         <div>
           <Button onClick={handleOpen}>Connected</Button>
-          <Button leftIcon={<HamburgerIcon />} onClick={handleHistoryClick} colorScheme='green' variant='solid'>
-            <small>History</small>
-          </Button>
+          {/*<Button*/}
+          {/*  colorScheme="green"*/}
+          {/*  leftIcon={<HamburgerIcon />}*/}
+          {/*  onClick={handleHistoryClick}*/}
+          {/*  variant="solid"*/}
+          {/*/>*/}
         </div>
       ) : (
         <div>
