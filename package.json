@@ -68,6 +68,7 @@
     "publish-packages": "pnpm version-bump && pnpm changeset publish",
     "test": "dotenv -- turbo run test --token=turbotoken-oss-europe1",
     "test:coverage": "dotenv -- turbo run test:coverage",
-    "version-bump": "dotenv -- pnpm changeset version"
+    "version-bump": "dotenv -- pnpm changeset version",
+    "version-bump-forced": "pnpm changeset add --empty && dotenv -- pnpm changeset version"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "swaps-cli",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "A CLI tool",
   "author": "Highlander",
   "main": "dist/index.js",
@@ -18,7 +18,7 @@
     "@coinmasters/wallet-ledger": "workspace:*",
     "@coinmasters/api": "workspace:*",
     "@coinmasters/core": "workspace:*",
-    "@thorswap-lib/swapkit-entities": "workspace:*",
+    "@coinmasters/swapkit-entities": "workspace:*",
     "@coinmasters/toolbox-cosmos": "workspace:*",
     "@coinmasters/toolbox-evm": "workspace:*",
     "@coinmasters/toolbox-utxo": "workspace:*",

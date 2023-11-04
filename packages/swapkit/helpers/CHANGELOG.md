@@ -1,5 +1,17 @@
 # @swapkit/helpers
 
+## 2.0.0
+
+### Major Changes
+
+- bump
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @coinmasters/tokens@2.0.0
+  - @coinmasters/types@2.0.0
+
 ## 1.0.0-rc.2
 
 ### Patch Changes
