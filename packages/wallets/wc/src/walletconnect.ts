@@ -32,6 +32,9 @@ const SUPPORTED_CHAINS = [
   Chain.Ethereum,
   Chain.THORChain,
   Chain.Avalanche,
+  Chain.Arbitrum,
+  Chain.Optimism,
+  Chain.Polygon,
 ] as const;
 
 const getToolbox = async ({
@@ -55,13 +58,16 @@ const getToolbox = async ({
   switch (chain) {
     case Chain.Avalanche:
     case Chain.BinanceSmartChain:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon:
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey)
         throw new Error('Ethplorer API key not found');
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
 
-      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
+      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox, ARBToolbox, OPToolbox, MATICToolbox } = await import(
         '@swapkit/toolbox-evm'
       );
 
