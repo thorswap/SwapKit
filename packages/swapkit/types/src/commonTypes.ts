@@ -8,6 +8,7 @@ type ConnectMethodNames =
   | 'connectKeplr'
   | 'connectKeystore'
   | 'connectKeepkey'
+  | 'connectMetaMask'
   | 'connectLedger'
   | 'connectOkx'
   | 'connectTrezor'

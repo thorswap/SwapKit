@@ -20,6 +20,7 @@ export default defineConfig({
     alias: {
       '@coinmasters/wallet-keystore': resolve('../../packages/wallets/keystore/src'),
       '@coinmasters/wallet-keepkey': resolve('../../packages/wallets/keepkey/src'),
+      '@coinmasters/wallet-metamask': resolve('../../packages/wallets/metamask/src'),
       '@coinmasters/wallet-ledger': resolve('../../packages/wallets/ledger/src'),
       '@coinmasters/core': resolve('../../packages/swapkit/core/src'),
       '@coinmasters/helpers': resolve('../../packages/swapkit/helpers/src'),

@@ -23,6 +23,7 @@ export const getSwapKitClient = async ({
   const { keplrWallet } = await import('@coinmasters/wallet-keplr');
   const { keystoreWallet } = await import('@coinmasters/wallet-keystore');
   const { keepkeyWallet } = await import('@coinmasters/wallet-keepkey');
+  const { metamaskWallet } = await import('@coinmasters/wallet-metamask');
   const { ledgerWallet } = await import('@coinmasters/wallet-ledger');
   const { okxWallet } = await import('@coinmasters/wallet-okx');
   const { SwapKitCore } = await import('@coinmasters/core');
@@ -46,6 +47,7 @@ export const getSwapKitClient = async ({
       ledgerWallet,
       keystoreWallet,
       keepkeyWallet,
+      metamaskWallet,
       trezorWallet,
       keplrWallet,
       evmWallet,

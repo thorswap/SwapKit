@@ -62,7 +62,21 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.Polygon,
     Chain.THORChain,
   ],
-  [WalletOption.METAMASK]: EVMChainList,
+  [WalletOption.METAMASK]: [
+    Chain.Arbitrum,
+    Chain.Avalanche,
+    Chain.Binance,
+    Chain.BinanceSmartChain,
+    Chain.Bitcoin,
+    Chain.BitcoinCash,
+    Chain.Cosmos,
+    Chain.Dogecoin,
+    Chain.Ethereum,
+    Chain.Litecoin,
+    Chain.Optimism,
+    Chain.Polygon,
+    Chain.THORChain,
+  ],
   [WalletOption.TRUSTWALLET_WEB]: EVMChainList,
   [WalletOption.XDEFI]: AllChainsSupported,
   [WalletOption.WALLETCONNECT]: [
@@ -92,18 +106,30 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return skClient.connectXDEFI(chains);
         case WalletOption.OKX:
           return skClient.connectOkx(chains);
-        case WalletOption.COINBASE_WEB:
         case WalletOption.METAMASK:
+          return skClient.connectMetaMask(chains);
+        case WalletOption.COINBASE_WEB:
         case WalletOption.TRUSTWALLET_WEB:
           return skClient.connectEVMWallet(chains, option);
-
         case WalletOption.LEDGER: {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
           return skClient.connectLedger(chains[0], derivationPath);
         }
 
         case WalletOption.KEEPKEY: {
-          return skClient.connectKeepKey(chains, config);
+          let keepkeyApiKey = localStorage.getItem('keepkeyApiKey');
+          const config: any = {
+            apiKey: keepkeyApiKey || '1234',
+            pairingInfo: {
+              name: 'swapKit-playground',
+              imageUrl: 'https://thorswap.finance/assets/img/header_logo.png',
+              basePath: 'http://localhost:1646/spec/swagger.json',
+              url: 'http://localhost:1646',
+            },
+          };
+          let responsePair = await skClient.connectKeepkey(chains, config);
+          if (responsePair !== keepkeyApiKey) localStorage.setItem('keepkeyApiKey', responsePair);
+          return true;
         }
 
         case WalletOption.TREZOR: {

@@ -7,6 +7,7 @@ import { keepkeyWallet } from '@coinmasters/wallet-keepkey';
 import { ledgerWallet } from '@coinmasters/wallet-ledger';
 import { okxWallet } from '@coinmasters/wallet-okx';
 import { trezorWallet } from '@coinmasters/wallet-trezor';
+import { metamaskWallet } from '@coinmasters/wallet-metamask';
 import { walletconnectWallet } from '@coinmasters/wallet-wc';
 import { xdefiWallet } from '@coinmasters/wallet-xdefi';
 
@@ -23,6 +24,7 @@ export const createSwapKit = ({ config, ...extendParams }: SwapKitOptions = {}) 
     config,
     wallets: [
       evmWallet,
+      keplrWallet,
       keplrWallet,
       keystoreWallet,
       keepkeyWallet,

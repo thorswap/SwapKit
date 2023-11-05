@@ -14,6 +14,7 @@
     "@coinmasters/wallet-keplr": "workspace:*",
     "@coinmasters/wallet-keystore": "workspace:*",
     "@coinmasters/wallet-keepkey": "workspace:*",
+    "@coinmasters/wallet-metamask": "workspace:*",
     "@coinmasters/wallet-ledger": "workspace:*",
     "@coinmasters/wallet-okx": "workspace:*",
     "@coinmasters/wallet-trezor": "workspace:*",
