@@ -19,6 +19,7 @@ type XDEFIConfig = {
 };
 
 const XDEFI_SUPPORTED_CHAINS = [
+  Chain.Arbitrum,
   Chain.Avalanche,
   Chain.Binance,
   Chain.BinanceSmartChain,
@@ -28,7 +29,10 @@ const XDEFI_SUPPORTED_CHAINS = [
   Chain.Ethereum,
   Chain.Kujira,
   Chain.Litecoin,
+  Chain.Optimism,
+  Chain.Polygon,
   Chain.THORChain,
+  Chain
 ] as const;
 
 const getWalletMethodsForChain = async ({
@@ -73,6 +77,9 @@ const getWalletMethodsForChain = async ({
 
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon:
     case Chain.Avalanche: {
       const {
         getProvider,
@@ -80,6 +87,9 @@ const getWalletMethodsForChain = async ({
         ETHToolbox,
         AVAXToolbox,
         BSCToolbox,
+        ARBToolbox,
+        MATICToolbox,
+        OPToolbox,
         addEVMWalletNetwork,
         covalentApi,
         ethplorerApi,
@@ -110,6 +120,12 @@ const getWalletMethodsForChain = async ({
           ? ETHToolbox(toolboxParams)
           : chain === Chain.Avalanche
           ? AVAXToolbox(toolboxParams)
+          : chain === Chain.Arbitrum
+          ? ARBToolbox(toolboxParams)
+          : chain === Chain.Optimism
+          ? OPToolbox(toolboxParams)
+          : chain === Chain.Polygon
+          ? MATICToolbox(toolboxParams)
           : BSCToolbox(toolboxParams);
 
       try {
