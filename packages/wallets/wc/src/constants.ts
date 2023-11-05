@@ -9,6 +9,9 @@ export const BSC_MAINNET_ID = 'eip155:56';
 export const AVALACHE_MAINNET_ID = 'eip155:43114';
 export const THORCHAIN_MAINNET_ID = 'cosmos:thorchain-mainnet-v1';
 export const BINANCE_MAINNET_ID = 'cosmos:Binance-Chain-Tigris';
+export const ARBITRUM_ONE_MAINNET_ID = 'eip155:42161';
+export const OPTIMISM_MAINNET_ID = 'eip155:10';
+export const POLYGON_MAINNET_ID = 'eip155:137';
 
 export const DEFAULT_LOGGER = 'debug';
 
@@ -86,4 +89,7 @@ export const WC_SUPPORTED_CHAINS = [
   Chain.Ethereum,
   Chain.THORChain,
   Chain.Avalanche,
+  Chain.Arbitrum,
+  Chain.Optimism,
+  Chain.Polygon,
 ] as const;
