@@ -15,3 +15,6 @@ description: Projects that use SwapKit
 ### Sequel
 
 {% embed url="https://www.sequelfi.com/" %}
+
+### CoinBot
+{% embed url="https://coinbot.finance/" %}
