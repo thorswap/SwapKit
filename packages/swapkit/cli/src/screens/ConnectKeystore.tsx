@@ -1,11 +1,11 @@
-import { Chain } from '@swapkit/core';
+import TextInput from '@inkkit/ink-text-input';
 import { decryptFromKeystore } from '@swapkit/wallet-keystore';
 import { Box, Text } from 'ink';
 import Spinner from 'ink-spinner';
-import TextInput from 'ink-text-input';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { NavigationContext } from '../source.js';
+import { CONNECTED_CHAINS } from '../types/index.js';
 import { useJsonFile } from '../util/useJsonFile.js';
 import { SwapKitContext } from '../util/useSwapKit.js';
 
@@ -18,21 +18,6 @@ const ConnectKeystore = () => {
 
   const [goBack, setGoBack] = useState<boolean>(false);
 
-  const connectChains = [
-    //Chain.Arbitrum,
-    Chain.Avalanche,
-    //Chain.Binance,
-    Chain.BinanceSmartChain,
-    Chain.Bitcoin,
-    Chain.BitcoinCash,
-    //Chain.Cosmos,
-    Chain.Dogecoin,
-    Chain.Ethereum,
-    Chain.Litecoin,
-    //Chain.Optimism,
-    //Chain.Polygon,
-    //Chain.THORChain,
-  ];
   const { swapkit, setKeystoreConnected } = useContext(SwapKitContext);
 
   useEffect(() => {
@@ -47,7 +32,7 @@ const ConnectKeystore = () => {
     }
     decryptFromKeystore(keystoreFile, password).then(
       (res) => {
-        swapkit.connectKeystore(connectChains, res).then(() => {
+        swapkit.connectKeystore(CONNECTED_CHAINS, res).then(() => {
           setKeystoreConnected(true);
           setGoBack(true);
         });

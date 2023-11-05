@@ -1,5 +1,5 @@
+import SelectInput from '@inkkit/ink-select-input';
 import { Text } from 'ink';
-import SelectInput from 'ink-select-input';
 import React, { useContext } from 'react';
 
 import { NavigationContext } from '../source.js';

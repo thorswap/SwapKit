@@ -2,24 +2,27 @@
   "author": "swapkit",
   "description": "SwapKit Lib cli",
   "dependencies": {
-    "@deralaxo/ink-form": "1.0.21",
-    "@deralaxo/ink-multi-select": "1.0.223",
-    "@deralaxo/ink-table": "0.0.0",
+    "@inkkit/ink-divider": "1.0.1",
+    "@inkkit/ink-form": "1.0.0",
+    "@inkkit/ink-multi-select": "1.0.0",
+    "@inkkit/ink-quicksearch-input": "1.0.2",
+    "@inkkit/ink-select-input": "5.0.1",
+    "@inkkit/ink-table": "1.0.0",
+    "@inkkit/ink-text-input": "5.0.2",
     "@swapkit/core": "workspace:*",
     "@swapkit/sdk": "workspace:*",
+    "@swapkit/tokens": "workspace:*",
     "@swapkit/wallet-keystore": "workspace:*",
     "ink": "4.4.1",
-    "ink-select-input": "5.0.0",
     "ink-spinner": "5.0.0",
-    "ink-text-input": "5.0.1",
     "react": "18.2.0",
+    "terminal-size": "4.0.0",
     "typescript": "5.2.2"
   },
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@rollup/plugin-babel": "6.0.4",
     "@sindresorhus/tsconfig": "5.0.0",
-    "@types/ink-select-input": "3.0.2",
     "@types/node": "20.5.9",
     "@types/react": "18.2.21",
     "@vitejs/plugin-react": "4.0.4",
@@ -44,26 +47,26 @@
   ],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
-  "main": "./dist/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
   "bin": {
-    "swapkit-cli": "./dist/index.js"
+    "swapkit-cli": "dist/index.js"
   },
-  "module": "./dist/index.js",
+  "module": "dist/index.js",
   "name": "@swapkit/cli",
   "publishConfig": {
     "access": "public"
   },
-  "react-native": "./src/index.ts",
+  "react-native": "src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build:vite": "vite build",
     "build": "tsc",
-    "dev": "tsc && cd ./dist && node ./index.js",
+    "dev": "tsc && cd dist && node index.js",
     "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
-  },
-  "type": "module",
-  "types": "./dist/index.d.ts"
+  }
 }

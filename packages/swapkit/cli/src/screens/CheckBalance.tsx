@@ -1,7 +1,7 @@
-import Table from '@deralaxo/ink-table';
+import SelectInput from '@inkkit/ink-select-input';
+import Table from '@inkkit/ink-table';
 import type { WalletMethods } from '@swapkit/core';
 import { Text } from 'ink';
-import SelectInput from 'ink-select-input';
 import React, { useContext, useMemo, useState } from 'react';
 
 import { NavigationContext } from '../source.js';
