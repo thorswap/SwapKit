@@ -9,6 +9,7 @@ import type { Psbt } from 'bitcoinjs-lib';
 import { getEVMSigner } from './signer/evm.ts';
 
 export const TREZOR_SUPPORTED_CHAINS = [
+  Chain.Arbitrum,
   Chain.Avalanche,
   Chain.Bitcoin,
   Chain.BitcoinCash,
@@ -16,6 +17,8 @@ export const TREZOR_SUPPORTED_CHAINS = [
   Chain.Ethereum,
   Chain.BinanceSmartChain,
   Chain.Litecoin,
+  Chain.Optimism,
+  Chain.Polygon
 ] as const;
 
 type TrezorOptions = {
@@ -47,13 +50,16 @@ const getToolbox = async ({
   switch (chain) {
     case Chain.BinanceSmartChain:
     case Chain.Avalanche:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon:
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey)
         throw new Error('Ethplorer API key not found');
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
 
-      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
+      const { getProvider, ETHToolbox, AVAXToolbox, ARBToolbox, MATICToolbox, OPToolbox, BSCToolbox } = await import(
         '@swapkit/toolbox-evm'
       );
 
@@ -65,7 +71,7 @@ const getToolbox = async ({
       const walletMethods =
         chain === Chain.Ethereum
           ? ETHToolbox({ ...params, ethplorerApiKey: ethplorerApiKey as unknown as string })
-          : (chain === Chain.Avalanche ? AVAXToolbox : BSCToolbox)({
+          : (chain === Chain.Avalanche ? AVAXToolbox : Chain.Arbitrum ? ARBToolbox : Chain.Optimism ? OPToolbox : Chain.Polygon ? MATICToolbox : BSCToolbox)({
               ...params,
               covalentApiKey: covalentApiKey as unknown as string,
             });
