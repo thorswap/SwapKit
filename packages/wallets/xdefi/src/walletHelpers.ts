@@ -47,6 +47,7 @@ const getXDEFIProvider = (chain: Chain) => {
     case Chain.THORChain:
       return window.xfi?.thorchain;
     case Chain.Cosmos:
+    case Chain.Kujira:
       return window.xfi?.keplr;
     default:
       return undefined;
