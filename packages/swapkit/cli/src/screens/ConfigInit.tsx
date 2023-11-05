@@ -1,7 +1,7 @@
+import SelectInput from '@inkkit/ink-select-input';
+import TextInput from '@inkkit/ink-text-input';
 import type { ConnectConfig } from '@swapkit/sdk';
 import { Box, Text } from 'ink';
-import SelectInput from 'ink-select-input';
-import TextInput from 'ink-text-input';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { NavigationContext } from '../source.js';

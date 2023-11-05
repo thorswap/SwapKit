@@ -5,7 +5,7 @@ import CheckBalance from './screens/CheckBalance.js';
 import ConfigInit from './screens/ConfigInit.js';
 import ConnectKeystore from './screens/ConnectKeystore.js';
 import Exit from './screens/Exit.js';
-import Swap from './screens/Swap.js';
+import Swap from './screens/Swap/Swap.js';
 import SwapKitMenu from './screens/SwapKitMenu.js';
 import WelcomeScreen from './screens/WelcomeScreen.js';
 import type { NavigationScreens } from './types/navigation.js';
