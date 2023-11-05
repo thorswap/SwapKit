@@ -29,7 +29,7 @@ npm add @swapkit/toolbox-cosmos
 ### Available Instances
 
 ```typescript
-import { MayaToolbox, THORToolbox, GAIAToolbox, BNBToolbox } from "@swapkit/toolbox-cosmos";
+import { MayaToolbox, ThorchainToolbox, GaiaToolbox, KujiraToolxbox, BinanceToolbox } from "@swapkit/toolbox-cosmos";
 
 // TODO
 ```
