@@ -7,6 +7,9 @@ import {
   BSC_MAINNET_ID,
   ETHEREUM_MAINNET_ID,
   THORCHAIN_MAINNET_ID,
+  ARBITRUM_ONE_MAINNET_ID,
+  OPTIMISM_MAINNET_ID,
+  POLYGON_MAINNET_ID,
 } from './constants.ts';
 
 export const getAddressFromAccount = (account: string) => {
@@ -37,6 +40,12 @@ export const chainToChainId = (chain: Chain) => {
       return BINANCE_MAINNET_ID;
     case Chain.THORChain:
       return THORCHAIN_MAINNET_ID;
+    case Chain.Arbitrum:
+      return ARBITRUM_ONE_MAINNET_ID;
+    case Chain.Optimism:
+      return OPTIMISM_MAINNET_ID;
+    case Chain.Polygon:
+      return POLYGON_MAINNET_ID;
     default:
       return '';
   }
