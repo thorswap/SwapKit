@@ -1,5 +1,5 @@
 import type { UTXOTransferParams, UTXOType } from '@swapkit/toolbox-utxo';
-import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/toolbox-utxo';
+import { BCHToolbox, BTCToolbox, DOGEToolbox, DASHToolbox, LTCToolbox } from '@swapkit/toolbox-utxo';
 import { Chain, FeeOption } from '@swapkit/types';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
@@ -16,6 +16,9 @@ export const utxoWalletMethods = async function ({ sdk, chain, blockchairApiKey,
       case Chain.Bitcoin:
         isSegwit = true;
         toolbox = BTCToolbox(toolboxParams);
+        break;
+      case Chain.Dash:
+        toolbox = DASHToolbox(toolboxParams);
         break;
       case Chain.Litecoin:
         isSegwit = true;

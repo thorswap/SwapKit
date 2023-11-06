@@ -1,6 +1,7 @@
 export { BaseUTXOToolbox } from './toolbox/BaseUTXOToolbox.ts';
 export { BCHToolbox } from './toolbox/bch.ts';
 export { BTCToolbox } from './toolbox/btc.ts';
+export { DASHToolbox } from './toolbox/dash.ts';
 export { DOGEToolbox } from './toolbox/doge.ts';
 export { LTCToolbox } from './toolbox/ltc.ts';
 export * from './types/index.ts';

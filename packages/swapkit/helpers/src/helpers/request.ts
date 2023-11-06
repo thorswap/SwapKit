@@ -3,8 +3,8 @@ import ky from 'ky';
 
 const kyClient = ky.create({
   headers: {
-    referrer: 'https://sk.thorswap.net',
-    referer: 'https://sk.thorswap.net',
+    // referrer: 'https://sk.thorswap.net',
+    // referer: 'https://sk.thorswap.net',
     'Content-Type': 'application/json',
   },
 });

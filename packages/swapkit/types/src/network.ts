@@ -6,6 +6,7 @@ export enum Chain {
   Bitcoin = 'BTC',
   BitcoinCash = 'BCH',
   Cosmos = 'GAIA',
+  Dash = 'DASH',
   Dogecoin = 'DOGE',
   Ethereum = 'ETH',
   Kujira = 'KUJI',
@@ -26,6 +27,7 @@ export enum ContractAddress {
   OP = '0x4200000000000000000000000000000000000042',
 }
 
+//ref: https://github.com/satoshilabs/slips/blob/master/slip-0044.md
 export enum DerivationPath {
   ARB = "m/44'/60'/0'/0",
   AVAX = "m/44'/60'/0'/0",
@@ -34,6 +36,7 @@ export enum DerivationPath {
   BSC = "m/44'/60'/0'/0",
   BTC = "m/84'/0'/0'/0",
   DOGE = "m/44'/3'/0'/0",
+  DASH = "m/44'/5'/0'/0",
   ETH = "m/44'/60'/0'/0",
   GAIA = "m/44'/118'/0'/0",
   KUJI = "m/44'/118'/0'/0",
@@ -53,6 +56,7 @@ export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   BNB: [44, 714, 0, 0, 0],
   BSC: [44, 60, 0, 0, 0],
   BTC: [84, 0, 0, 0, 0],
+  DASH: [44, 5, 0, 0, 0],
   DOGE: [44, 3, 0, 0, 0],
   ETH: [44, 60, 0, 0, 0],
   GAIA: [44, 118, 0, 0, 0],
@@ -105,6 +109,7 @@ export type UTXOChain = Chain.Bitcoin | Chain.BitcoinCash | Chain.Dogecoin | Cha
 export const UTXOChainList: Chain[] = [
   Chain.Bitcoin,
   Chain.BitcoinCash,
+  Chain.Dash,
   Chain.Dogecoin,
   Chain.Litecoin,
 ];
@@ -129,6 +134,7 @@ export enum ChainId {
   Bitcoin = 'bitcoin',
   BitcoinCash = 'bitcoincash',
   Cosmos = 'cosmoshub-4',
+  dash = 'dash',
   Dogecoin = 'dogecoin',
   Kujira = 'kaiyo-1',
   Ethereum = '1',
@@ -153,6 +159,7 @@ export enum RPCUrl {
   BitcoinCash = 'https://node-router.thorswap.net/bitcoin-cash',
   Cosmos = 'https://node-router.thorswap.net/cosmos/rpc',
   Kujira = 'https://rpc-kujira.synergynodes.com/',
+  Dash = 'todo', //@todo find public rpc
   Dogecoin = 'https://node-router.thorswap.net/dogecoin',
   Ethereum = 'https://node-router.thorswap.net/ethereum',
   Litecoin = 'https://node-router.thorswap.net/litecoin',
@@ -226,6 +233,7 @@ export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.BitcoinCash]: Chain.BitcoinCash,
   [ChainId.Bitcoin]: Chain.Bitcoin,
   [ChainId.Cosmos]: Chain.Cosmos,
+  [ChainId.Dash]: Chain.Dash,
   [ChainId.Dogecoin]: Chain.Dogecoin,
   [ChainId.EthereumHex]: Chain.Ethereum,
   [ChainId.Kujira]: Chain.Kujira,

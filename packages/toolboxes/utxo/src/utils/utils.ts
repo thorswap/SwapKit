@@ -10,6 +10,8 @@ export const getNetwork = (chain: Chain) => {
   switch (chain) {
     case Chain.Bitcoin:
       return networks.bitcoin;
+    case Chain.Dash:
+      return coininfo.dash.main.toBitcoinJS();
     case Chain.BitcoinCash:
       return coininfo.bitcoincash.main.toBitcoinJS();
     case Chain.Dogecoin:

@@ -17,6 +17,8 @@ const getDefaultTxFeeByChain = (chain: Chain) => {
   switch (chain) {
     case Chain.Bitcoin:
       return 127;
+    case Chain.Dash:
+      return 10000000;
     case Chain.Dogecoin:
       return 10000000;
     case Chain.Litecoin:
@@ -30,6 +32,8 @@ const mapChainToBlockchairChain = (chain: Chain) => {
   switch (chain) {
     case Chain.BitcoinCash:
       return 'bitcoin-cash';
+    case Chain.Dash:
+      return 'dash';
     case Chain.Litecoin:
       return 'litecoin';
     case Chain.Dogecoin:
@@ -90,6 +94,8 @@ const getAddressData = async ({
   if (!address) throw new Error('address is required');
 
   try {
+    //example XfaRxFFrjJkDDkyZfr9niGEAZE6HLSU4U5
+    // https://api.blockchair.com/dashboards/address/XfaRxFFrjJkDDkyZfr9niGEAZE6HLSU4U5?transaction_details=true
     const response = await blockchairRequest<BlockchairAddressResponse>(
       `${baseUrl(chain)}/dashboards/address/${address}?transaction_details=true`,
       apiKey,

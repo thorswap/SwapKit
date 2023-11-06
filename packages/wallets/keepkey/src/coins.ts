@@ -11,6 +11,7 @@ export const blockchains = [
   'bitcoincash',
   'litecoin',
   'binance',
+  'dash',
   'cosmos',
   'dogecoin',
   'osmosis',

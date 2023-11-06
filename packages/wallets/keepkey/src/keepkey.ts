@@ -136,6 +136,7 @@ const getToolbox = async ({
     }
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
+    case Chain.Dash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       const walletMethods = await utxoWalletMethods({ api, sdk, chain, blockchairApiKey });
