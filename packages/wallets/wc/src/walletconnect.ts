@@ -8,13 +8,16 @@ import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
 import {
-  BINANCE_MAINNET_ID,
+  BINANCE_MAINNET_ID, // Not supported by WC
   DEFAULT_APP_METADATA,
   DEFAULT_COSMOS_METHODS,
   DEFAULT_LOGGER,
   DEFAULT_RELAY_URL,
   THORCHAIN_MAINNET_ID,
   WC_SUPPORTED_CHAINS,
+  MAYACHAIN_MAINNET_ID,
+  COSMOS_HUB_MAINNET_ID,
+  KUJIRA_MAINNET_ID,
 } from './constants.ts';
 import { getEVMSigner } from './evmSigner.ts';
 import { chainToChainId, getAddressByChain } from './helpers.ts';
@@ -27,7 +30,7 @@ const DEFAULT_THORCHAIN_FEE = {
 };
 
 const SUPPORTED_CHAINS = [
-  Chain.Binance,
+  Chain.Binance, // Not supported by WC
   Chain.BinanceSmartChain,
   Chain.Ethereum,
   Chain.THORChain,
@@ -35,6 +38,9 @@ const SUPPORTED_CHAINS = [
   Chain.Arbitrum,
   Chain.Optimism,
   Chain.Polygon,
+  Chain.Maya,
+  Chain.Cosmos,
+  Chain.Kujira,
 ] as const;
 
 const getToolbox = async ({
