@@ -7,7 +7,7 @@ type NumberPrimitivesType = {
   number: number;
   string: string;
 };
-type NumberPrimitives = bigint | number | string;
+export type NumberPrimitives = bigint | number | string;
 type InitialisationValueType = NumberPrimitives | BigIntArithmetics | SwapKitNumber;
 
 type SKBigIntParams = InitialisationValueType | { decimal?: number; value: number | string };
@@ -75,7 +75,7 @@ export class BigIntArithmetics {
     from: number;
     to: number;
   }) {
-    return BigIntArithmetics.fromBigInt(
+    return this.fromBigInt(
       (new BigIntArithmetics(value).bigIntValue * toMultiplier(to)) / toMultiplier(from),
       to,
     );
@@ -268,6 +268,20 @@ export class BigIntArithmetics {
       decimal.length - `${trimmedDecimal}`.length + slicedDecimal.length,
       '0',
     )}`;
+  }
+
+  toAbbreviation(digits = 2) {
+    const value = this.getValue('number');
+    const abbreviations = ['', 'K', 'M', 'B', 'T', 'Q', 'Qi', 'S'];
+    const tier = Math.floor(Math.log10(Math.abs(value)) / 3);
+    const suffix = abbreviations[tier];
+
+    if (!suffix) return this.getValue('string');
+
+    const scale = 10 ** (tier * 3);
+    const scaled = value / scale;
+
+    return `${scaled.toFixed(digits)}${suffix}`;
   }
 
   #arithmetics(method: 'add' | 'sub' | 'mul' | 'div', ...args: InitialisationValueType[]): this {

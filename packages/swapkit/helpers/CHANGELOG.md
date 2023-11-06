@@ -1,5 +1,23 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.13
+
+### Patch Changes
+
+- fix typing for abbreviation
+
+## 1.0.0-rc.12
+
+### Patch Changes
+
+- Add `toAbbreviation`
+
+## 1.0.0-rc.11
+
+### Patch Changes
+
+- [#374](https://github.com/thorswap/SwapKit/pull/374) [`e4f97a9`](https://github.com/thorswap/SwapKit/commit/e4f97a9f50827c6eb4089ef63c2ad81c95014a82) Thanks [@towanTG](https://github.com/towanTG)! - Adds better fromBigInt handling to SKN
+
 ## 1.0.0-rc.10
 
 ### Patch Changes
