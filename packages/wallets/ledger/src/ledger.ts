@@ -480,7 +480,17 @@ const connectLedger =
     return true;
   };
 
+let checkLedgerAvailability = async () => {
+  try {
+    return true;
+  } catch (e) {
+    console.error('Failed to check ledger availability', e);
+    return false;
+  }
+};
+
 export const ledgerWallet = {
   connectMethodName: 'connectLedger' as const,
   connect: connectLedger,
+  isDetected: () => checkLedgerAvailability(),
 };
