@@ -65,14 +65,14 @@ const HeaderNew = () => {
   };
 
   //History
-  const handleHistoryClick = () => {
-    try {
-      //
-      console.log('The history was clicked!');
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  // const handleHistoryClick = () => {
+  //   try {
+  //     //
+  //     console.log('The history was clicked!');
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
 
   useEffect(() => {
     if (state.app?.wallets) {

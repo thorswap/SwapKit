@@ -10,6 +10,7 @@ const AllChainsSupported = [
   Chain.BitcoinCash,
   Chain.Cosmos,
   Chain.Dogecoin,
+  Chain.Dash,
   Chain.Ethereum,
   Chain.Litecoin,
   Chain.Optimism,

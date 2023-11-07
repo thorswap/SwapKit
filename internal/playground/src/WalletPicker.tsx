@@ -27,6 +27,7 @@ const AllChainsSupported = [
   Chain.Litecoin,
   Chain.Optimism,
   Chain.Polygon,
+  Chain.Dash,
   Chain.Maya,
   Chain.Kujira,
   Chain.THORChain,
@@ -36,8 +37,40 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   [WalletOption.BRAVE]: EVMChainList,
   [WalletOption.COINBASE_WEB]: EVMChainList,
   [WalletOption.KEPLR]: [Chain.Cosmos],
-  [WalletOption.KEYSTORE]: AllChainsSupported,
-  [WalletOption.LEDGER]: AllChainsSupported,
+  [WalletOption.KEYSTORE]: [
+    Chain.Arbitrum,
+    Chain.Avalanche,
+    Chain.Binance,
+    Chain.BinanceSmartChain,
+    Chain.Bitcoin,
+    Chain.BitcoinCash,
+    Chain.Cosmos,
+    Chain.Dogecoin,
+    Chain.Ethereum,
+    Chain.Litecoin,
+    Chain.Optimism,
+    Chain.Polygon,
+    Chain.Maya,
+    Chain.Kujira,
+    Chain.THORChain,
+  ],
+  [WalletOption.LEDGER]: [
+    Chain.Arbitrum,
+    Chain.Avalanche,
+    Chain.Binance,
+    Chain.BinanceSmartChain,
+    Chain.Bitcoin,
+    Chain.BitcoinCash,
+    Chain.Cosmos,
+    Chain.Dogecoin,
+    Chain.Ethereum,
+    Chain.Litecoin,
+    Chain.Optimism,
+    Chain.Polygon,
+    Chain.Maya,
+    Chain.Kujira,
+    Chain.THORChain,
+  ],
   [WalletOption.TREZOR]: [
     Chain.Bitcoin,
     Chain.BitcoinCash,
@@ -60,23 +93,10 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.Litecoin,
     Chain.Optimism,
     Chain.Polygon,
+    Chain.Dash,
     Chain.THORChain,
   ],
-  [WalletOption.METAMASK]: [
-    Chain.Arbitrum,
-    Chain.Avalanche,
-    Chain.Binance,
-    Chain.BinanceSmartChain,
-    Chain.Bitcoin,
-    Chain.BitcoinCash,
-    Chain.Cosmos,
-    Chain.Dogecoin,
-    Chain.Ethereum,
-    Chain.Litecoin,
-    Chain.Optimism,
-    Chain.Polygon,
-    Chain.THORChain,
-  ],
+  [WalletOption.METAMASK]: EVMChainList,
   [WalletOption.TRUSTWALLET_WEB]: EVMChainList,
   [WalletOption.XDEFI]: AllChainsSupported,
   [WalletOption.WALLETCONNECT]: [
@@ -106,6 +126,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return skClient.connectXDEFI(chains);
         case WalletOption.OKX:
           return skClient.connectOkx(chains);
+        case WalletOption.COINBASE_WEB:
         case WalletOption.METAMASK:
           return skClient.connectMetaMask(chains);
         case WalletOption.COINBASE_WEB:
@@ -162,7 +183,9 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           setPhrase(phrases);
 
           await skClient.connectKeystore(chains, phrases);
-          const walletDataArray = await Promise.all(chains.map(skClient.getWalletByChain));
+          const walletDataArray = await Promise.all(
+            chains.map((chain) => skClient.getWalletByChain(chain, true)),
+          );
 
           setWallet(walletDataArray.filter(Boolean));
           setLoading(false);
@@ -233,7 +256,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             Chain.Dogecoin,
             Chain.Ethereum,
             Chain.Litecoin,
-
+            Chain.Dash,
             Chain.THORChain,
             Chain.Arbitrum,
             Chain.Kujira,
