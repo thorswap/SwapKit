@@ -46,6 +46,9 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.Ethereum,
     Chain.Avalanche,
     Chain.BinanceSmartChain,
+    Chain.Optimism,
+    Chain.Arbitrum,
+    Chain.Polygon,
   ],
   [WalletOption.METAMASK]: EVMChainList,
   [WalletOption.TRUSTWALLET_WEB]: EVMChainList,
@@ -56,6 +59,10 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.BinanceSmartChain,
     Chain.Avalanche,
     Chain.THORChain,
+    Chain.Maya,
+    Chain.Polygon,
+    Chain.Arbitrum,
+    Chain.Optimism,
   ],
   [WalletOption.OKX]: [
     Chain.Ethereum,
@@ -63,6 +70,9 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.BinanceSmartChain,
     Chain.Bitcoin,
     Chain.Cosmos,
+    Chain.Polygon,
+    Chain.Arbitrum,
+    Chain.Optimism,
   ],
 };
 
