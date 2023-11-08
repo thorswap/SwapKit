@@ -118,6 +118,7 @@ export class AssetValue extends BigIntArithmetics {
   }
 
   static fromStringSync(assetString: string, value: NumberPrimitives = 0) {
+    const { isSynthetic } = getAssetInfo(assetString);
     const { decimal, identifier: tokenIdentifier } = getStaticToken(
       assetString as unknown as TokenNames,
     );
@@ -126,6 +127,8 @@ export class AssetValue extends BigIntArithmetics {
 
     return tokenIdentifier
       ? new AssetValue({ decimal, identifier: tokenIdentifier, value: parsedValue })
+      : isSynthetic
+      ? new AssetValue({ decimal: 8, identifier: assetString, value: parsedValue })
       : undefined;
   }
 
@@ -236,9 +239,10 @@ export const getMinAmountByChain = (chain: Chain) => {
 
 const getAssetInfo = (identifier: string) => {
   const isSynthetic = identifier.slice(0, 14).includes('/');
+  const [synthChain, synthSymbol] = identifier.split('/');
   const adjustedIdentifier = identifier.includes('.')
     ? identifier
-    : `${Chain.THORChain}.${identifier}`;
+    : `${Chain.THORChain}.${synthSymbol}`;
 
   const [chain, symbol] = adjustedIdentifier.split('.') as [Chain, string];
   const [ticker, address] = symbol.split('-') as [string, string?];
@@ -248,7 +252,9 @@ const getAssetInfo = (identifier: string) => {
     chain,
     isGasAsset: isGasAsset({ chain, symbol }),
     isSynthetic,
-    symbol: address ? `${ticker}-${address?.toLowerCase() ?? ''}` : symbol,
-    ticker: isSynthetic ? symbol : ticker,
+    symbol:
+      (isSynthetic ? `${synthChain}/` : '') +
+      (address ? `${ticker}-${address?.toLowerCase() ?? ''}` : symbol),
+    ticker: ticker,
   };
 };
