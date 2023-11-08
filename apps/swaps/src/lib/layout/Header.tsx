@@ -26,9 +26,11 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import KeepKey from '../components/KeepKey';
+
 // Import the image from the assets
 import blueMoonImage from '../assets/png/blueMoon.png';
+import KeepKey from '../components/KeepKey';
+import MetaMask from '../components/MetaMask';
 import { usePioneer } from '../context/Pioneer';
 const PROJECT_NAME = 'Swaps.PRO';
 
@@ -36,7 +38,7 @@ const HeaderNew = () => {
   const navigate = useNavigate();
   const { state, connectWallet } = usePioneer();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [modalShowClose, setModalShowClose] = useState(false);
   const [modalType, setModalType] = useState('');
   const {
     // api,
@@ -91,6 +93,7 @@ const HeaderNew = () => {
       onOpen();
       setModalType(type);
       connectWallet(type);
+      setIsOpenSide(false)
     } catch (e) {
       console.error(e);
     }
@@ -134,14 +137,28 @@ const HeaderNew = () => {
           <ModalCloseButton />
           <ModalBody>
             {/* Render content based on modalType */}
-            {modalType === 'KEEPKEY' && <div><KeepKey/></div>}
-            {modalType === 'METAMASK' && <div>MetaMask</div>}
+            {modalType === 'KEEPKEY' && (
+              <div>
+                <KeepKey onClose={onClose} setIsOpenSide={setIsOpenSide} />
+              </div>
+            )}
+            {modalType === 'METAMASK' && (
+              <div>
+                <MetaMask onClose={onClose} setIsOpenSide={setIsOpenSide} />
+              </div>
+            )}
             {modalType === 'LEDGER' && <div>Ledger</div>}
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" onClick={onClose}>
-              Close
-            </Button>
+            {modalShowClose ? (
+              <div>
+                <Button colorScheme="blue" onClick={onClose}>
+                  Close
+                </Button>
+              </div>
+            ) : (
+              <div />
+            )}
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -149,7 +166,7 @@ const HeaderNew = () => {
         <Drawer bg="black" isOpen={isOpenSide} onClose={handleClose} placement="right">
           <DrawerOverlay>
             <DrawerContent bg="black" border="2px solid white">
-              <DrawerCloseButton onClick={() => setIsOpen(false)} />
+              <DrawerCloseButton onClick={() => setIsOpenSide(false)} />
               <DrawerHeader>Wallets</DrawerHeader>
               <DrawerBody>
                 {!context ? (

@@ -1,4 +1,4 @@
-import { Box, Stack, Text, Center } from '@chakra-ui/react';
+import { Spinner, Box, Stack, Text, Center } from '@chakra-ui/react';
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
 import { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
@@ -18,16 +18,8 @@ export default function Portfolio({ onClose }) {
   const [totalValueUsd, setTotalValueUsd] = useState(0);
   // State for the chart data
   const [chartData, setChartData] = useState({
-    datasets: [
-      {
-        data: [33.33, 33.33, 33.34], // Adjusted to sum to 100%
-        backgroundColor: ['#F7931A', '#B5B5B6', '#C3C3C3'],
-        hoverBackgroundColor: ['#F2A900', '#ADADAD', '#D2D2D2'],
-        borderColor: ['white'],
-        borderWidth: 2,
-      },
-    ],
-    labels: ['BTC', 'LTC', 'DOGE'],
+    datasets: [],
+    labels: [],
   });
 
   // Options for the Doughnut chart
@@ -184,6 +176,20 @@ export default function Portfolio({ onClose }) {
       };
     }
   }, []);
+
+  if (!balances || balances.length === 0) {
+    return (
+      <Center height="300px">
+        <Text fontSize="md" fontWeight="medium">
+          Connecting to your KeepKey...
+        </Text>
+        <Spinner size="xl" />
+        <Text fontSize="md" fontWeight="medium" position="absolute" bottom="30%">
+          Building your portfolio. This may take a few seconds...
+        </Text>
+      </Center>
+    );
+  }
 
   return (
     <Stack align="center" direction={{ base: 'column', md: 'row' }} spacing={4}>
