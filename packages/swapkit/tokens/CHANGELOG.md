@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.7
+
+### Patch Changes
+
+- Bump TC and other assets
+
 ## 1.0.0-rc.6
 
 ### Patch Changes

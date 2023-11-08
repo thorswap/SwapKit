@@ -1,6 +1,6 @@
 export const list = {
   name: 'Trader Joe Default',
-  timestamp: '2021-08-02T00:00:00+00:00',
+  timestamp: '2021-10-30T00:00:00+00:00',
   version: { major: 222, minor: 2, patch: 0 },
   keywords: ['avalanche', 'arbitrum', 'bnb chain', 'defi', 'trader joe'],
   tokens: [
