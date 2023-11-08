@@ -93,7 +93,7 @@ const HeaderNew = () => {
       onOpen();
       setModalType(type);
       connectWallet(type);
-      setIsOpenSide(false)
+      setIsOpenSide(false);
     } catch (e) {
       console.error(e);
     }
@@ -201,9 +201,9 @@ const HeaderNew = () => {
                                 ) : (
                                   <Badge colorScheme="gray">UNAVAILABLE</Badge>
                                 )}
-                                <Badge colorScheme={wallet.isConnected ? 'green' : 'red'}>
-                                  {wallet.isConnected ? 'CONNECTED' : 'DISCONNECTED'}
-                                </Badge>
+                                {/*<Badge colorScheme={wallet.isConnected ? 'green' : 'red'}>*/}
+                                {/*  {wallet.isConnected ? 'CONNECTED' : 'DISCONNECTED'}*/}
+                                {/*</Badge>*/}
                               </HStack>
                             </VStack>
                           </HStack>
@@ -236,9 +236,9 @@ const HeaderNew = () => {
                                   ) : (
                                     <Badge colorScheme="gray">UNAVAILABLE</Badge>
                                   )}
-                                  <Badge colorScheme={wallet.isConnected ? 'green' : 'red'}>
-                                    {wallet.isConnected ? 'CONNECTED' : 'DISCONNECTED'}
-                                  </Badge>
+                                  {/*<Badge colorScheme={wallet.isConnected ? 'green' : 'red'}>*/}
+                                  {/*  {wallet.isConnected ? 'CONNECTED' : 'DISCONNECTED'}*/}
+                                  {/*</Badge>*/}
                                 </HStack>
                               </VStack>
                             </HStack>

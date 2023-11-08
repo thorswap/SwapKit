@@ -2,7 +2,7 @@ import { ArrowUpDownIcon } from '@chakra-ui/icons';
 import { Avatar, Box, Button, Flex, HStack, Spinner, Text } from '@chakra-ui/react';
 // @ts-ignore
 import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import { usePioneer } from '../../../context/Pioneer';
 
@@ -14,7 +14,7 @@ interface BeginSwapProps {
 
 const BeginSwap: React.FC<BeginSwapProps> = ({ openModal, handleClick, selectedButton }) => {
   const { state } = usePioneer();
-  const { assetContext, outboundAssetContext, app } = state;
+  const { assetContext, outboundAssetContext, app, balances } = state;
 
   const switchAssets = function () {
     let currentInput = assetContext;
@@ -25,6 +25,34 @@ const BeginSwap: React.FC<BeginSwapProps> = ({ openModal, handleClick, selectedB
     app.setOutboundAssetContext(currentInput);
     app.setAssetContext(currentOutput);
   };
+
+  const selectDefaultAssets = function () {
+    try{
+      const filteredAssets = balances
+        .filter((asset) => {
+          return (
+            (asset.valueUsd ? parseFloat(asset.valueUsd) >= 1 : false)
+          );
+        })
+        .sort((a, b) => {
+          return (b.valueUsd || 0) - (a.valueUsd || 0);
+        });
+
+        //set the default assets
+      app.setAssetContext(filteredAssets[0]);
+      app.setOutboundAssetContext(filteredAssets[1]);
+
+    }catch(e){
+      console.error(e)
+    }
+  }
+
+  //start the context provider
+  useEffect(() => {
+    if (balances) {
+      selectDefaultAssets()
+    }
+  }, [balances]);
 
   return (
     <div>
