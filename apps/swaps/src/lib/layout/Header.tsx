@@ -1,4 +1,3 @@
-import { HamburgerIcon } from '@chakra-ui/icons';
 import {
   Avatar,
   Badge,
@@ -14,12 +13,20 @@ import {
   DrawerOverlay,
   Flex,
   HStack,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Text,
+  useDisclosure,
   VStack,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import KeepKey from '../components/KeepKey';
 // Import the image from the assets
 import blueMoonImage from '../assets/png/blueMoon.png';
 import { usePioneer } from '../context/Pioneer';
@@ -28,6 +35,9 @@ const PROJECT_NAME = 'Swaps.PRO';
 const HeaderNew = () => {
   const navigate = useNavigate();
   const { state, connectWallet } = usePioneer();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [modalType, setModalType] = useState('');
   const {
     // api,
     // app,
@@ -43,14 +53,14 @@ const HeaderNew = () => {
   const isConnectedInitial = state.app?.wallets?.some((wallet: any) => wallet.isConnected) ?? false;
 
   // Open the drawer if no wallets are connected
-  const [isOpen, setIsOpen] = useState(!isConnectedInitial);
+  const [isOpenSide, setIsOpenSide] = useState(!isConnectedInitial);
 
-  const handleOpen = () => setIsOpen(true);
+  const handleOpen = () => setIsOpenSide(true);
 
   const handleClose = () => {
     // If at least one wallet is connected, close the drawer, otherwise keep it open
     if (state.app?.wallets?.some((wallet: any) => wallet.isConnected)) {
-      setIsOpen(false);
+      setIsOpenSide(false);
     }
   };
 
@@ -74,6 +84,18 @@ const HeaderNew = () => {
   //   }
   // };
 
+  let selectWallet = (type: string) => {
+    try {
+      console.log('selectWallet type: ', type);
+      //open wallet modal
+      onOpen();
+      setModalType(type);
+      connectWallet(type);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     if (state.app?.wallets) {
       console.log('app.wallets: ', state.app.wallets);
@@ -90,7 +112,7 @@ const HeaderNew = () => {
   useEffect(() => {
     if (context) {
       console.log('context: ', context);
-      setIsOpen(false);
+      setIsOpenSide(false);
     }
   }, [context]);
 
@@ -105,8 +127,26 @@ const HeaderNew = () => {
       p={5}
       width="full"
     >
+      <Modal isOpen={isOpen} onClose={() => onClose()} size="xl">
+        <ModalOverlay />
+        <ModalContent bg="black">
+          <ModalHeader>{modalType}</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {/* Render content based on modalType */}
+            {modalType === 'KEEPKEY' && <div><KeepKey/></div>}
+            {modalType === 'METAMASK' && <div>MetaMask</div>}
+            {modalType === 'LEDGER' && <div>Ledger</div>}
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" onClick={onClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       {state.app && state.app.wallets && (
-        <Drawer bg="black" isOpen={isOpen} onClose={handleClose} placement="right">
+        <Drawer bg="black" isOpen={isOpenSide} onClose={handleClose} placement="right">
           <DrawerOverlay>
             <DrawerContent bg="black" border="2px solid white">
               <DrawerCloseButton onClick={() => setIsOpen(false)} />
@@ -129,7 +169,7 @@ const HeaderNew = () => {
                           key={wallet.type}
                           maxW="sm"
                           mt={4}
-                          onClick={() => connectWallet(wallet.type)}
+                          onClick={() => selectWallet(wallet.type)}
                           opacity={wallet.wallet.isDetected ? 1 : 0.5} // change opacity based on detection
                           p={4}
                           w="full"
@@ -164,7 +204,7 @@ const HeaderNew = () => {
                             key={wallet.type}
                             maxW="sm"
                             mt={4}
-                            onClick={() => connectWallet(wallet.type)}
+                            onClick={() => selectWallet(wallet.type)}
                             opacity={wallet.wallet.isDetected ? 1 : 0.5} // change opacity based on detection
                             p={4}
                             w="full"

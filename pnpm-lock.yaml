@@ -202,6 +202,9 @@ importers:
       buffer:
         specifier: 6.0.3
         version: 6.0.3
+      chart.js:
+        specifier: ^4.4.0
+        version: 4.4.0
       crypto-browserify:
         specifier: 3.12.0
         version: 3.12.0
@@ -217,6 +220,9 @@ importers:
       react:
         specifier: 18.2.0
         version: 18.2.0
+      react-chartjs-2:
+        specifier: ^5.2.0
+        version: 5.2.0(chart.js@4.4.0)(react@18.2.0)
       react-dom:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
@@ -4373,6 +4379,10 @@ packages:
       long: 4.0.0
     dev: true
 
+  /@kurkle/color@0.3.2:
+    resolution: {integrity: sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==}
+    dev: false
+
   /@ledgerhq/cryptoassets@9.12.1:
     resolution: {integrity: sha512-epyuN8HfKFjnE70yu5PY8rOszI7mz+Zb5NSMeFjY85H6zSmaOMplyz8dnZjRUWgl+IeqYXVOSdCHj59sgPp8lA==}
     dependencies:
@@ -5919,6 +5929,21 @@ packages:
 
   /@shapeshiftoss/hdwallet-core@1.52.11:
     resolution: {integrity: sha512-qpEvHNiwecJic3wtsDJ64CKgENZuYwrQb3zau1ofoimUotxEdnbzbRSVRCRNhk7bCZZXhC7Cw6RE2tbDDyV0iA==}
+    dependencies:
+      '@shapeshiftoss/proto-tx-builder': 0.8.0
+      eip-712: 1.0.0
+      eventemitter2: 5.0.1
+      lodash: 4.17.21
+      rxjs: 6.6.7
+      type-assertions: 1.1.0
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - utf-8-validate
+    dev: false
+
+  /@shapeshiftoss/hdwallet-core@1.52.12:
+    resolution: {integrity: sha512-KOoER9gj931TG3siwn+4WhAcrmO/4xeA1AIFOocXUN9zMTSog3IIJONv9IcNShnHJOiCYwS1AAk1KQb9aTv2HA==}
     dependencies:
       '@shapeshiftoss/proto-tx-builder': 0.8.0
       eip-712: 1.0.0
@@ -9416,6 +9441,13 @@ packages:
   /charenc@0.0.2:
     resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
     dev: true
+
+  /chart.js@4.4.0:
+    resolution: {integrity: sha512-vQEj6d+z0dcsKLlQvbKIMYFHd3t8W/7L2vfJIbYcfyPcRx92CsHqECpueN8qVGNlKyDcr5wBrYAYKnfu/9Q1hQ==}
+    engines: {pnpm: '>=7'}
+    dependencies:
+      '@kurkle/color': 0.3.2
+    dev: false
 
   /check-error@1.0.2:
     resolution: {integrity: sha512-BrgHpW9NURQgzoNyjfq0Wu6VFO6D7IZEmJNdtgNqpzGG8RuNFHt2jQxWlAs4HMe119chBnv+34syEZtc6IhLtA==}
@@ -15080,6 +15112,16 @@ packages:
     dev: false
     optional: true
 
+  /react-chartjs-2@5.2.0(chart.js@4.4.0)(react@18.2.0):
+    resolution: {integrity: sha512-98iN5aguJyVSxp5U3CblRLH67J8gkfyGNbiK3c+l1QI/G4irHMPQw44aEPmjVag+YKTyQ260NcF82GTQ3bdscA==}
+    peerDependencies:
+      chart.js: ^4.1.1
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      chart.js: 4.4.0
+      react: 18.2.0
+    dev: false
+
   /react-clientside-effect@1.2.6(react@18.2.0):
     resolution: {integrity: sha512-XGGGRQAKY+q25Lz9a/4EPqom7WRjz3z9R2k4jhVKA/puQFH/5Nt27vFZYql4m4NVNdUvX8PS3O7r/Zzm7cjUlg==}
     peerDependencies:
@@ -16609,7 +16651,7 @@ packages:
       '@bithighlander/bitcoin-cash-js-lib': 5.2.1
       '@pioneer-platform/loggerdog': 8.1.31(@types/node@15.14.9)
       '@pioneer-platform/pioneer-coins': 8.1.86(@types/node@15.14.9)
-      '@shapeshiftoss/hdwallet-core': 1.52.11
+      '@shapeshiftoss/hdwallet-core': 1.52.12
       '@types/node': 15.14.9
       bip39: 3.1.0
       codeclimate-test-reporter: 0.5.1
