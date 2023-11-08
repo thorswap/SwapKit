@@ -101,7 +101,9 @@ export class AssetValue extends BigIntArithmetics {
 
   toString(short = false) {
     // THOR.RUNE | ETH/ETH
-    const shortFormat = this.isSynthetic ? this.ticker : `${this.chain}.${this.ticker}`;
+    const shortFormat = this.isSynthetic
+      ? this.symbol.split('-')[0]
+      : `${this.chain}.${this.ticker}`;
 
     return short
       ? shortFormat
@@ -239,13 +241,12 @@ export const getMinAmountByChain = (chain: Chain) => {
 
 const getAssetInfo = (identifier: string) => {
   const isSynthetic = identifier.slice(0, 14).includes('/');
-  const [synthChain, synthSymbol] = identifier.split('/');
-  const adjustedIdentifier = identifier.includes('.')
-    ? identifier
-    : `${Chain.THORChain}.${synthSymbol}`;
+  const [synthChain, synthSymbol] = identifier.split('.').pop().split('/');
+  const adjustedIdentifier =
+    identifier.includes('.') && !isSynthetic ? identifier : `${Chain.THORChain}.${synthSymbol}`;
 
   const [chain, symbol] = adjustedIdentifier.split('.') as [Chain, string];
-  const [ticker, address] = symbol.split('-') as [string, string?];
+  const [ticker, address] = (isSynthetic ? synthSymbol : symbol).split('-') as [string, string?];
 
   return {
     address: address?.toLowerCase(),
