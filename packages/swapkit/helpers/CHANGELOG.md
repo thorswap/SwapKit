@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.15
+
+### Patch Changes
+
+- [#382](https://github.com/thorswap/SwapKit/pull/382) [`c66eedd`](https://github.com/thorswap/SwapKit/commit/c66eedd4f950ed9bc8107af39a2c9bf68253c18d) Thanks [@towanTG](https://github.com/towanTG)! - Fixes synth initialization in sync mode
+
 ## 1.0.0-rc.14
 
 ### Patch Changes
