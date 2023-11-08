@@ -241,7 +241,7 @@ export const getMinAmountByChain = (chain: Chain) => {
 
 const getAssetInfo = (identifier: string) => {
   const isSynthetic = identifier.slice(0, 14).includes('/');
-  const [synthChain, synthSymbol] = identifier.split('.').pop().split('/');
+  const [synthChain, synthSymbol] = identifier.split('.').pop()!.split('/');
   const adjustedIdentifier =
     identifier.includes('.') && !isSynthetic ? identifier : `${Chain.THORChain}.${synthSymbol}`;
 
