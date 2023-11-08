@@ -28,7 +28,7 @@ describe('AssetValue', () => {
         value: 1234567890,
       });
 
-      expect(ethSynth.assetValue).toBe('1234567890 ETH/ETH');
+      expect(ethSynth.assetValue).toBe('1234567890 ETH');
       expect(ethSynth.toString()).toBe('THOR.ETH/ETH');
       expect(ethSynth.toString(true)).toBe('ETH/ETH');
       expect(ethSynth.mul(21.37).getValue('string')).toBe('26382715809.3');

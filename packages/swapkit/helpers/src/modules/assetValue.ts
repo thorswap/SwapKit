@@ -101,7 +101,9 @@ export class AssetValue extends BigIntArithmetics {
 
   toString(short = false) {
     // THOR.RUNE | ETH/ETH
-    const shortFormat = this.isSynthetic ? this.ticker : `${this.chain}.${this.ticker}`;
+    const shortFormat = this.isSynthetic
+      ? this.symbol.split('-')[0]
+      : `${this.chain}.${this.ticker}`;
 
     return short
       ? shortFormat
@@ -118,6 +120,7 @@ export class AssetValue extends BigIntArithmetics {
   }
 
   static fromStringSync(assetString: string, value: NumberPrimitives = 0) {
+    const { isSynthetic } = getAssetInfo(assetString);
     const { decimal, identifier: tokenIdentifier } = getStaticToken(
       assetString as unknown as TokenNames,
     );
@@ -126,6 +129,8 @@ export class AssetValue extends BigIntArithmetics {
 
     return tokenIdentifier
       ? new AssetValue({ decimal, identifier: tokenIdentifier, value: parsedValue })
+      : isSynthetic
+      ? new AssetValue({ decimal: 8, identifier: assetString, value: parsedValue })
       : undefined;
   }
 
@@ -236,19 +241,21 @@ export const getMinAmountByChain = (chain: Chain) => {
 
 const getAssetInfo = (identifier: string) => {
   const isSynthetic = identifier.slice(0, 14).includes('/');
-  const adjustedIdentifier = identifier.includes('.')
-    ? identifier
-    : `${Chain.THORChain}.${identifier}`;
+  const [synthChain, synthSymbol] = identifier.split('.').pop()!.split('/');
+  const adjustedIdentifier =
+    identifier.includes('.') && !isSynthetic ? identifier : `${Chain.THORChain}.${synthSymbol}`;
 
   const [chain, symbol] = adjustedIdentifier.split('.') as [Chain, string];
-  const [ticker, address] = symbol.split('-') as [string, string?];
+  const [ticker, address] = (isSynthetic ? synthSymbol : symbol).split('-') as [string, string?];
 
   return {
     address: address?.toLowerCase(),
     chain,
     isGasAsset: isGasAsset({ chain, symbol }),
     isSynthetic,
-    symbol: address ? `${ticker}-${address?.toLowerCase() ?? ''}` : symbol,
-    ticker: isSynthetic ? symbol : ticker,
+    symbol:
+      (isSynthetic ? `${synthChain}/` : '') +
+      (address ? `${ticker}-${address?.toLowerCase() ?? ''}` : symbol),
+    ticker: ticker,
   };
 };
