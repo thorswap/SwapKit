@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.16
+
+### Patch Changes
+
+- Use referer from window when needed
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.7
+  - @swapkit/tokens@1.0.0-rc.7
+
 ## 1.0.0-rc.15
 
 ### Patch Changes

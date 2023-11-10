@@ -1,7 +1,8 @@
 {
   "author": "swapkit-oss-team",
   "dependencies": {
-    "@swapkit/types": "workspace:*"
+    "@swapkit/types": "workspace:*",
+    "ky": "1.1.3"
   },
   "description": "SwapKit Lib swapkit-api",
   "devDependencies": {
@@ -43,5 +44,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.6"
+  "version": "1.0.0-rc.7"
 }

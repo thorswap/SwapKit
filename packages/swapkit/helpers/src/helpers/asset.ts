@@ -10,7 +10,11 @@ export type CommonAssetString = 'MAYA.MAYA' | 'ETH.THOR' | 'ETH.vTHOR' | Chain;
 const getContractDecimals = async ({ chain, to }: { chain: EVMChain; to: string }) => {
   try {
     const { result } = await RequestClient.post<{ result: string }>(ChainToRPC[chain], {
-      headers: { accept: '*/*', 'cache-control': 'no-cache' },
+      headers: {
+        accept: '*/*',
+        'content-type': 'application/json',
+        'cache-control': 'no-cache',
+      },
       body: JSON.stringify({
         id: 44,
         jsonrpc: '2.0',

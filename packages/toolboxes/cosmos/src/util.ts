@@ -5,13 +5,18 @@ import { ChainId, FeeOption, RPCUrl } from '@swapkit/types';
 
 import type { CosmosMaxSendableAmountParams } from './types.ts';
 
+const headers =
+  typeof window !== 'undefined'
+    ? ({} as { [key: string]: string })
+    : { referer: 'https://sk.thorswap.net', referrer: 'https://sk.thorswap.net' };
+
 export const getDenom = (symbol: string, isThorchain = false) =>
   isThorchain ? symbol.toLowerCase() : symbol;
 
 export const createStargateClient = async (url: string) => {
   const { StargateClient } = await import('@cosmjs/stargate');
 
-  return StargateClient.connect({ url, headers: { referer: 'https://sk.thorswap.net/' } });
+  return StargateClient.connect({ url, headers });
 };
 
 export const createSigningStargateClient = async (
@@ -21,11 +26,10 @@ export const createSigningStargateClient = async (
 ) => {
   const { SigningStargateClient, GasPrice } = await import('@cosmjs/stargate');
 
-  return SigningStargateClient.connectWithSigner(
-    { url, headers: { referer: 'https://sk.thorswap.net/' } },
-    signer,
-    { gasPrice: GasPrice.fromString('0.0003uatom'), ...options },
-  );
+  return SigningStargateClient.connectWithSigner({ url, headers }, signer, {
+    gasPrice: GasPrice.fromString('0.0003uatom'),
+    ...options,
+  });
 };
 
 export const createOfflineStargateClient = async (

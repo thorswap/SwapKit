@@ -1,5 +1,12 @@
 # @thorswap-lib/swapkit-entities
 
+## 1.0.0-rc.7
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.7
+
 ## 1.0.0-rc.6
 
 ### Patch Changes

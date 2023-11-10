@@ -1,4 +1,4 @@
-import { ApiEndpoints, FetchWrapper } from './fetchWrapper.ts';
+import { ApiEndpoints, RequestClient } from './fetchWrapper.ts';
 import type {
   CachedPricesParams,
   CachedPricesResponse,
@@ -20,24 +20,27 @@ const getCachedPrices = ({ tokens, ...options }: CachedPricesParams) => {
   if (options.lookup) body.append('lookup', 'true');
   if (options.sparkline) body.append('sparkline', 'true');
 
-  return FetchWrapper.post<CachedPricesResponse[]>(ApiEndpoints.CachedPrices, body.toString(), {
+  return RequestClient.post<CachedPricesResponse[]>(ApiEndpoints.CachedPrices, {
+    body: body.toString(),
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   });
 };
 
 export const SwapKitApi = {
   getCachedPrices,
-  getQuote: (params: QuoteParams) => FetchWrapper.get<QuoteResponse>(ApiEndpoints.Quote, params),
-  getGasRates: () => FetchWrapper.get<GasRatesResponse>(ApiEndpoints.GasRates),
-  getTxnDetails: (txHash: string) => FetchWrapper.get<TxnResponse>(ApiEndpoints.Txn, { txHash }),
+  getQuote: (params: QuoteParams) =>
+    RequestClient.get<QuoteResponse>(ApiEndpoints.Quote, { searchParams: params }),
+  getGasRates: () => RequestClient.get<GasRatesResponse>(ApiEndpoints.GasRates),
+  getTxnDetails: (txHash: string) =>
+    RequestClient.get<TxnResponse>(ApiEndpoints.Txn, { searchParams: txHash }),
   getTokenlistProviders: () =>
-    FetchWrapper.get<TokenlistProvidersResponse>(ApiEndpoints.TokenlistProviders),
+    RequestClient.get<TokenlistProvidersResponse>(ApiEndpoints.TokenlistProviders),
   getTokenList: (tokenlist: string) =>
-    FetchWrapper.get(`${ApiEndpoints.TokenList}/${tokenlist}.json`),
+    RequestClient.get(`${ApiEndpoints.TokenList}/${tokenlist}.json`),
   getThornameAddresses: (address: string) =>
-    FetchWrapper.get<ThornameResponse>(`${ApiEndpoints.Thorname}/${address}`),
+    RequestClient.get<ThornameResponse>(`${ApiEndpoints.Thorname}/${address}`),
   getThornameRegisteredChains: (address: string) =>
-    FetchWrapper.get<string[]>(`${ApiEndpoints.Thorname}/chains/${address}`),
+    RequestClient.get<string[]>(`${ApiEndpoints.Thorname}/chains/${address}`),
   getThornameRlookup: (address: string, chain: string) =>
-    FetchWrapper.get(`${ApiEndpoints.Thorname}/rlookup`, { address, chain }),
+    RequestClient.get(`${ApiEndpoints.Thorname}/rlookup`, { searchParams: { address, chain } }),
 };

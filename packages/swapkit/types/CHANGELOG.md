@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.7
+
+### Patch Changes
+
+- Use referer from window when needed
+
 ## 1.0.0-rc.6
 
 ### Patch Changes

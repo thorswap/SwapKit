@@ -1,19 +1,6 @@
 import { ApiUrl } from '@swapkit/types';
-
-import type { ApiParams } from './types/index.ts';
-
-type RequestConfig = {
-  onError?: (error: any) => void;
-  headers?: Record<string, string>;
-};
-
-const paramsToString = (params: { [key: string]: any }) => {
-  if ('recipientAddress' in params && params.recipientAddress) {
-    params.recipientAddress = params.recipientAddress.replace(/(bchtest:|bitcoincash:)/, '');
-  }
-
-  return new URLSearchParams(params).toString();
-};
+import type { Options } from 'ky';
+import ky from 'ky';
 
 /**
  * Api Wrapper helpers
@@ -28,22 +15,15 @@ export const ApiEndpoints = {
   Thorname: `${ApiUrl.ThorswapApi}/thorname`,
 };
 
-export const FetchWrapper = {
-  get: <T>(url: string, params?: ApiParams, config?: RequestConfig) =>
-    fetch(`${url}${params ? `?${paramsToString(params)}` : ''}`, {
-      referrer: 'https://sk.thorswap.net',
-    })
-      .then((res) => res.json() as Promise<T>)
-      .catch((error) => {
-        console.error(error);
-        config?.onError?.(error);
-        return Promise.reject(error);
-      }),
-  post: <T>(url: string, params: ApiParams | string, config?: RequestConfig) =>
-    fetch(url, {
-      method: 'POST',
-      referrer: 'https://sk.thorswap.net',
-      headers: { 'Content-Type': 'application/json', ...(config?.headers || {}) },
-      body: typeof params === 'string' ? params : paramsToString(params),
-    }).then((res) => res.json() as Promise<T>),
+const headers =
+  typeof window !== 'undefined'
+    ? {}
+    : { referrer: 'https://sk.thorswap.net', referer: 'https://sk.thorswap.net' };
+
+const kyClient = ky.create({ headers });
+
+export const RequestClient = {
+  get: <T>(url: string | URL | Request, options?: Options) => kyClient.get(url, options).json<T>(),
+  post: <T>(url: string | URL | Request, options?: Options) =>
+    kyClient.post(url, options).json<T>(),
 };
