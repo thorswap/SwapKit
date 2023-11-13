@@ -1,4 +1,4 @@
-import { AssetValue, filterAssets, formatBigIntToSafeValue, SwapKitNumber } from '@swapkit/helpers';
+import { AssetValue, filterAssets, SwapKitNumber } from '@swapkit/helpers';
 import {
   BaseDecimal,
   Chain,
@@ -281,11 +281,10 @@ export const getBalance = async ({
 }) => {
   const tokenBalances = await api.getBalance(address);
   const evmGasTokenBalance = await provider.getBalance(address);
+  const balance = SwapKitNumber.fromBigInt(evmGasTokenBalance, BaseDecimal[chain]);
+
   const balances = [
-    AssetValue.fromChainOrSignature(
-      chain,
-      formatBigIntToSafeValue({ value: evmGasTokenBalance, decimal: BaseDecimal[chain] }),
-    ),
+    AssetValue.fromChainOrSignature(chain, balance.getValue('string')),
     ...tokenBalances,
   ];
 

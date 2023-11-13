@@ -1,12 +1,11 @@
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@swapkit/helpers';
 import type { TransferParams } from '@swapkit/toolbox-cosmos';
-import { toHexString } from '@swapkit/toolbox-evm';
 import type { FeeOption } from '@swapkit/types';
 import { Chain, ChainId, RPCUrl } from '@swapkit/types';
 import type { Eip1193Provider } from 'ethers';
 
-type TransactionMethod = 'eth_signTransaction' | 'eth_sendTransaction' | 'transfer' | 'deposit';
+type TransactionMethod = 'transfer' | 'deposit';
 
 type TransactionParams = {
   asset: string;
@@ -115,16 +114,12 @@ export const walletTransfer = async (
    * EVM requires amount to be hex string
    * UTXO/Cosmos requires amount to be number
    */
-  const parsedAmount =
-    method === 'eth_sendTransaction'
-      ? toHexString(assetValue.baseValueBigInt)
-      : assetValue.baseValueNumber;
 
   const from = await getXDEFIAddress(assetValue.chain);
   const params = [
     {
-      amount: { amount: parsedAmount, decimals: assetValue.decimal },
-      asset: assetValue.symbol,
+      amount: { amount: assetValue.baseValueNumber, decimals: assetValue.decimal },
+      asset: { chain: assetValue.chain, symbol: assetValue.symbol, ticker: assetValue.symbol },
       from,
       memo,
       recipient,
