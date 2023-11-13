@@ -1,5 +1,12 @@
 # @swapkit/wallet-okx
 
+## 1.0.0-rc.21
+
+### Patch Changes
+
+- Updated dependencies [[`180f4866`](https://github.com/thorswap/SwapKit/commit/180f4866d444d757985c7f0705ce1c339cac598e)]:
+  - @swapkit/toolbox-evm@1.0.0-rc.18
+
 ## 1.0.0-rc.20
 
 ### Patch Changes
