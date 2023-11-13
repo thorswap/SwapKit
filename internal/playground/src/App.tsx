@@ -134,7 +134,7 @@ const App = () => {
           {Array.isArray(wallet) ? (
             wallet.map((walletData) => (
               <Wallet
-                key={`${walletData?.address}-${walletData?.balance?.[0].chain}`}
+                key={`${walletData?.address}-${walletData?.balance?.[0]?.chain}`}
                 setAsset={setAsset}
                 walletData={walletData}
               />
