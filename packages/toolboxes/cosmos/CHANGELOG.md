@@ -1,5 +1,18 @@
 # @coinmasters/toolbox-cosmos
 
+## 3.0.0
+
+### Major Changes
+
+- bump
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @coinmasters/api@3.0.0
+  - @coinmasters/helpers@3.0.0
+  - @coinmasters/types@3.0.0
+
 ## 2.0.0
 
 ### Major Changes

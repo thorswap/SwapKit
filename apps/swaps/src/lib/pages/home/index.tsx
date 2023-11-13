@@ -32,7 +32,7 @@ import SelectAssets from './steps/SelectAssets';
 
 const Home = () => {
   const { state, onStart } = usePioneer();
-  let { txid } = useParams<{ txid?: string }>();
+  const { txid } = useParams<{ txid?: string }>();
   const { app, assetContext, outboundAssetContext, blockchainContext } = state;
   // steps
   const [step, setStep] = useState(0);
@@ -72,6 +72,7 @@ const Home = () => {
   //start the context provider
   useEffect(() => {
     if(txid){
+      console.log("loaded txid: ", txid);
       //set the txid
       setTxhash(txid);
       setStep(2);

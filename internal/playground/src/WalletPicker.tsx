@@ -80,6 +80,22 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.Avalanche,
     Chain.BinanceSmartChain,
   ],
+  [WalletOption.METAMASK]: [
+    Chain.Arbitrum,
+    Chain.Avalanche,
+    Chain.Binance,
+    Chain.BinanceSmartChain,
+    Chain.Bitcoin,
+    Chain.BitcoinCash,
+    Chain.Cosmos,
+    Chain.Dogecoin,
+    Chain.Ethereum,
+    Chain.Litecoin,
+    Chain.Optimism,
+    Chain.Polygon,
+    Chain.Dash,
+    Chain.THORChain,
+  ],
   [WalletOption.KEEPKEY]: [
     Chain.Arbitrum,
     Chain.Avalanche,
@@ -96,7 +112,6 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.Dash,
     Chain.THORChain,
   ],
-  [WalletOption.METAMASK]: EVMChainList,
   [WalletOption.TRUSTWALLET_WEB]: EVMChainList,
   [WalletOption.XDEFI]: AllChainsSupported,
   [WalletOption.WALLETCONNECT]: [
@@ -127,7 +142,6 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.OKX:
           return skClient.connectOkx(chains);
         case WalletOption.COINBASE_WEB:
-        case WalletOption.METAMASK:
           return skClient.connectMetaMask(chains);
         case WalletOption.COINBASE_WEB:
         case WalletOption.TRUSTWALLET_WEB:
@@ -136,7 +150,10 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
           return skClient.connectLedger(chains[0], derivationPath);
         }
-
+        case WalletOption.METAMASK: {
+          let responsePair = await skClient.connectMetaMask(chains);
+          return responsePair;
+        }
         case WalletOption.KEEPKEY: {
           let keepkeyApiKey = localStorage.getItem('keepkeyApiKey');
           const config: any = {

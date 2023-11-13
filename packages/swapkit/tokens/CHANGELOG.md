@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 3.0.0
+
+### Major Changes
+
+- bump
+
 ## 2.0.0
 
 ### Major Changes
