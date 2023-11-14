@@ -81,7 +81,7 @@ export const getAsymmetricAssetWithdrawAmount = ({
   getAsymmetricAssetShare({ assetDepth, liquidityUnits, poolUnits }).mul(percent);
 
 const toTCSwapKitNumber = (value: string) =>
-  new SwapKitNumber({ value, decimal: BaseDecimal.THOR });
+  SwapKitNumber.fromBigInt(BigInt(value), BaseDecimal.THOR);
 
 export const getSymmetricPoolShare = ({
   liquidityUnits,
