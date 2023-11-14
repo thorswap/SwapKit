@@ -1,5 +1,15 @@
 # @swapkit/wallet-keplr
 
+## 1.0.0-rc.19
+
+### Patch Changes
+
+- [#389](https://github.com/thorswap/SwapKit/pull/389) [`36141064`](https://github.com/thorswap/SwapKit/commit/36141064b9fecc4e48b9d6ceb68e479e56370132) Thanks [@towanTG](https://github.com/towanTG)! - Updates deprecated code and fixing SKN formatter
+
+- Updated dependencies [[`36141064`](https://github.com/thorswap/SwapKit/commit/36141064b9fecc4e48b9d6ceb68e479e56370132)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.19
+  - @swapkit/helpers@1.0.0-rc.17
+
 ## 1.0.0-rc.18
 
 ### Patch Changes
