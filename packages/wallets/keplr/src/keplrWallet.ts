@@ -26,7 +26,9 @@ const connectKeplr =
       recipient,
       memo,
     }: WalletTxParams & { assetValue: AssetValue }) => {
-      const coins = [{ denom: getDenom(assetValue.symbol), amount: assetValue.baseValue }];
+      const coins = [
+        { denom: getDenom(assetValue.symbol), amount: assetValue.getBaseValue('string') },
+      ];
 
       const { transactionHash } = await cosmJS.sendTokens(address, recipient, coins, 1.6, memo);
       return transactionHash;

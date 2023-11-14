@@ -105,7 +105,7 @@ export class SwapKitCore<T = ''> {
           value: value
             ? new SwapKitNumber({
                 value: !isHexString(value) ? parseUnits(value, 'wei').toString(16) : value,
-              }).baseValueBigInt
+              }).getBaseValue('bigint')
             : 0n,
         };
 
@@ -495,7 +495,7 @@ export class SwapKitCore<T = ''> {
       type === 'bond' ? MemoType.BOND : type === 'unbond' ? MemoType.UNBOND : MemoType.LEAVE;
     const memo = getMemoFor(memoType, {
       address,
-      unbondAmount: type === 'unbond' ? assetValue.baseValueNumber : undefined,
+      unbondAmount: type === 'unbond' ? assetValue.getBaseValue('number') : undefined,
     });
 
     return this.#thorchainTransfer({
@@ -627,7 +627,7 @@ export class SwapKitCore<T = ''> {
   };
 
   #approve = async <T = string>({
-    assetValue: { baseValueBigInt, address, chain, isGasAsset, isSynthetic },
+    assetValue: { getBaseValue, address, chain, isGasAsset, isSynthetic },
     type = 'checkOnly',
     contractAddress,
   }: {
@@ -653,7 +653,7 @@ export class SwapKitCore<T = ''> {
       contractAddress || ((await this.#getInboundDataByChain(chain)).router as string);
 
     return walletAction({
-      amount: baseValueBigInt,
+      amount: getBaseValue('bigint'),
       assetAddress: address,
       from,
       spenderAddress,

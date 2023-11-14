@@ -127,7 +127,7 @@ const createTransactionAndSignMsg = async ({
 
   const coin = {
     denom: getDenom(assetValue.symbol).toUpperCase(),
-    amount: assetValue.baseValueNumber,
+    amount: assetValue.getBaseValue('number'),
   };
 
   const msg = {

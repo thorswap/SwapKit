@@ -218,7 +218,9 @@ export const estimateMaxSendableAmount = async ({
     (isFeeEIP1559Compatible
       ? fees.maxFeePerGas! + (fees.maxPriorityFeePerGas! || 1n)
       : fees.gasPrice!);
-  const maxSendableAmount = SwapKitNumber.fromBigInt(balance.baseValueBigInt).sub(fee.toString());
+  const maxSendableAmount = SwapKitNumber.fromBigInt(balance.getBaseValue('bigint')).sub(
+    fee.toString(),
+  );
 
   return AssetValue.fromChainOrSignature(balance.chain, maxSendableAmount.getValue('string'));
 };
