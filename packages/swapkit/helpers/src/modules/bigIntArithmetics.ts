@@ -238,7 +238,7 @@ export class BigIntArithmetics {
 
     if (parseInt(integer)) {
       return `${integer}.${decimal.slice(0, significantDigits - integer.length)}`.padEnd(
-        valueLength - significantDigits,
+        significantDigits - integer.length,
         '0',
       );
     }

@@ -126,7 +126,7 @@ const createDepositMessage = (
   value: {
     coins: [
       {
-        amount: assetValue.baseValue,
+        amount: assetValue.getBaseValue('string'),
         asset: !forBroadcasting ? assetValue.symbol : assetValue,
       },
     ],
@@ -250,7 +250,7 @@ export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): Thorch
         memo,
         coins: [
           {
-            amount: assetValue.baseValue,
+            amount: assetValue.getBaseValue('string'),
             asset: {
               chain: assetValue.chain.toLowerCase(),
               symbol: assetValue.ticker.toLowerCase(),
@@ -287,7 +287,7 @@ export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): Thorch
         toAddress: bech32ToBase64(recipient),
         amount: [
           {
-            amount: assetValue.baseValueNumber.toString(),
+            amount: assetValue.getBaseValue('string'),
             denom: getDenom(assetValue.symbol, true),
           },
         ],

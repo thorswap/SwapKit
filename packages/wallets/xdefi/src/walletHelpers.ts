@@ -117,8 +117,8 @@ export const walletTransfer = async (
    */
   const parsedAmount =
     method === 'eth_sendTransaction'
-      ? toHexString(assetValue.baseValueBigInt)
-      : assetValue.baseValueNumber;
+      ? toHexString(assetValue.getBaseValue('bigint'))
+      : assetValue.getBaseValue('number');
 
   const from = await getXDEFIAddress(assetValue.chain);
   const params = [
@@ -143,7 +143,10 @@ export const cosmosTransfer =
     const cosmJS = await createSigningStargateClient(rpcUrl || RPCUrl.Cosmos, offlineSigner);
 
     const coins = [
-      { denom: assetValue?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: assetValue.baseValue },
+      {
+        denom: assetValue?.symbol === 'MUON' ? 'umuon' : 'uatom',
+        amount: assetValue.getBaseValue('string'),
+      },
     ];
 
     const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 1.6, memo);

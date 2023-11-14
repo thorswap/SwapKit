@@ -239,7 +239,7 @@ const transfer = async (
   signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
-  const txAmount = assetValue.baseValueBigInt;
+  const txAmount = assetValue.getBaseValue('bigint');
   const chain = assetValue.chain as EVMChain;
 
   if (!isGasAsset(assetValue)) {

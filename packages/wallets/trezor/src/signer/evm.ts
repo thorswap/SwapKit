@@ -122,7 +122,7 @@ class TrezorSigner extends AbstractSigner {
       ...formattedTx,
       nonce: parseInt(formattedTx.nonce),
       type: isEIP1559 ? 2 : 0,
-      signature: { r, s, v: new SwapKitNumber(v).baseValueNumber },
+      signature: { r, s, v: new SwapKitNumber(v).getBaseValue('number') },
     }).serialized;
 
     if (!hash) throw new Error('Failed to sign transaction');
