@@ -16,6 +16,7 @@ jobs:
 
       - name: Generate new token list
         run: |
+          pnpm build --filter api
           cd packages/swapkit/tokens
           pnpm generate-tokens
 
@@ -28,7 +29,6 @@ jobs:
           commit_message: "Update Token List"
           force: true
           target_branch: bot/token-list-update
-
 
       - name: Publish Token List
         run: |
