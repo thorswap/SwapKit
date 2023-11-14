@@ -1,5 +1,11 @@
 # @swapkit/toolbox-evm
 
+## 1.0.0-rc.18
+
+### Patch Changes
+
+- [#387](https://github.com/thorswap/SwapKit/pull/387) [`180f4866`](https://github.com/thorswap/SwapKit/commit/180f4866d444d757985c7f0705ce1c339cac598e) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix base balances, use SK number to initalize it, fix XDEFI transfers
+
 ## 1.0.0-rc.17
 
 ### Patch Changes

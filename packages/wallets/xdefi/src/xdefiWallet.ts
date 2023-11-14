@@ -1,4 +1,3 @@
-import { AssetValue, filterAssets } from '@swapkit/helpers';
 import {
   Chain,
   ChainId,
@@ -71,6 +70,26 @@ const getWalletMethodsForChain = async ({
       return { ...BinanceToolbox(), transfer: walletTransfer };
     }
 
+    case Chain.Bitcoin:
+    case Chain.BitcoinCash:
+    case Chain.Dogecoin:
+    case Chain.Litecoin: {
+      const { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } = await import(
+        '@swapkit/toolbox-utxo'
+      );
+      const params = { rpcUrl, blockchairApiKey, apiClient: api };
+      const toolbox =
+        chain === Chain.Bitcoin
+          ? BTCToolbox(params)
+          : chain === Chain.BitcoinCash
+          ? BCHToolbox(params)
+          : chain === Chain.Dogecoin
+          ? DOGEToolbox(params)
+          : LTCToolbox(params);
+
+      return { ...toolbox, transfer: walletTransfer };
+    }
+
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
     case Chain.Avalanche: {
@@ -83,6 +102,7 @@ const getWalletMethodsForChain = async ({
         addEVMWalletNetwork,
         covalentApi,
         ethplorerApi,
+        getBalance,
       } = await import('@swapkit/toolbox-evm');
       const { BrowserProvider } = await import('ethers');
 
@@ -101,8 +121,8 @@ const getWalletMethodsForChain = async ({
       const toolboxParams = {
         provider,
         signer: await provider.getSigner(),
-        ethplorerApiKey: ethplorerApiKey as string,
-        covalentApiKey: covalentApiKey as string,
+        ethplorerApiKey: ethplorerApiKey || '',
+        covalentApiKey: covalentApiKey || '',
       };
 
       const toolbox =
@@ -125,55 +145,22 @@ const getWalletMethodsForChain = async ({
         throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
       }
 
-      // Overwrite xdefi getbalance due to race condition in their app when connecting multiple evm wallets
+      const api =
+        chain === Chain.Ethereum
+          ? ethplorerApi(ethplorerApiKey!)
+          : covalentApi({ apiKey: covalentApiKey!, chainId: ChainToChainId[chain] });
+
       return prepareNetworkSwitch({
         toolbox: {
           ...toolbox,
-          getBalance: async (address: string, potentialScamFilter?: boolean) => {
-            const api =
-              chain === Chain.Ethereum
-                ? ethplorerApi(ethplorerApiKey!)
-                : covalentApi({
-                    apiKey: covalentApiKey!,
-                    chainId: ChainToChainId[chain],
-                  });
-
-            const tokenBalances = await api.getBalance(address);
-            const provider = getProvider(chain);
-            const evmGasTokenBalance = await provider.getBalance(address);
-
-            const balances = [
-              AssetValue.fromChainOrSignature(chain, evmGasTokenBalance.toString()),
-              ...tokenBalances,
-            ];
-
-            return potentialScamFilter ? filterAssets(balances) : balances;
-          },
+          // Overwrite xdefi getbalance due to race condition in their app when connecting multiple evm wallets
+          getBalance: (address: string, potentialScamFilter?: boolean) =>
+            getBalance({ chain, provider: getProvider(chain), api, address, potentialScamFilter }),
         },
         chainId: ChainToHexChainId[chain],
         //@ts-expect-error
         provider: window.xfi?.ethereum,
       });
-    }
-
-    case Chain.Bitcoin:
-    case Chain.BitcoinCash:
-    case Chain.Dogecoin:
-    case Chain.Litecoin: {
-      const { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } = await import(
-        '@swapkit/toolbox-utxo'
-      );
-      const params = { rpcUrl, blockchairApiKey, apiClient: api };
-      const toolbox =
-        chain === Chain.Bitcoin
-          ? BTCToolbox(params)
-          : chain === Chain.BitcoinCash
-          ? BCHToolbox(params)
-          : chain === Chain.Dogecoin
-          ? DOGEToolbox(params)
-          : LTCToolbox(params);
-
-      return { ...toolbox, transfer: walletTransfer };
     }
 
     default:
