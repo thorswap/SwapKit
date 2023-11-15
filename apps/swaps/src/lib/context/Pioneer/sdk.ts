@@ -239,9 +239,17 @@ export class SDK {
             config,
           );
           if (resultPair !== config.apiKey) this.keepkeyApiKey = resultPair;
+        } else if(walletSelected.type === 'LEDGER'){
+          console.log("walletSelected.wallet.connectMethodName: ",walletSelected.wallet.connectMethodName)
+          //only pair ETH
+          resultPair =
+            await this.swapKit[walletSelected.wallet.connectMethodName]('ETH');
+          console.log("resultPair: ",resultPair)
         } else {
+          console.log("walletSelected.wallet.connectMethodName: ",walletSelected.wallet.connectMethodName)
           resultPair =
             await this.swapKit[walletSelected.wallet.connectMethodName](AllChainsSupported);
+          console.log("resultPair: ",resultPair)
         }
         // log.info("resultPair: ", resultPair);
         // log.info("this.swapKit: ", this.swapKit);

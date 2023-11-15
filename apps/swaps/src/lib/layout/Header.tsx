@@ -30,6 +30,7 @@ import { useNavigate } from 'react-router-dom';
 // Import the image from the assets
 import blueMoonImage from '../assets/png/blueMoon.png';
 import KeepKey from '../components/KeepKey';
+import Ledger from '../components/Ledger';
 import MetaMask from '../components/MetaMask';
 import { usePioneer } from '../context/Pioneer';
 const PROJECT_NAME = 'Swaps.PRO';
@@ -147,7 +148,11 @@ const HeaderNew = () => {
                 <MetaMask onClose={onClose} setIsOpenSide={setIsOpenSide} />
               </div>
             )}
-            {modalType === 'LEDGER' && <div>Ledger</div>}
+            {modalType === 'LEDGER' && (
+              <div>
+                <Ledger />
+              </div>
+            )}
           </ModalBody>
           <ModalFooter>
             {modalShowClose ? (

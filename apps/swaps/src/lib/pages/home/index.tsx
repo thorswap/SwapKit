@@ -13,7 +13,6 @@ import {
   SimpleGrid, // Add SimpleGrid
   useDisclosure,
 } from '@chakra-ui/react';
-import { SwapKitApi } from '@coinmasters/api';
 import { FeeOption } from '@coinmasters/types';
 // import { COIN_MAP_LONG } from "@pioneer-platform/pioneer-coins";
 import { useParams } from 'react-router-dom';
@@ -110,8 +109,10 @@ const Home = () => {
         slippage: '3',
       };
       console.log('entry: ', entry);
-
-      const result = await SwapKitApi.getQuote(entry);
+      const result = await app.pioneer.Quote(entry)
+      result = result.data
+      console.log('result: ', result);
+      // const result = await SwapKitApi.getQuote(entry);
       if (result && result.routes && result.routes.length > 0) {
         setQuoteId(result?.quoteId);
         setRoutes(result?.routes);
