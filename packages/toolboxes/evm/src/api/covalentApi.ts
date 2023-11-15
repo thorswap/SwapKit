@@ -34,11 +34,13 @@ export const covalentApi = ({ apiKey, chainId }: { apiKey: string; chainId: Chai
     );
 
     const balances = (data?.items || []).map(
-      ({ balance, contract_decimals, contract_ticker_symbol, contract_address }) =>
+      ({ balance, contract_decimals, contract_ticker_symbol, contract_address, native_token }) =>
         new AssetValue({
           value: formatBigIntToSafeValue({ value: BigInt(balance), decimal: contract_decimals }),
           decimal: contract_decimals,
-          identifier: `${ChainIdToChain[chainId]}.${contract_ticker_symbol}-${contract_address}`,
+          identifier: `${ChainIdToChain[chainId]}.${contract_ticker_symbol}${
+            native_token ? '' : `-${contract_address}`
+          }`,
         }),
     );
 
