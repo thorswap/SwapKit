@@ -1,5 +1,15 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.23
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.18
+  - @swapkit/toolbox-cosmos@1.0.0-rc.20
+  - @swapkit/toolbox-evm@1.0.0-rc.20
+  - @swapkit/toolbox-utxo@1.0.0-rc.19
+
 ## 1.0.0-rc.22
 
 ### Patch Changes

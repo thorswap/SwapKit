@@ -155,24 +155,6 @@ export class AssetValue extends BigIntArithmetics {
     return new AssetValue({ value: parsedValue, decimal, identifier });
   }
 
-  static async fromTCQuote(identifier: TCTokenNames, value: NumberPrimitives = 0) {
-    const decimal = await getDecimal(getAssetInfo(identifier));
-    const shiftedValue = this.shiftDecimals({ value, from: BaseDecimal.THOR, to: decimal });
-
-    return new AssetValue({ value: shiftedValue, identifier, decimal });
-  }
-
-  static fromTCQuoteStatic(identifier: TCTokenNames, value: NumberPrimitives = 0) {
-    const tokenInfo = getStaticToken(identifier);
-    const shiftedValue = this.shiftDecimals({
-      value,
-      from: BaseDecimal.THOR,
-      to: tokenInfo.decimal,
-    });
-
-    return new AssetValue({ ...tokenInfo, value: shiftedValue });
-  }
-
   static async loadStaticAssets() {
     return new Promise<{ ok: true } | { ok: false; message: string; error: any }>(
       async (resolve, reject) => {

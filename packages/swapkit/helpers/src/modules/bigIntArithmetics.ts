@@ -71,12 +71,12 @@ export class BigIntArithmetics {
     from,
     to,
   }: {
-    value: InitialisationValueType;
+    value: InstanceType<typeof SwapKitNumber>;
     from: number;
     to: number;
   }) {
     return this.fromBigInt(
-      (new BigIntArithmetics(value).bigIntValue * toMultiplier(to)) / toMultiplier(from),
+      (value.getBaseValue('bigint') * toMultiplier(to)) / toMultiplier(from),
       to,
     );
   }
@@ -111,7 +111,7 @@ export class BigIntArithmetics {
     return this.getBaseValue('bigint') as bigint;
   }
 
-  set(value: SKBigIntParams) {
+  set(value: SKBigIntParams): this {
     // @ts-expect-error False positive
     return new this.constructor({ decimal: this.decimal, value, identifier: this.toString() });
   }
