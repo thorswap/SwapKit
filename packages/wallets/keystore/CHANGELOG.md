@@ -1,5 +1,18 @@
 # @swapkit/wallet-keystore
 
+## 1.0.0-rc.28
+
+### Patch Changes
+
+- Bump all for types
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.23
+  - @swapkit/helpers@1.0.0-rc.21
+  - @swapkit/toolbox-utxo@1.0.0-rc.22
+  - @swapkit/types@1.0.0-rc.8
+  - @swapkit/toolbox-evm@1.0.0-rc.23
+
 ## 1.0.0-rc.27
 
 ### Patch Changes

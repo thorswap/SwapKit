@@ -411,25 +411,19 @@ export class SwapKitCore<T = ''> {
         ? undefined
         : assetValue;
 
-    try {
-      const txHash = await this.#depositToPool({
-        assetValue: getMinAmountByChain(from === 'asset' ? assetValue.chain : Chain.THORChain),
-        memo:
-          memo ||
-          getMemoFor(MemoType.WITHDRAW, {
-            symbol: assetValue.symbol,
-            chain: assetValue.chain,
-            ticker: assetValue.ticker,
-            basisPoints: Math.max(10000, Math.round(percent * 100)),
-            targetAssetString: targetAsset?.toString(),
-            singleSide: false,
-          }),
+    const value = getMinAmountByChain(from === 'asset' ? assetValue.chain : Chain.THORChain);
+    const memoString =
+      memo ||
+      getMemoFor(MemoType.WITHDRAW, {
+        symbol: assetValue.symbol,
+        chain: assetValue.chain,
+        ticker: assetValue.ticker,
+        basisPoints: Math.max(10000, Math.round(percent * 100)),
+        targetAssetString: targetAsset?.toString(),
+        singleSide: false,
       });
 
-      return txHash;
-    } catch (error) {
-      throw new SwapKitError('core_transaction_withdraw_error', error);
-    }
+    return this.#depositToPool({ assetValue: value, memo: memoString });
   };
 
   savings = async ({
@@ -452,7 +446,10 @@ export class SwapKitCore<T = ''> {
         basisPoints: percent ? Math.min(10000, Math.round(percent * 100)) : undefined,
       });
 
-    return this.#depositToPool({ assetValue, memo: memoString });
+    const value =
+      memoType === MemoType.DEPOSIT ? assetValue : getMinAmountByChain(assetValue.chain);
+
+    return this.#depositToPool({ memo: memoString, assetValue: value });
   };
 
   loan = ({

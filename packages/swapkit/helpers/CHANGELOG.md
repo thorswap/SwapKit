@@ -1,5 +1,21 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.21
+
+### Patch Changes
+
+- Bump all for types
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.8
+  - @swapkit/types@1.0.0-rc.8
+
+## 1.0.0-rc.20
+
+### Patch Changes
+
+- fix min amount for chain
+
 ## 1.0.0-rc.19
 
 ### Patch Changes

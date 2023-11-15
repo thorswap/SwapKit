@@ -1,5 +1,15 @@
 # @swapkit/toolbox-evm
 
+## 1.0.0-rc.23
+
+### Patch Changes
+
+- Bump all for types
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.21
+  - @swapkit/types@1.0.0-rc.8
+
 ## 1.0.0-rc.22
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @swapkit/api
 
+## 1.0.0-rc.8
+
+### Patch Changes
+
+- Bump all for types
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.8
+
 ## 1.0.0-rc.7
 
 ### Patch Changes

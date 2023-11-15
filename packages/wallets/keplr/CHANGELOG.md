@@ -1,5 +1,24 @@
 # @swapkit/wallet-keplr
 
+## 1.0.0-rc.23
+
+### Patch Changes
+
+- Bump all for types
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.23
+  - @swapkit/helpers@1.0.0-rc.21
+  - @swapkit/types@1.0.0-rc.8
+
+## 1.0.0-rc.22
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.20
+  - @swapkit/toolbox-cosmos@1.0.0-rc.22
+
 ## 1.0.0-rc.21
 
 ### Patch Changes

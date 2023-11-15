@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.8
+
+### Patch Changes
+
+- Bump all for types
+
 ## 1.0.0-rc.7
 
 ### Patch Changes

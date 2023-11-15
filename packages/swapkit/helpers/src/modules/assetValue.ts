@@ -203,21 +203,21 @@ export const getMinAmountByChain = (chain: Chain) => {
     case Chain.Bitcoin:
     case Chain.Litecoin:
     case Chain.BitcoinCash:
-      return asset.add(10001);
+      return asset.set(0.00010001);
 
     case Chain.Dogecoin:
-      return asset.add(100000001);
+      return asset.set(1.00000001);
 
     case Chain.Avalanche:
     case Chain.Ethereum:
-      return asset.add(10 * 10 ** 9);
+      return asset.set(0.00000001);
 
     case Chain.THORChain:
     case Chain.Maya:
-      return asset.add(0);
+      return asset.set(0);
 
     default:
-      return asset.add(1);
+      return asset.set(0.00000001);
   }
 };
 

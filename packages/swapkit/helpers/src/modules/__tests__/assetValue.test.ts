@@ -1,7 +1,7 @@
 import { BaseDecimal, Chain } from '@swapkit/types';
 import { describe, expect, test } from 'vitest';
 
-import { AssetValue } from '../assetValue.ts';
+import { AssetValue, getMinAmountByChain } from '../assetValue.ts';
 
 describe('AssetValue', () => {
   describe('assetValue', () => {
@@ -307,5 +307,24 @@ describe('AssetValue', () => {
       const { ok } = await AssetValue.loadStaticAssets();
       expect(ok).toBe(true);
     });
+  });
+});
+
+describe('getMinAmountByChain', () => {
+  test('returns min amount for chain', () => {
+    expect(getMinAmountByChain(Chain.THORChain).getValue('string')).toBe('0');
+    expect(getMinAmountByChain(Chain.Maya).getValue('string')).toBe('0');
+    expect(getMinAmountByChain(Chain.Cosmos).getValue('string')).toBe('0');
+
+    expect(getMinAmountByChain(Chain.Bitcoin).getValue('string')).toBe('0.00010001');
+    expect(getMinAmountByChain(Chain.Litecoin).getValue('string')).toBe('0.00010001');
+    expect(getMinAmountByChain(Chain.BitcoinCash).getValue('string')).toBe('0.00010001');
+    expect(getMinAmountByChain(Chain.Dogecoin).getValue('string')).toBe('1.00000001');
+
+    expect(getMinAmountByChain(Chain.BinanceSmartChain).getValue('string')).toBe('0.00000001');
+    expect(getMinAmountByChain(Chain.Ethereum).getValue('string')).toBe('0.00000001');
+    expect(getMinAmountByChain(Chain.Avalanche).getValue('string')).toBe('0.00000001');
+    expect(getMinAmountByChain(Chain.Arbitrum).getValue('string')).toBe('0.00000001');
+    expect(getMinAmountByChain(Chain.Optimism).getValue('string')).toBe('0.00000001');
   });
 });
