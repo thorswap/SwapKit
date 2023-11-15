@@ -1,5 +1,14 @@
 # @swapkit/core
 
+## 1.0.0-rc.26
+
+### Patch Changes
+
+- [#393](https://github.com/thorswap/SwapKit/pull/393) [`6e1bcdb5`](https://github.com/thorswap/SwapKit/commit/6e1bcdb5b913f2c3ec2a00662141b7489c15c4f4) Thanks [@towanTG](https://github.com/towanTG)! - Fixes approve and send methods of core
+
+- Updated dependencies [[`bd0e5c21`](https://github.com/thorswap/SwapKit/commit/bd0e5c21f03b3da664851dbffd7af32302375d98), [`6e1bcdb5`](https://github.com/thorswap/SwapKit/commit/6e1bcdb5b913f2c3ec2a00662141b7489c15c4f4)]:
+  - @swapkit/toolbox-evm@1.0.0-rc.22
+
 ## 1.0.0-rc.25
 
 ### Patch Changes

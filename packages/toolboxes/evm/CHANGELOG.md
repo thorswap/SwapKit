@@ -1,5 +1,13 @@
 # @swapkit/toolbox-evm
 
+## 1.0.0-rc.22
+
+### Patch Changes
+
+- [#391](https://github.com/thorswap/SwapKit/pull/391) [`bd0e5c21`](https://github.com/thorswap/SwapKit/commit/bd0e5c21f03b3da664851dbffd7af32302375d98) Thanks [@towanTG](https://github.com/towanTG)! - Fixes native token identifier from covalent api
+
+- [#393](https://github.com/thorswap/SwapKit/pull/393) [`6e1bcdb5`](https://github.com/thorswap/SwapKit/commit/6e1bcdb5b913f2c3ec2a00662141b7489c15c4f4) Thanks [@towanTG](https://github.com/towanTG)! - Fixes approve and send methods of core
+
 ## 1.0.0-rc.21
 
 ### Patch Changes
