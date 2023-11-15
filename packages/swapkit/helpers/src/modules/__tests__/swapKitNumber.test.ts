@@ -53,12 +53,12 @@ describe('SwapKitNumber', () => {
 
       const shiftedSkNumber = SwapKitNumber.shiftDecimals({
         value: skNumber,
-        from: 6,
-        to: 8,
+        from: 8,
+        to: 6,
       });
 
-      expect(shiftedSkNumber.getValue('string')).toBe('100');
-      expect(shiftedSkNumber.getBaseValue('bigint')).toBe(10000000000n);
+      expect(shiftedSkNumber.getValue('string')).toBe('1');
+      expect(shiftedSkNumber.getBaseValue('bigint')).toBe(1000000n);
     });
 
     test('shifts down and rounds down number', () => {
@@ -74,6 +74,19 @@ describe('SwapKitNumber', () => {
 
       expect(shiftedSkNumber.getValue('string')).toBe('2.123456');
       expect(shiftedSkNumber.getBaseValue('bigint')).toBe(2123456n);
+    });
+
+    test('shift eth from 18 to 8', () => {
+      const skNumber = new SwapKitNumber({ value: '0.2', decimal: 18 });
+
+      const shiftedSkNumber = SwapKitNumber.shiftDecimals({
+        value: skNumber,
+        from: 18,
+        to: 8,
+      });
+
+      expect(shiftedSkNumber.getValue('string')).toBe('0.2');
+      expect(shiftedSkNumber.getBaseValue('bigint')).toBe(20000000n);
     });
   });
 
