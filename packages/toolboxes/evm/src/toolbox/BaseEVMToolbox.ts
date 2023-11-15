@@ -15,7 +15,7 @@ import { BrowserProvider } from 'ethers';
 import { getAddress } from 'ethers/address';
 import { MaxInt256 } from 'ethers/constants';
 
-import { toHexString } from '../helpers.ts';
+import { toHexString } from '../index.ts';
 import type {
   ApprovedParams,
   ApproveParams,

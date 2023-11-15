@@ -253,10 +253,9 @@ export class SwapKitCore<T = ''> {
             funcParams: [
               recipient,
               getChecksumAddressFromAsset({ chain, symbol, ticker }, chain),
-              // TODO: (@Towan) Re-Check on that conversion 🙏
-              assetValue.getBaseValue('bigint').toString(),
+              assetValue.getBaseValue('string'),
               params.memo,
-              rest.expiration,
+              rest.expiration || parseInt(`${(new Date().getTime() + 15 * 60 * 1000) / 1000}`),
             ],
             txOverrides: {
               from: params.from,
@@ -450,7 +449,7 @@ export class SwapKitCore<T = ''> {
         symbol: assetValue.symbol,
         chain: assetValue.chain,
         singleSide: true,
-        basisPoints: percent ? Math.max(10000, Math.round(percent * 100)) : undefined,
+        basisPoints: percent ? Math.min(10000, Math.round(percent * 100)) : undefined,
       });
 
     return this.#depositToPool({ assetValue, memo: memoString });

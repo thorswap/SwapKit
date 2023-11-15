@@ -54,8 +54,6 @@ const methodsToWrap = [
   'createContractTxObject',
 ];
 
-export const toHexString = (value?: BigInt) => (value ? '0x' + value.toString(16) : '');
-
 export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[]) => any }>({
   toolbox,
   chainId,
@@ -264,9 +262,8 @@ const listWeb3EVMWallets = () => {
   return wallets;
 };
 
-export const isWeb3Detected = () => {
-  return typeof window.ethereum !== 'undefined';
-};
+export const isWeb3Detected = () => typeof window.ethereum !== 'undefined';
+export const toHexString = (value: bigint) => (value > 0n ? `0x${value.toString(16)}` : '0x0');
 
 export const getBalance = async ({
   provider,
