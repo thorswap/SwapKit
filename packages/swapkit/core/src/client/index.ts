@@ -94,7 +94,6 @@ export class SwapKitCore<T = ''> {
         const transaction = streamSwap ? route?.streamingSwap?.transaction : route?.transaction;
         if (!transaction) throw new SwapKitError('core_swap_route_transaction_not_found');
 
-        const { isHexString, parseUnits } = await import('ethers');
         const { data, from, to, value } = route.transaction;
 
         const params = {
@@ -102,11 +101,7 @@ export class SwapKitCore<T = ''> {
           from,
           to: to.toLowerCase(),
           chainId: BigInt(ChainToChainId[evmChain]),
-          value: value
-            ? new SwapKitNumber({
-                value: !isHexString(value) ? parseUnits(value, 'wei').toString(16) : value,
-              }).getBaseValue('bigint')
-            : 0n,
+          value: value ? BigInt(value) : 0n,
         };
 
         return walletMethods.sendTransaction(params, feeOptionKey) as Promise<string>;
@@ -627,7 +622,7 @@ export class SwapKitCore<T = ''> {
   };
 
   #approve = async <T = string>({
-    assetValue: { getBaseValue, address, chain, isGasAsset, isSynthetic },
+    assetValue,
     type = 'checkOnly',
     contractAddress,
   }: {
@@ -635,6 +630,7 @@ export class SwapKitCore<T = ''> {
     type?: 'checkOnly' | 'approve';
     contractAddress?: string;
   }) => {
+    const { address, chain, isGasAsset, isSynthetic } = assetValue;
     const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain);
     const isNativeEVM = isEVMChain && isGasAsset;
 
@@ -653,7 +649,7 @@ export class SwapKitCore<T = ''> {
       contractAddress || ((await this.#getInboundDataByChain(chain)).router as string);
 
     return walletAction({
-      amount: getBaseValue('bigint'),
+      amount: assetValue.getBaseValue('bigint'),
       assetAddress: address,
       from,
       spenderAddress,

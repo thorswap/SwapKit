@@ -182,7 +182,7 @@ const approve = async (
     assetAddress,
     spenderAddress,
     feeOptionKey = FeeOption.Fast,
-    amount = MAX_APPROVAL,
+    amount,
     gasLimitFallback,
     from,
     nonce,
@@ -190,8 +190,7 @@ const approve = async (
   signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
-  if (!amount) throw new Error('amount must be provided');
-  const funcParams = [spenderAddress, BigInt(amount)];
+  const funcParams = [spenderAddress, BigInt(amount || MAX_APPROVAL)];
   const txOverrides = { from };
 
   const functionCallParams = {
