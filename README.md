@@ -51,7 +51,7 @@ npm install -g pnpm
 2.
 
 ```pre
-Copy .env.example to .env and fill it with data
+Copy .env.local to .env and fill it with data
 ```
 
 ### Installation
@@ -62,7 +62,6 @@ pnpm bootstrap;
 
 #### Branches
 
-- `main` - production branch
 - `develop` - development branch - all PRs should be merged here first
 - `nightly` - branch for nightly builds - can be used for testing purposes
 
