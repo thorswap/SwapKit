@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.22
+
+### Patch Changes
+
+- [#396](https://github.com/thorswap/SwapKit/pull/396) [`cb826840`](https://github.com/thorswap/SwapKit/commit/cb826840613b7b8b1b677225689fd3daec4a941c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - add currency formatter
+
 ## 1.0.0-rc.21
 
 ### Patch Changes

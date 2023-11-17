@@ -1,5 +1,12 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.24
+
+### Patch Changes
+
+- Updated dependencies [[`cb826840`](https://github.com/thorswap/SwapKit/commit/cb826840613b7b8b1b677225689fd3daec4a941c)]:
+  - @swapkit/helpers@1.0.0-rc.22
+
 ## 1.0.0-rc.23
 
 ### Patch Changes
