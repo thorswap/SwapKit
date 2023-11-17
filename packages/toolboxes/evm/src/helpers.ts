@@ -285,7 +285,10 @@ export const getBalance = async ({
   const balances = [
     AssetValue.fromChainOrSignature(chain, balance.getValue('string')),
     ...tokenBalances,
-  ];
+  ].filter(
+    (asset, index, self) =>
+      self.findIndex((balance) => balance.toString() === asset.toString()) === index,
+  );
 
   return potentialScamFilter ? filterAssets(balances) : balances;
 };

@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.23
+
+### Patch Changes
+
+- filter out nfts & scam assets
+
 ## 1.0.0-rc.22
 
 ### Patch Changes

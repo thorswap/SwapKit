@@ -24,6 +24,7 @@
     "@internal/playground": "0.0.0-internal.0"
   },
   "changesets": [
+    "bright-wombats-trade",
     "chilled-keys-fetch",
     "chilly-bears-lick",
     "chilly-peaches-compare",

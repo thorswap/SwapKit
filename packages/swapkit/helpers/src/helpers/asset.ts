@@ -1,5 +1,5 @@
 import type { EVMChain } from '@swapkit/types';
-import { BaseDecimal, Chain, ChainToRPC, FeeOption } from '@swapkit/types';
+import { BaseDecimal, Chain, ChainToRPC, EVMChainList, FeeOption } from '@swapkit/types';
 
 import { type AssetValue, RequestClient } from '../index.ts';
 
@@ -186,8 +186,17 @@ const potentialScamRegex = new RegExp(
   /(.)\1{6}|\.ORG|\.NET|\.FINANCE|\.COM|WWW|HTTP|\\\\|\/\/|[\s$%:[\]]/,
   'gmi',
 );
+
+const evmAssetHasAddress = (asset: AssetValue) => {
+  if (!EVMChainList.includes(asset.chain as EVMChain)) return true;
+
+  return !asset.isGasAsset && asset.address && !Number.isNaN(asset.decimal);
+};
+
 export const filterAssets = (assets: AssetValue[]) =>
   assets.filter(
     (asset) =>
-      !potentialScamRegex.test(asset.toString()) && !asset.toString().includes('undefined'),
+      !asset.toString().includes('undefined') &&
+      !potentialScamRegex.test(asset.toString()) &&
+      evmAssetHasAddress(asset),
   );

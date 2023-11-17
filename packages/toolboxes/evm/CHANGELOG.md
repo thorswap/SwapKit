@@ -1,5 +1,14 @@
 # @swapkit/toolbox-evm
 
+## 1.0.0-rc.25
+
+### Patch Changes
+
+- filter out nfts & scam assets
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.23
+
 ## 1.0.0-rc.24
 
 ### Patch Changes

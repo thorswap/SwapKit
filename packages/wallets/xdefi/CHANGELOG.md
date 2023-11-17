@@ -1,5 +1,17 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.28
+
+### Patch Changes
+
+- filter out nfts & scam assets
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.23
+  - @swapkit/toolbox-evm@1.0.0-rc.25
+  - @swapkit/toolbox-cosmos@1.0.0-rc.25
+  - @swapkit/toolbox-utxo@1.0.0-rc.24
+
 ## 1.0.0-rc.27
 
 ### Patch Changes
