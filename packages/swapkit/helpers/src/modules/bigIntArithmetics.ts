@@ -12,17 +12,6 @@ type InitialisationValueType = NumberPrimitives | BigIntArithmetics | SwapKitNum
 
 type SKBigIntParams = InitialisationValueType | { decimal?: number; value: number | string };
 
-const defaultCurrencyOptions = {
-  currencyPosition: 'start',
-  decimal: 2,
-  thousandSeparator: ',',
-  decimalSeparator: '.',
-} as {
-  currencyPosition: 'start' | 'end';
-  decimal: number;
-  thousandSeparator: string;
-  decimalSeparator: string;
-};
 const DEFAULT_DECIMAL = 8;
 const toMultiplier = (decimal: number) => 10n ** BigInt(decimal);
 const decimalFromMultiplier = (multiplier: bigint) => Math.log10(parseFloat(multiplier.toString()));

@@ -118,7 +118,7 @@ export const walletTransfer = async (
   const from = await getXDEFIAddress(assetValue.chain);
   const params = [
     {
-      amount: { amount: assetValue.baseValueNumber, decimals: assetValue.decimal },
+      amount: { amount: assetValue.getBaseValue('number'), decimals: assetValue.decimal },
       asset: { chain: assetValue.chain, symbol: assetValue.symbol, ticker: assetValue.symbol },
       from,
       memo,
