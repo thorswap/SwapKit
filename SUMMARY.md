@@ -62,3 +62,4 @@
   * [Full API Reference](http://localhost:3000/doc)
 * [✨ Smart Contracts](references/smart-contracts.md)
 * [🏗 V1 Migration](references/v1-migration.md)
+* [Github](https://github.com/thorswap/SwapKit)
