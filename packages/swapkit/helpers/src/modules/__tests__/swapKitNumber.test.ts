@@ -200,6 +200,39 @@ describe('SwapKitNumber', () => {
     });
   });
 
+  describe('toCurrency', () => {
+    test.only('returns abbreviation with up to 3 integer digits', () => {
+      const skNumber = new SwapKitNumber(1234.5678);
+      expect(skNumber.toCurrency()).toBe('$1,234.56');
+      expect(
+        skNumber.toCurrency('€', {
+          decimalSeparator: ',',
+          thousandSeparator: ' ',
+          currencyPosition: 'end',
+        }),
+      ).toBe('1 234,56€');
+
+      const skNumber2 = new SwapKitNumber(0.5678);
+      expect(skNumber2.toCurrency()).toBe('$0.5678');
+      expect(
+        skNumber2.toCurrency('€', {
+          decimalSeparator: ',',
+          currencyPosition: 'end',
+        }),
+      ).toBe('0,5678€');
+
+      const skNumber3 = new SwapKitNumber(0.00005678);
+      expect(skNumber3.toCurrency()).toBe('$0.000057');
+      expect(
+        skNumber3.toCurrency('€', {
+          decimalSeparator: ',',
+          thousandSeparator: ' ',
+          currencyPosition: 'end',
+        }),
+      ).toBe('0,000057€');
+    });
+  });
+
   describe('add', () => {
     test('adds same type numbers correctly', () => {
       const skNumber1 = new SwapKitNumber(10);

@@ -12,6 +12,17 @@ type InitialisationValueType = NumberPrimitives | BigIntArithmetics | SwapKitNum
 
 type SKBigIntParams = InitialisationValueType | { decimal?: number; value: number | string };
 
+const defaultCurrencyOptions = {
+  currencyPosition: 'start',
+  decimal: 2,
+  thousandSeparator: ',',
+  decimalSeparator: '.',
+} as {
+  currencyPosition: 'start' | 'end';
+  decimal: number;
+  thousandSeparator: string;
+  decimalSeparator: string;
+};
 const DEFAULT_DECIMAL = 8;
 const toMultiplier = (decimal: number) => 10n ** BigInt(decimal);
 const decimalFromMultiplier = (multiplier: bigint) => Math.log10(parseFloat(multiplier.toString()));
@@ -90,25 +101,6 @@ export class BigIntArithmetics {
       Math.max(this.#getFloatDecimals(this.#toSafeValue(value)), this.decimal || 0),
     );
     this.#setValue(value);
-  }
-
-  /**
-   * @deprecated Use `getBaseValue('string')` instead
-   */
-  get baseValue() {
-    return this.getBaseValue('string') as string;
-  }
-  /**
-   * @deprecated Use `getBaseValue('number')` instead
-   */
-  get baseValueNumber() {
-    return this.getBaseValue('number') as number;
-  }
-  /**
-   * @deprecated Use `getBaseValue('bigint')` instead
-   */
-  get baseValueBigInt() {
-    return this.getBaseValue('bigint') as bigint;
   }
 
   set(value: SKBigIntParams): this {
@@ -282,6 +274,31 @@ export class BigIntArithmetics {
     const scaled = value / scale;
 
     return `${scaled.toFixed(digits)}${suffix}`;
+  }
+
+  toCurrency(
+    currency = '$',
+    {
+      currencyPosition = 'start',
+      decimal = 2,
+      decimalSeparator = '.',
+      thousandSeparator = ',',
+    } = {},
+  ) {
+    const value = this.getValue('number');
+    const [int, dec = ''] = value.toFixed(6).split('.');
+    const integer = int.replace(/\B(?=(\d{3})+(?!\d))/g, thousandSeparator);
+
+    const parsedValue =
+      !int && !dec
+        ? '0.00'
+        : int === '0'
+        ? `${parseFloat(`0.${dec}`)}`.replace('.', decimalSeparator)
+        : `${integer}${dec ? `${decimalSeparator}${dec.slice(0, decimal)}` : ''}`;
+
+    return `${currencyPosition === 'start' ? currency : ''}${parsedValue}${
+      currencyPosition === 'end' ? currency : ''
+    }`;
   }
 
   #arithmetics(method: 'add' | 'sub' | 'mul' | 'div', ...args: InitialisationValueType[]): this {
