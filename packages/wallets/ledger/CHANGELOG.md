@@ -1,5 +1,17 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.29
+
+### Patch Changes
+
+- Perf improvement on initialization of AssetValue
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.26
+  - @swapkit/helpers@1.0.0-rc.24
+  - @swapkit/toolbox-utxo@1.0.0-rc.25
+  - @swapkit/toolbox-evm@1.0.0-rc.26
+
 ## 1.0.0-rc.28
 
 ### Patch Changes

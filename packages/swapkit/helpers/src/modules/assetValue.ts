@@ -76,16 +76,15 @@ export class AssetValue extends BigIntArithmetics {
   type: ReturnType<typeof getAssetType>;
 
   constructor(params: AssetValueParams) {
+    const identifier =
+      'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
     super(
       params.value instanceof BigIntArithmetics
         ? params.value
         : { decimal: params.decimal, value: params.value },
     );
 
-    const identifier =
-      'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
     const assetInfo = getAssetInfo(identifier);
-
     this.type = getAssetType(assetInfo);
     this.chain = assetInfo.chain;
     this.ticker = assetInfo.ticker;
@@ -127,11 +126,13 @@ export class AssetValue extends BigIntArithmetics {
 
     const parsedValue = safeValue(value, decimal);
 
-    return tokenIdentifier
+    const asset = tokenIdentifier
       ? new AssetValue({ decimal, identifier: tokenIdentifier, value: parsedValue })
       : isSynthetic
       ? new AssetValue({ decimal: 8, identifier: assetString, value: parsedValue })
       : undefined;
+
+    return asset;
   }
 
   static async fromIdentifier(

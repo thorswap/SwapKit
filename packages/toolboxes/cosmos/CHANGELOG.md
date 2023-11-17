@@ -1,5 +1,14 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.26
+
+### Patch Changes
+
+- Perf improvement on initialization of AssetValue
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.24
+
 ## 1.0.0-rc.25
 
 ### Patch Changes

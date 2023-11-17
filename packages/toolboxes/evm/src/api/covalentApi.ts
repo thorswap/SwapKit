@@ -1,4 +1,4 @@
-import { AssetValue, filterAssets, formatBigIntToSafeValue, RequestClient } from '@swapkit/helpers';
+import { formatBigIntToSafeValue, RequestClient } from '@swapkit/helpers';
 import type { ChainId } from '@swapkit/types';
 import { ChainIdToChain } from '@swapkit/types';
 
@@ -27,24 +27,20 @@ type CovalentBalanceResponse = {
 };
 
 export const covalentApi = ({ apiKey, chainId }: { apiKey: string; chainId: ChainId }) => ({
-  getBalance: async (address: string, potentialScamFilter?: boolean) => {
+  getBalance: async (address: string) => {
     const { data } = await RequestClient.get<{ data: CovalentBalanceResponse }>(
       `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/`,
       { searchParams: { key: apiKey } },
     );
 
-    const balances = (data?.items || []).map(
-      ({ balance, contract_decimals, contract_ticker_symbol, contract_address, native_token }) =>
-        new AssetValue({
-          value: formatBigIntToSafeValue({ value: BigInt(balance), decimal: contract_decimals }),
-          decimal: contract_decimals,
-          identifier: `${ChainIdToChain[chainId]}.${contract_ticker_symbol}${
-            native_token ? '' : `-${contract_address}`
-          }`,
-        }),
+    return (data?.items || []).map(
+      ({ balance, contract_decimals, contract_ticker_symbol, contract_address, native_token }) => ({
+        value: formatBigIntToSafeValue({ value: BigInt(balance), decimal: contract_decimals }),
+        decimal: contract_decimals,
+        chain: ChainIdToChain[chainId],
+        symbol: `${contract_ticker_symbol}${native_token ? '' : `-${contract_address}`}`,
+      }),
     );
-
-    return potentialScamFilter ? filterAssets(balances) : balances;
   },
 });
 

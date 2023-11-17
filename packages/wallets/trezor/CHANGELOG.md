@@ -1,5 +1,16 @@
 # @swapkit/wallet-trezor
 
+## 1.0.0-rc.27
+
+### Patch Changes
+
+- Perf improvement on initialization of AssetValue
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.24
+  - @swapkit/toolbox-utxo@1.0.0-rc.25
+  - @swapkit/toolbox-evm@1.0.0-rc.26
+
 ## 1.0.0-rc.26
 
 ### Patch Changes
