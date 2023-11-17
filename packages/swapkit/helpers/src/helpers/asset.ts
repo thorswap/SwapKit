@@ -1,7 +1,7 @@
 import type { EVMChain } from '@swapkit/types';
 import { BaseDecimal, Chain, ChainToRPC, EVMChainList, FeeOption } from '@swapkit/types';
 
-import { type AssetValue, RequestClient } from '../index.ts';
+import { RequestClient } from '../index.ts';
 
 const getDecimalMethodHex = '0x313ce567';
 
@@ -187,16 +187,28 @@ const potentialScamRegex = new RegExp(
   'gmi',
 );
 
-const evmAssetHasAddress = (asset: AssetValue) => {
-  if (!EVMChainList.includes(asset.chain as EVMChain)) return true;
+const evmAssetHasAddress = (assetString: string) => {
+  const [chain, symbol] = assetString.split('.') as [EVMChain, string];
+  if (!EVMChainList.includes(chain as EVMChain)) return true;
+  const [, address] = symbol.split('-') as [string, string?];
 
-  return !asset.isGasAsset && asset.address && !Number.isNaN(asset.decimal);
+  return isGasAsset({ chain: chain as Chain, symbol }) || !!address;
 };
 
-export const filterAssets = (assets: AssetValue[]) =>
-  assets.filter(
-    (asset) =>
-      !asset.toString().includes('undefined') &&
-      !potentialScamRegex.test(asset.toString()) &&
-      evmAssetHasAddress(asset),
-  );
+export const filterAssets = (
+  tokens: {
+    value: string;
+    decimal: number;
+    chain: Chain;
+    symbol: string;
+  }[],
+) =>
+  tokens.filter((token) => {
+    const assetString = `${token.chain}.${token.symbol}`;
+
+    return (
+      !potentialScamRegex.test(assetString) &&
+      evmAssetHasAddress(assetString) &&
+      token.value !== '0'
+    );
+  });

@@ -66,26 +66,23 @@ const createAssetValue = async (assetString: string, value: NumberPrimitives = 0
   return new AssetValue({ decimal, value: parsedValue, identifier: assetString });
 };
 
-export class AssetValue extends BigIntArithmetics {
-  address?: string;
-  chain: Chain;
-  isSynthetic = false;
-  isGasAsset = false;
-  symbol: string;
-  ticker: string;
-  type: ReturnType<typeof getAssetType>;
+const cacheAssetValue = new Map<string, AssetValue>();
 
+export class AssetValue extends BigIntArithmetics {
   constructor(params: AssetValueParams) {
+    const identifier =
+      'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
+
+    const cachedAsset = cacheAssetValue.get(identifier);
+    if (cachedAsset) return cachedAsset.set(params.value);
+
     super(
       params.value instanceof BigIntArithmetics
         ? params.value
         : { decimal: params.decimal, value: params.value },
     );
 
-    const identifier =
-      'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
     const assetInfo = getAssetInfo(identifier);
-
     this.type = getAssetType(assetInfo);
     this.chain = assetInfo.chain;
     this.ticker = assetInfo.ticker;
@@ -93,17 +90,25 @@ export class AssetValue extends BigIntArithmetics {
     this.address = assetInfo.address;
     this.isSynthetic = assetInfo.isSynthetic;
     this.isGasAsset = assetInfo.isGasAsset;
+
+    cacheAssetValue.set(identifier, this);
   }
 
-  get assetValue() {
-    return `${this.getValue('string')} ${this.ticker}`;
-  }
+  address?: string;
+  isSynthetic = false;
+  isGasAsset = false;
+  // @ts-expect-error cache is false positive on that case
+  chain: Chain;
+  // @ts-expect-error cache is false positive on that case
+  symbol: string;
+  // @ts-expect-error cache is false positive on that case
+  ticker: string;
+  // @ts-expect-error cache is false positive on that case
+  type: ReturnType<typeof getAssetType>;
 
   toString(short = false) {
     // THOR.RUNE | ETH/ETH
-    const shortFormat = this.isSynthetic
-      ? this.symbol.split('-')[0]
-      : `${this.chain}.${this.ticker}`;
+    const shortFormat = this.isSynthetic ? this.symbol.split('-')[0] : this.ticker;
 
     return short
       ? shortFormat
@@ -127,11 +132,13 @@ export class AssetValue extends BigIntArithmetics {
 
     const parsedValue = safeValue(value, decimal);
 
-    return tokenIdentifier
+    const asset = tokenIdentifier
       ? new AssetValue({ decimal, identifier: tokenIdentifier, value: parsedValue })
       : isSynthetic
       ? new AssetValue({ decimal: 8, identifier: assetString, value: parsedValue })
       : undefined;
+
+    return asset;
   }
 
   static async fromIdentifier(
