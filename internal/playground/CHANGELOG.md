@@ -1,5 +1,66 @@
 # @internal/playground
 
+## 0.0.0-rc.27
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.26
+  - @swapkit/core@1.0.0-rc.32
+  - @swapkit/toolbox-cosmos@1.0.0-rc.28
+  - @swapkit/toolbox-evm@1.0.0-rc.28
+  - @swapkit/toolbox-utxo@1.0.0-rc.27
+  - @swapkit/wallet-keplr@1.0.0-rc.28
+  - @swapkit/wallet-keystore@1.0.0-rc.33
+  - @swapkit/wallet-ledger@1.0.0-rc.31
+  - @swapkit/wallet-okx@1.0.0-rc.31
+  - @swapkit/wallet-trezor@1.0.0-rc.29
+  - @swapkit/wallet-xdefi@1.0.0-rc.31
+  - @swapkit/wallet-wc@1.0.0-rc.30
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.28
+
+## 0.0.0-rc.26
+
+### Patch Changes
+
+- perf improvements'
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.27
+  - @swapkit/toolbox-cosmos@1.0.0-rc.27
+  - @swapkit/wallet-keystore@1.0.0-rc.32
+  - @swapkit/helpers@1.0.0-rc.25
+  - @swapkit/toolbox-utxo@1.0.0-rc.26
+  - @swapkit/wallet-ledger@1.0.0-rc.30
+  - @swapkit/wallet-trezor@1.0.0-rc.28
+  - @swapkit/toolbox-evm@1.0.0-rc.27
+  - @swapkit/wallet-keplr@1.0.0-rc.27
+  - @swapkit/wallet-xdefi@1.0.0-rc.30
+  - @swapkit/core@1.0.0-rc.31
+  - @swapkit/wallet-okx@1.0.0-rc.30
+  - @swapkit/wallet-wc@1.0.0-rc.29
+
+## 0.0.0-rc.25
+
+### Patch Changes
+
+- Perf improvement on initialization of AssetValue
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.26
+  - @swapkit/toolbox-cosmos@1.0.0-rc.26
+  - @swapkit/wallet-keystore@1.0.0-rc.31
+  - @swapkit/helpers@1.0.0-rc.24
+  - @swapkit/toolbox-utxo@1.0.0-rc.25
+  - @swapkit/wallet-ledger@1.0.0-rc.29
+  - @swapkit/wallet-trezor@1.0.0-rc.27
+  - @swapkit/toolbox-evm@1.0.0-rc.26
+  - @swapkit/wallet-keplr@1.0.0-rc.26
+  - @swapkit/wallet-xdefi@1.0.0-rc.29
+  - @swapkit/core@1.0.0-rc.30
+  - @swapkit/wallet-okx@1.0.0-rc.29
+  - @swapkit/wallet-wc@1.0.0-rc.28
+
 ## 0.0.0-rc.24
 
 ### Patch Changes

@@ -1,5 +1,33 @@
 # @swapkit/wallet-keplr
 
+## 1.0.0-rc.28
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.26
+  - @swapkit/toolbox-cosmos@1.0.0-rc.28
+
+## 1.0.0-rc.27
+
+### Patch Changes
+
+- perf improvements'
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.27
+  - @swapkit/helpers@1.0.0-rc.25
+
+## 1.0.0-rc.26
+
+### Patch Changes
+
+- Perf improvement on initialization of AssetValue
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.26
+  - @swapkit/helpers@1.0.0-rc.24
+
 ## 1.0.0-rc.25
 
 ### Patch Changes

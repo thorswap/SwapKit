@@ -87,14 +87,14 @@ export class BigIntArithmetics {
 
     // use the multiplier to keep track of decimal point - defaults to 8 if lower than 8
     this.decimalMultiplier = toMultiplier(
-      Math.max(this.#getFloatDecimals(this.#toSafeValue(value)), this.decimal || 0),
+      Math.max(getFloatDecimals(toSafeValue(value)), this.decimal || 0),
     );
     this.#setValue(value);
   }
 
   set(value: SKBigIntParams): this {
-    // @ts-expect-error False positive
-    return new this.constructor({ decimal: this.decimal, value, identifier: this.toString() });
+    this.#setValue(getStringValue(value));
+    return this;
   }
   add(...args: InitialisationValueType[]) {
     return this.#arithmetics('add', ...args);
@@ -164,7 +164,7 @@ export class BigIntArithmetics {
     if (!decimal && typeof value === 'object') return value.bigIntValue;
 
     const stringValue = getStringValue(value);
-    const safeValue = this.#toSafeValue(stringValue);
+    const safeValue = toSafeValue(stringValue);
 
     if (safeValue === '0' || safeValue === 'undefined') return 0n;
     return this.#toBigInt(safeValue, decimal);
@@ -336,7 +336,7 @@ export class BigIntArithmetics {
   }
 
   #setValue(value: InitialisationValueType) {
-    const safeValue = this.#toSafeValue(value) || '0';
+    const safeValue = toSafeValue(value) || '0';
     this.bigIntValue = this.#toBigInt(safeValue);
   }
 
@@ -345,7 +345,7 @@ export class BigIntArithmetics {
       .map((arg) =>
         typeof arg === 'object'
           ? arg.decimal || decimalFromMultiplier(arg.decimalMultiplier)
-          : this.#getFloatDecimals(this.#toSafeValue(arg)),
+          : getFloatDecimals(toSafeValue(arg)),
       )
       .filter(Boolean) as number[];
     return Math.max(...decimals, DEFAULT_DECIMAL);
@@ -358,33 +358,32 @@ export class BigIntArithmetics {
 
     return BigInt(`${integerPart}${decimalPart.padEnd(padDecimal, '0')}`);
   }
-
-  #toSafeValue(value: InitialisationValueType) {
-    const parsedValue =
-      typeof value === 'number'
-        ? Number(value).toLocaleString('fullwide', {
-            useGrouping: false,
-            maximumFractionDigits: 20,
-          })
-        : getStringValue(value);
-
-    const splitValue = `${parsedValue}`.replaceAll(',', '.').split('.');
-
-    return splitValue.length > 1
-      ? `${splitValue.slice(0, -1).join('')}.${splitValue.at(-1)}`
-      : splitValue[0];
-  }
-
-  #getFloatDecimals(value: string) {
-    const decimals = value.split('.')[1]?.length || 0;
-    return Math.max(decimals, DEFAULT_DECIMAL);
-  }
 }
 
-function getStringValue(value: SKBigIntParams) {
-  return typeof value === 'object'
-    ? 'getValue' in value
-      ? value.getValue('string')
-      : value.value
-    : value;
+const numberFormatter = Intl.NumberFormat('fullwide', {
+  useGrouping: false,
+  maximumFractionDigits: 20,
+});
+
+function toSafeValue(value: InitialisationValueType) {
+  const parsedValue =
+    typeof value === 'number' ? numberFormatter.format(value) : getStringValue(value);
+  const splitValue = `${parsedValue}`.replaceAll(',', '.').split('.');
+
+  return splitValue.length > 1
+    ? `${splitValue.slice(0, -1).join('')}.${splitValue.at(-1)}`
+    : splitValue[0];
+}
+
+function getFloatDecimals(value: string) {
+  const decimals = value.split('.')[1]?.length || 0;
+  return Math.max(decimals, DEFAULT_DECIMAL);
+}
+
+function getStringValue(param: SKBigIntParams) {
+  return typeof param === 'object'
+    ? 'getValue' in param
+      ? param.getValue('string')
+      : param.value
+    : param;
 }

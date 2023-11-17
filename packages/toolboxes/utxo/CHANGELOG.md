@@ -1,5 +1,30 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.27
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.26
+
+## 1.0.0-rc.26
+
+### Patch Changes
+
+- perf improvements'
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.25
+
+## 1.0.0-rc.25
+
+### Patch Changes
+
+- Perf improvement on initialization of AssetValue
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.24
+
 ## 1.0.0-rc.24
 
 ### Patch Changes
