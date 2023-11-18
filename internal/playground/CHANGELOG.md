@@ -1,5 +1,29 @@
 # @internal/playground
 
+## 0.0.0-rc.28
+
+### Patch Changes
+
+- Performance rebuild for helpers
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.29
+  - @swapkit/toolbox-cosmos@1.0.0-rc.29
+  - @swapkit/wallet-keystore@1.0.0-rc.34
+  - @swapkit/helpers@1.0.0-rc.27
+  - @swapkit/toolbox-utxo@1.0.0-rc.28
+  - @swapkit/wallet-ledger@1.0.0-rc.32
+  - @swapkit/wallet-trezor@1.0.0-rc.30
+  - @swapkit/toolbox-evm@1.0.0-rc.29
+  - @swapkit/wallet-keplr@1.0.0-rc.29
+  - @swapkit/wallet-xdefi@1.0.0-rc.32
+  - @swapkit/core@1.0.0-rc.33
+  - @swapkit/wallet-okx@1.0.0-rc.32
+  - @swapkit/wallet-wc@1.0.0-rc.31
+  - @swapkit/api@1.0.0-rc.9
+  - @swapkit/tokens@1.0.0-rc.9
+  - @swapkit/types@1.0.0-rc.9
+
 ## 0.0.0-rc.27
 
 ### Patch Changes

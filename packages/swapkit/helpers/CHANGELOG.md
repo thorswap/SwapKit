@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.27
+
+### Patch Changes
+
+- Performance rebuild for helpers
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.9
+  - @swapkit/types@1.0.0-rc.9
+
 ## 1.0.0-rc.26
 
 ### Patch Changes

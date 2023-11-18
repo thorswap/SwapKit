@@ -1,5 +1,16 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.29
+
+### Patch Changes
+
+- Performance rebuild for helpers
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.27
+  - @swapkit/api@1.0.0-rc.9
+  - @swapkit/types@1.0.0-rc.9
+
 ## 1.0.0-rc.28
 
 ### Patch Changes

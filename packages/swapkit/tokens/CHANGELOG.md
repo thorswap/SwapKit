@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.9
+
+### Patch Changes
+
+- Performance rebuild for helpers
+
 ## 1.0.0-rc.8
 
 ### Patch Changes

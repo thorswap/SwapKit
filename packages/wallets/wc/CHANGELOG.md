@@ -1,5 +1,16 @@
 # @swapkit/wallet-wc
 
+## 1.0.0-rc.31
+
+### Patch Changes
+
+- Performance rebuild for helpers
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.29
+  - @swapkit/toolbox-evm@1.0.0-rc.29
+  - @swapkit/types@1.0.0-rc.9
+
 ## 1.0.0-rc.30
 
 ### Patch Changes
