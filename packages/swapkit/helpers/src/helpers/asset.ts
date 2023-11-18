@@ -1,7 +1,7 @@
 import type { EVMChain } from '@swapkit/types';
-import { BaseDecimal, Chain, ChainToRPC, FeeOption } from '@swapkit/types';
+import { BaseDecimal, Chain, ChainToRPC, EVMChainList, FeeOption } from '@swapkit/types';
 
-import { postRequest } from './others.ts';
+import { RequestClient } from '../index.ts';
 
 const getDecimalMethodHex = '0x313ce567';
 
@@ -9,19 +9,19 @@ export type CommonAssetString = 'MAYA.MAYA' | 'ETH.THOR' | 'ETH.vTHOR' | Chain;
 
 const getContractDecimals = async ({ chain, to }: { chain: EVMChain; to: string }) => {
   try {
-    const response = await postRequest<string>(
-      ChainToRPC[chain],
-      JSON.stringify({
-        method: 'eth_call',
-        params: [{ to: to.toLowerCase(), data: getDecimalMethodHex }, 'latest'],
+    const { result } = await RequestClient.post<{ result: string }>(ChainToRPC[chain], {
+      headers: {
+        accept: '*/*',
+        'content-type': 'application/json',
+        'cache-control': 'no-cache',
+      },
+      body: JSON.stringify({
         id: 44,
         jsonrpc: '2.0',
+        method: 'eth_call',
+        params: [{ to: to.toLowerCase(), data: getDecimalMethodHex }, 'latest'],
       }),
-      { accept: '*/*', 'cache-control': 'no-cache', 'content-type': 'application/json' },
-      true,
-    );
-
-    const { result } = JSON.parse(response) as { result: string };
+    });
 
     return parseInt(BigInt(result).toString());
   } catch (error) {
@@ -152,9 +152,9 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
       return 'Native';
 
     case Chain.Cosmos:
-      return symbol === 'ATOM' ? 'Native' : 'GAIA';
+      return symbol === 'ATOM' ? 'Native' : Chain.Cosmos;
     case Chain.Kujira:
-      return symbol === 'KUJI' ? 'Native' : 'KUJI';
+      return symbol === Chain.Kujira ? 'Native' : Chain.Kujira;
     case Chain.Binance:
       return symbol === Chain.Binance ? 'Native' : 'BEP2';
     case Chain.BinanceSmartChain:
@@ -162,7 +162,7 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
     case Chain.Ethereum:
       return symbol === Chain.Ethereum ? 'Native' : 'ERC20';
     case Chain.Avalanche:
-      return symbol === Chain.Avalanche ? 'Native' : 'AVAX';
+      return symbol === Chain.Avalanche ? 'Native' : Chain.Avalanche;
     case Chain.Polygon:
       return symbol === Chain.Polygon ? 'Native' : 'POLYGON';
 
@@ -181,3 +181,34 @@ export const assetFromString = (assetString: string) => {
 
   return { chain, symbol, ticker, synth };
 };
+
+const potentialScamRegex = new RegExp(
+  /(.)\1{6}|\.ORG|\.NET|\.FINANCE|\.COM|WWW|HTTP|\\\\|\/\/|[\s$%:[\]]/,
+  'gmi',
+);
+
+const evmAssetHasAddress = (assetString: string) => {
+  const [chain, symbol] = assetString.split('.') as [EVMChain, string];
+  if (!EVMChainList.includes(chain as EVMChain)) return true;
+  const [, address] = symbol.split('-') as [string, string?];
+
+  return isGasAsset({ chain: chain as Chain, symbol }) || !!address;
+};
+
+export const filterAssets = (
+  tokens: {
+    value: string;
+    decimal: number;
+    chain: Chain;
+    symbol: string;
+  }[],
+) =>
+  tokens.filter((token) => {
+    const assetString = `${token.chain}.${token.symbol}`;
+
+    return (
+      !potentialScamRegex.test(assetString) &&
+      evmAssetHasAddress(assetString) &&
+      token.value !== '0'
+    );
+  });

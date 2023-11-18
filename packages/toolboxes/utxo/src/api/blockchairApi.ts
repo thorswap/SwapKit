@@ -1,4 +1,4 @@
-import { getRequest } from '@swapkit/helpers';
+import { RequestClient } from '@swapkit/helpers';
 import { Chain, type UTXOChain } from '@swapkit/types';
 
 import type {
@@ -50,7 +50,7 @@ const getSuggestedTxFee = async (chain: Chain) => {
   try {
     //Use Bitgo API for fee estimation
     //Refer: https://app.bitgo.com/docs/#operation/v2.tx.getfeeestimate
-    const { feePerKb } = await getRequest<{
+    const { feePerKb } = await RequestClient.get<{
       feePerKb: number;
       cpfpFeePerKb: number;
       numBlocks: number;
@@ -63,13 +63,25 @@ const getSuggestedTxFee = async (chain: Chain) => {
   }
 };
 
-const blockchairRequest = async <T extends any>(url: string): Promise<T> => {
-  const response = await getRequest<BlockchairResponse<T>>(url);
-  if (!response || response.context.code !== 200) throw new Error(`failed to query ${url}`);
+const blockchairRequest = async <T extends any>(url: string, apiKey?: string): Promise<T> => {
+  try {
+    const response = await RequestClient.get<BlockchairResponse<T>>(url);
+    if (!response || response.context.code !== 200) throw new Error(`failed to query ${url}`);
 
-  return response.data as T;
+    return response.data as T;
+  } catch (error) {
+    if (!apiKey) throw error;
+    const response = await RequestClient.get<BlockchairResponse<T>>(
+      `${url}${apiKey ? `&key=${apiKey}` : ''}`,
+    );
+
+    if (!response || response.context.code !== 200) throw new Error(`failed to query ${url}`);
+
+    return response.data as T;
+  }
 };
 
+const baseAddressData = { utxo: [], address: { balance: 0, transaction_count: 0 } };
 const getAddressData = async ({
   address,
   chain,
@@ -78,20 +90,14 @@ const getAddressData = async ({
   if (!address) throw new Error('address is required');
 
   try {
-    const url = `/dashboards/address/${address}?transaction_details=true${
-      apiKey ? `&key=${apiKey}` : ''
-    }`;
-    const response = await blockchairRequest<BlockchairAddressResponse>(`${baseUrl(chain)}${url}`);
+    const response = await blockchairRequest<BlockchairAddressResponse>(
+      `${baseUrl(chain)}/dashboards/address/${address}?transaction_details=true`,
+      apiKey,
+    );
 
     return response[address];
   } catch (error) {
-    return {
-      utxo: [],
-      address: {
-        balance: 0,
-        transaction_count: 0,
-      },
-    };
+    return baseAddressData;
   }
 };
 
@@ -110,14 +116,13 @@ const getConfirmedBalance = async ({
 }: BlockchairParams<{ address?: string }>) => {
   if (!address) throw new Error('address is required');
   try {
-    const url = `/addresses/balances?addresses=${address}${apiKey ? `&key=${apiKey}` : ''}`;
     const response = await blockchairRequest<BlockchairMultipleBalancesResponse>(
-      `${baseUrl(chain)}${url}`,
+      `${baseUrl(chain)}/addresses/balances?addresses=${address}`,
+      apiKey,
     );
 
     return response[address] || 0;
   } catch (error) {
-    console.error(error);
     return 0;
   }
 };
@@ -126,9 +131,9 @@ const getRawTx = async ({ chain, apiKey, txHash }: BlockchairParams<{ txHash?: s
   if (!txHash) throw new Error('txHash is required');
 
   try {
-    const url = `/raw/transaction/${txHash}${apiKey ? `?key=${apiKey}` : ''}`;
     const rawTxResponse = await blockchairRequest<BlockchairRawTransactionResponse>(
-      `${baseUrl(chain)}${url}`,
+      `${baseUrl(chain)}/raw/transaction/${txHash}`,
+      apiKey,
     );
     return rawTxResponse[txHash].raw_transaction;
   } catch (error) {
@@ -147,11 +152,11 @@ const getUnspentTxs = async ({
 > => {
   if (!address) throw new Error('address is required');
   try {
-    const url = `/outputs?q=is_spent(false),recipient(${address})&limit=100&offset=${offset}${
-      apiKey ? `&key=${apiKey}` : ''
-    }`;
     const response = await blockchairRequest<BlockchairOutputsResponse[]>(
-      `${baseUrl(chain)}${url}`,
+      `${baseUrl(
+        chain,
+      )}/outputs?q=is_spent(false),recipient(${address})&limit=100&offset=${offset}`,
+      apiKey,
     );
 
     const txs = response

@@ -68,9 +68,8 @@ export class SwapKitCore<T = ''> {
   getWallet = <T extends Chain>(chain: Chain) => this.connectedWallets[chain] as WalletMethods[T];
   getExplorerAddressUrl = (chain: Chain, address: string) =>
     getExplorerAddressUrl({ chain, address });
-  getBalance = async (chain: Chain, refresh?: boolean) => {
-    if (!refresh) return this.connectedChains[chain]?.balance || [];
-    const wallet = await this.getWalletByChain(chain);
+  getBalance = async (chain: Chain, potentialScamFilter?: boolean) => {
+    const wallet = await this.getWalletByChain(chain, potentialScamFilter);
 
     return wallet?.balance || [];
   };
@@ -95,7 +94,6 @@ export class SwapKitCore<T = ''> {
         const transaction = streamSwap ? route?.streamingSwap?.transaction : route?.transaction;
         if (!transaction) throw new SwapKitError('core_swap_route_transaction_not_found');
 
-        const { isHexString, parseUnits } = await import('ethers');
         const { data, from, to, value } = route.transaction;
 
         const params = {
@@ -103,11 +101,7 @@ export class SwapKitCore<T = ''> {
           from,
           to: to.toLowerCase(),
           chainId: BigInt(ChainToChainId[evmChain]),
-          value: value
-            ? new SwapKitNumber({
-                value: !isHexString(value) ? parseUnits(value, 'wei').toString(16) : value,
-              }).baseValueBigInt
-            : 0n,
+          value: value ? BigInt(value) : 0n,
         };
 
         return walletMethods.sendTransaction(params, feeOptionKey) as Promise<string>;
@@ -121,13 +115,20 @@ export class SwapKitCore<T = ''> {
         const { address: recipient } = await this.#getInboundDataByChain(asset.chain);
         const {
           contract: router,
-          calldata: { amountIn, memo, memoStreamingSwap },
+          calldata: { expiration, amountIn, memo, memoStreamingSwap },
         } = route;
 
         const assetValue = asset.add(SwapKitNumber.fromBigInt(BigInt(amountIn), asset.decimal));
         const swapMemo = (streamSwap ? memoStreamingSwap || memo : memo) as string;
 
-        return this.deposit({ assetValue, memo: swapMemo, feeOptionKey, router, recipient });
+        return this.deposit({
+          expiration,
+          assetValue,
+          memo: swapMemo,
+          feeOptionKey,
+          router,
+          recipient,
+        });
       }
 
       if (SWAP_IN.includes(quoteMode)) {
@@ -148,9 +149,7 @@ export class SwapKitCore<T = ''> {
 
         const contract = await walletMethods.createContract?.(contractAddress, abi, provider);
 
-        // TODO: (@Towan) Contract evm methods should be generic
-        // @ts-expect-error
-        const tx = await contract.populateTransaction.swapIn?.(
+        const tx = await contract.getFunction('swapIn').populateTransaction(
           ...getSwapInParams({
             streamSwap,
             toChecksumAddress,
@@ -170,21 +169,27 @@ export class SwapKitCore<T = ''> {
     }
   };
 
-  getWalletByChain = async (chain: Chain) => {
+  getWalletByChain = async (chain: Chain, potentialScamFilter?: boolean) => {
     const address = this.getAddress(chain);
     if (!address) return null;
+    const defaultBalance = [AssetValue.fromChainOrSignature(chain)];
+    const walletType = this.connectedChains[chain]?.walletType as WalletOption;
 
-    const balance = (await this.getWallet(chain)?.getBalance(address)) ?? [
-      AssetValue.fromChainOrSignature(chain),
-    ];
+    try {
+      const balance = await this.getWallet(chain)?.getBalance(address, potentialScamFilter);
 
-    this.connectedChains[chain] = {
-      address,
-      balance,
-      walletType: this.connectedChains[chain]?.walletType as WalletOption,
-    };
+      this.connectedChains[chain] = {
+        address,
+        balance: balance?.length ? balance : defaultBalance,
+        walletType,
+      };
 
-    return { ...this.connectedChains[chain] };
+      return { ...this.connectedChains[chain] };
+    } catch (error) {
+      console.error(error);
+
+      return { address, balance: defaultBalance, walletType };
+    }
   };
 
   approveAssetValue = (assetValue: AssetValue, contractAddress?: string) =>
@@ -238,7 +243,7 @@ export class SwapKitCore<T = ''> {
               ? TCBscDepositABI
               : TCEthereumVaultAbi;
 
-          return (await (
+          const response = await (
             walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
           ).call({
             abi,
@@ -248,13 +253,17 @@ export class SwapKitCore<T = ''> {
             funcParams: [
               recipient,
               getChecksumAddressFromAsset({ chain, symbol, ticker }, chain),
-              // TODO: (@Towan) Re-Check on that conversion 🙏
-              assetValue.baseValueBigInt.toString(),
+              assetValue.getBaseValue('string'),
               params.memo,
-              rest.expiration,
+              rest.expiration || parseInt(`${(new Date().getTime() + 15 * 60 * 1000) / 1000}`),
             ],
-            txOverrides: { from: params.from, value: assetValue.baseValueBigInt },
-          })) as Promise<string>;
+            txOverrides: {
+              from: params.from,
+              value: assetValue.isGasAsset ? assetValue.getBaseValue('bigint') : undefined,
+            },
+          });
+
+          return response as string;
         }
 
         default: {
@@ -402,25 +411,19 @@ export class SwapKitCore<T = ''> {
         ? undefined
         : assetValue;
 
-    try {
-      const txHash = await this.#depositToPool({
-        assetValue: getMinAmountByChain(from === 'asset' ? assetValue.chain : Chain.THORChain),
-        memo:
-          memo ||
-          getMemoFor(MemoType.WITHDRAW, {
-            symbol: assetValue.symbol,
-            chain: assetValue.chain,
-            ticker: assetValue.ticker,
-            basisPoints: Math.max(10000, Math.round(percent * 100)),
-            targetAssetString: targetAsset?.toString(),
-            singleSide: false,
-          }),
+    const value = getMinAmountByChain(from === 'asset' ? assetValue.chain : Chain.THORChain);
+    const memoString =
+      memo ||
+      getMemoFor(MemoType.WITHDRAW, {
+        symbol: assetValue.symbol,
+        chain: assetValue.chain,
+        ticker: assetValue.ticker,
+        basisPoints: Math.max(10000, Math.round(percent * 100)),
+        targetAssetString: targetAsset?.toString(),
+        singleSide: false,
       });
 
-      return txHash;
-    } catch (error) {
-      throw new SwapKitError('core_transaction_withdraw_error', error);
-    }
+    return this.#depositToPool({ assetValue: value, memo: memoString });
   };
 
   savings = async ({
@@ -440,10 +443,13 @@ export class SwapKitCore<T = ''> {
         symbol: assetValue.symbol,
         chain: assetValue.chain,
         singleSide: true,
-        basisPoints: percent ? Math.max(10000, Math.round(percent * 100)) : undefined,
+        basisPoints: percent ? Math.min(10000, Math.round(percent * 100)) : undefined,
       });
 
-    return this.#depositToPool({ assetValue, memo: memoString });
+    const value =
+      memoType === MemoType.DEPOSIT ? assetValue : getMinAmountByChain(assetValue.chain);
+
+    return this.#depositToPool({ memo: memoString, assetValue: value });
   };
 
   loan = ({
@@ -480,7 +486,7 @@ export class SwapKitCore<T = ''> {
       type === 'bond' ? MemoType.BOND : type === 'unbond' ? MemoType.UNBOND : MemoType.LEAVE;
     const memo = getMemoFor(memoType, {
       address,
-      unbondAmount: type === 'unbond' ? assetValue.baseValueNumber : undefined,
+      unbondAmount: type === 'unbond' ? assetValue.getBaseValue('number') : undefined,
     });
 
     return this.#thorchainTransfer({
@@ -615,7 +621,7 @@ export class SwapKitCore<T = ''> {
   };
 
   #approve = async <T = string>({
-    assetValue: { baseValueBigInt, address, chain, isGasAsset, isSynthetic },
+    assetValue,
     type = 'checkOnly',
     contractAddress,
   }: {
@@ -623,6 +629,7 @@ export class SwapKitCore<T = ''> {
     type?: 'checkOnly' | 'approve';
     contractAddress?: string;
   }) => {
+    const { address, chain, isGasAsset, isSynthetic } = assetValue;
     const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain);
     const isNativeEVM = isEVMChain && isGasAsset;
 
@@ -641,7 +648,7 @@ export class SwapKitCore<T = ''> {
       contractAddress || ((await this.#getInboundDataByChain(chain)).router as string);
 
     return walletAction({
-      amount: baseValueBigInt,
+      amount: assetValue.getBaseValue('bigint'),
       assetAddress: address,
       from,
       spenderAddress,

@@ -75,7 +75,7 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
 
   const targetOutputs: TargetOutput[] = [];
   // output to recipient
-  targetOutputs.push({ address: recipient, value: assetValue.baseValueNumber });
+  targetOutputs.push({ address: recipient, value: assetValue.getBaseValue('number') });
   const { inputs, outputs } = accumulative({
     inputs: utxos,
     outputs: targetOutputs,
@@ -177,7 +177,7 @@ const buildTx = async ({
   // output to recipient
   targetOutputs.push({
     address: toLegacyAddress(recipient),
-    value: assetValue.baseValueNumber,
+    value: assetValue.getBaseValue('number'),
   });
 
   //2. add output memo to targets (optional)
@@ -285,7 +285,8 @@ export const BCHToolbox = ({
     createKeysForPath,
     getAddressFromKeys,
     buildBCHTx: (params: UTXOBuildTxParams) => buildBCHTx({ ...params, apiClient }),
-    getBalance: (address: string) => getBalance(stripPrefix(toCashAddress(address))),
+    getBalance: (address: string, _potentialScamFilter?: boolean) =>
+      getBalance(stripPrefix(toCashAddress(address))),
     buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, apiClient }),
     transfer: (
       params: UTXOWalletTransferParams<

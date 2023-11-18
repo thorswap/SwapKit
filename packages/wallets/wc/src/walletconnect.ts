@@ -119,7 +119,9 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.THORChain: {
-      const { getDenomWithChain, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { createStargateClient, getDenomWithChain, ThorchainToolbox } = await import(
+        '@swapkit/toolbox-cosmos'
+      );
       const toolbox = ThorchainToolbox({ stagenet: false });
 
       const signRequest = (signDoc: StdSignDoc) =>
@@ -141,7 +143,7 @@ const getToolbox = async ({
         const sendCoinsMessage = {
           amount: [
             {
-              amount: assetValue.baseValue,
+              amount: assetValue.getBaseValue('string'),
               denom: assetValue.symbol.toLowerCase(),
             },
           ],
@@ -157,7 +159,6 @@ const getToolbox = async ({
         const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
         const { makeSignDoc } = await import('@cosmjs/amino');
         const { fromBase64 } = await import('@cosmjs/encoding');
-        const { StargateClient } = await import('@cosmjs/stargate');
         const { Int53 } = await import('@cosmjs/math');
 
         const signDoc = makeSignDoc(
@@ -221,7 +222,7 @@ const getToolbox = async ({
         });
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const broadcaster = await createStargateClient(ApiUrl.ThornodeMainnet);
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -236,7 +237,9 @@ const getToolbox = async ({
         const msg = {
           type: 'thorchain/MsgDeposit',
           value: {
-            coins: [{ amount: assetValue.baseValue, asset: getDenomWithChain(assetValue) }],
+            coins: [
+              { amount: assetValue.getBaseValue('string'), asset: getDenomWithChain(assetValue) },
+            ],
             memo,
             signer: address,
           },
@@ -244,7 +247,6 @@ const getToolbox = async ({
 
         const { makeSignDoc } = await import('@cosmjs/amino');
         const { fromBase64 } = await import('@cosmjs/encoding');
-        const { StargateClient } = await import('@cosmjs/stargate');
         const { Int53 } = await import('@cosmjs/math');
         const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
 
@@ -309,7 +311,7 @@ const getToolbox = async ({
         });
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const broadcaster = await createStargateClient(ApiUrl.ThornodeMainnet);
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };

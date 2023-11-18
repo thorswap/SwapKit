@@ -1,27 +1,43 @@
+import type { OfflineSigner } from '@cosmjs/proto-signing';
+import type { SigningStargateClientOptions } from '@cosmjs/stargate';
 import { AssetValue } from '@swapkit/helpers';
 import { ChainId, FeeOption, RPCUrl } from '@swapkit/types';
 
 import type { CosmosMaxSendableAmountParams } from './types.ts';
 
-export const DEFAULT_COSMOS_FEE_MAINNET = {
-  amount: [{ denom: 'uatom', amount: '500' }],
-  gas: '200000',
-};
+const headers =
+  typeof window !== 'undefined'
+    ? ({} as { [key: string]: string })
+    : { referer: 'https://sk.thorswap.net', referrer: 'https://sk.thorswap.net' };
 
 export const getDenom = (symbol: string, isThorchain = false) =>
   isThorchain ? symbol.toLowerCase() : symbol;
 
-export const createCosmJS = async ({
-  offlineSigner,
-  rpcUrl,
-}: {
-  offlineSigner: any;
-  rpcUrl?: string;
-}) => {
+export const createStargateClient = async (url: string) => {
+  const { StargateClient } = await import('@cosmjs/stargate');
+
+  return StargateClient.connect({ url, headers });
+};
+
+export const createSigningStargateClient = async (
+  url: string,
+  signer: any,
+  options: SigningStargateClientOptions = {},
+) => {
   const { SigningStargateClient, GasPrice } = await import('@cosmjs/stargate');
-  return SigningStargateClient.connectWithSigner(rpcUrl || RPCUrl.Cosmos, offlineSigner, {
+
+  return SigningStargateClient.connectWithSigner({ url, headers }, signer, {
     gasPrice: GasPrice.fromString('0.0003uatom'),
+    ...options,
   });
+};
+
+export const createOfflineStargateClient = async (
+  wallet: OfflineSigner,
+  registry?: SigningStargateClientOptions,
+) => {
+  const { SigningStargateClient } = await import('@cosmjs/stargate');
+  return SigningStargateClient.offline(wallet, registry);
 };
 
 export const getRPC = (chainId: ChainId, stagenet?: boolean) => {
@@ -37,8 +53,6 @@ export const getRPC = (chainId: ChainId, stagenet?: boolean) => {
       return stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain;
     case ChainId.Maya:
       return stagenet ? RPCUrl.MayaStagenet : RPCUrl.Maya;
-    case ChainId.Kujira:
-      return RPCUrl.Kujira;
 
     default:
       return RPCUrl.Cosmos;
@@ -63,5 +77,5 @@ export const estimateMaxSendableAmount = async ({
 
   if (!balance) return AssetValue.fromChainOrSignature(assetEntity?.chain || balances[0]?.chain, 0);
 
-  return balance.sub(fees[feeOptionKey].value);
+  return balance.sub(fees[feeOptionKey]);
 };

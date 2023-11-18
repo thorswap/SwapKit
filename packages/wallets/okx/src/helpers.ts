@@ -2,7 +2,7 @@ import { AssetValue } from '@swapkit/helpers';
 import type { GaiaToolbox } from '@swapkit/toolbox-cosmos';
 import type { getWeb3WalletMethods } from '@swapkit/toolbox-evm';
 import type { BTCToolbox, UTXOTransferParams } from '@swapkit/toolbox-utxo';
-import { BaseDecimal, Chain, ChainId } from '@swapkit/types';
+import { BaseDecimal, Chain, ChainId, RPCUrl } from '@swapkit/types';
 import { Psbt } from 'bitcoinjs-lib';
 import type { Eip1193Provider } from 'ethers';
 
@@ -13,9 +13,9 @@ export const cosmosTransfer =
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
     if (!offlineSigner) throw new Error('No cosmos okxwallet found');
 
-    const { createCosmJS } = await import('@swapkit/toolbox-cosmos');
+    const { createSigningStargateClient } = await import('@swapkit/toolbox-cosmos');
 
-    const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
+    const cosmJS = await createSigningStargateClient(rpcUrl || RPCUrl.Cosmos, offlineSigner);
 
     const coins = [
       { denom: asset?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: amount.amount().toString() },
@@ -29,14 +29,14 @@ export const getWalletForChain = async ({
   chain,
   ethplorerApiKey,
   covalentApiKey,
-  utxoApiKey,
+  blockchairApiKey,
   rpcUrl,
   api,
 }: {
   chain: Chain;
   ethplorerApiKey?: string;
   covalentApiKey?: string;
-  utxoApiKey?: string;
+  blockchairApiKey?: string;
   rpcUrl?: string;
   api?: any;
 }): Promise<
@@ -81,16 +81,13 @@ export const getWalletForChain = async ({
 
     case Chain.Bitcoin: {
       if (!window.okxwallet?.bitcoin) throw new Error('No bitcoin okxwallet found');
-      if (!utxoApiKey) {
-        throw new Error('No utxoApiKey provided');
-      }
 
       const { BTCToolbox } = await import('@swapkit/toolbox-utxo');
 
       const wallet = window.okxwallet.bitcoin;
       const address = (await wallet.connect()).address;
 
-      const toolbox = BTCToolbox({ rpcUrl, apiKey: utxoApiKey, apiClient: api });
+      const toolbox = BTCToolbox({ rpcUrl, apiKey: blockchairApiKey, apiClient: api });
       const signTransaction = async (psbt: Psbt) => {
         const signedPsbt = await wallet.signPsbt(psbt.toHex(), { from: address, type: 'list' });
 

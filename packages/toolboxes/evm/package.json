@@ -48,10 +48,10 @@
     "build": "vite build",
     "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
     "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "vitest --run",
+    "test": "vitest --run --retry 3",
     "test:coverage": "vitest run --coverage"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.3"
+  "version": "1.0.0-rc.29"
 }

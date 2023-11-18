@@ -312,11 +312,7 @@ export const estimateMaxSendableAmount = async ({
 
   const fee = txSize * feeRateWhole;
 
-  return new AssetValue({
-    ...balance,
-    value: balance.sub(fee).value,
-    decimal: balance.decimal!,
-  });
+  return new AssetValue({ ...balance, value: balance.sub(fee), decimal: balance.decimal! });
 };
 
 export const BaseUTXOToolbox = (
@@ -340,7 +336,8 @@ export const BaseUTXOToolbox = (
     derivationPath: string;
   }) => (await createKeysForPath({ phrase, derivationPath, ...baseToolboxParams })).toWIF(),
 
-  getBalance: (address: string) => getBalance({ address, ...baseToolboxParams }),
+  getBalance: async (address: string, _potentialScamFilter?: boolean) =>
+    getBalance({ address, ...baseToolboxParams }),
 
   getFeeRates: () => getFeeRates(baseToolboxParams.apiClient),
 

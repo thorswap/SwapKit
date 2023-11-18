@@ -67,21 +67,12 @@ export const BaseCosmosToolbox = ({
   getPubKeyFromMnemonic: (phrase: string) =>
     cosmosClient.getPubKeyFromMnemonic(phrase, `${derivationPath}/0`),
   getFeeRateFromThorswap,
-  getBalance: async (address: string) => {
-    const balances = await cosmosClient.getBalance(address);
-    //@chillios note: this returns empty instead of 0 for 0 balance (non-standard)
-    return Promise.all(
-      balances
+  getBalance: async (address: string, _potentialScamFilter?: boolean) => {
+    const denomBalances = await cosmosClient.getBalance(address);
+    return await Promise.all(
+      denomBalances
         .filter(({ denom }) => denom)
-        .map(async ({ denom, amount }) => {
-          try {
-            return await getAssetFromDenom(denom, amount);
-          } catch (error) {
-            console.error(error);
-            return null;
-          }
-        })
-        .filter(Boolean) as Promise<AssetValue>[],
+        .map(({ denom, amount }) => getAssetFromDenom(denom, amount)),
     );
   },
 });

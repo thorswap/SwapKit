@@ -81,7 +81,7 @@ export const getAsymmetricAssetWithdrawAmount = ({
   getAsymmetricAssetShare({ assetDepth, liquidityUnits, poolUnits }).mul(percent);
 
 const toTCSwapKitNumber = (value: string) =>
-  new SwapKitNumber({ value, decimal: BaseDecimal.THOR });
+  SwapKitNumber.fromBigInt(BigInt(value), BaseDecimal.THOR);
 
 export const getSymmetricPoolShare = ({
   liquidityUnits,
@@ -126,11 +126,11 @@ export const getEstimatedPoolShare = ({
   runeDepth: string;
   assetDepth: string;
 }>) => {
-  const R = toTCSwapKitNumber(runeDepth);
-  const A = toTCSwapKitNumber(assetDepth);
-  const P = toTCSwapKitNumber(poolUnits);
-  const runeAddAmount = toTCSwapKitNumber(runeAmount);
-  const assetAddAmount = toTCSwapKitNumber(assetAmount);
+  const R = new SwapKitNumber({ value: runeDepth, decimal: 8 });
+  const A = new SwapKitNumber({ value: assetDepth, decimal: 8 });
+  const P = new SwapKitNumber({ value: poolUnits, decimal: 8 });
+  const runeAddAmount = new SwapKitNumber({ value: runeAmount, decimal: 8 });
+  const assetAddAmount = new SwapKitNumber({ value: assetAmount, decimal: 8 });
 
   // liquidityUnits = P * (r*A + a*R + 2*r*a) / (r*A + a*R + 2*R*A)
   const rA = runeAddAmount.mul(A);
@@ -142,14 +142,14 @@ export const getEstimatedPoolShare = ({
   const liquidityUnitsAfterAdd = numerator.div(denominator);
   const estimatedLiquidityUnits = toTCSwapKitNumber(liquidityUnits).add(liquidityUnitsAfterAdd);
 
-  if (liquidityUnitsAfterAdd.baseValueNumber === 0) {
-    return estimatedLiquidityUnits.div(P).baseValueNumber;
+  if (liquidityUnitsAfterAdd.getBaseValue('number') === 0) {
+    return estimatedLiquidityUnits.div(P).getBaseValue('number');
   }
 
   // get pool units after add
   const newPoolUnits = P.add(estimatedLiquidityUnits);
 
-  return estimatedLiquidityUnits.div(newPoolUnits).baseValueNumber;
+  return estimatedLiquidityUnits.div(newPoolUnits).getBaseValue('number');
 };
 
 export const getLiquiditySlippage = ({
@@ -158,6 +158,8 @@ export const getLiquiditySlippage = ({
   runeDepth,
   assetDepth,
 }: PoolParams) => {
+  if (runeAmount === '0' || assetAmount === '0' || runeDepth === '0' || assetDepth === '0')
+    return 0;
   // formula: (t * R - T * r)/ (T*r + R*T)
   const R = toTCSwapKitNumber(runeDepth);
   const T = toTCSwapKitNumber(assetDepth);
@@ -168,5 +170,5 @@ export const getLiquiditySlippage = ({
   const denominator = T.mul(runeAddAmount).add(R.mul(T));
 
   // set absolute value of percent, no negative allowed
-  return Math.abs(numerator.div(denominator).baseValueNumber);
+  return Math.abs(numerator.div(denominator).getBaseValue('number'));
 };

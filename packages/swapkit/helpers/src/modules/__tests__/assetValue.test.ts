@@ -1,7 +1,7 @@
 import { BaseDecimal, Chain } from '@swapkit/types';
 import { describe, expect, test } from 'vitest';
 
-import { AssetValue } from '../assetValue.ts';
+import { AssetValue, getMinAmountByChain } from '../assetValue.ts';
 
 describe('AssetValue', () => {
   describe('assetValue', () => {
@@ -12,10 +12,13 @@ describe('AssetValue', () => {
         chain: Chain.Avalanche,
         symbol: 'USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
       });
-      expect(fakeAvaxUSDCAsset.assetValue).toBe('1234567890 USDC');
+      expect(fakeAvaxUSDCAsset.toString(true)).toBe('USDC');
+      expect(fakeAvaxUSDCAsset.toString()).toBe(
+        'AVAX.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
+      );
 
       const thor = AssetValue.fromChainOrSignature('ETH.THOR');
-      expect(thor.assetValue).toBe('0 THOR');
+      expect(thor.toString(true)).toBe('THOR');
 
       const ethSynth = new AssetValue({
         chain: Chain.THORChain,
@@ -24,8 +27,9 @@ describe('AssetValue', () => {
         value: 1234567890,
       });
 
-      expect(ethSynth.assetValue).toBe('1234567890 ETH/ETH');
       expect(ethSynth.toString()).toBe('THOR.ETH/ETH');
+      expect(ethSynth.toString(true)).toBe('ETH/ETH');
+      expect(ethSynth.mul(21.37).getValue('string')).toBe('26382715809.3');
 
       const atomDerived = new AssetValue({
         identifier: 'THOR.ATOM',
@@ -33,7 +37,7 @@ describe('AssetValue', () => {
         value: 123456789,
       });
 
-      expect(atomDerived.assetValue).toBe('123456789 ATOM');
+      expect(atomDerived.toString(true)).toBe('ATOM');
       expect(atomDerived.toString()).toBe('THOR.ATOM');
     });
   });
@@ -70,17 +74,25 @@ describe('AssetValue', () => {
     });
   });
 
+  describe('from bigint', () => {
+    test('returns asset value with correct decimal', async () => {
+      const avaxUSDCAsset = await AssetValue.fromIdentifier(
+        `${Chain.Avalanche}.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e`,
+        1234567800n,
+      );
+      expect(avaxUSDCAsset.getValue('string')).toBe('1234.5678');
+    });
+  });
+
   describe('toString', () => {
     test('returns asset value string/identifier', async () => {
-      const fakeAvaxUSDCAsset = new AssetValue({
+      const avaxUSDCAsset = new AssetValue({
         decimal: 6,
         value: 1234567890,
         chain: Chain.Avalanche,
         symbol: 'USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
       });
-      expect(fakeAvaxUSDCAsset.toString()).toBe(
-        'AVAX.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
-      );
+      expect(avaxUSDCAsset.toString()).toBe('AVAX.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e');
 
       const thor = AssetValue.fromChainOrSignature('ETH.THOR');
       expect(thor.toString()).toBe('ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044');
@@ -92,10 +104,11 @@ describe('AssetValue', () => {
 
   describe('fromIdentifier', () => {
     test('creates AssetValue from string', async () => {
-      const fakeAvaxUSDCAssetString = 'AVAX.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e';
-      const fakeAvaxUSDCAsset = await AssetValue.fromIdentifier(fakeAvaxUSDCAssetString);
+      const avaxUSDCAsset = await AssetValue.fromIdentifier(
+        'AVAX.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
+      );
 
-      expect(fakeAvaxUSDCAsset).toEqual(
+      expect(avaxUSDCAsset).toEqual(
         expect.objectContaining({
           address: '0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
           chain: Chain.Avalanche,
@@ -291,5 +304,24 @@ describe('AssetValue', () => {
       const { ok } = await AssetValue.loadStaticAssets();
       expect(ok).toBe(true);
     });
+  });
+});
+
+describe('getMinAmountByChain', () => {
+  test('returns min amount for chain', () => {
+    expect(getMinAmountByChain(Chain.THORChain).getValue('string')).toBe('0');
+    expect(getMinAmountByChain(Chain.Maya).getValue('string')).toBe('0');
+    expect(getMinAmountByChain(Chain.Cosmos).getValue('string')).toBe('0');
+
+    expect(getMinAmountByChain(Chain.Bitcoin).getValue('string')).toBe('0.00010001');
+    expect(getMinAmountByChain(Chain.Litecoin).getValue('string')).toBe('0.00010001');
+    expect(getMinAmountByChain(Chain.BitcoinCash).getValue('string')).toBe('0.00010001');
+    expect(getMinAmountByChain(Chain.Dogecoin).getValue('string')).toBe('1.00000001');
+
+    expect(getMinAmountByChain(Chain.BinanceSmartChain).getValue('string')).toBe('0.00000001');
+    expect(getMinAmountByChain(Chain.Ethereum).getValue('string')).toBe('0.00000001');
+    expect(getMinAmountByChain(Chain.Avalanche).getValue('string')).toBe('0.00000001');
+    expect(getMinAmountByChain(Chain.Arbitrum).getValue('string')).toBe('0.00000001');
+    expect(getMinAmountByChain(Chain.Optimism).getValue('string')).toBe('0.00000001');
   });
 });

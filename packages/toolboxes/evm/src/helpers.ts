@@ -1,4 +1,4 @@
-import { AssetValue, formatBigIntToSafeValue, SwapKitNumber } from '@swapkit/helpers';
+import { AssetValue, filterAssets, formatBigIntToSafeValue, SwapKitNumber } from '@swapkit/helpers';
 import {
   BaseDecimal,
   Chain,
@@ -53,8 +53,6 @@ const methodsToWrap = [
   'estimateGasPrices',
   'createContractTxObject',
 ];
-
-export const toHexString = (value?: BigInt) => (value ? '0x' + value.toString(16) : '');
 
 export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[]) => any }>({
   toolbox,
@@ -218,9 +216,11 @@ export const estimateMaxSendableAmount = async ({
     (isFeeEIP1559Compatible
       ? fees.maxFeePerGas! + (fees.maxPriorityFeePerGas! || 1n)
       : fees.gasPrice!);
-  const maxSendableAmount = SwapKitNumber.fromBigInt(balance.baseValueBigInt).sub(fee.toString());
+  const maxSendableAmount = SwapKitNumber.fromBigInt(balance.getBaseValue('bigint')).sub(
+    fee.toString(),
+  );
 
-  return AssetValue.fromChainOrSignature(balance.chain, maxSendableAmount.value);
+  return AssetValue.fromChainOrSignature(balance.chain, maxSendableAmount.getValue('string'));
 };
 
 export const addAccountsChangedCallback = (callback: () => void) => {
@@ -262,24 +262,45 @@ const listWeb3EVMWallets = () => {
   return wallets;
 };
 
-export const isWeb3Detected = () => {
-  return typeof window.ethereum !== 'undefined';
-};
+export const isWeb3Detected = () => typeof window.ethereum !== 'undefined';
+export const toHexString = (value: bigint) => (value > 0n ? `0x${value.toString(16)}` : '0x0');
 
-export const getBalance = async (
-  provider: JsonRpcProvider | BrowserProvider,
-  api: CovalentApiType | EthplorerApiType,
-  address: string,
-  chain: EVMChain,
-) => {
+export const getBalance = async ({
+  provider,
+  api,
+  address,
+  chain,
+  potentialScamFilter,
+}: {
+  provider: JsonRpcProvider | BrowserProvider;
+  api: CovalentApiType | EthplorerApiType;
+  address: string;
+  chain: EVMChain;
+  potentialScamFilter?: boolean;
+}) => {
   const tokenBalances = await api.getBalance(address);
   const evmGasTokenBalance = await provider.getBalance(address);
+  const balances =
+    chain === Chain.Ethereum
+      ? [
+          {
+            chain: Chain.Ethereum,
+            symbol: 'ETH',
+            value: formatBigIntToSafeValue({ value: BigInt(evmGasTokenBalance), decimal: 18 }),
+            decimal: BaseDecimal.ETH,
+          },
+          ...tokenBalances,
+        ]
+      : tokenBalances;
 
-  return [
-    AssetValue.fromChainOrSignature(
-      chain,
-      formatBigIntToSafeValue({ value: evmGasTokenBalance, decimal: BaseDecimal[chain] }),
-    ),
-    ...tokenBalances,
-  ];
+  const filteredBalances = potentialScamFilter ? filterAssets(balances) : balances;
+
+  return filteredBalances.map(
+    ({ symbol, value, decimal }) =>
+      new AssetValue({
+        decimal: decimal || BaseDecimal[chain],
+        value,
+        identifier: `${chain}.${symbol}`,
+      }),
+  );
 };

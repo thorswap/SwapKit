@@ -8,6 +8,7 @@ export const list = {
     { chain: 'DASH', identifier: 'DASH.DASH', decimals: 8 },
     { chain: 'ETH', identifier: 'ETH.ETH', decimals: 18 },
     { chain: 'KUJI', identifier: 'KUJI.KUJI', decimals: 6 },
+    { chain: 'KUJI', identifier: 'KUJI.USK', decimals: 6 },
     { chain: 'THOR', identifier: 'THOR.RUNE', decimals: 8 },
     {
       chain: 'ETH',
@@ -20,6 +21,6 @@ export const list = {
       decimals: 6,
     },
   ],
-  count: 7,
+  count: 8,
   logo: 'https://static.thorswap.finance/logo.png',
 } as const;

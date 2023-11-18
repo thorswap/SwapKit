@@ -27,11 +27,11 @@
       "cache": false,
       "persistent": true
     },
-    "dev:android": {
+    "dev:bun": {
       "cache": false,
       "persistent": true
     },
-    "dev:ios": {
+    "dev:node": {
       "cache": false,
       "persistent": true
     },

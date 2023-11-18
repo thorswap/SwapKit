@@ -15,7 +15,7 @@ import { BrowserProvider } from 'ethers';
 import { getAddress } from 'ethers/address';
 import { MaxInt256 } from 'ethers/constants';
 
-import { toHexString } from '../helpers.ts';
+import { toHexString } from '../index.ts';
 import type {
   ApprovedParams,
   ApproveParams,
@@ -124,9 +124,7 @@ const call = async <T>(
       await estimateGasPrices(provider, isEIP1559Compatible)
     )[feeOption];
 
-    const gasLimit = await connectedContract
-      .getFunction(funcName)
-      .estimateGas(...funcParams, txOverrides);
+    const gasLimit = await contract.getFunction(funcName).estimateGas(...funcParams, txOverrides);
 
     // @ts-expect-error
     const result = await connectedContract[funcName](...funcParams, {
@@ -184,7 +182,7 @@ const approve = async (
     assetAddress,
     spenderAddress,
     feeOptionKey = FeeOption.Fast,
-    amount = MAX_APPROVAL,
+    amount,
     gasLimitFallback,
     from,
     nonce,
@@ -192,8 +190,7 @@ const approve = async (
   signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
-  if (!amount) throw new Error('amount must be provided');
-  const funcParams = [spenderAddress, BigInt(amount)];
+  const funcParams = [spenderAddress, BigInt(amount || MAX_APPROVAL)];
   const txOverrides = { from };
 
   const functionCallParams = {
@@ -241,7 +238,7 @@ const transfer = async (
   signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
-  const txAmount = assetValue.baseValueBigInt;
+  const txAmount = assetValue.getBaseValue('bigint');
   const chain = assetValue.chain as EVMChain;
 
   if (!isGasAsset(assetValue)) {
