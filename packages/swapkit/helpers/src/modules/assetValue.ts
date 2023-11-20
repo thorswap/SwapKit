@@ -66,15 +66,10 @@ const createAssetValue = async (assetString: string, value: NumberPrimitives = 0
   return new AssetValue({ decimal, value: parsedValue, identifier: assetString });
 };
 
-const cacheAssetValue = new Map<string, AssetValue>();
-
 export class AssetValue extends BigIntArithmetics {
   constructor(params: AssetValueParams) {
     const identifier =
       'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
-
-    const cachedAsset = cacheAssetValue.get(identifier);
-    if (cachedAsset) return cachedAsset.set(params.value);
 
     super(
       params.value instanceof BigIntArithmetics
@@ -90,20 +85,14 @@ export class AssetValue extends BigIntArithmetics {
     this.address = assetInfo.address;
     this.isSynthetic = assetInfo.isSynthetic;
     this.isGasAsset = assetInfo.isGasAsset;
-
-    cacheAssetValue.set(identifier, this);
   }
 
   address?: string;
   isSynthetic = false;
   isGasAsset = false;
-  // @ts-expect-error cache is false positive on that case
   chain: Chain;
-  // @ts-expect-error cache is false positive on that case
   symbol: string;
-  // @ts-expect-error cache is false positive on that case
   ticker: string;
-  // @ts-expect-error cache is false positive on that case
   type: ReturnType<typeof getAssetType>;
 
   toString(short = false) {

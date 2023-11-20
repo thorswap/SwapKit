@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.10
+
+### Patch Changes
+
+- remove cache asset
+
 ## 1.0.0-rc.9
 
 ### Patch Changes

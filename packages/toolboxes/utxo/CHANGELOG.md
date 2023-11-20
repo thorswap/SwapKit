@@ -1,5 +1,15 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.29
+
+### Patch Changes
+
+- remove cache asset
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.28
+  - @swapkit/types@1.0.0-rc.10
+
 ## 1.0.0-rc.28
 
 ### Patch Changes

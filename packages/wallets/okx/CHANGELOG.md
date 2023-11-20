@@ -1,5 +1,18 @@
 # @swapkit/wallet-okx
 
+## 1.0.0-rc.33
+
+### Patch Changes
+
+- remove cache asset
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.30
+  - @swapkit/helpers@1.0.0-rc.28
+  - @swapkit/toolbox-utxo@1.0.0-rc.29
+  - @swapkit/types@1.0.0-rc.10
+  - @swapkit/toolbox-evm@1.0.0-rc.30
+
 ## 1.0.0-rc.32
 
 ### Patch Changes

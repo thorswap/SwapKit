@@ -1,5 +1,29 @@
 # @internal/playground
 
+## 0.0.0-rc.29
+
+### Patch Changes
+
+- remove cache asset
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.30
+  - @swapkit/toolbox-cosmos@1.0.0-rc.30
+  - @swapkit/wallet-keystore@1.0.0-rc.35
+  - @swapkit/helpers@1.0.0-rc.28
+  - @swapkit/tokens@1.0.0-rc.10
+  - @swapkit/toolbox-utxo@1.0.0-rc.29
+  - @swapkit/wallet-ledger@1.0.0-rc.33
+  - @swapkit/wallet-trezor@1.0.0-rc.31
+  - @swapkit/types@1.0.0-rc.10
+  - @swapkit/toolbox-evm@1.0.0-rc.30
+  - @swapkit/wallet-keplr@1.0.0-rc.30
+  - @swapkit/wallet-xdefi@1.0.0-rc.33
+  - @swapkit/core@1.0.0-rc.34
+  - @swapkit/api@1.0.0-rc.10
+  - @swapkit/wallet-okx@1.0.0-rc.33
+  - @swapkit/wallet-wc@1.0.0-rc.32
+
 ## 0.0.0-rc.28
 
 ### Patch Changes

@@ -302,7 +302,7 @@ export const estimateMaxSendableAmount = async ({
     outputs.push({ address: from, script: compiledMemo, value: 0 });
   }
 
-  const txSize = await calculateTxSize({
+  const txSize = calculateTxSize({
     inputs,
     outputs,
     feeRate: feeRateWhole,
@@ -310,7 +310,11 @@ export const estimateMaxSendableAmount = async ({
 
   const fee = txSize * feeRateWhole;
 
-  return new AssetValue({ ...balance, value: balance.sub(fee), decimal: balance.decimal! });
+  return new AssetValue({
+    identifier: balance.toString(),
+    value: balance.sub(fee),
+    decimal: balance.decimal!,
+  });
 };
 
 export const BaseUTXOToolbox = (
