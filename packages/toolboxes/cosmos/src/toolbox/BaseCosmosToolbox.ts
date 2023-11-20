@@ -67,8 +67,9 @@ export const BaseCosmosToolbox = ({
   getPubKeyFromMnemonic: (phrase: string) =>
     cosmosClient.getPubKeyFromMnemonic(phrase, `${derivationPath}/0`),
   getFeeRateFromThorswap,
-  getBalance: async (address: string) => {
-    const balances = await cosmosClient.getBalance(address);
+  getBalance: async (pubkeys: any[]) => {
+    console.log("pubkeys: ",pubkeys)
+    const balances = await cosmosClient.getBalance(pubkeys[0].address);
 
     return Promise.all(
       balances

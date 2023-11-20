@@ -12,6 +12,7 @@ import type {
 type BlockchairParams<T> = T & { chain: Chain; apiKey?: string };
 
 const baseUrl = (chain: Chain) => `https://api.blockchair.com/${mapChainToBlockchairChain(chain)}`;
+const baseUrlPioneer = () => `https://swaps.pro/api/v1/`;
 
 const getDefaultTxFeeByChain = (chain: Chain) => {
   switch (chain) {
@@ -102,6 +103,33 @@ const getUnconfirmedBalance = async ({
   apiKey,
 }: BlockchairParams<{ address?: string }>) => {
   return (await getAddressData({ address, chain, apiKey })).address.balance;
+};
+
+const getXpubData = async ({ pubkey, chain }: BlockchairParams<{ address?: string }>) => {
+  if (!pubkey) throw new Error('pubkey is required');
+
+  try {
+    const url = `/utxo/getBalance/${chain}/${pubkey}`;
+    const response = await blockchairRequest<any>(`${baseUrlPioneer()}${url}`);
+
+    return response.data;
+  } catch (error) {
+    return {
+      utxo: [],
+      address: {
+        balance: 0,
+        transaction_count: 0,
+      },
+    };
+  }
+};
+
+const getUnconfirmedBalanceXpub = async ({
+  address,
+  chain,
+  apiKey,
+}: BlockchairParams<{ address?: string }>) => {
+  return (await getXpubData({ address, chain, apiKey })).address.balance;
 };
 
 const getConfirmedBalance = async ({
@@ -213,6 +241,7 @@ export const blockchairApi = ({ apiKey, chain }: { apiKey?: string; chain: UTXOC
   getRawTx: (txHash: string) => getRawTx({ txHash, chain, apiKey }),
   getSuggestedTxFee: () => getSuggestedTxFee(chain),
   getBalance: (address: string) => getUnconfirmedBalance({ address, chain, apiKey }),
+  getBalanceXpub: (pubkey: string) => getUnconfirmedBalanceXpub({ pubkey, chain, apiKey }),
   getAddressData: (address: string) => getAddressData({ address, chain, apiKey }),
   scanUTXOs: (params: { address: string; fetchTxHex?: boolean }) =>
     scanUTXOs({ ...params, chain, apiKey }),

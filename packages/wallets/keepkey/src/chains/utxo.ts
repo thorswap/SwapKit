@@ -20,6 +20,9 @@ export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api }
       case Chain.Dash:
         toolbox = DASHToolbox(toolboxParams);
         break;
+      case Chain.DigiByte:
+        //@TODO
+        break;
       case Chain.Litecoin:
         isSegwit = true;
         toolbox = LTCToolbox(toolboxParams);
@@ -29,6 +32,9 @@ export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api }
         break;
       case Chain.BitcoinCash:
         toolbox = BCHToolbox(toolboxParams);
+        break;
+      case Chain.Zcash:
+        //@TODO
         break;
       default:
         throw Error('unsupported chain! ' + chain);

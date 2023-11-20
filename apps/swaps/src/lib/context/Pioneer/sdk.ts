@@ -239,17 +239,22 @@ export class SDK {
             config,
           );
           if (resultPair !== config.apiKey) this.keepkeyApiKey = resultPair;
-        } else if(walletSelected.type === 'LEDGER'){
-          console.log("walletSelected.wallet.connectMethodName: ",walletSelected.wallet.connectMethodName)
+        } else if (walletSelected.type === 'LEDGER') {
+          console.log(
+            'walletSelected.wallet.connectMethodName: ',
+            walletSelected.wallet.connectMethodName,
+          );
           //only pair ETH
-          resultPair =
-            await this.swapKit[walletSelected.wallet.connectMethodName]('ETH');
-          console.log("resultPair: ",resultPair)
+          resultPair = await this.swapKit[walletSelected.wallet.connectMethodName]('ETH');
+          console.log('resultPair: ', resultPair);
         } else {
-          console.log("walletSelected.wallet.connectMethodName: ",walletSelected.wallet.connectMethodName)
+          console.log(
+            'walletSelected.wallet.connectMethodName: ',
+            walletSelected.wallet.connectMethodName,
+          );
           resultPair =
             await this.swapKit[walletSelected.wallet.connectMethodName](AllChainsSupported);
-          console.log("resultPair: ",resultPair)
+          console.log('resultPair: ', resultPair);
         }
         // log.info("resultPair: ", resultPair);
         // log.info("this.swapKit: ", this.swapKit);
@@ -293,6 +298,13 @@ export class SDK {
 
         // get chains of wallet
         const chains = Object.keys(this.swapKit.connectedWallets);
+        //TODO get paths
+        console.log('paths: ', this.paths);
+
+        //if any custom paths, add them
+
+        //TODO get pubkeys
+
         // get address array
         const addressArray = await Promise.all(
           // @ts-ignore
@@ -329,7 +341,7 @@ export class SDK {
         // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < walletDataArray.length; i++) {
           const walletData: any = walletDataArray[i];
-          // console.log(tag, 'walletData: ', walletData);
+          console.log(tag, 'walletData: ', walletData);
           // const chain = chains[i];
           // log.info(tag, "chain: ", chain);
           if (walletData) {
@@ -339,6 +351,7 @@ export class SDK {
               console.log('balance: ', balance);
               if (balance && balance?.baseValueNumber > 0) {
                 balance.context = context;
+                balance.address = walletData.address;
                 balancesSwapKit.push(balance);
               }
             }
@@ -352,6 +365,7 @@ export class SDK {
             let balanceString: any = {};
             // Assuming these properties already exist in each balance
             balanceString.symbol = balance.symbol;
+            balanceString.address = balance.address;
             balanceString.chain = balance.chain;
             balanceString.ticker = balance.ticker;
             balanceString.type = balance.type;
@@ -396,6 +410,7 @@ export class SDK {
         this.events.emit('SET_ASSET_CONTEXT', this.assetContext);
         this.outboundAssetContext = this.balances[1];
         this.events.emit('SET_OUTBOUND_ASSET_CONTEXT', this.outboundAssetContext);
+
         // set defaults
         // if(!this.blockchainContext)this.blockchainContext = primaryBlockchains['eip155:1/slip44:60']
         // if(!this.assetContext)this.assetContext = primaryAssets['eip155:1/slip44:60']
@@ -482,7 +497,7 @@ export class SDK {
     this.setOutboundAssetContext = async function (asset: any) {
       const tag = `${TAG} | setOutputAssetContext | `;
       try {
-        if (asset && this.outboundAssetContext && this.outboundAssetContext !== asset) {
+        if (asset && this.outboundAssetContext !== asset) {
           this.outboundAssetContext = asset;
           this.events.emit('SET_OUTBOUND_ASSET_CONTEXT', asset);
           return { success: true };

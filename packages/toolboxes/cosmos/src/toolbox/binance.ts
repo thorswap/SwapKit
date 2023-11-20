@@ -32,8 +32,8 @@ const getTransferFee = async () => {
   return transferFee;
 };
 
-const getBalance = async (address: string) => {
-  const balances = (await getAccount(address))?.balances || [];
+const getBalance = async (address: any[]) => {
+  const balances = (await getAccount(address[0].address))?.balances || [];
 
   return balances.map(
     ({ symbol, free }) =>

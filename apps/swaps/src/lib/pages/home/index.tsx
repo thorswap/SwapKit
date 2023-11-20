@@ -17,7 +17,7 @@ import { FeeOption } from '@coinmasters/types';
 // import { COIN_MAP_LONG } from "@pioneer-platform/pioneer-coins";
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-
+import {SwapKitApi} from '@coinmasters/api'
 import AssetSelect from '../../components/AssetSelect';
 import OutputSelect from '../../components/OutputSelect';
 import SignTransaction from '../../components/SignTransaction';
@@ -98,6 +98,8 @@ const Home = () => {
     console.log('balanceSwapKit.value: ', parseFloat(assetBalance.value).toPrecision(3));
     const senderAddress = app.swapKit.getAddress(assetContext.chain);
     const recipientAddress = app.swapKit.getAddress(outboundAssetContext.chain);
+    console.log("outboundAssetContext: ",outboundAssetContext)
+
     try {
       let newAmountIn = (sliderValue / 100) * parseFloat(assetContext?.balance || '0');
       const entry = {
@@ -109,10 +111,7 @@ const Home = () => {
         slippage: '3',
       };
       console.log('entry: ', entry);
-      const result = await app.pioneer.Quote(entry)
-      result = result.data
-      console.log('result: ', result);
-      // const result = await SwapKitApi.getQuote(entry);
+      const result = await SwapKitApi.getQuote(entry);
       if (result && result.routes && result.routes.length > 0) {
         setQuoteId(result?.quoteId);
         setRoutes(result?.routes);

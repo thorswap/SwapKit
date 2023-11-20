@@ -76,6 +76,11 @@ export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) 
   switch (chain) {
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
+    case Chain.Dash:
+    case Chain.Digibyte:
+    case Chain.Digibyte:
+    case Chain.Zcash:
+    case Chain.Ripple:
     case Chain.Litecoin:
     case Chain.Dogecoin:
     case Chain.Binance:

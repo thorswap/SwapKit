@@ -33,7 +33,7 @@ import KeepKey from '../components/KeepKey';
 import Ledger from '../components/Ledger';
 import MetaMask from '../components/MetaMask';
 import { usePioneer } from '../context/Pioneer';
-const PROJECT_NAME = 'Swaps.PRO';
+const PROJECT_NAME = 'Swaps';
 
 const HeaderNew = () => {
   const navigate = useNavigate();
