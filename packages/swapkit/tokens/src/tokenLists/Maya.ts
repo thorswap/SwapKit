@@ -20,7 +20,12 @@ export const list = {
       identifier: 'ETH.USDT-0XDAC17F958D2EE523A2206206994597C13D831EC7',
       decimals: 6,
     },
+    {
+      chain: 'ETH',
+      identifier: 'ETH.WSTETH-0X7F39C581F595B53C5CB19BD0B3F8DA6C935E2CA0',
+      decimals: 18,
+    },
   ],
-  count: 8,
+  count: 9,
   logo: 'https://static.thorswap.finance/logo.png',
 } as const;
