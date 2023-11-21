@@ -14,10 +14,10 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { FeeOption } from '@coinmasters/types';
+import { useEffect, useState } from 'react';
 // import { COIN_MAP_LONG } from "@pioneer-platform/pioneer-coins";
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import {SwapKitApi} from '@coinmasters/api'
+
 import AssetSelect from '../../components/AssetSelect';
 import OutputSelect from '../../components/OutputSelect';
 import SignTransaction from '../../components/SignTransaction';
@@ -38,6 +38,7 @@ const Home = () => {
   const [modalType, setModalType] = useState(null);
   const [routes, setRoutes] = useState([]);
   const [route, setRoute] = useState(null);
+  const [inputAmount, setInputAmount] = useState(0);
   const [quoteId, setQuoteId] = useState('');
   const [txHash, setTxhash] = useState(null);
   const [sliderValue, setSliderValue] = useState(50);
@@ -70,8 +71,8 @@ const Home = () => {
 
   //start the context provider
   useEffect(() => {
-    if(txid){
-      console.log("loaded txid: ", txid);
+    if (txid) {
+      console.log('loaded txid: ', txid);
       //set the txid
       setTxhash(txid);
       setStep(2);
@@ -87,39 +88,65 @@ const Home = () => {
   const fetchQuote = async () => {
     console.log('sliderValue: ', sliderValue);
 
-    //get balance of asset
-    let balanceSwapKit = await app.swapKit.getBalance(assetContext.chain, assetContext.symbol);
+    // get balance of asset
+    const balanceSwapKit = await app.swapKit.getBalance(assetContext.chain, assetContext.symbol);
     console.log('balanceSwapKit: ', balanceSwapKit);
-    const assetBalance = balanceSwapKit.find((item) => item.symbol === assetContext.symbol);
-    console.log('assetBalance: ', assetBalance);
-    console.log('assetBalance: ', assetBalance.value);
-    //get percentage of balanceSwapKit
+    const assetBalance = balanceSwapKit.find((item: any) => item.symbol === assetContext.symbol);
+    // get percentage of balanceSwapKit
 
     console.log('balanceSwapKit.value: ', parseFloat(assetBalance.value).toPrecision(3));
     const senderAddress = app.swapKit.getAddress(assetContext.chain);
-    const recipientAddress = app.swapKit.getAddress(outboundAssetContext.chain);
-    console.log("outboundAssetContext: ",outboundAssetContext)
+    const recipientAddress =
+      outboundAssetContext.address || app.swapKit.getAddress(outboundAssetContext.chain);
+    console.log('outboundAssetContext: ', outboundAssetContext);
+
+    if (!recipientAddress) throw Error('must have recipient address');
+
+    let buyAsset;
+    if (outboundAssetContext.contract) {
+      buyAsset = `${outboundAssetContext.chain}.${outboundAssetContext.symbol}-${outboundAssetContext.contract}`;
+    } else {
+      buyAsset = `${outboundAssetContext.chain}.${outboundAssetContext.symbol}`;
+    }
 
     try {
-      let newAmountIn = (sliderValue / 100) * parseFloat(assetContext?.balance || '0');
+      const newAmountIn = (sliderValue / 100) * parseFloat(assetContext?.balance || '0');
+      setInputAmount(newAmountIn);
       const entry = {
-        sellAsset: assetContext.chain + '.' + assetContext.symbol,
-        sellAmount: parseFloat(newAmountIn).toPrecision(3),
-        buyAsset: outboundAssetContext.chain + '.' + outboundAssetContext.symbol,
+        sellAsset: `${assetContext.chain}.${assetContext.symbol}`,
+        sellAmount: parseFloat(String(newAmountIn)).toPrecision(3),
+        buyAsset,
         senderAddress,
         recipientAddress,
         slippage: '3',
       };
       console.log('entry: ', entry);
-      const result = await SwapKitApi.getQuote(entry);
-      if (result && result.routes && result.routes.length > 0) {
-        setQuoteId(result?.quoteId);
-        setRoutes(result?.routes);
-        console.log('currentRouteIndex: ', currentRouteIndex);
-        let route = result?.routes[currentRouteIndex || 0];
-        //phase 3
-        route.calldata.memo = route.calldata.memo.replace('t:0', 'kk:30');
-        setRoute(route);
+      try {
+        let result = await app.pioneer.Quote(entry);
+        result = result.data;
+        console.log('result: ', result);
+
+        if (result && result.routes && result.routes.length > 0) {
+          setQuoteId(result?.quoteId);
+          setRoutes(result?.routes);
+          console.log('currentRouteIndex: ', currentRouteIndex);
+          const routeLocal = result?.routes[currentRouteIndex || 0];
+          // phase 3
+          if (routeLocal.calldata && routeLocal.calldata.memo) {
+            routeLocal.calldata.memo = routeLocal.calldata.memo.replace('t:0', 'kk:30');
+          }
+          // @ts-ignore
+          setRoute(routeLocal);
+        }
+
+        // if error, render Error
+        if (result && result.error) {
+          openModal(MODAL_STRINGS.errorQuote);
+          setError(result);
+        }
+      } catch (e) {
+        openModal(MODAL_STRINGS.errorQuote);
+        setError(`Invalid request: ${e}`);
       }
     } catch (e: any) {
       console.error('ERROR: ', e);
@@ -188,9 +215,9 @@ const Home = () => {
           <BeginSwap
             currentRouteIndex={currentRouteIndex}
             routes={routes}
-            setSliderValue={setSliderValue}
             setCurrentRouteIndex={setCurrentRouteIndex}
             setRoute={setRoute}
+            setSliderValue={setSliderValue}
           />
         );
       case 2:
@@ -224,6 +251,7 @@ const Home = () => {
               <div>
                 <SignTransaction
                   currentRouteIndex={currentRouteIndex}
+                  inputAmount={inputAmount}
                   onClose={onClose}
                   route={route}
                   setTxhash={setTxhash}
