@@ -1,5 +1,17 @@
 # @swapkit/helpers
 
+## 4.0.0
+
+### Major Changes
+
+- utxo work
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @coinmasters/types@4.0.0
+  - @coinmasters/tokens@3.0.0
+
 ## 3.0.0
 
 ### Major Changes

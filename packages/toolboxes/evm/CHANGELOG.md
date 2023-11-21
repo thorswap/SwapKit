@@ -1,5 +1,17 @@
 # @coinmasters/toolbox-evm
 
+## 4.0.0
+
+### Major Changes
+
+- utxo work
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @coinmasters/helpers@4.0.0
+  - @coinmasters/types@4.0.0
+
 ## 3.0.0
 
 ### Major Changes

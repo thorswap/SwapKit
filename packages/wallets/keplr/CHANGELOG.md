@@ -1,5 +1,14 @@
 # @coinmasters/wallet-keplr
 
+## 4.0.0
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @coinmasters/toolbox-cosmos@4.0.0
+  - @coinmasters/helpers@4.0.0
+  - @coinmasters/types@4.0.0
+
 ## 3.0.0
 
 ### Major Changes

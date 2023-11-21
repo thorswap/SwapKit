@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 4.0.0
+
+### Major Changes
+
+- utxo work
+
 ## 3.0.0
 
 ### Major Changes

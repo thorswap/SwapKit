@@ -5,6 +5,30 @@
 ### Patch Changes
 
 - Updated dependencies []:
+  - @coinmasters/toolbox-cosmos@4.0.0
+  - @coinmasters/wallet-metamask@3.0.0
+  - @coinmasters/helpers@4.0.0
+  - @coinmasters/wallet-keepkey@6.0.0
+  - @coinmasters/toolbox-utxo@4.0.0
+  - @coinmasters/types@4.0.0
+  - @coinmasters/toolbox-evm@4.0.0
+  - @coinmasters/core@4.0.0
+  - @coinmasters/wallet-keplr@4.0.0
+  - @coinmasters/wallet-keystore@4.0.0
+  - @coinmasters/wallet-ledger@4.0.0
+  - @coinmasters/wallet-okx@4.0.0
+  - @coinmasters/wallet-wc@4.0.0
+  - @coinmasters/wallet-xdefi@4.0.0
+  - @coinmasters/wallet-trezor@4.0.0
+  - @coinmasters/api@3.0.1
+  - @coinmasters/tokens@3.0.0
+  - @coinmasters/wallet-evm-extensions@4.0.0
+
+## null
+
+### Patch Changes
+
+- Updated dependencies []:
   - @coinmasters/api@3.0.0
   - @coinmasters/core@3.0.0
   - @coinmasters/helpers@3.0.0

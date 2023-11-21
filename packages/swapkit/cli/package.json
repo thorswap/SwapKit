@@ -1,6 +1,7 @@
 {
   "author": "swapkit",
   "description": "SwapKit Lib cli",
+  "version": "4.0.0",
   "dependencies": {
     "@inkkit/ink-divider": "1.0.1",
     "@inkkit/ink-form": "1.0.0",

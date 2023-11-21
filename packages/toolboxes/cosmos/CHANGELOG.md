@@ -1,5 +1,18 @@
 # @coinmasters/toolbox-cosmos
 
+## 4.0.0
+
+### Major Changes
+
+- utxo work
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @coinmasters/helpers@4.0.0
+  - @coinmasters/types@4.0.0
+  - @coinmasters/api@3.0.1
+
 ## 3.0.0
 
 ### Major Changes
