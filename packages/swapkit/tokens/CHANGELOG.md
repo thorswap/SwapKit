@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.11
+
+### Patch Changes
+
+- [`fd2de5fd`](https://github.com/thorswap/SwapKit/commit/fd2de5fdc7a83601acda6f65f83a0ce3e6c4b99c) Thanks [@GiMa-Maya](https://github.com/GiMa-Maya)! - Update maya tokens
+
 ## 1.0.0-rc.10
 
 ### Patch Changes
