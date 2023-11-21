@@ -1,5 +1,55 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.28
+
+### Patch Changes
+
+- remove cache asset
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.10
+  - @swapkit/types@1.0.0-rc.10
+
+## 1.0.0-rc.27
+
+### Patch Changes
+
+- Performance rebuild for helpers
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.9
+  - @swapkit/types@1.0.0-rc.9
+
+## 1.0.0-rc.26
+
+### Patch Changes
+
+- Update perf number formatter
+
+## 1.0.0-rc.25
+
+### Patch Changes
+
+- perf improvements'
+
+## 1.0.0-rc.24
+
+### Patch Changes
+
+- Perf improvement on initialization of AssetValue
+
+## 1.0.0-rc.23
+
+### Patch Changes
+
+- filter out nfts & scam assets
+
+## 1.0.0-rc.22
+
+### Patch Changes
+
+- [#396](https://github.com/thorswap/SwapKit/pull/396) [`cb826840`](https://github.com/thorswap/SwapKit/commit/cb826840613b7b8b1b677225689fd3daec4a941c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - add currency formatter
+
 ## 1.0.0-rc.21
 
 ### Patch Changes

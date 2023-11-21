@@ -37,12 +37,7 @@ const getBalance = async (address: string) => {
 
   return balances.map(
     ({ symbol, free }) =>
-      new AssetValue({
-        chain: Chain.Binance,
-        symbol: symbol,
-        value: free,
-        decimal: 8,
-      }),
+      new AssetValue({ chain: Chain.Binance, symbol: symbol, value: free, decimal: 8 }),
   );
 };
 

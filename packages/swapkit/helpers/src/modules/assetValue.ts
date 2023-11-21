@@ -67,25 +67,17 @@ const createAssetValue = async (assetString: string, value: NumberPrimitives = 0
 };
 
 export class AssetValue extends BigIntArithmetics {
-  address?: string;
-  chain: Chain;
-  isSynthetic = false;
-  isGasAsset = false;
-  symbol: string;
-  ticker: string;
-  type: ReturnType<typeof getAssetType>;
-
   constructor(params: AssetValueParams) {
+    const identifier =
+      'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
+
     super(
       params.value instanceof BigIntArithmetics
         ? params.value
         : { decimal: params.decimal, value: params.value },
     );
 
-    const identifier =
-      'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
     const assetInfo = getAssetInfo(identifier);
-
     this.type = getAssetType(assetInfo);
     this.chain = assetInfo.chain;
     this.ticker = assetInfo.ticker;
@@ -95,15 +87,17 @@ export class AssetValue extends BigIntArithmetics {
     this.isGasAsset = assetInfo.isGasAsset;
   }
 
-  get assetValue() {
-    return `${this.getValue('string')} ${this.ticker}`;
-  }
+  address?: string;
+  isSynthetic = false;
+  isGasAsset = false;
+  chain: Chain;
+  symbol: string;
+  ticker: string;
+  type: ReturnType<typeof getAssetType>;
 
   toString(short = false) {
     // THOR.RUNE | ETH/ETH
-    const shortFormat = this.isSynthetic
-      ? this.symbol.split('-')[0]
-      : `${this.chain}.${this.ticker}`;
+    const shortFormat = this.isSynthetic ? this.symbol.split('-')[0] : this.ticker;
 
     return short
       ? shortFormat
@@ -127,11 +121,13 @@ export class AssetValue extends BigIntArithmetics {
 
     const parsedValue = safeValue(value, decimal);
 
-    return tokenIdentifier
+    const asset = tokenIdentifier
       ? new AssetValue({ decimal, identifier: tokenIdentifier, value: parsedValue })
       : isSynthetic
       ? new AssetValue({ decimal: 8, identifier: assetString, value: parsedValue })
       : undefined;
+
+    return asset;
   }
 
   static async fromIdentifier(

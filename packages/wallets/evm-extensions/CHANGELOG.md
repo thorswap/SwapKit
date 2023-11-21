@@ -1,5 +1,66 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.0.0-rc.30
+
+### Patch Changes
+
+- remove cache asset
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.10
+  - @swapkit/toolbox-evm@1.0.0-rc.30
+
+## 1.0.0-rc.29
+
+### Major Changes
+
+- Performance rebuild for helpers
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/toolbox-evm@1.0.0-rc.29
+  - @swapkit/types@1.0.0-rc.9
+
+## 1.0.0-rc.28
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/toolbox-evm@1.0.0-rc.28
+
+## 1.0.0-rc.27
+
+### Patch Changes
+
+- perf improvements'
+
+- Updated dependencies []:
+  - @swapkit/toolbox-evm@1.0.0-rc.27
+
+## 1.0.0-rc.26
+
+### Patch Changes
+
+- Perf improvement on initialization of AssetValue
+
+- Updated dependencies []:
+  - @swapkit/toolbox-evm@1.0.0-rc.26
+
+## 1.0.0-rc.25
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/toolbox-evm@1.0.0-rc.25
+
+## 1.0.0-rc.24
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/toolbox-evm@1.0.0-rc.24
+
 ## 1.0.0-rc.23
 
 ### Patch Changes

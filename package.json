@@ -39,6 +39,9 @@
   "publishConfig": {
     "access": "restricted"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "pnpm": {
     "overrides": {
       "ethers": "^6.7.1",

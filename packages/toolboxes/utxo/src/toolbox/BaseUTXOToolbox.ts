@@ -1,5 +1,5 @@
 import { HDKey } from '@scure/bip32';
-import { AssetValue, filterAssets, SwapKitNumber } from '@swapkit/helpers';
+import { AssetValue, SwapKitNumber } from '@swapkit/helpers';
 import type { UTXOChain } from '@swapkit/types';
 import { BaseDecimal, Chain, FeeOption } from '@swapkit/types';
 import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';
@@ -302,7 +302,7 @@ export const estimateMaxSendableAmount = async ({
     outputs.push({ address: from, script: compiledMemo, value: 0 });
   }
 
-  const txSize = await calculateTxSize({
+  const txSize = calculateTxSize({
     inputs,
     outputs,
     feeRate: feeRateWhole,
@@ -310,7 +310,11 @@ export const estimateMaxSendableAmount = async ({
 
   const fee = txSize * feeRateWhole;
 
-  return new AssetValue({ ...balance, value: balance.sub(fee), decimal: balance.decimal! });
+  return new AssetValue({
+    identifier: balance.toString(),
+    value: balance.sub(fee),
+    decimal: balance.decimal!,
+  });
 };
 
 export const BaseUTXOToolbox = (
@@ -334,11 +338,8 @@ export const BaseUTXOToolbox = (
     derivationPath: string;
   }) => (await createKeysForPath({ phrase, derivationPath, ...baseToolboxParams })).toWIF(),
 
-  getBalance: async (address: string, potentialScamFilter?: boolean) => {
-    const balances = await getBalance({ address, ...baseToolboxParams });
-
-    return potentialScamFilter ? filterAssets(balances) : balances;
-  },
+  getBalance: async (address: string, _potentialScamFilter?: boolean) =>
+    getBalance({ address, ...baseToolboxParams }),
 
   getFeeRates: () => getFeeRates(baseToolboxParams.apiClient),
 

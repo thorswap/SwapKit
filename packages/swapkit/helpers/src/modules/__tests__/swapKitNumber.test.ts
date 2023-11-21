@@ -201,7 +201,7 @@ describe('SwapKitNumber', () => {
   });
 
   describe('toCurrency', () => {
-    test.only('returns abbreviation with up to 3 integer digits', () => {
+    test('returns abbreviation with up to 3 integer digits', () => {
       const skNumber = new SwapKitNumber(1234.5678);
       expect(skNumber.toCurrency()).toBe('$1,234.56');
       expect(
