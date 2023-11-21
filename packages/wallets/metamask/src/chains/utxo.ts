@@ -57,7 +57,10 @@ export const utxoWalletMethods: any = async function (params: any) {
           scriptType: 'p2pkh', //no segwit due to limitations in MM snaps
           showDisplay: false,
         };
+        console.log("addressInfo: ", addressInfo);
         let response = await wallet.btcGetAddress(addressInfo);
+        response = response.replace("bitcoincash:", "")
+        console.log("response: ", response);
         return response;
       } catch (e) {
         console.error(e);

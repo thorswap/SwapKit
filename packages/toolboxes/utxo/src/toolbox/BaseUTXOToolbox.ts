@@ -120,6 +120,7 @@ const getPubkeyBalance = async function (
       case 'address':
         const address = pubkey[type];
         const addressBalance = await apiClient.getBalance(address);
+        console.log('getPubkeyBalance: addressBalance: ', addressBalance);
         return addressBalance;
       default:
         throw new Error('Invalid pubkey type');
@@ -144,7 +145,8 @@ const getBalance = async ({
   for (let i = 0; i < pubkeys.length; i++) {
     let pubkey = pubkeys[i];
     let type = Object.keys(pubkey)[0];
-    const balance = getPubkeyBalance(pubkey, type, apiClient);
+    const balance = await getPubkeyBalance(pubkey, type, apiClient);
+    console.log('balance: ', balance);
     totalBalance = totalBalance + balance;
   }
   const asset = await AssetValue.fromIdentifier(`${chain}.${chain}`, totalBalance.toString());

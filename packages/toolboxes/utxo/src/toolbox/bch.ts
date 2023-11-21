@@ -285,7 +285,7 @@ export const BCHToolbox = ({
     createKeysForPath,
     getAddressFromKeys,
     buildBCHTx: (params: UTXOBuildTxParams) => buildBCHTx({ ...params, apiClient }),
-    getBalance: (address: string) => getBalance(stripPrefix(toCashAddress(address))),
+    getBalance: (pubkeys: any) => getBalance(stripPrefix(toCashAddress(pubkeys[0].address))),
     buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, apiClient }),
     transfer: (
       params: UTXOWalletTransferParams<

@@ -269,11 +269,11 @@ export const isWeb3Detected = () => {
 export const getBalance = async (
   provider: JsonRpcProvider | BrowserProvider,
   api: CovalentApiType | EthplorerApiType,
-  address: string,
+  address: any,
   chain: EVMChain,
 ) => {
-  const tokenBalances = await api.getBalance(address);
-  const evmGasTokenBalance = await provider.getBalance(address);
+  const tokenBalances = await api.getBalance(address[0].address);
+  const evmGasTokenBalance = await provider.getBalance(address[0].address);
 
   return [
     AssetValue.fromChainOrSignature(

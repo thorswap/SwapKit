@@ -26,7 +26,8 @@ const CheckBalance = () => {
         if (wallet) {
           const address = wallet.getAddress();
           if (typeof address === 'string') {
-            wallet.getBalance(address).then((res) => {
+            // @ts-ignore
+            wallet.getBalance([{ address }]).then((res) => {
               for (const assetValue of res) {
                 setBalanceData((prev) => [
                   ...prev,

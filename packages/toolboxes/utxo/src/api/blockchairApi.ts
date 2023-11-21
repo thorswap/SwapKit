@@ -84,7 +84,8 @@ const getAddressData = async ({
       apiKey ? `&key=${apiKey}` : ''
     }`;
     const response = await blockchairRequest<BlockchairAddressResponse>(`${baseUrl(chain)}${url}`);
-
+    // console.log('getAddressData: response: ', response);
+    console.log('getAddressData: response: ', response[address]);
     return response[address];
   } catch (error) {
     return {
@@ -102,6 +103,7 @@ const getUnconfirmedBalance = async ({
   chain,
   apiKey,
 }: BlockchairParams<{ address?: string }>) => {
+  console.log("getUnconfirmedBalance: address: ",address)
   return (await getAddressData({ address, chain, apiKey })).address.balance;
 };
 
