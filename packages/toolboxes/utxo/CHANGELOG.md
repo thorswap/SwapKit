@@ -1,5 +1,11 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.30
+
+### Patch Changes
+
+- [#399](https://github.com/thorswap/SwapKit/pull/399) [`472dec44`](https://github.com/thorswap/SwapKit/commit/472dec4458866c426cc2a462a157de1e3c886265) Thanks [@towanTG](https://github.com/towanTG)! - Fixes bug in coinselect
+
 ## 1.0.0-rc.29
 
 ### Patch Changes

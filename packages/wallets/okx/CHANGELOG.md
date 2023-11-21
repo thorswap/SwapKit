@@ -1,5 +1,12 @@
 # @swapkit/wallet-okx
 
+## 1.0.0-rc.34
+
+### Patch Changes
+
+- Updated dependencies [[`472dec44`](https://github.com/thorswap/SwapKit/commit/472dec4458866c426cc2a462a157de1e3c886265)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.30
+
 ## 1.0.0-rc.33
 
 ### Patch Changes
