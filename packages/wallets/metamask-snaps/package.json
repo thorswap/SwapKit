@@ -1,0 +1,66 @@
+{
+  "author": "swapkit",
+  "description": "SwapKit Lib metamask-snaps",
+  "dependencies": {
+    "@cosmjs/stargate": "0.31.1",
+    "@pioneer-platform/pioneer-coins": "8.1.90",
+    "@shapeshiftoss/hdwallet-core": "1.52.12",
+    "@shapeshiftoss/hdwallet-shapeshift-multichain": "1.52.12",
+    "@shapeshiftoss/metamask-snaps-adapter": "1.0.8",
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/types": "workspace:*"
+  },
+  "devDependencies": {
+    "@internal/config": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*",
+    "@types/bchaddrjs": "0.4.0",
+    "@vitest/coverage-istanbul": "0.33.0",
+    "bchaddrjs": "0.5.2",
+    "bitcoinjs-lib": "5.2.0",
+    "ethers": "6.7.1",
+    "vite": "4.4.4",
+    "vitest": "0.33.0"
+  },
+  "eslintConfig": {
+    "extends": "../../../internal/eslint-config"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "Apache-2.0",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@swapkit/wallet-metamask-snaps",
+  "peerDependencies": {
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*",
+    "ethers": "^6.7.1",
+    "bitcoinjs-lib": "5.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "react-native": "./src/index.ts",
+  "repository": "https://github.com/thorswap/SwapKit.git",
+  "scripts": {
+    "build": "vite build",
+    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
+    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "test": "echo 'vitest --run'",
+    "test:coverage": "echo 'vitest run --coverage'"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts"
+}
