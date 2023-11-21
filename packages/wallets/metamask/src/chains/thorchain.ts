@@ -35,38 +35,43 @@ export const thorChainWalletMethods: any = async function (params: MetaMaskParam
         const addressInfo = addressInfoForCoin(Chain.THORChain, false); // @highlander no witness script here
         const accountInfo = await toolbox.getAccount(from);
 
-        const body = {
-          signDoc: {
-            account_number: accountInfo?.accountNumber?.toString() ?? '0',
-            chain_id: ChainId.THORChain,
-            fee: {
-              gas: '500000000',
-              amount: [],
+        let body = {
+          addressNList: addressInfoForCoin(Chain.THORChain, false).address_n,
+          sequence: accountInfo?.sequence.toString() ?? '0',
+          source: addressInfo?.source?.toString() ?? '0',
+          account_number: accountInfo?.accountNumber?.toString() ?? '0',
+          chain_id: ChainId.THORChain,
+          "tx": {
+            "fee": {
+              "amount": [
+                {
+                  "amount": "0",
+                  "denom": "rune"
+                }
+              ],
+              "gas": "500000000"
             },
-            msgs: [
+            "memo": memo,
+            "msg": [
               {
+                type: 'thorchain/MsgSend',
                 value: {
                   amount: [
                     {
                       denom: asset.toLowerCase(),
-                      amount: amount.amount().toString(),
+                      amount: amount.toString(),
                     },
                   ],
                   to_address: to,
                   from_address: from,
                 },
-                type: 'thorchain/MsgSend',
-              },
+              }
             ],
-            memo,
-            sequence: accountInfo?.sequence.toString() ?? '0',
-            source: addressInfo?.source?.toString() ?? '0',
-          },
-          signerAddress: from,
-        };
-
+            "signatures": [
+            ]
+          }
+        }
         const [metaMaskResponse, stargateClient] = await Promise.all([
-          // @ts-ignore
           wallet.thorchainSignTx(body),
           StargateClient.connect(RPCUrl.THORChain),
         ]);
@@ -88,7 +93,7 @@ export const thorChainWalletMethods: any = async function (params: MetaMaskParam
 
     const transfer = async ({ assetValue, recipient, memo }: TransferParams) =>
       signTransactionTransfer({
-        from: fromAddress,
+        from: await getAddress(),
         to: recipient,
         asset: assetValue?.symbol,
         amount: assetValue.baseValue.toString(),
@@ -102,40 +107,51 @@ export const thorChainWalletMethods: any = async function (params: MetaMaskParam
                                             memo = '',
                                           }: SignTransactionDepositParams) => {
       try {
+        let fromAddress = await getAddress();
         const addressInfo = addressInfoForCoin(Chain.THORChain, false); // @highlander no witness script here
         const accountInfo = await toolbox.getAccount(fromAddress);
 
-        const keepKeyResponse = await wallet.thorchainSignTx({
-          signerAddress: fromAddress,
-          signDoc: {
-            memo,
-            sequence: accountInfo?.sequence.toString() ?? '0',
-            // FIXME: @highlander - this type is missing from source signature
-            // @ts-expect-error
-            source: addressInfo?.source?.toString() ?? '0',
-            account_number: accountInfo?.accountNumber?.toString() ?? '0',
-            chain_id: ChainId.THORChain,
-            fee: { gas: '500000000', amount: [{ amount: '2500', denom: 'rune' }] },
-            msgs: [
+        let requestToSign = {
+          addressNList: addressInfoForCoin(Chain.THORChain, false).address_n,
+          sequence: accountInfo?.sequence.toString() ?? '0',
+          source: addressInfo?.source?.toString() ?? '0',
+          account_number: accountInfo?.accountNumber?.toString() ?? '0',
+          chain_id: ChainId.THORChain,
+          "tx": {
+            "fee": {
+              "amount": [
+                {
+                  "amount": "0",
+                  "denom": "rune"
+                }
+              ],
+              "gas": "500000000"
+            },
+            "memo": memo,
+            "msg": [
               {
-                value: {
-                  coins: [{ asset: 'THOR.' + asset.toUpperCase(), amount: amount.toString() }],
-                  memo,
-                  signer: fromAddress,
-                },
-                type: 'thorchain/MsgDeposit',
-              },
+                "type": "thorchain/MsgDeposit",
+                "value": {
+                  "coins": [{ asset: 'THOR.' + asset.toUpperCase(), amount: amount.toString() }],
+                  "memo": memo,
+                  "signer": fromAddress
+                }
+              }
             ],
-          },
-        });
-        const stargateClient = await StargateClient.connect(RPCUrl.THORChain);
+            "signatures": [
+            ]
+          }
+        }
+        console.log("requestToSign: ",requestToSign)
+        const signedResponse = await wallet.thorchainSignTx(requestToSign);
+        console.log("signedResponse: ",signedResponse)
 
-        const decodedBytes = atob(keepKeyResponse.serialized);
+        const stargateClient = await StargateClient.connect(RPCUrl.THORChain);
+        const decodedBytes = atob(signedResponse.serialized);
         const uint8Array = new Uint8Array(decodedBytes.length);
         for (let i = 0; i < decodedBytes.length; i++) {
           uint8Array[i] = decodedBytes.charCodeAt(i);
         }
-
         const broadcastResponse = await stargateClient.broadcastTx(uint8Array);
 
         return broadcastResponse.transactionHash;
@@ -150,14 +166,14 @@ export const thorChainWalletMethods: any = async function (params: MetaMaskParam
         memo,
         asset: assetValue.symbol,
         amount: assetValue.baseValue.toString(),
-        from: fromAddress,
+        from: await getAddress(),
       });
 
     return {
       ...toolbox,
       getAddress,
       transfer,
-      // deposit
+      deposit
     };
   } catch (e) {
     console.error(e);

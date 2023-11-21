@@ -1,6 +1,6 @@
 import { AssetValue, SwapKitNumber } from '@coinmasters/helpers';
 import type { UTXOChain } from '@coinmasters/types';
-import { Chain, FeeOption } from '@coinmasters/types';
+import { BaseDecimal, Chain, FeeOption } from '@coinmasters/types';
 import { HDKey } from '@scure/bip32';
 import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';
 import type { ECPairInterface } from 'ecpair';
@@ -149,6 +149,7 @@ const getBalance = async ({
     console.log('balance: ', balance);
     totalBalance = totalBalance + balance;
   }
+  totalBalance = totalBalance / 10 ** BaseDecimal[chain];
   const asset = await AssetValue.fromIdentifier(`${chain}.${chain}`, totalBalance.toString());
 
   return [asset];
