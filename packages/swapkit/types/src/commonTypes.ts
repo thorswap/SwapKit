@@ -52,7 +52,15 @@ export type ConnectConfig = {
   /**
    * @optional for KeepKey config
    */
-  keepkeyApiKey?: string;
+  keepkeyConfig?: {
+    apiKey: string;
+    pairingInfo: {
+      name: string;
+      imageUrl: string;
+      basePath: string;
+      url: string;
+    };
+  };
 };
 
 export type AddChainWalletParams = {

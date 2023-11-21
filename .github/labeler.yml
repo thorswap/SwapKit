@@ -1,5 +1,4 @@
-release:
-  - packages/**/CHANGELOG.md
+release: packages/**/CHANGELOG.md
 
 maintenance:
   - ./internal/config/**/*
@@ -15,30 +14,18 @@ docs:
   - internal/playground/src/**/*
   - docs/**/*
 
-core:
-  - packages/swapkit/swapkit-core/**/*
-types:
-  - packages/swapkit/types/src/**/*
+core: packages/swapkit/swapkit-core/**/*
+types: packages/swapkit/types/src/**/*
 
-cosmos:
-  - packages/toolboxes/cosmos/src/**/*
-evm:
-  - packages/toolboxes/evm/src/**/*
-utxo:
-  - packages/toolboxes/utxo/src/**/*
+cosmos: packages/toolboxes/cosmos/src/**/*
+evm: packages/toolboxes/evm/src/**/*
+utxo: packages/toolboxes/utxo/src/**/*
 
 keystore: packages/wallets/keystore/src/**/*
-keepkey:
-  - packages/wallets/keepkey/src/**/*
-ledger:
-  - packages/wallets/ledger/src/**/*
-trezor:
-  - packages/wallets/trezor/src/**/*
-wc:
-  - packages/wallets/wc/src/**/*
-xdefi:
-  - packages/wallets/xdefi/src/**/*
-keplr:
-  - packages/wallets/keplr/src/**/*
-evm-extensions:
-  - packages/wallets/evm-extensions/src/**/*
+keepkey: packages/wallets/keepkey/src/**/*
+ledger: packages/wallets/ledger/src/**/*
+trezor: packages/wallets/trezor/src/**/*
+wc: packages/wallets/wc/src/**/*
+xdefi: packages/wallets/xdefi/src/**/*
+keplr: packages/wallets/keplr/src/**/*
+evm-extensions: packages/wallets/evm-extensions/src/**/*

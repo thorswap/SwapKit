@@ -22,7 +22,7 @@ export const cosmosWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; 
 
     const toolbox = GaiaToolbox({ server: api });
     DEFAULT_COSMOS_FEE_MAINNET.amount[0].amount = String(
-      (await toolbox?.getFeeRateFromThorswap(ChainId.Cosmos)) ?? '500',
+      (await toolbox?.getFeeRateFromThorswap?.(ChainId.Cosmos)) ?? '500',
     );
 
     const signTransactionTransfer = async ({
@@ -73,7 +73,7 @@ export const cosmosWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; 
         from: fromAddress,
         to: recipient,
         asset: assetValue?.symbol === 'MUON' ? 'umuon' : 'uatom',
-        amount: assetValue.baseValue.toString(),
+        amount: assetValue.getBaseValue('string'),
         memo,
       });
 

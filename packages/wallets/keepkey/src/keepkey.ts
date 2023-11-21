@@ -34,26 +34,15 @@ export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.THORChain,
 ] as const;
 
-interface KeepKeyConfig {
-  apiKey: string;
-  pairingInfo: {
-    name: string;
-    imageUrl: string;
-    basePath: string;
-    url: string;
-  };
-  // Add other properties as needed
-}
-
 /*
  * KeepKey Wallet
  */
 type KeepKeyOptions = {
   sdk: KeepKeySdk;
-  api?: string;
+  apiClient?: any;
   rpcUrl?: string;
   ethplorerApiKey?: string;
-  utxoApiKey?: string;
+  blockchairApiKey?: string;
   covalentApiKey?: string;
   chain: Chain;
   derivationPath?: any;
@@ -93,12 +82,12 @@ const getEVMWalletMethods = async ({
 
 const getToolbox = async ({
   sdk,
-  api,
+  apiClient,
   rpcUrl,
   chain,
   covalentApiKey,
   ethplorerApiKey,
-  utxoApiKey,
+  blockchairApiKey,
 }: KeepKeyOptions) => {
   switch (chain) {
     case Chain.BinanceSmartChain:
@@ -113,7 +102,7 @@ const getToolbox = async ({
         throw new Error('Covalent API key not found');
       const walletMethods = await getEVMWalletMethods({
         sdk,
-        api,
+        apiClient,
         chain,
         covalentApiKey,
         derivationPath: [2147483692, 2147483708, 2147483648, 0, 0],
@@ -139,8 +128,13 @@ const getToolbox = async ({
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      const walletMethods = await utxoWalletMethods({ api, sdk, chain, utxoApiKey });
-      return { address: await walletMethods.getAddress(), walletMethods };
+      const walletMethods = await utxoWalletMethods({
+        apiKey: blockchairApiKey,
+        apiClient,
+        sdk,
+        chain,
+      });
+      return { address: walletMethods.getAddress(), walletMethods };
     }
 
     default:
@@ -184,23 +178,25 @@ const connectKeepkey =
     apis,
     rpcUrls,
     addChain,
-    config: { covalentApiKey, ethplorerApiKey = 'freekey', utxoApiKey },
+    config: { keepkeyConfig, covalentApiKey, ethplorerApiKey = 'freekey', blockchairApiKey },
   }: ConnectWalletParams) =>
-  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, config: KeepKeyConfig) => {
+  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS) => {
+    if (!keepkeyConfig) throw new Error('KeepKey config not found');
+
     await checkAndLaunch();
 
     //only build this once for all assets
-    const keepKeySdk = await KeepKeySdk.create(config);
+    const keepKeySdk = await KeepKeySdk.create(keepkeyConfig);
 
     for (const chain of chains) {
       const { address, walletMethods } = await getToolbox({
         sdk: keepKeySdk,
-        api: apis[chain],
+        apiClient: apis[chain],
         rpcUrl: rpcUrls[chain],
         chain,
         covalentApiKey,
         ethplorerApiKey,
-        utxoApiKey,
+        blockchairApiKey,
       });
 
       addChain({
@@ -209,8 +205,6 @@ const connectKeepkey =
         wallet: { address, balance: [], walletType: WalletOption.KEEPKEY },
       });
     }
-
-    return config.apiKey;
   };
 
 export const keepkeyWallet = {

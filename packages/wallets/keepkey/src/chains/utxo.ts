@@ -1,159 +1,132 @@
-import type { UTXOTransferParams, UTXOType } from '@swapkit/toolbox-utxo';
+import type {
+  BaseUTXOToolbox,
+  UTXOToolbox,
+  UTXOTransferParams,
+  UTXOType,
+} from '@swapkit/toolbox-utxo';
 import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/toolbox-utxo';
+import type { UTXOChain } from '@swapkit/types';
 import { Chain, FeeOption } from '@swapkit/types';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
 
 import { addressInfoForCoin, Coin } from '../coins.ts';
-// TODO: Refactor to toolbox usage
-export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api }: any) {
-  try {
-    if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
-    let toolbox: any = {};
-    let isSegwit = false;
-    const toolboxParams = { api, apiKey: utxoApiKey };
-    switch (chain) {
-      case Chain.Bitcoin:
-        isSegwit = true;
-        toolbox = BTCToolbox(toolboxParams);
-        break;
-      case Chain.Litecoin:
-        isSegwit = true;
-        toolbox = LTCToolbox(toolboxParams);
-        break;
-      case Chain.Dogecoin:
-        toolbox = DOGEToolbox(toolboxParams);
-        break;
-      case Chain.BitcoinCash:
-        toolbox = BCHToolbox(toolboxParams);
-        break;
-      default:
-        throw Error('unsupported chain! ' + chain);
-    }
-    const utxoMethods = toolbox;
-    //get addressNlist of master
-    let scriptType;
-    if (isSegwit) {
-      scriptType = 'p2wpkh';
-    } else {
-      scriptType = 'p2pkh';
-    }
-    let addressInfo = addressInfoForCoin(chain, false, scriptType);
-    //getAddress
-    const getAddress = async function () {
-      try {
-        //TODO custom script types?
-        let scriptType;
-        if (isSegwit) {
-          scriptType = 'p2wpkh';
-        } else {
-          scriptType = 'p2pkh';
-        }
-        let addressInfo = addressInfoForCoin(chain, false, scriptType);
-        let response = await sdk.address.utxoGetAddress(addressInfo);
-        return response.address;
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    const address = await getAddress();
 
-    const signTransaction = async (psbt: Psbt, inputs: UTXOType[], memo: string = '') => {
-      let outputs: any[] = psbt.txOutputs.map((output: any) => {
-        let outputAddress = output.address;
-        if (chain === Chain.BitcoinCash && output.address) {
-          outputAddress = toCashAddress(output.address);
-          const strippedAddress = (toolbox as ReturnType<typeof BCHToolbox>).stripPrefix(
-            outputAddress,
-          );
-          outputAddress = strippedAddress;
-        }
-        if (output.change || output.address === address) {
-          return {
-            addressNList: addressInfo.address_n,
-            isChange: true,
-            addressType: 'change',
-            amount: output.value,
-            scriptType: isSegwit ? 'p2wpkh' : 'p2pkh',
-          };
-        } else {
-          if (outputAddress) {
+type Params = {
+  sdk: any;
+  chain: UTXOChain;
+  apiKey?: string;
+  apiClient?: ReturnType<typeof BaseUTXOToolbox>['apiClient'];
+};
+
+const getToolbox = ({ chain, apiClient, apiKey }: Omit<Params, 'sdk'>) => {
+  switch (chain) {
+    case Chain.Bitcoin:
+      return { toolbox: BTCToolbox({ apiClient, apiKey }), segwit: true };
+    case Chain.Litecoin:
+      return { toolbox: LTCToolbox({ apiClient, apiKey }), segwit: true };
+    case Chain.Dogecoin:
+      return { toolbox: DOGEToolbox({ apiClient, apiKey }), segwit: false };
+    case Chain.BitcoinCash:
+      return { toolbox: BCHToolbox({ apiClient, apiKey }), segwit: false };
+  }
+};
+
+export const utxoWalletMethods = async ({
+  sdk,
+  chain,
+  apiKey,
+  apiClient,
+}: Params): Promise<
+  UTXOToolbox & {
+    getAddress: () => string;
+    signTransaction: (psbt: Psbt, inputs: UTXOType[], memo?: string) => Promise<string>;
+    transfer: (params: UTXOTransferParams) => Promise<string>;
+  }
+> => {
+  if (!apiKey && !apiClient) throw new Error('UTXO API key not found');
+  const { toolbox, segwit } = getToolbox({ chain, apiClient, apiKey });
+
+  const scriptType = segwit ? 'p2wpkh' : 'p2pkh';
+  const addressInfo = addressInfoForCoin(chain, false, scriptType);
+  const { address: walletAddress } = await sdk.address.utxoGetAddress(addressInfo);
+
+  const signTransaction = async (psbt: Psbt, inputs: UTXOType[], memo: string = '') => {
+    const outputs = psbt.txOutputs
+      .map(
+        // @ts-expect-error TODO: @Highlander - fix typing
+        ({ value, address, change }) => {
+          const outputAddress =
+            chain === Chain.BitcoinCash && address
+              ? (toolbox as ReturnType<typeof BCHToolbox>).stripPrefix(toCashAddress(address))
+              : address;
+
+          if (change || address === walletAddress) {
             return {
-              address: outputAddress,
-              amount: output.value,
-              addressType: 'spend',
+              addressNList: addressInfo.address_n,
+              isChange: true,
+              addressType: 'change',
+              amount: value,
+              scriptType,
             };
           } else {
-            //else opReturn DO NOT ADD
-            //HDwallet will handle opReturn do not send as an output to keepkey
-            return null;
+            if (outputAddress) {
+              return { address: outputAddress, amount: value, addressType: 'spend' };
+            } else {
+              //else opReturn DO NOT ADD
+              //HDwallet will handle opReturn do not send as an output to keepkey
+              return null;
+            }
           }
-        }
-      });
-      function removeNullAndEmptyObjectsFromArray(arr: any[]): any[] {
-        return arr.filter(
-          (item) => item !== null && typeof item === 'object' && Object.keys(item).length !== 0,
-        );
-      }
-      let txToSign: any = {
-        coin: Coin[chain as keyof typeof Coin],
-        inputs,
-        outputs: removeNullAndEmptyObjectsFromArray(outputs),
-        version: 1,
-        locktime: 0,
-      };
-      if (memo) {
-        txToSign.opReturnData = memo;
-      }
-      let responseSign = await sdk.utxo.utxoSignTransaction(txToSign);
-      return responseSign.serializedTx;
-    };
+        },
+      )
+      .filter(Boolean);
 
-    const transfer: any = async ({
-      from,
-      recipient,
-      feeOptionKey,
-      feeRate,
+    const responseSign = await sdk.utxo.utxoSignTransaction({
+      coin: Coin[chain as keyof typeof Coin],
+      inputs,
+      outputs,
+      version: 1,
+      locktime: 0,
+      opReturnData: memo,
+    });
+    return responseSign.serializedTx;
+  };
+
+  const transfer = async ({
+    from,
+    recipient,
+    feeOptionKey,
+    feeRate,
+    memo,
+    ...rest
+  }: UTXOTransferParams) => {
+    if (!from) throw new Error('From address must be provided');
+    if (!recipient) throw new Error('Recipient address must be provided');
+
+    const { psbt, inputs: rawInputs } = await toolbox.buildTx({
+      ...rest,
       memo,
-      ...rest
-    }: UTXOTransferParams) => {
-      if (!from) throw new Error('From address must be provided');
-      if (!recipient) throw new Error('Recipient address must be provided');
-      let { psbt, inputs } = await toolbox.buildTx({
-        ...rest,
-        memo,
-        feeOptionKey,
-        recipient,
-        feeRate: feeRate || (await toolbox.getFeeRates())[feeOptionKey || FeeOption.Fast],
-        sender: from,
-        fetchTxHex: chain,
-      });
-      //convert inputs for keepkey
-      let inputsKeepKey = [];
-      for (const input of inputs) {
-        const inputKeepKey: any = {
-          addressNList: addressInfo.address_n, //@TODO don't hardcode master, lookup on blockbook what input this is for and what path that address is!
-          scriptType: 'p2pkh',
-          amount: input.value.toString(),
-          vout: input.index,
-          txid: input.hash,
-          hex: input.txHex,
-        };
-        //if segwit I need script
-        if (input.witnessUtxo && isSegwit) {
-          inputKeepKey.scriptType = 'p2wpkh';
-        }
-        inputsKeepKey.push(inputKeepKey);
-      }
-      inputs = inputsKeepKey;
+      feeOptionKey,
+      recipient,
+      feeRate: feeRate || (await toolbox.getFeeRates())[feeOptionKey || FeeOption.Fast],
+      sender: from,
+      fetchTxHex: chain,
+    });
 
-      const txHex = await signTransaction(psbt, inputs, memo);
-      return toolbox.broadcastTx(txHex);
-    };
+    const inputs = rawInputs.map(({ value, index, hash, txHex }) => ({
+      //@TODO don't hardcode master, lookup on blockbook what input this is for and what path that address is!
+      addressNList: addressInfo.address_n,
+      scriptType,
+      value,
+      index,
+      hash,
+      hex: txHex,
+    }));
 
-    return { ...utxoMethods, getAddress, signTransaction, transfer };
-  } catch (e) {
-    console.error(e);
-    throw e;
-  }
+    const txHex = await signTransaction(psbt, inputs, memo);
+    return toolbox.broadcastTx(txHex);
+  };
+
+  return { ...toolbox, getAddress: () => walletAddress as string, signTransaction, transfer };
 };

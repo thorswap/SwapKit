@@ -66,7 +66,7 @@ export const binanceWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) =>
         from: fromAddress,
         to: recipient,
         asset: assetValue?.symbol,
-        amount: assetValue.baseValue.toString(),
+        amount: assetValue.getBaseValue('string'),
         memo,
       });
 

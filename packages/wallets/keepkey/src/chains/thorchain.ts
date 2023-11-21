@@ -79,8 +79,8 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
       signTransactionTransfer({
         from: fromAddress,
         to: recipient,
-        asset: assetValue?.symbol,
-        amount: assetValue.baseValue.toString(),
+        asset: assetValue.symbol,
+        amount: assetValue.getBaseValue('string'),
         memo,
       });
 
@@ -137,7 +137,7 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
       signTransactionDeposit({
         memo,
         asset: assetValue.symbol,
-        amount: assetValue.baseValue.toString(),
+        amount: assetValue.getBaseValue('string'),
         from: fromAddress,
       });
 
