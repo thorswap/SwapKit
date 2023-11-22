@@ -1,5 +1,14 @@
 # @thorswap-lib/swapkit-entities
 
+## 1.0.0-rc.12
+
+### Patch Changes
+
+- bump packages
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.12
+
 ## 1.0.0-rc.11
 
 ### Patch Changes

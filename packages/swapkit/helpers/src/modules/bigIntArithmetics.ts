@@ -93,8 +93,8 @@ export class BigIntArithmetics {
   }
 
   set(value: SKBigIntParams): this {
-    this.#setValue(getStringValue(value));
-    return this;
+    // @ts-expect-error False positive
+    return new this.constructor({ decimal: this.decimal, value, identifier: this.toString() });
   }
   add(...args: InitialisationValueType[]) {
     return this.#arithmetics('add', ...args);
