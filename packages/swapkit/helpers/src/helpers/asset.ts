@@ -1,7 +1,7 @@
 import type { EVMChain } from '@swapkit/types';
 import { BaseDecimal, Chain, ChainToRPC, EVMChainList, FeeOption } from '@swapkit/types';
 
-import { RequestClient } from '../index.ts';
+import { AssetValue, RequestClient } from '../index.ts';
 
 const getDecimalMethodHex = '0x313ce567';
 
@@ -103,6 +103,38 @@ export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) 
       return symbol === 'RUNE';
   }
 };
+
+export const getGasAsset = ({ chain }: { chain: Chain;}) => {
+  switch (chain) {
+    case Chain.Bitcoin:
+    case Chain.BitcoinCash:
+    case Chain.Litecoin:
+    case Chain.Dogecoin:
+    case Chain.Binance:
+    case Chain.Ethereum:
+    case Chain.Avalanche:
+      return AssetValue.fromString(`${chain}.${chain}`);
+
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+      return AssetValue.fromString(`${chain}.ETH`);
+
+    case Chain.Maya:
+      return AssetValue.fromString(`${chain}.CACAO`);
+
+    case Chain.Kujira:
+      return AssetValue.fromString(`${chain}.KUJI`);
+
+    case Chain.Cosmos:
+      return AssetValue.fromString(`${chain}.ATOM`);
+    case Chain.Polygon:
+      return AssetValue.fromString(`${chain}.MATIC`);
+    case Chain.BinanceSmartChain:
+      return AssetValue.fromString(`${chain}.BNB`);
+    case Chain.THORChain:
+      return AssetValue.fromString(`${chain}.RUNE`);
+  }
+}
 
 export const getCommonAssetInfo = (
   assetString: CommonAssetString,

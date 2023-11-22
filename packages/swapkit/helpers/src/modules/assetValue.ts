@@ -14,7 +14,7 @@ import type {
 import { BaseDecimal, Chain } from '@swapkit/types';
 
 import type { CommonAssetString } from '../helpers/asset.ts';
-import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers/asset.ts';
+import { getAssetType, getCommonAssetInfo, getDecimal, getGasAsset, isGasAsset } from '../helpers/asset.ts';
 import { validateIdentifier } from '../helpers/validators.ts';
 
 import type { NumberPrimitives } from './bigIntArithmetics.ts';
@@ -229,6 +229,7 @@ const getAssetInfo = (identifier: string) => {
   return {
     address: address?.toLowerCase(),
     chain,
+    gasAsset: getGasAsset({ chain }),
     isGasAsset: isGasAsset({ chain, symbol }),
     isSynthetic,
     symbol:
