@@ -332,7 +332,6 @@ export class SwapKitCore<T = ''> {
   };
 
   addLiquidity = async ({
-    poolIdentifier,
     runeAssetValue,
     assetValue,
     runeAddr,
@@ -340,7 +339,6 @@ export class SwapKitCore<T = ''> {
     isPendingSymmAsset,
     mode = 'sym',
   }: {
-    poolIdentifier: string;
     runeAssetValue: AssetValue;
     assetValue: AssetValue;
     isPendingSymmAsset?: boolean;
@@ -348,7 +346,7 @@ export class SwapKitCore<T = ''> {
     assetAddr?: string;
     mode?: 'sym' | 'rune' | 'asset';
   }) => {
-    const [chain, ...symbolPath] = poolIdentifier.split('.') as [Chain, string];
+    const { chain, symbol } = assetValue;
     const isSym = mode === 'sym';
     const runeTransfer = runeAssetValue?.gt(0) && (isSym || mode === 'rune');
     const assetTransfer = assetValue?.gt(0) && (isSym || mode === 'asset');
@@ -364,13 +362,12 @@ export class SwapKitCore<T = ''> {
     }
 
     let runeTx, assetTx;
-    const sharedParams = { chain, symbol: symbolPath.join('.') };
 
     if (runeTransfer && runeAssetValue) {
       try {
         runeTx = await this.#depositToPool({
           assetValue: runeAssetValue,
-          memo: getMemoFor(MemoType.DEPOSIT, { ...sharedParams, address: assetAddress }),
+          memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: assetAddress }),
         });
       } catch (error) {
         throw new SwapKitError('core_transaction_add_liquidity_rune_error', error);
@@ -381,7 +378,7 @@ export class SwapKitCore<T = ''> {
       try {
         assetTx = await this.#depositToPool({
           assetValue,
-          memo: getMemoFor(MemoType.DEPOSIT, { ...sharedParams, address: runeAddress }),
+          memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: runeAddress }),
         });
       } catch (error) {
         throw new SwapKitError('core_transaction_add_liquidity_asset_error', error);
@@ -389,6 +386,24 @@ export class SwapKitCore<T = ''> {
     }
 
     return { runeTx, assetTx };
+  };
+
+  addLiquidityPart = ({
+    assetValue,
+    poolAddress,
+    address,
+    symmetric,
+  }: {
+    assetValue: AssetValue;
+    address?: string;
+    poolAddress: string;
+    symmetric: boolean;
+  }) => {
+    if (symmetric && !address) {
+      throw new SwapKitError('core_transaction_add_liquidity_invalid_params');
+    }
+
+    return this.#depositToPool({ assetValue, memo: `+:${poolAddress}:${address || ''}:t:0` });
   };
 
   withdraw = async ({

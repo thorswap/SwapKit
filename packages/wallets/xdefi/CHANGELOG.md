@@ -1,5 +1,18 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.35
+
+### Patch Changes
+
+- addLiquidityPart and fix toCurrency
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.31
+  - @swapkit/helpers@1.0.0-rc.29
+  - @swapkit/toolbox-utxo@1.0.0-rc.31
+  - @swapkit/types@1.0.0-rc.11
+  - @swapkit/toolbox-evm@1.0.0-rc.31
+
 ## 1.0.0-rc.34
 
 ### Patch Changes

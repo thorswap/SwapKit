@@ -283,7 +283,7 @@ export class BigIntArithmetics {
         ? '0.00'
         : int === '0'
         ? `${parseFloat(`0.${dec}`)}`.replace('.', decimalSeparator)
-        : `${integer}${dec ? `${decimalSeparator}${dec.slice(0, decimal)}` : ''}`;
+        : `${integer}${parseInt(dec) ? `${decimalSeparator}${dec.slice(0, decimal)}` : ''}`;
 
     return `${currencyPosition === 'start' ? currency : ''}${parsedValue}${
       currencyPosition === 'end' ? currency : ''

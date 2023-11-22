@@ -230,6 +230,9 @@ describe('SwapKitNumber', () => {
           currencyPosition: 'end',
         }),
       ).toBe('0,000057€');
+
+      const skNumber4 = new SwapKitNumber(12345);
+      expect(skNumber4.toCurrency()).toBe('$12,345');
     });
   });
 

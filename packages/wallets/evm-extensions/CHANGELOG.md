@@ -1,5 +1,15 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.0.0-rc.31
+
+### Patch Changes
+
+- addLiquidityPart and fix toCurrency
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.11
+  - @swapkit/toolbox-evm@1.0.0-rc.31
+
 ## 1.0.0-rc.30
 
 ### Patch Changes

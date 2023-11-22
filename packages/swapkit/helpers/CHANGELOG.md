@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.29
+
+### Patch Changes
+
+- addLiquidityPart and fix toCurrency
+
+- Updated dependencies [[`fd2de5fd`](https://github.com/thorswap/SwapKit/commit/fd2de5fdc7a83601acda6f65f83a0ce3e6c4b99c)]:
+  - @swapkit/tokens@1.0.0-rc.11
+  - @swapkit/types@1.0.0-rc.11
+
 ## 1.0.0-rc.28
 
 ### Patch Changes

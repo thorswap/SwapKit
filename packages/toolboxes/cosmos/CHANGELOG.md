@@ -1,5 +1,16 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.31
+
+### Patch Changes
+
+- addLiquidityPart and fix toCurrency
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.29
+  - @swapkit/types@1.0.0-rc.11
+  - @swapkit/api@1.0.0-rc.11
+
 ## 1.0.0-rc.30
 
 ### Patch Changes

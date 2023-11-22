@@ -1,5 +1,27 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.38
+
+### Patch Changes
+
+- addLiquidityPart and fix toCurrency
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.31
+  - @swapkit/toolbox-cosmos@1.0.0-rc.31
+  - @swapkit/wallet-keystore@1.0.0-rc.37
+  - @swapkit/toolbox-utxo@1.0.0-rc.31
+  - @swapkit/wallet-ledger@1.0.0-rc.35
+  - @swapkit/wallet-trezor@1.0.0-rc.33
+  - @swapkit/types@1.0.0-rc.11
+  - @swapkit/toolbox-evm@1.0.0-rc.31
+  - @swapkit/wallet-keplr@1.0.0-rc.31
+  - @swapkit/wallet-xdefi@1.0.0-rc.35
+  - @swapkit/core@1.0.0-rc.36
+  - @swapkit/api@1.0.0-rc.11
+  - @swapkit/wallet-okx@1.0.0-rc.35
+  - @swapkit/wallet-wc@1.0.0-rc.33
+
 ## 1.0.0-rc.37
 
 ### Patch Changes
