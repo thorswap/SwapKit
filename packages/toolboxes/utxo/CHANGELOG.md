@@ -1,5 +1,25 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.35
+
+### Patch Changes
+
+- Testout publish
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.33
+  - @swapkit/types@1.0.0-rc.15
+
+## 1.0.0-rc.34
+
+### Patch Changes
+
+- Update package name generation
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.32
+  - @swapkit/types@1.0.0-rc.14
+
 ## 1.0.0-rc.33
 
 ### Patch Changes

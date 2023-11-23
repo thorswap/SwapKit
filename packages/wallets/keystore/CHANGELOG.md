@@ -1,5 +1,31 @@
 # @swapkit/wallet-keystore
 
+## 1.0.0-rc.41
+
+### Patch Changes
+
+- Testout publish
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.35
+  - @swapkit/helpers@1.0.0-rc.33
+  - @swapkit/toolbox-utxo@1.0.0-rc.35
+  - @swapkit/types@1.0.0-rc.15
+  - @swapkit/toolbox-evm@1.0.0-rc.35
+
+## 1.0.0-rc.40
+
+### Patch Changes
+
+- Update package name generation
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.34
+  - @swapkit/helpers@1.0.0-rc.32
+  - @swapkit/toolbox-utxo@1.0.0-rc.34
+  - @swapkit/types@1.0.0-rc.14
+  - @swapkit/toolbox-evm@1.0.0-rc.34
+
 ## 1.0.0-rc.39
 
 ### Patch Changes

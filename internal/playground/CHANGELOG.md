@@ -1,5 +1,53 @@
 # @internal/playground
 
+## 0.0.0-rc.35
+
+### Patch Changes
+
+- Testout publish
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.35
+  - @swapkit/toolbox-cosmos@1.0.0-rc.35
+  - @swapkit/wallet-keystore@1.0.0-rc.41
+  - @swapkit/helpers@1.0.0-rc.33
+  - @swapkit/tokens@1.0.0-rc.15
+  - @swapkit/toolbox-utxo@1.0.0-rc.35
+  - @swapkit/wallet-ledger@1.0.0-rc.39
+  - @swapkit/wallet-trezor@1.0.0-rc.37
+  - @swapkit/types@1.0.0-rc.15
+  - @swapkit/toolbox-evm@1.0.0-rc.35
+  - @swapkit/wallet-keplr@1.0.0-rc.35
+  - @swapkit/wallet-xdefi@1.0.0-rc.39
+  - @swapkit/core@1.0.0-rc.40
+  - @swapkit/api@1.0.0-rc.15
+  - @swapkit/wallet-okx@1.0.0-rc.39
+  - @swapkit/wallet-wc@1.0.0-rc.37
+
+## 0.0.0-rc.34
+
+### Patch Changes
+
+- Update package name generation
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.34
+  - @swapkit/toolbox-cosmos@1.0.0-rc.34
+  - @swapkit/wallet-keystore@1.0.0-rc.40
+  - @swapkit/helpers@1.0.0-rc.32
+  - @swapkit/tokens@1.0.0-rc.14
+  - @swapkit/toolbox-utxo@1.0.0-rc.34
+  - @swapkit/wallet-ledger@1.0.0-rc.38
+  - @swapkit/wallet-trezor@1.0.0-rc.36
+  - @swapkit/types@1.0.0-rc.14
+  - @swapkit/toolbox-evm@1.0.0-rc.34
+  - @swapkit/wallet-keplr@1.0.0-rc.34
+  - @swapkit/wallet-xdefi@1.0.0-rc.38
+  - @swapkit/core@1.0.0-rc.39
+  - @swapkit/api@1.0.0-rc.14
+  - @swapkit/wallet-okx@1.0.0-rc.38
+  - @swapkit/wallet-wc@1.0.0-rc.36
+
 ## 0.0.0-rc.33
 
 ### Patch Changes

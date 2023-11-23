@@ -1,5 +1,17 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.15
+
+### Patch Changes
+
+- Testout publish
+
+## 1.0.0-rc.14
+
+### Patch Changes
+
+- Update package name generation
+
 ## 1.0.0-rc.13
 
 ### Patch Changes
