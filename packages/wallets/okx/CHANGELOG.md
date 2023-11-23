@@ -1,5 +1,18 @@
 # @swapkit/wallet-okx
 
+## 1.0.0-rc.37
+
+### Patch Changes
+
+- [#404](https://github.com/thorswap/SwapKit/pull/404) [`af8ed16f`](https://github.com/thorswap/SwapKit/commit/af8ed16f77d15570f99a6062b7ba81273ff84b29) Thanks [@chillios-ts](https://github.com/chillios-ts)! - New chains support for evm/cosmos wallets
+
+- Updated dependencies [[`af8ed16f`](https://github.com/thorswap/SwapKit/commit/af8ed16f77d15570f99a6062b7ba81273ff84b29)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.33
+  - @swapkit/helpers@1.0.0-rc.31
+  - @swapkit/toolbox-utxo@1.0.0-rc.33
+  - @swapkit/types@1.0.0-rc.13
+  - @swapkit/toolbox-evm@1.0.0-rc.33
+
 ## 1.0.0-rc.36
 
 ### Patch Changes

@@ -1,5 +1,29 @@
 # @internal/playground
 
+## 0.0.0-rc.33
+
+### Patch Changes
+
+- [#404](https://github.com/thorswap/SwapKit/pull/404) [`af8ed16f`](https://github.com/thorswap/SwapKit/commit/af8ed16f77d15570f99a6062b7ba81273ff84b29) Thanks [@chillios-ts](https://github.com/chillios-ts)! - New chains support for evm/cosmos wallets
+
+- Updated dependencies [[`af8ed16f`](https://github.com/thorswap/SwapKit/commit/af8ed16f77d15570f99a6062b7ba81273ff84b29)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.33
+  - @swapkit/toolbox-cosmos@1.0.0-rc.33
+  - @swapkit/wallet-keystore@1.0.0-rc.39
+  - @swapkit/helpers@1.0.0-rc.31
+  - @swapkit/tokens@1.0.0-rc.13
+  - @swapkit/toolbox-utxo@1.0.0-rc.33
+  - @swapkit/wallet-ledger@1.0.0-rc.37
+  - @swapkit/wallet-trezor@1.0.0-rc.35
+  - @swapkit/types@1.0.0-rc.13
+  - @swapkit/toolbox-evm@1.0.0-rc.33
+  - @swapkit/wallet-keplr@1.0.0-rc.33
+  - @swapkit/wallet-xdefi@1.0.0-rc.37
+  - @swapkit/core@1.0.0-rc.38
+  - @swapkit/api@1.0.0-rc.13
+  - @swapkit/wallet-okx@1.0.0-rc.37
+  - @swapkit/wallet-wc@1.0.0-rc.35
+
 ## 0.0.0-rc.32
 
 ### Patch Changes
