@@ -519,7 +519,7 @@ export class SwapKitCore<T = ''> {
   extend = ({ wallets, config, apis = {}, rpcUrls = {} }: ExtendParams<T>) => {
     try {
       wallets.forEach((wallet) => {
-        // @ts-expect-error ANCHOR - Not Worth
+        // @ts-expect-error - this is fine as we are extending the class
         this[wallet.connectMethodName] = wallet.connect({
           addChain: this.#addConnectedChain,
           config: config || {},

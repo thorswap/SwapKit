@@ -1,8 +1,8 @@
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@swapkit/helpers';
 import type { TransferParams } from '@swapkit/toolbox-cosmos';
-import type { FeeOption } from '@swapkit/types';
-import { Chain, ChainId, RPCUrl } from '@swapkit/types';
+import type { ChainId, FeeOption } from '@swapkit/types';
+import { Chain, ChainToChainId, RPCUrl } from '@swapkit/types';
 import type { Eip1193Provider } from 'ethers';
 
 type TransactionMethod = 'transfer' | 'deposit';
@@ -76,16 +76,17 @@ export const getXDEFIAddress = async (chain: Chain) => {
   const eipProvider = getXDEFIProvider(chain) as Eip1193Provider;
   if (!eipProvider) throw new Error('XDEFI provider is not defined');
 
-  if (chain === Chain.Cosmos) {
+  if ([Chain.Cosmos, Chain.Kujira].includes(chain)) {
     const provider = getXDEFIProvider(Chain.Cosmos) as Keplr;
     if (!provider) throw new Error('XDEFI provider is not defined');
 
     // Enabling before using the Keplr is recommended.
     // This method will ask the user whether to allow access if they haven't visited this website.
     // Also, it will request that the user unlock the wallet if the wallet is locked.
-    await (provider as Keplr).enable(ChainId.Cosmos);
+    const chainId = ChainToChainId[chain];
+    await (provider as Keplr).enable(chainId);
 
-    const offlineSigner = provider.getOfflineSigner(ChainId.Cosmos);
+    const offlineSigner = provider.getOfflineSigner(chainId);
 
     const [{ address }] = await offlineSigner.getAccounts();
 

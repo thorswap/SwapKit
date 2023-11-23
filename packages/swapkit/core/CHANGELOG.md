@@ -1,5 +1,11 @@
 # @swapkit/core
 
+## 1.0.0-rc.41
+
+### Patch Changes
+
+- Fix XDEFI Kujira connection
+
 ## 1.0.0-rc.40
 
 ### Patch Changes

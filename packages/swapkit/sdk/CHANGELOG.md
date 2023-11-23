@@ -1,5 +1,13 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.43
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-xdefi@1.0.0-rc.40
+  - @swapkit/core@1.0.0-rc.41
+
 ## 1.0.0-rc.42
 
 ### Patch Changes

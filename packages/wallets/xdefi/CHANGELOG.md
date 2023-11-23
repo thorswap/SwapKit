@@ -1,5 +1,11 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.40
+
+### Patch Changes
+
+- Fix XDEFI Kujira connection
+
 ## 1.0.0-rc.39
 
 ### Patch Changes
