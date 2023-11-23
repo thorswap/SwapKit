@@ -8,16 +8,13 @@ import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
 import {
-  BINANCE_MAINNET_ID, // Not supported by WC
+  BINANCE_MAINNET_ID,
   DEFAULT_APP_METADATA,
   DEFAULT_COSMOS_METHODS,
   DEFAULT_LOGGER,
   DEFAULT_RELAY_URL,
   THORCHAIN_MAINNET_ID,
   WC_SUPPORTED_CHAINS,
-  MAYACHAIN_MAINNET_ID,
-  COSMOS_HUB_MAINNET_ID,
-  KUJIRA_MAINNET_ID,
 } from './constants.ts';
 import { getEVMSigner } from './evmSigner.ts';
 import { chainToChainId, getAddressByChain } from './helpers.ts';
@@ -73,21 +70,18 @@ const getToolbox = async ({
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
 
-      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox, ARBToolbox, OPToolbox, MATICToolbox } = await import(
-        '@swapkit/toolbox-evm'
-      );
+      const { getProvider, getToolboxByChain } = await import('@swapkit/toolbox-evm');
 
       const provider = getProvider(chain);
       const signer = await getEVMSigner({ walletconnect, chain, provider });
+      const toolbox = await getToolboxByChain(chain);
 
-      const toolbox =
-        chain === Chain.Ethereum
-          ? ETHToolbox({ provider, signer, ethplorerApiKey: ethplorerApiKey as string })
-          : chain === Chain.Avalanche
-          ? AVAXToolbox({ provider, signer, covalentApiKey })
-          : BSCToolbox({ provider, signer, covalentApiKey });
-
-      return toolbox;
+      return toolbox({
+        provider,
+        signer,
+        ethplorerApiKey: ethplorerApiKey as string,
+        covalentApiKey,
+      });
     }
     case Chain.Binance: {
       const { sortObject, BinanceToolbox } = await import('@swapkit/toolbox-cosmos');

@@ -2,17 +2,17 @@ import type { EVMChain } from '@swapkit/types';
 import { Chain } from '@swapkit/types';
 
 import {
+  ARBITRUM_ONE_MAINNET_ID,
   AVALACHE_MAINNET_ID,
   BINANCE_MAINNET_ID,
   BSC_MAINNET_ID,
+  COSMOS_HUB_MAINNET_ID,
   ETHEREUM_MAINNET_ID,
-  THORCHAIN_MAINNET_ID,
-  ARBITRUM_ONE_MAINNET_ID,
+  KUJIRA_MAINNET_ID,
+  MAYACHAIN_MAINNET_ID,
   OPTIMISM_MAINNET_ID,
   POLYGON_MAINNET_ID,
-  MAYACHAIN_MAINNET_ID,
-  KUJIRA_MAINNET_ID,
-  COSMOS_HUB_MAINNET_ID,
+  THORCHAIN_MAINNET_ID,
 } from './constants.ts';
 
 export const getAddressFromAccount = (account: string) => {

@@ -18,7 +18,7 @@ export const TREZOR_SUPPORTED_CHAINS = [
   Chain.BinanceSmartChain,
   Chain.Litecoin,
   Chain.Optimism,
-  Chain.Polygon
+  Chain.Polygon,
 ] as const;
 
 type TrezorOptions = {
@@ -59,24 +59,26 @@ const getToolbox = async ({
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
 
-      const { getProvider, ETHToolbox, AVAXToolbox, ARBToolbox, MATICToolbox, OPToolbox, BSCToolbox } = await import(
-        '@swapkit/toolbox-evm'
-      );
+      const { getProvider, getToolboxByChain } = await import('@swapkit/toolbox-evm');
 
       const provider = getProvider(chain, rpcUrl);
       const signer = await getEVMSigner({ chain, derivationPath, provider });
-
       const address = await signer.getAddress();
-      const params = { api, signer, provider };
-      const walletMethods =
-        chain === Chain.Ethereum
-          ? ETHToolbox({ ...params, ethplorerApiKey: ethplorerApiKey as unknown as string })
-          : (chain === Chain.Avalanche ? AVAXToolbox : Chain.Arbitrum ? ARBToolbox : Chain.Optimism ? OPToolbox : Chain.Polygon ? MATICToolbox : BSCToolbox)({
-              ...params,
-              covalentApiKey: covalentApiKey as unknown as string,
-            });
+      const toolbox = await getToolboxByChain(chain);
 
-      return { address, walletMethods: { ...walletMethods, getAddress: () => address } };
+      return {
+        address,
+        walletMethods: {
+          ...toolbox({
+            covalentApiKey: covalentApiKey as string,
+            api,
+            signer,
+            provider,
+            ethplorerApiKey: ethplorerApiKey as string,
+          }),
+          getAddress: () => address,
+        },
+      };
     }
 
     case Chain.Bitcoin:
@@ -86,9 +88,7 @@ const getToolbox = async ({
       if (!api) throw new Error('API not found');
       const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
 
-      const { BTCToolbox, BCHToolbox, LTCToolbox, DOGEToolbox } = await import(
-        '@swapkit/toolbox-utxo'
-      );
+      const { getToolboxByChain, BCHToolbox } = await import('@swapkit/toolbox-utxo');
 
       const scriptType:
         | {
@@ -107,14 +107,7 @@ const getToolbox = async ({
       if (!scriptType) throw new Error('Derivation path is not supported');
       const params = { api, apiKey: blockchairApiKey, rpcUrl };
 
-      const toolbox =
-        chain === Chain.Bitcoin
-          ? BTCToolbox(params)
-          : chain === Chain.Litecoin
-          ? LTCToolbox(params)
-          : chain === Chain.Dogecoin
-          ? DOGEToolbox(params)
-          : BCHToolbox(params);
+      const toolbox = (await getToolboxByChain(chain))(params);
 
       const getAddress = async (path: DerivationPathArray = derivationPath) => {
         const { success, payload } = await (

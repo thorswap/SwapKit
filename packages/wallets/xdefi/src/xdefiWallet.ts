@@ -1,3 +1,4 @@
+import type { AVAXToolbox, BSCToolbox } from '@swapkit/toolbox-evm';
 import {
   Chain,
   ChainId,
@@ -31,7 +32,6 @@ const XDEFI_SUPPORTED_CHAINS = [
   Chain.Optimism,
   Chain.Polygon,
   Chain.THORChain,
-  Chain
 ] as const;
 
 const getWalletMethodsForChain = async ({
@@ -78,20 +78,11 @@ const getWalletMethodsForChain = async ({
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      const { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } = await import(
-        '@swapkit/toolbox-utxo'
-      );
+      const { getToolboxByChain } = await import('@swapkit/toolbox-utxo');
       const params = { rpcUrl, blockchairApiKey, apiClient: api };
-      const toolbox =
-        chain === Chain.Bitcoin
-          ? BTCToolbox(params)
-          : chain === Chain.BitcoinCash
-          ? BCHToolbox(params)
-          : chain === Chain.Dogecoin
-          ? DOGEToolbox(params)
-          : LTCToolbox(params);
+      const toolbox = await getToolboxByChain(chain);
 
-      return { ...toolbox, transfer: walletTransfer };
+      return { ...toolbox(params), transfer: walletTransfer };
     }
 
     case Chain.Ethereum:
@@ -103,12 +94,7 @@ const getWalletMethodsForChain = async ({
       const {
         getProvider,
         prepareNetworkSwitch,
-        ETHToolbox,
-        AVAXToolbox,
-        BSCToolbox,
-        ARBToolbox,
-        MATICToolbox,
-        OPToolbox,
+        getToolboxByChain,
         addEVMWalletNetwork,
         covalentApi,
         ethplorerApi,
@@ -127,26 +113,12 @@ const getWalletMethodsForChain = async ({
       }
 
       const provider = new BrowserProvider(ethereumWindowProvider, 'any');
-
-      const toolboxParams = {
+      const toolbox = (await getToolboxByChain(chain))({
         provider,
         signer: await provider.getSigner(),
         ethplorerApiKey: ethplorerApiKey || '',
         covalentApiKey: covalentApiKey || '',
-      };
-
-      const toolbox =
-        chain === Chain.Ethereum
-          ? ETHToolbox(toolboxParams)
-          : chain === Chain.Avalanche
-          ? AVAXToolbox(toolboxParams)
-          : chain === Chain.Arbitrum
-          ? ARBToolbox(toolboxParams)
-          : chain === Chain.Optimism
-          ? OPToolbox(toolboxParams)
-          : chain === Chain.Polygon
-          ? MATICToolbox(toolboxParams)
-          : BSCToolbox(toolboxParams);
+      });
 
       try {
         chain !== Chain.Ethereum &&

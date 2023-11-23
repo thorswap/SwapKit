@@ -90,7 +90,16 @@ export const getXDEFIAddress = async (chain: Chain) => {
     const [{ address }] = await offlineSigner.getAccounts();
 
     return address;
-  } else if ([Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain, Chain.Arbitrum, Chain.Optimism, Chain.Polygon].includes(chain)) {
+  } else if (
+    [
+      Chain.Ethereum,
+      Chain.Avalanche,
+      Chain.BinanceSmartChain,
+      Chain.Arbitrum,
+      Chain.Optimism,
+      Chain.Polygon,
+    ].includes(chain)
+  ) {
     const response = await eipProvider.request({
       method: 'eth_requestAccounts',
       params: [],
