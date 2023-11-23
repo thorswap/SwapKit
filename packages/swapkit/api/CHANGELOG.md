@@ -1,5 +1,14 @@
 # @swapkit/api
 
+## 1.0.0-rc.14
+
+### Patch Changes
+
+- Update package name generation
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.14
+
 ## 1.0.0-rc.13
 
 ### Patch Changes

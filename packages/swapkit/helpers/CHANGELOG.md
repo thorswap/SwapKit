@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.32
+
+### Patch Changes
+
+- Update package name generation
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.14
+  - @swapkit/types@1.0.0-rc.14
+
 ## 1.0.0-rc.31
 
 ### Patch Changes
