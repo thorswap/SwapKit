@@ -37,7 +37,9 @@ export interface PioneerSDKConfig {
   queryKey: string;
   spec: string;
   wss: string;
-  paths: string;
+  paths: any;
+  pubkeys: any;
+  balances: any;
   keepkeyApiKey: string;
   ethplorerApiKey: string;
   covalentApiKey: string;
@@ -105,6 +107,9 @@ export class SDK {
   private events: any;
 
   // @ts-ignore
+  private getPubkeys: (wallet: any) => Promise<any>;
+
+  // @ts-ignore
   private pairWallet: (wallet: any) => Promise<any>;
 
   // public startSocket: () => Promise<any>;
@@ -127,6 +132,7 @@ export class SDK {
 
   // @ts-ignore
   private keepkeyApiKey: string;
+  private loadBalanceCache: (balances: any) => Promise<void>;
   constructor(spec: string, config: PioneerSDKConfig) {
     this.status = 'preInit';
     this.spec = config.spec || 'https://pioneers.dev/spec/swagger';
@@ -139,8 +145,8 @@ export class SDK {
     this.utxoApiKey = config.utxoApiKey;
     this.walletConnectProjectId = config.walletConnectProjectId;
     this.paths = [...config.paths, ...getPaths()];
-    this.pubkeys = [];
-    this.balances = [];
+    this.pubkeys = config.pubkeys || [];
+    this.balances = config.balances || [];
     this.nfts = [];
     this.pioneer = null;
     this.swapKit = null;
@@ -198,6 +204,9 @@ export class SDK {
         await this.swapKit.extend(configKit);
         this.events.emit('SET_STATUS', 'init');
         // done registering, now get the user
+        if (this.pubkeys.length > 0) {
+          //@TODO register and get up to date balances
+        }
         // this.refresh()
         if (!this.pioneer) throw Error('Failed to init pioneer server!');
         return this.pioneer;
@@ -206,6 +215,20 @@ export class SDK {
         throw e;
       }
     };
+    this.loadBalanceCache = async function (balances: any) {
+      try{
+        this.balances = balances;
+        this.balances.sort((a, b) => b.valueUsd - a.valueUsd);
+        console.log('SET BALANCES CALLED!!! balances: ', this.balances);
+        this.events.emit('SET_BALANCES', this.balances);
+        console.log('balance0: ', this.balances[0]);
+        this.setContext(this.balances[0].context);
+        this.setAssetContext(this.balances[0]);
+        this.setOutboundAssetContext(this.balances[1]);
+      }catch(e){
+        console.error("Failed to load balanced!")
+      }
+    }
     this.pairWallet = async function (wallet: string) {
       const tag = `${TAG} | pairWallet | `;
       try {
@@ -244,9 +267,24 @@ export class SDK {
             'walletSelected.wallet.connectMethodName: ',
             walletSelected.wallet.connectMethodName,
           );
+          //TODO pair by select asset
           //only pair ETH
           resultPair = await this.swapKit[walletSelected.wallet.connectMethodName]('ETH');
           console.log('resultPair: ', resultPair);
+          // try {
+          //   //resultPair
+          //   resultPair = await this.swapKit[walletSelected.wallet.connectMethodName]('ETH');
+          //   console.log('resultPair: ', resultPair);
+          // } catch (e) {
+          //   //already claimed
+          //   console.log('e: ', e);
+          //   if (e.message.includes('claimInterface')) {
+          //     console.log('ALREADY CLAIMED!!!!!');
+          //   }
+          //   //locked
+          //
+          //   //wrong app
+          // }
         } else {
           console.log(
             'walletSelected.wallet.connectMethodName: ',
@@ -273,8 +311,14 @@ export class SDK {
           this.wallets[matchingWalletIndex].connected = true;
           this.wallets[matchingWalletIndex].status = 'connected';
           this.setContext(context);
+
+          //get pubkeys
+
+          //set pubkeys
+
           this.refresh(context);
         } else {
+          console.error('SDK FAILED TO PAIR WALLET! e: ', resultPair);
           throw Error(`Failed to pair wallet! ${walletSelected.type}`);
         }
         return true;
@@ -364,6 +408,7 @@ export class SDK {
           .map((balance: any) => {
             let balanceString: any = {};
             // Assuming these properties already exist in each balance
+            balanceString.date = new Date().getTime();
             balanceString.symbol = balance.symbol;
             balanceString.address = balance.address;
             balanceString.chain = balance.chain;
@@ -375,6 +420,7 @@ export class SDK {
           })
           .filter((balance) => balance.context === context);
 
+        //sync pubkeys with local cache
         let register: any = {
           username: this.username,
           blockchains: [],
@@ -436,45 +482,22 @@ export class SDK {
       const tag = `${TAG} | setContext | `;
       try {
         // log.info(tag, "context: ", context);
-        const isContextExist = this.wallets.some((wallet: any) => wallet.context === context);
-        // log.info(tag, "isContextExist: ", isContextExist);
-        if (isContextExist) {
-          // if success
-          this.context = context;
-          this.events.emit('CONTEXT', context);
-          // TODO refresh
-          // if(this.blockchainContext && this.assetContext){
-          //     //update pubkey context
-          //     let blockchain = this.blockchainContext
-          //     //get pubkey for blockchain
-          //     //log.info(tag,"this.pubkeys: ",this.pubkeys)
-          //     //log.info(tag,"blockchainContext: ",blockchain)
-          //     //log.info(tag,"blockchain: ",blockchain.name)
-          //     //log.info(tag,"context: ",context)
-          //     let pubkeysForContext = this.pubkeys.filter((item: { context: string }) => item.context === context);
-          //     //log.info(tag, "pubkeysForContext: ", pubkeysForContext);
-          //
-          //     let pubkey = pubkeysForContext.find(
-          //         (item: { blockchain: any; context: string }) => item.blockchain === blockchain.name && item.context === context
-          //     );
-          //     //log.info(tag, "pubkey: ", pubkey);
-          //
-          //     if(pubkey) {
-          //         this.pubkeyContext = pubkey
-          //         //log.info(tag,"pubkeyContext: ",this.pubkeyContext)
-          //     } else {
-          //         //log.info(tag,"pubkeys: ",this.pubkeys)
-          //         //log.info(tag,"pubkeysForContext: ",pubkeysForContext)
-          //
-          //         throw Error("unable to find ("+blockchain.name+") pubkey for context! "+context)
-          //     }
-          // }
+        // const isContextExist = this.wallets.some((wallet: any) => wallet.context === context);
+        // // log.info(tag, "isContextExist: ", isContextExist);
+        // if (isContextExist) {
+        //   // if success
+        //   this.context = context;
+        //   this.events.emit('SET_CONTEXT', context);
+        //   return { success: true };
+        // }
 
-          return { success: true };
-        }
-        throw Error(
-          `Wallet context not found paired! con not set context to unpaired wallet!${context}`,
-        );
+        this.context = context;
+        this.events.emit('SET_CONTEXT', context);
+        return { success: true };
+
+        // throw Error(
+        //   `Wallet context not found paired! con not set context to unpaired wallet!${context}`,
+        // );
       } catch (e) {
         console.error(tag, e);
         throw e;
@@ -483,12 +506,15 @@ export class SDK {
     this.setAssetContext = async function (asset: any) {
       const tag = `${TAG} | setAssetContext | `;
       try {
-        if (asset && this.assetContext && this.assetContext !== asset) {
-          this.assetContext = asset;
-          this.events.emit('SET_ASSET_CONTEXT', asset);
-          return { success: true };
-        }
-        return { success: false, error: `already asset context=${asset}` };
+        this.assetContext = asset;
+        this.events.emit('SET_ASSET_CONTEXT', asset);
+
+        // if (asset && this.assetContext && this.assetContext !== asset) {
+        //   this.assetContext = asset;
+        //   this.events.emit('SET_ASSET_CONTEXT', asset);
+        //   return { success: true };
+        // }
+        // return { success: false, error: `already asset context=${asset}` };
       } catch (e) {
         console.error(tag, 'e: ', e);
         throw e;

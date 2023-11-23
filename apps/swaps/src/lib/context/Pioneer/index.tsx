@@ -30,6 +30,11 @@ import { SDK } from './sdk';
 
 const eventEmitter = new EventEmitter();
 
+export enum ERROR_CODES {
+  LEDGER_CLAIM_INTERFACE = 'LEDGER_CLAIM_INTERFACE',
+  LEDGER_LOCKED_DEVICE = 'LEDGER_LOCKED_DEVICE',
+}
+
 export enum WalletActions {
   SET_STATUS = 'SET_STATUS',
   SET_USERNAME = 'SET_USERNAME',
@@ -243,32 +248,60 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
     try {
       if (state && state?.app) {
         console.log('connectWallet: ', wallet);
-        const successPairWallet = await state.app.pairWallet(wallet);
-        console.log('successPairWallet: ', successPairWallet);
-        console.log('state.app.assetContext: ', state.app.assetContext);
-        console.log('state.app.blockchainContext: ', state.app.blockchainContext);
-        console.log('state.app.context: ', state.app.context);
-        if (state && state.app) {
-          // @ts-ignore
-          dispatch({
-            type: WalletActions.SET_CONTEXT,
-            payload: state.app.context,
-          });
-          // @ts-ignore
-          dispatch({
-            type: WalletActions.SET_ASSET_CONTEXT,
-            payload: state.app.assetContext,
-          });
-          // @ts-ignore
-          dispatch({
-            type: WalletActions.SET_BLOCKCHAIN_CONTEXT,
-            payload: state.app.blockchainContext,
-          });
-          // @ts-ignore
-          dispatch({
-            type: WalletActions.SET_PUBKEY_CONTEXT,
-            payload: state.app.pubkeyContext,
-          });
+        try {
+          const successPairWallet = await state.app.pairWallet(wallet);
+          console.log('successPairWallet: ', successPairWallet);
+          console.log('state.app.assetContext: ', state.app.assetContext);
+          console.log('state.app.blockchainContext: ', state.app.blockchainContext);
+          console.log('state.app.context: ', state.app.context);
+          if (state && state.app) {
+            // @ts-ignore
+            dispatch({
+              type: WalletActions.SET_CONTEXT,
+              payload: state.app.context,
+            });
+            // @ts-ignore
+            dispatch({
+              type: WalletActions.SET_ASSET_CONTEXT,
+              payload: state.app.assetContext,
+            });
+            // @ts-ignore
+            dispatch({
+              type: WalletActions.SET_BLOCKCHAIN_CONTEXT,
+              payload: state.app.blockchainContext,
+            });
+            // @ts-ignore
+            dispatch({
+              type: WalletActions.SET_PUBKEY_CONTEXT,
+              payload: state.app.pubkeyContext,
+            });
+          }
+        } catch (e) {
+          console.error('Error: ', e);
+          console.error('Error: ', e.name);
+          console.error('Error: ', e.name.name);
+          //if claimInterface
+          if (e.name.indexOf('LockedDeviceError') >= 0) {
+            console.log('ERROR: LockedDeviceError: ');
+            // @ts-ignore
+            return {
+              error: true,
+              type: ERROR_CODES.LOCKED_DEVICE,
+              message: 'Please Unlock your ledge device to continue.',
+            };
+          }
+          //
+          if (e.name.indexOf('LockedDeviceError') >= 0) {
+            console.log('ERROR: LockedDeviceError: ');
+            // @ts-ignore
+            dispatch({
+              type: ERROR_CODES.LOCKED_DEVICE,
+              payload: state.app.pubkeyContext,
+            });
+          }
+          // if(e.toString().indexOf("claimInterface")){
+          //   console.log("ERROR: claimInterface: ", e);
+          // }
         }
       }
     } catch (e) {
@@ -296,16 +329,53 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
         username = username.substring(0, 13);
         localStorage.setItem('username', username);
       }
-      const blockchains = [
-        'bitcoin',
-        'ethereum',
-        'thorchain',
-        'bitcoincash',
-        'litecoin',
-        'binance',
-        'cosmos',
-        'dogecoin',
+
+      // Parse the retrieved item; if it's not found, initialize as an empty array
+      let storedBlockchains = localStorage.getItem('blockchains');
+      storedBlockchains = storedBlockchains ? JSON.parse(storedBlockchains) : [];
+
+      // Define the required blockchains
+      const requiredBlockchains = [
+        'eip155:42161', //Arbitrum
+        'eip155:43114', //Avalanche
+        'eip155:56', //Binance Smart Chain
+        'bip122:000000000019d6689c085ae165831e93', //bitcoin
+        'bip122:000000000000000000651ef99cb9fcbe', //bitcoin cash
+        'cosmos:cosmoshub-4/slip44:118', //cosmos
+        'bip122:0000000000000000000', //dash
+        'bip122:1a91e3dace36e2be3bf030a65679fe82', //doge
+        'eip155:1', //ethereum
+        'bip122:12a765e31ffd4059bada1e25190f6e98', //litecoin
+        'cosmos:thorchain-mainnet-v1/slip44:931', //thorchain
       ];
+
+      // Check each required blockchain to see if it's already in the stored list
+      requiredBlockchains.forEach((blockchain) => {
+        if (!storedBlockchains.includes(blockchain)) {
+          storedBlockchains.push(blockchain);
+        }
+      });
+      // Save the updated list back to localStorage
+      localStorage.setItem('blockchains', JSON.stringify(storedBlockchains));
+
+      //wallets paired cache
+      let walletsPaired: any = localStorage.getItem('walletsPaired');
+      walletsPaired = walletsPaired ? JSON.parse(walletsPaired) : [];
+
+      let pubkeyCache: any = [];
+      // eslint-disable-next-line @typescript-eslint/prefer-for-of
+      for (let i = 0; i < walletsPaired.length; i++) {
+        const wallet = walletsPaired[i];
+        console.log('wallet: ', wallet);
+        //pubkey cache for each wallet
+        let walletPublic = localStorage.getItem(wallet);
+        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+        for (let j = 0; j < walletPublic.pubkeys.length; j++) {
+          const pubkey = walletPublic.pubkeys[j];
+          console.log('pubkey: ', pubkey);
+          pubkeyCache.push(pubkey);
+        }
+      }
 
       // @TODO add custom paths from localstorage
       const paths: any = [];
@@ -317,13 +387,14 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       console.log('spec: ', spec);
       const wss = 'wss://pioneers.dev';
       const configPioneer: any = {
-        blockchains,
+        blockchains: storedBlockchains,
         username,
         queryKey,
         keepkeyApiKey,
         spec,
         wss,
         paths,
+        pubkeys: pubkeyCache,
         // @ts-ignore
         ethplorerApiKey:
           // @ts-ignore
@@ -369,6 +440,11 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
 
       walletActionsArray.forEach((action) => {
         events.on(action, (data: any) => {
+          //SET_BALANCES
+          if (action === WalletActions.SET_BALANCES) {
+            // @ts-ignore
+            localStorage.setItem('balanceCache', JSON.stringify(data));
+          }
           // @ts-ignore
           dispatch({
             type: action,
@@ -376,6 +452,12 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
           });
         });
       });
+
+      //balance cache
+      let balanceCache: any = localStorage.getItem('balanceCache');
+      balanceCache = balanceCache ? JSON.parse(balanceCache) : [];
+      console.log('balanceCache: ', balanceCache);
+      appInit.loadBalanceCache(balanceCache);
 
       // TODO why dis no worky
       //TODO if keepkey available always connect

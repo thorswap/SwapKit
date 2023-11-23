@@ -46,7 +46,7 @@ const BeginSwap: React.FC<BeginSwapProps> = ({ openModal, handleClick, selectedB
 
   //start the context provider
   useEffect(() => {
-    if (balances) {
+    if (balances && balances.length > 0) {
       selectDefaultAssets();
     }
   }, [balances]);

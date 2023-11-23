@@ -45,7 +45,7 @@ const HeaderNew = () => {
     // api,
     // app,
     context,
-    // assetContext,
+    assetContext,
     // blockchainContext,
     // pubkeyContext,
     // modals,
@@ -93,7 +93,7 @@ const HeaderNew = () => {
       //open wallet modal
       onOpen();
       setModalType(type);
-      connectWallet(type);
+      // connectWallet(type);
       setIsOpenSide(false);
     } catch (e) {
       console.error(e);

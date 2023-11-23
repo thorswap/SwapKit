@@ -6,11 +6,12 @@ import { usePioneer } from '../../context/Pioneer';
 import Portfolio from '../Portfolio';
 
 export default function KeepKey({ onClose, setIsOpenSide }: any) {
-  const { state } = usePioneer();
+  const { state, connectWallet } = usePioneer();
   const { app, balances } = state;
 
   useEffect(() => {
     // Your effect here
+    connectWallet('KEEPKEY')
   }, []);
 
   // Function to render the success card

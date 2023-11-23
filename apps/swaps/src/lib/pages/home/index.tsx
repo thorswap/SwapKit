@@ -87,15 +87,8 @@ const Home = () => {
 
   const fetchQuote = async () => {
     console.log('sliderValue: ', sliderValue);
-
-    // get balance of asset
-    const balanceSwapKit = await app.swapKit.getBalance(assetContext.chain, assetContext.symbol);
-    console.log('balanceSwapKit: ', balanceSwapKit);
-    const assetBalance = balanceSwapKit.find((item: any) => item.symbol === assetContext.symbol);
-    // get percentage of balanceSwapKit
-
-    console.log('balanceSwapKit.value: ', parseFloat(assetBalance.value).toPrecision(3));
-    const senderAddress = app.swapKit.getAddress(assetContext.chain);
+    console.log('assetContext: ', assetContext);
+    const senderAddress = assetContext.address;
     const recipientAddress =
       outboundAssetContext.address || app.swapKit.getAddress(outboundAssetContext.chain);
     console.log('outboundAssetContext: ', outboundAssetContext);
