@@ -102,7 +102,7 @@ export const EVMChainList: EVMChain[] = [
 
 export type UTXOChain = Chain.Bitcoin | Chain.BitcoinCash | Chain.Dogecoin | Chain.Litecoin;
 
-export const UTXOChainList: Chain[] = [
+export const UTXOChainList: UTXOChain[] = [
   Chain.Bitcoin,
   Chain.BitcoinCash,
   Chain.Dogecoin,
@@ -117,6 +117,19 @@ export type CosmosChain =
   | Chain.Kujira;
 
 export const CosmosChainList: CosmosChain[] = [Chain.Cosmos, Chain.THORChain, Chain.Binance];
+
+export const TCSupportedChainList = [
+  Chain.Avalanche,
+  Chain.Binance,
+  Chain.BinanceSmartChain,
+  Chain.Bitcoin,
+  Chain.BitcoinCash,
+  Chain.Cosmos,
+  Chain.Dogecoin,
+  Chain.Ethereum,
+  Chain.Litecoin,
+  Chain.THORChain,
+];
 
 export enum ChainId {
   Arbitrum = '42161',

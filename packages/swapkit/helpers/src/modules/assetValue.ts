@@ -67,25 +67,17 @@ const createAssetValue = async (assetString: string, value: NumberPrimitives = 0
 };
 
 export class AssetValue extends BigIntArithmetics {
-  address?: string;
-  chain: Chain;
-  isSynthetic = false;
-  isGasAsset = false;
-  symbol: string;
-  ticker: string;
-  type: ReturnType<typeof getAssetType>;
-
   constructor(params: AssetValueParams) {
+    const identifier =
+      'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
+
     super(
       params.value instanceof BigIntArithmetics
         ? params.value
         : { decimal: params.decimal, value: params.value },
     );
 
-    const identifier =
-      'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
     const assetInfo = getAssetInfo(identifier);
-
     this.type = getAssetType(assetInfo);
     this.chain = assetInfo.chain;
     this.ticker = assetInfo.ticker;
@@ -95,13 +87,17 @@ export class AssetValue extends BigIntArithmetics {
     this.isGasAsset = assetInfo.isGasAsset;
   }
 
-  get assetValue() {
-    return `${this.getValue('string')} ${this.ticker}`;
-  }
+  address?: string;
+  isSynthetic = false;
+  isGasAsset = false;
+  chain: Chain;
+  symbol: string;
+  ticker: string;
+  type: ReturnType<typeof getAssetType>;
 
   toString(short = false) {
     // THOR.RUNE | ETH/ETH
-    const shortFormat = this.isSynthetic ? this.ticker : `${this.chain}.${this.ticker}`;
+    const shortFormat = this.isSynthetic ? this.symbol.split('-')[0] : this.ticker;
 
     return short
       ? shortFormat
@@ -118,15 +114,20 @@ export class AssetValue extends BigIntArithmetics {
   }
 
   static fromStringSync(assetString: string, value: NumberPrimitives = 0) {
+    const { isSynthetic } = getAssetInfo(assetString);
     const { decimal, identifier: tokenIdentifier } = getStaticToken(
       assetString as unknown as TokenNames,
     );
 
     const parsedValue = safeValue(value, decimal);
 
-    return tokenIdentifier
+    const asset = tokenIdentifier
       ? new AssetValue({ decimal, identifier: tokenIdentifier, value: parsedValue })
+      : isSynthetic
+      ? new AssetValue({ decimal: 8, identifier: assetString, value: parsedValue })
       : undefined;
+
+    return asset;
   }
 
   static async fromIdentifier(
@@ -148,24 +149,6 @@ export class AssetValue extends BigIntArithmetics {
     const parsedValue = safeValue(value, decimal);
 
     return new AssetValue({ value: parsedValue, decimal, identifier });
-  }
-
-  static async fromTCQuote(identifier: TCTokenNames, value: NumberPrimitives = 0) {
-    const decimal = await getDecimal(getAssetInfo(identifier));
-    const shiftedValue = this.shiftDecimals({ value, from: BaseDecimal.THOR, to: decimal });
-
-    return new AssetValue({ value: shiftedValue, identifier, decimal });
-  }
-
-  static fromTCQuoteStatic(identifier: TCTokenNames, value: NumberPrimitives = 0) {
-    const tokenInfo = getStaticToken(identifier);
-    const shiftedValue = this.shiftDecimals({
-      value,
-      from: BaseDecimal.THOR,
-      to: tokenInfo.decimal,
-    });
-
-    return new AssetValue({ ...tokenInfo, value: shiftedValue });
   }
 
   static async loadStaticAssets() {
@@ -216,39 +199,41 @@ export const getMinAmountByChain = (chain: Chain) => {
     case Chain.Bitcoin:
     case Chain.Litecoin:
     case Chain.BitcoinCash:
-      return asset.add(10001);
+      return asset.set(0.00010001);
 
     case Chain.Dogecoin:
-      return asset.add(100000001);
+      return asset.set(1.00000001);
 
     case Chain.Avalanche:
     case Chain.Ethereum:
-      return asset.add(10 * 10 ** 9);
+      return asset.set(0.00000001);
 
     case Chain.THORChain:
     case Chain.Maya:
-      return asset.add(0);
+      return asset.set(0);
 
     default:
-      return asset.add(1);
+      return asset.set(0.00000001);
   }
 };
 
 const getAssetInfo = (identifier: string) => {
   const isSynthetic = identifier.slice(0, 14).includes('/');
-  const adjustedIdentifier = identifier.includes('.')
-    ? identifier
-    : `${Chain.THORChain}.${identifier}`;
+  const [synthChain, synthSymbol] = identifier.split('.').pop()!.split('/');
+  const adjustedIdentifier =
+    identifier.includes('.') && !isSynthetic ? identifier : `${Chain.THORChain}.${synthSymbol}`;
 
   const [chain, symbol] = adjustedIdentifier.split('.') as [Chain, string];
-  const [ticker, address] = symbol.split('-') as [string, string?];
+  const [ticker, address] = (isSynthetic ? synthSymbol : symbol).split('-') as [string, string?];
 
   return {
     address: address?.toLowerCase(),
     chain,
     isGasAsset: isGasAsset({ chain, symbol }),
     isSynthetic,
-    symbol: address ? `${ticker}-${address?.toLowerCase() ?? ''}` : symbol,
-    ticker: isSynthetic ? symbol : ticker,
+    symbol:
+      (isSynthetic ? `${synthChain}/` : '') +
+      (address ? `${ticker}-${address?.toLowerCase() ?? ''}` : symbol),
+    ticker: ticker,
   };
 };

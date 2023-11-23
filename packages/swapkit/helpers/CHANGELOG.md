@@ -1,5 +1,132 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.30
+
+### Patch Changes
+
+- bump packages
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.12
+  - @swapkit/types@1.0.0-rc.12
+
+## 1.0.0-rc.29
+
+### Patch Changes
+
+- addLiquidityPart and fix toCurrency
+
+- Updated dependencies [[`fd2de5fd`](https://github.com/thorswap/SwapKit/commit/fd2de5fdc7a83601acda6f65f83a0ce3e6c4b99c)]:
+  - @swapkit/tokens@1.0.0-rc.11
+  - @swapkit/types@1.0.0-rc.11
+
+## 1.0.0-rc.28
+
+### Patch Changes
+
+- remove cache asset
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.10
+  - @swapkit/types@1.0.0-rc.10
+
+## 1.0.0-rc.27
+
+### Patch Changes
+
+- Performance rebuild for helpers
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.9
+  - @swapkit/types@1.0.0-rc.9
+
+## 1.0.0-rc.26
+
+### Patch Changes
+
+- Update perf number formatter
+
+## 1.0.0-rc.25
+
+### Patch Changes
+
+- perf improvements'
+
+## 1.0.0-rc.24
+
+### Patch Changes
+
+- Perf improvement on initialization of AssetValue
+
+## 1.0.0-rc.23
+
+### Patch Changes
+
+- filter out nfts & scam assets
+
+## 1.0.0-rc.22
+
+### Patch Changes
+
+- [#396](https://github.com/thorswap/SwapKit/pull/396) [`cb826840`](https://github.com/thorswap/SwapKit/commit/cb826840613b7b8b1b677225689fd3daec4a941c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - add currency formatter
+
+## 1.0.0-rc.21
+
+### Patch Changes
+
+- Bump all for types
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.8
+  - @swapkit/types@1.0.0-rc.8
+
+## 1.0.0-rc.20
+
+### Patch Changes
+
+- fix min amount for chain
+
+## 1.0.0-rc.19
+
+### Patch Changes
+
+- fix evm tx
+
+## 1.0.0-rc.18
+
+### Patch Changes
+
+- bump for fix on shiftDecimals
+
+## 1.0.0-rc.17
+
+### Patch Changes
+
+- [#389](https://github.com/thorswap/SwapKit/pull/389) [`36141064`](https://github.com/thorswap/SwapKit/commit/36141064b9fecc4e48b9d6ceb68e479e56370132) Thanks [@towanTG](https://github.com/towanTG)! - Updates deprecated code and fixing SKN formatter
+
+## 1.0.0-rc.16
+
+### Patch Changes
+
+- Use referer from window when needed
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.7
+  - @swapkit/tokens@1.0.0-rc.7
+
+## 1.0.0-rc.15
+
+### Patch Changes
+
+- [#382](https://github.com/thorswap/SwapKit/pull/382) [`c66eedd`](https://github.com/thorswap/SwapKit/commit/c66eedd4f950ed9bc8107af39a2c9bf68253c18d) Thanks [@towanTG](https://github.com/towanTG)! - Fixes synth initialization in sync mode
+
+## 1.0.0-rc.14
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.7
+
 ## 1.0.0-rc.13
 
 ### Patch Changes

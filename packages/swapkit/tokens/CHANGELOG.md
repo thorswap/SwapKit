@@ -1,5 +1,43 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.12
+
+### Patch Changes
+
+- bump packages
+
+## 1.0.0-rc.11
+
+### Patch Changes
+
+- [`fd2de5fd`](https://github.com/thorswap/SwapKit/commit/fd2de5fdc7a83601acda6f65f83a0ce3e6c4b99c) Thanks [@GiMa-Maya](https://github.com/GiMa-Maya)! - Update maya tokens
+
+- addLiquidityPart and fix toCurrency
+
+## 1.0.0-rc.10
+
+### Patch Changes
+
+- remove cache asset
+
+## 1.0.0-rc.9
+
+### Patch Changes
+
+- Performance rebuild for helpers
+
+## 1.0.0-rc.8
+
+### Patch Changes
+
+- Bump all for types
+
+## 1.0.0-rc.7
+
+### Patch Changes
+
+- Bump TC and other assets
+
 ## 1.0.0-rc.6
 
 ### Patch Changes

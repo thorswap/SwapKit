@@ -53,12 +53,12 @@ describe('SwapKitNumber', () => {
 
       const shiftedSkNumber = SwapKitNumber.shiftDecimals({
         value: skNumber,
-        from: 6,
-        to: 8,
+        from: 8,
+        to: 6,
       });
 
-      expect(shiftedSkNumber.getValue('string')).toBe('100');
-      expect(shiftedSkNumber.getBaseValue('bigint')).toBe(10000000000n);
+      expect(shiftedSkNumber.getValue('string')).toBe('1');
+      expect(shiftedSkNumber.getBaseValue('bigint')).toBe(1000000n);
     });
 
     test('shifts down and rounds down number', () => {
@@ -74,6 +74,19 @@ describe('SwapKitNumber', () => {
 
       expect(shiftedSkNumber.getValue('string')).toBe('2.123456');
       expect(shiftedSkNumber.getBaseValue('bigint')).toBe(2123456n);
+    });
+
+    test('shift eth from 18 to 8', () => {
+      const skNumber = new SwapKitNumber({ value: '0.2', decimal: 18 });
+
+      const shiftedSkNumber = SwapKitNumber.shiftDecimals({
+        value: skNumber,
+        from: 18,
+        to: 8,
+      });
+
+      expect(shiftedSkNumber.getValue('string')).toBe('0.2');
+      expect(shiftedSkNumber.getBaseValue('bigint')).toBe(20000000n);
     });
   });
 
@@ -184,6 +197,42 @@ describe('SwapKitNumber', () => {
 
       const skNumber10 = new SwapKitNumber(123456.78);
       expect(skNumber10.toAbbreviation()).toBe('123.46K');
+    });
+  });
+
+  describe('toCurrency', () => {
+    test('returns abbreviation with up to 3 integer digits', () => {
+      const skNumber = new SwapKitNumber(1234.5678);
+      expect(skNumber.toCurrency()).toBe('$1,234.56');
+      expect(
+        skNumber.toCurrency('€', {
+          decimalSeparator: ',',
+          thousandSeparator: ' ',
+          currencyPosition: 'end',
+        }),
+      ).toBe('1 234,56€');
+
+      const skNumber2 = new SwapKitNumber(0.5678);
+      expect(skNumber2.toCurrency()).toBe('$0.5678');
+      expect(
+        skNumber2.toCurrency('€', {
+          decimalSeparator: ',',
+          currencyPosition: 'end',
+        }),
+      ).toBe('0,5678€');
+
+      const skNumber3 = new SwapKitNumber(0.00005678);
+      expect(skNumber3.toCurrency()).toBe('$0.000057');
+      expect(
+        skNumber3.toCurrency('€', {
+          decimalSeparator: ',',
+          thousandSeparator: ' ',
+          currencyPosition: 'end',
+        }),
+      ).toBe('0,000057€');
+
+      const skNumber4 = new SwapKitNumber(12345);
+      expect(skNumber4.toCurrency()).toBe('$12,345');
     });
   });
 

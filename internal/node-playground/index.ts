@@ -38,7 +38,7 @@ export const doSend = async ({
 
     const assetValue = await AssetValue.fromString('THOR.RUNE', sendAmount);
     console.log(`💰 Sending ${sendAmount} RUNE to ${toAddress}`);
-    console.log(`💰 Asset value: ${assetValue.assetValue}`);
+    console.log(`💰 Asset value: ${assetValue.toString()}`);
     try {
       const connectedWallets = client.connectedWallets;
       return connectedWallets.THOR?.transfer({

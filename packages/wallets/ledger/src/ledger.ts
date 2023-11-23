@@ -207,7 +207,7 @@ const getToolbox = async ({
         const sendCoinsMessage = {
           amount: [
             {
-              amount: assetValue.baseValue,
+              amount: assetValue.getBaseValue('string'),
               denom: getDenom(`u${assetValue.symbol}`).toLowerCase(),
             },
           ],
@@ -279,7 +279,7 @@ const getToolbox = async ({
               signer: address,
               coins: [
                 {
-                  amount: assetValue.baseValue,
+                  amount: assetValue.getBaseValue('string'),
                   asset: getDenomWithChain(assetValue),
                 },
               ],
@@ -357,7 +357,9 @@ const getToolbox = async ({
         const { accountNumber, sequence = '0' } = account;
 
         const sendCoinsMessage = {
-          amount: [{ amount: assetValue.baseValue, denom: assetValue?.symbol.toLowerCase() }],
+          amount: [
+            { amount: assetValue.getBaseValue('string'), denom: assetValue?.symbol.toLowerCase() },
+          ],
           from_address: address,
           to_address: recipient,
         };

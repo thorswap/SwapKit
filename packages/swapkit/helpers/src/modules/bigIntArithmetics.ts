@@ -71,12 +71,12 @@ export class BigIntArithmetics {
     from,
     to,
   }: {
-    value: InitialisationValueType;
+    value: InstanceType<typeof SwapKitNumber>;
     from: number;
     to: number;
   }) {
     return this.fromBigInt(
-      (new BigIntArithmetics(value).bigIntValue * toMultiplier(to)) / toMultiplier(from),
+      (value.getBaseValue('bigint') * toMultiplier(to)) / toMultiplier(from),
       to,
     );
   }
@@ -87,31 +87,12 @@ export class BigIntArithmetics {
 
     // use the multiplier to keep track of decimal point - defaults to 8 if lower than 8
     this.decimalMultiplier = toMultiplier(
-      Math.max(this.#getFloatDecimals(this.#toSafeValue(value)), this.decimal || 0),
+      Math.max(getFloatDecimals(toSafeValue(value)), this.decimal || 0),
     );
     this.#setValue(value);
   }
 
-  /**
-   * @deprecated Use `getBaseValue('string')` instead
-   */
-  get baseValue() {
-    return this.getBaseValue('string') as string;
-  }
-  /**
-   * @deprecated Use `getBaseValue('number')` instead
-   */
-  get baseValueNumber() {
-    return this.getBaseValue('number') as number;
-  }
-  /**
-   * @deprecated Use `getBaseValue('bigint')` instead
-   */
-  get baseValueBigInt() {
-    return this.getBaseValue('bigint') as bigint;
-  }
-
-  set(value: SKBigIntParams) {
+  set(value: SKBigIntParams): this {
     // @ts-expect-error False positive
     return new this.constructor({ decimal: this.decimal, value, identifier: this.toString() });
   }
@@ -183,7 +164,7 @@ export class BigIntArithmetics {
     if (!decimal && typeof value === 'object') return value.bigIntValue;
 
     const stringValue = getStringValue(value);
-    const safeValue = this.#toSafeValue(stringValue);
+    const safeValue = toSafeValue(stringValue);
 
     if (safeValue === '0' || safeValue === 'undefined') return 0n;
     return this.#toBigInt(safeValue, decimal);
@@ -238,7 +219,7 @@ export class BigIntArithmetics {
 
     if (parseInt(integer)) {
       return `${integer}.${decimal.slice(0, significantDigits - integer.length)}`.padEnd(
-        valueLength - significantDigits,
+        significantDigits - integer.length,
         '0',
       );
     }
@@ -282,6 +263,31 @@ export class BigIntArithmetics {
     const scaled = value / scale;
 
     return `${scaled.toFixed(digits)}${suffix}`;
+  }
+
+  toCurrency(
+    currency = '$',
+    {
+      currencyPosition = 'start',
+      decimal = 2,
+      decimalSeparator = '.',
+      thousandSeparator = ',',
+    } = {},
+  ) {
+    const value = this.getValue('number');
+    const [int, dec = ''] = value.toFixed(6).split('.');
+    const integer = int.replace(/\B(?=(\d{3})+(?!\d))/g, thousandSeparator);
+
+    const parsedValue =
+      !int && !dec
+        ? '0.00'
+        : int === '0'
+        ? `${parseFloat(`0.${dec}`)}`.replace('.', decimalSeparator)
+        : `${integer}${parseInt(dec) ? `${decimalSeparator}${dec.slice(0, decimal)}` : ''}`;
+
+    return `${currencyPosition === 'start' ? currency : ''}${parsedValue}${
+      currencyPosition === 'end' ? currency : ''
+    }`;
   }
 
   #arithmetics(method: 'add' | 'sub' | 'mul' | 'div', ...args: InitialisationValueType[]): this {
@@ -330,7 +336,7 @@ export class BigIntArithmetics {
   }
 
   #setValue(value: InitialisationValueType) {
-    const safeValue = this.#toSafeValue(value) || '0';
+    const safeValue = toSafeValue(value) || '0';
     this.bigIntValue = this.#toBigInt(safeValue);
   }
 
@@ -339,7 +345,7 @@ export class BigIntArithmetics {
       .map((arg) =>
         typeof arg === 'object'
           ? arg.decimal || decimalFromMultiplier(arg.decimalMultiplier)
-          : this.#getFloatDecimals(this.#toSafeValue(arg)),
+          : getFloatDecimals(toSafeValue(arg)),
       )
       .filter(Boolean) as number[];
     return Math.max(...decimals, DEFAULT_DECIMAL);
@@ -352,33 +358,32 @@ export class BigIntArithmetics {
 
     return BigInt(`${integerPart}${decimalPart.padEnd(padDecimal, '0')}`);
   }
-
-  #toSafeValue(value: InitialisationValueType) {
-    const parsedValue =
-      typeof value === 'number'
-        ? Number(value).toLocaleString('fullwide', {
-            useGrouping: false,
-            maximumFractionDigits: 20,
-          })
-        : getStringValue(value);
-
-    const splitValue = `${parsedValue}`.replaceAll(',', '.').split('.');
-
-    return splitValue.length > 1
-      ? `${splitValue.slice(0, -1).join('')}.${splitValue.at(-1)}`
-      : splitValue[0];
-  }
-
-  #getFloatDecimals(value: string) {
-    const decimals = value.split('.')[1]?.length || 0;
-    return Math.max(decimals, DEFAULT_DECIMAL);
-  }
 }
 
-function getStringValue(value: SKBigIntParams) {
-  return typeof value === 'object'
-    ? 'getValue' in value
-      ? value.getValue('string')
-      : value.value
-    : value;
+const numberFormatter = Intl.NumberFormat('fullwide', {
+  useGrouping: false,
+  maximumFractionDigits: 20,
+});
+
+function toSafeValue(value: InitialisationValueType) {
+  const parsedValue =
+    typeof value === 'number' ? numberFormatter.format(value) : getStringValue(value);
+  const splitValue = `${parsedValue}`.replaceAll(',', '.').split('.');
+
+  return splitValue.length > 1
+    ? `${splitValue.slice(0, -1).join('')}.${splitValue.at(-1)}`
+    : splitValue[0];
+}
+
+function getFloatDecimals(value: string) {
+  const decimals = value.split('.')[1]?.length || 0;
+  return Math.max(decimals, DEFAULT_DECIMAL);
+}
+
+function getStringValue(param: SKBigIntParams) {
+  return typeof param === 'object'
+    ? 'getValue' in param
+      ? param.getValue('string')
+      : param.value
+    : param;
 }

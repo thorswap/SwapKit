@@ -4,7 +4,6 @@ import {
   Transaction,
   TransactionBuilder,
 } from '@psf/bitcoincashjs-lib';
-import { filterAssets } from '@swapkit/helpers';
 import type { UTXOChain } from '@swapkit/types';
 import { Chain, DerivationPath, FeeOption, RPCUrl } from '@swapkit/types';
 import {
@@ -76,7 +75,7 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
 
   const targetOutputs: TargetOutput[] = [];
   // output to recipient
-  targetOutputs.push({ address: recipient, value: assetValue.baseValueNumber });
+  targetOutputs.push({ address: recipient, value: assetValue.getBaseValue('number') });
   const { inputs, outputs } = accumulative({
     inputs: utxos,
     outputs: targetOutputs,
@@ -178,7 +177,7 @@ const buildTx = async ({
   // output to recipient
   targetOutputs.push({
     address: toLegacyAddress(recipient),
-    value: assetValue.baseValueNumber,
+    value: assetValue.getBaseValue('number'),
   });
 
   //2. add output memo to targets (optional)
@@ -286,10 +285,8 @@ export const BCHToolbox = ({
     createKeysForPath,
     getAddressFromKeys,
     buildBCHTx: (params: UTXOBuildTxParams) => buildBCHTx({ ...params, apiClient }),
-    getBalance: async (address: string, potentialScamFilter?: boolean) => {
-      const balances = await getBalance(stripPrefix(toCashAddress(address)));
-      return potentialScamFilter ? filterAssets(balances) : balances;
-    },
+    getBalance: (address: string, _potentialScamFilter?: boolean) =>
+      getBalance(stripPrefix(toCashAddress(address))),
     buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, apiClient }),
     transfer: (
       params: UTXOWalletTransferParams<

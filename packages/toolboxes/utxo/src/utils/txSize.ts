@@ -63,7 +63,9 @@ export const getScriptTypeForAddress = (address: string) => {
 
 export const calculateTxSize = ({ inputs, outputs, feeRate }: UTXOCalculateTxSizeParams) => {
   const newTxType =
-    'address' in inputs[0] ? getScriptTypeForAddress(inputs[0].address) : UTXOScriptType.P2PKH;
+    inputs[0] && 'address' in inputs[0]
+      ? getScriptTypeForAddress(inputs[0].address)
+      : UTXOScriptType.P2PKH;
   const inputSize = inputs
     .filter(
       (utxo) =>

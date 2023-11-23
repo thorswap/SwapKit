@@ -54,8 +54,6 @@ const methodsToWrap = [
   'createContractTxObject',
 ];
 
-export const toHexString = (value?: BigInt) => (value ? '0x' + value.toString(16) : '');
-
 export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[]) => any }>({
   toolbox,
   chainId,
@@ -218,7 +216,9 @@ export const estimateMaxSendableAmount = async ({
     (isFeeEIP1559Compatible
       ? fees.maxFeePerGas! + (fees.maxPriorityFeePerGas! || 1n)
       : fees.gasPrice!);
-  const maxSendableAmount = SwapKitNumber.fromBigInt(balance.baseValueBigInt).sub(fee.toString());
+  const maxSendableAmount = SwapKitNumber.fromBigInt(balance.getBaseValue('bigint')).sub(
+    fee.toString(),
+  );
 
   return AssetValue.fromChainOrSignature(balance.chain, maxSendableAmount.getValue('string'));
 };
@@ -262,9 +262,8 @@ const listWeb3EVMWallets = () => {
   return wallets;
 };
 
-export const isWeb3Detected = () => {
-  return typeof window.ethereum !== 'undefined';
-};
+export const isWeb3Detected = () => typeof window.ethereum !== 'undefined';
+export const toHexString = (value: bigint) => (value > 0n ? `0x${value.toString(16)}` : '0x0');
 
 export const getBalance = async ({
   provider,
@@ -281,13 +280,27 @@ export const getBalance = async ({
 }) => {
   const tokenBalances = await api.getBalance(address);
   const evmGasTokenBalance = await provider.getBalance(address);
-  const balances = [
-    AssetValue.fromChainOrSignature(
-      chain,
-      formatBigIntToSafeValue({ value: evmGasTokenBalance, decimal: BaseDecimal[chain] }),
-    ),
-    ...tokenBalances,
-  ];
+  const balances =
+    chain === Chain.Ethereum
+      ? [
+          {
+            chain: Chain.Ethereum,
+            symbol: 'ETH',
+            value: formatBigIntToSafeValue({ value: BigInt(evmGasTokenBalance), decimal: 18 }),
+            decimal: BaseDecimal.ETH,
+          },
+          ...tokenBalances,
+        ]
+      : tokenBalances;
 
-  return potentialScamFilter ? filterAssets(balances) : balances;
+  const filteredBalances = potentialScamFilter ? filterAssets(balances) : balances;
+
+  return filteredBalances.map(
+    ({ symbol, value, decimal }) =>
+      new AssetValue({
+        decimal: decimal || BaseDecimal[chain],
+        value,
+        identifier: `${chain}.${symbol}`,
+      }),
+  );
 };

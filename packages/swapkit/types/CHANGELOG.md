@@ -1,5 +1,41 @@
 # @swapkit/types
 
+## 1.0.0-rc.12
+
+### Patch Changes
+
+- bump packages
+
+## 1.0.0-rc.11
+
+### Patch Changes
+
+- addLiquidityPart and fix toCurrency
+
+## 1.0.0-rc.10
+
+### Patch Changes
+
+- remove cache asset
+
+## 1.0.0-rc.9
+
+### Patch Changes
+
+- Performance rebuild for helpers
+
+## 1.0.0-rc.8
+
+### Patch Changes
+
+- Bump all for types
+
+## 1.0.0-rc.7
+
+### Patch Changes
+
+- Use referer from window when needed
+
 ## 1.0.0-rc.6
 
 ### Patch Changes

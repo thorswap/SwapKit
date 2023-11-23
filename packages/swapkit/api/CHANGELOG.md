@@ -1,5 +1,57 @@
 # @swapkit/api
 
+## 1.0.0-rc.12
+
+### Patch Changes
+
+- bump packages
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.12
+
+## 1.0.0-rc.11
+
+### Patch Changes
+
+- addLiquidityPart and fix toCurrency
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.11
+
+## 1.0.0-rc.10
+
+### Patch Changes
+
+- remove cache asset
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.10
+
+## 1.0.0-rc.9
+
+### Patch Changes
+
+- Performance rebuild for helpers
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.9
+
+## 1.0.0-rc.8
+
+### Patch Changes
+
+- Bump all for types
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.8
+
+## 1.0.0-rc.7
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.7
+
 ## 1.0.0-rc.6
 
 ### Patch Changes

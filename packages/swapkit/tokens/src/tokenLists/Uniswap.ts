@@ -1491,7 +1491,13 @@ export const list = {
       identifier: 'ETH.UNIBOT-0XF819D9CB1C2A819FD991781A822DE3CA8607C3C9',
       decimals: 18,
     },
+    {
+      address: '0x85614A474dBeED440d5BBDB8aC50b0f22367F997',
+      chain: 'ETH',
+      identifier: 'ETH.XVG-0x85614A474dBeED440d5BBDB8aC50b0f22367F997',
+      decimals: 18,
+    },
   ],
-  count: 248,
+  count: 249,
   logo: 'https://static.thorswap.net/token-list/images/eth.uni-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984.png',
 } as const;
