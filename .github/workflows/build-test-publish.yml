@@ -114,9 +114,10 @@ jobs:
         id: generate-description
         run: |
           description="Internal build ${{ job.status }}: ${{ github.ref_name }}:"
-          for package in ${{ steps.changesets.outputs.publishedPackages }}:
+          for package in ${{ steps.changesets.outputs.publishedPackages }}; do
             description="$description\n${package.name}@${package.version}"
-          echo "name=description::${description}" >> $GITHUB_OUTPUT
+          done
+          echo "description=${description}" >> $GITHUB_OUTPUT
 
       - name: Internal Discord Notification
         if: ${{ steps.changesets.outputs.published == 'true' }}
