@@ -8,7 +8,13 @@ export const ETHEREUM_MAINNET_ID = 'eip155:1';
 export const BSC_MAINNET_ID = 'eip155:56';
 export const AVALACHE_MAINNET_ID = 'eip155:43114';
 export const THORCHAIN_MAINNET_ID = 'cosmos:thorchain-mainnet-v1';
-export const BINANCE_MAINNET_ID = 'cosmos:Binance-Chain-Tigris';
+export const BINANCE_MAINNET_ID = 'cosmos:Binance-Chain-Tigris'; // not supported by Wallet Connect
+export const COSMOS_HUB_MAINNET_ID = 'cosmos:cosmoshub-4';
+export const KUJIRA_MAINNET_ID = 'cosmos:kaiyo-1';
+export const MAYACHAIN_MAINNET_ID = 'cosmos:mayachain-mainnet-v1';
+export const ARBITRUM_ONE_MAINNET_ID = 'eip155:42161';
+export const OPTIMISM_MAINNET_ID = 'eip155:10';
+export const POLYGON_MAINNET_ID = 'eip155:137';
 
 export const DEFAULT_LOGGER = 'debug';
 
@@ -81,9 +87,15 @@ export enum DEFAULT_NEAR_METHODS {
 export enum DEFAULT_NEAR_EVENTS {}
 
 export const WC_SUPPORTED_CHAINS = [
-  Chain.Binance,
+  Chain.Binance, // Not supported by Wallet Connect
   Chain.BinanceSmartChain,
   Chain.Ethereum,
   Chain.THORChain,
   Chain.Avalanche,
+  Chain.Arbitrum,
+  Chain.Optimism,
+  Chain.Polygon,
+  Chain.Cosmos,
+  Chain.Maya,
+  Chain.Kujira,
 ] as const;
