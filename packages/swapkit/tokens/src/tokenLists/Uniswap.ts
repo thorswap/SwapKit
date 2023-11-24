@@ -1,6 +1,6 @@
 export const list = {
   name: 'Uniswap Labs Default',
-  timestamp: '2023-10-19T17:02:13.453Z',
+  timestamp: '2023-11-13T15:59:22.657Z',
   version: { major: 11, minor: 9, patch: 0 },
   keywords: ['uniswap', 'default'],
   tokens: [
@@ -1491,13 +1491,7 @@ export const list = {
       identifier: 'ETH.UNIBOT-0XF819D9CB1C2A819FD991781A822DE3CA8607C3C9',
       decimals: 18,
     },
-    {
-      address: '0x85614A474dBeED440d5BBDB8aC50b0f22367F997',
-      chain: 'ETH',
-      identifier: 'ETH.XVG-0x85614A474dBeED440d5BBDB8aC50b0f22367F997',
-      decimals: 18,
-    },
   ],
-  count: 249,
+  count: 248,
   logo: 'https://static.thorswap.net/token-list/images/eth.uni-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984.png',
 } as const;

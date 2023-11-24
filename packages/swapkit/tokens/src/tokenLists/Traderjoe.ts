@@ -1,7 +1,7 @@
 export const list = {
   name: 'Trader Joe Default',
-  timestamp: '2021-10-30T00:00:00+00:00',
-  version: { major: 222, minor: 2, patch: 0 },
+  timestamp: '2021-11-20T00:00:00+00:00',
+  version: { major: 223, minor: 2, patch: 0 },
   keywords: ['avalanche', 'arbitrum', 'bnb chain', 'defi', 'trader joe'],
   tokens: [
     {
@@ -83,12 +83,6 @@ export const list = {
       decimals: 6,
     },
     {
-      address: '0x130966628846BFd36ff31a822705796e8cb8C18D',
-      chain: 'AVAX',
-      identifier: 'AVAX.MIM-0X130966628846BFD36FF31A822705796E8CB8C18D',
-      decimals: 18,
-    },
-    {
       address: '0x1f1E7c893855525b303f99bDF5c3c05Be09ca251',
       chain: 'AVAX',
       identifier: 'AVAX.SYN-0X1F1E7C893855525B303F99BDF5C3C05BE09CA251',
@@ -101,24 +95,6 @@ export const list = {
       decimals: 9,
     },
     {
-      address: '0xCE1bFFBD5374Dac86a2893119683F4911a2F7814',
-      chain: 'AVAX',
-      identifier: 'AVAX.SPELL-0XCE1BFFBD5374DAC86A2893119683F4911A2F7814',
-      decimals: 18,
-    },
-    {
-      address: '0x264c1383EA520f73dd837F915ef3a732e204a493',
-      chain: 'AVAX',
-      identifier: 'AVAX.BNB-0X264C1383EA520F73DD837F915EF3A732E204A493',
-      decimals: 18,
-    },
-    {
-      address: '0xd6070ae98b8069de6B494332d1A1a81B6179D960',
-      chain: 'AVAX',
-      identifier: 'AVAX.BIFI-0XD6070AE98B8069DE6B494332D1A1A81B6179D960',
-      decimals: 18,
-    },
-    {
       address: '0x63a72806098Bd3D9520cC43356dD78afe5D386D9',
       chain: 'AVAX',
       identifier: 'AVAX.AAVE.e-0X63A72806098BD3D9520CC43356DD78AFE5D386D9',
@@ -128,12 +104,6 @@ export const list = {
       address: '0xb27c8941a7Df8958A1778c0259f76D1F8B711C35',
       chain: 'AVAX',
       identifier: 'AVAX.KLO-0XB27C8941A7DF8958A1778C0259F76D1F8B711C35',
-      decimals: 18,
-    },
-    {
-      address: '0xfB98B335551a418cD0737375a2ea0ded62Ea213b',
-      chain: 'AVAX',
-      identifier: 'AVAX.PENDLE-0XFB98B335551A418CD0737375A2EA0DED62EA213B',
       decimals: 18,
     },
     {
@@ -293,12 +263,6 @@ export const list = {
       decimals: 18,
     },
     {
-      address: '0x0802d66f029c46E042b74d543fC43B6705ccb4ba',
-      chain: 'AVAX',
-      identifier: 'AVAX.APE-0X0802D66F029C46E042B74D543FC43B6705CCB4BA',
-      decimals: 18,
-    },
-    {
       address: '0x4Bfc90322dD638F81F034517359BD447f8E0235a',
       chain: 'AVAX',
       identifier: 'AVAX.NEWO-0X4BFC90322DD638F81F034517359BD447F8E0235A',
@@ -386,12 +350,6 @@ export const list = {
       address: '0xe7250b05bd8DEE615ecC681eda1196aDD5156F2B',
       chain: 'AVAX',
       identifier: 'AVAX.hJoe-0XE7250B05BD8DEE615ECC681EDA1196ADD5156F2B',
-      decimals: 18,
-    },
-    {
-      address: '0x47536F17F4fF30e64A96a7555826b8f9e66ec468',
-      chain: 'AVAX',
-      identifier: 'AVAX.CRV-0X47536F17F4FF30E64A96A7555826B8F9E66EC468',
       decimals: 18,
     },
     {
@@ -625,7 +583,7 @@ export const list = {
     {
       address: '0xC891EB4cbdEFf6e073e859e987815Ed1505c2ACD',
       chain: 'AVAX',
-      identifier: 'AVAX.EUROC-0XC891EB4CBDEFF6E073E859E987815ED1505C2ACD',
+      identifier: 'AVAX.EURC-0XC891EB4CBDEFF6E073E859E987815ED1505C2ACD',
       decimals: 6,
     },
     {
@@ -676,7 +634,31 @@ export const list = {
       identifier: 'AVAX.ALTD-0X8929E9DBD2785E3BA16175E596CDD61520FEE0D1',
       decimals: 18,
     },
+    {
+      address: '0xd402298a793948698b9a63311404FBBEe944eAfD',
+      chain: 'AVAX',
+      identifier: 'AVAX.SHRAP-0XD402298A793948698B9A63311404FBBEE944EAFD',
+      decimals: 18,
+    },
+    {
+      address: '0x8D88e48465F30Acfb8daC0b3E35c9D6D7d36abaf',
+      chain: 'AVAX',
+      identifier: 'AVAX.CNR-0X8D88E48465F30ACFB8DAC0B3E35C9D6D7D36ABAF',
+      decimals: 18,
+    },
+    {
+      address: '0x323665443CEf804A3b5206103304BD4872EA4253',
+      chain: 'AVAX',
+      identifier: 'AVAX.USDV-0X323665443CEF804A3B5206103304BD4872EA4253',
+      decimals: 6,
+    },
+    {
+      address: '0xe3B3F75f99Da4fF26AA867ef70B48F8f6B2D4958',
+      chain: 'AVAX',
+      identifier: 'AVAX.WEAPON-0XE3B3F75F99DA4FF26AA867EF70B48F8F6B2D4958',
+      decimals: 9,
+    },
   ],
-  count: 112,
+  count: 109,
   logo: 'https://static.thorswap.net/token-list/images/avax.joe-0x6e84a6216ea6dacc71ee8e6b0a5b7322eebc0fdd.png',
 } as const;
