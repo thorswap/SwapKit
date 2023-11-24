@@ -15,6 +15,7 @@
     "@swapkit/wallet-keystore": "workspace:*",
     "@swapkit/wallet-ledger": "workspace:*",
     "@swapkit/wallet-okx": "workspace:*",
+    "@swapkit/wallet-metamask-snaps": "workspace:*",
     "@swapkit/wallet-trezor": "workspace:*",
     "@swapkit/wallet-wc": "workspace:*",
     "@swapkit/wallet-xdefi": "workspace:*",
