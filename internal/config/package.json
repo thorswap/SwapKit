@@ -2,7 +2,7 @@
   "devDependencies": {
     "@rollup/plugin-terser": "0.4.4",
     "@vitest/coverage-istanbul": "0.34.6",
-    "vite": "4.4.9",
+    "vite": "4.5.0",
     "vite-plugin-dts": "3.5.3",
     "vite-plugin-node-polyfills": "0.16.0",
     "vitest": "0.34.6"

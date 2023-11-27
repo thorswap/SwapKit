@@ -109,16 +109,6 @@ jobs:
           publish: pnpm publish-packages
           setupGitUser: false
 
-      - name: Generate Description
-        if: ${{ steps.changesets.outputs.published == 'true' }}
-        id: generate-description
-        run: |
-          description="Internal build ${{ job.status }}: ${{ github.ref_name }}:"
-          for package in ${{ steps.changesets.outputs.publishedPackages }}; do
-            description="$description\n${package.name}@${package.version}"
-          done
-          echo "description=${description}" >> $GITHUB_OUTPUT
-
       - name: Internal Discord Notification
         if: ${{ steps.changesets.outputs.published == 'true' }}
         uses: sarisia/actions-status-discord@82409b24a08684f54ea5baa6b376e36dad37fb81
@@ -126,7 +116,7 @@ jobs:
           noprefix: ${{ job.status == 'success' }}
           avatar_url: https://static.thorswap.finance/logo.png
           color: ${{ contains(github.ref_name, 'main') && '0x00aa00' || '0x3af3f4' }}
-          description: "Internal build ${{ job.status }}: ${{ github.ref_name }}:\n${{ steps.generate-description.outputs.publishedPackages }}"
+          description: "Internal build ${{ job.status }}: ${{ github.ref_name }}:\n${{ steps.changesets.outputs.publishedPackages }}"
           status: success
           url: 'https://github.com/thorswap/swapkit/releases'
           username: SwapKit - ${{ github.ref_name }}

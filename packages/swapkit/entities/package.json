@@ -9,7 +9,7 @@
     "@internal/config": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.6",
     "bignumber.js": "9.1.2",
-    "vite": "4.4.9",
+    "vite": "4.5.0",
     "vitest": "0.34.6"
   },
   "eslintConfig": {
