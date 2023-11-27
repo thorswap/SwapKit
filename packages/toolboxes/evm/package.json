@@ -2,20 +2,20 @@
   "author": "swapkit-oss-team",
   "dependencies": {
     "@swapkit/types": "workspace:*",
-    "ethers": "6.7.1"
+    "ethers": "6.9.0"
   },
   "description": "THORSwap evm",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@nomicfoundation/hardhat-ethers": "3.0.4",
-    "@nomicfoundation/hardhat-toolbox": "3.0.0",
+    "@nomicfoundation/hardhat-ethers": "3.0.5",
+    "@nomicfoundation/hardhat-toolbox": "4.0.0",
     "@nomicfoundation/hardhat-network-helpers": "1.0.9",
     "@swapkit/helpers": "workspace:*",
-    "@types/node": "20.5.9",
-    "@vitest/coverage-istanbul": "0.34.4",
-    "hardhat": "2.17.2",
+    "@types/node": "20.10.0",
+    "@vitest/coverage-istanbul": "0.34.6",
+    "hardhat": "2.19.1",
     "vite": "4.4.9",
-    "vitest": "0.34.4"
+    "vitest": "0.34.6"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
@@ -53,5 +53,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.36"
+  "version": "1.0.0-rc.37"
 }

@@ -10,11 +10,11 @@
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "@vitest/coverage-istanbul": "0.34.4",
+    "@vitest/coverage-istanbul": "0.34.6",
     "bitcoinjs-lib": "5.2.0",
-    "ethers": "6.7.1",
+    "ethers": "6.9.0",
     "vite": "4.4.9",
-    "vitest": "0.34.4"
+    "vitest": "0.34.6"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
@@ -41,7 +41,7 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "bitcoinjs-lib": "5.2.0",
-    "ethers": "^6.7.1"
+    "ethers": "^6.9.0"
   },
   "publishConfig": {
     "access": "public"
@@ -57,5 +57,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.40"
+  "version": "1.0.0-rc.41"
 }

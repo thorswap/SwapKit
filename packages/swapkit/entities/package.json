@@ -7,10 +7,10 @@
   "description": "SwapKit Lib swapkit-entities",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@vitest/coverage-istanbul": "0.34.4",
+    "@vitest/coverage-istanbul": "0.34.6",
     "bignumber.js": "9.1.2",
     "vite": "4.4.9",
-    "vitest": "0.34.4"
+    "vitest": "0.34.6"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
@@ -48,5 +48,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.15"
+  "version": "1.0.0-rc.16"
 }

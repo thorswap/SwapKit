@@ -1,5 +1,20 @@
 # @swapkit/core
 
+## 1.0.0-rc.43
+
+### Patch Changes
+
+- Update dependencies with crypto-js 4.2.0
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.37
+  - @swapkit/helpers@1.0.0-rc.35
+  - @swapkit/tokens@1.0.0-rc.17
+  - @swapkit/toolbox-utxo@1.0.0-rc.37
+  - @swapkit/types@1.0.0-rc.16
+  - @swapkit/toolbox-evm@1.0.0-rc.37
+  - @swapkit/api@1.0.0-rc.16
+
 ## 1.0.0-rc.42
 
 ### Patch Changes

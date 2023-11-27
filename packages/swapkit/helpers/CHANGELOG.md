@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.35
+
+### Patch Changes
+
+- Update dependencies with crypto-js 4.2.0
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.17
+  - @swapkit/types@1.0.0-rc.16
+
 ## 1.0.0-rc.34
 
 ### Patch Changes

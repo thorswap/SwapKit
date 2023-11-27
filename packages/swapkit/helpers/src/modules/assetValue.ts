@@ -124,8 +124,8 @@ export class AssetValue extends BigIntArithmetics {
     const asset = tokenIdentifier
       ? new AssetValue({ decimal, identifier: tokenIdentifier, value: parsedValue })
       : isSynthetic
-      ? new AssetValue({ decimal: 8, identifier: assetString, value: parsedValue })
-      : undefined;
+        ? new AssetValue({ decimal: 8, identifier: assetString, value: parsedValue })
+        : undefined;
 
     return asset;
   }

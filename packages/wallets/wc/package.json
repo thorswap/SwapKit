@@ -2,24 +2,24 @@
   "author": "swapkit-oss-team",
   "dependencies": {
     "@swapkit/types": "workspace:*",
-    "@walletconnect/modal-sign-html": "^2.6.1"
+    "@walletconnect/modal-sign-html": "^2.6.2"
   },
   "description": "SwapKit Lib walletconnect",
   "devDependencies": {
-    "@cosmjs/amino": "0.31.1",
-    "@cosmjs/encoding": "0.31.1",
-    "@cosmjs/math": "0.31.1",
-    "@cosmjs/proto-signing": "0.31.1",
-    "@cosmjs/stargate": "0.31.1",
+    "@cosmjs/amino": "0.32.0",
+    "@cosmjs/encoding": "0.32.0",
+    "@cosmjs/math": "0.32.0",
+    "@cosmjs/proto-signing": "0.32.0",
+    "@cosmjs/stargate": "0.32.0",
     "@internal/config": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
-    "@vitest/coverage-istanbul": "0.34.4",
-    "@walletconnect/types": "2.10.0",
-    "cosmjs-types": "0.8.0",
-    "ethers": "6.7.1",
+    "@vitest/coverage-istanbul": "0.34.6",
+    "@walletconnect/types": "2.10.5",
+    "cosmjs-types": "0.9.0",
+    "ethers": "6.9.0",
     "vite": "4.4.9",
-    "vitest": "0.34.4"
+    "vitest": "0.34.6"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
@@ -65,5 +65,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.38"
+  "version": "1.0.0-rc.39"
 }

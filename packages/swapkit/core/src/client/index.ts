@@ -79,8 +79,8 @@ export class SwapKitCore<T = ''> {
     const evmChain = quoteMode.startsWith('ERC20-')
       ? Chain.Ethereum
       : quoteMode.startsWith('ARC20-')
-      ? Chain.Avalanche
-      : Chain.BinanceSmartChain;
+        ? Chain.Avalanche
+        : Chain.BinanceSmartChain;
 
     if (!route.complete) throw new SwapKitError('core_swap_route_not_complete');
 
@@ -240,8 +240,8 @@ export class SwapKitCore<T = ''> {
             chain === Chain.Avalanche
               ? TCAvalancheDepositABI
               : chain === Chain.BinanceSmartChain
-              ? TCBscDepositABI
-              : TCEthereumVaultAbi;
+                ? TCBscDepositABI
+                : TCEthereumVaultAbi;
 
           const response = await (
             walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
@@ -278,10 +278,10 @@ export class SwapKitCore<T = ''> {
       const errorKey: Keys = isInsufficientFunds
         ? 'core_transaction_deposit_insufficient_funds_error'
         : isGas
-        ? 'core_transaction_deposit_gas_error'
-        : isServer
-        ? 'core_transaction_deposit_server_error'
-        : 'core_transaction_deposit_error';
+          ? 'core_transaction_deposit_gas_error'
+          : isServer
+            ? 'core_transaction_deposit_server_error'
+            : 'core_transaction_deposit_error';
 
       throw new SwapKitError(errorKey, error);
     }
@@ -423,8 +423,8 @@ export class SwapKitCore<T = ''> {
       to === 'rune'
         ? AssetValue.fromChainOrSignature(Chain.THORChain)
         : (from === 'sym' && to === 'sym') || from === 'rune' || from === 'asset'
-        ? undefined
-        : assetValue;
+          ? undefined
+          : assetValue;
 
     const value = getMinAmountByChain(from === 'asset' ? assetValue.chain : Chain.THORChain);
     const memoString =

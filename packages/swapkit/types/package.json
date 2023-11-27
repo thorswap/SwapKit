@@ -3,8 +3,8 @@
   "description": "SwapKit Lib types",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@types/node": "20.5.9",
-    "ethers": "6.7.1",
+    "@types/node": "20.10.0",
+    "ethers": "6.9.0",
     "vite": "4.4.9"
   },
   "eslintConfig": {
@@ -39,5 +39,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.15"
+  "version": "1.0.0-rc.16"
 }
