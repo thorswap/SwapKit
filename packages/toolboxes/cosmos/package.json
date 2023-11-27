@@ -13,7 +13,7 @@
     "@swapkit/types": "workspace:*",
     "bn.js": "5.2.1",
     "cosmjs-types": "0.8.0",
-    "crypto-js": "4.1.1",
+    "crypto-js": "4.2.0",
     "elliptic": "6.5.4",
     "protobufjs": "7.2.5",
     "protocol-buffers-encodings": "1.2.0",
