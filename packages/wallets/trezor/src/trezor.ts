@@ -99,10 +99,10 @@ const getToolbox = async ({
         derivationPath[0] === 84
           ? { input: 'SPENDWITNESS', output: 'PAYTOWITNESS' }
           : derivationPath[0] === 49
-          ? { input: 'SPENDP2SHWITNESS', output: 'PAYTOP2SHWITNESS' }
-          : derivationPath[0] === 44
-          ? { input: 'SPENDADDRESS', output: 'PAYTOADDRESS' }
-          : undefined;
+            ? { input: 'SPENDP2SHWITNESS', output: 'PAYTOP2SHWITNESS' }
+            : derivationPath[0] === 44
+              ? { input: 'SPENDADDRESS', output: 'PAYTOADDRESS' }
+              : undefined;
 
       if (!scriptType) throw new Error('Derivation path is not supported');
       const params = { api, apiKey: blockchairApiKey, rpcUrl };

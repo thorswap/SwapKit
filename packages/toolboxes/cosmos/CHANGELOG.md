@@ -1,5 +1,16 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.37
+
+### Patch Changes
+
+- Update dependencies with crypto-js 4.2.0
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.35
+  - @swapkit/types@1.0.0-rc.16
+  - @swapkit/api@1.0.0-rc.16
+
 ## 1.0.0-rc.36
 
 ### Patch Changes

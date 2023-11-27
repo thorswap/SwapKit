@@ -59,8 +59,8 @@ const getWalletMethodsForChain = async ({
         chain === Chain.Ethereum
           ? ETHToolbox({ ...params, ethplorerApiKey: ethplorerApiKey! })
           : chain === Chain.Avalanche
-          ? AVAXToolbox({ ...params, covalentApiKey: covalentApiKey! })
-          : BSCToolbox({ ...params, covalentApiKey: covalentApiKey! });
+            ? AVAXToolbox({ ...params, covalentApiKey: covalentApiKey! })
+            : BSCToolbox({ ...params, covalentApiKey: covalentApiKey! });
 
       return {
         address: wallet.address,
@@ -113,8 +113,8 @@ const getWalletMethodsForChain = async ({
         chain === Chain.Bitcoin
           ? BTCToolbox(params)
           : chain === Chain.Litecoin
-          ? LTCToolbox(params)
-          : DOGEToolbox(params);
+            ? LTCToolbox(params)
+            : DOGEToolbox(params);
 
       const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
       const address = toolbox.getAddressFromKeys(keys);

@@ -1,5 +1,16 @@
 # @swapkit/wallet-wc
 
+## 1.0.0-rc.39
+
+### Patch Changes
+
+- Update dependencies with crypto-js 4.2.0
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.37
+  - @swapkit/types@1.0.0-rc.16
+  - @swapkit/toolbox-evm@1.0.0-rc.37
+
 ## 1.0.0-rc.38
 
 ### Patch Changes

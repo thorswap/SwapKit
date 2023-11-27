@@ -1,5 +1,27 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.45
+
+### Patch Changes
+
+- Update dependencies with crypto-js 4.2.0
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.37
+  - @swapkit/toolbox-cosmos@1.0.0-rc.37
+  - @swapkit/wallet-keystore@1.0.0-rc.43
+  - @swapkit/toolbox-utxo@1.0.0-rc.37
+  - @swapkit/wallet-ledger@1.0.0-rc.41
+  - @swapkit/wallet-trezor@1.0.0-rc.39
+  - @swapkit/types@1.0.0-rc.16
+  - @swapkit/toolbox-evm@1.0.0-rc.37
+  - @swapkit/wallet-keplr@1.0.0-rc.37
+  - @swapkit/wallet-xdefi@1.0.0-rc.42
+  - @swapkit/core@1.0.0-rc.43
+  - @swapkit/api@1.0.0-rc.16
+  - @swapkit/wallet-okx@1.0.0-rc.41
+  - @swapkit/wallet-wc@1.0.0-rc.39
+
 ## 1.0.0-rc.44
 
 ### Patch Changes

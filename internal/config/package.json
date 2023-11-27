@@ -1,11 +1,11 @@
 {
   "devDependencies": {
-    "@rollup/plugin-terser": "0.4.3",
-    "@vitest/coverage-istanbul": "0.34.4",
+    "@rollup/plugin-terser": "0.4.4",
+    "@vitest/coverage-istanbul": "0.34.6",
     "vite": "4.4.9",
     "vite-plugin-dts": "3.5.3",
-    "vite-plugin-node-polyfills": "0.15.0",
-    "vitest": "0.34.4"
+    "vite-plugin-node-polyfills": "0.16.0",
+    "vitest": "0.34.6"
   },
   "eslintConfig": {
     "extends": "../eslint-config"
@@ -15,5 +15,5 @@
   "private": true,
   "scripts": {},
   "type": "module",
-  "version": "0.0.0-rc.1"
+  "version": "0.0.0-rc.2"
 }
