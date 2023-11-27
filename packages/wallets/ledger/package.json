@@ -40,7 +40,7 @@
     "bn.js": "5.2.1",
     "coininfo": "5.2.1",
     "cosmjs-types": "0.8.0",
-    "crypto-js": "4.1.1",
+    "crypto-js": "4.2.0",
     "elliptic": "6.5.4",
     "ethers": "6.7.1",
     "vite": "4.4.9",
@@ -81,7 +81,7 @@
     "bn.js": "5.2.1",
     "coininfo": "5.2.1",
     "cosmjs-types": "0.8.0",
-    "crypto-js": "4.1.1",
+    "crypto-js": "4.2.0",
     "elliptic": "6.5.4",
     "ethers": "^6.7.1"
   },
