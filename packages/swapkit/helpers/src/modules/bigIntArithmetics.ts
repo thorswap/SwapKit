@@ -139,30 +139,24 @@ export class BigIntArithmetics {
         return Number(value) as NumberPrimitivesType[T];
       case 'string':
         return value as NumberPrimitivesType[T];
-      case 'bigint': {
-        const mul = this.bigIntValue * 10n ** BigInt(this.decimal || 8n);
-        const div = mul / this.decimalMultiplier;
-
-        return div as NumberPrimitivesType[T];
-      }
+      case 'bigint':
+        return ((this.bigIntValue * 10n ** BigInt(this.decimal || 8n)) /
+          this.decimalMultiplier) as NumberPrimitivesType[T];
     }
   }
 
+  // @ts-expect-error
   getBaseValue<T extends AllowedNumberTypes>(type: T): NumberPrimitivesType[T] {
     const divisor = this.decimalMultiplier / toMultiplier(this.decimal || BaseDecimal.THOR);
     const baseValue = this.bigIntValue / divisor;
 
     switch (type) {
       case 'number':
-        // @ts-expect-error False positive
-        return Number(baseValue);
+        return Number(baseValue) as NumberPrimitivesType[T];
       case 'string':
-        // @ts-expect-error False positive
-        return baseValue.toString();
-      default: {
-        // @ts-expect-error False positive
-        return baseValue;
-      }
+        return baseValue.toString() as NumberPrimitivesType[T];
+      case 'bigint':
+        return baseValue as NumberPrimitivesType[T];
     }
   }
 
@@ -174,39 +168,6 @@ export class BigIntArithmetics {
 
     if (safeValue === '0' || safeValue === 'undefined') return 0n;
     return this.#toBigInt(safeValue, decimal);
-  }
-
-  formatBigIntToSafeValue(value: bigint, decimal?: number) {
-    const bigIntDecimal = decimal || this.decimal || DEFAULT_DECIMAL;
-    const decimalToUseForConversion = Math.max(
-      bigIntDecimal,
-      decimalFromMultiplier(this.decimalMultiplier),
-    );
-    const isNegative = value < 0n;
-
-    const valueString = value.toString().substring(isNegative ? 1 : 0);
-    const padLength = decimalToUseForConversion - (valueString.length - 1);
-
-    const parsedValueString = padLength > 0 ? '0'.repeat(padLength) + valueString : valueString;
-
-    const decimalIndex = parsedValueString.length - decimalToUseForConversion;
-    let decimalString = parsedValueString.slice(-decimalToUseForConversion);
-
-    // Check if we need to round up
-    if (parseInt(decimalString[bigIntDecimal]) >= 5) {
-      // Increment the last decimal place and slice off the rest
-      decimalString = `${decimalString.substring(0, bigIntDecimal - 1)}${(
-        parseInt(decimalString[bigIntDecimal - 1]) + 1
-      ).toString()}`;
-    } else {
-      // Just slice off the extra digits
-      decimalString = decimalString.substring(0, bigIntDecimal);
-    }
-
-    return `${isNegative ? '-' : ''}${parsedValueString.slice(
-      0,
-      decimalIndex,
-    )}.${decimalString}`.replace(/\.?0*$/, '');
   }
 
   toSignificant(significantDigits: number = 6) {
@@ -294,6 +255,39 @@ export class BigIntArithmetics {
     return `${currencyPosition === 'start' ? currency : ''}${parsedValue}${
       currencyPosition === 'end' ? currency : ''
     }`;
+  }
+
+  formatBigIntToSafeValue(value: bigint, decimal?: number) {
+    const bigIntDecimal = decimal || this.decimal || DEFAULT_DECIMAL;
+    const decimalToUseForConversion = Math.max(
+      bigIntDecimal,
+      decimalFromMultiplier(this.decimalMultiplier),
+    );
+    const isNegative = value < 0n;
+
+    const valueString = value.toString().substring(isNegative ? 1 : 0);
+    const padLength = decimalToUseForConversion - (valueString.length - 1);
+
+    const parsedValueString = padLength > 0 ? '0'.repeat(padLength) + valueString : valueString;
+
+    const decimalIndex = parsedValueString.length - decimalToUseForConversion;
+    let decimalString = parsedValueString.slice(-decimalToUseForConversion);
+
+    // Check if we need to round up
+    if (parseInt(decimalString[bigIntDecimal]) >= 5) {
+      // Increment the last decimal place and slice off the rest
+      decimalString = `${decimalString.substring(0, bigIntDecimal - 1)}${(
+        parseInt(decimalString[bigIntDecimal - 1]) + 1
+      ).toString()}`;
+    } else {
+      // Just slice off the extra digits
+      decimalString = decimalString.substring(0, bigIntDecimal);
+    }
+
+    return `${isNegative ? '-' : ''}${parsedValueString.slice(
+      0,
+      decimalIndex,
+    )}.${decimalString}`.replace(/\.?0*$/, '');
   }
 
   #arithmetics(method: 'add' | 'sub' | 'mul' | 'div', ...args: InitialisationValueType[]): this {
