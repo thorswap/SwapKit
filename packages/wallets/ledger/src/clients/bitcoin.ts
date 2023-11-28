@@ -12,6 +12,6 @@ export class BitcoinLedger extends UTXOLedgerInterface {
     this.addressNetwork = networks.bitcoin;
     this.chain = 'btc';
     this.derivationPath = derivationPathToString(derivationPath);
-    this.walletFormat = getWalletFormatFor(this.derivationPath) as 'legacy' | 'bech32';
+    this.walletFormat = getWalletFormatFor(this.derivationPath) as 'legacy' | 'bech32' | 'p2sh';
   }
 }

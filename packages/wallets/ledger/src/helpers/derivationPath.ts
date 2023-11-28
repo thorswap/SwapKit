@@ -38,5 +38,12 @@ export const getWalletFormatFor = (path: string) => {
 
   if (chainId === 145) return purpose === 84 ? 'cashaddr' : 'legacy';
 
-  return purpose === 44 ? 'legacy' : 'bech32';
+  switch (purpose) {
+    case 44:
+      return 'legacy';
+    case 49:
+      return 'p2sh';
+    default:
+      return 'bech32';
+  }
 };
