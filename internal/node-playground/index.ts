@@ -33,12 +33,12 @@ export const doSend = async ({
     const client = await getSwapKitClient();
     const from = client.getAddress(Chain.THORChain);
     const balance = await client.getBalance(Chain.THORChain);
-    console.log(`Balance: ${balance}`);
-    console.log(`💰 Wallet - ${from} | Balance: ${balance}}`);
+    console.info(`Balance: ${balance}`);
+    console.info(`💰 Wallet - ${from} | Balance: ${balance}}`);
 
     const assetValue = await AssetValue.fromString('THOR.RUNE', sendAmount);
-    console.log(`💰 Sending ${sendAmount} RUNE to ${toAddress}`);
-    console.log(`💰 Asset value: ${assetValue.toString()}`);
+    console.info(`💰 Sending ${sendAmount} RUNE to ${toAddress}`);
+    console.info(`💰 Asset value: ${assetValue.toString()}`);
     try {
       const connectedWallets = client.connectedWallets;
       return connectedWallets.THOR?.transfer({
@@ -48,11 +48,11 @@ export const doSend = async ({
         memo: '',
       })
         .then((txHash) => {
-          console.log(txHash);
+          console.info(txHash);
           return txHash;
         })
         .catch((err) => {
-          console.log(err);
+          console.info(err);
           return '';
         });
     } catch (error) {
@@ -69,7 +69,7 @@ const main = async () => {
     sendAmount: 0.1,
     toAddress: 'thor1e9lxzfl7x2zvxnjczf8v0urel8943nesq9c4pk',
   });
-  console.log(tx);
+  console.info(tx);
 };
 
 main();

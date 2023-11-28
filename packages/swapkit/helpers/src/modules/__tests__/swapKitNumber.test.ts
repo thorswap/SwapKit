@@ -328,7 +328,6 @@ describe('SwapKitNumber', () => {
       const result = skNumber1.mul(skNumber2);
 
       // The exact result of 1.23 * 4.56 is 5.6088
-      // If we round it to 2 decimal places, we should get 5.61
       expect(result.getValue('string')).toBe('5.609');
       expect(result.getBaseValue('bigint')).toBe(5608n);
 
@@ -425,6 +424,26 @@ describe('SwapKitNumber', () => {
       const result = skNumber1.div(skNumber2);
       expect(result.getValue('string')).toBe('1012.4999999873447625');
       expect(result.getBaseValue('bigint')).toBe(1012499999987344762500n);
+    });
+  });
+
+  describe('extending multiplier without loosing precision', () => {
+    test('edge case 1', () => {
+      const asset1 = new SwapKitNumber({ value: 41.90963702, decimal: 8 });
+      const multiplier = 5.337952274462478;
+      const divider = 105.2562773915526;
+      const result = asset1.mul(multiplier).div(divider);
+
+      expect(result.getValue('string')).toBe('2.12539953');
+    });
+
+    test('edge case 2', () => {
+      const asset1 = new SwapKitNumber('41.90963702');
+      const multiplier = new SwapKitNumber('5.337952274462478');
+      const divider = new SwapKitNumber('105.2562773915526');
+      const result = asset1.mul(multiplier).div(divider);
+
+      expect(result.getValue('string')).toBe('2.125399527674726');
     });
   });
 
