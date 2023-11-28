@@ -21,12 +21,14 @@ import type { NumberPrimitives } from './bigIntArithmetics.ts';
 import { BigIntArithmetics, formatBigIntToSafeValue } from './bigIntArithmetics.ts';
 import type { SwapKitValueType } from './swapKitNumber.ts';
 
+type TokenTax = { buy: number; sell: number };
+
 const safeValue = (value: NumberPrimitives, decimal: number) =>
   typeof value === 'bigint'
     ? formatBigIntToSafeValue({ value, bigIntDecimal: decimal, decimal })
     : value;
 
-type AssetValueParams = { decimal: number; value: SwapKitValueType } & (
+type AssetValueParams = { decimal: number; value: SwapKitValueType; tax?: TokenTax } & (
   | { chain: Chain; symbol: string }
   | { identifier: string }
 );
@@ -46,7 +48,9 @@ type TokenNames =
   | (typeof WoofiList)['tokens'][number]['identifier']
   | (typeof UniswapList)['tokens'][number]['identifier'];
 
-let staticTokensMap: Map<TokenNames, { decimal: number; identifier: string }> | undefined;
+let staticTokensMap:
+  | Map<TokenNames, { tax?: TokenTax; decimal: number; identifier: string }>
+  | undefined;
 
 const getStaticToken = (identifier: TokenNames) => {
   if (!staticTokensMap) {
@@ -67,6 +71,15 @@ const createAssetValue = async (assetString: string, value: NumberPrimitives = 0
 };
 
 export class AssetValue extends BigIntArithmetics {
+  address?: string;
+  chain: Chain;
+  isGasAsset = false;
+  isSynthetic = false;
+  symbol: string;
+  tax?: TokenTax;
+  ticker: string;
+  type: ReturnType<typeof getAssetType>;
+
   constructor(params: AssetValueParams) {
     const identifier =
       'identifier' in params ? params.identifier : `${params.chain}.${params.symbol}`;
@@ -78,6 +91,7 @@ export class AssetValue extends BigIntArithmetics {
     );
 
     const assetInfo = getAssetInfo(identifier);
+
     this.type = getAssetType(assetInfo);
     this.chain = assetInfo.chain;
     this.ticker = assetInfo.ticker;
@@ -85,15 +99,9 @@ export class AssetValue extends BigIntArithmetics {
     this.address = assetInfo.address;
     this.isSynthetic = assetInfo.isSynthetic;
     this.isGasAsset = assetInfo.isGasAsset;
-  }
 
-  address?: string;
-  isSynthetic = false;
-  isGasAsset = false;
-  chain: Chain;
-  symbol: string;
-  ticker: string;
-  type: ReturnType<typeof getAssetType>;
+    this.tax = params.tax;
+  }
 
   toString(short = false) {
     // THOR.RUNE | ETH/ETH
@@ -115,16 +123,18 @@ export class AssetValue extends BigIntArithmetics {
 
   static fromStringSync(assetString: string, value: NumberPrimitives = 0) {
     const { isSynthetic } = getAssetInfo(assetString);
-    const { decimal, identifier: tokenIdentifier } = getStaticToken(
-      assetString as unknown as TokenNames,
-    );
+    const {
+      tax,
+      decimal,
+      identifier: tokenIdentifier,
+    } = getStaticToken(assetString as unknown as TokenNames);
 
     const parsedValue = safeValue(value, decimal);
 
     const asset = tokenIdentifier
-      ? new AssetValue({ decimal, identifier: tokenIdentifier, value: parsedValue })
+      ? new AssetValue({ tax, decimal, identifier: tokenIdentifier, value: parsedValue })
       : isSynthetic
-        ? new AssetValue({ decimal: 8, identifier: assetString, value: parsedValue })
+        ? new AssetValue({ tax, decimal: 8, identifier: assetString, value: parsedValue })
         : undefined;
 
     return asset;
@@ -234,6 +244,6 @@ const getAssetInfo = (identifier: string) => {
     symbol:
       (isSynthetic ? `${synthChain}/` : '') +
       (address ? `${ticker}-${address?.toLowerCase() ?? ''}` : symbol),
-    ticker: ticker,
+    ticker,
   };
 };
