@@ -1,5 +1,18 @@
 # @swapkit/wallet-keystore
 
+## 1.0.0-rc.47
+
+### Patch Changes
+
+- [`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Update toString on synths
+
+- Updated dependencies [[`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.41
+  - @swapkit/helpers@1.0.0-rc.39
+  - @swapkit/toolbox-utxo@1.0.0-rc.41
+  - @swapkit/types@1.0.0-rc.19
+  - @swapkit/toolbox-evm@1.0.0-rc.41
+
 ## 1.0.0-rc.46
 
 ### Patch Changes
