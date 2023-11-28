@@ -33,16 +33,34 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
     client,
   });
 
+  const getFees = async () => {
+    const baseFee = (await getFeeRateFromThorswap(ChainId.Cosmos)) || 500;
+    return {
+      type: 'base',
+      fast: baseAmount(baseFee * 1.5, BaseDecimal.GAIA),
+      fastest: baseAmount(baseFee * 3, BaseDecimal.GAIA),
+      average: baseAmount(baseFee, BaseDecimal.GAIA),
+    };
+  };
+
   return {
     ...baseToolbox,
-    getFees: async () => {
-      const baseFee = (await getFeeRateFromThorswap(ChainId.Cosmos)) || 500;
-      return {
-        type: 'base',
-        fast: baseAmount(baseFee * 1.5, BaseDecimal.GAIA),
-        fastest: baseAmount(baseFee * 3, BaseDecimal.GAIA),
-        average: baseAmount(baseFee, BaseDecimal.GAIA),
-      };
+    getFees,
+    transfer: async (params: TransferParams) => {
+      const gasFees = await getFees();
+
+      return baseToolbox.transfer({
+        ...params,
+        fee: params.fee || {
+          amount: [
+            {
+              denom: 'uatom',
+              amount: gasFees[params.feeOptionKey || 'fast'].amount().toString() || '1000',
+            },
+          ],
+          gas: '200000',
+        },
+      });
     },
   };
 };

@@ -24,6 +24,7 @@ export type TransferParams = {
   asset: string;
   memo?: string;
   fee?: StdFee;
+  feeOptionKey?: FeeOption;
 };
 
 export const AssetAtom = {
