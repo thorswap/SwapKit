@@ -1,8 +1,18 @@
 # @swapkit/types
 
+## 1.0.0-rc.20
+
+### Patch Changes
+
+- Bump
+
 ## 1.0.0-rc.19
 
 ### Patch Changes
+
+- tests
+
+- toUrl
 
 - [`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Update toString on synths
 
