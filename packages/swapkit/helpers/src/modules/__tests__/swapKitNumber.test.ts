@@ -455,6 +455,14 @@ describe('SwapKitNumber', () => {
       expect(skNumber1.gt(skNumber2)).toBe(true);
       expect(skNumber2.gt(skNumber1)).toBe(false);
     });
+
+    test("different decimals doesn't affect comparison", () => {
+      const skNumber1 = new SwapKitNumber({ value: 10, decimal: 18 });
+      const skNumber2 = new SwapKitNumber({ value: '50', decimal: 8 });
+
+      expect(skNumber1.lt(skNumber2)).toBe(true);
+      expect(skNumber2.gt(skNumber1)).toBe(true);
+    });
   });
 
   describe('gte', () => {
@@ -497,6 +505,19 @@ describe('SwapKitNumber', () => {
       expect(skNumber1.eq(skNumber2)).toBe(false);
       expect(skNumber1.eq(skNumber1)).toBe(true);
       expect(skNumber2.eq(skNumber1)).toBe(false);
+    });
+  });
+
+  describe('comparison edge cases with decimals', () => {
+    test('compare on cut decimals', () => {
+      const skNumber1 = new SwapKitNumber({ value: 0.001, decimal: 3 });
+      const value = '0.0019';
+
+      expect(skNumber1.lt(value)).toBe(true);
+      expect(skNumber1.gt(value)).toBe(false);
+      expect(skNumber1.eq(value)).toBe(false);
+      expect(skNumber1.lte(value)).toBe(true);
+      expect(skNumber1.gte(value)).toBe(false);
     });
   });
 

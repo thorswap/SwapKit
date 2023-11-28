@@ -112,19 +112,19 @@ export class BigIntArithmetics {
     return this.#arithmetics('div', ...args);
   }
   gt(value: InitialisationValueType) {
-    return this.bigIntValue > this.getBigIntValue(value);
+    return this.#comparison('gt', value);
   }
   gte(value: InitialisationValueType) {
-    return this.bigIntValue >= this.getBigIntValue(value);
+    return this.#comparison('gte', value);
   }
   lt(value: InitialisationValueType) {
-    return this.bigIntValue < this.getBigIntValue(value);
+    return this.#comparison('lt', value);
   }
   lte(value: InitialisationValueType) {
-    return this.bigIntValue <= this.getBigIntValue(value);
+    return this.#comparison('lte', value);
   }
   eqValue(value: InitialisationValueType) {
-    return this.bigIntValue === this.getBigIntValue(value);
+    return this.#comparison('eqValue', value);
   }
 
   // @ts-expect-error False positive
@@ -339,6 +339,25 @@ export class BigIntArithmetics {
       value,
       identifier: this.toString(),
     });
+  }
+
+  #comparison(method: 'gt' | 'gte' | 'lt' | 'lte' | 'eqValue', ...args: InitialisationValueType[]) {
+    const decimal = this.#retrievePrecisionDecimal(this, ...args);
+    const value = this.getBigIntValue(args[0], decimal);
+    const compareToValue = this.getBigIntValue(this, decimal);
+
+    switch (method) {
+      case 'gt':
+        return compareToValue > value;
+      case 'gte':
+        return compareToValue >= value;
+      case 'lt':
+        return compareToValue < value;
+      case 'lte':
+        return compareToValue <= value;
+      case 'eqValue':
+        return compareToValue === value;
+    }
   }
 
   #setValue(value: InitialisationValueType) {
