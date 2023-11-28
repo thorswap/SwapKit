@@ -1,5 +1,13 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.37
+
+### Patch Changes
+
+- [#416](https://github.com/thorswap/SwapKit/pull/416) [`76ef0067`](https://github.com/thorswap/SwapKit/commit/76ef00670da6505e3b7e1602d76ae6abcbaaf141) Thanks [@chillios-ts](https://github.com/chillios-ts)! - update asset value with tax property
+
+- [`00d9a340`](https://github.com/thorswap/SwapKit/commit/00d9a340396f95be238f4a0ec5d76a8932fb7924) Thanks [@chillios-ts](https://github.com/chillios-ts)! - update comparisions with decimal shift
+
 ## 1.0.0-rc.36
 
 ### Patch Changes
