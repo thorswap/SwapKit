@@ -11,6 +11,7 @@ export type NumberPrimitives = bigint | number | string;
 type InitialisationValueType = NumberPrimitives | BigIntArithmetics | SwapKitNumber;
 
 type SKBigIntParams = InitialisationValueType | { decimal?: number; value: number | string };
+type AllowedNumberTypes = 'bigint' | 'number' | 'string';
 
 const DEFAULT_DECIMAL = 8;
 const toMultiplier = (decimal: number) => 10n ** BigInt(decimal);
@@ -83,12 +84,14 @@ export class BigIntArithmetics {
 
   constructor(params: SKBigIntParams) {
     const value = getStringValue(params);
-    this.decimal = typeof params === 'object' ? params.decimal : undefined;
+    const isComplex = typeof params === 'object';
+    this.decimal = isComplex ? params.decimal : undefined;
 
     // use the multiplier to keep track of decimal point - defaults to 8 if lower than 8
-    this.decimalMultiplier = toMultiplier(
-      Math.max(getFloatDecimals(toSafeValue(value)), this.decimal || 0),
-    );
+    this.decimalMultiplier =
+      isComplex && 'decimalMultiplier' in params
+        ? params.decimalMultiplier
+        : toMultiplier(Math.max(getFloatDecimals(toSafeValue(value)), this.decimal || 0));
     this.#setValue(value);
   }
 
@@ -124,7 +127,8 @@ export class BigIntArithmetics {
     return this.bigIntValue === this.getBigIntValue(value);
   }
 
-  getValue<T extends 'number' | 'string'>(type: T): NumberPrimitivesType[T] {
+  // @ts-expect-error False positive
+  getValue<T extends AllowedNumberTypes>(type: T): NumberPrimitivesType[T] {
     const value = this.formatBigIntToSafeValue(
       this.bigIntValue,
       this.decimal || decimalFromMultiplier(this.decimalMultiplier),
@@ -132,18 +136,19 @@ export class BigIntArithmetics {
 
     switch (type) {
       case 'number':
-        // @ts-expect-error False positive
-        return Number(value);
+        return Number(value) as NumberPrimitivesType[T];
       case 'string':
-        // @ts-expect-error False positive
-        return value;
-      default:
-        // @ts-expect-error False positive
-        return (this.bigIntValue * BigInt(this.decimal || 8n)) / this.decimalMultiplier;
+        return value as NumberPrimitivesType[T];
+      case 'bigint': {
+        const mul = this.bigIntValue * 10n ** BigInt(this.decimal || 8n);
+        const div = mul / this.decimalMultiplier;
+
+        return div as NumberPrimitivesType[T];
+      }
     }
   }
 
-  getBaseValue<T extends 'number' | 'string' | 'bigint'>(type: T): NumberPrimitivesType[T] {
+  getBaseValue<T extends AllowedNumberTypes>(type: T): NumberPrimitivesType[T] {
     const divisor = this.decimalMultiplier / toMultiplier(this.decimal || BaseDecimal.THOR);
     const baseValue = this.bigIntValue / divisor;
 
@@ -154,9 +159,10 @@ export class BigIntArithmetics {
       case 'string':
         // @ts-expect-error False positive
         return baseValue.toString();
-      default:
+      default: {
         // @ts-expect-error False positive
         return baseValue;
+      }
     }
   }
 
@@ -292,11 +298,12 @@ export class BigIntArithmetics {
 
   #arithmetics(method: 'add' | 'sub' | 'mul' | 'div', ...args: InitialisationValueType[]): this {
     const precisionDecimal = this.#retrievePrecisionDecimal(this, ...args);
-    const precisionDecimalMultiplier = toMultiplier(precisionDecimal);
+    const decimal = Math.max(precisionDecimal, decimalFromMultiplier(this.decimalMultiplier));
+    const precisionDecimalMultiplier = toMultiplier(decimal);
 
     const result = args.reduce(
       (acc: bigint, arg) => {
-        const value = this.getBigIntValue(arg, precisionDecimal);
+        const value = this.getBigIntValue(arg, decimal);
 
         switch (method) {
           case 'add':
@@ -326,13 +333,18 @@ export class BigIntArithmetics {
     );
 
     const value = formatBigIntToSafeValue({
-      bigIntDecimal: precisionDecimal,
-      decimal: Math.max(precisionDecimal, decimalFromMultiplier(this.decimalMultiplier)),
+      bigIntDecimal: decimal,
+      decimal,
       value: result,
     });
 
     // @ts-expect-error False positive
-    return new this.constructor({ decimal: this.decimal, value, identifier: this.toString() });
+    return new this.constructor({
+      decimalMultiplier: toMultiplier(decimal),
+      decimal: this.decimal,
+      value,
+      identifier: this.toString(),
+    });
   }
 
   #setValue(value: InitialisationValueType) {
@@ -342,12 +354,16 @@ export class BigIntArithmetics {
 
   #retrievePrecisionDecimal(...args: InitialisationValueType[]) {
     const decimals = args
-      .map((arg) =>
-        typeof arg === 'object'
+      .map((arg) => {
+        const isObject = typeof arg === 'object';
+        const value = isObject
           ? arg.decimal || decimalFromMultiplier(arg.decimalMultiplier)
-          : getFloatDecimals(toSafeValue(arg)),
-      )
+          : getFloatDecimals(toSafeValue(arg));
+
+        return value;
+      })
       .filter(Boolean) as number[];
+
     return Math.max(...decimals, DEFAULT_DECIMAL);
   }
 
