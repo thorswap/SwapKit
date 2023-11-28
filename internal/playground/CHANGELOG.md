@@ -1,5 +1,29 @@
 # @internal/playground
 
+## 0.0.0-rc.39
+
+### Patch Changes
+
+- [#414](https://github.com/thorswap/SwapKit/pull/414) [`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix Division precision
+
+- Updated dependencies [[`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.38
+  - @swapkit/toolbox-cosmos@1.0.0-rc.38
+  - @swapkit/wallet-keystore@1.0.0-rc.44
+  - @swapkit/helpers@1.0.0-rc.36
+  - @swapkit/tokens@1.0.0-rc.18
+  - @swapkit/toolbox-utxo@1.0.0-rc.38
+  - @swapkit/wallet-ledger@1.0.0-rc.42
+  - @swapkit/wallet-trezor@1.0.0-rc.40
+  - @swapkit/types@1.0.0-rc.17
+  - @swapkit/toolbox-evm@1.0.0-rc.38
+  - @swapkit/wallet-keplr@1.0.0-rc.38
+  - @swapkit/wallet-xdefi@1.0.0-rc.43
+  - @swapkit/core@1.0.0-rc.44
+  - @swapkit/api@1.0.0-rc.17
+  - @swapkit/wallet-okx@1.0.0-rc.42
+  - @swapkit/wallet-wc@1.0.0-rc.40
+
 ## 0.0.0-rc.38
 
 ### Patch Changes
