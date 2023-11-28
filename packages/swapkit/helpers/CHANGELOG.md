@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.36
+
+### Patch Changes
+
+- [#414](https://github.com/thorswap/SwapKit/pull/414) [`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix Division precision
+
+- Updated dependencies [[`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c)]:
+  - @swapkit/tokens@1.0.0-rc.18
+  - @swapkit/types@1.0.0-rc.17
+
 ## 1.0.0-rc.35
 
 ### Patch Changes
