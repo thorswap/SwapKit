@@ -1,5 +1,27 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.49
+
+### Patch Changes
+
+- [`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Update toString on synths
+
+- Updated dependencies [[`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.41
+  - @swapkit/toolbox-cosmos@1.0.0-rc.41
+  - @swapkit/wallet-keystore@1.0.0-rc.47
+  - @swapkit/toolbox-utxo@1.0.0-rc.41
+  - @swapkit/wallet-ledger@1.0.0-rc.45
+  - @swapkit/wallet-trezor@1.0.0-rc.43
+  - @swapkit/types@1.0.0-rc.19
+  - @swapkit/toolbox-evm@1.0.0-rc.41
+  - @swapkit/wallet-keplr@1.0.0-rc.41
+  - @swapkit/wallet-xdefi@1.0.0-rc.46
+  - @swapkit/core@1.0.0-rc.47
+  - @swapkit/api@1.0.0-rc.19
+  - @swapkit/wallet-okx@1.0.0-rc.45
+  - @swapkit/wallet-wc@1.0.0-rc.43
+
 ## 1.0.0-rc.48
 
 ### Patch Changes
