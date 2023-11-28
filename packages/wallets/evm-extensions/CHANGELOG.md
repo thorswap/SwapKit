@@ -1,5 +1,15 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.0.0-rc.40
+
+### Patch Changes
+
+- Patch typeforce
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.18
+  - @swapkit/toolbox-evm@1.0.0-rc.40
+
 ## 1.0.0-rc.39
 
 ### Patch Changes

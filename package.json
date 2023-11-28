@@ -52,7 +52,8 @@
     "patchedDependencies": {
       "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
       "@changesets/assemble-release-plan@5.2.3": "patches/@changesets__assemble-release-plan@5.2.3.patch",
-      "@changesets/cli@2.26.1": "patches/@changesets__cli@2.26.1.patch"
+      "@changesets/cli@2.26.1": "patches/@changesets__cli@2.26.1.patch",
+      "typeforce@1.18.0": "patches/typeforce@1.18.0.patch"
     }
   },
   "scripts": {

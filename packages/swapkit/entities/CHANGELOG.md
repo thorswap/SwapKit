@@ -1,5 +1,14 @@
 # @thorswap-lib/swapkit-entities
 
+## 1.0.0-rc.18
+
+### Patch Changes
+
+- Patch typeforce
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.18
+
 ## 1.0.0-rc.17
 
 ### Patch Changes

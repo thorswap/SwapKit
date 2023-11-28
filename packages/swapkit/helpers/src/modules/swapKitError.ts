@@ -62,7 +62,7 @@ export type Keys = keyof typeof errorMessages;
 
 export class SwapKitError extends Error {
   constructor(errorKey: Keys, sourceError?: any) {
-    console.error(sourceError);
+    console.error(sourceError, { stack: sourceError?.stack, message: sourceError?.message });
 
     super(errorKey, { cause: { code: errorMessages[errorKey], message: errorKey } });
     Object.setPrototypeOf(this, SwapKitError.prototype);

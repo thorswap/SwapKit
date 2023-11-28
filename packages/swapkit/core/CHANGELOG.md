@@ -1,5 +1,20 @@
 # @swapkit/core
 
+## 1.0.0-rc.46
+
+### Patch Changes
+
+- Patch typeforce
+
+- Updated dependencies [[`7d25148f`](https://github.com/thorswap/SwapKit/commit/7d25148f0ffcbb430690f9cf53c2e711a8385620)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.40
+  - @swapkit/toolbox-utxo@1.0.0-rc.40
+  - @swapkit/helpers@1.0.0-rc.38
+  - @swapkit/tokens@1.0.0-rc.19
+  - @swapkit/types@1.0.0-rc.18
+  - @swapkit/toolbox-evm@1.0.0-rc.40
+  - @swapkit/api@1.0.0-rc.18
+
 ## 1.0.0-rc.45
 
 ### Patch Changes

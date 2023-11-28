@@ -1,5 +1,18 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.40
+
+### Patch Changes
+
+- [#418](https://github.com/thorswap/SwapKit/pull/418) [`7d25148f`](https://github.com/thorswap/SwapKit/commit/7d25148f0ffcbb430690f9cf53c2e711a8385620) Thanks [@towanTG](https://github.com/towanTG)! - Adds dynamic gaia gas and fixes default utxo gas price
+
+- Patch typeforce
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.38
+  - @swapkit/types@1.0.0-rc.18
+  - @swapkit/api@1.0.0-rc.18
+
 ## 1.0.0-rc.39
 
 ### Patch Changes

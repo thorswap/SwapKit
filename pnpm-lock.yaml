@@ -20,6 +20,9 @@ patchedDependencies:
   cipher-base@1.0.4:
     hash: jhokeuf3q37bjhh6zmamqu7qp4
     path: patches/cipher-base-npm-1.0.4-2e98b97140.patch
+  typeforce@1.18.0:
+    hash: xn2ubemcgcseq7yqk65z26wt2m
+    path: patches/typeforce@1.18.0.patch
 
 importers:
 
@@ -3419,7 +3422,7 @@ packages:
       merkle-lib: 2.0.10
       randombytes: 2.1.0
       safe-buffer: 5.2.1
-      typeforce: 1.18.0
+      typeforce: 1.18.0(patch_hash=xn2ubemcgcseq7yqk65z26wt2m)
       varuint-bitcoin: 1.1.2
       wif: 2.0.6
     dev: false
@@ -4164,7 +4167,7 @@ packages:
       int64-buffer: 1.0.1
       pushdata-bitcoin: 1.0.1
       tiny-secp256k1: 1.1.6
-      typeforce: 1.18.0
+      typeforce: 1.18.0(patch_hash=xn2ubemcgcseq7yqk65z26wt2m)
       varuint-bitcoin: 1.1.2
       wif: 2.0.6
 
@@ -5576,7 +5579,7 @@ packages:
       create-hash: 1.2.0
       create-hmac: 1.1.7
       tiny-secp256k1: 1.1.6
-      typeforce: 1.18.0
+      typeforce: 1.18.0(patch_hash=xn2ubemcgcseq7yqk65z26wt2m)
       wif: 2.0.6
 
   /bip66@1.1.5:
@@ -5603,7 +5606,7 @@ packages:
       pushdata-bitcoin: 1.0.1
       randombytes: 2.1.0
       tiny-secp256k1: 1.1.6
-      typeforce: 1.18.0
+      typeforce: 1.18.0(patch_hash=xn2ubemcgcseq7yqk65z26wt2m)
       varuint-bitcoin: 1.1.2
       wif: 2.0.6
 
@@ -6646,7 +6649,7 @@ packages:
     engines: {node: '>=8.0.0'}
     dependencies:
       randombytes: 2.1.0
-      typeforce: 1.18.0
+      typeforce: 1.18.0(patch_hash=xn2ubemcgcseq7yqk65z26wt2m)
       wif: 2.0.6
     dev: false
 
@@ -12033,8 +12036,9 @@ packages:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
     dev: true
 
-  /typeforce@1.18.0:
+  /typeforce@1.18.0(patch_hash=xn2ubemcgcseq7yqk65z26wt2m):
     resolution: {integrity: sha512-7uc1O8h1M1g0rArakJdf0uLRSSgFcYexrVoKo+bzJd32gd4gDy2L/Z+8/FjPnU9ydY3pEnVPtr9FyscYY60K1g==}
+    patched: true
 
   /typescript@5.2.2:
     resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}

@@ -1,5 +1,27 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.48
+
+### Patch Changes
+
+- Patch typeforce
+
+- Updated dependencies [[`7d25148f`](https://github.com/thorswap/SwapKit/commit/7d25148f0ffcbb430690f9cf53c2e711a8385620)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.40
+  - @swapkit/toolbox-utxo@1.0.0-rc.40
+  - @swapkit/wallet-ledger@1.0.0-rc.44
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.40
+  - @swapkit/wallet-keystore@1.0.0-rc.46
+  - @swapkit/wallet-trezor@1.0.0-rc.42
+  - @swapkit/types@1.0.0-rc.18
+  - @swapkit/toolbox-evm@1.0.0-rc.40
+  - @swapkit/wallet-keplr@1.0.0-rc.40
+  - @swapkit/wallet-xdefi@1.0.0-rc.45
+  - @swapkit/core@1.0.0-rc.46
+  - @swapkit/api@1.0.0-rc.18
+  - @swapkit/wallet-okx@1.0.0-rc.44
+  - @swapkit/wallet-wc@1.0.0-rc.42
+
 ## 1.0.0-rc.47
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.38
+
+### Patch Changes
+
+- Patch typeforce
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.19
+  - @swapkit/types@1.0.0-rc.18
+
 ## 1.0.0-rc.37
 
 ### Patch Changes
