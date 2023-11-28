@@ -1,5 +1,13 @@
 # @swapkit/wallet-keystore
 
+## 1.0.0-rc.46
+
+### Patch Changes
+
+- Updated dependencies [[`7d25148f`](https://github.com/thorswap/SwapKit/commit/7d25148f0ffcbb430690f9cf53c2e711a8385620)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.40
+  - @swapkit/toolbox-utxo@1.0.0-rc.40
+
 ## 1.0.0-rc.45
 
 ### Patch Changes

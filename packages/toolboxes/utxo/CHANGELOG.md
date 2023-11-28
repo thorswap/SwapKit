@@ -1,5 +1,11 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.40
+
+### Patch Changes
+
+- [#418](https://github.com/thorswap/SwapKit/pull/418) [`7d25148f`](https://github.com/thorswap/SwapKit/commit/7d25148f0ffcbb430690f9cf53c2e711a8385620) Thanks [@towanTG](https://github.com/towanTG)! - Adds dynamic gaia gas and fixes default utxo gas price
+
 ## 1.0.0-rc.39
 
 ### Patch Changes
