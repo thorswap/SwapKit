@@ -27,8 +27,8 @@ describe('AssetValue', () => {
         value: 1234567890,
       });
 
-      expect(ethSynth.toString()).toBe('THOR.ETH/ETH');
-      expect(ethSynth.toString(true)).toBe('ETH/ETH');
+      expect(ethSynth.toString()).toBe('ETH/ETH');
+      expect(ethSynth.toString(true)).toBe('ETH');
       expect(ethSynth.mul(21.37).getValue('string')).toBe('26382715809.3');
 
       const atomDerived = new AssetValue({
@@ -98,7 +98,7 @@ describe('AssetValue', () => {
       expect(thor.toString()).toBe('ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044');
 
       const ethSynth = await AssetValue.fromIdentifier('ETH/ETH');
-      expect(ethSynth.toString()).toBe('THOR.ETH/ETH');
+      expect(ethSynth.toString()).toBe('ETH/ETH');
     });
   });
 

@@ -104,13 +104,7 @@ export class AssetValue extends BigIntArithmetics {
   }
 
   toString(short = false) {
-    // THOR.RUNE | ETH/ETH
-    const shortFormat = this.isSynthetic ? this.symbol.split('-')[0] : this.ticker;
-
-    return short
-      ? shortFormat
-      : // THOR.ETH/ETH | ETH.USDT-0x1234567890
-        `${this.chain}.${this.symbol}`;
+    return short ? this.ticker : this.isSynthetic ? this.symbol : `${this.chain}.${this.symbol}`;
   }
 
   eq({ chain, symbol }: { chain: Chain; symbol: string }) {
