@@ -112,19 +112,19 @@ export class BigIntArithmetics {
     return this.#arithmetics('div', ...args);
   }
   gt(value: InitialisationValueType) {
-    return this.bigIntValue > this.getBigIntValue(value);
+    return this.bigIntValue > this.getBigIntValue(value, this.decimal);
   }
   gte(value: InitialisationValueType) {
-    return this.bigIntValue >= this.getBigIntValue(value);
+    return this.bigIntValue >= this.getBigIntValue(value, this.decimal);
   }
   lt(value: InitialisationValueType) {
-    return this.bigIntValue < this.getBigIntValue(value);
+    return this.bigIntValue < this.getBigIntValue(value, this.decimal);
   }
   lte(value: InitialisationValueType) {
-    return this.bigIntValue <= this.getBigIntValue(value);
+    return this.bigIntValue <= this.getBigIntValue(value, this.decimal);
   }
   eqValue(value: InitialisationValueType) {
-    return this.bigIntValue === this.getBigIntValue(value);
+    return this.bigIntValue === this.getBigIntValue(value, this.decimal);
   }
 
   // @ts-expect-error False positive

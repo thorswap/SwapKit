@@ -455,6 +455,14 @@ describe('SwapKitNumber', () => {
       expect(skNumber1.gt(skNumber2)).toBe(true);
       expect(skNumber2.gt(skNumber1)).toBe(false);
     });
+
+    test("different decimals doesn't affect comparison", () => {
+      const skNumber1 = new SwapKitNumber({ value: 10, decimal: 18 });
+      const skNumber2 = new SwapKitNumber({ value: '50', decimal: 8 });
+
+      expect(skNumber1.lt(skNumber2)).toBe(true);
+      expect(skNumber2.gt(skNumber1)).toBe(true);
+    });
   });
 
   describe('gte', () => {
