@@ -6,6 +6,9 @@ export const broadcastUTXOTx = async ({ txHash, rpcUrl }: { txHash: string; rpcU
   const response = await RequestClient.post<{ id: string; result: string; error: string | null }>(
     rpcUrl,
     {
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         jsonrpc: '2.0',
         method: 'sendrawtransaction',
