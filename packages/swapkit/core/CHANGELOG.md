@@ -1,5 +1,12 @@
 # @swapkit/core
 
+## 1.0.0-rc.51
+
+### Patch Changes
+
+- Updated dependencies [[`42b301ed`](https://github.com/thorswap/SwapKit/commit/42b301ed664bc9b828cdf16ef70c47963eaa31fa)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.45
+
 ## 1.0.0-rc.50
 
 ### Patch Changes

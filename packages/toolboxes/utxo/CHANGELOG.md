@@ -1,5 +1,11 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.45
+
+### Patch Changes
+
+- [#421](https://github.com/thorswap/SwapKit/pull/421) [`42b301ed`](https://github.com/thorswap/SwapKit/commit/42b301ed664bc9b828cdf16ef70c47963eaa31fa) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Content-Type for broadcast request
+
 ## 1.0.0-rc.44
 
 ### Patch Changes
