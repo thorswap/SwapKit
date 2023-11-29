@@ -1,5 +1,11 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.50
+
+### Patch Changes
+
+- [#423](https://github.com/thorswap/SwapKit/pull/423) [`7e6125c9`](https://github.com/thorswap/SwapKit/commit/7e6125c988b1c0e76ee06c867e5a635e46f61852) Thanks [@towanTG](https://github.com/towanTG)! - Fixes BSC implementation and UTXO connection
+
 ## 1.0.0-rc.49
 
 ### Patch Changes
