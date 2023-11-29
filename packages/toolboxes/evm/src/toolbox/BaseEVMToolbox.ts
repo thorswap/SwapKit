@@ -450,7 +450,7 @@ const sendTransaction = async (
       nonce,
       ...feeData,
     };
-
+    console.log("txObject: ",txObject)
     try {
       const response = await signer.sendTransaction(txObject);
       return typeof response?.hash === 'string' ? response.hash : response;
