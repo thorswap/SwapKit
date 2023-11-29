@@ -1,5 +1,11 @@
 # @internal/config
 
+## 0.0.0-rc.8
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
 ## 0.0.0-rc.7
 
 ### Patch Changes

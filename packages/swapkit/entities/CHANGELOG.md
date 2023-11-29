@@ -1,5 +1,14 @@
 # @thorswap-lib/swapkit-entities
 
+## 1.0.0-rc.22
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.22
+
 ## 1.0.0-rc.21
 
 ### Patch Changes

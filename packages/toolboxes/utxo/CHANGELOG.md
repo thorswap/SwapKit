@@ -1,5 +1,15 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.44
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.42
+  - @swapkit/types@1.0.0-rc.22
+
 ## 1.0.0-rc.43
 
 ### Patch Changes

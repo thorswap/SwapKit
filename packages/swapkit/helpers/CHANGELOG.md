@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.42
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.23
+  - @swapkit/types@1.0.0-rc.22
+
 ## 1.0.0-rc.41
 
 ### Patch Changes

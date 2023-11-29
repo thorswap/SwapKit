@@ -1,5 +1,27 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.52
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.44
+  - @swapkit/toolbox-cosmos@1.0.0-rc.44
+  - @swapkit/wallet-keystore@1.0.0-rc.50
+  - @swapkit/toolbox-utxo@1.0.0-rc.44
+  - @swapkit/wallet-ledger@1.0.0-rc.48
+  - @swapkit/wallet-trezor@1.0.0-rc.46
+  - @swapkit/types@1.0.0-rc.22
+  - @swapkit/toolbox-evm@1.0.0-rc.44
+  - @swapkit/wallet-keplr@1.0.0-rc.44
+  - @swapkit/wallet-xdefi@1.0.0-rc.49
+  - @swapkit/core@1.0.0-rc.50
+  - @swapkit/api@1.0.0-rc.22
+  - @swapkit/wallet-okx@1.0.0-rc.48
+  - @swapkit/wallet-wc@1.0.0-rc.46
+
 ## 1.0.0-rc.51
 
 ### Patch Changes

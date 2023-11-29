@@ -1,5 +1,18 @@
 # @swapkit/wallet-okx
 
+## 1.0.0-rc.48
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.44
+  - @swapkit/helpers@1.0.0-rc.42
+  - @swapkit/toolbox-utxo@1.0.0-rc.44
+  - @swapkit/types@1.0.0-rc.22
+  - @swapkit/toolbox-evm@1.0.0-rc.44
+
 ## 1.0.0-rc.47
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.22
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
 ## 1.0.0-rc.21
 
 ### Patch Changes

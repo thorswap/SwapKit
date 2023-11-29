@@ -1,5 +1,20 @@
 # @swapkit/core
 
+## 1.0.0-rc.50
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.44
+  - @swapkit/helpers@1.0.0-rc.42
+  - @swapkit/tokens@1.0.0-rc.23
+  - @swapkit/toolbox-utxo@1.0.0-rc.44
+  - @swapkit/types@1.0.0-rc.22
+  - @swapkit/toolbox-evm@1.0.0-rc.44
+  - @swapkit/api@1.0.0-rc.22
+
 ## 1.0.0-rc.49
 
 ### Patch Changes

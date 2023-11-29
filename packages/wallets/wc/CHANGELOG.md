@@ -1,5 +1,16 @@
 # @swapkit/wallet-wc
 
+## 1.0.0-rc.46
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.44
+  - @swapkit/types@1.0.0-rc.22
+  - @swapkit/toolbox-evm@1.0.0-rc.44
+
 ## 1.0.0-rc.45
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.0.0-rc.44
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.22
+  - @swapkit/toolbox-evm@1.0.0-rc.44
+
 ## 1.0.0-rc.43
 
 ### Patch Changes
