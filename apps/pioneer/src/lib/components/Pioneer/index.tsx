@@ -117,11 +117,10 @@ const Pioneer = () => {
   const onStart = async function () {
     try {
       console.log('onStart');
-      console.log('wallets', app.wallets);
-      if (app.wallets) {
+      if (app && app.wallets) {
         setWalletsAvailable(app.wallets);
       }
-      if (app.isPioneer) {
+      if (app && app.isPioneer) {
         console.log('app.isPioneer: ', app.isPioneer);
         setIsPioneer(true);
         setPioneerImage(app.isPioneer);

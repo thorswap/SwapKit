@@ -316,7 +316,7 @@ export class SDK {
 
           //set pubkeys
 
-          this.refresh(context);
+          this.refresh();
         } else {
           console.error('SDK FAILED TO PAIR WALLET! e: ', resultPair);
           throw Error(`Failed to pair wallet! ${walletSelected.type}`);
@@ -334,20 +334,10 @@ export class SDK {
     this.refresh = async function (context: string) {
       const tag = `${TAG} | refresh | `;
       try {
-        // verify context exists
-        // log.info(tag, "context: ", context);
-        const walletWithContext = this.wallets.find((wallet: any) => wallet.context === context);
-        if (!walletWithContext) throw Error(`Context does not exist! ${context}`);
-        // log.info(tag, "walletWithContext: ", walletWithContext);
-
         // get chains of wallet
         const chains = Object.keys(this.swapKit.connectedWallets);
         //TODO get paths
         console.log('paths: ', this.paths);
-
-        //if any custom paths, add them
-
-        //TODO get pubkeys
 
         // get address array
         const addressArray = await Promise.all(
@@ -359,7 +349,7 @@ export class SDK {
           const chain = chains[i];
           const address = addressArray[i];
           const pubkey = {
-            context, // TODO this is not right?
+            context: this.context,
             // wallet:walletSelected.type,
             symbol: chain,
             blockchain: COIN_MAP_LONG[chain] || 'unknown',
@@ -394,7 +384,7 @@ export class SDK {
               const balance = walletData.balance[j];
               console.log('balance: ', balance);
               if (balance && balance?.baseValueNumber > 0) {
-                balance.context = context;
+                balance.context = this.context;
                 balance.address = walletData.address;
                 balancesSwapKit.push(balance);
               }
@@ -403,7 +393,7 @@ export class SDK {
         }
 
         //
-        let pubkeysRegister = this.pubkeys.filter((pubkey) => pubkey.context === context);
+        let pubkeysRegister = this.pubkeys.filter((pubkey) => pubkey.context === this.context);
         let balancesRegister = balancesSwapKit
           .map((balance: any) => {
             let balanceString: any = {};
@@ -418,7 +408,7 @@ export class SDK {
             balanceString.context = balance.context;
             return balanceString;
           })
-          .filter((balance) => balance.context === context);
+          .filter((balance) => balance.context === this.context);
 
         //sync pubkeys with local cache
         let register: any = {
@@ -457,21 +447,6 @@ export class SDK {
         this.outboundAssetContext = this.balances[1];
         this.events.emit('SET_OUTBOUND_ASSET_CONTEXT', this.outboundAssetContext);
 
-        // set defaults
-        // if(!this.blockchainContext)this.blockchainContext = primaryBlockchains['eip155:1/slip44:60']
-        // if(!this.assetContext)this.assetContext = primaryAssets['eip155:1/slip44:60']
-
-        // //set pubkey for context
-        // let pubkeysForContext = this.pubkeys.filter((item: { context: string }) => item.context === context);
-        // log.info(tag, "pubkeysForContext: ", pubkeysForContext)
-
-        // log.info(tag, "this.blockchainContext.caip: ", this.blockchainContext.caip)
-        // pubkey for blockchain context
-        // let pubkeysForBlockchainContext = this.pubkeys.find((item: { caip: string }) => item.caip === this.blockchainContext.caip);
-        // log.info(tag, "pubkeysForBlockchainContext: ", pubkeysForBlockchainContext)
-        // if(pubkeysForBlockchainContext)this.pubkeyContext = pubkeysForBlockchainContext
-        // //TODO if no pubkey for blockchain context, then dont allow context switching
-        // this.events.emit("SET_PUBKEY_CONTEXT", this.pubkeyContext);
         return true;
       } catch (e) {
         console.error(tag, 'e: ', e);
