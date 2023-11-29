@@ -63,7 +63,7 @@ export abstract class UTXOLedgerInterface {
     const { default: BitcoinApp } = await import('@ledgerhq/hw-app-btc');
 
     // @ts-expect-error `default` typing is wrong
-    this.btcApp = new BitcoinApp(this.transport);
+    this.btcApp = new BitcoinApp({ transport: this.transport });
   };
 
   public signTransaction = async (psbt: Psbt, inputUtxos: UTXOType[]) => {
