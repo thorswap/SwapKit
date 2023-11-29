@@ -6,6 +6,7 @@ cache/
 packages/**/.turbo
 internal/**/.turbo
 .turbo/config.json
+.turbo/cookies
 
 .env
 *.mjs

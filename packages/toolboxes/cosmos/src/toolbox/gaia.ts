@@ -31,14 +31,14 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
   });
 
   const getFees = async () => {
-      const baseFee = (await getFeeRateFromThorswap(ChainId.Cosmos)) || 500;
-      return {
-        type: 'base',
-        average: new SwapKitNumber({ value: baseFee, decimal: BaseDecimal.GAIA }),
-        fast: new SwapKitNumber({ value: baseFee * 1.5, decimal: BaseDecimal.GAIA }),
-        fastest: new SwapKitNumber({ value: baseFee * 2, decimal: BaseDecimal.GAIA }),
-      };
-    }
+    const baseFee = (await getFeeRateFromThorswap(ChainId.Cosmos)) || 500;
+    return {
+      type: 'base',
+      average: new SwapKitNumber({ value: baseFee, decimal: BaseDecimal.GAIA }),
+      fast: new SwapKitNumber({ value: baseFee * 1.5, decimal: BaseDecimal.GAIA }),
+      fastest: new SwapKitNumber({ value: baseFee * 2, decimal: BaseDecimal.GAIA }),
+    };
+  };
 
   return {
     ...baseToolbox,
@@ -58,6 +58,6 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
           gas: '200000',
         },
       });
-  }
-  }
+    },
+  };
 };
