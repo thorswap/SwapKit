@@ -133,9 +133,13 @@ export const walletTransfer = async (
   const params = [
     {
       amount: { amount: assetValue.getBaseValue('number'), decimals: assetValue.decimal },
-      asset: { chain: assetValue.chain, symbol: assetValue.symbol, ticker: assetValue.symbol },
-      from,
+      asset: {
+        chain: assetValue.chain,
+        symbol: assetValue.symbol.toUpperCase(),
+        ticker: assetValue.symbol.toUpperCase(),
+      },
       memo,
+      from,
       recipient,
       gasLimit,
     },

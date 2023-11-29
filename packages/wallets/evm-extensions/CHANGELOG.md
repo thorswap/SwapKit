@@ -1,5 +1,15 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.0.0-rc.43
+
+### Patch Changes
+
+- Bump for explorer & synths
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.21
+  - @swapkit/toolbox-evm@1.0.0-rc.43
+
 ## 1.0.0-rc.42
 
 ### Patch Changes

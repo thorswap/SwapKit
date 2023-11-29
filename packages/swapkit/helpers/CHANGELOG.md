@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.41
+
+### Patch Changes
+
+- Bump for explorer & synths
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.22
+  - @swapkit/types@1.0.0-rc.21
+
 ## 1.0.0-rc.40
 
 ### Patch Changes

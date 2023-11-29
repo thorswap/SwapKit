@@ -1,5 +1,18 @@
 # @swapkit/wallet-keystore
 
+## 1.0.0-rc.49
+
+### Patch Changes
+
+- Bump for explorer & synths
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.43
+  - @swapkit/helpers@1.0.0-rc.41
+  - @swapkit/toolbox-utxo@1.0.0-rc.43
+  - @swapkit/types@1.0.0-rc.21
+  - @swapkit/toolbox-evm@1.0.0-rc.43
+
 ## 1.0.0-rc.48
 
 ### Patch Changes

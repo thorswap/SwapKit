@@ -1,5 +1,11 @@
 # @internal/config
 
+## 0.0.0-rc.7
+
+### Patch Changes
+
+- Bump for explorer & synths
+
 ## 0.0.0-rc.6
 
 ### Patch Changes

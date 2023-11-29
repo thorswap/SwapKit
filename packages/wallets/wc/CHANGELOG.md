@@ -1,5 +1,16 @@
 # @swapkit/wallet-wc
 
+## 1.0.0-rc.45
+
+### Patch Changes
+
+- Bump for explorer & synths
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.43
+  - @swapkit/types@1.0.0-rc.21
+  - @swapkit/toolbox-evm@1.0.0-rc.43
+
 ## 1.0.0-rc.44
 
 ### Patch Changes

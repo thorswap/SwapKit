@@ -1,5 +1,14 @@
 # @thorswap-lib/swapkit-entities
 
+## 1.0.0-rc.21
+
+### Patch Changes
+
+- Bump for explorer & synths
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.21
+
 ## 1.0.0-rc.20
 
 ### Patch Changes

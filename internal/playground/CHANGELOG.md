@@ -1,5 +1,29 @@
 # @internal/playground
 
+## 0.0.0-rc.44
+
+### Patch Changes
+
+- Bump for explorer & synths
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.43
+  - @swapkit/toolbox-cosmos@1.0.0-rc.43
+  - @swapkit/wallet-keystore@1.0.0-rc.49
+  - @swapkit/helpers@1.0.0-rc.41
+  - @swapkit/tokens@1.0.0-rc.22
+  - @swapkit/toolbox-utxo@1.0.0-rc.43
+  - @swapkit/wallet-ledger@1.0.0-rc.47
+  - @swapkit/wallet-trezor@1.0.0-rc.45
+  - @swapkit/types@1.0.0-rc.21
+  - @swapkit/toolbox-evm@1.0.0-rc.43
+  - @swapkit/wallet-keplr@1.0.0-rc.43
+  - @swapkit/wallet-xdefi@1.0.0-rc.48
+  - @swapkit/core@1.0.0-rc.49
+  - @swapkit/api@1.0.0-rc.21
+  - @swapkit/wallet-okx@1.0.0-rc.47
+  - @swapkit/wallet-wc@1.0.0-rc.45
+
 ## 0.0.0-rc.43
 
 ### Patch Changes

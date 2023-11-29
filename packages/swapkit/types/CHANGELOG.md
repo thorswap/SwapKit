@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.21
+
+### Patch Changes
+
+- Bump for explorer & synths
+
 ## 1.0.0-rc.20
 
 ### Patch Changes
