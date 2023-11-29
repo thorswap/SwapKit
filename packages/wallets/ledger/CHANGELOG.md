@@ -1,5 +1,11 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.51
+
+### Patch Changes
+
+- [#425](https://github.com/thorswap/SwapKit/pull/425) [`eee30574`](https://github.com/thorswap/SwapKit/commit/eee3057431f03c2cb76aa9cffbc9385641c83f24) Thanks [@towanTG](https://github.com/towanTG)! - Updates create transaction call after ledger btc app version bump
+
 ## 1.0.0-rc.50
 
 ### Patch Changes
