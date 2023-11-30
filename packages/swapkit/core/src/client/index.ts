@@ -54,6 +54,25 @@ const getEmptyWalletStructure = () =>
     {} as Record<Chain, null>,
   );
 
+const validateAddress = async ({
+  chain,
+  address,
+}: {
+  chain: Chain;
+  address: string | undefined;
+}) => {
+  if (!address) return false;
+  switch (chain) {
+    case Chain.Bitcoin:
+      if (address.startsWith('bc1p')) {
+        return false;
+      }
+      return true;
+    default:
+      return true;
+  }
+};
+
 export class SwapKitCore<T = ''> {
   public connectedChains: Wallet = getEmptyWalletStructure();
   public connectedWallets: WalletMethods = getEmptyWalletStructure();
@@ -220,6 +239,8 @@ export class SwapKitCore<T = ''> {
   }: CoreTxParams & { router?: string }) => {
     const { chain, symbol, ticker } = assetValue;
     const walletInstance = this.connectedWallets[chain];
+    if (!(await validateAddress({ address: await walletInstance?.getAddress(), chain })))
+      throw new SwapKitError('core_transaction_invalid_sender_address');
     if (!walletInstance) throw new SwapKitError('core_wallet_connection_not_found');
 
     const params = this.#prepareTxParams({ assetValue, recipient, router, ...rest });

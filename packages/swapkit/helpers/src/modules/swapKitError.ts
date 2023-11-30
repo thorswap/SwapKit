@@ -45,6 +45,7 @@ const errorMessages = {
   core_transaction_deposit_to_pool_error: 10310,
   core_transaction_deposit_insufficient_funds_error: 10311,
   core_transaction_deposit_gas_error: 10312,
+  core_transaction_invalid_sender_address: 10313,
   core_transaction_deposit_server_error: 10313,
 
   /**
