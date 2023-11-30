@@ -1,8 +1,8 @@
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import type { Account } from '@cosmjs/stargate';
 import { baseAmount } from '@thorswap-lib/helpers';
-import type { Balance } from '@thorswap-lib/types';
-import { ApiUrl, BaseDecimal, ChainId, DerivationPath } from '@thorswap-lib/types';
+import type { Balance, Fees } from '@thorswap-lib/types';
+import { ApiUrl, BaseDecimal, ChainId, DerivationPath, FeeOption } from '@thorswap-lib/types';
 
 import { CosmosClient } from '../cosmosClient.ts';
 import type { GaiaToolboxType } from '../index.ts';
@@ -33,13 +33,13 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
     client,
   });
 
-  const getFees = async () => {
+  const getFees = async (): Promise<Fees> => {
     const baseFee = (await getFeeRateFromThorswap(ChainId.Cosmos)) || 500;
     return {
       type: 'base',
-      fast: baseAmount(baseFee * 1.5, BaseDecimal.GAIA),
-      fastest: baseAmount(baseFee * 3, BaseDecimal.GAIA),
-      average: baseAmount(baseFee, BaseDecimal.GAIA),
+      [FeeOption.Fast]: baseAmount(baseFee * 1.5, BaseDecimal.GAIA),
+      [FeeOption.Fastest]: baseAmount(baseFee * 3, BaseDecimal.GAIA),
+      [FeeOption.Average]: baseAmount(baseFee, BaseDecimal.GAIA),
     };
   };
 
