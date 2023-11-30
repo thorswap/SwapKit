@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.43
+
+### Patch Changes
+
+- [#428](https://github.com/thorswap/SwapKit/pull/428) [`76ca073d`](https://github.com/thorswap/SwapKit/commit/76ca073dd9e57217b08a4b82cc821b8b75bd3120) Thanks [@towanTG](https://github.com/towanTG)! - Adds validation for unsupported address formats
+
 ## 1.0.0-rc.42
 
 ### Patch Changes

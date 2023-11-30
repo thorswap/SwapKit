@@ -1,5 +1,17 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.52
+
+### Patch Changes
+
+- [#429](https://github.com/thorswap/SwapKit/pull/429) [`5446aa3c`](https://github.com/thorswap/SwapKit/commit/5446aa3c4de0b63687d429bdb6ba7354c1e1a84b) Thanks [@towanTG](https://github.com/towanTG)! - Fixes BCH ledger format
+
+- Updated dependencies [[`76ca073d`](https://github.com/thorswap/SwapKit/commit/76ca073dd9e57217b08a4b82cc821b8b75bd3120)]:
+  - @swapkit/helpers@1.0.0-rc.43
+  - @swapkit/toolbox-cosmos@1.0.0-rc.45
+  - @swapkit/toolbox-evm@1.0.0-rc.45
+  - @swapkit/toolbox-utxo@1.0.0-rc.46
+
 ## 1.0.0-rc.51
 
 ### Patch Changes
