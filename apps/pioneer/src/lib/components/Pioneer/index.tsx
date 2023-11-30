@@ -1,14 +1,18 @@
 import {
-  CircularProgress,
   Avatar,
   AvatarBadge,
   Box,
   Button,
+  Card,
+  CardBody,
+  CircularProgress,
   Flex,
   HStack,
   IconButton,
   Menu,
-  Text,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -16,29 +20,24 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  useDisclosure,
   SimpleGrid,
-  Card,
-  CardBody,
+  Text,
+  useDisclosure,
 } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { FaCog } from 'react-icons/fa';
 
 import KeepKey from '../../components/KeepKey';
 import Ledger from '../../components/Ledger';
 import MetaMask from '../../components/MetaMask';
-
-import { useEffect, useState } from 'react';
-import { FaCog } from 'react-icons/fa';
 import MiddleEllipsis from '../../components/MiddleEllipsis';
-import { usePioneer } from '../../context/Pioneer';
-
+import Onboarding from '../../components/Onboarding';
 import {
-  getWalletContent,
   getWalletBadgeContent,
+  getWalletContent,
   pioneerImagePng,
 } from '../../components/WalletIcon';
+import { usePioneer } from '../../context/Pioneer';
 
 const Pioneer = () => {
   const { state, connectWallet } = usePioneer();
@@ -60,6 +59,15 @@ const Pioneer = () => {
     setShowAllWallets(!showAllWallets);
   };
 
+  // start the context provider
+  useEffect(() => {
+    if (!balances || balances.length === 0) {
+      onOpen();
+      setModalType('Onboarding');
+    }
+    onStart();
+  }, [balances]);
+
   useEffect(() => {
     if (context) {
       console.log('context: ', context);
@@ -75,19 +83,15 @@ const Pioneer = () => {
     }
   }, [context, app, app?.isPioneer]);
 
-  const handleWalletClick = async (wallet: {
-    type: any;
-    icon?: string | undefined;
-    isConnected?: any;
-  }) => {
+  const handleWalletClick = async (wallet: string) => {
     setIsSwitchingWallet(true);
     // setPioneerImage('');
     onOpen();
-    setWalletType(wallet.type);
-    setModalType(wallet.type);
+    setWalletType(wallet);
+    setModalType(wallet);
     setModalShowClose(false);
-    console.log('Clicked wallet:', wallet.type);
-    const resultPair = await connectWallet(wallet.type);
+    console.log('Clicked wallet:', wallet);
+    const resultPair = await connectWallet(wallet);
     console.log('resultPair: ', resultPair);
     setIsSwitchingWallet(false);
   };
@@ -96,16 +100,16 @@ const Pioneer = () => {
     const walletsToDisplay: any = showAllWallets
       ? walletsAvailable
       : walletsAvailable.filter((wallet: any) =>
-          ['metamask', 'keepkey', 'ledger'].includes(wallet.type.toLowerCase())
+          ['metamask', 'keepkey', 'ledger'].includes(wallet.type.toLowerCase()),
         );
     return walletsToDisplay.map((wallet: any) => (
-      <Card key={wallet.type} onClick={() => handleWalletClick(wallet)}>
+      <Card key={wallet.type} onClick={() => handleWalletClick(wallet.type)}>
         <CardBody>
           <Avatar src={wallet.icon}>
             {wallet.isConnected ? (
-              <AvatarBadge boxSize="1.25em" bg="green.500" />
+              <AvatarBadge bg="green.500" boxSize="1.25em" />
             ) : (
-              <AvatarBadge boxSize="1.25em" bg="red.500" />
+              <AvatarBadge bg="red.500" boxSize="1.25em" />
             )}
           </Avatar>
         </CardBody>
@@ -161,9 +165,8 @@ const Pioneer = () => {
     try {
       console.log('wallets: ', app?.wallets);
     } catch (e) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      // eslint-disable-next-line no-console
+
       console.error('header e: ', e);
       // setKeepKeyError("Bridge is offline!");
     }
@@ -176,8 +179,8 @@ const Pioneer = () => {
   const avatarContent = api ? (
     getWalletBadgeContent(walletType)
   ) : (
-    <AvatarBadge boxSize="1em" bg="red.500">
-      <CircularProgress isIndeterminate size="1em" color="white" />
+    <AvatarBadge bg="red.500" boxSize="1em">
+      <CircularProgress isIndeterminate color="white" size="1em" />
     </AvatarBadge>
   );
 
@@ -206,7 +209,10 @@ const Pioneer = () => {
               </div>
             )}
             {modalType === 'Trezor' && <div>Trezor TODO</div>}
-            {modalType === 'Xdefi' && <div>Trezor TODO</div>}
+            {modalType === 'Xdefi' && <div>Xdefi TODO</div>}
+            {modalType === 'Onboarding' && (
+              <Onboarding onClose={onClose} setModalType={setModalType} setWalletType={setWalletType}/>
+            )}
           </ModalBody>
           <ModalFooter>
             {modalShowClose ? (
@@ -222,25 +228,19 @@ const Pioneer = () => {
         </ModalContent>
       </Modal>
       <Menu>
-        <MenuButton
-          as={Button}
-          rounded="full"
-          variant="link"
-          cursor="pointer"
-          minW={100}
-        >
+        <MenuButton as={Button} cursor="pointer" minW={100} rounded="full" variant="link">
           <Avatar size="lg">
             {isSwitchingWallet ? (
               <div>
-                <Box position="relative" display="inline-block">
+                <Box display="inline-block" position="relative">
                   <Avatar size="lg" src={pioneerImage} />
                   <CircularProgress
                     isIndeterminate
-                    size="1.25em"
                     color="green.500"
-                    position="absolute"
-                    top="50%"
                     left="50%"
+                    position="absolute"
+                    size="1.25em"
+                    top="50%"
                     transform="translate(-50%, -50%)"
                   />
                 </Box>
@@ -263,48 +263,42 @@ const Pioneer = () => {
         <MenuList>
           <Box borderBottomWidth="1px" p="4">
             <HStack justifyContent="space-between">
-              <Button leftIcon={getWalletContent(walletType)}>
+              <Button
+                leftIcon={getWalletContent(walletType)}
+                onClick={() => handleWalletClick(walletType)}
+              >
                 <small>
                   <MiddleEllipsis text={context} />
                 </small>
               </Button>
               <IconButton
-                icon={<FaCog />}
                 isRound
-                onClick={() => settingsSelected()}
                 aria-label="Settings"
+                icon={<FaCog />}
+                onClick={() => settingsSelected()}
               />
               {/* <SettingsModal isOpen={isOpen} onClose={onClose} /> */}
             </HStack>
           </Box>
           <Box
-            borderWidth="1px"
             borderRadius="md"
+            borderWidth="1px"
+            maxWidth="300px"
             p="4"
             textAlign="left"
-            maxWidth="300px"
             width="100%"
           >
             <div>
-              <Flex alignItems="center">
-                <small>status: {status}</small>
-              </Flex>
-              <Card
-                p={2}
-                borderRadius="md"
-                boxShadow="sm"
-                mb={2}
-                className="caip"
-              >
-                <Flex justifyContent="space-between" alignItems="center">
+              {/*<Flex alignItems="center">*/}
+              {/*  <small>status: {status}</small>*/}
+              {/*</Flex>*/}
+              <Card borderRadius="md" boxShadow="sm" className="caip" mb={2} p={2}>
+                <Flex alignItems="center" justifyContent="space-between">
                   <Flex alignItems="center">
                     <Avatar
-                      size="md"
-                      src={
-                        app?.assetContext?.image ||
-                        'https://pioneers.dev/coins/ethereum.png'
-                      }
                       mr={2}
+                      size="md"
+                      src={app?.assetContext?.image || 'https://pioneers.dev/coins/ethereum.png'}
                     />
                     <Box fontSize="sm" fontWeight="bold">
                       Asset:
@@ -324,22 +318,15 @@ const Pioneer = () => {
               </Card>
 
               {/* Blockchain Card */}
-              <Card
-                p={2}
-                borderRadius="md"
-                boxShadow="sm"
-                mb={2}
-                className="caip"
-              >
-                <Flex justifyContent="space-between" alignItems="center">
+              <Card borderRadius="md" boxShadow="sm" className="caip" mb={2} p={2}>
+                <Flex alignItems="center" justifyContent="space-between">
                   <Flex alignItems="center">
                     <Avatar
+                      mr={2}
                       size="md"
                       src={
-                        app?.blockchainContext?.image ||
-                        'https://pioneers.dev/coins/ethereum.png'
+                        app?.blockchainContext?.image || 'https://pioneers.dev/coins/ethereum.png'
                       }
-                      mr={2}
                     />
                     <Box fontSize="sm" fontWeight="bold">
                       Blockchain:
@@ -359,8 +346,8 @@ const Pioneer = () => {
               </Card>
 
               {/* Pubkey Card */}
-              <Card p={2} borderRadius="md" boxShadow="sm" className="caip">
-                <Flex justifyContent="space-between" alignItems="center">
+              <Card borderRadius="md" boxShadow="sm" className="caip" p={2}>
+                <Flex alignItems="center" justifyContent="space-between">
                   <Flex alignItems="center">
                     <Box fontSize="sm" fontWeight="bold">
                       Pubkey Path:
@@ -381,14 +368,9 @@ const Pioneer = () => {
           </Box>
 
           <MenuItem>
-            <SimpleGrid columns={3} row={1} maxWidth="280px">
+            <SimpleGrid columns={3} maxWidth="280px" row={1}>
               {renderWallets()}
-              <Text
-                fontSize="sm"
-                cursor="pointer"
-                color="blue.500"
-                onClick={toggleShowAllWallets}
-              >
+              <Text color="blue.500" cursor="pointer" fontSize="sm" onClick={toggleShowAllWallets}>
                 {showAllWallets ? 'Hide Wallets' : 'Show All Wallets'}
               </Text>
             </SimpleGrid>

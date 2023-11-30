@@ -16,6 +16,7 @@ export enum Chain {
   Litecoin = 'LTC',
   Maya = 'MAYA',
   Optimism = 'OP',
+  Osmosis = 'OSMO',
   Polygon = 'MATIC',
   Ripple = 'XRP',
   THORChain = 'THOR',
@@ -52,6 +53,7 @@ export enum DerivationPath {
   MATIC = "m/44'/60'/0'/0",
   MAYA = "m/44'/931'/0'/0",
   OP = "m/44'/60'/0'/0",
+  OSMO = "m/44'/118'/0'/0",
   XRP = "m/44'/144'/0'/0",
   THOR = "m/44'/931'/0'/0",
   ZEC = "m/44'/133'/0'/0",
@@ -78,6 +80,7 @@ export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   MATIC: [44, 60, 0, 0, 0],
   MAYA: [44, 931, 0, 0, 0],
   OP: [44, 60, 0, 0, 0],
+  OSMO: [44, 118, 0, 0, 0],
   XRP: [44, 144, 0, 0, 0],
   THOR: [44, 931, 0, 0, 0],
   ZEC: [44, 133, 0, 0, 0],
@@ -101,6 +104,7 @@ export enum BaseDecimal {
   MATIC = 18,
   MAYA = 10,
   OP = 18,
+  OSMO = 6,
   XRP = 6,
   THOR = 8,
   ZEC = 8,
@@ -138,12 +142,13 @@ export const UTXOChainList: Chain[] = [
 
 export type CosmosChain =
   | Chain.Cosmos
+  | Chain.Osmosis
   | Chain.THORChain
   | Chain.Binance
   | Chain.Maya
   | Chain.Kujira;
 
-export const CosmosChainList: CosmosChain[] = [Chain.Cosmos, Chain.THORChain, Chain.Binance];
+export const CosmosChainList: CosmosChain[] = [Chain.Cosmos, Chain.THORChain, Chain.Binance, Chain.Osmosis];
 
 export enum ChainId {
   Arbitrum = '42161',
@@ -167,6 +172,7 @@ export enum ChainId {
   MayaStagenet = 'mayachain-stagenet-v1',
   Optimism = '10',
   OptimismHex = '0xa',
+  Osmosis = 'osmosis-1',
   Polygon = '137',
   PolygonHex = '0x89',
   THORChain = 'thorchain-mainnet-v1',
@@ -189,6 +195,7 @@ export enum RPCUrl {
   Maya = 'https://tendermint.mayachain.info',
   MayaStagenet = 'https://stagenet.tendermint.mayachain.info',
   Optimism = 'https://mainnet.optimism.io',
+  Osmosis = 'https://rpc-osmosis.keplr.app',
   Polygon = 'https://polygon-rpc.com',
   THORChain = 'https://rpc.thorswap.net',
   THORChainStagenet = 'https://stagenet-rpc.ninerealms.com',
@@ -267,6 +274,7 @@ export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.Maya]: Chain.Maya,
   [ChainId.OptimismHex]: Chain.Optimism,
   [ChainId.Optimism]: Chain.Optimism,
+  [ChainId.Osmosis]: Chain.Osmosis,
   [ChainId.PolygonHex]: Chain.Polygon,
   [ChainId.Polygon]: Chain.Polygon,
   [ChainId.THORChainStagenet]: Chain.THORChain,
@@ -291,6 +299,7 @@ export const ChainToExplorerUrl: Record<Chain, string> = {
   [Chain.Litecoin]: 'https://ltc.bitaps.com',
   [Chain.Maya]: 'https://www.mayascan.org',
   [Chain.Optimism]: 'https://optimistic.etherscan.io',
+  [Chain.Osmosis]: 'https://www.mintscan.io/osmosis',
   [Chain.Polygon]: 'https://polygonscan.com',
   [Chain.Ripple]: 'https://xrpscan.com',
   [Chain.THORChain]: 'https://viewblock.io/thorchain',

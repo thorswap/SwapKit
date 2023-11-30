@@ -7,11 +7,20 @@ import Portfolio from '../Portfolio';
 
 export default function KeepKey({ onClose }: any) {
   const { state, connectWallet } = usePioneer();
-  const { balances } = state;
+  const { app, balances } = state;
+
+  let syncWallet = async function () {
+    try {
+      // Your effect here
+      await connectWallet('KEEPKEY');
+      app.refresh();
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   useEffect(() => {
-    // Your effect here
-    connectWallet('KEEPKEY');
+    syncWallet();
   }, []);
 
   // Function to render the success card

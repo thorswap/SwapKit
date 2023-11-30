@@ -399,6 +399,7 @@ export class SDK {
             balanceString.context = this.context;
             balanceString.address = balance.address;
             balanceString.symbol = balance.symbol;
+            balanceString.caip = shortListSymbolToCaip[balance.symbol];
             balanceString.chain = balance.chain;
             balanceString.ticker = balance.ticker;
             balanceString.type = balance.type;

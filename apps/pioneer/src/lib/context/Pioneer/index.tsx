@@ -249,9 +249,6 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
         console.log('state.app.blockchainContext: ', state.app.blockchainContext);
         console.log('state.app.context: ', state.app.context);
         if (state && state.app) {
-          //load balances
-          state.app.refresh();
-
           // if pioneer set in localStoage
           if (state.app.isPioneer) {
             localStorage.setItem('isPioneer', state.app.isPioneer);
@@ -316,10 +313,10 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
 
       // @TODO add custom paths from localstorage
       const paths: any = [];
-      console.log('VITE_PIONEER_URL_SPEC: ');
       const spec =
-        // @ts-ignore
-        import.meta.env.VITE_PIONEER_URL_SPEC || 'https://swaps.pro/spec/swagger.json';
+        localStorage.getItem('pioneerUrl') ||
+        import.meta.env.VITE_PIONEER_URL_SPEC ||
+        'https://pioneers.dev/spec/swagger.json';
       // @ts-ignore
       console.log('spec: ', spec);
       const wss = 'wss://pioneers.dev';
@@ -396,10 +393,6 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       balanceCache = balanceCache ? JSON.parse(balanceCache) : [];
       console.log('balanceCache: ', balanceCache);
       appInit.loadBalanceCache(balanceCache);
-
-      // TODO why dis no worky
-      // TODO if keepkey available always connect
-      // @TODO if any wallet been connected before connect
     } catch (e) {
       console.error(e);
     }

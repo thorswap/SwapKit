@@ -51,7 +51,7 @@ const Basic = () => {
             </Tr>
             <Tr>
               <Td>Asset Context</Td>
-              <Td>{assetContext?.name}</Td>
+              <Td>{assetContext?.caip}</Td>
               <Td />
             </Tr>
             <Tr>

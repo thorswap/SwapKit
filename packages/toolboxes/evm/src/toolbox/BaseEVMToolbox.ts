@@ -393,8 +393,10 @@ const sendTransaction = async (
   signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
+  console.log("TOOLBOX: checkpoint: ")
   if (!signer) throw new Error('Signer is not defined');
   const { from, to, data, value, ...transaction } = tx;
+  console.log("TOOLBOX: tx: ",tx)
   if (!to) throw new Error('No to address provided');
 
   const parsedTxObject = {
@@ -450,9 +452,10 @@ const sendTransaction = async (
       nonce,
       ...feeData,
     };
-    console.log("txObject: ",txObject)
+    console.log("TOOLBOX: txObject: ",txObject)
     try {
       const response = await signer.sendTransaction(txObject);
+      console.log("TOOLBOX: response: ",response)
       return typeof response?.hash === 'string' ? response.hash : response;
     } catch (error) {
       const txHex = await signer.signTransaction({

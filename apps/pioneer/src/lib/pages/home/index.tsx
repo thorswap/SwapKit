@@ -4,66 +4,45 @@
 
 import {
   Button,
-  useDisclosure,
   Modal,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  ModalOverlay,
   ModalContent,
+  ModalFooter,
   ModalHeader,
-  Tabs,
-  TabList,
-  TabPanels,
+  ModalOverlay,
   Tab,
+  TabList,
   TabPanel,
+  TabPanels,
+  Tabs,
+  useDisclosure,
 } from '@chakra-ui/react';
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useEffect, useState } from 'react';
 
 import AssetSelect from '../../components/AssetSelect';
-import { usePioneer } from '../../context/Pioneer';
-
+import Basic from '../../components/Basic';
 // import OutputSelect from "lib/components/OutputSelect";
 // import BlockchainSelect from "lib/components/BlockchainSelect";
 // import WalletSelect from "lib/components/WalletSelect";
-import Basic from '../../components/Basic';
-// // import Pubkeys from "./components/Pubkeys";
+import Onboarding from '../../components/Onboarding';
+import Pubkeys from '../../components/Pubkeys';
 import Transfer from '../../components/Transfer';
+import { usePioneer } from '../../context/Pioneer';
 // import Swap from "./components/Swap";
 
 const Home = () => {
   const { state, onStart } = usePioneer();
   const {
-    // api,
-    // app,
-    // context,
-    // assetContext,
-    // blockchainContext,
     pubkeyContext,
-    // modals,
+    balances,
   } = state;
   const [address, setAddress] = useState('');
   const [modalType, setModalType] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // start the context provider
   useEffect(() => {
-    // if(txid){
-    //   //set the txid
-    //   // @ts-ignore
-    //   setTxhash(txid);
-    //   setStep(2);
-    // }
-    onStart();
-  }, []);
-
-  useEffect(() => {
-    if (pubkeyContext)
-      setAddress(
-        pubkeyContext?.master || pubkeyContext?.pubkey || pubkeyContext
-      );
+    if (pubkeyContext) setAddress(pubkeyContext?.master || pubkeyContext?.pubkey || pubkeyContext);
   }, [pubkeyContext]);
 
   const openModal = (type: any) => {
@@ -87,7 +66,7 @@ const Home = () => {
             {/* )} */}
             {modalType === 'Select Asset' && (
               <div>
-                <AssetSelect onClose={onClose} onlyOwned />
+                <AssetSelect onlyOwned onClose={onClose} />
               </div>
             )}
             {/* {modalType === "Select Blockchain" && ( */}
@@ -117,6 +96,7 @@ const Home = () => {
       <Tabs>
         <TabList>
           <Tab>Context</Tab>
+          <Tab>pubkeys</Tab>
           <Tab>balances</Tab>
           <Tab>Transfer</Tab>
           <Tab>Swaps</Tab>
@@ -127,6 +107,9 @@ const Home = () => {
         <TabPanels>
           <TabPanel>
             <Basic />
+          </TabPanel>
+          <TabPanel>
+            <Pubkeys />
           </TabPanel>
           <TabPanel>
             <AssetSelect />
