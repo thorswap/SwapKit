@@ -58,6 +58,7 @@ import {
   getExplorerTxUrl,
   getInboundData,
   getMimirData,
+  validateAddress,
 } from './helpers.ts';
 import type {
   AddLiquidityParams,
@@ -236,6 +237,8 @@ export class SwapKitCore<T = ''> {
   }: CoreTxParams & { router?: string }) => {
     const chain = assetAmount.asset.L1Chain;
     const walletInstance = this.connectedWallets[chain];
+    if (!validateAddress({ address: walletInstance?.getAddress(), chain }))
+      throw new SwapKitError('core_invalid_sender_address');
     if (!walletInstance) throw new SwapKitError('core_wallet_connection_not_found');
 
     const params = this._prepareTxParams({ assetAmount, recipient, router, ...rest });

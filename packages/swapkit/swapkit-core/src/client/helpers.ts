@@ -103,3 +103,26 @@ export const getExplorerAddressUrl = ({ chain, address }: { address: string; cha
       throw new Error(`Unsupported chain: ${chain}`);
   }
 };
+
+export const validateBitcoinAddressForTC = (address: string) => {
+  if (address.startsWith('bc1p')) {
+    return false;
+  }
+  return true;
+};
+
+export const validateAddress = async ({
+  chain,
+  address,
+}: {
+  chain: Chain;
+  address: string | undefined;
+}) => {
+  if (!address) return false;
+  switch (chain) {
+    case Chain.Bitcoin:
+      return validateBitcoinAddressForTC(address);
+    default:
+      return true;
+  }
+};

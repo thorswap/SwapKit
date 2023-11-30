@@ -7,6 +7,7 @@ const errorMessages = {
   core_extend_error: 10003,
   core_inbound_data_not_found: 10004,
   core_approve_asset_address_or_from_not_found: 10005,
+  core_invalid_sender_address: 10006,
   core_chain_halted: 10099,
   /**
    * Core - Wallet Connection
