@@ -1,4 +1,4 @@
-import { Search2Icon, ChevronUpIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, ChevronUpIcon, Search2Icon } from '@chakra-ui/icons';
 import {
   Avatar,
   Box,
@@ -18,7 +18,7 @@ import { usePioneer } from '../../context/Pioneer';
 
 export default function Pubkeys({ onClose }: any) {
   const { state } = usePioneer();
-  const { app, balances } = state;
+  const { app, balances, pubkeys } = state;
   const [currentPage, setCurrentPage] = useState([]);
   // const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [showOwnedAssets, setShowOwnedAssets] = useState(false);
@@ -63,11 +63,8 @@ export default function Pubkeys({ onClose }: any) {
 
   const fetchPage = async () => {
     try {
-      if (balances) {
-        setShowOwnedAssets(true);
-        setCurrentPage(balances);
-        console.log('balances: ', balances);
-        // setTotalAssets(balances.length);
+      if (pubkeys) {
+        console.log('pubkeys: ', pubkeys);
       }
     } catch (e) {
       console.error(e);
@@ -76,87 +73,11 @@ export default function Pubkeys({ onClose }: any) {
 
   useEffect(() => {
     fetchPage();
-  }, [balances]);
+  }, [pubkeys]);
 
   return (
     <Stack spacing={4}>
-      <InputGroup>
-        <InputLeftElement pointerEvents="none">
-          <Search2Icon color="gray.300" />
-        </InputLeftElement>
-        <Input
-          value={search}
-          onChange={handleSearchChange}
-          placeholder="Bitcoin..."
-          type="text"
-        />
-      </InputGroup>
-      <Box>
-        {/* <Text fontSize="2xl">Total Assets: {totalAssets}</Text> */}
-        {/* <Checkbox */}
-        {/*  isChecked={showOwnedAssets} */}
-        {/*  onChange={() => setShowOwnedAssets(!showOwnedAssets)} */}
-        {/* > */}
-        {/*  Show only owned assets */}
-        {/* </Checkbox> */}
-        <Button onClick={toggleSortOrder} size="sm">
-          Sort by Value{' '}
-          {sortOrder === 'asc' ? <ChevronUpIcon /> : <ChevronDownIcon />}
-        </Button>
-        <br />
-        <br />
-        {filteredAssets.map((asset: any, index: number) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <Box key={index}>
-            <Flex
-              alignItems="center"
-              borderRadius="md"
-              border="1px solid #fff"
-              bg="black"
-              boxShadow="sm"
-              padding={2}
-            >
-              <Avatar
-                size="md"
-                src={`https://pioneers.dev/coins/${
-                  COIN_MAP_LONG[asset?.chain]
-                }.png`}
-              />
-              <Box ml={3}>
-                <Text fontSize="sm">Asset: {asset?.symbol}</Text>
-                <Text fontSize="sm">
-                  Value USD:{' '}
-                  {typeof asset?.valueUsd === 'string'
-                    ? (+asset.valueUsd).toFixed(2).toLocaleString()
-                    : ''}
-                </Text>
-              </Box>
-              <Button
-                ml="auto"
-                onClick={() => handleSelectClick(asset)}
-                size="sm"
-                variant="outline"
-              >
-                Select
-              </Button>
-            </Flex>
-          </Box>
-        ))}
-      </Box>
-      <Flex justifyContent="space-between" mt={4}>
-        {/* <Button */}
-        {/*  isDisabled={currentPageIndex === 0} */}
-        {/*  onClick={() => setCurrentPageIndex(currentPageIndex - 1)} */}
-        {/* > */}
-        {/*  Previous Page */}
-        {/* </Button> */}
-        {/* <Button */}
-        {/*  isDisabled={filteredAssets.length < itemsPerPage} */}
-        {/*  onClick={() => setCurrentPageIndex(currentPageIndex + 1)} */}
-        {/* > */}
-        {/*  Next Page */}
-        {/* </Button> */}
-      </Flex>
+      {JSON.stringify(app?.pubkeys) || []}
     </Stack>
   );
 }

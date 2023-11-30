@@ -29,7 +29,7 @@ import Onboarding from '../../components/Onboarding';
 import Pubkeys from '../../components/Pubkeys';
 import Transfer from '../../components/Transfer';
 import { usePioneer } from '../../context/Pioneer';
-// import Swap from "./components/Swap";
+import Swap from "../../components/Swap";
 
 const Home = () => {
   const { state, onStart } = usePioneer();
@@ -117,7 +117,7 @@ const Home = () => {
           <TabPanel>
             <Transfer openModal={openModal} />
           </TabPanel>
-          <TabPanel>{/* <Swap openModal={openModal}></Swap> */}</TabPanel>
+          <TabPanel><Swap></Swap></TabPanel>
           <TabPanel>
             <p>Earn</p>
           </TabPanel>
