@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { WalletOption } from '@coinmasters/types';
 
 import { availableChainsByWallet } from './support';
@@ -11,24 +10,22 @@ export async function initializeWallets() {
 
   // Importing wallets
 
-  // eslint-disable-next-line import/no-extraneous-dependencies
   const { keepkeyWallet } = await import('@coinmasters/wallet-keepkey');
-  // const { evmWallet } = await import("@coinmasters/evm-web3-wallets");
-  // eslint-disable-next-line import/no-extraneous-dependencies
+
   const { keplrWallet } = await import('@coinmasters/wallet-keplr');
-  // eslint-disable-next-line import/no-extraneous-dependencies
+
   const { keystoreWallet } = await import('@coinmasters/wallet-keystore');
-  // eslint-disable-next-line import/no-extraneous-dependencies
+
   const { metamaskWallet } = await import('@coinmasters/wallet-metamask');
-  // eslint-disable-next-line import/no-extraneous-dependencies
+
   const { ledgerWallet } = await import('@coinmasters/wallet-ledger');
-  // eslint-disable-next-line import/no-extraneous-dependencies
+
   const { okxWallet } = await import('@coinmasters/wallet-okx');
-  // eslint-disable-next-line import/no-extraneous-dependencies
+
   const { trezorWallet } = await import('@coinmasters/wallet-trezor');
-  // eslint-disable-next-line import/no-extraneous-dependencies
+
   const { walletconnectWallet } = await import('@coinmasters/wallet-wc');
-  // eslint-disable-next-line import/no-extraneous-dependencies
+
   const { xdefiWallet } = await import('@coinmasters/wallet-xdefi');
 
   // Initialize and push each wallet into the wallets array

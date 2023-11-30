@@ -317,53 +317,25 @@ const Pioneer = () => {
                 </Flex>
               </Card>
 
-              {/* Blockchain Card */}
-              <Card borderRadius="md" boxShadow="sm" className="caip" mb={2} p={2}>
-                <Flex alignItems="center" justifyContent="space-between">
-                  <Flex alignItems="center">
-                    <Avatar
-                      mr={2}
-                      size="md"
-                      src={
-                        app?.blockchainContext?.image || 'https://pioneers.dev/coins/ethereum.png'
-                      }
-                    />
-                    <Box fontSize="sm" fontWeight="bold">
-                      Blockchain:
-                    </Box>
-                  </Flex>
-                  <Box fontSize="sm" textAlign="right">
-                    {app?.blockchainContext?.name}
-                  </Box>
-                </Flex>
-                <Flex justifyContent="space-between">
-                  <Box fontSize="xs" />
-                  <Box fontSize="xs" textAlign="right">
-                    caip:
-                    <MiddleEllipsis text={app?.blockchainContext?.caip} />
-                  </Box>
-                </Flex>
-              </Card>
-
               {/* Pubkey Card */}
-              <Card borderRadius="md" boxShadow="sm" className="caip" p={2}>
-                <Flex alignItems="center" justifyContent="space-between">
-                  <Flex alignItems="center">
-                    <Box fontSize="sm" fontWeight="bold">
-                      Pubkey Path:
-                    </Box>
-                  </Flex>
-                  <Box fontSize="sm" textAlign="right">
-                    <MiddleEllipsis text={app?.pubkeyContext?.path} />
-                  </Box>
-                </Flex>
-                <Flex justifyContent="space-between">
-                  <Box fontSize="xs">Pubkey:</Box>
-                  <Box fontSize="xs" textAlign="right">
-                    <MiddleEllipsis text={app?.pubkeyContext?.pubkey} />
-                  </Box>
-                </Flex>
-              </Card>
+              {/*<Card borderRadius="md" boxShadow="sm" className="caip" p={2}>*/}
+              {/*  <Flex alignItems="center" justifyContent="space-between">*/}
+              {/*    <Flex alignItems="center">*/}
+              {/*      <Box fontSize="sm" fontWeight="bold">*/}
+              {/*        Pubkey Path:*/}
+              {/*      </Box>*/}
+              {/*    </Flex>*/}
+              {/*    <Box fontSize="sm" textAlign="right">*/}
+              {/*      <MiddleEllipsis text={app?.pubkeyContext?.path} />*/}
+              {/*    </Box>*/}
+              {/*  </Flex>*/}
+              {/*  <Flex justifyContent="space-between">*/}
+              {/*    <Box fontSize="xs">Pubkey:</Box>*/}
+              {/*    <Box fontSize="xs" textAlign="right">*/}
+              {/*      <MiddleEllipsis text={app?.pubkeyContext?.pubkey} />*/}
+              {/*    </Box>*/}
+              {/*  </Flex>*/}
+              {/*</Card>*/}
             </div>
           </Box>
 

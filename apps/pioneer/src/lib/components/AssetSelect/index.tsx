@@ -123,7 +123,9 @@ export default function AssetSelect({ onClose }: any) {
                 }.png`}
               />
               <Box ml={3}>
-                <Text fontSize="sm">Asset: {asset?.symbol}</Text>
+                <Text fontSize="sm">Asset: {asset?.caip}</Text>
+                <Text fontSize="sm">symbol: {asset?.symbol}</Text>
+                <Text fontSize="sm">chain: {asset?.chain}</Text>
                 <Text fontSize="sm">
                   Value USD:{' '}
                   {typeof asset?.valueUsd === 'string'
