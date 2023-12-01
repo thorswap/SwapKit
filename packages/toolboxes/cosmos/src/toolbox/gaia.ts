@@ -34,9 +34,9 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
     const baseFee = (await getFeeRateFromThorswap(ChainId.Cosmos)) || 500;
     return {
       type: 'base',
-      average: new SwapKitNumber({ value: baseFee, decimal: BaseDecimal.GAIA }),
-      fast: new SwapKitNumber({ value: baseFee * 1.5, decimal: BaseDecimal.GAIA }),
-      fastest: new SwapKitNumber({ value: baseFee * 2, decimal: BaseDecimal.GAIA }),
+      average: SwapKitNumber.fromBigInt(BigInt(baseFee), BaseDecimal.GAIA),
+      fast: SwapKitNumber.fromBigInt(BigInt(baseFee) * 15n / 10n, BaseDecimal.GAIA),
+      fastest: SwapKitNumber.fromBigInt(BigInt(baseFee) * 2n, BaseDecimal.GAIA),
     };
   };
 
