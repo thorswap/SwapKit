@@ -111,6 +111,7 @@ const Home = () => {
             <Basic />
           </TabPanel>
           <TabPanel>
+            Pubkeys
             <Pubkeys />
           </TabPanel>
           <TabPanel>

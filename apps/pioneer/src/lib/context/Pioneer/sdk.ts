@@ -138,7 +138,7 @@ export class SDK {
 
   // @ts-ignore
   public loadBalanceCache: (balances: any) => Promise<void>;
-
+  public loadPubkeyCache: (pubkeys: any) => Promise<void>;
   constructor(spec: string, config: PioneerSDKConfig) {
     this.status = 'preInit';
     this.spec = spec || config.spec || 'https://pioneers.dev/spec/swagger';
@@ -232,6 +232,16 @@ export class SDK {
         this.setContext(this.balances[0].context);
         this.setAssetContext(this.balances[0]);
         this.setOutboundAssetContext(this.balances[1]);
+      } catch (e) {
+        console.error('Failed to load balances! e: ', e);
+      }
+    };
+    this.loadPubkeyCache = async function (pubkeys: any) {
+      try {
+        if (pubkeys.length === 0) throw Error('No pubkeys to load!');
+        this.pubkeys = [...this.pubkeys, ...pubkeys];
+        console.log('SET pubkeys CALLED!!! balances: ', this.pubkeys);
+        this.events.emit('SET_PUBKEYS', this.pubkeys);
       } catch (e) {
         console.error('Failed to load balances! e: ', e);
       }
@@ -345,7 +355,7 @@ export class SDK {
           const chain = chains[i];
           const address = addressArray[i];
           const pubkey = {
-            context:this.context, // TODO this is not right?
+            context: this.context, // TODO this is not right?
             // wallet:walletSelected.type,
             symbol: chain,
             blockchain: COIN_MAP_LONG[chain] || 'unknown',

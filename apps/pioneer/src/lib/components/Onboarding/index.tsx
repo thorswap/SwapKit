@@ -32,19 +32,6 @@ export default function Pubkeys({ onClose, setModalType, setWalletType }: any) {
       if (app && app.wallets) {
         setWalletsAvailable(app.wallets);
       }
-      if (app && app.isPioneer) {
-        console.log('app.isPioneer: ', app.isPioneer);
-        setIsPioneer(true);
-        setPioneerImage(app.isPioneer);
-      }
-      const pioneerCache = localStorage.getItem('isPioneer');
-      if (pioneerCache) {
-        setIsPioneer(true);
-        setPioneerImage(pioneerCache);
-      }
-      if (balances && balances.length > 0) {
-        console.log('balances: ', balances);
-      }
     } catch (e) {
       console.error(e);
     }

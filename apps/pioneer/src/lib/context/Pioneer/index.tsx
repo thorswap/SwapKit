@@ -380,6 +380,10 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
             // @ts-ignore
             localStorage.setItem('balanceCache', JSON.stringify(data));
           }
+          if (action === WalletActions.SET_PUBKEYS) {
+            // @ts-ignore
+            localStorage.setItem('pubkeyCache', JSON.stringify(data));
+          }
           // @ts-ignore
           dispatch({
             type: action,
@@ -393,6 +397,12 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       balanceCache = balanceCache ? JSON.parse(balanceCache) : [];
       console.log('balanceCache: ', balanceCache);
       appInit.loadBalanceCache(balanceCache);
+
+      // pubkey cache
+      let pubkeyCache: any = localStorage.getItem('pubkeyCache');
+      pubkeyCache = pubkeyCache ? JSON.parse(pubkeyCache) : [];
+      console.log('pubkeyCache: ', pubkeyCache);
+      appInit.loadPubkeyCache(pubkeyCache);
     } catch (e) {
       console.error(e);
     }
