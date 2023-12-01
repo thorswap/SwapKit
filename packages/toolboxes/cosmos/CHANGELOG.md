@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.47
+
+### Patch Changes
+
+- [#431](https://github.com/thorswap/SwapKit/pull/431) [`49d477a9`](https://github.com/thorswap/SwapKit/commit/49d477a9b01a97f861352cd6e15743e874b98170) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Cosmos Fee initiation
+
 ## 1.0.0-rc.46
 
 ### Patch Changes
