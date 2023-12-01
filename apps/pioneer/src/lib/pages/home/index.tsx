@@ -30,6 +30,8 @@ import Pubkeys from '../../components/Pubkeys';
 import Transfer from '../../components/Transfer';
 import { usePioneer } from '../../context/Pioneer';
 import Swap from "../../components/Swap";
+import Loan from "../../components/Loan";
+import Earn from "../../components/Earn";
 
 const Home = () => {
   const { state, onStart } = usePioneer();
@@ -119,10 +121,10 @@ const Home = () => {
           </TabPanel>
           <TabPanel><Swap></Swap></TabPanel>
           <TabPanel>
-            <p>Earn</p>
+            <Earn></Earn>
           </TabPanel>
           <TabPanel>
-            <p>Borrow</p>
+            <Loan></Loan>
           </TabPanel>
         </TabPanels>
       </Tabs>

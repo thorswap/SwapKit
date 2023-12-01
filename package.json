@@ -60,7 +60,6 @@
     "preview:playground": "turbo run preview-playground --token=turbotoken-oss-europe1 --concurrency=30",
     "clean": "turbo run clean",
     "dev:pioneer": "turbo run dev --concurrency=30 --filter=\"{./apps/pioneer}...\"",
-    "dev:swaps": "turbo run dev --concurrency=30 --filter=\"{./apps/swaps}...\"",
     "dev:playground": "turbo run dev --concurrency=30 --filter=\"{./internal/playground}...\"",
     "generate": "cd ./internal/generator; pnpm generate; cd ../..",
     "generate:tokens": "cd ./packages/swapkit/tokens; pnpm run generate-tokens; cd ../../..; pnpm run lint",
