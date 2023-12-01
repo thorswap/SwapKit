@@ -61,7 +61,8 @@ const Pioneer = () => {
 
   // start the context provider
   useEffect(() => {
-    if (!balances || balances.length === 0) {
+    let pioneerUrl = localStorage.getItem('pioneerUrl');
+    if (balances.length === 0 && !pioneerUrl) {
       onOpen();
       setModalType('Onboarding');
     }

@@ -139,7 +139,7 @@ export default function Pubkeys({ onClose, setModalType, setWalletType }: any) {
         {showAllWallets ? 'Hide Wallets' : 'Show All Wallets'}
       </Button>
       <Text color="blue.500" cursor="pointer" mb={2} mt={4}>
-        I don't have a wallet
+        I dont have a wallet
       </Text>
       <Button colorScheme="green">Create New Wallet</Button>
     </Stack>

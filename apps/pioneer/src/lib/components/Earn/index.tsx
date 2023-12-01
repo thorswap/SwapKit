@@ -65,7 +65,7 @@ const Earn = ({ openModal }) => {
       const isAvailable = pool.status === 'available';
       const avatarUrl = COIN_MAP_LONG[pool.asset.split('.')[0]];
       return (
-        <Box key={index} p={4} borderWidth="1px" borderRadius="lg" bg={isAvailable ? 'white' : 'gray.100'}>
+        <Box key={index} p={4} borderWidth="1px" borderRadius="lg">
           <Flex align="center">
             <Avatar size="sm" src={avatarUrl} />
             <Text ml={2} fontWeight="bold">{pool.asset}</Text>
@@ -98,9 +98,6 @@ const Earn = ({ openModal }) => {
     }
 
     setIsSubmitting(true);
-    // Logic for sending the transaction
-    // ...
-    // Reset after sending
     setIsSubmitting(false);
   };
 
@@ -150,7 +147,6 @@ const Earn = ({ openModal }) => {
           </Grid>
           <Button
             colorScheme="green"
-            w="full"
             mt={4}
             onClick={handleSend}
             isLoading={isSubmitting}
@@ -158,8 +154,6 @@ const Earn = ({ openModal }) => {
             Deposit
           </Button>
           <Button
-            colorScheme="green"
-            w="full"
             mt={4}
             onClick={handleSend}
             isLoading={isSubmitting}
