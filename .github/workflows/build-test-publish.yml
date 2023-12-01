@@ -114,7 +114,7 @@ jobs:
         uses: sarisia/actions-status-discord@82409b24a08684f54ea5baa6b376e36dad37fb81
         with:
           noprefix: ${{ job.status == 'success' }}
-          avatar_url: https://static.thorswap.finance/logo.png
+          avatar_url: https://static.thorswap.net/logo.png
           color: ${{ contains(github.ref_name, 'main') && '0x00aa00' || '0x3af3f4' }}
           description: "Internal build ${{ job.status }}: ${{ github.ref_name }}:\n${{ steps.changesets.outputs.publishedPackages }}"
           status: success

@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.24
+
+### Patch Changes
+
+- Bump to sk links
+
 ## 1.0.0-rc.23
 
 ### Patch Changes

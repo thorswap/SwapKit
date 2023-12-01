@@ -1,5 +1,15 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.47
+
+### Patch Changes
+
+- Bump to sk links
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.44
+  - @swapkit/types@1.0.0-rc.23
+
 ## 1.0.0-rc.46
 
 ### Patch Changes

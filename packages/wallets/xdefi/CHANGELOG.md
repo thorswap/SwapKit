@@ -1,5 +1,18 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.52
+
+### Patch Changes
+
+- Bump to sk links
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.46
+  - @swapkit/helpers@1.0.0-rc.44
+  - @swapkit/toolbox-utxo@1.0.0-rc.47
+  - @swapkit/types@1.0.0-rc.23
+  - @swapkit/toolbox-evm@1.0.0-rc.46
+
 ## 1.0.0-rc.51
 
 ### Patch Changes

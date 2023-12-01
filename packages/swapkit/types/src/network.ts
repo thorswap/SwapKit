@@ -184,7 +184,7 @@ export enum ApiUrl {
   MayanodeStagenet = 'https://stagenet.mayanode.mayachain.info',
   ThornodeMainnet = 'https://thornode.thorswap.net',
   ThornodeStagenet = 'https://stagenet-thornode.ninerealms.com',
-  ThorswapApi = 'https://api.thorswap.finance',
+  ThorswapApi = 'https://api.thorswap.net',
   ThorswapStatic = 'https://static.thorswap.net',
 }
 

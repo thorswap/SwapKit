@@ -129,5 +129,5 @@ export const list = {
     { chain: 'THOR', identifier: 'THOR.RUNE', decimals: 8 },
   ],
   count: 33,
-  logo: 'https://app.thorswap.finance/assets/asset-rune-43bdc185.svg',
+  logo: 'https://static.thorswap.net/token-list/images/thor.rune.png',
 } as const;

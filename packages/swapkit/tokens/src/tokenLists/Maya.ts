@@ -27,5 +27,5 @@ export const list = {
     },
   ],
   count: 9,
-  logo: 'https://static.thorswap.finance/logo.png',
+  logo: 'https://static.thorswap.net/logo.png',
 } as const;

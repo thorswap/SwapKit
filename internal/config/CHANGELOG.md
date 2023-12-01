@@ -1,5 +1,11 @@
 # @internal/config
 
+## 0.0.0-rc.9
+
+### Patch Changes
+
+- Bump to sk links
+
 ## 0.0.0-rc.8
 
 ### Patch Changes
