@@ -21,6 +21,8 @@ const AllChainsSupported = [
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
+  Chain.Osmosis,
+  Chain.Ripple,
   Chain.Cosmos,
   Chain.Dogecoin,
   Chain.Ethereum,
@@ -31,6 +33,7 @@ const AllChainsSupported = [
   Chain.Maya,
   Chain.Kujira,
   Chain.THORChain,
+  Chain.Zcash,
 ] as Chain[];
 
 export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
@@ -104,13 +107,16 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.Bitcoin,
     Chain.BitcoinCash,
     Chain.Cosmos,
+    Chain.Dash,
     Chain.Dogecoin,
     Chain.Ethereum,
     Chain.Litecoin,
     Chain.Optimism,
+    Chain.Osmosis,
     Chain.Polygon,
-    Chain.Dash,
+    Chain.Ripple,
     Chain.THORChain,
+    Chain.Zcash,
   ],
   [WalletOption.TRUSTWALLET_WEB]: EVMChainList,
   [WalletOption.XDEFI]: AllChainsSupported,
@@ -141,9 +147,6 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return skClient.connectXDEFI(chains);
         case WalletOption.OKX:
           return skClient.connectOkx(chains);
-        case WalletOption.COINBASE_WEB:
-          return skClient.connectMetaMask(chains);
-        case WalletOption.COINBASE_WEB:
         case WalletOption.TRUSTWALLET_WEB:
           return skClient.connectEVMWallet(chains, option);
         case WalletOption.LEDGER: {
@@ -263,24 +266,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           style={{ width: 50, height: 400 }}
           value={chains}
         >
-          {[
-            Chain.Avalanche,
-            Chain.Binance,
-            Chain.BinanceSmartChain,
-            Chain.Bitcoin,
-            Chain.BitcoinCash,
-            Chain.Cosmos,
-            Chain.Dogecoin,
-            Chain.Ethereum,
-            Chain.Litecoin,
-            Chain.Dash,
-            Chain.THORChain,
-            Chain.Arbitrum,
-            Chain.Kujira,
-            Chain.Maya,
-            Chain.Optimism,
-            Chain.Polygon,
-          ].map((chain) => (
+          {AllChainsSupported.map((chain) => (
             <option key={chain} onClick={() => handleChainSelect(chain)} value={chain}>
               {chain}
             </option>

@@ -6,6 +6,7 @@
  */
 export const blockchains = [
   'bitcoin',
+  'ripple',
   'ethereum',
   'thorchain',
   'bitcoincash',
@@ -331,6 +332,25 @@ export function getPaths(blockchains?: any, isTestnet?: boolean) {
     output.push(entry);
   }
 
+  if (blockchains.indexOf('ripple') >= 0) {
+    let entry: any = {
+      note: 'Default ripple path',
+      type: 'address',
+      coin: 'Ripple',
+      symbol: 'XRP',
+      network: 'XRP',
+      blockchain: 'ripple',
+      script_type: 'p2pkh',
+      available_scripts_types: ['p2pkh'],
+      addressNList: [0x80000000 + 44, 0x80000000 + 144, 0x80000000 + 0],
+      addressNListMaster: [0x80000000 + 44, 0x80000000 + 144, 0x80000000 + 0, 0, 0],
+      curve: 'secp256k1',
+      showDisplay: false, // Not supported by TrezorConnect or Ledger, but KeepKey should do it
+    };
+
+    output.push(entry);
+  }
+
   return output;
 }
 
@@ -346,6 +366,7 @@ export enum Coin {
   DGB = 'DigiByte',
   DOGE = 'Dogecoin',
   RUNE = 'Thorchain',
+  XRP = 'Ripple',
   ETH = 'Ethereum',
   ADA = 'Cardano',
   MATIC = 'Polygon',

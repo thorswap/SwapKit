@@ -10,6 +10,7 @@
     "@cosmjs/stargate": "0.31.1",
     "@internal/config": "workspace:*",
     "@coinmasters/helpers": "workspace:*",
+    "@coinmasters/toolbox-ripple": "workspace:*",
     "@coinmasters/toolbox-cosmos": "workspace:*",
     "@coinmasters/toolbox-evm": "workspace:*",
     "@coinmasters/toolbox-utxo": "workspace:*",

@@ -13,6 +13,8 @@ import { KeepKeySdk } from '@keepkey/keepkey-sdk';
 
 import { binanceWalletMethods } from './chains/binance.js';
 import { cosmosWalletMethods } from './chains/cosmos.js';
+import { osmosisWalletMethods } from './chains/osmosis.js';
+import { rippleWalletMethods } from './chains/ripple.js';
 import { KeepKeySigner } from './chains/evm.ts';
 import { thorchainWalletMethods } from './chains/thorchain.ts';
 import { utxoWalletMethods } from './chains/utxo.js';
@@ -26,12 +28,16 @@ export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.Bitcoin,
   Chain.BitcoinCash,
   Chain.Cosmos,
+  Chain.Dash,
   Chain.Dogecoin,
   Chain.Ethereum,
   Chain.Litecoin,
   Chain.Optimism,
+  Chain.Osmosis,
   Chain.Polygon,
+  Chain.Ripple,
   Chain.THORChain,
+  Chain.Zcash,
 ] as const;
 
 interface KeepKeyConfig {
@@ -131,8 +137,16 @@ const getToolbox = async ({
       const walletMethods = await cosmosWalletMethods({ sdk });
       return { address: await walletMethods.getAddress(), walletMethods };
     }
+    case Chain.Osmosis: {
+      const walletMethods = await osmosisWalletMethods({ sdk });
+      return { address: await walletMethods.getAddress(), walletMethods };
+    }
     case Chain.THORChain: {
       const walletMethods = await thorchainWalletMethods({ sdk });
+      return { address: await walletMethods.getAddress(), walletMethods };
+    }
+    case Chain.Ripple: {
+      const walletMethods = await rippleWalletMethods({ sdk });
       return { address: await walletMethods.getAddress(), walletMethods };
     }
     case Chain.Bitcoin:

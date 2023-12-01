@@ -10,6 +10,7 @@ import type {
   TraderjoeList,
   UniswapList,
   WoofiList,
+  PioneerList,
 } from '@coinmasters/tokens';
 import { BaseDecimal, Chain } from '@coinmasters/types';
 
@@ -38,7 +39,8 @@ type TokenNames =
   | (typeof SushiswapList)['tokens'][number]['identifier']
   | (typeof TraderjoeList)['tokens'][number]['identifier']
   | (typeof WoofiList)['tokens'][number]['identifier']
-  | (typeof UniswapList)['tokens'][number]['identifier'];
+  | (typeof UniswapList)['tokens'][number]['identifier']
+  | (typeof PioneerList)['tokens'][number]['identifier'];
 
 let staticTokensMap: Map<TokenNames, { decimal: number; identifier: string }> | undefined;
 

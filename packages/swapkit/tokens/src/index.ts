@@ -5,6 +5,7 @@ export { list as NativeList } from './tokenLists/Native.ts';
 export { list as PancakeswapList } from './tokenLists/Pancakeswap.ts';
 export { list as PancakeswapETHList } from './tokenLists/Pancakeswapeth.ts';
 export { list as PangolinList } from './tokenLists/Pangolin.ts';
+export { list as PioneerList } from './tokenLists/Pioneer.ts';
 export { list as StargateARBList } from './tokenLists/Stargatearb.ts';
 export { list as SushiswapList } from './tokenLists/Sushiswap.ts';
 export { list as ThorchainList } from './tokenLists/Thorchain.ts';
