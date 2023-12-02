@@ -5,8 +5,8 @@ import { usePioneer } from '../../context/Pioneer';
 
 const Basic = () => {
   const { state } = usePioneer();
-  const { context, assetContext } = state;
-
+  const { app, context, assetContext } = state;
+  const [pioneerUrl, setPioneerUrl] = useState('Copy');
   const [copyButtonText, setCopyButtonText] = useState('Copy');
 
   // Variable to store the timeout ID
@@ -26,6 +26,8 @@ const Basic = () => {
   };
 
   useEffect(() => {
+    let pioneerUrlLocal = localStorage.getItem('pioneerUrl');
+    setPioneerUrl(pioneerUrlLocal || '');
     // Cleanup function to clear the timeout when the component unmounts
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
@@ -45,18 +47,28 @@ const Basic = () => {
           </Thead>
           <Tbody>
             <Tr>
-              <Td>Wallet Context</Td>
-              <Td>{context}</Td>
+              <Td>Server</Td>
+              <Td>{pioneerUrl}</Td>
+              <Td />
+            </Tr>
+            <Tr>
+              <Td>Username</Td>
+              <Td>{app?.username}</Td>
+              <Td />
+            </Tr>
+            <Tr>
+              <Td>QueryKey</Td>
+              <Td>{app?.queryKey}</Td>
               <Td />
             </Tr>
             <Tr>
               <Td>Asset Context</Td>
-              <Td>{assetContext?.caip}</Td>
+              <Td>{assetContext?.caip || 'no wallets paired!'}</Td>
               <Td />
             </Tr>
             <Tr>
               <Td>Address for context</Td>
-              <Td>{assetContext?.address}</Td>
+              <Td>{assetContext?.address || 'no wallets paired!'}</Td>
               <Td>
                 <Button onClick={() => copyToClipboard(assetContext.address)} size="sm">
                   {copyButtonText}

@@ -167,7 +167,6 @@ const Pioneer = () => {
       console.log('wallets: ', app?.wallets);
     } catch (e) {
       // @ts-ignore
-
       console.error('header e: ', e);
       // setKeepKeyError("Bridge is offline!");
     }

@@ -1,5 +1,11 @@
 import type { UTXOTransferParams, UTXOType } from '@coinmasters/toolbox-utxo';
-import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox, DASHToolbox } from '@coinmasters/toolbox-utxo';
+import {
+  BCHToolbox,
+  BTCToolbox,
+  DASHToolbox,
+  DOGEToolbox,
+  LTCToolbox,
+} from '@coinmasters/toolbox-utxo';
 import { Chain, FeeOption } from '@coinmasters/types';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
@@ -66,6 +72,26 @@ export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api }
       }
     };
     const address = await getAddress();
+
+    //getAddress
+    const getPubkey = async function () {
+      try {
+        let paths = [
+          {
+            symbol: 'BTC',
+            address_n: [2147483732, 2147483648, 2147483648],
+            coin: 'Bitcoin',
+            script_type: 'p2pkh',
+            showDisplay: false,
+          },
+        ];
+        let response = await sdk.system.info.getPublicKey(paths);
+        console.log('response: ', response);
+        return response;
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
     const signTransaction = async (psbt: Psbt, inputs: UTXOType[], memo: string = '') => {
       let outputs: any[] = psbt.txOutputs.map((output: any) => {
@@ -160,7 +186,7 @@ export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api }
       return toolbox.broadcastTx(txHex);
     };
 
-    return { ...utxoMethods, getAddress, signTransaction, transfer };
+    return { ...utxoMethods, getPubkey, getAddress, signTransaction, transfer };
   } catch (e) {
     console.error(e);
     throw e;

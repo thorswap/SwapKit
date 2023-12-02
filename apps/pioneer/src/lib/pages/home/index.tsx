@@ -25,20 +25,18 @@ import Basic from '../../components/Basic';
 // import OutputSelect from "lib/components/OutputSelect";
 // import BlockchainSelect from "lib/components/BlockchainSelect";
 // import WalletSelect from "lib/components/WalletSelect";
-import Onboarding from '../../components/Onboarding';
+import Blockchains from '../../components/Blockchains';
+import Earn from '../../components/Earn';
+import Loan from '../../components/Loan';
+import Paths from '../../components/Paths';
 import Pubkeys from '../../components/Pubkeys';
+import Swap from '../../components/Swap';
 import Transfer from '../../components/Transfer';
 import { usePioneer } from '../../context/Pioneer';
-import Swap from "../../components/Swap";
-import Loan from "../../components/Loan";
-import Earn from "../../components/Earn";
 
 const Home = () => {
   const { state, onStart } = usePioneer();
-  const {
-    pubkeyContext,
-    balances,
-  } = state;
+  const { pubkeyContext, balances } = state;
   const [address, setAddress] = useState('');
   const [modalType, setModalType] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -98,6 +96,8 @@ const Home = () => {
       <Tabs>
         <TabList>
           <Tab>Context</Tab>
+          <Tab>blockchains</Tab>
+          <Tab>paths</Tab>
           <Tab>pubkeys</Tab>
           <Tab>balances</Tab>
           <Tab>Transfer</Tab>
@@ -111,7 +111,12 @@ const Home = () => {
             <Basic />
           </TabPanel>
           <TabPanel>
-            Pubkeys
+            <Blockchains />
+          </TabPanel>
+          <TabPanel>
+            <Paths />
+          </TabPanel>
+          <TabPanel>
             <Pubkeys />
           </TabPanel>
           <TabPanel>
@@ -120,12 +125,14 @@ const Home = () => {
           <TabPanel>
             <Transfer openModal={openModal} />
           </TabPanel>
-          <TabPanel><Swap></Swap></TabPanel>
           <TabPanel>
-            <Earn></Earn>
+            <Swap />
           </TabPanel>
           <TabPanel>
-            <Loan></Loan>
+            <Earn />
+          </TabPanel>
+          <TabPanel>
+            <Loan />
           </TabPanel>
         </TabPanels>
       </Tabs>

@@ -150,7 +150,8 @@ export class SDK {
     this.covalentApiKey = config.covalentApiKey;
     this.utxoApiKey = config.utxoApiKey;
     this.walletConnectProjectId = config.walletConnectProjectId;
-    this.paths = [...config.paths, ...getPaths()];
+    this.paths = [...config.paths, ...getPaths(config.blockchains)];
+    this.blockchains = config.blockchains;
     this.pubkeys = [];
     this.balances = [];
     this.nfts = [];

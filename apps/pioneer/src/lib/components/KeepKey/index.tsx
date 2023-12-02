@@ -1,6 +1,6 @@
 import { CheckIcon } from '@chakra-ui/icons'; // Make sure to import the icons you need
-import { Box, Button, Text } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { Spinner, Box, Button, Text } from '@chakra-ui/react';
+import { useState, useEffect } from 'react';
 
 import { usePioneer } from '../../context/Pioneer';
 import Portfolio from '../Portfolio';
@@ -8,12 +8,14 @@ import Portfolio from '../Portfolio';
 export default function KeepKey({ onClose }: any) {
   const { state, connectWallet } = usePioneer();
   const { app, balances } = state;
+  const [isSyncing, setIsSyncing] = useState(false);
 
   let syncWallet = async function () {
     try {
       // Your effect here
       await connectWallet('KEEPKEY');
       app.refresh();
+      setIsSyncing(true);
     } catch (e) {
       console.error(e);
     }
@@ -44,16 +46,27 @@ export default function KeepKey({ onClose }: any) {
 
   return (
     <div>
-      <Portfolio />
-      {balances.length > 0 && renderSuccessCard()}
-      <Box alignItems="flex-end" display="flex" flexDirection="column">
-        <Button mb={2} onClick={() => handlePairMoreWallets()}>
-          Pair More Wallets
-        </Button>
-        <Button colorScheme="blue" onClick={onClose}>
-          Continue
-        </Button>
-      </Box>
+      {isSyncing ? (
+        <div>
+          <Portfolio />
+          {balances.length > 0 && renderSuccessCard()}
+          <Box alignItems="flex-end" display="flex" flexDirection="column">
+            <Button mb={2} onClick={() => handlePairMoreWallets()}>
+              Pair More Wallets
+            </Button>
+            <Button colorScheme="blue" onClick={onClose}>
+              Continue
+            </Button>
+          </Box>
+        </div>
+      ) : (
+        <div>
+          <div>
+            <Spinner size={'xl'}></Spinner>
+            <Text>Syncing...</Text>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
