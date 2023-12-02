@@ -188,8 +188,8 @@ importers:
         specifier: ^9.0.19
         version: 9.0.19
       '@pioneer-platform/pioneer-coins':
-        specifier: ^8.1.84
-        version: 8.1.90(@types/node@20.5.9)
+        specifier: ^9.0.0
+        version: 9.0.0(@types/node@20.5.9)
       '@types/uuid':
         specifier: ^9.0.6
         version: 9.0.6
@@ -5655,6 +5655,32 @@ packages:
 
   /@pioneer-platform/pioneer-coins@8.1.90(@types/node@20.5.9):
     resolution: {integrity: sha512-78FqMZTQ3irrjQw19weyUzG3ot+sDD0DFvYwMGR6Fk7BZlTBn3Y/ge3xPxElG5/YaXAhWOAzH7uM7YoY9w7Zyw==}
+    dependencies:
+      '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.5.9)
+      bech32: 1.1.4
+      bignumber.js: 9.1.2
+      bitcoin-regex: 2.0.0
+      bitcoincash-regex: 1.1.9
+      bs58check: 3.0.1
+      crypto-js: 4.1.1
+      dash-regex: 1.0.11
+      dogecoin-regex: 1.0.10
+      ethereum-regex: 1.1.13
+      ethereum-tx-decoder: 3.0.0
+      litecoin-regex: 1.0.9
+      monero-regex: 1.0.9
+      neo-regex: 1.0.8
+      ripple-regex: 1.1.8
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - bufferutil
+      - utf-8-validate
+    dev: false
+
+  /@pioneer-platform/pioneer-coins@9.0.0(@types/node@20.5.9):
+    resolution: {integrity: sha512-6F06zzKIpmsOaY+/hnzysTVMgTtf5EvPTnRKoOVeiPJRVZQce6U7TAZuN/H80Cbl1nJif0kb4IIGbOEaP4idQA==}
     dependencies:
       '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.5.9)
       bech32: 1.1.4

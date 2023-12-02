@@ -38,7 +38,7 @@ const Earn = ({ openModal }) => {
   useEffect(() => {
     const fetchPools = async () => {
       try {
-        if(app?.pioneer){
+        if(app?.pioneer && pools.length === 0) {
           let fetchedPools = await app.pioneer.Pools();
           fetchedPools = fetchedPools.data;
           console.log('fetchedPools: ', fetchedPools);

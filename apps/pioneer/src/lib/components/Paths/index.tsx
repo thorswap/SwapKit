@@ -17,7 +17,7 @@ import {
 import { CopyIcon, CheckIcon } from '@chakra-ui/icons';
 import { usePioneer } from '../../context/Pioneer';
 import Path from '../../components/Path';
-import { getWalletContent } from '../../components/WalletIcon';
+// import { getWalletContent } from '../../components/WalletIcon';
 import {
   addressNListToBIP32,
 } from '@pioneer-platform/pioneer-coins'

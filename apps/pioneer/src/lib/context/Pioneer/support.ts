@@ -32,7 +32,7 @@ export const availableChainsByWallet: any = {
   ],
   [WalletOption.KEEPKEY]: AllChainsSupported,
   [WalletOption.METAMASK]: [
-    Chain.Arbitrum, // Snap has everything but bnb beacon chain, because sillyness
+    Chain.Arbitrum,
     Chain.Avalanche,
     Chain.BinanceSmartChain,
     Chain.Bitcoin,

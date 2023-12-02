@@ -243,7 +243,8 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
     try {
       if (state && state?.app) {
         console.log('connectWallet: ', wallet);
-        const successPairWallet = await state.app.pairWallet(wallet);
+        //TODO get custom paths for wallet from localStorage
+        const successPairWallet = await state.app.pairWallet(wallet, []);
         console.log('successPairWallet: ', successPairWallet);
         console.log('state.app.assetContext: ', state.app.assetContext);
         console.log('state.app.blockchainContext: ', state.app.blockchainContext);

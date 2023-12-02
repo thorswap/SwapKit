@@ -8,15 +8,12 @@
 // @ts-ignore
 // import * as Events from "@pioneer-platform/pioneer-events";
 // @ts-ignore
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import { SwapKitCore } from '@coinmasters/core';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { Chain } from '@coinmasters/types';
+import { Chain, ChainToNetworkId, getChainEnumValue } from '@coinmasters/types';
 // @ts-ignore
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { shortListSymbolToCaip } from '@pioneer-platform/pioneer-caip';
 // @ts-ignore
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Pioneer from '@pioneer-platform/pioneer-client';
 import {
   COIN_MAP_LONG,
@@ -42,7 +39,7 @@ export interface PioneerSDKConfig {
   queryKey: string;
   spec: string;
   wss: string;
-  paths: string;
+  paths: any;
   keepkeyApiKey: string;
   ethplorerApiKey: string;
   covalentApiKey: string;
@@ -110,7 +107,7 @@ export class SDK {
   private events: any;
 
   // @ts-ignore
-  private pairWallet: (wallet: any) => Promise<any>;
+  private pairWallet: (wallet: any, customPaths: any) => Promise<any>;
 
   // public startSocket: () => Promise<any>;
   // public stopSocket: () => any;
@@ -139,6 +136,8 @@ export class SDK {
   // @ts-ignore
   public loadBalanceCache: (balances: any) => Promise<void>;
   public loadPubkeyCache: (pubkeys: any) => Promise<void>;
+  private pair: (blockchains: any) => Promise<boolean>;
+  private blockchains: any[];
   constructor(spec: string, config: PioneerSDKConfig) {
     this.status = 'preInit';
     this.spec = spec || config.spec || 'https://pioneers.dev/spec/swagger';
@@ -150,8 +149,8 @@ export class SDK {
     this.covalentApiKey = config.covalentApiKey;
     this.utxoApiKey = config.utxoApiKey;
     this.walletConnectProjectId = config.walletConnectProjectId;
-    this.paths = [...config.paths, ...getPaths(config.blockchains)];
-    this.blockchains = config.blockchains;
+    this.paths = [];
+    this.blockchains = [];
     this.pubkeys = [];
     this.balances = [];
     this.nfts = [];
@@ -177,8 +176,7 @@ export class SDK {
         if (!this.ethplorerApiKey) throw Error('ethplorerApiKey required!');
         if (!this.covalentApiKey) throw Error('covalentApiKey required!');
         if (!this.utxoApiKey) throw Error('utxoApiKey required!');
-        if (!this.walletConnectProjectId)
-          throw Error('walletConnectProjectId required!');
+        if (!this.walletConnectProjectId) throw Error('walletConnectProjectId required!');
 
         const PioneerClient = new Pioneer(config.spec, config);
         this.pioneer = await PioneerClient.init();
@@ -247,7 +245,7 @@ export class SDK {
         console.error('Failed to load balances! e: ', e);
       }
     };
-    this.pairWallet = async function (wallet: string) {
+    this.pairWallet = async function (wallet: string, customPaths: any) {
       const tag = `${TAG} | pairWallet | `;
       try {
         // log.debug(tag, "Pairing Wallet");
@@ -260,8 +258,20 @@ export class SDK {
         console.log(tag, 'wallet: ', wallet);
         // supported chains
         const AllChainsSupported = availableChainsByWallet[wallet];
+        console.log(tag, 'ChainToNetworkId: ', ChainToNetworkId);
+        console.log(tag, 'ChainToNetworkId: ', ChainToNetworkId[Chain.Ethereum]);
+        let allByCaip = AllChainsSupported.map((chainStr) => {
+          const chainEnum = getChainEnumValue(chainStr);
+          return chainEnum ? ChainToNetworkId[chainEnum] : undefined;
+        }).filter((x) => x !== undefined); // This will filter out any undefined values
         console.log(tag, 'AllChainsSupported: ', AllChainsSupported);
-        console.log(tag, 'AllChainsSupported: ', AllChainsSupported.length);
+        console.log(tag, 'allByCaip: ', allByCaip);
+        let allPaths = getPaths(allByCaip);
+        console.log(tag, 'getPaths allPaths: ', allPaths);
+        let walletPaths = [...getPaths(allByCaip), ...customPaths];
+        console.log(tag, 'walletPaths: ', walletPaths);
+        //for all supported chains add paths
+        this.paths = walletPaths;
         // log.info(tag,"walletSelected.wallet.connectMethodName: ",walletSelected.wallet.connectMethodName)
         // log.info("AllChainsSupported: ", AllChainsSupported);
 
@@ -278,31 +288,28 @@ export class SDK {
           };
           // If you can't avoid 'any', you can use a type assertion:
           resultPair =
-            (await (this.swapKit as any)[
-              walletSelected.wallet.connectMethodName
-            ](AllChainsSupported, configKeepKey)) || '';
+            (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](
+              AllChainsSupported,
+              configKeepKey,
+            )) || '';
           console.log('resultPair: ', resultPair);
           this.keepkeyApiKey = resultPair;
-          localStorage.setItem('keepkeyApiKey', resultPair);
         } else {
           resultPair =
-            (await (this.swapKit as any)[
-              walletSelected.wallet.connectMethodName
-            ](AllChainsSupported)) || '';
+            (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](
+              AllChainsSupported,
+            )) || '';
         }
         // log.info("resultPair: ", resultPair);
         // log.info("this.swapKit: ", this.swapKit);
         if (resultPair) {
           // update
-          const matchingWalletIndex = this.wallets.findIndex(
-            (w) => w.type === wallet
-          );
+          const matchingWalletIndex = this.wallets.findIndex((w) => w.type === wallet);
           // log.info(tag, "matchingWalletIndex: ", matchingWalletIndex);
           // get balances
           // @ts-ignore
           const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
-          if (!ethAddress)
-            throw Error('Failed to get eth address! can not pair wallet');
+          if (!ethAddress) throw Error('Failed to get eth address! can not pair wallet');
           const context = `${wallet.toLowerCase()}:${ethAddress}.wallet`;
 
           // isPioneer?
@@ -336,6 +343,33 @@ export class SDK {
         throw e;
       }
     };
+    this.pair = async function () {
+      const tag = `${TAG} | pair | `;
+      try {
+        // get wallet
+
+        // if wallet doesn't support blockchain, throw error
+
+        //iterate over blockchains
+
+        //get paths for each blockchain
+
+        //get pubkeys for each path
+
+        //load pubkeys into cache
+
+        //load balances for each pubkey
+
+        //load balances into cache
+
+        //build portfolio
+
+        return true;
+      } catch (e) {
+        console.error(tag, 'e: ', e);
+        throw e;
+      }
+    };
     // @ts-ignore
     // eslint-disable-next-line sonarjs/cognitive-complexity
     this.refresh = async function () {
@@ -348,10 +382,10 @@ export class SDK {
         // get address array
         const addressArray = await Promise.all(
           // @ts-ignore
-          chains.map(this.swapKit.getAddress)
+          chains.map(this.swapKit.getAddress),
         );
         // log.info(tag, "addressArray: ", addressArray);
-        // eslint-disable-next-line no-plusplus
+
         for (let i = 0; i < chains.length; i++) {
           const chain = chains[i];
           const address = addressArray[i];
@@ -374,19 +408,19 @@ export class SDK {
         // calculate walletDaa
         const walletDataArray = await Promise.all(
           // @ts-ignore
-          chains.map(this.swapKit.getWalletByChain)
+          chains.map(this.swapKit.getWalletByChain),
         );
         console.log(tag, 'walletDataArray: ', walletDataArray);
         // set balances
         const balancesSwapKit: any = [];
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of,no-plusplus
+        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < walletDataArray.length; i++) {
           const walletData: any = walletDataArray[i];
           // console.log(tag, 'walletData: ', walletData);
           // const chain = chains[i];
           // log.info(tag, "chain: ", chain);
           if (walletData) {
-            // eslint-disable-next-line @typescript-eslint/prefer-for-of,no-plusplus
+            // eslint-disable-next-line @typescript-eslint/prefer-for-of
             for (let j = 0; j < walletData.balance.length; j++) {
               const balance = walletData.balance[j];
               // console.log('balance: ', balance);
@@ -400,9 +434,7 @@ export class SDK {
         }
 
         //
-        const pubkeysRegister = this.pubkeys.filter(
-          (pubkey) => pubkey.context === this.context
-        );
+        const pubkeysRegister = this.pubkeys.filter((pubkey) => pubkey.context === this.context);
         const balancesRegister = balancesSwapKit
           .map((balance: any) => {
             const balanceString: any = {};
@@ -451,15 +483,12 @@ export class SDK {
 
         // TODO pick better default assets (last used)
         this.events.emit('SET_BALANCES', result.data.balances);
-        // eslint-disable-next-line prefer-destructuring
+
         this.assetContext = this.balances[0];
         this.events.emit('SET_ASSET_CONTEXT', this.assetContext);
-        // eslint-disable-next-line prefer-destructuring
+
         this.outboundAssetContext = this.balances[1];
-        this.events.emit(
-          'SET_OUTBOUND_ASSET_CONTEXT',
-          this.outboundAssetContext
-        );
+        this.events.emit('SET_OUTBOUND_ASSET_CONTEXT', this.outboundAssetContext);
         return true;
       } catch (e) {
         console.error(tag, 'e: ', e);
