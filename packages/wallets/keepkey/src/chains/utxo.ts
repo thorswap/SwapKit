@@ -12,11 +12,12 @@ import type { Psbt } from 'bitcoinjs-lib';
 
 import { addressInfoForCoin, Coin } from '../coins.ts';
 // TODO: Refactor to toolbox usage
-export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api }: any) {
+export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api, paths }: any) {
   try {
     if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
     let toolbox: any = {};
     let isSegwit = false;
+    console.log('utxoWalletMethods: paths', paths);
     const toolboxParams = { api, apiKey: utxoApiKey };
     switch (chain) {
       case Chain.Bitcoin:
@@ -74,24 +75,42 @@ export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api }
     const address = await getAddress();
 
     //getAddress
-    const getPubkey = async function () {
+    const _getPubkeys = async (paths) => {
       try {
-        let paths = [
-          {
-            symbol: 'BTC',
-            address_n: [2147483732, 2147483648, 2147483648],
-            coin: 'Bitcoin',
-            script_type: 'p2pkh',
-            showDisplay: false,
-          },
-        ];
-        let response = await sdk.system.info.getPublicKey(paths);
-        console.log('response: ', response);
-        return response;
+        console.log('paths: ', paths);
+
+        const pubkeys = await Promise.all(
+          paths.map((path) => {
+            // Create the path query from the original path object
+            const pathQuery = {
+              symbol: 'BTC',
+              coin: 'Bitcoin',
+              script_type: 'p2pkh',
+              address_n: path.addressNList,
+              showDisplay: false,
+            };
+
+            console.log('pathQuery: ', pathQuery);
+            return sdk.system.info.getPublicKey(pathQuery).then((response) => {
+              console.log('response: ', response);
+              // Combine the original path object with the xpub from the response
+              const combinedResult = {
+                ...path,        // Contains all fields from the original path
+                xpub: response.xpub  // Adds the xpub field from the response
+              };
+              console.log('combinedResult: ', combinedResult);
+              return combinedResult;
+            });
+          }),
+        );
+        return pubkeys;
       } catch (e) {
         console.error(e);
       }
     };
+    const pubkeys = await _getPubkeys(paths);
+    const getPubkeys = async () => pubkeys;
+    console.log('pubkeys: ', pubkeys);
 
     const signTransaction = async (psbt: Psbt, inputs: UTXOType[], memo: string = '') => {
       let outputs: any[] = psbt.txOutputs.map((output: any) => {
@@ -186,7 +205,7 @@ export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api }
       return toolbox.broadcastTx(txHex);
     };
 
-    return { ...utxoMethods, getPubkey, getAddress, signTransaction, transfer };
+    return { ...utxoMethods, getPubkeys, getAddress, signTransaction, transfer };
   } catch (e) {
     console.error(e);
     throw e;

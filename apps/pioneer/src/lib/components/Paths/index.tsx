@@ -12,6 +12,7 @@ import {
   useDisclosure,
   Flex,
   IconButton,
+  Card,
   useClipboard,
 } from '@chakra-ui/react';
 import { CopyIcon, CheckIcon } from '@chakra-ui/icons';
@@ -50,7 +51,10 @@ export default function Paths({ onClose }) {
   return (
     <div>
       {app?.paths?.map((key, index) => (
-        <Flex key={index} p={4} borderWidth="1px" borderRadius="lg" alignItems="center" justifyContent="space-between">
+        <Card key={index} p={4} borderWidth="1px" borderRadius="lg" alignItems="center" justifyContent="space-between">
+          <Box>
+            <Text fontWeight="bold">{key.network}</Text>
+          </Box>
           <Box>
             <Text fontWeight="bold">{key.symbol}: {key.type}</Text>
           </Box>
@@ -69,7 +73,7 @@ export default function Paths({ onClose }) {
             />
             <Button onClick={() => handlePubkeyClick(key)}>Select</Button>
           </Flex>
-        </Flex>
+        </Card>
       ))}
 
       <Modal isOpen={isOpen} onClose={onModalClose}>

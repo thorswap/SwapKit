@@ -1,6 +1,6 @@
 import { CheckIcon } from '@chakra-ui/icons'; // Make sure to import the icons you need
-import { Spinner, Box, Button, Text } from '@chakra-ui/react';
-import { useState, useEffect } from 'react';
+import { Box, Button, Spinner, Text } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
 import { usePioneer } from '../../context/Pioneer';
 import Portfolio from '../Portfolio';
@@ -12,10 +12,10 @@ export default function KeepKey({ onClose }: any) {
 
   let syncWallet = async function () {
     try {
-      // Your effect here
-      await connectWallet('KEEPKEY');
-      app.refresh();
       setIsSyncing(true);
+      await connectWallet('KEEPKEY');
+      await app.getPubkeys();
+      await app.getBalances();
     } catch (e) {
       console.error(e);
     }
@@ -62,7 +62,7 @@ export default function KeepKey({ onClose }: any) {
       ) : (
         <div>
           <div>
-            <Spinner size={'xl'}></Spinner>
+            <Spinner size="xl" />
             <Text>Syncing...</Text>
           </div>
         </div>

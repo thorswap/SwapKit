@@ -13,9 +13,9 @@ import { KeepKeySdk } from '@keepkey/keepkey-sdk';
 
 import { binanceWalletMethods } from './chains/binance.js';
 import { cosmosWalletMethods } from './chains/cosmos.js';
+import { KeepKeySigner } from './chains/evm.ts';
 import { osmosisWalletMethods } from './chains/osmosis.js';
 import { rippleWalletMethods } from './chains/ripple.js';
-import { KeepKeySigner } from './chains/evm.ts';
 import { thorchainWalletMethods } from './chains/thorchain.ts';
 import { utxoWalletMethods } from './chains/utxo.js';
 export type { PairingInfo } from '@keepkey/keepkey-sdk';
@@ -62,7 +62,7 @@ type KeepKeyOptions = {
   utxoApiKey?: string;
   covalentApiKey?: string;
   chain: Chain;
-  derivationPath?: any;
+  paths?: any;
 };
 
 const getEVMWalletMethods = async ({
@@ -105,6 +105,7 @@ const getToolbox = async ({
   covalentApiKey,
   ethplorerApiKey,
   utxoApiKey,
+  paths,
 }: KeepKeyOptions) => {
   switch (chain) {
     case Chain.BinanceSmartChain:
@@ -154,7 +155,7 @@ const getToolbox = async ({
     case Chain.Dash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      const walletMethods = await utxoWalletMethods({ api, sdk, chain, utxoApiKey });
+      const walletMethods = await utxoWalletMethods({ api, sdk, chain, utxoApiKey, paths });
       return { address: await walletMethods.getAddress(), walletMethods };
     }
 
@@ -201,13 +202,16 @@ const connectKeepkey =
     addChain,
     config: { covalentApiKey, ethplorerApiKey = 'freekey', utxoApiKey },
   }: ConnectWalletParams) =>
-  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, config: KeepKeyConfig) => {
+  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, config: KeepKeyConfig, paths: any) => {
     await checkAndLaunch();
-
+    console.log('paths: ', paths);
     //only build this once for all assets
     const keepKeySdk = await KeepKeySdk.create(config);
 
     for (const chain of chains) {
+      //get paths for chain
+      const filteredPaths = paths.filter((p) => p.symbolSwapKit === chain);
+
       const { address, walletMethods } = await getToolbox({
         sdk: keepKeySdk,
         api: apis[chain],
@@ -216,6 +220,7 @@ const connectKeepkey =
         covalentApiKey,
         ethplorerApiKey,
         utxoApiKey,
+        paths: filteredPaths,
       });
 
       addChain({

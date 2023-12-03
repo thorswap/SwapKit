@@ -182,14 +182,14 @@ importers:
         specifier: ^5.0.8
         version: 5.0.8
       '@pioneer-platform/pioneer-caip':
-        specifier: ^8.1.81
-        version: 8.1.81
+        specifier: ^9.0.6
+        version: 9.0.6
       '@pioneer-platform/pioneer-client':
         specifier: ^9.0.19
         version: 9.0.19
       '@pioneer-platform/pioneer-coins':
-        specifier: ^9.0.0
-        version: 9.0.0(@types/node@20.5.9)
+        specifier: ^9.0.2
+        version: 9.0.2(@types/node@20.5.9)
       '@types/uuid':
         specifier: ^9.0.6
         version: 9.0.6
@@ -5571,8 +5571,8 @@ packages:
       - '@types/node'
     dev: false
 
-  /@pioneer-platform/pioneer-caip@8.1.81:
-    resolution: {integrity: sha512-ciR891y+jvOfw1eP+XB+vfL310+veB+wHeZzzv2UArerpB1HQMOmRge9eYGj6XXfhwbtSabLQVUjqC8bYTXPsw==}
+  /@pioneer-platform/pioneer-caip@9.0.6:
+    resolution: {integrity: sha512-I6S61l9wxM4phsxibba+u4rX5X0IdUqSSBy3AL3SJkciMMXdlqV56MmvcdFF62jCxsfkH/7QNJaWhBd30aWmRA==}
     dependencies:
       bech32: 1.1.4
       bignumber.js: 9.1.2
@@ -5679,8 +5679,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@pioneer-platform/pioneer-coins@9.0.0(@types/node@20.5.9):
-    resolution: {integrity: sha512-6F06zzKIpmsOaY+/hnzysTVMgTtf5EvPTnRKoOVeiPJRVZQce6U7TAZuN/H80Cbl1nJif0kb4IIGbOEaP4idQA==}
+  /@pioneer-platform/pioneer-coins@9.0.2(@types/node@20.5.9):
+    resolution: {integrity: sha512-QI5ypsTj2r8LmmN8YRGhSsvm3f5qvww09NjDITUgekJnVZ+Xwnz32DV9cCgBzSEN/sPqV3Vd6yBSdNQ/A4ueLw==}
     dependencies:
       '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.5.9)
       bech32: 1.1.4

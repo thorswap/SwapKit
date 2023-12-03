@@ -48,7 +48,7 @@ export default function Blockchains({ onClose }) {
       {app?.blockchains?.map((blockchain, index) => (
         <Flex key={index} p={4} borderWidth="1px" borderRadius="lg" alignItems="center" justifyContent="space-between">
           <Box>
-            <Text fontWeight="bold">{blockchain}: {blockchain}</Text>
+            <Text fontWeight="bold">networkId: {blockchain}</Text>
           </Box>
           <Flex alignItems="center">
             <Button onClick={() => handlePubkeyClick(key)}>Select</Button>

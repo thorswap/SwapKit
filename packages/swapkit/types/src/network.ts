@@ -75,29 +75,36 @@ export function getChainEnumValue(chainStr) {
 }
 
 export const ChainToNetworkId: Record<Chain, string> = {
-  [Chain.Arbitrum]: 'eip155:42161/slip44:60',
-  [Chain.Avalanche]: 'eip155:43114/slip44:60',
-  [Chain.BinanceSmartChain]: 'eip155:56/slip44:60',
-  [Chain.Binance]: 'binance:bnb-beacon-chain/slip44:118',
-  [Chain.BitcoinCash]: 'bip122:000000000000000000651ef99cb9fcbe/slip44:145',
-  [Chain.Bitcoin]: 'bip122:000000000019d6689c085ae165831e93/slip44:0',
-  [Chain.Base]: 'eip155:8453/slip44:60',
-  [Chain.Cosmos]: 'cosmos:cosmoshub-4/slip44:118',
-  [Chain.Dash]: 'bip122:dash-hash/slip44:5',
-  [Chain.Digibyte]: 'bip122:digibytes-hash/slip44:20',
-  [Chain.Dogecoin]: 'bip122:00000000001a91e3dace36e2be3bf030/slip44:3',
-  [Chain.Kujira]: 'cosmos:kaiyo-1/slip44:118',
-  [Chain.EOS]: 'eos:cf057bbfb72640471fd910bcb67639c2/slip44:194',
-  [Chain.Ethereum]: 'eip155:1/slip44:118',
-  [Chain.Litecoin]: 'bip122:12a765e31ffd4059bada1e25190f6e98/slip44:2',
-  [Chain.Maya]: 'cosmos:maya-mainnet-v1/slip44:118',
-  [Chain.Optimism]: 'eip155:10/slip44:60',
-  [Chain.Osmosis]: 'cosmos:osmosis-1/slip44:118',
-  [Chain.Polygon]: 'eip155:137/slip44:60',
-  [Chain.Ripple]: 'ripple:unknown/slip44:144',
-  [Chain.THORChain]: 'cosmos:thorchain-mainnet-v1/slip44:931',
-  [Chain.Zcash]: 'bip122:0000000000196a45/slip44:133',
+  [Chain.Arbitrum]: 'eip155:42161',
+  [Chain.Avalanche]: 'eip155:43114',
+  [Chain.BinanceSmartChain]: 'eip155:56',
+  [Chain.Binance]: 'binance:bnb-beacon-chain',
+  [Chain.BitcoinCash]: 'bip122:000000000000000000651ef99cb9fcbe',
+  [Chain.Bitcoin]: 'bip122:000000000019d6689c085ae165831e93',
+  [Chain.Base]: 'eip155:8453',
+  [Chain.Cosmos]: 'cosmos:cosmoshub-4',
+  [Chain.Dash]: 'bip122:dash-hash',
+  [Chain.Digibyte]: 'bip122:digibytes-hash',
+  [Chain.Dogecoin]: 'bip122:00000000001a91e3dace36e2be3bf030',
+  [Chain.Kujira]: 'cosmos:kaiyo-1',
+  [Chain.EOS]: 'eos:cf057bbfb72640471fd910bcb67639c2',
+  [Chain.Ethereum]: 'eip155:1',
+  [Chain.Litecoin]: 'bip122:12a765e31ffd4059bada1e25190f6e98',
+  [Chain.Maya]: 'cosmos:maya-mainnet-v1',
+  [Chain.Optimism]: 'eip155:10',
+  [Chain.Osmosis]: 'cosmos:osmosis-1',
+  [Chain.Polygon]: 'eip155:137',
+  [Chain.Ripple]: 'ripple:unknown',
+  [Chain.THORChain]: 'cosmos:thorchain-mainnet-v1',
+  [Chain.Zcash]: 'bip122:0000000000196a45',
 };
+
+// Inverse mapping from Network ID to Chain enum
+export const NetworkIdToChain: Record<string, Chain> = {};
+for (const chain in Chain) {
+  const networkId = ChainToNetworkId[Chain[chain]];
+  NetworkIdToChain[networkId] = Chain[chain];
+}
 
 type ChainNameType = keyof typeof Chain;
 

@@ -45,7 +45,16 @@ export const getAssetFromDenom = async (denom: string, amount: string) => {
 export const BaseCosmosToolbox = ({
   derivationPath,
   client: cosmosClient,
-}: Params): BaseCosmosToolboxType => ({
+}: Params): {
+  getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<any>; transfer: ({
+                                                                                  from,
+                                                                                  recipient,
+                                                                                  assetValue,
+                                                                                  memo,
+                                                                                  fee,
+                                                                                  signer
+                                                                                }: TransferParams) => Promise<any>; getBalance: (pubkeys: any) => Promise<Awaited<AssetValue | symbol>[] | AssetValue[]>; getAccount: (address: string) => Promise<any>; getSigner: (phrase: string) => Promise<any>; validateAddress: (address: string) => Promise<boolean>; getAddressFromMnemonic: (phrase: string) => Promise<any>; getFeeRateFromThorswap: (chainId: ChainId) => Promise<any>; getPubKeyFromMnemonic: (phrase: string) => Promise<string>
+} => ({
   transfer: cosmosClient.transfer,
   getSigner: async (phrase: string) => {
     const { DirectSecp256k1HdWallet } = await import('@cosmjs/proto-signing');
@@ -81,10 +90,10 @@ export const BaseCosmosToolbox = ({
             return await getAssetFromDenom(denom, amount);
           } catch (error) {
             console.error(error);
-            return null;
+            // Skip this entry by returning a unique symbol
+            return Symbol('error');
           }
         })
-        .filter(Boolean) as Promise<AssetValue>[],
-    );
+    ).then((results) => results.filter((result) => result !== Symbol('error')));
   },
 });

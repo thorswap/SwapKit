@@ -1,20 +1,11 @@
-import { ArrowUpDownIcon } from "@chakra-ui/icons";
-import {
-  Avatar,
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Spinner,
-  Text,
-} from "@chakra-ui/react";
+import { ArrowUpDownIcon } from '@chakra-ui/icons';
+import { Avatar, Box, Button, Flex, HStack, Spinner, Text } from '@chakra-ui/react';
 // @ts-ignore
-import { COIN_MAP_LONG } from "@pioneer-platform/pioneer-coins";
-import type React from "react";
-import { useEffect } from "react";
-// @ts-ignore
+import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
+import React, { useEffect } from 'react';
 
-import { usePioneer } from "../../../context/Pioneer";
+// @ts-ignore
+import { usePioneer } from '../../../context/Pioneer';
 
 interface BeginSwapProps {
   openModal: any; // Replace 'any' with the actual type of 'openModal'
@@ -22,20 +13,16 @@ interface BeginSwapProps {
   selectedButton: any; // Replace 'any' with the actual type of 'selectedButton'
 }
 
-const BeginSwap: React.FC<BeginSwapProps> = ({
-  openModal,
-  handleClick,
-  selectedButton,
-}) => {
+const BeginSwap: React.FC<BeginSwapProps> = ({ openModal, handleClick, selectedButton }) => {
   const { state } = usePioneer();
   const { assetContext, outboundAssetContext, app, balances } = state;
 
   const switchAssets = function () {
     const currentInput = assetContext;
     const currentOutput = outboundAssetContext;
-    console.log("currentInput: ", currentInput);
-    console.log("currentOutput: ", currentOutput);
-    console.log("Switching assets!");
+    console.log('currentInput: ', currentInput);
+    console.log('currentOutput: ', currentOutput);
+    console.log('Switching assets!');
     app.setOutboundAssetContext(currentInput);
     app.setAssetContext(currentOutput);
   };
@@ -51,8 +38,10 @@ const BeginSwap: React.FC<BeginSwapProps> = ({
         });
 
       // set the default assets
-      app.setAssetContext(filteredAssets[0]);
-      app.setOutboundAssetContext(filteredAssets[1]);
+      if (filteredAssets.length > 0) {
+        app.setAssetContext(filteredAssets[0]);
+        app.setOutboundAssetContext(filteredAssets[1]);
+      }
     } catch (e) {
       console.error(e);
     }
@@ -68,20 +57,14 @@ const BeginSwap: React.FC<BeginSwapProps> = ({
 
   return (
     <div>
-      <Flex
-        alignItems="center"
-        bg="black"
-        justifyContent="center"
-        mx="auto"
-        p="2rem"
-      >
+      <Flex alignItems="center" bg="black" justifyContent="center" mx="auto" p="2rem">
         <HStack
           maxWidth="35rem" // Set maximum width for the container
           spacing={4} // Adjust the spacing between the two boxes
           width="100%" // Ensure the container takes full width
         >
           <Box
-            _hover={{ color: "rgb(128,128,128)" }}
+            _hover={{ color: 'rgb(128,128,128)' }}
             alignItems="center"
             border="1px solid #fff"
             borderRadius="8px"
@@ -90,7 +73,7 @@ const BeginSwap: React.FC<BeginSwapProps> = ({
             flexDirection="column"
             h="10rem"
             justifyContent="center"
-            onClick={() => openModal("Select Asset")}
+            onClick={() => openModal('Select Asset')}
           >
             {!assetContext ? (
               <Spinner color="blue.500" size="lg" />
@@ -100,9 +83,7 @@ const BeginSwap: React.FC<BeginSwapProps> = ({
                   size="xl"
                   src={
                     assetContext?.image ||
-                    `https://pioneers.dev/coins/${
-                      COIN_MAP_LONG[assetContext?.chain]
-                    }.png`
+                    `https://pioneers.dev/coins/${COIN_MAP_LONG[assetContext?.chain]}.png`
                   }
                 />
                 {/* <Box border="1px solid #fff" borderRadius="8px" width="100%"> */}
@@ -117,13 +98,9 @@ const BeginSwap: React.FC<BeginSwapProps> = ({
               </>
             )}
           </Box>
-          <ArrowUpDownIcon
-            boxSize="2rem"
-            color="white"
-            onClick={() => switchAssets()}
-          />
+          <ArrowUpDownIcon boxSize="2rem" color="white" onClick={() => switchAssets()} />
           <Box
-            _hover={{ color: "rgb(128,128,128)" }}
+            _hover={{ color: 'rgb(128,128,128)' }}
             alignItems="center"
             border="1px solid #fff"
             borderRadius="8px"
@@ -132,7 +109,7 @@ const BeginSwap: React.FC<BeginSwapProps> = ({
             flexDirection="column"
             h="10rem"
             justifyContent="center"
-            onClick={() => openModal("Select Outbound")}
+            onClick={() => openModal('Select Outbound')}
           >
             {!outboundAssetContext ? (
               <Spinner color="blue.500" size="lg" />
@@ -142,9 +119,7 @@ const BeginSwap: React.FC<BeginSwapProps> = ({
                   size="xl"
                   src={
                     outboundAssetContext?.image ||
-                    `https://pioneers.dev/coins/${
-                      COIN_MAP_LONG[outboundAssetContext?.chain]
-                    }.png`
+                    `https://pioneers.dev/coins/${COIN_MAP_LONG[outboundAssetContext?.chain]}.png`
                   }
                 />
                 {/* <Box border="1px solid #fff" borderRadius="8px" width="100%"> */}
@@ -161,24 +136,18 @@ const BeginSwap: React.FC<BeginSwapProps> = ({
           </Box>
         </HStack>
       </Flex>
-      <Flex
-        alignItems="center"
-        bg="black"
-        justifyContent="center"
-        mx="auto"
-        p="2rem"
-      >
+      <Flex alignItems="center" bg="black" justifyContent="center" mx="auto" p="2rem">
         <Button
-          colorScheme={selectedButton === "quick" ? "blue" : "gray"}
-          onClick={() => handleClick("quick")}
+          colorScheme={selectedButton === 'quick' ? 'blue' : 'gray'}
+          onClick={() => handleClick('quick')}
           variant="outline"
           width="48%"
         >
           Quick
         </Button>
         <Button
-          colorScheme={selectedButton === "precise" ? "blue" : "gray"}
-          onClick={() => handleClick("precise")}
+          colorScheme={selectedButton === 'precise' ? 'blue' : 'gray'}
+          onClick={() => handleClick('precise')}
           variant="outline"
           width="48%"
         >

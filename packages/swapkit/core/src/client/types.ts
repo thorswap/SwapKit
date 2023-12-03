@@ -20,6 +20,7 @@ import type { Chain, FeeOption, WalletOption } from '@coinmasters/types';
 
 type BaseWalletMethods = {
   getAddress: () => Promise<string> | string;
+  getPubkey: (path: any) => Promise<string> | string;
 };
 
 export type CoreTxParams = {
@@ -45,6 +46,7 @@ export type UpgradeParams = {
 
 export type ChainWallet = {
   address: string;
+  pubkeys: any;
   balance: AssetValue[];
   walletType: WalletOption;
 };

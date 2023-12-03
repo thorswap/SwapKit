@@ -171,15 +171,19 @@ export class SwapKitCore<T = ''> {
   getWalletByChain = async (chain: Chain) => {
     const address = this.getAddress(chain);
     if (!address) return null;
-    console.log("chain: ",chain)
-    console.log("getWalletByChain: ",address)
-
-    const balance = (await this.getWallet(chain)?.getBalance([{address}])) ?? [
+    console.log('chain: ', chain);
+    // console.log("getWalletByChain: ",address)
+    let pubkeys = [];
+    if (this.getWallet(chain)?.getPubkeys) {
+      pubkeys = await this.getWallet(chain)?.getPubkeys();
+    }
+    const balance = (await this.getWallet(chain)?.getBalance([{ address }])) ?? [
       AssetValue.fromChainOrSignature(chain),
     ];
 
     this.connectedChains[chain] = {
       address,
+      pubkeys,
       balance,
       walletType: this.connectedChains[chain]?.walletType as WalletOption,
     };
@@ -505,7 +509,7 @@ export class SwapKitCore<T = ''> {
     try {
       console.log('wallets: ', wallets);
       wallets.forEach((wallet) => {
-        console.log('wallet: ', wallet);
+        // console.log('wallet: ', wallet);
         // @ts-expect-error ANCHOR - Not Worth
         this[wallet.connectMethodName] = wallet.connect({
           addChain: this.#addConnectedChain,

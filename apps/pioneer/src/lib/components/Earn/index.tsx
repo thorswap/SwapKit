@@ -35,24 +35,24 @@ const Earn = ({ openModal }) => {
   const [walletType, setWalletType] = useState('');
   const [avatarUrl, setAvatarUrl] = useState('');
 
-  useEffect(() => {
-    const fetchPools = async () => {
-      try {
-        if(app?.pioneer && pools.length === 0) {
-          let fetchedPools = await app.pioneer.Pools();
-          fetchedPools = fetchedPools.data;
-          console.log('fetchedPools: ', fetchedPools);
-          // Sort pools by APY
-          fetchedPools.sort((a, b) => parseFloat(b.poolAPY) - parseFloat(a.poolAPY));
-          setPools(fetchedPools);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    fetchPools();
-  }, [app, app?.pioneer]);
+  // useEffect(() => {
+  //   const fetchPools = async () => {
+  //     try {
+  //       if(app?.pioneer && pools.length === 0) {
+  //         let fetchedPools = await app.pioneer.Pools();
+  //         fetchedPools = fetchedPools.data;
+  //         console.log('fetchedPools: ', fetchedPools);
+  //         // Sort pools by APY
+  //         fetchedPools.sort((a, b) => parseFloat(b.poolAPY) - parseFloat(a.poolAPY));
+  //         setPools(fetchedPools);
+  //       }
+  //     } catch (e) {
+  //       console.error(e);
+  //     }
+  //   };
+  //
+  //   fetchPools();
+  // }, [app, app?.pioneer]);
 
   const selectPool = (pool) => {
     setSelectedPool(pool);
