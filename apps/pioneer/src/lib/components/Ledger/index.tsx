@@ -1,7 +1,7 @@
-import { CheckIcon } from '@chakra-ui/icons'; // Make sure to import the icons you need
-import { Avatar, Box, Button, Spinner, Text } from '@chakra-ui/react';
+import { WarningIcon } from '@chakra-ui/icons'; // Make sure to import the icons you need
+import { Box, Button, Card, Center, HStack, Link, Text, useToast, VStack } from '@chakra-ui/react';
+import { getChainEnumValue } from '@coinmasters/types';
 // @ts-ignore
-import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
 import { useEffect, useState } from 'react';
 
 import { usePioneer } from '../../context/Pioneer';
@@ -44,95 +44,167 @@ const CHAINS: any = {
     networkId: 'cosmos:thorchain-mainnet-v1/slip44:931',
   },
 };
-// @ts-ignore
-export default function Ledger({ onClose }: any) {
-  const { state, connectWallet } = usePioneer();
-  const { balances } = state;
-  const [error, setError] = useState<any>(null);
-  // const [addresses, setAddresses] = useState([]);
-  // const [assets, setAssets] = useState([]);
 
-  const attemptConnect = async (chainKey: any) => {
+export default function Ledger({ onClose }) {
+  const { state, connectWallet, clearHardwareError } = usePioneer();
+  const { pubkeys, hardwareError } = state;
+  const [webUsbSupported, setWebUsbSupported] = useState(true);
+  const [isLocked, setIsLocked] = useState(false);
+  const [isWrongApp, setIsWrongApp] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState({});
+  const toast = useToast();
+
+  useEffect(() => {
+    console.log('hardwareError: ', hardwareError);
+    if (hardwareError == 'LockedDeviceError') {
+      console.log('IS LOCKED: ', hardwareError);
+      setIsLocked(true);
+      toast({
+        title: 'IS LOCKED!',
+        description: hardwareError,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    } else if(hardwareError == 'WrongAppError'){
+      console.log("hardwareError: ", hardwareError)
+      setIsWrongApp(true);
+      toast({
+        title: 'Unable to connect!',
+        description: hardwareError,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    } else if(hardwareError) {
+      console.log("hardwareError: ", hardwareError)
+      toast({
+        title: 'Connection Error',
+        description: hardwareError,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  }, [hardwareError]);
+
+  useEffect(() => {
+    setWebUsbSupported('usb' in navigator);
+  }, []);
+
+  const attemptConnect = async (chainKey) => {
+    setConnectionStatus((prev) => ({ ...prev, [chainKey]: 'connecting' }));
     try {
-      console.log(`Attempting to connect to ${CHAINS[chainKey].name}`);
-      const result: any = await connectWallet('LEDGER');
+      console.log(`Attempting to connect to chainKey: ${chainKey}`);
+      const result = await connectWallet('LEDGER', getChainEnumValue(chainKey));
       console.log('result: ', result);
       if (result?.error) {
-        // show Error Modal!
-        console.log('error: ', result.error);
-        setError(result);
+        console.error('Error Pairing!: ', result);
+        toast({
+          title: 'Connection Error',
+          description: result.error.message,
+          status: 'error',
+          duration: 9000,
+          isClosable: true,
+        });
+      } else {
+        console.log('success?: ', result);
+        //setConnectionStatus((prev) => ({ ...prev, [chainKey]: 'connected' }));
       }
     } catch (e) {
       console.error(e);
     }
   };
-  useEffect(() => {
-    attemptConnect('ETH');
-  }, []);
-  const renderChainButtons = () => {
-    return Object.keys(CHAINS).map((chainKey) => (
-      <Box key={chainKey} mb={2}>
-        <Button onClick={() => attemptConnect(chainKey)}>
-          <Avatar
-            size="md"
-            src={`https://pioneers.dev/coins/${COIN_MAP_LONG[chainKey]}.png`}
-          />
-          Connect to {CHAINS[chainKey].name}
-        </Button>
-      </Box>
-    ));
+
+  const renderChainCard = (chainKey) => {
+    const isConnected = connectionStatus[chainKey] === 'connected';
+    return (
+      <Card boxShadow="md" key={chainKey} mb={4} p={3}>
+        <HStack justify="space-between">
+          <VStack align="start">
+            <Text fontSize="md">{CHAINS[chainKey].name}</Text>
+            {isConnected && pubkeys[CHAINS[chainKey].networkId] && (
+              <Text fontSize="sm">Address: {pubkeys[CHAINS[chainKey].networkId]}</Text>
+            )}
+          </VStack>
+          <Button isDisabled={isConnected} onClick={() => attemptConnect(chainKey)} size="sm">
+            {isConnected ? 'Connected' : 'Connect'}
+          </Button>
+        </HStack>
+      </Card>
+    );
   };
 
-  // Function to render the success card
-  const renderSuccessCard = () => (
-    <Box
-      alignItems="center"
-      backgroundColor="green.700"
-      borderRadius="lg"
-      display="flex"
-      mb={4}
-      p={4}
-    >
-      <CheckIcon color="green.500" h={5} mr={2} w={5} />
-      <Text>Pairing Successful</Text>
-    </Box>
+  let unlock = function () {
+    clearHardwareError();
+    setIsLocked(false);
+    setIsWrongApp(false);
+  };
+
+  const connectedChains = Object.keys(CHAINS).filter(
+    (chainKey) => connectionStatus[chainKey] === 'connected',
+  );
+  const notConnectedChains = Object.keys(CHAINS).filter(
+    (chainKey) => connectionStatus[chainKey] !== 'connected',
   );
 
-  const handlePairMoreWallets = () => {
-    onClose();
-  };
-
   return (
-    <div>
-      {error ? (
-        <div>Error: {error?.message}</div>
+    <Box>
+      {!webUsbSupported ? (
+        <Center flexDirection="column" my={4}>
+          <WarningIcon color="red.500" h={10} w={10} />
+          <Text color="red.500" fontSize="lg" fontWeight="bold" mt={2}>
+            WebUSB is not supported in your browser.
+          </Text>
+          <Link isExternal color="blue.500" href="https://caniuse.com/webusb" mt={2}>
+            Learn more about WebUSB support
+          </Link>
+          <small>(hint) switch to chrome browser</small>
+        </Center>
       ) : (
         <div>
-          <Box>
-            <Text>Connect your Ledger device and select a chain:</Text>
-            {renderChainButtons()}
-          </Box>
-          {balances.length === 0 && (
+          {isLocked ? (
             <div>
-              Connect your Ledger device! and place it on the Ethereum
-              Application
-              <Button onClick={() => attemptConnect('ETH')}>
-                Attempt to connect
-              </Button>
-              <Spinner />
+              <WarningIcon color="yellow.500" h={10} w={10} />
+              <Text fontSize="lg" fontWeight="bold" mt={2}>
+                Your Ledger is locked. Please unlock it.
+                <Button onClick={unlock}>Continue</Button>
+              </Text>
+            </div>
+          ) : (
+            <div>
+              {isWrongApp ? (<div>
+                <WarningIcon color="yellow.500" h={10} w={10} />
+                <Text fontSize="lg" fontWeight="bold" mt={2}>
+                  Your Ledger is on the WRONG APP! Please open the correct app.
+                  <Button onClick={unlock}>Continue</Button>
+                </Text>
+              </div>):(<div>
+                <div>
+                  <Text mb={4}>Connect your Ledger device and select a chain:</Text>
+                  <br />
+                  <Text mb={4}>Your Device MUST be unlocked an correct application open</Text>
+                  {notConnectedChains.length > 0 && (
+                    <Box mb={6}>
+                      <Text mb={2}>Not Yet Connected:</Text>
+                      {notConnectedChains.map(renderChainCard)}
+                    </Box>
+                  )}
+                  {connectedChains.length > 0 && (
+                    <Box>
+                      <Text mb={2}>Connected:</Text>
+                      {connectedChains.map(renderChainCard)}
+                    </Box>
+                  )}
+                  <Button colorScheme="blue" mt={4} onClick={onClose}>
+                    Continue
+                  </Button>
+                </div>
+              </div>)}
             </div>
           )}
-          {balances.length > 0 && renderSuccessCard()}
-          <Box alignItems="flex-end" display="flex" flexDirection="column">
-            <Button mb={2} onClick={() => handlePairMoreWallets()}>
-              Pair More Wallets
-            </Button>
-            <Button colorScheme="blue" onClick={onClose}>
-              Continue
-            </Button>
-          </Box>
         </div>
       )}
-    </div>
+    </Box>
   );
 }

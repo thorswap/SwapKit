@@ -107,7 +107,7 @@ export class SDK {
   private events: any;
 
   // @ts-ignore
-  private pairWallet: (wallet: any, customPaths: any) => Promise<any>;
+  private pairWallet: (wallet: any, customPaths: any, ledgerApp?: any) => Promise<any>;
 
   // public startSocket: () => Promise<any>;
   // public stopSocket: () => any;
@@ -250,7 +250,7 @@ export class SDK {
         console.error('Failed to load balances! e: ', e);
       }
     };
-    this.pairWallet = async function (wallet: string, customPaths: any) {
+    this.pairWallet = async function (wallet: string, customPaths: any, ledgerApp?: any) {
       const tag = `${TAG} | pairWallet | `;
       try {
         // log.debug(tag, "Pairing Wallet");
@@ -261,6 +261,7 @@ export class SDK {
         const walletSelected = this.wallets.find((w: any) => w.type === wallet);
         // log.info(tag,"walletSelected: ",walletSelected)
         console.log(tag, 'wallet: ', wallet);
+
         // supported chains
         const AllChainsSupported = availableChainsByWallet[wallet];
         console.log(tag, 'ChainToNetworkId: ', ChainToNetworkId);
@@ -302,14 +303,44 @@ export class SDK {
           console.log('resultPair: ', resultPair);
           this.keepkeyApiKey = resultPair;
           localStorage.setItem('keepkeyApiKey', resultPair);
-        } else if(walletSelected.type === 'METAMASK'){
+        } else if (walletSelected.type === 'METAMASK') {
           resultPair =
             (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](
               AllChainsSupported,
               walletPaths,
             )) || '';
+        } else if (walletSelected.type === 'LEDGER') {
+          console.log('ledgerApp: ', ledgerApp);
+          try {
+            if (!ledgerApp) throw Error('Ledger app required for ledger pairing!');
+            resultPair =
+              (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](ledgerApp)) ||
+              '';
+          } catch (e) {
+            console.error('Failed to pair ledger! e: ', e);
+            if (e.toString().indexOf('LockedDeviceError') > -1) {
+              console.log('LockedDeviceError...');
+              return {
+                error: 'LockedDeviceError',
+              };
+            }
+            if (e.toString().indexOf('decorateAppAPIMethods')) {
+              return {
+                error: 'WrongAppError',
+              };
+            }
+            if (e.toString().indexOf('TransportStatusError')) {
+              return {
+                error: 'WrongAppError',
+              };
+            }
+            return {
+              error: 'Unknown Error',
+            };
+            //TODO no device plugged in
+            //TODO wrong browser?
+          }
         } else {
-          //TODO ledger work
           resultPair =
             (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](
               AllChainsSupported,

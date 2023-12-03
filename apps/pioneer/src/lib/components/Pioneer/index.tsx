@@ -40,7 +40,7 @@ import {
 import { usePioneer } from '../../context/Pioneer';
 
 const Pioneer = () => {
-  const { state, connectWallet } = usePioneer();
+  const { state } = usePioneer();
   const { api, app, status, balances, context } = state;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showAllWallets, setShowAllWallets] = useState(false);
@@ -91,8 +91,6 @@ const Pioneer = () => {
     setWalletType(wallet);
     setModalType(wallet);
     setModalShowClose(false);
-    console.log('resultPair: ', resultPair);
-    setIsSwitchingWallet(false);
   };
 
   const renderWallets = () => {

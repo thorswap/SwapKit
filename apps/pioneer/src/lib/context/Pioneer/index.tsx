@@ -47,12 +47,14 @@ export enum WalletActions {
   SET_OUTBOUND_PUBKEY_CONTEXT = 'SET_OUTBOUND_PUBKEY_CONTEXT',
   SET_BALANCES = 'SET_BALANCES',
   SET_PUBKEYS = 'SET_PUBKEYS',
+  SET_HARDWARE_ERROR = 'SET_HARDWARE_ERROR',
   ADD_WALLET = 'ADD_WALLET',
   RESET_STATE = 'RESET_STATE',
 }
 
 export interface InitialState {
   status: any;
+  hardwareError: string | null;
   username: string;
   serviceKey: string;
   queryKey: string;
@@ -75,6 +77,7 @@ export interface InitialState {
 
 const initialState: InitialState = {
   status: 'disconnected',
+  hardwareError: null,
   username: '',
   serviceKey: '',
   queryKey: '',
@@ -100,6 +103,7 @@ export interface IPioneerContext {
   username: string | null;
   context: string | null;
   status: string | null;
+  hardwareError: string | null;
   totalValueUsd: number | null;
   assetContext: string | null;
   blockchainContext: string | null;
@@ -129,6 +133,7 @@ export type ActionTypes =
   | { type: WalletActions.SET_STATUS; payload: any }
   | { type: WalletActions.SET_USERNAME; payload: string }
   | { type: WalletActions.OPEN_MODAL; payload: string }
+  | { type: WalletActions.SET_HARDWARE_ERROR; payload: string }
   | { type: WalletActions.SET_APP; payload: any }
   | { type: WalletActions.SET_API; payload: any }
   | { type: WalletActions.SET_WALLETS; payload: any }
@@ -150,6 +155,10 @@ const reducer = (state: InitialState, action: ActionTypes) => {
     case WalletActions.SET_STATUS:
       eventEmitter.emit('SET_STATUS', action.payload);
       return { ...state, status: action.payload };
+
+    case WalletActions.SET_HARDWARE_ERROR:
+      // eventEmitter.emit("SET_USERNAME", action.payload);
+      return { ...state, hardwareError: action.payload };
 
     case WalletActions.SET_USERNAME:
       // eventEmitter.emit("SET_USERNAME", action.payload);
@@ -212,6 +221,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         username: null,
         context: null,
         status: null,
+        hardwareError: null,
         // Add other state properties you want to reset here...
       };
 
@@ -238,42 +248,60 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
   // };
 
   // TODO add wallet to state
+  const clearHardwareError = () => {
+    console.log('Clearing hardware error state!');
+    // @ts-ignore
+    dispatch({
+      type: WalletActions.SET_HARDWARE_ERROR,
+      payload: null,
+    });
+  };
 
-  const connectWallet = async function (wallet: string) {
+  const connectWallet = async function (wallet: string, chain?: any) {
     try {
       if (state && state?.app) {
         console.log('connectWallet: ', wallet);
         //TODO get custom paths for wallet from localStorage
-        const successPairWallet = await state.app.pairWallet(wallet, []);
+        const successPairWallet = await state.app.pairWallet(wallet, [], chain);
         console.log('successPairWallet: ', successPairWallet);
-        console.log('state.app.assetContext: ', state.app.assetContext);
-        console.log('state.app.blockchainContext: ', state.app.blockchainContext);
-        console.log('state.app.context: ', state.app.context);
-        if (state && state.app) {
-          // if pioneer set in localStoage
-          if (state.app.isPioneer) {
-            localStorage.setItem('isPioneer', state.app.isPioneer);
+        if (successPairWallet && successPairWallet.error) {
+          //push error to state
+          console.log('successPairWallet.error: ', successPairWallet.error);
+          // @ts-ignore
+          dispatch({
+            type: WalletActions.SET_HARDWARE_ERROR,
+            payload: successPairWallet.error,
+          });
+        } else {
+          console.log('state.app.assetContext: ', state.app.assetContext);
+          console.log('state.app.blockchainContext: ', state.app.blockchainContext);
+          console.log('state.app.context: ', state.app.context);
+          if (state && state.app) {
+            // if pioneer set in localStoage
+            if (state.app.isPioneer) {
+              localStorage.setItem('isPioneer', state.app.isPioneer);
+            }
+            // @ts-ignore
+            dispatch({
+              type: WalletActions.SET_CONTEXT,
+              payload: state.app.context,
+            });
+            // @ts-ignore
+            dispatch({
+              type: WalletActions.SET_ASSET_CONTEXT,
+              payload: state.app.assetContext,
+            });
+            // @ts-ignore
+            dispatch({
+              type: WalletActions.SET_BLOCKCHAIN_CONTEXT,
+              payload: state.app.blockchainContext,
+            });
+            // @ts-ignore
+            dispatch({
+              type: WalletActions.SET_PUBKEY_CONTEXT,
+              payload: state.app.pubkeyContext,
+            });
           }
-          // @ts-ignore
-          dispatch({
-            type: WalletActions.SET_CONTEXT,
-            payload: state.app.context,
-          });
-          // @ts-ignore
-          dispatch({
-            type: WalletActions.SET_ASSET_CONTEXT,
-            payload: state.app.assetContext,
-          });
-          // @ts-ignore
-          dispatch({
-            type: WalletActions.SET_BLOCKCHAIN_CONTEXT,
-            payload: state.app.blockchainContext,
-          });
-          // @ts-ignore
-          dispatch({
-            type: WalletActions.SET_PUBKEY_CONTEXT,
-            payload: state.app.pubkeyContext,
-          });
         }
       }
     } catch (e) {
@@ -411,7 +439,7 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
 
   // end
   const value: any = useMemo(
-    () => ({ state, dispatch, connectWallet, onStart }),
+    () => ({ state, dispatch, connectWallet, clearHardwareError, onStart }),
     [connectWallet, state],
   );
 
@@ -422,7 +450,7 @@ export interface UsePioneerType {
   state: any;
   dispatch: any;
   onStart: () => void;
-  connectWallet: (wallet: string) => void;
+  connectWallet: (wallet: string, chain?: any) => void;
 }
 
 export const usePioneer = (): UsePioneerType => useContext(PioneerContext as any);
