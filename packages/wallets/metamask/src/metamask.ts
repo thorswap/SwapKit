@@ -66,9 +66,9 @@ type MetaMaskOptions = {
 export type MetaMaskParams = MetaMaskOptions & {
   wallet: any;
   chain: Chain;
-  derivationPath: DerivationPathArray;
   rpcUrl?: string;
   api?: any;
+  paths?: any;
 };
 
 const getEVMWalletMethods = async ({
@@ -78,10 +78,9 @@ const getEVMWalletMethods = async ({
                                      ethplorerApiKey,
                                      covalentApiKey,
                                      rpcUrl,
-                                     derivationPath = [2147483692, 2147483708, 2147483648, 0, 0],
                                    }: any) => {
   const provider = getProvider(chain as EVMChain, rpcUrl);
-  const signer = new MetaMaskSigner({ wallet, chain, derivationPath, provider });
+  const signer = new MetaMaskSigner({ wallet, chain, provider });
   const address = await signer.getAddress();
   const evmParams = { api, signer, provider };
 
@@ -111,8 +110,8 @@ const getToolbox = async (params: MetaMaskParams) => {
     chain,
     ethplorerApiKey,
     covalentApiKey,
-    derivationPath,
     utxoApiKey,
+    paths,
   } = params;
 
   switch (chain) {
@@ -131,7 +130,6 @@ const getToolbox = async (params: MetaMaskParams) => {
         api,
         chain,
         covalentApiKey,
-        derivationPath: [2147483692, 2147483708, 2147483648, 0, 0],
         ethplorerApiKey,
         rpcUrl,
       });
@@ -164,7 +162,7 @@ const getToolbox = async (params: MetaMaskParams) => {
         chain,
         stagenet: false,
         utxoApiKey,
-        derivationPath,
+        paths,
       };
       const walletMethods = await utxoWalletMethods(params);
       let address = await walletMethods.getAddress();
@@ -182,7 +180,8 @@ const connectMetaMask =
     addChain,
     config: { covalentApiKey, ethplorerApiKey = 'freekey', utxoApiKey },
   }: ConnectWalletParams) =>
-  async (chains: (typeof METAMASK_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
+  async (chains: (typeof METAMASK_SUPPORTED_CHAINS)[number], paths) => {
+    console.log("Checkpoint 1 :paths: ",paths)
     //is metamask available?
     const isMetaMaskAvailable = (): boolean => {
       return (window as any).ethereum !== undefined && (window as any).ethereum.isMetaMask;
@@ -224,7 +223,7 @@ const connectMetaMask =
             covalentApiKey,
             ethplorerApiKey,
             utxoApiKey,
-            derivationPath,
+            paths
           });
 
           addChain({

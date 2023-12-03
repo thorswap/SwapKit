@@ -188,8 +188,8 @@ importers:
         specifier: ^9.0.19
         version: 9.0.19
       '@pioneer-platform/pioneer-coins':
-        specifier: ^9.0.2
-        version: 9.0.2(@types/node@20.5.9)
+        specifier: ^9.0.4
+        version: 9.0.4(@types/node@20.5.9)
       '@types/uuid':
         specifier: ^9.0.6
         version: 9.0.6
@@ -1369,8 +1369,8 @@ importers:
         specifier: 5.7.0
         version: 5.7.0
       '@pioneer-platform/pioneer-coins':
-        specifier: ^8.1.84
-        version: 8.1.86(@types/node@20.5.9)
+        specifier: ^9.0.4
+        version: 9.0.4(@types/node@20.5.9)
       '@shapeshiftoss/hdwallet-core':
         specifier: ^1.50.5
         version: 1.50.5
@@ -5679,8 +5679,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@pioneer-platform/pioneer-coins@9.0.2(@types/node@20.5.9):
-    resolution: {integrity: sha512-QI5ypsTj2r8LmmN8YRGhSsvm3f5qvww09NjDITUgekJnVZ+Xwnz32DV9cCgBzSEN/sPqV3Vd6yBSdNQ/A4ueLw==}
+  /@pioneer-platform/pioneer-coins@9.0.4(@types/node@20.5.9):
+    resolution: {integrity: sha512-5MsIETIS3gR9hBf55TcmUQ1y3ABNRVAcm9dOl0Z33BS/EPO+T2hPnm6ZeMSk2B+goypkPwINomwrQgY0mfsr1A==}
     dependencies:
       '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.5.9)
       bech32: 1.1.4

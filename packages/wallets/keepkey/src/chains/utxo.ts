@@ -95,8 +95,8 @@ export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api, 
               console.log('response: ', response);
               // Combine the original path object with the xpub from the response
               const combinedResult = {
-                ...path,        // Contains all fields from the original path
-                xpub: response.xpub  // Adds the xpub field from the response
+                ...path, // Contains all fields from the original path
+                xpub: response.xpub, // Adds the xpub field from the response
               };
               console.log('combinedResult: ', combinedResult);
               return combinedResult;

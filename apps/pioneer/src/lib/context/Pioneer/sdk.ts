@@ -302,7 +302,14 @@ export class SDK {
           console.log('resultPair: ', resultPair);
           this.keepkeyApiKey = resultPair;
           localStorage.setItem('keepkeyApiKey', resultPair);
+        } else if(walletSelected.type === 'METAMASK'){
+          resultPair =
+            (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](
+              AllChainsSupported,
+              walletPaths,
+            )) || '';
         } else {
+          //TODO ledger work
           resultPair =
             (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](
               AllChainsSupported,

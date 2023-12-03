@@ -48,8 +48,11 @@ export default function Pubkeys({ onClose }) {
       {app?.pubkeys?.map((key, index) => (
         <Flex key={index} p={4} borderWidth="1px" borderRadius="lg" alignItems="center" justifyContent="space-between">
           <Box>
-            <Text fontWeight="bold">{key.symbol}: {key.address}</Text>
+            <Text fontWeight="bold">{key.networkId}: {key.address}</Text>
             {getWalletContent(key.context.split(':')[0])}
+          </Box>
+          <Box>
+            <Text fontWeight="bold">{key.type}</Text>
           </Box>
           <Flex alignItems="center">
             <IconButton

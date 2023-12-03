@@ -29,7 +29,7 @@
     "@fontsource/roboto": "^5.0.8",
     "@pioneer-platform/pioneer-caip": "^9.0.6",
     "@pioneer-platform/pioneer-client": "^9.0.19",
-    "@pioneer-platform/pioneer-coins": "^9.0.2",
+    "@pioneer-platform/pioneer-coins": "^9.0.4",
     "@types/uuid": "^9.0.6",
     "axios": "^1.5.1",
     "base64-js": "1.5.1",

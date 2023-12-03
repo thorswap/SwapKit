@@ -91,8 +91,6 @@ const Pioneer = () => {
     setWalletType(wallet);
     setModalType(wallet);
     setModalShowClose(false);
-    console.log('Clicked wallet:', wallet);
-    const resultPair = await connectWallet(wallet);
     console.log('resultPair: ', resultPair);
     setIsSwitchingWallet(false);
   };

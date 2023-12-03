@@ -10,8 +10,9 @@ import type { Psbt } from 'bitcoinjs-lib';
 
 export const utxoWalletMethods: any = async function (params: any) {
   try {
-    let { wallet, chain, utxoApiKey, api, derivationPath } = params;
-    console.log('derivationPath: ', derivationPath);
+    let { wallet, chain, utxoApiKey, api, paths } = params;
+    console.log('paths: ', paths);
+    // console.log('derivationPath: ', derivationPath);
     if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
     let toolbox: any = {};
     let isSegwit = false;
@@ -68,6 +69,44 @@ export const utxoWalletMethods: any = async function (params: any) {
       }
     };
     const address = await getAddress();
+
+    //getAddress
+    const _getPubkeys = async (paths) => {
+      try {
+        console.log('paths: ', paths);
+
+        const pubkeys = await Promise.all(
+          paths.map((path) => {
+            // Create the path query from the original path object
+            const pathQuery = [{
+              symbol: 'BTC',
+              coin: 'Bitcoin',
+              script_type: 'p2pkh',
+              addressNList: path.addressNList,
+              showDisplay: false,
+            }];
+
+            console.log('pathQuery: ', pathQuery);
+            return wallet.getPublicKeys(pathQuery).then((response) => {
+              console.log('response: ', response);
+              // Combine the original path object with the xpub from the response
+              const combinedResult = {
+                ...path, // Contains all fields from the original path
+                xpub: response.xpub, // Adds the xpub field from the response
+              };
+              console.log('combinedResult: ', combinedResult);
+              return combinedResult;
+            });
+          }),
+        );
+        return pubkeys;
+      } catch (e) {
+        console.error(e);
+      }
+    };
+    const pubkeys = await _getPubkeys(paths);
+    const getPubkeys = async () => pubkeys;
+    console.log('pubkeys: ', pubkeys);
 
     const signTransaction = async (psbt: Psbt, inputs: UTXO[], memo: string = '') => {
       let outputs: any[] = psbt.txOutputs.map((output: any) => {
@@ -162,7 +201,7 @@ export const utxoWalletMethods: any = async function (params: any) {
       return toolbox.broadcastTx(txHex);
     };
 
-    return { ...utxoMethods, getAddress, signTransaction, transfer };
+    return { ...utxoMethods, getPubkeys, getAddress, signTransaction, transfer };
   } catch (e) {
     console.error(e);
     throw e;

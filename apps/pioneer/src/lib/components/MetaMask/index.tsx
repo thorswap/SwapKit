@@ -10,16 +10,33 @@ import {
   VStack,
   Card,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { usePioneer } from '../../context/Pioneer';
 import Portfolio from '../Portfolio';
+
 // @ts-ignore
 export default function MetaMask({ onClose, setIsOpenSide }: any) {
-  const { state } = usePioneer();
-  const { balances } = state;
+  const { state, connectWallet } = usePioneer();
+  const { app, balances } = state;
   const [isSnapEnabled, setIsSnapEnabled] = useState(true); // Assuming the snap plugin is enabled by default
   const [hasConfirmed, setHasConfirmed] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
+
+  let syncWallet = async function () {
+    try {
+      setIsSyncing(true);
+      await connectWallet('METAMASK');
+      await app.getPubkeys();
+      await app.getBalances();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    syncWallet();
+  }, []);
 
   // Function to render the success card
   const renderSuccessCard = () => (
