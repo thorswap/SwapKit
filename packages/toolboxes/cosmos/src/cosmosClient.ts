@@ -3,12 +3,13 @@ import { base64 } from '@scure/base';
 import type { ChainId } from '@swapkit/types';
 
 import type { CosmosSDKClientParams, TransferParams } from './types.ts';
-import { createSigningStargateClient, createStargateClient, getDenom, getRPC } from './util.ts';
-
-const DEFAULT_COSMOS_FEE_MAINNET = {
-  amount: [{ denom: 'uatom', amount: '500' }],
-  gas: '200000',
-};
+import {
+  createSigningStargateClient,
+  createStargateClient,
+  DEFAULT_COSMOS_FEE_MAINNET,
+  getDenom,
+  getRPC,
+} from './util.ts';
 
 export class CosmosClient {
   server: string;
@@ -50,10 +51,7 @@ export class CosmosClient {
   getBalance = async (address: string) => {
     const client = await createStargateClient(this.rpcUrl);
 
-    const allBalances = (await client.getAllBalances(address)) as unknown as {
-      denom: string;
-      amount: string;
-    }[];
+    const allBalances = await client.getAllBalances(address);
 
     return allBalances.map((balance) => ({
       ...balance,
@@ -74,9 +72,7 @@ export class CosmosClient {
     fee = DEFAULT_COSMOS_FEE_MAINNET,
     signer,
   }: TransferParams) => {
-    if (!signer) {
-      throw new Error('Signer not defined');
-    }
+    if (!signer) throw new Error('Signer not defined');
 
     const signingClient = await createSigningStargateClient(this.rpcUrl, signer);
     const txResponse = await signingClient.sendTokens(

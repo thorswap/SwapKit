@@ -24,6 +24,7 @@ export const getSwapKitClient = async ({
   const { evmWallet } = await import('@swapkit/wallet-evm-extensions');
   const { keplrWallet } = await import('@swapkit/wallet-keplr');
   const { keystoreWallet } = await import('@swapkit/wallet-keystore');
+  const { keepkeyWallet } = await import('@swapkit/wallet-keepkey');
   const { ledgerWallet } = await import('@swapkit/wallet-ledger');
   const { okxWallet } = await import('@swapkit/wallet-okx');
   const { SwapKitCore } = await import('@swapkit/core');
@@ -40,12 +41,22 @@ export const getSwapKitClient = async ({
       blockchairApiKey: blockchairApiKey || utxoApiKey,
       walletConnectProjectId,
       stagenet,
+      keepkeyConfig: {
+        apiKey: localStorage.getItem('keepkeyApiKey') || '1234',
+        pairingInfo: {
+          name: 'swapKit-demo-app',
+          imageUrl: 'https://thorswap.finance/assets/img/header_logo.png',
+          basePath: 'http://localhost:1646/spec/swagger.json',
+          url: 'http://localhost:1646',
+        },
+      },
     },
     wallets: [
       xdefiWallet,
       okxWallet,
       ledgerWallet,
       keystoreWallet,
+      keepkeyWallet,
       trezorWallet,
       keplrWallet,
       evmWallet,

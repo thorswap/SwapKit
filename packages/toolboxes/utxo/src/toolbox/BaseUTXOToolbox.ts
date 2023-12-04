@@ -181,7 +181,9 @@ const buildTx = async ({
     apiClient,
     chain,
   });
-
+  //Blockchairs Doge API recomendations are WAYY wrong
+  if (chain === Chain.Dogecoin) feeRate = 100000;
+  if (chain === Chain.BitcoinCash) feeRate = 100000;
   const { inputs, outputs } = accumulative({ ...inputsAndOutputs, feeRate, chain });
 
   // .inputs and .outputs will be undefined if no solution was found

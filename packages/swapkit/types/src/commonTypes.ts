@@ -7,6 +7,7 @@ type ConnectMethodNames =
   | 'connectEVMWallet'
   | 'connectKeplr'
   | 'connectKeystore'
+  | 'connectKeepkey'
   | 'connectLedger'
   | 'connectOkx'
   | 'connectTrezor'
@@ -47,6 +48,18 @@ export type ConnectConfig = {
   trezorManifest?: {
     email: string;
     appUrl: string;
+  };
+  /**
+   * @optional for KeepKey config
+   */
+  keepkeyConfig?: {
+    apiKey: string;
+    pairingInfo: {
+      name: string;
+      imageUrl: string;
+      basePath: string;
+      url: string;
+    };
   };
 };
 

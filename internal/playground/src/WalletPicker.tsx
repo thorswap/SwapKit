@@ -50,6 +50,7 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.Arbitrum,
     Chain.Polygon,
   ],
+  [WalletOption.KEEPKEY]: AllChainsSupported,
   [WalletOption.METAMASK]: EVMChainList,
   [WalletOption.TRUSTWALLET_WEB]: EVMChainList,
   [WalletOption.XDEFI]: AllChainsSupported,
@@ -95,6 +96,10 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.LEDGER: {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
           return skClient.connectLedger(chains[0], derivationPath);
+        }
+
+        case WalletOption.KEEPKEY: {
+          return skClient.connectKeepkey(chains);
         }
 
         case WalletOption.TREZOR: {
@@ -146,7 +151,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
     async (option: WalletOption) => {
       if (!skClient) return alert('client is not ready');
       setLoading(true);
-      await connectWallet(option);
+      connectWallet(option);
 
       const walletDataArray = await Promise.all(
         chains.map((chain) => skClient.getWalletByChain(chain, true)),
