@@ -274,7 +274,6 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
           });
         } else {
           console.log('state.app.assetContext: ', state.app.assetContext);
-          console.log('state.app.blockchainContext: ', state.app.blockchainContext);
           console.log('state.app.context: ', state.app.context);
           if (state && state.app) {
             // if pioneer set in localStoage

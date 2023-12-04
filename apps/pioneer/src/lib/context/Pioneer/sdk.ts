@@ -313,9 +313,20 @@ export class SDK {
           console.log('ledgerApp: ', ledgerApp);
           try {
             if (!ledgerApp) throw Error('Ledger app required for ledger pairing!');
-            resultPair =
-              (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](ledgerApp)) ||
-              '';
+
+            if (ledgerApp === 'ETH') {
+              console.log('ETH');
+              //pair all evm chains
+              resultPair =
+                (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](ledgerApp)) ||
+                '';
+              console.log('LEDGER resultPair: ', resultPair);
+            } else {
+              resultPair =
+                (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](ledgerApp)) ||
+                '';
+              console.log('LEDGER resultPair: ', resultPair);
+            }
           } catch (e) {
             console.error('Failed to pair ledger! e: ', e);
             if (e.toString().indexOf('LockedDeviceError') > -1) {
@@ -351,7 +362,7 @@ export class SDK {
         if (resultPair) {
           // update
           const matchingWalletIndex = this.wallets.findIndex((w) => w.type === wallet);
-          // log.info(tag, "matchingWalletIndex: ", matchingWalletIndex);
+          console.log(tag, 'matchingWalletIndex: ', matchingWalletIndex);
           // get balances
           // @ts-ignore
           const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
@@ -407,17 +418,23 @@ export class SDK {
       try {
         //verify context
         const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
-        if (this.context.indexOf(ethAddress) === -1) this.clearWalletState();
+        console.log('ethAddress: ', ethAddress);
+        if (this.context.indexOf(ethAddress) === -1) {
+          console.log('Clearing Wallet state!');
+          this.clearWalletState();
+        }
         // Verify if pubkeys match context
         if (this.pubkeys.some((pubkey) => pubkey.context !== this.context)) {
+          console.log('Invalid pubkeys found!');
           this.pubkeys = [];
         }
         // Verify if balances match context
         if (this.balances.some((balance) => balance.context !== this.context)) {
+          console.log('Invalid balances found!');
           this.balances = [];
         }
         //TODO if wallet doesn't support blockchains, throw error
-        let pubkeys = [];
+        let pubkeysNew = [];
         // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < this.blockchains.length; i++) {
           const blockchain = this.blockchains[i];
@@ -426,67 +443,71 @@ export class SDK {
           if (blockchain.indexOf('eip155') > -1) {
             //all eip155 blockchains use the same path
             paths = this.paths.filter((path) => path.network === 'eip155:1');
+            chain = Chain.Ethereum;
           } else {
             //get paths for each blockchain
             paths = this.paths.filter((path) => path.network === blockchain);
           }
           if (paths.length === 0) throw Error('Missing Path for blockchain: ' + blockchain);
-          // eslint-disable-next-line @typescript-eslint/prefer-for-of
+
           for (let j = 0; j < paths.length; j++) {
             const path = paths[j];
             let pubkey;
             //get pubkey on path
             if (path.type === 'address') {
               let address = this.swapKit.getAddress(chain);
-              pubkey = {
-                context: this.context, // TODO this is not right?
-                // wallet:walletSelected.type,
-                symbolSwapKit: chain,
-                blockchain: COIN_MAP_LONG[chain] || 'unknown',
-                type: 'address',
-                networkId: blockchain,
-                master: address,
-                pubkey: address,
-                address,
-              };
-              pubkeys.push(pubkey);
+              if (address) {
+                pubkey = {
+                  context: this.context, // TODO this is not right?
+                  // wallet:walletSelected.type,
+                  symbolSwapKit: chain,
+                  blockchain: COIN_MAP_LONG[chain] || 'unknown',
+                  type: 'address',
+                  networkId: blockchain,
+                  master: address,
+                  pubkey: address,
+                  address,
+                };
+                pubkeysNew.push(pubkey);
+              }
             } else {
               let walletForChain = await this.swapKit?.getWalletByChain(chain);
-              const pubkeyForPath = walletForChain.pubkeys.find(
-                (pubkeyObj) => pubkeyObj.addressNList.toString() === path.addressNList.toString(),
-              );
-              console.log('pubkeyForPath: ', pubkeyForPath);
-              let address = this.swapKit.getAddress(chain);
-              if (!pubkeyForPath)
-                throw Error(
-                  chain +
-                    'Failed to get pubkey for path: ' +
-                    path.addressNList +
-                    ' chain: ' +
-                    blockchain,
+              if (walletForChain) {
+                const pubkeyForPath = walletForChain.pubkeys.find(
+                  (pubkeyObj) => pubkeyObj.addressNList.toString() === path.addressNList.toString(),
                 );
-              pubkey = {
-                context: this.context, // TODO this is not right?
-                networkId: blockchain,
-                symbol: pubkeyForPath.symbol,
-                symbolSwapKit: chain,
-                type: pubkeyForPath.type,
-                blockchain: COIN_MAP_LONG[chain] || 'unknown',
-                master: address, //TODO this is probally wrong, get address for path
-                address, //TODO get next unused address and save it here!
-                pubkey: pubkeyForPath.xpub,
-                xpub: pubkeyForPath.xpub,
-              };
-              pubkeys.push(pubkey);
+                console.log('pubkeyForPath: ', pubkeyForPath);
+                let address = this.swapKit.getAddress(chain);
+                if (!pubkeyForPath)
+                  throw Error(
+                    chain +
+                      'Failed to get pubkey for path: ' +
+                      path.addressNList +
+                      ' chain: ' +
+                      blockchain,
+                  );
+                pubkey = {
+                  context: this.context, // TODO this is not right?
+                  networkId: blockchain,
+                  symbol: pubkeyForPath.symbol,
+                  symbolSwapKit: chain,
+                  type: pubkeyForPath.type,
+                  blockchain: COIN_MAP_LONG[chain] || 'unknown',
+                  master: address, //TODO this is probally wrong, get address for path
+                  address, //TODO get next unused address and save it here!
+                  pubkey: pubkeyForPath.xpub,
+                  xpub: pubkeyForPath.xpub,
+                };
+                pubkeysNew.push(pubkey);
+              }
             }
-
             //get balances for each pubkey
           }
         }
-        console.log('pubkeys: ', pubkeys);
-        this.pubkeys = pubkeys;
+        console.log('pubkeysNew: ', pubkeysNew);
+        this.pubkeys = pubkeysNew;
         //load pubkeys into cache
-        this.events.emit('SET_PUBKEYS', pubkeys);
+        this.events.emit('SET_PUBKEYS', pubkeysNew);
 
         //TODO verify atleast 1 pubkey per blockchain
 
@@ -520,45 +541,46 @@ export class SDK {
           //get balances for each pubkey
           let walletForChain = await this.swapKit?.getWalletByChain(chain);
           console.log('walletForChain: ', walletForChain);
-
-          // eslint-disable-next-line @typescript-eslint/prefer-for-of
-          for (let j = 0; j < walletForChain.balance.length; j++) {
-            const balance = walletForChain.balance[j];
-            console.log('balance: ', balance);
-            let balanceString: any = {};
-            if (
-              !balance.chain ||
-              !balance.symbol ||
-              !balance.ticker ||
-              !balance.type ||
-              !balance.value
-            ) {
-              console.error('Missing required properties for balance: ', balance);
-            } else {
-              //caip
-              try {
-                let caip = thorchainToCaip(
-                  balance.chain,
-                  balance.symbol,
-                  balance.ticker,
-                  balance.type,
-                );
-                console.log('caip: ', caip);
-                //if (!caip) throw Error('Failed to get caip for balance: ' + JSON.stringify(balance));
-                if (caip) {
-                  //Assuming these properties already exist in each balance
-                  balanceString.context = this.context;
-                  balanceString.caip = caip;
-                  balanceString.address = balance.address;
-                  balanceString.symbol = balance.symbol;
-                  balanceString.chain = balance.chain;
-                  balanceString.ticker = balance.ticker;
-                  balanceString.type = balance.type;
-                  balanceString.balance = balance.value;
-                  balances.push(balanceString);
+          if (walletForChain) {
+            // eslint-disable-next-line @typescript-eslint/prefer-for-of
+            for (let j = 0; j < walletForChain.balance.length; j++) {
+              const balance = walletForChain.balance[j];
+              console.log('balance: ', balance);
+              let balanceString: any = {};
+              if (
+                !balance.chain ||
+                !balance.symbol ||
+                !balance.ticker ||
+                !balance.type ||
+                !balance.value
+              ) {
+                console.error('Missing required properties for balance: ', balance);
+              } else {
+                //caip
+                try {
+                  let caip = thorchainToCaip(
+                    balance.chain,
+                    balance.symbol,
+                    balance.ticker,
+                    balance.type,
+                  );
+                  console.log('caip: ', caip);
+                  //if (!caip) throw Error('Failed to get caip for balance: ' + JSON.stringify(balance));
+                  if (caip) {
+                    //Assuming these properties already exist in each balance
+                    balanceString.context = this.context;
+                    balanceString.caip = caip;
+                    balanceString.address = balance.address;
+                    balanceString.symbol = balance.symbol;
+                    balanceString.chain = balance.chain;
+                    balanceString.ticker = balance.ticker;
+                    balanceString.type = balance.type;
+                    balanceString.balance = balance.value;
+                    balances.push(balanceString);
+                  }
+                } catch (e) {
+                  console.error('Invalid balance!: ', balance);
                 }
-              } catch (e) {
-                console.error('Invalid balance!: ', balance);
               }
             }
           }

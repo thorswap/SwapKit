@@ -208,6 +208,7 @@ export const EVMChainList: EVMChain[] = [
   Chain.Avalanche,
   Chain.BinanceSmartChain,
   Chain.Arbitrum,
+  // Chain.Base,
   Chain.Optimism,
   Chain.Polygon,
 ];

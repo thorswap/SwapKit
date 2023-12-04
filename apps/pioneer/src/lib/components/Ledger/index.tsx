@@ -47,7 +47,7 @@ const CHAINS: any = {
 
 export default function Ledger({ onClose }) {
   const { state, connectWallet, clearHardwareError } = usePioneer();
-  const { pubkeys, hardwareError } = state;
+  const { app, pubkeys, hardwareError } = state;
   const [webUsbSupported, setWebUsbSupported] = useState(true);
   const [isLocked, setIsLocked] = useState(false);
   const [isWrongApp, setIsWrongApp] = useState(false);
@@ -66,8 +66,8 @@ export default function Ledger({ onClose }) {
         duration: 3000,
         isClosable: true,
       });
-    } else if(hardwareError == 'WrongAppError'){
-      console.log("hardwareError: ", hardwareError)
+    } else if (hardwareError == 'WrongAppError') {
+      console.log('hardwareError: ', hardwareError);
       setIsWrongApp(true);
       toast({
         title: 'Unable to connect!',
@@ -76,8 +76,8 @@ export default function Ledger({ onClose }) {
         duration: 3000,
         isClosable: true,
       });
-    } else if(hardwareError) {
-      console.log("hardwareError: ", hardwareError)
+    } else if (hardwareError) {
+      console.log('hardwareError: ', hardwareError);
       toast({
         title: 'Connection Error',
         description: hardwareError,
@@ -97,8 +97,8 @@ export default function Ledger({ onClose }) {
     try {
       console.log(`Attempting to connect to chainKey: ${chainKey}`);
       const result = await connectWallet('LEDGER', getChainEnumValue(chainKey));
-      console.log('result: ', result);
-      if (result?.error) {
+      console.log('LEDGER result attemptConnect: ', result);
+      if (result && result.error) {
         console.error('Error Pairing!: ', result);
         toast({
           title: 'Connection Error',
@@ -108,7 +108,9 @@ export default function Ledger({ onClose }) {
           isClosable: true,
         });
       } else {
-        console.log('success?: ', result);
+        console.log('success LEDGER PAIR: ', result);
+        app.getPubkeys();
+        app.getBalances();
         //setConnectionStatus((prev) => ({ ...prev, [chainKey]: 'connected' }));
       }
     } catch (e) {
@@ -173,34 +175,38 @@ export default function Ledger({ onClose }) {
             </div>
           ) : (
             <div>
-              {isWrongApp ? (<div>
-                <WarningIcon color="yellow.500" h={10} w={10} />
-                <Text fontSize="lg" fontWeight="bold" mt={2}>
-                  Your Ledger is on the WRONG APP! Please open the correct app.
-                  <Button onClick={unlock}>Continue</Button>
-                </Text>
-              </div>):(<div>
+              {isWrongApp ? (
                 <div>
-                  <Text mb={4}>Connect your Ledger device and select a chain:</Text>
-                  <br />
-                  <Text mb={4}>Your Device MUST be unlocked an correct application open</Text>
-                  {notConnectedChains.length > 0 && (
-                    <Box mb={6}>
-                      <Text mb={2}>Not Yet Connected:</Text>
-                      {notConnectedChains.map(renderChainCard)}
-                    </Box>
-                  )}
-                  {connectedChains.length > 0 && (
-                    <Box>
-                      <Text mb={2}>Connected:</Text>
-                      {connectedChains.map(renderChainCard)}
-                    </Box>
-                  )}
-                  <Button colorScheme="blue" mt={4} onClick={onClose}>
-                    Continue
-                  </Button>
+                  <WarningIcon color="yellow.500" h={10} w={10} />
+                  <Text fontSize="lg" fontWeight="bold" mt={2}>
+                    Your Ledger is on the WRONG APP! Please open the correct app.
+                    <Button onClick={unlock}>Continue</Button>
+                  </Text>
                 </div>
-              </div>)}
+              ) : (
+                <div>
+                  <div>
+                    <Text mb={4}>Connect your Ledger device and select a chain:</Text>
+                    <br />
+                    <Text mb={4}>Your Device MUST be unlocked an correct application open</Text>
+                    {notConnectedChains.length > 0 && (
+                      <Box mb={6}>
+                        <Text mb={2}>Not Yet Connected:</Text>
+                        {notConnectedChains.map(renderChainCard)}
+                      </Box>
+                    )}
+                    {connectedChains.length > 0 && (
+                      <Box>
+                        <Text mb={2}>Connected:</Text>
+                        {connectedChains.map(renderChainCard)}
+                      </Box>
+                    )}
+                    <Button colorScheme="blue" mt={4} onClick={onClose}>
+                      Continue
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

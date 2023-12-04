@@ -50,6 +50,11 @@ const Home = () => {
     onOpen();
   };
 
+  const onSelect = (asset: any) => {
+    //select asset
+    console.log('asset: ', asset);
+  };
+
   return (
     <div>
       <Modal isOpen={isOpen} onClose={() => onClose()} size="xl">
@@ -120,7 +125,7 @@ const Home = () => {
             <Pubkeys />
           </TabPanel>
           <TabPanel>
-            <AssetSelect />
+            <AssetSelect onSelect={onSelect} />
           </TabPanel>
           <TabPanel>
             <Transfer openModal={openModal} />

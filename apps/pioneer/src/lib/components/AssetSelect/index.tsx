@@ -16,7 +16,7 @@ import { useEffect, useState } from 'react';
 
 import { usePioneer } from '../../context/Pioneer';
 
-export default function AssetSelect({ onClose }: any) {
+export default function AssetSelect({ onSelect }: any) {
   const { state } = usePioneer();
   const { app, balances } = state;
   const [currentPage, setCurrentPage] = useState([]);
@@ -31,7 +31,7 @@ export default function AssetSelect({ onClose }: any) {
   const handleSelectClick = async (asset: any) => {
     try {
       app.setAssetContext(asset);
-      onClose();
+      onSelect(asset);
     } catch (e) {
       console.error(e);
     }
