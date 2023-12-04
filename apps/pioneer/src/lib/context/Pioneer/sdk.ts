@@ -9,7 +9,7 @@
 // import * as Events from "@pioneer-platform/pioneer-events";
 // @ts-ignore
 
-import { SwapKitCore } from '@coinmasters/core';
+import { EVMChainList, SwapKitCore } from '@coinmasters/core';
 import { Chain, ChainToNetworkId, getChainEnumValue, NetworkIdToChain } from '@coinmasters/types';
 import { thorchainToCaip } from '@pioneer-platform/pioneer-caip';
 // @ts-ignore
@@ -317,10 +317,14 @@ export class SDK {
             if (ledgerApp === 'ETH') {
               console.log('ETH');
               //pair all evm chains
-              resultPair =
-                (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](ledgerApp)) ||
-                '';
-              console.log('LEDGER resultPair: ', resultPair);
+              // eslint-disable-next-line @typescript-eslint/prefer-for-of
+              for (let i = 0; i < EVMChainList.length; i++) {
+                resultPair =
+                  (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](
+                    EVMChainList[i],
+                  )) || '';
+                console.log('LEDGER resultPair: ', resultPair);
+              }
             } else {
               resultPair =
                 (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](ledgerApp)) ||

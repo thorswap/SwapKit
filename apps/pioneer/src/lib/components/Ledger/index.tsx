@@ -109,8 +109,8 @@ export default function Ledger({ onClose }) {
         });
       } else {
         console.log('success LEDGER PAIR: ', result);
-        app.getPubkeys();
-        app.getBalances();
+        // app.getPubkeys();
+        // app.getBalances();
         //setConnectionStatus((prev) => ({ ...prev, [chainKey]: 'connected' }));
       }
     } catch (e) {
