@@ -7,9 +7,9 @@ import {
   getProvider,
   MATICToolbox,
   OPToolbox,
-} from '@swapkit/toolbox-evm';
-import type { ConnectWalletParams, EVMChain } from '@swapkit/types';
-import { Chain, WalletOption } from '@swapkit/types';
+} from '@coinmasters/toolbox-evm';
+import type { ConnectWalletParams, EVMChain } from '@coinmasters/types';
+import { Chain, WalletOption } from '@coinmasters/types';
 
 import { binanceWalletMethods } from './chains/binance.js';
 import { cosmosWalletMethods } from './chains/cosmos.js';

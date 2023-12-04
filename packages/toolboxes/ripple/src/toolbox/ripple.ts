@@ -1,13 +1,13 @@
-import { AssetValue, getRequest } from '@coinmasters/helpers';
+import { AssetValue, RequestClient } from '@coinmasters/helpers';
 const PIONEER_API_URI = 'https://pioneers.dev';
 
 const getAccount = (address: string): Promise<any> =>
-  getRequest<any>(`${PIONEER_API_URI}/api/v1/getAccountInfo/ripple/${address}`);
+  RequestClient.get<any>(`${PIONEER_API_URI}/api/v1/getAccountInfo/ripple/${address}`);
 
 const getBalance = async (address: any[]) => {
   console.log(address);
 
-  let balanceBase = await getRequest(
+  let balanceBase = await RequestClient.get(
     `${PIONEER_API_URI}/api/v1/getPubkeyBalance/ripple/${address[0].address}`,
   );
   console.log('balance: ', balanceBase);

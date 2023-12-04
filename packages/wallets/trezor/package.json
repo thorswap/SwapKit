@@ -1,7 +1,7 @@
 {
   "author": "swapkit-oss-team",
   "dependencies": {
-    "@swapkit/types": "workspace:*",
+    "@coinmasters/types": "workspace:*",
     "@trezor/connect-web": "9.1.5"
   },
   "description": "SwapKit Lib trezor",

@@ -268,11 +268,7 @@ export const BCHToolbox = ({
   apiKey?: string;
   rpcUrl?: string;
   apiClient?: BlockchairApiType;
-}): Omit<
-  ReturnType<typeof BaseUTXOToolbox>,
-  'getAddressFromKeys' | 'transfer' | 'createKeysForPath'
-> &
-  BCHMethods => {
+}): any & BCHMethods => {
   const apiClient = client || blockchairApi({ apiKey, chain });
   const { getBalance, ...toolbox } = BaseUTXOToolbox({
     chain,
@@ -287,8 +283,7 @@ export const BCHToolbox = ({
     createKeysForPath,
     getAddressFromKeys,
     buildBCHTx: (params: UTXOBuildTxParams) => buildBCHTx({ ...params, apiClient }),
-    getBalance: (address: string, _potentialScamFilter?: boolean) =>
-      getBalance: (pubkeys: any) => getBalance(stripPrefix(toCashAddress(pubkeys[0].address))),
+    getBalance: (pubkeys: any) => getBalance(stripPrefix(toCashAddress(pubkeys[0].address))),
     buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, apiClient }),
     transfer: (
       params: UTXOWalletTransferParams<

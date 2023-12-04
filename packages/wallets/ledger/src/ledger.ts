@@ -262,7 +262,7 @@ const getToolbox = async ({
     }
     case Chain.BinanceSmartChain: {
       if (!covalentApiKey) throw new Error('Covalent API key is not defined');
-      const { BSCToolbox, getProvider } = await import('@swapkit/toolbox-evm');
+      const { BSCToolbox, getProvider } = await import('@coinmasters/toolbox-evm');
 
       return BSCToolbox({
         api,

@@ -1,5 +1,5 @@
-import type { SwapKitCore } from '@swapkit/core';
-import { AssetValue } from '@swapkit/core';
+import type { SwapKitCore } from '@coinmasters/core';
+import { AssetValue } from '@coinmasters/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import Loan from './Loan';

@@ -49,7 +49,7 @@
 ### Patch Changes
 
 - Updated dependencies [[`49d477a9`](https://github.com/thorswap/SwapKit/commit/49d477a9b01a97f861352cd6e15743e874b98170)]:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.47
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.47
 
 ## 1.0.0-rc.46
 
@@ -58,9 +58,9 @@
 - Bump to sk links
 
 - Updated dependencies []:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.46
-  - @swapkit/helpers@1.0.0-rc.44
-  - @swapkit/types@1.0.0-rc.23
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.46
+  - @coinmasters/helpers@1.0.0-rc.44
+  - @coinmasters/types@1.0.0-rc.23
 
 ## 1.0.0-rc.45
 

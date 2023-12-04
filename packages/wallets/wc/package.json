@@ -1,7 +1,7 @@
 {
   "author": "swapkit-oss-team",
   "dependencies": {
-    "@swapkit/types": "workspace:*",
+    "@coinmasters/types": "workspace:*",
     "@walletconnect/modal-sign-html": "^2.6.2"
   },
   "description": "SwapKit Lib walletconnect",
@@ -12,8 +12,8 @@
     "@cosmjs/proto-signing": "0.32.0",
     "@cosmjs/stargate": "0.32.0",
     "@internal/config": "workspace:*",
-    "@swapkit/toolbox-cosmos": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
+    "@coinmasters/toolbox-cosmos": "workspace:*",
+    "@coinmasters/toolbox-evm": "workspace:*",
     "@vitest/coverage-istanbul": "0.34.6",
     "@walletconnect/types": "2.10.5",
     "cosmjs-types": "0.9.0",

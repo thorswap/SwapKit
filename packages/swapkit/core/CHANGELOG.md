@@ -69,7 +69,7 @@
 ### Patch Changes
 
 - Updated dependencies [[`49d477a9`](https://github.com/thorswap/SwapKit/commit/49d477a9b01a97f861352cd6e15743e874b98170)]:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.47
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.47
 
 ## 1.0.0-rc.53
 
@@ -78,13 +78,13 @@
 - Bump to sk links
 
 - Updated dependencies []:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.46
-  - @swapkit/helpers@1.0.0-rc.44
-  - @swapkit/tokens@1.0.0-rc.24
-  - @swapkit/toolbox-utxo@1.0.0-rc.47
-  - @swapkit/types@1.0.0-rc.23
-  - @swapkit/toolbox-evm@1.0.0-rc.46
-  - @swapkit/api@1.0.0-rc.23
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.46
+  - @coinmasters/helpers@1.0.0-rc.44
+  - @coinmasters/tokens@1.0.0-rc.24
+  - @coinmasters/toolbox-utxo@1.0.0-rc.47
+  - @coinmasters/types@1.0.0-rc.23
+  - @coinmasters/toolbox-evm@1.0.0-rc.46
+  - @coinmasters/api@1.0.0-rc.23
 
 ## 1.0.0-rc.52
 
@@ -93,17 +93,17 @@
 - [#428](https://github.com/thorswap/SwapKit/pull/428) [`76ca073d`](https://github.com/thorswap/SwapKit/commit/76ca073dd9e57217b08a4b82cc821b8b75bd3120) Thanks [@towanTG](https://github.com/towanTG)! - Adds validation for unsupported address formats
 
 - Updated dependencies [[`76ca073d`](https://github.com/thorswap/SwapKit/commit/76ca073dd9e57217b08a4b82cc821b8b75bd3120)]:
-  - @swapkit/helpers@1.0.0-rc.43
-  - @swapkit/toolbox-cosmos@1.0.0-rc.45
-  - @swapkit/toolbox-evm@1.0.0-rc.45
-  - @swapkit/toolbox-utxo@1.0.0-rc.46
+  - @coinmasters/helpers@1.0.0-rc.43
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.45
+  - @coinmasters/toolbox-evm@1.0.0-rc.45
+  - @coinmasters/toolbox-utxo@1.0.0-rc.46
 
 ## 1.0.0-rc.51
 
 ### Patch Changes
 
 - Updated dependencies [[`42b301ed`](https://github.com/thorswap/SwapKit/commit/42b301ed664bc9b828cdf16ef70c47963eaa31fa)]:
-  - @swapkit/toolbox-utxo@1.0.0-rc.45
+  - @coinmasters/toolbox-utxo@1.0.0-rc.45
 
 ## 1.0.0-rc.50
 
@@ -112,13 +112,13 @@
 - Update addLiquidityPart for symmetrics
 
 - Updated dependencies []:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.44
-  - @swapkit/helpers@1.0.0-rc.42
-  - @swapkit/tokens@1.0.0-rc.23
-  - @swapkit/toolbox-utxo@1.0.0-rc.44
-  - @swapkit/types@1.0.0-rc.22
-  - @swapkit/toolbox-evm@1.0.0-rc.44
-  - @swapkit/api@1.0.0-rc.22
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.44
+  - @coinmasters/helpers@1.0.0-rc.42
+  - @coinmasters/tokens@1.0.0-rc.23
+  - @coinmasters/toolbox-utxo@1.0.0-rc.44
+  - @coinmasters/types@1.0.0-rc.22
+  - @coinmasters/toolbox-evm@1.0.0-rc.44
+  - @coinmasters/api@1.0.0-rc.22
 
 ## 1.0.0-rc.49
 
@@ -127,11 +127,11 @@
 - Bump for explorer & synths
 
 - Updated dependencies []:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.43
-  - @swapkit/helpers@1.0.0-rc.41
-  - @swapkit/tokens@1.0.0-rc.22
-  - @swapkit/toolbox-utxo@1.0.0-rc.43
-  - @swapkit/types@1.0.0-rc.21
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.43
+  - @coinmasters/helpers@1.0.0-rc.41
+  - @coinmasters/tokens@1.0.0-rc.22
+  - @coinmasters/toolbox-utxo@1.0.0-rc.43
+  - @coinmasters/types@1.0.0-rc.21
   - @swapkit/toolbox-evm@1.0.0-rc.43
   - @swapkit/api@1.0.0-rc.21
 

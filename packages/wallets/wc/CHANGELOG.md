@@ -49,7 +49,7 @@
 ### Patch Changes
 
 - Updated dependencies [[`49d477a9`](https://github.com/thorswap/SwapKit/commit/49d477a9b01a97f861352cd6e15743e874b98170)]:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.47
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.47
 
 ## 1.0.0-rc.48
 
@@ -58,17 +58,17 @@
 - Bump to sk links
 
 - Updated dependencies []:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.46
-  - @swapkit/types@1.0.0-rc.23
-  - @swapkit/toolbox-evm@1.0.0-rc.46
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.46
+  - @coinmasters/types@1.0.0-rc.23
+  - @coinmasters/toolbox-evm@1.0.0-rc.46
 
 ## 1.0.0-rc.47
 
 ### Patch Changes
 
 - Updated dependencies []:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.45
-  - @swapkit/toolbox-evm@1.0.0-rc.45
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.45
+  - @coinmasters/toolbox-evm@1.0.0-rc.45
 
 ## 1.0.0-rc.46
 
@@ -77,9 +77,9 @@
 - Update addLiquidityPart for symmetrics
 
 - Updated dependencies []:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.44
-  - @swapkit/types@1.0.0-rc.22
-  - @swapkit/toolbox-evm@1.0.0-rc.44
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.44
+  - @coinmasters/types@1.0.0-rc.22
+  - @coinmasters/toolbox-evm@1.0.0-rc.44
 
 ## 1.0.0-rc.45
 
@@ -88,9 +88,9 @@
 - Bump for explorer & synths
 
 - Updated dependencies []:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.43
-  - @swapkit/types@1.0.0-rc.21
-  - @swapkit/toolbox-evm@1.0.0-rc.43
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.43
+  - @coinmasters/types@1.0.0-rc.21
+  - @coinmasters/toolbox-evm@1.0.0-rc.43
 
 ## 1.0.0-rc.44
 
@@ -99,9 +99,9 @@
 - Bump
 
 - Updated dependencies []:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.42
-  - @swapkit/types@1.0.0-rc.20
-  - @swapkit/toolbox-evm@1.0.0-rc.42
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.42
+  - @coinmasters/types@1.0.0-rc.20
+  - @coinmasters/toolbox-evm@1.0.0-rc.42
 
 ## 1.0.0-rc.43
 
@@ -114,9 +114,9 @@
 - [`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Update toString on synths
 
 - Updated dependencies [[`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c)]:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.41
-  - @swapkit/types@1.0.0-rc.19
-  - @swapkit/toolbox-evm@1.0.0-rc.41
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.41
+  - @coinmasters/types@1.0.0-rc.19
+  - @coinmasters/toolbox-evm@1.0.0-rc.41
 
 ## 1.0.0-rc.42
 
@@ -125,17 +125,17 @@
 - Patch typeforce
 
 - Updated dependencies [[`7d25148f`](https://github.com/thorswap/SwapKit/commit/7d25148f0ffcbb430690f9cf53c2e711a8385620)]:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.40
-  - @swapkit/types@1.0.0-rc.18
-  - @swapkit/toolbox-evm@1.0.0-rc.40
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.40
+  - @coinmasters/types@1.0.0-rc.18
+  - @coinmasters/toolbox-evm@1.0.0-rc.40
 
 ## 1.0.0-rc.41
 
 ### Patch Changes
 
 - Updated dependencies []:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.39
-  - @swapkit/toolbox-evm@1.0.0-rc.39
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.39
+  - @coinmasters/toolbox-evm@1.0.0-rc.39
 
 ## 1.0.0-rc.40
 
@@ -144,9 +144,9 @@
 - [#414](https://github.com/thorswap/SwapKit/pull/414) [`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix Division precision
 
 - Updated dependencies [[`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c)]:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.38
-  - @swapkit/types@1.0.0-rc.17
-  - @swapkit/toolbox-evm@1.0.0-rc.38
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.38
+  - @coinmasters/types@1.0.0-rc.17
+  - @coinmasters/toolbox-evm@1.0.0-rc.38
 
 ## 1.0.0-rc.39
 
@@ -155,9 +155,9 @@
 - Update dependencies with crypto-js 4.2.0
 
 - Updated dependencies []:
-  - @swapkit/toolbox-cosmos@1.0.0-rc.37
-  - @swapkit/types@1.0.0-rc.16
-  - @swapkit/toolbox-evm@1.0.0-rc.37
+  - @coinmasters/toolbox-cosmos@1.0.0-rc.37
+  - @coinmasters/types@1.0.0-rc.16
+  - @coinmasters/toolbox-evm@1.0.0-rc.37
 
 ## 1.0.0-rc.38
 

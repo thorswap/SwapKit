@@ -1,4 +1,4 @@
-import type { Keys, ThornameRegisterParam } from '@swapkit/helpers';
+import type { Keys, ThornameRegisterParam } from '@coinmasters/helpers';
 import {
   AssetValue,
   gasFeeMultiplier,
@@ -6,17 +6,17 @@ import {
   getMinAmountByChain,
   SwapKitError,
   SwapKitNumber,
-} from '@swapkit/helpers';
-import type { CosmosLikeToolbox } from '@swapkit/toolbox-cosmos';
-import type { AVAXToolbox, BSCToolbox, ETHToolbox, EVMToolbox } from '@swapkit/toolbox-evm';
-import type { UTXOToolbox } from '@swapkit/toolbox-utxo';
+} from '@coinmasters/helpers';
+import type { CosmosLikeToolbox } from '@coinmasters/toolbox-cosmos';
+import type { AVAXToolbox, BSCToolbox, ETHToolbox, EVMToolbox } from '@coinmasters/toolbox-evm';
+import type { UTXOToolbox } from '@coinmasters/toolbox-utxo';
 import type {
   AddChainWalletParams,
   EVMChain,
   EVMWalletOptions,
   ExtendParams,
   WalletOption,
-} from '@swapkit/types';
+} from '@coinmasters/types';
 import {
   AGG_SWAP,
   Chain,
@@ -28,7 +28,7 @@ import {
   TCAvalancheDepositABI,
   TCBscDepositABI,
   TCEthereumVaultAbi,
-} from '@swapkit/types';
+} from '@coinmasters/types';
 
 import type { AGG_CONTRACT_ADDRESS } from '../aggregator/contracts/index.ts';
 import { lowercasedContractAbiMapping } from '../aggregator/contracts/index.ts';
@@ -255,7 +255,7 @@ export class SwapKitCore<T = ''> {
         case Chain.Ethereum:
         case Chain.BinanceSmartChain:
         case Chain.Avalanche: {
-          const { getChecksumAddressFromAsset } = await import('@swapkit/toolbox-evm');
+          const { getChecksumAddressFromAsset } = await import('@coinmasters/toolbox-evm');
 
           const abi =
             chain === Chain.Avalanche
