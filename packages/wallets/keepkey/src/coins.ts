@@ -50,6 +50,7 @@ export interface PathEntry {
   testnet?: boolean;
 }
 
+// TODO: Refactor to be more human readable & taken by object, not 100 if-esle cases
 export function getPaths(blockchains?: any, isTestnet?: boolean) {
   let output = [];
   if (!blockchains) blockchains = [];

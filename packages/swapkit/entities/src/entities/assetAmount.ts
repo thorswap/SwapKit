@@ -107,15 +107,15 @@ export const getMinAmountByChain = (chain: Chain) => {
     ? // 10001 satoshi
       10001
     : [Chain.Dogecoin].includes(chain)
-    ? // 1 DOGE
-      100000001
-    : [Chain.Avalanche, Chain.Ethereum, Chain.BinanceSmartChain].includes(chain)
-    ? //  10 gwei
-      10 * 10 ** 9
-    : chain === Chain.THORChain
-    ? // 0 RUNE
-      0
-    : 1;
+      ? // 1 DOGE
+        100000001
+      : [Chain.Avalanche, Chain.Ethereum, Chain.BinanceSmartChain].includes(chain)
+        ? //  10 gwei
+          10 * 10 ** 9
+        : chain === Chain.THORChain
+          ? // 0 RUNE
+            0
+          : 1;
 
   return new AssetAmount(asset, Amount.fromBaseAmount(minAmount, asset.decimal));
 };

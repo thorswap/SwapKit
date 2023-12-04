@@ -86,7 +86,7 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
           : transactionCount,
       to: tx.to?.toString(),
       value: tx.value,
-      type: tx.type || 2,
+      type: tx.type && !isNaN(tx.type) ? tx.type : tx.maxFeePerGas ? 2 : 0,
     };
 
     const { Transaction } = await import('ethers');

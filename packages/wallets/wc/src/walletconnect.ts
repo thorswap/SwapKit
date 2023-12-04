@@ -1,11 +1,7 @@
-import type {
-  BaseCosmosToolboxType,
-  DepositParam,
-  TransferParams,
-} from '@coinmasters/toolbox-cosmos';
-import { ApiUrl, Chain, ChainId, WalletOption } from '@coinmasters/types';
 import type { StdSignDoc } from '@cosmjs/amino';
 import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
+import type { BaseCosmosToolboxType, DepositParam, TransferParams } from '@coinmasters/toolbox-cosmos';
+import { ApiUrl, Chain, ChainId, WalletOption } from '@coinmasters/types';
 import type { WalletConnectModalSign } from '@walletconnect/modal-sign-html';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
@@ -31,11 +27,17 @@ const DEFAULT_THORCHAIN_FEE = {
 };
 
 const SUPPORTED_CHAINS = [
-  Chain.Binance,
+  Chain.Binance, // Not supported by WC
   Chain.BinanceSmartChain,
   Chain.Ethereum,
   Chain.THORChain,
   Chain.Avalanche,
+  Chain.Arbitrum,
+  Chain.Optimism,
+  Chain.Polygon,
+  Chain.Maya,
+  Chain.Cosmos,
+  Chain.Kujira,
 ] as const;
 
 const getToolbox = async ({
@@ -59,6 +61,9 @@ const getToolbox = async ({
   switch (chain) {
     case Chain.Avalanche:
     case Chain.BinanceSmartChain:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon:
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey)
         throw new Error('Ethplorer API key not found');
@@ -71,15 +76,14 @@ const getToolbox = async ({
 
       const provider = getProvider(chain);
       const signer = await getEVMSigner({ walletconnect, chain, provider });
+      const toolbox = await getToolboxByChain(chain);
 
-      const toolbox =
-        chain === Chain.Ethereum
-          ? ETHToolbox({ provider, signer, ethplorerApiKey: ethplorerApiKey as string })
-          : chain === Chain.Avalanche
-          ? AVAXToolbox({ provider, signer, covalentApiKey })
-          : BSCToolbox({ provider, signer, covalentApiKey });
-
-      return toolbox;
+      return toolbox({
+        provider,
+        signer,
+        ethplorerApiKey: ethplorerApiKey as string,
+        covalentApiKey,
+      });
     }
     case Chain.Binance: {
       const { sortObject, BinanceToolbox } = await import('@coinmasters/toolbox-cosmos');
@@ -145,7 +149,7 @@ const getToolbox = async ({
         const sendCoinsMessage = {
           amount: [
             {
-              amount: assetValue.baseValue,
+              amount: assetValue.getBaseValue('string'),
               denom: assetValue.symbol.toLowerCase(),
             },
           ],
@@ -161,7 +165,6 @@ const getToolbox = async ({
         const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
         const { makeSignDoc } = await import('@cosmjs/amino');
         const { fromBase64 } = await import('@cosmjs/encoding');
-        const { StargateClient } = await import('@cosmjs/stargate');
         const { Int53 } = await import('@cosmjs/math');
 
         const signDoc = makeSignDoc(
@@ -225,7 +228,7 @@ const getToolbox = async ({
         });
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const broadcaster = await createStargateClient(ApiUrl.ThornodeMainnet);
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -240,7 +243,9 @@ const getToolbox = async ({
         const msg = {
           type: 'thorchain/MsgDeposit',
           value: {
-            coins: [{ amount: assetValue.baseValue, asset: getDenomWithChain(assetValue) }],
+            coins: [
+              { amount: assetValue.getBaseValue('string'), asset: getDenomWithChain(assetValue) },
+            ],
             memo,
             signer: address,
           },
@@ -248,7 +253,6 @@ const getToolbox = async ({
 
         const { makeSignDoc } = await import('@cosmjs/amino');
         const { fromBase64 } = await import('@cosmjs/encoding');
-        const { StargateClient } = await import('@cosmjs/stargate');
         const { Int53 } = await import('@cosmjs/math');
         const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
 
@@ -313,7 +317,7 @@ const getToolbox = async ({
         });
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await StargateClient.connect(ApiUrl.ThornodeMainnet);
+        const broadcaster = await createStargateClient(ApiUrl.ThornodeMainnet);
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -330,7 +334,8 @@ const getWalletconnect = async (
   walletConnectProjectId?: string,
   walletconnectOptions?: SignClientTypes.Options,
 ) => {
-  let modal: WalletConnectModalSign | undefined;
+  const modal: WalletConnectModalSign | undefined = undefined;
+
   try {
     if (!walletConnectProjectId) {
       throw new Error('Error while setting up walletconnect connection: Project ID not specified');

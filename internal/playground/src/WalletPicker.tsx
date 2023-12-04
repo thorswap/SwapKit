@@ -82,6 +82,9 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.Ethereum,
     Chain.Avalanche,
     Chain.BinanceSmartChain,
+    Chain.Optimism,
+    Chain.Arbitrum,
+    Chain.Polygon,
   ],
   [WalletOption.METAMASK]: [
     Chain.Arbitrum,
@@ -126,6 +129,10 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.BinanceSmartChain,
     Chain.Avalanche,
     Chain.THORChain,
+    Chain.Maya,
+    Chain.Polygon,
+    Chain.Arbitrum,
+    Chain.Optimism,
   ],
   [WalletOption.OKX]: [
     Chain.Ethereum,
@@ -133,6 +140,9 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.BinanceSmartChain,
     Chain.Bitcoin,
     Chain.Cosmos,
+    Chain.Polygon,
+    Chain.Arbitrum,
+    Chain.Optimism,
   ],
 };
 
@@ -149,6 +159,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return skClient.connectOkx(chains);
         case WalletOption.TRUSTWALLET_WEB:
           return skClient.connectEVMWallet(chains, option);
+
         case WalletOption.LEDGER: {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
           return skClient.connectLedger(chains[0], derivationPath);
@@ -158,19 +169,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return responsePair;
         }
         case WalletOption.KEEPKEY: {
-          let keepkeyApiKey = localStorage.getItem('keepkeyApiKey');
-          const config: any = {
-            apiKey: keepkeyApiKey || '1234',
-            pairingInfo: {
-              name: 'swapKit-playground',
-              imageUrl: 'https://thorswap.finance/assets/img/header_logo.png',
-              basePath: 'http://localhost:1646/spec/swagger.json',
-              url: 'http://localhost:1646',
-            },
-          };
-          let responsePair = await skClient.connectKeepkey(chains, config);
-          if (responsePair !== keepkeyApiKey) localStorage.setItem('keepkeyApiKey', responsePair);
-          return true;
+          return skClient.connectKeepkey(chains);
         }
 
         case WalletOption.TREZOR: {
@@ -222,9 +221,11 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
     async (option: WalletOption) => {
       if (!skClient) return alert('client is not ready');
       setLoading(true);
-      await connectWallet(option);
+      connectWallet(option);
 
-      const walletDataArray = await Promise.all(chains.map(skClient.getWalletByChain));
+      const walletDataArray = await Promise.all(
+        chains.map((chain) => skClient.getWalletByChain(chain, true)),
+      );
 
       setWallet(walletDataArray.filter(Boolean));
       setLoading(false);

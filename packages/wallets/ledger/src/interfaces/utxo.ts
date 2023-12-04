@@ -40,5 +40,5 @@ export const signUTXOTransaction = async (
     useTrustedInputForSegwit: true,
   };
 
-  return btcApp.createPaymentTransactionNew({ ...params, ...options });
+  return btcApp.createPaymentTransaction({ ...params, ...options });
 };

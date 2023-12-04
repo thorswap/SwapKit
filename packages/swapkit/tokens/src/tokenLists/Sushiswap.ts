@@ -205,6 +205,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x65e3fA51C4ce0af1B9CD5CBC7C5fDb80a09D431D',
+      chain: 'ETH',
+      identifier: 'ETH.axlTIA-0X65E3FA51C4CE0AF1B9CD5CBC7C5FDB80A09D431D',
+      decimals: 6,
+    },
+    {
       address: '0xBB0E17EF65F82Ab018d8EDd776e8DD940327B28b',
       chain: 'ETH',
       identifier: 'ETH.AXS-0XBB0E17EF65F82AB018D8EDD776E8DD940327B28B',
@@ -2527,6 +2533,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0xF1376bceF0f78459C0Ed0ba5ddce976F1ddF51F4',
+      chain: 'ETH',
+      identifier: 'ETH.uniETH-0XF1376BCEF0F78459C0ED0BA5DDCE976F1DDF51F4',
+      decimals: 18,
+    },
+    {
       address: '0x0Ae38f7E10A43B5b2fB064B42a2f4514cbA909ef',
       chain: 'ETH',
       identifier: 'ETH.unshETH-0X0AE38F7E10A43B5B2FB064B42A2F4514CBA909EF',
@@ -2929,6 +2941,6 @@ export const list = {
       decimals: 18,
     },
   ],
-  count: 488,
+  count: 490,
   logo: 'https://static.thorswap.net/token-list/images/eth.sushi-0x6b3595068778dd592e39a122f4f5a5cf09c90fe2.png',
 } as const;

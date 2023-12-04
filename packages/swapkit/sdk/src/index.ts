@@ -25,7 +25,6 @@ export const createSwapKit = ({ config, ...extendParams }: SwapKitOptions = {}) 
     wallets: [
       evmWallet,
       keplrWallet,
-      keplrWallet,
       keystoreWallet,
       keepkeyWallet,
       ledgerWallet,

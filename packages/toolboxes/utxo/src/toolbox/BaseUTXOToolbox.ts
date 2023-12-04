@@ -104,53 +104,13 @@ const transfer = async ({
   return broadcastTx(signedPsbt.extractTransaction().toHex());
 };
 
-const getPubkeyBalance = async function (
-  pubkey: string,
-  type: string,
-  apiClient: BlockchairApiType,
-) {
-  try {
-    console.log('pubkey: ', pubkey);
-    console.log('type: ', type);
-    switch (type) {
-      case 'xpub':
-        const xpub = pubkey[type];
-        const xpubBalance = await apiClient.getBalance(xpub);
-        return xpubBalance;
-      case 'address':
-        const address = pubkey[type];
-        const addressBalance = await apiClient.getBalance(address);
-        console.log('getPubkeyBalance: addressBalance: ', addressBalance);
-        return addressBalance;
-      default:
-        throw new Error('Invalid pubkey type');
-    }
-  } catch (e) {
-    console.error(e);
-  }
-};
-
 const getBalance = async ({
-  pubkeys,
+  address,
   chain,
   apiClient,
-}: { pubkeys: any[] } & UTXOBaseToolboxParams) => {
-  console.log('pubkeys: ', pubkeys);
-  //legacy support
-  if (typeof pubkeys === 'string') {
-    pubkeys = [{ address: pubkeys }];
-  }
-  let totalBalance = 0;
-  // eslint-disable-next-line @typescript-eslint/prefer-for-of
-  for (let i = 0; i < pubkeys.length; i++) {
-    let pubkey = pubkeys[i];
-    let type = Object.keys(pubkey)[0];
-    const balance = await getPubkeyBalance(pubkey, type, apiClient);
-    console.log('balance: ', balance);
-    totalBalance = totalBalance + balance;
-  }
-  totalBalance = totalBalance / 10 ** BaseDecimal[chain];
-  const asset = await AssetValue.fromIdentifier(`${chain}.${chain}`, totalBalance.toString());
+}: { address: string } & UTXOBaseToolboxParams) => {
+  const balance = (await apiClient.getBalance(address)) / 10 ** BaseDecimal[chain];
+  const asset = await AssetValue.fromIdentifier(`${chain}.${chain}`, balance);
 
   return [asset];
 };
@@ -221,7 +181,9 @@ const buildTx = async ({
     apiClient,
     chain,
   });
-
+  //Blockchairs Doge API recomendations are WAYY wrong
+  if (chain === Chain.Dogecoin) feeRate = 100000;
+  if (chain === Chain.BitcoinCash) feeRate = 100000;
   const { inputs, outputs } = accumulative({ ...inputsAndOutputs, feeRate, chain });
 
   // .inputs and .outputs will be undefined if no solution was found
@@ -342,7 +304,7 @@ export const estimateMaxSendableAmount = async ({
     outputs.push({ address: from, script: compiledMemo, value: 0 });
   }
 
-  const txSize = await calculateTxSize({
+  const txSize = calculateTxSize({
     inputs,
     outputs,
     feeRate: feeRateWhole,
@@ -351,8 +313,8 @@ export const estimateMaxSendableAmount = async ({
   const fee = txSize * feeRateWhole;
 
   return new AssetValue({
-    ...balance,
-    value: balance.sub(fee).value,
+    identifier: balance.toString(),
+    value: balance.sub(fee),
     decimal: balance.decimal!,
   });
 };
@@ -378,7 +340,8 @@ export const BaseUTXOToolbox = (
     derivationPath: string;
   }) => (await createKeysForPath({ phrase, derivationPath, ...baseToolboxParams })).toWIF(),
 
-  getBalance: (pubkeys: any[]) => getBalance({ pubkeys, ...baseToolboxParams }),
+  getBalance: async (address: string, _potentialScamFilter?: boolean) =>
+    getBalance: (pubkeys: any[]) => getBalance({ pubkeys, ...baseToolboxParams }),
 
   getFeeRates: () => getFeeRates(baseToolboxParams.apiClient),
 

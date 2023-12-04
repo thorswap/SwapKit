@@ -1,12 +1,11 @@
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@coinmasters/helpers';
 import type { TransferParams } from '@coinmasters/toolbox-cosmos';
-import { toHexString } from '@coinmasters/toolbox-evm';
-import type { FeeOption } from '@coinmasters/types';
-import { Chain, ChainId } from '@coinmasters/types';
+import type { ChainId, FeeOption } from '@coinmasters/types';
+import { Chain, ChainToChainId, RPCUrl } from '@coinmasters/types';
 import type { Eip1193Provider } from 'ethers';
 
-type TransactionMethod = 'eth_signTransaction' | 'eth_sendTransaction' | 'transfer' | 'deposit';
+type TransactionMethod = 'transfer' | 'deposit';
 
 type TransactionParams = {
   asset: string;
@@ -30,6 +29,9 @@ const getXDEFIProvider = (chain: Chain) => {
     case Chain.Ethereum:
     case Chain.Avalanche:
     case Chain.BinanceSmartChain:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon:
       return window.xfi?.ethereum;
     case Chain.Binance:
       return window.xfi?.binance;
@@ -44,6 +46,7 @@ const getXDEFIProvider = (chain: Chain) => {
     case Chain.THORChain:
       return window.xfi?.thorchain;
     case Chain.Cosmos:
+    case Chain.Kujira:
       return window.xfi?.keplr;
     default:
       return undefined;
@@ -73,21 +76,31 @@ export const getXDEFIAddress = async (chain: Chain) => {
   const eipProvider = getXDEFIProvider(chain) as Eip1193Provider;
   if (!eipProvider) throw new Error('XDEFI provider is not defined');
 
-  if (chain === Chain.Cosmos) {
+  if ([Chain.Cosmos, Chain.Kujira].includes(chain)) {
     const provider = getXDEFIProvider(Chain.Cosmos) as Keplr;
     if (!provider) throw new Error('XDEFI provider is not defined');
 
     // Enabling before using the Keplr is recommended.
     // This method will ask the user whether to allow access if they haven't visited this website.
     // Also, it will request that the user unlock the wallet if the wallet is locked.
-    await (provider as Keplr).enable(ChainId.Cosmos);
+    const chainId = ChainToChainId[chain];
+    await (provider as Keplr).enable(chainId);
 
-    const offlineSigner = provider.getOfflineSigner(ChainId.Cosmos);
+    const offlineSigner = provider.getOfflineSigner(chainId);
 
     const [{ address }] = await offlineSigner.getAccounts();
 
     return address;
-  } else if ([Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain)) {
+  } else if (
+    [
+      Chain.Ethereum,
+      Chain.Avalanche,
+      Chain.BinanceSmartChain,
+      Chain.Arbitrum,
+      Chain.Optimism,
+      Chain.Polygon,
+    ].includes(chain)
+  ) {
     const response = await eipProvider.request({
       method: 'eth_requestAccounts',
       params: [],
@@ -115,18 +128,18 @@ export const walletTransfer = async (
    * EVM requires amount to be hex string
    * UTXO/Cosmos requires amount to be number
    */
-  const parsedAmount =
-    method === 'eth_sendTransaction'
-      ? toHexString(assetValue.baseValueBigInt)
-      : assetValue.baseValueNumber;
 
   const from = await getXDEFIAddress(assetValue.chain);
   const params = [
     {
-      amount: { amount: parsedAmount, decimals: assetValue.decimal },
-      asset: assetValue.symbol,
-      from,
+      amount: { amount: assetValue.getBaseValue('number'), decimals: assetValue.decimal },
+      asset: {
+        chain: assetValue.chain,
+        symbol: assetValue.symbol.toUpperCase(),
+        ticker: assetValue.symbol.toUpperCase(),
+      },
       memo,
+      from,
       recipient,
       gasLimit,
     },
@@ -138,12 +151,15 @@ export const walletTransfer = async (
 export const cosmosTransfer =
   ({ chainId, rpcUrl }: { chainId: ChainId.Cosmos | ChainId.Kujira; rpcUrl?: string }) =>
   async ({ from, recipient, assetValue, memo }: TransferParams) => {
-    const { createCosmJS } = await import('@coinmasters/toolbox-cosmos');
+    const { createSigningStargateClient } = await import('@swapkit/toolbox-cosmos');
     const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(chainId);
-    const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
+    const cosmJS = await createSigningStargateClient(rpcUrl || RPCUrl.Cosmos, offlineSigner);
 
     const coins = [
-      { denom: assetValue?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: assetValue.baseValue },
+      {
+        denom: assetValue?.symbol === 'MUON' ? 'umuon' : 'uatom',
+        amount: assetValue.getBaseValue('string'),
+      },
     ];
 
     const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 1.6, memo);

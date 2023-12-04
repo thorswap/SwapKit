@@ -1,7 +1,7 @@
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@coinmasters/helpers';
 import type { ConnectWalletParams, WalletTxParams } from '@coinmasters/types';
-import { Chain, ChainToChainId, WalletOption } from '@coinmasters/types';
+import { Chain, ChainToChainId, RPCUrl, WalletOption } from '@coinmasters/types';
 
 const connectKeplr =
   ({ addChain, rpcUrls }: ConnectWalletParams) =>
@@ -15,7 +15,10 @@ const connectKeplr =
       '@coinmasters/toolbox-cosmos'
     );
 
-    const cosmJS = await createCosmJS({ offlineSigner, rpcUrl: rpcUrls[chain] });
+    const cosmJS = await createSigningStargateClient(
+      rpcUrls[chain] || RPCUrl.Cosmos,
+      offlineSigner,
+    );
 
     const [{ address }] = await offlineSigner.getAccounts();
     const transfer = async ({
@@ -23,7 +26,9 @@ const connectKeplr =
       recipient,
       memo,
     }: WalletTxParams & { assetValue: AssetValue }) => {
-      const coins = [{ denom: getDenom(assetValue.symbol), amount: assetValue.baseValue }];
+      const coins = [
+        { denom: getDenom(assetValue.symbol), amount: assetValue.getBaseValue('string') },
+      ];
 
       const { transactionHash } = await cosmJS.sendTokens(address, recipient, coins, 1.6, memo);
       return transactionHash;

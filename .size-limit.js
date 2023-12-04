@@ -32,21 +32,21 @@ const getSizeFor = (packagePath, sizeType) => {
 module.exports = [
   ...getSizeFor('swapkit/api', 'xxs'),
   ...getSizeFor('swapkit/core', 'xs'),
-  ...getSizeFor('swapkit/helpers', 'xxs'),
+  ...getSizeFor('swapkit/helpers', 'xs'),
   ...getSizeFor('swapkit/sdk', 'xxl'),
   ...getSizeFor('swapkit/tokens', 'xl'),
   ...getSizeFor('swapkit/types', 'xxs'),
 
   ...getSizeFor('toolboxes/cosmos', 'l'),
-  ...getSizeFor('toolboxes/evm', 'm'),
-  ...getSizeFor('toolboxes/utxo', 'm'),
+  ...getSizeFor('toolboxes/evm', 'l'),
+  ...getSizeFor('toolboxes/utxo', 'l'),
 
   ...getSizeFor('wallets/evm-extensions', 'xxs'),
   ...getSizeFor('wallets/keplr', 'xxs'),
-  ...getSizeFor('wallets/keystore', 'xs'),
+  ...getSizeFor('wallets/keystore', 'm'),
   ...getSizeFor('wallets/ledger', 'xl'),
   ...getSizeFor('wallets/okx', 'xxs'),
   ...getSizeFor('wallets/trezor', 's'),
-  ...getSizeFor('wallets/wc', 'm'),
+  ...getSizeFor('wallets/wc', 'l'),
   ...getSizeFor('wallets/xdefi', 'xxs'),
 ];

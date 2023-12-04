@@ -21,5 +21,5 @@ export const list = {
     { chain: 'THOR', identifier: 'THOR.RUNE', decimals: 8 },
   ],
   count: 15,
-  logo: 'https://static.thorswap.finance/logo.png',
+  logo: 'https://static.thorswap.net/logo.png',
 } as const;

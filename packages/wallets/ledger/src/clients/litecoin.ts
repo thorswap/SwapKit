@@ -13,6 +13,6 @@ export class LitecoinLedger extends UTXOLedgerInterface {
     this.addressNetwork = coininfo.litecoin.main.toBitcoinJS();
     this.chain = 'ltc';
     this.derivationPath = derivationPathToString(derivationPath);
-    this.walletFormat = getWalletFormatFor(this.derivationPath) as 'legacy' | 'bech32';
+    this.walletFormat = getWalletFormatFor(this.derivationPath) as 'legacy' | 'bech32' | 'p2sh';
   }
 }

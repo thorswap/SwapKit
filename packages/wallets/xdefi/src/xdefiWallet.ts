@@ -1,5 +1,12 @@
-import { AssetValue } from '@coinmasters/helpers';
-import { Chain, ChainToChainId, ChainToHexChainId, RPCUrl, WalletOption } from '@coinmasters/types';
+import type { AVAXToolbox, BSCToolbox } from '@coinmasters/toolbox-evm';
+import {
+  Chain,
+  ChainId,
+  ChainToChainId,
+  ChainToHexChainId,
+  RPCUrl,
+  WalletOption,
+} from '@coinmasters/types';
 
 import type { WalletTxParams } from './walletHelpers.ts';
 import { cosmosTransfer, getXDEFIAddress, walletTransfer } from './walletHelpers.ts';
@@ -7,10 +14,12 @@ import { cosmosTransfer, getXDEFIAddress, walletTransfer } from './walletHelpers
 type XDEFIConfig = {
   covalentApiKey?: string;
   ethplorerApiKey?: string;
+  blockchairApiKey?: string;
   utxoApiKey?: string;
 };
 
 const XDEFI_SUPPORTED_CHAINS = [
+  Chain.Arbitrum,
   Chain.Avalanche,
   Chain.Binance,
   Chain.BinanceSmartChain,
@@ -20,6 +29,8 @@ const XDEFI_SUPPORTED_CHAINS = [
   Chain.Ethereum,
   Chain.Kujira,
   Chain.Litecoin,
+  Chain.Optimism,
+  Chain.Polygon,
   Chain.THORChain,
 ] as const;
 
@@ -27,7 +38,7 @@ const getWalletMethodsForChain = async ({
   chain,
   ethplorerApiKey,
   covalentApiKey,
-  utxoApiKey,
+  blockchairApiKey,
   rpcUrl,
   api,
 }: { rpcUrl?: string; api?: any; chain: Chain } & XDEFIConfig): Promise<any> => {
@@ -63,15 +74,27 @@ const getWalletMethodsForChain = async ({
       return { ...BinanceToolbox(), transfer: walletTransfer };
     }
 
+    case Chain.Bitcoin:
+    case Chain.BitcoinCash:
+    case Chain.Dogecoin:
+    case Chain.Litecoin: {
+      const { getToolboxByChain } = await import('@swapkit/toolbox-utxo');
+      const params = { rpcUrl, blockchairApiKey, apiClient: api };
+      const toolbox = await getToolboxByChain(chain);
+
+      return { ...toolbox(params), transfer: walletTransfer };
+    }
+
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon:
     case Chain.Avalanche: {
       const {
         getProvider,
         prepareNetworkSwitch,
-        ETHToolbox,
-        AVAXToolbox,
-        BSCToolbox,
+        getToolboxByChain,
         addEVMWalletNetwork,
         covalentApi,
         ethplorerApi,
@@ -89,20 +112,12 @@ const getWalletMethodsForChain = async ({
       }
 
       const provider = new BrowserProvider(ethereumWindowProvider, 'any');
-
-      const toolboxParams = {
+      const toolbox = (await getToolboxByChain(chain))({
         provider,
         signer: await provider.getSigner(),
-        ethplorerApiKey: ethplorerApiKey as string,
-        covalentApiKey: covalentApiKey as string,
-      };
-
-      const toolbox =
-        chain === Chain.Ethereum
-          ? ETHToolbox(toolboxParams)
-          : chain === Chain.Avalanche
-          ? AVAXToolbox(toolboxParams)
-          : BSCToolbox(toolboxParams);
+        ethplorerApiKey: ethplorerApiKey || '',
+        covalentApiKey: covalentApiKey || '',
+      });
 
       try {
         chain !== Chain.Ethereum &&
@@ -117,28 +132,17 @@ const getWalletMethodsForChain = async ({
         throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
       }
 
-      // Overwrite xdefi getbalance due to race condition in their app when connecting multiple evm wallets
+      const api =
+        chain === Chain.Ethereum
+          ? ethplorerApi(ethplorerApiKey!)
+          : covalentApi({ apiKey: covalentApiKey!, chainId: ChainToChainId[chain] });
+
       return prepareNetworkSwitch({
         toolbox: {
           ...toolbox,
-          getBalance: async (address: string) => {
-            const api =
-              chain === Chain.Ethereum
-                ? ethplorerApi(ethplorerApiKey!)
-                : covalentApi({
-                    apiKey: covalentApiKey!,
-                    chainId: ChainToChainId[chain],
-                  });
-
-            const tokenBalances = await api.getBalance(address);
-            const provider = getProvider(chain);
-            const evmGasTokenBalance = await provider.getBalance(address);
-
-            return [
-              AssetValue.fromChainOrSignature(chain, evmGasTokenBalance.toString()),
-              ...tokenBalances,
-            ];
-          },
+          // Overwrite xdefi getbalance due to race condition in their app when connecting multiple evm wallets
+          getBalance: (address: string, potentialScamFilter?: boolean) =>
+            getBalance({ chain, provider: getProvider(chain), api, address, potentialScamFilter }),
         },
         chainId: ChainToHexChainId[chain],
         //@ts-expect-error
@@ -174,7 +178,7 @@ const getWalletMethodsForChain = async ({
 const connectXDEFI =
   ({
     addChain,
-    config: { covalentApiKey, ethplorerApiKey, utxoApiKey },
+    config: { covalentApiKey, ethplorerApiKey, blockchairApiKey, utxoApiKey },
   }: {
     addChain: any;
     config: XDEFIConfig;
@@ -184,7 +188,7 @@ const connectXDEFI =
       const address = await getXDEFIAddress(chain);
       const walletMethods = await getWalletMethodsForChain({
         chain,
-        utxoApiKey,
+        blockchairApiKey: blockchairApiKey || utxoApiKey,
         covalentApiKey,
         ethplorerApiKey,
       });

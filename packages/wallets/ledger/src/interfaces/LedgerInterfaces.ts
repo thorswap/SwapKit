@@ -55,7 +55,7 @@ export abstract class UTXOLedgerInterface {
   public ledgerApp: any;
   public additionalSignParams?: Partial<CreateTransactionArg>;
   public transport = null as any;
-  public walletFormat: 'legacy' | 'bech32' = 'bech32';
+  public walletFormat: 'legacy' | 'bech32' | 'p2sh' = 'bech32';
 
   public connect = async () => {
     await this.checkBtcAppAndCreateTransportWebUSB(false);
@@ -63,7 +63,7 @@ export abstract class UTXOLedgerInterface {
     const { default: BitcoinApp } = await import('@ledgerhq/hw-app-btc');
 
     // @ts-expect-error `default` typing is wrong
-    this.btcApp = new BitcoinApp(this.transport);
+    this.btcApp = new BitcoinApp({ transport: this.transport });
   };
 
   public signTransaction = async (psbt: Psbt, inputUtxos: UTXOType[]) => {

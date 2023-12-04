@@ -20,7 +20,7 @@ const beforeWriteFile = (filePath, content) => {
   content = content.replaceAll('  #private;', '');
 
   if (content.includes('#private')) {
-    console.log('################# Drop file: ', filePath);
+    console.info('################# Drop file: ', filePath);
     return false;
   }
 
@@ -28,7 +28,7 @@ const beforeWriteFile = (filePath, content) => {
 };
 
 /** (name: string) => @type {import('vitest/config').UserConfig} */
-const baseConfig = (name, external) =>
+const baseConfig = (name) =>
   defineConfig({
     base: './',
     plugins: [
@@ -43,7 +43,6 @@ const baseConfig = (name, external) =>
       },
       commonjsOptions: { transformMixedEsModules: true },
       rollupOptions: {
-        external,
         input: 'src/index.ts',
         plugins: rollupPlugins,
         output: ({ format }) => ({
