@@ -101,28 +101,15 @@ export const utxoWalletMethods = async ({
         (item) => item !== null && typeof item === 'object' && Object.keys(item).length !== 0,
       );
     }
-    console.log({
+    const responseSign = await sdk.utxo.utxoSignTransaction({
       coin: Coin[chain as keyof typeof Coin],
       inputs,
       outputs: removeNullAndEmptyObjectsFromArray(outputs),
       version: 1,
       locktime: 0,
+      opReturnData: memo,
     });
-    try {
-      const responseSign = await sdk.utxo.utxoSignTransaction({
-        coin: Coin[chain as keyof typeof Coin],
-        inputs,
-        outputs: removeNullAndEmptyObjectsFromArray(outputs),
-        version: 1,
-        locktime: 0,
-        opReturnData: memo,
-      });
-      console.log('responseSign: ', responseSign);
-      return responseSign.serializedTx;
-    } catch (e) {
-      console.error(e);
-      throw e;
-    }
+    return responseSign.serializedTx;
   };
 
   const transfer = async ({
