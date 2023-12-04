@@ -159,6 +159,7 @@ export const utxoWalletMethods = async function ({ sdk, chain, utxoApiKey, api, 
       if (memo) {
         txToSign.opReturnData = memo;
       }
+      console.log('txToSign: ', txToSign);
       let responseSign = await sdk.utxo.utxoSignTransaction(txToSign);
       return responseSign.serializedTx;
     };

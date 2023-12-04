@@ -204,6 +204,7 @@ const connectKeepkey =
   }: ConnectWalletParams) =>
   async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, config: KeepKeyConfig, paths: any) => {
     await checkAndLaunch();
+    if(!paths) paths = []
     console.log('paths: ', paths);
     //only build this once for all assets
     const keepKeySdk = await KeepKeySdk.create(config);
