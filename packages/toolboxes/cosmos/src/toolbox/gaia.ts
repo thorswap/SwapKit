@@ -35,7 +35,7 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
     return {
       type: 'base',
       average: SwapKitNumber.fromBigInt(BigInt(baseFee), BaseDecimal.GAIA),
-      fast: SwapKitNumber.fromBigInt(BigInt(baseFee) * 15n / 10n, BaseDecimal.GAIA),
+      fast: SwapKitNumber.fromBigInt((BigInt(baseFee) * 15n) / 10n, BaseDecimal.GAIA),
       fastest: SwapKitNumber.fromBigInt(BigInt(baseFee) * 2n, BaseDecimal.GAIA),
     };
   };

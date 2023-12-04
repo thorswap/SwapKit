@@ -64,14 +64,7 @@ const getToolbox = async ({
       const provider = getProvider(chain, rpcUrl);
       const signer = await getEVMSigner({ chain, derivationPath, provider });
       const address = await signer.getAddress();
-      const params = { api, signer, provider };
-      const walletMethods =
-        chain === Chain.Ethereum
-          ? ETHToolbox({ ...params, ethplorerApiKey: ethplorerApiKey as string })
-          : (chain === Chain.Avalanche ? AVAXToolbox : BSCToolbox)({
-              ...params,
-              covalentApiKey: covalentApiKey as string,
-            });
+      const toolbox = await getToolboxByChain(chain);
 
       return {
         address,
