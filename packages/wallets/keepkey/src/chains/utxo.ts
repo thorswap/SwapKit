@@ -69,7 +69,6 @@ export const utxoWalletMethods = async ({
   const { address: walletAddress } = await sdk.address.utxoGetAddress(addressInfo);
 
   const signTransaction = async (psbt: Psbt, inputs: KeepKeyInputObject[], memo: string = '') => {
-    console.log('psbt.txOutputs: ', psbt.txOutputs);
     const outputs = psbt.txOutputs
       .map((output) => {
         const { value, address, change } = output as psbtTxOutput;
