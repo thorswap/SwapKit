@@ -1,5 +1,29 @@
 # @internal/playground
 
+## 0.0.0-rc.55
+
+### Patch Changes
+
+- [#439](https://github.com/thorswap/SwapKit/pull/439) [`853c3e79`](https://github.com/thorswap/SwapKit/commit/853c3e79d6e80c05cabedbea97c17f00db4b74b2) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Use Thorchain tokenlist only
+
+- Updated dependencies [[`12230a59`](https://github.com/thorswap/SwapKit/commit/12230a594b3cc176760fe1b98ab91a563555f176), [`853c3e79`](https://github.com/thorswap/SwapKit/commit/853c3e79d6e80c05cabedbea97c17f00db4b74b2)]:
+  - @swapkit/wallet-xdefi@1.0.0-rc.56
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.49
+  - @swapkit/toolbox-cosmos@1.0.0-rc.50
+  - @swapkit/wallet-keystore@1.0.0-rc.57
+  - @swapkit/helpers@1.0.0-rc.47
+  - @swapkit/tokens@1.0.0-rc.27
+  - @swapkit/toolbox-utxo@1.0.0-rc.50
+  - @swapkit/wallet-ledger@1.0.0-rc.58
+  - @swapkit/wallet-trezor@1.0.0-rc.52
+  - @swapkit/types@1.0.0-rc.25
+  - @swapkit/toolbox-evm@1.0.0-rc.49
+  - @swapkit/wallet-keplr@1.0.0-rc.50
+  - @swapkit/core@1.0.0-rc.57
+  - @swapkit/api@1.0.0-rc.25
+  - @swapkit/wallet-okx@1.0.0-rc.55
+  - @swapkit/wallet-wc@1.0.0-rc.52
+
 ## 0.0.0-rc.54
 
 ### Patch Changes
