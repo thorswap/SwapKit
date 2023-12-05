@@ -1,5 +1,6 @@
 name: Check Token List
 env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
 on:
@@ -15,13 +16,7 @@ jobs:
       - uses: ./.github/actions/setup-js-workflow
 
       - name: Generate new token list
-        run: |
-          pnpm build --filter api
-          cd packages/swapkit/tokens
-          pnpm generate-tokens
-          git checkout ./src/tokenLists/Thorchain.ts
-          cd ../..
-          pnpm lint --filter tokens
+        run: pnpm generate:tokens
 
       - name: Push Token List Changes
         uses: devops-infra/action-commit-push@73d3ffed46e0782df6f046d15049aae82569b389

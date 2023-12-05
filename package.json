@@ -68,7 +68,7 @@
     "dev:playground:node": "turbo run dev:node --concurrency=30 --filter=\"{./internal/node-playground}...\"",
     "dev:playground:bun": "turbo run dev:bun --concurrency=30 --filter=\"{./internal/node-playground}...\"",
     "generate": "cd ./internal/generator; pnpm generate; cd ../..",
-    "generate:tokens": "cd ./packages/swapkit/tokens; pnpm run generate-tokens; cd ../../..; pnpm run lint",
+    "generate:tokens": "pnpm build --filter api; cd ./packages/swapkit/tokens; pnpm run generate-tokens; cd ../../..; git checkout ./packages/swapkit/tokens/src/tokenLists/Thorchain.ts; pnpm run lint --filter tokens --force",
     "lint": "turbo run lint --continue --token=turbotoken-oss-europe1 --filter=!./packages/swapkit/swapkit-sdk",
     "postinstall": "rm -rf ./.git/hooks/pre-commit ./.git/hooks/prepare-commit-msg",
     "publish-packages": "turbo run build lint --token=turbotoken-oss-europe1 && pnpm version-bump && pnpm changeset publish",
