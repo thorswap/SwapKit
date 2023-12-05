@@ -28,6 +28,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { SDK } from './sdk';
 import { availableChainsByWallet } from './support';
+import { ChainToNetworkId, getChainEnumValue } from '@coinmasters/types';
 
 const eventEmitter = new EventEmitter();
 
@@ -46,6 +47,7 @@ export enum WalletActions {
   SET_OUTBOUND_ASSET_CONTEXT = 'SET_OUTBOUND_ASSET_CONTEXT',
   SET_OUTBOUND_BLOCKCHAIN_CONTEXT = 'SET_OUTBOUND_BLOCKCHAIN_CONTEXT',
   SET_OUTBOUND_PUBKEY_CONTEXT = 'SET_OUTBOUND_PUBKEY_CONTEXT',
+  SET_BLOCKCHAINS = 'SET_BLOCKCHAINS',
   SET_BALANCES = 'SET_BALANCES',
   SET_PUBKEYS = 'SET_PUBKEYS',
   SET_HARDWARE_ERROR = 'SET_HARDWARE_ERROR',
@@ -56,6 +58,7 @@ export enum WalletActions {
 export interface InitialState {
   status: any;
   hardwareError: string | null;
+  openModal: string | null;
   username: string;
   serviceKey: string;
   queryKey: string;
@@ -67,6 +70,7 @@ export interface InitialState {
   outboundAssetContext: any; // Adjusted
   outboundBlockchainContext: any; // Adjusted
   outboundPubkeyContext: any; // Adjusted
+  blockchains: any[]; // Adjusted assuming it's an array
   balances: any[]; // Adjusted assuming it's an array
   pubkeys: any[]; // Adjusted assuming it's an array
   wallets: any[]; // Adjusted assuming it's an array
@@ -79,6 +83,7 @@ export interface InitialState {
 const initialState: InitialState = {
   status: 'disconnected',
   hardwareError: null,
+  openModal: null,
   username: '',
   serviceKey: '',
   queryKey: '',
@@ -90,6 +95,7 @@ const initialState: InitialState = {
   outboundAssetContext: null,
   outboundBlockchainContext: null,
   outboundPubkeyContext: null,
+  blockchains: [],
   balances: [],
   pubkeys: [],
   wallets: [],
@@ -146,6 +152,7 @@ export type ActionTypes =
   | { type: WalletActions.SET_OUTBOUND_ASSET_CONTEXT; payload: any }
   | { type: WalletActions.SET_OUTBOUND_BLOCKCHAIN_CONTEXT; payload: any }
   | { type: WalletActions.SET_OUTBOUND_PUBKEY_CONTEXT; payload: any }
+  | { type: WalletActions.SET_BLOCKCHAINS; payload: any }
   | { type: WalletActions.SET_BALANCES; payload: any }
   | { type: WalletActions.SET_PUBKEYS; payload: any }
   | { type: WalletActions.ADD_WALLET; payload: any }
@@ -166,7 +173,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
       return { ...state, username: action.payload };
 
     case WalletActions.OPEN_MODAL:
-      return { ...state, payload: action.payload };
+      return { ...state, openModal: action.payload };
 
     case WalletActions.SET_API:
       return { ...state, api: action.payload };
@@ -205,6 +212,9 @@ const reducer = (state: InitialState, action: ActionTypes) => {
     case WalletActions.SET_OUTBOUND_PUBKEY_CONTEXT:
       return { ...state, outboundPubkeyContext: action.payload };
 
+    case WalletActions.SET_BLOCKCHAINS:
+      return { ...state, blockchains: action.payload };
+
     case WalletActions.SET_BALANCES:
       return { ...state, balances: action.payload };
 
@@ -223,7 +233,11 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         context: null,
         status: null,
         hardwareError: null,
-        // Add other state properties you want to reset here...
+        assetContext: null,
+        outboundAssetContext: null,
+        blockchains: [],
+        balances: [],
+        pubkeys: [],
       };
 
     default:
@@ -238,15 +252,24 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
   const [state, dispatch] = useReducer(reducer, initialState);
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // const showModal = (message: string) => {
-  //   console.log("OPEN MODAL: modal: ", message);
-  //   setIsModalOpen(true);
-  //   // Optional: You can also set a message to be displayed in the modal
-  // };
+  const showModal = (modal: string) => {
+    console.log('OPEN MODAL: modal: ', modal);
+    // @ts-ignore
+    dispatch({
+      type: WalletActions.OPEN_MODAL,
+      payload: modal,
+    });
+    // Optional: You can also set a message to be displayed in the modal
+  };
 
-  // const hideModal = () => {
-  //   setIsModalOpen(false);
-  // };
+  const hideModal = () => {
+    console.log('CLOSE MODAL');
+    // @ts-ignore
+    dispatch({
+      type: WalletActions.OPEN_MODAL,
+      payload: null,
+    });
+  };
 
   // TODO add wallet to state
   const clearHardwareError = () => {
@@ -423,12 +446,14 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
           if (action === WalletActions.SET_BALANCES) {
             // @ts-ignore
             console.log('setting balances for context: ', appInit.context);
-            if(appInit.context)localStorage.setItem(appInit.context + ':balanceCache', JSON.stringify(data));
+            if (appInit.context)
+              localStorage.setItem(appInit.context + ':balanceCache', JSON.stringify(data));
           }
           if (action === WalletActions.SET_PUBKEYS) {
             // @ts-ignore
             console.log('setting balances for context: ', appInit.context);
-            if(appInit.context)localStorage.setItem(appInit.context + ':pubkeyCache', JSON.stringify(data));
+            if (appInit.context)
+              localStorage.setItem(appInit.context + ':pubkeyCache', JSON.stringify(data));
           }
           // @ts-ignore
           dispatch({
@@ -439,12 +464,19 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       });
 
       if (lastConnectedWallet) {
+        console.log('Loading from cache!');
         await appInit.setContext(lastConnectedWallet);
         //get wallet type
         const walletType = lastConnectedWallet.split(':')[0];
         console.log('walletType: ', walletType);
         //set blockchains
-        await appInit.setBlockchains(availableChainsByWallet[walletType]);
+        let blockchainsForContext = availableChainsByWallet[walletType.toUpperCase()];
+        let allByCaip = blockchainsForContext.map((chainStr) => {
+          const chainEnum = getChainEnumValue(chainStr);
+          return chainEnum ? ChainToNetworkId[chainEnum] : undefined;
+        });
+        console.log('allByCaip: ', allByCaip);
+        await appInit.setBlockchains(allByCaip);
 
         // balance cache
         let balanceCache: any = localStorage.getItem(lastConnectedWallet + ':balanceCache');
@@ -465,7 +497,7 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
 
   // end
   const value: any = useMemo(
-    () => ({ state, dispatch, connectWallet, clearHardwareError, onStart }),
+    () => ({ state, dispatch, connectWallet, clearHardwareError, onStart, showModal, hideModal }),
     [connectWallet, state],
   );
 

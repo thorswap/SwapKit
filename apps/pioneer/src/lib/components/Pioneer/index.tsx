@@ -42,8 +42,8 @@ import { usePioneer } from '../../context/Pioneer';
 import { availableChainsByWallet } from '../../context/Pioneer/support';
 
 const Pioneer = () => {
-  const { state } = usePioneer();
-  const { api, app, status, balances, context } = state;
+  const { state, hideModal } = usePioneer();
+  const { api, app, status, balances, context, openModal } = state;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showAllWallets, setShowAllWallets] = useState(false);
   const [modalShowClose, setModalShowClose] = useState(false);
@@ -55,6 +55,16 @@ const Pioneer = () => {
   // const [context, setContext] = useState('');
   const [isPioneer, setIsPioneer] = useState(false);
   const [isSwitchingWallet, setIsSwitchingWallet] = useState(false);
+
+  useEffect(() => {
+    if (openModal) {
+      setModalType(openModal.toUpperCase());
+      onOpen();
+    } else {
+      hideModal();
+      onClose();
+    }
+  }, [openModal]);
 
   // Function to toggle the visibility of all wallets
   const toggleShowAllWallets = () => {
@@ -188,9 +198,14 @@ const Pioneer = () => {
     </AvatarBadge>
   );
 
+  const closeModal = () => {
+    onClose();
+    hideModal();
+  };
+
   return (
     <div>
-      <Modal isOpen={isOpen} onClose={() => onClose()} size="xl">
+      <Modal isOpen={isOpen} onClose={() => closeModal()} size="xl">
         <ModalOverlay />
         <ModalContent bg="black">
           <ModalHeader>{modalType}</ModalHeader>

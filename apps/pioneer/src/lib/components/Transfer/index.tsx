@@ -28,7 +28,7 @@ import { getWalletBadgeContent } from '../WalletIcon';
 
 const Transfer = ({ openModal }: any) => {
   const toast = useToast();
-  const { state, connectWallet } = usePioneer();
+  const { state, connectWallet, showModal } = usePioneer();
   const { app, assetContext, balances, context } = state;
   const [isPairing, setIsPairing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -112,7 +112,12 @@ const Transfer = ({ openModal }: any) => {
       const walletInfo = await app.swapKit.getWalletByChain(assetContext.chain);
 
       if (!walletInfo) {
-        pairWallet();
+        //get wallet for context
+        let walletType = app.context.split(':')[0];
+        console.log("Wallet not connected, opening modal for: ", walletType);
+        //open wallet for context
+        showModal(walletType);
+        // pairWallet();
       } else {
         setIsSubmitting(true);
         /*

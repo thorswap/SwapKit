@@ -226,6 +226,7 @@ export class SDK {
     this.setBlockchains = async function (blockchains: any) {
       try {
         if (!blockchains) throw Error('blockchains required!');
+        console.log('setBlockchains called! blockchains: ', blockchains);
         this.blockchains = blockchains;
         this.events.emit('SET_BLOCKCHAINS', this.blockchains);
       } catch (e) {
