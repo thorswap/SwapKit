@@ -33,7 +33,7 @@ export class CosmosLedger extends CommonLedgerInterface {
   };
 
   signTransaction = async (rawTx: string, sequence = '0') => {
-    await this.checkOrCreateTransportAndLedger();
+    await this.checkOrCreateTransportAndLedger(true);
 
     const { return_code, error_message, signature } = await this.ledgerApp.sign(
       this.derivationPath,
@@ -54,7 +54,7 @@ export class CosmosLedger extends CommonLedgerInterface {
   };
 
   signAmino = async (signerAddress: string, signDoc: any) => {
-    await this.checkOrCreateTransportAndLedger();
+    await this.checkOrCreateTransportAndLedger(true);
 
     const accounts = await this.getAccounts();
     const accountIndex = accounts.findIndex((account) => account.address === signerAddress);
@@ -80,7 +80,7 @@ export class CosmosLedger extends CommonLedgerInterface {
   };
 
   getAccounts = async () => {
-    await this.checkOrCreateTransportAndLedger();
+    await this.checkOrCreateTransportAndLedger(true);
 
     const addressAndPubKey = await this.getAddressAndPubKey();
     return [

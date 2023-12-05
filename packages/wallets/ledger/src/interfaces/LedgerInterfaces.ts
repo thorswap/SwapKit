@@ -17,28 +17,37 @@ export abstract class CommonLedgerInterface {
   public ledgerApp: any;
   public chain: 'thor' | 'bnb' | 'sol' | 'cosmos' | 'eth' = 'thor';
 
-  public checkOrCreateTransportAndLedger = async () => {
-    if (this.transport && this.ledgerApp) return;
+  public checkOrCreateTransportAndLedger = async (forceReconnect: boolean = false) => {
+    if (!forceReconnect && this.transport && this.ledgerApp) return;
 
     try {
-      this.transport ||= await getLedgerTransport();
+      this.transport =
+        forceReconnect || !this.transport ? await getLedgerTransport() : this.transport;
 
       switch (this.chain) {
         case 'bnb': {
-          return (this.ledgerApp ||= new BinanceApp(this.transport));
+          this.ledgerApp =
+            forceReconnect || !this.ledgerApp ? new BinanceApp(this.transport) : this.ledgerApp;
+
+          break;
         }
 
         case 'thor': {
-          return (this.ledgerApp ||= new THORChainApp(this.transport));
+          this.ledgerApp =
+            forceReconnect || !this.ledgerApp ? new THORChainApp(this.transport) : this.ledgerApp;
+
+          break;
         }
 
         case 'cosmos': {
           const { default: CosmosApp } = await import('@ledgerhq/hw-app-cosmos');
-
-          // @ts-expect-error `default` typing is wrong
-          return (this.ledgerApp ||= new CosmosApp(this.transport));
+          this.ledgerApp =
+            // @ts-expect-error
+            forceReconnect || !this.ledgerApp ? new CosmosApp(this.transport) : this.ledgerApp;
         }
       }
+
+      return this.ledgerApp;
     } catch (error: any) {
       console.error(error);
       throw new Error('Cannot create transport or ledger client');
@@ -67,7 +76,7 @@ export abstract class UTXOLedgerInterface {
   };
 
   public signTransaction = async (psbt: Psbt, inputUtxos: UTXOType[]) => {
-    await this.checkBtcAppAndCreateTransportWebUSB();
+    await this.createTransportWebUSB();
 
     return signUTXOTransaction(
       { psbt, derivationPath: this.derivationPath, btcApp: this.btcApp, inputUtxos },
@@ -100,6 +109,14 @@ export abstract class UTXOLedgerInterface {
     }
 
     this.transport ||= await getLedgerTransport();
+  };
+
+  private createTransportWebUSB = async () => {
+    this.transport = await getLedgerTransport();
+    const { default: BitcoinApp } = await import('@ledgerhq/hw-app-btc');
+
+    // @ts-expect-error `default` typing is wrong
+    this.btcApp = new BitcoinApp({ transport: this.transport });
   };
 
   public getExtendedPublicKey = async (

@@ -26,11 +26,15 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
 
   checkOrCreateTransportAndLedger = async () => {
     if (this.ledgerApp) return;
+    await this.createTransportAndLedger();
+  };
+
+  createTransportAndLedger = async () => {
     const transport = await getLedgerTransport();
     const { default: EthereumApp } = await import('@ledgerhq/hw-app-eth');
 
     // @ts-expect-error `default` typing is wrong
-    this.ledgerApp ||= new EthereumApp(transport);
+    this.ledgerApp = new EthereumApp(transport);
   };
 
   getAddress = async () => {
@@ -50,7 +54,7 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
   };
 
   signMessage = async (messageHex: string) => {
-    await this.checkOrCreateTransportAndLedger();
+    await this.createTransportAndLedger();
 
     const sig = await this.ledgerApp?.signPersonalMessage(this.derivationPath, messageHex);
 
@@ -64,7 +68,7 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
   };
 
   signTransaction = async (tx: TransactionRequest) => {
-    await this.checkOrCreateTransportAndLedger();
+    await this.createTransportAndLedger();
 
     const transactionCount = await this.provider?.getTransactionCount(
       tx.from || (await this.getAddress()),
