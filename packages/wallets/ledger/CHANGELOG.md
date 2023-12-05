@@ -1,5 +1,11 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.56
+
+### Patch Changes
+
+- [#435](https://github.com/thorswap/SwapKit/pull/435) [`6cce8c8e`](https://github.com/thorswap/SwapKit/commit/6cce8c8e8e3ac16fcb60f2b3b618bf6db70fba36) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix ledger connection
+
 ## 1.0.0-rc.55
 
 ### Patch Changes
