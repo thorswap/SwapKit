@@ -1,5 +1,18 @@
 # @swapkit/wallet-okx
 
+## 1.0.0-rc.53
+
+### Patch Changes
+
+- Patch for @ledgerhq/live-network
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.48
+  - @swapkit/helpers@1.0.0-rc.45
+  - @swapkit/toolbox-utxo@1.0.0-rc.48
+  - @swapkit/types@1.0.0-rc.24
+  - @swapkit/toolbox-evm@1.0.0-rc.47
+
 ## 1.0.0-rc.52
 
 ### Patch Changes

@@ -13,7 +13,6 @@ export default defineConfig({
   // NOTE: Have to be added to fix: Uncaught ReferenceError: process & global is not defined
   define: {
     'process.env': {},
-    'process.version': JSON.stringify('v18.16.0'),
   },
   plugins: [react()],
   resolve: {

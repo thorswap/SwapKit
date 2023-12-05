@@ -1,5 +1,11 @@
 # @internal/config
 
+## 0.0.0-rc.10
+
+### Patch Changes
+
+- Patch for @ledgerhq/live-network
+
 ## 0.0.0-rc.9
 
 ### Patch Changes

@@ -1,5 +1,29 @@
 # @internal/playground
 
+## 0.0.0-rc.52
+
+### Patch Changes
+
+- Patch for @ledgerhq/live-network
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.47
+  - @swapkit/toolbox-cosmos@1.0.0-rc.48
+  - @swapkit/wallet-keystore@1.0.0-rc.55
+  - @swapkit/helpers@1.0.0-rc.45
+  - @swapkit/tokens@1.0.0-rc.25
+  - @swapkit/toolbox-utxo@1.0.0-rc.48
+  - @swapkit/wallet-ledger@1.0.0-rc.55
+  - @swapkit/wallet-trezor@1.0.0-rc.50
+  - @swapkit/types@1.0.0-rc.24
+  - @swapkit/toolbox-evm@1.0.0-rc.47
+  - @swapkit/wallet-keplr@1.0.0-rc.48
+  - @swapkit/wallet-xdefi@1.0.0-rc.54
+  - @swapkit/core@1.0.0-rc.55
+  - @swapkit/api@1.0.0-rc.24
+  - @swapkit/wallet-okx@1.0.0-rc.53
+  - @swapkit/wallet-wc@1.0.0-rc.50
+
 ## 0.0.0-rc.51
 
 ### Patch Changes

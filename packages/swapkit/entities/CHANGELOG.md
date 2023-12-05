@@ -1,5 +1,14 @@
 # @thorswap-lib/swapkit-entities
 
+## 1.0.0-rc.24
+
+### Patch Changes
+
+- Patch for @ledgerhq/live-network
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.24
+
 ## 1.0.0-rc.23
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.25
+
+### Patch Changes
+
+- Patch for @ledgerhq/live-network
+
 ## 1.0.0-rc.24
 
 ### Patch Changes

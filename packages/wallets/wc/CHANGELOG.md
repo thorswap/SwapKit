@@ -1,5 +1,16 @@
 # @swapkit/wallet-wc
 
+## 1.0.0-rc.50
+
+### Patch Changes
+
+- Patch for @ledgerhq/live-network
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.48
+  - @swapkit/types@1.0.0-rc.24
+  - @swapkit/toolbox-evm@1.0.0-rc.47
+
 ## 1.0.0-rc.49
 
 ### Patch Changes

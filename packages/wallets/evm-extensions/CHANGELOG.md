@@ -1,5 +1,15 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.0.0-rc.47
+
+### Patch Changes
+
+- Patch for @ledgerhq/live-network
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.24
+  - @swapkit/toolbox-evm@1.0.0-rc.47
+
 ## 1.0.0-rc.46
 
 ### Patch Changes

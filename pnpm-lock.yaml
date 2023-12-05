@@ -5,10 +5,11 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
+  axios: ^1.6.2
   ethers: ^6.9.0
-  typescript: 5.2.2
   json5@<=1.0.1: ^1.0.2
   semver@<=4.3.2: ^7.5.4
+  typescript: 5.2.2
 
 patchedDependencies:
   '@changesets/assemble-release-plan@5.2.3':
@@ -17,6 +18,9 @@ patchedDependencies:
   '@changesets/cli@2.26.1':
     hash: bjaegezvkwhdobezmktzpy6u6u
     path: patches/@changesets__cli@2.26.1.patch
+  '@ledgerhq/live-network@1.1.9':
+    hash: 5bnr43fah356fptr7gq655dfiu
+    path: patches/@ledgerhq__live-network@1.1.9.patch
   cipher-base@1.0.4:
     hash: jhokeuf3q37bjhh6zmamqu7qp4
     path: patches/cipher-base-npm-1.0.4-2e98b97140.patch
@@ -2508,7 +2512,7 @@ packages:
       '@ledgerhq/errors': 6.16.0
       '@ledgerhq/logs': 6.12.0
       '@ledgerhq/types-live': 6.43.0
-      axios: 1.5.0
+      axios: 1.6.2
       eip55: 2.1.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -2525,7 +2529,7 @@ packages:
     dependencies:
       '@ledgerhq/cryptoassets': 11.2.0
       '@ledgerhq/live-env': 0.7.0
-      '@ledgerhq/live-network': 1.1.9
+      '@ledgerhq/live-network': 1.1.9(patch_hash=5bnr43fah356fptr7gq655dfiu)
       crypto-js: 4.2.0
       ethers: 6.9.0
     transitivePeerDependencies:
@@ -2572,7 +2576,7 @@ packages:
       '@ledgerhq/hw-transport-mocker': 6.28.0
       '@ledgerhq/logs': 6.12.0
       '@ledgerhq/types-live': 6.43.0
-      axios: 1.5.0
+      axios: 1.6.2
       bignumber.js: 9.1.2
     transitivePeerDependencies:
       - bufferutil
@@ -2613,19 +2617,20 @@ packages:
       utility-types: 3.10.0
     dev: false
 
-  /@ledgerhq/live-network@1.1.9:
+  /@ledgerhq/live-network@1.1.9(patch_hash=5bnr43fah356fptr7gq655dfiu):
     resolution: {integrity: sha512-uwtVSzL88VtClmfkUTW5plEgdBqXnmT1vhTC7k/bCOf3CPpvkPQ2NLuutT1GHPkHUu+BjAweM6uUKl9JDwGs1g==}
     dependencies:
       '@ledgerhq/errors': 6.16.0
       '@ledgerhq/live-env': 0.7.0
       '@ledgerhq/live-promise': 0.0.3
       '@ledgerhq/logs': 6.12.0
-      axios: 0.26.1
+      axios: 1.6.2
       invariant: 2.2.4
       lru-cache: 7.18.3
     transitivePeerDependencies:
       - debug
     dev: false
+    patched: true
 
   /@ledgerhq/live-promise@0.0.3:
     resolution: {integrity: sha512-/49dRz5XoxUw4TFq0kytU2Vz9w+FoGgG28U8RH9nuUWVPjVhAPvhY/QXUQA+7qqaorEIAYPHF0Rappalawhr+g==}
@@ -5458,24 +5463,6 @@ packages:
   /aws4@1.12.0:
     resolution: {integrity: sha512-NmWvPnx0F1SfrQbYwOi7OeaNGokp9XhzNioJ/CSBs8Qa4vxug81mhJEAVZwxXuBmYB5KDRfMq/F3RR0BIU7sWg==}
     dev: true
-
-  /axios@0.26.1:
-    resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
-    dependencies:
-      follow-redirects: 1.15.2(debug@4.3.4)
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
-  /axios@1.5.0:
-    resolution: {integrity: sha512-D4DdjDo5CY50Qms0qGQTTw6Q44jl7zRwY7bthds06pUGfChBCTcQs+N743eFWGEd6pRTMd6A+I87aWyFV5wiZQ==}
-    dependencies:
-      follow-redirects: 1.15.2(debug@4.3.4)
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-    dev: false
 
   /axios@1.6.2:
     resolution: {integrity: sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==}

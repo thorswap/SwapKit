@@ -44,16 +44,18 @@
   },
   "pnpm": {
     "overrides": {
+      "axios": "^1.6.2",
       "ethers": "^6.9.0",
-      "typescript": "5.2.2",
       "json5@<=1.0.1": "^1.0.2",
-      "semver@<=4.3.2": "^7.5.4"
+      "semver@<=4.3.2": "^7.5.4",
+      "typescript": "5.2.2"
     },
     "patchedDependencies": {
       "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
       "@changesets/assemble-release-plan@5.2.3": "patches/@changesets__assemble-release-plan@5.2.3.patch",
       "@changesets/cli@2.26.1": "patches/@changesets__cli@2.26.1.patch",
-      "typeforce@1.18.0": "patches/typeforce@1.18.0.patch"
+      "typeforce@1.18.0": "patches/typeforce@1.18.0.patch",
+      "@ledgerhq/live-network@1.1.9": "patches/@ledgerhq__live-network@1.1.9.patch"
     }
   },
   "scripts": {

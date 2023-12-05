@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.45
+
+### Patch Changes
+
+- Patch for @ledgerhq/live-network
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.25
+  - @swapkit/types@1.0.0-rc.24
+
 ## 1.0.0-rc.44
 
 ### Patch Changes

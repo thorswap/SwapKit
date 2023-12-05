@@ -1,5 +1,16 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.48
+
+### Patch Changes
+
+- Patch for @ledgerhq/live-network
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.45
+  - @swapkit/types@1.0.0-rc.24
+  - @swapkit/api@1.0.0-rc.24
+
 ## 1.0.0-rc.47
 
 ### Patch Changes
