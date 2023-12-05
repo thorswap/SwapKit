@@ -1,5 +1,12 @@
 # @internal/playground
 
+## 0.0.0-rc.56
+
+### Patch Changes
+
+- Updated dependencies [[`158ef200`](https://github.com/thorswap/SwapKit/commit/158ef200110601016e53a5ee9ebfd32fba8b8d1e)]:
+  - @swapkit/wallet-ledger@1.0.0-rc.59
+
 ## 0.0.0-rc.55
 
 ### Patch Changes
