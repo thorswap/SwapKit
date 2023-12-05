@@ -169,25 +169,16 @@ export class AssetValue extends BigIntArithmetics {
     return new Promise<{ ok: true } | { ok: false; message: string; error: any }>(
       async (resolve, reject) => {
         try {
-          const {
-            // Omit ThorchainList from import to avoid decimals conflict (TC uses 8 for all)
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            ThorchainList: _ThorchainList,
-            NativeList,
-            ...tokensPackage
-          } = await import('@swapkit/tokens');
-          const tokensMap = [NativeList, ...Object.values(tokensPackage)].reduce(
-            (acc, { tokens }) => {
-              tokens.forEach(({ identifier, chain, ...rest }) => {
-                const decimal = 'decimals' in rest ? rest.decimals : BaseDecimal[chain as Chain];
+          const tokenPackages = await import('@swapkit/tokens');
+          const tokensMap = Object.values(tokenPackages).reduce((acc, { tokens }) => {
+            tokens.forEach(({ identifier, chain, ...rest }) => {
+              const decimal = 'decimals' in rest ? rest.decimals : BaseDecimal[chain as Chain];
 
-                acc.set(identifier as TokenNames, { identifier, decimal });
-              });
+              acc.set(identifier as TokenNames, { identifier, decimal });
+            });
 
-              return acc;
-            },
-            new Map<TokenNames, { decimal: number; identifier: string }>(),
-          );
+            return acc;
+          }, new Map<TokenNames, { decimal: number; identifier: string }>());
 
           staticTokensMap = tokensMap;
 
