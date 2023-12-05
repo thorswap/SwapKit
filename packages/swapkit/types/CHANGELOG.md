@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.25
+
+### Patch Changes
+
+- [#439](https://github.com/thorswap/SwapKit/pull/439) [`853c3e79`](https://github.com/thorswap/SwapKit/commit/853c3e79d6e80c05cabedbea97c17f00db4b74b2) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Use Thorchain tokenlist only
+
 ## 1.0.0-rc.24
 
 ### Patch Changes

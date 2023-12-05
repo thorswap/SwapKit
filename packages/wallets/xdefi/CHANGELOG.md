@@ -1,5 +1,20 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.56
+
+### Patch Changes
+
+- [#441](https://github.com/thorswap/SwapKit/pull/441) [`12230a59`](https://github.com/thorswap/SwapKit/commit/12230a594b3cc176760fe1b98ab91a563555f176) Thanks [@towanTG](https://github.com/towanTG)! - Using own provider instead of xdefi web provider
+
+- [#439](https://github.com/thorswap/SwapKit/pull/439) [`853c3e79`](https://github.com/thorswap/SwapKit/commit/853c3e79d6e80c05cabedbea97c17f00db4b74b2) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Use Thorchain tokenlist only
+
+- Updated dependencies [[`853c3e79`](https://github.com/thorswap/SwapKit/commit/853c3e79d6e80c05cabedbea97c17f00db4b74b2)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.50
+  - @swapkit/helpers@1.0.0-rc.47
+  - @swapkit/toolbox-utxo@1.0.0-rc.50
+  - @swapkit/types@1.0.0-rc.25
+  - @swapkit/toolbox-evm@1.0.0-rc.49
+
 ## 1.0.0-rc.55
 
 ### Patch Changes
