@@ -10,8 +10,6 @@ const getTokens = async () => {
       try {
         const tokenList = await SwapKitApi.getTokenList(provider);
 
-        console.info({ [provider]: tokenList.count });
-
         const tokens = tokenList.tokens.map(
           ({ address, chain, identifier, decimals, logoURL }) => ({
             address,

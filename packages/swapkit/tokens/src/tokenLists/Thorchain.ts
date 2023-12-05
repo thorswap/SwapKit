@@ -1,6 +1,6 @@
 export const list = {
   name: 'thorchain',
-  timestamp: '2023-12-04T22:55:32.284Z',
+  timestamp: '2023-12-05T15:17:50.113Z',
   version: { major: 1, minor: 0, patch: 0 },
   keywords: ['THORChain'],
   tokens: [
@@ -12,13 +12,14 @@ export const list = {
       decimals: 6,
     },
     { chain: 'BCH', identifier: 'BCH.BCH', decimals: 8 },
+    { address: '9F4', chain: 'BNB', identifier: 'BNB.ADA-9F4', decimals: 8 },
     { address: '645', chain: 'BNB', identifier: 'BNB.AVA-645', decimals: 8 },
     { chain: 'BNB', identifier: 'BNB.BNB', decimals: 8 },
     { address: '1DE', chain: 'BNB', identifier: 'BNB.BTCB-1DE', decimals: 8 },
     { address: 'BD1', chain: 'BNB', identifier: 'BNB.BUSD-BD1', decimals: 8 },
     { address: '1C9', chain: 'BNB', identifier: 'BNB.ETH-1C9', decimals: 8 },
     { address: '8C2', chain: 'BNB', identifier: 'BNB.TWT-8C2', decimals: 8 },
-    { chain: 'BSC', identifier: 'BSC.BNB', decimals: 8 },
+    { chain: 'BSC', identifier: 'BSC.BNB', decimals: 18 },
     {
       address: '0x8AC76A51CC950D9822D68B83FE1AD97B32CD580D',
       chain: 'BSC',
@@ -31,6 +32,12 @@ export const list = {
       address: '0x7FC66500C84A76AD7E9C93437BFC5AC33E2DDAE9',
       chain: 'ETH',
       identifier: 'ETH.AAVE-0X7FC66500C84A76AD7E9C93437BFC5AC33E2DDAE9',
+      decimals: 18,
+    },
+    {
+      address: '0xDBDB4D16EDA451D0503B854CF79D55697F90C8DF',
+      chain: 'ETH',
+      identifier: 'ETH.ALCX-0XDBDB4D16EDA451D0503B854CF79D55697F90C8DF',
       decimals: 18,
     },
     {
@@ -59,9 +66,33 @@ export const list = {
       decimals: 2,
     },
     {
+      address: '0x584BC13C7D411C00C01A62E8019472DE68768430',
+      chain: 'ETH',
+      identifier: 'ETH.HEGIC-0X584BC13C7D411C00C01A62E8019472DE68768430',
+      decimals: 18,
+    },
+    {
+      address: '0x6C6EE5E31D828DE241282B9606C8E98EA48526E2',
+      chain: 'ETH',
+      identifier: 'ETH.HOT-0X6C6EE5E31D828DE241282B9606C8E98EA48526E2',
+      decimals: 18,
+    },
+    {
+      address: '0x67B6D479C7BB412C54E03DCA8E1BC6740CE6B99C',
+      chain: 'ETH',
+      identifier: 'ETH.KYL-0X67B6D479C7BB412C54E03DCA8E1BC6740CE6B99C',
+      decimals: 18,
+    },
+    {
       address: '0x5F98805A4E8BE255A32880FDEC7F6728C6568BA0',
       chain: 'ETH',
       identifier: 'ETH.LUSD-0X5F98805A4E8BE255A32880FDEC7F6728C6568BA0',
+      decimals: 18,
+    },
+    {
+      address: '0x5EAA69B29F99C84FE5DE8200340B4E9B4AB38EAC',
+      chain: 'ETH',
+      identifier: 'ETH.RAZE-0X5EAA69B29F99C84FE5DE8200340B4E9B4AB38EAC',
       decimals: 18,
     },
     {
@@ -81,6 +112,12 @@ export const list = {
       chain: 'ETH',
       identifier: 'ETH.THOR-0XA5F2211B9B8170F694421F2046281775E8468044',
       decimals: 18,
+    },
+    {
+      address: '0xD13C7342E1EF687C5AD21B27C2B65D772CAB5C8C',
+      chain: 'ETH',
+      identifier: 'ETH.UOS-0XD13C7342E1EF687C5AD21B27C2B65D772CAB5C8C',
+      decimals: 4,
     },
     {
       address: '0xA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48',
@@ -107,6 +144,12 @@ export const list = {
       decimals: 8,
     },
     {
+      address: '0x7F39C581F595B53C5CB19BD0B3F8DA6C935E2CA0',
+      chain: 'ETH',
+      identifier: 'ETH.WSTETH-0X7F39C581F595B53C5CB19BD0B3F8DA6C935E2CA0',
+      decimals: 18,
+    },
+    {
       address: '0x72B886D09C117654AB7DA13A14D603001DE0B777',
       chain: 'ETH',
       identifier: 'ETH.XDEFI-0X72B886D09C117654AB7DA13A14D603001DE0B777',
@@ -128,6 +171,6 @@ export const list = {
     { chain: 'LTC', identifier: 'LTC.LTC', decimals: 8 },
     { chain: 'THOR', identifier: 'THOR.RUNE', decimals: 8 },
   ],
-  count: 33,
-  logo: 'https://static.thorswap.net/token-list/images/thor.rune.png',
+  count: 41,
+  logo: 'https://app.thorswap.finance/assets/asset-rune-43bdc185.svg',
 } as const;
