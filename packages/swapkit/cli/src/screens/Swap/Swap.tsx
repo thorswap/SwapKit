@@ -19,7 +19,6 @@ const Swap = () => {
   const from = fromIdentifier.split('-')[0];
   const to = toIdentifier.split('-')[0];
 
-  //@ts-ignore
   const [amount, setAmount] = useState('0');
 
   const [nav, setNav] = useState<SwapSelectItem['value'] | 'swapmenu'>('swapmenu');
@@ -78,6 +77,7 @@ const Swap = () => {
       <Box flexDirection="column">
         <SelectInput
           isFocused={nav === 'swapmenu'}
+          // @ts-expect-error
           itemComponent={(item) => {
             const value = item.label === 'From: ' ? from : item.label === 'To: ' ? to : amount;
             const isAmount = item.label === 'Amount: ';

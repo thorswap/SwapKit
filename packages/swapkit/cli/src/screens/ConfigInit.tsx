@@ -169,6 +169,7 @@ const ConfigInit = () => {
       {focus === -1 ? (
         <SelectInput
           initialIndex={lastSelect}
+          // @ts-expect-error Notify about missing types
           itemComponent={(data) => {
             const label = data.label.split(':')[0];
             const value = data.label.split(':')[1]?.trim();
