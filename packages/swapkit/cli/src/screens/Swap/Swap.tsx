@@ -10,6 +10,12 @@ export type SwapSelectItem = {
   value: 'from' | 'to' | 'amount';
 };
 
+const items: SwapSelectItem[] = [
+  { label: 'From: ', value: 'from' },
+  { label: 'To: ', value: 'to' },
+  { label: 'Amount: ', value: 'amount' },
+];
+
 const Swap = () => {
   //const { setNavigation } = useContext(NavigationContext);
 
@@ -22,27 +28,6 @@ const Swap = () => {
   const [amount, setAmount] = useState('0');
 
   const [nav, setNav] = useState<SwapSelectItem['value'] | 'swapmenu'>('swapmenu');
-
-  const items: SwapSelectItem[] = [
-    {
-      label: 'From: ',
-      value: 'from',
-    },
-    {
-      label: 'To: ',
-      value: 'to',
-    },
-    {
-      label: 'Amount: ',
-      value: 'amount',
-    },
-  ];
-
-  //const { swapkit } = useContext(SwapKitContext);
-
-  // const handleSelect = (item: any) => {
-  //   setNavigation(item.value);
-  // };
 
   switch (nav) {
     case 'from':

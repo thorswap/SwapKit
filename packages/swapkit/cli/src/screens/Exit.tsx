@@ -1,5 +1,5 @@
 import { useApp } from 'ink';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 const Exit = () => {
   const app = useApp();
@@ -9,7 +9,7 @@ const Exit = () => {
     process.exit();
   }, [app]);
 
-  return <></>;
+  return null;
 };
 
 export default Exit;

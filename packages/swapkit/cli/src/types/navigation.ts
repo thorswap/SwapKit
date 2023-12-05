@@ -24,8 +24,6 @@ export const CONFIG_EDIT_ITEMS = {
   COVALENT_API_KEY: 'covalentApiKey',
   ETHPLORER_API_KEY: 'ethplorerApiKey',
   UTXO_API_KEY: 'utxoApiKey',
-  WALLET_CONNECT_PROJECT_ID: 'walletConnectProjectId',
-  TREZOR_CREDENTIALS: 'trezorCredentials',
   STAGENET: 'stagenet',
 
   FINISH: 'finish',
