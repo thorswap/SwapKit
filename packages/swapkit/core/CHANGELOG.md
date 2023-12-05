@@ -1,5 +1,16 @@
 # @swapkit/core
 
+## 1.0.0-rc.56
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.26
+  - @swapkit/helpers@1.0.0-rc.46
+  - @swapkit/toolbox-cosmos@1.0.0-rc.49
+  - @swapkit/toolbox-evm@1.0.0-rc.48
+  - @swapkit/toolbox-utxo@1.0.0-rc.49
+
 ## 1.0.0-rc.55
 
 ### Patch Changes

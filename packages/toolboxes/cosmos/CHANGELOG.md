@@ -1,5 +1,12 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.49
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.46
+
 ## 1.0.0-rc.48
 
 ### Patch Changes

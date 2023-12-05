@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.26
+
+### Patch Changes
+
+- update tokens
+
 ## 1.0.0-rc.25
 
 ### Patch Changes
