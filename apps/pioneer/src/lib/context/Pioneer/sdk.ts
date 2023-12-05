@@ -388,8 +388,8 @@ export class SDK {
           // get balances
           // @ts-ignore
           let context;
-          if (wallet === 'LEDGER') {
-            context = 'ledger.wallet'; //we CAN NOT support more than 1 ledger, we assume only 1 ledger is owned by users
+          if (wallet === 'LEDGER' && ledgerApp !== 'ETH'){
+            context = 'ledger:ledger.wallet'; //placeholder until we know eth address
           } else {
             const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
             if (!ethAddress) throw Error('Failed to get eth address! can not pair wallet');

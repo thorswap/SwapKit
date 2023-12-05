@@ -27,6 +27,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 import { SDK } from './sdk';
+import { availableChainsByWallet } from './support';
 
 const eventEmitter = new EventEmitter();
 
@@ -275,6 +276,21 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
         } else {
           console.log('state.app.assetContext: ', state.app.assetContext);
           console.log('state.app.context: ', state.app.context);
+
+          //add to local storage of connected wallets
+          localStorage.setItem(
+            'pairedWallets',
+            JSON.stringify([
+              ...new Set([
+                ...JSON.parse(localStorage.getItem('pairedWallets') || '[]'),
+                state.app.context,
+              ]),
+            ]),
+          );
+
+          //set last connected wallet
+          localStorage.setItem('lastConnectedWallet', state.app.context);
+
           if (state && state.app) {
             // if pioneer set in localStoage
             if (state.app.isPioneer) {
@@ -317,7 +333,7 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       // @ts-ignore
       dispatch({ type: WalletActions.SET_USERNAME, payload: username });
       // if auto connecting
-      // const isOnboarded = localStorage.getItem("userOnboarded");
+      const lastConnectedWallet: string | null = localStorage.getItem('lastConnectedWallet');
 
       if (!queryKey) {
         queryKey = `key:${uuidv4()}`;
@@ -406,11 +422,13 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
           // SET_BALANCES
           if (action === WalletActions.SET_BALANCES) {
             // @ts-ignore
-            //localStorage.setItem('balanceCache', JSON.stringify(data));
+            console.log('setting balances for context: ', appInit.context);
+            if(appInit.context)localStorage.setItem(appInit.context + ':balanceCache', JSON.stringify(data));
           }
           if (action === WalletActions.SET_PUBKEYS) {
             // @ts-ignore
-            //localStorage.setItem('pubkeyCache', JSON.stringify(data));
+            console.log('setting balances for context: ', appInit.context);
+            if(appInit.context)localStorage.setItem(appInit.context + ':pubkeyCache', JSON.stringify(data));
           }
           // @ts-ignore
           dispatch({
@@ -420,17 +438,26 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
         });
       });
 
-      // // balance cache
-      // let balanceCache: any = localStorage.getItem('balanceCache');
-      // balanceCache = balanceCache ? JSON.parse(balanceCache) : [];
-      // console.log('balanceCache: ', balanceCache);
-      // appInit.loadBalanceCache(balanceCache);
-      //
-      // // pubkey cache
-      // let pubkeyCache: any = localStorage.getItem('pubkeyCache');
-      // pubkeyCache = pubkeyCache ? JSON.parse(pubkeyCache) : [];
-      // console.log('pubkeyCache: ', pubkeyCache);
-      // appInit.loadPubkeyCache(pubkeyCache);
+      if (lastConnectedWallet) {
+        await appInit.setContext(lastConnectedWallet);
+        //get wallet type
+        const walletType = lastConnectedWallet.split(':')[0];
+        console.log('walletType: ', walletType);
+        //set blockchains
+        await appInit.setBlockchains(availableChainsByWallet[walletType]);
+
+        // balance cache
+        let balanceCache: any = localStorage.getItem(lastConnectedWallet + ':balanceCache');
+        balanceCache = balanceCache ? JSON.parse(balanceCache) : [];
+        console.log('balanceCache: ', balanceCache);
+        await appInit.loadBalanceCache(balanceCache);
+
+        // pubkey cache
+        let pubkeyCache: any = localStorage.getItem(lastConnectedWallet + ':pubkeyCache');
+        pubkeyCache = pubkeyCache ? JSON.parse(pubkeyCache) : [];
+        console.log('pubkeyCache: ', pubkeyCache);
+        await appInit.loadPubkeyCache(pubkeyCache);
+      }
     } catch (e) {
       console.error(e);
     }
