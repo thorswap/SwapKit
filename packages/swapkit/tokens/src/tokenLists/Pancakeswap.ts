@@ -1,7 +1,7 @@
 export const list = {
   name: 'PancakeSwap Extended',
-  timestamp: '2023-10-23T06:33:51.482Z',
-  version: { major: 2, minor: 16, patch: 165 },
+  timestamp: '2023-12-01T03:32:22.984Z',
+  version: { major: 2, minor: 16, patch: 167 },
   keywords: ['pancakeswap', 'extended'],
   tokens: [
     {

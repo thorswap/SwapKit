@@ -1,7 +1,7 @@
 export const list = {
   name: 'Trader Joe Default',
   timestamp: '2021-11-20T00:00:00+00:00',
-  version: { major: 223, minor: 2, patch: 0 },
+  version: { major: 223, minor: 4, patch: 0 },
   keywords: ['avalanche', 'arbitrum', 'bnb chain', 'defi', 'trader joe'],
   tokens: [
     {
@@ -658,7 +658,13 @@ export const list = {
       identifier: 'AVAX.WEAPON-0XE3B3F75F99DA4FF26AA867EF70B48F8F6B2D4958',
       decimals: 9,
     },
+    {
+      address: '0xe05A6b6f84e67A74C1c263d7e35D06Eab5c211b5',
+      chain: 'AVAX',
+      identifier: 'AVAX.xQI-0XE05A6B6F84E67A74C1C263D7E35D06EAB5C211B5',
+      decimals: 18,
+    },
   ],
-  count: 109,
+  count: 110,
   logo: 'https://static.thorswap.net/token-list/images/avax.joe-0x6e84a6216ea6dacc71ee8e6b0a5b7322eebc0fdd.png',
 } as const;
