@@ -1,6 +1,6 @@
 import { AssetValue, SwapKitNumber } from '@coinmasters/helpers';
 import type { UTXOChain } from '@coinmasters/types';
-import { BaseDecimal, Chain, FeeOption } from '@coinmasters/types';
+import { Chain, FeeOption } from '@coinmasters/types';
 import { HDKey } from '@scure/bip32';
 import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';
 import type { ECPairInterface } from 'ecpair';
@@ -146,8 +146,8 @@ const getBalance = async ({ pubkeys, chain, apiClient }: { pubkeys: any[] } & an
     totalBalance = totalBalance + balance;
   }
   //totalBalance = totalBalance / 10 ** BaseDecimal[chain];
-  console.log(`CHAIN: ${chain}.${chain}`)
-  console.log(`CHAIN:`,totalBalance.toString())
+  console.log(`CHAIN: ${chain}.${chain}`);
+  console.log(`CHAIN:`, totalBalance.toString());
   const asset = await AssetValue.fromIdentifier(`${chain}.${chain}`, totalBalance.toString());
 
   return [asset];
@@ -160,12 +160,14 @@ const getInputsAndTargetOutputs = async ({
   assetValue,
   recipient,
   memo,
+  pubkeys,
   sender,
   fetchTxHex = false,
   apiClient,
   chain,
 }: {
   assetValue: AssetValue;
+  pubkeys: any[];
   recipient: string;
   memo?: string;
   sender: string;
@@ -173,10 +175,21 @@ const getInputsAndTargetOutputs = async ({
   apiClient: BlockchairApiType;
   chain: UTXOChain;
 }) => {
-  const inputs = await apiClient.scanUTXOs({
-    address: sender,
-    fetchTxHex,
+  //get inputs by xpub
+  console.log('pubkeys: ', pubkeys);
+  //
+  const inputs = await apiClient.listUnspent({
+    pubkey: pubkeys[0],
+    chain,
+    apiKey: apiClient.apiKey,
   });
+  console.log('getInputsAndTargetOutputs: inputs: ', inputs);
+  //TODO format?
+
+  // const inputs = await apiClient.scanUTXOs({
+  //   address: sender,
+  //   fetchTxHex,
+  // });
 
   if (!validateAddress({ address: recipient, chain, apiClient })) {
     throw new Error('Invalid address');
@@ -196,6 +209,7 @@ const getInputsAndTargetOutputs = async ({
 
 const buildTx = async ({
   assetValue,
+  pubkeys,
   recipient,
   memo,
   feeRate,
@@ -212,6 +226,7 @@ const buildTx = async ({
 
   const inputsAndOutputs = await getInputsAndTargetOutputs({
     assetValue,
+    pubkeys,
     recipient,
     memo,
     sender,

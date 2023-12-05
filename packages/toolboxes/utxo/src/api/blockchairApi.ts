@@ -134,6 +134,27 @@ const getXpubData = async ({ pubkey, chain }: BlockchairParams<{ address?: strin
   }
 };
 
+const listUnspent = async ({ pubkey, chain }: any) => {
+  if (!pubkey) throw new Error('pubkey is required');
+
+  try {
+    const url = `/listUnspent/${chain}/${pubkey}`;
+    console.log('getXpubData URL: ', url);
+    //const response = await blockchairRequest<any>(`${baseUrlPioneer()}${url}`);
+    let response = await RequestClient.get<any>(`${baseUrlPioneer()}${url}`);
+    console.log('getXpubData: response: ', response);
+    return response;
+  } catch (error) {
+    return {
+      utxo: [],
+      address: {
+        balance: 0,
+        transaction_count: 0,
+      },
+    };
+  }
+};
+
 const getUnconfirmedBalanceXpub = async ({
   pubkey,
   chain,
@@ -255,6 +276,7 @@ export const blockchairApi = ({ apiKey, chain }: { apiKey?: string; chain: UTXOC
   getAddressData: (address: string) => getAddressData({ address, chain, apiKey }),
   scanUTXOs: (params: { address: string; fetchTxHex?: boolean }) =>
     scanUTXOs({ ...params, chain, apiKey }),
+  listUnspent: (pubkey: string) => listUnspent({ pubkey, chain, apiKey }),
 });
 
 export type BlockchairApiType = ReturnType<typeof blockchairApi>;

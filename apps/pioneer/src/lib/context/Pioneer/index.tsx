@@ -16,6 +16,7 @@
                                               - Highlander
 
 */
+import { ChainToNetworkId, getChainEnumValue } from '@coinmasters/types';
 import EventEmitter from 'events';
 import {
   createContext,
@@ -28,7 +29,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { SDK } from './sdk';
 import { availableChainsByWallet } from './support';
-import { ChainToNetworkId, getChainEnumValue } from '@coinmasters/types';
 
 const eventEmitter = new EventEmitter();
 
@@ -40,6 +40,7 @@ export enum WalletActions {
   SET_APP = 'SET_APP',
   SET_WALLETS = 'SET_WALLETS',
   SET_CONTEXT = 'SET_CONTEXT',
+  SET_INTENT = 'SET_INTENT',
   SET_ASSET_CONTEXT = 'SET_ASSET_CONTEXT',
   SET_BLOCKCHAIN_CONTEXT = 'SET_BLOCKCHAIN_CONTEXT',
   SET_PUBKEY_CONTEXT = 'SET_PUBKEY_CONTEXT',
@@ -63,6 +64,7 @@ export interface InitialState {
   serviceKey: string;
   queryKey: string;
   context: string;
+  intent: string;
   assetContext: string;
   blockchainContext: string;
   pubkeyContext: any;
@@ -88,6 +90,7 @@ const initialState: InitialState = {
   serviceKey: '',
   queryKey: '',
   context: '',
+  intent: '',
   assetContext: '',
   blockchainContext: '',
   pubkeyContext: '',
@@ -143,6 +146,7 @@ export type ActionTypes =
   | { type: WalletActions.SET_HARDWARE_ERROR; payload: string }
   | { type: WalletActions.SET_APP; payload: any }
   | { type: WalletActions.SET_API; payload: any }
+  | { type: WalletActions.SET_INTENT; payload: any }
   | { type: WalletActions.SET_WALLETS; payload: any }
   | { type: WalletActions.SET_CONTEXT; payload: any }
   | { type: WalletActions.SET_ASSET_CONTEXT; payload: any }
@@ -183,6 +187,9 @@ const reducer = (state: InitialState, action: ActionTypes) => {
 
     case WalletActions.SET_WALLETS:
       return { ...state, wallets: action.payload };
+
+    case WalletActions.SET_INTENT:
+      return { ...state, intent: action.payload };
 
     case WalletActions.SET_CONTEXT:
       // eventEmitter.emit("SET_CONTEXT", action.payload);
@@ -231,6 +238,7 @@ const reducer = (state: InitialState, action: ActionTypes) => {
         user: null,
         username: null,
         context: null,
+        intent: null,
         status: null,
         hardwareError: null,
         assetContext: null,
@@ -251,6 +259,16 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
   // @ts-ignore
   const [state, dispatch] = useReducer(reducer, initialState);
   // const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const setIntent = (intent: string) => {
+    console.log('intent modal: ', intent);
+    // @ts-ignore
+    dispatch({
+      type: WalletActions.SET_INTENT,
+      payload: intent,
+    });
+    // Optional: You can also set a message to be displayed in the modal
+  };
 
   const showModal = (modal: string) => {
     console.log('OPEN MODAL: modal: ', modal);
@@ -497,7 +515,16 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
 
   // end
   const value: any = useMemo(
-    () => ({ state, dispatch, connectWallet, clearHardwareError, onStart, showModal, hideModal }),
+    () => ({
+      state,
+      dispatch,
+      connectWallet,
+      clearHardwareError,
+      onStart,
+      showModal,
+      hideModal,
+      setIntent,
+    }),
     [connectWallet, state],
   );
 

@@ -65,6 +65,7 @@ const stringifyKeysInOrder = (data: any) => JSON.stringify(recursivelyOrderKeys(
 const getToolbox = async ({
   api,
   rpcUrl,
+  pubkeys,
   address,
   chain,
   covalentApiKey,
@@ -101,6 +102,7 @@ const getToolbox = async ({
         const feeRate = params.feeRate || (await toolbox.getFeeRates())[FeeOption.Average];
         const { psbt, inputs } = await toolbox.buildTx({
           ...params,
+          pubkeys,
           sender: address,
           feeRate,
           fetchTxHex: true,
