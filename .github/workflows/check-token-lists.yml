@@ -19,19 +19,24 @@ jobs:
           pnpm build --filter api
           cd packages/swapkit/tokens
           pnpm generate-tokens
+          git checkout ./src/tokenLists/Thorchain.ts
+          cd ../..
+          pnpm lint --filter tokens
 
       - name: Push Token List Changes
         uses: devops-infra/action-commit-push@73d3ffed46e0782df6f046d15049aae82569b389
+        continue-on-error: true
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          add_timestamp: false
+          add_timestamp: true
           commit_prefix: "[Token List Update]"
           commit_message: "Update Token List"
-          force: true
           target_branch: bot/token-list-update
 
       - name: Publish Token List
+        if: success()
         run: |
+          pnpm changeset pre exit
           pnpm changeset version --snapshot nightly
           cd packages/swapkit/tokens
           npm publish
