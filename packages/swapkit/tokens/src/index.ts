@@ -1,7 +1,6 @@
 export { list as OneInchList } from './tokenLists/1inch.ts';
 export { list as CoinGeckoList } from './tokenLists/Coingecko.ts';
 export { list as MayaList } from './tokenLists/Maya.ts';
-export { list as NativeList } from './tokenLists/Native.ts';
 export { list as PancakeswapList } from './tokenLists/Pancakeswap.ts';
 export { list as PancakeswapETHList } from './tokenLists/Pancakeswapeth.ts';
 export { list as PangolinList } from './tokenLists/Pangolin.ts';
