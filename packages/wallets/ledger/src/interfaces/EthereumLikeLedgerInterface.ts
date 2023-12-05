@@ -44,12 +44,12 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
   };
 
   getAddressAndPubKey = async () => {
-    await this.checkOrCreateTransportAndLedger();
+    await this.createTransportAndLedger();
     return this.ledgerApp?.getAddress(this.derivationPath);
   };
 
   showAddressAndPubKey = async () => {
-    await this.checkOrCreateTransportAndLedger();
+    await this.createTransportAndLedger();
     return this.ledgerApp?.getAddress(this.derivationPath, true);
   };
 
