@@ -85,7 +85,7 @@ export abstract class UTXOLedgerInterface {
   };
 
   public getAddress = async () => {
-    await this.checkBtcAppAndCreateTransportWebUSB();
+    await this.checkBtcAppAndCreateTransportWebUSB(false);
 
     const { bitcoinAddress: address } = await this.btcApp!.getWalletPublicKey(this.derivationPath, {
       format: this.walletFormat,
@@ -123,7 +123,7 @@ export abstract class UTXOLedgerInterface {
     path: string = "84'/0'/0'",
     xpubVersion: number = 76067358,
   ) => {
-    await this.checkBtcAppAndCreateTransportWebUSB();
+    await this.checkBtcAppAndCreateTransportWebUSB(false);
 
     return this.btcApp!.getWalletXpub({
       path,

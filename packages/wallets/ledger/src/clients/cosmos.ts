@@ -25,7 +25,7 @@ export class CosmosLedger extends CommonLedgerInterface {
   };
 
   getAddressAndPubKey = async () => {
-    await this.checkOrCreateTransportAndLedger();
+    await this.checkOrCreateTransportAndLedger(true);
 
     const response = await this.ledgerApp.getAddress(this.derivationPath, this.chain);
 

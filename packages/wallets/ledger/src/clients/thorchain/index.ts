@@ -33,7 +33,7 @@ export class THORChainLedger extends CommonLedgerInterface {
   };
 
   getAddressAndPubKey = async () => {
-    await this.checkOrCreateTransportAndLedger();
+    await this.checkOrCreateTransportAndLedger(true);
 
     const response: GetAddressAndPubKeyResponse = await this.ledgerApp.getAddressAndPubKey(
       this.derivationPath,
@@ -46,7 +46,7 @@ export class THORChainLedger extends CommonLedgerInterface {
   };
 
   showAddressAndPubKey = async () => {
-    await this.checkOrCreateTransportAndLedger();
+    await this.checkOrCreateTransportAndLedger(true);
 
     const response: GetAddressAndPubKeyResponse = await this.ledgerApp.showAddressAndPubKey(
       this.derivationPath,
@@ -59,7 +59,7 @@ export class THORChainLedger extends CommonLedgerInterface {
   };
 
   signTransaction = async (rawTx: string, sequence = '0') => {
-    await this.checkOrCreateTransportAndLedger();
+    await this.checkOrCreateTransportAndLedger(true);
 
     const { return_code, error_message, signature } = await this.ledgerApp.sign(
       this.derivationPath,
