@@ -1,5 +1,11 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.59
+
+### Patch Changes
+
+- [#442](https://github.com/thorswap/SwapKit/pull/442) [`158ef200`](https://github.com/thorswap/SwapKit/commit/158ef200110601016e53a5ee9ebfd32fba8b8d1e) Thanks [@towanTG](https://github.com/towanTG)! - Adds forced reconnect for all ledger actions
+
 ## 1.0.0-rc.58
 
 ### Patch Changes
