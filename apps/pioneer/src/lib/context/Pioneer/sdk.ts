@@ -140,6 +140,7 @@ export class SDK {
   private getBalances: () => Promise<boolean>;
   private blockchains: any[];
   private clearWalletState: () => Promise<boolean>;
+  private setBlockchains: (blockchains: any) => Promise<void>;
   constructor(spec: string, config: PioneerSDKConfig) {
     this.status = 'preInit';
     this.spec = spec || config.spec || 'https://pioneers.dev/spec/swagger';
@@ -220,6 +221,15 @@ export class SDK {
       } catch (e) {
         console.error(tag, 'e: ', e);
         throw e;
+      }
+    };
+    this.setBlockchains = async function (blockchains: any) {
+      try {
+        if (!blockchains) throw Error('blockchains required!');
+        this.blockchains = blockchains;
+        this.events.emit('SET_BLOCKCHAINS', this.blockchains);
+      } catch (e) {
+        console.error('Failed to load balances! e: ', e);
       }
     };
     this.loadBalanceCache = async function (balances: any) {

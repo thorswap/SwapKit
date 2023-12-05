@@ -1,49 +1,10 @@
 import { WarningIcon } from '@chakra-ui/icons'; // Make sure to import the icons you need
 import { Box, Button, Card, Center, HStack, Link, Text, useToast, VStack } from '@chakra-ui/react';
-import { getChainEnumValue } from '@coinmasters/types';
+import { getChainEnumValue, NetworkIdToChain } from '@coinmasters/types';
 // @ts-ignore
 import { useEffect, useState } from 'react';
 
 import { usePioneer } from '../../context/Pioneer';
-
-const CHAINS: any = {
-  // ARB: { name: "Arbitrum", hasTokens: true, networkId: "eip155:42161" }, // Example format
-  // AVAX: {
-  //   name: 'Avalanche',
-  //   hasTokens: true,
-  //   networkId: 'eip155:43114',
-  // },
-  BNB: { name: 'Binance Chain', networkId: 'eip155:56' },
-  // BSC: { name: 'Binance Smart Chain', hasTokens: true, networkId: 'eip155:56' },
-  BTC: {
-    name: 'Bitcoin',
-    networkId: 'bip122:000000000019d6689c085ae165831e93',
-  },
-  BCH: {
-    name: 'Bitcoin Cash',
-    networkId: 'bip122:000000000000000000651ef99cb9fcbe',
-  },
-  ATOM: { name: 'Cosmos', networkId: 'cosmos:cosmoshub-4/slip44:118' },
-  // GAIA: { name: 'Cosmos', networkId: 'cosmos:cosmoshub-4/slip44:118' },
-  DASH: { name: 'Dash', networkId: 'bip122:0000000000000000000' }, // Example format, correct it
-  // KUJI: { name: "Kuji", networkId: "eip155:12345" }, // Example format, correct it
-  // MAYA: { name: "maya", networkId: "eip155:12345" }, // Example format, correct it
-  DOGE: {
-    name: 'Dogecoin',
-    networkId: 'bip122:1a91e3dace36e2be3bf030a65679fe82',
-  }, // Example format, correct it
-  ETH: { name: 'Ethereum', hasTokens: true, networkId: 'eip155:1' },
-  LTC: {
-    name: 'Litecoin',
-    networkId: 'bip122:12a765e31ffd4059bada1e25190f6e98',
-  }, // Example format, correct it
-  // OP: { name: 'Optimism', hasTokens: true, networkId: 'eip155:10' }, // Example format, correct it
-  // MATIC: { name: 'Polygon', hasTokens: true, networkId: 'eip155:137' },
-  THOR: {
-    name: 'THORChain',
-    networkId: 'cosmos:thorchain-mainnet-v1/slip44:931',
-  },
-};
 
 export default function Ledger({ onClose }) {
   const { state, connectWallet, clearHardwareError } = usePioneer();
@@ -53,7 +14,39 @@ export default function Ledger({ onClose }) {
   const [isWrongApp, setIsWrongApp] = useState(false);
   const [isAlreadyClaimed, setIsAlreadyClaimed] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState({});
+  const [connectedChains, setConnectedChains] = useState([]);
   const toast = useToast();
+
+  useEffect(() => {
+    if (app?.blockchains) {
+      //
+      let allChains = [];
+      for (let i = 0; i < app.blockchains.length; i++) {
+        //get blockchain information
+        let blockchain = app.blockchains[i];
+        console.log('blockchain: ', blockchain);
+        //get pubkeys for blockchain
+        let pubkeys = app.pubkeys.filter((pubkey) => pubkey.networkId === blockchain);
+        console.log('pubkeys: ', pubkeys);
+        //if > 1 pubkey set enabled
+        let balances = app.pubkeys.filter((balance) => balance.networkId === blockchain);
+        //get balances for blockchain
+        let status = 'disconnected';
+        if (pubkeys.length > 0) {
+          status = 'connected';
+        }
+        let entry = {
+          blockchain,
+          pubkeys: pubkeys,
+          balances: balances,
+          status,
+        };
+        allChains.push(entry);
+      }
+      console.log('allChains: ', allChains);
+      setConnectedChains(allChains);
+    }
+  }, [app, app?.blockchains, pubkeys]);
 
   useEffect(() => {
     console.log('hardwareError: ', hardwareError);
@@ -77,7 +70,7 @@ export default function Ledger({ onClose }) {
         duration: 3000,
         isClosable: true,
       });
-    }else if (hardwareError === 'WrongAppError') {
+    } else if (hardwareError === 'WrongAppError') {
       console.log('hardwareError: ', hardwareError);
       setIsWrongApp(true);
       toast({
@@ -103,11 +96,13 @@ export default function Ledger({ onClose }) {
     setWebUsbSupported('usb' in navigator);
   }, []);
 
-  const attemptConnect = async (chainKey) => {
-    setConnectionStatus((prev) => ({ ...prev, [chainKey]: 'connecting' }));
+  const attemptConnect = async (blockchain) => {
+    //setConnectionStatus((prev) => ({ ...prev, [chainKey]: 'connecting' }));
     try {
-      console.log(`Attempting to connect to chainKey: ${chainKey}`);
-      const result = await connectWallet('LEDGER', getChainEnumValue(chainKey));
+      console.log(`Attempting to connect to chainKey: ${blockchain}`);
+      console.log("Connecting to LEDGER... asset: ", blockchain);
+      console.log("Connecting to LEDGER... asset: ", NetworkIdToChain[blockchain]);
+      const result = await connectWallet('LEDGER', NetworkIdToChain[blockchain]);
       console.log('LEDGER result attemptConnect: ', result);
       if (result && result.error) {
         console.error('Error Pairing!: ', result);
@@ -129,18 +124,18 @@ export default function Ledger({ onClose }) {
     }
   };
 
-  const renderChainCard = (chainKey) => {
-    const isConnected = connectionStatus[chainKey] === 'connected';
+  const renderChainCard = (blockchain) => {
+    const isConnected = false
     return (
-      <Card boxShadow="md" key={chainKey} mb={4} p={3}>
+      <Card boxShadow="md" key={blockchain.blockchain} mb={4} p={3}>
         <HStack justify="space-between">
           <VStack align="start">
-            <Text fontSize="md">{CHAINS[chainKey].name}</Text>
-            {isConnected && pubkeys[CHAINS[chainKey].networkId] && (
-              <Text fontSize="sm">Address: {pubkeys[CHAINS[chainKey].networkId]}</Text>
-            )}
+            {NetworkIdToChain[blockchain.blockchain]}
+            <Text fontSize="md">{blockchain.blockchain}</Text>
+            <Text fontSize="md">{JSON.stringify(blockchain.pubkeys)}</Text>
+            <Text fontSize="md">{blockchain.status}</Text>
           </VStack>
-          <Button isDisabled={isConnected} onClick={() => attemptConnect(chainKey)} size="sm">
+          <Button onClick={() => attemptConnect(blockchain.blockchain)} size="sm">
             {isConnected ? 'Connected' : 'Connect'}
           </Button>
         </HStack>
@@ -154,13 +149,6 @@ export default function Ledger({ onClose }) {
     setIsWrongApp(false);
     setIsAlreadyClaimed(false);
   };
-
-  const connectedChains = Object.keys(CHAINS).filter(
-    (chainKey) => connectionStatus[chainKey] === 'connected',
-  );
-  const notConnectedChains = Object.keys(CHAINS).filter(
-    (chainKey) => connectionStatus[chainKey] !== 'connected',
-  );
 
   return (
     <Box>
@@ -197,35 +185,28 @@ export default function Ledger({ onClose }) {
                 </div>
               ) : (
                 <div>
-                  {isAlreadyClaimed ? (<div>
-                    <WarningIcon color="yellow.500" h={10} w={10} />
-                    <Text fontSize="lg" fontWeight="bold" mt={2}>
-                      Your Ledger is ALREADY CLAIMED! by a web browser.
-                      <br/>
-                      * Please close all other browser windows and try again.
-                      <br/> Verify Ledger Live is closed!
-                      <Button onClick={unlock}>Continue</Button>
-                    </Text>
-                  </div>) : (<div>
+                  {isAlreadyClaimed ? (
+                    <div>
+                      <WarningIcon color="yellow.500" h={10} w={10} />
+                      <Text fontSize="lg" fontWeight="bold" mt={2}>
+                        Your Ledger is ALREADY CLAIMED! by a web browser.
+                        <br />
+                        * Please close all other browser windows and try again.
+                        <br /> Verify Ledger Live is closed!
+                        <Button onClick={unlock}>Continue</Button>
+                      </Text>
+                    </div>
+                  ) : (
+                    <div>
                       <Text mb={4}>Connect your Ledger device and select a chain:</Text>
                       <br />
                       <Text mb={4}>Your Device MUST be unlocked an correct application open</Text>
-                      {notConnectedChains.length > 0 && (
-                        <Box mb={6}>
-                          <Text mb={2}>Not Yet Connected:</Text>
-                          {notConnectedChains.map(renderChainCard)}
-                        </Box>
-                      )}
-                      {connectedChains.length > 0 && (
-                        <Box>
-                          <Text mb={2}>Connected:</Text>
-                          {connectedChains.map(renderChainCard)}
-                        </Box>
-                      )}
+                      {connectedChains.map(renderChainCard)}
                       <Button colorScheme="blue" mt={4} onClick={onClose}>
                         Continue
                       </Button>
-                    </div>)}
+                    </div>
+                  )}
                 </div>
               )}
             </div>

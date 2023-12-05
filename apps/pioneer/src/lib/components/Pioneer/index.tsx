@@ -24,6 +24,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { ChainToNetworkId, getChainEnumValue } from '@coinmasters/types';
 import { useEffect, useState } from 'react';
 import { FaCog } from 'react-icons/fa';
 
@@ -38,6 +39,7 @@ import {
   pioneerImagePng,
 } from '../../components/WalletIcon';
 import { usePioneer } from '../../context/Pioneer';
+import { availableChainsByWallet } from '../../context/Pioneer/support';
 
 const Pioneer = () => {
   const { state } = usePioneer();
@@ -86,7 +88,13 @@ const Pioneer = () => {
 
   const handleWalletClick = async (wallet: string) => {
     setIsSwitchingWallet(true);
-    // setPioneerImage('');
+    const AllChainsSupported = availableChainsByWallet[wallet];
+    console.log('AllChainsSupported: ', AllChainsSupported);
+    let allByCaip = AllChainsSupported.map((chainStr) => {
+      const chainEnum = getChainEnumValue(chainStr);
+      return chainEnum ? ChainToNetworkId[chainEnum] : undefined;
+    }).filter((x) => x !== undefined);
+    app.setBlockchains(allByCaip);
     onOpen();
     setWalletType(wallet);
     setModalType(wallet);
@@ -207,7 +215,11 @@ const Pioneer = () => {
             {modalType === 'Trezor' && <div>Trezor TODO</div>}
             {modalType === 'Xdefi' && <div>Xdefi TODO</div>}
             {modalType === 'Onboarding' && (
-              <Onboarding onClose={onClose} setModalType={setModalType} setWalletType={setWalletType}/>
+              <Onboarding
+                onClose={onClose}
+                setModalType={setModalType}
+                setWalletType={setWalletType}
+              />
             )}
           </ModalBody>
           <ModalFooter>
