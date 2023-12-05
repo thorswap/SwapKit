@@ -191,24 +191,24 @@ export class SwapKitCore<T = ''> {
   getWalletByChain = async (chain: Chain, potentialScamFilter?: boolean) => {
     const address = this.getAddress(chain);
     if (!address) return null;
-    const defaultBalance = [AssetValue.fromChainOrSignature(chain)];
-    const walletType = this.connectedChains[chain]?.walletType as WalletOption;
-
-    try {
-      const balance = await this.getWallet(chain)?.getBalance(address, potentialScamFilter);
-
-      this.connectedChains[chain] = {
-        address,
-        balance: balance?.length ? balance : defaultBalance,
-        walletType,
-      };
-
-      return { ...this.connectedChains[chain] };
-    } catch (error) {
-      console.error(error);
-
-      return { address, balance: defaultBalance, walletType };
+    console.log('chain: ', chain);
+    // console.log("getWalletByChain: ",address)
+    let pubkeys = [];
+    if (this.getWallet(chain)?.getPubkeys) {
+      pubkeys = await this.getWallet(chain)?.getPubkeys();
     }
+    const balance = (await this.getWallet(chain)?.getBalance([{ address }])) ?? [
+      AssetValue.fromChainOrSignature(chain),
+    ];
+
+    this.connectedChains[chain] = {
+      address,
+      pubkeys,
+      balance,
+      walletType: this.connectedChains[chain]?.walletType as WalletOption,
+    };
+
+    return { ...this.connectedChains[chain] };
   };
 
   approveAssetValue = (assetValue: AssetValue, contractAddress?: string) =>

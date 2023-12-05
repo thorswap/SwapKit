@@ -1,10 +1,10 @@
-import { fromBase64 } from '@cosmjs/encoding';
-import { Int53 } from '@cosmjs/math';
-import { encodePubkey, makeAuthInfoBytes, type TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import { type DepositParam, type TransferParams } from '@coinmasters/toolbox-cosmos';
 import type { UTXOBuildTxParams } from '@coinmasters/toolbox-utxo';
 import type { ConnectWalletParams, DerivationPathArray } from '@coinmasters/types';
 import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from '@coinmasters/types';
+import { fromBase64 } from '@cosmjs/encoding';
+import { Int53 } from '@cosmjs/math';
+import { encodePubkey, makeAuthInfoBytes, type TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
@@ -19,7 +19,7 @@ import type { EthereumLedger } from './clients/ethereum.ts';
 import type { LitecoinLedger } from './clients/litecoin.ts';
 import type { THORChainLedger } from './clients/thorchain/index.ts';
 import type { LEDGER_SUPPORTED_CHAINS } from './helpers/index.ts';
-import { getLedgerAddress, getLedgerClient } from './helpers/index.ts';
+import { getLedgerAddress, getLedgerClient, getLedgerPubkeys } from './helpers/index.ts';
 
 type LedgerConfig = {
   api?: any;
@@ -194,7 +194,6 @@ const getToolbox = async ({
       };
       return { ...toolbox, transfer };
     }
-
     case Chain.Cosmos: {
       const { createSigningStargateClient, getDenom, GaiaToolbox } = await import(
         '@coinmasters/toolbox-cosmos'
@@ -237,7 +236,6 @@ const getToolbox = async ({
 
       return { ...toolbox, transfer };
     }
-
     case Chain.Ethereum: {
       if (!ethplorerApiKey) throw new Error('Ethplorer API key is not defined');
       const { ETHToolbox, getProvider } = await import('@coinmasters/toolbox-evm');
@@ -465,17 +463,33 @@ const connectLedger =
     apis,
     rpcUrls,
   }: ConnectWalletParams) =>
-  async (chain: (typeof LEDGER_SUPPORTED_CHAINS)[number], derivationPath?: DerivationPathArray) => {
-    const ledgerClient = await getLedgerClient({ chain, derivationPath });
+  async (chain: (typeof LEDGER_SUPPORTED_CHAINS)[number], paths?: any) => {
+    console.log('Checkpoint Ledger! paths:', paths);
+    //get paths for chain
+    const filteredPaths = paths.filter((p) => p.symbolSwapKit === chain);
+    console.log('filteredPaths:', filteredPaths);
+
+    const ledgerClient = await getLedgerClient({ chain, paths: filteredPaths });
     if (!ledgerClient) return;
 
     const address = await getLedgerAddress({ chain, ledgerClient });
+
+    let pubkeys = [];
+    //if UTXO chain, get pubkeys
+    if (chain === Chain.Bitcoin || chain === Chain.Litecoin || chain === Chain.Dogecoin) {
+      // @ts-ignore
+      let xpubs: any = await getLedgerPubkeys({ chain, ledgerClient });
+      console.log('** xpubs: ', xpubs);
+      pubkeys = xpubs;
+      console.log('** pubkeys: ', pubkeys);
+    }
+
     const toolbox = await getToolbox({
       address,
+      pubkeys,
       api: apis[chain as Chain.Avalanche],
       chain,
       covalentApiKey,
-      derivationPath,
       ethplorerApiKey,
       rpcUrl: rpcUrls[chain],
       signer: ledgerClient,
@@ -485,7 +499,7 @@ const connectLedger =
 
     addChain({
       chain,
-      walletMethods: { ...toolbox, getAddress: () => address },
+      walletMethods: { ...toolbox, getAddress: () => address, getPubkeys: () => pubkeys },
       wallet: { address, balance: [], walletType: WalletOption.LEDGER },
     });
 

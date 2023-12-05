@@ -16,26 +16,26 @@ import type { LEDGER_SUPPORTED_CHAINS } from './ledgerSupportedChains.ts';
 
 export const getLedgerClient = async ({
   chain,
-  derivationPath,
+  paths,
 }: {
   chain: (typeof LEDGER_SUPPORTED_CHAINS)[number];
-  derivationPath?: DerivationPathArray;
+  paths: any;
 }) => {
   switch (chain) {
     case Chain.THORChain:
-      return new THORChainLedger(derivationPath);
+      return new THORChainLedger(paths);
     case Chain.Binance:
-      return new BinanceLedger(derivationPath);
+      return new BinanceLedger(paths);
     case Chain.Cosmos:
-      return new CosmosLedger(derivationPath);
+      return new CosmosLedger(paths);
     case Chain.Bitcoin:
-      return new BitcoinLedger(derivationPath);
+      return new BitcoinLedger(paths);
     case Chain.BitcoinCash:
-      return new BitcoinCashLedger(derivationPath);
+      return new BitcoinCashLedger(paths);
     case Chain.Dogecoin:
-      return new DogecoinLedger(derivationPath);
+      return new DogecoinLedger(paths);
     case Chain.Litecoin:
-      return new LitecoinLedger(derivationPath);
+      return new LitecoinLedger(paths);
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
     case Chain.Avalanche: {

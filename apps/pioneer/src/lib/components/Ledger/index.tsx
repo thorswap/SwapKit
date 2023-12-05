@@ -51,12 +51,13 @@ export default function Ledger({ onClose }) {
   const [webUsbSupported, setWebUsbSupported] = useState(true);
   const [isLocked, setIsLocked] = useState(false);
   const [isWrongApp, setIsWrongApp] = useState(false);
+  const [isAlreadyClaimed, setIsAlreadyClaimed] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState({});
   const toast = useToast();
 
   useEffect(() => {
     console.log('hardwareError: ', hardwareError);
-    if (hardwareError == 'LockedDeviceError') {
+    if (hardwareError === 'LockedDeviceError') {
       console.log('IS LOCKED: ', hardwareError);
       setIsLocked(true);
       toast({
@@ -66,7 +67,17 @@ export default function Ledger({ onClose }) {
         duration: 3000,
         isClosable: true,
       });
-    } else if (hardwareError == 'WrongAppError') {
+    } else if (hardwareError === 'claimInterface') {
+      console.log('hardwareError: ', hardwareError);
+      setIsAlreadyClaimed(true);
+      toast({
+        title: 'Already Claimed WEBUSB!',
+        description: hardwareError,
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }else if (hardwareError === 'WrongAppError') {
       console.log('hardwareError: ', hardwareError);
       setIsWrongApp(true);
       toast({
@@ -109,7 +120,7 @@ export default function Ledger({ onClose }) {
         });
       } else {
         console.log('success LEDGER PAIR: ', result);
-        // app.getPubkeys();
+        app.getPubkeys();
         // app.getBalances();
         //setConnectionStatus((prev) => ({ ...prev, [chainKey]: 'connected' }));
       }
@@ -141,6 +152,7 @@ export default function Ledger({ onClose }) {
     clearHardwareError();
     setIsLocked(false);
     setIsWrongApp(false);
+    setIsAlreadyClaimed(false);
   };
 
   const connectedChains = Object.keys(CHAINS).filter(
@@ -185,26 +197,35 @@ export default function Ledger({ onClose }) {
                 </div>
               ) : (
                 <div>
-                  <div>
-                    <Text mb={4}>Connect your Ledger device and select a chain:</Text>
-                    <br />
-                    <Text mb={4}>Your Device MUST be unlocked an correct application open</Text>
-                    {notConnectedChains.length > 0 && (
-                      <Box mb={6}>
-                        <Text mb={2}>Not Yet Connected:</Text>
-                        {notConnectedChains.map(renderChainCard)}
-                      </Box>
-                    )}
-                    {connectedChains.length > 0 && (
-                      <Box>
-                        <Text mb={2}>Connected:</Text>
-                        {connectedChains.map(renderChainCard)}
-                      </Box>
-                    )}
-                    <Button colorScheme="blue" mt={4} onClick={onClose}>
-                      Continue
-                    </Button>
-                  </div>
+                  {isAlreadyClaimed ? (<div>
+                    <WarningIcon color="yellow.500" h={10} w={10} />
+                    <Text fontSize="lg" fontWeight="bold" mt={2}>
+                      Your Ledger is ALREADY CLAIMED! by a web browser.
+                      <br/>
+                      * Please close all other browser windows and try again.
+                      <br/> Verify Ledger Live is closed!
+                      <Button onClick={unlock}>Continue</Button>
+                    </Text>
+                  </div>) : (<div>
+                      <Text mb={4}>Connect your Ledger device and select a chain:</Text>
+                      <br />
+                      <Text mb={4}>Your Device MUST be unlocked an correct application open</Text>
+                      {notConnectedChains.length > 0 && (
+                        <Box mb={6}>
+                          <Text mb={2}>Not Yet Connected:</Text>
+                          {notConnectedChains.map(renderChainCard)}
+                        </Box>
+                      )}
+                      {connectedChains.length > 0 && (
+                        <Box>
+                          <Text mb={2}>Connected:</Text>
+                          {connectedChains.map(renderChainCard)}
+                        </Box>
+                      )}
+                      <Button colorScheme="blue" mt={4} onClick={onClose}>
+                        Continue
+                      </Button>
+                    </div>)}
                 </div>
               )}
             </div>

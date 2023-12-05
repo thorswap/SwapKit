@@ -322,13 +322,16 @@ export class SDK {
                 resultPair =
                   (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](
                     EVMChainList[i],
+                    walletPaths,
                   )) || '';
                 console.log('LEDGER resultPair: ', resultPair);
               }
             } else {
               resultPair =
-                (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](ledgerApp)) ||
-                '';
+                (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](
+                  ledgerApp,
+                  walletPaths,
+                )) || '';
               console.log('LEDGER resultPair: ', resultPair);
             }
           } catch (e) {
@@ -337,6 +340,11 @@ export class SDK {
               console.log('LockedDeviceError...');
               return {
                 error: 'LockedDeviceError',
+              };
+            }
+            if (e.toString().indexOf('claimInterface')) {
+              return {
+                error: 'claimInterface',
               };
             }
             if (e.toString().indexOf('decorateAppAPIMethods')) {
@@ -369,20 +377,26 @@ export class SDK {
           console.log(tag, 'matchingWalletIndex: ', matchingWalletIndex);
           // get balances
           // @ts-ignore
-          const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
-          if (!ethAddress) throw Error('Failed to get eth address! can not pair wallet');
-          const context = `${wallet.toLowerCase()}:${ethAddress}.wallet`;
+          let context;
+          if (wallet === 'LEDGER') {
+            context = 'ledger.wallet'; //we CAN NOT support more than 1 ledger, we assume only 1 ledger is owned by users
+          } else {
+            const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
+            if (!ethAddress) throw Error('Failed to get eth address! can not pair wallet');
+            context = `${wallet.toLowerCase()}:${ethAddress}.wallet`;
 
-          // isPioneer?
-          // get pioneer status
-          let pioneerInfo = await this.pioneer.GetPioneer({
-            address: ethAddress,
-          });
-          pioneerInfo = pioneerInfo.data;
-          console.log('pioneerInfo: ', pioneerInfo);
-          if (pioneerInfo.isPioneer) {
-            this.isPioneer = pioneerInfo.image;
+            // isPioneer?
+            // get pioneer status
+            let pioneerInfo = await this.pioneer.GetPioneer({
+              address: ethAddress,
+            });
+            pioneerInfo = pioneerInfo.data;
+            console.log('pioneerInfo: ', pioneerInfo);
+            if (pioneerInfo.isPioneer) {
+              this.isPioneer = pioneerInfo.image;
+            }
           }
+
           // log.info(tag, "context: ", context);
           this.events.emit('CONTEXT', context);
           // add context to wallet
@@ -421,22 +435,23 @@ export class SDK {
       const tag = `${TAG} | getPubkeys | `;
       try {
         //verify context
-        const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
-        console.log('ethAddress: ', ethAddress);
-        if (this.context.indexOf(ethAddress) === -1) {
-          console.log('Clearing Wallet state!');
-          this.clearWalletState();
-        }
-        // Verify if pubkeys match context
-        if (this.pubkeys.some((pubkey) => pubkey.context !== this.context)) {
-          console.log('Invalid pubkeys found!');
-          this.pubkeys = [];
-        }
-        // Verify if balances match context
-        if (this.balances.some((balance) => balance.context !== this.context)) {
-          console.log('Invalid balances found!');
-          this.balances = [];
-        }
+        //TODO handle ledger contexts
+        // const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
+        // console.log('ethAddress: ', ethAddress);
+        // if (this.context.indexOf(ethAddress) === -1) {
+        //   console.log('Clearing Wallet state!');
+        //   this.clearWalletState();
+        // }
+        // // Verify if pubkeys match context
+        // if (this.pubkeys.some((pubkey) => pubkey.context !== this.context)) {
+        //   console.log('Invalid pubkeys found!');
+        //   this.pubkeys = [];
+        // }
+        // // Verify if balances match context
+        // if (this.balances.some((balance) => balance.context !== this.context)) {
+        //   console.log('Invalid balances found!');
+        //   this.balances = [];
+        // }
         //TODO if wallet doesn't support blockchains, throw error
         let pubkeysNew = [];
         // eslint-disable-next-line @typescript-eslint/prefer-for-of
@@ -457,8 +472,10 @@ export class SDK {
           for (let j = 0; j < paths.length; j++) {
             const path = paths[j];
             let pubkey;
+            console.log('Attemtping to get pubkeys for path: ', path);
             //get pubkey on path
             if (path.type === 'address') {
+              console.log('path type address detected: ');
               let address = this.swapKit.getAddress(chain);
               if (address) {
                 pubkey = {
@@ -475,10 +492,13 @@ export class SDK {
                 pubkeysNew.push(pubkey);
               }
             } else {
+              console.log('path type address detected: ');
               let walletForChain = await this.swapKit?.getWalletByChain(chain);
+              console.log('walletForChain: ', walletForChain);
               if (walletForChain) {
                 const pubkeyForPath = walletForChain.pubkeys.find(
-                  (pubkeyObj) => pubkeyObj.addressNList.toString() === path.addressNList.toString(),
+                  (pubkeyObj) =>
+                    pubkeyObj?.addressNList?.toString() === path?.addressNList?.toString(),
                 );
                 console.log('pubkeyForPath: ', pubkeyForPath);
                 let address = this.swapKit.getAddress(chain);
@@ -525,16 +545,17 @@ export class SDK {
       const tag = `${TAG} | getBalances | `;
       try {
         //verify context
-        const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
-        if (this.context.indexOf(ethAddress) === -1) this.clearWalletState();
-        // Verify if pubkeys match context
-        if (this.pubkeys.some((pubkey) => pubkey.context !== this.context)) {
-          this.pubkeys = [];
-        }
-        // Verify if balances match context
-        if (this.balances.some((balance) => balance.context !== this.context)) {
-          this.balances = [];
-        }
+        //TODO handle ledger contexts
+        // const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
+        // if (this.context.indexOf(ethAddress) === -1) this.clearWalletState();
+        // // Verify if pubkeys match context
+        // if (this.pubkeys.some((pubkey) => pubkey.context !== this.context)) {
+        //   this.pubkeys = [];
+        // }
+        // // Verify if balances match context
+        // if (this.balances.some((balance) => balance.context !== this.context)) {
+        //   this.balances = [];
+        // }
         //TODO if wallet doesn't support blockchains, throw error
 
         let balances = [];

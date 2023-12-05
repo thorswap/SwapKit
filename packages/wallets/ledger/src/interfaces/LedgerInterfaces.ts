@@ -48,6 +48,7 @@ export abstract class CommonLedgerInterface {
 
 export abstract class UTXOLedgerInterface {
   public addressNetwork: BTCNetwork = networks.bitcoin;
+  public paths: any;
   // @ts-expect-error `default` typing is wrong
   public btcApp: InstanceType<typeof BitcoinApp> | null = null;
   public chain: 'bch' | 'btc' | 'ltc' | 'doge' = 'btc';
