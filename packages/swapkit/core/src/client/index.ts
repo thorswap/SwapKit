@@ -197,9 +197,26 @@ export class SwapKitCore<T = ''> {
     if (this.getWallet(chain)?.getPubkeys) {
       pubkeys = await this.getWallet(chain)?.getPubkeys();
     }
-    const balance = (await this.getWallet(chain)?.getBalance([{ address }])) ?? [
-      AssetValue.fromChainOrSignature(chain),
-    ];
+    //for each pubkey iterate and sum the balance
+    let balance: AssetValue[] = [];
+    if (pubkeys.length === 0) {
+      //use address balance
+      balance = (await this.getWallet(chain)?.getBalance([{ address }])) ?? [
+        AssetValue.fromChainOrSignature(chain),
+      ];
+    } else {
+      balance = await this.getWallet(chain)?.getBalance(pubkeys)
+      console.log('getWalletByChain PRE_ balance: ', balance[0]);
+      console.log('getWalletByChain PRE_ balance: ', balance[0].decimal);
+      console.log('getWalletByChain PRE_ balance: ', balance[0].getBaseValue());
+      console.log('getWalletByChain PRE_ balance: ', balance[0].toFixed(8));
+      console.log('getWalletByChain PRE_ balance: ', balance[0].getValue());
+      // console.log('getWalletByChain PRE_ balance: ', balance.toFixedDecimal(8));
+      // console.log('getWalletByChain PRE_ balance: ', balance.value);
+      // console.log('getWalletByChain PRE_ balance: ', balance.value());
+      // console.log('getWalletByChain PRE_ balance: ', balance.value.toString());
+      console.log('balance: ', balance);
+    }
 
     this.connectedChains[chain] = {
       address,

@@ -1,9 +1,8 @@
-import { WarningIcon } from '@chakra-ui/icons'; // Make sure to import the icons you need
-import { Box, Button, Card, Center, HStack, Link, Text, useToast, VStack } from '@chakra-ui/react';
-import { getChainEnumValue, NetworkIdToChain } from '@coinmasters/types';
-// @ts-ignore
+import { WarningIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
+import { Box, Button, Card, Center, HStack, Image, Link, Switch, Text, useToast, VStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-
+import { NetworkIdToChain } from '@coinmasters/types';
+import { THORCHAIN_NETWORKS } from '@pioneer-platform/pioneer-coins';
 import { usePioneer } from '../../context/Pioneer';
 
 export default function Ledger({ onClose }) {
@@ -13,78 +12,52 @@ export default function Ledger({ onClose }) {
   const [isLocked, setIsLocked] = useState(false);
   const [isWrongApp, setIsWrongApp] = useState(false);
   const [isAlreadyClaimed, setIsAlreadyClaimed] = useState(false);
-  const [connectionStatus, setConnectionStatus] = useState({});
   const [connectedChains, setConnectedChains] = useState([]);
+  const [hiddenChains, setHiddenChains] = useState(new Set());
   const toast = useToast();
 
   useEffect(() => {
     if (app?.blockchains) {
-      //
-      let allChains = [];
-      for (let i = 0; i < app.blockchains.length; i++) {
-        //get blockchain information
-        let blockchain = app.blockchains[i];
-        console.log('blockchain: ', blockchain);
-        //get pubkeys for blockchain
-        let pubkeys = app.pubkeys.filter((pubkey) => pubkey.networkId === blockchain);
-        console.log('pubkeys: ', pubkeys);
-        //if > 1 pubkey set enabled
-        let balances = app.pubkeys.filter((balance) => balance.networkId === blockchain);
-        //get balances for blockchain
-        let status = 'disconnected';
-        if (pubkeys.length > 0) {
-          status = 'connected';
-        }
-        let entry = {
+      let allChains = app.blockchains.map(blockchain => {
+        let pubkeysForChain = app.pubkeys.filter((pubkey) => pubkey.networkId === blockchain);
+        let balancesForChain = app.balances.filter((balance) => balance.networkId === blockchain);
+        let status = pubkeysForChain.length > 0 ? 'connected' : 'disconnected';
+
+        return {
           blockchain,
-          pubkeys: pubkeys,
-          balances: balances,
+          pubkeys: pubkeysForChain,
+          balances: balancesForChain,
           status,
         };
-        allChains.push(entry);
-      }
-      console.log('allChains: ', allChains);
+      });
       setConnectedChains(allChains);
     }
-  }, [app, app?.blockchains, pubkeys]);
+  }, [app]);
 
   useEffect(() => {
-    console.log('hardwareError: ', hardwareError);
-    if (hardwareError === 'LockedDeviceError') {
-      console.log('IS LOCKED: ', hardwareError);
-      setIsLocked(true);
+    if (hardwareError) {
+      let errorMessage = '';
+      switch (hardwareError) {
+        case 'LockedDeviceError':
+          setIsLocked(true);
+          errorMessage = 'Your Ledger is locked. Please unlock it.';
+          break;
+        case 'claimInterface':
+          setIsAlreadyClaimed(true);
+          errorMessage = 'Your Ledger is already claimed by another browser. Please close it.';
+          break;
+        case 'WrongAppError':
+          setIsWrongApp(true);
+          errorMessage = 'Your Ledger is on the wrong app. Please open the correct app.';
+          break;
+        default:
+          errorMessage = 'An unknown error occurred.';
+          break;
+      }
+
       toast({
-        title: 'IS LOCKED!',
-        description: hardwareError,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
-    } else if (hardwareError === 'claimInterface') {
-      console.log('hardwareError: ', hardwareError);
-      setIsAlreadyClaimed(true);
-      toast({
-        title: 'Already Claimed WEBUSB!',
-        description: hardwareError,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
-    } else if (hardwareError === 'WrongAppError') {
-      console.log('hardwareError: ', hardwareError);
-      setIsWrongApp(true);
-      toast({
-        title: 'Unable to connect!',
-        description: hardwareError,
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
-    } else if (hardwareError) {
-      console.log('hardwareError: ', hardwareError);
-      toast({
-        title: 'Connection Error',
-        description: hardwareError,
+        title: 'Hardware Error',
+        description: errorMessage,
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -96,16 +69,22 @@ export default function Ledger({ onClose }) {
     setWebUsbSupported('usb' in navigator);
   }, []);
 
+  const toggleHideChain = (chain) => {
+    setHiddenChains((prev) => {
+      const newHiddenChains = new Set(prev);
+      if (newHiddenChains.has(chain)) {
+        newHiddenChains.delete(chain);
+      } else {
+        newHiddenChains.add(chain);
+      }
+      return newHiddenChains;
+    });
+  };
+
   const attemptConnect = async (blockchain) => {
-    //setConnectionStatus((prev) => ({ ...prev, [chainKey]: 'connecting' }));
     try {
-      console.log(`Attempting to connect to chainKey: ${blockchain}`);
-      console.log("Connecting to LEDGER... asset: ", blockchain);
-      console.log("Connecting to LEDGER... asset: ", NetworkIdToChain[blockchain]);
       const result = await connectWallet('LEDGER', NetworkIdToChain[blockchain]);
-      console.log('LEDGER result attemptConnect: ', result);
       if (result && result.error) {
-        console.error('Error Pairing!: ', result);
         toast({
           title: 'Connection Error',
           description: result.error.message,
@@ -114,36 +93,71 @@ export default function Ledger({ onClose }) {
           isClosable: true,
         });
       } else {
-        console.log('success LEDGER PAIR: ', result);
-        app.getPubkeys();
-        // app.getBalances();
-        //setConnectionStatus((prev) => ({ ...prev, [chainKey]: 'connected' }));
+        // Update connection status
+        setConnectedChains(prev => prev.map(chain =>
+          chain.blockchain === blockchain ? { ...chain, status: 'connected' } : chain
+        ));
+        await app.getPubkeys();
+        app.getBalances();
       }
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error('Error connecting to ledger:', error);
     }
   };
 
-  const renderChainCard = (blockchain) => {
-    const isConnected = false
+  const renderChainCard = (chainInfo) => {
+    const blockchainSymbol = NetworkIdToChain[chainInfo.blockchain];
+    const chainAvatar = THORCHAIN_NETWORKS.find(chain => chain.symbol === blockchainSymbol)?.image;
+    const isConnected = chainInfo.status === 'connected';
+    const isHidden = hiddenChains.has(chainInfo.blockchain);
+
+    if (isHidden) return null;
+
+    // Display only the address from the first pubkey (assuming all addresses are the same)
+    const displayAddress = chainInfo.pubkeys.length > 0 ? chainInfo.pubkeys[0].address : 'No Address';
+
     return (
-      <Card boxShadow="md" key={blockchain.blockchain} mb={4} p={3}>
+      <Card boxShadow="md" key={chainInfo.blockchain} mb={4} p={3}>
         <HStack justify="space-between">
           <VStack align="start">
-            {NetworkIdToChain[blockchain.blockchain]}
-            <Text fontSize="md">{blockchain.blockchain}</Text>
-            <Text fontSize="md">{JSON.stringify(blockchain.pubkeys)}</Text>
-            <Text fontSize="md">{blockchain.status}</Text>
+            <Image src={chainAvatar} alt={blockchainSymbol} boxSize="60px" /> {/* Increased size */}
+            <Text fontSize="md">{blockchainSymbol}</Text>
+            {isConnected && <CheckIcon color="green.500" />}
+            <Text fontSize="md">{displayAddress}</Text> {/* Display address */}
+            <Text fontSize="md">{chainInfo.status}</Text>
           </VStack>
-          <Button onClick={() => attemptConnect(blockchain.blockchain)} size="sm">
-            {isConnected ? 'Connected' : 'Connect'}
-          </Button>
+          <VStack>
+            <Button onClick={() => attemptConnect(chainInfo.blockchain)} size="sm">
+              {isConnected ? 'Connected' : 'Connect'}
+            </Button>
+            <Switch isChecked={isHidden} onChange={() => toggleHideChain(chainInfo.blockchain)} />
+          </VStack>
         </HStack>
       </Card>
     );
   };
 
-  let unlock = function () {
+// Grouping EIP155 chains
+  const groupEIP155Chains = (chains) => {
+    let eip155Chains = chains.filter(chain => chain.blockchain.startsWith('eip155'));
+    let otherChains = chains.filter(chain => !chain.blockchain.startsWith('eip155'));
+
+    // Group EIP155 chains together
+    if (eip155Chains.length > 0) {
+      otherChains.push({
+        blockchain: 'EVMs',
+        pubkeys: eip155Chains.flatMap(chain => chain.pubkeys),
+        status: eip155Chains.some(chain => chain.status === 'connected') ? 'connected' : 'disconnected',
+      });
+    }
+
+    return otherChains;
+  };
+
+  const sortedAndGroupedChains = groupEIP155Chains(
+    connectedChains.sort((a, b) => (a.status === 'connected' ? 1 : -1)),
+  );
+  const unlock = () => {
     clearHardwareError();
     setIsLocked(false);
     setIsWrongApp(false);
@@ -165,52 +179,42 @@ export default function Ledger({ onClose }) {
         </Center>
       ) : (
         <div>
-          {isLocked ? (
-            <div>
+          {isLocked && (
+            <Center flexDirection="column" my={4}>
               <WarningIcon color="yellow.500" h={10} w={10} />
               <Text fontSize="lg" fontWeight="bold" mt={2}>
                 Your Ledger is locked. Please unlock it.
                 <Button onClick={unlock}>Continue</Button>
               </Text>
-            </div>
-          ) : (
-            <div>
-              {isWrongApp ? (
-                <div>
-                  <WarningIcon color="yellow.500" h={10} w={10} />
-                  <Text fontSize="lg" fontWeight="bold" mt={2}>
-                    Your Ledger is on the WRONG APP! Please open the correct app.
-                    <Button onClick={unlock}>Continue</Button>
-                  </Text>
-                </div>
-              ) : (
-                <div>
-                  {isAlreadyClaimed ? (
-                    <div>
-                      <WarningIcon color="yellow.500" h={10} w={10} />
-                      <Text fontSize="lg" fontWeight="bold" mt={2}>
-                        Your Ledger is ALREADY CLAIMED! by a web browser.
-                        <br />
-                        * Please close all other browser windows and try again.
-                        <br /> Verify Ledger Live is closed!
-                        <Button onClick={unlock}>Continue</Button>
-                      </Text>
-                    </div>
-                  ) : (
-                    <div>
-                      <Text mb={4}>Connect your Ledger device and select a chain:</Text>
-                      <br />
-                      <Text mb={4}>Your Device MUST be unlocked an correct application open</Text>
-                      {connectedChains.map(renderChainCard)}
-                      <Button colorScheme="blue" mt={4} onClick={onClose}>
-                        Continue
-                      </Button>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
+            </Center>
           )}
+          {isWrongApp && (
+            <Center flexDirection="column" my={4}>
+              <WarningIcon color="yellow.500" h={10} w={10} />
+              <Text fontSize="lg" fontWeight="bold" mt={2}>
+                Your Ledger is on the WRONG APP! Please open the correct app.
+                <Button onClick={unlock}>Continue</Button>
+              </Text>
+            </Center>
+          )}
+          {isAlreadyClaimed && (
+            <Center flexDirection="column" my={4}>
+              <WarningIcon color="yellow.500" h={10} w={10} />
+              <Text fontSize="lg" fontWeight="bold" mt={2}>
+                Your Ledger is ALREADY CLAIMED! by a web browser.
+                <br />
+                * Please close all other browser windows and try again.
+                <br /> Verify Ledger Live is closed!
+                <Button onClick={unlock}>Continue</Button>
+              </Text>
+            </Center>
+          )}
+          <Text mb={4}>Connect your Ledger device and select a chain:</Text>
+          <Text mb={4}>Your Device MUST be unlocked and the correct application open</Text>
+          {sortedAndGroupedChains.map(renderChainCard)}
+          <Button colorScheme="blue" mt={4} onClick={onClose}>
+            Continue
+          </Button>
         </div>
       )}
     </Box>

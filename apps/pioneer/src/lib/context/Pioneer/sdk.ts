@@ -586,8 +586,7 @@ export class SDK {
                 !balance.chain ||
                 !balance.symbol ||
                 !balance.ticker ||
-                !balance.type ||
-                !balance.value
+                !balance.type
               ) {
                 console.error('Missing required properties for balance: ', balance);
               } else {
@@ -610,7 +609,7 @@ export class SDK {
                     balanceString.chain = balance.chain;
                     balanceString.ticker = balance.ticker;
                     balanceString.type = balance.type;
-                    balanceString.balance = balance.value;
+                    balanceString.balance = balance.toFixed(8).toString();
                     balances.push(balanceString);
                   }
                 } catch (e) {
@@ -620,7 +619,7 @@ export class SDK {
             }
           }
         }
-        console.log('balances: ', balances);
+        console.log('PRE-register balances: ', balances);
         const register: any = {
           username: this.username,
           blockchains: [],

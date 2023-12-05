@@ -12,7 +12,7 @@ import type {
 type BlockchairParams<T> = T & { chain: Chain; apiKey?: string };
 
 const baseUrl = (chain: Chain) => `https://api.blockchair.com/${mapChainToBlockchairChain(chain)}`;
-const baseUrlPioneer = () => `https://pioneers.dev/api/v1/`;
+const baseUrlPioneer = () => `http://127.0.0.1:9001/api/v1`;
 
 const getDefaultTxFeeByChain = (chain: Chain) => {
   switch (chain) {
@@ -67,6 +67,7 @@ const getSuggestedTxFee = async (chain: Chain) => {
 const blockchairRequest = async <T extends any>(url: string, apiKey?: string): Promise<T> => {
   try {
     const response = await RequestClient.get<BlockchairResponse<T>>(url);
+    console.log("blockchairRequest: response: ", response);
     if (!response || response.context.code !== 200) throw new Error(`failed to query ${url}`);
 
     return response.data as T;
@@ -107,7 +108,7 @@ const getUnconfirmedBalance = async ({
   chain,
   apiKey,
 }: BlockchairParams<{ address?: string }>) => {
-  console.log("getUnconfirmedBalance: address: ",address)
+  console.log('getUnconfirmedBalance: address: ', address);
   return (await getAddressData({ address, chain, apiKey })).address.balance;
 };
 
@@ -116,9 +117,12 @@ const getXpubData = async ({ pubkey, chain }: BlockchairParams<{ address?: strin
 
   try {
     const url = `/utxo/getBalance/${chain}/${pubkey}`;
-    const response = await blockchairRequest<any>(`${baseUrlPioneer()}${url}`);
-
-    return response.data;
+    console.log('getXpubData URL: ', url);
+    //const response = await blockchairRequest<any>(`${baseUrlPioneer()}${url}`);
+    let response = await RequestClient.get<any>(`${baseUrlPioneer()}${url}`);
+    console.log('getXpubData: response: ', response);
+    if(!response) response = 0
+    return response;
   } catch (error) {
     return {
       utxo: [],
@@ -131,11 +135,12 @@ const getXpubData = async ({ pubkey, chain }: BlockchairParams<{ address?: strin
 };
 
 const getUnconfirmedBalanceXpub = async ({
-  address,
+  pubkey,
   chain,
   apiKey,
 }: BlockchairParams<{ address?: string }>) => {
-  return (await getXpubData({ address, chain, apiKey })).address.balance;
+  console.log('getUnconfirmedBalanceXpub; ', { pubkey, chain, apiKey });
+  return (await getXpubData({ pubkey, chain, apiKey }));
 };
 
 const getConfirmedBalance = async ({

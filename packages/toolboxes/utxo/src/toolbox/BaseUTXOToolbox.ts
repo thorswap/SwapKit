@@ -113,9 +113,10 @@ const getPubkeyBalance = async function (
     console.log('pubkey: ', pubkey);
     console.log('type: ', type);
     switch (type) {
+      case 'zpub':
       case 'xpub':
-        const xpub = pubkey[type];
-        const xpubBalance = await apiClient.getBalance(xpub);
+        console.log('pubkey: ', pubkey.pubkey || pubkey.xpub);
+        const xpubBalance = await apiClient.getBalanceXpub(pubkey.pubkey || pubkey.xpub);
         return xpubBalance;
       case 'address':
         const address = pubkey[type];
@@ -130,11 +131,7 @@ const getPubkeyBalance = async function (
   }
 };
 
-const getBalance = async ({
-  pubkeys,
-  chain,
-  apiClient,
-}: { pubkeys: any[] } & any) => {
+const getBalance = async ({ pubkeys, chain, apiClient }: { pubkeys: any[] } & any) => {
   console.log('pubkeys: ', pubkeys);
   //legacy support
   if (typeof pubkeys === 'string') {
@@ -144,12 +141,13 @@ const getBalance = async ({
   // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let i = 0; i < pubkeys.length; i++) {
     let pubkey = pubkeys[i];
-    let type = Object.keys(pubkey)[0];
-    const balance = await getPubkeyBalance(pubkey, type, apiClient);
+    const balance = await getPubkeyBalance(pubkey, pubkey.type, apiClient);
     console.log('balance: ', balance);
     totalBalance = totalBalance + balance;
   }
-  totalBalance = totalBalance / 10 ** BaseDecimal[chain];
+  //totalBalance = totalBalance / 10 ** BaseDecimal[chain];
+  console.log(`CHAIN: ${chain}.${chain}`)
+  console.log(`CHAIN:`,totalBalance.toString())
   const asset = await AssetValue.fromIdentifier(`${chain}.${chain}`, totalBalance.toString());
 
   return [asset];
