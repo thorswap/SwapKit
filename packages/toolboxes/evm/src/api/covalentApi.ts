@@ -35,7 +35,11 @@ export const covalentApi = ({ apiKey, chainId }: { apiKey: string; chainId: Chai
 
     return (data?.items || []).map(
       ({ balance, contract_decimals, contract_ticker_symbol, contract_address, native_token }) => ({
-        value: formatBigIntToSafeValue({ value: BigInt(balance), decimal: contract_decimals }),
+        value: formatBigIntToSafeValue({
+          value: BigInt(balance),
+          decimal: contract_decimals,
+          bigIntDecimal: contract_decimals,
+        }),
         decimal: contract_decimals,
         chain: ChainIdToChain[chainId],
         symbol: `${contract_ticker_symbol}${native_token ? '' : `-${contract_address}`}`,

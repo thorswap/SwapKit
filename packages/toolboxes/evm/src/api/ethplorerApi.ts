@@ -14,7 +14,11 @@ export const ethplorerApi = (apiKey = 'freekey') => ({
     return tokens.map(({ tokenInfo: { symbol, decimals, address: tokenAddress }, rawBalance }) => ({
       chain: Chain.Ethereum,
       symbol: tokenAddress ? `${symbol}-${tokenAddress}` : symbol,
-      value: formatBigIntToSafeValue({ value: BigInt(rawBalance), decimal: parseInt(decimals) }),
+      value: formatBigIntToSafeValue({
+        value: BigInt(rawBalance),
+        decimal: parseInt(decimals),
+        bigIntDecimal: parseInt(decimals),
+      }),
       decimal: parseInt(decimals),
     }));
   },

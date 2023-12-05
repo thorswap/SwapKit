@@ -286,7 +286,11 @@ export const getBalance = async ({
           {
             chain: Chain.Ethereum,
             symbol: 'ETH',
-            value: formatBigIntToSafeValue({ value: BigInt(evmGasTokenBalance), decimal: 18 }),
+            value: formatBigIntToSafeValue({
+              value: BigInt(evmGasTokenBalance),
+              decimal: 18,
+              bigIntDecimal: 18,
+            }),
             decimal: BaseDecimal.ETH,
           },
           ...tokenBalances,
