@@ -21,33 +21,33 @@ export abstract class CommonLedgerInterface {
     if (!forceReconnect && this.transport && this.ledgerApp) return;
 
     try {
-      this.transport = forceReconnect
-        ? await getLedgerTransport()
-        : this.transport || (await getLedgerTransport());
+      this.transport =
+        forceReconnect || !this.transport ? await getLedgerTransport() : this.transport;
 
       switch (this.chain) {
         case 'bnb': {
-          return (this.ledgerApp = forceReconnect
-            ? new BinanceApp(this.transport)
-            : this.ledgerApp || new BinanceApp(this.transport));
+          this.ledgerApp =
+            forceReconnect || !this.ledgerApp ? new BinanceApp(this.transport) : this.ledgerApp;
+
+          break;
         }
 
         case 'thor': {
-          return (this.ledgerApp = forceReconnect
-            ? new THORChainApp(this.transport)
-            : this.ledgerApp || new THORChainApp(this.transport));
+          this.ledgerApp =
+            forceReconnect || !this.ledgerApp ? new THORChainApp(this.transport) : this.ledgerApp;
+
+          break;
         }
 
         case 'cosmos': {
           const { default: CosmosApp } = await import('@ledgerhq/hw-app-cosmos');
-
-          return (this.ledgerApp = forceReconnect
-            ? // @ts-expect-error `default` typing is wrong
-              new CosmosApp(this.transport)
-            : // @ts-expect-error `default` typing is wrong
-              this.ledgerApp || new CosmosApp(this.transport));
+          this.ledgerApp =
+            // @ts-expect-error
+            forceReconnect || !this.ledgerApp ? new CosmosApp(this.transport) : this.ledgerApp;
         }
       }
+
+      return this.ledgerApp;
     } catch (error: any) {
       console.error(error);
       throw new Error('Cannot create transport or ledger client');
