@@ -1,5 +1,13 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.67
+
+### Patch Changes
+
+- Updated dependencies [[`94a8611`](https://github.com/thorswap/SwapKit/commit/94a8611c0f8f27194457ee4de988a49d47ced40d)]:
+  - @swapkit/wallet-ledger@1.0.0-rc.62
+  - @swapkit/core@1.0.0-rc.60
+
 ## 1.0.0-rc.66
 
 ### Patch Changes

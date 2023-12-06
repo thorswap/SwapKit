@@ -1,5 +1,11 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.62
+
+### Patch Changes
+
+- [#460](https://github.com/thorswap/SwapKit/pull/460) [`94a8611`](https://github.com/thorswap/SwapKit/commit/94a8611c0f8f27194457ee4de988a49d47ced40d) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Ledger usage for non btc utxo chains and fixes memo length
+
 ## 1.0.0-rc.61
 
 ### Patch Changes
