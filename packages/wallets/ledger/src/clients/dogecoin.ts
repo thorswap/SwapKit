@@ -11,7 +11,7 @@ export class DogecoinLedger extends UTXOLedgerInterface {
     super();
     this.additionalSignParams = { additionals: [], segwit: false, useTrustedInputForSegwit: false };
     this.addressNetwork = coininfo.dogecoin.main.toBitcoinJS();
-    this.chain = 'doge';
+    this.chain = 'dogecoin';
     this.walletFormat = 'legacy';
 
     this.derivationPath = derivationPathToString(derivationPath);

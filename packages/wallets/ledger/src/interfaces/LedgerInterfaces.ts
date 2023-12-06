@@ -59,7 +59,7 @@ export abstract class UTXOLedgerInterface {
   public addressNetwork: BTCNetwork = networks.bitcoin;
   // @ts-expect-error `default` typing is wrong
   public btcApp: InstanceType<typeof BitcoinApp> | null = null;
-  public chain: 'bch' | 'btc' | 'ltc' | 'doge' = 'btc';
+  public chain: 'bitcoin-cash' | 'bitcoin' | 'litecoin' | 'dogecoin' = 'bitcoin';
   public derivationPath = '';
   public ledgerApp: any;
   public additionalSignParams?: Partial<CreateTransactionArg>;
@@ -72,7 +72,7 @@ export abstract class UTXOLedgerInterface {
     const { default: BitcoinApp } = await import('@ledgerhq/hw-app-btc');
 
     // @ts-expect-error `default` typing is wrong
-    this.btcApp = new BitcoinApp({ transport: this.transport });
+    this.btcApp = new BitcoinApp({ transport: this.transport, currency: this.chain });
   };
 
   public signTransaction = async (psbt: Psbt, inputUtxos: UTXOType[]) => {
@@ -97,7 +97,7 @@ export abstract class UTXOLedgerInterface {
       );
     }
 
-    return this.chain === 'bch' && this.walletFormat === 'legacy'
+    return this.chain === 'bitcoin-cash' && this.walletFormat === 'legacy'
       ? toCashAddress(address).replace(/(bchtest:|bitcoincash:)/, '')
       : address;
   };
@@ -116,7 +116,7 @@ export abstract class UTXOLedgerInterface {
     const { default: BitcoinApp } = await import('@ledgerhq/hw-app-btc');
 
     // @ts-expect-error `default` typing is wrong
-    this.btcApp = new BitcoinApp({ transport: this.transport });
+    this.btcApp = new BitcoinApp({ transport: this.transport, currency: this.chain });
   };
 
   public getExtendedPublicKey = async (
