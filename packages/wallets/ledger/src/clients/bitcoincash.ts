@@ -12,7 +12,7 @@ export class BitcoinCashLedger extends UTXOLedgerInterface {
     super();
     this.additionalSignParams = { segwit: false, additionals: ['abc'], sigHashType: 0x41 };
     this.addressNetwork = coininfo.bitcoincash.main.toBitcoinJS();
-    this.chain = 'bch';
+    this.chain = 'bitcoin-cash';
     this.derivationPath = derivationPathToString(derivationPath);
     this.walletFormat = getWalletFormatFor(this.derivationPath) as 'legacy' | 'bech32';
   }
