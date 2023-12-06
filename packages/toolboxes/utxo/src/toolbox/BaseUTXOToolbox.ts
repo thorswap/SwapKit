@@ -177,6 +177,16 @@ const getInputsAndTargetOutputs = async ({
 }) => {
   //get inputs by xpub
   console.log('pubkeys: ', pubkeys);
+  //get balances for each pubkey
+  for(let i = 0; i < pubkeys.length; i++) {
+    let pubkey = pubkeys[i];
+    console.log("pubkey: ",pubkey.pubkey)
+    console.log("pubkey: ",pubkey.pubkey.pubkey)
+    let balance = await apiClient.getBalanceXpub(pubkey.pubkey);
+    console.log('balance: ', balance);
+    pubkeys[i].balance = balance;
+  }
+
   //select a single pubkey
   //choose largest balance
   let largestBalance = -Infinity; // Initialize with a very small value
@@ -197,7 +207,7 @@ const getInputsAndTargetOutputs = async ({
 
   //pubkeyWithLargestBalance
   let inputs = await apiClient.listUnspent({
-    pubkey: pubkeyWithLargestBalance.xpub,
+    pubkey: pubkeyWithLargestBalance?.pubkey,
     chain,
     apiKey: apiClient.apiKey,
   });
@@ -241,10 +251,11 @@ const getInputsAndTargetOutputs = async ({
   // Use the map function to transform each input
   inputs = inputs.map(transformInput);
   console.log('Mapped Inputs: ', inputs);
-  // const inputs = await apiClient.scanUTXOs({
-  //   address: sender,
-  //   fetchTxHex,
-  // });
+  const inputsMaster = await apiClient.scanUTXOs({
+    address: '1DB6Wdg6DszG3Yx6RCd8B3yz8BQaDHJtYK',
+    fetchTxHex,
+  });
+  console.log('inputsMaster Inputs: ', inputsMaster);
 
   if (!validateAddress({ address: recipient, chain, apiClient })) {
     throw new Error('Invalid address');

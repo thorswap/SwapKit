@@ -25,6 +25,7 @@ import Basic from '../../components/Basic';
 // import OutputSelect from "lib/components/OutputSelect";
 // import BlockchainSelect from "lib/components/BlockchainSelect";
 // import WalletSelect from "lib/components/WalletSelect";
+import Balances from '../../components/Balances';
 import Blockchains from '../../components/Blockchains';
 import Earn from '../../components/Earn';
 import Loan from '../../components/Loan';
@@ -125,7 +126,7 @@ const Home = () => {
             <Pubkeys />
           </TabPanel>
           <TabPanel>
-            <AssetSelect onSelect={onSelect} />
+            <Balances onSelect={onSelect} />
           </TabPanel>
           <TabPanel>
             <Transfer openModal={openModal} />

@@ -5,6 +5,8 @@ import { getDerivationPathFor } from '@coinmasters/wallet-ledger';
 import { useCallback, useState } from 'react';
 
 import type { WalletDataType } from './types';
+import { ChainToNetworkId, getChainEnumValue } from '@coinmasters/core';
+import { getPaths } from '@pioneer-platform/pioneer-coins';
 
 type Props = {
   setPhrase: (phrase: string) => void;
@@ -161,8 +163,13 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return skClient.connectEVMWallet(chains, option);
 
         case WalletOption.LEDGER: {
-          const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
-          return skClient.connectLedger(chains[0], derivationPath);
+          //const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
+          let allByCaip = AllChainsSupported.map((chainStr) => {
+            const chainEnum = getChainEnumValue(chainStr);
+            return chainEnum ? ChainToNetworkId[chainEnum] : undefined;
+          }).filter((x) => x !== undefined); // This will filter out any undefined values
+          let paths = getPaths(allByCaip);
+          return skClient.connectLedger(chains[0], paths);
         }
         case WalletOption.METAMASK: {
           let responsePair = await skClient.connectMetaMask(chains);

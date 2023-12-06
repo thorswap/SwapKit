@@ -372,6 +372,9 @@ importers:
       '@esbuild-plugins/node-modules-polyfill':
         specifier: 0.2.2
         version: 0.2.2(esbuild@0.19.3)
+      '@pioneer-platform/pioneer-coins':
+        specifier: ^9.0.4
+        version: 9.0.4(@types/node@20.10.0)
       base64-js:
         specifier: 1.5.1
         version: 1.5.1
@@ -474,7 +477,7 @@ importers:
         version: 5.2.2
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.5.9)
+        version: 4.4.9(@types/node@20.10.0)
 
   packages/swapkit/api:
     dependencies:
