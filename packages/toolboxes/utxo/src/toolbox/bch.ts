@@ -158,6 +158,7 @@ const transfer = async ({
 const buildTx = async ({
   assetValue,
   recipient,
+  pubkeys,
   memo,
   feeRate,
   sender,
@@ -166,10 +167,70 @@ const buildTx = async ({
   const recipientCashAddress = toCashAddress(recipient);
   if (!validateAddress(recipientCashAddress)) throw new Error('Invalid address');
 
-  const utxos = await apiClient.scanUTXOs({
-    address: stripToCashAddress(sender),
-    fetchTxHex: true,
+  console.log('pubkeys: ', pubkeys);
+  //select a single pubkey
+  //choose largest balance
+  let largestBalance = -Infinity; // Initialize with a very small value
+  let pubkeyWithLargestBalance = null; // Initialize as null
+
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
+  for (let i = 0; i < pubkeys.length; i++) {
+    const pubkey = pubkeys[i];
+    const balance = parseFloat(pubkey.balance);
+
+    if (!isNaN(balance) && balance > largestBalance) {
+      largestBalance = balance;
+      pubkeyWithLargestBalance = pubkey;
+    }
+  }
+
+  //pubkeyWithLargestBalance
+  let utxos = await apiClient.listUnspent({
+    pubkey: pubkeyWithLargestBalance.xpub,
+    chain,
+    apiKey: apiClient.apiKey,
   });
+  console.log("inputs total: ",utxos)
+  console.log("inputs total: ",utxos.length)
+  // Create a function to transform an input into the desired output format
+  function transformInput(input) {
+    const {
+      txid,
+      vout,
+      value,
+      address,
+      height,
+      confirmations,
+      path,
+      hex: txHex,
+      tx,
+      coin,
+      network,
+    } = input;
+
+    return {
+      address,
+      hash: txid, // Rename txid to hash
+      index: vout,
+      value: parseInt(value),
+      height,
+      confirmations,
+      path,
+      txHex,
+      tx,
+      coin,
+      network,
+      witnessUtxo: {
+        value: parseInt(input.tx.vout[0].value),
+        script: Buffer.from(input.tx.vout[0].scriptPubKey.hex, 'hex'),
+      },
+    };
+  }
+  utxos = utxos.map(transformInput);
+  // const utxos = await apiClient.scanUTXOs({
+  //   address: stripToCashAddress(sender),
+  //   fetchTxHex: true,
+  // });
 
   const feeRateWhole = Number(feeRate.toFixed(0));
   const compiledMemo = memo ? compileMemo(memo) : null;
@@ -197,11 +258,9 @@ const buildTx = async ({
   // .inputs and .outputs will be undefined if no solution was found
   if (!inputs || !outputs) throw new Error('Balance insufficient for transaction');
   const psbt = new Psbt({ network: getNetwork(chain) }); // Network-specific
-
+  console.log("inputs: ",inputs)
   //Inputs
   inputs.forEach(({ hash, index, witnessUtxo }: UTXOType) =>
-    // FIXME: (@Towan, @Chillios) - Check on this as types says it's not defined
-    // @ts-ignore
     psbt.addInput({ hash, index, witnessUtxo }),
   );
 
@@ -283,7 +342,7 @@ export const BCHToolbox = ({
     createKeysForPath,
     getAddressFromKeys,
     buildBCHTx: (params: UTXOBuildTxParams) => buildBCHTx({ ...params, apiClient }),
-    getBalance: (pubkeys: any) => getBalance(stripPrefix(toCashAddress(pubkeys[0].address))),
+    getBalance: (pubkeys: any) => getBalance(pubkeys),
     buildTx: (params: UTXOBuildTxParams) => buildTx({ ...params, apiClient }),
     transfer: (
       params: UTXOWalletTransferParams<

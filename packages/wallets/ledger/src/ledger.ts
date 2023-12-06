@@ -120,6 +120,7 @@ const getToolbox = async ({
         const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];
         const { psbt, inputs } = await toolbox.buildTx({
           ...params,
+          pubkeys,
           feeRate,
           memo: reduceMemo(params.memo),
           sender: address,
@@ -139,6 +140,7 @@ const getToolbox = async ({
         const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];
         const { psbt, inputs } = await toolbox.buildTx({
           ...params,
+          pubkeys,
           feeRate,
           memo: reduceMemo(params.memo),
           sender: address,
@@ -157,6 +159,7 @@ const getToolbox = async ({
         const feeRate = await (await toolbox.getFeeRates())[FeeOption.Average];
         const { psbt, inputs } = await toolbox.buildTx({
           ...params,
+          pubkeys,
           feeRate,
           memo: reduceMemo(params.memo),
           sender: address,
@@ -478,7 +481,12 @@ const connectLedger =
 
     let pubkeys = [];
     //if UTXO chain, get pubkeys
-    if (chain === Chain.Bitcoin || chain === Chain.Litecoin || chain === Chain.Dogecoin) {
+    if (
+      chain === Chain.Bitcoin ||
+      chain === Chain.Litecoin ||
+      chain === Chain.Dogecoin ||
+      chain === Chain.BitcoinCash
+    ) {
       // @ts-ignore
       let xpubs: any = await getLedgerPubkeys({ chain, ledgerClient });
       console.log('** xpubs: ', xpubs);

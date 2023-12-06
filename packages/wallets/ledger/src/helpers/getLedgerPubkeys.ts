@@ -1,9 +1,28 @@
 import { Chain } from '@coinmasters/types';
+import { addressNListToBIP32 } from '@pioneer-platform/pioneer-coins';
 
 import type { UTXOLedgerClients } from '../types.ts';
-import { addressNListToBIP32 } from '@pioneer-platform/pioneer-coins';
+
 import type { getLedgerClient } from './getLedgerClient.ts';
 import type { LEDGER_SUPPORTED_CHAINS } from './ledgerSupportedChains.ts';
+
+enum PublicKeyType {
+  xpub = '0488b21e',
+  ypub = '049d7cb2',
+  zpub = '04b24746',
+  dgub = '02facafd',
+  Ltub = '019da462',
+  Mtub = '01b26ef6',
+}
+
+export const ChainToXpub = {
+  [Chain.Bitcoin]: 76067358,
+  [Chain.BitcoinCash]: 76067358,
+  [Chain.Dash]: 50221772,
+  [Chain.Digibyte]: 76067358,
+  [Chain.Litecoin]: 27108450,
+  [Chain.Zcash]: 76067358,
+};
 
 export const getLedgerPubkeys = async ({
   chain,
@@ -17,18 +36,25 @@ export const getLedgerPubkeys = async ({
   switch (chain) {
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
+    case Chain.Dash:
+    case Chain.Zcash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       await (ledgerClient as UTXOLedgerClients).connect();
       console.log('ledgerClient: ', ledgerClient);
       console.log('ledgerClient.paths: ', ledgerClient.paths);
       let pubkeys = [];
-      // eslint-disable-next-line for-direction
+
       for (let i = 0; i < ledgerClient.paths.length; i++) {
         let path = ledgerClient.paths[i];
         console.log('path: ', path);
-        let bip32Path = addressNListToBIP32(path.addressNList)
-        const pubkey = await (ledgerClient as UTXOLedgerClients).getExtendedPublicKey(bip32Path);
+        let bip32Path = addressNListToBIP32(path.addressNList);
+        console.log('bip32Path: ', bip32Path);
+        console.log('ChainToXpub[chain]: ', ChainToXpub[chain]);
+        const pubkey = await (ledgerClient as UTXOLedgerClients).getExtendedPublicKey(
+          bip32Path,
+          ChainToXpub[chain],
+        );
         console.log('pubkey: ', pubkey);
         path.pubkey = pubkey;
         path.xpub = pubkey;

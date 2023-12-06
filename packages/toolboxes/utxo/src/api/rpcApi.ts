@@ -1,4 +1,4 @@
-import { postRequest } from '@coinmasters/helpers';
+import { RequestClient } from '@coinmasters/helpers';
 
 import { uniqid } from '../index.ts';
 
@@ -17,7 +17,7 @@ export const broadcastUTXOTx = async ({ txHash, rpcUrl }: { txHash: string; rpcU
       }),
     },
   );
-
+  console.log('response: ', response);
   if (response.error) {
     throw new Error(`failed to broadcast a transaction: ${response.error}`);
   }

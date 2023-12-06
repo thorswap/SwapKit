@@ -66,8 +66,9 @@ const getSuggestedTxFee = async (chain: Chain) => {
 
 const blockchairRequest = async <T extends any>(url: string, apiKey?: string): Promise<T> => {
   try {
+    console.log('blockchairRequest: url: ', url);
     const response = await RequestClient.get<BlockchairResponse<T>>(url);
-    console.log("blockchairRequest: response: ", response);
+    console.log('blockchairRequest: response: ', response);
     if (!response || response.context.code !== 200) throw new Error(`failed to query ${url}`);
 
     return response.data as T;
@@ -114,8 +115,8 @@ const getUnconfirmedBalance = async ({
 
 const getXpubData = async ({ pubkey, chain }: BlockchairParams<{ address?: string }>) => {
   if (!pubkey) throw new Error('pubkey is required');
-
   try {
+    console.log('pubkey: ', pubkey);
     const url = `/utxo/getBalance/${chain}/${pubkey}`;
     console.log('getXpubData URL: ', url);
     //const response = await blockchairRequest<any>(`${baseUrlPioneer()}${url}`);
@@ -138,6 +139,8 @@ const listUnspent = async ({ pubkey, chain }: any) => {
   if (!pubkey) throw new Error('pubkey is required');
 
   try {
+    console.log('pubkey: ', pubkey);
+
     const url = `/listUnspent/${chain}/${pubkey}`;
     console.log('getXpubData URL: ', url);
     //const response = await blockchairRequest<any>(`${baseUrlPioneer()}${url}`);
@@ -276,7 +279,7 @@ export const blockchairApi = ({ apiKey, chain }: { apiKey?: string; chain: UTXOC
   getAddressData: (address: string) => getAddressData({ address, chain, apiKey }),
   scanUTXOs: (params: { address: string; fetchTxHex?: boolean }) =>
     scanUTXOs({ ...params, chain, apiKey }),
-  listUnspent: (pubkey: string) => listUnspent({ pubkey, chain, apiKey }),
+  listUnspent: (pubkey:string, chain:string, apiKey?:string) => listUnspent(pubkey, chain, apiKey ),
 });
 
 export type BlockchairApiType = ReturnType<typeof blockchairApi>;

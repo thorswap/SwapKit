@@ -200,22 +200,28 @@ export class SwapKitCore<T = ''> {
     //for each pubkey iterate and sum the balance
     let balance: AssetValue[] = [];
     if (pubkeys.length === 0) {
+      console.log("Get balance for Address!")
       //use address balance
       balance = (await this.getWallet(chain)?.getBalance([{ address }])) ?? [
         AssetValue.fromChainOrSignature(chain),
       ];
     } else {
-      balance = await this.getWallet(chain)?.getBalance(pubkeys)
-      console.log('getWalletByChain PRE_ balance: ', balance[0]);
-      console.log('getWalletByChain PRE_ balance: ', balance[0].decimal);
-      console.log('getWalletByChain PRE_ balance: ', balance[0].getBaseValue());
-      console.log('getWalletByChain PRE_ balance: ', balance[0].toFixed(8));
-      console.log('getWalletByChain PRE_ balance: ', balance[0].getValue());
-      // console.log('getWalletByChain PRE_ balance: ', balance.toFixedDecimal(8));
-      // console.log('getWalletByChain PRE_ balance: ', balance.value);
-      // console.log('getWalletByChain PRE_ balance: ', balance.value());
-      // console.log('getWalletByChain PRE_ balance: ', balance.value.toString());
-      console.log('balance: ', balance);
+      //use pubkey balances
+      let balanceTotal = 0
+      for(let i = 0; i < pubkeys.length; i++){
+        const pubkey = pubkeys[i];
+        console.log("Get balance for xpub!")
+        console.log("getBalance: ",pubkey)
+        let pubkeyBalance = await this.getWallet(chain)?.getBalance([{ pubkey }]);
+        pubkeyBalance = pubkeyBalance[0].toFixed(pubkeyBalance.decimal)
+        if (isNaN(pubkeyBalance)) {
+          pubkeyBalance = 0;
+        }
+        //TODO get string balance
+        pubkeys[i].balance = pubkeyBalance
+        balanceTotal += pubkeyBalance
+      }
+      balance = [AssetValue.fromChainOrSignature(chain, balanceTotal)];
     }
 
     this.connectedChains[chain] = {
