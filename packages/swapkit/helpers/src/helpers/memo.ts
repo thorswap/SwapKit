@@ -1,5 +1,4 @@
-import type { Chain } from '@swapkit/types';
-import { MemoType } from '@swapkit/types';
+import { Chain, MemoType } from '@swapkit/types';
 
 export type ThornameRegisterParam = {
   name: string;
@@ -61,9 +60,22 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
     case MemoType.DEPOSIT: {
       const { chain, symbol, address, singleSide } = options as MemoOptions<MemoType.DEPOSIT>;
 
+      const getPoolIdentifier = (chain: Chain, symbol: string): string => {
+        switch (chain) {
+          case Chain.Litecoin:
+            return 'l';
+          case Chain.Dogecoin:
+            return 'd';
+          case Chain.BitcoinCash:
+            return 'c';
+          default:
+            return `${chain}.${symbol}`;
+        }
+      };
+
       return singleSide
         ? `${memoType}:${chain}/${symbol}::t:0`
-        : `${memoType}:${chain}.${symbol}:${address || ''}:t:0`;
+        : `${memoType}:${getPoolIdentifier(chain, symbol)}:${address || ''}:t:0`;
     }
 
     case MemoType.WITHDRAW: {
