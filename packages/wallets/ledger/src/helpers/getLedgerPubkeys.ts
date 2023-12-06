@@ -1,5 +1,5 @@
 import { Chain } from '@coinmasters/types';
-import { addressNListToBIP32 } from '@pioneer-platform/pioneer-coins';
+import { addressNListToBIP32, xpubConvert } from '@pioneer-platform/pioneer-coins';
 
 import type { UTXOLedgerClients } from '../types.ts';
 
@@ -51,11 +51,14 @@ export const getLedgerPubkeys = async ({
         let bip32Path = addressNListToBIP32(path.addressNList);
         console.log('bip32Path: ', bip32Path);
         console.log('ChainToXpub[chain]: ', ChainToXpub[chain]);
-        const pubkey = await (ledgerClient as UTXOLedgerClients).getExtendedPublicKey(
+        let pubkey = await (ledgerClient as UTXOLedgerClients).getExtendedPublicKey(
           bip32Path,
           ChainToXpub[chain],
         );
         console.log('pubkey: ', pubkey);
+        if (bip32Path.indexOf('84')) {
+          pubkey = xpubConvert(pubkey, 'zpub');
+        }
         path.pubkey = pubkey;
         path.xpub = pubkey;
         pubkeys.push(path);

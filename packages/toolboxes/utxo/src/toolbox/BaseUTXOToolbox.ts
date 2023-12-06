@@ -187,8 +187,8 @@ const getInputsAndTargetOutputs = async ({
     pubkeys[i].balance = balance;
   }
 
-  //select a single pubkey
-  //choose largest balance
+  // select a single pubkey
+  // choose largest balance
   let largestBalance = -Infinity; // Initialize with a very small value
   let pubkeyWithLargestBalance = null; // Initialize as null
 
@@ -205,7 +205,7 @@ const getInputsAndTargetOutputs = async ({
 
   console.log('The pubkey with the highest balance is:', pubkeyWithLargestBalance);
 
-  //pubkeyWithLargestBalance
+  // pubkeyWithLargestBalance
   let inputs = await apiClient.listUnspent({
     pubkey: pubkeyWithLargestBalance?.pubkey,
     chain,
@@ -248,14 +248,15 @@ const getInputsAndTargetOutputs = async ({
     };
   }
 
-  // Use the map function to transform each input
+  //Use the map function to transform each input
   inputs = inputs.map(transformInput);
-  console.log('Mapped Inputs: ', inputs);
-  const inputsMaster = await apiClient.scanUTXOs({
-    address: '1DB6Wdg6DszG3Yx6RCd8B3yz8BQaDHJtYK',
-    fetchTxHex,
-  });
-  console.log('inputsMaster Inputs: ', inputsMaster);
+
+  // console.log('sender: ', sender);
+  // const inputs = await apiClient.scanUTXOs({
+  //   address: sender,
+  //   fetchTxHex,
+  // });
+  // console.log('inputsMaster Inputs: ', inputs);
 
   if (!validateAddress({ address: recipient, chain, apiClient })) {
     throw new Error('Invalid address');
