@@ -103,14 +103,8 @@ export class AssetValue extends BigIntArithmetics {
     this.tax = params.tax;
   }
 
-  toString(short = false) {
-    const shortFormat = this.isSynthetic ? this.symbol : this.ticker;
-
-    return short
-      ? // ETH/THOR-0xa5f2211b9b8170f694421f2046281775e8468044 | USDT
-        shortFormat
-      : // THOR.ETH/ETH | ETH.USDT-0x1234567890
-        `${this.chain}.${this.symbol}`;
+  toString() {
+    return this.isSynthetic ? this.symbol : `${this.chain}.${this.symbol}`;
   }
 
   toUrl() {
@@ -121,7 +115,20 @@ export class AssetValue extends BigIntArithmetics {
     return this.chain === chain && this.symbol === symbol;
   }
 
-  static async fromString(assetString: string, value: NumberPrimitives = 0) {
+  // THOR.RUNE
+  // THOR.ETH.ETH
+  // ETH.THOR-0x1234567890
+  static fromUrl(urlAsset: string, value: NumberPrimitives = 0) {
+    const [chain, ticker, symbol] = urlAsset.split('.');
+    if (!chain || !ticker) throw new Error('Invalid asset url');
+
+    const assetString =
+      chain === Chain.THORChain && symbol ? `${chain}.${ticker}/${symbol}` : urlAsset;
+
+    return createAssetValue(assetString, value);
+  }
+
+  static fromString(assetString: string, value: NumberPrimitives = 0) {
     return createAssetValue(assetString, value);
   }
 
@@ -144,7 +151,7 @@ export class AssetValue extends BigIntArithmetics {
     return asset;
   }
 
-  static async fromIdentifier(
+  static fromIdentifier(
     assetString: `${Chain}.${string}` | `${Chain}/${string}` | `${Chain}.${string}-${string}`,
     value: NumberPrimitives = 0,
   ) {
@@ -165,7 +172,7 @@ export class AssetValue extends BigIntArithmetics {
     return new AssetValue({ value: parsedValue, decimal, identifier });
   }
 
-  static async loadStaticAssets() {
+  static loadStaticAssets() {
     return new Promise<{ ok: true } | { ok: false; message: string; error: any }>(
       async (resolve, reject) => {
         try {
