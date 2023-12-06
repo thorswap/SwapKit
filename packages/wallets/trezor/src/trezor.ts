@@ -35,6 +35,7 @@ type Params = TrezorOptions & {
   chain: Chain;
   derivationPath: DerivationPathArray;
   rpcUrl?: string;
+  //TODO improve api typing
   api?: any;
 };
 
@@ -85,7 +86,7 @@ const getToolbox = async ({
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      if (!api) throw new Error('API not found');
+      if (!blockchairApiKey && !api) throw new Error('UTXO API key not found');
       const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
 
       const { getToolboxByChain, BCHToolbox } = await import('@swapkit/toolbox-utxo');
@@ -105,7 +106,7 @@ const getToolbox = async ({
               : undefined;
 
       if (!scriptType) throw new Error('Derivation path is not supported');
-      const params = { api, apiKey: blockchairApiKey, rpcUrl };
+      const params = { apiClient: api, apiKey: blockchairApiKey, rpcUrl };
 
       const toolbox = (await getToolboxByChain(chain))(params);
 
@@ -214,7 +215,6 @@ const getToolbox = async ({
         const { psbt, inputs } = await toolbox.buildTx({
           ...rest,
           memo,
-          feeOptionKey,
           recipient,
           feeRate: feeRate || (await toolbox.getFeeRates())[feeOptionKey || FeeOption.Fast],
           sender: from,
@@ -262,7 +262,7 @@ const connectTrezor =
     }
 
     const { address, walletMethods } = await getToolbox({
-      api: apis[chain as Chain.Ethereum],
+      api: apis[chain],
       rpcUrl: rpcUrls[chain],
       chain,
       covalentApiKey,
