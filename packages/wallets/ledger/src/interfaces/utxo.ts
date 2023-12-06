@@ -39,17 +39,9 @@ export const signUTXOTransaction = async (
   const splitNewTx = btcApp.splitTransaction(newTxHex, true);
   const outputScriptHex = btcApp.serializeTransactionOutputs(splitNewTx).toString('hex');
 
-  console.log('derivationPath', derivationPath);
-  console.log('derivationPath', typeof derivationPath);
-  console.log('allPaths', allPaths);
-  console.log(
-    'old associatedKeysets',
-    inputs.map(() => derivationPath),
-  );
   const params: CreateTransactionArg = {
     additionals: ['bech32'],
-    associatedKeysets: inputs.map(() => derivationPath),
-    // associatedKeysets: allPaths,
+    associatedKeysets: allPaths,
     inputs,
     outputScriptHex,
     segwit: true,

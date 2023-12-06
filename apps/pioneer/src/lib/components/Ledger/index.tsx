@@ -282,12 +282,16 @@ export default function Ledger({ onClose }) {
               </Text>
             </Center>
           )}
-          <Text mb={4}>Connect your Ledger device and select a chain:</Text>
-          <Text mb={4}>Your Device MUST be unlocked and the correct application open</Text>
-          {connectedChains.map(renderChainCard)}
-          <Button colorScheme="blue" mt={4} onClick={onClose}>
-            Continue
-          </Button>
+          {!isLocked && !isWrongApp && !isAlreadyClaimed && (
+            <div>
+              <Text mb={4}>Connect your Ledger device and select a chain:</Text>
+              <Text mb={4}>Your Device MUST be unlocked and the correct application open</Text>
+              {connectedChains.map(renderChainCard)}
+              {/*<Button colorScheme="blue" mt={4} onClick={onClose}>*/}
+              {/*  Continue*/}
+              {/*</Button>*/}
+            </div>
+          )}
         </div>
       )}
     </Box>

@@ -26,7 +26,7 @@ import {
 } from '@chakra-ui/react';
 import { ChainToNetworkId, getChainEnumValue } from '@coinmasters/types';
 import { useEffect, useState } from 'react';
-import { FaCog } from 'react-icons/fa';
+import { FaCog, FaRegMoneyBillAlt, FaPaperPlane, FaDownload, FaExchangeAlt } from 'react-icons/fa';
 
 import KeepKey from '../../components/KeepKey';
 import Ledger from '../../components/Ledger';
@@ -67,7 +67,8 @@ const Pioneer = () => {
   }, [openModal]);
 
   // Function to toggle the visibility of all wallets
-  const toggleShowAllWallets = () => {
+  const toggleShowAllWallets = (e) => {
+    e.stopPropagation();
     setShowAllWallets(!showAllWallets);
   };
 
@@ -120,15 +121,17 @@ const Pioneer = () => {
     return walletsToDisplay.map((wallet: any) => (
       <Card key={wallet.type} onClick={() => handleWalletClick(wallet.type)}>
         <CardBody>
-          <Avatar src={wallet.icon}>
-            {wallet.isConnected ? (
-              <AvatarBadge bg="green.500" boxSize="1.25em" />
-            ) : (
-              <AvatarBadge bg="red.500" boxSize="1.25em" />
-            )}
-          </Avatar>
+          <Flex align="center" direction="column" justify="center">
+            <Avatar m={2} size="md" src={wallet.icon}>
+              {wallet.isConnected ? (
+                <AvatarBadge bg="green.500" boxSize="1em" />
+              ) : (
+                <AvatarBadge bg="red.500" boxSize="1em" />
+              )}
+            </Avatar>
+            <Text textAlign="center" fontSize="xs">{wallet.type}</Text>
+          </Flex>
         </CardBody>
-        <small>{wallet.type}</small>
       </Card>
     ));
   };
@@ -308,65 +311,68 @@ const Pioneer = () => {
             borderWidth="1px"
             maxWidth="300px"
             p="4"
-            textAlign="left"
+            textAlign="center"
             width="100%"
           >
-            <div>
-              {/*<Flex alignItems="center">*/}
-              {/*  <small>status: {status}</small>*/}
-              {/*</Flex>*/}
-              <Card borderRadius="md" boxShadow="sm" className="caip" mb={2} p={2}>
-                <Flex alignItems="center" justifyContent="space-between">
-                  <Flex alignItems="center">
-                    <Avatar
-                      mr={2}
-                      size="md"
-                      src={app?.assetContext?.image || 'https://pioneers.dev/coins/ethereum.png'}
-                    />
-                    <Box fontSize="sm" fontWeight="bold">
-                      Asset:
-                    </Box>
-                  </Flex>
-                  <Box fontSize="sm" textAlign="right">
-                    <MiddleEllipsis text={app?.assetContext?.symbol} />
-                  </Box>
-                </Flex>
-                <Flex justifyContent="space-between">
-                  <Box fontSize="xs" />
-                  <Box fontSize="xs" textAlign="right">
-                    caip:
-                    <MiddleEllipsis text={app?.assetContext?.caip} />
-                  </Box>
-                </Flex>
-              </Card>
+            <Flex justify="space-around" wrap="wrap"> {/* Flex container for the buttons */}
+              {/* Portfolio Button */}
+              <Flex direction="column" align="center" m={2}>
+                <IconButton
+                  aria-label="Portfolio"
+                  icon={<FaRegMoneyBillAlt />}
+                  rounded="full"
+                  variant="solid"
+                  colorScheme="green"
+                  size="lg"
+                />
+                <Text fontSize="xs">Portfolio</Text>
+              </Flex>
 
-              {/* Pubkey Card */}
-              {/*<Card borderRadius="md" boxShadow="sm" className="caip" p={2}>*/}
-              {/*  <Flex alignItems="center" justifyContent="space-between">*/}
-              {/*    <Flex alignItems="center">*/}
-              {/*      <Box fontSize="sm" fontWeight="bold">*/}
-              {/*        Pubkey Path:*/}
-              {/*      </Box>*/}
-              {/*    </Flex>*/}
-              {/*    <Box fontSize="sm" textAlign="right">*/}
-              {/*      <MiddleEllipsis text={app?.pubkeyContext?.path} />*/}
-              {/*    </Box>*/}
-              {/*  </Flex>*/}
-              {/*  <Flex justifyContent="space-between">*/}
-              {/*    <Box fontSize="xs">Pubkey:</Box>*/}
-              {/*    <Box fontSize="xs" textAlign="right">*/}
-              {/*      <MiddleEllipsis text={app?.pubkeyContext?.pubkey} />*/}
-              {/*    </Box>*/}
-              {/*  </Flex>*/}
-              {/*</Card>*/}
-            </div>
+              {/* Send Button */}
+              <Flex direction="column" align="center" m={2}>
+                <IconButton
+                  aria-label="Send"
+                  icon={<FaPaperPlane />}
+                  rounded="full"
+                  variant="solid"
+                  colorScheme="green"
+                  size="lg"
+                />
+                <Text fontSize="xs">Send</Text>
+              </Flex>
+
+              {/* Receive Button */}
+              <Flex direction="column" align="center" m={2}>
+                <IconButton
+                  aria-label="Receive"
+                  icon={<FaDownload />}
+                  rounded="full"
+                  variant="solid"
+                  colorScheme="green"
+                  size="lg"
+                />
+                <Text fontSize="xs">Receive</Text>
+              </Flex>
+
+              {/* Swap Button */}
+              <Flex direction="column" align="center" m={2}>
+                <IconButton
+                  aria-label="Swap"
+                  icon={<FaExchangeAlt />}
+                  rounded="full"
+                  variant="solid"
+                  colorScheme="green"
+                  size="lg"
+                />
+                <Text fontSize="xs">Swap</Text>
+              </Flex>
+            </Flex>
           </Box>
-
           <MenuItem>
             <SimpleGrid columns={3} maxWidth="280px" row={1}>
               {renderWallets()}
               <Text color="blue.500" cursor="pointer" fontSize="sm" onClick={toggleShowAllWallets}>
-                {showAllWallets ? 'Hide Wallets' : 'Show All Wallets'}
+                {showAllWallets ? 'Hide Wallets' : 'more'}
               </Text>
             </SimpleGrid>
           </MenuItem>
