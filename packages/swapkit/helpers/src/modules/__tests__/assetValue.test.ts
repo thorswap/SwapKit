@@ -158,28 +158,26 @@ describe('AssetValue', () => {
   });
 
   describe('fromString', () => {
-    test('creates AssetValue from string', () => {
-      test('creates AssetValue from string', async () => {
-        const fakeAvaxAssetString = 'AVAX.ASDF-1234';
-        const fakeAvaxAsset = await AssetValue.fromString(fakeAvaxAssetString);
+    test('creates AssetValue from string', async () => {
+      const fakeAvaxAssetString = 'AVAX.ASDF-1234';
+      const fakeAvaxAsset = await AssetValue.fromString(fakeAvaxAssetString);
 
-        expect(fakeAvaxAsset).toEqual(
-          expect.objectContaining({
-            address: '1234',
-            chain: Chain.Avalanche,
-            decimal: 10,
-            isGasAsset: false,
-            isSynthetic: false,
-            symbol: 'ASDF-1234',
-            ticker: 'ASDF',
-          }),
-        );
-      });
+      expect(fakeAvaxAsset).toEqual(
+        expect.objectContaining({
+          address: '1234',
+          chain: Chain.Avalanche,
+          decimal: 18,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: 'ASDF-1234',
+          ticker: 'ASDF',
+        }),
+      );
     });
   });
 
   describe('fromUrl', () => {
-    test.only('creates AssetValue from url like format', async () => {
+    test('creates AssetValue from url like format', async () => {
       const synthETHString = 'THOR.ETH.ETH';
       const ethString = 'ETH.ETH';
       const thorString = 'ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044';
