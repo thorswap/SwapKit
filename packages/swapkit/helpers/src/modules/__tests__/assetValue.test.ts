@@ -12,13 +12,9 @@ describe('AssetValue', () => {
         chain: Chain.Avalanche,
         symbol: 'USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
       });
-      expect(fakeAvaxUSDCAsset.toString(true)).toBe('USDC');
       expect(fakeAvaxUSDCAsset.toString()).toBe(
         'AVAX.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
       );
-
-      const thor = AssetValue.fromChainOrSignature('ETH.THOR');
-      expect(thor.toString(true)).toBe('THOR');
 
       const ethSynth = new AssetValue({
         chain: Chain.THORChain,
@@ -27,8 +23,7 @@ describe('AssetValue', () => {
         value: 1234567890,
       });
 
-      expect(ethSynth.toString()).toBe('THOR.ETH/ETH');
-      expect(ethSynth.toString(true)).toBe('ETH/ETH');
+      expect(ethSynth.toString()).toBe('ETH/ETH');
       expect(ethSynth.mul(21.37).getValue('string')).toBe('26382715809.3');
 
       const ethThorSynth = new AssetValue({
@@ -37,12 +32,7 @@ describe('AssetValue', () => {
         decimal: 8,
         value: 1234567890,
       });
-      expect(ethThorSynth.toString()).toBe(
-        'THOR.ETH/THOR-0xa5f2211b9b8170f694421f2046281775e8468044',
-      );
-      expect(ethThorSynth.toString(true)).toBe(
-        'ETH/THOR-0xa5f2211b9b8170f694421f2046281775e8468044',
-      );
+      expect(ethThorSynth.toString()).toBe('ETH/THOR-0xa5f2211b9b8170f694421f2046281775e8468044');
 
       const atomDerived = new AssetValue({
         identifier: 'THOR.ATOM',
@@ -50,7 +40,6 @@ describe('AssetValue', () => {
         value: 123456789,
       });
 
-      expect(atomDerived.toString(true)).toBe('ATOM');
       expect(atomDerived.toString()).toBe('THOR.ATOM');
     });
   });
@@ -144,7 +133,7 @@ describe('AssetValue', () => {
       expect(thor.toString()).toBe('ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044');
 
       const ethSynth = await AssetValue.fromIdentifier('ETH/ETH');
-      expect(ethSynth.toString()).toBe('THOR.ETH/ETH');
+      expect(ethSynth.toString()).toBe('ETH/ETH');
     });
   });
 
@@ -186,6 +175,25 @@ describe('AssetValue', () => {
           }),
         );
       });
+    });
+  });
+
+  describe('fromUrl', () => {
+    test.only('creates AssetValue from url like format', async () => {
+      const synthETHString = 'THOR.ETH.ETH';
+      const ethString = 'ETH.ETH';
+      const thorString = 'ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044';
+      const synthThorString = 'THOR.ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044';
+
+      const synthETH = await AssetValue.fromUrl(synthETHString);
+      const eth = await AssetValue.fromUrl(ethString);
+      const thor = await AssetValue.fromUrl(thorString);
+      const synthThor = await AssetValue.fromUrl(synthThorString);
+
+      expect(synthETH.toString()).toBe('ETH/ETH');
+      expect(eth.toString()).toBe('ETH.ETH');
+      expect(thor.toString()).toBe('ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044');
+      expect(synthThor.toString()).toBe('ETH/THOR-0xa5f2211b9b8170f694421f2046281775e8468044');
     });
   });
 

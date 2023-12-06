@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.48
+
+### Patch Changes
+
+- add toUrl and fromUrl and change `toString` to be chain compliant
+
 ## 1.0.0-rc.47
 
 ### Patch Changes
