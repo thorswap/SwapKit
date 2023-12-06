@@ -114,14 +114,14 @@ importers:
         specifier: 0.34.6
         version: 0.34.6(vitest@0.34.6)
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vite-plugin-dts:
         specifier: 3.5.3
-        version: 3.5.3(typescript@5.2.2)(vite@4.5.0)
+        version: 3.5.3(typescript@5.2.2)(vite@4.5.1)
       vite-plugin-node-polyfills:
         specifier: 0.16.0
-        version: 0.16.0(vite@4.5.0)
+        version: 0.16.0(vite@4.5.1)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -193,8 +193,8 @@ importers:
         specifier: 2.6.9
         version: 2.6.9
       vite:
-        specifier: 5.0.2
-        version: 5.0.2(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
 
   internal/playground:
     dependencies:
@@ -297,13 +297,13 @@ importers:
         version: 18.2.17
       '@vitejs/plugin-react':
         specifier: 4.2.0
-        version: 4.2.0(vite@5.0.2)
+        version: 4.2.0(vite@4.5.1)
       typescript:
         specifier: 5.2.2
         version: 5.2.2
       vite:
-        specifier: 5.0.2
-        version: 5.0.2(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
 
   packages/swapkit/api:
     dependencies:
@@ -321,8 +321,8 @@ importers:
         specifier: 0.34.6
         version: 0.34.6(vitest@0.34.6)
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -361,14 +361,14 @@ importers:
         specifier: ^6.9.0
         version: 6.9.0
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vite-plugin-top-level-await:
         specifier: 1.3.1
-        version: 1.3.1(vite@4.5.0)
+        version: 1.3.1(vite@4.5.1)
       vite-plugin-wasm:
         specifier: 3.2.2
-        version: 3.2.2(vite@4.5.0)
+        version: 3.2.2(vite@4.5.1)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -392,8 +392,8 @@ importers:
         specifier: 9.1.2
         version: 9.1.2
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -417,8 +417,8 @@ importers:
         specifier: 0.34.6
         version: 0.34.6(vitest@0.34.6)
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -475,8 +475,8 @@ importers:
         specifier: 0.34.6
         version: 0.34.6(vitest@0.34.6)
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -502,8 +502,8 @@ importers:
         specifier: 11.1.1
         version: 11.1.1
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -520,8 +520,8 @@ importers:
         specifier: ^6.9.0
         version: 6.9.0
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
 
   packages/toolboxes/cosmos:
     dependencies:
@@ -605,8 +605,8 @@ importers:
         specifier: 0.34.6
         version: 0.34.6(vitest@0.34.6)
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -645,8 +645,8 @@ importers:
         specifier: 2.19.1
         version: 2.19.1(ts-node@10.9.1)(typescript@5.2.2)
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -703,8 +703,8 @@ importers:
         specifier: 0.34.6
         version: 0.34.6(vitest@0.34.6)
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -728,8 +728,8 @@ importers:
         specifier: ^6.9.0
         version: 6.9.0
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -756,8 +756,8 @@ importers:
         specifier: 0.34.6
         version: 0.34.6(vitest@0.34.6)
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -817,8 +817,8 @@ importers:
         specifier: ^6.9.0
         version: 6.9.0
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -944,8 +944,8 @@ importers:
         specifier: ^6.9.0
         version: 6.9.0
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -981,8 +981,8 @@ importers:
         specifier: ^6.9.0
         version: 6.9.0
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -1027,8 +1027,8 @@ importers:
         specifier: ^6.9.0
         version: 6.9.0
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -1079,8 +1079,8 @@ importers:
         specifier: ^6.9.0
         version: 6.9.0
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -1116,8 +1116,8 @@ importers:
         specifier: ^6.9.0
         version: 6.9.0
       vite:
-        specifier: 4.5.0
-        version: 4.5.0(@types/node@20.10.0)
+        specifier: 4.5.1
+        version: 4.5.1(@types/node@20.10.0)
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -1800,6 +1800,7 @@ packages:
     cpu: [arm64]
     os: [android]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/android-arm@0.18.20:
@@ -1817,6 +1818,7 @@ packages:
     cpu: [arm]
     os: [android]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/android-x64@0.18.20:
@@ -1834,6 +1836,7 @@ packages:
     cpu: [x64]
     os: [android]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/darwin-arm64@0.18.20:
@@ -1851,6 +1854,7 @@ packages:
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/darwin-x64@0.18.20:
@@ -1868,6 +1872,7 @@ packages:
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/freebsd-arm64@0.18.20:
@@ -1885,6 +1890,7 @@ packages:
     cpu: [arm64]
     os: [freebsd]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/freebsd-x64@0.18.20:
@@ -1902,6 +1908,7 @@ packages:
     cpu: [x64]
     os: [freebsd]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-arm64@0.18.20:
@@ -1919,6 +1926,7 @@ packages:
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-arm@0.18.20:
@@ -1936,6 +1944,7 @@ packages:
     cpu: [arm]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-ia32@0.18.20:
@@ -1953,6 +1962,7 @@ packages:
     cpu: [ia32]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-loong64@0.18.20:
@@ -1970,6 +1980,7 @@ packages:
     cpu: [loong64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-mips64el@0.18.20:
@@ -1987,6 +1998,7 @@ packages:
     cpu: [mips64el]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-ppc64@0.18.20:
@@ -2004,6 +2016,7 @@ packages:
     cpu: [ppc64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-riscv64@0.18.20:
@@ -2021,6 +2034,7 @@ packages:
     cpu: [riscv64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-s390x@0.18.20:
@@ -2038,6 +2052,7 @@ packages:
     cpu: [s390x]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/linux-x64@0.18.20:
@@ -2055,6 +2070,7 @@ packages:
     cpu: [x64]
     os: [linux]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/netbsd-x64@0.18.20:
@@ -2072,6 +2088,7 @@ packages:
     cpu: [x64]
     os: [netbsd]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/openbsd-x64@0.18.20:
@@ -2089,6 +2106,7 @@ packages:
     cpu: [x64]
     os: [openbsd]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/sunos-x64@0.18.20:
@@ -2106,6 +2124,7 @@ packages:
     cpu: [x64]
     os: [sunos]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/win32-arm64@0.18.20:
@@ -2123,6 +2142,7 @@ packages:
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/win32-ia32@0.18.20:
@@ -2140,6 +2160,7 @@ packages:
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@esbuild/win32-x64@0.18.20:
@@ -2157,6 +2178,7 @@ packages:
     cpu: [x64]
     os: [win32]
     requiresBuild: true
+    dev: false
     optional: true
 
   /@eslint-community/eslint-utils@4.4.0(eslint@8.54.0):
@@ -4649,7 +4671,7 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
-  /@vitejs/plugin-react@4.2.0(vite@5.0.2):
+  /@vitejs/plugin-react@4.2.0(vite@4.5.1):
     resolution: {integrity: sha512-+MHTH/e6H12kRp5HUkzOGqPMksezRMmW+TNzlh/QXfI8rRf6l2Z2yH/v12no1UvTwhZgEDMuQ7g7rrfMseU6FQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -4660,7 +4682,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.23.3(@babel/core@7.23.3)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.0
-      vite: 5.0.2(@types/node@20.10.0)
+      vite: 4.5.1(@types/node@20.10.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6868,6 +6890,7 @@ packages:
       '@esbuild/win32-arm64': 0.19.3
       '@esbuild/win32-ia32': 0.19.3
       '@esbuild/win32-x64': 0.19.3
+    dev: false
 
   /escalade@3.1.1:
     resolution: {integrity: sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==}
@@ -12339,7 +12362,7 @@ packages:
       mlly: 1.4.2
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 5.0.2(@types/node@20.10.0)
+      vite: 4.5.1(@types/node@20.10.0)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -12351,7 +12374,7 @@ packages:
       - terser
     dev: true
 
-  /vite-plugin-dts@3.5.3(typescript@5.2.2)(vite@4.5.0):
+  /vite-plugin-dts@3.5.3(typescript@5.2.2)(vite@4.5.1):
     resolution: {integrity: sha512-h94j/+SR1PhLR9jnEtcjZILagE2QZBAV8V1y3T2Ujcet1VI0Et4dZSU1W8fbnp6obB7B3/b8hArqdi2/9HuH+w==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -12367,7 +12390,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       kolorist: 1.8.0
       typescript: 5.2.2
-      vite: 4.5.0(@types/node@20.10.0)
+      vite: 4.5.1(@types/node@20.10.0)
       vue-tsc: 1.8.8(typescript@5.2.2)
     transitivePeerDependencies:
       - '@types/node'
@@ -12375,7 +12398,7 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-node-polyfills@0.16.0(vite@4.5.0):
+  /vite-plugin-node-polyfills@0.16.0(vite@4.5.1):
     resolution: {integrity: sha512-uj1ymOmk7TliMxiivmXokpMY5gVMBpFPSZPLQSCv/LjkJGGKwyLjpbFL64dbYZEdFSUQ3tM7pbrxNh25yvhqOA==}
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0 || ^4.0.0
@@ -12384,12 +12407,12 @@ packages:
       buffer-polyfill: /buffer@6.0.3
       node-stdlib-browser: 1.2.0
       process: 0.11.10
-      vite: 4.5.0(@types/node@20.10.0)
+      vite: 4.5.1(@types/node@20.10.0)
     transitivePeerDependencies:
       - rollup
     dev: true
 
-  /vite-plugin-top-level-await@1.3.1(vite@4.5.0):
+  /vite-plugin-top-level-await@1.3.1(vite@4.5.1):
     resolution: {integrity: sha512-55M1h4NAwkrpxPNOJIBzKZFihqLUzIgnElLSmPNPMR2Fn9+JHKaNg3sVX1Fq+VgvuBksQYxiD3OnwQAUu7kaPQ==}
     peerDependencies:
       vite: '>=2.8'
@@ -12397,22 +12420,22 @@ packages:
       '@rollup/plugin-virtual': 3.0.1
       '@swc/core': 1.3.66
       uuid: 9.0.0
-      vite: 4.5.0(@types/node@20.10.0)
+      vite: 4.5.1(@types/node@20.10.0)
     transitivePeerDependencies:
       - '@swc/helpers'
       - rollup
     dev: true
 
-  /vite-plugin-wasm@3.2.2(vite@4.5.0):
+  /vite-plugin-wasm@3.2.2(vite@4.5.1):
     resolution: {integrity: sha512-cdbBUNR850AEoMd5nvLmnyeq63CSfoP1ctD/L2vLk/5+wsgAPlAVAzUK5nGKWO/jtehNlrSSHLteN+gFQw7VOA==}
     peerDependencies:
       vite: ^2 || ^3 || ^4
     dependencies:
-      vite: 4.5.0(@types/node@20.10.0)
+      vite: 4.5.1(@types/node@20.10.0)
     dev: true
 
-  /vite@4.5.0(@types/node@20.10.0):
-    resolution: {integrity: sha512-ulr8rNLA6rkyFAlVWw2q5YJ91v098AFQ2R0PRFwPzREXOUJQPtFUG0t+/ZikhaOCDqFoDhN6/v8Sq0o4araFAw==}
+  /vite@4.5.1(@types/node@20.10.0):
+    resolution: {integrity: sha512-AXXFaAJ8yebyqzoNB9fu2pHoo/nWX+xZlaRwoeYUxEqBO+Zj4msE5G+BhGBll9lYEKv9Hfks52PAF2X7qDYXQA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
@@ -12443,42 +12466,6 @@ packages:
       esbuild: 0.18.20
       postcss: 8.4.31
       rollup: 3.29.2
-    optionalDependencies:
-      fsevents: 2.3.3
-    dev: true
-
-  /vite@5.0.2(@types/node@20.10.0):
-    resolution: {integrity: sha512-6CCq1CAJCNM1ya2ZZA7+jS2KgnhbzvxakmlIjN24cF/PXhRMzpM/z8QgsVJA/Dm5fWUWnVEsmtBoMhmerPxT0g==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': ^18.0.0 || >=20.0.0
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      '@types/node': 20.10.0
-      esbuild: 0.19.3
-      postcss: 8.4.31
-      rollup: 4.6.0
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
@@ -12535,7 +12522,7 @@ packages:
       strip-literal: 1.3.0
       tinybench: 2.5.1
       tinypool: 0.7.0
-      vite: 5.0.2(@types/node@20.10.0)
+      vite: 4.5.1(@types/node@20.10.0)
       vite-node: 0.34.6(@types/node@20.10.0)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
