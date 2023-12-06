@@ -61,7 +61,7 @@ export const utxoWalletMethods = async ({
     transfer: (params: UTXOTransferParams) => Promise<string>;
   }
 > => {
-  if (!apiKey) throw new Error('UTXO API key not found');
+  if (!apiKey && !apiClient) throw new Error('UTXO API key not found');
   const { toolbox, segwit } = getToolbox({ chain, apiClient, apiKey });
 
   const scriptType = segwit ? 'p2wpkh' : 'p2pkh';
@@ -69,7 +69,6 @@ export const utxoWalletMethods = async ({
   const { address: walletAddress } = await sdk.address.utxoGetAddress(addressInfo);
 
   const signTransaction = async (psbt: Psbt, inputs: KeepKeyInputObject[], memo: string = '') => {
-    console.log('psbt.txOutputs: ', psbt.txOutputs);
     const outputs = psbt.txOutputs
       .map((output) => {
         const { value, address, change } = output as psbtTxOutput;
@@ -102,28 +101,15 @@ export const utxoWalletMethods = async ({
         (item) => item !== null && typeof item === 'object' && Object.keys(item).length !== 0,
       );
     }
-    console.log({
+    const responseSign = await sdk.utxo.utxoSignTransaction({
       coin: Coin[chain as keyof typeof Coin],
       inputs,
       outputs: removeNullAndEmptyObjectsFromArray(outputs),
       version: 1,
       locktime: 0,
+      opReturnData: memo,
     });
-    try {
-      const responseSign = await sdk.utxo.utxoSignTransaction({
-        coin: Coin[chain as keyof typeof Coin],
-        inputs,
-        outputs: removeNullAndEmptyObjectsFromArray(outputs),
-        version: 1,
-        locktime: 0,
-        opReturnData: memo,
-      });
-      console.log('responseSign: ', responseSign);
-      return responseSign.serializedTx;
-    } catch (e) {
-      console.error(e);
-      throw e;
-    }
+    return responseSign.serializedTx;
   };
 
   const transfer = async ({
