@@ -1,5 +1,12 @@
 # @internal/playground
 
+## 0.0.0-rc.62
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-xdefi@1.0.0-rc.59
+
 ## 0.0.0-rc.61
 
 ### Patch Changes

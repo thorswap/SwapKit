@@ -114,7 +114,7 @@ const getWalletMethodsForChain = async ({
 
       const provider = new BrowserProvider(ethereumWindowProvider, 'any');
       const toolbox = (await getToolboxByChain(chain))({
-        provider: getProvider(chain),
+        provider,
         signer: await provider.getSigner(),
         ethplorerApiKey: ethplorerApiKey || '',
         covalentApiKey: covalentApiKey || '',

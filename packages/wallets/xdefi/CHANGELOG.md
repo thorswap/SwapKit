@@ -1,5 +1,11 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.59
+
+### Patch Changes
+
+- bump xdefi for provider
+
 ## 1.0.0-rc.58
 
 ### Patch Changes
