@@ -1,11 +1,11 @@
 import { StargateClient } from '@cosmjs/stargate';
-import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
+import type { KeepKeySdk, ThorchainSignAminoDepositRequest } from '@keepkey/keepkey-sdk';
 import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
 import { ThorchainToolbox } from '@swapkit/toolbox-cosmos';
 import type {} from '@swapkit/types';
 import { Chain, ChainId, RPCUrl } from '@swapkit/types';
 
-import { addressInfoForCoin } from '../coins.ts';
+import { bip32ToAddressNList } from '../helpers/coins.ts';
 
 type SignTransactionTransferParams = {
   asset: string;
@@ -26,7 +26,7 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
   try {
     const toolbox = ThorchainToolbox({ stagenet: !'smeshnet' });
     const { address: fromAddress } = (await sdk.address.thorchainGetAddress({
-      address_n: addressInfoForCoin(Chain.THORChain, false).address_n,
+      address_n: bip32ToAddressNList(Chain.THORChain),
     })) as { address: string };
 
     const signTransactionTransfer = async ({
@@ -90,32 +90,35 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
       memo = '',
     }: SignTransactionDepositParams) => {
       try {
-        const addressInfo = addressInfoForCoin(Chain.THORChain, false); // @highlander no witness script here
         const accountInfo = await toolbox.getAccount(fromAddress);
 
-        const keepKeyResponse = await sdk.thorchain.thorchainSignAminoDeposit({
-          signerAddress: fromAddress,
+        //new
+        let unsigned: ThorchainSignAminoDepositRequest = {
           signDoc: {
-            memo,
+            memo: memo || '',
             sequence: accountInfo?.sequence.toString() ?? '0',
-            // FIXME: @highlander - this type is missing from source signature
-            // @ts-expect-error
-            source: addressInfo?.source?.toString() ?? '0',
             account_number: accountInfo?.accountNumber?.toString() ?? '0',
             chain_id: ChainId.THORChain,
-            fee: { gas: '500000000', amount: [{ amount: '2500', denom: 'rune' }] },
+            fee: {
+              gas: '500000000',
+              amount: null, // thorchain has default fees
+            },
             msgs: [
               {
                 value: {
-                  coins: [{ asset: 'THOR.' + asset.toUpperCase(), amount: amount.toString() }],
-                  memo,
+                  coins: [{ asset: 'THOR.' + asset.toUpperCase(), amount: amount.toString() }], // Check if this matches the expected 'any' type
+                  memo: memo || '',
                   signer: fromAddress,
                 },
                 type: 'thorchain/MsgDeposit',
               },
             ],
           },
-        });
+          signerAddress: fromAddress,
+        };
+
+        const keepKeyResponse = await sdk.thorchain.thorchainSignAminoDeposit(unsigned);
+
         const stargateClient = await StargateClient.connect(RPCUrl.THORChain);
 
         const decodedBytes = atob(keepKeyResponse.serialized);

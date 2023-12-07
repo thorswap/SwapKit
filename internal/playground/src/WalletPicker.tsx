@@ -89,9 +89,22 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         }
 
         case WalletOption.KEEPKEY: {
-          return skClient.connectKeepkey(chains);
-        }
+          /*
+                Notes: This is issued by the KeepKey desktop application
 
+               1. The KeepKey desktop application will generate a random API specifically for the user
+               ** THIS IS NOT STATIC it is unique for every NEW application a user approves! **
+               2. This is localhost (http://localhost:1646/docs/) it is NOT a remote site, this is local to the users machine
+               2. The user will be required to approve the APP key before you may communicate to the device
+               3. This is to prevent Phishing and other attacks where a malicious website can request access to a users device
+               4. any time this apiKey is lost a user must re-pair, any time the App domain changes, the user must re-pair
+
+               more information: https://medium.com/@highlander_35968/building-on-the-keepkey-sdk-2023fda41f38
+           */
+          let keepkeyApiKey: string = await skClient.connectKeepkey(chains);
+          localStorage.setItem('keepkeyApiKey', keepkeyApiKey);
+          return;
+        }
         case WalletOption.TREZOR: {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
           return skClient.connectTrezor(chains[0], derivationPath);

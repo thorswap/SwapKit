@@ -1,11 +1,11 @@
 import type { BaseUTXOToolbox, UTXOToolbox, UTXOTransferParams } from '@swapkit/toolbox-utxo';
 import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/toolbox-utxo';
 import type { UTXOChain } from '@swapkit/types';
-import { Chain, FeeOption } from '@swapkit/types';
+import { Chain, DerivationPath, FeeOption } from '@swapkit/types';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
 
-import { addressInfoForCoin, Coin } from '../coins.ts';
+import { bip32ToAddressNList, ChainToKeepKeyName } from '../helpers/coins.ts';
 
 type Params = {
   sdk: any;
@@ -65,7 +65,11 @@ export const utxoWalletMethods = async ({
   const { toolbox, segwit } = getToolbox({ chain, apiClient, apiKey });
 
   const scriptType = segwit ? 'p2wpkh' : 'p2pkh';
-  const addressInfo = addressInfoForCoin(chain, false, scriptType);
+  const addressInfo = {
+    coin: ChainToKeepKeyName[chain],
+    script_type: scriptType,
+    address_n: bip32ToAddressNList(DerivationPath[chain]),
+  };
   const { address: walletAddress } = await sdk.address.utxoGetAddress(addressInfo);
 
   const signTransaction = async (psbt: Psbt, inputs: KeepKeyInputObject[], memo: string = '') => {
@@ -102,7 +106,7 @@ export const utxoWalletMethods = async ({
       );
     }
     const responseSign = await sdk.utxo.utxoSignTransaction({
-      coin: Coin[chain as keyof typeof Coin],
+      coin: ChainToKeepKeyName[chain],
       inputs,
       outputs: removeNullAndEmptyObjectsFromArray(outputs),
       version: 1,
