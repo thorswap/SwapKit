@@ -423,9 +423,13 @@ export class SwapKitCore<T = ''> {
     if (symmetric && !address) {
       throw new SwapKitError('core_transaction_add_liquidity_invalid_params');
     }
-    const addressString = symmetric ? address || '' : '';
+    const memo = getMemoFor(MemoType.DEPOSIT, {
+      chain: poolAddress.split('.')[0] as Chain,
+      symbol: poolAddress.split('.')[1],
+      address: symmetric ? address : '',
+    });
 
-    return this.#depositToPool({ assetValue, memo: `+:${poolAddress}:${addressString}:t:0` });
+    return this.#depositToPool({ assetValue, memo });
   };
 
   withdraw = async ({
