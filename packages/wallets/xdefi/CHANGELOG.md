@@ -1,5 +1,11 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.61
+
+### Patch Changes
+
+- [#467](https://github.com/thorswap/SwapKit/pull/467) [`2baa895`](https://github.com/thorswap/SwapKit/commit/2baa895608c5ae0a8bad0206d9c3df690d1c3b1f) Thanks [@towanTG](https://github.com/towanTG)! - Fixes xdefi send transaction
+
 ## 1.0.0-rc.60
 
 ### Patch Changes
