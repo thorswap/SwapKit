@@ -1,5 +1,12 @@
 # @internal/playground
 
+## 0.0.0-rc.61
+
+### Patch Changes
+
+- Updated dependencies [[`d8e646a`](https://github.com/thorswap/SwapKit/commit/d8e646a003267a47db927957481139cf991cf490)]:
+  - @swapkit/core@1.0.0-rc.61
+
 ## 0.0.0-rc.60
 
 ### Patch Changes

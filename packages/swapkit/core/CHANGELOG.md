@@ -1,5 +1,11 @@
 # @swapkit/core
 
+## 1.0.0-rc.61
+
+### Patch Changes
+
+- [#463](https://github.com/thorswap/SwapKit/pull/463) [`d8e646a`](https://github.com/thorswap/SwapKit/commit/d8e646a003267a47db927957481139cf991cf490) Thanks [@towanTG](https://github.com/towanTG)! - Fixes addLiquidityPart to use common memo method
+
 ## 1.0.0-rc.60
 
 ### Patch Changes
