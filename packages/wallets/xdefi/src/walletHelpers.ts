@@ -7,6 +7,7 @@ import {
   createContractTxObject,
   isStateChangingCall,
   MAX_APPROVAL,
+  toHexString,
 } from '@swapkit/toolbox-evm';
 import type { ChainId, FeeOption } from '@swapkit/types';
 import { Chain, ChainToChainId, erc20ABI, RPCUrl } from '@swapkit/types';
@@ -187,7 +188,7 @@ export const getXdefiMethods = (provider: BrowserProvider, toolbox: EVMToolbox) 
     const isStateChanging = isStateChangingCall(abi, funcName);
 
     if (isStateChanging) {
-      const txObject = await createContractTxObject(contractProvider, {
+      const { value, from, to, data } = await createContractTxObject(contractProvider, {
         contractAddress,
         abi,
         funcName,
@@ -195,7 +196,9 @@ export const getXdefiMethods = (provider: BrowserProvider, toolbox: EVMToolbox) 
         txOverrides,
       });
 
-      return toolbox.EIP1193SendTransaction(txObject) as Promise<T>;
+      return provider.send('eth_sendTransaction', [
+        { value: toHexString(BigInt(value || 0)), from, to, data: data || '0x' } as any,
+      ]);
     }
     const contract = await createContract(contractAddress, abi, contractProvider);
 
@@ -215,23 +218,18 @@ export const getXdefiMethods = (provider: BrowserProvider, toolbox: EVMToolbox) 
       txOverrides,
     };
 
-    return toolbox.EIP1193SendTransaction(
-      await createContractTxObject(provider, functionCallParams),
-    );
+    const { value, to, data } = await createContractTxObject(provider, functionCallParams);
+
+    return provider.send('eth_sendTransaction', [
+      { value: toHexString(BigInt(value || 0)), from, to, data: data || '0x' } as any,
+    ]);
   },
   sendTransaction: (tx: EVMTxParams) => {
-    const { from, to, data, value, ...transaction } = tx;
+    const { from, to, data, value } = tx;
     if (!to) throw new Error('No to address provided');
 
-    const parsedTxObject = {
-      ...transaction,
-      data: data || '0x',
-      to,
-      from,
-      value: BigInt(value || 0),
-    };
-
-    // early return to skip gas estimation if provider is EIP-1193
-    return toolbox.EIP1193SendTransaction(parsedTxObject);
+    return provider.send('eth_sendTransaction', [
+      { value: toHexString(BigInt(value || 0)), from, to, data: data || '0x' } as any,
+    ]);
   },
 });
