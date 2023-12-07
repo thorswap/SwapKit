@@ -125,7 +125,7 @@ const getWalletMethodsForChain = async ({
         covalentApiKey: covalentApiKey || '',
       });
 
-      const xdefiMethods = getXdefiMethods(provider, toolbox);
+      const xdefiMethods = getXdefiMethods(provider);
 
       try {
         chain !== Chain.Ethereum &&

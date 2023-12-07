@@ -174,7 +174,7 @@ export const cosmosTransfer =
     return transactionHash;
   };
 
-export const getXdefiMethods = (provider: BrowserProvider, toolbox: EVMToolbox) => ({
+export const getXdefiMethods = (provider: BrowserProvider) => ({
   call: async <T>({
     contractAddress,
     abi,
