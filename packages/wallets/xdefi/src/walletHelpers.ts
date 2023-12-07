@@ -1,9 +1,16 @@
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@swapkit/helpers';
 import type { TransferParams } from '@swapkit/toolbox-cosmos';
+import type { ApproveParams, CallParams, EVMToolbox, EVMTxParams } from '@swapkit/toolbox-evm';
+import {
+  createContract,
+  createContractTxObject,
+  isStateChangingCall,
+  MAX_APPROVAL,
+} from '@swapkit/toolbox-evm';
 import type { ChainId, FeeOption } from '@swapkit/types';
-import { Chain, ChainToChainId, RPCUrl } from '@swapkit/types';
-import type { Eip1193Provider } from 'ethers';
+import { Chain, ChainToChainId, erc20ABI, RPCUrl } from '@swapkit/types';
+import type { BrowserProvider, Eip1193Provider } from 'ethers';
 
 type TransactionMethod = 'transfer' | 'deposit';
 
@@ -165,3 +172,66 @@ export const cosmosTransfer =
     const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 1.6, memo);
     return transactionHash;
   };
+
+export const getXdefiMethods = (provider: BrowserProvider, toolbox: EVMToolbox) => ({
+  call: async <T>({
+    contractAddress,
+    abi,
+    funcName,
+    funcParams = [],
+    txOverrides,
+  }: CallParams): Promise<T> => {
+    const contractProvider = provider;
+    if (!contractAddress) throw new Error('contractAddress must be provided');
+
+    const isStateChanging = isStateChangingCall(abi, funcName);
+
+    if (isStateChanging) {
+      const txObject = await createContractTxObject(contractProvider, {
+        contractAddress,
+        abi,
+        funcName,
+        funcParams,
+        txOverrides,
+      });
+
+      return toolbox.EIP1193SendTransaction(txObject) as Promise<T>;
+    }
+    const contract = await createContract(contractAddress, abi, contractProvider);
+
+    const result = await contract[funcName](...funcParams);
+
+    return typeof result?.hash === 'string' ? result?.hash : result;
+  },
+  approve: async ({ assetAddress, spenderAddress, amount, from }: ApproveParams) => {
+    const funcParams = [spenderAddress, BigInt(amount || MAX_APPROVAL)];
+    const txOverrides = { from };
+
+    const functionCallParams = {
+      contractAddress: assetAddress,
+      abi: erc20ABI,
+      funcName: 'approve',
+      funcParams,
+      txOverrides,
+    };
+
+    return toolbox.EIP1193SendTransaction(
+      await createContractTxObject(provider, functionCallParams),
+    );
+  },
+  sendTransaction: (tx: EVMTxParams) => {
+    const { from, to, data, value, ...transaction } = tx;
+    if (!to) throw new Error('No to address provided');
+
+    const parsedTxObject = {
+      ...transaction,
+      data: data || '0x',
+      to,
+      from,
+      value: BigInt(value || 0),
+    };
+
+    // early return to skip gas estimation if provider is EIP-1193
+    return toolbox.EIP1193SendTransaction(parsedTxObject);
+  },
+});

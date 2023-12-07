@@ -4,9 +4,12 @@ export * from './helpers.ts';
 export * from './provider.ts';
 export {
   BaseEVMToolbox,
+  createContract,
+  createContractTxObject,
   EIP1193SendTransaction,
   getChecksumAddressFromAsset,
   getTokenAddress,
+  isStateChangingCall,
   MAX_APPROVAL,
   toChecksumAddress,
 } from './toolbox/BaseEVMToolbox.ts';
