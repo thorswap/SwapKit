@@ -260,6 +260,15 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
   const [state, dispatch] = useReducer(reducer, initialState);
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const resetState = () => {
+    console.log('RESET_STATE');
+    // @ts-ignore
+    dispatch({
+      type: WalletActions.RESET_STATE,
+      payload: null,
+    });
+  };
+
   const setIntent = (intent: string) => {
     console.log('intent modal: ', intent);
     // @ts-ignore
@@ -303,7 +312,17 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
     try {
       if (state && state?.app) {
         console.log('connectWallet: ', wallet);
-        //TODO get custom paths for wallet from localStorage
+        let customPathsForWallet = localStorage.getItem(wallet + ':paths:add');
+        let disabledPathsForWallet = localStorage.getItem(wallet + ':paths:removed');
+
+        // Parse the strings to arrays
+        let customPathsArray = customPathsForWallet ? JSON.parse(customPathsForWallet) : [];
+        let disabledPathsArray = disabledPathsForWallet ? JSON.parse(disabledPathsForWallet) : [];
+
+        // Console log the arrays
+        console.log('Custom Paths for Wallet:', customPathsArray);
+        console.log('Disabled Paths for Wallet:', disabledPathsArray);
+
         const successPairWallet = await state.app.pairWallet(wallet, [], chain);
         console.log('successPairWallet: ', successPairWallet);
         if (successPairWallet && successPairWallet.error) {
@@ -524,6 +543,7 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       showModal,
       hideModal,
       setIntent,
+      resetState,
     }),
     [connectWallet, state],
   );

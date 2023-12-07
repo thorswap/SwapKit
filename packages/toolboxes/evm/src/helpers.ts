@@ -274,12 +274,12 @@ export const getBalance = async ({
 }: {
   provider: JsonRpcProvider | BrowserProvider;
   api: CovalentApiType | EthplorerApiType;
-  address: string;
+  address: any;
   chain: EVMChain;
   potentialScamFilter?: boolean;
 }) => {
-  const tokenBalances = await api.getBalance(address);
-  const evmGasTokenBalance = await provider.getBalance(address);
+  const tokenBalances = await api.getBalance(address[0].address);
+  const evmGasTokenBalance = await provider.getBalance(address[0].address);
   const balances =
     chain === Chain.Ethereum
       ? [

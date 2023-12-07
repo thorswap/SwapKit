@@ -25,14 +25,18 @@ type CovalentBalanceResponse = {
     quote_24h: number;
   }[];
 };
-
+type AddressObject = {
+  address: string;
+};
 export const covalentApi = ({ apiKey, chainId }: { apiKey: string; chainId: ChainId }) => ({
-  getBalance: async (address: string) => {
+  getBalance: async (address: any) => {
+    console.log('address: ', address);
+    console.log('address: ', address);
     const { data } = await RequestClient.get<{ data: CovalentBalanceResponse }>(
       `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/`,
       { searchParams: { key: apiKey } },
     );
-
+    console.log('data: ', data);
     return (data?.items || []).map(
       ({ balance, contract_decimals, contract_ticker_symbol, contract_address, native_token }) => ({
         value: formatBigIntToSafeValue({ value: BigInt(balance), decimal: contract_decimals }),

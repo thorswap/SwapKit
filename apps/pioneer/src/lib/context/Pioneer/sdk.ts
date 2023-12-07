@@ -285,6 +285,10 @@ export class SDK {
         console.log(tag, 'allByCaip: ', allByCaip);
         this.blockchains = allByCaip;
         let allPaths = getPaths(allByCaip);
+        if (wallet === 'METAMASK') {
+          //Metamask snaps are stupid can cant handle bip84 paths
+          allPaths = allPaths.filter((pathObj) => pathObj.type !== 'zpub');
+        }
         console.log(tag, 'getPaths allPaths: ', allPaths);
         let walletPaths = [...getPaths(allByCaip), ...customPaths];
         console.log(tag, 'walletPaths: ', walletPaths);
@@ -389,7 +393,7 @@ export class SDK {
           // get balances
           // @ts-ignore
           let context;
-          if (wallet === 'LEDGER' && ledgerApp !== 'ETH'){
+          if (wallet === 'LEDGER' && ledgerApp !== 'ETH') {
             context = 'ledger:ledger.wallet'; //placeholder until we know eth address
           } else {
             const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
@@ -513,27 +517,30 @@ export class SDK {
                 );
                 console.log('pubkeyForPath: ', pubkeyForPath);
                 let address = this.swapKit.getAddress(chain);
-                if (!pubkeyForPath)
-                  throw Error(
-                    chain +
-                      'Failed to get pubkey for path: ' +
-                      path.addressNList +
-                      ' chain: ' +
-                      blockchain,
-                  );
-                pubkey = {
-                  context: this.context, // TODO this is not right?
-                  networkId: blockchain,
-                  symbol: pubkeyForPath.symbol,
-                  symbolSwapKit: chain,
-                  type: pubkeyForPath.type,
-                  blockchain: COIN_MAP_LONG[chain] || 'unknown',
-                  master: address, //TODO this is probally wrong, get address for path
-                  address, //TODO get next unused address and save it here!
-                  pubkey: pubkeyForPath.xpub,
-                  xpub: pubkeyForPath.xpub,
-                };
-                pubkeysNew.push(pubkey);
+                //TODO fix paths so metamask doesnt throw this on 84!
+                // if (!pubkeyForPath)
+                //   throw Error(
+                //     chain +
+                //       'Failed to get pubkey for path: ' +
+                //       path.addressNList +
+                //       ' chain: ' +
+                //       blockchain,
+                //   );
+                if (pubkeyForPath) {
+                  pubkey = {
+                    context: this.context, // TODO this is not right?
+                    networkId: blockchain,
+                    symbol: pubkeyForPath.symbol,
+                    symbolSwapKit: chain,
+                    type: pubkeyForPath.type,
+                    blockchain: COIN_MAP_LONG[chain] || 'unknown',
+                    master: address, //TODO this is probally wrong, get address for path
+                    address, //TODO get next unused address and save it here!
+                    pubkey: pubkeyForPath.xpub,
+                    xpub: pubkeyForPath.xpub,
+                  };
+                  pubkeysNew.push(pubkey);
+                }
               }
             }
             //get balances for each pubkey
@@ -583,12 +590,7 @@ export class SDK {
               const balance = walletForChain.balance[j];
               console.log('balance: ', balance);
               let balanceString: any = {};
-              if (
-                !balance.chain ||
-                !balance.symbol ||
-                !balance.ticker ||
-                !balance.type
-              ) {
+              if (!balance.chain || !balance.symbol || !balance.ticker || !balance.type) {
                 console.error('Missing required properties for balance: ', balance);
               } else {
                 //caip

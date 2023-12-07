@@ -178,10 +178,10 @@ const getInputsAndTargetOutputs = async ({
   //get inputs by xpub
   console.log('pubkeys: ', pubkeys);
   //get balances for each pubkey
-  for(let i = 0; i < pubkeys.length; i++) {
+  for (let i = 0; i < pubkeys.length; i++) {
     let pubkey = pubkeys[i];
-    console.log("pubkey: ",pubkey.pubkey)
-    console.log("pubkey: ",pubkey.pubkey.pubkey)
+    console.log('pubkey: ', pubkey.pubkey);
+    console.log('pubkey: ', pubkey.pubkey.pubkey);
     let balance = await apiClient.getBalanceXpub(pubkey.pubkey);
     console.log('balance: ', balance);
     pubkeys[i].balance = balance;
@@ -211,8 +211,8 @@ const getInputsAndTargetOutputs = async ({
     chain,
     apiKey: apiClient.apiKey,
   });
-  console.log("inputs total: ",inputs)
-  console.log("inputs total: ",inputs.length)
+  console.log('inputs total: ', inputs);
+  console.log('inputs total: ', inputs.length);
   // Create a function to transform an input into the desired output format
   function transformInput(input) {
     const {

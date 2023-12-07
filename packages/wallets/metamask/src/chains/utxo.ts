@@ -77,29 +77,38 @@ export const utxoWalletMethods: any = async function (params: any) {
 
         const pubkeys = await Promise.all(
           paths.map((path) => {
-            // Create the path query from the original path object
-            const pathQuery = [{
-              symbol: 'BTC',
-              coin: 'Bitcoin',
-              script_type: 'p2pkh',
-              addressNList: path.addressNList,
-              showDisplay: false,
-            }];
+            if(path.type !== 'zpub' && path.type !== 'address'){
+              // Create the path query from the original path object
+              const pathQuery = [{
+                symbol: 'BTC',
+                coin: COIN_MAP_KEEPKEY_LONG[path.symbol],
+                script_type: 'p2pkh',
+                addressNList: path.addressNList,
+                showDisplay: false,
+              }];
 
-            console.log('pathQuery: ', pathQuery);
-            return wallet.getPublicKeys(pathQuery).then((response) => {
-              console.log('response: ', response);
-              // Combine the original path object with the xpub from the response
-              const combinedResult = {
-                ...path, // Contains all fields from the original path
-                xpub: response.xpub, // Adds the xpub field from the response
-              };
-              console.log('combinedResult: ', combinedResult);
-              return combinedResult;
-            });
+              console.log('pathQuery: ', pathQuery);
+              return wallet.getPublicKeys(pathQuery).then((response) => {
+                console.log('response: ', response);
+                response = response[0]
+                if(response && response.xpub){
+                  // Combine the original path object with the xpub from the response
+                  const combinedResult = {
+                    ...path, // Contains all fields from the original path
+                    xpub: response.xpub, // Adds the xpub field from the response
+                    pubkey: response.xpub, // Adds the xpub field from the response
+                  };
+                  console.log('combinedResult: ', combinedResult);
+                  return combinedResult;
+                }
+              });
+            }
           }),
         );
-        return pubkeys;
+        console.log('pubkeysPRE filter: ', pubkeys);
+        let pubkeysFinal = pubkeys.filter(pubkey => pubkey && pubkey.pubkey);
+        console.log('pubkeysFinal: ', pubkeysFinal);
+        return pubkeysFinal
       } catch (e) {
         console.error(e);
       }
