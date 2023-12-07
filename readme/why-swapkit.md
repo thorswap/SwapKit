@@ -15,14 +15,14 @@ For more information about THORChain take a look at their documentation [here](h
 SwapKit supports the following blockchains
 
 * Arbitrum
-* Avalanche Network
+* Avalanche Network (C-Chain)
 * Bitcoin
 * Bitcoin Cash
 * Binance Beacon Chain
 * Binance Smart Chain
 * Cosmos Blockchain
 * Doge Chain
-* Ethereum mainnet
+* Ethereum Mainnet
 * Kujira
 * Litecoin
 * MAYAChain
@@ -47,7 +47,17 @@ SwapKit supports the following wallets:
 
 #### DEX Aggregation
 
-SwapKit unlocks 1 transaction cross-chain trades using THORChain's dex aggregation feature, enabling swaps starting with native Bitcoin to long-tail ERC20 tokens on Ethereum; and other EVM chains.
+SwapKit unlocks 1 transaction cross-chain trades using THORChain's DEX aggregation feature, enabling swaps starting with native Bitcoin to long-tail ERC20 tokens on Ethereum; and other EVM chains.
+
+Supported protocols:
+UniswapV2 (Ethereum)
+UniswapV3 (Ethereum)
+1inch (Ethereum, Avalanche)
+0x Project (Ethereum)
+TraderJoe (Avalanche)
+Pangolin (Avalanche)
+Woofi (Avalanche)
+PancakeSwap (Binance Smart Chain)
 
 #### THORChain Savers
 
@@ -59,4 +69,4 @@ All layer 1 assets supported by THORChain can benefit from earning single side y
 
 #### THORChain Liquidity
 
-THORChain supports not only single sided yield through savers, but a range of options are available as a Liquidity Provider.
+THORChain supports not only single-sided yield through savers, but a range of options are available as a Liquidity Provider.
