@@ -1,5 +1,11 @@
 # @swapkit/toolbox-evm
 
+## 1.0.0-rc.52
+
+### Patch Changes
+
+- [#465](https://github.com/thorswap/SwapKit/pull/465) [`d2c8730`](https://github.com/thorswap/SwapKit/commit/d2c873099e7a519f4ccbb104b68acbf1f0897dcf) Thanks [@towanTG](https://github.com/towanTG)! - Exports some methods from evm toolbox and fixed xdefi walletmethods
+
 ## 1.0.0-rc.51
 
 ### Patch Changes
