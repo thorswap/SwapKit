@@ -9,7 +9,12 @@ import {
 } from '@swapkit/types';
 
 import type { WalletTxParams } from './walletHelpers.ts';
-import { cosmosTransfer, getXDEFIAddress, walletTransfer } from './walletHelpers.ts';
+import {
+  cosmosTransfer,
+  getXDEFIAddress,
+  getXdefiMethods,
+  walletTransfer,
+} from './walletHelpers.ts';
 
 type XDEFIConfig = {
   covalentApiKey?: string;
@@ -120,6 +125,8 @@ const getWalletMethodsForChain = async ({
         covalentApiKey: covalentApiKey || '',
       });
 
+      const xdefiMethods = getXdefiMethods(provider, toolbox);
+
       try {
         chain !== Chain.Ethereum &&
           (await addEVMWalletNetwork(
@@ -141,6 +148,7 @@ const getWalletMethodsForChain = async ({
       return prepareNetworkSwitch({
         toolbox: {
           ...toolbox,
+          ...xdefiMethods,
           // Overwrite xdefi getbalance due to race condition in their app when connecting multiple evm wallets
           getBalance: (address: string, potentialScamFilter?: boolean) =>
             getBalance({ chain, provider: getProvider(chain), api, address, potentialScamFilter }),
