@@ -4,7 +4,7 @@ description: Integrate our API directly into your dApp.
 
 # ⚙ SwapKit API
 
-The SwapKit API by THORSwap is a cutting-edge quote and routing API for cross-chain swaps. Our comprehensive solution enables you to swap assets across a variety of blockchains, in a totally decentralised manner. Our robust API links decentralised exchanges (DEXs), and DEX aggregators, to provide the absolute best possible quote for your trade. Explore our API, the best solution for trading **native Bitcoin,** without the need for a centralised custodian.
+The SwapKit API by THORSwap is a cutting-edge quote and routing API for cross-chain swaps. Our comprehensive solution enables you to swap assets across a variety of blockchains, in a decentralized manner. Our robust API links decentralised exchanges (DEXs), and DEX aggregators, to provide the absolute best possible quote for your trade. Explore our API, the best solution for trading **native Bitcoin,** without the need for a centralized custodian.
 
 The SwapKit API also offers a variety of endpoints specifically for integration with THORChain. This includes, and is not limited to:
 
@@ -22,7 +22,13 @@ Here you can find our full API reference
 
 ### Using the API
 
-There is currently no form of authorization for the API. It can easily be accessed via [https://api.thorswap.net/aggregator](https://api.thorswap.net/aggregator/)
+To use the endpoints at `api.thorswap.net/`, you need to provide a Header such as `Referer: <project-name>`. 
+
+Here are the endpoints for the various services:
+Quote API: [https://api.thorswap.net/aggregator](https://api.thorswap.net/aggregator/)
+Tokenlist API: [https://api.thorswap.net/tokenlist](https://api.thorswap.net/tokenlist/)
+
+By 2024, we will require API keys in requests. You can get an API key by filling out [this form](https://forms.gle/uwgJUmBuorW5ZGDV7).
 
 {% hint style="success" %}
 You can monetize your SwapKit API integration and earn fees. See our \[affiliate guide] for more information.
