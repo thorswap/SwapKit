@@ -106,7 +106,7 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
             msgs: [
               {
                 value: {
-                  coins: [{ asset: 'THOR.' + asset.toUpperCase(), amount: amount.toString() }], // Check if this matches the expected 'any' type
+                  coins: [{ asset: 'THOR.' + asset.toUpperCase(), amount: amount.toString() }],
                   memo: memo || '',
                   signer: fromAddress,
                 },
