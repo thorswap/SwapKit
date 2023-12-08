@@ -61,13 +61,6 @@ export default function MetaMask({ onClose, setIsOpenSide }: any) {
   return (
     <div>
       <Portfolio />
-      {/* Show XL avatar on open */}
-      <Avatar
-        size="2xl"
-        name="User Name"
-        /* Replace with actual user name */ mb={4}
-      />
-      <Button onClick={onClose}>close</Button>
       {!hasConfirmed && (
         <VStack spacing={4}>
           <Card>

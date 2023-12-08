@@ -18,18 +18,17 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@coinmasters/wallet-keystore': resolve('../../packages/wallets/keystore/src'),
-      '@coinmasters/wallet-keepkey': resolve('../../packages/wallets/keepkey/src'),
-      '@coinmasters/wallet-metamask': resolve('../../packages/wallets/metamask/src'),
-      '@coinmasters/wallet-ledger': resolve('../../packages/wallets/ledger/src'),
       '@coinmasters/core': resolve('../../packages/swapkit/core/src'),
       '@coinmasters/helpers': resolve('../../packages/swapkit/helpers/src'),
       '@coinmasters/tokens': resolve('../../packages/swapkit/tokens/src'),
       '@coinmasters/toolbox-cosmos': resolve('../../packages/toolboxes/cosmos/src'),
       '@coinmasters/toolbox-evm': resolve('../../packages/toolboxes/evm/src'),
       '@coinmasters/toolbox-utxo': resolve('../../packages/toolboxes/utxo/src'),
-      '@coinmasters/wallet-trezor': resolve('../../packages/wallets/trezor/src'),
       '@coinmasters/types': resolve('../../packages/swapkit/types/src'),
+      '@coinmasters/wallet-keepkey': resolve('../../packages/wallets/keepkey/src'),
+      '@coinmasters/wallet-keystore': resolve('../../packages/wallets/keystore/src'),
+      '@coinmasters/wallet-ledger': resolve('../../packages/wallets/ledger/src'),
+      '@coinmasters/wallet-trezor': resolve('../../packages/wallets/trezor/src'),
       '@coinmasters/wallet-xdefi': resolve('../../packages/wallets/xdefi/src'),
 
       events: resolve('./polyfills/events.js'),

@@ -24,29 +24,33 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { ChainToNetworkId, getChainEnumValue } from '@coinmasters/types';
 import { useEffect, useState } from 'react';
-import { FaCog } from 'react-icons/fa';
+import { FaCog, FaDownload, FaExchangeAlt, FaPaperPlane, FaRegMoneyBillAlt } from 'react-icons/fa';
 
 import KeepKey from '../../components/KeepKey';
 import Ledger from '../../components/Ledger';
 import MetaMask from '../../components/MetaMask';
 import MiddleEllipsis from '../../components/MiddleEllipsis';
 import Onboarding from '../../components/Onboarding';
+import Swap from '../../components/Swap';
+import Transfer from '../../components/Transfer';
 import {
   getWalletBadgeContent,
   getWalletContent,
   pioneerImagePng,
 } from '../../components/WalletIcon';
 import { usePioneer } from '../../context/Pioneer';
+import { availableChainsByWallet } from '../../context/Pioneer/support';
 
 const Pioneer = () => {
-  const { state } = usePioneer();
-  const { api, app, status, balances, context } = state;
+  const { state, hideModal, resetState } = usePioneer();
+  const { api, app, status, balances, context, openModal } = state;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showAllWallets, setShowAllWallets] = useState(false);
   const [modalShowClose, setModalShowClose] = useState(false);
   const [modalType, setModalType] = useState('');
-  // local
+  //const [pairedWallets, setPairedWallets] = useState([]);
   const [walletsAvailable, setWalletsAvailable] = useState([]);
   const [walletType, setWalletType] = useState('');
   const [pioneerImage, setPioneerImage] = useState('');
@@ -54,8 +58,19 @@ const Pioneer = () => {
   const [isPioneer, setIsPioneer] = useState(false);
   const [isSwitchingWallet, setIsSwitchingWallet] = useState(false);
 
+  useEffect(() => {
+    if (openModal) {
+      setModalType(openModal.toUpperCase());
+      onOpen();
+    } else {
+      hideModal();
+      onClose();
+    }
+  }, [openModal]);
+
   // Function to toggle the visibility of all wallets
-  const toggleShowAllWallets = () => {
+  const toggleShowAllWallets = (e) => {
+    e.stopPropagation();
     setShowAllWallets(!showAllWallets);
   };
 
@@ -86,7 +101,18 @@ const Pioneer = () => {
 
   const handleWalletClick = async (wallet: string) => {
     setIsSwitchingWallet(true);
-    // setPioneerImage('');
+    resetState();
+    //clear balances
+    //clear pubkeys
+    //clear context
+    //clear blockchains
+    const AllChainsSupported = availableChainsByWallet[wallet];
+    console.log('AllChainsSupported: ', AllChainsSupported);
+    let allByCaip = AllChainsSupported.map((chainStr) => {
+      const chainEnum = getChainEnumValue(chainStr);
+      return chainEnum ? ChainToNetworkId[chainEnum] : undefined;
+    }).filter((x) => x !== undefined);
+    app.setBlockchains(allByCaip);
     onOpen();
     setWalletType(wallet);
     setModalType(wallet);
@@ -94,23 +120,36 @@ const Pioneer = () => {
   };
 
   const renderWallets = () => {
-    const walletsToDisplay: any = showAllWallets
+    const walletsToDisplay = showAllWallets
       ? walletsAvailable
-      : walletsAvailable.filter((wallet: any) =>
+      : walletsAvailable.filter((wallet) =>
           ['metamask', 'keepkey', 'ledger'].includes(wallet.type.toLowerCase()),
         );
-    return walletsToDisplay.map((wallet: any) => (
+
+    // Retrieve and parse paired wallets
+    let pairedWallets = localStorage.getItem('pairedWallets');
+    if (pairedWallets) {
+      pairedWallets = JSON.parse(pairedWallets).map((pw) => pw.split(':')[0].toUpperCase());
+    } else {
+      pairedWallets = [];
+    }
+
+    return walletsToDisplay.map((wallet) => (
       <Card key={wallet.type} onClick={() => handleWalletClick(wallet.type)}>
         <CardBody>
-          <Avatar src={wallet.icon}>
-            {wallet.isConnected ? (
-              <AvatarBadge bg="green.500" boxSize="1.25em" />
-            ) : (
-              <AvatarBadge bg="red.500" boxSize="1.25em" />
-            )}
-          </Avatar>
+          <Flex align="center" direction="column" justify="center">
+            <Avatar m={2} size="md" src={wallet.icon}>
+              {pairedWallets.includes(wallet.type.toUpperCase()) ? (
+                <AvatarBadge bg="green.500" boxSize="1em" />
+              ) : (
+                <AvatarBadge bg="red.500" boxSize="1em" />
+              )}
+            </Avatar>
+            <Text fontSize="xs" textAlign="center">
+              {wallet.type}
+            </Text>
+          </Flex>
         </CardBody>
-        <small>{wallet.type}</small>
       </Card>
     ));
   };
@@ -142,35 +181,14 @@ const Pioneer = () => {
     onStart();
   }, [app, app?.wallets, app?.isPioneer]);
 
-  const settingsSelected = async function () {
+  const modalSelected = async function (modalType: string) {
     try {
-      // console.log("settingsSelected");
+      setModalType(modalType);
       onOpen();
     } catch (e) {
       console.error(e);
     }
   };
-
-  // const setContextWallet = async function (wallet: string) {
-  //   try {
-  //   } catch (e) {
-  //     console.error('header e: ', e);
-  //   }
-  // };
-
-  const setUser = async function () {
-    try {
-      console.log('wallets: ', app?.wallets);
-    } catch (e) {
-      // @ts-ignore
-      console.error('header e: ', e);
-      // setKeepKeyError("Bridge is offline!");
-    }
-  };
-
-  useEffect(() => {
-    setUser();
-  }, [status, app, app?.wallets]);
 
   const avatarContent = api ? (
     getWalletBadgeContent(walletType)
@@ -180,9 +198,14 @@ const Pioneer = () => {
     </AvatarBadge>
   );
 
+  const closeModal = () => {
+    onClose();
+    hideModal();
+  };
+
   return (
     <div>
-      <Modal isOpen={isOpen} onClose={() => onClose()} size="xl">
+      <Modal isOpen={isOpen} onClose={() => closeModal()} size="xl">
         <ModalOverlay />
         <ModalContent bg="black">
           <ModalHeader>{modalType}</ModalHeader>
@@ -204,10 +227,26 @@ const Pioneer = () => {
                 <Ledger />
               </div>
             )}
-            {modalType === 'Trezor' && <div>Trezor TODO</div>}
-            {modalType === 'Xdefi' && <div>Xdefi TODO</div>}
-            {modalType === 'Onboarding' && (
-              <Onboarding onClose={onClose} setModalType={setModalType} setWalletType={setWalletType}/>
+            {modalType === 'TRANSFER' && (
+              <div>
+                <Transfer openModal={openModal} />
+              </div>
+            )}
+            {modalType === 'RECEIVE' && <div>RECEIVE</div>}
+            {modalType === 'PORTFOLIO' && <div>PORTFOLIO</div>}
+            {modalType === 'SWAP' && (
+              <div>
+                <Swap />
+              </div>
+            )}
+            {modalType === 'TREZOR' && <div>Trezor TODO</div>}
+            {modalType === 'XDEFI' && <div>Xdefi TODO</div>}
+            {modalType === 'ONBOARDING' && (
+              <Onboarding
+                onClose={onClose}
+                setModalType={setModalType}
+                setWalletType={setWalletType}
+              />
             )}
           </ModalBody>
           <ModalFooter>
@@ -224,7 +263,7 @@ const Pioneer = () => {
         </ModalContent>
       </Modal>
       <Menu>
-        <MenuButton as={Button} cursor="pointer" minW={100} rounded="full" variant="link">
+        <MenuButton as={Button} cursor="pointer" minW={100} rounded="full" variant="link" >
           <Avatar size="lg">
             {isSwitchingWallet ? (
               <div>
@@ -271,7 +310,7 @@ const Pioneer = () => {
                 isRound
                 aria-label="Settings"
                 icon={<FaCog />}
-                onClick={() => settingsSelected()}
+                onClick={() => modalSelected('SETTINGS')}
               />
               {/* <SettingsModal isOpen={isOpen} onClose={onClose} /> */}
             </HStack>
@@ -281,65 +320,70 @@ const Pioneer = () => {
             borderWidth="1px"
             maxWidth="300px"
             p="4"
-            textAlign="left"
+            textAlign="center"
             width="100%"
           >
-            <div>
-              {/*<Flex alignItems="center">*/}
-              {/*  <small>status: {status}</small>*/}
-              {/*</Flex>*/}
-              <Card borderRadius="md" boxShadow="sm" className="caip" mb={2} p={2}>
-                <Flex alignItems="center" justifyContent="space-between">
-                  <Flex alignItems="center">
-                    <Avatar
-                      mr={2}
-                      size="md"
-                      src={app?.assetContext?.image || 'https://pioneers.dev/coins/ethereum.png'}
-                    />
-                    <Box fontSize="sm" fontWeight="bold">
-                      Asset:
-                    </Box>
-                  </Flex>
-                  <Box fontSize="sm" textAlign="right">
-                    <MiddleEllipsis text={app?.assetContext?.symbol} />
-                  </Box>
-                </Flex>
-                <Flex justifyContent="space-between">
-                  <Box fontSize="xs" />
-                  <Box fontSize="xs" textAlign="right">
-                    caip:
-                    <MiddleEllipsis text={app?.assetContext?.caip} />
-                  </Box>
-                </Flex>
-              </Card>
-
-              {/* Pubkey Card */}
-              {/*<Card borderRadius="md" boxShadow="sm" className="caip" p={2}>*/}
-              {/*  <Flex alignItems="center" justifyContent="space-between">*/}
-              {/*    <Flex alignItems="center">*/}
-              {/*      <Box fontSize="sm" fontWeight="bold">*/}
-              {/*        Pubkey Path:*/}
-              {/*      </Box>*/}
-              {/*    </Flex>*/}
-              {/*    <Box fontSize="sm" textAlign="right">*/}
-              {/*      <MiddleEllipsis text={app?.pubkeyContext?.path} />*/}
-              {/*    </Box>*/}
-              {/*  </Flex>*/}
-              {/*  <Flex justifyContent="space-between">*/}
-              {/*    <Box fontSize="xs">Pubkey:</Box>*/}
-              {/*    <Box fontSize="xs" textAlign="right">*/}
-              {/*      <MiddleEllipsis text={app?.pubkeyContext?.pubkey} />*/}
-              {/*    </Box>*/}
-              {/*  </Flex>*/}
-              {/*</Card>*/}
-            </div>
+            <Flex justify="space-around" wrap="wrap">
+              {' '}
+              {/* Flex container for the buttons */}
+              {/* Portfolio Button */}
+              <Flex align="center" direction="column" m={2}>
+                <IconButton
+                  aria-label="Portfolio"
+                  colorScheme="green"
+                  icon={<FaRegMoneyBillAlt />}
+                  rounded="full"
+                  size="lg"
+                  variant="solid"
+                />
+                <Text fontSize="xs">Portfolio</Text>
+              </Flex>
+              {/* Send Button */}
+              <Flex align="center" direction="column" m={2}>
+                <IconButton
+                  aria-label="Send"
+                  colorScheme="green"
+                  icon={<FaPaperPlane />}
+                  onClick={() => modalSelected('TRANSFER')}
+                  rounded="full"
+                  size="lg"
+                  variant="solid"
+                />
+                <Text fontSize="xs">Send</Text>
+              </Flex>
+              {/* Receive Button */}
+              <Flex align="center" direction="column" m={2}>
+                <IconButton
+                  aria-label="Receive"
+                  colorScheme="green"
+                  icon={<FaDownload />}
+                  onClick={() => modalSelected('RECEIVE')}
+                  rounded="full"
+                  size="lg"
+                  variant="solid"
+                />
+                <Text fontSize="xs">Receive</Text>
+              </Flex>
+              {/* Swap Button */}
+              <Flex align="center" direction="column" m={2}>
+                <IconButton
+                  aria-label="Swap"
+                  colorScheme="green"
+                  icon={<FaExchangeAlt />}
+                  onClick={() => modalSelected('SWAP')}
+                  rounded="full"
+                  size="lg"
+                  variant="solid"
+                />
+                <Text fontSize="xs">Swap</Text>
+              </Flex>
+            </Flex>
           </Box>
-
           <MenuItem>
             <SimpleGrid columns={3} maxWidth="280px" row={1}>
               {renderWallets()}
               <Text color="blue.500" cursor="pointer" fontSize="sm" onClick={toggleShowAllWallets}>
-                {showAllWallets ? 'Hide Wallets' : 'Show All Wallets'}
+                {showAllWallets ? 'Hide Wallets' : 'more'}
               </Text>
             </SimpleGrid>
           </MenuItem>

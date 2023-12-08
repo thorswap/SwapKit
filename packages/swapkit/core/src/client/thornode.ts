@@ -1,4 +1,4 @@
-import { getRequest } from '@coinmasters/helpers';
+import { RequestClient } from '@coinmasters/helpers';
 import type { Chain } from '@coinmasters/types';
 import { ApiUrl } from '@coinmasters/types';
 
@@ -21,11 +21,11 @@ type InboundAddressData = {
 export const getInboundData = (stagenet: boolean) => {
   const baseUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
 
-  return getRequest<InboundAddressData>(`${baseUrl}/thorchain/inbound_addresses`);
+  return RequestClient.get<InboundAddressData>(`${baseUrl}/thorchain/inbound_addresses`);
 };
 
 export const getMimirData = (stagenet: boolean) => {
   const baseUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
 
-  return getRequest<Record<string, number>>(`${baseUrl}/thorchain/mimir`);
+  return RequestClient.get<Record<string, number>>(`${baseUrl}/thorchain/mimir`);
 };

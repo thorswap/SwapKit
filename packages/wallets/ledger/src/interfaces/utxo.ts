@@ -1,11 +1,10 @@
-import type { UTXOType } from '@coinmasters/toolbox-utxo';
 import { type Psbt, Transaction } from 'bitcoinjs-lib';
 
 import type { CreateTransactionArg } from './types.ts';
 
 type Params = {
   psbt: Psbt;
-  inputUtxos: UTXOType[];
+  inputUtxos: any;
   btcApp: any;
   derivationPath: string;
 };
@@ -14,6 +13,15 @@ export const signUTXOTransaction = async (
   { psbt, inputUtxos, btcApp, derivationPath }: Params,
   options?: Partial<CreateTransactionArg>,
 ) => {
+  let allPaths = [];
+  console.log('inputUtxos', inputUtxos);
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
+  for (let i = 0; i < inputUtxos.length; i++) {
+    let path = inputUtxos[i]?.path;
+    if (path) allPaths.push(path.replace('m/44', '84'));
+  }
+  console.log('allPaths', allPaths);
+
   const inputs = inputUtxos.map((item) => {
     const utxoTx = Transaction.fromHex(item.txHex || '');
     const splitTx = btcApp.splitTransaction(utxoTx.toHex(), utxoTx.hasWitnesses());
@@ -33,12 +41,12 @@ export const signUTXOTransaction = async (
 
   const params: CreateTransactionArg = {
     additionals: ['bech32'],
-    associatedKeysets: inputs.map(() => derivationPath),
+    associatedKeysets: allPaths,
     inputs,
     outputScriptHex,
     segwit: true,
     useTrustedInputForSegwit: true,
   };
-
-  return btcApp.createPaymentTransactionNew({ ...params, ...options });
+  console.log('params', params);
+  return btcApp.createPaymentTransaction({ ...params, ...options });
 };

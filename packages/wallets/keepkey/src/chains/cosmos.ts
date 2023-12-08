@@ -1,8 +1,8 @@
-import type { TransferParams } from '@coinmasters/toolbox-cosmos';
-import { GaiaToolbox } from '@coinmasters/toolbox-cosmos';
-import { Chain, ChainId, RPCUrl } from '@coinmasters/types';
 import { StargateClient } from '@cosmjs/stargate';
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
+import type { TransferParams } from '@coinmasters/toolbox-cosmos';
+import { DEFAULT_COSMOS_FEE_MAINNET, GaiaToolbox } from '@coinmasters/toolbox-cosmos';
+import { Chain, ChainId, RPCUrl } from '@coinmasters/types';
 
 import { addressInfoForCoin } from '../coins.ts';
 
@@ -14,11 +14,6 @@ export type SignTransactionTransferParams = {
   memo: string | undefined;
 };
 
-const DEFAULT_COSMOS_FEE_MAINNET = {
-  amount: [{ denom: 'uatom', amount: '500' }],
-  gas: '200000',
-};
-
 export const cosmosWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; api: string }) => {
   try {
     const { address: fromAddress } = (await sdk.address.cosmosGetAddress({
@@ -27,8 +22,7 @@ export const cosmosWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; 
 
     const toolbox = GaiaToolbox({ server: api });
     DEFAULT_COSMOS_FEE_MAINNET.amount[0].amount = String(
-      //@ts-ignore
-      (await toolbox?.getFeeRateFromThorswap(ChainId.Cosmos)) ?? '500',
+      (await toolbox?.getFeeRateFromThorswap?.(ChainId.Cosmos)) ?? '500',
     );
 
     const signTransactionTransfer = async ({
@@ -79,7 +73,7 @@ export const cosmosWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; 
         from: fromAddress,
         to: recipient,
         asset: assetValue?.symbol === 'MUON' ? 'umuon' : 'uatom',
-        amount: assetValue.baseValue.toString(),
+        amount: assetValue.getBaseValue('string'),
         memo,
       });
 

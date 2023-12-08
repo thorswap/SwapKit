@@ -1,9 +1,4 @@
-import {
-  assetFromString,
-  AssetValue,
-  formatBigIntToSafeValue,
-  getRequest,
-} from '@coinmasters/helpers';
+import { formatBigIntToSafeValue, RequestClient } from '@coinmasters/helpers';
 import { Chain } from '@coinmasters/types';
 
 import type { AddressInfo } from '../types/ethplorer-api-types.ts';
@@ -11,33 +6,17 @@ const baseUrl = 'https://api.ethplorer.io';
 
 export const ethplorerApi = (apiKey = 'freekey') => ({
   getBalance: async (address: string) => {
-    const { getAddress } = await import('ethers');
-    const { tokens } = await getRequest<AddressInfo>(`${baseUrl}/getAddressInfo/${address}`, {
-      apiKey,
-    });
+    const { tokens = [] } = await RequestClient.get<AddressInfo>(
+      `${baseUrl}/getAddressInfo/${address}`,
+      { searchParams: { apiKey } },
+    );
 
-    return tokens
-      ? tokens.reduce((acc, token): AssetValue[] => {
-          const { symbol, decimals, address } = token.tokenInfo;
-
-          const tokenAsset = assetFromString(`${Chain.Ethereum}.${symbol}-${getAddress(address)}`);
-          if (tokenAsset) {
-            return [
-              ...acc,
-              new AssetValue({
-                chain: tokenAsset.chain,
-                symbol: tokenAsset.symbol,
-                value: formatBigIntToSafeValue({
-                  value: BigInt(token.rawBalance),
-                  decimal: parseInt(decimals),
-                }),
-                decimal: parseInt(decimals),
-              }),
-            ];
-          }
-          return acc;
-        }, [] as AssetValue[])
-      : [];
+    return tokens.map(({ tokenInfo: { symbol, decimals, address: tokenAddress }, rawBalance }) => ({
+      chain: Chain.Ethereum,
+      symbol: tokenAddress ? `${symbol}-${tokenAddress}` : symbol,
+      value: formatBigIntToSafeValue({ value: BigInt(rawBalance), decimal: parseInt(decimals) }),
+      decimal: parseInt(decimals),
+    }));
   },
 });
 

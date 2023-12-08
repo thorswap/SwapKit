@@ -19,10 +19,10 @@
     "@types/bchaddrjs": "0.4.0",
     "@types/node": "20.5.9",
     "@types/tiny-secp256k1": "1.0.0",
-    "@types/uniqid": "5.3.2",
-    "@vitest/coverage-istanbul": "0.34.4",
-    "vite": "4.4.9",
-    "vitest": "0.34.4"
+    "@types/uniqid": "5.3.4",
+    "@vitest/coverage-istanbul": "0.34.6",
+    "vite": "4.5.0",
+    "vitest": "0.34.6"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
@@ -60,5 +60,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "4.0.0"
+  "version": "4.0.1"
 }

@@ -1,8 +1,8 @@
-import type { AssetValue } from '@coinmasters/helpers';
-import { BinanceToolbox } from '@coinmasters/toolbox-cosmos';
+import { BinanceToolbox, getDenom } from '@coinmasters/toolbox-cosmos';
 import type { WalletTxParams } from '@coinmasters/types';
 import { Chain, ChainId } from '@coinmasters/types';
-import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
+import type { AssetValue } from '@coinmasters/helpers';
+import type { WalletTxParams } from '@swapkit/types';
 
 import { addressInfoForCoin } from '../coins.ts';
 
@@ -66,7 +66,7 @@ export const binanceWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) =>
         from: fromAddress,
         to: recipient,
         asset: assetValue?.symbol,
-        amount: assetValue.baseValue.toString(),
+        amount: assetValue.getBaseValue('string'),
         memo,
       });
 

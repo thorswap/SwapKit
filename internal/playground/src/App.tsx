@@ -26,10 +26,10 @@ const App = () => {
    * NOTE: Test API keys - please use your own API keys in app as those will timeout, reach limits, etc.
    */
   const [keys, setKeys] = useState({
+    blockchairApiKey: import.meta.env.VITE_BLOCKCHAIR_API_KEY || 'A___Tcn5B16iC3mMj7QrzZCb2Ho1QBUf',
     covalentApiKey: import.meta.env.VITE_COVALENT_API_KEY || 'cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q',
-    ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || 'EK-xs8Hj-qG4HbLY-LoAu7',
-    utxoApiKey: import.meta.env.VITE_BLOCKCHAIR_API_KEY || 'A___Tcn5B16iC3mMj7QrzZCb2Ho1QBUf',
-    walletConnectProjectId: import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || '18224df5f72924a5f6b3569fbd56ae16',
+    ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || 'freekey',
+    walletConnectProjectId: '',
   });
   const [{ inputAsset, outputAsset }, setSwapAssets] = useState<{
     inputAsset?: AssetValue;

@@ -215,7 +215,7 @@ export const EVMChainList: EVMChain[] = [
 
 export type UTXOChain = Chain.Bitcoin | Chain.BitcoinCash | Chain.Dogecoin | Chain.Litecoin;
 
-export const UTXOChainList: Chain[] = [
+export const UTXOChainList: UTXOChain[] = [
   Chain.Bitcoin,
   Chain.BitcoinCash,
   Chain.Dash,
@@ -238,6 +238,19 @@ export const CosmosChainList: CosmosChain[] = [
   Chain.THORChain,
   Chain.Binance,
   Chain.Osmosis,
+];
+
+export const TCSupportedChainList = [
+  Chain.Avalanche,
+  Chain.Binance,
+  Chain.BinanceSmartChain,
+  Chain.Bitcoin,
+  Chain.BitcoinCash,
+  Chain.Cosmos,
+  Chain.Dogecoin,
+  Chain.Ethereum,
+  Chain.Litecoin,
+  Chain.THORChain,
 ];
 
 export enum ChainId {
@@ -269,6 +282,7 @@ export enum ChainId {
   THORChainStagenet = 'thorchain-stagenet-v2',
 }
 
+//TODO move these to pioneer proxy
 export enum RPCUrl {
   Arbitrum = 'https://arb1.arbitrum.io/rpc',
   Avalanche = 'https://node-router.thorswap.net/avalanche-c',
@@ -298,7 +312,7 @@ export enum ApiUrl {
   MayanodeStagenet = 'https://stagenet.mayanode.mayachain.info',
   ThornodeMainnet = 'https://thornode.thorswap.net',
   ThornodeStagenet = 'https://stagenet-thornode.ninerealms.com',
-  ThorswapApi = 'https://api.thorswap.finance',
+  ThorswapApi = 'https://api.thorswap.net',
   ThorswapStatic = 'https://static.thorswap.net',
 }
 
@@ -392,6 +406,6 @@ export const ChainToExplorerUrl: Record<Chain, string> = {
   [Chain.Osmosis]: 'https://www.mintscan.io/osmosis',
   [Chain.Polygon]: 'https://polygonscan.com',
   [Chain.Ripple]: 'https://xrpscan.com',
-  [Chain.THORChain]: 'https://viewblock.io/thorchain',
+  [Chain.THORChain]: 'https://runescan.io',
   [Chain.Zcash]: 'https://z.cash/ecosystem/zcash-explorer',
 };

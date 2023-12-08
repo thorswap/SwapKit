@@ -2,7 +2,7 @@ import { AssetValue } from '@coinmasters/helpers';
 import type { GaiaToolbox } from '@coinmasters/toolbox-cosmos';
 import type { getWeb3WalletMethods } from '@coinmasters/toolbox-evm';
 import type { BTCToolbox, UTXOTransferParams } from '@coinmasters/toolbox-utxo';
-import { BaseDecimal, Chain, ChainId } from '@coinmasters/types';
+import { BaseDecimal, Chain, ChainId, RPCUrl } from '@coinmasters/types';
 import { Psbt } from 'bitcoinjs-lib';
 import type { Eip1193Provider } from 'ethers';
 
@@ -13,9 +13,9 @@ export const cosmosTransfer =
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(ChainId.Cosmos);
     if (!offlineSigner) throw new Error('No cosmos okxwallet found');
 
-    const { createCosmJS } = await import('@coinmasters/toolbox-cosmos');
+    const { createSigningStargateClient } = await import('@coinmasters/toolbox-cosmos');
 
-    const cosmJS = await createCosmJS({ offlineSigner, rpcUrl });
+    const cosmJS = await createSigningStargateClient(rpcUrl || RPCUrl.Cosmos, offlineSigner);
 
     const coins = [
       { denom: asset?.symbol === 'MUON' ? 'umuon' : 'uatom', amount: amount.amount().toString() },
@@ -29,14 +29,14 @@ export const getWalletForChain = async ({
   chain,
   ethplorerApiKey,
   covalentApiKey,
-  utxoApiKey,
+  blockchairApiKey,
   rpcUrl,
   api,
 }: {
   chain: Chain;
   ethplorerApiKey?: string;
   covalentApiKey?: string;
-  utxoApiKey?: string;
+  blockchairApiKey?: string;
   rpcUrl?: string;
   api?: any;
 }): Promise<
@@ -49,6 +49,9 @@ export const getWalletForChain = async ({
   switch (chain) {
     case Chain.Ethereum:
     case Chain.Avalanche:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon:
     case Chain.BinanceSmartChain: {
       if (!window.okxwallet?.send) throw new Error('No okxwallet found');
 
@@ -81,16 +84,13 @@ export const getWalletForChain = async ({
 
     case Chain.Bitcoin: {
       if (!window.okxwallet?.bitcoin) throw new Error('No bitcoin okxwallet found');
-      if (!utxoApiKey) {
-        throw new Error('No utxoApiKey provided');
-      }
 
       const { BTCToolbox } = await import('@coinmasters/toolbox-utxo');
 
       const wallet = window.okxwallet.bitcoin;
       const address = (await wallet.connect()).address;
 
-      const toolbox = BTCToolbox({ rpcUrl, apiKey: utxoApiKey, apiClient: api });
+      const toolbox = BTCToolbox({ rpcUrl, apiKey: blockchairApiKey, apiClient: api });
       const signTransaction = async (psbt: Psbt) => {
         const signedPsbt = await wallet.signPsbt(psbt.toHex(), { from: address, type: 'list' });
 

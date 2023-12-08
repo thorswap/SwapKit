@@ -1,7 +1,7 @@
+import { derivationPathToString } from '@coinmasters/helpers';
 import type { UTXOTransferParams, UTXOType } from '@coinmasters/toolbox-utxo';
 import type { ConnectWalletParams, DerivationPathArray } from '@coinmasters/types';
 import { Chain, FeeOption, WalletOption } from '@coinmasters/types';
-import { addressInfoForCoin } from '@pioneer-platform/pioneer-coins';
 import TrezorConnect from '@trezor/connect-web';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
@@ -9,6 +9,7 @@ import type { Psbt } from 'bitcoinjs-lib';
 import { getEVMSigner } from './signer/evm.ts';
 
 export const TREZOR_SUPPORTED_CHAINS = [
+  Chain.Arbitrum,
   Chain.Avalanche,
   Chain.Bitcoin,
   Chain.BitcoinCash,
@@ -16,11 +17,13 @@ export const TREZOR_SUPPORTED_CHAINS = [
   Chain.Ethereum,
   Chain.BinanceSmartChain,
   Chain.Litecoin,
+  Chain.Optimism,
+  Chain.Polygon,
 ] as const;
 
 type TrezorOptions = {
   ethplorerApiKey?: string;
-  utxoApiKey?: string;
+  blockchairApiKey?: string;
   covalentApiKey?: string;
   trezorManifest?: {
     email: string;
@@ -35,14 +38,6 @@ type Params = TrezorOptions & {
   api?: any;
 };
 
-//for the record this is a horrible way to store a path. stripping the m/ and ' is a dangerous assumption
-function pathToSwapkitPathFormat(path: string): number[] {
-  // Remove the "m/" prefix and all apostrophes, then split by '/'
-  const components = path.replace('m/', '').replace(/'/g, '').split('/');
-  // Convert each component to a number and return the array
-  return components.map(Number);
-}
-
 const getToolbox = async ({
   api,
   rpcUrl,
@@ -50,49 +45,50 @@ const getToolbox = async ({
   ethplorerApiKey,
   covalentApiKey,
   derivationPath,
-  utxoApiKey,
+  blockchairApiKey,
 }: Params) => {
   switch (chain) {
     case Chain.BinanceSmartChain:
     case Chain.Avalanche:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon:
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey)
         throw new Error('Ethplorer API key not found');
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
 
-      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
-        '@coinmasters/toolbox-evm'
-      );
+      const { getProvider, getToolboxByChain } = await import('@swapkit/toolbox-evm');
 
       const provider = getProvider(chain, rpcUrl);
-      const signer = await getEVMSigner({ chain, derivationPath:pathToSwapkitPathFormat(derivationPath), provider });
-
+      const signer = await getEVMSigner({ chain, derivationPath, provider });
       const address = await signer.getAddress();
-      const params = { api, signer, provider };
-      const walletMethods =
-        chain === Chain.Ethereum
-          ? ETHToolbox({ ...params, ethplorerApiKey: ethplorerApiKey as unknown as string })
-          : (chain === Chain.Avalanche ? AVAXToolbox : BSCToolbox)({
-              ...params,
-              covalentApiKey: covalentApiKey as unknown as string,
-            });
+      const toolbox = await getToolboxByChain(chain);
 
-      return { address, walletMethods: { ...walletMethods, getAddress: () => address } };
+      return {
+        address,
+        walletMethods: {
+          ...toolbox({
+            covalentApiKey: covalentApiKey as string,
+            api,
+            signer,
+            provider,
+            ethplorerApiKey: ethplorerApiKey as string,
+          }),
+          getAddress: () => address,
+        },
+      };
     }
 
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      if (!utxoApiKey && !api) throw new Error('UTXO API key not found');
+      if (!api) throw new Error('API not found');
       const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
 
-      const { BTCToolbox, BCHToolbox, LTCToolbox, DOGEToolbox } = await import(
-        '@coinmasters/toolbox-utxo'
-      );
-
-      let swapKitArrayPath = pathToSwapkitPathFormat(derivationPath);
+      const { getToolboxByChain, BCHToolbox } = await import('@swapkit/toolbox-utxo');
 
       const scriptType:
         | {
@@ -100,31 +96,24 @@ const getToolbox = async ({
             output: 'PAYTOWITNESS' | 'PAYTOP2SHWITNESS' | 'PAYTOADDRESS';
           }
         | undefined =
-        swapKitArrayPath[0] === 84
+        derivationPath[0] === 84
           ? { input: 'SPENDWITNESS', output: 'PAYTOWITNESS' }
-          : swapKitArrayPath[0] === 49
-          ? { input: 'SPENDP2SHWITNESS', output: 'PAYTOP2SHWITNESS' }
-          : swapKitArrayPath[0] === 44
-          ? { input: 'SPENDADDRESS', output: 'PAYTOADDRESS' }
-          : undefined;
+          : derivationPath[0] === 49
+            ? { input: 'SPENDP2SHWITNESS', output: 'PAYTOP2SHWITNESS' }
+            : derivationPath[0] === 44
+              ? { input: 'SPENDADDRESS', output: 'PAYTOADDRESS' }
+              : undefined;
 
       if (!scriptType) throw new Error('Derivation path is not supported');
-      const params = { api, apiKey: utxoApiKey, rpcUrl };
+      const params = { api, apiKey: blockchairApiKey, rpcUrl };
 
-      const toolbox =
-        chain === Chain.Bitcoin
-          ? BTCToolbox(params)
-          : chain === Chain.Litecoin
-          ? LTCToolbox(params)
-          : chain === Chain.Dogecoin
-          ? DOGEToolbox(params)
-          : BCHToolbox(params);
+      const toolbox = (await getToolboxByChain(chain))(params);
 
-      const getAddress = async () => {
+      const getAddress = async (path: DerivationPathArray = derivationPath) => {
         const { success, payload } = await (
           TrezorConnect as unknown as TrezorConnect.TrezorConnect
         ).getAddress({
-          path: derivationPath,
+          path: `m/${derivationPathToString(path)}`,
           coin,
         });
 
@@ -247,7 +236,7 @@ const getToolbox = async ({
       };
     }
     default:
-      throw new Error('Chain not supported chain: ' + chain);
+      throw new Error('Chain not supported');
   }
 };
 
@@ -258,41 +247,35 @@ const connectTrezor =
     addChain,
     config: {
       covalentApiKey,
-      ethplorerApiKey = 'freekey',
+      ethplorerApiKey,
       utxoApiKey,
+      blockchairApiKey,
       trezorManifest = { appUrl: '', email: '' },
     },
   }: ConnectWalletParams) =>
-  async (chains: any, derivationPath: DerivationPathArray) => {
+  async (chain: (typeof TREZOR_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
     const TConnect = TrezorConnect as unknown as TrezorConnect.TrezorConnect;
     const { success } = await TConnect.getDeviceState();
 
     if (!success) {
       TConnect.init({ lazyLoad: true, manifest: trezorManifest });
     }
-    for (const chain of chains) {
-      console.log('chains: ', chains);
-      let addressInfo = addressInfoForCoin(chain, false);
-      derivationPath = addressInfo.path;
-      console.log(chain, 'derivationPath: ', derivationPath);
 
-      //TODO if derivationPath set, else get defaults
-      const { address, walletMethods } = await getToolbox({
-        api: apis[chain as Chain.Ethereum],
-        rpcUrl: rpcUrls[chain],
-        chain,
-        covalentApiKey,
-        ethplorerApiKey,
-        utxoApiKey,
-        derivationPath,
-      });
+    const { address, walletMethods } = await getToolbox({
+      api: apis[chain as Chain.Ethereum],
+      rpcUrl: rpcUrls[chain],
+      chain,
+      covalentApiKey,
+      ethplorerApiKey,
+      blockchairApiKey: blockchairApiKey || utxoApiKey,
+      derivationPath,
+    });
 
-      addChain({
-        chain,
-        walletMethods,
-        wallet: { address, balance: [], walletType: WalletOption.TREZOR },
-      });
-    }
+    addChain({
+      chain,
+      walletMethods,
+      wallet: { address, balance: [], walletType: WalletOption.TREZOR },
+    });
 
     return true;
   };

@@ -19,7 +19,7 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
     validateAddress: (address: string) => Promise<boolean>;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getAccount: (address: string) => Promise<Account | null>;
-    getBalance: (address: string) => Promise<AssetValue[]>;
+    getBalance: (address: string, potentialScamFilter?: boolean) => Promise<AssetValue[]>;
     transfer: (params: TransferParams) => Promise<string>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
@@ -30,16 +30,34 @@ export const GaiaToolbox = ({ server }: { server?: string } = {}): GaiaToolboxTy
     client,
   });
 
+  const getFees = async () => {
+    const baseFee = (await getFeeRateFromThorswap(ChainId.Cosmos)) || 500;
+    return {
+      type: 'base',
+      average: SwapKitNumber.fromBigInt(BigInt(baseFee), BaseDecimal.GAIA),
+      fast: SwapKitNumber.fromBigInt((BigInt(baseFee) * 15n) / 10n, BaseDecimal.GAIA),
+      fastest: SwapKitNumber.fromBigInt(BigInt(baseFee) * 2n, BaseDecimal.GAIA),
+    };
+  };
+
   return {
     ...baseToolbox,
-    getFees: async () => {
-      const baseFee = (await getFeeRateFromThorswap(ChainId.Cosmos)) || 500;
-      return {
-        type: 'base',
-        average: new SwapKitNumber({ value: baseFee, decimal: BaseDecimal.GAIA }),
-        fast: new SwapKitNumber({ value: baseFee * 1.5, decimal: BaseDecimal.GAIA }),
-        fastest: new SwapKitNumber({ value: baseFee * 2, decimal: BaseDecimal.GAIA }),
-      };
+    getFees,
+    transfer: async (params: TransferParams) => {
+      const gasFees = await getFees();
+
+      return baseToolbox.transfer({
+        ...params,
+        fee: params.fee || {
+          amount: [
+            {
+              denom: 'uatom',
+              amount: gasFees[params.feeOptionKey || 'fast'].getBaseValue('string') || '1000',
+            },
+          ],
+          gas: '200000',
+        },
+      });
     },
   };
 };

@@ -1,11 +1,11 @@
-import { AssetValue, getRequest, postRequest } from '@coinmasters/helpers';
+import { AssetValue, RequestClient, postRequest } from '@coinmasters/helpers';
 import { ec as EC } from 'elliptic';
 
 //https://pioneers.dev/api/v1/getAccountInfo/osmosis/
 const PIONEER_API_URI = 'https://pioneers.dev';
 
 const getAccount = (address: string): Promise<any> =>
-  getRequest<any>(`${PIONEER_API_URI}/api/v1/getAccountInfo/osmosis/${address}`);
+  RequestClient.get<any>(`${PIONEER_API_URI}/api/v1/getAccountInfo/osmosis/${address}`);
 
 // const getTransferFee = async () => {
 //   const feesArray = await getRequest<BNBFees>(`${BINANCE_MAINNET_API_URI}/api/v1/fees`);
@@ -19,7 +19,7 @@ const getAccount = (address: string): Promise<any> =>
 const getBalance = async (address: any[]) => {
   console.log(address)
 
-  const balanceOsmo = await getRequest(
+  const balanceOsmo = await RequestClient.get(
     `${PIONEER_API_URI}/api/v1/getPubkeyBalance/osmosis/${address[0].address}`,
   );
   console.log("balanceOsmo: ", balanceOsmo);
@@ -72,8 +72,11 @@ const getBalance = async (address: any[]) => {
 // };
 
 const sendRawTransaction = (signedBz: string, sync = true) =>
-  postRequest<any>(`${BINANCE_MAINNET_API_URI}/api/v1/broadcast?sync=${sync}`, signedBz, {
-    'content-type': 'text/plain',
+  RequestClient.post<any>(`${BINANCE_MAINNET_API_URI}/api/v1/broadcast?sync=${sync}`, {
+    body: signedBz,
+    headers: {
+      'content-type': 'text/plain',
+    },
   });
 
 // const prepareTransaction = async (

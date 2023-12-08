@@ -4,19 +4,43 @@ import { describe, expect, test } from 'vitest';
 import { getExplorerAddressUrl, getExplorerTxUrl } from '../explorerUrls.ts';
 
 describe('Explorer URLs', () => {
-  Object.values(Chain)
-    .filter((c) => ![Chain.Litecoin, Chain.Dogecoin, Chain.Cosmos].includes(c))
-    .forEach((chain) => {
-      test(`getExplorerTxUrl returns correct URL for ${chain}`, () => {
-        expect(getExplorerTxUrl({ chain, txHash: '0x12345' })).toBe(
-          `${ChainToExplorerUrl[chain]}/tx/0x12345`,
-        );
+  [
+    Chain.Binance,
+    Chain.Bitcoin,
+    Chain.BitcoinCash,
+    Chain.Maya,
+    Chain.Kujira,
+    Chain.THORChain,
+  ].forEach((chain) => {
+    test(`getExplorerTxUrl returns correct URL for ${chain}`, () => {
+      expect(getExplorerTxUrl({ chain, txHash: '0x123456789' })).toBe(
+        `${ChainToExplorerUrl[chain]}/tx/123456789`,
+      );
 
-        expect(getExplorerAddressUrl({ chain, address: 'asdfg' })).toBe(
-          `${ChainToExplorerUrl[chain]}/address/asdfg`,
-        );
-      });
+      expect(getExplorerAddressUrl({ chain, address: 'asdfg' })).toBe(
+        `${ChainToExplorerUrl[chain]}/address/asdfg`,
+      );
     });
+  });
+
+  [
+    Chain.Arbitrum,
+    Chain.Avalanche,
+    Chain.BinanceSmartChain,
+    Chain.Ethereum,
+    Chain.Optimism,
+    Chain.Polygon,
+  ].forEach((chain) => {
+    test(`getExplorerTxUrl returns correct URL for ${chain}`, () => {
+      expect(getExplorerTxUrl({ chain, txHash: '0x123456789' })).toBe(
+        `${ChainToExplorerUrl[chain]}/tx/0x123456789`,
+      );
+
+      expect(getExplorerAddressUrl({ chain, address: 'asdfg' })).toBe(
+        `${ChainToExplorerUrl[chain]}/address/asdfg`,
+      );
+    });
+  });
 
   test('getExplorerTxUrl throws Error for unsupported Chain', () => {
     expect(() =>

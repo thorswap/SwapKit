@@ -1,11 +1,14 @@
 node_modules/
-
+.idea
+.idea/
+.idea/*
 dist/
 build/
 cache/
 packages/**/.turbo
 internal/**/.turbo
 .turbo/config.json
+.turbo/cookies
 
 .env
 *.mjs

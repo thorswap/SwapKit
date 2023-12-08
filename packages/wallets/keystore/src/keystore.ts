@@ -10,7 +10,7 @@ import type { Psbt } from 'bitcoinjs-lib';
 
 type KeystoreOptions = {
   ethplorerApiKey?: string;
-  utxoApiKey?: string;
+  blockchairApiKey?: string;
   covalentApiKey?: string;
   stagenet?: boolean;
 };
@@ -30,7 +30,7 @@ const getWalletMethodsForChain = async ({
   phrase,
   ethplorerApiKey,
   covalentApiKey,
-  utxoApiKey,
+  blockchairApiKey,
   index,
   stagenet,
 }: Params) => {
@@ -59,8 +59,8 @@ const getWalletMethodsForChain = async ({
         chain === Chain.Ethereum
           ? ETHToolbox({ ...params, ethplorerApiKey: ethplorerApiKey! })
           : chain === Chain.Avalanche
-          ? AVAXToolbox({ ...params, covalentApiKey: covalentApiKey! })
-          : BSCToolbox({ ...params, covalentApiKey: covalentApiKey! });
+            ? AVAXToolbox({ ...params, covalentApiKey: covalentApiKey! })
+            : BSCToolbox({ ...params, covalentApiKey: covalentApiKey! });
 
       return {
         address: wallet.address,
@@ -72,9 +72,8 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.BitcoinCash: {
-      if (!utxoApiKey) throw new Error('UTXO API key not found');
       const { BCHToolbox } = await import('@coinmasters/toolbox-utxo');
-      const toolbox = BCHToolbox({ rpcUrl, apiKey: utxoApiKey, apiClient: api });
+      const toolbox = BCHToolbox({ rpcUrl, apiKey: blockchairApiKey, apiClient: api });
       const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
       const address = toolbox.getAddressFromKeys(keys);
 
@@ -106,7 +105,7 @@ const getWalletMethodsForChain = async ({
     case Chain.Bitcoin:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      const params = { rpcUrl, apiKey: utxoApiKey, apiClient: api };
+      const params = { rpcUrl, apiKey: blockchairApiKey, apiClient: api };
 
       const { BTCToolbox, LTCToolbox, DOGEToolbox } = await import('@coinmasters/toolbox-utxo');
 
@@ -114,8 +113,8 @@ const getWalletMethodsForChain = async ({
         chain === Chain.Bitcoin
           ? BTCToolbox(params)
           : chain === Chain.Litecoin
-          ? LTCToolbox(params)
-          : DOGEToolbox(params);
+            ? LTCToolbox(params)
+            : DOGEToolbox(params);
 
       const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
       const address = toolbox.getAddressFromKeys(keys);
@@ -236,7 +235,7 @@ const connectKeystore =
     addChain,
     apis,
     rpcUrls,
-    config: { covalentApiKey, ethplorerApiKey, utxoApiKey, stagenet },
+    config: { covalentApiKey, ethplorerApiKey, blockchairApiKey, utxoApiKey, stagenet },
   }: ConnectWalletParams) =>
   async (chains: Chain[], phrase: string, index: number = 0) => {
     const promises = chains.map(async (chain) => {
@@ -248,7 +247,7 @@ const connectKeystore =
         covalentApiKey,
         ethplorerApiKey,
         phrase,
-        utxoApiKey,
+        blockchairApiKey: blockchairApiKey || utxoApiKey,
         stagenet,
       });
 

@@ -1,9 +1,9 @@
+import { StargateClient } from '@cosmjs/stargate';
+import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
 import type { DepositParam, TransferParams } from '@coinmasters/toolbox-cosmos';
 import { ThorchainToolbox } from '@coinmasters/toolbox-cosmos';
 import type {} from '@coinmasters/types';
 import { Chain, ChainId, RPCUrl } from '@coinmasters/types';
-import { StargateClient } from '@cosmjs/stargate';
-import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
 
 import { addressInfoForCoin } from '../coins.ts';
 
@@ -79,8 +79,8 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
       signTransactionTransfer({
         from: fromAddress,
         to: recipient,
-        asset: assetValue?.symbol,
-        amount: assetValue.baseValue.toString(),
+        asset: assetValue.symbol,
+        amount: assetValue.getBaseValue('string'),
         memo,
       });
 
@@ -137,7 +137,7 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
       signTransactionDeposit({
         memo,
         asset: assetValue.symbol,
-        amount: assetValue.baseValue.toString(),
+        amount: assetValue.getBaseValue('string'),
         from: fromAddress,
       });
 

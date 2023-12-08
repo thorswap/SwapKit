@@ -13,8 +13,9 @@ import {
 export const getDustThreshold = (chain: UTXOChain) => {
   switch (chain) {
     case Chain.Bitcoin:
-    case Chain.BitcoinCash:
       return 550;
+    case Chain.BitcoinCash:
+      return 1;
     case Chain.Litecoin:
       return 5500;
     case Chain.Dogecoin:
@@ -32,7 +33,9 @@ export const accumulative = ({
 }: UTXOCalculateTxSizeParams & { outputs: TargetOutput[]; chain: UTXOChain }) => {
   feeRate = Math.ceil(feeRate);
   const newTxType =
-    'address' in inputs[0] ? getScriptTypeForAddress(inputs[0].address) : UTXOScriptType.P2PKH;
+    inputs[0] && 'address' in inputs[0]
+      ? getScriptTypeForAddress(inputs[0].address)
+      : UTXOScriptType.P2PKH;
   // skip input if adding it would cost more than input is worth
   console.log('feeRate: ', feeRate);
   const filteredInputs = inputs.filter((input) => getInputSize(input) * feeRate <= input.value);

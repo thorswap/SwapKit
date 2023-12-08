@@ -2,23 +2,22 @@
   "author": "swapkit-oss-team",
   "dependencies": {
     "@coinmasters/types": "workspace:*",
-    "@pioneer-platform/pioneer-coins": "^8.1.86",
-    "@trezor/connect-web": "9.1.2"
+    "@trezor/connect-web": "9.1.5"
   },
   "description": "SwapKit Lib trezor",
   "devDependencies": {
+    "@internal/config": "workspace:*",
     "@coinmasters/helpers": "workspace:*",
     "@coinmasters/toolbox-evm": "workspace:*",
     "@coinmasters/toolbox-utxo": "workspace:*",
-    "@internal/config": "workspace:*",
-    "@trezor/connect": "9.1.2",
-    "@types/bchaddrjs": "0.4.0",
-    "@vitest/coverage-istanbul": "0.34.4",
+    "@trezor/connect": "9.1.5",
+    "@types/bchaddrjs": "0.4.3",
+    "@vitest/coverage-istanbul": "0.34.6",
     "bchaddrjs": "0.5.2",
     "bitcoinjs-lib": "5.2.0",
-    "ethers": "6.7.1",
-    "vite": "4.4.9",
-    "vitest": "0.34.4"
+    "ethers": "6.9.0",
+    "vite": "4.5.0",
+    "vitest": "0.34.6"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
@@ -44,7 +43,7 @@
     "@coinmasters/toolbox-evm": "workspace:*",
     "@coinmasters/toolbox-utxo": "workspace:*",
     "bitcoinjs-lib": "5.2.0",
-    "ethers": "^6.7.1"
+    "ethers": "^6.9.0"
   },
   "publishConfig": {
     "access": "public"
@@ -60,5 +59,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "4.0.0"
+  "version": "4.0.1"
 }

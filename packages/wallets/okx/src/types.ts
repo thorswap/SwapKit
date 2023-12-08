@@ -1,6 +1,7 @@
 export type OKXConfig = {
   covalentApiKey?: string;
   ethplorerApiKey?: string;
+  blockchairApiKey?: string;
   utxoApiKey?: string;
 };
 

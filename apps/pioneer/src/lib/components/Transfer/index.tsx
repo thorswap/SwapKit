@@ -28,7 +28,7 @@ import { getWalletBadgeContent } from '../WalletIcon';
 
 const Transfer = ({ openModal }: any) => {
   const toast = useToast();
-  const { state, connectWallet } = usePioneer();
+  const { state, setIntent, showModal } = usePioneer();
   const { app, assetContext, balances, context } = state;
   const [isPairing, setIsPairing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -71,19 +71,6 @@ const Transfer = ({ openModal }: any) => {
     setSendAmount('');
   };
 
-  const pairWallet = async function () {
-    try {
-      setIsPairing(true);
-      const contextType = context.split(':')[0];
-      console.log('contextType: ', contextType);
-      // connect it
-      let result = await connectWallet(contextType.toUpperCase());
-      console.log('result: ', result);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   // const getSwapKitContext = async function () {
   //   try {
   //     const address = await app.swapKit.getAddress(assetContext.chain);
@@ -108,11 +95,27 @@ const Transfer = ({ openModal }: any) => {
       // //get context of swapkit
       // let swapKitContext = await getSwapKitContext();
       // console.log("swapKitContext: ", swapKitContext);
-
+      console.log('assetContext: ', assetContext);
+      setIntent(
+        'transfer:' +
+          assetContext.chain +
+          ':' +
+          assetContext.symbol +
+          ':' +
+          inputAmount +
+          ':' +
+          recipient,
+      );
       const walletInfo = await app.swapKit.getWalletByChain(assetContext.chain);
 
       if (!walletInfo) {
-        pairWallet();
+        //get wallet for context
+        let walletType = app.context.split(':')[0];
+        console.log('Wallet not connected, opening modal for: ', walletType);
+        //open wallet for context
+
+        showModal(walletType);
+        // pairWallet();
       } else {
         setIsSubmitting(true);
         /*

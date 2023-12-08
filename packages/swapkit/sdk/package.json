@@ -9,9 +9,8 @@
     "@coinmasters/types": "workspace:*",
     "@coinmasters/wallet-evm-extensions": "workspace:*",
     "@coinmasters/wallet-keplr": "workspace:*",
-    "@coinmasters/wallet-keepkey": "workspace:*",
-    "@coinmasters/wallet-metamask": "workspace:*",
     "@coinmasters/wallet-keystore": "workspace:*",
+    "@coinmasters/wallet-keepkey": "workspace:*",
     "@coinmasters/wallet-ledger": "workspace:*",
     "@coinmasters/wallet-okx": "workspace:*",
     "@coinmasters/wallet-trezor": "workspace:*",
@@ -21,9 +20,9 @@
   "description": "SwapKit Lib swapkit-sdk",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@vitest/coverage-istanbul": "0.34.4",
-    "vite": "4.4.9",
-    "vitest": "0.34.4"
+    "@vitest/coverage-istanbul": "0.34.6",
+    "vite": "4.5.0",
+    "vitest": "0.34.6"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
@@ -52,11 +51,9 @@
   "scripts": {
     "build": "NODE_OPTIONS=--max_old_space_size=32768 vite build",
     "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
-    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
-    "test": "echo 'vitest --run'",
-    "test:coverage": "echo 'vitest run --coverage'"
+    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "3.0.1"
+  "version": "3.0.2"
 }

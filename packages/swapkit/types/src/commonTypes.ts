@@ -32,7 +32,11 @@ export type ConnectConfig = {
    */
   ethplorerApiKey?: string;
   /**
-   * @required for BTC, LTC, DOGE & BCH
+   * @required for BTC, BCH, LTC, DOGE
+   */
+  blockchairApiKey?: string;
+  /**
+   * @deprecated - use blockchairApiKey instead
    */
   utxoApiKey?: string;
   /**
@@ -45,6 +49,18 @@ export type ConnectConfig = {
   trezorManifest?: {
     email: string;
     appUrl: string;
+  };
+  /**
+   * @optional for KeepKey config
+   */
+  keepkeyConfig?: {
+    apiKey: string;
+    pairingInfo: {
+      name: string;
+      imageUrl: string;
+      basePath: string;
+      url: string;
+    };
   };
 };
 

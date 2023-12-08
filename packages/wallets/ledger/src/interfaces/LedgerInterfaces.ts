@@ -48,6 +48,7 @@ export abstract class CommonLedgerInterface {
 
 export abstract class UTXOLedgerInterface {
   public addressNetwork: BTCNetwork = networks.bitcoin;
+  public paths: any;
   // @ts-expect-error `default` typing is wrong
   public btcApp: InstanceType<typeof BitcoinApp> | null = null;
   public chain: 'bch' | 'btc' | 'ltc' | 'doge' = 'btc';
@@ -55,7 +56,7 @@ export abstract class UTXOLedgerInterface {
   public ledgerApp: any;
   public additionalSignParams?: Partial<CreateTransactionArg>;
   public transport = null as any;
-  public walletFormat: 'legacy' | 'bech32' = 'bech32';
+  public walletFormat: 'legacy' | 'bech32' | 'p2sh' = 'bech32';
 
   public connect = async () => {
     await this.checkBtcAppAndCreateTransportWebUSB(false);
@@ -63,7 +64,7 @@ export abstract class UTXOLedgerInterface {
     const { default: BitcoinApp } = await import('@ledgerhq/hw-app-btc');
 
     // @ts-expect-error `default` typing is wrong
-    this.btcApp = new BitcoinApp(this.transport);
+    this.btcApp = new BitcoinApp({ transport: this.transport });
   };
 
   public signTransaction = async (psbt: Psbt, inputUtxos: UTXOType[]) => {
@@ -103,11 +104,14 @@ export abstract class UTXOLedgerInterface {
   };
 
   public getExtendedPublicKey = async (
-    path: string = "84'/0'/0'",
-    xpubVersion: number = 76067358,
+    path,
+    xpubVersion,
   ) => {
     await this.checkBtcAppAndCreateTransportWebUSB();
-
+    console.log("Final: getWalletXpub: ",{
+      path,
+      xpubVersion,
+    })
     return this.btcApp!.getWalletXpub({
       path,
       xpubVersion,

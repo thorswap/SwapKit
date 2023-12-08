@@ -1,4 +1,4 @@
-import { BigIntArithmetics } from './bigIntArithmetics.ts';
+import { BigIntArithmetics, formatBigIntToSafeValue } from './bigIntArithmetics.ts';
 
 export type SwapKitValueType = BigIntArithmetics | string | number;
 
@@ -7,7 +7,10 @@ export class SwapKitNumber extends BigIntArithmetics {
     return this.eqValue(value);
   }
 
-  toString() {
-    return this.value;
+  static fromBigInt(value: bigint, decimal?: number) {
+    return new SwapKitNumber({
+      decimal,
+      value: formatBigIntToSafeValue({ value, bigIntDecimal: decimal, decimal }),
+    });
   }
 }
