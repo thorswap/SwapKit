@@ -47,6 +47,7 @@ const getToolbox = ({ chain, apiClient, apiKey }: Omit<Params, 'sdk'>) => {
 
 export const utxoWalletMethods = async ({
   sdk,
+  paths,
   chain,
   apiKey,
   apiClient,
@@ -177,6 +178,7 @@ export const utxoWalletMethods = async ({
 
     const { psbt, inputs: rawInputs } = await toolbox.buildTx({
       ...rest,
+      pubkeys: await getPubkeys(),
       memo,
       feeOptionKey,
       recipient,
