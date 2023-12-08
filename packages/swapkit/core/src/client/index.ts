@@ -54,20 +54,13 @@ const getEmptyWalletStructure = () =>
     {} as Record<Chain, null>,
   );
 
-const validateAddress = async ({
-  chain,
-  address,
-}: {
-  chain: Chain;
-  address: string | undefined;
-}) => {
+const validateAddressType = async ({ chain, address }: { chain: Chain; address?: string }) => {
   if (!address) return false;
+
   switch (chain) {
     case Chain.Bitcoin:
-      if (address.startsWith('bc1p')) {
-        return false;
-      }
-      return true;
+      // filter out taproot addresses
+      return !address.startsWith('bc1p');
     default:
       return true;
   }
@@ -239,7 +232,7 @@ export class SwapKitCore<T = ''> {
   }: CoreTxParams & { router?: string }) => {
     const { chain, symbol, ticker } = assetValue;
     const walletInstance = this.connectedWallets[chain];
-    if (!(await validateAddress({ address: await walletInstance?.getAddress(), chain })))
+    if (!(await validateAddressType({ address: await walletInstance?.getAddress(), chain })))
       throw new SwapKitError('core_transaction_invalid_sender_address');
     if (!walletInstance) throw new SwapKitError('core_wallet_connection_not_found');
 
