@@ -121,19 +121,35 @@ const createDepositMessage = (
   address: string,
   memo = '',
   forBroadcasting = false,
-) => ({
-  type: 'thorchain/MsgDeposit',
-  value: {
-    coins: [
-      {
-        amount: assetValue.getBaseValue('string'),
-        asset: !forBroadcasting ? assetValue.symbol : assetValue,
-      },
-    ],
-    memo,
-    signer: address,
-  },
-});
+) => {
+  const symbol = assetValue.isSynthetic
+    ? assetValue.symbol.split('/')[1].toLowerCase()
+    : assetValue.symbol.toLowerCase();
+  const chain = assetValue.isSynthetic
+    ? assetValue.symbol.split('/')[0].toLowerCase()
+    : assetValue.chain.toLowerCase();
+
+  return {
+    type: 'thorchain/MsgDeposit',
+    value: {
+      coins: [
+        {
+          amount: assetValue.getBaseValue('string'),
+          asset: !forBroadcasting
+            ? assetValue.symbol
+            : {
+                chain,
+                symbol,
+                ticker: symbol,
+                synth: assetValue.isSynthetic,
+              },
+        },
+      ],
+      memo,
+      signer: address,
+    },
+  };
+};
 
 const broadcastMultisigTx =
   ({ prefix, rpcUrl }: { prefix: string; rpcUrl: string }) =>
@@ -246,6 +262,9 @@ export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): Thorch
     const symbol = assetValue.isSynthetic
       ? assetValue.symbol.split('/')[1].toLowerCase()
       : assetValue.symbol.toLowerCase();
+    const chain = assetValue.isSynthetic
+      ? assetValue.symbol.split('/')[0].toLowerCase()
+      : assetValue.chain.toLowerCase();
 
     const depositMsg = {
       typeUrl: '/types.MsgDeposit',
@@ -256,7 +275,7 @@ export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): Thorch
           {
             amount: assetValue.getBaseValue('string'),
             asset: {
-              chain: assetValue.chain.toLowerCase(),
+              chain,
               symbol,
               ticker: symbol,
               synth: assetValue.isSynthetic,
