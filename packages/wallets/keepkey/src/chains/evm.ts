@@ -48,7 +48,6 @@ export class KeepKeySigner extends AbstractSigner {
     const { address } = await this.sdk.address.ethereumGetAddress({
       address_n: [2147483692, 2147483708, 2147483648, 0, 0],
     });
-
     this.address = address;
     return address;
   };

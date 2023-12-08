@@ -68,6 +68,44 @@ export const utxoWalletMethods = async ({
   const addressInfo = addressInfoForCoin(chain, false, scriptType);
   const { address: walletAddress } = await sdk.address.utxoGetAddress(addressInfo);
 
+  //getAddress
+  const _getPubkeys = async (paths) => {
+    try {
+      console.log('paths: ', paths);
+
+      const pubkeys = await Promise.all(
+        paths.map((path) => {
+          // Create the path query from the original path object
+          const pathQuery = {
+            symbol: 'BTC',
+            coin: 'Bitcoin',
+            script_type: 'p2pkh',
+            address_n: path.addressNList,
+            showDisplay: false,
+          };
+
+          console.log('pathQuery: ', pathQuery);
+          return sdk.system.info.getPublicKey(pathQuery).then((response) => {
+            console.log('response: ', response);
+            // Combine the original path object with the xpub from the response
+            const combinedResult = {
+              ...path, // Contains all fields from the original path
+              xpub: response.xpub, // Adds the xpub field from the response
+            };
+            console.log('combinedResult: ', combinedResult);
+            return combinedResult;
+          });
+        }),
+      );
+      return pubkeys;
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  const pubkeys = await _getPubkeys(paths);
+  const getPubkeys = async () => pubkeys;
+  console.log('pubkeys: ', pubkeys);
+
   const signTransaction = async (psbt: Psbt, inputs: KeepKeyInputObject[], memo: string = '') => {
     console.log('psbt.txOutputs: ', psbt.txOutputs);
     const outputs = psbt.txOutputs
@@ -161,5 +199,5 @@ export const utxoWalletMethods = async ({
     return toolbox.broadcastTx(txHex);
   };
 
-  return { ...toolbox, getAddress: () => walletAddress as string, signTransaction, transfer };
+  return { ...toolbox, getPubkeys, getAddress: () => walletAddress as string, signTransaction, transfer };
 };

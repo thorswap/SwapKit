@@ -130,6 +130,8 @@ const Pioneer = () => {
     let pairedWallets = localStorage.getItem('pairedWallets');
     if (pairedWallets) {
       pairedWallets = JSON.parse(pairedWallets).map((pw) => pw.split(':')[0].toUpperCase());
+    } else {
+      pairedWallets = [];
     }
 
     return walletsToDisplay.map((wallet) => (
@@ -261,7 +263,7 @@ const Pioneer = () => {
         </ModalContent>
       </Modal>
       <Menu>
-        <MenuButton as={Button} cursor="pointer" minW={100} rounded="full" variant="link">
+        <MenuButton as={Button} cursor="pointer" minW={100} rounded="full" variant="link" >
           <Avatar size="lg">
             {isSwitchingWallet ? (
               <div>

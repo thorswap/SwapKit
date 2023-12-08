@@ -1,12 +1,12 @@
 import type { SwapKitCore } from '@coinmasters/core';
+import { ChainToNetworkId, getChainEnumValue } from '@coinmasters/core';
 import { Chain, EVMChainList, WalletOption } from '@coinmasters/types';
 import { decryptFromKeystore } from '@coinmasters/wallet-keystore';
 import { getDerivationPathFor } from '@coinmasters/wallet-ledger';
+import { getPaths } from '@pioneer-platform/pioneer-coins';
 import { useCallback, useState } from 'react';
 
 import type { WalletDataType } from './types';
-import { ChainToNetworkId, getChainEnumValue } from '@coinmasters/core';
-import { getPaths } from '@pioneer-platform/pioneer-coins';
 
 type Props = {
   setPhrase: (phrase: string) => void;
@@ -176,7 +176,14 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return responsePair;
         }
         case WalletOption.KEEPKEY: {
-          return skClient.connectKeepkey(chains);
+          console.log('chains: ', chains);
+          let allByCaip = chains.map((chainStr) => ChainToNetworkId[getChainEnumValue(chainStr)]);
+          console.log('allByCaip: ', allByCaip);
+          let allPaths = getPaths(allByCaip);
+          console.log('allPaths: ', allPaths);
+          let apiKey: string = await skClient.connectKeepkey(chains, allPaths);
+          localStorage.setItem('keepkeyApiKey', apiKey);
+          return true;
         }
 
         case WalletOption.TREZOR: {

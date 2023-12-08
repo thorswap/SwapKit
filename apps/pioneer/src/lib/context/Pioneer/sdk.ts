@@ -34,6 +34,8 @@ import { availableChainsByWallet } from './support';
 const TAG = ' | Pioneer-sdk | ';
 
 export interface PioneerSDKConfig {
+  appName?: string;
+  appIcon?: string;
   blockchains: any;
   username: string;
   queryKey: string;
@@ -141,8 +143,12 @@ export class SDK {
   private blockchains: any[];
   private clearWalletState: () => Promise<boolean>;
   private setBlockchains: (blockchains: any) => Promise<void>;
+  public appName: string;
+  private appIcon: any;
   constructor(spec: string, config: PioneerSDKConfig) {
     this.status = 'preInit';
+    this.appName = config.appName || 'pioneer-sdk';
+    this.appIcon = config.appIcon || 'https://pioneers.dev/coins/pioneerMan.png';
     this.spec = spec || config.spec || 'https://pioneers.dev/spec/swagger';
     this.wss = config.wss || 'wss://pioneers.dev';
     this.username = config.username;
@@ -207,6 +213,15 @@ export class SDK {
             utxoApiKey,
             walletConnectProjectId,
             stagenet,
+            keepkeyConfig: {
+              apiKey: this.keepkeyApiKey,
+              pairingInfo: {
+                name: this.appName,
+                imageUrl: this.appIcon,
+                basePath: 'http://localhost:1646/spec/swagger.json',
+                url: 'http://localhost:1646',
+              },
+            },
           },
           wallets,
         };
@@ -277,18 +292,13 @@ export class SDK {
         const AllChainsSupported = availableChainsByWallet[wallet];
         console.log(tag, 'ChainToNetworkId: ', ChainToNetworkId);
         console.log(tag, 'ChainToNetworkId: ', ChainToNetworkId[Chain.Ethereum]);
-        let allByCaip = AllChainsSupported.map((chainStr) => {
-          const chainEnum = getChainEnumValue(chainStr);
-          return chainEnum ? ChainToNetworkId[chainEnum] : undefined;
-        }).filter((x) => x !== undefined); // This will filter out any undefined values
+        let allByCaip = AllChainsSupported.map(
+          (chainStr) => ChainToNetworkId[getChainEnumValue(chainStr)],
+        );
         console.log(tag, 'AllChainsSupported: ', AllChainsSupported);
         console.log(tag, 'allByCaip: ', allByCaip);
         this.blockchains = allByCaip;
         let allPaths = getPaths(allByCaip);
-        if (wallet === 'METAMASK') {
-          //Metamask snaps are stupid can cant handle bip84 paths
-          allPaths = allPaths.filter((pathObj) => pathObj.type !== 'zpub');
-        }
         console.log(tag, 'getPaths allPaths: ', allPaths);
         let walletPaths = [...getPaths(allByCaip), ...customPaths];
         console.log(tag, 'walletPaths: ', walletPaths);
@@ -299,20 +309,9 @@ export class SDK {
 
         let resultPair: string;
         if (walletSelected.type === 'KEEPKEY') {
-          const configKeepKey: any = {
-            apiKey: this.keepkeyApiKey || '1234',
-            pairingInfo: {
-              name: 'swapKit-demo-app',
-              imageUrl: 'https://thorswap.finance/assets/img/header_logo.png',
-              basePath: 'http://localhost:1646/spec/swagger.json',
-              url: 'http://localhost:1646',
-            },
-          };
-          // If you can't avoid 'any', you can use a type assertion:
           resultPair =
             (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](
               AllChainsSupported,
-              configKeepKey,
               walletPaths,
             )) || '';
           console.log('resultPair: ', resultPair);
@@ -384,8 +383,6 @@ export class SDK {
               AllChainsSupported,
             )) || '';
         }
-        // log.info("resultPair: ", resultPair);
-        // log.info("this.swapKit: ", this.swapKit);
         if (resultPair) {
           // update
           const matchingWalletIndex = this.wallets.findIndex((w) => w.type === wallet);
@@ -396,6 +393,8 @@ export class SDK {
           if (wallet === 'LEDGER' && ledgerApp !== 'ETH') {
             context = 'ledger:ledger.wallet'; //placeholder until we know eth address
           } else {
+            console.log("this.swapKit: ",this.swapKit)
+            console.log("this.swapKit.getWalletByChain: ",await this.swapKit.getWalletByChain(Chain.Ethereum))
             const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
             if (!ethAddress) throw Error('Failed to get eth address! can not pair wallet');
             context = `${wallet.toLowerCase()}:${ethAddress}.wallet`;
@@ -423,7 +422,7 @@ export class SDK {
         } else {
           throw Error(`Failed to pair wallet! ${walletSelected.type}`);
         }
-        return true;
+        return resultPair;
       } catch (e) {
         console.error(tag, 'e: ', e);
         // response:
@@ -587,10 +586,21 @@ export class SDK {
           if (walletForChain) {
             // eslint-disable-next-line @typescript-eslint/prefer-for-of
             for (let j = 0; j < walletForChain.balance.length; j++) {
-              const balance = walletForChain.balance[j];
+              let balance = walletForChain.balance[j];
+              console.log('balance: ', balance);
+              if (Array.isArray(balance)) {
+                // If balance is an array, use the first element
+                balance = balance[0];
+              }
               console.log('balance: ', balance);
               let balanceString: any = {};
               if (!balance.chain || !balance.symbol || !balance.ticker || !balance.type) {
+                console.error('chain: ', balance);
+                console.error('chain: ', balance[0]);
+                console.error('chain: ', balance[0].chain);
+                console.error('symbol: ', balance[0].symbol);
+                console.error('ticker: ', balance[0].ticker);
+                console.error('type: ', balance[0].type);
                 console.error('Missing required properties for balance: ', balance);
               } else {
                 //caip
@@ -612,10 +622,11 @@ export class SDK {
                     balanceString.chain = balance.chain;
                     balanceString.ticker = balance.ticker;
                     balanceString.type = balance.type;
-                    balanceString.balance = balance.toFixed(8).toString();
+                    balanceString.balance = balance.toFixed(balance.decimal).toString();
                     balances.push(balanceString);
                   }
                 } catch (e) {
+                  console.error('e: ', e);
                   console.error('Invalid balance!: ', balance);
                 }
               }

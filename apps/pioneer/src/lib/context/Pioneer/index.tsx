@@ -334,6 +334,7 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
             payload: successPairWallet.error,
           });
         } else {
+          if (successPairWallet) localStorage.setItem('keepkeyApiKey', successPairWallet);
           console.log('state.app.assetContext: ', state.app.assetContext);
           console.log('state.app.context: ', state.app.context);
 

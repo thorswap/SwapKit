@@ -282,6 +282,7 @@ export enum ChainId {
   THORChainStagenet = 'thorchain-stagenet-v2',
 }
 
+//TODO move these to pioneer proxy
 export enum RPCUrl {
   Arbitrum = 'https://arb1.arbitrum.io/rpc',
   Avalanche = 'https://node-router.thorswap.net/avalanche-c',

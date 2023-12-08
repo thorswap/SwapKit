@@ -182,8 +182,8 @@ importers:
         specifier: ^5.0.8
         version: 5.0.8
       '@pioneer-platform/pioneer-caip':
-        specifier: ^9.0.6
-        version: 9.0.6
+        specifier: ^9.0.10
+        version: 9.0.10
       '@pioneer-platform/pioneer-client':
         specifier: ^9.0.19
         version: 9.0.19
@@ -1101,6 +1101,9 @@ importers:
       '@keepkey/keepkey-sdk':
         specifier: ^0.2.52
         version: 0.2.52
+      '@pioneer-platform/pioneer-caip':
+        specifier: 9.0.7
+        version: 9.0.7
       '@pioneer-platform/pioneer-coins':
         specifier: ^8.1.86
         version: 8.1.86(@types/node@20.10.0)
@@ -5867,15 +5870,37 @@ packages:
       - '@types/node'
     dev: false
 
-  /@pioneer-platform/pioneer-caip@9.0.6:
-    resolution: {integrity: sha512-I6S61l9wxM4phsxibba+u4rX5X0IdUqSSBy3AL3SJkciMMXdlqV56MmvcdFF62jCxsfkH/7QNJaWhBd30aWmRA==}
+  /@pioneer-platform/pioneer-caip@9.0.10:
+    resolution: {integrity: sha512-x4mBgI8JcMRxDHx/etK2doPjzD8UBCWJ6VZ3SMJwgvpR3HDLmt6tH7sqpLaFmc3awAswwsi+OJcZA10gmC/Sug==}
     dependencies:
       bech32: 1.1.4
       bignumber.js: 9.1.2
       bitcoin-regex: 2.0.0
       bitcoincash-regex: 1.1.9
       bs58check: 3.0.1
-      crypto-js: 4.1.1
+      crypto-js: 4.2.0
+      dash-regex: 1.0.11
+      dogecoin-regex: 1.0.10
+      ethereum-regex: 1.1.13
+      ethereum-tx-decoder: 3.0.0
+      litecoin-regex: 1.0.9
+      monero-regex: 1.0.9
+      neo-regex: 1.0.8
+      ripple-regex: 1.1.8
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: false
+
+  /@pioneer-platform/pioneer-caip@9.0.7:
+    resolution: {integrity: sha512-BTdogSfdqdhIIKJC2WJmCpPGJpW3e8w/8+skuzD55cOiu5Q5ky+7oppcgbYqAS4jmv3BVWx56iUx3bmRvvXWtQ==}
+    dependencies:
+      bech32: 1.1.4
+      bignumber.js: 9.1.2
+      bitcoin-regex: 2.0.0
+      bitcoincash-regex: 1.1.9
+      bs58check: 3.0.1
+      crypto-js: 4.2.0
       dash-regex: 1.0.11
       dogecoin-regex: 1.0.10
       ethereum-regex: 1.1.13

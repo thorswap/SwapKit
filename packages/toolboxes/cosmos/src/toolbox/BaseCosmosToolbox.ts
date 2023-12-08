@@ -3,7 +3,6 @@ import { AssetValue } from '@coinmasters/helpers';
 import { Chain, type ChainId, type DerivationPath } from '@coinmasters/types';
 
 import type { CosmosClient } from '../cosmosClient.ts';
-import type { BaseCosmosToolboxType } from '../thorchainUtils/types/client-types.ts';
 
 type Params = {
   client: CosmosClient;
@@ -46,14 +45,15 @@ export const BaseCosmosToolbox = ({
   derivationPath,
   client: cosmosClient,
 }: Params): {
-  getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<any>; transfer: ({
-                                                                                  from,
-                                                                                  recipient,
-                                                                                  assetValue,
-                                                                                  memo,
-                                                                                  fee,
-                                                                                  signer
-                                                                                }: TransferParams) => Promise<any>; getBalance: (pubkeys: any) => Promise<Awaited<AssetValue | symbol>[] | AssetValue[]>; getAccount: (address: string) => Promise<any>; getSigner: (phrase: string) => Promise<any>; validateAddress: (address: string) => Promise<boolean>; getAddressFromMnemonic: (phrase: string) => Promise<any>; getFeeRateFromThorswap: (chainId: ChainId) => Promise<any>; getPubKeyFromMnemonic: (phrase: string) => Promise<string>
+  getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<any>;
+  transfer: ({ from, recipient, assetValue, memo, fee, signer }: TransferParams) => Promise<any>;
+  getBalance: (pubkeys: any) => Promise<Awaited<AssetValue | symbol>[] | AssetValue[]>;
+  getAccount: (address: string) => Promise<any>;
+  getSigner: (phrase: string) => Promise<any>;
+  validateAddress: (address: string) => Promise<boolean>;
+  getAddressFromMnemonic: (phrase: string) => Promise<any>;
+  getFeeRateFromThorswap: (chainId: ChainId) => Promise<any>;
+  getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
 } => ({
   transfer: cosmosClient.transfer,
   getSigner: async (phrase: string) => {
@@ -81,6 +81,7 @@ export const BaseCosmosToolbox = ({
   getBalance: async (pubkeys: any) => {
     console.log('pubkeys: ', pubkeys);
     const balances = await cosmosClient.getBalance(pubkeys[0].address);
+    const ERROR_SYMBOL = Symbol('error');
 
     return Promise.all(
       balances
@@ -90,10 +91,10 @@ export const BaseCosmosToolbox = ({
             return await getAssetFromDenom(denom, amount);
           } catch (error) {
             console.error(error);
-            // Skip this entry by returning a unique symbol
-            return Symbol('error');
+            // Return the shared error symbol
+            return ERROR_SYMBOL;
           }
-        })
-    ).then((results) => results.filter((result) => result !== Symbol('error')));
+        }),
+    ).then((results) => results.filter((result) => result !== ERROR_SYMBOL));
   },
 });

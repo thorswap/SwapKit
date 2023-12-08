@@ -190,6 +190,7 @@ export class SwapKitCore<T = ''> {
 
   getWalletByChain = async (chain: Chain, potentialScamFilter?: boolean) => {
     const address = this.getAddress(chain);
+    console.log("getWalletByChain: address: ", address)
     if (!address) return null;
     console.log('chain: ', chain);
     console.log('address: ', address);
@@ -197,17 +198,19 @@ export class SwapKitCore<T = ''> {
     if (this.getWallet(chain)?.getPubkeys) {
       pubkeys = await this.getWallet(chain)?.getPubkeys();
     }
+    console.log(' getWalletByChain ' + chain + ': pubkeys: ', pubkeys);
     //for each pubkey iterate and sum the balance
     let balance: AssetValue[] = [];
     if (pubkeys.length === 0) {
       console.log('Get balance for Address! address: ' + address);
+      console.log('Get balance for Address! chain: ' + chain);
       //use address balance
       balance = await this.getWallet(chain)?.getBalance([{ address }])
-      console.log('balance: ', balance)
-      console.log('balance: ', balance[0])
-      console.log('balance: ', balance.length)
-      console.log('balance: ', typeof(balance))
-      balance = [balance]
+      console.log('balance: ', balance);
+      // console.log('balance: ', balance[0])
+      // console.log('balance: ', balance.length)
+      // console.log('balance: ', typeof(balance))
+      // balance = [balance]
     } else {
       console.log(chain + ' pubkeys: ', pubkeys);
       //use pubkey balances
@@ -640,7 +643,7 @@ export class SwapKitCore<T = ''> {
   connectKeystore = async (_chains: Chain[], _phrase: string): Promise<void> => {
     throw new SwapKitError('core_wallet_keystore_not_installed');
   };
-  connectKeepkey = async (_chains: Chain[]): Promise<void> => {
+  connectKeepkey = async (_chains: Chain[], paths: any): Promise<string> => {
     throw new SwapKitError('core_wallet_keepkey_not_installed');
   };
   connectLedger = async (_chains: Chain, _derivationPath: number[]): Promise<void> => {
