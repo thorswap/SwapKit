@@ -459,7 +459,7 @@ export class SwapKitCore<T = ''> {
         symbol: assetValue.symbol,
         chain: assetValue.chain,
         ticker: assetValue.ticker,
-        basisPoints: Math.max(10000, Math.round(percent * 100)),
+        basisPoints: Math.min(10000, Math.round(percent * 100)),
         targetAssetString: targetAsset?.toString(),
         singleSide: false,
       });

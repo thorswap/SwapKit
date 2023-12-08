@@ -1,5 +1,12 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.72
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/core@1.0.0-rc.63
+
 ## 1.0.0-rc.71
 
 ### Patch Changes

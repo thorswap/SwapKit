@@ -1,5 +1,12 @@
 # @internal/playground
 
+## 0.0.0-rc.65
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/core@1.0.0-rc.63
+
 ## 0.0.0-rc.64
 
 ### Patch Changes
