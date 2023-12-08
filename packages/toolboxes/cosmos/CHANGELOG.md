@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.52
+
+### Patch Changes
+
+- [#471](https://github.com/thorswap/SwapKit/pull/471) [`7ea8b2c`](https://github.com/thorswap/SwapKit/commit/7ea8b2cf5f2e9a6cedf8708c4222094ebb6513dd) Thanks [@towanTG](https://github.com/towanTG)! - Fixes THORChain deposit methods to support synths
+
 ## 1.0.0-rc.51
 
 ### Patch Changes
