@@ -21,8 +21,7 @@ const getSupportedChains = async () => {
 
 The result contains a list of chains like the following:
 
-````
-```
+```json
 {
     "ETH": "1",
     "AVAX": "43114",
@@ -36,4 +35,3 @@ The result contains a list of chains like the following:
     "DOGE": "dogecoin"
 }
 ```
-````
