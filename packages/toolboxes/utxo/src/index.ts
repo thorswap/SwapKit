@@ -1,4 +1,4 @@
-export { toCashAddress } from 'bchaddrjs';
+export { toCashAddress } from './utils/bchaddrjs.ts';
 export { type Network, networks, Psbt, Transaction } from 'bitcoinjs-lib';
 
 /**

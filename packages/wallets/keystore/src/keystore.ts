@@ -46,8 +46,7 @@ const getWalletMethodsForChain = async ({
         throw new Error('Covalent API key not found');
       }
 
-      const { HDNodeWallet } = await import('ethers');
-      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
+      const { HDNodeWallet, getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
         '@swapkit/toolbox-evm'
       );
 

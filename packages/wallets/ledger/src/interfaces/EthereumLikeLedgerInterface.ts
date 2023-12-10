@@ -1,7 +1,12 @@
 import type EthereumApp from '@ledgerhq/hw-app-eth';
+import {
+  AbstractSigner,
+  type Provider,
+  Signature,
+  Transaction,
+  type TransactionRequest,
+} from '@swapkit/toolbox-evm';
 import { ChainId } from '@swapkit/types';
-import type { Provider, TransactionRequest } from 'ethers';
-import { AbstractSigner } from 'ethers';
 
 import { getLedgerTransport } from '../helpers/getLedgerTransport.ts';
 
@@ -59,8 +64,6 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
 
     if (!sig) throw new Error('Signing failed');
 
-    const { Signature } = await import('ethers');
-
     sig.r = '0x' + sig.r;
     sig.s = '0x' + sig.s;
     return Signature.from(sig).serialized;
@@ -92,7 +95,6 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
       type: tx.type && !isNaN(tx.type) ? tx.type : tx.maxFeePerGas ? 2 : 0,
     };
 
-    const { Transaction } = await import('ethers');
     // ledger expects the tx to be serialized without the 0x prefix
     const unsignedTx = Transaction.from(baseTx).unsignedSerialized.slice(2);
 

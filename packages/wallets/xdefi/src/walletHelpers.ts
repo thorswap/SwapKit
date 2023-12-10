@@ -1,7 +1,13 @@
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@swapkit/helpers';
 import type { TransferParams } from '@swapkit/toolbox-cosmos';
-import type { ApproveParams, CallParams, EVMToolbox, EVMTxParams } from '@swapkit/toolbox-evm';
+import type {
+  ApproveParams,
+  BrowserProvider,
+  CallParams,
+  Eip1193Provider,
+  EVMTxParams,
+} from '@swapkit/toolbox-evm';
 import {
   createContract,
   createContractTxObject,
@@ -11,7 +17,6 @@ import {
 } from '@swapkit/toolbox-evm';
 import type { ChainId, FeeOption } from '@swapkit/types';
 import { Chain, ChainToChainId, erc20ABI, RPCUrl } from '@swapkit/types';
-import type { BrowserProvider, Eip1193Provider } from 'ethers';
 
 type TransactionMethod = 'transfer' | 'deposit';
 

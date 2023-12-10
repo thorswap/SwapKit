@@ -6,7 +6,6 @@ settings:
 
 overrides:
   axios: ^1.6.2
-  ethers: ^6.9.0
   json5@<=1.0.1: ^1.0.2
   semver@<=4.3.2: ^7.5.4
   typescript: 5.2.2
@@ -107,6 +106,9 @@ importers:
 
   internal/config:
     devDependencies:
+      '@rollup/plugin-node-resolve':
+        specifier: 15.2.3
+        version: 15.2.3
       '@rollup/plugin-terser':
         specifier: 0.4.4
         version: 0.4.4
@@ -255,9 +257,6 @@ importers:
       base64-js:
         specifier: 1.5.1
         version: 1.5.1
-      buffer:
-        specifier: 6.0.3
-        version: 6.0.3
       crypto-browserify:
         specifier: 3.12.0
         version: 3.12.0
@@ -357,18 +356,9 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: 1.0.1
         version: 1.0.1(vitest@1.0.1)
-      ethers:
-        specifier: ^6.9.0
-        version: 6.9.0
       vite:
         specifier: 5.0.6
         version: 5.0.6(@types/node@20.10.3)
-      vite-plugin-top-level-await:
-        specifier: 1.3.1
-        version: 1.3.1(vite@5.0.6)
-      vite-plugin-wasm:
-        specifier: 3.2.2
-        version: 3.2.2(vite@5.0.6)
       vitest:
         specifier: 1.0.1
         version: 1.0.1(@types/node@20.10.3)
@@ -378,6 +368,9 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../types
+      bignumber.js:
+        specifier: 9.1.2
+        version: 9.1.2
       tiny-invariant:
         specifier: 1.3.1
         version: 1.3.1
@@ -388,9 +381,6 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: 1.0.1
         version: 1.0.1(vitest@1.0.1)
-      bignumber.js:
-        specifier: 9.1.2
-        version: 9.1.2
       vite:
         specifier: 5.0.6
         version: 5.0.6(@types/node@20.10.3)
@@ -440,9 +430,6 @@ importers:
       '@swapkit/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
-      '@swapkit/types':
-        specifier: workspace:*
-        version: link:../types
       '@swapkit/wallet-evm-extensions':
         specifier: workspace:*
         version: link:../../wallets/evm-extensions
@@ -516,9 +503,6 @@ importers:
       '@types/node':
         specifier: 20.10.3
         version: 20.10.3
-      ethers:
-        specifier: ^6.9.0
-        version: 6.9.0
       vite:
         specifier: 5.0.6
         version: 5.0.6(@types/node@20.10.3)
@@ -552,9 +536,6 @@ importers:
       '@swapkit/api':
         specifier: workspace:*
         version: link:../../swapkit/api
-      '@swapkit/types':
-        specifier: workspace:*
-        version: link:../../swapkit/types
       bn.js:
         specifier: 5.2.1
         version: 5.2.1
@@ -583,6 +564,9 @@ importers:
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
+      '@swapkit/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
       '@types/bn.js':
         specifier: 5.1.5
         version: 5.1.5
@@ -613,11 +597,8 @@ importers:
 
   packages/toolboxes/evm:
     dependencies:
-      '@swapkit/types':
-        specifier: workspace:*
-        version: link:../../swapkit/types
       ethers:
-        specifier: ^6.9.0
+        specifier: 6.9.0
         version: 6.9.0
     devDependencies:
       '@internal/config':
@@ -635,6 +616,9 @@ importers:
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
+      '@swapkit/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
       '@types/node':
         specifier: 20.10.3
         version: 20.10.3
@@ -662,15 +646,15 @@ importers:
       '@scure/bip39':
         specifier: 1.2.1
         version: 1.2.1
-      '@swapkit/types':
-        specifier: workspace:*
-        version: link:../../swapkit/types
-      bchaddrjs:
-        specifier: 0.5.2
-        version: 0.5.2
       bitcoinjs-lib:
         specifier: 5.2.0
         version: 5.2.0
+      bs58check:
+        specifier: 3.0.1
+        version: 3.0.1
+      cashaddrjs:
+        specifier: 0.4.4
+        version: 0.4.4
       coininfo:
         specifier: 5.2.1
         version: 5.2.1
@@ -687,9 +671,9 @@ importers:
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
-      '@types/bchaddrjs':
-        specifier: 0.4.3
-        version: 0.4.3
+      '@swapkit/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
       '@types/node':
         specifier: 20.10.3
         version: 20.10.3
@@ -707,10 +691,6 @@ importers:
         version: 1.0.1(@types/node@20.10.3)
 
   packages/wallets/evm-extensions:
-    dependencies:
-      '@swapkit/types':
-        specifier: workspace:*
-        version: link:../../swapkit/types
     devDependencies:
       '@internal/config':
         specifier: workspace:*
@@ -718,12 +698,12 @@ importers:
       '@swapkit/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
+      '@swapkit/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
       '@vitest/coverage-istanbul':
         specifier: 1.0.1
         version: 1.0.1(vitest@1.0.1)
-      ethers:
-        specifier: ^6.9.0
-        version: 6.9.0
       vite:
         specifier: 5.0.6
         version: 5.0.6(@types/node@20.10.3)
@@ -732,10 +712,6 @@ importers:
         version: 1.0.1(@types/node@20.10.3)
 
   packages/wallets/keplr:
-    dependencies:
-      '@swapkit/types':
-        specifier: workspace:*
-        version: link:../../swapkit/types
     devDependencies:
       '@internal/config':
         specifier: workspace:*
@@ -749,6 +725,9 @@ importers:
       '@swapkit/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos
+      '@swapkit/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
       '@vitest/coverage-istanbul':
         specifier: 1.0.1
         version: 1.0.1(vitest@1.0.1)
@@ -764,9 +743,6 @@ importers:
       '@scure/bip39':
         specifier: 1.2.1
         version: 1.2.1
-      '@swapkit/types':
-        specifier: workspace:*
-        version: link:../../swapkit/types
       blakejs:
         specifier: 1.2.1
         version: 1.2.1
@@ -789,6 +765,9 @@ importers:
       '@swapkit/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
+      '@swapkit/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
       '@types/long':
         specifier: 4.0.2
         version: 4.0.2
@@ -798,9 +777,6 @@ importers:
       '@vitest/coverage-istanbul':
         specifier: 1.0.1
         version: 1.0.1(vitest@1.0.1)
-      ethers:
-        specifier: ^6.9.0
-        version: 6.9.0
       vite:
         specifier: 5.0.6
         version: 5.0.6(@types/node@20.10.3)
@@ -831,9 +807,6 @@ importers:
       '@ledgerhq/hw-transport-webusb':
         specifier: 6.28.0
         version: 6.28.0
-      '@swapkit/types':
-        specifier: workspace:*
-        version: link:../../swapkit/types
       ripemd160:
         specifier: 2.0.2
         version: 2.0.2
@@ -856,30 +829,12 @@ importers:
       '@swapkit/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
-      '@types/crypto-js':
-        specifier: 4.2.1
-        version: 4.2.1
-      '@types/elliptic':
-        specifier: 6.4.18
-        version: 6.4.18
-      '@types/long':
-        specifier: 4.0.2
-        version: 4.0.2
-      '@types/node':
-        specifier: 20.10.3
-        version: 20.10.3
-      '@types/ripemd160':
-        specifier: 2.0.3
-        version: 2.0.3
-      '@types/secp256k1':
-        specifier: 4.0.6
-        version: 4.0.6
+      '@swapkit/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
       '@vitest/coverage-istanbul':
         specifier: 1.0.1
         version: 1.0.1(vitest@1.0.1)
-      ethers:
-        specifier: ^6.9.0
-        version: 6.9.0
       vite:
         specifier: 5.0.6
         version: 5.0.6(@types/node@20.10.3)
@@ -888,10 +843,6 @@ importers:
         version: 1.0.1(@types/node@20.10.3)
 
   packages/wallets/okx:
-    dependencies:
-      '@swapkit/types':
-        specifier: workspace:*
-        version: link:../../swapkit/types
     devDependencies:
       '@internal/config':
         specifier: workspace:*
@@ -908,12 +859,12 @@ importers:
       '@swapkit/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
+      '@swapkit/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
       '@vitest/coverage-istanbul':
         specifier: 1.0.1
         version: 1.0.1(vitest@1.0.1)
-      ethers:
-        specifier: ^6.9.0
-        version: 6.9.0
       vite:
         specifier: 5.0.6
         version: 5.0.6(@types/node@20.10.3)
@@ -923,9 +874,6 @@ importers:
 
   packages/wallets/trezor:
     dependencies:
-      '@swapkit/types':
-        specifier: workspace:*
-        version: link:../../swapkit/types
       '@trezor/connect-web':
         specifier: 9.1.5
         version: 9.1.5(tslib@2.6.2)
@@ -942,15 +890,15 @@ importers:
       '@swapkit/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
+      '@swapkit/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
       '@trezor/connect':
         specifier: 9.1.5
         version: 9.1.5(tslib@2.6.2)
       '@vitest/coverage-istanbul':
         specifier: 1.0.1
         version: 1.0.1(vitest@1.0.1)
-      ethers:
-        specifier: ^6.9.0
-        version: 6.9.0
       vite:
         specifier: 5.0.6
         version: 5.0.6(@types/node@20.10.3)
@@ -960,9 +908,6 @@ importers:
 
   packages/wallets/wc:
     dependencies:
-      '@swapkit/types':
-        specifier: workspace:*
-        version: link:../../swapkit/types
       '@walletconnect/modal-sign-html':
         specifier: ^2.6.2
         version: 2.6.2(react@18.2.0)
@@ -976,15 +921,15 @@ importers:
       '@swapkit/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
+      '@swapkit/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
       '@vitest/coverage-istanbul':
         specifier: 1.0.1
         version: 1.0.1(vitest@1.0.1)
       '@walletconnect/types':
         specifier: 2.10.6
         version: 2.10.6
-      ethers:
-        specifier: ^6.9.0
-        version: 6.9.0
       vite:
         specifier: 5.0.6
         version: 5.0.6(@types/node@20.10.3)
@@ -993,10 +938,6 @@ importers:
         version: 1.0.1(@types/node@20.10.3)
 
   packages/wallets/xdefi:
-    dependencies:
-      '@swapkit/types':
-        specifier: workspace:*
-        version: link:../../swapkit/types
     devDependencies:
       '@internal/config':
         specifier: workspace:*
@@ -1016,12 +957,12 @@ importers:
       '@swapkit/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
+      '@swapkit/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
       '@vitest/coverage-istanbul':
         specifier: 1.0.1
         version: 1.0.1(vitest@1.0.1)
-      ethers:
-        specifier: ^6.9.0
-        version: 6.9.0
       vite:
         specifier: 5.0.6
         version: 5.0.6(@types/node@20.10.3)
@@ -1966,7 +1907,6 @@ packages:
     dependencies:
       '@ethersproject/bytes': 5.7.0
       '@ethersproject/properties': 5.7.0
-    dev: true
 
   /@ethersproject/bignumber@5.7.0:
     resolution: {integrity: sha512-n1CAdIHRWjSucQO3MC1zPSVgV/6dy/fjL9pMrPP9peL+QxEg9wOsVqwD4+818B6LUEtaXzVHQiuivzRoxPxUGw==}
@@ -1985,6 +1925,20 @@ packages:
     dependencies:
       '@ethersproject/bignumber': 5.7.0
 
+  /@ethersproject/contracts@5.7.0:
+    resolution: {integrity: sha512-5GJbzEU3X+d33CdfPhcyS+z8MzsTrBGk/sc+G+59+tPa9yFkl6HQ9D6L0QMgNTA9q8dT0XKxxkyp883XsQvbbg==}
+    dependencies:
+      '@ethersproject/abi': 5.7.0
+      '@ethersproject/abstract-provider': 5.7.0
+      '@ethersproject/abstract-signer': 5.7.0
+      '@ethersproject/address': 5.7.0
+      '@ethersproject/bignumber': 5.7.0
+      '@ethersproject/bytes': 5.7.0
+      '@ethersproject/constants': 5.7.0
+      '@ethersproject/logger': 5.7.0
+      '@ethersproject/properties': 5.7.0
+      '@ethersproject/transactions': 5.7.0
+
   /@ethersproject/hash@5.7.0:
     resolution: {integrity: sha512-qX5WrQfnah1EFnO5zJv1v46a8HW0+E5xuBBDTwMFZLuVTx0tbU2kkx15NqdjxecrLGatQN9FGQKpb1FKdHCt+g==}
     dependencies:
@@ -1997,6 +1951,39 @@ packages:
       '@ethersproject/logger': 5.7.0
       '@ethersproject/properties': 5.7.0
       '@ethersproject/strings': 5.7.0
+
+  /@ethersproject/hdnode@5.7.0:
+    resolution: {integrity: sha512-OmyYo9EENBPPf4ERhR7oj6uAtUAhYGqOnIS+jE5pTXvdKBS99ikzq1E7Iv0ZQZ5V36Lqx1qZLeak0Ra16qpeOg==}
+    dependencies:
+      '@ethersproject/abstract-signer': 5.7.0
+      '@ethersproject/basex': 5.7.0
+      '@ethersproject/bignumber': 5.7.0
+      '@ethersproject/bytes': 5.7.0
+      '@ethersproject/logger': 5.7.0
+      '@ethersproject/pbkdf2': 5.7.0
+      '@ethersproject/properties': 5.7.0
+      '@ethersproject/sha2': 5.7.0
+      '@ethersproject/signing-key': 5.7.0
+      '@ethersproject/strings': 5.7.0
+      '@ethersproject/transactions': 5.7.0
+      '@ethersproject/wordlists': 5.7.0
+
+  /@ethersproject/json-wallets@5.7.0:
+    resolution: {integrity: sha512-8oee5Xgu6+RKgJTkvEMl2wDgSPSAQ9MB/3JYjFV9jlKvcYHUXZC+cQp0njgmxdHkYWn8s6/IqIZYm0YWCjO/0g==}
+    dependencies:
+      '@ethersproject/abstract-signer': 5.7.0
+      '@ethersproject/address': 5.7.0
+      '@ethersproject/bytes': 5.7.0
+      '@ethersproject/hdnode': 5.7.0
+      '@ethersproject/keccak256': 5.7.0
+      '@ethersproject/logger': 5.7.0
+      '@ethersproject/pbkdf2': 5.7.0
+      '@ethersproject/properties': 5.7.0
+      '@ethersproject/random': 5.7.0
+      '@ethersproject/strings': 5.7.0
+      '@ethersproject/transactions': 5.7.0
+      aes-js: 3.0.0
+      scrypt-js: 3.0.1
 
   /@ethersproject/keccak256@5.7.0:
     resolution: {integrity: sha512-2UcPboeL/iW+pSg6vZ6ydF8tCnv3Iu/8tUmLLzWWGzxWKFFqOBQFLo6uLUv6BDrLgCDfN28RJ/wtByx+jZ4KBg==}
@@ -2011,6 +1998,12 @@ packages:
     resolution: {integrity: sha512-n/MufjFYv3yFcUyfhnXotyDlNdFb7onmkSy8aQERi2PjNcnWQ66xXxa3XlS8nCcA8aJKJjIIMNJTC7tu80GwpQ==}
     dependencies:
       '@ethersproject/logger': 5.7.0
+
+  /@ethersproject/pbkdf2@5.7.0:
+    resolution: {integrity: sha512-oR/dBRZR6GTyaofd86DehG72hY6NpAjhabkhxgr3X2FpJtJuodEl2auADWBZfhDHgVCbu3/H/Ocq2uC6dpNjjw==}
+    dependencies:
+      '@ethersproject/bytes': 5.7.0
+      '@ethersproject/sha2': 5.7.0
 
   /@ethersproject/properties@5.7.0:
     resolution: {integrity: sha512-J87jy8suntrAkIZtecpxEPxY//szqr1mlBaYlQ0r4RCaiD2hjheqF9s1LVE8vVuJCXisjIP+JgtK/Do54ej4Sw==}
@@ -2043,14 +2036,12 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: true
 
   /@ethersproject/random@5.7.0:
     resolution: {integrity: sha512-19WjScqRA8IIeWclFme75VMXSBvi4e6InrUNuaR4s5pTF2qNhcGdCUwdxUVGtDDqC00sDLCO93jPQoDUH4HVmQ==}
     dependencies:
       '@ethersproject/bytes': 5.7.0
       '@ethersproject/logger': 5.7.0
-    dev: true
 
   /@ethersproject/rlp@5.7.0:
     resolution: {integrity: sha512-rBxzX2vK8mVF7b0Tol44t5Tb8gomOHkj5guL+HhzQ1yBh/ydjGnpw6at+X6Iw0Kp3OzzzkcKp8N9r0W4kYSs9w==}
@@ -2064,7 +2055,6 @@ packages:
       '@ethersproject/bytes': 5.7.0
       '@ethersproject/logger': 5.7.0
       hash.js: 1.1.7
-    dev: true
 
   /@ethersproject/signing-key@5.7.0:
     resolution: {integrity: sha512-MZdy2nL3wO0u7gkB4nA/pEf8lu1TlFswPNmy8AiYkfKTdO6eXBJyUdmHO/ehm/htHw9K/qF8ujnTyUAD+Ry54Q==}
@@ -2075,6 +2065,16 @@ packages:
       bn.js: 5.2.1
       elliptic: 6.5.4
       hash.js: 1.1.7
+
+  /@ethersproject/solidity@5.7.0:
+    resolution: {integrity: sha512-HmabMd2Dt/raavyaGukF4XxizWKhKQ24DoLtdNbBmNKUOPqwjsKQSdV9GQtj9CBEea9DlzETlVER1gYeXXBGaA==}
+    dependencies:
+      '@ethersproject/bignumber': 5.7.0
+      '@ethersproject/bytes': 5.7.0
+      '@ethersproject/keccak256': 5.7.0
+      '@ethersproject/logger': 5.7.0
+      '@ethersproject/sha2': 5.7.0
+      '@ethersproject/strings': 5.7.0
 
   /@ethersproject/strings@5.7.0:
     resolution: {integrity: sha512-/9nu+lj0YswRNSH0NXYqrh8775XNyEdUQAuf3f+SmOrnVewcJ5SBNAjF7lpgehKi4abvNNXyf+HX86czCdJ8Mg==}
@@ -2096,11 +2096,46 @@ packages:
       '@ethersproject/rlp': 5.7.0
       '@ethersproject/signing-key': 5.7.0
 
+  /@ethersproject/units@5.7.0:
+    resolution: {integrity: sha512-pD3xLMy3SJu9kG5xDGI7+xhTEmGXlEqXU4OfNapmfnxLVY4EMSSRp7j1k7eezutBPH7RBN/7QPnwR7hzNlEFeg==}
+    dependencies:
+      '@ethersproject/bignumber': 5.7.0
+      '@ethersproject/constants': 5.7.0
+      '@ethersproject/logger': 5.7.0
+
+  /@ethersproject/wallet@5.7.0:
+    resolution: {integrity: sha512-MhmXlJXEJFBFVKrDLB4ZdDzxcBxQ3rLyCkhNqVu3CDYvR97E+8r01UgrI+TI99Le+aYm/in/0vp86guJuM7FCA==}
+    dependencies:
+      '@ethersproject/abstract-provider': 5.7.0
+      '@ethersproject/abstract-signer': 5.7.0
+      '@ethersproject/address': 5.7.0
+      '@ethersproject/bignumber': 5.7.0
+      '@ethersproject/bytes': 5.7.0
+      '@ethersproject/hash': 5.7.0
+      '@ethersproject/hdnode': 5.7.0
+      '@ethersproject/json-wallets': 5.7.0
+      '@ethersproject/keccak256': 5.7.0
+      '@ethersproject/logger': 5.7.0
+      '@ethersproject/properties': 5.7.0
+      '@ethersproject/random': 5.7.0
+      '@ethersproject/signing-key': 5.7.0
+      '@ethersproject/transactions': 5.7.0
+      '@ethersproject/wordlists': 5.7.0
+
   /@ethersproject/web@5.7.1:
     resolution: {integrity: sha512-Gueu8lSvyjBWL4cYsWsjh6MtMwM0+H4HvqFPZfB6dV8ctbP9zFAO73VG1cMWae0FLPCtz0peKPpZY8/ugJJX2w==}
     dependencies:
       '@ethersproject/base64': 5.7.0
       '@ethersproject/bytes': 5.7.0
+      '@ethersproject/logger': 5.7.0
+      '@ethersproject/properties': 5.7.0
+      '@ethersproject/strings': 5.7.0
+
+  /@ethersproject/wordlists@5.7.0:
+    resolution: {integrity: sha512-S2TFNJNfHWVHNE6cNDjbVlZ6MgE17MIxMbMg2zv3wn+3XSJGosL1m9ZVv3GXCf/2ymSsQ+hRI5IzoMJTG6aoVA==}
+    dependencies:
+      '@ethersproject/bytes': 5.7.0
+      '@ethersproject/hash': 5.7.0
       '@ethersproject/logger': 5.7.0
       '@ethersproject/properties': 5.7.0
       '@ethersproject/strings': 5.7.0
@@ -2246,7 +2281,7 @@ packages:
       '@ledgerhq/live-env': 0.7.0
       '@ledgerhq/live-network': 1.1.9(patch_hash=5bnr43fah356fptr7gq655dfiu)
       crypto-js: 4.2.0
-      ethers: 6.9.0
+      ethers: 5.7.2
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -2581,7 +2616,7 @@ packages:
       '@nomicfoundation/ethereumjs-tx': 5.0.2
       '@nomicfoundation/ethereumjs-util': 9.0.2
       ethereum-cryptography: 0.1.3
-      ethers: 6.9.0
+      ethers: 5.7.2
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -2663,7 +2698,7 @@ packages:
       '@nomicfoundation/ethereumjs-rlp': 5.0.2
       debug: 4.3.4(supports-color@8.1.1)
       ethereum-cryptography: 0.1.3
-      ethers: 6.9.0
+      ethers: 5.7.2
       js-sdsl: 4.4.2
     transitivePeerDependencies:
       - bufferutil
@@ -2734,7 +2769,7 @@ packages:
     peerDependencies:
       '@nomicfoundation/hardhat-ethers': ^3.0.0
       chai: ^4.2.0
-      ethers: ^6.9.0
+      ethers: ^6.1.0
       hardhat: ^2.9.4
     dependencies:
       '@nomicfoundation/hardhat-ethers': 3.0.5(ethers@6.9.0)(hardhat@2.19.2)
@@ -2750,7 +2785,7 @@ packages:
   /@nomicfoundation/hardhat-ethers@3.0.5(ethers@6.9.0)(hardhat@2.19.2):
     resolution: {integrity: sha512-RNFe8OtbZK6Ila9kIlHp0+S80/0Bu/3p41HUpaRIoHLm6X3WekTd83vob3rE54Duufu1edCiBDxspBzi2rxHHw==}
     peerDependencies:
-      ethers: ^6.9.0
+      ethers: ^6.1.0
       hardhat: ^2.0.0
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
@@ -2783,7 +2818,7 @@ packages:
       '@types/mocha': '>=9.1.0'
       '@types/node': '>=16.0.0'
       chai: ^4.2.0
-      ethers: ^6.9.0
+      ethers: ^6.4.0
       hardhat: ^2.11.0
       hardhat-gas-reporter: ^1.0.8
       solidity-coverage: ^0.8.1
@@ -3176,12 +3211,12 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.4
+      '@rollup/pluginutils': 5.1.0
       '@types/resolve': 1.20.2
       deepmerge: 4.3.1
       is-builtin-module: 3.2.1
       is-module: 1.0.0
-      resolve: 1.22.4
+      resolve: 1.22.8
     dev: true
 
   /@rollup/plugin-terser@0.4.4:
@@ -3196,30 +3231,6 @@ packages:
       serialize-javascript: 6.0.1
       smob: 1.4.0
       terser: 5.19.3
-    dev: true
-
-  /@rollup/plugin-virtual@3.0.1:
-    resolution: {integrity: sha512-fK8O0IL5+q+GrsMLuACVNk2x21g3yaw+sG2qn16SnUd3IlBsQyvWxLMGHmCmXRMecPjGRSZ/1LmZB4rjQm68og==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dev: true
-
-  /@rollup/pluginutils@5.0.4:
-    resolution: {integrity: sha512-0KJnIoRI8A+a1dqOYLxH8vBf8bphDmty5QvIm2hqm7oFCFYKCAZWWd2hXgMibaPsNDhI0AtpYfQZJG47pt/k4g==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@types/estree': 1.0.1
-      estree-walker: 2.0.2
-      picomatch: 2.3.1
     dev: true
 
   /@rollup/pluginutils@5.0.5(rollup@4.6.1):
@@ -3623,118 +3634,6 @@ packages:
       '@stablelib/wipe': 1.0.1
     dev: false
 
-  /@swc/core-darwin-arm64@1.3.66:
-    resolution: {integrity: sha512-UijJsvuLy73vxeVYEy7urIHksXS+3BdvJ9s9AY+bRMSQW483NO7RLp8g4FdTyJbRaN0BH15SQnY0dcjQBkVuHw==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [darwin]
-    requiresBuild: true
-    dev: true
-    optional: true
-
-  /@swc/core-darwin-x64@1.3.66:
-    resolution: {integrity: sha512-xGsHKvViQnwTNLF30Y/5OqWdnN6RsiyUI8awZXfz1sHcXCEaLe+v+WLQ+/E8sgw0YUkYVHzzfV/sAN2CezJK5Q==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [darwin]
-    requiresBuild: true
-    dev: true
-    optional: true
-
-  /@swc/core-linux-arm-gnueabihf@1.3.66:
-    resolution: {integrity: sha512-gNbLcSIV2pq90BkMSpzvK4xPXOl8GEF3YR4NaqF0CYSzQsVXXTTqMuX/r26xNYudBKzH0345S1MpoRk2qricnA==}
-    engines: {node: '>=10'}
-    cpu: [arm]
-    os: [linux]
-    requiresBuild: true
-    dev: true
-    optional: true
-
-  /@swc/core-linux-arm64-gnu@1.3.66:
-    resolution: {integrity: sha512-cJSQ0oplyWbJqy4rzVcnBYLAi6z1QT3QCcR7iAey0aAmCvfRBZJfXlyjggMjn4iosuadkauwCZR1xYNhBDRn7w==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: true
-    optional: true
-
-  /@swc/core-linux-arm64-musl@1.3.66:
-    resolution: {integrity: sha512-GDQZpcB9aGxG9PTA2shdIkoMZlGK5omJ8NR49uoBTtLBVYiGeXAwV0U1Uaw8kXEZj9i7wZDkvjzjSaNH3evRsg==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [linux]
-    requiresBuild: true
-    dev: true
-    optional: true
-
-  /@swc/core-linux-x64-gnu@1.3.66:
-    resolution: {integrity: sha512-lg8E4O/Pd9KfK0lajdinVMuGME8dSv7V9arhEpmlfGE2eXSDCWqDn5Htk5QVBstt9lt1lsRhWHJ/YYc2eQY30Q==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: true
-    optional: true
-
-  /@swc/core-linux-x64-musl@1.3.66:
-    resolution: {integrity: sha512-lo8ZcAO/zL2pZWH+LZIyge8u2MklaeuT6+FpVVpBFktMVdYXbaVtzpvWbgRFBZHvL3SRDF+u8jxjtkXhvGUpTw==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [linux]
-    requiresBuild: true
-    dev: true
-    optional: true
-
-  /@swc/core-win32-arm64-msvc@1.3.66:
-    resolution: {integrity: sha512-cQoVwBuJY5WkHbfpCOlndNwYr1ZThatRjQQvKy540NUIeAEk9Fa6ozlDBtU75UdaWKtUG6YQ/bWz+KTemheVxw==}
-    engines: {node: '>=10'}
-    cpu: [arm64]
-    os: [win32]
-    requiresBuild: true
-    dev: true
-    optional: true
-
-  /@swc/core-win32-ia32-msvc@1.3.66:
-    resolution: {integrity: sha512-y/FrAIINK4UBeUQQknGlWXEyjo+MBvjF7WkUf2KP7sNr9EHHy8+dXohAGd5Anz0eJrqOM1ZXR/GEjxRp7bGQ1Q==}
-    engines: {node: '>=10'}
-    cpu: [ia32]
-    os: [win32]
-    requiresBuild: true
-    dev: true
-    optional: true
-
-  /@swc/core-win32-x64-msvc@1.3.66:
-    resolution: {integrity: sha512-yI64ACzS14qFLrfyO12qW+f/UROTotzDeEbuyJAaPD2IZexoT1cICznI3sBmIfrSt33mVuW8eF5m3AG/NUImzw==}
-    engines: {node: '>=10'}
-    cpu: [x64]
-    os: [win32]
-    requiresBuild: true
-    dev: true
-    optional: true
-
-  /@swc/core@1.3.66:
-    resolution: {integrity: sha512-Hpf91kH5ly7fHkWnApwryTQryT+TO4kMMPH3WyciUSQOWLE3UuQz1PtETHQQk7PZ/b1QF0qQurJrgfBr5bSKUA==}
-    engines: {node: '>=10'}
-    requiresBuild: true
-    peerDependencies:
-      '@swc/helpers': ^0.5.0
-    peerDependenciesMeta:
-      '@swc/helpers':
-        optional: true
-    optionalDependencies:
-      '@swc/core-darwin-arm64': 1.3.66
-      '@swc/core-darwin-x64': 1.3.66
-      '@swc/core-linux-arm-gnueabihf': 1.3.66
-      '@swc/core-linux-arm64-gnu': 1.3.66
-      '@swc/core-linux-arm64-musl': 1.3.66
-      '@swc/core-linux-x64-gnu': 1.3.66
-      '@swc/core-linux-x64-musl': 1.3.66
-      '@swc/core-win32-arm64-msvc': 1.3.66
-      '@swc/core-win32-ia32-msvc': 1.3.66
-      '@swc/core-win32-x64-msvc': 1.3.66
-    dev: true
-
   /@trezor/analytics@1.0.9:
     resolution: {integrity: sha512-ezssF0dNAF6cyyG8WCpW5lEeIMMe5BmP+CDLhRGXKvL8kWudFYqJm8w1vI4Dh4yzmymWnFT5qrgdtRgDe/INxQ==}
     dependencies:
@@ -3924,7 +3823,7 @@ packages:
   /@typechain/ethers-v6@0.5.1(ethers@6.9.0)(typechain@8.3.2)(typescript@5.2.2):
     resolution: {integrity: sha512-F+GklO8jBWlsaVV+9oHaPh5NJdd6rAKN4tklGfInX1Q7h0xPgVLP39Jl3eCulPB5qexI71ZFHwbljx4ZXNfouA==}
     peerDependencies:
-      ethers: ^6.9.0
+      ethers: 6.x
       typechain: ^8.3.2
       typescript: 5.2.2
     dependencies:
@@ -3939,7 +3838,7 @@ packages:
     resolution: {integrity: sha512-mtaUlzLlkqTlfPwB3FORdejqBskSnh+Jl8AIJGjXNAQfRQ4ofHADPl1+oU7Z3pAJzmZbUXII8MhOLQltcHgKnA==}
     peerDependencies:
       '@typechain/ethers-v6': ^0.5.1
-      ethers: ^6.9.0
+      ethers: ^6.1.0
       hardhat: ^2.9.9
       typechain: ^8.3.2
     dependencies:
@@ -3983,10 +3882,6 @@ packages:
       '@babel/types': 7.23.5
     dev: true
 
-  /@types/bchaddrjs@0.4.3:
-    resolution: {integrity: sha512-KJT+Tz39T/Y8/WMijiL4DXhaaUODytoXxvLpwIvI+WwLzfKR4kLrnzLyuIId245GjsVSvK3T9qz/fbvK+//b5w==}
-    dev: true
-
   /@types/bn.js@4.11.6:
     resolution: {integrity: sha512-pqr857jrp2kPuO9uRjZ3PwnJTjoQy+fcdxvBTvHm6dkmEL9q+hDD/2j/0ELOBPtPnS8LjCX0gI9nbl8lVkadpg==}
     dependencies:
@@ -4027,10 +3922,6 @@ packages:
     resolution: {integrity: sha512-UseG6H5vjRiNpQvrhy4VF/JXdA3V/Fp5amvveaL+fs28BZ6xIKJBPnUPRlEaZpysD9MbpfaLi8lbl7PGUAkpWw==}
     dependencies:
       '@types/bn.js': 5.1.5
-    dev: true
-
-  /@types/estree@1.0.1:
-    resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
     dev: true
 
   /@types/estree@1.0.5:
@@ -4181,12 +4072,6 @@ packages:
 
   /@types/resolve@1.20.2:
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
-    dev: true
-
-  /@types/ripemd160@2.0.3:
-    resolution: {integrity: sha512-/GrtUuorXQGl4/qCgo0YhzHaDbWc6i2kIBt5q7gA0np+/5GmLMK6aYb0pUYFfJ4Y2oraKkrDW4falfLip3Hzdw==}
-    dependencies:
-      '@types/node': 20.10.3
     dev: true
 
   /@types/scheduler@0.16.8:
@@ -4849,6 +4734,9 @@ packages:
     resolution: {integrity: sha512-TFi4HBKSGfIKsK5YCkKaaFG2m4PEDyViZmEwof3MTIgzimHLto6muaHVpbrljdIvIrFZzEq/p4nafOeLcYegrg==}
     engines: {node: '>=0.3.0'}
     dev: true
+
+  /aes-js@3.0.0:
+    resolution: {integrity: sha512-H7wUZRn8WpTq9jocdxQ2c8x2sKo9ZVmzfRE13GiNJXfp7NcKYEdvl3vspKjXox6RIG2VtaRe4JFvxG4rqp2Zuw==}
 
   /aes-js@4.0.0-beta.5:
     resolution: {integrity: sha512-G965FqalsNyrPqgEGON7nIx1e/OVENSgiEIzyC63haUMuvNnwIgIjMs52hlTCKhkBny7A2ORNlfY9Zu+jmGk1Q==}
@@ -6815,7 +6703,7 @@ packages:
       cli-table3: 0.5.1
       colors: 1.4.0
       ethereum-cryptography: 1.2.0
-      ethers: 6.9.0
+      ethers: 5.7.2
       fs-readdir-recursive: 1.1.0
       lodash: 4.17.21
       markdown-table: 1.1.3
@@ -6902,6 +6790,43 @@ packages:
       ethereum-cryptography: 0.1.3
       rlp: 2.2.7
     dev: true
+
+  /ethers@5.7.2:
+    resolution: {integrity: sha512-wswUsmWo1aOK8rR7DIKiWSw9DbLWe6x98Jrn8wcTflTVvaXhAMaB5zGAXy0GYQEQp9iO1iSHWVyARQm11zUtyg==}
+    dependencies:
+      '@ethersproject/abi': 5.7.0
+      '@ethersproject/abstract-provider': 5.7.0
+      '@ethersproject/abstract-signer': 5.7.0
+      '@ethersproject/address': 5.7.0
+      '@ethersproject/base64': 5.7.0
+      '@ethersproject/basex': 5.7.0
+      '@ethersproject/bignumber': 5.7.0
+      '@ethersproject/bytes': 5.7.0
+      '@ethersproject/constants': 5.7.0
+      '@ethersproject/contracts': 5.7.0
+      '@ethersproject/hash': 5.7.0
+      '@ethersproject/hdnode': 5.7.0
+      '@ethersproject/json-wallets': 5.7.0
+      '@ethersproject/keccak256': 5.7.0
+      '@ethersproject/logger': 5.7.0
+      '@ethersproject/networks': 5.7.1
+      '@ethersproject/pbkdf2': 5.7.0
+      '@ethersproject/properties': 5.7.0
+      '@ethersproject/providers': 5.7.2
+      '@ethersproject/random': 5.7.0
+      '@ethersproject/rlp': 5.7.0
+      '@ethersproject/sha2': 5.7.0
+      '@ethersproject/signing-key': 5.7.0
+      '@ethersproject/solidity': 5.7.0
+      '@ethersproject/strings': 5.7.0
+      '@ethersproject/transactions': 5.7.0
+      '@ethersproject/units': 5.7.0
+      '@ethersproject/wallet': 5.7.0
+      '@ethersproject/web': 5.7.1
+      '@ethersproject/wordlists': 5.7.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
 
   /ethers@6.9.0:
     resolution: {integrity: sha512-pmfNyQzc2mseLe91FnT2vmNaTt8dDzhxZ/xItAV7uGsF4dI4ek2ufMu3rAkgQETL/TIs0GS5A+U05g9QyWnv3Q==}
@@ -10295,7 +10220,6 @@ packages:
 
   /scrypt-js@3.0.1:
     resolution: {integrity: sha512-cdwTTnqPu0Hyvf5in5asVdZocVDTNRmR7XEcJuIzMjJeSHybHl7vpB66AzwTaIg6CLSbtjcxc8fqcySfnTkccA==}
-    dev: true
 
   /secp256k1@4.0.3:
     resolution: {integrity: sha512-NLZVf+ROMxwtEj3Xa562qgv2BK5e2WNmXPiOdVIPLgs6lyTzMvBq0aWTYMI5XCP9jZMVKOcqZLw/Wc4vDkuxhA==}
@@ -11525,11 +11449,6 @@ packages:
     hasBin: true
     dev: true
 
-  /uuid@9.0.0:
-    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
-    hasBin: true
-    dev: true
-
   /v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
     dev: true
@@ -11629,28 +11548,6 @@ packages:
       vite: 5.0.6(@types/node@20.10.3)
     transitivePeerDependencies:
       - rollup
-    dev: true
-
-  /vite-plugin-top-level-await@1.3.1(vite@5.0.6):
-    resolution: {integrity: sha512-55M1h4NAwkrpxPNOJIBzKZFihqLUzIgnElLSmPNPMR2Fn9+JHKaNg3sVX1Fq+VgvuBksQYxiD3OnwQAUu7kaPQ==}
-    peerDependencies:
-      vite: '>=2.8'
-    dependencies:
-      '@rollup/plugin-virtual': 3.0.1
-      '@swc/core': 1.3.66
-      uuid: 9.0.0
-      vite: 5.0.6(@types/node@20.10.3)
-    transitivePeerDependencies:
-      - '@swc/helpers'
-      - rollup
-    dev: true
-
-  /vite-plugin-wasm@3.2.2(vite@5.0.6):
-    resolution: {integrity: sha512-cdbBUNR850AEoMd5nvLmnyeq63CSfoP1ctD/L2vLk/5+wsgAPlAVAzUK5nGKWO/jtehNlrSSHLteN+gFQw7VOA==}
-    peerDependencies:
-      vite: ^2 || ^3 || ^4
-    dependencies:
-      vite: 5.0.6(@types/node@20.10.3)
     dev: true
 
   /vite@5.0.6(@types/node@20.10.3):
@@ -11936,7 +11833,6 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
-    dev: true
 
   /ws@7.5.9:
     resolution: {integrity: sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==}

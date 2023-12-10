@@ -1,7 +1,7 @@
 import { derivationPathToString } from '@swapkit/helpers';
+import type { Provider } from '@swapkit/toolbox-evm';
 import type { DerivationPathArray } from '@swapkit/types';
 import { ChainId, NetworkDerivationPath } from '@swapkit/types';
-import type { Provider } from 'ethers';
 
 import { EthereumLikeLedgerInterface } from '../interfaces/EthereumLikeLedgerInterface.ts';
 

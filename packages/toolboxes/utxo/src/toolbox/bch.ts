@@ -7,13 +7,6 @@ import {
 import { mnemonicToSeedSync } from '@scure/bip39';
 import type { UTXOChain } from '@swapkit/types';
 import { Chain, DerivationPath, FeeOption, RPCUrl } from '@swapkit/types';
-import {
-  detectAddressNetwork,
-  isValidAddress,
-  Network as bchNetwork,
-  toCashAddress,
-  toLegacyAddress,
-} from 'bchaddrjs';
 import { Psbt } from 'bitcoinjs-lib';
 import { ECPairFactory } from 'ecpair';
 
@@ -28,6 +21,13 @@ import type {
   UTXOWalletTransferParams,
 } from '../types/common.ts';
 import type { UTXOType } from '../types/index.ts';
+import {
+  detectAddressNetwork,
+  isValidAddress,
+  Network as bchNetwork,
+  toCashAddress,
+  toLegacyAddress,
+} from '../utils/bchaddrjs.ts';
 import { accumulative, compileMemo, getNetwork } from '../utils/index.ts';
 
 import { BaseUTXOToolbox } from './BaseUTXOToolbox.ts';

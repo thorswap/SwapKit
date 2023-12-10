@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-terser": "0.4.4",
     "@vitest/coverage-istanbul": "1.0.1",
     "vite": "5.0.6",
