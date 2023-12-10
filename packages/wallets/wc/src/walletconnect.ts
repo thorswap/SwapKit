@@ -1,11 +1,15 @@
-import type { StdSignDoc } from '@cosmjs/amino';
-import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
-import type { BaseCosmosToolboxType, DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
+import {
+  type BaseCosmosToolboxType,
+  type DepositParam,
+  SignMode,
+  type StdSignDoc,
+  type TransferParams,
+  type TxBodyEncodeObject,
+  TxRaw,
+} from '@swapkit/toolbox-cosmos';
 import { ApiUrl, Chain, ChainId, WalletOption } from '@swapkit/types';
 import type { WalletConnectModalSign } from '@walletconnect/modal-sign-html';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
-import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
 import {
   BINANCE_MAINNET_ID,
@@ -125,9 +129,16 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.THORChain: {
-      const { createStargateClient, getDenomWithChain, ThorchainToolbox } = await import(
-        '@swapkit/toolbox-cosmos'
-      );
+      const {
+        fromBase64,
+        Int53,
+        createStargateClient,
+        getDenomWithChain,
+        ThorchainToolbox,
+        encodePubkey,
+        makeAuthInfoBytes,
+        makeSignDoc,
+      } = await import('@swapkit/toolbox-cosmos');
       const toolbox = ThorchainToolbox({ stagenet: false });
 
       const signRequest = (signDoc: StdSignDoc) =>
@@ -161,11 +172,6 @@ const getToolbox = async ({
           type: 'thorchain/MsgSend',
           value: sendCoinsMessage,
         };
-
-        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
-        const { makeSignDoc } = await import('@cosmjs/amino');
-        const { fromBase64 } = await import('@cosmjs/encoding');
-        const { Int53 } = await import('@cosmjs/math');
 
         const signDoc = makeSignDoc(
           [msg],
@@ -250,11 +256,6 @@ const getToolbox = async ({
             signer: address,
           },
         };
-
-        const { makeSignDoc } = await import('@cosmjs/amino');
-        const { fromBase64 } = await import('@cosmjs/encoding');
-        const { Int53 } = await import('@cosmjs/math');
-        const { encodePubkey, makeAuthInfoBytes } = await import('@cosmjs/proto-signing');
 
         const signDoc = makeSignDoc(
           [msg],

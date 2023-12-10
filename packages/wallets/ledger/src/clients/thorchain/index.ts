@@ -1,4 +1,4 @@
-import { base64 } from '@scure/base';
+import { base64 } from '@swapkit/toolbox-cosmos';
 import type { DerivationPathArray, GetAddressAndPubKeyResponse } from '@swapkit/types';
 import { ErrorCode, NetworkDerivationPath } from '@swapkit/types';
 
