@@ -2,8 +2,8 @@ import { AssetValue } from '@swapkit/helpers';
 import type { GaiaToolbox } from '@swapkit/toolbox-cosmos';
 import type { getWeb3WalletMethods } from '@swapkit/toolbox-evm';
 import type { BTCToolbox, UTXOTransferParams } from '@swapkit/toolbox-utxo';
+import { Psbt } from '@swapkit/toolbox-utxo';
 import { BaseDecimal, Chain, ChainId, RPCUrl } from '@swapkit/types';
-import { Psbt } from 'bitcoinjs-lib';
 import type { Eip1193Provider } from 'ethers';
 
 export const cosmosTransfer =
