@@ -1,6 +1,5 @@
 import type EthereumApp from '@ledgerhq/hw-app-eth';
 import { ChainId } from '@swapkit/types';
-import { BN } from 'bn.js';
 import type { Provider, TransactionRequest } from 'ethers';
 import { AbstractSigner } from 'ethers';
 
@@ -117,7 +116,7 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
 
     return Transaction.from({
       ...baseTx,
-      signature: { v: new BN(parseInt(v, 16)).toNumber(), r: '0x' + r, s: '0x' + s },
+      signature: { v: Number(BigInt(v)), r: '0x' + r, s: '0x' + s },
     }).serialized;
   };
 
