@@ -1,4 +1,4 @@
-import type { StdFee } from '@cosmjs/amino';
+import type { StdFee } from '@cosmjs/stargate';
 import { base64 } from '@scure/base';
 import type { ChainId } from '@swapkit/types';
 

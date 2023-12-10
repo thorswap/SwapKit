@@ -1,4 +1,5 @@
 import { HDKey } from '@scure/bip32';
+import { mnemonicToSeedSync } from '@scure/bip39';
 import { AssetValue, SwapKitNumber } from '@swapkit/helpers';
 import type { UTXOChain } from '@swapkit/types';
 import { BaseDecimal, Chain, FeeOption } from '@swapkit/types';
@@ -21,7 +22,6 @@ import {
   getDustThreshold,
   getInputSize,
   getNetwork,
-  getSeed,
   standardFeeRates,
   UTXOScriptType,
 } from '../utils/index.ts';
@@ -45,12 +45,10 @@ const createKeysForPath = async ({
 
   if (wif) return factory.fromWIF(wif, network);
 
-  const seed = getSeed(phrase as string);
+  const seed = mnemonicToSeedSync(phrase as string);
   const master = HDKey.fromMasterSeed(seed, network).derive(derivationPath);
+  if (!master.privateKey) throw new Error('Could not get private key from phrase');
 
-  if (!master.privateKey) {
-    throw new Error('Could not get private key from phrase');
-  }
   return factory.fromPrivateKey(Buffer.from(master.privateKey), { network });
 };
 
