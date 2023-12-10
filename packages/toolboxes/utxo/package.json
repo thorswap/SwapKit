@@ -8,7 +8,7 @@
     "bs58check": "3.0.1",
     "cashaddrjs": "0.4.4",
     "coininfo": "5.2.1",
-    "ecpair": "2.1.0",
+    "ecpair": "2.0.1",
     "tiny-secp256k1": "1.1.6"
   },
   "description": "THORSwap utxo",

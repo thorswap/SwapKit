@@ -1,12 +1,12 @@
 import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
 import type {
+  Psbt,
   TransactionType,
   UTXOTransferParams,
   UTXOWalletTransferParams,
 } from '@swapkit/toolbox-utxo';
 import type { ConnectWalletParams, Witness } from '@swapkit/types';
 import { Chain, DerivationPath, WalletOption } from '@swapkit/types';
-import type { Psbt } from '@swapkit/toolbox-utxo';
 
 type KeystoreOptions = {
   ethplorerApiKey?: string;
