@@ -7,7 +7,7 @@ import {
   type JsonRpcProvider,
   type Provider,
   type TransactionRequest,
-} from 'ethers';
+} from '@swapkit/toolbox-evm';
 
 interface TrezorEVMSignerParams {
   chain: Chain;
@@ -83,7 +83,7 @@ class TrezorSigner extends AbstractSigner {
     if (isEIP1559 && !maxPriorityFeePerGas) throw new Error('Missing maxFeePerGas');
     if (!isEIP1559 && !gasPrice) throw new Error('Missing gasPrice');
 
-    const { toHexString } = await import('@swapkit/toolbox-evm');
+    const { Transaction, toHexString } = await import('@swapkit/toolbox-evm');
 
     const formattedTx = {
       from: from?.toString() || (await this.getAddress()),
@@ -117,7 +117,6 @@ class TrezorSigner extends AbstractSigner {
 
     const { r, s, v } = result.payload;
 
-    const { Transaction } = await import('ethers');
     const hash = Transaction.from({
       ...formattedTx,
       nonce: parseInt(formattedTx.nonce),

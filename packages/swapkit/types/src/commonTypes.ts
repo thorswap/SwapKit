@@ -1,5 +1,3 @@
-import type { FixedNumber } from 'ethers';
-
 import type { Chain, CosmosChain, EVMChain, UTXOChain } from './network.ts';
 import type { WalletOption } from './wallet.ts';
 
@@ -60,8 +58,6 @@ export type Witness = {
   value: number;
   script: Buffer;
 };
-
-export type FixedNumberish = string | number | FixedNumber;
 
 type ApisType = { [key in UTXOChain]?: string | any } & {
   [key in EVMChain]?: string | any;

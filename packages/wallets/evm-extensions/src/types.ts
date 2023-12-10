@@ -1,4 +1,4 @@
-import type { Eip1193Provider } from 'ethers';
+import type { Eip1193Provider } from '@swapkit/toolbox-evm';
 
 export type EVMWalletConfig = {
   ethplorerApiKey?: string;

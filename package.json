@@ -45,7 +45,6 @@
   "pnpm": {
     "overrides": {
       "axios": "^1.6.2",
-      "ethers": "^6.9.0",
       "json5@<=1.0.1": "^1.0.2",
       "semver@<=4.3.2": "^7.5.4",
       "typescript": "5.2.2"

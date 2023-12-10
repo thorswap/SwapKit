@@ -104,8 +104,8 @@ const getWalletMethodsForChain = async ({
         covalentApi,
         ethplorerApi,
         getBalance,
+        BrowserProvider,
       } = await import('@swapkit/toolbox-evm');
-      const { BrowserProvider } = await import('ethers');
 
       const ethereumWindowProvider = window.xfi?.ethereum;
       if (!ethereumWindowProvider) throw new Error('Requested web3 wallet is not installed');

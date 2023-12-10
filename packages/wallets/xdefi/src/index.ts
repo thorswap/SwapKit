@@ -1,6 +1,5 @@
 import type { Keplr } from '@keplr-wallet/types';
-import type { EthereumWindowProvider } from '@swapkit/toolbox-evm';
-import type { Eip1193Provider } from 'ethers';
+import type { Eip1193Provider, EthereumWindowProvider } from '@swapkit/toolbox-evm';
 
 export { xdefiWallet } from './xdefiWallet.ts';
 

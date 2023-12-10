@@ -1,14 +1,12 @@
 {
   "author": "swapkit-oss-team",
-  "dependencies": {
-    "@swapkit/types": "workspace:*"
-  },
   "description": "SwapKit Lib keplr",
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@keplr-wallet/types": "0.12.46",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/types": "workspace:*",
     "@vitest/coverage-istanbul": "1.0.1",
     "vite": "5.0.6",
     "vitest": "1.0.1"
@@ -34,7 +32,8 @@
   "name": "@swapkit/wallet-keplr",
   "peerDependencies": {
     "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-cosmos": "workspace:*"
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/types": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

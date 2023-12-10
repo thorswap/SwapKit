@@ -9,12 +9,8 @@ const external = Object.keys(peerDependencies);
 const viteConfig = thorswapViteConfig(name, {
   plugins: [resolveNodeBuildins({ preferBuiltins: true, browser: true })],
   build: {
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-    },
-    rollupOptions: {
-      external,
-    },
+    lib: { entry: resolve(__dirname, 'src/index.ts') },
+    rollupOptions: { external },
   },
 });
 export default viteConfig;
