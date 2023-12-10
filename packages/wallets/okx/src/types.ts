@@ -1,3 +1,5 @@
+import type { StdSignDoc } from '@swapkit/toolbox-cosmos';
+
 export type OKXConfig = {
   covalentApiKey?: string;
   ethplorerApiKey?: string;
@@ -30,16 +32,6 @@ export interface StdFee {
 export interface Msg {
   readonly type: string;
   readonly value: any;
-}
-
-export interface StdSignDoc {
-  readonly chain_id: string;
-  readonly account_number: string;
-  readonly sequence: string;
-  readonly timeout_height?: string;
-  readonly fee: StdFee;
-  readonly msgs: readonly Msg[];
-  readonly memo: string;
 }
 
 export interface PubKey {

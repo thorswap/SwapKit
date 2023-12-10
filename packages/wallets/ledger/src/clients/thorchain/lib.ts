@@ -14,7 +14,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************* */
-import { bech32 } from '@scure/base';
+import { bech32 } from '@swapkit/toolbox-cosmos';
 import { ErrorCode } from '@swapkit/types';
 import crypto from 'crypto';
 import Ripemd160 from 'ripemd160';

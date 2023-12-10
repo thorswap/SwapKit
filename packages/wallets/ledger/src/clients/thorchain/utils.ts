@@ -1,4 +1,4 @@
-import { base64 } from '@scure/base';
+import { base64 } from '@swapkit/toolbox-cosmos';
 
 export const getSignature = (signatureArray: any) => {
   // Check Type Length Value encoding
