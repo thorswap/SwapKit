@@ -659,8 +659,8 @@ importers:
         specifier: 5.2.1
         version: 5.2.1
       ecpair:
-        specifier: 2.1.0
-        version: 2.1.0
+        specifier: 2.0.1
+        version: 2.0.1
       tiny-secp256k1:
         specifier: 1.1.6
         version: 1.1.6
@@ -832,6 +832,9 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../../swapkit/types
+      '@types/ripemd160':
+        specifier: 2.0.3
+        version: 2.0.3
       '@vitest/coverage-istanbul':
         specifier: 1.0.4
         version: 1.0.4(vitest@1.0.4)
@@ -3948,7 +3951,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 20.10.4
 
   /@types/crypto-js@4.2.1:
     resolution: {integrity: sha512-FSPGd9+OcSok3RsM0UZ/9fcvMOXJ1ENE/ZbLfOPlBWj7BgXtEAM8VYfTtT760GiLbQIMoVozwVuisjvsVwqYWw==}
@@ -4105,6 +4108,12 @@ packages:
 
   /@types/resolve@1.20.2:
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
+    dev: true
+
+  /@types/ripemd160@2.0.3:
+    resolution: {integrity: sha512-/GrtUuorXQGl4/qCgo0YhzHaDbWc6i2kIBt5q7gA0np+/5GmLMK6aYb0pUYFfJ4Y2oraKkrDW4falfLip3Hzdw==}
+    dependencies:
+      '@types/node': 20.10.4
     dev: true
 
   /@types/scheduler@0.16.8:
@@ -6229,8 +6238,8 @@ packages:
       readable-stream: 3.6.2
       stream-shift: 1.0.1
 
-  /ecpair@2.1.0:
-    resolution: {integrity: sha512-cL/mh3MtJutFOvFc27GPZE2pWL3a3k4YvzUWEOvilnfZVlH3Jwgx/7d6tlD7/75tNk8TG2m+7Kgtz0SI1tWcqw==}
+  /ecpair@2.0.1:
+    resolution: {integrity: sha512-iT3wztQMeE/nDTlfnAg8dAFUfBS7Tq2BXzq3ae6L+pWgFU0fQ3l0woTzdTBrJV3OxBjxbzjq8EQhAbEmJNWFSw==}
     engines: {node: '>=8.0.0'}
     dependencies:
       randombytes: 2.1.0

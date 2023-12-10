@@ -13,6 +13,7 @@
   "description": "SwapKit Lib ledger",
   "devDependencies": {
     "@internal/config": "workspace:*",
+    "@types/ripemd160": "2.0.3",
     "@rollup/plugin-node-resolve": "15.2.3",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
