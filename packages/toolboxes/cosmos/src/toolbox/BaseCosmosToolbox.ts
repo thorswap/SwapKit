@@ -30,7 +30,7 @@ export const getAssetFromDenom = async (denom: string, amount: string) => {
     case 'cacao':
       return AssetValue.fromChainOrSignature(Chain.Maya, parseInt(amount) / 1e10);
     case 'maya':
-      return AssetValue.fromChainOrSignature('MAYA.MAYA', parseInt(amount) / 1e4);
+      return AssetValue.fromChainOrSignature(`${Chain.Maya}.${Chain.Maya}`, parseInt(amount) / 1e4);
     case 'ukuji':
     case 'kuji':
       return AssetValue.fromChainOrSignature(Chain.Kujira, parseInt(amount) / 1e6);

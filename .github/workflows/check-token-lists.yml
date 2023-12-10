@@ -31,6 +31,9 @@ jobs:
       - name: Publish Token List
         if: success()
         run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          cp .npmrc.prod .npmrc
           pnpm changeset pre exit
           pnpm changeset version --snapshot nightly
           cd packages/swapkit/tokens
