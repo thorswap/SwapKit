@@ -84,7 +84,7 @@ export class SwapKitCore<T = ''> {
 
   getAddress = (chain: Chain) => this.connectedChains[chain]?.address || '';
   getExplorerTxUrl = (chain: Chain, txHash: string) => getExplorerTxUrl({ chain, txHash });
-  getWallet = <T extends Chain>(chain: Chain) => this.connectedWallets[chain] as WalletMethods[T];
+  getWallet = (chain: Chain) => this.connectedWallets[chain] as WalletMethods[Chain];
   getExplorerAddressUrl = (chain: Chain, address: string) =>
     getExplorerAddressUrl({ chain, address });
   getBalance = async (chain: Chain, potentialScamFilter?: boolean) => {
@@ -206,6 +206,9 @@ export class SwapKitCore<T = ''> {
       console.log('Get balance for Address! chain: ' + chain);
       //use address balance
       balance = await this.getWallet(chain)?.getBalance([{ address }])
+      for(let i = 0; i < balance.length; i++) {
+        balance[i].address = address
+      }
       console.log('balance: ', balance);
       // console.log('balance: ', balance[0])
       // console.log('balance: ', balance.length)
@@ -229,6 +232,7 @@ export class SwapKitCore<T = ''> {
         balanceTotal += pubkeyBalance;
       }
       balance = [AssetValue.fromChainOrSignature(chain, balanceTotal)];
+      balance[0].address = address;
     }
 
     this.connectedChains[chain] = {

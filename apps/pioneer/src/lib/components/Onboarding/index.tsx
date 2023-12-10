@@ -19,7 +19,7 @@ import { getWalletContent } from '../../components/WalletIcon';
 import { usePioneer } from '../../context/Pioneer';
 
 export default function Pubkeys({ onClose, setModalType, setWalletType }: any) {
-  const { state, connectWallet, onStart } = usePioneer();
+  const { state, connectWallet } = usePioneer();
   const { app } = state;
   const [server, setServer] = useState('https://pioneers.dev/spec/swagger.json');
   const [showWalletSelection, setShowWalletSelection] = useState(false);
@@ -44,7 +44,6 @@ export default function Pubkeys({ onClose, setModalType, setWalletType }: any) {
     let pioneerUrl = localStorage.getItem('pioneerUrl');
     if (pioneerUrl) {
       setShowWalletSelection(true);
-      onStart();
     }
   }, []);
 
@@ -65,7 +64,6 @@ export default function Pubkeys({ onClose, setModalType, setWalletType }: any) {
   const handleSubmit = async () => {
     localStorage.setItem('pioneerUrl', server);
     console.log('Server:', server);
-    await onStart();
     setShowWalletSelection(true);
   };
 

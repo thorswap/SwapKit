@@ -164,7 +164,7 @@ const getUnconfirmedBalanceXpub = async ({
   apiKey,
 }: BlockchairParams<{ address?: string }>) => {
   console.log('getUnconfirmedBalanceXpub; ', { pubkey, chain, apiKey });
-  return (await getXpubData({ pubkey, chain, apiKey }));
+  return await getXpubData({ pubkey, chain, apiKey });
 };
 
 const getConfirmedBalance = async ({

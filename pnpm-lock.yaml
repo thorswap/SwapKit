@@ -1086,18 +1086,6 @@ importers:
 
   packages/wallets/keepkey:
     dependencies:
-      '@ethersproject/abstract-signer':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/bignumber':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/providers':
-        specifier: ^5.7.0
-        version: 5.7.2
-      '@ethersproject/transactions':
-        specifier: 5.7.0
-        version: 5.7.0
       '@keepkey/keepkey-sdk':
         specifier: ^0.2.52
         version: 0.2.52
@@ -1375,18 +1363,6 @@ importers:
       '@cosmjs/stargate':
         specifier: 0.31.1
         version: 0.31.1
-      '@ethersproject/abstract-signer':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/bignumber':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/providers':
-        specifier: ^5.7.0
-        version: 5.7.2
-      '@ethersproject/transactions':
-        specifier: 5.7.0
-        version: 5.7.0
       '@pioneer-platform/pioneer-coins':
         specifier: ^9.0.4
         version: 9.0.4(@types/node@20.10.0)
@@ -1531,6 +1507,9 @@ importers:
       '@walletconnect/modal-sign-html':
         specifier: ^2.6.2
         version: 2.6.2(react@18.2.0)
+      ethers:
+        specifier: ^6.9.0
+        version: 6.9.0
     devDependencies:
       '@coinmasters/toolbox-cosmos':
         specifier: workspace:*
@@ -1565,9 +1544,6 @@ importers:
       cosmjs-types:
         specifier: 0.9.0
         version: 0.9.0
-      ethers:
-        specifier: ^6.9.0
-        version: 6.9.0
       vite:
         specifier: 4.5.0
         version: 4.5.0(@types/node@20.5.9)

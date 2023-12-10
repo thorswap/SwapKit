@@ -24,7 +24,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { ChainToNetworkId, getChainEnumValue } from '@coinmasters/types';
+import { ChainToNetworkId, getChainEnumValue, availableChainsByWallet } from '@coinmasters/types';
 import { useEffect, useState } from 'react';
 import { FaCog, FaDownload, FaExchangeAlt, FaPaperPlane, FaRegMoneyBillAlt } from 'react-icons/fa';
 
@@ -41,11 +41,10 @@ import {
   pioneerImagePng,
 } from '../../components/WalletIcon';
 import { usePioneer } from '../../context/Pioneer';
-import { availableChainsByWallet } from '../../context/Pioneer/support';
 
 const Pioneer = () => {
   const { state, hideModal, resetState } = usePioneer();
-  const { api, app, status, balances, context, openModal } = state;
+  const { api, app, balances, context, openModal } = state;
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [showAllWallets, setShowAllWallets] = useState(false);
   const [modalShowClose, setModalShowClose] = useState(false);
@@ -79,9 +78,8 @@ const Pioneer = () => {
     let pioneerUrl = localStorage.getItem('pioneerUrl');
     if (balances.length === 0 && !pioneerUrl) {
       onOpen();
-      setModalType('Onboarding');
+      setModalType('ONBOARDING');
     }
-    onStart();
   }, [balances]);
 
   useEffect(() => {

@@ -45,10 +45,6 @@
     "@coinmasters/toolbox-cosmos": "workspace:*",
     "@coinmasters/toolbox-evm": "workspace:*",
     "@coinmasters/toolbox-utxo": "workspace:*",
-    "@ethersproject/abstract-signer": "5.7.0",
-    "@ethersproject/bignumber": "5.7.0",
-    "@ethersproject/providers": "^5.7.0",
-    "@ethersproject/transactions": "5.7.0",
     "@keepkey/keepkey-sdk": "0.2.41",
     "bitcoinjs-lib": "5.2.0"
   },
@@ -66,5 +62,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "6.0.1"
+  "version": "6.0.3"
 }

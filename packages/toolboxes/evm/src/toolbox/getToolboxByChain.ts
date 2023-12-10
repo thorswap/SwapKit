@@ -1,4 +1,4 @@
-import { Chain, type EVMChain } from '@swapkit/types';
+import { Chain, type EVMChain } from '@coinmasters/types';
 
 import { ARBToolbox } from './arb.ts';
 import { AVAXToolbox } from './avax.ts';

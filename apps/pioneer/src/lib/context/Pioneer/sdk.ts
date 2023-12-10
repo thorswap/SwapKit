@@ -10,7 +10,13 @@
 // @ts-ignore
 
 import { EVMChainList, SwapKitCore } from '@coinmasters/core';
-import { Chain, ChainToNetworkId, getChainEnumValue, NetworkIdToChain } from '@coinmasters/types';
+import {
+  availableChainsByWallet,
+  Chain,
+  ChainToNetworkId,
+  getChainEnumValue,
+  NetworkIdToChain,
+} from '@coinmasters/types';
 import { thorchainToCaip } from '@pioneer-platform/pioneer-caip';
 // @ts-ignore
 // @ts-ignore
@@ -24,8 +30,6 @@ import EventEmitter from 'events';
 
 // @ts-ignore
 // @ts-ignore
-import { initializeWallets } from './connect';
-import { availableChainsByWallet } from './support';
 
 // @ts-ignore
 // @ts-ignore
@@ -121,6 +125,8 @@ export class SDK {
   private setContext: (context: string) => Promise<{ success: boolean }>;
 
   // @ts-ignore
+  public init: (wallets: any) => Promise<any>;
+
   public refresh: () => Promise<any>;
 
   // private setPubkeyContext: (pubkeyObj:any) => Promise<boolean>;
@@ -176,24 +182,28 @@ export class SDK {
     this.wallets = [];
     this.events = new EventEmitter();
     // @ts-ignore
-    this.init = async function () {
+    this.init = async function (walletsVerbose: any) {
       const tag = `${TAG} | init | `;
       try {
         if (!this.username) throw Error('username required!');
         if (!this.queryKey) throw Error('queryKey required!');
         if (!this.wss) throw Error('wss required!');
+        if (!walletsVerbose) throw Error('walletsVerbose required!');
         if (!this.ethplorerApiKey) throw Error('ethplorerApiKey required!');
         if (!this.covalentApiKey) throw Error('covalentApiKey required!');
         if (!this.utxoApiKey) throw Error('utxoApiKey required!');
         if (!this.walletConnectProjectId) throw Error('walletConnectProjectId required!');
-
         const PioneerClient = new Pioneer(config.spec, config);
         this.pioneer = await PioneerClient.init();
         if (!this.pioneer) throw Error('Fialed to init pioneer server!');
 
-        // init wallets
-        const { wallets, walletsVerbose } = await initializeWallets();
-        this.wallets = walletsVerbose;
+        if (walletsVerbose) this.wallets = walletsVerbose;
+        let walletArray = [];
+        for (let i = 0; i < this.wallets.length; i++) {
+          let walletVerbose = this.wallets[i];
+          let wallet = walletVerbose.wallet;
+          walletArray.push(wallet);
+        }
         // log.info("wallets",this.wallets)
 
         // init swapkit
@@ -223,7 +233,7 @@ export class SDK {
               },
             },
           },
-          wallets,
+          wallets: walletArray,
         };
         // log.info(tag, "configKit: ", configKit);
         await this.swapKit.extend(configKit);
@@ -393,8 +403,11 @@ export class SDK {
           if (wallet === 'LEDGER' && ledgerApp !== 'ETH') {
             context = 'ledger:ledger.wallet'; //placeholder until we know eth address
           } else {
-            console.log("this.swapKit: ",this.swapKit)
-            console.log("this.swapKit.getWalletByChain: ",await this.swapKit.getWalletByChain(Chain.Ethereum))
+            console.log('this.swapKit: ', this.swapKit);
+            console.log(
+              'this.swapKit.getWalletByChain: ',
+              await this.swapKit.getWalletByChain(Chain.Ethereum),
+            );
             const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
             if (!ethAddress) throw Error('Failed to get eth address! can not pair wallet');
             context = `${wallet.toLowerCase()}:${ethAddress}.wallet`;
