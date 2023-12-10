@@ -35,6 +35,7 @@ const baseConfig = (name) =>
       dts({ skipDiagnostics: false, clearPureImport: true, rollupTypes: true, beforeWriteFile }),
     ],
     build: {
+      sourcemap: true,
       lib: {
         name,
         formats: ['es', 'cjs'],

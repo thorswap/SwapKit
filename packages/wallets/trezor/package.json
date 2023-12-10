@@ -1,7 +1,7 @@
 {
   "author": "swapkit-oss-team",
   "dependencies": {
-    "@trezor/connect-web": "9.1.5"
+    "@trezor/connect-web": "9.1.6"
   },
   "description": "SwapKit Lib trezor",
   "devDependencies": {
@@ -10,10 +10,10 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@trezor/connect": "9.1.5",
-    "@vitest/coverage-istanbul": "1.0.1",
-    "vite": "5.0.6",
-    "vitest": "1.0.1"
+    "@trezor/connect": "9.1.6",
+    "@vitest/coverage-istanbul": "1.0.4",
+    "vite": "5.0.7",
+    "vitest": "1.0.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"

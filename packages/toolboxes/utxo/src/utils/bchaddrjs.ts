@@ -1,5 +1,4 @@
 import base58check from 'bs58check';
-import { Buffer } from 'buffer';
 // @ts-expect-error
 import cashaddr from 'cashaddrjs';
 

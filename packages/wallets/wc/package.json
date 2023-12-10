@@ -1,7 +1,7 @@
 {
   "author": "swapkit-oss-team",
   "dependencies": {
-    "@walletconnect/modal-sign-html": "^2.6.2"
+    "@walletconnect/modal-sign-html": "2.6.2"
   },
   "description": "SwapKit Lib walletconnect",
   "devDependencies": {
@@ -9,10 +9,10 @@
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@vitest/coverage-istanbul": "1.0.1",
+    "@vitest/coverage-istanbul": "1.0.4",
     "@walletconnect/types": "2.10.6",
-    "vite": "5.0.6",
-    "vitest": "1.0.1"
+    "vite": "5.0.7",
+    "vitest": "1.0.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
