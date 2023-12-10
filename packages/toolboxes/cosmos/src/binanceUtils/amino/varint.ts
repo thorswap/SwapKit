@@ -18,6 +18,7 @@ function VarIntFunc(signed: boolean) {
     buffer = buffer || Buffer.alloc(encodingLength(n));
     offset = offset || 0;
     const nStr = n.toString();
+    // TODO: rewrite to SwapKitNumber to avoid bn.js
     let bn = new BN(nStr, 10);
     const num255 = new BN(0xff);
     const num128 = new BN(0x80);
