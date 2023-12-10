@@ -2,7 +2,6 @@ import { generateMnemonic } from '@scure/bip39';
 import { wordlist } from '@scure/bip39/wordlists/english';
 import { blake2bFinal, blake2bInit, blake2bUpdate } from 'blakejs';
 import crypto from 'crypto';
-import { v4 as uuidv4 } from 'uuid';
 
 const cipher = 'aes-128-ctr';
 const kdf = 'pbkdf2';
@@ -28,7 +27,6 @@ export type Keystore = {
     };
     mac: string;
   };
-  id: string;
   version: number;
   meta: string;
 };
@@ -38,7 +36,6 @@ export type Keystore = {
  */
 const toHexByte = (byte: number) => (byte < 0x10 ? `0${byte.toString(16)}` : byte.toString(16));
 const toHex = (buffer: Buffer | Uint8Array) => Array.from(buffer).map(toHexByte).join('');
-const _isNode = () => typeof window === 'undefined';
 
 /**
  * Gets data's 256 bit blake hash.
@@ -73,7 +70,6 @@ const pbkdf2Async = async (
 };
 
 export const encryptToKeyStore = async (phrase: string, password: string) => {
-  const ID = _isNode() ? require('uuid').v4() : uuidv4();
   const salt = crypto.randomBytes(32);
   const iv = crypto.randomBytes(16);
   const kdfParams = {
@@ -111,7 +107,6 @@ export const encryptToKeyStore = async (phrase: string, password: string) => {
 
   const keystore = {
     crypto: cryptoStruct,
-    id: ID,
     version: 1,
     meta: meta,
   };
