@@ -6,7 +6,7 @@ import type {
 } from '@swapkit/toolbox-utxo';
 import type { ConnectWalletParams, Witness } from '@swapkit/types';
 import { Chain, DerivationPath, WalletOption } from '@swapkit/types';
-import type { Psbt } from 'bitcoinjs-lib';
+import type { Psbt } from '@swapkit/toolbox-utxo';
 
 type KeystoreOptions = {
   ethplorerApiKey?: string;
