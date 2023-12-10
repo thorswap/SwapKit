@@ -19,6 +19,7 @@
     "@swapkit/wallet-wc": "workspace:*",
     "@swapkit/wallet-xdefi": "workspace:*",
     "base64-js": "1.5.1",
+    "buffer": "6.0.3",
     "crypto-browserify": "3.12.0",
     "https-browserify": "1.0.0",
     "os-browserify": "0.3.0",
@@ -31,11 +32,11 @@
     "url": "0.11.3"
   },
   "devDependencies": {
-    "@types/react": "18.2.42",
+    "@types/react": "18.2.43",
     "@types/react-dom": "18.2.17",
     "@vitejs/plugin-react": "4.2.1",
-    "typescript": "5.3.2",
-    "vite": "5.0.6"
+    "typescript": "5.3.3",
+    "vite": "5.0.7"
   },
   "eslintConfig": {
     "extends": "../../internal/eslint-config"
