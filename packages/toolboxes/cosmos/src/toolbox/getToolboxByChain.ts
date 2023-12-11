@@ -1,4 +1,3 @@
-import type { CosmosChain } from '@swapkit/types';
 import { Chain } from '@swapkit/types';
 
 import { BinanceToolbox } from './binance.ts';
@@ -6,17 +5,26 @@ import { GaiaToolbox } from './gaia.ts';
 import { KujiraToolbox } from './kujira.ts';
 import { MayaToolbox, ThorchainToolbox } from './thorchain.ts';
 
-export const getToolboxByChain = async (chain: CosmosChain) => {
+type ToolboxType = {
+  BNB: typeof BinanceToolbox;
+  THOR: typeof ThorchainToolbox;
+  GAIA: typeof GaiaToolbox;
+  KUJI: typeof KujiraToolbox;
+  MAYA: typeof MayaToolbox;
+};
+
+// @ts-expect-error false positive
+export const getToolboxByChain = <T extends keyof ToolboxType>(chain: T): ToolboxType[T] => {
   switch (chain) {
-    case Chain.Cosmos:
-      return GaiaToolbox;
-    case Chain.THORChain:
-      return ThorchainToolbox;
-    case Chain.Kujira:
-      return KujiraToolbox;
-    case Chain.Maya:
-      return MayaToolbox;
     case Chain.Binance:
-      return BinanceToolbox;
+      return BinanceToolbox as ToolboxType[T];
+    case Chain.Cosmos:
+      return GaiaToolbox as ToolboxType[T];
+    case Chain.Kujira:
+      return KujiraToolbox as ToolboxType[T];
+    case Chain.Maya:
+      return MayaToolbox as ToolboxType[T];
+    case Chain.THORChain:
+      return ThorchainToolbox as ToolboxType[T];
   }
 };

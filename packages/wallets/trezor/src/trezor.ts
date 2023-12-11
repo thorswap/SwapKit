@@ -275,8 +275,6 @@ const connectTrezor =
       walletMethods,
       wallet: { address, balance: [], walletType: WalletOption.TREZOR },
     });
-
-    return true;
   };
 
 export const trezorWallet = {

@@ -31,6 +31,11 @@ export type TransferParams = {
   feeOptionKey?: FeeOption;
 };
 
+export type ToolboxParams = {
+  server?: string;
+  stagenet?: boolean;
+};
+
 export type Signer = {
   pubKey: string;
   signature: string;

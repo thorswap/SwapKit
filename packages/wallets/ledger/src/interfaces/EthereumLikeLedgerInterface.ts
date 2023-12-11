@@ -122,7 +122,8 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
     }).serialized;
   };
 
-  sendTransaction = async (tx: TransactionRequest) => {
+  // TODO: fix typing infer from ethers
+  sendTransaction = async (tx: TransactionRequest): Promise<any> => {
     if (!this.provider) throw new Error('No provider set');
 
     const signedTxHex = await this.signTransaction(tx);

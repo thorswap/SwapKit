@@ -7,7 +7,8 @@ import {
   type TxBodyEncodeObject,
   TxRaw,
 } from '@swapkit/toolbox-cosmos';
-import { Chain, ChainId, RPCUrl, WalletOption } from '@swapkit/types';
+import type { ConnectWalletParams } from '@swapkit/types';
+import { RPCUrl, Chain, ChainId, WalletOption } from '@swapkit/types';
 import type { WalletConnectModalSign } from '@walletconnect/modal-sign-html';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
 
@@ -75,10 +76,9 @@ const getToolbox = async ({
         throw new Error('Covalent API key not found');
 
       const { getProvider, getToolboxByChain } = await import('@swapkit/toolbox-evm');
-
       const provider = getProvider(chain);
       const signer = await getEVMSigner({ walletconnect, chain, provider });
-      const toolbox = await getToolboxByChain(chain);
+      const toolbox = getToolboxByChain(chain);
 
       return toolbox({
         provider,
@@ -87,6 +87,7 @@ const getToolbox = async ({
         covalentApiKey,
       });
     }
+
     case Chain.Binance: {
       const { sortObject, BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = BinanceToolbox();
@@ -128,6 +129,7 @@ const getToolbox = async ({
       };
       return { ...toolbox, transfer };
     }
+
     case Chain.THORChain: {
       const {
         fromBase64,
@@ -151,6 +153,7 @@ const getToolbox = async ({
           },
         });
 
+<<<<<<< HEAD
       const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
         const account = await toolbox.getAccount(from);
         if (!account) throw new Error('Account not found');
@@ -240,22 +243,37 @@ const getToolbox = async ({
       };
 
       const deposit = async ({ assetValue, memo }: DepositParam) => {
+=======
+      const thorchainTransfer = async ({
+        assetValue,
+        memo,
+        ...rest
+      }: TransferParams | DepositParam) => {
+>>>>>>> 659e8a0a (chore: refactor for new getToolboxByChain helpers)
         const account = await toolbox.getAccount(address);
-        if (!assetValue) throw new Error('invalid asset to deposit');
         if (!account) throw new Error('Account not found');
         if (!account.pubkey) throw new Error('Account pubkey not found');
         const { accountNumber, sequence = 0 } = account;
+        const amount = assetValue.getBaseValue('string');
 
-        const msg = {
-          type: 'thorchain/MsgDeposit',
-          value: {
-            coins: [
-              { amount: assetValue.getBaseValue('string'), asset: getDenomWithChain(assetValue) },
-            ],
-            memo,
-            signer: address,
-          },
-        };
+        const msg =
+          'recipient' in rest
+            ? {
+                type: 'thorchain/MsgSend',
+                value: {
+                  amount: [{ amount, denom: assetValue.symbol.toLowerCase() }],
+                  from_address: address,
+                  to_address: rest.recipient,
+                },
+              }
+            : {
+                type: 'thorchain/MsgDeposit',
+                value: {
+                  coins: [{ amount, asset: getDenomWithChain(assetValue) }],
+                  memo,
+                  signer: address,
+                },
+              };
 
         const signDoc = makeSignDoc(
           [msg],
@@ -323,6 +341,9 @@ const getToolbox = async ({
         return result.transactionHash;
       };
 
+      const transfer = (params: TransferParams) => thorchainTransfer(params);
+      const deposit = (params: DepositParam) => thorchainTransfer(params);
+
       return { ...toolbox, transfer, deposit };
     }
     default:
@@ -377,15 +398,7 @@ const connectWalletconnect =
   ({
     addChain,
     config: { ethplorerApiKey, walletConnectProjectId, covalentApiKey, stagenet = false },
-  }: {
-    addChain: any;
-    config: {
-      covalentApiKey?: string;
-      ethplorerApiKey?: string;
-      walletConnectProjectId?: string;
-      stagenet?: boolean;
-    };
-  }) =>
+  }: ConnectWalletParams) =>
   async (
     chains: (typeof WC_SUPPORTED_CHAINS)[number][],
     walletconnectOptions?: SignClientTypes.Options,
@@ -442,8 +455,6 @@ const connectWalletconnect =
     });
 
     await Promise.all(promises);
-
-    return true;
   };
 
 export const walletconnectWallet = {

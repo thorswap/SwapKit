@@ -39,7 +39,7 @@ const blake256 = (data: Buffer | string): string => {
     .join('');
 };
 
-const pbkdf2Async = async (
+const pbkdf2Async = (
   passphrase: string | Buffer,
   salt: string | Buffer,
   iterations: number,
@@ -47,9 +47,9 @@ const pbkdf2Async = async (
   digest: string,
 ) =>
   new Promise<Buffer>((resolve, reject) => {
-    crypto.pbkdf2(passphrase, salt, iterations, keylen, digest, (err: any, drived: any) => {
-      if (err) {
-        reject(err);
+    crypto.pbkdf2(passphrase, salt, iterations, keylen, digest, (error, drived) => {
+      if (error) {
+        reject(error);
       } else {
         resolve(drived);
       }
@@ -69,7 +69,7 @@ export const encryptToKeyStore = async (phrase: string, password: string) => {
     kdfParams.dklen,
     'sha256',
   );
-  const cipherIV = crypto.createCipheriv(cipher, derivedKey.slice(0, 16), iv);
+  const cipherIV = crypto.createCipheriv(cipher, derivedKey.subarray(0, 16), iv);
   const ciphertext = Buffer.concat([
     cipherIV.update(Buffer.from(phrase, 'utf8')),
     cipherIV.final(),
@@ -84,7 +84,7 @@ export const encryptToKeyStore = async (phrase: string, password: string) => {
       ciphertext: ciphertext.toString('hex'),
       kdf: 'pbkdf2',
       kdfparams: kdfParams,
-      mac: blake256(Buffer.concat([derivedKey.slice(16, 32), Buffer.from(ciphertext)])),
+      mac: blake256(Buffer.concat([derivedKey.subarray(16, 32), Buffer.from(ciphertext)])),
     },
   };
 };
@@ -107,12 +107,12 @@ export const decryptFromKeystore = async (keystore: Keystore, password: string) 
       );
 
       const ciphertext = Buffer.from(keystore.crypto.ciphertext, 'hex');
-      const mac = blake256(Buffer.concat([derivedKey.slice(16, 32), ciphertext]));
+      const mac = blake256(Buffer.concat([derivedKey.subarray(16, 32), ciphertext]));
 
       if (mac !== keystore.crypto.mac) throw new Error('Invalid password');
       const decipher = crypto.createDecipheriv(
         keystore.crypto.cipher,
-        derivedKey.slice(0, 16),
+        derivedKey.subarray(0, 16),
         Buffer.from(keystore.crypto.cipherparams.iv, 'hex'),
       );
 

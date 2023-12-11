@@ -23,8 +23,7 @@ const connectOkx =
     config: OKXConfig;
   }) =>
   async (chains: (typeof OKX_SUPPORTED_CHAINS)[number][]) => {
-    const promises = chains.reduce(async (chainsToConnect, chain) => {
-      await chainsToConnect;
+    const promises = chains.map(async (chain) => {
       const walletMethods = await getWalletForChain({
         chain,
         covalentApiKey,
@@ -32,19 +31,14 @@ const connectOkx =
         blockchairApiKey: blockchairApiKey || utxoApiKey,
       });
 
-      // Unwrap the address from a possible promise
-      const address = await walletMethods.getAddress();
-
       addChain({
         chain,
-        walletMethods: { ...walletMethods, getAddress: () => address },
-        wallet: { address, balance: [], walletType: WalletOption.OKX },
+        walletMethods,
+        wallet: { address: walletMethods.getAddress(), balance: [], walletType: WalletOption.OKX },
       });
-    }, Promise.resolve());
+    });
 
-    await promises;
-
-    return true;
+    await Promise.all(promises);
   };
 
 export const okxWallet = {

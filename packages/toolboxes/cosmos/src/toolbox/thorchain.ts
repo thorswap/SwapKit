@@ -15,7 +15,7 @@ import type {
   ThorchainToolboxType,
 } from '../thorchainUtils/types/client-types.ts';
 import { base64ToBech32, bech32ToBase64 } from '../thorchainUtils/util.ts';
-import type { Signer, TransferParams } from '../types.ts';
+import type { Signer, ToolboxParams, TransferParams } from '../types.ts';
 import {
   createOfflineStargateClient,
   createSigningStargateClient,
@@ -25,11 +25,6 @@ import {
 } from '../util.ts';
 
 import { BaseCosmosToolbox } from './BaseCosmosToolbox.ts';
-
-type ToolboxParams = {
-  chain: Chain.THORChain | Chain.Maya;
-  stagenet?: boolean;
-};
 
 const getDefaultChainFee = (chain: Chain.THORChain | Chain.Maya) => {
   switch (chain) {
@@ -200,7 +195,10 @@ const __REEXPORT__pubkeyToAddress = (prefix: string) => async (pubkey: Pubkey) =
   return pubkeyToAddress(pubkey, prefix);
 };
 
-export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): ThorchainToolboxType => {
+export const BaseThorchainToolbox = ({
+  chain,
+  stagenet,
+}: ToolboxParams & { chain: Chain.THORChain | Chain.Maya }): ThorchainToolboxType => {
   const isThorchain = chain === Chain.THORChain;
   const chainId = isThorchain ? ChainId.THORChain : ChainId.Maya;
   const nodeUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
@@ -340,12 +338,10 @@ export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): Thorch
   };
 };
 
-export const ThorchainToolbox = ({
-  stagenet = false,
-}: { stagenet?: boolean } = {}): ThorchainToolboxType => {
+export const ThorchainToolbox = ({ stagenet }: ToolboxParams = {}): ThorchainToolboxType => {
   return BaseThorchainToolbox({ chain: Chain.THORChain, stagenet });
 };
 
-export const MayaToolbox = ({ stagenet = false }: { stagenet?: boolean } = {}): MayaToolboxType => {
+export const MayaToolbox = ({ stagenet }: ToolboxParams = {}): MayaToolboxType => {
   return BaseThorchainToolbox({ chain: Chain.Maya, stagenet });
 };
