@@ -61,7 +61,7 @@ export const utxoWalletMethods = async ({
     transfer: (params: UTXOTransferParams) => Promise<string>;
   }
 > => {
-  if (!apiKey) throw new Error('UTXO API key not found');
+  if (!apiKey && !apiClient) throw new Error('UTXO API key not found');
   const { toolbox, segwit } = getToolbox({ chain, apiClient, apiKey });
 
   const scriptType = segwit ? 'p2wpkh' : 'p2pkh';

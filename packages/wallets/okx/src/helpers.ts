@@ -49,6 +49,9 @@ export const getWalletForChain = async ({
   switch (chain) {
     case Chain.Ethereum:
     case Chain.Avalanche:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon:
     case Chain.BinanceSmartChain: {
       if (!window.okxwallet?.send) throw new Error('No okxwallet found');
 

@@ -1,5 +1,170 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.44
+
+### Patch Changes
+
+- Bump to sk links
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.24
+  - @swapkit/types@1.0.0-rc.23
+
+## 1.0.0-rc.43
+
+### Patch Changes
+
+- [#428](https://github.com/thorswap/SwapKit/pull/428) [`76ca073d`](https://github.com/thorswap/SwapKit/commit/76ca073dd9e57217b08a4b82cc821b8b75bd3120) Thanks [@towanTG](https://github.com/towanTG)! - Adds validation for unsupported address formats
+
+## 1.0.0-rc.42
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.23
+  - @swapkit/types@1.0.0-rc.22
+
+## 1.0.0-rc.41
+
+### Patch Changes
+
+- Bump for explorer & synths
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.22
+  - @swapkit/types@1.0.0-rc.21
+
+## 1.0.0-rc.40
+
+### Patch Changes
+
+- Bump
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.21
+  - @swapkit/types@1.0.0-rc.20
+
+## 1.0.0-rc.39
+
+### Patch Changes
+
+- tests
+
+- toUrl
+
+- [`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Update toString on synths
+
+- Updated dependencies [[`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c)]:
+  - @swapkit/tokens@1.0.0-rc.20
+  - @swapkit/types@1.0.0-rc.19
+
+## 1.0.0-rc.38
+
+### Patch Changes
+
+- Patch typeforce
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.19
+  - @swapkit/types@1.0.0-rc.18
+
+## 1.0.0-rc.37
+
+### Patch Changes
+
+- [#416](https://github.com/thorswap/SwapKit/pull/416) [`76ef0067`](https://github.com/thorswap/SwapKit/commit/76ef00670da6505e3b7e1602d76ae6abcbaaf141) Thanks [@chillios-ts](https://github.com/chillios-ts)! - update asset value with tax property
+
+- [`ee70c6e3`](https://github.com/thorswap/SwapKit/commit/ee70c6e3ce0fe74897227b415adae47b3b590c93) Thanks [@chillios-ts](https://github.com/chillios-ts)! - update comparisions with decimal shift
+
+## 1.0.0-rc.36
+
+### Patch Changes
+
+- [#414](https://github.com/thorswap/SwapKit/pull/414) [`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix Division precision
+
+- Updated dependencies [[`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c)]:
+  - @swapkit/tokens@1.0.0-rc.18
+  - @swapkit/types@1.0.0-rc.17
+
+## 1.0.0-rc.35
+
+### Patch Changes
+
+- Update dependencies with crypto-js 4.2.0
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.17
+  - @swapkit/types@1.0.0-rc.16
+
+## 1.0.0-rc.34
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.16
+
+## 1.0.0-rc.33
+
+### Patch Changes
+
+- Testout publish
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.15
+  - @swapkit/types@1.0.0-rc.15
+
+## 1.0.0-rc.32
+
+### Patch Changes
+
+- Update package name generation
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.14
+  - @swapkit/types@1.0.0-rc.14
+
+## 1.0.0-rc.31
+
+### Patch Changes
+
+- [#404](https://github.com/thorswap/SwapKit/pull/404) [`af8ed16f`](https://github.com/thorswap/SwapKit/commit/af8ed16f77d15570f99a6062b7ba81273ff84b29) Thanks [@chillios-ts](https://github.com/chillios-ts)! - New chains support for evm/cosmos wallets
+
+- Updated dependencies [[`af8ed16f`](https://github.com/thorswap/SwapKit/commit/af8ed16f77d15570f99a6062b7ba81273ff84b29)]:
+  - @swapkit/tokens@1.0.0-rc.13
+  - @swapkit/types@1.0.0-rc.13
+
+## 1.0.0-rc.30
+
+### Patch Changes
+
+- bump packages
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.12
+  - @swapkit/types@1.0.0-rc.12
+
+## 1.0.0-rc.29
+
+### Patch Changes
+
+- addLiquidityPart and fix toCurrency
+
+- Updated dependencies [[`fd2de5fd`](https://github.com/thorswap/SwapKit/commit/fd2de5fdc7a83601acda6f65f83a0ce3e6c4b99c)]:
+  - @swapkit/tokens@1.0.0-rc.11
+  - @swapkit/types@1.0.0-rc.11
+
+## 1.0.0-rc.28
+
+### Patch Changes
+
+- remove cache asset
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.10
+  - @swapkit/types@1.0.0-rc.10
+
 ## 1.0.0-rc.27
 
 ### Patch Changes

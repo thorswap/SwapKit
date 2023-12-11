@@ -36,7 +36,16 @@ export const getDerivationPathFor = ({ chain, index, type }: Params) => {
 export const getWalletFormatFor = (path: string) => {
   const [purpose, chainId] = path.split('/').map((p) => parseInt(p, 10));
 
-  if (chainId === 145) return purpose === 84 ? 'cashaddr' : 'legacy';
+  // Comment can be removed after testing
+  // if (chainId === 145) return purpose === 84 ? 'cashaddr' : 'legacy';
+  if (chainId === 145) 'cashaddr';
 
-  return purpose === 44 ? 'legacy' : 'bech32';
+  switch (purpose) {
+    case 44:
+      return 'legacy';
+    case 49:
+      return 'p2sh';
+    default:
+      return 'bech32';
+  }
 };

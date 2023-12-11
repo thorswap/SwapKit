@@ -10,7 +10,7 @@ export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Cha
     case Chain.Maya:
     case Chain.Kujira:
     case Chain.THORChain:
-      return `${baseUrl}/tx/${txHash}`;
+      return `${baseUrl}/tx/${txHash.startsWith('0x') ? txHash.slice(2) : txHash}`;
 
     case Chain.Arbitrum:
     case Chain.Avalanche:

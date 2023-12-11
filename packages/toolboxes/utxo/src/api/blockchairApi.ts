@@ -16,11 +16,11 @@ const baseUrl = (chain: Chain) => `https://api.blockchair.com/${mapChainToBlockc
 const getDefaultTxFeeByChain = (chain: Chain) => {
   switch (chain) {
     case Chain.Bitcoin:
-      return 127;
+      return 5;
     case Chain.Dogecoin:
-      return 10000000;
+      return 10000;
     case Chain.Litecoin:
-      return 1000;
+      return 1;
     default:
       return 2;
   }

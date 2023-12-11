@@ -184,7 +184,7 @@ export enum ApiUrl {
   MayanodeStagenet = 'https://stagenet.mayanode.mayachain.info',
   ThornodeMainnet = 'https://thornode.thorswap.net',
   ThornodeStagenet = 'https://stagenet-thornode.ninerealms.com',
-  ThorswapApi = 'https://api.thorswap.finance',
+  ThorswapApi = 'https://api.thorswap.net',
   ThorswapStatic = 'https://static.thorswap.net',
 }
 
@@ -269,5 +269,5 @@ export const ChainToExplorerUrl: Record<Chain, string> = {
   [Chain.Maya]: 'https://www.mayascan.org',
   [Chain.Optimism]: 'https://optimistic.etherscan.io',
   [Chain.Polygon]: 'https://polygonscan.com',
-  [Chain.THORChain]: 'https://viewblock.io/thorchain',
+  [Chain.THORChain]: 'https://runescan.io',
 };

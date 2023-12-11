@@ -243,6 +243,10 @@ export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): Thorch
     const registry = await createDefaultRegistry();
     const signingClient = await createSigningStargateClient(rpcUrl, signer, { registry });
 
+    const symbol = assetValue.isSynthetic
+      ? assetValue.symbol.split('/')[1].toLowerCase()
+      : assetValue.symbol.toLowerCase();
+
     const depositMsg = {
       typeUrl: '/types.MsgDeposit',
       value: {
@@ -253,8 +257,8 @@ export const BaseThorchainToolbox = ({ chain, stagenet }: ToolboxParams): Thorch
             amount: assetValue.getBaseValue('string'),
             asset: {
               chain: assetValue.chain.toLowerCase(),
-              symbol: assetValue.ticker.toLowerCase(),
-              ticker: assetValue.ticker.toLowerCase(),
+              symbol,
+              ticker: symbol,
               synth: assetValue.isSynthetic,
             },
           },

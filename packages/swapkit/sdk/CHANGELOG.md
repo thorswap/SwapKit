@@ -1,5 +1,433 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.58
+
+### Patch Changes
+
+- Updated dependencies [[`49d477a9`](https://github.com/thorswap/SwapKit/commit/49d477a9b01a97f861352cd6e15743e874b98170)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.47
+  - @swapkit/core@1.0.0-rc.54
+  - @swapkit/wallet-keplr@1.0.0-rc.47
+  - @swapkit/wallet-keystore@1.0.0-rc.54
+  - @swapkit/wallet-ledger@1.0.0-rc.54
+  - @swapkit/wallet-okx@1.0.0-rc.52
+  - @swapkit/wallet-wc@1.0.0-rc.49
+  - @swapkit/wallet-xdefi@1.0.0-rc.53
+
+## 1.0.0-rc.57
+
+### Patch Changes
+
+- Bump to sk links
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.46
+  - @swapkit/toolbox-cosmos@1.0.0-rc.46
+  - @swapkit/wallet-keystore@1.0.0-rc.53
+  - @swapkit/toolbox-utxo@1.0.0-rc.47
+  - @swapkit/wallet-ledger@1.0.0-rc.53
+  - @swapkit/wallet-trezor@1.0.0-rc.49
+  - @swapkit/types@1.0.0-rc.23
+  - @swapkit/toolbox-evm@1.0.0-rc.46
+  - @swapkit/wallet-keplr@1.0.0-rc.46
+  - @swapkit/wallet-xdefi@1.0.0-rc.52
+  - @swapkit/core@1.0.0-rc.53
+  - @swapkit/api@1.0.0-rc.23
+  - @swapkit/wallet-okx@1.0.0-rc.51
+  - @swapkit/wallet-wc@1.0.0-rc.48
+
+## 1.0.0-rc.56
+
+### Patch Changes
+
+- Updated dependencies [[`76ca073d`](https://github.com/thorswap/SwapKit/commit/76ca073dd9e57217b08a4b82cc821b8b75bd3120), [`5446aa3c`](https://github.com/thorswap/SwapKit/commit/5446aa3c4de0b63687d429bdb6ba7354c1e1a84b)]:
+  - @swapkit/core@1.0.0-rc.52
+  - @swapkit/wallet-ledger@1.0.0-rc.52
+  - @swapkit/toolbox-cosmos@1.0.0-rc.45
+  - @swapkit/toolbox-evm@1.0.0-rc.45
+  - @swapkit/toolbox-utxo@1.0.0-rc.46
+  - @swapkit/wallet-keplr@1.0.0-rc.45
+  - @swapkit/wallet-keystore@1.0.0-rc.52
+  - @swapkit/wallet-okx@1.0.0-rc.50
+  - @swapkit/wallet-trezor@1.0.0-rc.48
+  - @swapkit/wallet-xdefi@1.0.0-rc.51
+  - @swapkit/wallet-wc@1.0.0-rc.47
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.45
+
+## 1.0.0-rc.55
+
+### Patch Changes
+
+- Updated dependencies [[`eee30574`](https://github.com/thorswap/SwapKit/commit/eee3057431f03c2cb76aa9cffbc9385641c83f24)]:
+  - @swapkit/wallet-ledger@1.0.0-rc.51
+
+## 1.0.0-rc.54
+
+### Patch Changes
+
+- Updated dependencies [[`7e6125c9`](https://github.com/thorswap/SwapKit/commit/7e6125c988b1c0e76ee06c867e5a635e46f61852)]:
+  - @swapkit/wallet-ledger@1.0.0-rc.50
+
+## 1.0.0-rc.53
+
+### Patch Changes
+
+- Updated dependencies [[`42b301ed`](https://github.com/thorswap/SwapKit/commit/42b301ed664bc9b828cdf16ef70c47963eaa31fa)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.45
+  - @swapkit/core@1.0.0-rc.51
+  - @swapkit/wallet-keystore@1.0.0-rc.51
+  - @swapkit/wallet-ledger@1.0.0-rc.49
+  - @swapkit/wallet-okx@1.0.0-rc.49
+  - @swapkit/wallet-trezor@1.0.0-rc.47
+  - @swapkit/wallet-xdefi@1.0.0-rc.50
+
+## 1.0.0-rc.52
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.44
+  - @swapkit/toolbox-cosmos@1.0.0-rc.44
+  - @swapkit/wallet-keystore@1.0.0-rc.50
+  - @swapkit/toolbox-utxo@1.0.0-rc.44
+  - @swapkit/wallet-ledger@1.0.0-rc.48
+  - @swapkit/wallet-trezor@1.0.0-rc.46
+  - @swapkit/types@1.0.0-rc.22
+  - @swapkit/toolbox-evm@1.0.0-rc.44
+  - @swapkit/wallet-keplr@1.0.0-rc.44
+  - @swapkit/wallet-xdefi@1.0.0-rc.49
+  - @swapkit/core@1.0.0-rc.50
+  - @swapkit/api@1.0.0-rc.22
+  - @swapkit/wallet-okx@1.0.0-rc.48
+  - @swapkit/wallet-wc@1.0.0-rc.46
+
+## 1.0.0-rc.51
+
+### Patch Changes
+
+- Bump for explorer & synths
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.43
+  - @swapkit/toolbox-cosmos@1.0.0-rc.43
+  - @swapkit/wallet-keystore@1.0.0-rc.49
+  - @swapkit/toolbox-utxo@1.0.0-rc.43
+  - @swapkit/wallet-ledger@1.0.0-rc.47
+  - @swapkit/wallet-trezor@1.0.0-rc.45
+  - @swapkit/types@1.0.0-rc.21
+  - @swapkit/toolbox-evm@1.0.0-rc.43
+  - @swapkit/wallet-keplr@1.0.0-rc.43
+  - @swapkit/wallet-xdefi@1.0.0-rc.48
+  - @swapkit/core@1.0.0-rc.49
+  - @swapkit/api@1.0.0-rc.21
+  - @swapkit/wallet-okx@1.0.0-rc.47
+  - @swapkit/wallet-wc@1.0.0-rc.45
+
+## 1.0.0-rc.50
+
+### Patch Changes
+
+- Bump
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.42
+  - @swapkit/toolbox-cosmos@1.0.0-rc.42
+  - @swapkit/wallet-keystore@1.0.0-rc.48
+  - @swapkit/toolbox-utxo@1.0.0-rc.42
+  - @swapkit/wallet-ledger@1.0.0-rc.46
+  - @swapkit/wallet-trezor@1.0.0-rc.44
+  - @swapkit/types@1.0.0-rc.20
+  - @swapkit/toolbox-evm@1.0.0-rc.42
+  - @swapkit/wallet-keplr@1.0.0-rc.42
+  - @swapkit/wallet-xdefi@1.0.0-rc.47
+  - @swapkit/core@1.0.0-rc.48
+  - @swapkit/api@1.0.0-rc.20
+  - @swapkit/wallet-okx@1.0.0-rc.46
+  - @swapkit/wallet-wc@1.0.0-rc.44
+
+## 1.0.0-rc.49
+
+### Patch Changes
+
+- tests
+
+- toUrl
+
+- [`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Update toString on synths
+
+- Updated dependencies [[`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.41
+  - @swapkit/toolbox-cosmos@1.0.0-rc.41
+  - @swapkit/wallet-keystore@1.0.0-rc.47
+  - @swapkit/toolbox-utxo@1.0.0-rc.41
+  - @swapkit/wallet-ledger@1.0.0-rc.45
+  - @swapkit/wallet-trezor@1.0.0-rc.43
+  - @swapkit/types@1.0.0-rc.19
+  - @swapkit/toolbox-evm@1.0.0-rc.41
+  - @swapkit/wallet-keplr@1.0.0-rc.41
+  - @swapkit/wallet-xdefi@1.0.0-rc.46
+  - @swapkit/core@1.0.0-rc.47
+  - @swapkit/api@1.0.0-rc.19
+  - @swapkit/wallet-okx@1.0.0-rc.45
+  - @swapkit/wallet-wc@1.0.0-rc.43
+
+## 1.0.0-rc.48
+
+### Patch Changes
+
+- Patch typeforce
+
+- Updated dependencies [[`7d25148f`](https://github.com/thorswap/SwapKit/commit/7d25148f0ffcbb430690f9cf53c2e711a8385620)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.40
+  - @swapkit/toolbox-utxo@1.0.0-rc.40
+  - @swapkit/wallet-ledger@1.0.0-rc.44
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.40
+  - @swapkit/wallet-keystore@1.0.0-rc.46
+  - @swapkit/wallet-trezor@1.0.0-rc.42
+  - @swapkit/types@1.0.0-rc.18
+  - @swapkit/toolbox-evm@1.0.0-rc.40
+  - @swapkit/wallet-keplr@1.0.0-rc.40
+  - @swapkit/wallet-xdefi@1.0.0-rc.45
+  - @swapkit/core@1.0.0-rc.46
+  - @swapkit/api@1.0.0-rc.18
+  - @swapkit/wallet-okx@1.0.0-rc.44
+  - @swapkit/wallet-wc@1.0.0-rc.42
+
+## 1.0.0-rc.47
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/core@1.0.0-rc.45
+  - @swapkit/toolbox-cosmos@1.0.0-rc.39
+  - @swapkit/toolbox-evm@1.0.0-rc.39
+  - @swapkit/toolbox-utxo@1.0.0-rc.39
+  - @swapkit/wallet-keplr@1.0.0-rc.39
+  - @swapkit/wallet-keystore@1.0.0-rc.45
+  - @swapkit/wallet-ledger@1.0.0-rc.43
+  - @swapkit/wallet-okx@1.0.0-rc.43
+  - @swapkit/wallet-trezor@1.0.0-rc.41
+  - @swapkit/wallet-xdefi@1.0.0-rc.44
+  - @swapkit/wallet-wc@1.0.0-rc.41
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.39
+
+## 1.0.0-rc.46
+
+### Patch Changes
+
+- [#414](https://github.com/thorswap/SwapKit/pull/414) [`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix Division precision
+
+- Updated dependencies [[`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.38
+  - @swapkit/toolbox-cosmos@1.0.0-rc.38
+  - @swapkit/wallet-keystore@1.0.0-rc.44
+  - @swapkit/toolbox-utxo@1.0.0-rc.38
+  - @swapkit/wallet-ledger@1.0.0-rc.42
+  - @swapkit/wallet-trezor@1.0.0-rc.40
+  - @swapkit/types@1.0.0-rc.17
+  - @swapkit/toolbox-evm@1.0.0-rc.38
+  - @swapkit/wallet-keplr@1.0.0-rc.38
+  - @swapkit/wallet-xdefi@1.0.0-rc.43
+  - @swapkit/core@1.0.0-rc.44
+  - @swapkit/api@1.0.0-rc.17
+  - @swapkit/wallet-okx@1.0.0-rc.42
+  - @swapkit/wallet-wc@1.0.0-rc.40
+
+## 1.0.0-rc.45
+
+### Patch Changes
+
+- Update dependencies with crypto-js 4.2.0
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.37
+  - @swapkit/toolbox-cosmos@1.0.0-rc.37
+  - @swapkit/wallet-keystore@1.0.0-rc.43
+  - @swapkit/toolbox-utxo@1.0.0-rc.37
+  - @swapkit/wallet-ledger@1.0.0-rc.41
+  - @swapkit/wallet-trezor@1.0.0-rc.39
+  - @swapkit/types@1.0.0-rc.16
+  - @swapkit/toolbox-evm@1.0.0-rc.37
+  - @swapkit/wallet-keplr@1.0.0-rc.37
+  - @swapkit/wallet-xdefi@1.0.0-rc.42
+  - @swapkit/core@1.0.0-rc.43
+  - @swapkit/api@1.0.0-rc.16
+  - @swapkit/wallet-okx@1.0.0-rc.41
+  - @swapkit/wallet-wc@1.0.0-rc.39
+
+## 1.0.0-rc.44
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/core@1.0.0-rc.42
+  - @swapkit/toolbox-cosmos@1.0.0-rc.36
+  - @swapkit/toolbox-evm@1.0.0-rc.36
+  - @swapkit/toolbox-utxo@1.0.0-rc.36
+  - @swapkit/wallet-keplr@1.0.0-rc.36
+  - @swapkit/wallet-keystore@1.0.0-rc.42
+  - @swapkit/wallet-ledger@1.0.0-rc.40
+  - @swapkit/wallet-okx@1.0.0-rc.40
+  - @swapkit/wallet-trezor@1.0.0-rc.38
+  - @swapkit/wallet-xdefi@1.0.0-rc.41
+  - @swapkit/wallet-wc@1.0.0-rc.38
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.36
+
+## 1.0.0-rc.43
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-xdefi@1.0.0-rc.40
+  - @swapkit/core@1.0.0-rc.41
+
+## 1.0.0-rc.42
+
+### Patch Changes
+
+- Testout publish
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.35
+  - @swapkit/toolbox-cosmos@1.0.0-rc.35
+  - @swapkit/wallet-keystore@1.0.0-rc.41
+  - @swapkit/toolbox-utxo@1.0.0-rc.35
+  - @swapkit/wallet-ledger@1.0.0-rc.39
+  - @swapkit/wallet-trezor@1.0.0-rc.37
+  - @swapkit/types@1.0.0-rc.15
+  - @swapkit/toolbox-evm@1.0.0-rc.35
+  - @swapkit/wallet-keplr@1.0.0-rc.35
+  - @swapkit/wallet-xdefi@1.0.0-rc.39
+  - @swapkit/core@1.0.0-rc.40
+  - @swapkit/api@1.0.0-rc.15
+  - @swapkit/wallet-okx@1.0.0-rc.39
+  - @swapkit/wallet-wc@1.0.0-rc.37
+
+## 1.0.0-rc.41
+
+### Patch Changes
+
+- Update package name generation
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.34
+  - @swapkit/toolbox-cosmos@1.0.0-rc.34
+  - @swapkit/wallet-keystore@1.0.0-rc.40
+  - @swapkit/toolbox-utxo@1.0.0-rc.34
+  - @swapkit/wallet-ledger@1.0.0-rc.38
+  - @swapkit/wallet-trezor@1.0.0-rc.36
+  - @swapkit/types@1.0.0-rc.14
+  - @swapkit/toolbox-evm@1.0.0-rc.34
+  - @swapkit/wallet-keplr@1.0.0-rc.34
+  - @swapkit/wallet-xdefi@1.0.0-rc.38
+  - @swapkit/core@1.0.0-rc.39
+  - @swapkit/api@1.0.0-rc.14
+  - @swapkit/wallet-okx@1.0.0-rc.38
+  - @swapkit/wallet-wc@1.0.0-rc.36
+
+## 1.0.0-rc.40
+
+### Patch Changes
+
+- [#404](https://github.com/thorswap/SwapKit/pull/404) [`af8ed16f`](https://github.com/thorswap/SwapKit/commit/af8ed16f77d15570f99a6062b7ba81273ff84b29) Thanks [@chillios-ts](https://github.com/chillios-ts)! - New chains support for evm/cosmos wallets
+
+- Updated dependencies [[`af8ed16f`](https://github.com/thorswap/SwapKit/commit/af8ed16f77d15570f99a6062b7ba81273ff84b29)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.33
+  - @swapkit/toolbox-cosmos@1.0.0-rc.33
+  - @swapkit/wallet-keystore@1.0.0-rc.39
+  - @swapkit/toolbox-utxo@1.0.0-rc.33
+  - @swapkit/wallet-ledger@1.0.0-rc.37
+  - @swapkit/wallet-trezor@1.0.0-rc.35
+  - @swapkit/types@1.0.0-rc.13
+  - @swapkit/toolbox-evm@1.0.0-rc.33
+  - @swapkit/wallet-keplr@1.0.0-rc.33
+  - @swapkit/wallet-xdefi@1.0.0-rc.37
+  - @swapkit/core@1.0.0-rc.38
+  - @swapkit/api@1.0.0-rc.13
+  - @swapkit/wallet-okx@1.0.0-rc.37
+  - @swapkit/wallet-wc@1.0.0-rc.35
+
+## 1.0.0-rc.39
+
+### Patch Changes
+
+- bump packages
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.32
+  - @swapkit/toolbox-cosmos@1.0.0-rc.32
+  - @swapkit/wallet-keystore@1.0.0-rc.38
+  - @swapkit/toolbox-utxo@1.0.0-rc.32
+  - @swapkit/wallet-ledger@1.0.0-rc.36
+  - @swapkit/wallet-trezor@1.0.0-rc.34
+  - @swapkit/types@1.0.0-rc.12
+  - @swapkit/toolbox-evm@1.0.0-rc.32
+  - @swapkit/wallet-keplr@1.0.0-rc.32
+  - @swapkit/wallet-xdefi@1.0.0-rc.36
+  - @swapkit/core@1.0.0-rc.37
+  - @swapkit/api@1.0.0-rc.12
+  - @swapkit/wallet-okx@1.0.0-rc.36
+  - @swapkit/wallet-wc@1.0.0-rc.34
+
+## 1.0.0-rc.38
+
+### Patch Changes
+
+- addLiquidityPart and fix toCurrency
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.31
+  - @swapkit/toolbox-cosmos@1.0.0-rc.31
+  - @swapkit/wallet-keystore@1.0.0-rc.37
+  - @swapkit/toolbox-utxo@1.0.0-rc.31
+  - @swapkit/wallet-ledger@1.0.0-rc.35
+  - @swapkit/wallet-trezor@1.0.0-rc.33
+  - @swapkit/types@1.0.0-rc.11
+  - @swapkit/toolbox-evm@1.0.0-rc.31
+  - @swapkit/wallet-keplr@1.0.0-rc.31
+  - @swapkit/wallet-xdefi@1.0.0-rc.35
+  - @swapkit/core@1.0.0-rc.36
+  - @swapkit/api@1.0.0-rc.11
+  - @swapkit/wallet-okx@1.0.0-rc.35
+  - @swapkit/wallet-wc@1.0.0-rc.33
+
+## 1.0.0-rc.37
+
+### Patch Changes
+
+- Updated dependencies [[`472dec44`](https://github.com/thorswap/SwapKit/commit/472dec4458866c426cc2a462a157de1e3c886265)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.30
+  - @swapkit/core@1.0.0-rc.35
+  - @swapkit/wallet-keystore@1.0.0-rc.36
+  - @swapkit/wallet-ledger@1.0.0-rc.34
+  - @swapkit/wallet-okx@1.0.0-rc.34
+  - @swapkit/wallet-trezor@1.0.0-rc.32
+  - @swapkit/wallet-xdefi@1.0.0-rc.34
+
+## 1.0.0-rc.36
+
+### Patch Changes
+
+- remove cache asset
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.30
+  - @swapkit/toolbox-cosmos@1.0.0-rc.30
+  - @swapkit/wallet-keystore@1.0.0-rc.35
+  - @swapkit/toolbox-utxo@1.0.0-rc.29
+  - @swapkit/wallet-ledger@1.0.0-rc.33
+  - @swapkit/wallet-trezor@1.0.0-rc.31
+  - @swapkit/types@1.0.0-rc.10
+  - @swapkit/toolbox-evm@1.0.0-rc.30
+  - @swapkit/wallet-keplr@1.0.0-rc.30
+  - @swapkit/wallet-xdefi@1.0.0-rc.33
+  - @swapkit/core@1.0.0-rc.34
+  - @swapkit/api@1.0.0-rc.10
+  - @swapkit/wallet-okx@1.0.0-rc.33
+  - @swapkit/wallet-wc@1.0.0-rc.32
+
 ## 1.0.0-rc.35
 
 ### Patch Changes

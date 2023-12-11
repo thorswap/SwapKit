@@ -4,8 +4,11 @@ import { getWalletForChain } from './helpers.ts';
 import type { OKXConfig } from './types.ts';
 
 const OKX_SUPPORTED_CHAINS = [
+  Chain.Arbitrum,
   Chain.Avalanche,
   Chain.BinanceSmartChain,
+  Chain.Optimism,
+  Chain.Polygon,
   Chain.Bitcoin,
   Chain.Ethereum,
   Chain.Cosmos,

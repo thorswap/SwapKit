@@ -28,6 +28,7 @@ export type TransferParams = {
   assetValue: AssetValue;
   memo?: string;
   fee?: StdFee;
+  feeOptionKey?: FeeOption;
 };
 
 export type Signer = {

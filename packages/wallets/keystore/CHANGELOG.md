@@ -1,5 +1,242 @@
 # @swapkit/wallet-keystore
 
+## 1.0.0-rc.54
+
+### Patch Changes
+
+- Updated dependencies [[`49d477a9`](https://github.com/thorswap/SwapKit/commit/49d477a9b01a97f861352cd6e15743e874b98170)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.47
+
+## 1.0.0-rc.53
+
+### Patch Changes
+
+- Bump to sk links
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.46
+  - @swapkit/helpers@1.0.0-rc.44
+  - @swapkit/toolbox-utxo@1.0.0-rc.47
+  - @swapkit/types@1.0.0-rc.23
+  - @swapkit/toolbox-evm@1.0.0-rc.46
+
+## 1.0.0-rc.52
+
+### Patch Changes
+
+- Updated dependencies [[`76ca073d`](https://github.com/thorswap/SwapKit/commit/76ca073dd9e57217b08a4b82cc821b8b75bd3120)]:
+  - @swapkit/helpers@1.0.0-rc.43
+  - @swapkit/toolbox-cosmos@1.0.0-rc.45
+  - @swapkit/toolbox-evm@1.0.0-rc.45
+  - @swapkit/toolbox-utxo@1.0.0-rc.46
+
+## 1.0.0-rc.51
+
+### Patch Changes
+
+- Updated dependencies [[`42b301ed`](https://github.com/thorswap/SwapKit/commit/42b301ed664bc9b828cdf16ef70c47963eaa31fa)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.45
+
+## 1.0.0-rc.50
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.44
+  - @swapkit/helpers@1.0.0-rc.42
+  - @swapkit/toolbox-utxo@1.0.0-rc.44
+  - @swapkit/types@1.0.0-rc.22
+  - @swapkit/toolbox-evm@1.0.0-rc.44
+
+## 1.0.0-rc.49
+
+### Patch Changes
+
+- Bump for explorer & synths
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.43
+  - @swapkit/helpers@1.0.0-rc.41
+  - @swapkit/toolbox-utxo@1.0.0-rc.43
+  - @swapkit/types@1.0.0-rc.21
+  - @swapkit/toolbox-evm@1.0.0-rc.43
+
+## 1.0.0-rc.48
+
+### Patch Changes
+
+- Bump
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.42
+  - @swapkit/helpers@1.0.0-rc.40
+  - @swapkit/toolbox-utxo@1.0.0-rc.42
+  - @swapkit/types@1.0.0-rc.20
+  - @swapkit/toolbox-evm@1.0.0-rc.42
+
+## 1.0.0-rc.47
+
+### Patch Changes
+
+- tests
+
+- toUrl
+
+- [`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Update toString on synths
+
+- Updated dependencies [[`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.41
+  - @swapkit/helpers@1.0.0-rc.39
+  - @swapkit/toolbox-utxo@1.0.0-rc.41
+  - @swapkit/types@1.0.0-rc.19
+  - @swapkit/toolbox-evm@1.0.0-rc.41
+
+## 1.0.0-rc.46
+
+### Patch Changes
+
+- Patch typeforce
+
+- Updated dependencies [[`7d25148f`](https://github.com/thorswap/SwapKit/commit/7d25148f0ffcbb430690f9cf53c2e711a8385620)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.40
+  - @swapkit/toolbox-utxo@1.0.0-rc.40
+  - @swapkit/helpers@1.0.0-rc.38
+  - @swapkit/types@1.0.0-rc.18
+  - @swapkit/toolbox-evm@1.0.0-rc.40
+
+## 1.0.0-rc.45
+
+### Patch Changes
+
+- Updated dependencies [[`76ef0067`](https://github.com/thorswap/SwapKit/commit/76ef00670da6505e3b7e1602d76ae6abcbaaf141), [`ee70c6e3`](https://github.com/thorswap/SwapKit/commit/ee70c6e3ce0fe74897227b415adae47b3b590c93)]:
+  - @swapkit/helpers@1.0.0-rc.37
+  - @swapkit/toolbox-cosmos@1.0.0-rc.39
+  - @swapkit/toolbox-evm@1.0.0-rc.39
+  - @swapkit/toolbox-utxo@1.0.0-rc.39
+
+## 1.0.0-rc.44
+
+### Patch Changes
+
+- [#414](https://github.com/thorswap/SwapKit/pull/414) [`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix Division precision
+
+- Updated dependencies [[`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.38
+  - @swapkit/helpers@1.0.0-rc.36
+  - @swapkit/toolbox-utxo@1.0.0-rc.38
+  - @swapkit/types@1.0.0-rc.17
+  - @swapkit/toolbox-evm@1.0.0-rc.38
+
+## 1.0.0-rc.43
+
+### Patch Changes
+
+- Update dependencies with crypto-js 4.2.0
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.37
+  - @swapkit/helpers@1.0.0-rc.35
+  - @swapkit/toolbox-utxo@1.0.0-rc.37
+  - @swapkit/types@1.0.0-rc.16
+  - @swapkit/toolbox-evm@1.0.0-rc.37
+
+## 1.0.0-rc.42
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.34
+  - @swapkit/toolbox-cosmos@1.0.0-rc.36
+  - @swapkit/toolbox-evm@1.0.0-rc.36
+  - @swapkit/toolbox-utxo@1.0.0-rc.36
+
+## 1.0.0-rc.41
+
+### Patch Changes
+
+- Testout publish
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.35
+  - @swapkit/helpers@1.0.0-rc.33
+  - @swapkit/toolbox-utxo@1.0.0-rc.35
+  - @swapkit/types@1.0.0-rc.15
+  - @swapkit/toolbox-evm@1.0.0-rc.35
+
+## 1.0.0-rc.40
+
+### Patch Changes
+
+- Update package name generation
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.34
+  - @swapkit/helpers@1.0.0-rc.32
+  - @swapkit/toolbox-utxo@1.0.0-rc.34
+  - @swapkit/types@1.0.0-rc.14
+  - @swapkit/toolbox-evm@1.0.0-rc.34
+
+## 1.0.0-rc.39
+
+### Patch Changes
+
+- [#404](https://github.com/thorswap/SwapKit/pull/404) [`af8ed16f`](https://github.com/thorswap/SwapKit/commit/af8ed16f77d15570f99a6062b7ba81273ff84b29) Thanks [@chillios-ts](https://github.com/chillios-ts)! - New chains support for evm/cosmos wallets
+
+- Updated dependencies [[`af8ed16f`](https://github.com/thorswap/SwapKit/commit/af8ed16f77d15570f99a6062b7ba81273ff84b29)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.33
+  - @swapkit/helpers@1.0.0-rc.31
+  - @swapkit/toolbox-utxo@1.0.0-rc.33
+  - @swapkit/types@1.0.0-rc.13
+  - @swapkit/toolbox-evm@1.0.0-rc.33
+
+## 1.0.0-rc.38
+
+### Patch Changes
+
+- bump packages
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.32
+  - @swapkit/helpers@1.0.0-rc.30
+  - @swapkit/toolbox-utxo@1.0.0-rc.32
+  - @swapkit/types@1.0.0-rc.12
+  - @swapkit/toolbox-evm@1.0.0-rc.32
+
+## 1.0.0-rc.37
+
+### Patch Changes
+
+- addLiquidityPart and fix toCurrency
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.31
+  - @swapkit/helpers@1.0.0-rc.29
+  - @swapkit/toolbox-utxo@1.0.0-rc.31
+  - @swapkit/types@1.0.0-rc.11
+  - @swapkit/toolbox-evm@1.0.0-rc.31
+
+## 1.0.0-rc.36
+
+### Patch Changes
+
+- Updated dependencies [[`472dec44`](https://github.com/thorswap/SwapKit/commit/472dec4458866c426cc2a462a157de1e3c886265)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.30
+
+## 1.0.0-rc.35
+
+### Patch Changes
+
+- remove cache asset
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.30
+  - @swapkit/helpers@1.0.0-rc.28
+  - @swapkit/toolbox-utxo@1.0.0-rc.29
+  - @swapkit/types@1.0.0-rc.10
+  - @swapkit/toolbox-evm@1.0.0-rc.30
+
 ## 1.0.0-rc.34
 
 ### Patch Changes

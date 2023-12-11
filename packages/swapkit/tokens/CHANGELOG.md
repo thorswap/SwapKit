@@ -1,5 +1,101 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.24
+
+### Patch Changes
+
+- Bump to sk links
+
+## 1.0.0-rc.23
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
+## 1.0.0-rc.22
+
+### Patch Changes
+
+- Bump for explorer & synths
+
+## 1.0.0-rc.21
+
+### Patch Changes
+
+- Bump
+
+## 1.0.0-rc.20
+
+### Patch Changes
+
+- tests
+
+- toUrl
+
+- [`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Update toString on synths
+
+## 1.0.0-rc.19
+
+### Patch Changes
+
+- Patch typeforce
+
+## 1.0.0-rc.18
+
+### Patch Changes
+
+- [#414](https://github.com/thorswap/SwapKit/pull/414) [`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix Division precision
+
+## 1.0.0-rc.17
+
+### Patch Changes
+
+- Update dependencies with crypto-js 4.2.0
+
+## 1.0.0-rc.16
+
+### Patch Changes
+
+- bump tokens
+
+## 1.0.0-rc.15
+
+### Patch Changes
+
+- Testout publish
+
+## 1.0.0-rc.14
+
+### Patch Changes
+
+- Update package name generation
+
+## 1.0.0-rc.13
+
+### Patch Changes
+
+- [#404](https://github.com/thorswap/SwapKit/pull/404) [`af8ed16f`](https://github.com/thorswap/SwapKit/commit/af8ed16f77d15570f99a6062b7ba81273ff84b29) Thanks [@chillios-ts](https://github.com/chillios-ts)! - New chains support for evm/cosmos wallets
+
+## 1.0.0-rc.12
+
+### Patch Changes
+
+- bump packages
+
+## 1.0.0-rc.11
+
+### Patch Changes
+
+- [`fd2de5fd`](https://github.com/thorswap/SwapKit/commit/fd2de5fdc7a83601acda6f65f83a0ce3e6c4b99c) Thanks [@GiMa-Maya](https://github.com/GiMa-Maya)! - Update maya tokens
+
+- addLiquidityPart and fix toCurrency
+
+## 1.0.0-rc.10
+
+### Patch Changes
+
+- remove cache asset
+
 ## 1.0.0-rc.9
 
 ### Patch Changes

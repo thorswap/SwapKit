@@ -27,11 +27,17 @@ const DEFAULT_THORCHAIN_FEE = {
 };
 
 const SUPPORTED_CHAINS = [
-  Chain.Binance,
+  Chain.Binance, // Not supported by WC
   Chain.BinanceSmartChain,
   Chain.Ethereum,
   Chain.THORChain,
   Chain.Avalanche,
+  Chain.Arbitrum,
+  Chain.Optimism,
+  Chain.Polygon,
+  Chain.Maya,
+  Chain.Cosmos,
+  Chain.Kujira,
 ] as const;
 
 const getToolbox = async ({
@@ -55,27 +61,27 @@ const getToolbox = async ({
   switch (chain) {
     case Chain.Avalanche:
     case Chain.BinanceSmartChain:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon:
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey)
         throw new Error('Ethplorer API key not found');
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
 
-      const { getProvider, ETHToolbox, AVAXToolbox, BSCToolbox } = await import(
-        '@swapkit/toolbox-evm'
-      );
+      const { getProvider, getToolboxByChain } = await import('@swapkit/toolbox-evm');
 
       const provider = getProvider(chain);
       const signer = await getEVMSigner({ walletconnect, chain, provider });
+      const toolbox = await getToolboxByChain(chain);
 
-      const toolbox =
-        chain === Chain.Ethereum
-          ? ETHToolbox({ provider, signer, ethplorerApiKey: ethplorerApiKey as string })
-          : chain === Chain.Avalanche
-          ? AVAXToolbox({ provider, signer, covalentApiKey })
-          : BSCToolbox({ provider, signer, covalentApiKey });
-
-      return toolbox;
+      return toolbox({
+        provider,
+        signer,
+        ethplorerApiKey: ethplorerApiKey as string,
+        covalentApiKey,
+      });
     }
     case Chain.Binance: {
       const { sortObject, BinanceToolbox } = await import('@swapkit/toolbox-cosmos');

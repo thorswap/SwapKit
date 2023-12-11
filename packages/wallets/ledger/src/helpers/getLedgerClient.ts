@@ -3,6 +3,7 @@ import { Chain } from '@swapkit/types';
 
 import { AvalancheLedger } from '../clients/avalanche.ts';
 import { BinanceLedger } from '../clients/binance/index.ts';
+import { BSCLedger } from '../clients/binancesmartchain.ts';
 import { BitcoinLedger } from '../clients/bitcoin.ts';
 import { BitcoinCashLedger } from '../clients/bitcoincash.ts';
 import { CosmosLedger } from '../clients/cosmos.ts';
@@ -36,11 +37,19 @@ export const getLedgerClient = async ({
     case Chain.Litecoin:
       return new LitecoinLedger(derivationPath);
     case Chain.Ethereum:
+    case Chain.BinanceSmartChain:
     case Chain.Avalanche: {
       const { getProvider } = await import('@swapkit/toolbox-evm');
       const params = { provider: getProvider(chain), derivationPath };
 
-      return chain === Chain.Avalanche ? new AvalancheLedger(params) : new EthereumLedger(params);
+      switch (chain) {
+        case Chain.BinanceSmartChain:
+          return new BSCLedger(params);
+        case Chain.Avalanche:
+          return new AvalancheLedger(params);
+        default:
+          return new EthereumLedger(params);
+      }
     }
   }
 };

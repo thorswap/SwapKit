@@ -1,5 +1,184 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.47
+
+### Patch Changes
+
+- Bump to sk links
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.44
+  - @swapkit/types@1.0.0-rc.23
+
+## 1.0.0-rc.46
+
+### Patch Changes
+
+- Updated dependencies [[`76ca073d`](https://github.com/thorswap/SwapKit/commit/76ca073dd9e57217b08a4b82cc821b8b75bd3120)]:
+  - @swapkit/helpers@1.0.0-rc.43
+
+## 1.0.0-rc.45
+
+### Patch Changes
+
+- [#421](https://github.com/thorswap/SwapKit/pull/421) [`42b301ed`](https://github.com/thorswap/SwapKit/commit/42b301ed664bc9b828cdf16ef70c47963eaa31fa) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Content-Type for broadcast request
+
+## 1.0.0-rc.44
+
+### Patch Changes
+
+- Update addLiquidityPart for symmetrics
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.42
+  - @swapkit/types@1.0.0-rc.22
+
+## 1.0.0-rc.43
+
+### Patch Changes
+
+- Bump for explorer & synths
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.41
+  - @swapkit/types@1.0.0-rc.21
+
+## 1.0.0-rc.42
+
+### Patch Changes
+
+- Bump
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.40
+  - @swapkit/types@1.0.0-rc.20
+
+## 1.0.0-rc.41
+
+### Patch Changes
+
+- tests
+
+- toUrl
+
+- [`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Update toString on synths
+
+- Updated dependencies [[`9af9e284`](https://github.com/thorswap/SwapKit/commit/9af9e2845126818d4dace38457e219fffa1b3a8c)]:
+  - @swapkit/helpers@1.0.0-rc.39
+  - @swapkit/types@1.0.0-rc.19
+
+## 1.0.0-rc.40
+
+### Patch Changes
+
+- [#418](https://github.com/thorswap/SwapKit/pull/418) [`7d25148f`](https://github.com/thorswap/SwapKit/commit/7d25148f0ffcbb430690f9cf53c2e711a8385620) Thanks [@towanTG](https://github.com/towanTG)! - Adds dynamic gaia gas and fixes default utxo gas price
+
+- Patch typeforce
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.38
+  - @swapkit/types@1.0.0-rc.18
+
+## 1.0.0-rc.39
+
+### Patch Changes
+
+- Updated dependencies [[`76ef0067`](https://github.com/thorswap/SwapKit/commit/76ef00670da6505e3b7e1602d76ae6abcbaaf141), [`ee70c6e3`](https://github.com/thorswap/SwapKit/commit/ee70c6e3ce0fe74897227b415adae47b3b590c93)]:
+  - @swapkit/helpers@1.0.0-rc.37
+
+## 1.0.0-rc.38
+
+### Patch Changes
+
+- [#414](https://github.com/thorswap/SwapKit/pull/414) [`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c) Thanks [@chillios-ts](https://github.com/chillios-ts)! - Fix Division precision
+
+- Updated dependencies [[`2c3f649f`](https://github.com/thorswap/SwapKit/commit/2c3f649fdebb5463e51c2929d6b3091852a59e9c)]:
+  - @swapkit/helpers@1.0.0-rc.36
+  - @swapkit/types@1.0.0-rc.17
+
+## 1.0.0-rc.37
+
+### Patch Changes
+
+- Update dependencies with crypto-js 4.2.0
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.35
+  - @swapkit/types@1.0.0-rc.16
+
+## 1.0.0-rc.36
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.34
+
+## 1.0.0-rc.35
+
+### Patch Changes
+
+- Testout publish
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.33
+  - @swapkit/types@1.0.0-rc.15
+
+## 1.0.0-rc.34
+
+### Patch Changes
+
+- Update package name generation
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.32
+  - @swapkit/types@1.0.0-rc.14
+
+## 1.0.0-rc.33
+
+### Patch Changes
+
+- [#404](https://github.com/thorswap/SwapKit/pull/404) [`af8ed16f`](https://github.com/thorswap/SwapKit/commit/af8ed16f77d15570f99a6062b7ba81273ff84b29) Thanks [@chillios-ts](https://github.com/chillios-ts)! - New chains support for evm/cosmos wallets
+
+- Updated dependencies [[`af8ed16f`](https://github.com/thorswap/SwapKit/commit/af8ed16f77d15570f99a6062b7ba81273ff84b29)]:
+  - @swapkit/helpers@1.0.0-rc.31
+  - @swapkit/types@1.0.0-rc.13
+
+## 1.0.0-rc.32
+
+### Patch Changes
+
+- bump packages
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.30
+  - @swapkit/types@1.0.0-rc.12
+
+## 1.0.0-rc.31
+
+### Patch Changes
+
+- addLiquidityPart and fix toCurrency
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.29
+  - @swapkit/types@1.0.0-rc.11
+
+## 1.0.0-rc.30
+
+### Patch Changes
+
+- [#399](https://github.com/thorswap/SwapKit/pull/399) [`472dec44`](https://github.com/thorswap/SwapKit/commit/472dec4458866c426cc2a462a157de1e3c886265) Thanks [@towanTG](https://github.com/towanTG)! - Fixes bug in coinselect
+
+## 1.0.0-rc.29
+
+### Patch Changes
+
+- remove cache asset
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.28
+  - @swapkit/types@1.0.0-rc.10
+
 ## 1.0.0-rc.28
 
 ### Patch Changes

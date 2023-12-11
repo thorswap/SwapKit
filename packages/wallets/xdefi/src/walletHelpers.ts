@@ -1,8 +1,8 @@
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@swapkit/helpers';
 import type { TransferParams } from '@swapkit/toolbox-cosmos';
-import type { FeeOption } from '@swapkit/types';
-import { Chain, ChainId, RPCUrl } from '@swapkit/types';
+import type { ChainId, FeeOption } from '@swapkit/types';
+import { Chain, ChainToChainId, RPCUrl } from '@swapkit/types';
 import type { Eip1193Provider } from 'ethers';
 
 type TransactionMethod = 'transfer' | 'deposit';
@@ -29,6 +29,9 @@ const getXDEFIProvider = (chain: Chain) => {
     case Chain.Ethereum:
     case Chain.Avalanche:
     case Chain.BinanceSmartChain:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon:
       return window.xfi?.ethereum;
     case Chain.Binance:
       return window.xfi?.binance;
@@ -43,6 +46,7 @@ const getXDEFIProvider = (chain: Chain) => {
     case Chain.THORChain:
       return window.xfi?.thorchain;
     case Chain.Cosmos:
+    case Chain.Kujira:
       return window.xfi?.keplr;
     default:
       return undefined;
@@ -72,21 +76,31 @@ export const getXDEFIAddress = async (chain: Chain) => {
   const eipProvider = getXDEFIProvider(chain) as Eip1193Provider;
   if (!eipProvider) throw new Error('XDEFI provider is not defined');
 
-  if (chain === Chain.Cosmos) {
+  if ([Chain.Cosmos, Chain.Kujira].includes(chain)) {
     const provider = getXDEFIProvider(Chain.Cosmos) as Keplr;
     if (!provider) throw new Error('XDEFI provider is not defined');
 
     // Enabling before using the Keplr is recommended.
     // This method will ask the user whether to allow access if they haven't visited this website.
     // Also, it will request that the user unlock the wallet if the wallet is locked.
-    await (provider as Keplr).enable(ChainId.Cosmos);
+    const chainId = ChainToChainId[chain];
+    await (provider as Keplr).enable(chainId);
 
-    const offlineSigner = provider.getOfflineSigner(ChainId.Cosmos);
+    const offlineSigner = provider.getOfflineSigner(chainId);
 
     const [{ address }] = await offlineSigner.getAccounts();
 
     return address;
-  } else if ([Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain)) {
+  } else if (
+    [
+      Chain.Ethereum,
+      Chain.Avalanche,
+      Chain.BinanceSmartChain,
+      Chain.Arbitrum,
+      Chain.Optimism,
+      Chain.Polygon,
+    ].includes(chain)
+  ) {
     const response = await eipProvider.request({
       method: 'eth_requestAccounts',
       params: [],
@@ -119,9 +133,13 @@ export const walletTransfer = async (
   const params = [
     {
       amount: { amount: assetValue.getBaseValue('number'), decimals: assetValue.decimal },
-      asset: { chain: assetValue.chain, symbol: assetValue.symbol, ticker: assetValue.symbol },
-      from,
+      asset: {
+        chain: assetValue.chain,
+        symbol: assetValue.symbol.toUpperCase(),
+        ticker: assetValue.symbol.toUpperCase(),
+      },
       memo,
+      from,
       recipient,
       gasLimit,
     },

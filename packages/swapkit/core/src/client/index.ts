@@ -54,6 +54,25 @@ const getEmptyWalletStructure = () =>
     {} as Record<Chain, null>,
   );
 
+const validateAddress = async ({
+  chain,
+  address,
+}: {
+  chain: Chain;
+  address: string | undefined;
+}) => {
+  if (!address) return false;
+  switch (chain) {
+    case Chain.Bitcoin:
+      if (address.startsWith('bc1p')) {
+        return false;
+      }
+      return true;
+    default:
+      return true;
+  }
+};
+
 export class SwapKitCore<T = ''> {
   public connectedChains: Wallet = getEmptyWalletStructure();
   public connectedWallets: WalletMethods = getEmptyWalletStructure();
@@ -79,8 +98,8 @@ export class SwapKitCore<T = ''> {
     const evmChain = quoteMode.startsWith('ERC20-')
       ? Chain.Ethereum
       : quoteMode.startsWith('ARC20-')
-      ? Chain.Avalanche
-      : Chain.BinanceSmartChain;
+        ? Chain.Avalanche
+        : Chain.BinanceSmartChain;
 
     if (!route.complete) throw new SwapKitError('core_swap_route_not_complete');
 
@@ -220,6 +239,8 @@ export class SwapKitCore<T = ''> {
   }: CoreTxParams & { router?: string }) => {
     const { chain, symbol, ticker } = assetValue;
     const walletInstance = this.connectedWallets[chain];
+    if (!(await validateAddress({ address: await walletInstance?.getAddress(), chain })))
+      throw new SwapKitError('core_transaction_invalid_sender_address');
     if (!walletInstance) throw new SwapKitError('core_wallet_connection_not_found');
 
     const params = this.#prepareTxParams({ assetValue, recipient, router, ...rest });
@@ -240,8 +261,8 @@ export class SwapKitCore<T = ''> {
             chain === Chain.Avalanche
               ? TCAvalancheDepositABI
               : chain === Chain.BinanceSmartChain
-              ? TCBscDepositABI
-              : TCEthereumVaultAbi;
+                ? TCBscDepositABI
+                : TCEthereumVaultAbi;
 
           const response = await (
             walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
@@ -278,10 +299,10 @@ export class SwapKitCore<T = ''> {
       const errorKey: Keys = isInsufficientFunds
         ? 'core_transaction_deposit_insufficient_funds_error'
         : isGas
-        ? 'core_transaction_deposit_gas_error'
-        : isServer
-        ? 'core_transaction_deposit_server_error'
-        : 'core_transaction_deposit_error';
+          ? 'core_transaction_deposit_gas_error'
+          : isServer
+            ? 'core_transaction_deposit_server_error'
+            : 'core_transaction_deposit_error';
 
       throw new SwapKitError(errorKey, error);
     }
@@ -332,7 +353,6 @@ export class SwapKitCore<T = ''> {
   };
 
   addLiquidity = async ({
-    poolIdentifier,
     runeAssetValue,
     assetValue,
     runeAddr,
@@ -340,7 +360,6 @@ export class SwapKitCore<T = ''> {
     isPendingSymmAsset,
     mode = 'sym',
   }: {
-    poolIdentifier: string;
     runeAssetValue: AssetValue;
     assetValue: AssetValue;
     isPendingSymmAsset?: boolean;
@@ -348,7 +367,7 @@ export class SwapKitCore<T = ''> {
     assetAddr?: string;
     mode?: 'sym' | 'rune' | 'asset';
   }) => {
-    const [chain, ...symbolPath] = poolIdentifier.split('.') as [Chain, string];
+    const { chain, symbol } = assetValue;
     const isSym = mode === 'sym';
     const runeTransfer = runeAssetValue?.gt(0) && (isSym || mode === 'rune');
     const assetTransfer = assetValue?.gt(0) && (isSym || mode === 'asset');
@@ -364,13 +383,12 @@ export class SwapKitCore<T = ''> {
     }
 
     let runeTx, assetTx;
-    const sharedParams = { chain, symbol: symbolPath.join('.') };
 
     if (runeTransfer && runeAssetValue) {
       try {
         runeTx = await this.#depositToPool({
           assetValue: runeAssetValue,
-          memo: getMemoFor(MemoType.DEPOSIT, { ...sharedParams, address: assetAddress }),
+          memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: assetAddress }),
         });
       } catch (error) {
         throw new SwapKitError('core_transaction_add_liquidity_rune_error', error);
@@ -381,7 +399,7 @@ export class SwapKitCore<T = ''> {
       try {
         assetTx = await this.#depositToPool({
           assetValue,
-          memo: getMemoFor(MemoType.DEPOSIT, { ...sharedParams, address: runeAddress }),
+          memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: runeAddress }),
         });
       } catch (error) {
         throw new SwapKitError('core_transaction_add_liquidity_asset_error', error);
@@ -389,6 +407,25 @@ export class SwapKitCore<T = ''> {
     }
 
     return { runeTx, assetTx };
+  };
+
+  addLiquidityPart = ({
+    assetValue,
+    poolAddress,
+    address,
+    symmetric,
+  }: {
+    assetValue: AssetValue;
+    address?: string;
+    poolAddress: string;
+    symmetric: boolean;
+  }) => {
+    if (symmetric && !address) {
+      throw new SwapKitError('core_transaction_add_liquidity_invalid_params');
+    }
+    const addressString = symmetric ? address || '' : '';
+
+    return this.#depositToPool({ assetValue, memo: `+:${poolAddress}:${addressString}:t:0` });
   };
 
   withdraw = async ({
@@ -408,8 +445,8 @@ export class SwapKitCore<T = ''> {
       to === 'rune'
         ? AssetValue.fromChainOrSignature(Chain.THORChain)
         : (from === 'sym' && to === 'sym') || from === 'rune' || from === 'asset'
-        ? undefined
-        : assetValue;
+          ? undefined
+          : assetValue;
 
     const value = getMinAmountByChain(from === 'asset' ? assetValue.chain : Chain.THORChain);
     const memoString =
@@ -504,7 +541,7 @@ export class SwapKitCore<T = ''> {
   extend = ({ wallets, config, apis = {}, rpcUrls = {} }: ExtendParams<T>) => {
     try {
       wallets.forEach((wallet) => {
-        // @ts-expect-error ANCHOR - Not Worth
+        // @ts-expect-error - this is fine as we are extending the class
         this[wallet.connectMethodName] = wallet.connect({
           addChain: this.#addConnectedChain,
           config: config || {},

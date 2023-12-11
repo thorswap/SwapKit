@@ -20,5 +20,6 @@ export { ARBToolbox } from './toolbox/arb.ts';
 export { AVAXToolbox } from './toolbox/avax.ts';
 export { BSCToolbox } from './toolbox/bsc.ts';
 export { ETHToolbox } from './toolbox/eth.ts';
+export { getToolboxByChain } from './toolbox/getToolboxByChain.ts';
 export { MATICToolbox } from './toolbox/matic.ts';
 export { OPToolbox } from './toolbox/op.ts';

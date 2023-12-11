@@ -138,8 +138,8 @@ export const getWeb3WalletMethods = async ({
     chain === Chain.Ethereum
       ? ETHToolbox(toolboxParams)
       : chain === Chain.Avalanche
-      ? AVAXToolbox(toolboxParams)
-      : BSCToolbox(toolboxParams);
+        ? AVAXToolbox(toolboxParams)
+        : BSCToolbox(toolboxParams);
 
   try {
     chain !== Chain.Ethereum &&
