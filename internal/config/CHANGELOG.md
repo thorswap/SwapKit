@@ -1,5 +1,11 @@
 # @internal/config
 
+## 0.0.0-rc.12
+
+### Patch Changes
+
+- tokenlist bump[
+
 ## 0.0.0-rc.11
 
 ### Patch Changes

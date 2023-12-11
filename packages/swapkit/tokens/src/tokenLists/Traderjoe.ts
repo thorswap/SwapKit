@@ -1,7 +1,7 @@
 export const list = {
   name: 'Trader Joe Default',
   timestamp: '2021-11-20T00:00:00+00:00',
-  version: { major: 223, minor: 4, patch: 0 },
+  version: { major: 223, minor: 5, patch: 0 },
   keywords: ['avalanche', 'arbitrum', 'bnb chain', 'defi', 'trader joe'],
   tokens: [
     {
@@ -664,7 +664,37 @@ export const list = {
       identifier: 'AVAX.xQI-0XE05A6B6F84E67A74C1C263D7E35D06EAB5C211B5',
       decimals: 18,
     },
+    {
+      address: '0x420FcA0121DC28039145009570975747295f2329',
+      chain: 'AVAX',
+      identifier: 'AVAX.COQ-0X420FCA0121DC28039145009570975747295F2329',
+      decimals: 18,
+    },
+    {
+      address: '0x4f60a160D8C2DDdaAfe16FCC57566dB84D674BD6',
+      chain: 'AVAX',
+      identifier: 'AVAX.JEWEL-0X4F60A160D8C2DDDAAFE16FCC57566DB84D674BD6',
+      decimals: 18,
+    },
+    {
+      address: '0x997Ddaa07d716995DE90577C123Db411584E5E46',
+      chain: 'AVAX',
+      identifier: 'AVAX.JEWEL-0X997DDAA07D716995DE90577C123DB411584E5E46',
+      decimals: 18,
+    },
+    {
+      address: '0x47c3118Ad183712Acd42648e9E522e13690f29a0',
+      chain: 'AVAX',
+      identifier: 'AVAX.MEAT-0X47C3118AD183712ACD42648E9E522E13690F29A0',
+      decimals: 6,
+    },
+    {
+      address: '0x0EF27Ddc8F89D4886E89d630De089962FfC12E43',
+      chain: 'AVAX',
+      identifier: 'AVAX.PGX-0X0EF27DDC8F89D4886E89D630DE089962FFC12E43',
+      decimals: 18,
+    },
   ],
-  count: 110,
+  count: 115,
   logo: 'https://static.thorswap.net/token-list/images/avax.joe-0x6e84a6216ea6dacc71ee8e6b0a5b7322eebc0fdd.png',
 } as const;

@@ -177,11 +177,12 @@ export class AssetValue extends BigIntArithmetics {
       async (resolve, reject) => {
         try {
           const tokenPackages = await import('@swapkit/tokens');
-          const tokensMap = Object.values(tokenPackages).reduce((acc, { tokens }) => {
-            tokens.forEach(({ identifier, chain, ...rest }) => {
-              const decimal = 'decimals' in rest ? rest.decimals : BaseDecimal[chain as Chain];
-
-              acc.set(identifier as TokenNames, { identifier, decimal });
+          const tokensMap = Object.values(tokenPackages).reduce((acc, tokenList) => {
+            tokenList?.tokens?.forEach(({ identifier, chain, ...rest }) => {
+              acc.set(identifier as TokenNames, {
+                identifier,
+                decimal: 'decimals' in rest ? rest.decimals : BaseDecimal[chain as Chain],
+              });
             });
 
             return acc;

@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.49
+
+### Patch Changes
+
+- tokenlist bump[
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.28
+  - @swapkit/types@1.0.0-rc.26
+
 ## 1.0.0-rc.48
 
 ### Patch Changes

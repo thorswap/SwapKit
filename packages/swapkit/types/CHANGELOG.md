@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.26
+
+### Patch Changes
+
+- tokenlist bump[
+
 ## 1.0.0-rc.25
 
 ### Patch Changes

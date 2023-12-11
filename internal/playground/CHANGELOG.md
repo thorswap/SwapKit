@@ -1,5 +1,29 @@
 # @internal/playground
 
+## 0.0.0-rc.69
+
+### Patch Changes
+
+- tokenlist bump[
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.53
+  - @swapkit/toolbox-cosmos@1.0.0-rc.53
+  - @swapkit/wallet-keystore@1.0.0-rc.62
+  - @swapkit/helpers@1.0.0-rc.49
+  - @swapkit/tokens@1.0.0-rc.28
+  - @swapkit/toolbox-utxo@1.0.0-rc.52
+  - @swapkit/wallet-ledger@1.0.0-rc.66
+  - @swapkit/wallet-trezor@1.0.0-rc.57
+  - @swapkit/types@1.0.0-rc.26
+  - @swapkit/toolbox-evm@1.0.0-rc.53
+  - @swapkit/wallet-keplr@1.0.0-rc.53
+  - @swapkit/wallet-xdefi@1.0.0-rc.64
+  - @swapkit/core@1.0.0-rc.65
+  - @swapkit/api@1.0.0-rc.26
+  - @swapkit/wallet-okx@1.0.0-rc.60
+  - @swapkit/wallet-wc@1.0.0-rc.58
+
 ## 0.0.0-rc.68
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.52
+
+### Patch Changes
+
+- tokenlist bump[
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.49
+  - @swapkit/types@1.0.0-rc.26
+
 ## 1.0.0-rc.51
 
 ### Patch Changes
