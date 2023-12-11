@@ -74,7 +74,7 @@ export type BaseCosmosToolboxType = {
 export type ThorchainToolboxType = BaseCosmosToolboxType & {
   getFees: () => Promise<Fees>;
   deposit: (params: DepositParam & { from: string }) => Promise<string>;
-  createDefaultRegistry: () => Promise<Registry>;
+  createDefaultRegistry: () => Registry;
   createDefaultAminoTypes: () => Promise<AminoTypes>;
   createDepositMessage: (
     assetValue: AssetValue,
@@ -82,7 +82,7 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
     memo?: string,
     forBroadcasting?: boolean,
   ) => any;
-  createMultisig: (pubKeys: string[], threshold: number) => Promise<MultisigThresholdPubkey>;
+  createMultisig: (pubKeys: string[], threshold: number) => MultisigThresholdPubkey;
   importSignature: (signature: string) => Uint8Array;
   secp256k1HdWalletFromMnemonic: (mnemonic: string, index?: number) => Promise<Secp256k1HdWallet>;
   signMultisigTx: (

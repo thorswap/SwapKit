@@ -11,9 +11,15 @@ import type {
   Provider,
   Signer,
 } from 'ethers';
-import { BrowserProvider } from 'ethers';
-import { getAddress } from 'ethers/address';
-import { MaxInt256 } from 'ethers/constants';
+import {
+  BrowserProvider,
+  Contract,
+  getAddress,
+  hexlify,
+  Interface,
+  MaxInt256,
+  toUtf8Bytes,
+} from 'ethers';
 
 import { toHexString } from '../index.ts';
 import type {
@@ -52,10 +58,7 @@ export const createContract = async (
   address: string,
   abi: readonly (JsonFragment | Fragment)[],
   provider: Provider,
-) => {
-  const { Interface, Contract } = await import('ethers');
-  return new Contract(address, Interface.from(abi), provider);
-};
+) => new Contract(address, Interface.from(abi), provider);
 
 const validateAddress = (address: string) => {
   try {
@@ -257,8 +260,6 @@ const transfer = async (
     });
   }
 
-  const { hexlify, toUtf8Bytes } = await import('ethers');
-
   // Transfer ETH
   const txObject = {
     ...tx,
@@ -357,7 +358,6 @@ const estimateGasLimit = async (
     txOverrides?: EVMTxParams;
   },
 ) => {
-  const { hexlify, toUtf8Bytes } = await import('ethers');
   const value = assetValue.bigIntValue;
   const assetAddress = !isGasAsset({ ...assetValue })
     ? getTokenAddress(assetValue, assetValue.chain as EVMChain)

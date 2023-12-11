@@ -1,3 +1,6 @@
+import { ledgerUSBVendorId } from '@ledgerhq/devices';
+import Transport from '@ledgerhq/hw-transport';
+
 const getNavigatorUsb = () =>
   // @ts-ignore
   navigator?.usb as unknown as {
@@ -11,8 +14,6 @@ const getLedgerDevices = async () => {
   const navigatorUsb = getNavigatorUsb();
 
   if (typeof navigatorUsb?.getDevices !== 'function') return [];
-
-  const { ledgerUSBVendorId } = await import('@ledgerhq/devices');
 
   const devices = await navigatorUsb?.getDevices();
   const existingDevices = devices.filter((d) => d.vendorId === ledgerUSBVendorId);
@@ -36,7 +37,7 @@ export const getLedgerTransport = async () => {
   }
 
   const iface = device.configurations[0].interfaces.find(({ alternates }: any) =>
-    alternates.some(({ interfaceClass }: any) => interfaceClass === 255),
+    alternates.some(({ interfaceClass }: { interfaceClass: number }) => interfaceClass === 255),
   );
 
   if (!iface) throw new Error('No Ledger device found');
@@ -49,7 +50,6 @@ export const getLedgerTransport = async () => {
     throw new Error(error.message);
   }
 
-  const { default: Transport } = await import('@ledgerhq/hw-transport-webusb');
   // @ts-expect-error Ledger typing is wrong
   const isSupported = await Transport.isSupported();
   if (!isSupported) throw new Error('WebUSB not supported');

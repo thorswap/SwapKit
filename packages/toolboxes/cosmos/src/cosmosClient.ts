@@ -1,3 +1,6 @@
+import { Secp256k1HdWallet } from '@cosmjs/amino';
+import { stringToPath } from '@cosmjs/crypto';
+import { normalizeBech32 } from '@cosmjs/encoding';
 import type { StdFee } from '@cosmjs/stargate';
 import { base64 } from '@scure/base';
 import type { ChainId } from '@swapkit/types';
@@ -40,7 +43,6 @@ export class CosmosClient {
     if (!address.startsWith(this.prefix)) return false;
 
     try {
-      const { normalizeBech32 } = await import('@cosmjs/encoding');
       return normalizeBech32(address) === address.toLocaleLowerCase();
     } catch (err) {
       return false;
@@ -95,13 +97,9 @@ export class CosmosClient {
     return txResponse.transactionHash;
   };
 
-  #getWallet = async (mnemonic: string, derivationPath: string) => {
-    const { Secp256k1HdWallet } = await import('@cosmjs/amino');
-    const { stringToPath } = await import('@cosmjs/crypto');
-
-    return await Secp256k1HdWallet.fromMnemonic(mnemonic, {
+  #getWallet = (mnemonic: string, derivationPath: string) =>
+    Secp256k1HdWallet.fromMnemonic(mnemonic, {
       prefix: this.prefix,
       hdPaths: [stringToPath(derivationPath)],
     });
-  };
 }

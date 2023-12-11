@@ -1,5 +1,6 @@
 import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, FeeOption, RPCUrl } from '@swapkit/types';
 import type { BrowserProvider, JsonRpcProvider, Signer, TransactionRequest } from 'ethers';
+import { Contract, Transaction } from 'ethers';
 
 import type { CovalentApiType } from '../api/covalentApi.ts';
 import { covalentApi } from '../api/covalentApi.ts';
@@ -10,15 +11,12 @@ import { BaseEVMToolbox } from './BaseEVMToolbox.ts';
 
 const GAS_PRICE_ORACLE_ADDRESS = '0x420000000000000000000000000000000000000f';
 
-export const connectGasPriceOracle = async (provider: JsonRpcProvider | BrowserProvider) => {
-  const { Contract } = await import('ethers');
+export const connectGasPriceOracle = (provider: JsonRpcProvider | BrowserProvider) => {
   return new Contract(GAS_PRICE_ORACLE_ADDRESS, gasOracleAbi, provider);
 };
 
-export const getL1GasPrice = async (
-  provider: JsonRpcProvider | BrowserProvider,
-): Promise<bigint> => {
-  return (await connectGasPriceOracle(provider)).l1BaseFee();
+export const getL1GasPrice = (provider: JsonRpcProvider | BrowserProvider): Promise<bigint> => {
+  return connectGasPriceOracle(provider).l1BaseFee();
 };
 
 const _serializeTx = async (
@@ -26,8 +24,6 @@ const _serializeTx = async (
   { data, from, to, gasPrice, type, gasLimit, nonce }: TransactionRequest,
 ) => {
   if (!to) throw new Error('Missing to address');
-
-  const { Transaction } = await import('ethers');
 
   return Transaction.from({
     data,
@@ -43,7 +39,7 @@ export const estimateL1GasCost = async (
   provider: JsonRpcProvider | BrowserProvider,
   tx: TransactionRequest,
 ) => {
-  return (await connectGasPriceOracle(provider)).getL1Fee(await _serializeTx(provider, tx));
+  return connectGasPriceOracle(provider).getL1Fee(await _serializeTx(provider, tx));
 };
 
 export const estimateL2GasCost = async (
@@ -68,7 +64,7 @@ export const estimateL1Gas = async (
   provider: JsonRpcProvider | BrowserProvider,
   tx: TransactionRequest,
 ) => {
-  return (await connectGasPriceOracle(provider)).getL1GasUsed(await _serializeTx(provider, tx));
+  return connectGasPriceOracle(provider).getL1GasUsed(await _serializeTx(provider, tx));
 };
 
 export const getNetworkParams = () => ({

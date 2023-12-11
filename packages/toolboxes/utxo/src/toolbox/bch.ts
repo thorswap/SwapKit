@@ -9,6 +9,7 @@ import type { UTXOChain } from '@swapkit/types';
 import { Chain, DerivationPath, FeeOption, RPCUrl } from '@swapkit/types';
 import { Psbt } from 'bitcoinjs-lib';
 import { ECPairFactory } from 'ecpair';
+import * as tinySecp from 'tiny-secp256k1';
 
 import type { BlockchairApiType } from '../api/blockchairApi.ts';
 import { blockchairApi } from '../api/blockchairApi.ts';
@@ -239,7 +240,6 @@ const createKeysForPath: BCHMethods['createKeysForPath'] = async ({
   const network = getNetwork(chain);
 
   if (wif) {
-    const tinySecp = await import('tiny-secp256k1');
     return ECPairFactory(tinySecp).fromWIF(wif, network);
   }
   if (!phrase) throw new Error('No phrase provided');

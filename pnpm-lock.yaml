@@ -578,9 +578,6 @@ importers:
       '@types/long':
         specifier: 4.0.2
         version: 4.0.2
-      '@types/node':
-        specifier: 20.10.4
-        version: 20.10.4
       '@types/tiny-secp256k1':
         specifier: 1.0.0
         version: 1.0.0

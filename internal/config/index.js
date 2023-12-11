@@ -4,17 +4,6 @@ import dts from 'vite-plugin-dts';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import { defineConfig } from 'vitest/config';
 
-// (
-//   filePath: string,
-//   content: string
-// ) => Promise<
-//   | void
-//   | false
-//   | {
-//     filePath?: string,
-//     content?: string
-//   }
-// >
 const beforeWriteFile = (filePath, content) => {
   content = content.replaceAll('  #private;', '');
 

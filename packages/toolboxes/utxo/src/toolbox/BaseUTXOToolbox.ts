@@ -6,6 +6,7 @@ import { BaseDecimal, Chain, FeeOption } from '@swapkit/types';
 import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';
 import type { ECPairInterface } from 'ecpair';
 import { ECPairFactory } from 'ecpair';
+import * as tinySecp from 'tiny-secp256k1';
 
 import type { BlockchairApiType } from '../api/blockchairApi.ts';
 import type {
@@ -39,7 +40,6 @@ const createKeysForPath = async ({
 }) => {
   if (!wif && !phrase) throw new Error('Either phrase or wif must be provided');
 
-  const tinySecp = await import('tiny-secp256k1');
   const factory = ECPairFactory(tinySecp);
   const network = getNetwork(chain);
 

@@ -1,3 +1,4 @@
+import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from '@cosmjs/crypto';
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
 import { bech32 } from '@scure/base';
 import { AssetValue, RequestClient, SwapKitNumber } from '@swapkit/helpers';
@@ -148,17 +149,11 @@ const transfer = async (params: TransferParams): Promise<string> => {
 };
 
 const createKeyPair = async (phrase: string) => {
-  const { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } = await import(
-    '@cosmjs/crypto'
-  );
-
   const derivationPath = stringToPath(`${DerivationPath.BNB}/0`);
   const mnemonicChecked = new EnglishMnemonic(phrase);
   const seed = await Bip39.mnemonicToSeed(mnemonicChecked);
 
-  const { privkey } = Slip10.derivePath(Slip10Curve.Secp256k1, seed, derivationPath);
-
-  return privkey;
+  return Slip10.derivePath(Slip10Curve.Secp256k1, seed, derivationPath).privkey;
 };
 
 export const getPublicKey = (publicKey: string) => {

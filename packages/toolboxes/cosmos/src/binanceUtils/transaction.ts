@@ -1,6 +1,7 @@
 import { enc, SHA256 } from 'crypto-js';
 import type { curve } from 'elliptic';
 import { ec as EC } from 'elliptic';
+import * as tinySecp from 'tiny-secp256k1';
 
 import { convertObjectToSignBytes, encodeBinaryByteArray, marshalBinary } from './amino/encoder.ts';
 import { UVarInt } from './amino/varint.ts';
@@ -21,8 +22,6 @@ const generatePubKey = (privateKey: Buffer) => {
 };
 
 const generateSignature = async (signBytesHex: string, privateKey: string | Buffer) => {
-  const tinySecp = await import('tiny-secp256k1');
-
   const msgHash = sha256(signBytesHex);
   const msgHashHex = Buffer.from(msgHash, 'hex');
   const signature = tinySecp.sign(

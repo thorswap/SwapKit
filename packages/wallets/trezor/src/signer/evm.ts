@@ -129,7 +129,8 @@ class TrezorSigner extends AbstractSigner {
     return hash;
   };
 
-  sendTransaction = async (tx: TransactionRequest) => {
+  // @ts-expect-error Fix type inference
+  sendTransaction = async (tx: TransactionRequest): any => {
     if (!this.provider) throw new Error('No provider set');
 
     const signedTxHex = await this.signTransaction(tx);
