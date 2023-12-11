@@ -1,7 +1,7 @@
 import type { StdSignDoc } from '@cosmjs/amino';
 import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import type { BaseCosmosToolboxType, DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
-import { ApiUrl, Chain, ChainId, WalletOption } from '@swapkit/types';
+import { Chain, ChainId, RPCUrl, WalletOption } from '@swapkit/types';
 import type { WalletConnectModalSign } from '@walletconnect/modal-sign-html';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
 import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
@@ -228,7 +228,7 @@ const getToolbox = async ({
         });
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await createStargateClient(ApiUrl.ThornodeMainnet);
+        const broadcaster = await createStargateClient(RPCUrl.THORChain);
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
@@ -317,7 +317,7 @@ const getToolbox = async ({
         });
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await createStargateClient(ApiUrl.ThornodeMainnet);
+        const broadcaster = await createStargateClient(RPCUrl.THORChain);
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
       };
