@@ -53,7 +53,8 @@ export class CosmosLedger extends CommonLedgerInterface {
     ];
   };
 
-  signAmino = async (signerAddress: string, signDoc: any) => {
+  // TODO: Fix type inference
+  signAmino = async (signerAddress: string, signDoc: any): Promise<any> => {
     await this.checkOrCreateTransportAndLedger(true);
 
     const accounts = await this.getAccounts();
@@ -63,8 +64,9 @@ export class CosmosLedger extends CommonLedgerInterface {
       throw new Error(`Address ${signerAddress} not found in wallet`);
     }
 
-    const { encodeSecp256k1Signature, serializeSignDoc } = await import('@cosmjs/amino');
-    const { Secp256k1Signature } = await import('@cosmjs/crypto');
+    const { Secp256k1Signature, encodeSecp256k1Signature, serializeSignDoc } = await import(
+      '@swapkit/toolbox-cosmos'
+    );
 
     const message = serializeSignDoc(signDoc);
     const signature = await this.ledgerApp.sign(this.derivationPath, message);

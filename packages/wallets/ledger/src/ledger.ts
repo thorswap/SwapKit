@@ -1,12 +1,17 @@
-import { fromBase64 } from '@cosmjs/encoding';
-import { Int53 } from '@cosmjs/math';
-import { encodePubkey, makeAuthInfoBytes, type TxBodyEncodeObject } from '@cosmjs/proto-signing';
-import { type DepositParam, type TransferParams } from '@swapkit/toolbox-cosmos';
+import {
+  type DepositParam,
+  encodePubkey,
+  fromBase64,
+  Int53,
+  makeAuthInfoBytes,
+  SignMode,
+  type TransferParams,
+  type TxBodyEncodeObject,
+  TxRaw,
+} from '@swapkit/toolbox-cosmos';
 import type { UTXOBuildTxParams } from '@swapkit/toolbox-utxo';
 import type { ConnectWalletParams, DerivationPathArray } from '@swapkit/types';
 import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from '@swapkit/types';
-import { SignMode } from 'cosmjs-types/cosmos/tx/signing/v1beta1/signing.js';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
 import type { AvalancheLedger } from './clients/avalanche.ts';
 import type { BinanceLedger } from './clients/binance/index.ts';
@@ -196,7 +201,7 @@ const getToolbox = async ({
     }
 
     case Chain.Cosmos: {
-      const { createSigningStargateClient, getDenom, GaiaToolbox } = await import(
+      const { GasPrice, createSigningStargateClient, getDenom, GaiaToolbox } = await import(
         '@swapkit/toolbox-cosmos'
       );
       const toolbox = GaiaToolbox();
@@ -221,8 +226,6 @@ const getToolbox = async ({
           typeUrl: '/cosmos.bank.v1beta1.MsgSend',
           value: sendCoinsMessage,
         };
-
-        const { GasPrice } = await import('@cosmjs/stargate');
 
         const signingClient = await createSigningStargateClient(
           RPCUrl.Cosmos,
@@ -490,8 +493,6 @@ const connectLedger =
       walletMethods: { ...toolbox, getAddress: () => address },
       wallet: { address, balance: [], walletType: WalletOption.LEDGER },
     });
-
-    return true;
   };
 
 export const ledgerWallet = {

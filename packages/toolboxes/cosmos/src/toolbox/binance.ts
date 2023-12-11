@@ -10,13 +10,9 @@ import { AminoPrefix } from '../binanceUtils/types.ts';
 import { isTransferFee } from '../binanceUtils/utils.ts';
 import { CosmosClient } from '../cosmosClient.ts';
 import { type BinanceToolboxType, getDenom } from '../index.ts';
-import type { TransferParams } from '../types.ts';
+import type { ToolboxParams, TransferParams } from '../types.ts';
 
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.ts';
-
-type ToolboxParams = {
-  stagenet?: boolean;
-};
 
 const BINANCE_MAINNET_API_URI = 'https://dex.binance.org';
 

@@ -1,5 +1,5 @@
+import type { ExtendParams } from '@swapkit/core';
 import { SwapKitCore } from '@swapkit/core';
-import type { ExtendParams } from '@swapkit/types';
 import { evmWallet } from '@swapkit/wallet-evm-extensions';
 import { keplrWallet } from '@swapkit/wallet-keplr';
 import { keystoreWallet } from '@swapkit/wallet-keystore';

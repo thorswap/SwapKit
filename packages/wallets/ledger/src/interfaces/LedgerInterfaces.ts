@@ -1,7 +1,6 @@
 import type BitcoinApp from '@ledgerhq/hw-app-btc';
-import type { UTXOType } from '@swapkit/toolbox-utxo';
-import { toCashAddress } from 'bchaddrjs';
-import { type Network as BTCNetwork, networks, type Psbt } from 'bitcoinjs-lib';
+import type { Network as BTCNetwork, Psbt, UTXOType } from '@swapkit/toolbox-utxo';
+import { networks, toCashAddress } from '@swapkit/toolbox-utxo';
 
 import { BinanceApp } from '../clients/binance/lib.ts';
 import { THORChainApp } from '../clients/thorchain/lib.ts';

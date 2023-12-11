@@ -1,7 +1,13 @@
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@swapkit/helpers';
 import type { TransferParams } from '@swapkit/toolbox-cosmos';
-import type { ApproveParams, CallParams, EVMTxParams } from '@swapkit/toolbox-evm';
+import type {
+  ApproveParams,
+  BrowserProvider,
+  CallParams,
+  Eip1193Provider,
+  EVMTxParams,
+} from '@swapkit/toolbox-evm';
 import {
   createContract,
   createContractTxObject,
@@ -11,7 +17,6 @@ import {
 } from '@swapkit/toolbox-evm';
 import type { ChainId, FeeOption } from '@swapkit/types';
 import { Chain, ChainToChainId, erc20ABI, RPCUrl } from '@swapkit/types';
-import type { BrowserProvider, Eip1193Provider } from 'ethers';
 
 type TransactionMethod = 'transfer' | 'deposit';
 
@@ -82,11 +87,11 @@ const transaction = async ({
 
 export const getXDEFIAddress = async (chain: Chain) => {
   const eipProvider = getXDEFIProvider(chain) as Eip1193Provider;
-  if (!eipProvider) throw new Error('XDEFI provider is not defined');
+  if (!eipProvider) throw new Error(`${chain}: XDEFI provider is not defined`);
 
   if ([Chain.Cosmos, Chain.Kujira].includes(chain)) {
     const provider = getXDEFIProvider(Chain.Cosmos) as Keplr;
-    if (!provider) throw new Error('XDEFI provider is not defined');
+    if (!provider) throw new Error(`${chain}: XDEFI provider is not defined`);
 
     // Enabling before using the Keplr is recommended.
     // This method will ask the user whether to allow access if they haven't visited this website.

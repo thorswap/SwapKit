@@ -4,9 +4,9 @@
     "@psf/bitcoincashjs-lib": "4.0.3",
     "@scure/bip32": "1.3.2",
     "@scure/bip39": "1.2.1",
-    "@swapkit/types": "workspace:*",
-    "bchaddrjs": "0.5.2",
     "bitcoinjs-lib": "5.2.0",
+    "bs58check": "3.0.1",
+    "cashaddrjs": "0.4.4",
     "coininfo": "5.2.1",
     "ecpair": "2.0.1",
     "tiny-secp256k1": "1.1.6"
@@ -15,13 +15,12 @@
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@swapkit/helpers": "workspace:*",
-    "@types/bchaddrjs": "0.4.3",
-    "@types/node": "20.10.3",
+    "@swapkit/types": "workspace:*",
+    "@types/node": "20.10.4",
     "@types/tiny-secp256k1": "1.0.0",
-    "@types/uniqid": "5.3.4",
-    "@vitest/coverage-istanbul": "1.0.1",
-    "vite": "5.0.6",
-    "vitest": "1.0.1"
+    "@vitest/coverage-istanbul": "1.0.4",
+    "vite": "5.0.7",
+    "vitest": "1.0.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
@@ -38,7 +37,8 @@
     "dist/"
   ],
   "peerDependencies": {
-    "@swapkit/helpers": "workspace:*"
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/types": "workspace:*"
   },
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",

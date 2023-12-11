@@ -1,16 +1,13 @@
 {
   "author": "swapkit-oss-team",
-  "dependencies": {
-    "@swapkit/types": "workspace:*"
-  },
   "description": "SwapKit Lib evm-extensions",
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
-    "@vitest/coverage-istanbul": "1.0.1",
-    "ethers": "6.9.0",
-    "vite": "5.0.6",
-    "vitest": "1.0.1"
+    "@swapkit/types": "workspace:*",
+    "@vitest/coverage-istanbul": "1.0.4",
+    "vite": "5.0.7",
+    "vitest": "1.0.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
@@ -33,7 +30,7 @@
   "name": "@swapkit/wallet-evm-extensions",
   "peerDependencies": {
     "@swapkit/toolbox-evm": "workspace:*",
-    "ethers": "^6.9.0"
+    "@swapkit/types": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

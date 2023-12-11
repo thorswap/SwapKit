@@ -1,11 +1,12 @@
 {
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-terser": "0.4.4",
-    "@vitest/coverage-istanbul": "1.0.1",
-    "vite": "5.0.6",
+    "@vitest/coverage-istanbul": "1.0.4",
+    "vite": "5.0.7",
     "vite-plugin-dts": "3.6.4",
     "vite-plugin-node-polyfills": "0.17.0",
-    "vitest": "1.0.1"
+    "vitest": "1.0.4"
   },
   "eslintConfig": {
     "extends": "../eslint-config"

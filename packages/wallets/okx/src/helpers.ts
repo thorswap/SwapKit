@@ -1,12 +1,11 @@
 import { AssetValue } from '@swapkit/helpers';
 import type { GaiaToolbox } from '@swapkit/toolbox-cosmos';
-import type { getWeb3WalletMethods } from '@swapkit/toolbox-evm';
+import type { Eip1193Provider, getWeb3WalletMethods } from '@swapkit/toolbox-evm';
 import type { BTCToolbox, UTXOTransferParams } from '@swapkit/toolbox-utxo';
+import { Psbt } from '@swapkit/toolbox-utxo';
 import { BaseDecimal, Chain, ChainId, RPCUrl } from '@swapkit/types';
-import { Psbt } from 'bitcoinjs-lib';
-import type { Eip1193Provider } from 'ethers';
 
-export const cosmosTransfer =
+const cosmosTransfer =
   (rpcUrl?: string) =>
   async ({ from, recipient, amount, asset, memo }: any) => {
     const keplrClient = window.okxwallet?.keplr;
@@ -40,11 +39,11 @@ export const getWalletForChain = async ({
   rpcUrl?: string;
   api?: any;
 }): Promise<
-  | (ReturnType<typeof GaiaToolbox> & { getAddress: () => string | Promise<string> })
-  | (Awaited<ReturnType<typeof getWeb3WalletMethods>> & {
-      getAddress: () => string | Promise<string>;
-    })
-  | (ReturnType<typeof BTCToolbox> & { getAddress: () => string | Promise<string> })
+  (
+    | ReturnType<typeof GaiaToolbox>
+    | Awaited<ReturnType<typeof getWeb3WalletMethods>>
+    | ReturnType<typeof BTCToolbox>
+  ) & { getAddress: () => string }
 > => {
   switch (chain) {
     case Chain.Ethereum:

@@ -1,7 +1,6 @@
 {
   "author": "swapkit-oss-team",
   "dependencies": {
-    "@swapkit/types": "workspace:*",
     "ethers": "6.9.0"
   },
   "description": "THORSwap evm",
@@ -11,17 +10,19 @@
     "@nomicfoundation/hardhat-network-helpers": "1.0.10",
     "@nomicfoundation/hardhat-toolbox": "4.0.0",
     "@swapkit/helpers": "workspace:*",
-    "@types/node": "20.10.3",
-    "@vitest/coverage-istanbul": "1.0.1",
+    "@swapkit/types": "workspace:*",
+    "@types/node": "20.10.4",
+    "@vitest/coverage-istanbul": "1.0.4",
     "hardhat": "2.19.2",
-    "vite": "5.0.6",
-    "vitest": "1.0.1"
+    "vite": "5.0.7",
+    "vitest": "1.0.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
   },
   "peerDependencies": {
-    "@swapkit/helpers": "workspace:*"
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/types": "workspace:*"
   },
   "exports": {
     ".": {

@@ -1,20 +1,17 @@
 {
   "author": "swapkit-oss-team",
-  "dependencies": {
-    "@swapkit/types": "workspace:*"
-  },
   "description": "SwapKit Lib xdefi",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@keplr-wallet/types": "0.12.46",
+    "@keplr-wallet/types": "0.12.48",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "@vitest/coverage-istanbul": "1.0.1",
-    "ethers": "6.9.0",
-    "vite": "5.0.6",
-    "vitest": "1.0.1"
+    "@swapkit/types": "workspace:*",
+    "@vitest/coverage-istanbul": "1.0.4",
+    "vite": "5.0.7",
+    "vitest": "1.0.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
@@ -40,7 +37,7 @@
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "ethers": "^6.9.0"
+    "@swapkit/types": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

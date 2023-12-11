@@ -1,6 +1,6 @@
 import { RequestClient } from '@swapkit/helpers';
 
-import { uniqid } from '../index.ts';
+import { uniqid } from '../utils/utils.ts';
 
 export const broadcastUTXOTx = async ({ txHash, rpcUrl }: { txHash: string; rpcUrl: string }) => {
   const response = await RequestClient.post<{ id: string; result: string; error: string | null }>(

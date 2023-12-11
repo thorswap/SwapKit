@@ -5,8 +5,6 @@ export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Cha
 
   switch (chain) {
     case Chain.Binance:
-    case Chain.Bitcoin:
-    case Chain.BitcoinCash:
     case Chain.Maya:
     case Chain.Kujira:
     case Chain.THORChain:
@@ -22,10 +20,12 @@ export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Cha
 
     case Chain.Cosmos:
       return `${baseUrl}/transactions/${txHash}`;
+
+    case Chain.Litecoin:
+    case Chain.Bitcoin:
+    case Chain.BitcoinCash:
     case Chain.Dogecoin:
       return `${baseUrl}/transaction/${txHash.toLowerCase()}`;
-    case Chain.Litecoin:
-      return `${baseUrl}/${txHash}`;
 
     default:
       throw new Error(`Unsupported chain: ${chain}`);
@@ -44,17 +44,16 @@ export const getExplorerAddressUrl = ({ chain, address }: { address: string; cha
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Ethereum:
+    case Chain.Kujira:
+    case Chain.Litecoin:
     case Chain.Maya:
     case Chain.Optimism:
     case Chain.Polygon:
-    case Chain.Kujira:
     case Chain.THORChain:
       return `${baseUrl}/address/${address}`;
 
     case Chain.Cosmos:
       return `${baseUrl}/account/${address}`;
-    case Chain.Litecoin:
-      return `${baseUrl}/${address}`;
 
     default:
       throw new Error(`Unsupported chain: ${chain}`);

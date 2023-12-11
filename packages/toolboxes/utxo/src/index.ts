@@ -1,3 +1,9 @@
+export { toCashAddress } from './utils/bchaddrjs.ts';
+export { type Network, networks, Psbt, Transaction } from 'bitcoinjs-lib';
+
+/**
+ * Package
+ */
 export { BaseUTXOToolbox } from './toolbox/BaseUTXOToolbox.ts';
 export { BCHToolbox } from './toolbox/bch.ts';
 export { BTCToolbox } from './toolbox/btc.ts';

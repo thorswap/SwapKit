@@ -1,17 +1,4 @@
-import { bech32 } from '@scure/base';
-import { enc, RIPEMD160, SHA256 } from 'crypto-js';
-import { ec as EC } from 'elliptic';
-
-const encodeAddress = (
-  value: string | Buffer,
-  prefix = 'tbnb',
-  type: BufferEncoding = 'hex',
-): string => {
-  return bech32.encode(
-    prefix,
-    bech32.toWords(Buffer.isBuffer(value) ? value : Buffer.from(value, type)),
-  );
-};
+import { bech32, EC, enc, RIPEMD160, SHA256 } from '@swapkit/toolbox-cosmos';
 
 const ab2hexstring = (arr: any) => {
   if (typeof arr !== 'object') {
@@ -35,12 +22,16 @@ const sha256ripemd160 = (hex: string) => {
   return RIPEMD160(ProgramSha256).toString();
 };
 
-export const getAddressFromPublicKey = (publicKeyHex: string, prefix?: string) => {
+export const getAddressFromPublicKey = (publicKeyHex: string, prefix: string) => {
   const ec = new EC('secp256k1');
   const pubKey = ec.keyFromPublic(publicKeyHex, 'hex');
   const pubPoint = pubKey.getPublic();
   const compressed = pubPoint.encodeCompressed();
   const hexed = ab2hexstring(compressed);
   const hash = sha256ripemd160(hexed); // https://git.io/fAn8N
-  return encodeAddress(hash, prefix);
+
+  return bech32.encode(
+    prefix,
+    bech32.toWords(Buffer.isBuffer(hash) ? hash : Buffer.from(hash, 'hex')),
+  );
 };

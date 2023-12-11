@@ -12,12 +12,9 @@
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "@vitest/coverage-istanbul": "1.0.1",
-    "ethers": "6.9.0",
-    "vite": "5.0.6",
-    "vite-plugin-top-level-await": "1.3.1",
-    "vite-plugin-wasm": "3.2.2",
-    "vitest": "1.0.1"
+    "@vitest/coverage-istanbul": "1.0.4",
+    "vite": "5.0.7",
+    "vitest": "1.0.4"
   },
   "peerDependencies": {
     "@swapkit/api": "workspace:*",

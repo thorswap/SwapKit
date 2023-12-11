@@ -1,9 +1,8 @@
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { mergeConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import { defineConfig } from 'vitest/config';
-
-const rollupPlugins = [];
 
 // (
 //   filePath: string,
@@ -36,15 +35,15 @@ const baseConfig = (name) =>
       dts({ skipDiagnostics: false, clearPureImport: true, rollupTypes: true, beforeWriteFile }),
     ],
     build: {
+      sourcemap: true,
       lib: {
         name,
         formats: ['es', 'cjs'],
         fileName: (format) => `index.${format === 'cjs' ? 'cjs' : `${format}.js`}`,
       },
-      commonjsOptions: { transformMixedEsModules: true },
       rollupOptions: {
         input: 'src/index.ts',
-        plugins: rollupPlugins,
+        plugins: [nodeResolve({ preferBuiltins: false, browser: true })],
         output: ({ format }) => ({
           entryFileNames: ({ name }) => `${name}.${format === 'cjs' ? 'cjs' : 'js'}`,
           preserveModules: false,

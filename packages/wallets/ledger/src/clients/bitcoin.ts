@@ -1,7 +1,7 @@
 import { derivationPathToString } from '@swapkit/helpers';
+import { networks } from '@swapkit/toolbox-utxo';
 import type { DerivationPathArray } from '@swapkit/types';
 import { NetworkDerivationPath } from '@swapkit/types';
-import { networks } from 'bitcoinjs-lib';
 
 import { getWalletFormatFor } from '../helpers/derivationPath.ts';
 import { UTXOLedgerInterface } from '../interfaces/LedgerInterfaces.ts';

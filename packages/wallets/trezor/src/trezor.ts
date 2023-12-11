@@ -1,10 +1,9 @@
 import { derivationPathToString } from '@swapkit/helpers';
-import type { UTXOTransferParams, UTXOType } from '@swapkit/toolbox-utxo';
+import type { Psbt, UTXOTransferParams, UTXOType } from '@swapkit/toolbox-utxo';
+import { toCashAddress } from '@swapkit/toolbox-utxo';
 import type { ConnectWalletParams, DerivationPathArray } from '@swapkit/types';
 import { Chain, FeeOption, WalletOption } from '@swapkit/types';
 import TrezorConnect from '@trezor/connect-web';
-import { toCashAddress } from 'bchaddrjs';
-import type { Psbt } from 'bitcoinjs-lib';
 
 import { getEVMSigner } from './signer/evm.ts';
 
@@ -276,8 +275,6 @@ const connectTrezor =
       walletMethods,
       wallet: { address, balance: [], walletType: WalletOption.TREZOR },
     });
-
-    return true;
   };
 
 export const trezorWallet = {

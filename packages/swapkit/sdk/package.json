@@ -6,7 +6,6 @@
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "@swapkit/types": "workspace:*",
     "@swapkit/wallet-evm-extensions": "workspace:*",
     "@swapkit/wallet-keplr": "workspace:*",
     "@swapkit/wallet-keystore": "workspace:*",
@@ -19,9 +18,9 @@
   "description": "SwapKit Lib swapkit-sdk",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@vitest/coverage-istanbul": "1.0.1",
-    "vite": "5.0.6",
-    "vitest": "1.0.1"
+    "@vitest/coverage-istanbul": "1.0.4",
+    "vite": "5.0.7",
+    "vitest": "1.0.4"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"

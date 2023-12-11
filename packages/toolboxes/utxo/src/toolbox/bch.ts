@@ -4,15 +4,9 @@ import {
   Transaction,
   TransactionBuilder,
 } from '@psf/bitcoincashjs-lib';
+import { mnemonicToSeedSync } from '@scure/bip39';
 import type { UTXOChain } from '@swapkit/types';
 import { Chain, DerivationPath, FeeOption, RPCUrl } from '@swapkit/types';
-import {
-  detectAddressNetwork,
-  isValidAddress,
-  Network as bchNetwork,
-  toCashAddress,
-  toLegacyAddress,
-} from 'bchaddrjs';
 import { Psbt } from 'bitcoinjs-lib';
 import { ECPairFactory } from 'ecpair';
 
@@ -27,7 +21,14 @@ import type {
   UTXOWalletTransferParams,
 } from '../types/common.ts';
 import type { UTXOType } from '../types/index.ts';
-import { accumulative, compileMemo, getNetwork, getSeed } from '../utils/index.ts';
+import {
+  detectAddressNetwork,
+  isValidAddress,
+  Network as bchNetwork,
+  toCashAddress,
+  toLegacyAddress,
+} from '../utils/bchaddrjs.ts';
+import { accumulative, compileMemo, getNetwork } from '../utils/index.ts';
 
 import { BaseUTXOToolbox } from './BaseUTXOToolbox.ts';
 
@@ -243,7 +244,7 @@ const createKeysForPath: BCHMethods['createKeysForPath'] = async ({
   }
   if (!phrase) throw new Error('No phrase provided');
 
-  const masterHDNode = HDNode.fromSeedBuffer(Buffer.from(getSeed(phrase)), network);
+  const masterHDNode = HDNode.fromSeedBuffer(Buffer.from(mnemonicToSeedSync(phrase)), network);
   const keyPair = masterHDNode.derivePath(derivationPath).keyPair;
   // TODO: Figure out same pattern as in BTC
   // const testWif = keyPair.toWIF();

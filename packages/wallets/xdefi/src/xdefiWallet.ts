@@ -1,4 +1,5 @@
 import type { AVAXToolbox, BSCToolbox } from '@swapkit/toolbox-evm';
+import type { ConnectConfig, ConnectWalletParams } from '@swapkit/types';
 import {
   Chain,
   ChainId,
@@ -16,13 +17,6 @@ import {
   walletTransfer,
 } from './walletHelpers.ts';
 
-type XDEFIConfig = {
-  covalentApiKey?: string;
-  ethplorerApiKey?: string;
-  blockchairApiKey?: string;
-  utxoApiKey?: string;
-};
-
 const XDEFI_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
   Chain.Avalanche,
@@ -30,6 +24,7 @@ const XDEFI_SUPPORTED_CHAINS = [
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
+  Chain.Cosmos,
   Chain.Dogecoin,
   Chain.Ethereum,
   Chain.Kujira,
@@ -41,12 +36,10 @@ const XDEFI_SUPPORTED_CHAINS = [
 
 const getWalletMethodsForChain = async ({
   chain,
-  ethplorerApiKey,
-  covalentApiKey,
   blockchairApiKey,
-  rpcUrl,
-  api,
-}: { rpcUrl?: string; api?: any; chain: Chain } & XDEFIConfig): Promise<any> => {
+  covalentApiKey,
+  ethplorerApiKey,
+}: ConnectConfig & { chain: (typeof XDEFI_SUPPORTED_CHAINS)[number] }) => {
   switch (chain) {
     case Chain.THORChain: {
       const { DEFAULT_GAS_VALUE, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
@@ -62,15 +55,15 @@ const getWalletMethodsForChain = async ({
     case Chain.Cosmos: {
       const { GaiaToolbox } = await import('@swapkit/toolbox-cosmos');
       return {
-        ...GaiaToolbox({ server: api }),
-        transfer: cosmosTransfer({ chainId: ChainId.Cosmos, rpcUrl: rpcUrl || RPCUrl.Cosmos }),
+        ...GaiaToolbox(),
+        transfer: cosmosTransfer({ chainId: ChainId.Cosmos, rpcUrl: RPCUrl.Cosmos }),
       };
     }
     case Chain.Kujira: {
       const { KujiraToolbox } = await import('@swapkit/toolbox-cosmos');
       return {
         ...KujiraToolbox(),
-        transfer: cosmosTransfer({ chainId: ChainId.Kujira, rpcUrl: rpcUrl || RPCUrl.Kujira }),
+        transfer: cosmosTransfer({ chainId: ChainId.Kujira, rpcUrl: RPCUrl.Kujira }),
       };
     }
 
@@ -84,10 +77,9 @@ const getWalletMethodsForChain = async ({
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       const { getToolboxByChain } = await import('@swapkit/toolbox-utxo');
-      const params = { rpcUrl, blockchairApiKey, apiClient: api };
-      const toolbox = await getToolboxByChain(chain);
+      const toolbox = getToolboxByChain(chain)({ apiKey: blockchairApiKey });
 
-      return { ...toolbox(params), transfer: walletTransfer };
+      return { ...toolbox, transfer: walletTransfer };
     }
 
     case Chain.Ethereum:
@@ -104,8 +96,8 @@ const getWalletMethodsForChain = async ({
         covalentApi,
         ethplorerApi,
         getBalance,
+        BrowserProvider,
       } = await import('@swapkit/toolbox-evm');
-      const { BrowserProvider } = await import('ethers');
 
       const ethereumWindowProvider = window.xfi?.ethereum;
       if (!ethereumWindowProvider) throw new Error('Requested web3 wallet is not installed');
@@ -168,10 +160,7 @@ const connectXDEFI =
   ({
     addChain,
     config: { covalentApiKey, ethplorerApiKey, blockchairApiKey, utxoApiKey },
-  }: {
-    addChain: any;
-    config: XDEFIConfig;
-  }) =>
+  }: ConnectWalletParams) =>
   async (chains: (typeof XDEFI_SUPPORTED_CHAINS)[number][]) => {
     const promises = chains.map(async (chain) => {
       const address = await getXDEFIAddress(chain);
@@ -190,8 +179,6 @@ const connectXDEFI =
     });
 
     await Promise.all(promises);
-
-    return true;
   };
 
 export const xdefiWallet = {

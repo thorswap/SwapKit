@@ -3,8 +3,8 @@
     "@babel/core": "7.23.5",
     "@babel/eslint-parser": "7.23.3",
     "@changesets/changelog-github": "0.5.0",
-    "@changesets/cli": "2.26.1",
-    "@size-limit/file": "11.0.0",
+    "@changesets/cli": "2.27.1",
+    "@size-limit/file": "11.0.1",
     "@typescript-eslint/eslint-plugin": "6.13.2",
     "@typescript-eslint/parser": "6.13.2",
     "dotenv-cli": "7.3.0",
@@ -18,12 +18,12 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-simple-import-sort": "10.0.0",
     "eslint-plugin-unused-imports": "3.0.0",
-    "prettier": "3.1.0",
+    "prettier": "3.1.1",
     "react": "18.2.0",
-    "size-limit": "11.0.0",
-    "turbo": "1.11.0",
-    "typescript": "5.2.2",
-    "vitest": "1.0.1"
+    "size-limit": "11.0.1",
+    "turbo": "1.11.1",
+    "typescript": "5.3.3",
+    "vitest": "1.0.4"
   },
   "prettier": {
     "bracketSameLine": true,
@@ -45,34 +45,31 @@
   "pnpm": {
     "overrides": {
       "axios": "^1.6.2",
-      "ethers": "^6.9.0",
       "json5@<=1.0.1": "^1.0.2",
-      "semver@<=4.3.2": "^7.5.4",
-      "typescript": "5.2.2"
+      "semver@<=4.3.2": "^7.5.4"
     },
     "patchedDependencies": {
       "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
-      "@changesets/assemble-release-plan@5.2.3": "patches/@changesets__assemble-release-plan@5.2.3.patch",
-      "@changesets/cli@2.26.1": "patches/@changesets__cli@2.26.1.patch",
       "typeforce@1.18.0": "patches/typeforce@1.18.0.patch",
-      "@ledgerhq/live-network@1.1.9": "patches/@ledgerhq__live-network@1.1.9.patch"
+      "@ledgerhq/live-network@1.1.9": "patches/@ledgerhq__live-network@1.1.9.patch",
+      "@changesets/cli@2.27.1": "patches/@changesets__cli@2.27.1.patch"
     }
   },
   "scripts": {
     "bootstrap": "rm -rf node_modules; pnpm install; pnpm build",
-    "build": "turbo run build --token=turbotoken-oss-europe1",
-    "build:playground": "turbo run build-playground --token=turbotoken-oss-europe1 --concurrency=30",
-    "preview:playground": "turbo run preview-playground --token=turbotoken-oss-europe1 --concurrency=30",
+    "build": "turbo run build --continue",
+    "build:playground": "turbo run build-playground --concurrency=30",
+    "preview:playground": "turbo run preview-playground --concurrency=30",
     "clean": "turbo run clean",
     "dev:playground": "turbo run dev --concurrency=30 --filter=\"{./internal/playground}...\"",
     "dev:playground:node": "turbo run dev:node --concurrency=30 --filter=\"{./internal/node-playground}...\"",
     "dev:playground:bun": "turbo run dev:bun --concurrency=30 --filter=\"{./internal/node-playground}...\"",
     "generate": "cd ./internal/generator; pnpm generate; cd ../..",
     "generate:tokens": "pnpm build --filter api; cd ./packages/swapkit/tokens; pnpm run generate-tokens; cd ../../..; pnpm run lint --filter tokens --force",
-    "lint": "turbo run lint --continue --token=turbotoken-oss-europe1 --filter=!./packages/swapkit/swapkit-sdk",
+    "lint": "turbo run lint --continue --filter=!./packages/swapkit/swapkit-sdk",
     "postinstall": "rm -rf ./.git/hooks/pre-commit ./.git/hooks/prepare-commit-msg",
-    "publish-packages": "turbo run build lint --token=turbotoken-oss-europe1 && pnpm version-bump && pnpm changeset publish",
-    "test": "dotenv -- turbo run test --continue --token=turbotoken-oss-europe1",
+    "publish-packages": "turbo run build lint && pnpm version-bump && pnpm changeset publish",
+    "test": "dotenv -- turbo run test --continue",
     "test:coverage": "dotenv -- turbo --continue run test:coverage",
     "version-bump": "dotenv -- pnpm changeset version"
   }

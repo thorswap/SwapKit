@@ -1,6 +1,6 @@
+import type { JsonRpcProvider, Provider, TransactionRequest } from '@swapkit/toolbox-evm';
+import { AbstractSigner } from '@swapkit/toolbox-evm';
 import type { EVMChain } from '@swapkit/types';
-import type { JsonRpcProvider, Provider, TransactionRequest } from 'ethers';
-import { AbstractSigner } from 'ethers';
 
 import { DEFAULT_EIP155_METHODS } from './constants.ts';
 import { chainToChainId, getAddressByChain } from './helpers.ts';
