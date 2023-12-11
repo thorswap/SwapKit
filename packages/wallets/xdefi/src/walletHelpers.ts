@@ -1,7 +1,7 @@
 import type { Keplr } from '@keplr-wallet/types';
 import type { AssetValue } from '@swapkit/helpers';
 import type { TransferParams } from '@swapkit/toolbox-cosmos';
-import type { ApproveParams, CallParams, EVMToolbox, EVMTxParams } from '@swapkit/toolbox-evm';
+import type { ApproveParams, CallParams, EVMTxParams } from '@swapkit/toolbox-evm';
 import {
   createContract,
   createContractTxObject,

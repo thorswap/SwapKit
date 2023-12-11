@@ -169,12 +169,12 @@ const getToolbox = async ({
     case Chain.Binance: {
       const { BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
       const toolbox = BinanceToolbox({ stagenet: false });
-      const transfer = async (params: any) => {
+      const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
         const { transaction, signMsg } = await toolbox.createTransactionAndSignMsg({
-          ...params,
-          to: params.recipient,
-          amount: params.amount.amount().toString(),
-          asset: params.asset.symbol,
+          from: address,
+          recipient,
+          assetValue,
+          memo,
         });
         const signBytes = transaction.getSignBytes(signMsg);
         const pubKeyResponse = await (signer as BinanceLedger).ledgerApp.getPublicKey(
