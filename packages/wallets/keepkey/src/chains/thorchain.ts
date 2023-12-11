@@ -96,19 +96,17 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
         const keepKeyResponse = await sdk.thorchain.thorchainSignAminoDeposit({
           signerAddress: fromAddress,
           signDoc: {
-            memo,
+            memo:memo || '',
             sequence: accountInfo?.sequence.toString() ?? '0',
-            // FIXME: @highlander - this type is missing from source signature
-            // @ts-expect-error
             source: addressInfo?.source?.toString() ?? '0',
             account_number: accountInfo?.accountNumber?.toString() ?? '0',
             chain_id: ChainId.THORChain,
-            fee: { gas: '500000000', amount: [{ amount: '2500', denom: 'rune' }] },
+            fee: { gas: '500000000', amount: [] },
             msgs: [
               {
                 value: {
                   coins: [{ asset: 'THOR.' + asset.toUpperCase(), amount: amount.toString() }],
-                  memo,
+                  memo: memo || '',
                   signer: fromAddress,
                 },
                 type: 'thorchain/MsgDeposit',

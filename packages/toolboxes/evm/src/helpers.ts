@@ -1,4 +1,4 @@
-import { AssetValue, filterAssets, formatBigIntToSafeValue, SwapKitNumber } from '@coinmasters/helpers';
+import { AssetValue, formatBigIntToSafeValue, SwapKitNumber } from '@coinmasters/helpers';
 import {
   BaseDecimal,
   Chain,
@@ -280,27 +280,25 @@ export const getBalance = async ({
 }) => {
   const tokenBalances = await api.getBalance(address[0].address);
   const evmGasTokenBalance = await provider.getBalance(address[0].address);
-  const balances =
-    chain === Chain.Ethereum
-      ? [
-          {
-            chain: Chain.Ethereum,
-            symbol: 'ETH',
-            value: formatBigIntToSafeValue({ value: BigInt(evmGasTokenBalance), decimal: 18 }),
-            decimal: BaseDecimal.ETH,
-          },
-          ...tokenBalances,
-        ]
-      : tokenBalances;
-
-  const filteredBalances = potentialScamFilter ? filterAssets(balances) : balances;
-
-  return filteredBalances.map(
-    ({ symbol, value, decimal }) =>
-      new AssetValue({
-        decimal: decimal || BaseDecimal[chain],
-        value,
-        identifier: `${chain}.${symbol}`,
-      }),
+  console.log('tokenBalances: ', tokenBalances);
+  console.log('evmGasTokenBalance: ', evmGasTokenBalance);
+  let gasTokenBalance = AssetValue.fromChainOrSignature(
+    chain,
+    formatBigIntToSafeValue({ value: evmGasTokenBalance, decimal: BaseDecimal[chain] }),
   );
+  gasTokenBalance.address = address[0].address;
+  let balances = [gasTokenBalance];
+  await AssetValue.loadStaticAssets()
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
+  for (let i = 0; i < tokenBalances.length; i++) {
+    let tokenBalance = tokenBalances[i];
+    let formatedBalance = AssetValue.fromIdentifierSync(
+      chain.toString()+'.'+tokenBalance.symbol,
+      formatBigIntToSafeValue({ value: tokenBalance.value, decimal: tokenBalance.decimal }),
+    );
+    formatedBalance.address = address[0].address;
+    balances.push(formatedBalance);
+  }
+  // return filteredBalances;
+  return balances;
 };

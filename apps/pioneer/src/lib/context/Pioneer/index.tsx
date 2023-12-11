@@ -29,7 +29,6 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 import { SDK } from './sdk';
-import type { Transaction } from './txDb';
 import transactionDB from './txDb';
 
 const eventEmitter = new EventEmitter();

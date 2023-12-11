@@ -190,7 +190,7 @@ export class SwapKitCore<T = ''> {
 
   getWalletByChain = async (chain: Chain, potentialScamFilter?: boolean) => {
     const address = this.getAddress(chain);
-    console.log("getWalletByChain: address: ", address)
+    console.log('getWalletByChain: address: ', address);
     if (!address) return null;
     console.log('chain: ', chain);
     console.log('address: ', address);
@@ -205,19 +205,33 @@ export class SwapKitCore<T = ''> {
       console.log('Get balance for Address! address: ' + address);
       console.log('Get balance for Address! chain: ' + chain);
       //use address balance
-      balance = await this.getWallet(chain)?.getBalance([{ address }])
-      for(let i = 0; i < balance.length; i++) {
-        balance[i].address = address
+      balance = await this.getWallet(chain)?.getBalance([{ address }]);
+      // eslint-disable-next-line @typescript-eslint/prefer-for-of
+      for (let i = 0; i < balance.length; i++) {
+        balance[i].address = address;
       }
-      console.log('balance: ', balance);
+      // console.log('balances: ', balance);
       // console.log('balance: ', balance[0])
       // console.log('balance: ', balance.length)
       // console.log('balance: ', typeof(balance))
       // balance = [balance]
     } else {
-      console.log(chain + ' pubkeys: ', pubkeys);
+      console.log(chain + ' pubkeys: ', pubkeys.length);
+      /*
+          Logic asumptions
+            * Every pubkey will be a UTXO
+            * every UXTO has only 1 asset balance
+            * we sum ALL balances of all pubkeys and return as 1 balance
+              (aka you have x amount bitcoin) as is commonly used in wallets
+
+            Notes: we will only allow sending FROM 1 xpub at a time
+            *so the MAX spendable is the balance of highest balance xpub.*
+
+            blockbook has a wallet gap limit of 20
+       */
       //use pubkey balances
       let balanceTotal = 0;
+      // eslint-disable-next-line @typescript-eslint/prefer-for-of
       for (let i = 0; i < pubkeys.length; i++) {
         const pubkey = pubkeys[i];
         console.log('Get balance for xpub!');

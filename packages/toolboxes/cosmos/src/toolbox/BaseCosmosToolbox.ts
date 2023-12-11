@@ -88,7 +88,9 @@ export const BaseCosmosToolbox = ({
         .filter(({ denom }) => denom)
         .map(async ({ denom, amount }) => {
           try {
-            return await getAssetFromDenom(denom, amount);
+            let balance = await getAssetFromDenom(denom, amount);
+            balance.address = pubkeys[0].address;
+            return balance;
           } catch (error) {
             console.error(error);
             // Return the shared error symbol

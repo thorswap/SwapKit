@@ -14,9 +14,10 @@ const getBalance = async (address: any[]) => {
   console.log('balance: ', typeof balanceBase);
   if (balanceBase && balanceBase.error) balanceBase = '0';
   await AssetValue.loadStaticAssets();
-  const assetValueNativeOsmo = AssetValue.fromStringSync('XRP.XRP', balanceBase);
-  console.log('assetValueNativeOsmo: ', assetValueNativeOsmo);
-  let balances = [assetValueNativeOsmo];
+  const assetValueNative = AssetValue.fromStringSync('XRP.XRP', balanceBase);
+  assetValueNative.address = address[0].address;
+  console.log('assetValueNative: ', assetValueNative);
+  let balances = [assetValueNative];
   console.log('balances: ', balances);
 
   return balances;
