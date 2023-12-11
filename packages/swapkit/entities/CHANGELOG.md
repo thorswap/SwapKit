@@ -1,5 +1,14 @@
 # @thorswap-lib/swapkit-entities
 
+## 1.0.0-rc.26
+
+### Patch Changes
+
+- tokenlist bump[
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.26
+
 ## 1.0.0-rc.25
 
 ### Patch Changes

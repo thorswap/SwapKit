@@ -1,5 +1,24 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.64
+
+### Patch Changes
+
+- tokenlist bump[
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.53
+  - @swapkit/helpers@1.0.0-rc.49
+  - @swapkit/toolbox-utxo@1.0.0-rc.52
+  - @swapkit/types@1.0.0-rc.26
+  - @swapkit/toolbox-evm@1.0.0-rc.53
+
+## 1.0.0-rc.63
+
+### Patch Changes
+
+- [#477](https://github.com/thorswap/SwapKit/pull/477) [`e774547`](https://github.com/thorswap/SwapKit/commit/e77454756a63c64b2d8f3c1d3120c8ebde06256d) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Ledger BNB transfer
+
 ## 1.0.0-rc.62
 
 ### Patch Changes
