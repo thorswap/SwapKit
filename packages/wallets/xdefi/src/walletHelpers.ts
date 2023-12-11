@@ -87,11 +87,11 @@ const transaction = async ({
 
 export const getXDEFIAddress = async (chain: Chain) => {
   const eipProvider = getXDEFIProvider(chain) as Eip1193Provider;
-  if (!eipProvider) throw new Error('XDEFI provider is not defined');
+  if (!eipProvider) throw new Error(`${chain}: XDEFI provider is not defined`);
 
   if ([Chain.Cosmos, Chain.Kujira].includes(chain)) {
     const provider = getXDEFIProvider(Chain.Cosmos) as Keplr;
-    if (!provider) throw new Error('XDEFI provider is not defined');
+    if (!provider) throw new Error(`${chain}: XDEFI provider is not defined`);
 
     // Enabling before using the Keplr is recommended.
     // This method will ask the user whether to allow access if they haven't visited this website.

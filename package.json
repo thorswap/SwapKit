@@ -46,8 +46,7 @@
     "overrides": {
       "axios": "^1.6.2",
       "json5@<=1.0.1": "^1.0.2",
-      "semver@<=4.3.2": "^7.5.4",
-      "typescript": "5.2.2"
+      "semver@<=4.3.2": "^7.5.4"
     },
     "patchedDependencies": {
       "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
