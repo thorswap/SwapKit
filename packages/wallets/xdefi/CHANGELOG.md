@@ -1,5 +1,11 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.63
+
+### Patch Changes
+
+- [#477](https://github.com/thorswap/SwapKit/pull/477) [`e774547`](https://github.com/thorswap/SwapKit/commit/e77454756a63c64b2d8f3c1d3120c8ebde06256d) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Ledger BNB transfer
+
 ## 1.0.0-rc.62
 
 ### Patch Changes
