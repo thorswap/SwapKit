@@ -52,7 +52,8 @@
       "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
       "typeforce@1.18.0": "patches/typeforce@1.18.0.patch",
       "@ledgerhq/live-network@1.1.9": "patches/@ledgerhq__live-network@1.1.9.patch",
-      "@changesets/cli@2.27.1": "patches/@changesets__cli@2.27.1.patch"
+      "@changesets/cli@2.27.1": "patches/@changesets__cli@2.27.1.patch",
+      "@changesets/assemble-release-plan@6.0.0": "patches/@changesets__assemble-release-plan@6.0.0.patch"
     }
   },
   "scripts": {

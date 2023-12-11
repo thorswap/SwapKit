@@ -1,5 +1,18 @@
 # @swapkit/wallet-wc
 
+## 1.0.0-rc.59
+
+### Patch Changes
+
+- [#473](https://github.com/thorswap/SwapKit/pull/473) [`0864ab0`](https://github.com/thorswap/SwapKit/commit/0864ab0201cdd55ad82f27f042e38fc27d623393) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Update imports
+
+- bump packages
+
+- Updated dependencies [[`0864ab0`](https://github.com/thorswap/SwapKit/commit/0864ab0201cdd55ad82f27f042e38fc27d623393)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.54
+  - @swapkit/types@1.0.0-rc.27
+  - @swapkit/toolbox-evm@1.0.0-rc.54
+
 ## 1.0.0-rc.58
 
 ### Patch Changes

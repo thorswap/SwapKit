@@ -14,7 +14,6 @@
   "main": "index.js",
   "name": "@internal/config",
   "private": true,
-  "scripts": {},
   "type": "module",
-  "version": "0.0.0-rc.12"
+  "version": "null-rc.0"
 }
