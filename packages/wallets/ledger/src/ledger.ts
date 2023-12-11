@@ -493,8 +493,6 @@ const connectLedger =
       walletMethods: { ...toolbox, getAddress: () => address },
       wallet: { address, balance: [], walletType: WalletOption.LEDGER },
     });
-
-    return true;
   };
 
 export const ledgerWallet = {

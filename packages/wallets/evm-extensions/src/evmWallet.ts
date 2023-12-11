@@ -1,17 +1,45 @@
-import type { EVMChain, EVMWalletOptions } from '@swapkit/types';
+import type { Eip1193Provider } from '@swapkit/toolbox-evm';
+import type { ConnectWalletParams, EVMChain, EVMWalletOptions } from '@swapkit/types';
 import { WalletOption } from '@swapkit/types';
 
-import { getWalletForType } from './helpers.ts';
-import type { EVMWalletConfig } from './types.ts';
+declare global {
+  interface Window {
+    ethereum: Eip1193Provider;
+    trustwallet: Eip1193Provider;
+    coinbaseWalletExtension: Eip1193Provider;
+    xfi?: {
+      binance: any;
+      bitcoin: any;
+      bitcoincash: any;
+      dogecoin: any;
+      ethereum: Eip1193Provider;
+      litecoin: any;
+      thorchain: any;
+    };
+  }
+}
+
+const getWalletForType = (
+  walletType:
+    | WalletOption.BRAVE
+    | WalletOption.METAMASK
+    | WalletOption.TRUSTWALLET_WEB
+    | WalletOption.COINBASE_WEB,
+) => {
+  switch (walletType) {
+    case WalletOption.BRAVE:
+      return window.ethereum;
+    case WalletOption.METAMASK:
+      return window.ethereum;
+    case WalletOption.COINBASE_WEB:
+      return window.coinbaseWalletExtension;
+    case WalletOption.TRUSTWALLET_WEB:
+      return window.trustwallet;
+  }
+};
 
 const connectEVMWallet =
-  ({
-    addChain,
-    config: { covalentApiKey, ethplorerApiKey },
-  }: {
-    addChain: any;
-    config: EVMWalletConfig;
-  }) =>
+  ({ addChain, config: { covalentApiKey, ethplorerApiKey } }: ConnectWalletParams) =>
   async (chains: EVMChain[], walletType: EVMWalletOptions = WalletOption.METAMASK) => {
     const promises = chains.map(async (chain) => {
       const { BrowserProvider, getWeb3WalletMethods } = await import('@swapkit/toolbox-evm');
@@ -34,8 +62,6 @@ const connectEVMWallet =
     });
 
     await Promise.all(promises);
-
-    return true;
   };
 
 export const evmWallet = {

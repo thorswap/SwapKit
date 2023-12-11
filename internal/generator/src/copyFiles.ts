@@ -39,14 +39,4 @@ export const copyFiles = async ({ packageType, packageName }: CliOptions) => {
   const packagePath = `../../packages/${packageType.toLowerCase()}/${packageName}`;
 
   return copyDir(LIB_FILES, packagePath, options);
-
-  //
-  // switch (packageType) {
-  //   case PackageType.Wallet:
-  //   case PackageType.Toolbox:
-  //   case PackageType.Swapkit:
-
-  //   default:
-  //     return true;
-  // }
 };

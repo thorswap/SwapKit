@@ -1,4 +1,4 @@
-import { Chain, type EVMChain } from '@swapkit/types';
+import { Chain } from '@swapkit/types';
 
 import { ARBToolbox } from './arb.ts';
 import { AVAXToolbox } from './avax.ts';
@@ -7,19 +7,29 @@ import { ETHToolbox } from './eth.ts';
 import { MATICToolbox } from './matic.ts';
 import { OPToolbox } from './op.ts';
 
-export const getToolboxByChain = async (chain: EVMChain) => {
+type ToolboxType = {
+  ETH: typeof ETHToolbox;
+  AVAX: typeof AVAXToolbox;
+  BSC: typeof BSCToolbox;
+  MATIC: typeof MATICToolbox;
+  ARB: typeof ARBToolbox;
+  OP: typeof OPToolbox;
+};
+
+// @ts-expect-error false positive
+export const getToolboxByChain = <T extends keyof ToolboxType>(chain: T): ToolboxType[T] => {
   switch (chain) {
     case Chain.Avalanche:
-      return AVAXToolbox;
+      return AVAXToolbox as ToolboxType[T];
     case Chain.Arbitrum:
-      return ARBToolbox;
+      return ARBToolbox as ToolboxType[T];
     case Chain.Optimism:
-      return OPToolbox;
+      return OPToolbox as ToolboxType[T];
     case Chain.Polygon:
-      return MATICToolbox;
+      return MATICToolbox as ToolboxType[T];
     case Chain.BinanceSmartChain:
-      return BSCToolbox;
-    default:
-      return ETHToolbox;
+      return BSCToolbox as ToolboxType[T];
+    case Chain.Ethereum:
+      return ETHToolbox as ToolboxType[T];
   }
 };

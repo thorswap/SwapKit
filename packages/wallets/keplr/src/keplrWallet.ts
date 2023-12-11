@@ -3,10 +3,16 @@ import type { AssetValue } from '@swapkit/helpers';
 import type { ConnectWalletParams, WalletTxParams } from '@swapkit/types';
 import { Chain, ChainToChainId, RPCUrl, WalletOption } from '@swapkit/types';
 
+declare global {
+  interface Window {
+    keplr: Keplr;
+  }
+}
+
 const connectKeplr =
   ({ addChain, rpcUrls }: ConnectWalletParams) =>
   async (chain: Chain.Cosmos | Chain.Kujira) => {
-    const keplrClient = (window as any).keplr as Keplr;
+    const keplrClient = window.keplr;
     const chainId = ChainToChainId[chain];
     keplrClient?.enable(chainId);
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(chainId);
@@ -41,8 +47,6 @@ const connectKeplr =
       walletMethods: { ...toolbox, transfer, getAddress: () => address },
       wallet: { address, balance: [], walletType: WalletOption.KEPLR },
     });
-
-    return true;
   };
 
 export const keplrWallet = {
