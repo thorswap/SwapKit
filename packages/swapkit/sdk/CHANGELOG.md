@@ -1,5 +1,12 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.74
+
+### Patch Changes
+
+- Updated dependencies [[`5d545a9`](https://github.com/thorswap/SwapKit/commit/5d545a98ca0e9a8be0ff20e2e3387a2828bb2c0a)]:
+  - @swapkit/wallet-wc@1.0.0-rc.57
+
 ## 1.0.0-rc.73
 
 ### Patch Changes
