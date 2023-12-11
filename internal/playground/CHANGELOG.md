@@ -1,5 +1,12 @@
 # @internal/playground
 
+## 0.0.0-rc.67
+
+### Patch Changes
+
+- Updated dependencies [[`5d545a9`](https://github.com/thorswap/SwapKit/commit/5d545a98ca0e9a8be0ff20e2e3387a2828bb2c0a)]:
+  - @swapkit/wallet-wc@1.0.0-rc.57
+
 ## 0.0.0-rc.66
 
 ### Patch Changes

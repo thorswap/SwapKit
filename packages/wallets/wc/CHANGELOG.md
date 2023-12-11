@@ -1,5 +1,11 @@
 # @swapkit/wallet-wc
 
+## 1.0.0-rc.57
+
+### Patch Changes
+
+- [#474](https://github.com/thorswap/SwapKit/pull/474) [`5d545a9`](https://github.com/thorswap/SwapKit/commit/5d545a98ca0e9a8be0ff20e2e3387a2828bb2c0a) Thanks [@towanTG](https://github.com/towanTG)! - Fixes tc chain id for wc and rpc url
+
 ## 1.0.0-rc.56
 
 ### Patch Changes
