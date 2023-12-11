@@ -205,6 +205,8 @@ const connectKeepkey =
         wallet: { address, balance: [], walletType: WalletOption.KEEPKEY },
       });
     }
+
+    return keepkeyConfig.apiKey;
   };
 
 export const keepkeyWallet = {
