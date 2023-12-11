@@ -8,7 +8,7 @@ import {
   TxRaw,
 } from '@swapkit/toolbox-cosmos';
 import type { ConnectWalletParams } from '@swapkit/types';
-import { RPCUrl, Chain, ChainId, WalletOption } from '@swapkit/types';
+import { Chain, ChainId, RPCUrl, WalletOption } from '@swapkit/types';
 import type { WalletConnectModalSign } from '@walletconnect/modal-sign-html';
 import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
 
@@ -153,103 +153,11 @@ const getToolbox = async ({
           },
         });
 
-<<<<<<< HEAD
-      const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
-        const account = await toolbox.getAccount(from);
-        if (!account) throw new Error('Account not found');
-        if (!account.pubkey) throw new Error('Account pubkey not found');
-        const { accountNumber, sequence = 0 } = account;
-
-        const sendCoinsMessage = {
-          amount: [
-            {
-              amount: assetValue.getBaseValue('string'),
-              denom: assetValue.symbol.toLowerCase(),
-            },
-          ],
-          from_address: address,
-          to_address: recipient,
-        };
-
-        const msg = {
-          type: 'thorchain/MsgSend',
-          value: sendCoinsMessage,
-        };
-
-        const signDoc = makeSignDoc(
-          [msg],
-          DEFAULT_THORCHAIN_FEE,
-          ChainId.THORChain,
-          memo,
-          accountNumber?.toString(),
-          sequence?.toString() || '0',
-        );
-
-        const signature: any = await signRequest(signDoc);
-
-        const txObj = {
-          msg: [msg],
-          fee: DEFAULT_THORCHAIN_FEE,
-          memo,
-          signatures: [
-            {
-              // The request coming from TW Android are different from those coming from iOS.
-              ...(typeof signature.signature === 'string' ? signature : signature.signature),
-              sequence: sequence?.toString(),
-            },
-          ],
-        };
-
-        const aminoTypes = await toolbox.createDefaultAminoTypes();
-        const registry = await toolbox.createDefaultRegistry();
-        const signedTxBody: TxBodyEncodeObject = {
-          typeUrl: '/cosmos.tx.v1beta1.TxBody',
-          value: {
-            messages: txObj.msg.map((msg) => aminoTypes.fromAmino(msg)),
-            memo: txObj.memo,
-          },
-        };
-
-        const signMode = SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
-
-        const signedTxBodyBytes = registry.encode(signedTxBody);
-        const signedGasLimit = Int53.fromString(txObj.fee.gas).toNumber();
-        const pubkey = encodePubkey(account.pubkey);
-        const signedAuthInfoBytes = makeAuthInfoBytes(
-          [{ pubkey, sequence }],
-          txObj.fee.amount,
-          signedGasLimit,
-          undefined,
-          undefined,
-          signMode,
-        );
-
-        const txRaw = TxRaw.fromPartial({
-          bodyBytes: signedTxBodyBytes,
-          authInfoBytes: signedAuthInfoBytes,
-          signatures: [
-            fromBase64(
-              typeof signature.signature === 'string'
-                ? signature.signature
-                : signature.signature.signature,
-            ),
-          ],
-        });
-        const txBytes = TxRaw.encode(txRaw).finish();
-
-        const broadcaster = await createStargateClient(RPCUrl.THORChain);
-        const result = await broadcaster.broadcastTx(txBytes);
-        return result.transactionHash;
-      };
-
-      const deposit = async ({ assetValue, memo }: DepositParam) => {
-=======
       const thorchainTransfer = async ({
         assetValue,
         memo,
         ...rest
       }: TransferParams | DepositParam) => {
->>>>>>> 659e8a0a (chore: refactor for new getToolboxByChain helpers)
         const account = await toolbox.getAccount(address);
         if (!account) throw new Error('Account not found');
         if (!account.pubkey) throw new Error('Account pubkey not found');
