@@ -22,14 +22,15 @@ declare global {
 const getWalletForType = (
   walletType:
     | WalletOption.BRAVE
+    | WalletOption.OKX_MOBILE
     | WalletOption.METAMASK
     | WalletOption.TRUSTWALLET_WEB
     | WalletOption.COINBASE_WEB,
 ) => {
   switch (walletType) {
     case WalletOption.BRAVE:
-      return window.ethereum;
     case WalletOption.METAMASK:
+    case WalletOption.OKX_MOBILE:
       return window.ethereum;
     case WalletOption.COINBASE_WEB:
       return window.coinbaseWalletExtension;

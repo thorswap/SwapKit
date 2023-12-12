@@ -34,6 +34,7 @@ const AllChainsSupported = [
 
 export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   [WalletOption.BRAVE]: EVMChainList,
+  [WalletOption.OKX_MOBILE]: EVMChainList,
   [WalletOption.COINBASE_WEB]: EVMChainList,
   [WalletOption.KEPLR]: [Chain.Cosmos],
   [WalletOption.KEYSTORE]: AllChainsSupported,
