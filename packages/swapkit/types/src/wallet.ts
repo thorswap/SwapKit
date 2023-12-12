@@ -8,12 +8,14 @@ export enum WalletOption {
   'LEDGER' = 'LEDGER',
   'KEPLR' = 'KEPLR',
   'OKX' = 'OKX',
+  'OKX_MOBILE' = 'OKX_MOBILE',
   'BRAVE' = 'BRAVE',
   'WALLETCONNECT' = 'WALLETCONNECT',
 }
 
 export type EVMWalletOptions =
   | WalletOption.BRAVE
+  | WalletOption.OKX_MOBILE
   | WalletOption.METAMASK
   | WalletOption.TRUSTWALLET_WEB
   | WalletOption.COINBASE_WEB;
