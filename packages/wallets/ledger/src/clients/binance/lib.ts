@@ -29,7 +29,7 @@ const INS_GET_VERSION = 0x00;
 const INS_PUBLIC_KEY_SECP256K1 = 0x01;
 const INS_SIGN_SECP256K1 = 0x02;
 const INS_SHOW_ADDR_SECP256K1 = 0x03;
-// const INS_GET_ADDR_SECP256K1 = 0x04
+// const INS_GET_ADDR_SECP256K1 = 0x04;
 
 interface Version {
   test_mode?: boolean;
