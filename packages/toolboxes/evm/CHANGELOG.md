@@ -1,5 +1,15 @@
 # @swapkit/toolbox-evm
 
+## 1.0.0-rc.55
+
+### Patch Changes
+
+- [#479](https://github.com/thorswap/SwapKit/pull/479) [`180c4a4`](https://github.com/thorswap/SwapKit/commit/180c4a4c9d5443feec25199383800407c93bb30e) Thanks [@towanTG](https://github.com/towanTG)! - Adds OKx Mobile detection
+
+- Updated dependencies [[`180c4a4`](https://github.com/thorswap/SwapKit/commit/180c4a4c9d5443feec25199383800407c93bb30e)]:
+  - @swapkit/types@1.0.0-rc.28
+  - @swapkit/helpers@1.0.0-rc.51
+
 ## 1.0.0-rc.54
 
 ### Patch Changes

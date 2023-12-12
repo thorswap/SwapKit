@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.28
+
+### Patch Changes
+
+- [#479](https://github.com/thorswap/SwapKit/pull/479) [`180c4a4`](https://github.com/thorswap/SwapKit/commit/180c4a4c9d5443feec25199383800407c93bb30e) Thanks [@towanTG](https://github.com/towanTG)! - Adds OKx Mobile detection
+
 ## 1.0.0-rc.27
 
 ### Patch Changes
