@@ -1,5 +1,23 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.79
+
+### Patch Changes
+
+- Updated dependencies [[`34e31a4`](https://github.com/thorswap/SwapKit/commit/34e31a4647c9b460b8e0ad4850fcc73043c22436), [`ceafe10`](https://github.com/thorswap/SwapKit/commit/ceafe103cfa2ceb39e6e5bb08ce2a2596b815b84)]:
+  - @swapkit/toolbox-evm@1.0.0-rc.56
+  - @swapkit/wallet-ledger@1.0.0-rc.69
+  - @swapkit/core@1.0.0-rc.68
+  - @swapkit/toolbox-cosmos@1.0.0-rc.56
+  - @swapkit/toolbox-utxo@1.0.0-rc.55
+  - @swapkit/wallet-keplr@1.0.0-rc.56
+  - @swapkit/wallet-keystore@1.0.0-rc.65
+  - @swapkit/wallet-okx@1.0.0-rc.63
+  - @swapkit/wallet-trezor@1.0.0-rc.60
+  - @swapkit/wallet-xdefi@1.0.0-rc.67
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.56
+  - @swapkit/wallet-wc@1.0.0-rc.61
+
 ## 1.0.0-rc.78
 
 ### Patch Changes

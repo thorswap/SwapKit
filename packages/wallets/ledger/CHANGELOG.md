@@ -1,5 +1,17 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.69
+
+### Patch Changes
+
+- [#482](https://github.com/thorswap/SwapKit/pull/482) [`ceafe10`](https://github.com/thorswap/SwapKit/commit/ceafe103cfa2ceb39e6e5bb08ce2a2596b815b84) Thanks [@towanTG](https://github.com/towanTG)! - Fixes ledger BNB accounts
+
+- Updated dependencies [[`34e31a4`](https://github.com/thorswap/SwapKit/commit/34e31a4647c9b460b8e0ad4850fcc73043c22436)]:
+  - @swapkit/helpers@1.0.0-rc.52
+  - @swapkit/toolbox-evm@1.0.0-rc.56
+  - @swapkit/toolbox-cosmos@1.0.0-rc.56
+  - @swapkit/toolbox-utxo@1.0.0-rc.55
+
 ## 1.0.0-rc.68
 
 ### Patch Changes
