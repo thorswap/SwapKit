@@ -26,6 +26,7 @@ export function formatBigIntToSafeValue({
   bigIntDecimal?: number;
   decimal?: number;
 }) {
+  if (decimal === 0) return value.toString();
   const isNegative = value < 0n;
   let valueString = value.toString().substring(isNegative ? 1 : 0);
 
