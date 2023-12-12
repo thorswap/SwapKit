@@ -367,7 +367,6 @@ const getToolbox = async ({
         const account = await toolbox.getAccount(address);
         if (!account) throw new Error('invalid account');
         if (!assetValue) throw new Error('invalid asset');
-        if (!account.pubkey) throw new Error('Account pubkey not found');
         if (!(signer as THORChainLedger).pubkey) throw new Error('Account pubkey not found');
 
         const { accountNumber, sequence = '0' } = account;
