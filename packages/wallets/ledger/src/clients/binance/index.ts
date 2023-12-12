@@ -18,7 +18,7 @@ export class BinanceLedger extends CommonLedgerInterface {
     const publicKey = await this.ledgerApp.getPublicKey(this.derivationPath);
     const address = getAddressFromPublicKey(publicKey.pk, this.chain);
 
-    await this.ledgerApp.showAddress();
+    await this.ledgerApp.showAddress(this.chain, this.derivationPath);
 
     return address;
   };
