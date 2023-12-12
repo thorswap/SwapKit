@@ -1,5 +1,29 @@
 # @internal/playground
 
+## 0.0.0-rc.71
+
+### Patch Changes
+
+- [#479](https://github.com/thorswap/SwapKit/pull/479) [`180c4a4`](https://github.com/thorswap/SwapKit/commit/180c4a4c9d5443feec25199383800407c93bb30e) Thanks [@towanTG](https://github.com/towanTG)! - Adds OKx Mobile detection
+
+- Updated dependencies [[`180c4a4`](https://github.com/thorswap/SwapKit/commit/180c4a4c9d5443feec25199383800407c93bb30e)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.55
+  - @swapkit/types@1.0.0-rc.28
+  - @swapkit/toolbox-evm@1.0.0-rc.55
+  - @swapkit/api@1.0.0-rc.28
+  - @swapkit/core@1.0.0-rc.67
+  - @swapkit/helpers@1.0.0-rc.51
+  - @swapkit/tokens@1.0.0-rc.29
+  - @swapkit/toolbox-cosmos@1.0.0-rc.55
+  - @swapkit/toolbox-utxo@1.0.0-rc.54
+  - @swapkit/wallet-keplr@1.0.0-rc.55
+  - @swapkit/wallet-keystore@1.0.0-rc.64
+  - @swapkit/wallet-ledger@1.0.0-rc.68
+  - @swapkit/wallet-okx@1.0.0-rc.62
+  - @swapkit/wallet-trezor@1.0.0-rc.59
+  - @swapkit/wallet-wc@1.0.0-rc.60
+  - @swapkit/wallet-xdefi@1.0.0-rc.66
+
 ## 0.0.0-rc.70
 
 ### Patch Changes
