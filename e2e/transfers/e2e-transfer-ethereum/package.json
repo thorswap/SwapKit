@@ -1,5 +1,5 @@
 {
-  "name": "@coinmasters/intergration-user-init-multi",
+  "name": "@coinmasters/e2e-transfer-ethereum",
   "version": "1.0.1",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",

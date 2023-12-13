@@ -9,7 +9,8 @@
 // import * as Events from "@pioneer-platform/pioneer-events";
 // @ts-ignore
 
-import { AssetValue, EVMChainList, SwapKitCore } from '@coinmasters/core';
+import type { AssetValue } from '@coinmasters/core';
+import { EVMChainList, SwapKitCore } from '@coinmasters/core';
 import { Chain, NetworkIdToChain } from '@coinmasters/types';
 // @ts-ignore
 import { thorchainToCaip } from '@pioneer-platform/pioneer-caip';
@@ -303,7 +304,6 @@ export class SDK {
     this.pairWallet = async function (wallet: string, blockchains: any, ledgerApp?: any) {
       const tag = `${TAG} | pairWallet | `;
       try {
-        console.log('FUCKER THIS THING ON? bro bro');
         // log.debug(tag, "Pairing Wallet");
         if (!wallet) throw Error('Must have wallet to pair!');
         if (!this.swapKit) throw Error('SwapKit not initialized!');
@@ -325,19 +325,6 @@ export class SDK {
         //console.log(tag, 'AllChainsSupported: ', AllChainsSupported);
 
         await this.verifyWallet();
-
-        // // supported chains
-        // const AllChainsSupported = availableChainsByWallet[wallet];
-        // //console.log(tag, 'ChainToNetworkId: ', ChainToNetworkId);
-        // //console.log(tag, 'ChainToNetworkId: ', ChainToNetworkId[Chain.Ethereum]);
-        // let allByCaip = AllChainsSupported.map(
-        //   // @ts-ignore
-        //   (chainStr: any) => ChainToNetworkId[getChainEnumValue(chainStr)],
-        // );
-        // //console.log(tag, 'AllChainsSupported: ', AllChainsSupported);
-        // //console.log(tag, 'allByCaip: ', allByCaip);
-        // log.info(tag,"walletSelected.wallet.connectMethodName: ",walletSelected.wallet.connectMethodName)
-        // log.info("AllChainsSupported: ", AllChainsSupported);
 
         let resultPair: string;
         if (walletSelected.type === 'KEEPKEY') {
@@ -426,11 +413,6 @@ export class SDK {
           if (wallet === 'LEDGER' && ledgerApp !== 'ETH') {
             context = 'ledger:ledger.wallet'; //placeholder until we know eth address
           } else {
-            //console.log('this.swapKit: ', this.swapKit);
-            // console.log(
-            //   'this.swapKit.getWalletByChain: ',
-            //   await this.swapKit.getWalletByChain(Chain.Ethereum),
-            // );
             const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
             if (!ethAddress) throw Error('Failed to get eth address! can not pair wallet');
             context = `${wallet.toLowerCase()}:${ethAddress}.wallet`;
@@ -533,13 +515,15 @@ export class SDK {
             //console.log('Attemtping to get pubkeys for path: ', path);
             //get pubkey on path
             if (path.type === 'address') {
-              //console.log('path type address detected: ');
+              console.log('path type address detected: ');
               let address = this.swapKit?.getAddress(chain);
+              console.log('address: ', address);
               if (address) {
                 pubkey = {
                   context: this.context, // TODO this is not right?
                   // wallet:walletSelected.type,
                   symbolSwapKit: chain,
+                  symbol: chain,
                   blockchain: COIN_MAP_LONG[chain] || 'unknown',
                   type: 'address',
                   networkId: blockchain,
@@ -547,10 +531,11 @@ export class SDK {
                   pubkey: address,
                   address,
                 };
+                console.log('pubkey: ', pubkey);
                 pubkeysNew.push(pubkey);
               }
             } else {
-              //console.log('path type address detected: ');
+              console.log('path type pubkey detected: ');
               let walletForChain = await this.swapKit?.getWalletByChain(chain);
               //console.log('walletForChain: ', walletForChain);
               if (walletForChain) {
@@ -636,13 +621,7 @@ export class SDK {
 
               //console.log('balance: ', balance);
               let balanceString: any = {};
-              if (
-                !balance.chain ||
-                !balance.symbol ||
-                !balance.ticker ||
-                !balance.type ||
-                !balance.address
-              ) {
+              if (!balance.chain || !balance.type || !balance.address) {
                 console.error('chain: ', balance);
                 // console.error('chain: ', balance[0]);
                 // console.error('chain: ', balance[0].chain);
@@ -675,7 +654,7 @@ export class SDK {
                       balanceString.balance = balance.toFixed(balance.decimal).toString();
                     } else {
                       console.error("invalid balance! doesn't have toFixed: ", balance);
-                      throw Error("Invalid balance!")
+                      throw Error('Invalid balance!');
                     }
                     balances.push(balanceString);
                   } else {

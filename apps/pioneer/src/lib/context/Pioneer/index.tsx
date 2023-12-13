@@ -28,7 +28,7 @@ import {
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { SDK } from './sdk';
+import { SDK } from '@coinmasters/pioneer-sdk';
 import transactionDB from './txDb';
 
 const eventEmitter = new EventEmitter();

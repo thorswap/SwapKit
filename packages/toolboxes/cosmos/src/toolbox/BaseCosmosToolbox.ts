@@ -19,6 +19,7 @@ export const getFeeRateFromThorswap = async (chainId: ChainId) => {
 // TODO: figure out some better way to initialize from base value
 export const getAssetFromDenom = async (denom: string, amount: string) => {
   switch (denom) {
+    case 'thor':
     case 'rune':
       return AssetValue.fromChainOrSignature(Chain.THORChain, parseInt(amount) / 1e8);
     case 'bnb':
@@ -79,7 +80,7 @@ export const BaseCosmosToolbox = ({
     cosmosClient.getPubKeyFromMnemonic(phrase, `${derivationPath}/0`),
   getFeeRateFromThorswap,
   getBalance: async (pubkeys: any) => {
-    console.log('pubkeys: ', pubkeys);
+    //console.log('pubkeys: ', pubkeys);
     const balances = await cosmosClient.getBalance(pubkeys[0].address);
     const ERROR_SYMBOL = Symbol('error');
 

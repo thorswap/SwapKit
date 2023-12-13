@@ -66,9 +66,9 @@ const getSuggestedTxFee = async (chain: Chain) => {
 
 const blockchairRequest = async <T extends any>(url: string, apiKey?: string): Promise<T> => {
   try {
-    console.log('blockchairRequest: url: ', url);
+    //console.log('blockchairRequest: url: ', url);
     const response = await RequestClient.get<BlockchairResponse<T>>(url);
-    console.log('blockchairRequest: response: ', response);
+    //console.log('blockchairRequest: response: ', response);
     if (!response || response.context.code !== 200) throw new Error(`failed to query ${url}`);
 
     return response.data as T;
@@ -109,19 +109,19 @@ const getUnconfirmedBalance = async ({
   chain,
   apiKey,
 }: BlockchairParams<{ address?: string }>) => {
-  console.log('getUnconfirmedBalance: address: ', address);
+  //console.log('getUnconfirmedBalance: address: ', address);
   return (await getAddressData({ address, chain, apiKey })).address.balance;
 };
 
 const getXpubData = async ({ pubkey, chain }: BlockchairParams<{ address?: string }>) => {
   if (!pubkey) throw new Error('pubkey is required');
   try {
-    console.log('pubkey: ', pubkey);
+    //console.log('pubkey: ', pubkey);
     const url = `/utxo/getBalance/${chain}/${pubkey}`;
-    console.log('getXpubData URL: ', url);
+    //console.log('getXpubData URL: ', url);
     //const response = await blockchairRequest<any>(`${baseUrlPioneer()}${url}`);
     let response = await RequestClient.get<any>(`${baseUrlPioneer()}${url}`);
-    console.log('getXpubData: response: ', response);
+    //console.log('getXpubData: response: ', response);
     if(!response) response = 0
     return response;
   } catch (error) {
@@ -139,13 +139,13 @@ const listUnspent = async ({ pubkey, chain }: any) => {
   if (!pubkey) throw new Error('pubkey is required');
 
   try {
-    console.log('pubkey: ', pubkey);
+    //console.log('pubkey: ', pubkey);
 
     const url = `/listUnspent/${chain}/${pubkey}`;
-    console.log('getXpubData URL: ', url);
+    //console.log('getXpubData URL: ', url);
     //const response = await blockchairRequest<any>(`${baseUrlPioneer()}${url}`);
     let response = await RequestClient.get<any>(`${baseUrlPioneer()}${url}`);
-    console.log('getXpubData: response: ', response);
+    //console.log('getXpubData: response: ', response);
     return response;
   } catch (error) {
     return {
@@ -163,7 +163,7 @@ const getUnconfirmedBalanceXpub = async ({
   chain,
   apiKey,
 }: BlockchairParams<{ address?: string }>) => {
-  console.log('getUnconfirmedBalanceXpub; ', { pubkey, chain, apiKey });
+  //console.log('getUnconfirmedBalanceXpub; ', { pubkey, chain, apiKey });
   return await getXpubData({ pubkey, chain, apiKey });
 };
 

@@ -155,7 +155,8 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
     case Chain.Maya:
     case Chain.THORChain:
       return 'Native';
-
+    case Chain.Osmosis:
+      return 'Native';
     case Chain.Cosmos:
       return symbol === 'ATOM' ? 'Native' : Chain.Cosmos;
     case Chain.Kujira:

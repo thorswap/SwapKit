@@ -10,7 +10,7 @@
     "@coinmasters/toolbox-ripple": "workspace:*",
     "@coinmasters/toolbox-utxo": "workspace:*",
     "@coinmasters/types": "workspace:*",
-    "@pioneer-platform/pioneer-caip": "^9.0.10",
+    "@pioneer-platform/pioneer-caip": "^9.0.11",
     "@pioneer-platform/pioneer-client": "^9.0.19",
     "@pioneer-platform/pioneer-coins": "^9.0.4"
   },

@@ -280,8 +280,8 @@ export const getBalance = async ({
 }) => {
   const tokenBalances = await api.getBalance(address[0].address);
   const evmGasTokenBalance = await provider.getBalance(address[0].address);
-  console.log('tokenBalances: ', tokenBalances);
-  console.log('evmGasTokenBalance: ', evmGasTokenBalance);
+  //console.log('tokenBalances: ', tokenBalances);
+  //console.log('evmGasTokenBalance: ', evmGasTokenBalance);
   let gasTokenBalance = AssetValue.fromChainOrSignature(
     chain,
     formatBigIntToSafeValue({ value: evmGasTokenBalance, decimal: BaseDecimal[chain] }),

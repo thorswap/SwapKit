@@ -5,20 +5,20 @@ const getAccount = (address: string): Promise<any> =>
   RequestClient.get<any>(`${PIONEER_API_URI}/api/v1/getAccountInfo/ripple/${address}`);
 
 const getBalance = async (address: any[]) => {
-  console.log(address);
+  //console.log(address);
 
   let balanceBase = await RequestClient.get(
     `${PIONEER_API_URI}/api/v1/getPubkeyBalance/ripple/${address[0].address}`,
   );
-  console.log('balance: ', balanceBase);
-  console.log('balance: ', typeof balanceBase);
+  //console.log('balance: ', balanceBase);
+  //console.log('balance: ', typeof balanceBase);
   if (balanceBase && balanceBase.error) balanceBase = '0';
   await AssetValue.loadStaticAssets();
   const assetValueNative = AssetValue.fromStringSync('XRP.XRP', balanceBase);
   assetValueNative.address = address[0].address;
-  console.log('assetValueNative: ', assetValueNative);
+  //console.log('assetValueNative: ', assetValueNative);
   let balances = [assetValueNative];
-  console.log('balances: ', balances);
+  //console.log('balances: ', balances);
 
   return balances;
 };
