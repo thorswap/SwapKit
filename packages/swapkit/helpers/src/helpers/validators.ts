@@ -1,8 +1,9 @@
 import { Chain } from '@swapkit/types';
 
-const supportedChains = Object.values(Chain);
+// Backward compatibility
+const supportedChains = [Object.values(Chain), 'TERRA'];
 
-export const validateIdentifier = (identifier: string = '') => {
+export function validateIdentifier(identifier: string = '') {
   const uppercasedIdentifier = identifier.toUpperCase();
 
   const [chain] = uppercasedIdentifier.split('.') as [Chain, string];
@@ -14,4 +15,4 @@ export const validateIdentifier = (identifier: string = '') => {
   throw new Error(
     `Invalid identifier: ${identifier}. Expected format: <Chain>.<Ticker> or <Chain>.<Ticker>-<ContractAddress>`,
   );
-};
+}

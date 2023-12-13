@@ -25,11 +25,11 @@ type PoolParams<T = {}> = T & {
  *  share = (s * A * (2 * T^2 - 2 * T * s + s^2))/T^3
  *  (part1 * (part2 - part3 + part4)) / part5
  */
-export const getAsymmetricRuneShare = ({
+export function getAsymmetricRuneShare({
   liquidityUnits,
   poolUnits,
   runeDepth,
-}: ShareParams<{ runeDepth: string }>) => {
+}: ShareParams<{ runeDepth: string }>) {
   const s = toTCSwapKitNumber(liquidityUnits);
   const T = toTCSwapKitNumber(poolUnits);
   const A = toTCSwapKitNumber(runeDepth);
@@ -43,13 +43,13 @@ export const getAsymmetricRuneShare = ({
   const numerator = part1.mul(part2.sub(part3).add(part4));
 
   return numerator.div(part5);
-};
+}
 
-export const getAsymmetricAssetShare = ({
+export function getAsymmetricAssetShare({
   liquidityUnits,
   poolUnits,
   assetDepth,
-}: ShareParams<{ assetDepth: string }>) => {
+}: ShareParams<{ assetDepth: string }>) {
   const s = toTCSwapKitNumber(liquidityUnits);
   const T = toTCSwapKitNumber(poolUnits);
   const A = toTCSwapKitNumber(assetDepth);
@@ -62,28 +62,31 @@ export const getAsymmetricAssetShare = ({
   const part5 = T.mul(T).mul(T);
 
   return numerator.div(part5);
-};
+}
 
-export const getAsymmetricRuneWithdrawAmount = ({
+export function getAsymmetricRuneWithdrawAmount({
   percent,
   runeDepth,
   liquidityUnits,
   poolUnits,
-}: ShareParams<{ percent: number; runeDepth: string }>) =>
-  getAsymmetricRuneShare({ runeDepth, liquidityUnits, poolUnits }).mul(percent);
+}: ShareParams<{ percent: number; runeDepth: string }>) {
+  return getAsymmetricRuneShare({ runeDepth, liquidityUnits, poolUnits }).mul(percent);
+}
 
-export const getAsymmetricAssetWithdrawAmount = ({
+export function getAsymmetricAssetWithdrawAmount({
   percent,
   assetDepth,
   liquidityUnits,
   poolUnits,
-}: ShareParams<{ percent: number; assetDepth: string }>) =>
-  getAsymmetricAssetShare({ assetDepth, liquidityUnits, poolUnits }).mul(percent);
+}: ShareParams<{ percent: number; assetDepth: string }>) {
+  return getAsymmetricAssetShare({ assetDepth, liquidityUnits, poolUnits }).mul(percent);
+}
 
-const toTCSwapKitNumber = (value: string) =>
-  SwapKitNumber.fromBigInt(BigInt(value), BaseDecimal.THOR);
+function toTCSwapKitNumber(value: string) {
+  return SwapKitNumber.fromBigInt(BigInt(value), BaseDecimal.THOR);
+}
 
-export const getSymmetricPoolShare = ({
+export function getSymmetricPoolShare({
   liquidityUnits,
   poolUnits,
   runeDepth,
@@ -91,12 +94,14 @@ export const getSymmetricPoolShare = ({
 }: ShareParams<{
   runeDepth: string;
   assetDepth: string;
-}>) => ({
-  assetAmount: toTCSwapKitNumber(assetDepth).mul(liquidityUnits).div(poolUnits),
-  runeAmount: toTCSwapKitNumber(runeDepth).mul(liquidityUnits).div(poolUnits),
-});
+}>) {
+  return {
+    assetAmount: toTCSwapKitNumber(assetDepth).mul(liquidityUnits).div(poolUnits),
+    runeAmount: toTCSwapKitNumber(runeDepth).mul(liquidityUnits).div(poolUnits),
+  };
+}
 
-export const getSymmetricWithdraw = ({
+export function getSymmetricWithdraw({
   liquidityUnits,
   poolUnits,
   runeDepth,
@@ -106,14 +111,15 @@ export const getSymmetricWithdraw = ({
   runeDepth: string;
   assetDepth: string;
   percent: number;
-}>) =>
-  Object.fromEntries(
+}>) {
+  return Object.fromEntries(
     Object.entries(getSymmetricPoolShare({ liquidityUnits, poolUnits, runeDepth, assetDepth })).map(
       ([name, value]) => [name, value.mul(percent)],
     ),
   );
+}
 
-export const getEstimatedPoolShare = ({
+export function getEstimatedPoolShare({
   runeDepth,
   poolUnits,
   assetDepth,
@@ -125,7 +131,7 @@ export const getEstimatedPoolShare = ({
   assetAmount: string;
   runeDepth: string;
   assetDepth: string;
-}>) => {
+}>) {
   const R = new SwapKitNumber({ value: runeDepth, decimal: 8 });
   const A = new SwapKitNumber({ value: assetDepth, decimal: 8 });
   const P = new SwapKitNumber({ value: poolUnits, decimal: 8 });
@@ -150,14 +156,14 @@ export const getEstimatedPoolShare = ({
   const newPoolUnits = P.add(estimatedLiquidityUnits);
 
   return estimatedLiquidityUnits.div(newPoolUnits).getBaseValue('number');
-};
+}
 
-export const getLiquiditySlippage = ({
+export function getLiquiditySlippage({
   runeAmount,
   assetAmount,
   runeDepth,
   assetDepth,
-}: PoolParams) => {
+}: PoolParams) {
   if (runeAmount === '0' || assetAmount === '0' || runeDepth === '0' || assetDepth === '0')
     return 0;
   // formula: (t * R - T * r)/ (T*r + R*T)
@@ -171,4 +177,4 @@ export const getLiquiditySlippage = ({
 
   // set absolute value of percent, no negative allowed
   return Math.abs(numerator.div(denominator).getBaseValue('number'));
-};
+}

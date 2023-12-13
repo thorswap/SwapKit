@@ -9,16 +9,6 @@ export type ThornameRegisterParam = {
   expiryBlock?: string;
 };
 
-const getShortenedSymbol = ({
-  symbol,
-  ticker,
-  chain,
-}: {
-  ticker: string;
-  symbol: string;
-  chain: string | Chain;
-}) => (chain === 'ETH' && ticker !== 'ETH' ? `${ticker}-${symbol.slice(-3)}` : symbol);
-
 type WithAddress<T = {}> = T & { address: string };
 type WithChain<T = {}> = T & { chain: Chain };
 
@@ -82,8 +72,9 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
       const { chain, ticker, symbol, basisPoints, targetAssetString, singleSide } =
         options as MemoOptions<MemoType.WITHDRAW>;
 
+      const shortenedSymbol =
+        chain === 'ETH' && ticker !== 'ETH' ? `${ticker}-${symbol.slice(-3)}` : symbol;
       const target = !singleSide && targetAssetString ? `:${targetAssetString}` : '';
-      const shortenedSymbol = getShortenedSymbol({ chain, symbol, ticker });
       const assetDivider = singleSide ? '/' : '.';
 
       return `${memoType}:${chain}${assetDivider}${shortenedSymbol}:${basisPoints}${target}`;
