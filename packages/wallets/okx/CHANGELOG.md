@@ -1,5 +1,15 @@
 # @swapkit/wallet-okx
 
+## 1.0.0-rc.64
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.53
+  - @swapkit/toolbox-cosmos@1.0.0-rc.57
+  - @swapkit/toolbox-evm@1.0.0-rc.57
+  - @swapkit/toolbox-utxo@1.0.0-rc.56
+
 ## 1.0.0-rc.63
 
 ### Patch Changes

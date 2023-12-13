@@ -1,5 +1,15 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.68
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.53
+  - @swapkit/toolbox-cosmos@1.0.0-rc.57
+  - @swapkit/toolbox-evm@1.0.0-rc.57
+  - @swapkit/toolbox-utxo@1.0.0-rc.56
+
 ## 1.0.0-rc.67
 
 ### Patch Changes
