@@ -68,15 +68,19 @@ export const getWalletForChain = async ({
       const getBalance = async () => {
         const balances = await evmWallet.getBalance(address);
         const gasAssetBalance = await getProvider(chain).getBalance(address);
-        return [
-          new AssetValue({
-            chain,
-            symbol: chain,
-            value: SwapKitNumber.fromBigInt(gasAssetBalance, BaseDecimal[chain]).getValue('string'),
-            decimal: BaseDecimal[chain],
-          }),
-          ...balances.slice(1),
-        ];
+        return chain === Chain.Ethereum
+          ? [
+              new AssetValue({
+                chain,
+                symbol: 'ETH',
+                value: SwapKitNumber.fromBigInt(gasAssetBalance, BaseDecimal[chain]).getValue(
+                  'string',
+                ),
+                decimal: BaseDecimal[chain],
+              }),
+              ...balances.filter((asset) => asset.symbol !== 'ETH'),
+            ]
+          : balances;
       };
 
       return { ...evmWallet, getAddress: () => address, getBalance };
