@@ -1,5 +1,18 @@
 # @swapkit/wallet-okx
 
+## 1.0.0-rc.67
+
+### Patch Changes
+
+- [`16ebec6`](https://github.com/thorswap/SwapKit/commit/16ebec6d5cbba777880ba24542f93a6a808c55a1) Thanks [@chillios-dev](https://github.com/chillios-dev)! - bump
+
+- Updated dependencies [[`16ebec6`](https://github.com/thorswap/SwapKit/commit/16ebec6d5cbba777880ba24542f93a6a808c55a1)]:
+  - @swapkit/helpers@1.0.0-rc.56
+  - @swapkit/toolbox-cosmos@1.0.0-rc.60
+  - @swapkit/toolbox-utxo@1.0.0-rc.59
+  - @swapkit/types@1.0.0-rc.31
+  - @swapkit/toolbox-evm@1.0.0-rc.60
+
 ## 1.0.0-rc.66
 
 ### Patch Changes

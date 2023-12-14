@@ -93,11 +93,12 @@ export class AssetValue extends BigIntArithmetics {
     const tokenInfo = staticTokensMap.get(assetString.toUpperCase() as TokenNames);
 
     if (isSynthetic) return createSyntheticAssetValue(assetString, value);
-    if (!tokenInfo) {
-      console.error(
-        `Asset ${assetString} is not loaded. Use AssetValue.loadStaticAssets() to load it`,
-      );
-    }
+    // TODO: write logger that will only run in dev mode with some flag
+    // if (!tokenInfo) {
+    //   console.error(
+    //     `Asset ${assetString} is not loaded. Use AssetValue.loadStaticAssets() to load it`,
+    //   );
+    // }
 
     const { tax, decimal, identifier } = tokenInfo || {
       decimal: BaseDecimal[chain],
@@ -116,11 +117,12 @@ export class AssetValue extends BigIntArithmetics {
     const tokenInfo = staticTokensMap.get(assetString);
 
     if (isSynthetic) return createSyntheticAssetValue(assetString, value);
-    if (!tokenInfo) {
-      console.error(
-        `Asset ${assetString} is not loaded. - Loading with base Chain. Use AssetValue.loadStaticAssets() to load it`,
-      );
-    }
+    // TODO: write logger that will only run in dev mode with some flag
+    // if (!tokenInfo) {
+    //   console.error(
+    //     `Asset ${assetString} is not loaded. - Loading with base Chain. Use AssetValue.loadStaticAssets() to load it`,
+    //   );
+    // }
 
     const { tax, decimal, identifier } = tokenInfo || {
       decimal: BaseDecimal[chain],

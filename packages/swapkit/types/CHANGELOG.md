@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.31
+
+### Patch Changes
+
+- [`16ebec6`](https://github.com/thorswap/SwapKit/commit/16ebec6d5cbba777880ba24542f93a6a808c55a1) Thanks [@chillios-dev](https://github.com/chillios-dev)! - bump
+
 ## 1.0.0-rc.30
 
 ### Patch Changes

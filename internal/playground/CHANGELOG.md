@@ -1,5 +1,29 @@
 # @internal/playground
 
+## 0.0.0-rc.76
+
+### Patch Changes
+
+- [`16ebec6`](https://github.com/thorswap/SwapKit/commit/16ebec6d5cbba777880ba24542f93a6a808c55a1) Thanks [@chillios-dev](https://github.com/chillios-dev)! - bump
+
+- Updated dependencies [[`16ebec6`](https://github.com/thorswap/SwapKit/commit/16ebec6d5cbba777880ba24542f93a6a808c55a1)]:
+  - @swapkit/helpers@1.0.0-rc.56
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.60
+  - @swapkit/toolbox-cosmos@1.0.0-rc.60
+  - @swapkit/wallet-keystore@1.0.0-rc.69
+  - @swapkit/tokens@1.0.0-rc.32
+  - @swapkit/toolbox-utxo@1.0.0-rc.59
+  - @swapkit/wallet-ledger@1.0.0-rc.73
+  - @swapkit/wallet-trezor@1.0.0-rc.64
+  - @swapkit/types@1.0.0-rc.31
+  - @swapkit/toolbox-evm@1.0.0-rc.60
+  - @swapkit/wallet-keplr@1.0.0-rc.60
+  - @swapkit/wallet-xdefi@1.0.0-rc.71
+  - @swapkit/core@1.0.0-rc.72
+  - @swapkit/api@1.0.0-rc.31
+  - @swapkit/wallet-okx@1.0.0-rc.67
+  - @swapkit/wallet-wc@1.0.0-rc.65
+
 ## 0.0.0-rc.75
 
 ### Patch Changes
