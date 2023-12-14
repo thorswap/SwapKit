@@ -236,12 +236,23 @@ describe('AssetValue', () => {
       );
     });
 
-    test('returns undefined if string is not in `@swapkit/tokens` lists', async () => {
+    test('returns safe decimals if string is not in `@swapkit/tokens` lists', async () => {
       await AssetValue.loadStaticAssets();
       const fakeAvaxUSDCAssetString = 'AVAX.USDC-1234';
       const fakeAvaxUSDCAsset = AssetValue.fromStringSync(fakeAvaxUSDCAssetString);
 
-      expect(fakeAvaxUSDCAsset).toBeUndefined();
+      expect(fakeAvaxUSDCAsset).toBeDefined();
+      expect(fakeAvaxUSDCAsset).toEqual(
+        expect.objectContaining({
+          address: '1234',
+          chain: Chain.Avalanche,
+          decimal: 18,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: 'USDC-1234',
+          ticker: 'USDC',
+        }),
+      );
     });
   });
 

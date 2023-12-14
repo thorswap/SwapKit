@@ -89,17 +89,21 @@ export class AssetValue extends BigIntArithmetics {
   }
 
   static fromStringSync(assetString: string, value: NumberPrimitives = 0) {
-    const { isSynthetic } = getAssetInfo(assetString);
+    const { chain, isSynthetic } = getAssetInfo(assetString);
     const tokenInfo = staticTokensMap.get(assetString.toUpperCase() as TokenNames);
 
-    if (!tokenInfo) {
-      console.error(
-        `Asset ${assetString} is not loaded. Use AssetValue.loadStaticAssets() to load it`,
-      );
-      return undefined;
-    }
+    if (isSynthetic) return createSyntheticAssetValue(assetString, value);
+    // TODO: write logger that will only run in dev mode with some flag
+    // if (!tokenInfo) {
+    //   console.error(
+    //     `Asset ${assetString} is not loaded. Use AssetValue.loadStaticAssets() to load it`,
+    //   );
+    // }
 
-    const { tax, decimal, identifier } = tokenInfo;
+    const { tax, decimal, identifier } = tokenInfo || {
+      decimal: BaseDecimal[chain],
+      identifier: assetString,
+    };
     return new AssetValue({
       tax,
       value: safeValue(value, decimal),
@@ -109,16 +113,21 @@ export class AssetValue extends BigIntArithmetics {
   }
 
   static fromIdentifierSync(assetString: TokenNames, value: NumberPrimitives = 0) {
+    const { chain, isSynthetic } = getAssetInfo(assetString);
     const tokenInfo = staticTokensMap.get(assetString);
 
-    if (!tokenInfo) {
-      console.error(
-        `Asset ${assetString} is not loaded. Use AssetValue.loadStaticAssets() to load it`,
-      );
-      return undefined;
-    }
+    if (isSynthetic) return createSyntheticAssetValue(assetString, value);
+    // TODO: write logger that will only run in dev mode with some flag
+    // if (!tokenInfo) {
+    //   console.error(
+    //     `Asset ${assetString} is not loaded. - Loading with base Chain. Use AssetValue.loadStaticAssets() to load it`,
+    //   );
+    // }
 
-    const { tax, decimal, identifier } = tokenInfo;
+    const { tax, decimal, identifier } = tokenInfo || {
+      decimal: BaseDecimal[chain],
+      identifier: assetString,
+    };
     return new AssetValue({ tax, decimal, identifier, value: safeValue(value, decimal) });
   }
 
@@ -192,6 +201,16 @@ async function createAssetValue(identifier: string, value: NumberPrimitives = 0)
   }
 
   return new AssetValue({ decimal, value: safeValue(value, decimal), identifier });
+}
+
+function createSyntheticAssetValue(identifier: string, value: NumberPrimitives = 0) {
+  const [symbol, ticker] = identifier.split('/');
+
+  return new AssetValue({
+    decimal: 8,
+    value: safeValue(value, 8),
+    identifier: `${Chain.THORChain}.${symbol}/${ticker}`,
+  });
 }
 
 function safeValue(value: NumberPrimitives, decimal: number) {
