@@ -1,5 +1,13 @@
 # @internal/playground
 
+## 0.0.0-rc.78
+
+### Patch Changes
+
+- Updated dependencies [[`92663f7`](https://github.com/thorswap/SwapKit/commit/92663f77194920d20f2a1090f773e3a2fd61e244)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.62
+  - @swapkit/wallet-okx@1.0.0-rc.69
+
 ## 0.0.0-rc.77
 
 ### Patch Changes
