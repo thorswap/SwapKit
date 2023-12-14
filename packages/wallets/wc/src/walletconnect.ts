@@ -164,24 +164,25 @@ const getToolbox = async ({
         const { accountNumber, sequence = 0 } = account;
         const amount = assetValue.getBaseValue('string');
 
-        const msg =
-          'recipient' in rest
-            ? {
-                type: 'thorchain/MsgSend',
-                value: {
-                  amount: [{ amount, denom: assetValue.symbol.toLowerCase() }],
-                  from_address: address,
-                  to_address: rest.recipient,
-                },
-              }
-            : {
-                type: 'thorchain/MsgDeposit',
-                value: {
-                  coins: [{ amount, asset: getDenomWithChain(assetValue) }],
-                  memo,
-                  signer: address,
-                },
-              };
+        const isSend = 'recipient' in rest && rest.recipient;
+
+        const msg = isSend
+          ? {
+              type: 'thorchain/MsgSend',
+              value: {
+                amount: [{ amount, denom: assetValue.symbol.toLowerCase() }],
+                from_address: address,
+                to_address: rest.recipient,
+              },
+            }
+          : {
+              type: 'thorchain/MsgDeposit',
+              value: {
+                coins: [{ amount, asset: getDenomWithChain(assetValue) }],
+                memo,
+                signer: address,
+              },
+            };
 
         const signDoc = makeSignDoc(
           [msg],
@@ -212,7 +213,11 @@ const getToolbox = async ({
         const signedTxBody: TxBodyEncodeObject = {
           typeUrl: '/cosmos.tx.v1beta1.TxBody',
           value: {
-            messages: txObj.msg.map((msg) => aminoTypes.fromAmino(msg)),
+            messages: txObj.msg.map((msg) =>
+              aminoTypes.fromAmino(
+                isSend ? msg : toolbox.createDepositMessage(assetValue, address, memo, true),
+              ),
+            ),
             memo: txObj.memo,
           },
         };
