@@ -1,5 +1,11 @@
 # @swapkit/wallet-wc
 
+## 1.0.0-rc.66
+
+### Patch Changes
+
+- [#492](https://github.com/thorswap/SwapKit/pull/492) [`640c6f7`](https://github.com/thorswap/SwapKit/commit/640c6f7ec0c3528b1dfee8a4f422e7af7407185b) Thanks [@towanTG](https://github.com/towanTG)! - Fixes wc deposit msg creation
+
 ## 1.0.0-rc.65
 
 ### Patch Changes
