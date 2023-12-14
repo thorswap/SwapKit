@@ -19,11 +19,12 @@ export const ERROR_DISPLAY_MESSAGES: Record<string, string> = {
   [ERROR_CODE.AFF_ADDRESS_AND_BPS_OR_NEITHER]:
     'Must provide affiliateAddress and affiliateBasisPoints params, or neither.',
   [ERROR_CODE.AFF_ADDRESS_TOO_LONG]: 'affiliateAddress too long: 3 characters max.',
-  [ERROR_CODE.AFF_BPS_INTEGER_0_100]: 'affiliateBasisPoints must be an integer between 0 and 100.',
+  [ERROR_CODE.AFF_BPS_INTEGER_MAX_500]:
+    'affiliateBasisPoints must be an integer between 0 and 100.',
   [ERROR_CODE.SOURCE_ADDRESS_INVALID_FOR_SELL_CHAIN]: 'Source address {0} invalid for sell chain.',
   [ERROR_CODE.DESTINATION_ADDRESS_INVALID_FOR_BUY_CHAIN]:
     'Destination address {0} invalid for buy chain.',
-  [ERROR_CODE.PREFERRED_PROFVIDER_NOT_SUPPORTED]: 'Preferred provider not supported.',
+  [ERROR_CODE.PREFERRED_PROVIDER_NOT_SUPPORTED]: 'Preferred provider not supported.',
   [ERROR_CODE.DESTINATION_ADDRESS_SMART_CONTRACT]: 'Destination address is a smart contract.',
   [ERROR_CODE.BUY_AMOUNT_MUST_BE_POSITIVE_INTEGER]: 'Buy amount must be a positive integer.',
   [ERROR_CODE.INVALID_PROVIDER]: 'Invalid provider {0}.',
