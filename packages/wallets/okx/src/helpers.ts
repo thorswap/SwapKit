@@ -1,4 +1,4 @@
-import { AssetValue } from '@swapkit/helpers';
+import { AssetValue, SwapKitNumber } from '@swapkit/helpers';
 import type { GaiaToolbox } from '@swapkit/toolbox-cosmos';
 import type { Eip1193Provider, getWeb3WalletMethods } from '@swapkit/toolbox-evm';
 import type { BTCToolbox, UTXOTransferParams } from '@swapkit/toolbox-utxo';
@@ -63,7 +63,8 @@ export const getWalletForChain = async ({
         ethereumWindowProvider: window.okxwallet as unknown as Eip1193Provider,
       });
 
-      const address: string = await window.okxwallet.send('eth_requestAccounts', []);
+      const address: string = (await window.okxwallet.send('eth_requestAccounts', [])).result[0];
+
       const getBalance = async () => {
         const balances = await evmWallet.getBalance(address);
         const gasAssetBalance = await getProvider(chain).getBalance(address);
@@ -71,7 +72,7 @@ export const getWalletForChain = async ({
           new AssetValue({
             chain,
             symbol: chain,
-            value: gasAssetBalance.toString(),
+            value: SwapKitNumber.fromBigInt(gasAssetBalance, BaseDecimal[chain]).getValue('string'),
             decimal: BaseDecimal[chain],
           }),
           ...balances.slice(1),

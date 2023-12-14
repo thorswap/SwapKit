@@ -697,6 +697,9 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
+      '@swapkit/helpers':
+        specifier: workspace:*
+        version: link:../../swapkit/helpers
       '@swapkit/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
