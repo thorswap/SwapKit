@@ -281,6 +281,19 @@ const getWalletconnect = async (
       ...walletconnectOptions?.core,
     });
 
+    const oldSession = await client.getSession();
+
+    // disconnect old Session cause we can't handle using it with current ui
+    if (oldSession) {
+      await client.disconnect({
+        topic: oldSession.topic,
+        reason: {
+          code: 0,
+          message: 'Resetting session',
+        },
+      });
+    }
+
     const session = await client.connect({
       requiredNamespaces,
     });
