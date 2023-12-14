@@ -1,5 +1,13 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.84
+
+### Patch Changes
+
+- Updated dependencies [[`8ba16ea`](https://github.com/thorswap/SwapKit/commit/8ba16ea5964e608d702345e9cec8e1ee5f195626)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.61
+  - @swapkit/wallet-okx@1.0.0-rc.68
+
 ## 1.0.0-rc.83
 
 ### Patch Changes

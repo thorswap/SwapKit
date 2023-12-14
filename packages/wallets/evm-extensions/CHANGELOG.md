@@ -1,5 +1,11 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.0.0-rc.61
+
+### Patch Changes
+
+- [#489](https://github.com/thorswap/SwapKit/pull/489) [`8ba16ea`](https://github.com/thorswap/SwapKit/commit/8ba16ea5964e608d702345e9cec8e1ee5f195626) Thanks [@towanTG](https://github.com/towanTG)! - Fixes OKX provider usage and evm extensions getBalance
+
 ## 1.0.0-rc.60
 
 ### Patch Changes
