@@ -290,7 +290,6 @@ const getWalletconnect = async (
         reason: {
           code: 0,
           message: 'Resetting session',
-          //   reason: ErrorResponse. ,
         },
       });
     }
