@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.29
+
+### Minor Changes
+
+- [#485](https://github.com/thorswap/SwapKit/pull/485) [`ba06185`](https://github.com/thorswap/SwapKit/commit/ba061858f0975717e16ddd743076839bbce5f616) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Update error codes
+
 ## 1.0.0-rc.28
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @swapkit/wallet-wc
 
+## 1.0.0-rc.63
+
+### Patch Changes
+
+- [#487](https://github.com/thorswap/SwapKit/pull/487) [`23b15a4`](https://github.com/thorswap/SwapKit/commit/23b15a487f4b508aac4f3983081ccb1529c86fc5) Thanks [@towanTG](https://github.com/towanTG)! - Resets session on new connect as we don't handle sessions yet
+
+- Updated dependencies [[`ba06185`](https://github.com/thorswap/SwapKit/commit/ba061858f0975717e16ddd743076839bbce5f616)]:
+  - @swapkit/types@1.0.0-rc.29
+  - @swapkit/toolbox-cosmos@1.0.0-rc.58
+  - @swapkit/toolbox-evm@1.0.0-rc.58
+
 ## 1.0.0-rc.62
 
 ### Patch Changes
