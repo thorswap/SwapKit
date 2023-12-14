@@ -1,7 +1,7 @@
 export const list = {
   name: 'Uniswap Labs Default',
-  timestamp: '2023-11-13T15:59:22.657Z',
-  version: { major: 11, minor: 9, patch: 0 },
+  timestamp: '2023-12-13T18:25:25.830Z',
+  version: { major: 11, minor: 11, patch: 0 },
   keywords: ['uniswap', 'default'],
   tokens: [
     {

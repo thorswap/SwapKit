@@ -1,5 +1,16 @@
 # @swapkit/wallet-wc
 
+## 1.0.0-rc.64
+
+### Patch Changes
+
+- bump
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.59
+  - @swapkit/types@1.0.0-rc.30
+  - @swapkit/toolbox-evm@1.0.0-rc.59
+
 ## 1.0.0-rc.63
 
 ### Patch Changes

@@ -1,7 +1,7 @@
 export const list = {
   name: 'PancakeSwap Ethereum Default',
-  timestamp: '2023-12-08T10:17:11.470Z',
-  version: { major: 1, minor: 0, patch: 35 },
+  timestamp: '2023-12-14T08:20:30.711Z',
+  version: { major: 1, minor: 0, patch: 36 },
   keywords: ['pancakeswap', 'default', 'ethereum'],
   tokens: [
     {
@@ -316,7 +316,13 @@ export const list = {
       identifier: 'ETH.Bonk-0X1151CB3D861920E07A38E03EEAD12C32178567F6',
       decimals: 5,
     },
+    {
+      address: '0x2dfF88A56767223A5529eA5960Da7A3F5f766406',
+      chain: 'ETH',
+      identifier: 'ETH.ID-0X2DFF88A56767223A5529EA5960DA7A3F5F766406',
+      decimals: 18,
+    },
   ],
-  count: 52,
+  count: 53,
   logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/7186.png',
 } as const;

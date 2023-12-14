@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.30
+
+### Patch Changes
+
+- bump
+
 ## 1.0.0-rc.29
 
 ### Minor Changes
