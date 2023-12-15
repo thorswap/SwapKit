@@ -1,10 +1,8 @@
-import type { TransferParams } from '@coinmasters/toolbox-cosmos';
 import { RippleToolbox } from '@coinmasters/toolbox-ripple';
-import { Chain, ChainId, RPCUrl } from '@coinmasters/types';
-import { StargateClient } from '@cosmjs/stargate';
+import { Chain, DerivationPath } from '@coinmasters/types';
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
 
-import { addressInfoForCoin } from '../coins.ts';
+import { bip32ToAddressNList } from '../helpers/coins.ts';
 
 export type SignTransactionTransferParams = {
   asset: string;
@@ -17,96 +15,94 @@ export type SignTransactionTransferParams = {
 export const rippleWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; api: string }) => {
   try {
     const { address: fromAddress } = (await sdk.address.xrpGetAddress({
-      address_n: addressInfoForCoin(Chain.Ripple, false).address_n,
+      address_n: bip32ToAddressNList(DerivationPath[Chain.Ripple]),
     })) as { address: string };
 
     const toolbox = RippleToolbox();
 
-    // const signTransactionTransfer = async ({
-    //                                          amount,
-    //                                          to,
-    //                                          from,
-    //                                          memo = '',
-    //                                        }: SignTransactionTransferParams) => {
-    //   try {
-    //     const accountInfo = await toolbox.getAccount(fromAddress);
-    //
-    //     let fromAddress = from
-    //     let desttag = memo
-    //     if(!desttag) desttag = "0"
-    //     let tx = {
-    //       "type": "auth/StdTx",
-    //       "value": {
-    //         "fee": {
-    //           "amount": [
-    //             {
-    //               "amount": "1000",
-    //               "denom": "drop"
-    //             }
-    //           ],
-    //           "gas": "28000"
-    //         },
-    //         "memo": "KeepKey",
-    //         "msg": [
-    //           {
-    //             "type": "ripple-sdk/MsgSend",
-    //             "DestinationTag":desttag,
-    //             "value": {
-    //               "amount": [
-    //                 {
-    //                   "amount": parseFloat(amount) * 1000000,
-    //                   "denom": "drop"
-    //                 }
-    //               ],
-    //               "from_address": fromAddress,
-    //               "to_address": to
-    //             }
-    //           }
-    //         ],
-    //         "signatures": null
-    //       }
-    //     }
-    //
-    //     //Unsigned TX
-    //     let unsignedTx = {
-    //       "HDwalletPayload": {
-    //         addressNList: [ 2147483692, 2147483792, 2147483648, 0, 0 ],
-    //         tx:tx,
-    //         flags: undefined,
-    //         sequence,
-    //         lastLedgerSequence: parseInt(ledgerIndexCurrent + 1000000000).toString(),
-    //         payment: {
-    //           amount: parseInt(amount * 1000000).toString(),
-    //           destination: to,
-    //           destinationTag: desttag,
-    //         },
-    //       },
-    //       "verbal": "Ripple transaction"
-    //     }
-    //     //push tx to api
-    //     console.log("unsignedTx: ", JSON.stringify(unsignedTx.HDwalletPayload))
-    //     let responseSign = await sdk.xrp.xrpSignTransaction(unsignedTx.HDwalletPayload)
-    //     console.log("responseSign: ", responseSign)
-    //
-    //     //broadcast TODO
-    //
-    //     return response.transactionHash;
-    //   } catch (e) {
-    //     console.error(e);
-    //     throw e;
-    //   }
-    // };
-    //
-    // const transfer = ({ assetValue, recipient, memo }: TransferParams) =>
-    //   signTransactionTransfer({
-    //     from: fromAddress,
-    //     to: recipient,
-    //     asset: 'xrp',
-    //     amount: assetValue.baseValue.toString(),
-    //     memo,
-    //   });
+    const signTransactionTransfer = async ({
+      amount,
+      to,
+      from,
+      memo = '',
+    }: SignTransactionTransferParams) => {
+      try {
+        const accountInfo = await toolbox.getAccount(from);
+        const sequence = accountInfo.Sequence.toString();
+        const ledgerIndexCurrent = accountInfo.ledger_index_current;
+        let fromAddress = from;
+        let desttag = memo;
+        if (!desttag) desttag = '0';
+        let tx = {
+          type: 'auth/StdTx',
+          value: {
+            fee: {
+              amount: [
+                {
+                  amount: '1000',
+                  denom: 'drop',
+                },
+              ],
+              gas: '28000',
+            },
+            memo: 'KeepKey',
+            msg: [
+              {
+                type: 'ripple-sdk/MsgSend',
+                DestinationTag: desttag,
+                value: {
+                  amount: [
+                    {
+                      amount: amount,
+                      denom: 'drop',
+                    },
+                  ],
+                  from_address: fromAddress,
+                  to_address: to,
+                },
+              },
+            ],
+            signatures: null,
+          },
+        };
 
-    return { ...toolbox, getAddress: () => fromAddress };
+        //Unsigned TX
+        let unsignedTx = {
+          addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
+          tx: tx,
+          flags: undefined,
+          lastLedgerSequence: parseInt(ledgerIndexCurrent + 1000000000).toString(),
+          sequence: sequence || '0',
+          payment: {
+            amount,
+            destination: to,
+            destinationTag: desttag,
+          },
+        };
+        //push tx to api
+        console.log('unsignedTx: ', JSON.stringify(unsignedTx));
+        let responseSign = await sdk.xrp.xrpSignTransaction(unsignedTx);
+        console.log('responseSign: ', responseSign);
+
+        //broadcast TODO
+
+        return responseSign.transactionHash;
+      } catch (e) {
+        console.error(e);
+        throw e;
+      }
+    };
+
+    const transfer = ({ assetValue, recipient, memo }: any) =>
+      signTransactionTransfer({
+        from: fromAddress,
+        to: recipient,
+        asset: 'xrp',
+        amount: assetValue.getBaseValue('string'),
+        memo,
+      });
+
+    return { ...toolbox, transfer, getAddress: () => fromAddress };
   } catch (e) {
     console.error(e);
     throw e;

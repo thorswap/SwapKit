@@ -5,7 +5,7 @@ import { ThorchainToolbox } from '@coinmasters/toolbox-cosmos';
 import type {} from '@coinmasters/types';
 import { Chain, ChainId, RPCUrl } from '@coinmasters/types';
 
-import { addressInfoForCoin } from '../coins.ts';
+import { bip32ToAddressNList } from '../helpers/coins.ts';
 
 type SignTransactionTransferParams = {
   asset: string;
@@ -26,7 +26,7 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
   try {
     const toolbox = ThorchainToolbox({ stagenet: !'smeshnet' });
     const { address: fromAddress } = (await sdk.address.thorchainGetAddress({
-      address_n: addressInfoForCoin(Chain.THORChain, false).address_n,
+      address_n: bip32ToAddressNList(Chain.THORChain),
     })) as { address: string };
 
     const signTransactionTransfer = async ({

@@ -128,7 +128,7 @@ export const getCommonAssetInfo = (
       return { identifier: 'MAYA.CACAO', decimal: BaseDecimal.MAYA };
     case 'MAYA.MAYA':
       return { identifier: 'MAYA.MAYA', decimal: 4 };
-
+    case Chain.Ripple:
     case Chain.Kujira:
     case Chain.Arbitrum:
     case Chain.Optimism:

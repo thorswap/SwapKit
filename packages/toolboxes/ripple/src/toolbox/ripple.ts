@@ -1,5 +1,8 @@
 import { AssetValue, RequestClient } from '@coinmasters/helpers';
-const PIONEER_API_URI = 'https://pioneers.dev';
+import { Chain } from '@coinmasters/types';
+
+//const PIONEER_API_URI = 'https://pioneers.dev';
+const PIONEER_API_URI = 'http://127.0.0.1:9001';
 
 const getAccount = (address: string): Promise<any> =>
   RequestClient.get<any>(`${PIONEER_API_URI}/api/v1/getAccountInfo/ripple/${address}`);
@@ -14,8 +17,9 @@ const getBalance = async (address: any[]) => {
   //console.log('balance: ', typeof balanceBase);
   if (balanceBase && balanceBase.error) balanceBase = '0';
   await AssetValue.loadStaticAssets();
-  const assetValueNative = AssetValue.fromStringSync('XRP.XRP', balanceBase);
+  const assetValueNative = AssetValue.fromChainOrSignature(Chain.Ripple, balanceBase);
   assetValueNative.address = address[0].address;
+  assetValueNative.type = 'Native';
   //console.log('assetValueNative: ', assetValueNative);
   let balances = [assetValueNative];
   //console.log('balances: ', balances);

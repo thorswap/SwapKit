@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2020", // Target ES2020 for modern JavaScript features
+    "module": "CommonJS", // CommonJS modules for Node.js
+    "lib": ["ES2020"], // Include type definitions for ES2020
+    "outDir": "./dist", // Output directory for compiled files
+    "rootDir": "./src", // Root directory for source files
+    "strict": true, // Enable all strict type-checking options
+    "esModuleInterop": true, // Enables compatibility with default imports from CommonJS modules
+    "skipLibCheck": true // Skip type checking for all declaration files (*.d.ts)
+  },
+  "include": ["src/**/*"], // Include all files in the src directory
+  "exclude": ["node_modules", "dist"] // Exclude node_modules and dist directories
+}

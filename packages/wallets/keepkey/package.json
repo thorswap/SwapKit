@@ -3,7 +3,7 @@
   "dependencies": {
     "@keepkey/keepkey-sdk": "^0.2.52",
     "@pioneer-platform/pioneer-caip": "9.0.7",
-    "@pioneer-platform/pioneer-coins": "^8.1.86",
+    "@pioneer-platform/pioneer-coins": "^9.0.6",
     "ethers": "^6.7.1"
   },
   "description": "THORSwap Lib keepkey",

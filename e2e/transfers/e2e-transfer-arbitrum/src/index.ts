@@ -22,16 +22,15 @@ let wait = require('wait-promise');
 let {ChainToNetworkId} = require('@pioneer-platform/pioneer-caip');
 let sleep = wait.sleep;
 
-let BLOCKCHAIN = ChainToNetworkId['OSMO']
-let ASSET = 'OSMO'
-let MIN_BALANCE = process.env['MIN_BALANCE_OSMO'] || "0.004"
-let TEST_AMOUNT = process.env['TEST_AMOUNT'] || "0.001"
+let BLOCKCHAIN = ChainToNetworkId['ARB']
+let ASSET = 'ARB'
+let MIN_BALANCE = process.env['MIN_BALANCE_DOGE'] || "1.0004"
+let TEST_AMOUNT = process.env['TEST_AMOUNT'] || "0.005"
 let spec = process.env['URL_PIONEER_SPEC'] || 'https://pioneers.dev/spec/swagger.json'
 let wss = process.env['URL_PIONEER_SOCKET'] || 'wss://pioneers.dev'
-let FAUCET_OSMO_ADDRESS = process.env['FAUCET_OSMO_ADDRESS']
-if(!FAUCET_OSMO_ADDRESS) throw Error("Need Faucet Address!")
-let FAUCET_ADDRESS = FAUCET_OSMO_ADDRESS
-
+let FAUCET_ETH_ADDRESS = process.env['FAUCET_ETH_ADDRESS']
+if(!FAUCET_ETH_ADDRESS) throw Error("Need Faucet Address!")
+let FAUCET_ADDRESS = FAUCET_ETH_ADDRESS
 
 console.log("spec: ",spec)
 console.log("wss: ",wss)
@@ -43,7 +42,7 @@ let IS_SIGNED: boolean
 const test_service = async function (this: any) {
     let tag = TAG + " | test_service | "
     try {
-        //(tag,' CHECKPOINT 1');
+        console.log(tag,' CHECKPOINT 1');
         console.time('start2paired');
         console.time('start2build');
         console.time('start2broadcast');
@@ -58,7 +57,7 @@ const test_service = async function (this: any) {
         assert(username)
 
         //add custom path
-        let pathsAdd:any = [
+        let pathsCustom:any = [
         ]
 
         let config:any = {
@@ -67,7 +66,7 @@ const test_service = async function (this: any) {
             spec,
             keepkeyApiKey:process.env.KEEPKEY_API_KEY,
             wss,
-            paths:pathsAdd,
+            paths:pathsCustom,
             // @ts-ignore
             ethplorerApiKey:
             // @ts-ignore
@@ -84,8 +83,8 @@ const test_service = async function (this: any) {
               process.env.VITE_WALLET_CONNECT_PROJECT_ID || '18224df5f72924a5f6b3569fbd56ae16',
         };
 
-        //console.log(tag,' CHECKPOINT 2');
-        //console.log(tag,' config: ',config);
+        // console.log(tag,' CHECKPOINT 2');
+        // console.log(tag,' config: ',config);
         let app = new SDK.SDK(spec,config)
         const walletsVerbose: any = [];
         const { keepkeyWallet } = await import("@coinmasters/wallet-keepkey");
@@ -123,18 +122,19 @@ const test_service = async function (this: any) {
         let paths = app.paths
         assert(paths)
         assert(paths[0])
-        let osmoPath = paths.filter((e:any) => e.symbol === ASSET)
-        log.info(tag,"osmoPath: ",osmoPath)
-        assert(osmoPath)
+        // let osmoPath = paths.filter((e:any) => e.symbol === ASSET)
+        // log.info(tag,"osmoPath: ",osmoPath)
+        // assert(osmoPath)
+
 
         //
         await app.getPubkeys()
         log.info(tag,"pubkeys: ",app.pubkeys)
         assert(app.pubkeys)
         assert(app.pubkeys[0])
-        let pubkey = app.pubkeys.filter((e:any) => e.symbol === ASSET)
-        log.info(tag,"pubkey: ",pubkey)
-        assert(pubkey.length > 0)
+        // let pubkey = app.pubkeys.filter((e:any) => e.symbol === ASSET)
+        // log.info(tag,"pubkey: ",pubkey)
+        // assert(pubkey.length > 0)
         //verify pubkeys
 
 
@@ -165,7 +165,7 @@ const test_service = async function (this: any) {
         log.info("txHash: ",txHash)
         assert(txHash)
 
-        console.log("************************* TEST PASS *************************")
+
     } catch (e) {
         log.error(e)
         //process

@@ -1,10 +1,10 @@
-import { BinanceToolbox, getDenom } from '@coinmasters/toolbox-cosmos';
-import type { WalletTxParams } from '@coinmasters/types';
-import { Chain, ChainId } from '@coinmasters/types';
 import type { AssetValue } from '@coinmasters/helpers';
-import type { WalletTxParams } from '@swapkit/types';
+import { BinanceToolbox } from '@coinmasters/toolbox-cosmos';
+import type { WalletTxParams } from '@coinmasters/types';
+import { Chain, ChainId, DerivationPath } from '@coinmasters/types';
+import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
 
-import { addressInfoForCoin } from '../coins.ts';
+import { bip32ToAddressNList } from '../helpers/coins.ts';
 
 type SignTransactionTransferParams = {
   asset: string;
@@ -19,7 +19,7 @@ export const binanceWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) =>
     const toolbox = BinanceToolbox();
 
     const { address: fromAddress } = (await sdk.address.binanceGetAddress({
-      address_n: addressInfoForCoin(Chain.Binance, false).address_n,
+      address_n: bip32ToAddressNList(DerivationPath[Chain.Binance]),
     })) as { address: string };
 
     const signTransactionTransfer = async ({
@@ -35,7 +35,7 @@ export const binanceWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) =>
           signDoc: {
             account_number: accountInfo?.account_number.toString() ?? '0',
             chain_id: ChainId.Binance,
-            memo,
+            memo: memo || '',
             sequence: accountInfo?.sequence.toString() ?? '0',
             source: '0',
             msgs: [

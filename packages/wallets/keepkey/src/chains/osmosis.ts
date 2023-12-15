@@ -1,10 +1,10 @@
 import type { TransferParams } from '@coinmasters/toolbox-cosmos';
 import { OsmosisToolbox } from '@coinmasters/toolbox-cosmos';
-import { Chain, ChainId, RPCUrl } from '@coinmasters/types';
 import { StargateClient } from '@cosmjs/stargate';
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
+import { Chain, ChainId, DerivationPath, RPCUrl } from '@coinmasters/types';
 
-import { addressInfoForCoin } from '../coins.ts';
+import { bip32ToAddressNList } from '../helpers/coins.ts';
 
 export type SignTransactionTransferParams = {
   asset: string;
@@ -21,8 +21,8 @@ const DEFAULT_OSMO_FEE_MAINNET = {
 
 export const osmosisWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; api: string }) => {
   try {
-    const { address: fromAddress } = (await sdk.address.osmosisGetAddress({
-      address_n: addressInfoForCoin(Chain.Cosmos, false).address_n,
+    const { address: fromAddress } = (await sdk.address.cosmosGetAddress({
+      address_n: bip32ToAddressNList(DerivationPath[Chain.Osmosis]),
     })) as { address: string };
 
     const toolbox = OsmosisToolbox({ server: api });

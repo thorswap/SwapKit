@@ -12,12 +12,12 @@
     "@coinmasters/types": "workspace:*",
     "@pioneer-platform/pioneer-caip": "^9.0.11",
     "@pioneer-platform/pioneer-client": "^9.0.19",
-    "@pioneer-platform/pioneer-coins": "^9.0.4"
+    "@pioneer-platform/pioneer-coins": "^9.0.6"
   },
   "description": "Pioneer Core SDK",
   "devDependencies": {
-    "@internal/config": "workspace:*",
     "@coinmasters/helpers": "workspace:*",
+    "@internal/config": "workspace:*",
     "@types/bn.js": "5.1.5",
     "@types/crypto-js": "4.2.1",
     "@types/elliptic": "6.4.18",
@@ -27,8 +27,6 @@
     "@vitest/coverage-istanbul": "0.34.6",
     "vite": "4.5.0",
     "vitest": "0.34.6"
-  },
-  "peerDependencies": {
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"

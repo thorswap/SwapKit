@@ -289,7 +289,16 @@ export class SDK {
         for (let i = 0; i < this.blockchains.length; i++) {
           let blockchain = this.blockchains[i];
           console.log(`Checking paths for blockchain: ${blockchain}`);
-          let pathsForChain = this.paths.filter((w) => w.network === blockchain);
+          let pathsForChain
+          if (blockchain.indexOf('eip155') > -1) {
+            //console.log('ETH like detected!');
+            //all eip155 blockchains use the same path
+            pathsForChain = this.paths.filter((path) => path.network === 'eip155:1');
+            pathsForChain = Chain.Ethereum;
+          } else {
+            //get paths for each blockchain
+            pathsForChain = this.paths.filter((path) => path.network === blockchain);
+          }
           if (pathsForChain.length === 0) {
             console.error(`Available paths: ${JSON.stringify(this.paths)}`);
             throw Error(`No paths for blockchain: ${blockchain}`);
@@ -308,7 +317,7 @@ export class SDK {
         if (!wallet) throw Error('Must have wallet to pair!');
         if (!this.swapKit) throw Error('SwapKit not initialized!');
         if (!blockchains) throw Error('Must have blockchains to pair!');
-        //console.log('blockchains: ', blockchains);
+        console.log('blockchains: ', blockchains);
         this.blockchains = blockchains;
         //get paths by blockchains, this allows pre-loaded paths to be inited beforehand
         this.paths = [...getPaths(blockchains), ...this.paths];
@@ -537,7 +546,7 @@ export class SDK {
             } else {
               console.log('path type pubkey detected: ');
               let walletForChain = await this.swapKit?.getWalletByChain(chain);
-              //console.log('walletForChain: ', walletForChain);
+              console.log('walletForChain: ', walletForChain);
               if (walletForChain) {
                 const pubkeyForPath = walletForChain.pubkeys.find(
                   (pubkeyObj: any) =>
@@ -603,7 +612,7 @@ export class SDK {
         //   this.balances = [];
         // }
         //TODO if wallet doesn't support blockchains, throw error
-
+        console.log('getBalances this.blockchains: ', this.blockchains);
         let balances = [];
         // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < this.blockchains.length; i++) {
@@ -611,13 +620,13 @@ export class SDK {
           let chain: Chain = NetworkIdToChain[blockchain];
           //get balances for each pubkey
           let walletForChain = await this.swapKit?.getWalletByChain(chain);
-          //console.log('walletForChain: ', walletForChain);
+          console.log(chain + ' walletForChain: ', walletForChain);
           if (walletForChain) {
             // @ts-ignore
             for (let j = 0; j < walletForChain.balance.length; j++) {
               // @ts-ignore
               let balance: AssetValue = walletForChain?.balance[j];
-              console.log('balance: ', balance);
+              //console.log('balance: ', balance);
 
               //console.log('balance: ', balance);
               let balanceString: any = {};

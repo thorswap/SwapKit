@@ -9,7 +9,7 @@
     "@ledgerhq/hw-app-eth": "6.35.0",
     "@ledgerhq/hw-transport": "6.30.0",
     "@ledgerhq/hw-transport-webusb": "6.28.0",
-    "@pioneer-platform/pioneer-coins": "^9.0.4",
+    "@pioneer-platform/pioneer-coins": "^9.0.6",
     "ripemd160": "2.0.2"
   },
   "description": "SwapKit Lib ledger",

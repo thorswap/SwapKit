@@ -16,19 +16,19 @@
                                               - Highlander
 
 */
+import { SDK } from '@coinmasters/pioneer-sdk';
 import { availableChainsByWallet, ChainToNetworkId, getChainEnumValue } from '@coinmasters/types';
 import EventEmitter from 'events';
 import {
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useReducer,
-  useEffect,
   // useState,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { SDK } from '@coinmasters/pioneer-sdk';
 import transactionDB from './txDb';
 
 const eventEmitter = new EventEmitter();
@@ -290,10 +290,10 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
     console.log('READ_TX');
     if (txid) {
       console.log('txid: ', txid);
-      return await transactionDB.getTransaction(txid)
+      return await transactionDB.getTransaction(txid);
     } else {
       console.log('READ ALL: ');
-      return await transactionDB.getAllTransactions()
+      return await transactionDB.getAllTransactions();
     }
   };
 
@@ -360,7 +360,16 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
         console.log('Custom Paths for Wallet:', customPathsArray);
         console.log('Disabled Paths for Wallet:', disabledPathsArray);
 
-        const successPairWallet = await state.app.pairWallet(wallet, [], chain);
+        // supported chains
+        const AllChainsSupported = availableChainsByWallet[wallet];
+        let allByCaip = AllChainsSupported.map(
+          // @ts-ignore
+          (chainStr: any) => ChainToNetworkId[getChainEnumValue(chainStr)],
+        );
+        //TODO get from localstorage disabled chains
+        //TODO get from localStorage added chains!
+        console.log('allByCaip: ', allByCaip);
+        const successPairWallet = await state.app.pairWallet(wallet, allByCaip, chain);
         console.log('successPairWallet: ', successPairWallet);
         if (successPairWallet && successPairWallet.error) {
           //push error to state

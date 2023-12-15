@@ -2,7 +2,7 @@
   "author": "highlander",
   "dependencies": {
     "@cosmjs/stargate": "0.31.1",
-    "@pioneer-platform/pioneer-coins": "^9.0.4",
+    "@pioneer-platform/pioneer-coins": "^9.0.6",
     "@shapeshiftoss/hdwallet-core": "^1.50.5",
     "@shapeshiftoss/hdwallet-shapeshift-multichain": "1.50.5-alpha.72",
     "@shapeshiftoss/metamask-snaps-adapter": "^1.0.3",
