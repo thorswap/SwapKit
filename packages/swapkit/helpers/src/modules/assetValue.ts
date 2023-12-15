@@ -231,7 +231,7 @@ function getAssetInfo(identifier: string) {
       ? identifier.split('.').slice(1)!.join().split('/')
       : identifier.split('/');
 
-  if (!synthChain || !synthSymbol) throw new Error('Invalid asset identifier');
+  if (isSynthetic && (!synthChain || !synthSymbol)) throw new Error('Invalid asset identifier');
 
   const adjustedIdentifier =
     identifier.includes('.') && !isSynthetic ? identifier : `${Chain.THORChain}.${synthSymbol}`;
