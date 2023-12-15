@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.57
+
+### Patch Changes
+
+- [#494](https://github.com/thorswap/SwapKit/pull/494) [`5a27d90`](https://github.com/thorswap/SwapKit/commit/5a27d9045ac8da1c015cf9b891253fc6f73bfed0) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Asset Value creation from synth identifier
+
 ## 1.0.0-rc.56
 
 ### Patch Changes
