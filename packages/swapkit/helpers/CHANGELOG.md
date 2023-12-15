@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.58
+
+### Patch Changes
+
+- [#497](https://github.com/thorswap/SwapKit/pull/497) [`2b02477`](https://github.com/thorswap/SwapKit/commit/2b02477fb02bd1c29c972d517fd86da1034ff3e5) Thanks [@towanTG](https://github.com/towanTG)! - Fixes node unbond memo
+
 ## 1.0.0-rc.57
 
 ### Patch Changes
