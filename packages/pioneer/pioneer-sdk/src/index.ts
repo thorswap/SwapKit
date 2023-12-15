@@ -289,7 +289,7 @@ export class SDK {
         for (let i = 0; i < this.blockchains.length; i++) {
           let blockchain = this.blockchains[i];
           console.log(`Checking paths for blockchain: ${blockchain}`);
-          let pathsForChain
+          let pathsForChain;
           if (blockchain.indexOf('eip155') > -1) {
             //console.log('ETH like detected!');
             //all eip155 blockchains use the same path
@@ -330,7 +330,13 @@ export class SDK {
 
         //chain by networkId
         //console.log(tag, 'blockchains: ', blockchains);
-        let AllChainsSupported = blockchains.map((caip: any) => NetworkIdToChain[caip]);
+        let AllChainsSupported = blockchains.map(
+          (caip) =>
+            NetworkIdToChain[caip] ||
+            (() => {
+              throw new Error(`Missing CAIP: ${caip}`);
+            })(),
+        );
         //console.log(tag, 'AllChainsSupported: ', AllChainsSupported);
 
         await this.verifyWallet();

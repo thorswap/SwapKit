@@ -235,9 +235,10 @@ export class SwapKitCore<T = ''> {
       for (let i = 0; i < pubkeys.length; i++) {
         const pubkey = pubkeys[i];
         console.log('Get balance for xpub!');
-        console.log('getBalance: ', pubkey);
+        console.log('pubkey: ', pubkey);
         let pubkeyBalance = await this.getWallet(chain)?.getBalance([{ pubkey }]);
-        pubkeyBalance = pubkeyBalance[0].toFixed(pubkeyBalance.decimal);
+        console.log('pubkeyBalance: ', pubkeyBalance);
+        pubkeyBalance = pubkeyBalance[0].toFixed(pubkeyBalance?.decimal);
         if (isNaN(pubkeyBalance)) {
           pubkeyBalance = 0;
         }

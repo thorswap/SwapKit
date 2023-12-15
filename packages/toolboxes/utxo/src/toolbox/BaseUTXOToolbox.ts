@@ -106,13 +106,14 @@ const transfer = async ({
 
 const getPubkeyBalance = async function (pubkey: any, type: string, apiClient: BlockchairApiType) {
   try {
-    //console.log('pubkey: ', pubkey);
-    //console.log('type: ', type);
+    console.log('getPubkeyBalance pubkey: ', pubkey);
+    console.log('getPubkeyBalance type: ', type);
     switch (type) {
       case 'pubkey':
       case 'zpub':
       case 'xpub':
-        //console.log('pubkey.pubkey: ', pubkey.pubkey.xpub);
+
+        console.log('pubkey.pubkey.xpub: ', pubkey.pubkey.xpub);
         const xpubBalance = await apiClient.getBalanceXpub(pubkey.pubkey.xpub || pubkey.xpub);
         return xpubBalance;
       case 'address':
@@ -141,15 +142,16 @@ const getBalance = async ({ pubkeys, chain, apiClient }: { pubkeys: any[] } & an
     let type = '';
     if (pubkey.pubkey) type = 'pubkey';
     else type = 'address';
-    //console.log('pubkey: ', pubkey);
+    console.log('pubkey: ', pubkey);
     const balance = await getPubkeyBalance(pubkey, type, apiClient);
-    //console.log('getPubkeyBalance balance: ', balance);
+    console.log('BaseUTXO getPubkeyBalance balance: ', balance);
     totalBalance = totalBalance + balance;
   }
-  //totalBalance = totalBalance / 10 ** BaseDecimal[chain];
-  //console.log(`CHAIN: ${chain}.${chain}`);
-  //console.log(`totalBalance:`, totalBalance.toString());
-  const asset = await AssetValue.fromIdentifier(`${chain}.${chain}`, totalBalance.toString());
+  console.log(`BaseUTXO totalBalance:`, totalBalance.toString());
+
+  console.log(`BaseUTXO totalBalance:`, totalBalance.toString());
+  const asset = await AssetValue.fromChainOrSignature(chain);
+  console.log('BaseUTXO asset: ', asset);
   return [asset];
 };
 

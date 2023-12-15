@@ -1,7 +1,14 @@
 import type { BaseUTXOToolbox, UTXOToolbox, UTXOTransferParams } from '@coinmasters/toolbox-utxo';
-import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@coinmasters/toolbox-utxo';
+import {
+  BCHToolbox,
+  BTCToolbox,
+  DASHToolbox,
+  DOGEToolbox,
+  LTCToolbox,
+  ZCASHToolbox,
+} from '@coinmasters/toolbox-utxo';
 import type { UTXOChain } from '@coinmasters/types';
-import { Chain, FeeOption } from '@coinmasters/types';
+import { Chain, DerivationPath, FeeOption } from '@coinmasters/types';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
 
@@ -38,6 +45,10 @@ const getToolbox = ({ chain, apiClient, apiKey }: Omit<Params, 'sdk'>) => {
       return { toolbox: BTCToolbox({ apiClient, apiKey }), segwit: true };
     case Chain.Litecoin:
       return { toolbox: LTCToolbox({ apiClient, apiKey }), segwit: true };
+    case Chain.Dash:
+      return { toolbox: DASHToolbox({ apiClient, apiKey }), segwit: false };
+    case Chain.Zcash:
+      return { toolbox: ZCASHToolbox({ apiClient, apiKey }), segwit: false };
     case Chain.Dogecoin:
       return { toolbox: DOGEToolbox({ apiClient, apiKey }), segwit: false };
     case Chain.BitcoinCash:
@@ -66,11 +77,13 @@ export const utxoWalletMethods = async ({
   const { toolbox, segwit } = getToolbox({ chain, apiClient, apiKey });
 
   const scriptType = segwit ? 'p2wpkh' : 'p2pkh';
+  if(!ChainToKeepKeyName[chain]) throw Error("ChainToKeepKeyName: unknown chain: "+chain)
   const addressInfo = {
     coin: ChainToKeepKeyName[chain],
     script_type: scriptType,
     address_n: bip32ToAddressNList(DerivationPath[chain]),
   };
+  console.log('addressInfo: ', addressInfo);
   const { address: walletAddress } = await sdk.address.utxoGetAddress(addressInfo);
 
   //getAddress
@@ -205,5 +218,11 @@ export const utxoWalletMethods = async ({
     return toolbox.broadcastTx(txHex);
   };
 
-  return { ...toolbox, getPubkeys, getAddress: () => walletAddress as string, signTransaction, transfer };
+  return {
+    ...toolbox,
+    getPubkeys,
+    getAddress: () => walletAddress as string,
+    signTransaction,
+    transfer,
+  };
 };

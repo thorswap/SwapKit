@@ -83,7 +83,7 @@ export const ChainToNetworkId: Record<Chain, string> = {
   [Chain.Bitcoin]: 'bip122:000000000019d6689c085ae165831e93',
   [Chain.Base]: 'eip155:8453',
   [Chain.Cosmos]: 'cosmos:cosmoshub-4',
-  [Chain.Dash]: 'bip122:dash-hash',
+  [Chain.Dash]: 'bip122:000007d91d1254d60e2dd1ae58038307',
   [Chain.Digibyte]: 'bip122:digibytes-hash',
   [Chain.Dogecoin]: 'bip122:00000000001a91e3dace36e2be3bf030',
   [Chain.Kujira]: 'cosmos:kaiyo-1',

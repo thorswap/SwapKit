@@ -78,7 +78,6 @@ export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) 
     case Chain.BitcoinCash:
     case Chain.Dash:
     case Chain.Digibyte:
-    case Chain.Digibyte:
     case Chain.Zcash:
     case Chain.Ripple:
     case Chain.Litecoin:
@@ -133,6 +132,8 @@ export const getCommonAssetInfo = (
     case Chain.Arbitrum:
     case Chain.Optimism:
     case Chain.BitcoinCash:
+    case Chain.Zcash:
+    case Chain.Dash:
     case Chain.Litecoin:
     case Chain.Dogecoin:
     case Chain.Binance:
@@ -151,6 +152,8 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
+    case Chain.Dash:
+    case Chain.Zcash:
     case Chain.Litecoin:
     case Chain.Maya:
     case Chain.THORChain:

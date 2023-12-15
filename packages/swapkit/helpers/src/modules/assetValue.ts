@@ -162,6 +162,7 @@ export class AssetValue extends BigIntArithmetics {
 
   static fromChainOrSignature(assetString: CommonAssetString, value: NumberPrimitives = 0) {
     const { decimal, identifier } = getCommonAssetInfo(assetString);
+    if(!decimal || !identifier) throw Error("unknown coin! "+assetString)
     const parsedValue = safeValue(value, decimal);
 
     return new AssetValue({ value: parsedValue, decimal, identifier });
@@ -214,6 +215,8 @@ export const getMinAmountByChain = (chain: Chain) => {
   switch (chain) {
     case Chain.Bitcoin:
     case Chain.Litecoin:
+    case Chain.Dash:
+    case Chain.Zcash:
     case Chain.BitcoinCash:
       return asset.set(0.00010001);
 

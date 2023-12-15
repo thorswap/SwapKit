@@ -9,6 +9,8 @@ export enum ChainToKeepKeyName {
   BCH = 'BitcoinCash',
   DOGE = 'Dogecoin',
   LTC = 'Litecoin',
+  DASH = 'Dash',
+  ZEC = 'Zcash',
 }
 
 export function addressNListToBIP32(address: number[]): string {
