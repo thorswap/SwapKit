@@ -204,7 +204,10 @@ async function createAssetValue(identifier: string, value: NumberPrimitives = 0)
 }
 
 function createSyntheticAssetValue(identifier: string, value: NumberPrimitives = 0) {
-  const [synthChain, symbol] = identifier.split('.').slice(1)!.join().split('/');
+  const [synthChain, symbol] =
+    identifier.split('.')[0].toUpperCase() === Chain.THORChain
+      ? identifier.split('.').slice(1)!.join().split('/')
+      : identifier.split('/');
 
   if (!synthChain || !symbol) throw new Error('Invalid asset identifier');
 
@@ -223,9 +226,12 @@ function safeValue(value: NumberPrimitives, decimal: number) {
 
 function getAssetInfo(identifier: string) {
   const isSynthetic = identifier.slice(0, 14).includes('/');
-  const [synthChain, synthSymbol] = identifier.split('.').slice(1)!.join().split('/');
+  const [synthChain, synthSymbol] =
+    identifier.split('.')[0].toUpperCase() === Chain.THORChain
+      ? identifier.split('.').slice(1)!.join().split('/')
+      : identifier.split('/');
 
-  if (!synthChain || !synthSymbol) throw new Error('Invalid asset identifier');
+  if (isSynthetic && (!synthChain || !synthSymbol)) throw new Error('Invalid asset identifier');
 
   const adjustedIdentifier =
     identifier.includes('.') && !isSynthetic ? identifier : `${Chain.THORChain}.${synthSymbol}`;
