@@ -39,7 +39,7 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
 
     case MemoType.UNBOND: {
       const { address, unbondAmount } = options as MemoOptions<MemoType.UNBOND>;
-      return `${memoType}:${address}:${unbondAmount * 10 ** 8}`;
+      return `${memoType}:${address}:${unbondAmount}`;
     }
 
     case MemoType.THORNAME_REGISTER: {
