@@ -18,7 +18,7 @@ describe('getMemoFor', () => {
 
   describe('for Unbond and Thorname Register', () => {
     it('returns correct memo for Unbond', () => {
-      const result = getMemoFor(MemoType.UNBOND, { address: 'ABC123', unbondAmount: 10 });
+      const result = getMemoFor(MemoType.UNBOND, { address: 'ABC123', unbondAmount: 1000000000 });
       expect(result).toBe('UNBOND:ABC123:1000000000');
     });
 
