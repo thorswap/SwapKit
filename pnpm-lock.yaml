@@ -118,6 +118,9 @@ importers:
       '@coinmasters/helpers':
         specifier: workspace:*
         version: link:../../packages/swapkit/helpers
+      '@coinmasters/pioneer-sdk':
+        specifier: workspace:*
+        version: link:../../packages/pioneer/pioneer-sdk
       '@coinmasters/tokens':
         specifier: workspace:*
         version: link:../../packages/swapkit/tokens
@@ -188,8 +191,8 @@ importers:
         specifier: ^9.0.19
         version: 9.0.19
       '@pioneer-platform/pioneer-coins':
-        specifier: ^9.0.4
-        version: 9.0.4(@types/node@20.10.0)
+        specifier: ^9.0.6
+        version: 9.0.9(@types/node@20.10.4)
       '@types/uuid':
         specifier: ^9.0.6
         version: 9.0.6
@@ -271,7 +274,393 @@ importers:
         version: 5.2.2
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.10.0)
+        version: 4.4.9(@types/node@20.10.4)
+
+  e2e/transfers/e2e-transfer-arbitrum:
+    dependencies:
+      '@coinmasters/core':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/core
+      '@coinmasters/pioneer-sdk':
+        specifier: workspace:*
+        version: link:../../../packages/pioneer/pioneer-sdk
+      '@coinmasters/types':
+        specifier: workspace:^
+        version: link:../../../packages/swapkit/types
+      '@coinmasters/wallet-keepkey':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keepkey
+      '@coinmasters/wallet-keystore':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keystore
+      '@keepkey/device-protocol':
+        specifier: ^7.12.2
+        version: 7.12.2
+      '@pioneer-platform/loggerdog':
+        specifier: ^8.1.31
+        version: 8.1.31(@types/node@20.10.4)
+      '@pioneer-platform/pioneer-caip':
+        specifier: ^9.0.10
+        version: 9.0.14
+      '@types/node':
+        specifier: ^20.10.4
+        version: 20.10.4
+      assert:
+        specifier: ^2.1.0
+        version: 2.1.0
+      dotenv:
+        specifier: ^6.2.0
+        version: 6.2.0
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+      wait-promise:
+        specifier: ^0.4.1
+        version: 0.4.1
+    devDependencies:
+      '@coinmasters/helpers':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/helpers
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+
+  e2e/transfers/e2e-transfer-base:
+    dependencies:
+      '@coinmasters/core':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/core
+      '@coinmasters/pioneer-sdk':
+        specifier: workspace:*
+        version: link:../../../packages/pioneer/pioneer-sdk
+      '@coinmasters/types':
+        specifier: workspace:^
+        version: link:../../../packages/swapkit/types
+      '@coinmasters/wallet-keepkey':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keepkey
+      '@coinmasters/wallet-keystore':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keystore
+      '@keepkey/device-protocol':
+        specifier: ^7.12.2
+        version: 7.12.2
+      '@pioneer-platform/loggerdog':
+        specifier: ^8.1.31
+        version: 8.1.31(@types/node@20.10.4)
+      '@pioneer-platform/pioneer-caip':
+        specifier: ^9.0.10
+        version: 9.0.14
+      '@types/node':
+        specifier: ^20.10.4
+        version: 20.10.4
+      assert:
+        specifier: ^2.1.0
+        version: 2.1.0
+      dotenv:
+        specifier: ^6.2.0
+        version: 6.2.0
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+      wait-promise:
+        specifier: ^0.4.1
+        version: 0.4.1
+    devDependencies:
+      '@coinmasters/helpers':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/helpers
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+
+  e2e/transfers/e2e-transfer-bitcoin-cash:
+    dependencies:
+      '@coinmasters/core':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/core
+      '@coinmasters/pioneer-sdk':
+        specifier: workspace:*
+        version: link:../../../packages/pioneer/pioneer-sdk
+      '@coinmasters/types':
+        specifier: workspace:^
+        version: link:../../../packages/swapkit/types
+      '@coinmasters/wallet-keepkey':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keepkey
+      '@coinmasters/wallet-keystore':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keystore
+      '@keepkey/device-protocol':
+        specifier: ^7.12.2
+        version: 7.12.2
+      '@pioneer-platform/loggerdog':
+        specifier: ^8.1.31
+        version: 8.1.31(@types/node@20.10.4)
+      '@pioneer-platform/pioneer-caip':
+        specifier: ^9.0.10
+        version: 9.0.14
+      '@types/node':
+        specifier: ^20.10.4
+        version: 20.10.4
+      assert:
+        specifier: ^2.1.0
+        version: 2.1.0
+      dotenv:
+        specifier: ^6.2.0
+        version: 6.2.0
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+      wait-promise:
+        specifier: ^0.4.1
+        version: 0.4.1
+    devDependencies:
+      '@coinmasters/helpers':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/helpers
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+
+  e2e/transfers/e2e-transfer-dash:
+    dependencies:
+      '@coinmasters/core':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/core
+      '@coinmasters/pioneer-sdk':
+        specifier: workspace:*
+        version: link:../../../packages/pioneer/pioneer-sdk
+      '@coinmasters/types':
+        specifier: workspace:^
+        version: link:../../../packages/swapkit/types
+      '@coinmasters/wallet-keepkey':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keepkey
+      '@coinmasters/wallet-keystore':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keystore
+      '@pioneer-platform/loggerdog':
+        specifier: ^8.1.31
+        version: 8.1.31(@types/node@20.10.4)
+      '@pioneer-platform/pioneer-caip':
+        specifier: ^9.0.14
+        version: 9.0.14
+      '@types/node':
+        specifier: ^20.10.4
+        version: 20.10.4
+      assert:
+        specifier: ^2.1.0
+        version: 2.1.0
+      dotenv:
+        specifier: ^6.2.0
+        version: 6.2.0
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+      wait-promise:
+        specifier: ^0.4.1
+        version: 0.4.1
+    devDependencies:
+      '@coinmasters/helpers':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/helpers
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+
+  e2e/transfers/e2e-transfer-ethereum:
+    dependencies:
+      '@coinmasters/pioneer-sdk':
+        specifier: workspace:*
+        version: link:../../../packages/pioneer/pioneer-sdk
+      '@coinmasters/types':
+        specifier: workspace:^
+        version: link:../../../packages/swapkit/types
+      '@coinmasters/wallet-keepkey':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keepkey
+      '@coinmasters/wallet-keystore':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keystore
+      '@keepkey/device-protocol':
+        specifier: ^7.12.2
+        version: 7.12.2
+      '@pioneer-platform/loggerdog':
+        specifier: ^8.1.31
+        version: 8.1.31(@types/node@20.10.4)
+      '@pioneer-platform/pioneer-caip':
+        specifier: ^9.0.10
+        version: 9.0.14
+      '@types/node':
+        specifier: ^20.10.4
+        version: 20.10.4
+      assert:
+        specifier: ^2.1.0
+        version: 2.1.0
+      dotenv:
+        specifier: ^6.2.0
+        version: 6.2.0
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+      wait-promise:
+        specifier: ^0.4.1
+        version: 0.4.1
+    devDependencies:
+      '@coinmasters/helpers':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/helpers
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+
+  e2e/transfers/e2e-transfer-osmosis:
+    dependencies:
+      '@coinmasters/core':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/core
+      '@coinmasters/pioneer-sdk':
+        specifier: workspace:*
+        version: link:../../../packages/pioneer/pioneer-sdk
+      '@coinmasters/types':
+        specifier: workspace:^
+        version: link:../../../packages/swapkit/types
+      '@coinmasters/wallet-keepkey':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keepkey
+      '@coinmasters/wallet-keystore':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keystore
+      '@keepkey/device-protocol':
+        specifier: ^7.12.2
+        version: 7.12.2
+      '@pioneer-platform/loggerdog':
+        specifier: ^8.1.31
+        version: 8.1.31(@types/node@20.10.4)
+      '@pioneer-platform/pioneer-caip':
+        specifier: ^9.0.10
+        version: 9.0.14
+      '@types/node':
+        specifier: ^20.10.4
+        version: 20.10.4
+      assert:
+        specifier: ^2.1.0
+        version: 2.1.0
+      dotenv:
+        specifier: ^6.2.0
+        version: 6.2.0
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+      wait-promise:
+        specifier: ^0.4.1
+        version: 0.4.1
+    devDependencies:
+      '@coinmasters/helpers':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/helpers
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+
+  e2e/transfers/e2e-transfer-ripple:
+    dependencies:
+      '@coinmasters/core':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/core
+      '@coinmasters/pioneer-sdk':
+        specifier: workspace:*
+        version: link:../../../packages/pioneer/pioneer-sdk
+      '@coinmasters/types':
+        specifier: workspace:^
+        version: link:../../../packages/swapkit/types
+      '@coinmasters/wallet-keepkey':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keepkey
+      '@coinmasters/wallet-keystore':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keystore
+      '@keepkey/device-protocol':
+        specifier: ^7.12.2
+        version: 7.12.2
+      '@pioneer-platform/loggerdog':
+        specifier: ^8.1.31
+        version: 8.1.31(@types/node@20.10.4)
+      '@pioneer-platform/pioneer-caip':
+        specifier: ^9.0.13
+        version: 9.0.14
+      '@types/node':
+        specifier: ^20.10.4
+        version: 20.10.4
+      assert:
+        specifier: ^2.1.0
+        version: 2.1.0
+      dotenv:
+        specifier: ^6.2.0
+        version: 6.2.0
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+      wait-promise:
+        specifier: ^0.4.1
+        version: 0.4.1
+    devDependencies:
+      '@coinmasters/helpers':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/helpers
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+
+  e2e/transfers/e2e-transfer-zcash:
+    dependencies:
+      '@coinmasters/core':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/core
+      '@coinmasters/pioneer-sdk':
+        specifier: workspace:*
+        version: link:../../../packages/pioneer/pioneer-sdk
+      '@coinmasters/types':
+        specifier: workspace:^
+        version: link:../../../packages/swapkit/types
+      '@coinmasters/wallet-keepkey':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keepkey
+      '@coinmasters/wallet-keystore':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keystore
+      '@keepkey/device-protocol':
+        specifier: ^7.12.2
+        version: 7.12.2
+      '@pioneer-platform/loggerdog':
+        specifier: ^8.1.31
+        version: 8.1.31(@types/node@20.10.4)
+      '@pioneer-platform/pioneer-caip':
+        specifier: ^9.0.10
+        version: 9.0.14
+      '@types/node':
+        specifier: ^20.10.4
+        version: 20.10.4
+      assert:
+        specifier: ^2.1.0
+        version: 2.1.0
+      dotenv:
+        specifier: ^6.2.0
+        version: 6.2.0
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+      wait-promise:
+        specifier: ^0.4.1
+        version: 0.4.1
+    devDependencies:
+      '@coinmasters/helpers':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/helpers
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
 
   internal/config:
     devDependencies:
@@ -283,7 +672,7 @@ importers:
         version: 0.34.6(vitest@0.34.6)
       vite:
         specifier: 4.5.0
-        version: 4.5.0(@types/node@20.5.9)
+        version: 4.5.0
       vite-plugin-dts:
         specifier: 3.5.3
         version: 3.5.3(typescript@5.2.2)(vite@4.5.0)
@@ -373,8 +762,8 @@ importers:
         specifier: 0.2.2
         version: 0.2.2(esbuild@0.19.3)
       '@pioneer-platform/pioneer-coins':
-        specifier: ^9.0.4
-        version: 9.0.4(@types/node@20.10.0)
+        specifier: ^9.0.6
+        version: 9.0.9(@types/node@20.10.4)
       base64-js:
         specifier: 1.5.1
         version: 1.5.1
@@ -477,7 +866,77 @@ importers:
         version: 5.2.2
       vite:
         specifier: 4.4.9
-        version: 4.4.9(@types/node@20.10.0)
+        version: 4.4.9(@types/node@20.10.4)
+
+  packages/pioneer/pioneer-sdk:
+    dependencies:
+      '@coinmasters/api':
+        specifier: workspace:*
+        version: link:../../swapkit/api
+      '@coinmasters/core':
+        specifier: workspace:*
+        version: link:../../swapkit/core
+      '@coinmasters/helpers':
+        specifier: workspace:*
+        version: link:../../swapkit/helpers
+      '@coinmasters/tokens':
+        specifier: workspace:*
+        version: link:../../swapkit/tokens
+      '@coinmasters/toolbox-cosmos':
+        specifier: workspace:*
+        version: link:../../toolboxes/cosmos
+      '@coinmasters/toolbox-evm':
+        specifier: workspace:*
+        version: link:../../toolboxes/evm
+      '@coinmasters/toolbox-ripple':
+        specifier: workspace:*
+        version: link:../../toolboxes/ripple
+      '@coinmasters/toolbox-utxo':
+        specifier: workspace:*
+        version: link:../../toolboxes/utxo
+      '@coinmasters/types':
+        specifier: workspace:*
+        version: link:../../swapkit/types
+      '@pioneer-platform/pioneer-caip':
+        specifier: ^9.0.14
+        version: 9.0.14
+      '@pioneer-platform/pioneer-client':
+        specifier: ^9.0.19
+        version: 9.0.19
+      '@pioneer-platform/pioneer-coins':
+        specifier: ^9.0.9
+        version: 9.0.9(@types/node@20.10.0)
+    devDependencies:
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+      '@types/bn.js':
+        specifier: 5.1.5
+        version: 5.1.5
+      '@types/crypto-js':
+        specifier: 4.2.1
+        version: 4.2.1
+      '@types/elliptic':
+        specifier: 6.4.18
+        version: 6.4.18
+      '@types/long':
+        specifier: 4.0.2
+        version: 4.0.2
+      '@types/node':
+        specifier: 20.10.0
+        version: 20.10.0
+      '@types/tiny-secp256k1':
+        specifier: 1.0.0
+        version: 1.0.0
+      '@vitest/coverage-istanbul':
+        specifier: 0.34.6
+        version: 0.34.6(vitest@0.34.6)
+      vite:
+        specifier: 4.5.0
+        version: 4.5.0(@types/node@20.10.0)
+      vitest:
+        specifier: 0.34.6
+        version: 0.34.6
 
   packages/swapkit/api:
     dependencies:
@@ -496,7 +955,7 @@ importers:
         version: 0.34.6(vitest@0.34.6)
       vite:
         specifier: 4.5.0
-        version: 4.5.0(@types/node@20.5.9)
+        version: 4.5.0
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -618,7 +1077,7 @@ importers:
         version: 6.9.0
       vite:
         specifier: 4.5.0
-        version: 4.5.0(@types/node@20.5.9)
+        version: 4.5.0
       vite-plugin-top-level-await:
         specifier: 1.3.1
         version: 1.3.1(vite@4.5.0)
@@ -649,7 +1108,7 @@ importers:
         version: 9.1.2
       vite:
         specifier: 4.5.0
-        version: 4.5.0(@types/node@20.5.9)
+        version: 4.5.0
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -674,7 +1133,7 @@ importers:
         version: 0.34.6(vitest@0.34.6)
       vite:
         specifier: 4.5.0
-        version: 4.5.0(@types/node@20.5.9)
+        version: 4.5.0
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -735,7 +1194,7 @@ importers:
         version: 0.34.6(vitest@0.34.6)
       vite:
         specifier: 4.5.0
-        version: 4.5.0(@types/node@20.5.9)
+        version: 4.5.0
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -762,7 +1221,7 @@ importers:
         version: 11.1.1
       vite:
         specifier: 4.5.0
-        version: 4.5.0(@types/node@20.5.9)
+        version: 4.5.0
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -1004,8 +1463,8 @@ importers:
         specifier: workspace:*
         version: link:../../swapkit/types
       '@pioneer-platform/pioneer-coins':
-        specifier: ^8.1.90
-        version: 8.1.90(@types/node@20.5.9)
+        specifier: ^9.0.6
+        version: 9.0.9(@types/node@20.5.9)
       '@psf/bitcoincashjs-lib':
         specifier: 4.0.3
         version: 4.0.3
@@ -1079,7 +1538,7 @@ importers:
         version: 6.9.0
       vite:
         specifier: 4.5.0
-        version: 4.5.0(@types/node@20.5.9)
+        version: 4.5.0
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -1089,27 +1548,15 @@ importers:
       '@coinmasters/toolbox-ripple':
         specifier: workspace:*
         version: link:../../toolboxes/ripple
-      '@ethersproject/abstract-signer':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/bignumber':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/providers':
-        specifier: ^5.7.0
-        version: 5.7.2
-      '@ethersproject/transactions':
-        specifier: 5.7.0
-        version: 5.7.0
       '@keepkey/keepkey-sdk':
         specifier: ^0.2.52
         version: 0.2.52
       '@pioneer-platform/pioneer-caip':
-        specifier: 9.0.7
-        version: 9.0.7
+        specifier: 9.0.14
+        version: 9.0.14
       '@pioneer-platform/pioneer-coins':
-        specifier: ^8.1.86
-        version: 8.1.86(@types/node@20.10.0)
+        specifier: ^9.0.8
+        version: 9.0.9(@types/node@20.10.4)
       ethers:
         specifier: ^6.9.0
         version: 6.9.0
@@ -1149,7 +1596,7 @@ importers:
         version: 5.2.0
       vite:
         specifier: 4.4.4
-        version: 4.4.4(@types/node@20.10.0)
+        version: 4.4.4(@types/node@20.10.4)
       vitest:
         specifier: 0.33.0
         version: 0.33.0
@@ -1177,7 +1624,7 @@ importers:
         version: 0.34.6(vitest@0.34.6)
       vite:
         specifier: 4.5.0
-        version: 4.5.0(@types/node@20.5.9)
+        version: 4.5.0
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -1238,7 +1685,7 @@ importers:
         version: 6.9.0
       vite:
         specifier: 4.5.0
-        version: 4.5.0(@types/node@20.5.9)
+        version: 4.5.0
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -1270,8 +1717,8 @@ importers:
         specifier: 6.28.0
         version: 6.28.0
       '@pioneer-platform/pioneer-coins':
-        specifier: ^9.0.4
-        version: 9.0.4(@types/node@20.10.0)
+        specifier: ^9.0.6
+        version: 9.0.9(@types/node@20.10.0)
       ripemd160:
         specifier: 2.0.2
         version: 2.0.2
@@ -1378,21 +1825,9 @@ importers:
       '@cosmjs/stargate':
         specifier: 0.31.1
         version: 0.31.1
-      '@ethersproject/abstract-signer':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/bignumber':
-        specifier: 5.7.0
-        version: 5.7.0
-      '@ethersproject/providers':
-        specifier: ^5.7.0
-        version: 5.7.2
-      '@ethersproject/transactions':
-        specifier: 5.7.0
-        version: 5.7.0
       '@pioneer-platform/pioneer-coins':
-        specifier: ^9.0.4
-        version: 9.0.4(@types/node@20.10.0)
+        specifier: ^9.0.6
+        version: 9.0.9(@types/node@20.10.4)
       '@shapeshiftoss/hdwallet-core':
         specifier: ^1.50.5
         version: 1.50.5
@@ -1438,7 +1873,7 @@ importers:
         version: 5.2.0
       vite:
         specifier: 4.4.4
-        version: 4.4.4(@types/node@20.10.0)
+        version: 4.4.4(@types/node@20.10.4)
       vitest:
         specifier: 0.33.0
         version: 0.33.0
@@ -1475,7 +1910,7 @@ importers:
         version: 6.9.0
       vite:
         specifier: 4.5.0
-        version: 4.5.0(@types/node@20.5.9)
+        version: 4.5.0
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -1521,7 +1956,7 @@ importers:
         version: 6.9.0
       vite:
         specifier: 4.5.0
-        version: 4.5.0(@types/node@20.5.9)
+        version: 4.5.0
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -1534,6 +1969,9 @@ importers:
       '@walletconnect/modal-sign-html':
         specifier: ^2.6.2
         version: 2.6.2(react@18.2.0)
+      ethers:
+        specifier: ^6.9.0
+        version: 6.9.0
     devDependencies:
       '@coinmasters/toolbox-cosmos':
         specifier: workspace:*
@@ -1568,12 +2006,9 @@ importers:
       cosmjs-types:
         specifier: 0.9.0
         version: 0.9.0
-      ethers:
-        specifier: ^6.9.0
-        version: 6.9.0
       vite:
         specifier: 4.5.0
-        version: 4.5.0(@types/node@20.5.9)
+        version: 4.5.0
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -1610,7 +2045,7 @@ importers:
         version: 6.9.0
       vite:
         specifier: 4.5.0
-        version: 4.5.0(@types/node@20.5.9)
+        version: 4.5.0
       vitest:
         specifier: 0.34.6
         version: 0.34.6
@@ -4630,6 +5065,13 @@ packages:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
 
+  /@keepkey/device-protocol@7.12.2:
+    resolution: {integrity: sha512-U2wGgynZx9euKx9sshLzCeMJ/36+2NH8M/YhnUoCrS1xsjPp5xTCXquLFCFzfEL379yL4g03yu2kT41LKI5Dog==}
+    dependencies:
+      google-protobuf: 3.21.2
+      pbjs: 0.0.5
+    dev: false
+
   /@keepkey/keepkey-sdk@0.2.52:
     resolution: {integrity: sha512-Qp1hLI8aRGOQWwduGcyB+xwxzZE9UtJ2PqWLqATH1mEon26rkMQTUk1hrGn2oNO5cxqamzK94iGqeSR7p5Y2nA==}
     dev: false
@@ -4993,7 +5435,7 @@ packages:
       eth-rpc-errors: 4.0.3
       immer: 9.0.21
       json-rpc-engine: 6.1.0
-      nanoid: 3.3.6
+      nanoid: 3.3.7
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -5029,7 +5471,7 @@ packages:
       '@metamask/utils': 6.2.0
       '@noble/hashes': 1.3.2
       eth-rpc-errors: 4.0.3
-      nanoid: 3.3.6
+      nanoid: 3.3.7
       superstruct: 1.0.3
     transitivePeerDependencies:
       - '@metamask/approval-controller'
@@ -5861,6 +6303,18 @@ packages:
       - '@types/node'
     dev: false
 
+  /@pioneer-platform/loggerdog@8.1.31(@types/node@20.10.4):
+    resolution: {integrity: sha512-6YtaAD6avWjhodX6hKtgUG2kZdVNbMXBYbl9ous4V/hht0CRHJxkHYpHo6nzDpD947sR0e03rpvQO/eCBo2mxA==}
+    dependencies:
+      os: 0.1.2
+      ts-node: 10.9.1(@types/node@20.10.4)(typescript@5.2.2)
+      typescript: 5.2.2
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+    dev: false
+
   /@pioneer-platform/loggerdog@8.1.31(@types/node@20.5.9):
     resolution: {integrity: sha512-6YtaAD6avWjhodX6hKtgUG2kZdVNbMXBYbl9ous4V/hht0CRHJxkHYpHo6nzDpD947sR0e03rpvQO/eCBo2mxA==}
     dependencies:
@@ -5895,8 +6349,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@pioneer-platform/pioneer-caip@9.0.7:
-    resolution: {integrity: sha512-BTdogSfdqdhIIKJC2WJmCpPGJpW3e8w/8+skuzD55cOiu5Q5ky+7oppcgbYqAS4jmv3BVWx56iUx3bmRvvXWtQ==}
+  /@pioneer-platform/pioneer-caip@9.0.14:
+    resolution: {integrity: sha512-Jh1XXlfeWpy+Wc9OtPtr9AYav6RN/1VvzlQQP1yXjsvcxqOxFy4zsL/d91CLRzfit9HTs/neG9UQSsG0e/19OA==}
     dependencies:
       bech32: 1.1.4
       bignumber.js: 9.1.2
@@ -5925,32 +6379,6 @@ packages:
       - debug
     dev: false
 
-  /@pioneer-platform/pioneer-coins@8.1.86(@types/node@20.10.0):
-    resolution: {integrity: sha512-zn7753YJtrTO2CB1I3KNd+KRJQbiSZMizBM7SYMLfirt499e3ZquJASSXtPwsEJhnEFK16xObj1sJk4DHPERPQ==}
-    dependencies:
-      '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.10.0)
-      bech32: 1.1.4
-      bignumber.js: 9.1.2
-      bitcoin-regex: 2.0.0
-      bitcoincash-regex: 1.1.9
-      bs58check: 3.0.1
-      crypto-js: 4.2.0
-      dash-regex: 1.0.11
-      dogecoin-regex: 1.0.10
-      ethereum-regex: 1.1.13
-      ethereum-tx-decoder: 3.0.0
-      litecoin-regex: 1.0.9
-      monero-regex: 1.0.9
-      neo-regex: 1.0.8
-      ripple-regex: 1.1.8
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - '@types/node'
-      - bufferutil
-      - utf-8-validate
-    dev: false
-
   /@pioneer-platform/pioneer-coins@8.1.90(@types/node@15.14.9):
     resolution: {integrity: sha512-78FqMZTQ3irrjQw19weyUzG3ot+sDD0DFvYwMGR6Fk7BZlTBn3Y/ge3xPxElG5/YaXAhWOAzH7uM7YoY9w7Zyw==}
     dependencies:
@@ -5977,10 +6405,10 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@pioneer-platform/pioneer-coins@8.1.90(@types/node@20.5.9):
-    resolution: {integrity: sha512-78FqMZTQ3irrjQw19weyUzG3ot+sDD0DFvYwMGR6Fk7BZlTBn3Y/ge3xPxElG5/YaXAhWOAzH7uM7YoY9w7Zyw==}
+  /@pioneer-platform/pioneer-coins@9.0.9(@types/node@20.10.0):
+    resolution: {integrity: sha512-ElN4xB66UJVovUebB2pzdBv+8AXovNtrM2t27vIajLYiHk4XwLcKOAHKaaXKPuwysJHkh3kdsgefjDinjA17tg==}
     dependencies:
-      '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.5.9)
+      '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.10.0)
       bech32: 1.1.4
       bignumber.js: 9.1.2
       bitcoin-regex: 2.0.0
@@ -6003,16 +6431,42 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@pioneer-platform/pioneer-coins@9.0.4(@types/node@20.10.0):
-    resolution: {integrity: sha512-5MsIETIS3gR9hBf55TcmUQ1y3ABNRVAcm9dOl0Z33BS/EPO+T2hPnm6ZeMSk2B+goypkPwINomwrQgY0mfsr1A==}
+  /@pioneer-platform/pioneer-coins@9.0.9(@types/node@20.10.4):
+    resolution: {integrity: sha512-ElN4xB66UJVovUebB2pzdBv+8AXovNtrM2t27vIajLYiHk4XwLcKOAHKaaXKPuwysJHkh3kdsgefjDinjA17tg==}
     dependencies:
-      '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.10.0)
+      '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.10.4)
       bech32: 1.1.4
       bignumber.js: 9.1.2
       bitcoin-regex: 2.0.0
       bitcoincash-regex: 1.1.9
       bs58check: 3.0.1
-      crypto-js: 4.1.1
+      crypto-js: 4.2.0
+      dash-regex: 1.0.11
+      dogecoin-regex: 1.0.10
+      ethereum-regex: 1.1.13
+      ethereum-tx-decoder: 3.0.0
+      litecoin-regex: 1.0.9
+      monero-regex: 1.0.9
+      neo-regex: 1.0.8
+      ripple-regex: 1.1.8
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - bufferutil
+      - utf-8-validate
+    dev: false
+
+  /@pioneer-platform/pioneer-coins@9.0.9(@types/node@20.5.9):
+    resolution: {integrity: sha512-ElN4xB66UJVovUebB2pzdBv+8AXovNtrM2t27vIajLYiHk4XwLcKOAHKaaXKPuwysJHkh3kdsgefjDinjA17tg==}
+    dependencies:
+      '@pioneer-platform/loggerdog': 8.1.31(@types/node@20.5.9)
+      bech32: 1.1.4
+      bignumber.js: 9.1.2
+      bitcoin-regex: 2.0.0
+      bitcoincash-regex: 1.1.9
+      bs58check: 3.0.1
+      crypto-js: 4.2.0
       dash-regex: 1.0.11
       dogecoin-regex: 1.0.10
       ethereum-regex: 1.1.13
@@ -7710,19 +8164,19 @@ packages:
   /@types/bn.js@4.11.6:
     resolution: {integrity: sha512-pqr857jrp2kPuO9uRjZ3PwnJTjoQy+fcdxvBTvHm6dkmEL9q+hDD/2j/0ELOBPtPnS8LjCX0gI9nbl8lVkadpg==}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
     dev: true
 
   /@types/bn.js@5.1.1:
     resolution: {integrity: sha512-qNrYbZqMx0uJAfKnKclPh+dTwK33KfLHYqtyODwd5HnXOjnkhc4qgn3BrK6RWyGZm5+sIFE7Q7Vz6QQtJB7w7g==}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
     dev: true
 
   /@types/bn.js@5.1.5:
     resolution: {integrity: sha512-V46N0zwKRF5Q00AZ6hWtN0T8gGmDUaUzLWQvHFo5yThtVwK/VCenFY3wXVbOvNfajEpsTfQM4IN9k/d6gUVX3A==}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
 
   /@types/chai-as-promised@7.1.6:
     resolution: {integrity: sha512-cQLhk8fFarRVZAXUQV1xEnZgMoPxqKojBvRkqPCKPQCzEhpbbSKl1Uu75kDng7k5Ln6LQLUmNBjLlFthCgm1NA==}
@@ -7750,7 +8204,7 @@ packages:
   /@types/concat-stream@1.6.1:
     resolution: {integrity: sha512-eHE4cQPoj6ngxBZMvVf6Hw7Mh4jMW4U9lpGmS5GBPB9RYxlFg+CHaVN7ErNY4W9XfLIEn20b4VDYaIrbq0q4uA==}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
     dev: true
 
   /@types/crypto-js@4.1.2:
@@ -7821,21 +8275,21 @@ packages:
   /@types/form-data@0.0.33:
     resolution: {integrity: sha512-8BSvG1kGm83cyJITQMZSulnl6QV8jqAGreJsc5tPu1Jq0vTSOiY/k24Wx82JRpWwZSqrala6sd5rWi6aNXvqcw==}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
     dev: true
 
   /@types/fs-extra@11.0.4:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.1
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
     dev: true
 
   /@types/glob@7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
     dev: true
 
   /@types/har-format@1.2.14:
@@ -7868,7 +8322,7 @@ packages:
   /@types/jsonfile@6.1.1:
     resolution: {integrity: sha512-GSgiRCVeapDN+3pqA35IkQwasaCh/0YFH5dEF6S88iDvEn901DjOeH3/QPY+XYP1DFzDZPvIvfeEgk+7br5png==}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
     dev: true
 
   /@types/lodash.mergewith@4.6.7:
@@ -7906,7 +8360,7 @@ packages:
   /@types/node-fetch@2.6.9:
     resolution: {integrity: sha512-bQVlnMLFJ2d35DkPNjEPmd9ueO/rh5EiaZt2bhqiSarPjZIuIV6bPQVqcrEyvNo+AfTrRGVazle1tl597w3gfA==}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
       form-data: 4.0.0
     dev: true
 
@@ -7929,6 +8383,11 @@ packages:
     dependencies:
       undici-types: 5.26.5
 
+  /@types/node@20.10.4:
+    resolution: {integrity: sha512-D08YG6rr8X90YB56tSIuBaddy/UXAA9RKJoFvrsnogAum/0pmjkgi4+2nx96A330FmioegBWmEYQ+syqCFaveg==}
+    dependencies:
+      undici-types: 5.26.5
+
   /@types/node@20.5.9:
     resolution: {integrity: sha512-PcGNd//40kHAS3sTlzKB9C9XL4K0sTup8nbG5lC14kzEteTNuAFh9u5nA0o5TWnSG2r/JNPRXFVcHJIIeRlmqQ==}
 
@@ -7947,7 +8406,7 @@ packages:
   /@types/pbkdf2@3.1.0:
     resolution: {integrity: sha512-Cf63Rv7jCQ0LaL8tNXmEyqTHuIJxRdlS5vMh1mj5voN4+QFhVZnlZruezqpWYDiJ8UTzhP0VmeLXCmBk66YrMQ==}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
 
   /@types/prettier@2.7.3:
     resolution: {integrity: sha512-+68kP9yzs4LMp7VNh8gdzMSPZFL44MLGqiHWvttYJe+6qnuVr4Ek9wSBQoveqY/r+LwjCcU29kNVkidwim+kYA==}
@@ -7982,7 +8441,7 @@ packages:
   /@types/readable-stream@2.3.15:
     resolution: {integrity: sha512-oM5JSKQCcICF1wvGgmecmHldZ48OZamtMxcGGVICOJA8o8cahXC1zEVAif8iwoc5j8etxFaRFnf095+CDsuoFQ==}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
       safe-buffer: 5.1.2
     dev: true
 
@@ -7993,7 +8452,7 @@ packages:
   /@types/ripemd160@2.0.3:
     resolution: {integrity: sha512-/GrtUuorXQGl4/qCgo0YhzHaDbWc6i2kIBt5q7gA0np+/5GmLMK6aYb0pUYFfJ4Y2oraKkrDW4falfLip3Hzdw==}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
     dev: true
 
   /@types/scheduler@0.16.3:
@@ -8002,7 +8461,7 @@ packages:
   /@types/secp256k1@4.0.6:
     resolution: {integrity: sha512-hHxJU6PAEUn0TP4S/ZOzuTUvJWuZ6eIKeNKb5RBpODvSl6hp1Wrw4s7ATY50rklRCScUDpHzVA/DQdSjJ3UoYQ==}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
 
   /@types/semver@6.2.3:
     resolution: {integrity: sha512-KQf+QAMWKMrtBMsB8/24w53tEsxllMj6TuA80TT/5igJalLI/zm0L3oXRbIAl4Ohfc85gyHX/jhMwsVkmhLU4A==}
@@ -8014,13 +8473,13 @@ packages:
   /@types/through@0.0.30:
     resolution: {integrity: sha512-FvnCJljyxhPM3gkRgWmxmDZyAQSiBQQWLI0A0VFL0K7W1oRUrPJSqNO0NvTnLkBcotdlp3lKvaT0JrnyRDkzOg==}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
     dev: true
 
   /@types/tiny-secp256k1@1.0.0:
     resolution: {integrity: sha512-IW3dFGNyVkVLC1MCMogVWQaKH/ZtjPQdOW9c3X128o5lVpFYNsq/l3Qo1pV7sfTmvDzWEXR3QTxg1TMy1pyaAQ==}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
     dev: true
 
   /@types/trusted-types@2.0.3:
@@ -8048,7 +8507,7 @@ packages:
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
 
   /@typescript-eslint/eslint-plugin@6.12.0(@typescript-eslint/parser@6.12.0)(eslint@8.54.0)(typescript@5.2.2):
     resolution: {integrity: sha512-XOpZ3IyJUIV1b15M7HVOpgQxPPF7lGXgsfcEIu3yDxFPaf/xZKt7s9QO/pbk7vpWQyVulpJbu4E5LwpZiQo4kA==}
@@ -8248,7 +8707,7 @@ packages:
       '@babel/plugin-transform-react-jsx-self': 7.22.5(@babel/core@7.23.3)
       '@babel/plugin-transform-react-jsx-source': 7.22.5(@babel/core@7.23.3)
       react-refresh: 0.14.0
-      vite: 4.4.9(@types/node@20.10.0)
+      vite: 4.4.9(@types/node@20.10.4)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -8492,7 +8951,7 @@ packages:
   /@vue/compiler-core@3.3.4:
     resolution: {integrity: sha512-cquyDNvZ6jTbf/+x+AgM2Arrp6G4Dzbb0R64jiG804HRMfRiFXWI6kqUVqZ6ZR0bQhIoQjB4+2bhNtVwndW15g==}
     dependencies:
-      '@babel/parser': 7.22.16
+      '@babel/parser': 7.23.5
       '@vue/shared': 3.3.4
       estree-walker: 2.0.2
       source-map-js: 1.0.2
@@ -9948,7 +10407,7 @@ packages:
   /call-bind@1.0.2:
     resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==}
     dependencies:
-      function-bind: 1.1.1
+      function-bind: 1.1.2
       get-intrinsic: 1.2.1
 
   /callsites@3.1.0:
@@ -10959,6 +11418,11 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
+  /dotenv@6.2.0:
+    resolution: {integrity: sha512-HygQCKUBSFl8wKQZBSemMywRWcEDNidvNbjGVyZu3nbZ8qq9ubiPoGLMdRDpfSrpkkm9BXYFkpKxxFX38o/76w==}
+    engines: {node: '>=6'}
+    dev: false
+
   /dotenv@8.6.0:
     resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
     engines: {node: '>=10'}
@@ -11167,7 +11631,7 @@ packages:
       define-data-property: 1.1.1
       define-properties: 1.2.1
       es-abstract: 1.22.1
-      function-bind: 1.1.1
+      function-bind: 1.1.2
       get-intrinsic: 1.2.1
       globalthis: 1.0.3
       has-property-descriptors: 1.0.0
@@ -12804,7 +13268,7 @@ packages:
     resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
     engines: {node: '>= 0.4.0'}
     dependencies:
-      function-bind: 1.1.1
+      function-bind: 1.1.2
 
   /hash-base@3.1.0:
     resolution: {integrity: sha512-1nmYp/rhMDiE7AYkDw+lLwlAzz0AntGIe51F3RfFfEqyQ3feY2eI/NcwC6umIQVOASPMsWJLJScWKSSvzL9IVA==}
@@ -13571,7 +14035,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: false
@@ -14478,6 +14942,7 @@ packages:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
+    dev: true
 
   /nanoid@3.3.7:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
@@ -15122,6 +15587,15 @@ packages:
     resolution: {integrity: sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ==}
     dev: true
 
+  /pbjs@0.0.5:
+    resolution: {integrity: sha512-cy4vyZ210BrYDYSt/UBdhR4QewliT2wTfPqECBJH2N+1R9WLoAZfN2fdOHj/sHL9XsW1pYXjHy8cfPZWJOWWRg==}
+    hasBin: true
+    dependencies:
+      bytebuffer: 5.0.1
+      commander: 2.9.0
+      protocol-buffers-schema: 3.1.0
+    dev: false
+
   /pbkdf2@3.1.2:
     resolution: {integrity: sha512-iuh7L6jA7JEGu2WxDwtQP1ddOpaJNC4KlDEFfdQajSGgGPNi4OyDc2R7QnbY2bR9QjBVGwgvTdNJZoE7RaxUMA==}
     engines: {node: '>=0.12'}
@@ -15340,7 +15814,7 @@ packages:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.2
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
       long: 4.0.0
 
   /protobufjs@7.2.4:
@@ -15358,7 +15832,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
       long: 5.2.3
 
   /protobufjs@7.2.5:
@@ -15376,7 +15850,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
       long: 5.2.3
     dev: false
 
@@ -15386,6 +15860,10 @@ packages:
       b4a: 1.6.4
       signed-varint: 2.0.1
       varint: 5.0.0
+    dev: false
+
+  /protocol-buffers-schema@3.1.0:
+    resolution: {integrity: sha512-1g9zFjLFhGN1Dc5UVO8D2loVslp6sVxk5sJqgD66CuWUITh2gOaTLRN/pIakGFfB6e0nNF6hImrYFDurEsA1UQ==}
     dev: false
 
   /proxy-compare@2.5.1:
@@ -17396,6 +17874,37 @@ packages:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
+  /ts-node@10.9.1(@types/node@20.10.4)(typescript@5.2.2):
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 20.10.4
+      acorn: 8.10.0
+      acorn-walk: 8.2.0
+      arg: 4.1.0
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.2.2
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node@10.9.1(@types/node@20.5.9)(typescript@5.2.2):
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
@@ -18042,7 +18551,7 @@ packages:
       core-util-is: 1.0.2
       extsprintf: 1.3.0
 
-  /vite-node@0.33.0(@types/node@20.10.0):
+  /vite-node@0.33.0(@types/node@20.10.4):
     resolution: {integrity: sha512-19FpHYbwWWxDr73ruNahC+vtEdza52kA90Qb3La98yZ0xULqV8A5JLNPUff0f5zID4984tW7l3DH2przTJUZSw==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -18052,7 +18561,7 @@ packages:
       mlly: 1.4.2
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 4.5.0(@types/node@20.10.0)
+      vite: 4.5.0(@types/node@20.10.4)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -18064,7 +18573,7 @@ packages:
       - terser
     dev: true
 
-  /vite-node@0.34.3(@types/node@20.10.0):
+  /vite-node@0.34.3(@types/node@20.10.4):
     resolution: {integrity: sha512-+0TzJf1g0tYXj6tR2vEyiA42OPq68QkRZCu/ERSo2PtsDJfBpDyEfuKbRvLmZqi/CgC7SCBtyC+WjTGNMRIaig==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -18074,7 +18583,7 @@ packages:
       mlly: 1.4.2
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 4.5.0(@types/node@20.10.0)
+      vite: 4.5.0(@types/node@20.10.4)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -18086,7 +18595,7 @@ packages:
       - terser
     dev: true
 
-  /vite-node@0.34.4(@types/node@20.10.0):
+  /vite-node@0.34.4(@types/node@20.10.4):
     resolution: {integrity: sha512-ho8HtiLc+nsmbwZMw8SlghESEE3KxJNp04F/jPUCLVvaURwt0d+r9LxEqCX5hvrrOQ0GSyxbYr5ZfRYhQ0yVKQ==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -18096,7 +18605,7 @@ packages:
       mlly: 1.4.2
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 4.5.0(@types/node@20.10.0)
+      vite: 4.5.0(@types/node@20.10.4)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -18156,7 +18665,7 @@ packages:
       debug: 4.3.4(supports-color@8.1.1)
       kolorist: 1.8.0
       typescript: 5.2.2
-      vite: 4.5.0(@types/node@20.5.9)
+      vite: 4.5.0
       vue-tsc: 1.8.8(typescript@5.2.2)
     transitivePeerDependencies:
       - '@types/node'
@@ -18173,7 +18682,7 @@ packages:
       buffer-polyfill: /buffer@6.0.3
       node-stdlib-browser: 1.2.0
       process: 0.11.10
-      vite: 4.5.0(@types/node@20.5.9)
+      vite: 4.5.0
     transitivePeerDependencies:
       - rollup
     dev: true
@@ -18186,7 +18695,7 @@ packages:
       '@rollup/plugin-virtual': 3.0.1
       '@swc/core': 1.3.66
       uuid: 9.0.1
-      vite: 4.5.0(@types/node@20.5.9)
+      vite: 4.5.0
     transitivePeerDependencies:
       - '@swc/helpers'
       - rollup
@@ -18197,10 +18706,10 @@ packages:
     peerDependencies:
       vite: ^2 || ^3 || ^4
     dependencies:
-      vite: 4.5.0(@types/node@20.5.9)
+      vite: 4.5.0
     dev: true
 
-  /vite@4.4.4(@types/node@20.10.0):
+  /vite@4.4.4(@types/node@20.10.4):
     resolution: {integrity: sha512-4mvsTxjkveWrKDJI70QmelfVqTm+ihFAb6+xf4sjEU2TmUCTlVX87tmg/QooPEMQb/lM9qGHT99ebqPziEd3wg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -18228,7 +18737,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
       esbuild: 0.18.20
       postcss: 8.4.30
       rollup: 3.29.2
@@ -18236,7 +18745,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vite@4.4.9(@types/node@20.10.0):
+  /vite@4.4.9(@types/node@20.10.4):
     resolution: {integrity: sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -18264,7 +18773,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
       esbuild: 0.18.20
       postcss: 8.4.30
       rollup: 3.29.2
@@ -18308,6 +18817,41 @@ packages:
       fsevents: 2.3.3
     dev: true
 
+  /vite@4.5.0:
+    resolution: {integrity: sha512-ulr8rNLA6rkyFAlVWw2q5YJ91v098AFQ2R0PRFwPzREXOUJQPtFUG0t+/ZikhaOCDqFoDhN6/v8Sq0o4araFAw==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      lightningcss: ^1.21.0
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      esbuild: 0.18.20
+      postcss: 8.4.30
+      rollup: 3.29.2
+    optionalDependencies:
+      fsevents: 2.3.3
+    dev: true
+
   /vite@4.5.0(@types/node@20.10.0):
     resolution: {integrity: sha512-ulr8rNLA6rkyFAlVWw2q5YJ91v098AFQ2R0PRFwPzREXOUJQPtFUG0t+/ZikhaOCDqFoDhN6/v8Sq0o4araFAw==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -18338,7 +18882,43 @@ packages:
     dependencies:
       '@types/node': 20.10.0
       esbuild: 0.18.20
-      postcss: 8.4.30
+      postcss: 8.4.32
+      rollup: 3.29.2
+    optionalDependencies:
+      fsevents: 2.3.3
+    dev: true
+
+  /vite@4.5.0(@types/node@20.10.4):
+    resolution: {integrity: sha512-ulr8rNLA6rkyFAlVWw2q5YJ91v098AFQ2R0PRFwPzREXOUJQPtFUG0t+/ZikhaOCDqFoDhN6/v8Sq0o4araFAw==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      lightningcss: ^1.21.0
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      '@types/node': 20.10.4
+      esbuild: 0.18.20
+      postcss: 8.4.32
       rollup: 3.29.2
     optionalDependencies:
       fsevents: 2.3.3
@@ -18374,7 +18954,7 @@ packages:
     dependencies:
       '@types/node': 20.5.9
       esbuild: 0.18.20
-      postcss: 8.4.30
+      postcss: 8.4.32
       rollup: 3.29.2
     optionalDependencies:
       fsevents: 2.3.3
@@ -18416,6 +18996,42 @@ packages:
       fsevents: 2.3.3
     dev: true
 
+  /vite@5.0.2(@types/node@20.10.4):
+    resolution: {integrity: sha512-6CCq1CAJCNM1ya2ZZA7+jS2KgnhbzvxakmlIjN24cF/PXhRMzpM/z8QgsVJA/Dm5fWUWnVEsmtBoMhmerPxT0g==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': ^18.0.0 || >=20.0.0
+      less: '*'
+      lightningcss: ^1.21.0
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      '@types/node': 20.10.4
+      esbuild: 0.19.3
+      postcss: 8.4.32
+      rollup: 4.6.1
+    optionalDependencies:
+      fsevents: 2.3.3
+    dev: true
+
   /vitest@0.33.0:
     resolution: {integrity: sha512-1CxaugJ50xskkQ0e969R/hW47za4YXDUfWJDxip1hwbnhUjYolpfUn2AMOulqG/Dtd9WYAtkHmM/m3yKVrEejQ==}
     engines: {node: '>=v14.18.0'}
@@ -18449,7 +19065,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.6
       '@types/chai-subset': 1.3.3
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
       '@vitest/expect': 0.33.0
       '@vitest/runner': 0.33.0
       '@vitest/snapshot': 0.33.0
@@ -18468,8 +19084,8 @@ packages:
       strip-literal: 1.3.0
       tinybench: 2.5.1
       tinypool: 0.6.0
-      vite: 4.5.0(@types/node@20.10.0)
-      vite-node: 0.33.0(@types/node@20.10.0)
+      vite: 4.5.0(@types/node@20.10.4)
+      vite-node: 0.33.0(@types/node@20.10.4)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
@@ -18514,7 +19130,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.6
       '@types/chai-subset': 1.3.3
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
       '@vitest/expect': 0.34.3
       '@vitest/runner': 0.34.3
       '@vitest/snapshot': 0.34.3
@@ -18533,8 +19149,8 @@ packages:
       strip-literal: 1.3.0
       tinybench: 2.5.1
       tinypool: 0.7.0
-      vite: 4.5.0(@types/node@20.10.0)
-      vite-node: 0.34.3(@types/node@20.10.0)
+      vite: 4.5.0(@types/node@20.10.4)
+      vite-node: 0.34.3(@types/node@20.10.4)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
@@ -18579,7 +19195,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.6
       '@types/chai-subset': 1.3.3
-      '@types/node': 20.10.0
+      '@types/node': 20.10.4
       '@vitest/expect': 0.34.4
       '@vitest/runner': 0.34.4
       '@vitest/snapshot': 0.34.4
@@ -18598,8 +19214,8 @@ packages:
       strip-literal: 1.3.0
       tinybench: 2.5.1
       tinypool: 0.7.0
-      vite: 5.0.2(@types/node@20.10.0)
-      vite-node: 0.34.4(@types/node@20.10.0)
+      vite: 5.0.2(@types/node@20.10.4)
+      vite-node: 0.34.4(@types/node@20.10.4)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
@@ -18698,6 +19314,10 @@ packages:
       semver: 7.5.4
       typescript: 5.2.2
     dev: true
+
+  /wait-promise@0.4.1:
+    resolution: {integrity: sha512-qr38zpL1yTDNbRzuBNEGOp3O6+5H3j5pUhK6lGo88gOHooP++Tk8eT4v+8/mhMPjICrY5/zOJJO+bDT3i0k/qA==}
+    dev: false
 
   /watchpack@2.4.0:
     resolution: {integrity: sha512-Lcvm7MGST/4fup+ifyKi2hjyIAwcdI4HRgtvTpIUxBRhB+RFtUh8XtDOxUfctVCnhVi+QQj49i91OyvzkJl6cg==}
