@@ -3,7 +3,7 @@ import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
 import type { DepositParam, TransferParams } from '@coinmasters/toolbox-cosmos';
 import { ThorchainToolbox } from '@coinmasters/toolbox-cosmos';
 import type {} from '@coinmasters/types';
-import { Chain, ChainId, RPCUrl } from '@coinmasters/types';
+import { Chain, ChainId, DerivationPath, RPCUrl } from '@coinmasters/types';
 
 import { bip32ToAddressNList } from '../helpers/coins.ts';
 
@@ -26,7 +26,7 @@ export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) 
   try {
     const toolbox = ThorchainToolbox({ stagenet: !'smeshnet' });
     const { address: fromAddress } = (await sdk.address.thorchainGetAddress({
-      address_n: bip32ToAddressNList(Chain.THORChain),
+      address_n: bip32ToAddressNList(DerivationPath[Chain.THORChain]),
     })) as { address: string };
 
     const signTransactionTransfer = async ({

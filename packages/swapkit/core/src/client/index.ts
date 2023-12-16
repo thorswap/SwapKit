@@ -236,18 +236,20 @@ export class SwapKitCore<T = ''> {
         const pubkey = pubkeys[i];
         console.log('Get balance for xpub!');
         console.log('pubkey: ', pubkey);
-        let pubkeyBalance = await this.getWallet(chain)?.getBalance([{ pubkey }]);
-        console.log('pubkeyBalance pre: ', pubkeyBalance);
-        pubkeyBalance = pubkeyBalance[0].toFixed(pubkeyBalance?.decimal);
-        console.log('pubkeyBalance post: ', pubkeyBalance);
+        let pubkeyBalance: AssetValue[] = await this.getWallet(chain)?.getBalance([{ pubkey }]);
+        console.log('NEW pubkeyBalance pre: ', pubkeyBalance);
+        pubkeyBalance = pubkeyBalance[0].toString();
+        console.log('NEW pubkeyBalance post: ', pubkeyBalance);
         if (isNaN(pubkeyBalance)) {
           pubkeyBalance = 0;
         }
         //TODO get string balance
         pubkeys[i].balance = pubkeyBalance;
-        balanceTotal += pubkeyBalance;
+        console.log('pubkeyBalance: ', pubkeyBalance);
+        console.log('pubkeyBalance: ', parseFloat(pubkeyBalance));
+        balanceTotal += parseFloat(pubkeyBalance);
       }
-      console.log('balanceTotal: ', balanceTotal);
+      console.log('NEW balanceTotal: ', balanceTotal);
       let balanceValue = AssetValue.fromChainOrSignature(chain, balanceTotal);
       balanceValue.address = address;
       balance = [balanceValue];
