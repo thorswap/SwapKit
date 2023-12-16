@@ -33,6 +33,7 @@ import Ledger from '../../components/Ledger';
 import MetaMask from '../../components/MetaMask';
 import MiddleEllipsis from '../../components/MiddleEllipsis';
 import Onboarding from '../../components/Onboarding';
+import Settings from '../../components/Settings';
 import Swap from '../../components/Swap';
 import Transfer from '../../components/Transfer';
 import {
@@ -41,6 +42,7 @@ import {
   pioneerImagePng,
 } from '../../components/WalletIcon';
 import { usePioneer } from '../../context/Pioneer';
+import Portfolio from '../../components/Portfolio';
 
 const Pioneer = () => {
   const { state, hideModal, resetState } = usePioneer();
@@ -231,12 +233,13 @@ const Pioneer = () => {
               </div>
             )}
             {modalType === 'RECEIVE' && <div>RECEIVE</div>}
-            {modalType === 'PORTFOLIO' && <div>PORTFOLIO</div>}
+            {modalType === 'PORTFOLIO' && <div><Portfolio></Portfolio></div>}
             {modalType === 'SWAP' && (
               <div>
                 <Swap />
               </div>
             )}
+            {modalType === 'SETTINGS' && <div><Settings></Settings></div>}
             {modalType === 'TREZOR' && <div>Trezor TODO</div>}
             {modalType === 'XDEFI' && <div>Xdefi TODO</div>}
             {modalType === 'ONBOARDING' && (
@@ -310,7 +313,6 @@ const Pioneer = () => {
                 icon={<FaCog />}
                 onClick={() => modalSelected('SETTINGS')}
               />
-              {/* <SettingsModal isOpen={isOpen} onClose={onClose} /> */}
             </HStack>
           </Box>
           <Box
@@ -333,6 +335,7 @@ const Pioneer = () => {
                   rounded="full"
                   size="lg"
                   variant="solid"
+                  onClick={() => modalSelected('PORTFOLIO')}
                 />
                 <Text fontSize="xs">Portfolio</Text>
               </Flex>

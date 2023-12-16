@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { usePioneer } from '../../context/Pioneer';
 
 const Basic = () => {
-  const { state } = usePioneer();
+  const { state, showModal } = usePioneer();
   const { app, context, assetContext } = state;
   const [pioneerUrl, setPioneerUrl] = useState('Copy');
   const [copyButtonText, setCopyButtonText] = useState('Copy');
@@ -49,7 +49,11 @@ const Basic = () => {
             <Tr>
               <Td>Server</Td>
               <Td>{pioneerUrl}</Td>
-              <Td />
+              <Td>
+                <Button onClick={() => showModal('ONBOARDING')} size="sm">
+                  edit
+                </Button>
+              </Td>
             </Tr>
             <Tr>
               <Td>Username</Td>

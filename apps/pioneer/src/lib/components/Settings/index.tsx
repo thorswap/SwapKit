@@ -12,17 +12,19 @@ import {
   useDisclosure,
   Flex,
   Avatar,
-  IconButton,
-  useClipboard,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
 } from '@chakra-ui/react';
 import { CopyIcon, CheckIcon } from '@chakra-ui/icons';
 import { usePioneer } from '../../context/Pioneer';
 import Path from '../../components/Path';
-import { getWalletContent } from '../../components/WalletIcon';
-import { NetworkIdToChain } from '@coinmasters/types';
-import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
+import Basic from '..//Basic';
+import Blockchains from '../Blockchains';
 
-export default function Blockchains({ onClose }) {
+export default function Settings({ onClose }) {
   const { state } = usePioneer();
   const { app } = state;
   const { isOpen, onOpen, onClose: onModalClose } = useDisclosure();
@@ -48,18 +50,21 @@ export default function Blockchains({ onClose }) {
 
   return (
     <div>
-      {app?.blockchains?.map((blockchain, index) => (
-        <Flex key={index} p={4} borderWidth="1px" borderRadius="lg" alignItems="center" justifyContent="space-between">
-          <Box>
-            <Text fontWeight="bold">networkId: {blockchain}</Text>
-            <Avatar src={`https://pioneers.dev/coins/${COIN_MAP_LONG[NetworkIdToChain[blockchain]]}.png`}/>
-          </Box>
-          <Flex alignItems="center">
-            <Button onClick={() => handlePubkeyClick(key)}>Select</Button>
-          </Flex>
-        </Flex>
-      ))}
+      <Tabs>
+        <TabList>
+          <Tab>Context</Tab>
+          <Tab>blockchains</Tab>
+        </TabList>
 
+        <TabPanels>
+          <TabPanel>
+            <Basic />
+          </TabPanel>
+          <TabPanel>
+            <Blockchains />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
       <Modal isOpen={isOpen} onClose={onModalClose}>
         <ModalOverlay />
         <ModalContent>
