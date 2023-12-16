@@ -16,6 +16,7 @@ export const list = {
     { chain: 'BTC', identifier: 'BTC.BTC', decimals: 8 },
     { chain: 'DOGE', identifier: 'DOGE.DOGE', decimals: 8 },
     { chain: 'ETH', identifier: 'ETH.ETH', decimals: 18 },
+    { chain: 'XRP', identifier: 'XRP.XRP', decimals: 8 },
     { chain: 'GAIA', identifier: 'GAIA.ATOM', decimals: 6 },
     { chain: 'LTC', identifier: 'LTC.LTC', decimals: 8 },
     { chain: 'THOR', identifier: 'THOR.RUNE', decimals: 8 },

@@ -165,7 +165,7 @@ const buildTx = async ({
   const recipientCashAddress = toCashAddress(recipient);
   if (!validateAddress(recipientCashAddress)) throw new Error('Invalid address');
 
-  console.log('pubkeys: ', pubkeys);
+  //console.log('pubkeys: ', pubkeys);
   //select a single pubkey
   //choose largest balance
   let largestBalance = -Infinity; // Initialize with a very small value
@@ -188,8 +188,8 @@ const buildTx = async ({
     chain,
     apiKey: apiClient.apiKey,
   });
-  console.log("inputs total: ",utxos)
-  console.log("inputs total: ",utxos.length)
+  //console.log("inputs total: ",utxos)
+  //console.log("inputs total: ",utxos.length)
   // Create a function to transform an input into the desired output format
   function transformInput(input) {
     const {
@@ -256,7 +256,7 @@ const buildTx = async ({
   // .inputs and .outputs will be undefined if no solution was found
   if (!inputs || !outputs) throw new Error('Balance insufficient for transaction');
   const psbt = new Psbt({ network: getNetwork(chain) }); // Network-specific
-  console.log("inputs: ",inputs)
+  //console.log("inputs: ",inputs)
   //Inputs
   inputs.forEach(({ hash, index, witnessUtxo }: UTXOType) =>
     psbt.addInput({ hash, index, witnessUtxo }),

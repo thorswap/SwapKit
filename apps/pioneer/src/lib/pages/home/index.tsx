@@ -21,11 +21,12 @@ import {
 import { useEffect, useState } from 'react';
 
 import AssetSelect from '../../components/AssetSelect';
-import Basic from '../../components/Basic';
 // import OutputSelect from "lib/components/OutputSelect";
 // import BlockchainSelect from "lib/components/BlockchainSelect";
 // import WalletSelect from "lib/components/WalletSelect";
+import Pending from '../../components/Pending';
 import Balances from '../../components/Balances';
+import Basic from '../../components/Basic';
 import Blockchains from '../../components/Blockchains';
 import Earn from '../../components/Earn';
 import Loan from '../../components/Loan';
@@ -35,12 +36,19 @@ import Swap from '../../components/Swap';
 import Transfer from '../../components/Transfer';
 import { usePioneer } from '../../context/Pioneer';
 
+import { initWallets } from './setup';
+
 const Home = () => {
   const { state, onStart } = usePioneer();
   const { pubkeyContext, balances } = state;
   const [address, setAddress] = useState('');
   const [modalType, setModalType] = useState('');
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // start the context provider
+  useEffect(() => {
+    initWallets(onStart);
+  }, []);
 
   useEffect(() => {
     if (pubkeyContext) setAddress(pubkeyContext?.master || pubkeyContext?.pubkey || pubkeyContext);
@@ -106,6 +114,7 @@ const Home = () => {
           <Tab>paths</Tab>
           <Tab>pubkeys</Tab>
           <Tab>balances</Tab>
+          <Tab>Pending</Tab>
           <Tab>Transfer</Tab>
           <Tab>Swaps</Tab>
           <Tab>Earn</Tab>
@@ -127,6 +136,9 @@ const Home = () => {
           </TabPanel>
           <TabPanel>
             <Balances onSelect={onSelect} />
+          </TabPanel>
+          <TabPanel>
+            <Pending />
           </TabPanel>
           <TabPanel>
             <Transfer openModal={openModal} />

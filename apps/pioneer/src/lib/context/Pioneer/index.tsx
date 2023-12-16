@@ -16,19 +16,20 @@
                                               - Highlander
 
 */
-import { ChainToNetworkId, getChainEnumValue } from '@coinmasters/types';
+import { SDK } from '@coinmasters/pioneer-sdk';
+import { availableChainsByWallet, ChainToNetworkId, getChainEnumValue } from '@coinmasters/types';
 import EventEmitter from 'events';
 import {
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useReducer,
   // useState,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { SDK } from './sdk';
-import { availableChainsByWallet } from './support';
+import transactionDB from './txDb';
 
 const eventEmitter = new EventEmitter();
 
@@ -260,6 +261,42 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
   const [state, dispatch] = useReducer(reducer, initialState);
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
+  useEffect(() => {
+    transactionDB
+      .initDB()
+      .catch((err: any) => console.error('Failed to initialize database:', err));
+  }, []);
+
+  // Create transaction entry
+  const createTx = (newTx: any) => {
+    console.log('CREATE_TX');
+    transactionDB
+      .createTransaction(newTx)
+      .then((id: number) => console.log(`Transaction created with ID: ${id}`))
+      .catch((err: any) => console.error('Error creating transaction:', err));
+  };
+
+  // Update transaction
+  const updateTx = (txid: string, newState: any) => {
+    console.log('UPDATE_TX');
+    transactionDB
+      .updateTransaction(txid, newState)
+      .then(() => console.log(`Transaction ${txid} updated to state ${newState}`))
+      .catch((err: any) => console.error('Error updating transaction:', err));
+  };
+
+  // Read transaction
+  const readTx = async (txid?: string) => {
+    console.log('READ_TX');
+    if (txid) {
+      console.log('txid: ', txid);
+      return await transactionDB.getTransaction(txid);
+    } else {
+      console.log('READ ALL: ');
+      return await transactionDB.getAllTransactions();
+    }
+  };
+
   const resetState = () => {
     console.log('RESET_STATE');
     // @ts-ignore
@@ -323,7 +360,16 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
         console.log('Custom Paths for Wallet:', customPathsArray);
         console.log('Disabled Paths for Wallet:', disabledPathsArray);
 
-        const successPairWallet = await state.app.pairWallet(wallet, [], chain);
+        // supported chains
+        const AllChainsSupported = availableChainsByWallet[wallet];
+        let allByCaip = AllChainsSupported.map(
+          // @ts-ignore
+          (chainStr: any) => ChainToNetworkId[getChainEnumValue(chainStr)],
+        );
+        //TODO get from localstorage disabled chains
+        //TODO get from localStorage added chains!
+        console.log('allByCaip: ', allByCaip);
+        const successPairWallet = await state.app.pairWallet(wallet, allByCaip, chain);
         console.log('successPairWallet: ', successPairWallet);
         if (successPairWallet && successPairWallet.error) {
           //push error to state
@@ -385,8 +431,11 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
     }
   };
   // @eslint-ignore
-  const onStart = async function () {
+  const onStart = async function (wallets: any, setup: any) {
     try {
+      console.log('onStart: ', wallets);
+      console.log('setup:', setup);
+      if (!wallets) throw Error('wallets is required! onStart');
       // const serviceKey: string | null = localStorage.getItem("serviceKey"); // KeepKey api key
       let queryKey: string | null = localStorage.getItem('queryKey');
       let username: string | null = localStorage.getItem('username');
@@ -426,6 +475,8 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       console.log('spec: ', spec);
       const wss = 'wss://pioneers.dev';
       const configPioneer: any = {
+        appName: setup?.appName,
+        appIcon: setup?.appIcon,
         blockchains,
         username,
         queryKey,
@@ -457,7 +508,8 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       }
 
       // @ts-ignore
-      const api = await appInit.init();
+      console.log('wallets: ', wallets);
+      const api = await appInit.init(wallets, setup);
 
       // set wallets to available wallets
       // @ts-ignore
@@ -541,6 +593,9 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
       connectWallet,
       clearHardwareError,
       onStart,
+      createTx,
+      updateTx,
+      readTx,
       showModal,
       hideModal,
       setIntent,
@@ -555,7 +610,15 @@ export const PioneerProvider = ({ children }: { children: React.ReactNode }): JS
 export interface UsePioneerType {
   state: any;
   dispatch: any;
-  onStart: () => void;
+  onStart: (wallets: any, setup: any) => void;
+  setIntent: (intent: any) => void;
+  showModal: (modal: any) => void;
+  hideModal: () => void;
+  clearHardwareError: () => void;
+  createTx: (tx: any) => void;
+  updateTx: (tx: any) => void;
+  readTx: (tx?: any) => void;
+  resetState: () => void;
   connectWallet: (wallet: string, chain?: any) => void;
 }
 

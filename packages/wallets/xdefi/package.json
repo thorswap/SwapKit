@@ -40,7 +40,7 @@
     "@coinmasters/toolbox-cosmos": "workspace:*",
     "@coinmasters/toolbox-evm": "workspace:*",
     "@coinmasters/toolbox-utxo": "workspace:*",
-    "ethers": "^6.7.1"
+    "ethers": "^6.9.0"
   },
   "publishConfig": {
     "access": "public"
@@ -56,5 +56,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "4.0.1"
+  "version": "4.0.2"
 }

@@ -42,6 +42,7 @@ export const OutputSizes: Record<UTXOScriptType, number> = {
   [UTXOScriptType.P2WPKH]: 31,
 };
 
+//TODO this should come from path description! this is NOT appropriate/dangerous to go off first character
 export const getScriptTypeForAddress = (address: string) => {
   if (address.startsWith('bc1') || address.startsWith('ltc1')) {
     return UTXOScriptType.P2WPKH;
@@ -52,13 +53,15 @@ export const getScriptTypeForAddress = (address: string) => {
   if (
     address.startsWith('1') ||
     address.startsWith('L') ||
+    address.startsWith('t') ||
+    address.startsWith('X') ||
     address.startsWith('D') ||
     address.startsWith('bitcoincash:q') ||
     address.startsWith('q')
   ) {
     return UTXOScriptType.P2PKH;
   }
-  throw new Error('Invalid address');
+  throw new Error('getScriptTypeForAddress Invalid address');
 };
 
 export const calculateTxSize = ({ inputs, outputs, feeRate }: UTXOCalculateTxSizeParams) => {

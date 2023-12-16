@@ -2,9 +2,9 @@ import { StargateClient } from '@cosmjs/stargate';
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
 import type { TransferParams } from '@coinmasters/toolbox-cosmos';
 import { DEFAULT_COSMOS_FEE_MAINNET, GaiaToolbox } from '@coinmasters/toolbox-cosmos';
-import { Chain, ChainId, RPCUrl } from '@coinmasters/types';
+import { Chain, ChainId, DerivationPath, RPCUrl } from '@coinmasters/types';
 
-import { addressInfoForCoin } from '../coins.ts';
+import { bip32ToAddressNList } from '../helpers/coins.ts';
 
 export type SignTransactionTransferParams = {
   asset: string;
@@ -17,7 +17,7 @@ export type SignTransactionTransferParams = {
 export const cosmosWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; api: string }) => {
   try {
     const { address: fromAddress } = (await sdk.address.cosmosGetAddress({
-      address_n: addressInfoForCoin(Chain.Cosmos, false).address_n,
+      address_n: bip32ToAddressNList(DerivationPath[Chain.Cosmos]),
     })) as { address: string };
 
     const toolbox = GaiaToolbox({ server: api });
@@ -38,7 +38,7 @@ export const cosmosWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; 
           signerAddress: fromAddress,
           signDoc: {
             fee: DEFAULT_COSMOS_FEE_MAINNET,
-            memo,
+            memo: memo || '',
             sequence: accountInfo?.sequence.toString() ?? '',
             chain_id: ChainId.Cosmos,
             account_number: accountInfo?.accountNumber.toString() ?? '',

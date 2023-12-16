@@ -46,7 +46,7 @@ const MODAL_STRINGS = {
 };
 
 const Swap = () => {
-  const { state, onStart } = usePioneer();
+  const { state } = usePioneer();
   const { txid } = useParams<{ txid?: string }>();
   const { app, assetContext, outboundAssetContext, blockchainContext } = state;
   // tabs
@@ -195,7 +195,6 @@ const Swap = () => {
         openModal(MODAL_STRINGS.pending);
       }
     }
-    onStart();
   }, []);
 
   const handleClickContinue = () => {
@@ -328,37 +327,18 @@ const Swap = () => {
         p="2rem"
         w="35rem"
       >
-        {tabIndex === 1 ? (
-          <div>
-            {step > 1 ? (
-              <div>
-                <Button>Start New Swap!</Button>
-              </div>
-            ) : (
-              <div>
-                {" "}
-                <Button
-                  colorScheme="blue"
-                  isDisabled={isContinueDisabled}
-                  leftIcon={<AddIcon />}
-                  mt={4}
-                  onClick={() => handleClickContinue()}
-                >
-                  {continueButtonContent}
-                </Button>
-              </div>
-            )}
-            {showGoBack ? (
-              <div>
-                <Button onClick={goBack}>Go Back</Button>
-              </div>
-            ) : (
-              <div />
-            )}
-          </div>
-        ) : (
-          <div />
-        )}
+        <div>
+          <Button onClick={goBack}>Go Back</Button>
+        </div>
+        <Button
+          colorScheme="blue"
+          isDisabled={isContinueDisabled}
+          leftIcon={<AddIcon />}
+          mt={4}
+          onClick={() => handleClickContinue()}
+        >
+          {continueButtonContent}
+        </Button>
       </Flex>
     </Box>
   );

@@ -9,10 +9,11 @@
 // import * as Events from "@pioneer-platform/pioneer-events";
 // @ts-ignore
 
+import type { AssetValue } from '@coinmasters/core';
 import { EVMChainList, SwapKitCore } from '@coinmasters/core';
-import { Chain, ChainToNetworkId, getChainEnumValue, NetworkIdToChain } from '@coinmasters/types';
-import { thorchainToCaip } from '@pioneer-platform/pioneer-caip';
+import { Chain, NetworkIdToChain } from '@coinmasters/types';
 // @ts-ignore
+import { thorchainToCaip } from '@pioneer-platform/pioneer-caip';
 // @ts-ignore
 import Pioneer from '@pioneer-platform/pioneer-client';
 import {
@@ -21,11 +22,6 @@ import {
   // @ts-ignore
 } from '@pioneer-platform/pioneer-coins';
 import EventEmitter from 'events';
-
-// @ts-ignore
-// @ts-ignore
-import { initializeWallets } from './connect';
-import { availableChainsByWallet } from './support';
 
 // @ts-ignore
 // @ts-ignore
@@ -51,65 +47,65 @@ export interface PioneerSDKConfig {
 
 export class SDK {
   // @ts-ignore
-  private status: string;
+  public status: string;
 
-  private username: string;
+  public username: string;
 
-  private queryKey: string;
+  public queryKey: string;
 
-  private wss: string;
-
-  // @ts-ignore
-  private spec: any;
-
-  private ethplorerApiKey: string;
-
-  private covalentApiKey: string;
-
-  private utxoApiKey: string;
-
-  private walletConnectProjectId: string;
+  public wss: string;
 
   // @ts-ignore
-  private context: string;
+  public spec: any;
 
-  private assetContext: any;
+  public ethplorerApiKey: string;
 
-  // @ts-ignore
-  private blockchainContext: any;
+  public covalentApiKey: string;
 
-  // @ts-ignore
-  private pubkeyContext: any;
+  public utxoApiKey: string;
 
-  // @ts-ignore
-  private outboundAssetContext: any;
+  public walletConnectProjectId: string;
 
   // @ts-ignore
-  private outboundBlockchainContext: any;
+  public context: string;
+
+  public assetContext: any;
 
   // @ts-ignore
-  private outboundPubkeyContext: any;
-
-  private swapKit: SwapKitCore | null;
-
-  private pioneer: any;
+  public blockchainContext: any;
 
   // @ts-ignore
-  private paths: any[];
-
-  private pubkeys: any[];
-
-  private wallets: any[];
-
-  private balances: any[];
+  public pubkeyContext: any;
 
   // @ts-ignore
-  private nfts: any[];
-
-  private events: any;
+  public outboundAssetContext: any;
 
   // @ts-ignore
-  private pairWallet: (wallet: any, customPaths: any, ledgerApp?: any) => Promise<any>;
+  public outboundBlockchainContext: any;
+
+  // @ts-ignore
+  public outboundPubkeyContext: any;
+
+  public swapKit: SwapKitCore | null;
+
+  public pioneer: any;
+
+  // @ts-ignore
+  public paths: any[];
+
+  public pubkeys: any[];
+
+  public wallets: any[];
+
+  public balances: any[];
+
+  // @ts-ignore
+  public nfts: any[];
+
+  public events: any;
+
+  // @ts-ignore
+  public pairWallet: (wallet: any, blockchains: any, ledgerApp?: any) => Promise<any>;
 
   // public startSocket: () => Promise<any>;
   // public stopSocket: () => any;
@@ -118,17 +114,17 @@ export class SDK {
   // public build: (tx:any) => Promise<any>;
   // public sign: (tx:any, wallet:any) => Promise<any>;
   // public broadcast: (tx:any) => Promise<any>;
-  private setContext: (context: string) => Promise<{ success: boolean }>;
+  public setContext: (context: string) => Promise<{ success: boolean }>;
 
   // @ts-ignore
   public refresh: () => Promise<any>;
 
-  // private setPubkeyContext: (pubkeyObj:any) => Promise<boolean>;
+  // public setPubkeyContext: (pubkeyObj:any) => Promise<boolean>;
   // @ts-ignore
-  private setAssetContext: (asset: any) => Promise<any>;
+  public setAssetContext: (asset: any) => Promise<any>;
 
   // @ts-ignore
-  private setOutboundAssetContext: (asset: any) => Promise<any>;
+  public setOutboundAssetContext: (asset: any) => Promise<any>;
 
   // @ts-ignore
   public keepkeyApiKey: string;
@@ -138,17 +134,19 @@ export class SDK {
   // @ts-ignore
   public loadBalanceCache: (balances: any) => Promise<void>;
   public loadPubkeyCache: (pubkeys: any) => Promise<void>;
-  private getPubkeys: () => Promise<boolean>;
-  private getBalances: () => Promise<boolean>;
-  private blockchains: any[];
-  private clearWalletState: () => Promise<boolean>;
-  private setBlockchains: (blockchains: any) => Promise<void>;
+  public getPubkeys: () => Promise<boolean>;
+  public getBalances: () => Promise<boolean>;
+  public blockchains: any[];
+  public clearWalletState: () => Promise<boolean>;
+  public setBlockchains: (blockchains: any) => Promise<void>;
   public appName: string;
-  private appIcon: any;
+  public appIcon: any;
+  private init: (walletsVerbose: any, setup: any) => Promise<any>;
+  private verifyWallet: () => Promise<void>;
   constructor(spec: string, config: PioneerSDKConfig) {
     this.status = 'preInit';
-    this.appName = config.appName || 'pioneer-sdk';
-    this.appIcon = config.appIcon || 'https://pioneers.dev/coins/pioneerMan.png';
+    this.appName = 'pioneer-sdk';
+    this.appIcon = 'https://pioneers.dev/coins/pioneerMan.png';
     this.spec = spec || config.spec || 'https://pioneers.dev/spec/swagger';
     this.wss = config.wss || 'wss://pioneers.dev';
     this.username = config.username;
@@ -175,25 +173,31 @@ export class SDK {
     this.outboundPubkeyContext = null;
     this.wallets = [];
     this.events = new EventEmitter();
-    // @ts-ignore
-    this.init = async function () {
+    this.init = async function (walletsVerbose: any, setup: any) {
       const tag = `${TAG} | init | `;
       try {
         if (!this.username) throw Error('username required!');
         if (!this.queryKey) throw Error('queryKey required!');
         if (!this.wss) throw Error('wss required!');
+        if (!walletsVerbose) throw Error('walletsVerbose required!');
+        if (!setup) throw Error('setup required!');
+        if (!this.wallets) throw Error('wallets required!');
         if (!this.ethplorerApiKey) throw Error('ethplorerApiKey required!');
         if (!this.covalentApiKey) throw Error('covalentApiKey required!');
         if (!this.utxoApiKey) throw Error('utxoApiKey required!');
         if (!this.walletConnectProjectId) throw Error('walletConnectProjectId required!');
-
         const PioneerClient = new Pioneer(config.spec, config);
         this.pioneer = await PioneerClient.init();
         if (!this.pioneer) throw Error('Fialed to init pioneer server!');
 
-        // init wallets
-        const { wallets, walletsVerbose } = await initializeWallets();
+        //this.wallets = walletsVerbose
         this.wallets = walletsVerbose;
+        let walletArray = [];
+        for (let i = 0; i < this.wallets.length; i++) {
+          let walletVerbose = this.wallets[i];
+          let wallet = walletVerbose.wallet;
+          walletArray.push(wallet);
+        }
         // log.info("wallets",this.wallets)
 
         // init swapkit
@@ -223,7 +227,7 @@ export class SDK {
               },
             },
           },
-          wallets,
+          wallets: walletArray,
         };
         // log.info(tag, "configKit: ", configKit);
         await this.swapKit.extend(configKit);
@@ -241,7 +245,7 @@ export class SDK {
     this.setBlockchains = async function (blockchains: any) {
       try {
         if (!blockchains) throw Error('blockchains required!');
-        console.log('setBlockchains called! blockchains: ', blockchains);
+        //console.log('setBlockchains called! blockchains: ', blockchains);
         this.blockchains = blockchains;
         this.events.emit('SET_BLOCKCHAINS', this.blockchains);
       } catch (e) {
@@ -253,10 +257,10 @@ export class SDK {
         if (balances.length === 0) throw Error('No balances to load!');
         this.balances = [...this.balances, ...balances];
         this.balances.sort((a, b) => b.valueUsd - a.valueUsd);
-        console.log('SET BALANCES CALLED!!! balances: ', this.balances);
+        //console.log('SET BALANCES CALLED!!! balances: ', this.balances);
         this.events.emit('SET_BALANCES', this.balances);
-        console.log('balance0: ', this.balances[0]);
-        if (this.balances > 0) {
+        //console.log('balance0: ', this.balances[0]);
+        if (this.balances.length > 0) {
           //TODO do this from local storage
           this.setContext(this.balances[0].context);
           this.setAssetContext(this.balances[0]);
@@ -270,88 +274,118 @@ export class SDK {
       try {
         if (pubkeys.length === 0) throw Error('No pubkeys to load!');
         this.pubkeys = [...this.pubkeys, ...pubkeys];
-        console.log('SET pubkeys CALLED!!! balances: ', this.pubkeys);
+        //console.log('SET pubkeys CALLED!!! balances: ', this.pubkeys);
         this.events.emit('SET_PUBKEYS', this.pubkeys);
       } catch (e) {
         console.error('Failed to load balances! e: ', e);
       }
     };
-    this.pairWallet = async function (wallet: string, customPaths: any, ledgerApp?: any) {
+    this.verifyWallet = async function () {
+      try {
+        if (this.paths.length === 0) throw Error('No paths to verify!');
+        if (this.blockchains.length === 0) throw Error('No blockchains to verify!');
+
+        console.log('Verifying paths for blockchains...');
+        for (let i = 0; i < this.blockchains.length; i++) {
+          let blockchain = this.blockchains[i];
+          console.log(`Checking paths for blockchain: ${blockchain}`);
+          let pathsForChain;
+          if (blockchain.indexOf('eip155') > -1) {
+            //console.log('ETH like detected!');
+            //all eip155 blockchains use the same path
+            pathsForChain = this.paths.filter((path) => path.network === 'eip155:1');
+            pathsForChain = Chain.Ethereum;
+          } else {
+            //get paths for each blockchain
+            pathsForChain = this.paths.filter((path) => path.network === blockchain);
+          }
+          if (pathsForChain.length === 0) {
+            console.error(`Available paths: ${JSON.stringify(this.paths)}`);
+            throw Error(`No paths for blockchain: ${blockchain}`);
+          }
+        }
+        console.log('All blockchains have paths.');
+      } catch (e) {
+        console.error('Failed to verify wallet: ', e);
+        throw e;
+      }
+    };
+    this.pairWallet = async function (wallet: string, blockchains: any, ledgerApp?: any) {
       const tag = `${TAG} | pairWallet | `;
       try {
         // log.debug(tag, "Pairing Wallet");
         if (!wallet) throw Error('Must have wallet to pair!');
         if (!this.swapKit) throw Error('SwapKit not initialized!');
+        if (!blockchains) throw Error('Must have blockchains to pair!');
+        console.log('blockchains: ', blockchains);
+        this.blockchains = blockchains;
+        //get paths by blockchains, this allows pre-loaded paths to be inited beforehand
+        this.paths = [...getPaths(blockchains), ...this.paths];
+        //verify at least one path per blockchain
+        console.log('this.paths: ', this.paths);
 
         // filter wallets by type
         const walletSelected = this.wallets.find((w: any) => w.type === wallet);
-        // log.info(tag,"walletSelected: ",walletSelected)
-        console.log(tag, 'wallet: ', wallet);
+        //console.log(tag, 'walletSelected: ', walletSelected);
 
-        // supported chains
-        const AllChainsSupported = availableChainsByWallet[wallet];
-        console.log(tag, 'ChainToNetworkId: ', ChainToNetworkId);
-        console.log(tag, 'ChainToNetworkId: ', ChainToNetworkId[Chain.Ethereum]);
-        let allByCaip = AllChainsSupported.map(
-          (chainStr) => ChainToNetworkId[getChainEnumValue(chainStr)],
+        //chain by networkId
+        //console.log(tag, 'blockchains: ', blockchains);
+        let AllChainsSupported = blockchains.map(
+          (caip) =>
+            NetworkIdToChain[caip] ||
+            (() => {
+              throw new Error(`Missing CAIP: ${caip}`);
+            })(),
         );
-        console.log(tag, 'AllChainsSupported: ', AllChainsSupported);
-        console.log(tag, 'allByCaip: ', allByCaip);
-        this.blockchains = allByCaip;
-        let allPaths = getPaths(allByCaip);
-        console.log(tag, 'getPaths allPaths: ', allPaths);
-        let walletPaths = [...getPaths(allByCaip), ...customPaths];
-        console.log(tag, 'walletPaths: ', walletPaths);
-        //for all supported chains add paths
-        this.paths = walletPaths;
-        // log.info(tag,"walletSelected.wallet.connectMethodName: ",walletSelected.wallet.connectMethodName)
-        // log.info("AllChainsSupported: ", AllChainsSupported);
+        //console.log(tag, 'AllChainsSupported: ', AllChainsSupported);
+
+        await this.verifyWallet();
 
         let resultPair: string;
         if (walletSelected.type === 'KEEPKEY') {
           resultPair =
             (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](
               AllChainsSupported,
-              walletPaths,
+              this.paths,
             )) || '';
-          console.log('resultPair: ', resultPair);
+          //console.log('resultPair: ', resultPair);
           this.keepkeyApiKey = resultPair;
-          localStorage.setItem('keepkeyApiKey', resultPair);
         } else if (walletSelected.type === 'METAMASK') {
           resultPair =
             (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](
               AllChainsSupported,
-              walletPaths,
+              this.paths,
             )) || '';
         } else if (walletSelected.type === 'LEDGER') {
-          console.log('ledgerApp: ', ledgerApp);
+          //console.log('ledgerApp: ', ledgerApp);
           try {
             if (!ledgerApp) throw Error('Ledger app required for ledger pairing!');
 
             if (ledgerApp === 'ETH') {
-              console.log('ETH');
+              //console.log('ETH');
               //pair all evm chains
               // eslint-disable-next-line @typescript-eslint/prefer-for-of
               for (let i = 0; i < EVMChainList.length; i++) {
                 resultPair =
                   (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](
                     EVMChainList[i],
-                    walletPaths,
+                    this.paths,
                   )) || '';
-                console.log('LEDGER resultPair: ', resultPair);
+                //console.log('LEDGER resultPair: ', resultPair);
               }
             } else {
               resultPair =
                 (await (this.swapKit as any)[walletSelected.wallet.connectMethodName](
                   ledgerApp,
-                  walletPaths,
+                  this.paths,
                 )) || '';
-              console.log('LEDGER resultPair: ', resultPair);
+              //console.log('LEDGER resultPair: ', resultPair);
             }
-          } catch (e) {
+          } catch (e: any) {
             console.error('Failed to pair ledger! e: ', e);
+            // @ts-ignore
             if (e.toString().indexOf('LockedDeviceError') > -1) {
-              console.log('LockedDeviceError...');
+              //console.log('LockedDeviceError...');
               return {
                 error: 'LockedDeviceError',
               };
@@ -383,18 +417,17 @@ export class SDK {
               AllChainsSupported,
             )) || '';
         }
+        // @ts-ignore
         if (resultPair) {
           // update
           const matchingWalletIndex = this.wallets.findIndex((w) => w.type === wallet);
-          console.log(tag, 'matchingWalletIndex: ', matchingWalletIndex);
+          //console.log(tag, 'matchingWalletIndex: ', matchingWalletIndex);
           // get balances
           // @ts-ignore
           let context;
           if (wallet === 'LEDGER' && ledgerApp !== 'ETH') {
             context = 'ledger:ledger.wallet'; //placeholder until we know eth address
           } else {
-            console.log("this.swapKit: ",this.swapKit)
-            console.log("this.swapKit.getWalletByChain: ",await this.swapKit.getWalletByChain(Chain.Ethereum))
             const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
             if (!ethAddress) throw Error('Failed to get eth address! can not pair wallet');
             context = `${wallet.toLowerCase()}:${ethAddress}.wallet`;
@@ -405,7 +438,7 @@ export class SDK {
               address: ethAddress,
             });
             pioneerInfo = pioneerInfo.data;
-            console.log('pioneerInfo: ', pioneerInfo);
+            //console.log('pioneerInfo: ', pioneerInfo);
             if (pioneerInfo.isPioneer) {
               this.isPioneer = pioneerInfo.image;
             }
@@ -414,8 +447,10 @@ export class SDK {
           // log.info(tag, "context: ", context);
           this.events.emit('CONTEXT', context);
           // add context to wallet
-          this.wallets[matchingWalletIndex].context = context;
-          this.wallets[matchingWalletIndex].connected = true;
+          //@ts-ignore
+          // this.wallets[matchingWalletIndex].context = context;
+          //@ts-ignore
+          // this.wallets[matchingWalletIndex].connected = true;
           this.wallets[matchingWalletIndex].status = 'connected';
           this.setContext(context);
           // this.refresh(context);
@@ -435,6 +470,7 @@ export class SDK {
     this.clearWalletState = async function () {
       const tag = `${TAG} | clearWalletState | `;
       try {
+        // @ts-ignore
         this.context = null;
         this.paths = [];
         this.blockchains = [];
@@ -448,24 +484,27 @@ export class SDK {
     this.getPubkeys = async function () {
       const tag = `${TAG} | getPubkeys | `;
       try {
+        if (this.paths.length === 0) throw Error('No paths found!');
+        if (!this.swapKit) throw Error('this.swapKit not initialized!');
         //verify context
         //TODO handle ledger contexts
-        // const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
-        // console.log('ethAddress: ', ethAddress);
-        // if (this.context.indexOf(ethAddress) === -1) {
-        //   console.log('Clearing Wallet state!');
-        //   this.clearWalletState();
-        // }
-        // // Verify if pubkeys match context
-        // if (this.pubkeys.some((pubkey) => pubkey.context !== this.context)) {
-        //   console.log('Invalid pubkeys found!');
-        //   this.pubkeys = [];
-        // }
-        // // Verify if balances match context
-        // if (this.balances.some((balance) => balance.context !== this.context)) {
-        //   console.log('Invalid balances found!');
-        //   this.balances = [];
-        // }
+        const ethAddress = this.swapKit.getAddress(Chain.Ethereum);
+        //console.log('ethAddress: ', ethAddress);
+        if (this.context.indexOf(ethAddress) === -1) {
+          //console.log('Clearing Wallet state!');
+          this.clearWalletState();
+        }
+        // Verify if pubkeys match context
+        if (this.pubkeys.some((pubkey) => pubkey.context !== this.context)) {
+          //console.log('Invalid pubkeys found!');
+          this.pubkeys = [];
+        }
+        // Verify if balances match context
+        if (this.balances.some((balance) => balance.context !== this.context)) {
+          //console.log('Invalid balances found!');
+          this.balances = [];
+        }
+        //console.log('paths: ', this.paths);
         //TODO if wallet doesn't support blockchains, throw error
         let pubkeysNew = [];
         // eslint-disable-next-line @typescript-eslint/prefer-for-of
@@ -473,7 +512,9 @@ export class SDK {
           const blockchain = this.blockchains[i];
           let chain: Chain = NetworkIdToChain[blockchain];
           let paths = [];
+          //console.log('blockchain: ', blockchain);
           if (blockchain.indexOf('eip155') > -1) {
+            //console.log('ETH like detected!');
             //all eip155 blockchains use the same path
             paths = this.paths.filter((path) => path.network === 'eip155:1');
             chain = Chain.Ethereum;
@@ -486,16 +527,18 @@ export class SDK {
           for (let j = 0; j < paths.length; j++) {
             const path = paths[j];
             let pubkey;
-            console.log('Attemtping to get pubkeys for path: ', path);
+            //console.log('Attemtping to get pubkeys for path: ', path);
             //get pubkey on path
             if (path.type === 'address') {
               console.log('path type address detected: ');
-              let address = this.swapKit.getAddress(chain);
+              let address = this.swapKit?.getAddress(chain);
+              console.log('address: ', address);
               if (address) {
                 pubkey = {
                   context: this.context, // TODO this is not right?
                   // wallet:walletSelected.type,
                   symbolSwapKit: chain,
+                  symbol: chain,
                   blockchain: COIN_MAP_LONG[chain] || 'unknown',
                   type: 'address',
                   networkId: blockchain,
@@ -503,19 +546,20 @@ export class SDK {
                   pubkey: address,
                   address,
                 };
+                console.log('pubkey: ', pubkey);
                 pubkeysNew.push(pubkey);
               }
             } else {
-              console.log('path type address detected: ');
+              console.log('path type pubkey detected: ');
               let walletForChain = await this.swapKit?.getWalletByChain(chain);
               console.log('walletForChain: ', walletForChain);
               if (walletForChain) {
                 const pubkeyForPath = walletForChain.pubkeys.find(
-                  (pubkeyObj) =>
+                  (pubkeyObj: any) =>
                     pubkeyObj?.addressNList?.toString() === path?.addressNList?.toString(),
                 );
-                console.log('pubkeyForPath: ', pubkeyForPath);
-                let address = this.swapKit.getAddress(chain);
+                //console.log('pubkeyForPath: ', pubkeyForPath);
+                let address = this.swapKit?.getAddress(chain);
                 //TODO fix paths so metamask doesnt throw this on 84!
                 // if (!pubkeyForPath)
                 //   throw Error(
@@ -545,7 +589,7 @@ export class SDK {
             //get balances for each pubkey
           }
         }
-        console.log('pubkeysNew: ', pubkeysNew);
+        //console.log('pubkeysNew: ', pubkeysNew);
         this.pubkeys = pubkeysNew;
         //load pubkeys into cache
         this.events.emit('SET_PUBKEYS', pubkeysNew);
@@ -574,7 +618,7 @@ export class SDK {
         //   this.balances = [];
         // }
         //TODO if wallet doesn't support blockchains, throw error
-
+        console.log('getBalances this.blockchains: ', this.blockchains);
         let balances = [];
         // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < this.blockchains.length; i++) {
@@ -582,25 +626,23 @@ export class SDK {
           let chain: Chain = NetworkIdToChain[blockchain];
           //get balances for each pubkey
           let walletForChain = await this.swapKit?.getWalletByChain(chain);
-          console.log('walletForChain: ', walletForChain);
+          console.log(chain + ' walletForChain: ', walletForChain);
           if (walletForChain) {
-            // eslint-disable-next-line @typescript-eslint/prefer-for-of
+            // @ts-ignore
             for (let j = 0; j < walletForChain.balance.length; j++) {
-              let balance = walletForChain.balance[j];
-              console.log('balance: ', balance);
-              if (Array.isArray(balance)) {
-                // If balance is an array, use the first element
-                balance = balance[0];
-              }
-              console.log('balance: ', balance);
+              // @ts-ignore
+              let balance: AssetValue = walletForChain?.balance[j];
+              //console.log('balance: ', balance);
+
+              //console.log('balance: ', balance);
               let balanceString: any = {};
-              if (!balance.chain || !balance.symbol || !balance.ticker || !balance.type) {
+              if (!balance.chain || !balance.type || !balance.address) {
                 console.error('chain: ', balance);
-                console.error('chain: ', balance[0]);
-                console.error('chain: ', balance[0].chain);
-                console.error('symbol: ', balance[0].symbol);
-                console.error('ticker: ', balance[0].ticker);
-                console.error('type: ', balance[0].type);
+                // console.error('chain: ', balance[0]);
+                // console.error('chain: ', balance[0].chain);
+                // console.error('symbol: ', balance[0].symbol);
+                // console.error('ticker: ', balance[0].ticker);
+                // console.error('type: ', balance[0].type);
                 console.error('Missing required properties for balance: ', balance);
               } else {
                 //caip
@@ -611,7 +653,7 @@ export class SDK {
                     balance.ticker,
                     balance.type,
                   );
-                  console.log('caip: ', caip);
+                  //console.log('caip: ', caip);
                   //if (!caip) throw Error('Failed to get caip for balance: ' + JSON.stringify(balance));
                   if (caip) {
                     //Assuming these properties already exist in each balance
@@ -621,9 +663,17 @@ export class SDK {
                     balanceString.symbol = balance.symbol;
                     balanceString.chain = balance.chain;
                     balanceString.ticker = balance.ticker;
+                    balanceString.address = balance.address;
                     balanceString.type = balance.type;
-                    balanceString.balance = balance.toFixed(balance.decimal).toString();
+                    if (balance.toFixed) {
+                      balanceString.balance = balance.toFixed(balance.decimal).toString();
+                    } else {
+                      console.error("invalid balance! doesn't have toFixed: ", balance);
+                      throw Error('Invalid balance!');
+                    }
                     balances.push(balanceString);
+                  } else {
+                    console.error('Failed to get caip for balance: ', balance);
                   }
                 } catch (e) {
                   console.error('e: ', e);
@@ -633,7 +683,7 @@ export class SDK {
             }
           }
         }
-        console.log('PRE-register balances: ', balances);
+        //console.log('PRE-register balances: ', balances);
         const register: any = {
           username: this.username,
           blockchains: [],
@@ -651,15 +701,15 @@ export class SDK {
           auth: 'lol',
           provider: 'lol',
         };
-        console.log('register: ', register);
-        console.log('register: ', JSON.stringify(register));
+        //console.log('register: ', register);
+        //console.log('register: ', JSON.stringify(register));
         const result = await this.pioneer.Register(register);
-        console.log('result: ', result);
-        console.log('result: ', result.data);
-        console.log('result: ', result.data.balances);
+        //console.log('result: ', result);
+        //console.log('result: ', result.data);
+        //console.log('result: ', result.data.balances);
 
         if (result.data.balances) {
-          console.log('Setting balances!');
+          //console.log('Setting balances!');
           this.balances = result.data.balances;
         }
 
@@ -711,26 +761,26 @@ export class SDK {
         // }
         // this.events.emit('SET_PUBKEYS', this.pubkeys);
         // // set pubkeys
-        // console.log('this.swapKit: ', this.swapKit);
+        // //console.log('this.swapKit: ', this.swapKit);
         // // calculate walletDaa
         // const walletDataArray = await Promise.all(
         //   // @ts-ignore
         //   chains.map(this.swapKit.getWalletByChain),
         // );
-        // console.log(tag, 'walletDataArray: ', walletDataArray);
+        // //console.log(tag, 'walletDataArray: ', walletDataArray);
         // // set balances
         // const balancesSwapKit: any = [];
         // // eslint-disable-next-line @typescript-eslint/prefer-for-of
         // for (let i = 0; i < walletDataArray.length; i++) {
         //   const walletData: any = walletDataArray[i];
-        //   // console.log(tag, 'walletData: ', walletData);
+        //   // //console.log(tag, 'walletData: ', walletData);
         //   // const chain = chains[i];
         //   // log.info(tag, "chain: ", chain);
         //   if (walletData) {
         //     // eslint-disable-next-line @typescript-eslint/prefer-for-of
         //     for (let j = 0; j < walletData.balance.length; j++) {
         //       const balance = walletData.balance[j];
-        //       // console.log('balance: ', balance);
+        //       // //console.log('balance: ', balance);
         //       if (balance && balance?.baseValueNumber > 0) {
         //         balance.address = walletData.address;
         //         balance.context = this.context;
@@ -776,15 +826,15 @@ export class SDK {
         //   auth: 'lol',
         //   provider: 'lol',
         // };
-        // console.log('register: ', register);
-        // console.log('register: ', JSON.stringify(register));
+        // //console.log('register: ', register);
+        // //console.log('register: ', JSON.stringify(register));
         // const result = await this.pioneer.Register(register);
-        // console.log('result: ', result);
-        // console.log('result: ', result.data);
-        // console.log('result: ', result.data.balances);
+        // //console.log('result: ', result);
+        // //console.log('result: ', result.data);
+        // //console.log('result: ', result.data.balances);
         //
         // if (result.data.balances) {
-        //   console.log('Setting balances!');
+        //   //console.log('Setting balances!');
         //   this.balances = result.data.balances;
         // }
         //

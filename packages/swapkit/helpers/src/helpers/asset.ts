@@ -78,7 +78,6 @@ export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) 
     case Chain.BitcoinCash:
     case Chain.Dash:
     case Chain.Digibyte:
-    case Chain.Digibyte:
     case Chain.Zcash:
     case Chain.Ripple:
     case Chain.Litecoin:
@@ -128,11 +127,13 @@ export const getCommonAssetInfo = (
       return { identifier: 'MAYA.CACAO', decimal: BaseDecimal.MAYA };
     case 'MAYA.MAYA':
       return { identifier: 'MAYA.MAYA', decimal: 4 };
-
+    case Chain.Ripple:
     case Chain.Kujira:
     case Chain.Arbitrum:
     case Chain.Optimism:
     case Chain.BitcoinCash:
+    case Chain.Zcash:
+    case Chain.Dash:
     case Chain.Litecoin:
     case Chain.Dogecoin:
     case Chain.Binance:
@@ -151,11 +152,14 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
+    case Chain.Dash:
+    case Chain.Zcash:
     case Chain.Litecoin:
     case Chain.Maya:
     case Chain.THORChain:
       return 'Native';
-
+    case Chain.Osmosis:
+      return 'Native';
     case Chain.Cosmos:
       return symbol === 'ATOM' ? 'Native' : Chain.Cosmos;
     case Chain.Kujira:

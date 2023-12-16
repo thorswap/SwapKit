@@ -49,7 +49,7 @@
     "@coinmasters/toolbox-cosmos": "workspace:*",
     "@coinmasters/toolbox-evm": "workspace:*",
     "@coinmasters/toolbox-utxo": "workspace:*",
-    "ethers": "^6.7.1",
+    "ethers": "^6.9.0",
     "bitcoinjs-lib": "^5.2.0"
   },
   "publishConfig": {

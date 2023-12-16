@@ -18,6 +18,7 @@ export * from './types/ethplorer-api-types.ts';
  */
 export { ARBToolbox } from './toolbox/arb.ts';
 export { AVAXToolbox } from './toolbox/avax.ts';
+export { BASEToolbox } from './toolbox/base.ts';
 export { BSCToolbox } from './toolbox/bsc.ts';
 export { ETHToolbox } from './toolbox/eth.ts';
 export { getToolboxByChain } from './toolbox/getToolboxByChain.ts';

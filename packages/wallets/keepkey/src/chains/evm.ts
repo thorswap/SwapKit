@@ -27,7 +27,7 @@ export class KeepKeySigner extends AbstractSigner {
     this.provider = provider;
   }
 
-  signTypedData = async (typedData: any): Promise<TypesEthSignature> => {
+  signTypedData = async (typedData: any): Promise<any> => {
     try {
       let input = {
         addressNList: [2147483692, 2147483708, 2147483648, 0, 0],

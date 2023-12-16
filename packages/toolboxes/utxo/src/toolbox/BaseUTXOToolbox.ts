@@ -56,6 +56,7 @@ const createKeysForPath = async ({
 
 const validateAddress = ({ address, chain }: { address: string } & UTXOBaseToolboxParams) => {
   try {
+    console.log(chain + ' validateAddress: ', address);
     btcLibAddress.toOutputScript(address, getNetwork(chain));
     return true;
   } catch (error) {
@@ -106,19 +107,19 @@ const transfer = async ({
 
 const getPubkeyBalance = async function (pubkey: any, type: string, apiClient: BlockchairApiType) {
   try {
-    console.log('pubkey: ', pubkey);
-    console.log('type: ', type);
+    console.log('getPubkeyBalance pubkey: ', pubkey);
+    console.log('getPubkeyBalance type: ', type);
     switch (type) {
       case 'pubkey':
       case 'zpub':
       case 'xpub':
-        console.log('pubkey.pubkey: ', pubkey.pubkey.xpub);
+        console.log('pubkey.pubkey.xpub: ', pubkey.pubkey.xpub);
         const xpubBalance = await apiClient.getBalanceXpub(pubkey.pubkey.xpub || pubkey.xpub);
         return xpubBalance;
       case 'address':
         const address = pubkey[type];
         const addressBalance = await apiClient.getBalance(address);
-        console.log('getPubkeyBalance: addressBalance: ', addressBalance);
+        //console.log('getPubkeyBalance: addressBalance: ', addressBalance);
         return addressBalance;
       default:
         throw new Error('Invalid pubkey type');
@@ -129,7 +130,7 @@ const getPubkeyBalance = async function (pubkey: any, type: string, apiClient: B
 };
 
 const getBalance = async ({ pubkeys, chain, apiClient }: { pubkeys: any[] } & any) => {
-  console.log('pubkeys: ', pubkeys);
+  //console.log('pubkeys: ', pubkeys);
   //legacy support
   if (typeof pubkeys === 'string') {
     pubkeys = [{ address: pubkeys }];
@@ -143,13 +144,14 @@ const getBalance = async ({ pubkeys, chain, apiClient }: { pubkeys: any[] } & an
     else type = 'address';
     console.log('pubkey: ', pubkey);
     const balance = await getPubkeyBalance(pubkey, type, apiClient);
-    console.log('getPubkeyBalance balance: ', balance);
+    console.log('BaseUTXO getPubkeyBalance balance: ', balance);
     totalBalance = totalBalance + balance;
   }
-  //totalBalance = totalBalance / 10 ** BaseDecimal[chain];
-  console.log(`CHAIN: ${chain}.${chain}`);
-  console.log(`totalBalance:`, totalBalance.toString());
-  const asset = await AssetValue.fromIdentifier(`${chain}.${chain}`, totalBalance.toString());
+  console.log(`BaseUTXO totalBalance:`, totalBalance.toString());
+
+  console.log(`BaseUTXO totalBalance:`, totalBalance);
+  const asset = await AssetValue.fromChainOrSignature(chain, totalBalance);
+  console.log('BaseUTXO asset: ', asset);
   return [asset];
 };
 
@@ -176,16 +178,17 @@ const getInputsAndTargetOutputs = async ({
   chain: UTXOChain;
 }) => {
   //get inputs by xpub
-  console.log('pubkeys: ', pubkeys);
+  //console.log('pubkeys: ', pubkeys);
   //get balances for each pubkey
   for (let i = 0; i < pubkeys.length; i++) {
     let pubkey = pubkeys[i];
-    console.log('pubkey: ', pubkey.pubkey);
-    console.log('pubkey: ', pubkey.pubkey.pubkey);
-    let balance = await apiClient.getBalanceXpub(pubkey.pubkey);
+    console.log('1 pubkey: ', pubkey);
+    console.log('2 pubkey: ', pubkey.pubkey);
+    let balance = await apiClient.getBalanceXpub(pubkey.pubkey || pubkey.xpub);
     console.log('balance: ', balance);
-    pubkeys[i].balance = balance;
+    pubkeys[i].balance = balance.toString();
   }
+  console.log('pubkeys: ', pubkeys);
 
   // select a single pubkey
   // choose largest balance
@@ -207,12 +210,12 @@ const getInputsAndTargetOutputs = async ({
 
   // pubkeyWithLargestBalance
   let inputs = await apiClient.listUnspent({
-    pubkey: pubkeyWithLargestBalance?.pubkey,
+    pubkey: pubkeyWithLargestBalance?.pubkey || pubkeyWithLargestBalance?.xpub,
     chain,
     apiKey: apiClient.apiKey,
   });
-  console.log('inputs total: ', inputs);
-  console.log('inputs total: ', inputs.length);
+  //console.log('inputs total: ', inputs);
+  //console.log('inputs total: ', inputs.length);
   // Create a function to transform an input into the desired output format
   function transformInput(input) {
     const {
@@ -251,15 +254,16 @@ const getInputsAndTargetOutputs = async ({
   //Use the map function to transform each input
   inputs = inputs.map(transformInput);
 
-  // console.log('sender: ', sender);
+  // //console.log('sender: ', sender);
   // const inputs = await apiClient.scanUTXOs({
   //   address: sender,
   //   fetchTxHex,
   // });
-  // console.log('inputsMaster Inputs: ', inputs);
+  // //console.log('inputsMaster Inputs: ', inputs);
 
+  //TODO do this again
   if (!validateAddress({ address: recipient, chain, apiClient })) {
-    throw new Error('Invalid address');
+    throw new Error('getInputsAndTargetOutputs Invalid address');
   }
 
   //1. add output amount and recipient to targets
@@ -304,6 +308,7 @@ const buildTx = async ({
   //Blockchairs Doge API recomendations are WAYY wrong
   if (chain === Chain.Dogecoin) feeRate = 100000;
   if (chain === Chain.BitcoinCash) feeRate = 100;
+  console.log('inputsAndOutputs: ', inputsAndOutputs);
   const { inputs, outputs } = accumulative({ ...inputsAndOutputs, feeRate, chain });
 
   // .inputs and .outputs will be undefined if no solution was found
@@ -312,7 +317,7 @@ const buildTx = async ({
 
   if (chain === Chain.Dogecoin) psbt.setMaximumFeeRate(650000000);
   // inputs.forEach((utxo: UTXOType) => {
-  //   console.log('Current UTXO:', utxo);
+  //   //console.log('Current UTXO:', utxo);
   //
   //   const inputArgs = {
   //     hash: utxo.hash,
@@ -327,7 +332,7 @@ const buildTx = async ({
   //     inputArgs.nonWitnessUtxo = Buffer.from(utxo.txHex, 'hex');
   //   }
   //
-  //   console.log('Adding UTXO to psbt:', inputArgs);
+  //   //console.log('Adding UTXO to psbt:', inputArgs);
   //
   //   psbt.addInput(inputArgs);
   // });

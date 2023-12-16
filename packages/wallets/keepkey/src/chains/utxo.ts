@@ -1,11 +1,18 @@
 import type { BaseUTXOToolbox, UTXOToolbox, UTXOTransferParams } from '@coinmasters/toolbox-utxo';
-import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@coinmasters/toolbox-utxo';
+import {
+  BCHToolbox,
+  BTCToolbox,
+  DASHToolbox,
+  DOGEToolbox,
+  LTCToolbox,
+  ZCASHToolbox,
+} from '@coinmasters/toolbox-utxo';
 import type { UTXOChain } from '@coinmasters/types';
-import { Chain, FeeOption } from '@coinmasters/types';
+import { Chain, DerivationPath, FeeOption } from '@coinmasters/types';
 import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
 
-import { addressInfoForCoin, Coin } from '../coins.ts';
+import { bip32ToAddressNList, ChainToKeepKeyName } from '../helpers/coins.ts';
 
 type Params = {
   sdk: any;
@@ -38,6 +45,10 @@ const getToolbox = ({ chain, apiClient, apiKey }: Omit<Params, 'sdk'>) => {
       return { toolbox: BTCToolbox({ apiClient, apiKey }), segwit: true };
     case Chain.Litecoin:
       return { toolbox: LTCToolbox({ apiClient, apiKey }), segwit: true };
+    case Chain.Dash:
+      return { toolbox: DASHToolbox({ apiClient, apiKey }), segwit: false };
+    case Chain.Zcash:
+      return { toolbox: ZCASHToolbox({ apiClient, apiKey }), segwit: false };
     case Chain.Dogecoin:
       return { toolbox: DOGEToolbox({ apiClient, apiKey }), segwit: false };
     case Chain.BitcoinCash:
@@ -66,7 +77,13 @@ export const utxoWalletMethods = async ({
   const { toolbox, segwit } = getToolbox({ chain, apiClient, apiKey });
 
   const scriptType = segwit ? 'p2wpkh' : 'p2pkh';
-  const addressInfo = addressInfoForCoin(chain, false, scriptType);
+  if(!ChainToKeepKeyName[chain]) throw Error("ChainToKeepKeyName: unknown chain: "+chain)
+  const addressInfo = {
+    coin: ChainToKeepKeyName[chain],
+    script_type: scriptType,
+    address_n: bip32ToAddressNList(DerivationPath[chain]),
+  };
+  console.log('addressInfo: ', addressInfo);
   const { address: walletAddress } = await sdk.address.utxoGetAddress(addressInfo);
 
   //getAddress
@@ -142,7 +159,7 @@ export const utxoWalletMethods = async ({
       );
     }
     console.log({
-      coin: Coin[chain as keyof typeof Coin],
+      coin: ChainToKeepKeyName[chain],
       inputs,
       outputs: removeNullAndEmptyObjectsFromArray(outputs),
       version: 1,
@@ -150,7 +167,7 @@ export const utxoWalletMethods = async ({
     });
     try {
       const responseSign = await sdk.utxo.utxoSignTransaction({
-        coin: Coin[chain as keyof typeof Coin],
+        coin: ChainToKeepKeyName[chain],
         inputs,
         outputs: removeNullAndEmptyObjectsFromArray(outputs),
         version: 1,
@@ -196,10 +213,17 @@ export const utxoWalletMethods = async ({
       txid: hash,
       hex: txHex || '',
     }));
-
+    console.log("transfer inputs: ", inputs)
     const txHex = await signTransaction(psbt, inputs, memo);
+    console.log('txHex: ', txHex);
     return toolbox.broadcastTx(txHex);
   };
 
-  return { ...toolbox, getPubkeys, getAddress: () => walletAddress as string, signTransaction, transfer };
+  return {
+    ...toolbox,
+    getPubkeys,
+    getAddress: () => walletAddress as string,
+    signTransaction,
+    transfer,
+  };
 };
