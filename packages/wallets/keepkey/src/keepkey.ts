@@ -5,6 +5,7 @@ import {
   ETHToolbox,
   getProvider,
   MATICToolbox,
+  BASEToolbox,
   OPToolbox,
 } from '@coinmasters/toolbox-evm';
 import type { ConnectWalletParams, EVMChain } from '@coinmasters/types';
@@ -23,6 +24,7 @@ export type { PairingInfo } from '@keepkey/keepkey-sdk';
 export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
   Chain.Avalanche,
+  Chain.Base,
   Chain.Binance,
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
@@ -81,8 +83,11 @@ const getEVMWalletMethods = async ({
       return { ...MATICToolbox({ ...evmParams, covalentApiKey }), getAddress: () => address };
     case Chain.Avalanche:
       return { ...AVAXToolbox({ ...evmParams, covalentApiKey }), getAddress: () => address };
+    case Chain.Base:
+      return { ...BASEToolbox({ ...evmParams, covalentApiKey }), getAddress: () => address };
+
     default:
-      throw new Error('Chain not supported');
+      throw new Error('getEVMWalletMethods Chain not supported');
   }
 };
 
@@ -98,6 +103,7 @@ const getToolbox = async ({
 }: KeepKeyOptions) => {
   switch (chain) {
     case Chain.BinanceSmartChain:
+    case Chain.Base:
     case Chain.Arbitrum:
     case Chain.Optimism:
     case Chain.Polygon:
@@ -155,7 +161,7 @@ const getToolbox = async ({
       return { address: walletMethods.getAddress(), walletMethods };
     }
     default:
-      throw new Error('Chain not supported ' + chain);
+      throw new Error('KeepKey Chain not supported ' + chain);
   }
 };
 

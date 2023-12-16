@@ -31,7 +31,11 @@ type AddressObject = {
 export const covalentApi = ({ apiKey, chainId }: { apiKey: string; chainId: ChainId }) => ({
   getBalance: async (address: any) => {
     //console.log('address: ', address);
-    //console.log('address: ', address);
+    console.log('address: ', address);
+    console.log(
+      'URL: ',
+      `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/`,
+    );
     const { data } = await RequestClient.get<{ data: CovalentBalanceResponse }>(
       `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/`,
       { searchParams: { key: apiKey } },

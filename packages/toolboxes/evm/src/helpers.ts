@@ -278,6 +278,7 @@ export const getBalance = async ({
   chain: EVMChain;
   potentialScamFilter?: boolean;
 }) => {
+  console.log("EVM toolbox getBalance: ",address[0].address)
   const tokenBalances = await api.getBalance(address[0].address);
   const evmGasTokenBalance = await provider.getBalance(address[0].address);
   //console.log('tokenBalances: ', tokenBalances);

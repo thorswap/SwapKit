@@ -288,6 +288,7 @@ export enum RPCUrl {
   Avalanche = 'https://node-router.thorswap.net/avalanche-c',
   Binance = 'https://base.llamarpc.com',
   BinanceSmartChain = 'https://bsc-dataseed.binance.org',
+  Base = 'https://base.llamarpc.com',
   Bitcoin = 'https://node-router.thorswap.net/bitcoin',
   BitcoinCash = 'https://node-router.thorswap.net/bitcoin-cash',
   Cosmos = 'https://node-router.thorswap.net/cosmos/rpc',
