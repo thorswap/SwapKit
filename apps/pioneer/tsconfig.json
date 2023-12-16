@@ -1,28 +1,32 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": "./src",
+    "skipLibCheck": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "lib": ["dom", "dom.iterable", "ESNext"],
     "module": "ESNext",
     "moduleResolution": "node",
-    "noEmit": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "target": "ESNext",
-    "types": ["vite/client"],
+    "isolatedModules": true,
+    "noEmit": false,
+    "declaration": true,
+    "outDir": "./dist",
+    "jsx": "react-jsx",
+    "baseUrl": "./src",
     "paths": {
-      "~/*": ["./*"]
+      "lib/context/Pioneer": ["./lib/context/Pioneer"],
+      "lib/assets/png/keepkey.png": ["./lib/assets/png/keepkey.png"],
+      "lib/assets/png/metamask.png": ["./lib/assets/png/metamask.png"],
+      "lib/assets/png/pioneer.png": ["./lib/assets/png/pioneer.png"],
+      "lib/components/modals/SettingsModal": ["./lib/components/modals/SettingsModal"],
+      "lib/components/utils": ["./lib/components/utils"],
+      "@pioneer-sdk/sdk-v3": ["./lib/context/Pioneer/index"] // Adjust this path as needed
     }
-  }
+  },
+  "include": ["./src"]
 }

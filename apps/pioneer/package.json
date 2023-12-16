@@ -1,8 +1,9 @@
 {
-  "name": "@apps/pioneer",
+  "name": "@pioneer-sdk/pioneer-react",
+  "version": "0.0.37",
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
-    "@chakra-ui/react": "^2.8.1",
+    "@chakra-ui/react": "^2.8.2",
     "@coinmasters/api": "workspace:*",
     "@coinmasters/core": "workspace:*",
     "@coinmasters/helpers": "workspace:*",
@@ -46,8 +47,8 @@
     "react-dom": "18.2.0",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.11.0",
-    "react-router-dom": "^6.16.0",
     "react-spinners": "^0.13.8",
+    "rollup-plugin-node-polyfills": "^0.2.1",
     "rollup-plugin-polyfill-node": "0.12.0",
     "stream-browserify": "3.0.0",
     "stream-http": "3.2.0",
@@ -58,18 +59,17 @@
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
     "@vitejs/plugin-react": "4.0.4",
+    "react-router-dom": "^6.16.0",
     "typescript": "5.2.2",
     "vite": "4.4.9"
   },
   "eslintConfig": {
     "extends": "../../internal/eslint-config"
   },
-  "private": true,
   "scripts": {
     "build": "NODE_OPTIONS=--max_old_space_size=16384 vite build",
     "dev": "vite",
     "serve": "vite preview"
   },
-  "type": "module",
-  "version": null
+  "type": "module"
 }
