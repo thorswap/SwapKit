@@ -218,9 +218,9 @@ export class SwapKitCore<T = ''> {
     } else {
       console.log(chain + ' pubkeys: ', pubkeys.length);
       /*
-          Logic asumptions
+          Logic assumptions
             * Every pubkey will be a UTXO
-            * every UXTO has only 1 asset balance
+            * every UXTO has only 1 asset balance (fungable)
             * we sum ALL balances of all pubkeys and return as 1 balance
               (aka you have x amount bitcoin) as is commonly used in wallets
 
@@ -237,8 +237,9 @@ export class SwapKitCore<T = ''> {
         console.log('Get balance for xpub!');
         console.log('pubkey: ', pubkey);
         let pubkeyBalance = await this.getWallet(chain)?.getBalance([{ pubkey }]);
-        console.log('pubkeyBalance: ', pubkeyBalance);
+        console.log('pubkeyBalance pre: ', pubkeyBalance);
         pubkeyBalance = pubkeyBalance[0].toFixed(pubkeyBalance?.decimal);
+        console.log('pubkeyBalance post: ', pubkeyBalance);
         if (isNaN(pubkeyBalance)) {
           pubkeyBalance = 0;
         }
@@ -246,8 +247,10 @@ export class SwapKitCore<T = ''> {
         pubkeys[i].balance = pubkeyBalance;
         balanceTotal += pubkeyBalance;
       }
-      balance = [AssetValue.fromChainOrSignature(chain, balanceTotal)];
-      balance[0].address = address;
+      console.log('balanceTotal: ', balanceTotal);
+      let balanceValue = AssetValue.fromChainOrSignature(chain, balanceTotal);
+      balanceValue.address = address;
+      balance = [balanceValue];
     }
 
     this.connectedChains[chain] = {
@@ -616,6 +619,7 @@ export class SwapKitCore<T = ''> {
       case Chain.Arbitrum:
       case Chain.Avalanche:
       case Chain.BinanceSmartChain:
+      case Chain.Base:
       case Chain.Ethereum:
       case Chain.Optimism:
       case Chain.Polygon: {
@@ -629,6 +633,8 @@ export class SwapKitCore<T = ''> {
       case Chain.Bitcoin:
       case Chain.BitcoinCash:
       case Chain.Dogecoin:
+      case Chain.Dash:
+      case Chain.Zcash:
       case Chain.Litecoin:
         return (walletMethods as UTXOToolbox).estimateMaxSendableAmount(params);
 

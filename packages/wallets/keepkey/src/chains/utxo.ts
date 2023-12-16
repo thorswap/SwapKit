@@ -159,7 +159,7 @@ export const utxoWalletMethods = async ({
       );
     }
     console.log({
-      coin: Coin[chain as keyof typeof Coin],
+      coin: ChainToKeepKeyName[chain],
       inputs,
       outputs: removeNullAndEmptyObjectsFromArray(outputs),
       version: 1,
@@ -167,7 +167,7 @@ export const utxoWalletMethods = async ({
     });
     try {
       const responseSign = await sdk.utxo.utxoSignTransaction({
-        coin: Coin[chain as keyof typeof Coin],
+        coin: ChainToKeepKeyName[chain],
         inputs,
         outputs: removeNullAndEmptyObjectsFromArray(outputs),
         version: 1,
@@ -213,8 +213,9 @@ export const utxoWalletMethods = async ({
       txid: hash,
       hex: txHex || '',
     }));
-
+    console.log("transfer inputs: ", inputs)
     const txHex = await signTransaction(psbt, inputs, memo);
+    console.log('txHex: ', txHex);
     return toolbox.broadcastTx(txHex);
   };
 
