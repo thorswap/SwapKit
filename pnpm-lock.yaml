@@ -1086,6 +1086,9 @@ importers:
 
   packages/wallets/keepkey:
     dependencies:
+      '@coinmasters/toolbox-ripple':
+        specifier: workspace:*
+        version: link:../../toolboxes/ripple
       '@ethersproject/abstract-signer':
         specifier: 5.7.0
         version: 5.7.0
@@ -6559,8 +6562,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@shapeshiftoss/hdwallet-core@1.52.13:
-    resolution: {integrity: sha512-KpkuDFlQr7HSlXNp8ASwhYFVi1jN/ChYUu6RA9ceSjff9qtT91ICwYzzuu1sTmTiYt9/cOzUWf6mMjaiWI24jA==}
+  /@shapeshiftoss/hdwallet-core@1.52.14:
+    resolution: {integrity: sha512-P+jUfZixdoJ147ZcK28R/Q0W9epALfJYRs/T+WQz1Zu2ZR0APeVFZwjto6B1ThkERstdgALrekRvwOU9NeIf5g==}
     dependencies:
       '@shapeshiftoss/proto-tx-builder': 0.8.0
       eip-712: 1.0.0
@@ -17088,7 +17091,7 @@ packages:
       '@bithighlander/bitcoin-cash-js-lib': 5.2.1
       '@pioneer-platform/loggerdog': 8.1.31(@types/node@15.14.9)
       '@pioneer-platform/pioneer-coins': 8.1.90(@types/node@15.14.9)
-      '@shapeshiftoss/hdwallet-core': 1.52.13
+      '@shapeshiftoss/hdwallet-core': 1.52.14
       '@types/node': 15.14.9
       bip39: 3.1.0
       codeclimate-test-reporter: 0.5.1

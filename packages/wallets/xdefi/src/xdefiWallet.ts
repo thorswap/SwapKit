@@ -78,7 +78,7 @@ const getWalletMethodsForChain = async ({
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      const { getToolboxByChain } = await import('@swapkit/toolbox-utxo');
+      const { getToolboxByChain } = await import('@coinmasters/toolbox-utxo');
       const params = { rpcUrl, blockchairApiKey, apiClient: api };
       const toolbox = await getToolboxByChain(chain);
 

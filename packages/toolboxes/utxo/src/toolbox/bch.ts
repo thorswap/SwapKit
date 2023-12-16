@@ -6,8 +6,6 @@ import {
   Transaction,
   TransactionBuilder,
 } from '@psf/bitcoincashjs-lib';
-import type { UTXOChain } from '@swapkit/types';
-import { Chain, DerivationPath, FeeOption, RPCUrl } from '@swapkit/types';
 import {
   detectAddressNetwork,
   isValidAddress,

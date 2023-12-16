@@ -1,5 +1,5 @@
-import type { CosmosChain } from '@swapkit/types';
-import { Chain } from '@swapkit/types';
+import type { CosmosChain } from '@coinmasters/types';
+import { Chain } from '@coinmasters/types';
 
 import { BinanceToolbox } from './binance.ts';
 import { GaiaToolbox } from './gaia.ts';
