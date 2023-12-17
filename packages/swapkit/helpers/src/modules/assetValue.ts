@@ -186,6 +186,9 @@ export function getMinAmountByChain(chain: Chain) {
     case Chain.Maya:
       return asset.set(0);
 
+    case Chain.Cosmos:
+      return asset.set(0.000001);
+
     default:
       return asset.set(0.00000001);
   }

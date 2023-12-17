@@ -71,7 +71,7 @@ export const BaseCosmosToolbox = ({
     const denomBalances = await cosmosClient.getBalance(address);
     return await Promise.all(
       denomBalances
-        .filter(({ denom }) => denom)
+        .filter(({ denom }) => denom && !denom.includes('IBC/'))
         .map(({ denom, amount }) => getAssetFromDenom(denom, amount)),
     );
   },
