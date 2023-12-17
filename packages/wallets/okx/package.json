@@ -52,5 +52,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.71"
+  "version": "1.0.0-rc.72"
 }
