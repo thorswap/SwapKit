@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.64
+
+### Patch Changes
+
+- [#505](https://github.com/thorswap/SwapKit/pull/505) [`876a4af`](https://github.com/thorswap/SwapKit/commit/876a4afbbe1c7face3aedf30abcf754a0ffb8e41) Thanks [@towanTG](https://github.com/towanTG)! - Adds sort flag for multisig pubkeys
+
 ## 1.0.0-rc.63
 
 ### Patch Changes
