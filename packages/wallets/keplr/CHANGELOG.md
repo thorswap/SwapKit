@@ -1,5 +1,11 @@
 # @swapkit/wallet-keplr
 
+## 1.0.0-rc.64
+
+### Patch Changes
+
+- [#503](https://github.com/thorswap/SwapKit/pull/503) [`f466710`](https://github.com/thorswap/SwapKit/commit/f466710757e296b819220eafb770e2c745c81e09) Thanks [@towanTG](https://github.com/towanTG)! - Fixes keplr ATOM denom
+
 ## 1.0.0-rc.63
 
 ### Patch Changes
