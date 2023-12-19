@@ -179,11 +179,12 @@ const broadcastMultisigTx =
     return transactionHash;
   };
 
-const createMultisig = async (pubKeys: string[], threshold: number) => {
+const createMultisig = async (pubKeys: string[], threshold: number, noSortPubKeys = true) => {
   const { encodeSecp256k1Pubkey, createMultisigThresholdPubkey } = await import('@cosmjs/amino');
   return createMultisigThresholdPubkey(
     pubKeys.map((pubKey) => encodeSecp256k1Pubkey(base64.decode(pubKey))),
     threshold,
+    noSortPubKeys,
   );
 };
 
