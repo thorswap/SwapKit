@@ -1,5 +1,11 @@
 # @swapkit/wallet-trezor
 
+## 1.0.0-rc.68
+
+### Patch Changes
+
+- [#507](https://github.com/thorswap/SwapKit/pull/507) [`a04ff5b`](https://github.com/thorswap/SwapKit/commit/a04ff5be4320c7df926964135e9f3b2c386bb244) Thanks [@towanTG](https://github.com/towanTG)! - Fixes from address for trezor evm
+
 ## 1.0.0-rc.67
 
 ### Patch Changes
