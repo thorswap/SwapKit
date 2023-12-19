@@ -374,7 +374,7 @@ describe('getMinAmountByChain', () => {
   test('returns min amount for chain', () => {
     expect(getMinAmountByChain(Chain.THORChain).getValue('string')).toBe('0');
     expect(getMinAmountByChain(Chain.Maya).getValue('string')).toBe('0');
-    expect(getMinAmountByChain(Chain.Cosmos).getValue('string')).toBe('0');
+    expect(getMinAmountByChain(Chain.Cosmos).getValue('string')).toBe('0.000001');
 
     expect(getMinAmountByChain(Chain.Bitcoin).getValue('string')).toBe('0.00010001');
     expect(getMinAmountByChain(Chain.Litecoin).getValue('string')).toBe('0.00010001');

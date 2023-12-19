@@ -1,5 +1,14 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.63
+
+### Patch Changes
+
+- [#500](https://github.com/thorswap/SwapKit/pull/500) [`3392631`](https://github.com/thorswap/SwapKit/commit/3392631d937015b192f2a308d045208930963984) Thanks [@towanTG](https://github.com/towanTG)! - Fixes ATOM balance load by only supporting ATOM and adds min sendable balance for COSMOS TC
+
+- Updated dependencies [[`3392631`](https://github.com/thorswap/SwapKit/commit/3392631d937015b192f2a308d045208930963984)]:
+  - @swapkit/helpers@1.0.0-rc.59
+
 ## 1.0.0-rc.62
 
 ### Patch Changes
