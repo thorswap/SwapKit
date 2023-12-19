@@ -66,7 +66,6 @@ class TrezorSigner extends AbstractSigner {
   signTransaction = async ({
     to,
     gasLimit,
-    from,
     value,
     data,
     nonce,
@@ -86,7 +85,7 @@ class TrezorSigner extends AbstractSigner {
     const { Transaction, toHexString } = await import('@swapkit/toolbox-evm');
 
     const formattedTx = {
-      from: from?.toString() || (await this.getAddress()),
+      from: await this.getAddress(),
       chainId: parseInt(ChainToChainId[this.chain], 16),
       to: to.toString(),
       value: toHexString(BigInt(value?.toString() || 0)),
@@ -127,14 +126,6 @@ class TrezorSigner extends AbstractSigner {
     if (!hash) throw new Error('Failed to sign transaction');
 
     return hash;
-  };
-
-  sendTransaction = async (tx: TransactionRequest) => {
-    if (!this.provider) throw new Error('No provider set');
-
-    const signedTxHex = await this.signTransaction(tx);
-
-    return await this.provider.broadcastTransaction(signedTxHex);
   };
 
   connect = (provider: Provider | null) => {
