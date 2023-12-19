@@ -662,6 +662,52 @@ importers:
         specifier: workspace:*
         version: link:../../../internal/config
 
+  e2e/wallets/intergration-wallet-keepkey:
+    dependencies:
+      '@coinmasters/core':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/core
+      '@coinmasters/pioneer-sdk':
+        specifier: workspace:*
+        version: link:../../../packages/pioneer/pioneer-sdk
+      '@coinmasters/types':
+        specifier: workspace:^
+        version: link:../../../packages/swapkit/types
+      '@coinmasters/wallet-keepkey':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keepkey
+      '@coinmasters/wallet-keystore':
+        specifier: workspace:*
+        version: link:../../../packages/wallets/keystore
+      '@pioneer-platform/loggerdog':
+        specifier: ^8.1.31
+        version: 8.1.31(@types/node@20.10.4)
+      '@pioneer-platform/pioneer-caip':
+        specifier: ^9.0.14
+        version: 9.0.14
+      '@types/node':
+        specifier: ^20.10.4
+        version: 20.10.4
+      assert:
+        specifier: ^2.1.0
+        version: 2.1.0
+      dotenv:
+        specifier: ^6.2.0
+        version: 6.2.0
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+      wait-promise:
+        specifier: ^0.4.1
+        version: 0.4.1
+    devDependencies:
+      '@coinmasters/helpers':
+        specifier: workspace:*
+        version: link:../../../packages/swapkit/helpers
+      '@internal/config':
+        specifier: workspace:*
+        version: link:../../../internal/config
+
   internal/config:
     devDependencies:
       '@rollup/plugin-terser':
@@ -9730,7 +9776,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
-      define-properties: 1.2.0
+      define-properties: 1.2.1
       es-abstract: 1.22.1
       es-shim-unscopables: 1.0.0
 
@@ -12882,7 +12928,7 @@ packages:
   /get-intrinsic@1.2.1:
     resolution: {integrity: sha512-2DcsyfABl+gVHEfCOaTrWgyt+tb6MSEGmKq+kI5HwLbIYgjgmMcV8KQ41uaKz1xxUcn9tJtgFbQUEVcEbd0FYw==}
     dependencies:
-      function-bind: 1.1.1
+      function-bind: 1.1.2
       has: 1.0.3
       has-proto: 1.0.1
       has-symbols: 1.0.3

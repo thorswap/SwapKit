@@ -12,9 +12,10 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react';
-import { ChainToNetworkId, NetworkIdToChain, getChainEnumValue } from '@coinmasters/types';
-import { THORCHAIN_NETWORKS } from '@pioneer-platform/pioneer-coins';
+import { ChainToNetworkId, getChainEnumValue, NetworkIdToChain } from '@coinmasters/types';
 import { useEffect, useState } from 'react';
+
+import Blockchains from '../Blockchains';
 
 import { usePioneer } from '../../context/Pioneer';
 
@@ -78,33 +79,6 @@ export default function Ledger({ onClose }) {
   }, [intent, app, app?.balances]);
 
   useEffect(() => {
-    if (app?.blockchains) {
-      let allChains = app.blockchains.map((blockchain) => {
-        let pubkeysForChain = app.pubkeys.filter((pubkey) => pubkey.networkId === blockchain);
-        let balancesForChain = app.balances.filter((balance) => balance.networkId === blockchain);
-        let status = pubkeysForChain.length > 0 ? 'connected' : 'disconnected';
-
-        return {
-          blockchain,
-          pubkeys: pubkeysForChain,
-          balances: balancesForChain,
-          status,
-        };
-      });
-
-      if (intentBlockchain) {
-        allChains = allChains.filter((chain) => chain.blockchain === intentBlockchain);
-      }
-
-      const sortedAndGroupedChains = groupEIP155Chains(
-        allChains.sort((a) => (a.status === 'connected' ? 1 : -1)),
-      );
-
-      setConnectedChains(sortedAndGroupedChains);
-    }
-  }, [app, app?.blockchains, intent]);
-
-  useEffect(() => {
     if (hardwareError) {
       let errorMessage = '';
       switch (hardwareError) {
@@ -139,18 +113,6 @@ export default function Ledger({ onClose }) {
     setWebUsbSupported('usb' in navigator);
   }, []);
 
-  const toggleHideChain = (chain) => {
-    setHiddenChains((prev) => {
-      const newHiddenChains = new Set(prev);
-      if (newHiddenChains.has(chain)) {
-        newHiddenChains.delete(chain);
-      } else {
-        newHiddenChains.add(chain);
-      }
-      return newHiddenChains;
-    });
-  };
-
   const attemptConnect = async (blockchain) => {
     try {
       const result = await connectWallet('LEDGER', NetworkIdToChain[blockchain]);
@@ -177,64 +139,16 @@ export default function Ledger({ onClose }) {
     }
   };
 
-  const renderChainCard = (chainInfo) => {
-    const blockchainSymbol = NetworkIdToChain[chainInfo.blockchain];
-    const chainAvatar = THORCHAIN_NETWORKS.find((chain) => chain.symbol === blockchainSymbol)
-      ?.image;
-    const isConnected = chainInfo.status === 'connected';
-    const isHidden = hiddenChains.has(chainInfo.blockchain);
-
-    if (isHidden) return null;
-
-    // Display only the address from the first pubkey (assuming all addresses are the same)
-    const displayAddress =
-      chainInfo.pubkeys.length > 0 ? chainInfo.pubkeys[0].address : 'No Address';
-
-    return (
-      <Card boxShadow="md" key={chainInfo.blockchain} mb={4} p={3}>
-        <HStack justify="space-between">
-          <VStack align="start">
-            <Image alt={blockchainSymbol} boxSize="60px" src={chainAvatar} /> {/* Increased size */}
-            <Text fontSize="md">{blockchainSymbol}</Text>
-            {isConnected && <CheckIcon color="green.500" />}
-            <Text fontSize="md">{displayAddress}</Text> {/* Display address */}
-            <Text fontSize="md">{chainInfo.status}</Text>
-          </VStack>
-          <VStack>
-            <Button onClick={() => attemptConnect(chainInfo.blockchain)} size="sm">
-              {isConnected ? 'Connected' : 'Connect'}
-            </Button>
-            <Switch isChecked={isHidden} onChange={() => toggleHideChain(chainInfo.blockchain)} />
-          </VStack>
-        </HStack>
-      </Card>
-    );
-  };
-
-  // Grouping EIP155 chains
-  const groupEIP155Chains = (chains) => {
-    let eip155Chains = chains.filter((chain) => chain.blockchain.startsWith('eip155'));
-    let otherChains = chains.filter((chain) => !chain.blockchain.startsWith('eip155'));
-
-    // Group EIP155 chains together
-    if (eip155Chains.length > 0) {
-      otherChains.push({
-        blockchain: 'EVMs',
-        pubkeys: eip155Chains.flatMap((chain) => chain.pubkeys),
-        status: eip155Chains.some((chain) => chain.status === 'connected')
-          ? 'connected'
-          : 'disconnected',
-      });
-    }
-
-    return otherChains;
-  };
-
   const unlock = () => {
     clearHardwareError();
     setIsLocked(false);
     setIsWrongApp(false);
     setIsAlreadyClaimed(false);
+  };
+
+  let onSelect = (blockchain) => {
+    console.log('onSelect', blockchain);
+    attemptConnect(blockchain);
   };
 
   return (
@@ -286,7 +200,8 @@ export default function Ledger({ onClose }) {
             <div>
               <Text mb={4}>Connect your Ledger device and select a chain:</Text>
               <Text mb={4}>Your Device MUST be unlocked and the correct application open</Text>
-              {connectedChains.map(renderChainCard)}
+              <Blockchains onSelect={onSelect} />
+              {/*{connectedChains.map(renderChainCard)}*/}
               {/*<Button colorScheme="blue" mt={4} onClick={onClose}>*/}
               {/*  Continue*/}
               {/*</Button>*/}

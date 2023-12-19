@@ -1,0 +1,38 @@
+{
+  "name": "@coinmasters/integration-wallet-keepkey",
+  "version": "1.0.1",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "yarn": "yarn",
+    "start": "node dist/index.js",
+    "build": "tsc -p .",
+    "dev": "pnpm run build && pnpm run start",
+    "test": "rm -Rf ~/.pioneer && jest --verbose --silent=true  --forceExit",
+    "test-debug": "rm -Rf ~/.pioneer && jest --verbose --forceExit",
+    "docker:build": "docker build --build-arg NPM_TOKEN=$NPM_TOKEN -t pioneer/osmosis-e2e-sdk:latest ../..",
+    "docker:run": "docker run --env-file=../../.env pioneer/osmosis-e2e-sdk:latest",
+    "docker:tag": "docker tag pioneer/osmosis-e2e-sdk:latest registry.digitalocean.com/pioneer/pioneer/osmosis-e2e-sdk:latest",
+    "docker:push": "docker push registry.digitalocean.com/pioneer/pioneer/osmosis-e2e-sdk:latest",
+    "docker:push:all": "npm run docker:build && npm run docker:tag && npm run docker:push"
+  },
+  "dependencies": {
+    "@coinmasters/core": "workspace:*",
+    "@coinmasters/pioneer-sdk": "workspace:*",
+    "@coinmasters/types": "workspace:^",
+    "@coinmasters/wallet-keepkey": "workspace:*",
+    "@coinmasters/wallet-keystore": "workspace:*",
+    "@pioneer-platform/loggerdog": "^8.1.31",
+    "@pioneer-platform/pioneer-caip": "^9.0.14",
+    "@types/node": "^20.10.4",
+    "assert": "^2.1.0",
+    "dotenv": "^6.2.0",
+    "typescript": "5.2.2",
+    "wait-promise": "^0.4.1"
+  },
+  "devDependencies": {
+    "@coinmasters/helpers": "workspace:*",
+    "@internal/config": "workspace:*"
+  },
+  "gitHead": "54da909f74f91cd10e6161a06aa75638c147ff96"
+}
