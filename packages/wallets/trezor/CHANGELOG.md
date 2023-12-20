@@ -1,5 +1,11 @@
 # @swapkit/wallet-trezor
 
+## 1.0.0-rc.69
+
+### Patch Changes
+
+- [#509](https://github.com/thorswap/SwapKit/pull/509) [`a0bffdd`](https://github.com/thorswap/SwapKit/commit/a0bffdd09a402106e1e90163f574c89c50609c78) Thanks [@towanTG](https://github.com/towanTG)! - Fixes int parsing of trezor evm chain ids
+
 ## 1.0.0-rc.68
 
 ### Patch Changes
