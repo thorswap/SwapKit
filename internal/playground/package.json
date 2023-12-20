@@ -46,7 +46,7 @@
   "name": "@internal/playground",
   "private": true,
   "scripts": {
-    "build-playground": "NODE_OPTIONS=--max_old_space_size=16384 vite build",
+    "build-playground": "NODE_OPTIONS=--max_old_space_size=7000 vite build",
     "dev": "vite",
     "preview-playground": "vite preview"
   },
