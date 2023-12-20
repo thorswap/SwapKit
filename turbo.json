@@ -20,6 +20,16 @@
         "node_modules/.cache/**"
       ]
     },
+    "build-pioneer": {
+      "dependsOn": [
+        "^build",
+        "^build-pioneer"
+      ],
+      "outputs": [
+        "dist/**",
+        "node_modules/.cache/**"
+      ]
+    },
     "clean": {
       "cache": false
     },
@@ -39,6 +49,10 @@
       "dependsOn": [
         "build"
       ]
+    },
+    "preview-pioneer": {
+      "cache": false,
+      "persistent": true
     },
     "preview-playground": {
       "cache": false,
