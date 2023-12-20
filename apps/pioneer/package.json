@@ -66,7 +66,7 @@
   },
   "private": true,
   "scripts": {
-    "build": "NODE_OPTIONS=--max_old_space_size=7000 vite build",
+    "build": "NODE_OPTIONS=--max_old_space_size=12000 vite build",
     "dev": "vite",
     "serve": "vite preview"
   },
