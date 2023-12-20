@@ -7,15 +7,13 @@ import Portfolio from '../Portfolio';
 
 export default function KeepKey({ onClose }: any) {
   const { state, connectWallet } = usePioneer();
-  const { app, balances } = state;
+  const { app, balances, pubkeys } = state;
   const [isSyncing, setIsSyncing] = useState(false);
 
   let syncWallet = async function () {
     try {
       setIsSyncing(true);
       await connectWallet('KEEPKEY');
-      await app.getPubkeys();
-      await app.getBalances();
     } catch (e) {
       console.error(e);
     }

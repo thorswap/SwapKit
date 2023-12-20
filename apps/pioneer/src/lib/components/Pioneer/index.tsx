@@ -31,6 +31,7 @@ import { FaCog, FaDownload, FaExchangeAlt, FaPaperPlane, FaRegMoneyBillAlt } fro
 import KeepKey from '../../components/KeepKey';
 import Ledger from '../../components/Ledger';
 import MetaMask from '../../components/MetaMask';
+import Receive from '../../components/Receive';
 import MiddleEllipsis from '../../components/MiddleEllipsis';
 import Onboarding from '../../components/Onboarding';
 import Settings from '../../components/Settings';
@@ -232,7 +233,7 @@ const Pioneer = () => {
                 <Transfer openModal={openModal} />
               </div>
             )}
-            {modalType === 'RECEIVE' && <div>RECEIVE</div>}
+            {modalType === 'RECEIVE' && <div><Receive></Receive></div>}
             {modalType === 'PORTFOLIO' && <div><Portfolio></Portfolio></div>}
             {modalType === 'SWAP' && (
               <div>
