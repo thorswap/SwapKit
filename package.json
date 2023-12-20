@@ -59,7 +59,6 @@
   "scripts": {
     "bootstrap": "rm -rf node_modules; pnpm install; pnpm build",
     "build": "turbo run build --token=turbotoken-oss-europe1",
-    "build:web": "pnpm --filter ./apps/pioneer run build",
     "build:playground": "turbo run build-playground --token=turbotoken-oss-europe1 --concurrency=30",
     "preview:playground": "turbo run preview-playground --token=turbotoken-oss-europe1 --concurrency=30",
     "clean": "turbo run clean",
