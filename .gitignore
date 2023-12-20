@@ -17,3 +17,4 @@ coverage/
 .DS_Store
 *.log
 .npmrc
+.turbo
