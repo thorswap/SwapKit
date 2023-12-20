@@ -86,7 +86,7 @@ class TrezorSigner extends AbstractSigner {
 
     const formattedTx = {
       from: await this.getAddress(),
-      chainId: parseInt(ChainToChainId[this.chain], 16),
+      chainId: parseInt(ChainToChainId[this.chain]),
       to: to.toString(),
       value: toHexString(BigInt(value?.toString() || 0)),
       gasLimit: toHexString(BigInt(gasLimit?.toString() || 0)),
