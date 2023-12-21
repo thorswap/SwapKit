@@ -1,5 +1,12 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.94
+
+### Patch Changes
+
+- Updated dependencies [[`9e0576c`](https://github.com/thorswap/SwapKit/commit/9e0576c2c9048ba5adde3c46faaabee572a6ebcf)]:
+  - @swapkit/wallet-trezor@1.0.0-rc.70
+
 ## 1.0.0-rc.93
 
 ### Patch Changes
