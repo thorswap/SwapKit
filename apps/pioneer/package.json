@@ -71,5 +71,5 @@
     "serve": "vite preview"
   },
   "type": "module",
-  "version": null
+  "version": "0.0.1"
 }
