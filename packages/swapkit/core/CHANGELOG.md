@@ -1,5 +1,11 @@
 # @swapkit/core
 
+## 1.0.0-rc.77
+
+### Patch Changes
+
+- [#513](https://github.com/thorswap/SwapKit/pull/513) [`2822bcf`](https://github.com/thorswap/SwapKit/commit/2822bcf345106fc31617bb1ec4028d48f3efaf7a) Thanks [@towanTG](https://github.com/towanTG)! - Fixes withdraw memo for rune asym
+
 ## 1.0.0-rc.76
 
 ### Patch Changes
