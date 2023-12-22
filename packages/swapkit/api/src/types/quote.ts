@@ -152,18 +152,20 @@ export type QuoteRoute = {
   approvalTarget?: string;
   approvalToken?: string;
   calldata: Calldata;
-  complete: boolean;
+  complete?: boolean;
   contract?: string;
   contractInfo: string;
   contractMethod?: string;
   estimatedTime: number;
+  evmTransactionDetails?: EVMTransactionDetails;
   expectedOutput: string;
   expectedOutputMaxSlippage: string;
   expectedOutputMaxSlippageUSD: string;
   expectedOutputUSD: string;
   fees: Fees;
-  inboundAddress?: string;
+  inboundAddress: string;
   index: number;
+  isPreferred?: boolean;
   meta: Meta;
   optimal: boolean;
   path: string;
@@ -171,17 +173,39 @@ export type QuoteRoute = {
   subProviders: string[];
   swaps: Swaps;
   targetAddress: string;
+  timeEstimates?: TimeEstimates;
   transaction?: any;
   streamingSwap?: {
     estimatedTime: number;
-    fees: Fees;
+    fees: { [k: string]: Fees[] };
     expectedOutput: string;
     expectedOutputMaxSlippage: string;
     expectedOutputUSD: string;
     expectedOutputMaxSlippageUSD: string;
+    savingsInAsset: string;
+    savingsInUSD: string;
+    maxQuantity: number;
+    maxIntervalForMaxQuantity: number;
     transaction?: any;
   };
 };
+
+export interface EVMTransactionDetails {
+  contractAddress: string;
+  contractMethod: string;
+  contractParams: string[];
+  contractParamsStreaming: string[];
+  contractParamsNames: string[];
+  approvalToken?: string; // not set in case of gas asset
+  approvalSpender?: string;
+}
+
+export interface TimeEstimates {
+  swapMs: number;
+  inboundMs?: number;
+  outboundMs?: number;
+  streamingMs?: number;
+}
 
 export type TxnParams = { txHash: string };
 
