@@ -1,5 +1,17 @@
 # @swapkit/core
 
+## 1.0.0-rc.78
+
+### Patch Changes
+
+- [#515](https://github.com/thorswap/SwapKit/pull/515) [`bf24a16`](https://github.com/thorswap/SwapKit/commit/bf24a1667130a18e4748cb449625e33090d025a7) Thanks [@towanTG](https://github.com/towanTG)! - Adds support for evm contract params from quote route
+
+- Updated dependencies [[`bf24a16`](https://github.com/thorswap/SwapKit/commit/bf24a1667130a18e4748cb449625e33090d025a7)]:
+  - @swapkit/toolbox-evm@1.0.0-rc.64
+  - @swapkit/api@1.0.0-rc.32
+  - @swapkit/tokens@1.0.0-rc.32
+  - @swapkit/toolbox-cosmos@1.0.0-rc.65
+
 ## 1.0.0-rc.77
 
 ### Patch Changes
