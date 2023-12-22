@@ -439,7 +439,7 @@ export class SwapKitCore<T = ''> {
     to: 'sym' | 'rune' | 'asset';
   }) => {
     const targetAsset =
-      to === 'rune'
+      to === 'rune' && from !== 'rune'
         ? AssetValue.fromChainOrSignature(Chain.THORChain)
         : (from === 'sym' && to === 'sym') || from === 'rune' || from === 'asset'
           ? undefined
