@@ -87,17 +87,44 @@ export class SwapKitCore<T = ''> {
   };
 
   swap = async ({ streamSwap, recipient, route, feeOptionKey }: SwapParams) => {
-    const { quoteMode } = route.meta;
+    const {
+      meta: { quoteMode },
+      evmTransactionDetails: contractCallParams,
+    } = route;
     const evmChain = quoteMode.startsWith('ERC20-')
       ? Chain.Ethereum
       : quoteMode.startsWith('ARC20-')
         ? Chain.Avalanche
-        : Chain.BinanceSmartChain;
+        : quoteMode.startsWith('BEP20-')
+          ? Chain.BinanceSmartChain
+          : undefined;
 
     if (!route.complete) throw new SwapKitError('core_swap_route_not_complete');
 
     try {
-      if (AGG_SWAP.includes(quoteMode)) {
+      if (contractCallParams && evmChain) {
+        const walletMethods = this.connectedWallets[evmChain];
+
+        if (!walletMethods?.call) {
+          throw new SwapKitError('core_wallet_connection_not_found');
+        }
+
+        const { contractAddress, contractMethod, contractParams, contractParamsStreaming } =
+          contractCallParams;
+
+        if (!(streamSwap ? contractParamsStreaming : contractParams)) {
+          throw new SwapKitError('core_swap_route_transaction_not_found');
+        }
+
+        return await walletMethods.call<string>({
+          contractAddress,
+          abi: lowercasedContractAbiMapping[contractAddress.toLowerCase()],
+          funcName: contractMethod,
+          funcParams: streamSwap ? contractParamsStreaming : contractParams,
+        });
+      }
+
+      if (AGG_SWAP.includes(quoteMode) && evmChain) {
         const walletMethods = this.connectedWallets[evmChain];
         if (!walletMethods?.sendTransaction) {
           throw new SwapKitError('core_wallet_connection_not_found');
@@ -143,7 +170,7 @@ export class SwapKitCore<T = ''> {
         });
       }
 
-      if (SWAP_IN.includes(quoteMode)) {
+      if (SWAP_IN.includes(quoteMode) && evmChain) {
         const { calldata, contract: contractAddress } = route;
         if (!contractAddress) throw new SwapKitError('core_swap_contract_not_found');
 
