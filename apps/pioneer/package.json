@@ -72,5 +72,5 @@
     "preview-pioneer": "vite pioneer"
   },
   "type": "module",
-  "version": null
+  "version": "0.0.1"
 }
