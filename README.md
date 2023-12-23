@@ -1,5 +1,10 @@
 # SwapKit
 
+## Upstream Additions
+* KeepKey Wallet
+* osmo
+* UTXO support
+
 Pioneer SDK
 
 
