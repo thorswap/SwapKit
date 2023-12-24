@@ -1,5 +1,6 @@
 {
   "author": "highlander",
+  "name": "@coinmasters/pioneer-sdk",
   "dependencies": {
     "@coinmasters/api": "workspace:*",
     "@coinmasters/core": "workspace:*",
@@ -46,7 +47,6 @@
   "license": "GPL-3.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@coinmasters/pioneer-sdk",
   "publishConfig": {
     "access": "public"
   },
