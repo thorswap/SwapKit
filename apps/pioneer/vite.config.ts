@@ -2,7 +2,7 @@ import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import { defineConfig } from "vite";
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
-import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
+//import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 // import inject from '@rollup/plugin-inject'
 // import wasm from 'vite-plugin-wasm'
@@ -48,7 +48,7 @@ export default defineConfig(({}) => {
         '@coinmasters/types': isProduction
           ? '@coinmasters/types'
           : resolve('../../packages/swapkit/types/src'),
-        routes: resolve(__dirname, "src/routes"),
+        routes: resolve(__dirname, 'src/routes'),
         util: 'rollup-plugin-node-polyfills/polyfills/util',
         sys: 'util',
         events: 'rollup-plugin-node-polyfills/polyfills/events',
@@ -120,8 +120,7 @@ export default defineConfig(({}) => {
             'react-dom': 'ReactDOM',
             '@chakra-ui/react': 'Chakra',
             '@emotion/react': 'emotion'
-          },
-          keepNames: true,
+          }
         },
         external: ['react', 'react-dom', '@chakra-ui/react', '@emotion/react'],
         plugins: [
