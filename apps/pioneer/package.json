@@ -1,6 +1,9 @@
 {
   "name": "@pioneer-sdk/pioneer-react",
-  "version": "0.0.39",
+  "version": "0.0.40",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
     "@chakra-ui/react": "^2.8.2",

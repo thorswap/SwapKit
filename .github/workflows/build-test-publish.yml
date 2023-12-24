@@ -12,6 +12,7 @@ on:
       - main
       - beta
       - nightly
+      - feature-lib
   pull_request:
     branches:
       - develop
