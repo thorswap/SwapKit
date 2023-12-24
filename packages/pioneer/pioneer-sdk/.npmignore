@@ -1,0 +1,36 @@
+# Directory used by npm
+node_modules/
+
+# Log files
+*.log
+
+# Production build directory
+dist/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE/Editors
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Optional: Documentation & README
+# /docs
+# README.md
+
+# Optional: Tests
+# /tests
+# /__tests__
+# *.test.*
+# *.spec.*
+
+# Optional: Git files
+# /.git
