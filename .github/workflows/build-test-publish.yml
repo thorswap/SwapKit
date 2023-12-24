@@ -10,8 +10,10 @@ on:
     branches:
       - develop
       - main
+      - master
       - beta
       - nightly
+      - feature-lib
   pull_request:
     branches:
       - develop
