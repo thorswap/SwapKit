@@ -59,7 +59,7 @@ const getToolbox = async ({
       if (chain !== Chain.Ethereum && !covalentApiKey)
         throw new Error('Covalent API key not found');
 
-      const { getProvider, getToolboxByChain } = await import('@swapkit/toolbox-evm');
+      const { getProvider, getToolboxByChain } = await import('@coinmasters/toolbox-evm');
 
       const provider = getProvider(chain, rpcUrl);
       const signer = await getEVMSigner({ chain, derivationPath, provider });
@@ -88,7 +88,7 @@ const getToolbox = async ({
       if (!api) throw new Error('API not found');
       const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
 
-      const { getToolboxByChain, BCHToolbox } = await import('@swapkit/toolbox-utxo');
+      const { getToolboxByChain, BCHToolbox } = await import('@coinmasters/toolbox-utxo');
 
       const scriptType:
         | {

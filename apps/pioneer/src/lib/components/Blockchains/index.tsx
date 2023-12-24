@@ -1,30 +1,28 @@
-import React, { useState, useEffect } from 'react';
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Avatar,
+  AvatarGroup,
   Box,
   Button,
-  Text,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  useDisclosure,
   Flex,
-  IconButton,
-  useClipboard,
+  Text,
+  useDisclosure,
 } from '@chakra-ui/react';
-import { CopyIcon, CheckIcon } from '@chakra-ui/icons';
-import { usePioneer } from '../../context/Pioneer';
-import Path from '../../components/Path';
-import { getWalletContent } from '../../components/WalletIcon';
+import { NetworkIdToChain } from '@coinmasters/types';
+import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
+import React, { useEffect, useState } from 'react';
 
-export default function Blockchains({ onClose }) {
+import { usePioneer } from '../../context/Pioneer';
+
+export default function Blockchains({ onSelect }) {
   const { state } = usePioneer();
   const { app } = state;
   const { isOpen, onOpen, onClose: onModalClose } = useDisclosure();
   const [selectedPubkey, setSelectedPubkey] = useState(null);
-  const [copiedAddress, setCopiedAddress] = useState('');
 
   useEffect(() => {
     if (app?.blockchains) {
@@ -37,35 +35,105 @@ export default function Blockchains({ onClose }) {
     onOpen();
   };
 
-  const handleCopy = (address) => {
-    navigator.clipboard.writeText(address);
-    setCopiedAddress(address);
-    setTimeout(() => setCopiedAddress(''), 3000);
+  // Function to group and sort blockchains
+  const groupAndSortBlockchains = (blockchains) => {
+    const UTXO = blockchains.filter((chain) => chain.startsWith('bip122:'));
+    const EVM = blockchains.filter((chain) => chain.startsWith('eip155:'));
+    const others = blockchains.filter(
+      (chain) => !chain.startsWith('bip122:') && !chain.startsWith('eip155:'),
+    );
+    return { UTXO, EVM, others };
   };
+
+  const { UTXO, EVM, others } = groupAndSortBlockchains(app?.blockchains || []);
+
+  const renderChainCard = (chain) => (
+    <Box borderRadius="lg" borderWidth="1px" textAlign="center">
+      <Flex
+        alignItems="center"
+        justifyContent="space-between" // Adjusts the space between items
+        bg="black"
+        borderRadius="md"
+        boxShadow="sm"
+        padding={2}
+        w="100%" // Ensures the Flex container takes full width
+      >
+      <Avatar src={`https://pioneers.dev/coins/${COIN_MAP_LONG[NetworkIdToChain[chain]]}.png`} />
+      <Text fontWeight="bold" mt={2}>
+        {chain}
+      </Text>
+      <Button mt={3} onClick={() => onSelect(chain)}>
+        Select
+      </Button>
+      </Flex>
+    </Box>
+  );
+
+  const renderAvatarGroup = (chains) => (
+    <AvatarGroup max={3} size="md">
+      {chains.map((chain, index) => (
+        <Avatar
+          key={index}
+          src={`https://pioneers.dev/coins/${COIN_MAP_LONG[NetworkIdToChain[chain]]}.png`}
+        />
+      ))}
+    </AvatarGroup>
+  );
 
   return (
     <div>
-      {app?.blockchains?.map((blockchain, index) => (
-        <Flex key={index} p={4} borderWidth="1px" borderRadius="lg" alignItems="center" justifyContent="space-between">
-          <Box>
-            <Text fontWeight="bold">networkId: {blockchain}</Text>
-          </Box>
-          <Flex alignItems="center">
-            <Button onClick={() => handlePubkeyClick(key)}>Select</Button>
-          </Flex>
-        </Flex>
-      ))}
+      <Accordion allowMultiple>
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box flex="1" textAlign="left">
+                <Text fontWeight="bold">UTXO Chains</Text>
+                {renderAvatarGroup(UTXO)}
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            <Flex justify="center" wrap="wrap">
+              {UTXO.map((chain, index) => renderChainCard(chain))}
+            </Flex>
+          </AccordionPanel>
+        </AccordionItem>
 
-      <Modal isOpen={isOpen} onClose={onModalClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Pubkey Details</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {selectedPubkey && <Path path={selectedPubkey} onClose={onModalClose} />}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box flex="1" textAlign="left">
+                <Text fontWeight="bold">EVM Chains</Text>
+                {renderAvatarGroup(EVM)}
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            <Flex justify="center" wrap="wrap">
+              {EVM.map((chain, index) => renderChainCard(chain))}
+            </Flex>
+          </AccordionPanel>
+        </AccordionItem>
+
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box flex="1" textAlign="left">
+                <Text fontWeight="bold">Other Chains</Text>
+                {renderAvatarGroup(others)}
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            <Flex justify="center" wrap="wrap">
+              {others.map((chain, index) => renderChainCard(chain))}
+            </Flex>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
     </div>
   );
 }

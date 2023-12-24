@@ -524,6 +524,7 @@ export class SDK {
           }
           if (paths.length === 0) throw Error('Missing Path for blockchain: ' + blockchain);
 
+          // eslint-disable-next-line @typescript-eslint/prefer-for-of
           for (let j = 0; j < paths.length; j++) {
             const path = paths[j];
             let pubkey;

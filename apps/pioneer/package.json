@@ -67,9 +67,10 @@
     "extends": "../../internal/eslint-config"
   },
   "scripts": {
-    "build": "NODE_OPTIONS=--max_old_space_size=16384 vite build",
+    "build": "NODE_OPTIONS=--max_old_space_size=6000 vite build",
     "dev": "vite",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "preview-pioneer": "vite pioneer"
   },
   "type": "module"
 }

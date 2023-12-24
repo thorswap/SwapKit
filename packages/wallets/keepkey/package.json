@@ -42,6 +42,7 @@
   "module": "./dist/index.es.js",
   "name": "@coinmasters/wallet-keepkey",
   "peerDependencies": {
+    "@coinmasters/toolbox-ripple": "workspace:*",
     "@coinmasters/toolbox-cosmos": "workspace:*",
     "@coinmasters/toolbox-evm": "workspace:*",
     "@coinmasters/toolbox-utxo": "workspace:*",

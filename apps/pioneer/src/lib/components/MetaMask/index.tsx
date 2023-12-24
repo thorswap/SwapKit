@@ -27,8 +27,8 @@ export default function MetaMask({ onClose, setIsOpenSide }: any) {
     try {
       setIsSyncing(true);
       await connectWallet('METAMASK');
-      await app.getPubkeys();
-      await app.getBalances();
+      // await app.getPubkeys();
+      // await app.getBalances();
     } catch (e) {
       console.error(e);
     }

@@ -151,7 +151,7 @@ export const walletTransfer = async (
 export const cosmosTransfer =
   ({ chainId, rpcUrl }: { chainId: ChainId.Cosmos | ChainId.Kujira; rpcUrl?: string }) =>
   async ({ from, recipient, assetValue, memo }: TransferParams) => {
-    const { createSigningStargateClient } = await import('@swapkit/toolbox-cosmos');
+    const { createSigningStargateClient } = await import('@coinmasters/toolbox-cosmos');
     const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(chainId);
     const cosmJS = await createSigningStargateClient(rpcUrl || RPCUrl.Cosmos, offlineSigner);
 

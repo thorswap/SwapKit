@@ -179,7 +179,7 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Kujira: {
-      const { KujiraToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { KujiraToolbox } = await import('@coinmasters/toolbox-cosmos');
       const toolbox = KujiraToolbox({ server: api });
       const signer = await toolbox.getSigner(phrase);
       const address = await toolbox.getAddressFromMnemonic(phrase);

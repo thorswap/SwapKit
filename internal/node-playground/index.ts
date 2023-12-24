@@ -1,5 +1,5 @@
-import { AssetValue, Chain, SwapKitCore } from '@swapkit/core';
-import { keystoreWallet } from '@swapkit/wallet-keystore';
+import { AssetValue, Chain, SwapKitCore } from '@coinmasters/core';
+import { keystoreWallet } from '@coinmasters/wallet-keystore';
 let skClient: SwapKitCore | undefined;
 const phrase = process.env.PRHASES;
 

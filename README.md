@@ -1,5 +1,13 @@
 # SwapKit
 
+## Upstream Additions
+* KeepKey Wallet
+* osmo
+* UTXO support
+
+## Pioneer SDK
+
+
 ### _Integrate Blockchains easily_
 
 ## Usage

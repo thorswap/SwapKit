@@ -127,7 +127,7 @@ export default function Balances() {
             <Flex
               alignItems="center"
               bg="black"
-              border="1px solid #fff"
+              // border="1px solid #fff"
               borderRadius="md"
               boxShadow="sm"
               padding={2}
@@ -137,9 +137,10 @@ export default function Balances() {
                 src={`https://pioneers.dev/coins/${COIN_MAP_LONG[asset?.chain]}.png`}
               />
               <Box ml={3}>
-                <Text fontSize="sm">Asset: {asset?.caip}</Text>
-                <Text fontSize="sm">symbol: {asset?.symbol}</Text>
-                <Text fontSize="sm">chain: {asset?.chain}</Text>
+                <Text fontSize="sm">Asset: {asset?.ticker}</Text>
+                {/*<Text fontSize="sm">Asset: {asset?.caip}</Text>*/}
+                {/*<Text fontSize="sm">symbol: {asset?.symbol}</Text>*/}
+                {/*<Text fontSize="sm">chain: {asset?.chain}</Text>*/}
                 <Text fontSize="sm">
                   Value USD:{' '}
                   {typeof asset?.valueUsd === 'string'

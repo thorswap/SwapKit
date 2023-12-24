@@ -114,12 +114,16 @@ const getPubkeyBalance = async function (pubkey: any, type: string, apiClient: B
       case 'zpub':
       case 'xpub':
         console.log('pubkey.pubkey.xpub: ', pubkey.pubkey.xpub);
+        // eslint-disable-next-line no-case-declarations
         const xpubBalance = await apiClient.getBalanceXpub(pubkey.pubkey.xpub || pubkey.xpub);
         return xpubBalance;
       case 'address':
+        // eslint-disable-next-line no-case-declarations
         const address = pubkey[type];
+        console.log('getPubkeyBalance address: ', address);
+        // eslint-disable-next-line no-case-declarations
         const addressBalance = await apiClient.getBalance(address);
-        //console.log('getPubkeyBalance: addressBalance: ', addressBalance);
+        console.log('getPubkeyBalance: addressBalance: ', addressBalance);
         return addressBalance;
       default:
         throw new Error('Invalid pubkey type');
