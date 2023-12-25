@@ -19,13 +19,6 @@
     "jsx": "react-jsx",
     "baseUrl": "./src",
     "paths": {
-      "lib/context/Pioneer": ["./lib/context/Pioneer"],
-      "lib/assets/png/keepkey.png": ["./lib/assets/png/keepkey.png"],
-      "lib/assets/png/metamask.png": ["./lib/assets/png/metamask.png"],
-      "lib/assets/png/pioneer.png": ["./lib/assets/png/pioneer.png"],
-      "lib/components/modals/SettingsModal": ["./lib/components/modals/SettingsModal"],
-      "lib/components/utils": ["./lib/components/utils"],
-      "@pioneer-sdk/sdk-v3": ["./lib/context/Pioneer/index"] // Adjust this path as needed
     }
   },
   "include": ["./src"]
