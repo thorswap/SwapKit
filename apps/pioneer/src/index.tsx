@@ -7,7 +7,7 @@
 // import { theme } from "./lib/styles/theme";
 import Balances from './lib/components/Balances';
 import MiddleEllipsis from './lib/components/MiddleEllipsis';
-import Pioneer from './lib/components/pioneer';
+import Pioneer from './lib/components/Pioneer';
 import { PioneerProvider, usePioneer } from './lib/context';
 
 // // fonts
