@@ -16,7 +16,7 @@ import React, { useEffect, useState } from 'react';
 
 import pioneerImage from '../../assets/png/pioneerMan.png';
 import { getWalletContent } from '../../components/WalletIcon';
-import { usePioneer } from '../../context/Pioneer';
+import { usePioneer } from '../../context';
 
 export default function Pubkeys({ onClose, setModalType, setWalletType }: any) {
   const { state, connectWallet } = usePioneer();

@@ -2,7 +2,7 @@ import { CheckIcon } from '@chakra-ui/icons'; // Make sure to import the icons y
 import { Box, Button, Spinner, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
-import { usePioneer } from '../../context/Pioneer';
+import { usePioneer } from '../../context';
 import Portfolio from '../Portfolio';
 
 export default function KeepKey({ onClose }: any) {

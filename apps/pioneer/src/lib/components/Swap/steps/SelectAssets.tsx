@@ -5,7 +5,7 @@ import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
 import React, { useEffect } from 'react';
 
 // @ts-ignore
-import { usePioneer } from '../../../context/Pioneer';
+import { usePioneer } from '../../../context';
 
 interface BeginSwapProps {
   openModal: any; // Replace 'any' with the actual type of 'openModal'

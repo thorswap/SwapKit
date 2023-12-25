@@ -20,7 +20,7 @@ import { COIN_MAP_LONG } from "@pioneer-platform/pioneer-coins";
 import { useState, useEffect } from "react";
 
 // @ts-ignore
-import { usePioneer } from "../../context/Pioneer";
+import { usePioneer } from "../../context";
 // Adjust the import path according to your file structure
 
 export default function SignTransaction({

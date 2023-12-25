@@ -23,7 +23,7 @@ import React, { useEffect, useState } from 'react';
 
 import Balance from '../Balance';
 
-import { usePioneer } from '../../context/Pioneer';
+import { usePioneer } from '../../context';
 
 export default function Balances() {
   const { state } = usePioneer();

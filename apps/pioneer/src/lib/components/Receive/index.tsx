@@ -22,7 +22,7 @@ import { CoinGeckoList, OneInchList } from "@coinmasters/tokens";
 import { COIN_MAP_LONG } from "@pioneer-platform/pioneer-coins";
 import { useEffect, useState } from "react";
 
-import { usePioneer } from "../../context/Pioneer";
+import { usePioneer } from "../../context";
 
 // const CHAINS = {
 //   ARB: { name: "Arbitrum", hasTokens: true },

@@ -20,7 +20,7 @@ import {
 } from '@chakra-ui/react';
 import { AssetValue } from '@coinmasters/core';
 import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
-import { usePioneer } from '../../context/Pioneer';
+import { usePioneer } from '../../context';
 
 const Earn = ({ openModal }) => {
   const toast = useToast();

@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 
-import { usePioneer } from '../../context/Pioneer';
+import { usePioneer } from '../../context';
 import Portfolio from '../Portfolio';
 
 // @ts-ignore

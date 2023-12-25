@@ -23,7 +23,7 @@ import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
 // import { Chain } from '@pioneer-platform/types';
 import { useCallback, useEffect, useState } from 'react';
 
-import { usePioneer } from '../../context/Pioneer';
+import { usePioneer } from '../../context';
 import { getWalletBadgeContent } from '../WalletIcon';
 
 const Loan = ({ openModal }: any) => {

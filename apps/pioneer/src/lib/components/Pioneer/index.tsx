@@ -42,7 +42,7 @@ import {
   getWalletContent,
   pioneerImagePng,
 } from '../../components/WalletIcon';
-import { usePioneer } from '../../context/Pioneer';
+import { usePioneer } from '../../context';
 import Portfolio from '../../components/Portfolio';
 
 const Pioneer = () => {

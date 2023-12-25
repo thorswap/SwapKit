@@ -14,7 +14,7 @@ import {
 import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
 import { useEffect, useState } from 'react';
 
-import { usePioneer } from '../../context/Pioneer';
+import { usePioneer } from '../../context';
 
 export default function AssetSelect({ onSelect }: any) {
   const { state } = usePioneer();

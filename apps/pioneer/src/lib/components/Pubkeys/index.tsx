@@ -15,7 +15,7 @@ import {
   useClipboard,
 } from '@chakra-ui/react';
 import { CopyIcon, CheckIcon } from '@chakra-ui/icons';
-import { usePioneer } from '../../context/Pioneer';
+import { usePioneer } from '../../context';
 import Pubkey from '../../components/Pubkey'; // Adjust the import path as needed
 import { getWalletContent } from '../../components/WalletIcon';
 

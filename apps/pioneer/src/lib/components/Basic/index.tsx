@@ -1,7 +1,7 @@
 import { Button, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
-import { usePioneer } from '../../context/Pioneer';
+import { usePioneer } from '../../context';
 
 const Basic = () => {
   const { state, showModal } = usePioneer();

@@ -40,7 +40,7 @@ import { useEffect, useState } from "react";
 
 import CalculatingComponent from "../../../components/CalculatingComponent";
 import MiddleEllipsis from "../../../components/MiddleEllipsis";
-import { usePioneer } from "../../../context/Pioneer";
+import { usePioneer } from "../../../context";
 
 const labelStyles = {
   mt: "2",

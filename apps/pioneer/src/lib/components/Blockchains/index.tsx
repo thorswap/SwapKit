@@ -16,7 +16,7 @@ import { NetworkIdToChain } from '@coinmasters/types';
 import { COIN_MAP_LONG } from '@pioneer-platform/pioneer-coins';
 import React, { useEffect, useState } from 'react';
 
-import { usePioneer } from '../../context/Pioneer';
+import { usePioneer } from '../../context';
 
 export default function Blockchains({ onSelect }) {
   const { state } = usePioneer();

@@ -17,7 +17,7 @@ import { useEffect, useState } from 'react';
 
 import Blockchains from '../Blockchains';
 
-import { usePioneer } from '../../context/Pioneer';
+import { usePioneer } from '../../context';
 
 export default function Ledger({ onClose }) {
   const { state, connectWallet, clearHardwareError, hideModal } = usePioneer();
