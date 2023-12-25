@@ -8,7 +8,7 @@
 import Balances from './lib/components/Balances';
 import MiddleEllipsis from './lib/components/MiddleEllipsis';
 import Pioneer from './lib/components/pioneer';
-import { PioneerProvider, usePioneer } from './lib/context/pioneer';
+import { PioneerProvider, usePioneer } from './lib/context';
 
 // // fonts
 // import '@fontsource/plus-jakarta-sans/latin.css';
