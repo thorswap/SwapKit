@@ -30,11 +30,11 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@swapkit/tokens",
-  "publishConfig": {
-    "access": "public"
-  },
   "react-native": "./src/index.ts",
-  "repository": "https://github.com/thorswap/SwapKit.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thorswap/SwapKit.git"
+  },
   "scripts": {
     "build": "vite build",
     "generate-tokens": "node ./scripts/fetchTokenLists.js",
