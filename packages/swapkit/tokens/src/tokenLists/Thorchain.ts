@@ -1,6 +1,6 @@
 export const list = {
   name: 'thorchain',
-  timestamp: '2023-12-14T15:41:39.691Z',
+  timestamp: '2023-12-25T00:37:03.687Z',
   version: { major: 1, minor: 0, patch: 0 },
   keywords: ['THORChain'],
   tokens: [
@@ -32,12 +32,6 @@ export const list = {
       address: '0x7FC66500C84A76AD7E9C93437BFC5AC33E2DDAE9',
       chain: 'ETH',
       identifier: 'ETH.AAVE-0X7FC66500C84A76AD7E9C93437BFC5AC33E2DDAE9',
-      decimals: 18,
-    },
-    {
-      address: '0xDBDB4D16EDA451D0503B854CF79D55697F90C8DF',
-      chain: 'ETH',
-      identifier: 'ETH.ALCX-0XDBDB4D16EDA451D0503B854CF79D55697F90C8DF',
       decimals: 18,
     },
     {
@@ -171,6 +165,6 @@ export const list = {
     { chain: 'LTC', identifier: 'LTC.LTC', decimals: 8 },
     { chain: 'THOR', identifier: 'THOR.RUNE', decimals: 8 },
   ],
-  count: 41,
+  count: 40,
   logo: 'https://app.thorswap.finance/assets/asset-rune-43bdc185.svg',
 } as const;

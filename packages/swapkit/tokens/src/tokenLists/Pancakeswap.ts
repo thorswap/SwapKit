@@ -1,7 +1,7 @@
 export const list = {
   name: 'PancakeSwap Extended',
-  timestamp: '2023-12-14T07:51:51.129Z',
-  version: { major: 2, minor: 16, patch: 170 },
+  timestamp: '2023-12-20T12:24:32.117Z',
+  version: { major: 2, minor: 16, patch: 176 },
   keywords: ['pancakeswap', 'extended'],
   tokens: [
     {
@@ -14,6 +14,12 @@ export const list = {
       address: '0xFeea0bDd3D07eb6FE305938878C0caDBFa169042',
       chain: 'BSC',
       identifier: 'BSC.8PAY-0XFEEA0BDD3D07EB6FE305938878C0CADBFA169042',
+      decimals: 18,
+    },
+    {
+      address: '0xc27A719105A987b4c34116223CAE8bd8F4B5def4',
+      chain: 'BSC',
+      identifier: 'BSC.ACE-0XC27A719105A987B4C34116223CAE8BD8F4B5DEF4',
       decimals: 18,
     },
     {
@@ -38,6 +44,12 @@ export const list = {
       address: '0x12f31B73D812C6Bb0d735a218c086d44D5fe5f89',
       chain: 'BSC',
       identifier: 'BSC.agEUR-0X12F31B73D812C6BB0D735A218C086D44D5FE5F89',
+      decimals: 18,
+    },
+    {
+      address: '0x33d08D8C7a168333a85285a68C0042b39fC3741D',
+      chain: 'BSC',
+      identifier: 'BSC.AIOZ-0X33D08D8C7A168333A85285A68C0042B39FC3741D',
       decimals: 18,
     },
     {
@@ -1637,6 +1649,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x6a1c1447F97B27dA23dC52802F5f1435b5aC821A',
+      chain: 'BSC',
+      identifier: 'BSC.sdCAKE-0X6A1C1447F97B27DA23DC52802F5F1435B5AC821A',
+      decimals: 18,
+    },
+    {
       address: '0xD41FDb03Ba84762dD66a0af1a6C8540FF1ba5dfb',
       chain: 'BSC',
       identifier: 'BSC.SFP-0XD41FDB03BA84762DD66A0AF1A6C8540FF1BA5DFB',
@@ -1913,6 +1931,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x323665443CEf804A3b5206103304BD4872EA4253',
+      chain: 'BSC',
+      identifier: 'BSC.USDV-0X323665443CEF804A3B5206103304BD4872EA4253',
+      decimals: 6,
+    },
+    {
       address: '0x91d6d6aF7635B7b23A8CED9508117965180e2362',
       chain: 'BSC',
       identifier: 'BSC.USH-0X91D6D6AF7635B7B23A8CED9508117965180E2362',
@@ -2159,6 +2183,6 @@ export const list = {
       decimals: 18,
     },
   ],
-  count: 359,
+  count: 363,
   logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/7186.png',
 } as const;
