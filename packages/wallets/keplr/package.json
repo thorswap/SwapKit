@@ -35,11 +35,11 @@
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/types": "workspace:*"
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "react-native": "./src/index.ts",
-  "repository": "https://github.com/thorswap/SwapKit.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thorswap/SwapKit.git"
+  },
   "scripts": {
     "build": "vite build",
     "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",

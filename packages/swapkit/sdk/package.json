@@ -41,11 +41,11 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@swapkit/sdk",
-  "publishConfig": {
-    "access": "public"
-  },
   "react-native": "./src/index.ts",
-  "repository": "https://github.com/thorswap/SwapKit.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thorswap/SwapKit.git"
+  },
   "scripts": {
     "build": "NODE_OPTIONS=--max_old_space_size=32768 vite build",
     "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
