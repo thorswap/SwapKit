@@ -1,5 +1,12 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.79
+
+### Patch Changes
+
+- Updated dependencies [[`5af3fe3`](https://github.com/thorswap/SwapKit/commit/5af3fe3abc0eb94d00ec3e35b4684d997ba426e7)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.66
+
 ## 1.0.0-rc.78
 
 ### Patch Changes
