@@ -1,11 +1,10 @@
 import type { Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
 import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
-import type { Account, StdFee } from '@cosmjs/stargate';
+import { type Account, type StdFee } from '@cosmjs/stargate';
 import { base64 } from '@scure/base';
 import type { AssetValue } from '@swapkit/helpers';
 import { RequestClient, SwapKitNumber } from '@swapkit/helpers';
 import { ApiUrl, BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from '@swapkit/types';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx.js';
 
 import { CosmosClient } from '../cosmosClient.ts';
 import type {
@@ -148,15 +147,18 @@ const createDepositMessage = (
 
 const broadcastMultisigTx =
   ({ prefix, rpcUrl }: { prefix: string; rpcUrl: string }) =>
-  async (tx: string, signers: Signer[], threshold: number, bodyBytes: Uint8Array) => {
+  async (
+    tx: string,
+    signers: Signer[],
+    membersPubKeys: string[],
+    threshold: number,
+    bodyBytes: Uint8Array,
+  ) => {
     const { sequence, fee } = JSON.parse(tx);
-    const multisigPubkey = await createMultisig(
-      signers.map((signer) => signer.pubKey),
-      threshold,
-    );
+    const multisigPubkey = await createMultisig(membersPubKeys, threshold);
 
     const { pubkeyToAddress, encodeSecp256k1Pubkey } = await import('@cosmjs/amino');
-    const { makeMultisignedTx } = await import('@cosmjs/stargate');
+    const { makeMultisignedTxBytes } = await import('@cosmjs/stargate');
 
     const addressesAndSignatures: [string, Uint8Array][] = signers.map((signer) => [
       pubkeyToAddress(encodeSecp256k1Pubkey(base64.decode(signer.pubKey)), prefix),
@@ -164,16 +166,15 @@ const broadcastMultisigTx =
     ]);
 
     const broadcaster = await createStargateClient(rpcUrl);
-    const signedTx = makeMultisignedTx(
-      multisigPubkey,
-      sequence,
-      fee,
-      bodyBytes,
-      new Map<string, Uint8Array>(addressesAndSignatures),
-    );
 
     const { transactionHash } = await broadcaster.broadcastTx(
-      Uint8Array.from(TxRaw.encode(signedTx).finish()),
+      makeMultisignedTxBytes(
+        multisigPubkey,
+        sequence,
+        fee,
+        bodyBytes,
+        new Map<string, Uint8Array>(addressesAndSignatures),
+      ),
     );
 
     return transactionHash;

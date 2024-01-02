@@ -46,7 +46,10 @@ export const buildDepositTx = async ({
         typeUrl: '/types.MsgDeposit',
         value: {
           coins: [
-            { amount: assetValue.getBaseValue('string'), asset: getDenomWithChain(assetValue) },
+            {
+              amount: assetValue.getBaseValue('string'),
+              asset: getDenomWithChain(assetValue),
+            },
           ],
           signer: bech32ToBase64(signer),
           memo,
@@ -87,7 +90,7 @@ export const buildTransferTx = async ({
     amount: [
       {
         amount: assetValue.getBaseValue('string'),
-        denom: getDenomWithChain(assetValue).toLowerCase(),
+        denom: getDenomWithChain(assetValue),
       },
     ],
   };
