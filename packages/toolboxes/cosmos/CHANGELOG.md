@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.66
+
+### Patch Changes
+
+- [#522](https://github.com/thorswap/SwapKit/pull/522) [`5af3fe3`](https://github.com/thorswap/SwapKit/commit/5af3fe3abc0eb94d00ec3e35b4684d997ba426e7) Thanks [@towanTG](https://github.com/towanTG)! - Fixes THORChain multisig broadcast and denom
+
 ## 1.0.0-rc.65
 
 ### Patch Changes
