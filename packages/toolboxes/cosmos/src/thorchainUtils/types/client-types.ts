@@ -92,6 +92,7 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
   broadcastMultisigTx: (
     tx: string,
     signers: Signer[],
+    membersPubKeys: string[],
     threshold: number,
     bodyBytes: Uint8Array,
     isStagenet?: boolean,
