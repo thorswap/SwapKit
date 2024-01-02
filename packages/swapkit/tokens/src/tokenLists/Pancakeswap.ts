@@ -1,7 +1,7 @@
 export const list = {
   name: 'PancakeSwap Extended',
-  timestamp: '2023-12-14T07:51:51.129Z',
-  version: { major: 2, minor: 16, patch: 170 },
+  timestamp: '2023-12-29T04:17:32.862Z',
+  version: { major: 2, minor: 16, patch: 181 },
   keywords: ['pancakeswap', 'extended'],
   tokens: [
     {
@@ -11,9 +11,15 @@ export const list = {
       decimals: 18,
     },
     {
-      address: '0xFeea0bDd3D07eb6FE305938878C0caDBFa169042',
+      address: '0x6EaDc05928ACd93eFB3FA0DFbC644D96C6Aa1Df8',
       chain: 'BSC',
-      identifier: 'BSC.8PAY-0XFEEA0BDD3D07EB6FE305938878C0CADBFA169042',
+      identifier: 'BSC.8PAY v2-0X6EADC05928ACD93EFB3FA0DFBC644D96C6AA1DF8',
+      decimals: 18,
+    },
+    {
+      address: '0xc27A719105A987b4c34116223CAE8bd8F4B5def4',
+      chain: 'BSC',
+      identifier: 'BSC.ACE-0XC27A719105A987B4C34116223CAE8BD8F4B5DEF4',
       decimals: 18,
     },
     {
@@ -38,6 +44,12 @@ export const list = {
       address: '0x12f31B73D812C6Bb0d735a218c086d44D5fe5f89',
       chain: 'BSC',
       identifier: 'BSC.agEUR-0X12F31B73D812C6BB0D735A218C086D44D5FE5F89',
+      decimals: 18,
+    },
+    {
+      address: '0x33d08D8C7a168333a85285a68C0042b39fC3741D',
+      chain: 'BSC',
+      identifier: 'BSC.AIOZ-0X33D08D8C7A168333A85285A68C0042B39FC3741D',
       decimals: 18,
     },
     {
@@ -1271,6 +1283,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x38e382F74dfb84608F3C1F10187f6bEf5951DE93',
+      chain: 'BSC',
+      identifier: 'BSC.MUBI-0X38E382F74DFB84608F3C1F10187F6BEF5951DE93',
+      decimals: 18,
+    },
+    {
       address: '0x9F882567A62a5560d147d64871776EeA72Df41D3',
       chain: 'BSC',
       identifier: 'BSC.MX-0X9F882567A62A5560D147D64871776EEA72DF41D3',
@@ -1292,6 +1310,12 @@ export const list = {
       address: '0x1D3437E570e93581Bd94b2fd8Fbf202d4a65654A',
       chain: 'BSC',
       identifier: 'BSC.NBT-0X1D3437E570E93581BD94B2FD8FBF202D4A65654A',
+      decimals: 18,
+    },
+    {
+      address: '0x75E8ddB518bB757b4282cd5b83bb70d4101D12FB',
+      chain: 'BSC',
+      identifier: 'BSC.NFP-0X75E8DDB518BB757B4282CD5B83BB70D4101D12FB',
       decimals: 18,
     },
     {
@@ -1370,6 +1394,12 @@ export const list = {
       address: '0x43a8cab15D06d3a5fE5854D714C37E7E9246F170',
       chain: 'BSC',
       identifier: 'BSC.ORBS-0X43A8CAB15D06D3A5FE5854D714C37E7E9246F170',
+      decimals: 18,
+    },
+    {
+      address: '0xe2aE1a99bBd2eFab0a5C38f2146B7aCE61aBC5cE',
+      chain: 'BSC',
+      identifier: 'BSC.ordi-0XE2AE1A99BBD2EFAB0A5C38F2146B7ACE61ABC5CE',
       decimals: 18,
     },
     {
@@ -1565,6 +1595,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x27c073e8427aa493a90b8dC8b73A89e670FD77bB',
+      chain: 'BSC',
+      identifier: 'BSC.RDP-0X27C073E8427AA493A90B8DC8B73A89E670FD77BB',
+      decimals: 18,
+    },
+    {
       address: '0xF21768cCBC73Ea5B6fd3C687208a7c2def2d966e',
       chain: 'BSC',
       identifier: 'BSC.REEF-0XF21768CCBC73EA5B6FD3C687208A7C2DEF2D966E',
@@ -1625,6 +1661,12 @@ export const list = {
       decimals: 8,
     },
     {
+      address: '0x143D7A700a533B4baF6D693449b278A8A2F5927d',
+      chain: 'BSC',
+      identifier: 'BSC.sats-0X143D7A700A533B4BAF6D693449B278A8A2F5927D',
+      decimals: 18,
+    },
+    {
       address: '0x3BC5AC0dFdC871B365d159f728dd1B9A0B5481E8',
       chain: 'BSC',
       identifier: 'BSC.SD-0X3BC5AC0DFDC871B365D159F728DD1B9A0B5481E8',
@@ -1634,6 +1676,12 @@ export const list = {
       address: '0x90Ed8F1dc86388f14b64ba8fb4bbd23099f18240',
       chain: 'BSC',
       identifier: 'BSC.SDAO-0X90ED8F1DC86388F14B64BA8FB4BBD23099F18240',
+      decimals: 18,
+    },
+    {
+      address: '0x6a1c1447F97B27dA23dC52802F5f1435b5aC821A',
+      chain: 'BSC',
+      identifier: 'BSC.sdCAKE-0X6A1C1447F97B27DA23DC52802F5F1435B5AC821A',
       decimals: 18,
     },
     {
@@ -1700,6 +1748,12 @@ export const list = {
       address: '0x724A32dFFF9769A0a0e1F0515c0012d1fB14c3bd',
       chain: 'BSC',
       identifier: 'BSC.SQUAD-0X724A32DFFF9769A0A0E1F0515C0012D1FB14C3BD',
+      decimals: 18,
+    },
+    {
+      address: '0xB0D502E938ed5f4df2E681fE6E419ff29631d62b',
+      chain: 'BSC',
+      identifier: 'BSC.STG-0XB0D502E938ED5F4DF2E681FE6E419FF29631D62B',
       decimals: 18,
     },
     {
@@ -1911,6 +1965,12 @@ export const list = {
       chain: 'BSC',
       identifier: 'BSC.USDT-0X55D398326F99059FF775485246999027B3197955',
       decimals: 18,
+    },
+    {
+      address: '0x323665443CEf804A3b5206103304BD4872EA4253',
+      chain: 'BSC',
+      identifier: 'BSC.USDV-0X323665443CEF804A3B5206103304BD4872EA4253',
+      decimals: 6,
     },
     {
       address: '0x91d6d6aF7635B7b23A8CED9508117965180e2362',
@@ -2159,6 +2219,6 @@ export const list = {
       decimals: 18,
     },
   ],
-  count: 359,
+  count: 369,
   logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/7186.png',
 } as const;

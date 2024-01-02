@@ -1,6 +1,6 @@
 export const list = {
   name: 'thorchain',
-  timestamp: '2023-12-14T15:41:39.691Z',
+  timestamp: '2024-01-01T00:53:46.562Z',
   version: { major: 1, minor: 0, patch: 0 },
   keywords: ['THORChain'],
   tokens: [
@@ -32,12 +32,6 @@ export const list = {
       address: '0x7FC66500C84A76AD7E9C93437BFC5AC33E2DDAE9',
       chain: 'ETH',
       identifier: 'ETH.AAVE-0X7FC66500C84A76AD7E9C93437BFC5AC33E2DDAE9',
-      decimals: 18,
-    },
-    {
-      address: '0xDBDB4D16EDA451D0503B854CF79D55697F90C8DF',
-      chain: 'ETH',
-      identifier: 'ETH.ALCX-0XDBDB4D16EDA451D0503B854CF79D55697F90C8DF',
       decimals: 18,
     },
     {
@@ -81,6 +75,12 @@ export const list = {
       address: '0x67B6D479C7BB412C54E03DCA8E1BC6740CE6B99C',
       chain: 'ETH',
       identifier: 'ETH.KYL-0X67B6D479C7BB412C54E03DCA8E1BC6740CE6B99C',
+      decimals: 18,
+    },
+    {
+      address: '0x514910771AF9CA656AF840DFF83E8264ECF986CA',
+      chain: 'ETH',
+      identifier: 'ETH.LINK-0X514910771AF9CA656AF840DFF83E8264ECF986CA',
       decimals: 18,
     },
     {

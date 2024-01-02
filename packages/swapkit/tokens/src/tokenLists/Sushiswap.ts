@@ -1753,6 +1753,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x9e20461bc2c4c980f62f1B279D71734207a6A356',
+      chain: 'ETH',
+      identifier: 'ETH.OMNI-0X9E20461BC2C4C980F62F1B279D71734207A6A356',
+      decimals: 18,
+    },
+    {
       address: '0xD5cd84D6f044AbE314Ee7E414d37cae8773ef9D3',
       chain: 'ETH',
       identifier: 'ETH.ONE-0XD5CD84D6F044ABE314EE7E414D37CAE8773EF9D3',
@@ -2941,6 +2947,6 @@ export const list = {
       decimals: 18,
     },
   ],
-  count: 490,
+  count: 491,
   logo: 'https://static.thorswap.net/token-list/images/eth.sushi-0x6b3595068778dd592e39a122f4f5a5cf09c90fe2.png',
 } as const;
