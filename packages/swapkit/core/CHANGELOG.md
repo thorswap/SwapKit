@@ -1,5 +1,11 @@
 # @swapkit/core
 
+## 1.0.0-rc.80
+
+### Patch Changes
+
+- [#525](https://github.com/thorswap/SwapKit/pull/525) [`fcb1231`](https://github.com/thorswap/SwapKit/commit/fcb12311708a8b83f99678189bcb2c27a1d45613) Thanks [@towanTG](https://github.com/towanTG)! - Adds missing abis for dex routers
+
 ## 1.0.0-rc.79
 
 ### Patch Changes

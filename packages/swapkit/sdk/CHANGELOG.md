@@ -1,5 +1,12 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.98
+
+### Patch Changes
+
+- Updated dependencies [[`fcb1231`](https://github.com/thorswap/SwapKit/commit/fcb12311708a8b83f99678189bcb2c27a1d45613)]:
+  - @swapkit/core@1.0.0-rc.80
+
 ## 1.0.0-rc.97
 
 ### Patch Changes
