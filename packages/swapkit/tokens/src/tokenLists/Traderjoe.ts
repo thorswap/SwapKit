@@ -694,7 +694,19 @@ export const list = {
       identifier: 'AVAX.OX-0X78A0A62FBA6FB21A83FE8A3433D44C73A4017A6F',
       decimals: 18,
     },
+    {
+      address: '0xE8385CECb013561b69bEb63FF59f4d10734881f3',
+      chain: 'AVAX',
+      identifier: 'AVAX.GEC-0XE8385CECB013561B69BEB63FF59F4D10734881F3',
+      decimals: 18,
+    },
+    {
+      address: '0xb262a485d98D8e19175818D47453e7812cA255A8',
+      chain: 'AVAX',
+      identifier: 'AVAX.BINGO-0XB262A485D98D8E19175818D47453E7812CA255A8',
+      decimals: 18,
+    },
   ],
-  count: 115,
+  count: 117,
   logo: 'https://static.thorswap.net/token-list/images/avax.joe-0x6e84a6216ea6dacc71ee8e6b0a5b7322eebc0fdd.png',
 } as const;

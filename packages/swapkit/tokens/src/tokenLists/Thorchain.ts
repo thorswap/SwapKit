@@ -1,6 +1,6 @@
 export const list = {
   name: 'thorchain',
-  timestamp: '2024-01-01T00:53:46.562Z',
+  timestamp: '2024-01-02T22:38:47.389Z',
   version: { major: 1, minor: 0, patch: 0 },
   keywords: ['THORChain'],
   tokens: [
@@ -19,12 +19,12 @@ export const list = {
     { address: 'BD1', chain: 'BNB', identifier: 'BNB.BUSD-BD1', decimals: 8 },
     { address: '1C9', chain: 'BNB', identifier: 'BNB.ETH-1C9', decimals: 8 },
     { address: '8C2', chain: 'BNB', identifier: 'BNB.TWT-8C2', decimals: 8 },
-    { chain: 'BSC', identifier: 'BSC.BNB', decimals: 18 },
+    { chain: 'BSC', identifier: 'BSC.BNB', decimals: -1 },
     {
       address: '0x8AC76A51CC950D9822D68B83FE1AD97B32CD580D',
       chain: 'BSC',
       identifier: 'BSC.USDC-0X8AC76A51CC950D9822D68B83FE1AD97B32CD580D',
-      decimals: 18,
+      decimals: -1,
     },
     { chain: 'BTC', identifier: 'BTC.BTC', decimals: 8 },
     { chain: 'DOGE', identifier: 'DOGE.DOGE', decimals: 8 },
@@ -44,7 +44,7 @@ export const list = {
       address: '0x1494CA1F11D487C2BBE4543E90080AEBA4BA3C2B',
       chain: 'ETH',
       identifier: 'ETH.DPI-0X1494CA1F11D487C2BBE4543E90080AEBA4BA3C2B',
-      decimals: 18,
+      decimals: -1,
     },
     { chain: 'ETH', identifier: 'ETH.ETH', decimals: 18 },
     {
@@ -87,7 +87,7 @@ export const list = {
       address: '0x5F98805A4E8BE255A32880FDEC7F6728C6568BA0',
       chain: 'ETH',
       identifier: 'ETH.LUSD-0X5F98805A4E8BE255A32880FDEC7F6728C6568BA0',
-      decimals: 18,
+      decimals: -1,
     },
     {
       address: '0x5EAA69B29F99C84FE5DE8200340B4E9B4AB38EAC',
@@ -129,7 +129,7 @@ export const list = {
       address: '0x8E870D67F660D95D5BE530380D0EC0BD388289E1',
       chain: 'ETH',
       identifier: 'ETH.USDP-0X8E870D67F660D95D5BE530380D0EC0BD388289E1',
-      decimals: 18,
+      decimals: -1,
     },
     {
       address: '0xDAC17F958D2EE523A2206206994597C13D831EC7',
@@ -147,7 +147,7 @@ export const list = {
       address: '0x7F39C581F595B53C5CB19BD0B3F8DA6C935E2CA0',
       chain: 'ETH',
       identifier: 'ETH.WSTETH-0X7F39C581F595B53C5CB19BD0B3F8DA6C935E2CA0',
-      decimals: 18,
+      decimals: -1,
     },
     {
       address: '0x72B886D09C117654AB7DA13A14D603001DE0B777',
