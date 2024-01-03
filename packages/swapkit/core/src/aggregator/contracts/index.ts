@@ -4,6 +4,7 @@ import { bscGeneric } from './bscGeneric.ts';
 import { ethGeneric } from './ethGeneric.ts';
 import { pancakeV2 } from './pancakeV2.ts';
 import { pangolin } from './pangolin.ts';
+import { lowercasedRouterAbiMapping } from './routers/index.ts';
 import { sushiswap } from './sushiswap.ts';
 import { traderJoe } from './traderJoe.ts';
 import { uniswapV2 } from './uniswapV2.ts';
@@ -56,6 +57,7 @@ export const lowercasedGenericAbiMappings = {
 };
 
 export const lowercasedContractAbiMapping = {
+  ...lowercasedRouterAbiMapping,
   ...lowercasedGenericAbiMappings,
   // AVAX
   [AGG_CONTRACT_ADDRESS.PANGOLIN.toLowerCase()]: pangolin,
