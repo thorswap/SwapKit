@@ -15,5 +15,5 @@
   "name": "@internal/config",
   "private": true,
   "type": "module",
-  "version": "null-rc.0"
+  "version": "0.0.1"
 }
