@@ -89,7 +89,7 @@ export class SwapKitCore<T = ''> {
   swap = async ({ streamSwap, recipient, route, feeOptionKey }: SwapParams) => {
     const {
       meta: { quoteMode },
-      evmTransactionDetails: contractCallParams,
+      //   evmTransactionDetails: contractCallParams,
     } = route;
     const evmChain = quoteMode.startsWith('ERC20-')
       ? Chain.Ethereum
@@ -102,27 +102,28 @@ export class SwapKitCore<T = ''> {
     if (!route.complete) throw new SwapKitError('core_swap_route_not_complete');
 
     try {
-      if (contractCallParams && evmChain) {
-        const walletMethods = this.connectedWallets[evmChain];
+      // TODO enable when BE is ready
+      //   if (contractCallParams && evmChain) {
+      //     const walletMethods = this.connectedWallets[evmChain];
 
-        if (!walletMethods?.call) {
-          throw new SwapKitError('core_wallet_connection_not_found');
-        }
+      //     if (!walletMethods?.call) {
+      //       throw new SwapKitError('core_wallet_connection_not_found');
+      //     }
 
-        const { contractAddress, contractMethod, contractParams, contractParamsStreaming } =
-          contractCallParams;
+      //     const { contractAddress, contractMethod, contractParams, contractParamsStreaming } =
+      //       contractCallParams;
 
-        if (!(streamSwap ? contractParamsStreaming : contractParams)) {
-          throw new SwapKitError('core_swap_route_transaction_not_found');
-        }
+      //     if (!(streamSwap ? contractParamsStreaming : contractParams)) {
+      //       throw new SwapKitError('core_swap_route_transaction_not_found');
+      //     }
 
-        return await walletMethods.call<string>({
-          contractAddress,
-          abi: lowercasedContractAbiMapping[contractAddress.toLowerCase()],
-          funcName: contractMethod,
-          funcParams: streamSwap ? contractParamsStreaming : contractParams,
-        });
-      }
+      //     return await walletMethods.call<string>({
+      //       contractAddress,
+      //       abi: lowercasedContractAbiMapping[contractAddress.toLowerCase()],
+      //       funcName: contractMethod,
+      //       funcParams: streamSwap ? contractParamsStreaming : contractParams,
+      //     });
+      //   }
 
       if (AGG_SWAP.includes(quoteMode) && evmChain) {
         const walletMethods = this.connectedWallets[evmChain];
