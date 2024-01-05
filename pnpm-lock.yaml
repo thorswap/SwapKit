@@ -435,6 +435,9 @@ importers:
       '@swapkit/wallet-evm-extensions':
         specifier: workspace:*
         version: link:../../wallets/evm-extensions
+      '@swapkit/wallet-keepkey':
+        specifier: workspace:*
+        version: link:../../wallets/keepkey
       '@swapkit/wallet-keplr':
         specifier: workspace:*
         version: link:../../wallets/keplr
@@ -749,15 +752,9 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../../swapkit/types
-      '@types/bchaddrjs':
-        specifier: 0.4.0
-        version: 0.4.0
       '@vitest/coverage-istanbul':
         specifier: 0.33.0
         version: 0.33.0(vitest@0.33.0)
-      bchaddrjs:
-        specifier: 0.5.2
-        version: 0.5.2
       bitcoinjs-lib:
         specifier: 5.2.0
         version: 5.2.0
@@ -4426,10 +4423,6 @@ packages:
     resolution: {integrity: sha512-mSM/iKUk5fDDrEV/e83qY+Cr3I1+Q3qqTuEn++HAWYjEa1+NxZr6CNrcJGf2ZTnq4HoFGC3zaTPZTobCzCFukA==}
     dependencies:
       '@babel/types': 7.23.5
-    dev: true
-
-  /@types/bchaddrjs@0.4.0:
-    resolution: {integrity: sha512-Nvv3haWpXNWYfKasVoEp3VBgVsBTLTh45anhHUN8xVUPhn4ErU3FPS5AEcZtACWc5ICGUxbaiLTWOnwDkwYF1Q==}
     dev: true
 
   /@types/bn.js@4.11.6:

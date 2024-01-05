@@ -25,6 +25,7 @@ export default defineConfig({
       '@swapkit/toolbox-cosmos': resolve('../../packages/toolboxes/cosmos/src'),
       '@swapkit/toolbox-evm': resolve('../../packages/toolboxes/evm/src'),
       '@swapkit/toolbox-utxo': resolve('../../packages/toolboxes/utxo/src'),
+      '@swapkit/wallet-keepkey': resolve('../../packages/wallets/keepkey/src'),
       '@swapkit/wallet-trezor': resolve('../../packages/wallets/trezor/src'),
       '@swapkit/types': resolve('../../packages/swapkit/types/src'),
       '@swapkit/wallet-xdefi': resolve('../../packages/wallets/xdefi/src'),
