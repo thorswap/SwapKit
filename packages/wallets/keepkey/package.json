@@ -20,6 +20,9 @@
     "vite": "4.4.4",
     "vitest": "0.33.0"
   },
+  "eslintConfig": {
+    "extends": "../../../internal/eslint-config"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
@@ -35,7 +38,7 @@
   "license": "MIT",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/keepkey",
+  "name": "@swapkit/wallet-keepkey",
   "peerDependencies": {
     "@cosmjs/stargate": "0.31.1",
     "@swapkit/helpers": "workspace:*",
@@ -59,5 +62,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.71"
+  "version": "1.0.0-rc.0"
 }

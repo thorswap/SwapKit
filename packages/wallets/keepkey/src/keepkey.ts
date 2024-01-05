@@ -8,7 +8,7 @@ import {
   MATICToolbox,
   OPToolbox,
 } from '@swapkit/toolbox-evm';
-import type { ConnectWalletParams, EVMChain } from '@swapkit/types';
+import type { ConnectWalletParams, EVMChain, DerivationPathArray } from '@swapkit/types';
 import { Chain, WalletOption } from '@swapkit/types';
 
 import { binanceWalletMethods } from './chains/binance.js';
@@ -128,7 +128,6 @@ const getToolbox = async ({
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      console.log('blockchairApiKey: ', blockchairApiKey);
       const walletMethods = await utxoWalletMethods({
         apiKey: blockchairApiKey,
         apiClient,
@@ -137,9 +136,8 @@ const getToolbox = async ({
       });
       return { address: walletMethods.getAddress(), walletMethods };
     }
-
     default:
-      throw new Error('Chain not supported');
+      throw new Error('Chain not supported '+chain);
   }
 };
 
@@ -181,7 +179,7 @@ const connectKeepkey =
     addChain,
     config: { keepkeyConfig, covalentApiKey, ethplorerApiKey = 'freekey', blockchairApiKey },
   }: ConnectWalletParams) =>
-  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS) => {
+  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, derivationPath?: DerivationPathArray) => {
     if (!keepkeyConfig) throw new Error('KeepKey config not found');
 
     await checkAndLaunch();
@@ -191,6 +189,8 @@ const connectKeepkey =
     console.log('blockchairApiKey: ', blockchairApiKey);
     console.log('apis: ', apis);
     console.log('rpcUrls: ', rpcUrls);
+    console.log('chains: ', chains);
+    console.log('derivationPath: ', derivationPath);
     for (const chain of chains) {
       const { address, walletMethods } = await getToolbox({
         sdk: keepKeySdk,
