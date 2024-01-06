@@ -5,7 +5,12 @@ import { RequestClient } from '../index.ts';
 
 const getDecimalMethodHex = '0x313ce567';
 
-export type CommonAssetString = 'MAYA.MAYA' | 'ETH.THOR' | 'ETH.vTHOR' | Chain;
+export type CommonAssetString =
+  | 'MAYA.MAYA'
+  | 'ETH.THOR'
+  | 'ETH.vTHOR'
+  | `${Chain.Kujira}.USK`
+  | Chain;
 
 const getContractDecimals = async ({ chain, to }: { chain: EVMChain; to: string }) => {
   try {
@@ -123,6 +128,9 @@ export const getCommonAssetInfo = (
       return { identifier: 'MAYA.CACAO', decimal: BaseDecimal.MAYA };
     case 'MAYA.MAYA':
       return { identifier: 'MAYA.MAYA', decimal: 4 };
+
+    case `${Chain.Kujira}.USK`:
+      return { identifier: `${Chain.Kujira}.USK`, decimal: 6 };
 
     case Chain.Kujira:
     case Chain.Arbitrum:

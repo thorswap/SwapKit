@@ -7,7 +7,11 @@ import { CosmosClient } from '../cosmosClient.ts';
 import type { KujiraToolboxType, ToolboxParams } from '../index.ts';
 import type { TransferParams } from '../types.ts';
 
-import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.ts';
+import {
+  BaseCosmosToolbox,
+  getAssetFromDenom,
+  getFeeRateFromThorswap,
+} from './BaseCosmosToolbox.ts';
 
 export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType => {
   const client = new CosmosClient({
@@ -41,6 +45,33 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
         fast: new SwapKitNumber({ value: baseFee * 1.5, decimal: BaseDecimal.KUJI }),
         fastest: new SwapKitNumber({ value: baseFee * 2, decimal: BaseDecimal.KUJI }),
       };
+    },
+    getBalance: async (address: string, _potentialScamFilter?: boolean) => {
+      const denomBalances = await client.getBalance(address);
+      return await Promise.all(
+        denomBalances
+          .filter(({ denom }) => {
+            if (!denom) {
+              return false;
+            }
+            if (denom.includes('IBC/')) {
+              return false;
+            }
+            // include USK from Kujira
+            if (
+              denom ===
+              'FACTORY/KUJIRA1QK00H5ATUTPSV900X202PXX42NPJR9THG58DNQPA72F2P7M2LUASE444A7/UUSK'
+            ) {
+              return true;
+            }
+            // exclude all other FACTORY tokens
+            if (denom.startsWith('FACTORY')) {
+              return false;
+            }
+            return true;
+          })
+          .map(({ denom, amount }) => getAssetFromDenom(denom, amount)),
+      );
     },
   };
 };
