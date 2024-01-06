@@ -34,6 +34,9 @@ export const getAssetFromDenom = async (denom: string, amount: string) => {
     case 'ukuji':
     case 'kuji':
       return AssetValue.fromChainOrSignature(Chain.Kujira, parseInt(amount) / 1e6);
+    case 'FACTORY/KUJIRA1QK00H5ATUTPSV900X202PXX42NPJR9THG58DNQPA72F2P7M2LUASE444A7/UUSK':
+      // USK on Kujira
+      return AssetValue.fromChainOrSignature(`${Chain.Kujira}.USK`, parseInt(amount) / 1e6);
 
     default:
       return AssetValue.fromString(denom, parseInt(amount) / 1e8);
