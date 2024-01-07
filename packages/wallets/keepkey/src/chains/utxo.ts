@@ -3,7 +3,8 @@ import type { BaseUTXOToolbox, UTXOToolbox, UTXOTransferParams } from '@swapkit/
 import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/toolbox-utxo';
 import type { UTXOChain } from '@swapkit/types';
 import { Chain, DerivationPath, FeeOption } from '@swapkit/types';
-// import { toCashAddress } from 'bchaddrjs';
+// @ts-ignore
+import { toCashAddress } from 'bch-addr';
 import type { Psbt } from 'bitcoinjs-lib';
 
 // @ts-ignore
@@ -86,7 +87,10 @@ export const utxoWalletMethods = async ({
       .map((output) => {
         const { value, address, change } = output as psbtTxOutput;
 
-        const outputAddress = address;
+        const outputAddress =
+          chain === Chain.BitcoinCash && address
+            ? (toolbox as ReturnType<typeof BCHToolbox>).stripPrefix(toCashAddress(address))
+            : address;
 
         if (change || address === walletAddress) {
           return {

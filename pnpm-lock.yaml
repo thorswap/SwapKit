@@ -232,6 +232,9 @@ importers:
       '@swapkit/wallet-evm-extensions':
         specifier: workspace:*
         version: link:../../packages/wallets/evm-extensions
+      '@swapkit/wallet-keepkey':
+        specifier: workspace:*
+        version: link:../../packages/wallets/keepkey
       '@swapkit/wallet-keplr':
         specifier: workspace:*
         version: link:../../packages/wallets/keplr
@@ -730,6 +733,15 @@ importers:
       '@pioneer-platform/pioneer-coins':
         specifier: ^8.1.86
         version: 8.1.86(@types/node@20.10.4)
+      '@types/bchaddrjs':
+        specifier: ^0.4.3
+        version: 0.4.3
+      bch-addr:
+        specifier: ^0.1.0
+        version: 0.1.0
+      bchaddrjs:
+        specifier: ^0.5.2
+        version: 0.5.2
       ethers:
         specifier: ^6.7.1
         version: 6.9.0
@@ -4425,6 +4437,10 @@ packages:
       '@babel/types': 7.23.5
     dev: true
 
+  /@types/bchaddrjs@0.4.3:
+    resolution: {integrity: sha512-KJT+Tz39T/Y8/WMijiL4DXhaaUODytoXxvLpwIvI+WwLzfKR4kLrnzLyuIId245GjsVSvK3T9qz/fbvK+//b5w==}
+    dev: false
+
   /@types/bn.js@4.11.6:
     resolution: {integrity: sha512-pqr857jrp2kPuO9uRjZ3PwnJTjoQy+fcdxvBTvHm6dkmEL9q+hDD/2j/0ELOBPtPnS8LjCX0gI9nbl8lVkadpg==}
     dependencies:
@@ -5707,6 +5723,14 @@ packages:
   /base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
+  /bch-addr@0.1.0:
+    resolution: {integrity: sha512-4A3d5QyD3NTM/FYVyo7NVMawlIVNrggmL3feGkehGTp82CO4guzIMiF93XwsxaQrg5sFjRcM7ZQHRn/ZxftDBw==}
+    engines: {node: '>= 6.0.0'}
+    dependencies:
+      bs58check: 2.1.2
+      cashaddrjs-slp: 0.2.12
+    dev: false
+
   /bchaddrjs@0.5.2:
     resolution: {integrity: sha512-OO7gIn3m7ea4FVx4cT8gdlWQR2+++EquhdpWQJH9BQjK63tJJ6ngB3QMZDO6DiBoXiIGUsTPHjlrHVxPGcGxLQ==}
     engines: {node: '>=8.0.0'}
@@ -6112,6 +6136,12 @@ packages:
   /caseless@0.12.0:
     resolution: {integrity: sha512-4tYFyifaFfGacoiObjJegolkwSU4xQNGbVgUiNYVUxbQ2x2lUsFvY4hVgVzGiIe6WLOPqycWXA40l+PWsxthUw==}
     dev: true
+
+  /cashaddrjs-slp@0.2.12:
+    resolution: {integrity: sha512-n2TTIuW6vZZxYvjvsUAA+wOM0Zkj+3RRKUtDC1XSu4Ic4XVr0yFJkl1bzQkHWda7nkVT51sxjZneygz7D0SyrQ==}
+    dependencies:
+      big-integer: 1.6.52
+    dev: false
 
   /cashaddrjs@0.4.4:
     resolution: {integrity: sha512-xZkuWdNOh0uq/mxJIng6vYWfTowZLd9F4GMAlp2DwFHlcCqCm91NtuAc47RuV4L7r4PYcY5p6Cr2OKNb4hnkWA==}
@@ -9834,7 +9864,7 @@ packages:
     dependencies:
       hosted-git-info: 2.8.9
       resolve: 1.22.8
-      semver: 5.7.2
+      semver: 7.5.4
       validate-npm-package-license: 3.0.4
     dev: true
 
