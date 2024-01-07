@@ -113,7 +113,9 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             const derivationPath = getDerivationPathFor({ chain: chain, index: 0 });
             derivationPaths.push(derivationPath);
           }
-          return skClient.connectKeepkey(chains, derivationPaths);
+          let apiKey: string = await skClient.connectKeepkey(chains, derivationPaths);
+          localStorage.setItem('keepkeyApiKey', apiKey);
+          return true;
         }
         case WalletOption.LEDGER: {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });

@@ -45,7 +45,7 @@ export const getSwapKitClient = async ({
         apiKey: localStorage.getItem('keepkeyApiKey') || '1234',
         pairingInfo: {
           name: 'swapKit-demo-app',
-          imageUrl: 'https://thorswap.finance/assets/img/header_logo.png',
+          imageUrl: 'https://repository-images.githubusercontent.com/587472295/feec8a61-39b2-4615-b293-145e97f49b5a',
           basePath: 'http://localhost:1646/spec/swagger.json',
           url: 'http://localhost:1646',
         },
