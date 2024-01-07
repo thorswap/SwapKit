@@ -1,9 +1,11 @@
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
 import type { AssetValue } from '@swapkit/helpers';
+import { derivationPathToString } from '@swapkit/helpers';
 import { BinanceToolbox } from '@swapkit/toolbox-cosmos';
 import type { WalletTxParams } from '@swapkit/types';
 import { Chain, ChainId, DerivationPath } from '@swapkit/types';
 
+// @ts-ignore
 import { bip32ToAddressNList } from '../helpers/coins.ts';
 
 type SignTransactionTransferParams = {
@@ -14,12 +16,22 @@ type SignTransactionTransferParams = {
   memo: string | undefined;
 };
 
-export const binanceWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) => {
+export const binanceWalletMethods: any = async ({
+  sdk,
+  derivationPath,
+}: {
+  sdk: KeepKeySdk;
+  derivationPath: any;
+}) => {
   try {
     const toolbox = BinanceToolbox();
 
+    derivationPath = !derivationPath
+      ? DerivationPath['BNB']
+      : `m/${derivationPathToString(derivationPath)}`;
+
     const { address: fromAddress } = (await sdk.address.binanceGetAddress({
-      address_n: bip32ToAddressNList(DerivationPath[Chain.Binance]),
+      address_n: bip32ToAddressNList(derivationPath),
     })) as { address: string };
 
     const signTransactionTransfer = async ({

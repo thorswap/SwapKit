@@ -1,8 +1,12 @@
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
+import { derivationPathToString } from '@swapkit/helpers';
 import type { EVMTxParams } from '@swapkit/toolbox-evm';
 import type { Chain, DerivationPathArray } from '@swapkit/types';
-import { ChainToChainId } from '@swapkit/types';
+import { ChainToChainId, DerivationPath } from '@swapkit/types';
 import { AbstractSigner, type JsonRpcProvider, type Provider } from 'ethers';
+
+// @ts-ignore
+import { bip32ToAddressNList } from '../helpers/coins.ts';
 
 interface KeepKeyEVMSignerParams {
   sdk: KeepKeySdk;
@@ -33,8 +37,15 @@ export class KeepKeySigner extends AbstractSigner {
 
   getAddress = async () => {
     if (this.address) return this.address;
+    let derivationPath;
+    if (!this.derivationPath) {
+      derivationPath = DerivationPath['GAIA'];
+    } else {
+      //convert to bip32 format
+      derivationPath = `m/${derivationPathToString(this.derivationPath)}`;
+    }
     const { address } = await this.sdk.address.ethereumGetAddress({
-      address_n: [2147483692, 2147483708, 2147483648, 0, 0],
+      address_n: bip32ToAddressNList(derivationPath),
     });
 
     this.address = address;

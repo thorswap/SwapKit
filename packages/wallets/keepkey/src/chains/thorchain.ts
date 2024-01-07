@@ -1,10 +1,11 @@
 import { StargateClient } from '@cosmjs/stargate';
 import type { KeepKeySdk, ThorchainSignAminoDepositRequest } from '@keepkey/keepkey-sdk';
+import { derivationPathToString } from '@swapkit/helpers';
 import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
 import { ThorchainToolbox } from '@swapkit/toolbox-cosmos';
-import type {} from '@swapkit/types';
-import { Chain, ChainId, RPCUrl } from '@swapkit/types';
+import { ChainId, DerivationPath, RPCUrl } from '@swapkit/types';
 
+// @ts-ignore
 import { bip32ToAddressNList } from '../helpers/coins.ts';
 
 type SignTransactionTransferParams = {
@@ -22,11 +23,21 @@ type SignTransactionDepositParams = {
   memo: string | undefined;
 };
 
-export const thorchainWalletMethods: any = async ({ sdk }: { sdk: KeepKeySdk }) => {
+export const thorchainWalletMethods: any = async ({
+  sdk,
+  derivationPath,
+}: {
+  sdk: KeepKeySdk;
+  derivationPath: any;
+}) => {
   try {
     const toolbox = ThorchainToolbox({ stagenet: !'smeshnet' });
+    derivationPath = !derivationPath
+      ? DerivationPath['THOR']
+      : `m/${derivationPathToString(derivationPath)}`;
+
     const { address: fromAddress } = (await sdk.address.thorchainGetAddress({
-      address_n: bip32ToAddressNList(Chain.THORChain),
+      address_n: bip32ToAddressNList(derivationPath),
     })) as { address: string };
 
     const signTransactionTransfer = async ({

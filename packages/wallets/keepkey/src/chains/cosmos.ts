@@ -1,9 +1,11 @@
 import { StargateClient } from '@cosmjs/stargate';
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
+import { derivationPathToString } from '@swapkit/helpers';
 import type { TransferParams } from '@swapkit/toolbox-cosmos';
 import { DEFAULT_COSMOS_FEE_MAINNET, GaiaToolbox } from '@swapkit/toolbox-cosmos';
-import { Chain, ChainId, DerivationPath, RPCUrl } from '@swapkit/types';
+import { ChainId, DerivationPath, RPCUrl } from '@swapkit/types';
 
+// @ts-ignore
 import { bip32ToAddressNList } from '../helpers/coins.ts';
 
 export type SignTransactionTransferParams = {
@@ -14,10 +16,22 @@ export type SignTransactionTransferParams = {
   memo: string | undefined;
 };
 
-export const cosmosWalletMethods: any = async ({ sdk, api }: { sdk: KeepKeySdk; api: string }) => {
+export const cosmosWalletMethods: any = async ({
+  sdk,
+  api,
+  derivationPath,
+}: {
+  sdk: KeepKeySdk;
+  api: string;
+  derivationPath: any;
+}) => {
   try {
+    derivationPath = !derivationPath
+      ? DerivationPath['GAIA']
+      : `m/${derivationPathToString(derivationPath)}`;
+
     const { address: fromAddress } = (await sdk.address.cosmosGetAddress({
-      address_n: bip32ToAddressNList(DerivationPath[Chain.Cosmos]),
+      address_n: bip32ToAddressNList(derivationPath),
     })) as { address: string };
 
     const toolbox = GaiaToolbox({ server: api });
