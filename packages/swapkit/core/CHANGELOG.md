@@ -1,5 +1,11 @@
 # @swapkit/core
 
+## 1.0.0-rc.81
+
+### Patch Changes
+
+- [#529](https://github.com/thorswap/SwapKit/pull/529) [`e872f83`](https://github.com/thorswap/SwapKit/commit/e872f83d84da791ab61098f9ddcae8597503c96b) Thanks [@towanTG](https://github.com/towanTG)! - Disables evm transaction details for swaps
+
 ## 1.0.0-rc.80
 
 ### Patch Changes
