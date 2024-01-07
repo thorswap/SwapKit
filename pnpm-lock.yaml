@@ -739,9 +739,6 @@ importers:
       bch-addr:
         specifier: ^0.1.0
         version: 0.1.0
-      bchaddrjs:
-        specifier: ^0.5.2
-        version: 0.5.2
       ethers:
         specifier: ^6.7.1
         version: 6.9.0
@@ -9864,7 +9861,7 @@ packages:
     dependencies:
       hosted-git-info: 2.8.9
       resolve: 1.22.8
-      semver: 7.5.4
+      semver: 5.7.2
       validate-npm-package-license: 3.0.4
     dev: true
 
