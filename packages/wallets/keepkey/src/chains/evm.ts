@@ -5,7 +5,6 @@ import type { Chain, DerivationPathArray } from '@swapkit/types';
 import { ChainToChainId, DerivationPath } from '@swapkit/types';
 import { AbstractSigner, type JsonRpcProvider, type Provider } from 'ethers';
 
-// @ts-ignore
 import { bip32ToAddressNList } from '../helpers/coins.ts';
 
 interface KeepKeyEVMSignerParams {
