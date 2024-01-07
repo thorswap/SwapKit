@@ -4,6 +4,8 @@
     "@internal/config": "workspace:^",
     "@keepkey/keepkey-sdk": "^0.2.52",
     "@pioneer-platform/pioneer-coins": "^8.1.86",
+    "@types/bchaddrjs": "^0.4.3",
+    "bch-addr": "^0.1.0",
     "ethers": "^6.7.1"
   },
   "description": "THORSwap Lib keepkey",
