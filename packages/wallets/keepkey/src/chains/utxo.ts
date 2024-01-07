@@ -1,3 +1,4 @@
+import { derivationPathToString } from '@swapkit/helpers';
 import type { BaseUTXOToolbox, UTXOToolbox, UTXOTransferParams } from '@swapkit/toolbox-utxo';
 import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/toolbox-utxo';
 import type { UTXOChain } from '@swapkit/types';
@@ -5,11 +6,13 @@ import { Chain, DerivationPath, FeeOption } from '@swapkit/types';
 // import { toCashAddress } from 'bchaddrjs';
 import type { Psbt } from 'bitcoinjs-lib';
 
+// @ts-ignore
 import { bip32ToAddressNList, ChainToKeepKeyName } from '../helpers/coins.ts';
 
 type Params = {
   sdk: any;
   chain: UTXOChain;
+  derivationPath: any;
   apiKey?: string;
   apiClient?: ReturnType<typeof BaseUTXOToolbox>['apiClient'];
 };
@@ -48,6 +51,7 @@ const getToolbox = ({ chain, apiClient, apiKey }: Omit<Params, 'sdk'>) => {
 export const utxoWalletMethods = async ({
   sdk,
   chain,
+  derivationPath,
   apiKey,
   apiClient,
 }: Params): Promise<
@@ -62,14 +66,19 @@ export const utxoWalletMethods = async ({
   }
 > => {
   if (!apiKey && !apiClient) throw new Error('UTXO API key not found');
-  const { toolbox, segwit } = getToolbox({ chain, apiClient, apiKey });
+  const { toolbox, segwit } = getToolbox({ chain, apiClient, apiKey, derivationPath });
 
   const scriptType = segwit ? 'p2wpkh' : 'p2pkh';
+  derivationPath = !derivationPath
+    ? DerivationPath[chain]
+    : `m/${derivationPathToString(derivationPath)}`;
+
   const addressInfo = {
     coin: ChainToKeepKeyName[chain],
     script_type: scriptType,
-    address_n: bip32ToAddressNList(DerivationPath[chain]),
+    address_n: bip32ToAddressNList(derivationPath),
   };
+  console.log('addressInfo', addressInfo);
   const { address: walletAddress } = await sdk.address.utxoGetAddress(addressInfo);
 
   const signTransaction = async (psbt: Psbt, inputs: KeepKeyInputObject[], memo: string = '') => {
@@ -77,13 +86,7 @@ export const utxoWalletMethods = async ({
       .map((output) => {
         const { value, address, change } = output as psbtTxOutput;
 
-        const outputAddress =
-          address
-
-        // const outputAddress =
-        //   chain === Chain.BitcoinCash && address
-        //     ? (toolbox as ReturnType<typeof BCHToolbox>).stripPrefix(toCashAddress(address))
-        //     : address;
+        const outputAddress = address;
 
         if (change || address === walletAddress) {
           return {

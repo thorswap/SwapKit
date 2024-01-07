@@ -8,14 +8,14 @@ import {
   MATICToolbox,
   OPToolbox,
 } from '@swapkit/toolbox-evm';
-import type { ConnectWalletParams, EVMChain, DerivationPathArray } from '@swapkit/types';
+import type { ConnectWalletParams, DerivationPathArray, EVMChain } from '@swapkit/types';
 import { Chain, WalletOption } from '@swapkit/types';
 
-import { binanceWalletMethods } from './chains/binance.js';
-import { cosmosWalletMethods } from './chains/cosmos.js';
+import { binanceWalletMethods } from './chains/binance.ts';
+import { cosmosWalletMethods } from './chains/cosmos.ts';
 import { KeepKeySigner } from './chains/evm.ts';
 import { thorchainWalletMethods } from './chains/thorchain.ts';
-import { utxoWalletMethods } from './chains/utxo.js';
+import { utxoWalletMethods } from './chains/utxo.ts';
 export type { PairingInfo } from '@keepkey/keepkey-sdk';
 
 export const KEEPKEY_SUPPORTED_CHAINS = [
@@ -55,7 +55,7 @@ const getEVMWalletMethods = async ({
   ethplorerApiKey,
   covalentApiKey,
   rpcUrl,
-  derivationPath = [2147483692, 2147483708, 2147483648, 0, 0],
+  derivationPath,
 }: any) => {
   const provider = getProvider(chain as EVMChain, rpcUrl);
   const signer = new KeepKeySigner({ sdk, chain, derivationPath, provider });
@@ -85,6 +85,7 @@ const getToolbox = async ({
   apiClient,
   rpcUrl,
   chain,
+  derivationPath,
   covalentApiKey,
   ethplorerApiKey,
   blockchairApiKey,
@@ -105,23 +106,22 @@ const getToolbox = async ({
         apiClient,
         chain,
         covalentApiKey,
-        derivationPath: [2147483692, 2147483708, 2147483648, 0, 0],
+        derivationPath,
         ethplorerApiKey,
         rpcUrl,
       });
-
       return { address: walletMethods.getAddress(), walletMethods };
     }
     case Chain.Binance: {
-      const walletMethods = await binanceWalletMethods({ sdk });
+      const walletMethods = await binanceWalletMethods({ sdk, derivationPath });
       return { address: await walletMethods.getAddress(), walletMethods };
     }
     case Chain.Cosmos: {
-      const walletMethods = await cosmosWalletMethods({ sdk });
+      const walletMethods = await cosmosWalletMethods({ sdk, derivationPath });
       return { address: await walletMethods.getAddress(), walletMethods };
     }
     case Chain.THORChain: {
-      const walletMethods = await thorchainWalletMethods({ sdk });
+      const walletMethods = await thorchainWalletMethods({ sdk, derivationPath });
       return { address: await walletMethods.getAddress(), walletMethods };
     }
     case Chain.Bitcoin:
@@ -133,11 +133,12 @@ const getToolbox = async ({
         apiClient,
         sdk,
         chain,
+        derivationPath,
       });
       return { address: walletMethods.getAddress(), walletMethods };
     }
     default:
-      throw new Error('Chain not supported '+chain);
+      throw new Error('Chain not supported ' + chain);
   }
 };
 
@@ -179,35 +180,35 @@ const connectKeepkey =
     addChain,
     config: { keepkeyConfig, covalentApiKey, ethplorerApiKey = 'freekey', blockchairApiKey },
   }: ConnectWalletParams) =>
-  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, derivationPath?: DerivationPathArray) => {
+  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, derivationPaths?: DerivationPathArray) => {
     if (!keepkeyConfig) throw new Error('KeepKey config not found');
 
     await checkAndLaunch();
 
-    //only build this once for all assets
+    // Only build this once for all assets
     const keepKeySdk = await KeepKeySdk.create(keepkeyConfig);
-    console.log('blockchairApiKey: ', blockchairApiKey);
-    console.log('apis: ', apis);
-    console.log('rpcUrls: ', rpcUrls);
-    console.log('chains: ', chains);
-    console.log('derivationPath: ', derivationPath);
-    for (const chain of chains) {
-      const { address, walletMethods } = await getToolbox({
+
+    const toolboxPromises = chains.map((chain, i) => {
+      const derivationPath = derivationPaths ? derivationPaths[i] : undefined;
+      return getToolbox({
         sdk: keepKeySdk,
         apiClient: apis[chain],
         rpcUrl: rpcUrls[chain],
         chain,
+        derivationPath,
         covalentApiKey,
         ethplorerApiKey,
         blockchairApiKey,
+      }).then(({ address, walletMethods }) => {
+        addChain({
+          chain,
+          walletMethods,
+          wallet: { address, balance: [], walletType: WalletOption.KEEPKEY },
+        });
       });
+    });
 
-      addChain({
-        chain,
-        walletMethods,
-        wallet: { address, balance: [], walletType: WalletOption.KEEPKEY },
-      });
-    }
+    await Promise.all(toolboxPromises);
 
     return keepkeyConfig.apiKey;
   };
