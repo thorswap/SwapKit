@@ -635,7 +635,7 @@ export class SwapKitCore<T = ''> {
   connectWalletconnect = async (_chains: Chain[], _options?: any): Promise<void> => {
     throw new SwapKitError('core_wallet_walletconnect_not_installed');
   };
-  connectKeepkey = async (_chains: Chain[], _derivationPath: number[][]): Promise<void> => {
+  connectKeepkey = async (_chains: Chain[], _derivationPath: number[][]): Promise<string> => {
     throw new SwapKitError('core_wallet_keepkey_not_installed');
   };
   connectKeystore = async (_chains: Chain[], _phrase: string): Promise<void> => {
