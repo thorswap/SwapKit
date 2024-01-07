@@ -5,7 +5,6 @@ import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
 import { ThorchainToolbox } from '@swapkit/toolbox-cosmos';
 import { ChainId, DerivationPath, RPCUrl } from '@swapkit/types';
 
-// @ts-ignore
 import { bip32ToAddressNList } from '../helpers/coins.ts';
 
 type SignTransactionTransferParams = {

@@ -5,7 +5,6 @@ import type { TransferParams } from '@swapkit/toolbox-cosmos';
 import { DEFAULT_COSMOS_FEE_MAINNET, GaiaToolbox } from '@swapkit/toolbox-cosmos';
 import { ChainId, DerivationPath, RPCUrl } from '@swapkit/types';
 
-// @ts-ignore
 import { bip32ToAddressNList } from '../helpers/coins.ts';
 
 export type SignTransactionTransferParams = {

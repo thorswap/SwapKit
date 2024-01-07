@@ -7,7 +7,6 @@ import { Chain, DerivationPath, FeeOption } from '@swapkit/types';
 import { toCashAddress } from 'bch-addr';
 import type { Psbt } from 'bitcoinjs-lib';
 
-// @ts-ignore
 import { bip32ToAddressNList, ChainToKeepKeyName } from '../helpers/coins.ts';
 
 type Params = {

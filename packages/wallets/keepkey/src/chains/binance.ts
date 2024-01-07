@@ -5,7 +5,6 @@ import { BinanceToolbox } from '@swapkit/toolbox-cosmos';
 import type { WalletTxParams } from '@swapkit/types';
 import { Chain, ChainId, DerivationPath } from '@swapkit/types';
 
-// @ts-ignore
 import { bip32ToAddressNList } from '../helpers/coins.ts';
 
 type SignTransactionTransferParams = {
