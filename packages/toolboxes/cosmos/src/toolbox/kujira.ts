@@ -65,10 +65,7 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
               return true;
             }
             // exclude all other FACTORY tokens
-            if (denom.startsWith('FACTORY')) {
-              return false;
-            }
-            return true;
+            return !denom.startsWith('FACTORY');
           })
           .map(({ denom, amount }) => getAssetFromDenom(denom, amount)),
       );
