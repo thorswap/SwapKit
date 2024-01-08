@@ -12,7 +12,7 @@ import { bip32ToAddressNList, ChainToKeepKeyName } from '../helpers/coins.ts';
 type KKUtxoWalletParams = {
   sdk: any;
   chain: UTXOChain;
-  derivationPath: DerivationPathArray;
+  derivationPath?: DerivationPathArray;
   apiKey?: string;
   apiClient?: ReturnType<typeof BaseUTXOToolbox>['apiClient'];
 };

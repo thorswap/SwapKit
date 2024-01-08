@@ -37,7 +37,7 @@ type KeepKeyOptions = {
   blockchairApiKey?: string;
   covalentApiKey?: string;
   chain: Chain;
-  derivationPath?: any;
+  derivationPath?: DerivationPathArray;
 };
 
 const getToolbox = async ({
@@ -82,7 +82,7 @@ const getToolbox = async ({
       return { address: await walletMethods.getAddress(), walletMethods };
     }
     case Chain.Cosmos: {
-      const walletMethods = await cosmosWalletMethods({ sdk, derivationPath });
+      const walletMethods = await cosmosWalletMethods({ sdk, derivationPath, api: apiClient });
       return { address: await walletMethods.getAddress(), walletMethods };
     }
     case Chain.THORChain: {
@@ -143,7 +143,7 @@ const connectKeepkey =
     addChain,
     config: { keepkeyConfig, covalentApiKey, ethplorerApiKey = 'freekey', blockchairApiKey },
   }: ConnectWalletParams) =>
-  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, derivationPaths?: DerivationPathArray) => {
+  async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, derivationPaths?: DerivationPathArray[]) => {
     if (!keepkeyConfig) throw new Error('KeepKey config not found');
 
     await checkAndLaunch(3);

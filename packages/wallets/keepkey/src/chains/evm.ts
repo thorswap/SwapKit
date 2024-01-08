@@ -2,7 +2,7 @@ import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
 import { derivationPathToString } from '@swapkit/helpers';
 import type { EVMTxParams } from '@swapkit/toolbox-evm';
 import type { Chain, DerivationPathArray } from '@swapkit/types';
-import { ChainToChainId, DerivationPath } from '@swapkit/types';
+import { ChainToChainId } from '@swapkit/types';
 import { AbstractSigner, type JsonRpcProvider, type Provider } from 'ethers';
 
 import { bip32ToAddressNList } from '../helpers/coins.ts';
@@ -10,7 +10,7 @@ import { bip32ToAddressNList } from '../helpers/coins.ts';
 interface KeepKeyEVMSignerParams {
   sdk: KeepKeySdk;
   chain: Chain;
-  derivationPath: DerivationPathArray;
+  derivationPath?: DerivationPathArray;
   provider: Provider | JsonRpcProvider;
 }
 
@@ -25,22 +25,19 @@ export class KeepKeySigner extends AbstractSigner {
     super();
     this.sdk = sdk;
     this.chain = chain;
-    this.derivationPath = derivationPath;
+    this.derivationPath = derivationPath || [44, 60, 0, 0, 0];
     this.address = '';
     this.provider = provider;
   }
 
   signTypedData(): Promise<string> {
-    throw new Error('this method is not implemented');
+    throw new Error('this method is not impmented');
   }
 
   getAddress = async () => {
     if (this.address) return this.address;
-    const derivationPath = !this.derivationPath
-      ? DerivationPath['ETH']
-      : `m/${derivationPathToString(this.derivationPath)}`;
     const { address } = await this.sdk.address.ethereumGetAddress({
-      address_n: bip32ToAddressNList(derivationPath),
+      address_n: bip32ToAddressNList(`m/${derivationPathToString(this.derivationPath)}`),
     });
 
     this.address = address;
