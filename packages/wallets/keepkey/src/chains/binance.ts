@@ -7,14 +7,6 @@ import { Chain, ChainId, DerivationPath } from '@swapkit/types';
 
 import { bip32ToAddressNList } from '../helpers/coins.ts';
 
-type SignTransactionTransferParams = {
-  asset: string;
-  amount: any;
-  to: string;
-  from: string;
-  memo: string | undefined;
-};
-
 export const binanceWalletMethods: any = async ({
   sdk,
   derivationPath,
@@ -33,14 +25,14 @@ export const binanceWalletMethods: any = async ({
       address_n: bip32ToAddressNList(derivationPath),
     })) as { address: string };
 
-    const signTransactionTransfer = async ({
-      amount,
-      to,
-      memo = '',
-    }: SignTransactionTransferParams) => {
+    const transfer = async ({
+      assetValue,
+      recipient,
+      memo,
+    }: WalletTxParams & { assetValue: AssetValue }) => {
       try {
         const accountInfo = await toolbox.getAccount(fromAddress);
-
+        const amount = assetValue.getBaseValue('string');
         const keepKeyResponse = await sdk.bnb.bnbSignTransaction({
           signerAddress: fromAddress,
           signDoc: {
@@ -51,7 +43,7 @@ export const binanceWalletMethods: any = async ({
             source: '0',
             msgs: [
               {
-                outputs: [{ address: to, coins: [{ denom: Chain.Binance, amount }] }],
+                outputs: [{ address: recipient, coins: [{ denom: Chain.Binance, amount }] }],
                 inputs: [{ address: fromAddress, coins: [{ denom: Chain.Binance, amount }] }],
               },
             ],
@@ -67,19 +59,6 @@ export const binanceWalletMethods: any = async ({
         console.error(e);
       }
     };
-
-    const transfer = ({
-      assetValue,
-      recipient,
-      memo,
-    }: WalletTxParams & { assetValue: AssetValue }) =>
-      signTransactionTransfer({
-        from: fromAddress,
-        to: recipient,
-        asset: assetValue?.symbol,
-        amount: assetValue.getBaseValue('string'),
-        memo,
-      });
 
     return { ...toolbox, getAddress: () => fromAddress, transfer };
   } catch (e) {

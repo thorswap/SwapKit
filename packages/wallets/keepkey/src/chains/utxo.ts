@@ -1,7 +1,7 @@
 import { derivationPathToString } from '@swapkit/helpers';
 import type { BaseUTXOToolbox, UTXOToolbox, UTXOTransferParams } from '@swapkit/toolbox-utxo';
 import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/toolbox-utxo';
-import type { UTXOChain } from '@swapkit/types';
+import type { DerivationPathArray, UTXOChain } from '@swapkit/types';
 import { Chain, DerivationPath, FeeOption } from '@swapkit/types';
 // @ts-ignore
 import { toCashAddress } from 'bch-addr';
@@ -9,17 +9,17 @@ import type { Psbt } from 'bitcoinjs-lib';
 
 import { bip32ToAddressNList, ChainToKeepKeyName } from '../helpers/coins.ts';
 
-type Params = {
+type KKUtxoWalletParams = {
   sdk: any;
   chain: UTXOChain;
-  derivationPath: any;
+  derivationPath: DerivationPathArray;
   apiKey?: string;
   apiClient?: ReturnType<typeof BaseUTXOToolbox>['apiClient'];
 };
 
 interface psbtTxOutput {
   address: string;
-  script: Uint8Array;
+  script: Buffer;
   value: number;
   change?: boolean; // Optional, assuming it indicates if the output is a change
 }
@@ -35,7 +35,11 @@ interface KeepKeyInputObject {
   hex: string;
 }
 
-const getToolbox = ({ chain, apiClient, apiKey }: Omit<Params, 'sdk'>) => {
+const getToolbox = ({
+  chain,
+  apiClient,
+  apiKey,
+}: Omit<KKUtxoWalletParams, 'sdk' | 'derivationPath'>) => {
   switch (chain) {
     case Chain.Bitcoin:
       return { toolbox: BTCToolbox({ apiClient, apiKey }), segwit: true };
@@ -54,7 +58,7 @@ export const utxoWalletMethods = async ({
   derivationPath,
   apiKey,
   apiClient,
-}: Params): Promise<
+}: KKUtxoWalletParams): Promise<
   UTXOToolbox & {
     getAddress: () => string;
     signTransaction: (
@@ -66,19 +70,19 @@ export const utxoWalletMethods = async ({
   }
 > => {
   if (!apiKey && !apiClient) throw new Error('UTXO API key not found');
-  const { toolbox, segwit } = getToolbox({ chain, apiClient, apiKey, derivationPath });
+  const { toolbox, segwit } = getToolbox({ chain, apiClient, apiKey });
 
   const scriptType = segwit ? 'p2wpkh' : 'p2pkh';
-  derivationPath = !derivationPath
+  const derivationPathString = !derivationPath
     ? DerivationPath[chain]
     : `m/${derivationPathToString(derivationPath)}`;
 
   const addressInfo = {
     coin: ChainToKeepKeyName[chain],
     script_type: scriptType,
-    address_n: bip32ToAddressNList(derivationPath),
+    address_n: bip32ToAddressNList(derivationPathString),
   };
-  console.log('addressInfo', addressInfo);
+
   const { address: walletAddress } = await sdk.address.utxoGetAddress(addressInfo);
 
   const signTransaction = async (psbt: Psbt, inputs: KeepKeyInputObject[], memo: string = '') => {
@@ -87,7 +91,7 @@ export const utxoWalletMethods = async ({
         const { value, address, change } = output as psbtTxOutput;
 
         const outputAddress =
-          chain === Chain.BitcoinCash && address
+          chain === Chain.BitcoinCash
             ? (toolbox as ReturnType<typeof BCHToolbox>).stripPrefix(toCashAddress(address))
             : address;
 
@@ -109,11 +113,12 @@ export const utxoWalletMethods = async ({
       })
       .filter(Boolean);
 
-    function removeNullAndEmptyObjectsFromArray(arr: any[]): any[] {
+    const removeNullAndEmptyObjectsFromArray = (arr: any[]) => {
       return arr.filter(
         (item) => item !== null && typeof item === 'object' && Object.keys(item).length !== 0,
       );
-    }
+    };
+
     const responseSign = await sdk.utxo.utxoSignTransaction({
       coin: ChainToKeepKeyName[chain],
       inputs,

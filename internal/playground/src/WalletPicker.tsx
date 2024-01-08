@@ -109,7 +109,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return skClient.connectEVMWallet(chains, option);
         case WalletOption.KEEPKEY: {
           const derivationPaths = []; // Ensure derivationPaths is defined
-          for (let chain of chains) { // Use 'let' for iteration variable
+          for (let chain of chains) {
+            // Use 'let' for iteration variable
             const derivationPath = getDerivationPathFor({ chain: chain, index: 0 });
             derivationPaths.push(derivationPath);
           }

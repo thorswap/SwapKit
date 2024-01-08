@@ -38,13 +38,10 @@ export const cosmosWalletMethods: any = async ({
       (await toolbox?.getFeeRateFromThorswap?.(ChainId.Cosmos)) ?? '500',
     );
 
-    const signTransactionTransfer = async ({
-      amount,
-      to,
-      from,
-      memo = '',
-    }: SignTransactionTransferParams) => {
+    // TODO support other cosmos assets
+    const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
       try {
+        const amount = assetValue.getBaseValue('string');
         const accountInfo = await toolbox.getAccount(fromAddress);
 
         const keepKeySignedTx = await sdk.cosmos.cosmosSignAmino({
@@ -57,7 +54,11 @@ export const cosmosWalletMethods: any = async ({
             account_number: accountInfo?.accountNumber.toString() ?? '',
             msgs: [
               {
-                value: { amount: [{ denom: 'uatom', amount }], to_address: to, from_address: from },
+                value: {
+                  amount: [{ denom: 'uatom', amount }],
+                  to_address: recipient,
+                  from_address: fromAddress,
+                },
                 type: 'cosmos-sdk/MsgSend',
               },
             ],
@@ -65,11 +66,9 @@ export const cosmosWalletMethods: any = async ({
         });
 
         const decodedBytes = atob(keepKeySignedTx.serialized);
-        const uint8Array = new Uint8Array(decodedBytes.length);
-
-        for (let i = 0; i < decodedBytes.length; i++) {
-          uint8Array[i] = decodedBytes.charCodeAt(i);
-        }
+        const uint8Array = new Uint8Array(decodedBytes.length).map((_, i) =>
+          decodedBytes.charCodeAt(i),
+        );
 
         const client = await StargateClient.connect(RPCUrl.Cosmos);
         const response = await client.broadcastTx(uint8Array);
@@ -80,15 +79,6 @@ export const cosmosWalletMethods: any = async ({
         throw e;
       }
     };
-
-    const transfer = ({ assetValue, recipient, memo }: TransferParams) =>
-      signTransactionTransfer({
-        from: fromAddress,
-        to: recipient,
-        asset: assetValue?.symbol === 'MUON' ? 'umuon' : 'uatom',
-        amount: assetValue.getBaseValue('string'),
-        memo,
-      });
 
     return { ...toolbox, getAddress: () => fromAddress, transfer };
   } catch (e) {

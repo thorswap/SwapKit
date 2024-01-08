@@ -36,13 +36,9 @@ export class KeepKeySigner extends AbstractSigner {
 
   getAddress = async () => {
     if (this.address) return this.address;
-    let derivationPath;
-    if (!this.derivationPath) {
-      derivationPath = DerivationPath['GAIA'];
-    } else {
-      //convert to bip32 format
-      derivationPath = `m/${derivationPathToString(this.derivationPath)}`;
-    }
+    const derivationPath = !this.derivationPath
+      ? DerivationPath['ETH']
+      : `m/${derivationPathToString(this.derivationPath)}`;
     const { address } = await this.sdk.address.ethereumGetAddress({
       address_n: bip32ToAddressNList(derivationPath),
     });
@@ -75,7 +71,7 @@ export class KeepKeySigner extends AbstractSigner {
     if (!nonce) throw new Error('Missing nonce');
     if (!data) throw new Error('Missing data');
 
-    const isEIP1559 = maxFeePerGas && maxPriorityFeePerGas;
+    const isEIP1559 = (maxFeePerGas || maxPriorityFeePerGas) && !gasPrice;
     if (isEIP1559 && !maxFeePerGas) throw new Error('Missing maxFeePerGas');
     if (isEIP1559 && !maxPriorityFeePerGas) throw new Error('Missing maxFeePerGas');
     if (!isEIP1559 && !gasPrice) throw new Error('Missing gasPrice');
@@ -85,7 +81,6 @@ export class KeepKeySigner extends AbstractSigner {
     const nonceValue = nonce
       ? BigInt(nonce)
       : BigInt(await this.provider.getTransactionCount(await this.getAddress(), 'pending'));
-    const nonceHex = '0x' + nonceValue.toString(16);
 
     const input = {
       gas: toHexString(BigInt(gasLimit)),
@@ -94,7 +89,7 @@ export class KeepKeySigner extends AbstractSigner {
       chainId: toHexString(BigInt(ChainToChainId[this.chain])),
       to,
       value: toHexString(BigInt(value || 0)),
-      nonce: nonceHex,
+      nonce: toHexString(nonceValue),
       data,
       ...(isEIP1559
         ? {
