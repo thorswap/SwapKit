@@ -40,7 +40,7 @@ type KeepKeyOptions = {
   derivationPath?: DerivationPathArray;
 };
 
-const getToolbox = async ({
+const getWalletMethods = async ({
   sdk,
   apiClient,
   rpcUrl,
@@ -73,34 +73,28 @@ const getToolbox = async ({
         ethplorerApiKey: ethplorerApiKey!,
       };
 
-      const walletMethods = { ...getToolboxByChain(chain)(evmParams), getAddress: () => address };
-
-      return { address: walletMethods.getAddress(), walletMethods };
+      return { ...getToolboxByChain(chain)(evmParams), getAddress: () => address };
     }
     case Chain.Binance: {
-      const walletMethods = await binanceWalletMethods({ sdk, derivationPath });
-      return { address: await walletMethods.getAddress(), walletMethods };
+      return binanceWalletMethods({ sdk, derivationPath });
     }
     case Chain.Cosmos: {
-      const walletMethods = await cosmosWalletMethods({ sdk, derivationPath, api: apiClient });
-      return { address: await walletMethods.getAddress(), walletMethods };
+      return cosmosWalletMethods({ sdk, derivationPath, api: apiClient });
     }
     case Chain.THORChain: {
-      const walletMethods = await thorchainWalletMethods({ sdk, derivationPath });
-      return { address: await walletMethods.getAddress(), walletMethods };
+      return thorchainWalletMethods({ sdk, derivationPath });
     }
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      const walletMethods = await utxoWalletMethods({
+      return utxoWalletMethods({
         apiKey: blockchairApiKey,
         apiClient,
         sdk,
         chain,
         derivationPath,
       });
-      return { address: walletMethods.getAddress(), walletMethods };
     }
     default:
       throw new Error('Chain not supported ' + chain);
@@ -151,9 +145,9 @@ const connectKeepkey =
     // Only build this once for all assets
     const keepKeySdk = await KeepKeySdk.create(keepkeyConfig);
 
-    const toolboxPromises = chains.map((chain, i) => {
+    const toolboxPromises = chains.map(async (chain, i) => {
       const derivationPath = derivationPaths ? derivationPaths[i] : undefined;
-      return getToolbox({
+      const walletMethods = await getWalletMethods({
         sdk: keepKeySdk,
         apiClient: apis[chain],
         rpcUrl: rpcUrls[chain],
@@ -162,12 +156,16 @@ const connectKeepkey =
         covalentApiKey,
         ethplorerApiKey,
         blockchairApiKey,
-      }).then(({ address, walletMethods }) => {
-        addChain({
-          chain,
-          walletMethods,
-          wallet: { address, balance: [], walletType: WalletOption.KEEPKEY },
-        });
+      });
+
+      addChain({
+        chain,
+        walletMethods,
+        wallet: {
+          address: walletMethods.getAddress(),
+          balance: [],
+          walletType: WalletOption.KEEPKEY,
+        },
       });
     });
 
