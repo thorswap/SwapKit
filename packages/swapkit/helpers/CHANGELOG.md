@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.60
+
+### Patch Changes
+
+- [#541](https://github.com/thorswap/SwapKit/pull/541) [`09ef478`](https://github.com/thorswap/SwapKit/commit/09ef478734821fa2e16f8845b4cf6675353deaad) Thanks [@towanTG](https://github.com/towanTG)! - Adds chainId to assetValue
+
 ## 1.0.0-rc.59
 
 ### Patch Changes
