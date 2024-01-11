@@ -1,4 +1,5 @@
-import { BaseDecimal, Chain } from '@swapkit/types';
+import type { ChainId } from '@swapkit/types';
+import { BaseDecimal, Chain, ChainToChainId } from '@swapkit/types';
 
 import type { CommonAssetString } from '../helpers/asset.ts';
 import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers/asset.ts';
@@ -17,6 +18,7 @@ const staticTokensMap = new Map<
 export class AssetValue extends BigIntArithmetics {
   address?: string;
   chain: Chain;
+  chainId: ChainId;
   isGasAsset = false;
   isSynthetic = false;
   symbol: string;
@@ -42,6 +44,7 @@ export class AssetValue extends BigIntArithmetics {
     this.type = getAssetType(assetInfo);
     this.tax = tax;
     this.chain = assetInfo.chain;
+    this.chainId = ChainToChainId[assetInfo.chain];
     this.ticker = assetInfo.ticker;
     this.symbol = assetInfo.symbol;
     this.address = assetInfo.address;
@@ -245,6 +248,7 @@ function getAssetInfo(identifier: string) {
   return {
     address: address?.toLowerCase(),
     chain,
+    chainId: ChainToChainId[chain],
     isGasAsset: isGasAsset({ chain, symbol }),
     isSynthetic,
     symbol:
