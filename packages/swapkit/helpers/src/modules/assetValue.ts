@@ -1,4 +1,4 @@
-import { BaseDecimal, Chain } from '@swapkit/types';
+import { BaseDecimal, Chain, ChainToChainId } from '@swapkit/types';
 
 import type { CommonAssetString } from '../helpers/asset.ts';
 import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from '../helpers/asset.ts';
@@ -59,6 +59,10 @@ export class AssetValue extends BigIntArithmetics {
 
   eq({ chain, symbol }: { chain: Chain; symbol: string }) {
     return this.chain === chain && this.symbol === symbol;
+  }
+
+  chainId() {
+    return ChainToChainId[this.chain];
   }
 
   // THOR.RUNE
