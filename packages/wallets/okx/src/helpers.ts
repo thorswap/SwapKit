@@ -1,9 +1,8 @@
-import { AssetValue, SwapKitNumber } from '@swapkit/helpers';
 import type { GaiaToolbox } from '@swapkit/toolbox-cosmos';
 import type { Eip1193Provider, getWeb3WalletMethods } from '@swapkit/toolbox-evm';
 import type { BTCToolbox, UTXOTransferParams } from '@swapkit/toolbox-utxo';
 import { Psbt } from '@swapkit/toolbox-utxo';
-import { BaseDecimal, Chain, ChainId, RPCUrl } from '@swapkit/types';
+import { Chain, ChainId, RPCUrl } from '@swapkit/types';
 
 const cosmosTransfer =
   (rpcUrl?: string) =>
@@ -65,23 +64,8 @@ export const getWalletForChain = async ({
 
       const address: string = (await window.okxwallet.send('eth_requestAccounts', [])).result[0];
 
-      const getBalance = async () => {
-        const balances = await evmWallet.getBalance(address);
-        const gasAssetBalance = await getProvider(chain).getBalance(address);
-        return chain === Chain.Ethereum
-          ? [
-              new AssetValue({
-                chain,
-                symbol: 'ETH',
-                value: SwapKitNumber.fromBigInt(gasAssetBalance, BaseDecimal[chain]).getValue(
-                  'string',
-                ),
-                decimal: BaseDecimal[chain],
-              }),
-              ...balances.filter((asset) => asset.symbol !== 'ETH'),
-            ]
-          : balances;
-      };
+      const getBalance = async (addressOverwrite?: string, potentialScamFilter: boolean = true) =>
+        evmWallet.getBalance(addressOverwrite || address, potentialScamFilter, getProvider(chain));
 
       return { ...evmWallet, getAddress: () => address, getBalance };
     }

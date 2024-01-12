@@ -97,9 +97,13 @@ export const BSCToolbox = ({
     ...baseToolbox,
     call: <T>(params: CallParams) => call<T>(provider, { signer, ...params }),
     getNetworkParams,
-    getBalance: (address: string, potentialScamFilter: boolean = true) =>
+    getBalance: (
+      address: string,
+      potentialScamFilter: boolean = true,
+      overwriteProvider?: JsonRpcProvider | BrowserProvider,
+    ) =>
       getBalance({
-        provider,
+        provider: overwriteProvider || provider,
         api: bscApi,
         address,
         chain: Chain.BinanceSmartChain,

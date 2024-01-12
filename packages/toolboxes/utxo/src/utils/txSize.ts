@@ -51,7 +51,9 @@ export const getScriptTypeForAddress = (address: string) => {
   //   }
   if (
     address.startsWith('1') ||
+    address.startsWith('3') ||
     address.startsWith('L') ||
+    address.startsWith('M') ||
     address.startsWith('D') ||
     address.startsWith('bitcoincash:q') ||
     address.startsWith('q')
