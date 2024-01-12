@@ -1,5 +1,14 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.0.0-rc.68
+
+### Patch Changes
+
+- [#544](https://github.com/thorswap/SwapKit/pull/544) [`4e3edb9`](https://github.com/thorswap/SwapKit/commit/4e3edb9742c1607aebb0bffd453d471c60a0076e) Thanks [@towanTG](https://github.com/towanTG)! - Fixes UTXO Wrapped segwit support and EVM gas balances overwrite of api responses
+
+- Updated dependencies [[`4e3edb9`](https://github.com/thorswap/SwapKit/commit/4e3edb9742c1607aebb0bffd453d471c60a0076e)]:
+  - @swapkit/toolbox-evm@1.0.0-rc.66
+
 ## 1.0.0-rc.67
 
 ### Patch Changes
