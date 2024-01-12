@@ -1,4 +1,10 @@
-import { AssetValue, filterAssets, formatBigIntToSafeValue, SwapKitNumber } from '@swapkit/helpers';
+import {
+  AssetValue,
+  filterAssets,
+  formatBigIntToSafeValue,
+  isGasAsset,
+  SwapKitNumber,
+} from '@swapkit/helpers';
 import {
   BaseDecimal,
   Chain,
@@ -291,22 +297,19 @@ export const getBalance = async ({
 }) => {
   const tokenBalances = await api.getBalance(address);
   const evmGasTokenBalance = await provider.getBalance(address);
-  const balances =
-    chain === Chain.Ethereum
-      ? [
-          {
-            chain: Chain.Ethereum,
-            symbol: 'ETH',
-            value: formatBigIntToSafeValue({
-              value: BigInt(evmGasTokenBalance),
-              decimal: 18,
-              bigIntDecimal: 18,
-            }),
-            decimal: BaseDecimal.ETH,
-          },
-          ...tokenBalances,
-        ]
-      : tokenBalances;
+  const balances = [
+    {
+      chain,
+      symbol: AssetValue.fromChainOrSignature(chain).symbol,
+      value: formatBigIntToSafeValue({
+        value: BigInt(evmGasTokenBalance),
+        decimal: 18,
+        bigIntDecimal: 18,
+      }),
+      decimal: BaseDecimal[chain],
+    },
+    ...tokenBalances.filter((token) => !isGasAsset(token)),
+  ];
 
   const filteredBalances = potentialScamFilter ? filterAssets(balances) : balances;
 

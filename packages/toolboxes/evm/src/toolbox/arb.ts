@@ -51,7 +51,17 @@ export const ARBToolbox = ({
     ...baseToolbox,
     getNetworkParams,
     estimateGasPrices: () => estimateGasPrices(provider),
-    getBalance: (address: string, potentialScamFilter: boolean = true) =>
-      getBalance({ provider, api: arbApi, address, chain: Chain.Arbitrum, potentialScamFilter }),
+    getBalance: (
+      address: string,
+      potentialScamFilter: boolean = true,
+      overwriteProvider?: JsonRpcProvider | BrowserProvider,
+    ) =>
+      getBalance({
+        provider: overwriteProvider || provider,
+        api: arbApi,
+        address,
+        chain: Chain.Arbitrum,
+        potentialScamFilter,
+      }),
   };
 };

@@ -23,7 +23,17 @@ export const ETHToolbox = ({
 
   return {
     ...baseToolbox,
-    getBalance: (address: string, potentialScamFilter: boolean = true) =>
-      getBalance({ provider, api: ethApi, address, chain: Chain.Ethereum, potentialScamFilter }),
+    getBalance: (
+      address: string,
+      potentialScamFilter: boolean = true,
+      overwriteProvider?: JsonRpcProvider | BrowserProvider,
+    ) =>
+      getBalance({
+        provider: overwriteProvider || provider,
+        api: ethApi,
+        address,
+        chain: Chain.Ethereum,
+        potentialScamFilter,
+      }),
   };
 };

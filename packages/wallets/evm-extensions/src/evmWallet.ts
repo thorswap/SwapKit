@@ -1,7 +1,6 @@
-import { AssetValue, SwapKitNumber } from '@swapkit/helpers';
 import type { Eip1193Provider } from '@swapkit/toolbox-evm';
 import type { ConnectWalletParams, EVMChain, EVMWalletOptions } from '@swapkit/types';
-import { BaseDecimal, Chain, WalletOption } from '@swapkit/types';
+import { WalletOption } from '@swapkit/types';
 
 declare global {
   interface Window {
@@ -58,24 +57,8 @@ const connectEVMWallet =
         ethereumWindowProvider: getWalletForType(walletType),
       });
 
-      const getBalance = async () => {
-        const balances = await walletMethods.getBalance(address);
-        const gasAssetBalance = await getProvider(chain).getBalance(address);
-
-        return chain === Chain.Ethereum
-          ? [
-              new AssetValue({
-                chain,
-                symbol: 'ETH',
-                value: SwapKitNumber.fromBigInt(gasAssetBalance, BaseDecimal[chain]).getValue(
-                  'string',
-                ),
-                decimal: BaseDecimal[chain],
-              }),
-              ...balances.filter((asset) => asset.symbol !== 'ETH'),
-            ]
-          : balances;
-      };
+      const getBalance = async (potentialScamFilter: boolean = true) =>
+        walletMethods.getBalance(address, potentialScamFilter, getProvider(chain));
 
       addChain({
         chain,

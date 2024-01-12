@@ -11,16 +11,18 @@ export const ethplorerApi = (apiKey = 'freekey') => ({
       { searchParams: { apiKey } },
     );
 
-    return tokens.map(({ tokenInfo: { symbol, decimals, address: tokenAddress }, rawBalance }) => ({
-      chain: Chain.Ethereum,
-      symbol: tokenAddress ? `${symbol}-${tokenAddress}` : symbol,
-      value: formatBigIntToSafeValue({
-        value: BigInt(rawBalance),
+    return tokens
+      .filter(({ tokenInfo: { symbol }, rawBalance }) => symbol && rawBalance !== '0')
+      .map(({ tokenInfo: { symbol, decimals, address: tokenAddress }, rawBalance }) => ({
+        chain: Chain.Ethereum,
+        symbol: tokenAddress ? `${symbol}-${tokenAddress}` : symbol,
+        value: formatBigIntToSafeValue({
+          value: BigInt(rawBalance),
+          decimal: parseInt(decimals),
+          bigIntDecimal: parseInt(decimals),
+        }),
         decimal: parseInt(decimals),
-        bigIntDecimal: parseInt(decimals),
-      }),
-      decimal: parseInt(decimals),
-    }));
+      }));
   },
 });
 
