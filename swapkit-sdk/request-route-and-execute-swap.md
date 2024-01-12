@@ -10,17 +10,16 @@ To request possible routes, follow the instructions below.
 
 The `QuoteParams` object describes a swap to/from any of the supported blockchains and contains all information necessary to determine the best routes. It is defined by the following interface:
 
-```typescript
-interface QuoteParams {
+<pre class="language-typescript"><code class="lang-typescript">interface QuoteParams {
     affiliateBasisPoints?: string;
     buyAsset: string;
     recipientAddress?: string;
     sellAmount: string;
     sellAsset: string;
     senderAddress?: string;
-    slippage: string;
-}
-```
+<strong>    slippage: string;
+</strong>}
+</code></pre>
 
 {% hint style="info" %}
 The `buyAsset` & `sellAsset` must be of the format `'chain.ticker'` For example, `BTC.BTC`.

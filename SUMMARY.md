@@ -9,9 +9,9 @@
 
 ## SwapKit SDK
 
-* [1⃣ 1⃣ 1⃣ Install SwapKit SDK](swapkit-sdk/install-swapkit-sdk.md)
-* [2⃣ 2⃣ 2⃣ Set up the SDK](swapkit-sdk/set-up-the-sdk.md)
-* [3⃣ 3⃣ 3⃣ Request Route & Execute Swap](swapkit-sdk/request-route-and-execute-swap.md)
+* [1⃣ Install SwapKit SDK](swapkit-sdk/install-swapkit-sdk.md)
+* [2⃣ Set up the SDK](swapkit-sdk/set-up-the-sdk.md)
+* [3⃣ Request Route & Execute Swap](swapkit-sdk/request-route-and-execute-swap.md)
 * [💸 Wallets](swapkit-sdk/wallets/README.md)
   * [Ledger](swapkit-sdk/wallets/ledger.md)
   * [Trezor](swapkit-sdk/wallets/trezor.md)
