@@ -706,7 +706,13 @@ export const list = {
       identifier: 'AVAX.BINGO-0XB262A485D98D8E19175818D47453E7812CA255A8',
       decimals: 18,
     },
+    {
+      address: '0xf5f3216E9fed36F8cCf08D310FEc6FBf7f06200f',
+      chain: 'AVAX',
+      identifier: 'AVAX.BOBS-0XF5F3216E9FED36F8CCF08D310FEC6FBF7F06200F',
+      decimals: 18,
+    },
   ],
-  count: 117,
+  count: 118,
   logo: 'https://static.thorswap.net/token-list/images/avax.joe-0x6e84a6216ea6dacc71ee8e6b0a5b7322eebc0fdd.png',
 } as const;
