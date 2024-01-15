@@ -25,6 +25,7 @@ export const ERROR_DISPLAY_MESSAGES: Record<string, string> = {
   [ERROR_CODE.DESTINATION_ADDRESS_INVALID_FOR_BUY_CHAIN]:
     'Destination address {0} invalid for buy chain.',
   [ERROR_CODE.PREFERRED_PROVIDER_NOT_SUPPORTED]: 'Preferred provider not supported.',
+  [ERROR_CODE.SOURCE_ADDRESS_SMART_CONTRACT]: 'Source address is a smart contract.',
   [ERROR_CODE.DESTINATION_ADDRESS_SMART_CONTRACT]: 'Destination address is a smart contract.',
   [ERROR_CODE.BUY_AMOUNT_MUST_BE_POSITIVE_INTEGER]: 'Buy amount must be a positive integer.',
   [ERROR_CODE.INVALID_PROVIDER]: 'Invalid provider {0}.',
@@ -60,10 +61,11 @@ export const ERROR_DISPLAY_MESSAGES: Record<string, string> = {
 export const getDisplayMessage = (code: ERROR_CODE, displayMessageParams: string[]) => {
   let displayMessage = ERROR_DISPLAY_MESSAGES[code];
 
+  if (!displayMessage) return '';
+
   for (let i = 0; i < displayMessageParams.length; i++) {
-    displayMessage = displayMessage.replace(`{${i}}`, displayMessageParams[i]);
+    displayMessage = displayMessage?.replace(`{${i}}`, displayMessageParams[i]) ?? '';
   }
 
-  if (displayMessageParams.length === 0) return displayMessage.replace('{0}', '');
-  else return displayMessage;
+  return displayMessage;
 };
