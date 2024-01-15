@@ -60,10 +60,11 @@ export const ERROR_DISPLAY_MESSAGES: Record<string, string> = {
 export const getDisplayMessage = (code: ERROR_CODE, displayMessageParams: string[]) => {
   let displayMessage = ERROR_DISPLAY_MESSAGES[code];
 
+  if (!displayMessage?.length) return displayMessage.replace('{0}', '');
+
   for (let i = 0; i < displayMessageParams.length; i++) {
     displayMessage = displayMessage.replace(`{${i}}`, displayMessageParams[i]);
   }
 
-  if (displayMessageParams.length === 0) return displayMessage.replace('{0}', '');
-  else return displayMessage;
+  return displayMessage;
 };
