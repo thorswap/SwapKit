@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.32
+
+### Minor Changes
+
+- [#549](https://github.com/thorswap/SwapKit/pull/549) [`d264aa5`](https://github.com/thorswap/SwapKit/commit/d264aa5534e7eec80040d7d31dbee97c3a3d57fe) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Fix error message unsafe parsing
+
 ## 1.0.0-rc.31
 
 ### Patch Changes

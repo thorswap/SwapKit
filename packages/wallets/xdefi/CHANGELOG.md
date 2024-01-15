@@ -1,5 +1,16 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.80
+
+### Patch Changes
+
+- Updated dependencies [[`d264aa5`](https://github.com/thorswap/SwapKit/commit/d264aa5534e7eec80040d7d31dbee97c3a3d57fe)]:
+  - @swapkit/types@1.0.0-rc.32
+  - @swapkit/helpers@1.0.0-rc.61
+  - @swapkit/toolbox-cosmos@1.0.0-rc.68
+  - @swapkit/toolbox-evm@1.0.0-rc.67
+  - @swapkit/toolbox-utxo@1.0.0-rc.65
+
 ## 1.0.0-rc.79
 
 ### Patch Changes
