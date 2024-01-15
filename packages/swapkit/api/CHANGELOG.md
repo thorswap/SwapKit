@@ -1,5 +1,12 @@
 # @swapkit/api
 
+## 1.0.0-rc.33
+
+### Patch Changes
+
+- Updated dependencies [[`d264aa5`](https://github.com/thorswap/SwapKit/commit/d264aa5534e7eec80040d7d31dbee97c3a3d57fe)]:
+  - @swapkit/types@1.0.0-rc.32
+
 ## 1.0.0-rc.32
 
 ### Patch Changes
