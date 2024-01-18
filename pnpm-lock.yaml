@@ -197,8 +197,6 @@ importers:
         specifier: 5.0.7
         version: 5.0.7(@types/node@20.10.4)
 
-  internal/node-playground: {}
-
   internal/playground:
     dependencies:
       '@esbuild-plugins/node-globals-polyfill':
@@ -332,8 +330,6 @@ importers:
       vitest:
         specifier: 1.0.4
         version: 1.0.4(@types/node@20.10.4)
-
-  packages/swapkit/cli: {}
 
   packages/swapkit/core:
     dependencies:
