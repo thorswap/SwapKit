@@ -3,12 +3,13 @@ import { base64 } from '@scure/base';
 import type { ChainId } from '@swapkit/types';
 
 import type { CosmosSDKClientParams, TransferParams } from './types.ts';
-import { createSigningStargateClient, createStargateClient, getDenom, getRPC } from './util.ts';
-
-const DEFAULT_COSMOS_FEE_MAINNET = {
-  amount: [{ denom: 'uatom', amount: '500' }],
-  gas: '200000',
-};
+import {
+  createSigningStargateClient,
+  createStargateClient,
+  DEFAULT_COSMOS_FEE_MAINNET,
+  getDenom,
+  getRPC,
+} from './util.ts';
 
 export class CosmosClient {
   server: string;

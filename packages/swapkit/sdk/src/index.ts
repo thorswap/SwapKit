@@ -1,6 +1,7 @@
 import type { ExtendParams } from '@swapkit/core';
 import { SwapKitCore } from '@swapkit/core';
 import { evmWallet } from '@swapkit/wallet-evm-extensions';
+import { keepkeyWallet } from '@swapkit/wallet-keepkey';
 import { keplrWallet } from '@swapkit/wallet-keplr';
 import { keystoreWallet } from '@swapkit/wallet-keystore';
 import { ledgerWallet } from '@swapkit/wallet-ledger';
@@ -24,6 +25,7 @@ export const createSwapKit = ({ config, ...extendParams }: SwapKitOptions = {}) 
       evmWallet,
       keplrWallet,
       keystoreWallet,
+      keepkeyWallet,
       ledgerWallet,
       okxWallet,
       trezorWallet,

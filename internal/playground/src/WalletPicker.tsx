@@ -38,6 +38,21 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   [WalletOption.COINBASE_WEB]: EVMChainList,
   [WalletOption.KEPLR]: [Chain.Cosmos],
   [WalletOption.KEYSTORE]: AllChainsSupported,
+  [WalletOption.KEEPKEY]: [
+    Chain.Arbitrum,
+    Chain.Avalanche,
+    Chain.Binance,
+    Chain.BinanceSmartChain,
+    Chain.Bitcoin,
+    Chain.BitcoinCash,
+    Chain.Cosmos,
+    Chain.Dogecoin,
+    Chain.Ethereum,
+    Chain.Litecoin,
+    Chain.Optimism,
+    Chain.Polygon,
+    Chain.THORChain,
+  ],
   [WalletOption.LEDGER]: AllChainsSupported,
   [WalletOption.TREZOR]: [
     Chain.Bitcoin,
@@ -92,7 +107,17 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.METAMASK:
         case WalletOption.TRUSTWALLET_WEB:
           return skClient.connectEVMWallet(chains, option);
-
+        case WalletOption.KEEPKEY: {
+          const derivationPaths = []; // Ensure derivationPaths is defined
+          for (let chain of chains) {
+            // Use 'let' for iteration variable
+            const derivationPath = getDerivationPathFor({ chain: chain, index: 0 });
+            derivationPaths.push(derivationPath);
+          }
+          let apiKey: string = await skClient.connectKeepkey(chains, derivationPaths);
+          localStorage.setItem('keepkeyApiKey', apiKey);
+          return true;
+        }
         case WalletOption.LEDGER: {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
           return skClient.connectLedger(chains[0], derivationPath);

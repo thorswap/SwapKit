@@ -13,6 +13,11 @@ const headers =
     ? ({} as { [key: string]: string })
     : { referer: 'https://sk.thorswap.net', referrer: 'https://sk.thorswap.net' };
 
+export const DEFAULT_COSMOS_FEE_MAINNET = {
+  amount: [{ denom: 'uatom', amount: '500' }],
+  gas: '200000',
+};
+
 export const getDenom = (symbol: string, isThorchain = false) =>
   isThorchain ? symbol.toLowerCase() : symbol;
 
