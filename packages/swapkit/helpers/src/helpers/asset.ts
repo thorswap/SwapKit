@@ -6,9 +6,9 @@ import { RequestClient } from '../index.ts';
 const getDecimalMethodHex = '0x313ce567';
 
 export type CommonAssetString =
-  | 'MAYA.MAYA'
-  | 'ETH.THOR'
-  | 'ETH.vTHOR'
+  | `${Chain.Maya}.MAYA`
+  | `${Chain.Ethereum}.THOR`
+  | `${Chain.Ethereum}.vTHOR`
   | `${Chain.Kujira}.USK`
   | Chain;
 
@@ -113,9 +113,9 @@ export const getCommonAssetInfo = (
   assetString: CommonAssetString,
 ): { identifier: string; decimal: number } => {
   switch (assetString) {
-    case 'ETH.THOR':
+    case `${Chain.Ethereum}.THOR`:
       return { identifier: 'ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044', decimal: 18 };
-    case 'ETH.vTHOR':
+    case `${Chain.Ethereum}.vTHOR`:
       return { identifier: 'ETH.vTHOR-0x815c23eca83261b6ec689b60cc4a58b54bc24d8d', decimal: 18 };
 
     case Chain.Cosmos:
@@ -126,7 +126,7 @@ export const getCommonAssetInfo = (
       return { identifier: 'BSC.BNB', decimal: BaseDecimal[assetString] };
     case Chain.Maya:
       return { identifier: 'MAYA.CACAO', decimal: BaseDecimal.MAYA };
-    case 'MAYA.MAYA':
+    case `${Chain.Maya}.MAYA`:
       return { identifier: 'MAYA.MAYA', decimal: 4 };
 
     case `${Chain.Kujira}.USK`:

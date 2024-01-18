@@ -4,6 +4,7 @@ import { Chain, type ChainId, type DerivationPath } from '@swapkit/types';
 
 import type { CosmosClient } from '../cosmosClient.ts';
 import type { BaseCosmosToolboxType } from '../thorchainUtils/types/client-types.ts';
+import { USK_KUJIRA_FACTORY_DENOM } from '../util.ts';
 
 type Params = {
   client: CosmosClient;
@@ -34,7 +35,7 @@ export const getAssetFromDenom = async (denom: string, amount: string) => {
     case 'ukuji':
     case 'kuji':
       return AssetValue.fromChainOrSignature(Chain.Kujira, parseInt(amount) / 1e6);
-    case 'FACTORY/KUJIRA1QK00H5ATUTPSV900X202PXX42NPJR9THG58DNQPA72F2P7M2LUASE444A7/UUSK':
+    case USK_KUJIRA_FACTORY_DENOM:
       // USK on Kujira
       return AssetValue.fromChainOrSignature(`${Chain.Kujira}.USK`, parseInt(amount) / 1e6);
 

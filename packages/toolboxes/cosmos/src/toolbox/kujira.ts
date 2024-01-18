@@ -4,7 +4,7 @@ import { type AssetValue, SwapKitNumber } from '@swapkit/helpers';
 import { ApiUrl, BaseDecimal, ChainId, DerivationPath } from '@swapkit/types';
 
 import { CosmosClient } from '../cosmosClient.ts';
-import type { KujiraToolboxType, ToolboxParams } from '../index.ts';
+import { type KujiraToolboxType, type ToolboxParams, USK_KUJIRA_FACTORY_DENOM } from '../index.ts';
 import type { TransferParams } from '../types.ts';
 
 import {
@@ -51,21 +51,9 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
       return await Promise.all(
         denomBalances
           .filter(({ denom }) => {
-            if (!denom) {
-              return false;
-            }
-            if (denom.includes('IBC/')) {
-              return false;
-            }
-            // include USK from Kujira
-            if (
-              denom ===
-              'FACTORY/KUJIRA1QK00H5ATUTPSV900X202PXX42NPJR9THG58DNQPA72F2P7M2LUASE444A7/UUSK'
-            ) {
-              return true;
-            }
-            // exclude all other FACTORY tokens
-            return !denom.startsWith('FACTORY');
+            if (!denom || denom.includes('IBC/')) return false;
+
+            return denom === USK_KUJIRA_FACTORY_DENOM || !denom.startsWith('FACTORY');
           })
           .map(({ denom, amount }) => getAssetFromDenom(denom, amount)),
       );

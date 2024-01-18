@@ -5,6 +5,9 @@ import { ChainId, FeeOption, RPCUrl } from '@swapkit/types';
 
 import type { CosmosMaxSendableAmountParams } from './types.ts';
 
+export const USK_KUJIRA_FACTORY_DENOM =
+  'FACTORY/KUJIRA1QK00H5ATUTPSV900X202PXX42NPJR9THG58DNQPA72F2P7M2LUASE444A7/UUSK';
+
 const headers =
   typeof window !== 'undefined'
     ? ({} as { [key: string]: string })
