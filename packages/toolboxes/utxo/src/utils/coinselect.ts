@@ -27,10 +27,11 @@ export const getDustThreshold = (chain: UTXOChain) => {
 export const accumulative = ({
   inputs,
   outputs,
-  feeRate,
+  feeRate: initialFeeRate = 1,
   chain = Chain.Bitcoin,
 }: UTXOCalculateTxSizeParams & { outputs: TargetOutput[]; chain: UTXOChain }) => {
-  feeRate = Math.ceil(feeRate);
+  const feeRate = Math.ceil(initialFeeRate);
+
   const newTxType =
     inputs[0] && 'address' in inputs[0]
       ? getScriptTypeForAddress(inputs[0].address)
