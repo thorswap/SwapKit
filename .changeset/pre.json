@@ -21,7 +21,8 @@
     "@swapkit/wallet-xdefi": "1.0.0-rc.0",
     "@internal/config": "0.0.0-internal.0",
     "@thorswap-lib/swapkit-entities": "1.0.0-rc.0",
-    "@internal/playground": "0.0.0-internal.0"
+    "@internal/playground": "0.0.0-internal.0",
+    "@swapkit/wallet-keepkey": "1.0.0-rc.0"
   },
   "changesets": [
     "beige-coats-hear",
@@ -91,6 +92,7 @@
     "nice-chefs-drum",
     "ninety-ligers-love",
     "odd-mangos-play",
+    "old-cougars-stare",
     "olive-balloons-reflect",
     "perfect-toes-try",
     "polite-knives-report",
