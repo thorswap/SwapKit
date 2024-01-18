@@ -1,9 +1,9 @@
 import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
 import { derivationPathToString } from '@swapkit/helpers';
-import type { EVMTxParams } from '@swapkit/toolbox-evm';
+import type { EVMTxParams, JsonRpcProvider, Provider } from '@swapkit/toolbox-evm';
+import { AbstractSigner } from '@swapkit/toolbox-evm';
 import type { Chain, DerivationPathArray } from '@swapkit/types';
-import { ChainToChainId } from '@swapkit/types';
-import { AbstractSigner, type JsonRpcProvider, type Provider } from 'ethers';
+import { ChainToChainId, NetworkDerivationPath } from '@swapkit/types';
 
 import { bip32ToAddressNList } from '../helpers/coins.ts';
 
@@ -25,13 +25,13 @@ export class KeepKeySigner extends AbstractSigner {
     super();
     this.sdk = sdk;
     this.chain = chain;
-    this.derivationPath = derivationPath || [44, 60, 0, 0, 0];
+    this.derivationPath = derivationPath || NetworkDerivationPath.ETH;
     this.address = '';
     this.provider = provider;
   }
 
   signTypedData(): Promise<string> {
-    throw new Error('this method is not impmented');
+    throw new Error('this method is not implemented');
   }
 
   getAddress = async () => {
@@ -44,11 +44,8 @@ export class KeepKeySigner extends AbstractSigner {
     return address;
   };
 
-  signMessage = async (message: string) => {
-    const response = await this.sdk.eth.ethSign({ address: this.address, message });
-
-    return response as string;
-  };
+  signMessage = (message: string) =>
+    this.sdk.eth.ethSign({ address: this.address, message }) as Promise<string>;
 
   signTransaction = async ({
     from,
@@ -94,8 +91,9 @@ export class KeepKeySigner extends AbstractSigner {
             maxPriorityFeePerGas: toHexString(BigInt(maxPriorityFeePerGas?.toString() || '0')),
           }
         : {
+            // Fixed syntax error and structure here
             gasPrice:
-              'gasPrice' in restTx ? toHexString(BigInt(gasPrice?.toString() || '0')) : undefined, // Fixed syntax error and structure here
+              'gasPrice' in restTx ? toHexString(BigInt(gasPrice?.toString() || '0')) : undefined,
           }),
     };
     const responseSign = await this.sdk.eth.ethSignTransaction(input);

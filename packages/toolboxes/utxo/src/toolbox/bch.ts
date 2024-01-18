@@ -35,6 +35,7 @@ import { BaseUTXOToolbox } from './BaseUTXOToolbox.ts';
 // needed because TS can not infer types
 type BCHMethods = {
   stripPrefix: (address: string) => string;
+  stripToCashAddress: (address: string) => string;
   validateAddress: (address: string, chain?: UTXOChain) => boolean;
   createKeysForPath: (params: {
     wif?: string;
@@ -282,6 +283,7 @@ export const BCHToolbox = ({
   return {
     ...toolbox,
     stripPrefix,
+    stripToCashAddress,
     validateAddress,
     createKeysForPath,
     getAddressFromKeys,

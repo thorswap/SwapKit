@@ -101,29 +101,29 @@ const getWalletMethods = async ({
   }
 };
 
-export const checkKeepkeyAvailability = async (
+const checkKeepkeyAvailability = async (
   spec: string = 'http://localhost:1646/spec/swagger.json',
 ) => {
   try {
     const response = await fetch(spec);
-    if (response.status === 200) {
-      return true;
-    }
+    return response.status === 200;
   } catch (error) {
     console.error(error);
     return false;
   }
-  return false;
 };
 
 // kk-sdk docs: https://medium.com/@highlander_35968/building-on-the-keepkey-sdk-2023fda41f38
 // test spec: if offline, launch keepkey-bridge
 const checkAndLaunch = async (attempts: number) => {
-  if (attempts === 0)
+  if (attempts === 0) {
     alert(
       'KeepKey desktop is required for keepkey-sdk, please go to https://keepkey.com/get-started',
     );
-  if (!(await checkKeepkeyAvailability())) {
+  }
+  const isAvailable = await checkKeepkeyAvailability();
+
+  if (!isAvailable) {
     window.location.assign('keepkey://launch');
     await new Promise((resolve) => setTimeout(resolve, 30000));
     checkAndLaunch(attempts - 1);
@@ -177,5 +177,5 @@ const connectKeepkey =
 export const keepkeyWallet = {
   connectMethodName: 'connectKeepkey' as const,
   connect: connectKeepkey,
-  isDetected: () => checkKeepkeyAvailability(),
+  isDetected: checkKeepkeyAvailability,
 };

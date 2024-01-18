@@ -2,7 +2,6 @@ import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
 import type { AssetValue } from '@swapkit/helpers';
 import { derivationPathToString } from '@swapkit/helpers';
 import type { BinanceToolboxType } from '@swapkit/toolbox-cosmos';
-import { BinanceToolbox } from '@swapkit/toolbox-cosmos';
 import type { DerivationPathArray, WalletTxParams } from '@swapkit/types';
 import { Chain, ChainId, DerivationPath } from '@swapkit/types';
 
@@ -16,11 +15,12 @@ export const binanceWalletMethods = async ({
   derivationPath?: DerivationPathArray;
 }): Promise<BinanceToolboxType & { getAddress: () => string }> => {
   try {
+    const { BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
     const toolbox = BinanceToolbox();
 
     const derivationPathString = derivationPath
       ? `m/${derivationPathToString(derivationPath)}`
-      : DerivationPath['BNB'];
+      : DerivationPath.BNB;
 
     const { address: fromAddress } = (await sdk.address.binanceGetAddress({
       address_n: bip32ToAddressNList(derivationPathString),

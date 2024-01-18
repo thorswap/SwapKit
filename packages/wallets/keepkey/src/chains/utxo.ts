@@ -1,11 +1,13 @@
 import { derivationPathToString } from '@swapkit/helpers';
-import type { BaseUTXOToolbox, UTXOToolbox, UTXOTransferParams } from '@swapkit/toolbox-utxo';
-import { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/toolbox-utxo';
+import type {
+  BaseUTXOToolbox,
+  BCHToolbox,
+  Psbt,
+  UTXOToolbox,
+  UTXOTransferParams,
+} from '@swapkit/toolbox-utxo';
 import type { DerivationPathArray, UTXOChain } from '@swapkit/types';
 import { Chain, DerivationPath, FeeOption } from '@swapkit/types';
-// @ts-ignore
-import { toCashAddress } from 'bch-addr';
-import type { Psbt } from 'bitcoinjs-lib';
 
 import { bip32ToAddressNList, ChainToKeepKeyName } from '../helpers/coins.ts';
 
@@ -35,23 +37,6 @@ interface KeepKeyInputObject {
   hex: string;
 }
 
-const getToolbox = ({
-  chain,
-  apiClient,
-  apiKey,
-}: Omit<KKUtxoWalletParams, 'sdk' | 'derivationPath'>) => {
-  switch (chain) {
-    case Chain.Bitcoin:
-      return { toolbox: BTCToolbox({ apiClient, apiKey }), segwit: true };
-    case Chain.Litecoin:
-      return { toolbox: LTCToolbox({ apiClient, apiKey }), segwit: true };
-    case Chain.Dogecoin:
-      return { toolbox: DOGEToolbox({ apiClient, apiKey }), segwit: false };
-    case Chain.BitcoinCash:
-      return { toolbox: BCHToolbox({ apiClient, apiKey }), segwit: false };
-  }
-};
-
 export const utxoWalletMethods = async ({
   sdk,
   chain,
@@ -70,9 +55,11 @@ export const utxoWalletMethods = async ({
   }
 > => {
   if (!apiKey && !apiClient) throw new Error('UTXO API key not found');
-  const { toolbox, segwit } = getToolbox({ chain, apiClient, apiKey });
+  const { getToolboxByChain } = await import('@swapkit/toolbox-utxo');
 
-  const scriptType = segwit ? 'p2wpkh' : 'p2pkh';
+  const toolbox = getToolboxByChain(chain)({ apiClient, apiKey });
+  const scriptType = [Chain.Bitcoin, Chain.Litecoin].includes(chain) ? 'p2wpkh' : 'p2pkh';
+
   const derivationPathString = !derivationPath
     ? DerivationPath[chain]
     : `m/${derivationPathToString(derivationPath)}`;
@@ -92,7 +79,7 @@ export const utxoWalletMethods = async ({
 
         const outputAddress =
           chain === Chain.BitcoinCash
-            ? (toolbox as ReturnType<typeof BCHToolbox>).stripPrefix(toCashAddress(address))
+            ? (toolbox as ReturnType<typeof BCHToolbox>).stripToCashAddress(address)
             : address;
 
         if (change || address === walletAddress) {

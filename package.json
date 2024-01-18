@@ -40,6 +40,7 @@
   "engines": {
     "node": ">=20.0.0"
   },
+  "packageManager": "^pnpm@8.14.1",
   "pnpm": {
     "overrides": {
       "axios": "^1.6.2",
@@ -60,6 +61,7 @@
     "build:playground": "turbo run build-playground --concurrency=30",
     "preview:playground": "turbo run preview-playground --concurrency=30",
     "clean": "turbo run clean",
+    "lint:ls": "pnpm dlx sherif@latest",
     "dev:playground": "turbo run dev --concurrency=30 --filter=\"{./internal/playground}...\"",
     "dev:playground:node": "turbo run dev:node --concurrency=30 --filter=\"{./internal/node-playground}...\"",
     "dev:playground:bun": "turbo run dev:bun --concurrency=30 --filter=\"{./internal/node-playground}...\"",
