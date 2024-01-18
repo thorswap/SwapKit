@@ -1,5 +1,14 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.69
+
+### Patch Changes
+
+- [#551](https://github.com/thorswap/SwapKit/pull/551) [`497ecd7`](https://github.com/thorswap/SwapKit/commit/497ecd7e42278c2057e4d53e1fff94f09cc96a58) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Add USK factory filter
+
+- Updated dependencies [[`497ecd7`](https://github.com/thorswap/SwapKit/commit/497ecd7e42278c2057e4d53e1fff94f09cc96a58)]:
+  - @swapkit/helpers@1.0.0-rc.62
+
 ## 1.0.0-rc.68
 
 ### Patch Changes
