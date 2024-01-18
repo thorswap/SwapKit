@@ -28,9 +28,9 @@ export const getNetwork = (chain: Chain) => {
 };
 
 export const standardFeeRates = (rate: number) => ({
-  [FeeOption.Average]: Math.floor(rate),
-  [FeeOption.Fast]: Math.floor(rate * 1.5),
-  [FeeOption.Fastest]: Math.floor(rate * 2.0),
+  [FeeOption.Average]: rate,
+  [FeeOption.Fast]: rate * 1.5,
+  [FeeOption.Fastest]: rate * 2.0,
 });
 
 let last = 0;

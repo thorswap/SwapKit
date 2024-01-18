@@ -17,17 +17,24 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@swapkit/wallet-keystore': resolve('../../packages/wallets/keystore/src'),
-      '@swapkit/wallet-ledger': resolve('../../packages/wallets/ledger/src'),
+      '@swapkit/api': resolve('../../packages/swapkit/api/src'),
       '@swapkit/core': resolve('../../packages/swapkit/core/src'),
       '@swapkit/helpers': resolve('../../packages/swapkit/helpers/src'),
       '@swapkit/tokens': resolve('../../packages/swapkit/tokens/src'),
+      '@swapkit/types': resolve('../../packages/swapkit/types/src'),
+
       '@swapkit/toolbox-cosmos': resolve('../../packages/toolboxes/cosmos/src'),
       '@swapkit/toolbox-evm': resolve('../../packages/toolboxes/evm/src'),
       '@swapkit/toolbox-utxo': resolve('../../packages/toolboxes/utxo/src'),
+
+      '@swapkit/wallet-evm-extensions': resolve('../../packages/wallets/evm-extensions/src'),
+      '@swapkit/wallet-keplr': resolve('../../packages/wallets/keplr/src'),
       '@swapkit/wallet-keepkey': resolve('../../packages/wallets/keepkey/src'),
+      '@swapkit/wallet-keystore': resolve('../../packages/wallets/keystore/src'),
+      '@swapkit/wallet-ledger': resolve('../../packages/wallets/ledger/src'),
+      '@swapkit/wallet-okx': resolve('../../packages/wallets/okx/src'),
       '@swapkit/wallet-trezor': resolve('../../packages/wallets/trezor/src'),
-      '@swapkit/types': resolve('../../packages/swapkit/types/src'),
+      '@swapkit/wallet-wc': resolve('../../packages/wallets/wc/src'),
       '@swapkit/wallet-xdefi': resolve('../../packages/wallets/xdefi/src'),
 
       events: resolve('./polyfills/events.js'),

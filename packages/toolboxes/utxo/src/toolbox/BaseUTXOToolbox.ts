@@ -86,6 +86,7 @@ const transfer = async ({
   if (!from) throw new Error('From address must be provided');
   if (!recipient) throw new Error('Recipient address must be provided');
   const txFeeRate = feeRate || (await getFeeRates(apiClient))[feeOptionKey || FeeOption.Fast];
+
   const { psbt } = await buildTx({
     recipient,
     feeRate: txFeeRate,
