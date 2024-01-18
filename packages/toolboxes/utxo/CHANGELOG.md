@@ -1,5 +1,11 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.68
+
+### Patch Changes
+
+- [#554](https://github.com/thorswap/SwapKit/pull/554) [`5e17413`](https://github.com/thorswap/SwapKit/commit/5e1741329a6902e68098a9ab9ea13ddfde653ea5) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Fix UTXO fees on send
+
 ## 1.0.0-rc.67
 
 ### Patch Changes
