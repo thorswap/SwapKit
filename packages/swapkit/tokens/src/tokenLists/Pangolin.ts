@@ -1012,7 +1012,13 @@ export const list = {
       identifier: 'AVAX.COQ-0X420FCA0121DC28039145009570975747295F2329',
       decimals: 18,
     },
+    {
+      address: '0x8f939D5052AfD7515F92a8C93EC4c09fBfeEBb91',
+      chain: 'AVAX',
+      identifier: 'AVAX.GAS-0X8F939D5052AFD7515F92A8C93EC4C09FBFEEBB91',
+      decimals: 2,
+    },
   ],
-  count: 168,
+  count: 169,
   logo: 'https://static.thorswap.net/token-list/images/avax.png-0x60781c2586d68229fde47564546784ab3faca982.png',
 } as const;
