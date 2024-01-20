@@ -625,6 +625,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0xF80D589b3Dbe130c270a69F1a69D050f268786Df',
+      chain: 'ETH',
+      identifier: 'ETH.DAM-0XF80D589B3DBE130C270A69F1A69D050F268786DF',
+      decimals: 18,
+    },
+    {
       address: '0x0f51bb10119727a7e5eA3538074fb341F56B09Ad',
       chain: 'ETH',
       identifier: 'ETH.DAO-0X0F51BB10119727A7E5EA3538074FB341F56B09AD',
@@ -893,6 +899,12 @@ export const list = {
       chain: 'ETH',
       identifier: 'ETH.FLOKI-0XCF0C122C6B73FF809C693DB761E7BAEBE62B6A2E',
       decimals: 9,
+    },
+    {
+      address: '0x469eDA64aEd3A3Ad6f868c44564291aA415cB1d9',
+      chain: 'ETH',
+      identifier: 'ETH.FLUX-0X469EDA64AED3A3AD6F868C44564291AA415CB1D9',
+      decimals: 18,
     },
     {
       address: '0x7f280daC515121DcdA3EaC69eB4C13a52392CACE',
@@ -2173,6 +2185,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0xEe7527841A932d2912224E20a405e1a1FF747084',
+      chain: 'ETH',
+      identifier: 'ETH.SHX-0XEE7527841A932D2912224E20A405E1A1FF747084',
+      decimals: 7,
+    },
+    {
       address: '0xD23Ac27148aF6A2f339BD82D0e3CFF380b5093de',
       chain: 'ETH',
       identifier: 'ETH.SI-0XD23AC27148AF6A2F339BD82D0E3CFF380B5093DE',
@@ -2953,6 +2971,6 @@ export const list = {
       decimals: 18,
     },
   ],
-  count: 492,
+  count: 495,
   logo: 'https://static.thorswap.net/token-list/images/eth.sushi-0x6b3595068778dd592e39a122f4f5a5cf09c90fe2.png',
 } as const;
