@@ -1,3 +1,4 @@
+import { setRequestClientConfig } from '@swapkit/helpers';
 import {
   type DepositParam,
   encodePubkey,
@@ -465,11 +466,20 @@ const getToolbox = async ({
 const connectLedger =
   ({
     addChain,
-    config: { covalentApiKey, ethplorerApiKey, blockchairApiKey, utxoApiKey, stagenet },
     apis,
     rpcUrls,
+    config: {
+      thorswapApiKey,
+      covalentApiKey,
+      ethplorerApiKey,
+      blockchairApiKey,
+      utxoApiKey,
+      stagenet,
+    },
   }: ConnectWalletParams) =>
   async (chain: (typeof LEDGER_SUPPORTED_CHAINS)[number], derivationPath?: DerivationPathArray) => {
+    setRequestClientConfig({ apiKey: thorswapApiKey });
+
     const ledgerClient = await getLedgerClient({ chain, derivationPath });
     if (!ledgerClient) return;
 

@@ -1,3 +1,4 @@
+import { setRequestClientConfig } from '@swapkit/helpers';
 import {
   type BaseCosmosToolboxType,
   type DepositParam,
@@ -323,12 +324,20 @@ export type Walletconnect = Awaited<ReturnType<typeof getWalletconnect>>;
 const connectWalletconnect =
   ({
     addChain,
-    config: { ethplorerApiKey, walletConnectProjectId, covalentApiKey, stagenet = false },
+    config: {
+      thorswapApiKey,
+      ethplorerApiKey,
+      walletConnectProjectId,
+      covalentApiKey,
+      stagenet = false,
+    },
   }: ConnectWalletParams) =>
   async (
     chains: (typeof WC_SUPPORTED_CHAINS)[number][],
     walletconnectOptions?: SignClientTypes.Options,
   ) => {
+    setRequestClientConfig({ apiKey: thorswapApiKey });
+
     const chainsToConnect = chains.filter((chain) => WC_SUPPORTED_CHAINS.includes(chain));
     const walletconnect = await getWalletconnect(
       chainsToConnect,

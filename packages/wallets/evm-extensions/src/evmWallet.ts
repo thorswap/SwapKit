@@ -1,3 +1,4 @@
+import { setRequestClientConfig } from '@swapkit/helpers';
 import type { Eip1193Provider } from '@swapkit/toolbox-evm';
 import type { ConnectWalletParams, EVMChain, EVMWalletOptions } from '@swapkit/types';
 import { WalletOption } from '@swapkit/types';
@@ -40,8 +41,13 @@ const getWalletForType = (
 };
 
 const connectEVMWallet =
-  ({ addChain, config: { covalentApiKey, ethplorerApiKey } }: ConnectWalletParams) =>
+  ({
+    addChain,
+    config: { covalentApiKey, ethplorerApiKey, thorswapApiKey },
+  }: ConnectWalletParams) =>
   async (chains: EVMChain[], walletType: EVMWalletOptions = WalletOption.METAMASK) => {
+    setRequestClientConfig({ apiKey: thorswapApiKey });
+
     const promises = chains.map(async (chain) => {
       const { BrowserProvider, getWeb3WalletMethods, getProvider } = await import(
         '@swapkit/toolbox-evm'

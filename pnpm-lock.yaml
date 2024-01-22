@@ -205,9 +205,6 @@ importers:
       '@esbuild-plugins/node-modules-polyfill':
         specifier: 0.2.2
         version: 0.2.2(esbuild@0.19.9)
-      '@swapkit/api':
-        specifier: workspace:*
-        version: link:../../packages/swapkit/api
       '@swapkit/core':
         specifier: workspace:*
         version: link:../../packages/swapkit/core
@@ -343,9 +340,6 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
-      '@swapkit/api':
-        specifier: workspace:*
-        version: link:../api
       '@swapkit/tokens':
         specifier: workspace:*
         version: link:../tokens
@@ -395,9 +389,9 @@ importers:
 
   packages/swapkit/helpers:
     dependencies:
-      ky:
-        specifier: 1.1.3
-        version: 1.1.3
+      '@swapkit/api':
+        specifier: workspace:*
+        version: link:../api
     devDependencies:
       '@internal/config':
         specifier: workspace:*
@@ -420,9 +414,6 @@ importers:
 
   packages/swapkit/sdk:
     dependencies:
-      '@swapkit/api':
-        specifier: workspace:*
-        version: link:../api
       '@swapkit/core':
         specifier: workspace:*
         version: link:../core
@@ -541,9 +532,6 @@ importers:
       '@scure/bip32':
         specifier: 1.3.2
         version: 1.3.2
-      '@swapkit/api':
-        specifier: workspace:*
-        version: link:../../swapkit/api
       bn.js:
         specifier: 5.2.1
         version: 5.2.1
@@ -966,6 +954,9 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
+      '@swapkit/helpers':
+        specifier: workspace:*
+        version: link:../../swapkit/helpers
       '@swapkit/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos

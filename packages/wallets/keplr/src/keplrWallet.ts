@@ -1,5 +1,5 @@
 import type { Keplr } from '@keplr-wallet/types';
-import type { AssetValue } from '@swapkit/helpers';
+import { type AssetValue, setRequestClientConfig } from '@swapkit/helpers';
 import type { ConnectWalletParams, WalletTxParams } from '@swapkit/types';
 import { Chain, ChainToChainId, RPCUrl, WalletOption } from '@swapkit/types';
 
@@ -10,8 +10,10 @@ declare global {
 }
 
 const connectKeplr =
-  ({ addChain, rpcUrls }: ConnectWalletParams) =>
+  ({ addChain, config: { thorswapApiKey }, rpcUrls }: ConnectWalletParams) =>
   async (chain: Chain.Cosmos | Chain.Kujira) => {
+    setRequestClientConfig({ apiKey: thorswapApiKey });
+
     const keplrClient = window.keplr;
     const chainId = ChainToChainId[chain];
     keplrClient?.enable(chainId);

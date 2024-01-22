@@ -21,6 +21,10 @@ type ChainWallet = {
 export type ConnectConfig = {
   stagenet?: boolean;
   /**
+   * @required
+   */
+  thorswapApiKey?: string;
+  /**
    * @required for AVAX & BSC
    */
   covalentApiKey?: string;

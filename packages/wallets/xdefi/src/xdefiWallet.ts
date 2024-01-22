@@ -1,3 +1,4 @@
+import { setRequestClientConfig } from '@swapkit/helpers';
 import type { AVAXToolbox, BSCToolbox } from '@swapkit/toolbox-evm';
 import type { ConnectConfig, ConnectWalletParams } from '@swapkit/types';
 import {
@@ -159,9 +160,11 @@ const getWalletMethodsForChain = async ({
 const connectXDEFI =
   ({
     addChain,
-    config: { covalentApiKey, ethplorerApiKey, blockchairApiKey, utxoApiKey },
+    config: { covalentApiKey, ethplorerApiKey, blockchairApiKey, thorswapApiKey, utxoApiKey },
   }: ConnectWalletParams) =>
   async (chains: (typeof XDEFI_SUPPORTED_CHAINS)[number][]) => {
+    setRequestClientConfig({ apiKey: thorswapApiKey });
+
     const promises = chains.map(async (chain) => {
       const address = await getXDEFIAddress(chain);
       const walletMethods = await getWalletMethodsForChain({

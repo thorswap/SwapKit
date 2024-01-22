@@ -2,7 +2,7 @@
   "author": "swapkit-oss-team",
   "description": "SwapKit Lib swapkit-helpers",
   "dependencies": {
-    "ky": "1.1.3"
+    "@swapkit/api": "workspace:*"
   },
   "devDependencies": {
     "@internal/config": "workspace:*",

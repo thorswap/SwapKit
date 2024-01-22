@@ -1,5 +1,4 @@
-import type { QuoteRoute } from '@swapkit/api';
-import type { AssetValue, SwapKitNumber } from '@swapkit/helpers';
+import type { AssetValue, QuoteRoute, SwapKitNumber } from '@swapkit/helpers';
 import type {
   BinanceToolbox,
   DepositParam,
