@@ -1,4 +1,4 @@
-import { derivationPathToString } from '@swapkit/helpers';
+import { derivationPathToString, setRequestClientConfig } from '@swapkit/helpers';
 import type { Psbt, UTXOTransferParams, UTXOType } from '@swapkit/toolbox-utxo';
 import { toCashAddress } from '@swapkit/toolbox-utxo';
 import type { ConnectWalletParams, DerivationPathArray } from '@swapkit/types';
@@ -250,9 +250,12 @@ const connectTrezor =
       utxoApiKey,
       blockchairApiKey,
       trezorManifest = { appUrl: '', email: '' },
+      thorswapApiKey,
     },
   }: ConnectWalletParams) =>
   async (chain: (typeof TREZOR_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
+    setRequestClientConfig({ apiKey: thorswapApiKey });
+
     const TConnect = TrezorConnect as unknown as TrezorConnect.TrezorConnect;
     const { success } = await TConnect.getDeviceState();
 

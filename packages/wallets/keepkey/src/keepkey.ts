@@ -1,4 +1,5 @@
 import { KeepKeySdk } from '@keepkey/keepkey-sdk';
+import { setRequestClientConfig } from '@swapkit/helpers';
 import { getProvider, getToolboxByChain } from '@swapkit/toolbox-evm';
 import type { ConnectWalletParams, DerivationPathArray, EVMChain } from '@swapkit/types';
 import { Chain, WalletOption } from '@swapkit/types';
@@ -135,9 +136,16 @@ const connectKeepkey =
     apis,
     rpcUrls,
     addChain,
-    config: { keepkeyConfig, covalentApiKey, ethplorerApiKey = 'freekey', blockchairApiKey },
+    config: {
+      thorswapApiKey,
+      keepkeyConfig,
+      covalentApiKey,
+      ethplorerApiKey = 'freekey',
+      blockchairApiKey,
+    },
   }: ConnectWalletParams) =>
   async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, derivationPaths?: DerivationPathArray[]) => {
+    setRequestClientConfig({ apiKey: thorswapApiKey });
     if (!keepkeyConfig) throw new Error('KeepKey config not found');
 
     await checkAndLaunch(3);

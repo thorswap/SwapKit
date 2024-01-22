@@ -954,6 +954,9 @@ importers:
       '@internal/config':
         specifier: workspace:*
         version: link:../../../internal/config
+      '@swapkit/helpers':
+        specifier: workspace:*
+        version: link:../../swapkit/helpers
       '@swapkit/toolbox-cosmos':
         specifier: workspace:*
         version: link:../../toolboxes/cosmos

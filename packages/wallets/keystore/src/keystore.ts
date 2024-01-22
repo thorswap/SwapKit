@@ -1,3 +1,4 @@
+import { setRequestClientConfig } from '@swapkit/helpers';
 import type {
   BinanceToolboxType,
   DepositParam,
@@ -183,9 +184,18 @@ const connectKeystore =
     addChain,
     apis,
     rpcUrls,
-    config: { covalentApiKey, ethplorerApiKey, blockchairApiKey, utxoApiKey, stagenet },
+    config: {
+      thorswapApiKey,
+      covalentApiKey,
+      ethplorerApiKey,
+      blockchairApiKey,
+      utxoApiKey,
+      stagenet,
+    },
   }: ConnectWalletParams) =>
   async (chains: Chain[], phrase: string, index: number = 0) => {
+    setRequestClientConfig({ apiKey: thorswapApiKey });
+
     const promises = chains.map(async (chain) => {
       const { address, walletMethods } = await getWalletMethodsForChain({
         index,

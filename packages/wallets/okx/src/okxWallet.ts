@@ -1,7 +1,7 @@
-import { Chain, WalletOption } from '@swapkit/types';
+import { setRequestClientConfig } from '@swapkit/helpers';
+import { Chain, type ConnectWalletParams, WalletOption } from '@swapkit/types';
 
 import { getWalletForChain } from './helpers.ts';
-import type { OKXConfig } from './types.ts';
 
 const OKX_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
@@ -17,12 +17,11 @@ const OKX_SUPPORTED_CHAINS = [
 const connectOkx =
   ({
     addChain,
-    config: { covalentApiKey, ethplorerApiKey, utxoApiKey, blockchairApiKey },
-  }: {
-    addChain: any;
-    config: OKXConfig;
-  }) =>
+    config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, utxoApiKey, blockchairApiKey },
+  }: ConnectWalletParams) =>
   async (chains: (typeof OKX_SUPPORTED_CHAINS)[number][]) => {
+    setRequestClientConfig({ apiKey: thorswapApiKey });
+
     const promises = chains.map(async (chain) => {
       const walletMethods = await getWalletForChain({
         chain,

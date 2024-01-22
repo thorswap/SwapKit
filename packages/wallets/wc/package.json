@@ -6,6 +6,7 @@
   "description": "SwapKit Lib walletconnect",
   "devDependencies": {
     "@internal/config": "workspace:*",
+    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/types": "workspace:*",
@@ -34,6 +35,7 @@
   "module": "./dist/index.es.js",
   "name": "@swapkit/wallet-wc",
   "peerDependencies": {
+    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/types": "workspace:*"
