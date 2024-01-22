@@ -3,8 +3,8 @@
   "description": "SwapKit Lib types",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@types/node": "20.10.4",
-    "vite": "5.0.7"
+    "@types/node": "20.11.5",
+    "vite": "5.0.12"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"

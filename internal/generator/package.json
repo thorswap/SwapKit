@@ -8,9 +8,9 @@
     "@internal/config": "workspace:*",
     "@types/ejs": "3.1.5",
     "@types/inquirer": "9.0.7",
-    "@types/node": "20.10.4",
-    "@types/node-fetch": "2.6.9",
-    "vite": "5.0.7"
+    "@types/node": "20.11.5",
+    "@types/node-fetch": "2.6.11",
+    "vite": "5.0.12"
   },
   "eslintConfig": {
     "extends": "../eslint-config"

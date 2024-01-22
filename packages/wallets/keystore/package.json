@@ -1,7 +1,7 @@
 {
   "author": "swapkit-oss-team",
   "dependencies": {
-    "@scure/bip39": "1.2.1",
+    "@scure/bip39": "1.2.2",
     "blakejs": "1.2.1"
   },
   "description": "SwapKit Lib keystore",
@@ -15,9 +15,9 @@
     "@swapkit/types": "workspace:*",
     "@types/long": "4.0.2",
     "@types/uuid": "9.0.7",
-    "@vitest/coverage-istanbul": "1.0.4",
-    "vite": "5.0.7",
-    "vitest": "1.0.4"
+    "@vitest/coverage-istanbul": "1.2.1",
+    "vite": "5.0.12",
+    "vitest": "1.2.1"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"

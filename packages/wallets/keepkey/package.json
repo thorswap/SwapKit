@@ -12,9 +12,9 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@vitest/coverage-istanbul": "1.0.4",
-    "vite": "5.0.7",
-    "vitest": "1.0.4"
+    "@vitest/coverage-istanbul": "1.2.1",
+    "vite": "5.0.12",
+    "vitest": "1.2.1"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
