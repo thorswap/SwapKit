@@ -1,5 +1,16 @@
 # @swapkit/wallet-keplr
 
+## 1.0.0-rc.72
+
+### Patch Changes
+
+- [#560](https://github.com/thorswap/SwapKit/pull/560) [`93adbb8`](https://github.com/thorswap/SwapKit/commit/93adbb8eb39ea5ff94b5be692f81ca55abb52173) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Add api key header with config
+
+- Updated dependencies [[`93adbb8`](https://github.com/thorswap/SwapKit/commit/93adbb8eb39ea5ff94b5be692f81ca55abb52173)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.71
+  - @swapkit/helpers@1.0.0-rc.64
+  - @swapkit/types@1.0.0-rc.33
+
 ## 1.0.0-rc.71
 
 ### Patch Changes
