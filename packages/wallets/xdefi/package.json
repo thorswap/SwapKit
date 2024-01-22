@@ -10,7 +10,7 @@
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
     "@vitest/coverage-istanbul": "1.0.4",
-    "vite": "5.0.7",
+    "vite": "5.0.12",
     "vitest": "1.0.4"
   },
   "eslintConfig": {
