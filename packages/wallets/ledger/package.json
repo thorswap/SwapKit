@@ -13,16 +13,16 @@
   "description": "SwapKit Lib ledger",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@types/ripemd160": "2.0.3",
     "@rollup/plugin-node-resolve": "15.2.3",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@vitest/coverage-istanbul": "1.0.4",
-    "vite": "5.0.7",
-    "vitest": "1.0.4"
+    "@types/ripemd160": "2.0.3",
+    "@vitest/coverage-istanbul": "1.2.1",
+    "vite": "5.0.12",
+    "vitest": "1.2.1"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"

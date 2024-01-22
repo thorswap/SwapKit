@@ -11,11 +11,11 @@
     "@nomicfoundation/hardhat-toolbox": "4.0.0",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@types/node": "20.10.4",
-    "@vitest/coverage-istanbul": "1.0.4",
-    "hardhat": "2.19.2",
-    "vite": "5.0.7",
-    "vitest": "1.0.4"
+    "@types/node": "20.11.5",
+    "@vitest/coverage-istanbul": "1.2.1",
+    "hardhat": "2.19.4",
+    "vite": "5.0.12",
+    "vitest": "1.2.1"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"

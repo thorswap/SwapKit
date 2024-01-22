@@ -10,8 +10,8 @@
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
     "@swapkit/wallet-evm-extensions": "workspace:*",
-    "@swapkit/wallet-keplr": "workspace:*",
     "@swapkit/wallet-keepkey": "workspace:*",
+    "@swapkit/wallet-keplr": "workspace:*",
     "@swapkit/wallet-keystore": "workspace:*",
     "@swapkit/wallet-ledger": "workspace:*",
     "@swapkit/wallet-okx": "workspace:*",
@@ -32,11 +32,11 @@
     "url": "0.11.3"
   },
   "devDependencies": {
-    "@types/react": "18.2.43",
-    "@types/react-dom": "18.2.17",
+    "@types/react": "18.2.48",
+    "@types/react-dom": "18.2.18",
     "@vitejs/plugin-react": "4.2.1",
     "typescript": "5.3.3",
-    "vite": "5.0.7"
+    "vite": "5.0.12"
   },
   "eslintConfig": {
     "extends": "../../internal/eslint-config"
