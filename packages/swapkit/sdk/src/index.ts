@@ -10,7 +10,6 @@ import { trezorWallet } from '@swapkit/wallet-trezor';
 import { walletconnectWallet } from '@swapkit/wallet-wc';
 import { xdefiWallet } from '@swapkit/wallet-xdefi';
 
-export * from '@swapkit/api';
 export * from '@swapkit/core';
 
 type SwapKitOptions = Omit<ExtendParams, 'wallets'>;

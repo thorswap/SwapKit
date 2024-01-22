@@ -1,7 +1,7 @@
-import type { QuoteRoute } from '@swapkit/api';
-import { SwapKitApi } from '@swapkit/api';
 import type { AssetValue, SwapKitCore } from '@swapkit/core';
-import { useCallback, useEffect, useState } from 'react';
+import type { QuoteRoute } from '@swapkit/helpers';
+import { SwapKitApi } from '@swapkit/helpers';
+import { useCallback, useState } from 'react';
 
 type Props = {
   inputAsset?: AssetValue;
@@ -55,11 +55,10 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
   const swap = async (route: QuoteRoute, inputAssetValue: AssetValue) => {
     if (!inputAsset || !outputAsset || !inputAssetValue || !skClient) return;
 
-
-
-    await skClient
-      .isAssetValueApproved(inputAssetValue, route.approvalTarget) ? handleSwap(route): skClient.approveAssetValue(inputAssetValue, route.approvalTarget);
-  }
+    (await skClient.isAssetValueApproved(inputAssetValue, route.approvalTarget))
+      ? handleSwap(route)
+      : skClient.approveAssetValue(inputAssetValue, route.approvalTarget);
+  };
 
   return (
     <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>

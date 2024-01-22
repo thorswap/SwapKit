@@ -1,7 +1,6 @@
 {
   "author": "swapkit-oss-team",
   "dependencies": {
-    "@swapkit/api": "workspace:*",
     "@swapkit/core": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",

@@ -1,4 +1,4 @@
-import { ApiEndpoints, RequestClient } from './fetchWrapper.ts';
+import { ApiEndpoints, RequestClient } from './requestClient.ts';
 import type {
   CachedPricesParams,
   CachedPricesResponse,

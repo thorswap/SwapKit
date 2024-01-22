@@ -1,7 +1,6 @@
+import { RequestClient } from '@swapkit/api';
 import type { EVMChain } from '@swapkit/types';
 import { BaseDecimal, Chain, ChainToRPC, EVMChainList, FeeOption } from '@swapkit/types';
-
-import { RequestClient } from '../index.ts';
 
 const getDecimalMethodHex = '0x313ce567';
 
