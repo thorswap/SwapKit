@@ -1,10 +1,18 @@
 import type { Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
-import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
+import type { OfflineDirectSigner, TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import { type Account, type StdFee } from '@cosmjs/stargate';
 import { base64 } from '@scure/base';
-import type { AssetValue } from '@swapkit/helpers';
+import { AssetValue } from '@swapkit/helpers';
 import { RequestClient, SwapKitNumber } from '@swapkit/helpers';
-import { ApiUrl, BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from '@swapkit/types';
+import {
+  ApiUrl,
+  Asset,
+  BaseDecimal,
+  Chain,
+  ChainId,
+  DerivationPath,
+  FeeOption,
+} from '@swapkit/types';
 
 import { CosmosClient } from '../cosmosClient.ts';
 import type {
@@ -24,6 +32,7 @@ import {
 } from '../util.ts';
 
 import { BaseCosmosToolbox } from './BaseCosmosToolbox.ts';
+import { DefaultDeserializer } from 'v8';
 
 const getDefaultChainFee = (chain: Chain.THORChain | Chain.Maya) => {
   switch (chain) {
@@ -97,18 +106,58 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
   const { msgs, accountNumber, sequence, chainId, fee, memo } = JSON.parse(tx);
 
   const address = (await wallet.getAccounts())[0].address;
+  const aminoTypes = await createDefaultAminoTypes();
+  const registry = await createDefaultRegistry();
   const signingClient = await createOfflineStargateClient(wallet, {
-    registry: await createDefaultRegistry(),
-    aminoTypes: await createDefaultAminoTypes(),
+    registry,
+    aminoTypes,
   });
 
+  const txBodyObject: TxBodyEncodeObject = {
+    typeUrl: '/cosmos.tx.v1beta1.TxBody',
+    value: {
+      messages: await Promise.all(
+        msgs.map((msg: any) => {
+          const isSend = msg.type === 'thorchain/MsgSend';
+          return aminoTypes.fromAmino(
+            isSend
+              ? msg
+              : {
+                  ...msg,
+                  value: {
+                    ...msg.value,
+                    coins: mapCoinsForBroadcasting(msg.value.coins),
+                  },
+                },
+          );
+        }),
+      ),
+      memo,
+    },
+  };
+
+  const bodyBytes = registry.encode(txBodyObject);
+
   const {
-    bodyBytes,
     signatures: [signature],
   } = await signingClient.sign(address, msgs, fee, memo, { accountNumber, sequence, chainId });
 
   return { signature: exportSignature(signature), bodyBytes };
 };
+
+const mapCoinsForBroadcasting = async (coins: { amount: string; asset: string }[]) =>
+  coins.map(async ({ asset, amount }) => {
+    const { chain, symbol, isSynthetic } = await AssetValue.fromString(asset);
+    return {
+      amount,
+      asset: {
+        chain,
+        symbol,
+        ticker: symbol,
+        synth: isSynthetic,
+      },
+    };
+  });
 
 const createDepositMessage = (
   assetValue: AssetValue,
