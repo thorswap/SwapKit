@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.72
+
+### Patch Changes
+
+- [#575](https://github.com/thorswap/SwapKit/pull/575) [`1212387`](https://github.com/thorswap/SwapKit/commit/12123878da6c0aaa6e040d96dc392396d441d26b) Thanks [@towanTG](https://github.com/towanTG)! - Fixes multisg bodyByte creation
+
 ## 1.0.0-rc.71
 
 ### Patch Changes
