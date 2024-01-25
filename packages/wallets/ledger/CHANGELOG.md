@@ -1,5 +1,11 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.88
+
+### Patch Changes
+
+- Bump
+
 ## 1.0.0-rc.87
 
 ### Patch Changes

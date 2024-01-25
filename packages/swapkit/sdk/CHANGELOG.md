@@ -1,5 +1,12 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.108
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-ledger@1.0.0-rc.88
+
 ## 1.0.0-rc.107
 
 ### Patch Changes
@@ -14,6 +21,7 @@
   - @swapkit/wallet-okx@1.0.0-rc.83
   - @swapkit/wallet-wc@1.0.0-rc.79
   - @swapkit/wallet-xdefi@1.0.0-rc.85
+  - @swapkit/wallet-ledger@1.0.0-rc.87
 
 ## 1.0.0-rc.106
 
