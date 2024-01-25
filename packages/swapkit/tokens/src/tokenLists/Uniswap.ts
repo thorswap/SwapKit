@@ -1,7 +1,7 @@
 export const list = {
   name: 'Uniswap Labs Default',
-  timestamp: '2023-12-13T18:25:25.830Z',
-  version: { major: 11, minor: 11, patch: 0 },
+  timestamp: '2024-01-22T15:47:25.037Z',
+  version: { major: 11, minor: 12, patch: 0 },
   keywords: ['uniswap', 'default'],
   tokens: [
     {
@@ -557,9 +557,9 @@ export const list = {
       decimals: 18,
     },
     {
-      address: '0x15D4c048F83bd7e37d49eA4C83a07267Ec4203dA',
+      address: '0xd1d2Eb1B1e90B638588728b4130137D262C87cae',
       chain: 'ETH',
-      identifier: 'ETH.GALA-0X15D4C048F83BD7E37D49EA4C83A07267EC4203DA',
+      identifier: 'ETH.GALA-0XD1D2EB1B1E90B638588728B4130137D262C87CAE',
       decimals: 8,
     },
     {
