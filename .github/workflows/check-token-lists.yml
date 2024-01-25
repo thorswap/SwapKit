@@ -21,7 +21,7 @@ jobs:
         continue-on-error: true
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          add_timestamp: true
+          add_timestamp: false
           commit_prefix: "[Bot]"
           commit_message: "chore: automatic tokenlist update 🤖"
           target_branch: bot/token-list-update

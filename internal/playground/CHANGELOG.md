@@ -1,5 +1,12 @@
 # @internal/playground
 
+## 0.0.0-rc.101
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-ledger@1.0.0-rc.88
+
 ## 0.0.0-rc.100
 
 ### Patch Changes
@@ -14,6 +21,8 @@
   - @swapkit/wallet-okx@1.0.0-rc.83
   - @swapkit/wallet-wc@1.0.0-rc.79
   - @swapkit/wallet-xdefi@1.0.0-rc.85
+- Updated dependencies []:
+  - @swapkit/wallet-ledger@1.0.0-rc.87
 
 ## 0.0.0-rc.99
 
