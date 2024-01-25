@@ -10,8 +10,8 @@ const getTokens = async () => {
       try {
         const tokenList = await SwapKitApi.getTokenList(provider);
 
-        const tokens = tokenList.tokens.map(
-          ({ address, chain, identifier, decimals, logoURL }) => ({
+        const tokens = tokenList.tokens
+          .map(({ address, chain, identifier, decimals, logoURL }) => ({
             address,
             chain: chain === 'ARBITRUM' ? Chain.Arbitrum : chain,
             identifier: identifier.startsWith('ARBITRUM.')
@@ -19,8 +19,8 @@ const getTokens = async () => {
               : identifier,
             decimals,
             logoURL,
-          }),
-        );
+          }))
+          .sort((a, b) => a.identifier.localeCompare(b.identifier));
 
         tokenList.tokens = tokens;
 

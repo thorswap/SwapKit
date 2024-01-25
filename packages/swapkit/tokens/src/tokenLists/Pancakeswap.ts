@@ -5,12 +5,6 @@ export const list = {
   keywords: ['pancakeswap', 'extended'],
   tokens: [
     {
-      address: '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82',
-      chain: 'BSC',
-      identifier: 'BSC.CAKE-0X0E09FABB73BD3ADE0A17ECC321FD13A19E81CE82',
-      decimals: 18,
-    },
-    {
       address: '0x6EaDc05928ACd93eFB3FA0DFbC644D96C6Aa1Df8',
       chain: 'BSC',
       identifier: 'BSC.8PAY v2-0X6EADC05928ACD93EFB3FA0DFBC644D96C6AA1DF8',
@@ -464,6 +458,12 @@ export const list = {
       address: '0xaEC945e04baF28b135Fa7c640f624f8D90F1C3a6',
       chain: 'BSC',
       identifier: 'BSC.C98-0XAEC945E04BAF28B135FA7C640F624F8D90F1C3A6',
+      decimals: 18,
+    },
+    {
+      address: '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82',
+      chain: 'BSC',
+      identifier: 'BSC.CAKE-0X0E09FABB73BD3ADE0A17ECC321FD13A19E81CE82',
       decimals: 18,
     },
     {

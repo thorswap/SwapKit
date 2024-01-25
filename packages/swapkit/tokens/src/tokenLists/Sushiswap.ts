@@ -2149,15 +2149,15 @@ export const list = {
       decimals: 18,
     },
     {
-      address: '0xf1Dc500FdE233A4055e25e5BbF516372BC4F6871',
-      chain: 'ETH',
-      identifier: 'ETH.SDL-0XF1DC500FDE233A4055E25E5BBF516372BC4F6871',
-      decimals: 18,
-    },
-    {
       address: '0xA95C5ebB86E0dE73B4fB8c47A45B792CFeA28C23',
       chain: 'ETH',
       identifier: 'ETH.SDL-0XA95C5EBB86E0DE73B4FB8C47A45B792CFEA28C23',
+      decimals: 18,
+    },
+    {
+      address: '0xf1Dc500FdE233A4055e25e5BbF516372BC4F6871',
+      chain: 'ETH',
+      identifier: 'ETH.SDL-0XF1DC500FDE233A4055E25E5BBF516372BC4F6871',
       decimals: 18,
     },
     {
@@ -2497,15 +2497,15 @@ export const list = {
       decimals: 8,
     },
     {
-      address: '0xE1Be5D3f34e89dE342Ee97E6e90D405884dA6c67',
-      chain: 'ETH',
-      identifier: 'ETH.TRX-0XE1BE5D3F34E89DE342EE97E6E90D405884DA6C67',
-      decimals: 6,
-    },
-    {
       address: '0x50327c6c5a14DCaDE707ABad2E27eB517df87AB5',
       chain: 'ETH',
       identifier: 'ETH.TRX-0X50327C6C5A14DCADE707ABAD2E27EB517DF87AB5',
+      decimals: 6,
+    },
+    {
+      address: '0xE1Be5D3f34e89dE342Ee97E6e90D405884dA6c67',
+      chain: 'ETH',
+      identifier: 'ETH.TRX-0XE1BE5D3F34E89DE342EE97E6E90D405884DA6C67',
       decimals: 6,
     },
     {

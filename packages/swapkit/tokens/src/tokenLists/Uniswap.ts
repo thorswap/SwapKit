@@ -311,6 +311,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x6fA5E1c43b5a466CBD1CAe7993B67C982400d481',
+      chain: 'ETH',
+      identifier: 'ETH.COINBT-0X6FA5E1C43B5A466CBD1CAE7993B67C982400D481',
+      decimals: 18,
+    },
+    {
       address: '0xc00e94Cb662C3520282E6f5717214004A7f26888',
       chain: 'ETH',
       identifier: 'ETH.COMP-0XC00E94CB662C3520282E6F5717214004A7F26888',
@@ -1384,6 +1390,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0xf819d9Cb1c2A819Fd991781A822dE3ca8607c3C9',
+      chain: 'ETH',
+      identifier: 'ETH.UNIBOT-0XF819D9CB1C2A819FD991781A822DE3CA8607C3C9',
+      decimals: 18,
+    },
+    {
       address: '0x70D2b7C19352bB76e4409858FF5746e500f2B67c',
       chain: 'ETH',
       identifier: 'ETH.UPI-0X70D2B7C19352BB76E4409858FF5746E500F2B67C',
@@ -1438,6 +1450,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0xb2e96a63479C2Edd2FD62b382c89D5CA79f572d3',
+      chain: 'ETH',
+      identifier: 'ETH.wZNN-0XB2E96A63479C2EDD2FD62B382C89D5CA79F572D3',
+      decimals: 18,
+    },
+    {
       address: '0xA2cd3D43c775978A96BdBf12d733D5A1ED94fb18',
       chain: 'ETH',
       identifier: 'ETH.XCN-0XA2CD3D43C775978A96BDBF12D733D5A1ED94FB18',
@@ -1477,24 +1495,6 @@ export const list = {
       address: '0xE41d2489571d322189246DaFA5ebDe1F4699F498',
       chain: 'ETH',
       identifier: 'ETH.ZRX-0XE41D2489571D322189246DAFA5EBDE1F4699F498',
-      decimals: 18,
-    },
-    {
-      address: '0x6fA5E1c43b5a466CBD1CAe7993B67C982400d481',
-      chain: 'ETH',
-      identifier: 'ETH.COINBT-0X6FA5E1C43B5A466CBD1CAE7993B67C982400D481',
-      decimals: 18,
-    },
-    {
-      address: '0xf819d9Cb1c2A819Fd991781A822dE3ca8607c3C9',
-      chain: 'ETH',
-      identifier: 'ETH.UNIBOT-0XF819D9CB1C2A819FD991781A822DE3CA8607C3C9',
-      decimals: 18,
-    },
-    {
-      address: '0xb2e96a63479C2Edd2FD62b382c89D5CA79f572d3',
-      chain: 'ETH',
-      identifier: 'ETH.wZNN-0XB2E96A63479C2EDD2FD62B382C89D5CA79F572D3',
       decimals: 18,
     },
   ],

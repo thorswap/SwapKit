@@ -11,12 +11,6 @@ export const list = {
       decimals: 8,
     },
     {
-      address: '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
-      chain: 'AVAX',
-      identifier: 'AVAX.WAVAX-0XB31F66AA3C1E785363F0875A1B74E27B85FD66C7',
-      decimals: 18,
-    },
-    {
       address: '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
       chain: 'AVAX',
       identifier: 'AVAX.USDC-0XB97EF9EF8734C71904D8002F8B6BC66DD9C48A6E',
@@ -27,6 +21,12 @@ export const list = {
       chain: 'AVAX',
       identifier: 'AVAX.USDT-0X9702230A8EA53601F5CD2DC00FDBC13D4DF4A8C7',
       decimals: 6,
+    },
+    {
+      address: '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7',
+      chain: 'AVAX',
+      identifier: 'AVAX.WAVAX-0XB31F66AA3C1E785363F0875A1B74E27B85FD66C7',
+      decimals: 18,
     },
     {
       address: '0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB',
