@@ -12,6 +12,7 @@ export enum Chain {
   Litecoin = 'LTC',
   Maya = 'MAYA',
   Optimism = 'OP',
+  Polkadot = 'DOT',
   Polygon = 'MATIC',
   THORChain = 'THOR',
 }
@@ -54,6 +55,8 @@ export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   BSC: [44, 60, 0, 0, 0],
   BTC: [84, 0, 0, 0, 0],
   DOGE: [44, 3, 0, 0, 0],
+  // Polkadots derivation path is string based
+  DOT: [0, 0, 0, 0, 0],
   ETH: [44, 60, 0, 0, 0],
   GAIA: [44, 118, 0, 0, 0],
   KUJI: [44, 118, 0, 0, 0],
@@ -151,6 +154,7 @@ export enum ChainId {
   MayaStagenet = 'mayachain-stagenet-v1',
   Optimism = '10',
   OptimismHex = '0xa',
+  Polkadot = 'polkadot',
   Polygon = '137',
   PolygonHex = '0x89',
   THORChain = 'thorchain-mainnet-v1',
@@ -172,6 +176,7 @@ export enum RPCUrl {
   Maya = 'https://tendermint.mayachain.info',
   MayaStagenet = 'https://stagenet.tendermint.mayachain.info',
   Optimism = 'https://mainnet.optimism.io',
+  Polkadot = 'wss://rpc.polkadot.io',
   Polygon = 'https://polygon-rpc.com',
   THORChain = 'https://rpc.thorswap.net',
   THORChainStagenet = 'https://stagenet-rpc.ninerealms.com',
@@ -248,6 +253,7 @@ export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.Maya]: Chain.Maya,
   [ChainId.OptimismHex]: Chain.Optimism,
   [ChainId.Optimism]: Chain.Optimism,
+  [ChainId.Polkadot]: Chain.Polkadot,
   [ChainId.PolygonHex]: Chain.Polygon,
   [ChainId.Polygon]: Chain.Polygon,
   [ChainId.THORChainStagenet]: Chain.THORChain,
@@ -268,6 +274,7 @@ export const ChainToExplorerUrl: Record<Chain, string> = {
   [Chain.Litecoin]: 'https://blockchair.com/litecoin',
   [Chain.Maya]: 'https://www.mayascan.org',
   [Chain.Optimism]: 'https://optimistic.etherscan.io',
+  [Chain.Polkadot]: 'https://explorer.polkascan.io/polkadot',
   [Chain.Polygon]: 'https://polygonscan.com',
   [Chain.THORChain]: 'https://runescan.io',
 };
