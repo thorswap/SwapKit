@@ -1,7 +1,7 @@
 export const list = {
   name: 'CoinGecko',
-  timestamp: '2024-01-23T14:48:24.521+00:00',
-  version: { major: 163, minor: 1, patch: 0 },
+  timestamp: '2024-01-25T18:07:08.765+00:00',
+  version: { major: 168, minor: 2, patch: 0 },
   keywords: ['defi'],
   tokens: [
     {
@@ -1015,12 +1015,6 @@ export const list = {
       chain: 'ETH',
       identifier: 'ETH.AICOM-0X9D1A74967ECA155782EDF8E84782C74DB33FC499',
       decimals: 9,
-    },
-    {
-      address: '0x3a2348dbb9250a43226a27e21edb94882bb7de8d',
-      chain: 'ETH',
-      identifier: 'ETH.AIDEV-0X3A2348DBB9250A43226A27E21EDB94882BB7DE8D',
-      decimals: 8,
     },
     {
       address: '0xe3e24b4ea87935e15bbe99a24e9ace9998e4614d',
@@ -4666,12 +4660,6 @@ export const list = {
       decimals: 10,
     },
     {
-      address: '0x5543862ba50b6bbc198222a34d30e93a62adce24',
-      chain: 'ETH',
-      identifier: 'ETH.BWP-0X5543862BA50B6BBC198222A34D30E93A62ADCE24',
-      decimals: 8,
-    },
-    {
       address: '0xc3c7b03335eb950a2a9207ac5cac0571de34d844',
       chain: 'ETH',
       identifier: 'ETH.BWSM-0XC3C7B03335EB950A2A9207AC5CAC0571DE34D844',
@@ -5091,6 +5079,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x8e81d527f8fa05d82c514401c8144275174557cd',
+      chain: 'ETH',
+      identifier: 'ETH.CCB-0X8E81D527F8FA05D82C514401C8144275174557CD',
+      decimals: 18,
+    },
+    {
       address: '0xd8684adc4664bc2a0c78ddc8657dc005e804af15',
       chain: 'ETH',
       identifier: 'ETH.CCD-0XD8684ADC4664BC2A0C78DDC8657DC005E804AF15',
@@ -5495,6 +5489,12 @@ export const list = {
       chain: 'ETH',
       identifier: 'ETH.CHOP-0X875154C31B8858FDDA9C7CCBED7EC15DC95943AE',
       decimals: 8,
+    },
+    {
+      address: '0x3e362038fd3d08887d498944d489af7909619a9b',
+      chain: 'ETH',
+      identifier: 'ETH.CHOW-0X3E362038FD3D08887D498944D489AF7909619A9B',
+      decimals: 18,
     },
     {
       address: '0x0a6e18fb2842855c3af925310b0f50a4bfa17909',
@@ -6786,6 +6786,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x814a870726edb7dfc4798300ae1ce3e5da0ac467',
+      chain: 'ETH',
+      identifier: 'ETH.DACAT-0X814A870726EDB7DFC4798300AE1CE3E5DA0AC467',
+      decimals: 18,
+    },
+    {
       address: '0x343c6de13833bc7d9890eb6b1cd3fbebc730ebec',
       chain: 'ETH',
       identifier: 'ETH.DACT-0X343C6DE13833BC7D9890EB6B1CD3FBEBC730EBEC',
@@ -7321,6 +7327,12 @@ export const list = {
       address: '0xd2adc1c84443ad06f0017adca346bd9b6fc52cab',
       chain: 'ETH',
       identifier: 'ETH.DFND-0XD2ADC1C84443AD06F0017ADCA346BD9B6FC52CAB',
+      decimals: 18,
+    },
+    {
+      address: '0x3f57c35633cb29834bb7577ba8052eab90f52a02',
+      chain: 'ETH',
+      identifier: 'ETH.DFNDR-0X3F57C35633CB29834BB7577BA8052EAB90F52A02',
       decimals: 18,
     },
     {
@@ -8981,12 +8993,6 @@ export const list = {
       decimals: 18,
     },
     {
-      address: '0x97e3c21f27182498382f81e32fbe0ea3a0e3d79b',
-      chain: 'ETH',
-      identifier: 'ETH.EPEP-0X97E3C21F27182498382F81E32FBE0EA3A0E3D79B',
-      decimals: 9,
-    },
-    {
       address: '0xe9f721e7419423f11863e83dbd710b5d6127b5b0',
       chain: 'ETH',
       identifier: 'ETH.EPHIAT-0XE9F721E7419423F11863E83DBD710B5D6127B5B0',
@@ -9515,6 +9521,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x9bf3be1e445d5d386f891a1eccc3245e5a3670a4',
+      chain: 'ETH',
+      identifier: 'ETH.FACET-0X9BF3BE1E445D5D386F891A1ECCC3245E5A3670A4',
+      decimals: 9,
+    },
+    {
       address: '0xd05d90a656fc375ac1478689d7bcd31098f2dd1f',
       chain: 'ETH',
       identifier: 'ETH.FACTORY-0XD05D90A656FC375AC1478689D7BCD31098F2DD1F',
@@ -9566,6 +9578,12 @@ export const list = {
       address: '0xa0246c9032bc3a600820415ae600c6388619a14d',
       chain: 'ETH',
       identifier: 'ETH.FARM-0XA0246C9032BC3A600820415AE600C6388619A14D',
+      decimals: 18,
+    },
+    {
+      address: '0xbf1aa3a0e1294b3b996533f5d648dec2e59bad05',
+      chain: 'ETH',
+      identifier: 'ETH.FAT-0XBF1AA3A0E1294B3B996533F5D648DEC2E59BAD05',
       decimals: 18,
     },
     {
@@ -10767,12 +10785,6 @@ export const list = {
       chain: 'ETH',
       identifier: 'ETH.GAURO-0X8CB73EB53FA81F808F704BEA15A677B6464A1F90',
       decimals: 9,
-    },
-    {
-      address: '0xd1e06952708771f71e6dd18f06ee418f6e8fc564',
-      chain: 'ETH',
-      identifier: 'ETH.GAZE-0XD1E06952708771F71E6DD18F06EE418F6E8FC564',
-      decimals: 18,
     },
     {
       address: '0x743494393d802ac25c39d7882b10d7fd08293686',
@@ -15565,12 +15577,6 @@ export const list = {
       decimals: 18,
     },
     {
-      address: '0x8ea9bedb8bb7e99643844ec79543f4faa78453e4',
-      chain: 'ETH',
-      identifier: 'ETH.MARBLE-0X8EA9BEDB8BB7E99643844EC79543F4FAA78453E4',
-      decimals: 18,
-    },
-    {
       address: '0xaf1eeb83c364ad9ffeb5f97f223c1705d4810033',
       chain: 'ETH',
       identifier: 'ETH.MARK-0XAF1EEB83C364AD9FFEB5F97F223C1705D4810033',
@@ -16741,12 +16747,6 @@ export const list = {
       decimals: 18,
     },
     {
-      address: '0xe4d0941ad4ff744948704f7532dc00e01f33ed4d',
-      chain: 'ETH',
-      identifier: 'ETH.MOMO-0XE4D0941AD4FF744948704F7532DC00E01F33ED4D',
-      decimals: 9,
-    },
-    {
       address: '0x08d0222a206d1aee59a9b66969c04fd1e8a0f864',
       chain: 'ETH',
       identifier: 'ETH.MOMOV2-0X08D0222A206D1AEE59A9B66969C04FD1E8A0F864',
@@ -17451,12 +17451,6 @@ export const list = {
       chain: 'ETH',
       identifier: 'ETH.NAVYSEAL-0X34DF29DD880E9FE2CEC0F85F7658B75606FB2870',
       decimals: 9,
-    },
-    {
-      address: '0xe387140d52ebb0dd729683dc062aefbc5f7f549a',
-      chain: 'ETH',
-      identifier: 'ETH.NBOT-0XE387140D52EBB0DD729683DC062AEFBC5F7F549A',
-      decimals: 18,
     },
     {
       address: '0x446f2a8a39cc730ef378be759a3c57f1a3fe824c',
@@ -18976,6 +18970,12 @@ export const list = {
       decimals: 9,
     },
     {
+      address: '0x926ff6584b5905cc793cfb19bfc0ad6443671f47',
+      chain: 'ETH',
+      identifier: 'ETH.PABLO-0X926FF6584B5905CC793CFB19BFC0AD6443671F47',
+      decimals: 18,
+    },
+    {
       address: '0x8bc2bcb1b1896291942c36f3cca3c1afa0aaa7fd',
       chain: 'ETH',
       identifier: 'ETH.PACE-0X8BC2BCB1B1896291942C36F3CCA3C1AFA0AAA7FD',
@@ -19554,12 +19554,6 @@ export const list = {
       address: '0x37e83a94c6b1bdb816b59ac71dd02cf154d8111f',
       chain: 'ETH',
       identifier: 'ETH.PHCR-0X37E83A94C6B1BDB816B59AC71DD02CF154D8111F',
-      decimals: 18,
-    },
-    {
-      address: '0x723bd1f87a327e94ceabf68d8f022e0f54b9cc1a',
-      chain: 'ETH',
-      identifier: 'ETH.PHL-0X723BD1F87A327E94CEABF68D8F022E0F54B9CC1A',
       decimals: 18,
     },
     {
@@ -21048,12 +21042,6 @@ export const list = {
       decimals: 18,
     },
     {
-      address: '0x0b9570a0194ffb8bf9e60a95e8d905bf2358abcc',
-      chain: 'ETH',
-      identifier: 'ETH.RAT-0X0B9570A0194FFB8BF9E60A95E8D905BF2358ABCC',
-      decimals: 18,
-    },
-    {
       address: '0x2d3590fac07b91c9451e8d16c372ece9758f040f',
       chain: 'ETH',
       identifier: 'ETH.RAT-0X2D3590FAC07B91C9451E8D16C372ECE9758F040F',
@@ -21081,12 +21069,6 @@ export const list = {
       address: '0x43af0944b34ad466dcea7fc8f77aafc6a4ec70fa',
       chain: 'ETH',
       identifier: 'ETH.RAVEN-0X43AF0944B34AD466DCEA7FC8F77AAFC6A4EC70FA',
-      decimals: 18,
-    },
-    {
-      address: '0x562d8e607bed7fc183ca84c0362c853680b99638',
-      chain: 'ETH',
-      identifier: 'ETH.RAYN-0X562D8E607BED7FC183CA84C0362C853680B99638',
       decimals: 18,
     },
     {
@@ -21350,12 +21332,6 @@ export const list = {
       address: '0x8f8221afbb33998d8584a2b05749ba73c37a938a',
       chain: 'ETH',
       identifier: 'ETH.REQ-0X8F8221AFBB33998D8584A2B05749BA73C37A938A',
-      decimals: 18,
-    },
-    {
-      address: '0x30df7d7ee52c1b03cd009e656f00ab875adceed2',
-      chain: 'ETH',
-      identifier: 'ETH.RESET-0X30DF7D7EE52C1B03CD009E656F00AB875ADCEED2',
       decimals: 18,
     },
     {
@@ -21959,6 +21935,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x9ca98c8b217c3b45074834908555d36af2ac6449',
+      chain: 'ETH',
+      identifier: 'ETH.SABR-0X9CA98C8B217C3B45074834908555D36AF2AC6449',
+      decimals: 18,
+    },
+    {
       address: '0x23feef978f2f8e9aeb26028d09b5d303b6c6a057',
       chain: 'ETH',
       identifier: 'ETH.SACA-0X23FEEF978F2F8E9AEB26028D09B5D303B6C6A057',
@@ -22136,6 +22118,12 @@ export const list = {
       address: '0xdf49c9f599a0a9049d97cff34d0c30e468987389',
       chain: 'ETH',
       identifier: 'ETH.SATT-0XDF49C9F599A0A9049D97CFF34D0C30E468987389',
+      decimals: 18,
+    },
+    {
+      address: '0x4e4990e997e1df3f6b39ff49384e2e7e99bc55fe',
+      chain: 'ETH',
+      identifier: 'ETH.SAUDIBONK-0X4E4990E997E1DF3F6B39FF49384E2E7E99BC55FE',
       decimals: 18,
     },
     {
@@ -22392,6 +22380,12 @@ export const list = {
       address: '0xc19b6a4ac7c7cc24459f08984bbd09664af17bd1',
       chain: 'ETH',
       identifier: 'ETH.SENSO-0XC19B6A4AC7C7CC24459F08984BBD09664AF17BD1',
+    },
+    {
+      address: '0x8dbd1331b1de57835b24657ed21d0691e2e7362a',
+      chain: 'ETH',
+      identifier: 'ETH.SENT-0X8DBD1331B1DE57835B24657ED21D0691E2E7362A',
+      decimals: 18,
     },
     {
       address: '0x97abee33cd075c58bfdd174e0885e08e8f03556f',
@@ -22945,12 +22939,6 @@ export const list = {
       decimals: 18,
     },
     {
-      address: '0x8de2b2104b6ac8f9dce7755ff70f0fa452680d9a',
-      chain: 'ETH',
-      identifier: 'ETH.SIRIUS-0X8DE2B2104B6AC8F9DCE7755FF70F0FA452680D9A',
-      decimals: 9,
-    },
-    {
       address: '0xd38bb40815d2b0c2d2c866e0c72c5728ffc76dd9',
       chain: 'ETH',
       identifier: 'ETH.SIS-0XD38BB40815D2B0C2D2C866E0C72C5728FFC76DD9',
@@ -23158,12 +23146,6 @@ export const list = {
       chain: 'ETH',
       identifier: 'ETH.SNAIL-0X6BC40D4099F9057B23AF309C08D935B890D7ADC0',
       decimals: 18,
-    },
-    {
-      address: '0xfa1b65448e7ec5f37e512cdce52ab79e541f4fb2',
-      chain: 'ETH',
-      identifier: 'ETH.SNAILS-0XFA1B65448E7EC5F37E512CDCE52AB79E541F4FB2',
-      decimals: 9,
     },
     {
       address: '0x1032abe2902a23ddcbab085c20e0e69c33ceb8fa',
@@ -24916,6 +24898,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x7c5b267ed81009aa7374b5ca7e5137da47045ba8',
+      chain: 'ETH',
+      identifier: 'ETH.TKAI-0X7C5B267ED81009AA7374B5CA7E5137DA47045BA8',
+      decimals: 18,
+    },
+    {
       address: '0x16594930d16f3970e1a4317c6016555cb2e7b7fc',
       chain: 'ETH',
       identifier: 'ETH.TKB-0X16594930D16F3970E1A4317C6016555CB2E7B7FC',
@@ -25525,6 +25513,12 @@ export const list = {
       chain: 'ETH',
       identifier: 'ETH.TTF-0X8E32B8A41F2E86A3EE198912AC8D756C84295B40',
       decimals: 9,
+    },
+    {
+      address: '0x50b806c5fe274c07e46b96be8c68d2fd2d9597b4',
+      chain: 'ETH',
+      identifier: 'ETH.TUCKER-0X50B806C5FE274C07E46B96BE8C68D2FD2D9597B4',
+      decimals: 18,
     },
     {
       address: '0x6f8b23296394d20ec048fbdec8ebc0ca90f5c8f1',
@@ -29431,6 +29425,6 @@ export const list = {
       decimals: 18,
     },
   ],
-  count: 4912,
+  count: 4911,
   logo: 'https://static.coingecko.com/s/coingecko-logo-8903d34ce19ca4be1c81f0db30e924154750d208683fad7ae6f2ce06c76d0a56.png',
 } as const;
