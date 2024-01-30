@@ -1,7 +1,7 @@
 export const list = {
   name: 'PancakeSwap Extended',
-  timestamp: '2024-01-23T02:01:32.731Z',
-  version: { major: 2, minor: 16, patch: 192 },
+  timestamp: '2024-01-26T09:59:03.309Z',
+  version: { major: 2, minor: 16, patch: 193 },
   keywords: ['pancakeswap', 'extended'],
   tokens: [
     {
@@ -641,6 +641,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x346575fC7f07E6994D76199E41D13dC1575322E1',
+      chain: 'BSC',
+      identifier: 'BSC.DLP-0X346575FC7F07E6994D76199E41D13DC1575322E1',
+      decimals: 18,
+    },
+    {
       address: '0x67ee3Cb086F8a16f34beE3ca72FAD36F7Db929e2',
       chain: 'BSC',
       identifier: 'BSC.DODO-0X67EE3CB086F8A16F34BEE3CA72FAD36F7DB929E2',
@@ -1253,6 +1259,12 @@ export const list = {
       decimals: 18,
     },
     {
+      address: '0x11727E5b7Fa33FF4D380F3E7E877F19876c25b97',
+      chain: 'BSC',
+      identifier: 'BSC.mDLP-0X11727E5B7FA33FF4D380F3E7E877F19876C25B97',
+      decimals: 18,
+    },
+    {
       address: '0xe552Fb52a4F19e44ef5A967632DBc320B0820639',
       chain: 'BSC',
       identifier: 'BSC.Metis-0XE552FB52A4F19E44EF5A967632DBC320B0820639',
@@ -1310,6 +1322,12 @@ export const list = {
       address: '0x9573c88aE3e37508f87649f87c4dd5373C9F31e0',
       chain: 'BSC',
       identifier: 'BSC.MONI-0X9573C88AE3E37508F87649F87C4DD5373C9F31E0',
+      decimals: 18,
+    },
+    {
+      address: '0x0465aad9da170798433F4aB7fa7Ec8b9b9bf0Bb1',
+      chain: 'BSC',
+      identifier: 'BSC.mPENDLE-0X0465AAD9DA170798433F4AB7FA7EC8B9B9BF0BB1',
       decimals: 18,
     },
     {
@@ -2273,6 +2291,6 @@ export const list = {
       decimals: 18,
     },
   ],
-  count: 378,
+  count: 381,
   logo: 'https://s2.coinmarketcap.com/static/img/coins/64x64/7186.png',
 } as const;

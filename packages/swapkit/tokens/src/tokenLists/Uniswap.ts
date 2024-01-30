@@ -1453,7 +1453,7 @@ export const list = {
       address: '0xb2e96a63479C2Edd2FD62b382c89D5CA79f572d3',
       chain: 'ETH',
       identifier: 'ETH.wZNN-0XB2E96A63479C2EDD2FD62B382C89D5CA79F572D3',
-      decimals: 18,
+      decimals: 8,
     },
     {
       address: '0xA2cd3D43c775978A96BdBf12d733D5A1ED94fb18',
