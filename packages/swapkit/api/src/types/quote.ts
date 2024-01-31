@@ -137,6 +137,7 @@ export type TxTrackerDetails = {
 };
 
 export type QuoteParams = {
+  affiliateAddress?: string;
   affiliateBasisPoints?: string;
   buyAsset: string;
   recipientAddress?: string;
