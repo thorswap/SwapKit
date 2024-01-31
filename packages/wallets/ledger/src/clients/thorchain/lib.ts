@@ -15,7 +15,7 @@
  *  limitations under the License.
  ******************************************************************************* */
 import { bech32 } from '@swapkit/toolbox-cosmos';
-import { ErrorCode } from '@swapkit/types';
+import { LedgerErrorCode } from '@swapkit/types';
 import crypto from 'crypto';
 import Ripemd160 from 'ripemd160';
 
@@ -76,7 +76,7 @@ export class THORChainApp {
   async serializePath(path: string) {
     this.versionResponse = await getVersion(this.transport);
 
-    if (this.versionResponse.return_code !== ErrorCode.NoError) {
+    if (this.versionResponse.return_code !== LedgerErrorCode.NoError) {
       throw this.versionResponse;
     }
 
@@ -170,7 +170,7 @@ export class THORChainApp {
 
   async deviceInfo() {
     return this.transport
-      .send(0xe0, 0x01, 0, 0, Buffer.from([]), [ErrorCode.NoError, 0x6e00])
+      .send(0xe0, 0x01, 0, 0, Buffer.from([]), [LedgerErrorCode.NoError, 0x6e00])
       .then((response: any) => {
         const errorCodeData = response.slice(-2);
         const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
@@ -225,11 +225,9 @@ export class THORChainApp {
           const data = Buffer.concat([THORChainApp.serializeHRP('thor'), serializedPath as any]);
           return await publicKeyv2(this, data);
         }
+
         default:
-          return {
-            return_code: 0x6400,
-            error_message: 'App Version is not supported',
-          };
+          return { return_code: 0x6400, error_message: 'App Version is not supported' };
       }
     } catch (e) {
       return processErrorResponse(e);
@@ -238,29 +236,7 @@ export class THORChainApp {
 
   async getAddressAndPubKey(path: string, hrp: any) {
     try {
-      return await this.serializePath(path)
-        .then((serializedPath) => {
-          const data = Buffer.concat([THORChainApp.serializeHRP(hrp), serializedPath as any]);
-          return this.transport
-            .send(CLA, INS.GET_ADDR_SECP256K1, P1_VALUES.ONLY_RETRIEVE, 0, data, [
-              ErrorCode.NoError,
-            ])
-            .then((response: any) => {
-              const errorCodeData = response.slice(-2);
-              const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
-
-              const compressedPk = Buffer.from(response.slice(0, 33));
-              const bech32Address = Buffer.from(response.slice(33, -2)).toString();
-
-              return {
-                bech32_address: bech32Address,
-                compressed_pk: compressedPk,
-                return_code: returnCode,
-                error_message: errorCodeToString(returnCode),
-              };
-            }, processErrorResponse);
-        })
-        .catch((err) => processErrorResponse(err));
+      return this.executeCommandOnDevice({ path, hrp, command: 'ONLY_RETRIEVE' });
     } catch (e) {
       return processErrorResponse(e);
     }
@@ -268,29 +244,7 @@ export class THORChainApp {
 
   async showAddressAndPubKey(path: string, hrp: any) {
     try {
-      return await this.serializePath(path)
-        .then((serializedPath) => {
-          const data = Buffer.concat([THORChainApp.serializeHRP(hrp), serializedPath as any]);
-          return this.transport
-            .send(CLA, INS.GET_ADDR_SECP256K1, P1_VALUES.SHOW_ADDRESS_IN_DEVICE, 0, data, [
-              ErrorCode.NoError,
-            ])
-            .then((response: any) => {
-              const errorCodeData = response.slice(-2);
-              const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
-
-              const compressedPk = Buffer.from(response.slice(0, 33));
-              const bech32Address = Buffer.from(response.slice(33, -2)).toString();
-
-              return {
-                bech32_address: bech32Address,
-                compressed_pk: compressedPk,
-                return_code: returnCode,
-                error_message: errorCodeToString(returnCode),
-              };
-            }, processErrorResponse);
-        })
-        .catch((err) => processErrorResponse(err));
+      return this.executeCommandOnDevice({ path, hrp, command: 'SHOW_ADDRESS_IN_DEVICE' });
     } catch (e) {
       return processErrorResponse(e);
     }
@@ -319,18 +273,47 @@ export class THORChainApp {
 
         for (let i = 1; i < chunks.length; i += 1) {
           result = await this.signSendChunk(1 + i, chunks.length, chunks[i]);
-          if (result.return_code !== ErrorCode.NoError) {
+          if (result.return_code !== LedgerErrorCode.NoError) {
             break;
           }
         }
 
-        return {
-          return_code: result.return_code,
-          error_message: result.error_message,
-          // ///
-          signature: result.signature,
-        };
+        return result;
       }, processErrorResponse);
     }, processErrorResponse);
+  }
+
+  private async executeCommandOnDevice({
+    path,
+    hrp,
+    command,
+  }: {
+    path: string;
+    hrp: any;
+    command: keyof typeof P1_VALUES;
+  }) {
+    const serializedPath = (await this.serializePath(path)) as Uint8Array;
+
+    const response = await this.transport.send(
+      CLA,
+      INS.GET_ADDR_SECP256K1,
+      P1_VALUES[command],
+      0,
+      Buffer.concat([THORChainApp.serializeHRP(hrp), serializedPath]),
+      [LedgerErrorCode.NoError],
+    );
+
+    const errorCodeData = response.slice(-2);
+    const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
+
+    const compressedPk = Buffer.from(response.slice(0, 33));
+    const bech32Address = Buffer.from(response.slice(33, -2)).toString();
+
+    return {
+      bech32_address: bech32Address,
+      compressed_pk: compressedPk,
+      return_code: returnCode,
+      error_message: errorCodeToString(returnCode),
+    };
   }
 }

@@ -1,3 +1,5 @@
+import { SwapKitError } from '@swapkit/helpers';
+
 const getNavigatorUsb = () =>
   // @ts-ignore
   navigator?.usb as unknown as {
@@ -11,42 +13,47 @@ const getLedgerDevices = async () => {
   const navigatorUsb = getNavigatorUsb();
 
   if (typeof navigatorUsb?.getDevices !== 'function') return [];
-
   const { ledgerUSBVendorId } = await import('@ledgerhq/devices');
 
   const devices = await navigatorUsb?.getDevices();
   const existingDevices = devices.filter((d) => d.vendorId === ledgerUSBVendorId);
   if (existingDevices.length > 0) return existingDevices[0];
-  const device = await navigatorUsb?.requestDevice({
-    filters: [{ vendorId: ledgerUSBVendorId }],
-  });
-  return device;
+
+  return navigatorUsb?.requestDevice({ filters: [{ vendorId: ledgerUSBVendorId }] });
 };
 
 export const getLedgerTransport = async () => {
   const device = await getLedgerDevices();
-  if (!device) throw new Error('No Ledger device found');
+
+  if (!device) {
+    throw new SwapKitError('wallet_ledger_device_not_found');
+  }
+
   await device.open();
   if (device.configuration === null) await device.selectConfiguration(1);
 
   try {
     await device.reset();
-  } catch (err) {
-    console.warn(err);
+  } catch {
+    // reset fails on devices that are already open
   }
 
-  const iface = device.configurations[0].interfaces.find(({ alternates }: any) =>
-    alternates.some(({ interfaceClass }: any) => interfaceClass === 255),
+  const iface = device.configurations[0].interfaces.find(
+    ({ alternates }: { alternates: { interfaceClass: number }[] }) =>
+      alternates.some(({ interfaceClass }) => interfaceClass === 255),
   );
 
-  if (!iface) throw new Error('No Ledger device found');
+  if (!iface) {
+    await device.close();
+    throw new SwapKitError('wallet_ledger_connection_error');
+  }
 
   try {
     await device.claimInterface(iface.interfaceNumber);
   } catch (error: any) {
     await device.close();
-    console.error(error);
-    throw new Error(error.message);
+
+    throw new SwapKitError('wallet_ledger_connection_claimed', error);
   }
 
   const { default: Transport } = await import('@ledgerhq/hw-transport-webusb');

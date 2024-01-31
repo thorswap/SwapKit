@@ -14,10 +14,6 @@ export type Signature = {
   signature: string;
 };
 
-export enum ErrorCode {
-  NoError = 0x9000,
-}
-
 export enum MemoType {
   BOND = 'BOND',
   DEPOSIT = '+',

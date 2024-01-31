@@ -20,3 +20,9 @@ export type EVMWalletOptions =
   | WalletOption.METAMASK
   | WalletOption.TRUSTWALLET_WEB
   | WalletOption.COINBASE_WEB;
+
+export enum LedgerErrorCode {
+  NoError = 0x9000,
+  LockedDevice = 0x5515,
+  TC_NotFound = 65535,
+}

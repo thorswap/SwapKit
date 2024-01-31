@@ -53,6 +53,10 @@ const errorMessages = {
    * Wallets
    */
   wallet_ledger_connection_error: 20001,
+  wallet_ledger_connection_claimed: 20002,
+  wallet_ledger_get_address_error: 20003,
+  wallet_ledger_device_not_found: 20004,
+  wallet_ledger_device_locked: 20005,
 
   /**
    * Helpers
@@ -60,11 +64,13 @@ const errorMessages = {
   helpers_number_different_decimals: 99101,
 } as const;
 
-export type Keys = keyof typeof errorMessages;
+export type ErrorKeys = keyof typeof errorMessages;
 
 export class SwapKitError extends Error {
-  constructor(errorKey: Keys, sourceError?: any) {
-    console.error(sourceError, { stack: sourceError?.stack, message: sourceError?.message });
+  constructor(errorKey: ErrorKeys, sourceError?: any) {
+    if (sourceError) {
+      console.error(sourceError, { stack: sourceError?.stack, message: sourceError?.message });
+    }
 
     super(errorKey, { cause: { code: errorMessages[errorKey], message: errorKey } });
     Object.setPrototypeOf(this, SwapKitError.prototype);
