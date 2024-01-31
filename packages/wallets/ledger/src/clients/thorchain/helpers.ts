@@ -1,10 +1,14 @@
-import { ErrorCode } from '@swapkit/types';
+import { LedgerErrorCode } from '@swapkit/types';
 
 import { CLA, errorCodeToString, INS, PAYLOAD_TYPE, processErrorResponse } from './common.ts';
 
 const signSendChunkv1 = async (app: any, chunkIdx: any, chunkNum: any, chunk: any) => {
   return app.transport
-    .send(CLA, INS.SIGN_SECP256K1, chunkIdx, chunkNum, chunk, [ErrorCode.NoError, 0x6984, 0x6a80])
+    .send(CLA, INS.SIGN_SECP256K1, chunkIdx, chunkNum, chunk, [
+      LedgerErrorCode.NoError,
+      0x6984,
+      0x6a80,
+    ])
     .then((response: any) => {
       const errorCodeData = response.slice(-2);
       const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
@@ -58,7 +62,7 @@ export const signSendChunkv2 = async (app: any, chunkIdx: any, chunkNum: any, ch
 
 export const publicKeyv2 = async (app: any, data: any) => {
   return app.transport
-    .send(CLA, INS.GET_ADDR_SECP256K1, 0, 0, data, [ErrorCode.NoError])
+    .send(CLA, INS.GET_ADDR_SECP256K1, 0, 0, data, [LedgerErrorCode.NoError])
     .then((response: any) => {
       const errorCodeData = response.slice(-2);
       const returnCode = errorCodeData[0] * 256 + errorCodeData[1];

@@ -1,6 +1,6 @@
 import { derivationPathToString } from '@swapkit/helpers';
 import type { DerivationPathArray } from '@swapkit/types';
-import { ErrorCode, NetworkDerivationPath } from '@swapkit/types';
+import { NetworkDerivationPath } from '@swapkit/types';
 
 import { CommonLedgerInterface } from '../interfaces/LedgerInterfaces.ts';
 
@@ -92,11 +92,5 @@ export class CosmosLedger extends CommonLedgerInterface {
         pubkey: Buffer.from(addressAndPubKey.publicKey, 'hex'),
       },
     ] as any[];
-  };
-
-  private validateResponse = (errorCode: ErrorCode, message?: string) => {
-    if (errorCode !== ErrorCode.NoError) {
-      throw new Error(`${errorCode}: ${message}`);
-    }
   };
 }

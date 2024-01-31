@@ -1,0 +1,35 @@
+name: Feature request
+description: Suggest an idea for this project
+labels: [feature-request]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this feature request!
+
+        If this is not a feature request, please use other relevant channels:
+
+        - [Ask questions on #swapkit-dev channel on Discord](https://discord.com/invite/thorswap)
+        - [Propose integrations on #partners-integrations on Discord](https://discord.com/invite/thorswap)
+
+  - type: checkboxes
+    attributes:
+      label: Requested functionality area
+      description: |
+        What functionality is expected to be added?
+      options:
+        - label: Wallet
+        - label: Chain
+        - label: Provider
+        - label: Other
+
+  - type: textarea
+    attributes:
+      label: Details
+      description: |
+        Please provide more details about the feature request, documentation, examples, etc.
+        Additional reasoning for the feature request is also helpful.
+      value: |
+        I would like to see this feature added because...
+    validations:
+      required: true

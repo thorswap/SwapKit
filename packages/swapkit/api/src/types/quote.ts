@@ -1,4 +1,4 @@
-import type { Chain, ErrorCode, QuoteMode } from '@swapkit/types';
+import type { Chain, LedgerErrorCode, QuoteMode } from '@swapkit/types';
 
 export enum TransactionType {
   // Old quote mode
@@ -318,7 +318,7 @@ type Meta = {
   quoteMode: QuoteMode;
   sellChain: Chain;
   sellChainGasRate: number;
-  warnings: { warningCode: ErrorCode; warningMessage: string }[];
+  warnings: { warningCode: LedgerErrorCode; warningMessage: string }[];
   thornodeMeta?: {
     dustThreshold?: number;
     expectedAmountOut: number;

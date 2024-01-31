@@ -1,6 +1,8 @@
 import type BitcoinApp from '@ledgerhq/hw-app-btc';
+import { SwapKitError } from '@swapkit/helpers';
 import type { Network as BTCNetwork, Psbt, UTXOType } from '@swapkit/toolbox-utxo';
 import { networks, toCashAddress } from '@swapkit/toolbox-utxo';
+import { LedgerErrorCode } from '@swapkit/types';
 
 import { BinanceApp } from '../clients/binance/lib.ts';
 import { THORChainApp } from '../clients/thorchain/lib.ts';
@@ -48,8 +50,26 @@ export abstract class CommonLedgerInterface {
 
       return this.ledgerApp;
     } catch (error: any) {
-      console.error(error);
-      throw new Error('Cannot create transport or ledger client');
+      throw new SwapKitError('wallet_ledger_connection_error', error);
+    }
+  };
+
+  public validateResponse = (errorCode: LedgerErrorCode, message?: string) => {
+    switch (errorCode) {
+      case LedgerErrorCode.NoError:
+        return;
+
+      case LedgerErrorCode.LockedDevice:
+        throw new SwapKitError('wallet_ledger_device_locked', {
+          message: `Ledger is locked: ${message}`,
+        });
+
+      case LedgerErrorCode.TC_NotFound:
+        throw new SwapKitError('wallet_ledger_device_not_found');
+
+      default:
+        console.error(`Ledger error: ${errorCode} ${message}`);
+        break;
     }
   };
 }
@@ -74,6 +94,15 @@ export abstract class UTXOLedgerInterface {
     this.btcApp = new BitcoinApp({ transport: this.transport, currency: this.chain });
   };
 
+  public getExtendedPublicKey = async (
+    path: string = "84'/0'/0'",
+    xpubVersion: number = 76067358,
+  ) => {
+    await this.checkBtcAppAndCreateTransportWebUSB(false);
+
+    return this.btcApp!.getWalletXpub({ path, xpubVersion });
+  };
+
   public signTransaction = async (psbt: Psbt, inputUtxos: UTXOType[]) => {
     await this.createTransportWebUSB();
 
@@ -91,9 +120,9 @@ export abstract class UTXOLedgerInterface {
     });
 
     if (!address) {
-      throw new Error(
-        `Cannot get ${this.chain} address from ledger derivation path: ${this.derivationPath}`,
-      );
+      throw new SwapKitError('wallet_ledger_get_address_error', {
+        message: `Cannot get ${this.chain} address from ledger derivation path: ${this.derivationPath}`,
+      });
     }
 
     return this.chain === 'bitcoin-cash' && this.walletFormat === 'legacy'
@@ -103,8 +132,9 @@ export abstract class UTXOLedgerInterface {
 
   private checkBtcAppAndCreateTransportWebUSB = async (checkBtcApp: boolean = true) => {
     if (checkBtcApp && !this.btcApp) {
-      const errorData = JSON.stringify({ checkBtcApp, btcApp: this.btcApp });
-      throw new Error(`Ledger connection failed: \n${errorData}`);
+      new SwapKitError('wallet_ledger_connection_error', {
+        message: `Ledger connection failed:\n${JSON.stringify({ checkBtcApp, btcApp: this.btcApp })}`,
+      });
     }
 
     this.transport ||= await getLedgerTransport();
@@ -116,17 +146,5 @@ export abstract class UTXOLedgerInterface {
 
     // @ts-expect-error `default` typing is wrong
     this.btcApp = new BitcoinApp({ transport: this.transport, currency: this.chain });
-  };
-
-  public getExtendedPublicKey = async (
-    path: string = "84'/0'/0'",
-    xpubVersion: number = 76067358,
-  ) => {
-    await this.checkBtcAppAndCreateTransportWebUSB(false);
-
-    return this.btcApp!.getWalletXpub({
-      path,
-      xpubVersion,
-    });
   };
 }

@@ -1,6 +1,6 @@
 import { base64 } from '@swapkit/toolbox-cosmos';
 import type { DerivationPathArray, GetAddressAndPubKeyResponse } from '@swapkit/types';
-import { ErrorCode, NetworkDerivationPath } from '@swapkit/types';
+import { NetworkDerivationPath } from '@swapkit/types';
 
 import { CommonLedgerInterface } from '../../interfaces/LedgerInterfaces.ts';
 
@@ -77,9 +77,5 @@ export class THORChainLedger extends CommonLedgerInterface {
         signature: getSignature(signature),
       },
     ];
-  };
-
-  private validateResponse = (errorCode: ErrorCode, message?: string) => {
-    if (errorCode !== ErrorCode.NoError) throw new Error(`${errorCode} ${message}`);
   };
 }

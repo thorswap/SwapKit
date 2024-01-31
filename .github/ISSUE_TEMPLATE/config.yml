@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Docs
+    url: https://docs.thorswap.finance/swapkit-docs
+    about: Read the documentation to learn how to use SwapKit.
+  - name: Integrations contact
+    url: https://docs.google.com/forms/d/e/1FAIpQLSdJf_WtrfnklwbaxkJnrhVqgDnYJ0XUB8tisSMUJWfy7mFm7g/viewform
+    about: Contact the team to learn more about integrations.
+  - name: Linktree
+    url: https://linktr.ee/THORSwap
+    about: Find all the links to THORSwap's social media and community channels.
+  - name: THORChain Docs
+    url: https://dev.thorchain.org/
+    about: Read the documentation to learn how to use THORChain.
