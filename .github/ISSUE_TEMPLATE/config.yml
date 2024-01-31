@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Docs
+    url: https://docs.thorswap.finance/swapkit-docs
+    about: Read the documentation to learn how to use SwapKit.
+  - name: Contact
+    url: https://discord.com/invite/thorswap
+    about: Join the community Discord server to chat with contributors and community members.
+  - name: THORChain Docs
+    url: https://dev.thorchain.org/
+    about: Read the documentation to learn how to use THORChain.

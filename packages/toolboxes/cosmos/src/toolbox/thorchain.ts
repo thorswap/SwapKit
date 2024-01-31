@@ -2,17 +2,8 @@ import type { Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
 import type { OfflineDirectSigner, TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import { type Account, type StdFee } from '@cosmjs/stargate';
 import { base64 } from '@scure/base';
-import { AssetValue } from '@swapkit/helpers';
-import { RequestClient, SwapKitNumber } from '@swapkit/helpers';
-import {
-  ApiUrl,
-  Asset,
-  BaseDecimal,
-  Chain,
-  ChainId,
-  DerivationPath,
-  FeeOption,
-} from '@swapkit/types';
+import { AssetValue, RequestClient, SwapKitNumber } from '@swapkit/helpers';
+import { ApiUrl, BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from '@swapkit/types';
 
 import { CosmosClient } from '../cosmosClient.ts';
 import type {
@@ -32,7 +23,6 @@ import {
 } from '../util.ts';
 
 import { BaseCosmosToolbox } from './BaseCosmosToolbox.ts';
-import { DefaultDeserializer } from 'v8';
 
 const getDefaultChainFee = (chain: Chain.THORChain | Chain.Maya) => {
   switch (chain) {

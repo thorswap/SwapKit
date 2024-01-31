@@ -1,0 +1,90 @@
+name: Bug report
+description: Create a report to help us improve
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+
+        If this is not a bug report, please use other relevant channels:
+
+        - [Ask questions on #swapkit-dev channel on Discord](https://discord.com/invite/thorswap)
+        - [Propose integrations on #partners-integrations on Discord](https://discord.com/invite/thorswap)
+
+        Before you proceed:
+
+        - Make sure you are on latest versions of SwapKit packages.
+
+  - type: textarea
+    attributes:
+      label: Current behavior
+      description: |
+        What code are you running and what is happening? Include a screenshot or video if it's an UI related issue.
+      placeholder: Current behavior
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: |
+        What do you expect to happen instead?
+      placeholder: Expected behavior
+    validations:
+      required: true
+
+  - type: checkboxes
+    attributes:
+      label: Functionality
+      description: |
+        What functionality is affected by the issue?
+      options:
+        - label: Swap
+        - label: Liquidity
+        - label: Savers
+        - label: Loan
+        - label: Wallet
+        - label: Transactions
+        - label: Api
+        - label: Other
+
+  - type: checkboxes
+    attributes:
+      label: Packages
+      description: |
+        Which packages are affected by the issue?
+      options:
+        - label: "@swapkit/sdk"
+        - label: "@swapkit/core"
+        - label: "@swapkit/api"
+        - label: "@swapkit/helpers"
+        - label: "@swapkit/tokens"
+        - label: "@swapkit/types"
+
+        - label: "@swapkit/toolbox-cosmos"
+        - label: "@swapkit/toolbox-evm"
+        - label: "@swapkit/toolbox-utxo"
+
+        - label: "@swapkit/wallet-evm-extensions"
+        - label: "@swapkit/wallet-keepkey"
+        - label: "@swapkit/wallet-keplr"
+        - label: "@swapkit/wallet-keystore"
+        - label: "@swapkit/wallet-ledger"
+        - label: "@swapkit/wallet-okx"
+        - label: "@swapkit/wallet-trezor"
+        - label: "@swapkit/wallet-wc"
+        - label: "@swapkit/wallet-xdefi"
+
+  - type: textarea
+    attributes:
+      label: Details
+      description: |
+        Please provide additional details, if any like screenshots, videos, error stack traces, package versions, etc.
+      value: |
+        Package versions:
+        ```bash
+        # Paste the output of `<npm|yarn|pnpm|bun pm> ls --depth=0 | grep @swapkit` here
+        ```
+    validations:
+      required: true
