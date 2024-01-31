@@ -260,8 +260,15 @@ export class SwapKitCore<T = ''> {
   }: CoreTxParams & { router?: string }) => {
     const { chain, symbol, ticker } = assetValue;
     const walletInstance = this.connectedWallets[chain];
-    if (!(await validateAddressType({ address: await walletInstance?.getAddress(), chain })))
+    const isAddressValidated = await validateAddressType({
+      address: await walletInstance?.getAddress(),
+      chain,
+    });
+
+    if (!isAddressValidated) {
       throw new SwapKitError('core_transaction_invalid_sender_address');
+    }
+
     if (!walletInstance) throw new SwapKitError('core_wallet_connection_not_found');
 
     const params = this.#prepareTxParams({ assetValue, recipient, router, ...rest });
