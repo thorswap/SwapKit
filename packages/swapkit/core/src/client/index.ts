@@ -321,13 +321,16 @@ export class SwapKitCore<T = ''> {
       const isInsufficientFunds = errorMessage?.includes('insufficient funds');
       const isGas = errorMessage?.includes('gas');
       const isServer = errorMessage?.includes('server');
+      const isUserRejected = errorMessage?.includes('user rejected');
       const errorKey: ErrorKeys = isInsufficientFunds
         ? 'core_transaction_deposit_insufficient_funds_error'
         : isGas
           ? 'core_transaction_deposit_gas_error'
           : isServer
             ? 'core_transaction_deposit_server_error'
-            : 'core_transaction_deposit_error';
+            : isUserRejected
+              ? 'core_transaction_user_rejected'
+              : 'core_transaction_deposit_error';
 
       throw new SwapKitError(errorKey, error);
     }
