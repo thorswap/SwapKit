@@ -40,7 +40,7 @@ const getWalletMethodsForChain = async ({
   index,
   stagenet,
 }: Params) => {
-  const derivationPath = `${DerivationPath[chain]}/${index}`;
+  const derivationPath = `${DerivationPath[chain] as string}/${index}`;
 
   switch (chain) {
     case Chain.BinanceSmartChain:
@@ -172,6 +172,20 @@ const getWalletMethodsForChain = async ({
       const walletMethods = { ...toolbox, deposit, transfer, getAddress: () => address };
 
       return { address, walletMethods };
+    }
+
+    case Chain.Polkadot:
+    case Chain.Chainflip: {
+      const { getToolboxByChain, createKeyring } = await import('@swapkit/toolbox-substrate');
+
+      const signer = await createKeyring(phrase, 0);
+
+      const toolbox = await getToolboxByChain(chain, {
+        signer,
+        generic: false
+      });
+
+      return { address: signer.address, walletMethods: toolbox };
     }
 
     default:

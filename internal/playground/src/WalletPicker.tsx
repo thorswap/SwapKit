@@ -37,7 +37,7 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
   [WalletOption.OKX_MOBILE]: EVMChainList,
   [WalletOption.COINBASE_WEB]: EVMChainList,
   [WalletOption.KEPLR]: [Chain.Cosmos],
-  [WalletOption.KEYSTORE]: AllChainsSupported,
+  [WalletOption.KEYSTORE]: [...AllChainsSupported, Chain.Polkadot],
   [WalletOption.KEEPKEY]: [
     Chain.Arbitrum,
     Chain.Avalanche,
@@ -228,7 +228,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             Chain.Dogecoin,
             Chain.Ethereum,
             Chain.Litecoin,
-
+            Chain.Polkadot,
             Chain.THORChain,
             Chain.Arbitrum,
             Chain.Kujira,

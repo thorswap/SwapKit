@@ -1,9 +1,17 @@
 {
   "author": "swapkit",
-  "dependencies": {},
-  "description": "SwapKit Lib polkadot",
+  "dependencies": {
+    "@polkadot/api": "^10.11.2",
+    "@polkadot/api-base": "^10.11.2",
+    "@polkadot/keyring": "^12.6.2",
+    "@polkadot/types": "^10.11.2",
+    "@polkadot/util-crypto": "^12.6.2"
+  },
+  "description": "SwapKit Lib substrate",
   "devDependencies": {
     "@internal/config": "workspace:*",
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/types": "workspace:*",
     "@vitest/coverage-istanbul": "1.1.0",
     "vite": "5.0.12",
     "vitest": "1.1.0"
@@ -22,12 +30,15 @@
     "src/",
     "dist/"
   ],
+  "peerDependencies": {
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/types": "workspace:*"
+  },
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/polkadot",
-  "peerDependencies": {},
+  "name": "@swapkit/toolbox-substrate",
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",

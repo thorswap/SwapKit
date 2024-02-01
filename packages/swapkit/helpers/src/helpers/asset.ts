@@ -85,6 +85,8 @@ export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) 
     case Chain.Binance:
     case Chain.Ethereum:
     case Chain.Avalanche:
+    case Chain.Polkadot:
+    case Chain.Chainflip:
       return symbol === chain;
 
     case Chain.Arbitrum:
@@ -139,7 +141,9 @@ export const getCommonAssetInfo = (
     case Chain.Dogecoin:
     case Chain.Binance:
     case Chain.Avalanche:
+    case Chain.Chainflip:
     case Chain.Polygon:
+    case Chain.Polkadot:
     case Chain.Bitcoin:
     case Chain.Ethereum:
       return { identifier: `${assetString}.${assetString}`, decimal: BaseDecimal[assetString] };

@@ -10,6 +10,7 @@ import type {
   TraderjoeList,
   UniswapList,
   WoofiList,
+  ChainflipList,
 } from '@swapkit/tokens';
 
 export type TokenTax = { buy: number; sell: number };
@@ -25,4 +26,5 @@ export type TokenNames =
   | (typeof SushiswapList)['tokens'][number]['identifier']
   | (typeof TraderjoeList)['tokens'][number]['identifier']
   | (typeof WoofiList)['tokens'][number]['identifier']
-  | (typeof UniswapList)['tokens'][number]['identifier'];
+  | (typeof UniswapList)['tokens'][number]['identifier']
+  | (typeof ChainflipList)['tokens'][number]['identifier'];
