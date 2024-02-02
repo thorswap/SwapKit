@@ -667,31 +667,21 @@ export class SwapKitCore<T = ''> {
   };
 
   #getInboundDataByChain = async (chain: Chain) => {
-    if (chain === Chain.THORChain) {
-      return {
-        gas_rate: '0',
-        router: null,
-        address: '',
-        halted: false,
-        chain: Chain.THORChain,
-      };
-    }
-    if (chain === Chain.Maya) {
-      return {
-        gas_rate: '0',
-        router: null,
-        address: '',
-        halted: false,
-        chain: Chain.Maya,
-      };
-    }
-    const inboundData = await getInboundData(this.stagenet);
-    const chainAddressData = inboundData.find((item) => item.chain === chain);
+    switch (chain) {
+      case Chain.Maya:
+      case Chain.THORChain:
+        return { gas_rate: '0', router: '', address: '', halted: false, chain };
 
-    if (!chainAddressData) throw new SwapKitError('core_inbound_data_not_found');
-    if (chainAddressData?.halted) throw new SwapKitError('core_chain_halted');
+      default: {
+        const inboundData = await getInboundData(this.stagenet);
+        const chainAddressData = inboundData.find((item) => item.chain === chain);
 
-    return chainAddressData;
+        if (!chainAddressData) throw new SwapKitError('core_inbound_data_not_found');
+        if (chainAddressData?.halted) throw new SwapKitError('core_chain_halted');
+
+        return chainAddressData;
+      }
+    }
   };
 
   #addConnectedChain = ({ chain, wallet, walletMethods }: AddChainWalletParams) => {
