@@ -673,6 +673,15 @@ export class SwapKitCore<T = ''> {
         chain: Chain.THORChain,
       };
     }
+    if (chain === Chain.Maya) {
+      return {
+        gas_rate: '0',
+        router: '0',
+        address: '',
+        halted: false,
+        chain: Chain.Maya,
+      };
+    }
     const inboundData = await getInboundData(this.stagenet);
     const chainAddressData = inboundData.find((item) => item.chain === chain);
 
