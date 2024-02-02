@@ -1,5 +1,19 @@
 # @swapkit/core
 
+## 1.0.0-rc.90
+
+### Patch Changes
+
+- [`3b7af80`](https://github.com/thorswap/SwapKit/commit/3b7af8085ecc7e279dbd639b3375a81cc740970a) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Add & retur new ledger errors from swapkit
+
+- Updated dependencies [[`3b7af80`](https://github.com/thorswap/SwapKit/commit/3b7af8085ecc7e279dbd639b3375a81cc740970a)]:
+  - @swapkit/helpers@1.0.0-rc.65
+  - @swapkit/types@1.0.0-rc.34
+  - @swapkit/toolbox-cosmos@1.0.0-rc.73
+  - @swapkit/toolbox-evm@1.0.0-rc.71
+  - @swapkit/toolbox-utxo@1.0.0-rc.70
+  - @swapkit/tokens@1.0.0-rc.33
+
 ## 1.0.0-rc.89
 
 ### Patch Changes
