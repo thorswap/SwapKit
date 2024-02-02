@@ -272,7 +272,8 @@ export class SwapKitCore<T = ''> {
 
     try {
       switch (chain) {
-        case Chain.THORChain: {
+        case Chain.THORChain:
+        case Chain.Maya: {
           const wallet = walletInstance as ThorchainWallet;
           return await (recipient === '' ? wallet.deposit(params) : wallet.transfer(params));
         }
@@ -669,10 +670,19 @@ export class SwapKitCore<T = ''> {
     if (chain === Chain.THORChain) {
       return {
         gas_rate: '0',
-        router: '0',
+        router: null,
         address: '',
         halted: false,
         chain: Chain.THORChain,
+      };
+    }
+    if (chain === Chain.Maya) {
+      return {
+        gas_rate: '0',
+        router: null,
+        address: '',
+        halted: false,
+        chain: Chain.Maya,
       };
     }
     const inboundData = await getInboundData(this.stagenet);
