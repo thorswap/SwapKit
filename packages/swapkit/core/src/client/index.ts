@@ -272,7 +272,8 @@ export class SwapKitCore<T = ''> {
 
     try {
       switch (chain) {
-        case Chain.THORChain: {
+        case Chain.THORChain:
+        case Chain.Maya: {
           const wallet = walletInstance as ThorchainWallet;
           return await (recipient === '' ? wallet.deposit(params) : wallet.transfer(params));
         }
