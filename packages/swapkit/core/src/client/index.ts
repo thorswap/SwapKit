@@ -667,7 +667,7 @@ export class SwapKitCore<T = ''> {
     if (chain === Chain.THORChain) {
       return {
         gas_rate: '0',
-        router: '0',
+        router: null,
         address: '',
         halted: false,
         chain: Chain.THORChain,
@@ -676,7 +676,7 @@ export class SwapKitCore<T = ''> {
     if (chain === Chain.Maya) {
       return {
         gas_rate: '0',
-        router: '0',
+        router: null,
         address: '',
         halted: false,
         chain: Chain.Maya,
