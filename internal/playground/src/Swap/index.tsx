@@ -1,4 +1,5 @@
 import type { AssetValue, SwapKitCore } from '@swapkit/core';
+import { ChainflipBroker } from '@swapkit/chainflip';
 import type { QuoteRoute } from '@swapkit/helpers';
 import { FeeOption } from '@swapkit/types';
 import { useCallback } from 'react';
@@ -33,6 +34,14 @@ export default function Swap({
     [inputAsset, outputAsset?.chain, skClient],
   );
 
+  const handleRegisterBroker = useCallback(async () => {
+    const cftb = skClient.connectedWallets.FLIP;
+    const ethtb = skClient.connectedWallets.ETH;
+
+    const broker = await ChainflipBroker(cftb, ethtb);
+    const res = await broker.registerAsBroker(cftb.getAddress());
+  }, [skClient]);
+
   return (
     <>
       <h4>Swap</h4>
@@ -42,6 +51,7 @@ export default function Swap({
         outputAsset={outputAsset}
         skClient={skClient}
       />
+      <button onClick={handleRegisterBroker}>Register Broker</button>
     </>
   );
 }

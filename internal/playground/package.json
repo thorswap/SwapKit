@@ -3,6 +3,7 @@
     "@esbuild-plugins/node-globals-polyfill": "0.2.3",
     "@esbuild-plugins/node-modules-polyfill": "0.2.2",
     "@swapkit/core": "workspace:*",
+    "@swapkit/chainflip": "workspace:*",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/tokens": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",

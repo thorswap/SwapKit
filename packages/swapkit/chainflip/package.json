@@ -1,18 +1,17 @@
 {
   "author": "swapkit",
   "dependencies": {
-    "@polkadot/api": "^10.11.2",
-    "@polkadot/api-base": "^10.11.2",
+    "@chainflip/sdk": "1.1.5",
+    "@polkadot/api": "10.11.2",
     "@polkadot/keyring": "^12.6.2",
-    "@polkadot/types": "^10.11.2",
-    "@polkadot/util-crypto": "^12.6.2",
     "@polkadot/util": "^12.6.2"
   },
-  "description": "SwapKit Lib substrate",
+  "description": "SwapKit Lib chainflip",
   "devDependencies": {
     "@internal/config": "workspace:*",
     "@swapkit/helpers": "workspace:*",
-    "@swapkit/types": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-substrate": "workspace:*",
     "@vitest/coverage-istanbul": "1.1.0",
     "vite": "5.0.12",
     "vitest": "1.1.0"
@@ -31,15 +30,16 @@
     "src/",
     "dist/"
   ],
-  "peerDependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/types": "workspace:*"
-  },
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/toolbox-substrate",
+  "name": "@swapkit/chainflip",
+  "peerDependencies": {
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-substrate": "workspace:*"
+  },
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
