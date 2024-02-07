@@ -108,6 +108,7 @@ export class AssetValue extends BigIntArithmetics {
       decimal: BaseDecimal[chain],
       identifier: assetString,
     };
+
     return new AssetValue({
       tax,
       value: safeValue(value, decimal),
@@ -231,8 +232,10 @@ function safeValue(value: NumberPrimitives, decimal: number) {
     : value;
 }
 
+// TODO refactor & split into smaller functions
 function getAssetInfo(identifier: string) {
   const isSynthetic = identifier.slice(0, 14).includes('/');
+
   const [synthChain, synthSymbol] =
     identifier.split('.')[0].toUpperCase() === Chain.THORChain
       ? identifier.split('.').slice(1)!.join().split('/')
@@ -243,8 +246,12 @@ function getAssetInfo(identifier: string) {
   const adjustedIdentifier =
     identifier.includes('.') && !isSynthetic ? identifier : `${Chain.THORChain}.${synthSymbol}`;
 
-  const [chain, symbol] = adjustedIdentifier.split('.') as [Chain, string];
-  const [ticker, address] = (isSynthetic ? synthSymbol : symbol).split('-') as [string, string?];
+  const [chain, ...rest] = adjustedIdentifier.split('.') as [Chain, string];
+  const [ticker, address] = (isSynthetic ? synthSymbol : rest.join('.')).split('-') as [
+    string,
+    string?,
+  ];
+  const symbol = isSynthetic ? synthSymbol : rest.join('.');
 
   return {
     address: address?.toLowerCase(),
