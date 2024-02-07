@@ -1,5 +1,6 @@
 import { AssetValue, SwapKitApi } from '@swapkit/helpers';
-import { Chain, type ChainId, type DerivationPath } from '@swapkit/types';
+import type { ChainId, DerivationPath } from '@swapkit/types';
+import { Chain } from '@swapkit/types';
 
 import type { CosmosClient } from '../cosmosClient.ts';
 import type { BaseCosmosToolboxType } from '../thorchainUtils/types/client-types.ts';
@@ -62,7 +63,19 @@ export const BaseCosmosToolbox = ({
 
     return DirectSecp256k1Wallet.fromKey(privateKey, cosmosClient.prefix);
   },
+  createPrivateKeyFromPhrase: async (phrase: string) => {
+    const { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } = await import(
+      '@cosmjs/crypto'
+    );
 
+    const derivationPathString = stringToPath(`${derivationPath}/0`);
+    const mnemonicChecked = new EnglishMnemonic(phrase);
+    const seed = await Bip39.mnemonicToSeed(mnemonicChecked);
+
+    const { privkey } = Slip10.derivePath(Slip10Curve.Secp256k1, seed, derivationPathString);
+
+    return privkey;
+  },
   getAccount: cosmosClient.getAccount,
   validateAddress: (address: string) => cosmosClient.checkAddress(address),
   getAddressFromMnemonic: (phrase: string) =>
