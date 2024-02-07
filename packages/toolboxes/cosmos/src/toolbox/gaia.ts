@@ -24,6 +24,7 @@ export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => 
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
     getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
+    createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
   } = BaseCosmosToolbox({
     decimal: BaseDecimal.GAIA,
     derivationPath: DerivationPath.GAIA,

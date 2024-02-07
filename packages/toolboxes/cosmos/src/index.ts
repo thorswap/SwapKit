@@ -24,6 +24,6 @@ export { BinanceToolbox } from './toolbox/binance.ts';
 export { GaiaToolbox } from './toolbox/gaia.ts';
 export { getToolboxByChain } from './toolbox/getToolboxByChain.ts';
 export { KujiraToolbox } from './toolbox/kujira.ts';
-export { MayaToolbox, ThorchainToolbox } from './toolbox/thorchain.ts';
+export { MayaToolbox, ThorchainToolbox, verifySignature } from './toolbox/thorchain.ts';
 export * from './types.ts';
 export * from './util.ts';

@@ -1,6 +1,6 @@
 import type { Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
 import type { OfflineDirectSigner, TxBodyEncodeObject } from '@cosmjs/proto-signing';
-import { type Account, type StdFee } from '@cosmjs/stargate';
+import type { Account, StdFee } from '@cosmjs/stargate';
 import { base64 } from '@scure/base';
 import { AssetValue, RequestClient, SwapKitNumber } from '@swapkit/helpers';
 import { ApiUrl, BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from '@swapkit/types';
@@ -236,6 +236,20 @@ const __REEXPORT__pubkeyToAddress = (prefix: string) => async (pubkey: Pubkey) =
   return pubkeyToAddress(pubkey, prefix);
 };
 
+const signMessage = async (privateKey: Uint8Array, message: string) => {
+  const { Secp256k1 } = await import('@cosmjs/crypto');
+
+  const signature = await Secp256k1.createSignature(base64.decode(message), privateKey);
+  return base64.encode(Buffer.concat([signature.r(32), signature.s(32)]));
+};
+
+export const verifySignature = async (signature: string, message: string, pubkey: Uint8Array) => {
+  const { Secp256k1, Secp256k1Signature } = await import('@cosmjs/crypto');
+  const secpSignature = Secp256k1Signature.fromFixedLength(base64.decode(signature));
+
+  return Secp256k1.verifySignature(secpSignature, base64.decode(message), pubkey);
+};
+
 export const BaseThorchainToolbox = ({
   chain,
   stagenet,
@@ -251,6 +265,7 @@ export const BaseThorchainToolbox = ({
   const defaultFee = getDefaultChainFee(chain);
 
   const baseToolbox: {
+    createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
     getAccount: (address: string) => Promise<Account | null>;
     validateAddress: (address: string) => Promise<boolean>;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
@@ -361,6 +376,12 @@ export const BaseThorchainToolbox = ({
     return txResponse.transactionHash;
   };
 
+  const verifySignatureInToolbox = async (signature: string, message: string, address: string) => {
+    const account = await baseToolbox.getAccount(address);
+    if (!account?.pubkey) throw new Error('Public key not found');
+    return verifySignature(signature, message, account.pubkey.value);
+  };
+
   return {
     ...baseToolbox,
     deposit,
@@ -376,6 +397,8 @@ export const BaseThorchainToolbox = ({
     importSignature,
     loadAddressBalances,
     pubkeyToAddress: __REEXPORT__pubkeyToAddress(prefix),
+    signMessage,
+    verifySignature: verifySignatureInToolbox,
   };
 };
 

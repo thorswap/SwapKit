@@ -144,20 +144,6 @@ const transfer = async (params: TransferParams): Promise<string> => {
   return res[0]?.hash;
 };
 
-const createKeyPair = async (phrase: string) => {
-  const { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } = await import(
-    '@cosmjs/crypto'
-  );
-
-  const derivationPath = stringToPath(`${DerivationPath.BNB}/0`);
-  const mnemonicChecked = new EnglishMnemonic(phrase);
-  const seed = await Bip39.mnemonicToSeed(mnemonicChecked);
-
-  const { privkey } = Slip10.derivePath(Slip10Curve.Secp256k1, seed, derivationPath);
-
-  return privkey;
-};
-
 export const getPublicKey = (publicKey: string) => {
   const ec = new EC('secp256k1');
   const keyPair = ec.keyFromPublic(publicKey, 'hex');
@@ -172,6 +158,7 @@ export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolbox
   });
 
   const baseToolbox: {
+    createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
     validateAddress: (address: string) => Promise<boolean>;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
@@ -191,7 +178,6 @@ export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolbox
     getFees,
     sendRawTransaction,
     createTransactionAndSignMsg,
-    createKeyPair,
     getPublicKey,
   };
 };
