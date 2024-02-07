@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.66
+
+### Patch Changes
+
+- [`692e678`](https://github.com/thorswap/SwapKit/commit/692e678dbad40165c133ba4d2db2d97f5dd22283) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Fix avax address providing
+
 ## 1.0.0-rc.65
 
 ### Patch Changes
