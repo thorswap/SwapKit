@@ -8,8 +8,5 @@
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.preferences.importModuleSpecifier": "relative",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "yaml.schemas": {
-    "https://json.schemastore.org/github-issue-config.json": "file:///Users/damian/Projects/THORSwap/SwapKit/.github/ISSUE_TEMPLATE/config.yml"
-  }
+  "typescript.updateImportsOnFileMove.enabled": "always"
 }
