@@ -29,6 +29,7 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
     getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
+    createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
   } = BaseCosmosToolbox({
     decimal: BaseDecimal.KUJI,
     derivationPath: DerivationPath.KUJI,
