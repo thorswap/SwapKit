@@ -160,6 +160,8 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
     case Chain.Litecoin:
     case Chain.Maya:
     case Chain.THORChain:
+    case Chain.Polkadot:
+    case Chain.Chainflip:
       return 'Native';
 
     case Chain.Cosmos:
