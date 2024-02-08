@@ -14,7 +14,7 @@ import type {
   MATICToolbox,
   OPToolbox,
 } from '@swapkit/toolbox-evm';
-import type { PolkadotToolbox, ChainflipToolbox } from '@swapkit/toolbox-substrate';
+import type { ChainflipToolbox, PolkadotToolbox } from '@swapkit/toolbox-substrate';
 import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/toolbox-utxo';
 import type { Chain, FeeOption, WalletOption } from '@swapkit/types';
 

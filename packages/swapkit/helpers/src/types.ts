@@ -1,4 +1,5 @@
 import type {
+  ChainflipList,
   CoinGeckoList,
   MayaList,
   PancakeswapETHList,
@@ -10,7 +11,6 @@ import type {
   TraderjoeList,
   UniswapList,
   WoofiList,
-  ChainflipList,
 } from '@swapkit/tokens';
 
 export type TokenTax = { buy: number; sell: number };

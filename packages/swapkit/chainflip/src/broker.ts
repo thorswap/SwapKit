@@ -1,7 +1,8 @@
+import type { AssetValue } from '@swapkit/helpers';
 import type { ETHToolbox } from '@swapkit/toolbox-evm';
 import type { ChainflipToolbox } from '@swapkit/toolbox-substrate';
+
 import { chainflipGateway } from './chainflipGatewayABI.ts';
-import type { AssetValue } from '@swapkit/helpers';
 
 const registerAsBroker = async (
   toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
@@ -29,7 +30,7 @@ const requestSwapDepositAddress = async (
 
   let response = {};
 
-  const extrinsic = await toolbox.signAndBroadcast(
+  await toolbox.signAndBroadcast(
     toolbox.api.tx.swapping.requestSwapDepositAddress({
       sourceAsset: sellAsset.ticker,
       destinationAsset: buyAsset.ticker,

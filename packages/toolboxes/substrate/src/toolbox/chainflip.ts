@@ -1,9 +1,11 @@
-import { RPCUrl } from '@swapkit/types';
-import { BaseToolbox } from './baseSubstrateToobox.ts';
-import { Network } from '../types/network.ts';
-import type { KeyringPair } from '@polkadot/keyring/types';
 import type { ApiPromise } from '@polkadot/api';
+import type { KeyringPair } from '@polkadot/keyring/types';
 import { AssetValue, SwapKitNumber } from '@swapkit/helpers';
+import { RPCUrl } from '@swapkit/types';
+
+import { Network } from '../types/network.ts';
+
+import { BaseToolbox } from './baseSubstrateToobox.ts';
 
 export const ChainflipToolbox = async ({
   providerUrl = RPCUrl.Chainflip,

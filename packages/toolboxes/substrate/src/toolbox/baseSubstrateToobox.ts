@@ -1,9 +1,11 @@
-import type { AssetValue } from '@swapkit/helpers';
 import type { ApiPromise } from '@polkadot/api';
-import { Network, SubstrateNetwork } from '../types/network.ts';
 import type { SubmittableExtrinsic } from '@polkadot/api/types';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { Callback, IKeyringPair, ISubmittableResult } from '@polkadot/types/types';
+import type { AssetValue } from '@swapkit/helpers';
+
+import type { SubstrateNetwork } from '../types/network.ts';
+import { Network } from '../types/network.ts';
 
 // TODO combine this type with the more general SK type
 type SubstrateTransferParams = {
@@ -154,7 +156,7 @@ export const BaseToolbox = async ({
     api,
     network,
     createKeyring: async (phrase: string) => createKeyring(phrase, network.prefix),
-    getAddress: (keyring: IKeyringPair = signer) => signer.address,
+    getAddress: (keyring: IKeyringPair = signer) => keyring.address,
     createTransfer: ({ recipient, assetValue }: { recipient: string; assetValue: AssetValue }) =>
       createTransfer(api, { recipient, amount: assetValue.getBaseValue('number') }),
     getBalance: async (address: string) => getBalance(api, gasAsset, address),

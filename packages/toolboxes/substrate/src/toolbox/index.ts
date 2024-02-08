@@ -1,7 +1,9 @@
-import { Chain, RPCUrl } from '@swapkit/types';
-import { PolkadotToolbox } from './polkadot.ts';
+import type { KeyringPair } from '@polkadot/keyring/types';
+import type { RPCUrl } from '@swapkit/types';
+import { Chain } from '@swapkit/types';
+
 import { ChainflipToolbox } from './chainflip.ts';
-import { KeyringPair } from '@polkadot/keyring/types';
+import { PolkadotToolbox } from './polkadot.ts';
 
 export const getToolboxByChain = async (
   chain: Chain.Polkadot | Chain.Chainflip,
@@ -19,6 +21,6 @@ export const getToolboxByChain = async (
   }
 };
 
-export * from './polkadot.ts';
-export * from './chainflip.ts';
 export * from './baseSubstrateToobox.ts';
+export * from './chainflip.ts';
+export * from './polkadot.ts';
