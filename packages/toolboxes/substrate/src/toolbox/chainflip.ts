@@ -24,7 +24,7 @@ export const ChainflipToolbox = async ({
   const gasAsset = AssetValue.fromChainOrSignature(Chain.Chainflip);
 
   const getBalance = async (api: ApiPromise, address: string) => {
-    const { balance } = await api.query.flip.account(address);
+    const { balance } = (await api.query.flip.account(address)) as any;
     return [
       gasAsset.set(
         SwapKitNumber.fromBigInt(BigInt(balance.toString()), gasAsset.decimal).getValue('string'),
