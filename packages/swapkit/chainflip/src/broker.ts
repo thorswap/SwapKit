@@ -1,14 +1,15 @@
-import { AssetValue, SwapKitNumber } from '@swapkit/helpers';
 import type { ETHToolbox } from '@swapkit/toolbox-evm';
 import type { ChainflipToolbox } from '@swapkit/toolbox-substrate';
 import { chainflipGateway } from './chainflipGatewayABI.ts';
-import { decodeAddress } from '@polkadot/keyring';
-import { isHex, u8aToHex } from '@polkadot/util';
+import type { AssetValue } from '@swapkit/helpers';
 
 const registerAsBroker = async (
   toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
   address: string,
-) => toolbox.signAndBroadcast(await toolbox.api.tx.swapping.registerAsBroker());
+) => {
+  const extrinsic = toolbox.api.tx.swapping.registerAsBroker(address);
+  return toolbox.signAndBroadcast(extrinsic);
+};
 
 const requestSwapDepositAddress = async (
   toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
@@ -23,9 +24,13 @@ const requestSwapDepositAddress = async (
     recipient: string;
     brokerCommissionBPS: number;
   },
-) =>
-  toolbox.signAndBroadcast(
-    await toolbox.api.tx.swapping.requestSwapDepositAddress({
+) => {
+  const { SwapKitNumber } = await import('@swapkit/helpers');
+
+  let response = {};
+
+  const extrinsic = await toolbox.signAndBroadcast(
+    toolbox.api.tx.swapping.requestSwapDepositAddress({
       sourceAsset: sellAsset.ticker,
       destinationAsset: buyAsset.ticker,
       destinationAddress: recipient,
@@ -33,7 +38,24 @@ const requestSwapDepositAddress = async (
         'number',
       ),
     }),
+    // TODO - fix this type - CF extrinsic return value does not align with polkadot typing
+    (result: any) => {
+      response = {
+        depositChannelId: `${result.issuedBlock}-${sellAsset.ticker}-${result.channelId}`,
+        depositAddress: result.address,
+        srcChainExpiryBlock: result.sourceChainExpiryBlock,
+      };
+    },
   );
+
+  return {
+    ...response,
+    sellAsset,
+    buyAsset,
+    recipient,
+    brokerCommissionBPS,
+  };
+};
 
 const fundStateChainAccount = async (
   evmToolbox: ReturnType<typeof ETHToolbox>,
@@ -41,6 +63,9 @@ const fundStateChainAccount = async (
   stateChainAccount: string,
   amount: AssetValue,
 ) => {
+  const { decodeAddress } = await import('@polkadot/keyring');
+  const { isHex, u8aToHex } = await import('@polkadot/util');
+
   if (amount.symbol !== 'FLIP') {
     throw new Error('Only FLIP is supported');
   }
@@ -63,7 +88,6 @@ const fundStateChainAccount = async (
 
 export const ChainflipBroker = async (
   chainflipToolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
-  evmToolbox: ReturnType<typeof ETHToolbox>,
 ) => ({
   registerAsBroker: async (address: string) => registerAsBroker(chainflipToolbox, address),
   requestSwapDepositAddress: async (chainflipTransaction: {
@@ -72,6 +96,9 @@ export const ChainflipBroker = async (
     recipient: string;
     brokerCommissionBPS: number;
   }) => requestSwapDepositAddress(chainflipToolbox, chainflipTransaction),
-  fundStateChainAccount: async (stateChainAccount: string, amount: AssetValue) =>
-    fundStateChainAccount(evmToolbox, chainflipToolbox, stateChainAccount, amount),
+  fundStateChainAccount: async (
+    stateChainAccount: string,
+    amount: AssetValue,
+    evmToolbox: ReturnType<typeof ETHToolbox>,
+  ) => fundStateChainAccount(evmToolbox, chainflipToolbox, stateChainAccount, amount),
 });

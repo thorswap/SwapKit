@@ -1,8 +1,8 @@
 import { RPCUrl } from '@swapkit/types';
 import { BaseToolbox } from './baseSubstrateToobox.ts';
 import { Network } from '../types/network.ts';
-import { KeyringPair } from '@polkadot/keyring/types';
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import type { KeyringPair } from '@polkadot/keyring/types';
+import type { ApiPromise } from '@polkadot/api';
 import { AssetValue, SwapKitNumber } from '@swapkit/helpers';
 
 export const ChainflipToolbox = async ({
@@ -14,22 +14,24 @@ export const ChainflipToolbox = async ({
   signer: KeyringPair;
   generic?: boolean;
 }): ReturnType<typeof BaseToolbox> => {
+  const { ApiPromise, WsProvider } = await import('@polkadot/api');
+  const { Chain } = await import('@swapkit/types');
+
   const provider = new WsProvider(providerUrl);
   const api = await ApiPromise.create({ provider });
-  const gasAsset = 'FLIP.FLIP';
+  const gasAsset = AssetValue.fromChainOrSignature(Chain.Chainflip);
 
   const getBalance = async (api: ApiPromise, address: string) => {
     const { balance } = await api.query.flip.account(address);
-    const asset = AssetValue.fromStringSync(gasAsset, '0');
     return [
-      asset.set(
-        SwapKitNumber.fromBigInt(BigInt(balance.toString()), asset.decimal).getValue('string'),
+      gasAsset.set(
+        SwapKitNumber.fromBigInt(BigInt(balance.toString()), gasAsset.decimal).getValue('string'),
       ),
     ];
   };
 
   const baseToolbox = await BaseToolbox({
-    providerUrl,
+    api,
     signer,
     gasAsset,
     network: generic ? Network.GENERIC_SUBSTRATE : Network.CHAINFLIP,
