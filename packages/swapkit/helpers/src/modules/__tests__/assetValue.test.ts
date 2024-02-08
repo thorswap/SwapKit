@@ -254,6 +254,25 @@ describe('AssetValue', () => {
         }),
       );
     });
+
+    test('returns proper avax string with address from `@swapkit/tokens` lists', async () => {
+      await AssetValue.loadStaticAssets();
+      const avaxBTCb = 'AVAX.BTC.b-0x152b9d0fdc40c096757f570a51e494bd4b943e50';
+      const AvaxBTCb = AssetValue.fromStringSync(avaxBTCb);
+
+      expect(AvaxBTCb).toBeDefined();
+      expect(AvaxBTCb).toEqual(
+        expect.objectContaining({
+          address: '0x152b9d0fdc40c096757f570a51e494bd4b943e50',
+          chain: Chain.Avalanche,
+          decimal: 8,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: 'BTC.b-0x152b9d0fdc40c096757f570a51e494bd4b943e50',
+          ticker: 'BTC.b',
+        }),
+      );
+    });
   });
 
   describe('fromChainOrSignature', () => {

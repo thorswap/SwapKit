@@ -78,4 +78,19 @@ export class THORChainLedger extends CommonLedgerInterface {
       },
     ];
   };
+
+  sign = async (message: string) => {
+    await this.checkOrCreateTransportAndLedger(true);
+
+    const { return_code, error_message, signature } = await this.ledgerApp.sign(
+      this.derivationPath,
+      message,
+    );
+
+    if (!this.pubKey) throw new Error('Public Key not found');
+
+    this.validateResponse(return_code, error_message);
+
+    return getSignature(signature);
+  };
 }

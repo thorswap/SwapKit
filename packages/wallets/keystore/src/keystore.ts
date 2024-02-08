@@ -144,7 +144,7 @@ const getWalletMethodsForChain = async ({
       const toolbox = getToolboxByChain(chain)({ server: api, stagenet });
       const additionalParams =
         chain === Chain.Binance
-          ? { privkey: await (toolbox as BinanceToolboxType).createKeyPair(phrase) }
+          ? { privkey: await (toolbox as BinanceToolboxType).createPrivateKeyFromPhrase(phrase) }
           : { signer: await toolbox.getSigner(phrase) };
 
       const address = await toolbox.getAddressFromMnemonic(phrase);
@@ -170,7 +170,18 @@ const getWalletMethodsForChain = async ({
             }
           : undefined;
 
-      const walletMethods = { ...toolbox, deposit, transfer, getAddress: () => address };
+      const signMessage = async (message: string) => {
+        const privateKey = await toolbox.createPrivateKeyFromPhrase(phrase);
+        return (toolbox as ThorchainToolboxType).signMessage(privateKey, message);
+      };
+
+      const walletMethods = {
+        ...toolbox,
+        deposit,
+        transfer,
+        getAddress: () => address,
+        signMessage,
+      };
 
       return { address, walletMethods };
     }

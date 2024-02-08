@@ -455,7 +455,11 @@ const getToolbox = async ({
         return result.transactionHash;
       };
 
-      return { ...toolbox, deposit, transfer };
+      const signMessage = async (message: string) => {
+        return (signer as THORChainLedger).sign(message);
+      };
+
+      return { ...toolbox, deposit, transfer, signMessage };
     }
 
     default:

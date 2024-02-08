@@ -69,6 +69,7 @@ export type BaseCosmosToolboxType = {
   getBalance: (address: string, potentialScamFilter?: boolean) => Promise<AssetValue[]>;
   transfer: (params: TransferParams) => Promise<string>;
   getFeeRateFromThorswap?: (chainId: ChainId) => Promise<number | undefined>;
+  createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
 };
 
 export type ThorchainToolboxType = BaseCosmosToolboxType & {
@@ -99,6 +100,8 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
   ) => Promise<string>;
   pubkeyToAddress: (pubkey: Pubkey, prefix: string) => Promise<string>;
   loadAddressBalances: (address: string) => Promise<AssetValue[]>;
+  signMessage: (privateKey: Uint8Array, message: string) => Promise<string>;
+  verifySignature: (signature: string, message: string, address: string) => Promise<boolean>;
 };
 
 export type MayaToolboxType = ThorchainToolboxType;
@@ -113,7 +116,6 @@ export type KujiraToolboxType = BaseCosmosToolboxType & {
 
 export type BinanceToolboxType = Omit<BaseCosmosToolboxType, 'getAccount'> & {
   getFees: () => Promise<Fees>;
-  createKeyPair: (phrase: string) => Promise<Uint8Array>;
   transfer: (params: TransferParams) => Promise<string>;
   getAccount: (address: string) => Promise<Account>;
   sendRawTransaction: (signedBz: string, sync: boolean) => Promise<any>;
