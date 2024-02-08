@@ -26,8 +26,8 @@ const getNonce = (api: ApiPromise, address: string) => api.rpc.system.accountNex
 
 const getBalance = async (api: ApiPromise, gasAsset: AssetValue, address: string) => {
   const { SwapKitNumber } = await import('@swapkit/helpers');
-  const data = await api.query.system.account(address);
-  if (!data.data?.free || data?.data?.isEmpty) return [gasAsset.set(0)];
+  const data = (await api.query.system.account(address)) as any;
+  if (!data?.data?.free || data?.data?.isEmpty) return [gasAsset.set(0)];
   return [
     gasAsset.set(
       SwapKitNumber.fromBigInt(BigInt(data.data.free.toString()), gasAsset.decimal).getValue(
