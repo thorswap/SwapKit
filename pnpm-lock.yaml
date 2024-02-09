@@ -713,8 +713,8 @@ importers:
   packages/wallets/keepkey:
     dependencies:
       '@keepkey/keepkey-sdk':
-        specifier: 0.2.52
-        version: 0.2.52
+        specifier: 0.2.57
+        version: 0.2.57
       '@pioneer-platform/pioneer-coins':
         specifier: 8.1.86
         version: 8.1.86(@types/node@20.11.5)
@@ -2315,8 +2315,8 @@ packages:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  /@keepkey/keepkey-sdk@0.2.52:
-    resolution: {integrity: sha512-Qp1hLI8aRGOQWwduGcyB+xwxzZE9UtJ2PqWLqATH1mEon26rkMQTUk1hrGn2oNO5cxqamzK94iGqeSR7p5Y2nA==}
+  /@keepkey/keepkey-sdk@0.2.57:
+    resolution: {integrity: sha512-II6FT7CDuvp0LxIrwMyGRNvR5bxxxtgVzNrHvDrlJj1c+tzF3yK7Mkgz+rUO/KKhm3NSgRaEUVdph8sgj6XYng==}
     dev: false
 
   /@keplr-wallet/types@0.12.63:
@@ -7242,7 +7242,6 @@ packages:
       is-hex-prefixed: 1.0.0
       strip-hex-prefix: 1.0.0
     dev: true
-    bundledDependencies: false
 
   /eventemitter3@4.0.7:
     resolution: {integrity: sha512-8guHBZCwKnFhYdHr2ysuRWErTwhoN2X8XELRlrRwpmfeY2jjuUN4taQMsULKUVo1K4DvZl+0pgfyoysHxvmvEw==}

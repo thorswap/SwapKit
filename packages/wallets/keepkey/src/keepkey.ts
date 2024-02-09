@@ -8,6 +8,7 @@ import { binanceWalletMethods } from './chains/binance.ts';
 import { cosmosWalletMethods } from './chains/cosmos.ts';
 import { KeepKeySigner } from './chains/evm.ts';
 import { thorchainWalletMethods } from './chains/thorchain.ts';
+import { mayachainWalletMethods } from './chains/mayachain.ts';
 import { utxoWalletMethods } from './chains/utxo.ts';
 export type { PairingInfo } from '@keepkey/keepkey-sdk';
 
@@ -25,6 +26,7 @@ export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.Optimism,
   Chain.Polygon,
   Chain.THORChain,
+  Chain.Maya,
 ] as const;
 
 /*
@@ -84,6 +86,9 @@ const getWalletMethods = async ({
     }
     case Chain.THORChain: {
       return thorchainWalletMethods({ sdk, derivationPath });
+    }
+    case Chain.Maya: {
+      return mayachainWalletMethods({ sdk, derivationPath });
     }
     case Chain.Bitcoin:
     case Chain.BitcoinCash:

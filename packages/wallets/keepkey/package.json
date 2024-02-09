@@ -1,7 +1,7 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@keepkey/keepkey-sdk": "0.2.52",
+    "@keepkey/keepkey-sdk": "0.2.57",
     "@pioneer-platform/pioneer-coins": "8.1.86"
   },
   "description": "THORSwap Lib keepkey",
