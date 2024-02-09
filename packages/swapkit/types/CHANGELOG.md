@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.35
+
+### Minor Changes
+
+- [#593](https://github.com/thorswap/SwapKit/pull/593) [`87dfbe6`](https://github.com/thorswap/SwapKit/commit/87dfbe643ca25501204213f44380467e1adfcb14) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Add Swap amount too low error code
+
 ## 1.0.0-rc.34
 
 ### Patch Changes
