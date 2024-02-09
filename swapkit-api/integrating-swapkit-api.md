@@ -16,7 +16,25 @@ In this guide we will walk you through:
 2. Setting a token allowance (EVM only)
 3. Performing a swap
 
-### Prerequisites
+## Prerequisites
+
+### API Keys
+
+You will first need to get a free API key. Please see the [partnerships](/partnership.md) page to get in touch.
+
+Those credentials should be added to each request to our services by adding the following to your request headers:
+
+```json
+{
+  "Referer": "project-name",
+  "x-api-key": "aaa-bbb-ccc"
+}
+```
+
+The production API key works for all `api.thorswap.net` endpoints, while the development API key works for `dev-api.thorswap.net` endpoints. Both environements point at mainnet and real assets, with the dev environement getting new feature requests shipped early for testing.
+
+
+### Technical requirements
 
 The code examples in this guide are written in `Typescript`
 
