@@ -1,6 +1,6 @@
 export const list = {
   name: 'thorchain',
-  timestamp: '2024-01-31T18:07:18.534Z',
+  timestamp: '2024-02-08T04:16:23.832Z',
   version: { major: 1, minor: 0, patch: 0 },
   keywords: ['THORChain'],
   tokens: [
