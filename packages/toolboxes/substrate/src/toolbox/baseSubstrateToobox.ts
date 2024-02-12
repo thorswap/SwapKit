@@ -151,27 +151,23 @@ export const BaseToolbox = async ({
     tx: SubmittableExtrinsic<'promise'>,
     callback?: Callback<ISubmittableResult>,
   ) => Promise<string | (() => void)>;
-}> => {
-  return {
-    api,
-    network,
-    createKeyring: async (phrase: string) => createKeyring(phrase, network.prefix),
-    getAddress: (keyring: IKeyringPair = signer) => keyring.address,
-    createTransfer: ({ recipient, assetValue }: { recipient: string; assetValue: AssetValue }) =>
-      createTransfer(api, { recipient, amount: assetValue.getBaseValue('number') }),
-    getBalance: async (address: string) => getBalance(api, gasAsset, address),
-    validateAddress: async (address: string) => validateAddress(address, network.prefix),
-    transfer: async (params: SubstrateTransferParams) => transfer(api, signer, params),
-    estimateGasFee: async (params: SubstrateTransferParams) =>
-      estimateGasFee(api, signer, gasAsset, params),
-    sign: async (tx: SubmittableExtrinsic<'promise'>) => sign(signer, tx),
-    broadcast: async (
-      tx: SubmittableExtrinsic<'promise'>,
-      callback?: Callback<ISubmittableResult>,
-    ) => broadcast(tx, callback),
-    signAndBroadcast: async (
-      tx: SubmittableExtrinsic<'promise'>,
-      callback?: Callback<ISubmittableResult>,
-    ) => signAndBroadcast(signer, tx, callback),
-  };
-};
+}> => ({
+  api,
+  network,
+  createKeyring: async (phrase: string) => createKeyring(phrase, network.prefix),
+  getAddress: (keyring: IKeyringPair = signer) => keyring.address,
+  createTransfer: ({ recipient, assetValue }: { recipient: string; assetValue: AssetValue }) =>
+    createTransfer(api, { recipient, amount: assetValue.getBaseValue('number') }),
+  getBalance: async (address: string) => getBalance(api, gasAsset, address),
+  validateAddress: async (address: string) => validateAddress(address, network.prefix),
+  transfer: async (params: SubstrateTransferParams) => transfer(api, signer, params),
+  estimateGasFee: async (params: SubstrateTransferParams) =>
+    estimateGasFee(api, signer, gasAsset, params),
+  sign: async (tx: SubmittableExtrinsic<'promise'>) => sign(signer, tx),
+  broadcast: async (tx: SubmittableExtrinsic<'promise'>, callback?: Callback<ISubmittableResult>) =>
+    broadcast(tx, callback),
+  signAndBroadcast: async (
+    tx: SubmittableExtrinsic<'promise'>,
+    callback?: Callback<ISubmittableResult>,
+  ) => signAndBroadcast(signer, tx, callback),
+});

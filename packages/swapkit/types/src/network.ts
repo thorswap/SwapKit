@@ -92,6 +92,10 @@ export enum BaseDecimal {
   THOR = 8,
 }
 
+export type SubstrateChain = Chain.Polkadot | Chain.Chainflip;
+
+export const SubstrateChainList: SubstrateChain[] = [Chain.Polkadot, Chain.Chainflip];
+
 export type EVMChain =
   | Chain.Ethereum
   | Chain.Avalanche

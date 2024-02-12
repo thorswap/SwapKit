@@ -1,3 +1,5 @@
+import { SubstrateChain } from '@swapkit/types';
+
 export const polkadotNetwork = {
   prefix: 0,
   network: 'polkadot',
@@ -28,10 +30,10 @@ export const subtrateNetwork = {
   website: 'https://substrate.io/',
 };
 
-export const Network = {
-  POLKADOT: polkadotNetwork,
-  CHAINFLIP: chainflipNetwork,
-  GENERIC_SUBSTRATE: subtrateNetwork,
+export const Network: Record<SubstrateChain | 'GENERIC', SubstrateNetwork> = {
+  DOT: polkadotNetwork,
+  FLIP: chainflipNetwork,
+  GENERIC: subtrateNetwork,
 };
 
 export type SubstrateNetwork =
