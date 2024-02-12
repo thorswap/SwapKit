@@ -192,11 +192,13 @@ const getWalletMethodsForChain = async ({
 
       const isPolkadot = chain === Chain.Polkadot;
       const isChainflip = chain === Chain.Chainflip;
-
-      const signer = await createKeyring(
-        phrase,
-        Network[isPolkadot ? 'POLKADOT' : isChainflip ? 'CHAINFLIP' : 'GENERIC_SUBSTRATE'].prefix,
-      );
+      const network = isPolkadot 
+        ? Network.POLKADOT 
+        : isChainflip 
+          ? NETWORK.CHAINFLIP 
+          : NETWORK.GENERIC_SUBSTRATE
+      
+      const signer = await createKeyring(phrase, network.prefix);
 
       const toolbox = await getToolboxByChain(chain, {
         signer,
