@@ -1,5 +1,11 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.3
+
+### Patch Changes
+
+- [#600](https://github.com/thorswap/SwapKit/pull/600) [`e600008`](https://github.com/thorswap/SwapKit/commit/e6000086efe90c5b9d1002931fd7524a48204b92) Thanks [@towanTG](https://github.com/towanTG)! - Fixes tx response handling for broker
+
 ## 1.0.0-rc.2
 
 ### Patch Changes
