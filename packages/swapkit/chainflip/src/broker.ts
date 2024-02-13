@@ -41,7 +41,7 @@ const requestSwapDepositAddress = async (
       toolbox.api.tx.swapping.requestSwapDepositAddress(
         sellAsset.ticker.toLowerCase(),
         buyAsset.ticker.toLowerCase(),
-        recipient,
+        { [buyAsset.chain.toLowerCase()]: recipient },
         SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue('number'),
         {},
       ),
