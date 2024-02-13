@@ -3,7 +3,7 @@ import { Chain } from '@swapkit/types';
 // Backward compatibility
 const supportedChains = [...Object.values(Chain), 'TERRA'];
 
-export function validateIdentifier(identifier: string = '') {
+export function validateIdentifier(identifier = '') {
   const uppercasedIdentifier = identifier.toUpperCase();
 
   const [chain] = uppercasedIdentifier.split('.') as [Chain, string];

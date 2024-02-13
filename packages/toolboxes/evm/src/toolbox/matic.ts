@@ -34,7 +34,7 @@ export const MATICToolbox = ({
     getNetworkParams,
     getBalance: (
       address: string,
-      potentialScamFilter: boolean = true,
+      potentialScamFilter = true,
       overwriteProvider?: JsonRpcProvider | BrowserProvider,
     ) =>
       getBalance({

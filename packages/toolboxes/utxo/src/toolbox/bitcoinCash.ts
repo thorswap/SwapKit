@@ -30,7 +30,7 @@ import {
 } from '../utils/bchaddrjs.ts';
 import { accumulative, compileMemo, getNetwork } from '../utils/index.ts';
 
-import { BaseUTXOToolbox } from './BaseUTXOToolbox.ts';
+import { BaseUTXOToolbox } from './utxo.ts';
 
 // needed because TS can not infer types
 type BCHMethods = {
@@ -97,16 +97,12 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
     }),
   );
 
-  outputs.forEach((output: any) => {
-    let out = undefined;
-    if (!output.address) {
-      //an empty address means this is the  change address
-      out = bchAddress.toOutputScript(toLegacyAddress(sender), getNetwork(chain));
-    } else if (output.address) {
-      out = bchAddress.toOutputScript(toLegacyAddress(output.address), getNetwork(chain));
-    }
-    builder.addOutput(out, output.value);
-  });
+  for (const output of outputs) {
+    const address = 'address' in output ? output.address : sender;
+    const outputScript = bchAddress.toOutputScript(toLegacyAddress(address), getNetwork(chain));
+
+    builder.addOutput(outputScript, output.value);
+  }
 
   // add output for memo
   if (compiledMemo) {
@@ -198,28 +194,23 @@ const buildTx = async ({
   if (!inputs || !outputs) throw new Error('Balance insufficient for transaction');
   const psbt = new Psbt({ network: getNetwork(chain) }); // Network-specific
 
-  //Inputs
-  inputs.forEach(({ hash, index, witnessUtxo }: UTXOType) =>
-    // FIXME: (@Towan, @Chillios) - Check on this as types says it's not defined
-    // @ts-ignore
-    psbt.addInput({ hash, index, witnessUtxo }),
-  );
+  for (const { hash, index, witnessUtxo } of inputs) {
+    psbt.addInput({ hash, index, witnessUtxo });
+  }
 
   // Outputs
+  for (const output of outputs) {
+    const address = 'address' in output ? output.address : sender;
+    const params = !output.script
+      ? { address, value: output.value }
+      : compiledMemo
+        ? { script: compiledMemo, value: 0 }
+        : undefined;
 
-  outputs.forEach((output: any) => {
-    output.address = toLegacyAddress(output.address || sender);
-
-    if (!output.script) {
-      psbt.addOutput(output);
-    } else {
-      //we need to add the compiled memo this way to
-      //avoid dust error tx when accumulating memo output with 0 value
-      if (compiledMemo) {
-        psbt.addOutput({ script: compiledMemo, value: 0 });
-      }
+    if (params) {
+      psbt.addOutput(params);
     }
-  });
+  }
 
   return { psbt, utxos, inputs: inputs as UTXOType[] };
 };
@@ -260,7 +251,7 @@ const getAddressFromKeys = (keys: { getAddress: (index?: number) => string }) =>
   return stripToCashAddress(address);
 };
 
-export const BCHToolbox = ({
+export const createBCHToolbox = ({
   apiKey,
   rpcUrl = RPCUrl.BitcoinCash,
   apiClient: client,

@@ -78,27 +78,13 @@ export const gasFeeMultiplier: Record<FeeOption, number> = {
 
 export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
   switch (chain) {
-    case Chain.Bitcoin:
-    case Chain.BitcoinCash:
-    case Chain.Litecoin:
-    case Chain.Dogecoin:
-    case Chain.Binance:
-    case Chain.Ethereum:
-    case Chain.Avalanche:
-    case Chain.Polkadot:
-    case Chain.Chainflip:
-      return symbol === chain;
-
     case Chain.Arbitrum:
     case Chain.Optimism:
-      return 'ETH' === symbol;
-
+      return symbol === 'ETH';
     case Chain.Maya:
       return symbol === 'CACAO';
-
     case Chain.Kujira:
       return symbol === 'KUJI';
-
     case Chain.Cosmos:
       return symbol === 'ATOM';
     case Chain.Polygon:
@@ -107,6 +93,9 @@ export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) 
       return symbol === 'BNB';
     case Chain.THORChain:
       return symbol === 'RUNE';
+
+    default:
+      return symbol === chain;
   }
 };
 
@@ -133,19 +122,7 @@ export const getCommonAssetInfo = (
     case `${Chain.Kujira}.USK`:
       return { identifier: `${Chain.Kujira}.USK`, decimal: 6 };
 
-    case Chain.Kujira:
-    case Chain.Arbitrum:
-    case Chain.Optimism:
-    case Chain.BitcoinCash:
-    case Chain.Litecoin:
-    case Chain.Dogecoin:
-    case Chain.Binance:
-    case Chain.Avalanche:
-    case Chain.Chainflip:
-    case Chain.Polygon:
-    case Chain.Polkadot:
-    case Chain.Bitcoin:
-    case Chain.Ethereum:
+    default:
       return { identifier: `${assetString}.${assetString}`, decimal: BaseDecimal[assetString] };
   }
 };
@@ -154,16 +131,6 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
   if (symbol.includes('/')) return 'Synth';
 
   switch (chain) {
-    case Chain.Bitcoin:
-    case Chain.BitcoinCash:
-    case Chain.Dogecoin:
-    case Chain.Litecoin:
-    case Chain.Maya:
-    case Chain.THORChain:
-    case Chain.Polkadot:
-    case Chain.Chainflip:
-      return 'Native';
-
     case Chain.Cosmos:
       return symbol === 'ATOM' ? 'Native' : Chain.Cosmos;
     case Chain.Kujira:
@@ -183,6 +150,9 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
       return [Chain.Ethereum, Chain.Arbitrum].includes(symbol as Chain) ? 'Native' : 'ARBITRUM';
     case Chain.Optimism:
       return [Chain.Ethereum, Chain.Optimism].includes(symbol as Chain) ? 'Native' : 'OPTIMISM';
+
+    default:
+      return 'Native';
   }
 };
 
@@ -216,12 +186,10 @@ export const filterAssets = (
     symbol: string;
   }[],
 ) =>
-  tokens.filter((token) => {
-    const assetString = `${token.chain}.${token.symbol}`;
+  tokens.filter(({ chain, value, symbol }) => {
+    const assetString = `${chain}.${symbol}`;
 
     return (
-      !potentialScamRegex.test(assetString) &&
-      evmAssetHasAddress(assetString) &&
-      token.value !== '0'
+      !potentialScamRegex.test(assetString) && evmAssetHasAddress(assetString) && value !== '0'
     );
   });

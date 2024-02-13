@@ -90,13 +90,12 @@ export const utxoWalletMethods = async ({
             amount: value,
             scriptType,
           };
-        } else {
-          if (outputAddress) {
-            return { address: outputAddress, amount: value, addressType: 'spend' };
-          } else {
-            return null;
-          }
         }
+        if (outputAddress) {
+          return { address: outputAddress, amount: value, addressType: 'spend' };
+        }
+
+        return null;
       })
       .filter(Boolean);
 

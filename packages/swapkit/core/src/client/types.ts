@@ -15,7 +15,13 @@ import type {
   OPToolbox,
 } from '@swapkit/toolbox-evm';
 import type { ChainflipToolbox, PolkadotToolbox } from '@swapkit/toolbox-substrate';
-import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/toolbox-utxo';
+import type {
+  BCHToolbox,
+  BTCToolbox,
+  DASHToolbox,
+  DOGEToolbox,
+  LTCToolbox,
+} from '@swapkit/toolbox-utxo';
 import type { Chain, FeeOption, WalletOption } from '@swapkit/types';
 
 type BaseWalletMethods = {
@@ -87,15 +93,16 @@ export type WalletMethods = {
   [Chain.Binance]: CosmosBasedWallet<typeof BinanceToolbox> | null;
   [Chain.BitcoinCash]: UTXOWallet<typeof BCHToolbox> | null;
   [Chain.Bitcoin]: UTXOWallet<typeof BTCToolbox> | null;
+  [Chain.Chainflip]: SubstrateBasedWallet<typeof ChainflipToolbox> | null;
   [Chain.Cosmos]: CosmosBasedWallet<typeof GaiaToolbox> | null;
+  [Chain.Dash]: UTXOWallet<typeof DASHToolbox> | null;
   [Chain.Dogecoin]: UTXOWallet<typeof DOGEToolbox> | null;
   [Chain.Ethereum]: EVMWallet<typeof ETHToolbox> | null;
   [Chain.Kujira]: CosmosBasedWallet<typeof KujiraToolbox> | null;
-  [Chain.Polkadot]: SubstrateBasedWallet<typeof PolkadotToolbox> | null;
-  [Chain.Chainflip]: SubstrateBasedWallet<typeof ChainflipToolbox> | null;
   [Chain.Litecoin]: UTXOWallet<typeof LTCToolbox> | null;
   [Chain.Maya]: ThorchainWallet | null;
   [Chain.Optimism]: EVMWallet<typeof OPToolbox> | null;
+  [Chain.Polkadot]: SubstrateBasedWallet<typeof PolkadotToolbox> | null;
   [Chain.Polygon]: EVMWallet<typeof MATICToolbox> | null;
   [Chain.THORChain]: ThorchainWallet | null;
 };

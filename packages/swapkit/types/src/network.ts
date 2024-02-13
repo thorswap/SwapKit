@@ -6,6 +6,7 @@ export enum Chain {
   Bitcoin = 'BTC',
   BitcoinCash = 'BCH',
   Cosmos = 'GAIA',
+  Dash = 'DASH',
   Dogecoin = 'DOGE',
   Ethereum = 'ETH',
   Kujira = 'KUJI',
@@ -35,6 +36,7 @@ export enum DerivationPath {
   BNB = "m/44'/714'/0'/0",
   BSC = "m/44'/60'/0'/0",
   BTC = "m/84'/0'/0'/0",
+  DASH = "m/44'/5'/0'/0",
   DOGE = "m/44'/3'/0'/0",
   DOT = '////',
   ETH = "m/44'/60'/0'/0",
@@ -57,6 +59,7 @@ export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   BNB: [44, 714, 0, 0, 0],
   BSC: [44, 60, 0, 0, 0],
   BTC: [84, 0, 0, 0, 0],
+  DASH: [44, 5, 0, 0, 0],
   DOGE: [44, 3, 0, 0, 0],
   ETH: [44, 60, 0, 0, 0],
   GAIA: [44, 118, 0, 0, 0],
@@ -90,6 +93,7 @@ export enum BaseDecimal {
   MAYA = 10,
   OP = 18,
   THOR = 8,
+  ZEC = 8,
 }
 
 export type SubstrateChain = Chain.Polkadot | Chain.Chainflip;
@@ -104,23 +108,39 @@ export type EVMChain =
   | Chain.Optimism
   | Chain.Polygon;
 
-export const EVMChainList: EVMChain[] = [
+export const EVMChains = [
   Chain.Ethereum,
   Chain.Avalanche,
   Chain.BinanceSmartChain,
   Chain.Arbitrum,
   Chain.Optimism,
   Chain.Polygon,
-];
+] as const;
+/**
+ * @deprecated
+ * Use `EVMChains` instead
+ */
+export const EVMChainList = EVMChains;
 
-export type UTXOChain = Chain.Bitcoin | Chain.BitcoinCash | Chain.Dogecoin | Chain.Litecoin;
+export type UTXOChain =
+  | Chain.Bitcoin
+  | Chain.BitcoinCash
+  | Chain.Dash
+  | Chain.Dogecoin
+  | Chain.Litecoin;
 
-export const UTXOChainList: UTXOChain[] = [
+export const UTXOChains = [
   Chain.Bitcoin,
   Chain.BitcoinCash,
+  Chain.Dash,
   Chain.Dogecoin,
   Chain.Litecoin,
-];
+] as const;
+/**
+ * @deprecated
+ * Use `UTXOChains` instead
+ */
+export const UTXOChainList = UTXOChains;
 
 export type CosmosChain =
   | Chain.Cosmos
@@ -129,9 +149,15 @@ export type CosmosChain =
   | Chain.Maya
   | Chain.Kujira;
 
-export const CosmosChainList: CosmosChain[] = [Chain.Cosmos, Chain.THORChain, Chain.Binance];
+export const CosmosChains = [Chain.Cosmos, Chain.THORChain, Chain.Binance] as const;
 
-export const TCSupportedChainList = [
+/**
+ * @deprecated
+ * Use `CosmosChains` instead
+ */
+export const CosmosChainList = CosmosChains;
+
+export const TCSupportedChains = [
   Chain.Avalanche,
   Chain.Binance,
   Chain.BinanceSmartChain,
@@ -142,7 +168,13 @@ export const TCSupportedChainList = [
   Chain.Ethereum,
   Chain.Litecoin,
   Chain.THORChain,
-];
+] as const;
+
+/**
+ * @deprecated
+ * Use `TCSupportedChains` instead
+ */
+export const TCSupportedChainList = TCSupportedChains;
 
 export enum ChainId {
   Arbitrum = '42161',
@@ -156,6 +188,7 @@ export enum ChainId {
   BitcoinCash = 'bitcoincash',
   Chainflip = 'chainflip',
   Cosmos = 'cosmoshub-4',
+  Dash = 'dash',
   Dogecoin = 'dogecoin',
   Kujira = 'kaiyo-1',
   Ethereum = '1',
@@ -181,9 +214,10 @@ export enum RPCUrl {
   BitcoinCash = 'https://node-router.thorswap.net/bitcoin-cash',
   Chainflip = 'wss://mainnet-archive.chainflip.io',
   Cosmos = 'https://node-router.thorswap.net/cosmos/rpc',
-  Kujira = 'https://rpc-kujira.synergynodes.com/',
+  Dash = 'https://node-router.thorswap.net/dash',
   Dogecoin = 'https://node-router.thorswap.net/dogecoin',
   Ethereum = 'https://node-router.thorswap.net/ethereum',
+  Kujira = 'https://rpc-kujira.synergynodes.com/',
   Litecoin = 'https://node-router.thorswap.net/litecoin',
   Maya = 'https://tendermint.mayachain.info',
   MayaStagenet = 'https://stagenet.tendermint.mayachain.info',
@@ -257,6 +291,7 @@ export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.Bitcoin]: Chain.Bitcoin,
   [ChainId.Chainflip]: Chain.Chainflip,
   [ChainId.Cosmos]: Chain.Cosmos,
+  [ChainId.Dash]: Chain.Dash,
   [ChainId.Dogecoin]: Chain.Dogecoin,
   [ChainId.EthereumHex]: Chain.Ethereum,
   [ChainId.Kujira]: Chain.Kujira,
@@ -282,6 +317,7 @@ export const ChainToExplorerUrl: Record<Chain, string> = {
   [Chain.Bitcoin]: 'https://blockchair.com/bitcoin',
   [Chain.Chainflip]: 'https://explorer.polkascan.io/polkadot',
   [Chain.Cosmos]: 'https://cosmos.bigdipper.live',
+  [Chain.Dash]: 'https://blockchair.com/dash',
   [Chain.Dogecoin]: 'https://blockchair.com/dogecoin',
   [Chain.Kujira]: 'https://finder.kujira.network/kaiyo-1',
   [Chain.Ethereum]: 'https://etherscan.io',

@@ -1,6 +1,7 @@
 {
   "author": "swapkit-oss-team",
   "dependencies": {
+    "@trezor/connect": "9.1.9",
     "@trezor/connect-web": "9.1.9"
   },
   "description": "SwapKit Lib trezor",
@@ -10,7 +11,6 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@trezor/connect": "9.1.9",
     "@vitest/coverage-istanbul": "1.2.1",
     "vite": "5.0.12",
     "vitest": "1.2.1"
