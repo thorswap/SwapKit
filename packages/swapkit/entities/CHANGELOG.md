@@ -1,5 +1,12 @@
 # @thorswap-lib/swapkit-entities
 
+## 1.0.0-rc.35
+
+### Patch Changes
+
+- Updated dependencies [[`87dfbe6`](https://github.com/thorswap/SwapKit/commit/87dfbe643ca25501204213f44380467e1adfcb14)]:
+  - @swapkit/types@1.0.0-rc.35
+
 ## 1.0.0-rc.34
 
 ### Patch Changes
