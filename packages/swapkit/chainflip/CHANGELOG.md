@@ -1,5 +1,11 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.4
+
+### Patch Changes
+
+- [#602](https://github.com/thorswap/SwapKit/pull/602) [`6cf4eec`](https://github.com/thorswap/SwapKit/commit/6cf4eec820b012c3a3b07e2aeee7436b4367bdef) Thanks [@towanTG](https://github.com/towanTG)! - Fix deposit address request
+
 ## 1.0.0-rc.3
 
 ### Patch Changes
