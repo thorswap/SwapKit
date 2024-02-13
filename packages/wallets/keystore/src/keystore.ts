@@ -190,19 +190,12 @@ const getWalletMethodsForChain = async ({
     case Chain.Chainflip: {
       const { getToolboxByChain, createKeyring } = await import('@swapkit/toolbox-substrate');
 
-      const isPolkadot = chain === Chain.Polkadot;
-      const isChainflip = chain === Chain.Chainflip;
-      const network = isPolkadot 
-        ? Network.POLKADOT 
-        : isChainflip 
-          ? NETWORK.CHAINFLIP 
-          : NETWORK.GENERIC_SUBSTRATE
-      
+      const network = Network[chain];
+
       const signer = await createKeyring(phrase, network.prefix);
 
       const toolbox = await getToolboxByChain(chain, {
         signer,
-        generic: isPolkadot || isChainflip,
       });
 
       return { address: signer.address, walletMethods: toolbox };

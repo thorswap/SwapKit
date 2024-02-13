@@ -28,34 +28,38 @@ const requestSwapDepositAddress = async (
 ) => {
   const { SwapKitNumber } = await import('@swapkit/helpers');
 
-  let response = {};
-
-  await toolbox.signAndBroadcast(
-    toolbox.api.tx.swapping.requestSwapDepositAddress({
-      sourceAsset: sellAsset.ticker,
-      destinationAsset: buyAsset.ticker,
-      destinationAddress: recipient,
-      brokerCommissionBPS: SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue(
-        'number',
-      ),
-    }),
-    // TODO - fix this type - CF extrinsic return value does not align with polkadot typing
-    (result: any) => {
-      response = {
-        depositChannelId: `${result.issuedBlock}-${sellAsset.ticker}-${result.channelId}`,
-        depositAddress: result.address,
-        srcChainExpiryBlock: result.sourceChainExpiryBlock,
-      };
-    },
-  );
-
-  return {
-    ...response,
-    sellAsset,
-    buyAsset,
-    recipient,
-    brokerCommissionBPS,
-  };
+  return new Promise<{
+    depositChannelId: string;
+    depositAddress: string;
+    srcChainExpiryBlock: number;
+    sellAsset: AssetValue;
+    buyAsset: AssetValue;
+    recipient: string;
+    brokerCommissionBPS: number;
+  }>((resolve) => {
+    toolbox.signAndBroadcast(
+      toolbox.api.tx.swapping.requestSwapDepositAddress({
+        sourceAsset: sellAsset.ticker,
+        destinationAsset: buyAsset.ticker,
+        destinationAddress: recipient,
+        brokerCommissionBPS: SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue(
+          'number',
+        ),
+      }),
+      // TODO - fix this type - CF extrinsic return value does not align with polkadot typing
+      (result: any) => {
+        resolve({
+          depositChannelId: `${result.issuedBlock}-${sellAsset.ticker}-${result.channelId}`,
+          depositAddress: result.address,
+          srcChainExpiryBlock: result.sourceChainExpiryBlock,
+          sellAsset,
+          buyAsset,
+          recipient,
+          brokerCommissionBPS,
+        });
+      },
+    );
+  });
 };
 
 const fundStateChainAccount = async (

@@ -1,4 +1,4 @@
-import { SubstrateChain } from '@swapkit/types';
+import type { SubstrateChain } from '@swapkit/types';
 
 export const polkadotNetwork = {
   prefix: 0,

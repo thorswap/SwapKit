@@ -1,8 +1,7 @@
+export * from './baseSubstrateToobox.ts';
 export {
   ChainflipToolbox,
+  getToolboxByChain,
   PolkadotToolbox,
   ToolboxFactory as SubstrateToolboxFactory,
-  getToolboxByChain,
 } from './toolboxFactory.ts';
-
-export * from './baseSubstrateToobox.ts';

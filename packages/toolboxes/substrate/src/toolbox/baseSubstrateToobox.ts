@@ -5,7 +5,6 @@ import type { Callback, IKeyringPair, ISubmittableResult } from '@polkadot/types
 import type { AssetValue } from '@swapkit/helpers';
 
 import type { SubstrateNetwork } from '../types/network.ts';
-import { Network } from '../types/network.ts';
 
 // TODO combine this type with the more general SK type
 type SubstrateTransferParams = {
@@ -118,7 +117,7 @@ const signAndBroadcast = async (
 
 export const BaseToolbox = async ({
   api,
-  network = Network.GENERIC_SUBSTRATE,
+  network,
   gasAsset,
   signer,
 }: {

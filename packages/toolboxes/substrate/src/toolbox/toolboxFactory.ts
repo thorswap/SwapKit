@@ -1,22 +1,25 @@
+import type { ApiPromise } from '@polkadot/api';
 import type { KeyringPair } from '@polkadot/keyring/types';
 import type { RPCUrl, SubstrateChain } from '@swapkit/types';
-import type { ApiPromise } from '@polkadot/api';
 
 import { Network } from '../types/network.ts';
 
 import { BaseToolbox } from './baseSubstrateToobox.ts';
 
-export const ToolboxFactory = async ({
+type ToolboxParams = {
+  providerUrl?: RPCUrl;
+  generic?: boolean;
+  signer: KeyringPair;
+};
+
+type ToolboxFactoryType<T, M> = (params: ToolboxParams & T) => ReturnType<typeof BaseToolbox> & M;
+
+export const ToolboxFactory: ToolboxFactoryType<{ chain: SubstrateChain }, {}> = async ({
   providerUrl,
   generic,
   chain,
   signer,
-}: {
-  providerUrl?: RPCUrl;
-  generic?: boolean;
-  chain: SubstrateChain;
-  signer: KeyringPair;
-}): ReturnType<typeof BaseToolbox> => {
+}) => {
   const { ApiPromise, WsProvider } = await import('@polkadot/api');
   const { AssetValue } = await import('@swapkit/helpers');
 
@@ -32,15 +35,11 @@ export const ToolboxFactory = async ({
   });
 };
 
-export const PolkadotToolbox = async ({
+export const PolkadotToolbox: ToolboxFactoryType<{}, {}> = async ({
   providerUrl,
   signer,
   generic = false,
-}: {
-  providerUrl?: RPCUrl;
-  signer: KeyringPair;
-  generic?: boolean;
-}): ReturnType<typeof BaseToolbox> => {
+}) => {
   const { Chain, RPCUrl } = await import('@swapkit/types');
   return ToolboxFactory({
     providerUrl: providerUrl || RPCUrl.Polkadot,
@@ -50,15 +49,11 @@ export const PolkadotToolbox = async ({
   });
 };
 
-export const ChainflipToolbox = async ({
+export const ChainflipToolbox: ToolboxFactoryType<{}, {}> = async ({
   providerUrl,
   signer,
   generic = false,
-}: {
-  providerUrl?: RPCUrl;
-  signer: KeyringPair;
-  generic?: boolean;
-}): ReturnType<typeof BaseToolbox> => {
+}) => {
   const { Chain } = await import('@swapkit/types');
   const { ApiPromise, WsProvider } = await import('@polkadot/api');
   const { AssetValue, SwapKitNumber } = await import('@swapkit/helpers');
@@ -96,7 +91,7 @@ export const getToolboxByChain = async (
     signer: KeyringPair;
     generic?: boolean;
   },
-): ReturnType<typeof PolkadotToolbox | typeof ChainflipToolbox> => {
+) => {
   const { Chain } = await import('@swapkit/types');
   switch (chain) {
     case Chain.Polkadot:
