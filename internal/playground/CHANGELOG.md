@@ -1,5 +1,42 @@
 # @internal/playground
 
+## 0.0.0-rc.107
+
+### Patch Changes
+
+- Updated dependencies [[`6cf4eec`](https://github.com/thorswap/SwapKit/commit/6cf4eec820b012c3a3b07e2aeee7436b4367bdef)]:
+  - @swapkit/chainflip@1.0.0-rc.4
+
+## 0.0.0-rc.106
+
+### Patch Changes
+
+- Updated dependencies [[`e600008`](https://github.com/thorswap/SwapKit/commit/e6000086efe90c5b9d1002931fd7524a48204b92)]:
+  - @swapkit/chainflip@1.0.0-rc.3
+
+## 0.0.0-rc.105
+
+### Patch Changes
+
+- Updated dependencies [[`a3b89c2`](https://github.com/thorswap/SwapKit/commit/a3b89c263b89ae267fed1ca48e6da01f7dba8fd4), [`a3b89c2`](https://github.com/thorswap/SwapKit/commit/a3b89c263b89ae267fed1ca48e6da01f7dba8fd4), [`a3b89c2`](https://github.com/thorswap/SwapKit/commit/a3b89c263b89ae267fed1ca48e6da01f7dba8fd4)]:
+  - @swapkit/helpers@1.0.0-rc.68
+  - @swapkit/tokens@1.0.0-rc.34
+  - @swapkit/types@1.0.0-rc.36
+  - @swapkit/chainflip@1.0.0-rc.2
+  - @swapkit/wallet-keystore@1.0.0-rc.87
+  - @swapkit/wallet-ledger@1.0.0-rc.92
+  - @swapkit/toolbox-evm@1.0.0-rc.74
+  - @swapkit/core@1.0.0-rc.93
+  - @swapkit/toolbox-cosmos@1.0.0-rc.76
+  - @swapkit/toolbox-utxo@1.0.0-rc.73
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.76
+  - @swapkit/wallet-keepkey@1.0.0-rc.8
+  - @swapkit/wallet-keplr@1.0.0-rc.77
+  - @swapkit/wallet-okx@1.0.0-rc.87
+  - @swapkit/wallet-trezor@1.0.0-rc.82
+  - @swapkit/wallet-wc@1.0.0-rc.83
+  - @swapkit/wallet-xdefi@1.0.0-rc.89
+
 ## 0.0.0-rc.104
 
 ### Patch Changes
