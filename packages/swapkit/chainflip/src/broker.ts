@@ -38,23 +38,36 @@ const requestSwapDepositAddress = async (
     brokerCommissionBPS: number;
   }>((resolve) => {
     toolbox.signAndBroadcast(
-      toolbox.api.tx.swapping.requestSwapDepositAddress({
-        sourceAsset: sellAsset.ticker,
-        destinationAsset: buyAsset.ticker,
-        destinationAddress: recipient,
-        brokerCommissionBPS: SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue(
-          'number',
-        ),
-      }),
-      // TODO - fix this type - CF extrinsic return value does not align with polkadot typing
+      toolbox.api.tx.swapping.requestSwapDepositAddress(
+        sellAsset.ticker.toLowerCase(),
+        buyAsset.ticker.toLowerCase(),
+        recipient,
+        SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue('number'),
+        {},
+      ),
       (result: any) => {
+        if (!result.status?.isFinalized) return;
+
+        const {
+          event: {
+            data: {
+              depositAddress,
+              sourceAsset,
+              sourceChainExpiryBlock,
+              destinationAddress,
+              destinationChain,
+              channelId,
+            },
+          },
+        } = result.events[0].toHuman();
+
         resolve({
-          depositChannelId: `${result.issuedBlock}-${sellAsset.ticker}-${result.channelId}`,
-          depositAddress: result.address,
-          srcChainExpiryBlock: result.sourceChainExpiryBlock,
+          depositChannelId: `${result.status.toJSON().finalized}-${sellAsset.ticker.toLowerCase()}-${channelId}`,
+          depositAddress: depositAddress[sourceAsset],
+          srcChainExpiryBlock: sourceChainExpiryBlock,
           sellAsset,
           buyAsset,
-          recipient,
+          recipient: destinationAddress[destinationChain],
           brokerCommissionBPS,
         });
       },
