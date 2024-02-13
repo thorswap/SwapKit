@@ -12,6 +12,8 @@ export enum Chain {
   Litecoin = 'LTC',
   Maya = 'MAYA',
   Optimism = 'OP',
+  Polkadot = 'DOT',
+  Chainflip = 'FLIP',
   Polygon = 'MATIC',
   THORChain = 'THOR',
 }
@@ -34,7 +36,9 @@ export enum DerivationPath {
   BSC = "m/44'/60'/0'/0",
   BTC = "m/84'/0'/0'/0",
   DOGE = "m/44'/3'/0'/0",
+  DOT = '////',
   ETH = "m/44'/60'/0'/0",
+  FLIP = '////',
   GAIA = "m/44'/118'/0'/0",
   KUJI = "m/44'/118'/0'/0",
   LTC = "m/84'/2'/0'/0",
@@ -62,6 +66,9 @@ export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   MAYA: [44, 931, 0, 0, 0],
   OP: [44, 60, 0, 0, 0],
   THOR: [44, 931, 0, 0, 0],
+  // Polkadot and related network derivation path is not number based
+  DOT: [0, 0, 0, 0, 0],
+  FLIP: [0, 0, 0, 0, 0],
 };
 
 export enum BaseDecimal {
@@ -73,7 +80,9 @@ export enum BaseDecimal {
   BTC = 8,
   DASH = 8,
   DOGE = 8,
+  DOT = 10,
   ETH = 18,
+  FLIP = 18,
   GAIA = 6,
   KUJI = 6,
   LTC = 8,
@@ -82,6 +91,10 @@ export enum BaseDecimal {
   OP = 18,
   THOR = 8,
 }
+
+export type SubstrateChain = Chain.Polkadot | Chain.Chainflip;
+
+export const SubstrateChainList: SubstrateChain[] = [Chain.Polkadot, Chain.Chainflip];
 
 export type EVMChain =
   | Chain.Ethereum
@@ -141,6 +154,7 @@ export enum ChainId {
   BinanceSmartChainHex = '0x38',
   Bitcoin = 'bitcoin',
   BitcoinCash = 'bitcoincash',
+  Chainflip = 'chainflip',
   Cosmos = 'cosmoshub-4',
   Dogecoin = 'dogecoin',
   Kujira = 'kaiyo-1',
@@ -151,6 +165,7 @@ export enum ChainId {
   MayaStagenet = 'mayachain-stagenet-v1',
   Optimism = '10',
   OptimismHex = '0xa',
+  Polkadot = 'polkadot',
   Polygon = '137',
   PolygonHex = '0x89',
   THORChain = 'thorchain-mainnet-v1',
@@ -164,6 +179,7 @@ export enum RPCUrl {
   BinanceSmartChain = 'https://bsc-dataseed.binance.org',
   Bitcoin = 'https://node-router.thorswap.net/bitcoin',
   BitcoinCash = 'https://node-router.thorswap.net/bitcoin-cash',
+  Chainflip = 'wss://mainnet-archive.chainflip.io',
   Cosmos = 'https://node-router.thorswap.net/cosmos/rpc',
   Kujira = 'https://rpc-kujira.synergynodes.com/',
   Dogecoin = 'https://node-router.thorswap.net/dogecoin',
@@ -172,6 +188,7 @@ export enum RPCUrl {
   Maya = 'https://tendermint.mayachain.info',
   MayaStagenet = 'https://stagenet.tendermint.mayachain.info',
   Optimism = 'https://mainnet.optimism.io',
+  Polkadot = 'wss://rpc.polkadot.io',
   Polygon = 'https://polygon-rpc.com',
   THORChain = 'https://rpc.thorswap.net',
   THORChainStagenet = 'https://stagenet-rpc.ninerealms.com',
@@ -238,6 +255,7 @@ export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.Binance]: Chain.Binance,
   [ChainId.BitcoinCash]: Chain.BitcoinCash,
   [ChainId.Bitcoin]: Chain.Bitcoin,
+  [ChainId.Chainflip]: Chain.Chainflip,
   [ChainId.Cosmos]: Chain.Cosmos,
   [ChainId.Dogecoin]: Chain.Dogecoin,
   [ChainId.EthereumHex]: Chain.Ethereum,
@@ -248,6 +266,7 @@ export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.Maya]: Chain.Maya,
   [ChainId.OptimismHex]: Chain.Optimism,
   [ChainId.Optimism]: Chain.Optimism,
+  [ChainId.Polkadot]: Chain.Polkadot,
   [ChainId.PolygonHex]: Chain.Polygon,
   [ChainId.Polygon]: Chain.Polygon,
   [ChainId.THORChainStagenet]: Chain.THORChain,
@@ -261,6 +280,7 @@ export const ChainToExplorerUrl: Record<Chain, string> = {
   [Chain.Binance]: 'https://explorer.binance.org',
   [Chain.BitcoinCash]: 'https://www.blockchair.com/bitcoin-cash',
   [Chain.Bitcoin]: 'https://blockchair.com/bitcoin',
+  [Chain.Chainflip]: 'https://explorer.polkascan.io/polkadot',
   [Chain.Cosmos]: 'https://cosmos.bigdipper.live',
   [Chain.Dogecoin]: 'https://blockchair.com/dogecoin',
   [Chain.Kujira]: 'https://finder.kujira.network/kaiyo-1',
@@ -268,6 +288,7 @@ export const ChainToExplorerUrl: Record<Chain, string> = {
   [Chain.Litecoin]: 'https://blockchair.com/litecoin',
   [Chain.Maya]: 'https://www.mayascan.org',
   [Chain.Optimism]: 'https://optimistic.etherscan.io',
+  [Chain.Polkadot]: 'https://explorer.polkascan.io/polkadot',
   [Chain.Polygon]: 'https://polygonscan.com',
   [Chain.THORChain]: 'https://runescan.io',
 };

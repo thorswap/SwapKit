@@ -1,24 +1,21 @@
 {
-  "author": "swapkit-oss-team",
+  "author": "swapkit",
   "dependencies": {
-    "@scure/bip39": "1.2.2",
-    "blakejs": "1.2.1"
+    "@chainflip/sdk": "1.1.5",
+    "@polkadot/api": "10.11.2",
+    "@polkadot/keyring": "^12.6.2",
+    "@polkadot/util": "^12.6.2"
   },
-  "description": "SwapKit Lib keystore",
+  "description": "SwapKit Lib chainflip",
   "devDependencies": {
     "@internal/config": "workspace:*",
-    "@rollup/plugin-node-resolve": "15.2.3",
+    "@polkadot/types": "10.11.2",
     "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*",
-    "@swapkit/types": "workspace:*",
-    "@types/long": "4.0.2",
-    "@types/uuid": "9.0.7",
-    "@vitest/coverage-istanbul": "1.2.1",
+    "@vitest/coverage-istanbul": "1.1.0",
     "vite": "5.0.12",
-    "vitest": "1.2.1"
+    "vitest": "1.1.0"
   },
   "eslintConfig": {
     "extends": "../../../internal/eslint-config"
@@ -38,14 +35,12 @@
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
-  "name": "@swapkit/wallet-keystore",
+  "name": "@swapkit/chainflip",
   "peerDependencies": {
+    "@polkadot/types": "10.11.2",
     "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-substrate": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "@swapkit/toolbox-substrate": "workspace:*"
   },
   "react-native": "./src/index.ts",
   "repository": {
@@ -61,5 +56,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.86"
+  "version": "1.0.0-rc.1"
 }

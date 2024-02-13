@@ -10,6 +10,7 @@
     "@swapkit/tokens": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-substrate": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@vitest/coverage-istanbul": "1.2.1",
     "vite": "5.0.12",
@@ -19,6 +20,7 @@
     "@swapkit/tokens": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-substrate": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*"
   },
   "eslintConfig": {

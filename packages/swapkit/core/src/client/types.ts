@@ -14,6 +14,7 @@ import type {
   MATICToolbox,
   OPToolbox,
 } from '@swapkit/toolbox-evm';
+import type { ChainflipToolbox, PolkadotToolbox } from '@swapkit/toolbox-substrate';
 import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '@swapkit/toolbox-utxo';
 import type { Chain, FeeOption, WalletOption } from '@swapkit/types';
 
@@ -62,6 +63,9 @@ export type CosmosBasedWallet<T extends typeof BinanceToolbox | typeof GaiaToolb
       transfer: (params: CoreTxParams) => Promise<string>;
     };
 
+export type SubstrateBasedWallet<T extends typeof PolkadotToolbox | typeof ChainflipToolbox> =
+  Awaited<ReturnType<T>>;
+
 export type EVMWallet<
   T extends typeof AVAXToolbox | typeof BSCToolbox | typeof ETHToolbox | typeof OPToolbox,
 > = BaseWalletMethods &
@@ -87,6 +91,8 @@ export type WalletMethods = {
   [Chain.Dogecoin]: UTXOWallet<typeof DOGEToolbox> | null;
   [Chain.Ethereum]: EVMWallet<typeof ETHToolbox> | null;
   [Chain.Kujira]: CosmosBasedWallet<typeof KujiraToolbox> | null;
+  [Chain.Polkadot]: SubstrateBasedWallet<typeof PolkadotToolbox> | null;
+  [Chain.Chainflip]: SubstrateBasedWallet<typeof ChainflipToolbox> | null;
   [Chain.Litecoin]: UTXOWallet<typeof LTCToolbox> | null;
   [Chain.Maya]: ThorchainWallet | null;
   [Chain.Optimism]: EVMWallet<typeof OPToolbox> | null;

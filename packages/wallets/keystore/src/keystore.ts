@@ -5,6 +5,7 @@ import type {
   ThorchainToolboxType,
   TransferParams,
 } from '@swapkit/toolbox-cosmos';
+import { Network } from '@swapkit/toolbox-substrate';
 import type {
   Psbt,
   TransactionType,
@@ -40,7 +41,7 @@ const getWalletMethodsForChain = async ({
   index,
   stagenet,
 }: Params) => {
-  const derivationPath = `${DerivationPath[chain]}/${index}`;
+  const derivationPath = `${DerivationPath[chain] as string}/${index}`;
 
   switch (chain) {
     case Chain.BinanceSmartChain:
@@ -183,6 +184,21 @@ const getWalletMethodsForChain = async ({
       };
 
       return { address, walletMethods };
+    }
+
+    case Chain.Polkadot:
+    case Chain.Chainflip: {
+      const { getToolboxByChain, createKeyring } = await import('@swapkit/toolbox-substrate');
+
+      const network = Network[chain];
+
+      const signer = await createKeyring(phrase, network.prefix);
+
+      const toolbox = await getToolboxByChain(chain, {
+        signer,
+      });
+
+      return { address: signer.address, walletMethods: toolbox };
     }
 
     default:

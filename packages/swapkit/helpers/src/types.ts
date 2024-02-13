@@ -1,4 +1,5 @@
 import type {
+  ChainflipList,
   CoinGeckoList,
   MayaList,
   PancakeswapETHList,
@@ -25,4 +26,5 @@ export type TokenNames =
   | (typeof SushiswapList)['tokens'][number]['identifier']
   | (typeof TraderjoeList)['tokens'][number]['identifier']
   | (typeof WoofiList)['tokens'][number]['identifier']
-  | (typeof UniswapList)['tokens'][number]['identifier'];
+  | (typeof UniswapList)['tokens'][number]['identifier']
+  | (typeof ChainflipList)['tokens'][number]['identifier'];

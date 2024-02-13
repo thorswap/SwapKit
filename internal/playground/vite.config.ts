@@ -19,6 +19,7 @@ export default defineConfig({
     alias: {
       '@swapkit/api': resolve('../../packages/swapkit/api/src'),
       '@swapkit/core': resolve('../../packages/swapkit/core/src'),
+      '@swapkit/chainflip': resolve('../../packages/swapkit/chainflip/src'),
       '@swapkit/helpers': resolve('../../packages/swapkit/helpers/src'),
       '@swapkit/tokens': resolve('../../packages/swapkit/tokens/src'),
       '@swapkit/types': resolve('../../packages/swapkit/types/src'),
