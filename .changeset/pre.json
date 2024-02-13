@@ -22,12 +22,15 @@
     "@internal/config": "0.0.0-internal.0",
     "@thorswap-lib/swapkit-entities": "1.0.0-rc.0",
     "@internal/playground": "0.0.0-internal.0",
-    "@swapkit/wallet-keepkey": "1.0.0-rc.0"
+    "@swapkit/wallet-keepkey": "1.0.0-rc.0",
+    "@swapkit/chainflip": "1.0.0-rc.1",
+    "@swapkit/toolbox-substrate": "1.0.0-rc.1"
   },
   "changesets": [
     "beige-coats-hear",
     "big-bats-allow",
     "blue-jobs-love",
+    "brave-pumpkins-float",
     "bright-wombats-trade",
     "brown-dogs-heal",
     "brown-melons-do",
@@ -128,6 +131,7 @@
     "seven-chefs-add",
     "seven-gorillas-glow",
     "shaggy-dingos-mate",
+    "shaggy-kangaroos-agree",
     "sharp-phones-clean",
     "shiny-guests-train",
     "shy-jobs-punch",
@@ -141,6 +145,7 @@
     "stale-ways-listen",
     "sweet-ladybugs-sneeze",
     "tame-apes-breathe",
+    "tame-crabs-fly",
     "ten-icons-teach",
     "ten-steaks-admire",
     "tender-coins-sparkle",
