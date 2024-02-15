@@ -1,5 +1,20 @@
 # @internal/playground
 
+## 0.0.0-rc.109
+
+### Patch Changes
+
+- Updated dependencies [[`9ea25ca`](https://github.com/thorswap/SwapKit/commit/9ea25ca0533c5f6f6f6130c21270954777f1aef7)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.78
+  - @swapkit/core@1.0.0-rc.95
+  - @swapkit/wallet-keepkey@1.0.0-rc.10
+  - @swapkit/wallet-keplr@1.0.0-rc.79
+  - @swapkit/wallet-keystore@1.0.0-rc.89
+  - @swapkit/wallet-ledger@1.0.0-rc.94
+  - @swapkit/wallet-okx@1.0.0-rc.89
+  - @swapkit/wallet-wc@1.0.0-rc.85
+  - @swapkit/wallet-xdefi@1.0.0-rc.91
+
 ## 0.0.0-rc.108
 
 ### Patch Changes

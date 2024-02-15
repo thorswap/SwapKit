@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.78
+
+### Patch Changes
+
+- [#607](https://github.com/thorswap/SwapKit/pull/607) [`9ea25ca`](https://github.com/thorswap/SwapKit/commit/9ea25ca0533c5f6f6f6130c21270954777f1aef7) Thanks [@towanTG](https://github.com/towanTG)! - Fixes used signer when creating body bytes
+
 ## 1.0.0-rc.77
 
 ### Patch Changes
