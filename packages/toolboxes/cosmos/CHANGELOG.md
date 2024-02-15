@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.77
+
+### Patch Changes
+
+- [#604](https://github.com/thorswap/SwapKit/pull/604) [`4277084`](https://github.com/thorswap/SwapKit/commit/42770848d1796b08de31dad1e3ed2e70f90c8e8e) Thanks [@towanTG](https://github.com/towanTG)! - Fixes amino format for multisig transactions
+
 ## 1.0.0-rc.76
 
 ### Patch Changes

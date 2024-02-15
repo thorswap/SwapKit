@@ -106,22 +106,21 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
   const txBodyObject: TxBodyEncodeObject = {
     typeUrl: '/cosmos.tx.v1beta1.TxBody',
     value: {
-      messages: await Promise.all(
-        msgs.map((msg: any) => {
-          const isSend = msg.type === 'thorchain/MsgSend';
-          return aminoTypes.fromAmino(
-            isSend
-              ? msg
-              : {
-                  ...msg,
-                  value: {
-                    ...msg.value,
-                    coins: mapCoinsForBroadcasting(msg.value.coins),
-                  },
-                },
-          );
-        }),
-      ),
+      messages: msgs.map((msg: any) => {
+        const isSend = msg.type === 'thorchain/MsgSend';
+        const parsedMessage = isSend
+          ? msg
+          : {
+              ...msg,
+              type: 'thorchain/MsgDeposit',
+              value: {
+                ...msg.value,
+                signer: address,
+                coins: mapCoinsForBroadcasting(msg.value.coins),
+              },
+            };
+        return aminoTypes.fromAmino(parsedMessage);
+      }),
       memo,
     },
   };
@@ -135,9 +134,9 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
   return { signature: exportSignature(signature), bodyBytes };
 };
 
-const mapCoinsForBroadcasting = async (coins: { amount: string; asset: string }[]) =>
-  coins.map(async ({ asset, amount }) => {
-    const { chain, symbol, isSynthetic } = await AssetValue.fromString(asset);
+const mapCoinsForBroadcasting = (coins: { amount: string; asset: string }[]) =>
+  coins.map(({ asset, amount }) => {
+    const { chain, symbol, isSynthetic } = AssetValue.fromStringSync(asset);
     return {
       amount,
       asset: {
