@@ -15,6 +15,7 @@ export const getDustThreshold = (chain: UTXOChain) => {
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
       return 550;
+    case Chain.Dash:
     case Chain.Litecoin:
       return 5500;
     case Chain.Dogecoin:

@@ -25,7 +25,7 @@ export const ETHToolbox = ({
     ...baseToolbox,
     getBalance: (
       address: string,
-      potentialScamFilter: boolean = true,
+      potentialScamFilter = true,
       overwriteProvider?: JsonRpcProvider | BrowserProvider,
     ) =>
       getBalance({

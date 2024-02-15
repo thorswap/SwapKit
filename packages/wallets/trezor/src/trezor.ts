@@ -119,8 +119,7 @@ const getToolbox = async ({
 
         if (!success)
           throw new Error(
-            'Failed to get address: ' +
-              ((payload as { error: string; code?: string }).error || 'Unknown error'),
+            `Failed to get address: ${(payload as { error: string; code?: string }).error || 'Unknown error'}`,
           );
 
         return chain === Chain.BitcoinCash
@@ -130,7 +129,7 @@ const getToolbox = async ({
 
       const address = await getAddress();
 
-      const signTransaction = async (psbt: Psbt, inputs: UTXOType[], memo: string = '') => {
+      const signTransaction = async (psbt: Psbt, inputs: UTXOType[], memo = '') => {
         const address_n = derivationPath.map((pathElement, index) =>
           index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
         );
@@ -191,13 +190,13 @@ const getToolbox = async ({
 
         if (result.success) {
           return result.payload.serializedTx;
-        } else {
-          throw new Error(
-            `Trezor failed to sign the ${chain.toUpperCase()} transaction: ${
-              (result.payload as { error: string; code?: string }).error
-            }`,
-          );
         }
+
+        throw new Error(
+          `Trezor failed to sign the ${chain.toUpperCase()} transaction: ${
+            (result.payload as { error: string; code?: string }).error
+          }`,
+        );
       };
 
       const transfer = async ({

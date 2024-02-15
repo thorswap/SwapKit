@@ -189,7 +189,7 @@ const buildTx = async ({
 
   if (chain === Chain.Dogecoin) psbt.setMaximumFeeRate(650000000);
 
-  inputs.forEach((utxo: UTXOType) =>
+  for (const utxo of inputs) {
     psbt.addInput({
       // FIXME: (@Towan, @Chillios) - Check on this as types says it's not defined
       // @ts-ignore
@@ -199,24 +199,21 @@ const buildTx = async ({
       ...(chain === Chain.Dogecoin && {
         nonWitnessUtxo: utxo.txHex ? Buffer.from(utxo.txHex, 'hex') : undefined,
       }),
-    }),
-  );
+    });
+  }
 
-  outputs.forEach((output: any) => {
-    if (!output.address) {
-      //an empty address means this is the change address
-      output.address = sender;
+  for (const output of outputs) {
+    const address = 'address' in output ? output.address : sender;
+    const params = !output.script
+      ? { address, value: output.value }
+      : compiledMemo
+        ? { script: compiledMemo, value: 0 }
+        : undefined;
+
+    if (params) {
+      psbt.addOutput(params);
     }
-    if (!output.script) {
-      psbt.addOutput(output);
-    } else {
-      //we need to add the compiled memo this way to
-      //avoid dust error tx when accumulating memo output with 0 value
-      if (compiledMemo) {
-        psbt.addOutput({ script: compiledMemo, value: 0 });
-      }
-    }
-  });
+  }
 
   return { psbt, utxos: inputsAndOutputs.inputs, inputs };
 };
@@ -288,10 +285,10 @@ export const estimateMaxSendableAmount = async ({
 
   const balance = AssetValue.fromChainOrSignature(
     chain,
-    inputs.reduce((sum, utxo) => (sum += utxo.value), 0),
+    inputs.reduce((sum, utxo) => sum + utxo.value, 0),
   );
 
-  let outputs =
+  const outputs =
     typeof recipients === 'number'
       ? (Array.from({ length: recipients }, () => ({ address: from, value: 0 })) as TargetOutput[])
       : recipients;
@@ -309,11 +306,7 @@ export const estimateMaxSendableAmount = async ({
 
   const fee = txSize * feeRateWhole;
 
-  return new AssetValue({
-    identifier: balance.toString(),
-    value: balance.sub(fee),
-    decimal: balance.decimal!,
-  });
+  return balance.sub(fee);
 };
 
 export const BaseUTXOToolbox = (

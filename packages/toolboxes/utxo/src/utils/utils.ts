@@ -10,12 +10,12 @@ export const getNetwork = (chain: Chain) => {
       return networks.bitcoin;
     case Chain.BitcoinCash:
       return coininfo.bitcoincash.main.toBitcoinJS();
+    case Chain.Dash:
+      return coininfo.dash.main.toBitcoinJS();
+
     case Chain.Dogecoin:
       // eslint-disable-next-line no-case-declarations
-      const bip32 = {
-        private: 0x04358394,
-        public: 0x043587cf,
-      };
+      const bip32 = { private: 0x04358394, public: 0x043587cf };
       // eslint-disable-next-line no-case-declarations
       const test = coininfo.dogecoin.test;
       test.versions.bip32 = bip32;

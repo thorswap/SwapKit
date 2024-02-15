@@ -1,4 +1,4 @@
 {
   "extends": "@internal/config/base.json",
-  "include": ["./src", "test"],
+  "include": ["src", "./hardhat.config.cjs", "./hardhat.config.mjs"],
 }

@@ -197,7 +197,7 @@ const scanUTXOs = async ({
   const results = [];
 
   for (const { hash, index, script_hex, value } of utxos) {
-    let txHex;
+    let txHex: string | undefined;
     if (fetchTxHex) {
       txHex = await getRawTx({ txHash: hash, chain, apiKey });
     }
