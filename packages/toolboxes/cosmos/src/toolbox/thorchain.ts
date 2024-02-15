@@ -115,7 +115,7 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
               type: 'thorchain/MsgDeposit',
               value: {
                 ...msg.value,
-                signer: address,
+                signer: base64ToBech32(msg.value.signer),
                 coins: mapCoinsForBroadcasting(msg.value.coins),
               },
             };
