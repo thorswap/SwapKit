@@ -1,5 +1,16 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.69
+
+### Patch Changes
+
+- [#599](https://github.com/thorswap/SwapKit/pull/599) [`173dbf7`](https://github.com/thorswap/SwapKit/commit/173dbf773d0ee77b96afa62fd8e66296c3a935fb) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Update and add new chain
+
+- Updated dependencies [[`173dbf7`](https://github.com/thorswap/SwapKit/commit/173dbf773d0ee77b96afa62fd8e66296c3a935fb)]:
+  - @swapkit/types@1.0.0-rc.37
+  - @swapkit/api@1.0.0-rc.38
+  - @swapkit/tokens@1.0.0-rc.34
+
 ## 1.0.0-rc.68
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @swapkit/toolbox-substrate
 
+## 1.0.0-rc.3
+
+### Patch Changes
+
+- Updated dependencies [[`173dbf7`](https://github.com/thorswap/SwapKit/commit/173dbf773d0ee77b96afa62fd8e66296c3a935fb)]:
+  - @swapkit/helpers@1.0.0-rc.69
+  - @swapkit/types@1.0.0-rc.37
+
 ## 1.0.0-rc.2
 
 ### Patch Changes

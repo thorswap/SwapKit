@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.37
+
+### Patch Changes
+
+- [#599](https://github.com/thorswap/SwapKit/pull/599) [`173dbf7`](https://github.com/thorswap/SwapKit/commit/173dbf773d0ee77b96afa62fd8e66296c3a935fb) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Update and add new chain
+
 ## 1.0.0-rc.36
 
 ### Patch Changes
