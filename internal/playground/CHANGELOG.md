@@ -1,5 +1,12 @@
 # @internal/playground
 
+## 0.0.0-rc.111
+
+### Patch Changes
+
+- Updated dependencies [[`7d42e28`](https://github.com/thorswap/SwapKit/commit/7d42e283b5051abdd33c4474b0ad8c832a4ec70b)]:
+  - @swapkit/chainflip@1.0.0-rc.6
+
 ## 0.0.0-rc.110
 
 ### Patch Changes
