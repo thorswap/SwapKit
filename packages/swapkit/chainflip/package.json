@@ -3,8 +3,8 @@
   "dependencies": {
     "@chainflip/sdk": "1.1.5",
     "@polkadot/api": "10.11.2",
-    "@polkadot/keyring": "^12.6.2",
-    "@polkadot/util": "^12.6.2"
+    "@polkadot/keyring": "12.6.2",
+    "@polkadot/util": "12.6.2"
   },
   "description": "SwapKit Lib chainflip",
   "devDependencies": {
@@ -13,6 +13,7 @@
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
+    "@swapkit/types": "workspace:*",
     "@vitest/coverage-istanbul": "1.1.0",
     "vite": "5.0.12",
     "vitest": "1.1.0"
@@ -40,7 +41,8 @@
     "@polkadot/types": "10.11.2",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-substrate": "workspace:*"
+    "@swapkit/toolbox-substrate": "workspace:*",
+    "@swapkit/types": "workspace:*"
   },
   "react-native": "./src/index.ts",
   "repository": {
