@@ -3,6 +3,14 @@ import type { ETHToolbox } from '@swapkit/toolbox-evm';
 import type { ChainflipToolbox } from '@swapkit/toolbox-substrate';
 
 import { chainflipGateway } from './chainflipGatewayABI.ts';
+import { Chains } from '@chainflip/sdk/swap';
+import { Chain } from '@swapkit/types';
+
+const chainToChainflipChain = new Map<Chain, keyof typeof Chains>([
+  [Chain.Ethereum, Chains.Ethereum],
+  [Chain.Bitcoin, Chains.Bitcoin],
+  [Chain.Polkadot, Chains.Polkadot],
+]);
 
 const registerAsBroker = async (
   toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
@@ -43,31 +51,28 @@ const requestSwapDepositAddress = async (
         buyAsset.ticker.toLowerCase(),
         { [buyAsset.chain.toLowerCase()]: recipient },
         SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue('number'),
-        {},
+        null,
       ),
-      (result: any) => {    
+      async (result: any) => {
         if (!result.status?.isFinalized) return;
 
         const {
           event: {
-            data: {
-              depositAddress,
-              sourceAsset,
-              sourceChainExpiryBlock,
-              destinationAddress,
-              destinationChain,
-              channelId,
-            },
+            data: { depositAddress, sourceChainExpiryBlock, destinationAddress, channelId },
           },
         } = result.events[0].toHuman();
 
+        const header = await toolbox.api.rpc.chain.getHeader(result.status.toJSON().finalized);
+
         resolve({
-          depositChannelId: `${result.status.toJSON().finalized}-${sellAsset.ticker.toLowerCase()}-${channelId}`,
-          depositAddress: depositAddress[sourceAsset],
-          srcChainExpiryBlock: sourceChainExpiryBlock,
+          depositChannelId: `${header.number}-${chainToChainflipChain.get(
+            buyAsset.chain,
+          )}-${channelId}`,
+          depositAddress: Object.values(depositAddress)[0] as string,
+          srcChainExpiryBlock: Number((sourceChainExpiryBlock as string).replace(',', '')),
           sellAsset,
           buyAsset,
-          recipient: destinationAddress[destinationChain],
+          recipient: Object.values(destinationAddress)[0] as string,
           brokerCommissionBPS,
         });
       },
