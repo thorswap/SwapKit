@@ -1,5 +1,11 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.6
+
+### Patch Changes
+
+- [#612](https://github.com/thorswap/SwapKit/pull/612) [`7d42e28`](https://github.com/thorswap/SwapKit/commit/7d42e283b5051abdd33c4474b0ad8c832a4ec70b) Thanks [@towanTG](https://github.com/towanTG)! - Fixes the response and request of the chainflip broker
+
 ## 1.0.0-rc.5
 
 ### Patch Changes
