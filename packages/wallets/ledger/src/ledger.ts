@@ -276,95 +276,84 @@ const getToolbox = async ({
       });
     }
     case Chain.THORChain: {
-      const { createStargateClient, getDenomWithChain, ThorchainToolbox } = await import(
-        '@swapkit/toolbox-cosmos'
-      );
+      const {
+        createStargateClient,
+        buildEncodedTxBody,
+        ThorchainToolbox,
+        buildAminoMsg,
+        getDefaultChainFee,
+      } = await import('@swapkit/toolbox-cosmos');
       const toolbox = ThorchainToolbox({ stagenet: false });
 
-      // ANCHOR (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
-      const deposit = async ({ assetValue, memo }: DepositParam) => {
-        const account = await toolbox.getAccount(address);
-        if (!assetValue) throw new Error('invalid asset to deposit');
-        if (!account) throw new Error('invalid account');
-        if (!(signer as THORChainLedger).pubkey) throw new Error('Account pubkey not found');
+      const fee = getDefaultChainFee(chain);
 
-        const unsignedMsgs = recursivelyOrderKeys([
-          {
-            type: 'thorchain/MsgDeposit',
-            value: {
-              memo,
-              signer: address,
-              coins: [
-                {
-                  amount: assetValue.getBaseValue('string'),
-                  asset: getDenomWithChain(assetValue),
-                },
-              ],
-            },
-          },
-        ]);
-        const fee = { amount: [], gas: THORCHAIN_DEPOSIT_GAS_FEE };
-        const sequence = account.sequence?.toString() || '0';
+      //   // ANCHOR (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
+      //   const thorchainTransfer = async ({ assetValue, memo }: DepositParam) => {
+      //     const account = await toolbox.getAccount(address);
+      //     if (!assetValue) throw new Error('invalid asset to deposit');
+      //     if (!account) throw new Error('invalid account');
+      //     if (!(signer as THORChainLedger).pubkey) throw new Error('Account pubkey not found');
 
-        const minifiedTx = stringifyKeysInOrder({
-          account_number: account.accountNumber.toString(),
-          chain_id: ChainId.THORChain,
-          fee,
-          memo,
-          msgs: unsignedMsgs,
-          sequence,
-        });
+      //     const msgs = recursivelyOrderKeys([buildAminoMsg({ from: address, assetValue, memo })]);
 
-        const signatures = await (signer as THORChainLedger).signTransaction(minifiedTx, sequence);
+      //     const bodyBytes = await buildEncodedTxBody({
+      //       msgs,
+      //       memo,
+      //     });
 
-        if (!signatures) throw new Error('tx signing failed');
+      //     const sequence = account.sequence?.toString() || '0';
 
-        const aminoTypes = await toolbox.createDefaultAminoTypes();
-        const registry = await toolbox.createDefaultRegistry();
-        const signedTxBody: TxBodyEncodeObject = {
-          typeUrl: '/cosmos.tx.v1beta1.TxBody',
-          value: {
-            messages: [
-              aminoTypes.fromAmino(toolbox.createDepositMessage(assetValue, address, memo, true)),
-            ],
-            memo,
-          },
-        };
+      //     const minifiedTx = stringifyKeysInOrder({
+      //       account_number: account.accountNumber.toString(),
+      //       chain_id: ChainId.THORChain,
+      //       fee,
+      //       memo,
+      //       msgs,
+      //       sequence,
+      //     });
 
-        const signMode = SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
+      //     const signatures = await (signer as THORChainLedger).signTransaction(minifiedTx, sequence);
 
-        const signedTxBodyBytes = registry.encode(signedTxBody);
-        const signedGasLimit = Int53.fromString(fee.gas).toNumber();
-        const pubkey = encodePubkey({
-          type: 'tendermint/PubKeySecp256k1',
-          value: (signer as THORChainLedger).pubkey!,
-        });
-        const signedAuthInfoBytes = makeAuthInfoBytes(
-          [{ pubkey, sequence: Number(sequence) }],
-          fee.amount,
-          signedGasLimit,
-          undefined,
-          undefined,
-          signMode,
-        );
+      //     if (!signatures) throw new Error('tx signing failed');
 
-        const txRaw = TxRaw.fromPartial({
-          bodyBytes: signedTxBodyBytes,
-          authInfoBytes: signedAuthInfoBytes,
-          signatures: [fromBase64(signatures[0].signature)],
-        });
+      //     const signedGasLimit = Int53.fromString(fee.gas).toNumber();
 
-        const txBytes = TxRaw.encode(txRaw).finish();
+      //     const pubkey = encodePubkey({
+      //       type: 'tendermint/PubKeySecp256k1',
+      //       value: (signer as THORChainLedger).pubkey!,
+      //     });
 
-        const broadcaster = await createStargateClient(
-          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
-        );
-        const result = await broadcaster.broadcastTx(txBytes);
-        return result.transactionHash;
-      };
+      //     const signedAuthInfoBytes = makeAuthInfoBytes(
+      //       [{ pubkey, sequence: Number(sequence) }],
+      //       fee.amount,
+      //       signedGasLimit,
+      //       undefined,
+      //       undefined,
+      //       SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
+      //     );
+
+      //     const txRaw = TxRaw.fromPartial({
+      //       bodyBytes,
+      //       authInfoBytes: signedAuthInfoBytes,
+      //       signatures: [fromBase64(signatures[0].signature)],
+      //     });
+
+      //     const txBytes = TxRaw.encode(txRaw).finish();
+
+      //     const broadcaster = await createStargateClient(
+      //       stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
+      //     );
+
+      //     const result = await broadcaster.broadcastTx(txBytes);
+      //     return result.transactionHash;
+      //   };
 
       // ANCHOR (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
-      const transfer = async ({ memo = '', assetValue, recipient }: TransferParams) => {
+      const thorchainTransfer = async ({
+        memo = '',
+        assetValue,
+        ...rest
+      }: TransferParams | DepositParam) => {
         const account = await toolbox.getAccount(address);
         if (!account) throw new Error('invalid account');
         if (!assetValue) throw new Error('invalid asset');
@@ -372,23 +361,9 @@ const getToolbox = async ({
 
         const { accountNumber, sequence = '0' } = account;
 
-        const sendCoinsMessage = {
-          amount: [
-            { amount: assetValue.getBaseValue('string'), denom: assetValue?.symbol.toLowerCase() },
-          ],
-          from_address: address,
-          to_address: recipient,
-        };
-
-        const msg = {
-          type: 'thorchain/MsgSend',
-          value: sendCoinsMessage,
-        };
-
-        const fee = {
-          amount: [],
-          gas: THORCHAIN_SEND_GAS_FEE,
-        };
+        const msgs = recursivelyOrderKeys([
+          buildAminoMsg({ from: address, assetValue, memo, ...rest }),
+        ]);
 
         // get tx signing msg
         const rawSendTx = stringifyKeysInOrder({
@@ -396,7 +371,7 @@ const getToolbox = async ({
           chain_id: ChainId.THORChain,
           fee,
           memo,
-          msgs: [msg],
+          msgs,
           sequence: sequence?.toString(),
         });
 
@@ -406,42 +381,28 @@ const getToolbox = async ({
         );
         if (!signatures) throw new Error('tx signing failed');
 
-        const txObj = {
-          msg: [msg],
-          fee,
+        const bodyBytes = await buildEncodedTxBody({
+          msgs,
           memo,
-          signatures,
-        };
+        });
 
-        const aminoTypes = await toolbox.createDefaultAminoTypes();
-        const registry = await toolbox.createDefaultRegistry();
-        const signedTxBody: TxBodyEncodeObject = {
-          typeUrl: '/cosmos.tx.v1beta1.TxBody',
-          value: {
-            messages: txObj.msg.map((msg) => aminoTypes.fromAmino(msg)),
-            memo,
-          },
-        };
-
-        const signMode = SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
-
-        const signedTxBodyBytes = registry.encode(signedTxBody);
         const signedGasLimit = Int53.fromString(fee.gas).toNumber();
         const pubkey = encodePubkey({
           type: 'tendermint/PubKeySecp256k1',
           value: (signer as THORChainLedger).pubkey!,
         });
+
         const signedAuthInfoBytes = makeAuthInfoBytes(
           [{ pubkey, sequence: Number(sequence) }],
           fee.amount,
           signedGasLimit,
           undefined,
           undefined,
-          signMode,
+          SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
         );
 
         const txRaw = TxRaw.fromPartial({
-          bodyBytes: signedTxBodyBytes,
+          bodyBytes: bodyBytes,
           authInfoBytes: signedAuthInfoBytes,
           signatures: [fromBase64(signatures[0].signature)],
         });
@@ -458,6 +419,9 @@ const getToolbox = async ({
       const signMessage = async (message: string) => {
         return (signer as THORChainLedger).sign(message);
       };
+
+      const transfer = (params: TransferParams) => thorchainTransfer(params);
+      const deposit = (params: DepositParam) => thorchainTransfer(params);
 
       return { ...toolbox, deposit, transfer, signMessage };
     }

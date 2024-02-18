@@ -12,7 +12,7 @@ import type {
   ThorchainConstantsResponse,
   ThorchainToolboxType,
 } from '../thorchainUtils/types/client-types.ts';
-import { base64ToBech32, bech32ToBase64 } from '../thorchainUtils/util.ts';
+import { base64ToBech32, bech32ToBase64 } from '../thorchainUtils/addressFormat.ts';
 import type { Signer, ToolboxParams, TransferParams } from '../types.ts';
 import {
   createOfflineStargateClient,
@@ -24,14 +24,16 @@ import {
 
 import { BaseCosmosToolbox } from './BaseCosmosToolbox.ts';
 
-const getDefaultChainFee = (chain: Chain.THORChain | Chain.Maya) => {
-  switch (chain) {
-    case Chain.Maya:
-      return { amount: [], gas: '10000000000' };
-    default:
-      return { amount: [], gas: '500000000' };
-  }
-};
+import {
+  buildAminoMsg,
+  buildSignMsgFromAmino,
+  getDefaultChainFee,
+  createDefaultAminoTypes,
+  createDefaultRegistry,
+  buildEncodedTxBody,
+  buildTransaction,
+  prepareMessageForBroadcast,
+} from '../thorchainUtils/index.ts';
 
 const secp256k1HdWalletFromMnemonic =
   ({ prefix, derivationPath }: { prefix: string; derivationPath: string }) =>
@@ -44,51 +46,6 @@ const secp256k1HdWalletFromMnemonic =
       prefix,
     });
   };
-
-const createDefaultRegistry = async () => {
-  const types = await import('../thorchainUtils/types/proto/MsgCompiled.ts');
-  const { Registry } = await import('@cosmjs/proto-signing');
-  const { defaultRegistryTypes } = await import('@cosmjs/stargate');
-
-  return new Registry([
-    ...defaultRegistryTypes,
-    ['/types.MsgSend', { ...types.default.types.MsgSend }],
-    ['/types.MsgDeposit', { ...types.default.types.MsgDeposit }],
-  ]);
-};
-
-const createDefaultAminoTypes = async () => {
-  const { AminoTypes } = await import('@cosmjs/stargate');
-
-  return new AminoTypes({
-    '/types.MsgSend': {
-      aminoType: 'thorchain/MsgSend',
-      toAmino: (params: any) => ({
-        from_address: base64ToBech32(params.fromAddress),
-        to_address: base64ToBech32(params.toAddress),
-        amount: [...params.amount],
-      }),
-      fromAmino: (params: any) => ({
-        fromAddress: bech32ToBase64(params.from_address),
-        toAddress: bech32ToBase64(params.to_address),
-        amount: [...params.amount],
-      }),
-    },
-    '/types.MsgDeposit': {
-      aminoType: 'thorchain/MsgDeposit',
-      toAmino: (params: any) => ({
-        signer: base64ToBech32(params.signer),
-        memo: params.memo,
-        coins: [...params.coins],
-      }),
-      fromAmino: (params: any) => ({
-        signer: bech32ToBase64(params.signer),
-        memo: params.memo,
-        coins: [...params.coins],
-      }),
-    },
-  });
-};
 
 const exportSignature = (signature: Uint8Array) => base64.encode(signature);
 
@@ -103,84 +60,16 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
     aminoTypes,
   });
 
-  const txBodyObject: TxBodyEncodeObject = {
-    typeUrl: '/cosmos.tx.v1beta1.TxBody',
-    value: {
-      messages: msgs.map((msg: any) => {
-        const isSend = msg.type === 'thorchain/MsgSend';
-        const parsedMessage = isSend
-          ? msg
-          : {
-              ...msg,
-              type: 'thorchain/MsgDeposit',
-              value: {
-                ...msg.value,
-                signer: base64ToBech32(msg.value.signer),
-                coins: mapCoinsForBroadcasting(msg.value.coins),
-              },
-            };
-        return aminoTypes.fromAmino(parsedMessage);
-      }),
-      memo,
-    },
-  };
-
-  const bodyBytes = registry.encode(txBodyObject);
+  const bodyBytes = await buildEncodedTxBody({
+    msgs,
+    memo,
+  });
 
   const {
     signatures: [signature],
   } = await signingClient.sign(address, msgs, fee, memo, { accountNumber, sequence, chainId });
 
   return { signature: exportSignature(signature), bodyBytes };
-};
-
-const mapCoinsForBroadcasting = (coins: { amount: string; asset: string }[]) =>
-  coins.map(({ asset, amount }) => {
-    const { chain, symbol, isSynthetic } = AssetValue.fromStringSync(asset);
-    return {
-      amount,
-      asset: {
-        chain,
-        symbol,
-        ticker: symbol,
-        synth: isSynthetic,
-      },
-    };
-  });
-
-const createDepositMessage = (
-  assetValue: AssetValue,
-  address: string,
-  memo = '',
-  forBroadcasting = false,
-) => {
-  const symbol = assetValue.isSynthetic
-    ? assetValue.symbol.split('/')[1].toLowerCase()
-    : assetValue.symbol.toLowerCase();
-  const chain = assetValue.isSynthetic
-    ? assetValue.symbol.split('/')[0].toLowerCase()
-    : assetValue.chain.toLowerCase();
-
-  return {
-    type: 'thorchain/MsgDeposit',
-    value: {
-      coins: [
-        {
-          amount: assetValue.getBaseValue('string'),
-          asset: !forBroadcasting
-            ? assetValue.symbol
-            : {
-                chain,
-                symbol,
-                ticker: symbol,
-                synth: assetValue.isSynthetic,
-              },
-        },
-      ],
-      memo,
-      signer: address,
-    },
-  };
 };
 
 const broadcastMultisigTx =
@@ -306,71 +195,25 @@ export const BaseThorchainToolbox = ({
     return { [FeeOption.Average]: fee, [FeeOption.Fast]: fee, [FeeOption.Fastest]: fee };
   };
 
-  const deposit = async ({ signer, assetValue, memo, from }: DepositParam & { from: string }) => {
-    if (!signer) throw new Error('Signer not defined');
-
-    const registry = await createDefaultRegistry();
-    const signingClient = await createSigningStargateClient(rpcUrl, signer, { registry });
-
-    const symbol = assetValue.isSynthetic
-      ? assetValue.symbol.split('/')[1].toLowerCase()
-      : assetValue.symbol.toLowerCase();
-    const chain = assetValue.isSynthetic
-      ? assetValue.symbol.split('/')[0].toLowerCase()
-      : assetValue.chain.toLowerCase();
-
-    const depositMsg = {
-      typeUrl: '/types.MsgDeposit',
-      value: {
-        signer: bech32ToBase64(from),
-        memo,
-        coins: [
-          {
-            amount: assetValue.getBaseValue('string'),
-            asset: {
-              chain,
-              symbol,
-              ticker: symbol,
-              synth: assetValue.isSynthetic,
-            },
-          },
-        ],
-      },
-    };
-
-    const txResponse = await signingClient.signAndBroadcast(from, [depositMsg], defaultFee, memo);
-
-    return txResponse.transactionHash;
-  };
-
   const transfer = async ({
     from,
     recipient,
     assetValue,
     memo = '',
-    fee = defaultFee,
     signer,
-  }: TransferParams) => {
+  }: Omit<TransferParams, 'recipient'> & { recipient?: string }) => {
     if (!signer) throw new Error('Signer not defined');
 
     const registry = await createDefaultRegistry();
     const signingClient = await createSigningStargateClient(rpcUrl, signer, { registry });
 
-    const sendMsg = {
-      typeUrl: '/types.MsgSend',
-      value: {
-        fromAddress: bech32ToBase64(from),
-        toAddress: bech32ToBase64(recipient),
-        amount: [
-          {
-            amount: assetValue.getBaseValue('string'),
-            denom: getDenom(assetValue.symbol, true),
-          },
-        ],
-      },
-    };
+    const msgSign = await buildSignMsgFromAmino(
+      buildAminoMsg({ assetValue, from, recipient, memo }),
+    );
 
-    const txResponse = await signingClient.signAndBroadcast(from, [sendMsg], fee as StdFee, memo);
+    const sendMsg = prepareMessageForBroadcast(msgSign);
+
+    const txResponse = await signingClient.signAndBroadcast(from, [sendMsg], defaultFee, memo);
 
     return txResponse.transactionHash;
   };
@@ -383,10 +226,14 @@ export const BaseThorchainToolbox = ({
 
   return {
     ...baseToolbox,
-    deposit,
+    deposit: (params: DepositParam & { from: string }) => transfer(params),
     transfer,
     getFees,
-    createDepositMessage,
+    buildAminoMsg,
+    buildSignMsgFromAmino,
+    buildTransaction,
+    buildEncodedTxBody,
+    prepareMessageForBroadcast,
     createDefaultAminoTypes,
     createDefaultRegistry,
     secp256k1HdWalletFromMnemonic: secp256k1HdWalletFromMnemonic({ derivationPath, prefix }),

@@ -26,12 +26,6 @@ import { getEVMSigner } from './evmSigner.ts';
 import { chainToChainId, getAddressByChain } from './helpers.ts';
 import { getRequiredNamespaces } from './namespaces.ts';
 
-const THORCHAIN_GAS_FEE = '500000000';
-const DEFAULT_THORCHAIN_FEE = {
-  amount: [],
-  gas: THORCHAIN_GAS_FEE,
-};
-
 const SUPPORTED_CHAINS = [
   Chain.Binance, // Not supported by WC
   Chain.BinanceSmartChain,
@@ -141,8 +135,13 @@ const getToolbox = async ({
         encodePubkey,
         makeAuthInfoBytes,
         makeSignDoc,
+        buildAminoMsg,
+        buildEncodedTxBody,
+        getDefaultChainFee,
       } = await import('@swapkit/toolbox-cosmos');
       const toolbox = ThorchainToolbox({ stagenet: false });
+
+      const fee = getDefaultChainFee(chain);
 
       const signRequest = (signDoc: StdSignDoc) =>
         walletconnect?.client.request({
@@ -163,31 +162,14 @@ const getToolbox = async ({
         if (!account) throw new Error('Account not found');
         if (!account.pubkey) throw new Error('Account pubkey not found');
         const { accountNumber, sequence = 0 } = account;
-        const amount = assetValue.getBaseValue('string');
 
         const isSend = 'recipient' in rest && rest.recipient;
 
-        const msg = isSend
-          ? {
-              type: 'thorchain/MsgSend',
-              value: {
-                amount: [{ amount, denom: assetValue.symbol.toLowerCase() }],
-                from_address: address,
-                to_address: rest.recipient,
-              },
-            }
-          : {
-              type: 'thorchain/MsgDeposit',
-              value: {
-                coins: [{ amount, asset: getDenomWithChain(assetValue) }],
-                memo,
-                signer: address,
-              },
-            };
+        const msgs = [buildAminoMsg({ assetValue, memo, from: address, ...rest })];
 
         const signDoc = makeSignDoc(
-          [msg],
-          DEFAULT_THORCHAIN_FEE,
+          msgs,
+          fee,
           ChainId.THORChain,
           memo,
           accountNumber?.toString(),
@@ -196,49 +178,20 @@ const getToolbox = async ({
 
         const signature: any = await signRequest(signDoc);
 
-        const txObj = {
-          msg: [msg],
-          fee: DEFAULT_THORCHAIN_FEE,
-          memo,
-          signatures: [
-            {
-              // The request coming from TW Android are different from those coming from iOS.
-              ...(typeof signature.signature === 'string' ? signature : signature.signature),
-              sequence: sequence?.toString(),
-            },
-          ],
-        };
-
-        const aminoTypes = await toolbox.createDefaultAminoTypes();
-        const registry = await toolbox.createDefaultRegistry();
-        const signedTxBody: TxBodyEncodeObject = {
-          typeUrl: '/cosmos.tx.v1beta1.TxBody',
-          value: {
-            messages: txObj.msg.map((msg) =>
-              aminoTypes.fromAmino(
-                isSend ? msg : toolbox.createDepositMessage(assetValue, address, memo, true),
-              ),
-            ),
-            memo: txObj.memo,
-          },
-        };
-
-        const signMode = SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
-
-        const signedTxBodyBytes = registry.encode(signedTxBody);
-        const signedGasLimit = Int53.fromString(txObj.fee.gas).toNumber();
+        const bodyBytes = await buildEncodedTxBody({ msgs, memo: memo || '' });
+        const signedGasLimit = Int53.fromString(fee.gas).toNumber();
         const pubkey = encodePubkey(account.pubkey);
         const signedAuthInfoBytes = makeAuthInfoBytes(
           [{ pubkey, sequence }],
-          txObj.fee.amount,
+          fee.amount,
           signedGasLimit,
           undefined,
           undefined,
-          signMode,
+          SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
         );
 
         const txRaw = TxRaw.fromPartial({
-          bodyBytes: signedTxBodyBytes,
+          bodyBytes,
           authInfoBytes: signedAuthInfoBytes,
           signatures: [
             fromBase64(
