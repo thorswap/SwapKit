@@ -287,67 +287,6 @@ const getToolbox = async ({
 
       const fee = getDefaultChainFee(chain);
 
-      //   // ANCHOR (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
-      //   const thorchainTransfer = async ({ assetValue, memo }: DepositParam) => {
-      //     const account = await toolbox.getAccount(address);
-      //     if (!assetValue) throw new Error('invalid asset to deposit');
-      //     if (!account) throw new Error('invalid account');
-      //     if (!(signer as THORChainLedger).pubkey) throw new Error('Account pubkey not found');
-
-      //     const msgs = recursivelyOrderKeys([buildAminoMsg({ from: address, assetValue, memo })]);
-
-      //     const bodyBytes = await buildEncodedTxBody({
-      //       msgs,
-      //       memo,
-      //     });
-
-      //     const sequence = account.sequence?.toString() || '0';
-
-      //     const minifiedTx = stringifyKeysInOrder({
-      //       account_number: account.accountNumber.toString(),
-      //       chain_id: ChainId.THORChain,
-      //       fee,
-      //       memo,
-      //       msgs,
-      //       sequence,
-      //     });
-
-      //     const signatures = await (signer as THORChainLedger).signTransaction(minifiedTx, sequence);
-
-      //     if (!signatures) throw new Error('tx signing failed');
-
-      //     const signedGasLimit = Int53.fromString(fee.gas).toNumber();
-
-      //     const pubkey = encodePubkey({
-      //       type: 'tendermint/PubKeySecp256k1',
-      //       value: (signer as THORChainLedger).pubkey!,
-      //     });
-
-      //     const signedAuthInfoBytes = makeAuthInfoBytes(
-      //       [{ pubkey, sequence: Number(sequence) }],
-      //       fee.amount,
-      //       signedGasLimit,
-      //       undefined,
-      //       undefined,
-      //       SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
-      //     );
-
-      //     const txRaw = TxRaw.fromPartial({
-      //       bodyBytes,
-      //       authInfoBytes: signedAuthInfoBytes,
-      //       signatures: [fromBase64(signatures[0].signature)],
-      //     });
-
-      //     const txBytes = TxRaw.encode(txRaw).finish();
-
-      //     const broadcaster = await createStargateClient(
-      //       stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
-      //     );
-
-      //     const result = await broadcaster.broadcastTx(txBytes);
-      //     return result.transactionHash;
-      //   };
-
       // ANCHOR (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
       const thorchainTransfer = async ({
         memo = '',

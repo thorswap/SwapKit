@@ -65,9 +65,20 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
     memo,
   });
 
+  const msgForSigning = [];
+
+  for (const msg of msgs) {
+    const signMsg = await buildSignMsgFromAmino(msg);
+    msgForSigning.push(prepareMessageForBroadcast(signMsg));
+  }
+
   const {
     signatures: [signature],
-  } = await signingClient.sign(address, msgs, fee, memo, { accountNumber, sequence, chainId });
+  } = await signingClient.sign(address, msgForSigning, fee, memo, {
+    accountNumber,
+    sequence,
+    chainId,
+  });
 
   return { signature: exportSignature(signature), bodyBytes };
 };
