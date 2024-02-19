@@ -1,11 +1,10 @@
+import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import { AssetValue } from '@swapkit/helpers';
-import { SwapKitNumber } from '@swapkit/helpers';
-import type { FeeOption } from '@swapkit/types';
-import { BaseDecimal, Chain, ChainId, RPCUrl } from '@swapkit/types';
+import { Chain, ChainId, RPCUrl } from '@swapkit/types';
 
 import { createStargateClient } from '../util.ts';
+
 import { createDefaultAminoTypes, createDefaultRegistry } from './registry.ts';
-import { TxBodyEncodeObject } from '@cosmjs/proto-signing';
 
 export const getDefaultChainFee = (chain: Chain.THORChain | Chain.Maya) => {
   switch (chain) {
@@ -15,6 +14,9 @@ export const getDefaultChainFee = (chain: Chain.THORChain | Chain.Maya) => {
       return { amount: [], gas: '500000000' };
   }
 };
+
+export const THORCHAIN_GAS_VALUE = getDefaultChainFee(Chain.THORChain).gas;
+export const MAYA_GAS_VALUE = getDefaultChainFee(Chain.THORChain).gas;
 
 export const transferMsgValueAmino = ({
   from,

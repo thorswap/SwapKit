@@ -7,7 +7,6 @@ import {
   makeAuthInfoBytes,
   SignMode,
   type TransferParams,
-  type TxBodyEncodeObject,
   TxRaw,
 } from '@swapkit/toolbox-cosmos';
 import type { UTXOBuildTxParams } from '@swapkit/toolbox-utxo';
@@ -35,8 +34,6 @@ type LedgerConfig = {
   blockchairApiKey?: string;
 };
 
-const THORCHAIN_DEPOSIT_GAS_FEE = '500000000';
-const THORCHAIN_SEND_GAS_FEE = '500000000';
 // reduce memo length by removing trade limit
 const reduceMemo = (memo?: string, affiliateAddress = 't') => {
   if (!memo?.includes('=:')) return memo;

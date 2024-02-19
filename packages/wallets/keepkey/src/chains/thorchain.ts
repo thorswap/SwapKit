@@ -7,7 +7,7 @@ import {
   type TransferParams,
 } from '@swapkit/toolbox-cosmos';
 import type { DerivationPathArray } from '@swapkit/types';
-import { ChainId, DerivationPath, RPCUrl, Chain } from '@swapkit/types';
+import { Chain, ChainId, DerivationPath, RPCUrl } from '@swapkit/types';
 
 import { bip32ToAddressNList } from '../helpers/coins.js';
 
@@ -36,7 +36,7 @@ export const thorchainWalletMethods = async ({
   })) as { address: string };
 
   const signTransaction = async ({ assetValue, recipient, from, memo }: SignTransactionParams) => {
-    const { getDenomWithChain, makeSignDoc, buildAminoMsg, getDefaultChainFee } = await import(
+    const { makeSignDoc, buildAminoMsg, getDefaultChainFee } = await import(
       '@swapkit/toolbox-cosmos'
     );
 

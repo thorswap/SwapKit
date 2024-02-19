@@ -5,7 +5,6 @@ import {
   SignMode,
   type StdSignDoc,
   type TransferParams,
-  type TxBodyEncodeObject,
   TxRaw,
 } from '@swapkit/toolbox-cosmos';
 import type { ConnectWalletParams } from '@swapkit/types';
@@ -130,7 +129,6 @@ const getToolbox = async ({
         fromBase64,
         Int53,
         createStargateClient,
-        getDenomWithChain,
         ThorchainToolbox,
         encodePubkey,
         makeAuthInfoBytes,
@@ -162,8 +160,6 @@ const getToolbox = async ({
         if (!account) throw new Error('Account not found');
         if (!account.pubkey) throw new Error('Account pubkey not found');
         const { accountNumber, sequence = 0 } = account;
-
-        const isSend = 'recipient' in rest && rest.recipient;
 
         const msgs = [buildAminoMsg({ assetValue, memo, from: address, ...rest })];
 
