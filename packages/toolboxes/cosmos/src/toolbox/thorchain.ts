@@ -10,12 +10,13 @@ import { CosmosClient } from '../cosmosClient.ts';
 import {
   buildAminoMsg,
   buildEncodedTxBody,
-  buildSignMsgFromAmino,
+  convertAminoToSignable,
   buildTransaction,
   createDefaultAminoTypes,
   createDefaultRegistry,
   getDefaultChainFee,
   prepareMessageForBroadcast,
+  bech32ToBase64,
 } from '../thorchainUtils/index.ts';
 import type {
   DepositParam,
@@ -28,6 +29,7 @@ import {
   createOfflineStargateClient,
   createSigningStargateClient,
   createStargateClient,
+  getDenom,
   getRPC,
 } from '../util.ts';
 
@@ -66,7 +68,7 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
   const msgForSigning = [];
 
   for (const msg of msgs) {
-    const signMsg = await buildSignMsgFromAmino(msg);
+    const signMsg = await convertAminoToSignable(msg);
     msgForSigning.push(prepareMessageForBroadcast(signMsg));
   }
 
@@ -216,7 +218,7 @@ export const BaseThorchainToolbox = ({
     const registry = await createDefaultRegistry();
     const signingClient = await createSigningStargateClient(rpcUrl, signer, { registry });
 
-    const msgSign = await buildSignMsgFromAmino(
+    const msgSign = await convertAminoToSignable(
       buildAminoMsg({ assetValue, from, recipient, memo }),
     );
 
@@ -239,7 +241,7 @@ export const BaseThorchainToolbox = ({
     transfer,
     getFees,
     buildAminoMsg,
-    buildSignMsgFromAmino,
+    convertAminoToSignable,
     buildTransaction,
     buildEncodedTxBody,
     prepareMessageForBroadcast,

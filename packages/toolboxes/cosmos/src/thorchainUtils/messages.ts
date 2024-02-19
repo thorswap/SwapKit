@@ -2,7 +2,7 @@ import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
 import { AssetValue } from '@swapkit/helpers';
 import { Chain, ChainId, RPCUrl } from '@swapkit/types';
 
-import { createStargateClient } from '../util.ts';
+import { createStargateClient, getDenom } from '../util.ts';
 
 import { createDefaultAminoTypes, createDefaultRegistry } from './registry.ts';
 
@@ -18,7 +18,7 @@ export const getDefaultChainFee = (chain: Chain.THORChain | Chain.Maya) => {
 export const THORCHAIN_GAS_VALUE = getDefaultChainFee(Chain.THORChain).gas;
 export const MAYA_GAS_VALUE = getDefaultChainFee(Chain.THORChain).gas;
 
-export const transferMsgValueAmino = ({
+export const transferMsgAmino = ({
   from,
   recipient,
   assetValue,
@@ -32,12 +32,12 @@ export const transferMsgValueAmino = ({
   amount: [
     {
       amount: assetValue.getBaseValue('string'),
-      denom: getDenomWithChain(assetValue),
+      denom: getDenom(assetValue.symbol, true),
     },
   ],
 });
 
-export const depositMsgValueAmino = ({
+export const depositMsgAmino = ({
   from,
   assetValue,
   memo = '',
@@ -73,13 +73,13 @@ export const buildAminoMsg = ({
   const msg = {
     type: isDeposit ? 'thorchain/MsgDeposit' : 'thorchain/MsgSend',
     value: isDeposit
-      ? depositMsgValueAmino({ from, assetValue, memo })
-      : transferMsgValueAmino({ from, recipient, assetValue }),
+      ? depositMsgAmino({ from, assetValue, memo })
+      : transferMsgAmino({ from, recipient, assetValue }),
   };
   return msg;
 };
 
-export const buildSignMsgFromAmino = async (msg: ReturnType<typeof buildAminoMsg>) => {
+export const convertAminoToSignable = async (msg: ReturnType<typeof buildAminoMsg>) => {
   const aminoTypes = await createDefaultAminoTypes();
 
   return aminoTypes.fromAmino(msg);
@@ -123,7 +123,7 @@ export const buildTransaction = async ({
 };
 
 export const prepareMessageForBroadcast = (
-  msg: Awaited<ReturnType<typeof buildSignMsgFromAmino>>,
+  msg: Awaited<ReturnType<typeof convertAminoToSignable>>,
 ) => {
   if (msg.typeUrl === '/types.MsgSend') return msg;
 

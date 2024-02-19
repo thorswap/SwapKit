@@ -10,7 +10,7 @@ import type {
   Account,
   buildAminoMsg,
   buildEncodedTxBody,
-  buildSignMsgFromAmino,
+  convertAminoToSignable,
   buildTransaction,
   prepareMessageForBroadcast,
 } from '../../index.ts';
@@ -85,7 +85,7 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
   createDefaultRegistry: () => Promise<Registry>;
   createDefaultAminoTypes: () => Promise<AminoTypes>;
   buildAminoMsg: typeof buildAminoMsg;
-  buildSignMsgFromAmino: typeof buildSignMsgFromAmino;
+  convertAminoToSignable: typeof convertAminoToSignable;
   buildTransaction: typeof buildTransaction;
   buildEncodedTxBody: typeof buildEncodedTxBody;
   prepareMessageForBroadcast: typeof prepareMessageForBroadcast;
