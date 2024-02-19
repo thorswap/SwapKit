@@ -40,7 +40,7 @@ describe('getMemoFor', () => {
         symbol: 'ETH',
         singleSide: true,
       });
-      expect(result).toBe('+:ETH/ETH::t:0');
+      expect(result).toBe('+:ETH/ETH');
     });
 
     it('returns correct memo for Deposit (dual side)', () => {
@@ -49,7 +49,7 @@ describe('getMemoFor', () => {
         symbol: 'AVAX',
         address: '0xABC123',
       });
-      expect(result).toBe('+:AVAX.AVAX:0xABC123:t:0');
+      expect(result).toBe('+:AVAX.AVAX:0xABC123');
     });
   });
 
