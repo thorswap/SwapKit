@@ -1,10 +1,10 @@
+import { Chains } from '@chainflip/sdk/swap';
 import type { AssetValue } from '@swapkit/helpers';
 import type { ETHToolbox } from '@swapkit/toolbox-evm';
 import type { ChainflipToolbox } from '@swapkit/toolbox-substrate';
+import { Chain } from '@swapkit/types';
 
 import { chainflipGateway } from './chainflipGatewayABI.ts';
-import { Chains } from '@chainflip/sdk/swap';
-import { Chain } from '@swapkit/types';
 
 const chainToChainflipChain = new Map<Chain, keyof typeof Chains>([
   [Chain.Ethereum, Chains.Ethereum],

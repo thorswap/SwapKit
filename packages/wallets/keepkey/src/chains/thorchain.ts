@@ -7,7 +7,7 @@ import {
   type TransferParams,
 } from '@swapkit/toolbox-cosmos';
 import type { DerivationPathArray } from '@swapkit/types';
-import { ChainId, DerivationPath, RPCUrl } from '@swapkit/types';
+import { Chain, ChainId, DerivationPath, RPCUrl } from '@swapkit/types';
 
 import { bip32ToAddressNList } from '../helpers/coins.js';
 
@@ -36,37 +36,22 @@ export const thorchainWalletMethods = async ({
   })) as { address: string };
 
   const signTransaction = async ({ assetValue, recipient, from, memo }: SignTransactionParams) => {
-    const { getDenomWithChain, makeSignDoc } = await import('@swapkit/toolbox-cosmos');
+    const { makeSignDoc, buildAminoMsg, getDefaultChainFee } = await import(
+      '@swapkit/toolbox-cosmos'
+    );
 
     const account = await toolbox.getAccount(from);
     if (!account) throw new Error('Account not found');
     if (!account.pubkey) throw new Error('Account pubkey not found');
     const { accountNumber, sequence = 0 } = account;
-    const amount = assetValue.getBaseValue('string');
 
     const isTransfer = recipient && recipient !== '';
 
-    const msg = isTransfer
-      ? {
-          type: 'thorchain/MsgSend',
-          value: {
-            amount: [{ amount, denom: assetValue.symbol.toLowerCase() }],
-            from_address: from,
-            to_address: recipient,
-          },
-        }
-      : {
-          type: 'thorchain/MsgDeposit',
-          value: {
-            coins: [{ amount, asset: getDenomWithChain(assetValue) }],
-            memo,
-            signer: from,
-          },
-        };
+    const msg = buildAminoMsg({ from, recipient, assetValue, memo });
 
     const signDoc = makeSignDoc(
       [msg],
-      { gas: '500000000', amount: [] },
+      getDefaultChainFee(Chain.THORChain),
       ChainId.THORChain,
       memo,
       accountNumber?.toString(),

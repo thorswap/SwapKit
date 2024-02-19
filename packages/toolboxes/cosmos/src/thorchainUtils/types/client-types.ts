@@ -6,7 +6,14 @@ import type { Asset, ChainId } from '@swapkit/types';
 import type { curve } from 'elliptic';
 
 import type { BNBTransaction } from '../../binanceUtils/transaction.ts';
-import type { Account } from '../../index.ts';
+import type {
+  Account,
+  buildAminoMsg,
+  buildEncodedTxBody,
+  convertAminoToSignable,
+  buildTransaction,
+  prepareMessageForBroadcast,
+} from '../../index.ts';
 import type { Signer, TransferParams } from '../../types.ts';
 
 enum TxType {
@@ -77,12 +84,11 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
   deposit: (params: DepositParam & { from: string }) => Promise<string>;
   createDefaultRegistry: () => Promise<Registry>;
   createDefaultAminoTypes: () => Promise<AminoTypes>;
-  createDepositMessage: (
-    assetValue: AssetValue,
-    address: string,
-    memo?: string,
-    forBroadcasting?: boolean,
-  ) => any;
+  buildAminoMsg: typeof buildAminoMsg;
+  convertAminoToSignable: typeof convertAminoToSignable;
+  buildTransaction: typeof buildTransaction;
+  buildEncodedTxBody: typeof buildEncodedTxBody;
+  prepareMessageForBroadcast: typeof prepareMessageForBroadcast;
   createMultisig: (pubKeys: string[], threshold: number) => Promise<MultisigThresholdPubkey>;
   importSignature: (signature: string) => Uint8Array;
   secp256k1HdWalletFromMnemonic: (mnemonic: string, index?: number) => Promise<Secp256k1HdWallet>;

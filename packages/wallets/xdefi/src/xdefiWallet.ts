@@ -43,13 +43,13 @@ const getWalletMethodsForChain = async ({
 }: ConnectConfig & { chain: (typeof XDEFI_SUPPORTED_CHAINS)[number] }) => {
   switch (chain) {
     case Chain.THORChain: {
-      const { DEFAULT_GAS_VALUE, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { THORCHAIN_GAS_VALUE, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
 
       return {
         ...ThorchainToolbox({ stagenet: false }),
         deposit: (tx: WalletTxParams) => walletTransfer({ ...tx, recipient: '' }, 'deposit'),
         transfer: (tx: WalletTxParams) =>
-          walletTransfer({ ...tx, gasLimit: DEFAULT_GAS_VALUE }, 'transfer'),
+          walletTransfer({ ...tx, gasLimit: THORCHAIN_GAS_VALUE }, 'transfer'),
       };
     }
 
