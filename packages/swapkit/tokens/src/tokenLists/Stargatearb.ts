@@ -1,6 +1,6 @@
 export const list = {
   name: 'Stargate Arbitrum',
-  timestamp: '1707962620396',
+  timestamp: '1708137061745',
   tokens: [
     {
       address: '0x17FC002b466eEc40DaE837Fc4bE5c67993ddBd6F',
