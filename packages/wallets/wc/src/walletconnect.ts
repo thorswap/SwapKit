@@ -2,10 +2,8 @@ import { setRequestClientConfig } from '@swapkit/helpers';
 import {
   type BaseCosmosToolboxType,
   type DepositParam,
-  SignMode,
   type StdSignDoc,
   type TransferParams,
-  TxRaw,
 } from '@swapkit/toolbox-cosmos';
 import type { ConnectWalletParams } from '@swapkit/types';
 import { Chain, ChainId, RPCUrl, WalletOption } from '@swapkit/types';
@@ -136,6 +134,8 @@ const getToolbox = async ({
         buildAminoMsg,
         buildEncodedTxBody,
         getDefaultChainFee,
+        SignMode,
+        TxRaw,
       } = await import('@swapkit/toolbox-cosmos');
       const toolbox = ThorchainToolbox({ stagenet: false });
 
