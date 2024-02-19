@@ -1,5 +1,14 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.80
+
+### Patch Changes
+
+- [#614](https://github.com/thorswap/SwapKit/pull/614) [`fc98782`](https://github.com/thorswap/SwapKit/commit/fc9878251074c96da7c0b147a928651cf0ae55a0) Thanks [@towanTG](https://github.com/towanTG)! - Simplifies TC message creation and handling
+
+- Updated dependencies [[`16f5b57`](https://github.com/thorswap/SwapKit/commit/16f5b570290df1339be9f140a19a6c831a2a875e)]:
+  - @swapkit/helpers@1.0.0-rc.70
+
 ## 1.0.0-rc.79
 
 ### Patch Changes

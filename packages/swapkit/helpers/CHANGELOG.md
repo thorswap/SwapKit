@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.70
+
+### Patch Changes
+
+- [`16f5b57`](https://github.com/thorswap/SwapKit/commit/16f5b570290df1339be9f140a19a6c831a2a875e) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Remove affiliate from deposits'
+
 ## 1.0.0-rc.69
 
 ### Patch Changes
