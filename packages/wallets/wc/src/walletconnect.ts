@@ -134,6 +134,7 @@ const getToolbox = async ({
         buildAminoMsg,
         buildEncodedTxBody,
         getDefaultChainFee,
+        prepareMessageForBroadcast,
         SignMode,
         TxRaw,
       } = await import('@swapkit/toolbox-cosmos');
@@ -174,10 +175,13 @@ const getToolbox = async ({
 
         const signature: any = await signRequest(signDoc);
 
-        const bodyBytes = await buildEncodedTxBody({ msgs, memo: memo || '' });
+        const bodyBytes = await buildEncodedTxBody({
+          msgs: msgs.map(prepareMessageForBroadcast),
+          memo: memo || '',
+        });
         const signedGasLimit = Int53.fromString(fee.gas).toNumber();
         const pubkey = encodePubkey(account.pubkey);
-        const signedAuthInfoBytes = makeAuthInfoBytes(
+        const authInfoBytes = makeAuthInfoBytes(
           [{ pubkey, sequence }],
           fee.amount,
           signedGasLimit,
@@ -188,7 +192,7 @@ const getToolbox = async ({
 
         const txRaw = TxRaw.fromPartial({
           bodyBytes,
-          authInfoBytes: signedAuthInfoBytes,
+          authInfoBytes,
           signatures: [
             fromBase64(
               typeof signature.signature === 'string'
