@@ -58,6 +58,7 @@ export class KeepKeySigner extends AbstractSigner {
     maxPriorityFeePerGas,
     gasPrice,
     ...restTx
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
   }: EVMTxParams & { maxFeePerGas?: string; maxPriorityFeePerGas?: string; gasPrice?: string }) => {
     if (!from) throw new Error("Missing from address");
     if (!to) throw new Error("Missing to address");

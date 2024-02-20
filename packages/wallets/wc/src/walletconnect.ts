@@ -156,7 +156,6 @@ const getToolbox = async ({
         assetValue,
         memo,
         ...rest
-        // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
       }: TransferParams | DepositParam) => {
         const account = await toolbox.getAccount(address);
         if (!account) throw new Error("Account not found");
