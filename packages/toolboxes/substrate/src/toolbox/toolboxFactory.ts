@@ -14,7 +14,7 @@ type ToolboxParams = {
 
 type ToolboxFactoryType<T, M> = (params: ToolboxParams & T) => ReturnType<typeof BaseToolbox> & M;
 
-export const ToolboxFactory: ToolboxFactoryType<{ chain: SubstrateChain }, {}> = async ({
+export const ToolboxFactory: ToolboxFactoryType<{ chain: SubstrateChain }, unknown> = async ({
   providerUrl,
   generic,
   chain,
@@ -35,7 +35,7 @@ export const ToolboxFactory: ToolboxFactoryType<{ chain: SubstrateChain }, {}> =
   });
 };
 
-export const PolkadotToolbox: ToolboxFactoryType<{}, {}> = async ({
+export const PolkadotToolbox: ToolboxFactoryType<unknown, unknown> = async ({
   providerUrl,
   signer,
   generic = false,
@@ -49,7 +49,7 @@ export const PolkadotToolbox: ToolboxFactoryType<{}, {}> = async ({
   });
 };
 
-export const ChainflipToolbox: ToolboxFactoryType<{}, {}> = async ({
+export const ChainflipToolbox: ToolboxFactoryType<unknown, unknown> = async ({
   providerUrl,
   signer,
   generic = false,

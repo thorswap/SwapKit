@@ -57,7 +57,11 @@ export type NodeInfoResponse = {
   };
 };
 
-type Fees = { average: SwapKitNumber; fast: SwapKitNumber; fastest: SwapKitNumber };
+type Fees = {
+  average: SwapKitNumber;
+  fast: SwapKitNumber;
+  fastest: SwapKitNumber;
+};
 
 export type BaseCosmosToolboxType = {
   getAccount: (address: string) => Promise<CosmosAccount | null>;

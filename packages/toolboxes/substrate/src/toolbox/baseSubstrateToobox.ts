@@ -46,7 +46,7 @@ const validateAddress = async (address: string, networkPrefix: number) => {
     );
 
     return true;
-  } catch (error) {
+  } catch (_error) {
     return false;
   }
 };
@@ -105,7 +105,7 @@ const sign = async (signer: IKeyringPair, tx: SubmittableExtrinsic<"promise">) =
   return signedTx;
 };
 
-const signAndBroadcast = async (
+const signAndBroadcast = (
   signer: IKeyringPair,
   tx: SubmittableExtrinsic<"promise">,
   callback?: Callback<ISubmittableResult>,

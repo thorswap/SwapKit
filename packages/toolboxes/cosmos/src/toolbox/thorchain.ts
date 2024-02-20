@@ -129,7 +129,11 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
 
   const {
     signatures: [signature],
-  } = await signingClient.sign(address, msgs, fee, memo, { accountNumber, sequence, chainId });
+  } = await signingClient.sign(address, msgs, fee, memo, {
+    accountNumber,
+    sequence,
+    chainId,
+  });
 
   return { signature: exportSignature(signature), bodyBytes };
 };
@@ -252,7 +256,9 @@ export const verifySignature = async (signature: string, message: string, pubkey
 export const BaseThorchainToolbox = ({
   chain,
   stagenet,
-}: ToolboxParams & { chain: Chain.THORChain | Chain.Maya }): ThorchainToolboxType => {
+}: ToolboxParams & {
+  chain: Chain.THORChain | Chain.Maya;
+}): ThorchainToolboxType => {
   const isThorchain = chain === Chain.THORChain;
   const chainId = isThorchain ? ChainId.THORChain : ChainId.Maya;
   const nodeUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
@@ -260,7 +266,12 @@ export const BaseThorchainToolbox = ({
   const derivationPath = DerivationPath[chain];
   const rpcUrl = getRPC(chainId, stagenet);
 
-  const client = new CosmosClient({ server: nodeUrl, chainId, prefix, stagenet });
+  const client = new CosmosClient({
+    server: nodeUrl,
+    chainId,
+    prefix,
+    stagenet,
+  });
   const defaultFee = getDefaultChainFee(chain);
 
   const baseToolbox: {
@@ -272,7 +283,11 @@ export const BaseThorchainToolbox = ({
     getBalance: (address: string, potentialScamFilter?: boolean) => Promise<AssetValue[]>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
-  } = BaseCosmosToolbox({ client, derivationPath, decimal: BaseDecimal[chain] });
+  } = BaseCosmosToolbox({
+    client,
+    derivationPath,
+    decimal: BaseDecimal[chain],
+  });
 
   const loadAddressBalances = async (address: string) => {
     try {
@@ -295,22 +310,31 @@ export const BaseThorchainToolbox = ({
       } = await RequestClient.get<ThorchainConstantsResponse>(constantsUrl);
 
       // validate data
-      if (!nativeFee || isNaN(nativeFee) || nativeFee < 0)
+      if (!nativeFee || Number.isNaN(nativeFee) || nativeFee < 0)
         throw Error(`Invalid nativeFee: ${nativeFee.toString()}`);
 
       fee = new SwapKitNumber(nativeFee);
     } catch {
-      fee = new SwapKitNumber({ value: isThorchain ? 0.02 : 1, decimal: BaseDecimal[chain] });
+      fee = new SwapKitNumber({
+        value: isThorchain ? 0.02 : 1,
+        decimal: BaseDecimal[chain],
+      });
     }
 
-    return { [FeeOption.Average]: fee, [FeeOption.Fast]: fee, [FeeOption.Fastest]: fee };
+    return {
+      [FeeOption.Average]: fee,
+      [FeeOption.Fast]: fee,
+      [FeeOption.Fastest]: fee,
+    };
   };
 
   const deposit = async ({ signer, assetValue, memo, from }: DepositParam & { from: string }) => {
     if (!signer) throw new Error("Signer not defined");
 
     const registry = await createDefaultRegistry();
-    const signingClient = await createSigningStargateClient(rpcUrl, signer, { registry });
+    const signingClient = await createSigningStargateClient(rpcUrl, signer, {
+      registry,
+    });
 
     const symbol = assetValue.isSynthetic
       ? assetValue.symbol.split("/")[1].toLowerCase()
@@ -354,7 +378,9 @@ export const BaseThorchainToolbox = ({
     if (!signer) throw new Error("Signer not defined");
 
     const registry = await createDefaultRegistry();
-    const signingClient = await createSigningStargateClient(rpcUrl, signer, { registry });
+    const signingClient = await createSigningStargateClient(rpcUrl, signer, {
+      registry,
+    });
 
     const sendMsg = {
       typeUrl: "/types.MsgSend",
@@ -389,7 +415,10 @@ export const BaseThorchainToolbox = ({
     createDepositMessage,
     createDefaultAminoTypes,
     createDefaultRegistry,
-    secp256k1HdWalletFromMnemonic: secp256k1HdWalletFromMnemonic({ derivationPath, prefix }),
+    secp256k1HdWalletFromMnemonic: secp256k1HdWalletFromMnemonic({
+      derivationPath,
+      prefix,
+    }),
     signMultisigTx,
     broadcastMultisigTx: broadcastMultisigTx({ prefix, rpcUrl }),
     createMultisig,

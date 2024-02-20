@@ -59,7 +59,7 @@ const getSuggestedTxFee = async (chain: Chain) => {
     const suggestedFee = feePerKb / 1000;
 
     return Math.max(suggestedFee, getDefaultTxFeeByChain(chain));
-  } catch (error) {
+  } catch (_error) {
     return getDefaultTxFeeByChain(chain);
   }
 };
@@ -97,7 +97,7 @@ const getAddressData = async ({
     );
 
     return response[address];
-  } catch (error) {
+  } catch (_error) {
     return baseAddressData;
   }
 };
@@ -123,7 +123,7 @@ const getConfirmedBalance = async ({
     );
 
     return response[address] || 0;
-  } catch (error) {
+  } catch (_error) {
     return 0;
   }
 };

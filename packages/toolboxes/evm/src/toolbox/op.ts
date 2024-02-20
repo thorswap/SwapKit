@@ -84,7 +84,7 @@ const estimateGasPrices = async (provider: JsonRpcProvider | BrowserProvider) =>
     const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await provider.getFeeData();
     const l1GasPrice = await getL1GasPrice(provider);
 
-    if (!maxFeePerGas || !maxPriorityFeePerGas) throw new Error("No fee data available");
+    if (!(maxFeePerGas && maxPriorityFeePerGas)) throw new Error("No fee data available");
 
     const price = gasPrice as bigint;
     return {

@@ -7,7 +7,11 @@ export {
 export { Secp256k1Signature } from "@cosmjs/crypto";
 export { fromBase64 } from "@cosmjs/encoding";
 export { Int53 } from "@cosmjs/math";
-export { encodePubkey, makeAuthInfoBytes, type TxBodyEncodeObject } from "@cosmjs/proto-signing";
+export {
+  encodePubkey,
+  makeAuthInfoBytes,
+  type TxBodyEncodeObject,
+} from "@cosmjs/proto-signing";
 export { GasPrice } from "@cosmjs/stargate";
 export { base64, bech32 } from "@scure/base";
 export { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing.js";
@@ -24,6 +28,10 @@ export { BinanceToolbox } from "./toolbox/binance.ts";
 export { GaiaToolbox } from "./toolbox/gaia.ts";
 export { getToolboxByChain } from "./toolbox/getToolboxByChain.ts";
 export { KujiraToolbox } from "./toolbox/kujira.ts";
-export { MayaToolbox, ThorchainToolbox, verifySignature } from "./toolbox/thorchain.ts";
+export {
+  MayaToolbox,
+  ThorchainToolbox,
+  verifySignature,
+} from "./toolbox/thorchain.ts";
 export * from "./types.ts";
 export * from "./util.ts";

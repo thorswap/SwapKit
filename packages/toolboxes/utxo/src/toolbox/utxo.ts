@@ -37,7 +37,7 @@ const createKeysForPath = async ({
   derivationPath: string;
   chain: Chain;
 }) => {
-  if (!wif && !phrase) throw new Error("Either phrase or wif must be provided");
+  if (!(wif || phrase)) throw new Error("Either phrase or wif must be provided");
 
   const tinySecp = await import("tiny-secp256k1");
   const factory = ECPairFactory(tinySecp);
@@ -56,7 +56,7 @@ const validateAddress = ({ address, chain }: { address: string } & UTXOBaseToolb
   try {
     btcLibAddress.toOutputScript(address, getNetwork(chain));
     return true;
-  } catch (error) {
+  } catch (_error) {
     return false;
   }
 };
@@ -168,6 +168,7 @@ const buildTx = async ({
   psbt: Psbt;
   utxos: UTXOType[];
   inputs: UTXOType[];
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
 }> => {
   const compiledMemo = memo ? compileMemo(memo) : null;
 
@@ -184,7 +185,7 @@ const buildTx = async ({
   const { inputs, outputs } = accumulative({ ...inputsAndOutputs, feeRate, chain });
 
   // .inputs and .outputs will be undefined if no solution was found
-  if (!inputs || !outputs) throw new Error("Insufficient Balance for transaction");
+  if (!(inputs && outputs)) throw new Error("Insufficient Balance for transaction");
   const psbt = new Psbt({ network: getNetwork(chain) }); // Network-specific
 
   if (chain === Chain.Dogecoin) psbt.setMaximumFeeRate(650000000);

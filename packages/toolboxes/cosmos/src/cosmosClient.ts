@@ -43,7 +43,7 @@ export class CosmosClient {
     try {
       const { normalizeBech32 } = await import("@cosmjs/encoding");
       return normalizeBech32(address) === address.toLocaleLowerCase();
-    } catch (err) {
+    } catch (_error) {
       return false;
     }
   };

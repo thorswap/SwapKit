@@ -5,9 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  axios: ^1.6.2
+  axios: ^1.6.7
   json5@<=1.0.1: ^1.0.2
-  semver@<=4.3.2: ^7.5.4
+  semver@<=4.3.2: ^7.6.0
 
 patchedDependencies:
   '@changesets/assemble-release-plan@6.0.0':
@@ -42,6 +42,15 @@ importers:
       '@turbo/gen':
         specifier: 1.12.4
         version: 1.12.4(@types/node@20.11.19)(typescript@5.3.3)
+      '@types/node':
+        specifier: 20.11.19
+        version: 20.11.19
+      '@types/react':
+        specifier: 18.2.57
+        version: 18.2.57
+      '@types/react-dom':
+        specifier: 18.2.19
+        version: 18.2.19
       dotenv-cli:
         specifier: 7.3.0
         version: 7.3.0
@@ -71,7 +80,7 @@ importers:
     dependencies:
       '@radix-ui/react-slot':
         specifier: 1.0.2
-        version: 1.0.2(@types/react@18.2.56)(react@18.2.0)
+        version: 1.0.2(@types/react@18.2.57)(react@18.2.0)
       class-variance-authority:
         specifier: 0.7.0
         version: 0.7.0
@@ -103,15 +112,6 @@ importers:
         specifier: 1.0.6
         version: 1.0.6(tailwindcss@3.3.2)
     devDependencies:
-      '@types/node':
-        specifier: 20.11.19
-        version: 20.11.19
-      '@types/react':
-        specifier: 18.2.56
-        version: 18.2.56
-      '@types/react-dom':
-        specifier: 18.2.19
-        version: 18.2.19
       autoprefixer:
         specifier: 10.4.14
         version: 10.4.14(postcss@8.4.35)
@@ -220,12 +220,6 @@ importers:
         specifier: 0.11.3
         version: 0.11.3
     devDependencies:
-      '@types/react':
-        specifier: 18.2.56
-        version: 18.2.56
-      '@types/react-dom':
-        specifier: 18.2.19
-        version: 18.2.19
       '@vitejs/plugin-react':
         specifier: 4.2.1
         version: 4.2.1(vite@5.1.3)
@@ -471,9 +465,6 @@ importers:
       '@internal/tools-vite':
         specifier: workspace:*
         version: link:../../../tools/vite
-      '@types/node':
-        specifier: 20.11.19
-        version: 20.11.19
       vite:
         specifier: 5.1.3
         version: 5.1.3(@types/node@20.11.19)
@@ -547,15 +538,9 @@ importers:
       '@types/elliptic':
         specifier: 6.4.18
         version: 6.4.18
-      '@types/long':
-        specifier: 5.0.0
-        version: 5.0.0
-      '@types/node':
-        specifier: 20.11.19
-        version: 20.11.19
       '@types/tiny-secp256k1':
-        specifier: 2.0.1
-        version: 2.0.1
+        specifier: 1.0.0
+        version: 1.0.0
       '@vitest/coverage-istanbul':
         specifier: 1.3.0
         version: 1.3.0(vitest@1.3.0)
@@ -593,9 +578,6 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../../swapkit/types
-      '@types/node':
-        specifier: 20.11.19
-        version: 20.11.19
       '@vitest/coverage-istanbul':
         specifier: 1.3.0
         version: 1.3.0(vitest@1.3.0)
@@ -694,12 +676,9 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../../swapkit/types
-      '@types/node':
-        specifier: 20.11.19
-        version: 20.11.19
       '@types/tiny-secp256k1':
-        specifier: 2.0.1
-        version: 2.0.1
+        specifier: 1.0.0
+        version: 1.0.0
       '@vitest/coverage-istanbul':
         specifier: 1.3.0
         version: 1.3.0(vitest@1.3.0)
@@ -843,12 +822,6 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../../swapkit/types
-      '@types/long':
-        specifier: 5.0.0
-        version: 5.0.0
-      '@types/uuid':
-        specifier: 9.0.8
-        version: 9.0.8
       '@vitest/coverage-istanbul':
         specifier: 1.3.0
         version: 1.3.0(vitest@1.3.0)
@@ -997,7 +970,7 @@ importers:
     dependencies:
       '@walletconnect/modal-sign-html':
         specifier: 2.6.2
-        version: 2.6.2(react@18.2.0)
+        version: 2.6.2(@types/react@18.2.57)(react@18.2.0)
     devDependencies:
       '@internal/tools-typescript':
         specifier: workspace:*
@@ -1539,7 +1512,7 @@ packages:
     dependencies:
       '@polkadot/util': 12.6.2
       '@polkadot/util-crypto': 12.6.2(@polkadot/util@12.6.2)
-      axios: 1.6.5
+      axios: 1.6.7
       ethers: 6.10.0
     transitivePeerDependencies:
       - bufferutil
@@ -1858,7 +1831,7 @@ packages:
       '@cosmjs/socket': 0.32.2
       '@cosmjs/stream': 0.32.2
       '@cosmjs/utils': 0.32.2
-      axios: 1.6.5
+      axios: 1.6.7
       readonly-date: 1.0.0
       xstream: 11.14.0
     transitivePeerDependencies:
@@ -4384,7 +4357,7 @@ packages:
       '@psf/bitcoincash-ops': 2.0.0
     dev: false
 
-  /@radix-ui/react-compose-refs@1.0.1(@types/react@18.2.56)(react@18.2.0):
+  /@radix-ui/react-compose-refs@1.0.1(@types/react@18.2.57)(react@18.2.0):
     resolution: {integrity: sha512-fDSBgd44FKHa1FRMU59qBMPFcl2PZE+2nmqunj+BWFyYYjnhIDWL2ItDs3rrbJDQOtzt5nIebLCQc4QRfz6LJw==}
     peerDependencies:
       '@types/react': '*'
@@ -4394,11 +4367,11 @@ packages:
         optional: true
     dependencies:
       '@babel/runtime': 7.23.9
-      '@types/react': 18.2.56
+      '@types/react': 18.2.57
       react: 18.2.0
     dev: false
 
-  /@radix-ui/react-slot@1.0.2(@types/react@18.2.56)(react@18.2.0):
+  /@radix-ui/react-slot@1.0.2(@types/react@18.2.57)(react@18.2.0):
     resolution: {integrity: sha512-YeTpuq4deV+6DusvVUW4ivBgnkHwECUu0BiN43L5UCDFgdhsRUWAghhTF5MbvNTPzmiFOx90asDSUjWuCNapwg==}
     peerDependencies:
       '@types/react': '*'
@@ -4408,24 +4381,10 @@ packages:
         optional: true
     dependencies:
       '@babel/runtime': 7.23.9
-      '@radix-ui/react-compose-refs': 1.0.1(@types/react@18.2.56)(react@18.2.0)
-      '@types/react': 18.2.56
+      '@radix-ui/react-compose-refs': 1.0.1(@types/react@18.2.57)(react@18.2.0)
+      '@types/react': 18.2.57
       react: 18.2.0
     dev: false
-
-  /@rollup/plugin-inject@5.0.5:
-    resolution: {integrity: sha512-2+DEJbNBoPROPkgTDNe8/1YXWcqxbN5DTjASVIOx8HS+pITXushyNiBV56RB08zuptzz8gT3YfkqriTBVycepg==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@rollup/pluginutils': 5.1.0
-      estree-walker: 2.0.2
-      magic-string: 0.30.7
-    dev: true
 
   /@rollup/plugin-inject@5.0.5(rollup@4.12.0):
     resolution: {integrity: sha512-2+DEJbNBoPROPkgTDNe8/1YXWcqxbN5DTjASVIOx8HS+pITXushyNiBV56RB08zuptzz8gT3YfkqriTBVycepg==}
@@ -4440,7 +4399,6 @@ packages:
       estree-walker: 2.0.2
       magic-string: 0.30.5
       rollup: 4.12.0
-    dev: false
 
   /@rollup/plugin-node-resolve@15.2.3:
     resolution: {integrity: sha512-j/lym8nf5E21LwBT4Df1VD6hRO2L2iwUeUmP7litikRsVp1H6NWx20NEp0Y7su+7XGc476GnXXc4kFeZNGmaSQ==}
@@ -4486,7 +4444,6 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
       rollup: 4.12.0
-    dev: false
 
   /@rollup/pluginutils@5.1.0:
     resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
@@ -5392,13 +5349,6 @@ packages:
     resolution: {integrity: sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA==}
     dev: false
 
-  /@types/long@5.0.0:
-    resolution: {integrity: sha512-eQs9RsucA/LNjnMoJvWG/nXa7Pot/RbBzilF/QRIU/xRl+0ApxrSUFsV5lmf01SvSlqMzJ7Zwxe440wmz2SJGA==}
-    deprecated: This is a stub types definition. long provides its own type definitions, so you do not need this installed.
-    dependencies:
-      long: 5.2.3
-    dev: true
-
   /@types/lru-cache@5.1.1:
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
     dev: true
@@ -5466,11 +5416,11 @@ packages:
   /@types/react-dom@18.2.19:
     resolution: {integrity: sha512-aZvQL6uUbIJpjZk4U8JZGbau9KDeAwMfmhyWorxgBkqDIEf6ROjRozcmPIicqsUwPUjbkDfHKgGee1Lq65APcA==}
     dependencies:
-      '@types/react': 18.2.56
+      '@types/react': 18.2.57
     dev: true
 
-  /@types/react@18.2.56:
-    resolution: {integrity: sha512-NpwHDMkS/EFZF2dONFQHgkPRwhvgq/OAvIaGQzxGSBmaeR++kTg6njr15Vatz0/2VcCEwJQFi6Jf4Q0qBu0rLA==}
+  /@types/react@18.2.57:
+    resolution: {integrity: sha512-ZvQsktJgSYrQiMirAN60y4O/LRevIV8hUzSOSNB6gfR3/o3wCBFQx3sPwIYtuDMeiVgsSS3UzCV26tEzgnfvQw==}
     dependencies:
       '@types/prop-types': 15.7.11
       '@types/scheduler': 0.16.8
@@ -5512,11 +5462,10 @@ packages:
       '@types/node': 20.11.19
     dev: true
 
-  /@types/tiny-secp256k1@2.0.1:
-    resolution: {integrity: sha512-3UmSOVZR8nqCk50r/ODnT58+FutNzf1NpJHSW69Lc33ZDvOVciKHYOcBN/BXPzYWzWvM0GvHVnxv6HNHxOKXbg==}
-    deprecated: This is a stub types definition. tiny-secp256k1 provides its own type definitions, so you do not need this installed.
+  /@types/tiny-secp256k1@1.0.0:
+    resolution: {integrity: sha512-IW3dFGNyVkVLC1MCMogVWQaKH/ZtjPQdOW9c3X128o5lVpFYNsq/l3Qo1pV7sfTmvDzWEXR3QTxg1TMy1pyaAQ==}
     dependencies:
-      tiny-secp256k1: 1.1.6
+      '@types/node': 20.11.19
     dev: true
 
   /@types/tinycolor2@1.4.6:
@@ -5526,10 +5475,6 @@ packages:
   /@types/trusted-types@2.0.3:
     resolution: {integrity: sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g==}
     dev: false
-
-  /@types/uuid@9.0.8:
-    resolution: {integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==}
-    dev: true
 
   /@types/w3c-web-usb@1.0.10:
     resolution: {integrity: sha512-CHgUI5kTc/QLMP8hODUHhge0D4vx+9UiAwIGiT0sTy/B2XpdX1U5rJt6JSISgr6ikRT7vxV9EVAFeYZqUnl1gQ==}
@@ -5801,19 +5746,19 @@ packages:
       pino: 7.11.0
       tslib: 1.14.1
 
-  /@walletconnect/modal-core@2.6.2(react@18.2.0):
+  /@walletconnect/modal-core@2.6.2(@types/react@18.2.57)(react@18.2.0):
     resolution: {integrity: sha512-cv8ibvdOJQv2B+nyxP9IIFdxvQznMz8OOr/oR/AaUZym4hjXNL/l1a2UlSQBXrVjo3xxbouMxLb3kBsHoYP2CA==}
     dependencies:
-      valtio: 1.11.2(react@18.2.0)
+      valtio: 1.11.2(@types/react@18.2.57)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - react
     dev: false
 
-  /@walletconnect/modal-sign-html@2.6.2(react@18.2.0):
+  /@walletconnect/modal-sign-html@2.6.2(@types/react@18.2.57)(react@18.2.0):
     resolution: {integrity: sha512-p9VhWTikRfUIdUUrOsHj0vRFx0FmI6qraE6kVqxOeLwO9OoLQ6xpIRYpYwPrmASMaXRKFbLul1R3F1MKpBPvcA==}
     dependencies:
-      '@walletconnect/modal': 2.6.2(react@18.2.0)
+      '@walletconnect/modal': 2.6.2(@types/react@18.2.57)(react@18.2.0)
       '@walletconnect/sign-client': 2.10.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -5835,10 +5780,10 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@walletconnect/modal-ui@2.6.2(react@18.2.0):
+  /@walletconnect/modal-ui@2.6.2(@types/react@18.2.57)(react@18.2.0):
     resolution: {integrity: sha512-rbdstM1HPGvr7jprQkyPggX7rP4XiCG85ZA+zWBEX0dVQg8PpAgRUqpeub4xQKDgY7pY/xLRXSiCVdWGqvG2HA==}
     dependencies:
-      '@walletconnect/modal-core': 2.6.2(react@18.2.0)
+      '@walletconnect/modal-core': 2.6.2(@types/react@18.2.57)(react@18.2.0)
       lit: 2.8.0
       motion: 10.16.2
       qrcode: 1.5.3
@@ -5847,11 +5792,11 @@ packages:
       - react
     dev: false
 
-  /@walletconnect/modal@2.6.2(react@18.2.0):
+  /@walletconnect/modal@2.6.2(@types/react@18.2.57)(react@18.2.0):
     resolution: {integrity: sha512-eFopgKi8AjKf/0U4SemvcYw9zlLpx9njVN8sf6DAkowC2Md0gPU/UNEbH1Wwj407pEKnEds98pKWib1NN1ACoA==}
     dependencies:
-      '@walletconnect/modal-core': 2.6.2(react@18.2.0)
-      '@walletconnect/modal-ui': 2.6.2(react@18.2.0)
+      '@walletconnect/modal-core': 2.6.2(@types/react@18.2.57)(react@18.2.0)
+      '@walletconnect/modal-ui': 2.6.2(@types/react@18.2.57)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - react
@@ -6336,16 +6281,6 @@ packages:
     resolution: {integrity: sha512-j1QzY8iPNPG4o4xmO3ptzpRxTciqD3MgEHtifP/YnJpIo58Xu+ne4BejlbkuaLfXn/nz6HFiw29bLpj2PNMdGg==}
     engines: {node: '>= 0.4'}
 
-  /axios@1.6.5:
-    resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
-    dependencies:
-      follow-redirects: 1.15.5(debug@4.3.4)
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   /axios@1.6.7:
     resolution: {integrity: sha512-/hDJGff6/c7u0hDkvkGxR/oy6CbCs8ziCsC7SqmhjfozqiJGc8Z11wrv9z9lYfY4K8l+H9TpjcMDX0xOZmx+RA==}
     dependencies:
@@ -6442,6 +6377,7 @@ packages:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
     dependencies:
       file-uri-to-path: 1.0.0
+    dev: false
 
   /bip174@2.1.0:
     resolution: {integrity: sha512-lkc0XyiX9E9KiVAS1ZiOqK1xfiwvf4FXDDdkDq5crcDzOq+xGytY+14qCsqz7kCiy8rpN1CRNfacRhf9G3JNSA==}
@@ -8287,6 +8223,7 @@ packages:
 
   /file-uri-to-path@1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    dev: false
 
   /fill-range@7.0.1:
     resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}
@@ -10014,6 +9951,7 @@ packages:
 
   /long@5.2.3:
     resolution: {integrity: sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==}
+    dev: false
 
   /loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
@@ -10087,7 +10025,6 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
-    dev: false
 
   /magic-string@0.30.7:
     resolution: {integrity: sha512-8vBuFF/I/+OSLRmdf2wwFCJCz+nSn0m6DPvGH1fS/KiQoSaR+sETbov0eIk9KhEKy8CYqIkIAnbohxT/4H0kuA==}
@@ -10368,6 +10305,7 @@ packages:
 
   /nan@2.17.0:
     resolution: {integrity: sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==}
+    dev: false
 
   /nanoid@3.3.7:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
@@ -10594,7 +10532,7 @@ packages:
     dependencies:
       hosted-git-info: 2.8.9
       resolve: 1.22.8
-      semver: 7.5.4
+      semver: 7.6.0
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -12743,6 +12681,7 @@ packages:
       create-hmac: 1.1.7
       elliptic: 6.5.4
       nan: 2.17.0
+    dev: false
 
   /tinybench@2.6.0:
     resolution: {integrity: sha512-N8hW3PG/3aOoZAN5V/NSAEDz0ZixDSSt5b/a05iqtpgfLWMSVuCo7w0k2vVvEjdrIoeGqZzweX2WlyioNIHchA==}
@@ -13351,7 +13290,7 @@ packages:
     engines: {node: '>= 0.10'}
     dev: true
 
-  /valtio@1.11.2(react@18.2.0):
+  /valtio@1.11.2(@types/react@18.2.57)(react@18.2.0):
     resolution: {integrity: sha512-1XfIxnUXzyswPAPXo1P3Pdx2mq/pIqZICkWN60Hby0d9Iqb+MEIpqgYVlbflvHdrp2YR/q3jyKWRPJJ100yxaw==}
     engines: {node: '>=12.20.0'}
     peerDependencies:
@@ -13363,6 +13302,7 @@ packages:
       react:
         optional: true
     dependencies:
+      '@types/react': 18.2.57
       proxy-compare: 2.5.1
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
@@ -13428,7 +13368,7 @@ packages:
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
     dependencies:
-      '@rollup/plugin-inject': 5.0.5
+      '@rollup/plugin-inject': 5.0.5(rollup@4.12.0)
       buffer-polyfill: /buffer@6.0.3
       node-stdlib-browser: 1.2.0
       process: 0.11.10

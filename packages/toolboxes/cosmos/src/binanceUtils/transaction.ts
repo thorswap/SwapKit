@@ -68,8 +68,8 @@ export class BNBTransaction {
   public source: NonNullable<StdSignMsg["source"]>;
   public signatures: StdSignature[];
 
-  constructor(data: StdSignMsg) {
-    data = data || {};
+  constructor(initData: StdSignMsg) {
+    const data = initData || {};
     if (!data.chainId) {
       throw new Error("chain id should not be null");
     }
@@ -89,8 +89,8 @@ export class BNBTransaction {
    * @param {SignMsg} concrete msg object
    * @return {Buffer}
    **/
-  getSignBytes(msg?: {}): Buffer {
-    msg = msg || this.baseMsg?.getSignMsg?.();
+  getSignBytes(initMsg?: any): Buffer {
+    const msg = initMsg || this.baseMsg?.getSignMsg?.();
     const signMsg = {
       account_number: this.accountNumber.toString(),
       chain_id: this.chainId,
@@ -128,7 +128,7 @@ export class BNBTransaction {
    * @param {SignMsg} concrete msg object
    * @return {Transaction}
    **/
-  sign = async (privateKey: string, msg?: {}) => {
+  sign = async (privateKey: string, msg?: any) => {
     if (!privateKey) {
       throw new Error("private key should not be null");
     }

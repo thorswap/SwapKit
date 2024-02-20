@@ -6,6 +6,9 @@
     "@changesets/cli": "2.27.1",
     "@size-limit/file": "11.0.2",
     "@turbo/gen": "1.12.4",
+    "@types/node": "20.11.19",
+    "@types/react": "18.2.57",
+    "@types/react-dom": "18.2.19",
     "dotenv-cli": "7.3.0",
     "lefthook": "1.6.1",
     "lint-staged": "15.2.2",
@@ -22,9 +25,9 @@
   "packageManager": "^pnpm@8.14.1",
   "pnpm": {
     "overrides": {
-      "axios": "^1.6.2",
+      "axios": "^1.6.7",
       "json5@<=1.0.1": "^1.0.2",
-      "semver@<=4.3.2": "^7.5.4"
+      "semver@<=4.3.2": "^7.6.0"
     },
     "patchedDependencies": {
       "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",

@@ -57,7 +57,7 @@ function isValidAddress(input: any) {
   try {
     decodeAddress(input);
     return true;
-  } catch (error) {
+  } catch (_error) {
     return false;
   }
 }
@@ -82,12 +82,12 @@ function toCashAddress(address: string): string {
 function decodeAddress(address: string) {
   try {
     return decodeBase58Address(address);
-  } catch (error) {
+  } catch (_error) {
     // Try to decode as cashaddr if base58 decoding fails.
   }
   try {
     return decodeCashAddress(address);
-  } catch (error) {
+  } catch (_error) {
     // Try to decode as bitpay if cashaddr decoding fails.
   }
   throw new InvalidAddressError();
@@ -124,7 +124,7 @@ function decodeBase58Address(address: string) {
       default:
         throw new InvalidAddressError();
     }
-  } catch (error) {
+  } catch (_error) {
     throw new InvalidAddressError();
   }
 }
@@ -133,15 +133,15 @@ function decodeCashAddress(address: string) {
   if (address.indexOf(":") !== -1) {
     try {
       return decodeCashAddressWithPrefix(address);
-    } catch (error) {
+    } catch (_error) {
       // Try to decode as legacy if cashaddr decoding fails.
     }
   } else {
     const prefixes = ["bitcoincash", "bchtest", "bchreg"];
     for (const prefix of prefixes) {
       try {
-        return decodeCashAddressWithPrefix(prefix + ":" + address);
-      } catch (error) {
+        return decodeCashAddressWithPrefix(`${prefix}:${address}`);
+      } catch (_error) {
         // Try next prefix if decoding fails.
       }
     }
@@ -160,7 +160,7 @@ function decodeCashAddressWithPrefix(address: string): DecodedType {
       network: prefix === "bitcoincash" ? Network.Mainnet : Network.Testnet,
       type: type === "P2PKH" ? Type.P2PKH : Type.P2SH,
     };
-  } catch (error) {
+  } catch (_error) {
     throw new InvalidAddressError();
   }
 }

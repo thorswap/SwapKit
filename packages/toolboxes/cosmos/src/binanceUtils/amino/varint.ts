@@ -1,7 +1,9 @@
 import { BN } from "bn.js";
 
 function VarIntFunc(signed: boolean) {
-  const encodingLength = (n: number) => {
+  const encodingLength = (initN: number) => {
+    let n = initN;
+
     if (signed) n *= 2;
     if (n < 0) {
       throw Error("varint value is out of bounds");
@@ -10,13 +12,13 @@ function VarIntFunc(signed: boolean) {
     return Math.ceil(bits / 7) || 1;
   };
 
-  const encode = (n: number, buffer?: Buffer | any, offset?: number) => {
+  const encode = (n: number, initBuffer?: Buffer | any, initOffset?: number) => {
     if (n < 0) {
       throw Error("varint value is out of bounds");
     }
 
-    buffer = buffer || Buffer.alloc(encodingLength(n));
-    offset = offset || 0;
+    const buffer = initBuffer || Buffer.alloc(encodingLength(n));
+    const offset = initOffset || 0;
     const nStr = n.toString();
     // TODO: rewrite to SwapKitNumber to avoid bn.js
     let bn = new BN(nStr, 10);

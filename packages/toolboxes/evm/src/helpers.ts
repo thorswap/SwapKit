@@ -74,6 +74,7 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
     const method = toolbox[methodName];
 
     return {
+      // biome-ignore lint/performance/noAccumulatingSpread: This is a valid use case
       ...object,
       [methodName]: wrapMethodWithNetworkSwitch<typeof method>(method, provider, chainId),
     };
@@ -96,7 +97,7 @@ export const wrapMethodWithNetworkSwitch = <T extends (...args: any[]) => any>(
     return func(...args);
   }) as unknown as T;
 
-const providerRequest = async ({ provider, params, method }: ProviderRequestParams) => {
+const providerRequest = ({ provider, params, method }: ProviderRequestParams) => {
   if (!provider?.send) throw new Error("Provider not found");
 
   const providerParams = params ? (Array.isArray(params) ? params : [params]) : [];
@@ -214,14 +215,15 @@ export const estimateMaxSendableAmount = async ({
   const isFeeEIP1559Compatible = "maxFeePerGas" in fees;
   const isFeeEVMLegacyCompatible = "gasPrice" in fees;
 
-  if (!isFeeEVMLegacyCompatible && !isFeeEIP1559Compatible)
+  if (!(isFeeEVMLegacyCompatible || isFeeEIP1559Compatible)) {
     throw new Error("Could not fetch fee data");
+  }
 
   const fee =
     gasLimit *
     (isFeeEIP1559Compatible
-      ? fees.maxFeePerGas! + (fees.maxPriorityFeePerGas! || 1n)
-      : fees.gasPrice!);
+      ? (fees.maxFeePerGas || 1n) + (fees.maxPriorityFeePerGas || 1n)
+      : fees.gasPrice);
   const maxSendableAmount = SwapKitNumber.fromBigInt(balance.getBaseValue("bigint")).sub(
     fee.toString(),
   );

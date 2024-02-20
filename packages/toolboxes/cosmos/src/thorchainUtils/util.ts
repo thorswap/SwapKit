@@ -122,11 +122,11 @@ export const checkBalances = async (
     if (runeBalance.lt(assetValue.add(fees.average))) {
       throw new Error("insufficient funds");
     }
-  } else {
-    // amount < assetBalances && runeBalance < fee
-    if (assetBalance.lt(assetValue) || runeBalance.lt(fees.average)) {
-      throw new Error("insufficient funds");
-    }
+  }
+
+  // amount < assetBalances && runeBalance < fee
+  if (assetBalance.lt(assetValue) || runeBalance.lt(fees.average)) {
+    throw new Error("insufficient funds");
   }
 };
 

@@ -86,7 +86,7 @@ const buildBCHTx: BCHMethods["buildBCHTx"] = async ({
   });
 
   // .inputs and .outputs will be undefined if no solution was found
-  if (!inputs || !outputs) throw new Error("Balance insufficient for transaction");
+  if (!(inputs && outputs)) throw new Error("Balance insufficient for transaction");
 
   const builder = new TransactionBuilder(getNetwork(chain));
 
@@ -158,6 +158,7 @@ const buildTx = async ({
   feeRate,
   sender,
   apiClient,
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
 }: UTXOBuildTxParams & { apiClient: BlockchairApiType }) => {
   const recipientCashAddress = toCashAddress(recipient);
   if (!validateAddress(recipientCashAddress)) throw new Error("Invalid address");
@@ -191,7 +192,7 @@ const buildTx = async ({
   });
 
   // .inputs and .outputs will be undefined if no solution was found
-  if (!inputs || !outputs) throw new Error("Balance insufficient for transaction");
+  if (!(inputs && outputs)) throw new Error("Balance insufficient for transaction");
   const psbt = new Psbt({ network: getNetwork(chain) }); // Network-specific
 
   for (const { hash, index, witnessUtxo } of inputs) {

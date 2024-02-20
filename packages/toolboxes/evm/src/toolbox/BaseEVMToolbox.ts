@@ -61,7 +61,7 @@ const validateAddress = (address: string) => {
   try {
     getAddress(address);
     return true;
-  } catch (error) {
+  } catch (_error) {
     return false;
   }
 };
@@ -275,40 +275,28 @@ const estimateGasPrices = async (provider: Provider, isEIP1559Compatible = true)
   try {
     const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await provider.getFeeData();
 
-    switch (isEIP1559Compatible) {
-      case true:
-        if (!maxFeePerGas || !maxPriorityFeePerGas) throw new Error("No fee data available");
+    if (isEIP1559Compatible) {
+      if (!(maxFeePerGas && maxPriorityFeePerGas)) throw new Error("No fee data available");
 
-        return {
-          [FeeOption.Average]: {
-            maxFeePerGas,
-            maxPriorityFeePerGas,
-          },
-          [FeeOption.Fast]: {
-            maxFeePerGas: (maxFeePerGas * 15n) / 10n,
-            maxPriorityFeePerGas: (maxPriorityFeePerGas * 15n) / 10n,
-          },
-          [FeeOption.Fastest]: {
-            maxFeePerGas: maxFeePerGas * 2n,
-            maxPriorityFeePerGas: maxPriorityFeePerGas * 2n,
-          },
-        };
-
-      case false:
-        if (!gasPrice) throw new Error("No fee data available");
-
-        return {
-          [FeeOption.Average]: {
-            gasPrice,
-          },
-          [FeeOption.Fast]: {
-            gasPrice: (gasPrice * 15n) / 10n,
-          },
-          [FeeOption.Fastest]: {
-            gasPrice: gasPrice * 2n,
-          },
-        };
+      return {
+        [FeeOption.Average]: { maxFeePerGas, maxPriorityFeePerGas },
+        [FeeOption.Fast]: {
+          maxFeePerGas: (maxFeePerGas * 15n) / 10n,
+          maxPriorityFeePerGas: (maxPriorityFeePerGas * 15n) / 10n,
+        },
+        [FeeOption.Fastest]: {
+          maxFeePerGas: maxFeePerGas * 2n,
+          maxPriorityFeePerGas: maxPriorityFeePerGas * 2n,
+        },
+      };
     }
+    if (!gasPrice) throw new Error("No fee data available");
+
+    return {
+      [FeeOption.Average]: { gasPrice },
+      [FeeOption.Fast]: { gasPrice: (gasPrice * 15n) / 10n },
+      [FeeOption.Fastest]: { gasPrice: gasPrice * 2n },
+    };
   } catch (error) {
     throw new Error(
       `Failed to estimate gas price: ${(error as any).msg ?? (error as any).toString()}`,
@@ -373,14 +361,14 @@ const estimateGasLimit = async (
       txOverrides,
       signer,
     });
-  } else {
-    return provider.estimateGas({
-      from,
-      to: recipient,
-      value,
-      data: memo ? hexlify(toUtf8Bytes(memo)) : undefined,
-    });
   }
+
+  return provider.estimateGas({
+    from,
+    to: recipient,
+    value,
+    data: memo ? hexlify(toUtf8Bytes(memo)) : undefined,
+  });
 };
 
 const sendTransaction = async (
@@ -389,6 +377,7 @@ const sendTransaction = async (
   feeOptionKey: FeeOption = FeeOption.Fast,
   signer?: Signer,
   isEIP1559Compatible = true,
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
 ) => {
   if (!signer) throw new Error("Signer is not defined");
   const { from, to, data, value, ...transaction } = tx;
@@ -415,12 +404,15 @@ const sendTransaction = async (
 
   const feeData =
     (isEIP1559 &&
-      (!(parsedTxObject as EIP1559TxParams).maxFeePerGas ||
-        !(parsedTxObject as EIP1559TxParams).maxPriorityFeePerGas)) ||
+      !(
+        (parsedTxObject as EIP1559TxParams).maxFeePerGas &&
+        (parsedTxObject as EIP1559TxParams).maxPriorityFeePerGas
+      )) ||
     !(parsedTxObject as LegacyEVMTxParams).gasPrice
       ? Object.entries(
           (await estimateGasPrices(provider, isEIP1559Compatible))[feeOptionKey],
         ).reduce(
+          // biome-ignore lint/performance/noAccumulatingSpread: this is a small object
           (acc, [k, v]) => ({ ...acc, [k]: toHexString(BigInt(v)) }),
           {} as {
             maxFeePerGas?: string;
@@ -451,7 +443,7 @@ const sendTransaction = async (
     try {
       const response = await signer.sendTransaction(txObject);
       return typeof response?.hash === "string" ? response.hash : response;
-    } catch (error) {
+    } catch (_error) {
       const txHex = await signer.signTransaction({
         ...txObject,
         from: address,
@@ -469,7 +461,7 @@ const sendTransaction = async (
  */
 export const toChecksumAddress = (address: string) => getAddress(address);
 
-export const EIP1193SendTransaction = async (
+export const EIP1193SendTransaction = (
   provider: Provider | BrowserProvider,
   { from, to, data, value }: EVMTxParams | ContractTransaction,
 ): Promise<string> => {
@@ -500,7 +492,7 @@ export const getTokenAddress = ({ chain, symbol, ticker }: Asset, baseAssetChain
 
     // strip 0X only - 0x is still valid
     return getAddress(symbol.slice(ticker.length + 1).replace(/^0X/, ""));
-  } catch (err) {
+  } catch (_error) {
     return null;
   }
 };
@@ -514,11 +506,16 @@ export const getFeeForTransaction = async (
   const gasPrices = (await estimateGasPrices(provider, isEIP1559Compatible))[feeOption];
   const gasLimit = await provider.estimateGas(txObject);
 
-  if (!isEIP1559Compatible) {
-    return gasPrices.gasPrice! * gasLimit;
+  if (!isEIP1559Compatible && gasPrices.gasPrice) {
+    return gasPrices.gasPrice * gasLimit;
   }
 
-  return (gasPrices.maxFeePerGas! + gasPrices.maxPriorityFeePerGas!) * gasLimit;
+  if (gasPrices.maxFeePerGas && gasPrices.maxPriorityFeePerGas) {
+    return (gasPrices.maxFeePerGas + gasPrices.maxPriorityFeePerGas) * gasLimit;
+  }
+
+  // TODO:
+  throw new Error("No gas price found");
 };
 
 export const BaseEVMToolbox = ({

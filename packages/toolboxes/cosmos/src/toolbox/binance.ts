@@ -33,7 +33,12 @@ const getBalance = async (address: string) => {
 
   return balances.map(
     ({ symbol, free }) =>
-      new AssetValue({ chain: Chain.Binance, symbol: symbol, value: free, decimal: 8 }),
+      new AssetValue({
+        chain: Chain.Binance,
+        symbol: symbol,
+        value: free,
+        decimal: 8,
+      }),
   );
 };
 
@@ -84,10 +89,12 @@ const sendRawTransaction = (signedBz: string, sync = true) =>
 const prepareTransaction = async (
   msg: any,
   address: string,
-  sequence: string | number | null = null,
+  initSequence: string | number | null = null,
   memo = "",
 ) => {
   const account = await getAccount(address);
+  let sequence = initSequence || 0;
+
   if (sequence !== 0 && !sequence && address) {
     sequence = account.sequence;
   }
@@ -97,7 +104,7 @@ const prepareTransaction = async (
     chainId: ChainId.Binance,
     memo: memo,
     msg,
-    sequence: typeof sequence !== "number" ? parseInt(sequence!) : sequence,
+    sequence: typeof sequence !== "number" ? parseInt(sequence) : sequence,
     source: 0,
   });
 };

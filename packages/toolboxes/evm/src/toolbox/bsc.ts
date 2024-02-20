@@ -46,6 +46,7 @@ export const BSCToolbox = ({
       funcParams = [],
       txOverrides,
     }: WithSigner<CallParams>,
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
   ): Promise<T> => {
     const contractProvider = callProvider || provider;
     if (!contractAddress) throw new Error("contractAddress must be provided");

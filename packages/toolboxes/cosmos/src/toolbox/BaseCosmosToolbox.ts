@@ -19,7 +19,7 @@ export const getFeeRateFromThorswap = async (chainId: ChainId) => {
 };
 
 // TODO: figure out some better way to initialize from base value
-export const getAssetFromDenom = async (denom: string, amount: string) => {
+export const getAssetFromDenom = (denom: string, amount: string) => {
   switch (denom) {
     case "rune":
       return AssetValue.fromChainOrSignature(Chain.THORChain, parseInt(amount) / 1e8);

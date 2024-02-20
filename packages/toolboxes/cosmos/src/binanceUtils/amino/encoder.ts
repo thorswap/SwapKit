@@ -20,9 +20,10 @@ export const sortObject = (obj: any): any => {
   if (Array.isArray(obj)) return obj.map(sortObject);
   const sortedKeys = Object.keys(obj).sort();
   const result: any = {};
-  sortedKeys.forEach((key) => {
+
+  for (const key of sortedKeys) {
     result[key] = sortObject(obj[key]);
-  });
+  }
   return result;
 };
 
@@ -196,16 +197,16 @@ export const encodeArrayBinary = (
 ) => {
   const result: any[] = [];
 
-  arr.forEach((item) => {
+  for (const item of arr) {
     result.push(encodeTypeAndField(fieldNum, item));
 
     if (isDefaultValue(item)) {
       result.push(Buffer.from("00", "hex"));
-      return;
+      continue;
     }
 
     result.push(encodeBinary(item, fieldNum, true));
-  });
+  }
 
   //encode length
   if (isByteLenPrefix) {
@@ -218,8 +219,8 @@ export const encodeArrayBinary = (
 
 // Write field key.
 const encodeTypeAndField = (index: number | undefined, field: any) => {
-  index = Number(index);
-  const value = ((index + 1) << 3) | encoderHelper(field);
+  const newIndex = Number(index) + 1;
+  const value = (newIndex << 3) | encoderHelper(field);
   return UVarInt.encode(value);
 };
 

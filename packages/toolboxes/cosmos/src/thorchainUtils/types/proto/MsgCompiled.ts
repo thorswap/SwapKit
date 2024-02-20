@@ -7,6 +7,7 @@ const $Writer = $protobuf.Writer;
 const $util = $protobuf.util;
 
 // Exported root namespace
+
 const $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = {})) as any;
 
 $root.common = (() => {
