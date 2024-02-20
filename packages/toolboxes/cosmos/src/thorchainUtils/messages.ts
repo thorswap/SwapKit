@@ -6,6 +6,12 @@ import { createStargateClient, getDenom } from '../util.ts';
 
 import { createDefaultAminoTypes, createDefaultRegistry } from './registry.ts';
 
+type MsgSend = ReturnType<typeof transferMsgAmino>;
+type MsgDeposit = ReturnType<typeof depositMsgAmino>;
+type MsgSendForBroadcast = ReturnType<typeof prepareMessageForBroadcast>;
+type MsgDepositForBroadcast = ReturnType<typeof prepareMessageForBroadcast>;
+// type SignableMsg = ReturnType<typeof convertToSignable>;
+
 export const getDefaultChainFee = (chain: Chain.THORChain | Chain.Maya) => {
   switch (chain) {
     case Chain.Maya:
@@ -27,14 +33,17 @@ export const transferMsgAmino = ({
   recipient?: string;
   assetValue: AssetValue;
 }) => ({
-  from_address: from,
-  to_address: recipient,
-  amount: [
-    {
-      amount: assetValue.getBaseValue('string'),
-      denom: getDenom(assetValue.symbol, true),
-    },
-  ],
+  type: 'thorchain/MsgSend',
+  value: {
+    from_address: from,
+    to_address: recipient,
+    amount: [
+      {
+        amount: assetValue.getBaseValue('string'),
+        denom: getDenom(assetValue.symbol, true),
+      },
+    ],
+  },
 });
 
 export const depositMsgAmino = ({
@@ -47,14 +56,17 @@ export const depositMsgAmino = ({
   memo?: string;
 }) => {
   return {
-    coins: [
-      {
-        amount: assetValue.getBaseValue('string'),
-        asset: getDenomWithChain(assetValue),
-      },
-    ],
-    signer: from,
-    memo,
+    type: 'thorchain/MsgDeposit',
+    value: {
+      coins: [
+        {
+          amount: assetValue.getBaseValue('string'),
+          asset: getDenomWithChain(assetValue),
+        },
+      ],
+      signer: from,
+      memo,
+    },
   };
 };
 
@@ -70,16 +82,14 @@ export const buildAminoMsg = ({
   memo?: string;
 }) => {
   const isDeposit = !recipient;
-  const msg = {
-    type: isDeposit ? 'thorchain/MsgDeposit' : 'thorchain/MsgSend',
-    value: isDeposit
-      ? depositMsgAmino({ from, assetValue, memo })
-      : transferMsgAmino({ from, recipient, assetValue }),
-  };
+  const msg = isDeposit
+    ? depositMsgAmino({ from, assetValue, memo })
+    : transferMsgAmino({ from, recipient, assetValue });
+
   return msg;
 };
 
-export const convertAminoToSignable = async (msg: ReturnType<typeof buildAminoMsg>) => {
+export const convertToSignable = async (msg: MsgDepositForBroadcast | MsgSendForBroadcast) => {
   const aminoTypes = await createDefaultAminoTypes();
 
   return aminoTypes.fromAmino(msg);
@@ -122,16 +132,14 @@ export const buildTransaction = async ({
   return transaction;
 };
 
-export const prepareMessageForBroadcast = (
-  msg: Awaited<ReturnType<typeof convertAminoToSignable>>,
-) => {
-  if (msg.typeUrl === '/types.MsgSend') return msg;
+export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
+  if (msg.type === 'thorchain/MsgSend') return msg;
 
   return {
     ...msg,
     value: {
       ...msg.value,
-      coins: msg.value.coins.map((coin: { asset: string; amount: string }) => {
+      coins: (msg as MsgDeposit).value.coins.map((coin: { asset: string; amount: string }) => {
         const assetValue = AssetValue.fromStringSync(coin.asset);
 
         const symbol = assetValue.isSynthetic
@@ -155,12 +163,10 @@ export const prepareMessageForBroadcast = (
   };
 };
 
-export const buildEncodedTxBody = async (
-  transaction: Omit<
-    Awaited<ReturnType<typeof buildTransaction>>,
-    'accountNumber' | 'sequence' | 'fee' | 'chainId'
-  >,
-) => {
+export const buildEncodedTxBody = async (transaction: {
+  msgs: MsgSendForBroadcast[] | MsgDepositForBroadcast[];
+  memo: string;
+}) => {
   const registry = await createDefaultRegistry();
   const aminoTypes = await createDefaultAminoTypes();
 

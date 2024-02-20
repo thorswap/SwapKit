@@ -1,5 +1,8 @@
 import { setRequestClientConfig } from '@swapkit/helpers';
-import type { DepositParam, TransferParams } from '@swapkit/toolbox-cosmos';
+import {
+  type DepositParam,
+  type TransferParams,
+} from '@swapkit/toolbox-cosmos';
 import type { UTXOBuildTxParams } from '@swapkit/toolbox-utxo';
 import type { ConnectWalletParams, DerivationPathArray } from '@swapkit/types';
 import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from '@swapkit/types';
@@ -274,6 +277,7 @@ const getToolbox = async ({
         fromBase64,
         Int53,
         makeAuthInfoBytes,
+        prepareMessageForBroadcast,
         SignMode,
         TxRaw,
       } = await import('@swapkit/toolbox-cosmos');
@@ -315,7 +319,7 @@ const getToolbox = async ({
         if (!signatures) throw new Error('tx signing failed');
 
         const bodyBytes = await buildEncodedTxBody({
-          msgs,
+          msgs: msgs.map(prepareMessageForBroadcast),
           memo,
         });
 
