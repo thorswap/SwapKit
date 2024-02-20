@@ -6,13 +6,10 @@
     "@swapkit/api": "workspace:*",
     "@swapkit/types": "workspace:*",
     "@types/fs-extra": "11.0.4",
-    "@vitest/coverage-istanbul": "1.2.1",
+    "@vitest/coverage-istanbul": "1.3.0",
     "fs-extra": "11.2.0",
-    "vite": "5.0.12",
-    "vitest": "1.2.1"
-  },
-  "eslintConfig": {
-    "extends": "../../../internal/eslint-config"
+    "vite": "5.1.3",
+    "vitest": "1.3.0"
   },
   "exports": {
     ".": {
@@ -21,10 +18,7 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
@@ -37,11 +31,12 @@
   },
   "scripts": {
     "build": "vite build",
-    "generate-tokens": "node ./scripts/fetchTokenLists.js",
     "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
-    "lint": "prettier --check --write .",
+    "generate-tokens": "node ./scripts/fetchTokenLists.js",
+    "lint": "biome check --apply",
     "test": "echo 'vitest --run'",
-    "test:coverage": "echo 'vitest run --coverage'"
+    "test:coverage": "echo 'vitest run --coverage'",
+    "type-check": "tsc --noEmit"
   },
   "type": "module",
   "types": "./dist/index.d.ts",

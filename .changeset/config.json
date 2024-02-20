@@ -9,5 +9,6 @@
   "commit": false,
   "fixed": [],
   "linked": [],
+  "ignore": ["@internal/*"],
   "updateInternalDependencies": "patch"
 }

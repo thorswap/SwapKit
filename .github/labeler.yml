@@ -1,16 +1,6 @@
 release:
   - packages/**/CHANGELOG.md
 
-maintenance:
-  - ./internal/config/**/*
-  - ./internal/eslint-config/**/*
-  - ./internal/generator/**/*
-  - ./package.json
-  - ./tsconfig.json
-  - ./turbo.json
-  - .github/**/*
-  - .vscode/**/*
-
 docs:
   - internal/playground/src/**/*
   - docs/**/*

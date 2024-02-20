@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-js-workflow
+      - uses: ./tools/github/setup
       - name: Build and check size
         if: github.event_name == 'pull_request'
         uses: andresz1/size-limit-action@v1
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-js-workflow
+      - uses: ./tools/github/setup
       - name: Test
         run: pnpm test:coverage
       - uses: codecov/codecov-action@v3
@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-js-workflow
+      - uses: ./tools/github/setup
       - name: Lint
         run: pnpm lint
 
@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-js-workflow
+      - uses: ./tools/github/setup
       - name: Set job params
         shell: bash
         id: deployment-params
@@ -103,7 +103,7 @@ jobs:
         uses: changesets/action@v1
         if: contains(github.ref_name, 'main') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'develop')
         with:
-          title: ':tada: Publish ${{ steps.deployment-params.outputs.publishName }}'
+          title: ":tada: Publish ${{ steps.deployment-params.outputs.publishName }}"
           version: pnpm version-bump
           publish: pnpm publish-packages
           setupGitUser: false
@@ -117,7 +117,7 @@ jobs:
           color: ${{ contains(github.ref_name, 'main') && '0x00aa00' || '0x3af3f4' }}
           description: "Internal build ${{ job.status }}: ${{ github.ref_name }}:\n${{ steps.changesets.outputs.publishedPackages }}"
           status: success
-          url: 'https://github.com/thorswap/swapkit/releases'
+          url: "https://github.com/thorswap/swapkit/releases"
           username: SwapKit - ${{ github.ref_name }}
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
 
@@ -125,7 +125,7 @@ jobs:
         uses: changesets/action@v1
         if: contains(github.ref_name, 'nightly')
         with:
-          title: ':tada: Publish Nightly'
+          title: ":tada: Publish Nightly"
           version: pnpm version-bump
           publish: pnpm publish-packages --tag nightly
           setupGitUser: false
@@ -150,7 +150,7 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-js-workflow
+      - uses: ./tools/github/setup
       - name: Setup Pages
         uses: actions/configure-pages@v3
 
@@ -160,7 +160,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: './internal/playground/dist'
+          path: "./internal/playground/dist"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
