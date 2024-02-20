@@ -1,5 +1,14 @@
 # @swapkit/wallet-wc
 
+## 1.0.0-rc.88
+
+### Patch Changes
+
+- [#617](https://github.com/thorswap/SwapKit/pull/617) [`9152f68`](https://github.com/thorswap/SwapKit/commit/9152f687714deb177ea0cf4528121dedd8e32358) Thanks [@towanTG](https://github.com/towanTG)! - Fixes TC deposit messages
+
+- Updated dependencies [[`9152f68`](https://github.com/thorswap/SwapKit/commit/9152f687714deb177ea0cf4528121dedd8e32358)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.81
+
 ## 1.0.0-rc.87
 
 ### Patch Changes
