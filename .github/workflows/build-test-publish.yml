@@ -22,7 +22,7 @@ jobs:
     if: contains(github.event.pull_request.title, ':tada:') == false
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./tools/github/setup
       - name: Build and check size
         if: github.event_name == 'pull_request'
@@ -40,7 +40,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./tools/github/setup
       - name: Test
         run: pnpm test:coverage
@@ -57,7 +57,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./tools/github/setup
       - name: Lint
         run: pnpm lint
@@ -67,7 +67,7 @@ jobs:
     needs: [build, test, lint]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./tools/github/setup
       - name: Set job params
         shell: bash
@@ -149,7 +149,7 @@ jobs:
       pages: write
       id-token: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ./tools/github/setup
       - name: Setup Pages
         uses: actions/configure-pages@v3
