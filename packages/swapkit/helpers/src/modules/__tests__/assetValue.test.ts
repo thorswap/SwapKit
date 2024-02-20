@@ -176,6 +176,27 @@ describe('AssetValue', () => {
     });
   });
 
+  describe('fromStringWithBase', () => {
+    test('creates AssetValue from string with base', async () => {
+      const fakeAvaxAssetString = 'AVAX.ASDF-1234';
+      const fakeAvaxAsset = await AssetValue.fromStringWithBase(fakeAvaxAssetString, 1, 18);
+
+      expect(fakeAvaxAsset).toEqual(
+        expect.objectContaining({
+          address: '1234',
+          chain: Chain.Avalanche,
+          decimal: 18,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: 'ASDF-1234',
+          ticker: 'ASDF',
+        }),
+      );
+      expect(fakeAvaxAsset.getValue('string')).toBe('1');
+      expect(fakeAvaxAsset.getBaseValue('string')).toBe('1000000000000000000');
+    });
+  });
+
   describe('fromUrl', () => {
     test('creates AssetValue from url like format', async () => {
       const synthETHString = 'THOR.ETH.ETH';
