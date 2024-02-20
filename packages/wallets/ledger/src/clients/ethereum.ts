@@ -1,9 +1,9 @@
-import { derivationPathToString } from '@swapkit/helpers';
-import type { Provider } from '@swapkit/toolbox-evm';
-import type { DerivationPathArray } from '@swapkit/types';
-import { ChainId, NetworkDerivationPath } from '@swapkit/types';
+import { derivationPathToString } from "@swapkit/helpers";
+import type { Provider } from "@swapkit/toolbox-evm";
+import type { DerivationPathArray } from "@swapkit/types";
+import { ChainId, NetworkDerivationPath } from "@swapkit/types";
 
-import { EthereumLikeLedgerInterface } from '../interfaces/EthereumLikeLedgerInterface.ts';
+import { EthereumLikeLedgerInterface } from "../interfaces/EthereumLikeLedgerInterface.ts";
 
 export class EthereumLedger extends EthereumLikeLedgerInterface {
   constructor({
@@ -18,9 +18,9 @@ export class EthereumLedger extends EthereumLikeLedgerInterface {
     super(provider);
 
     this.chainId = chainId || ChainId.Ethereum;
-    this.chain = 'eth';
+    this.chain = "eth";
     this.derivationPath =
-      typeof derivationPath === 'string' ? derivationPath : derivationPathToString(derivationPath);
+      typeof derivationPath === "string" ? derivationPath : derivationPathToString(derivationPath);
   }
 
   connect = (provider: Provider) =>

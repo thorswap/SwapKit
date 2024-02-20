@@ -1,23 +1,23 @@
-import type { SwapKitCore } from '@swapkit/core';
-import { AssetValue } from '@swapkit/core';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { SwapKitCore } from "@swapkit/core";
+import { AssetValue } from "@swapkit/core";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-import Loan from './Loan';
-import Multisig from './Multisig';
-import Send from './Send';
-import Swap from './Swap';
-import { clearSwapkitClient, getSwapKitClient } from './swapKitClient';
-import TNS from './TNS';
-import type { WalletDataType } from './types';
-import { Wallet } from './Wallet';
-import { WalletPicker } from './WalletPicker';
+import Loan from "./Loan";
+import Multisig from "./Multisig";
+import Send from "./Send";
+import Swap from "./Swap";
+import { clearSwapkitClient, getSwapKitClient } from "./swapKitClient";
+import TNS from "./TNS";
+import type { WalletDataType } from "./types";
+import { Wallet } from "./Wallet";
+import { WalletPicker } from "./WalletPicker";
 
-const apiKeys = ['walletConnectProjectId'] as const;
+const apiKeys = ["walletConnectProjectId"] as const;
 
 const App = () => {
-  const [widgetType, setWidgetType] = useState<'swap' | 'loan' | 'earn'>('swap');
+  const [widgetType, setWidgetType] = useState<"swap" | "loan" | "earn">("swap");
   const [wallet, setWallet] = useState<WalletDataType | WalletDataType[]>(null);
-  const [phrase, setPhrase] = useState('');
+  const [phrase, setPhrase] = useState("");
   const [stagenet, setStagenet] = useState(false);
   const [skClient, setSkClient] = useState<SwapKitCore | null>(null);
   const [assetListLoaded, setAssetListLoaded] = useState(false);
@@ -26,10 +26,10 @@ const App = () => {
    * NOTE: Test API keys - please use your own API keys in app as those will timeout, reach limits, etc.
    */
   const [keys, setKeys] = useState({
-    blockchairApiKey: import.meta.env.VITE_BLOCKCHAIR_API_KEY || 'A___Tcn5B16iC3mMj7QrzZCb2Ho1QBUf',
-    covalentApiKey: import.meta.env.VITE_COVALENT_API_KEY || 'cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q',
-    ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || 'freekey',
-    walletConnectProjectId: '',
+    blockchairApiKey: import.meta.env.VITE_BLOCKCHAIR_API_KEY || "A___Tcn5B16iC3mMj7QrzZCb2Ho1QBUf",
+    covalentApiKey: import.meta.env.VITE_COVALENT_API_KEY || "cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q",
+    ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || "freekey",
+    walletConnectProjectId: "",
   });
   const [{ inputAsset, outputAsset }, setSwapAssets] = useState<{
     inputAsset?: AssetValue;
@@ -69,7 +69,6 @@ const App = () => {
       swap: skClient ? (
         <Swap inputAsset={inputAsset} outputAsset={outputAsset} skClient={skClient} />
       ) : null,
-      // eslint-disable-next-line react/jsx-pascal-case
       tns: skClient ? <TNS skClient={skClient} /> : null,
       loan: skClient ? (
         <Loan inputAsset={inputAsset} outputAsset={outputAsset} skClient={skClient} />
@@ -86,8 +85,8 @@ const App = () => {
   return (
     <div>
       <h3>
-        SwapKit Playground -{' '}
-        {assetListLoaded ? '🚀 Asset List Loaded 🚀' : '🔄 Loading Asset List...'}
+        SwapKit Playground -{" "}
+        {assetListLoaded ? "🚀 Asset List Loaded 🚀" : "🔄 Loading Asset List..."}
         <div>
           {apiKeys.map((key) => (
             <input
@@ -103,21 +102,21 @@ const App = () => {
         </button>
       </h3>
 
-      <div style={{ cursor: skClient ? 'default' : 'not-allowed' }}>
+      <div style={{ cursor: skClient ? "default" : "not-allowed" }}>
         <div
           style={{
-            pointerEvents: skClient ? 'all' : 'none',
+            pointerEvents: skClient ? "all" : "none",
             opacity: skClient ? 1 : 0.5,
           }}
         >
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
+          <div style={{ display: "flex", flex: 1, flexDirection: "row" }}>
             {skClient && (
               <WalletPicker setPhrase={setPhrase} setWallet={setWallet} skClient={skClient} />
             )}
 
             <div>
               <select
-                onChange={(e) => setWidgetType(e.target.value as 'loan')}
+                onChange={(e) => setWidgetType(e.target.value as "loan")}
                 style={{ marginBottom: 10 }}
               >
                 {Object.keys(Widgets).map((widget) => (

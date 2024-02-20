@@ -1,18 +1,18 @@
-import { avaxGeneric } from './avaxGeneric.ts';
-import { avaxWoofi } from './avaxWoofi.ts';
-import { bscGeneric } from './bscGeneric.ts';
-import { ethGeneric } from './ethGeneric.ts';
-import { pancakeV2 } from './pancakeV2.ts';
-import { pangolin } from './pangolin.ts';
-import { lowercasedRouterAbiMapping } from './routers/index.ts';
-import { sushiswap } from './sushiswap.ts';
-import { traderJoe } from './traderJoe.ts';
-import { uniswapV2 } from './uniswapV2.ts';
-import { uniswapV2Leg } from './uniswapV2Leg.ts';
-import { uniswapV3_100 } from './uniswapV3_100.ts';
-import { uniswapV3_500 } from './uniswapV3_500.ts';
-import { uniswapV3_3000 } from './uniswapV3_3000.ts';
-import { uniswapV3_10000 } from './uniswapV3_10000.ts';
+import { avaxGeneric } from "./avaxGeneric.ts";
+import { avaxWoofi } from "./avaxWoofi.ts";
+import { bscGeneric } from "./bscGeneric.ts";
+import { ethGeneric } from "./ethGeneric.ts";
+import { pancakeV2 } from "./pancakeV2.ts";
+import { pangolin } from "./pangolin.ts";
+import { lowercasedRouterAbiMapping } from "./routers/index.ts";
+import { sushiswap } from "./sushiswap.ts";
+import { traderJoe } from "./traderJoe.ts";
+import { uniswapV2 } from "./uniswapV2.ts";
+import { uniswapV2Leg } from "./uniswapV2Leg.ts";
+import { uniswapV3_100 } from "./uniswapV3_100.ts";
+import { uniswapV3_500 } from "./uniswapV3_500.ts";
+import { uniswapV3_3000 } from "./uniswapV3_3000.ts";
+import { uniswapV3_10000 } from "./uniswapV3_10000.ts";
 
 type AbiTypes =
   | typeof avaxGeneric
@@ -30,24 +30,24 @@ type AbiTypes =
 
 export enum AGG_CONTRACT_ADDRESS {
   // AVAX
-  PANGOLIN = '0x942c6dA485FD6cEf255853ef83a149d43A73F18a',
-  AVAX_GENERIC = '0x7C38b8B2efF28511ECc14a621e263857Fb5771d3',
-  AVAX_WOOFI = '0x5505BE604dFA8A1ad402A71f8A357fba47F9bf5a',
-  AVAX_TRADER_JOE = '0x3b7DbdD635B99cEa39D3d95Dbd0217F05e55B212',
+  PANGOLIN = "0x942c6dA485FD6cEf255853ef83a149d43A73F18a",
+  AVAX_GENERIC = "0x7C38b8B2efF28511ECc14a621e263857Fb5771d3",
+  AVAX_WOOFI = "0x5505BE604dFA8A1ad402A71f8A357fba47F9bf5a",
+  AVAX_TRADER_JOE = "0x3b7DbdD635B99cEa39D3d95Dbd0217F05e55B212",
 
   // BSC
-  BSC_GENERIC = '0xB6fA6f1DcD686F4A573Fd243a6FABb4ba36Ba98c',
-  BSC_PANCAKE_V2 = '0x30912B38618D3D37De3191A4FFE982C65a9aEC2E',
+  BSC_GENERIC = "0xB6fA6f1DcD686F4A573Fd243a6FABb4ba36Ba98c",
+  BSC_PANCAKE_V2 = "0x30912B38618D3D37De3191A4FFE982C65a9aEC2E",
 
   // ETH
-  ETH_GENERIC = '0xd31f7e39afECEc4855fecc51b693F9A0Cec49fd2',
-  UNISWAP_V2 = '0x86904Eb2b3c743400D03f929F2246EfA80B91215',
-  SUSHISWAP = '0xbf365e79aA44A2164DA135100C57FDB6635ae870',
-  UNISWAP_V3_100 = '0xBd68cBe6c247e2c3a0e36B8F0e24964914f26Ee8',
-  UNISWAP_V3_500 = '0xe4ddca21881bac219af7f217703db0475d2a9f02',
-  UNISWAP_V3_3000 = '0x11733abf0cdb43298f7e949c930188451a9a9ef2',
-  UNISWAP_V3_10000 = '0xb33874810e5395eb49d8bd7e912631db115d5a03',
-  UNISWAP_V2_LEG = '0x3660dE6C56cFD31998397652941ECe42118375DA',
+  ETH_GENERIC = "0xd31f7e39afECEc4855fecc51b693F9A0Cec49fd2",
+  UNISWAP_V2 = "0x86904Eb2b3c743400D03f929F2246EfA80B91215",
+  SUSHISWAP = "0xbf365e79aA44A2164DA135100C57FDB6635ae870",
+  UNISWAP_V3_100 = "0xBd68cBe6c247e2c3a0e36B8F0e24964914f26Ee8",
+  UNISWAP_V3_500 = "0xe4ddca21881bac219af7f217703db0475d2a9f02",
+  UNISWAP_V3_3000 = "0x11733abf0cdb43298f7e949c930188451a9a9ef2",
+  UNISWAP_V3_10000 = "0xb33874810e5395eb49d8bd7e912631db115d5a03",
+  UNISWAP_V2_LEG = "0x3660dE6C56cFD31998397652941ECe42118375DA",
 }
 
 export const lowercasedGenericAbiMappings = {

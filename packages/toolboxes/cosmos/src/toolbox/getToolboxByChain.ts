@@ -1,9 +1,9 @@
-import { Chain } from '@swapkit/types';
+import { Chain } from "@swapkit/types";
 
-import { BinanceToolbox } from './binance.ts';
-import { GaiaToolbox } from './gaia.ts';
-import { KujiraToolbox } from './kujira.ts';
-import { MayaToolbox, ThorchainToolbox } from './thorchain.ts';
+import { BinanceToolbox } from "./binance.ts";
+import { GaiaToolbox } from "./gaia.ts";
+import { KujiraToolbox } from "./kujira.ts";
+import { MayaToolbox, ThorchainToolbox } from "./thorchain.ts";
 
 type ToolboxType = {
   BNB: typeof BinanceToolbox;

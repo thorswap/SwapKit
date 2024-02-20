@@ -1,4 +1,4 @@
-import type { DexFees, Fee, TransferFee } from './types.ts';
+import type { DexFees, Fee, TransferFee } from "./types.ts";
 
 /**
  * Type guard for runtime checks of `Fee`

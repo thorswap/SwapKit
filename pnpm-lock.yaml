@@ -67,30 +67,6 @@ importers:
         specifier: 1.3.0
         version: 1.3.0(@types/node@20.11.19)
 
-  internal/config:
-    devDependencies:
-      '@rollup/plugin-node-resolve':
-        specifier: 15.2.3
-        version: 15.2.3
-      '@rollup/plugin-terser':
-        specifier: 0.4.4
-        version: 0.4.4
-      '@vitest/coverage-istanbul':
-        specifier: 1.3.0
-        version: 1.3.0(vitest@1.3.0)
-      vite:
-        specifier: 5.1.3
-        version: 5.1.3(@types/node@20.11.19)
-      vite-plugin-dts:
-        specifier: 3.7.2
-        version: 3.7.2(@types/node@20.11.19)(typescript@5.3.3)(vite@5.1.3)
-      vite-plugin-node-polyfills:
-        specifier: 0.21.0
-        version: 0.21.0(vite@5.1.3)
-      vitest:
-        specifier: 1.3.0
-        version: 1.3.0(@types/node@20.11.19)
-
   internal/nextjs-playground:
     dependencies:
       '@radix-ui/react-slot':
@@ -213,9 +189,6 @@ importers:
       base64-js:
         specifier: 1.5.1
         version: 1.5.1
-      buffer:
-        specifier: 6.0.3
-        version: 6.0.3
       crypto-browserify:
         specifier: 3.12.0
         version: 3.12.0
@@ -272,9 +245,12 @@ importers:
         specifier: 1.2.0
         version: 1.2.0
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@vitest/coverage-istanbul':
         specifier: 1.3.0
         version: 1.3.0(vitest@1.3.0)
@@ -300,9 +276,12 @@ importers:
         specifier: 12.6.2
         version: 12.6.2
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@polkadot/types':
         specifier: 10.11.2
         version: 10.11.2
@@ -337,9 +316,12 @@ importers:
         specifier: workspace:*
         version: link:../types
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@swapkit/tokens':
         specifier: workspace:*
         version: link:../tokens
@@ -365,40 +347,18 @@ importers:
         specifier: 1.3.0
         version: 1.3.0(@types/node@20.11.19)
 
-  packages/swapkit/entities:
-    dependencies:
-      '@swapkit/types':
-        specifier: workspace:*
-        version: link:../types
-      bignumber.js:
-        specifier: 9.1.2
-        version: 9.1.2
-      tiny-invariant:
-        specifier: 1.3.1
-        version: 1.3.1
-    devDependencies:
-      '@internal/config':
-        specifier: workspace:*
-        version: link:../../../internal/config
-      '@vitest/coverage-istanbul':
-        specifier: 1.3.0
-        version: 1.3.0(vitest@1.3.0)
-      vite:
-        specifier: 5.1.3
-        version: 5.1.3(@types/node@20.11.19)
-      vitest:
-        specifier: 1.3.0
-        version: 1.3.0(@types/node@20.11.19)
-
   packages/swapkit/helpers:
     dependencies:
       '@swapkit/api':
         specifier: workspace:*
         version: link:../api
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@swapkit/tokens':
         specifier: workspace:*
         version: link:../tokens
@@ -457,9 +417,12 @@ importers:
         specifier: workspace:*
         version: link:../../wallets/xdefi
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@vitest/coverage-istanbul':
         specifier: 1.3.0
         version: 1.3.0(vitest@1.3.0)
@@ -472,9 +435,12 @@ importers:
 
   packages/swapkit/tokens:
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@swapkit/api':
         specifier: workspace:*
         version: link:../api
@@ -499,9 +465,12 @@ importers:
 
   packages/swapkit/types:
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@types/node':
         specifier: 20.11.19
         version: 20.11.19
@@ -557,9 +526,12 @@ importers:
         specifier: 1.1.6
         version: 1.1.6
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -600,9 +572,12 @@ importers:
         specifier: 6.11.1
         version: 6.11.1
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@nomicfoundation/hardhat-ethers':
         specifier: 3.0.5
         version: 3.0.5(ethers@6.11.1)(hardhat@2.20.1)
@@ -655,9 +630,12 @@ importers:
         specifier: 12.6.2
         version: 12.6.2(@polkadot/util@12.6.2)
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -704,9 +682,12 @@ importers:
         specifier: 1.1.6
         version: 1.1.6
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -731,9 +712,12 @@ importers:
 
   packages/wallets/evm-extensions:
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -762,9 +746,12 @@ importers:
         specifier: 8.1.86
         version: 8.1.86(@types/node@20.11.19)
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -792,9 +779,12 @@ importers:
 
   packages/wallets/keplr:
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@keplr-wallet/types':
         specifier: 0.12.69
         version: 0.12.69
@@ -826,9 +816,12 @@ importers:
         specifier: 1.2.1
         version: 1.2.1
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@rollup/plugin-node-resolve':
         specifier: 15.2.3
         version: 15.2.3
@@ -893,9 +886,12 @@ importers:
         specifier: 2.0.2
         version: 2.0.2
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@rollup/plugin-node-resolve':
         specifier: 15.2.3
         version: 15.2.3
@@ -929,9 +925,12 @@ importers:
 
   packages/wallets/okx:
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -966,9 +965,12 @@ importers:
         specifier: 9.1.12
         version: 9.1.12(tslib@2.6.2)
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -997,9 +999,12 @@ importers:
         specifier: 2.6.2
         version: 2.6.2(react@18.2.0)
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -1027,9 +1032,12 @@ importers:
 
   packages/wallets/xdefi:
     devDependencies:
-      '@internal/config':
+      '@internal/tools-typescript':
         specifier: workspace:*
-        version: link:../../../internal/config
+        version: link:../../../tools/typescript
+      '@internal/tools-vite':
+        specifier: workspace:*
+        version: link:../../../tools/vite
       '@keplr-wallet/types':
         specifier: 0.12.69
         version: 0.12.69
@@ -1054,6 +1062,34 @@ importers:
       vite:
         specifier: 5.1.3
         version: 5.1.3(@types/node@20.11.19)
+      vitest:
+        specifier: 1.3.0
+        version: 1.3.0(@types/node@20.11.19)
+
+  tools/github: {}
+
+  tools/typescript: {}
+
+  tools/vite:
+    devDependencies:
+      '@rollup/plugin-node-resolve':
+        specifier: 15.2.3
+        version: 15.2.3
+      '@rollup/plugin-terser':
+        specifier: 0.4.4
+        version: 0.4.4
+      '@vitest/coverage-istanbul':
+        specifier: 1.3.0
+        version: 1.3.0(vitest@1.3.0)
+      vite:
+        specifier: 5.1.3
+        version: 5.1.3(@types/node@20.11.19)
+      vite-plugin-dts:
+        specifier: 3.7.2
+        version: 3.7.2(@types/node@20.11.19)(typescript@5.3.3)(vite@5.1.3)
+      vite-plugin-node-polyfills:
+        specifier: 0.17.0
+        version: 0.17.0(vite@5.1.3)
       vitest:
         specifier: 1.3.0
         version: 1.3.0(@types/node@20.11.19)
@@ -2877,7 +2913,7 @@ packages:
     resolution: {integrity: sha512-UTYAUj/wviwdsMfzoSJspJxbkH5o1snzwX0//0ENX1u/55kkZZkcTZP6u9bwKGkv+dkk9at4m1Cpt0uY80kcpQ==}
     dependencies:
       '@jridgewell/gen-mapping': 0.3.3
-      '@jridgewell/trace-mapping': 0.3.19
+      '@jridgewell/trace-mapping': 0.3.22
     dev: true
 
   /@jridgewell/sourcemap-codec@1.4.15:
@@ -4377,6 +4413,20 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@rollup/plugin-inject@5.0.5:
+    resolution: {integrity: sha512-2+DEJbNBoPROPkgTDNe8/1YXWcqxbN5DTjASVIOx8HS+pITXushyNiBV56RB08zuptzz8gT3YfkqriTBVycepg==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+    dependencies:
+      '@rollup/pluginutils': 5.1.0
+      estree-walker: 2.0.2
+      magic-string: 0.30.7
+    dev: true
+
   /@rollup/plugin-inject@5.0.5(rollup@4.12.0):
     resolution: {integrity: sha512-2+DEJbNBoPROPkgTDNe8/1YXWcqxbN5DTjASVIOx8HS+pITXushyNiBV56RB08zuptzz8gT3YfkqriTBVycepg==}
     engines: {node: '>=14.0.0'}
@@ -4390,6 +4440,7 @@ packages:
       estree-walker: 2.0.2
       magic-string: 0.30.5
       rollup: 4.12.0
+    dev: false
 
   /@rollup/plugin-node-resolve@15.2.3:
     resolution: {integrity: sha512-j/lym8nf5E21LwBT4Df1VD6hRO2L2iwUeUmP7litikRsVp1H6NWx20NEp0Y7su+7XGc476GnXXc4kFeZNGmaSQ==}
@@ -4435,6 +4486,7 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
       rollup: 4.12.0
+    dev: false
 
   /@rollup/pluginutils@5.1.0:
     resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
@@ -5975,12 +6027,6 @@ packages:
     resolution: {integrity: sha512-cjkyv4OtNCIeqhHrfS81QWXoCBPExR/J62oyEqepVw8WaQeSqpW2uhuLPh1m9eWhDuOo/jUXVTlifvesOWp/4A==}
     engines: {node: '>=0.4.0'}
 
-  /acorn@8.10.0:
-    resolution: {integrity: sha512-F0SAmZ8iUtS//m8DmCTA0jlh6TDKkHQyK6xc6V4KDTyZKA9dnvX9/3sRTVQrWm79glUAZbnmmNcdYwUIHWVybw==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
-    dev: true
-
   /acorn@8.11.2:
     resolution: {integrity: sha512-nc0Axzp/0FILLEVsm4fNwLCwMttvhEI263QtVPQcbpfZZ3ts0hLsZGOpE6czNlid7CJ9MlyH8reXkpsf3YUY4w==}
     engines: {node: '>=0.4.0'}
@@ -6656,7 +6702,6 @@ packages:
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
-    dev: false
 
   /bufferutil@4.0.8:
     resolution: {integrity: sha512-4T53u4PdgsXqKaIctwF8ifXlRTTmEPJ8iEPWFdGZvcf7sbwYo6FKFEX9eNNAnzFZ7EzJAQ3CJeOtCRA4rDp7Pw==}
@@ -10042,6 +10087,7 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
+    dev: false
 
   /magic-string@0.30.7:
     resolution: {integrity: sha512-8vBuFF/I/+OSLRmdf2wwFCJCz+nSn0m6DPvGH1fS/KiQoSaR+sETbov0eIk9KhEKy8CYqIkIAnbohxT/4H0kuA==}
@@ -11566,7 +11612,7 @@ packages:
     resolution: {integrity: sha512-uWjbaKIK3T1OSVptzX7Nl6PvQ3qAGtKEtVRjRuazjfL3Bx5eI409VZSqgND+4UNnmzLVdPj9FqFJNPqBZFve4w==}
     hasBin: true
     dependencies:
-      glob: 7.2.0
+      glob: 7.2.3
     dev: true
 
   /rimraf@3.0.2:
@@ -12626,7 +12672,7 @@ packages:
     hasBin: true
     dependencies:
       '@jridgewell/source-map': 0.3.5
-      acorn: 8.10.0
+      acorn: 8.11.3
       commander: 2.20.3
       source-map-support: 0.5.21
     dev: true
@@ -12686,10 +12732,6 @@ packages:
     dependencies:
       setimmediate: 1.0.5
     dev: true
-
-  /tiny-invariant@1.3.1:
-    resolution: {integrity: sha512-AD5ih2NlSssTCwsMznbvwMZpJ1cbhkGd2uueNxzv2jDlEeZdU04JQfRnggJQ8DrcVBGjAsCKwFBbDlVNtEMlzw==}
-    dev: false
 
   /tiny-secp256k1@1.1.6:
     resolution: {integrity: sha512-FmqJZGduTyvsr2cF3375fqGHUovSwDi/QytexX1Se4BPuPZpTE5Ftp5fg+EFSuEf3lhZqgCRjEG3ydUQ/aNiwA==}
@@ -13381,13 +13423,15 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-node-polyfills@0.21.0(vite@5.1.3):
-    resolution: {integrity: sha512-Sk4DiKnmxN8E0vhgEhzLudfJQfaT8k4/gJ25xvUPG54KjLJ6HAmDKbr4rzDD/QWEY+Lwg80KE85fGYBQihEPQA==}
+  /vite-plugin-node-polyfills@0.17.0(vite@5.1.3):
+    resolution: {integrity: sha512-iPmPn7376e5u6QvoTSJa16hf5Q0DFwHFXJk2uYpsNlmI3JdPms7hWyh55o+OysJ5jo9J5XPhLC9sMOYifwFd1w==}
     peerDependencies:
       vite: ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
     dependencies:
-      '@rollup/plugin-inject': 5.0.5(rollup@4.12.0)
+      '@rollup/plugin-inject': 5.0.5
+      buffer-polyfill: /buffer@6.0.3
       node-stdlib-browser: 1.2.0
+      process: 0.11.10
       vite: 5.1.3(@types/node@20.11.19)
     transitivePeerDependencies:
       - rollup

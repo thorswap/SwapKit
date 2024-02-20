@@ -1,12 +1,12 @@
-import thorswapViteConfig from '@internal/config';
-import { resolve } from 'path';
+import { resolve } from "path";
+import sharedViteConfig from "../../../tools/vite";
 
-import { name } from './package.json';
+import { name } from "./package.json";
 
-const viteConfig = thorswapViteConfig(name, {
+const viteConfig = sharedViteConfig(name, {
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: resolve(__dirname, "src/index.ts"),
     },
   },
 });

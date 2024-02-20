@@ -1,13 +1,13 @@
-import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
-import type { Account } from '@cosmjs/stargate';
-import { type AssetValue, SwapKitNumber } from '@swapkit/helpers';
-import { ApiUrl, BaseDecimal, ChainId, DerivationPath } from '@swapkit/types';
+import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
+import type { Account } from "@cosmjs/stargate";
+import { type AssetValue, SwapKitNumber } from "@swapkit/helpers";
+import { ApiUrl, BaseDecimal, ChainId, DerivationPath } from "@swapkit/types";
 
-import { CosmosClient } from '../cosmosClient.ts';
-import type { GaiaToolboxType, ToolboxParams } from '../index.ts';
-import type { TransferParams } from '../types.ts';
+import { CosmosClient } from "../cosmosClient.ts";
+import type { GaiaToolboxType, ToolboxParams } from "../index.ts";
+import type { TransferParams } from "../types.ts";
 
-import { BaseCosmosToolbox, getFeeRateFromThorswap } from './BaseCosmosToolbox.ts';
+import { BaseCosmosToolbox, getFeeRateFromThorswap } from "./BaseCosmosToolbox.ts";
 
 export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => {
   const client = new CosmosClient({
@@ -34,7 +34,7 @@ export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => 
   const getFees = async () => {
     const baseFee = (await getFeeRateFromThorswap(ChainId.Cosmos)) || 500;
     return {
-      type: 'base',
+      type: "base",
       average: SwapKitNumber.fromBigInt(BigInt(baseFee), BaseDecimal.GAIA),
       fast: SwapKitNumber.fromBigInt((BigInt(baseFee) * 15n) / 10n, BaseDecimal.GAIA),
       fastest: SwapKitNumber.fromBigInt(BigInt(baseFee) * 2n, BaseDecimal.GAIA),
@@ -52,11 +52,11 @@ export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => 
         fee: params.fee || {
           amount: [
             {
-              denom: 'uatom',
-              amount: gasFees[params.feeOptionKey || 'fast'].getBaseValue('string') || '1000',
+              denom: "uatom",
+              amount: gasFees[params.feeOptionKey || "fast"].getBaseValue("string") || "1000",
             },
           ],
-          gas: '200000',
+          gas: "200000",
         },
       });
     },

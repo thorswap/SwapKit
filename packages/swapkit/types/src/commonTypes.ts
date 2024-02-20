@@ -1,16 +1,16 @@
-import type { Chain, CosmosChain, EVMChain, UTXOChain } from './network.ts';
-import type { WalletOption } from './wallet.ts';
+import type { Chain, CosmosChain, EVMChain, UTXOChain } from "./network.ts";
+import type { WalletOption } from "./wallet.ts";
 
 type ConnectMethodNames =
-  | 'connectEVMWallet'
-  | 'connectKeplr'
-  | 'connectKeystore'
-  | 'connectKeepkey'
-  | 'connectLedger'
-  | 'connectOkx'
-  | 'connectTrezor'
-  | 'connectWalletconnect'
-  | 'connectXDEFI';
+  | "connectEVMWallet"
+  | "connectKeplr"
+  | "connectKeystore"
+  | "connectKeepkey"
+  | "connectLedger"
+  | "connectOkx"
+  | "connectTrezor"
+  | "connectWalletconnect"
+  | "connectXDEFI";
 
 type ChainWallet = {
   address: string;
@@ -89,7 +89,7 @@ export type ConnectWalletParams = {
   apis: ApisType;
 };
 
-export type ExtendParams<WalletConnectMethodNames = ''> = {
+export type ExtendParams<WalletConnectMethodNames = ""> = {
   excludedChains?: Chain[];
   config?: ConnectConfig;
   rpcUrls?: { [chain in Chain]?: string };
@@ -101,22 +101,22 @@ export type ExtendParams<WalletConnectMethodNames = ''> = {
 };
 
 export enum QuoteMode {
-  TC_SUPPORTED_TO_TC_SUPPORTED = 'TC-TC',
-  TC_SUPPORTED_TO_ETH = 'TC-ERC20',
-  TC_SUPPORTED_TO_AVAX = 'TC-ARC20',
-  TC_SUPPORTED_TO_BSC = 'TC-BEP20',
-  ETH_TO_TC_SUPPORTED = 'ERC20-TC',
-  ETH_TO_ETH = 'ERC20-ERC20',
-  ETH_TO_AVAX = 'ERC20-ARC20',
-  ETH_TO_BSC = 'ERC20-BEP20',
-  AVAX_TO_TC_SUPPORTED = 'ARC20-TC',
-  AVAX_TO_ETH = 'ARC20-ERC20',
-  AVAX_TO_AVAX = 'ARC20-ARC20',
-  AVAX_TO_BSC = 'ARC20-BEP20',
-  BSC_TO_TC_SUPPORTED = 'BEP20-TC',
-  BSC_TO_ETH = 'BEP20-ERC20',
-  BSC_TO_AVAX = 'BEP20-ARC20',
-  BSC_TO_BSC = 'BEP20-BEP20',
+  TC_SUPPORTED_TO_TC_SUPPORTED = "TC-TC",
+  TC_SUPPORTED_TO_ETH = "TC-ERC20",
+  TC_SUPPORTED_TO_AVAX = "TC-ARC20",
+  TC_SUPPORTED_TO_BSC = "TC-BEP20",
+  ETH_TO_TC_SUPPORTED = "ERC20-TC",
+  ETH_TO_ETH = "ERC20-ERC20",
+  ETH_TO_AVAX = "ERC20-ARC20",
+  ETH_TO_BSC = "ERC20-BEP20",
+  AVAX_TO_TC_SUPPORTED = "ARC20-TC",
+  AVAX_TO_ETH = "ARC20-ERC20",
+  AVAX_TO_AVAX = "ARC20-ARC20",
+  AVAX_TO_BSC = "ARC20-BEP20",
+  BSC_TO_TC_SUPPORTED = "BEP20-TC",
+  BSC_TO_ETH = "BEP20-ERC20",
+  BSC_TO_AVAX = "BEP20-ARC20",
+  BSC_TO_BSC = "BEP20-BEP20",
 }
 
 export type Asset = {

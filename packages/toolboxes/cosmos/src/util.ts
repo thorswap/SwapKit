@@ -1,23 +1,23 @@
-import type { OfflineSigner } from '@cosmjs/proto-signing';
-import type { SigningStargateClientOptions } from '@cosmjs/stargate';
-import { AssetValue, defaultRequestHeaders } from '@swapkit/helpers';
-import { ChainId, FeeOption, RPCUrl } from '@swapkit/types';
+import type { OfflineSigner } from "@cosmjs/proto-signing";
+import type { SigningStargateClientOptions } from "@cosmjs/stargate";
+import { AssetValue, defaultRequestHeaders } from "@swapkit/helpers";
+import { ChainId, FeeOption, RPCUrl } from "@swapkit/types";
 
-import type { CosmosMaxSendableAmountParams } from './types.ts';
+import type { CosmosMaxSendableAmountParams } from "./types.ts";
 
 export const USK_KUJIRA_FACTORY_DENOM =
-  'FACTORY/KUJIRA1QK00H5ATUTPSV900X202PXX42NPJR9THG58DNQPA72F2P7M2LUASE444A7/UUSK';
+  "FACTORY/KUJIRA1QK00H5ATUTPSV900X202PXX42NPJR9THG58DNQPA72F2P7M2LUASE444A7/UUSK";
 
 export const DEFAULT_COSMOS_FEE_MAINNET = {
-  amount: [{ denom: 'uatom', amount: '500' }],
-  gas: '200000',
+  amount: [{ denom: "uatom", amount: "500" }],
+  gas: "200000",
 };
 
 export const getDenom = (symbol: string, isThorchain = false) =>
   isThorchain ? symbol.toLowerCase() : symbol;
 
 export const createStargateClient = async (url: string) => {
-  const { StargateClient } = await import('@cosmjs/stargate');
+  const { StargateClient } = await import("@cosmjs/stargate");
 
   return StargateClient.connect({ url, headers: defaultRequestHeaders });
 };
@@ -27,10 +27,10 @@ export const createSigningStargateClient = async (
   signer: any,
   options: SigningStargateClientOptions = {},
 ) => {
-  const { SigningStargateClient, GasPrice } = await import('@cosmjs/stargate');
+  const { SigningStargateClient, GasPrice } = await import("@cosmjs/stargate");
 
   return SigningStargateClient.connectWithSigner({ url, headers: defaultRequestHeaders }, signer, {
-    gasPrice: GasPrice.fromString('0.0003uatom'),
+    gasPrice: GasPrice.fromString("0.0003uatom"),
     ...options,
   });
 };
@@ -39,7 +39,7 @@ export const createOfflineStargateClient = async (
   wallet: OfflineSigner,
   registry?: SigningStargateClientOptions,
 ) => {
-  const { SigningStargateClient } = await import('@cosmjs/stargate');
+  const { SigningStargateClient } = await import("@cosmjs/stargate");
   return SigningStargateClient.offline(wallet, registry);
 };
 
@@ -68,7 +68,7 @@ export const estimateMaxSendableAmount = async ({
   asset,
   feeOptionKey = FeeOption.Fast,
 }: CosmosMaxSendableAmountParams): Promise<AssetValue> => {
-  const assetEntity = typeof asset === 'string' ? await AssetValue.fromString(asset) : asset;
+  const assetEntity = typeof asset === "string" ? await AssetValue.fromString(asset) : asset;
   const balances = await toolbox.getBalance(from);
   const balance = balances.find(({ symbol, chain }) =>
     asset

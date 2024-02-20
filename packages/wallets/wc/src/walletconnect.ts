@@ -1,4 +1,4 @@
-import { setRequestClientConfig } from '@swapkit/helpers';
+import { setRequestClientConfig } from "@swapkit/helpers";
 import {
   type BaseCosmosToolboxType,
   type DepositParam,
@@ -7,11 +7,11 @@ import {
   type TransferParams,
   type TxBodyEncodeObject,
   TxRaw,
-} from '@swapkit/toolbox-cosmos';
-import type { ConnectWalletParams } from '@swapkit/types';
-import { Chain, ChainId, RPCUrl, WalletOption } from '@swapkit/types';
-import type { WalletConnectModalSign } from '@walletconnect/modal-sign-html';
-import type { SessionTypes, SignClientTypes } from '@walletconnect/types';
+} from "@swapkit/toolbox-cosmos";
+import type { ConnectWalletParams } from "@swapkit/types";
+import { Chain, ChainId, RPCUrl, WalletOption } from "@swapkit/types";
+import type { WalletConnectModalSign } from "@walletconnect/modal-sign-html";
+import type { SessionTypes, SignClientTypes } from "@walletconnect/types";
 
 import {
   BINANCE_MAINNET_ID,
@@ -21,12 +21,12 @@ import {
   DEFAULT_RELAY_URL,
   THORCHAIN_MAINNET_ID,
   WC_SUPPORTED_CHAINS,
-} from './constants.ts';
-import { getEVMSigner } from './evmSigner.ts';
-import { chainToChainId, getAddressByChain } from './helpers.ts';
-import { getRequiredNamespaces } from './namespaces.ts';
+} from "./constants.ts";
+import { getEVMSigner } from "./evmSigner.ts";
+import { chainToChainId, getAddressByChain } from "./helpers.ts";
+import { getRequiredNamespaces } from "./namespaces.ts";
 
-const THORCHAIN_GAS_FEE = '500000000';
+const THORCHAIN_GAS_FEE = "500000000";
 const DEFAULT_THORCHAIN_FEE = {
   amount: [],
   gas: THORCHAIN_GAS_FEE,
@@ -49,7 +49,7 @@ const SUPPORTED_CHAINS = [
 const getToolbox = async ({
   chain,
   ethplorerApiKey,
-  covalentApiKey = '',
+  covalentApiKey = "",
   walletconnect,
   address,
   session,
@@ -72,11 +72,11 @@ const getToolbox = async ({
     case Chain.Polygon:
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey)
-        throw new Error('Ethplorer API key not found');
+        throw new Error("Ethplorer API key not found");
       if (chain !== Chain.Ethereum && !covalentApiKey)
-        throw new Error('Covalent API key not found');
+        throw new Error("Covalent API key not found");
 
-      const { getProvider, getToolboxByChain } = await import('@swapkit/toolbox-evm');
+      const { getProvider, getToolboxByChain } = await import("@swapkit/toolbox-evm");
       const provider = getProvider(chain);
       const signer = await getEVMSigner({ walletconnect, chain, provider });
       const toolbox = getToolboxByChain(chain);
@@ -90,7 +90,7 @@ const getToolbox = async ({
     }
 
     case Chain.Binance: {
-      const { sortObject, BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { sortObject, BinanceToolbox } = await import("@swapkit/toolbox-cosmos");
       const toolbox = BinanceToolbox();
       const transfer = async ({ recipient, assetValue, memo }: TransferParams) => {
         const account = await toolbox.getAccount(from);
@@ -108,7 +108,7 @@ const getToolbox = async ({
           memo,
           msgs: [signMsg],
           sequence: account.sequence.toString(),
-          source: '0',
+          source: "0",
         });
 
         const response: any = await walletconnect?.client.request({
@@ -120,7 +120,7 @@ const getToolbox = async ({
           },
         });
 
-        const signature = Buffer.from(response.signature, 'hex');
+        const signature = Buffer.from(response.signature, "hex");
         const publicKey = toolbox.getPublicKey(response.publicKey);
         const signedTx = transaction.addSignature(publicKey, signature);
 
@@ -141,7 +141,7 @@ const getToolbox = async ({
         encodePubkey,
         makeAuthInfoBytes,
         makeSignDoc,
-      } = await import('@swapkit/toolbox-cosmos');
+      } = await import("@swapkit/toolbox-cosmos");
       const toolbox = ThorchainToolbox({ stagenet: false });
 
       const signRequest = (signDoc: StdSignDoc) =>
@@ -160,16 +160,16 @@ const getToolbox = async ({
         ...rest
       }: TransferParams | DepositParam) => {
         const account = await toolbox.getAccount(address);
-        if (!account) throw new Error('Account not found');
-        if (!account.pubkey) throw new Error('Account pubkey not found');
+        if (!account) throw new Error("Account not found");
+        if (!account.pubkey) throw new Error("Account pubkey not found");
         const { accountNumber, sequence = 0 } = account;
-        const amount = assetValue.getBaseValue('string');
+        const amount = assetValue.getBaseValue("string");
 
-        const isSend = 'recipient' in rest && rest.recipient;
+        const isSend = "recipient" in rest && rest.recipient;
 
         const msg = isSend
           ? {
-              type: 'thorchain/MsgSend',
+              type: "thorchain/MsgSend",
               value: {
                 amount: [{ amount, denom: assetValue.symbol.toLowerCase() }],
                 from_address: address,
@@ -177,7 +177,7 @@ const getToolbox = async ({
               },
             }
           : {
-              type: 'thorchain/MsgDeposit',
+              type: "thorchain/MsgDeposit",
               value: {
                 coins: [{ amount, asset: getDenomWithChain(assetValue) }],
                 memo,
@@ -191,7 +191,7 @@ const getToolbox = async ({
           ChainId.THORChain,
           memo,
           accountNumber?.toString(),
-          sequence?.toString() || '0',
+          sequence?.toString() || "0",
         );
 
         const signature: any = await signRequest(signDoc);
@@ -203,7 +203,7 @@ const getToolbox = async ({
           signatures: [
             {
               // The request coming from TW Android are different from those coming from iOS.
-              ...(typeof signature.signature === 'string' ? signature : signature.signature),
+              ...(typeof signature.signature === "string" ? signature : signature.signature),
               sequence: sequence?.toString(),
             },
           ],
@@ -212,7 +212,7 @@ const getToolbox = async ({
         const aminoTypes = await toolbox.createDefaultAminoTypes();
         const registry = await toolbox.createDefaultRegistry();
         const signedTxBody: TxBodyEncodeObject = {
-          typeUrl: '/cosmos.tx.v1beta1.TxBody',
+          typeUrl: "/cosmos.tx.v1beta1.TxBody",
           value: {
             messages: txObj.msg.map((msg) =>
               aminoTypes.fromAmino(
@@ -242,7 +242,7 @@ const getToolbox = async ({
           authInfoBytes: signedAuthInfoBytes,
           signatures: [
             fromBase64(
-              typeof signature.signature === 'string'
+              typeof signature.signature === "string"
                 ? signature.signature
                 : signature.signature.signature,
             ),
@@ -261,7 +261,7 @@ const getToolbox = async ({
       return { ...toolbox, transfer, deposit };
     }
     default:
-      throw new Error('Chain is not supported');
+      throw new Error("Chain is not supported");
   }
 };
 
@@ -273,11 +273,11 @@ const getWalletconnect = async (
   let modal: WalletConnectModalSign | undefined;
   try {
     if (!walletConnectProjectId) {
-      throw new Error('Error while setting up walletconnect connection: Project ID not specified');
+      throw new Error("Error while setting up walletconnect connection: Project ID not specified");
     }
     const requiredNamespaces = getRequiredNamespaces(chains.map(chainToChainId));
 
-    const { WalletConnectModalSign } = await import('@walletconnect/modal-sign-html');
+    const { WalletConnectModalSign } = await import("@walletconnect/modal-sign-html");
 
     const client = new WalletConnectModalSign({
       logger: DEFAULT_LOGGER,
@@ -295,7 +295,7 @@ const getWalletconnect = async (
         topic: oldSession.topic,
         reason: {
           code: 0,
-          message: 'Resetting session',
+          message: "Resetting session",
         },
       });
     }
@@ -304,9 +304,9 @@ const getWalletconnect = async (
       requiredNamespaces,
     });
 
-    const accounts = Object.values(session.namespaces)
-      .map((namespace: any) => namespace.accounts)
-      .flat();
+    const accounts = Object.values(session.namespaces).flatMap(
+      (namespace: any) => namespace.accounts,
+    );
 
     return { session, accounts, client };
   } catch (e) {
@@ -345,7 +345,7 @@ const connectWalletconnect =
       walletconnectOptions,
     );
 
-    if (!walletconnect) throw new Error('Unable to establish connection through walletconnect');
+    if (!walletconnect) throw new Error("Unable to establish connection through walletconnect");
 
     const { session, accounts } = walletconnect;
 
@@ -393,6 +393,6 @@ const connectWalletconnect =
   };
 
 export const walletconnectWallet = {
-  connectMethodName: 'connectWalletconnect' as const,
+  connectMethodName: "connectWalletconnect" as const,
   connect: connectWalletconnect,
 };

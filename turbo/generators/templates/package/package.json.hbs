@@ -1,12 +1,10 @@
 {
-  "author": "swapkit",
+  "author": "swapkit-oss",
   "dependencies": {},
   "description": "SwapKit Lib {{packageName}}",
   "devDependencies": {
-    "@internal/config": "workspace:*",
-    "@vitest/coverage-istanbul": "1.1.0",
-    "vite": "5.0.12",
-    "vitest": "1.1.0"
+    "@internal/tools-typescript": "workspace:*",
+    "@internal/tools-vite": "workspace:*"
   },
   "exports": {
     ".": {
@@ -33,7 +31,7 @@
   "scripts": {
     "build": "vite build",
     "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
-    "lint": "biome check --apply",
+    "lint": "biome check --apply ./src",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },

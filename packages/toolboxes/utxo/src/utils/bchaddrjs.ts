@@ -1,19 +1,19 @@
-import base58check from 'bs58check';
+import base58check from "bs58check";
 // @ts-expect-error
-import cashaddr from 'cashaddrjs';
+import cashaddr from "cashaddrjs";
 
 enum Format {
-  Legacy = 'legacy',
-  Bitpay = 'bitpay',
-  Cashaddr = 'cashaddr',
+  Legacy = "legacy",
+  Bitpay = "bitpay",
+  Cashaddr = "cashaddr",
 }
 enum Network {
-  Mainnet = 'mainnet',
-  Testnet = 'testnet',
+  Mainnet = "mainnet",
+  Testnet = "testnet",
 }
 enum Type {
-  P2PKH = 'p2pkh',
-  P2SH = 'p2sh',
+  P2PKH = "p2pkh",
+  P2SH = "p2sh",
 }
 
 const VERSION_BYTE = {
@@ -48,7 +48,7 @@ type DecodedType = {
 
 class InvalidAddressError extends Error {
   constructor() {
-    super('Received an invalid Bitcoin Cash address as input.');
+    super("Received an invalid Bitcoin Cash address as input.");
     this.stack = new Error().stack;
   }
 }
@@ -130,17 +130,17 @@ function decodeBase58Address(address: string) {
 }
 
 function decodeCashAddress(address: string) {
-  if (address.indexOf(':') !== -1) {
+  if (address.indexOf(":") !== -1) {
     try {
       return decodeCashAddressWithPrefix(address);
     } catch (error) {
       // Try to decode as legacy if cashaddr decoding fails.
     }
   } else {
-    const prefixes = ['bitcoincash', 'bchtest', 'bchreg'];
+    const prefixes = ["bitcoincash", "bchtest", "bchreg"];
     for (const prefix of prefixes) {
       try {
-        return decodeCashAddressWithPrefix(prefix + ':' + address);
+        return decodeCashAddressWithPrefix(prefix + ":" + address);
       } catch (error) {
         // Try next prefix if decoding fails.
       }
@@ -157,8 +157,8 @@ function decodeCashAddressWithPrefix(address: string): DecodedType {
     return {
       format: Format.Cashaddr,
       hash: Array.prototype.slice.call(hash, 0),
-      network: prefix === 'bitcoincash' ? Network.Mainnet : Network.Testnet,
-      type: type === 'P2PKH' ? Type.P2PKH : Type.P2SH,
+      network: prefix === "bitcoincash" ? Network.Mainnet : Network.Testnet,
+      type: type === "P2PKH" ? Type.P2PKH : Type.P2SH,
     };
   } catch (error) {
     throw new InvalidAddressError();
@@ -174,8 +174,8 @@ function encodeAsLegacy(decoded: DecodedType) {
 }
 
 function encodeAsCashaddr(decoded: DecodedType) {
-  const prefix = decoded.network === Network.Mainnet ? 'bitcoincash' : 'bchtest';
-  const type = decoded.type === Type.P2PKH ? 'P2PKH' : 'P2SH';
+  const prefix = decoded.network === Network.Mainnet ? "bitcoincash" : "bchtest";
+  const type = decoded.type === Type.P2PKH ? "P2PKH" : "P2SH";
   const hash = new Uint8Array(decoded.hash);
   return cashaddr.encode(prefix, type, hash);
 }

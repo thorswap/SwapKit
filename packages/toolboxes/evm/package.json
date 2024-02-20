@@ -1,11 +1,12 @@
 {
-  "author": "swapkit-oss-team",
+  "author": "swapkit-oss",
   "dependencies": {
     "ethers": "6.11.1"
   },
   "description": "THORSwap evm",
   "devDependencies": {
-    "@internal/config": "workspace:*",
+    "@internal/tools-typescript": "workspace:*",
+    "@internal/tools-vite": "workspace:*",
     "@nomicfoundation/hardhat-ethers": "3.0.5",
     "@nomicfoundation/hardhat-network-helpers": "1.0.10",
     "@nomicfoundation/hardhat-toolbox": "4.0.0",
@@ -42,7 +43,7 @@
   "scripts": {
     "build": "vite build",
     "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
-    "lint": "biome check --apply",
+    "lint": "biome check --apply ./src",
     "test": "vitest --run --retry 3",
     "test:coverage": "vitest run --coverage"
   },

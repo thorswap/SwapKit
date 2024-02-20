@@ -1,5 +1,5 @@
 {
-  "author": "swapkit-oss-team",
+  "author": "swapkit-oss",
   "dependencies": {
     "@ledgerhq/devices": "8.2.0",
     "@ledgerhq/errors": "6.16.1",
@@ -12,7 +12,8 @@
   },
   "description": "SwapKit Lib ledger",
   "devDependencies": {
-    "@internal/config": "workspace:*",
+    "@internal/tools-typescript": "workspace:*",
+    "@internal/tools-vite": "workspace:*",
     "@rollup/plugin-node-resolve": "15.2.3",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
@@ -52,7 +53,7 @@
   "scripts": {
     "build": "vite build",
     "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
-    "lint": "biome check --apply",
+    "lint": "biome check --apply ./src",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },

@@ -1,8 +1,9 @@
 {
-  "author": "swapkit-oss-team",
+  "author": "swapkit-oss",
   "description": "SwapKit Lib tokens",
   "devDependencies": {
-    "@internal/config": "workspace:*",
+    "@internal/tools-typescript": "workspace:*",
+    "@internal/tools-vite": "workspace:*",
     "@swapkit/api": "workspace:*",
     "@swapkit/types": "workspace:*",
     "@types/fs-extra": "11.0.4",
@@ -33,7 +34,7 @@
     "build": "vite build",
     "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
     "generate-tokens": "node ./scripts/fetchTokenLists.js",
-    "lint": "biome check --apply",
+    "lint": "biome check --apply ./src",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'",
     "type-check": "tsc --noEmit"

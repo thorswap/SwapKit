@@ -1,5 +1,5 @@
 {
-  "author": "swapkit",
+  "author": "swapkit-oss",
   "dependencies": {
     "@chainflip/sdk": "1.1.5",
     "@polkadot/api": "10.11.2",
@@ -8,7 +8,8 @@
   },
   "description": "SwapKit Lib chainflip",
   "devDependencies": {
-    "@internal/config": "workspace:*",
+    "@internal/tools-typescript": "workspace:*",
+    "@internal/tools-vite": "workspace:*",
     "@polkadot/types": "10.11.2",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
@@ -46,7 +47,7 @@
   "scripts": {
     "build": "vite build",
     "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
-    "lint": "biome check --apply",
+    "lint": "biome check --apply ./src",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },

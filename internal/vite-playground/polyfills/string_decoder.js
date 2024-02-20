@@ -1,4 +1,3 @@
-/* eslint-disable babel/no-invalid-this */
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -23,19 +22,19 @@
 var isEncoding =
   Buffer.isEncoding ||
   function (encoding) {
-    encoding = '' + encoding;
+    encoding = "" + encoding;
     switch (encoding && encoding.toLowerCase()) {
-      case 'hex':
-      case 'utf8':
-      case 'utf-8':
-      case 'ascii':
-      case 'binary':
-      case 'base64':
-      case 'ucs2':
-      case 'ucs-2':
-      case 'utf16le':
-      case 'utf-16le':
-      case 'raw':
+      case "hex":
+      case "utf8":
+      case "utf-8":
+      case "ascii":
+      case "binary":
+      case "base64":
+      case "ucs2":
+      case "ucs-2":
+      case "utf16le":
+      case "utf-16le":
+      case "raw":
         return true;
       default:
         return false;
@@ -43,29 +42,28 @@ var isEncoding =
   };
 
 function _normalizeEncoding(enc) {
-  if (!enc) return 'utf8';
+  if (!enc) return "utf8";
   var retried;
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     switch (enc) {
-      case 'utf8':
-      case 'utf-8':
-        return 'utf8';
-      case 'ucs2':
-      case 'ucs-2':
-      case 'utf16le':
-      case 'utf-16le':
-        return 'utf16le';
-      case 'latin1':
-      case 'binary':
-        return 'latin1';
-      case 'base64':
-      case 'ascii':
-      case 'hex':
+      case "utf8":
+      case "utf-8":
+        return "utf8";
+      case "ucs2":
+      case "ucs-2":
+      case "utf16le":
+      case "utf-16le":
+        return "utf16le";
+      case "latin1":
+      case "binary":
+        return "latin1";
+      case "base64":
+      case "ascii":
+      case "hex":
         return enc;
       default:
         if (retried) return; // undefined
-        enc = ('' + enc).toLowerCase();
+        enc = ("" + enc).toLowerCase();
         retried = true;
     }
   }
@@ -75,8 +73,8 @@ function _normalizeEncoding(enc) {
 // modules monkey-patch it to support additional encodings
 function normalizeEncoding(enc) {
   var nenc = _normalizeEncoding(enc);
-  if (typeof nenc !== 'string' && (Buffer.isEncoding === isEncoding || !isEncoding(enc)))
-    throw new Error('Unknown encoding: ' + enc);
+  if (typeof nenc !== "string" && (Buffer.isEncoding === isEncoding || !isEncoding(enc)))
+    throw new Error("Unknown encoding: " + enc);
   return nenc || enc;
 }
 
@@ -89,16 +87,16 @@ function StringDecoder(encoding) {
   this.encoding = normalizeEncoding(encoding);
   var nb;
   switch (this.encoding) {
-    case 'utf16le':
+    case "utf16le":
       this.text = utf16Text;
       this.end = utf16End;
       nb = 4;
       break;
-    case 'utf8':
+    case "utf8":
       this.fillLast = utf8FillLast;
       nb = 4;
       break;
-    case 'base64':
+    case "base64":
       this.text = base64Text;
       this.end = base64End;
       nb = 3;
@@ -114,19 +112,19 @@ function StringDecoder(encoding) {
 }
 
 StringDecoder.prototype.write = function (buf) {
-  if (buf.length === 0) return '';
+  if (buf.length === 0) return "";
   var r;
   var i;
   if (this.lastNeed) {
     r = this.fillLast(buf);
-    if (r === undefined) return '';
+    if (r === undefined) return "";
     i = this.lastNeed;
     this.lastNeed = 0;
   } else {
     i = 0;
   }
   if (i < buf.length) return r ? r + this.text(buf, i) : this.text(buf, i);
-  return r || '';
+  return r || "";
 };
 
 StringDecoder.prototype.end = utf8End;
@@ -191,21 +189,20 @@ function utf8CheckIncomplete(self, buf, i) {
 // where all of the continuation bytes for a character exist in the same buffer.
 // It is also done this way as a slight performance increase instead of using a
 // loop.
-// eslint-disable-next-line no-unused-vars
 function utf8CheckExtraBytes(self, buf, _p) {
   if ((buf[0] & 0xc0) !== 0x80) {
     self.lastNeed = 0;
-    return '\ufffd';
+    return "\ufffd";
   }
   if (self.lastNeed > 1 && buf.length > 1) {
     if ((buf[1] & 0xc0) !== 0x80) {
       self.lastNeed = 1;
-      return '\ufffd';
+      return "\ufffd";
     }
     if (self.lastNeed > 2 && buf.length > 2) {
       if ((buf[2] & 0xc0) !== 0x80) {
         self.lastNeed = 2;
-        return '\ufffd';
+        return "\ufffd";
       }
     }
   }
@@ -229,18 +226,18 @@ function utf8FillLast(buf) {
 // number of bytes are available.
 function utf8Text(buf, i) {
   var total = utf8CheckIncomplete(this, buf, i);
-  if (!this.lastNeed) return buf.toString('utf8', i);
+  if (!this.lastNeed) return buf.toString("utf8", i);
   this.lastTotal = total;
   var end = buf.length - (total - this.lastNeed);
   buf.copy(this.lastChar, 0, end);
-  return buf.toString('utf8', i, end);
+  return buf.toString("utf8", i, end);
 }
 
 // For UTF-8, a replacement character is added when ending on a partial
 // character.
 function utf8End(buf) {
-  var r = buf && buf.length ? this.write(buf) : '';
-  if (this.lastNeed) return r + '\ufffd';
+  var r = buf && buf.length ? this.write(buf) : "";
+  if (this.lastNeed) return r + "\ufffd";
   return r;
 }
 
@@ -250,7 +247,7 @@ function utf8End(buf) {
 // decode the last character properly.
 function utf16Text(buf, i) {
   if ((buf.length - i) % 2 === 0) {
-    var r = buf.toString('utf16le', i);
+    var r = buf.toString("utf16le", i);
     if (r) {
       var c = r.charCodeAt(r.length - 1);
       if (c >= 0xd800 && c <= 0xdbff) {
@@ -266,23 +263,23 @@ function utf16Text(buf, i) {
   this.lastNeed = 1;
   this.lastTotal = 2;
   this.lastChar[0] = buf[buf.length - 1];
-  return buf.toString('utf16le', i, buf.length - 1);
+  return buf.toString("utf16le", i, buf.length - 1);
 }
 
 // For UTF-16LE we do not explicitly append special replacement characters if we
 // end on a partial character, we simply let v8 handle that.
 function utf16End(buf) {
-  var r = buf && buf.length ? this.write(buf) : '';
+  var r = buf && buf.length ? this.write(buf) : "";
   if (this.lastNeed) {
     var end = this.lastTotal - this.lastNeed;
-    return r + this.lastChar.toString('utf16le', 0, end);
+    return r + this.lastChar.toString("utf16le", 0, end);
   }
   return r;
 }
 
 function base64Text(buf, i) {
   var n = (buf.length - i) % 3;
-  if (n === 0) return buf.toString('base64', i);
+  if (n === 0) return buf.toString("base64", i);
   this.lastNeed = 3 - n;
   this.lastTotal = 3;
   if (n === 1) {
@@ -291,12 +288,12 @@ function base64Text(buf, i) {
     this.lastChar[0] = buf[buf.length - 2];
     this.lastChar[1] = buf[buf.length - 1];
   }
-  return buf.toString('base64', i, buf.length - n);
+  return buf.toString("base64", i, buf.length - n);
 }
 
 function base64End(buf) {
-  var r = buf && buf.length ? this.write(buf) : '';
-  if (this.lastNeed) return r + this.lastChar.toString('base64', 0, 3 - this.lastNeed);
+  var r = buf && buf.length ? this.write(buf) : "";
+  if (this.lastNeed) return r + this.lastChar.toString("base64", 0, 3 - this.lastNeed);
   return r;
 }
 
@@ -306,5 +303,5 @@ function simpleWrite(buf) {
 }
 
 function simpleEnd(buf) {
-  return buf && buf.length ? this.write(buf) : '';
+  return buf && buf.length ? this.write(buf) : "";
 }

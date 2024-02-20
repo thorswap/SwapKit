@@ -401,7 +401,6 @@ EventEmitter.listenerCount = function (emitter, type) {
 
 EventEmitter.prototype.listenerCount = listenerCount;
 function listenerCount(type) {
-  // eslint-disable-next-line babel/no-invalid-this
   var events = this._events;
 
   if (events) {

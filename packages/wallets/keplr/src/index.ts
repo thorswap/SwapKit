@@ -1,1 +1,1 @@
-export { keplrWallet } from './keplrWallet.ts';
+export { keplrWallet } from "./keplrWallet.ts";

@@ -1,5 +1,5 @@
 {
-  "author": "swapkit-oss-team",
+  "author": "swapkit-oss",
   "dependencies": {
     "@swapkit/core": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
@@ -17,7 +17,8 @@
   },
   "description": "SwapKit Lib swapkit-sdk",
   "devDependencies": {
-    "@internal/config": "workspace:*",
+    "@internal/tools-typescript": "workspace:*",
+    "@internal/tools-vite": "workspace:*",
     "@vitest/coverage-istanbul": "1.3.0",
     "vite": "5.1.3",
     "vitest": "1.3.0"
@@ -42,8 +43,7 @@
   },
   "scripts": {
     "build": "NODE_OPTIONS=--max_old_space_size=32768 vite build",
-    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
-    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit"
+    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules"
   },
   "type": "module",
   "types": "./dist/index.d.ts",

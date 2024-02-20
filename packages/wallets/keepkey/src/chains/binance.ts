@@ -1,11 +1,11 @@
-import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
-import type { AssetValue } from '@swapkit/helpers';
-import { derivationPathToString } from '@swapkit/helpers';
-import type { BinanceToolboxType } from '@swapkit/toolbox-cosmos';
-import type { DerivationPathArray, WalletTxParams } from '@swapkit/types';
-import { Chain, ChainId, DerivationPath } from '@swapkit/types';
+import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
+import type { AssetValue } from "@swapkit/helpers";
+import { derivationPathToString } from "@swapkit/helpers";
+import type { BinanceToolboxType } from "@swapkit/toolbox-cosmos";
+import type { DerivationPathArray, WalletTxParams } from "@swapkit/types";
+import { Chain, ChainId, DerivationPath } from "@swapkit/types";
 
-import { bip32ToAddressNList } from '../helpers/coins.ts';
+import { bip32ToAddressNList } from "../helpers/coins.ts";
 
 export const binanceWalletMethods = async ({
   sdk,
@@ -15,7 +15,7 @@ export const binanceWalletMethods = async ({
   derivationPath?: DerivationPathArray;
 }): Promise<BinanceToolboxType & { getAddress: () => string }> => {
   try {
-    const { BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
+    const { BinanceToolbox } = await import("@swapkit/toolbox-cosmos");
     const toolbox = BinanceToolbox();
 
     const derivationPathString = derivationPath
@@ -33,15 +33,15 @@ export const binanceWalletMethods = async ({
     }: WalletTxParams & { assetValue: AssetValue }) => {
       try {
         const accountInfo = await toolbox.getAccount(fromAddress);
-        const amount = assetValue.getBaseValue('string');
+        const amount = assetValue.getBaseValue("string");
         const keepKeyResponse = await sdk.bnb.bnbSignTransaction({
           signerAddress: fromAddress,
           signDoc: {
-            account_number: accountInfo?.account_number.toString() ?? '0',
+            account_number: accountInfo?.account_number.toString() ?? "0",
             chain_id: ChainId.Binance,
-            memo: memo || '',
-            sequence: accountInfo?.sequence.toString() ?? '0',
-            source: '0',
+            memo: memo || "",
+            sequence: accountInfo?.sequence.toString() ?? "0",
+            source: "0",
             msgs: [
               {
                 outputs: [{ address: recipient, coins: [{ denom: Chain.Binance, amount }] }],

@@ -1,11 +1,11 @@
-import { Chain } from '@swapkit/types';
-import type { BrowserProvider, JsonRpcProvider, JsonRpcSigner, Signer } from 'ethers';
+import { Chain } from "@swapkit/types";
+import type { BrowserProvider, JsonRpcProvider, JsonRpcSigner, Signer } from "ethers";
 
-import type { EthplorerApiType } from '../api/ethplorerApi.ts';
-import { ethplorerApi } from '../api/ethplorerApi.ts';
-import { getBalance } from '../index.ts';
+import type { EthplorerApiType } from "../api/ethplorerApi.ts";
+import { ethplorerApi } from "../api/ethplorerApi.ts";
+import { getBalance } from "../index.ts";
 
-import { BaseEVMToolbox } from './BaseEVMToolbox.ts';
+import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
 
 export const ETHToolbox = ({
   api,

@@ -1,17 +1,17 @@
-import type { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
-import type { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
-import type { Account as CosmosAccount, AminoTypes } from '@cosmjs/stargate';
-import type { AssetValue, SwapKitNumber } from '@swapkit/helpers';
-import type { Asset, ChainId } from '@swapkit/types';
-import type { curve } from 'elliptic';
+import type { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from "@cosmjs/amino";
+import type { OfflineDirectSigner, Registry } from "@cosmjs/proto-signing";
+import type { Account as CosmosAccount, AminoTypes } from "@cosmjs/stargate";
+import type { AssetValue, SwapKitNumber } from "@swapkit/helpers";
+import type { Asset, ChainId } from "@swapkit/types";
+import type { curve } from "elliptic";
 
-import type { BNBTransaction } from '../../binanceUtils/transaction.ts';
-import type { Account } from '../../index.ts';
-import type { Signer, TransferParams } from '../../types.ts';
+import type { BNBTransaction } from "../../binanceUtils/transaction.ts";
+import type { Account } from "../../index.ts";
+import type { Signer, TransferParams } from "../../types.ts";
 
 enum TxType {
-  Transfer = 'transfer',
-  Unknown = 'unknown',
+  Transfer = "transfer",
+  Unknown = "unknown",
 }
 
 type Tx = {
@@ -35,7 +35,7 @@ export type DepositParam = {
   memo: string;
 };
 
-export type TxData = Pick<Tx, 'from' | 'to' | 'type'>;
+export type TxData = Pick<Tx, "from" | "to" | "type">;
 
 /**
  * Response from `thorchain/constants` endpoint
@@ -114,7 +114,7 @@ export type KujiraToolboxType = BaseCosmosToolboxType & {
   getFees: () => Promise<Fees>;
 };
 
-export type BinanceToolboxType = Omit<BaseCosmosToolboxType, 'getAccount'> & {
+export type BinanceToolboxType = Omit<BaseCosmosToolboxType, "getAccount"> & {
   getFees: () => Promise<Fees>;
   transfer: (params: TransferParams) => Promise<string>;
   getAccount: (address: string) => Promise<Account>;

@@ -1,15 +1,11 @@
-import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
-import type { AssetValue } from '@swapkit/helpers';
-import { derivationPathToString } from '@swapkit/helpers';
-import {
-  type DepositParam,
-  type ThorchainToolboxType,
-  type TransferParams,
-} from '@swapkit/toolbox-cosmos';
-import type { DerivationPathArray } from '@swapkit/types';
-import { ChainId, DerivationPath, RPCUrl } from '@swapkit/types';
+import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
+import type { AssetValue } from "@swapkit/helpers";
+import { derivationPathToString } from "@swapkit/helpers";
+import type { DepositParam, ThorchainToolboxType, TransferParams } from "@swapkit/toolbox-cosmos";
+import type { DerivationPathArray } from "@swapkit/types";
+import { ChainId, DerivationPath, RPCUrl } from "@swapkit/types";
 
-import { bip32ToAddressNList } from '../helpers/coins.js';
+import { bip32ToAddressNList } from "../helpers/coins.js";
 
 type SignTransactionParams = {
   assetValue: AssetValue;
@@ -25,8 +21,8 @@ export const thorchainWalletMethods = async ({
   sdk: KeepKeySdk;
   derivationPath?: DerivationPathArray;
 }): Promise<ThorchainToolboxType & { getAddress: () => string }> => {
-  const { createStargateClient, ThorchainToolbox } = await import('@swapkit/toolbox-cosmos');
-  const toolbox = ThorchainToolbox({ stagenet: !'smeshnet' });
+  const { createStargateClient, ThorchainToolbox } = await import("@swapkit/toolbox-cosmos");
+  const toolbox = ThorchainToolbox({ stagenet: !"smeshnet" });
   const derivationPathString = derivationPath
     ? `m/${derivationPathToString(derivationPath)}`
     : DerivationPath.THOR;
@@ -36,19 +32,19 @@ export const thorchainWalletMethods = async ({
   })) as { address: string };
 
   const signTransaction = async ({ assetValue, recipient, from, memo }: SignTransactionParams) => {
-    const { getDenomWithChain, makeSignDoc } = await import('@swapkit/toolbox-cosmos');
+    const { getDenomWithChain, makeSignDoc } = await import("@swapkit/toolbox-cosmos");
 
     const account = await toolbox.getAccount(from);
-    if (!account) throw new Error('Account not found');
-    if (!account.pubkey) throw new Error('Account pubkey not found');
+    if (!account) throw new Error("Account not found");
+    if (!account.pubkey) throw new Error("Account pubkey not found");
     const { accountNumber, sequence = 0 } = account;
-    const amount = assetValue.getBaseValue('string');
+    const amount = assetValue.getBaseValue("string");
 
-    const isTransfer = recipient && recipient !== '';
+    const isTransfer = recipient && recipient !== "";
 
     const msg = isTransfer
       ? {
-          type: 'thorchain/MsgSend',
+          type: "thorchain/MsgSend",
           value: {
             amount: [{ amount, denom: assetValue.symbol.toLowerCase() }],
             from_address: from,
@@ -56,7 +52,7 @@ export const thorchainWalletMethods = async ({
           },
         }
       : {
-          type: 'thorchain/MsgDeposit',
+          type: "thorchain/MsgDeposit",
           value: {
             coins: [{ amount, asset: getDenomWithChain(assetValue) }],
             memo,
@@ -66,7 +62,7 @@ export const thorchainWalletMethods = async ({
 
     const signDoc = makeSignDoc(
       [msg],
-      { gas: '500000000', amount: [] },
+      { gas: "500000000", amount: [] },
       ChainId.THORChain,
       memo,
       accountNumber?.toString(),

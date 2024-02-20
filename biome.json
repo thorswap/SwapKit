@@ -16,7 +16,7 @@
     "formatter": {
       "semicolons": "always"
     },
-    "globals": ["NotWorth", "FixMe", "ToDo", "React"]
+    "globals": ["NotWorth", "FixMe", "Todo", "React"]
   },
   "linter": {
     "enabled": true,
@@ -26,12 +26,13 @@
         "all": true,
         "noDefaultExport": "off",
         "noImplicitBoolean": "off",
+        "useBlockStatements": "off",
         "useNamingConvention": "off"
       },
       "complexity": { "all": true },
       "correctness": { "all": true },
       "security": { "all": true },
-      "suspicious": { "all": true },
+      "suspicious": { "all": true, "noExplicitAny": "off" },
       "nursery": {
         "noUnusedImports": "warn",
         "useAwait": "warn",

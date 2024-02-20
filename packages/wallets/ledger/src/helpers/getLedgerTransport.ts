@@ -1,4 +1,4 @@
-import { SwapKitError } from '@swapkit/helpers';
+import { SwapKitError } from "@swapkit/helpers";
 
 const getNavigatorUsb = () =>
   // @ts-ignore
@@ -12,8 +12,8 @@ const getNavigatorUsb = () =>
 const getLedgerDevices = async () => {
   const navigatorUsb = getNavigatorUsb();
 
-  if (typeof navigatorUsb?.getDevices !== 'function') return [];
-  const { ledgerUSBVendorId } = await import('@ledgerhq/devices');
+  if (typeof navigatorUsb?.getDevices !== "function") return [];
+  const { ledgerUSBVendorId } = await import("@ledgerhq/devices");
 
   const devices = await navigatorUsb?.getDevices();
   const existingDevices = devices.filter((d) => d.vendorId === ledgerUSBVendorId);
@@ -26,7 +26,7 @@ export const getLedgerTransport = async () => {
   const device = await getLedgerDevices();
 
   if (!device) {
-    throw new SwapKitError('wallet_ledger_device_not_found');
+    throw new SwapKitError("wallet_ledger_device_not_found");
   }
 
   await device.open();
@@ -45,7 +45,7 @@ export const getLedgerTransport = async () => {
 
   if (!iface) {
     await device.close();
-    throw new SwapKitError('wallet_ledger_connection_error');
+    throw new SwapKitError("wallet_ledger_connection_error");
   }
 
   try {
@@ -53,27 +53,27 @@ export const getLedgerTransport = async () => {
   } catch (error: any) {
     await device.close();
 
-    throw new SwapKitError('wallet_ledger_connection_claimed', error);
+    throw new SwapKitError("wallet_ledger_connection_claimed", error);
   }
 
-  const { default: Transport } = await import('@ledgerhq/hw-transport-webusb');
+  const { default: Transport } = await import("@ledgerhq/hw-transport-webusb");
   // @ts-expect-error Ledger typing is wrong
   const isSupported = await Transport.isSupported();
-  if (!isSupported) throw new Error('WebUSB not supported');
+  if (!isSupported) throw new Error("WebUSB not supported");
 
-  const { DisconnectedDevice } = await import('@ledgerhq/errors');
+  const { DisconnectedDevice } = await import("@ledgerhq/errors");
 
   // @ts-expect-error Ledger typing is wrong
   const transport = new Transport(device, iface.interfaceNumber);
 
   const onDisconnect = (e: any) => {
     if (device === e.device) {
-      getNavigatorUsb()?.removeEventListener('disconnect', onDisconnect);
+      getNavigatorUsb()?.removeEventListener("disconnect", onDisconnect);
 
       transport._emitDisconnect(new DisconnectedDevice());
     }
   };
-  getNavigatorUsb()?.addEventListener('disconnect', onDisconnect);
+  getNavigatorUsb()?.addEventListener("disconnect", onDisconnect);
 
   return transport;
 };

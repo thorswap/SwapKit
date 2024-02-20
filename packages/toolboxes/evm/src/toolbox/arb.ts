@@ -1,16 +1,16 @@
-import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, FeeOption, RPCUrl } from '@swapkit/types';
-import type { BrowserProvider, JsonRpcProvider, Provider, Signer } from 'ethers';
+import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, FeeOption, RPCUrl } from "@swapkit/types";
+import type { BrowserProvider, JsonRpcProvider, Provider, Signer } from "ethers";
 
-import type { CovalentApiType } from '../api/covalentApi.ts';
-import { covalentApi } from '../api/covalentApi.ts';
-import { getBalance } from '../index.ts';
+import type { CovalentApiType } from "../api/covalentApi.ts";
+import { covalentApi } from "../api/covalentApi.ts";
+import { getBalance } from "../index.ts";
 
-import { BaseEVMToolbox } from './BaseEVMToolbox.ts';
+import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
 
 export const getNetworkParams = () => ({
   chainId: ChainId.ArbitrumHex,
-  chainName: 'Arbitrum One',
-  nativeCurrency: { name: 'Ethereum', symbol: Chain.Ethereum, decimals: BaseDecimal.ETH },
+  chainName: "Arbitrum One",
+  nativeCurrency: { name: "Ethereum", symbol: Chain.Ethereum, decimals: BaseDecimal.ETH },
   rpcUrls: [RPCUrl.Arbitrum],
   blockExplorerUrls: [ChainToExplorerUrl[Chain.Arbitrum]],
 });
@@ -19,7 +19,7 @@ const estimateGasPrices = async (provider: Provider) => {
   try {
     const { gasPrice } = await provider.getFeeData();
 
-    if (!gasPrice) throw new Error('No fee data available');
+    if (!gasPrice) throw new Error("No fee data available");
 
     return {
       [FeeOption.Average]: { gasPrice },
@@ -53,7 +53,7 @@ export const ARBToolbox = ({
     estimateGasPrices: () => estimateGasPrices(provider),
     getBalance: (
       address: string,
-      potentialScamFilter: boolean = true,
+      potentialScamFilter = true,
       overwriteProvider?: JsonRpcProvider | BrowserProvider,
     ) =>
       getBalance({

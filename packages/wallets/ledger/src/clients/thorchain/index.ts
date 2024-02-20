@@ -1,10 +1,10 @@
-import { base64 } from '@swapkit/toolbox-cosmos';
-import type { DerivationPathArray, GetAddressAndPubKeyResponse } from '@swapkit/types';
-import { NetworkDerivationPath } from '@swapkit/types';
+import { base64 } from "@swapkit/toolbox-cosmos";
+import type { DerivationPathArray, GetAddressAndPubKeyResponse } from "@swapkit/types";
+import { NetworkDerivationPath } from "@swapkit/types";
 
-import { CommonLedgerInterface } from '../../interfaces/LedgerInterfaces.ts';
+import { CommonLedgerInterface } from "../../interfaces/LedgerInterfaces.ts";
 
-import { getSignature } from './utils.ts';
+import { getSignature } from "./utils.ts";
 
 export class THORChainLedger extends CommonLedgerInterface {
   private pubKey: string | null = null;
@@ -13,7 +13,7 @@ export class THORChainLedger extends CommonLedgerInterface {
 
   constructor(derivationPath: DerivationPathArray = NetworkDerivationPath.THOR) {
     super();
-    this.chain = 'thor';
+    this.chain = "thor";
     this.derivationPath = derivationPath;
   }
 
@@ -58,7 +58,7 @@ export class THORChainLedger extends CommonLedgerInterface {
     return response;
   };
 
-  signTransaction = async (rawTx: string, sequence = '0') => {
+  signTransaction = async (rawTx: string, sequence = "0") => {
     await this.checkOrCreateTransportAndLedger(true);
 
     const { return_code, error_message, signature } = await this.ledgerApp.sign(
@@ -66,13 +66,13 @@ export class THORChainLedger extends CommonLedgerInterface {
       rawTx,
     );
 
-    if (!this.pubKey) throw new Error('Public Key not found');
+    if (!this.pubKey) throw new Error("Public Key not found");
 
     this.validateResponse(return_code, error_message);
 
     return [
       {
-        pub_key: { type: 'tendermint/PubKeySecp256k1', value: this.pubKey },
+        pub_key: { type: "tendermint/PubKeySecp256k1", value: this.pubKey },
         sequence,
         signature: getSignature(signature),
       },
@@ -87,7 +87,7 @@ export class THORChainLedger extends CommonLedgerInterface {
       message,
     );
 
-    if (!this.pubKey) throw new Error('Public Key not found');
+    if (!this.pubKey) throw new Error("Public Key not found");
 
     this.validateResponse(return_code, error_message);
 

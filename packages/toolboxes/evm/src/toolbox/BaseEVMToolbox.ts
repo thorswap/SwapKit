@@ -1,7 +1,7 @@
-import type { AssetValue } from '@swapkit/helpers';
-import { isGasAsset, SwapKitNumber } from '@swapkit/helpers';
-import type { Asset, EVMChain, WalletTxParams } from '@swapkit/types';
-import { Chain, ContractAddress, erc20ABI, FeeOption } from '@swapkit/types';
+import type { AssetValue } from "@swapkit/helpers";
+import { SwapKitNumber, isGasAsset } from "@swapkit/helpers";
+import type { Asset, EVMChain, WalletTxParams } from "@swapkit/types";
+import { Chain, ContractAddress, FeeOption, erc20ABI } from "@swapkit/types";
 import type {
   ContractTransaction,
   Fragment,
@@ -10,23 +10,23 @@ import type {
   JsonRpcSigner,
   Provider,
   Signer,
-} from 'ethers';
-import { BrowserProvider } from 'ethers';
-import { getAddress } from 'ethers/address';
-import { MaxInt256 } from 'ethers/constants';
+} from "ethers";
+import { BrowserProvider } from "ethers";
+import { getAddress } from "ethers/address";
+import { MaxInt256 } from "ethers/constants";
 
-import { toHexString } from '../index.ts';
+import { toHexString } from "../index.ts";
 import type {
-  ApprovedParams,
   ApproveParams,
+  ApprovedParams,
   CallParams,
   EIP1559TxParams,
-  EstimateCallParams,
   EVMTxParams,
+  EstimateCallParams,
   IsApprovedParams,
   LegacyEVMTxParams,
   TransferParams,
-} from '../types/clientTypes.ts';
+} from "../types/clientTypes.ts";
 
 export const MAX_APPROVAL = MaxInt256;
 
@@ -39,7 +39,7 @@ const baseAssetAddress: Record<EVMChain, string> = {
   [Chain.Optimism]: ContractAddress.OP,
 };
 
-const stateMutable = ['payable', 'nonpayable'];
+const stateMutable = ["payable", "nonpayable"];
 // const nonStateMutable = ['view', 'pure'];
 
 const isEIP1559Transaction = (tx: EVMTxParams) =>
@@ -53,7 +53,7 @@ export const createContract = async (
   abi: readonly (JsonFragment | Fragment)[],
   provider: Provider,
 ) => {
-  const { Interface, Contract } = await import('ethers');
+  const { Interface, Contract } = await import("ethers");
   return new Contract(address, Interface.from(abi), provider);
 };
 
@@ -94,7 +94,7 @@ const call = async <T>(
   }: WithSigner<CallParams>,
 ): Promise<T> => {
   const contractProvider = callProvider || provider;
-  if (!contractAddress) throw new Error('contractAddress must be provided');
+  if (!contractAddress) throw new Error("contractAddress must be provided");
 
   const isStateChanging = isStateChangingCall(abi, funcName);
 
@@ -113,11 +113,11 @@ const call = async <T>(
 
   // only use signer if the contract function is state changing
   if (isStateChanging) {
-    if (!signer) throw new Error('Signer is not defined');
+    if (!signer) throw new Error("Signer is not defined");
 
     const address = txOverrides?.from || (await signer.getAddress());
 
-    if (!address) throw new Error('No signer address found');
+    if (!address) throw new Error("No signer address found");
 
     const connectedContract = contract.connect(signer);
     const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = (
@@ -140,12 +140,12 @@ const call = async <T>(
       nonce: txOverrides?.nonce || (await contractProvider.getTransactionCount(address)),
     });
 
-    return typeof result?.hash === 'string' ? result?.hash : result;
+    return typeof result?.hash === "string" ? result?.hash : result;
   }
 
   const result = await contract[funcName](...funcParams);
 
-  return typeof result?.hash === 'string' ? result?.hash : result;
+  return typeof result?.hash === "string" ? result?.hash : result;
 };
 
 export const createContractTxObject = async (
@@ -154,7 +154,7 @@ export const createContractTxObject = async (
 ) =>
   (await createContract(contractAddress, abi, provider))
     .getFunction(funcName)
-    .populateTransaction(...funcParams.concat(txOverrides).filter((p) => typeof p !== 'undefined'));
+    .populateTransaction(...funcParams.concat(txOverrides).filter((p) => typeof p !== "undefined"));
 
 const approvedAmount = async (
   provider: Provider,
@@ -163,7 +163,7 @@ const approvedAmount = async (
   await call<bigint>(provider, true, {
     contractAddress: assetAddress,
     abi: erc20ABI as any,
-    funcName: 'allowance',
+    funcName: "allowance",
     funcParams: [from, spenderAddress],
   });
 
@@ -196,7 +196,7 @@ const approve = async (
   const functionCallParams = {
     contractAddress: assetAddress,
     abi: erc20ABI,
-    funcName: 'approve',
+    funcName: "approve",
     funcParams,
     signer,
     txOverrides,
@@ -238,26 +238,26 @@ const transfer = async (
   signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
-  const txAmount = assetValue.getBaseValue('bigint');
+  const txAmount = assetValue.getBaseValue("bigint");
   const chain = assetValue.chain as EVMChain;
 
   if (!isGasAsset(assetValue)) {
     const contractAddress = getTokenAddress(assetValue, chain);
-    if (!contractAddress) throw new Error('No contract address found');
+    if (!contractAddress) throw new Error("No contract address found");
 
     // Transfer ERC20
     return call<string>(provider, isEIP1559Compatible, {
       signer,
       contractAddress,
       abi: erc20ABI,
-      funcName: 'transfer',
+      funcName: "transfer",
       funcParams: [recipient, txAmount],
       txOverrides: { from, maxFeePerGas, maxPriorityFeePerGas, gasPrice },
       feeOption: feeOptionKey,
     });
   }
 
-  const { hexlify, toUtf8Bytes } = await import('ethers');
+  const { hexlify, toUtf8Bytes } = await import("ethers");
 
   // Transfer ETH
   const txObject = {
@@ -265,7 +265,7 @@ const transfer = async (
     from,
     to: recipient,
     value: txAmount,
-    data: data || hexlify(toUtf8Bytes(memo || '')),
+    data: data || hexlify(toUtf8Bytes(memo || "")),
   };
 
   return sendTransaction(provider, txObject, feeOptionKey, signer, isEIP1559Compatible);
@@ -277,7 +277,7 @@ const estimateGasPrices = async (provider: Provider, isEIP1559Compatible = true)
 
     switch (isEIP1559Compatible) {
       case true:
-        if (!maxFeePerGas || !maxPriorityFeePerGas) throw new Error('No fee data available');
+        if (!maxFeePerGas || !maxPriorityFeePerGas) throw new Error("No fee data available");
 
         return {
           [FeeOption.Average]: {
@@ -295,7 +295,7 @@ const estimateGasPrices = async (provider: Provider, isEIP1559Compatible = true)
         };
 
       case false:
-        if (!gasPrice) throw new Error('No fee data available');
+        if (!gasPrice) throw new Error("No fee data available");
 
         return {
           [FeeOption.Average]: {
@@ -327,7 +327,7 @@ const estimateCall = async (
     txOverrides,
   }: WithSigner<EstimateCallParams>,
 ) => {
-  if (!contractAddress) throw new Error('contractAddress must be provided');
+  if (!contractAddress) throw new Error("contractAddress must be provided");
 
   const contract = await createContract(contractAddress, abi, provider);
   return signer
@@ -357,11 +357,11 @@ const estimateGasLimit = async (
     txOverrides?: EVMTxParams;
   },
 ) => {
-  const { hexlify, toUtf8Bytes } = await import('ethers');
+  const { hexlify, toUtf8Bytes } = await import("ethers");
   const value = assetValue.bigIntValue;
-  const assetAddress = !isGasAsset({ ...assetValue })
-    ? getTokenAddress(assetValue, assetValue.chain as EVMChain)
-    : null;
+  const assetAddress = isGasAsset({ ...assetValue })
+    ? null
+    : getTokenAddress(assetValue, assetValue.chain as EVMChain);
 
   if (assetAddress && funcName) {
     // ERC20 gas estimate
@@ -390,13 +390,13 @@ const sendTransaction = async (
   signer?: Signer,
   isEIP1559Compatible = true,
 ) => {
-  if (!signer) throw new Error('Signer is not defined');
+  if (!signer) throw new Error("Signer is not defined");
   const { from, to, data, value, ...transaction } = tx;
-  if (!to) throw new Error('No to address provided');
+  if (!to) throw new Error("No to address provided");
 
   const parsedTxObject = {
     ...transaction,
-    data: data || '0x',
+    data: data || "0x",
     to,
     from,
     value: BigInt(value || 0),
@@ -450,14 +450,14 @@ const sendTransaction = async (
 
     try {
       const response = await signer.sendTransaction(txObject);
-      return typeof response?.hash === 'string' ? response.hash : response;
+      return typeof response?.hash === "string" ? response.hash : response;
     } catch (error) {
       const txHex = await signer.signTransaction({
         ...txObject,
         from: address,
       });
       const response = await provider.broadcastTransaction(txHex);
-      return typeof response?.hash === 'string' ? response.hash : response;
+      return typeof response?.hash === "string" ? response.hash : response;
     }
   } catch (error) {
     throw new Error(`Error sending transaction: ${JSON.stringify(error)}`);
@@ -473,8 +473,8 @@ export const EIP1193SendTransaction = async (
   provider: Provider | BrowserProvider,
   { from, to, data, value }: EVMTxParams | ContractTransaction,
 ): Promise<string> => {
-  if (!isBrowserProvider(provider)) throw new Error('Provider is not EIP-1193 compatible');
-  return (provider as BrowserProvider).send('eth_sendTransaction', [
+  if (!isBrowserProvider(provider)) throw new Error("Provider is not EIP-1193 compatible");
+  return (provider as BrowserProvider).send("eth_sendTransaction", [
     { value: toHexString(BigInt(value || 0)), from, to, data } as any,
   ]);
 };
@@ -486,20 +486,20 @@ export const getChecksumAddressFromAsset = (asset: Asset, chain: EVMChain) => {
     return getAddress(assetAddress.toLowerCase());
   }
 
-  throw new Error('invalid gas asset address');
+  throw new Error("invalid gas asset address");
 };
 
 export const getTokenAddress = ({ chain, symbol, ticker }: Asset, baseAssetChain: EVMChain) => {
   try {
     if (
       (chain === baseAssetChain && symbol === baseAssetChain && ticker === baseAssetChain) ||
-      (chain === Chain.BinanceSmartChain && symbol === 'BNB' && ticker === 'BNB')
+      (chain === Chain.BinanceSmartChain && symbol === "BNB" && ticker === "BNB")
     ) {
       return baseAssetAddress[baseAssetChain];
     }
 
     // strip 0X only - 0x is still valid
-    return getAddress(symbol.slice(ticker.length + 1).replace(/^0X/, ''));
+    return getAddress(symbol.slice(ticker.length + 1).replace(/^0X/, ""));
   } catch (err) {
     return null;
   }

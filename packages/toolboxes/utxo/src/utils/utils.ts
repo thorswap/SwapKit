@@ -1,8 +1,8 @@
-import { Chain, FeeOption } from '@swapkit/types';
-import { networks } from 'bitcoinjs-lib';
-import coininfo from 'coininfo';
+import { Chain, FeeOption } from "@swapkit/types";
+import { networks } from "bitcoinjs-lib";
+import coininfo from "coininfo";
 
-const pid = typeof process !== 'undefined' && process.pid ? process.pid.toString(36) : '';
+const pid = typeof process !== "undefined" && process.pid ? process.pid.toString(36) : "";
 
 export const getNetwork = (chain: Chain) => {
   switch (chain) {
@@ -12,18 +12,17 @@ export const getNetwork = (chain: Chain) => {
       return coininfo.bitcoincash.main.toBitcoinJS();
     case Chain.Dash:
       return coininfo.dash.main.toBitcoinJS();
+    case Chain.Litecoin:
+      return coininfo.litecoin.main.toBitcoinJS();
 
-    case Chain.Dogecoin:
-      // eslint-disable-next-line no-case-declarations
+    case Chain.Dogecoin: {
       const bip32 = { private: 0x04358394, public: 0x043587cf };
-      // eslint-disable-next-line no-case-declarations
       const test = coininfo.dogecoin.test;
       test.versions.bip32 = bip32;
       return coininfo.dogecoin.main.toBitcoinJS();
-    case Chain.Litecoin:
-      return coininfo.litecoin.main.toBitcoinJS();
+    }
     default:
-      throw new Error('Invalid chain');
+      throw new Error("Invalid chain");
   }
 };
 

@@ -1,7 +1,7 @@
-import type { AssetValue, SwapKitCore } from '@swapkit/core';
-import { buildTransferTx, ThorchainToolbox } from '@swapkit/toolbox-cosmos';
-import { fromByteArray } from 'base64-js';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { AssetValue, SwapKitCore } from "@swapkit/core";
+import { buildTransferTx, ThorchainToolbox } from "@swapkit/toolbox-cosmos";
+import { fromByteArray } from "base64-js";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export default function Multisig({
   inputAsset,
@@ -15,17 +15,17 @@ export default function Multisig({
   phrase: string;
 }) {
   const toolbox = useMemo(() => ThorchainToolbox({ stagenet }), [stagenet]);
-  const [pubkeys, setPubkeys] = useState({ 0: '', 1: '' });
+  const [pubkeys, setPubkeys] = useState({ 0: "", 1: "" });
   const [threshold, setThreshold] = useState(2);
-  const [recipient, setRecipient] = useState('');
-  const [memo, setMemo] = useState('');
-  const [address, setAddress] = useState('');
+  const [recipient, setRecipient] = useState("");
+  const [memo, setMemo] = useState("");
+  const [address, setAddress] = useState("");
   const [transaction, setTransaction] = useState<any | undefined>(undefined);
   const [signatures, setSignatures] = useState<{ [key: string]: string }>({});
   const [bodyBytes, setBodyBytes] = useState<Uint8Array>(new Uint8Array([]));
-  const [transactionHash, setTransactionHash] = useState('');
+  const [transactionHash, setTransactionHash] = useState("");
   const [isBroadcasting, setIsBroadcasting] = useState(false);
-  const [nonMultisigPubKey, setNonMultisigPugKey] = useState('');
+  const [nonMultisigPubKey, setNonMultisigPugKey] = useState("");
   const [inputAssetValue, setInput] = useState(inputAsset?.mul(0));
 
   const loadPubKey = useCallback(async () => {
@@ -43,7 +43,7 @@ export default function Multisig({
 
   const handleLoadMultisig = useCallback(async () => {
     const pubkey = await toolbox.createMultisig(Object.values(pubkeys), threshold);
-    const address = await toolbox.pubkeyToAddress(pubkey, 'thor');
+    const address = await toolbox.pubkeyToAddress(pubkey, "thor");
     setAddress(address);
   }, [toolbox, pubkeys, threshold, setAddress]);
 
@@ -100,7 +100,7 @@ export default function Multisig({
 
   return (
     <div>
-      <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+      <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
         <div>
           <h4>Multisig</h4>
           <div>Your current pubkey: {nonMultisigPubKey}</div>
@@ -117,7 +117,6 @@ export default function Multisig({
             <span>Public keys:</span>
             <div>
               {Object.values(pubkeys).map((pubkey, index) => (
-                // eslint-disable-next-line react/no-array-index-key
                 <div key={`${pubkey}-${index}`}>
                   <input
                     onChange={(e) => handlePubkeyChange(index, e.target.value)}
@@ -184,7 +183,7 @@ export default function Multisig({
                   ) : (
                     Object.entries(signatures).map(([pubkey, signature]) => (
                       <div key={pubkey}>
-                        {pubkey} --&gt; {signature}{' '}
+                        {pubkey} --&gt; {signature}{" "}
                       </div>
                     ))
                   )}
@@ -201,7 +200,7 @@ export default function Multisig({
                 {isBroadcasting && <div>Broadcasting...</div>}
                 {transactionHash && (
                   <div>
-                    Hooray! The transaction was sent successfully. Here is your transaction hash{' '}
+                    Hooray! The transaction was sent successfully. Here is your transaction hash{" "}
                     {transactionHash}
                   </div>
                 )}

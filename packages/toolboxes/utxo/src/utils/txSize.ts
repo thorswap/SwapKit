@@ -1,11 +1,11 @@
-import { opcodes, script } from 'bitcoinjs-lib';
+import { opcodes, script } from "bitcoinjs-lib";
 
 import type {
   TargetOutput,
   UTXOCalculateTxSizeParams,
   UTXOInputWithScriptType,
   UTXOType,
-} from '../types/index.ts';
+} from "../types/index.ts";
 
 /**
  * Minimum transaction fee
@@ -19,14 +19,14 @@ const TX_INPUT_BASE = 32 + 4 + 1 + 4; // 41
 const TX_INPUT_PUBKEYHASH = 107;
 
 export const compileMemo = (memo: string) => {
-  const data = Buffer.from(memo, 'utf8'); // converts MEMO to buffer
+  const data = Buffer.from(memo, "utf8"); // converts MEMO to buffer
   return script.compile([opcodes.OP_RETURN, data]); // Compile OP_RETURN script
 };
 
 export enum UTXOScriptType {
-  P2PKH = 'P2PKH', // legacy
+  P2PKH = "P2PKH", // legacy
   //   P2SH = 'P2SH', // multisig
-  P2WPKH = 'P2WPKH', // bech32 - native segwit
+  P2WPKH = "P2WPKH", // bech32 - native segwit
   //   P2TR = 'P2TR', // taproot
 }
 
@@ -43,36 +43,36 @@ export const OutputSizes: Record<UTXOScriptType, number> = {
 };
 
 export const getScriptTypeForAddress = (address: string) => {
-  if (address.startsWith('bc1') || address.startsWith('ltc1')) {
+  if (address.startsWith("bc1") || address.startsWith("ltc1")) {
     return UTXOScriptType.P2WPKH;
   }
   //   if (address.startsWith('3') || address.startsWith('M')) {
   //     return UTXOScriptType.P2SH;
   //   }
   if (
-    address.startsWith('1') ||
-    address.startsWith('3') ||
-    address.startsWith('L') ||
-    address.startsWith('M') ||
-    address.startsWith('D') ||
-    address.startsWith('bitcoincash:q') ||
-    address.startsWith('q')
+    address.startsWith("1") ||
+    address.startsWith("3") ||
+    address.startsWith("L") ||
+    address.startsWith("M") ||
+    address.startsWith("D") ||
+    address.startsWith("bitcoincash:q") ||
+    address.startsWith("q")
   ) {
     return UTXOScriptType.P2PKH;
   }
-  throw new Error('Invalid address');
+  throw new Error("Invalid address");
 };
 
 export const calculateTxSize = ({ inputs, outputs, feeRate }: UTXOCalculateTxSizeParams) => {
   const newTxType =
-    inputs[0] && 'address' in inputs[0]
+    inputs[0] && "address" in inputs[0]
       ? getScriptTypeForAddress(inputs[0].address)
       : UTXOScriptType.P2PKH;
   const inputSize = inputs
     .filter(
       (utxo) =>
         utxo.value >=
-        InputSizes['type' in utxo ? utxo.type : UTXOScriptType.P2PKH] * Math.ceil(feeRate),
+        InputSizes["type" in utxo ? utxo.type : UTXOScriptType.P2PKH] * Math.ceil(feeRate),
     )
     .reduce((total, utxo) => total + getInputSize(utxo), 0);
 
@@ -83,10 +83,10 @@ export const calculateTxSize = ({ inputs, outputs, feeRate }: UTXOCalculateTxSiz
 };
 
 export const getInputSize = (input: UTXOInputWithScriptType | UTXOType) => {
-  if ('type' in input) {
+  if ("type" in input) {
     return InputSizes[input.type];
   }
-  if ('address' in input) {
+  if ("address" in input) {
     return InputSizes[getScriptTypeForAddress(input.address as string)];
   }
   return TX_INPUT_BASE + TX_INPUT_PUBKEYHASH;

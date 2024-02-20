@@ -1,23 +1,23 @@
-import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
-import type { Account } from '@cosmjs/stargate';
-import { type AssetValue, SwapKitNumber } from '@swapkit/helpers';
-import { ApiUrl, BaseDecimal, ChainId, DerivationPath } from '@swapkit/types';
+import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
+import type { Account } from "@cosmjs/stargate";
+import { type AssetValue, SwapKitNumber } from "@swapkit/helpers";
+import { ApiUrl, BaseDecimal, ChainId, DerivationPath } from "@swapkit/types";
 
-import { CosmosClient } from '../cosmosClient.ts';
-import { type KujiraToolboxType, type ToolboxParams, USK_KUJIRA_FACTORY_DENOM } from '../index.ts';
-import type { TransferParams } from '../types.ts';
+import { CosmosClient } from "../cosmosClient.ts";
+import { type KujiraToolboxType, type ToolboxParams, USK_KUJIRA_FACTORY_DENOM } from "../index.ts";
+import type { TransferParams } from "../types.ts";
 
 import {
   BaseCosmosToolbox,
   getAssetFromDenom,
   getFeeRateFromThorswap,
-} from './BaseCosmosToolbox.ts';
+} from "./BaseCosmosToolbox.ts";
 
 export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType => {
   const client = new CosmosClient({
     server: server || ApiUrl.Kujira,
     chainId: ChainId.Kujira,
-    prefix: 'kujira',
+    prefix: "kujira",
   });
 
   const baseToolbox: {
@@ -41,7 +41,7 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
     getFees: async () => {
       const baseFee = (await getFeeRateFromThorswap(ChainId.Kujira)) || 5000;
       return {
-        type: 'base',
+        type: "base",
         average: new SwapKitNumber({ value: baseFee, decimal: BaseDecimal.KUJI }),
         fast: new SwapKitNumber({ value: baseFee * 1.5, decimal: BaseDecimal.KUJI }),
         fastest: new SwapKitNumber({ value: baseFee * 2, decimal: BaseDecimal.KUJI }),
@@ -52,9 +52,9 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
       return await Promise.all(
         denomBalances
           .filter(({ denom }) => {
-            if (!denom || denom.includes('IBC/')) return false;
+            if (!denom || denom.includes("IBC/")) return false;
 
-            return denom === USK_KUJIRA_FACTORY_DENOM || !denom.startsWith('FACTORY');
+            return denom === USK_KUJIRA_FACTORY_DENOM || !denom.startsWith("FACTORY");
           })
           .map(({ denom, amount }) => getAssetFromDenom(denom, amount)),
       );

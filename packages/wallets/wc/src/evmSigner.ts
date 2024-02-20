@@ -1,10 +1,10 @@
-import type { JsonRpcProvider, Provider, TransactionRequest } from '@swapkit/toolbox-evm';
-import { AbstractSigner } from '@swapkit/toolbox-evm';
-import type { EVMChain } from '@swapkit/types';
+import type { JsonRpcProvider, Provider, TransactionRequest } from "@swapkit/toolbox-evm";
+import { AbstractSigner } from "@swapkit/toolbox-evm";
+import type { EVMChain } from "@swapkit/types";
 
-import { DEFAULT_EIP155_METHODS } from './constants.ts';
-import { chainToChainId, getAddressByChain } from './helpers.ts';
-import type { Walletconnect } from './walletconnect.ts';
+import { DEFAULT_EIP155_METHODS } from "./constants.ts";
+import { chainToChainId, getAddressByChain } from "./helpers.ts";
+import type { Walletconnect } from "./walletconnect.ts";
 
 interface WalletconnectEVMSignerParams {
   chain: EVMChain;
@@ -24,11 +24,11 @@ class WalletconnectSigner extends AbstractSigner {
     this.chain = chain;
     this.walletconnect = walletconnect;
     this.provider = provider;
-    this.address = '';
+    this.address = "";
   }
 
   getAddress = async () => {
-    if (!this.walletconnect) throw new Error('Missing walletconnect');
+    if (!this.walletconnect) throw new Error("Missing walletconnect");
     if (!this.address) {
       this.address = getAddressByChain(this.chain, this.walletconnect.accounts);
     }
@@ -47,11 +47,11 @@ class WalletconnectSigner extends AbstractSigner {
       },
     })) as string;
 
-    return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
+    return txHash.startsWith("0x") ? txHash : `0x${txHash}`;
   };
 
   signTransaction = () => {
-    throw new Error('signTransaction not implemented for walletconnect');
+    throw new Error("signTransaction not implemented for walletconnect");
     // if (!from) throw new Error('Missing from address');
     // if (!to) throw new Error('Missing to address');
 
@@ -78,7 +78,7 @@ class WalletconnectSigner extends AbstractSigner {
 
   // ANCHOR (@Towan) - Implement in future
   signTypedData = async () => {
-    throw new Error('this method is not implemented');
+    throw new Error("this method is not implemented");
 
     // if (!from) throw new Error('Missing from address');
     // if (!to) throw new Error('Missing to address');
@@ -104,7 +104,7 @@ class WalletconnectSigner extends AbstractSigner {
   };
 
   sendTransaction = async ({ from, to, value, data }: TransactionRequest) => {
-    const { toHexString } = await import('@swapkit/toolbox-evm');
+    const { toHexString } = await import("@swapkit/toolbox-evm");
 
     const baseTx = {
       from,
@@ -123,7 +123,7 @@ class WalletconnectSigner extends AbstractSigner {
   };
 
   connect = (provider: Provider | null) => {
-    if (!provider) throw new Error('Missing provider');
+    if (!provider) throw new Error("Missing provider");
 
     return new WalletconnectSigner({
       chain: this.chain,

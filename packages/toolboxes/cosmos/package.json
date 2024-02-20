@@ -1,5 +1,5 @@
 {
-  "author": "swapkit-oss-team",
+  "author": "swapkit-oss",
   "dependencies": {
     "@cosmjs/amino": "0.32.2",
     "@cosmjs/crypto": "0.32.2",
@@ -19,7 +19,8 @@
   },
   "description": "SwapKit Lib toolbox cosmos",
   "devDependencies": {
-    "@internal/config": "workspace:*",
+    "@internal/tools-typescript": "workspace:*",
+    "@internal/tools-vite": "workspace:*",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*",
     "@types/bn.js": "5.1.5",
@@ -57,7 +58,7 @@
   "scripts": {
     "build": "vite build",
     "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
-    "lint": "biome check --apply",
+    "lint": "biome check --apply ./src",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },

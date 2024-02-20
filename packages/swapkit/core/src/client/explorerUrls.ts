@@ -1,4 +1,4 @@
-import { Chain, ChainToExplorerUrl } from '@swapkit/types';
+import { Chain, ChainToExplorerUrl } from "@swapkit/types";
 
 export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Chain }) => {
   const baseUrl = ChainToExplorerUrl[chain];
@@ -8,7 +8,7 @@ export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Cha
     case Chain.Maya:
     case Chain.Kujira:
     case Chain.THORChain:
-      return `${baseUrl}/tx/${txHash.startsWith('0x') ? txHash.slice(2) : txHash}`;
+      return `${baseUrl}/tx/${txHash.startsWith("0x") ? txHash.slice(2) : txHash}`;
 
     case Chain.Arbitrum:
     case Chain.Avalanche:
@@ -16,7 +16,7 @@ export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Cha
     case Chain.Ethereum:
     case Chain.Optimism:
     case Chain.Polygon:
-      return `${baseUrl}/tx/${txHash.startsWith('0x') ? txHash : `0x${txHash}`}`;
+      return `${baseUrl}/tx/${txHash.startsWith("0x") ? txHash : `0x${txHash}`}`;
 
     case Chain.Cosmos:
       return `${baseUrl}/transactions/${txHash}`;

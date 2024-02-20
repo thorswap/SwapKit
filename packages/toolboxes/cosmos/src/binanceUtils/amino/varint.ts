@@ -1,10 +1,10 @@
-import { BN } from 'bn.js';
+import { BN } from "bn.js";
 
 function VarIntFunc(signed: boolean) {
   const encodingLength = (n: number) => {
     if (signed) n *= 2;
     if (n < 0) {
-      throw Error('varint value is out of bounds');
+      throw Error("varint value is out of bounds");
     }
     const bits = Math.log2(n + 1);
     return Math.ceil(bits / 7) || 1;
@@ -12,7 +12,7 @@ function VarIntFunc(signed: boolean) {
 
   const encode = (n: number, buffer?: Buffer | any, offset?: number) => {
     if (n < 0) {
-      throw Error('varint value is out of bounds');
+      throw Error("varint value is out of bounds");
     }
 
     buffer = buffer || Buffer.alloc(encodingLength(n));

@@ -1,8 +1,8 @@
-import { derivationPathToString } from '@swapkit/helpers';
-import type { DerivationPathArray } from '@swapkit/types';
-import { NetworkDerivationPath } from '@swapkit/types';
+import { derivationPathToString } from "@swapkit/helpers";
+import type { DerivationPathArray } from "@swapkit/types";
+import { NetworkDerivationPath } from "@swapkit/types";
 
-import { CommonLedgerInterface } from '../interfaces/LedgerInterfaces.ts';
+import { CommonLedgerInterface } from "../interfaces/LedgerInterfaces.ts";
 
 export class CosmosLedger extends CommonLedgerInterface {
   private pubKey: string | null = null;
@@ -11,7 +11,7 @@ export class CosmosLedger extends CommonLedgerInterface {
 
   constructor(derivationPath: DerivationPathArray = NetworkDerivationPath.GAIA) {
     super();
-    this.chain = 'cosmos';
+    this.chain = "cosmos";
     this.derivationPath = derivationPathToString(derivationPath);
   }
 
@@ -19,7 +19,7 @@ export class CosmosLedger extends CommonLedgerInterface {
     await this.checkOrCreateTransportAndLedger();
     const { publicKey, address } = await this.getAddressAndPubKey();
 
-    this.pubKey = Buffer.from(publicKey, 'hex').toString('base64');
+    this.pubKey = Buffer.from(publicKey, "hex").toString("base64");
 
     return address;
   };
@@ -32,7 +32,7 @@ export class CosmosLedger extends CommonLedgerInterface {
     return response;
   };
 
-  signTransaction = async (rawTx: string, sequence = '0') => {
+  signTransaction = async (rawTx: string, sequence = "0") => {
     await this.checkOrCreateTransportAndLedger(true);
 
     const { return_code, error_message, signature } = await this.ledgerApp.sign(
@@ -40,13 +40,13 @@ export class CosmosLedger extends CommonLedgerInterface {
       rawTx,
     );
 
-    if (!this.pubKey) throw new Error('Public Key not found');
+    if (!this.pubKey) throw new Error("Public Key not found");
 
     this.validateResponse(return_code, error_message);
 
     return [
       {
-        pub_key: { type: 'tendermint/PubKeySecp256k1', value: this.pubKey },
+        pub_key: { type: "tendermint/PubKeySecp256k1", value: this.pubKey },
         sequence,
         signature,
       },
@@ -65,7 +65,7 @@ export class CosmosLedger extends CommonLedgerInterface {
     }
 
     const { Secp256k1Signature, encodeSecp256k1Signature, serializeSignDoc } = await import(
-      '@swapkit/toolbox-cosmos'
+      "@swapkit/toolbox-cosmos"
     );
 
     const message = serializeSignDoc(signDoc);
@@ -88,8 +88,8 @@ export class CosmosLedger extends CommonLedgerInterface {
     return [
       {
         address: addressAndPubKey.address,
-        algo: 'secp256k1',
-        pubkey: Buffer.from(addressAndPubKey.publicKey, 'hex'),
+        algo: "secp256k1",
+        pubkey: Buffer.from(addressAndPubKey.publicKey, "hex"),
       },
     ] as any[];
   };
