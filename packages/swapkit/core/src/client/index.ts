@@ -54,7 +54,7 @@ const getEmptyWalletStructure = () =>
     {} as Record<Chain, null>,
   );
 
-const validateAddressType = async ({ chain, address }: { chain: Chain; address?: string }) => {
+const validateAddressType = ({ chain, address }: { chain: Chain; address?: string }) => {
   if (!address) return false;
 
   switch (chain) {
@@ -86,6 +86,7 @@ export class SwapKitCore<T = ""> {
     return wallet?.balance || [];
   };
 
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
   swap = async ({ streamSwap, recipient, route, feeOptionKey }: SwapParams) => {
     const {
       meta: { quoteMode },
@@ -177,7 +178,7 @@ export class SwapKitCore<T = ""> {
       const walletMethods = this.connectedWallets[evmChain];
       const from = this.getAddress(evmChain);
 
-      if (!walletMethods?.sendTransaction || !from) {
+      if (!(walletMethods?.sendTransaction && from)) {
         throw new SwapKitError("core_wallet_connection_not_found");
       }
 
@@ -254,6 +255,7 @@ export class SwapKitCore<T = ""> {
     recipient,
     router,
     ...rest
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
   }: CoreTxParams & { router?: string }) => {
     const { chain, symbol, ticker } = assetValue;
     const walletInstance = this.connectedWallets[chain];
@@ -318,7 +320,7 @@ export class SwapKitCore<T = ""> {
         }
       }
     } catch (error: any) {
-      const errorMessage = (error?.message || error?.toString()).toLowerCase();
+      const errorMessage = error?.message.toLowerCase();
       const isInsufficientFunds = errorMessage?.includes("insufficient funds");
       const isGas = errorMessage?.includes("gas");
       const isServer = errorMessage?.includes("server");
@@ -395,6 +397,7 @@ export class SwapKitCore<T = ""> {
     runeAddr?: string;
     assetAddr?: string;
     mode?: "sym" | "rune" | "asset";
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
   }) => {
     const { chain, symbol } = assetValue;
     const isSym = mode === "sym";
@@ -404,14 +407,15 @@ export class SwapKitCore<T = ""> {
     const runeAddress = includeRuneAddress ? runeAddr || this.getAddress(Chain.THORChain) : "";
     const assetAddress = isSym || mode === "asset" ? assetAddr || this.getAddress(chain) : "";
 
-    if (!runeTransfer && !assetTransfer) {
+    if (!(runeTransfer || assetTransfer)) {
       throw new SwapKitError("core_transaction_add_liquidity_invalid_params");
     }
     if (includeRuneAddress && !runeAddress) {
       throw new SwapKitError("core_transaction_add_liquidity_no_rune_address");
     }
 
-    let runeTx, assetTx;
+    let runeTx: string | undefined;
+    let assetTx: string | undefined;
 
     if (runeTransfer && runeAssetValue) {
       try {
@@ -461,7 +465,7 @@ export class SwapKitCore<T = ""> {
     return this.#depositToPool({ assetValue, memo });
   };
 
-  withdraw = async ({
+  withdraw = ({
     memo,
     assetValue,
     percent,
@@ -496,7 +500,7 @@ export class SwapKitCore<T = ""> {
     return this.#depositToPool({ assetValue: value, memo: memoString });
   };
 
-  savings = async ({
+  savings = ({
     assetValue,
     memo,
     percent,
@@ -573,7 +577,7 @@ export class SwapKitCore<T = ""> {
 
   extend = ({ wallets, config, apis = {}, rpcUrls = {} }: ExtendParams<T>) => {
     try {
-      wallets.forEach((wallet) => {
+      for (const wallet of wallets) {
         // @ts-expect-error - this is fine as we are extending the class
         this[wallet.connectMethodName] = wallet.connect({
           addChain: this.#addConnectedChain,
@@ -581,7 +585,7 @@ export class SwapKitCore<T = ""> {
           apis,
           rpcUrls,
         });
-      });
+      }
     } catch (error) {
       throw new SwapKitError("core_extend_error", error);
     }
@@ -634,33 +638,43 @@ export class SwapKitCore<T = ""> {
   /**
    * Wallet connection methods
    */
+  // biome-ignore lint/nursery/useAwait: Extended methods
   connectXDEFI = async (_chains: Chain[]): Promise<void> => {
     throw new SwapKitError("core_wallet_xdefi_not_installed");
   };
+  // biome-ignore lint/nursery/useAwait: Extended methods
   connectEVMWallet = async (_chains: Chain[] | Chain, _wallet: EVMWalletOptions): Promise<void> => {
     throw new SwapKitError("core_wallet_evmwallet_not_installed");
   };
+  // biome-ignore lint/nursery/useAwait: Extended methods
   connectWalletconnect = async (_chains: Chain[], _options?: any): Promise<void> => {
     throw new SwapKitError("core_wallet_walletconnect_not_installed");
   };
+  // biome-ignore lint/nursery/useAwait: Extended methods
   connectKeepkey = async (_chains: Chain[], _derivationPath: number[][]): Promise<string> => {
     throw new SwapKitError("core_wallet_keepkey_not_installed");
   };
+  // biome-ignore lint/nursery/useAwait: Extended methods
   connectKeystore = async (_chains: Chain[], _phrase: string): Promise<void> => {
     throw new SwapKitError("core_wallet_keystore_not_installed");
   };
+  // biome-ignore lint/nursery/useAwait: Extended methods
   connectLedger = async (_chains: Chain, _derivationPath: number[]): Promise<void> => {
     throw new SwapKitError("core_wallet_ledger_not_installed");
   };
+  // biome-ignore lint/nursery/useAwait: Extended methods
   connectTrezor = async (_chains: Chain, _derivationPath: number[]): Promise<void> => {
     throw new SwapKitError("core_wallet_trezor_not_installed");
   };
+  // biome-ignore lint/nursery/useAwait: Extended methods
   connectKeplr = async (_chain: Chain): Promise<void> => {
     throw new SwapKitError("core_wallet_keplr_not_installed");
   };
+  // biome-ignore lint/nursery/useAwait: Extended methods
   connectOkx = async (_chains: Chain[]): Promise<void> => {
     throw new SwapKitError("core_wallet_okx_not_installed");
   };
+
   disconnectChain = (chain: Chain) => {
     this.connectedChains[chain] = null;
     this.connectedWallets[chain] = null;
@@ -711,7 +725,7 @@ export class SwapKitCore<T = ""> {
 
     const from = this.getAddress(chain);
 
-    if (!address || !from) throw new SwapKitError("core_approve_asset_address_or_from_not_found");
+    if (!(address && from)) throw new SwapKitError("core_approve_asset_address_or_from_not_found");
 
     const spenderAddress =
       contractAddress || ((await this.#getInboundDataByChain(chain)).router as string);
@@ -753,7 +767,7 @@ export class SwapKitCore<T = ""> {
     const mimir = await getMimirData(this.stagenet);
 
     // check if trading is halted or not
-    if (mimir["HALTCHAINGLOBAL"] >= 1 || mimir["HALTTHORCHAIN"] >= 1) {
+    if (mimir.HALTCHAINGLOBAL >= 1 || mimir.HALTTHORCHAIN >= 1) {
       throw new SwapKitError("core_chain_halted");
     }
 

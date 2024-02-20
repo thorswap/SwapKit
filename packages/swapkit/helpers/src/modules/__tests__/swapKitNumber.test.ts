@@ -177,16 +177,16 @@ describe("SwapKitNumber", () => {
       const skNumber3 = new SwapKitNumber(1234567890.5678);
       expect(skNumber3.toAbbreviation()).toBe("1.23B");
 
-      const skNumber4 = new SwapKitNumber(1234567890123.5678);
+      const skNumber4 = new SwapKitNumber("1234567890123.5678");
       expect(skNumber4.toAbbreviation()).toBe("1.23T");
 
-      const skNumber5 = new SwapKitNumber(1234567890123456.5678);
+      const skNumber5 = new SwapKitNumber("1234567890123456.5678");
       expect(skNumber5.toAbbreviation()).toBe("1.23Q");
 
-      const skNumber6 = new SwapKitNumber(1234567890123456789.5678);
+      const skNumber6 = new SwapKitNumber("1234567890123456789.5678");
       expect(skNumber6.toAbbreviation()).toBe("1.23Qi");
 
-      const skNumber7 = new SwapKitNumber(1234567890123456789012.5678);
+      const skNumber7 = new SwapKitNumber("1234567890123456789012.5678");
       expect(skNumber7.toAbbreviation()).toBe("1.23S");
 
       const skNumber8 = new SwapKitNumber(1234.5678);

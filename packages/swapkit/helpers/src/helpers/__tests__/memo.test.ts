@@ -5,15 +5,17 @@ import { getMemoFor } from "../memo.ts";
 
 describe("getMemoFor", () => {
   describe("for Leave, Upgrade, and Bond", () => {
-    [
+    const nodeMemos = [
       [MemoType.LEAVE, "LEAVE:ABC123"],
       [MemoType.BOND, "BOND:ABC123"],
-    ].forEach(([memoType, expected]) => {
+    ];
+
+    for (const [memoType, expected] of nodeMemos) {
       it(`returns correct memo for ${memoType}`, () => {
         const result = getMemoFor(memoType as MemoType, { address: "ABC123" });
         expect(result).toBe(expected);
       });
-    });
+    }
   });
 
   describe("for Unbond and Thorname Register", () => {

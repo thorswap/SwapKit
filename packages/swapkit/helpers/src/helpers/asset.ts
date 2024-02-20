@@ -1,6 +1,6 @@
 import { RequestClient } from "@swapkit/api";
 import type { EVMChain } from "@swapkit/types";
-import { BaseDecimal, Chain, ChainToRPC, EVMChainList, FeeOption } from "@swapkit/types";
+import { BaseDecimal, Chain, ChainToRPC, EVMChains, FeeOption } from "@swapkit/types";
 
 const getDecimalMethodHex = "0x313ce567";
 
@@ -34,7 +34,7 @@ const getContractDecimals = async ({ chain, to }: { chain: EVMChain; to: string 
   }
 };
 
-const getETHAssetDecimal = async (symbol: string) => {
+const getETHAssetDecimal = (symbol: string) => {
   if (symbol === Chain.Ethereum) return BaseDecimal.ETH;
   const [, address] = symbol.split("-");
 
@@ -43,7 +43,7 @@ const getETHAssetDecimal = async (symbol: string) => {
     : BaseDecimal.ETH;
 };
 
-const getAVAXAssetDecimal = async (symbol: string) => {
+const getAVAXAssetDecimal = (symbol: string) => {
   const [, address] = symbol.split("-");
 
   return address?.startsWith("0x")
@@ -51,13 +51,13 @@ const getAVAXAssetDecimal = async (symbol: string) => {
     : BaseDecimal.AVAX;
 };
 
-const getBSCAssetDecimal = async (symbol: string) => {
+const getBSCAssetDecimal = (symbol: string) => {
   if (symbol === Chain.BinanceSmartChain) return BaseDecimal.BSC;
 
   return BaseDecimal.BSC;
 };
 
-export const getDecimal = async ({ chain, symbol }: { chain: Chain; symbol: string }) => {
+export const getDecimal = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
   switch (chain) {
     case Chain.Ethereum:
       return getETHAssetDecimal(symbol);
@@ -127,6 +127,7 @@ export const getCommonAssetInfo = (
   }
 };
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
 export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
   if (symbol.includes("/")) return "Synth";
 
@@ -172,7 +173,7 @@ const potentialScamRegex = new RegExp(
 
 const evmAssetHasAddress = (assetString: string) => {
   const [chain, symbol] = assetString.split(".") as [EVMChain, string];
-  if (!EVMChainList.includes(chain as EVMChain)) return true;
+  if (!EVMChains.includes(chain as EVMChain)) return true;
   const [, address] = symbol.split("-") as [string, string?];
 
   return isGasAsset({ chain: chain as Chain, symbol }) || !!address;

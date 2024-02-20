@@ -48,8 +48,8 @@ export const getSwapInParams = ({
   const baseMemo = tcMemo || memo;
   const transactionMemo = streamSwap ? memoStreamingSwap || baseMemo : baseMemo;
 
-  if (!tcVault && !vault) throw new Error("TC Vault is required on calldata");
-  if (!tcRouter && !router) throw new Error("TC Router is required on calldata");
+  if (!(tcVault || vault)) throw new Error("TC Vault is required on calldata");
+  if (!(tcRouter || router)) throw new Error("TC Router is required on calldata");
   if (!transactionMemo) throw new Error("TC Memo is required on calldata");
   if (!token) throw new Error("Token is required on calldata");
 

@@ -77,7 +77,7 @@ export class BigIntArithmetics {
     from: number;
     to: number;
   }) {
-    return this.fromBigInt(
+    return BigIntArithmetics.fromBigInt(
       (value.getBaseValue("bigint") * toMultiplier(to)) / toMultiplier(from),
       to,
     );
@@ -247,11 +247,11 @@ export class BigIntArithmetics {
     const integer = int.replace(/\B(?=(\d{3})+(?!\d))/g, thousandSeparator);
 
     const parsedValue =
-      !int && !dec
-        ? "0.00"
-        : int === "0"
+      int || dec
+        ? int === "0"
           ? `${parseFloat(`0.${dec}`)}`.replace(".", decimalSeparator)
-          : `${integer}${parseInt(dec) ? `${decimalSeparator}${dec.slice(0, decimal)}` : ""}`;
+          : `${integer}${parseInt(dec) ? `${decimalSeparator}${dec.slice(0, decimal)}` : ""}`
+        : "0.00";
 
     return `${currencyPosition === "start" ? currency : ""}${parsedValue}${
       currencyPosition === "end" ? currency : ""

@@ -2,12 +2,12 @@ import { BaseDecimal } from "@swapkit/types";
 
 import { SwapKitNumber } from "../index.ts";
 
-type ShareParams<T = {}> = T & {
+type ShareParams<T extends {}> = T & {
   liquidityUnits: string;
   poolUnits: string;
 };
 
-type PoolParams<T = {}> = T & {
+type PoolParams = {
   runeAmount: string;
   assetAmount: string;
   runeDepth: string;

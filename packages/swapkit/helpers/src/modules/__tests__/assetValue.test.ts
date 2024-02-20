@@ -234,6 +234,20 @@ describe("AssetValue", () => {
           ticker: "THOR",
         }),
       );
+
+      const usdc = AssetValue.fromStringSync("ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48");
+      expect(usdc).toBeDefined();
+      expect(usdc).toEqual(
+        expect.objectContaining({
+          address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          chain: Chain.Ethereum,
+          decimal: 6,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: "USDC-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+          ticker: "USDC",
+        }),
+      );
     });
 
     test("returns safe decimals if string is not in `@swapkit/tokens` lists", async () => {
@@ -278,23 +292,23 @@ describe("AssetValue", () => {
   describe("fromChainOrSignature", () => {
     test("creates AssetValue from common asset string or chain", () => {
       const customBaseAsset = [Chain.Cosmos, Chain.BinanceSmartChain, Chain.THORChain, Chain.Maya];
-      Object.values(Chain)
-        .filter((c) => !customBaseAsset.includes(c))
-        .forEach((chain) => {
-          const asset = AssetValue.fromChainOrSignature(chain);
-          expect(asset).toEqual(
-            expect.objectContaining({
-              address: undefined,
-              chain,
-              decimal: BaseDecimal[chain],
-              isGasAsset: ![Chain.Arbitrum, Chain.Optimism].includes(chain),
-              isSynthetic: false,
-              symbol: chain,
-              ticker: chain,
-              type: "Native",
-            }),
-          );
-        });
+      const filteredChains = Object.values(Chain).filter((c) => !customBaseAsset.includes(c));
+
+      for (const chain of filteredChains) {
+        const asset = AssetValue.fromChainOrSignature(chain);
+        expect(asset).toEqual(
+          expect.objectContaining({
+            address: undefined,
+            chain,
+            decimal: BaseDecimal[chain],
+            isGasAsset: ![Chain.Arbitrum, Chain.Optimism].includes(chain),
+            isSynthetic: false,
+            symbol: chain,
+            ticker: chain,
+            type: "Native",
+          }),
+        );
+      }
 
       const cosmosAsset = AssetValue.fromChainOrSignature(Chain.Cosmos);
       expect(cosmosAsset).toEqual(

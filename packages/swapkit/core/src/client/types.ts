@@ -22,7 +22,7 @@ import type {
   DOGEToolbox,
   LTCToolbox,
 } from "@swapkit/toolbox-utxo";
-import type { Chain, FeeOption, WalletOption } from "@swapkit/types";
+import { Chain, type FeeOption, type WalletOption } from "@swapkit/types";
 
 type BaseWalletMethods = {
   getAddress: () => Promise<string> | string;

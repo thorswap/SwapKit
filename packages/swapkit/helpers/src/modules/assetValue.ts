@@ -70,7 +70,7 @@ export class AssetValue extends BigIntArithmetics {
   // ETH.THOR-0x1234567890
   static fromUrl(urlAsset: string, value: NumberPrimitives = 0) {
     const [chain, ticker, symbol] = urlAsset.split(".");
-    if (!chain || !ticker) throw new Error("Invalid asset url");
+    if (!(chain && ticker)) throw new Error("Invalid asset url");
 
     const assetString =
       chain === Chain.THORChain && symbol ? `${chain}.${ticker}/${symbol}` : urlAsset;
@@ -143,20 +143,20 @@ export class AssetValue extends BigIntArithmetics {
 
   static loadStaticAssets() {
     return new Promise<{ ok: true } | { ok: false; message: string; error: any }>(
-      async (resolve, reject) => {
+      (resolve, reject) => {
         try {
-          const tokenPackages = await import("@swapkit/tokens");
+          import("@swapkit/tokens").then((tokenPackages) => {
+            for (const tokenList of Object.values(tokenPackages)) {
+              for (const { identifier, chain, ...rest } of tokenList.tokens) {
+                staticTokensMap.set(identifier.toUpperCase() as TokenNames, {
+                  identifier,
+                  decimal: "decimals" in rest ? rest.decimals : BaseDecimal[chain as Chain],
+                });
+              }
+            }
 
-          Object.values(tokenPackages).forEach((tokenList) => {
-            tokenList?.tokens?.forEach(({ identifier, chain, ...rest }) => {
-              staticTokensMap.set(identifier.toUpperCase() as TokenNames, {
-                identifier,
-                decimal: "decimals" in rest ? rest.decimals : BaseDecimal[chain as Chain],
-              });
-            });
+            resolve({ ok: true });
           });
-
-          resolve({ ok: true });
         } catch (error) {
           console.error(error);
           reject({
@@ -214,10 +214,10 @@ async function createAssetValue(identifier: string, value: NumberPrimitives = 0)
 function createSyntheticAssetValue(identifier: string, value: NumberPrimitives = 0) {
   const [synthChain, symbol] =
     identifier.split(".")[0].toUpperCase() === Chain.THORChain
-      ? identifier.split(".").slice(1)!.join().split("/")
+      ? identifier.split(".").slice(1).join().split("/")
       : identifier.split("/");
 
-  if (!synthChain || !symbol) throw new Error("Invalid asset identifier");
+  if (!(synthChain && symbol)) throw new Error("Invalid asset identifier");
 
   return new AssetValue({
     decimal: 8,
@@ -238,10 +238,10 @@ function getAssetInfo(identifier: string) {
 
   const [synthChain, synthSymbol] =
     identifier.split(".")[0].toUpperCase() === Chain.THORChain
-      ? identifier.split(".").slice(1)!.join().split("/")
+      ? identifier.split(".").slice(1).join().split("/")
       : identifier.split("/");
 
-  if (isSynthetic && (!synthChain || !synthSymbol)) throw new Error("Invalid asset identifier");
+  if (isSynthetic && !(synthChain && synthSymbol)) throw new Error("Invalid asset identifier");
 
   const adjustedIdentifier =
     identifier.includes(".") && !isSynthetic ? identifier : `${Chain.THORChain}.${synthSymbol}`;

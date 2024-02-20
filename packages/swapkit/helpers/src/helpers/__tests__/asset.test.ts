@@ -19,14 +19,14 @@ describe("getAssetType", () => {
 
   describe("when isSynth is false", () => {
     describe("for native chains and their assets", () => {
-      Object.values(Chain).forEach((chain) => {
+      for (const chain of Object.values(Chain)) {
         it(`should return "Native" for chain ${chain} asset`, () => {
           const ticker = tickerMap[chain] || chain;
           const result = getAssetType({ chain: chain as Chain, symbol: ticker });
 
           expect(result).toBe("Native");
         });
-      });
+      }
     });
 
     describe("for Cosmos chain", () => {
@@ -70,16 +70,18 @@ describe("getDecimal", () => {
   /**
    * Test out native
    */
-  Object.values(Chain)
-    .filter((c) => ![Chain.Ethereum, Chain.Avalanche].includes(c))
-    .forEach((chain) => {
-      describe(chain, () => {
-        it(`returns proper decimal for native ${chain} asset`, async () => {
-          const decimal = await getDecimal({ chain, symbol: chain });
-          expect(decimal).toBe(BaseDecimal[chain]);
-        });
+  const filteredChains = Object.values(Chain).filter(
+    (c) => ![Chain.Ethereum, Chain.Avalanche].includes(c),
+  );
+
+  for (const chain of filteredChains) {
+    describe(chain, () => {
+      it(`returns proper decimal for native ${chain} asset`, async () => {
+        const decimal = await getDecimal({ chain, symbol: chain });
+        expect(decimal).toBe(BaseDecimal[chain]);
       });
     });
+  }
 
   describe("ETH", () => {
     it("returns proper decimal for eth and it's assets", async () => {

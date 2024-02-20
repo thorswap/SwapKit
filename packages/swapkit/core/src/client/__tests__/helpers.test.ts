@@ -1,10 +1,10 @@
-import { Chain, ChainToExplorerUrl } from "@swapkit/types";
+import { Chain, ChainToExplorerUrl, CosmosChains, EVMChains, UTXOChains } from "@swapkit/types";
 import { describe, expect, test } from "vitest";
 
 import { getExplorerAddressUrl, getExplorerTxUrl } from "../explorerUrls.ts";
 
 describe("Explorer URLs", () => {
-  [Chain.Binance, Chain.Maya, Chain.Kujira, Chain.THORChain].forEach((chain) => {
+  for (const chain of CosmosChains) {
     test(`getExplorerTxUrl returns correct URL for ${chain}`, () => {
       expect(getExplorerTxUrl({ chain, txHash: "0x123456789" })).toBe(
         `${ChainToExplorerUrl[chain]}/tx/123456789`,
@@ -14,16 +14,9 @@ describe("Explorer URLs", () => {
         `${ChainToExplorerUrl[chain]}/address/asdfg`,
       );
     });
-  });
+  }
 
-  [
-    Chain.Arbitrum,
-    Chain.Avalanche,
-    Chain.BinanceSmartChain,
-    Chain.Ethereum,
-    Chain.Optimism,
-    Chain.Polygon,
-  ].forEach((chain) => {
+  for (const chain of EVMChains) {
     test(`getExplorerTxUrl returns correct URL for ${chain}`, () => {
       expect(getExplorerTxUrl({ chain, txHash: "0x123456789" })).toBe(
         `${ChainToExplorerUrl[chain]}/tx/0x123456789`,
@@ -33,9 +26,9 @@ describe("Explorer URLs", () => {
         `${ChainToExplorerUrl[chain]}/address/asdfg`,
       );
     });
-  });
+  }
 
-  [Chain.Bitcoin, Chain.BitcoinCash, Chain.Dogecoin, Chain.Litecoin].forEach((chain) => {
+  for (const chain of UTXOChains) {
     test(`getExplorerTxUrl returns correct URL for ${chain}`, () => {
       expect(getExplorerTxUrl({ chain, txHash: "0x123456789" })).toBe(
         `${ChainToExplorerUrl[chain]}/transaction/0x123456789`,
@@ -45,7 +38,7 @@ describe("Explorer URLs", () => {
         `${ChainToExplorerUrl[chain]}/address/asdfg`,
       );
     });
-  });
+  }
 
   test("getExplorerTxUrl throws Error for unsupported Chain", () => {
     expect(() =>
