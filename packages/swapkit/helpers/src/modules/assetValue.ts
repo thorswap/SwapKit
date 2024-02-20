@@ -7,7 +7,7 @@ import type { TokenNames, TokenTax } from '../types.ts';
 
 import type { NumberPrimitives } from './bigIntArithmetics.ts';
 import { BigIntArithmetics, formatBigIntToSafeValue } from './bigIntArithmetics.ts';
-import type { SwapKitValueType } from './swapKitNumber.ts';
+import { SwapKitNumber, type SwapKitValueType } from './swapKitNumber.ts';
 
 const staticTokensMap = new Map<
   TokenNames,
@@ -114,6 +114,44 @@ export class AssetValue extends BigIntArithmetics {
       value: safeValue(value, decimal),
       identifier: isSynthetic ? assetString : identifier,
       decimal: isSynthetic ? 8 : decimal,
+    });
+  }
+
+  static async fromStringWithBase(
+    assetString: string,
+    value: NumberPrimitives = 0,
+    baseDecimal: number = BaseDecimal.THOR,
+  ) {
+    const shiftedAmount = BigIntArithmetics.shiftDecimals({
+      value: SwapKitNumber.fromBigInt(BigInt(value)),
+      from: 0,
+      to: baseDecimal,
+    }).getBaseValue('string');
+    const assetValue = await AssetValue.fromString(assetString, value);
+
+    return assetValue.set(shiftedAmount);
+  }
+
+  static fromStringWithBaseSync(
+    assetString: string,
+    value: NumberPrimitives = 0,
+    baseDecimal: number = BaseDecimal.THOR,
+  ) {
+    const { chain, isSynthetic } = getAssetInfo(assetString);
+    const tokenInfo = staticTokensMap.get(assetString.toUpperCase() as TokenNames);
+
+    if (isSynthetic) return createSyntheticAssetValue(assetString, value);
+
+    const { tax, decimal, identifier } = tokenInfo || {
+      decimal: BaseDecimal[chain],
+      identifier: assetString,
+    };
+
+    return new AssetValue({
+      tax,
+      value: safeValue(BigInt(value), baseDecimal),
+      identifier,
+      decimal,
     });
   }
 

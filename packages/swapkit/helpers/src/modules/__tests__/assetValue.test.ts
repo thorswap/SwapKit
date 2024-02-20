@@ -176,6 +176,27 @@ describe('AssetValue', () => {
     });
   });
 
+  describe('fromStringWithBase', () => {
+    test('creates AssetValue from string with base', async () => {
+      const fakeAvaxAssetString = 'AVAX.ASDF-1234';
+      const fakeAvaxAsset = await AssetValue.fromStringWithBase(fakeAvaxAssetString, 1, 8);
+
+      expect(fakeAvaxAsset).toEqual(
+        expect.objectContaining({
+          address: '1234',
+          chain: Chain.Avalanche,
+          decimal: 18,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: 'ASDF-1234',
+          ticker: 'ASDF',
+        }),
+      );
+      expect(fakeAvaxAsset.getValue('string')).toBe('100000000');
+      expect(fakeAvaxAsset.getBaseValue('string')).toBe('100000000000000000000000000');
+    });
+  });
+
   describe('fromUrl', () => {
     test('creates AssetValue from url like format', async () => {
       const synthETHString = 'THOR.ETH.ETH';
@@ -272,6 +293,72 @@ describe('AssetValue', () => {
           ticker: 'BTC.b',
         }),
       );
+    });
+  });
+
+  describe('fromStringWithBaseSync', () => {
+    test('creates AssetValue from string with base decimals via `@swapkit/tokens` lists', async () => {
+      await AssetValue.loadStaticAssets();
+      const btc = AssetValue.fromStringWithBaseSync('BTC.BTC', 5200000000000, 8);
+
+      expect(btc).toBeDefined();
+      expect(btc).toEqual(
+        expect.objectContaining({
+          chain: Chain.Bitcoin,
+          decimal: 8,
+          isGasAsset: true,
+          isSynthetic: false,
+          symbol: 'BTC',
+          ticker: 'BTC',
+        }),
+      );
+
+      expect(btc.getValue('string')).toBe('52000');
+      expect(btc.getBaseValue('string')).toBe('5200000000000');
+    });
+
+    test('returns safe decimals if string is not in `@swapkit/tokens` lists', async () => {
+      await AssetValue.loadStaticAssets();
+      const fakeAvaxUSDCAssetString = 'AVAX.USDC-1234';
+      const fakeAvaxUSDCAsset = AssetValue.fromStringWithBaseSync(fakeAvaxUSDCAssetString, 1, 8);
+
+      expect(fakeAvaxUSDCAsset).toBeDefined();
+      expect(fakeAvaxUSDCAsset).toEqual(
+        expect.objectContaining({
+          address: '1234',
+          chain: Chain.Avalanche,
+          decimal: 18,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: 'USDC-1234',
+          ticker: 'USDC',
+        }),
+      );
+
+      expect(fakeAvaxUSDCAsset.getValue('string')).toBe('0.00000001');
+      expect(fakeAvaxUSDCAsset.getBaseValue('string')).toBe('10000000000');
+    });
+
+    test('returns proper avax string with address from `@swapkit/tokens` lists', async () => {
+      await AssetValue.loadStaticAssets();
+      const avaxUSDC = 'AVAX.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e';
+      const AvaxUSDC = AssetValue.fromStringWithBaseSync(avaxUSDC, 100000000, 8);
+
+      expect(AvaxUSDC).toBeDefined();
+      expect(AvaxUSDC).toEqual(
+        expect.objectContaining({
+          address: '0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
+          chain: Chain.Avalanche,
+          decimal: 6,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: 'USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e',
+          ticker: 'USDC',
+        }),
+      );
+
+      expect(AvaxUSDC.getValue('string')).toBe('1');
+      expect(AvaxUSDC.getBaseValue('string')).toBe('1000000');
     });
   });
 
