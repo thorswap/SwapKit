@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.71
+
+### Patch Changes
+
+- [#619](https://github.com/thorswap/SwapKit/pull/619) [`ec7f912`](https://github.com/thorswap/SwapKit/commit/ec7f9120cf2d82c66eaa4936312a6c56cfef68bf) Thanks [@ochhii1337](https://github.com/ochhii1337)! - Add fromStringWithBase & sync methods to AssetValue
+
 ## 1.0.0-rc.70
 
 ### Patch Changes
