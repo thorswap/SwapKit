@@ -123,7 +123,7 @@ export class AssetValue extends BigIntArithmetics {
     baseDecimal: number = BaseDecimal.THOR,
   ) {
     const shiftedAmount = BigIntArithmetics.shiftDecimals({
-      value: new SwapKitNumber(value),
+      value: SwapKitNumber.fromBigInt(BigInt(value)),
       from: 0,
       to: baseDecimal,
     }).getBaseValue('string');
@@ -137,21 +137,21 @@ export class AssetValue extends BigIntArithmetics {
     value: NumberPrimitives = 0,
     baseDecimal: number = BaseDecimal.THOR,
   ) {
-    const { isSynthetic } = getAssetInfo(assetString);
+    const { chain, isSynthetic } = getAssetInfo(assetString);
     const tokenInfo = staticTokensMap.get(assetString.toUpperCase() as TokenNames);
 
     if (isSynthetic) return createSyntheticAssetValue(assetString, value);
 
-    const { tax, identifier } = tokenInfo || {
-      decimal: baseDecimal,
+    const { tax, decimal, identifier } = tokenInfo || {
+      decimal: BaseDecimal[chain],
       identifier: assetString,
     };
 
     return new AssetValue({
       tax,
-      value: safeValue(value, baseDecimal),
+      value: safeValue(BigInt(value), baseDecimal),
       identifier,
-      decimal: baseDecimal,
+      decimal,
     });
   }
 
