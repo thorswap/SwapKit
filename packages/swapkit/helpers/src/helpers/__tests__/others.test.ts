@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 
-import { derivationPathToString, getTHORNameCost, validateTHORName } from '../others.ts';
+import { AssetValue, SwapKitNumber } from '../../index.ts';
+import {
+  assetValueFromMidgard,
+  derivationPathToString,
+  getTHORNameCost,
+  swapKitNumberFromMidgard,
+  toMidgardAmount,
+  validateTHORName,
+} from '../others.ts';
 
 describe('derivationPathToString', () => {
   it('should return the correct string for a full path', () => {
@@ -55,5 +63,39 @@ describe('validateTHORName', () => {
       const result = validateTHORName(name);
       expect(result).toBe(expected);
     });
+  });
+});
+
+describe('swapKitNumberFromMidgard', () => {
+  it('should create SwapKitNumber from string or number with 8 decimals', () => {
+    const fromString = swapKitNumberFromMidgard('123456789');
+    expect(fromString.getValue('string')).toBe('123456789');
+    expect(fromString.decimal).toBe(8);
+
+    const fromNumber = swapKitNumberFromMidgard(123456789);
+    expect(fromNumber.getValue('string')).toBe('123456789');
+    expect(fromNumber.decimal).toBe(8);
+  });
+});
+
+describe('toMidgardAmount', () => {
+  it('should convert SwapKitNumber or AssetValue to Midgard amount string', () => {
+    const skNumber = new SwapKitNumber({ value: 123.456, decimal: 8 });
+    const assetValue = AssetValue.fromStringSync('THOR.RUNE', 123.456);
+
+    expect(toMidgardAmount(skNumber)).toBe('12345600000');
+    expect(toMidgardAmount(assetValue)).toBe('12345600000');
+  });
+});
+
+describe('assetValueFromMidgard', () => {
+  it('should create AssetValue from Midgard asset and value', () => {
+    const asset = 'THOR.RUNE';
+    const value = '123456789';
+    const result = assetValueFromMidgard(asset, value);
+
+    expect(result instanceof AssetValue).toBe(true);
+    expect(result.toUrl()).toBe('THOR.RUNE');
+    expect(result.getValue('string')).toBe('123456789');
   });
 });
