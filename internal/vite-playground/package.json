@@ -43,5 +43,6 @@
     "dev": "vite",
     "preview-playground": "vite preview"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

@@ -5,29 +5,12 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", "node_modules/.cache/**"]
     },
-    "build-playground": {
-      "dependsOn": ["^build", "^build-playground"],
-      "outputs": ["dist/**", "node_modules/.cache/**"]
-    },
-    "clean": {
-      "cache": false
-    },
-    "lint": {
-      "dependsOn": ["build"]
-    },
-    "preview-playground": {
-      "cache": false,
-      "persistent": true
-    },
-    "publish": {
-      "dependsOn": ["build"]
-    },
-    "test": {
-      "dependsOn": ["build"]
-    },
-    "test:coverage": {
-      "dependsOn": ["build"]
-    },
+    "clean": { "cache": false },
+    "lint": {},
+    "preview-playground": { "cache": false, "persistent": true },
+    "publish": { "dependsOn": ["build"] },
+    "test": { "dependsOn": ["build"] },
+    "test:coverage": { "dependsOn": ["build"] },
     "test:watch": {
       "inputs": ["__tests__/**/*.test.ts", "__tests__/**/*.test.tsx"],
       "persistent": true

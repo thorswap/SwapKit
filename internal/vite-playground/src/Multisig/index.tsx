@@ -1,5 +1,5 @@
 import type { AssetValue, SwapKitCore } from "@swapkit/core";
-import { buildTransferTx, ThorchainToolbox } from "@swapkit/toolbox-cosmos";
+import { ThorchainToolbox, buildAminoMsg } from "@swapkit/toolbox-cosmos";
 import { fromByteArray } from "base64-js";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -61,13 +61,12 @@ export default function Multisig({
     [inputAsset],
   );
 
-  const handleCreateTransaction = useCallback(async () => {
-    if (!inputAssetValue?.gt(0) || !skClient) return;
-    const transferTx = await buildTransferTx({
-      isStagenet: stagenet,
+  const handleCreateTransaction = useCallback(() => {
+    if (!(inputAssetValue?.gt(0) && skClient)) return;
+    const transferTx = buildAminoMsg({
       memo,
-      toAddress: recipient,
-      fromAddress: address,
+      recipient,
+      from: address,
       assetValue: inputAssetValue,
     });
 
@@ -91,6 +90,7 @@ export default function Multisig({
     const txHash = await toolbox.broadcastMultisigTx(
       JSON.stringify(transaction),
       Object.entries(signatures).map(([pubKey, signature]) => ({ pubKey, signature })),
+      Object.values(pubkeys),
       threshold,
       bodyBytes,
     );
