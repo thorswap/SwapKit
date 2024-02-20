@@ -106,7 +106,7 @@ export class BinanceApp {
     this._transport.setScrambleKey(SCRAMBLE_KEY);
   }
 
-  _serialize(cla: number = CLA, ins: number, p1 = 0, p2 = 0, data: any = null) {
+  _serialize(cla: number = CLA, ins = 0, p1 = 0, p2 = 0, data: any = null) {
     let size = 5;
     if (data != null) {
       if (data.length > 255) {
@@ -249,13 +249,13 @@ export class BinanceApp {
       );
       if (!Buffer.isBuffer(apduResponse)) throw new Error("expected apduResponse to be Buffer");
       const returnCode = apduResponse.slice(-2);
-      result["test_mode"] = apduResponse[0] !== 0;
-      result["major"] = apduResponse[1];
-      result["minor"] = apduResponse[2];
-      result["patch"] = apduResponse[3];
-      result["device_locked"] = apduResponse[4] === 1;
-      result["return_code"] = returnCode[0] * 256 + returnCode[1];
-      result["error_message"] = this._errorMessage(result["return_code"]);
+      result.test_mode = apduResponse[0] !== 0;
+      result.major = apduResponse[1];
+      result.minor = apduResponse[2];
+      result.patch = apduResponse[3];
+      result.device_locked = apduResponse[4] === 1;
+      result.return_code = returnCode[0] * 256 + returnCode[1];
+      result.error_message = this._errorMessage(result.return_code);
     } catch (err: any) {
       const { statusCode, statusText, message, stack } = err;
       console.warn(
@@ -315,9 +315,9 @@ export class BinanceApp {
       );
       if (!Buffer.isBuffer(apduResponse)) throw new Error("expected apduResponse to be Buffer");
       const returnCode = apduResponse.slice(-2);
-      result["pk"] = apduResponse.slice(0, 1 + 64);
-      result["return_code"] = returnCode[0] * 256 + returnCode[1];
-      result["error_message"] = this._errorMessage(result["return_code"]);
+      result.pk = apduResponse.slice(0, 1 + 64);
+      result.return_code = returnCode[0] * 256 + returnCode[1];
+      result.error_message = this._errorMessage(result.return_code);
     } catch (err: any) {
       const { statusCode, statusText, message, stack } = err;
       console.warn(
@@ -400,12 +400,12 @@ export class BinanceApp {
       if (!Buffer.isBuffer(apduResponse)) throw new Error("expected apduResponse to be Buffer");
       const returnCode = apduResponse.slice(-2);
 
-      result["return_code"] = returnCode[0] * 256 + returnCode[1];
-      result["error_message"] = this._errorMessage(result["return_code"]);
+      result.return_code = returnCode[0] * 256 + returnCode[1];
+      result.error_message = this._errorMessage(result.return_code);
 
-      result["signature"] = null;
+      result.signature = null;
       if (apduResponse.length > 2) {
-        result["signature"] = apduResponse.slice(0, apduResponse.length - 2);
+        result.signature = apduResponse.slice(0, apduResponse.length - 2);
       }
     } catch (err: any) {
       const { statusCode, statusText, message, stack } = err;
@@ -427,6 +427,8 @@ export class BinanceApp {
    * @param {array} hdPath The HD path to use to get the public key. Default is [44, 714, 0, 0, 0]
    * @throws Will throw Error if a transport error occurs, or if the firmware app is not open.
    */
+
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
   async signSecp256k1(
     signBytes: Buffer,
     hdPath: number[] = [44, 714, 0, 0, 0],
@@ -434,7 +436,7 @@ export class BinanceApp {
     const result: SignedSignature = {};
     const chunks = this._signGetChunks(signBytes, hdPath);
     // _signSendChunk doesn't throw, it catches exceptions itself. no need for try/catch
-    let response;
+    let response = null;
     try {
       if (chunks.length <= 1) {
         this._transport.setExchangeTimeout(this._interactiveTimeout);
@@ -443,9 +445,9 @@ export class BinanceApp {
         this._transport.setExchangeTimeout(this._nonInteractiveTimeout);
       }
       response = await this._signSendChunk(1, chunks.length, chunks[0]);
-      result["return_code"] = response.return_code;
-      result["error_message"] = response.error_message;
-      result["signature"] = null;
+      result.return_code = response.return_code;
+      result.error_message = response.error_message;
+      result.signature = null;
     } catch (err: any) {
       const { statusCode, statusText, message, stack } = err;
       console.warn(
@@ -465,8 +467,8 @@ export class BinanceApp {
             this._transport.setExchangeTimeout(this._interactiveTimeout);
           }
           response = await this._signSendChunk(1 + i, chunks.length, chunks[i]);
-          result["return_code"] = response.return_code;
-          result["error_message"] = response.error_message;
+          result.return_code = response.return_code;
+          result.error_message = response.error_message;
         } catch (err: any) {
           const { statusCode, statusText, message, stack } = err;
           console.warn(
@@ -482,8 +484,8 @@ export class BinanceApp {
           break;
         }
       }
-      result["return_code"] = response.return_code;
-      result["error_message"] = response.error_message;
+      result.return_code = response.return_code;
+      result.error_message = response.error_message;
 
       // Ledger has encoded the sig in ASN1 DER format, but we need a 64-byte buffer of <r,s>
       // DER-encoded signature from Ledger:
@@ -517,12 +519,12 @@ export class BinanceApp {
       const sigR = signature.slice(rOffset, rOffset + rLen); // skip e.g. 3045022100 and pad
       const sigS = signature.slice(sOffset);
 
-      signature = result["signature"] = Buffer.concat([sigR, sigS]);
+      signature = result.signature = Buffer.concat([sigR, sigS]);
       if (signature.length !== 64) {
         throw new Error(`Ledger assertion failed: incorrect signature length ${signature.length}`);
       }
     } else {
-      throw new Error("Unable to sign the transaction. Return code " + response.return_code);
+      throw new Error(`Unable to sign the transaction. Return code ${response.return_code}`);
     }
     return result;
   }
@@ -568,10 +570,10 @@ export class BinanceApp {
     );
     if (!Buffer.isBuffer(apduResponse)) throw new Error("expected apduResponse to be Buffer");
     const returnCode = apduResponse.slice(-2);
-    result["return_code"] = returnCode[0] * 256 + returnCode[1];
-    result["error_message"] = this._errorMessage(result["return_code"]);
+    result.return_code = returnCode[0] * 256 + returnCode[1];
+    result.error_message = this._errorMessage(result.return_code);
     if (result.return_code === 0x6a80) {
-      result["error_message"] = apduResponse.slice(0, apduResponse.length - 2).toString("ascii");
+      result.error_message = apduResponse.slice(0, apduResponse.length - 2).toString("ascii");
     }
     return result;
   }

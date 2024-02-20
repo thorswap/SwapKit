@@ -46,6 +46,7 @@ const getToolbox = async ({
   covalentApiKey,
   derivationPath,
   blockchairApiKey,
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
 }: Params) => {
   switch (chain) {
     case Chain.BinanceSmartChain:
@@ -85,7 +86,7 @@ const getToolbox = async ({
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      if (!blockchairApiKey && !api) throw new Error("UTXO API key not found");
+      if (!(blockchairApiKey || api)) throw new Error("UTXO API key not found");
       const coin = chain.toLowerCase() as "btc" | "bch" | "ltc" | "doge";
 
       const { getToolboxByChain, BCHToolbox } = await import("@swapkit/toolbox-utxo");
@@ -151,6 +152,7 @@ const getToolbox = async ({
           })),
 
           // Lint is not happy with the type of txOutputs
+          // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
           outputs: psbt.txOutputs.map((output: any) => {
             const outputAddress =
               chain === Chain.BitcoinCash && output.address

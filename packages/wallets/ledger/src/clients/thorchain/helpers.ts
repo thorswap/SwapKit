@@ -48,7 +48,7 @@ export const serializePathv2 = (path: any) => {
   return buf;
 };
 
-export const signSendChunkv2 = async (app: any, chunkIdx: any, chunkNum: any, chunk: any) => {
+export const signSendChunkv2 = (app: any, chunkIdx: any, chunkNum: any, chunk: any) => {
   let payloadType = PAYLOAD_TYPE.ADD;
   if (chunkIdx === 1) {
     payloadType = PAYLOAD_TYPE.INIT;

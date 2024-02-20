@@ -1,5 +1,5 @@
 import type { EVMChain } from "@swapkit/types";
-import { Chain, EVMChainList, NetworkDerivationPath } from "@swapkit/types";
+import { Chain, EVMChains, NetworkDerivationPath } from "@swapkit/types";
 
 type Params = {
   index: number;
@@ -13,7 +13,7 @@ const updatedLastIndex = (path: number[], index: number) => [
 ];
 
 export const getDerivationPathFor = ({ chain, index, type }: Params) => {
-  if (EVMChainList.includes(chain as EVMChain)) {
+  if (EVMChains.includes(chain as EVMChain)) {
     if (type === "legacy") return [44, 60, 0, index];
     if (type === "ledgerLive") return [44, 60, index, 0, 0];
     return updatedLastIndex(NetworkDerivationPath[chain], index);

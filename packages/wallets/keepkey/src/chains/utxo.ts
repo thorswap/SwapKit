@@ -54,7 +54,7 @@ export const utxoWalletMethods = async ({
     transfer: (params: UTXOTransferParams) => Promise<string>;
   }
 > => {
-  if (!apiKey && !apiClient) throw new Error("UTXO API key not found");
+  if (!(apiKey || apiClient)) throw new Error("UTXO API key not found");
   const { getToolboxByChain } = await import("@swapkit/toolbox-utxo");
 
   const toolbox = getToolboxByChain(chain)({ apiClient, apiKey });

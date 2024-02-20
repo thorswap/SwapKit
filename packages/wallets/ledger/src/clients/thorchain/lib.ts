@@ -234,7 +234,7 @@ export class THORChainApp {
     }
   }
 
-  async getAddressAndPubKey(path: string, hrp: any) {
+  getAddressAndPubKey(path: string, hrp: any) {
     try {
       return this.executeCommandOnDevice({ path, hrp, command: "ONLY_RETRIEVE" });
     } catch (e) {
@@ -242,7 +242,7 @@ export class THORChainApp {
     }
   }
 
-  async showAddressAndPubKey(path: string, hrp: any) {
+  showAddressAndPubKey(path: string, hrp: any) {
     try {
       return this.executeCommandOnDevice({ path, hrp, command: "SHOW_ADDRESS_IN_DEVICE" });
     } catch (e) {
@@ -253,7 +253,7 @@ export class THORChainApp {
   async signSendChunk(chunkIdx: number, chunkNum: number, chunk: any) {
     switch (this.versionResponse.major) {
       case 2:
-        return signSendChunkv2(this, chunkIdx, chunkNum, chunk);
+        return await signSendChunkv2(this, chunkIdx, chunkNum, chunk);
       default:
         return {
           return_code: 0x6400,

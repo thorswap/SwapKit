@@ -90,12 +90,10 @@ export class AminoTypes {
       }
       default:
         throw new Error(
-          `Multiple types are registered with Amino type identifier '${type}': '` +
-            matches
-              .map(([key, _value]) => key)
-              .sort()
-              .join("', '") +
-            "'. Thus fromAmino cannot be performed.",
+          `Multiple types are registered with Amino type identifier '${type}': '${matches
+            .map(([key, _value]) => key)
+            .sort()
+            .join("', '")}'. Thus fromAmino cannot be performed.`,
         );
     }
   }

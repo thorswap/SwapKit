@@ -129,14 +129,14 @@ const getWalletMethodsForChain = async ({
               toolbox as ReturnType<typeof AVAXToolbox> | ReturnType<typeof BSCToolbox>
             ).getNetworkParams(),
           ));
-      } catch (error) {
+      } catch (_error) {
         throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
       }
 
       const api =
         chain === Chain.Ethereum
-          ? ethplorerApi(ethplorerApiKey!)
-          : covalentApi({ apiKey: covalentApiKey!, chainId: ChainToChainId[chain] });
+          ? ethplorerApi(ethplorerApiKey as string)
+          : covalentApi({ apiKey: covalentApiKey as string, chainId: ChainToChainId[chain] });
 
       return prepareNetworkSwitch({
         toolbox: {

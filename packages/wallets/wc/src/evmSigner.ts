@@ -27,6 +27,7 @@ class WalletconnectSigner extends AbstractSigner {
     this.address = "";
   }
 
+  // biome-ignore lint/nursery/useAwait: fulfil implementation type
   getAddress = async () => {
     if (!this.walletconnect) throw new Error("Missing walletconnect");
     if (!this.address) {
@@ -77,7 +78,7 @@ class WalletconnectSigner extends AbstractSigner {
   };
 
   // ANCHOR (@Towan) - Implement in future
-  signTypedData = async () => {
+  signTypedData = () => {
     throw new Error("this method is not implemented");
 
     // if (!from) throw new Error('Missing from address');

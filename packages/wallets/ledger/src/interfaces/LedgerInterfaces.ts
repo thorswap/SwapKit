@@ -67,9 +67,10 @@ export abstract class CommonLedgerInterface {
       case LedgerErrorCode.TC_NotFound:
         throw new SwapKitError("wallet_ledger_device_not_found");
 
-      default:
+      default: {
         console.error(`Ledger error: ${errorCode} ${message}`);
         break;
+      }
     }
   };
 }
@@ -97,7 +98,7 @@ export abstract class UTXOLedgerInterface {
   public getExtendedPublicKey = async (path = "84'/0'/0'", xpubVersion = 76067358) => {
     await this.checkBtcAppAndCreateTransportWebUSB(false);
 
-    return this.btcApp!.getWalletXpub({ path, xpubVersion });
+    return this.btcApp.getWalletXpub({ path, xpubVersion });
   };
 
   public signTransaction = async (psbt: Psbt, inputUtxos: UTXOType[]) => {
@@ -112,7 +113,7 @@ export abstract class UTXOLedgerInterface {
   public getAddress = async () => {
     await this.checkBtcAppAndCreateTransportWebUSB(false);
 
-    const { bitcoinAddress: address } = await this.btcApp!.getWalletPublicKey(this.derivationPath, {
+    const { bitcoinAddress: address } = await this.btcApp.getWalletPublicKey(this.derivationPath, {
       format: this.walletFormat,
     });
 

@@ -55,7 +55,7 @@ export function processErrorResponse(response: any) {
     if (
       typeof response === "object" &&
       response !== null &&
-      !(response instanceof Array) &&
+      !Array.isArray(response) &&
       !(response instanceof Date)
     ) {
       if (Object.prototype.hasOwnProperty.call(response, "statusCode")) {

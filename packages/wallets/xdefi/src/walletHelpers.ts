@@ -15,7 +15,7 @@ import {
   isStateChangingCall,
   toHexString,
 } from "@swapkit/toolbox-evm";
-import type { ChainId, FeeOption } from "@swapkit/types";
+import { type ChainId, EVMChains, type FeeOption } from "@swapkit/types";
 import { Chain, ChainToChainId, RPCUrl, erc20ABI } from "@swapkit/types";
 
 type TransactionMethod = "transfer" | "deposit";
@@ -104,31 +104,25 @@ export const getXDEFIAddress = async (chain: Chain) => {
     const [{ address }] = await offlineSigner.getAccounts();
 
     return address;
-  } else if (
-    [
-      Chain.Ethereum,
-      Chain.Avalanche,
-      Chain.BinanceSmartChain,
-      Chain.Arbitrum,
-      Chain.Optimism,
-      Chain.Polygon,
-    ].includes(chain)
-  ) {
+  }
+
+  // @ts-expect-error
+  if (EVMChains.includes(chain)) {
     const response = await eipProvider.request({
       method: "eth_requestAccounts",
       params: [],
     });
 
     return response[0];
-  } else {
-    return new Promise((resolve, reject) =>
-      eipProvider.request(
-        { method: "request_accounts", params: [] },
-        // @ts-expect-error
-        (error: any, response: string[]) => (error ? reject(error) : resolve(response[0])),
-      ),
-    );
   }
+
+  return new Promise((resolve, reject) =>
+    eipProvider.request(
+      { method: "request_accounts", params: [] },
+      // @ts-expect-error
+      (error: any, response: string[]) => (error ? reject(error) : resolve(response[0])),
+    ),
+  );
 };
 
 export const walletTransfer = async (

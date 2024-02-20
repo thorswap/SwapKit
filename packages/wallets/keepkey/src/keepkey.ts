@@ -70,8 +70,8 @@ const getWalletMethods = async ({
         api: apiClient,
         signer,
         provider,
-        covalentApiKey: covalentApiKey!,
-        ethplorerApiKey: ethplorerApiKey!,
+        covalentApiKey: covalentApiKey as string,
+        ethplorerApiKey: ethplorerApiKey as string,
       };
 
       return { ...getToolboxByChain(chain)(evmParams), getAddress: () => address };
@@ -98,7 +98,7 @@ const getWalletMethods = async ({
       });
     }
     default:
-      throw new Error("Chain not supported " + chain);
+      throw new Error(`Chain not supported ${chain}`);
   }
 };
 

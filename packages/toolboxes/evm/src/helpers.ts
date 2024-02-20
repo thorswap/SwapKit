@@ -156,7 +156,7 @@ export const getWeb3WalletMethods = async ({
           toolbox as ReturnType<typeof AVAXToolbox> | ReturnType<typeof BSCToolbox>
         ).getNetworkParams(),
       ));
-  } catch (error) {
+  } catch (_error) {
     throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
   }
   return prepareNetworkSwitch<typeof toolbox>({

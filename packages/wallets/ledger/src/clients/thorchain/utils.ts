@@ -1,5 +1,6 @@
 import { base64 } from "@swapkit/toolbox-cosmos";
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
 export const getSignature = (signatureArray: any) => {
   // Check Type Length Value encoding
   if (signatureArray.length < 64) {

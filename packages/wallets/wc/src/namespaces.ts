@@ -14,12 +14,12 @@ import {
 
 export const getNamespacesFromChains = (chains: string[]) => {
   const supportedNamespaces: string[] = [];
-  chains.forEach((chainId) => {
+  for (const chainId of chains) {
     const [namespace] = chainId.split(":");
     if (!supportedNamespaces.includes(namespace)) {
       supportedNamespaces.push(namespace);
     }
-  });
+  }
 
   return supportedNamespaces;
 };

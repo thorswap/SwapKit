@@ -26,7 +26,9 @@ export type Keystore = {
 /**
  * taken from `foundry-primitives` and modified
  */
-const blake256 = (data: Buffer | string): string => {
+const blake256 = (initData: Buffer | string): string => {
+  let data = initData;
+
   if (!(data instanceof Buffer)) {
     data = Buffer.from(data, "hex");
   }

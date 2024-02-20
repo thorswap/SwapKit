@@ -49,6 +49,7 @@ const getWalletMethodsForChain = async ({
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey) {
         throw new Error("Ethplorer API key not found");
+        // biome-ignore lint/style/noUselessElse: This is a valid use case
       } else if (!covalentApiKey) {
         throw new Error("Covalent API key not found");
       }
@@ -160,7 +161,7 @@ const getWalletMethodsForChain = async ({
 
       const deposit =
         "deposit" in toolbox
-          ? async ({ assetValue, memo }: DepositParam) => {
+          ? ({ assetValue, memo }: DepositParam) => {
               return (toolbox as ThorchainToolboxType).deposit({
                 assetValue,
                 memo,

@@ -22,7 +22,9 @@ export function bip32Like(path: string) {
   return /^m(((\/[0-9]+h)+|(\/[0-9]+H)+|(\/[0-9]+')*)((\/[0-9]+)*))$/.test(path);
 }
 
-export function bip32ToAddressNList(path: string): number[] {
+export function bip32ToAddressNList(initPath: string): number[] {
+  let path = initPath;
+
   if (!bip32Like(path)) {
     throw new Error(`Not a bip32 path: '${path}'`);
   }

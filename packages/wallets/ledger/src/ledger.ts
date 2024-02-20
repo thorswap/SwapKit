@@ -60,9 +60,12 @@ const recursivelyOrderKeys = (unordered: any) => {
   // If it's an object - let's order the keys
   if (typeof unordered !== "object") return unordered;
   const ordered: any = {};
-  Object.keys(unordered)
-    .sort()
-    .forEach((key) => (ordered[key] = recursivelyOrderKeys(unordered[key])));
+  const sortedKeys = Object.keys(unordered).sort();
+
+  for (const key of sortedKeys) {
+    ordered[key] = recursivelyOrderKeys(unordered[key]);
+  }
+
   return ordered;
 };
 
@@ -191,8 +194,8 @@ const getToolbox = async ({
           derivationPath,
         );
 
-        const pubKey = toolbox.getPublicKey(pubKeyResponse!.pk!.toString("hex"));
-        const signedTx = transaction.addSignature(pubKey, signResponse!.signature);
+        const pubKey = toolbox.getPublicKey(pubKeyResponse?.pk?.toString("hex"));
+        const signedTx = transaction.addSignature(pubKey, signResponse?.signature);
 
         const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);
 
@@ -337,7 +340,7 @@ const getToolbox = async ({
         const signedGasLimit = Int53.fromString(fee.gas).toNumber();
         const pubkey = encodePubkey({
           type: "tendermint/PubKeySecp256k1",
-          value: (signer as THORChainLedger).pubkey!,
+          value: (signer as THORChainLedger)?.pubkey,
         });
         const signedAuthInfoBytes = makeAuthInfoBytes(
           [{ pubkey, sequence: Number(sequence) }],
@@ -429,7 +432,7 @@ const getToolbox = async ({
         const signedGasLimit = Int53.fromString(fee.gas).toNumber();
         const pubkey = encodePubkey({
           type: "tendermint/PubKeySecp256k1",
-          value: (signer as THORChainLedger).pubkey!,
+          value: (signer as THORChainLedger)?.pubkey,
         });
         const signedAuthInfoBytes = makeAuthInfoBytes(
           [{ pubkey, sequence: Number(sequence) }],
@@ -455,7 +458,7 @@ const getToolbox = async ({
         return result.transactionHash;
       };
 
-      const signMessage = async (message: string) => {
+      const signMessage = (message: string) => {
         return (signer as THORChainLedger).sign(message);
       };
 

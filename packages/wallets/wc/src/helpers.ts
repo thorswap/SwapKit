@@ -18,7 +18,7 @@ import {
 export const getAddressFromAccount = (account: string) => {
   try {
     return account.split(":")[2];
-  } catch (error) {
+  } catch (_error) {
     throw new Error("Invalid WalletConnect account");
   }
 };

@@ -64,8 +64,8 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
 
     if (!sig) throw new Error("Signing failed");
 
-    sig.r = "0x" + sig.r;
-    sig.s = "0x" + sig.s;
+    sig.r = `0x${sig.r}`;
+    sig.s = `0x${sig.s}`;
     return Signature.from(sig).serialized;
   };
 
@@ -92,7 +92,7 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
           : transactionCount,
       to: tx.to?.toString(),
       value: tx.value,
-      type: tx.type && !isNaN(tx.type) ? tx.type : tx.maxFeePerGas ? 2 : 0,
+      type: tx.type && !Number.isNaN(tx.type) ? tx.type : tx.maxFeePerGas ? 2 : 0,
     };
 
     // ledger expects the tx to be serialized without the 0x prefix
@@ -118,7 +118,7 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
 
     return Transaction.from({
       ...baseTx,
-      signature: { v: Number(BigInt(v)), r: "0x" + r, s: "0x" + s },
+      signature: { v: Number(BigInt(v)), r: `0x${r}`, s: `0x${s}` },
     }).serialized;
   };
 
