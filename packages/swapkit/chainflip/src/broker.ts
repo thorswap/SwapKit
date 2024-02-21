@@ -66,7 +66,7 @@ const requestSwapDepositAddress = async (
 
         resolve({
           depositChannelId: `${header.number}-${chainToChainflipChain.get(
-            buyAsset.chain,
+            sellAsset.chain,
           )}-${channelId}`,
           depositAddress: Object.values(depositAddress)[0] as string,
           srcChainExpiryBlock: Number((sourceChainExpiryBlock as string).replace(",", "")),
