@@ -1,7 +1,7 @@
 import { Chain, ChainToExplorerUrl, CosmosChains, EVMChains, UTXOChains } from "@swapkit/types";
 import { describe, expect, test } from "vitest";
 
-import { getExplorerAddressUrl, getExplorerTxUrl } from "../explorerUrls.ts";
+import { getExplorerAddressUrl, getExplorerTxUrl } from "../helpers/explorerUrls.ts";
 
 describe("Explorer URLs", () => {
   for (const chain of CosmosChains.filter((c) => c !== Chain.Cosmos)) {

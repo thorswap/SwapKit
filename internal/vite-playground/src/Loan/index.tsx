@@ -1,5 +1,5 @@
-import type { AssetValue, SwapKitCore } from '@swapkit/core';
-import { useCallback, useState } from 'react';
+import type { AssetValue, SwapKitCore } from "@swapkit/core";
+import { useCallback, useState } from "react";
 
 export default function Loan({
   inputAsset,
@@ -23,9 +23,9 @@ export default function Loan({
   );
 
   const setAmount = useCallback(
-    (amountValue: string, type: 'input' | 'borrow' = 'input') => {
+    (amountValue: string, type: "input" | "borrow" = "input") => {
       const amount = getValue(amountValue);
-      const setFunction = type === 'input' ? setInput : setBorrow;
+      const setFunction = type === "input" ? setInput : setBorrow;
 
       setFunction(inputAsset && amount?.gt(inputAsset) ? inputAsset : amount);
     },
@@ -33,22 +33,22 @@ export default function Loan({
   );
 
   const handleLoanAction = useCallback(async () => {
-    if (!borrowAssetValue || !inputAssetValue || !skClient) return;
+    if (!(borrowAssetValue && inputAssetValue && skClient)) return;
 
     const txHash = await skClient.loan({
-      type: isOpenLoanMode ? 'open' : 'close',
+      type: isOpenLoanMode ? "open" : "close",
       assetValue: inputAssetValue,
       minAmount: borrowAssetValue,
     });
 
-    window.open(`${skClient.getExplorerTxUrl(inputAssetValue.chain, txHash as string)}`, '_blank');
+    window.open(`${skClient.getExplorerTxUrl(inputAssetValue.chain, txHash as string)}`, "_blank");
   }, [borrowAssetValue, inputAssetValue, skClient, isOpenLoanMode]);
 
   return (
     <div>
       <h4>Loan</h4>
 
-      <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+      <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
         <div>
           <div>
             <span>Input Asset:</span>
@@ -74,7 +74,7 @@ export default function Loan({
           <div>
             <span>Borrow Amount:</span>
             <input
-              onChange={(e) => setAmount(e.target.value, 'borrow')}
+              onChange={(e) => setAmount(e.target.value, "borrow")}
               placeholder="0.0"
               type="number"
               value={borrowAssetValue?.toSignificant(6)}
@@ -82,7 +82,7 @@ export default function Loan({
           </div>
 
           <button disabled={!inputAsset || !outputAsset} onClick={handleLoanAction} type="button">
-            {isOpenLoanMode ? 'Open Loan' : 'Close Loan'}
+            {isOpenLoanMode ? "Open Loan" : "Close Loan"}
           </button>
         </div>
       </div>

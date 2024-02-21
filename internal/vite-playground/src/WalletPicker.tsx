@@ -1,10 +1,10 @@
-import type { SwapKitCore } from '@swapkit/core';
-import { Chain, EVMChainList, WalletOption } from '@swapkit/types';
-import { decryptFromKeystore } from '@swapkit/wallet-keystore';
-import { getDerivationPathFor } from '@swapkit/wallet-ledger';
-import { useCallback, useState } from 'react';
+import type { SwapKitCore } from "@swapkit/core";
+import { Chain, EVMChainList, WalletOption } from "@swapkit/types";
+import { decryptFromKeystore } from "@swapkit/wallet-keystore";
+import { getDerivationPathFor } from "@swapkit/wallet-ledger";
+import { useCallback, useState } from "react";
 
-import type { WalletDataType } from './types';
+import type { WalletDataType } from "./types";
 
 type Props = {
   setPhrase: (phrase: string) => void;
@@ -97,7 +97,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
   const [chains, setChains] = useState<Chain[]>([]);
   const connectWallet = useCallback(
     async (option: WalletOption) => {
-      if (!skClient) return alert('client is not ready');
+      if (!skClient) return alert("client is not ready");
       switch (option) {
         case WalletOption.XDEFI:
           return skClient.connectXDEFI(chains);
@@ -109,13 +109,13 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return skClient.connectEVMWallet(chains, option);
         case WalletOption.KEEPKEY: {
           const derivationPaths = []; // Ensure derivationPaths is defined
-          for (let chain of chains) {
+          for (const chain of chains) {
             // Use 'let' for iteration variable
             const derivationPath = getDerivationPathFor({ chain: chain, index: 0 });
             derivationPaths.push(derivationPath);
           }
-          let apiKey: string = await skClient.connectKeepkey(chains, derivationPaths);
-          localStorage.setItem('keepkeyApiKey', apiKey);
+          const apiKey: string = await skClient.connectKeepkey(chains, derivationPaths);
+          localStorage.setItem("keepkeyApiKey", apiKey);
           return true;
         }
         case WalletOption.LEDGER: {
@@ -139,15 +139,15 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
 
   const handleKeystoreConnection = useCallback(
     async ({ target }: any) => {
-      if (!skClient) return alert('client is not ready');
+      if (!skClient) return alert("client is not ready");
       setLoading(true);
 
       const keystoreFile = await target.files[0].text();
 
       setTimeout(async () => {
-        const password = prompt('Enter password');
+        const password = prompt("Enter password");
 
-        if (!password) return alert('password is required');
+        if (!password) return alert("password is required");
         try {
           const phrases = await decryptFromKeystore(JSON.parse(keystoreFile), password);
           setPhrase(phrases);
@@ -170,7 +170,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
 
   const handleConnection = useCallback(
     async (option: WalletOption) => {
-      if (!skClient) return alert('client is not ready');
+      if (!skClient) return alert("client is not ready");
       setLoading(true);
       await connectWallet(option);
 
@@ -210,8 +210,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
   );
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <div style={{ flexDirection: 'column' }}>
+    <div style={{ display: "flex", flexDirection: "row" }}>
+      <div style={{ flexDirection: "column" }}>
         <select
           multiple
           onChange={handleMultipleSelect}
@@ -248,7 +248,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
 
       <div>
         {walletOptions.map((option) => (
-          <div key={option} style={{ padding: '8px' }}>
+          <div key={option} style={{ padding: "8px" }}>
             {option === WalletOption.KEYSTORE ? (
               <label className="label">
                 <input
