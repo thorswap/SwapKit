@@ -6,42 +6,16 @@ runs:
   using: 'composite'
   steps:
     - uses: dtinth/setup-github-actions-caching-for-turbo@a0e976d970c2a94366a26984efcef3030e2c0115
-
-    - uses: pnpm/action-setup@v2
-      with:
-        version: 8.6.3
-        run_install: false
-
-    - name: Get pnpm cache directory
-      id: pnpm-cache-dir
+    - name: Setup PNPM
       shell: bash
-      run: echo "dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+      run: |
+        npm install -g pnpm
 
-    - uses: actions/cache@v4
-      id: pnpm-cache
+    - uses: actions/setup-node@v4
       with:
-        save-always: true
-        path: ${{ steps.pnpm-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ hashFiles('pnpm-lock.yaml') }}
-        restore-keys: ${{ runner.os }}-node-
+        node-version: 20
+        cache: 'pnpm'
 
-    - uses: actions/cache@v4
-      id: turbo-cache
-      with:
-        save-always: true
-        path: ~/.turbo-cache
-        key: ${{ runner.os }}-turbo-${{ hashFiles('pnpm-lock.yaml') }}
-        restore-keys: ${{ runner.os }}-turbo
-
-    - name: Use Node.js 20.9
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20.9
-
-    - name: Run turborepo server
+    - name: Install packages
       shell: bash
-      run: RUNNER_TRACKING_ID="" && TURBO_TOKEN=token PORT=51337 pnpx turborepo-remote-cache &
-
-    - shell: bash
-      name: Install packages
       run: pnpm install --frozen-lockfile
