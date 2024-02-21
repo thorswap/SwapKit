@@ -30,10 +30,7 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
@@ -46,7 +43,7 @@
   },
   "scripts": {
     "build": "NODE_OPTIONS=--max_old_space_size=32768 vite build",
-    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules"
+    "clean": "rm -rf dist vite.config.ts.* node_modules"
   },
   "type": "module",
   "types": "./dist/index.d.ts",

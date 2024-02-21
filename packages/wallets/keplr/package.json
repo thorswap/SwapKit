@@ -19,10 +19,7 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
@@ -40,7 +37,7 @@
   },
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
+    "clean": "rm -rf dist vite.config.ts.* node_modules",
     "lint": "biome check --apply ./src",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"

@@ -25,10 +25,7 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "peerDependencies": {
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*"
@@ -45,7 +42,7 @@
   },
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
+    "clean": "rm -rf dist vite.config.ts.* node_modules",
     "lint": "biome check --apply ./src",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"

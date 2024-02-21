@@ -5,6 +5,8 @@ author: 'chillios-dev'
 runs:
   using: 'composite'
   steps:
+    - uses: dtinth/setup-github-actions-caching-for-turbo@a0e976d970c2a94366a26984efcef3030e2c0115
+
     - uses: pnpm/action-setup@v2
       with:
         version: 8.6.3
@@ -15,17 +17,30 @@ runs:
       shell: bash
       run: echo "dir=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: pnpm-cache
       with:
+        save-always: true
         path: ${{ steps.pnpm-cache-dir.outputs.dir }}
         key: ${{ runner.os }}-node-${{ hashFiles('pnpm-lock.yaml') }}
         restore-keys: ${{ runner.os }}-node-
+
+    - uses: actions/cache@v4
+      id: turbo-cache
+      with:
+        save-always: true
+        path: ~/.turbo-cache
+        key: ${{ runner.os }}-turbo-${{ hashFiles('pnpm-lock.yaml') }}
+        restore-keys: ${{ runner.os }}-turbo
 
     - name: Use Node.js 20.9
       uses: actions/setup-node@v3
       with:
         node-version: 20.9
+
+    - name: Run turborepo server
+      shell: bash
+      run: RUNNER_TRACKING_ID="" && TURBO_TOKEN=token PORT=51337 pnpx turborepo-remote-cache &
 
     - shell: bash
       name: Install packages

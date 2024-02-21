@@ -26,7 +26,7 @@
   },
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
+    "clean": "rm -rf dist vite.config.ts.* node_modules",
     "lint": "biome check --apply ./src",
     "test": "echo 'No tests yet'"
   },
