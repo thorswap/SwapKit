@@ -5,7 +5,6 @@ import type {
   ThorchainToolboxType,
   TransferParams,
 } from "@swapkit/toolbox-cosmos";
-import { Network } from "@swapkit/toolbox-substrate";
 import type {
   Psbt,
   TransactionType,
@@ -189,7 +188,9 @@ const getWalletMethodsForChain = async ({
 
     case Chain.Polkadot:
     case Chain.Chainflip: {
-      const { getToolboxByChain, createKeyring } = await import("@swapkit/toolbox-substrate");
+      const { Network, getToolboxByChain, createKeyring } = await import(
+        "@swapkit/toolbox-substrate"
+      );
 
       const network = Network[chain];
 
