@@ -44,7 +44,7 @@
     "dev:next": "pnpm --cwd internal/next-playground",
     "dev:node": "pnpm --cwd internal/node-playground",
     "dev:vite": "pnpm --cwd internal/vite-playground",
-    "generate": "cd ./internal/generator; pnpm generate; cd ../..",
+    "generate": "pnpm turbo gen init; pnpm install",
     "generate:tokens": "pnpm build --filter api; cd ./packages/swapkit/tokens; pnpm run generate-tokens; cd ../../..; pnpm run lint --filter tokens --force",
     "lint": "turbo run lint --continue --filter=!./packages/swapkit/swapkit-sdk",
     "lint:ci": "turbo lint type-check --continue",
@@ -58,8 +58,6 @@
     "version-bump": "dotenv -- pnpm changeset version"
   },
   "lint-staged": {
-    "*": [
-      "pnpm biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true"
-    ]
+    "*": ["pnpm biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true"]
   }
 }

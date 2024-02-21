@@ -24,16 +24,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./tools/github/setup
+      - name: Build
+        run: pnpm build
+
       - name: Build and check size
         if: github.event_name == 'pull_request'
         uses: andresz1/size-limit-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           skip_step: install
-
-      - name: Build
-        if: github.event_name != 'pull_request'
-        run: pnpm build
 
   test:
     if: contains(github.event.pull_request.title, ':tada:') == false
