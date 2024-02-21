@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./tools/github/setup
+      - name: Setup Repo
+        uses: ./tools/github/setup-repo
 
       - name: Generate new token list
         run: pnpm generate:tokens

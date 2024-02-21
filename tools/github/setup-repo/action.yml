@@ -1,4 +1,4 @@
-name: 'Install and cache'
+name: Setup
 description: 'Setup JS workflow, install dependencies and cache them'
 author: 'chillios-dev'
 
