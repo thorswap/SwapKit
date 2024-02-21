@@ -2,8 +2,6 @@
   "author": "swapkit-oss",
   "description": "SwapKit Lib types",
   "devDependencies": {
-    "@internal/tools-typescript": "workspace:*",
-    "@internal/tools-vite": "workspace:*",
     "vite": "5.1.3"
   },
   "exports": {

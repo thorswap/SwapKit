@@ -8,8 +8,6 @@
   },
   "description": "SwapKit Lib chainflip",
   "devDependencies": {
-    "@internal/tools-typescript": "workspace:*",
-    "@internal/tools-vite": "workspace:*",
     "@polkadot/types": "10.11.2",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",

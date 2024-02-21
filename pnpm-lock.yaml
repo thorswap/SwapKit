@@ -239,12 +239,6 @@ importers:
         specifier: 1.2.0
         version: 1.2.0
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@vitest/coverage-istanbul':
         specifier: 1.3.1
         version: 1.3.1(vitest@1.3.1)
@@ -270,12 +264,6 @@ importers:
         specifier: 12.6.2
         version: 12.6.2
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@polkadot/types':
         specifier: 10.11.2
         version: 10.11.2
@@ -310,12 +298,6 @@ importers:
         specifier: workspace:*
         version: link:../types
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@swapkit/tokens':
         specifier: workspace:*
         version: link:../tokens
@@ -347,12 +329,6 @@ importers:
         specifier: workspace:*
         version: link:../api
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@swapkit/tokens':
         specifier: workspace:*
         version: link:../tokens
@@ -411,12 +387,6 @@ importers:
         specifier: workspace:*
         version: link:../../wallets/xdefi
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@vitest/coverage-istanbul':
         specifier: 1.3.1
         version: 1.3.1(vitest@1.3.1)
@@ -429,12 +399,6 @@ importers:
 
   packages/swapkit/tokens:
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@swapkit/api':
         specifier: workspace:*
         version: link:../api
@@ -459,12 +423,6 @@ importers:
 
   packages/swapkit/types:
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       vite:
         specifier: 5.1.3
         version: 5.1.3(@types/node@20.11.19)
@@ -517,12 +475,6 @@ importers:
         specifier: 1.1.6
         version: 1.1.6
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -557,12 +509,6 @@ importers:
         specifier: 6.11.1
         version: 6.11.1
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@nomicfoundation/hardhat-ethers':
         specifier: 3.0.5
         version: 3.0.5(ethers@6.11.1)(hardhat@2.20.1)
@@ -612,12 +558,6 @@ importers:
         specifier: 12.6.2
         version: 12.6.2(@polkadot/util@12.6.2)
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -664,12 +604,6 @@ importers:
         specifier: 1.1.6
         version: 1.1.6
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -691,12 +625,6 @@ importers:
 
   packages/wallets/evm-extensions:
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -725,12 +653,6 @@ importers:
         specifier: 8.1.86
         version: 8.1.86(@types/node@20.11.19)
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -758,12 +680,6 @@ importers:
 
   packages/wallets/keplr:
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@keplr-wallet/types':
         specifier: 0.12.69
         version: 0.12.69
@@ -795,12 +711,6 @@ importers:
         specifier: 1.2.1
         version: 1.2.1
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@rollup/plugin-node-resolve':
         specifier: 15.2.3
         version: 15.2.3
@@ -859,12 +769,6 @@ importers:
         specifier: 2.0.2
         version: 2.0.2
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@rollup/plugin-node-resolve':
         specifier: 15.2.3
         version: 15.2.3
@@ -898,12 +802,6 @@ importers:
 
   packages/wallets/okx:
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -938,12 +836,6 @@ importers:
         specifier: 9.1.12
         version: 9.1.12(tslib@2.6.2)
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -972,12 +864,6 @@ importers:
         specifier: 2.6.2
         version: 2.6.2(@types/react@18.2.57)(react@18.2.0)
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@swapkit/helpers':
         specifier: workspace:*
         version: link:../../swapkit/helpers
@@ -1005,12 +891,6 @@ importers:
 
   packages/wallets/xdefi:
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@keplr-wallet/types':
         specifier: 0.12.69
         version: 0.12.69
@@ -4375,7 +4255,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.0.5
+      '@rollup/pluginutils': 5.0.5(rollup@4.12.0)
       estree-walker: 2.0.2
       magic-string: 0.30.7
     dev: true
@@ -4426,20 +4306,6 @@ packages:
       terser: 5.19.3
     dev: true
 
-  /@rollup/pluginutils@5.0.5:
-    resolution: {integrity: sha512-6aEYR910NyP73oHiJglti74iRyOwgFU4x3meH/H8OJx6Ry0j6cOVZ5X/wTvub7G7Ao6qaHBEaNsV3GLJkSsF+Q==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@types/estree': 1.0.5
-      estree-walker: 2.0.2
-      picomatch: 2.3.1
-    dev: true
-
   /@rollup/pluginutils@5.0.5(rollup@4.12.0):
     resolution: {integrity: sha512-6aEYR910NyP73oHiJglti74iRyOwgFU4x3meH/H8OJx6Ry0j6cOVZ5X/wTvub7G7Ao6qaHBEaNsV3GLJkSsF+Q==}
     engines: {node: '>=14.0.0'}
@@ -4453,7 +4319,6 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
       rollup: 4.12.0
-    dev: false
 
   /@rollup/pluginutils@5.1.0:
     resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}

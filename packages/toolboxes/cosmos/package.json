@@ -19,8 +19,6 @@
   },
   "description": "SwapKit Lib toolbox cosmos",
   "devDependencies": {
-    "@internal/tools-typescript": "workspace:*",
-    "@internal/tools-vite": "workspace:*",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*",
     "@types/bn.js": "5.1.5",

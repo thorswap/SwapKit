@@ -2,8 +2,6 @@
   "author": "swapkit-oss",
   "description": "SwapKit Lib tokens",
   "devDependencies": {
-    "@internal/tools-typescript": "workspace:*",
-    "@internal/tools-vite": "workspace:*",
     "@swapkit/api": "workspace:*",
     "@swapkit/types": "workspace:*",
     "@types/fs-extra": "11.0.4",

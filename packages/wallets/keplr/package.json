@@ -2,8 +2,6 @@
   "author": "swapkit-oss",
   "description": "SwapKit Lib keplr",
   "devDependencies": {
-    "@internal/tools-typescript": "workspace:*",
-    "@internal/tools-vite": "workspace:*",
     "@keplr-wallet/types": "0.12.69",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",

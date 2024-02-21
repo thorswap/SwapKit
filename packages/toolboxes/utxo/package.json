@@ -13,8 +13,6 @@
   },
   "description": "THORSwap utxo",
   "devDependencies": {
-    "@internal/tools-typescript": "workspace:*",
-    "@internal/tools-vite": "workspace:*",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*",
     "@types/tiny-secp256k1": "1.0.0",

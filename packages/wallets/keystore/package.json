@@ -6,8 +6,6 @@
   },
   "description": "SwapKit Lib keystore",
   "devDependencies": {
-    "@internal/tools-typescript": "workspace:*",
-    "@internal/tools-vite": "workspace:*",
     "@rollup/plugin-node-resolve": "15.2.3",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
