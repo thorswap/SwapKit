@@ -1,6 +1,5 @@
 ---
 "@swapkit/wallet-evm-extensions": patch
-"@thorswap-lib/swapkit-entities": patch
 "@swapkit/toolbox-cosmos": patch
 "@swapkit/wallet-keystore": patch
 "@swapkit/helpers": patch
@@ -17,9 +16,7 @@
 "@swapkit/api": patch
 "@swapkit/sdk": patch
 "@swapkit/wallet-okx": patch
-"@internal/playground": patch
 "@swapkit/wallet-wc": patch
-"@internal/config": patch
 ---
 
 Add api key header with config

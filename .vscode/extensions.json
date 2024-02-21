@@ -1,12 +1,13 @@
 {
   "recommendations": [
-    "dbaeumer.vscode-eslint",
+    "antfu.file-nesting",
+    "biomejs.biome",
+    "bradlc.vscode-tailwindcss",
     "esbenp.prettier-vscode",
-    "pomdtr.excalidraw-editor",
     "exodiusstudios.comment-anchors",
+    "pomdtr.excalidraw-editor",
     "streetsidesoftware.code-spell-checker",
-    "zixuanchen.vitest-explorer",
-    "wix.vscode-import-cost",
-    "antfu.file-nesting"
+    "yoavbls.pretty-ts-errors",
+    "zixuanchen.vitest-explorer"
   ]
 }

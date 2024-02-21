@@ -1,6 +1,6 @@
 packages:
-  - 'internal/**'
-  - 'packages/swapkit/**'
-  - 'packages/toolboxes/**'
-  - 'packages/wallets/**'
-  - '!internal/generator/template/**'
+  - "internal/**"
+  - "packages/swapkit/**"
+  - "packages/toolboxes/**"
+  - "packages/wallets/**"
+  - "tools/**"

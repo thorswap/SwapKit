@@ -1,23 +1,21 @@
 {
   "author": "thorswap",
   "dependencies": {
-    "@keepkey/keepkey-sdk": "0.2.52",
+    "@keepkey/keepkey-sdk": "0.2.57",
     "@pioneer-platform/pioneer-coins": "8.1.86"
   },
   "description": "THORSwap Lib keepkey",
   "devDependencies": {
-    "@internal/config": "workspace:*",
+    "@internal/tools-typescript": "workspace:*",
+    "@internal/tools-vite": "workspace:*",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@vitest/coverage-istanbul": "1.2.1",
-    "vite": "5.0.12",
-    "vitest": "1.2.1"
-  },
-  "eslintConfig": {
-    "extends": "../../../internal/eslint-config"
+    "@vitest/coverage-istanbul": "1.3.1",
+    "vite": "5.1.3",
+    "vitest": "1.3.1"
   },
   "exports": {
     ".": {
@@ -26,10 +24,7 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "MIT",
   "main": "./dist/index.cjs",
@@ -49,8 +44,8 @@
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist .turbo node_modules",
-    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "clean": "rm -rf dist node_modules",
+    "lint": "biome check --apply ./src",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },

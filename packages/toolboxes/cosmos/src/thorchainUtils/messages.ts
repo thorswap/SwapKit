@@ -1,10 +1,10 @@
-import type { TxBodyEncodeObject } from '@cosmjs/proto-signing';
-import { AssetValue } from '@swapkit/helpers';
-import { Chain, ChainId, RPCUrl } from '@swapkit/types';
+import type { TxBodyEncodeObject } from "@cosmjs/proto-signing";
+import { AssetValue } from "@swapkit/helpers";
+import { Chain, ChainId, RPCUrl } from "@swapkit/types";
 
-import { createStargateClient, getDenom } from '../util.ts';
+import { createStargateClient, getDenom } from "../util.ts";
 
-import { createDefaultAminoTypes, createDefaultRegistry } from './registry.ts';
+import { createDefaultAminoTypes, createDefaultRegistry } from "./registry.ts";
 
 type MsgSend = ReturnType<typeof transferMsgAmino>;
 type MsgDeposit = ReturnType<typeof depositMsgAmino>;
@@ -15,9 +15,9 @@ type MsgDepositForBroadcast = ReturnType<typeof prepareMessageForBroadcast>;
 export const getDefaultChainFee = (chain: Chain.THORChain | Chain.Maya) => {
   switch (chain) {
     case Chain.Maya:
-      return { amount: [], gas: '10000000000' };
+      return { amount: [], gas: "10000000000" };
     default:
-      return { amount: [], gas: '500000000' };
+      return { amount: [], gas: "500000000" };
   }
 };
 
@@ -33,13 +33,13 @@ export const transferMsgAmino = ({
   recipient?: string;
   assetValue: AssetValue;
 }) => ({
-  type: 'thorchain/MsgSend',
+  type: "thorchain/MsgSend",
   value: {
     from_address: from,
     to_address: recipient,
     amount: [
       {
-        amount: assetValue.getBaseValue('string'),
+        amount: assetValue.getBaseValue("string"),
         denom: getDenom(assetValue.symbol, true),
       },
     ],
@@ -49,18 +49,18 @@ export const transferMsgAmino = ({
 export const depositMsgAmino = ({
   from,
   assetValue,
-  memo = '',
+  memo = "",
 }: {
   from: string;
   assetValue: AssetValue;
   memo?: string;
 }) => {
   return {
-    type: 'thorchain/MsgDeposit',
+    type: "thorchain/MsgDeposit",
     value: {
       coins: [
         {
-          amount: assetValue.getBaseValue('string'),
+          amount: assetValue.getBaseValue("string"),
           asset: getDenomWithChain(assetValue),
         },
       ],
@@ -99,7 +99,7 @@ export const buildTransaction = async ({
   from,
   recipient,
   assetValue,
-  memo = '',
+  memo = "",
   isStagenet = false,
 }: {
   isStagenet?: boolean;
@@ -115,7 +115,7 @@ export const buildTransaction = async ({
   const account = await client.getAccount(from);
 
   if (!account) {
-    throw new Error('Account does not exist');
+    throw new Error("Account does not exist");
   }
 
   const msg = buildAminoMsg({ from, recipient, assetValue, memo });
@@ -133,7 +133,7 @@ export const buildTransaction = async ({
 };
 
 export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
-  if (msg.type === 'thorchain/MsgSend') return msg;
+  if (msg.type === "thorchain/MsgSend") return msg;
 
   return {
     ...msg,
@@ -143,10 +143,10 @@ export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
         const assetValue = AssetValue.fromStringSync(coin.asset);
 
         const symbol = assetValue.isSynthetic
-          ? assetValue.symbol.split('/')[1].toLowerCase()
+          ? assetValue.symbol.split("/")[1].toLowerCase()
           : assetValue.symbol.toLowerCase();
         const chain = assetValue.isSynthetic
-          ? assetValue.symbol.split('/')[0].toLowerCase()
+          ? assetValue.symbol.split("/")[0].toLowerCase()
           : assetValue.chain.toLowerCase();
 
         return {
@@ -171,7 +171,7 @@ export const buildEncodedTxBody = async (transaction: {
   const aminoTypes = await createDefaultAminoTypes();
 
   const signedTxBody: TxBodyEncodeObject = {
-    typeUrl: '/cosmos.tx.v1beta1.TxBody',
+    typeUrl: "/cosmos.tx.v1beta1.TxBody",
     value: {
       messages: transaction.msgs.map((msg) => aminoTypes.fromAmino(msg)),
       memo: transaction.memo,
@@ -184,7 +184,7 @@ export const buildEncodedTxBody = async (transaction: {
 };
 
 export const getDenomWithChain = ({ symbol }: AssetValue) =>
-  (symbol.toUpperCase() !== 'RUNE'
+  (symbol.toUpperCase() !== "RUNE"
     ? symbol.toLowerCase()
     : `${Chain.THORChain}.${symbol.toUpperCase()}`
   ).toUpperCase();

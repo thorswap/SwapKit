@@ -1,33 +1,33 @@
-import { enc, SHA256 } from 'crypto-js';
-import type { curve } from 'elliptic';
-import { ec as EC } from 'elliptic';
+import { SHA256, enc } from "crypto-js";
+import type { curve } from "elliptic";
+import { ec as EC } from "elliptic";
 
-import { convertObjectToSignBytes, encodeBinaryByteArray, marshalBinary } from './amino/encoder.ts';
-import { UVarInt } from './amino/varint.ts';
-import type { BaseMsg, StdSignature, StdSignMsg, StdTx } from './types.ts';
-import { AminoPrefix } from './types.ts';
+import { convertObjectToSignBytes, encodeBinaryByteArray, marshalBinary } from "./amino/encoder.ts";
+import { UVarInt } from "./amino/varint.ts";
+import type { BaseMsg, StdSignMsg, StdSignature, StdTx } from "./types.ts";
+import { AminoPrefix } from "./types.ts";
 
 const sha256 = (hex: string) => {
-  if (typeof hex !== 'string') throw new Error('sha256 expects a hex string');
+  if (typeof hex !== "string") throw new Error("sha256 expects a hex string");
   if (hex.length % 2 !== 0) throw new Error(`invalid hex string length: ${hex}`);
   const hexEncoded = enc.Hex.parse(hex);
   return SHA256(hexEncoded).toString();
 };
 
 const generatePubKey = (privateKey: Buffer) => {
-  const curve = new EC('secp256k1');
+  const curve = new EC("secp256k1");
   const keypair = curve.keyFromPrivate(privateKey);
   return keypair.getPublic();
 };
 
 const generateSignature = async (signBytesHex: string, privateKey: string | Buffer) => {
-  const tinySecp = await import('tiny-secp256k1');
+  const tinySecp = await import("tiny-secp256k1");
 
   const msgHash = sha256(signBytesHex);
-  const msgHashHex = Buffer.from(msgHash, 'hex');
+  const msgHashHex = Buffer.from(msgHash, "hex");
   const signature = tinySecp.sign(
     msgHashHex,
-    typeof privateKey === 'string' ? Buffer.from(privateKey, 'hex') : privateKey,
+    typeof privateKey === "string" ? Buffer.from(privateKey, "hex") : privateKey,
   );
   return signature;
 };
@@ -56,22 +56,22 @@ const generateSignature = async (signBytesHex: string, privateKey: string | Buff
  */
 
 export class BNBTransaction {
-  public sequence: NonNullable<StdSignMsg['sequence']>;
-  public accountNumber: NonNullable<StdSignMsg['accountNumber']>;
-  public chainId: StdSignMsg['chainId'];
+  public sequence: NonNullable<StdSignMsg["sequence"]>;
+  public accountNumber: NonNullable<StdSignMsg["accountNumber"]>;
+  public chainId: StdSignMsg["chainId"];
 
   // DEPRECATED: Retained for backward compatibility,
   public msg?: any;
 
   public baseMsg?: NonNullable<BaseMsg>;
-  public memo: StdSignMsg['memo'];
-  public source: NonNullable<StdSignMsg['source']>;
+  public memo: StdSignMsg["memo"];
+  public source: NonNullable<StdSignMsg["source"]>;
   public signatures: StdSignature[];
 
-  constructor(data: StdSignMsg) {
-    data = data || {};
+  constructor(initData: StdSignMsg) {
+    const data = initData || {};
     if (!data.chainId) {
-      throw new Error('chain id should not be null');
+      throw new Error("chain id should not be null");
     }
 
     this.sequence = data.sequence || 0;
@@ -89,8 +89,8 @@ export class BNBTransaction {
    * @param {SignMsg} concrete msg object
    * @return {Buffer}
    **/
-  getSignBytes(msg?: {}): Buffer {
-    msg = msg || this.baseMsg?.getSignMsg?.();
+  getSignBytes(initMsg?: any): Buffer {
+    const msg = initMsg || this.baseMsg?.getSignMsg?.();
     const signMsg = {
       account_number: this.accountNumber.toString(),
       chain_id: this.chainId,
@@ -128,14 +128,14 @@ export class BNBTransaction {
    * @param {SignMsg} concrete msg object
    * @return {Transaction}
    **/
-  sign = async (privateKey: string, msg?: {}) => {
+  sign = async (privateKey: string, msg?: any) => {
     if (!privateKey) {
-      throw new Error('private key should not be null');
+      throw new Error("private key should not be null");
     }
 
     const signBytes = this.getSignBytes(msg);
-    const privKeyBuf = Buffer.from(privateKey, 'hex');
-    const signature = await generateSignature(signBytes.toString('hex'), privKeyBuf);
+    const privKeyBuf = Buffer.from(privateKey, "hex");
+    const signature = await generateSignature(signBytes.toString("hex"), privKeyBuf);
     this.addSignature(generatePubKey(privKeyBuf), signature);
     return this;
   };
@@ -145,7 +145,7 @@ export class BNBTransaction {
    */
   serialize(): string {
     if (!this.signatures) {
-      throw new Error('need signature');
+      throw new Error("need signature");
     }
     const msg = this.msg || this.baseMsg?.getMsg?.();
     const stdTx: StdTx = {
@@ -153,11 +153,11 @@ export class BNBTransaction {
       signatures: this.signatures,
       memo: this.memo,
       source: this.source, // sdk value is 0, web wallet value is 1
-      data: '',
+      data: "",
       aminoPrefix: AminoPrefix.StdTx,
     };
     const bytes = marshalBinary(stdTx);
-    return bytes.toString('hex');
+    return bytes.toString("hex");
   }
 
   /**
@@ -172,12 +172,12 @@ export class BNBTransaction {
     if (y?.isOdd()) {
       format |= 0x1;
     }
-    let pubBz = Buffer.concat([UVarInt.encode(format), x.toArrayLike(Buffer, 'be', 32)]);
+    let pubBz = Buffer.concat([UVarInt.encode(format), x.toArrayLike(Buffer, "be", 32)]);
 
     // prefixed with length
     pubBz = encodeBinaryByteArray(pubBz);
     // add the amino prefix
-    pubBz = Buffer.concat([Buffer.from('EB5AE987', 'hex'), pubBz]);
+    pubBz = Buffer.concat([Buffer.from("EB5AE987", "hex"), pubBz]);
     return pubBz;
   }
 }

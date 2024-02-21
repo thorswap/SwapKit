@@ -1,27 +1,27 @@
-import type EthereumApp from '@ledgerhq/hw-app-eth';
+import type EthereumApp from "@ledgerhq/hw-app-eth";
 import {
   AbstractSigner,
   type Provider,
   Signature,
   Transaction,
   type TransactionRequest,
-} from '@swapkit/toolbox-evm';
-import { ChainId } from '@swapkit/types';
+} from "@swapkit/toolbox-evm";
+import { ChainId } from "@swapkit/types";
 
-import { getLedgerTransport } from '../helpers/getLedgerTransport.ts';
+import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
 
 export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
-  public chain: 'eth' | 'avax' | 'bsc' = 'eth';
+  public chain: "eth" | "avax" | "bsc" = "eth";
   public chainId: ChainId = ChainId.Ethereum;
-  public derivationPath: string = '';
+  public derivationPath = "";
   // @ts-expect-error `default` typing is wrong
   public ledgerApp: InstanceType<typeof EthereumApp> | null = null;
-  public ledgerTimeout: number = 50000;
+  public ledgerTimeout = 50000;
 
   constructor(provider: Provider) {
     super(provider);
 
-    Object.defineProperty(this, 'provider', {
+    Object.defineProperty(this, "provider", {
       enumerable: true,
       value: provider || null,
       writable: false,
@@ -35,7 +35,7 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
 
   createTransportAndLedger = async () => {
     const transport = await getLedgerTransport();
-    const { default: EthereumApp } = await import('@ledgerhq/hw-app-eth');
+    const { default: EthereumApp } = await import("@ledgerhq/hw-app-eth");
 
     // @ts-expect-error `default` typing is wrong
     this.ledgerApp = new EthereumApp(transport);
@@ -43,7 +43,7 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
 
   getAddress = async () => {
     const response = await this.getAddressAndPubKey();
-    if (!response) throw new Error('Could not get Address');
+    if (!response) throw new Error("Could not get Address");
     return response.address;
   };
 
@@ -62,10 +62,10 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
 
     const sig = await this.ledgerApp?.signPersonalMessage(this.derivationPath, messageHex);
 
-    if (!sig) throw new Error('Signing failed');
+    if (!sig) throw new Error("Signing failed");
 
-    sig.r = '0x' + sig.r;
-    sig.s = '0x' + sig.s;
+    sig.r = `0x${sig.r}`;
+    sig.s = `0x${sig.s}`;
     return Signature.from(sig).serialized;
   };
 
@@ -92,13 +92,13 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
           : transactionCount,
       to: tx.to?.toString(),
       value: tx.value,
-      type: tx.type && !isNaN(tx.type) ? tx.type : tx.maxFeePerGas ? 2 : 0,
+      type: tx.type && !Number.isNaN(tx.type) ? tx.type : tx.maxFeePerGas ? 2 : 0,
     };
 
     // ledger expects the tx to be serialized without the 0x prefix
     const unsignedTx = Transaction.from(baseTx).unsignedSerialized.slice(2);
 
-    const { ledgerService } = await import('@ledgerhq/hw-app-eth');
+    const { ledgerService } = await import("@ledgerhq/hw-app-eth");
 
     const resolution = await ledgerService.resolveTransaction(
       unsignedTx,
@@ -112,19 +112,19 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
       resolution,
     );
 
-    if (!signature) throw new Error('Could not sign transaction');
+    if (!signature) throw new Error("Could not sign transaction");
 
     const { r, s, v } = signature;
 
     return Transaction.from({
       ...baseTx,
-      signature: { v: Number(BigInt(v)), r: '0x' + r, s: '0x' + s },
+      signature: { v: Number(BigInt(v)), r: `0x${r}`, s: `0x${s}` },
     }).serialized;
   };
 
   // TODO: fix typing infer from ethers
   sendTransaction = async (tx: TransactionRequest): Promise<any> => {
-    if (!this.provider) throw new Error('No provider set');
+    if (!this.provider) throw new Error("No provider set");
 
     const signedTxHex = await this.signTransaction(tx);
 
@@ -132,6 +132,6 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
   };
 
   signTypedData(): Promise<string> {
-    throw new Error('Method not implemented.');
+    throw new Error("Method not implemented.");
   }
 }

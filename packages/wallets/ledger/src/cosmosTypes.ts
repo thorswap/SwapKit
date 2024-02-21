@@ -14,7 +14,7 @@ export interface AminoMsg {
 }
 
 export interface AminoMsgSend extends AminoMsg {
-  readonly type: 'cosmos-sdk/MsgSend';
+  readonly type: "cosmos-sdk/MsgSend";
   readonly value: {
     /** Bech32 account address */
     readonly from_address: string;
@@ -31,12 +31,12 @@ export interface AminoConverter {
 }
 
 /** A map from protobuf type URL to the AminoConverter implementation if supported on chain */
-export type AminoConverters = Record<string, AminoConverter | 'not_supported_by_chain'>;
+export type AminoConverters = Record<string, AminoConverter | "not_supported_by_chain">;
 
 function isAminoConverter(
-  converter: [string, AminoConverter | 'not_supported_by_chain'],
+  converter: [string, AminoConverter | "not_supported_by_chain"],
 ): converter is [string, AminoConverter] {
-  return typeof converter[1] !== 'string';
+  return typeof converter[1] !== "string";
 }
 
 /**
@@ -48,7 +48,7 @@ export class AminoTypes {
   // There is no uniqueness guarantee of the Amino type identifier in the type
   // system or constructor. Instead it's the user's responsibility to ensure
   // there is no overlap when fromAmino is called.
-  private readonly register: Record<string, AminoConverter | 'not_supported_by_chain'>;
+  private readonly register: Record<string, AminoConverter | "not_supported_by_chain">;
 
   public constructor(types: AminoConverters) {
     this.register = types;
@@ -56,7 +56,7 @@ export class AminoTypes {
 
   public toAmino({ typeUrl, value }: EncodeObject): AminoMsg {
     const converter = this.register[typeUrl];
-    if (converter === 'not_supported_by_chain') {
+    if (converter === "not_supported_by_chain") {
       throw new Error(
         `The message type '${typeUrl}' cannot be signed using the Amino JSON sign mode because this is not supported by chain.`,
       );
@@ -90,12 +90,10 @@ export class AminoTypes {
       }
       default:
         throw new Error(
-          `Multiple types are registered with Amino type identifier '${type}': '` +
-            matches
-              .map(([key, _value]) => key)
-              .sort()
-              .join("', '") +
-            "'. Thus fromAmino cannot be performed.",
+          `Multiple types are registered with Amino type identifier '${type}': '${matches
+            .map(([key, _value]) => key)
+            .sort()
+            .join("', '")}'. Thus fromAmino cannot be performed.`,
         );
     }
   }

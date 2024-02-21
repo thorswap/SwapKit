@@ -1,11 +1,11 @@
-import type { AssetValue, QuoteRoute, SwapKitNumber } from '@swapkit/helpers';
+import type { AssetValue, QuoteRoute, SwapKitNumber } from "@swapkit/helpers";
 import type {
   BinanceToolbox,
   DepositParam,
   GaiaToolbox,
   KujiraToolbox,
   ThorchainToolboxType,
-} from '@swapkit/toolbox-cosmos';
+} from "@swapkit/toolbox-cosmos";
 import type {
   ARBToolbox,
   AVAXToolbox,
@@ -13,16 +13,16 @@ import type {
   ETHToolbox,
   MATICToolbox,
   OPToolbox,
-} from '@swapkit/toolbox-evm';
-import type { ChainflipToolbox, PolkadotToolbox } from '@swapkit/toolbox-substrate';
+} from "@swapkit/toolbox-evm";
+import type { ChainflipToolbox, PolkadotToolbox } from "@swapkit/toolbox-substrate";
 import type {
   BCHToolbox,
   BTCToolbox,
   DASHToolbox,
   DOGEToolbox,
   LTCToolbox,
-} from '@swapkit/toolbox-utxo';
-import type { Chain, FeeOption, WalletOption } from '@swapkit/types';
+} from "@swapkit/toolbox-utxo";
+import { Chain, type FeeOption, type WalletOption } from "@swapkit/types";
 
 type BaseWalletMethods = {
   getAddress: () => Promise<string> | string;

@@ -1,10 +1,10 @@
-import type { ApiPromise } from '@polkadot/api';
-import type { KeyringPair } from '@polkadot/keyring/types';
-import type { RPCUrl, SubstrateChain } from '@swapkit/types';
+import type { ApiPromise } from "@polkadot/api";
+import type { KeyringPair } from "@polkadot/keyring/types";
+import type { RPCUrl, SubstrateChain } from "@swapkit/types";
 
-import { Network } from '../types/network.ts';
+import { Network } from "../types/network.ts";
 
-import { BaseToolbox } from './baseSubstrateToobox.ts';
+import { BaseToolbox } from "./baseSubstrateToobox.ts";
 
 type ToolboxParams = {
   providerUrl?: RPCUrl;
@@ -14,14 +14,14 @@ type ToolboxParams = {
 
 type ToolboxFactoryType<T, M> = (params: ToolboxParams & T) => ReturnType<typeof BaseToolbox> & M;
 
-export const ToolboxFactory: ToolboxFactoryType<{ chain: SubstrateChain }, {}> = async ({
+export const ToolboxFactory: ToolboxFactoryType<{ chain: SubstrateChain }, unknown> = async ({
   providerUrl,
   generic,
   chain,
   signer,
 }) => {
-  const { ApiPromise, WsProvider } = await import('@polkadot/api');
-  const { AssetValue } = await import('@swapkit/helpers');
+  const { ApiPromise, WsProvider } = await import("@polkadot/api");
+  const { AssetValue } = await import("@swapkit/helpers");
 
   const provider = new WsProvider(providerUrl);
   const api = await ApiPromise.create({ provider });
@@ -35,12 +35,12 @@ export const ToolboxFactory: ToolboxFactoryType<{ chain: SubstrateChain }, {}> =
   });
 };
 
-export const PolkadotToolbox: ToolboxFactoryType<{}, {}> = async ({
+export const PolkadotToolbox: ToolboxFactoryType<unknown, unknown> = async ({
   providerUrl,
   signer,
   generic = false,
 }) => {
-  const { Chain, RPCUrl } = await import('@swapkit/types');
+  const { Chain, RPCUrl } = await import("@swapkit/types");
   return ToolboxFactory({
     providerUrl: providerUrl || RPCUrl.Polkadot,
     chain: Chain.Polkadot,
@@ -49,14 +49,14 @@ export const PolkadotToolbox: ToolboxFactoryType<{}, {}> = async ({
   });
 };
 
-export const ChainflipToolbox: ToolboxFactoryType<{}, {}> = async ({
+export const ChainflipToolbox: ToolboxFactoryType<unknown, unknown> = async ({
   providerUrl,
   signer,
   generic = false,
 }) => {
-  const { Chain } = await import('@swapkit/types');
-  const { ApiPromise, WsProvider } = await import('@polkadot/api');
-  const { AssetValue, SwapKitNumber } = await import('@swapkit/helpers');
+  const { Chain } = await import("@swapkit/types");
+  const { ApiPromise, WsProvider } = await import("@polkadot/api");
+  const { AssetValue, SwapKitNumber } = await import("@swapkit/helpers");
 
   const provider = new WsProvider(providerUrl);
   const api = await ApiPromise.create({ provider });
@@ -66,7 +66,7 @@ export const ChainflipToolbox: ToolboxFactoryType<{}, {}> = async ({
     const { balance } = (await api.query.flip.account(address)) as any;
     return [
       gasAsset.set(
-        SwapKitNumber.fromBigInt(BigInt(balance.toString()), gasAsset.decimal).getValue('string'),
+        SwapKitNumber.fromBigInt(BigInt(balance.toString()), gasAsset.decimal).getValue("string"),
       ),
     ];
   };
@@ -92,7 +92,7 @@ export const getToolboxByChain = async (
     generic?: boolean;
   },
 ) => {
-  const { Chain } = await import('@swapkit/types');
+  const { Chain } = await import("@swapkit/types");
   switch (chain) {
     case Chain.Polkadot:
       return PolkadotToolbox(params);

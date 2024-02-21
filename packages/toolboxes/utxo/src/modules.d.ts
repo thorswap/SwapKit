@@ -1,2 +1,2 @@
-declare module '@psf/bitcoincashjs-lib';
-declare module 'coininfo';
+declare module "@psf/bitcoincashjs-lib";
+declare module "coininfo";

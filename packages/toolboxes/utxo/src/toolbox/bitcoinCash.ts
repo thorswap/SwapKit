@@ -1,36 +1,36 @@
 import {
-  address as bchAddress,
   HDNode,
   Transaction,
   TransactionBuilder,
-} from '@psf/bitcoincashjs-lib';
-import { mnemonicToSeedSync } from '@scure/bip39';
-import type { UTXOChain } from '@swapkit/types';
-import { Chain, DerivationPath, FeeOption, RPCUrl } from '@swapkit/types';
-import { Psbt } from 'bitcoinjs-lib';
-import { ECPairFactory } from 'ecpair';
+  address as bchAddress,
+} from "@psf/bitcoincashjs-lib";
+import { mnemonicToSeedSync } from "@scure/bip39";
+import type { UTXOChain } from "@swapkit/types";
+import { Chain, DerivationPath, FeeOption, RPCUrl } from "@swapkit/types";
+import { Psbt } from "bitcoinjs-lib";
+import { ECPairFactory } from "ecpair";
 
-import type { BlockchairApiType } from '../api/blockchairApi.ts';
-import { blockchairApi } from '../api/blockchairApi.ts';
-import { broadcastUTXOTx } from '../api/rpcApi.ts';
+import type { BlockchairApiType } from "../api/blockchairApi.ts";
+import { blockchairApi } from "../api/blockchairApi.ts";
+import { broadcastUTXOTx } from "../api/rpcApi.ts";
 import type {
   TargetOutput,
   TransactionBuilderType,
   TransactionType,
   UTXOBuildTxParams,
   UTXOWalletTransferParams,
-} from '../types/common.ts';
-import type { UTXOType } from '../types/index.ts';
+} from "../types/common.ts";
+import type { UTXOType } from "../types/index.ts";
 import {
+  Network as bchNetwork,
   detectAddressNetwork,
   isValidAddress,
-  Network as bchNetwork,
   toCashAddress,
   toLegacyAddress,
-} from '../utils/bchaddrjs.ts';
-import { accumulative, compileMemo, getNetwork } from '../utils/index.ts';
+} from "../utils/bchaddrjs.ts";
+import { accumulative, compileMemo, getNetwork } from "../utils/index.ts";
 
-import { BaseUTXOToolbox } from './utxo.ts';
+import { BaseUTXOToolbox } from "./utxo.ts";
 
 // needed because TS can not infer types
 type BCHMethods = {
@@ -59,7 +59,7 @@ const chain = Chain.BitcoinCash as UTXOChain;
 
 const stripToCashAddress = (address: string) => stripPrefix(toCashAddress(address));
 
-const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
+const buildBCHTx: BCHMethods["buildBCHTx"] = async ({
   assetValue,
   recipient,
   memo,
@@ -67,7 +67,7 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
   sender,
   apiClient,
 }) => {
-  if (!validateAddress(recipient)) throw new Error('Invalid address');
+  if (!validateAddress(recipient)) throw new Error("Invalid address");
   const utxos = await apiClient.scanUTXOs({
     address: stripToCashAddress(sender),
     fetchTxHex: true,
@@ -77,7 +77,7 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
 
   const targetOutputs: TargetOutput[] = [];
   // output to recipient
-  targetOutputs.push({ address: recipient, value: assetValue.getBaseValue('number') });
+  targetOutputs.push({ address: recipient, value: assetValue.getBaseValue("number") });
   const { inputs, outputs } = accumulative({
     inputs: utxos,
     outputs: targetOutputs,
@@ -86,19 +86,19 @@ const buildBCHTx: BCHMethods['buildBCHTx'] = async ({
   });
 
   // .inputs and .outputs will be undefined if no solution was found
-  if (!inputs || !outputs) throw new Error('Balance insufficient for transaction');
+  if (!(inputs && outputs)) throw new Error("Balance insufficient for transaction");
 
   const builder = new TransactionBuilder(getNetwork(chain));
 
   await Promise.all(
     inputs.map(async (utxo: UTXOType) => {
       const txHex = await apiClient.getRawTx(utxo.hash);
-      builder.addInput(Transaction.fromBuffer(Buffer.from(txHex, 'hex')), utxo.index);
+      builder.addInput(Transaction.fromBuffer(Buffer.from(txHex, "hex")), utxo.index);
     }),
   );
 
   for (const output of outputs) {
-    const address = 'address' in output ? output.address : sender;
+    const address = "address" in output ? output.address : sender;
     const outputScript = bchAddress.toOutputScript(toLegacyAddress(address), getNetwork(chain));
 
     builder.addOutput(outputScript, output.value);
@@ -129,9 +129,9 @@ const transfer = async ({
   broadcastTx: (txHash: string) => Promise<string>;
   getFeeRates: () => Promise<Record<FeeOption, number>>;
 }) => {
-  if (!from) throw new Error('From address must be provided');
-  if (!recipient) throw new Error('Recipient address must be provided');
-  if (!signTransaction) throw new Error('signTransaction must be provided');
+  if (!from) throw new Error("From address must be provided");
+  if (!recipient) throw new Error("Recipient address must be provided");
+  if (!signTransaction) throw new Error("signTransaction must be provided");
 
   const feeRate = rest.feeRate || (await getFeeRates())[FeeOption.Fast];
 
@@ -158,9 +158,10 @@ const buildTx = async ({
   feeRate,
   sender,
   apiClient,
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
 }: UTXOBuildTxParams & { apiClient: BlockchairApiType }) => {
   const recipientCashAddress = toCashAddress(recipient);
-  if (!validateAddress(recipientCashAddress)) throw new Error('Invalid address');
+  if (!validateAddress(recipientCashAddress)) throw new Error("Invalid address");
 
   const utxos = await apiClient.scanUTXOs({
     address: stripToCashAddress(sender),
@@ -175,7 +176,7 @@ const buildTx = async ({
   // output to recipient
   targetOutputs.push({
     address: toLegacyAddress(recipient),
-    value: assetValue.getBaseValue('number'),
+    value: assetValue.getBaseValue("number"),
   });
 
   //2. add output memo to targets (optional)
@@ -191,7 +192,7 @@ const buildTx = async ({
   });
 
   // .inputs and .outputs will be undefined if no solution was found
-  if (!inputs || !outputs) throw new Error('Balance insufficient for transaction');
+  if (!(inputs && outputs)) throw new Error("Balance insufficient for transaction");
   const psbt = new Psbt({ network: getNetwork(chain) }); // Network-specific
 
   for (const { hash, index, witnessUtxo } of inputs) {
@@ -200,12 +201,12 @@ const buildTx = async ({
 
   // Outputs
   for (const output of outputs) {
-    const address = 'address' in output ? output.address : sender;
-    const params = !output.script
-      ? { address, value: output.value }
-      : compiledMemo
+    const address = "address" in output ? output.address : sender;
+    const params = output.script
+      ? compiledMemo
         ? { script: compiledMemo, value: 0 }
-        : undefined;
+        : undefined
+      : { address, value: output.value };
 
     if (params) {
       psbt.addOutput(params);
@@ -215,15 +216,15 @@ const buildTx = async ({
   return { psbt, utxos, inputs: inputs as UTXOType[] };
 };
 
-const stripPrefix = (address: string) => address.replace(/(bchtest:|bitcoincash:)/, '');
+const stripPrefix = (address: string) => address.replace(/(bchtest:|bitcoincash:)/, "");
 
 const validateAddress = (address: string, _chain?: UTXOChain) => {
-  const startsWithBCH = address.startsWith('bitcoincash:');
+  const startsWithBCH = address.startsWith("bitcoincash:");
   if (startsWithBCH) return true;
   return isValidAddress(address) && detectAddressNetwork(address) === bchNetwork.Mainnet;
 };
 
-const createKeysForPath: BCHMethods['createKeysForPath'] = async ({
+const createKeysForPath: BCHMethods["createKeysForPath"] = async ({
   phrase,
   derivationPath = `${DerivationPath.BCH}/0`,
   wif,
@@ -231,10 +232,10 @@ const createKeysForPath: BCHMethods['createKeysForPath'] = async ({
   const network = getNetwork(chain);
 
   if (wif) {
-    const tinySecp = await import('tiny-secp256k1');
+    const tinySecp = await import("tiny-secp256k1");
     return ECPairFactory(tinySecp).fromWIF(wif, network);
   }
-  if (!phrase) throw new Error('No phrase provided');
+  if (!phrase) throw new Error("No phrase provided");
 
   const masterHDNode = HDNode.fromSeedBuffer(Buffer.from(mnemonicToSeedSync(phrase)), network);
   const keyPair = masterHDNode.derivePath(derivationPath).keyPair;
@@ -261,7 +262,7 @@ export const createBCHToolbox = ({
   apiClient?: BlockchairApiType;
 }): Omit<
   ReturnType<typeof BaseUTXOToolbox>,
-  'getAddressFromKeys' | 'transfer' | 'createKeysForPath'
+  "getAddressFromKeys" | "transfer" | "createKeysForPath"
 > &
   BCHMethods => {
   const apiClient = client || blockchairApi({ apiKey, chain });

@@ -1,10 +1,10 @@
-import { Chains } from '@chainflip/sdk/swap';
-import type { AssetValue } from '@swapkit/helpers';
-import type { ETHToolbox } from '@swapkit/toolbox-evm';
-import type { ChainflipToolbox } from '@swapkit/toolbox-substrate';
-import { Chain } from '@swapkit/types';
+import { Chains } from "@chainflip/sdk/swap";
+import type { AssetValue } from "@swapkit/helpers";
+import type { ETHToolbox } from "@swapkit/toolbox-evm";
+import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
+import { Chain } from "@swapkit/types";
 
-import { chainflipGateway } from './chainflipGatewayABI.ts';
+import { chainflipGateway } from "./chainflipGatewayABI.ts";
 
 const chainToChainflipChain = new Map<Chain, keyof typeof Chains>([
   [Chain.Ethereum, Chains.Ethereum],
@@ -12,7 +12,7 @@ const chainToChainflipChain = new Map<Chain, keyof typeof Chains>([
   [Chain.Polkadot, Chains.Polkadot],
 ]);
 
-const registerAsBroker = async (
+const registerAsBroker = (
   toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
   address: string,
 ) => {
@@ -34,7 +34,7 @@ const requestSwapDepositAddress = async (
     brokerCommissionBPS: number;
   },
 ) => {
-  const { SwapKitNumber } = await import('@swapkit/helpers');
+  const { SwapKitNumber } = await import("@swapkit/helpers");
 
   return new Promise<{
     depositChannelId: string;
@@ -50,7 +50,7 @@ const requestSwapDepositAddress = async (
         sellAsset.ticker.toLowerCase(),
         buyAsset.ticker.toLowerCase(),
         { [buyAsset.chain.toLowerCase()]: recipient },
-        SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue('number'),
+        SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
         null,
       ),
       async (result: any) => {
@@ -69,7 +69,7 @@ const requestSwapDepositAddress = async (
             buyAsset.chain,
           )}-${channelId}`,
           depositAddress: Object.values(depositAddress)[0] as string,
-          srcChainExpiryBlock: Number((sourceChainExpiryBlock as string).replace(',', '')),
+          srcChainExpiryBlock: Number((sourceChainExpiryBlock as string).replace(",", "")),
           sellAsset,
           buyAsset,
           recipient: Object.values(destinationAddress)[0] as string,
@@ -86,15 +86,15 @@ const fundStateChainAccount = async (
   stateChainAccount: string,
   amount: AssetValue,
 ) => {
-  const { decodeAddress } = await import('@polkadot/keyring');
-  const { isHex, u8aToHex } = await import('@polkadot/util');
+  const { decodeAddress } = await import("@polkadot/keyring");
+  const { isHex, u8aToHex } = await import("@polkadot/util");
 
-  if (amount.symbol !== 'FLIP') {
-    throw new Error('Only FLIP is supported');
+  if (amount.symbol !== "FLIP") {
+    throw new Error("Only FLIP is supported");
   }
 
   if (!chainflipToolbox.validateAddress(stateChainAccount)) {
-    throw new Error('Invalid address');
+    throw new Error("Invalid address");
   }
 
   const hexAddress = isHex(stateChainAccount)
@@ -103,8 +103,8 @@ const fundStateChainAccount = async (
 
   return evmToolbox.call({
     abi: chainflipGateway,
-    contractAddress: '0x6995ab7c4d7f4b03f467cf4c8e920427d9621dbd',
-    funcName: 'fundStateChainAccount',
+    contractAddress: "0x6995ab7c4d7f4b03f467cf4c8e920427d9621dbd",
+    funcName: "fundStateChainAccount",
     funcParams: [hexAddress, amount],
   });
 };

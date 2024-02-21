@@ -1,7 +1,7 @@
-import { generateMnemonic } from '@scure/bip39';
-import { wordlist } from '@scure/bip39/wordlists/english';
-import { blake2bFinal, blake2bInit, blake2bUpdate } from 'blakejs';
-import crypto from 'crypto';
+import crypto from "crypto";
+import { generateMnemonic } from "@scure/bip39";
+import { wordlist } from "@scure/bip39/wordlists/english";
+import { blake2bFinal, blake2bInit, blake2bUpdate } from "blakejs";
 
 export type Keystore = {
   crypto: {
@@ -26,9 +26,11 @@ export type Keystore = {
 /**
  * taken from `foundry-primitives` and modified
  */
-const blake256 = (data: Buffer | string): string => {
+const blake256 = (initData: Buffer | string): string => {
+  let data = initData;
+
   if (!(data instanceof Buffer)) {
-    data = Buffer.from(data, 'hex');
+    data = Buffer.from(data, "hex");
   }
 
   const context = blake2bInit(32);
@@ -36,7 +38,7 @@ const blake256 = (data: Buffer | string): string => {
 
   return Array.from(blake2bFinal(context))
     .map((byte) => (byte < 0x10 ? `0${byte.toString(16)}` : byte.toString(16)))
-    .join('');
+    .join("");
 };
 
 const pbkdf2Async = (
@@ -59,30 +61,30 @@ const pbkdf2Async = (
 export const encryptToKeyStore = async (phrase: string, password: string) => {
   const salt = crypto.randomBytes(32);
   const iv = crypto.randomBytes(16);
-  const kdfParams = { c: 262144, prf: 'hmac-sha256', dklen: 32, salt: salt.toString('hex') };
-  const cipher = 'aes-128-ctr';
+  const kdfParams = { c: 262144, prf: "hmac-sha256", dklen: 32, salt: salt.toString("hex") };
+  const cipher = "aes-128-ctr";
 
   const derivedKey = await pbkdf2Async(
     Buffer.from(password),
     salt,
     kdfParams.c,
     kdfParams.dklen,
-    'sha256',
+    "sha256",
   );
   const cipherIV = crypto.createCipheriv(cipher, derivedKey.subarray(0, 16), iv);
   const ciphertext = Buffer.concat([
-    cipherIV.update(Buffer.from(phrase, 'utf8')),
+    cipherIV.update(Buffer.from(phrase, "utf8")),
     cipherIV.final(),
   ]);
 
   return {
-    meta: 'xchain-keystore',
+    meta: "xchain-keystore",
     version: 1,
     crypto: {
       cipher,
-      cipherparams: { iv: iv.toString('hex') },
-      ciphertext: ciphertext.toString('hex'),
-      kdf: 'pbkdf2',
+      cipherparams: { iv: iv.toString("hex") },
+      ciphertext: ciphertext.toString("hex"),
+      kdf: "pbkdf2",
       kdfparams: kdfParams,
       mac: blake256(Buffer.concat([derivedKey.subarray(16, 32), Buffer.from(ciphertext)])),
     },
@@ -100,27 +102,27 @@ export const decryptFromKeystore = async (keystore: Keystore, password: string) 
       const kdfparams = keystore.crypto.kdfparams;
       const derivedKey = await pbkdf2Async(
         Buffer.from(password),
-        Buffer.from(kdfparams.salt, 'hex'),
+        Buffer.from(kdfparams.salt, "hex"),
         kdfparams.c,
         kdfparams.dklen,
-        'sha256',
+        "sha256",
       );
 
-      const ciphertext = Buffer.from(keystore.crypto.ciphertext, 'hex');
+      const ciphertext = Buffer.from(keystore.crypto.ciphertext, "hex");
       const mac = blake256(Buffer.concat([derivedKey.subarray(16, 32), ciphertext]));
 
-      if (mac !== keystore.crypto.mac) throw new Error('Invalid password');
+      if (mac !== keystore.crypto.mac) throw new Error("Invalid password");
       const decipher = crypto.createDecipheriv(
         keystore.crypto.cipher,
         derivedKey.subarray(0, 16),
-        Buffer.from(keystore.crypto.cipherparams.iv, 'hex'),
+        Buffer.from(keystore.crypto.cipherparams.iv, "hex"),
       );
 
       const phrase = Buffer.concat([decipher.update(ciphertext), decipher.final()]);
-      return phrase.toString('utf8');
+      return phrase.toString("utf8");
     }
 
     default:
-      throw new Error('Unsupported keystore version');
+      throw new Error("Unsupported keystore version");
   }
 };

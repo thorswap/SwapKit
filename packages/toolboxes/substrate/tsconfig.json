@@ -1,4 +1,4 @@
 {
-  "extends": "@internal/config/base.json",
-  "include": ["./src", "./src/**/*", "src/toolbox/.ts"]
+  "extends": "@internal/tools-typescript/base.json",
+  "include": ["src", "../../../tools/typescript/typings.d.ts"]
 }

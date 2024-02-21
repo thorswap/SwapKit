@@ -1,24 +1,21 @@
-import { setRequestClientConfig } from '@swapkit/helpers';
-import {
-  type DepositParam,
-  type TransferParams,
-} from '@swapkit/toolbox-cosmos';
-import type { UTXOBuildTxParams } from '@swapkit/toolbox-utxo';
-import type { ConnectWalletParams, DerivationPathArray } from '@swapkit/types';
-import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from '@swapkit/types';
+import { setRequestClientConfig } from "@swapkit/helpers";
+import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
+import type { UTXOBuildTxParams } from "@swapkit/toolbox-utxo";
+import type { ConnectWalletParams, DerivationPathArray } from "@swapkit/types";
+import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from "@swapkit/types";
 
-import type { AvalancheLedger } from './clients/avalanche.ts';
-import type { BinanceLedger } from './clients/binance/index.ts';
-import type { BSCLedger } from './clients/binancesmartchain.ts';
-import type { BitcoinLedger } from './clients/bitcoin.ts';
-import type { BitcoinCashLedger } from './clients/bitcoincash.ts';
-import type { CosmosLedger } from './clients/cosmos.ts';
-import type { DogecoinLedger } from './clients/dogecoin.ts';
-import type { EthereumLedger } from './clients/ethereum.ts';
-import type { LitecoinLedger } from './clients/litecoin.ts';
-import type { THORChainLedger } from './clients/thorchain/index.ts';
-import type { LEDGER_SUPPORTED_CHAINS } from './helpers/index.ts';
-import { getLedgerAddress, getLedgerClient } from './helpers/index.ts';
+import type { AvalancheLedger } from "./clients/avalanche.ts";
+import type { BinanceLedger } from "./clients/binance/index.ts";
+import type { BSCLedger } from "./clients/binancesmartchain.ts";
+import type { BitcoinLedger } from "./clients/bitcoin.ts";
+import type { BitcoinCashLedger } from "./clients/bitcoincash.ts";
+import type { CosmosLedger } from "./clients/cosmos.ts";
+import type { DogecoinLedger } from "./clients/dogecoin.ts";
+import type { EthereumLedger } from "./clients/ethereum.ts";
+import type { LitecoinLedger } from "./clients/litecoin.ts";
+import type { THORChainLedger } from "./clients/thorchain/index.ts";
+import type { LEDGER_SUPPORTED_CHAINS } from "./helpers/index.ts";
+import { getLedgerAddress, getLedgerClient } from "./helpers/index.ts";
 
 type LedgerConfig = {
   api?: any;
@@ -29,13 +26,13 @@ type LedgerConfig = {
 };
 
 // reduce memo length by removing trade limit
-const reduceMemo = (memo?: string, affiliateAddress = 't') => {
-  if (!memo?.includes('=:')) return memo;
+const reduceMemo = (memo?: string, affiliateAddress = "t") => {
+  if (!memo?.includes("=:")) return memo;
 
   const removedAffiliate = memo.includes(`:${affiliateAddress}:`)
     ? memo.split(`:${affiliateAddress}:`)[0]
     : memo;
-  return removedAffiliate.substring(0, removedAffiliate.lastIndexOf(':'));
+  return removedAffiliate.substring(0, removedAffiliate.lastIndexOf(":"));
 };
 
 const recursivelyOrderKeys = (unordered: any) => {
@@ -49,11 +46,14 @@ const recursivelyOrderKeys = (unordered: any) => {
   }
 
   // If it's an object - let's order the keys
-  if (typeof unordered !== 'object') return unordered;
+  if (typeof unordered !== "object") return unordered;
   const ordered: any = {};
-  Object.keys(unordered)
-    .sort()
-    .forEach((key) => (ordered[key] = recursivelyOrderKeys(unordered[key])));
+  const sortedKeys = Object.keys(unordered).sort();
+
+  for (const key of sortedKeys) {
+    ordered[key] = recursivelyOrderKeys(unordered[key]);
+  }
+
   return ordered;
 };
 
@@ -91,7 +91,7 @@ const getToolbox = async ({
 
   switch (chain) {
     case Chain.Bitcoin: {
-      const { BTCToolbox } = await import('@swapkit/toolbox-utxo');
+      const { BTCToolbox } = await import("@swapkit/toolbox-utxo");
       const toolbox = BTCToolbox(utxoParams);
 
       const transfer = async (params: UTXOBuildTxParams) => {
@@ -109,7 +109,7 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.BitcoinCash: {
-      const { BCHToolbox } = await import('@swapkit/toolbox-utxo');
+      const { BCHToolbox } = await import("@swapkit/toolbox-utxo");
       const toolbox = BCHToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];
@@ -128,7 +128,7 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.Dogecoin: {
-      const { DOGEToolbox } = await import('@swapkit/toolbox-utxo');
+      const { DOGEToolbox } = await import("@swapkit/toolbox-utxo");
       const toolbox = DOGEToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];
@@ -146,7 +146,7 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.Litecoin: {
-      const { LTCToolbox } = await import('@swapkit/toolbox-utxo');
+      const { LTCToolbox } = await import("@swapkit/toolbox-utxo");
       const toolbox = LTCToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = await (await toolbox.getFeeRates())[FeeOption.Average];
@@ -164,7 +164,7 @@ const getToolbox = async ({
       return { ...toolbox, transfer };
     }
     case Chain.Binance: {
-      const { BinanceToolbox } = await import('@swapkit/toolbox-cosmos');
+      const { BinanceToolbox } = await import("@swapkit/toolbox-cosmos");
       const toolbox = BinanceToolbox({ stagenet: false });
       const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
         const { transaction, signMsg } = await toolbox.createTransactionAndSignMsg({
@@ -182,8 +182,8 @@ const getToolbox = async ({
           derivationPath,
         );
 
-        const pubKey = toolbox.getPublicKey(pubKeyResponse!.pk!.toString('hex'));
-        const signedTx = transaction.addSignature(pubKey, signResponse!.signature);
+        const pubKey = toolbox.getPublicKey(pubKeyResponse?.pk?.toString("hex"));
+        const signedTx = transaction.addSignature(pubKey, signResponse?.signature);
 
         const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);
 
@@ -194,19 +194,19 @@ const getToolbox = async ({
 
     case Chain.Cosmos: {
       const { GasPrice, createSigningStargateClient, getDenom, GaiaToolbox } = await import(
-        '@swapkit/toolbox-cosmos'
+        "@swapkit/toolbox-cosmos"
       );
       const toolbox = GaiaToolbox();
       const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
         const from = address;
-        if (!assetValue) throw new Error('invalid asset');
+        if (!assetValue) throw new Error("invalid asset");
         // ANCHOR (@0xGeneral) - create fallback for gas price estimation if internal api has error
-        const gasPrice = '0.007uatom';
+        const gasPrice = "0.007uatom";
 
         const sendCoinsMessage = {
           amount: [
             {
-              amount: assetValue.getBaseValue('string'),
+              amount: assetValue.getBaseValue("string"),
               denom: getDenom(`u${assetValue.symbol}`).toLowerCase(),
             },
           ],
@@ -215,7 +215,7 @@ const getToolbox = async ({
         };
 
         const msg = {
-          typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+          typeUrl: "/cosmos.bank.v1beta1.MsgSend",
           value: sendCoinsMessage,
         };
 
@@ -225,7 +225,7 @@ const getToolbox = async ({
           { gasPrice: GasPrice.fromString(gasPrice) },
         );
 
-        const tx = await signingClient.signAndBroadcast(address, [msg], 'auto', memo);
+        const tx = await signingClient.signAndBroadcast(address, [msg], "auto", memo);
 
         return tx.transactionHash;
       };
@@ -234,8 +234,8 @@ const getToolbox = async ({
     }
 
     case Chain.Ethereum: {
-      if (!ethplorerApiKey) throw new Error('Ethplorer API key is not defined');
-      const { ETHToolbox, getProvider } = await import('@swapkit/toolbox-evm');
+      if (!ethplorerApiKey) throw new Error("Ethplorer API key is not defined");
+      const { ETHToolbox, getProvider } = await import("@swapkit/toolbox-evm");
 
       return ETHToolbox({
         api,
@@ -245,8 +245,8 @@ const getToolbox = async ({
       });
     }
     case Chain.Avalanche: {
-      if (!covalentApiKey) throw new Error('Covalent API key is not defined');
-      const { AVAXToolbox, getProvider } = await import('@swapkit/toolbox-evm');
+      if (!covalentApiKey) throw new Error("Covalent API key is not defined");
+      const { AVAXToolbox, getProvider } = await import("@swapkit/toolbox-evm");
 
       return AVAXToolbox({
         api,
@@ -256,8 +256,8 @@ const getToolbox = async ({
       });
     }
     case Chain.BinanceSmartChain: {
-      if (!covalentApiKey) throw new Error('Covalent API key is not defined');
-      const { BSCToolbox, getProvider } = await import('@swapkit/toolbox-evm');
+      if (!covalentApiKey) throw new Error("Covalent API key is not defined");
+      const { BSCToolbox, getProvider } = await import("@swapkit/toolbox-evm");
 
       return BSCToolbox({
         api,
@@ -280,23 +280,23 @@ const getToolbox = async ({
         prepareMessageForBroadcast,
         SignMode,
         TxRaw,
-      } = await import('@swapkit/toolbox-cosmos');
+      } = await import("@swapkit/toolbox-cosmos");
       const toolbox = ThorchainToolbox({ stagenet: false });
 
       const fee = getDefaultChainFee(chain);
 
       // ANCHOR (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
       const thorchainTransfer = async ({
-        memo = '',
+        memo = "",
         assetValue,
         ...rest
       }: TransferParams | DepositParam) => {
         const account = await toolbox.getAccount(address);
-        if (!account) throw new Error('invalid account');
-        if (!assetValue) throw new Error('invalid asset');
-        if (!(signer as THORChainLedger).pubkey) throw new Error('Account pubkey not found');
+        if (!account) throw new Error("invalid account");
+        if (!assetValue) throw new Error("invalid asset");
+        if (!(signer as THORChainLedger).pubkey) throw new Error("Account pubkey not found");
 
-        const { accountNumber, sequence = '0' } = account;
+        const { accountNumber, sequence = "0" } = account;
 
         const msgs = recursivelyOrderKeys([
           buildAminoMsg({ from: address, assetValue, memo, ...rest }),
@@ -316,7 +316,7 @@ const getToolbox = async ({
           rawSendTx,
           sequence?.toString(),
         );
-        if (!signatures) throw new Error('tx signing failed');
+        if (!signatures) throw new Error("tx signing failed");
 
         const bodyBytes = await buildEncodedTxBody({
           msgs: msgs.map(prepareMessageForBroadcast),
@@ -325,8 +325,8 @@ const getToolbox = async ({
 
         const signedGasLimit = Int53.fromString(fee.gas).toNumber();
         const pubkey = encodePubkey({
-          type: 'tendermint/PubKeySecp256k1',
-          value: (signer as THORChainLedger).pubkey!,
+          type: "tendermint/PubKeySecp256k1",
+          value: (signer as THORChainLedger)?.pubkey,
         });
 
         const signedAuthInfoBytes = makeAuthInfoBytes(
@@ -353,7 +353,7 @@ const getToolbox = async ({
         return result.transactionHash;
       };
 
-      const signMessage = async (message: string) => {
+      const signMessage = (message: string) => {
         return (signer as THORChainLedger).sign(message);
       };
 
@@ -364,7 +364,7 @@ const getToolbox = async ({
     }
 
     default:
-      throw new Error('Unsupported chain');
+      throw new Error("Unsupported chain");
   }
 };
 
@@ -410,6 +410,6 @@ const connectLedger =
   };
 
 export const ledgerWallet = {
-  connectMethodName: 'connectLedger' as const,
+  connectMethodName: "connectLedger" as const,
   connect: connectLedger,
 };

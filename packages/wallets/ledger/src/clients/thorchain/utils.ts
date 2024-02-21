@@ -1,18 +1,19 @@
-import { base64 } from '@swapkit/toolbox-cosmos';
+import { base64 } from "@swapkit/toolbox-cosmos";
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
 export const getSignature = (signatureArray: any) => {
   // Check Type Length Value encoding
   if (signatureArray.length < 64) {
-    throw new Error('Invalid Signature: Too short');
+    throw new Error("Invalid Signature: Too short");
   }
   if (signatureArray[0] !== 0x30) {
-    throw new Error('Invalid Ledger Signature TLV encoding: expected first byte 0x30');
+    throw new Error("Invalid Ledger Signature TLV encoding: expected first byte 0x30");
   }
   if (signatureArray[1] + 2 !== signatureArray.length) {
-    throw new Error('Invalid Signature: signature length does not match TLV');
+    throw new Error("Invalid Signature: signature length does not match TLV");
   }
   if (signatureArray[2] !== 0x02) {
-    throw new Error('Invalid Ledger Signature TLV encoding: expected length type 0x02');
+    throw new Error("Invalid Ledger Signature TLV encoding: expected length type 0x02");
   }
 
   // r signature
@@ -33,13 +34,13 @@ export const getSignature = (signatureArray: any) => {
 
   // s signature
   if (signatureArray[rLength + 4] !== 0x02) {
-    throw new Error('Invalid Ledger Signature TLV encoding: expected length type 0x02');
+    throw new Error("Invalid Ledger Signature TLV encoding: expected length type 0x02");
   }
 
   const sLength = signatureArray[rLength + 5];
 
   if (4 + rLength + 2 + sLength !== signatureArray.length) {
-    throw new Error('Invalid Ledger Signature: TLV byte lengths do not match message length');
+    throw new Error("Invalid Ledger Signature: TLV byte lengths do not match message length");
   }
 
   let sSignature = signatureArray.slice(rLength + 6, signatureArray.length);
@@ -57,7 +58,7 @@ export const getSignature = (signatureArray: any) => {
   }
 
   if (rSignature.length !== 32 || sSignature.length !== 32) {
-    throw new Error('Invalid signatures: must be 32 bytes each');
+    throw new Error("Invalid signatures: must be 32 bytes each");
   }
 
   return base64.encode(Buffer.concat([rSignature, sSignature]));

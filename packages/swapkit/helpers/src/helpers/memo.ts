@@ -1,4 +1,4 @@
-import { Chain, MemoType } from '@swapkit/types';
+import { Chain, MemoType } from "@swapkit/types";
 
 export type ThornameRegisterParam = {
   name: string;
@@ -9,15 +9,14 @@ export type ThornameRegisterParam = {
   expiryBlock?: string;
 };
 
-type WithAddress<T = {}> = T & { address: string };
-type WithChain<T = {}> = T & { chain: Chain };
+type WithChain<T extends {}> = T & { chain: Chain };
 
 export type MemoOptions<T extends MemoType> = {
-  [MemoType.BOND]: WithAddress;
-  [MemoType.LEAVE]: WithAddress;
-  [MemoType.CLOSE_LOAN]: WithAddress<{ asset: string; minAmount?: string }>;
-  [MemoType.OPEN_LOAN]: WithAddress<{ asset: string; minAmount?: string }>;
-  [MemoType.UNBOND]: WithAddress<{ unbondAmount: number }>;
+  [MemoType.BOND]: { address: string };
+  [MemoType.LEAVE]: { address: string };
+  [MemoType.CLOSE_LOAN]: { address: string; asset: string; minAmount?: string };
+  [MemoType.OPEN_LOAN]: { address: string; asset: string; minAmount?: string };
+  [MemoType.UNBOND]: { address: string; unbondAmount: number };
   [MemoType.DEPOSIT]: WithChain<{ symbol: string; address?: string; singleSide?: boolean }>;
   [MemoType.WITHDRAW]: WithChain<{
     ticker: string;
@@ -26,7 +25,7 @@ export type MemoOptions<T extends MemoType> = {
     targetAssetString?: string;
     singleSide?: boolean;
   }>;
-  [MemoType.THORNAME_REGISTER]: Omit<ThornameRegisterParam, 'preferredAsset' | 'expiryBlock'>;
+  [MemoType.THORNAME_REGISTER]: Omit<ThornameRegisterParam, "preferredAsset" | "expiryBlock">;
 }[T];
 
 export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions<T>) => {
@@ -44,7 +43,7 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
 
     case MemoType.THORNAME_REGISTER: {
       const { name, chain, address, owner } = options as MemoOptions<MemoType.THORNAME_REGISTER>;
-      return `${memoType}:${name}:${chain}:${address}${owner ? `:${owner}` : ''}`;
+      return `${memoType}:${name}:${chain}:${address}${owner ? `:${owner}` : ""}`;
     }
 
     case MemoType.DEPOSIT: {
@@ -53,11 +52,11 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
       const getPoolIdentifier = (chain: Chain, symbol: string): string => {
         switch (chain) {
           case Chain.Litecoin:
-            return 'l';
+            return "l";
           case Chain.Dogecoin:
-            return 'd';
+            return "d";
           case Chain.BitcoinCash:
-            return 'c';
+            return "c";
           default:
             return `${chain}.${symbol}`;
         }
@@ -65,7 +64,7 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
 
       return singleSide
         ? `${memoType}:${chain}/${symbol}`
-        : `${memoType}:${getPoolIdentifier(chain, symbol)}:${address || ''}`;
+        : `${memoType}:${getPoolIdentifier(chain, symbol)}:${address || ""}`;
     }
 
     case MemoType.WITHDRAW: {
@@ -73,9 +72,9 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
         options as MemoOptions<MemoType.WITHDRAW>;
 
       const shortenedSymbol =
-        chain === 'ETH' && ticker !== 'ETH' ? `${ticker}-${symbol.slice(-3)}` : symbol;
-      const target = !singleSide && targetAssetString ? `:${targetAssetString}` : '';
-      const assetDivider = singleSide ? '/' : '.';
+        chain === "ETH" && ticker !== "ETH" ? `${ticker}-${symbol.slice(-3)}` : symbol;
+      const target = !singleSide && targetAssetString ? `:${targetAssetString}` : "";
+      const assetDivider = singleSide ? "/" : ".";
 
       return `${memoType}:${chain}${assetDivider}${shortenedSymbol}:${basisPoints}${target}`;
     }
@@ -88,6 +87,6 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
     }
 
     default:
-      return '';
+      return "";
   }
 };

@@ -1,22 +1,22 @@
-import { derivationPathToString } from '@swapkit/helpers';
+import { derivationPathToString } from "@swapkit/helpers";
 import type {
-  BaseUTXOToolbox,
   BCHToolbox,
+  BaseUTXOToolbox,
   Psbt,
   UTXOToolbox,
   UTXOTransferParams,
-} from '@swapkit/toolbox-utxo';
-import type { DerivationPathArray, UTXOChain } from '@swapkit/types';
-import { Chain, DerivationPath, FeeOption } from '@swapkit/types';
+} from "@swapkit/toolbox-utxo";
+import type { DerivationPathArray, UTXOChain } from "@swapkit/types";
+import { Chain, DerivationPath, FeeOption } from "@swapkit/types";
 
-import { bip32ToAddressNList, ChainToKeepKeyName } from '../helpers/coins.ts';
+import { ChainToKeepKeyName, bip32ToAddressNList } from "../helpers/coins.ts";
 
 type KKUtxoWalletParams = {
   sdk: any;
   chain: UTXOChain;
   derivationPath?: DerivationPathArray;
   apiKey?: string;
-  apiClient?: ReturnType<typeof BaseUTXOToolbox>['apiClient'];
+  apiClient?: ReturnType<typeof BaseUTXOToolbox>["apiClient"];
 };
 
 interface psbtTxOutput {
@@ -54,15 +54,15 @@ export const utxoWalletMethods = async ({
     transfer: (params: UTXOTransferParams) => Promise<string>;
   }
 > => {
-  if (!apiKey && !apiClient) throw new Error('UTXO API key not found');
-  const { getToolboxByChain } = await import('@swapkit/toolbox-utxo');
+  if (!(apiKey || apiClient)) throw new Error("UTXO API key not found");
+  const { getToolboxByChain } = await import("@swapkit/toolbox-utxo");
 
   const toolbox = getToolboxByChain(chain)({ apiClient, apiKey });
-  const scriptType = [Chain.Bitcoin, Chain.Litecoin].includes(chain) ? 'p2wpkh' : 'p2pkh';
+  const scriptType = [Chain.Bitcoin, Chain.Litecoin].includes(chain) ? "p2wpkh" : "p2pkh";
 
-  const derivationPathString = !derivationPath
-    ? DerivationPath[chain]
-    : `m/${derivationPathToString(derivationPath)}`;
+  const derivationPathString = derivationPath
+    ? `m/${derivationPathToString(derivationPath)}`
+    : DerivationPath[chain];
 
   const addressInfo = {
     coin: ChainToKeepKeyName[chain],
@@ -72,7 +72,7 @@ export const utxoWalletMethods = async ({
 
   const { address: walletAddress } = await sdk.address.utxoGetAddress(addressInfo);
 
-  const signTransaction = async (psbt: Psbt, inputs: KeepKeyInputObject[], memo: string = '') => {
+  const signTransaction = async (psbt: Psbt, inputs: KeepKeyInputObject[], memo = "") => {
     const outputs = psbt.txOutputs
       .map((output) => {
         const { value, address, change } = output as psbtTxOutput;
@@ -86,13 +86,13 @@ export const utxoWalletMethods = async ({
           return {
             addressNList: addressInfo.address_n,
             isChange: true,
-            addressType: 'change',
+            addressType: "change",
             amount: value,
             scriptType,
           };
         }
         if (outputAddress) {
-          return { address: outputAddress, amount: value, addressType: 'spend' };
+          return { address: outputAddress, amount: value, addressType: "spend" };
         }
 
         return null;
@@ -101,7 +101,7 @@ export const utxoWalletMethods = async ({
 
     const removeNullAndEmptyObjectsFromArray = (arr: any[]) => {
       return arr.filter(
-        (item) => item !== null && typeof item === 'object' && Object.keys(item).length !== 0,
+        (item) => item !== null && typeof item === "object" && Object.keys(item).length !== 0,
       );
     };
 
@@ -124,8 +124,8 @@ export const utxoWalletMethods = async ({
     memo,
     ...rest
   }: UTXOTransferParams) => {
-    if (!from) throw new Error('From address must be provided');
-    if (!recipient) throw new Error('Recipient address must be provided');
+    if (!from) throw new Error("From address must be provided");
+    if (!recipient) throw new Error("Recipient address must be provided");
 
     const { psbt, inputs: rawInputs } = await toolbox.buildTx({
       ...rest,
@@ -144,7 +144,7 @@ export const utxoWalletMethods = async ({
       amount: value.toString(),
       vout: index,
       txid: hash,
-      hex: txHex || '',
+      hex: txHex || "",
     }));
 
     const txHex = await signTransaction(psbt, inputs, memo);

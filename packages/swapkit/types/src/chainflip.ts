@@ -19,12 +19,12 @@ export enum ErrorCode {
 }
 
 export enum MemoType {
-  BOND = 'BOND',
-  DEPOSIT = '+',
-  LEAVE = 'LEAVE',
-  THORNAME_REGISTER = '~',
-  UNBOND = 'UNBOND',
-  WITHDRAW = '-',
-  OPEN_LOAN = '$+',
-  CLOSE_LOAN = '$-',
+  BOND = "BOND",
+  DEPOSIT = "+",
+  LEAVE = "LEAVE",
+  THORNAME_REGISTER = "~",
+  UNBOND = "UNBOND",
+  WITHDRAW = "-",
+  OPEN_LOAN = "$+",
+  CLOSE_LOAN = "$-",
 }

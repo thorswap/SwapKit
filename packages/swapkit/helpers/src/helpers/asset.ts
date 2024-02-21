@@ -1,8 +1,8 @@
-import { RequestClient } from '@swapkit/api';
-import type { EVMChain } from '@swapkit/types';
-import { BaseDecimal, Chain, ChainToRPC, EVMChainList, FeeOption } from '@swapkit/types';
+import { RequestClient } from "@swapkit/api";
+import type { EVMChain } from "@swapkit/types";
+import { BaseDecimal, Chain, ChainToRPC, EVMChains, FeeOption } from "@swapkit/types";
 
-const getDecimalMethodHex = '0x313ce567';
+const getDecimalMethodHex = "0x313ce567";
 
 export type CommonAssetString =
   | `${Chain.Maya}.MAYA`
@@ -15,15 +15,15 @@ const getContractDecimals = async ({ chain, to }: { chain: EVMChain; to: string 
   try {
     const { result } = await RequestClient.post<{ result: string }>(ChainToRPC[chain], {
       headers: {
-        accept: '*/*',
-        'content-type': 'application/json',
-        'cache-control': 'no-cache',
+        accept: "*/*",
+        "content-type": "application/json",
+        "cache-control": "no-cache",
       },
       body: JSON.stringify({
         id: 44,
-        jsonrpc: '2.0',
-        method: 'eth_call',
-        params: [{ to: to.toLowerCase(), data: getDecimalMethodHex }, 'latest'],
+        jsonrpc: "2.0",
+        method: "eth_call",
+        params: [{ to: to.toLowerCase(), data: getDecimalMethodHex }, "latest"],
       }),
     });
 
@@ -34,30 +34,30 @@ const getContractDecimals = async ({ chain, to }: { chain: EVMChain; to: string 
   }
 };
 
-const getETHAssetDecimal = async (symbol: string) => {
+const getETHAssetDecimal = (symbol: string) => {
   if (symbol === Chain.Ethereum) return BaseDecimal.ETH;
-  const [, address] = symbol.split('-');
+  const [, address] = symbol.split("-");
 
-  return address?.startsWith('0x')
+  return address?.startsWith("0x")
     ? getContractDecimals({ chain: Chain.Ethereum, to: address })
     : BaseDecimal.ETH;
 };
 
-const getAVAXAssetDecimal = async (symbol: string) => {
-  const [, address] = symbol.split('-');
+const getAVAXAssetDecimal = (symbol: string) => {
+  const [, address] = symbol.split("-");
 
-  return address?.startsWith('0x')
+  return address?.startsWith("0x")
     ? getContractDecimals({ chain: Chain.Avalanche, to: address.toLowerCase() })
     : BaseDecimal.AVAX;
 };
 
-const getBSCAssetDecimal = async (symbol: string) => {
+const getBSCAssetDecimal = (symbol: string) => {
   if (symbol === Chain.BinanceSmartChain) return BaseDecimal.BSC;
 
   return BaseDecimal.BSC;
 };
 
-export const getDecimal = async ({ chain, symbol }: { chain: Chain; symbol: string }) => {
+export const getDecimal = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
   switch (chain) {
     case Chain.Ethereum:
       return getETHAssetDecimal(symbol);
@@ -80,19 +80,19 @@ export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) 
   switch (chain) {
     case Chain.Arbitrum:
     case Chain.Optimism:
-      return symbol === 'ETH';
+      return symbol === "ETH";
     case Chain.Maya:
-      return symbol === 'CACAO';
+      return symbol === "CACAO";
     case Chain.Kujira:
-      return symbol === 'KUJI';
+      return symbol === "KUJI";
     case Chain.Cosmos:
-      return symbol === 'ATOM';
+      return symbol === "ATOM";
     case Chain.Polygon:
-      return symbol === 'MATIC';
+      return symbol === "MATIC";
     case Chain.BinanceSmartChain:
-      return symbol === 'BNB';
+      return symbol === "BNB";
     case Chain.THORChain:
-      return symbol === 'RUNE';
+      return symbol === "RUNE";
 
     default:
       return symbol === chain;
@@ -104,20 +104,20 @@ export const getCommonAssetInfo = (
 ): { identifier: string; decimal: number } => {
   switch (assetString) {
     case `${Chain.Ethereum}.THOR`:
-      return { identifier: 'ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044', decimal: 18 };
+      return { identifier: "ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044", decimal: 18 };
     case `${Chain.Ethereum}.vTHOR`:
-      return { identifier: 'ETH.vTHOR-0x815c23eca83261b6ec689b60cc4a58b54bc24d8d', decimal: 18 };
+      return { identifier: "ETH.vTHOR-0x815c23eca83261b6ec689b60cc4a58b54bc24d8d", decimal: 18 };
 
     case Chain.Cosmos:
-      return { identifier: 'GAIA.ATOM', decimal: BaseDecimal[assetString] };
+      return { identifier: "GAIA.ATOM", decimal: BaseDecimal[assetString] };
     case Chain.THORChain:
-      return { identifier: 'THOR.RUNE', decimal: BaseDecimal[assetString] };
+      return { identifier: "THOR.RUNE", decimal: BaseDecimal[assetString] };
     case Chain.BinanceSmartChain:
-      return { identifier: 'BSC.BNB', decimal: BaseDecimal[assetString] };
+      return { identifier: "BSC.BNB", decimal: BaseDecimal[assetString] };
     case Chain.Maya:
-      return { identifier: 'MAYA.CACAO', decimal: BaseDecimal.MAYA };
+      return { identifier: "MAYA.CACAO", decimal: BaseDecimal.MAYA };
     case `${Chain.Maya}.MAYA`:
-      return { identifier: 'MAYA.MAYA', decimal: 4 };
+      return { identifier: "MAYA.MAYA", decimal: 4 };
 
     case `${Chain.Kujira}.USK`:
       return { identifier: `${Chain.Kujira}.USK`, decimal: 6 };
@@ -127,53 +127,54 @@ export const getCommonAssetInfo = (
   }
 };
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
 export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
-  if (symbol.includes('/')) return 'Synth';
+  if (symbol.includes("/")) return "Synth";
 
   switch (chain) {
     case Chain.Cosmos:
-      return symbol === 'ATOM' ? 'Native' : Chain.Cosmos;
+      return symbol === "ATOM" ? "Native" : Chain.Cosmos;
     case Chain.Kujira:
-      return symbol === Chain.Kujira ? 'Native' : Chain.Kujira;
+      return symbol === Chain.Kujira ? "Native" : Chain.Kujira;
     case Chain.Binance:
-      return symbol === Chain.Binance ? 'Native' : 'BEP2';
+      return symbol === Chain.Binance ? "Native" : "BEP2";
     case Chain.BinanceSmartChain:
-      return symbol === Chain.Binance ? 'Native' : 'BEP20';
+      return symbol === Chain.Binance ? "Native" : "BEP20";
     case Chain.Ethereum:
-      return symbol === Chain.Ethereum ? 'Native' : 'ERC20';
+      return symbol === Chain.Ethereum ? "Native" : "ERC20";
     case Chain.Avalanche:
-      return symbol === Chain.Avalanche ? 'Native' : Chain.Avalanche;
+      return symbol === Chain.Avalanche ? "Native" : Chain.Avalanche;
     case Chain.Polygon:
-      return symbol === Chain.Polygon ? 'Native' : 'POLYGON';
+      return symbol === Chain.Polygon ? "Native" : "POLYGON";
 
     case Chain.Arbitrum:
-      return [Chain.Ethereum, Chain.Arbitrum].includes(symbol as Chain) ? 'Native' : 'ARBITRUM';
+      return [Chain.Ethereum, Chain.Arbitrum].includes(symbol as Chain) ? "Native" : "ARBITRUM";
     case Chain.Optimism:
-      return [Chain.Ethereum, Chain.Optimism].includes(symbol as Chain) ? 'Native' : 'OPTIMISM';
+      return [Chain.Ethereum, Chain.Optimism].includes(symbol as Chain) ? "Native" : "OPTIMISM";
 
     default:
-      return 'Native';
+      return "Native";
   }
 };
 
 export const assetFromString = (assetString: string) => {
-  const [chain, ...symbolArray] = assetString.split('.') as [Chain, ...(string | undefined)[]];
-  const synth = assetString.includes('/');
-  const symbol = symbolArray.join('.');
-  const ticker = symbol?.split('-')?.[0];
+  const [chain, ...symbolArray] = assetString.split(".") as [Chain, ...(string | undefined)[]];
+  const synth = assetString.includes("/");
+  const symbol = symbolArray.join(".");
+  const ticker = symbol?.split("-")?.[0];
 
   return { chain, symbol, ticker, synth };
 };
 
 const potentialScamRegex = new RegExp(
   /(.)\1{6}|\.ORG|\.NET|\.FINANCE|\.COM|WWW|HTTP|\\\\|\/\/|[\s$%:[\]]/,
-  'gmi',
+  "gmi",
 );
 
 const evmAssetHasAddress = (assetString: string) => {
-  const [chain, symbol] = assetString.split('.') as [EVMChain, string];
-  if (!EVMChainList.includes(chain as EVMChain)) return true;
-  const [, address] = symbol.split('-') as [string, string?];
+  const [chain, symbol] = assetString.split(".") as [EVMChain, string];
+  if (!EVMChains.includes(chain as EVMChain)) return true;
+  const [, address] = symbol.split("-") as [string, string?];
 
   return isGasAsset({ chain: chain as Chain, symbol }) || !!address;
 };
@@ -190,6 +191,6 @@ export const filterAssets = (
     const assetString = `${chain}.${symbol}`;
 
     return (
-      !potentialScamRegex.test(assetString) && evmAssetHasAddress(assetString) && value !== '0'
+      !potentialScamRegex.test(assetString) && evmAssetHasAddress(assetString) && value !== "0"
     );
   });

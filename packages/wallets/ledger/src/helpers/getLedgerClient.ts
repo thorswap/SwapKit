@@ -1,18 +1,18 @@
-import type { DerivationPathArray } from '@swapkit/types';
-import { Chain } from '@swapkit/types';
+import type { DerivationPathArray } from "@swapkit/types";
+import { Chain } from "@swapkit/types";
 
-import { AvalancheLedger } from '../clients/avalanche.ts';
-import { BinanceLedger } from '../clients/binance/index.ts';
-import { BSCLedger } from '../clients/binancesmartchain.ts';
-import { BitcoinLedger } from '../clients/bitcoin.ts';
-import { BitcoinCashLedger } from '../clients/bitcoincash.ts';
-import { CosmosLedger } from '../clients/cosmos.ts';
-import { DogecoinLedger } from '../clients/dogecoin.ts';
-import { EthereumLedger } from '../clients/ethereum.ts';
-import { LitecoinLedger } from '../clients/litecoin.ts';
-import { THORChainLedger } from '../clients/thorchain/index.ts';
+import { AvalancheLedger } from "../clients/avalanche.ts";
+import { BinanceLedger } from "../clients/binance/index.ts";
+import { BSCLedger } from "../clients/binancesmartchain.ts";
+import { BitcoinLedger } from "../clients/bitcoin.ts";
+import { BitcoinCashLedger } from "../clients/bitcoincash.ts";
+import { CosmosLedger } from "../clients/cosmos.ts";
+import { DogecoinLedger } from "../clients/dogecoin.ts";
+import { EthereumLedger } from "../clients/ethereum.ts";
+import { LitecoinLedger } from "../clients/litecoin.ts";
+import { THORChainLedger } from "../clients/thorchain/index.ts";
 
-import type { LEDGER_SUPPORTED_CHAINS } from './ledgerSupportedChains.ts';
+import type { LEDGER_SUPPORTED_CHAINS } from "./ledgerSupportedChains.ts";
 
 export const getLedgerClient = async ({
   chain,
@@ -39,7 +39,7 @@ export const getLedgerClient = async ({
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
     case Chain.Avalanche: {
-      const { getProvider } = await import('@swapkit/toolbox-evm');
+      const { getProvider } = await import("@swapkit/toolbox-evm");
       const params = { provider: getProvider(chain), derivationPath };
 
       switch (chain) {

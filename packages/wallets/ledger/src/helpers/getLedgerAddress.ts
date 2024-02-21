@@ -1,9 +1,9 @@
-import { Chain } from '@swapkit/types';
+import { Chain } from "@swapkit/types";
 
-import type { CosmosLedgerClients, EVMLedgerClients, UTXOLedgerClients } from '../types.ts';
+import type { CosmosLedgerClients, EVMLedgerClients, UTXOLedgerClients } from "../types.ts";
 
-import type { getLedgerClient } from './getLedgerClient.ts';
-import type { LEDGER_SUPPORTED_CHAINS } from './ledgerSupportedChains.ts';
+import type { getLedgerClient } from "./getLedgerClient.ts";
+import type { LEDGER_SUPPORTED_CHAINS } from "./ledgerSupportedChains.ts";
 
 export const getLedgerAddress = async ({
   chain,
@@ -12,7 +12,7 @@ export const getLedgerAddress = async ({
   chain: (typeof LEDGER_SUPPORTED_CHAINS)[number];
   ledgerClient: Awaited<ReturnType<typeof getLedgerClient>>;
 }) => {
-  if (!ledgerClient) return '';
+  if (!ledgerClient) return "";
 
   switch (chain) {
     case Chain.Cosmos:
@@ -34,7 +34,7 @@ export const getLedgerAddress = async ({
       await (ledgerClient as UTXOLedgerClients).connect();
       const address = await (ledgerClient as UTXOLedgerClients).getAddress();
 
-      return chain === Chain.BitcoinCash ? address.replace('bitcoincash:', '') : address;
+      return chain === Chain.BitcoinCash ? address.replace("bitcoincash:", "") : address;
     }
   }
 };

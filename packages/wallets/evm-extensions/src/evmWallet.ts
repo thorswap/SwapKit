@@ -1,7 +1,7 @@
-import { setRequestClientConfig } from '@swapkit/helpers';
-import type { Eip1193Provider } from '@swapkit/toolbox-evm';
-import type { ConnectWalletParams, EVMChain, EVMWalletOptions } from '@swapkit/types';
-import { WalletOption } from '@swapkit/types';
+import { setRequestClientConfig } from "@swapkit/helpers";
+import type { Eip1193Provider } from "@swapkit/toolbox-evm";
+import type { ConnectWalletParams, EVMChain, EVMWalletOptions } from "@swapkit/types";
+import { WalletOption } from "@swapkit/types";
 
 declare global {
   interface Window {
@@ -50,10 +50,10 @@ const connectEVMWallet =
 
     const promises = chains.map(async (chain) => {
       const { BrowserProvider, getWeb3WalletMethods, getProvider } = await import(
-        '@swapkit/toolbox-evm'
+        "@swapkit/toolbox-evm"
       );
-      const web3provider = new BrowserProvider(getWalletForType(walletType), 'any');
-      await web3provider.send('eth_requestAccounts', []);
+      const web3provider = new BrowserProvider(getWalletForType(walletType), "any");
+      await web3provider.send("eth_requestAccounts", []);
       const address = await (await web3provider.getSigner()).getAddress();
 
       const walletMethods = await getWeb3WalletMethods({
@@ -63,7 +63,7 @@ const connectEVMWallet =
         ethereumWindowProvider: getWalletForType(walletType),
       });
 
-      const getBalance = async (potentialScamFilter: boolean = true) =>
+      const getBalance = async (potentialScamFilter = true) =>
         walletMethods.getBalance(address, potentialScamFilter, getProvider(chain));
 
       addChain({
@@ -77,6 +77,6 @@ const connectEVMWallet =
   };
 
 export const evmWallet = {
-  connectMethodName: 'connectEVMWallet' as const,
+  connectMethodName: "connectEVMWallet" as const,
   connect: connectEVMWallet,
 };

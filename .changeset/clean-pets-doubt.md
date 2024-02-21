@@ -1,6 +1,5 @@
 ---
 '@swapkit/wallet-evm-extensions': patch
-'@thorswap-lib/swapkit-entities': patch
 '@swapkit/toolbox-cosmos': patch
 '@swapkit/wallet-keystore': patch
 '@swapkit/helpers': patch

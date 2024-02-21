@@ -1,21 +1,22 @@
-import { HDKey } from '@scure/bip32';
-import { mnemonicToSeedSync } from '@scure/bip39';
-import { AssetValue, SwapKitNumber } from '@swapkit/helpers';
-import type { UTXOChain } from '@swapkit/types';
-import { BaseDecimal, Chain, FeeOption } from '@swapkit/types';
-import { address as btcLibAddress, payments, Psbt } from 'bitcoinjs-lib';
-import type { ECPairInterface } from 'ecpair';
-import { ECPairFactory } from 'ecpair';
+import { HDKey } from "@scure/bip32";
+import { mnemonicToSeedSync } from "@scure/bip39";
+import { AssetValue, SwapKitNumber } from "@swapkit/helpers";
+import type { UTXOChain } from "@swapkit/types";
+import { BaseDecimal, Chain, FeeOption } from "@swapkit/types";
+import { Psbt, address as btcLibAddress, payments } from "bitcoinjs-lib";
+import type { ECPairInterface } from "ecpair";
+import { ECPairFactory } from "ecpair";
 
-import type { BlockchairApiType } from '../api/blockchairApi.ts';
+import type { BlockchairApiType } from "../api/blockchairApi.ts";
 import type {
   TargetOutput,
   UTXOBaseToolboxParams,
   UTXOBuildTxParams,
   UTXOType,
   UTXOWalletTransferParams,
-} from '../types/common.ts';
+} from "../types/common.ts";
 import {
+  UTXOScriptType,
   accumulative,
   calculateTxSize,
   compileMemo,
@@ -23,8 +24,7 @@ import {
   getInputSize,
   getNetwork,
   standardFeeRates,
-  UTXOScriptType,
-} from '../utils/index.ts';
+} from "../utils/index.ts";
 
 const createKeysForPath = async ({
   phrase,
@@ -37,9 +37,9 @@ const createKeysForPath = async ({
   derivationPath: string;
   chain: Chain;
 }) => {
-  if (!wif && !phrase) throw new Error('Either phrase or wif must be provided');
+  if (!(wif || phrase)) throw new Error("Either phrase or wif must be provided");
 
-  const tinySecp = await import('tiny-secp256k1');
+  const tinySecp = await import("tiny-secp256k1");
   const factory = ECPairFactory(tinySecp);
   const network = getNetwork(chain);
 
@@ -47,7 +47,7 @@ const createKeysForPath = async ({
 
   const seed = mnemonicToSeedSync(phrase as string);
   const master = HDKey.fromMasterSeed(seed, network).derive(derivationPath);
-  if (!master.privateKey) throw new Error('Could not get private key from phrase');
+  if (!master.privateKey) throw new Error("Could not get private key from phrase");
 
   return factory.fromPrivateKey(Buffer.from(master.privateKey), { network });
 };
@@ -56,17 +56,17 @@ const validateAddress = ({ address, chain }: { address: string } & UTXOBaseToolb
   try {
     btcLibAddress.toOutputScript(address, getNetwork(chain));
     return true;
-  } catch (error) {
+  } catch (_error) {
     return false;
   }
 };
 
 const getAddressFromKeys = ({ keys, chain }: { keys: ECPairInterface } & UTXOBaseToolboxParams) => {
-  if (!keys) throw new Error('Keys must be provided');
+  if (!keys) throw new Error("Keys must be provided");
 
   const method = Chain.Dogecoin === chain ? payments.p2pkh : payments.p2wpkh;
   const { address } = method({ pubkey: keys.publicKey, network: getNetwork(chain) });
-  if (!address) throw new Error('Address not defined');
+  if (!address) throw new Error("Address not defined");
 
   return address;
 };
@@ -83,8 +83,8 @@ const transfer = async ({
   feeRate,
   assetValue,
 }: UTXOWalletTransferParams<Psbt, Psbt>) => {
-  if (!from) throw new Error('From address must be provided');
-  if (!recipient) throw new Error('Recipient address must be provided');
+  if (!from) throw new Error("From address must be provided");
+  if (!recipient) throw new Error("Recipient address must be provided");
   const txFeeRate = feeRate || (await getFeeRates(apiClient))[feeOptionKey || FeeOption.Fast];
 
   const { psbt } = await buildTx({
@@ -140,7 +140,7 @@ const getInputsAndTargetOutputs = async ({
   });
 
   if (!validateAddress({ address: recipient, chain, apiClient })) {
-    throw new Error('Invalid address');
+    throw new Error("Invalid address");
   }
 
   //1. add output amount and recipient to targets
@@ -150,7 +150,7 @@ const getInputsAndTargetOutputs = async ({
     inputs,
     outputs: [
       { address: recipient, value: Number(assetValue.bigIntValue) },
-      ...(memo ? [{ address: '', script: compileMemo(memo), value: 0 }] : []),
+      ...(memo ? [{ address: "", script: compileMemo(memo), value: 0 }] : []),
     ],
   };
 };
@@ -168,6 +168,7 @@ const buildTx = async ({
   psbt: Psbt;
   utxos: UTXOType[];
   inputs: UTXOType[];
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
 }> => {
   const compiledMemo = memo ? compileMemo(memo) : null;
 
@@ -184,7 +185,7 @@ const buildTx = async ({
   const { inputs, outputs } = accumulative({ ...inputsAndOutputs, feeRate, chain });
 
   // .inputs and .outputs will be undefined if no solution was found
-  if (!inputs || !outputs) throw new Error('Insufficient Balance for transaction');
+  if (!(inputs && outputs)) throw new Error("Insufficient Balance for transaction");
   const psbt = new Psbt({ network: getNetwork(chain) }); // Network-specific
 
   if (chain === Chain.Dogecoin) psbt.setMaximumFeeRate(650000000);
@@ -197,18 +198,18 @@ const buildTx = async ({
       index: utxo.index,
       ...(!!utxo.witnessUtxo && chain !== Chain.Dogecoin && { witnessUtxo: utxo.witnessUtxo }),
       ...(chain === Chain.Dogecoin && {
-        nonWitnessUtxo: utxo.txHex ? Buffer.from(utxo.txHex, 'hex') : undefined,
+        nonWitnessUtxo: utxo.txHex ? Buffer.from(utxo.txHex, "hex") : undefined,
       }),
     });
   }
 
   for (const output of outputs) {
-    const address = 'address' in output ? output.address : sender;
-    const params = !output.script
-      ? { address, value: output.value }
-      : compiledMemo
+    const address = "address" in output ? output.address : sender;
+    const params = output.script
+      ? compiledMemo
         ? { script: compiledMemo, value: 0 }
-        : undefined;
+        : undefined
+      : { address, value: output.value };
 
     if (params) {
       psbt.addOutput(params);
@@ -277,7 +278,7 @@ export const estimateMaxSendableAmount = async ({
       ...utxo,
       // type: utxo.witnessUtxo ? UTXOScriptType.P2WPKH : UTXOScriptType.P2PKH,
       type: UTXOScriptType.P2PKH,
-      hash: '',
+      hash: "",
     }))
     .filter(
       (utxo) => utxo.value > Math.max(getDustThreshold(chain), getInputSize(utxo) * feeRateWhole),
@@ -289,7 +290,7 @@ export const estimateMaxSendableAmount = async ({
   );
 
   const outputs =
-    typeof recipients === 'number'
+    typeof recipients === "number"
       ? (Array.from({ length: recipients }, () => ({ address: from, value: 0 })) as TargetOutput[])
       : recipients;
 

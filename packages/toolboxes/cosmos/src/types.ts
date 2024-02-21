@@ -1,7 +1,7 @@
-import type { StdFee } from '@cosmjs/amino';
-import type { OfflineDirectSigner } from '@cosmjs/proto-signing';
-import type { AssetValue } from '@swapkit/helpers';
-import type { ChainId, FeeOption } from '@swapkit/types';
+import type { StdFee } from "@cosmjs/amino";
+import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
+import type { AssetValue } from "@swapkit/helpers";
+import type { ChainId, FeeOption } from "@swapkit/types";
 
 import type {
   BinanceToolboxType,
@@ -9,9 +9,9 @@ import type {
   KujiraToolboxType,
   MayaToolboxType,
   ThorchainToolboxType,
-} from './index.ts';
+} from "./index.ts";
 
-export type { MultisigThresholdPubkey } from '@cosmjs/amino';
+export type { MultisigThresholdPubkey } from "@cosmjs/amino";
 
 export type CosmosSDKClientParams = {
   server: string;

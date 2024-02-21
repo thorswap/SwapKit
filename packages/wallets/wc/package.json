@@ -1,22 +1,20 @@
 {
-  "author": "swapkit-oss-team",
+  "author": "swapkit-oss",
   "dependencies": {
     "@walletconnect/modal-sign-html": "2.6.2"
   },
   "description": "SwapKit Lib walletconnect",
   "devDependencies": {
-    "@internal/config": "workspace:*",
+    "@internal/tools-typescript": "workspace:*",
+    "@internal/tools-vite": "workspace:*",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@vitest/coverage-istanbul": "1.2.1",
-    "@walletconnect/types": "2.11.0",
-    "vite": "5.0.12",
-    "vitest": "1.2.1"
-  },
-  "eslintConfig": {
-    "extends": "../../../internal/eslint-config"
+    "@vitest/coverage-istanbul": "1.3.1",
+    "@walletconnect/types": "2.11.1",
+    "vite": "5.1.3",
+    "vitest": "1.3.1"
   },
   "exports": {
     ".": {
@@ -25,10 +23,7 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
@@ -47,8 +42,8 @@
   },
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
-    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "clean": "rm -rf dist vite.config.ts.* node_modules",
+    "lint": "biome check --apply ./src",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },

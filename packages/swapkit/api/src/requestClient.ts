@@ -1,6 +1,6 @@
-import { ApiUrl } from '@swapkit/types';
-import type { Options } from 'ky';
-import ky from 'ky';
+import { ApiUrl } from "@swapkit/types";
+import type { Options } from "ky";
+import ky from "ky";
 
 let kyClient: typeof ky;
 
@@ -18,9 +18,9 @@ export const ApiEndpoints = {
 };
 
 export const defaultRequestHeaders =
-  typeof window !== 'undefined'
+  typeof window !== "undefined"
     ? {}
-    : { referrer: 'https://sk.thorswap.net', referer: 'https://sk.thorswap.net' };
+    : { referrer: "https://sk.thorswap.net", referer: "https://sk.thorswap.net" };
 
 const getKyClient = () => {
   if (kyClient) return kyClient;
@@ -33,7 +33,7 @@ const getKyClient = () => {
 export const setRequestClientConfig = ({ apiKey, ...config }: Options & { apiKey?: string }) => {
   kyClient = ky.create({
     ...config,
-    headers: { ...defaultRequestHeaders, ...config.headers, 'x-api-key': apiKey },
+    headers: { ...defaultRequestHeaders, ...config.headers, "x-api-key": apiKey },
   });
 };
 

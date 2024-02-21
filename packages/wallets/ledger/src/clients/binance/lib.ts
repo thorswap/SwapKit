@@ -21,7 +21,7 @@ const DEFAULT_LEDGER_INTERACTIVE_TIMEOUT = 50000;
 const DEFAULT_LEDGER_NONINTERACTIVE_TIMEOUT = 3000;
 
 const CLA = 0xbc;
-const SCRAMBLE_KEY = 'CSM';
+const SCRAMBLE_KEY = "CSM";
 const ACCEPT_STATUSES = [0x9000]; // throw if not
 const CHUNK_SIZE = 250;
 
@@ -98,7 +98,7 @@ export class BinanceApp {
     nonInteractiveTimeout: number = DEFAULT_LEDGER_NONINTERACTIVE_TIMEOUT,
   ) {
     if (!transport?.send) {
-      throw new Error('LedgerApp expected a Transport');
+      throw new Error("LedgerApp expected a Transport");
     }
     this._transport = transport;
     this._interactiveTimeout = interactiveTimeout;
@@ -106,11 +106,11 @@ export class BinanceApp {
     this._transport.setScrambleKey(SCRAMBLE_KEY);
   }
 
-  _serialize(cla: number = CLA, ins: number, p1 = 0, p2 = 0, data: any = null) {
+  _serialize(cla: number = CLA, ins = 0, p1 = 0, p2 = 0, data: any = null) {
     let size = 5;
     if (data != null) {
       if (data.length > 255) {
-        throw new Error('maximum data size = 255');
+        throw new Error("maximum data size = 255");
       }
       size += data.length;
     }
@@ -132,7 +132,7 @@ export class BinanceApp {
 
   _serializeHRP(hrp: string) {
     if (hrp == null || hrp.length < 3 || hrp.length > 83) {
-      throw new Error('Invalid HRP');
+      throw new Error("Invalid HRP");
     }
     const buf = Buffer.alloc(1 + hrp.length);
     buf.writeUInt8(hrp.length, 0);
@@ -142,10 +142,10 @@ export class BinanceApp {
 
   _serializeHDPath(path: number[]) {
     if (path == null || path.length < 3) {
-      throw new Error('Invalid path.');
+      throw new Error("Invalid path.");
     }
     if (path.length > 10) {
-      throw new Error('Invalid path. Length should be <= 10');
+      throw new Error("Invalid path. Length should be <= 10");
     }
     const buf = Buffer.alloc(1 + 4 * path.length);
     buf.writeUInt8(path.length, 0);
@@ -162,49 +162,49 @@ export class BinanceApp {
   _errorMessage(code: number) {
     switch (code) {
       case 1:
-        return 'U2F: Unknown';
+        return "U2F: Unknown";
       case 2:
-        return 'U2F: Bad request';
+        return "U2F: Bad request";
       case 3:
-        return 'U2F: Configuration unsupported';
+        return "U2F: Configuration unsupported";
       case 4:
-        return 'U2F: Device Ineligible';
+        return "U2F: Device Ineligible";
       case 5:
-        return 'U2F: Timeout';
+        return "U2F: Timeout";
       case 14:
-        return 'Timeout';
+        return "Timeout";
       case 0x9000:
-        return 'No errors';
+        return "No errors";
       case 0x9001:
-        return 'Device is busy';
+        return "Device is busy";
       case 0x6400:
-        return 'Execution Error';
+        return "Execution Error";
       case 0x6700:
-        return 'Wrong Length';
+        return "Wrong Length";
       case 0x6982:
-        return 'Empty Buffer';
+        return "Empty Buffer";
       case 0x6983:
-        return 'Output buffer too small';
+        return "Output buffer too small";
       case 0x6984:
-        return 'Data is invalid';
+        return "Data is invalid";
       case 0x6985:
-        return 'Conditions not satisfied';
+        return "Conditions not satisfied";
       case 0x6986:
-        return 'Transaction rejected';
+        return "Transaction rejected";
       case 0x6a80:
-        return 'Bad key handle';
+        return "Bad key handle";
       case 0x6b00:
-        return 'Invalid P1/P2';
+        return "Invalid P1/P2";
       case 0x6d00:
-        return 'Instruction not supported';
+        return "Instruction not supported";
       case 0x6e00:
-        return 'The app does not seem to be open';
+        return "The app does not seem to be open";
       case 0x6f00:
-        return 'Unknown error';
+        return "Unknown error";
       case 0x6f01:
-        return 'Sign/verify error';
+        return "Sign/verify error";
       default:
-        return 'Unknown error code';
+        return "Unknown error code";
     }
   }
 
@@ -247,19 +247,19 @@ export class BinanceApp {
         Buffer.alloc(0),
         ACCEPT_STATUSES,
       );
-      if (!Buffer.isBuffer(apduResponse)) throw new Error('expected apduResponse to be Buffer');
+      if (!Buffer.isBuffer(apduResponse)) throw new Error("expected apduResponse to be Buffer");
       const returnCode = apduResponse.slice(-2);
-      result['test_mode'] = apduResponse[0] !== 0;
-      result['major'] = apduResponse[1];
-      result['minor'] = apduResponse[2];
-      result['patch'] = apduResponse[3];
-      result['device_locked'] = apduResponse[4] === 1;
-      result['return_code'] = returnCode[0] * 256 + returnCode[1];
-      result['error_message'] = this._errorMessage(result['return_code']);
+      result.test_mode = apduResponse[0] !== 0;
+      result.major = apduResponse[1];
+      result.minor = apduResponse[2];
+      result.patch = apduResponse[3];
+      result.device_locked = apduResponse[4] === 1;
+      result.return_code = returnCode[0] * 256 + returnCode[1];
+      result.error_message = this._errorMessage(result.return_code);
     } catch (err: any) {
       const { statusCode, statusText, message, stack } = err;
       console.warn(
-        'Ledger getVersion error:',
+        "Ledger getVersion error:",
         this._errorMessage(statusCode),
         message,
         statusText,
@@ -313,15 +313,15 @@ export class BinanceApp {
         this._serializeHDPath(hdPath),
         ACCEPT_STATUSES,
       );
-      if (!Buffer.isBuffer(apduResponse)) throw new Error('expected apduResponse to be Buffer');
+      if (!Buffer.isBuffer(apduResponse)) throw new Error("expected apduResponse to be Buffer");
       const returnCode = apduResponse.slice(-2);
-      result['pk'] = apduResponse.slice(0, 1 + 64);
-      result['return_code'] = returnCode[0] * 256 + returnCode[1];
-      result['error_message'] = this._errorMessage(result['return_code']);
+      result.pk = apduResponse.slice(0, 1 + 64);
+      result.return_code = returnCode[0] * 256 + returnCode[1];
+      result.error_message = this._errorMessage(result.return_code);
     } catch (err: any) {
       const { statusCode, statusText, message, stack } = err;
       console.warn(
-        'Ledger publicKeySecp256k1 error:',
+        "Ledger publicKeySecp256k1 error:",
         this._errorMessage(statusCode),
         message,
         statusText,
@@ -397,20 +397,20 @@ export class BinanceApp {
         chunksCount,
         chunk,
       );
-      if (!Buffer.isBuffer(apduResponse)) throw new Error('expected apduResponse to be Buffer');
+      if (!Buffer.isBuffer(apduResponse)) throw new Error("expected apduResponse to be Buffer");
       const returnCode = apduResponse.slice(-2);
 
-      result['return_code'] = returnCode[0] * 256 + returnCode[1];
-      result['error_message'] = this._errorMessage(result['return_code']);
+      result.return_code = returnCode[0] * 256 + returnCode[1];
+      result.error_message = this._errorMessage(result.return_code);
 
-      result['signature'] = null;
+      result.signature = null;
       if (apduResponse.length > 2) {
-        result['signature'] = apduResponse.slice(0, apduResponse.length - 2);
+        result.signature = apduResponse.slice(0, apduResponse.length - 2);
       }
     } catch (err: any) {
       const { statusCode, statusText, message, stack } = err;
       console.warn(
-        'Ledger signSendChunk error:',
+        "Ledger signSendChunk error:",
         this._errorMessage(statusCode),
         message,
         statusText,
@@ -427,6 +427,8 @@ export class BinanceApp {
    * @param {array} hdPath The HD path to use to get the public key. Default is [44, 714, 0, 0, 0]
    * @throws Will throw Error if a transport error occurs, or if the firmware app is not open.
    */
+
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
   async signSecp256k1(
     signBytes: Buffer,
     hdPath: number[] = [44, 714, 0, 0, 0],
@@ -434,7 +436,7 @@ export class BinanceApp {
     const result: SignedSignature = {};
     const chunks = this._signGetChunks(signBytes, hdPath);
     // _signSendChunk doesn't throw, it catches exceptions itself. no need for try/catch
-    let response;
+    let response = null;
     try {
       if (chunks.length <= 1) {
         this._transport.setExchangeTimeout(this._interactiveTimeout);
@@ -443,13 +445,13 @@ export class BinanceApp {
         this._transport.setExchangeTimeout(this._nonInteractiveTimeout);
       }
       response = await this._signSendChunk(1, chunks.length, chunks[0]);
-      result['return_code'] = response.return_code;
-      result['error_message'] = response.error_message;
-      result['signature'] = null;
+      result.return_code = response.return_code;
+      result.error_message = response.error_message;
+      result.signature = null;
     } catch (err: any) {
       const { statusCode, statusText, message, stack } = err;
       console.warn(
-        'Ledger signSecp256k1 error (chunk 1):',
+        "Ledger signSecp256k1 error (chunk 1):",
         this._errorMessage(statusCode),
         message,
         statusText,
@@ -465,12 +467,12 @@ export class BinanceApp {
             this._transport.setExchangeTimeout(this._interactiveTimeout);
           }
           response = await this._signSendChunk(1 + i, chunks.length, chunks[i]);
-          result['return_code'] = response.return_code;
-          result['error_message'] = response.error_message;
+          result.return_code = response.return_code;
+          result.error_message = response.error_message;
         } catch (err: any) {
           const { statusCode, statusText, message, stack } = err;
           console.warn(
-            'Ledger signSecp256k1 error (chunk 2):',
+            "Ledger signSecp256k1 error (chunk 2):",
             this._errorMessage(statusCode),
             message,
             statusText,
@@ -482,8 +484,8 @@ export class BinanceApp {
           break;
         }
       }
-      result['return_code'] = response.return_code;
-      result['error_message'] = response.error_message;
+      result.return_code = response.return_code;
+      result.error_message = response.error_message;
 
       // Ledger has encoded the sig in ASN1 DER format, but we need a 64-byte buffer of <r,s>
       // DER-encoded signature from Ledger:
@@ -498,10 +500,10 @@ export class BinanceApp {
       //  = 7 bytes of overhead
       let signature = response.signature;
       if (!signature?.length) {
-        throw new Error('Ledger assertion failed: Expected a non-empty signature from the device');
+        throw new Error("Ledger assertion failed: Expected a non-empty signature from the device");
       }
       if (signature[0] !== 0x30) {
-        throw new Error('Ledger assertion failed: Expected a signature header of 0x30');
+        throw new Error("Ledger assertion failed: Expected a signature header of 0x30");
       }
       // decode DER string format
       let rOffset = 4;
@@ -517,12 +519,12 @@ export class BinanceApp {
       const sigR = signature.slice(rOffset, rOffset + rLen); // skip e.g. 3045022100 and pad
       const sigS = signature.slice(sOffset);
 
-      signature = result['signature'] = Buffer.concat([sigR, sigS]);
+      signature = result.signature = Buffer.concat([sigR, sigS]);
       if (signature.length !== 64) {
         throw new Error(`Ledger assertion failed: incorrect signature length ${signature.length}`);
       }
     } else {
-      throw new Error('Unable to sign the transaction. Return code ' + response.return_code);
+      throw new Error(`Unable to sign the transaction. Return code ${response.return_code}`);
     }
     return result;
   }
@@ -554,7 +556,7 @@ export class BinanceApp {
    * @param {array} hdPath The HD path to use to get the public key. Default is [44, 714, 0, 0, 0]
    * @throws Will throw Error if a transport error occurs, or if the firmware app is not open.
    */
-  async showAddress(hrp = 'bnb', hdPath: number[] = [44, 714, 0, 0, 0]): Promise<ReturnResponse> {
+  async showAddress(hrp = "bnb", hdPath: number[] = [44, 714, 0, 0, 0]): Promise<ReturnResponse> {
     const result: ReturnResponse = {};
     const data = Buffer.concat([this._serializeHRP(hrp), this._serializeHDPath(hdPath)]);
     this._transport.setExchangeTimeout(this._interactiveTimeout);
@@ -566,12 +568,12 @@ export class BinanceApp {
       data,
       ACCEPT_STATUSES,
     );
-    if (!Buffer.isBuffer(apduResponse)) throw new Error('expected apduResponse to be Buffer');
+    if (!Buffer.isBuffer(apduResponse)) throw new Error("expected apduResponse to be Buffer");
     const returnCode = apduResponse.slice(-2);
-    result['return_code'] = returnCode[0] * 256 + returnCode[1];
-    result['error_message'] = this._errorMessage(result['return_code']);
+    result.return_code = returnCode[0] * 256 + returnCode[1];
+    result.error_message = this._errorMessage(result.return_code);
     if (result.return_code === 0x6a80) {
-      result['error_message'] = apduResponse.slice(0, apduResponse.length - 2).toString('ascii');
+      result.error_message = apduResponse.slice(0, apduResponse.length - 2).toString("ascii");
     }
     return result;
   }

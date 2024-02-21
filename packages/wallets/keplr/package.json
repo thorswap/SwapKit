@@ -1,18 +1,16 @@
 {
-  "author": "swapkit-oss-team",
+  "author": "swapkit-oss",
   "description": "SwapKit Lib keplr",
   "devDependencies": {
-    "@internal/config": "workspace:*",
-    "@keplr-wallet/types": "0.12.63",
+    "@internal/tools-typescript": "workspace:*",
+    "@internal/tools-vite": "workspace:*",
+    "@keplr-wallet/types": "0.12.69",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@vitest/coverage-istanbul": "1.2.1",
-    "vite": "5.0.12",
-    "vitest": "1.2.1"
-  },
-  "eslintConfig": {
-    "extends": "../../../internal/eslint-config"
+    "@vitest/coverage-istanbul": "1.3.1",
+    "vite": "5.1.3",
+    "vitest": "1.3.1"
   },
   "exports": {
     ".": {
@@ -21,10 +19,7 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
@@ -42,8 +37,8 @@
   },
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
-    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "clean": "rm -rf dist vite.config.ts.* node_modules",
+    "lint": "biome check --apply ./src",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },

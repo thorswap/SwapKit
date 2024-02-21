@@ -1,4 +1,9 @@
 {
-  "extends": "@internal/config/base.json",
-  "include": ["src", "./hardhat.config.cjs", "./hardhat.config.mjs"],
+  "extends": "@internal/tools-typescript/base.json",
+  "include": [
+    "src",
+    "../../../tools/typescript/typings.d.ts",
+    "./hardhat.config.cjs",
+    "./hardhat.config.mjs"
+  ]
 }

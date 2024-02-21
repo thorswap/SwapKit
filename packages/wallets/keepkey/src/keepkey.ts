@@ -1,15 +1,15 @@
-import { KeepKeySdk } from '@keepkey/keepkey-sdk';
-import { setRequestClientConfig } from '@swapkit/helpers';
-import { getProvider, getToolboxByChain } from '@swapkit/toolbox-evm';
-import type { ConnectWalletParams, DerivationPathArray, EVMChain } from '@swapkit/types';
-import { Chain, WalletOption } from '@swapkit/types';
+import { KeepKeySdk } from "@keepkey/keepkey-sdk";
+import { setRequestClientConfig } from "@swapkit/helpers";
+import { getProvider, getToolboxByChain } from "@swapkit/toolbox-evm";
+import type { ConnectWalletParams, DerivationPathArray, EVMChain } from "@swapkit/types";
+import { Chain, WalletOption } from "@swapkit/types";
 
-import { binanceWalletMethods } from './chains/binance.ts';
-import { cosmosWalletMethods } from './chains/cosmos.ts';
-import { KeepKeySigner } from './chains/evm.ts';
-import { thorchainWalletMethods } from './chains/thorchain.ts';
-import { utxoWalletMethods } from './chains/utxo.ts';
-export type { PairingInfo } from '@keepkey/keepkey-sdk';
+import { binanceWalletMethods } from "./chains/binance.ts";
+import { cosmosWalletMethods } from "./chains/cosmos.ts";
+import { KeepKeySigner } from "./chains/evm.ts";
+import { thorchainWalletMethods } from "./chains/thorchain.ts";
+import { utxoWalletMethods } from "./chains/utxo.ts";
+export type { PairingInfo } from "@keepkey/keepkey-sdk";
 
 export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
@@ -59,9 +59,9 @@ const getWalletMethods = async ({
     case Chain.Avalanche:
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey)
-        throw new Error('Ethplorer API key not found');
+        throw new Error("Ethplorer API key not found");
       if (chain !== Chain.Ethereum && !covalentApiKey)
-        throw new Error('Covalent API key not found');
+        throw new Error("Covalent API key not found");
 
       const provider = getProvider(chain as EVMChain, rpcUrl);
       const signer = new KeepKeySigner({ sdk, chain, derivationPath, provider });
@@ -70,8 +70,8 @@ const getWalletMethods = async ({
         api: apiClient,
         signer,
         provider,
-        covalentApiKey: covalentApiKey!,
-        ethplorerApiKey: ethplorerApiKey!,
+        covalentApiKey: covalentApiKey as string,
+        ethplorerApiKey: ethplorerApiKey as string,
       };
 
       return { ...getToolboxByChain(chain)(evmParams), getAddress: () => address };
@@ -98,13 +98,11 @@ const getWalletMethods = async ({
       });
     }
     default:
-      throw new Error('Chain not supported ' + chain);
+      throw new Error(`Chain not supported ${chain}`);
   }
 };
 
-const checkKeepkeyAvailability = async (
-  spec: string = 'http://localhost:1646/spec/swagger.json',
-) => {
+const checkKeepkeyAvailability = async (spec = "http://localhost:1646/spec/swagger.json") => {
   try {
     const response = await fetch(spec);
     return response.status === 200;
@@ -119,13 +117,13 @@ const checkKeepkeyAvailability = async (
 const checkAndLaunch = async (attempts: number) => {
   if (attempts === 0) {
     alert(
-      'KeepKey desktop is required for keepkey-sdk, please go to https://keepkey.com/get-started',
+      "KeepKey desktop is required for keepkey-sdk, please go to https://keepkey.com/get-started",
     );
   }
   const isAvailable = await checkKeepkeyAvailability();
 
   if (!isAvailable) {
-    window.location.assign('keepkey://launch');
+    window.location.assign("keepkey://launch");
     await new Promise((resolve) => setTimeout(resolve, 30000));
     checkAndLaunch(attempts - 1);
   }
@@ -140,13 +138,13 @@ const connectKeepkey =
       thorswapApiKey,
       keepkeyConfig,
       covalentApiKey,
-      ethplorerApiKey = 'freekey',
+      ethplorerApiKey = "freekey",
       blockchairApiKey,
     },
   }: ConnectWalletParams) =>
   async (chains: typeof KEEPKEY_SUPPORTED_CHAINS, derivationPaths?: DerivationPathArray[]) => {
     setRequestClientConfig({ apiKey: thorswapApiKey });
-    if (!keepkeyConfig) throw new Error('KeepKey config not found');
+    if (!keepkeyConfig) throw new Error("KeepKey config not found");
 
     await checkAndLaunch(3);
 
@@ -183,7 +181,7 @@ const connectKeepkey =
   };
 
 export const keepkeyWallet = {
-  connectMethodName: 'connectKeepkey' as const,
+  connectMethodName: "connectKeepkey" as const,
   connect: connectKeepkey,
   isDetected: checkKeepkeyAvailability,
 };

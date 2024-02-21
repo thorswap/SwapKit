@@ -1,6 +1,6 @@
-import { RequestClient } from '@swapkit/helpers';
-import type { Chain } from '@swapkit/types';
-import { ApiUrl } from '@swapkit/types';
+import { RequestClient } from "@swapkit/helpers";
+import type { Chain } from "@swapkit/types";
+import { ApiUrl } from "@swapkit/types";
 
 type InboundAddressData = {
   address: string;

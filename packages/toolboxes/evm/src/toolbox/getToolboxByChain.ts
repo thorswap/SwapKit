@@ -1,11 +1,11 @@
-import { Chain } from '@swapkit/types';
+import { Chain } from "@swapkit/types";
 
-import { ARBToolbox } from './arb.ts';
-import { AVAXToolbox } from './avax.ts';
-import { BSCToolbox } from './bsc.ts';
-import { ETHToolbox } from './eth.ts';
-import { MATICToolbox } from './matic.ts';
-import { OPToolbox } from './op.ts';
+import { ARBToolbox } from "./arb.ts";
+import { AVAXToolbox } from "./avax.ts";
+import { BSCToolbox } from "./bsc.ts";
+import { ETHToolbox } from "./eth.ts";
+import { MATICToolbox } from "./matic.ts";
+import { OPToolbox } from "./op.ts";
 
 type ToolboxType = {
   ETH: typeof ETHToolbox;

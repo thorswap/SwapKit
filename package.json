@@ -1,40 +1,22 @@
 {
   "name": "swapkit-monorepo",
   "devDependencies": {
-    "@babel/core": "7.23.7",
-    "@babel/eslint-parser": "7.23.3",
+    "@biomejs/biome": "1.5.3",
     "@changesets/changelog-github": "0.5.0",
     "@changesets/cli": "2.27.1",
     "@size-limit/file": "11.0.2",
-    "@typescript-eslint/eslint-plugin": "6.19.0",
-    "@typescript-eslint/parser": "6.19.0",
+    "@turbo/gen": "1.12.4",
+    "@types/node": "20.11.19",
+    "@types/react": "18.2.57",
+    "@types/react-dom": "18.2.19",
     "dotenv-cli": "7.3.0",
-    "eslint": "8.56.0",
-    "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-babel": "5.3.1",
-    "eslint-plugin-eslint-comments": "3.2.0",
-    "eslint-plugin-import": "2.29.1",
-    "eslint-plugin-prettier": "5.1.3",
-    "eslint-plugin-react": "7.33.2",
-    "eslint-plugin-react-hooks": "4.6.0",
-    "eslint-plugin-simple-import-sort": "10.0.0",
-    "eslint-plugin-unused-imports": "3.0.0",
-    "prettier": "3.2.4",
+    "lefthook": "1.6.1",
+    "lint-staged": "15.2.2",
     "react": "18.2.0",
     "size-limit": "11.0.2",
-    "turbo": "1.11.3",
+    "turbo": "1.12.4",
     "typescript": "5.3.3",
-    "vitest": "1.2.1"
-  },
-  "prettier": {
-    "bracketSameLine": true,
-    "bracketSpacing": true,
-    "printWidth": 100,
-    "semi": true,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "all",
-    "useTabs": false
+    "vitest": "1.3.1"
   },
   "private": true,
   "engines": {
@@ -43,35 +25,37 @@
   "packageManager": "^pnpm@8.14.1",
   "pnpm": {
     "overrides": {
-      "axios": "^1.6.2",
+      "axios": "^1.6.7",
       "json5@<=1.0.1": "^1.0.2",
-      "semver@<=4.3.2": "^7.5.4"
+      "semver@<=4.3.2": "^7.6.0"
     },
     "patchedDependencies": {
       "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
       "typeforce@1.18.0": "patches/typeforce@1.18.0.patch",
-      "@ledgerhq/live-network@1.1.9": "patches/@ledgerhq__live-network@1.1.9.patch",
       "@changesets/cli@2.27.1": "patches/@changesets__cli@2.27.1.patch",
       "@changesets/assemble-release-plan@6.0.0": "patches/@changesets__assemble-release-plan@6.0.0.patch"
     }
   },
   "scripts": {
     "bootstrap": "rm -rf node_modules; pnpm install; pnpm build",
-    "build": "turbo run build --continue",
-    "build:playground": "turbo run build-playground --concurrency=30",
-    "preview:playground": "turbo run preview-playground --concurrency=30",
-    "clean": "turbo run clean",
-    "lint:ls": "pnpm dlx sherif@latest",
-    "dev:playground": "turbo run dev --concurrency=30 --filter=\"{./internal/playground}...\"",
-    "dev:playground:node": "turbo run dev:node --concurrency=30 --filter=\"{./internal/node-playground}...\"",
-    "dev:playground:bun": "turbo run dev:bun --concurrency=30 --filter=\"{./internal/node-playground}...\"",
-    "generate": "cd ./internal/generator; pnpm generate; cd ../..",
+    "build": "turbo run build --cache-dir=./.turbo-cache --continue",
+    "clean": "rm -rf .turbo-cache && turbo run clean",
+    "generate": "pnpm turbo gen init; pnpm install",
     "generate:tokens": "pnpm build --filter api; cd ./packages/swapkit/tokens; pnpm run generate-tokens; cd ../../..; pnpm run lint --filter tokens --force",
-    "lint": "turbo run lint --continue --filter=!./packages/swapkit/swapkit-sdk",
-    "postinstall": "rm -rf ./.git/hooks/pre-commit ./.git/hooks/prepare-commit-msg",
-    "publish-packages": "turbo run build lint && pnpm version-bump && pnpm changeset publish",
-    "test": "dotenv -- turbo run test --continue",
-    "test:coverage": "dotenv -- turbo --continue run test:coverage",
-    "version-bump": "dotenv -- pnpm changeset version"
+    "lint": "turbo run lint --cache-dir=./.turbo-cache --continue --filter=!./packages/swapkit/swapkit-sdk",
+    "lint:ci": "turbo run lint type-check --cache-dir=./.turbo-cache --continue",
+    "lint:ws": "pnpm dlx sherif@latest",
+    "postinstall": "lefthook install; pnpm lint:ws",
+    "publish-packages": "turbo run build lint --cache-dir=./.turbo-cache && pnpm version-bump && pnpm changeset publish",
+    "test": "dotenv -- turbo run test --cache-dir=./.turbo-cache --continue",
+    "test:coverage": "dotenv -- turbo run test:coverage  --cache-dir=./.turbo-cache --continue",
+    "type-check": "turbo run type-check  --cache-dir=./.turbo-cache --continue",
+    "version-bump": "dotenv -- pnpm changeset version",
+    "playground:next": "pnpm --cwd internal/next-playground",
+    "playground:node": "pnpm --cwd internal/node-playground",
+    "playground:vite": "pnpm --cwd internal/vite-playground"
+  },
+  "lint-staged": {
+    "*": ["pnpm biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true"]
   }
 }

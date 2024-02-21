@@ -1,30 +1,30 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test } from "vitest";
 
-import { formatBigIntToSafeValue } from '../bigIntArithmetics.ts';
+import { formatBigIntToSafeValue } from "../bigIntArithmetics.ts";
 
-describe('BigIntArithmatics', () => {
-  describe('formatBigIntToSafeValue', () => {
-    test('parse bigint with decimals to string', () => {
+describe("BigIntArithmatics", () => {
+  describe("formatBigIntToSafeValue", () => {
+    test("parse bigint with decimals to string", () => {
       const safeValue1 = formatBigIntToSafeValue({
         value: BigInt(0),
         decimal: 6,
         bigIntDecimal: 6,
       });
-      expect(safeValue1).toBe('0');
+      expect(safeValue1).toBe("0");
 
       const safeValue2 = formatBigIntToSafeValue({
         value: BigInt(15),
         decimal: 0,
         bigIntDecimal: 0,
       });
-      expect(safeValue2).toBe('15');
+      expect(safeValue2).toBe("15");
 
       const safeValue3 = formatBigIntToSafeValue({
         value: BigInt(123456789),
         decimal: 4,
         bigIntDecimal: 4,
       });
-      expect(safeValue3).toBe('12345.6789');
+      expect(safeValue3).toBe("12345.6789");
     });
   });
 });

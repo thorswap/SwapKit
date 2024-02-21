@@ -1,5 +1,5 @@
-import { RequestClient } from '@swapkit/helpers';
-import { Chain, type UTXOChain } from '@swapkit/types';
+import { RequestClient } from "@swapkit/helpers";
+import { Chain, type UTXOChain } from "@swapkit/types";
 
 import type {
   BlockchairAddressResponse,
@@ -8,7 +8,7 @@ import type {
   BlockchairRawTransactionResponse,
   BlockchairResponse,
   UTXOType,
-} from '../types/index.ts';
+} from "../types/index.ts";
 type BlockchairParams<T> = T & { chain: Chain; apiKey?: string };
 
 const baseUrl = (chain: Chain) => `https://api.blockchair.com/${mapChainToBlockchairChain(chain)}`;
@@ -29,13 +29,13 @@ const getDefaultTxFeeByChain = (chain: Chain) => {
 const mapChainToBlockchairChain = (chain: Chain) => {
   switch (chain) {
     case Chain.BitcoinCash:
-      return 'bitcoin-cash';
+      return "bitcoin-cash";
     case Chain.Litecoin:
-      return 'litecoin';
+      return "litecoin";
     case Chain.Dogecoin:
-      return 'dogecoin';
+      return "dogecoin";
     default:
-      return 'bitcoin';
+      return "bitcoin";
   }
 };
 
@@ -59,12 +59,12 @@ const getSuggestedTxFee = async (chain: Chain) => {
     const suggestedFee = feePerKb / 1000;
 
     return Math.max(suggestedFee, getDefaultTxFeeByChain(chain));
-  } catch (error) {
+  } catch (_error) {
     return getDefaultTxFeeByChain(chain);
   }
 };
 
-const blockchairRequest = async <T extends any>(url: string, apiKey?: string): Promise<T> => {
+const blockchairRequest = async <T>(url: string, apiKey?: string): Promise<T> => {
   try {
     const response = await RequestClient.get<BlockchairResponse<T>>(url);
     if (!response || response.context.code !== 200) throw new Error(`failed to query ${url}`);
@@ -73,7 +73,7 @@ const blockchairRequest = async <T extends any>(url: string, apiKey?: string): P
   } catch (error) {
     if (!apiKey) throw error;
     const response = await RequestClient.get<BlockchairResponse<T>>(
-      `${url}${apiKey ? `&key=${apiKey}` : ''}`,
+      `${url}${apiKey ? `&key=${apiKey}` : ""}`,
     );
 
     if (!response || response.context.code !== 200) throw new Error(`failed to query ${url}`);
@@ -88,7 +88,7 @@ const getAddressData = async ({
   chain,
   apiKey,
 }: BlockchairParams<{ address?: string }>) => {
-  if (!address) throw new Error('address is required');
+  if (!address) throw new Error("address is required");
 
   try {
     const response = await blockchairRequest<BlockchairAddressResponse>(
@@ -97,7 +97,7 @@ const getAddressData = async ({
     );
 
     return response[address];
-  } catch (error) {
+  } catch (_error) {
     return baseAddressData;
   }
 };
@@ -115,7 +115,7 @@ const getConfirmedBalance = async ({
   address,
   apiKey,
 }: BlockchairParams<{ address?: string }>) => {
-  if (!address) throw new Error('address is required');
+  if (!address) throw new Error("address is required");
   try {
     const response = await blockchairRequest<BlockchairMultipleBalancesResponse>(
       `${baseUrl(chain)}/addresses/balances?addresses=${address}`,
@@ -123,13 +123,13 @@ const getConfirmedBalance = async ({
     );
 
     return response[address] || 0;
-  } catch (error) {
+  } catch (_error) {
     return 0;
   }
 };
 
 const getRawTx = async ({ chain, apiKey, txHash }: BlockchairParams<{ txHash?: string }>) => {
-  if (!txHash) throw new Error('txHash is required');
+  if (!txHash) throw new Error("txHash is required");
 
   try {
     const rawTxResponse = await blockchairRequest<BlockchairRawTransactionResponse>(
@@ -139,7 +139,7 @@ const getRawTx = async ({ chain, apiKey, txHash }: BlockchairParams<{ txHash?: s
     return rawTxResponse[txHash].raw_transaction;
   } catch (error) {
     console.error(error);
-    return '';
+    return "";
   }
 };
 
@@ -151,7 +151,7 @@ const getUnspentTxs = async ({
 }: BlockchairParams<{ offset?: number; address: string }>): Promise<
   (UTXOType & { script_hex: string; is_confirmed: boolean })[]
 > => {
-  if (!address) throw new Error('address is required');
+  if (!address) throw new Error("address is required");
   try {
     const response = await blockchairRequest<BlockchairOutputsResponse[]>(
       `${baseUrl(
@@ -207,7 +207,7 @@ const scanUTXOs = async ({
       index,
       txHex,
       value,
-      witnessUtxo: { value, script: Buffer.from(script_hex, 'hex') },
+      witnessUtxo: { value, script: Buffer.from(script_hex, "hex") },
     });
   }
   return results;

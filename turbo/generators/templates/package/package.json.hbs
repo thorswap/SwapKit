@@ -1,0 +1,39 @@
+{
+  "author": "swapkit-oss",
+  "dependencies": {},
+  "description": "SwapKit Lib {{ packageName }}",
+  "devDependencies": {
+    "@internal/tools-typescript": "workspace:*",
+    "@internal/tools-vite": "workspace:*"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "Apache-2.0",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@swapkit/{{ packageName }}",
+  "react-native": "./src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thorswap/SwapKit.git"
+  },
+  "scripts": {
+    "build": "vite build",
+    "clean": "rm -rf dist vite.config.ts.* node_modules",
+    "lint": "biome check --apply ./src",
+    "test": "echo 'vitest --run'",
+    "test:coverage": "echo 'vitest run --coverage'"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts"
+}
