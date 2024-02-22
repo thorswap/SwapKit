@@ -20,9 +20,9 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={inter.className}>
         <AppProviders>
-          <div className="max-w-[1200px] mx-auto">
+          <div className="max-w-[800px] mx-auto">
             <NavigationBar />
-            {children}
+            <div className="items-center justify-center flex">{children}</div>
           </div>
         </AppProviders>
       </body>

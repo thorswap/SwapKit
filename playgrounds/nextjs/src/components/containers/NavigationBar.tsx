@@ -18,6 +18,7 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
 
   return (
     <div className="relative pt-4">
+      {/* @ts-expect-error */}
       <ScrollArea className="max-w-[600px] lg:max-w-none">
         <div className={cn("mb-4 flex items-center", className)} {...props}>
           {items.map(({ href, name }) => (
