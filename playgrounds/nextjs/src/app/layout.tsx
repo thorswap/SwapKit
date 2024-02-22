@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { NavigationBar } from "~/components/containers/NavigationBar";
 import { AppProviders } from "~/components/providers";
 import "./globals.css";
 
@@ -18,7 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={inter.className}>
-        <AppProviders>{children}</AppProviders>
+        <AppProviders>
+          <div className="max-w-[1200px] mx-auto">
+            <NavigationBar />
+            {children}
+          </div>
+        </AppProviders>
       </body>
     </html>
   );
