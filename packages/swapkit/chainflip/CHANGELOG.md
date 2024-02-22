@@ -1,5 +1,11 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.9
+
+### Patch Changes
+
+- [#622](https://github.com/thorswap/SwapKit/pull/622) [`a3a7375`](https://github.com/thorswap/SwapKit/commit/a3a73754dbc1a2d5e77d53a2607f0e47c4690ec8) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Update deposit channel id
+
 ## 1.0.0-rc.8
 
 ### Patch Changes
