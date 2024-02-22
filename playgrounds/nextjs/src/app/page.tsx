@@ -1,5 +1,6 @@
 "use client";
 
+import { SwapKitApi } from "@swapkit/core";
 import { BellRing, Check } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
@@ -12,7 +13,9 @@ import {
 } from "~/components/ui/card";
 import { Switch } from "~/components/ui/switch";
 import { cn } from "~/lib/utils";
-// import { useSwapKit } from "~/lib/swapKit";
+import { useSwapKit } from "~/lib/swapKit";
+import { useRouter } from "next/router";
+import { useEffect, useLayoutEffect } from "react";
 
 const notifications = [
   { title: "Your call has been confirmed.", description: "1 hour ago" },
@@ -21,14 +24,15 @@ const notifications = [
 ];
 
 export default function Swap() {
-  // const { swapKit } = useSwapKit();
+  const { balances, swapKit, checkIfChainConnected } = useSwapKit();
 
   return (
-    <Card className={cn("w-[380px]")}>
+    <Card className={cn("w-[600px]")}>
       <CardHeader>
-        <CardTitle>Notifications</CardTitle>
+        <CardTitle>Swap</CardTitle>
         <CardDescription>You have 3 unread messages.</CardDescription>
       </CardHeader>
+
       <CardContent className="grid gap-4">
         <div className=" flex items-center space-x-4 rounded-md border p-4">
           <BellRing />

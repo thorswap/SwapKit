@@ -1,4 +1,4 @@
-import { SwapKitCore } from "@swapkit/core";
+import { type Chain, SwapKitCore, type AssetValue, WalletOption } from "@swapkit/core";
 import { evmWallet } from "@swapkit/wallet-evm-extensions";
 // import { keystoreWallet } from "@swapkit/wallet-keystore";
 import { keepkeyWallet } from "@swapkit/wallet-keepkey";
@@ -9,12 +9,19 @@ import { trezorWallet } from "@swapkit/wallet-trezor";
 import { walletconnectWallet } from "@swapkit/wallet-wc";
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
 import { atom, useAtom } from "jotai";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 const swapKitAtom = atom<SwapKitCore | null>(null);
+const balanceAtom = atom<AssetValue[]>([]);
+const walletState = atom<{ connected: boolean; type: WalletOption | null }>({
+  connected: false,
+  type: null,
+});
 
 export const useSwapKit = () => {
   const [swapKit, setSwapKit] = useAtom(swapKitAtom);
+  const [balances, setBalances] = useAtom(balanceAtom);
+  const [{ type: walletType, connected: isWalletConnected }, setWalletState] = useAtom(walletState);
 
   useEffect(() => {
     const swapKitCore = new SwapKitCore({});
@@ -44,5 +51,58 @@ export const useSwapKit = () => {
     setSwapKit(swapKitCore);
   }, [setSwapKit]);
 
-  return { swapKit, setSwapKit };
+  const getBalances = useCallback(
+    async (refresh?: boolean) => {
+      if (!refresh && balances.length) return;
+
+      const connectedChains =
+        (Object.keys(swapKit?.connectedChains || {}).filter(Boolean) as Chain[]) || [];
+
+      let nextBalances: AssetValue[] = [];
+
+      for (const chain of connectedChains) {
+        const balance = await swapKit?.getBalance(chain, true);
+
+        if (balance) {
+          nextBalances = nextBalances.concat(balance);
+        }
+      }
+
+      setBalances(nextBalances.sort((a, b) => a.getValue("number") - b.getValue("number")));
+    },
+    [swapKit, setBalances, balances],
+  );
+
+  const connectWallet = useCallback(
+    async (option: WalletOption, chains: Chain[]) => {
+      switch (option) {
+        case WalletOption.XDEFI: {
+          await swapKit?.connectXDEFI(chains);
+          break;
+        }
+
+        default:
+          break;
+      }
+
+      setWalletState({ connected: !!swapKit?.getAddress(chains[0]), type: option });
+    },
+    [setWalletState, swapKit],
+  );
+
+  const checkIfChainConnected = useCallback(
+    (chain: Chain) => !!swapKit?.getAddress(chain),
+    [swapKit?.getAddress],
+  );
+
+  return {
+    balances,
+    checkIfChainConnected,
+    connectWallet,
+    getBalances,
+    isWalletConnected,
+    walletType,
+    setSwapKit,
+    swapKit,
+  };
 };
