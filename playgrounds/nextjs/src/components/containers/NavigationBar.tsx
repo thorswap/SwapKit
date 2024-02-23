@@ -28,6 +28,7 @@ const allowedChainsByWallet = {
 } as const;
 
 export function NavigationBar({ className, ...props }: NavigationBarProps) {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedChains, setSelectedChains] = useState<Chain[]>([]);
   const { walletType, disconnectWallet, isWalletConnected, connectWallet } = useSwapKit();
   const pathname = usePathname();
@@ -54,6 +55,8 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
 
   const handleWalletSelect = useCallback(
     (option: WalletOption) => {
+      setIsDropdownOpen(false);
+
       // @ts-expect-error
       const allowedChains = allowedChainsByWallet[option] as Chain[];
 
@@ -89,20 +92,26 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
           ))}
         </div>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button asChild variant="ghost" className="space-x-2">
+        <DropdownMenu onOpenChange={setIsDropdownOpen} open={isDropdownOpen}>
+          {isWalletConnected ? (
+            <Button onClick={disconnectWallet} asChild variant="ghost" className="space-x-2">
               <div>
-                {isWalletConnected ? (
-                  <PowerOff size={18} className="text-red-400" />
-                ) : (
-                  <Power size={18} className="text-slate-400" />
-                )}
+                <PowerOff size={18} className="text-red-400" />
 
-                <span>{isWalletConnected ? `Disconnect (${walletType})` : "Connect Wallet"}</span>
+                <span>{`Disconnect (${walletType})`}</span>
               </div>
             </Button>
-          </DropdownMenuTrigger>
+          ) : (
+            <DropdownMenuTrigger>
+              <Button asChild variant="ghost" className="space-x-2">
+                <div>
+                  <Power size={18} className="text-slate-400" />
+
+                  <span>Connect Wallet</span>
+                </div>
+              </Button>
+            </DropdownMenuTrigger>
+          )}
 
           <DropdownMenuContent className="max-w-[400px] z-auto">
             <div className="flex flex-row flex-wrap bg-slate-900 p-4 gap-3">
@@ -115,6 +124,7 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
                   >
                     {chain}
                   </span>
+
                   <Checkbox
                     checked={selectedChains.includes(chain)}
                     onCheckedChange={handleChainSelect(chain)}
@@ -126,15 +136,28 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
 
             <div className="bg-slate-800 p-4">
               {[WalletOption.XDEFI, WalletOption.METAMASK, WalletOption.KEPLR].map((option) => (
-                <Button
-                  variant="ghost"
-                  key={option}
-                  className={checkWalletDisabled(option) ? "text-muted-foreground" : "text-primary"}
-                  disabled={checkWalletDisabled(option)}
-                  onClick={() => handleWalletSelect(option)}
-                >
-                  {option}
-                </Button>
+                <div key={option}>
+                  {selectedChains.length && !checkWalletDisabled(option) ? (
+                    <Button
+                      onClick={() => handleWalletSelect(option)}
+                      variant="ghost"
+                      className="text-primary p-2"
+                    >
+                      Connect
+                    </Button>
+                  ) : null}
+
+                  <Button
+                    variant={
+                      selectedChains.length && !checkWalletDisabled(option) ? "default" : "ghost"
+                    }
+                    className={checkWalletDisabled(option) ? "text-muted-foreground" : ""}
+                    disabled={checkWalletDisabled(option)}
+                    onClick={() => handleWalletSelect(option)}
+                  >
+                    {option}
+                  </Button>
+                </div>
               ))}
             </div>
           </DropdownMenuContent>
