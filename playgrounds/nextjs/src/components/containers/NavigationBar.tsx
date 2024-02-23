@@ -1,20 +1,20 @@
 "use client";
 
-import { type Chain, UTXOChains, EVMChains, CosmosChains, WalletOption } from "@swapkit/core";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { cn } from "~/lib/utils";
-import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import { Button } from "../ui/button";
-import { Power, PowerOff } from "lucide-react";
-import { useSwapKit } from "~/lib/swapKit";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
-import { Checkbox } from "../ui/checkbox";
+import { type Chain, CosmosChains, EVMChains, UTXOChains, WalletOption } from "@swapkit/core";
+import { Power, PowerOff } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useState } from "react";
+import { useSwapKit } from "~/lib/swapKit";
+import { cn } from "~/lib/utils";
+import { Button } from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 const items = [
   { name: "Swap", href: "/" },
