@@ -1,4 +1,4 @@
-import { type Chain, SwapKitCore, type AssetValue, WalletOption } from "@swapkit/core";
+import { type AssetValue, type Chain, SwapKitCore, WalletOption } from "@swapkit/core";
 import { evmWallet } from "@swapkit/wallet-evm-extensions";
 // import { keystoreWallet } from "@swapkit/wallet-keystore";
 import { keepkeyWallet } from "@swapkit/wallet-keepkey";

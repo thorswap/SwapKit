@@ -19,7 +19,7 @@
     "skipLibCheck": true,
     "strict": true,
     "strictNullChecks": true,
-    "target": "ES2023",
+    "target": "ES2022",
     "types": ["vite/client"]
   }
 }

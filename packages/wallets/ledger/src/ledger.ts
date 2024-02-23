@@ -404,8 +404,10 @@ const connectLedger =
 
     addChain({
       chain,
-      walletMethods: { ...toolbox, getAddress: () => address },
-      wallet: { address, balance: [], walletType: WalletOption.LEDGER },
+      ...toolbox,
+      address,
+      balance: [],
+      walletType: WalletOption.LEDGER,
     });
   };
 

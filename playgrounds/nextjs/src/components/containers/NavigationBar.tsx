@@ -1,12 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { cn } from "~/lib/utils";
-import { ScrollArea, ScrollBar } from "../ui/scroll-area";
-import { Button } from "../ui/button";
-import { Power, PowerOff } from "lucide-react";
-import { useSwapKit } from "~/lib/swapKit";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,6 +8,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@radix-ui/react-dropdown-menu";
+import { Power, PowerOff } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useSwapKit } from "~/lib/swapKit";
+import { cn } from "~/lib/utils";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 const items = [
   { name: "Swap", href: "/" },

@@ -13,7 +13,7 @@ export const binanceWalletMethods = async ({
 }: {
   sdk: KeepKeySdk;
   derivationPath?: DerivationPathArray;
-}): Promise<BinanceToolboxType & { getAddress: () => string }> => {
+}): Promise<BinanceToolboxType & { address: string }> => {
   try {
     const { BinanceToolbox } = await import("@swapkit/toolbox-cosmos");
     const toolbox = BinanceToolbox();
@@ -61,7 +61,7 @@ export const binanceWalletMethods = async ({
       }
     };
 
-    return { ...toolbox, getAddress: () => fromAddress, transfer };
+    return { ...toolbox, transfer, address: fromAddress };
   } catch (e) {
     console.error(e);
     throw e;

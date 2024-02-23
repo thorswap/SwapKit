@@ -42,7 +42,7 @@ export const getWalletForChain = async ({
     | ReturnType<typeof GaiaToolbox>
     | Awaited<ReturnType<typeof getWeb3WalletMethods>>
     | ReturnType<typeof BTCToolbox>
-  ) & { getAddress: () => string }
+  ) & { address: string }
 > => {
   switch (chain) {
     case Chain.Ethereum:
@@ -67,7 +67,7 @@ export const getWalletForChain = async ({
       const getBalance = async (addressOverwrite?: string, potentialScamFilter = true) =>
         evmWallet.getBalance(addressOverwrite || address, potentialScamFilter, getProvider(chain));
 
-      return { ...evmWallet, getAddress: () => address, getBalance };
+      return { ...evmWallet, getBalance, address };
     }
 
     case Chain.Bitcoin: {
@@ -92,7 +92,7 @@ export const getWalletForChain = async ({
         });
       };
 
-      return { ...toolbox, transfer, getAddress: () => address };
+      return { ...toolbox, transfer, address };
     }
 
     case Chain.Cosmos: {
@@ -103,9 +103,9 @@ export const getWalletForChain = async ({
       const { GaiaToolbox } = await import("@swapkit/toolbox-cosmos");
 
       return {
+        address,
         ...GaiaToolbox({ server: api }),
         transfer: cosmosTransfer(rpcUrl),
-        getAddress: () => address,
       };
     }
 

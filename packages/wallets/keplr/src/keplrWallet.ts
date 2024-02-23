@@ -49,8 +49,11 @@ const connectKeplr =
 
     addChain({
       chain,
-      walletMethods: { ...toolbox, transfer, getAddress: () => address },
-      wallet: { address, balance: [], walletType: WalletOption.KEPLR },
+      ...toolbox,
+      transfer,
+      address,
+      balance: [],
+      walletType: WalletOption.KEPLR,
     });
   };
 

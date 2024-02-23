@@ -64,7 +64,12 @@ const getWalletMethods = async ({
         throw new Error("Covalent API key not found");
 
       const provider = getProvider(chain as EVMChain, rpcUrl);
-      const signer = new KeepKeySigner({ sdk, chain, derivationPath, provider });
+      const signer = new KeepKeySigner({
+        sdk,
+        chain,
+        derivationPath,
+        provider,
+      });
       const address = await signer.getAddress();
       const evmParams = {
         api: apiClient,
@@ -74,7 +79,10 @@ const getWalletMethods = async ({
         ethplorerApiKey: ethplorerApiKey as string,
       };
 
-      return { ...getToolboxByChain(chain)(evmParams), getAddress: () => address };
+      return {
+        address,
+        ...getToolboxByChain(chain)(evmParams),
+      };
     }
     case Chain.Binance: {
       return binanceWalletMethods({ sdk, derivationPath });
@@ -166,12 +174,9 @@ const connectKeepkey =
 
       addChain({
         chain,
-        walletMethods,
-        wallet: {
-          address: walletMethods.getAddress(),
-          balance: [],
-          walletType: WalletOption.KEEPKEY,
-        },
+        balance: [],
+        ...walletMethods,
+        walletType: WalletOption.KEEPKEY,
       });
     });
 

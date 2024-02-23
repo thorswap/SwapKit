@@ -32,8 +32,9 @@ const connectOkx =
 
       addChain({
         chain,
-        walletMethods,
-        wallet: { address: walletMethods.getAddress(), balance: [], walletType: WalletOption.OKX },
+        ...walletMethods,
+        balance: [],
+        walletType: WalletOption.OKX,
       });
     });
 

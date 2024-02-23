@@ -331,13 +331,12 @@ const connectWalletconnect =
 
       addChain({
         chain,
-        walletMethods: {
-          ...toolbox,
-          getAddress: () => address,
-          getAccount:
-            chain === Chain.THORChain ? getAccount : (toolbox as BaseCosmosToolboxType).getAccount,
-        },
-        wallet: { address, balance: [], walletType: WalletOption.WALLETCONNECT },
+        ...toolbox,
+        getAccount:
+          chain === Chain.THORChain ? getAccount : (toolbox as BaseCosmosToolboxType).getAccount,
+        address,
+        balance: [],
+        walletType: WalletOption.WALLETCONNECT,
       });
       return;
     });

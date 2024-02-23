@@ -1,6 +1,5 @@
 "use client";
 
-import { SwapKitApi } from "@swapkit/core";
 import { BellRing, Check } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
@@ -12,10 +11,8 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { Switch } from "~/components/ui/switch";
-import { cn } from "~/lib/utils";
 import { useSwapKit } from "~/lib/swapKit";
-import { useRouter } from "next/router";
-import { useEffect, useLayoutEffect } from "react";
+import { cn } from "~/lib/utils";
 
 const notifications = [
   { title: "Your call has been confirmed.", description: "1 hour ago" },

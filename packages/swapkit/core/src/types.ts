@@ -22,11 +22,15 @@ import type {
   DOGEToolbox,
   LTCToolbox,
 } from "@swapkit/toolbox-utxo";
-import { Chain, type FeeOption, type WalletOption } from "@swapkit/types";
-
-type BaseWalletMethods = {
-  getAddress: () => Promise<string> | string;
-};
+import {
+  Chain,
+  type ConnectConfig,
+  type CosmosChain,
+  type EVMChain,
+  type FeeOption,
+  type UTXOChain,
+  type WalletOption,
+} from "@swapkit/types";
 
 export type CoreTxParams = {
   assetValue: AssetValue;
@@ -49,42 +53,49 @@ export type UpgradeParams = {
   recipient: string;
 };
 
-export type ChainWallet = {
+export type OldChainWallet = {
   address: string;
   balance: AssetValue[];
   walletType: WalletOption;
 };
 
-export type Wallet = Record<Chain, ChainWallet | null>;
+export type OldWallet = { [key in Chain]: OldChainWallet | null };
 
-export type ThorchainWallet = BaseWalletMethods &
-  ThorchainToolboxType & {
-    transfer: (params: CoreTxParams) => Promise<string>;
-    deposit: (params: DepositParam) => Promise<string>;
-  };
+export type ChainWallet<T extends Chain> = WalletMethods[T] & {
+  chain: Chain;
+  address: string;
+  balance: AssetValue[];
+  walletType: WalletOption;
+};
+
+export type Wallet = {
+  [key in Chain]?: ChainWallet<key>;
+};
+
+export type ThorchainWallet = ThorchainToolboxType & {
+  transfer: (params: CoreTxParams) => Promise<string>;
+  deposit: (params: DepositParam) => Promise<string>;
+};
 
 export type CosmosBasedWallet<T extends typeof BinanceToolbox | typeof GaiaToolbox> =
-  BaseWalletMethods &
-    ReturnType<T> & {
-      transfer: (params: CoreTxParams) => Promise<string>;
-    };
+  ReturnType<T> & {
+    transfer: (params: CoreTxParams) => Promise<string>;
+  };
 
 export type SubstrateBasedWallet<T extends typeof PolkadotToolbox | typeof ChainflipToolbox> =
   Awaited<ReturnType<T>>;
 
 export type EVMWallet<
   T extends typeof AVAXToolbox | typeof BSCToolbox | typeof ETHToolbox | typeof OPToolbox,
-> = BaseWalletMethods &
-  ReturnType<T> & {
-    transfer: (params: CoreTxParams) => Promise<string>;
-  };
+> = ReturnType<T> & {
+  transfer: (params: CoreTxParams) => Promise<string>;
+};
 
 export type UTXOWallet<
   T extends typeof BCHToolbox | typeof BTCToolbox | typeof DOGEToolbox | typeof LTCToolbox,
-> = BaseWalletMethods &
-  ReturnType<T> & {
-    transfer: (prams: CoreTxParams) => Promise<string>;
-  };
+> = ReturnType<T> & {
+  transfer: (prams: CoreTxParams) => Promise<string>;
+};
 
 export type WalletMethods = {
   [Chain.Arbitrum]: EVMWallet<typeof ARBToolbox> | null;
@@ -107,9 +118,23 @@ export type WalletMethods = {
   [Chain.THORChain]: ThorchainWallet | null;
 };
 
-export type SwapParams = {
+export type SwapWithRouteParams = {
   recipient: string;
-  streamSwap?: boolean;
   route: QuoteRoute;
-  feeOptionKey: FeeOption;
+  feeOptionKey?: FeeOption;
+  quoteId?: string;
+  streamSwap?: boolean;
+};
+
+type ApisType = { [key in UTXOChain]?: string | any } & {
+  [key in EVMChain]?: string | any;
+} & {
+  [key in CosmosChain]?: string;
+};
+
+export type ConnectWalletParamsLocal = {
+  addChain: (params: ChainWallet<Chain>) => void;
+  config: ConnectConfig;
+  rpcUrls: { [chain in Chain]?: string };
+  apis: ApisType;
 };

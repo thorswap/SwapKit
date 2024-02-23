@@ -20,7 +20,7 @@ export const thorchainWalletMethods = async ({
 }: {
   sdk: KeepKeySdk;
   derivationPath?: DerivationPathArray;
-}): Promise<ThorchainToolboxType & { getAddress: () => string }> => {
+}): Promise<ThorchainToolboxType & { address: string }> => {
   const { createStargateClient, ThorchainToolbox } = await import("@swapkit/toolbox-cosmos");
   const toolbox = ThorchainToolbox({ stagenet: !"smeshnet" });
   const derivationPathString = derivationPath
@@ -107,5 +107,5 @@ export const thorchainWalletMethods = async ({
     }
   };
 
-  return { ...toolbox, getAddress: () => fromAddress, transfer, deposit };
+  return { ...toolbox, transfer, deposit, address: fromAddress };
 };

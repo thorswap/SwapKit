@@ -45,7 +45,7 @@ export const utxoWalletMethods = async ({
   apiClient,
 }: KKUtxoWalletParams): Promise<
   UTXOToolbox & {
-    getAddress: () => string;
+    address: string;
     signTransaction: (
       psbt: ExtendedPsbt,
       inputs: KeepKeyInputObject[],
@@ -151,5 +151,5 @@ export const utxoWalletMethods = async ({
     return toolbox.broadcastTx(txHex);
   };
 
-  return { ...toolbox, getAddress: () => walletAddress as string, signTransaction, transfer };
+  return { ...toolbox, signTransaction, transfer, address: walletAddress };
 };

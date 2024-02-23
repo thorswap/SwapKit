@@ -46,8 +46,8 @@ const getToolbox = async ({
   covalentApiKey,
   derivationPath,
   blockchairApiKey,
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
-}: Params) => {
+}: // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
+Params) => {
   switch (chain) {
     case Chain.BinanceSmartChain:
     case Chain.Avalanche:
@@ -77,7 +77,6 @@ const getToolbox = async ({
             provider,
             ethplorerApiKey: ethplorerApiKey as string,
           }),
-          getAddress: () => address,
         },
       };
     }
@@ -233,7 +232,6 @@ const getToolbox = async ({
           ...toolbox,
           transfer,
           signTransaction,
-          getAddress: () => address,
         },
       };
     }
@@ -278,8 +276,10 @@ const connectTrezor =
 
     addChain({
       chain,
-      walletMethods,
-      wallet: { address, balance: [], walletType: WalletOption.TREZOR },
+      ...walletMethods,
+      address,
+      balance: [],
+      walletType: WalletOption.TREZOR,
     });
   };
 

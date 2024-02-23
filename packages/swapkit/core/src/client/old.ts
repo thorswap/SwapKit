@@ -39,9 +39,9 @@ import { getInboundData, getMimirData } from "../helpers/thornode.ts";
 import type {
   CoreTxParams,
   EVMWallet,
-  SwapParams,
+  OldWallet,
+  SwapWithRouteParams,
   ThorchainWallet,
-  Wallet,
   WalletMethods,
 } from "../types.ts";
 
@@ -54,7 +54,13 @@ const getEmptyWalletStructure = () =>
     {} as Record<Chain, null>,
   );
 
-const validateAddressType = ({ chain, address }: { chain: Chain; address?: string }) => {
+const validateAddressType = ({
+  chain,
+  address,
+}: {
+  chain: Chain;
+  address?: string;
+}) => {
   if (!address) return false;
 
   switch (chain) {
@@ -70,7 +76,7 @@ const validateAddressType = ({ chain, address }: { chain: Chain; address?: strin
  * @deprecated Use SwapKit instead (import { SwapKit } from "@swapkit/core")
  */
 export class SwapKitCore<T = ""> {
-  public connectedChains: Wallet = getEmptyWalletStructure();
+  public connectedChains: OldWallet = getEmptyWalletStructure();
   public connectedWallets: WalletMethods = getEmptyWalletStructure();
   public readonly stagenet: boolean = false;
 
@@ -89,8 +95,13 @@ export class SwapKitCore<T = ""> {
     return wallet?.balance || [];
   };
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
-  swap = async ({ streamSwap, recipient, route, feeOptionKey }: SwapParams) => {
+  swap = async ({
+    streamSwap,
+    recipient,
+    route,
+    feeOptionKey = FeeOption.Average,
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>
+  }: SwapWithRouteParams) => {
     const {
       meta: { quoteMode },
       //   evmTransactionDetails: contractCallParams,
@@ -189,7 +200,10 @@ export class SwapKitCore<T = ""> {
       const provider = getProvider(evmChain);
       const abi = lowercasedContractAbiMapping[contractAddress.toLowerCase()];
 
-      if (!abi) throw new SwapKitError("core_swap_contract_not_supported", { contractAddress });
+      if (!abi)
+        throw new SwapKitError("core_swap_contract_not_supported", {
+          contractAddress,
+        });
 
       const contract = await walletMethods.createContract?.(contractAddress, abi, provider);
 
@@ -258,12 +272,13 @@ export class SwapKitCore<T = ""> {
     recipient,
     router,
     ...rest
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
-  }: CoreTxParams & { router?: string }) => {
+  }: // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
+  CoreTxParams & { router?: string }) => {
     const { chain, symbol, ticker } = assetValue;
     const walletInstance = this.connectedWallets[chain];
+    const connectedWallet = this.connectedChains[chain];
     const isAddressValidated = await validateAddressType({
-      address: await walletInstance?.getAddress(),
+      address: connectedWallet?.address,
       chain,
     });
 
@@ -273,7 +288,12 @@ export class SwapKitCore<T = ""> {
 
     if (!walletInstance) throw new SwapKitError("core_wallet_connection_not_found");
 
-    const params = this.#prepareTxParams({ assetValue, recipient, router, ...rest });
+    const params = this.#prepareTxParams({
+      assetValue,
+      recipient,
+      router,
+      ...rest,
+    });
 
     try {
       switch (chain) {
@@ -424,7 +444,11 @@ export class SwapKitCore<T = ""> {
       try {
         runeTx = await this.#depositToPool({
           assetValue: runeAssetValue,
-          memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: assetAddress }),
+          memo: getMemoFor(MemoType.DEPOSIT, {
+            chain,
+            symbol,
+            address: assetAddress,
+          }),
         });
       } catch (error) {
         throw new SwapKitError("core_transaction_add_liquidity_rune_error", error);
@@ -435,7 +459,11 @@ export class SwapKitCore<T = ""> {
       try {
         assetTx = await this.#depositToPool({
           assetValue,
-          memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: runeAddress }),
+          memo: getMemoFor(MemoType.DEPOSIT, {
+            chain,
+            symbol,
+            address: runeAddress,
+          }),
         });
       } catch (error) {
         throw new SwapKitError("core_transaction_add_liquidity_asset_error", error);
@@ -576,7 +604,10 @@ export class SwapKitCore<T = ""> {
     assetValue,
     ...param
   }: ThornameRegisterParam & { assetValue: AssetValue }) =>
-    this.#thorchainTransfer({ assetValue, memo: getMemoFor(MemoType.THORNAME_REGISTER, param) });
+    this.#thorchainTransfer({
+      assetValue,
+      memo: getMemoFor(MemoType.THORNAME_REGISTER, param),
+    });
 
   extend = ({ wallets, config, apis = {}, rpcUrls = {} }: ExtendParams<T>) => {
     try {
@@ -701,9 +732,13 @@ export class SwapKitCore<T = ""> {
     }
   };
 
-  #addConnectedChain = ({ chain, wallet, walletMethods }: AddChainWalletParams) => {
-    this.connectedChains[chain] = wallet;
-    this.connectedWallets[chain] = walletMethods;
+  #addConnectedChain = ({ chain, wallet, ...rest }: AddChainWalletParams<any>) => {
+    this.connectedChains[chain as Chain] = {
+      address: wallet?.address || "",
+      balance: wallet.balance || [],
+      walletType: wallet.walletType || "unknown",
+    };
+    this.connectedWallets[chain as Chain] = { ...rest } as any;
   };
 
   #approve = async <T = string>({
@@ -766,7 +801,13 @@ export class SwapKitCore<T = ""> {
     });
   };
 
-  #thorchainTransfer = async ({ memo, assetValue }: { assetValue: AssetValue; memo: string }) => {
+  #thorchainTransfer = async ({
+    memo,
+    assetValue,
+  }: {
+    assetValue: AssetValue;
+    memo: string;
+  }) => {
     const mimir = await getMimirData(this.stagenet);
 
     // check if trading is halted or not

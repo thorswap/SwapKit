@@ -43,13 +43,13 @@ const getWalletMethodsForChain = async ({
 }: ConnectConfig & { chain: (typeof XDEFI_SUPPORTED_CHAINS)[number] }) => {
   switch (chain) {
     case Chain.THORChain: {
-      const { DEFAULT_GAS_VALUE, ThorchainToolbox } = await import("@swapkit/toolbox-cosmos");
+      const { THORCHAIN_GAS_VALUE, ThorchainToolbox } = await import("@swapkit/toolbox-cosmos");
 
       return {
         ...ThorchainToolbox({ stagenet: false }),
         deposit: (tx: WalletTxParams) => walletTransfer({ ...tx, recipient: "" }, "deposit"),
         transfer: (tx: WalletTxParams) =>
-          walletTransfer({ ...tx, gasLimit: DEFAULT_GAS_VALUE }, "transfer"),
+          walletTransfer({ ...tx, gasLimit: THORCHAIN_GAS_VALUE }, "transfer"),
       };
     }
 
@@ -57,14 +57,20 @@ const getWalletMethodsForChain = async ({
       const { GaiaToolbox } = await import("@swapkit/toolbox-cosmos");
       return {
         ...GaiaToolbox(),
-        transfer: cosmosTransfer({ chainId: ChainId.Cosmos, rpcUrl: RPCUrl.Cosmos }),
+        transfer: cosmosTransfer({
+          chainId: ChainId.Cosmos,
+          rpcUrl: RPCUrl.Cosmos,
+        }),
       };
     }
     case Chain.Kujira: {
       const { KujiraToolbox } = await import("@swapkit/toolbox-cosmos");
       return {
         ...KujiraToolbox(),
-        transfer: cosmosTransfer({ chainId: ChainId.Kujira, rpcUrl: RPCUrl.Kujira }),
+        transfer: cosmosTransfer({
+          chainId: ChainId.Kujira,
+          rpcUrl: RPCUrl.Kujira,
+        }),
       };
     }
 
@@ -136,7 +142,10 @@ const getWalletMethodsForChain = async ({
       const api =
         chain === Chain.Ethereum
           ? ethplorerApi(ethplorerApiKey as string)
-          : covalentApi({ apiKey: covalentApiKey as string, chainId: ChainToChainId[chain] });
+          : covalentApi({
+              apiKey: covalentApiKey as string,
+              chainId: ChainToChainId[chain],
+            });
 
       return prepareNetworkSwitch({
         toolbox: {
@@ -144,7 +153,13 @@ const getWalletMethodsForChain = async ({
           ...xdefiMethods,
           // Overwrite xdefi getbalance due to race condition in their app when connecting multiple evm wallets
           getBalance: (address: string, potentialScamFilter?: boolean) =>
-            getBalance({ chain, provider: getProvider(chain), api, address, potentialScamFilter }),
+            getBalance({
+              chain,
+              provider: getProvider(chain),
+              api,
+              address,
+              potentialScamFilter,
+            }),
         },
         chainId: ChainToHexChainId[chain],
         //@ts-expect-error
@@ -176,8 +191,10 @@ const connectXDEFI =
 
       addChain({
         chain,
-        walletMethods: { ...walletMethods, getAddress: () => address },
-        wallet: { address, balance: [], walletType: WalletOption.XDEFI },
+        ...walletMethods,
+        address,
+        balance: [],
+        walletType: WalletOption.XDEFI,
       });
     });
 
