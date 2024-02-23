@@ -8,7 +8,7 @@ export default defineConfig({
   server: {
     port: 3000,
   },
-  base: "/SwapKit/",
+  base: "/SwapKit",
 
   // NOTE: Have to be added to fix: Uncaught ReferenceError: process & global is not defined
   define: {
@@ -27,14 +27,10 @@ export default defineConfig({
       "@swapkit/toolbox-evm": resolve("../../packages/toolboxes/evm/src"),
       "@swapkit/toolbox-utxo": resolve("../../packages/toolboxes/utxo/src"),
 
-      "@swapkit/wallet-evm-extensions": resolve(
-        "../../packages/wallets/evm-extensions/src"
-      ),
+      "@swapkit/wallet-evm-extensions": resolve("../../packages/wallets/evm-extensions/src"),
       "@swapkit/wallet-keplr": resolve("../../packages/wallets/keplr/src"),
       "@swapkit/wallet-keepkey": resolve("../../packages/wallets/keepkey/src"),
-      "@swapkit/wallet-keystore": resolve(
-        "../../packages/wallets/keystore/src"
-      ),
+      "@swapkit/wallet-keystore": resolve("../../packages/wallets/keystore/src"),
       "@swapkit/wallet-ledger": resolve("../../packages/wallets/ledger/src"),
       "@swapkit/wallet-okx": resolve("../../packages/wallets/okx/src"),
       "@swapkit/wallet-trezor": resolve("../../packages/wallets/trezor/src"),
@@ -44,7 +40,7 @@ export default defineConfig({
       events: resolve("./polyfills/events.js"),
       string_decoder: resolve("./polyfills/string_decoder.js"),
 
-      buffer: resolve("node_modules/buffer"),
+      // buffer: resolve("node_modules/buffer"),
       crypto: resolve("node_modules/crypto-browserify"),
       http: resolve("node_modules/stream-http"),
       https: resolve("node_modules/https-browserify"),

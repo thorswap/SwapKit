@@ -45,6 +45,7 @@
     "@swapkit/wallet-trezor": "workspace:*",
     "@swapkit/wallet-wc": "workspace:*",
     "@swapkit/wallet-xdefi": "workspace:*",
+    "buffer": "6.0.3",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.0",
     "jotai": "2.6.5",

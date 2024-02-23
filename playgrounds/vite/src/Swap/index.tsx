@@ -1,9 +1,9 @@
-import type { AssetValue, SwapKitCore } from '@swapkit/core';
-import type { QuoteRoute } from '@swapkit/helpers';
-import { FeeOption } from '@swapkit/types';
-import { useCallback } from 'react';
+import type { AssetValue, SwapKitCore } from "@swapkit/core";
+import type { QuoteRoute } from "@swapkit/helpers";
+import { FeeOption } from "@swapkit/types";
+import { useCallback } from "react";
 
-import { SwapInputs } from './SwapInputs';
+import { SwapInputs } from "./SwapInputs";
 
 export default function Swap({
   inputAsset,
@@ -28,7 +28,7 @@ export default function Swap({
         feeOptionKey: FeeOption.Fast,
       });
 
-      window.open(skClient.getExplorerTxUrl(inputChain, txHash as string), '_blank');
+      window.open(skClient.getExplorerTxUrl(inputChain, txHash as string), "_blank");
     },
     [inputAsset, outputAsset?.chain, skClient],
   );

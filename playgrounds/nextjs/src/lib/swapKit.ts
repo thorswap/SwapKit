@@ -86,9 +86,19 @@ export const useSwapKit = () => {
       }
 
       setWalletState({ connected: !!swapKit?.getAddress(chains[0]), type: option });
+
+      getBalances();
     },
-    [setWalletState, swapKit],
+    [setWalletState, getBalances, swapKit],
   );
+
+  const disconnectWallet = useCallback(() => {
+    for (const chain of Object.keys(swapKit?.connectedChains || {})) {
+      swapKit?.disconnectChain(chain as Chain);
+    }
+
+    setWalletState({ connected: false, type: null });
+  }, [setWalletState, swapKit]);
 
   const checkIfChainConnected = useCallback(
     (chain: Chain) => !!swapKit?.getAddress(chain),
@@ -99,10 +109,11 @@ export const useSwapKit = () => {
     balances,
     checkIfChainConnected,
     connectWallet,
+    disconnectWallet,
     getBalances,
     isWalletConnected,
-    walletType,
     setSwapKit,
     swapKit,
+    walletType,
   };
 };

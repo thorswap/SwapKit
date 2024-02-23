@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { type Chain, CosmosChains, EVMChains, UTXOChains, WalletOption } from "@swapkit/core";
+import { Chain, CosmosChains, EVMChains, UTXOChains, WalletOption } from "@swapkit/core";
 import { Power, PowerOff } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -14,6 +9,7 @@ import { useSwapKit } from "~/lib/swapKit";
 import { cn } from "~/lib/utils";
 import { Button } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 const items = [
@@ -26,14 +22,14 @@ interface NavigationBarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const AllChains = [...UTXOChains, ...EVMChains, ...CosmosChains];
 const allowedChainsByWallet = {
-  [WalletOption.XDEFI]: AllChains,
+  [WalletOption.XDEFI]: AllChains.filter((chain) => ![Chain.Dash].includes(chain)),
   [WalletOption.METAMASK]: EVMChains,
   [WalletOption.KEPLR]: CosmosChains,
 } as const;
 
 export function NavigationBar({ className, ...props }: NavigationBarProps) {
   const [selectedChains, setSelectedChains] = useState<Chain[]>([]);
-  const { walletType, isWalletConnected, connectWallet } = useSwapKit();
+  const { walletType, disconnectWallet, isWalletConnected, connectWallet } = useSwapKit();
   const pathname = usePathname();
 
   const handleChainSelect = (chain: Chain) => (checked: boolean) => {
@@ -65,11 +61,13 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
 
       if (selectedChains.length === 0) {
         setSelectedChains(allowedChains);
+      } else if (isWalletConnected) {
+        disconnectWallet();
       } else {
         connectWallet(option, selectedChains);
       }
     },
-    [checkWalletDisabled, connectWallet, selectedChains],
+    [checkWalletDisabled, isWalletConnected, disconnectWallet, connectWallet, selectedChains],
   );
 
   return (
