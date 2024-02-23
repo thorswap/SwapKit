@@ -24,7 +24,7 @@
   },
   "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@swapkit/wallet-keepkey",

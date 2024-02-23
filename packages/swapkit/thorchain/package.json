@@ -6,8 +6,6 @@
   },
   "description": "SwapKit Lib thorchain",
   "devDependencies": {
-    "@internal/tools-typescript": "workspace:*",
-    "@internal/tools-vite": "workspace:*",
     "@swapkit/core": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",

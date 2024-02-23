@@ -252,12 +252,6 @@ importers:
         specifier: workspace:*
         version: link:../types
     devDependencies:
-      '@internal/tools-typescript':
-        specifier: workspace:*
-        version: link:../../../tools/typescript
-      '@internal/tools-vite':
-        specifier: workspace:*
-        version: link:../../../tools/vite
       '@swapkit/core':
         specifier: workspace:*
         version: link:../core
