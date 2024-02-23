@@ -45,7 +45,7 @@ jobs:
         uses: ./tools/github/setup-repo
       - name: Test
         run: pnpm test:coverage
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           files: ./internal/helpers/coverage/coverage-final.json,./packages/toolboxes/evm/coverage/coverage-final.json,./packages/swapkit/swapkit-core/coverage/coverage-final.json
           flags: unittests
@@ -72,12 +72,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup Repo
         uses: ./tools/github/setup-repo
-      - name: Set job params
-        shell: bash
-        id: deployment-params
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
 
       - name: Copy npmrc config
         run: cp .npmrc.prod .npmrc
@@ -100,6 +94,13 @@ jobs:
         run: |
           echo 'publishName="Release"' >> $GITHUB_OUTPUT
           pnpm changeset pre exit
+
+      - name: Set job params
+        shell: bash
+        id: deployment-params
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
 
       - name: Create Pull Request or Publish to npm
         id: changesets
