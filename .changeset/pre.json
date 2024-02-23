@@ -21,7 +21,12 @@
     "@swapkit/wallet-okx": "1.0.0-rc.0",
     "@swapkit/wallet-trezor": "1.0.0-rc.0",
     "@swapkit/wallet-wc": "1.0.0-rc.0",
-    "@swapkit/wallet-xdefi": "1.0.0-rc.0"
+    "@swapkit/wallet-xdefi": "1.0.0-rc.0",
+    "next-template": "0.0.2",
+    "node-playground": "0.0.0",
+    "@internal/vite-playground": "0.0.0",
+    "@internal/tools-typescript": "0.1.0",
+    "@internal/tools-vite": "0.0.0"
   },
   "changesets": [
     "beige-coats-hear",
@@ -46,6 +51,7 @@
     "cool-falcons-search",
     "cuddly-ghosts-learn",
     "curly-actors-scream",
+    "curvy-maps-return",
     "curvy-rockets-sell",
     "dirty-cherries-appear",
     "dry-jeans-bake",

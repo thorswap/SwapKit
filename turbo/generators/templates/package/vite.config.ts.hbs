@@ -1,4 +1,4 @@
-import sharedViteConfig from "@internal/tools-vite";
+import sharedViteConfig from "../../../tools/vite";
 import { resolve } from "path";
 
 import { name, peerDependencies } from "./package.json";
