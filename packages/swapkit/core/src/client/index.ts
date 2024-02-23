@@ -7,6 +7,14 @@ import type {
 } from "../types.ts";
 
 type ProviderName = "thorchain" | "chainflip" | "mayachain";
+enum ApproveMode {
+  Approve = "approve",
+  CheckOnly = "checkOnly",
+}
+
+type ApproveReturnType<T extends ApproveMode> = T extends "checkOnly"
+  ? Promise<boolean>
+  : Promise<string>;
 
 type SwapKitProviders = {
   [K in ProviderName]?: ProviderMethods;
@@ -83,7 +91,7 @@ export function SwapKit({
   stagenet,
   wallets,
   providers,
-  config,
+  config = {},
   apis,
   rpcUrls,
 }: {
@@ -94,70 +102,72 @@ export function SwapKit({
   apis: Record<string, any>;
   rpcUrls: Record<string, any>;
 }): SwapKitReturnType {
-  const _wallets: Wallets = {};
-  const _providers: SwapKitProviders = {};
+  const connectedWallets: Wallets = {};
 
-  for (const provider of providers) {
-    const instance = provider({ wallets: _wallets, stagenet });
-    _providers[instance.name] = instance.methods;
-  }
+  const availableProviders = providers.reduce((acc, provider) => {
+    const { name, methods } = provider({ wallets: connectedWallets, stagenet });
 
-  function getAddress(chain: Chain) {
-    return _wallets[chain]?.address || "";
-  }
+    acc[name] = methods;
 
-  function getBalance(chain: Chain) {
-    const wallet = getWallet(chain);
+    return acc;
+  }, {} as SwapKitProviders);
 
-    return wallet?.balance || [];
-  }
+  const connectWalletMethods = wallets.reduce(
+    (acc, wallet) => {
+      acc[wallet.connectMethodName] = wallet.connect({ addChain, config, apis, rpcUrls });
 
-  function getWallet(chain: Chain) {
-    return _wallets[chain];
-  }
+      return acc;
+    },
+    {} as Record<string, ReturnType<SwapKitWallet["connect"]>>,
+  );
 
-  const getWalletWithBalance = async (chain: Chain, potentialScamFilter?: boolean) => {
-    const defaultBalance = [AssetValue.fromChainOrSignature(chain)];
-    const wallet = getWallet(chain);
+  /**
+   * @Private
+   * Internal helpers
+   */
+  function getProvider(providerName?: ProviderName) {
+    const provider =
+      providerName && providerName in availableProviders
+        ? availableProviders[providerName]
+        : Object.values(availableProviders)[0];
 
-    try {
-      if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
-      const balance = await wallet?.getBalance(wallet.address, potentialScamFilter);
-
-      wallet.balance = balance?.length ? balance : defaultBalance;
-
-      return wallet;
-    } catch (error) {
-      throw new SwapKitError("core_wallet_connection_not_found", error);
+    if (!provider) {
+      throw new SwapKitError(
+        "core_swap_provider_not_found",
+        "Could not find the requested provider",
+      );
     }
-  };
 
-  const approveAssetValue = (assetValue: AssetValue, contractAddress: string) =>
-    approve({ assetValue, type: "approve", contractAddress });
+    return provider;
+  }
 
-  const isAssetValueApproved = (assetValue: AssetValue, contractAddress: string) =>
-    approve<boolean>({ assetValue, contractAddress, type: "checkOnly" });
+  function addChain(connectWallet: ChainWallet<Chain>) {
+    connectedWallets[connectWallet.chain] = connectWallet as any;
+  }
 
-  const validateAddress = ({ address, chain }: { address: string; chain: Chain }) =>
-    getWallet(chain)?.validateAddress?.(address);
-
-  const approve = <T = string>({
+  /**
+   * @Private
+   * Wallet interaction helpers
+   */
+  function approve<T extends ApproveMode>({
     assetValue,
-    type = "checkOnly",
+    type = "checkOnly" as T,
     contractAddress,
   }: {
+    type: T;
     assetValue: AssetValue;
-    type?: "checkOnly" | "approve";
     contractAddress: string;
-  }) => {
+  }): ApproveReturnType<T> {
     const { address, chain, isGasAsset, isSynthetic } = assetValue;
     const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain);
     const isNativeEVM = isEVMChain && isGasAsset;
 
-    if (isNativeEVM || !isEVMChain || isSynthetic) return true;
+    if (isNativeEVM || !isEVMChain || isSynthetic) {
+      return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
+    }
 
     const walletMethods =
-      _wallets[chain as Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche];
+      connectedWallets[chain as Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche];
 
     const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
 
@@ -174,52 +184,73 @@ export function SwapKit({
       assetAddress: address,
       from,
       spenderAddress,
-    }) as Promise<T>;
-  };
+    }) as ApproveReturnType<T>;
+  }
 
-  const swap = (params: SwapParams) => {
-    const provider = params.provider
-      ? _providers[params.provider.name]
-      : Object.values(_providers).length
-        ? Object.values(_providers).length === 0
-          ? Object.values(_providers)[0]
-          : undefined
-        : undefined;
-    if (!provider) {
-      throw new SwapKitError(
-        "core_swap_provider_not_found",
-        "Could not find the requested provider",
-      );
+  /**
+   * @Public
+   * Wallet helpers
+   */
+  function getWallet(chain: Chain) {
+    return connectedWallets[chain];
+  }
+  function getAddress(chain: Chain) {
+    return getWallet(chain)?.address || "";
+  }
+  function getBalance(chain: Chain) {
+    return getWallet(chain)?.balance || [];
+  }
+  /**
+   * TODO: Figure out validation without connecting to wallet
+   */
+  function validateAddress({ address, chain }: { address: string; chain: Chain }) {
+    return getWallet(chain)?.validateAddress?.(address);
+  }
+
+  async function getWalletWithBalance(chain: Chain, potentialScamFilter?: boolean) {
+    const defaultBalance = [AssetValue.fromChainOrSignature(chain)];
+    const wallet = getWallet(chain);
+
+    try {
+      if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
+      const balance = await wallet?.getBalance(wallet.address, potentialScamFilter);
+
+      wallet.balance = balance?.length ? balance : defaultBalance;
+
+      return wallet;
+    } catch (error) {
+      throw new SwapKitError("core_wallet_connection_not_found", error);
     }
-    return provider.swap(params);
-  };
+  }
 
-  const addChain = (connectWallet: ChainWallet<Chain>) => {
-    _wallets[connectWallet.chain] = connectWallet as any;
-  };
+  /**
+   * @Public
+   * Wallet interaction methods
+   */
+  function approveAssetValue(assetValue: AssetValue, contractAddress: string) {
+    return approve({ assetValue, contractAddress, type: ApproveMode.Approve });
+  }
+
+  function isAssetValueApproved(assetValue: AssetValue, contractAddress: string) {
+    return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
+  }
+
+  function swap({ provider: providerConfig, ...rest }: SwapParams) {
+    const provider = getProvider(providerConfig?.name);
+
+    return provider.swap({ provider: providerConfig, ...rest });
+  }
 
   return {
+    ...availableProviders,
+    ...connectWalletMethods,
+    approveAssetValue,
     getAddress,
+    getBalance,
     getWallet,
     getWalletWithBalance,
-    getBalance,
+    isAssetValueApproved,
     swap,
     validateAddress,
-    approveAssetValue,
-    isAssetValueApproved,
-    ..._providers,
-    ...wallets.reduce(
-      (acc, wallet) => {
-        acc[wallet.connectMethodName] = wallet.connect({
-          addChain,
-          config: config || {},
-          apis,
-          rpcUrls,
-        });
-
-        return acc;
-      },
-      {} as Record<string, ReturnType<SwapKitWallet["connect"]>>,
-    ),
   };
 }
