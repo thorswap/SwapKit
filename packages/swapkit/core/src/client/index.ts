@@ -54,19 +54,13 @@ type SwapKitReturnType = SwapKitProviders & {
 };
 
 type Wallets = { [K in Chain]?: ChainWallet<K> };
-
+type AvailableProviders<T> = T | { [K in ProviderName]?: ProviderMethods };
 type ProviderMethods = {
   swap: (swapParams: SwapParams) => Promise<string>;
   [key: string]: any;
 };
 
-export type SwapKitProvider = ({
-  wallets,
-  stagenet,
-}: {
-  wallets: Wallets;
-  stagenet?: boolean;
-}) => {
+export type SwapKitProvider = ({ wallets, stagenet }: { wallets: Wallets; stagenet?: boolean }) => {
   name: ProviderName;
   methods: ProviderMethods;
 };
@@ -87,7 +81,7 @@ type SwapKitWallet = {
   connect: (params: ConnectWalletParams) => (connectParams: WalletConnectParams) => void;
 };
 
-export function SwapKit({
+export function SwapKit<ExtendedProviders extends {}>({
   stagenet,
   wallets,
   providers,
@@ -103,14 +97,13 @@ export function SwapKit({
   rpcUrls: Record<string, any>;
 }): SwapKitReturnType {
   const connectedWallets: Wallets = {};
+  const availableProviders: AvailableProviders<ExtendedProviders> = {};
 
-  const availableProviders = providers.reduce((acc, provider) => {
+  for (const provider of providers) {
     const { name, methods } = provider({ wallets: connectedWallets, stagenet });
 
-    acc[name] = methods;
-
-    return acc;
-  }, {} as SwapKitProviders);
+    availableProviders[name] = methods;
+  }
 
   const connectWalletMethods = wallets.reduce(
     (acc, wallet) => {
@@ -127,9 +120,8 @@ export function SwapKit({
    */
   function getProvider(providerName?: ProviderName) {
     const provider =
-      providerName && providerName in availableProviders
-        ? availableProviders[providerName]
-        : Object.values(availableProviders)[0];
+      (availableProviders as SwapKitProviders)[providerName as ProviderName] ||
+      Object.values(availableProviders)[0];
 
     if (!provider) {
       throw new SwapKitError(
@@ -142,7 +134,7 @@ export function SwapKit({
   }
 
   function addChain(connectWallet: ChainWallet<Chain>) {
-    connectedWallets[connectWallet.chain] = connectWallet as any;
+    connectedWallets[connectWallet.chain as Chain] = connectWallet;
   }
 
   /**
