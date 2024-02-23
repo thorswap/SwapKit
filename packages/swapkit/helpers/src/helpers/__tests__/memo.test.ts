@@ -1,5 +1,5 @@
 import { Chain, MemoType } from "@swapkit/types";
-import { describe, expect, it } from "vitest";
+import { describe, expect, test } from "vitest";
 
 import { getMemoFor } from "../memo.ts";
 
@@ -11,7 +11,7 @@ describe("getMemoFor", () => {
     ];
 
     for (const [memoType, expected] of nodeMemos) {
-      it(`returns correct memo for ${memoType}`, () => {
+      test(`returns correct memo for ${memoType}`, () => {
         const result = getMemoFor(memoType as MemoType, { address: "ABC123" });
         expect(result).toBe(expected);
       });
@@ -19,12 +19,12 @@ describe("getMemoFor", () => {
   });
 
   describe("for Unbond and Thorname Register", () => {
-    it("returns correct memo for Unbond", () => {
+    test("returns correct memo for Unbond", () => {
       const result = getMemoFor(MemoType.UNBOND, { address: "ABC123", unbondAmount: 1000000000 });
       expect(result).toBe("UNBOND:ABC123:1000000000");
     });
 
-    it("returns correct memo for Thorname Register", () => {
+    test("returns correct memo for Thorname Register", () => {
       const result = getMemoFor(MemoType.THORNAME_REGISTER, {
         name: "thorname",
         chain: "BNB",
@@ -36,7 +36,7 @@ describe("getMemoFor", () => {
   });
 
   describe("for Deposit", () => {
-    it("returns correct memo for Deposit (single side)", () => {
+    test("returns correct memo for Deposit (single side)", () => {
       const result = getMemoFor(MemoType.DEPOSIT, {
         chain: Chain.Ethereum,
         symbol: "ETH",
@@ -45,7 +45,7 @@ describe("getMemoFor", () => {
       expect(result).toBe("+:ETH/ETH");
     });
 
-    it("returns correct memo for Deposit (dual side)", () => {
+    test("returns correct memo for Deposit (dual side)", () => {
       const result = getMemoFor(MemoType.DEPOSIT, {
         chain: Chain.Avalanche,
         symbol: "AVAX",
@@ -56,7 +56,7 @@ describe("getMemoFor", () => {
   });
 
   describe("for Withdraw", () => {
-    it("returns correct memo for Withdraw (single side)", () => {
+    test("returns correct memo for Withdraw (single side)", () => {
       const result = getMemoFor(MemoType.WITHDRAW, {
         chain: Chain.Bitcoin,
         ticker: "BTC",
@@ -67,7 +67,7 @@ describe("getMemoFor", () => {
       expect(result).toBe("-:BTC/BTC:10000");
     });
 
-    it("returns correct memo for Withdraw (dual side)", () => {
+    test("returns correct memo for Withdraw (dual side)", () => {
       const result = getMemoFor(MemoType.WITHDRAW, {
         chain: Chain.Ethereum,
         ticker: "ETH",
