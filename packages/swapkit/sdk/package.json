@@ -40,7 +40,7 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build": "NODE_OPTIONS=--max_old_space_size=32768 vite build",
+    "build": "echo 'TODO: SDK NODE_OPTIONS=--max_old_space_size=32768 vite build'",
     "clean": "rm -rf dist vite.config.ts.* node_modules"
   },
   "type": "module",

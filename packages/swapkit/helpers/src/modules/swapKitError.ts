@@ -31,6 +31,7 @@ const errorMessages = {
   core_swap_contract_not_supported: 10205,
   core_swap_transaction_error: 10206,
   core_swap_quote_mode_not_supported: 10207,
+  core_swap_provider_not_found: 10208,
   /**
    * Core - Transaction
    */
@@ -60,6 +61,15 @@ const errorMessages = {
   wallet_ledger_device_locked: 20005,
 
   /**
+   * Chainflip
+   */
+  chainflip_channel_error: 30001,
+
+  /**
+   * THORChain
+   */
+
+  /**
    * Helpers
    */
   helpers_number_different_decimals: 99101,
@@ -70,10 +80,15 @@ export type ErrorKeys = keyof typeof errorMessages;
 export class SwapKitError extends Error {
   constructor(errorKey: ErrorKeys, sourceError?: any) {
     if (sourceError) {
-      console.error(sourceError, { stack: sourceError?.stack, message: sourceError?.message });
+      console.error(sourceError, {
+        stack: sourceError?.stack,
+        message: sourceError?.message,
+      });
     }
 
-    super(errorKey, { cause: { code: errorMessages[errorKey], message: errorKey } });
+    super(errorKey, {
+      cause: { code: errorMessages[errorKey], message: errorKey },
+    });
     Object.setPrototypeOf(this, SwapKitError.prototype);
   }
 }

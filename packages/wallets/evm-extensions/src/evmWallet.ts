@@ -68,8 +68,11 @@ const connectEVMWallet =
 
       addChain({
         chain,
-        walletMethods: { ...walletMethods, getAddress: () => address, getBalance },
-        wallet: { address, balance: [], walletType },
+        address,
+        ...walletMethods,
+        getBalance,
+        balance: [],
+        walletType,
       });
     });
 

@@ -5,7 +5,6 @@ import type {
   ThorchainToolboxType,
   TransferParams,
 } from "@swapkit/toolbox-cosmos";
-import { Network } from "@swapkit/toolbox-substrate";
 import type {
   Psbt,
   TransactionType,
@@ -68,13 +67,17 @@ const getWalletMethodsForChain = async ({
 
       return {
         address: wallet.address,
-        walletMethods: { ...toolbox, getAddress: () => wallet.address },
+        walletMethods: { ...toolbox },
       };
     }
 
     case Chain.BitcoinCash: {
       const { BCHToolbox } = await import("@swapkit/toolbox-utxo");
-      const toolbox = BCHToolbox({ rpcUrl, apiKey: blockchairApiKey, apiClient: api });
+      const toolbox = BCHToolbox({
+        rpcUrl,
+        apiKey: blockchairApiKey,
+        apiClient: api,
+      });
       const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
       const address = toolbox.getAddressFromKeys(keys);
 
@@ -91,7 +94,6 @@ const getWalletMethodsForChain = async ({
 
       const walletMethods = {
         ...toolbox,
-        getAddress: () => address,
         transfer: (
           params: UTXOWalletTransferParams<
             Awaited<ReturnType<typeof toolbox.buildBCHTx>>,
@@ -121,7 +123,6 @@ const getWalletMethodsForChain = async ({
         address,
         walletMethods: {
           ...toolbox,
-          getAddress: () => address,
           transfer: (params: UTXOTransferParams) =>
             toolbox.transfer({
               ...params,
@@ -145,7 +146,9 @@ const getWalletMethodsForChain = async ({
       const toolbox = getToolboxByChain(chain)({ server: api, stagenet });
       const additionalParams =
         chain === Chain.Binance
-          ? { privkey: await (toolbox as BinanceToolboxType).createPrivateKeyFromPhrase(phrase) }
+          ? {
+              privkey: await (toolbox as BinanceToolboxType).createPrivateKeyFromPhrase(phrase),
+            }
           : { signer: await toolbox.getSigner(phrase) };
 
       const address = await toolbox.getAddressFromMnemonic(phrase);
@@ -180,7 +183,6 @@ const getWalletMethodsForChain = async ({
         ...toolbox,
         deposit,
         transfer,
-        getAddress: () => address,
         signMessage,
       };
 
@@ -189,7 +191,9 @@ const getWalletMethodsForChain = async ({
 
     case Chain.Polkadot:
     case Chain.Chainflip: {
-      const { getToolboxByChain, createKeyring } = await import("@swapkit/toolbox-substrate");
+      const { Network, getToolboxByChain, createKeyring } = await import(
+        "@swapkit/toolbox-substrate"
+      );
 
       const network = Network[chain];
 
@@ -239,8 +243,10 @@ const connectKeystore =
 
       addChain({
         chain,
-        walletMethods,
-        wallet: { address, balance: [], walletType: WalletOption.KEYSTORE },
+        address,
+        balance: [],
+        walletType: WalletOption.KEYSTORE,
+        ...walletMethods,
       });
     });
 

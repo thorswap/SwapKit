@@ -14,7 +14,7 @@ export const cosmosWalletMethods = async ({
   sdk: KeepKeySdk;
   api: string;
   derivationPath?: DerivationPathArray;
-}): Promise<BaseCosmosToolboxType & { getAddress: () => string }> => {
+}): Promise<BaseCosmosToolboxType & { address: string }> => {
   const { DEFAULT_COSMOS_FEE_MAINNET, GaiaToolbox, createStargateClient } = await import(
     "@swapkit/toolbox-cosmos"
   );
@@ -75,7 +75,7 @@ export const cosmosWalletMethods = async ({
       }
     };
 
-    return { ...toolbox, getAddress: () => fromAddress, transfer };
+    return { ...toolbox, transfer, address: fromAddress };
   } catch (e) {
     console.error(e);
     throw e;

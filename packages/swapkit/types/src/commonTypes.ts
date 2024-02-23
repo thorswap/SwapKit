@@ -12,12 +12,6 @@ type ConnectMethodNames =
   | "connectWalletconnect"
   | "connectXDEFI";
 
-type ChainWallet = {
-  address: string;
-  balance: any[];
-  walletType: WalletOption;
-};
-
 export type ConnectConfig = {
   stagenet?: boolean;
   /**
@@ -65,15 +59,12 @@ export type ConnectConfig = {
   };
 };
 
-export type AddChainWalletParams = {
-  chain: Chain;
-  wallet: ChainWallet;
-  walletMethods: any;
-};
-
-export type Witness = {
-  value: number;
-  script: Buffer;
+export type AddChainWalletParams<T extends Chain> = {
+  address: string;
+  balance: any[];
+  walletType: WalletOption;
+  chain: T;
+  [key: string]: any;
 };
 
 type ApisType = { [key in UTXOChain]?: string | any } & {
@@ -83,10 +74,15 @@ type ApisType = { [key in UTXOChain]?: string | any } & {
 };
 
 export type ConnectWalletParams = {
-  addChain: (params: AddChainWalletParams) => void;
+  addChain: <T extends Chain>(params: AddChainWalletParams<T>) => void;
   config: ConnectConfig;
   rpcUrls: { [chain in Chain]?: string };
   apis: ApisType;
+};
+
+export type Witness = {
+  value: number;
+  script: Buffer;
 };
 
 export type ExtendParams<WalletConnectMethodNames = ""> = {

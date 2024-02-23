@@ -51,9 +51,9 @@
     "test:coverage": "dotenv -- turbo run test:coverage  --cache-dir=./.turbo-cache --continue",
     "type-check": "turbo run type-check  --cache-dir=./.turbo-cache --continue",
     "version-bump": "dotenv -- pnpm changeset version",
-    "playground:next": "pnpm --cwd internal/next-playground",
-    "playground:node": "pnpm --cwd internal/node-playground",
-    "playground:vite": "pnpm --cwd internal/vite-playground"
+    "playground:next": "pnpm -C ./playgrounds/nextjs",
+    "playground:node": "pnpm -C ./playgrounds/node",
+    "playground:vite": "pnpm -C ./playgrounds/vite"
   },
   "lint-staged": {
     "*": ["pnpm biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true"]

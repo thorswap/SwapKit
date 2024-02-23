@@ -45,7 +45,7 @@ jobs:
         uses: ./tools/github/setup-repo
       - name: Test
         run: pnpm test:coverage
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           files: ./internal/helpers/coverage/coverage-final.json,./packages/toolboxes/evm/coverage/coverage-final.json,./packages/swapkit/swapkit-core/coverage/coverage-final.json
           flags: unittests
@@ -72,12 +72,6 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup Repo
         uses: ./tools/github/setup-repo
-      - name: Set job params
-        shell: bash
-        id: deployment-params
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
 
       - name: Copy npmrc config
         run: cp .npmrc.prod .npmrc
@@ -100,6 +94,13 @@ jobs:
         run: |
           echo 'publishName="Release"' >> $GITHUB_OUTPUT
           pnpm changeset pre exit
+
+      - name: Set job params
+        shell: bash
+        id: deployment-params
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
 
       - name: Create Pull Request or Publish to npm
         id: changesets
@@ -144,27 +145,27 @@ jobs:
           pnpm changeset pre exit
           pnpm changeset pre enter rc
 
-  deploy-playground:
-    if: contains(github.ref_name, 'develop')
-    needs: [build, test, lint]
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Repo
-        uses: ./tools/github/setup-repo
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
+  # deploy-playground:
+  #   if: contains(github.ref_name, 'develop')
+  #   needs: [build, test, lint]
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     pages: write
+  #     id-token: write
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Setup Repo
+  #       uses: ./tools/github/setup-repo
+  #     - name: Setup Pages
+  #       uses: actions/configure-pages@v3
 
-      - name: Build playground
-        run: pnpm build:playground
+  #     - name: Build playground
+  #       run: pnpm build:playground
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: "./internal/playground/dist"
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+  #     - name: Upload artifact
+  #       uses: actions/upload-pages-artifact@v1
+  #       with:
+  #         path: "./internal/playground/dist"
+  #     - name: Deploy to GitHub Pages
+  #       id: deployment
+  #       uses: actions/deploy-pages@v2
