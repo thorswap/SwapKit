@@ -54,19 +54,13 @@ type SwapKitReturnType = SwapKitProviders & {
 };
 
 type Wallets = { [K in Chain]?: ChainWallet<K> };
-
+type AvailableProviders<T> = T | { [K in ProviderName]?: ProviderMethods };
 type ProviderMethods = {
   swap: (swapParams: SwapParams) => Promise<string>;
   [key: string]: any;
 };
 
-export type SwapKitProvider = ({
-  wallets,
-  stagenet,
-}: {
-  wallets: Wallets;
-  stagenet?: boolean;
-}) => {
+export type SwapKitProvider = ({ wallets, stagenet }: { wallets: Wallets; stagenet?: boolean }) => {
   name: ProviderName;
   methods: ProviderMethods;
 };
@@ -87,7 +81,10 @@ type SwapKitWallet = {
   connect: (params: ConnectWalletParams) => (connectParams: WalletConnectParams) => void;
 };
 
-export function SwapKit({
+export function SwapKit<
+  ExtendedProviders extends {},
+  ConnectWalletMethods extends Record<string, ReturnType<SwapKitWallet["connect"]>>,
+>({
   stagenet,
   wallets,
   providers,
@@ -101,25 +98,26 @@ export function SwapKit({
   config?: Record<string, any>;
   apis: Record<string, any>;
   rpcUrls: Record<string, any>;
-}): SwapKitReturnType {
+}): SwapKitReturnType & ConnectWalletMethods {
   const connectedWallets: Wallets = {};
+  const availableProviders: AvailableProviders<ExtendedProviders> = {};
 
-  const availableProviders = providers.reduce((acc, provider) => {
+  for (const provider of providers) {
     const { name, methods } = provider({ wallets: connectedWallets, stagenet });
 
-    acc[name] = methods;
+    availableProviders[name] = methods;
+  }
+
+  const connectWalletMethods = wallets.reduce((acc, wallet) => {
+    (acc[wallet.connectMethodName] as ReturnType<SwapKitWallet["connect"]>) = wallet.connect({
+      addChain,
+      config,
+      apis,
+      rpcUrls,
+    });
 
     return acc;
-  }, {} as SwapKitProviders);
-
-  const connectWalletMethods = wallets.reduce(
-    (acc, wallet) => {
-      acc[wallet.connectMethodName] = wallet.connect({ addChain, config, apis, rpcUrls });
-
-      return acc;
-    },
-    {} as Record<string, ReturnType<SwapKitWallet["connect"]>>,
-  );
+  }, {} as ConnectWalletMethods);
 
   /**
    * @Private
@@ -127,9 +125,8 @@ export function SwapKit({
    */
   function getProvider(providerName?: ProviderName) {
     const provider =
-      providerName && providerName in availableProviders
-        ? availableProviders[providerName]
-        : Object.values(availableProviders)[0];
+      (availableProviders as SwapKitProviders)[providerName as ProviderName] ||
+      Object.values(availableProviders)[0];
 
     if (!provider) {
       throw new SwapKitError(
@@ -142,7 +139,7 @@ export function SwapKit({
   }
 
   function addChain(connectWallet: ChainWallet<Chain>) {
-    connectedWallets[connectWallet.chain] = connectWallet as any;
+    (connectedWallets[connectWallet.chain as Chain] as ChainWallet<Chain>) = connectWallet;
   }
 
   /**

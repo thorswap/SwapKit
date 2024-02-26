@@ -118,9 +118,18 @@ export type WalletMethods = {
   [Chain.THORChain]: ThorchainWallet | null;
 };
 
+export type QuoteRouteV2 = {
+  buyAsset: string;
+  sellAsset: string;
+  sellAmount: number;
+  destinationAddress: string;
+  sourceAddress: string;
+  providers: string[];
+};
+
 export type SwapWithRouteParams = {
   recipient: string;
-  route: QuoteRoute;
+  route: QuoteRoute | QuoteRouteV2;
   feeOptionKey?: FeeOption;
   quoteId?: string;
   streamSwap?: boolean;

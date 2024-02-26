@@ -1,4 +1,4 @@
-import type { ErrorKeys, ThornameRegisterParam } from "@swapkit/helpers";
+import type { ErrorKeys, QuoteRoute, ThornameRegisterParam } from "@swapkit/helpers";
 import {
   AssetValue,
   SwapKitError,
@@ -105,7 +105,7 @@ export class SwapKitCore<T = ""> {
     const {
       meta: { quoteMode },
       //   evmTransactionDetails: contractCallParams,
-    } = route;
+    } = route as QuoteRoute;
     const evmChain = quoteMode.startsWith("ERC20-")
       ? Chain.Ethereum
       : quoteMode.startsWith("ARC20-")
@@ -114,7 +114,7 @@ export class SwapKitCore<T = ""> {
           ? Chain.BinanceSmartChain
           : undefined;
 
-    if (!route.complete) throw new SwapKitError("core_swap_route_not_complete");
+    if (!(route as QuoteRoute).complete) throw new SwapKitError("core_swap_route_not_complete");
 
     // TODO enable when BE is ready
     //   if (contractCallParams && evmChain) {
@@ -145,10 +145,12 @@ export class SwapKitCore<T = ""> {
         throw new SwapKitError("core_wallet_connection_not_found");
       }
 
-      const transaction = streamSwap ? route?.streamingSwap?.transaction : route?.transaction;
+      const transaction = streamSwap
+        ? (route as QuoteRoute)?.streamingSwap?.transaction
+        : (route as QuoteRoute)?.transaction;
       if (!transaction) throw new SwapKitError("core_swap_route_transaction_not_found");
 
-      const { data, from, to, value } = route.transaction;
+      const { data, from, to, value } = (route as QuoteRoute).transaction;
 
       const params = {
         data,
@@ -162,15 +164,17 @@ export class SwapKitCore<T = ""> {
     }
 
     if (SWAP_OUT.includes(quoteMode)) {
-      if (!route.calldata.fromAsset) throw new SwapKitError("core_swap_asset_not_recognized");
-      const asset = await AssetValue.fromString(route.calldata.fromAsset);
+      if (!(route as QuoteRoute).calldata.fromAsset)
+        throw new SwapKitError("core_swap_asset_not_recognized");
+      // @ts-expect-error
+      const asset = await AssetValue.fromString((route as QuoteRoute).calldata.fromAsset);
       if (!asset) throw new SwapKitError("core_swap_asset_not_recognized");
 
       const { address: recipient } = await this.#getInboundDataByChain(asset.chain);
       const {
         contract: router,
         calldata: { expiration, amountIn, memo, memoStreamingSwap },
-      } = route;
+      } = route as QuoteRoute;
 
       const assetValue = asset.add(SwapKitNumber.fromBigInt(BigInt(amountIn), asset.decimal));
       const swapMemo = (streamSwap ? memoStreamingSwap || memo : memo) as string;
@@ -186,7 +190,7 @@ export class SwapKitCore<T = ""> {
     }
 
     if (SWAP_IN.includes(quoteMode) && evmChain) {
-      const { calldata, contract: contractAddress } = route;
+      const { calldata, contract: contractAddress } = route as QuoteRoute;
       if (!contractAddress) throw new SwapKitError("core_swap_contract_not_found");
 
       const walletMethods = this.connectedWallets[evmChain];
