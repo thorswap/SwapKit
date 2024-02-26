@@ -44,7 +44,14 @@ export const confirmSwap = async ({
   }
 };
 
-export const ChainflipProvider: SwapKitProvider = ({ wallets }) => {
+type Wallets = { [K in Chain]?: ChainWallet<K> };
+
+export const ChainflipProvider = ({
+  wallets,
+}: {
+  wallets: Wallets;
+  stagenet?: boolean;
+}) => {
   const swap = async (params: SwapParams) => {
     if (
       !(

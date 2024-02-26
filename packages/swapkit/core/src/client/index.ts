@@ -6,7 +6,7 @@ import type {
   SwapWithRouteParams,
 } from "../types.ts";
 
-type ProviderName = "thorchain" | "chainflip" | "mayachain";
+export type ProviderName = "thorchain" | "chainflip" | "mayachain";
 enum ApproveMode {
   Approve = "approve",
   CheckOnly = "checkOnly",
@@ -33,7 +33,7 @@ export type SwapParams = (SwapWithRouteParams | GenericSwapParams) & {
   };
 };
 
-type SwapKitReturnType = SwapKitProviders & {
+export type SwapKitReturnType = SwapKitProviders & {
   getAddress: (chain: Chain) => string;
   getWallet: (chain: Chain) => ChainWallet<Chain> | undefined;
   getWalletWithBalance: (
@@ -53,9 +53,9 @@ type SwapKitReturnType = SwapKitProviders & {
   ) => boolean | Promise<boolean>;
 };
 
-type Wallets = { [K in Chain]?: ChainWallet<K> };
-type AvailableProviders<T> = T | { [K in ProviderName]?: ProviderMethods };
-type ProviderMethods = {
+export type Wallets = { [K in Chain]?: ChainWallet<K> };
+export type AvailableProviders<T> = T | { [K in ProviderName]?: ProviderMethods };
+export type ProviderMethods = {
   swap: (swapParams: SwapParams) => Promise<string>;
   [key: string]: any;
 };
@@ -65,20 +65,9 @@ export type SwapKitProvider = ({ wallets, stagenet }: { wallets: Wallets; stagen
   methods: ProviderMethods;
 };
 
-type BaseSwapkitWalletConnectParams = {
-  chains: Chain[];
-};
-
-type KeystoreWalletConnectParams = BaseSwapkitWalletConnectParams & {
-  phrase: string;
-  index?: number;
-};
-
-type WalletConnectParams = KeystoreWalletConnectParams;
-
-type SwapKitWallet = {
+export type SwapKitWallet = {
   connectMethodName: string;
-  connect: (params: ConnectWalletParams) => (connectParams: WalletConnectParams) => void;
+  connect: (params: ConnectWalletParams) => (connectParams: any) => void;
 };
 
 export function SwapKit<
@@ -98,7 +87,7 @@ export function SwapKit<
   config?: Record<string, any>;
   apis: Record<string, any>;
   rpcUrls: Record<string, any>;
-}): SwapKitReturnType & ConnectWalletMethods {
+}): SwapKitReturnType & ConnectWalletMethods & AvailableProviders<ExtendedProviders> {
   const connectedWallets: Wallets = {};
   const availableProviders: AvailableProviders<ExtendedProviders> = {};
 
