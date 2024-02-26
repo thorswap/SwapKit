@@ -1,5 +1,19 @@
 # @swapkit/wallet-keystore
 
+## 1.0.0-rc.94
+
+### Patch Changes
+
+- [`ae90588`](https://github.com/thorswap/SwapKit/commit/ae90588732b6b71b4a2ea91d0bb83b7c0aca702c) Thanks [@towanTG](https://github.com/towanTG)! - Adds core plugin support for swap provider
+
+- Updated dependencies [[`ae90588`](https://github.com/thorswap/SwapKit/commit/ae90588732b6b71b4a2ea91d0bb83b7c0aca702c)]:
+  - @swapkit/helpers@1.0.0-rc.72
+  - @swapkit/types@1.0.0-rc.38
+  - @swapkit/toolbox-cosmos@1.0.0-rc.83
+  - @swapkit/toolbox-evm@1.0.0-rc.78
+  - @swapkit/toolbox-substrate@1.0.0-rc.6
+  - @swapkit/toolbox-utxo@1.0.0-rc.77
+
 ## 1.0.0-rc.93
 
 ### Patch Changes
