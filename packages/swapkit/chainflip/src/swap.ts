@@ -1,11 +1,5 @@
-import type {
-  Chain,
-  ChainWallet,
-  SwapKitProvider,
-  SwapParams,
-  SwapWithRouteParams,
-} from "@swapkit/core";
-import { AssetValue, SwapKitError, SwapKitNumber } from "@swapkit/helpers";
+import type { Chain, ChainWallet, QuoteRouteV2, SwapKitProvider, SwapParams } from "@swapkit/core";
+import { AssetValue, SwapKitError } from "@swapkit/helpers";
 
 export type ChainflipRoute = {
   sellAsset: string;
@@ -20,17 +14,27 @@ export type ChainflipSwapParams = {
   route: ChainflipRoute;
 };
 
-export const confirmSwap = async (
-  quoteId: string,
-): Promise<{ channelId: string; channelAddress: string; chain: string }> => {
+export const confirmSwap = async ({
+  buyAsset,
+  sellAsset,
+  recipient,
+  brokerEndpoint,
+}: {
+  buyAsset: AssetValue;
+  sellAsset: AssetValue;
+  recipient: string;
+  brokerEndpoint: string;
+}): Promise<{ channelId: string; depositAddress: string; chain: string }> => {
   try {
-    const response = await fetch("https://tbd.thorswap.io/channel", {
+    const response = await fetch(brokerEndpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        quoteId,
+        buyAsset: buyAsset.toString(),
+        sellAsset: sellAsset.toString(),
+        destinationAddress: recipient,
       }),
     }).then((res) => res.json());
 
@@ -42,26 +46,36 @@ export const confirmSwap = async (
 
 export const ChainflipProvider: SwapKitProvider = ({ wallets }) => {
   const swap = async (params: SwapParams) => {
-    if (!("route" in params && "quoteId" in params)) {
+    if (
+      !(
+        "route" in params &&
+        (params.route as QuoteRouteV2).buyAsset &&
+        params.provider?.config.brokerEndpoint
+      )
+    ) {
       throw new SwapKitError("core_swap_invalid_params");
     }
 
-    const {
-      route: {
-        calldata: { fromAsset, amountIn },
-      },
-      quoteId,
-    } = params as SwapWithRouteParams;
-    if (!fromAsset) throw new SwapKitError("core_swap_asset_not_recognized");
-    const asset = await AssetValue.fromString(fromAsset);
-    if (!wallets?.[asset.chain]) throw new SwapKitError("core_wallet_connection_not_found");
-    const assetValue = asset.add(SwapKitNumber.fromBigInt(BigInt(amountIn), asset.decimal));
+    const route: QuoteRouteV2 = params.route as QuoteRouteV2;
 
-    const channelInfo = await confirmSwap(quoteId || "");
+    const { buyAsset: buyAssetString, sellAsset: sellAssetString, sellAmount } = route;
+    if (!(sellAssetString && buyAssetString))
+      throw new SwapKitError("core_swap_asset_not_recognized");
+    const sellAsset = await AssetValue.fromString(sellAssetString);
+    const buyAsset = await AssetValue.fromString(buyAssetString);
+    if (!wallets?.[sellAsset.chain]) throw new SwapKitError("core_wallet_connection_not_found");
+    const assetValue = sellAsset.set(sellAmount);
 
-    return (wallets[asset.chain] as ChainWallet<Chain>).transfer({
+    const channelInfo = await confirmSwap({
+      buyAsset,
+      sellAsset,
+      recipient: params.recipient,
+      brokerEndpoint: params.provider.config.brokerEndpoint,
+    });
+
+    return (wallets[sellAsset.chain] as ChainWallet<Chain>).transfer({
       assetValue,
-      recipient: channelInfo.channelAddress,
+      recipient: channelInfo.depositAddress,
     });
   };
   return {

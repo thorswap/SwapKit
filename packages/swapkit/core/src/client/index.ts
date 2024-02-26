@@ -81,7 +81,10 @@ type SwapKitWallet = {
   connect: (params: ConnectWalletParams) => (connectParams: WalletConnectParams) => void;
 };
 
-export function SwapKit<ExtendedProviders extends {}>({
+export function SwapKit<
+  ExtendedProviders extends {},
+  ConnectWalletMethods extends Record<string, ReturnType<SwapKitWallet["connect"]>>,
+>({
   stagenet,
   wallets,
   providers,
@@ -95,7 +98,7 @@ export function SwapKit<ExtendedProviders extends {}>({
   config?: Record<string, any>;
   apis: Record<string, any>;
   rpcUrls: Record<string, any>;
-}): SwapKitReturnType {
+}): SwapKitReturnType & ConnectWalletMethods {
   const connectedWallets: Wallets = {};
   const availableProviders: AvailableProviders<ExtendedProviders> = {};
 
@@ -105,14 +108,16 @@ export function SwapKit<ExtendedProviders extends {}>({
     availableProviders[name] = methods;
   }
 
-  const connectWalletMethods = wallets.reduce(
-    (acc, wallet) => {
-      acc[wallet.connectMethodName] = wallet.connect({ addChain, config, apis, rpcUrls });
+  const connectWalletMethods = wallets.reduce((acc, wallet) => {
+    (acc[wallet.connectMethodName] as ReturnType<SwapKitWallet["connect"]>) = wallet.connect({
+      addChain,
+      config,
+      apis,
+      rpcUrls,
+    });
 
-      return acc;
-    },
-    {} as Record<string, ReturnType<SwapKitWallet["connect"]>>,
-  );
+    return acc;
+  }, {} as ConnectWalletMethods);
 
   /**
    * @Private
@@ -134,7 +139,7 @@ export function SwapKit<ExtendedProviders extends {}>({
   }
 
   function addChain(connectWallet: ChainWallet<Chain>) {
-    connectedWallets[connectWallet.chain as Chain] = connectWallet;
+    (connectedWallets[connectWallet.chain as Chain] as ChainWallet<Chain>) = connectWallet;
   }
 
   /**

@@ -2,6 +2,7 @@ import type {
   ChainWallet,
   CoreTxParams,
   EVMWallet,
+  QuoteRoute,
   SwapKitProvider,
   SwapParams,
   SwapWithRouteParams,
@@ -357,8 +358,12 @@ export const ThorchainProvider: SwapKitProvider = ({ wallets, stagenet = false }
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>
   const swap = async (swapParams: SwapParams) => {
-    if (!("route" in swapParams)) throw new SwapKitError("core_swap_invalid_params");
-    const { streamSwap, recipient, route, feeOptionKey } = swapParams as SwapWithRouteParams;
+    if (!("route" in swapParams && "meta" in swapParams))
+      throw new SwapKitError("core_swap_invalid_params");
+
+    const route = swapParams.route as QuoteRoute;
+
+    const { streamSwap, recipient, feeOptionKey } = swapParams as SwapWithRouteParams;
     const {
       meta: { quoteMode },
       //   evmTransactionDetails: contractCallParams,
