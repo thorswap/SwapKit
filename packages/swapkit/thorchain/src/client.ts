@@ -3,7 +3,6 @@ import type {
   CoreTxParams,
   EVMWallet,
   QuoteRoute,
-  SwapKitProvider,
   SwapParams,
   SwapWithRouteParams,
   ThorchainWallet,
@@ -70,7 +69,13 @@ const prepareTxParams = (
   assetValue,
 });
 
-export const ThorchainProvider: SwapKitProvider = ({ wallets, stagenet = false }) => {
+export const ThorchainProvider = ({
+  wallets,
+  stagenet = false,
+}: {
+  wallets: Wallets;
+  stagenet?: boolean;
+}) => {
   const thorchainTransfer = async ({
     memo,
     assetValue,
