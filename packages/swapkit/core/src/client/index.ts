@@ -1,14 +1,14 @@
 import { AssetValue, SwapKitError } from "@swapkit/helpers";
 import { Chain } from "@swapkit/types";
+import {
+  getExplorerAddressUrl as getAddressUrl,
+  getExplorerTxUrl as getTxUrl,
+} from "../helpers/explorerUrls.ts";
 import type {
   ChainWallet,
   ConnectWalletParamsLocal as ConnectWalletParams,
   SwapWithRouteParams,
 } from "../types.ts";
-import {
-  getExplorerAddressUrl as getAddressUrl,
-  getExplorerTxUrl as getTxUrl,
-} from "../helpers/explorerUrls.ts";
 
 export type ProviderName = "thorchain" | "chainflip" | "mayachain";
 enum ApproveMode {
