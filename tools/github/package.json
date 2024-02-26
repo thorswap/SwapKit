@@ -1,3 +1,5 @@
 {
-	"name": "@internal/tools-github"
+  "name": "@internal/tools-github",
+  "version": "0.0.0",
+  "private": true
 }
