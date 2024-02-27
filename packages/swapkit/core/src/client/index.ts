@@ -11,12 +11,12 @@ import type {
 } from "../types.ts";
 
 export type ProviderName = "thorchain" | "chainflip" | "mayachain";
-enum ApproveMode {
+export enum ApproveMode {
   Approve = "approve",
   CheckOnly = "checkOnly",
 }
 
-type ApproveReturnType<T extends ApproveMode> = T extends "checkOnly"
+export type ApproveReturnType<T extends ApproveMode> = T extends "checkOnly"
   ? Promise<boolean>
   : Promise<string>;
 
