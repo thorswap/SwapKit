@@ -1,4 +1,6 @@
-import type {
+import {
+  ApproveMode,
+  ApproveReturnType,
   ChainWallet,
   CoreTxParams,
   EVMWallet,
@@ -6,8 +8,6 @@ import type {
   SwapParams,
   SwapWithRouteParams,
   ThorchainWallet,
-  ApproveMode,
-  ApproveReturnType,
 } from "@swapkit/core";
 import type { ErrorKeys, ThornameRegisterParam } from "@swapkit/helpers";
 import {
@@ -661,6 +661,18 @@ export const ThorchainProvider = ({
     });
   }
 
+  /**
+   * @Public
+   * Wallet interaction methods
+   */
+  function approveAssetValue(assetValue: AssetValue, contractAddress: string) {
+    return approve({ assetValue, contractAddress, type: ApproveMode.Approve });
+  }
+
+  function isAssetValueApproved(assetValue: AssetValue, contractAddress: string) {
+    return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
+  }
+
   return {
     name: "thorchain",
     methods: {
@@ -676,6 +688,8 @@ export const ThorchainProvider = ({
       addLiquidityPart,
       nodeAction,
       thorchainApprove: approve,
+      approveAssetValue,
+      isAssetValueApproved,
     },
   };
 };
