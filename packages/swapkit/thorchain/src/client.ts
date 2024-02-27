@@ -1,13 +1,13 @@
 import {
   ApproveMode,
-  ApproveReturnType,
-  ChainWallet,
-  CoreTxParams,
-  EVMWallet,
-  QuoteRoute,
-  SwapParams,
-  SwapWithRouteParams,
-  ThorchainWallet,
+  type ApproveReturnType,
+  type ChainWallet,
+  type CoreTxParams,
+  type EVMWallet,
+  type QuoteRoute,
+  type SwapParams,
+  type SwapWithRouteParams,
+  type ThorchainWallet,
 } from "@swapkit/core";
 import type { ErrorKeys, ThornameRegisterParam } from "@swapkit/helpers";
 import {
@@ -687,7 +687,6 @@ export const ThorchainProvider = ({
       createLiquidity,
       addLiquidityPart,
       nodeAction,
-      thorchainApprove: approve,
       approveAssetValue,
       isAssetValueApproved,
     },
