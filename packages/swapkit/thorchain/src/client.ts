@@ -6,6 +6,8 @@ import type {
   SwapParams,
   SwapWithRouteParams,
   ThorchainWallet,
+  ApproveMode,
+  ApproveReturnType,
 } from "@swapkit/core";
 import type { ErrorKeys, ThornameRegisterParam } from "@swapkit/helpers";
 import {
@@ -616,6 +618,49 @@ export const ThorchainProvider = ({
     }
   };
 
+  /**
+   * @Private
+   * Wallet interaction helpers
+   */
+  async function approve<T extends ApproveMode>({
+    assetValue,
+    type = "checkOnly" as T,
+    contractAddress,
+  }: {
+    type: T;
+    assetValue: AssetValue;
+    contractAddress: string;
+  }) {
+    const { address, chain, isGasAsset, isSynthetic } = assetValue;
+    const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain);
+    const isNativeEVM = isEVMChain && isGasAsset;
+
+    if (isNativeEVM || !isEVMChain || isSynthetic) {
+      return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
+    }
+
+    const walletMethods =
+      wallets[chain as Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche];
+
+    const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
+
+    if (!walletAction) throw new SwapKitError("core_wallet_connection_not_found");
+
+    const from = walletMethods?.address;
+
+    if (!(address && from)) throw new SwapKitError("core_approve_asset_address_or_from_not_found");
+
+    const spenderAddress =
+      contractAddress || ((await getInboundDataByChain(chain)).router as string);
+
+    return walletAction({
+      amount: assetValue.getBaseValue("bigint"),
+      assetAddress: address,
+      from,
+      spenderAddress,
+    });
+  }
+
   return {
     name: "thorchain",
     methods: {
@@ -630,6 +675,7 @@ export const ThorchainProvider = ({
       createLiquidity,
       addLiquidityPart,
       nodeAction,
+      thorchainApprove: approve,
     },
   };
 };
