@@ -629,7 +629,7 @@ export const ThorchainProvider = ({
   }: {
     type: T;
     assetValue: AssetValue;
-    contractAddress: string;
+    contractAddress?: string;
   }) {
     const { address, chain, isGasAsset, isSynthetic } = assetValue;
     const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain);
@@ -665,11 +665,11 @@ export const ThorchainProvider = ({
    * @Public
    * Wallet interaction methods
    */
-  function approveAssetValue(assetValue: AssetValue, contractAddress: string) {
+  function approveAssetValue(assetValue: AssetValue, contractAddress?: string) {
     return approve({ assetValue, contractAddress, type: ApproveMode.Approve });
   }
 
-  function isAssetValueApproved(assetValue: AssetValue, contractAddress: string) {
+  function isAssetValueApproved(assetValue: AssetValue, contractAddress?: string) {
     return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
   }
 
