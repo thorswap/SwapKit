@@ -34,7 +34,7 @@ export const accumulative = ({
   const feeRate = Math.ceil(initialFeeRate);
 
   const newTxType =
-    inputs[0] && "address" in inputs[0]
+    inputs[0] && "address" in inputs[0] && inputs[0].address
       ? getScriptTypeForAddress(inputs[0].address)
       : UTXOScriptType.P2PKH;
   // skip input if adding it would cost more than input is worth

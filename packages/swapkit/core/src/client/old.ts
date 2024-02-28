@@ -736,11 +736,17 @@ export class SwapKitCore<T = ""> {
     }
   };
 
-  #addConnectedChain = ({ chain, wallet, ...rest }: AddChainWalletParams<any>) => {
+  #addConnectedChain = ({
+    chain,
+    address,
+    balance,
+    walletType,
+    ...rest
+  }: AddChainWalletParams<any>) => {
     this.connectedChains[chain as Chain] = {
-      address: wallet?.address || "",
-      balance: wallet.balance || [],
-      walletType: wallet.walletType || "unknown",
+      address: address || "",
+      balance: balance || [],
+      walletType: walletType || "unknown",
     };
     this.connectedWallets[chain as Chain] = { ...rest } as any;
   };

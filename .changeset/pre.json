@@ -26,7 +26,11 @@
     "node-playground": "0.0.0",
     "@internal/vite-playground": "0.0.0",
     "@internal/tools-typescript": "0.1.0",
-    "@internal/tools-vite": "0.0.0"
+    "@internal/tools-vite": "0.0.0",
+    "@swapkit/thorchain": "1.0.0-rc.1",
+    "@internal/playground-nextjs": "0.1.0",
+    "@internal/playground-node": "0.0.0",
+    "@internal/playground-vite": "0.0.0"
   },
   "changesets": [
     "beige-coats-hear",
@@ -75,6 +79,7 @@
     "great-peaches-whisper",
     "happy-bulldogs-dance",
     "healthy-lies-cry",
+    "healthy-pants-suffer",
     "hip-wasps-pull",
     "honest-eggs-join",
     "hot-gifts-drive",
@@ -156,6 +161,7 @@
     "stale-ways-listen",
     "sweet-ladybugs-sneeze",
     "sweet-turkeys-deliver",
+    "tall-sloths-exercise",
     "tame-apes-breathe",
     "tame-crabs-fly",
     "ten-apes-tap",
@@ -167,6 +173,7 @@
     "tiny-doors-tease",
     "twelve-buttons-hear",
     "twelve-knives-deny",
+    "twelve-pigs-laugh",
     "warm-books-pump",
     "wise-drinks-knock",
     "yellow-bats-cheat",

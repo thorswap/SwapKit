@@ -1,5 +1,13 @@
 # @swapkit/types
 
+## 1.0.0-rc.38
+
+### Patch Changes
+
+- Update toolboxes for using proper address'
+
+- [`ae90588`](https://github.com/thorswap/SwapKit/commit/ae90588732b6b71b4a2ea91d0bb83b7c0aca702c) Thanks [@towanTG](https://github.com/towanTG)! - Adds core plugin support for swap provider
+
 ## 1.0.0-rc.37
 
 ### Patch Changes

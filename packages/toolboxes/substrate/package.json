@@ -9,7 +9,6 @@
   },
   "description": "SwapKit Lib substrate",
   "devDependencies": {
-
     "@polkadot/types": "10.11.2",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*",
@@ -24,7 +23,10 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": ["src/", "dist/"],
+  "files": [
+    "src/",
+    "dist/"
+  ],
   "peerDependencies": {
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*"
@@ -48,5 +50,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.5"
+  "version": "1.0.0-rc.6"
 }

@@ -204,7 +204,7 @@ const buildTx = async ({
   }
 
   for (const output of outputs) {
-    const address = "address" in output ? output.address : sender;
+    const address = "address" in output && output.address ? output.address : sender;
     const params = output.script
       ? compiledMemo
         ? { script: compiledMemo, value: 0 }

@@ -98,7 +98,7 @@ const buildBCHTx: BCHMethods["buildBCHTx"] = async ({
   );
 
   for (const output of outputs) {
-    const address = "address" in output ? output.address : sender;
+    const address = "address" in output && output.address ? output.address : sender;
     const outputScript = bchAddress.toOutputScript(toLegacyAddress(address), getNetwork(chain));
 
     builder.addOutput(outputScript, output.value);
@@ -201,7 +201,7 @@ const buildTx = async ({
 
   // Outputs
   for (const output of outputs) {
-    const address = "address" in output ? output.address : sender;
+    const address = "address" in output && output.address ? output.address : sender;
     const params = output.script
       ? compiledMemo
         ? { script: compiledMemo, value: 0 }

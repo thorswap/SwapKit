@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.35
+
+### Patch Changes
+
+- Update toolboxes for using proper address'
+
 ## 1.0.0-rc.34
 
 ### Patch Changes

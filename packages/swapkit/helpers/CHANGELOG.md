@@ -1,5 +1,18 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.72
+
+### Patch Changes
+
+- Update toolboxes for using proper address'
+
+- [`ae90588`](https://github.com/thorswap/SwapKit/commit/ae90588732b6b71b4a2ea91d0bb83b7c0aca702c) Thanks [@towanTG](https://github.com/towanTG)! - Adds core plugin support for swap provider
+
+- Updated dependencies [[`ae90588`](https://github.com/thorswap/SwapKit/commit/ae90588732b6b71b4a2ea91d0bb83b7c0aca702c)]:
+  - @swapkit/tokens@1.0.0-rc.35
+  - @swapkit/types@1.0.0-rc.38
+  - @swapkit/api@1.0.0-rc.39
+
 ## 1.0.0-rc.71
 
 ### Patch Changes
