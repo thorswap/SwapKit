@@ -1,5 +1,14 @@
 # @swapkit/thorchain
 
+## 1.0.0-rc.5
+
+### Patch Changes
+
+- Updated dependencies [[`be94c11`](https://github.com/thorswap/SwapKit/commit/be94c113a31dab5ab468a3fb104ea881e060aec8)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.9
+  - @swapkit/toolbox-utxo@1.0.0-rc.80
+  - @swapkit/core@1.0.0-rc.103
+
 ## 1.0.0-rc.4
 
 ### Patch Changes
