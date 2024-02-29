@@ -1,5 +1,11 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.13
+
+### Patch Changes
+
+- [#635](https://github.com/thorswap/SwapKit/pull/635) [`ca3ba78`](https://github.com/thorswap/SwapKit/commit/ca3ba788a4fe8185b1d8be3c7a8a7c6089408333) Thanks [@towanTG](https://github.com/towanTG)! - Fixes from address for CF swap
+
 ## 1.0.0-rc.12
 
 ### Patch Changes
