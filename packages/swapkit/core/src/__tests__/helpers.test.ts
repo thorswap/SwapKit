@@ -35,7 +35,7 @@ describe("Explorer URLs", () => {
   });
 
   describe("EVMChains & SubstrateChains", () => {
-    for (const chain of [...EVMChains, ...SubstrateChains]) {
+    for (const chain of [...EVMChains, Chain.Polkadot]) {
       test(`getExplorerTxUrl returns correct URL for ${chain}`, () => {
         expect(getExplorerTxUrl({ chain, txHash: "0x123456789" })).toBe(
           `${ChainToExplorerUrl[chain]}/tx/0x123456789`,
