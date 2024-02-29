@@ -27,7 +27,7 @@ export enum UTXOScriptType {
   P2PKH = "P2PKH", // legacy
   //   P2SH = 'P2SH', // multisig
   P2WPKH = "P2WPKH", // bech32 - native segwit
-  //   P2TR = 'P2TR', // taproot
+  //   P2TR = "P2TR", // taproot
 }
 
 export const InputSizes: Record<UTXOScriptType, number> = {
