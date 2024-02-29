@@ -38,13 +38,14 @@ const requestSwapDepositAddress = async (
 
   const isBuyChainPolkadot = buyAsset.chain === Chain.Polkadot;
 
-  if (isBuyChainPolkadot && !(await toolbox.validateAddress(recipient))) {
-    throw new SwapKitError("chainflip_broker_recipient_error", "Invalid recipient address");
+  let recipientAddress: string;
+  try {
+    recipientAddress = isBuyChainPolkadot
+      ? await toolbox.encodeAddress(await toolbox.decodeAddress(recipient), "hex")
+      : recipient;
+  } catch (error) {
+    throw new SwapKitError("chainflip_broker_recipient_error", error);
   }
-
-  const recipientAddress = isBuyChainPolkadot
-    ? await toolbox.encodeAddress(await toolbox.decodeAddress(recipient, 1), "hex")
-    : recipient;
 
   return new Promise<{
     depositChannelId: string;
