@@ -1,5 +1,13 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.79
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.40
+  - @swapkit/helpers@1.0.0-rc.74
+
 ## 1.0.0-rc.78
 
 ### Major Changes

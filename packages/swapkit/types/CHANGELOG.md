@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.40
+
+### Patch Changes
+
+- Add Polkadot explorer url
+
 ## 1.0.0-rc.39
 
 ### Major Changes

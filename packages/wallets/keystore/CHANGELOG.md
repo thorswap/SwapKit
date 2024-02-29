@@ -1,5 +1,17 @@
 # @swapkit/wallet-keystore
 
+## 1.0.0-rc.96
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.40
+  - @swapkit/helpers@1.0.0-rc.74
+  - @swapkit/toolbox-cosmos@1.0.0-rc.85
+  - @swapkit/toolbox-evm@1.0.0-rc.80
+  - @swapkit/toolbox-substrate@1.0.0-rc.8
+  - @swapkit/toolbox-utxo@1.0.0-rc.79
+
 ## 1.0.0-rc.95
 
 ### Major Changes
