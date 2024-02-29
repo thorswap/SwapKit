@@ -1,5 +1,11 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.80
+
+### Patch Changes
+
+- [#637](https://github.com/thorswap/SwapKit/pull/637) [`be94c11`](https://github.com/thorswap/SwapKit/commit/be94c113a31dab5ab468a3fb104ea881e060aec8) Thanks [@towanTG](https://github.com/towanTG)! - Allows sending BTC to taproot and updates DOT transfer
+
 ## 1.0.0-rc.79
 
 ### Patch Changes

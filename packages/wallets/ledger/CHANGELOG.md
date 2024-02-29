@@ -1,5 +1,12 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.102
+
+### Patch Changes
+
+- Updated dependencies [[`be94c11`](https://github.com/thorswap/SwapKit/commit/be94c113a31dab5ab468a3fb104ea881e060aec8)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.80
+
 ## 1.0.0-rc.101
 
 ### Patch Changes

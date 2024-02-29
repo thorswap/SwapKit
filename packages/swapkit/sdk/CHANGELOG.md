@@ -1,5 +1,19 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.122
+
+### Patch Changes
+
+- Updated dependencies [[`be94c11`](https://github.com/thorswap/SwapKit/commit/be94c113a31dab5ab468a3fb104ea881e060aec8)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.80
+  - @swapkit/core@1.0.0-rc.103
+  - @swapkit/wallet-keystore@1.0.0-rc.97
+  - @swapkit/wallet-keepkey@1.0.0-rc.18
+  - @swapkit/wallet-ledger@1.0.0-rc.102
+  - @swapkit/wallet-okx@1.0.0-rc.97
+  - @swapkit/wallet-trezor@1.0.0-rc.89
+  - @swapkit/wallet-xdefi@1.0.0-rc.99
+
 ## 1.0.0-rc.121
 
 ### Patch Changes
