@@ -1,5 +1,14 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.74
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.40
+  - @swapkit/api@1.0.0-rc.41
+  - @swapkit/tokens@1.0.0-rc.36
+
 ## 1.0.0-rc.73
 
 ### Major Changes

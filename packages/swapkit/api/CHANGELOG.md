@@ -1,5 +1,12 @@
 # @swapkit/api
 
+## 1.0.0-rc.41
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/types@1.0.0-rc.40
+
 ## 1.0.0-rc.40
 
 ### Major Changes

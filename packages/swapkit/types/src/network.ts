@@ -97,8 +97,7 @@ export enum BaseDecimal {
 }
 
 export type SubstrateChain = Chain.Polkadot | Chain.Chainflip;
-
-export const SubstrateChainList: SubstrateChain[] = [Chain.Polkadot, Chain.Chainflip];
+export const SubstrateChains = [Chain.Polkadot, Chain.Chainflip];
 
 export type EVMChain =
   | Chain.Ethereum
@@ -324,7 +323,7 @@ export const ChainToExplorerUrl: Record<Chain, string> = {
   [Chain.Litecoin]: "https://blockchair.com/litecoin",
   [Chain.Maya]: "https://www.mayascan.org",
   [Chain.Optimism]: "https://optimistic.etherscan.io",
-  [Chain.Polkadot]: "https://explorer.polkascan.io/polkadot",
+  [Chain.Polkadot]: "https://polkadot.subscan.io/",
   [Chain.Polygon]: "https://polygonscan.com",
   [Chain.THORChain]: "https://runescan.io",
 };
