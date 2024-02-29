@@ -1,5 +1,85 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.120
+
+### Major Changes
+
+- [#631](https://github.com/thorswap/SwapKit/pull/631) [`57f509a`](https://github.com/thorswap/SwapKit/commit/57f509ab7f28ae336c1aab459d796b4ef8e8eb1b) Thanks [@towanTG](https://github.com/towanTG)! - # Release of swapkit as multi-wallet/provider sdk by THORSwap
+
+  ## Breaking changes
+
+  - Wallet structure got flattened
+  - Wallets do not support getAddress function anymore
+  - Core got split into provider packages such as THORChain or ChainFlip and true core functionality. Old core structure is therefor deprecated
+
+  ## Why the changes
+
+  - Simple support of multiple swap providers. New providers just need to implement the swapping logic and will be supported by whole SwapKit ecosystem out of the box
+  - We did not see the reason to hide the wallet address in a function, instead it is readable right from the wallet `core.getWallet(Chain.Bitcoin).address`
+  - Flattening of wallet structure reduces complexity
+
+  ## How to work with SwapKit
+
+  ```
+  const core = SwapKit<
+      {
+          thorchain: ReturnType<typeof ThorchainProvider>['methods'];
+          chainflip: ReturnType<typeof ChainflipProvider>['methods'];
+      },
+      ConnectWalletType
+  >({
+      config: {
+          stagenet: IS_STAGENET,
+          covalentApiKey: COVALENT_API_KEY,
+          ethplorerApiKey: ETHPLORER_API_KEY,
+          blockchairApiKey: BLOCKCHAIR_API_KEY,
+          walletConnectProjectId: WALLETCONNECT_PROJECT_ID,
+      },
+      wallets: supportedWallets,
+      providers: [ThorchainProvider, ChainflipProvider],
+      // if needed
+      apis: {},
+      rpcUrls: {},
+  });
+
+  // core functionality examples:
+  const walletAddress = core.getWallet(Chain.Bitcoin).address
+  const balance = await core.getBalance(Chain.Bitcoin)
+  const validAddress = await core.validateAddress(address, chain)
+
+  // provider specific methods:
+  const withdrawTxHash = core.thorchain.withdraw(params)
+  const withdrawTxHash = core.thorchain.nodeAction(params)
+  const withdrawTxHash = core.thorchain.deposit(params)
+
+  // Swapping
+  const swapTxHash = core.swap({
+      route,
+      provider: {
+          name,
+          config
+      }
+  })
+
+  ```
+
+### Patch Changes
+
+- Updated dependencies [[`57f509a`](https://github.com/thorswap/SwapKit/commit/57f509ab7f28ae336c1aab459d796b4ef8e8eb1b), [`57f509a`](https://github.com/thorswap/SwapKit/commit/57f509ab7f28ae336c1aab459d796b4ef8e8eb1b), [`57f509a`](https://github.com/thorswap/SwapKit/commit/57f509ab7f28ae336c1aab459d796b4ef8e8eb1b), [`57f509a`](https://github.com/thorswap/SwapKit/commit/57f509ab7f28ae336c1aab459d796b4ef8e8eb1b)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.81
+  - @swapkit/toolbox-cosmos@1.0.0-rc.84
+  - @swapkit/wallet-keystore@1.0.0-rc.95
+  - @swapkit/wallet-keepkey@1.0.0-rc.16
+  - @swapkit/toolbox-utxo@1.0.0-rc.78
+  - @swapkit/wallet-ledger@1.0.0-rc.100
+  - @swapkit/wallet-trezor@1.0.0-rc.87
+  - @swapkit/toolbox-evm@1.0.0-rc.79
+  - @swapkit/wallet-keplr@1.0.0-rc.85
+  - @swapkit/wallet-xdefi@1.0.0-rc.97
+  - @swapkit/core@1.0.0-rc.101
+  - @swapkit/wallet-okx@1.0.0-rc.95
+  - @swapkit/wallet-wc@1.0.0-rc.91
+
 ## 1.0.0-rc.119
 
 ### Patch Changes
