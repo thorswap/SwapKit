@@ -52,7 +52,7 @@ const validateAddress = async (address: string, networkPrefix: number) => {
 const createTransfer = (
   api: ApiPromise,
   { recipient, amount }: { recipient: string; amount: number },
-): SubmittableExtrinsic<"promise"> => api.tx.balances.transfer(recipient, amount);
+): SubmittableExtrinsic<"promise"> => api.tx.balances.transferAllowDeath(recipient, amount);
 
 const transfer = async (
   api: ApiPromise,

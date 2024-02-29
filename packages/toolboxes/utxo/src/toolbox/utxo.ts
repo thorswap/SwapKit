@@ -139,10 +139,6 @@ const getInputsAndTargetOutputs = async ({
     fetchTxHex,
   });
 
-  if (!validateAddress({ address: recipient, chain, apiClient })) {
-    throw new Error("Invalid address");
-  }
-
   //1. add output amount and recipient to targets
   //2. add output memo to targets (optional)
 
