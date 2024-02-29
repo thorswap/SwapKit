@@ -221,6 +221,7 @@ const approve = async (
   });
 };
 
+// TODO - get from from signer or make it mandatory
 const transfer = async (
   provider: Provider | BrowserProvider,
   {

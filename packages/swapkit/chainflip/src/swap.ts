@@ -82,6 +82,7 @@ export const ChainflipProvider = ({
 
     return (wallets[sellAsset.chain] as ChainWallet<Chain>).transfer({
       assetValue,
+      from: wallets[sellAsset.chain]?.address,
       recipient: channelInfo.depositAddress,
     });
   };
