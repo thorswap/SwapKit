@@ -1,5 +1,5 @@
 import { Chains } from "@chainflip/sdk/swap";
-import { SwapKitError, type AssetValue } from "@swapkit/helpers";
+import { type AssetValue, SwapKitError } from "@swapkit/helpers";
 import type { ETHToolbox } from "@swapkit/toolbox-evm";
 import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
 import { Chain } from "@swapkit/types";

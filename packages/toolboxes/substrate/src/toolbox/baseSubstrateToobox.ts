@@ -1,11 +1,11 @@
-import { Keyring, type ApiPromise } from "@polkadot/api";
+import type { ApiPromise } from "@polkadot/api";
 import type { SubmittableExtrinsic } from "@polkadot/api/types";
 import type { KeyringPair } from "@polkadot/keyring/types";
 import type { Callback, IKeyringPair, ISubmittableResult } from "@polkadot/types/types";
 import type { AssetValue } from "@swapkit/helpers";
 
-import type { SubstrateNetwork } from "../types/network.ts";
 import { u8aToHex } from "@polkadot/util";
+import type { SubstrateNetwork } from "../types/network.ts";
 
 // TODO combine this type with the more general SK type
 type SubstrateTransferParams = {
