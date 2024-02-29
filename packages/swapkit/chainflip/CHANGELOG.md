@@ -1,5 +1,11 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.12
+
+### Patch Changes
+
+- [#633](https://github.com/thorswap/SwapKit/pull/633) [`afaed86`](https://github.com/thorswap/SwapKit/commit/afaed865dd283d4ea790956ea006eb6546fa9c93) Thanks [@towanTG](https://github.com/towanTG)! - Fixes address validation in FLIP broker
+
 ## 1.0.0-rc.11
 
 ### Major Changes
