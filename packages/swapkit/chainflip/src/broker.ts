@@ -1,5 +1,5 @@
 import { Chains } from "@chainflip/sdk/swap";
-import type { AssetValue } from "@swapkit/helpers";
+import { type AssetValue, SwapKitError } from "@swapkit/helpers";
 import type { ETHToolbox } from "@swapkit/toolbox-evm";
 import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
 import { Chain } from "@swapkit/types";
@@ -36,6 +36,16 @@ const requestSwapDepositAddress = async (
 ) => {
   const { SwapKitNumber } = await import("@swapkit/helpers");
 
+  const isBuyChainPolkadot = buyAsset.chain === Chain.Polkadot;
+
+  if (isBuyChainPolkadot && !(await toolbox.validateAddress(recipient))) {
+    throw new SwapKitError("chainflip_broker_recipient_error", "Invalid recipient address");
+  }
+
+  const recipientAddress = isBuyChainPolkadot
+    ? await toolbox.encodeAddress(await toolbox.decodeAddress(recipient, 1), "hex")
+    : recipient;
+
   return new Promise<{
     depositChannelId: string;
     depositAddress: string;
@@ -49,7 +59,7 @@ const requestSwapDepositAddress = async (
       toolbox.api.tx.swapping.requestSwapDepositAddress(
         sellAsset.ticker.toLowerCase(),
         buyAsset.ticker.toLowerCase(),
-        { [buyAsset.chain.toLowerCase()]: recipient },
+        { [buyAsset.chain.toLowerCase()]: recipientAddress },
         SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
         null,
       ),

@@ -4,6 +4,7 @@ import type { KeyringPair } from "@polkadot/keyring/types";
 import type { Callback, IKeyringPair, ISubmittableResult } from "@polkadot/types/types";
 import type { AssetValue } from "@swapkit/helpers";
 
+import { u8aToHex } from "@polkadot/util";
 import type { SubstrateNetwork } from "../types/network.ts";
 
 // TODO combine this type with the more general SK type
@@ -37,13 +38,10 @@ const getBalance = async (api: ApiPromise, gasAsset: AssetValue, address: string
 };
 
 const validateAddress = async (address: string, networkPrefix: number) => {
-  const { encodeAddress, decodeAddress } = await import("@polkadot/util-crypto");
-  const { isHex, hexToU8a } = await import("@polkadot/util");
   try {
-    encodeAddress(
-      isHex(address) ? hexToU8a(address) : decodeAddress(address, undefined, networkPrefix),
-      networkPrefix,
-    );
+    const decodedAddress = await decodeAddress(address, networkPrefix);
+
+    await encodeAddress(decodedAddress, "ss58", networkPrefix);
 
     return true;
   } catch (_error) {
@@ -115,6 +113,25 @@ const signAndBroadcast = (
   return hash.toString();
 };
 
+async function decodeAddress(address: string, networkPrefix?: number) {
+  const { decodeAddress } = await import("@polkadot/util-crypto");
+  const { isHex, hexToU8a } = await import("@polkadot/util");
+
+  return isHex(address) ? hexToU8a(address) : decodeAddress(address, undefined, networkPrefix);
+}
+
+async function encodeAddress(
+  address: Uint8Array,
+  encoding: "ss58" | "hex" = "ss58",
+  networkPrefix?: number,
+) {
+  const { encodeAddress } = await import("@polkadot/util-crypto");
+  if (encoding === "hex") {
+    return u8aToHex(address);
+  }
+  return encodeAddress(address, networkPrefix);
+}
+
 export const BaseToolbox = async ({
   api,
   network,
@@ -128,6 +145,12 @@ export const BaseToolbox = async ({
 }): Promise<{
   api: ApiPromise;
   network: SubstrateNetwork;
+  decodeAddress: (address: string, networkPrefix?: number) => Promise<Uint8Array>;
+  encodeAddress: (
+    address: Uint8Array,
+    encoding?: "ss58" | "hex",
+    networkPrefix?: number,
+  ) => Promise<string>;
   createKeyring: (phrase: string) => Promise<KeyringPair>;
   getAddress: (signer?: KeyringPair) => string;
   createTransfer: ({
@@ -153,6 +176,8 @@ export const BaseToolbox = async ({
 }> => ({
   api,
   network,
+  decodeAddress,
+  encodeAddress,
   createKeyring: async (phrase: string) => createKeyring(phrase, network.prefix),
   getAddress: (keyring: IKeyringPair = signer) => keyring.address,
   createTransfer: ({ recipient, assetValue }: { recipient: string; assetValue: AssetValue }) =>

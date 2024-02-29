@@ -1,4 +1,4 @@
-import type { Chain, ChainWallet, QuoteRouteV2, SwapKitProvider, SwapParams } from "@swapkit/core";
+import type { Chain, ChainWallet, QuoteRouteV2, SwapParams } from "@swapkit/core";
 import { AssetValue, SwapKitError } from "@swapkit/helpers";
 
 export type ChainflipRoute = {
@@ -44,7 +44,14 @@ export const confirmSwap = async ({
   }
 };
 
-export const ChainflipProvider: SwapKitProvider = ({ wallets }) => {
+type Wallets = { [K in Chain]?: ChainWallet<K> };
+
+export const ChainflipProvider = ({
+  wallets,
+}: {
+  wallets: Wallets;
+  stagenet?: boolean;
+}) => {
   const swap = async (params: SwapParams) => {
     if (
       !(

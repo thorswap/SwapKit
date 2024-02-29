@@ -1,12 +1,13 @@
-import type {
-  ChainWallet,
-  CoreTxParams,
-  EVMWallet,
-  QuoteRoute,
-  SwapKitProvider,
-  SwapParams,
-  SwapWithRouteParams,
-  ThorchainWallet,
+import {
+  ApproveMode,
+  type ApproveReturnType,
+  type ChainWallet,
+  type CoreTxParams,
+  type EVMWallet,
+  type QuoteRoute,
+  type SwapParams,
+  type SwapWithRouteParams,
+  type ThorchainWallet,
 } from "@swapkit/core";
 import type { ErrorKeys, ThornameRegisterParam } from "@swapkit/helpers";
 import {
@@ -70,7 +71,13 @@ const prepareTxParams = (
   assetValue,
 });
 
-export const ThorchainProvider: SwapKitProvider = ({ wallets, stagenet = false }) => {
+export const ThorchainProvider = ({
+  wallets,
+  stagenet = false,
+}: {
+  wallets: Wallets;
+  stagenet?: boolean;
+}) => {
   const thorchainTransfer = async ({
     memo,
     assetValue,
@@ -611,6 +618,61 @@ export const ThorchainProvider: SwapKitProvider = ({ wallets, stagenet = false }
     }
   };
 
+  /**
+   * @Private
+   * Wallet interaction helpers
+   */
+  async function approve<T extends ApproveMode>({
+    assetValue,
+    type = "checkOnly" as T,
+    contractAddress,
+  }: {
+    type: T;
+    assetValue: AssetValue;
+    contractAddress?: string;
+  }) {
+    const { address, chain, isGasAsset, isSynthetic } = assetValue;
+    const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain);
+    const isNativeEVM = isEVMChain && isGasAsset;
+
+    if (isNativeEVM || !isEVMChain || isSynthetic) {
+      return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
+    }
+
+    const walletMethods =
+      wallets[chain as Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche];
+
+    const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
+
+    if (!walletAction) throw new SwapKitError("core_wallet_connection_not_found");
+
+    const from = walletMethods?.address;
+
+    if (!(address && from)) throw new SwapKitError("core_approve_asset_address_or_from_not_found");
+
+    const spenderAddress =
+      contractAddress || ((await getInboundDataByChain(chain)).router as string);
+
+    return walletAction({
+      amount: assetValue.getBaseValue("bigint"),
+      assetAddress: address,
+      from,
+      spenderAddress,
+    });
+  }
+
+  /**
+   * @Public
+   * Wallet interaction methods
+   */
+  function approveAssetValue(assetValue: AssetValue, contractAddress?: string) {
+    return approve({ assetValue, contractAddress, type: ApproveMode.Approve });
+  }
+
+  function isAssetValueApproved(assetValue: AssetValue, contractAddress?: string) {
+    return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
+  }
+
   return {
     name: "thorchain",
     methods: {
@@ -625,6 +687,8 @@ export const ThorchainProvider: SwapKitProvider = ({ wallets, stagenet = false }
       createLiquidity,
       addLiquidityPart,
       nodeAction,
+      approveAssetValue,
+      isAssetValueApproved,
     },
   };
 };

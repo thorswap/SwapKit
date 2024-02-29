@@ -1,18 +1,22 @@
 import { AssetValue, SwapKitError } from "@swapkit/helpers";
 import { Chain } from "@swapkit/types";
+import {
+  getExplorerAddressUrl as getAddressUrl,
+  getExplorerTxUrl as getTxUrl,
+} from "../helpers/explorerUrls.ts";
 import type {
   ChainWallet,
   ConnectWalletParamsLocal as ConnectWalletParams,
   SwapWithRouteParams,
 } from "../types.ts";
 
-type ProviderName = "thorchain" | "chainflip" | "mayachain";
-enum ApproveMode {
+export type ProviderName = "thorchain" | "chainflip" | "mayachain";
+export enum ApproveMode {
   Approve = "approve",
   CheckOnly = "checkOnly",
 }
 
-type ApproveReturnType<T extends ApproveMode> = T extends "checkOnly"
+export type ApproveReturnType<T extends ApproveMode> = T extends "checkOnly"
   ? Promise<boolean>
   : Promise<string>;
 
@@ -33,7 +37,7 @@ export type SwapParams = (SwapWithRouteParams | GenericSwapParams) & {
   };
 };
 
-type SwapKitReturnType = SwapKitProviders & {
+export type SwapKitReturnType = SwapKitProviders & {
   getAddress: (chain: Chain) => string;
   getWallet: (chain: Chain) => ChainWallet<Chain> | undefined;
   getWalletWithBalance: (
@@ -41,6 +45,8 @@ type SwapKitReturnType = SwapKitProviders & {
     potentialScamFilter?: boolean,
   ) => Promise<ChainWallet<Chain>>;
   getBalance: (chain: Chain, potentialScamFilter?: boolean) => AssetValue[];
+  getExplorerTxUrl: (chain: Chain, txHash: string) => string;
+  getExplorerAddressUrl: (chain: Chain, address: string) => string;
   swap: (params: SwapParams) => Promise<string>;
   validateAddress: (params: { address: string; chain: Chain }) =>
     | boolean
@@ -53,9 +59,9 @@ type SwapKitReturnType = SwapKitProviders & {
   ) => boolean | Promise<boolean>;
 };
 
-type Wallets = { [K in Chain]?: ChainWallet<K> };
-type AvailableProviders<T> = T | { [K in ProviderName]?: ProviderMethods };
-type ProviderMethods = {
+export type Wallets = { [K in Chain]?: ChainWallet<K> };
+export type AvailableProviders<T> = T | { [K in ProviderName]?: ProviderMethods };
+export type ProviderMethods = {
   swap: (swapParams: SwapParams) => Promise<string>;
   [key: string]: any;
 };
@@ -65,20 +71,9 @@ export type SwapKitProvider = ({ wallets, stagenet }: { wallets: Wallets; stagen
   methods: ProviderMethods;
 };
 
-type BaseSwapkitWalletConnectParams = {
-  chains: Chain[];
-};
-
-type KeystoreWalletConnectParams = BaseSwapkitWalletConnectParams & {
-  phrase: string;
-  index?: number;
-};
-
-type WalletConnectParams = KeystoreWalletConnectParams;
-
-type SwapKitWallet = {
+export type SwapKitWallet = {
   connectMethodName: string;
-  connect: (params: ConnectWalletParams) => (connectParams: WalletConnectParams) => void;
+  connect: (params: ConnectWalletParams) => (connectParams: any) => void;
 };
 
 export function SwapKit<
@@ -98,7 +93,7 @@ export function SwapKit<
   config?: Record<string, any>;
   apis: Record<string, any>;
   rpcUrls: Record<string, any>;
-}): SwapKitReturnType & ConnectWalletMethods {
+}): SwapKitReturnType & ConnectWalletMethods & AvailableProviders<ExtendedProviders> {
   const connectedWallets: Wallets = {};
   const availableProviders: AvailableProviders<ExtendedProviders> = {};
 
@@ -197,6 +192,12 @@ export function SwapKit<
   function getBalance(chain: Chain) {
     return getWallet(chain)?.balance || [];
   }
+  function getExplorerTxUrl(chain: Chain, txHash: string) {
+    return getTxUrl({ chain, txHash });
+  }
+  function getExplorerAddressUrl(chain: Chain, address: string) {
+    return getAddressUrl({ chain, address });
+  }
   /**
    * TODO: Figure out validation without connecting to wallet
    */
@@ -244,6 +245,8 @@ export function SwapKit<
     approveAssetValue,
     getAddress,
     getBalance,
+    getExplorerAddressUrl,
+    getExplorerTxUrl,
     getWallet,
     getWalletWithBalance,
     isAssetValueApproved,
