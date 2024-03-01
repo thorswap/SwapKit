@@ -1,5 +1,11 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.82
+
+### Patch Changes
+
+- [#641](https://github.com/thorswap/SwapKit/pull/641) [`9f0f764`](https://github.com/thorswap/SwapKit/commit/9f0f764569e440525ad6fa87eace2e1bc1c76e25) Thanks [@towanTG](https://github.com/towanTG)! - Upgrades secp256k1 version
+
 ## 1.0.0-rc.81
 
 ### Patch Changes
