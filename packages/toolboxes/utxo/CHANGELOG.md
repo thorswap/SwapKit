@@ -1,5 +1,11 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.81
+
+### Patch Changes
+
+- [#639](https://github.com/thorswap/SwapKit/pull/639) [`c17cb39`](https://github.com/thorswap/SwapKit/commit/c17cb390a9e1e7885c03f8d88d4383a447a5094e) Thanks [@towanTG](https://github.com/towanTG)! - Updates bitcoinjs version to support taproot
+
 ## 1.0.0-rc.80
 
 ### Patch Changes
