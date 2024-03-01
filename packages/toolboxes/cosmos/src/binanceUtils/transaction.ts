@@ -21,7 +21,7 @@ const generatePubKey = (privateKey: Buffer) => {
 };
 
 const generateSignature = async (signBytesHex: string, privateKey: string | Buffer) => {
-  const tinySecp = await import("tiny-secp256k1");
+  const tinySecp = await import("@bitcoinerlab/secp256k1");
 
   const msgHash = sha256(signBytesHex);
   const msgHashHex = Buffer.from(msgHash, "hex");
@@ -29,7 +29,7 @@ const generateSignature = async (signBytesHex: string, privateKey: string | Buff
     msgHashHex,
     typeof privateKey === "string" ? Buffer.from(privateKey, "hex") : privateKey,
   );
-  return signature;
+  return Buffer.from(signature);
 };
 
 /**

@@ -232,7 +232,7 @@ const createKeysForPath: BCHMethods["createKeysForPath"] = async ({
   const network = getNetwork(chain);
 
   if (wif) {
-    const tinySecp = await import("tiny-secp256k1");
+    const tinySecp = await import("@bitcoinerlab/secp256k1");
     return ECPairFactory(tinySecp).fromWIF(wif, network);
   }
   if (!phrase) throw new Error("No phrase provided");
