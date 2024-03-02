@@ -28,6 +28,10 @@ export const getDerivationPathFor = ({ chain, index, type }: Params) => {
     return updatedLastIndex(NetworkDerivationPath[chain], index);
   }
 
+  if (chain === Chain.Polkadot) {
+    return [44, 354, index, 0, 0];
+  }
+
   return updatedLastIndex(NetworkDerivationPath[chain], index);
 };
 

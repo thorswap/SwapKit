@@ -10,5 +10,6 @@ export const LEDGER_SUPPORTED_CHAINS = [
   Chain.Dogecoin,
   Chain.Ethereum,
   Chain.Litecoin,
+  Chain.Polkadot,
   Chain.THORChain,
 ] as const;

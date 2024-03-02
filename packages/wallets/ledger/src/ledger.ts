@@ -13,6 +13,7 @@ import type { CosmosLedger } from "./clients/cosmos.ts";
 import type { DogecoinLedger } from "./clients/dogecoin.ts";
 import type { EthereumLedger } from "./clients/ethereum.ts";
 import type { LitecoinLedger } from "./clients/litecoin.ts";
+import type { PolkadotLedger } from "./clients/polkadot.ts";
 import type { THORChainLedger } from "./clients/thorchain/index.ts";
 import type { LEDGER_SUPPORTED_CHAINS } from "./helpers/index.ts";
 import { getLedgerAddress, getLedgerClient } from "./helpers/index.ts";
@@ -83,7 +84,8 @@ const getToolbox = async ({
     | EthereumLedger
     | LitecoinLedger
     | THORChainLedger
-    | CosmosLedger;
+    | CosmosLedger
+    | ReturnType<typeof PolkadotLedger>;
   derivationPath?: DerivationPathArray;
   stagenet?: boolean;
 }) => {
@@ -361,6 +363,17 @@ const getToolbox = async ({
       const deposit = (params: DepositParam) => thorchainTransfer(params);
 
       return { ...toolbox, deposit, transfer, signMessage };
+    }
+    case Chain.Polkadot: {
+      const { getToolboxByChain } = await import("@swapkit/toolbox-substrate");
+
+      const polkadotSigner = await (signer as ReturnType<typeof PolkadotLedger>).getAsSigner();
+
+      const toolbox = await getToolboxByChain(chain, {
+        signer: polkadotSigner,
+      });
+
+      return toolbox;
     }
 
     default:

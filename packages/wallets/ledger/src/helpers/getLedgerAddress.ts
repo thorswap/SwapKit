@@ -21,6 +21,7 @@ export const getLedgerAddress = async ({
       return (ledgerClient as CosmosLedgerClients).connect();
     }
 
+    case Chain.Polkadot:
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
     case Chain.Avalanche: {

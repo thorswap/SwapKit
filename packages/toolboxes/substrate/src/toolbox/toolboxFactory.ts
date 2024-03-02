@@ -4,12 +4,13 @@ import type { RPCUrl, SubstrateChain } from "@swapkit/types";
 
 import { Network } from "../types/network.ts";
 
+import type { SwapKitSubstrateSigner } from "../types/signer.ts";
 import { BaseToolbox } from "./baseSubstrateToobox.ts";
 
 type ToolboxParams = {
   providerUrl?: RPCUrl;
   generic?: boolean;
-  signer: KeyringPair;
+  signer: KeyringPair | SwapKitSubstrateSigner;
 };
 
 type ToolboxFactoryType<T, M> = (params: ToolboxParams & T) => ReturnType<typeof BaseToolbox> & M;
@@ -88,7 +89,7 @@ export const getToolboxByChain = async (
   chain: SubstrateChain,
   params: {
     providerUrl?: RPCUrl;
-    signer: KeyringPair;
+    signer: KeyringPair | SwapKitSubstrateSigner;
     generic?: boolean;
   },
 ) => {

@@ -1,11 +1,4 @@
-import {
-  Chain,
-  ChainToExplorerUrl,
-  CosmosChains,
-  EVMChains,
-  SubstrateChains,
-  UTXOChains,
-} from "@swapkit/types";
+import { Chain, ChainToExplorerUrl, CosmosChains, EVMChains, UTXOChains } from "@swapkit/types";
 import { describe, expect, test } from "vitest";
 import { getExplorerAddressUrl, getExplorerTxUrl } from "../helpers/explorerUrls.ts";
 

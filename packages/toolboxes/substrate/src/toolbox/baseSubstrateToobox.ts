@@ -3,9 +3,8 @@ import type { SubmittableExtrinsic } from "@polkadot/api/types";
 import type { KeyringPair } from "@polkadot/keyring/types";
 import type { Callback, IKeyringPair, ISubmittableResult } from "@polkadot/types/types";
 import type { AssetValue } from "@swapkit/helpers";
-
-import { u8aToHex } from "@polkadot/util";
 import type { SubstrateNetwork } from "../types/network.ts";
+import type { SwapKitSubstrateSigner } from "../types/signer.ts";
 
 // TODO combine this type with the more general SK type
 type SubstrateTransferParams = {
@@ -56,7 +55,7 @@ const createTransfer = (
 
 const transfer = async (
   api: ApiPromise,
-  signer: IKeyringPair,
+  signer: IKeyringPair | SwapKitSubstrateSigner,
   { recipient, assetValue, from }: SubstrateTransferParams,
 ) => {
   const transfer = await createTransfer(api, {
@@ -64,14 +63,22 @@ const transfer = async (
     amount: assetValue.getBaseValue("number"),
   });
 
+  if ("sign" in signer) {
+    return (
+      await transfer.signAndSend(signer, { nonce: await getNonce(api, from || signer.address) })
+    ).toString();
+  }
+
   return (
-    await transfer.signAndSend(signer, { nonce: await getNonce(api, from || signer.address) })
+    await transfer.signAndSend(signer.address, {
+      signer,
+    })
   ).toString();
 };
 
 const estimateGasFee = async (
   api: ApiPromise,
-  signer: IKeyringPair,
+  signer: IKeyringPair | SwapKitSubstrateSigner,
   gasAsset: AssetValue,
   { recipient, assetValue, from }: SubstrateTransferParams,
 ) => {
@@ -98,19 +105,28 @@ const broadcast = async (
   return hash.toString();
 };
 
-const sign = async (signer: IKeyringPair, tx: SubmittableExtrinsic<"promise">) => {
-  const signedTx = await tx.signAsync(signer);
-  return signedTx;
+const sign = async (
+  signer: IKeyringPair | SwapKitSubstrateSigner,
+  tx: SubmittableExtrinsic<"promise">,
+) => {
+  if ("sign" in signer) {
+    const signedTx = await tx.signAsync(signer);
+    return signedTx;
+  }
+  return tx.signAsync(signer.address, { signer });
 };
 
 const signAndBroadcast = (
-  signer: IKeyringPair,
+  signer: IKeyringPair | SwapKitSubstrateSigner,
   tx: SubmittableExtrinsic<"promise">,
   callback?: Callback<ISubmittableResult>,
 ) => {
-  if (callback) return tx.signAndSend(signer, callback);
-  const hash = tx.signAndSend(signer);
-  return hash.toString();
+  if ("sign" in signer) {
+    if (callback) return tx.signAndSend(signer, callback);
+    const hash = tx.signAndSend(signer);
+    return hash.toString();
+  }
+  return tx.signAndSend(signer.address, { signer }, callback);
 };
 
 async function decodeAddress(address: string, networkPrefix?: number) {
@@ -125,6 +141,7 @@ async function encodeAddress(
   encoding: "ss58" | "hex" = "ss58",
   networkPrefix?: number,
 ) {
+  const { u8aToHex } = await import("@polkadot/util");
   const { encodeAddress } = await import("@polkadot/util-crypto");
   if (encoding === "hex") {
     return u8aToHex(address);
@@ -141,7 +158,7 @@ export const BaseToolbox = async ({
   api: ApiPromise;
   network: SubstrateNetwork;
   gasAsset: AssetValue;
-  signer: IKeyringPair;
+  signer: IKeyringPair | SwapKitSubstrateSigner;
 }): Promise<{
   api: ApiPromise;
   network: SubstrateNetwork;
@@ -152,7 +169,7 @@ export const BaseToolbox = async ({
     networkPrefix?: number,
   ) => Promise<string>;
   createKeyring: (phrase: string) => Promise<KeyringPair>;
-  getAddress: (signer?: KeyringPair) => string;
+  getAddress: (signer?: KeyringPair | SwapKitSubstrateSigner) => string;
   createTransfer: ({
     recipient,
     assetValue,
@@ -179,7 +196,8 @@ export const BaseToolbox = async ({
   decodeAddress,
   encodeAddress,
   createKeyring: async (phrase: string) => createKeyring(phrase, network.prefix),
-  getAddress: (keyring: IKeyringPair = signer) => keyring.address,
+  getAddress: (signerWithAddress: IKeyringPair | SwapKitSubstrateSigner = signer) =>
+    signerWithAddress.address,
   createTransfer: ({ recipient, assetValue }: { recipient: string; assetValue: AssetValue }) =>
     createTransfer(api, { recipient, amount: assetValue.getBaseValue("number") }),
   getBalance: async (address: string) => getBalance(api, gasAsset, address),

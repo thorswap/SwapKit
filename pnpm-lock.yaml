@@ -633,6 +633,9 @@ importers:
       '@ledgerhq/hw-app-eth':
         specifier: 6.35.5
         version: 6.35.5
+      '@ledgerhq/hw-app-polkadot':
+        specifier: 6.28.4
+        version: 6.28.4
       '@ledgerhq/hw-transport':
         specifier: 6.30.4
         version: 6.30.4
@@ -655,6 +658,9 @@ importers:
       '@swapkit/toolbox-evm':
         specifier: workspace:*
         version: link:../../toolboxes/evm
+      '@swapkit/toolbox-substrate':
+        specifier: workspace:*
+        version: link:../../toolboxes/substrate
       '@swapkit/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
@@ -2808,6 +2814,14 @@ packages:
       - bufferutil
       - debug
       - utf-8-validate
+    dev: false
+
+  /@ledgerhq/hw-app-polkadot@6.28.4:
+    resolution: {integrity: sha512-zuiOy2m7o7itZwFsWTo5JJBC6yyWmQaARseVC9Q3FeJ+XKLyEUJAn6O4z6Bd7IFAquM6CagqxNzQo+TdAY07Tg==}
+    dependencies:
+      '@ledgerhq/errors': 6.16.2
+      '@ledgerhq/hw-transport': 6.30.4
+      bip32-path: 0.4.2
     dev: false
 
   /@ledgerhq/hw-transport-mocker@6.28.4:

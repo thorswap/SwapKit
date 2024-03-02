@@ -1,11 +1,11 @@
+import * as ecc from "@bitcoinerlab/secp256k1";
 import { HDKey } from "@scure/bip32";
 import { mnemonicToSeedSync } from "@scure/bip39";
 import { AssetValue, SwapKitNumber } from "@swapkit/helpers";
 import type { UTXOChain } from "@swapkit/types";
 import { BaseDecimal, Chain, FeeOption } from "@swapkit/types";
-import { initEccLib, Psbt, address as btcLibAddress, payments } from "bitcoinjs-lib";
+import { Psbt, address as btcLibAddress, initEccLib, payments } from "bitcoinjs-lib";
 import type { ECPairInterface } from "ecpair";
-import * as ecc from "@bitcoinerlab/secp256k1";
 import { ECPairFactory } from "ecpair";
 
 import type { BlockchairApiType } from "../api/blockchairApi.ts";

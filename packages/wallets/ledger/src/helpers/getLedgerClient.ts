@@ -10,6 +10,7 @@ import { CosmosLedger } from "../clients/cosmos.ts";
 import { DogecoinLedger } from "../clients/dogecoin.ts";
 import { EthereumLedger } from "../clients/ethereum.ts";
 import { LitecoinLedger } from "../clients/litecoin.ts";
+import { PolkadotLedger } from "../clients/polkadot.ts";
 import { THORChainLedger } from "../clients/thorchain/index.ts";
 
 import type { LEDGER_SUPPORTED_CHAINS } from "./ledgerSupportedChains.ts";
@@ -51,5 +52,7 @@ export const getLedgerClient = async ({
           return new EthereumLedger(params);
       }
     }
+    case Chain.Polkadot:
+      return PolkadotLedger(derivationPath);
   }
 };
