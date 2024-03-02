@@ -365,8 +365,7 @@ export const ThorchainProvider = ({
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>
   const swap = async (swapParams: SwapParams) => {
-    if (!("route" in swapParams && "meta" in swapParams))
-      throw new SwapKitError("core_swap_invalid_params");
+    if (!("route" in swapParams)) throw new SwapKitError("core_swap_invalid_params");
 
     const route = swapParams.route as QuoteRoute;
 

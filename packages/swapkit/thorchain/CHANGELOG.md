@@ -1,5 +1,11 @@
 # @swapkit/thorchain
 
+## 1.0.0-rc.8
+
+### Patch Changes
+
+- [#643](https://github.com/thorswap/SwapKit/pull/643) [`4eb405c`](https://github.com/thorswap/SwapKit/commit/4eb405c1d313d11a37d9591b98afdc7a879ba861) Thanks [@towanTG](https://github.com/towanTG)! - Fixes thorchain swap
+
 ## 1.0.0-rc.7
 
 ### Patch Changes
