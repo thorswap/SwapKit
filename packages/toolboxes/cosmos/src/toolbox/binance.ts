@@ -85,7 +85,7 @@ const sendRawTransaction = (signedBz: string, sync = true) =>
     result: {
       hash: string;
     };
-  }>(`https://dataseed1.bnbchain.org/broadcast_tx_sync?tx=${signedBz}`);
+  }>(`https://dataseed1.bnbchain.org/broadcast_tx_sync?tx=0x${signedBz}`);
 
 const prepareTransaction = async (
   msg: any,
@@ -94,11 +94,7 @@ const prepareTransaction = async (
   memo = "",
 ) => {
   const account = await getAccount(address);
-  let sequence = initSequence || 0;
-
-  if (sequence !== 0 && !sequence && address) {
-    sequence = account.sequence;
-  }
+  const sequence = initSequence || address ? account.sequence : 0;
 
   return new BNBTransaction({
     accountNumber: account.account_number,
