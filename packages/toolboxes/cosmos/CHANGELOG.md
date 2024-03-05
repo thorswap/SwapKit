@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.90
+
+### Patch Changes
+
+- [#653](https://github.com/thorswap/SwapKit/pull/653) [`6226f25`](https://github.com/thorswap/SwapKit/commit/6226f25516a2455a6d0a1a1793afe1b9641758a3) Thanks [@towanTG](https://github.com/towanTG)! - Changes BNB node endpoint to TS node
+
 ## 1.0.0-rc.89
 
 ### Patch Changes
