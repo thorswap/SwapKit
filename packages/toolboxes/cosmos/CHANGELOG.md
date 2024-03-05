@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.87
+
+### Patch Changes
+
+- [#647](https://github.com/thorswap/SwapKit/pull/647) [`da7e29d`](https://github.com/thorswap/SwapKit/commit/da7e29d12b58d9512ff8edc7a26a1bd4323ee706) Thanks [@towanTG](https://github.com/towanTG)! - Changes BNB broadcast endpoint after current one was disabled
+
 ## 1.0.0-rc.86
 
 ### Patch Changes
