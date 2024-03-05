@@ -195,13 +195,9 @@ const getWalletMethodsForChain = async ({
         "@swapkit/toolbox-substrate"
       );
 
-      const network = Network[chain];
-
-      const signer = await createKeyring(phrase, network.prefix);
-
-      const toolbox = await getToolboxByChain(chain, {
-        signer,
-      });
+      const networkPrefix = Network[chain].prefix;
+      const signer = await createKeyring(phrase, networkPrefix);
+      const toolbox = await getToolboxByChain(chain, { signer });
 
       return { address: signer.address, walletMethods: toolbox };
     }

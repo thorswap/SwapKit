@@ -27,6 +27,7 @@ const getBalance = async (api: ApiPromise, gasAsset: AssetValue, address: string
   const { SwapKitNumber } = await import("@swapkit/helpers");
   const data = (await api.query.system.account(address)) as any;
   if (!data?.data?.free || data?.data?.isEmpty) return [gasAsset.set(0)];
+
   return [
     gasAsset.set(
       SwapKitNumber.fromBigInt(BigInt(data.data.free.toString()), gasAsset.decimal).getValue(
@@ -51,7 +52,7 @@ const validateAddress = async (address: string, networkPrefix: number) => {
 const createTransfer = (
   api: ApiPromise,
   { recipient, amount }: { recipient: string; amount: number },
-): SubmittableExtrinsic<"promise"> => api.tx.balances.transferAllowDeath(recipient, amount);
+) => api.tx.balances.transferAllowDeath(recipient, amount);
 
 const transfer = async (
   api: ApiPromise,
@@ -63,17 +64,15 @@ const transfer = async (
     amount: assetValue.getBaseValue("number"),
   });
 
-  if ("sign" in signer) {
-    return (
-      await transfer.signAndSend(signer, { nonce: await getNonce(api, from || signer.address) })
-    ).toString();
-  }
+  const isKeyringSigner = "sign" in signer;
 
-  return (
-    await transfer.signAndSend(signer.address, {
-      signer,
-    })
-  ).toString();
+  const account = isKeyringSigner ? signer : signer.address;
+  const options = isKeyringSigner
+    ? { nonce: await getNonce(api, from || signer.address) }
+    : { signer };
+
+  const txHash = await transfer.signAndSend(account, options);
+  return txHash.toString();
 };
 
 const estimateGasFee = async (
@@ -85,9 +84,8 @@ const estimateGasFee = async (
   const { SwapKitNumber } = await import("@swapkit/helpers");
   const transfer = createTransfer(api, { recipient, amount: assetValue.getBaseValue("number") });
 
-  const paymentInfo = await transfer.paymentInfo(from || signer.address, {
-    nonce: await getNonce(api, from || signer.address),
-  });
+  const nonce = await getNonce(api, from || signer.address);
+  const paymentInfo = await transfer.paymentInfo(from || signer.address, { nonce });
 
   return gasAsset.set(
     SwapKitNumber.fromBigInt(BigInt(paymentInfo.partialFee.toString()), gasAsset.decimal).getValue(
