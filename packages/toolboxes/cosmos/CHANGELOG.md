@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.89
+
+### Patch Changes
+
+- [#651](https://github.com/thorswap/SwapKit/pull/651) [`dc2e8fd`](https://github.com/thorswap/SwapKit/commit/dc2e8fd0a61e7399d622bc700b448d9570baf691) Thanks [@towanTG](https://github.com/towanTG)! - Fix BNB sequence bug
+
 ## 1.0.0-rc.88
 
 ### Patch Changes

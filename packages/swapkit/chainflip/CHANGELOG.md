@@ -1,5 +1,12 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.20
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/core@1.0.0-rc.108
+
 ## 1.0.0-rc.19
 
 ### Patch Changes
