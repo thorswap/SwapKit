@@ -81,10 +81,14 @@ const getFeeRateFromThorchain = async () => {
 };
 
 const sendRawTransaction = (signedBz: string, sync = true) =>
-  RequestClient.post<{ hash: string }[]>(
-    `${BINANCE_MAINNET_API_URI}/api/v1/broadcast?sync=${sync}`,
-    { body: signedBz, headers: { "content-type": "text/plain" } },
-  );
+  RequestClient.get<{
+    result: {
+      hash: string;
+    };
+  }>(`https://dataseed1.bnbchain.org/broadcast_tx_sync?tx=${signedBz}`, {
+    body: signedBz,
+    headers: { "content-type": "text/plain" },
+  });
 
 const prepareTransaction = async (
   msg: any,
@@ -148,7 +152,7 @@ const transfer = async (params: TransferParams): Promise<string> => {
 
   const res = await sendRawTransaction(signedTx.serialize(), true);
 
-  return res[0]?.hash;
+  return res?.result?.hash;
 };
 
 export const getPublicKey = (publicKey: string) => {
