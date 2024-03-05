@@ -85,7 +85,7 @@ const sendRawTransaction = (signedBz: string, sync = true) =>
     result: {
       hash: string;
     };
-  }>(`https://dataseed1.bnbchain.org/broadcast_tx_sync?tx=0x${signedBz}`);
+  }>(`https://node-router.thorswap.net/binance/broadcast_tx_sync?tx=0x${signedBz}`);
 
 const prepareTransaction = async (
   msg: any,
