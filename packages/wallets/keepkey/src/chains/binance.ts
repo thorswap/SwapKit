@@ -55,7 +55,7 @@ export const binanceWalletMethods = async ({
           keepKeyResponse?.serialized,
           true,
         );
-        return broadcastResponse?.[0]?.hash;
+        return broadcastResponse?.result?.hash;
       } catch (e) {
         console.error(e);
       }
