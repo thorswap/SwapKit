@@ -117,7 +117,7 @@ const getToolbox = async ({
 
         const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);
 
-        return res[0]?.hash;
+        return res?.result?.hash;
       };
       return { ...toolbox, transfer };
     }

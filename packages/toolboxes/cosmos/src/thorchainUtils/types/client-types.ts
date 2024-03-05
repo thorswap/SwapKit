@@ -128,7 +128,14 @@ export type BinanceToolboxType = Omit<BaseCosmosToolboxType, "getAccount"> & {
   getFees: () => Promise<Fees>;
   transfer: (params: TransferParams) => Promise<string>;
   getAccount: (address: string) => Promise<Account>;
-  sendRawTransaction: (signedBz: string, sync: boolean) => Promise<any>;
+  sendRawTransaction: (
+    signedBz: string,
+    sync: boolean,
+  ) => Promise<{
+    result: {
+      hash: string;
+    };
+  }>;
   createTransactionAndSignMsg: (params: TransferParams) => Promise<{
     transaction: BNBTransaction;
     signMsg: {
