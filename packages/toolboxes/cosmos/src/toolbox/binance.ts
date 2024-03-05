@@ -82,7 +82,7 @@ const getFeeRateFromThorchain = async () => {
 
 const sendRawTransaction = (signedBz: string, sync = true) =>
   RequestClient.post<{ hash: string }[]>(
-    `${BINANCE_MAINNET_API_URI}/api/v1/broadcast?sync=${sync}`,
+    `https://dataseed1.bnbchain.org/broadcast_tx_sync?tx=${sync}`,
     { body: signedBz, headers: { "content-type": "text/plain" } },
   );
 
