@@ -1,5 +1,14 @@
 # @swapkit/wallet-wc
 
+## 1.0.0-rc.94
+
+### Patch Changes
+
+- [#647](https://github.com/thorswap/SwapKit/pull/647) [`da7e29d`](https://github.com/thorswap/SwapKit/commit/da7e29d12b58d9512ff8edc7a26a1bd4323ee706) Thanks [@towanTG](https://github.com/towanTG)! - Updates BNB sendRawTransaction usage
+
+- Updated dependencies [[`da7e29d`](https://github.com/thorswap/SwapKit/commit/da7e29d12b58d9512ff8edc7a26a1bd4323ee706)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.87
+
 ## 1.0.0-rc.93
 
 ### Patch Changes
