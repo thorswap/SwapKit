@@ -1,5 +1,65 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.128
+
+### Patch Changes
+
+- Updated dependencies [[`6226f25`](https://github.com/thorswap/SwapKit/commit/6226f25516a2455a6d0a1a1793afe1b9641758a3)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.90
+  - @swapkit/core@1.0.0-rc.109
+  - @swapkit/wallet-keepkey@1.0.0-rc.24
+  - @swapkit/wallet-keplr@1.0.0-rc.91
+  - @swapkit/wallet-keystore@1.0.0-rc.103
+  - @swapkit/wallet-ledger@1.0.0-rc.108
+  - @swapkit/wallet-okx@1.0.0-rc.103
+  - @swapkit/wallet-wc@1.0.0-rc.97
+  - @swapkit/wallet-xdefi@1.0.0-rc.105
+
+## 1.0.0-rc.127
+
+### Patch Changes
+
+- Updated dependencies [[`dc2e8fd`](https://github.com/thorswap/SwapKit/commit/dc2e8fd0a61e7399d622bc700b448d9570baf691)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.89
+  - @swapkit/core@1.0.0-rc.108
+  - @swapkit/wallet-keepkey@1.0.0-rc.23
+  - @swapkit/wallet-keplr@1.0.0-rc.90
+  - @swapkit/wallet-keystore@1.0.0-rc.102
+  - @swapkit/wallet-ledger@1.0.0-rc.107
+  - @swapkit/wallet-okx@1.0.0-rc.102
+  - @swapkit/wallet-wc@1.0.0-rc.96
+  - @swapkit/wallet-xdefi@1.0.0-rc.104
+
+## 1.0.0-rc.126
+
+### Patch Changes
+
+- Updated dependencies [[`f4a2100`](https://github.com/thorswap/SwapKit/commit/f4a21006b37438d62f98f0fb1cae76adfad46d5e)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.88
+  - @swapkit/core@1.0.0-rc.107
+  - @swapkit/wallet-keepkey@1.0.0-rc.22
+  - @swapkit/wallet-keplr@1.0.0-rc.89
+  - @swapkit/wallet-keystore@1.0.0-rc.101
+  - @swapkit/wallet-ledger@1.0.0-rc.106
+  - @swapkit/wallet-okx@1.0.0-rc.101
+  - @swapkit/wallet-wc@1.0.0-rc.95
+  - @swapkit/wallet-xdefi@1.0.0-rc.103
+
+## 1.0.0-rc.125
+
+### Patch Changes
+
+- Updated dependencies [[`da7e29d`](https://github.com/thorswap/SwapKit/commit/da7e29d12b58d9512ff8edc7a26a1bd4323ee706), [`da7e29d`](https://github.com/thorswap/SwapKit/commit/da7e29d12b58d9512ff8edc7a26a1bd4323ee706)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.87
+  - @swapkit/wallet-ledger@1.0.0-rc.105
+  - @swapkit/wallet-wc@1.0.0-rc.94
+  - @swapkit/core@1.0.0-rc.106
+  - @swapkit/wallet-keepkey@1.0.0-rc.21
+  - @swapkit/wallet-keplr@1.0.0-rc.88
+  - @swapkit/wallet-keystore@1.0.0-rc.100
+  - @swapkit/wallet-okx@1.0.0-rc.100
+  - @swapkit/wallet-xdefi@1.0.0-rc.102
+
 ## 1.0.0-rc.124
 
 ### Patch Changes

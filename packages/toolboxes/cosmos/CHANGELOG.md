@@ -1,5 +1,29 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.90
+
+### Patch Changes
+
+- [#653](https://github.com/thorswap/SwapKit/pull/653) [`6226f25`](https://github.com/thorswap/SwapKit/commit/6226f25516a2455a6d0a1a1793afe1b9641758a3) Thanks [@towanTG](https://github.com/towanTG)! - Changes BNB node endpoint to TS node
+
+## 1.0.0-rc.89
+
+### Patch Changes
+
+- [#651](https://github.com/thorswap/SwapKit/pull/651) [`dc2e8fd`](https://github.com/thorswap/SwapKit/commit/dc2e8fd0a61e7399d622bc700b448d9570baf691) Thanks [@towanTG](https://github.com/towanTG)! - Fix BNB sequence bug
+
+## 1.0.0-rc.88
+
+### Patch Changes
+
+- [#649](https://github.com/thorswap/SwapKit/pull/649) [`f4a2100`](https://github.com/thorswap/SwapKit/commit/f4a21006b37438d62f98f0fb1cae76adfad46d5e) Thanks [@towanTG](https://github.com/towanTG)! - Fixes BNB broadcast request
+
+## 1.0.0-rc.87
+
+### Patch Changes
+
+- [#647](https://github.com/thorswap/SwapKit/pull/647) [`da7e29d`](https://github.com/thorswap/SwapKit/commit/da7e29d12b58d9512ff8edc7a26a1bd4323ee706) Thanks [@towanTG](https://github.com/towanTG)! - Changes BNB broadcast endpoint after current one was disabled
+
 ## 1.0.0-rc.86
 
 ### Patch Changes

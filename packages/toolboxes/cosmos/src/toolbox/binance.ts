@@ -81,10 +81,11 @@ const getFeeRateFromThorchain = async () => {
 };
 
 const sendRawTransaction = (signedBz: string, sync = true) =>
-  RequestClient.post<{ hash: string }[]>(
-    `${BINANCE_MAINNET_API_URI}/api/v1/broadcast?sync=${sync}`,
-    { body: signedBz, headers: { "content-type": "text/plain" } },
-  );
+  RequestClient.get<{
+    result: {
+      hash: string;
+    };
+  }>(`https://node-router.thorswap.net/binance/broadcast_tx_sync?tx=0x${signedBz}`);
 
 const prepareTransaction = async (
   msg: any,
@@ -93,11 +94,7 @@ const prepareTransaction = async (
   memo = "",
 ) => {
   const account = await getAccount(address);
-  let sequence = initSequence || 0;
-
-  if (sequence !== 0 && !sequence && address) {
-    sequence = account.sequence;
-  }
+  const sequence = initSequence || address ? account.sequence : 0;
 
   return new BNBTransaction({
     accountNumber: account.account_number,
@@ -148,7 +145,7 @@ const transfer = async (params: TransferParams): Promise<string> => {
 
   const res = await sendRawTransaction(signedTx.serialize(), true);
 
-  return res[0]?.hash;
+  return res?.result?.hash;
 };
 
 export const getPublicKey = (publicKey: string) => {

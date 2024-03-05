@@ -1,5 +1,37 @@
 # @swapkit/thorchain
 
+## 1.0.0-rc.12
+
+### Patch Changes
+
+- Updated dependencies [[`6226f25`](https://github.com/thorswap/SwapKit/commit/6226f25516a2455a6d0a1a1793afe1b9641758a3)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.90
+  - @swapkit/core@1.0.0-rc.109
+
+## 1.0.0-rc.11
+
+### Patch Changes
+
+- Updated dependencies [[`dc2e8fd`](https://github.com/thorswap/SwapKit/commit/dc2e8fd0a61e7399d622bc700b448d9570baf691)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.89
+  - @swapkit/core@1.0.0-rc.108
+
+## 1.0.0-rc.10
+
+### Patch Changes
+
+- Updated dependencies [[`f4a2100`](https://github.com/thorswap/SwapKit/commit/f4a21006b37438d62f98f0fb1cae76adfad46d5e)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.88
+  - @swapkit/core@1.0.0-rc.107
+
+## 1.0.0-rc.9
+
+### Patch Changes
+
+- Updated dependencies [[`da7e29d`](https://github.com/thorswap/SwapKit/commit/da7e29d12b58d9512ff8edc7a26a1bd4323ee706)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.87
+  - @swapkit/core@1.0.0-rc.106
+
 ## 1.0.0-rc.8
 
 ### Patch Changes
