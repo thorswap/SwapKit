@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.88
+
+### Patch Changes
+
+- [#649](https://github.com/thorswap/SwapKit/pull/649) [`f4a2100`](https://github.com/thorswap/SwapKit/commit/f4a21006b37438d62f98f0fb1cae76adfad46d5e) Thanks [@towanTG](https://github.com/towanTG)! - Fixes BNB broadcast request
+
 ## 1.0.0-rc.87
 
 ### Patch Changes
