@@ -85,10 +85,7 @@ const sendRawTransaction = (signedBz: string, sync = true) =>
     result: {
       hash: string;
     };
-  }>(`https://dataseed1.bnbchain.org/broadcast_tx_sync?tx=${signedBz}`, {
-    body: signedBz,
-    headers: { "content-type": "text/plain" },
-  });
+  }>(`https://dataseed1.bnbchain.org/broadcast_tx_sync?tx=${signedBz}`);
 
 const prepareTransaction = async (
   msg: any,
