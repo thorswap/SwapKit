@@ -7,6 +7,8 @@
     "@ledgerhq/hw-app-cosmos": "6.29.4",
     "@ledgerhq/hw-app-eth": "6.35.5",
     "@ledgerhq/hw-app-polkadot": "6.28.4",
+    "@polkadot/hw-ledger": "12.6.2",
+    "@polkadot/util": "12.6.2",
     "@ledgerhq/hw-transport": "6.30.4",
     "@ledgerhq/hw-transport-webusb": "6.28.4",
     "ripemd160": "2.0.2"

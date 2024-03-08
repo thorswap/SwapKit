@@ -1,4 +1,4 @@
-import { setRequestClientConfig } from "@swapkit/helpers";
+import { AssetValue, setRequestClientConfig } from "@swapkit/helpers";
 import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
 import type { UTXOBuildTxParams } from "@swapkit/toolbox-utxo";
 import type { ConnectWalletParams, DerivationPathArray } from "@swapkit/types";
@@ -85,7 +85,7 @@ const getToolbox = async ({
     | LitecoinLedger
     | THORChainLedger
     | CosmosLedger
-    | ReturnType<typeof PolkadotLedger>;
+    | Awaited<ReturnType<typeof PolkadotLedger>>;
   derivationPath?: DerivationPathArray;
   stagenet?: boolean;
 }) => {
@@ -367,13 +367,30 @@ const getToolbox = async ({
     case Chain.Polkadot: {
       const { getToolboxByChain } = await import("@swapkit/toolbox-substrate");
 
-      const polkadotSigner = await (signer as ReturnType<typeof PolkadotLedger>).getAsSigner();
+      const polkadotSigner = signer as Awaited<ReturnType<typeof PolkadotLedger>>;
 
       const toolbox = await getToolboxByChain(chain, {
         signer: polkadotSigner,
       });
 
-      return toolbox;
+      async function transfer({
+        from,
+        assetValue,
+        recipient,
+      }: { from: string; assetValue: AssetValue; recipient: string }) {
+        const transfer = await toolbox.createTransfer({ recipient, assetValue });
+
+        const human = transfer.toHuman();
+
+        const signature = await polkadotSigner.signRaw(transfer);
+
+        // @ts-expect-error
+        const txHash = await toolbox.broadcast(transfer.addSignature(signature));
+
+        return txHash;
+      }
+
+      return { ...toolbox };
     }
 
     default:
