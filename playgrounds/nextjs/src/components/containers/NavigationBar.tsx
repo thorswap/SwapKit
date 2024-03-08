@@ -23,7 +23,6 @@ interface NavigationBarProps extends React.HTMLAttributes<HTMLDivElement> {}
 const AllChains = [...UTXOChains, ...EVMChains, ...CosmosChains];
 const allowedChainsByWallet = {
   [WalletOption.XDEFI]: AllChains.filter((chain) => ![Chain.Dash].includes(chain)),
-  [WalletOption.KEEPKEY]: AllChains,
   [WalletOption.METAMASK]: EVMChains,
   [WalletOption.KEPLR]: CosmosChains,
 } as const;
@@ -136,7 +135,7 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
             </div>
 
             <div className="bg-slate-800 p-4">
-              {[WalletOption.XDEFI, WalletOption.METAMASK, WalletOption.KEPLR, WalletOption.KEEPKEY].map((option) => (
+              {[WalletOption.XDEFI, WalletOption.METAMASK, WalletOption.KEPLR].map((option) => (
                 <div key={option}>
                   {selectedChains.length && !checkWalletDisabled(option) ? (
                     <Button
