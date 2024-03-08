@@ -20,6 +20,7 @@ export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.BitcoinCash,
   Chain.Cosmos,
   Chain.Dogecoin,
+  Chain.Dash,
   Chain.Ethereum,
   Chain.Litecoin,
   Chain.Optimism,
@@ -95,6 +96,7 @@ const getWalletMethods = async ({
     }
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
+    case Chain.Dash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       return utxoWalletMethods({
