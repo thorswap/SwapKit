@@ -24,7 +24,7 @@ export const mayachainWalletMethods = async ({
 }: {
   sdk: KeepKeySdk;
   derivationPath?: DerivationPathArray;
-}): Promise<ThorchainToolboxType & { getAddress: () => string }> => {
+}): Promise<ThorchainToolboxType & { address: string }> => {
   const { createStargateClient, getToolboxByChain } = await import('@swapkit/toolbox-cosmos');
   const toolbox = getToolboxByChain(Chain.Maya)();
   const derivationPathString = derivationPath
@@ -34,7 +34,7 @@ export const mayachainWalletMethods = async ({
   const { address: fromAddress } = (await sdk.address.mayachainGetAddress({
     address_n: bip32ToAddressNList(derivationPathString),
   })) as { address: string };
-
+  
   const signTransaction = async ({ assetValue, recipient, from, memo }: SignTransactionParams) => {
     const { getDenomWithChain, makeSignDoc } = await import('@swapkit/toolbox-cosmos');
 
@@ -91,7 +91,7 @@ export const mayachainWalletMethods = async ({
 
   const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
     try {
-      const stargateClient = await createStargateClient(RPCUrl.THORChain);
+      const stargateClient = await createStargateClient(RPCUrl.Maya);
       const signedTransaction = await signTransaction({
         assetValue,
         recipient,
@@ -126,5 +126,5 @@ export const mayachainWalletMethods = async ({
     }
   };
 
-  return { ...toolbox, getAddress: () => fromAddress, transfer, deposit };
+  return { ...toolbox, transfer, deposit, address: fromAddress };
 };
