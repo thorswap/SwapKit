@@ -19,6 +19,7 @@
     "@swapkit/wallet-wc": "workspace:*",
     "@swapkit/wallet-xdefi": "workspace:*",
     "base64-js": "1.5.1",
+    "buffer": "6.0.3",
     "crypto-browserify": "3.12.0",
     "https-browserify": "1.0.0",
     "os-browserify": "0.3.0",
