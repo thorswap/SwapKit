@@ -1,10 +1,10 @@
 import {
   AssetValue,
+  SwapKitNumber,
   filterAssets,
   formatBigIntToSafeValue,
   isGasAsset,
-  SwapKitNumber,
-} from '@swapkit/helpers';
+} from "@swapkit/helpers";
 import {
   BaseDecimal,
   Chain,
@@ -13,11 +13,11 @@ import {
   type EVMChain,
   FeeOption,
   WalletOption,
-} from '@swapkit/types';
-import type { BrowserProvider, Eip1193Provider, JsonRpcProvider } from 'ethers';
+} from "@swapkit/types";
+import type { BrowserProvider, Eip1193Provider, JsonRpcProvider } from "ethers";
 
-import type { CovalentApiType, EthplorerApiType, EVMMaxSendableAmountsParams } from './index.ts';
-import { AVAXToolbox, BSCToolbox, ETHToolbox } from './index.ts';
+import type { CovalentApiType, EVMMaxSendableAmountsParams, EthplorerApiType } from "./index.ts";
+import { AVAXToolbox, BSCToolbox, ETHToolbox } from "./index.ts";
 
 type NetworkParams = {
   chainId: ChainId;
@@ -35,29 +35,29 @@ type ProviderRequestParams = {
   provider?: BrowserProvider;
   params?: any;
   method:
-    | 'wallet_addEthereumChain'
-    | 'wallet_switchEthereumChain'
-    | 'eth_requestAccounts'
-    | 'eth_sendTransaction'
-    | 'eth_signTransaction';
+    | "wallet_addEthereumChain"
+    | "wallet_switchEthereumChain"
+    | "eth_requestAccounts"
+    | "eth_sendTransaction"
+    | "eth_signTransaction";
 };
 
 const methodsToWrap = [
-  'approve',
-  'approvedAmount',
-  'call',
-  'sendTransaction',
-  'transfer',
-  'getBalance',
-  'isApproved',
-  'approvedAmount',
-  'EIP1193SendTransaction',
-  'getFeeData',
-  'broadcastTransaction',
-  'estimateCall',
-  'estimateGasLimit',
-  'estimateGasPrices',
-  'createContractTxObject',
+  "approve",
+  "approvedAmount",
+  "call",
+  "sendTransaction",
+  "transfer",
+  "getBalance",
+  "isApproved",
+  "approvedAmount",
+  "EIP1193SendTransaction",
+  "getFeeData",
+  "broadcastTransaction",
+  "estimateCall",
+  "estimateGasLimit",
+  "estimateGasPrices",
+  "createContractTxObject",
 ];
 
 export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[]) => any }>({
@@ -74,6 +74,7 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
     const method = toolbox[methodName];
 
     return {
+      // biome-ignore lint/performance/noAccumulatingSpread: This is a valid use case
       ...object,
       [methodName]: wrapMethodWithNetworkSwitch<typeof method>(method, provider, chainId),
     };
@@ -96,18 +97,18 @@ export const wrapMethodWithNetworkSwitch = <T extends (...args: any[]) => any>(
     return func(...args);
   }) as unknown as T;
 
-const providerRequest = async ({ provider, params, method }: ProviderRequestParams) => {
-  if (!provider?.send) throw new Error('Provider not found');
+const providerRequest = ({ provider, params, method }: ProviderRequestParams) => {
+  if (!provider?.send) throw new Error("Provider not found");
 
   const providerParams = params ? (Array.isArray(params) ? params : [params]) : [];
   return provider.send(method, providerParams);
 };
 
 export const addEVMWalletNetwork = (provider: BrowserProvider, networkParams: NetworkParams) =>
-  providerRequest({ provider, method: 'wallet_addEthereumChain', params: [networkParams] });
+  providerRequest({ provider, method: "wallet_addEthereumChain", params: [networkParams] });
 
 export const switchEVMWalletNetwork = (provider: BrowserProvider, chainId = ChainId.EthereumHex) =>
-  providerRequest({ provider, method: 'wallet_switchEthereumChain', params: [{ chainId }] });
+  providerRequest({ provider, method: "wallet_switchEthereumChain", params: [{ chainId }] });
 
 export const getWeb3WalletMethods = async ({
   ethereumWindowProvider,
@@ -120,7 +121,7 @@ export const getWeb3WalletMethods = async ({
   covalentApiKey?: string;
   ethplorerApiKey?: string;
 }) => {
-  if (!ethereumWindowProvider) throw new Error('Requested web3 wallet is not installed');
+  if (!ethereumWindowProvider) throw new Error("Requested web3 wallet is not installed");
 
   if (
     (chain !== Chain.Ethereum && !covalentApiKey) ||
@@ -129,9 +130,9 @@ export const getWeb3WalletMethods = async ({
     throw new Error(`Missing API key for ${chain} chain`);
   }
 
-  const { BrowserProvider } = await import('ethers');
+  const { BrowserProvider } = await import("ethers");
 
-  const provider = new BrowserProvider(ethereumWindowProvider, 'any');
+  const provider = new BrowserProvider(ethereumWindowProvider, "any");
 
   const toolboxParams = {
     provider,
@@ -155,7 +156,7 @@ export const getWeb3WalletMethods = async ({
           toolbox as ReturnType<typeof AVAXToolbox> | ReturnType<typeof BSCToolbox>
         ).getNetworkParams(),
       ));
-  } catch (error) {
+  } catch (_error) {
     throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
   }
   return prepareNetworkSwitch<typeof toolbox>({
@@ -168,7 +169,7 @@ export const getWeb3WalletMethods = async ({
 export const estimateMaxSendableAmount = async ({
   toolbox,
   from,
-  memo = '',
+  memo = "",
   feeOptionKey = FeeOption.Fastest,
   assetValue,
   abi,
@@ -192,7 +193,7 @@ export const estimateMaxSendableAmount = async ({
   }
 
   if ([abi, funcName, funcParams, contractAddress].some((param) => !param)) {
-    throw new Error('Missing required parameters for smart contract estimateMaxSendableAmount');
+    throw new Error("Missing required parameters for smart contract estimateMaxSendableAmount");
   }
 
   const gasLimit =
@@ -211,27 +212,28 @@ export const estimateMaxSendableAmount = async ({
           assetValue,
         });
 
-  const isFeeEIP1559Compatible = 'maxFeePerGas' in fees;
-  const isFeeEVMLegacyCompatible = 'gasPrice' in fees;
+  const isFeeEIP1559Compatible = "maxFeePerGas" in fees;
+  const isFeeEVMLegacyCompatible = "gasPrice" in fees;
 
-  if (!isFeeEVMLegacyCompatible && !isFeeEIP1559Compatible)
-    throw new Error('Could not fetch fee data');
+  if (!(isFeeEVMLegacyCompatible || isFeeEIP1559Compatible)) {
+    throw new Error("Could not fetch fee data");
+  }
 
   const fee =
     gasLimit *
     (isFeeEIP1559Compatible
-      ? fees.maxFeePerGas! + (fees.maxPriorityFeePerGas! || 1n)
-      : fees.gasPrice!);
-  const maxSendableAmount = SwapKitNumber.fromBigInt(balance.getBaseValue('bigint')).sub(
+      ? (fees.maxFeePerGas || 1n) + (fees.maxPriorityFeePerGas || 1n)
+      : fees.gasPrice);
+  const maxSendableAmount = SwapKitNumber.fromBigInt(balance.getBaseValue("bigint")).sub(
     fee.toString(),
   );
 
-  return AssetValue.fromChainOrSignature(balance.chain, maxSendableAmount.getValue('string'));
+  return AssetValue.fromChainOrSignature(balance.chain, maxSendableAmount.getValue("string"));
 };
 
 export const addAccountsChangedCallback = (callback: () => void) => {
-  window.ethereum?.on('accountsChanged', () => callback());
-  window.xfi?.ethereum.on('accountsChanged', () => callback());
+  window.ethereum?.on("accountsChanged", () => callback());
+  window.xfi?.ethereum.on("accountsChanged", () => callback());
 };
 
 export const getETHDefaultWallet = () => {
@@ -279,8 +281,8 @@ export const okxMobileEnabled = () => {
   return isMobile && isOKApp;
 };
 
-export const isWeb3Detected = () => typeof window.ethereum !== 'undefined';
-export const toHexString = (value: bigint) => (value > 0n ? `0x${value.toString(16)}` : '0x0');
+export const isWeb3Detected = () => typeof window.ethereum !== "undefined";
+export const toHexString = (value: bigint) => (value > 0n ? `0x${value.toString(16)}` : "0x0");
 
 export const getBalance = async ({
   provider,

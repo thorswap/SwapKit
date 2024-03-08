@@ -1,11 +1,11 @@
-import { derivationPathToString, setRequestClientConfig } from '@swapkit/helpers';
-import type { Psbt, UTXOTransferParams, UTXOType } from '@swapkit/toolbox-utxo';
-import { toCashAddress } from '@swapkit/toolbox-utxo';
-import type { ConnectWalletParams, DerivationPathArray } from '@swapkit/types';
-import { Chain, FeeOption, WalletOption } from '@swapkit/types';
-import TrezorConnect from '@trezor/connect-web';
+import { derivationPathToString, setRequestClientConfig } from "@swapkit/helpers";
+import type { Psbt, UTXOTransferParams, UTXOType } from "@swapkit/toolbox-utxo";
+import { toCashAddress } from "@swapkit/toolbox-utxo";
+import type { ConnectWalletParams, DerivationPathArray } from "@swapkit/types";
+import { Chain, FeeOption, WalletOption } from "@swapkit/types";
+import TrezorConnect from "@trezor/connect-web";
 
-import { getEVMSigner } from './signer/evm.ts';
+import { getEVMSigner } from "./signer/evm.ts";
 
 export const TREZOR_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
@@ -46,7 +46,8 @@ const getToolbox = async ({
   covalentApiKey,
   derivationPath,
   blockchairApiKey,
-}: Params) => {
+}: // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
+Params) => {
   switch (chain) {
     case Chain.BinanceSmartChain:
     case Chain.Avalanche:
@@ -55,11 +56,11 @@ const getToolbox = async ({
     case Chain.Polygon:
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey)
-        throw new Error('Ethplorer API key not found');
+        throw new Error("Ethplorer API key not found");
       if (chain !== Chain.Ethereum && !covalentApiKey)
-        throw new Error('Covalent API key not found');
+        throw new Error("Covalent API key not found");
 
-      const { getProvider, getToolboxByChain } = await import('@swapkit/toolbox-evm');
+      const { getProvider, getToolboxByChain } = await import("@swapkit/toolbox-evm");
 
       const provider = getProvider(chain, rpcUrl);
       const signer = await getEVMSigner({ chain, derivationPath, provider });
@@ -76,7 +77,6 @@ const getToolbox = async ({
             provider,
             ethplorerApiKey: ethplorerApiKey as string,
           }),
-          getAddress: () => address,
         },
       };
     }
@@ -85,26 +85,26 @@ const getToolbox = async ({
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      if (!blockchairApiKey && !api) throw new Error('UTXO API key not found');
-      const coin = chain.toLowerCase() as 'btc' | 'bch' | 'ltc' | 'doge';
+      if (!(blockchairApiKey || api)) throw new Error("UTXO API key not found");
+      const coin = chain.toLowerCase() as "btc" | "bch" | "ltc" | "doge";
 
-      const { getToolboxByChain, BCHToolbox } = await import('@swapkit/toolbox-utxo');
+      const { getToolboxByChain, BCHToolbox } = await import("@swapkit/toolbox-utxo");
 
       const scriptType:
         | {
-            input: 'SPENDWITNESS' | 'SPENDP2SHWITNESS' | 'SPENDADDRESS';
-            output: 'PAYTOWITNESS' | 'PAYTOP2SHWITNESS' | 'PAYTOADDRESS';
+            input: "SPENDWITNESS" | "SPENDP2SHWITNESS" | "SPENDADDRESS";
+            output: "PAYTOWITNESS" | "PAYTOP2SHWITNESS" | "PAYTOADDRESS";
           }
         | undefined =
         derivationPath[0] === 84
-          ? { input: 'SPENDWITNESS', output: 'PAYTOWITNESS' }
+          ? { input: "SPENDWITNESS", output: "PAYTOWITNESS" }
           : derivationPath[0] === 49
-            ? { input: 'SPENDP2SHWITNESS', output: 'PAYTOP2SHWITNESS' }
+            ? { input: "SPENDP2SHWITNESS", output: "PAYTOP2SHWITNESS" }
             : derivationPath[0] === 44
-              ? { input: 'SPENDADDRESS', output: 'PAYTOADDRESS' }
+              ? { input: "SPENDADDRESS", output: "PAYTOADDRESS" }
               : undefined;
 
-      if (!scriptType) throw new Error('Derivation path is not supported');
+      if (!scriptType) throw new Error("Derivation path is not supported");
       const params = { apiClient: api, apiKey: blockchairApiKey, rpcUrl };
 
       const toolbox = (await getToolboxByChain(chain))(params);
@@ -119,8 +119,9 @@ const getToolbox = async ({
 
         if (!success)
           throw new Error(
-            'Failed to get address: ' +
-              ((payload as { error: string; code?: string }).error || 'Unknown error'),
+            `Failed to get address: ${
+              (payload as { error: string; code?: string }).error || "Unknown error"
+            }`,
           );
 
         return chain === Chain.BitcoinCash
@@ -130,7 +131,7 @@ const getToolbox = async ({
 
       const address = await getAddress();
 
-      const signTransaction = async (psbt: Psbt, inputs: UTXOType[], memo: string = '') => {
+      const signTransaction = async (psbt: Psbt, inputs: UTXOType[], memo = "") => {
         const address_n = derivationPath.map((pathElement, index) =>
           index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
         );
@@ -150,6 +151,7 @@ const getToolbox = async ({
           })),
 
           // Lint is not happy with the type of txOutputs
+          // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
           outputs: psbt.txOutputs.map((output: any) => {
             const outputAddress =
               chain === Chain.BitcoinCash && output.address
@@ -165,9 +167,9 @@ const getToolbox = async ({
             // OP_RETURN
             if (!output.address) {
               return {
-                op_return_data: Buffer.from(memo).toString('hex'),
-                amount: '0',
-                script_type: 'PAYTOOPRETURN',
+                op_return_data: Buffer.from(memo).toString("hex"),
+                amount: "0",
+                script_type: "PAYTOOPRETURN",
               };
             }
 
@@ -184,20 +186,20 @@ const getToolbox = async ({
             return {
               address: outputAddress,
               amount: output.value,
-              script_type: 'PAYTOADDRESS',
+              script_type: "PAYTOADDRESS",
             };
           }),
         });
 
         if (result.success) {
           return result.payload.serializedTx;
-        } else {
-          throw new Error(
-            `Trezor failed to sign the ${chain.toUpperCase()} transaction: ${
-              (result.payload as { error: string; code?: string }).error
-            }`,
-          );
         }
+
+        throw new Error(
+          `Trezor failed to sign the ${chain.toUpperCase()} transaction: ${
+            (result.payload as { error: string; code?: string }).error
+          }`,
+        );
       };
 
       const transfer = async ({
@@ -208,8 +210,8 @@ const getToolbox = async ({
         memo,
         ...rest
       }: UTXOTransferParams) => {
-        if (!from) throw new Error('From address must be provided');
-        if (!recipient) throw new Error('Recipient address must be provided');
+        if (!from) throw new Error("From address must be provided");
+        if (!recipient) throw new Error("Recipient address must be provided");
 
         const { psbt, inputs } = await toolbox.buildTx({
           ...rest,
@@ -230,12 +232,11 @@ const getToolbox = async ({
           ...toolbox,
           transfer,
           signTransaction,
-          getAddress: () => address,
         },
       };
     }
     default:
-      throw new Error('Chain not supported');
+      throw new Error("Chain not supported");
   }
 };
 
@@ -249,7 +250,7 @@ const connectTrezor =
       ethplorerApiKey,
       utxoApiKey,
       blockchairApiKey,
-      trezorManifest = { appUrl: '', email: '' },
+      trezorManifest = { appUrl: "", email: "" },
       thorswapApiKey,
     },
   }: ConnectWalletParams) =>
@@ -275,12 +276,14 @@ const connectTrezor =
 
     addChain({
       chain,
-      walletMethods,
-      wallet: { address, balance: [], walletType: WalletOption.TREZOR },
+      ...walletMethods,
+      address,
+      balance: [],
+      walletType: WalletOption.TREZOR,
     });
   };
 
 export const trezorWallet = {
-  connectMethodName: 'connectTrezor' as const,
+  connectMethodName: "connectTrezor" as const,
   connect: connectTrezor,
 };

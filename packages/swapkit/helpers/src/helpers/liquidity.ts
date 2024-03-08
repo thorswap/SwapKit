@@ -1,13 +1,13 @@
-import { BaseDecimal } from '@swapkit/types';
+import { BaseDecimal } from "@swapkit/types";
 
-import { SwapKitNumber } from '../index.ts';
+import { SwapKitNumber } from "../index.ts";
 
-type ShareParams<T = {}> = T & {
+type ShareParams<T extends {}> = T & {
   liquidityUnits: string;
   poolUnits: string;
 };
 
-type PoolParams<T = {}> = T & {
+type PoolParams = {
   runeAmount: string;
   assetAmount: string;
   runeDepth: string;
@@ -148,14 +148,14 @@ export function getEstimatedPoolShare({
   const liquidityUnitsAfterAdd = numerator.div(denominator);
   const estimatedLiquidityUnits = toTCSwapKitNumber(liquidityUnits).add(liquidityUnitsAfterAdd);
 
-  if (liquidityUnitsAfterAdd.getBaseValue('number') === 0) {
-    return estimatedLiquidityUnits.div(P).getBaseValue('number');
+  if (liquidityUnitsAfterAdd.getBaseValue("number") === 0) {
+    return estimatedLiquidityUnits.div(P).getBaseValue("number");
   }
 
   // get pool units after add
   const newPoolUnits = P.add(estimatedLiquidityUnits);
 
-  return estimatedLiquidityUnits.div(newPoolUnits).getBaseValue('number');
+  return estimatedLiquidityUnits.div(newPoolUnits).getBaseValue("number");
 }
 
 export function getLiquiditySlippage({
@@ -164,7 +164,7 @@ export function getLiquiditySlippage({
   runeDepth,
   assetDepth,
 }: PoolParams) {
-  if (runeAmount === '0' || assetAmount === '0' || runeDepth === '0' || assetDepth === '0')
+  if (runeAmount === "0" || assetAmount === "0" || runeDepth === "0" || assetDepth === "0")
     return 0;
   // formula: (t * R - T * r)/ (T*r + R*T)
   const R = toTCSwapKitNumber(runeDepth);
@@ -176,5 +176,5 @@ export function getLiquiditySlippage({
   const denominator = T.mul(runeAddAmount).add(R.mul(T));
 
   // set absolute value of percent, no negative allowed
-  return Math.abs(numerator.div(denominator).getBaseValue('number'));
+  return Math.abs(numerator.div(denominator).getBaseValue("number"));
 }

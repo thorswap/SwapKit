@@ -1,4 +1,4 @@
-import type { StdSignDoc } from '@swapkit/toolbox-cosmos';
+import type { StdSignDoc } from "@swapkit/toolbox-cosmos";
 
 export type OKXConfig = {
   covalentApiKey?: string;
@@ -9,11 +9,11 @@ export type OKXConfig = {
 
 export enum BroadcastMode {
   /** Return after tx commit */
-  Block = 'block',
+  Block = "block",
   /** Return after CheckTx */
-  Sync = 'sync',
+  Sync = "sync",
   /** Return right away */
-  Async = 'async',
+  Async = "async",
 }
 
 export interface Coin {
@@ -80,7 +80,7 @@ export interface SignDoc {
 /**
  * This is the same as Algo from @cosmjs/launchpad but those might diverge in the future.
  */
-export type Algo = 'secp256k1' | 'ed25519' | 'sr25519';
+export type Algo = "secp256k1" | "ed25519" | "sr25519";
 
 /**
  * This is the same as AccountData from @cosmjs/launchpad but those might diverge in the future.

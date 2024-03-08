@@ -1,13 +1,13 @@
-import { derivationPathToString, SwapKitNumber } from '@swapkit/helpers';
+import { SwapKitNumber, derivationPathToString } from "@swapkit/helpers";
 import {
   AbstractSigner,
   type JsonRpcProvider,
   type Provider,
   type TransactionRequest,
-} from '@swapkit/toolbox-evm';
-import type { Chain, DerivationPathArray } from '@swapkit/types';
-import { ChainToChainId } from '@swapkit/types';
-import TrezorConnect from '@trezor/connect-web';
+} from "@swapkit/toolbox-evm";
+import type { Chain, DerivationPathArray } from "@swapkit/types";
+import { ChainToChainId } from "@swapkit/types";
+import TrezorConnect from "@trezor/connect-web";
 
 interface TrezorEVMSignerParams {
   chain: Chain;
@@ -26,7 +26,7 @@ class TrezorSigner extends AbstractSigner {
     this.chain = chain;
     this.derivationPath = derivationPath;
     this.provider = provider;
-    this.address = '';
+    this.address = "";
   }
 
   getAddress = async () => {
@@ -60,7 +60,7 @@ class TrezorSigner extends AbstractSigner {
 
   // ANCHOR (@Towan): implement signTypedData
   signTypedData(): Promise<string> {
-    throw new Error('this method is not implemented');
+    throw new Error("this method is not implemented");
   }
 
   signTransaction = async ({
@@ -72,17 +72,18 @@ class TrezorSigner extends AbstractSigner {
     maxFeePerGas,
     maxPriorityFeePerGas,
     gasPrice,
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
   }: TransactionRequest) => {
-    if (!to) throw new Error('Missing to address');
-    if (!gasLimit) throw new Error('Missing gasLimit');
+    if (!to) throw new Error("Missing to address");
+    if (!gasLimit) throw new Error("Missing gasLimit");
 
     const isEIP1559 = maxFeePerGas && maxPriorityFeePerGas;
 
-    if (isEIP1559 && !maxFeePerGas) throw new Error('Missing maxFeePerGas');
-    if (isEIP1559 && !maxPriorityFeePerGas) throw new Error('Missing maxFeePerGas');
-    if (!isEIP1559 && !gasPrice) throw new Error('Missing gasPrice');
+    if (isEIP1559 && !maxFeePerGas) throw new Error("Missing maxFeePerGas");
+    if (isEIP1559 && !maxPriorityFeePerGas) throw new Error("Missing maxFeePerGas");
+    if (!(isEIP1559 || gasPrice)) throw new Error("Missing gasPrice");
 
-    const { Transaction, toHexString } = await import('@swapkit/toolbox-evm');
+    const { Transaction, toHexString } = await import("@swapkit/toolbox-evm");
 
     const formattedTx = {
       chainId: parseInt(ChainToChainId[this.chain]),
@@ -91,16 +92,16 @@ class TrezorSigner extends AbstractSigner {
       gasLimit: toHexString(BigInt(gasLimit?.toString() || 0)),
       nonce: (
         nonce?.toString() ||
-        (await this.provider.getTransactionCount(await this.getAddress(), 'pending'))
+        (await this.provider.getTransactionCount(await this.getAddress(), "pending"))
       ).toString(),
-      data: data?.toString() || '0x',
+      data: data?.toString() || "0x",
       ...(isEIP1559
         ? {
             maxFeePerGas: toHexString(BigInt(maxFeePerGas?.toString() || 0)),
             maxPriorityFeePerGas: toHexString(BigInt(maxPriorityFeePerGas?.toString() || 0)),
           }
         : (gasPrice && { gasPrice: toHexString(BigInt(gasPrice?.toString() || 0)) }) || {
-            gasPrice: '0x0',
+            gasPrice: "0x0",
           }),
     };
 
@@ -119,16 +120,16 @@ class TrezorSigner extends AbstractSigner {
       ...formattedTx,
       nonce: parseInt(formattedTx.nonce),
       type: isEIP1559 ? 2 : 0,
-      signature: { r, s, v: new SwapKitNumber(v).getBaseValue('number') },
+      signature: { r, s, v: new SwapKitNumber(v).getBaseValue("number") },
     }).serialized;
 
-    if (!hash) throw new Error('Failed to sign transaction');
+    if (!hash) throw new Error("Failed to sign transaction");
 
     return hash;
   };
 
   connect = (provider: Provider | null) => {
-    if (!provider) throw new Error('Missing provider');
+    if (!provider) throw new Error("Missing provider");
 
     return new TrezorSigner({
       chain: this.chain,

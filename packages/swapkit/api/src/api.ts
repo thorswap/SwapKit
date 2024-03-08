@@ -1,4 +1,4 @@
-import { ApiEndpoints, RequestClient } from './requestClient.ts';
+import { ApiEndpoints, RequestClient } from "./requestClient.ts";
 import type {
   CachedPricesParams,
   CachedPricesResponse,
@@ -8,21 +8,25 @@ import type {
   ThornameResponse,
   TokenlistProvidersResponse,
   TxnResponse,
-} from './types/index.ts';
+} from "./types/index.ts";
 
 const getCachedPrices = ({ tokens, ...options }: CachedPricesParams) => {
   const body = new URLSearchParams();
-  tokens
-    .filter((token, index, sourceArr) => sourceArr.findIndex((t) => t === token) === index)
-    .forEach((token) => body.append('tokens', JSON.stringify(token)));
+  const filteredTokens = tokens.filter(
+    (token, index, sourceArr) => sourceArr.findIndex((t) => t === token) === index,
+  );
 
-  if (options.metadata) body.append('metadata', 'true');
-  if (options.lookup) body.append('lookup', 'true');
-  if (options.sparkline) body.append('sparkline', 'true');
+  for (const token of filteredTokens) {
+    body.append("tokens", JSON.stringify(token));
+  }
+
+  if (options.metadata) body.append("metadata", "true");
+  if (options.lookup) body.append("lookup", "true");
+  if (options.sparkline) body.append("sparkline", "true");
 
   return RequestClient.post<CachedPricesResponse[]>(ApiEndpoints.CachedPrices, {
     body: body.toString(),
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
   });
 };
 

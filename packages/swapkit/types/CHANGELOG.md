@@ -1,5 +1,102 @@
 # @swapkit/types
 
+## 1.0.0-rc.40
+
+### Patch Changes
+
+- Add Polkadot explorer url
+
+## 1.0.0-rc.39
+
+### Major Changes
+
+- [#631](https://github.com/thorswap/SwapKit/pull/631) [`57f509a`](https://github.com/thorswap/SwapKit/commit/57f509ab7f28ae336c1aab459d796b4ef8e8eb1b) Thanks [@towanTG](https://github.com/towanTG)! - # Release of swapkit as multi-wallet/provider sdk by THORSwap
+
+  ## Breaking changes
+
+  - Wallet structure got flattened
+  - Wallets do not support getAddress function anymore
+  - Core got split into provider packages such as THORChain or ChainFlip and true core functionality. Old core structure is therefor deprecated
+
+  ## Why the changes
+
+  - Simple support of multiple swap providers. New providers just need to implement the swapping logic and will be supported by whole SwapKit ecosystem out of the box
+  - We did not see the reason to hide the wallet address in a function, instead it is readable right from the wallet `core.getWallet(Chain.Bitcoin).address`
+  - Flattening of wallet structure reduces complexity
+
+  ## How to work with SwapKit
+
+  ```
+  const core = SwapKit<
+      {
+          thorchain: ReturnType<typeof ThorchainProvider>['methods'];
+          chainflip: ReturnType<typeof ChainflipProvider>['methods'];
+      },
+      ConnectWalletType
+  >({
+      config: {
+          stagenet: IS_STAGENET,
+          covalentApiKey: COVALENT_API_KEY,
+          ethplorerApiKey: ETHPLORER_API_KEY,
+          blockchairApiKey: BLOCKCHAIR_API_KEY,
+          walletConnectProjectId: WALLETCONNECT_PROJECT_ID,
+      },
+      wallets: supportedWallets,
+      providers: [ThorchainProvider, ChainflipProvider],
+      // if needed
+      apis: {},
+      rpcUrls: {},
+  });
+
+  // core functionality examples:
+  const walletAddress = core.getWallet(Chain.Bitcoin).address
+  const balance = await core.getBalance(Chain.Bitcoin)
+  const validAddress = await core.validateAddress(address, chain)
+
+  // provider specific methods:
+  const withdrawTxHash = core.thorchain.withdraw(params)
+  const withdrawTxHash = core.thorchain.nodeAction(params)
+  const withdrawTxHash = core.thorchain.deposit(params)
+
+  // Swapping
+  const swapTxHash = core.swap({
+      route,
+      provider: {
+          name,
+          config
+      }
+  })
+
+  ```
+
+## 1.0.0-rc.38
+
+### Patch Changes
+
+- Update toolboxes for using proper address'
+
+- [`ae90588`](https://github.com/thorswap/SwapKit/commit/ae90588732b6b71b4a2ea91d0bb83b7c0aca702c) Thanks [@towanTG](https://github.com/towanTG)! - Adds core plugin support for swap provider
+
+## 1.0.0-rc.37
+
+### Patch Changes
+
+- [#599](https://github.com/thorswap/SwapKit/pull/599) [`173dbf7`](https://github.com/thorswap/SwapKit/commit/173dbf773d0ee77b96afa62fd8e66296c3a935fb) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Update and add new chain
+
+## 1.0.0-rc.36
+
+### Patch Changes
+
+- [#592](https://github.com/thorswap/SwapKit/pull/592) [`a3b89c2`](https://github.com/thorswap/SwapKit/commit/a3b89c263b89ae267fed1ca48e6da01f7dba8fd4) Thanks [@towanTG](https://github.com/towanTG)! - Adds polkadot and chainflip
+
+- [#592](https://github.com/thorswap/SwapKit/pull/592) [`a3b89c2`](https://github.com/thorswap/SwapKit/commit/a3b89c263b89ae267fed1ca48e6da01f7dba8fd4) Thanks [@towanTG](https://github.com/towanTG)! - Adds Substrate chains
+
+## 1.0.0-rc.35
+
+### Minor Changes
+
+- [#593](https://github.com/thorswap/SwapKit/pull/593) [`87dfbe6`](https://github.com/thorswap/SwapKit/commit/87dfbe643ca25501204213f44380467e1adfcb14) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Add Swap amount too low error code
+
 ## 1.0.0-rc.34
 
 ### Patch Changes

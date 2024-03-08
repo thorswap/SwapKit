@@ -1,3 +1,4 @@
+import crypto from "crypto";
 /** ******************************************************************************
  *  (c) 2019 ZondaX GmbH
  *  (c) 2016-2017 Ledger
@@ -14,22 +15,21 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************* */
-import { bech32 } from '@swapkit/toolbox-cosmos';
-import { LedgerErrorCode } from '@swapkit/types';
-import crypto from 'crypto';
-import Ripemd160 from 'ripemd160';
+import { bech32 } from "@swapkit/toolbox-cosmos";
+import { LedgerErrorCode } from "@swapkit/types";
+import Ripemd160 from "ripemd160";
 
 import {
   APP_KEY,
   CHUNK_SIZE,
   CLA,
-  errorCodeToString,
-  getVersion,
   INS,
   P1_VALUES,
+  errorCodeToString,
+  getVersion,
   processErrorResponse,
-} from './common.ts';
-import { publicKeyv2, serializePathv2, signSendChunkv2 } from './helpers.ts';
+} from "./common.ts";
+import { publicKeyv2, serializePathv2, signSendChunkv2 } from "./helpers.ts";
 
 export class THORChainApp {
   transport: any;
@@ -37,20 +37,20 @@ export class THORChainApp {
 
   constructor(transport: any, scrambleKey = APP_KEY) {
     if (!transport) {
-      throw new Error('Transport has not been defined');
+      throw new Error("Transport has not been defined");
     }
 
     this.transport = transport as any;
     transport.decorateAppAPIMethods(
       this,
-      ['getVersion', 'sign', 'getAddressAndPubKey', 'appInfo', 'deviceInfo', 'getBech32FromPK'],
+      ["getVersion", "sign", "getAddressAndPubKey", "appInfo", "deviceInfo", "getBech32FromPK"],
       scrambleKey,
     );
   }
 
   static serializeHRP(hrp: any) {
     if (hrp == null || hrp.length < 3 || hrp.length > 83) {
-      throw new Error('Invalid HRP');
+      throw new Error("Invalid HRP");
     }
     const buf = Buffer.alloc(1 + hrp.length);
     buf.writeUInt8(hrp.length, 0);
@@ -60,10 +60,10 @@ export class THORChainApp {
 
   static getBech32FromPK(hrp: any, pk: any) {
     if (pk.length !== 33) {
-      throw new Error('expected compressed public key [31 bytes]');
+      throw new Error("expected compressed public key [31 bytes]");
     }
 
-    const hashSha256 = crypto.createHash('sha256').update(pk).digest();
+    const hashSha256 = crypto.createHash("sha256").update(pk).digest();
     const hashRip = new Ripemd160().update(hashSha256).digest();
     // @ts-ignore
     const encode = bech32.encode || bech32.bech32.encode;
@@ -86,7 +86,7 @@ export class THORChainApp {
       default:
         return {
           return_code: 0x6400,
-          error_message: 'App Version is not supported',
+          error_message: "App Version is not supported",
         };
     }
   }
@@ -125,22 +125,22 @@ export class THORChainApp {
 
       const result = {} as any;
 
-      let appName = 'err';
-      let appVersion = 'err';
+      let appName = "err";
+      let appVersion = "err";
       let flagLen = 0;
       let flagsValue = 0;
 
       if (response[0] !== 1) {
         // Ledger responds with format ID 1. There is no spec for any format != 1
-        result.error_message = 'response format ID not recognized';
+        result.error_message = "response format ID not recognized";
         result.return_code = 0x9001;
       } else {
         const appNameLen = response[1];
-        appName = response.slice(2, 2 + appNameLen).toString('ascii');
+        appName = response.slice(2, 2 + appNameLen).toString("ascii");
         let idx = 2 + appNameLen;
         const appVersionLen = response[idx];
         idx += 1;
-        appVersion = response.slice(idx, idx + appVersionLen).toString('ascii');
+        appVersion = response.slice(idx, idx + appVersionLen).toString("ascii");
         idx += appVersionLen;
         const appFlagsLen = response[idx];
         idx += 1;
@@ -178,11 +178,11 @@ export class THORChainApp {
         if (returnCode === 0x6e00) {
           return {
             return_code: returnCode,
-            error_message: 'This command is only available in the Dashboard',
+            error_message: "This command is only available in the Dashboard",
           };
         }
 
-        const targetId = response.slice(0, 4).toString('hex');
+        const targetId = response.slice(0, 4).toString("hex");
 
         let pos = 4;
         const secureElementVersionLen = response[pos];
@@ -192,7 +192,7 @@ export class THORChainApp {
 
         const flagsLen = response[pos];
         pos += 1;
-        const flag = response.slice(pos, pos + flagsLen).toString('hex');
+        const flag = response.slice(pos, pos + flagsLen).toString("hex");
         pos += flagsLen;
 
         const mcuVersionLen = response[pos];
@@ -222,29 +222,29 @@ export class THORChainApp {
 
       switch (this.versionResponse.major) {
         case 2: {
-          const data = Buffer.concat([THORChainApp.serializeHRP('thor'), serializedPath as any]);
+          const data = Buffer.concat([THORChainApp.serializeHRP("thor"), serializedPath as any]);
           return await publicKeyv2(this, data);
         }
 
         default:
-          return { return_code: 0x6400, error_message: 'App Version is not supported' };
+          return { return_code: 0x6400, error_message: "App Version is not supported" };
       }
     } catch (e) {
       return processErrorResponse(e);
     }
   }
 
-  async getAddressAndPubKey(path: string, hrp: any) {
+  getAddressAndPubKey(path: string, hrp: any) {
     try {
-      return this.executeCommandOnDevice({ path, hrp, command: 'ONLY_RETRIEVE' });
+      return this.executeCommandOnDevice({ path, hrp, command: "ONLY_RETRIEVE" });
     } catch (e) {
       return processErrorResponse(e);
     }
   }
 
-  async showAddressAndPubKey(path: string, hrp: any) {
+  showAddressAndPubKey(path: string, hrp: any) {
     try {
-      return this.executeCommandOnDevice({ path, hrp, command: 'SHOW_ADDRESS_IN_DEVICE' });
+      return this.executeCommandOnDevice({ path, hrp, command: "SHOW_ADDRESS_IN_DEVICE" });
     } catch (e) {
       return processErrorResponse(e);
     }
@@ -253,11 +253,11 @@ export class THORChainApp {
   async signSendChunk(chunkIdx: number, chunkNum: number, chunk: any) {
     switch (this.versionResponse.major) {
       case 2:
-        return signSendChunkv2(this, chunkIdx, chunkNum, chunk);
+        return await signSendChunkv2(this, chunkIdx, chunkNum, chunk);
       default:
         return {
           return_code: 0x6400,
-          error_message: 'App Version is not supported',
+          error_message: "App Version is not supported",
         };
     }
   }

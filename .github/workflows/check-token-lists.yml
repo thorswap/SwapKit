@@ -3,14 +3,15 @@ name: Check Token List
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
 
 jobs:
   check-and-update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-js-workflow
+      - uses: actions/checkout@v4
+      - name: Setup Repo
+        uses: ./tools/github/setup-repo
 
       - name: Generate new token list
         run: pnpm generate:tokens

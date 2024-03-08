@@ -1,18 +1,18 @@
-import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from '@swapkit/types';
-import type { BrowserProvider, JsonRpcProvider, Signer } from 'ethers';
+import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from "@swapkit/types";
+import type { BrowserProvider, JsonRpcProvider, Signer } from "ethers";
 
-import type { CovalentApiType } from '../api/covalentApi.ts';
-import { covalentApi } from '../api/covalentApi.ts';
-import { getBalance } from '../index.ts';
+import type { CovalentApiType } from "../api/covalentApi.ts";
+import { covalentApi } from "../api/covalentApi.ts";
+import { getBalance } from "../index.ts";
 
-import { BaseEVMToolbox } from './BaseEVMToolbox.ts';
+import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
 
 export const getNetworkParams = () => ({
   chainId: ChainId.AvalancheHex,
-  chainName: 'Avalanche Network',
-  nativeCurrency: { name: 'Avalanche', symbol: Chain.Avalanche, decimals: BaseDecimal.AVAX },
+  chainName: "Avalanche Network",
+  nativeCurrency: { name: "Avalanche", symbol: Chain.Avalanche, decimals: BaseDecimal.AVAX },
   // Use external rpc URL so wallets don't throw warning to user
-  rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+  rpcUrls: ["https://api.avax.network/ext/bc/C/rpc"],
   blockExplorerUrls: [ChainToExplorerUrl[Chain.Avalanche]],
 });
 
@@ -35,7 +35,7 @@ export const AVAXToolbox = ({
     getNetworkParams,
     getBalance: (
       address: string,
-      potentialScamFilter: boolean = true,
+      potentialScamFilter = true,
       overwriteProvider?: JsonRpcProvider | BrowserProvider,
     ) =>
       getBalance({

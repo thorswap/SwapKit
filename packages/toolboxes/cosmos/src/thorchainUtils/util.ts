@@ -1,23 +1,23 @@
-import { toBech32 } from '@cosmjs/encoding';
-import { base64, bech32 } from '@scure/base';
-import type { AssetValue } from '@swapkit/helpers';
-import { SwapKitNumber } from '@swapkit/helpers';
-import type { FeeOption } from '@swapkit/types';
-import { BaseDecimal, Chain, ChainId, RPCUrl } from '@swapkit/types';
+import { toBech32 } from "@cosmjs/encoding";
+import { base64, bech32 } from "@scure/base";
+import type { AssetValue } from "@swapkit/helpers";
+import { SwapKitNumber } from "@swapkit/helpers";
+import type { FeeOption } from "@swapkit/types";
+import { BaseDecimal, Chain, ChainId, RPCUrl } from "@swapkit/types";
 
-import { createStargateClient } from '../util.ts';
+import { createStargateClient } from "../util.ts";
 
-export const DEFAULT_GAS_VALUE = '5000000000';
+export const DEFAULT_GAS_VALUE = "5000000000";
 
 export const getDenomWithChain = ({ symbol }: AssetValue) =>
-  (symbol.toUpperCase() !== 'RUNE'
+  (symbol.toUpperCase() !== "RUNE"
     ? symbol.toLowerCase()
     : `${Chain.THORChain}.${symbol.toUpperCase()}`
   ).toUpperCase();
 
 export const buildDepositTx = async ({
   signer,
-  memo = '',
+  memo = "",
   assetValue,
   isStagenet = false,
 }: {
@@ -32,7 +32,7 @@ export const buildDepositTx = async ({
   const accountOnChain = await client.getAccount(signer);
 
   if (!accountOnChain) {
-    throw new Error('Account does not exist');
+    throw new Error("Account does not exist");
   }
 
   return {
@@ -43,11 +43,11 @@ export const buildDepositTx = async ({
     sequence: accountOnChain.sequence,
     msgs: [
       {
-        typeUrl: '/types.MsgDeposit',
+        typeUrl: "/types.MsgDeposit",
         value: {
           coins: [
             {
-              amount: assetValue.getBaseValue('string'),
+              amount: assetValue.getBaseValue("string"),
               asset: getDenomWithChain(assetValue),
             },
           ],
@@ -63,7 +63,7 @@ export const buildTransferTx = async ({
   fromAddress,
   toAddress,
   assetValue,
-  memo = '',
+  memo = "",
   isStagenet = false,
 }: {
   isStagenet?: boolean;
@@ -78,7 +78,7 @@ export const buildTransferTx = async ({
   const accountOnChain = await client.getAccount(fromAddress);
 
   if (!accountOnChain) {
-    throw new Error('Account does not exist');
+    throw new Error("Account does not exist");
   }
 
   const base64FromAddress = bech32ToBase64(fromAddress);
@@ -89,7 +89,7 @@ export const buildTransferTx = async ({
     toAddress: base64ToAddress,
     amount: [
       {
-        amount: assetValue.getBaseValue('string'),
+        amount: assetValue.getBaseValue("string"),
         denom: getDenomWithChain(assetValue),
       },
     ],
@@ -99,7 +99,7 @@ export const buildTransferTx = async ({
     accountNumber: accountOnChain.accountNumber,
     sequence: accountOnChain.sequence,
     chainId: ChainId.THORChain,
-    msgs: [{ typeUrl: '/types.MsgSend', value: msgSend }],
+    msgs: [{ typeUrl: "/types.MsgSend", value: msgSend }],
     fee: { amount: [], gas: DEFAULT_GAS_VALUE },
   };
 };
@@ -111,27 +111,27 @@ export const checkBalances = async (
 ) => {
   const zeroValue = new SwapKitNumber({ value: 0, decimal: BaseDecimal.THOR });
 
-  const runeBalance = balances.find(({ symbol }) => symbol === 'RUNE') ?? zeroValue;
+  const runeBalance = balances.find(({ symbol }) => symbol === "RUNE") ?? zeroValue;
   const assetBalance =
     balances.find(
       ({ chain, symbol }) => `${chain}.${symbol}` === `${assetValue.chain}.${assetValue.symbol}`,
     ) ?? zeroValue;
 
-  if (assetValue.symbol === 'RUNE') {
+  if (assetValue.symbol === "RUNE") {
     // amount + fee < runeBalance
     if (runeBalance.lt(assetValue.add(fees.average))) {
-      throw new Error('insufficient funds');
+      throw new Error("insufficient funds");
     }
-  } else {
-    // amount < assetBalances && runeBalance < fee
-    if (assetBalance.lt(assetValue) || runeBalance.lt(fees.average)) {
-      throw new Error('insufficient funds');
-    }
+  }
+
+  // amount < assetBalances && runeBalance < fee
+  if (assetBalance.lt(assetValue) || runeBalance.lt(fees.average)) {
+    throw new Error("insufficient funds");
   }
 };
 
 export const bech32ToBase64 = (address: string) =>
   base64.encode(Uint8Array.from(bech32.fromWords(bech32.decode(address).words)));
 
-export const base64ToBech32 = (address: string, prefix = 'thor') =>
+export const base64ToBech32 = (address: string, prefix = "thor") =>
   toBech32(prefix, base64.decode(address));

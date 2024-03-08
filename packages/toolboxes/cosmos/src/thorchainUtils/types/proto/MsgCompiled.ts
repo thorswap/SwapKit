@@ -1,5 +1,5 @@
 // @ts-nocheck
-import $protobuf from 'protobufjs/minimal.js';
+import $protobuf from "protobufjs/minimal.js";
 
 // Common aliases
 const $Reader = $protobuf.Reader;
@@ -7,17 +7,18 @@ const $Writer = $protobuf.Writer;
 const $util = $protobuf.util;
 
 // Exported root namespace
-const $root = ($protobuf.roots['default'] || ($protobuf.roots['default'] = {})) as any;
 
-$root.common = (function () {
+const $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = {})) as any;
+
+$root.common = (() => {
   /**
    * Namespace common.
    * @exports common
    * @namespace
    */
-  let common = {};
+  const common = {};
 
-  common.Asset = (function () {
+  common.Asset = (() => {
     /**
      * Properties of an Asset.
      * @memberof common
@@ -48,7 +49,7 @@ $root.common = (function () {
      * @memberof common.Asset
      * @instance
      */
-    Asset.prototype.chain = '';
+    Asset.prototype.chain = "";
 
     /**
      * Asset symbol.
@@ -56,7 +57,7 @@ $root.common = (function () {
      * @memberof common.Asset
      * @instance
      */
-    Asset.prototype.symbol = '';
+    Asset.prototype.symbol = "";
 
     /**
      * Asset ticker.
@@ -64,7 +65,7 @@ $root.common = (function () {
      * @memberof common.Asset
      * @instance
      */
-    Asset.prototype.ticker = '';
+    Asset.prototype.ticker = "";
 
     /**
      * Asset synth.
@@ -97,13 +98,13 @@ $root.common = (function () {
      */
     Asset.encode = function encode(message, writer) {
       if (!writer) writer = $Writer.create();
-      if (message.chain != null && Object.hasOwnProperty.call(message, 'chain'))
+      if (message.chain != null && Object.hasOwnProperty.call(message, "chain"))
         writer.uint32(/* id 1, wireType 2 =*/ 10).string(message.chain);
-      if (message.symbol != null && Object.hasOwnProperty.call(message, 'symbol'))
+      if (message.symbol != null && Object.hasOwnProperty.call(message, "symbol"))
         writer.uint32(/* id 2, wireType 2 =*/ 18).string(message.symbol);
-      if (message.ticker != null && Object.hasOwnProperty.call(message, 'ticker'))
+      if (message.ticker != null && Object.hasOwnProperty.call(message, "ticker"))
         writer.uint32(/* id 3, wireType 2 =*/ 26).string(message.ticker);
-      if (message.synth != null && Object.hasOwnProperty.call(message, 'synth'))
+      if (message.synth != null && Object.hasOwnProperty.call(message, "synth"))
         writer.uint32(/* id 4, wireType 0 =*/ 32).bool(message.synth);
       return writer;
     };
@@ -134,10 +135,10 @@ $root.common = (function () {
      */
     Asset.decode = function decode(reader, length) {
       if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
-      let end = length === undefined ? reader.len : reader.pos + length,
+      const end = length === undefined ? reader.len : reader.pos + length,
         message = new $root.common.Asset();
       while (reader.pos < end) {
-        let tag = reader.uint32();
+        const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
             message.chain = reader.string();
@@ -183,15 +184,15 @@ $root.common = (function () {
      * @returns {string|null} `null` if valid, otherwise the reason why it is not
      */
     Asset.verify = function verify(message) {
-      if (typeof message !== 'object' || message === null) return 'object expected';
-      if (message.chain != null && message.hasOwnProperty('chain'))
-        if (!$util.isString(message.chain)) return 'chain: string expected';
-      if (message.symbol != null && message.hasOwnProperty('symbol'))
-        if (!$util.isString(message.symbol)) return 'symbol: string expected';
-      if (message.ticker != null && message.hasOwnProperty('ticker'))
-        if (!$util.isString(message.ticker)) return 'ticker: string expected';
-      if (message.synth != null && message.hasOwnProperty('synth'))
-        if (typeof message.synth !== 'boolean') return 'synth: boolean expected';
+      if (typeof message !== "object" || message === null) return "object expected";
+      if (message.chain != null && message.hasOwnProperty("chain"))
+        if (!$util.isString(message.chain)) return "chain: string expected";
+      if (message.symbol != null && message.hasOwnProperty("symbol"))
+        if (!$util.isString(message.symbol)) return "symbol: string expected";
+      if (message.ticker != null && message.hasOwnProperty("ticker"))
+        if (!$util.isString(message.ticker)) return "ticker: string expected";
+      if (message.synth != null && message.hasOwnProperty("synth"))
+        if (typeof message.synth !== "boolean") return "synth: boolean expected";
       return null;
     };
 
@@ -205,7 +206,7 @@ $root.common = (function () {
      */
     Asset.fromObject = function fromObject(object) {
       if (object instanceof $root.common.Asset) return object;
-      let message = new $root.common.Asset();
+      const message = new $root.common.Asset();
       if (object.chain != null) message.chain = String(object.chain);
       if (object.symbol != null) message.symbol = String(object.symbol);
       if (object.ticker != null) message.ticker = String(object.ticker);
@@ -224,19 +225,19 @@ $root.common = (function () {
      */
     Asset.toObject = function toObject(message, options) {
       if (!options) options = {};
-      let object = {};
+      const object = {};
       if (options.defaults) {
-        object.chain = '';
-        object.symbol = '';
-        object.ticker = '';
+        object.chain = "";
+        object.symbol = "";
+        object.ticker = "";
         object.synth = false;
       }
-      if (message.chain != null && message.hasOwnProperty('chain')) object.chain = message.chain;
-      if (message.symbol != null && message.hasOwnProperty('symbol'))
+      if (message.chain != null && message.hasOwnProperty("chain")) object.chain = message.chain;
+      if (message.symbol != null && message.hasOwnProperty("symbol"))
         object.symbol = message.symbol;
-      if (message.ticker != null && message.hasOwnProperty('ticker'))
+      if (message.ticker != null && message.hasOwnProperty("ticker"))
         object.ticker = message.ticker;
-      if (message.synth != null && message.hasOwnProperty('synth')) object.synth = message.synth;
+      if (message.synth != null && message.hasOwnProperty("synth")) object.synth = message.synth;
       return object;
     };
 
@@ -254,7 +255,7 @@ $root.common = (function () {
     return Asset;
   })();
 
-  common.Coin = (function () {
+  common.Coin = (() => {
     /**
      * Properties of a Coin.
      * @memberof common
@@ -292,7 +293,7 @@ $root.common = (function () {
      * @memberof common.Coin
      * @instance
      */
-    Coin.prototype.amount = '';
+    Coin.prototype.amount = "";
 
     /**
      * Coin decimals.
@@ -325,14 +326,14 @@ $root.common = (function () {
      */
     Coin.encode = function encode(message, writer) {
       if (!writer) writer = $Writer.create();
-      if (message.asset != null && Object.hasOwnProperty.call(message, 'asset'))
+      if (message.asset != null && Object.hasOwnProperty.call(message, "asset"))
         $root.common.Asset.encode(
           message.asset,
           writer.uint32(/* id 1, wireType 2 =*/ 10).fork(),
         ).ldelim();
-      if (message.amount != null && Object.hasOwnProperty.call(message, 'amount'))
+      if (message.amount != null && Object.hasOwnProperty.call(message, "amount"))
         writer.uint32(/* id 2, wireType 2 =*/ 18).string(message.amount);
-      if (message.decimals != null && Object.hasOwnProperty.call(message, 'decimals'))
+      if (message.decimals != null && Object.hasOwnProperty.call(message, "decimals"))
         writer.uint32(/* id 3, wireType 0 =*/ 24).int64(message.decimals);
       return writer;
     };
@@ -363,10 +364,10 @@ $root.common = (function () {
      */
     Coin.decode = function decode(reader, length) {
       if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
-      let end = length === undefined ? reader.len : reader.pos + length,
+      const end = length === undefined ? reader.len : reader.pos + length,
         message = new $root.common.Coin();
       while (reader.pos < end) {
-        let tag = reader.uint32();
+        const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
             message.asset = $root.common.Asset.decode(reader, reader.uint32());
@@ -409,14 +410,14 @@ $root.common = (function () {
      * @returns {string|null} `null` if valid, otherwise the reason why it is not
      */
     Coin.verify = function verify(message) {
-      if (typeof message !== 'object' || message === null) return 'object expected';
-      if (message.asset != null && message.hasOwnProperty('asset')) {
-        let error = $root.common.Asset.verify(message.asset);
-        if (error) return 'asset.' + error;
+      if (typeof message !== "object" || message === null) return "object expected";
+      if (message.asset != null && message.hasOwnProperty("asset")) {
+        const error = $root.common.Asset.verify(message.asset);
+        if (error) return "asset." + error;
       }
-      if (message.amount != null && message.hasOwnProperty('amount'))
-        if (!$util.isString(message.amount)) return 'amount: string expected';
-      if (message.decimals != null && message.hasOwnProperty('decimals'))
+      if (message.amount != null && message.hasOwnProperty("amount"))
+        if (!$util.isString(message.amount)) return "amount: string expected";
+      if (message.decimals != null && message.hasOwnProperty("decimals"))
         if (
           !$util.isInteger(message.decimals) &&
           !(
@@ -425,7 +426,7 @@ $root.common = (function () {
             $util.isInteger(message.decimals.high)
           )
         )
-          return 'decimals: integer|Long expected';
+          return "decimals: integer|Long expected";
       return null;
     };
 
@@ -439,19 +440,19 @@ $root.common = (function () {
      */
     Coin.fromObject = function fromObject(object) {
       if (object instanceof $root.common.Coin) return object;
-      let message = new $root.common.Coin();
+      const message = new $root.common.Coin();
       if (object.asset != null) {
-        if (typeof object.asset !== 'object')
-          throw TypeError('.common.Coin.asset: object expected');
+        if (typeof object.asset !== "object")
+          throw TypeError(".common.Coin.asset: object expected");
         message.asset = $root.common.Asset.fromObject(object.asset);
       }
       if (object.amount != null) message.amount = String(object.amount);
       if (object.decimals != null)
         if ($util.Long) (message.decimals = $util.Long.fromValue(object.decimals)).unsigned = false;
-        else if (typeof object.decimals === 'string')
+        else if (typeof object.decimals === "string")
           message.decimals = parseInt(object.decimals, 10);
-        else if (typeof object.decimals === 'number') message.decimals = object.decimals;
-        else if (typeof object.decimals === 'object')
+        else if (typeof object.decimals === "number") message.decimals = object.decimals;
+        else if (typeof object.decimals === "object")
           message.decimals = new $util.LongBits(
             object.decimals.low >>> 0,
             object.decimals.high >>> 0,
@@ -470,26 +471,26 @@ $root.common = (function () {
      */
     Coin.toObject = function toObject(message, options) {
       if (!options) options = {};
-      let object = {};
+      const object = {};
       if (options.defaults) {
         object.asset = null;
-        object.amount = '';
+        object.amount = "";
         if ($util.Long) {
-          let long = new $util.Long(0, 0, false);
+          const long = new $util.Long(0, 0, false);
           object.decimals =
             options.longs === String
               ? long.toString()
               : options.longs === Number
                 ? long.toNumber()
                 : long;
-        } else object.decimals = options.longs === String ? '0' : 0;
+        } else object.decimals = options.longs === String ? "0" : 0;
       }
-      if (message.asset != null && message.hasOwnProperty('asset'))
+      if (message.asset != null && message.hasOwnProperty("asset"))
         object.asset = $root.common.Asset.toObject(message.asset, options);
-      if (message.amount != null && message.hasOwnProperty('amount'))
+      if (message.amount != null && message.hasOwnProperty("amount"))
         object.amount = message.amount;
-      if (message.decimals != null && message.hasOwnProperty('decimals'))
-        if (typeof message.decimals === 'number')
+      if (message.decimals != null && message.hasOwnProperty("decimals"))
+        if (typeof message.decimals === "number")
           object.decimals = options.longs === String ? String(message.decimals) : message.decimals;
         else
           object.decimals =
@@ -518,7 +519,7 @@ $root.common = (function () {
     return Coin;
   })();
 
-  common.PubKeySet = (function () {
+  common.PubKeySet = (() => {
     /**
      * Properties of a PubKeySet.
      * @memberof common
@@ -547,7 +548,7 @@ $root.common = (function () {
      * @memberof common.PubKeySet
      * @instance
      */
-    PubKeySet.prototype.secp256k1 = '';
+    PubKeySet.prototype.secp256k1 = "";
 
     /**
      * PubKeySet ed25519.
@@ -555,7 +556,7 @@ $root.common = (function () {
      * @memberof common.PubKeySet
      * @instance
      */
-    PubKeySet.prototype.ed25519 = '';
+    PubKeySet.prototype.ed25519 = "";
 
     /**
      * Creates a new PubKeySet instance using the specified properties.
@@ -580,9 +581,9 @@ $root.common = (function () {
      */
     PubKeySet.encode = function encode(message, writer) {
       if (!writer) writer = $Writer.create();
-      if (message.secp256k1 != null && Object.hasOwnProperty.call(message, 'secp256k1'))
+      if (message.secp256k1 != null && Object.hasOwnProperty.call(message, "secp256k1"))
         writer.uint32(/* id 1, wireType 2 =*/ 10).string(message.secp256k1);
-      if (message.ed25519 != null && Object.hasOwnProperty.call(message, 'ed25519'))
+      if (message.ed25519 != null && Object.hasOwnProperty.call(message, "ed25519"))
         writer.uint32(/* id 2, wireType 2 =*/ 18).string(message.ed25519);
       return writer;
     };
@@ -613,10 +614,10 @@ $root.common = (function () {
      */
     PubKeySet.decode = function decode(reader, length) {
       if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
-      let end = length === undefined ? reader.len : reader.pos + length,
+      const end = length === undefined ? reader.len : reader.pos + length,
         message = new $root.common.PubKeySet();
       while (reader.pos < end) {
-        let tag = reader.uint32();
+        const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
             message.secp256k1 = reader.string();
@@ -656,11 +657,11 @@ $root.common = (function () {
      * @returns {string|null} `null` if valid, otherwise the reason why it is not
      */
     PubKeySet.verify = function verify(message) {
-      if (typeof message !== 'object' || message === null) return 'object expected';
-      if (message.secp256k1 != null && message.hasOwnProperty('secp256k1'))
-        if (!$util.isString(message.secp256k1)) return 'secp256k1: string expected';
-      if (message.ed25519 != null && message.hasOwnProperty('ed25519'))
-        if (!$util.isString(message.ed25519)) return 'ed25519: string expected';
+      if (typeof message !== "object" || message === null) return "object expected";
+      if (message.secp256k1 != null && message.hasOwnProperty("secp256k1"))
+        if (!$util.isString(message.secp256k1)) return "secp256k1: string expected";
+      if (message.ed25519 != null && message.hasOwnProperty("ed25519"))
+        if (!$util.isString(message.ed25519)) return "ed25519: string expected";
       return null;
     };
 
@@ -674,7 +675,7 @@ $root.common = (function () {
      */
     PubKeySet.fromObject = function fromObject(object) {
       if (object instanceof $root.common.PubKeySet) return object;
-      let message = new $root.common.PubKeySet();
+      const message = new $root.common.PubKeySet();
       if (object.secp256k1 != null) message.secp256k1 = String(object.secp256k1);
       if (object.ed25519 != null) message.ed25519 = String(object.ed25519);
       return message;
@@ -691,14 +692,14 @@ $root.common = (function () {
      */
     PubKeySet.toObject = function toObject(message, options) {
       if (!options) options = {};
-      let object = {};
+      const object = {};
       if (options.defaults) {
-        object.secp256k1 = '';
-        object.ed25519 = '';
+        object.secp256k1 = "";
+        object.ed25519 = "";
       }
-      if (message.secp256k1 != null && message.hasOwnProperty('secp256k1'))
+      if (message.secp256k1 != null && message.hasOwnProperty("secp256k1"))
         object.secp256k1 = message.secp256k1;
-      if (message.ed25519 != null && message.hasOwnProperty('ed25519'))
+      if (message.ed25519 != null && message.hasOwnProperty("ed25519"))
         object.ed25519 = message.ed25519;
       return object;
     };
@@ -717,7 +718,7 @@ $root.common = (function () {
     return PubKeySet;
   })();
 
-  common.Tx = (function () {
+  common.Tx = (() => {
     /**
      * Properties of a Tx.
      * @memberof common
@@ -753,7 +754,7 @@ $root.common = (function () {
      * @memberof common.Tx
      * @instance
      */
-    Tx.prototype.id = '';
+    Tx.prototype.id = "";
 
     /**
      * Tx chain.
@@ -761,7 +762,7 @@ $root.common = (function () {
      * @memberof common.Tx
      * @instance
      */
-    Tx.prototype.chain = '';
+    Tx.prototype.chain = "";
 
     /**
      * Tx fromAddress.
@@ -769,7 +770,7 @@ $root.common = (function () {
      * @memberof common.Tx
      * @instance
      */
-    Tx.prototype.fromAddress = '';
+    Tx.prototype.fromAddress = "";
 
     /**
      * Tx toAddress.
@@ -777,7 +778,7 @@ $root.common = (function () {
      * @memberof common.Tx
      * @instance
      */
-    Tx.prototype.toAddress = '';
+    Tx.prototype.toAddress = "";
 
     /**
      * Tx coins.
@@ -801,7 +802,7 @@ $root.common = (function () {
      * @memberof common.Tx
      * @instance
      */
-    Tx.prototype.memo = '';
+    Tx.prototype.memo = "";
 
     /**
      * Creates a new Tx instance using the specified properties.
@@ -826,29 +827,27 @@ $root.common = (function () {
      */
     Tx.encode = function encode(message, writer) {
       if (!writer) writer = $Writer.create();
-      if (message.id != null && Object.hasOwnProperty.call(message, 'id'))
+      if (message.id != null && Object.hasOwnProperty.call(message, "id"))
         writer.uint32(/* id 1, wireType 2 =*/ 10).string(message.id);
-      if (message.chain != null && Object.hasOwnProperty.call(message, 'chain'))
+      if (message.chain != null && Object.hasOwnProperty.call(message, "chain"))
         writer.uint32(/* id 2, wireType 2 =*/ 18).string(message.chain);
-      if (message.fromAddress != null && Object.hasOwnProperty.call(message, 'fromAddress'))
+      if (message.fromAddress != null && Object.hasOwnProperty.call(message, "fromAddress"))
         writer.uint32(/* id 3, wireType 2 =*/ 26).string(message.fromAddress);
-      if (message.toAddress != null && Object.hasOwnProperty.call(message, 'toAddress'))
+      if (message.toAddress != null && Object.hasOwnProperty.call(message, "toAddress"))
         writer.uint32(/* id 4, wireType 2 =*/ 34).string(message.toAddress);
       if (message.coins?.length)
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < message.coins.length; ++i)
           $root.common.Coin.encode(
             message.coins[i],
             writer.uint32(/* id 5, wireType 2 =*/ 42).fork(),
           ).ldelim();
       if (message.gas?.length)
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let j = 0; j < message.gas.length; ++j)
           $root.common.Coin.encode(
             message.gas[j],
             writer.uint32(/* id 6, wireType 2 =*/ 50).fork(),
           ).ldelim();
-      if (message.memo != null && Object.hasOwnProperty.call(message, 'memo'))
+      if (message.memo != null && Object.hasOwnProperty.call(message, "memo"))
         writer.uint32(/* id 7, wireType 2 =*/ 58).string(message.memo);
       return writer;
     };
@@ -879,10 +878,10 @@ $root.common = (function () {
      */
     Tx.decode = function decode(reader, length) {
       if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
-      let end = length === undefined ? reader.len : reader.pos + length,
+      const end = length === undefined ? reader.len : reader.pos + length,
         message = new $root.common.Tx();
       while (reader.pos < end) {
-        let tag = reader.uint32();
+        const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
             message.id = reader.string();
@@ -939,33 +938,31 @@ $root.common = (function () {
      * @returns {string|null} `null` if valid, otherwise the reason why it is not
      */
     Tx.verify = function verify(message) {
-      if (typeof message !== 'object' || message === null) return 'object expected';
-      if (message.id != null && message.hasOwnProperty('id'))
-        if (!$util.isString(message.id)) return 'id: string expected';
-      if (message.chain != null && message.hasOwnProperty('chain'))
-        if (!$util.isString(message.chain)) return 'chain: string expected';
-      if (message.fromAddress != null && message.hasOwnProperty('fromAddress'))
-        if (!$util.isString(message.fromAddress)) return 'fromAddress: string expected';
-      if (message.toAddress != null && message.hasOwnProperty('toAddress'))
-        if (!$util.isString(message.toAddress)) return 'toAddress: string expected';
-      if (message.coins != null && message.hasOwnProperty('coins')) {
-        if (!Array.isArray(message.coins)) return 'coins: array expected';
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+      if (typeof message !== "object" || message === null) return "object expected";
+      if (message.id != null && message.hasOwnProperty("id"))
+        if (!$util.isString(message.id)) return "id: string expected";
+      if (message.chain != null && message.hasOwnProperty("chain"))
+        if (!$util.isString(message.chain)) return "chain: string expected";
+      if (message.fromAddress != null && message.hasOwnProperty("fromAddress"))
+        if (!$util.isString(message.fromAddress)) return "fromAddress: string expected";
+      if (message.toAddress != null && message.hasOwnProperty("toAddress"))
+        if (!$util.isString(message.toAddress)) return "toAddress: string expected";
+      if (message.coins != null && message.hasOwnProperty("coins")) {
+        if (!Array.isArray(message.coins)) return "coins: array expected";
         for (let i = 0; i < message.coins.length; ++i) {
-          let error = $root.common.Coin.verify(message.coins[i]);
-          if (error) return 'coins.' + error;
+          const error = $root.common.Coin.verify(message.coins[i]);
+          if (error) return "coins." + error;
         }
       }
-      if (message.gas != null && message.hasOwnProperty('gas')) {
-        if (!Array.isArray(message.gas)) return 'gas: array expected';
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+      if (message.gas != null && message.hasOwnProperty("gas")) {
+        if (!Array.isArray(message.gas)) return "gas: array expected";
         for (let j = 0; j < message.gas.length; ++j) {
-          let error = $root.common.Coin.verify(message.gas[j]);
-          if (error) return 'gas.' + error;
+          const error = $root.common.Coin.verify(message.gas[j]);
+          if (error) return "gas." + error;
         }
       }
-      if (message.memo != null && message.hasOwnProperty('memo'))
-        if (!$util.isString(message.memo)) return 'memo: string expected';
+      if (message.memo != null && message.hasOwnProperty("memo"))
+        if (!$util.isString(message.memo)) return "memo: string expected";
       return null;
     };
 
@@ -979,25 +976,25 @@ $root.common = (function () {
      */
     Tx.fromObject = function fromObject(object) {
       if (object instanceof $root.common.Tx) return object;
-      let message = new $root.common.Tx();
+      const message = new $root.common.Tx();
       if (object.id != null) message.id = String(object.id);
       if (object.chain != null) message.chain = String(object.chain);
       if (object.fromAddress != null) message.fromAddress = String(object.fromAddress);
       if (object.toAddress != null) message.toAddress = String(object.toAddress);
       if (object.coins) {
-        if (!Array.isArray(object.coins)) throw TypeError('.common.Tx.coins: array expected');
+        if (!Array.isArray(object.coins)) throw TypeError(".common.Tx.coins: array expected");
         message.coins = [];
         for (let i = 0; i < object.coins.length; ++i) {
-          if (typeof object.coins[i] !== 'object')
-            throw TypeError('.common.Tx.coins: object expected');
+          if (typeof object.coins[i] !== "object")
+            throw TypeError(".common.Tx.coins: object expected");
           message.coins[i] = $root.common.Coin.fromObject(object.coins[i]);
         }
       }
       if (object.gas) {
-        if (!Array.isArray(object.gas)) throw TypeError('.common.Tx.gas: array expected');
+        if (!Array.isArray(object.gas)) throw TypeError(".common.Tx.gas: array expected");
         message.gas = [];
         for (let i = 0; i < object.gas.length; ++i) {
-          if (typeof object.gas[i] !== 'object') throw TypeError('.common.Tx.gas: object expected');
+          if (typeof object.gas[i] !== "object") throw TypeError(".common.Tx.gas: object expected");
           message.gas[i] = $root.common.Coin.fromObject(object.gas[i]);
         }
       }
@@ -1016,23 +1013,23 @@ $root.common = (function () {
      */
     Tx.toObject = function toObject(message, options) {
       if (!options) options = {};
-      let object = {};
+      const object = {};
       if (options.arrays || options.defaults) {
         object.coins = [];
         object.gas = [];
       }
       if (options.defaults) {
-        object.id = '';
-        object.chain = '';
-        object.fromAddress = '';
-        object.toAddress = '';
-        object.memo = '';
+        object.id = "";
+        object.chain = "";
+        object.fromAddress = "";
+        object.toAddress = "";
+        object.memo = "";
       }
-      if (message.id != null && message.hasOwnProperty('id')) object.id = message.id;
-      if (message.chain != null && message.hasOwnProperty('chain')) object.chain = message.chain;
-      if (message.fromAddress != null && message.hasOwnProperty('fromAddress'))
+      if (message.id != null && message.hasOwnProperty("id")) object.id = message.id;
+      if (message.chain != null && message.hasOwnProperty("chain")) object.chain = message.chain;
+      if (message.fromAddress != null && message.hasOwnProperty("fromAddress"))
         object.fromAddress = message.fromAddress;
-      if (message.toAddress != null && message.hasOwnProperty('toAddress'))
+      if (message.toAddress != null && message.hasOwnProperty("toAddress"))
         object.toAddress = message.toAddress;
       if (message.coins?.length) {
         object.coins = [];
@@ -1044,7 +1041,7 @@ $root.common = (function () {
         for (let j = 0; j < message.gas.length; ++j)
           object.gas[j] = $root.common.Coin.toObject(message.gas[j], options);
       }
-      if (message.memo != null && message.hasOwnProperty('memo')) object.memo = message.memo;
+      if (message.memo != null && message.hasOwnProperty("memo")) object.memo = message.memo;
       return object;
     };
 
@@ -1062,7 +1059,7 @@ $root.common = (function () {
     return Tx;
   })();
 
-  common.Fee = (function () {
+  common.Fee = (() => {
     /**
      * Properties of a Fee.
      * @memberof common
@@ -1100,7 +1097,7 @@ $root.common = (function () {
      * @memberof common.Fee
      * @instance
      */
-    Fee.prototype.poolDeduct = '';
+    Fee.prototype.poolDeduct = "";
 
     /**
      * Creates a new Fee instance using the specified properties.
@@ -1126,13 +1123,12 @@ $root.common = (function () {
     Fee.encode = function encode(message, writer) {
       if (!writer) writer = $Writer.create();
       if (message.coins?.length)
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < message.coins.length; ++i)
           $root.common.Coin.encode(
             message.coins[i],
             writer.uint32(/* id 1, wireType 2 =*/ 10).fork(),
           ).ldelim();
-      if (message.poolDeduct != null && Object.hasOwnProperty.call(message, 'poolDeduct'))
+      if (message.poolDeduct != null && Object.hasOwnProperty.call(message, "poolDeduct"))
         writer.uint32(/* id 2, wireType 2 =*/ 18).string(message.poolDeduct);
       return writer;
     };
@@ -1163,10 +1159,10 @@ $root.common = (function () {
      */
     Fee.decode = function decode(reader, length) {
       if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
-      let end = length === undefined ? reader.len : reader.pos + length,
+      const end = length === undefined ? reader.len : reader.pos + length,
         message = new $root.common.Fee();
       while (reader.pos < end) {
-        let tag = reader.uint32();
+        const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
             if (!message.coins?.length) message.coins = [];
@@ -1207,17 +1203,16 @@ $root.common = (function () {
      * @returns {string|null} `null` if valid, otherwise the reason why it is not
      */
     Fee.verify = function verify(message) {
-      if (typeof message !== 'object' || message === null) return 'object expected';
-      if (message.coins != null && message.hasOwnProperty('coins')) {
-        if (!Array.isArray(message.coins)) return 'coins: array expected';
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+      if (typeof message !== "object" || message === null) return "object expected";
+      if (message.coins != null && message.hasOwnProperty("coins")) {
+        if (!Array.isArray(message.coins)) return "coins: array expected";
         for (let i = 0; i < message.coins.length; ++i) {
-          let error = $root.common.Coin.verify(message.coins[i]);
-          if (error) return 'coins.' + error;
+          const error = $root.common.Coin.verify(message.coins[i]);
+          if (error) return "coins." + error;
         }
       }
-      if (message.poolDeduct != null && message.hasOwnProperty('poolDeduct'))
-        if (!$util.isString(message.poolDeduct)) return 'poolDeduct: string expected';
+      if (message.poolDeduct != null && message.hasOwnProperty("poolDeduct"))
+        if (!$util.isString(message.poolDeduct)) return "poolDeduct: string expected";
       return null;
     };
 
@@ -1231,13 +1226,13 @@ $root.common = (function () {
      */
     Fee.fromObject = function fromObject(object) {
       if (object instanceof $root.common.Fee) return object;
-      let message = new $root.common.Fee();
+      const message = new $root.common.Fee();
       if (object.coins) {
-        if (!Array.isArray(object.coins)) throw TypeError('.common.Fee.coins: array expected');
+        if (!Array.isArray(object.coins)) throw TypeError(".common.Fee.coins: array expected");
         message.coins = [];
         for (let i = 0; i < object.coins.length; ++i) {
-          if (typeof object.coins[i] !== 'object')
-            throw TypeError('.common.Fee.coins: object expected');
+          if (typeof object.coins[i] !== "object")
+            throw TypeError(".common.Fee.coins: object expected");
           message.coins[i] = $root.common.Coin.fromObject(object.coins[i]);
         }
       }
@@ -1256,15 +1251,15 @@ $root.common = (function () {
      */
     Fee.toObject = function toObject(message, options) {
       if (!options) options = {};
-      let object = {};
+      const object = {};
       if (options.arrays || options.defaults) object.coins = [];
-      if (options.defaults) object.poolDeduct = '';
+      if (options.defaults) object.poolDeduct = "";
       if (message.coins?.length) {
         object.coins = [];
         for (let j = 0; j < message.coins.length; ++j)
           object.coins[j] = $root.common.Coin.toObject(message.coins[j], options);
       }
-      if (message.poolDeduct != null && message.hasOwnProperty('poolDeduct'))
+      if (message.poolDeduct != null && message.hasOwnProperty("poolDeduct"))
         object.poolDeduct = message.poolDeduct;
       return object;
     };
@@ -1283,7 +1278,7 @@ $root.common = (function () {
     return Fee;
   })();
 
-  common.ProtoUint = (function () {
+  common.ProtoUint = (() => {
     /**
      * Properties of a ProtoUint.
      * @memberof common
@@ -1311,7 +1306,7 @@ $root.common = (function () {
      * @memberof common.ProtoUint
      * @instance
      */
-    ProtoUint.prototype.value = '';
+    ProtoUint.prototype.value = "";
 
     /**
      * Creates a new ProtoUint instance using the specified properties.
@@ -1336,7 +1331,7 @@ $root.common = (function () {
      */
     ProtoUint.encode = function encode(message, writer) {
       if (!writer) writer = $Writer.create();
-      if (message.value != null && Object.hasOwnProperty.call(message, 'value'))
+      if (message.value != null && Object.hasOwnProperty.call(message, "value"))
         writer.uint32(/* id 1, wireType 2 =*/ 10).string(message.value);
       return writer;
     };
@@ -1367,10 +1362,10 @@ $root.common = (function () {
      */
     ProtoUint.decode = function decode(reader, length) {
       if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
-      let end = length === undefined ? reader.len : reader.pos + length,
+      const end = length === undefined ? reader.len : reader.pos + length,
         message = new $root.common.ProtoUint();
       while (reader.pos < end) {
-        let tag = reader.uint32();
+        const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
             message.value = reader.string();
@@ -1407,9 +1402,9 @@ $root.common = (function () {
      * @returns {string|null} `null` if valid, otherwise the reason why it is not
      */
     ProtoUint.verify = function verify(message) {
-      if (typeof message !== 'object' || message === null) return 'object expected';
-      if (message.value != null && message.hasOwnProperty('value'))
-        if (!$util.isString(message.value)) return 'value: string expected';
+      if (typeof message !== "object" || message === null) return "object expected";
+      if (message.value != null && message.hasOwnProperty("value"))
+        if (!$util.isString(message.value)) return "value: string expected";
       return null;
     };
 
@@ -1423,7 +1418,7 @@ $root.common = (function () {
      */
     ProtoUint.fromObject = function fromObject(object) {
       if (object instanceof $root.common.ProtoUint) return object;
-      let message = new $root.common.ProtoUint();
+      const message = new $root.common.ProtoUint();
       if (object.value != null) message.value = String(object.value);
       return message;
     };
@@ -1439,9 +1434,9 @@ $root.common = (function () {
      */
     ProtoUint.toObject = function toObject(message, options) {
       if (!options) options = {};
-      let object = {};
-      if (options.defaults) object.value = '';
-      if (message.value != null && message.hasOwnProperty('value')) object.value = message.value;
+      const object = {};
+      if (options.defaults) object.value = "";
+      if (message.value != null && message.hasOwnProperty("value")) object.value = message.value;
       return object;
     };
 
@@ -1462,15 +1457,15 @@ $root.common = (function () {
   return common;
 })();
 
-$root.types = (function () {
+$root.types = (() => {
   /**
    * Namespace types.
    * @exports types
    * @namespace
    */
-  let types = {};
+  const types = {};
 
-  types.MsgDeposit = (function () {
+  types.MsgDeposit = (() => {
     /**
      * Properties of a MsgDeposit.
      * @memberof types
@@ -1509,7 +1504,7 @@ $root.types = (function () {
      * @memberof types.MsgDeposit
      * @instance
      */
-    MsgDeposit.prototype.memo = '';
+    MsgDeposit.prototype.memo = "";
 
     /**
      * MsgDeposit signer.
@@ -1543,15 +1538,14 @@ $root.types = (function () {
     MsgDeposit.encode = function encode(message, writer) {
       if (!writer) writer = $Writer.create();
       if (message.coins?.length)
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < message.coins.length; ++i)
           $root.common.Coin.encode(
             message.coins[i],
             writer.uint32(/* id 1, wireType 2 =*/ 10).fork(),
           ).ldelim();
-      if (message.memo != null && Object.hasOwnProperty.call(message, 'memo'))
+      if (message.memo != null && Object.hasOwnProperty.call(message, "memo"))
         writer.uint32(/* id 2, wireType 2 =*/ 18).string(message.memo);
-      if (message.signer != null && Object.hasOwnProperty.call(message, 'signer'))
+      if (message.signer != null && Object.hasOwnProperty.call(message, "signer"))
         writer.uint32(/* id 3, wireType 2 =*/ 26).bytes(message.signer);
       return writer;
     };
@@ -1582,10 +1576,10 @@ $root.types = (function () {
      */
     MsgDeposit.decode = function decode(reader, length) {
       if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
-      let end = length === undefined ? reader.len : reader.pos + length,
+      const end = length === undefined ? reader.len : reader.pos + length,
         message = new $root.types.MsgDeposit();
       while (reader.pos < end) {
-        let tag = reader.uint32();
+        const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
             if (!message.coins?.length) message.coins = [];
@@ -1629,25 +1623,24 @@ $root.types = (function () {
      * @returns {string|null} `null` if valid, otherwise the reason why it is not
      */
     MsgDeposit.verify = function verify(message) {
-      if (typeof message !== 'object' || message === null) return 'object expected';
-      if (message.coins != null && message.hasOwnProperty('coins')) {
-        if (!Array.isArray(message.coins)) return 'coins: array expected';
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+      if (typeof message !== "object" || message === null) return "object expected";
+      if (message.coins != null && message.hasOwnProperty("coins")) {
+        if (!Array.isArray(message.coins)) return "coins: array expected";
         for (let i = 0; i < message.coins.length; ++i) {
-          let error = $root.common.Coin.verify(message.coins[i]);
-          if (error) return 'coins.' + error;
+          const error = $root.common.Coin.verify(message.coins[i]);
+          if (error) return "coins." + error;
         }
       }
-      if (message.memo != null && message.hasOwnProperty('memo'))
-        if (!$util.isString(message.memo)) return 'memo: string expected';
-      if (message.signer != null && message.hasOwnProperty('signer'))
+      if (message.memo != null && message.hasOwnProperty("memo"))
+        if (!$util.isString(message.memo)) return "memo: string expected";
+      if (message.signer != null && message.hasOwnProperty("signer"))
         if (
           !(
-            (message.signer && typeof message.signer.length === 'number') ||
+            (message.signer && typeof message.signer.length === "number") ||
             $util.isString(message.signer)
           )
         )
-          return 'signer: buffer expected';
+          return "signer: buffer expected";
       return null;
     };
 
@@ -1661,20 +1654,20 @@ $root.types = (function () {
      */
     MsgDeposit.fromObject = function fromObject(object) {
       if (object instanceof $root.types.MsgDeposit) return object;
-      let message = new $root.types.MsgDeposit();
+      const message = new $root.types.MsgDeposit();
       if (object.coins) {
         if (!Array.isArray(object.coins))
-          throw TypeError('.types.MsgDeposit.coins: array expected');
+          throw TypeError(".types.MsgDeposit.coins: array expected");
         message.coins = [];
         for (let i = 0; i < object.coins.length; ++i) {
-          if (typeof object.coins[i] !== 'object')
-            throw TypeError('.types.MsgDeposit.coins: object expected');
+          if (typeof object.coins[i] !== "object")
+            throw TypeError(".types.MsgDeposit.coins: object expected");
           message.coins[i] = $root.common.Coin.fromObject(object.coins[i]);
         }
       }
       if (object.memo != null) message.memo = String(object.memo);
       if (object.signer != null)
-        if (typeof object.signer === 'string')
+        if (typeof object.signer === "string")
           $util.base64.decode(
             object.signer,
             (message.signer = $util.newBuffer($util.base64.length(object.signer))),
@@ -1695,11 +1688,11 @@ $root.types = (function () {
      */
     MsgDeposit.toObject = function toObject(message, options) {
       if (!options) options = {};
-      let object = {};
+      const object = {};
       if (options.arrays || options.defaults) object.coins = [];
       if (options.defaults) {
-        object.memo = '';
-        if (options.bytes === String) object.signer = '';
+        object.memo = "";
+        if (options.bytes === String) object.signer = "";
         else {
           object.signer = [];
           if (options.bytes !== Array) object.signer = $util.newBuffer(object.signer);
@@ -1710,8 +1703,8 @@ $root.types = (function () {
         for (let j = 0; j < message.coins.length; ++j)
           object.coins[j] = $root.common.Coin.toObject(message.coins[j], options);
       }
-      if (message.memo != null && message.hasOwnProperty('memo')) object.memo = message.memo;
-      if (message.signer != null && message.hasOwnProperty('signer'))
+      if (message.memo != null && message.hasOwnProperty("memo")) object.memo = message.memo;
+      if (message.signer != null && message.hasOwnProperty("signer"))
         object.signer =
           options.bytes === String
             ? $util.base64.encode(message.signer, 0, message.signer.length)
@@ -1735,7 +1728,7 @@ $root.types = (function () {
     return MsgDeposit;
   })();
 
-  types.MsgSend = (function () {
+  types.MsgSend = (() => {
     /**
      * Properties of a MsgSend.
      * @memberof types
@@ -1807,12 +1800,11 @@ $root.types = (function () {
      */
     MsgSend.encode = function encode(message, writer) {
       if (!writer) writer = $Writer.create();
-      if (message.fromAddress != null && Object.hasOwnProperty.call(message, 'fromAddress'))
+      if (message.fromAddress != null && Object.hasOwnProperty.call(message, "fromAddress"))
         writer.uint32(/* id 1, wireType 2 =*/ 10).bytes(message.fromAddress);
-      if (message.toAddress != null && Object.hasOwnProperty.call(message, 'toAddress'))
+      if (message.toAddress != null && Object.hasOwnProperty.call(message, "toAddress"))
         writer.uint32(/* id 2, wireType 2 =*/ 18).bytes(message.toAddress);
       if (message.amount?.length)
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
         for (let i = 0; i < message.amount.length; ++i)
           $root.cosmos.base.v1beta1.Coin.encode(
             message.amount[i],
@@ -1847,10 +1839,10 @@ $root.types = (function () {
      */
     MsgSend.decode = function decode(reader, length) {
       if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
-      let end = length === undefined ? reader.len : reader.pos + length,
+      const end = length === undefined ? reader.len : reader.pos + length,
         message = new $root.types.MsgSend();
       while (reader.pos < end) {
-        let tag = reader.uint32();
+        const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
             message.fromAddress = reader.bytes();
@@ -1894,29 +1886,28 @@ $root.types = (function () {
      * @returns {string|null} `null` if valid, otherwise the reason why it is not
      */
     MsgSend.verify = function verify(message) {
-      if (typeof message !== 'object' || message === null) return 'object expected';
-      if (message.fromAddress != null && message.hasOwnProperty('fromAddress'))
+      if (typeof message !== "object" || message === null) return "object expected";
+      if (message.fromAddress != null && message.hasOwnProperty("fromAddress"))
         if (
           !(
-            (message.fromAddress && typeof message.fromAddress.length === 'number') ||
+            (message.fromAddress && typeof message.fromAddress.length === "number") ||
             $util.isString(message.fromAddress)
           )
         )
-          return 'fromAddress: buffer expected';
-      if (message.toAddress != null && message.hasOwnProperty('toAddress'))
+          return "fromAddress: buffer expected";
+      if (message.toAddress != null && message.hasOwnProperty("toAddress"))
         if (
           !(
-            (message.toAddress && typeof message.toAddress.length === 'number') ||
+            (message.toAddress && typeof message.toAddress.length === "number") ||
             $util.isString(message.toAddress)
           )
         )
-          return 'toAddress: buffer expected';
-      if (message.amount != null && message.hasOwnProperty('amount')) {
-        if (!Array.isArray(message.amount)) return 'amount: array expected';
-        // eslint-disable-next-line @typescript-eslint/prefer-for-of
+          return "toAddress: buffer expected";
+      if (message.amount != null && message.hasOwnProperty("amount")) {
+        if (!Array.isArray(message.amount)) return "amount: array expected";
         for (let i = 0; i < message.amount.length; ++i) {
-          let error = $root.cosmos.base.v1beta1.Coin.verify(message.amount[i]);
-          if (error) return 'amount.' + error;
+          const error = $root.cosmos.base.v1beta1.Coin.verify(message.amount[i]);
+          if (error) return "amount." + error;
         }
       }
       return null;
@@ -1932,9 +1923,9 @@ $root.types = (function () {
      */
     MsgSend.fromObject = function fromObject(object) {
       if (object instanceof $root.types.MsgSend) return object;
-      let message = new $root.types.MsgSend();
+      const message = new $root.types.MsgSend();
       if (object.fromAddress != null)
-        if (typeof object.fromAddress === 'string')
+        if (typeof object.fromAddress === "string")
           $util.base64.decode(
             object.fromAddress,
             (message.fromAddress = $util.newBuffer($util.base64.length(object.fromAddress))),
@@ -1942,7 +1933,7 @@ $root.types = (function () {
           );
         else if (object.fromAddress.length) message.fromAddress = object.fromAddress;
       if (object.toAddress != null)
-        if (typeof object.toAddress === 'string')
+        if (typeof object.toAddress === "string")
           $util.base64.decode(
             object.toAddress,
             (message.toAddress = $util.newBuffer($util.base64.length(object.toAddress))),
@@ -1950,11 +1941,11 @@ $root.types = (function () {
           );
         else if (object.toAddress.length) message.toAddress = object.toAddress;
       if (object.amount) {
-        if (!Array.isArray(object.amount)) throw TypeError('.types.MsgSend.amount: array expected');
+        if (!Array.isArray(object.amount)) throw TypeError(".types.MsgSend.amount: array expected");
         message.amount = [];
         for (let i = 0; i < object.amount.length; ++i) {
-          if (typeof object.amount[i] !== 'object')
-            throw TypeError('.types.MsgSend.amount: object expected');
+          if (typeof object.amount[i] !== "object")
+            throw TypeError(".types.MsgSend.amount: object expected");
           message.amount[i] = $root.cosmos.base.v1beta1.Coin.fromObject(object.amount[i]);
         }
       }
@@ -1972,28 +1963,28 @@ $root.types = (function () {
      */
     MsgSend.toObject = function toObject(message, options) {
       if (!options) options = {};
-      let object = {};
+      const object = {};
       if (options.arrays || options.defaults) object.amount = [];
       if (options.defaults) {
-        if (options.bytes === String) object.fromAddress = '';
+        if (options.bytes === String) object.fromAddress = "";
         else {
           object.fromAddress = [];
           if (options.bytes !== Array) object.fromAddress = $util.newBuffer(object.fromAddress);
         }
-        if (options.bytes === String) object.toAddress = '';
+        if (options.bytes === String) object.toAddress = "";
         else {
           object.toAddress = [];
           if (options.bytes !== Array) object.toAddress = $util.newBuffer(object.toAddress);
         }
       }
-      if (message.fromAddress != null && message.hasOwnProperty('fromAddress'))
+      if (message.fromAddress != null && message.hasOwnProperty("fromAddress"))
         object.fromAddress =
           options.bytes === String
             ? $util.base64.encode(message.fromAddress, 0, message.fromAddress.length)
             : options.bytes === Array
               ? Array.prototype.slice.call(message.fromAddress)
               : message.fromAddress;
-      if (message.toAddress != null && message.hasOwnProperty('toAddress'))
+      if (message.toAddress != null && message.hasOwnProperty("toAddress"))
         object.toAddress =
           options.bytes === String
             ? $util.base64.encode(message.toAddress, 0, message.toAddress.length)
@@ -2025,31 +2016,31 @@ $root.types = (function () {
   return types;
 })();
 
-$root.cosmos = (function () {
+$root.cosmos = (() => {
   /**
    * Namespace cosmos.
    * @exports cosmos
    * @namespace
    */
-  let cosmos = {};
+  const cosmos = {};
 
-  cosmos.base = (function () {
+  cosmos.base = (() => {
     /**
      * Namespace base.
      * @memberof cosmos
      * @namespace
      */
-    let base = {};
+    const base = {};
 
-    base.v1beta1 = (function () {
+    base.v1beta1 = (() => {
       /**
        * Namespace v1beta1.
        * @memberof cosmos.base
        * @namespace
        */
-      let v1beta1 = {};
+      const v1beta1 = {};
 
-      v1beta1.Coin = (function () {
+      v1beta1.Coin = (() => {
         /**
          * Properties of a Coin.
          * @memberof cosmos.base.v1beta1
@@ -2078,7 +2069,7 @@ $root.cosmos = (function () {
          * @memberof cosmos.base.v1beta1.Coin
          * @instance
          */
-        Coin.prototype.denom = '';
+        Coin.prototype.denom = "";
 
         /**
          * Coin amount.
@@ -2086,7 +2077,7 @@ $root.cosmos = (function () {
          * @memberof cosmos.base.v1beta1.Coin
          * @instance
          */
-        Coin.prototype.amount = '';
+        Coin.prototype.amount = "";
 
         /**
          * Creates a new Coin instance using the specified properties.
@@ -2111,9 +2102,9 @@ $root.cosmos = (function () {
          */
         Coin.encode = function encode(message, writer) {
           if (!writer) writer = $Writer.create();
-          if (message.denom != null && Object.hasOwnProperty.call(message, 'denom'))
+          if (message.denom != null && Object.hasOwnProperty.call(message, "denom"))
             writer.uint32(/* id 1, wireType 2 =*/ 10).string(message.denom);
-          if (message.amount != null && Object.hasOwnProperty.call(message, 'amount'))
+          if (message.amount != null && Object.hasOwnProperty.call(message, "amount"))
             writer.uint32(/* id 2, wireType 2 =*/ 18).string(message.amount);
           return writer;
         };
@@ -2144,10 +2135,10 @@ $root.cosmos = (function () {
          */
         Coin.decode = function decode(reader, length) {
           if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
-          let end = length === undefined ? reader.len : reader.pos + length,
+          const end = length === undefined ? reader.len : reader.pos + length,
             message = new $root.cosmos.base.v1beta1.Coin();
           while (reader.pos < end) {
-            let tag = reader.uint32();
+            const tag = reader.uint32();
             switch (tag >>> 3) {
               case 1:
                 message.denom = reader.string();
@@ -2187,11 +2178,11 @@ $root.cosmos = (function () {
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
         Coin.verify = function verify(message) {
-          if (typeof message !== 'object' || message === null) return 'object expected';
-          if (message.denom != null && message.hasOwnProperty('denom'))
-            if (!$util.isString(message.denom)) return 'denom: string expected';
-          if (message.amount != null && message.hasOwnProperty('amount'))
-            if (!$util.isString(message.amount)) return 'amount: string expected';
+          if (typeof message !== "object" || message === null) return "object expected";
+          if (message.denom != null && message.hasOwnProperty("denom"))
+            if (!$util.isString(message.denom)) return "denom: string expected";
+          if (message.amount != null && message.hasOwnProperty("amount"))
+            if (!$util.isString(message.amount)) return "amount: string expected";
           return null;
         };
 
@@ -2205,7 +2196,7 @@ $root.cosmos = (function () {
          */
         Coin.fromObject = function fromObject(object) {
           if (object instanceof $root.cosmos.base.v1beta1.Coin) return object;
-          let message = new $root.cosmos.base.v1beta1.Coin();
+          const message = new $root.cosmos.base.v1beta1.Coin();
           if (object.denom != null) message.denom = String(object.denom);
           if (object.amount != null) message.amount = String(object.amount);
           return message;
@@ -2222,14 +2213,14 @@ $root.cosmos = (function () {
          */
         Coin.toObject = function toObject(message, options) {
           if (!options) options = {};
-          let object = {};
+          const object = {};
           if (options.defaults) {
-            object.denom = '';
-            object.amount = '';
+            object.denom = "";
+            object.amount = "";
           }
-          if (message.denom != null && message.hasOwnProperty('denom'))
+          if (message.denom != null && message.hasOwnProperty("denom"))
             object.denom = message.denom;
-          if (message.amount != null && message.hasOwnProperty('amount'))
+          if (message.amount != null && message.hasOwnProperty("amount"))
             object.amount = message.amount;
           return object;
         };
@@ -2248,7 +2239,7 @@ $root.cosmos = (function () {
         return Coin;
       })();
 
-      v1beta1.DecCoin = (function () {
+      v1beta1.DecCoin = (() => {
         /**
          * Properties of a DecCoin.
          * @memberof cosmos.base.v1beta1
@@ -2277,7 +2268,7 @@ $root.cosmos = (function () {
          * @memberof cosmos.base.v1beta1.DecCoin
          * @instance
          */
-        DecCoin.prototype.denom = '';
+        DecCoin.prototype.denom = "";
 
         /**
          * DecCoin amount.
@@ -2285,7 +2276,7 @@ $root.cosmos = (function () {
          * @memberof cosmos.base.v1beta1.DecCoin
          * @instance
          */
-        DecCoin.prototype.amount = '';
+        DecCoin.prototype.amount = "";
 
         /**
          * Creates a new DecCoin instance using the specified properties.
@@ -2310,9 +2301,9 @@ $root.cosmos = (function () {
          */
         DecCoin.encode = function encode(message, writer) {
           if (!writer) writer = $Writer.create();
-          if (message.denom != null && Object.hasOwnProperty.call(message, 'denom'))
+          if (message.denom != null && Object.hasOwnProperty.call(message, "denom"))
             writer.uint32(/* id 1, wireType 2 =*/ 10).string(message.denom);
-          if (message.amount != null && Object.hasOwnProperty.call(message, 'amount'))
+          if (message.amount != null && Object.hasOwnProperty.call(message, "amount"))
             writer.uint32(/* id 2, wireType 2 =*/ 18).string(message.amount);
           return writer;
         };
@@ -2343,10 +2334,10 @@ $root.cosmos = (function () {
          */
         DecCoin.decode = function decode(reader, length) {
           if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
-          let end = length === undefined ? reader.len : reader.pos + length,
+          const end = length === undefined ? reader.len : reader.pos + length,
             message = new $root.cosmos.base.v1beta1.DecCoin();
           while (reader.pos < end) {
-            let tag = reader.uint32();
+            const tag = reader.uint32();
             switch (tag >>> 3) {
               case 1:
                 message.denom = reader.string();
@@ -2386,11 +2377,11 @@ $root.cosmos = (function () {
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
         DecCoin.verify = function verify(message) {
-          if (typeof message !== 'object' || message === null) return 'object expected';
-          if (message.denom != null && message.hasOwnProperty('denom'))
-            if (!$util.isString(message.denom)) return 'denom: string expected';
-          if (message.amount != null && message.hasOwnProperty('amount'))
-            if (!$util.isString(message.amount)) return 'amount: string expected';
+          if (typeof message !== "object" || message === null) return "object expected";
+          if (message.denom != null && message.hasOwnProperty("denom"))
+            if (!$util.isString(message.denom)) return "denom: string expected";
+          if (message.amount != null && message.hasOwnProperty("amount"))
+            if (!$util.isString(message.amount)) return "amount: string expected";
           return null;
         };
 
@@ -2404,7 +2395,7 @@ $root.cosmos = (function () {
          */
         DecCoin.fromObject = function fromObject(object) {
           if (object instanceof $root.cosmos.base.v1beta1.DecCoin) return object;
-          let message = new $root.cosmos.base.v1beta1.DecCoin();
+          const message = new $root.cosmos.base.v1beta1.DecCoin();
           if (object.denom != null) message.denom = String(object.denom);
           if (object.amount != null) message.amount = String(object.amount);
           return message;
@@ -2421,14 +2412,14 @@ $root.cosmos = (function () {
          */
         DecCoin.toObject = function toObject(message, options) {
           if (!options) options = {};
-          let object = {};
+          const object = {};
           if (options.defaults) {
-            object.denom = '';
-            object.amount = '';
+            object.denom = "";
+            object.amount = "";
           }
-          if (message.denom != null && message.hasOwnProperty('denom'))
+          if (message.denom != null && message.hasOwnProperty("denom"))
             object.denom = message.denom;
-          if (message.amount != null && message.hasOwnProperty('amount'))
+          if (message.amount != null && message.hasOwnProperty("amount"))
             object.amount = message.amount;
           return object;
         };
@@ -2447,7 +2438,7 @@ $root.cosmos = (function () {
         return DecCoin;
       })();
 
-      v1beta1.IntProto = (function () {
+      v1beta1.IntProto = (() => {
         /**
          * Properties of an IntProto.
          * @memberof cosmos.base.v1beta1
@@ -2475,7 +2466,7 @@ $root.cosmos = (function () {
          * @memberof cosmos.base.v1beta1.IntProto
          * @instance
          */
-        IntProto.prototype.int = '';
+        IntProto.prototype.int = "";
 
         /**
          * Creates a new IntProto instance using the specified properties.
@@ -2500,7 +2491,7 @@ $root.cosmos = (function () {
          */
         IntProto.encode = function encode(message, writer) {
           if (!writer) writer = $Writer.create();
-          if (message.int != null && Object.hasOwnProperty.call(message, 'int'))
+          if (message.int != null && Object.hasOwnProperty.call(message, "int"))
             writer.uint32(/* id 1, wireType 2 =*/ 10).string(message.int);
           return writer;
         };
@@ -2531,10 +2522,10 @@ $root.cosmos = (function () {
          */
         IntProto.decode = function decode(reader, length) {
           if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
-          let end = length === undefined ? reader.len : reader.pos + length,
+          const end = length === undefined ? reader.len : reader.pos + length,
             message = new $root.cosmos.base.v1beta1.IntProto();
           while (reader.pos < end) {
-            let tag = reader.uint32();
+            const tag = reader.uint32();
             switch (tag >>> 3) {
               case 1:
                 message.int = reader.string();
@@ -2571,9 +2562,9 @@ $root.cosmos = (function () {
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
         IntProto.verify = function verify(message) {
-          if (typeof message !== 'object' || message === null) return 'object expected';
-          if (message.int != null && message.hasOwnProperty('int'))
-            if (!$util.isString(message.int)) return 'int: string expected';
+          if (typeof message !== "object" || message === null) return "object expected";
+          if (message.int != null && message.hasOwnProperty("int"))
+            if (!$util.isString(message.int)) return "int: string expected";
           return null;
         };
 
@@ -2587,7 +2578,7 @@ $root.cosmos = (function () {
          */
         IntProto.fromObject = function fromObject(object) {
           if (object instanceof $root.cosmos.base.v1beta1.IntProto) return object;
-          let message = new $root.cosmos.base.v1beta1.IntProto();
+          const message = new $root.cosmos.base.v1beta1.IntProto();
           if (object.int != null) message.int = String(object.int);
           return message;
         };
@@ -2603,9 +2594,9 @@ $root.cosmos = (function () {
          */
         IntProto.toObject = function toObject(message, options) {
           if (!options) options = {};
-          let object = {};
-          if (options.defaults) object.int = '';
-          if (message.int != null && message.hasOwnProperty('int')) object.int = message.int;
+          const object = {};
+          if (options.defaults) object.int = "";
+          if (message.int != null && message.hasOwnProperty("int")) object.int = message.int;
           return object;
         };
 
@@ -2623,7 +2614,7 @@ $root.cosmos = (function () {
         return IntProto;
       })();
 
-      v1beta1.DecProto = (function () {
+      v1beta1.DecProto = (() => {
         /**
          * Properties of a DecProto.
          * @memberof cosmos.base.v1beta1
@@ -2651,7 +2642,7 @@ $root.cosmos = (function () {
          * @memberof cosmos.base.v1beta1.DecProto
          * @instance
          */
-        DecProto.prototype.dec = '';
+        DecProto.prototype.dec = "";
 
         /**
          * Creates a new DecProto instance using the specified properties.
@@ -2676,7 +2667,7 @@ $root.cosmos = (function () {
          */
         DecProto.encode = function encode(message, writer) {
           if (!writer) writer = $Writer.create();
-          if (message.dec != null && Object.hasOwnProperty.call(message, 'dec'))
+          if (message.dec != null && Object.hasOwnProperty.call(message, "dec"))
             writer.uint32(/* id 1, wireType 2 =*/ 10).string(message.dec);
           return writer;
         };
@@ -2707,10 +2698,10 @@ $root.cosmos = (function () {
          */
         DecProto.decode = function decode(reader, length) {
           if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
-          let end = length === undefined ? reader.len : reader.pos + length,
+          const end = length === undefined ? reader.len : reader.pos + length,
             message = new $root.cosmos.base.v1beta1.DecProto();
           while (reader.pos < end) {
-            let tag = reader.uint32();
+            const tag = reader.uint32();
             switch (tag >>> 3) {
               case 1:
                 message.dec = reader.string();
@@ -2747,9 +2738,9 @@ $root.cosmos = (function () {
          * @returns {string|null} `null` if valid, otherwise the reason why it is not
          */
         DecProto.verify = function verify(message) {
-          if (typeof message !== 'object' || message === null) return 'object expected';
-          if (message.dec != null && message.hasOwnProperty('dec'))
-            if (!$util.isString(message.dec)) return 'dec: string expected';
+          if (typeof message !== "object" || message === null) return "object expected";
+          if (message.dec != null && message.hasOwnProperty("dec"))
+            if (!$util.isString(message.dec)) return "dec: string expected";
           return null;
         };
 
@@ -2763,7 +2754,7 @@ $root.cosmos = (function () {
          */
         DecProto.fromObject = function fromObject(object) {
           if (object instanceof $root.cosmos.base.v1beta1.DecProto) return object;
-          let message = new $root.cosmos.base.v1beta1.DecProto();
+          const message = new $root.cosmos.base.v1beta1.DecProto();
           if (object.dec != null) message.dec = String(object.dec);
           return message;
         };
@@ -2779,9 +2770,9 @@ $root.cosmos = (function () {
          */
         DecProto.toObject = function toObject(message, options) {
           if (!options) options = {};
-          let object = {};
-          if (options.defaults) object.dec = '';
-          if (message.dec != null && message.hasOwnProperty('dec')) object.dec = message.dec;
+          const object = {};
+          if (options.defaults) object.dec = "";
+          if (message.dec != null && message.hasOwnProperty("dec")) object.dec = message.dec;
           return object;
         };
 

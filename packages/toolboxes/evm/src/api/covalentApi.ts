@@ -1,6 +1,6 @@
-import { formatBigIntToSafeValue, RequestClient } from '@swapkit/helpers';
-import type { ChainId } from '@swapkit/types';
-import { ChainIdToChain } from '@swapkit/types';
+import { RequestClient, formatBigIntToSafeValue } from "@swapkit/helpers";
+import type { ChainId } from "@swapkit/types";
+import { ChainIdToChain } from "@swapkit/types";
 
 type CovalentBalanceResponse = {
   address: string;
@@ -42,7 +42,7 @@ export const covalentApi = ({ apiKey, chainId }: { apiKey: string; chainId: Chai
         }),
         decimal: contract_decimals,
         chain: ChainIdToChain[chainId],
-        symbol: `${contract_ticker_symbol}${native_token ? '' : `-${contract_address}`}`,
+        symbol: `${contract_ticker_symbol}${native_token ? "" : `-${contract_address}`}`,
       }),
     );
   },

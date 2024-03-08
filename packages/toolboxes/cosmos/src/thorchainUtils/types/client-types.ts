@@ -1,17 +1,24 @@
-import type { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from '@cosmjs/amino';
-import type { OfflineDirectSigner, Registry } from '@cosmjs/proto-signing';
-import type { Account as CosmosAccount, AminoTypes } from '@cosmjs/stargate';
-import type { AssetValue, SwapKitNumber } from '@swapkit/helpers';
-import type { Asset, ChainId } from '@swapkit/types';
-import type { curve } from 'elliptic';
+import type { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from "@cosmjs/amino";
+import type { OfflineDirectSigner, Registry } from "@cosmjs/proto-signing";
+import type { Account as CosmosAccount, AminoTypes } from "@cosmjs/stargate";
+import type { AssetValue, SwapKitNumber } from "@swapkit/helpers";
+import type { Asset, ChainId } from "@swapkit/types";
+import type { curve } from "elliptic";
 
-import type { BNBTransaction } from '../../binanceUtils/transaction.ts';
-import type { Account } from '../../index.ts';
-import type { Signer, TransferParams } from '../../types.ts';
+import type { BNBTransaction } from "../../binanceUtils/transaction.ts";
+import type {
+  Account,
+  buildAminoMsg,
+  buildEncodedTxBody,
+  buildTransaction,
+  convertToSignable,
+  prepareMessageForBroadcast,
+} from "../../index.ts";
+import type { Signer, TransferParams } from "../../types.ts";
 
 enum TxType {
-  Transfer = 'transfer',
-  Unknown = 'unknown',
+  Transfer = "transfer",
+  Unknown = "unknown",
 }
 
 type Tx = {
@@ -35,7 +42,7 @@ export type DepositParam = {
   memo: string;
 };
 
-export type TxData = Pick<Tx, 'from' | 'to' | 'type'>;
+export type TxData = Pick<Tx, "from" | "to" | "type">;
 
 /**
  * Response from `thorchain/constants` endpoint
@@ -57,7 +64,11 @@ export type NodeInfoResponse = {
   };
 };
 
-type Fees = { average: SwapKitNumber; fast: SwapKitNumber; fastest: SwapKitNumber };
+type Fees = {
+  average: SwapKitNumber;
+  fast: SwapKitNumber;
+  fastest: SwapKitNumber;
+};
 
 export type BaseCosmosToolboxType = {
   getAccount: (address: string) => Promise<CosmosAccount | null>;
@@ -77,12 +88,11 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
   deposit: (params: DepositParam & { from: string }) => Promise<string>;
   createDefaultRegistry: () => Promise<Registry>;
   createDefaultAminoTypes: () => Promise<AminoTypes>;
-  createDepositMessage: (
-    assetValue: AssetValue,
-    address: string,
-    memo?: string,
-    forBroadcasting?: boolean,
-  ) => any;
+  buildAminoMsg: typeof buildAminoMsg;
+  convertToSignable: typeof convertToSignable;
+  buildTransaction: typeof buildTransaction;
+  buildEncodedTxBody: typeof buildEncodedTxBody;
+  prepareMessageForBroadcast: typeof prepareMessageForBroadcast;
   createMultisig: (pubKeys: string[], threshold: number) => Promise<MultisigThresholdPubkey>;
   importSignature: (signature: string) => Uint8Array;
   secp256k1HdWalletFromMnemonic: (mnemonic: string, index?: number) => Promise<Secp256k1HdWallet>;
@@ -114,11 +124,18 @@ export type KujiraToolboxType = BaseCosmosToolboxType & {
   getFees: () => Promise<Fees>;
 };
 
-export type BinanceToolboxType = Omit<BaseCosmosToolboxType, 'getAccount'> & {
+export type BinanceToolboxType = Omit<BaseCosmosToolboxType, "getAccount"> & {
   getFees: () => Promise<Fees>;
   transfer: (params: TransferParams) => Promise<string>;
   getAccount: (address: string) => Promise<Account>;
-  sendRawTransaction: (signedBz: string, sync: boolean) => Promise<any>;
+  sendRawTransaction: (
+    signedBz: string,
+    sync: boolean,
+  ) => Promise<{
+    result: {
+      hash: string;
+    };
+  }>;
   createTransactionAndSignMsg: (params: TransferParams) => Promise<{
     transaction: BNBTransaction;
     signMsg: {

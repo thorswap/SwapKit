@@ -1,4 +1,4 @@
-import { Chain } from '@swapkit/types';
+import { Chain } from "@swapkit/types";
 
 export const LEDGER_SUPPORTED_CHAINS = [
   Chain.Avalanche,

@@ -1,26 +1,27 @@
-import { Chain, type UTXOChain } from '@swapkit/types';
+import { Chain, type UTXOChain } from "@swapkit/types";
 
-import type { TargetOutput, UTXOCalculateTxSizeParams } from '../types/index.ts';
+import type { TargetOutput, UTXOCalculateTxSizeParams } from "../types/index.ts";
 import {
+  TX_OVERHEAD,
+  UTXOScriptType,
   calculateTxSize,
   getInputSize,
   getOutputSize,
   getScriptTypeForAddress,
-  TX_OVERHEAD,
-  UTXOScriptType,
-} from '../utils/index.ts';
+} from "../utils/index.ts";
 
 export const getDustThreshold = (chain: UTXOChain) => {
   switch (chain) {
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
       return 550;
+    case Chain.Dash:
     case Chain.Litecoin:
       return 5500;
     case Chain.Dogecoin:
       return 100000;
     default:
-      throw new Error('Invalid Chain');
+      throw new Error("Invalid Chain");
   }
 };
 
@@ -33,7 +34,7 @@ export const accumulative = ({
   const feeRate = Math.ceil(initialFeeRate);
 
   const newTxType =
-    inputs[0] && 'address' in inputs[0]
+    inputs[0] && "address" in inputs[0] && inputs[0].address
       ? getScriptTypeForAddress(inputs[0].address)
       : UTXOScriptType.P2PKH;
   // skip input if adding it would cost more than input is worth
@@ -46,7 +47,7 @@ export const accumulative = ({
 
   let fees = txSizeWithoutInputs * feeRate;
   let inputsValue = 0;
-  let inputsToUse: typeof inputs = [];
+  const inputsToUse: typeof inputs = [];
 
   for (const input of filteredInputs) {
     const inputSize = getInputSize(input);
@@ -64,7 +65,7 @@ export const accumulative = ({
 
     const remainder = inputsValue - totalCost;
 
-    const feeForExtraOutput = feeRate * getOutputSize({ address: '', value: 0 }, newTxType);
+    const feeForExtraOutput = feeRate * getOutputSize({ address: "", value: 0 }, newTxType);
 
     // potential change address
     if (remainder > feeForExtraOutput) {
@@ -78,7 +79,7 @@ export const accumulative = ({
       ) {
         return {
           inputs: inputsToUse,
-          outputs: outputs.concat({ value: remainderAfterExtraOutput, address: '' }),
+          outputs: outputs.concat({ value: remainderAfterExtraOutput, address: "" }),
           fee: feeAfterExtraOutput,
         };
       }

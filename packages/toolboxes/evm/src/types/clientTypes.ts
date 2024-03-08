@@ -1,6 +1,6 @@
-import type { AssetValue } from '@swapkit/helpers';
-import type { EVMTxBaseParams, FeeOption, WalletTxParams } from '@swapkit/types';
-import type { BigNumberish, BrowserProvider, JsonFragment, Transaction } from 'ethers';
+import type { AssetValue } from "@swapkit/helpers";
+import type { EVMTxBaseParams, FeeOption, WalletTxParams } from "@swapkit/types";
+import type { BigNumberish, BrowserProvider, JsonFragment, Transaction } from "ethers";
 
 import type {
   ARBToolbox,
@@ -9,12 +9,12 @@ import type {
   ETHToolbox,
   MATICToolbox,
   OPToolbox,
-} from '../index.ts';
-import type { getProvider } from '../provider.ts';
+} from "../index.ts";
+import type { getProvider } from "../provider.ts";
 
 export enum EthNetwork {
-  Test = 'goerli',
-  Main = 'homestead',
+  Test = "goerli",
+  Main = "homestead",
 }
 
 export type ApproveParams = {
@@ -50,7 +50,7 @@ export type CallParams = {
 
 export type EstimateCallParams = Pick<
   CallParams,
-  'contractAddress' | 'abi' | 'funcName' | 'funcParams' | 'txOverrides'
+  "contractAddress" | "abi" | "funcName" | "funcParams" | "txOverrides"
 >;
 
 export type EthereumWindowProvider = BrowserProvider & {

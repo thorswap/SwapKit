@@ -1,40 +1,40 @@
-import type { ProposalTypes } from '@walletconnect/types';
+import type { ProposalTypes } from "@walletconnect/types";
 
 import {
   DEFAULT_COSMOS_METHODS,
-  DEFAULT_EIP_155_EVENTS,
   DEFAULT_EIP155_METHODS,
+  DEFAULT_EIP_155_EVENTS,
   DEFAULT_NEAR_EVENTS,
   DEFAULT_NEAR_METHODS,
   DEFAULT_POLKADOT_EVENTS,
   DEFAULT_POLKADOT_METHODS,
   DEFAULT_SOLANA_EVENTS,
   DEFAULT_SOLANA_METHODS,
-} from './constants.ts';
+} from "./constants.ts";
 
 export const getNamespacesFromChains = (chains: string[]) => {
   const supportedNamespaces: string[] = [];
-  chains.forEach((chainId) => {
-    const [namespace] = chainId.split(':');
+  for (const chainId of chains) {
+    const [namespace] = chainId.split(":");
     if (!supportedNamespaces.includes(namespace)) {
       supportedNamespaces.push(namespace);
     }
-  });
+  }
 
   return supportedNamespaces;
 };
 
 export const getSupportedMethodsByNamespace = (namespace: string) => {
   switch (namespace) {
-    case 'eip155':
+    case "eip155":
       return Object.values(DEFAULT_EIP155_METHODS);
-    case 'cosmos':
+    case "cosmos":
       return Object.values(DEFAULT_COSMOS_METHODS);
-    case 'solana':
+    case "solana":
       return Object.values(DEFAULT_SOLANA_METHODS);
-    case 'polkadot':
+    case "polkadot":
       return Object.values(DEFAULT_POLKADOT_METHODS);
-    case 'near':
+    case "near":
       return Object.values(DEFAULT_NEAR_METHODS);
     default:
       throw new Error(`No default methods for namespace: ${namespace}`);
@@ -43,15 +43,15 @@ export const getSupportedMethodsByNamespace = (namespace: string) => {
 
 export const getSupportedEventsByNamespace = (namespace: string) => {
   switch (namespace) {
-    case 'eip155':
+    case "eip155":
       return Object.values(DEFAULT_EIP_155_EVENTS);
-    case 'cosmos':
+    case "cosmos":
       return [];
-    case 'solana':
+    case "solana":
       return Object.values(DEFAULT_SOLANA_EVENTS);
-    case 'polkadot':
+    case "polkadot":
       return Object.values(DEFAULT_POLKADOT_EVENTS);
-    case 'near':
+    case "near":
       return Object.values(DEFAULT_NEAR_EVENTS);
     default:
       throw new Error(`No default events for namespace: ${namespace}`);

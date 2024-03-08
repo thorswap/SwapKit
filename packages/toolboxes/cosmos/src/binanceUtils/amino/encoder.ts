@@ -1,28 +1,29 @@
 // @ts-expect-error no typings for this package
-import { string as VarString } from 'protocol-buffers-encodings';
+import { string as VarString } from "protocol-buffers-encodings";
 
-import { UVarInt } from './varint.ts';
+import { UVarInt } from "./varint.ts";
 
 export const encoderHelper = (data: any): 0 | 1 | 2 => {
   const dataType = typeof data;
 
-  if (dataType === 'boolean') return 0;
-  if (dataType === 'number') return parseInt(`${data}`) === data ? 0 : 1;
-  if (dataType === 'string' || dataType === 'object') return 2;
+  if (dataType === "boolean") return 0;
+  if (dataType === "number") return parseInt(`${data}`) === data ? 0 : 1;
+  if (dataType === "string" || dataType === "object") return 2;
 
   throw new Error(`Invalid type "${dataType}"`); // Is this what's expected?
 };
 
 export const sortObject = (obj: any): any => {
   if (obj === null) return null;
-  if (typeof obj !== 'object') return obj;
+  if (typeof obj !== "object") return obj;
   // arrays have typeof "object" in js!
   if (Array.isArray(obj)) return obj.map(sortObject);
   const sortedKeys = Object.keys(obj).sort();
   const result: any = {};
-  sortedKeys.forEach((key) => {
+
+  for (const key of sortedKeys) {
     result[key] = sortObject(obj[key]);
-  });
+  }
   return result;
 };
 
@@ -58,7 +59,7 @@ export const encodeString = (str: string) => {
 export const encodeTime = (value: string | Date) => {
   const millis = new Date(value).getTime();
   const seconds = Math.floor(millis / 1000);
-  const nanos = Number(seconds.toString().padEnd(9, '0'));
+  const nanos = Number(seconds.toString().padEnd(9, "0"));
 
   const buffer = Buffer.alloc(14);
 
@@ -86,9 +87,9 @@ export const convertObjectToSignBytes = (obj: any) => Buffer.from(JSON.stringify
  * @param {Object} obj
  *  */
 export const marshalBinary = (obj: any) => {
-  if (typeof obj !== 'object') throw new TypeError('data must be an object');
+  if (typeof obj !== "object") throw new TypeError("data must be an object");
 
-  return encodeBinary(obj, -1, true).toString('hex');
+  return encodeBinary(obj, -1, true).toString("hex");
 };
 
 /**
@@ -97,9 +98,9 @@ export const marshalBinary = (obj: any) => {
  * @param {Object} obj
  *  */
 export const marshalBinaryBare = (obj: any) => {
-  if (typeof obj !== 'object') throw new TypeError('data must be an object');
+  if (typeof obj !== "object") throw new TypeError("data must be an object");
 
-  return encodeBinary(obj).toString('hex');
+  return encodeBinary(obj).toString("hex");
 };
 
 /**
@@ -111,7 +112,7 @@ export const marshalBinaryBare = (obj: any) => {
  * @return {Buffer} binary of object.
  */
 export const encodeBinary = (val: any, fieldNum?: number, isByteLenPrefix?: boolean) => {
-  if (val === null || val === undefined) throw new TypeError('unsupported type');
+  if (val === null || val === undefined) throw new TypeError("unsupported type");
 
   if (Buffer.isBuffer(val)) {
     if (isByteLenPrefix) {
@@ -126,10 +127,10 @@ export const encodeBinary = (val: any, fieldNum?: number, isByteLenPrefix?: bool
     return encodeArrayBinary(fieldNum, val, isByteLenPrefix);
   }
 
-  if (valType === 'number') return encodeNumber(val);
-  if (valType === 'boolean') return encodeBool(val);
-  if (valType === 'string') return encodeString(val);
-  if (valType === 'object') return encodeObjectBinary(val, isByteLenPrefix);
+  if (valType === "number") return encodeNumber(val);
+  if (valType === "boolean") return encodeBool(val);
+  if (valType === "string") return encodeString(val);
+  if (valType === "object") return encodeObjectBinary(val, isByteLenPrefix);
   return;
 };
 
@@ -153,7 +154,7 @@ export const encodeObjectBinary = (obj: any, isByteLenPrefix?: boolean) => {
   const bufferArr: any[] = [];
 
   Object.keys(obj).forEach((key, index) => {
-    if (key === 'aminoPrefix' || key === 'version') return;
+    if (key === "aminoPrefix" || key === "version") return;
 
     if (isDefaultValue(obj[key])) return;
 
@@ -169,7 +170,7 @@ export const encodeObjectBinary = (obj: any, isByteLenPrefix?: boolean) => {
 
   // add prefix
   if (obj.aminoPrefix) {
-    const prefix = Buffer.from(obj.aminoPrefix, 'hex');
+    const prefix = Buffer.from(obj.aminoPrefix, "hex");
     bytes = Buffer.concat([prefix, bytes]);
   }
 
@@ -196,16 +197,16 @@ export const encodeArrayBinary = (
 ) => {
   const result: any[] = [];
 
-  arr.forEach((item) => {
+  for (const item of arr) {
     result.push(encodeTypeAndField(fieldNum, item));
 
     if (isDefaultValue(item)) {
-      result.push(Buffer.from('00', 'hex'));
-      return;
+      result.push(Buffer.from("00", "hex"));
+      continue;
     }
 
     result.push(encodeBinary(item, fieldNum, true));
-  });
+  }
 
   //encode length
   if (isByteLenPrefix) {
@@ -218,8 +219,8 @@ export const encodeArrayBinary = (
 
 // Write field key.
 const encodeTypeAndField = (index: number | undefined, field: any) => {
-  index = Number(index);
-  const value = ((index + 1) << 3) | encoderHelper(field);
+  const newIndex = Number(index) + 1;
+  const value = (newIndex << 3) | encoderHelper(field);
   return UVarInt.encode(value);
 };
 
@@ -228,9 +229,9 @@ const isDefaultValue = (obj: any) => {
   const objType = typeof obj;
 
   return (
-    (objType === 'number' && obj === 0) ||
-    (objType === 'string' && obj === '') ||
-    (objType === 'boolean' && !obj) ||
-    (objType === 'object' && Object.keys(obj).length === 0)
+    (objType === "number" && obj === 0) ||
+    (objType === "string" && obj === "") ||
+    (objType === "boolean" && !obj) ||
+    (objType === "object" && Object.keys(obj).length === 0)
   );
 };

@@ -1,6 +1,6 @@
-import { LedgerErrorCode } from '@swapkit/types';
+import { LedgerErrorCode } from "@swapkit/types";
 
-import { CLA, errorCodeToString, INS, PAYLOAD_TYPE, processErrorResponse } from './common.ts';
+import { CLA, INS, PAYLOAD_TYPE, errorCodeToString, processErrorResponse } from "./common.ts";
 
 const signSendChunkv1 = async (app: any, chunkIdx: any, chunkNum: any, chunk: any) => {
   return app.transport
@@ -17,7 +17,7 @@ const signSendChunkv1 = async (app: any, chunkIdx: any, chunkNum: any, chunk: an
       if (returnCode === 0x6a80 || returnCode === 0x6984) {
         errorMessage = `${errorMessage} : ${response
           .slice(0, response.length - 2)
-          .toString('ascii')}`;
+          .toString("ascii")}`;
       }
 
       let signature = null;
@@ -35,7 +35,7 @@ const signSendChunkv1 = async (app: any, chunkIdx: any, chunkNum: any, chunk: an
 
 export const serializePathv2 = (path: any) => {
   if (!path || path.length !== 5) {
-    throw new Error('Invalid path.');
+    throw new Error("Invalid path.");
   }
 
   const buf = Buffer.alloc(20);
@@ -48,7 +48,7 @@ export const serializePathv2 = (path: any) => {
   return buf;
 };
 
-export const signSendChunkv2 = async (app: any, chunkIdx: any, chunkNum: any, chunk: any) => {
+export const signSendChunkv2 = (app: any, chunkIdx: any, chunkNum: any, chunk: any) => {
   let payloadType = PAYLOAD_TYPE.ADD;
   if (chunkIdx === 1) {
     payloadType = PAYLOAD_TYPE.INIT;
@@ -69,7 +69,7 @@ export const publicKeyv2 = async (app: any, data: any) => {
       const compressedPk = Buffer.from(response.slice(0, 33));
 
       return {
-        pk: 'OBSOLETE PROPERTY',
+        pk: "OBSOLETE PROPERTY",
         compressed_pk: compressedPk,
         return_code: returnCode,
         error_message: errorCodeToString(returnCode),

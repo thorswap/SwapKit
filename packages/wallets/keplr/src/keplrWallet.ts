@@ -1,7 +1,7 @@
-import type { Keplr } from '@keplr-wallet/types';
-import { type AssetValue, setRequestClientConfig } from '@swapkit/helpers';
-import type { ConnectWalletParams, WalletTxParams } from '@swapkit/types';
-import { Chain, ChainToChainId, RPCUrl, WalletOption } from '@swapkit/types';
+import type { Keplr } from "@keplr-wallet/types";
+import { type AssetValue, setRequestClientConfig } from "@swapkit/helpers";
+import type { ConnectWalletParams, WalletTxParams } from "@swapkit/types";
+import { Chain, ChainToChainId, RPCUrl, WalletOption } from "@swapkit/types";
 
 declare global {
   interface Window {
@@ -18,9 +18,9 @@ const connectKeplr =
     const chainId = ChainToChainId[chain];
     keplrClient?.enable(chainId);
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(chainId);
-    if (!offlineSigner) throw new Error('Could not load offlineSigner');
+    if (!offlineSigner) throw new Error("Could not load offlineSigner");
     const { getDenom, createSigningStargateClient, KujiraToolbox, GaiaToolbox } = await import(
-      '@swapkit/toolbox-cosmos'
+      "@swapkit/toolbox-cosmos"
     );
 
     const cosmJS = await createSigningStargateClient(
@@ -36,8 +36,8 @@ const connectKeplr =
     }: WalletTxParams & { assetValue: AssetValue }) => {
       const coins = [
         {
-          denom: chain === Chain.Cosmos ? 'uatom' : getDenom(assetValue.symbol),
-          amount: assetValue.getBaseValue('string'),
+          denom: chain === Chain.Cosmos ? "uatom" : getDenom(assetValue.symbol),
+          amount: assetValue.getBaseValue("string"),
         },
       ];
 
@@ -49,12 +49,15 @@ const connectKeplr =
 
     addChain({
       chain,
-      walletMethods: { ...toolbox, transfer, getAddress: () => address },
-      wallet: { address, balance: [], walletType: WalletOption.KEPLR },
+      ...toolbox,
+      transfer,
+      address,
+      balance: [],
+      walletType: WalletOption.KEPLR,
     });
   };
 
 export const keplrWallet = {
-  connectMethodName: 'connectKeplr' as const,
+  connectMethodName: "connectKeplr" as const,
   connect: connectKeplr,
 };

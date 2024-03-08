@@ -1,23 +1,23 @@
-import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from '@swapkit/types';
-import type { BrowserProvider, JsonRpcProvider, Provider, Signer } from 'ethers';
+import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from "@swapkit/types";
+import type { BrowserProvider, JsonRpcProvider, Provider, Signer } from "ethers";
 
-import type { CovalentApiType } from '../api/covalentApi.ts';
-import { covalentApi } from '../api/covalentApi.ts';
-import { type CallParams, getBalance } from '../index.ts';
+import type { CovalentApiType } from "../api/covalentApi.ts";
+import { covalentApi } from "../api/covalentApi.ts";
+import { type CallParams, getBalance } from "../index.ts";
 
-import type { WithSigner } from './BaseEVMToolbox.ts';
+import type { WithSigner } from "./BaseEVMToolbox.ts";
 import {
   BaseEVMToolbox,
   createContract,
   isBrowserProvider,
   isStateChangingCall,
-} from './BaseEVMToolbox.ts';
+} from "./BaseEVMToolbox.ts";
 
 export const getNetworkParams = () => ({
   chainId: ChainId.BinanceSmartChainHex,
-  chainName: 'Smart Chain',
-  nativeCurrency: { name: 'Binance Coin', symbol: Chain.Binance, decimals: BaseDecimal.BSC },
-  rpcUrls: ['https://bsc-dataseed.binance.org'],
+  chainName: "Smart Chain",
+  nativeCurrency: { name: "Binance Coin", symbol: Chain.Binance, decimals: BaseDecimal.BSC },
+  rpcUrls: ["https://bsc-dataseed.binance.org"],
   blockExplorerUrls: [ChainToExplorerUrl[Chain.BinanceSmartChain]],
 });
 
@@ -46,9 +46,10 @@ export const BSCToolbox = ({
       funcParams = [],
       txOverrides,
     }: WithSigner<CallParams>,
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
   ): Promise<T> => {
     const contractProvider = callProvider || provider;
-    if (!contractAddress) throw new Error('contractAddress must be provided');
+    if (!contractAddress) throw new Error("contractAddress must be provided");
 
     const isStateChanging = isStateChangingCall(abi, funcName);
 
@@ -70,10 +71,10 @@ export const BSCToolbox = ({
 
     // only use signer if the contract function is state changing
     if (isStateChanging) {
-      if (!signer) throw new Error('Signer is not defined');
+      if (!signer) throw new Error("Signer is not defined");
 
       const address = txOverrides?.from || (await signer.getAddress());
-      if (!address) throw new Error('No signer address found');
+      if (!address) throw new Error("No signer address found");
 
       const result = await contract.connect(signer).getFunction(funcName)(...funcParams, {
         ...feeData,
@@ -85,12 +86,12 @@ export const BSCToolbox = ({
         nonce: txOverrides?.nonce || (await contractProvider.getTransactionCount(address)),
       });
 
-      return typeof result === 'string' ? result : result?.hash;
+      return typeof result === "string" ? result : result?.hash;
     }
 
     const result = await contract.getFunction(funcName)(...funcParams);
 
-    return typeof result === 'string' ? result : result?.hash;
+    return typeof result === "string" ? result : result?.hash;
   };
 
   return {
@@ -99,7 +100,7 @@ export const BSCToolbox = ({
     getNetworkParams,
     getBalance: (
       address: string,
-      potentialScamFilter: boolean = true,
+      potentialScamFilter = true,
       overwriteProvider?: JsonRpcProvider | BrowserProvider,
     ) =>
       getBalance({

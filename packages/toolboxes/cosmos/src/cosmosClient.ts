@@ -1,24 +1,24 @@
-import type { StdFee } from '@cosmjs/stargate';
-import { base64 } from '@scure/base';
-import type { ChainId } from '@swapkit/types';
+import type { StdFee } from "@cosmjs/stargate";
+import { base64 } from "@scure/base";
+import type { ChainId } from "@swapkit/types";
 
-import type { CosmosSDKClientParams, TransferParams } from './types.ts';
+import type { CosmosSDKClientParams, TransferParams } from "./types.ts";
 import {
+  DEFAULT_COSMOS_FEE_MAINNET,
   createSigningStargateClient,
   createStargateClient,
-  DEFAULT_COSMOS_FEE_MAINNET,
   getDenom,
   getRPC,
-} from './util.ts';
+} from "./util.ts";
 
 export class CosmosClient {
   server: string;
   chainId: ChainId;
-  prefix = '';
+  prefix = "";
   rpcUrl;
 
   // by default, cosmos chain
-  constructor({ server, chainId, prefix = 'cosmos', stagenet = false }: CosmosSDKClientParams) {
+  constructor({ server, chainId, prefix = "cosmos", stagenet = false }: CosmosSDKClientParams) {
     this.rpcUrl = getRPC(chainId, stagenet);
     this.server = server;
     this.chainId = chainId;
@@ -41,9 +41,9 @@ export class CosmosClient {
     if (!address.startsWith(this.prefix)) return false;
 
     try {
-      const { normalizeBech32 } = await import('@cosmjs/encoding');
+      const { normalizeBech32 } = await import("@cosmjs/encoding");
       return normalizeBech32(address) === address.toLocaleLowerCase();
-    } catch (err) {
+    } catch (_error) {
       return false;
     }
   };
@@ -58,7 +58,7 @@ export class CosmosClient {
 
     return allBalances.map((balance) => ({
       ...balance,
-      denom: balance.denom.includes('/') ? balance.denom.toUpperCase() : balance.denom,
+      denom: balance.denom.includes("/") ? balance.denom.toUpperCase() : balance.denom,
     }));
   };
 
@@ -71,12 +71,12 @@ export class CosmosClient {
     from,
     recipient,
     assetValue,
-    memo = '',
+    memo = "",
     fee = DEFAULT_COSMOS_FEE_MAINNET,
     signer,
   }: TransferParams) => {
     if (!signer) {
-      throw new Error('Signer not defined');
+      throw new Error("Signer not defined");
     }
 
     const signingClient = await createSigningStargateClient(this.rpcUrl, signer);
@@ -86,7 +86,7 @@ export class CosmosClient {
       [
         {
           denom: getDenom(`u${assetValue.symbol}`).toLowerCase(),
-          amount: assetValue.getBaseValue('string'),
+          amount: assetValue.getBaseValue("string"),
         },
       ],
       fee as StdFee,
@@ -97,8 +97,8 @@ export class CosmosClient {
   };
 
   #getWallet = async (mnemonic: string, derivationPath: string) => {
-    const { Secp256k1HdWallet } = await import('@cosmjs/amino');
-    const { stringToPath } = await import('@cosmjs/crypto');
+    const { Secp256k1HdWallet } = await import("@cosmjs/amino");
+    const { stringToPath } = await import("@cosmjs/crypto");
 
     return await Secp256k1HdWallet.fromMnemonic(mnemonic, {
       prefix: this.prefix,

@@ -1,5 +1,5 @@
-import type { EVMChain } from '@swapkit/types';
-import { Chain } from '@swapkit/types';
+import type { EVMChain } from "@swapkit/types";
+import { Chain } from "@swapkit/types";
 
 import {
   ARBITRUM_ONE_MAINNET_ID,
@@ -13,13 +13,13 @@ import {
   OPTIMISM_MAINNET_ID,
   POLYGON_MAINNET_ID,
   THORCHAIN_MAINNET_ID,
-} from './constants.ts';
+} from "./constants.ts";
 
 export const getAddressFromAccount = (account: string) => {
   try {
-    return account.split(':')[2];
-  } catch (error) {
-    throw new Error('Invalid WalletConnect account');
+    return account.split(":")[2];
+  } catch (_error) {
+    throw new Error("Invalid WalletConnect account");
   }
 };
 
@@ -28,7 +28,7 @@ export const getAddressByChain = (
   accounts: string[],
 ): string =>
   getAddressFromAccount(
-    accounts.find((account) => account.startsWith(chainToChainId(chain))) || '',
+    accounts.find((account) => account.startsWith(chainToChainId(chain))) || "",
   );
 
 export const chainToChainId = (chain: Chain) => {
@@ -56,6 +56,6 @@ export const chainToChainId = (chain: Chain) => {
     case Chain.Kujira:
       return KUJIRA_MAINNET_ID;
     default:
-      return '';
+      return "";
   }
 };

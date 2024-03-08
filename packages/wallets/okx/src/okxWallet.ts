@@ -1,7 +1,7 @@
-import { setRequestClientConfig } from '@swapkit/helpers';
-import { Chain, type ConnectWalletParams, WalletOption } from '@swapkit/types';
+import { setRequestClientConfig } from "@swapkit/helpers";
+import { Chain, type ConnectWalletParams, WalletOption } from "@swapkit/types";
 
-import { getWalletForChain } from './helpers.ts';
+import { getWalletForChain } from "./helpers.ts";
 
 const OKX_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
@@ -32,8 +32,9 @@ const connectOkx =
 
       addChain({
         chain,
-        walletMethods,
-        wallet: { address: walletMethods.getAddress(), balance: [], walletType: WalletOption.OKX },
+        ...walletMethods,
+        balance: [],
+        walletType: WalletOption.OKX,
       });
     });
 
@@ -41,6 +42,6 @@ const connectOkx =
   };
 
 export const okxWallet = {
-  connectMethodName: 'connectOkx' as const,
+  connectMethodName: "connectOkx" as const,
   connect: connectOkx,
 };

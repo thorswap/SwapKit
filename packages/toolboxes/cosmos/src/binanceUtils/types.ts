@@ -140,28 +140,28 @@ export type Tx = {
  * @see https://docs.binance.org/api-reference/dex-api/paths.html#apiv1transactions
  */
 export type TxType =
-  | 'NEW_ORDER'
-  | 'ISSUE_TOKEN'
-  | 'BURN_TOKEN'
-  | 'LIST_TOKEN'
-  | 'CANCEL_ORDER'
-  | 'FREEZE_TOKEN'
-  | 'UN_FREEZE_TOKEN'
-  | 'TRANSFER'
-  | 'PROPOSAL'
-  | 'VOTE'
-  | 'MINT'
-  | 'DEPOSIT'
-  | 'CREATE_VALIDATOR'
-  | 'REMOVE_VALIDATOR'
-  | 'TIME_LOCK'
-  | 'TIME_UNLOCK'
-  | 'TIME_RELOCK'
-  | 'SET_ACCOUNT_FLAG'
-  | 'HTL_TRANSFER'
-  | 'CLAIM_HTL'
-  | 'DEPOSIT_HTL'
-  | 'REFUND_HTL';
+  | "NEW_ORDER"
+  | "ISSUE_TOKEN"
+  | "BURN_TOKEN"
+  | "LIST_TOKEN"
+  | "CANCEL_ORDER"
+  | "FREEZE_TOKEN"
+  | "UN_FREEZE_TOKEN"
+  | "TRANSFER"
+  | "PROPOSAL"
+  | "VOTE"
+  | "MINT"
+  | "DEPOSIT"
+  | "CREATE_VALIDATOR"
+  | "REMOVE_VALIDATOR"
+  | "TIME_LOCK"
+  | "TIME_UNLOCK"
+  | "TIME_RELOCK"
+  | "SET_ACCOUNT_FLAG"
+  | "HTL_TRANSFER"
+  | "CLAIM_HTL"
+  | "DEPOSIT_HTL"
+  | "REFUND_HTL";
 
 export interface StdSignature {
   pub_key?: Buffer;
@@ -171,27 +171,27 @@ export interface StdSignature {
 }
 
 export type FeeType =
-  | 'submit_proposal'
-  | 'deposit'
-  | 'vote'
-  | 'create_validator'
-  | 'remove_validator'
-  | 'dexList'
-  | 'orderNew'
-  | 'orderCancel'
-  | 'issueMsg'
-  | 'mintMsg'
-  | 'tokensBurn'
-  | 'tokensFreeze'
-  | 'send'
-  | 'timeLock'
-  | 'timeUnlock'
-  | 'timeRelock'
-  | 'setAccountFlags'
-  | 'HTLT'
-  | 'depositHTLT'
-  | 'claimHTLT'
-  | 'refundHTLT';
+  | "submit_proposal"
+  | "deposit"
+  | "vote"
+  | "create_validator"
+  | "remove_validator"
+  | "dexList"
+  | "orderNew"
+  | "orderCancel"
+  | "issueMsg"
+  | "mintMsg"
+  | "tokensBurn"
+  | "tokensFreeze"
+  | "send"
+  | "timeLock"
+  | "timeUnlock"
+  | "timeRelock"
+  | "setAccountFlags"
+  | "HTLT"
+  | "depositHTLT"
+  | "claimHTLT"
+  | "refundHTLT";
 
 export type Fee = {
   msg_type: FeeType;
@@ -206,14 +206,14 @@ export type TransferFee = {
 };
 
 export type DexFeeName =
-  | 'ExpireFee'
-  | 'ExpireFeeNative'
-  | 'CancelFee'
-  | 'CancelFeeNative'
-  | 'FeeRate'
-  | 'FeeRateNative'
-  | 'IOCExpireFee'
-  | 'IOCExpireFeeNative';
+  | "ExpireFee"
+  | "ExpireFeeNative"
+  | "CancelFee"
+  | "CancelFeeNative"
+  | "FeeRate"
+  | "FeeRateNative"
+  | "IOCExpireFee"
+  | "IOCExpireFeeNative";
 
 export type DexFee = {
   fee_name: DexFeeName;
@@ -227,8 +227,8 @@ export type DexFees = {
 export type BNBFees = (Fee | TransferFee | DexFees)[];
 
 export abstract class BaseMsg {
-  public abstract getSignMsg(): {};
-  public abstract getMsg(): {};
+  public abstract getSignMsg(): any;
+  public abstract getMsg(): any;
   public static defaultMsg(): object {
     return {};
   }
@@ -239,19 +239,19 @@ export interface StdSignMsg {
   accountNumber: number;
   sequence: number;
   baseMsg?: BaseMsg;
-  msg?: {};
+  msg?: any;
   memo: string;
   source: number;
   data?: Buffer | null | string;
 }
 
 export enum AminoPrefix {
-  MsgSend = '2A2C87FA',
-  StdTx = 'F0625DEE',
+  MsgSend = "2A2C87FA",
+  StdTx = "F0625DEE",
 }
 
 export interface StdTx {
-  msg: {}[];
+  msg: any[];
   signatures: StdSignature[];
   memo: string;
   source: number;

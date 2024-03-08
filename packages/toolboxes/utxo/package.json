@@ -1,29 +1,24 @@
 {
-  "author": "swapkit-oss-team",
+  "author": "swapkit-oss",
   "dependencies": {
     "@psf/bitcoincashjs-lib": "4.0.3",
     "@scure/bip32": "1.3.3",
     "@scure/bip39": "1.2.2",
-    "bitcoinjs-lib": "5.2.0",
+    "bitcoinjs-lib": "6.1.5",
     "bs58check": "3.0.1",
     "cashaddrjs": "0.4.4",
     "coininfo": "5.2.1",
-    "ecpair": "2.0.1",
-    "tiny-secp256k1": "1.1.6"
+    "ecpair": "2.1.0",
+    "@bitcoinerlab/secp256k1": "1.1.1"
   },
   "description": "THORSwap utxo",
   "devDependencies": {
-    "@internal/config": "workspace:*",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@types/node": "20.11.5",
-    "@types/tiny-secp256k1": "1.0.0",
-    "@vitest/coverage-istanbul": "1.2.1",
-    "vite": "5.0.12",
-    "vitest": "1.2.1"
-  },
-  "eslintConfig": {
-    "extends": "../../../internal/eslint-config"
+    "@types/tiny-secp256k1": "2.0.1",
+    "@vitest/coverage-istanbul": "1.3.1",
+    "vite": "5.1.3",
+    "vitest": "1.3.1"
   },
   "exports": {
     ".": {
@@ -52,12 +47,12 @@
   },
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist vite.config.ts.* .turbo node_modules",
-    "lint": "eslint ./ --ext .ts,.tsx --fix; tsc --noEmit",
+    "clean": "rm -rf dist vite.config.ts.* node_modules",
+    "lint": "biome check --apply ./src",
     "test": "echo 'vitest --run'",
     "test:coverage": "echo 'vitest run --coverage'"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.71"
+  "version": "1.0.0-rc.82"
 }

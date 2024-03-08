@@ -22,8 +22,12 @@ jobs:
     if: contains(github.event.pull_request.title, ':tada:') == false
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-js-workflow
+      - uses: actions/checkout@v4
+      - name: Setup Repo
+        uses: ./tools/github/setup-repo
+      - name: Build
+        run: pnpm build
+
       - name: Build and check size
         if: github.event_name == 'pull_request'
         uses: andresz1/size-limit-action@v1
@@ -31,20 +35,17 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           skip_step: install
 
-      - name: Build
-        if: github.event_name != 'pull_request'
-        run: pnpm build
-
   test:
     if: contains(github.event.pull_request.title, ':tada:') == false
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-js-workflow
+      - uses: actions/checkout@v4
+      - name: Setup Repo
+        uses: ./tools/github/setup-repo
       - name: Test
         run: pnpm test:coverage
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           files: ./internal/helpers/coverage/coverage-final.json,./packages/toolboxes/evm/coverage/coverage-final.json,./packages/swapkit/swapkit-core/coverage/coverage-final.json
           flags: unittests
@@ -57,8 +58,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-js-workflow
+      - uses: actions/checkout@v4
+      - name: Setup Repo
+        uses: ./tools/github/setup-repo
       - name: Lint
         run: pnpm lint
 
@@ -67,14 +69,9 @@ jobs:
     needs: [build, test, lint]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-js-workflow
-      - name: Set job params
-        shell: bash
-        id: deployment-params
-        run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+      - uses: actions/checkout@v4
+      - name: Setup Repo
+        uses: ./tools/github/setup-repo
 
       - name: Copy npmrc config
         run: cp .npmrc.prod .npmrc
@@ -98,12 +95,19 @@ jobs:
           echo 'publishName="Release"' >> $GITHUB_OUTPUT
           pnpm changeset pre exit
 
+      - name: Set job params
+        shell: bash
+        id: deployment-params
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
       - name: Create Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         if: contains(github.ref_name, 'main') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'develop')
         with:
-          title: ':tada: Publish ${{ steps.deployment-params.outputs.publishName }}'
+          title: ":tada: Publish ${{ steps.deployment-params.outputs.publishName }}"
           version: pnpm version-bump
           publish: pnpm publish-packages
           setupGitUser: false
@@ -117,7 +121,7 @@ jobs:
           color: ${{ contains(github.ref_name, 'main') && '0x00aa00' || '0x3af3f4' }}
           description: "Internal build ${{ job.status }}: ${{ github.ref_name }}:\n${{ steps.changesets.outputs.publishedPackages }}"
           status: success
-          url: 'https://github.com/thorswap/swapkit/releases'
+          url: "https://github.com/thorswap/swapkit/releases"
           username: SwapKit - ${{ github.ref_name }}
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
 
@@ -125,7 +129,7 @@ jobs:
         uses: changesets/action@v1
         if: contains(github.ref_name, 'nightly')
         with:
-          title: ':tada: Publish Nightly'
+          title: ":tada: Publish Nightly"
           version: pnpm version-bump
           publish: pnpm publish-packages --tag nightly
           setupGitUser: false
@@ -141,26 +145,27 @@ jobs:
           pnpm changeset pre exit
           pnpm changeset pre enter rc
 
-  deploy-playground:
-    if: contains(github.ref_name, 'develop')
-    needs: [build, test, lint]
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/setup-js-workflow
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
+  # deploy-playground:
+  #   if: contains(github.ref_name, 'develop')
+  #   needs: [build, test, lint]
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     pages: write
+  #     id-token: write
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: Setup Repo
+  #       uses: ./tools/github/setup-repo
+  #     - name: Setup Pages
+  #       uses: actions/configure-pages@v3
 
-      - name: Build playground
-        run: pnpm build:playground
+  #     - name: Build playground
+  #       run: pnpm build:playground
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: './internal/playground/dist'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+  #     - name: Upload artifact
+  #       uses: actions/upload-pages-artifact@v1
+  #       with:
+  #         path: "./internal/playground/dist"
+  #     - name: Deploy to GitHub Pages
+  #       id: deployment
+  #       uses: actions/deploy-pages@v2

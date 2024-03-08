@@ -1,6 +1,6 @@
 export const CLA = 0x55;
 export const CHUNK_SIZE = 250;
-export const APP_KEY = 'CSM';
+export const APP_KEY = "CSM";
 
 export const INS = {
   GET_VERSION: 0x00,
@@ -21,28 +21,28 @@ export const P1_VALUES = {
 };
 
 const ERROR_DESCRIPTION = {
-  1: 'U2F: Unknown',
-  2: 'U2F: Bad request',
-  3: 'U2F: Configuration unsupported',
-  4: 'U2F: Device Ineligible',
-  5: 'U2F: Timeout',
-  14: 'Timeout',
-  0x9000: 'No errors',
-  0x9001: 'Device is busy',
-  0x6802: 'Error deriving keys',
-  0x6400: 'Execution Error',
-  0x6700: 'Wrong Length',
-  0x6982: 'Empty Buffer',
-  0x6983: 'Output buffer too small',
-  0x6984: 'Data is invalid',
-  0x6985: 'Conditions not satisfied',
-  0x6986: 'Transaction rejected',
-  0x6a80: 'Bad key handle',
-  0x6b00: 'Invalid P1/P2',
-  0x6d00: 'Instruction not supported',
-  0x6e00: 'App does not seem to be open',
-  0x6f00: 'Unknown error',
-  0x6f01: 'Sign/verify error',
+  1: "U2F: Unknown",
+  2: "U2F: Bad request",
+  3: "U2F: Configuration unsupported",
+  4: "U2F: Device Ineligible",
+  5: "U2F: Timeout",
+  14: "Timeout",
+  36864: "No errors",
+  36865: "Device is busy",
+  26626: "Error deriving keys",
+  25600: "Execution Error",
+  26368: "Wrong Length",
+  27010: "Empty Buffer",
+  27011: "Output buffer too small",
+  27012: "Data is invalid",
+  27013: "Conditions not satisfied",
+  27014: "Transaction rejected",
+  27264: "Bad key handle",
+  27392: "Invalid P1/P2",
+  27904: "Instruction not supported",
+  28160: "App does not seem to be open",
+  28416: "Unknown error",
+  28417: "Sign/verify error",
 };
 
 export function errorCodeToString(statusCode: any) {
@@ -53,12 +53,12 @@ export function errorCodeToString(statusCode: any) {
 export function processErrorResponse(response: any) {
   if (response) {
     if (
-      typeof response === 'object' &&
+      typeof response === "object" &&
       response !== null &&
-      !(response instanceof Array) &&
+      !Array.isArray(response) &&
       !(response instanceof Date)
     ) {
-      if (Object.prototype.hasOwnProperty.call(response, 'statusCode')) {
+      if (Object.prototype.hasOwnProperty.call(response, "statusCode")) {
         return {
           return_code: response.statusCode,
           error_message: errorCodeToString(response.statusCode),
@@ -66,8 +66,8 @@ export function processErrorResponse(response: any) {
       }
 
       if (
-        Object.prototype.hasOwnProperty.call(response, 'return_code') &&
-        Object.prototype.hasOwnProperty.call(response, 'error_message')
+        Object.prototype.hasOwnProperty.call(response, "return_code") &&
+        Object.prototype.hasOwnProperty.call(response, "error_message")
       ) {
         return response;
       }

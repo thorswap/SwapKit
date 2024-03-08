@@ -1,7 +1,7 @@
 export enum FeeOption {
-  Average = 'average',
-  Fast = 'fast',
-  Fastest = 'fastest',
+  Average = "average",
+  Fast = "fast",
+  Fastest = "fastest",
 }
 
 export type WalletTxParams = {

@@ -1,11 +1,11 @@
-import type { KeepKeySdk } from '@keepkey/keepkey-sdk';
-import { derivationPathToString } from '@swapkit/helpers';
-import type { EVMTxParams, JsonRpcProvider, Provider } from '@swapkit/toolbox-evm';
-import { AbstractSigner } from '@swapkit/toolbox-evm';
-import type { Chain, DerivationPathArray } from '@swapkit/types';
-import { ChainToChainId, NetworkDerivationPath } from '@swapkit/types';
+import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
+import { derivationPathToString } from "@swapkit/helpers";
+import type { EVMTxParams, JsonRpcProvider, Provider } from "@swapkit/toolbox-evm";
+import { AbstractSigner } from "@swapkit/toolbox-evm";
+import type { Chain, DerivationPathArray } from "@swapkit/types";
+import { ChainToChainId, NetworkDerivationPath } from "@swapkit/types";
 
-import { bip32ToAddressNList } from '../helpers/coins.ts';
+import { bip32ToAddressNList } from "../helpers/coins.ts";
 
 interface KeepKeyEVMSignerParams {
   sdk: KeepKeySdk;
@@ -26,12 +26,12 @@ export class KeepKeySigner extends AbstractSigner {
     this.sdk = sdk;
     this.chain = chain;
     this.derivationPath = derivationPath || NetworkDerivationPath.ETH;
-    this.address = '';
+    this.address = "";
     this.provider = provider;
   }
 
   signTypedData(): Promise<string> {
-    throw new Error('this method is not implemented');
+    throw new Error("this method is not implemented");
   }
 
   getAddress = async () => {
@@ -58,23 +58,24 @@ export class KeepKeySigner extends AbstractSigner {
     maxPriorityFeePerGas,
     gasPrice,
     ...restTx
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
   }: EVMTxParams & { maxFeePerGas?: string; maxPriorityFeePerGas?: string; gasPrice?: string }) => {
-    if (!from) throw new Error('Missing from address');
-    if (!to) throw new Error('Missing to address');
-    if (!gasLimit) throw new Error('Missing gasLimit');
-    if (!nonce) throw new Error('Missing nonce');
-    if (!data) throw new Error('Missing data');
+    if (!from) throw new Error("Missing from address");
+    if (!to) throw new Error("Missing to address");
+    if (!gasLimit) throw new Error("Missing gasLimit");
+    if (!nonce) throw new Error("Missing nonce");
+    if (!data) throw new Error("Missing data");
 
     const isEIP1559 = (maxFeePerGas || maxPriorityFeePerGas) && !gasPrice;
-    if (isEIP1559 && !maxFeePerGas) throw new Error('Missing maxFeePerGas');
-    if (isEIP1559 && !maxPriorityFeePerGas) throw new Error('Missing maxFeePerGas');
-    if (!isEIP1559 && !gasPrice) throw new Error('Missing gasPrice');
+    if (isEIP1559 && !maxFeePerGas) throw new Error("Missing maxFeePerGas");
+    if (isEIP1559 && !maxPriorityFeePerGas) throw new Error("Missing maxFeePerGas");
+    if (!(isEIP1559 || gasPrice)) throw new Error("Missing gasPrice");
 
-    const { toHexString } = await import('@swapkit/toolbox-evm');
+    const { toHexString } = await import("@swapkit/toolbox-evm");
 
     const nonceValue = nonce
       ? BigInt(nonce)
-      : BigInt(await this.provider.getTransactionCount(await this.getAddress(), 'pending'));
+      : BigInt(await this.provider.getTransactionCount(await this.getAddress(), "pending"));
 
     const input = {
       gas: toHexString(BigInt(gasLimit)),
@@ -87,13 +88,13 @@ export class KeepKeySigner extends AbstractSigner {
       data,
       ...(isEIP1559
         ? {
-            maxFeePerGas: toHexString(BigInt(maxFeePerGas?.toString() || '0')),
-            maxPriorityFeePerGas: toHexString(BigInt(maxPriorityFeePerGas?.toString() || '0')),
+            maxFeePerGas: toHexString(BigInt(maxFeePerGas?.toString() || "0")),
+            maxPriorityFeePerGas: toHexString(BigInt(maxPriorityFeePerGas?.toString() || "0")),
           }
         : {
             // Fixed syntax error and structure here
             gasPrice:
-              'gasPrice' in restTx ? toHexString(BigInt(gasPrice?.toString() || '0')) : undefined,
+              "gasPrice" in restTx ? toHexString(BigInt(gasPrice?.toString() || "0")) : undefined,
           }),
     };
     const responseSign = await this.sdk.eth.ethSignTransaction(input);

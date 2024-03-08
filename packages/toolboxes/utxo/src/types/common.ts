@@ -1,9 +1,9 @@
-import type { AssetValue } from '@swapkit/helpers';
-import type { FeeOption, UTXOChain } from '@swapkit/types';
+import type { AssetValue } from "@swapkit/helpers";
+import type { FeeOption, UTXOChain } from "@swapkit/types";
 
-import type { BlockchairApiType } from '../api/blockchairApi.ts';
-import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from '../index.ts';
-import type { UTXOScriptType } from '../utils/index.ts';
+import type { BlockchairApiType } from "../api/blockchairApi.ts";
+import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from "../index.ts";
+import type { UTXOScriptType } from "../utils/index.ts";
 
 export type TransactionType = {
   toHex(): string;

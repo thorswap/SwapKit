@@ -1,10 +1,10 @@
-import { AssetValue, SwapKitApi } from '@swapkit/helpers';
-import type { ChainId, DerivationPath } from '@swapkit/types';
-import { Chain } from '@swapkit/types';
+import { AssetValue, SwapKitApi } from "@swapkit/helpers";
+import type { ChainId, DerivationPath } from "@swapkit/types";
+import { Chain } from "@swapkit/types";
 
-import type { CosmosClient } from '../cosmosClient.ts';
-import type { BaseCosmosToolboxType } from '../thorchainUtils/types/client-types.ts';
-import { USK_KUJIRA_FACTORY_DENOM } from '../util.ts';
+import type { CosmosClient } from "../cosmosClient.ts";
+import type { BaseCosmosToolboxType } from "../thorchainUtils/types/client-types.ts";
+import { USK_KUJIRA_FACTORY_DENOM } from "../util.ts";
 
 type Params = {
   client: CosmosClient;
@@ -19,21 +19,21 @@ export const getFeeRateFromThorswap = async (chainId: ChainId) => {
 };
 
 // TODO: figure out some better way to initialize from base value
-export const getAssetFromDenom = async (denom: string, amount: string) => {
+export const getAssetFromDenom = (denom: string, amount: string) => {
   switch (denom) {
-    case 'rune':
+    case "rune":
       return AssetValue.fromChainOrSignature(Chain.THORChain, parseInt(amount) / 1e8);
-    case 'bnb':
+    case "bnb":
       return AssetValue.fromChainOrSignature(Chain.Binance, parseInt(amount) / 1e8);
-    case 'uatom':
-    case 'atom':
+    case "uatom":
+    case "atom":
       return AssetValue.fromChainOrSignature(Chain.Cosmos, parseInt(amount) / 1e6);
-    case 'cacao':
+    case "cacao":
       return AssetValue.fromChainOrSignature(Chain.Maya, parseInt(amount) / 1e10);
-    case 'maya':
+    case "maya":
       return AssetValue.fromChainOrSignature(`${Chain.Maya}.${Chain.Maya}`, parseInt(amount) / 1e4);
-    case 'ukuji':
-    case 'kuji':
+    case "ukuji":
+    case "kuji":
       return AssetValue.fromChainOrSignature(Chain.Kujira, parseInt(amount) / 1e6);
     case USK_KUJIRA_FACTORY_DENOM:
       // USK on Kujira
@@ -50,8 +50,8 @@ export const BaseCosmosToolbox = ({
 }: Params): BaseCosmosToolboxType => ({
   transfer: cosmosClient.transfer,
   getSigner: async (phrase: string) => {
-    const { DirectSecp256k1HdWallet } = await import('@cosmjs/proto-signing');
-    const { stringToPath } = await import('@cosmjs/crypto');
+    const { DirectSecp256k1HdWallet } = await import("@cosmjs/proto-signing");
+    const { stringToPath } = await import("@cosmjs/crypto");
 
     return DirectSecp256k1HdWallet.fromMnemonic(phrase, {
       prefix: cosmosClient.prefix,
@@ -59,13 +59,13 @@ export const BaseCosmosToolbox = ({
     });
   },
   getSignerFromPrivateKey: async (privateKey: Uint8Array) => {
-    const { DirectSecp256k1Wallet } = await import('@cosmjs/proto-signing');
+    const { DirectSecp256k1Wallet } = await import("@cosmjs/proto-signing");
 
     return DirectSecp256k1Wallet.fromKey(privateKey, cosmosClient.prefix);
   },
   createPrivateKeyFromPhrase: async (phrase: string) => {
     const { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } = await import(
-      '@cosmjs/crypto'
+      "@cosmjs/crypto"
     );
 
     const derivationPathString = stringToPath(`${derivationPath}/0`);
@@ -87,7 +87,7 @@ export const BaseCosmosToolbox = ({
     const denomBalances = await cosmosClient.getBalance(address);
     return await Promise.all(
       denomBalances
-        .filter(({ denom }) => denom && !denom.includes('IBC/'))
+        .filter(({ denom }) => denom && !denom.includes("IBC/"))
         .map(({ denom, amount }) => getAssetFromDenom(denom, amount)),
     );
   },
