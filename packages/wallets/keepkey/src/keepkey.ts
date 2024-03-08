@@ -1,16 +1,16 @@
-import { KeepKeySdk } from '@keepkey/keepkey-sdk';
-import { setRequestClientConfig } from '@swapkit/helpers';
-import { getProvider, getToolboxByChain } from '@swapkit/toolbox-evm';
-import type { ConnectWalletParams, DerivationPathArray, EVMChain } from '@swapkit/types';
-import { Chain, WalletOption } from '@swapkit/types';
+import { KeepKeySdk } from "@keepkey/keepkey-sdk";
+import { setRequestClientConfig } from "@swapkit/helpers";
+import { getProvider, getToolboxByChain } from "@swapkit/toolbox-evm";
+import type { ConnectWalletParams, DerivationPathArray, EVMChain } from "@swapkit/types";
+import { Chain, WalletOption } from "@swapkit/types";
 
-import { binanceWalletMethods } from './chains/binance.ts';
-import { cosmosWalletMethods } from './chains/cosmos.ts';
-import { KeepKeySigner } from './chains/evm.ts';
-import { thorchainWalletMethods } from './chains/thorchain.ts';
-import { mayachainWalletMethods } from './chains/mayachain.ts';
-import { utxoWalletMethods } from './chains/utxo.ts';
-export type { PairingInfo } from '@keepkey/keepkey-sdk';
+import { binanceWalletMethods } from "./chains/binance.ts";
+import { cosmosWalletMethods } from "./chains/cosmos.ts";
+import { KeepKeySigner } from "./chains/evm.ts";
+import { mayachainWalletMethods } from "./chains/mayachain.ts";
+import { thorchainWalletMethods } from "./chains/thorchain.ts";
+import { utxoWalletMethods } from "./chains/utxo.ts";
+export type { PairingInfo } from "@keepkey/keepkey-sdk";
 
 export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
