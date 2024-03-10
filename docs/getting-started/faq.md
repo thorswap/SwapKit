@@ -16,7 +16,7 @@ THORSwap is a team of contributors building the #1 interface of THORChain, as we
 
 ### Which blockchains do you support?
 
-SwapKit supports all 10 blockchains supported by THORChain, Chainflip and some additional EVM chains. For a full list check [here](why-swapkit.md#blockchains).
+SwapKit supports all blockchains supported by THORChain, Chainflip and some additional EVM chains. For a full list check [here](why-swapkit.md#blockchains).
 
 ### Which wallets do you support?
 
