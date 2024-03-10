@@ -12,6 +12,7 @@ There are 2 different ways that you can take fees using SwapKit:
 
 1. Through any THORChain supported swaps.
 2. Through DEX aggregation swaps.
+3. Through any Chainflip supported swaps.
 
 {% hint style="info" %}
 When using our SDK/API to fetch quotes for a trade, you can specify an affiliate address and basis point parameters, indicating the fees that you will charge for the swap.
