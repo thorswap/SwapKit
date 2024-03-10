@@ -69,11 +69,6 @@ npm add @thorswap-lib/evm-web3-wallets
          <td><a href="../toolboxes/evm.md">EVM</a></td>
       </tr>
       <tr>
-         <td>BNB</td>
-         <td align="center">❌</td>
-         <td><a href="../toolboxes/cosmos.md">COSMOS</a></td>
-      </tr>
-      <tr>
          <td>COSMOS (ATOM)</td>
          <td align="center">❌</td>
          <td><a href="../toolboxes/cosmos.md">COSMOS</a></td>
