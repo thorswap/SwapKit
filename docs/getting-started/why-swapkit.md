@@ -14,15 +14,22 @@ For more information about THORChain take a look at their documentation [here](h
 
 SwapKit supports the following blockchains
 
+* Arbitrum
 * Avalanche Network
 * Bitcoin
 * Bitcoin Cash
 * Binance Beacon Chain
 * Binance Smart Chain
 * Cosmos Blockchain
+* Dash
 * Doge Chain
 * Ethereum mainnet
+* Kujira
 * Litecoin
+* MAYAChain
+* Optimism
+* Polkadot
+* Polygon
 * THORChain
 
 #### Wallets
@@ -32,6 +39,7 @@ SwapKit supports the following wallets:
 * Keystore
 * Ledger
 * Trezor
+* KeepKey
 * Keplr
 * XDefi
 * Web extensions
