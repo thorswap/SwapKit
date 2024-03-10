@@ -34,10 +34,12 @@ import {
   DOGEToolbox,
   LTCToolbox,
   BCHToolbox,
+  DASHToolbox,
 } from "@thorswap-lib/toolbox-utxo";
 
 // utxoApiKey = Blockchair Api Key https://blockchair.com/api
 // rpcUrl = Custom rpc endpoint that can be provided to broadcast to and fetch data from blockchain
+const dashToolbox = DASHToolbox(utxoApiKey, rpcUrl);
 const dogeToolbox = DOGEToolbox(utxoApiKey, rpcUrl);
 const bchToolbox = BCHToolbox(utxoApiKey, rpcUrl);
 const btcToolbox = BTCToolbox(utxoApiKey, rpcUrl);
