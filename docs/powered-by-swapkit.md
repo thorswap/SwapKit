@@ -15,3 +15,15 @@ description: Projects that use SwapKit
 ### Sequel
 
 {% embed url="https://www.sequelfi.com/" %}
+
+### Coinbot
+
+{% embed url="https://coinbot.app" %}
+
+### KeepKey
+
+{% embed url="https://www.keepkey.com" %}
+
+### OneKey
+
+{% embed url="https://onekey.so" %}
