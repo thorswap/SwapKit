@@ -58,6 +58,8 @@ const getXDEFIProvider = (chain: Chain) => {
       return window.xfi?.litecoin;
     case Chain.THORChain:
       return window.xfi?.thorchain;
+    case Chain.Maya:
+      return window.xfi?.mayachain;
     case Chain.Cosmos:
     case Chain.Kujira:
       return window.xfi?.keplr;
@@ -139,7 +141,10 @@ export const walletTransfer = async (
   const from = await getXDEFIAddress(assetValue.chain);
   const params = [
     {
-      amount: { amount: assetValue.getBaseValue("number"), decimals: assetValue.decimal },
+      amount: {
+        amount: assetValue.getBaseValue("number"),
+        decimals: assetValue.decimal,
+      },
       asset: {
         chain: assetValue.chain,
         symbol: assetValue.symbol.toUpperCase(),
@@ -156,7 +161,13 @@ export const walletTransfer = async (
 };
 
 export const cosmosTransfer =
-  ({ chainId, rpcUrl }: { chainId: ChainId.Cosmos | ChainId.Kujira; rpcUrl?: string }) =>
+  ({
+    chainId,
+    rpcUrl,
+  }: {
+    chainId: ChainId.Cosmos | ChainId.Kujira;
+    rpcUrl?: string;
+  }) =>
   async ({ from, recipient, assetValue, memo }: TransferParams) => {
     const { createSigningStargateClient } = await import("@swapkit/toolbox-cosmos");
     const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(chainId);
@@ -196,7 +207,12 @@ export const getXdefiMethods = (provider: BrowserProvider) => ({
       });
 
       return provider.send("eth_sendTransaction", [
-        { value: toHexString(BigInt(value || 0)), from, to, data: data || "0x" } as any,
+        {
+          value: toHexString(BigInt(value || 0)),
+          from,
+          to,
+          data: data || "0x",
+        } as any,
       ]);
     }
     const contract = await createContract(contractAddress, abi, contractProvider);
@@ -220,7 +236,12 @@ export const getXdefiMethods = (provider: BrowserProvider) => ({
     const { value, to, data } = await createContractTxObject(provider, functionCallParams);
 
     return provider.send("eth_sendTransaction", [
-      { value: toHexString(BigInt(value || 0)), from, to, data: data || "0x" } as any,
+      {
+        value: toHexString(BigInt(value || 0)),
+        from,
+        to,
+        data: data || "0x",
+      } as any,
     ]);
   },
   sendTransaction: (tx: EVMTxParams) => {
@@ -228,7 +249,12 @@ export const getXdefiMethods = (provider: BrowserProvider) => ({
     if (!to) throw new Error("No to address provided");
 
     return provider.send("eth_sendTransaction", [
-      { value: toHexString(BigInt(value || 0)), from, to, data: data || "0x" } as any,
+      {
+        value: toHexString(BigInt(value || 0)),
+        from,
+        to,
+        data: data || "0x",
+      } as any,
     ]);
   },
 });
