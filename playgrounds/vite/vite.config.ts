@@ -40,7 +40,7 @@ export default defineConfig({
       events: resolve("./polyfills/events.js"),
       string_decoder: resolve("./polyfills/string_decoder.js"),
 
-      // buffer: resolve("node_modules/buffer"),
+      buffer: resolve("node_modules/buffer"),
       crypto: resolve("node_modules/crypto-browserify"),
       http: resolve("node_modules/stream-http"),
       https: resolve("node_modules/https-browserify"),
