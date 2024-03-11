@@ -54,6 +54,7 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.Optimism,
     Chain.Polygon,
     Chain.THORChain,
+    Chain.Maya,
   ],
   [WalletOption.LEDGER]: AllChainsSupported,
   [WalletOption.TREZOR]: [
