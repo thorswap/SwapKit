@@ -18,6 +18,7 @@ declare global {
       keplr: Keplr;
       litecoin: Eip1193Provider;
       thorchain: Eip1193Provider;
+      mayachain: Eip1193Provider;
     };
   }
 }
