@@ -58,15 +58,10 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
     aminoTypes,
   });
 
-  const bodyBytes = await buildEncodedTxBody({
-    msgs,
-    memo,
-  });
-
   const msgForSigning = [];
 
   for (const msg of msgs) {
-    const signMsg = await convertToSignable(prepareMessageForBroadcast(msg));
+    const signMsg = await convertToSignable(msg);
     msgForSigning.push(signMsg);
   }
 
@@ -76,6 +71,11 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
     accountNumber,
     sequence,
     chainId,
+  });
+
+  const bodyBytes = await buildEncodedTxBody({
+    msgs: msgs.map((msg: any) => prepareMessageForBroadcast(msg)),
+    memo,
   });
 
   return { signature: exportSignature(signature), bodyBytes };
