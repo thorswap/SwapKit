@@ -13,7 +13,8 @@ Used API to get data from or RPC endpoints to broadcast transactions are fully c
 
 | Toolbox             | Supported chains                 |
 | ------------------- | -------------------------------- |
-| [UTXO](utxo.md)     | BTC, BCH, LTC, DOGE              |
+| [UTXO](utxo.md)     | BTC, BCH, LTC, DOGE, DASH        |
 | [EVM](evm.md)       | ETH, AVAX, BSC, ARB, MATIC, OP   |
-| [COSMOS](cosmos.md) | THORChain, GAIA(ATOM), BNB(BEP2) |
+| [COSMOS](cosmos.md) | THORChain, MAYA, KUJI, GAIA(ATOM) |
+| [SUBSTRATE](substrate.md) | DOT |
 

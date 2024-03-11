@@ -20,10 +20,12 @@
   * [XDEFI](integrate-swapkit-sdk/wallets/xdefi.md)
   * [Keplr](integrate-swapkit-sdk/wallets/keplr.md)
   * [EVM Web Extensions](integrate-swapkit-sdk/wallets/evm-web-extensions.md)
+  * [KeepKey](integrate-swapkit-sdk/wallets/keepkey.md)
 * [🧰 Toolboxes](integrate-swapkit-sdk/toolboxes/README.md)
   * [UTXO](integrate-swapkit-sdk/toolboxes/utxo.md)
   * [EVM](integrate-swapkit-sdk/toolboxes/evm.md)
   * [Cosmos](integrate-swapkit-sdk/toolboxes/cosmos.md)
+  * [Substrate](integrate-swapkit-sdk/toolboxes/substrate.md)
 
 ## SwapKit API
 

@@ -8,7 +8,7 @@ Alongside the SDK, our smart contracts are also open source, but our API is not.
 
 ### What is THORSwap?
 
-THORSwap is the world’s first Multichain DEX that utilizes the THORChain network to provide a front-end user interface to perform cross-chain swaps. This is done in a permissionless, trustless, and non-custodial manner. There are no pegged or wrapped assets, it is purely native. For more information check out [here](https://thorswap.medium.com/thorswap-has-launched-is-this-the-death-of-cexs-cb6cf015b8f).
+THORSwap is the world’s first Multichain DEX that utilizes the THORChain & Chainflip network to provide a front-end user interface to perform cross-chain swaps. This is done in a permissionless, trustless, and non-custodial manner. There are no pegged or wrapped assets, it is purely native. For more information check out [here](https://thorswap.medium.com/thorswap-has-launched-is-this-the-death-of-cexs-cb6cf015b8f).
 
 ### Who are THORSwap?
 
@@ -16,11 +16,11 @@ THORSwap is a team of contributors building the #1 interface of THORChain, as we
 
 ### Which blockchains do you support?
 
-SwapKit supports all 10 blockchains supported by THORChain and some additional EVM chains. For a full list check [here](why-swapkit.md#blockchains).
+SwapKit supports all blockchains supported by THORChain, Chainflip and some additional EVM chains. For a full list check [here](why-swapkit.md#blockchains).
 
 ### Which wallets do you support?
 
-SwapKit supports all major crypto wallets including: Ledger, Trezor, WalletConnect 2.0 and browser extensions. For a full list check [here](why-swapkit.md#wallets).
+SwapKit supports all major crypto wallets including: Ledger, Trezor, KeepKey, WalletConnect 2.0 and browser extensions. For a full list check [here](why-swapkit.md#wallets).
 
 ### What is RUNE?
 

@@ -18,15 +18,16 @@ SwapKit supports the following blockchains
 * Avalanche Network (C-Chain)
 * Bitcoin
 * Bitcoin Cash
-* Binance Beacon Chain
 * Binance Smart Chain
 * Cosmos Blockchain
+* Dash
 * Doge Chain
 * Ethereum Mainnet
 * Kujira
 * Litecoin
 * MAYAChain
 * Optimism
+* Polkadot
 * Polygon
 * THORChain
 

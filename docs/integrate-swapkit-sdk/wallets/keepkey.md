@@ -1,23 +1,23 @@
-# XDEFI
+# KeepKey
 
 ### Installation
 
 {% tabs %}
 {% tab title="pnpm" %}
 ```bash
-pnpm add @thorswap-lib/xdefi
+pnpm add @thorswap-lib/keepkey
 ```
 {% endtab %}
 
 {% tab title="yarn" %}
 ```bash
-yarn add @thorswap-lib/xdefi
+yarn add @thorswap-lib/keepkey
 ```
 {% endtab %}
 
 {% tab title="npm" %}
 ```bash
-npm add @thorswap-lib/xdefi
+npm add @thorswap-lib/keepkey
 ```
 {% endtab %}
 {% endtabs %}
@@ -70,7 +70,7 @@ npm add @thorswap-lib/xdefi
       </tr>
       <tr>
          <td>COSMOS (ATOM)</td>
-         <td align="center">⏳</td>
+         <td align="center">✅</td>
          <td><a href="../toolboxes/cosmos.md">COSMOS</a></td>
       </tr>
       <tr>
@@ -100,12 +100,12 @@ npm add @thorswap-lib/xdefi
       </tr>
       <tr>
          <td>DASH</td>
-         <td align="center">❌</td>
+         <td align="center">✅</td>
          <td><a href="../toolboxes/utxo.md">UTXO</a></td>
       </tr>
       <tr>
          <td>KUJI</td>
-         <td align="center">✅</td>
+         <td align="center">❌</td>
          <td><a href="../toolboxes/cosmos.md">COSMOS</a></td>
       </tr>
       <tr>
@@ -122,16 +122,7 @@ npm add @thorswap-lib/xdefi
 
 #### Example:&#x20;
 
-```typescript
-import { SwapKitCore } from '@thorswap-lib/swapkit-core';
-import { xdefiWallet } from '@thorswap-lib/xdefi';
-import { Chain } from '@thorswap-lib/types';
-
-const client = new SwapKitCore();
-client.extend({ wallets: [xdefiWallet] });
-
-await client.connectXDEFI([Chain.ETH])
-```
+TBA
 
 ### Usage
 
