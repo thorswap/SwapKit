@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.91
+
+### Patch Changes
+
+- [#658](https://github.com/thorswap/SwapKit/pull/658) [`3ad70c5`](https://github.com/thorswap/SwapKit/commit/3ad70c535de860fc2f424f7f2ab28a305b359af0) Thanks [@towanTG](https://github.com/towanTG)! - Fixes TC multisig signature msg format
+
 ## 1.0.0-rc.90
 
 ### Patch Changes
