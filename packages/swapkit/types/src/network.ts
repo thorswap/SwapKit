@@ -153,6 +153,7 @@ export const CosmosChains = [
   Chain.THORChain,
   Chain.Binance,
   Chain.Maya,
+  Chain.Kujira,
 ] as const;
 
 /**
@@ -172,7 +173,6 @@ export const TCSupportedChains = [
   Chain.Ethereum,
   Chain.Litecoin,
   Chain.THORChain,
-  Chain.Maya,
 ] as const;
 
 /**
