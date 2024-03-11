@@ -148,7 +148,12 @@ export type CosmosChain =
   | Chain.Maya
   | Chain.Kujira;
 
-export const CosmosChains = [Chain.Cosmos, Chain.THORChain, Chain.Binance] as const;
+export const CosmosChains = [
+  Chain.Cosmos,
+  Chain.THORChain,
+  Chain.Binance,
+  Chain.Maya,
+] as const;
 
 /**
  * @deprecated
@@ -167,6 +172,7 @@ export const TCSupportedChains = [
   Chain.Ethereum,
   Chain.Litecoin,
   Chain.THORChain,
+  Chain.Maya,
 ] as const;
 
 /**
