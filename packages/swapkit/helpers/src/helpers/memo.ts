@@ -44,9 +44,13 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
       return `${memoType}:${address}:${unbondAmount}`;
     }
 
-    case MemoType.THORNAME_REGISTER:
-    case MemoType.MAYANAME_REGISTER: {
+    case MemoType.THORNAME_REGISTER: {
       const { name, chain, address, owner } = options as MemoOptions<MemoType.THORNAME_REGISTER>;
+      return `${memoType}:${name}:${chain}:${address}${owner ? `:${owner}` : ""}`;
+    }
+
+    case MemoType.MAYANAME_REGISTER: {
+      const { name, chain, address, owner } = options as MemoOptions<MemoType.MAYANAME_REGISTER>;
       return `${memoType}:${name}:${chain}:${address}${owner ? `:${owner}` : ""}`;
     }
 

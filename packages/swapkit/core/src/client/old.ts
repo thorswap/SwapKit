@@ -1,8 +1,8 @@
 import type {
   ErrorKeys,
+  MayanameRegisterParam,
   QuoteRoute,
   ThornameRegisterParam,
-  MayanameRegisterParam
 } from "@swapkit/helpers";
 import {
   AssetValue,
@@ -40,6 +40,7 @@ import { lowercasedContractAbiMapping } from "../aggregator/contracts/index.ts";
 import { getSwapInParams } from "../aggregator/getSwapParams.ts";
 
 import { getExplorerAddressUrl, getExplorerTxUrl } from "../helpers/explorerUrls.ts";
+import { getMayaMimirData } from "../helpers/mayanode.js";
 import { getThorInboundData, getThorMimirData } from "../helpers/thornode.ts";
 import type {
   CoreTxParams,
@@ -49,7 +50,6 @@ import type {
   ThorchainWallet,
   WalletMethods,
 } from "../types.ts";
-import { getMayaMimirData } from '../helpers/mayanode.js';
 
 const getEmptyWalletStructure = () =>
   (Object.values(Chain) as Chain[]).reduce(
