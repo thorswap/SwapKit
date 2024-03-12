@@ -21,15 +21,11 @@ type InboundAddressData = {
 export const getInboundData = (stagenet: boolean) => {
   const baseUrl = stagenet ? ApiUrl.MayanodeStagenet : ApiUrl.MayanodeMainnet;
 
-  return RequestClient.get<InboundAddressData>(
-    `${baseUrl}/mayachain/inbound_addresses`
-  );
+  return RequestClient.get<InboundAddressData>(`${baseUrl}/mayachain/inbound_addresses`);
 };
 
 export const getMimirData = (stagenet: boolean) => {
   const baseUrl = stagenet ? ApiUrl.MayanodeStagenet : ApiUrl.MayanodeMainnet;
 
-  return RequestClient.get<Record<string, number>>(
-    `${baseUrl}/mayachain/mimir`
-  );
+  return RequestClient.get<Record<string, number>>(`${baseUrl}/mayachain/mimir`);
 };
