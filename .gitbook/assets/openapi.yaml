@@ -2307,7 +2307,7 @@ paths:
     post:
       tags:
       - Tracker
-      summary: Initiate transaction tracking
+      summary: Transaction tracking
       description: Get a chain-by-chain breakdown of a transaction's overall progress
       parameters:
       - name: transaction tracking data
@@ -2348,8 +2348,6 @@ paths:
                   message:
                     type: string
                     description: Internal Server Error
-
-
   # Stats
   '/stats/supply/circulating':
     get:
