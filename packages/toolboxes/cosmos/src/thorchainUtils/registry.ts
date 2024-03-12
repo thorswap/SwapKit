@@ -1,3 +1,4 @@
+import { Chain } from "@swapkit/types";
 import { base64ToBech32, bech32ToBase64 } from "./addressFormat.ts";
 
 export const createDefaultRegistry = async () => {
@@ -12,12 +13,12 @@ export const createDefaultRegistry = async () => {
   ]);
 };
 
-export const createDefaultAminoTypes = async () => {
+export const createDefaultAminoTypes = async (chain: Chain.THORChain | Chain.Maya) => {
   const { AminoTypes } = await import("@cosmjs/stargate");
 
   return new AminoTypes({
     "/types.MsgSend": {
-      aminoType: "thorchain/MsgSend",
+      aminoType: `${chain === Chain.Maya ? "mayachain" : "thorchain"}/MsgSend`,
       toAmino: (params: any) => ({
         from_address: base64ToBech32(params.fromAddress),
         to_address: base64ToBech32(params.toAddress),
@@ -30,7 +31,7 @@ export const createDefaultAminoTypes = async () => {
       }),
     },
     "/types.MsgDeposit": {
-      aminoType: "thorchain/MsgDeposit",
+      aminoType: `${chain === Chain.Maya ? "mayachain" : "thorchain"}/MsgDeposit`,
       toAmino: (params: any) => ({
         signer: base64ToBech32(params.signer),
         memo: params.memo,

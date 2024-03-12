@@ -95,8 +95,11 @@ export const buildAminoMsg = ({
   return msg;
 };
 
-export const convertToSignable = async (msg: MsgDepositForBroadcast | MsgSendForBroadcast) => {
-  const aminoTypes = await createDefaultAminoTypes();
+export const convertToSignable = async (
+  msg: MsgDepositForBroadcast | MsgSendForBroadcast,
+  chain: Chain.THORChain | Chain.Maya,
+) => {
+  const aminoTypes = await createDefaultAminoTypes(chain);
 
   return aminoTypes.fromAmino(msg);
 };
@@ -171,12 +174,15 @@ export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
   };
 };
 
-export const buildEncodedTxBody = async (transaction: {
-  msgs: MsgSendForBroadcast[] | MsgDepositForBroadcast[];
-  memo: string;
-}) => {
+export const buildEncodedTxBody = async (
+  transaction: {
+    msgs: MsgSendForBroadcast[] | MsgDepositForBroadcast[];
+    memo: string;
+  },
+  chain: Chain.THORChain | Chain.Maya,
+) => {
   const registry = await createDefaultRegistry();
-  const aminoTypes = await createDefaultAminoTypes();
+  const aminoTypes = await createDefaultAminoTypes(chain);
 
   const signedTxBody: TxBodyEncodeObject = {
     typeUrl: "/cosmos.tx.v1beta1.TxBody",
