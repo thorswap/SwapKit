@@ -33,6 +33,7 @@ const XDEFI_SUPPORTED_CHAINS = [
   Chain.Optimism,
   Chain.Polygon,
   Chain.THORChain,
+  Chain.Maya,
 ] as const;
 
 const getWalletMethodsForChain = async ({
@@ -50,6 +51,17 @@ const getWalletMethodsForChain = async ({
         deposit: (tx: WalletTxParams) => walletTransfer({ ...tx, recipient: "" }, "deposit"),
         transfer: (tx: WalletTxParams) =>
           walletTransfer({ ...tx, gasLimit: THORCHAIN_GAS_VALUE }, "transfer"),
+      };
+    }
+
+    case Chain.Maya: {
+      const { MAYA_GAS_VALUE, MayaToolbox } = await import("@swapkit/toolbox-cosmos");
+
+      return {
+        ...MayaToolbox({ stagenet: false }),
+        deposit: (tx: WalletTxParams) => walletTransfer({ ...tx, recipient: "" }, "deposit"),
+        transfer: (tx: WalletTxParams) =>
+          walletTransfer({ ...tx, gasLimit: MAYA_GAS_VALUE }, "transfer"),
       };
     }
 
