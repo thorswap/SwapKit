@@ -148,7 +148,13 @@ export type CosmosChain =
   | Chain.Maya
   | Chain.Kujira;
 
-export const CosmosChains = [Chain.Cosmos, Chain.THORChain, Chain.Binance] as const;
+export const CosmosChains = [
+  Chain.Cosmos,
+  Chain.THORChain,
+  Chain.Binance,
+  Chain.Maya,
+  Chain.Kujira,
+] as const;
 
 /**
  * @deprecated

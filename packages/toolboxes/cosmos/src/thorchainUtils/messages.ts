@@ -22,7 +22,7 @@ export const getDefaultChainFee = (chain: Chain.THORChain | Chain.Maya) => {
 };
 
 export const THORCHAIN_GAS_VALUE = getDefaultChainFee(Chain.THORChain).gas;
-export const MAYA_GAS_VALUE = getDefaultChainFee(Chain.THORChain).gas;
+export const MAYA_GAS_VALUE = getDefaultChainFee(Chain.Maya).gas;
 
 export const transferMsgAmino = ({
   from,
