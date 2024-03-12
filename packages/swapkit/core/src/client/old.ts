@@ -347,7 +347,8 @@ export class SwapKitCore<T = ""> {
         }
       }
     } catch (error: any) {
-      const errorMessage = error?.message.toLowerCase();
+      const errorMessage =
+        typeof error === "string" ? error.toLowerCase() : error?.message.toLowerCase();
       const isInsufficientFunds = errorMessage?.includes("insufficient funds");
       const isGas = errorMessage?.includes("gas");
       const isServer = errorMessage?.includes("server");
