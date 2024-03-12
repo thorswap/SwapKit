@@ -18,13 +18,13 @@ type InboundAddressData = {
   router: string;
 }[];
 
-export const getInboundData = (stagenet: boolean) => {
+export const getMayaInboundData = (stagenet: boolean) => {
   const baseUrl = stagenet ? ApiUrl.MayanodeStagenet : ApiUrl.MayanodeMainnet;
 
   return RequestClient.get<InboundAddressData>(`${baseUrl}/mayachain/inbound_addresses`);
 };
 
-export const getMimirData = (stagenet: boolean) => {
+export const getMayaMimirData = (stagenet: boolean) => {
   const baseUrl = stagenet ? ApiUrl.MayanodeStagenet : ApiUrl.MayanodeMainnet;
 
   return RequestClient.get<Record<string, number>>(`${baseUrl}/mayachain/mimir`);

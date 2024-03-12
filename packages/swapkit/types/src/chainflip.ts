@@ -23,6 +23,7 @@ export enum MemoType {
   DEPOSIT = "+",
   LEAVE = "LEAVE",
   THORNAME_REGISTER = "~",
+  MAYANAME_REGISTER = "~",
   UNBOND = "UNBOND",
   WITHDRAW = "-",
   OPEN_LOAN = "$+",
