@@ -237,7 +237,7 @@ export const BaseThorchainToolbox = ({
     });
 
     const msgSign = await convertToSignable(
-      prepareMessageForBroadcast(buildAminoMsg({ assetValue, from, recipient, memo })),
+      prepareMessageForBroadcast(buildAminoMsg({ assetValue, from, recipient, memo, chain })),
     );
 
     const txResponse = await signingClient.signAndBroadcast(from, [msgSign], defaultFee, memo);
