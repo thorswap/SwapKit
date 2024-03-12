@@ -5,7 +5,7 @@ description: Unlock cross-chain swaps in your application
 # Advanced - Integrating SwapKit API
 
 {% hint style="info" %}
-The best way to integrate the SwapKit API is through the [SwapKit SDK](broken-reference). For more information about that, refer to our other guide.
+The best way to integrate the SwapKit API is through the [SwapKit SDK](broken-reference/). For more information about that, refer to our other guide.
 {% endhint %}
 
 If you want to integrate the API directly, this guide is for you!
@@ -20,7 +20,7 @@ In this guide we will walk you through:
 
 ### API Keys
 
-You will first need to get a free API key. Please see the [partnerships](/partnership.md) page to get in touch.
+You will first need to get a free API key. Please see the [partnerships](../partnership.md) page to get in touch.
 
 Those credentials should be added to each request to our services by adding the following to your request headers:
 
@@ -32,7 +32,6 @@ Those credentials should be added to each request to our services by adding the 
 ```
 
 The production API key works for all `api.thorswap.net` endpoints, while the development API key works for `dev-api.thorswap.net` endpoints. Both environements point at mainnet and real assets, with the dev environement getting new feature requests shipped early for testing.
-
 
 ### Technical requirements
 
@@ -46,7 +45,7 @@ To follow along with this guide, you also need to have:
 
 ### 1. Fetching a quote
 
-The SwapKit API `/quote` endpoint will return an array of quotes for a given trade, ordered by the best return amount.&#x20;
+The SwapKit API `/quote` endpoint will return an array of quotes for a given trade, ordered by the best return amount.
 
 {% hint style="info" %}
 For more info about the endpoint look at
@@ -85,13 +84,13 @@ const fetchBestQuote = async ({
 }
 ```
 
-This will return a quote like we have seen in [Requesting a Quote](https://app.gitbook.com/o/-MdJ93ibCjfGOpL4Fokz/s/K6BWeAyYld6X769jDxue/\~/changes/6/swapkit-api/swapkit-api/requesting-a-quote). A summary of the trade will be returned, and a transaction object, only if there provided wallet addresses are able to execute the trade.
+This will return a quote like we have seen in [Requesting a Quote](swapkit-api/requesting-a-quote.md). A summary of the trade will be returned, and a transaction object, only if there provided wallet addresses are able to execute the trade.
 
 The quote response contains a lot of information, and we suggest checking out the \[API reference], in order to see the full response and get the most out of your integration.
 
 ### 1a. Inspecting the Transaction
 
-Within the `/quote` response there is a `transaction` property that can be used in order to make our swap.&#x20;
+Within the `/quote` response there is a `transaction` property that can be used in order to make our swap.
 
 The SwapKit API returns a `transaction` object valid from the blockchain of the `sellAsset`. For example, if the `sellAsset` is `BTC.BTC` the `transaction` property will be a hexadecimal string of a [Partially Signed Bitcoin Transaction (PSBT)](https://en.bitcoin.it/wiki/BIP\_0174).
 
@@ -100,13 +99,13 @@ The following table shows what the transaction object is for all of the blockcha
 | Sell Asset                      | Buy Asset | Scenario       | What is Transaction?                                                                                                                                                                                       |
 | ------------------------------- | --------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ETH.CRV                         | BTC.BTC   | Swap In        | A valid Ethereum transaction object.                                                                                                                                                                       |
-| BTC.BTC / LTC.LTC / DOGE.DOGE   | ETH.CRV   | Swap Out       |  A hexadecimal string of a [PSBT](https://en.bitcoin.it/wiki/BIP\_0174).                                                                                                                                   |
+| BTC.BTC / LTC.LTC / DOGE.DOGE   | ETH.CRV   | Swap Out       | A hexadecimal string of a [PSBT](https://en.bitcoin.it/wiki/BIP\_0174).                                                                                                                                    |
 | GAIA.ATOM / THOR.RUNE / BNB.BNB | ETH.CRV   | Swap Out       | A Cosmos TxBody                                                                                                                                                                                            |
 | BCH.BCH                         | BTC.BTC   | THORChain only | An object of `inputs`and `output` used to create a [Transaction Builder](https://github.com/Bitcoin-com/bitcoincashjs-lib/blob/28447b40a4ccd23913f7ade6589dc7214c99e60a/src/transaction\_builder.js#L476). |
 
 The transaction objects different depending on the Sell Asset. It's possible to sign & send each transaction object using the core-libraries of each blockchain ecosystem:
 
-* Avalanche / Ethereum / Binance Smart Chain - The EVM based chains use [ethers.js](https://docs.ethers.org/v5/) or [web3js](https://web3js.readthedocs.io/en/v1.2.11/getting-started.html).&#x20;
+* Avalanche / Ethereum / Binance Smart Chain - The EVM based chains use [ethers.js](https://docs.ethers.org/v5/) or [web3js](https://web3js.readthedocs.io/en/v1.2.11/getting-started.html).
 * Bitcoin / Dogecoin / Litecoin - These UTXO chains use [bitcoinjs-lib](https://github.com/bitcoinjs/bitcoinjs-lib).
 * Bitcoin Cash - This uses [bitcoincashjs-lib](https://github.com/bitcoinjs/bitcoinjs-lib).
 * Cosmos / THORChain / Binance Beacon Chain - The Cosmos based chains rely on the [Cosmos Client](https://github.com/cosmos-client/cosmos-client-ts) library.
@@ -323,7 +322,7 @@ const broadcastTx = async ({ txHex, chain }: { txHex: string; chain: string; }) 
 }
 ```
 
-Now we have successfully broadcasted a transaction to swap native BTC on the Bitcoin network, through THORChain, to CRV on Ethereum!&#x20;
+Now we have successfully broadcasted a transaction to swap native BTC on the Bitcoin network, through THORChain, to CRV on Ethereum!
 
 ### 3c. GAIA.ATOM -> THOR.RUNE
 
@@ -549,4 +548,4 @@ const broadcastTx = async ({ txHex, chain }: { txHex: string; chain: string; }) 
 }
 ```
 
-Great! Now we have swapped from native BCH on the Bitcoin Cash network, to native BTC on the Bitcoin network; in a totally decentralised way, using THORChain.&#x20;
+Great! Now we have swapped from native BCH on the Bitcoin Cash network, to native BTC on the Bitcoin network; in a totally decentralised way, using THORChain.

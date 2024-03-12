@@ -9,9 +9,9 @@
 
 ## SwapKit SDK
 
-* [1⃣ Install SwapKit SDK](swapkit-sdk/install-swapkit-sdk.md)
-* [2⃣ Set up the SDK](swapkit-sdk/set-up-the-sdk.md)
-* [3⃣ Request Route & Execute Swap](swapkit-sdk/request-route-and-execute-swap.md)
+* [1️⃣ 1⃣ Install SwapKit SDK](swapkit-sdk/install-swapkit-sdk.md)
+* [2️⃣ 2⃣ Set up the SDK](swapkit-sdk/set-up-the-sdk.md)
+* [3️⃣ 3⃣ Request Route & Execute Swap](swapkit-sdk/request-route-and-execute-swap.md)
 * [💸 Wallets](swapkit-sdk/wallets/README.md)
   * [Ledger](swapkit-sdk/wallets/ledger.md)
   * [Trezor](swapkit-sdk/wallets/trezor.md)
@@ -28,7 +28,7 @@
 
 ## SwapKit API
 
-* [⚙ SwapKit API](swapkit-api/swapkit-api/README.md)
+* [⚙️ SwapKit API](swapkit-api/swapkit-api/README.md)
   * [Requesting supported Chains](swapkit-api/swapkit-api/requesting-supported-chains.md)
   * [Requesting supported Providers](swapkit-api/swapkit-api/requesting-supported-providers.md)
   * [Requesting a Quote](swapkit-api/swapkit-api/requesting-a-quote.md)
@@ -61,5 +61,5 @@
   * [Resource Worker API](references/api-reference/resource-worker-api.md)
   * [Full API Reference](http://localhost:3000/doc)
 * [✨ Smart Contracts](references/smart-contracts.md)
-* [🏗 V1 Migration](references/v1-migration.md)
+* [🏗️ V1 Migration](references/v1-migration.md)
 * [Github](https://github.com/thorswap/SwapKit)

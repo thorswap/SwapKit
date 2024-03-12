@@ -1,21 +1,22 @@
 ---
-openapi: 3.0.3
+openapi: 3.1.0
 info:
   title: THORSwap SwapKit API
   description: |-
     The **THORSwap SwapKit API**, is a cutting-edge discovery and routing API, at the core of the THORSwap Aggregator. Its job is to identify the best route for your trade and build the transaction for you. While developers can use the API directly, we encourage third parties to use the [SwapKit SDK](https://swapkit.dev/) to simplify integration and abstract complexity.
-    
+    ### Liquidity sources
+
     Thorchain: AVAX, BCH, BNB, BTC, ETH, DOGE, LTC, ATOM and some ERC20 tokens
 
     Ethereum: 1inch, 0x, UniswapV2, UniswapV3, SushiSwap, KyberNetwork
     Avalanche: Pangolin, TraderJoe, 1inch, KyberNetwork
 
     By default all providers are queried to return the best quote for the user.
-  version: 1.0.0
+  version: 1.0.1
 servers:
-  - url: https://dev-api.thorswap.net
-  - url: https://api.thorswap.net
-  - url: http://localhost:3005
+- url: https://dev-api.thorswap.net
+- url: https://api.thorswap.net
+- url: http://localhost:3005
 components:
   schemas:
     QuoteResponse:
@@ -27,7 +28,7 @@ components:
           description: An array of the different swap options available for this trade
           items:
             type: object
-            $ref: '#/components/schemas/Routes'
+            "$ref": "#/components/schemas/Routes"
     Routes:
       type: object
       description: The quote information for a swap via a specific provider.
@@ -53,7 +54,7 @@ components:
           description: The list of invidivual swaps (or steps) that make up this route
           items:
             type: object
-            $ref: '#/components/schemas/Swap'
+            "$ref": "#/components/schemas/Swap"
         expectedOutput:
           type: string
           description: The expected asset amount out of this trade.
@@ -70,10 +71,14 @@ components:
           description: A flag to indicate if the response data has been fully formed.
         calldata:
           type: object
-          $ref: '#/components/schemas/Calldata'
+          "$ref": "#/components/schemas/Calldata"
         contract:
           type: string
           description: The address of the contract router responsible for this trade.
+        contractInfo:
+          type: string
+          description: Details of the swap to be completed. Currently either TC-TC,
+            ETH-TC, TC-ETH or ETH-ETH.
         inboundAddress:
           type: string
           description: The inbound address for the sell asset.
@@ -169,6 +174,9 @@ components:
           - TC-ETH
           - ETH-TC
           - ETH-ETH
+        lastLegEffectiveSlipPercentage:
+          type: number
+          description: The remaining slippage used for the last leg of this swap.
     TrackerResult:
       type: object
       description: The result of the transaction.
@@ -190,7 +198,7 @@ components:
           description: The legs of the transaction.
           items:
             type: object
-            $ref: '#/components/schemas/TrackerLeg'
+            "$ref": "#/components/schemas/TrackerLeg"
     TrackerLeg:
       type: object
       description: Part of a transaction on a specific blockchain.
@@ -234,35 +242,24 @@ components:
         status:
           type: string
           description: The status of this leg.
-    TrackerRequestInit:
-      type: object
-      description: The object for a initializing transaction tracking request
-      properties:
-        txn:
-          type: object
-          description: transaction object
-          properties:
-            quoteId:
-              type: string
-              description: The quoteId used to execute the transaction to track.
-            hash:
-              type: string
-              description: The hash of the first leg of the transaction to track.
-            sellAmount:
-              type: number
-              description: The amount sellAsset in the first leg. This is used before
-                the transaction is indexed.
-            route:
-              type: object
-              description: The route used to execute the transaction to track.
-              $ref: '#/components/schemas/Routes'
-    TrackerRequestTrack:
+    TrackerRequest:
       type: object
       description: The object for a transaction tracking request
       properties:
+        quoteId:
+          type: string
+          description: The quoteId used to execute the transaction to track.
         hash:
           type: string
-          description: transaction hash
+          description: The hash of the first leg of the transaction to track.
+        sellAmount:
+          type: number
+          description: The amount sellAsset in the first leg. This is used before
+            the transaction is indexed.
+        route:
+          type: object
+          description: The route used to execute the transaction to track.
+          "$ref": "#/components/schemas/Route"
     TrackerResponse:
       type: object
       description: A complete breakdown of a transaction's overall progress. First
@@ -277,7 +274,7 @@ components:
           description: The status of the transaction.
         result:
           type: object
-          $ref: '#/components/schemas/TrackerResult'
+          "$ref": "#/components/schemas/TrackerResult"
     LendingOpenRequest:
       type: object
       description: The request object for opening a loan from the THORSwap API
@@ -361,7 +358,7 @@ components:
           description: The number of seconds to wait for outbound confirmation
         fees:
           type: object
-          $ref: '#/components/schemas/FeeComponent'
+          "$ref": "#/components/schemas/Fees"
         expiry:
           type: number
           description: The expiry time of the loan
@@ -412,7 +409,7 @@ components:
             amount, provided in the quote, is incurred, in USD
         calldata:
           type: object
-          $ref: '#/components/schemas/Calldata'
+          "$ref": "#/components/schemas/Calldata"
     LoanDetailsResponse:
       type: object
       description: The response object of details of a loan from the THORSwap API
@@ -479,7 +476,7 @@ components:
           description: The list of transaction details for each transaction
           items:
             type: object
-            $ref: '#/components/schemas/TransactionTrackerDetailsResponse'
+            "$ref": "#/components/schemas/TransactionTrackerDetailsResponse"
     TransactionTrackerDetailsResponse:
       type: object
       description: A transaction details
@@ -531,7 +528,7 @@ components:
         memo:
           type: string
           description: The memo for the transaction
-          example: '=:THOR.RUNE:thor1hxymjqm79gz37exuly032yj45t8dq4jt9mc2xd:1423752222'
+          example: "=:THOR.RUNE:thor1hxymjqm79gz37exuly032yj45t8dq4jt9mc2xd:1423752222"
         blockNumber:
           type: number
           description: The block number when the transaction was executed
@@ -725,13 +722,13 @@ components:
       description: A list of supported blockchains with details
       items:
         type: object
-        $ref: '#/components/schemas/ChainItem'
+        "$ref": "#/components/schemas/ChainItem"
     GetCurrenciesFullResponse:
       type: array
       description: A list of supported currencies
       items:
         type: object
-        $ref: '#/components/schemas/CurrencyItem'
+        "$ref": "#/components/schemas/CurrencyItem"
     GetExchangeAmountResponse:
       type: object
       description: The exchange amount
@@ -777,7 +774,7 @@ components:
           description: The fees for the transaction. Asssociate array with key as
             chain where the fee occur.
           additionalProperties:
-              $ref: '#/components/schemas/FeeComponent'
+            "$ref": "#/components/schemas/FeeComponent"
     FeeComponent:
       type: object
       description: Details for the fees occuring on a leg
@@ -921,7 +918,7 @@ components:
             cumulativeGasUsed:
               type: string
               description: The cumulative gas used, stringified JSON
-              example: "[{'amount':'48000','asset':'BTC.BTC'}]"
+              example: '[{"amount":"48000","asset":"BTC.BTC"}]'
             txId:
               type: string
               description: The transaction hash, without prefix
@@ -1016,16 +1013,16 @@ components:
       properties:
         assetTxData:
           type: object
-          $ref: '#/components/schemas/AssetTxData'
+          "$ref": "#/components/schemas/AssetTxData"
         runeTxData:
           type: object
-          $ref: '#/components/schemas/RuneTxData'
+          "$ref": "#/components/schemas/RuneTxData"
         estimatedShare:
           type: string
           description: Estimated share of the pool user will have after transaction
         slippage:
           type: object
-          $ref: '#/components/schemas/Slippage'
+          "$ref": "#/components/schemas/Slippage"
       required:
       - assetTxData, estimatedShare, slippage
     AddAsymAssetMemo:
@@ -1034,52 +1031,52 @@ components:
       properties:
         assetTxData:
           type: object
-          $ref: '#/components/schemas/AssetTxData'
+          "$ref": "#/components/schemas/AssetTxData"
         estimatedShare:
           type: string
           description: Estimated share of the pool user will have after transaction
         slippage:
           type: object
-          $ref: '#/components/schemas/Slippage'
+          "$ref": "#/components/schemas/Slippage"
     AddSymAssetMemo:
       type: object
       description: The response object of a add symmetrical asset liquidity memo
       properties:
         assetTxData:
           type: object
-          $ref: '#/components/schemas/AssetTxData'
+          "$ref": "#/components/schemas/AssetTxData"
         estimatedShare:
           type: string
           description: Estimated share of the pool user will have after transaction
         slippage:
           type: object
-          $ref: '#/components/schemas/Slippage'
+          "$ref": "#/components/schemas/Slippage"
     AddSymRuneMemo:
       type: object
       description: The response object of a add symmetrical rune liquidity memo
       properties:
         runeTxData:
           type: object
-          $ref: '#/components/schemas/RuneTxData'
+          "$ref": "#/components/schemas/RuneTxData"
         estimatedShare:
           type: string
           description: Estimated share of the pool user will have after transaction
         slippage:
           type: object
-          $ref: '#/components/schemas/Slippage'
+          "$ref": "#/components/schemas/Slippage"
     AddSingleSidedMemo:
       type: object
       description: The response object of a add single sided asset liquidity memo
       properties:
         runeTxData:
           type: object
-          $ref: '#/components/schemas/AssetTxData'
+          "$ref": "#/components/schemas/AssetTxData"
         estimatedShare:
           type: string
           description: Estimated share of the pool user will have after transaction
         slippage:
           type: object
-          $ref: '#/components/schemas/Slippage'
+          "$ref": "#/components/schemas/Slippage"
     AssetTxData:
       type: object
       description: Transaction data for asset.
@@ -1141,7 +1138,7 @@ components:
       properties:
         txData:
           type: object
-          $ref: '#/components/schemas/AssetTxData'
+          "$ref": "#/components/schemas/AssetTxData"
     Slippage:
       type: object
       description: Slippage information for transaction
@@ -1156,58 +1153,18 @@ components:
           type: number
           description: Decimal.
     ThornameReverseLookupResponse:
-      type: object
+      type: array
       description: The response object of a thorname reverse lookup
       properties:
         result:
           type: array
-          description: The list of thornames associated with the given address and chain
+          description: The list of thornames associated with the given address and
+            chain
           items:
             type: string
-
+swagger: '2.0'
 paths:
-  # NOTE Group Paths by 'tags' property
-
-  # Health
-  '/aggregator/health':
-    get:
-      tags:
-      - Health
-      summary: Aggregator - Check health
-      description: Simple endpoint to check aggregator health
-      responses:
-        '200':
-          description: OK - Health check successful
-  '/tokenlist/health':
-    get:
-      tags:
-      - Health
-      summary: Tokenlist - Check health
-      description: Simple endpoint to check tokenlist health
-      responses:
-        '200':
-          description: OK - Health check successful
-  '/tracker/health':
-    get:
-      tags:
-      - Health
-      summary: Tracker - Check health
-      description: Simple endpoint to check tracker health
-      responses:
-        '200':
-          description: OK - Health check successful
-  '/announcements/health':
-    get:
-      tags:
-      - Health
-      summary: Announcements - Check health
-      description: Simple endpoint to check announcements health
-      responses:
-        '200':
-          description: OK - Health check successful
-  
-  # Announcements
-  /announcements:
+  "/announcements":
     get:
       tags:
       - Announcements
@@ -1216,14 +1173,63 @@ paths:
       responses:
         '200':
           description: OK - returns announcements data
-  
-  # Chains
-  '/aggregator/chains':
+  "/messages":
     get:
       tags:
-      - Chains
-      summary: List of supported blockchains
-      description: Get the list of blockchains supported by the SwapKit API
+      - Messages
+      summary: Check partner messages
+      description: Endpoint to fetch partner messages
+      parameters:
+      - name: category
+        required: false
+        description: Category to filter for (DEX | WALLET | OTHER)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK - returns partner messages data
+  "/aggregator/health":
+    get:
+      tags:
+      - Health
+      summary: Aggregator - Check health
+      description: Simple endpoint to check aggregator health
+      responses:
+        '200':
+          description: OK - Health check successful
+  "/tokenlist/health":
+    get:
+      tags:
+      - Health
+      summary: Tokenlist - Check health
+      description: Simple endpoint to check tokenlist health
+      responses:
+        '200':
+          description: OK - Health check successful
+  "/tracker/health":
+    get:
+      tags:
+      - Health
+      summary: Tracker - Check health
+      description: Simple endpoint to check tracker health
+      responses:
+        '200':
+          description: OK - Health check successful
+  "/announcements/health":
+    get:
+      tags:
+      - Health
+      summary: Announcements - Check health
+      description: Simple endpoint to check announcements health
+      responses:
+        '200':
+          description: OK - Health check successful
+  "/aggregator/providers/supportedProviders":
+    get:
+      tags:
+      - Provider
+      summary: List of providers available
+      description: Get the list of providers supported by the Pathfinder API
       responses:
         '200':
           description: A JSON array of tokens
@@ -1233,12 +1239,622 @@ paths:
                 type: array
                 items:
                   type: string
-  
-  # Gas
-  '/resource-worker/gasPrice/get':
+  "/aggregator/providers/subProviders":
     get:
       tags:
-      - Gas
+      - Provider
+      summary: Get the list of sources supported by a given provider
+      description: Check the list of sources that a specific provider supports
+      parameters:
+      - name: provider
+        in: query
+        required: true
+        description: Name of the provider to check
+        schema:
+          type: string
+          enum:
+          - ZEROX
+          - ONEINCH
+      responses:
+        '200':
+          description: The sources used by the provider
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Calldata"
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Invalid provider
+  "/aggregator/tokens/quote/pairPrice":
+    get:
+      tags:
+      - Quotes
+      summary: Get a token pair exchange rate
+      description: Get the exchange rate for two assets on a specific provider. This
+        is a development endpoint and is not intended for production use.
+      parameters:
+      - name: sellAsset
+        in: query
+        required: true
+        description: Token to sell (e.g. ETH.UNI-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984)
+        schema:
+          type: string
+      - name: buyAsset
+        in: query
+        required: true
+        description: Token to buy (e.g. BTC.BTC)
+        schema:
+          type: string
+      - name: provider
+        in: query
+        required: true
+        description: The provider to query
+        schema:
+          type: string
+          enum:
+          - UNISWAPV2
+          - UNISWAPV3
+          - THORCHAIN
+          - ZEROX
+          - ONEINCH
+          - SUSHISWAP
+      responses:
+        '200':
+          description: The exchange rate
+          content:
+            application/json:
+              schema:
+                type: string
+  "/aggregator/tokens/quote":
+    get:
+      tags:
+      - Quotes
+      summary: Get quote for a swap
+      description: Get a quote to swap between Native Coin - ERC20 - Avax ERC20
+      parameters:
+      - name: sellAsset
+        in: query
+        required: true
+        description: Asset to sell. (e.g. ETH.UNI-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984)
+        schema:
+          type: string
+      - name: buyAsset
+        in: query
+        required: true
+        description: Asset to buy. (e.g. BTC.BTC)
+        schema:
+          type: string
+      - name: sellAmount
+        in: query
+        required: true
+        description: Amount of sellAsset to sell in assetAmount. (e.g. 100 for 100
+          UNI)
+        schema:
+          type: number
+      - name: slippage
+        in: query
+        required: false
+        default: 5
+        description: Slippage tolerance as a percentage. (e.g. 3 means 3% max slippage)
+        schema:
+          type: number
+      - name: limit
+        in: query
+        required: false
+        default: 5
+        description: The maximum number of trades routes to return. (e.g. 5)
+        schema:
+          type: number
+      - name: senderAddress
+        in: query
+        required: false
+        description: The senderAddress to be used to build calldata. (e.g. 0x2A1Af1d52641b9B595dbafFe36452d325E6cA103)
+        schema:
+          type: string
+      - name: recipientAddress
+        in: query
+        required: false
+        description: The recipientAddress may be used to build the tcMemo. If you
+          don't provide a recipientAddress, your calldata may be invalid and you may
+          need to replace {recipientAddress} in the memo field. (e.g. 0x2A1Af1d52641b9B595dbafFe36452d325E6cA103)
+        schema:
+          type: string
+      - name: providers
+        in: query
+        required: false
+        description: Restrict liquidity sources. THORCHAIN provider must be set for
+          cross-chain quotes
+        default: THORCHAIN, UNISWAPV2, UNISWAPV3, THORCHAIN, ZEROX, ONEINCH, SUSHISWAP
+        schema:
+          type: array
+          collectionFormat: multi
+          items:
+            type: string
+            enum:
+            - THORCHAIN
+            - UNISWAPV2
+            - UNISWAPV3
+            - THORCHAIN
+            - ZEROX
+            - ONEINCH
+            - SUSHISWAP
+      - name: subProviders
+        in: query
+        required: false
+        description: Restrict sources of the providers.
+        default: []
+        schema:
+          type: array
+          collectionFormat: multi
+          items:
+            type: string
+      - name: preferredProvider
+        in: query
+        required: false
+        description: Optionally specify the provider the swap should use.
+        schema:
+          type: string
+          collectionFormat: multi
+          enum:
+          - UNISWAPV2
+          - UNISWAPV3
+          - THORCHAIN
+          - ZEROX
+          - ONEINCH
+          - SUSHISWAP
+      - name: affiliateAddress
+        in: query
+        required: false
+        description: The affiliate thorname to receive the affiliate fee. Must be
+          10 chars or less, the shorter the better. (e.g. partner1)
+        schema:
+          type: string
+      - name: affiliateBasisPoints
+        in: query
+        required: false
+        description: Basis point to take from the trade (e.g. 50 for 0.5%)
+        minimum: 0
+        maximum: 100
+        schema:
+          type: string
+      - name: isAffiliateFeeFlat
+        in: query
+        required: false
+        description: If set to true, the API will adjust the memo so that the total
+          affiliate fees, including smart contract, are as close as possible to the
+          provided affiliateBasisPoints
+        schema:
+          type: boolean
+      - name: allowSmartContractRecipient
+        in: query
+        required: false
+        description: If set to true, we will not perform any safety checks on the
+          recipient address on an EVM chain. This is risky, and funds will likely
+          be lost. For more information https://docs.thorswap.net/aggregation-api/pathfinder#smart-contract-addresses
+        schema:
+          type: boolean
+      - name: referral
+        in: query
+        required: false
+        description: Optional referral thorname to receive the referral fee. Must
+          be 10 chars or less, the shorter the better. (e.g. oleg)
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A complete quote response with calldata
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/QuoteResponse"
+        '400':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: name of the error
+                  message:
+                    type: string
+                    description: details about this error
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Internal Server Error
+  "/universal":
+    get:
+      tags:
+      - Universal Wrapper
+      summary: GET Check health
+      description: Endpoint to fetch system health for the universal wrapper service
+      responses:
+        '200':
+          description: OK - Health check
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    description: true if service is up
+  "/universal/validateAddress":
+    get:
+      tags:
+      - Universal Wrapper
+      summary: GET Validate address
+      description: Returns a boolean indicating if the address is valid or an error
+        if the chain is not supported.
+      parameters:
+      - name: currency
+        in: query
+        required: true
+        description: Currency to validate (chain). Non-case sensitive.
+        schema:
+          type: string
+          enum:
+          - avax
+          - btc
+          - bch
+          - bnb
+          - gaia
+          - doge
+          - eth
+          - ltc
+          - thor
+        example: eth
+      - name: address
+        in: query
+        required: true
+        description: Address to validate
+        schema:
+          type: string
+        example: '0xB6F1F501BA37551964C9b23B4c38faED71DDEAfA'
+      responses:
+        '200':
+          description: A boolean
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+                    description: true if address is valid, false otherwise
+                  message:
+                    type: string
+                    description: See messages here https://api-docs.changelly.com/#f433a305-7896-4611-82d7-9bc411667218
+  "/universal/chains":
+    get:
+      tags:
+      - Universal Wrapper
+      summary: GET Supported chains
+      description: Returns a flat array of supported blockchain names
+      responses:
+        '200':
+          description: A flat array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  "/universal/chainsDetails":
+    get:
+      tags:
+      - Universal Wrapper
+      summary: GET Chains + details
+      description: Returns a detailed array of supported chains
+      responses:
+        '200':
+          description: An array of information for support currencies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  "/universal/currencies":
+    get:
+      tags:
+      - Universal Wrapper
+      summary: GET Supported currencies
+      description: Returns a flat array of supported currencies.
+      parameters:
+      - name: categories
+        in: query
+        required: false
+        description: Asset categories to filter by.
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - all
+            - avax-erc20s
+            - eth-erc20s
+            - thorchain-all
+            - thorchain-coins
+            - thorchain-tokens
+            - thorchain-stables
+        style: form
+        explode: false
+        example: thorchain-all
+      responses:
+        '200':
+          description: A flat array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  "/universal/currenciesFull":
+    get:
+      tags:
+      - Universal Wrapper
+      summary: GET Sup. currencies + details
+      description: Returns a detailed array of supported currencies
+      parameters:
+      - name: categories
+        in: query
+        required: false
+        description: Asset categories to filter by.
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - all
+            - avax-erc20s
+            - eth-erc20s
+            - thorchain-all
+            - thorchain-coins
+            - thorchain-tokens
+            - thorchain-stables
+        style: form
+        explode: false
+        example: thorchain-all
+      responses:
+        '200':
+          description: An array of information for support currencies
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/GetCurrenciesFullResponse"
+  "/universal/minAmount":
+    get:
+      tags:
+      - Universal Wrapper
+      summary: GET Minimum amount to send
+      description: Returns a minimum allowed payin amount required for a currency
+        pair. Amounts less than a minimal will most likely fail the transaction. This
+        accounts for live network fees.
+      parameters:
+      - name: from
+        in: query
+        required: true
+        description: The originating asset
+        example: btc
+        schema:
+          type: string
+      - name: to
+        in: query
+        required: true
+        description: The destination asset
+        example: eth
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The minimum amount
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Error - assets must be different
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '500':
+          description: Invalid asset
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    description: The minimum amount to send for a safe transaction
+                  asset:
+                    type: string
+                    description: The asset to send a minimum of
+                  message:
+                    type: string
+                    description: Error message
+  "/universal/minAmountDetails":
+    get:
+      tags:
+      - Universal Wrapper
+      summary: GET Minimum amount to send + details
+      description: Returns a minimum allowed payin amount required for a currency
+        pair. Amounts less than a minimal will most likely fail the transaction.
+      parameters:
+      - name: from
+        in: query
+        required: true
+        description: The originating asset\
+        example: btc
+        schema:
+          type: string
+      - name: to
+        in: query
+        required: true
+        description: The destination asset
+        example: eth
+        schema:
+          type: string
+      responses:
+        '200':
+          description: An array of Changelly formatted assets
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    description: The minimum amount to send for a safe transaction
+                  asset:
+                    type: string
+                    description: The asset to send a minimum of
+        '400':
+          description: Error - assets must be different
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '500':
+          description: Invalid asset
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+  "/universal/exchangeAmount":
+    get:
+      tags:
+      - Universal Wrapper
+      summary: GET Exchange amount
+      description: Returns the exchange amount for a given pair of assets
+      parameters:
+      - name: from
+        in: query
+        required: true
+        description: The originating asset
+        example: btc
+        schema:
+          type: string
+      - name: to
+        in: query
+        required: true
+        description: The destination asset
+        example: eth
+        schema:
+          type: string
+      - name: amount
+        in: query
+        required: true
+        description: The amount exchanged in from asset units
+        example: 0.5
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The exchange amount expected for the exchange
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/GetExchangeAmountResponse"
+        '400':
+          description: Error - assets must be different
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+  "/universal/exchangeAmountDetails":
+    get:
+      tags:
+      - Universal Wrapper
+      summary: GET Exchange amount + details
+      description: Returns the exchange amount and details about estimated time
+      parameters:
+      - name: from
+        in: query
+        required: true
+        description: The originating asset
+        example: btc.btc
+        schema:
+          type: string
+      - name: to
+        in: query
+        required: true
+        description: The destination asset
+        example: eth.eth
+        schema:
+          type: string
+      - name: amount
+        in: query
+        required: true
+        description: The amount exchanged in from asset units
+        example: 0.5
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The exchange amount expected for the exchange
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/GetExchangeAmountResponseDetails"
+        '400':
+          description: Error - assets must be different
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+  "/resource-worker/pools":
+    get:
+      tags:
+      - Resource Worker
+      summary: GET list of Midgard pools
+      description: Get an array of Midgard pools
+      responses:
+        '200':
+          description: Array of pools
+        '404':
+          description: No pools found
+  "/resource-worker/gasPrice/get":
+    get:
+      tags:
+      - Resource Worker
       summary: GET the gas price for a given chain
       description: Get the gas information for a given chain
       parameters:
@@ -1253,10 +1869,10 @@ paths:
           description: Gas Price information
         '404':
           description: No Gas Prices for this chainId
-  '/resource-worker/gasPrice/getAll':
+  "/resource-worker/gasPrice/getAll":
     get:
       tags:
-      - Gas
+      - Resource Worker
       summary: GET full list of gas price information
       description: Get an array of all gas price information
       responses:
@@ -1264,134 +1880,57 @@ paths:
           description: Array of all gas Price information
         '404':
           description: No Gas Prices for this chainId
-  
-  # Messages SHOULD THIS BE REMOVED?
-  '/messages':
+  "/resource-worker/estimateGas/get":
     get:
       tags:
-      - Messages
-      summary: Check partner messages
-      description: Endpoint to fetch partner messages
+      - Resource Worker
+      summary: GET the gas price for a chain, contract and method
+      description: Get the gas information for a chain, contract and method
       parameters:
-      - name: category
+      - name: chainId
+        in: query
+        required: true
+        description: The chainId of the network
+        schema:
+          type: string
+      - name: contractAddress
         in: query
         required: false
-        description: Category to filter for (DEX | WALLET | OTHER)
+        description: Optional contract address
+        schema:
+          type: string
+      - name: contractMethod
+        in: query
+        required: false
+        description: Optional contract method
+        schema:
+          type: string
+      - name: txSize
+        in: query
+        required: false
+        description: Optional transaction size
         schema:
           type: string
       responses:
         '200':
-          description: OK - returns partner messages data
-  
-  # Lending
-  '/lending/borrow':
+          description: Estimate Gas information
+        '404':
+          description: Chainid not found
+  "/resource-worker/estimateGas/getAll":
     get:
       tags:
-      - Lending
-      summary: Get borrow details
-      description: Get borrow details
-      parameters:
-      - name: assetIn
-        in: query
-        required: true
-        description: The collateral asset
-        schema:
-          type: string
-      - name: assetOut
-        in: query
-        required: true
-        description: The asset to be borrowed, or received after a swap
-        schema:
-          type: string
-      - name: amount
-        in: query
-        required: true
-        description: The amount of collateral to be deposited into the protocol
-        schema:
-          type: string
-      - name: senderAddress
-        in: query
-        required: false
-        description: The sender of the collateral asset
-        schema:
-          type: string
-      - name: recipientAddress
-        in: query
-        required: false
-        description: The recipient of the assetOut
-        schema:
-          type: string
-      - name: affiliateAddress
-        in: query
-        required: false
-        description: The affiliate address
-        schema:
-          type: string
-      - name: affiliateBasisPoints
-        in: query
-        required: false
-        description: The affiliate basis points
-        schema:
-          type: string
+      - Resource Worker
+      summary: GET full list of gas price information
+      description: Get an array of all gas price information
       responses:
         '200':
-          description: A full quote of the borrow
-          content:
-            application/json:
-              schema:
-                  $ref: '#/components/schemas/LendingOpenResponse'
-  '/lending/loans':
+          description: Array of all gas Price information
+        '404':
+          description: No Gas Prices for this chainId
+  "/aggregator/liquidity/add/asym_asset":
     get:
       tags:
-      - Lending
-      summary: Get loan details
-      description: Get details of loans of provided address and asset
-      parameters:
-      - name: asset
-        in: query
-        required: true
-        description: The collateral asset
-        schema:
-          type: string
-      - name: address
-        in: query
-        required: true
-        description: The address of the user
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Details of loans of provided address and asset
-          content:
-            application/json:
-              schema:
-                  $ref: '#/components/schemas/LoanDetailsResponse'
-  '/lending/asset/available':
-    get:
-      tags:
-      - Lending
-      summary: Get available asset for given pool
-      description: Get available asset for given pool
-      parameters:
-      - name: asset
-        in: query
-        required: true
-        description: Asset to check availability for
-        schema:
-          type: string
-      responses:
-        '200':
-          description: response for available asset
-          content:
-            application/json:
-              schema:
-                  $ref: '#/components/schemas/LendingAssetAvailableResponse'
-  
-  # Liquidity
-  '/aggregator/liquidity/add/asym_asset':
-    get:
-      tags:
-      - Liquidity
+      - Add liquidity
       summary: Add asymmetric asset liquidity
       description: Endpoint to get transaction memo for adding asym asset liquidity
       parameters:
@@ -1424,8 +1963,6 @@ paths:
         in: query
         required: true
         description: Thorchain Address (e.g. thor160yye65pf9rzwrgqmtgav69n6zlsyfpgm9a7xk)
-        schema:
-          type: string
       - name: assetAddress
         in: query
         required: true
@@ -1438,7 +1975,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AddAsymAssetMemo'
+                "$ref": "#/components/schemas/AddAsymAssetMemo"
         '400':
           description: Error
           content:
@@ -1460,10 +1997,10 @@ paths:
                   message:
                     type: string
                     description: Message describing the problem.
-  '/aggregator/liquidity/add/sym':
+  "/aggregator/liquidity/add/sym":
     get:
       tags:
-      - Liquidity
+      - Add liquidity
       summary: Add symmetrical liquidity
       description: Endpoint to get transaction memo for adding sym liquidity
       parameters:
@@ -1518,7 +2055,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/AddSymLiquidity'
+                "$ref": "#/components/schemas/AddSymLiquidity"
         '400':
           description: Error
           content:
@@ -1540,10 +2077,10 @@ paths:
                   message:
                     type: string
                     description: Message describing the problem.
-  '/aggregator/liquidity/add/sym_asset':
+  "/aggregator/liquidity/add/sym_asset":
     get:
       tags:
-      - Liquidity
+      - Add liquidity
       summary: Add symmetrical asset liquidity
       description: Endpoint to get transaction memo for adding symmetrical asset liquidity
       parameters:
@@ -1576,8 +2113,6 @@ paths:
         in: query
         required: true
         description: Thorchain Address (e.g. thor160yye65pf9rzwrgqmtgav69n6zlsyfpgm9a7xk)
-        schema:
-          type: string
       - name: assetAddress
         in: query
         required: true
@@ -1590,7 +2125,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/AddSymAssetMemo'
+                "$ref": "#/components/schemas/AddSymAssetMemo"
         '400':
           description: Error
           content:
@@ -1612,10 +2147,10 @@ paths:
                   message:
                     type: string
                     description: Message describing the problem.
-  '/aggregator/liquidity/add/sym_rune':
+  "/aggregator/liquidity/add/sym_rune":
     get:
       tags:
-      - Liquidity
+      - Add liquidity
       summary: Add symmetrical rune liquidity
       description: Endpoint to get transaction memo for adding symmetrical asset liquidity
       parameters:
@@ -1648,8 +2183,6 @@ paths:
         in: query
         required: true
         description: Thorchain Address (e.g. thor160yye65pf9rzwrgqmtgav69n6zlsyfpgm9a7xk)
-        schema:
-          type: string
       - name: assetAddress
         in: query
         required: true
@@ -1662,7 +2195,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/AddSymRuneMemo'
+                "$ref": "#/components/schemas/AddSymRuneMemo"
         '400':
           description: Error
           content:
@@ -1684,10 +2217,10 @@ paths:
                   message:
                     type: string
                     description: Message describing the problem.
-  '/aggregator/liquidity/add/single_sided':
+  "/aggregator/liquidity/add/single_sided":
     get:
       tags:
-      - Liquidity
+      - Add liquidity
       summary: Add symmetrical single sided asset liquidity
       description: Endpoint to get transaction memo for adding symmetrical asset liquidity
       parameters:
@@ -1720,8 +2253,6 @@ paths:
         in: query
         required: true
         description: Thorchain Address (e.g. thor160yye65pf9rzwrgqmtgav69n6zlsyfpgm9a7xk)
-        schema:
-          type: string
       - name: assetAddress
         in: query
         required: true
@@ -1734,7 +2265,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/AddSingleSidedMemo'
+                "$ref": "#/components/schemas/AddSingleSidedMemo"
         '400':
           description: Error
           content:
@@ -1756,10 +2287,10 @@ paths:
                   message:
                     type: string
                     description: Message describing the problem.
-  '/aggregator/liquidity/withdraw':
+  "/aggregator/liquidity/withdraw":
     get:
       tags:
-      - Liquidity
+      - Withdraw liquidity
       summary: Withdraw Liquidity memo
       description: Endpoint to get transaction memo for withdrawing liquidity
       parameters:
@@ -1803,7 +2334,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/WithdrawLiquidity'
+                "$ref": "#/components/schemas/WithdrawLiquidity"
         '400':
           description: Error
           content:
@@ -1825,265 +2356,7 @@ paths:
                   message:
                     type: string
                     description: Message describing the problem.
-  
-  # Providers
-  '/aggregator/providers/supportedProviders':
-    get:
-      tags:
-      - Provider
-      summary: List of providers available
-      description: Get the list of providers supported by the Pathfinder API
-      responses:
-        '200':
-          description: A JSON array of tokens
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: string
-  '/aggregator/providers/subProviders':
-    get:
-      tags:
-      - Provider
-      summary: Get the list of sources supported by a given provider
-      description: Check the list of sources that a specific provider supports
-      parameters:
-      - name: provider
-        in: query
-        required: true
-        description: Name of the provider to check
-        schema:
-          type: string
-          enum:
-          - ONEINCH
-      responses:
-        '200':
-          description: The sources used by the provider
-          content:
-            application/json:
-              schema:
-                  $ref: '#/components/schemas/Calldata'
-        '500':
-          description: Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: Invalid provider
-  
-  # Quote
-  '/aggregator/tokens/quote/pairPrice':
-    get:
-      tags:
-      - Quotes
-      summary: Get a token pair exchange rate
-      description: Get the exchange rate for two assets on a specific provider. This
-        is a development endpoint and is not intended for production use.
-      parameters:
-      - name: sellAsset
-        in: query
-        required: true
-        description: Token to sell (e.g. ETH.UNI-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984)
-        schema:
-          type: string
-      - name: buyAsset
-        in: query
-        required: true
-        description: Token to buy (e.g. BTC.BTC)
-        schema:
-          type: string
-      - name: provider
-        in: query
-        required: true
-        description: The provider to query
-        schema:
-          type: string
-          enum:
-          - UNISWAPV2
-          - UNISWAPV3
-          - THORCHAIN
-          - ONEINCH
-          - SUSHISWAP
-      responses:
-        '200':
-          description: The exchange rate
-          content:
-            application/json:
-              schema:
-                type: string
-  '/aggregator/tokens/quote':
-    get:
-      tags:
-      - Quotes
-      summary: Get quote for a swap
-      description: Get a quote to swap between Native Coin - ERC20 - Avax ERC20
-      parameters:
-      - name: sellAsset
-        in: query
-        required: true
-        description: Asset to sell. (e.g. ETH.UNI-0x1f9840a85d5af5bf1d1762f925bdaddc4201f984)
-        schema:
-          type: string
-      - name: buyAsset
-        in: query
-        required: true
-        description: Asset to buy. (e.g. BTC.BTC)
-        schema:
-          type: string
-      - name: sellAmount
-        in: query
-        required: true
-        description: Amount of sellAsset to sell in assetAmount. (e.g. 100 for 100
-          UNI)
-        schema:
-          type: number
-      - name: slippage
-        in: query
-        required: false
-        description: Slippage tolerance as a percentage. (e.g. 3 means 3% max slippage)
-        schema:
-          type: number
-          default: 5
-      - name: limit
-        in: query
-        required: false
-        
-        description: The maximum number of trades routes to return. (e.g. 5)
-        schema:
-          type: number
-          default: 5
-      - name: senderAddress
-        in: query
-        required: false
-        description: The senderAddress to be used to build calldata. (e.g. 0x2A1Af1d52641b9B595dbafFe36452d325E6cA103)
-        schema:
-          type: string
-      - name: recipientAddress
-        in: query
-        required: false
-        description: The recipientAddress may be used to build the tcMemo. If you
-          don't provide a recipientAddress, your calldata may be invalid and you may
-          need to replace {recipientAddress} in the memo field. (e.g. 0x2A1Af1d52641b9B595dbafFe36452d325E6cA103)
-        schema:
-          type: string
-      - name: providers
-        in: query
-        required: false
-        description: Restrict liquidity sources. THORCHAIN provider must be set for
-          cross-chain quotes
-        schema:
-          type: array
-          default: [THORCHAIN, UNISWAPV2, UNISWAPV3, THORCHAIN, ONEINCH, SUSHISWAP]
-          
-          items:
-            type: string
-            enum:
-            - UNISWAPV2
-            - UNISWAPV3
-            - THORCHAIN
-            - ONEINCH
-            - SUSHISWAP
-      - name: subProviders
-        in: query
-        required: false
-        description: Restrict sources of the providers.
-        schema:
-          type: array
-          default: []
-          
-          items:
-            type: string
-      - name: preferredProvider
-        in: query
-        required: false
-        description: Optionally specify the provider the swap should use.
-        schema:
-          type: string
-          
-          enum:
-          - UNISWAPV2
-          - UNISWAPV3
-          - THORCHAIN
-          - ONEINCH
-          - SUSHISWAP
-      - name: affiliateAddress
-        in: query
-        required: false
-        description: The affiliate thorname to receive the affiliate fee. Must be
-          10 chars or less, the shorter the better. (e.g. partner1)
-        schema:
-          type: string
-      - name: affiliateBasisPoints
-        in: query
-        required: false
-        description: Basis point to take from the trade (e.g. 50 for 0.5%)
-        
-        schema:
-          type: number
-          minimum: 0
-          maximum: 100
-
-      - name: isAffiliateFeeFlat
-        in: query
-        required: false
-        description: If set to true, the API will adjust the memo so that the total
-          affiliate fees, including smart contract, are as close as possible to the
-          provided affiliateBasisPoints
-        schema:
-          type: boolean
-      - name: allowSmartContractRecipient
-        in: query
-        required: false
-        description: If set to true, we will not perform any safety checks on the
-          recipient address on an EVM chain. This is risky, and funds will likely
-          be lost. For more information https://docs.thorswap.net/aggregation-api/pathfinder#smart-contract-addresses
-        schema:
-          type: boolean
-      - name: shouldCheckSmartContractSender
-        in: query
-        required: false
-        description: If set to true, we will not perform any safety checks on the
-          sender address on an EVM chain. This is risky, and funds will likely
-          be lost. For more information https://docs.thorswap.net/aggregation-api/pathfinder#smart-contract-addresses
-        schema:
-          type: boolean
-      responses:
-        '200':
-          description: A complete quote response with calldata
-          content:
-            application/json:
-              schema:
-                  $ref: '#/components/schemas/QuoteResponse'
-        '400':
-          description: Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: name of the error
-                  message:
-                    type: string
-                    description: details about this error
-        '500':
-          description: Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    description: Internal Server Error
-  
-  # THORName
-  '/thorname/registered/{thorname}':
+  "/thorname/registered/{thorname}":
     get:
       tags:
       - Thorname
@@ -2120,7 +2393,7 @@ paths:
                   message:
                     type: string
                     description: Message describing the problem.
-  '/thorname/chains/{thorname}':
+  "/thorname/chains/{thorname}":
     get:
       tags:
       - Thorname
@@ -2163,7 +2436,7 @@ paths:
                   message:
                     type: string
                     description: Message describing the problem.
-  '/thorname/{thorname}':
+  "/thorname/{thorname}":
     get:
       tags:
       - Thorname
@@ -2184,7 +2457,7 @@ paths:
               schema:
                 type: array
                 items:
-                    $ref: '#/components/schemas/ThornameReverseLookupResponse'
+                  "$ref": "#/components/schemas/ThornameReverseLookupResponse"
         '400':
           description: Error
           content:
@@ -2206,7 +2479,7 @@ paths:
                   message:
                     type: string
                     description: Message describing the problem.
-  '/thorname/chain':
+  "/thorname/chain":
     get:
       tags:
       - Thorname
@@ -2254,7 +2527,7 @@ paths:
                   message:
                     type: string
                     description: Message describing the problem.
-  '/thorname/rlookup':
+  "/thorname/rlookup":
     get:
       tags:
       - Thorname
@@ -2279,7 +2552,7 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/ThornameReverseLookupResponse'
+                "$ref": "#/components/schemas/ThornameReverseLookupResponse"
         '400':
           description: Error
           content:
@@ -2301,30 +2574,26 @@ paths:
                   message:
                     type: string
                     description: Message describing the problem.
-  
-  # Tracker
-  '/tracker/v2/txn':
-    post:
+  "/tracker/v2/txn":
+    get:
       tags:
       - Tracker
-      summary: Initiate transaction tracking
+      summary: Track a transaction's status
       description: Get a chain-by-chain breakdown of a transaction's overall progress
       parameters:
-      - name: transaction tracking data
-        in: body
+      - name: txn
+        in: query
         required: true
         description: a tracker request object
         schema:
-          oneOf:
-            - $ref: '#/components/schemas/TrackerRequestInit'
-            - $ref: '#/components/schemas/TrackerRequestTrack'
+          "$ref": "#/components/schemas/TrackerRequest"
       responses:
         '200':
           description: A complete breakdown of a transaction's overall progress
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/TrackerResponse'
+                "$ref": "#/components/schemas/TrackerResponse"
         '400':
           description: Error
           content:
@@ -2348,13 +2617,102 @@ paths:
                   message:
                     type: string
                     description: Internal Server Error
-
-
-  # Stats
-  '/stats/supply/circulating':
+  "/lending/borrow":
     get:
       tags:
-      - Stats
+      - Lending
+      summary: Get borrow details
+      description: Get borrow details
+      parameters:
+      - name: assetIn
+        in: query
+        required: true
+        description: The collateral asset
+        type: string
+      - name: assetOut
+        in: query
+        required: true
+        description: The asset to be borrowed, or received after a swap
+        type: string
+      - name: amount
+        in: query
+        required: true
+        description: The amount of collateral to be deposited into the protocol
+        type: string
+      - name: senderAddress
+        in: query
+        required: false
+        description: The sender of the collateral asset
+        type: string
+      - name: recipientAddress
+        in: query
+        required: false
+        description: The recipient of the assetOut
+        type: string
+      - name: affiliateAddress
+        in: query
+        required: false
+        description: The affiliate address
+        type: string
+      - name: affiliateBasisPoints
+        in: query
+        required: false
+        description: The affiliate basis points
+        type: string
+      responses:
+        '200':
+          description: A full quote of the borrow
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/LendingOpenResponse"
+  "/lending/loans":
+    get:
+      tags:
+      - Lending
+      summary: Get loan details
+      description: Get details of loans of provided address and asset
+      parameters:
+      - name: asset
+        in: query
+        required: true
+        description: The collateral asset
+        type: string
+      - name: address
+        in: query
+        required: true
+        description: The address of the user
+        type: string
+      responses:
+        '200':
+          description: Details of loans of provided address and asset
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/LoanDetailsResponse"
+  "/lending/asset/available":
+    get:
+      tags:
+      - Lending
+      summary: Get available asset for given pool
+      description: Get available asset for given pool
+      parameters:
+      - name: asset
+        in: query
+        required: true
+        description: Asset to check availability for
+        type: string
+      responses:
+        '200':
+          description: response for available asset
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/LendingAssetAvailableResponse"
+  "/stats/supply/circulating":
+    get:
+      tags:
+      - Supply stats
       summary: Get Circulating supply of THOR
       description: Get Circulating supply of THOR
       responses:
@@ -2366,10 +2724,10 @@ paths:
                 type: number
                 example: 120744281
                 description: The circulating supply of the THOR in numerical format.
-  '/stats/supply/total':
+  "/stats/supply/total":
     get:
       tags:
-      - Stats
+      - Supply stats
       summary: Get Total supply of THOR
       description: Get Total supply of THOR
       responses:
@@ -2381,4 +2739,8 @@ paths:
                 type: number
                 example: 469999996
                 description: The Total supply of the THOR in numerical format.
+definitions: {}
+responses: {}
+parameters: {}
+securityDefinitions: {}
 tags: []
