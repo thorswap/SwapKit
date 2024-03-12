@@ -19,7 +19,7 @@ import { useSwapKit } from "~/lib/swapKit";
 import { cn } from "~/lib/utils";
 
 export default function Swap() {
-  const { balances, swapKit, checkIfChainConnected } = useSwapKit();
+  const { balances } = useSwapKit();
 
   const { chains, balanceGroupedByChain } = useMemo(() => {
     const balanceGroupedByChain = balances.reduce(

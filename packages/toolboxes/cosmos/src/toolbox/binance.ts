@@ -80,7 +80,7 @@ const getFeeRateFromThorchain = async () => {
   return Number(chainData?.gas_rate || 0);
 };
 
-const sendRawTransaction = (signedBz: string, sync = true) =>
+const sendRawTransaction = (signedBz: string) =>
   RequestClient.get<{
     result: {
       hash: string;
@@ -143,7 +143,7 @@ const transfer = async (params: TransferParams): Promise<string> => {
   const hex = Buffer.from(params.privkey as Uint8Array).toString("hex");
   const signedTx = await transaction.sign(hex, signMsg);
 
-  const res = await sendRawTransaction(signedTx.serialize(), true);
+  const res = await sendRawTransaction(signedTx.serialize());
 
   return res?.result?.hash;
 };

@@ -126,7 +126,6 @@ const getInputsAndTargetOutputs = async ({
   sender,
   fetchTxHex = false,
   apiClient,
-  chain,
 }: {
   assetValue: AssetValue;
   recipient: string;
@@ -134,7 +133,6 @@ const getInputsAndTargetOutputs = async ({
   sender: string;
   fetchTxHex?: boolean;
   apiClient: BlockchairApiType;
-  chain: UTXOChain;
 }) => {
   const inputs = await apiClient.scanUTXOs({
     address: sender,
@@ -177,7 +175,6 @@ const buildTx = async ({
     sender,
     fetchTxHex,
     apiClient,
-    chain,
   });
 
   const { inputs, outputs } = accumulative({ ...inputsAndOutputs, feeRate, chain });
@@ -247,7 +244,6 @@ const getInputsOutputsFee = async ({
     sender,
     fetchTxHex,
     apiClient,
-    chain,
   });
 
   const feeRateWhole = feeRate ? Math.floor(feeRate) : (await getFeeRates(apiClient))[feeOptionKey];
