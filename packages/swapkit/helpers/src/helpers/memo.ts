@@ -9,8 +9,6 @@ export type ThornameRegisterParam = {
   expiryBlock?: string;
 };
 
-export type MayanameRegisterParam = ThornameRegisterParam;
-
 type WithChain<T extends {}> = T & { chain: Chain };
 
 export type MemoOptions<T extends MemoType> = {
@@ -28,7 +26,6 @@ export type MemoOptions<T extends MemoType> = {
     singleSide?: boolean;
   }>;
   [MemoType.THORNAME_REGISTER]: Omit<ThornameRegisterParam, "preferredAsset" | "expiryBlock">;
-  [MemoType.MAYANAME_REGISTER]: Omit<MayanameRegisterParam, "preferredAsset" | "expiryBlock">;
 }[T];
 
 export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions<T>) => {
@@ -46,11 +43,6 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
 
     case MemoType.THORNAME_REGISTER: {
       const { name, chain, address, owner } = options as MemoOptions<MemoType.THORNAME_REGISTER>;
-      return `${memoType}:${name}:${chain}:${address}${owner ? `:${owner}` : ""}`;
-    }
-
-    case MemoType.MAYANAME_REGISTER: {
-      const { name, chain, address, owner } = options as MemoOptions<MemoType.MAYANAME_REGISTER>;
       return `${memoType}:${name}:${chain}:${address}${owner ? `:${owner}` : ""}`;
     }
 

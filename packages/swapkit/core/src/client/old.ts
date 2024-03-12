@@ -625,7 +625,7 @@ export class SwapKitCore<T = ""> {
   }: MayanameRegisterParam & { assetValue: AssetValue }) =>
     this.#mayachainTransfer({
       assetValue,
-      memo: getMemoFor(MemoType.MAYANAME_REGISTER, param),
+      memo: getMemoFor(MemoType.THORNAME_REGISTER, param),
     });
 
   extend = ({ wallets, config, apis = {}, rpcUrls = {} }: ExtendParams<T>) => {
