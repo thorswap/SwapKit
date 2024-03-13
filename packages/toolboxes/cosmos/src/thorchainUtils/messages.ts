@@ -28,12 +28,14 @@ export const transferMsgAmino = ({
   from,
   recipient,
   assetValue,
+  chain,
 }: {
   from: string;
   recipient?: string;
   assetValue: AssetValue;
+  chain: Chain.THORChain | Chain.Maya;
 }) => ({
-  type: "thorchain/MsgSend",
+  type: `${chain === Chain.Maya ? "mayachain" : "thorchain"}/MsgSend`,
   value: {
     from_address: from,
     to_address: recipient,
@@ -50,13 +52,15 @@ export const depositMsgAmino = ({
   from,
   assetValue,
   memo = "",
+  chain,
 }: {
   from: string;
   assetValue: AssetValue;
   memo?: string;
+  chain: Chain.THORChain | Chain.Maya;
 }) => {
   return {
-    type: "thorchain/MsgDeposit",
+    type: `${chain === Chain.Maya ? "mayachain" : "thorchain"}/MsgDeposit`,
     value: {
       coins: [
         {
@@ -75,22 +79,27 @@ export const buildAminoMsg = ({
   recipient,
   assetValue,
   memo,
+  chain,
 }: {
   from: string;
   recipient?: string;
   assetValue: AssetValue;
   memo?: string;
+  chain: Chain.THORChain | Chain.Maya;
 }) => {
   const isDeposit = !recipient;
   const msg = isDeposit
-    ? depositMsgAmino({ from, assetValue, memo })
-    : transferMsgAmino({ from, recipient, assetValue });
+    ? depositMsgAmino({ from, assetValue, memo, chain })
+    : transferMsgAmino({ from, recipient, assetValue, chain });
 
   return msg;
 };
 
-export const convertToSignable = async (msg: MsgDepositForBroadcast | MsgSendForBroadcast) => {
-  const aminoTypes = await createDefaultAminoTypes();
+export const convertToSignable = async (
+  msg: MsgDepositForBroadcast | MsgSendForBroadcast,
+  chain: Chain.THORChain | Chain.Maya,
+) => {
+  const aminoTypes = await createDefaultAminoTypes(chain);
 
   return aminoTypes.fromAmino(msg);
 };
@@ -101,12 +110,14 @@ export const buildTransaction = async ({
   assetValue,
   memo = "",
   isStagenet = false,
+  chain,
 }: {
   isStagenet?: boolean;
   from: string;
   recipient: string;
   assetValue: AssetValue;
   memo?: string;
+  chain: Chain.THORChain | Chain.Maya;
 }) => {
   const client = await createStargateClient(
     isStagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
@@ -118,7 +129,7 @@ export const buildTransaction = async ({
     throw new Error("Account does not exist");
   }
 
-  const msg = buildAminoMsg({ from, recipient, assetValue, memo });
+  const msg = buildAminoMsg({ from, recipient, assetValue, memo, chain });
 
   const transaction = {
     chainId: ChainId.THORChain,
@@ -133,7 +144,7 @@ export const buildTransaction = async ({
 };
 
 export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
-  if (msg.type === "thorchain/MsgSend") return msg;
+  if (msg.type === "thorchain/MsgSend" || msg.type === "mayachain/MsgSend") return msg;
 
   return {
     ...msg,
@@ -163,12 +174,15 @@ export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
   };
 };
 
-export const buildEncodedTxBody = async (transaction: {
-  msgs: MsgSendForBroadcast[] | MsgDepositForBroadcast[];
-  memo: string;
-}) => {
+export const buildEncodedTxBody = async (
+  transaction: {
+    msgs: MsgSendForBroadcast[] | MsgDepositForBroadcast[];
+    memo: string;
+  },
+  chain: Chain.THORChain | Chain.Maya,
+) => {
   const registry = await createDefaultRegistry();
-  const aminoTypes = await createDefaultAminoTypes();
+  const aminoTypes = await createDefaultAminoTypes(chain);
 
   const signedTxBody: TxBodyEncodeObject = {
     typeUrl: "/cosmos.tx.v1beta1.TxBody",

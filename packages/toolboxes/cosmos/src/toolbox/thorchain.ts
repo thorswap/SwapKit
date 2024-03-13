@@ -47,11 +47,15 @@ const secp256k1HdWalletFromMnemonic =
 
 const exportSignature = (signature: Uint8Array) => base64.encode(signature);
 
-const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
+const signMultisigTx = async (
+  wallet: Secp256k1HdWallet,
+  tx: string,
+  chain: Chain.THORChain | Chain.Maya,
+) => {
   const { msgs, accountNumber, sequence, chainId, fee, memo } = JSON.parse(tx);
 
   const address = (await wallet.getAccounts())[0].address;
-  const aminoTypes = await createDefaultAminoTypes();
+  const aminoTypes = await createDefaultAminoTypes(chain);
   const registry = await createDefaultRegistry();
   const signingClient = await createOfflineStargateClient(wallet, {
     registry,
@@ -61,7 +65,7 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
   const msgForSigning = [];
 
   for (const msg of msgs) {
-    const signMsg = await convertToSignable(msg);
+    const signMsg = await convertToSignable(msg, chain);
     msgForSigning.push(signMsg);
   }
 
@@ -73,10 +77,13 @@ const signMultisigTx = async (wallet: Secp256k1HdWallet, tx: string) => {
     chainId,
   });
 
-  const bodyBytes = await buildEncodedTxBody({
-    msgs: msgs.map((msg: any) => prepareMessageForBroadcast(msg)),
-    memo,
-  });
+  const bodyBytes = await buildEncodedTxBody(
+    {
+      msgs: msgs.map((msg: any) => prepareMessageForBroadcast(msg)),
+      memo,
+    },
+    chain,
+  );
 
   return { signature: exportSignature(signature), bodyBytes };
 };
@@ -237,7 +244,8 @@ export const BaseThorchainToolbox = ({
     });
 
     const msgSign = await convertToSignable(
-      prepareMessageForBroadcast(buildAminoMsg({ assetValue, from, recipient, memo })),
+      prepareMessageForBroadcast(buildAminoMsg({ assetValue, from, recipient, memo, chain })),
+      chain,
     );
 
     const txResponse = await signingClient.signAndBroadcast(from, [msgSign], defaultFee, memo);
@@ -261,13 +269,13 @@ export const BaseThorchainToolbox = ({
     buildTransaction,
     buildEncodedTxBody,
     prepareMessageForBroadcast,
-    createDefaultAminoTypes,
+    createDefaultAminoTypes: () => createDefaultAminoTypes(chain),
     createDefaultRegistry,
     secp256k1HdWalletFromMnemonic: secp256k1HdWalletFromMnemonic({
       derivationPath,
       prefix,
     }),
-    signMultisigTx,
+    signMultisigTx: (wallet: Secp256k1HdWallet, tx: string) => signMultisigTx(wallet, tx, chain),
     broadcastMultisigTx: broadcastMultisigTx({ prefix, rpcUrl }),
     createMultisig,
     importSignature,

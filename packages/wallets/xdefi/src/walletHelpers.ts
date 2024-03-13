@@ -77,7 +77,12 @@ const transaction = async ({
   params: TransactionParams[] | any;
   chain: Chain;
 }): Promise<string> => {
-  const client = method === "deposit" ? window.xfi?.thorchain : getXDEFIProvider(chain);
+  const client =
+    method === "deposit"
+      ? chain === Chain.Maya
+        ? window.xfi?.mayachain
+        : window.xfi?.thorchain
+      : getXDEFIProvider(chain);
 
   return new Promise<string>((resolve, reject) => {
     // @ts-expect-error xdefi types mess with different providers
