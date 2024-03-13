@@ -77,13 +77,11 @@ const signMultisigTx = async (
     chainId,
   });
 
-  const bodyBytes = await buildEncodedTxBody(
-    {
-      msgs: msgs.map((msg: any) => prepareMessageForBroadcast(msg)),
-      memo,
-    },
+  const bodyBytes = await buildEncodedTxBody({
     chain,
-  );
+    msgs: msgs.map((msg: any) => prepareMessageForBroadcast(msg)),
+    memo,
+  });
 
   return { signature: exportSignature(signature), bodyBytes };
 };

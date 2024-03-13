@@ -176,6 +176,7 @@ const getToolbox = async ({
         const signature: any = await signRequest(signDoc);
 
         const bodyBytes = await buildEncodedTxBody({
+          chain,
           msgs: msgs.map(prepareMessageForBroadcast),
           memo: memo || "",
         });

@@ -299,7 +299,7 @@ const getToolbox = async ({
         const { accountNumber, sequence = "0" } = account;
 
         const msgs = recursivelyOrderKeys([
-          buildAminoMsg({ from: address, assetValue, memo, ...rest }),
+          buildAminoMsg({ chain, from: address, assetValue, memo, ...rest }),
         ]);
 
         // get tx signing msg
@@ -319,6 +319,7 @@ const getToolbox = async ({
         if (!signatures) throw new Error("tx signing failed");
 
         const bodyBytes = await buildEncodedTxBody({
+          chain,
           msgs: msgs.map(prepareMessageForBroadcast),
           memo,
         });

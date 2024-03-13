@@ -174,22 +174,21 @@ export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
   };
 };
 
-export const buildEncodedTxBody = async (
-  transaction: {
-    msgs: MsgSendForBroadcast[] | MsgDepositForBroadcast[];
-    memo: string;
-  },
-  chain: Chain.THORChain | Chain.Maya,
-) => {
+export const buildEncodedTxBody = async ({
+  chain,
+  memo,
+  msgs,
+}: {
+  msgs: MsgSendForBroadcast[] | MsgDepositForBroadcast[];
+  memo: string;
+  chain: Chain.THORChain | Chain.Maya;
+}) => {
   const registry = await createDefaultRegistry();
   const aminoTypes = await createDefaultAminoTypes(chain);
 
   const signedTxBody: TxBodyEncodeObject = {
     typeUrl: "/cosmos.tx.v1beta1.TxBody",
-    value: {
-      messages: transaction.msgs.map((msg) => aminoTypes.fromAmino(msg)),
-      memo: transaction.memo,
-    },
+    value: { memo, messages: msgs.map((msg) => aminoTypes.fromAmino(msg)) },
   };
 
   const encodedTxBody = registry.encode(signedTxBody);

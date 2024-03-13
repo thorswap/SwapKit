@@ -1,39 +1,39 @@
-import { SwapKitApi } from '@swapkit/api';
-import { Chain } from '@swapkit/types';
-import fs from 'fs-extra';
+import { SwapKitApi } from "@swapkit/api";
+import { Chain } from "@swapkit/types";
+import fs from "fs-extra";
 
 const getTokens = async () => {
-  SwapKitApi.getTokenlistProviders().then((providers) => {
-    providers.forEach(async ({ provider }) => {
-      if (provider.includes('whitelist')) return;
+  const providers = await SwapKitApi.getTokenlistProviders();
 
-      try {
-        const tokenList = await SwapKitApi.getTokenList(provider);
+  for (const provider of providers) {
+    if (provider.includes("whitelist")) return;
 
-        const tokens = tokenList.tokens
-          .map(({ address, chain, identifier, decimals, logoURL }) => ({
-            address,
-            chain: chain === 'ARBITRUM' ? Chain.Arbitrum : chain,
-            identifier: identifier.startsWith('ARBITRUM.')
-              ? identifier.replace('ARBITRUM', Chain.Arbitrum)
-              : identifier,
-            decimals,
-            logoURL,
-          }))
-          .sort((a, b) => a.identifier.localeCompare(b.identifier));
+    try {
+      const tokenList = await SwapKitApi.getTokenList(provider);
 
-        tokenList.tokens = tokens;
+      const tokens = tokenList.tokens
+        .map(({ address, chain, identifier, decimals, logoURL }) => ({
+          address,
+          chain: chain === "ARBITRUM" ? Chain.Arbitrum : chain,
+          identifier: identifier.startsWith("ARBITRUM.")
+            ? identifier.replace("ARBITRUM", Chain.Arbitrum)
+            : identifier,
+          decimals,
+          logoURL,
+        }))
+        .sort((a, b) => a.identifier.localeCompare(b.identifier));
 
-        fs.outputFile(
-          `./src/tokenLists/${provider}.ts`,
-          `export const list = ${JSON.stringify(tokenList)} as const;`,
-          { flag: 'w' },
-        );
-      } catch (e) {
-        console.error(provider);
-      }
-    });
-  });
+      tokenList.tokens = tokens;
+
+      fs.outputFile(
+        `./src/tokenLists/${provider}.ts`,
+        `export const list = ${JSON.stringify(tokenList)} as const;`,
+        { flag: "w" },
+      );
+    } catch (e) {
+      console.error(provider);
+    }
+  }
 };
 
 getTokens();

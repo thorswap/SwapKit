@@ -109,7 +109,7 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Bitcoin:
-    case Chain.Dash
+    case Chain.Dash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       const { getToolboxByChain } = await import("@swapkit/toolbox-utxo");
