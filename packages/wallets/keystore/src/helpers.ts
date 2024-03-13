@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { generateMnemonic } from "@scure/bip39";
+import { generateMnemonic, validateMnemonic } from "@scure/bip39";
 import { wordlist } from "@scure/bip39/wordlists/english";
 import { blake2bFinal, blake2bInit, blake2bUpdate } from "blakejs";
 
@@ -91,9 +91,12 @@ export const encryptToKeyStore = async (phrase: string, password: string) => {
   };
 };
 
-export const generatePhrase = (size = 12) => {
-  const entropy = size === 12 ? 128 : 256;
-  return generateMnemonic(wordlist, entropy);
+export const generatePhrase = (size: 12 | 24 = 12) => {
+  return generateMnemonic(wordlist, size === 12 ? 128 : 256);
+};
+
+export const validatePhrase = (phrase: string) => {
+  return validateMnemonic(phrase, wordlist);
 };
 
 export const decryptFromKeystore = async (keystore: Keystore, password: string) => {
