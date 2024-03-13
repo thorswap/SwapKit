@@ -1,4 +1,9 @@
-import type { ErrorKeys, QuoteRoute, ThornameRegisterParam } from "@swapkit/helpers";
+import type {
+  ErrorKeys,
+  MayanameRegisterParam,
+  QuoteRoute,
+  ThornameRegisterParam,
+} from "@swapkit/helpers";
 import {
   AssetValue,
   SwapKitError,
@@ -35,7 +40,8 @@ import { lowercasedContractAbiMapping } from "../aggregator/contracts/index.ts";
 import { getSwapInParams } from "../aggregator/getSwapParams.ts";
 
 import { getExplorerAddressUrl, getExplorerTxUrl } from "../helpers/explorerUrls.ts";
-import { getInboundData, getMimirData } from "../helpers/thornode.ts";
+import { getMayaMimirData } from "../helpers/mayanode.js";
+import { getThorInboundData, getThorMimirData } from "../helpers/thornode.ts";
 import type {
   CoreTxParams,
   EVMWallet,
@@ -614,6 +620,15 @@ export class SwapKitCore<T = ""> {
       memo: getMemoFor(MemoType.THORNAME_REGISTER, param),
     });
 
+  registerMayaname = ({
+    assetValue,
+    ...param
+  }: MayanameRegisterParam & { assetValue: AssetValue }) =>
+    this.#mayachainTransfer({
+      assetValue,
+      memo: getMemoFor(MemoType.THORNAME_REGISTER, param),
+    });
+
   extend = ({ wallets, config, apis = {}, rpcUrls = {} }: ExtendParams<T>) => {
     try {
       for (const wallet of wallets) {
@@ -726,7 +741,7 @@ export class SwapKitCore<T = ""> {
         return { gas_rate: "0", router: "", address: "", halted: false, chain };
 
       default: {
-        const inboundData = await getInboundData(this.stagenet);
+        const inboundData = await getThorInboundData(this.stagenet);
         const chainAddressData = inboundData.find((item) => item.chain === chain);
 
         if (!chainAddressData) throw new SwapKitError("core_inbound_data_not_found");
@@ -819,7 +834,24 @@ export class SwapKitCore<T = ""> {
     assetValue: AssetValue;
     memo: string;
   }) => {
-    const mimir = await getMimirData(this.stagenet);
+    const mimir = await getThorMimirData(this.stagenet);
+
+    // check if trading is halted or not
+    if (mimir.HALTCHAINGLOBAL >= 1 || mimir.HALTTHORCHAIN >= 1) {
+      throw new SwapKitError("core_chain_halted");
+    }
+
+    return this.deposit({ assetValue, recipient: "", memo });
+  };
+
+  #mayachainTransfer = async ({
+    memo,
+    assetValue,
+  }: {
+    assetValue: AssetValue;
+    memo: string;
+  }) => {
+    const mimir = await getMayaMimirData(this.stagenet);
 
     // check if trading is halted or not
     if (mimir.HALTCHAINGLOBAL >= 1 || mimir.HALTTHORCHAIN >= 1) {

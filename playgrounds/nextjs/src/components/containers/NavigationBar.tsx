@@ -15,6 +15,7 @@ import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 const items = [
   { name: "Swap", href: "/" },
   { name: "Send", href: "/send" },
+  { name: "MAYAName", href: "/mayaname" },
   // { name: "TNS", href: "/tns" },
 ];
 
@@ -115,7 +116,7 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
 
           <DropdownMenuContent className="max-w-[400px] z-auto">
             <div className="flex flex-row flex-wrap bg-slate-900 p-4 gap-3">
-              {[...UTXOChains, ...EVMChains, ...CosmosChains].map((chain) => (
+              {AllChains.map((chain) => (
                 <div key={chain} className="flex w-[70px] justify-between items-center">
                   <span
                     className={

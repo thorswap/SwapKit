@@ -18,14 +18,14 @@ type InboundAddressData = {
   router: string;
 }[];
 
-export const getThorInboundData = (stagenet: boolean) => {
-  const baseUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
+export const getMayaInboundData = (stagenet: boolean) => {
+  const baseUrl = stagenet ? ApiUrl.MayanodeStagenet : ApiUrl.MayanodeMainnet;
 
-  return RequestClient.get<InboundAddressData>(`${baseUrl}/thorchain/inbound_addresses`);
+  return RequestClient.get<InboundAddressData>(`${baseUrl}/mayachain/inbound_addresses`);
 };
 
-export const getThorMimirData = (stagenet: boolean) => {
-  const baseUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
+export const getMayaMimirData = (stagenet: boolean) => {
+  const baseUrl = stagenet ? ApiUrl.MayanodeStagenet : ApiUrl.MayanodeMainnet;
 
-  return RequestClient.get<Record<string, number>>(`${baseUrl}/thorchain/mimir`);
+  return RequestClient.get<Record<string, number>>(`${baseUrl}/mayachain/mimir`);
 };

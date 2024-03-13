@@ -18,7 +18,7 @@ describe("getMemoFor", () => {
     }
   });
 
-  describe("for Unbond and Thorname Register", () => {
+  describe("for Unbond and Thorname/Mayaname Register", () => {
     test("returns correct memo for Unbond", () => {
       const result = getMemoFor(MemoType.UNBOND, { address: "ABC123", unbondAmount: 1000000000 });
       expect(result).toBe("UNBOND:ABC123:1000000000");
@@ -32,6 +32,16 @@ describe("getMemoFor", () => {
         owner: "0xDEF456",
       });
       expect(result).toBe("~:thorname:BNB:0xABC123:0xDEF456");
+    });
+
+    test("returns correct memo for Mayaname Register", () => {
+      const result = getMemoFor(MemoType.THORNAME_REGISTER, {
+        name: "mayaname",
+        chain: "BNB",
+        address: "0xABC123",
+        owner: "0xDEF456",
+      });
+      expect(result).toBe("~:mayaname:BNB:0xABC123:0xDEF456");
     });
   });
 
