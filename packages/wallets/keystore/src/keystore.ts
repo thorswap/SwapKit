@@ -44,6 +44,9 @@ const getWalletMethodsForChain = async ({
 
   switch (chain) {
     case Chain.BinanceSmartChain:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon:
     case Chain.Avalanche:
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey) {
@@ -106,6 +109,7 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Bitcoin:
+    case Chain.Dash
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       const { getToolboxByChain } = await import("@swapkit/toolbox-utxo");
