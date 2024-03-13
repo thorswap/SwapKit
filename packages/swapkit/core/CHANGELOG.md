@@ -1,5 +1,20 @@
 # @swapkit/core
 
+## 1.0.0-rc.111
+
+### Patch Changes
+
+- [`f85416f`](https://github.com/thorswap/SwapKit/commit/f85416fe52f979f7ca9da286e72ab1a691f9d92a) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Bump packages with sdk
+
+- Updated dependencies [[`f85416f`](https://github.com/thorswap/SwapKit/commit/f85416fe52f979f7ca9da286e72ab1a691f9d92a), [`ed3c3d4`](https://github.com/thorswap/SwapKit/commit/ed3c3d4a6f6eec40b2b585a52b2947af6883ec73)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.10
+  - @swapkit/toolbox-cosmos@1.0.0-rc.92
+  - @swapkit/helpers@1.0.0-rc.75
+  - @swapkit/tokens@1.0.0-rc.37
+  - @swapkit/toolbox-utxo@1.0.0-rc.83
+  - @swapkit/types@1.0.0-rc.41
+  - @swapkit/toolbox-evm@1.0.0-rc.81
+
 ## 1.0.0-rc.110
 
 ### Patch Changes

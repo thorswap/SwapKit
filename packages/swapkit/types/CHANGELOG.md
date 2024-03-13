@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.41
+
+### Patch Changes
+
+- [`f85416f`](https://github.com/thorswap/SwapKit/commit/f85416fe52f979f7ca9da286e72ab1a691f9d92a) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Bump packages with sdk
+
 ## 1.0.0-rc.40
 
 ### Patch Changes
