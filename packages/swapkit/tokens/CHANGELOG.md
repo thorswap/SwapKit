@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.38
+
+### Patch Changes
+
+- [`6a72433`](https://github.com/thorswap/SwapKit/commit/6a7243378dbe2a75451930759c50d0a5799c1522) Thanks [@chillios-dev](https://github.com/chillios-dev)! - bump deps
+
 ## 1.0.0-rc.37
 
 ### Patch Changes
