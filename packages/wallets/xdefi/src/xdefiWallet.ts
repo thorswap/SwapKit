@@ -202,8 +202,8 @@ const connectXDEFI =
       });
 
       addChain({
-        chain,
         ...walletMethods,
+        chain,
         address,
         balance: [],
         walletType: WalletOption.XDEFI,

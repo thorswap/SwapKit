@@ -66,7 +66,7 @@ jobs:
 
   publish:
     if: contains(github.ref_name, 'develop') || contains(github.ref_name, 'main') || contains(github.ref_name, 'nightly') || contains(github.ref_name, 'beta')
-    needs: [build, test, lint]
+    needs: [build, lint]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

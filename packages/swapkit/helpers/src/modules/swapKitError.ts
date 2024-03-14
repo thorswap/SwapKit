@@ -7,6 +7,7 @@ const errorMessages = {
   core_extend_error: 10003,
   core_inbound_data_not_found: 10004,
   core_approve_asset_address_or_from_not_found: 10005,
+  core_plugin_not_found: 10006,
   core_chain_halted: 10099,
   /**
    * Core - Wallet Connection
@@ -31,7 +32,6 @@ const errorMessages = {
   core_swap_contract_not_supported: 10205,
   core_swap_transaction_error: 10206,
   core_swap_quote_mode_not_supported: 10207,
-  core_swap_provider_not_found: 10208,
   /**
    * Core - Transaction
    */

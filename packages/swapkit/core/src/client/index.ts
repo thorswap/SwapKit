@@ -10,7 +10,8 @@ import type {
   SwapWithRouteParams,
 } from "../types.ts";
 
-export type ProviderName = "thorchain" | "chainflip" | "mayachain";
+export type PluginName = "thorchain" | "chainflip" | "mayachain";
+
 export enum ApproveMode {
   Approve = "approve",
   CheckOnly = "checkOnly",
@@ -20,8 +21,8 @@ export type ApproveReturnType<T extends ApproveMode> = T extends "checkOnly"
   ? Promise<boolean>
   : Promise<string>;
 
-type SwapKitProviders = {
-  [K in ProviderName]?: ProviderMethods;
+type SwapKitPlugins = {
+  [K in PluginName]?: ProviderMethods;
 };
 
 type GenericSwapParams = {
@@ -32,12 +33,12 @@ type GenericSwapParams = {
 
 export type SwapParams = (SwapWithRouteParams | GenericSwapParams) & {
   provider?: {
-    name: ProviderName;
+    name: PluginName;
     config: Record<string, any>;
   };
 };
 
-export type SwapKitReturnType = SwapKitProviders & {
+export type SwapKitReturnType = SwapKitPlugins & {
   getAddress: (chain: Chain) => string;
   getWallet: (chain: Chain) => ChainWallet<Chain> | undefined;
   getWalletWithBalance: (
@@ -60,14 +61,14 @@ export type SwapKitReturnType = SwapKitProviders & {
 };
 
 export type Wallets = { [K in Chain]?: ChainWallet<K> };
-export type AvailableProviders<T> = T | { [K in ProviderName]?: ProviderMethods };
+export type AvailableProviders<T> = T | { [K in PluginName]?: ProviderMethods };
 export type ProviderMethods = {
   swap: (swapParams: SwapParams) => Promise<string>;
   [key: string]: any;
 };
 
-export type SwapKitProvider = ({ wallets, stagenet }: { wallets: Wallets; stagenet?: boolean }) => {
-  name: ProviderName;
+export type SwapKitPlugin = ({ wallets, stagenet }: { wallets: Wallets; stagenet?: boolean }) => {
+  name: PluginName;
   methods: ProviderMethods;
 };
 
@@ -82,12 +83,12 @@ export function SwapKit<
 >({
   stagenet,
   wallets,
-  providers,
+  plugins,
   config = {},
   apis,
   rpcUrls,
 }: {
-  providers: SwapKitProvider[];
+  plugins: SwapKitPlugin[];
   stagenet: boolean;
   wallets: SwapKitWallet[];
   config?: Record<string, any>;
@@ -95,12 +96,12 @@ export function SwapKit<
   rpcUrls: Record<string, any>;
 }): SwapKitReturnType & ConnectWalletMethods & AvailableProviders<ExtendedProviders> {
   const connectedWallets: Wallets = {};
-  const availableProviders: AvailableProviders<ExtendedProviders> = {};
+  const availablePlugins: AvailableProviders<ExtendedProviders> = {};
 
-  for (const provider of providers) {
-    const { name, methods } = provider({ wallets: connectedWallets, stagenet });
+  for (const plugin of plugins) {
+    const { name, methods } = plugin({ wallets: connectedWallets, stagenet });
 
-    availableProviders[name] = methods;
+    availablePlugins[name] = methods;
   }
 
   const connectWalletMethods = wallets.reduce((acc, wallet) => {
@@ -118,19 +119,16 @@ export function SwapKit<
    * @Private
    * Internal helpers
    */
-  function getProvider(providerName?: ProviderName) {
-    const provider =
-      (availableProviders as SwapKitProviders)[providerName as ProviderName] ||
-      Object.values(availableProviders)[0];
+  function getSwapKitPlugin(pluginName?: PluginName) {
+    const plugin =
+      (availablePlugins as SwapKitPlugins)[pluginName as PluginName] ||
+      Object.values(availablePlugins)[0];
 
-    if (!provider) {
-      throw new SwapKitError(
-        "core_swap_provider_not_found",
-        "Could not find the requested provider",
-      );
+    if (!plugin) {
+      throw new SwapKitError("core_plugin_not_found", "Could not find the requested plugin");
     }
 
-    return provider;
+    return plugin;
   }
 
   function addChain(connectWallet: ChainWallet<Chain>) {
@@ -233,14 +231,14 @@ export function SwapKit<
     return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
   }
 
-  function swap({ provider: providerConfig, ...rest }: SwapParams) {
-    const provider = getProvider(providerConfig?.name);
+  function swap({ provider, ...rest }: SwapParams) {
+    const plugin = getSwapKitPlugin(provider?.name);
 
-    return provider.swap({ provider: providerConfig, ...rest });
+    return plugin.swap({ provider, ...rest });
   }
 
   return {
-    ...availableProviders,
+    ...availablePlugins,
     ...connectWalletMethods,
     approveAssetValue,
     getAddress,
