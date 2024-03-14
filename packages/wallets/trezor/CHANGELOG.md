@@ -1,5 +1,17 @@
 # @swapkit/wallet-trezor
 
+## 1.0.0-rc.93
+
+### Patch Changes
+
+- [`6a72433`](https://github.com/thorswap/SwapKit/commit/6a7243378dbe2a75451930759c50d0a5799c1522) Thanks [@chillios-dev](https://github.com/chillios-dev)! - bump deps
+
+- Updated dependencies [[`6a72433`](https://github.com/thorswap/SwapKit/commit/6a7243378dbe2a75451930759c50d0a5799c1522)]:
+  - @swapkit/helpers@1.0.0-rc.76
+  - @swapkit/toolbox-utxo@1.0.0-rc.84
+  - @swapkit/types@1.0.0-rc.42
+  - @swapkit/toolbox-evm@1.0.0-rc.82
+
 ## 1.0.0-rc.92
 
 ### Patch Changes

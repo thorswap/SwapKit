@@ -62,5 +62,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.92"
+  "version": "1.0.0-rc.93"
 }
