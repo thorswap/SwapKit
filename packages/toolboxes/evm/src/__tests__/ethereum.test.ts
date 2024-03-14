@@ -23,7 +23,8 @@ beforeEach<{
   ethers: typeof ethers;
   provider: JsonRpcProvider;
   toolbox: ReturnType<typeof ETHToolbox>;
-}>(async (context: any) => {
+  // biome-ignore lint/nursery/noDoneCallback: <explanation>
+}>(async (context) => {
   context.ethers = hre.artifacts;
   const provider = getProvider(Chain.Ethereum, "http://127.0.0.1:8545/");
   const signer = (await hre.ethers.getImpersonatedSigner(testAddress)) as any;

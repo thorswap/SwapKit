@@ -15,7 +15,8 @@ type AllowedNumberTypes = "bigint" | "number" | "string";
 
 const DEFAULT_DECIMAL = 8;
 const toMultiplier = (decimal: number) => 10n ** BigInt(decimal);
-const decimalFromMultiplier = (multiplier: bigint) => Math.log10(parseFloat(multiplier.toString()));
+const decimalFromMultiplier = (multiplier: bigint) =>
+  Math.log10(Number.parseFloat(multiplier.toString()));
 
 export function formatBigIntToSafeValue({
   value,
@@ -40,10 +41,10 @@ export function formatBigIntToSafeValue({
   let decimalString = valueString.slice(-decimal);
 
   // Check if we need to round up
-  if (parseInt(decimalString[bigIntDecimal]) >= 5) {
+  if (Number.parseInt(decimalString[bigIntDecimal]) >= 5) {
     // Increment the last decimal place and slice off the rest
     decimalString = `${decimalString.substring(0, bigIntDecimal - 1)}${(
-      parseInt(decimalString[bigIntDecimal - 1]) + 1
+      Number.parseInt(decimalString[bigIntDecimal - 1]) + 1
     ).toString()}`;
   } else {
     // Just slice off the extra digits
@@ -175,7 +176,7 @@ export class BigIntArithmetics {
     const [int, dec] = this.getValue("string").split(".");
     const integer = int || "";
     const decimal = dec || "";
-    const valueLength = parseInt(integer) ? integer.length + decimal.length : decimal.length;
+    const valueLength = Number.parseInt(integer) ? integer.length + decimal.length : decimal.length;
 
     if (valueLength <= significantDigits) {
       return this.getValue("string");
@@ -185,14 +186,14 @@ export class BigIntArithmetics {
       return integer.slice(0, significantDigits).padEnd(integer.length, "0");
     }
 
-    if (parseInt(integer)) {
+    if (Number.parseInt(integer)) {
       return `${integer}.${decimal.slice(0, significantDigits - integer.length)}`.padEnd(
         significantDigits - integer.length,
         "0",
       );
     }
 
-    const trimmedDecimal = parseInt(decimal);
+    const trimmedDecimal = Number.parseInt(decimal);
     const slicedDecimal = `${trimmedDecimal}`.slice(0, significantDigits);
 
     return `0.${slicedDecimal.padStart(
@@ -206,11 +207,11 @@ export class BigIntArithmetics {
     const integer = int || "";
     const decimal = dec || "";
 
-    if (parseInt(integer)) {
+    if (Number.parseInt(integer)) {
       return `${integer}.${decimal.slice(0, fixedDigits)}`.padEnd(fixedDigits, "0");
     }
 
-    const trimmedDecimal = parseInt(decimal);
+    const trimmedDecimal = Number.parseInt(decimal);
     const slicedDecimal = `${trimmedDecimal}`.slice(0, fixedDigits);
 
     return `0.${slicedDecimal.padStart(
@@ -249,8 +250,8 @@ export class BigIntArithmetics {
     const parsedValue =
       int || dec
         ? int === "0"
-          ? `${parseFloat(`0.${dec}`)}`.replace(".", decimalSeparator)
-          : `${integer}${parseInt(dec) ? `${decimalSeparator}${dec.slice(0, decimal)}` : ""}`
+          ? `${Number.parseFloat(`0.${dec}`)}`.replace(".", decimalSeparator)
+          : `${integer}${Number.parseInt(dec) ? `${decimalSeparator}${dec.slice(0, decimal)}` : ""}`
         : "0.00";
 
     return `${currencyPosition === "start" ? currency : ""}${parsedValue}${
@@ -275,10 +276,10 @@ export class BigIntArithmetics {
     let decimalString = parsedValueString.slice(-decimalToUseForConversion);
 
     // Check if we need to round up
-    if (parseInt(decimalString[bigIntDecimal]) >= 5) {
+    if (Number.parseInt(decimalString[bigIntDecimal]) >= 5) {
       // Increment the last decimal place and slice off the rest
       decimalString = `${decimalString.substring(0, bigIntDecimal - 1)}${(
-        parseInt(decimalString[bigIntDecimal - 1]) + 1
+        Number.parseInt(decimalString[bigIntDecimal - 1]) + 1
       ).toString()}`;
     } else {
       // Just slice off the extra digits

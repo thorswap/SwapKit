@@ -6,7 +6,7 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/types": "workspace:*",
     "@vitest/coverage-istanbul": "1.3.1",
-    "vite": "5.1.3",
+    "vite": "5.1.6",
     "vitest": "1.3.1"
   },
   "exports": {

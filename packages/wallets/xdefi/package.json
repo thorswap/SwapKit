@@ -2,14 +2,14 @@
   "author": "swapkit-oss",
   "description": "SwapKit Lib xdefi",
   "devDependencies": {
-    "@keplr-wallet/types": "0.12.69",
+    "@keplr-wallet/types": "0.12.74",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
     "@vitest/coverage-istanbul": "1.3.1",
-    "vite": "5.1.3",
+    "vite": "5.1.6",
     "vitest": "1.3.1"
   },
   "exports": {

@@ -27,7 +27,7 @@ const getContractDecimals = async ({ chain, to }: { chain: EVMChain; to: string 
       }),
     });
 
-    return parseInt(BigInt(result).toString());
+    return Number.parseInt(BigInt(result).toString());
   } catch (error) {
     console.error(error);
     return BaseDecimal[chain];

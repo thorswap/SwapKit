@@ -40,8 +40,8 @@ const createKeysForPath = async ({
 }) => {
   if (!(wif || phrase)) throw new Error("Either phrase or wif must be provided");
 
-  const tinySecp = await import("@bitcoinerlab/secp256k1");
-  const factory = ECPairFactory(tinySecp);
+  const secp256k1 = await import("@bitcoinerlab/secp256k1");
+  const factory = ECPairFactory(secp256k1);
   const network = getNetwork(chain);
 
   if (wif) return factory.fromWIF(wif, network);

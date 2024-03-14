@@ -1,9 +1,4 @@
-import type {
-  ErrorKeys,
-  MayanameRegisterParam,
-  QuoteRoute,
-  ThornameRegisterParam,
-} from "@swapkit/helpers";
+import type { ErrorKeys, QuoteRoute, ThornameRegisterParam } from "@swapkit/helpers";
 import {
   AssetValue,
   SwapKitError,
@@ -337,7 +332,8 @@ export class SwapKitCore<T = ""> {
               getChecksumAddressFromAsset({ chain, symbol, ticker }, chain),
               assetValue.getBaseValue("string"),
               params.memo,
-              rest.expiration || parseInt(`${(new Date().getTime() + 15 * 60 * 1000) / 1000}`),
+              rest.expiration ||
+                Number.parseInt(`${(new Date().getTime() + 15 * 60 * 1000) / 1000}`),
             ],
             txOverrides: {
               from: params.from,
@@ -623,7 +619,7 @@ export class SwapKitCore<T = ""> {
   registerMayaname = ({
     assetValue,
     ...param
-  }: MayanameRegisterParam & { assetValue: AssetValue }) =>
+  }: ThornameRegisterParam & { assetValue: AssetValue }) =>
     this.#mayachainTransfer({
       assetValue,
       memo: getMemoFor(MemoType.THORNAME_REGISTER, param),
@@ -692,39 +688,39 @@ export class SwapKitCore<T = ""> {
   /**
    * Wallet connection methods
    */
-  // biome-ignore lint/nursery/useAwait: Extended methods
+  // biome-ignore lint/suspicious/useAwait: Extended methods
   connectXDEFI = async (_chains: Chain[]): Promise<void> => {
     throw new SwapKitError("core_wallet_xdefi_not_installed");
   };
-  // biome-ignore lint/nursery/useAwait: Extended methods
+  // biome-ignore lint/suspicious/useAwait: Extended methods
   connectEVMWallet = async (_chains: Chain[] | Chain, _wallet: EVMWalletOptions): Promise<void> => {
     throw new SwapKitError("core_wallet_evmwallet_not_installed");
   };
-  // biome-ignore lint/nursery/useAwait: Extended methods
+  // biome-ignore lint/suspicious/useAwait: Extended methods
   connectWalletconnect = async (_chains: Chain[], _options?: any): Promise<void> => {
     throw new SwapKitError("core_wallet_walletconnect_not_installed");
   };
-  // biome-ignore lint/nursery/useAwait: Extended methods
+  // biome-ignore lint/suspicious/useAwait: Extended methods
   connectKeepkey = async (_chains: Chain[], _derivationPath: number[][]): Promise<string> => {
     throw new SwapKitError("core_wallet_keepkey_not_installed");
   };
-  // biome-ignore lint/nursery/useAwait: Extended methods
+  // biome-ignore lint/suspicious/useAwait: Extended methods
   connectKeystore = async (_chains: Chain[], _phrase: string): Promise<void> => {
     throw new SwapKitError("core_wallet_keystore_not_installed");
   };
-  // biome-ignore lint/nursery/useAwait: Extended methods
+  // biome-ignore lint/suspicious/useAwait: Extended methods
   connectLedger = async (_chains: Chain, _derivationPath: number[]): Promise<void> => {
     throw new SwapKitError("core_wallet_ledger_not_installed");
   };
-  // biome-ignore lint/nursery/useAwait: Extended methods
+  // biome-ignore lint/suspicious/useAwait: Extended methods
   connectTrezor = async (_chains: Chain, _derivationPath: number[]): Promise<void> => {
     throw new SwapKitError("core_wallet_trezor_not_installed");
   };
-  // biome-ignore lint/nursery/useAwait: Extended methods
+  // biome-ignore lint/suspicious/useAwait: Extended methods
   connectKeplr = async (_chain: Chain): Promise<void> => {
     throw new SwapKitError("core_wallet_keplr_not_installed");
   };
-  // biome-ignore lint/nursery/useAwait: Extended methods
+  // biome-ignore lint/suspicious/useAwait: Extended methods
   connectOkx = async (_chains: Chain[]): Promise<void> => {
     throw new SwapKitError("core_wallet_okx_not_installed");
   };
@@ -816,7 +812,7 @@ export class SwapKitCore<T = ""> {
       router,
       address: poolAddress,
     } = await this.#getInboundDataByChain(assetValue.chain);
-    const feeRate = (parseInt(gas_rate) || 0) * gasFeeMultiplier[feeOptionKey];
+    const feeRate = (Number.parseInt(gas_rate) || 0) * gasFeeMultiplier[feeOptionKey];
 
     return this.deposit({
       assetValue,

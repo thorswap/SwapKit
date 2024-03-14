@@ -109,7 +109,7 @@ export const ThorchainProvider = ({
       router,
       address: poolAddress,
     } = await getInboundDataByChain(assetValue.chain);
-    const feeRate = (parseInt(gas_rate) || 0) * gasFeeMultiplier[feeOptionKey];
+    const feeRate = (Number.parseInt(gas_rate) || 0) * gasFeeMultiplier[feeOptionKey];
     return deposit({
       assetValue,
       recipient: poolAddress,
@@ -561,7 +561,8 @@ export const ThorchainProvider = ({
               getChecksumAddressFromAsset({ chain, symbol, ticker }, chain),
               assetValue.getBaseValue("string"),
               params.memo,
-              rest.expiration || parseInt(`${(new Date().getTime() + 15 * 60 * 1000) / 1000}`),
+              rest.expiration ||
+                Number.parseInt(`${(new Date().getTime() + 15 * 60 * 1000) / 1000}`),
             ],
             txOverrides: {
               from: params.from,

@@ -1,8 +1,8 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@swapkit/types": "workspace:*",
-    "@swapkit/helpers": "workspace:*"
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/types": "workspace:*"
   },
   "description": "SwapKit Lib thorchain",
   "devDependencies": {
@@ -11,7 +11,7 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "vite": "5.1.3"
+    "vite": "5.1.6"
   },
   "exports": {
     ".": {

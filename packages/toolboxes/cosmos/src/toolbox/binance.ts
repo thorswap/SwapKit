@@ -101,7 +101,7 @@ const prepareTransaction = async (
     chainId: ChainId.Binance,
     memo: memo,
     msg,
-    sequence: typeof sequence !== "number" ? parseInt(sequence) : sequence,
+    sequence: typeof sequence !== "number" ? Number.parseInt(sequence) : sequence,
     source: 0,
   });
 };

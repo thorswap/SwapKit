@@ -33,11 +33,7 @@
       "correctness": { "all": true },
       "security": { "all": true },
       "suspicious": { "all": true, "noExplicitAny": "off" },
-      "nursery": {
-        "noUnusedImports": "warn",
-        "useAwait": "warn",
-        "useImportType": "error"
-      }
+      "nursery": { "recommended": true }
     }
   }
 }

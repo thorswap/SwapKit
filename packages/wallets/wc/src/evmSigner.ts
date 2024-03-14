@@ -27,7 +27,7 @@ class WalletconnectSigner extends AbstractSigner {
     this.address = "";
   }
 
-  // biome-ignore lint/nursery/useAwait: fulfil implementation type
+  // biome-ignore lint/suspicious/useAwait: fulfil implementation type
   getAddress = async () => {
     if (!this.walletconnect) throw new Error("Missing walletconnect");
     if (!this.address) {

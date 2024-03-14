@@ -18,10 +18,10 @@ export const ethplorerApi = (apiKey = "freekey") => ({
         symbol: tokenAddress ? `${symbol}-${tokenAddress}` : symbol,
         value: formatBigIntToSafeValue({
           value: BigInt(rawBalance),
-          decimal: parseInt(decimals),
-          bigIntDecimal: parseInt(decimals),
+          decimal: Number.parseInt(decimals),
+          bigIntDecimal: Number.parseInt(decimals),
         }),
-        decimal: parseInt(decimals),
+        decimal: Number.parseInt(decimals),
       }));
   },
 });

@@ -1,4 +1,4 @@
-import crypto from "crypto";
+import crypto from "node:crypto";
 /** ******************************************************************************
  *  (c) 2019 ZondaX GmbH
  *  (c) 2016-2017 Ledger

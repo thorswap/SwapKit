@@ -7,7 +7,7 @@ export const encoderHelper = (data: any): 0 | 1 | 2 => {
   const dataType = typeof data;
 
   if (dataType === "boolean") return 0;
-  if (dataType === "number") return parseInt(`${data}`) === data ? 0 : 1;
+  if (dataType === "number") return Number.parseInt(`${data}`) === data ? 0 : 1;
   if (dataType === "string" || dataType === "object") return 2;
 
   throw new Error(`Invalid type "${dataType}"`); // Is this what's expected?

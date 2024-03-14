@@ -32,7 +32,7 @@ export const getDerivationPathFor = ({ chain, index, type }: Params) => {
 };
 
 export const getWalletFormatFor = (path: string) => {
-  const [purpose, chainId] = path.split("/").map((p) => parseInt(p, 10));
+  const [purpose, chainId] = path.split("/").map((p) => Number.parseInt(p, 10));
 
   // Comment can be removed after testing
   // if (chainId === 145) return purpose === 84 ? 'cashaddr' : 'legacy';

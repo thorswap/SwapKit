@@ -86,7 +86,7 @@ class TrezorSigner extends AbstractSigner {
     const { Transaction, toHexString } = await import("@swapkit/toolbox-evm");
 
     const formattedTx = {
-      chainId: parseInt(ChainToChainId[this.chain]),
+      chainId: Number.parseInt(ChainToChainId[this.chain]),
       to: to.toString(),
       value: toHexString(BigInt(value?.toString() || 0)),
       gasLimit: toHexString(BigInt(gasLimit?.toString() || 0)),
@@ -118,7 +118,7 @@ class TrezorSigner extends AbstractSigner {
 
     const hash = Transaction.from({
       ...formattedTx,
-      nonce: parseInt(formattedTx.nonce),
+      nonce: Number.parseInt(formattedTx.nonce),
       type: isEIP1559 ? 2 : 0,
       signature: { r, s, v: new SwapKitNumber(v).getBaseValue("number") },
     }).serialized;

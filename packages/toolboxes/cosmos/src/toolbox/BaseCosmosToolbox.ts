@@ -22,25 +22,28 @@ export const getFeeRateFromThorswap = async (chainId: ChainId) => {
 export const getAssetFromDenom = (denom: string, amount: string) => {
   switch (denom) {
     case "rune":
-      return AssetValue.fromChainOrSignature(Chain.THORChain, parseInt(amount) / 1e8);
+      return AssetValue.fromChainOrSignature(Chain.THORChain, Number.parseInt(amount) / 1e8);
     case "bnb":
-      return AssetValue.fromChainOrSignature(Chain.Binance, parseInt(amount) / 1e8);
+      return AssetValue.fromChainOrSignature(Chain.Binance, Number.parseInt(amount) / 1e8);
     case "uatom":
     case "atom":
-      return AssetValue.fromChainOrSignature(Chain.Cosmos, parseInt(amount) / 1e6);
+      return AssetValue.fromChainOrSignature(Chain.Cosmos, Number.parseInt(amount) / 1e6);
     case "cacao":
-      return AssetValue.fromChainOrSignature(Chain.Maya, parseInt(amount) / 1e10);
+      return AssetValue.fromChainOrSignature(Chain.Maya, Number.parseInt(amount) / 1e10);
     case "maya":
-      return AssetValue.fromChainOrSignature(`${Chain.Maya}.${Chain.Maya}`, parseInt(amount) / 1e4);
+      return AssetValue.fromChainOrSignature(
+        `${Chain.Maya}.${Chain.Maya}`,
+        Number.parseInt(amount) / 1e4,
+      );
     case "ukuji":
     case "kuji":
-      return AssetValue.fromChainOrSignature(Chain.Kujira, parseInt(amount) / 1e6);
+      return AssetValue.fromChainOrSignature(Chain.Kujira, Number.parseInt(amount) / 1e6);
     case USK_KUJIRA_FACTORY_DENOM:
       // USK on Kujira
-      return AssetValue.fromChainOrSignature(`${Chain.Kujira}.USK`, parseInt(amount) / 1e6);
+      return AssetValue.fromChainOrSignature(`${Chain.Kujira}.USK`, Number.parseInt(amount) / 1e6);
 
     default:
-      return AssetValue.fromString(denom, parseInt(amount) / 1e8);
+      return AssetValue.fromString(denom, Number.parseInt(amount) / 1e8);
   }
 };
 

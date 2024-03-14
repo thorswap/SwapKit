@@ -44,7 +44,7 @@ export function bip32ToAddressNList(initPath: string): number[] {
 
     if (tmp === null) throw new Error("Invalid input");
 
-    ret[i] = parseInt(tmp[1], 10);
+    ret[i] = Number.parseInt(tmp[1], 10);
 
     if (ret[i] >= HARDENED) throw new Error("Invalid child index");
 

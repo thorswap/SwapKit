@@ -196,6 +196,7 @@ const buildTx = async ({
   const psbt = new Psbt({ network: getNetwork(chain) }); // Network-specific
 
   for (const { hash, index, witnessUtxo } of inputs) {
+    // @ts-expect-error TODO: check if it's needed to pass witnessUtxo
     psbt.addInput({ hash, index, witnessUtxo });
   }
 
@@ -232,8 +233,8 @@ const createKeysForPath: BCHMethods["createKeysForPath"] = async ({
   const network = getNetwork(chain);
 
   if (wif) {
-    const tinySecp = await import("@bitcoinerlab/secp256k1");
-    return ECPairFactory(tinySecp).fromWIF(wif, network);
+    const secp256k1 = await import("@bitcoinerlab/secp256k1");
+    return ECPairFactory(secp256k1).fromWIF(wif, network);
   }
   if (!phrase) throw new Error("No phrase provided");
 
@@ -241,7 +242,7 @@ const createKeysForPath: BCHMethods["createKeysForPath"] = async ({
   const keyPair = masterHDNode.derivePath(derivationPath).keyPair;
   // TODO: Figure out same pattern as in BTC
   // const testWif = keyPair.toWIF();
-  // const k = ECPairFactory(tinySecp).fromWIF(testWif, network);
+  // const k = ECPairFactory(secp256k1).fromWIF(testWif, network);
   // const a = payments.p2pkh({ pubkey: k.publicKey, network });
 
   return keyPair;
