@@ -11,7 +11,7 @@ import { ChainId } from "@swapkit/types";
 import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
 
 export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
-  public chain: "eth" | "avax" | "bsc" = "eth";
+  public chain: "eth" | "avax" | "bsc" | "arb" | "matic" | "op" = "eth";
   public chainId: ChainId = ChainId.Ethereum;
   public derivationPath = "";
   // @ts-expect-error `default` typing is wrong
