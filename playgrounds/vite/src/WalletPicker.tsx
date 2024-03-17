@@ -61,6 +61,7 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.Bitcoin,
     Chain.BitcoinCash,
     Chain.Litecoin,
+    Chain.Dash,
     Chain.Dogecoin,
     Chain.Ethereum,
     Chain.Avalanche,
