@@ -1,5 +1,15 @@
 # @swapkit/toolbox-substrate
 
+## 1.0.0-rc.12
+
+### Patch Changes
+
+- Bump for latest
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.77
+  - @swapkit/types@1.0.0-rc.43
+
 ## 1.0.0-rc.11
 
 ### Patch Changes
