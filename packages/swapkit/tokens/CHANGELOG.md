@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.40
+
+### Patch Changes
+
+- Bump for latest
+
 ## 1.0.0-rc.39
 
 ### Patch Changes

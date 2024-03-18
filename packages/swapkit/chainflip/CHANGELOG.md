@@ -1,5 +1,18 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.26
+
+### Patch Changes
+
+- Bump for latest
+
+- Updated dependencies []:
+  - @swapkit/toolbox-substrate@1.0.0-rc.13
+  - @swapkit/helpers@1.0.0-rc.78
+  - @swapkit/types@1.0.0-rc.44
+  - @swapkit/toolbox-evm@1.0.0-rc.84
+  - @swapkit/core@1.0.0-rc.114
+
 ## 1.0.0-rc.25
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.78
+
+### Patch Changes
+
+- Bump for latest
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.40
+  - @swapkit/types@1.0.0-rc.44
+  - @swapkit/api@1.0.0-rc.45
+
 ## 1.0.0-rc.77
 
 ### Patch Changes

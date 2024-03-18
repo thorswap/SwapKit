@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.44
+
+### Patch Changes
+
+- Bump for latest
+
 ## 1.0.0-rc.43
 
 ### Patch Changes
