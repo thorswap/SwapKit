@@ -24,17 +24,14 @@ The result contains a list of providers like the following:
 ````
 ```
 [
-    "KYBER",
     "ONEINCH",
     "SUSHISWAP",
     "THORCHAIN",
     "UNISWAPV2",
     "UNISWAPV3",
-    "ZEROX",
     "ONEINCH-AVAX",
     "PANGOLIN",
     "TRADERJOE",
-    "KYBER-AVAX",
     "WOOFI-AVAX",
     "PANCAKESWAPV2-BSC"
 ]
