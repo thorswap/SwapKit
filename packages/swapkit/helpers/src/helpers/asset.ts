@@ -1,6 +1,7 @@
 import { RequestClient } from "@swapkit/api";
 import type { EVMChain } from "@swapkit/types";
 import { BaseDecimal, Chain, ChainToRPC, EVMChains, FeeOption } from "@swapkit/types";
+import type { TokenNames } from "../types.ts";
 
 const getDecimalMethodHex = "0x313ce567";
 
@@ -194,3 +195,27 @@ export const filterAssets = (
       !potentialScamRegex.test(assetString) && evmAssetHasAddress(assetString) && value !== "0"
     );
   });
+
+export async function findAssetBy(
+  params: { chain: EVMChain; contract: string } | { identifier: `${Chain}.${string}` },
+) {
+  const tokenPackages = await import("@swapkit/tokens");
+
+  for (const tokenList of Object.values(tokenPackages)) {
+    for (const { identifier, chain: tokenChain, ...rest } of tokenList.tokens) {
+      if ("identifier" in params && identifier === params.identifier) {
+        return identifier as TokenNames;
+      }
+
+      if (
+        "address" in rest &&
+        "chain" in params &&
+        tokenChain === params.chain &&
+        rest.address.toLowerCase() === params.contract.toLowerCase()
+      )
+        return identifier as TokenNames;
+    }
+  }
+
+  return;
+}

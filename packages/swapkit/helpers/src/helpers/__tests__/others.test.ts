@@ -1,6 +1,8 @@
 import { describe, expect, test } from "vitest";
+import { Chain } from "@swapkit/types";
 
 import { derivationPathToString, getTHORNameCost, validateTHORName } from "../others.ts";
+import { findAssetBy } from "../asset.ts";
 
 describe("derivationPathToString", () => {
   test("should return the correct string for a full path", () => {
@@ -56,4 +58,29 @@ describe("validateTHORName", () => {
       expect(result).toBe(expected);
     });
   }
+});
+
+describe("getAssetBy", () => {
+  test("find asset by identifier", async () => {
+    const assetByIdentifier = await findAssetBy({ identifier: "ETH.ETH" });
+    expect(assetByIdentifier).toBe("ETH.ETH");
+  });
+
+  test("find asset by chain and contract", async () => {
+    const assetByChainAndContract = await findAssetBy({
+      chain: Chain.Ethereum,
+      contract: "0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48",
+    });
+    expect(assetByChainAndContract).toBe("ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48");
+  });
+
+  test("return undefined if asset can't be found", async () => {
+    const assetByIdentifier = await findAssetBy({ identifier: "ARB.NOTEXISTINGTOKEN" });
+    const assetByChainAndContract = await findAssetBy({
+      chain: Chain.Ethereum,
+      contract: "NOTFOUND",
+    });
+    expect(assetByIdentifier).toBe(undefined);
+    expect(assetByChainAndContract).toBe(undefined);
+  });
 });
