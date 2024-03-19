@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.79
+
+### Patch Changes
+
+- [#673](https://github.com/thorswap/SwapKit/pull/673) [`ee359df`](https://github.com/thorswap/SwapKit/commit/ee359df9c984ea984c0dcb0f58b94ba6037608b6) Thanks [@towanTG](https://github.com/towanTG)! - Adds helper method to find asset my partial info
+
 ## 1.0.0-rc.78
 
 ### Patch Changes
