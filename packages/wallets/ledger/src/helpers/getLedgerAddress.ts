@@ -26,7 +26,7 @@ export const getLedgerAddress = async ({
     case Chain.Avalanche:
     case Chain.Polygon:
     case Chain.Arbitrum:
-    case Chain.Optimism {
+    case Chain.Optimism: {
       return (ledgerClient as EVMLedgerClients).getAddress();
     }
 
