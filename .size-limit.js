@@ -3,7 +3,7 @@ const sizeMap = {
   xs: "10 KB",
   s: "50 KB",
   m: "100 KB",
-  l: "250 MB",
+  l: "250 KB",
   xl: "1 MB",
   xxl: "2 MB",
 
@@ -52,7 +52,7 @@ module.exports = [
   ...getSizeFor("wallets/keystore", "l"),
   ...getSizeFor("wallets/ledger", "xxl"),
   ...getSizeFor("wallets/okx", "xs"),
-  ...getSizeFor("wallets/trezor", "m"),
+  ...getSizeFor("wallets/trezor", "l"),
   ...getSizeFor("wallets/wc", "l"),
   ...getSizeFor("wallets/xdefi", "xs"),
 ];
