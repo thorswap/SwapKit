@@ -1,6 +1,7 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
+    "@cosmjs/amino": "0.32.3",
     "@ledgerhq/devices": "8.2.1",
     "@ledgerhq/errors": "6.16.2",
     "@ledgerhq/hw-app-btc": "10.2.2",
@@ -30,10 +31,7 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",

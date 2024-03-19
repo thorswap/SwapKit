@@ -1,14 +1,14 @@
-import {
-  ApproveMode,
-  type ApproveReturnType,
-  type ChainWallet,
-  type CoreTxParams,
-  type EVMWallet,
-  type QuoteRoute,
-  type SwapParams,
-  type SwapWithRouteParams,
-  type ThorchainWallet,
+import type {
+  ApproveReturnType,
+  ChainWallet,
+  CoreTxParams,
+  EVMWallet,
+  QuoteRoute,
+  SwapParams,
+  SwapWithRouteParams,
+  ThorchainWallet,
 } from "@swapkit/core";
+import { ApproveMode } from "@swapkit/core";
 import type { ErrorKeys, ThornameRegisterParam } from "@swapkit/helpers";
 import {
   AssetValue,

@@ -27,10 +27,11 @@
         "noDefaultExport": "off",
         "noImplicitBoolean": "off",
         "useBlockStatements": "off",
-        "useNamingConvention": "off"
+        "useNamingConvention": "off",
+        "useFilenamingConvention": "off"
       },
       "complexity": { "all": true },
-      "correctness": { "all": true },
+      "correctness": { "all": true, "noUndeclaredVariables": "error" },
       "security": { "all": true },
       "suspicious": { "all": true, "noExplicitAny": "off" },
       "nursery": { "recommended": true }

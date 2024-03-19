@@ -1,9 +1,8 @@
-import { KeepKeySdk } from "@keepkey/keepkey-sdk";
 import { setRequestClientConfig } from "@swapkit/helpers";
-import { getProvider, getToolboxByChain } from "@swapkit/toolbox-evm";
 import type { ConnectWalletParams, DerivationPathArray, EVMChain } from "@swapkit/types";
 import { Chain, WalletOption } from "@swapkit/types";
 
+import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
 import { binanceWalletMethods } from "./chains/binance.ts";
 import { cosmosWalletMethods } from "./chains/cosmos.ts";
 import { KeepKeySigner } from "./chains/evm.ts";
@@ -54,6 +53,8 @@ const getWalletMethods = async ({
   ethplorerApiKey,
   blockchairApiKey,
 }: KeepKeyOptions) => {
+  const { getProvider, getToolboxByChain } = await import("@swapkit/toolbox-evm");
+
   switch (chain) {
     case Chain.BinanceSmartChain:
     case Chain.Arbitrum:
@@ -163,6 +164,7 @@ const connectKeepkey =
 
     await checkAndLaunch(3);
 
+    const { KeepKeySdk } = await import("@keepkey/keepkey-sdk");
     // Only build this once for all assets
     const keepKeySdk = await KeepKeySdk.create(keepkeyConfig);
 

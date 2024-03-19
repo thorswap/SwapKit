@@ -1,7 +1,7 @@
 import type BitcoinApp from "@ledgerhq/hw-app-btc";
 import { SwapKitError } from "@swapkit/helpers";
 import type { Network as BTCNetwork, Psbt, UTXOType } from "@swapkit/toolbox-utxo";
-import { networks, toCashAddress } from "@swapkit/toolbox-utxo";
+import { networks } from "@swapkit/toolbox-utxo";
 import { LedgerErrorCode } from "@swapkit/types";
 
 import { BinanceApp } from "../clients/binance/lib.ts";
@@ -122,6 +122,8 @@ export abstract class UTXOLedgerInterface {
         message: `Cannot get ${this.chain} address from ledger derivation path: ${this.derivationPath}`,
       });
     }
+
+    const { toCashAddress } = await import("@swapkit/toolbox-utxo");
 
     return this.chain === "bitcoin-cash" && this.walletFormat === "legacy"
       ? toCashAddress(address).replace(/(bchtest:|bitcoincash:)/, "")

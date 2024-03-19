@@ -1,4 +1,4 @@
-import { resolve } from "path";
+import { resolve } from "node:path";
 import sharedViteConfig from "../../../tools/vite";
 
 import { name, peerDependencies } from "./package.json";
