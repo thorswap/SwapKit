@@ -1,7 +1,6 @@
 import type { GaiaToolbox } from "@swapkit/toolbox-cosmos";
 import type { Eip1193Provider, getWeb3WalletMethods } from "@swapkit/toolbox-evm";
-import type { BTCToolbox, UTXOTransferParams } from "@swapkit/toolbox-utxo";
-import { Psbt } from "@swapkit/toolbox-utxo";
+import type { BTCToolbox, Psbt, UTXOTransferParams } from "@swapkit/toolbox-utxo";
 import { Chain, ChainId, RPCUrl } from "@swapkit/types";
 
 const cosmosTransfer =
@@ -73,7 +72,7 @@ export const getWalletForChain = async ({
     case Chain.Bitcoin: {
       if (!window.okxwallet?.bitcoin) throw new Error("No bitcoin okxwallet found");
 
-      const { BTCToolbox } = await import("@swapkit/toolbox-utxo");
+      const { Psbt, BTCToolbox } = await import("@swapkit/toolbox-utxo");
 
       const wallet = window.okxwallet.bitcoin;
       const address = (await wallet.connect()).address;

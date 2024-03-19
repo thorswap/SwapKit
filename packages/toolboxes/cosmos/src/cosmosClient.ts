@@ -1,5 +1,5 @@
 import type { StdFee } from "@cosmjs/stargate";
-import { base64 } from "@scure/base";
+import { base64, bech32 } from "@scure/base";
 import type { ChainId } from "@swapkit/types";
 
 import type { CosmosSDKClientParams, TransferParams } from "./types.ts";
@@ -37,12 +37,14 @@ export class CosmosClient {
     return base64.encode((await wallet.getAccounts())[0].pubkey);
   };
 
-  checkAddress = async (address: string) => {
+  checkAddress = (address: string) => {
     if (!address.startsWith(this.prefix)) return false;
 
     try {
-      const { normalizeBech32 } = await import("@cosmjs/encoding");
-      return normalizeBech32(address) === address.toLocaleLowerCase();
+      const { prefix, words } = bech32.decode(address);
+      const normalized = bech32.encode(prefix, words);
+
+      return normalized === address.toLocaleLowerCase();
     } catch (_error) {
       return false;
     }

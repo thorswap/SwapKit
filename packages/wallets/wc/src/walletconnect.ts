@@ -124,19 +124,18 @@ const getToolbox = async ({
 
     case Chain.THORChain: {
       const {
-        fromBase64,
-        Int53,
-        createStargateClient,
+        SignMode,
         ThorchainToolbox,
-        encodePubkey,
-        makeAuthInfoBytes,
-        makeSignDoc,
+        TxRaw,
         buildAminoMsg,
         buildEncodedTxBody,
+        createStargateClient,
+        encodePubkey,
+        fromBase64,
         getDefaultChainFee,
+        makeAuthInfoBytes,
+        makeSignDoc,
         prepareMessageForBroadcast,
-        SignMode,
-        TxRaw,
       } = await import("@swapkit/toolbox-cosmos");
       const toolbox = ThorchainToolbox({ stagenet: false });
 
@@ -162,7 +161,7 @@ const getToolbox = async ({
         if (!account.pubkey) throw new Error("Account pubkey not found");
         const { accountNumber, sequence = 0 } = account;
 
-        const msgs = [buildAminoMsg({ assetValue, memo, from: address, ...rest })];
+        const msgs = [buildAminoMsg({ chain, assetValue, memo, from: address, ...rest })];
 
         const signDoc = makeSignDoc(
           msgs,
@@ -180,12 +179,11 @@ const getToolbox = async ({
           msgs: msgs.map(prepareMessageForBroadcast),
           memo: memo || "",
         });
-        const signedGasLimit = Int53.fromString(fee.gas).toNumber();
         const pubkey = encodePubkey(account.pubkey);
         const authInfoBytes = makeAuthInfoBytes(
           [{ pubkey, sequence }],
           fee.amount,
-          signedGasLimit,
+          Number.parseInt(fee.gas),
           undefined,
           undefined,
           SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
