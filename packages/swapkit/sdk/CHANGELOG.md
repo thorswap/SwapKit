@@ -1,5 +1,26 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.135
+
+### Patch Changes
+
+- [#677](https://github.com/thorswap/SwapKit/pull/677) [`5a59dc1`](https://github.com/thorswap/SwapKit/commit/5a59dc1fd8a46cb197e6d33ac5a0d9b5a2591d30) Thanks [@chillios-dev](https://github.com/chillios-dev)! - bump for all with ledger'
+
+- Updated dependencies [[`5a59dc1`](https://github.com/thorswap/SwapKit/commit/5a59dc1fd8a46cb197e6d33ac5a0d9b5a2591d30)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.88
+  - @swapkit/toolbox-cosmos@1.0.0-rc.97
+  - @swapkit/wallet-keystore@1.0.0-rc.110
+  - @swapkit/wallet-keepkey@1.0.0-rc.31
+  - @swapkit/toolbox-utxo@1.0.0-rc.88
+  - @swapkit/wallet-ledger@1.0.0-rc.115
+  - @swapkit/wallet-trezor@1.0.0-rc.97
+  - @swapkit/toolbox-evm@1.0.0-rc.86
+  - @swapkit/wallet-keplr@1.0.0-rc.98
+  - @swapkit/wallet-xdefi@1.0.0-rc.112
+  - @swapkit/core@1.0.0-rc.116
+  - @swapkit/wallet-okx@1.0.0-rc.110
+  - @swapkit/wallet-wc@1.0.0-rc.104
+
 ## 1.0.0-rc.134
 
 ### Patch Changes
