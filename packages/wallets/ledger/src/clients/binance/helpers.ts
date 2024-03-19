@@ -5,6 +5,7 @@ const ab2hexstring = (arr: any) => {
     throw new Error("ab2hexstring expects an array");
   }
   let result = "";
+
   for (let i = 0; i < arr.length; i++) {
     let str = arr[i].toString(16);
     str = str.length === 0 ? "00" : str.length === 1 ? `0${str}` : str;

@@ -15,11 +15,26 @@
     "@swapkit/wallet-wc": "workspace:*",
     "@swapkit/wallet-xdefi": "workspace:*"
   },
+  "peerDependencies": {
+    "@swapkit/core": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*",
+    "@swapkit/wallet-evm-extensions": "workspace:*",
+    "@swapkit/wallet-keepkey": "workspace:*",
+    "@swapkit/wallet-keplr": "workspace:*",
+    "@swapkit/wallet-keystore": "workspace:*",
+    "@swapkit/wallet-ledger": "workspace:*",
+    "@swapkit/wallet-okx": "workspace:*",
+    "@swapkit/wallet-trezor": "workspace:*",
+    "@swapkit/wallet-wc": "workspace:*",
+    "@swapkit/wallet-xdefi": "workspace:*"
+  },
   "description": "SwapKit Lib swapkit-sdk",
   "devDependencies": {
-    "@vitest/coverage-istanbul": "1.3.1",
+    "@vitest/coverage-istanbul": "1.4.0",
     "vite": "5.1.6",
-    "vitest": "1.3.1"
+    "vitest": "1.4.0"
   },
   "exports": {
     ".": {
@@ -28,10 +43,7 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",

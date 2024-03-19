@@ -1,6 +1,5 @@
 import { derivationPathToString, setRequestClientConfig } from "@swapkit/helpers";
 import type { Psbt, UTXOTransferParams, UTXOType } from "@swapkit/toolbox-utxo";
-import { toCashAddress } from "@swapkit/toolbox-utxo";
 import type { ConnectWalletParams, DerivationPathArray } from "@swapkit/types";
 import { Chain, FeeOption, WalletOption } from "@swapkit/types";
 import TrezorConnect from "@trezor/connect-web";
@@ -86,9 +85,12 @@ Params) => {
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       if (!(blockchairApiKey || api)) throw new Error("UTXO API key not found");
+
       const coin = chain.toLowerCase() as "btc" | "bch" | "ltc" | "doge";
 
-      const { getToolboxByChain, BCHToolbox } = await import("@swapkit/toolbox-utxo");
+      const { toCashAddress, getToolboxByChain, BCHToolbox } = await import(
+        "@swapkit/toolbox-utxo"
+      );
 
       const scriptType:
         | {

@@ -7,11 +7,12 @@
   "devDependencies": {
     "@swapkit/tokens": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@vitest/coverage-istanbul": "1.3.1",
+    "@vitest/coverage-istanbul": "1.4.0",
     "vite": "5.1.6",
-    "vitest": "1.3.1"
+    "vitest": "1.4.0"
   },
   "peerDependencies": {
+    "@swapkit/api": "workspace:*",
     "@swapkit/tokens": "workspace:*",
     "@swapkit/types": "workspace:*"
   },
@@ -22,10 +23,7 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",

@@ -1,4 +1,3 @@
-import { base64 } from "@swapkit/toolbox-cosmos";
 import type { DerivationPathArray, GetAddressAndPubKeyResponse } from "@swapkit/types";
 import { NetworkDerivationPath } from "@swapkit/types";
 
@@ -23,6 +22,7 @@ export class THORChainLedger extends CommonLedgerInterface {
 
   connect = async () => {
     await this.checkOrCreateTransportAndLedger();
+    const { base64 } = await import("@swapkit/toolbox-cosmos");
 
     const { compressed_pk, bech32_address }: GetAddressAndPubKeyResponse =
       await this.getAddressAndPubKey();
@@ -74,7 +74,7 @@ export class THORChainLedger extends CommonLedgerInterface {
       {
         pub_key: { type: "tendermint/PubKeySecp256k1", value: this.pubKey },
         sequence,
-        signature: getSignature(signature),
+        signature: await getSignature(signature),
       },
     ];
   };
@@ -91,6 +91,6 @@ export class THORChainLedger extends CommonLedgerInterface {
 
     this.validateResponse(return_code, error_message);
 
-    return getSignature(signature);
+    return await getSignature(signature);
   };
 }

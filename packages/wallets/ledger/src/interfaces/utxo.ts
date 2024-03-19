@@ -1,5 +1,4 @@
 import type { Psbt, UTXOType } from "@swapkit/toolbox-utxo";
-import { Transaction } from "@swapkit/toolbox-utxo";
 
 import type { CreateTransactionArg } from "./types.ts";
 
@@ -14,6 +13,8 @@ export const signUTXOTransaction = async (
   { psbt, inputUtxos, btcApp, derivationPath }: Params,
   options?: Partial<CreateTransactionArg>,
 ) => {
+  const { Transaction } = await import("@swapkit/toolbox-utxo");
+
   const inputs = inputUtxos.map((item) => {
     const utxoTx = Transaction.fromHex(item.txHex || "");
     const splitTx = btcApp.splitTransaction(utxoTx.toHex(), utxoTx.hasWitnesses());

@@ -8,13 +8,6 @@ import type {
   EVMTxParams,
   Eip1193Provider,
 } from "@swapkit/toolbox-evm";
-import {
-  MAX_APPROVAL,
-  createContract,
-  createContractTxObject,
-  isStateChangingCall,
-  toHexString,
-} from "@swapkit/toolbox-evm";
 import { type ChainId, EVMChains, type FeeOption } from "@swapkit/types";
 import { Chain, ChainToChainId, RPCUrl, erc20ABI } from "@swapkit/types";
 
@@ -199,6 +192,8 @@ export const getXdefiMethods = (provider: BrowserProvider) => ({
   }: CallParams): Promise<T> => {
     const contractProvider = provider;
     if (!contractAddress) throw new Error("contractAddress must be provided");
+    const { createContract, createContractTxObject, isStateChangingCall, toHexString } =
+      await import("@swapkit/toolbox-evm");
 
     const isStateChanging = isStateChangingCall(abi, funcName);
 
@@ -227,6 +222,9 @@ export const getXdefiMethods = (provider: BrowserProvider) => ({
     return typeof result?.hash === "string" ? result?.hash : result;
   },
   approve: async ({ assetAddress, spenderAddress, amount, from }: ApproveParams) => {
+    const { MAX_APPROVAL, createContractTxObject, toHexString } = await import(
+      "@swapkit/toolbox-evm"
+    );
     const funcParams = [spenderAddress, BigInt(amount || MAX_APPROVAL)];
     const txOverrides = { from };
 
@@ -249,9 +247,11 @@ export const getXdefiMethods = (provider: BrowserProvider) => ({
       } as any,
     ]);
   },
-  sendTransaction: (tx: EVMTxParams) => {
+  sendTransaction: async (tx: EVMTxParams) => {
     const { from, to, data, value } = tx;
     if (!to) throw new Error("No to address provided");
+
+    const { toHexString } = await import("@swapkit/toolbox-evm");
 
     return provider.send("eth_sendTransaction", [
       {

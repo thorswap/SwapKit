@@ -1,11 +1,10 @@
-import { toBech32 } from "@cosmjs/encoding";
-import { base64, bech32 } from "@scure/base";
 import type { AssetValue } from "@swapkit/helpers";
 import { SwapKitNumber } from "@swapkit/helpers";
 import type { FeeOption } from "@swapkit/types";
 import { BaseDecimal, Chain, ChainId, RPCUrl } from "@swapkit/types";
 
 import { createStargateClient } from "../util.ts";
+import { bech32ToBase64 } from "./addressFormat.ts";
 
 export const DEFAULT_GAS_VALUE = "5000000000";
 
@@ -129,9 +128,3 @@ export const checkBalances = async (
     throw new Error("insufficient funds");
   }
 };
-
-export const bech32ToBase64 = (address: string) =>
-  base64.encode(Uint8Array.from(bech32.fromWords(bech32.decode(address).words)));
-
-export const base64ToBech32 = (address: string, prefix = "thor") =>
-  toBech32(prefix, base64.decode(address));

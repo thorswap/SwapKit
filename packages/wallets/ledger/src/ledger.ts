@@ -275,7 +275,6 @@ const getToolbox = async ({
         getDefaultChainFee,
         encodePubkey,
         fromBase64,
-        Int53,
         makeAuthInfoBytes,
         prepareMessageForBroadcast,
         SignMode,
@@ -324,7 +323,6 @@ const getToolbox = async ({
           memo,
         });
 
-        const signedGasLimit = Int53.fromString(fee.gas).toNumber();
         const pubkey = encodePubkey({
           type: "tendermint/PubKeySecp256k1",
           value: (signer as THORChainLedger)?.pubkey,
@@ -333,7 +331,7 @@ const getToolbox = async ({
         const signedAuthInfoBytes = makeAuthInfoBytes(
           [{ pubkey, sequence: Number(sequence) }],
           fee.amount,
-          signedGasLimit,
+          Number.parseInt(fee.gas),
           undefined,
           undefined,
           SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
