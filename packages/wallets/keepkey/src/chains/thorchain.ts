@@ -25,7 +25,7 @@ export const thorchainWalletMethods = async ({
   const toolbox = ThorchainToolbox({ stagenet: !"smeshnet" });
   const derivationPathString = derivationPath
     ? `m/${derivationPathToString(derivationPath)}`
-    : DerivationPath.THOR;
+    : `${DerivationPath.THOR}/0`;
 
   const { address: fromAddress } = (await sdk.address.thorchainGetAddress({
     address_n: bip32ToAddressNList(derivationPathString),
@@ -38,12 +38,11 @@ export const thorchainWalletMethods = async ({
 
     const account = await toolbox.getAccount(from);
     if (!account) throw new Error("Account not found");
-    if (!account.pubkey) throw new Error("Account pubkey not found");
     const { accountNumber, sequence = 0 } = account;
 
     const isTransfer = recipient && recipient !== "";
 
-    const msg = buildAminoMsg({ from, recipient, assetValue, memo });
+    const msg = buildAminoMsg({ chain: Chain.THORChain, from, recipient, assetValue, memo });
 
     const signDoc = makeSignDoc(
       [msg],
@@ -71,40 +70,28 @@ export const thorchainWalletMethods = async ({
   };
 
   const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
-    try {
-      const stargateClient = await createStargateClient(RPCUrl.THORChain);
-      const signedTransaction = await signTransaction({
-        assetValue,
-        recipient,
-        memo,
-        from: fromAddress,
-      });
-      const { transactionHash } = await stargateClient.broadcastTx(signedTransaction);
+    const stargateClient = await createStargateClient(RPCUrl.THORChain);
+    const signedTransaction = await signTransaction({
+      assetValue,
+      recipient,
+      memo,
+      from: fromAddress,
+    });
+    const { transactionHash } = await stargateClient.broadcastTx(signedTransaction);
 
-      return transactionHash;
-    } catch (e) {
-      // TODO add correct error code
-      console.error(e);
-      throw e;
-    }
+    return transactionHash;
   };
 
   const deposit = async ({ assetValue, memo }: DepositParam) => {
-    try {
-      const stargateClient = await createStargateClient(RPCUrl.THORChain);
-      const signedTransaction = await signTransaction({
-        assetValue,
-        memo,
-        from: fromAddress,
-      });
-      const { transactionHash } = await stargateClient.broadcastTx(signedTransaction);
+    const stargateClient = await createStargateClient(RPCUrl.THORChain);
+    const signedTransaction = await signTransaction({
+      assetValue,
+      memo,
+      from: fromAddress,
+    });
+    const { transactionHash } = await stargateClient.broadcastTx(signedTransaction);
 
-      return transactionHash;
-    } catch (e) {
-      // TODO add correct error code
-      console.error(e);
-      throw e;
-    }
+    return transactionHash;
   };
 
   return { ...toolbox, transfer, deposit, address: fromAddress };

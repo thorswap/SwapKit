@@ -62,7 +62,7 @@ export const utxoWalletMethods = async ({
 
   const derivationPathString = derivationPath
     ? `m/${derivationPathToString(derivationPath)}`
-    : DerivationPath[chain];
+    : `${DerivationPath[chain]}/0`;
 
   const addressInfo = {
     coin: ChainToKeepKeyName[chain],

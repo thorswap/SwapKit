@@ -74,7 +74,7 @@ export type SwapKitPlugin = ({ wallets, stagenet }: { wallets: Wallets; stagenet
 
 export type SwapKitWallet = {
   connectMethodName: string;
-  connect: (params: ConnectWalletParams) => (connectParams: any) => void;
+  connect: (params: ConnectWalletParams) => (connectParams: any) => undefined | string;
 };
 
 export function SwapKit<
