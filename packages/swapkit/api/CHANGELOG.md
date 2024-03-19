@@ -1,5 +1,14 @@
 # @swapkit/api
 
+## 1.0.0-rc.48
+
+### Patch Changes
+
+- [`c046683`](https://github.com/thorswap/SwapKit/commit/c04668374869bffb3dbe5130e2136d158f592678) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Bump for latest
+
+- Updated dependencies [[`c046683`](https://github.com/thorswap/SwapKit/commit/c04668374869bffb3dbe5130e2136d158f592678)]:
+  - @swapkit/types@1.0.0-rc.47
+
 ## 1.0.0-rc.47
 
 ### Patch Changes
