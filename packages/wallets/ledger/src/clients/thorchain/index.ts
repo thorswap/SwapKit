@@ -1,11 +1,10 @@
 import type { DerivationPathArray, GetAddressAndPubKeyResponse } from "@swapkit/types";
 import { NetworkDerivationPath } from "@swapkit/types";
 
-import { CommonLedgerInterface } from "../../interfaces/LedgerInterfaces.ts";
-
+import { CosmosLedgerInterface } from "../../interfaces/CosmosLedgerInterface.ts";
 import { getSignature } from "./utils.ts";
 
-export class THORChainLedger extends CommonLedgerInterface {
+export class THORChainLedger extends CosmosLedgerInterface {
   private pubKey: string | null = null;
 
   public derivationPath: number[];

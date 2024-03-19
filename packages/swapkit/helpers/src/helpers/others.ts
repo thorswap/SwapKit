@@ -29,7 +29,13 @@ export function validateMAYAName(name: string) {
   return !!name.match(regex);
 }
 
-export function derivationPathToString([network, chainId, account, change, index]: number[]) {
+export function derivationPathToString([network, chainId, account, change, index]: [
+  number,
+  number,
+  number,
+  number,
+  number | undefined,
+]) {
   const shortPath = typeof index !== "number";
 
   return `${network}'/${chainId}'/${account}'/${change}${shortPath ? "" : `/${index}`}`;
