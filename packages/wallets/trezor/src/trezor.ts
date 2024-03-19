@@ -9,11 +9,12 @@ import { getEVMSigner } from "./signer/evm.ts";
 export const TREZOR_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
   Chain.Avalanche,
+  Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
+  Chain.Dash,
   Chain.Dogecoin,
   Chain.Ethereum,
-  Chain.BinanceSmartChain,
   Chain.Litecoin,
   Chain.Optimism,
   Chain.Polygon,
@@ -82,11 +83,11 @@ Params) => {
 
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
+    case Chain.Dash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       if (!(blockchairApiKey || api)) throw new Error("UTXO API key not found");
-
-      const coin = chain.toLowerCase() as "btc" | "bch" | "ltc" | "doge";
+      const coin = chain.toLowerCase() as "btc" | "bch" | "ltc" | "doge" | "dash";
 
       const { toCashAddress, getToolboxByChain, BCHToolbox } = await import(
         "@swapkit/toolbox-utxo"

@@ -1,4 +1,5 @@
 import type EthereumApp from "@ledgerhq/hw-app-eth";
+import { derivationPathToString } from "@swapkit/helpers";
 import {
   AbstractSigner,
   type Provider,
@@ -6,20 +7,34 @@ import {
   Transaction,
   type TransactionRequest,
 } from "@swapkit/toolbox-evm";
-import { ChainId } from "@swapkit/types";
+import { ChainId, type DerivationPathArray, NetworkDerivationPath } from "@swapkit/types";
 
 import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
 
-export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
-  public chain: "eth" | "avax" | "bsc" = "eth";
+/**
+ * Has to be a class because of the way the ledger library is structured
+ */
+class EVMLedgerInterface extends AbstractSigner {
   public chainId: ChainId = ChainId.Ethereum;
   public derivationPath = "";
   // @ts-expect-error `default` typing is wrong
   public ledgerApp: InstanceType<typeof EthereumApp> | null = null;
   public ledgerTimeout = 50000;
 
-  constructor(provider: Provider) {
+  constructor({
+    provider,
+    derivationPath = NetworkDerivationPath.OP,
+    chainId = ChainId.Optimism,
+  }: {
+    provider: Provider;
+    derivationPath?: DerivationPathArray | string;
+    chainId?: ChainId;
+  }) {
     super(provider);
+
+    this.chainId = chainId || ChainId.Ethereum;
+    this.derivationPath =
+      typeof derivationPath === "string" ? derivationPath : derivationPathToString(derivationPath);
 
     Object.defineProperty(this, "provider", {
       enumerable: true,
@@ -27,6 +42,13 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
       writable: false,
     });
   }
+
+  connect = (provider: Provider) =>
+    new EVMLedgerInterface({
+      provider,
+      derivationPath: this.derivationPath,
+      chainId: this.chainId,
+    });
 
   checkOrCreateTransportAndLedger = async () => {
     if (this.ledgerApp) return;
@@ -68,6 +90,19 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
     sig.s = `0x${sig.s}`;
     return Signature.from(sig).serialized;
   };
+
+  // TODO: fix typing infer from ethers
+  sendTransaction = async (tx: TransactionRequest): Promise<any> => {
+    if (!this.provider) throw new Error("No provider set");
+
+    const signedTxHex = await this.signTransaction(tx);
+
+    return await this.provider.broadcastTransaction(signedTxHex);
+  };
+
+  signTypedData(): Promise<string> {
+    throw new Error("Method not implemented.");
+  }
 
   signTransaction = async (tx: TransactionRequest) => {
     await this.createTransportAndLedger();
@@ -121,17 +156,24 @@ export abstract class EthereumLikeLedgerInterface extends AbstractSigner {
       signature: { v: Number(BigInt(v)), r: `0x${r}`, s: `0x${s}` },
     }).serialized;
   };
-
-  // TODO: fix typing infer from ethers
-  sendTransaction = async (tx: TransactionRequest): Promise<any> => {
-    if (!this.provider) throw new Error("No provider set");
-
-    const signedTxHex = await this.signTransaction(tx);
-
-    return await this.provider.broadcastTransaction(signedTxHex);
-  };
-
-  signTypedData(): Promise<string> {
-    throw new Error("Method not implemented.");
-  }
 }
+
+type LedgerParams = { provider: Provider; derivationPath?: DerivationPathArray };
+
+export const EthereumLedger = ({ provider, derivationPath }: LedgerParams) =>
+  new EVMLedgerInterface({ chainId: ChainId.Ethereum, provider, derivationPath });
+
+export const AvalancheLedger = ({ provider, derivationPath }: LedgerParams) =>
+  new EVMLedgerInterface({ chainId: ChainId.Avalanche, provider, derivationPath });
+
+export const BinanceSmartChainLedger = ({ provider, derivationPath }: LedgerParams) =>
+  new EVMLedgerInterface({ chainId: ChainId.BinanceSmartChain, provider, derivationPath });
+
+export const ArbitrumLedger = ({ provider, derivationPath }: LedgerParams) =>
+  new EVMLedgerInterface({ chainId: ChainId.Arbitrum, provider, derivationPath });
+
+export const PolygonLedger = ({ provider, derivationPath }: LedgerParams) =>
+  new EVMLedgerInterface({ chainId: ChainId.Polygon, provider, derivationPath });
+
+export const OptimismLedger = ({ provider, derivationPath }: LedgerParams) =>
+  new EVMLedgerInterface({ chainId: ChainId.Optimism, provider, derivationPath });

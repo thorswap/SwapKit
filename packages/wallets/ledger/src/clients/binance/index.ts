@@ -1,11 +1,10 @@
 import type { DerivationPathArray } from "@swapkit/types";
 import { NetworkDerivationPath } from "@swapkit/types";
 
-import { CommonLedgerInterface } from "../../interfaces/LedgerInterfaces.ts";
-
+import { CosmosLedgerInterface } from "../../interfaces/CosmosLedgerInterface.ts";
 import { getAddressFromPublicKey } from "./helpers.ts";
 
-export class BinanceLedger extends CommonLedgerInterface {
+export class BinanceLedger extends CosmosLedgerInterface {
   constructor(derivationPath: DerivationPathArray = NetworkDerivationPath.BNB) {
     super();
     this.chain = "bnb";

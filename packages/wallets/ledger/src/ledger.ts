@@ -4,16 +4,24 @@ import type { UTXOBuildTxParams } from "@swapkit/toolbox-utxo";
 import type { ConnectWalletParams, DerivationPathArray } from "@swapkit/types";
 import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from "@swapkit/types";
 
-import type { AvalancheLedger } from "./clients/avalanche.ts";
 import type { BinanceLedger } from "./clients/binance/index.ts";
-import type { BSCLedger } from "./clients/binancesmartchain.ts";
-import type { BitcoinLedger } from "./clients/bitcoin.ts";
-import type { BitcoinCashLedger } from "./clients/bitcoincash.ts";
 import type { CosmosLedger } from "./clients/cosmos.ts";
-import type { DogecoinLedger } from "./clients/dogecoin.ts";
-import type { EthereumLedger } from "./clients/ethereum.ts";
-import type { LitecoinLedger } from "./clients/litecoin.ts";
+import type {
+  ArbitrumLedger,
+  AvalancheLedger,
+  BinanceSmartChainLedger,
+  EthereumLedger,
+  OptimismLedger,
+  PolygonLedger,
+} from "./clients/evm.ts";
 import type { THORChainLedger } from "./clients/thorchain/index.ts";
+import type {
+  BitcoinCashLedger,
+  BitcoinLedger,
+  DashLedger,
+  DogecoinLedger,
+  LitecoinLedger,
+} from "./clients/utxo.ts";
 import type { LEDGER_SUPPORTED_CHAINS } from "./helpers/index.ts";
 import { getLedgerAddress, getLedgerClient } from "./helpers/index.ts";
 
@@ -74,14 +82,18 @@ const getToolbox = async ({
   address: string;
   chain: (typeof LEDGER_SUPPORTED_CHAINS)[number];
   signer:
-    | AvalancheLedger
+    | ReturnType<typeof ArbitrumLedger>
+    | ReturnType<typeof AvalancheLedger>
+    | ReturnType<typeof BinanceSmartChainLedger>
+    | ReturnType<typeof BitcoinLedger>
+    | ReturnType<typeof BitcoinCashLedger>
+    | ReturnType<typeof DashLedger>
+    | ReturnType<typeof DogecoinLedger>
+    | ReturnType<typeof EthereumLedger>
+    | ReturnType<typeof LitecoinLedger>
+    | ReturnType<typeof OptimismLedger>
+    | ReturnType<typeof PolygonLedger>
     | BinanceLedger
-    | BSCLedger
-    | BitcoinLedger
-    | BitcoinCashLedger
-    | DogecoinLedger
-    | EthereumLedger
-    | LitecoinLedger
     | THORChainLedger
     | CosmosLedger;
   derivationPath?: DerivationPathArray;
@@ -102,7 +114,10 @@ const getToolbox = async ({
           feeRate,
           fetchTxHex: true,
         });
-        const txHex = await (signer as BitcoinLedger).signTransaction(psbt, inputs);
+        const txHex = await (signer as ReturnType<typeof BitcoinLedger>).signTransaction(
+          psbt,
+          inputs,
+        );
 
         return toolbox.broadcastTx(txHex);
       };
@@ -121,7 +136,31 @@ const getToolbox = async ({
           fetchTxHex: true,
         });
 
-        const txHex = await (signer as BitcoinCashLedger).signTransaction(psbt, inputs);
+        const txHex = await (signer as ReturnType<typeof BitcoinCashLedger>).signTransaction(
+          psbt,
+          inputs,
+        );
+
+        return toolbox.broadcastTx(txHex);
+      };
+      return { ...toolbox, transfer };
+    }
+    case Chain.Dash: {
+      const { DASHToolbox } = await import("@swapkit/toolbox-utxo");
+      const toolbox = DASHToolbox(utxoParams);
+      const transfer = async (params: UTXOBuildTxParams) => {
+        const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];
+        const { psbt, inputs } = await toolbox.buildTx({
+          ...params,
+          feeRate,
+          memo: reduceMemo(params.memo),
+          sender: address,
+          fetchTxHex: true,
+        });
+        const txHex = await (signer as ReturnType<typeof DogecoinLedger>).signTransaction(
+          psbt,
+          inputs,
+        );
 
         return toolbox.broadcastTx(txHex);
       };
@@ -139,7 +178,10 @@ const getToolbox = async ({
           sender: address,
           fetchTxHex: true,
         });
-        const txHex = await (signer as DogecoinLedger).signTransaction(psbt, inputs);
+        const txHex = await (signer as ReturnType<typeof DogecoinLedger>).signTransaction(
+          psbt,
+          inputs,
+        );
 
         return toolbox.broadcastTx(txHex);
       };
@@ -157,7 +199,10 @@ const getToolbox = async ({
           sender: address,
           fetchTxHex: true,
         });
-        const txHex = await (signer as LitecoinLedger).signTransaction(psbt, inputs);
+        const txHex = await (signer as ReturnType<typeof LitecoinLedger>).signTransaction(
+          psbt,
+          inputs,
+        );
 
         return toolbox.broadcastTx(txHex);
       };
@@ -239,7 +284,7 @@ const getToolbox = async ({
 
       return ETHToolbox({
         api,
-        signer: signer as EthereumLedger,
+        signer: signer as ReturnType<typeof EthereumLedger>,
         provider: getProvider(Chain.Ethereum, rpcUrl),
         ethplorerApiKey,
       });
@@ -250,7 +295,7 @@ const getToolbox = async ({
 
       return AVAXToolbox({
         api,
-        signer: signer as AvalancheLedger,
+        signer: signer as ReturnType<typeof AvalancheLedger>,
         provider: getProvider(Chain.Avalanche, rpcUrl),
         covalentApiKey,
       });
@@ -261,8 +306,41 @@ const getToolbox = async ({
 
       return BSCToolbox({
         api,
-        signer: signer as BSCLedger,
+        signer: signer as ReturnType<typeof BinanceSmartChainLedger>,
         provider: getProvider(Chain.BinanceSmartChain, rpcUrl),
+        covalentApiKey,
+      });
+    }
+    case Chain.Arbitrum: {
+      if (!covalentApiKey) throw new Error("Covalent API key is not defined");
+      const { ARBToolbox, getProvider } = await import("@swapkit/toolbox-evm");
+
+      return ARBToolbox({
+        api,
+        signer: signer as ReturnType<typeof ArbitrumLedger>,
+        provider: getProvider(Chain.Arbitrum, rpcUrl),
+        covalentApiKey,
+      });
+    }
+    case Chain.Optimism: {
+      if (!covalentApiKey) throw new Error("Covalent API key is not defined");
+      const { OPToolbox, getProvider } = await import("@swapkit/toolbox-evm");
+
+      return OPToolbox({
+        api,
+        signer: signer as ReturnType<typeof OptimismLedger>,
+        provider: getProvider(Chain.Optimism, rpcUrl),
+        covalentApiKey,
+      });
+    }
+    case Chain.Polygon: {
+      if (!covalentApiKey) throw new Error("Covalent API key is not defined");
+      const { MATICToolbox, getProvider } = await import("@swapkit/toolbox-evm");
+
+      return MATICToolbox({
+        api,
+        signer: signer as ReturnType<typeof PolygonLedger>,
+        provider: getProvider(Chain.Polygon, rpcUrl),
         covalentApiKey,
       });
     }

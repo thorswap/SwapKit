@@ -79,7 +79,7 @@ export abstract class UTXOLedgerInterface {
   public addressNetwork: BTCNetwork = networks.bitcoin;
   // @ts-expect-error `default` typing is wrong
   public btcApp: InstanceType<typeof BitcoinApp> | null = null;
-  public chain: "bitcoin-cash" | "bitcoin" | "litecoin" | "dogecoin" = "bitcoin";
+  public chain: "bitcoin-cash" | "bitcoin" | "litecoin" | "dogecoin" | "dash" = "bitcoin";
   public derivationPath = "";
   public ledgerApp: any;
   public additionalSignParams?: Partial<CreateTransactionArg>;

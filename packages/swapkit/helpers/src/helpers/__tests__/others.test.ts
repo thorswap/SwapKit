@@ -1,8 +1,8 @@
-import { describe, expect, test } from "vitest";
 import { Chain } from "@swapkit/types";
+import { describe, expect, test } from "vitest";
 
-import { derivationPathToString, getTHORNameCost, validateTHORName } from "../others.ts";
 import { findAssetBy } from "../asset.ts";
+import { derivationPathToString, getTHORNameCost, validateTHORName } from "../others.ts";
 
 describe("derivationPathToString", () => {
   test("should return the correct string for a full path", () => {

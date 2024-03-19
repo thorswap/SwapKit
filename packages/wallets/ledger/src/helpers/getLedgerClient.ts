@@ -1,19 +1,27 @@
 import type { DerivationPathArray } from "@swapkit/types";
 import { Chain } from "@swapkit/types";
 
-import { AvalancheLedger } from "../clients/avalanche.ts";
 import { BinanceLedger } from "../clients/binance/index.ts";
-import { BSCLedger } from "../clients/binancesmartchain.ts";
-import { BitcoinLedger } from "../clients/bitcoin.ts";
-import { BitcoinCashLedger } from "../clients/bitcoincash.ts";
 import { CosmosLedger } from "../clients/cosmos.ts";
-import { DogecoinLedger } from "../clients/dogecoin.ts";
-import { EthereumLedger } from "../clients/ethereum.ts";
-import { LitecoinLedger } from "../clients/litecoin.ts";
+import {
+  ArbitrumLedger,
+  AvalancheLedger,
+  BinanceSmartChainLedger,
+  EthereumLedger,
+  OptimismLedger,
+  PolygonLedger,
+} from "../clients/evm.ts";
 import { THORChainLedger } from "../clients/thorchain/index.ts";
-
+import {
+  BitcoinCashLedger,
+  BitcoinLedger,
+  DashLedger,
+  DogecoinLedger,
+  LitecoinLedger,
+} from "../clients/utxo.ts";
 import type { LEDGER_SUPPORTED_CHAINS } from "./ledgerSupportedChains.ts";
 
+// @ts-ignore type references
 export const getLedgerClient = async ({
   chain,
   derivationPath,
@@ -29,26 +37,37 @@ export const getLedgerClient = async ({
     case Chain.Cosmos:
       return new CosmosLedger(derivationPath);
     case Chain.Bitcoin:
-      return new BitcoinLedger(derivationPath);
+      return BitcoinLedger(derivationPath);
     case Chain.BitcoinCash:
-      return new BitcoinCashLedger(derivationPath);
+      return BitcoinCashLedger(derivationPath);
+    case Chain.Dash:
+      return DashLedger(derivationPath);
     case Chain.Dogecoin:
-      return new DogecoinLedger(derivationPath);
+      return DogecoinLedger(derivationPath);
     case Chain.Litecoin:
-      return new LitecoinLedger(derivationPath);
+      return LitecoinLedger(derivationPath);
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
-    case Chain.Avalanche: {
+    case Chain.Avalanche:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon: {
       const { getProvider } = await import("@swapkit/toolbox-evm");
       const params = { provider: getProvider(chain), derivationPath };
 
       switch (chain) {
         case Chain.BinanceSmartChain:
-          return new BSCLedger(params);
+          return BinanceSmartChainLedger(params);
         case Chain.Avalanche:
-          return new AvalancheLedger(params);
+          return AvalancheLedger(params);
+        case Chain.Arbitrum:
+          return ArbitrumLedger(params);
+        case Chain.Optimism:
+          return OptimismLedger(params);
+        case Chain.Polygon:
+          return PolygonLedger(params);
         default:
-          return new EthereumLedger(params);
+          return EthereumLedger(params);
       }
     }
   }

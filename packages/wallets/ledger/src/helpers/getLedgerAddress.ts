@@ -23,12 +23,16 @@ export const getLedgerAddress = async ({
 
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
-    case Chain.Avalanche: {
+    case Chain.Avalanche:
+    case Chain.Polygon:
+    case Chain.Arbitrum:
+    case Chain.Optimism: {
       return (ledgerClient as EVMLedgerClients).getAddress();
     }
 
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
+    case Chain.Dash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       await (ledgerClient as UTXOLedgerClients).connect();
