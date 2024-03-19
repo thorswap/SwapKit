@@ -12,6 +12,7 @@
     "vitest": "1.4.0"
   },
   "peerDependencies": {
+    "@swapkit/api": "workspace:*",
     "@swapkit/tokens": "workspace:*",
     "@swapkit/types": "workspace:*"
   },
@@ -22,10 +23,7 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",

@@ -24,22 +24,21 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.es.js",
   "name": "@swapkit/wallet-keystore",
   "peerDependencies": {
+    "@scure/bip39": "1.2.2",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "@swapkit/types": "workspace:*",
+    "blakejs": "1.2.1"
   },
   "react-native": "./src/index.ts",
   "repository": {

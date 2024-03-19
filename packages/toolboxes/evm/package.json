@@ -17,7 +17,8 @@
   },
   "peerDependencies": {
     "@swapkit/helpers": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "@swapkit/types": "workspace:*",
+    "ethers": "6.11.1"
   },
   "exports": {
     ".": {

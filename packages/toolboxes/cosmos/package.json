@@ -28,7 +28,21 @@
     "vite": "5.1.6",
     "vitest": "1.4.0"
   },
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["src/", "dist/"],
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "Apache-2.0",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.es.js",
+  "name": "@swapkit/toolbox-cosmos",
   "peerDependencies": {
+    "@bitcoinerlab/secp256k1": "1.1.1",
     "@cosmjs/amino": "0.32.3",
     "@cosmjs/crypto": "0.32.3",
     "@cosmjs/encoding": "0.32.3",
@@ -46,22 +60,6 @@
     "protobufjs": "7.2.6",
     "protocol-buffers-encodings": "1.2.0"
   },
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "files": [
-    "src/",
-    "dist/"
-  ],
-  "homepage": "https://github.com/thorswap/SwapKit",
-  "license": "Apache-2.0",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.es.js",
-  "name": "@swapkit/toolbox-cosmos",
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
