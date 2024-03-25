@@ -1,18 +1,21 @@
-import { SwapKitApi } from "@swapkit/api";
+import { RequestClient, SwapKitApi, type TokensResponse } from "@swapkit/api";
 import { Chain } from "@swapkit/types";
-import fs from "fs-extra";
 
 const getTokens = async () => {
   const providers = await SwapKitApi.getTokenlistProviders();
 
-  for (const provider of providers) {
+  for (const { provider } of providers) {
     if (provider.includes("whitelist")) return;
 
     try {
-      const tokenList = await SwapKitApi.getTokenList(provider);
+      const tokenList = await RequestClient.get<TokensResponse>(
+        `https://static.thorswap.net/token-list/${provider}.json`,
+      );
 
-      const tokens = tokenList.tokens
-        .map(({ address, chain, identifier, decimals, logoURL }) => ({
+      if (!tokenList) return;
+
+      const tokens = tokenList?.tokens
+        ?.map(({ address, chain, identifier, decimals, logoURL }) => ({
           address,
           chain: chain === "ARBITRUM" ? Chain.Arbitrum : chain,
           identifier: identifier.startsWith("ARBITRUM.")
@@ -23,12 +26,11 @@ const getTokens = async () => {
         }))
         .sort((a, b) => a.identifier.localeCompare(b.identifier));
 
-      tokenList.tokens = tokens;
+      const tokenListWithTokens = { ...tokenList, tokens };
 
-      fs.outputFile(
-        `./src/tokenLists/${provider}.ts`,
-        `export const list = ${JSON.stringify(tokenList)} as const;`,
-        { flag: "w" },
+      await Bun.write(
+        `src/tokenLists/${provider}.ts`,
+        `export const list = ${JSON.stringify(tokenListWithTokens)} as const;`,
       );
     } catch (e) {
       console.error(provider);

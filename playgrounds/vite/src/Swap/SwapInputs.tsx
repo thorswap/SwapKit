@@ -37,7 +37,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
     const recipientAddress = skClient.getAddress(outputAsset.chain);
 
     try {
-      const { routes } = await SwapKitApi.getQuote({
+      const { routes } = await SwapKitApi.getSwapQuote({
         sellAsset: inputAsset.toString(),
         sellAmount: inputAssetValue.toSignificant(inputAssetValue.decimal),
         buyAsset: outputAsset.toString(),
@@ -52,7 +52,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
     }
   }, [inputAssetValue, inputAsset, outputAsset, skClient]);
 
-  const swap = async (route: QuoteRoute, inputAssetValue: AssetValue) => {
+  const swap = async (route: QuoteRoute, inputAssetValue?: AssetValue) => {
     if (!inputAsset || !outputAsset || !inputAssetValue || !skClient) return;
 
     (await skClient.isAssetValueApproved(inputAssetValue, route.approvalTarget))

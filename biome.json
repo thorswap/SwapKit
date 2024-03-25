@@ -16,7 +16,7 @@
     "formatter": {
       "semicolons": "always"
     },
-    "globals": ["NotWorth", "FixMe", "Todo", "React"]
+    "globals": ["Bun", "NotWorth", "FixMe", "Todo", "React"]
   },
   "linter": {
     "enabled": true,
@@ -33,7 +33,7 @@
       "complexity": { "all": true },
       "correctness": { "all": true, "noUndeclaredVariables": "error" },
       "security": { "all": true },
-      "suspicious": { "all": true, "noExplicitAny": "off" },
+      "suspicious": { "all": true },
       "nursery": { "recommended": true }
     }
   }

@@ -46,8 +46,8 @@ export type SwapKitReturnType = SwapKitPlugins & {
     potentialScamFilter?: boolean,
   ) => Promise<ChainWallet<Chain>>;
   getBalance: (chain: Chain, potentialScamFilter?: boolean) => AssetValue[];
-  getExplorerTxUrl: (chain: Chain, txHash: string) => string;
-  getExplorerAddressUrl: (chain: Chain, address: string) => string;
+  getExplorerTxUrl: typeof getTxUrl;
+  getExplorerAddressUrl: typeof getAddressUrl;
   swap: (params: SwapParams) => Promise<string>;
   validateAddress: (params: { address: string; chain: Chain }) =>
     | boolean
@@ -190,12 +190,6 @@ export function SwapKit<
   function getBalance(chain: Chain) {
     return getWallet(chain)?.balance || [];
   }
-  function getExplorerTxUrl(chain: Chain, txHash: string) {
-    return getTxUrl({ chain, txHash });
-  }
-  function getExplorerAddressUrl(chain: Chain, address: string) {
-    return getAddressUrl({ chain, address });
-  }
   /**
    * TODO: Figure out validation without connecting to wallet
    */
@@ -240,11 +234,13 @@ export function SwapKit<
   return {
     ...availablePlugins,
     ...connectWalletMethods,
+
+    getExplorerAddressUrl: getAddressUrl,
+    getExplorerTxUrl: getTxUrl,
+
     approveAssetValue,
     getAddress,
     getBalance,
-    getExplorerAddressUrl,
-    getExplorerTxUrl,
     getWallet,
     getWalletWithBalance,
     isAssetValueApproved,

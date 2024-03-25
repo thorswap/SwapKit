@@ -42,6 +42,9 @@ importers:
       '@turbo/gen':
         specifier: 1.12.5
         version: 1.12.5(@types/node@20.11.29)(typescript@5.4.2)
+      '@types/bun':
+        specifier: 1.0.10
+        version: 1.0.10
       '@types/node':
         specifier: 20.11.29
         version: 20.11.29
@@ -84,16 +87,6 @@ importers:
       ky:
         specifier: 1.2.2
         version: 1.2.2
-    devDependencies:
-      '@vitest/coverage-istanbul':
-        specifier: 1.4.0
-        version: 1.4.0(vitest@1.4.0)
-      vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.29)
-      vitest:
-        specifier: 1.4.0
-        version: 1.4.0(@types/node@20.11.29)
 
   packages/swapkit/chainflip:
     dependencies:
@@ -279,21 +272,9 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../types
-      '@types/fs-extra':
-        specifier: 11.0.4
-        version: 11.0.4
-      '@vitest/coverage-istanbul':
-        specifier: 1.4.0
-        version: 1.4.0(vitest@1.4.0)
-      fs-extra:
-        specifier: 11.2.0
-        version: 11.2.0
-      vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.29)
-      vitest:
-        specifier: 1.4.0
-        version: 1.4.0(@types/node@20.11.29)
+      '@types/bun':
+        specifier: 1.0.10
+        version: 1.0.10
 
   packages/swapkit/types:
     devDependencies:
@@ -8079,6 +8060,12 @@ packages:
     dependencies:
       '@types/node': 20.11.29
 
+  /@types/bun@1.0.10:
+    resolution: {integrity: sha512-Jaz6YYAdm1u3NVlgSyEK+qGmrlLQ20sbWeEoXD64b9w6z/YKYNWlfaphu+xF2Kiy5Tpykm5Q9jIquLegwXx4ng==}
+    dependencies:
+      bun-types: 1.0.33
+    dev: true
+
   /@types/chai-as-promised@7.1.8:
     resolution: {integrity: sha512-ThlRVIJhr69FLlh6IctTXFkmhtP3NpMZ2QGq69StYLyKZFp/HOp1VdKZj7RvfNWYYcJ1xlbLGLLWj1UvP5u/Gw==}
     dependencies:
@@ -8098,7 +8085,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 20.11.29
     dev: false
 
   /@types/crypto-js@4.2.2:
@@ -8120,13 +8107,6 @@ packages:
       '@types/node': 20.11.29
     dev: true
 
-  /@types/fs-extra@11.0.4:
-    resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
-    dependencies:
-      '@types/jsonfile': 6.1.1
-      '@types/node': 20.11.29
-    dev: true
-
   /@types/glob@7.2.0:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
@@ -8139,12 +8119,6 @@ packages:
     dependencies:
       '@types/through': 0.0.33
       rxjs: 6.6.7
-    dev: true
-
-  /@types/jsonfile@6.1.1:
-    resolution: {integrity: sha512-GSgiRCVeapDN+3pqA35IkQwasaCh/0YFH5dEF6S88iDvEn901DjOeH3/QPY+XYP1DFzDZPvIvfeEgk+7br5png==}
-    dependencies:
-      '@types/node': 20.11.29
     dev: true
 
   /@types/lodash@4.17.0:
@@ -8272,6 +8246,12 @@ packages:
     dependencies:
       '@types/node': 20.11.29
     dev: false
+
+  /@types/ws@8.5.10:
+    resolution: {integrity: sha512-vmQSUcfalpIq0R9q7uTo2lXs6eGIpt9wtnLdMv9LVpIjCA/+ufZRozlVoVelIYixx1ugCBKDhn89vnsEGOCx9A==}
+    dependencies:
+      '@types/node': 20.11.29
+    dev: true
 
   /@urql/core@2.3.6(graphql@15.8.0):
     resolution: {integrity: sha512-PUxhtBh7/8167HJK6WqBv6Z0piuiaZHQGYbhwpNL9aIQmLROPEdaUYkY4wh45wPQXcTpnd11l0q3Pw+TI11pdw==}
@@ -9668,6 +9648,13 @@ packages:
     resolution: {integrity: sha512-qwVpFEHNfhYJIzNRBvd2C1kyo6jz3ZSMPyyuR47OPdiKWlbYnZNyDWuyR175qDnAJLiCo5fBBqPb3RiXgWlkOQ==}
     dependencies:
       semver: 7.6.0
+    dev: true
+
+  /bun-types@1.0.33:
+    resolution: {integrity: sha512-L5tBIf9g6rBBkvshqysi5NoLQ9NnhSPU1pfJ9FzqoSfofYdyac3WLUnOIuQ+M5za/sooVUOP2ko+E6Tco0OLIA==}
+    dependencies:
+      '@types/node': 20.11.29
+      '@types/ws': 8.5.10
     dev: true
 
   /busboy@1.6.0:

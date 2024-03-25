@@ -93,6 +93,36 @@ export enum StreamingSwapProgressStatus {
   REFUNDED = 2,
 }
 
+export type QuoteResponse = { quoteId: string; routes: QuoteRoute[] };
+
+export type LoansParams = { address: string; asset: string };
+
+export type LoansResponse = {
+  owner: string;
+  asset: string;
+  debtIssued: string;
+  debtRepaid: string;
+  debtCurrent: string;
+  collateralCurrent: string;
+  collateralDeposited: string;
+  collateralWithdrawn: string;
+  lastOpenHeight: number;
+  ltvPercentage: string;
+};
+
+export type LendingAssetItem = {
+  asset: string;
+  assetDepthAssetAmount: string;
+  runeDepthAssetAmount: string;
+  loanCr: string;
+  loanStatus: "GREEN" | "YELLOW" | "RED";
+  loanCollateral: string;
+  derivedDepthPercentage: string;
+  filledPercentage: string;
+  lendingAvailable: boolean;
+  ltvPercentage: string;
+};
+
 export type StreamingSwapDetails = {
   completed: number | null;
   total: number | null;
@@ -121,7 +151,6 @@ export type TxTrackerLeg = {
   estimatedDuration?: number | null; // null before this leg has started
   status?: TxStatus;
   waitingFor?: string;
-  opaque?: any;
   streamingSwapDetails?: StreamingSwapDetails;
 };
 
@@ -140,14 +169,13 @@ export type QuoteParams = {
   affiliateAddress?: string;
   affiliateBasisPoints?: string;
   buyAsset: string;
+  isAffiliateFeeFlat?: string;
   recipientAddress?: string;
   sellAmount: string;
   sellAsset: string;
   senderAddress?: string;
   slippage: string;
 };
-
-export type QuoteResponse = { quoteId: string; routes: QuoteRoute[] };
 
 export type QuoteRoute = {
   approvalTarget?: string;
@@ -175,7 +203,7 @@ export type QuoteRoute = {
   swaps: Swaps;
   targetAddress: string;
   timeEstimates?: TimeEstimates;
-  transaction?: any;
+  transaction?: Todo;
   streamingSwap?: {
     estimatedTime: number;
     fees: { [k: string]: Fees[] };
@@ -187,28 +215,130 @@ export type QuoteRoute = {
     savingsInUSD: string;
     maxQuantity: number;
     maxIntervalForMaxQuantity: number;
-    transaction?: any;
+    transaction?: Todo;
   };
 };
 
-export interface EVMTransactionDetails {
+export type RepayParams = {
+  repayAsset: string;
+  collateralAsset: string;
+  amountPercentage: string;
+  senderAddress: string;
+  collateralAddress: string;
+  affiliateBasisPoints: string;
+  affiliateAddress: string;
+};
+
+export type RepayStreamingSwap = {
+  inboundAddress: string;
+  outboundDelayBlocks: number;
+  outboundDelaySeconds: number;
+  fees: QuoteRoute["fees"];
+  router: string;
+  expiry: number;
+  memo: string;
+  expectedAmountOut: string;
+  expectedCollateralWithdrawn: string;
+  expectedDebtRepaid: string;
+  repayAssetAmount: string;
+  repayAssetAmountUSD: string;
+  estimatedTime?: number;
+};
+
+export type RepayResponse = {
+  inboundAddress: string;
+  inboundConfirmationBlocks: number;
+  inboundConfirmationSeconds: number;
+  outboundDelayBlocks: number;
+  outboundDelaySeconds: number;
+  fees: { asset: string; liquidity: string; totalBps: number };
+  expiry: number;
+  warning?: string;
+  notes?: string;
+  dustThreshold: string;
+  memo: string;
+  expectedAmountOut: string;
+  expectedCollateralWithdrawn: string;
+  expectedDebtRepaid: string;
+  collateralCurrent: string;
+  repayAssetAmount: string;
+  repayAssetAmountUSD: string;
+  streamingSwap?: RepayStreamingSwap;
+  estimatedTime?: number;
+};
+
+export type BorrowParams = {
+  assetIn: string;
+  assetOut: string;
+  slippage: string;
+  amount: string;
+  senderAddress: string;
+  recipientAddress: string;
+};
+
+export type BorrowCalldata = {
+  amountIn: string;
+  amountOutMin: string;
+  fromAsset: string;
+  memo: string;
+  memoStreamingSwap?: string;
+  recipientAddress: string;
+  toAddress: string;
+  token: string;
+};
+
+export type BorrowStreamingSwap = {
+  estimatedTime: number;
+  expectedCollateralDeposited: string;
+  expectedDebtIssued: string;
+  expectedOutput: string;
+  expectedOutputMaxSlippage: string;
+  expectedOutputMaxSlippageUSD: string;
+  expectedOutputUSD: string;
+  fees: QuoteRoute["fees"];
+  memo: string;
+};
+
+export type BorrowResponse = {
+  amountIn: string;
+  amountOut: string;
+  amountOutMin: string;
+  calldata: BorrowCalldata;
+  complete: boolean;
+  estimatedTime: number;
+  expectedCollateralDeposited: string;
+  expectedDebtIssued: string;
+  expectedOutput: string;
+  expectedOutputMaxSlippage: string;
+  expectedOutputMaxSlippageUSD: string;
+  expectedOutputUSD: string;
+  fees: QuoteRoute["fees"];
+  fromAsset: string;
+  memo: string;
+  recipientAddress: string;
+  route: { meta: { thornodeMeta: { inboundConfirmationSeconds: number; outboundDelay: number } } };
+  streamingSwap?: BorrowStreamingSwap;
+  swaps: QuoteRoute["swaps"];
+  targetAddress: string;
+  toAsset: string;
+};
+
+export type EVMTransactionDetails = {
+  approvalSpender?: string;
+  approvalToken?: string; // not set in case of gas asset
   contractAddress: string;
   contractMethod: string;
   contractParams: string[];
-  contractParamsStreaming: string[];
   contractParamsNames: string[];
-  approvalToken?: string; // not set in case of gas asset
-  approvalSpender?: string;
-}
+  contractParamsStreaming: string[];
+};
 
-export interface TimeEstimates {
+export type TimeEstimates = {
   swapMs: number;
   inboundMs?: number;
   outboundMs?: number;
   streamingMs?: number;
-}
-
-export type TxnParams = { txHash: string };
+};
 
 export type TxnResponse = {
   result: TxTrackerDetails;
@@ -244,47 +374,15 @@ export type TokenlistProvidersResponse = {
   nbTokens: number;
 }[];
 
-type Token = {
-  address: string;
-  chain: string;
-  ticker: string;
-  identifier: string;
-  decimals: number;
-  tokenlist: string;
-  logoURI: string;
+export type GasPriceInfo = {
+  asset: string;
+  units: string;
+  gas: number;
   chainId: string;
+  gasAsset: number;
 };
 
-export type TokensParams = {
-  tokenlist: string;
-};
-
-export type TokensResponse = {
-  name: string;
-  timestamp: string;
-  version: { major: number; minor: number; patch: number };
-  keywords: string[];
-  tokens: Token[];
-};
-
-export type ThornameResponse = ThornameChainItem[];
-
-export type ThornameChainItem = {
-  address: string;
-  chain: string;
-};
-
-export type ThornameParams = {
-  address: string;
-  chain: string;
-};
-
-export type ApiParams =
-  | QuoteParams
-  | TxnParams
-  | CachedPricesParams
-  | TokensParams
-  | ThornameParams;
+export type GasRatesResponse = GasPriceInfo[];
 
 type Calldata = {
   amount: string;

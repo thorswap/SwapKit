@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build-playground": "next build",
     "start": "next start",
     "lint": "biome check --apply ./src"
   },

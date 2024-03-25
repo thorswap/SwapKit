@@ -7,30 +7,17 @@
   "devDependencies": {
     "@swapkit/tokens": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@vitest/coverage-istanbul": "1.4.0",
-    "vite": "5.1.6",
-    "vitest": "1.4.0"
+    "@types/bun": "1.0.10"
   },
   "peerDependencies": {
     "@swapkit/api": "workspace:*",
     "@swapkit/tokens": "workspace:*",
     "@swapkit/types": "workspace:*"
   },
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.js",
   "name": "@swapkit/helpers",
   "react-native": "./src/index.ts",
   "repository": {
@@ -45,6 +32,6 @@
     "test:coverage": "vitest run --coverage"
   },
   "type": "module",
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "version": "1.0.0-rc.81"
 }

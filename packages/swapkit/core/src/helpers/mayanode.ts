@@ -19,7 +19,9 @@ type InboundAddressData = {
 }[];
 
 export const getMayaInboundData = (stagenet: boolean) => {
-  const baseUrl = stagenet ? ApiUrl.MayanodeStagenet : ApiUrl.MayanodeMainnet;
+  const baseUrl = stagenet
+    ? "https://stagenet.mayanode.mayachain.info"
+    : "https://mayanode.mayachain.info";
 
   return RequestClient.get<InboundAddressData>(`${baseUrl}/mayachain/inbound_addresses`);
 };

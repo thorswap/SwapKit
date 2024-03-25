@@ -64,16 +64,16 @@ const requestSwapDepositAddress = async (
         SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
         null,
       ),
-      async (result: any) => {
-        if (!result.status?.isFinalized) return;
+      async ({ status, events }: Todo) => {
+        if (!status?.isFinalized) return;
 
         const {
           event: {
             data: { depositAddress, sourceChainExpiryBlock, destinationAddress, channelId },
           },
-        } = result.events[0].toHuman();
+        } = events[0].toHuman();
 
-        const header = await toolbox.api.rpc.chain.getHeader(result.status.toJSON().finalized);
+        const header = await toolbox.api.rpc.chain.getHeader(status.toJSON().finalized);
 
         resolve({
           depositChannelId: `${header.number}-${chainToChainflipChain.get(

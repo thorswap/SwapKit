@@ -1,7 +1,7 @@
 import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
 import { bech32 } from "@scure/base";
 import { AssetValue, RequestClient, SwapKitNumber } from "@swapkit/helpers";
-import { ApiUrl, BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/types";
+import { BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/types";
 import { ec as EC } from "elliptic";
 
 import { BNBTransaction } from "../binanceUtils/transaction.ts";
@@ -70,7 +70,10 @@ const getFees = async () => {
 };
 
 const getFeeRateFromThorchain = async () => {
-  const respData = await RequestClient.get(`${ApiUrl.ThornodeMainnet}/thorchain/inbound_addresses`);
+  const respData = await RequestClient.get(
+    "https://thornode.thorswap.net/thorchain/inbound_addresses",
+  );
+
   if (!Array.isArray(respData)) throw new Error("bad response from Thornode API");
 
   const chainData = respData.find(
@@ -88,7 +91,7 @@ const sendRawTransaction = (signedBz: string) =>
   }>(`https://node-router.thorswap.net/binance/broadcast_tx_sync?tx=0x${signedBz}`);
 
 const prepareTransaction = async (
-  msg: any,
+  msg: Todo,
   address: string,
   initSequence: string | number | null = null,
   memo = "",

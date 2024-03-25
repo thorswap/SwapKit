@@ -160,10 +160,13 @@ export const BaseThorchainToolbox = ({
 }): ThorchainToolboxType => {
   const isThorchain = chain === Chain.THORChain;
   const chainId = isThorchain ? ChainId.THORChain : ChainId.Maya;
-  const nodeUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
+
   const prefix = `${stagenet ? "s" : ""}${chain.toLowerCase()}`;
   const derivationPath = DerivationPath[chain];
   const rpcUrl = getRPC(chainId, stagenet);
+  const nodeUrl = stagenet
+    ? "https://stagenet-thornode.ninerealms.com"
+    : "https://thornode.thorswap.net";
 
   const client = new CosmosClient({
     server: nodeUrl,
