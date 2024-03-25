@@ -1,16 +1,13 @@
 {
   "$schema": "https://turborepo.org/schema.json",
   "pipeline": {
-    "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**", "node_modules/.cache/**"]
-    },
+    "build": { "dependsOn": ["^build"], "outputs": ["dist/**", "node_modules/.cache/**"] },
     "clean": { "cache": false },
     "lint": {},
     "preview-playground": { "cache": false, "persistent": true },
     "publish": { "dependsOn": ["build"] },
-    "test": { "dependsOn": ["build"] },
-    "test:coverage": { "dependsOn": ["build"] },
+    "test": {},
+    "test:coverage": {},
     "test:watch": {
       "inputs": ["__tests__/**/*.test.ts", "__tests__/**/*.test.tsx"],
       "persistent": true

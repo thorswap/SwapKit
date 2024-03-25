@@ -35,7 +35,8 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "target": "ES2022",
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "types": ["bun-types"]
   },
   "exclude": ["node_modules"]
 }

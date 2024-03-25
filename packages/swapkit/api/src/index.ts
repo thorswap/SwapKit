@@ -1,7 +1,7 @@
-import * as thorswapApiEndpoints from "./thorswapApi/endpoints.ts";
 import * as microgardEndpoints from "./microgard/endpoints.ts";
-import * as thorswapStaticEndpoints from "./thorswapStatic/endpoints.ts";
 import * as thornodeEndpoints from "./thornode/endpoints.ts";
+import * as thorswapApiEndpoints from "./thorswapApi/endpoints.ts";
+import * as thorswapStaticEndpoints from "./thorswapStatic/endpoints.ts";
 
 export * from "./thorswapApi/types.ts";
 export * from "./microgard/types.ts";

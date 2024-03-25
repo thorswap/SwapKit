@@ -1,5 +1,5 @@
 import { RequestClient } from "../requestClient.ts";
-import type { PoolDetail, THORNameDetails, PoolPeriod } from "./types.ts";
+import type { PoolDetail, PoolPeriod, THORNameDetails } from "./types.ts";
 
 const baseUrl = "https://mu.thorswap.net";
 

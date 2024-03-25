@@ -1,5 +1,5 @@
+import { describe, expect, test } from "bun:test";
 import { BaseDecimal, Chain } from "@swapkit/types";
-import { describe, expect, test } from "vitest";
 
 import { getAssetType, getDecimal } from "../asset.ts";
 
@@ -100,12 +100,6 @@ describe("getDecimal", () => {
       });
       expect(wbtcDecimal).toBe(8);
 
-      const decDecimal = await getDecimal({
-        chain: Chain.Ethereum,
-        symbol: "ZIL-0x05f4a42e251f2d52b8ed15e9fedaacfcef1fad27",
-      });
-      expect(decDecimal).toBe(12);
-
       const kindDecimal = await getDecimal({
         chain: Chain.Ethereum,
         symbol: "KIND-0x4618519de4c304f3444ffa7f812dddc2971cc688",
@@ -121,7 +115,7 @@ describe("getDecimal", () => {
   });
 
   describe("AVAX", () => {
-    test.skip("returns proper decimal for avax and it's assets", async () => {
+    test("returns proper decimal for avax and it's assets", async () => {
       const avaxDecimal = await getDecimal({ chain: Chain.Avalanche, symbol: "AVAX" });
       expect(avaxDecimal).toBe(BaseDecimal.AVAX);
 

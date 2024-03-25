@@ -50,7 +50,7 @@ export enum DerivationPath {
   THOR = "m/44'/931'/0'/0",
 }
 
-export type DerivationPathArray = [number, number, number, number, number];
+export type DerivationPathArray = [number, number, number, number, number?];
 
 export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   ARB: [44, 60, 0, 0, 0],

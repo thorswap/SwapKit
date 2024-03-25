@@ -4,7 +4,7 @@ import type { Account } from "@cosmjs/stargate";
 import { base64 } from "@scure/base";
 import type { AssetValue } from "@swapkit/helpers";
 import { RequestClient, SwapKitNumber } from "@swapkit/helpers";
-import { ApiUrl, BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/types";
+import { BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/types";
 
 import { CosmosClient } from "../cosmosClient.ts";
 import {

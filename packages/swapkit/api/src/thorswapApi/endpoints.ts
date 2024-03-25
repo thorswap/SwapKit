@@ -1,19 +1,19 @@
 import { RequestClient } from "../requestClient.ts";
 import type {
-  CachedPricesParams,
-  GasRatesResponse,
-  QuoteParams,
-  QuoteResponse,
-  TokenlistProvidersResponse,
-  TxnResponse,
-  CachedPricesResponse,
-  RepayParams,
-  BorrowResponse,
   BorrowParams,
-  RepayResponse,
+  BorrowResponse,
+  CachedPricesParams,
+  CachedPricesResponse,
+  GasRatesResponse,
+  LendingAssetItem,
   LoansParams,
   LoansResponse,
-  LendingAssetItem,
+  QuoteParams,
+  QuoteResponse,
+  RepayParams,
+  RepayResponse,
+  TokenlistProvidersResponse,
+  TxnResponse,
 } from "./types.ts";
 
 const baseUrl = "https://api.thorswap.finance";

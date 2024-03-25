@@ -1,17 +1,17 @@
-import { Chain } from "@swapkit/types";
-import { describe, expect, test } from "vitest";
+import { describe, expect, test } from "bun:test";
+import { Chain, type DerivationPathArray } from "@swapkit/types";
 
 import { findAssetBy } from "../asset.ts";
 import { derivationPathToString, getTHORNameCost, validateTHORName } from "../others.ts";
 
 describe("derivationPathToString", () => {
   test("should return the correct string for a full path", () => {
-    const path = [1, 2, 3, 4, 5];
+    const path = [1, 2, 3, 4, 5] as DerivationPathArray;
     expect(derivationPathToString(path)).toEqual("1'/2'/3'/4/5");
   });
 
   test("should return the correct string for a short path", () => {
-    const path = [1, 2, 3, 4];
+    const path = [1, 2, 3, 4] as DerivationPathArray;
     expect(derivationPathToString(path)).toEqual("1'/2'/3'/4");
   });
 });

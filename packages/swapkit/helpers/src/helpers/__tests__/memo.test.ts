@@ -1,5 +1,5 @@
+import { describe, expect, test } from "bun:test";
 import { Chain, MemoType } from "@swapkit/types";
-import { describe, expect, test } from "vitest";
 
 import { getMemoFor } from "../memo.ts";
 
@@ -10,7 +10,7 @@ describe("getMemoFor", () => {
       [MemoType.BOND, "BOND:ABC123"],
     ];
 
-    for (const [memoType, expected] of nodeMemos) {
+    for (const [memoType, expected = ""] of nodeMemos) {
       test(`returns correct memo for ${memoType}`, () => {
         const result = getMemoFor(memoType as MemoType, { address: "ABC123" });
         expect(result).toBe(expected);

@@ -1,8 +1,7 @@
 import { nodeResolve } from "@rollup/plugin-node-resolve";
-import { mergeConfig } from "vite";
+import { mergeConfig, defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
-import { defineConfig } from "vitest/config";
 
 // (
 //   filePath: string,
@@ -26,7 +25,7 @@ const beforeWriteFile = (filePath, content) => {
   return { content: modifiedContent, filePath };
 };
 
-/** (name: string) => @type {import('vitest/config').UserConfig} */
+/** (name: string) => @type {import('vite/config').UserConfig} */
 const baseConfig = (name) =>
   defineConfig({
     base: "./",

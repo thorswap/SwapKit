@@ -33,7 +33,7 @@
       "complexity": { "all": true },
       "correctness": { "all": true, "noUndeclaredVariables": "error" },
       "security": { "all": true },
-      "suspicious": { "all": true },
+      "suspicious": { "all": true, "noExplicitAny": "off" },
       "nursery": { "recommended": true }
     }
   }

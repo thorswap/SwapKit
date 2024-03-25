@@ -10,10 +10,9 @@
     "@nomicfoundation/hardhat-toolbox": "5.0.0",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@vitest/coverage-istanbul": "1.4.0",
+    "bun-types": "1.0.35",
     "hardhat": "2.22.1",
-    "vite": "5.1.6",
-    "vitest": "1.4.0"
+    "vite": "5.1.6"
   },
   "peerDependencies": {
     "@swapkit/helpers": "workspace:*",
@@ -27,10 +26,7 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.cjs",
@@ -45,8 +41,8 @@
     "build": "vite build",
     "clean": "rm -rf dist vite.config.ts.* node_modules",
     "lint": "biome check --apply ./src",
-    "test": "vitest --run --retry 3",
-    "test:coverage": "vitest run --coverage"
+    "test": "bun test",
+    "test:coverage": "bun test --coverage"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
