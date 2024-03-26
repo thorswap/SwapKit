@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules",
+    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
     "generate-tokens": "bun run ./src/fetchTokenLists.ts",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test --run'",

@@ -1,5 +1,5 @@
 import react from "@vitejs/plugin-react";
-import { resolve } from "path";
+import { resolve } from "node:path";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 import { defineConfig } from "vite";
 

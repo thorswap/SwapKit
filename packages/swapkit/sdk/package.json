@@ -45,7 +45,7 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build-sdk": "bun run ./build.ts",
+    "build": "bun run ./build.ts",
     "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "type-check": "tsc --noEmit"

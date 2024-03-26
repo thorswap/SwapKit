@@ -16,9 +16,9 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules",
+    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
     "lint": "biome check --apply ./src",
-    "test": "echo 'No tests yet'"
+    "type-check": "tsc --noEmit"
   },
   "type": "module",
   "types": "./src/index.ts",

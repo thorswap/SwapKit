@@ -6,8 +6,6 @@ const sizeMap = {
   l: "50 KB",
   xl: "125 KB",
   xxl: "500 KB",
-
-  sdk: "4 MB",
 };
 
 const getSizeFor = (packagePath, sizeType) => {
@@ -24,13 +22,8 @@ const getSizeFor = (packagePath, sizeType) => {
   return [
     {
       limit: size,
-      path: `./packages/${packagePath}/dist/*.cjs`,
-      name: `@swapkit/${packagePrefix}${packageName} - CommonJS`,
-    },
-    {
-      limit: size,
       path: `./packages/${packagePath}/dist/*.js`,
-      name: `@swapkit/${packagePrefix}${packageName} - ES Modules`,
+      name: `@swapkit/${packagePrefix}${packageName}`,
     },
   ];
 };
@@ -38,10 +31,10 @@ const getSizeFor = (packagePath, sizeType) => {
 module.exports = [
   ...getSizeFor("swapkit/api", "s"),
   ...getSizeFor("swapkit/core", "m"),
-  ...getSizeFor("swapkit/helpers", "s"),
-  ...getSizeFor("swapkit/sdk", "sdk"),
+  ...getSizeFor("swapkit/helpers", "m"),
+  ...getSizeFor("swapkit/sdk", "xxs"),
   ...getSizeFor("swapkit/tokens", "xxl"),
-  ...getSizeFor("swapkit/types", "xs"),
+  ...getSizeFor("swapkit/types", "s"),
 
   ...getSizeFor("toolboxes/cosmos", "l"),
   ...getSizeFor("toolboxes/evm", "xl"),

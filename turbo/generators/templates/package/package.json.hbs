@@ -18,11 +18,11 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules",
+    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test --coverage'",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit"
   },
   "type": "module",
   "types": "./src/index.ts"
