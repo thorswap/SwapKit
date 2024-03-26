@@ -1,6 +1,6 @@
 {
   "author": "swapkit-oss",
-  "description": "SwapKit Lib types",
+  "description": "SwapKit - Types",
   "devDependencies": {
     "bun-types": "1.0.35"
   },

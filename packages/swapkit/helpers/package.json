@@ -1,6 +1,6 @@
 {
   "author": "swapkit-oss",
-  "description": "SwapKit Lib swapkit-helpers",
+  "description": "SwapKit - Helpers",
   "dependencies": {
     "@swapkit/api": "workspace:*"
   },

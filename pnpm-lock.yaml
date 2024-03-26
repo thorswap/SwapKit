@@ -116,6 +116,9 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../types
+      bun-types:
+        specifier: 1.0.35
+        version: 1.0.35
 
   packages/swapkit/core:
     dependencies:
@@ -203,9 +206,9 @@ importers:
         specifier: workspace:*
         version: link:../../wallets/xdefi
     devDependencies:
-      vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.29)
+      bun-types:
+        specifier: 1.0.35
+        version: 1.0.35
 
   packages/swapkit/thorchain:
     dependencies:
@@ -231,9 +234,9 @@ importers:
       '@swapkit/toolbox-utxo':
         specifier: workspace:*
         version: link:../../toolboxes/utxo
-      vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.29)
+      bun-types:
+        specifier: 1.0.35
+        version: 1.0.35
 
   packages/swapkit/tokens:
     devDependencies:

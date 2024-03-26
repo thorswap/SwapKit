@@ -1,6 +1,6 @@
 {
   "author": "swapkit-oss",
-  "description": "SwapKit Lib tokens",
+  "description": "SwapKit - Tokens",
   "devDependencies": {
     "@swapkit/api": "workspace:*",
     "@swapkit/types": "workspace:*",

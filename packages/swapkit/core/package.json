@@ -4,7 +4,7 @@
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*"
   },
-  "description": "SwapKit Lib core",
+  "description": "SwapKit - Core",
   "devDependencies": {
     "@swapkit/tokens": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
@@ -41,7 +41,7 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build": "NODE_OPTIONS=--max_old_space_size=16384 vite build",
+    "build": "bun run ./build.ts",
     "clean": "rm -rf dist vite.config.ts.* node_modules",
     "lint": "biome check --apply ./src",
     "test": "bun test",
