@@ -1,29 +1,20 @@
 {
-  "author": "swapkit-oss",
   "dependencies": {
     "@trezor/connect": "9.2.1",
     "@trezor/connect-web": "9.2.1"
   },
-  "description": "SwapKit Lib trezor",
+  "description": "SwapKit Wallet - Trezor",
   "devDependencies": {
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "vite": "5.1.6"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    }
+    "bun-types": "1.0.35"
   },
   "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.js",
   "name": "@swapkit/wallet-trezor",
   "peerDependencies": {
     "@swapkit/helpers": "workspace:*",
@@ -39,13 +30,13 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build": "vite build",
-    "clean": "rm -rf dist vite.config.ts.* node_modules",
+    "build": "bun run ./build.ts",
+    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test--coverage'"
   },
   "type": "module",
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "version": "1.0.0-rc.98"
 }

@@ -1,6 +1,5 @@
 {
-  "author": "swapkit-oss",
-  "description": "SwapKit Lib xdefi",
+  "description": "SwapKit Wallet - XDEFI",
   "devDependencies": {
     "@keplr-wallet/types": "0.12.74",
     "@swapkit/helpers": "workspace:*",
@@ -8,14 +7,7 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "vite": "5.1.6"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    }
+    "bun-types": "1.0.35"
   },
   "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
@@ -34,13 +26,14 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build": "vite build",
-    "clean": "rm -rf dist vite.config.ts.* node_modules",
+    "build": "bun run ./build.ts",
+    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
-    "test:coverage": "echo 'bun test --coverage'"
+    "test:coverage": "echo 'bun test --coverage'",
+    "type-check": "tsc --noEmit"
   },
   "type": "module",
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "version": "1.0.0-rc.113"
 }

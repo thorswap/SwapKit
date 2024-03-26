@@ -7,12 +7,12 @@ import { derivationPathToString, getTHORNameCost, validateTHORName } from "../ot
 describe("derivationPathToString", () => {
   test("should return the correct string for a full path", () => {
     const path = [1, 2, 3, 4, 5] as DerivationPathArray;
-    expect(derivationPathToString(path)).toEqual("1'/2'/3'/4/5");
+    expect(derivationPathToString(path)).toEqual("m/1'/2'/3'/4/5");
   });
 
   test("should return the correct string for a short path", () => {
     const path = [1, 2, 3, 4] as DerivationPathArray;
-    expect(derivationPathToString(path)).toEqual("1'/2'/3'/4");
+    expect(derivationPathToString(path)).toEqual("m/1'/2'/3'/4");
   });
 });
 
@@ -25,7 +25,7 @@ describe("getTHORNameCost", () => {
       [10, 20],
     ];
 
-    for (const [years, expected] of costCases) {
+    for (const [years = 0, expected = 10] of costCases) {
       test(`returns correct ${expected} cost for ${years} years`, () => {
         const result = getTHORNameCost(years);
         expect(result).toBe(expected);
@@ -80,7 +80,7 @@ describe("getAssetBy", () => {
       chain: Chain.Ethereum,
       contract: "NOTFOUND",
     });
-    expect(assetByIdentifier).toBe(undefined);
-    expect(assetByChainAndContract).toBe(undefined);
+    expect(assetByIdentifier).toBeUndefined();
+    expect(assetByChainAndContract).toBeUndefined();
   });
 });

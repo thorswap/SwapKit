@@ -75,26 +75,23 @@ export class AminoTypes {
       .filter(isAminoConverter)
       .filter(([_typeUrl, { aminoType }]) => aminoType === type);
 
-    switch (matches.length) {
-      case 0: {
-        throw new Error(
-          `Amino type identifier '${type}' does not exist in the Amino message type register.`,
-        );
-      }
-      case 1: {
-        const [typeUrl, converter] = matches[0];
-        return {
-          typeUrl: typeUrl,
-          value: converter.fromAmino(value),
-        };
-      }
-      default:
-        throw new Error(
-          `Multiple types are registered with Amino type identifier '${type}': '${matches
-            .map(([key, _value]) => key)
-            .sort()
-            .join("', '")}'. Thus fromAmino cannot be performed.`,
-        );
+    if (matches.length === 0) {
+      throw new Error(
+        `Amino type identifier '${type}' does not exist in the Amino message type register.`,
+      );
     }
+
+    if (matches.length > 1) {
+      throw new Error(
+        `Multiple types are registered with Amino type identifier '${type}': '${matches
+          .map(([key, _value]) => key)
+          .sort()
+          .join("', '")}'. Thus fromAmino cannot be performed.`,
+      );
+    }
+
+    const [typeUrl, converter] = matches[0] as [string, AminoConverter];
+
+    return { typeUrl, value: converter.fromAmino(value) };
   }
 }

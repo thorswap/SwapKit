@@ -7,6 +7,7 @@ packages/**/.turbo
 internal/**/.turbo
 .turbo/cookies
 .turbo-cache
+*.tsbuildinfo
 
 .env
 *.mjs

@@ -9,6 +9,7 @@ export {
   makeAuthInfoBytes,
   type TxBodyEncodeObject,
 } from "@cosmjs/proto-signing";
+export { Secp256k1Signature } from "@cosmjs/crypto";
 export { GasPrice } from "@cosmjs/stargate";
 export { base64, bech32 } from "@scure/base";
 export { SignMode } from "cosmjs-types/cosmos/tx/signing/v1beta1/signing.js";

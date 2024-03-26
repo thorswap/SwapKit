@@ -19,7 +19,7 @@
   "scripts": {
     "build": "bun run ./build.ts",
     "clean": "rm -rf .turbo dist node_modules",
-    "generate-tokens": "bun run ./fetchTokenLists.ts",
+    "generate-tokens": "bun run ./src/fetchTokenLists.ts",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test --run'",
     "test:coverage": "echo 'bun test --coverage'",

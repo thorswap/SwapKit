@@ -85,10 +85,7 @@ export const getWalletForChain = async ({
       };
 
       const transfer = (transferParams: UTXOTransferParams) => {
-        return toolbox.transfer({
-          ...transferParams,
-          signTransaction,
-        });
+        return toolbox.transfer({ ...transferParams, signTransaction });
       };
 
       return { ...toolbox, transfer, address };
@@ -96,10 +93,14 @@ export const getWalletForChain = async ({
 
     case Chain.Cosmos: {
       if (!window.okxwallet?.keplr) throw new Error("No cosmos okxwallet found");
-      const wallet = window.okxwallet.keplr;
+      const { keplr: wallet } = window.okxwallet;
+
       await wallet.enable(ChainId.Cosmos);
-      const [{ address }] = await wallet.getOfflineSignerOnlyAmino(ChainId.Cosmos).getAccounts();
+      const accounts = await wallet.getOfflineSignerOnlyAmino(ChainId.Cosmos).getAccounts();
+      if (!accounts?.[0]) throw new Error("No cosmos account found");
+
       const { GaiaToolbox } = await import("@swapkit/toolbox-cosmos");
+      const [{ address }] = accounts;
 
       return {
         address,

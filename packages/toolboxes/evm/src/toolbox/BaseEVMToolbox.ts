@@ -143,7 +143,7 @@ const call = async <T>(
     return typeof result?.hash === "string" ? result?.hash : result;
   }
 
-  const result = await contract[funcName](...funcParams);
+  const result = await contract[funcName]?.(...funcParams);
 
   return typeof result?.hash === "string" ? result?.hash : result;
 };

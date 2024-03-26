@@ -101,9 +101,9 @@ export const getXDEFIAddress = async (chain: Chain) => {
 
     const offlineSigner = provider.getOfflineSigner(chainId);
 
-    const [{ address }] = await offlineSigner.getAccounts();
+    const [item] = await offlineSigner.getAccounts();
 
-    return address;
+    return item?.address;
   }
 
   // @ts-expect-error
@@ -217,7 +217,7 @@ export const getXdefiMethods = (provider: BrowserProvider) => ({
     }
     const contract = await createContract(contractAddress, abi, contractProvider);
 
-    const result = await contract[funcName](...funcParams);
+    const result = await contract[funcName]?.(...funcParams);
 
     return typeof result?.hash === "string" ? result?.hash : result;
   },

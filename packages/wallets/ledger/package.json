@@ -1,5 +1,4 @@
 {
-  "author": "swapkit-oss",
   "dependencies": {
     "@ledgerhq/devices": "8.2.1",
     "@ledgerhq/errors": "6.16.2",
@@ -10,7 +9,7 @@
     "@ledgerhq/hw-transport-webusb": "6.28.4",
     "ripemd160": "2.0.2"
   },
-  "description": "SwapKit Lib ledger",
+  "description": "SwapKit Wallet - Ledger",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "15.2.3",
     "@swapkit/helpers": "workspace:*",
@@ -19,20 +18,12 @@
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
     "@types/ripemd160": "2.0.3",
-    "vite": "5.1.6"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    }
+    "bun-types": "1.0.35"
   },
   "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.js",
   "name": "@swapkit/wallet-ledger",
   "peerDependencies": {
     "@ledgerhq/devices": "^8.2.1",
@@ -55,13 +46,14 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build": "vite build",
-    "clean": "rm -rf dist vite.config.ts.* node_modules",
+    "build": "bun run ./build.ts",
+    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
-    "test:coverage": "echo 'bun test --coverage'"
+    "test:coverage": "echo 'bun test --coverage'",
+    "type-check": "tsc --noEmit"
   },
   "type": "module",
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "version": "1.0.0-rc.116"
 }

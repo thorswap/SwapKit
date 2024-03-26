@@ -116,7 +116,7 @@ Params) => {
         const { success, payload } = await (
           TrezorConnect as unknown as TrezorConnect.TrezorConnect
         ).getAddress({
-          path: `m/${derivationPathToString(path)}`,
+          path: derivationPathToString(path),
           coin,
         });
 

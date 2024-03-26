@@ -1,6 +1,5 @@
+import type { CreateTransactionArg } from "@ledgerhq/hw-app-btc/lib-es/createTransaction";
 import type { Psbt, UTXOType } from "@swapkit/toolbox-utxo";
-
-import type { CreateTransactionArg } from "./types.ts";
 
 type Params = {
   psbt: Psbt;

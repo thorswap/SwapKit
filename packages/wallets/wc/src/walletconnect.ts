@@ -74,6 +74,7 @@ const getToolbox = async ({
 
       return toolbox({
         provider,
+        // @ts-expect-error TODO: fix this
         signer,
         ethplorerApiKey: ethplorerApiKey as string,
         covalentApiKey,
@@ -265,6 +266,7 @@ const getWalletconnect = async (
     console.error(e);
   } finally {
     if (modal) {
+      // @ts-expect-error wrong typing
       modal.closeModal();
     }
   }

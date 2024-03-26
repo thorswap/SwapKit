@@ -1,30 +1,21 @@
 {
-  "author": "thorswap",
   "dependencies": {
     "@keepkey/keepkey-sdk": "0.2.57",
     "@pioneer-platform/pioneer-coins": "8.1.86"
   },
-  "description": "THORSwap Lib keepkey",
+  "description": "SwapKit Wallet - KeepKey",
   "devDependencies": {
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "vite": "5.1.6"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    }
+    "bun-types": "1.0.35"
   },
   "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.js",
   "name": "@swapkit/wallet-keepkey",
   "peerDependencies": {
     "@keepkey/keepkey-sdk": "^0.2.57",
@@ -41,13 +32,14 @@
   "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
-    "build": "vite build",
+    "build": "bun run ./build.ts",
     "clean": "rm -rf dist node_modules",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
-    "test:coverage": "echo 'bun test --coverage'"
+    "test:coverage": "echo 'bun test --coverage'",
+    "type-check": "tsc --noEmit"
   },
   "type": "module",
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "version": "1.0.0-rc.32"
 }

@@ -8,7 +8,7 @@ function parseChain(chain: string) {
 
 function parseIdentifier(identifier: string) {
   if (identifier.startsWith("ARBITRUM.")) {
-    return identifier.replace("ARBITRUM.", Chain.Arbitrum);
+    return identifier.replace("ARBITRUM.", `${Chain.Arbitrum}.`);
   }
   return identifier;
 }

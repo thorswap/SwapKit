@@ -31,10 +31,8 @@ class TrezorSigner extends AbstractSigner {
 
   getAddress = async () => {
     if (!this.address) {
-      const result = await (
-        TrezorConnect as unknown as TrezorConnect.TrezorConnect
-      ).ethereumGetAddress({
-        path: `m/${derivationPathToString(this.derivationPath)}`,
+      const result = await TrezorConnect.ethereumGetAddress({
+        path: derivationPathToString(this.derivationPath),
         showOnTrezor: true,
       });
 
@@ -46,10 +44,8 @@ class TrezorSigner extends AbstractSigner {
   };
 
   signMessage = async (message: string) => {
-    const result = await (
-      TrezorConnect as unknown as TrezorConnect.TrezorConnect
-    ).ethereumSignMessage({
-      path: `m/${derivationPathToString(this.derivationPath)}`,
+    const result = await TrezorConnect.ethereumSignMessage({
+      path: derivationPathToString(this.derivationPath),
       message,
     });
 
@@ -105,10 +101,8 @@ class TrezorSigner extends AbstractSigner {
           }),
     };
 
-    const result = await (
-      TrezorConnect as unknown as TrezorConnect.TrezorConnect
-    ).ethereumSignTransaction({
-      path: `m/${derivationPathToString(this.derivationPath)}`,
+    const result = await TrezorConnect.ethereumSignTransaction({
+      path: derivationPathToString(this.derivationPath),
       transaction: formattedTx,
     });
 

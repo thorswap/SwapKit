@@ -433,9 +433,9 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../../swapkit/types
-      vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.29)
+      bun-types:
+        specifier: 1.0.35
+        version: 1.0.35
 
   packages/wallets/keepkey:
     dependencies:
@@ -461,9 +461,9 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../../swapkit/types
-      vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.29)
+      bun-types:
+        specifier: 1.0.35
+        version: 1.0.35
 
   packages/wallets/keplr:
     devDependencies:
@@ -479,9 +479,9 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../../swapkit/types
-      vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.29)
+      bun-types:
+        specifier: 1.0.35
+        version: 1.0.35
 
   packages/wallets/keystore:
     dependencies:
@@ -513,9 +513,9 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../../swapkit/types
-      vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.29)
+      bun-types:
+        specifier: 1.0.35
+        version: 1.0.35
 
   packages/wallets/ledger:
     dependencies:
@@ -565,9 +565,9 @@ importers:
       '@types/ripemd160':
         specifier: 2.0.3
         version: 2.0.3
-      vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.29)
+      bun-types:
+        specifier: 1.0.35
+        version: 1.0.35
 
   packages/wallets/okx:
     devDependencies:
@@ -586,9 +586,9 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../../swapkit/types
-      vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.29)
+      bun-types:
+        specifier: 1.0.35
+        version: 1.0.35
 
   packages/wallets/trezor:
     dependencies:
@@ -611,9 +611,9 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../../swapkit/types
-      vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.29)
+      bun-types:
+        specifier: 1.0.35
+        version: 1.0.35
 
   packages/wallets/wc:
     dependencies:
@@ -636,9 +636,9 @@ importers:
       '@walletconnect/types':
         specifier: 2.11.3
         version: 2.11.3
-      vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.29)
+      bun-types:
+        specifier: 1.0.35
+        version: 1.0.35
 
   packages/wallets/xdefi:
     devDependencies:
@@ -660,9 +660,9 @@ importers:
       '@swapkit/types':
         specifier: workspace:*
         version: link:../../swapkit/types
-      vite:
-        specifier: 5.1.6
-        version: 5.1.6(@types/node@20.11.29)
+      bun-types:
+        specifier: 1.0.35
+        version: 1.0.35
 
   playgrounds/nextjs:
     dependencies:
