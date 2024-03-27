@@ -11,7 +11,7 @@
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*",
     "bun-types": "1.0.35",
-    "hardhat": "2.22.1"
+    "hardhat": "2.22.2"
   },
   "peerDependencies": {
     "@swapkit/helpers": "workspace:*",

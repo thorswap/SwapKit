@@ -1,15 +1,15 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@polkadot/api": "10.12.3",
-    "@polkadot/api-base": "10.12.3",
+    "@polkadot/api": "10.12.4",
+    "@polkadot/api-base": "10.12.4",
     "@polkadot/keyring": "12.6.2",
     "@polkadot/util": "12.6.2",
     "@polkadot/util-crypto": "12.6.2"
   },
   "description": "SwapKit Lib substrate",
   "devDependencies": {
-    "@polkadot/types": "10.12.3",
+    "@polkadot/types": "10.12.4",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*",
     "bun-types": "1.0.35"

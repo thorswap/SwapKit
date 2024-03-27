@@ -1,12 +1,12 @@
 {
   "dependencies": {
-    "@ledgerhq/devices": "8.2.1",
-    "@ledgerhq/errors": "6.16.2",
-    "@ledgerhq/hw-app-btc": "10.2.2",
-    "@ledgerhq/hw-app-cosmos": "6.29.4",
-    "@ledgerhq/hw-app-eth": "6.35.6",
-    "@ledgerhq/hw-transport": "6.30.4",
-    "@ledgerhq/hw-transport-webusb": "6.28.4",
+    "@ledgerhq/devices": "8.2.2",
+    "@ledgerhq/errors": "6.16.3",
+    "@ledgerhq/hw-app-btc": "10.2.3",
+    "@ledgerhq/hw-app-cosmos": "6.29.5",
+    "@ledgerhq/hw-app-eth": "6.35.7",
+    "@ledgerhq/hw-transport": "6.30.5",
+    "@ledgerhq/hw-transport-webusb": "6.28.5",
     "ripemd160": "2.0.2"
   },
   "description": "SwapKit Wallet - Ledger",

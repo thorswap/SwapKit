@@ -1,8 +1,8 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@chainflip/sdk": "1.1.5",
-    "@polkadot/api": "10.12.3",
+    "@chainflip/sdk": "1.2.2",
+    "@polkadot/api": "10.12.4",
     "@polkadot/keyring": "12.6.2",
     "@polkadot/util": "12.6.2"
   },
