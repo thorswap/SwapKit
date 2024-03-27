@@ -178,7 +178,7 @@ export type QuoteRoute = {
   transaction?: any;
   streamingSwap?: {
     estimatedTime: number;
-    fees: { [k: string]: Fees[] };
+    fees: Fees;
     expectedOutput: string;
     expectedOutputMaxSlippage: string;
     expectedOutputUSD: string;
