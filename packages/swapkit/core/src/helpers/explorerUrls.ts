@@ -1,6 +1,6 @@
 import { Chain, ChainToExplorerUrl } from "@swapkit/types";
 
-export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Chain }) => {
+export function getExplorerTxUrl({ chain, txHash }: { txHash: string; chain: Chain }) {
   const baseUrl = ChainToExplorerUrl[chain];
 
   switch (chain) {
@@ -31,9 +31,9 @@ export const getExplorerTxUrl = ({ chain, txHash }: { txHash: string; chain: Cha
     default:
       throw new Error(`Unsupported chain: ${chain}`);
   }
-};
+}
 
-export const getExplorerAddressUrl = ({ chain, address }: { address: string; chain: Chain }) => {
+export function getExplorerAddressUrl({ chain, address }: { address: string; chain: Chain }) {
   const baseUrl = ChainToExplorerUrl[chain];
 
   switch (chain) {
@@ -60,4 +60,4 @@ export const getExplorerAddressUrl = ({ chain, address }: { address: string; cha
     default:
       throw new Error(`Unsupported chain: ${chain}`);
   }
-};
+}

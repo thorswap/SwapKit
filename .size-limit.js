@@ -8,7 +8,7 @@ const sizeMap = {
   xxl: "500 KB",
 };
 
-const getSizeFor = (packagePath, sizeType) => {
+function getSizeFor(packagePath, sizeType) {
   const size = sizeMap[sizeType];
   if (!size) throw new Error(`Unknown size type ${sizeType}`);
   const [, packageName] = packagePath.split("/");
@@ -26,7 +26,7 @@ const getSizeFor = (packagePath, sizeType) => {
       name: `@swapkit/${packagePrefix}${packageName}`,
     },
   ];
-};
+}
 
 module.exports = [
   ...getSizeFor("swapkit/api", "s"),
@@ -36,8 +36,8 @@ module.exports = [
   ...getSizeFor("swapkit/tokens", "xxl"),
   ...getSizeFor("swapkit/types", "s"),
 
-  ...getSizeFor("toolboxes/cosmos", "l"),
-  ...getSizeFor("toolboxes/evm", "xl"),
+  ...getSizeFor("toolboxes/cosmos", "m"),
+  ...getSizeFor("toolboxes/evm", "m"),
   ...getSizeFor("toolboxes/utxo", "m"),
 
   ...getSizeFor("wallets/evm-extensions", "xxs"),
@@ -45,7 +45,7 @@ module.exports = [
   ...getSizeFor("wallets/keystore", "xl"),
   ...getSizeFor("wallets/ledger", "xl"),
   ...getSizeFor("wallets/okx", "xs"),
-  ...getSizeFor("wallets/trezor", "m"),
-  ...getSizeFor("wallets/wc", "m"),
+  ...getSizeFor("wallets/trezor", "xs"),
+  ...getSizeFor("wallets/wc", "xs"),
   ...getSizeFor("wallets/xdefi", "xs"),
 ];

@@ -9,7 +9,7 @@
     "lint": {},
     "preview-playground": { "cache": false, "persistent": true },
     "publish": { "dependsOn": ["build"] },
-    "test": {},
+    "test": { "dependsOn": ["build"] },
     "type-check": { "outputs": ["*.tsbuildinfo"] },
     "test:coverage": {},
     "test:watch": {

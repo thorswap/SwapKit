@@ -1,4 +1,4 @@
-import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, test } from "bun:test";
+import { afterEach, beforeAll, beforeEach, describe, expect, test } from "bun:test";
 import type ethers from "@nomicfoundation/hardhat-ethers";
 import helpers from "@nomicfoundation/hardhat-network-helpers";
 import { AssetValue } from "@swapkit/helpers";
@@ -34,13 +34,6 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await helpers.reset(hre.config.networks.hardhat.forking?.url, block?.number);
-});
-
-afterAll(() => {
-  // To kill hardhat node if it is still running
-  setTimeout(() => {
-    process.exit(0);
-  }, 10000);
 });
 
 describe("Ethereum toolkit", () => {

@@ -208,10 +208,11 @@ const getToolbox = async ({
         return result.transactionHash;
       };
 
-      const transfer = (params: TransferParams) => thorchainTransfer(params);
-      const deposit = (params: DepositParam) => thorchainTransfer(params);
-
-      return { ...toolbox, transfer, deposit };
+      return {
+        ...toolbox,
+        transfer: (params: TransferParams) => thorchainTransfer(params),
+        deposit: (params: DepositParam) => thorchainTransfer(params),
+      };
     }
     default:
       throw new Error("Chain is not supported");

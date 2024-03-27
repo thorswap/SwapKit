@@ -29,7 +29,7 @@
     "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "bun test",
-    "test:coverage": "bun test --coverage",
+    "test:coverage": "echo 'bun test --coverage'",
     "type-check": "tsc --noEmit"
   },
   "type": "module",

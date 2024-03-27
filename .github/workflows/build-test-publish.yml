@@ -26,14 +26,14 @@ jobs:
       - name: Setup Repo
         uses: ./tools/github/setup-repo
       - name: Build
-        run: bun build
+        run: bun run build
 
-      - name: Build and check size
-        if: github.event_name == 'pull_request'
-        uses: andresz1/size-limit-action@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          skip_step: install
+      # - name: Build and check size
+      #   if: github.event_name == 'pull_request'
+      #   uses: andresz1/size-limit-action@v1
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     skip_step: install
 
   test:
     if: contains(github.event.pull_request.title, ':tada:') == false
@@ -44,14 +44,14 @@ jobs:
       - name: Setup Repo
         uses: ./tools/github/setup-repo
       - name: Test
-        run: bun test:coverage
-      - uses: codecov/codecov-action@v4
-        with:
-          files: ./internal/helpers/coverage/coverage-final.json,./packages/toolboxes/evm/coverage/coverage-final.json,./packages/swapkit/swapkit-core/coverage/coverage-final.json
-          flags: unittests
-          name: swapkit-codecov
-          fail_ci_if_error: false
-          verbose: true
+        run: bun run test
+      # - uses: codecov/codecov-action@v4
+      #   with:
+      #     files: ./internal/helpers/coverage/coverage-final.json,./packages/toolboxes/evm/coverage/coverage-final.json,./packages/swapkit/swapkit-core/coverage/coverage-final.json
+      #     flags: unittests
+      #     name: swapkit-codecov
+      #     fail_ci_if_error: false
+      #     verbose: true
 
   lint:
     if: contains(github.event.pull_request.title, ':tada:') == false

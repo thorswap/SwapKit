@@ -1,10 +1,10 @@
 {
+  "overrides": {
+    "axios": "^1.6.8",
+    "json5@<=1.0.1": "^1.0.2",
+    "semver@<=4.3.2": "^7.6.0"
+  },
   "bun": {
-    "overrides": {
-      "axios": "^1.6.8",
-      "json5@<=1.0.1": "^1.0.2",
-      "semver@<=4.3.2": "^7.6.0"
-    },
     "patchedDependencies": {
       "@changesets/assemble-release-plan@6.0.0": "patches/@changesets__assemble-release-plan@6.0.0.patch",
       "@changesets/cli@2.27.1": "patches/@changesets__cli@2.27.1.patch",
@@ -47,13 +47,14 @@
     "playground:next": "bun --cwd ./playgrounds/nextjs",
     "playground:node": "bun --cwd ./playgrounds/node",
     "playground:vite": "bun --cwd ./playgrounds/vite",
-    "postinstall": "lefthook install; bun lint:ws",
+    "postinstall": "lefthook install; bun lint:ws; bun install --yarn --ignore-scripts; bun x patch-package;rm -f yarn.lock",
     "publish-packages": "turbo run build lint type-check --cache-dir=./.turbo-cache && bun version-bump && bun changeset publish",
     "test": "turbo run test --cache-dir=./.turbo-cache --continue",
     "test:coverage": "turbo run test:coverage  --cache-dir=./.turbo-cache --continue",
     "type-check": "turbo run type-check --cache-dir=./.turbo-cache --continue",
     "version-bump": "bun changeset version"
   },
+  "trustedDependencies": ["@biomejs/biome", "core-js-pure", "lefthook"],
   "workspaces": [
     "packages/swapkit/*",
     "packages/toolboxes/*",
