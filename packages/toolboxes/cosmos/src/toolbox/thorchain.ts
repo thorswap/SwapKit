@@ -54,7 +54,7 @@ const signMultisigTx = async (
 ) => {
   const { msgs, accountNumber, sequence, chainId, fee, memo } = JSON.parse(tx);
 
-  const address = (await wallet.getAccounts())[0].address;
+  const address = (await wallet.getAccounts())?.[0]?.address || "";
   const aminoTypes = await createDefaultAminoTypes(chain);
   const registry = await createDefaultRegistry();
   const signingClient = await createOfflineStargateClient(wallet, {
@@ -83,7 +83,7 @@ const signMultisigTx = async (
     memo,
   });
 
-  return { signature: exportSignature(signature), bodyBytes };
+  return { signature: exportSignature(signature as Uint8Array), bodyBytes };
 };
 
 const broadcastMultisigTx =
@@ -179,7 +179,7 @@ export const BaseThorchainToolbox = ({
   const baseToolbox: {
     createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
     getAccount: (address: string) => Promise<Account | null>;
-    validateAddress: (address: string) => Promise<boolean>;
+    validateAddress: (address: string) => boolean;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
     getBalance: (address: string, potentialScamFilter?: boolean) => Promise<AssetValue[]>;

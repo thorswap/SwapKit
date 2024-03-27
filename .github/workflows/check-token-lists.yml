@@ -14,7 +14,7 @@ jobs:
         uses: ./tools/github/setup-repo
 
       - name: Generate new token list
-        run: pnpm generate:tokens
+        run: bun generate:tokens
 
       - name: Push Token List Changes
         id: commit
@@ -33,8 +33,8 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           cp .npmrc.prod ./packages/swapkit/tokens/.npmrc
-          pnpm changeset pre exit
-          pnpm changeset version --snapshot nightly
+          bun changeset pre exit
+          bun changeset version --snapshot nightly
           cd packages/swapkit/tokens
           npm config list
           npm publish

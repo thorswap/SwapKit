@@ -5,7 +5,8 @@ build/
 cache/
 packages/**/.turbo
 internal/**/.turbo
-.turbo/cookies
+!.turbo/config.json
+.turbo
 .turbo-cache
 *.tsbuildinfo
 

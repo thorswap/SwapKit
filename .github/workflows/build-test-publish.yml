@@ -26,7 +26,7 @@ jobs:
       - name: Setup Repo
         uses: ./tools/github/setup-repo
       - name: Build
-        run: pnpm build
+        run: bun build
 
       - name: Build and check size
         if: github.event_name == 'pull_request'
@@ -44,7 +44,7 @@ jobs:
       - name: Setup Repo
         uses: ./tools/github/setup-repo
       - name: Test
-        run: pnpm test:coverage
+        run: bun test:coverage
       - uses: codecov/codecov-action@v4
         with:
           files: ./internal/helpers/coverage/coverage-final.json,./packages/toolboxes/evm/coverage/coverage-final.json,./packages/swapkit/swapkit-core/coverage/coverage-final.json
@@ -62,7 +62,7 @@ jobs:
       - name: Setup Repo
         uses: ./tools/github/setup-repo
       - name: Lint
-        run: pnpm lint
+        run: bun lint
 
   publish:
     if: contains(github.ref_name, 'develop') || contains(github.ref_name, 'main') || contains(github.ref_name, 'nightly') || contains(github.ref_name, 'beta')
@@ -79,21 +79,21 @@ jobs:
       - name: Change nightly changeset
         if: contains(github.ref_name, 'nightly')
         run: |
-          pnpm changeset pre exit
-          pnpm changeset version --snapshot nightly
+          bun changeset pre exit
+          bun changeset version --snapshot nightly
 
       - name: Change beta changeset
         if: contains(github.ref_name, 'beta')
         run: |
           echo 'publishName="Beta"' >> $GITHUB_OUTPUT
-          pnpm changeset pre exit
-          pnpm changeset pre enter beta
+          bun changeset pre exit
+          bun changeset pre enter beta
 
       - name: Change stable changeset
         if: contains(github.ref_name, 'main')
         run: |
           echo 'publishName="Release"' >> $GITHUB_OUTPUT
-          pnpm changeset pre exit
+          bun changeset pre exit
 
       - name: Set job params
         shell: bash
@@ -108,8 +108,8 @@ jobs:
         if: contains(github.ref_name, 'main') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'develop')
         with:
           title: ":tada: Publish ${{ steps.deployment-params.outputs.publishName }}"
-          version: pnpm version-bump
-          publish: pnpm publish-packages
+          version: bun version-bump
+          publish: bun publish-packages
           setupGitUser: false
 
       - name: Internal Discord Notification
@@ -130,20 +130,20 @@ jobs:
         if: contains(github.ref_name, 'nightly')
         with:
           title: ":tada: Publish Nightly"
-          version: pnpm version-bump
-          publish: pnpm publish-packages --tag nightly
+          version: bun version-bump
+          publish: bun publish-packages --tag nightly
           setupGitUser: false
 
       - name: Revert base changeset
         if: contains(github.ref_name, 'nightly') || contains(github.ref_name, 'main')
         run: |
-          pnpm changeset pre enter rc
+          bun changeset pre enter rc
 
       - name: Revert changeset beta prelease
         if: contains(github.ref_name, 'beta')
         run: |
-          pnpm changeset pre exit
-          pnpm changeset pre enter rc
+          bun changeset pre exit
+          bun changeset pre enter rc
 
   # deploy-playground:
   #   if: contains(github.ref_name, 'develop')
@@ -160,7 +160,7 @@ jobs:
   #       uses: actions/configure-pages@v3
 
   #     - name: Build playground
-  #       run: pnpm build:playground
+  #       run: bun build:playground
 
   #     - name: Upload artifact
   #       uses: actions/upload-pages-artifact@v1

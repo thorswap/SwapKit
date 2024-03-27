@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "clean": "rm -rf .next .turbo node_modules",
     "build-playground": "next build",
     "start": "next start",
     "lint": "biome check --apply ./src"

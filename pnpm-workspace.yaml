@@ -1,6 +1,0 @@
-packages:
-  - "packages/swapkit/**"
-  - "packages/toolboxes/**"
-  - "packages/wallets/**"
-  - "playgrounds/**"
-  - "tools/**"

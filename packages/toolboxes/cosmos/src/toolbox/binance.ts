@@ -1,6 +1,6 @@
 import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
 import { bech32 } from "@scure/base";
-import { AssetValue, RequestClient, SwapKitNumber } from "@swapkit/helpers";
+import { AssetValue, RequestClient, SwapKitApi, SwapKitNumber } from "@swapkit/helpers";
 import { BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/types";
 import { ec as EC } from "elliptic";
 
@@ -70,9 +70,7 @@ const getFees = async () => {
 };
 
 const getFeeRateFromThorchain = async () => {
-  const respData = await RequestClient.get(
-    "https://thornode.thorswap.net/thorchain/inbound_addresses",
-  );
+  const respData = await SwapKitApi.getInboundAddresses();
 
   if (!Array.isArray(respData)) throw new Error("bad response from Thornode API");
 
@@ -166,7 +164,7 @@ export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolbox
 
   const baseToolbox: {
     createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
-    validateAddress: (address: string) => Promise<boolean>;
+    validateAddress: (address: string) => boolean;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;

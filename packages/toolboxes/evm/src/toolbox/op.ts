@@ -18,7 +18,10 @@ export const connectGasPriceOracle = async (provider: JsonRpcProvider | BrowserP
 export const getL1GasPrice = async (
   provider: JsonRpcProvider | BrowserProvider,
 ): Promise<bigint> => {
-  return (await connectGasPriceOracle(provider)).l1BaseFee();
+  const gasPriceOracle = await connectGasPriceOracle(provider);
+
+  // @ts-expect-error TODO: Fix ethers type
+  return gasPriceOracle?.l1BaseFee();
 };
 
 const _serializeTx = async (
@@ -43,7 +46,11 @@ export const estimateL1GasCost = async (
   provider: JsonRpcProvider | BrowserProvider,
   tx: TransactionRequest,
 ) => {
-  return (await connectGasPriceOracle(provider)).getL1Fee(await _serializeTx(provider, tx));
+  const gasPriceOracle = await connectGasPriceOracle(provider);
+  const serializedTx = await _serializeTx(provider, tx);
+
+  // @ts-expect-error TODO: Fix ethers type
+  return gasPriceOracle?.getL1Fee(serializedTx);
 };
 
 export const estimateL2GasCost = async (
@@ -68,7 +75,11 @@ export const estimateL1Gas = async (
   provider: JsonRpcProvider | BrowserProvider,
   tx: TransactionRequest,
 ) => {
-  return (await connectGasPriceOracle(provider)).getL1GasUsed(await _serializeTx(provider, tx));
+  const gasPriceOracle = await connectGasPriceOracle(provider);
+  const serializedTx = await _serializeTx(provider, tx);
+
+  // @ts-expect-error TODO: Fix ethers type
+  return gasPriceOracle?.getL1GasUsed(serializedTx);
 };
 
 export const getNetworkParams = () => ({
@@ -83,10 +94,12 @@ const estimateGasPrices = async (provider: JsonRpcProvider | BrowserProvider) =>
   try {
     const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await provider.getFeeData();
     const l1GasPrice = await getL1GasPrice(provider);
-
-    if (!(maxFeePerGas && maxPriorityFeePerGas)) throw new Error("No fee data available");
-
     const price = gasPrice as bigint;
+
+    if (!(maxFeePerGas && maxPriorityFeePerGas)) {
+      throw new Error("No fee data available");
+    }
+
     return {
       [FeeOption.Average]: {
         l1GasPrice,

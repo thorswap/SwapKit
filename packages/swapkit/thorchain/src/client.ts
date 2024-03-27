@@ -12,6 +12,7 @@ import { ApproveMode } from "@swapkit/core";
 import type { ErrorKeys, ThornameRegisterParam } from "@swapkit/helpers";
 import {
   AssetValue,
+  SwapKitApi,
   SwapKitError,
   SwapKitNumber,
   gasFeeMultiplier,
@@ -37,7 +38,6 @@ import {
   lowercasedContractAbiMapping,
 } from "./aggregator/contracts/index.ts";
 import { getSwapInParams } from "./aggregator/getSwapParams.ts";
-import { getInboundData, getMimirData } from "./thornode.ts";
 
 type Wallets = { [K in Chain]?: ChainWallet<K> };
 
@@ -85,7 +85,7 @@ export const ThorchainProvider = ({
     assetValue: AssetValue;
     memo: string;
   }) => {
-    const mimir = await getMimirData(stagenet);
+    const mimir = await SwapKitApi.getMimirInfo({ stagenet });
 
     // check if trading is halted or not
     if (mimir.HALTCHAINGLOBAL >= 1 || mimir.HALTTHORCHAIN >= 1) {
@@ -105,11 +105,11 @@ export const ThorchainProvider = ({
     feeOptionKey?: FeeOption;
   }) => {
     const {
-      gas_rate,
+      gas_rate = "0",
       router,
       address: poolAddress,
     } = await getInboundDataByChain(assetValue.chain);
-    const feeRate = (Number.parseInt(gas_rate) || 0) * gasFeeMultiplier[feeOptionKey];
+    const feeRate = Number.parseInt(gas_rate) * gasFeeMultiplier[feeOptionKey];
     return deposit({
       assetValue,
       recipient: poolAddress,
@@ -248,7 +248,7 @@ export const ThorchainProvider = ({
     }
     const memo = getMemoFor(MemoType.DEPOSIT, {
       chain: poolAddress.split(".")[0] as Chain,
-      symbol: poolAddress.split(".")[1],
+      symbol: poolAddress.split(".")[1] as string,
       address: symmetric ? address : "",
     });
 
@@ -575,8 +575,9 @@ export const ThorchainProvider = ({
 
         default: {
           if (walletInstance) {
-            return walletInstance.transfer(params);
+            return walletInstance.transfer(params) as Promise<string>;
           }
+
           throw new SwapKitError("core_wallet_connection_not_found");
         }
       }
@@ -608,7 +609,7 @@ export const ThorchainProvider = ({
         return { gas_rate: "0", router: "", address: "", halted: false, chain };
 
       default: {
-        const inboundData = await getInboundData(stagenet);
+        const inboundData = await SwapKitApi.getInboundAddresses({ stagenet });
         const chainAddressData = inboundData.find((item) => item.chain === chain);
 
         if (!chainAddressData) throw new SwapKitError("core_inbound_data_not_found");

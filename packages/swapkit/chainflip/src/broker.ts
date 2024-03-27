@@ -16,7 +16,12 @@ const registerAsBroker = (
   toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
   address: string,
 ) => {
-  const extrinsic = toolbox.api.tx.swapping.registerAsBroker(address);
+  const extrinsic = toolbox.api.tx.swapping?.registerAsBroker?.(address);
+
+  if (!extrinsic) {
+    throw new Error("chainflip_broker_register");
+  }
+
   return toolbox.signAndBroadcast(extrinsic);
 };
 
@@ -56,38 +61,41 @@ const requestSwapDepositAddress = async (
     recipient: string;
     brokerCommissionBPS: number;
   }>((resolve) => {
-    toolbox.signAndBroadcast(
-      toolbox.api.tx.swapping.requestSwapDepositAddress(
-        sellAsset.ticker.toLowerCase(),
-        buyAsset.ticker.toLowerCase(),
-        { [buyAsset.chain.toLowerCase()]: recipientAddress },
-        SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
-        null,
-      ),
-      async ({ status, events }: Todo) => {
-        if (!status?.isFinalized) return;
-
-        const {
-          event: {
-            data: { depositAddress, sourceChainExpiryBlock, destinationAddress, channelId },
-          },
-        } = events[0].toHuman();
-
-        const header = await toolbox.api.rpc.chain.getHeader(status.toJSON().finalized);
-
-        resolve({
-          depositChannelId: `${header.number}-${chainToChainflipChain.get(
-            sellAsset.chain,
-          )}-${channelId}`,
-          depositAddress: Object.values(depositAddress)[0] as string,
-          srcChainExpiryBlock: Number((sourceChainExpiryBlock as string).replace(",", "")),
-          sellAsset,
-          buyAsset,
-          recipient: Object.values(destinationAddress)[0] as string,
-          brokerCommissionBPS,
-        });
-      },
+    const tx = toolbox.api.tx.swapping?.requestSwapDepositAddress?.(
+      sellAsset.ticker.toLowerCase(),
+      buyAsset.ticker.toLowerCase(),
+      { [buyAsset.chain.toLowerCase()]: recipientAddress },
+      SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
+      null,
     );
+
+    if (!tx) {
+      throw new Error("chainflip_broker_tx_error");
+    }
+
+    toolbox.signAndBroadcast(tx, async ({ status, events }: Todo) => {
+      if (!status?.isFinalized) return;
+
+      const {
+        event: {
+          data: { depositAddress, sourceChainExpiryBlock, destinationAddress, channelId },
+        },
+      } = events[0].toHuman();
+
+      const header = await toolbox.api.rpc.chain.getHeader(status.toJSON().finalized);
+
+      resolve({
+        depositChannelId: `${header.number}-${chainToChainflipChain.get(
+          sellAsset.chain,
+        )}-${channelId}`,
+        depositAddress: Object.values(depositAddress)[0] as string,
+        srcChainExpiryBlock: Number((sourceChainExpiryBlock as string).replace(",", "")),
+        sellAsset,
+        buyAsset,
+        recipient: Object.values(destinationAddress)[0] as string,
+        brokerCommissionBPS,
+      });
+    });
   });
 };
 

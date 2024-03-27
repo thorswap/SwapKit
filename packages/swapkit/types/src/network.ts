@@ -233,17 +233,6 @@ export enum RPCUrl {
   THORChainStagenet = "https://stagenet-rpc.ninerealms.com",
 }
 
-export enum ApiUrl {
-  Cosmos = "https://node-router.thorswap.net/cosmos/rest",
-  Kujira = "https://lcd-kujira.synergynodes.com/",
-  MayanodeMainnet = "https://mayanode.mayachain.info",
-  MayanodeStagenet = "https://stagenet.mayanode.mayachain.info",
-  ThornodeMainnet = "https://thornode.thorswap.net",
-  ThornodeStagenet = "https://stagenet-thornode.ninerealms.com",
-  ThorswapApi = "https://api.thorswap.net",
-  ThorswapStatic = "https://static.thorswap.net",
-}
-
 const chains = Object.values(Chain) as Chain[];
 const chainNames = Object.keys(Chain) as ChainNameType[];
 

@@ -63,15 +63,15 @@ describe("Explorer URLs", () => {
 
   describe("Unsupported chains", () => {
     test("getExplorerTxUrl throws Error for unsupported Chain", () => {
-      expect(() =>
-        getExplorerTxUrl({ chain: "unsupported" as Chain, txHash: "0x12345" }),
-      ).toThrowError("Unsupported chain: unsupported");
+      expect(() => getExplorerTxUrl({ chain: "unsupported" as Chain, txHash: "0x12345" })).toThrow(
+        "Unsupported chain: unsupported",
+      );
     });
 
     test("getExplorerAddressUrl throws Error for unsupported Chain", () => {
       expect(() =>
         getExplorerAddressUrl({ chain: "unsupported" as Chain, address: "asdfg" }),
-      ).toThrowError("Unsupported chain: unsupported");
+      ).toThrow("Unsupported chain: unsupported");
     });
   });
 });

@@ -1,3 +1,8 @@
+export type ThornodeEndpointParams = {
+  type?: "thorchain" | "mayachain";
+  stagenet?: boolean;
+};
+
 export type InboundAddressesItem = {
   address: string;
   chain: string;

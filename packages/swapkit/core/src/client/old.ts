@@ -1,6 +1,7 @@
 import type { ErrorKeys, QuoteRoute, ThornameRegisterParam } from "@swapkit/helpers";
 import {
   AssetValue,
+  SwapKitApi,
   SwapKitError,
   SwapKitNumber,
   gasFeeMultiplier,
@@ -35,8 +36,6 @@ import { lowercasedContractAbiMapping } from "../aggregator/contracts/index.ts";
 import { getSwapInParams } from "../aggregator/getSwapParams.ts";
 
 import { getExplorerAddressUrl, getExplorerTxUrl } from "../helpers/explorerUrls.ts";
-import { getMayaMimirData } from "../helpers/mayanode.js";
-import { getThorInboundData, getThorMimirData } from "../helpers/thornode.ts";
 import type {
   CoreTxParams,
   EVMWallet,
@@ -496,7 +495,7 @@ export class SwapKitCore<T = ""> {
     }
     const memo = getMemoFor(MemoType.DEPOSIT, {
       chain: poolAddress.split(".")[0] as Chain,
-      symbol: poolAddress.split(".")[1],
+      symbol: poolAddress.split(".")[1] as string,
       address: symmetric ? address : "",
     });
 
@@ -737,7 +736,7 @@ export class SwapKitCore<T = ""> {
         return { gas_rate: "0", router: "", address: "", halted: false, chain };
 
       default: {
-        const inboundData = await getThorInboundData(this.stagenet);
+        const inboundData = await SwapKitApi.getInboundAddresses({ stagenet: this.stagenet });
         const chainAddressData = inboundData.find((item) => item.chain === chain);
 
         if (!chainAddressData) throw new SwapKitError("core_inbound_data_not_found");
@@ -808,11 +807,11 @@ export class SwapKitCore<T = ""> {
     feeOptionKey?: FeeOption;
   }) => {
     const {
-      gas_rate,
+      gas_rate = "0",
       router,
       address: poolAddress,
     } = await this.#getInboundDataByChain(assetValue.chain);
-    const feeRate = (Number.parseInt(gas_rate) || 0) * gasFeeMultiplier[feeOptionKey];
+    const feeRate = Number.parseInt(gas_rate) * gasFeeMultiplier[feeOptionKey];
 
     return this.deposit({
       assetValue,
@@ -820,7 +819,7 @@ export class SwapKitCore<T = ""> {
       memo,
       router,
       feeRate,
-    });
+    }) as Promise<string>;
   };
 
   #thorchainTransfer = async ({
@@ -830,7 +829,7 @@ export class SwapKitCore<T = ""> {
     assetValue: AssetValue;
     memo: string;
   }) => {
-    const mimir = await getThorMimirData(this.stagenet);
+    const mimir = await SwapKitApi.getMimirInfo({ stagenet: this.stagenet });
 
     // check if trading is halted or not
     if (mimir.HALTCHAINGLOBAL >= 1 || mimir.HALTTHORCHAIN >= 1) {
@@ -847,7 +846,7 @@ export class SwapKitCore<T = ""> {
     assetValue: AssetValue;
     memo: string;
   }) => {
-    const mimir = await getMayaMimirData(this.stagenet);
+    const mimir = await SwapKitApi.getMimirInfo({ type: "mayachain", stagenet: this.stagenet });
 
     // check if trading is halted or not
     if (mimir.HALTCHAINGLOBAL >= 1 || mimir.HALTTHORCHAIN >= 1) {

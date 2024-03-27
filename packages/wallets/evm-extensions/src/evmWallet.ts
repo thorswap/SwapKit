@@ -1,24 +1,6 @@
 import { setRequestClientConfig } from "@swapkit/helpers";
-import type { Eip1193Provider } from "@swapkit/toolbox-evm";
 import type { ConnectWalletParams, EVMChain, EVMWalletOptions } from "@swapkit/types";
 import { WalletOption } from "@swapkit/types";
-
-declare global {
-  interface Window {
-    ethereum: Eip1193Provider;
-    trustwallet: Eip1193Provider;
-    coinbaseWalletExtension: Eip1193Provider;
-    xfi?: {
-      binance: any;
-      bitcoin: any;
-      bitcoincash: any;
-      dogecoin: any;
-      ethereum: Eip1193Provider;
-      litecoin: any;
-      thorchain: any;
-    };
-  }
-}
 
 const getWalletForType = (
   walletType:

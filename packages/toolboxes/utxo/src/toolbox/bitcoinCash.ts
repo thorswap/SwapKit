@@ -3,6 +3,7 @@ import {
   Transaction,
   TransactionBuilder,
   address as bchAddress,
+  // @ts-ignore TODO: check why wallets doesn't see modules included in toolbox
 } from "@psf/bitcoincashjs-lib";
 import { mnemonicToSeedSync } from "@scure/bip39";
 import type { UTXOChain } from "@swapkit/types";
@@ -92,7 +93,8 @@ const buildBCHTx: BCHMethods["buildBCHTx"] = async ({
 
   await Promise.all(
     inputs.map(async (utxo: UTXOType) => {
-      const txHex = await apiClient.getRawTx(utxo.hash);
+      const txHex = (await apiClient.getRawTx(utxo.hash)) as string;
+
       builder.addInput(Transaction.fromBuffer(Buffer.from(txHex, "hex")), utxo.index);
     }),
   );
@@ -196,7 +198,6 @@ const buildTx = async ({
   const psbt = new Psbt({ network: getNetwork(chain) }); // Network-specific
 
   for (const { hash, index, witnessUtxo } of inputs) {
-    // @ts-expect-error TODO: check if it's needed to pass witnessUtxo
     psbt.addInput({ hash, index, witnessUtxo });
   }
 
