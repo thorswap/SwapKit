@@ -1,5 +1,5 @@
+import { describe, expect, test } from "bun:test";
 import { BaseDecimal, Chain } from "@swapkit/types";
-import { describe, expect, test } from "vitest";
 
 import { AssetValue, getMinAmountByChain } from "../assetValue.ts";
 
@@ -110,7 +110,7 @@ describe("AssetValue", () => {
   });
 
   describe("from bigint", () => {
-    test.todo("returns asset value with correct decimal", async () => {
+    test("returns asset value with correct decimal", async () => {
       const avaxUSDCAsset = await AssetValue.fromIdentifier(
         `${Chain.Avalanche}.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e`,
         1234567800n,
@@ -138,7 +138,7 @@ describe("AssetValue", () => {
   });
 
   describe("fromIdentifier", () => {
-    test.skip("creates AssetValue from string", async () => {
+    test("creates AssetValue from string", async () => {
       const avaxUSDCAsset = await AssetValue.fromIdentifier(
         "AVAX.USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
       );

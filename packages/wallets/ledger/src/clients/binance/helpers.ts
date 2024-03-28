@@ -6,8 +6,8 @@ const ab2hexstring = (arr: any) => {
   }
   let result = "";
 
-  for (let i = 0; i < arr.length; i++) {
-    let str = arr[i].toString(16);
+  for (const item of arr) {
+    let str = item.toString(16);
     str = str.length === 0 ? "00" : str.length === 1 ? `0${str}` : str;
     result += str;
   }

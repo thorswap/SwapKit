@@ -26,10 +26,13 @@ export const getAddressFromAccount = (account: string) => {
 export const getAddressByChain = (
   chain: EVMChain | Chain.Binance | Chain.THORChain | Chain.Maya | Chain.Kujira | Chain.Cosmos,
   accounts: string[],
-): string =>
-  getAddressFromAccount(
-    accounts.find((account) => account.startsWith(chainToChainId(chain))) || "",
+) => {
+  return (
+    getAddressFromAccount(
+      accounts.find((account) => account.startsWith(chainToChainId(chain))) || "",
+    ) || ""
   );
+};
 
 export const chainToChainId = (chain: Chain) => {
   switch (chain) {

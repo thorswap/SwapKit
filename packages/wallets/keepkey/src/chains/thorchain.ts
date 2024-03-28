@@ -24,7 +24,7 @@ export const thorchainWalletMethods = async ({
   const { createStargateClient, ThorchainToolbox } = await import("@swapkit/toolbox-cosmos");
   const toolbox = ThorchainToolbox({ stagenet: !"smeshnet" });
   const derivationPathString = derivationPath
-    ? `m/${derivationPathToString(derivationPath)}`
+    ? derivationPathToString(derivationPath)
     : `${DerivationPath.THOR}/0`;
 
   const { address: fromAddress } = (await sdk.address.thorchainGetAddress({

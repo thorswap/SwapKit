@@ -154,10 +154,10 @@ export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
         const assetValue = AssetValue.fromStringSync(coin.asset);
 
         const symbol = assetValue.isSynthetic
-          ? assetValue.symbol.split("/")[1].toLowerCase()
+          ? assetValue.symbol.split("/")?.[1]?.toLowerCase()
           : assetValue.symbol.toLowerCase();
         const chain = assetValue.isSynthetic
-          ? assetValue.symbol.split("/")[0].toLowerCase()
+          ? assetValue.symbol.split("/")?.[0]?.toLowerCase()
           : assetValue.chain.toLowerCase();
 
         return {

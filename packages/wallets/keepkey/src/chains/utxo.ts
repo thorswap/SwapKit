@@ -61,7 +61,7 @@ export const utxoWalletMethods = async ({
   const scriptType = [Chain.Bitcoin, Chain.Litecoin].includes(chain) ? "p2wpkh" : "p2pkh";
 
   const derivationPathString = derivationPath
-    ? `m/${derivationPathToString(derivationPath)}`
+    ? derivationPathToString(derivationPath)
     : `${DerivationPath[chain]}/0`;
 
   const addressInfo = {

@@ -1,14 +1,10 @@
 import type { Keplr } from "@keplr-wallet/types";
-import type { Eip1193Provider, EthereumWindowProvider } from "@swapkit/toolbox-evm";
+import type { Eip1193Provider } from "@swapkit/toolbox-evm";
 
 export { xdefiWallet } from "./xdefiWallet.ts";
 
 declare global {
   interface Window {
-    keplr: Keplr;
-    ethereum: EthereumWindowProvider;
-    trustwallet: EthereumWindowProvider;
-    coinbaseWalletExtension: EthereumWindowProvider;
     xfi?: {
       binance: Eip1193Provider;
       bitcoin: Eip1193Provider;

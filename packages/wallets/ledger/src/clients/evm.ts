@@ -17,7 +17,6 @@ import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
 class EVMLedgerInterface extends AbstractSigner {
   public chainId: ChainId = ChainId.Ethereum;
   public derivationPath = "";
-  // @ts-expect-error `default` typing is wrong
   public ledgerApp: InstanceType<typeof EthereumApp> | null = null;
   public ledgerTimeout = 50000;
 
@@ -59,7 +58,6 @@ class EVMLedgerInterface extends AbstractSigner {
     const transport = await getLedgerTransport();
     const { default: EthereumApp } = await import("@ledgerhq/hw-app-eth");
 
-    // @ts-expect-error `default` typing is wrong
     this.ledgerApp = new EthereumApp(transport);
   };
 

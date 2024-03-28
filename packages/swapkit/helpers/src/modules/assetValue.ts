@@ -180,7 +180,7 @@ export class AssetValue extends BigIntArithmetics {
   }
 
   static loadStaticAssets() {
-    return new Promise<{ ok: true } | { ok: false; message: string; error: any }>(
+    return new Promise<{ ok: true } | { ok: false; message: string; error: Todo }>(
       (resolve, reject) => {
         try {
           import("@swapkit/tokens").then((tokenPackages) => {
@@ -251,7 +251,7 @@ async function createAssetValue(identifier: string, value: NumberPrimitives = 0)
 
 function createSyntheticAssetValue(identifier: string, value: NumberPrimitives = 0) {
   const [synthChain, symbol] =
-    identifier.split(".")[0].toUpperCase() === Chain.THORChain
+    identifier.split(".")?.[0]?.toUpperCase() === Chain.THORChain
       ? identifier.split(".").slice(1).join().split("/")
       : identifier.split("/");
 
@@ -274,8 +274,8 @@ function safeValue(value: NumberPrimitives, decimal: number) {
 function getAssetInfo(identifier: string) {
   const isSynthetic = identifier.slice(0, 14).includes("/");
 
-  const [synthChain, synthSymbol] =
-    identifier.split(".")[0].toUpperCase() === Chain.THORChain
+  const [synthChain, synthSymbol = ""] =
+    identifier.split(".")?.[0]?.toUpperCase() === Chain.THORChain
       ? identifier.split(".").slice(1).join().split("/")
       : identifier.split("/");
 

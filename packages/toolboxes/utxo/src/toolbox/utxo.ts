@@ -110,7 +110,9 @@ const getBalance = async ({
   chain,
   apiClient,
 }: { address: string } & UTXOBaseToolboxParams) => {
-  const balance = (await apiClient.getBalance(address)) / 10 ** BaseDecimal[chain];
+  const baseBalance = (await apiClient.getBalance(address)) || 0;
+
+  const balance = baseBalance / 10 ** BaseDecimal[chain];
   const asset = await AssetValue.fromIdentifier(`${chain}.${chain}`, balance);
 
   return [asset];
@@ -268,7 +270,7 @@ export const estimateMaxSendableAmount = async ({
 }) => {
   const addressData = await apiClient.getAddressData(from);
   const feeRateWhole = feeRate ? Math.ceil(feeRate) : (await getFeeRates(apiClient))[feeOptionKey];
-  const inputs = addressData.utxo
+  const inputs = addressData?.utxo
     .map((utxo) => ({
       ...utxo,
       // type: utxo.witnessUtxo ? UTXOScriptType.P2WPKH : UTXOScriptType.P2PKH,
@@ -278,6 +280,8 @@ export const estimateMaxSendableAmount = async ({
     .filter(
       (utxo) => utxo.value > Math.max(getDustThreshold(chain), getInputSize(utxo) * feeRateWhole),
     );
+
+  if (!inputs?.length) return AssetValue.fromChainOrSignature(chain, 0);
 
   const balance = AssetValue.fromChainOrSignature(
     chain,

@@ -50,7 +50,7 @@ export enum DerivationPath {
   THOR = "m/44'/931'/0'/0",
 }
 
-export type DerivationPathArray = [number, number, number, number, number];
+export type DerivationPathArray = [number, number, number, number, number?];
 
 export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   ARB: [44, 60, 0, 0, 0],
@@ -231,17 +231,6 @@ export enum RPCUrl {
   Polygon = "https://polygon-rpc.com",
   THORChain = "https://rpc.thorswap.net",
   THORChainStagenet = "https://stagenet-rpc.ninerealms.com",
-}
-
-export enum ApiUrl {
-  Cosmos = "https://node-router.thorswap.net/cosmos/rest",
-  Kujira = "https://lcd-kujira.synergynodes.com/",
-  MayanodeMainnet = "https://mayanode.mayachain.info",
-  MayanodeStagenet = "https://stagenet.mayanode.mayachain.info",
-  ThornodeMainnet = "https://thornode.thorswap.net",
-  ThornodeStagenet = "https://stagenet-thornode.ninerealms.com",
-  ThorswapApi = "https://api.thorswap.net",
-  ThorswapStatic = "https://static.thorswap.net",
 }
 
 const chains = Object.values(Chain) as Chain[];

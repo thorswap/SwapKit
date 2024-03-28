@@ -4,7 +4,7 @@ import type { Account } from "@cosmjs/stargate";
 import { base64 } from "@scure/base";
 import type { AssetValue } from "@swapkit/helpers";
 import { RequestClient, SwapKitNumber } from "@swapkit/helpers";
-import { ApiUrl, BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/types";
+import { BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/types";
 
 import { CosmosClient } from "../cosmosClient.ts";
 import {
@@ -54,7 +54,7 @@ const signMultisigTx = async (
 ) => {
   const { msgs, accountNumber, sequence, chainId, fee, memo } = JSON.parse(tx);
 
-  const address = (await wallet.getAccounts())[0].address;
+  const address = (await wallet.getAccounts())?.[0]?.address || "";
   const aminoTypes = await createDefaultAminoTypes(chain);
   const registry = await createDefaultRegistry();
   const signingClient = await createOfflineStargateClient(wallet, {
@@ -83,7 +83,7 @@ const signMultisigTx = async (
     memo,
   });
 
-  return { signature: exportSignature(signature), bodyBytes };
+  return { signature: exportSignature(signature as Uint8Array), bodyBytes };
 };
 
 const broadcastMultisigTx =
@@ -160,10 +160,13 @@ export const BaseThorchainToolbox = ({
 }): ThorchainToolboxType => {
   const isThorchain = chain === Chain.THORChain;
   const chainId = isThorchain ? ChainId.THORChain : ChainId.Maya;
-  const nodeUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
+
   const prefix = `${stagenet ? "s" : ""}${chain.toLowerCase()}`;
   const derivationPath = DerivationPath[chain];
   const rpcUrl = getRPC(chainId, stagenet);
+  const nodeUrl = stagenet
+    ? "https://stagenet-thornode.ninerealms.com"
+    : "https://thornode.thorswap.net";
 
   const client = new CosmosClient({
     server: nodeUrl,
@@ -176,7 +179,7 @@ export const BaseThorchainToolbox = ({
   const baseToolbox: {
     createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
     getAccount: (address: string) => Promise<Account | null>;
-    validateAddress: (address: string) => Promise<boolean>;
+    validateAddress: (address: string) => boolean;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
     getBalance: (address: string, potentialScamFilter?: boolean) => Promise<AssetValue[]>;

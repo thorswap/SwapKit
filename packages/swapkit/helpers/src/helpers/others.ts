@@ -1,3 +1,4 @@
+import type { DerivationPathArray } from "@swapkit/types";
 // 10 rune for register, 1 rune per year
 // MINIMUM_REGISTRATION_FEE = 11
 export function getTHORNameCost(year: number) {
@@ -29,14 +30,10 @@ export function validateMAYAName(name: string) {
   return !!name.match(regex);
 }
 
-export function derivationPathToString([network, chainId, account, change, index]: [
-  number,
-  number,
-  number,
-  number,
-  number | undefined,
-]) {
+export function derivationPathToString([network, chainId, account, change, index]:
+  | [number, number, number, number, number | undefined]
+  | DerivationPathArray) {
   const shortPath = typeof index !== "number";
 
-  return `${network}'/${chainId}'/${account}'/${change}${shortPath ? "" : `/${index}`}`;
+  return `m/${network}'/${chainId}'/${account}'/${change}${shortPath ? "" : `/${index}`}`;
 }

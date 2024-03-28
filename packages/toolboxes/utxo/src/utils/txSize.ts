@@ -20,7 +20,7 @@ const TX_INPUT_PUBKEYHASH = 107;
 
 export const compileMemo = (memo: string) => {
   const data = Buffer.from(memo, "utf8"); // converts MEMO to buffer
-  return script.compile([opcodes.OP_RETURN, data]); // Compile OP_RETURN script
+  return script.compile([opcodes.OP_RETURN as number, data]); // Compile OP_RETURN script
 };
 
 export enum UTXOScriptType {

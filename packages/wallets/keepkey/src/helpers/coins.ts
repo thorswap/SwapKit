@@ -22,6 +22,7 @@ export function bip32Like(path: string) {
   return /^m(((\/[0-9]+h)+|(\/[0-9]+H)+|(\/[0-9]+')*)((\/[0-9]+)*))$/.test(path);
 }
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
 export function bip32ToAddressNList(initPath: string): number[] {
   let path = initPath;
 
@@ -40,18 +41,22 @@ export function bip32ToAddressNList(initPath: string): number[] {
 
   for (let i = 0; i < segments.length; i++) {
     // TODO: Check for better way instead of exec
-    const tmp = /(\d+)([hH']?)/.exec(segments[i]);
+    const segment = segments[i];
+    if (segment) {
+      const tmp = /(\d+)([hH']?)/.exec(segment);
+      if (tmp === null) throw new Error("Invalid input");
 
-    if (tmp === null) throw new Error("Invalid input");
+      const [, num = "", modifier = ""] = tmp;
 
-    ret[i] = Number.parseInt(tmp[1], 10);
+      ret[i] = Number.parseInt(num, 10);
 
-    if (ret[i] >= HARDENED) throw new Error("Invalid child index");
+      if (ret[i] >= HARDENED) throw new Error("Invalid child index");
 
-    if (tmp[2] === "h" || tmp[2] === "H" || tmp[2] === "'") {
-      ret[i] += HARDENED;
-    } else if (tmp[2].length !== 0) {
-      throw new Error("Invalid modifier");
+      if (modifier === "h" || modifier === "H" || modifier === "'") {
+        ret[i] += HARDENED;
+      } else if (modifier.length !== 0) {
+        throw new Error("Invalid modifier");
+      }
     }
   }
 

@@ -7,7 +7,7 @@ import { getSignature } from "./utils.ts";
 export class THORChainLedger extends CosmosLedgerInterface {
   private pubKey: string | null = null;
 
-  public derivationPath: number[];
+  public derivationPath: DerivationPathArray;
 
   constructor(derivationPath: DerivationPathArray = NetworkDerivationPath.THOR) {
     super();

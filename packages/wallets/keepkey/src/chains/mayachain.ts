@@ -24,7 +24,7 @@ export const mayachainWalletMethods = async ({
   const { createStargateClient, getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
   const toolbox = getToolboxByChain(Chain.Maya)();
   const derivationPathString = derivationPath
-    ? `m/${derivationPathToString(derivationPath)}`
+    ? derivationPathToString(derivationPath)
     : `${DerivationPath.MAYA}/0`;
 
   const { address: fromAddress } = (await sdk.address.mayachainGetAddress({

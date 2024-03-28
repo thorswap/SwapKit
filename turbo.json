@@ -3,14 +3,15 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", "node_modules/.cache/**"]
+      "outputs": ["dist/**", "node_modules/.cache/**", "*.tsbuildinfo"]
     },
     "clean": { "cache": false },
     "lint": {},
     "preview-playground": { "cache": false, "persistent": true },
     "publish": { "dependsOn": ["build"] },
     "test": { "dependsOn": ["build"] },
-    "test:coverage": { "dependsOn": ["build"] },
+    "type-check": { "outputs": ["*.tsbuildinfo"] },
+    "test:coverage": {},
     "test:watch": {
       "inputs": ["__tests__/**/*.test.ts", "__tests__/**/*.test.tsx"],
       "persistent": true

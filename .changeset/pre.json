@@ -22,16 +22,7 @@
     "@swapkit/wallet-trezor": "1.0.0-rc.0",
     "@swapkit/wallet-wc": "1.0.0-rc.0",
     "@swapkit/wallet-xdefi": "1.0.0-rc.0",
-    "next-template": "0.0.2",
-    "node-playground": "0.0.0",
-    "@internal/vite-playground": "0.0.0",
-    "@internal/tools-typescript": "0.1.0",
-    "@internal/tools-vite": "0.0.0",
-    "@swapkit/thorchain": "1.0.0-rc.1",
-    "@internal/playground-nextjs": "0.1.0",
-    "@internal/playground-node": "0.0.0",
-    "@internal/playground-vite": "0.0.0",
-    "@internal/tools-github": "0.1.0"
+    "@swapkit/thorchain": "1.0.0-rc.1"
   },
   "changesets": [
     "beige-coats-hear",

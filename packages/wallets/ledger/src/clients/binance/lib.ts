@@ -150,7 +150,8 @@ export class BinanceApp {
     const buf = Buffer.alloc(1 + 4 * path.length);
     buf.writeUInt8(path.length, 0);
     for (let i = 0; i < path.length; i++) {
-      let v = path[i];
+      let v = path[i] || 0;
+
       if (i < 3) {
         v |= 0x80000000; // Harden
       }
@@ -254,7 +255,7 @@ export class BinanceApp {
       result.minor = apduResponse[2];
       result.patch = apduResponse[3];
       result.device_locked = apduResponse[4] === 1;
-      result.return_code = returnCode[0] * 256 + returnCode[1];
+      result.return_code = (returnCode[0] || 0) * 256 + (returnCode[1] || 0);
       result.error_message = this._errorMessage(result.return_code);
     } catch (err: any) {
       const { statusCode, statusText, message, stack } = err;
@@ -316,7 +317,7 @@ export class BinanceApp {
       if (!Buffer.isBuffer(apduResponse)) throw new Error("expected apduResponse to be Buffer");
       const returnCode = apduResponse.slice(-2);
       result.pk = apduResponse.slice(0, 1 + 64);
-      result.return_code = returnCode[0] * 256 + returnCode[1];
+      result.return_code = (returnCode[0] || 0) * 256 + (returnCode[1] || 0);
       result.error_message = this._errorMessage(result.return_code);
     } catch (err: any) {
       const { statusCode, statusText, message, stack } = err;
@@ -400,7 +401,7 @@ export class BinanceApp {
       if (!Buffer.isBuffer(apduResponse)) throw new Error("expected apduResponse to be Buffer");
       const returnCode = apduResponse.slice(-2);
 
-      result.return_code = returnCode[0] * 256 + returnCode[1];
+      result.return_code = (returnCode[0] || 0) * 256 + (returnCode[1] || 0);
       result.error_message = this._errorMessage(result.return_code);
 
       result.signature = null;
@@ -507,8 +508,8 @@ export class BinanceApp {
       }
       // decode DER string format
       let rOffset = 4;
-      let rLen = signature[3];
-      const sLen = signature[4 + rLen + 1]; // skip over following 0x02 type prefix for s
+      let rLen = signature[3] || 0;
+      const sLen = signature[4 + rLen + 1] || 0; // skip over following 0x02 type prefix for s
       let sOffset = signature.length - sLen;
       // we can safely ignore the first byte in the 33 bytes cases
       if (rLen === 33) {
@@ -570,7 +571,7 @@ export class BinanceApp {
     );
     if (!Buffer.isBuffer(apduResponse)) throw new Error("expected apduResponse to be Buffer");
     const returnCode = apduResponse.slice(-2);
-    result.return_code = returnCode[0] * 256 + returnCode[1];
+    result.return_code = (returnCode[0] || 0) * 256 + (returnCode[1] || 0);
     result.error_message = this._errorMessage(result.return_code);
     if (result.return_code === 0x6a80) {
       result.error_message = apduResponse.slice(0, apduResponse.length - 2).toString("ascii");

@@ -9,5 +9,13 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "[typescript]": {
     "editor.defaultFormatter": "biomejs.biome"
+  },
+  "search.exclude": {
+    "node_modules/**": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/coverage": true,
+    "**/.turbo": true
   }
 }

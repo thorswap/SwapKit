@@ -4,7 +4,7 @@ import type { RPCUrl, SubstrateChain } from "@swapkit/types";
 
 import { Network } from "../types/network.ts";
 
-import { BaseToolbox } from "./baseSubstrateToobox.ts";
+import { BaseSubstrateToolbox } from "./baseSubstrateToobox.ts";
 
 type ToolboxParams = {
   providerUrl?: RPCUrl;
@@ -12,7 +12,9 @@ type ToolboxParams = {
   signer: KeyringPair;
 };
 
-type ToolboxFactoryType<T, M> = (params: ToolboxParams & T) => ReturnType<typeof BaseToolbox> & M;
+type ToolboxFactoryType<T, M> = (
+  params: ToolboxParams & T,
+) => ReturnType<typeof BaseSubstrateToolbox> & M;
 
 export const ToolboxFactory: ToolboxFactoryType<{ chain: SubstrateChain }, unknown> = async ({
   providerUrl,
@@ -27,7 +29,7 @@ export const ToolboxFactory: ToolboxFactoryType<{ chain: SubstrateChain }, unkno
   const api = await ApiPromise.create({ provider });
   const gasAsset = AssetValue.fromChainOrSignature(chain);
 
-  return BaseToolbox({
+  return BaseSubstrateToolbox({
     api,
     signer,
     gasAsset,
@@ -63,7 +65,10 @@ export const ChainflipToolbox: ToolboxFactoryType<unknown, unknown> = async ({
   const gasAsset = AssetValue.fromChainOrSignature(Chain.Chainflip);
 
   const getBalance = async (api: ApiPromise, address: string) => {
-    const { balance } = (await api.query.flip.account(address)) as any;
+    // @ts-expect-error @Towan some parts of data missing?
+    // biome-ignore lint/correctness/noUnsafeOptionalChaining: <explanation>
+    const { balance } = await api.query.flip?.account?.(address);
+
     return [
       gasAsset.set(
         SwapKitNumber.fromBigInt(BigInt(balance.toString()), gasAsset.decimal).getValue("string"),

@@ -41,10 +41,10 @@ export function formatBigIntToSafeValue({
   let decimalString = valueString.slice(-decimal);
 
   // Check if we need to round up
-  if (Number.parseInt(decimalString[bigIntDecimal]) >= 5) {
+  if (Number.parseInt(decimalString[bigIntDecimal] || "0") >= 5) {
     // Increment the last decimal place and slice off the rest
     decimalString = `${decimalString.substring(0, bigIntDecimal - 1)}${(
-      Number.parseInt(decimalString[bigIntDecimal - 1]) + 1
+      Number.parseInt(decimalString[bigIntDecimal - 1] || "0") + 1
     ).toString()}`;
   } else {
     // Just slice off the extra digits
@@ -244,7 +244,7 @@ export class BigIntArithmetics {
     } = {},
   ) {
     const value = this.getValue("number");
-    const [int, dec = ""] = value.toFixed(6).split(".");
+    const [int = "", dec = ""] = value.toFixed(6).split(".");
     const integer = int.replace(/\B(?=(\d{3})+(?!\d))/g, thousandSeparator);
 
     const parsedValue =
@@ -276,10 +276,10 @@ export class BigIntArithmetics {
     let decimalString = parsedValueString.slice(-decimalToUseForConversion);
 
     // Check if we need to round up
-    if (Number.parseInt(decimalString[bigIntDecimal]) >= 5) {
+    if (Number.parseInt(decimalString[bigIntDecimal] || "0") >= 5) {
       // Increment the last decimal place and slice off the rest
       decimalString = `${decimalString.substring(0, bigIntDecimal - 1)}${(
-        Number.parseInt(decimalString[bigIntDecimal - 1]) + 1
+        Number.parseInt(decimalString[bigIntDecimal - 1] || "0") + 1
       ).toString()}`;
     } else {
       // Just slice off the extra digits
@@ -345,7 +345,7 @@ export class BigIntArithmetics {
 
   #comparison(method: "gt" | "gte" | "lt" | "lte" | "eqValue", ...args: InitialisationValueType[]) {
     const decimal = this.#retrievePrecisionDecimal(this, ...args);
-    const value = this.getBigIntValue(args[0], decimal);
+    const value = this.getBigIntValue(args[0] || "0", decimal);
     const compareToValue = this.getBigIntValue(this, decimal);
 
     switch (method) {
@@ -403,7 +403,7 @@ function toSafeValue(value: InitialisationValueType) {
 
   return splitValue.length > 1
     ? `${splitValue.slice(0, -1).join("")}.${splitValue.at(-1)}`
-    : splitValue[0];
+    : splitValue[0] || "0";
 }
 
 function getFloatDecimals(value: string) {

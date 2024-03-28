@@ -73,6 +73,8 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
     if (!toolbox[methodName]) return object;
     const method = toolbox[methodName];
 
+    if (typeof method !== "function") return object;
+
     return {
       // biome-ignore lint/performance/noAccumulatingSpread: This is a valid use case
       ...object,
@@ -233,6 +235,7 @@ export const estimateMaxSendableAmount = async ({
 
 export const addAccountsChangedCallback = (callback: () => void) => {
   window.ethereum?.on("accountsChanged", () => callback());
+  // @ts-expect-error that should be implemented in xdefi and hooked up via swapkit core
   window.xfi?.ethereum.on("accountsChanged", () => callback());
 };
 
@@ -252,6 +255,7 @@ export const isDetected = (walletOption: WalletOption) => {
 
 const listWeb3EVMWallets = () => {
   const metamaskEnabled = window?.ethereum && !window.ethereum?.isBraveWallet;
+  // @ts-ignore that should be implemented in xdefi and hooked up via swapkit core
   const xdefiEnabled = window?.xfi || window?.ethereum?.__XDEFI;
   const braveEnabled = window?.ethereum?.isBraveWallet;
   const trustEnabled = window?.ethereum?.isTrust || window?.trustwallet;

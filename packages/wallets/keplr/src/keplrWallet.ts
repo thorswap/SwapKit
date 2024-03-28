@@ -19,7 +19,7 @@ const connectKeplr =
     keplrClient?.enable(chainId);
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(chainId);
     if (!offlineSigner) throw new Error("Could not load offlineSigner");
-    const { getDenom, createSigningStargateClient, KujiraToolbox, GaiaToolbox } = await import(
+    const { getToolboxByChain, getDenom, createSigningStargateClient } = await import(
       "@swapkit/toolbox-cosmos"
     );
 
@@ -28,7 +28,12 @@ const connectKeplr =
       offlineSigner,
     );
 
-    const [{ address }] = await offlineSigner.getAccounts();
+    const accounts = await offlineSigner.getAccounts();
+
+    if (!accounts?.[0]?.address) throw new Error("No accounts found");
+
+    const [{ address }] = accounts;
+
     const transfer = async ({
       assetValue,
       recipient,
@@ -45,11 +50,11 @@ const connectKeplr =
       return transactionHash;
     };
 
-    const toolbox = chain === Chain.Kujira ? KujiraToolbox() : GaiaToolbox();
+    const toolbox = getToolboxByChain(chain);
 
     addChain({
-      chain,
       ...toolbox,
+      chain,
       transfer,
       address,
       balance: [],

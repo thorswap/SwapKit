@@ -1,6 +1,6 @@
 export const list = {
   name: "thorchain",
-  timestamp: "2024-02-17T02:30:59.817Z",
+  timestamp: "2024-03-18T04:47:12.517Z",
   version: { major: 1, minor: 0, patch: 0 },
   keywords: ["THORChain"],
   tokens: [
@@ -11,8 +11,13 @@ export const list = {
       identifier: "AVAX.USDC-0XB97EF9EF8734C71904D8002F8B6BC66DD9C48A6E",
       decimals: 6,
     },
+    {
+      address: "0x9702230A8EA53601F5CD2DC00FDBC13D4DF4A8C7",
+      chain: "AVAX",
+      identifier: "AVAX.USDT-0X9702230A8EA53601F5CD2DC00FDBC13D4DF4A8C7",
+      decimals: 6,
+    },
     { chain: "BCH", identifier: "BCH.BCH", decimals: 8 },
-    { address: "9F4", chain: "BNB", identifier: "BNB.ADA-9F4", decimals: 8 },
     { address: "645", chain: "BNB", identifier: "BNB.AVA-645", decimals: 8 },
     { chain: "BNB", identifier: "BNB.BNB", decimals: 8 },
     { address: "1DE", chain: "BNB", identifier: "BNB.BTCB-1DE", decimals: 8 },
@@ -24,6 +29,12 @@ export const list = {
       address: "0x8AC76A51CC950D9822D68B83FE1AD97B32CD580D",
       chain: "BSC",
       identifier: "BSC.USDC-0X8AC76A51CC950D9822D68B83FE1AD97B32CD580D",
+      decimals: 18,
+    },
+    {
+      address: "0x55D398326F99059FF775485246999027B3197955",
+      chain: "BSC",
+      identifier: "BSC.USDT-0X55D398326F99059FF775485246999027B3197955",
       decimals: 18,
     },
     { chain: "BTC", identifier: "BTC.BTC", decimals: 8 },
@@ -138,6 +149,12 @@ export const list = {
       decimals: 6,
     },
     {
+      address: "0x815C23ECA83261B6EC689B60CC4A58B54BC24D8D",
+      chain: "ETH",
+      identifier: "ETH.VTHOR-0X815C23ECA83261B6EC689B60CC4A58B54BC24D8D",
+      decimals: 18,
+    },
+    {
       address: "0x2260FAC5E5542A773AA44FBCFEDF7C193BC2C599",
       chain: "ETH",
       identifier: "ETH.WBTC-0X2260FAC5E5542A773AA44FBCFEDF7C193BC2C599",
@@ -171,6 +188,6 @@ export const list = {
     { chain: "LTC", identifier: "LTC.LTC", decimals: 8 },
     { chain: "THOR", identifier: "THOR.RUNE", decimals: 8 },
   ],
-  count: 41,
-  logo: "https://app.thorswap.finance/assets/asset-rune-43bdc185.svg",
+  count: 43,
+  logo: "https://static.thorswap.net/token-list/images/thor.rune.png",
 } as const;

@@ -16,7 +16,7 @@ export const getNamespacesFromChains = (chains: string[]) => {
   const supportedNamespaces: string[] = [];
   for (const chainId of chains) {
     const [namespace] = chainId.split(":");
-    if (!supportedNamespaces.includes(namespace)) {
+    if (namespace && !supportedNamespaces.includes(namespace)) {
       supportedNamespaces.push(namespace);
     }
   }

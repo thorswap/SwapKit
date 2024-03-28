@@ -1,19 +1,6 @@
 import type { Chain, ChainWallet, QuoteRouteV2, SwapParams } from "@swapkit/core";
 import { AssetValue, SwapKitError } from "@swapkit/helpers";
 
-export type ChainflipRoute = {
-  sellAsset: string;
-  buyAsset: string;
-  provider: "chainflip";
-  buyAmount: number;
-  sellAmount: number;
-};
-
-export type ChainflipSwapParams = {
-  quoteId: string;
-  route: ChainflipRoute;
-};
-
 export const confirmSwap = async ({
   buyAsset,
   sellAsset,
@@ -66,14 +53,19 @@ export const ChainflipProvider = ({
     const route: QuoteRouteV2 = params.route as QuoteRouteV2;
 
     const { buyAsset: buyAssetString, sellAsset: sellAssetString, sellAmount } = route;
-    if (!(sellAssetString && buyAssetString))
+    if (!(sellAssetString && buyAssetString)) {
       throw new SwapKitError("core_swap_asset_not_recognized");
+    }
+
     const sellAsset = await AssetValue.fromString(sellAssetString);
+    if (!wallets?.[sellAsset.chain]) {
+      throw new SwapKitError("core_wallet_connection_not_found");
+    }
+
     const buyAsset = await AssetValue.fromString(buyAssetString);
-    if (!wallets?.[sellAsset.chain]) throw new SwapKitError("core_wallet_connection_not_found");
     const assetValue = sellAsset.set(sellAmount);
 
-    const channelInfo = await confirmSwap({
+    const { depositAddress } = await confirmSwap({
       buyAsset,
       sellAsset,
       recipient: params.recipient,
@@ -83,13 +75,12 @@ export const ChainflipProvider = ({
     return (wallets[sellAsset.chain] as ChainWallet<Chain>).transfer({
       assetValue,
       from: wallets[sellAsset.chain]?.address,
-      recipient: channelInfo.depositAddress,
+      recipient: depositAddress,
     });
   };
+
   return {
     name: "chainflip",
-    methods: {
-      swap,
-    },
+    methods: { swap },
   };
 };
