@@ -354,7 +354,7 @@ export type CachedPricesParams = {
   sparkline?: "true" | "false";
 };
 
-export type CachedPricesResponse = {
+export type CachedPrice = {
   identifier: string;
   price_usd: number;
   cg?: {
@@ -369,7 +369,7 @@ export type CachedPricesResponse = {
   };
 };
 
-export type TokenlistProvidersResponse = {
+export type TokenListProvidersResponse = {
   provider: string;
   nbTokens: number;
 }[];
@@ -381,8 +381,6 @@ export type GasPriceInfo = {
   chainId: string;
   gasAsset: number;
 };
-
-export type GasRatesResponse = GasPriceInfo[];
 
 type Calldata = {
   amount: string;

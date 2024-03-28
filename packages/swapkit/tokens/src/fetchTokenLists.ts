@@ -13,7 +13,7 @@ function parseIdentifier(identifier: string) {
   return identifier;
 }
 
-const providers = await SwapKitApi.getTokenlistProviders();
+const providers = await SwapKitApi.getTokenListProviders();
 
 for (const { provider } of providers) {
   if (provider.includes("whitelist")) continue;
