@@ -2,9 +2,9 @@ import { RequestClient } from "../requestClient.ts";
 import type {
   BorrowParams,
   BorrowResponse,
+  CachedPrice,
   CachedPricesParams,
-  CachedPricesResponse,
-  GasRatesResponse,
+  GasPriceInfo,
   LendingAssetItem,
   LoansParams,
   LoansResponse,
@@ -12,7 +12,7 @@ import type {
   QuoteResponse,
   RepayParams,
   RepayResponse,
-  TokenlistProvidersResponse,
+  TokenListProvidersResponse,
   TxnResponse,
 } from "./types.ts";
 
@@ -32,7 +32,7 @@ export function getCachedPrices({ tokens, ...options }: CachedPricesParams) {
   if (options.lookup) body.append("lookup", "true");
   if (options.sparkline) body.append("sparkline", "true");
 
-  return RequestClient.post<CachedPricesResponse[]>(`${baseUrl}/tokenlist/cached-price`, {
+  return RequestClient.post<CachedPrice[]>(`${baseUrl}/tokenlist/cached-price`, {
     body: body.toString(),
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
   });
@@ -61,13 +61,13 @@ export function getLoans(searchParams: LoansParams) {
 }
 
 export function getGasRates() {
-  return RequestClient.get<GasRatesResponse>(`${baseUrl}/resource-worker/gasPrice/getAll`);
+  return RequestClient.get<GasPriceInfo[]>(`${baseUrl}/resource-worker/gasPrice/getAll`);
 }
 
 export function getTxnDetails(txHash: string) {
   return RequestClient.get<TxnResponse>(`${baseUrl}/apiusage/v2/txn`, { searchParams: { txHash } });
 }
 
-export function getTokenlistProviders() {
-  return RequestClient.get<TokenlistProvidersResponse>(`${baseUrl}/tokenlist/providers`);
+export function getTokenListProviders() {
+  return RequestClient.get<TokenListProvidersResponse>(`${baseUrl}/tokenlist/providers`);
 }
