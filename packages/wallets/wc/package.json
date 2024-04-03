@@ -8,8 +8,11 @@
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/types": "workspace:*",
+    "@walletconnect/logger": "2.0.1",
     "@walletconnect/types": "2.11.3",
-    "bun-types": "1.0.35"
+    "bun-types": "1.0.35",
+    "pino": "8.19.0",
+    "pino-pretty": "11.0.0"
   },
   "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
