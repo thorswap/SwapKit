@@ -1,12 +1,5 @@
-export enum MicrogardEndpoints {}
-
-export type THORNameEntry = {
-  address: string;
-  chain: string;
-};
-
 export type THORNameDetails = {
-  entries: THORNameEntry[];
+  entries: Array<{ address: string; chain: string }>;
   owner: string;
   expire: string;
 };

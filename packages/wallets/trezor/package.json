@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@trezor/connect": "9.2.1",
-    "@trezor/connect-web": "9.2.1"
+    "@trezor/connect": "9.2.2",
+    "@trezor/connect-web": "9.2.2"
   },
   "description": "SwapKit Wallet - Trezor",
   "devDependencies": {
@@ -9,7 +9,7 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "bun-types": "1.0.35"
+    "bun-types": "1.1.0"
   },
   "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",

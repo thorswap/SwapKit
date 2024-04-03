@@ -6,34 +6,35 @@
   },
   "bun": {
     "patchedDependencies": {
-      "@changesets/assemble-release-plan@6.0.0": "patches/@changesets__assemble-release-plan@6.0.0.patch",
-      "@changesets/cli@2.27.1": "patches/@changesets__cli@2.27.1.patch",
-      "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
-      "typeforce@1.18.0": "patches/typeforce@1.18.0.patch"
+      "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan@6.0.0.patch",
+      "@changesets/cli": "patches/@changesets__cli@2.27.1.patch",
+      "cipher-base": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
+      "typeforce": "patches/typeforce@1.18.0.patch"
     }
   },
   "devDependencies": {
-    "@biomejs/biome": "1.6.3",
+    "@biomejs/biome": "1.6.4",
     "@changesets/changelog-github": "0.5.0",
     "@changesets/cli": "2.27.1",
     "@size-limit/file": "11.1.2",
-    "@turbo/gen": "1.13.0",
-    "@types/node": "20.11.30",
-    "@types/react": "18.2.72",
-    "@types/react-dom": "18.2.22",
-    "lefthook": "1.6.7",
+    "@turbo/gen": "1.13.2",
+    "@types/node": "20.12.3",
+    "@types/react": "18.2.74",
+    "@types/react-dom": "18.2.23",
+    "lefthook": "1.6.8",
     "lint-staged": "15.2.2",
     "npm-check-updates": "16.14.18",
     "react": "18.2.0",
+    "patch-package": "8.0.0",
     "size-limit": "11.1.2",
-    "turbo": "1.13.0",
+    "turbo": "1.13.2",
     "typescript": "5.4.3"
   },
   "lint-staged": {
     "*": ["bun biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true"]
   },
   "name": "swapkit-monorepo",
-  "packageManager": "^bun@1.0.35",
+  "packageManager": "^bun@1.1.0",
   "private": true,
   "scripts": {
     "bootstrap": "bun clean; bun install; bun run build",
@@ -48,7 +49,7 @@
     "playground:next": "bun --cwd ./playgrounds/nextjs",
     "playground:node": "bun --cwd ./playgrounds/node",
     "playground:vite": "bun --cwd ./playgrounds/vite",
-    "postinstall": "lefthook install; bun lint:ws; bun install --yarn --ignore-scripts; bun x patch-package;rm -f yarn.lock",
+    "postinstall": "lefthook install; bun lint:ws",
     "publish-packages": "turbo run build lint type-check --cache-dir=./.turbo-cache && bun version-bump && bun changeset publish",
     "test": "turbo run test --cache-dir=./.turbo-cache --continue",
     "test:coverage": "turbo run test:coverage  --cache-dir=./.turbo-cache --continue",

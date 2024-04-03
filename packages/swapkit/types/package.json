@@ -2,7 +2,7 @@
   "author": "swapkit-oss",
   "description": "SwapKit - Types",
   "devDependencies": {
-    "bun-types": "1.0.35"
+    "bun-types": "1.1.0"
   },
   "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",

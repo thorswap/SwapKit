@@ -191,7 +191,21 @@ export type QuoteRoute = {
   expectedOutputMaxSlippage: string;
   expectedOutputMaxSlippageUSD: string;
   expectedOutputUSD: string;
-  fees: Fees;
+  fees: {
+    [key in Chain]: Array<{
+      type: string;
+      asset: string;
+      networkFee: number;
+      networkFeeUSD: number;
+      affiliateFee: number;
+      affiliateFeeUSD: number;
+      totalFee: number;
+      totalFeeUSD: number;
+      isOutOfPocket: boolean;
+      slipFee?: number;
+      slipFeeUSD?: number;
+    }>;
+  };
   inboundAddress: string;
   index: number;
   isPreferred?: boolean;
@@ -200,13 +214,22 @@ export type QuoteRoute = {
   path: string;
   providers: string[];
   subProviders: string[];
-  swaps: Swaps;
+  swaps: {
+    [key: string]: Array<
+      Array<{
+        from: string;
+        to: string;
+        toTokenAddress: string;
+        parts: { provider: string; percentage: number }[];
+      }>
+    >;
+  };
   targetAddress: string;
   timeEstimates?: TimeEstimates;
   transaction?: Todo;
   streamingSwap?: {
     estimatedTime: number;
-    fees: Fees;
+    fees: QuoteRoute["fees"];
     expectedOutput: string;
     expectedOutputMaxSlippage: string;
     expectedOutputUSD: string;
@@ -369,10 +392,10 @@ export type CachedPrice = {
   };
 };
 
-export type TokenListProvidersResponse = {
+export type TokenListProvidersResponse = Array<{
   provider: string;
   nbTokens: number;
-}[];
+}>;
 
 export type GasPriceInfo = {
   asset: string;
@@ -431,22 +454,3 @@ type Meta = {
     warning: string;
   };
 };
-
-type SwapItem = { from: string; to: string; toTokenAddress: string; parts: Part[] };
-type FeeItem = {
-  type: string;
-  asset: string;
-  networkFee: number;
-  networkFeeUSD: number;
-  affiliateFee: number;
-  affiliateFeeUSD: number;
-  totalFee: number;
-  totalFeeUSD: number;
-  isOutOfPocket: boolean;
-  slipFee?: number;
-  slipFeeUSD?: number;
-};
-
-type Fees = { [key in Chain]: FeeItem[] };
-type Part = { provider: string; percentage: number };
-type Swaps = { [key: string]: SwapItem[][] };
