@@ -12,8 +12,9 @@
     "@ledgerhq/hw-transport": "6.30.5",
     "@ledgerhq/hw-transport-webusb": "6.28.5",
     "@scure/base": "1.1.6",
-    "crypto-js": "4.2.0",
+    "@types/ripemd160": "2.0.3",
     "cosmjs-types": "0.9.0",
+    "crypto-js": "4.2.0",
     "elliptic": "6.5.5",
     "ripemd160": "2.0.2"
   },
@@ -25,7 +26,6 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@types/ripemd160": "2.0.3",
     "bun-types": "1.1.0"
   },
   "files": ["src/", "dist/"],
@@ -51,6 +51,7 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
+    "@types/ripemd160": "2.0.3",
     "cosmjs-types": "0.9.0",
     "crypto-js": "4.2.0",
     "elliptic": "6.5.5",

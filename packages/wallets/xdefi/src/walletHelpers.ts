@@ -1,4 +1,3 @@
-import type { Keplr } from "@keplr-wallet/types";
 import type { AssetValue } from "@swapkit/helpers";
 import type { TransferParams } from "@swapkit/toolbox-cosmos";
 import type {
@@ -55,6 +54,7 @@ function getXDEFIProvider(chain: Chain) {
       return window.xfi?.mayachain;
     case Chain.Cosmos:
     case Chain.Kujira:
+      // @ts-ignore
       return window.xfi?.keplr;
     default:
       return undefined;
@@ -78,10 +78,12 @@ async function transaction({
       : getXDEFIProvider(chain);
 
   return new Promise<string>((resolve, reject) => {
-    // @ts-expect-error xdefi types mess with different providers
-    client?.request?.({ method, params }, (err: any, tx: string) =>
-      err ? reject(err) : resolve(tx),
-    );
+    if (client && "request" in client) {
+      // @ts-ignore
+      client.request({ method, params }, (err: string, tx: string) => {
+        err ? reject(err) : resolve(tx);
+      });
+    }
   });
 }
 
@@ -90,14 +92,16 @@ export async function getXDEFIAddress(chain: Chain) {
   if (!eipProvider) throw new Error(`${chain}: XDEFI provider is not defined`);
 
   if ([Chain.Cosmos, Chain.Kujira].includes(chain)) {
-    const provider = getXDEFIProvider(Chain.Cosmos) as Keplr;
-    if (!provider) throw new Error(`${chain}: XDEFI provider is not defined`);
+    const provider = getXDEFIProvider(Chain.Cosmos);
+    if (!provider || "request" in provider) {
+      throw new Error(`${chain}: XDEFI provider is not defined`);
+    }
 
     // Enabling before using the Keplr is recommended.
     // This method will ask the user whether to allow access if they haven't visited this website.
     // Also, it will request that the user unlock the wallet if the wallet is locked.
     const chainId = ChainToChainId[chain];
-    await (provider as Keplr).enable(chainId);
+    await provider.enable(chainId);
 
     const offlineSigner = provider.getOfflineSigner(chainId);
 
@@ -167,6 +171,7 @@ export function cosmosTransfer({
 }) {
   return async ({ from, recipient, assetValue, memo }: TransferParams) => {
     const { createSigningStargateClient } = await import("@swapkit/toolbox-cosmos");
+    // @ts-ignore
     const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(chainId);
     const cosmJS = await createSigningStargateClient(rpcUrl || RPCUrl.Cosmos, offlineSigner);
 
