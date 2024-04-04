@@ -11,7 +11,7 @@
     "@swapkit/types": "workspace:*",
     "@vitest/coverage-istanbul": "1.4.0",
     "@walletconnect/types": "2.11.3",
-    "vite": "5.1.6",
+    "vite": "5.1.7",
     "vitest": "1.4.0"
   },
   "exports": {
