@@ -91,6 +91,34 @@ const requestSwapDepositAddress = async (
   });
 };
 
+const withdrawFee = async (
+  toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
+  {
+    feeAsset,
+    recipient,
+  }: {
+    feeAsset: AssetValue;
+    recipient: string;
+  },
+) => {
+  const isFeeChainPolkadot = feeAsset.chain === Chain.Polkadot;
+
+  let recipientAddress: string;
+  try {
+    recipientAddress = isFeeChainPolkadot
+      ? await toolbox.encodeAddress(await toolbox.decodeAddress(recipient), "hex")
+      : recipient;
+  } catch (error) {
+    throw new SwapKitError("chainflip_broker_recipient_error", error);
+  }
+
+  const extrinsic = toolbox.api.tx.swapping.withdraw(feeAsset.ticker.toLowerCase(), {
+    [feeAsset.chain.toLowerCase()]: recipientAddress,
+  });
+
+  return toolbox.signAndBroadcast(extrinsic);
+};
+
 const fundStateChainAccount = async (
   evmToolbox: ReturnType<typeof ETHToolbox>,
   chainflipToolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
@@ -135,4 +163,6 @@ export const ChainflipBroker = async (
     amount: AssetValue,
     evmToolbox: ReturnType<typeof ETHToolbox>,
   ) => fundStateChainAccount(evmToolbox, chainflipToolbox, stateChainAccount, amount),
+  withdrawFee: async ({ feeAsset, recipient }: { feeAsset: AssetValue; recipient: string }) =>
+    withdrawFee(chainflipToolbox, { feeAsset, recipient }),
 });
