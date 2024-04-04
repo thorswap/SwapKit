@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.44
+
+### Minor Changes
+
+- [#696](https://github.com/thorswap/SwapKit/pull/696) [`98bdb5f`](https://github.com/thorswap/SwapKit/commit/98bdb5f78847e5ff2fd95e4a641dfa3aed3f9d8e) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Fix default boost fee for Chainflip 1.3
+
 ## 1.0.0-rc.43
 
 ### Patch Changes

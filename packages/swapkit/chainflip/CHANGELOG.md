@@ -1,5 +1,19 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.32
+
+### Minor Changes
+
+- [#696](https://github.com/thorswap/SwapKit/pull/696) [`98bdb5f`](https://github.com/thorswap/SwapKit/commit/98bdb5f78847e5ff2fd95e4a641dfa3aed3f9d8e) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Fix default boost fee for Chainflip 1.3
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/core@1.0.0-rc.119
+  - @swapkit/helpers@1.0.0-rc.83
+  - @swapkit/toolbox-evm@1.0.0-rc.89
+  - @swapkit/toolbox-substrate@1.0.0-rc.18
+
 ## 1.0.0-rc.31
 
 ### Patch Changes
