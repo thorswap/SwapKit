@@ -62,7 +62,8 @@ const requestSwapDepositAddress = async (
         buyAsset.ticker.toLowerCase(),
         { [buyAsset.chain.toLowerCase()]: recipientAddress },
         SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
-        null,
+        null, // ccm data
+        0, // boost fee
       ),
       async (result: any) => {
         if (!result.status?.isFinalized) return;
