@@ -28,10 +28,13 @@ export const createStargateClient = (url: string) => {
 export const createSigningStargateClient = (
   url: string,
   signer: any,
-  options: SigningStargateClientOptions = {},
+  optionsOrBaseGas: string | SigningStargateClientOptions = {},
 ) => {
+  const gasPrice = typeof optionsOrBaseGas === "string" ? optionsOrBaseGas : "0.0003uatom";
+  const options = typeof optionsOrBaseGas === "string" ? {} : optionsOrBaseGas;
+
   return SigningStargateClient.connectWithSigner({ url, headers: defaultRequestHeaders }, signer, {
-    gasPrice: GasPrice.fromString("0.0003uatom"),
+    gasPrice: GasPrice.fromString(gasPrice),
     ...options,
   });
 };

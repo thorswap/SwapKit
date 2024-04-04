@@ -15,7 +15,7 @@ export class BinanceLedger extends CosmosLedgerInterface {
   connect = async () => {
     await this.checkOrCreateTransportAndLedger();
     const publicKey = await this.ledgerApp.getPublicKey(this.derivationPath);
-    const address = await getAddressFromPublicKey(publicKey.pk, this.chain);
+    const address = getAddressFromPublicKey(publicKey.pk, this.chain);
 
     await this.ledgerApp.showAddress(this.chain, this.derivationPath);
 

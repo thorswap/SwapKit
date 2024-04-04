@@ -239,7 +239,6 @@ const getToolbox = async ({
     }
 
     case Chain.Cosmos: {
-      const { GasPrice } = await import("@cosmjs/stargate");
       const { createSigningStargateClient, getDenom, GaiaToolbox } = await import(
         "@swapkit/toolbox-cosmos"
       );
@@ -247,8 +246,6 @@ const getToolbox = async ({
       const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
         const from = address;
         if (!assetValue) throw new Error("invalid asset");
-        // ANCHOR (@0xGeneral) - create fallback for gas price estimation if internal api has error
-        const gasPrice = "0.007uatom";
 
         const sendCoinsMessage = {
           amount: [
@@ -269,7 +266,7 @@ const getToolbox = async ({
         const signingClient = await createSigningStargateClient(
           RPCUrl.Cosmos,
           signer as CosmosLedger,
-          { gasPrice: GasPrice.fromString(gasPrice) },
+          "0.007uatom",
         );
 
         const tx = await signingClient.signAndBroadcast(address, [msg], "auto", memo);

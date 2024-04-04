@@ -1,12 +1,12 @@
+import { SHA256, enc } from "crypto-js";
 import { type curve, ec } from "elliptic";
-import secp256k1 from "tiny-secp256k1";
+import * as secp256k1 from "tiny-secp256k1";
 import { convertObjectToSignBytes, encodeBinaryByteArray, marshalBinary } from "./amino/encoder.ts";
 import { UVarInt } from "./amino/varint.ts";
 import type { BaseMsg, StdSignMsg, StdSignature, StdTx } from "./types.ts";
 import { AminoPrefix } from "./types.ts";
 
-const sha256 = async (hex: string) => {
-  const { SHA256, enc } = await import("crypto-js");
+const sha256 = (hex: string) => {
   if (typeof hex !== "string") throw new Error("sha256 expects a hex string");
   if (hex.length % 2 !== 0) throw new Error(`invalid hex string length: ${hex}`);
   const hexEncoded = enc.Hex.parse(hex);

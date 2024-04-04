@@ -1,5 +1,5 @@
-import type { SwapKitCore } from "@swapkit/core";
-import { Chain, EVMChainList, WalletOption } from "@swapkit/types";
+import type { SwapKit } from "@swapkit/core";
+import { Chain, EVMChainList, EVMChains, WalletOption } from "@swapkit/types";
 import { decryptFromKeystore } from "@swapkit/wallet-keystore";
 import { getDerivationPathFor } from "@swapkit/wallet-ledger";
 import { useCallback, useState } from "react";
@@ -9,7 +9,7 @@ import type { WalletDataType } from "./types";
 type Props = {
   setPhrase: (phrase: string) => void;
   setWallet: (wallet: WalletDataType | WalletDataType[]) => void;
-  skClient?: SwapKitCore;
+  skClient?: ReturnType<typeof SwapKit>;
 };
 
 const walletOptions = Object.values(WalletOption).filter((o) => ![WalletOption.KEPLR].includes(o));
@@ -34,9 +34,9 @@ const AllChainsSupported = [
 ] as Chain[];
 
 export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
-  [WalletOption.BRAVE]: EVMChainList,
-  [WalletOption.OKX_MOBILE]: EVMChainList,
-  [WalletOption.COINBASE_WEB]: EVMChainList,
+  [WalletOption.BRAVE]: EVMChains,
+  [WalletOption.OKX_MOBILE]: EVMChains,
+  [WalletOption.COINBASE_WEB]: EVMChains,
   [WalletOption.KEPLR]: [Chain.Cosmos],
   [WalletOption.KEYSTORE]: [...AllChainsSupported, Chain.Polkadot, Chain.Chainflip],
   [WalletOption.KEEPKEY]: [
@@ -70,8 +70,8 @@ export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
     Chain.Arbitrum,
     Chain.Polygon,
   ],
-  [WalletOption.METAMASK]: EVMChainList,
-  [WalletOption.TRUSTWALLET_WEB]: EVMChainList,
+  [WalletOption.METAMASK]: EVMChains,
+  [WalletOption.TRUSTWALLET_WEB]: EVMChains,
   [WalletOption.XDEFI]: AllChainsSupported,
   [WalletOption.WALLETCONNECT]: [
     Chain.Ethereum,
@@ -158,7 +158,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
 
           await skClient.connectKeystore(chains, phrases);
           const walletDataArray = await Promise.all(
-            chains.map((chain) => skClient.getWalletByChain(chain, true)),
+            chains.map((chain) => skClient.getWalletWithBalance(chain, true)),
           );
 
           setWallet(walletDataArray.filter(Boolean));
@@ -179,7 +179,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
       await connectWallet(option);
 
       const walletDataArray = await Promise.all(
-        chains.map((chain) => skClient.getWalletByChain(chain, true)),
+        chains.map((chain) => skClient.getWalletWithBalance(chain, true)),
       );
 
       setWallet(walletDataArray.filter(Boolean));
@@ -242,6 +242,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             Chain.Optimism,
             Chain.Polygon,
           ].map((chain) => (
+            // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
             <option key={chain} onClick={() => handleChainSelect(chain)} value={chain}>
               {chain}
             </option>
