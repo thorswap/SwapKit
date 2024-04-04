@@ -38,12 +38,7 @@ export default function Send() {
                 name,
                 chain: Chain.Maya,
                 address: swapKit.getAddress(Chain.Maya),
-                assetValue: new AssetValue({
-                  value: getMAYANameCost(1),
-                  decimal: 10,
-                  chain: Chain.Maya,
-                  symbol: "CACAO",
-                }),
+                assetValue: AssetValue.fromChainOrSignature(Chain.Maya, getMAYANameCost(1)),
               });
             }}
           >

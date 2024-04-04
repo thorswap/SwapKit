@@ -30,8 +30,10 @@
     "@radix-ui/react-switch": "1.0.3",
     "@radix-ui/react-tabs": "1.0.4",
     "@radix-ui/react-tooltip": "1.0.7",
+    "@swapkit/chainflip": "workspace:*",
     "@swapkit/core": "workspace:*",
     "@swapkit/helpers": "workspace:*",
+    "@swapkit/thorchain": "workspace:*",
     "@swapkit/tokens": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
@@ -64,12 +66,22 @@
   "devDependencies": {
     "@swc-jotai/debug-label": "0.1.0",
     "@swc-jotai/react-refresh": "0.1.0",
-    "@types/node": "20.12.3",
+    "@types/node": "20.12.4",
     "@types/react": "18.2.74",
-    "@types/react-dom": "18.2.23",
+    "@types/react-dom": "18.2.24",
     "autoprefixer": "10.4.19",
     "postcss": "8.4.38",
     "tailwindcss": "3.4.3",
     "typescript": "5.4.3"
+  },
+  "browser": {
+    "dns": false,
+    "fs": false,
+    "net": false,
+    "perf_hooks": false,
+    "stream": false,
+    "timers": false,
+    "tls": false,
+    "zlib": false
   }
 }

@@ -7,9 +7,7 @@
   "bun": {
     "patchedDependencies": {
       "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan@6.0.0.patch",
-      "@changesets/cli": "patches/@changesets__cli@2.27.1.patch",
-      "cipher-base": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
-      "typeforce": "patches/typeforce@1.18.0.patch"
+      "@changesets/cli": "patches/@changesets__cli@2.27.1.patch"
     }
   },
   "devDependencies": {
@@ -18,9 +16,9 @@
     "@changesets/cli": "2.27.1",
     "@size-limit/file": "11.1.2",
     "@turbo/gen": "1.13.2",
-    "@types/node": "20.12.3",
+    "@types/node": "20.12.4",
     "@types/react": "18.2.74",
-    "@types/react-dom": "18.2.23",
+    "@types/react-dom": "18.2.24",
     "lefthook": "1.6.8",
     "lint-staged": "15.2.2",
     "npm-check-updates": "16.14.18",
@@ -56,7 +54,15 @@
     "type-check": "turbo run type-check --cache-dir=./.turbo-cache --continue",
     "version-bump": "bun changeset version"
   },
-  "trustedDependencies": ["@biomejs/biome", "core-js-pure", "lefthook"],
+  "trustedDependencies": [
+    "@biomejs/biome",
+    "secp256k1",
+    "blake-hash",
+    "esbuild",
+    "usb",
+    "core-js-pure",
+    "lefthook"
+  ],
   "workspaces": [
     "packages/swapkit/*",
     "packages/toolboxes/*",

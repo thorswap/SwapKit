@@ -79,7 +79,7 @@ export type SwapKitWallet = {
 
 export function SwapKit<
   ExtendedProviders extends {},
-  ConnectWalletMethods extends Record<string, ReturnType<SwapKitWallet["connect"]>>,
+  ConnectWalletMethods = Record<string, ReturnType<SwapKitWallet["connect"]>>,
 >({
   stagenet,
   wallets,
@@ -105,7 +105,8 @@ export function SwapKit<
   }
 
   const connectWalletMethods = wallets.reduce((acc, wallet) => {
-    (acc[wallet.connectMethodName] as ReturnType<SwapKitWallet["connect"]>) = wallet.connect({
+    // @ts-expect-error
+    acc[wallet.connectMethodName] = wallet.connect({
       addChain,
       config,
       apis,
