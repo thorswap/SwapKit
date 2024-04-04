@@ -11,7 +11,7 @@ import type {
   Provider,
   Signer,
 } from "ethers";
-import { BrowserProvider } from "ethers";
+import { BrowserProvider, Contract, Interface, hexlify, toUtf8Bytes } from "ethers";
 import { getAddress } from "ethers/address";
 import { MaxInt256 } from "ethers/constants";
 
@@ -48,12 +48,11 @@ const isEIP1559Transaction = (tx: EVMTxParams) =>
   !!(tx as EIP1559TxParams).maxPriorityFeePerGas;
 
 export const isBrowserProvider = (provider: any) => provider instanceof BrowserProvider;
-export const createContract = async (
+export const createContract = (
   address: string,
   abi: readonly (JsonFragment | Fragment)[],
   provider: Provider,
 ) => {
-  const { Interface, Contract } = await import("ethers");
   return new Contract(address, Interface.from(abi), provider);
 };
 
@@ -222,7 +221,7 @@ const approve = async (
 };
 
 // TODO - get from from signer or make it mandatory
-const transfer = async (
+const transfer = (
   provider: Provider | BrowserProvider,
   {
     assetValue,
@@ -257,8 +256,6 @@ const transfer = async (
       feeOption: feeOptionKey,
     });
   }
-
-  const { hexlify, toUtf8Bytes } = await import("ethers");
 
   // Transfer ETH
   const txObject = {
@@ -327,7 +324,7 @@ const estimateCall = async (
     : contract.getFunction(funcName).estimateGas(...funcParams, txOverrides);
 };
 
-const estimateGasLimit = async (
+const estimateGasLimit = (
   provider: Provider,
   {
     assetValue,
@@ -346,7 +343,6 @@ const estimateGasLimit = async (
     txOverrides?: EVMTxParams;
   },
 ) => {
-  const { hexlify, toUtf8Bytes } = await import("ethers");
   const value = assetValue.bigIntValue;
   const assetAddress = isGasAsset({ ...assetValue })
     ? null

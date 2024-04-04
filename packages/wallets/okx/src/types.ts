@@ -1,4 +1,4 @@
-import type { StdSignDoc } from "@swapkit/toolbox-cosmos";
+import type { StdSignDoc } from "@cosmjs/amino";
 
 export type OKXConfig = {
   covalentApiKey?: string;

@@ -1,11 +1,10 @@
+import { Registry } from "@cosmjs/proto-signing";
+import { AminoTypes, defaultRegistryTypes } from "@cosmjs/stargate";
 import { Chain } from "@swapkit/types";
+import * as types from "../thorchainUtils/types/proto/MsgCompiled.ts";
 import { base64ToBech32, bech32ToBase64 } from "./addressFormat.ts";
 
-export const createDefaultRegistry = async () => {
-  const types = await import("../thorchainUtils/types/proto/MsgCompiled.ts");
-  const { Registry } = await import("@cosmjs/proto-signing");
-  const { defaultRegistryTypes } = await import("@cosmjs/stargate");
-
+export const createDefaultRegistry = () => {
   return new Registry([
     ...defaultRegistryTypes,
     ["/types.MsgSend", { ...types.default.types.MsgSend }],
@@ -13,9 +12,7 @@ export const createDefaultRegistry = async () => {
   ]);
 };
 
-export const createDefaultAminoTypes = async (chain: Chain.THORChain | Chain.Maya) => {
-  const { AminoTypes } = await import("@cosmjs/stargate");
-
+export const createDefaultAminoTypes = (chain: Chain.THORChain | Chain.Maya) => {
   return new AminoTypes({
     "/types.MsgSend": {
       aminoType: `${chain === Chain.Maya ? "mayachain" : "thorchain"}/MsgSend`,

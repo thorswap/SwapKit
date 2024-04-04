@@ -228,7 +228,7 @@ const getToolbox = async ({
           derivationPath,
         );
 
-        const pubKey = toolbox.getPublicKey(pubKeyResponse?.pk?.toString("hex"));
+        const pubKey = await toolbox.getPublicKey(pubKeyResponse?.pk?.toString("hex"));
         const signedTx = transaction.addSignature(pubKey, signResponse?.signature);
 
         const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);

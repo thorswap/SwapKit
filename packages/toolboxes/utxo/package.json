@@ -1,7 +1,6 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@bitcoinerlab/secp256k1": "1.1.1",
     "@psf/bitcoincashjs-lib": "4.0.3",
     "@scure/bip32": "1.4.0",
     "@scure/bip39": "1.3.0",
@@ -9,12 +8,14 @@
     "bs58check": "3.0.1",
     "cashaddrjs": "0.4.4",
     "coininfo": "5.2.1",
-    "ecpair": "2.1.0"
+    "ecpair": "2.1.0",
+    "tiny-secp256k1": "2.2.3"
   },
   "description": "THORSwap utxo",
   "devDependencies": {
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*",
+    "@types/tiny-secp256k1": "2.0.1",
     "bun-types": "1.1.0"
   },
   "files": ["src/", "dist/"],
@@ -23,7 +24,6 @@
   "main": "./dist/index.js",
   "name": "@swapkit/toolbox-utxo",
   "peerDependencies": {
-    "@bitcoinerlab/secp256k1": "1.1.1",
     "@psf/bitcoincashjs-lib": "4.0.3",
     "@scure/bip32": "1.4.0",
     "@scure/bip39": "1.3.0",
@@ -33,7 +33,8 @@
     "bs58check": "3.0.1",
     "cashaddrjs": "0.4.4",
     "coininfo": "5.2.1",
-    "ecpair": "2.1.0"
+    "ecpair": "2.1.0",
+    "tiny-secp256k1": "2.2.3"
   },
   "react-native": "./src/index.ts",
   "repository": {

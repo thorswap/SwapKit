@@ -7,6 +7,7 @@ export function getExplorerTxUrl({ chain, txHash }: { txHash: string; chain: Cha
     case Chain.Binance:
     case Chain.Maya:
     case Chain.Kujira:
+    case Chain.Cosmos:
     case Chain.THORChain:
       return `${baseUrl}/tx/${txHash.startsWith("0x") ? txHash.slice(2) : txHash}`;
 
@@ -18,9 +19,6 @@ export function getExplorerTxUrl({ chain, txHash }: { txHash: string; chain: Cha
     case Chain.Polkadot:
     case Chain.Polygon:
       return `${baseUrl}/tx/${txHash.startsWith("0x") ? txHash : `0x${txHash}`}`;
-
-    case Chain.Cosmos:
-      return `${baseUrl}/transactions/${txHash}`;
 
     case Chain.Litecoin:
     case Chain.Bitcoin:
@@ -36,28 +34,5 @@ export function getExplorerTxUrl({ chain, txHash }: { txHash: string; chain: Cha
 export function getExplorerAddressUrl({ chain, address }: { address: string; chain: Chain }) {
   const baseUrl = ChainToExplorerUrl[chain];
 
-  switch (chain) {
-    case Chain.Arbitrum:
-    case Chain.Avalanche:
-    case Chain.Binance:
-    case Chain.BinanceSmartChain:
-    case Chain.Bitcoin:
-    case Chain.BitcoinCash:
-    case Chain.Dogecoin:
-    case Chain.Ethereum:
-    case Chain.Kujira:
-    case Chain.Litecoin:
-    case Chain.Maya:
-    case Chain.Optimism:
-    case Chain.Polkadot:
-    case Chain.Polygon:
-    case Chain.THORChain:
-      return `${baseUrl}/address/${address}`;
-
-    case Chain.Cosmos:
-      return `${baseUrl}/account/${address}`;
-
-    default:
-      throw new Error(`Unsupported chain: ${chain}`);
-  }
+  return `${baseUrl}/address/${address}`;
 }

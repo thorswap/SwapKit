@@ -1,5 +1,10 @@
 import type { OfflineSigner } from "@cosmjs/proto-signing";
-import type { SigningStargateClientOptions } from "@cosmjs/stargate";
+import {
+  GasPrice,
+  SigningStargateClient,
+  type SigningStargateClientOptions,
+  StargateClient,
+} from "@cosmjs/stargate";
 import { AssetValue, defaultRequestHeaders } from "@swapkit/helpers";
 import { Chain, ChainId, FeeOption, RPCUrl } from "@swapkit/types";
 
@@ -16,30 +21,25 @@ export const DEFAULT_COSMOS_FEE_MAINNET = {
 export const getDenom = (symbol: string, isThorchain = false) =>
   isThorchain ? symbol.toLowerCase() : symbol;
 
-export const createStargateClient = async (url: string) => {
-  const { StargateClient } = await import("@cosmjs/stargate");
-
+export const createStargateClient = (url: string) => {
   return StargateClient.connect({ url, headers: defaultRequestHeaders });
 };
 
-export const createSigningStargateClient = async (
+export const createSigningStargateClient = (
   url: string,
   signer: any,
   options: SigningStargateClientOptions = {},
 ) => {
-  const { SigningStargateClient, GasPrice } = await import("@cosmjs/stargate");
-
   return SigningStargateClient.connectWithSigner({ url, headers: defaultRequestHeaders }, signer, {
     gasPrice: GasPrice.fromString("0.0003uatom"),
     ...options,
   });
 };
 
-export const createOfflineStargateClient = async (
+export const createOfflineStargateClient = (
   wallet: OfflineSigner,
   registry?: SigningStargateClientOptions,
 ) => {
-  const { SigningStargateClient } = await import("@cosmjs/stargate");
   return SigningStargateClient.offline(wallet, registry);
 };
 

@@ -1,9 +1,11 @@
 import { Chains } from "@chainflip/sdk/swap";
-import { type AssetValue, SwapKitError } from "@swapkit/helpers";
+import { type AssetValue, SwapKitError, SwapKitNumber } from "@swapkit/helpers";
 import type { ETHToolbox } from "@swapkit/toolbox-evm";
 import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
 import { Chain } from "@swapkit/types";
 
+import { decodeAddress } from "@polkadot/keyring";
+import { isHex, u8aToHex } from "@polkadot/util";
 import { chainflipGateway } from "./chainflipGatewayABI.ts";
 
 const chainToChainflipChain = new Map<Chain, keyof typeof Chains>([
@@ -39,8 +41,6 @@ const requestSwapDepositAddress = async (
     brokerCommissionBPS: number;
   },
 ) => {
-  const { SwapKitNumber } = await import("@swapkit/helpers");
-
   const isBuyChainPolkadot = buyAsset.chain === Chain.Polkadot;
 
   let recipientAddress: string;
@@ -99,15 +99,12 @@ const requestSwapDepositAddress = async (
   });
 };
 
-const fundStateChainAccount = async (
+const fundStateChainAccount = (
   evmToolbox: ReturnType<typeof ETHToolbox>,
   chainflipToolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
   stateChainAccount: string,
   amount: AssetValue,
 ) => {
-  const { decodeAddress } = await import("@polkadot/keyring");
-  const { isHex, u8aToHex } = await import("@polkadot/util");
-
   if (amount.symbol !== "FLIP") {
     throw new Error("Only FLIP is supported");
   }

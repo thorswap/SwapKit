@@ -1,9 +1,14 @@
-import type { ApiPromise } from "@polkadot/api";
+import { type ApiPromise, Keyring } from "@polkadot/api";
 import type { SubmittableExtrinsic } from "@polkadot/api/types";
 import type { Callback, IKeyringPair, ISubmittableResult } from "@polkadot/types/types";
-import type { AssetValue } from "@swapkit/helpers";
+import { hexToU8a, isHex, u8aToHex } from "@polkadot/util";
+import {
+  cryptoWaitReady,
+  decodeAddress as decodePolkadotAddress,
+  encodeAddress as encodePolkadotAddress,
+} from "@polkadot/util-crypto";
+import { type AssetValue, SwapKitNumber } from "@swapkit/helpers";
 
-import { u8aToHex } from "@polkadot/util";
 import type { SubstrateNetwork } from "../types/network.ts";
 
 // TODO combine this type with the more general SK type
@@ -14,8 +19,6 @@ type SubstrateTransferParams = {
 };
 
 export const createKeyring = async (phrase: string, networkPrefix: number) => {
-  const { cryptoWaitReady } = await import("@polkadot/util-crypto");
-  const { Keyring } = await import("@polkadot/api");
   await cryptoWaitReady();
 
   return new Keyring({ type: "sr25519", ss58Format: networkPrefix }).addFromUri(phrase);
@@ -24,7 +27,6 @@ export const createKeyring = async (phrase: string, networkPrefix: number) => {
 const getNonce = (api: ApiPromise, address: string) => api.rpc.system.accountNextIndex(address);
 
 const getBalance = async (api: ApiPromise, gasAsset: AssetValue, address: string) => {
-  const { SwapKitNumber } = await import("@swapkit/helpers");
   const data = await api.query.system?.account?.(address);
 
   // @ts-expect-error @Towan some parts of data missing?
@@ -82,7 +84,6 @@ const estimateGasFee = async (
   gasAsset: AssetValue,
   { recipient, assetValue, from }: SubstrateTransferParams,
 ) => {
-  const { SwapKitNumber } = await import("@swapkit/helpers");
   const transfer = createTransfer(api, { recipient, amount: assetValue.getBaseValue("number") });
 
   const paymentInfo = (await transfer?.paymentInfo(from || signer.address, {
@@ -120,23 +121,21 @@ const signAndBroadcast = (
   return hash.toString();
 };
 
-async function decodeAddress(address: string, networkPrefix?: number) {
-  const { decodeAddress } = await import("@polkadot/util-crypto");
-  const { isHex, hexToU8a } = await import("@polkadot/util");
-
-  return isHex(address) ? hexToU8a(address) : decodeAddress(address, undefined, networkPrefix);
+function decodeAddress(address: string, networkPrefix?: number) {
+  return isHex(address)
+    ? hexToU8a(address)
+    : decodePolkadotAddress(address, undefined, networkPrefix);
 }
 
-async function encodeAddress(
+function encodeAddress(
   address: Uint8Array,
   encoding: "ss58" | "hex" = "ss58",
   networkPrefix?: number,
 ) {
-  const { encodeAddress } = await import("@polkadot/util-crypto");
   if (encoding === "hex") {
     return u8aToHex(address);
   }
-  return encodeAddress(address, networkPrefix);
+  return encodePolkadotAddress(address, networkPrefix);
 }
 
 // Temporarily commented out forced typing

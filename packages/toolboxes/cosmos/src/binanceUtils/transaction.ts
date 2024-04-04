@@ -1,13 +1,12 @@
-import { SHA256, enc } from "crypto-js";
-import type { curve } from "elliptic";
-import { ec as EC } from "elliptic";
-
+import { type curve, ec } from "elliptic";
+import secp256k1 from "tiny-secp256k1";
 import { convertObjectToSignBytes, encodeBinaryByteArray, marshalBinary } from "./amino/encoder.ts";
 import { UVarInt } from "./amino/varint.ts";
 import type { BaseMsg, StdSignMsg, StdSignature, StdTx } from "./types.ts";
 import { AminoPrefix } from "./types.ts";
 
-const sha256 = (hex: string) => {
+const sha256 = async (hex: string) => {
+  const { SHA256, enc } = await import("crypto-js");
   if (typeof hex !== "string") throw new Error("sha256 expects a hex string");
   if (hex.length % 2 !== 0) throw new Error(`invalid hex string length: ${hex}`);
   const hexEncoded = enc.Hex.parse(hex);
@@ -15,15 +14,13 @@ const sha256 = (hex: string) => {
 };
 
 const generatePubKey = (privateKey: Buffer) => {
-  const curve = new EC("secp256k1");
+  const curve = new ec("secp256k1");
   const keypair = curve.keyFromPrivate(privateKey);
   return keypair.getPublic();
 };
 
 const generateSignature = async (signBytesHex: string, privateKey: string | Buffer) => {
-  const secp256k1 = await import("@bitcoinerlab/secp256k1");
-
-  const msgHash = sha256(signBytesHex);
+  const msgHash = await sha256(signBytesHex);
   const msgHashHex = Buffer.from(msgHash, "hex");
   const signature = secp256k1.sign(
     msgHashHex,
@@ -136,7 +133,9 @@ export class BNBTransaction {
     const signBytes = this.getSignBytes(msg);
     const privKeyBuf = Buffer.from(privateKey, "hex");
     const signature = await generateSignature(signBytes.toString("hex"), privKeyBuf);
-    this.addSignature(generatePubKey(privKeyBuf), signature);
+    const pubKey = await generatePubKey(privKeyBuf);
+
+    this.addSignature(pubKey, signature);
     return this;
   };
 

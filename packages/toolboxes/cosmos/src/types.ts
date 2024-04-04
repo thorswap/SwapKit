@@ -11,8 +11,6 @@ import type {
   ThorchainToolboxType,
 } from "./index.ts";
 
-export type { MultisigThresholdPubkey } from "@cosmjs/amino";
-
 export type CosmosSDKClientParams = {
   server: string;
   chainId: ChainId;

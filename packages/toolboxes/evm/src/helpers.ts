@@ -14,7 +14,7 @@ import {
   FeeOption,
   WalletOption,
 } from "@swapkit/types";
-import type { BrowserProvider, Eip1193Provider, JsonRpcProvider } from "ethers";
+import { BrowserProvider, type Eip1193Provider, type JsonRpcProvider } from "ethers";
 
 import type { CovalentApiType, EVMMaxSendableAmountsParams, EthplorerApiType } from "./index.ts";
 import { AVAXToolbox, BSCToolbox, ETHToolbox } from "./index.ts";
@@ -131,8 +131,6 @@ export const getWeb3WalletMethods = async ({
   ) {
     throw new Error(`Missing API key for ${chain} chain`);
   }
-
-  const { BrowserProvider } = await import("ethers");
 
   const provider = new BrowserProvider(ethereumWindowProvider, "any");
 

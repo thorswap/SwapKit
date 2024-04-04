@@ -1,4 +1,3 @@
-import * as ecc from "@bitcoinerlab/secp256k1";
 import { HDKey } from "@scure/bip32";
 import { mnemonicToSeedSync } from "@scure/bip39";
 import { AssetValue, SwapKitNumber } from "@swapkit/helpers";
@@ -7,6 +6,7 @@ import { BaseDecimal, Chain, FeeOption } from "@swapkit/types";
 import { Psbt, address as btcLibAddress, initEccLib, payments } from "bitcoinjs-lib";
 import type { ECPairInterface } from "ecpair";
 import { ECPairFactory } from "ecpair";
+import * as secp256k1 from "tiny-secp256k1";
 
 import type { BlockchairApiType } from "../api/blockchairApi.ts";
 import type {
@@ -27,7 +27,7 @@ import {
   standardFeeRates,
 } from "../utils/index.ts";
 
-const createKeysForPath = async ({
+const createKeysForPath = ({
   phrase,
   wif,
   derivationPath,
@@ -40,7 +40,6 @@ const createKeysForPath = async ({
 }) => {
   if (!(wif || phrase)) throw new Error("Either phrase or wif must be provided");
 
-  const secp256k1 = await import("@bitcoinerlab/secp256k1");
   const factory = ECPairFactory(secp256k1);
   const network = getNetwork(chain);
 
@@ -55,7 +54,7 @@ const createKeysForPath = async ({
 
 const validateAddress = ({ address, chain }: { address: string } & UTXOBaseToolboxParams) => {
   try {
-    initEccLib(ecc);
+    initEccLib(secp256k1);
     btcLibAddress.toOutputScript(address, getNetwork(chain));
     return true;
   } catch (_error) {
@@ -209,7 +208,7 @@ const buildTx = async ({
       : { address, value: output.value };
 
     if (params) {
-      initEccLib(ecc);
+      initEccLib(secp256k1);
       psbt.addOutput(params);
     }
   }

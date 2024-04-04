@@ -6,19 +6,17 @@ import { covalentApi } from "../api/covalentApi.ts";
 import { gasOracleAbi } from "../contracts/op/gasOracle.ts";
 import { getBalance } from "../index.ts";
 
+import { Contract, Transaction } from "ethers";
 import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
 
 const GAS_PRICE_ORACLE_ADDRESS = "0x420000000000000000000000000000000000000f";
 
-export const connectGasPriceOracle = async (provider: JsonRpcProvider | BrowserProvider) => {
-  const { Contract } = await import("ethers");
+export const connectGasPriceOracle = (provider: JsonRpcProvider | BrowserProvider) => {
   return new Contract(GAS_PRICE_ORACLE_ADDRESS, gasOracleAbi, provider);
 };
 
-export const getL1GasPrice = async (
-  provider: JsonRpcProvider | BrowserProvider,
-): Promise<bigint> => {
-  const gasPriceOracle = await connectGasPriceOracle(provider);
+export const getL1GasPrice = (provider: JsonRpcProvider | BrowserProvider): Promise<bigint> => {
+  const gasPriceOracle = connectGasPriceOracle(provider);
 
   // @ts-expect-error TODO: Fix ethers type
   return gasPriceOracle?.l1BaseFee();
@@ -29,8 +27,6 @@ const _serializeTx = async (
   { data, from, to, gasPrice, type, gasLimit, nonce }: TransactionRequest,
 ) => {
   if (!to) throw new Error("Missing to address");
-
-  const { Transaction } = await import("ethers");
 
   return Transaction.from({
     data,

@@ -5,6 +5,8 @@ import {
   address as bchAddress,
   // @ts-ignore TODO: check why wallets doesn't see modules included in toolbox
 } from "@psf/bitcoincashjs-lib";
+import * as secp256k1 from "tiny-secp256k1";
+
 import { mnemonicToSeedSync } from "@scure/bip39";
 import type { UTXOChain } from "@swapkit/types";
 import { Chain, DerivationPath, FeeOption, RPCUrl } from "@swapkit/types";
@@ -226,7 +228,7 @@ const validateAddress = (address: string, _chain?: UTXOChain) => {
   return isValidAddress(address) && detectAddressNetwork(address) === bchNetwork.Mainnet;
 };
 
-const createKeysForPath: BCHMethods["createKeysForPath"] = async ({
+const createKeysForPath: BCHMethods["createKeysForPath"] = ({
   phrase,
   derivationPath = `${DerivationPath.BCH}/0`,
   wif,
@@ -234,7 +236,6 @@ const createKeysForPath: BCHMethods["createKeysForPath"] = async ({
   const network = getNetwork(chain);
 
   if (wif) {
-    const secp256k1 = await import("@bitcoinerlab/secp256k1");
     return ECPairFactory(secp256k1).fromWIF(wif, network);
   }
   if (!phrase) throw new Error("No phrase provided");

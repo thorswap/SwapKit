@@ -1,6 +1,7 @@
-import type { ApiPromise } from "@polkadot/api";
+import { ApiPromise, WsProvider } from "@polkadot/api";
 import type { KeyringPair } from "@polkadot/keyring/types";
-import type { RPCUrl, SubstrateChain } from "@swapkit/types";
+import { AssetValue, SwapKitNumber } from "@swapkit/helpers";
+import { Chain, RPCUrl, type SubstrateChain } from "@swapkit/types";
 
 import { Network } from "../types/network.ts";
 
@@ -22,9 +23,6 @@ export const ToolboxFactory: ToolboxFactoryType<{ chain: SubstrateChain }, unkno
   chain,
   signer,
 }) => {
-  const { ApiPromise, WsProvider } = await import("@polkadot/api");
-  const { AssetValue } = await import("@swapkit/helpers");
-
   const provider = new WsProvider(providerUrl);
   const api = await ApiPromise.create({ provider });
   const gasAsset = AssetValue.fromChainOrSignature(chain);
@@ -37,12 +35,11 @@ export const ToolboxFactory: ToolboxFactoryType<{ chain: SubstrateChain }, unkno
   });
 };
 
-export const PolkadotToolbox: ToolboxFactoryType<unknown, unknown> = async ({
+export const PolkadotToolbox: ToolboxFactoryType<unknown, unknown> = ({
   providerUrl,
   signer,
   generic = false,
 }) => {
-  const { Chain, RPCUrl } = await import("@swapkit/types");
   return ToolboxFactory({
     providerUrl: providerUrl || RPCUrl.Polkadot,
     chain: Chain.Polkadot,
@@ -56,10 +53,6 @@ export const ChainflipToolbox: ToolboxFactoryType<unknown, unknown> = async ({
   signer,
   generic = false,
 }) => {
-  const { Chain } = await import("@swapkit/types");
-  const { ApiPromise, WsProvider } = await import("@polkadot/api");
-  const { AssetValue, SwapKitNumber } = await import("@swapkit/helpers");
-
   const provider = new WsProvider(providerUrl);
   const api = await ApiPromise.create({ provider });
   const gasAsset = AssetValue.fromChainOrSignature(Chain.Chainflip);
@@ -89,7 +82,7 @@ export const ChainflipToolbox: ToolboxFactoryType<unknown, unknown> = async ({
   };
 };
 
-export const getToolboxByChain = async (
+export const getToolboxByChain = (
   chain: SubstrateChain,
   params: {
     providerUrl?: RPCUrl;
@@ -97,7 +90,6 @@ export const getToolboxByChain = async (
     generic?: boolean;
   },
 ) => {
-  const { Chain } = await import("@swapkit/types");
   switch (chain) {
     case Chain.Polkadot:
       return PolkadotToolbox(params);

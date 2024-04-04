@@ -310,7 +310,7 @@ export const ChainToExplorerUrl: Record<Chain, string> = {
   [Chain.BitcoinCash]: "https://www.blockchair.com/bitcoin-cash",
   [Chain.Bitcoin]: "https://blockchair.com/bitcoin",
   [Chain.Chainflip]: "https://explorer.polkascan.io/polkadot",
-  [Chain.Cosmos]: "https://cosmos.bigdipper.live",
+  [Chain.Cosmos]: "https://www.mintscan.io/cosmos",
   [Chain.Dash]: "https://blockchair.com/dash",
   [Chain.Dogecoin]: "https://blockchair.com/dogecoin",
   [Chain.Kujira]: "https://finder.kujira.network/kaiyo-1",

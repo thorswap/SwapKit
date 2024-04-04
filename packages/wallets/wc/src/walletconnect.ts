@@ -1,10 +1,6 @@
+import type { StdSignDoc } from "@cosmjs/amino";
 import { setRequestClientConfig } from "@swapkit/helpers";
-import type {
-  BaseCosmosToolboxType,
-  DepositParam,
-  StdSignDoc,
-  TransferParams,
-} from "@swapkit/toolbox-cosmos";
+import type { BaseCosmosToolboxType, DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
 import type { ConnectWalletParams } from "@swapkit/types";
 import { Chain, ChainId, RPCUrl, WalletOption } from "@swapkit/types";
 import type { WalletConnectModalSign } from "@walletconnect/modal-sign-html";
@@ -113,7 +109,7 @@ const getToolbox = async ({
         });
 
         const signature = Buffer.from(response.signature, "hex");
-        const publicKey = toolbox.getPublicKey(response.publicKey);
+        const publicKey = await toolbox.getPublicKey(response.publicKey);
         const signedTx = transaction.addSignature(publicKey, signature);
 
         const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);

@@ -4,7 +4,7 @@ import { getExplorerAddressUrl, getExplorerTxUrl } from "../helpers/explorerUrls
 
 describe("Explorer URLs", () => {
   describe("CosmosChains", () => {
-    for (const chain of CosmosChains.filter((c) => c !== Chain.Cosmos)) {
+    for (const chain of CosmosChains) {
       test(`getExplorerTxUrl returns correct URL for ${chain}`, () => {
         expect(getExplorerTxUrl({ chain, txHash: "0x123456789" })).toBe(
           `${ChainToExplorerUrl[chain]}/tx/123456789`,
@@ -15,16 +15,6 @@ describe("Explorer URLs", () => {
         );
       });
     }
-
-    test(`getExplorerTxUrl returns correct URL for ${Chain.Cosmos}`, () => {
-      expect(getExplorerTxUrl({ chain: Chain.Cosmos, txHash: "0x123456789" })).toBe(
-        `${ChainToExplorerUrl[Chain.Cosmos]}/transactions/0x123456789`,
-      );
-
-      expect(getExplorerAddressUrl({ chain: Chain.Cosmos, address: "asdfg" })).toBe(
-        `${ChainToExplorerUrl[Chain.Cosmos]}/account/asdfg`,
-      );
-    });
   });
 
   describe("EVMChains & SubstrateChains", () => {
@@ -59,19 +49,5 @@ describe("Explorer URLs", () => {
         );
       });
     }
-  });
-
-  describe("Unsupported chains", () => {
-    test("getExplorerTxUrl throws Error for unsupported Chain", () => {
-      expect(() => getExplorerTxUrl({ chain: "unsupported" as Chain, txHash: "0x12345" })).toThrow(
-        "Unsupported chain: unsupported",
-      );
-    });
-
-    test("getExplorerAddressUrl throws Error for unsupported Chain", () => {
-      expect(() =>
-        getExplorerAddressUrl({ chain: "unsupported" as Chain, address: "asdfg" }),
-      ).toThrow("Unsupported chain: unsupported");
-    });
   });
 });

@@ -1,6 +1,13 @@
-import type { Pubkey, Secp256k1HdWallet } from "@cosmjs/amino";
+import {
+  type Pubkey,
+  Secp256k1HdWallet,
+  createMultisigThresholdPubkey,
+  encodeSecp256k1Pubkey,
+  pubkeyToAddress,
+} from "@cosmjs/amino";
+import { Secp256k1, Secp256k1Signature, stringToPath } from "@cosmjs/crypto";
 import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
-import type { Account } from "@cosmjs/stargate";
+import { type Account, makeMultisignedTxBytes } from "@cosmjs/stargate";
 import { base64 } from "@scure/base";
 import type { AssetValue } from "@swapkit/helpers";
 import { RequestClient, SwapKitNumber } from "@swapkit/helpers";
@@ -35,10 +42,7 @@ import { BaseCosmosToolbox } from "./BaseCosmosToolbox.ts";
 
 const secp256k1HdWalletFromMnemonic =
   ({ prefix, derivationPath }: { prefix: string; derivationPath: string }) =>
-  async (mnemonic: string, index = 0) => {
-    const { Secp256k1HdWallet } = await import("@cosmjs/amino");
-    const { stringToPath } = await import("@cosmjs/crypto");
-
+  (mnemonic: string, index = 0) => {
     return Secp256k1HdWallet.fromMnemonic(mnemonic, {
       hdPaths: [stringToPath(`${derivationPath}/${index}`)],
       prefix,
@@ -98,9 +102,6 @@ const broadcastMultisigTx =
     const { sequence, fee } = JSON.parse(tx);
     const multisigPubkey = await createMultisig(membersPubKeys, threshold);
 
-    const { pubkeyToAddress, encodeSecp256k1Pubkey } = await import("@cosmjs/amino");
-    const { makeMultisignedTxBytes } = await import("@cosmjs/stargate");
-
     const addressesAndSignatures: [string, Uint8Array][] = signers.map((signer) => [
       pubkeyToAddress(encodeSecp256k1Pubkey(base64.decode(signer.pubKey)), prefix),
       base64.decode(signer.signature),
@@ -122,7 +123,6 @@ const broadcastMultisigTx =
   };
 
 const createMultisig = async (pubKeys: string[], threshold: number, noSortPubKeys = true) => {
-  const { encodeSecp256k1Pubkey, createMultisigThresholdPubkey } = await import("@cosmjs/amino");
   return createMultisigThresholdPubkey(
     pubKeys.map((pubKey) => encodeSecp256k1Pubkey(base64.decode(pubKey))),
     threshold,
@@ -132,21 +132,16 @@ const createMultisig = async (pubKeys: string[], threshold: number, noSortPubKey
 
 const importSignature = (signature: string) => base64.decode(signature);
 
-const __REEXPORT__pubkeyToAddress = (prefix: string) => async (pubkey: Pubkey) => {
-  const { pubkeyToAddress } = await import("@cosmjs/amino");
-
+const __REEXPORT__pubkeyToAddress = (prefix: string) => (pubkey: Pubkey) => {
   return pubkeyToAddress(pubkey, prefix);
 };
 
 const signMessage = async (privateKey: Uint8Array, message: string) => {
-  const { Secp256k1 } = await import("@cosmjs/crypto");
-
   const signature = await Secp256k1.createSignature(base64.decode(message), privateKey);
   return base64.encode(Buffer.concat([signature.r(32), signature.s(32)]));
 };
 
-export const verifySignature = async (signature: string, message: string, pubkey: Uint8Array) => {
-  const { Secp256k1, Secp256k1Signature } = await import("@cosmjs/crypto");
+export const verifySignature = (signature: string, message: string, pubkey: Uint8Array) => {
   const secpSignature = Secp256k1Signature.fromFixedLength(base64.decode(signature));
 
   return Secp256k1.verifySignature(secpSignature, base64.decode(message), pubkey);

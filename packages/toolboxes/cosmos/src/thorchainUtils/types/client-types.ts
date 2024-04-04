@@ -86,8 +86,8 @@ export type BaseCosmosToolboxType = {
 export type ThorchainToolboxType = BaseCosmosToolboxType & {
   getFees: () => Promise<Fees>;
   deposit: (params: DepositParam & { from: string }) => Promise<string>;
-  createDefaultRegistry: () => Promise<Registry>;
-  createDefaultAminoTypes: () => Promise<AminoTypes>;
+  createDefaultRegistry: () => Registry;
+  createDefaultAminoTypes: () => AminoTypes;
   buildAminoMsg: typeof buildAminoMsg;
   convertToSignable: typeof convertToSignable;
   buildTransaction: typeof buildTransaction;
@@ -108,7 +108,7 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
     bodyBytes: Uint8Array,
     isStagenet?: boolean,
   ) => Promise<string>;
-  pubkeyToAddress: (pubkey: Pubkey, prefix: string) => Promise<string>;
+  pubkeyToAddress: (pubkey: Pubkey, prefix: string) => string;
   loadAddressBalances: (address: string) => Promise<AssetValue[]>;
   signMessage: (privateKey: Uint8Array, message: string) => Promise<string>;
   verifySignature: (signature: string, message: string, address: string) => Promise<boolean>;

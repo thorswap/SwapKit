@@ -1,8 +1,9 @@
+import { type AccountData, Secp256k1HdWallet } from "@cosmjs/amino";
 import type { StdFee } from "@cosmjs/stargate";
 import { base64, bech32 } from "@scure/base";
 import type { ChainId } from "@swapkit/types";
 
-import type { AccountData } from "@cosmjs/amino";
+import { stringToPath } from "@cosmjs/crypto";
 import type { CosmosSDKClientParams, TransferParams } from "./types.ts";
 import {
   DEFAULT_COSMOS_FEE_MAINNET,
@@ -99,11 +100,8 @@ export class CosmosClient {
     return txResponse.transactionHash;
   };
 
-  #getWallet = async (mnemonic: string, derivationPath: string) => {
-    const { Secp256k1HdWallet } = await import("@cosmjs/amino");
-    const { stringToPath } = await import("@cosmjs/crypto");
-
-    return await Secp256k1HdWallet.fromMnemonic(mnemonic, {
+  #getWallet = (mnemonic: string, derivationPath: string) => {
+    return Secp256k1HdWallet.fromMnemonic(mnemonic, {
       prefix: this.prefix,
       hdPaths: [stringToPath(derivationPath)],
     });

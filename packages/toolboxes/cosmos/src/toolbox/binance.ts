@@ -2,7 +2,6 @@ import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
 import { bech32 } from "@scure/base";
 import { AssetValue, RequestClient, SwapKitApi, SwapKitNumber } from "@swapkit/helpers";
 import { BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/types";
-import { ec as EC } from "elliptic";
 
 import { BNBTransaction } from "../binanceUtils/transaction.ts";
 import type { Account, BNBFees } from "../binanceUtils/types.ts";
@@ -12,6 +11,7 @@ import { CosmosClient } from "../cosmosClient.ts";
 import { type BinanceToolboxType, getDenom } from "../index.ts";
 import type { ToolboxParams, TransferParams } from "../types.ts";
 
+import { ec } from "elliptic";
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from "./BaseCosmosToolbox.ts";
 
 const BINANCE_MAINNET_API_URI = "https://dex.binance.org";
@@ -150,8 +150,8 @@ const transfer = async (params: TransferParams): Promise<string> => {
 };
 
 export const getPublicKey = (publicKey: string) => {
-  const ec = new EC("secp256k1");
-  const keyPair = ec.keyFromPublic(publicKey, "hex");
+  const EC = new ec("secp256k1");
+  const keyPair = EC.keyFromPublic(publicKey, "hex");
   return keyPair.getPublic();
 };
 
