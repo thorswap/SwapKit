@@ -15,11 +15,14 @@ export const connectGasPriceOracle = (provider: JsonRpcProvider | BrowserProvide
   return new Contract(GAS_PRICE_ORACLE_ADDRESS, gasOracleAbi, provider);
 };
 
-export const getL1GasPrice = (provider: JsonRpcProvider | BrowserProvider): Promise<bigint> => {
+export const getL1GasPrice = (provider: JsonRpcProvider | BrowserProvider) => {
   const gasPriceOracle = connectGasPriceOracle(provider);
 
-  // @ts-expect-error TODO: Fix ethers type
-  return gasPriceOracle?.l1BaseFee();
+  if (gasPriceOracle && "l1BaseFee" in gasPriceOracle) {
+    return gasPriceOracle?.l1BaseFee() as unknown as bigint;
+  }
+
+  return undefined;
 };
 
 const _serializeTx = async (
@@ -45,8 +48,9 @@ export const estimateL1GasCost = async (
   const gasPriceOracle = await connectGasPriceOracle(provider);
   const serializedTx = await _serializeTx(provider, tx);
 
-  // @ts-expect-error TODO: Fix ethers type
-  return gasPriceOracle?.getL1Fee(serializedTx);
+  if (gasPriceOracle && "getL1Fee" in gasPriceOracle) {
+    return gasPriceOracle.getL1Fee(serializedTx);
+  }
 };
 
 export const estimateL2GasCost = async (
@@ -71,11 +75,12 @@ export const estimateL1Gas = async (
   provider: JsonRpcProvider | BrowserProvider,
   tx: TransactionRequest,
 ) => {
-  const gasPriceOracle = await connectGasPriceOracle(provider);
+  const gasPriceOracle = connectGasPriceOracle(provider);
   const serializedTx = await _serializeTx(provider, tx);
 
-  // @ts-expect-error TODO: Fix ethers type
-  return gasPriceOracle?.getL1GasUsed(serializedTx);
+  if (gasPriceOracle && "getL1GasUsed" in gasPriceOracle) {
+    return gasPriceOracle.getL1GasUsed(serializedTx);
+  }
 };
 
 export const getNetworkParams = () => ({
@@ -104,13 +109,13 @@ const estimateGasPrices = async (provider: JsonRpcProvider | BrowserProvider) =>
         maxPriorityFeePerGas,
       },
       [FeeOption.Fast]: {
-        l1GasPrice: (l1GasPrice * 15n) / 10n,
+        l1GasPrice: ((l1GasPrice || 0n) * 15n) / 10n,
         gasPrice: (price * 15n) / 10n,
         maxFeePerGas,
         maxPriorityFeePerGas: (maxPriorityFeePerGas * 15n) / 10n,
       },
       [FeeOption.Fastest]: {
-        l1GasPrice: l1GasPrice * 2n,
+        l1GasPrice: (l1GasPrice || 0n) * 2n,
         gasPrice: price * 2n,
         maxFeePerGas,
         maxPriorityFeePerGas: maxPriorityFeePerGas * 2n,

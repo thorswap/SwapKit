@@ -7,6 +7,7 @@
     "@cosmjs/proto-signing": "0.32.3",
     "@cosmjs/stargate": "0.32.3",
     "@scure/base": "1.1.6",
+    "@types/elliptic": "6.4.18",
     "base64-js": "1.5.1",
     "bn.js": "5.2.1",
     "cosmjs-types": "0.9.0",
@@ -22,7 +23,6 @@
     "@swapkit/types": "workspace:*",
     "@types/bn.js": "5.1.5",
     "@types/crypto-js": "4.2.2",
-    "@types/elliptic": "6.4.18",
     "@types/tiny-secp256k1": "2.0.1",
     "bun-types": "1.1.0"
   },
@@ -40,6 +40,7 @@
     "@scure/base": "1.1.6",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*",
+    "@types/elliptic": "6.4.18",
     "base64-js": "1.5.1",
     "bn.js": "5.2.1",
     "cosmjs-types": "0.9.0",

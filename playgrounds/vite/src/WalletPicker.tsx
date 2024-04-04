@@ -1,5 +1,5 @@
 import type { SwapKit } from "@swapkit/core";
-import { Chain, EVMChainList, EVMChains, WalletOption } from "@swapkit/types";
+import { Chain, EVMChains, WalletOption } from "@swapkit/types";
 import { decryptFromKeystore } from "@swapkit/wallet-keystore";
 import { getDerivationPathFor } from "@swapkit/wallet-ledger";
 import { useCallback, useState } from "react";
@@ -202,16 +202,13 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
     );
   }, []);
 
-  const handleMultipleSelect = useCallback(
-    (e: any) => {
-      const selectedChains = Array.from(e.target.selectedOptions).map((o: any) => o.value);
+  const handleMultipleSelect = useCallback((e: any) => {
+    const selectedChains = Array.from(e.target.selectedOptions).map((o: any) => o.value);
 
-      if (selectedChains.length > 1) {
-        setChains(selectedChains);
-      }
-    },
-    [setChains],
-  );
+    if (selectedChains.length > 1) {
+      setChains(selectedChains);
+    }
+  }, []);
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>

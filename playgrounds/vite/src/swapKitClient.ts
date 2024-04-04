@@ -1,15 +1,15 @@
-import { ThorchainProvider } from "@swapkit/thorchain";
 import { ChainflipProvider } from "@swapkit/chainflip";
+import { SwapKit } from "@swapkit/core";
+import { ThorchainProvider } from "@swapkit/thorchain";
 import { evmWallet } from "@swapkit/wallet-evm-extensions";
+import { keepkeyWallet } from "@swapkit/wallet-keepkey";
 import { keplrWallet } from "@swapkit/wallet-keplr";
 import { keystoreWallet } from "@swapkit/wallet-keystore";
-import { keepkeyWallet } from "@swapkit/wallet-keepkey";
 import { ledgerWallet } from "@swapkit/wallet-ledger";
 import { okxWallet } from "@swapkit/wallet-okx";
 import { trezorWallet } from "@swapkit/wallet-trezor";
 import { walletconnectWallet } from "@swapkit/wallet-wc";
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
-import { SwapKit } from "@swapkit/core";
 
 const clientCache = new Map<string, ReturnType<typeof SwapKit>>();
 
