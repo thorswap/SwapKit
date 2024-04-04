@@ -1,5 +1,11 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.34
+
+### Patch Changes
+
+- [#700](https://github.com/thorswap/SwapKit/pull/700) [`ff318a5`](https://github.com/thorswap/SwapKit/commit/ff318a5c51aa6db12c880cbe62a5b35d4dfb7e4c) Thanks [@towanTG](https://github.com/towanTG)! - Undo changes to deposit channel params
+
 ## 1.0.0-rc.33
 
 ### Patch Changes
