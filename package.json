@@ -31,7 +31,7 @@
     "*": ["bun biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true"]
   },
   "name": "swapkit-monorepo",
-  "packageManager": "^bun@1.1.0",
+  "packageManager": "^bun@1.1.1",
   "private": true,
   "scripts": {
     "bootstrap": "bun clean; bun install; bun run build",

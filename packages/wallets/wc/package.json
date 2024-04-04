@@ -13,7 +13,7 @@
     "@swapkit/types": "workspace:*",
     "@walletconnect/logger": "2.0.1",
     "@walletconnect/types": "2.12.0",
-    "bun-types": "1.1.0",
+    "bun-types": "1.1.1",
     "pino": "8.19.0",
     "pino-pretty": "11.0.0"
   },
