@@ -19,9 +19,6 @@ export default defineConfig({
   plugins: [react(), wasm(), topLevelAwait()],
   resolve: {
     alias: {
-      // events: resolve("./polyfills/events.js"),
-      // string_decoder: resolve("./polyfills/string_decoder.js"),
-
       crypto: "crypto-browserify",
       "node:crypto": "crypto-browserify",
       stream: "stream-browserify",

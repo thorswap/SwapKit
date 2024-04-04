@@ -28,7 +28,8 @@
         "noImplicitBoolean": "off",
         "useBlockStatements": "off",
         "useNamingConvention": "off",
-        "useFilenamingConvention": "off"
+        "useFilenamingConvention": "off",
+        "useNodejsImportProtocol": "off"
       },
       "complexity": { "all": true },
       "correctness": { "all": true, "noUndeclaredVariables": "error" },

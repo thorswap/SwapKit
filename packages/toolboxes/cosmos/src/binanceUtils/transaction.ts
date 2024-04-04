@@ -19,8 +19,8 @@ const generatePubKey = (privateKey: Buffer) => {
   return keypair.getPublic();
 };
 
-const generateSignature = async (signBytesHex: string, privateKey: string | Buffer) => {
-  const msgHash = await sha256(signBytesHex);
+const generateSignature = (signBytesHex: string, privateKey: string | Buffer) => {
+  const msgHash = sha256(signBytesHex);
   const msgHashHex = Buffer.from(msgHash, "hex");
   const signature = secp256k1.sign(
     msgHashHex,

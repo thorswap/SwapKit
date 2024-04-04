@@ -1,11 +1,9 @@
 import { HDKey } from "@scure/bip32";
 import { mnemonicToSeedSync } from "@scure/bip39";
 import { AssetValue, SwapKitNumber } from "@swapkit/helpers";
-import type { UTXOChain } from "@swapkit/types";
-import { BaseDecimal, Chain, FeeOption } from "@swapkit/types";
+import { BaseDecimal, Chain, FeeOption, type UTXOChain } from "@swapkit/types";
 import { Psbt, address as btcLibAddress, initEccLib, payments } from "bitcoinjs-lib";
-import type { ECPairInterface } from "ecpair";
-import { ECPairFactory } from "ecpair";
+import { ECPairFactory, type ECPairInterface } from "ecpair";
 import * as secp256k1 from "tiny-secp256k1";
 
 import type { BlockchairApiType } from "../api/blockchairApi.ts";
@@ -188,8 +186,6 @@ const buildTx = async ({
 
   for (const utxo of inputs) {
     psbt.addInput({
-      // FIXME: (@Towan, @Chillios) - Check on this as types says it's not defined
-      // @ts-ignore
       hash: utxo.hash,
       index: utxo.index,
       ...(!!utxo.witnessUtxo && chain !== Chain.Dogecoin && { witnessUtxo: utxo.witnessUtxo }),

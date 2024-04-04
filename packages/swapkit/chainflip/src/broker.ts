@@ -120,9 +120,13 @@ const withdrawFee = async (
     throw new SwapKitError("chainflip_broker_recipient_error", error);
   }
 
-  const extrinsic = toolbox.api.tx.swapping.withdraw(feeAsset.ticker.toLowerCase(), {
+  const extrinsic = toolbox.api.tx?.swapping?.withdraw?.(feeAsset.ticker.toLowerCase(), {
     [feeAsset.chain.toLowerCase()]: recipientAddress,
   });
+
+  if (!extrinsic) {
+    throw new Error("chainflip_broker_withdraw");
+  }
 
   return toolbox.signAndBroadcast(extrinsic);
 };
