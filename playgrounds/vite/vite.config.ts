@@ -42,6 +42,7 @@ export default defineConfig({
 
       buffer: resolve("node_modules/buffer"),
       crypto: resolve("node_modules/crypto-browserify"),
+      "node:crypto": resolve("node_modules/crypto-browserify"),
       http: resolve("node_modules/stream-http"),
       https: resolve("node_modules/https-browserify"),
       os: resolve("node_modules/os-browserify/browser"),
@@ -61,7 +62,6 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       plugins: [nodePolyfills()],
-      output: { sourcemap: true },
     },
   },
 

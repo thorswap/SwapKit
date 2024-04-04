@@ -26,7 +26,9 @@ jobs:
       - name: Setup Repo
         uses: ./tools/github/setup-repo
       - name: Build
-        run: bun run build
+        run: |
+          bun run ./scripts/replace-versions.ts
+          bun run build
 
       # - name: Build and check size
       #   if: github.event_name == 'pull_request'

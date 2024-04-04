@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@keepkey/keepkey-sdk": "0.2.57",
-    "@pioneer-platform/pioneer-coins": "8.1.86"
+    "@cosmjs/amino": "0.32.3",
+    "@keepkey/keepkey-sdk": "0.2.57"
   },
   "description": "SwapKit Wallet - KeepKey",
   "devDependencies": {
@@ -18,8 +18,8 @@
   "main": "./dist/index.js",
   "name": "@swapkit/wallet-keepkey",
   "peerDependencies": {
-    "@keepkey/keepkey-sdk": "^0.2.57",
-    "@pioneer-platform/pioneer-coins": "^8.1.86",
+    "@cosmjs/amino": "0.32.3",
+    "@keepkey/keepkey-sdk": "0.2.57",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",

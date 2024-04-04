@@ -21,7 +21,7 @@ export class THORChainLedger extends CosmosLedgerInterface {
 
   connect = async () => {
     await this.checkOrCreateTransportAndLedger();
-    const { base64 } = await import("@swapkit/toolbox-cosmos");
+    const { base64 } = await import("@scure/base");
 
     const { compressed_pk, bech32_address }: GetAddressAndPubKeyResponse =
       await this.getAddressAndPubKey();

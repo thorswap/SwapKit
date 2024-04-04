@@ -239,7 +239,8 @@ const getToolbox = async ({
     }
 
     case Chain.Cosmos: {
-      const { GasPrice, createSigningStargateClient, getDenom, GaiaToolbox } = await import(
+      const { GasPrice } = await import("@cosmjs/stargate");
+      const { createSigningStargateClient, getDenom, GaiaToolbox } = await import(
         "@swapkit/toolbox-cosmos"
       );
       const toolbox = GaiaToolbox();
@@ -346,18 +347,17 @@ const getToolbox = async ({
       });
     }
     case Chain.THORChain: {
+      const { SignMode } = await import("cosmjs-types/cosmos/tx/signing/v1beta1/signing.js");
+      const { TxRaw } = await import("cosmjs-types/cosmos/tx/v1beta1/tx.js");
+      const { encodePubkey, makeAuthInfoBytes } = await import("@cosmjs/proto-signing");
       const {
         createStargateClient,
         buildEncodedTxBody,
         ThorchainToolbox,
         buildAminoMsg,
         getDefaultChainFee,
-        encodePubkey,
         fromBase64,
-        makeAuthInfoBytes,
         prepareMessageForBroadcast,
-        SignMode,
-        TxRaw,
       } = await import("@swapkit/toolbox-cosmos");
       const toolbox = ThorchainToolbox({ stagenet: false });
 
