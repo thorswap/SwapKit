@@ -1,5 +1,11 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.33
+
+### Patch Changes
+
+- [#698](https://github.com/thorswap/SwapKit/pull/698) [`2d16270`](https://github.com/thorswap/SwapKit/commit/2d1627003fecc5e9f7e95ab088f70b445e664e11) Thanks [@towanTG](https://github.com/towanTG)! - Fix response usage of cf open deposit channel
+
 ## 1.0.0-rc.32
 
 ### Minor Changes
