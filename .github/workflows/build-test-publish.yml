@@ -29,12 +29,12 @@ jobs:
         run: |
           bun run build
 
-      # - name: Build and check size
-      #   if: github.event_name == 'pull_request'
-      #   uses: andresz1/size-limit-action@v1
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     skip_step: install
+      - name: Build and check size
+        if: github.event_name == 'pull_request'
+        uses: andresz1/size-limit-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          skip_step: install
 
   test:
     if: contains(github.event.pull_request.title, ':tada:') == false
@@ -46,13 +46,6 @@ jobs:
         uses: ./tools/github/setup-repo
       - name: Test
         run: bun run test
-      # - uses: codecov/codecov-action@v4
-      #   with:
-      #     files: ./internal/helpers/coverage/coverage-final.json,./packages/toolboxes/evm/coverage/coverage-final.json,./packages/swapkit/swapkit-core/coverage/coverage-final.json
-      #     flags: unittests
-      #     name: swapkit-codecov
-      #     fail_ci_if_error: false
-      #     verbose: true
 
   lint:
     if: contains(github.event.pull_request.title, ':tada:') == false
@@ -147,27 +140,28 @@ jobs:
           bun changeset pre exit
           bun changeset pre enter rc
 
-  # deploy-playground:
-  #   if: contains(github.ref_name, 'develop')
-  #   needs: [build, test, lint]
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     pages: write
-  #     id-token: write
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Setup Repo
-  #       uses: ./tools/github/setup-repo
-  #     - name: Setup Pages
-  #       uses: actions/configure-pages@v3
+  deploy-playground:
+    if: contains(github.ref_name, 'develop')
+    needs: [build, test, lint]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Repo
+        uses: ./tools/github/setup-repo
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
 
-  #     - name: Build playground
-  #       run: bun build:playground
+      - name: Build playground
+        run: bun playground:vite build-playground
 
-  #     - name: Upload artifact
-  #       uses: actions/upload-pages-artifact@v1
-  #       with:
-  #         path: "./internal/playground/dist"
-  #     - name: Deploy to GitHub Pages
-  #       id: deployment
-  #       uses: actions/deploy-pages@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: "./playgrounds/vite/dist"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2

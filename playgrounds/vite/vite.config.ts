@@ -1,6 +1,6 @@
 import react from "@vitejs/plugin-react";
-import nodePolyfills from "rollup-plugin-polyfill-node";
 import { defineConfig } from "vite";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 import topLevelAwait from "vite-plugin-top-level-await";
 import wasm from "vite-plugin-wasm";
 
@@ -16,7 +16,21 @@ export default defineConfig({
     "process.env": {},
     global: "globalThis",
   },
-  plugins: [react(), wasm(), topLevelAwait()],
+  plugins: [
+    nodePolyfills({
+      // Whether to polyfill specific globals.
+      globals: {
+        Buffer: true, // can also be 'build', 'dev', or false
+        global: true,
+        process: true,
+      },
+      // Whether to polyfill `node:` protocol imports.
+      protocolImports: true,
+    }),
+    react(),
+    wasm(),
+    topLevelAwait(),
+  ],
   resolve: {
     alias: {
       crypto: "crypto-browserify",

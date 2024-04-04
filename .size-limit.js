@@ -5,7 +5,7 @@ const sizeMap = {
   m: "25 KB",
   l: "50 KB",
   xl: "125 KB",
-  xxl: "500 KB",
+  xxl: "300 KB",
 };
 
 function getSizeFor(packagePath, sizeType) {
@@ -43,7 +43,7 @@ module.exports = [
   ...getSizeFor("wallets/evm-extensions", "xxs"),
   ...getSizeFor("wallets/keplr", "xxs"),
   ...getSizeFor("wallets/keystore", "xl"),
-  ...getSizeFor("wallets/ledger", "xl"),
+  ...getSizeFor("wallets/ledger", "xxl"),
   ...getSizeFor("wallets/okx", "xs"),
   ...getSizeFor("wallets/trezor", "xs"),
   ...getSizeFor("wallets/wc", "xs"),
