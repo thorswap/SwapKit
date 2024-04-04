@@ -1,5 +1,24 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.31
+
+### Patch Changes
+
+- [#684](https://github.com/thorswap/SwapKit/pull/684) [`d3a73c3`](https://github.com/thorswap/SwapKit/commit/d3a73c32b1a2b585a624fcc93e8cd16df393b851) Thanks [@towanTG](https://github.com/towanTG)! - Adds withdrawFee method to broker
+
+## 1.0.0-rc.30
+
+### Patch Changes
+
+- [`c046683`](https://github.com/thorswap/SwapKit/commit/c04668374869bffb3dbe5130e2136d158f592678) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Bump for latest
+
+- Updated dependencies [[`c046683`](https://github.com/thorswap/SwapKit/commit/c04668374869bffb3dbe5130e2136d158f592678)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.17
+  - @swapkit/helpers@1.0.0-rc.82
+  - @swapkit/types@1.0.0-rc.47
+  - @swapkit/toolbox-evm@1.0.0-rc.88
+  - @swapkit/core@1.0.0-rc.118
+
 ## 1.0.0-rc.29
 
 ### Patch Changes
