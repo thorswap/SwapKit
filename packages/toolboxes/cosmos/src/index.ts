@@ -1,6 +1,5 @@
 export { type StdSignDoc } from "@cosmjs/amino";
 export { type TxBodyEncodeObject } from "@cosmjs/proto-signing";
-export * from "./re-exports.ts";
 
 /**
  * Package

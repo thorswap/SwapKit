@@ -1,6 +1,6 @@
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
 export const getSignature = async (signatureArray: any) => {
-  const { base64 } = await import("@swapkit/toolbox-cosmos");
+  const { base64 } = await import("@scure/base");
 
   // Check Type Length Value encoding
   if (signatureArray.length < 64) {

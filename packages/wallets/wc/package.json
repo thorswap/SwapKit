@@ -1,6 +1,9 @@
 {
   "dependencies": {
-    "@walletconnect/modal-sign-html": "2.6.2"
+    "@cosmjs/amino": "0.32.3",
+    "@cosmjs/proto-signing": "0.32.3",
+    "@walletconnect/modal-sign-html": "2.6.2",
+    "cosmjs-types": "0.9.0"
   },
   "description": "SwapKit Wallet - WalletConnect",
   "devDependencies": {
@@ -24,7 +27,10 @@
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@walletconnect/modal-sign-html": "^2.6.2"
+    "@cosmjs/amino": "0.32.3",
+    "@cosmjs/proto-signing": "0.32.3",
+    "@walletconnect/modal-sign-html": "2.6.2",
+    "cosmjs-types": "0.9.0"
   },
   "react-native": "./src/index.ts",
   "repository": {

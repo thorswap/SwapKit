@@ -15,7 +15,7 @@ import crypto from "node:crypto";
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************* */
-import { bech32 } from "@swapkit/toolbox-cosmos";
+import { bech32 } from "@scure/base";
 import { LedgerErrorCode } from "@swapkit/types";
 import Ripemd160 from "ripemd160";
 

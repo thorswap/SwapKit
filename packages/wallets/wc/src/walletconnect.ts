@@ -124,18 +124,17 @@ const getToolbox = async ({
     }
 
     case Chain.THORChain: {
+      const { SignMode } = await import("cosmjs-types/cosmos/tx/signing/v1beta1/signing.js");
+      const { TxRaw } = await import("cosmjs-types/cosmos/tx/v1beta1/tx.js");
+      const { encodePubkey, makeAuthInfoBytes } = await import("@cosmjs/proto-signing");
+      const { makeSignDoc } = await import("@cosmjs/amino");
       const {
-        SignMode,
         ThorchainToolbox,
-        TxRaw,
         buildAminoMsg,
         buildEncodedTxBody,
         createStargateClient,
-        encodePubkey,
         fromBase64,
         getDefaultChainFee,
-        makeAuthInfoBytes,
-        makeSignDoc,
         prepareMessageForBroadcast,
       } = await import("@swapkit/toolbox-cosmos");
       const toolbox = ThorchainToolbox({ stagenet: false });
