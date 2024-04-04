@@ -1,5 +1,11 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.31
+
+### Patch Changes
+
+- [#684](https://github.com/thorswap/SwapKit/pull/684) [`d3a73c3`](https://github.com/thorswap/SwapKit/commit/d3a73c32b1a2b585a624fcc93e8cd16df393b851) Thanks [@towanTG](https://github.com/towanTG)! - Adds withdrawFee method to broker
+
 ## 1.0.0-rc.30
 
 ### Patch Changes
