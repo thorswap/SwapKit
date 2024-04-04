@@ -62,26 +62,37 @@ const requestSwapDepositAddress = async (
         buyAsset.ticker.toLowerCase(),
         { [buyAsset.chain.toLowerCase()]: recipientAddress },
         SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
-        null,
+        {},
         0,
       ),
       async (result: any) => {
         if (!result.status?.isFinalized) return;
 
+        const depositChannelEvent = result.events.find(
+          (event: any) => event.event.method === "SwapDepositAddressReady",
+        );
+
+        if (!depositChannelEvent) {
+          throw new SwapKitError(
+            "chainflip_channel_error",
+            "Could not find 'SwapDepositAddressReady' event",
+          );
+        }
+
         const {
           event: {
             data: { depositAddress, sourceChainExpiryBlock, destinationAddress, channelId },
           },
-        } = result.events[0].toHuman();
+        } = depositChannelEvent.toHuman();
 
         const header = await toolbox.api.rpc.chain.getHeader(result.status.toJSON().finalized);
 
         resolve({
           depositChannelId: `${header.number}-${chainToChainflipChain.get(
             sellAsset.chain,
-          )}-${channelId}`,
+          )}-${channelId.replaceAll(",", "")}`,
           depositAddress: Object.values(depositAddress)[0] as string,
-          srcChainExpiryBlock: Number((sourceChainExpiryBlock as string).replace(",", "")),
+          srcChainExpiryBlock: Number((sourceChainExpiryBlock as string).replaceAll(",", "")),
           sellAsset,
           buyAsset,
           recipient: Object.values(destinationAddress)[0] as string,
