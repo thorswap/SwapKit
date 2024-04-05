@@ -18,7 +18,7 @@ export default function Swap({
     async (route: QuoteRoute) => {
       const inputChain = inputAsset?.chain;
       const outputChain = outputAsset?.chain;
-      if (!outputChain || !inputChain || !skClient) return;
+      if (!(outputChain && inputChain && skClient)) return;
 
       const address = skClient.getAddress(outputChain);
 

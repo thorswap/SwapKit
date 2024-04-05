@@ -155,7 +155,9 @@ jobs:
         uses: actions/configure-pages@v3
 
       - name: Build playground
-        run: bun playground:vite build-playground
+        run: |
+          bun run build
+          bun playground:vite build-playground
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1

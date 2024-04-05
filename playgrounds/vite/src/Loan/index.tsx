@@ -81,7 +81,7 @@ export default function Loan({
             />
           </div>
 
-          <button disabled={!inputAsset || !outputAsset} onClick={handleLoanAction} type="button">
+          <button disabled={!(inputAsset && outputAsset)} onClick={handleLoanAction} type="button">
             {isOpenLoanMode ? "Open Loan" : "Close Loan"}
           </button>
         </div>
