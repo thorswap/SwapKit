@@ -102,7 +102,8 @@ const buildBCHTx: BCHMethods["buildBCHTx"] = async ({
   );
 
   for (const output of outputs) {
-    const address = "address" in output && output.address ? output.address : sender;
+    const address =
+      "address" in output && output.address ? output.address : toLegacyAddress(sender);
     const outputScript = bchAddress.toOutputScript(toLegacyAddress(address), getNetwork(chain));
 
     builder.addOutput(outputScript, output.value);
