@@ -67,7 +67,7 @@ export const BSCToolbox = ({
       return baseToolbox.EIP1193SendTransaction(txObject) as Promise<T>;
     }
 
-    const contract = await createContract(contractAddress, abi, contractProvider);
+    const contract = createContract(contractAddress, abi, contractProvider);
 
     // only use signer if the contract function is state changing
     if (isStateChanging) {

@@ -1,13 +1,14 @@
 import type { DerivationPathArray, GetAddressAndPubKeyResponse } from "@swapkit/types";
 import { NetworkDerivationPath } from "@swapkit/types";
 
+import { base64 } from "@scure/base";
 import { CosmosLedgerInterface } from "../../interfaces/CosmosLedgerInterface.ts";
 import { getSignature } from "./utils.ts";
 
 export class THORChainLedger extends CosmosLedgerInterface {
   private pubKey: string | null = null;
 
-  public derivationPath: number[];
+  public derivationPath: DerivationPathArray;
 
   constructor(derivationPath: DerivationPathArray = NetworkDerivationPath.THOR) {
     super();
@@ -21,8 +22,6 @@ export class THORChainLedger extends CosmosLedgerInterface {
 
   connect = async () => {
     await this.checkOrCreateTransportAndLedger();
-    const { base64 } = await import("@swapkit/toolbox-cosmos");
-
     const { compressed_pk, bech32_address }: GetAddressAndPubKeyResponse =
       await this.getAddressAndPubKey();
 
@@ -73,7 +72,7 @@ export class THORChainLedger extends CosmosLedgerInterface {
       {
         pub_key: { type: "tendermint/PubKeySecp256k1", value: this.pubKey },
         sequence,
-        signature: await getSignature(signature),
+        signature: getSignature(signature),
       },
     ];
   };
@@ -90,6 +89,6 @@ export class THORChainLedger extends CosmosLedgerInterface {
 
     this.validateResponse(return_code, error_message);
 
-    return await getSignature(signature);
+    return getSignature(signature);
   };
 }

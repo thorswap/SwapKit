@@ -37,7 +37,7 @@ export class KeepKeySigner extends AbstractSigner {
   getAddress = async () => {
     if (this.address) return this.address;
     const { address } = await this.sdk.address.ethereumGetAddress({
-      address_n: bip32ToAddressNList(`m/${derivationPathToString(this.derivationPath)}`),
+      address_n: bip32ToAddressNList(derivationPathToString(this.derivationPath)),
     });
 
     this.address = address;

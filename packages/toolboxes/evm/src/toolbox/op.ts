@@ -6,19 +6,23 @@ import { covalentApi } from "../api/covalentApi.ts";
 import { gasOracleAbi } from "../contracts/op/gasOracle.ts";
 import { getBalance } from "../index.ts";
 
+import { Contract, Transaction } from "ethers";
 import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
 
 const GAS_PRICE_ORACLE_ADDRESS = "0x420000000000000000000000000000000000000f";
 
-export const connectGasPriceOracle = async (provider: JsonRpcProvider | BrowserProvider) => {
-  const { Contract } = await import("ethers");
+export const connectGasPriceOracle = (provider: JsonRpcProvider | BrowserProvider) => {
   return new Contract(GAS_PRICE_ORACLE_ADDRESS, gasOracleAbi, provider);
 };
 
-export const getL1GasPrice = async (
-  provider: JsonRpcProvider | BrowserProvider,
-): Promise<bigint> => {
-  return (await connectGasPriceOracle(provider)).l1BaseFee();
+export const getL1GasPrice = (provider: JsonRpcProvider | BrowserProvider) => {
+  const gasPriceOracle = connectGasPriceOracle(provider);
+
+  if (gasPriceOracle && "l1BaseFee" in gasPriceOracle) {
+    return gasPriceOracle?.l1BaseFee() as unknown as bigint;
+  }
+
+  return undefined;
 };
 
 const _serializeTx = async (
@@ -26,8 +30,6 @@ const _serializeTx = async (
   { data, from, to, gasPrice, type, gasLimit, nonce }: TransactionRequest,
 ) => {
   if (!to) throw new Error("Missing to address");
-
-  const { Transaction } = await import("ethers");
 
   return Transaction.from({
     data,
@@ -43,7 +45,12 @@ export const estimateL1GasCost = async (
   provider: JsonRpcProvider | BrowserProvider,
   tx: TransactionRequest,
 ) => {
-  return (await connectGasPriceOracle(provider)).getL1Fee(await _serializeTx(provider, tx));
+  const gasPriceOracle = await connectGasPriceOracle(provider);
+  const serializedTx = await _serializeTx(provider, tx);
+
+  if (gasPriceOracle && "getL1Fee" in gasPriceOracle) {
+    return gasPriceOracle.getL1Fee(serializedTx);
+  }
 };
 
 export const estimateL2GasCost = async (
@@ -68,7 +75,12 @@ export const estimateL1Gas = async (
   provider: JsonRpcProvider | BrowserProvider,
   tx: TransactionRequest,
 ) => {
-  return (await connectGasPriceOracle(provider)).getL1GasUsed(await _serializeTx(provider, tx));
+  const gasPriceOracle = connectGasPriceOracle(provider);
+  const serializedTx = await _serializeTx(provider, tx);
+
+  if (gasPriceOracle && "getL1GasUsed" in gasPriceOracle) {
+    return gasPriceOracle.getL1GasUsed(serializedTx);
+  }
 };
 
 export const getNetworkParams = () => ({
@@ -83,10 +95,12 @@ const estimateGasPrices = async (provider: JsonRpcProvider | BrowserProvider) =>
   try {
     const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await provider.getFeeData();
     const l1GasPrice = await getL1GasPrice(provider);
-
-    if (!(maxFeePerGas && maxPriorityFeePerGas)) throw new Error("No fee data available");
-
     const price = gasPrice as bigint;
+
+    if (!(maxFeePerGas && maxPriorityFeePerGas)) {
+      throw new Error("No fee data available");
+    }
+
     return {
       [FeeOption.Average]: {
         l1GasPrice,
@@ -95,13 +109,13 @@ const estimateGasPrices = async (provider: JsonRpcProvider | BrowserProvider) =>
         maxPriorityFeePerGas,
       },
       [FeeOption.Fast]: {
-        l1GasPrice: (l1GasPrice * 15n) / 10n,
+        l1GasPrice: ((l1GasPrice || 0n) * 15n) / 10n,
         gasPrice: (price * 15n) / 10n,
         maxFeePerGas,
         maxPriorityFeePerGas: (maxPriorityFeePerGas * 15n) / 10n,
       },
       [FeeOption.Fastest]: {
-        l1GasPrice: l1GasPrice * 2n,
+        l1GasPrice: (l1GasPrice || 0n) * 2n,
         gasPrice: price * 2n,
         maxFeePerGas,
         maxPriorityFeePerGas: maxPriorityFeePerGas * 2n,
@@ -109,7 +123,7 @@ const estimateGasPrices = async (provider: JsonRpcProvider | BrowserProvider) =>
     };
   } catch (error) {
     throw new Error(
-      `Failed to estimate gas price: ${(error as any).msg ?? (error as any).toString()}`,
+      `Failed to estimate gas price: ${(error as Todo).msg ?? (error as Todo).toString()}`,
     );
   }
 };

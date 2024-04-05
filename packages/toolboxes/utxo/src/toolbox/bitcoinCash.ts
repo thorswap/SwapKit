@@ -3,7 +3,10 @@ import {
   Transaction,
   TransactionBuilder,
   address as bchAddress,
+  // @ts-ignore TODO: check why wallets doesn't see modules included in toolbox
 } from "@psf/bitcoincashjs-lib";
+import * as secp256k1 from "tiny-secp256k1";
+
 import { mnemonicToSeedSync } from "@scure/bip39";
 import type { UTXOChain } from "@swapkit/types";
 import { Chain, DerivationPath, FeeOption, RPCUrl } from "@swapkit/types";
@@ -92,7 +95,8 @@ const buildBCHTx: BCHMethods["buildBCHTx"] = async ({
 
   await Promise.all(
     inputs.map(async (utxo: UTXOType) => {
-      const txHex = await apiClient.getRawTx(utxo.hash);
+      const txHex = (await apiClient.getRawTx(utxo.hash)) as string;
+
       builder.addInput(Transaction.fromBuffer(Buffer.from(txHex, "hex")), utxo.index);
     }),
   );
@@ -196,7 +200,6 @@ const buildTx = async ({
   const psbt = new Psbt({ network: getNetwork(chain) }); // Network-specific
 
   for (const { hash, index, witnessUtxo } of inputs) {
-    // @ts-expect-error TODO: check if it's needed to pass witnessUtxo
     psbt.addInput({ hash, index, witnessUtxo });
   }
 
@@ -225,7 +228,7 @@ const validateAddress = (address: string, _chain?: UTXOChain) => {
   return isValidAddress(address) && detectAddressNetwork(address) === bchNetwork.Mainnet;
 };
 
-const createKeysForPath: BCHMethods["createKeysForPath"] = async ({
+const createKeysForPath: BCHMethods["createKeysForPath"] = ({
   phrase,
   derivationPath = `${DerivationPath.BCH}/0`,
   wif,
@@ -233,7 +236,6 @@ const createKeysForPath: BCHMethods["createKeysForPath"] = async ({
   const network = getNetwork(chain);
 
   if (wif) {
-    const secp256k1 = await import("@bitcoinerlab/secp256k1");
     return ECPairFactory(secp256k1).fromWIF(wif, network);
   }
   if (!phrase) throw new Error("No phrase provided");

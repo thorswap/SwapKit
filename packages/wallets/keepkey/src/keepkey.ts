@@ -34,7 +34,7 @@ export const KEEPKEY_SUPPORTED_CHAINS = [
  */
 type KeepKeyOptions = {
   sdk: KeepKeySdk;
-  apiClient?: any;
+  apiClient?: Todo;
   rpcUrl?: string;
   ethplorerApiKey?: string;
   blockchairApiKey?: string;

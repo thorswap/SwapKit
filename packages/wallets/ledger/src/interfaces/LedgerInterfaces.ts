@@ -1,4 +1,5 @@
 import type BitcoinApp from "@ledgerhq/hw-app-btc";
+import type { CreateTransactionArg } from "@ledgerhq/hw-app-btc/lib-es/createTransaction";
 import { SwapKitError } from "@swapkit/helpers";
 import type { Network as BTCNetwork, Psbt, UTXOType } from "@swapkit/toolbox-utxo";
 import { networks } from "@swapkit/toolbox-utxo";
@@ -8,14 +9,13 @@ import { BinanceApp } from "../clients/binance/lib.ts";
 import { THORChainApp } from "../clients/thorchain/lib.ts";
 import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
 
-import type { CreateTransactionArg } from "./types.ts";
 import { signUTXOTransaction } from "./utxo.ts";
 
 export abstract class CommonLedgerInterface {
   public ledgerTimeout = 50000;
   public derivationPath: (number | string)[] | string = [];
-  public transport: any;
-  public ledgerApp: any;
+  public transport: Todo;
+  public ledgerApp: Todo;
   public chain: "thor" | "bnb" | "sol" | "cosmos" | "eth" = "thor";
 
   public checkOrCreateTransportAndLedger = async (forceReconnect = false) => {
@@ -43,13 +43,12 @@ export abstract class CommonLedgerInterface {
         case "cosmos": {
           const { default: CosmosApp } = await import("@ledgerhq/hw-app-cosmos");
           this.ledgerApp =
-            // @ts-expect-error
             forceReconnect || !this.ledgerApp ? new CosmosApp(this.transport) : this.ledgerApp;
         }
       }
 
       return this.ledgerApp;
-    } catch (error: any) {
+    } catch (error: unknown) {
       throw new SwapKitError("wallet_ledger_connection_error", error);
     }
   };
@@ -77,13 +76,12 @@ export abstract class CommonLedgerInterface {
 
 export abstract class UTXOLedgerInterface {
   public addressNetwork: BTCNetwork = networks.bitcoin;
-  // @ts-expect-error `default` typing is wrong
-  public btcApp: InstanceType<typeof BitcoinApp> | null = null;
+  public btcApp: InstanceType<typeof BitcoinApp> | undefined;
   public chain: "bitcoin-cash" | "bitcoin" | "litecoin" | "dogecoin" | "dash" = "bitcoin";
   public derivationPath = "";
-  public ledgerApp: any;
+  public ledgerApp: Todo;
   public additionalSignParams?: Partial<CreateTransactionArg>;
-  public transport = null as any;
+  public transport = null as Todo | null;
   public walletFormat: "legacy" | "bech32" | "p2sh" = "bech32";
 
   public connect = async () => {
@@ -91,14 +89,13 @@ export abstract class UTXOLedgerInterface {
 
     const { default: BitcoinApp } = await import("@ledgerhq/hw-app-btc");
 
-    // @ts-expect-error `default` typing is wrong
     this.btcApp = new BitcoinApp({ transport: this.transport, currency: this.chain });
   };
 
   public getExtendedPublicKey = async (path = "84'/0'/0'", xpubVersion = 76067358) => {
     await this.checkBtcAppAndCreateTransportWebUSB(false);
 
-    return this.btcApp.getWalletXpub({ path, xpubVersion });
+    return this.btcApp?.getWalletXpub({ path, xpubVersion });
   };
 
   public signTransaction = async (psbt: Psbt, inputUtxos: UTXOType[]) => {
@@ -113,9 +110,10 @@ export abstract class UTXOLedgerInterface {
   public getAddress = async () => {
     await this.checkBtcAppAndCreateTransportWebUSB(false);
 
-    const { bitcoinAddress: address } = await this.btcApp.getWalletPublicKey(this.derivationPath, {
-      format: this.walletFormat,
-    });
+    const { bitcoinAddress: address } =
+      (await this.btcApp?.getWalletPublicKey(this.derivationPath, {
+        format: this.walletFormat,
+      })) || {};
 
     if (!address) {
       throw new SwapKitError("wallet_ledger_get_address_error", {
@@ -147,7 +145,6 @@ export abstract class UTXOLedgerInterface {
     this.transport = await getLedgerTransport();
     const { default: BitcoinApp } = await import("@ledgerhq/hw-app-btc");
 
-    // @ts-expect-error `default` typing is wrong
     this.btcApp = new BitcoinApp({ transport: this.transport, currency: this.chain });
   };
 }

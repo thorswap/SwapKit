@@ -12,11 +12,13 @@ import { ApproveMode } from "@swapkit/core";
 import type { ErrorKeys, ThornameRegisterParam } from "@swapkit/helpers";
 import {
   AssetValue,
+  SwapKitApi,
   SwapKitError,
   SwapKitNumber,
   gasFeeMultiplier,
   getMemoFor,
   getMinAmountByChain,
+  wrapWithThrow,
 } from "@swapkit/helpers";
 import type { AVAXToolbox, BSCToolbox, ETHToolbox } from "@swapkit/toolbox-evm";
 import type { EVMChain } from "@swapkit/types";
@@ -37,7 +39,6 @@ import {
   lowercasedContractAbiMapping,
 } from "./aggregator/contracts/index.ts";
 import { getSwapInParams } from "./aggregator/getSwapParams.ts";
-import { getInboundData, getMimirData } from "./thornode.ts";
 
 type Wallets = { [K in Chain]?: ChainWallet<K> };
 
@@ -85,7 +86,7 @@ export const ThorchainProvider = ({
     assetValue: AssetValue;
     memo: string;
   }) => {
-    const mimir = await getMimirData(stagenet);
+    const mimir = await SwapKitApi.getMimirInfo({ stagenet });
 
     // check if trading is halted or not
     if (mimir.HALTCHAINGLOBAL >= 1 || mimir.HALTTHORCHAIN >= 1) {
@@ -105,11 +106,11 @@ export const ThorchainProvider = ({
     feeOptionKey?: FeeOption;
   }) => {
     const {
-      gas_rate,
+      gas_rate = "0",
       router,
       address: poolAddress,
     } = await getInboundDataByChain(assetValue.chain);
-    const feeRate = (Number.parseInt(gas_rate) || 0) * gasFeeMultiplier[feeOptionKey];
+    const feeRate = Number.parseInt(gas_rate) * gasFeeMultiplier[feeOptionKey];
     return deposit({
       assetValue,
       recipient: poolAddress,
@@ -248,7 +249,7 @@ export const ThorchainProvider = ({
     }
     const memo = getMemoFor(MemoType.DEPOSIT, {
       chain: poolAddress.split(".")[0] as Chain,
-      symbol: poolAddress.split(".")[1],
+      symbol: poolAddress.split(".")[1] as string,
       address: symmetric ? address : "",
     });
 
@@ -286,38 +287,25 @@ export const ThorchainProvider = ({
       throw new SwapKitError("core_transaction_add_liquidity_no_rune_address");
     }
 
-    let runeTx: string | undefined;
-    let assetTx: string | undefined;
+    const runeTx =
+      runeTransfer && runeAssetValue
+        ? await wrapWithThrow(() => {
+            return depositToPool({
+              assetValue: runeAssetValue,
+              memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: assetAddress }),
+            });
+          }, "core_transaction_add_liquidity_rune_error")
+        : undefined;
 
-    if (runeTransfer && runeAssetValue) {
-      try {
-        runeTx = await depositToPool({
-          assetValue: runeAssetValue,
-          memo: getMemoFor(MemoType.DEPOSIT, {
-            chain,
-            symbol,
-            address: assetAddress,
-          }),
-        });
-      } catch (error) {
-        throw new SwapKitError("core_transaction_add_liquidity_rune_error", error);
-      }
-    }
-
-    if (assetTransfer && assetValue) {
-      try {
-        assetTx = await depositToPool({
-          assetValue,
-          memo: getMemoFor(MemoType.DEPOSIT, {
-            chain,
-            symbol,
-            address: runeAddress,
-          }),
-        });
-      } catch (error) {
-        throw new SwapKitError("core_transaction_add_liquidity_asset_error", error);
-      }
-    }
+    const assetTx =
+      assetTransfer && assetValue
+        ? await wrapWithThrow(() => {
+            return depositToPool({
+              assetValue,
+              memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: runeAddress }),
+            });
+          }, "core_transaction_add_liquidity_asset_error")
+        : undefined;
 
     return { runeTx, assetTx };
   };
@@ -333,32 +321,22 @@ export const ThorchainProvider = ({
       throw new SwapKitError("core_transaction_create_liquidity_invalid_params");
     }
 
-    let runeTx = "";
-    let assetTx = "";
+    const assetAddress = getAddress(wallets, assetValue.chain);
+    const runeAddress = getAddress(wallets, Chain.THORChain);
 
-    try {
-      runeTx = await depositToPool({
+    const runeTx = wrapWithThrow(() => {
+      return depositToPool({
         assetValue: runeAssetValue,
-        memo: getMemoFor(MemoType.DEPOSIT, {
-          ...assetValue,
-          address: getAddress(wallets, assetValue.chain),
-        }),
+        memo: getMemoFor(MemoType.DEPOSIT, { ...assetValue, address: assetAddress }),
       });
-    } catch (error) {
-      throw new SwapKitError("core_transaction_create_liquidity_rune_error", error);
-    }
+    }, "core_transaction_create_liquidity_rune_error");
 
-    try {
-      assetTx = await depositToPool({
+    const assetTx = wrapWithThrow(() => {
+      return depositToPool({
         assetValue,
-        memo: getMemoFor(MemoType.DEPOSIT, {
-          ...assetValue,
-          address: getAddress(wallets, Chain.THORChain),
-        }),
+        memo: getMemoFor(MemoType.DEPOSIT, { ...assetValue, address: runeAddress }),
       });
-    } catch (error) {
-      throw new SwapKitError("core_transaction_create_liquidity_asset_error", error);
-    }
+    }, "core_transaction_create_liquidity_asset_error");
 
     return { runeTx, assetTx };
   };
@@ -411,15 +389,18 @@ export const ThorchainProvider = ({
       const walletMethods = wallets[evmChain] as EVMWallet<
         typeof ETHToolbox | typeof BSCToolbox | typeof AVAXToolbox
       >;
+
       if (!walletMethods?.sendTransaction) {
         throw new SwapKitError("core_wallet_connection_not_found");
       }
 
       const transaction = streamSwap ? route?.streamingSwap?.transaction : route?.transaction;
-      if (!transaction) throw new SwapKitError("core_swap_route_transaction_not_found");
+
+      if (!transaction) {
+        throw new SwapKitError("core_swap_route_transaction_not_found");
+      }
 
       const { data, from, to, value } = route.transaction;
-
       const params = {
         data,
         from,
@@ -435,9 +416,14 @@ export const ThorchainProvider = ({
     }
 
     if (SWAP_OUT.includes(quoteMode)) {
-      if (!route.calldata.fromAsset) throw new SwapKitError("core_swap_asset_not_recognized");
+      if (!route.calldata.fromAsset) {
+        throw new SwapKitError("core_swap_asset_not_recognized");
+      }
+
       const asset = await AssetValue.fromString(route.calldata.fromAsset);
-      if (!asset) throw new SwapKitError("core_swap_asset_not_recognized");
+      if (!asset) {
+        throw new SwapKitError("core_swap_asset_not_recognized");
+      }
 
       const { address: recipient } = await getInboundDataByChain(asset.chain);
       const {
@@ -460,7 +446,9 @@ export const ThorchainProvider = ({
 
     if (SWAP_IN.includes(quoteMode) && evmChain) {
       const { calldata, contract: contractAddress } = route;
-      if (!contractAddress) throw new SwapKitError("core_swap_contract_not_found");
+      if (!contractAddress) {
+        throw new SwapKitError("core_swap_contract_not_found");
+      }
 
       const walletMethods = wallets[evmChain] as EVMWallet<
         typeof ETHToolbox | typeof BSCToolbox | typeof AVAXToolbox
@@ -475,12 +463,13 @@ export const ThorchainProvider = ({
       const provider = getProvider(evmChain);
       const abi = lowercasedContractAbiMapping[contractAddress.toLowerCase()];
 
-      if (!abi)
+      if (!abi) {
         throw new SwapKitError("core_swap_contract_not_supported", {
           contractAddress,
         });
+      }
 
-      const contract = await walletMethods.createContract?.(contractAddress, abi, provider);
+      const contract = walletMethods.createContract?.(contractAddress, abi, provider);
 
       const tx = await contract.getFunction("swapIn").populateTransaction(
         ...getSwapInParams({
@@ -510,31 +499,26 @@ export const ThorchainProvider = ({
   }: // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
   CoreTxParams & { router?: string }): Promise<string> => {
     const { chain, symbol, ticker } = assetValue;
-    const walletInstance = wallets[chain];
-    const isAddressValidated = await validateAddressType({
-      address: walletInstance?.address,
-      chain,
-    });
 
+    const walletInstance = wallets[chain];
+    if (!walletInstance) {
+      throw new SwapKitError("core_wallet_connection_not_found");
+    }
+
+    const isAddressValidated = validateAddressType({ address: walletInstance?.address, chain });
     if (!isAddressValidated) {
       throw new SwapKitError("core_transaction_invalid_sender_address");
     }
 
-    if (!walletInstance) throw new SwapKitError("core_wallet_connection_not_found");
-
-    const params = prepareTxParams(wallets, {
-      assetValue,
-      recipient,
-      router,
-      ...rest,
-    });
+    const params = prepareTxParams(wallets, { assetValue, recipient, router, ...rest });
 
     try {
       switch (chain) {
         case Chain.THORChain:
         case Chain.Maya: {
           const wallet = walletInstance as ThorchainWallet;
-          return await (recipient === "" ? wallet.deposit(params) : wallet.transfer(params));
+          const tx = await (recipient === "" ? wallet.deposit(params) : wallet.transfer(params));
+          return tx;
         }
 
         case Chain.Ethereum:
@@ -549,9 +533,11 @@ export const ThorchainProvider = ({
                 ? TCBscDepositABI
                 : TCEthereumVaultAbi;
 
-          const response = await (
-            walletInstance as EVMWallet<typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox>
-          ).call({
+          const wallet = walletInstance as EVMWallet<
+            typeof AVAXToolbox | typeof ETHToolbox | typeof BSCToolbox
+          >;
+
+          const tx = await wallet.call({
             abi,
             contractAddress:
               router || ((await getInboundDataByChain(chain as EVMChain)).router as string),
@@ -570,18 +556,20 @@ export const ThorchainProvider = ({
             },
           });
 
-          return response as string;
+          return tx as string;
         }
 
         default: {
           if (walletInstance) {
-            return walletInstance.transfer(params);
+            return walletInstance.transfer(params) as Promise<string>;
           }
+
           throw new SwapKitError("core_wallet_connection_not_found");
         }
       }
-    } catch (error: any) {
+    } catch (error) {
       const errorMessage =
+        // @ts-expect-error Fine to use error as string
         typeof error === "string" ? error.toLowerCase() : error?.message.toLowerCase();
       const isInsufficientFunds = errorMessage?.includes("insufficient funds");
       const isGas = errorMessage?.includes("gas");
@@ -608,7 +596,7 @@ export const ThorchainProvider = ({
         return { gas_rate: "0", router: "", address: "", halted: false, chain };
 
       default: {
-        const inboundData = await getInboundData(stagenet);
+        const inboundData = await SwapKitApi.getInboundAddresses({ stagenet });
         const chainAddressData = inboundData.find((item) => item.chain === chain);
 
         if (!chainAddressData) throw new SwapKitError("core_inbound_data_not_found");
@@ -644,12 +632,15 @@ export const ThorchainProvider = ({
       wallets[chain as Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche];
 
     const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
-
-    if (!walletAction) throw new SwapKitError("core_wallet_connection_not_found");
+    if (!walletAction) {
+      throw new SwapKitError("core_wallet_connection_not_found");
+    }
 
     const from = walletMethods?.address;
 
-    if (!(address && from)) throw new SwapKitError("core_approve_asset_address_or_from_not_found");
+    if (!(address && from)) {
+      throw new SwapKitError("core_approve_asset_address_or_from_not_found");
+    }
 
     const spenderAddress =
       contractAddress || ((await getInboundDataByChain(chain)).router as string);

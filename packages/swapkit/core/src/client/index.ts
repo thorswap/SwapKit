@@ -34,7 +34,7 @@ type GenericSwapParams = {
 export type SwapParams = (SwapWithRouteParams | GenericSwapParams) & {
   provider?: {
     name: PluginName;
-    config: Record<string, any>;
+    config: Record<string, Todo>;
   };
 };
 
@@ -46,8 +46,8 @@ export type SwapKitReturnType = SwapKitPlugins & {
     potentialScamFilter?: boolean,
   ) => Promise<ChainWallet<Chain>>;
   getBalance: (chain: Chain, potentialScamFilter?: boolean) => AssetValue[];
-  getExplorerTxUrl: (chain: Chain, txHash: string) => string;
-  getExplorerAddressUrl: (chain: Chain, address: string) => string;
+  getExplorerTxUrl: typeof getTxUrl;
+  getExplorerAddressUrl: typeof getAddressUrl;
   swap: (params: SwapParams) => Promise<string>;
   validateAddress: (params: { address: string; chain: Chain }) =>
     | boolean
@@ -64,7 +64,7 @@ export type Wallets = { [K in Chain]?: ChainWallet<K> };
 export type AvailableProviders<T> = T | { [K in PluginName]?: ProviderMethods };
 export type ProviderMethods = {
   swap: (swapParams: SwapParams) => Promise<string>;
-  [key: string]: any;
+  [key: string]: Todo;
 };
 
 export type SwapKitPlugin = ({ wallets, stagenet }: { wallets: Wallets; stagenet?: boolean }) => {
@@ -74,12 +74,12 @@ export type SwapKitPlugin = ({ wallets, stagenet }: { wallets: Wallets; stagenet
 
 export type SwapKitWallet = {
   connectMethodName: string;
-  connect: (params: ConnectWalletParams) => (connectParams: any) => undefined | string;
+  connect: (params: ConnectWalletParams) => (connectParams: Todo) => undefined | string;
 };
 
 export function SwapKit<
   ExtendedProviders extends {},
-  ConnectWalletMethods extends Record<string, ReturnType<SwapKitWallet["connect"]>>,
+  ConnectWalletMethods = Record<string, ReturnType<SwapKitWallet["connect"]>>,
 >({
   stagenet,
   wallets,
@@ -91,9 +91,9 @@ export function SwapKit<
   plugins: SwapKitPlugin[];
   stagenet: boolean;
   wallets: SwapKitWallet[];
-  config?: Record<string, any>;
-  apis: Record<string, any>;
-  rpcUrls: Record<string, any>;
+  config?: Record<string, Todo>;
+  apis: Record<string, Todo>;
+  rpcUrls: Record<string, Todo>;
 }): SwapKitReturnType & ConnectWalletMethods & AvailableProviders<ExtendedProviders> {
   const connectedWallets: Wallets = {};
   const availablePlugins: AvailableProviders<ExtendedProviders> = {};
@@ -105,7 +105,8 @@ export function SwapKit<
   }
 
   const connectWalletMethods = wallets.reduce((acc, wallet) => {
-    (acc[wallet.connectMethodName] as ReturnType<SwapKitWallet["connect"]>) = wallet.connect({
+    // @ts-expect-error
+    acc[wallet.connectMethodName] = wallet.connect({
       addChain,
       config,
       apis,
@@ -190,12 +191,6 @@ export function SwapKit<
   function getBalance(chain: Chain) {
     return getWallet(chain)?.balance || [];
   }
-  function getExplorerTxUrl(chain: Chain, txHash: string) {
-    return getTxUrl({ chain, txHash });
-  }
-  function getExplorerAddressUrl(chain: Chain, address: string) {
-    return getAddressUrl({ chain, address });
-  }
   /**
    * TODO: Figure out validation without connecting to wallet
    */
@@ -207,16 +202,14 @@ export function SwapKit<
     const defaultBalance = [AssetValue.fromChainOrSignature(chain)];
     const wallet = getWallet(chain);
 
-    try {
-      if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
-      const balance = await wallet?.getBalance(wallet.address, potentialScamFilter);
-
-      wallet.balance = balance?.length ? balance : defaultBalance;
-
-      return wallet;
-    } catch (error) {
-      throw new SwapKitError("core_wallet_connection_not_found", error);
+    if (!wallet) {
+      throw new SwapKitError("core_wallet_connection_not_found");
     }
+
+    const balance = await wallet?.getBalance(wallet.address, potentialScamFilter);
+    wallet.balance = balance?.length ? balance : defaultBalance;
+
+    return wallet;
   }
 
   /**
@@ -240,11 +233,13 @@ export function SwapKit<
   return {
     ...availablePlugins,
     ...connectWalletMethods,
+
+    getExplorerAddressUrl: getAddressUrl,
+    getExplorerTxUrl: getTxUrl,
+
     approveAssetValue,
     getAddress,
     getBalance,
-    getExplorerAddressUrl,
-    getExplorerTxUrl,
     getWallet,
     getWalletWithBalance,
     isAssetValueApproved,

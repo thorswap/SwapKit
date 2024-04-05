@@ -1,7 +1,7 @@
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
-export const getSignature = async (signatureArray: any) => {
-  const { base64 } = await import("@swapkit/toolbox-cosmos");
+import { base64 } from "@scure/base";
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
+export const getSignature = (signatureArray: Todo) => {
   // Check Type Length Value encoding
   if (signatureArray.length < 64) {
     throw new Error("Invalid Signature: Too short");

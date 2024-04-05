@@ -1,7 +1,9 @@
+import { type AccountData, Secp256k1HdWallet } from "@cosmjs/amino";
 import type { StdFee } from "@cosmjs/stargate";
 import { base64, bech32 } from "@scure/base";
 import type { ChainId } from "@swapkit/types";
 
+import { stringToPath } from "@cosmjs/crypto";
 import type { CosmosSDKClientParams, TransferParams } from "./types.ts";
 import {
   DEFAULT_COSMOS_FEE_MAINNET,
@@ -26,15 +28,15 @@ export class CosmosClient {
   }
 
   getAddressFromMnemonic = async (mnemonic: string, derivationPath: string) => {
-    const wallet = await this.#getWallet(mnemonic, derivationPath);
-    const [{ address }] = await wallet.getAccounts();
-    return address;
+    const walletAccount = await this.#getWalletAccount(mnemonic, derivationPath);
+
+    return walletAccount.address;
   };
 
   getPubKeyFromMnemonic = async (mnemonic: string, derivationPath: string) => {
-    const wallet = await this.#getWallet(mnemonic, derivationPath);
+    const walletAccount = await this.#getWalletAccount(mnemonic, derivationPath);
 
-    return base64.encode((await wallet.getAccounts())[0].pubkey);
+    return base64.encode(walletAccount.pubkey);
   };
 
   checkAddress = (address: string) => {
@@ -98,13 +100,21 @@ export class CosmosClient {
     return txResponse.transactionHash;
   };
 
-  #getWallet = async (mnemonic: string, derivationPath: string) => {
-    const { Secp256k1HdWallet } = await import("@cosmjs/amino");
-    const { stringToPath } = await import("@cosmjs/crypto");
-
-    return await Secp256k1HdWallet.fromMnemonic(mnemonic, {
+  #getWallet = (mnemonic: string, derivationPath: string) => {
+    return Secp256k1HdWallet.fromMnemonic(mnemonic, {
       prefix: this.prefix,
       hdPaths: [stringToPath(derivationPath)],
     });
+  };
+
+  #getWalletAccount = async (mnemonic: string, derivationPath: string) => {
+    const wallet = await this.#getWallet(mnemonic, derivationPath);
+    const accounts = await wallet.getAccounts();
+
+    if (accounts.length === 0) {
+      throw new Error("No accounts found in the wallet");
+    }
+
+    return accounts[0] as AccountData;
   };
 }

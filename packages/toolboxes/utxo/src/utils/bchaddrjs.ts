@@ -43,7 +43,7 @@ type DecodedType = {
   format: Format;
   network: Network;
   type: Type;
-  hash: any;
+  hash: Todo;
 };
 
 class InvalidAddressError extends Error {
@@ -53,7 +53,7 @@ class InvalidAddressError extends Error {
   }
 }
 
-function isValidAddress(input: any) {
+function isValidAddress(input: Todo) {
   try {
     decodeAddress(input);
     return true;

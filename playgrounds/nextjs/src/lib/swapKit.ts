@@ -1,17 +1,45 @@
-import { type AssetValue, type Chain, SwapKitCore, WalletOption } from "@swapkit/core";
+import { ChainflipProvider } from "@swapkit/chainflip";
+import { type AssetValue, type Chain, SwapKit, WalletOption } from "@swapkit/core";
+import { ThorchainProvider } from "@swapkit/thorchain";
 import { evmWallet } from "@swapkit/wallet-evm-extensions";
-// import { keystoreWallet } from "@swapkit/wallet-keystore";
 import { keepkeyWallet } from "@swapkit/wallet-keepkey";
 import { keplrWallet } from "@swapkit/wallet-keplr";
+import { keystoreWallet } from "@swapkit/wallet-keystore";
 import { ledgerWallet } from "@swapkit/wallet-ledger";
 import { okxWallet } from "@swapkit/wallet-okx";
 import { trezorWallet } from "@swapkit/wallet-trezor";
 import { walletconnectWallet } from "@swapkit/wallet-wc";
+
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
 import { atom, useAtom } from "jotai";
 import { useCallback, useEffect } from "react";
 
-const swapKitAtom = atom<SwapKitCore | null>(null);
+type SupportedWallet =
+  | typeof evmWallet
+  | typeof keplrWallet
+  | typeof keystoreWallet
+  | typeof keepkeyWallet
+  | typeof ledgerWallet
+  | typeof okxWallet
+  | typeof trezorWallet
+  | typeof walletconnectWallet
+  | typeof xdefiWallet;
+
+type ConnectWalletType = Record<
+  SupportedWallet["connectMethodName"][number],
+  (connectParams: Todo) => string | undefined
+>;
+type SwapKitClient = ReturnType<
+  typeof SwapKit<
+    {
+      thorchain: ReturnType<typeof ThorchainProvider>["methods"];
+      chainflip: ReturnType<typeof ChainflipProvider>["methods"];
+    },
+    ConnectWalletType
+  >
+>;
+
+const swapKitAtom = atom<SwapKitClient | null>(null);
 const balanceAtom = atom<AssetValue[]>([]);
 const walletState = atom<{ connected: boolean; type: WalletOption | null }>({
   connected: false,
@@ -24,9 +52,9 @@ export const useSwapKit = () => {
   const [{ type: walletType, connected: isWalletConnected }, setWalletState] = useAtom(walletState);
 
   useEffect(() => {
-    const swapKitCore = new SwapKitCore({});
-
-    swapKitCore.extend({
+    const swapKitClient: SwapKitClient = SwapKit({
+      apis: {},
+      rpcUrls: {},
       config: {
         blockchairApiKey:
           process.env.NEXT_PUBLIC_BLOCKCHAIR_API_KEY || "A___Tcn5B16iC3mMj7QrzZCb2Ho1QBUf",
@@ -34,21 +62,42 @@ export const useSwapKit = () => {
           process.env.NEXT_PUBLIC_COVALENT_API_KEY || "cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q",
         ethplorerApiKey: process.env.NEXT_PUBLIC_ETHPLORER_API_KEY || "freekey",
         walletConnectProjectId: "",
+        keepkeyConfig: {
+          apiKey: localStorage.getItem("keepkeyApiKey") || "",
+          pairingInfo: {
+            name: "THORSwap",
+            imageUrl: "https://www.thorswap.finance/logo.png",
+            basePath: "swap",
+            url: "https://app.thorswap.finance",
+          },
+        },
       },
       wallets: [
-        // keystoreWallet,
+        // @ts-expect-error
+        keystoreWallet,
+        // @ts-expect-error
         xdefiWallet,
+        // @ts-expect-error
         ledgerWallet,
+        // @ts-expect-error
         trezorWallet,
+        // @ts-expect-error
         keepkeyWallet,
+        // @ts-expect-error
         okxWallet,
+        // @ts-expect-error
         keplrWallet,
+        // @ts-expect-error
         evmWallet,
+        // @ts-expect-error
         walletconnectWallet,
       ],
+
+      // @ts-expect-error
+      plugins: [ThorchainProvider, ChainflipProvider],
     });
 
-    setSwapKit(swapKitCore);
+    setSwapKit(swapKitClient);
   }, [setSwapKit]);
 
   const getBalances = useCallback(

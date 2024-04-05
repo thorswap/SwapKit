@@ -1,46 +1,47 @@
-import type { StdSignDoc, StdSignature } from "@swapkit/toolbox-cosmos";
+import type { StdSignDoc, StdSignature } from "@cosmjs/amino";
 import type { EthereumWindowProvider } from "@swapkit/toolbox-evm";
-
 import type { AminoSignResponse, OfflineAminoSigner } from "./types.ts";
 
 export { okxWallet } from "./okxWallet.ts";
 
 declare global {
   interface Window {
-    okxwallet?: EthereumWindowProvider & {
-      bitcoin: {
-        connect: () => Promise<{
-          address: string;
-          publicKey: string;
-        }>;
-        disconnect: () => Promise<void>;
-        signMessage: (message: string, { from }: { from: string }) => Promise<string>;
-        signPsbt: (
-          psbtHex: string,
-          { from, type }: { from: string; type: string },
-        ) => Promise<string>;
-      };
-      keplr: {
-        enable: (chainId: string | string[]) => Promise<void>;
-        signAmino: (
-          chainId: string,
-          signer: string,
-          signDoc: StdSignDoc,
-          signOptions: any,
-        ) => Promise<AminoSignResponse>;
-        signArbitrary: (
-          chainId: string,
-          signer: string,
-          data: string | Uint8Array,
-        ) => Promise<StdSignature>;
-        verifyArbitrary: (
-          chainId: string,
-          signer: string,
-          data: string | Uint8Array,
-          signature: StdSignature,
-        ) => Promise<boolean>;
-        getOfflineSignerOnlyAmino: (chainId: string) => OfflineAminoSigner;
-      };
-    };
+    okxwallet?:
+      | {
+          bitcoin: {
+            connect: () => Promise<{
+              address: string;
+              publicKey: string;
+            }>;
+            disconnect: () => Promise<void>;
+            signMessage: (message: string, { from }: { from: string }) => Promise<string>;
+            signPsbt: (
+              psbtHex: string,
+              { from, type }: { from: string; type: string },
+            ) => Promise<string>;
+          };
+          keplr: {
+            enable: (chainId: string | string[]) => Promise<void>;
+            signAmino: (
+              chainId: string,
+              signer: string,
+              signDoc: StdSignDoc,
+              signOptions: Todo,
+            ) => Promise<AminoSignResponse>;
+            signArbitrary: (
+              chainId: string,
+              signer: string,
+              data: string | Uint8Array,
+            ) => Promise<StdSignature>;
+            verifyArbitrary: (
+              chainId: string,
+              signer: string,
+              data: string | Uint8Array,
+              signature: StdSignature,
+            ) => Promise<boolean>;
+            getOfflineSignerOnlyAmino: (chainId: string) => OfflineAminoSigner;
+          };
+        }
+      | EthereumWindowProvider;
   }
 }

@@ -1,4 +1,3 @@
-import type { SwapKitCore } from "@swapkit/core";
 import { AssetValue } from "@swapkit/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -6,11 +5,11 @@ import Loan from "./Loan";
 import Multisig from "./Multisig";
 import Send from "./Send";
 import Swap from "./Swap";
-import { clearSwapkitClient, getSwapKitClient } from "./swapKitClient";
 import TNS from "./TNS";
-import type { WalletDataType } from "./types";
 import { Wallet } from "./Wallet";
 import { WalletPicker } from "./WalletPicker";
+import { getSwapKitClient } from "./swapKitClient";
+import type { WalletDataType } from "./types";
 
 const apiKeys = ["walletConnectProjectId"] as const;
 
@@ -19,7 +18,6 @@ const App = () => {
   const [wallet, setWallet] = useState<WalletDataType | WalletDataType[]>(null);
   const [phrase, setPhrase] = useState("");
   const [stagenet, setStagenet] = useState(false);
-  const [skClient, setSkClient] = useState<SwapKitCore | null>(null);
   const [assetListLoaded, setAssetListLoaded] = useState(false);
 
   /**
@@ -36,29 +34,24 @@ const App = () => {
     outputAsset?: AssetValue;
   }>({});
 
+  const skClient = getSwapKitClient({ ...keys, stagenet });
+
   useEffect(() => {
     AssetValue.loadStaticAssets().then(({ ok }) => {
       setAssetListLoaded(ok);
     });
   }, []);
 
-  useEffect(() => {
-    setSkClient(null);
-    clearSwapkitClient();
-
-    getSwapKitClient({ ...keys, stagenet }).then((client) => {
-      setTimeout(() => setSkClient(client), 500);
-    });
-  }, [keys, stagenet]);
-
   const setAsset = useCallback(
-    (asset: any) => {
+    (asset: Todo) => {
       if (!inputAsset) {
         setSwapAssets({ inputAsset: asset });
-      } else if (!outputAsset) {
-        setSwapAssets({ inputAsset, outputAsset: asset });
-      } else {
+      }
+
+      if (outputAsset) {
         setSwapAssets({ inputAsset: asset, outputAsset: undefined });
+      } else {
+        setSwapAssets({ inputAsset, outputAsset: asset });
       }
     },
     [inputAsset, outputAsset],

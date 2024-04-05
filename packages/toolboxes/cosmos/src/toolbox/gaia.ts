@@ -1,7 +1,7 @@
 import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
 import type { Account } from "@cosmjs/stargate";
 import { type AssetValue, SwapKitNumber } from "@swapkit/helpers";
-import { ApiUrl, BaseDecimal, ChainId, DerivationPath } from "@swapkit/types";
+import { BaseDecimal, ChainId, DerivationPath } from "@swapkit/types";
 
 import { CosmosClient } from "../cosmosClient.ts";
 import type { GaiaToolboxType, ToolboxParams } from "../index.ts";
@@ -11,12 +11,12 @@ import { BaseCosmosToolbox, getFeeRateFromThorswap } from "./BaseCosmosToolbox.t
 
 export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => {
   const client = new CosmosClient({
-    server: server || ApiUrl.Cosmos,
+    server: server || "https://node-router.thorswap.net/cosmos/rest",
     chainId: ChainId.Cosmos,
   });
 
   const baseToolbox: {
-    validateAddress: (address: string) => Promise<boolean>;
+    validateAddress: (address: string) => boolean;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getAccount: (address: string) => Promise<Account | null>;
     getBalance: (address: string, potentialScamFilter?: boolean) => Promise<AssetValue[]>;

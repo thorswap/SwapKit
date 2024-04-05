@@ -54,15 +54,16 @@ export type EstimateCallParams = Pick<
 >;
 
 export type EthereumWindowProvider = BrowserProvider & {
-  isMetaMask?: boolean;
-  on: (event: string, callback?: () => void) => void;
+  __XDEFI?: boolean;
   isBraveWallet?: boolean;
   isCoinbaseWallet?: boolean;
+  isMetaMask?: boolean;
   isOkxWallet?: boolean;
-  overrideIsMetaMask?: boolean;
-  selectedProvider?: EthereumWindowProvider;
   isTrust?: boolean;
-  __XDEFI?: boolean;
+  on: (event: string, callback?: () => void) => void;
+  overrideIsMetaMask?: boolean;
+  request: <T = unknown>(args: { method: string; params?: unknown[] }) => Promise<T>;
+  selectedProvider?: EthereumWindowProvider;
 };
 
 declare global {
@@ -70,17 +71,7 @@ declare global {
     ethereum: EthereumWindowProvider;
     trustwallet: EthereumWindowProvider;
     coinbaseWalletExtension: EthereumWindowProvider;
-    xfi?: {
-      binance: any;
-      bitcoin: any;
-      bitcoincash: any;
-      dogecoin: any;
-      ethereum: EthereumWindowProvider;
-      litecoin: any;
-      thorchain: any;
-    };
-    braveSolana: any;
-    okxwallet?: EthereumWindowProvider;
+    braveSolana: Todo;
   }
 }
 

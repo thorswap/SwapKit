@@ -1,24 +1,13 @@
 {
   "author": "swapkit-oss",
-  "description": "SwapKit Lib types",
+  "description": "SwapKit - Types",
   "devDependencies": {
-    "vite": "5.1.6"
+    "bun-types": "1.1.1"
   },
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.js",
   "name": "@swapkit/types",
   "react-native": "./src/index.ts",
   "repository": {
@@ -26,12 +15,12 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build": "vite build",
-    "clean": "rm -rf dist vite.config.ts.* node_modules",
+    "build": "bun run ./build.ts",
+    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
     "lint": "biome check --apply ./src",
-    "test": "echo 'No tests yet'"
+    "type-check": "tsc --noEmit"
   },
   "type": "module",
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "version": "1.0.0-rc.47"
 }

@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 "use client";
 import type { AssetValue, Chain } from "@swapkit/core";
 import { Check } from "lucide-react";

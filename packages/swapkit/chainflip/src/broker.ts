@@ -1,9 +1,11 @@
 import { Chains } from "@chainflip/sdk/swap";
-import { type AssetValue, SwapKitError } from "@swapkit/helpers";
+import { type AssetValue, SwapKitError, SwapKitNumber, wrapWithThrow } from "@swapkit/helpers";
 import type { ETHToolbox } from "@swapkit/toolbox-evm";
 import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
 import { Chain } from "@swapkit/types";
 
+import { decodeAddress } from "@polkadot/keyring";
+import { isHex, u8aToHex } from "@polkadot/util";
 import { chainflipGateway } from "./chainflipGatewayABI.ts";
 
 const chainToChainflipChain = new Map<Chain, keyof typeof Chains>([
@@ -16,7 +18,12 @@ const registerAsBroker = (
   toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
   address: string,
 ) => {
-  const extrinsic = toolbox.api.tx.swapping.registerAsBroker(address);
+  const extrinsic = toolbox.api.tx.swapping?.registerAsBroker?.(address);
+
+  if (!extrinsic) {
+    throw new Error("chainflip_broker_register");
+  }
+
   return toolbox.signAndBroadcast(extrinsic);
 };
 
@@ -34,18 +41,13 @@ const requestSwapDepositAddress = async (
     brokerCommissionBPS: number;
   },
 ) => {
-  const { SwapKitNumber } = await import("@swapkit/helpers");
-
   const isBuyChainPolkadot = buyAsset.chain === Chain.Polkadot;
 
-  let recipientAddress: string;
-  try {
-    recipientAddress = isBuyChainPolkadot
-      ? await toolbox.encodeAddress(await toolbox.decodeAddress(recipient), "hex")
+  const recipientAddress = wrapWithThrow(() => {
+    return isBuyChainPolkadot
+      ? toolbox.encodeAddress(toolbox.decodeAddress(recipient), "hex")
       : recipient;
-  } catch (error) {
-    throw new SwapKitError("chainflip_broker_recipient_error", error);
-  }
+  }, "chainflip_broker_recipient_error");
 
   return new Promise<{
     depositChannelId: string;
@@ -56,90 +58,89 @@ const requestSwapDepositAddress = async (
     recipient: string;
     brokerCommissionBPS: number;
   }>((resolve) => {
-    toolbox.signAndBroadcast(
-      toolbox.api.tx.swapping.requestSwapDepositAddress(
-        sellAsset.ticker.toLowerCase(),
-        buyAsset.ticker.toLowerCase(),
-        { [buyAsset.chain.toLowerCase()]: recipientAddress },
-        SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
-        null,
-        0,
-      ),
-      async (result: any) => {
-        if (!result.status?.isFinalized) return;
-
-        const depositChannelEvent = result.events.find(
-          (event: any) => event.event.method === "SwapDepositAddressReady",
-        );
-
-        if (!depositChannelEvent) {
-          throw new SwapKitError(
-            "chainflip_channel_error",
-            "Could not find 'SwapDepositAddressReady' event",
-          );
-        }
-
-        const {
-          event: {
-            data: { depositAddress, sourceChainExpiryBlock, destinationAddress, channelId },
-          },
-        } = depositChannelEvent.toHuman();
-
-        const header = await toolbox.api.rpc.chain.getHeader(result.status.toJSON().finalized);
-
-        resolve({
-          depositChannelId: `${header.number}-${chainToChainflipChain.get(
-            sellAsset.chain,
-          )}-${channelId.replaceAll(",", "")}`,
-          depositAddress: Object.values(depositAddress)[0] as string,
-          srcChainExpiryBlock: Number((sourceChainExpiryBlock as string).replaceAll(",", "")),
-          sellAsset,
-          buyAsset,
-          recipient: Object.values(destinationAddress)[0] as string,
-          brokerCommissionBPS,
-        });
-      },
+    const tx = toolbox.api.tx.swapping?.requestSwapDepositAddress?.(
+      sellAsset.ticker.toLowerCase(),
+      buyAsset.ticker.toLowerCase(),
+      { [buyAsset.chain.toLowerCase()]: recipientAddress },
+      SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
+      null,
+      0,
     );
+
+    if (!tx) {
+      throw new Error("chainflip_broker_tx_error");
+    }
+
+    toolbox.signAndBroadcast(tx, async (result) => {
+      if (!result.status?.isFinalized) {
+        return;
+      }
+
+      const depositChannelEvent = result.events.find(
+        (event) => event.event.method === "SwapDepositAddressReady",
+      );
+
+      if (!depositChannelEvent) {
+        throw new SwapKitError(
+          "chainflip_channel_error",
+          "Could not find 'SwapDepositAddressReady' event",
+        );
+      }
+
+      const {
+        event: {
+          data: { depositAddress, sourceChainExpiryBlock, destinationAddress, channelId },
+        },
+      } = depositChannelEvent.toHuman() as Todo;
+
+      const hash = result.status?.toJSON?.() as { finalized: string };
+      const header = await toolbox.api.rpc.chain.getHeader(hash?.finalized);
+      const depositChannelId = `${header.number}-${chainToChainflipChain.get(
+        sellAsset.chain,
+      )}-${channelId.replaceAll(",", "")}`;
+
+      resolve({
+        brokerCommissionBPS,
+        buyAsset,
+        depositAddress: Object.values(depositAddress)[0] as string,
+        depositChannelId,
+        recipient: Object.values(destinationAddress)[0] as string,
+        sellAsset,
+        srcChainExpiryBlock: Number((sourceChainExpiryBlock as string).replaceAll(",", "")),
+      });
+    });
   });
 };
 
-const withdrawFee = async (
+const withdrawFee = (
   toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
-  {
-    feeAsset,
-    recipient,
-  }: {
-    feeAsset: AssetValue;
-    recipient: string;
-  },
+  { feeAsset, recipient }: { feeAsset: AssetValue; recipient: string },
 ) => {
   const isFeeChainPolkadot = feeAsset.chain === Chain.Polkadot;
 
-  let recipientAddress: string;
-  try {
-    recipientAddress = isFeeChainPolkadot
-      ? await toolbox.encodeAddress(await toolbox.decodeAddress(recipient), "hex")
+  const recipientAddress = wrapWithThrow(() => {
+    return isFeeChainPolkadot
+      ? toolbox.encodeAddress(toolbox.decodeAddress(recipient), "hex")
       : recipient;
-  } catch (error) {
-    throw new SwapKitError("chainflip_broker_recipient_error", error);
-  }
+  }, "chainflip_broker_recipient_error");
 
-  const extrinsic = toolbox.api.tx.swapping.withdraw(feeAsset.ticker.toLowerCase(), {
+  const extrinsic = toolbox.api.tx?.swapping?.withdraw?.(feeAsset.ticker.toLowerCase(), {
     [feeAsset.chain.toLowerCase()]: recipientAddress,
   });
+
+  if (!extrinsic) {
+    throw new Error("chainflip_broker_withdraw");
+  }
 
   return toolbox.signAndBroadcast(extrinsic);
 };
 
-const fundStateChainAccount = async (
+const fundStateChainAccount = (
   evmToolbox: ReturnType<typeof ETHToolbox>,
   chainflipToolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
   stateChainAccount: string,
   amount: AssetValue,
 ) => {
-  const { decodeAddress } = await import("@polkadot/keyring");
-  const { isHex, u8aToHex } = await import("@polkadot/util");
-
   if (amount.symbol !== "FLIP") {
     throw new Error("Only FLIP is supported");
   }

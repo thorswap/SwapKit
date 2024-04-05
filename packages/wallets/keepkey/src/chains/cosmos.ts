@@ -21,7 +21,7 @@ export const cosmosWalletMethods = async ({
 
   try {
     const derivationPathString = derivationPath
-      ? `m/${derivationPathToString(derivationPath)}`
+      ? derivationPathToString(derivationPath)
       : `${DerivationPath.GAIA}/0`;
 
     const { address: fromAddress } = (await sdk.address.cosmosGetAddress({
@@ -29,9 +29,12 @@ export const cosmosWalletMethods = async ({
     })) as { address: string };
 
     const toolbox = GaiaToolbox({ server: api });
-    DEFAULT_COSMOS_FEE_MAINNET.amount[0].amount = String(
-      (await toolbox?.getFeeRateFromThorswap?.(ChainId.Cosmos)) ?? "500",
-    );
+
+    if (DEFAULT_COSMOS_FEE_MAINNET.amount[0]) {
+      DEFAULT_COSMOS_FEE_MAINNET.amount[0].amount = String(
+        (await toolbox?.getFeeRateFromThorswap?.(ChainId.Cosmos)) ?? "500",
+      );
+    }
 
     // TODO support other cosmos assets
     const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {

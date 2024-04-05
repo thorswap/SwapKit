@@ -135,8 +135,8 @@ export type SwapWithRouteParams = {
   streamSwap?: boolean;
 };
 
-type ApisType = { [key in UTXOChain]?: string | any } & {
-  [key in EVMChain]?: string | any;
+type ApisType = { [key in UTXOChain]?: string | Todo } & {
+  [key in EVMChain]?: string | Todo;
 } & {
   [key in CosmosChain]?: string;
 };

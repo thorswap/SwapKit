@@ -14,7 +14,7 @@ import {
   FeeOption,
   WalletOption,
 } from "@swapkit/types";
-import type { BrowserProvider, Eip1193Provider, JsonRpcProvider } from "ethers";
+import { BrowserProvider, type Eip1193Provider, type JsonRpcProvider } from "ethers";
 
 import type { CovalentApiType, EVMMaxSendableAmountsParams, EthplorerApiType } from "./index.ts";
 import { AVAXToolbox, BSCToolbox, ETHToolbox } from "./index.ts";
@@ -33,7 +33,7 @@ type NetworkParams = {
 
 type ProviderRequestParams = {
   provider?: BrowserProvider;
-  params?: any;
+  params?: Todo;
   method:
     | "wallet_addEthereumChain"
     | "wallet_switchEthereumChain"
@@ -60,7 +60,7 @@ const methodsToWrap = [
   "createContractTxObject",
 ];
 
-export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[]) => any }>({
+export const prepareNetworkSwitch = <T extends { [key: string]: (...args: Todo[]) => Todo }>({
   toolbox,
   chainId,
   provider = window.ethereum,
@@ -73,6 +73,8 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
     if (!toolbox[methodName]) return object;
     const method = toolbox[methodName];
 
+    if (typeof method !== "function") return object;
+
     return {
       // biome-ignore lint/performance/noAccumulatingSpread: This is a valid use case
       ...object,
@@ -83,12 +85,12 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
   return { ...toolbox, ...wrappedMethods };
 };
 
-export const wrapMethodWithNetworkSwitch = <T extends (...args: any[]) => any>(
+export const wrapMethodWithNetworkSwitch = <T extends (...args: Todo[]) => Todo>(
   func: T,
   provider: BrowserProvider,
   chainId: ChainId,
 ) =>
-  (async (...args: any[]) => {
+  (async (...args: Todo[]) => {
     try {
       await switchEVMWalletNetwork(provider, chainId);
     } catch (error) {
@@ -130,9 +132,7 @@ export const getWeb3WalletMethods = async ({
     throw new Error(`Missing API key for ${chain} chain`);
   }
 
-  const { BrowserProvider } = await import("ethers");
-
-  const provider = new BrowserProvider(ethereumWindowProvider, "any");
+  const provider = new BrowserProvider(ethereumWindowProvider, "Todo");
 
   const toolboxParams = {
     provider,
@@ -233,6 +233,7 @@ export const estimateMaxSendableAmount = async ({
 
 export const addAccountsChangedCallback = (callback: () => void) => {
   window.ethereum?.on("accountsChanged", () => callback());
+  // @ts-expect-error that should be implemented in xdefi and hooked up via swapkit core
   window.xfi?.ethereum.on("accountsChanged", () => callback());
 };
 
@@ -252,6 +253,7 @@ export const isDetected = (walletOption: WalletOption) => {
 
 const listWeb3EVMWallets = () => {
   const metamaskEnabled = window?.ethereum && !window.ethereum?.isBraveWallet;
+  // @ts-ignore that should be implemented in xdefi and hooked up via swapkit core
   const xdefiEnabled = window?.xfi || window?.ethereum?.__XDEFI;
   const braveEnabled = window?.ethereum?.isBraveWallet;
   const trustEnabled = window?.ethereum?.isTrust || window?.trustwallet;

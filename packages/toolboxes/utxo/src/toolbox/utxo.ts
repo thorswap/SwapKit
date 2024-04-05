@@ -1,12 +1,10 @@
-import * as ecc from "@bitcoinerlab/secp256k1";
 import { HDKey } from "@scure/bip32";
 import { mnemonicToSeedSync } from "@scure/bip39";
 import { AssetValue, SwapKitNumber } from "@swapkit/helpers";
-import type { UTXOChain } from "@swapkit/types";
-import { BaseDecimal, Chain, FeeOption } from "@swapkit/types";
+import { BaseDecimal, Chain, FeeOption, type UTXOChain } from "@swapkit/types";
 import { Psbt, address as btcLibAddress, initEccLib, payments } from "bitcoinjs-lib";
-import type { ECPairInterface } from "ecpair";
-import { ECPairFactory } from "ecpair";
+import { ECPairFactory, type ECPairInterface } from "ecpair";
+import * as secp256k1 from "tiny-secp256k1";
 
 import type { BlockchairApiType } from "../api/blockchairApi.ts";
 import type {
@@ -27,7 +25,7 @@ import {
   standardFeeRates,
 } from "../utils/index.ts";
 
-const createKeysForPath = async ({
+const createKeysForPath = ({
   phrase,
   wif,
   derivationPath,
@@ -40,7 +38,6 @@ const createKeysForPath = async ({
 }) => {
   if (!(wif || phrase)) throw new Error("Either phrase or wif must be provided");
 
-  const secp256k1 = await import("@bitcoinerlab/secp256k1");
   const factory = ECPairFactory(secp256k1);
   const network = getNetwork(chain);
 
@@ -55,7 +52,7 @@ const createKeysForPath = async ({
 
 const validateAddress = ({ address, chain }: { address: string } & UTXOBaseToolboxParams) => {
   try {
-    initEccLib(ecc);
+    initEccLib(secp256k1);
     btcLibAddress.toOutputScript(address, getNetwork(chain));
     return true;
   } catch (_error) {
@@ -110,7 +107,9 @@ const getBalance = async ({
   chain,
   apiClient,
 }: { address: string } & UTXOBaseToolboxParams) => {
-  const balance = (await apiClient.getBalance(address)) / 10 ** BaseDecimal[chain];
+  const baseBalance = (await apiClient.getBalance(address)) || 0;
+
+  const balance = baseBalance / 10 ** BaseDecimal[chain];
   const asset = await AssetValue.fromIdentifier(`${chain}.${chain}`, balance);
 
   return [asset];
@@ -187,8 +186,6 @@ const buildTx = async ({
 
   for (const utxo of inputs) {
     psbt.addInput({
-      // FIXME: (@Towan, @Chillios) - Check on this as types says it's not defined
-      // @ts-ignore
       hash: utxo.hash,
       index: utxo.index,
       ...(!!utxo.witnessUtxo && chain !== Chain.Dogecoin && { witnessUtxo: utxo.witnessUtxo }),
@@ -207,7 +204,7 @@ const buildTx = async ({
       : { address, value: output.value };
 
     if (params) {
-      initEccLib(ecc);
+      initEccLib(secp256k1);
       psbt.addOutput(params);
     }
   }
@@ -268,7 +265,7 @@ export const estimateMaxSendableAmount = async ({
 }) => {
   const addressData = await apiClient.getAddressData(from);
   const feeRateWhole = feeRate ? Math.ceil(feeRate) : (await getFeeRates(apiClient))[feeOptionKey];
-  const inputs = addressData.utxo
+  const inputs = addressData?.utxo
     .map((utxo) => ({
       ...utxo,
       // type: utxo.witnessUtxo ? UTXOScriptType.P2WPKH : UTXOScriptType.P2PKH,
@@ -278,6 +275,8 @@ export const estimateMaxSendableAmount = async ({
     .filter(
       (utxo) => utxo.value > Math.max(getDustThreshold(chain), getInputSize(utxo) * feeRateWhole),
     );
+
+  if (!inputs?.length) return AssetValue.fromChainOrSignature(chain, 0);
 
   const balance = AssetValue.fromChainOrSignature(
     chain,
@@ -312,11 +311,11 @@ export const BaseUTXOToolbox = (
   apiClient: baseToolboxParams.apiClient,
   broadcastTx: baseToolboxParams.broadcastTx,
   calculateTxSize,
-  buildTx: (params: any) => buildTx({ ...params, ...baseToolboxParams }),
+  buildTx: (params: Todo) => buildTx({ ...params, ...baseToolboxParams }),
   getAddressFromKeys: (keys: ECPairInterface) => getAddressFromKeys({ keys, ...baseToolboxParams }),
   validateAddress: (address: string) => validateAddress({ address, ...baseToolboxParams }),
 
-  createKeysForPath: (params: any) => createKeysForPath({ ...params, ...baseToolboxParams }),
+  createKeysForPath: (params: Todo) => createKeysForPath({ ...params, ...baseToolboxParams }),
 
   getPrivateKeyFromMnemonic: async ({
     phrase,
@@ -331,16 +330,16 @@ export const BaseUTXOToolbox = (
 
   getFeeRates: () => getFeeRates(baseToolboxParams.apiClient),
 
-  transfer: (params: any) => transfer({ ...params, ...baseToolboxParams }),
+  transfer: (params: Todo) => transfer({ ...params, ...baseToolboxParams }),
 
-  getInputsOutputsFee: (params: any) => getInputsOutputsFee({ ...params, ...baseToolboxParams }),
+  getInputsOutputsFee: (params: Todo) => getInputsOutputsFee({ ...params, ...baseToolboxParams }),
 
-  getFeeForTransaction: async (params: any) =>
+  getFeeForTransaction: async (params: Todo) =>
     new SwapKitNumber({
       value: (await getInputsOutputsFee({ ...params, ...baseToolboxParams })).fee,
       decimal: 8,
     }),
 
-  estimateMaxSendableAmount: async (params: any) =>
+  estimateMaxSendableAmount: async (params: Todo) =>
     estimateMaxSendableAmount({ ...params, ...baseToolboxParams }),
 });

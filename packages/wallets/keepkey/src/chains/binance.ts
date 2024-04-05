@@ -19,7 +19,7 @@ export const binanceWalletMethods = async ({
     const toolbox = BinanceToolbox();
 
     const derivationPathString = derivationPath
-      ? `m/${derivationPathToString(derivationPath)}`
+      ? derivationPathToString(derivationPath)
       : `${DerivationPath.BNB}/0`;
 
     const { address: fromAddress } = (await sdk.address.binanceGetAddress({

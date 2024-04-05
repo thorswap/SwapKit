@@ -1,40 +1,50 @@
-import type { SwapKitCore } from "@swapkit/core";
+import { ChainflipProvider } from "@swapkit/chainflip";
+import { SwapKit } from "@swapkit/core";
+import { ThorchainProvider } from "@swapkit/thorchain";
+import { evmWallet } from "@swapkit/wallet-evm-extensions";
+import { keepkeyWallet } from "@swapkit/wallet-keepkey";
+import { keplrWallet } from "@swapkit/wallet-keplr";
+import { keystoreWallet } from "@swapkit/wallet-keystore";
+import { ledgerWallet } from "@swapkit/wallet-ledger";
+import { okxWallet } from "@swapkit/wallet-okx";
+import { trezorWallet } from "@swapkit/wallet-trezor";
+import { walletconnectWallet } from "@swapkit/wallet-wc";
+import { xdefiWallet } from "@swapkit/wallet-xdefi";
 
-let skClient: SwapKitCore | undefined;
+const clientCache = new Map<string, ReturnType<typeof SwapKit>>();
 
-export const clearSwapkitClient = () => (skClient = undefined);
+export const getSwapKitClient = (
+  params: {
+    ethplorerApiKey?: string;
+    covalentApiKey?: string;
+    blockchairApiKey?: string;
+    utxoApiKey?: string;
+    walletConnectProjectId?: string;
+    stagenet?: boolean;
+  } = {},
+) => {
+  const key = JSON.stringify(params);
 
-export const getSwapKitClient = async ({
-  ethplorerApiKey = "freekey",
-  covalentApiKey = "",
-  utxoApiKey = "",
-  blockchairApiKey = "",
-  walletConnectProjectId = "",
-  stagenet,
-}: {
-  ethplorerApiKey?: string;
-  covalentApiKey?: string;
-  blockchairApiKey?: string;
-  utxoApiKey?: string;
-  walletConnectProjectId?: string;
-  stagenet?: boolean;
-} = {}) => {
-  if (skClient) return skClient;
+  const {
+    ethplorerApiKey = "freekey",
+    covalentApiKey = "",
+    utxoApiKey = "",
+    blockchairApiKey = "",
+    walletConnectProjectId = "",
+    stagenet = false,
+  } = params;
 
-  const { evmWallet } = await import("@swapkit/wallet-evm-extensions");
-  const { keplrWallet } = await import("@swapkit/wallet-keplr");
-  const { keystoreWallet } = await import("@swapkit/wallet-keystore");
-  const { keepkeyWallet } = await import("@swapkit/wallet-keepkey");
-  const { ledgerWallet } = await import("@swapkit/wallet-ledger");
-  const { okxWallet } = await import("@swapkit/wallet-okx");
-  const { SwapKitCore } = await import("@swapkit/core");
-  const { trezorWallet } = await import("@swapkit/wallet-trezor");
-  const { walletconnectWallet } = await import("@swapkit/wallet-wc");
-  const { xdefiWallet } = await import("@swapkit/wallet-xdefi");
+  if (clientCache.has(key)) {
+    return clientCache.get(key);
+  }
 
-  const client = new SwapKitCore({ stagenet });
-
-  client.extend({
+  const client = SwapKit<{
+    thorchain: ReturnType<typeof ThorchainProvider>["methods"];
+    chainflip: ReturnType<typeof ChainflipProvider>["methods"];
+  }>({
+    apis: {},
+    rpcUrls: {},
+    stagenet,
     config: {
       ethplorerApiKey,
       covalentApiKey,
@@ -52,20 +62,31 @@ export const getSwapKitClient = async ({
         },
       },
     },
+    // @ts-expect-error
+    plugins: [ThorchainProvider, ChainflipProvider],
     wallets: [
+      // @ts-expect-error
       xdefiWallet,
+      // @ts-expect-error
       okxWallet,
+      // @ts-expect-error
       ledgerWallet,
+      // @ts-expect-error
       keystoreWallet,
+      // @ts-expect-error
       keepkeyWallet,
+      // @ts-expect-error
       trezorWallet,
+      // @ts-expect-error
       keplrWallet,
+      // @ts-expect-error
       evmWallet,
+      // @ts-expect-error
       walletconnectWallet,
     ],
   });
 
-  skClient = client;
+  clientCache.set(key, client);
 
   return client;
 };

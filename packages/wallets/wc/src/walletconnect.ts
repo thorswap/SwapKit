@@ -1,10 +1,6 @@
+import type { StdSignDoc } from "@cosmjs/amino";
 import { setRequestClientConfig } from "@swapkit/helpers";
-import type {
-  BaseCosmosToolboxType,
-  DepositParam,
-  StdSignDoc,
-  TransferParams,
-} from "@swapkit/toolbox-cosmos";
+import type { BaseCosmosToolboxType, DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
 import type { ConnectWalletParams } from "@swapkit/types";
 import { Chain, ChainId, RPCUrl, WalletOption } from "@swapkit/types";
 import type { WalletConnectModalSign } from "@walletconnect/modal-sign-html";
@@ -74,6 +70,7 @@ const getToolbox = async ({
 
       return toolbox({
         provider,
+        // @ts-expect-error TODO: fix this
         signer,
         ethplorerApiKey: ethplorerApiKey as string,
         covalentApiKey,
@@ -102,7 +99,7 @@ const getToolbox = async ({
           source: "0",
         });
 
-        const response: any = await walletconnect?.client.request({
+        const response: Todo = await walletconnect?.client.request({
           chainId: BINANCE_MAINNET_ID,
           topic: session.topic,
           request: {
@@ -112,7 +109,7 @@ const getToolbox = async ({
         });
 
         const signature = Buffer.from(response.signature, "hex");
-        const publicKey = toolbox.getPublicKey(response.publicKey);
+        const publicKey = await toolbox.getPublicKey(response.publicKey);
         const signedTx = transaction.addSignature(publicKey, signature);
 
         const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);
@@ -123,18 +120,17 @@ const getToolbox = async ({
     }
 
     case Chain.THORChain: {
+      const { SignMode } = await import("cosmjs-types/cosmos/tx/signing/v1beta1/signing.js");
+      const { TxRaw } = await import("cosmjs-types/cosmos/tx/v1beta1/tx.js");
+      const { encodePubkey, makeAuthInfoBytes } = await import("@cosmjs/proto-signing");
+      const { makeSignDoc } = await import("@cosmjs/amino");
       const {
-        SignMode,
         ThorchainToolbox,
-        TxRaw,
         buildAminoMsg,
         buildEncodedTxBody,
         createStargateClient,
-        encodePubkey,
         fromBase64,
         getDefaultChainFee,
-        makeAuthInfoBytes,
-        makeSignDoc,
         prepareMessageForBroadcast,
       } = await import("@swapkit/toolbox-cosmos");
       const toolbox = ThorchainToolbox({ stagenet: false });
@@ -172,7 +168,7 @@ const getToolbox = async ({
           sequence?.toString() || "0",
         );
 
-        const signature: any = await signRequest(signDoc);
+        const signature: Todo = await signRequest(signDoc);
 
         const bodyBytes = await buildEncodedTxBody({
           chain,
@@ -207,10 +203,11 @@ const getToolbox = async ({
         return result.transactionHash;
       };
 
-      const transfer = (params: TransferParams) => thorchainTransfer(params);
-      const deposit = (params: DepositParam) => thorchainTransfer(params);
-
-      return { ...toolbox, transfer, deposit };
+      return {
+        ...toolbox,
+        transfer: (params: TransferParams) => thorchainTransfer(params),
+        deposit: (params: DepositParam) => thorchainTransfer(params),
+      };
     }
     default:
       throw new Error("Chain is not supported");
@@ -257,7 +254,7 @@ const getWalletconnect = async (
     });
 
     const accounts = Object.values(session.namespaces).flatMap(
-      (namespace: any) => namespace.accounts,
+      (namespace: Todo) => namespace.accounts,
     );
 
     return { session, accounts, client };
@@ -265,6 +262,7 @@ const getWalletconnect = async (
     console.error(e);
   } finally {
     if (modal) {
+      // @ts-expect-error wrong typing
       modal.closeModal();
     }
   }

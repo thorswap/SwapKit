@@ -53,7 +53,7 @@ export class CosmosLedger extends CosmosLedgerInterface {
   };
 
   // TODO: Fix type inference
-  signAmino = async (signerAddress: string, signDoc: any): Promise<any> => {
+  signAmino = async (signerAddress: string, signDoc: Todo): Promise<Todo> => {
     await this.checkOrCreateTransportAndLedger(true);
 
     const accounts = await this.getAccounts();
@@ -63,9 +63,8 @@ export class CosmosLedger extends CosmosLedgerInterface {
       throw new Error(`Address ${signerAddress} not found in wallet`);
     }
 
-    const { Secp256k1Signature, encodeSecp256k1Signature, serializeSignDoc } = await import(
-      "@swapkit/toolbox-cosmos"
-    );
+    const { encodeSecp256k1Signature, serializeSignDoc } = await import("@cosmjs/amino");
+    const { Secp256k1Signature } = await import("@cosmjs/crypto");
 
     const message = serializeSignDoc(signDoc);
     const signature = await this.ledgerApp.sign(this.derivationPath, message);
@@ -90,6 +89,6 @@ export class CosmosLedger extends CosmosLedgerInterface {
         algo: "secp256k1",
         pubkey: Buffer.from(addressAndPubKey.publicKey, "hex"),
       },
-    ] as any[];
+    ] as Todo[];
   };
 }

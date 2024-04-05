@@ -1,13 +1,15 @@
-import { EC, RIPEMD160, SHA256, bech32, enc } from "@swapkit/toolbox-cosmos";
+import { bech32 } from "@scure/base";
+import { RIPEMD160, SHA256, enc } from "crypto-js";
+import { ec } from "elliptic";
 
-const ab2hexstring = (arr: any) => {
+const ab2hexstring = (arr: Todo) => {
   if (typeof arr !== "object") {
     throw new Error("ab2hexstring expects an array");
   }
   let result = "";
 
-  for (let i = 0; i < arr.length; i++) {
-    let str = arr[i].toString(16);
+  for (const item of arr) {
+    let str = item.toString(16);
     str = str.length === 0 ? "00" : str.length === 1 ? `0${str}` : str;
     result += str;
   }
@@ -17,14 +19,15 @@ const ab2hexstring = (arr: any) => {
 const sha256ripemd160 = (hex: string) => {
   if (typeof hex !== "string") throw new Error("sha256ripemd160 expects a string");
   if (hex.length % 2 !== 0) throw new Error(`invalid hex string length: ${hex}`);
+
   const hexEncoded = enc.Hex.parse(hex);
-  const ProgramSha256: any = SHA256(hexEncoded);
+  const ProgramSha256: Todo = SHA256(hexEncoded);
   return RIPEMD160(ProgramSha256).toString();
 };
 
 export const getAddressFromPublicKey = (publicKeyHex: string, prefix: string) => {
-  const ec = new EC("secp256k1");
-  const pubKey = ec.keyFromPublic(publicKeyHex, "hex");
+  const EC = new ec("secp256k1");
+  const pubKey = EC.keyFromPublic(publicKeyHex, "hex");
   const pubPoint = pubKey.getPublic();
   const compressed = pubPoint.encodeCompressed();
   const hexed = ab2hexstring(compressed);

@@ -36,12 +36,12 @@ const XDEFI_SUPPORTED_CHAINS = [
   Chain.Maya,
 ] as const;
 
-const getWalletMethodsForChain = async ({
+async function getWalletMethodsForChain({
   chain,
   blockchairApiKey,
   covalentApiKey,
   ethplorerApiKey,
-}: ConnectConfig & { chain: (typeof XDEFI_SUPPORTED_CHAINS)[number] }) => {
+}: ConnectConfig & { chain: (typeof XDEFI_SUPPORTED_CHAINS)[number] }) {
   switch (chain) {
     case Chain.THORChain: {
       const { THORCHAIN_GAS_VALUE, ThorchainToolbox } = await import("@swapkit/toolbox-cosmos");
@@ -182,14 +182,13 @@ const getWalletMethodsForChain = async ({
     default:
       return null;
   }
-};
+}
 
-const connectXDEFI =
-  ({
-    addChain,
-    config: { covalentApiKey, ethplorerApiKey, blockchairApiKey, thorswapApiKey, utxoApiKey },
-  }: ConnectWalletParams) =>
-  async (chains: (typeof XDEFI_SUPPORTED_CHAINS)[number][]) => {
+function connectXDEFI({
+  addChain,
+  config: { covalentApiKey, ethplorerApiKey, blockchairApiKey, thorswapApiKey, utxoApiKey },
+}: ConnectWalletParams) {
+  return async (chains: (typeof XDEFI_SUPPORTED_CHAINS)[number][]) => {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const promises = chains.map(async (chain) => {
@@ -201,17 +200,12 @@ const connectXDEFI =
         ethplorerApiKey,
       });
 
-      addChain({
-        ...walletMethods,
-        chain,
-        address,
-        balance: [],
-        walletType: WalletOption.XDEFI,
-      });
+      addChain({ ...walletMethods, address, balance: [], chain, walletType: WalletOption.XDEFI });
     });
 
     await Promise.all(promises);
   };
+}
 
 export const xdefiWallet = {
   connectMethodName: "connectXDEFI" as const,

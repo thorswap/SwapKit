@@ -1,6 +1,6 @@
 import { Chain, type UTXOChain } from "@swapkit/types";
 
-import type { TargetOutput, UTXOCalculateTxSizeParams } from "../types/index.ts";
+import type { TargetOutput, UTXOCalculateTxSizeParams, UTXOType } from "../types/index.ts";
 import {
   TX_OVERHEAD,
   UTXOScriptType,
@@ -75,7 +75,7 @@ export const accumulative = ({
       // is it worth a change output aka can we send it in the future?
       if (
         remainderAfterExtraOutput >
-        Math.max(getInputSize({} as any) * feeRate, getDustThreshold(chain))
+        Math.max(getInputSize({} as UTXOType) * feeRate, getDustThreshold(chain))
       ) {
         return {
           inputs: inputsToUse,

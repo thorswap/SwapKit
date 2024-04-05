@@ -22,9 +22,10 @@ export const mayachainWalletMethods = async ({
   derivationPath?: DerivationPathArray;
 }): Promise<ThorchainToolboxType & { address: string }> => {
   const { createStargateClient, getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
+
   const toolbox = getToolboxByChain(Chain.Maya)();
   const derivationPathString = derivationPath
-    ? `m/${derivationPathToString(derivationPath)}`
+    ? derivationPathToString(derivationPath)
     : `${DerivationPath.MAYA}/0`;
 
   const { address: fromAddress } = (await sdk.address.mayachainGetAddress({
@@ -32,7 +33,8 @@ export const mayachainWalletMethods = async ({
   })) as { address: string };
 
   const signTransaction = async ({ assetValue, recipient, from, memo }: SignTransactionParams) => {
-    const { getDenomWithChain, makeSignDoc } = await import("@swapkit/toolbox-cosmos");
+    const { makeSignDoc } = await import("@cosmjs/amino");
+    const { getDenomWithChain } = await import("@swapkit/toolbox-cosmos");
 
     const account = await toolbox.getAccount(from);
     if (!account) throw new Error("Account not found");

@@ -1,5 +1,5 @@
 import { SwapKitError } from "@swapkit/helpers";
-import { LedgerErrorCode } from "@swapkit/types";
+import { type DerivationPathArray, LedgerErrorCode, NetworkDerivationPath } from "@swapkit/types";
 
 import { BinanceApp } from "../clients/binance/lib.ts";
 import { THORChainApp } from "../clients/thorchain/lib.ts";
@@ -7,9 +7,9 @@ import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
 
 export abstract class CosmosLedgerInterface {
   public ledgerTimeout = 50000;
-  public derivationPath: (number | string)[] | string = [];
-  public transport: any;
-  public ledgerApp: any;
+  public derivationPath: DerivationPathArray | string = NetworkDerivationPath.GAIA;
+  public transport: Todo;
+  public ledgerApp: Todo;
   public chain: "thor" | "bnb" | "cosmos" = "thor";
 
   public checkOrCreateTransportAndLedger = async (forceReconnect = false) => {
@@ -37,13 +37,12 @@ export abstract class CosmosLedgerInterface {
         case "cosmos": {
           const { default: CosmosApp } = await import("@ledgerhq/hw-app-cosmos");
           this.ledgerApp =
-            // @ts-expect-error
             forceReconnect || !this.ledgerApp ? new CosmosApp(this.transport) : this.ledgerApp;
         }
       }
 
       return this.ledgerApp;
-    } catch (error: any) {
+    } catch (error: unknown) {
       throw new SwapKitError("wallet_ledger_connection_error", error);
     }
   };

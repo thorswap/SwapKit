@@ -61,14 +61,14 @@ export type ConnectConfig = {
 
 export type AddChainWalletParams<T extends Chain> = {
   address: string;
-  balance: any[];
+  balance: Todo[];
   walletType: WalletOption;
   chain: T;
-  [key: string]: any;
+  [key: string]: Todo;
 };
 
-type ApisType = { [key in UTXOChain]?: string | any } & {
-  [key in EVMChain]?: string | any;
+type ApisType = { [key in UTXOChain]?: string | Todo } & {
+  [key in EVMChain]?: string | Todo;
 } & {
   [key in CosmosChain]?: string;
 };
@@ -92,7 +92,7 @@ export type ExtendParams<WalletConnectMethodNames = ""> = {
   apis?: ApisType;
   wallets: {
     connectMethodName: ConnectMethodNames | WalletConnectMethodNames;
-    connect: (params: ConnectWalletParams) => (...params: any) => Promise<any>;
+    connect: (params: ConnectWalletParams) => (...params: Todo) => Promise<Todo>;
   }[];
 };
 

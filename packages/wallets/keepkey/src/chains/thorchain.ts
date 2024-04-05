@@ -21,10 +21,13 @@ export const thorchainWalletMethods = async ({
   sdk: KeepKeySdk;
   derivationPath?: DerivationPathArray;
 }): Promise<ThorchainToolboxType & { address: string }> => {
-  const { createStargateClient, ThorchainToolbox } = await import("@swapkit/toolbox-cosmos");
+  const { makeSignDoc } = await import("@cosmjs/amino");
+  const { buildAminoMsg, getDefaultChainFee, createStargateClient, ThorchainToolbox } =
+    await import("@swapkit/toolbox-cosmos");
+
   const toolbox = ThorchainToolbox({ stagenet: !"smeshnet" });
   const derivationPathString = derivationPath
-    ? `m/${derivationPathToString(derivationPath)}`
+    ? derivationPathToString(derivationPath)
     : `${DerivationPath.THOR}/0`;
 
   const { address: fromAddress } = (await sdk.address.thorchainGetAddress({
@@ -32,10 +35,6 @@ export const thorchainWalletMethods = async ({
   })) as { address: string };
 
   const signTransaction = async ({ assetValue, recipient, from, memo }: SignTransactionParams) => {
-    const { makeSignDoc, buildAminoMsg, getDefaultChainFee } = await import(
-      "@swapkit/toolbox-cosmos"
-    );
-
     const account = await toolbox.getAccount(from);
     if (!account) throw new Error("Account not found");
     const { accountNumber, sequence = 0 } = account;

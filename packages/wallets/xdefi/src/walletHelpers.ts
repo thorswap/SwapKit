@@ -1,4 +1,3 @@
-import type { Keplr } from "@keplr-wallet/types";
 import type { AssetValue } from "@swapkit/helpers";
 import type { TransferParams } from "@swapkit/toolbox-cosmos";
 import type {
@@ -14,9 +13,9 @@ import { Chain, ChainToChainId, RPCUrl, erc20ABI } from "@swapkit/types";
 type TransactionMethod = "transfer" | "deposit";
 
 type TransactionParams = {
-  asset: string;
-  amount: number | string;
-  decimal: number;
+  asset: string | { chain: string; symbol: string; ticker: string };
+  amount: number | string | { amount: number; decimals?: number };
+  decimal?: number;
   recipient: string;
   memo?: string;
 };
@@ -30,7 +29,7 @@ export type WalletTxParams = {
   gasLimit?: string | bigint | undefined;
 };
 
-const getXDEFIProvider = (chain: Chain) => {
+function getXDEFIProvider(chain: Chain) {
   switch (chain) {
     case Chain.Ethereum:
     case Chain.Avalanche:
@@ -55,21 +54,22 @@ const getXDEFIProvider = (chain: Chain) => {
       return window.xfi?.mayachain;
     case Chain.Cosmos:
     case Chain.Kujira:
+      // @ts-ignore
       return window.xfi?.keplr;
     default:
       return undefined;
   }
-};
+}
 
-const transaction = async ({
+async function transaction({
   method,
   params,
   chain,
 }: {
   method: TransactionMethod;
-  params: TransactionParams[] | any;
+  params: TransactionParams[];
   chain: Chain;
-}): Promise<string> => {
+}): Promise<string> {
   const client =
     method === "deposit"
       ? chain === Chain.Maya
@@ -78,32 +78,36 @@ const transaction = async ({
       : getXDEFIProvider(chain);
 
   return new Promise<string>((resolve, reject) => {
-    // @ts-expect-error xdefi types mess with different providers
-    client?.request?.({ method, params }, (err: any, tx: string) =>
-      err ? reject(err) : resolve(tx),
-    );
+    if (client && "request" in client) {
+      // @ts-ignore
+      client.request({ method, params }, (err: string, tx: string) => {
+        err ? reject(err) : resolve(tx);
+      });
+    }
   });
-};
+}
 
-export const getXDEFIAddress = async (chain: Chain) => {
+export async function getXDEFIAddress(chain: Chain) {
   const eipProvider = getXDEFIProvider(chain) as Eip1193Provider;
   if (!eipProvider) throw new Error(`${chain}: XDEFI provider is not defined`);
 
   if ([Chain.Cosmos, Chain.Kujira].includes(chain)) {
-    const provider = getXDEFIProvider(Chain.Cosmos) as Keplr;
-    if (!provider) throw new Error(`${chain}: XDEFI provider is not defined`);
+    const provider = getXDEFIProvider(Chain.Cosmos);
+    if (!provider || "request" in provider) {
+      throw new Error(`${chain}: XDEFI provider is not defined`);
+    }
 
     // Enabling before using the Keplr is recommended.
     // This method will ask the user whether to allow access if they haven't visited this website.
     // Also, it will request that the user unlock the wallet if the wallet is locked.
     const chainId = ChainToChainId[chain];
-    await (provider as Keplr).enable(chainId);
+    await provider.enable(chainId);
 
     const offlineSigner = provider.getOfflineSigner(chainId);
 
-    const [{ address }] = await offlineSigner.getAccounts();
+    const [item] = await offlineSigner.getAccounts();
 
-    return address;
+    return item?.address;
   }
 
   // @ts-expect-error
@@ -120,15 +124,15 @@ export const getXDEFIAddress = async (chain: Chain) => {
     eipProvider.request(
       { method: "request_accounts", params: [] },
       // @ts-expect-error
-      (error: any, response: string[]) => (error ? reject(error) : resolve(response[0])),
+      (error: Todo, response: string[]) => (error ? reject(error) : resolve(response[0])),
     ),
   );
-};
+}
 
-export const walletTransfer = async (
+export async function walletTransfer(
   { assetValue, recipient, memo, gasLimit }: WalletTxParams & { assetValue: AssetValue },
   method: TransactionMethod = "transfer",
-) => {
+) {
   if (!assetValue) throw new Error("Asset is not defined");
 
   /**
@@ -156,18 +160,18 @@ export const walletTransfer = async (
   ];
 
   return transaction({ method, params, chain: assetValue.chain });
-};
+}
 
-export const cosmosTransfer =
-  ({
-    chainId,
-    rpcUrl,
-  }: {
-    chainId: ChainId.Cosmos | ChainId.Kujira;
-    rpcUrl?: string;
-  }) =>
-  async ({ from, recipient, assetValue, memo }: TransferParams) => {
+export function cosmosTransfer({
+  chainId,
+  rpcUrl,
+}: {
+  chainId: ChainId.Cosmos | ChainId.Kujira;
+  rpcUrl?: string;
+}) {
+  return async ({ from, recipient, assetValue, memo }: TransferParams) => {
     const { createSigningStargateClient } = await import("@swapkit/toolbox-cosmos");
+    // @ts-ignore
     const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(chainId);
     const cosmJS = await createSigningStargateClient(rpcUrl || RPCUrl.Cosmos, offlineSigner);
 
@@ -181,30 +185,64 @@ export const cosmosTransfer =
     const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 1.6, memo);
     return transactionHash;
   };
+}
 
-export const getXdefiMethods = (provider: BrowserProvider) => ({
-  call: async <T>({
-    contractAddress,
-    abi,
-    funcName,
-    funcParams = [],
-    txOverrides,
-  }: CallParams): Promise<T> => {
-    const contractProvider = provider;
-    if (!contractAddress) throw new Error("contractAddress must be provided");
-    const { createContract, createContractTxObject, isStateChangingCall, toHexString } =
-      await import("@swapkit/toolbox-evm");
+export function getXdefiMethods(provider: BrowserProvider) {
+  return {
+    call: async <T>({
+      contractAddress,
+      abi,
+      funcName,
+      funcParams = [],
+      txOverrides,
+    }: CallParams): Promise<T> => {
+      const contractProvider = provider;
+      if (!contractAddress) throw new Error("contractAddress must be provided");
+      const { createContract, createContractTxObject, isStateChangingCall, toHexString } =
+        await import("@swapkit/toolbox-evm");
 
-    const isStateChanging = isStateChangingCall(abi, funcName);
+      const isStateChanging = isStateChangingCall(abi, funcName);
 
-    if (isStateChanging) {
-      const { value, from, to, data } = await createContractTxObject(contractProvider, {
-        contractAddress,
-        abi,
-        funcName,
+      if (isStateChanging) {
+        const { value, from, to, data } = await createContractTxObject(contractProvider, {
+          contractAddress,
+          abi,
+          funcName,
+          funcParams,
+          txOverrides,
+        });
+
+        return provider.send("eth_sendTransaction", [
+          {
+            value: toHexString(BigInt(value || 0)),
+            from,
+            to,
+            data: data || "0x",
+          } as Todo,
+        ]);
+      }
+      const contract = createContract(contractAddress, abi, contractProvider);
+
+      const result = await contract[funcName]?.(...funcParams);
+
+      return typeof result?.hash === "string" ? result?.hash : result;
+    },
+    approve: async ({ assetAddress, spenderAddress, amount, from }: ApproveParams) => {
+      const { MAX_APPROVAL, createContractTxObject, toHexString } = await import(
+        "@swapkit/toolbox-evm"
+      );
+      const funcParams = [spenderAddress, BigInt(amount || MAX_APPROVAL)];
+      const txOverrides = { from };
+
+      const functionCallParams = {
+        contractAddress: assetAddress,
+        abi: erc20ABI,
+        funcName: "approve",
         funcParams,
         txOverrides,
-      });
+      };
+
+      const { value, to, data } = await createContractTxObject(provider, functionCallParams);
 
       return provider.send("eth_sendTransaction", [
         {
@@ -212,54 +250,23 @@ export const getXdefiMethods = (provider: BrowserProvider) => ({
           from,
           to,
           data: data || "0x",
-        } as any,
+        } as Todo,
       ]);
-    }
-    const contract = await createContract(contractAddress, abi, contractProvider);
+    },
+    sendTransaction: async (tx: EVMTxParams) => {
+      const { from, to, data, value } = tx;
+      if (!to) throw new Error("No to address provided");
 
-    const result = await contract[funcName](...funcParams);
+      const { toHexString } = await import("@swapkit/toolbox-evm");
 
-    return typeof result?.hash === "string" ? result?.hash : result;
-  },
-  approve: async ({ assetAddress, spenderAddress, amount, from }: ApproveParams) => {
-    const { MAX_APPROVAL, createContractTxObject, toHexString } = await import(
-      "@swapkit/toolbox-evm"
-    );
-    const funcParams = [spenderAddress, BigInt(amount || MAX_APPROVAL)];
-    const txOverrides = { from };
-
-    const functionCallParams = {
-      contractAddress: assetAddress,
-      abi: erc20ABI,
-      funcName: "approve",
-      funcParams,
-      txOverrides,
-    };
-
-    const { value, to, data } = await createContractTxObject(provider, functionCallParams);
-
-    return provider.send("eth_sendTransaction", [
-      {
-        value: toHexString(BigInt(value || 0)),
-        from,
-        to,
-        data: data || "0x",
-      } as any,
-    ]);
-  },
-  sendTransaction: async (tx: EVMTxParams) => {
-    const { from, to, data, value } = tx;
-    if (!to) throw new Error("No to address provided");
-
-    const { toHexString } = await import("@swapkit/toolbox-evm");
-
-    return provider.send("eth_sendTransaction", [
-      {
-        value: toHexString(BigInt(value || 0)),
-        from,
-        to,
-        data: data || "0x",
-      } as any,
-    ]);
-  },
-});
+      return provider.send("eth_sendTransaction", [
+        {
+          value: toHexString(BigInt(value || 0)),
+          from,
+          to,
+          data: data || "0x",
+        } as Todo,
+      ]);
+    },
+  };
+}

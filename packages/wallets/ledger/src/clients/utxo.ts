@@ -1,4 +1,5 @@
 import type BitcoinApp from "@ledgerhq/hw-app-btc";
+import type { CreateTransactionArg } from "@ledgerhq/hw-app-btc/lib-es/createTransaction";
 import { SwapKitError, derivationPathToString } from "@swapkit/helpers";
 import type { Psbt, UTXOType } from "@swapkit/toolbox-utxo";
 import { Transaction, toCashAddress } from "@swapkit/toolbox-utxo";
@@ -10,25 +11,8 @@ import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
 type Params = {
   psbt: Psbt;
   inputUtxos: UTXOType[];
-  btcApp: any;
+  btcApp: Todo;
   derivationPath: string;
-};
-
-type CreateTransactionArg = {
-  inputs: [any, number, string | null | undefined, number | null | undefined][];
-  associatedKeysets: string[];
-  changePath?: string;
-  outputScriptHex: string;
-  lockTime?: number;
-  sigHashType?: number;
-  segwit?: boolean;
-  initialTimestamp?: number;
-  additionals: string[];
-  expiryHeight?: Buffer;
-  useTrustedInputForSegwit?: boolean;
-  onDeviceStreaming?: (arg0: { progress: number; total: number; index: number }) => void;
-  onDeviceSignatureRequested?: () => void;
-  onDeviceSignatureGranted?: () => void;
 };
 
 const signUTXOTransaction = async (
@@ -44,7 +28,7 @@ const signUTXOTransaction = async (
       item.index,
       undefined as string | null | undefined,
       undefined as number | null | undefined,
-    ] as any;
+    ] as Todo;
   });
 
   const newTxHex = psbt.data.globalMap.unsignedTx.toBuffer().toString("hex");
@@ -71,8 +55,8 @@ const BaseLedgerUTXO = ({
   chain: "bitcoin-cash" | "bitcoin" | "litecoin" | "dogecoin" | "dash";
   additionalSignParams?: Partial<CreateTransactionArg>;
 }) => {
-  let btcApp: InstanceType<typeof BitcoinApp.default>;
-  let transport: any = null;
+  let btcApp: InstanceType<typeof BitcoinApp>;
+  let transport: Todo = null;
 
   async function checkBtcAppAndCreateTransportWebUSB(checkBtcApp = true) {
     if (checkBtcApp && !btcApp) {
@@ -88,7 +72,6 @@ const BaseLedgerUTXO = ({
     transport = await getLedgerTransport();
     const { default: BitcoinApp } = await import("@ledgerhq/hw-app-btc");
 
-    // @ts-expect-error `default` typing is wrong
     btcApp = new BitcoinApp({ transport, currency: chain });
   }
 
@@ -96,7 +79,7 @@ const BaseLedgerUTXO = ({
     const derivationPath =
       typeof derivationPathArray === "string"
         ? derivationPathArray
-        : derivationPathToString(derivationPathArray);
+        : derivationPathToString(derivationPathArray as DerivationPathArray);
 
     const format = getWalletFormatFor(derivationPath);
 
@@ -105,7 +88,6 @@ const BaseLedgerUTXO = ({
         await checkBtcAppAndCreateTransportWebUSB(false);
         const { default: BitcoinApp } = await import("@ledgerhq/hw-app-btc");
 
-        // @ts-expect-error
         btcApp = new BitcoinApp({ transport, currency: chain });
       },
       getExtendedPublicKey: async (path = "84'/0'/0'", xpubVersion = 76067358) => {

@@ -1,7 +1,7 @@
 import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
 import type { Account } from "@cosmjs/stargate";
 import { type AssetValue, SwapKitNumber } from "@swapkit/helpers";
-import { ApiUrl, BaseDecimal, ChainId, DerivationPath } from "@swapkit/types";
+import { BaseDecimal, ChainId, DerivationPath } from "@swapkit/types";
 
 import { CosmosClient } from "../cosmosClient.ts";
 import { type KujiraToolboxType, type ToolboxParams, USK_KUJIRA_FACTORY_DENOM } from "../index.ts";
@@ -15,13 +15,13 @@ import {
 
 export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType => {
   const client = new CosmosClient({
-    server: server || ApiUrl.Kujira,
+    server: server || "https://lcd-kujira.synergynodes.com/",
     chainId: ChainId.Kujira,
     prefix: "kujira",
   });
 
   const baseToolbox: {
-    validateAddress: (address: string) => Promise<boolean>;
+    validateAddress: (address: string) => boolean;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getAccount: (address: string) => Promise<Account | null>;
     getBalance: (address: string, potentialScamFilter?: boolean) => Promise<AssetValue[]>;

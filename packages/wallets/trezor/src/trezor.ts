@@ -35,7 +35,7 @@ type Params = TrezorOptions & {
   derivationPath: DerivationPathArray;
   rpcUrl?: string;
   //TODO improve api typing
-  api?: any;
+  api?: Todo;
 };
 
 const getToolbox = async ({
@@ -113,10 +113,8 @@ Params) => {
       const toolbox = (await getToolboxByChain(chain))(params);
 
       const getAddress = async (path: DerivationPathArray = derivationPath) => {
-        const { success, payload } = await (
-          TrezorConnect as unknown as TrezorConnect.TrezorConnect
-        ).getAddress({
-          path: `m/${derivationPathToString(path)}`,
+        const { success, payload } = await TrezorConnect.getAddress({
+          path: derivationPathToString(path),
           coin,
         });
 
@@ -136,12 +134,10 @@ Params) => {
 
       const signTransaction = async (psbt: Psbt, inputs: UTXOType[], memo = "") => {
         const address_n = derivationPath.map((pathElement, index) =>
-          index < 3 ? (pathElement | 0x80000000) >>> 0 : pathElement,
+          index < 3 ? ((pathElement as number) | 0x80000000) >>> 0 : (pathElement as number),
         );
 
-        const result = await (
-          TrezorConnect as unknown as TrezorConnect.TrezorConnect
-        ).signTransaction({
+        const result = await TrezorConnect.signTransaction({
           coin,
           inputs: inputs.map((input) => ({
             // Hardens the first 3 elements of the derivation path - required by trezor
@@ -155,7 +151,7 @@ Params) => {
 
           // Lint is not happy with the type of txOutputs
           // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
-          outputs: psbt.txOutputs.map((output: any) => {
+          outputs: psbt.txOutputs.map((output: Todo) => {
             const outputAddress =
               chain === Chain.BitcoinCash && output.address
                 ? toCashAddress(output.address)
@@ -260,11 +256,10 @@ const connectTrezor =
   async (chain: (typeof TREZOR_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
-    const TConnect = TrezorConnect as unknown as TrezorConnect.TrezorConnect;
-    const { success } = await TConnect.getDeviceState();
+    const { success } = await TrezorConnect.getDeviceState();
 
     if (!success) {
-      TConnect.init({ lazyLoad: true, manifest: trezorManifest });
+      TrezorConnect.init({ lazyLoad: true, manifest: trezorManifest });
     }
 
     const { address, walletMethods } = await getToolbox({

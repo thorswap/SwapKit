@@ -1,16 +1,24 @@
 {
-  "author": "swapkit-oss",
   "dependencies": {
-    "@ledgerhq/devices": "8.2.1",
-    "@ledgerhq/errors": "6.16.2",
-    "@ledgerhq/hw-app-btc": "10.2.2",
-    "@ledgerhq/hw-app-cosmos": "6.29.4",
-    "@ledgerhq/hw-app-eth": "6.35.6",
-    "@ledgerhq/hw-transport": "6.30.4",
-    "@ledgerhq/hw-transport-webusb": "6.28.4",
+    "@cosmjs/amino": "0.32.3",
+    "@cosmjs/crypto": "0.32.3",
+    "@cosmjs/proto-signing": "0.32.3",
+    "@cosmjs/stargate": "0.32.3",
+    "@ledgerhq/devices": "8.2.2",
+    "@ledgerhq/errors": "6.16.3",
+    "@ledgerhq/hw-app-btc": "10.2.3",
+    "@ledgerhq/hw-app-cosmos": "6.29.5",
+    "@ledgerhq/hw-app-eth": "6.35.7",
+    "@ledgerhq/hw-transport": "6.30.5",
+    "@ledgerhq/hw-transport-webusb": "6.28.5",
+    "@scure/base": "1.1.6",
+    "@types/ripemd160": "2.0.3",
+    "cosmjs-types": "0.9.0",
+    "crypto-js": "4.2.0",
+    "elliptic": "6.5.5",
     "ripemd160": "2.0.2"
   },
-  "description": "SwapKit Lib ledger",
+  "description": "SwapKit Wallet - Ledger",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "15.2.3",
     "@swapkit/helpers": "workspace:*",
@@ -18,41 +26,36 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "@types/ripemd160": "2.0.3",
-    "@vitest/coverage-istanbul": "1.4.0",
-    "vite": "5.1.6",
-    "vitest": "1.4.0"
+    "bun-types": "1.1.1"
   },
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.js",
   "name": "@swapkit/wallet-ledger",
   "peerDependencies": {
-    "@ledgerhq/devices": "^8.2.1",
-    "@ledgerhq/errors": "^6.16.2",
-    "@ledgerhq/hw-app-btc": "^10.2.2",
-    "@ledgerhq/hw-app-cosmos": "^6.29.4",
-    "@ledgerhq/hw-app-eth": "^6.35.6",
-    "@ledgerhq/hw-transport": "^6.30.4",
-    "@ledgerhq/hw-transport-webusb": "^6.28.4",
+    "@cosmjs/amino": "0.32.3",
+    "@cosmjs/crypto": "0.32.3",
+    "@cosmjs/proto-signing": "0.32.3",
+    "@cosmjs/stargate": "0.32.3",
+    "@ledgerhq/devices": "8.2.2",
+    "@ledgerhq/errors": "6.16.3",
+    "@ledgerhq/hw-app-btc": "10.2.3",
+    "@ledgerhq/hw-app-cosmos": "6.29.5",
+    "@ledgerhq/hw-app-eth": "6.35.7",
+    "@ledgerhq/hw-transport": "6.30.5",
+    "@ledgerhq/hw-transport-webusb": "6.28.5",
+    "@scure/base": "1.1.6",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "ripemd160": "^2.0.2"
+    "@types/ripemd160": "2.0.3",
+    "cosmjs-types": "0.9.0",
+    "crypto-js": "4.2.0",
+    "elliptic": "6.5.5",
+    "ripemd160": "2.0.2"
   },
   "react-native": "./src/index.ts",
   "repository": {
@@ -60,13 +63,14 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build": "vite build",
-    "clean": "rm -rf dist vite.config.ts.* node_modules",
+    "build": "bun run ./build.ts",
+    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
     "lint": "biome check --apply ./src",
-    "test": "echo 'vitest --run'",
-    "test:coverage": "echo 'vitest run --coverage'"
+    "test": "echo 'bun test'",
+    "test:coverage": "echo 'bun test --coverage'",
+    "type-check": "tsc --noEmit"
   },
   "type": "module",
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "version": "1.0.0-rc.118"
 }

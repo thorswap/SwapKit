@@ -26,20 +26,23 @@
     "path-browserify": "1.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "rollup-plugin-polyfill-node": "0.13.0",
+    "vite-plugin-node-polyfills": "0.21.0",
     "stream-browserify": "3.0.0",
     "stream-http": "3.2.0",
-    "url": "0.11.3"
+    "url": "0.11.3",
+    "vite": "5.2.8"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "4.2.1",
-    "typescript": "5.4.2",
-    "vite": "5.1.6"
+    "bun-types": "1.1.1",
+    "typescript": "5.4.4",
+    "vite-plugin-top-level-await": "1.4.1",
+    "vite-plugin-wasm": "3.3.0"
   },
   "name": "@internal/playground-vite",
   "private": true,
   "scripts": {
-    "build-playground": "NODE_OPTIONS=--max_old_space_size=16384 vite build",
+    "build-playground": "NODE_OPTIONS=--max_old_space_size=65536 vite build",
     "dev": "vite",
     "preview-playground": "vite preview"
   },

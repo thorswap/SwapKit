@@ -11,7 +11,7 @@ import type {
   Provider,
   Signer,
 } from "ethers";
-import { BrowserProvider } from "ethers";
+import { BrowserProvider, Contract, Interface, hexlify, toUtf8Bytes } from "ethers";
 import { getAddress } from "ethers/address";
 import { MaxInt256 } from "ethers/constants";
 
@@ -47,13 +47,12 @@ const isEIP1559Transaction = (tx: EVMTxParams) =>
   !!(tx as EIP1559TxParams).maxFeePerGas ||
   !!(tx as EIP1559TxParams).maxPriorityFeePerGas;
 
-export const isBrowserProvider = (provider: any) => provider instanceof BrowserProvider;
-export const createContract = async (
+export const isBrowserProvider = (provider: Todo) => provider instanceof BrowserProvider;
+export const createContract = (
   address: string,
   abi: readonly (JsonFragment | Fragment)[],
   provider: Provider,
 ) => {
-  const { Interface, Contract } = await import("ethers");
   return new Contract(address, Interface.from(abi), provider);
 };
 
@@ -67,7 +66,7 @@ const validateAddress = (address: string) => {
 };
 
 export const isStateChangingCall = (abi: readonly JsonFragment[], functionName: string) => {
-  const abiFragment = abi.find((fragment: any) => fragment.name === functionName) as any;
+  const abiFragment = abi.find((fragment: Todo) => fragment.name === functionName) as Todo;
   if (!abiFragment) throw new Error(`No ABI fragment found for function ${functionName}`);
   return abiFragment.stateMutability && stateMutable.includes(abiFragment.stateMutability);
 };
@@ -109,7 +108,7 @@ const call = async <T>(
 
     return EIP1193SendTransaction(contractProvider, txObject) as Promise<T>;
   }
-  const contract = await createContract(contractAddress, abi, contractProvider);
+  const contract = createContract(contractAddress, abi, contractProvider);
 
   // only use signer if the contract function is state changing
   if (isStateChanging) {
@@ -143,7 +142,7 @@ const call = async <T>(
     return typeof result?.hash === "string" ? result?.hash : result;
   }
 
-  const result = await contract[funcName](...funcParams);
+  const result = await contract[funcName]?.(...funcParams);
 
   return typeof result?.hash === "string" ? result?.hash : result;
 };
@@ -152,7 +151,7 @@ export const createContractTxObject = async (
   provider: Provider,
   { contractAddress, abi, funcName, funcParams = [], txOverrides }: CallParams,
 ) =>
-  (await createContract(contractAddress, abi, provider))
+  createContract(contractAddress, abi, provider)
     .getFunction(funcName)
     .populateTransaction(...funcParams.concat(txOverrides).filter((p) => typeof p !== "undefined"));
 
@@ -162,7 +161,7 @@ const approvedAmount = async (
 ) =>
   await call<bigint>(provider, true, {
     contractAddress: assetAddress,
-    abi: erc20ABI as any,
+    abi: erc20ABI as Todo,
     funcName: "allowance",
     funcParams: [from, spenderAddress],
   });
@@ -222,7 +221,7 @@ const approve = async (
 };
 
 // TODO - get from from signer or make it mandatory
-const transfer = async (
+const transfer = (
   provider: Provider | BrowserProvider,
   {
     assetValue,
@@ -257,8 +256,6 @@ const transfer = async (
       feeOption: feeOptionKey,
     });
   }
-
-  const { hexlify, toUtf8Bytes } = await import("ethers");
 
   // Transfer ETH
   const txObject = {
@@ -300,12 +297,12 @@ const estimateGasPrices = async (provider: Provider, isEIP1559Compatible = true)
     };
   } catch (error) {
     throw new Error(
-      `Failed to estimate gas price: ${(error as any).msg ?? (error as any).toString()}`,
+      `Failed to estimate gas price: ${(error as Todo).msg ?? (error as Todo).toString()}`,
     );
   }
 };
 
-const estimateCall = async (
+const estimateCall = (
   provider: Provider,
   {
     signer,
@@ -318,7 +315,7 @@ const estimateCall = async (
 ) => {
   if (!contractAddress) throw new Error("contractAddress must be provided");
 
-  const contract = await createContract(contractAddress, abi, provider);
+  const contract = createContract(contractAddress, abi, provider);
   return signer
     ? contract
         .connect(signer)
@@ -327,7 +324,7 @@ const estimateCall = async (
     : contract.getFunction(funcName).estimateGas(...funcParams, txOverrides);
 };
 
-const estimateGasLimit = async (
+const estimateGasLimit = (
   provider: Provider,
   {
     assetValue,
@@ -346,7 +343,6 @@ const estimateGasLimit = async (
     txOverrides?: EVMTxParams;
   },
 ) => {
-  const { hexlify, toUtf8Bytes } = await import("ethers");
   const value = assetValue.bigIntValue;
   const assetAddress = isGasAsset({ ...assetValue })
     ? null
@@ -468,7 +464,7 @@ export const EIP1193SendTransaction = (
 ): Promise<string> => {
   if (!isBrowserProvider(provider)) throw new Error("Provider is not EIP-1193 compatible");
   return (provider as BrowserProvider).send("eth_sendTransaction", [
-    { value: toHexString(BigInt(value || 0)), from, to, data } as any,
+    { value: toHexString(BigInt(value || 0)), from, to, data } as Todo,
   ]);
 };
 

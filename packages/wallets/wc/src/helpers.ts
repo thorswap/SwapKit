@@ -15,21 +15,15 @@ import {
   THORCHAIN_MAINNET_ID,
 } from "./constants.ts";
 
-export const getAddressFromAccount = (account: string) => {
-  try {
-    return account.split(":")[2];
-  } catch (_error) {
-    throw new Error("Invalid WalletConnect account");
-  }
-};
-
 export const getAddressByChain = (
   chain: EVMChain | Chain.Binance | Chain.THORChain | Chain.Maya | Chain.Kujira | Chain.Cosmos,
   accounts: string[],
-): string =>
-  getAddressFromAccount(
-    accounts.find((account) => account.startsWith(chainToChainId(chain))) || "",
-  );
+) => {
+  const account = accounts.find((account) => account.startsWith(chainToChainId(chain))) || "";
+  const address = account?.split(":")?.[2];
+
+  return address || "";
+};
 
 export const chainToChainId = (chain: Chain) => {
   switch (chain) {

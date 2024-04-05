@@ -26,7 +26,7 @@ import type { LEDGER_SUPPORTED_CHAINS } from "./helpers/index.ts";
 import { getLedgerAddress, getLedgerClient } from "./helpers/index.ts";
 
 type LedgerConfig = {
-  api?: any;
+  api?: Todo;
   rpcUrl?: string;
   covalentApiKey?: string;
   ethplorerApiKey?: string;
@@ -40,10 +40,11 @@ const reduceMemo = (memo?: string, affiliateAddress = "t") => {
   const removedAffiliate = memo.includes(`:${affiliateAddress}:`)
     ? memo.split(`:${affiliateAddress}:`)[0]
     : memo;
-  return removedAffiliate.substring(0, removedAffiliate.lastIndexOf(":"));
+
+  return removedAffiliate?.substring(0, removedAffiliate.lastIndexOf(":"));
 };
 
-const recursivelyOrderKeys = (unordered: any) => {
+const recursivelyOrderKeys = (unordered: Todo) => {
   // If it's an array - recursively order any
   // dictionary items within the array
   if (Array.isArray(unordered)) {
@@ -55,7 +56,7 @@ const recursivelyOrderKeys = (unordered: any) => {
 
   // If it's an object - let's order the keys
   if (typeof unordered !== "object") return unordered;
-  const ordered: any = {};
+  const ordered: Todo = {};
   const sortedKeys = Object.keys(unordered).sort();
 
   for (const key of sortedKeys) {
@@ -65,7 +66,7 @@ const recursivelyOrderKeys = (unordered: any) => {
   return ordered;
 };
 
-const stringifyKeysInOrder = (data: any) => JSON.stringify(recursivelyOrderKeys(data));
+const stringifyKeysInOrder = (data: Todo) => JSON.stringify(recursivelyOrderKeys(data));
 
 const getToolbox = async ({
   api,
@@ -227,7 +228,7 @@ const getToolbox = async ({
           derivationPath,
         );
 
-        const pubKey = toolbox.getPublicKey(pubKeyResponse?.pk?.toString("hex"));
+        const pubKey = await toolbox.getPublicKey(pubKeyResponse?.pk?.toString("hex"));
         const signedTx = transaction.addSignature(pubKey, signResponse?.signature);
 
         const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);
@@ -238,15 +239,13 @@ const getToolbox = async ({
     }
 
     case Chain.Cosmos: {
-      const { GasPrice, createSigningStargateClient, getDenom, GaiaToolbox } = await import(
+      const { createSigningStargateClient, getDenom, GaiaToolbox } = await import(
         "@swapkit/toolbox-cosmos"
       );
       const toolbox = GaiaToolbox();
       const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
         const from = address;
         if (!assetValue) throw new Error("invalid asset");
-        // ANCHOR (@0xGeneral) - create fallback for gas price estimation if internal api has error
-        const gasPrice = "0.007uatom";
 
         const sendCoinsMessage = {
           amount: [
@@ -267,7 +266,7 @@ const getToolbox = async ({
         const signingClient = await createSigningStargateClient(
           RPCUrl.Cosmos,
           signer as CosmosLedger,
-          { gasPrice: GasPrice.fromString(gasPrice) },
+          "0.007uatom",
         );
 
         const tx = await signingClient.signAndBroadcast(address, [msg], "auto", memo);
@@ -345,18 +344,17 @@ const getToolbox = async ({
       });
     }
     case Chain.THORChain: {
+      const { SignMode } = await import("cosmjs-types/cosmos/tx/signing/v1beta1/signing.js");
+      const { TxRaw } = await import("cosmjs-types/cosmos/tx/v1beta1/tx.js");
+      const { encodePubkey, makeAuthInfoBytes } = await import("@cosmjs/proto-signing");
       const {
         createStargateClient,
         buildEncodedTxBody,
         ThorchainToolbox,
         buildAminoMsg,
         getDefaultChainFee,
-        encodePubkey,
         fromBase64,
-        makeAuthInfoBytes,
         prepareMessageForBroadcast,
-        SignMode,
-        TxRaw,
       } = await import("@swapkit/toolbox-cosmos");
       const toolbox = ThorchainToolbox({ stagenet: false });
 
@@ -367,11 +365,13 @@ const getToolbox = async ({
         memo = "",
         assetValue,
         ...rest
+        // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Refactor to reduce complexity
       }: TransferParams | DepositParam) => {
         const account = await toolbox.getAccount(address);
         if (!account) throw new Error("invalid account");
         if (!assetValue) throw new Error("invalid asset");
         if (!(signer as THORChainLedger).pubkey) throw new Error("Account pubkey not found");
+        const rpcUrl = stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain;
 
         const { accountNumber, sequence = "0" } = account;
 
@@ -395,18 +395,15 @@ const getToolbox = async ({
         );
         if (!signatures) throw new Error("tx signing failed");
 
-        const bodyBytes = await buildEncodedTxBody({
-          chain,
-          msgs: msgs.map(prepareMessageForBroadcast),
-          memo,
-        });
+        const bodyMsgs = msgs.map(prepareMessageForBroadcast);
+        const bodyBytes = await buildEncodedTxBody({ chain, msgs: bodyMsgs, memo });
 
         const pubkey = encodePubkey({
           type: "tendermint/PubKeySecp256k1",
           value: (signer as THORChainLedger)?.pubkey,
         });
 
-        const signedAuthInfoBytes = makeAuthInfoBytes(
+        const authInfoBytes = makeAuthInfoBytes(
           [{ pubkey, sequence: Number(sequence) }],
           fee.amount,
           Number.parseInt(fee.gas),
@@ -415,29 +412,23 @@ const getToolbox = async ({
           SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
         );
 
-        const txRaw = TxRaw.fromPartial({
-          bodyBytes: bodyBytes,
-          authInfoBytes: signedAuthInfoBytes,
-          signatures: [fromBase64(signatures[0].signature)],
-        });
+        const signature = signatures?.[0]?.signature
+          ? fromBase64(signatures[0].signature)
+          : Uint8Array.from([]);
 
+        const txRaw = TxRaw.fromPartial({ bodyBytes, authInfoBytes, signatures: [signature] });
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await createStargateClient(
-          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
-        );
-        const result = await broadcaster.broadcastTx(txBytes);
-        return result.transactionHash;
-      };
+        const broadcaster = await createStargateClient(rpcUrl);
+        const { transactionHash } = await broadcaster.broadcastTx(txBytes);
 
-      const signMessage = (message: string) => {
-        return (signer as THORChainLedger).sign(message);
+        return transactionHash;
       };
 
       const transfer = (params: TransferParams) => thorchainTransfer(params);
       const deposit = (params: DepositParam) => thorchainTransfer(params);
 
-      return { ...toolbox, deposit, transfer, signMessage };
+      return { ...toolbox, deposit, transfer, signMessage: (signer as THORChainLedger).sign };
     }
 
     default:
@@ -480,8 +471,8 @@ const connectLedger =
     });
 
     addChain({
-      chain,
       ...toolbox,
+      chain,
       address,
       balance: [],
       walletType: WalletOption.LEDGER,

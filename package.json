@@ -1,61 +1,72 @@
 {
-  "name": "swapkit-monorepo",
-  "devDependencies": {
-    "@biomejs/biome": "1.6.1",
-    "@changesets/changelog-github": "0.5.0",
-    "@changesets/cli": "2.27.1",
-    "@size-limit/file": "11.1.1",
-    "@turbo/gen": "1.12.5",
-    "@types/node": "20.11.29",
-    "@types/react": "18.2.67",
-    "@types/react-dom": "18.2.22",
-    "dotenv-cli": "7.4.1",
-    "lefthook": "1.6.7",
-    "lint-staged": "15.2.2",
-    "react": "18.2.0",
-    "size-limit": "11.1.1",
-    "turbo": "1.12.5",
-    "typescript": "5.4.2",
-    "vitest": "1.4.0"
+  "overrides": {
+    "axios": "^1.6.8",
+    "json5@<=1.0.1": "^1.0.2",
+    "semver@<=4.3.2": "^7.6.0"
   },
-  "private": true,
-  "engines": {
-    "node": ">=20.0.0"
-  },
-  "packageManager": "^pnpm@8.14.1",
-  "pnpm": {
-    "overrides": {
-      "axios": "^1.6.8",
-      "json5@<=1.0.1": "^1.0.2",
-      "semver@<=4.3.2": "^7.6.0"
-    },
+  "bun": {
     "patchedDependencies": {
-      "cipher-base@1.0.4": "patches/cipher-base-npm-1.0.4-2e98b97140.patch",
-      "typeforce@1.18.0": "patches/typeforce@1.18.0.patch",
-      "@changesets/cli@2.27.1": "patches/@changesets__cli@2.27.1.patch",
-      "@changesets/assemble-release-plan@6.0.0": "patches/@changesets__assemble-release-plan@6.0.0.patch"
+      "@changesets/assemble-release-plan": "patches/@changesets__assemble-release-plan@6.0.0.patch",
+      "@changesets/cli": "patches/@changesets__cli@2.27.1.patch"
     }
   },
-  "scripts": {
-    "bootstrap": "rm -rf node_modules; pnpm install; pnpm build",
-    "build": "turbo run build --cache-dir=./.turbo-cache --continue",
-    "clean": "rm -rf .turbo-cache && turbo run clean",
-    "generate": "pnpm turbo gen init; pnpm install",
-    "generate:tokens": "pnpm build --filter api; cd ./packages/swapkit/tokens; pnpm run generate-tokens; cd ../../..; pnpm run lint --filter tokens --force",
-    "lint": "turbo run lint --cache-dir=./.turbo-cache --continue --filter=!./packages/swapkit/swapkit-sdk",
-    "lint:ci": "turbo run lint type-check --cache-dir=./.turbo-cache --continue",
-    "lint:ws": "pnpm dlx sherif@latest",
-    "postinstall": "lefthook install; pnpm lint:ws",
-    "publish-packages": "turbo run build lint --cache-dir=./.turbo-cache && pnpm version-bump && pnpm changeset publish",
-    "test": "dotenv -- turbo run test --cache-dir=./.turbo-cache --continue",
-    "test:coverage": "dotenv -- turbo run test:coverage  --cache-dir=./.turbo-cache --continue",
-    "type-check": "turbo run type-check  --cache-dir=./.turbo-cache --continue",
-    "version-bump": "dotenv -- pnpm changeset version",
-    "playground:next": "pnpm -C ./playgrounds/nextjs",
-    "playground:node": "pnpm -C ./playgrounds/node",
-    "playground:vite": "pnpm -C ./playgrounds/vite"
+  "devDependencies": {
+    "@biomejs/biome": "1.6.4",
+    "@changesets/changelog-github": "0.5.0",
+    "@changesets/cli": "2.27.1",
+    "@size-limit/file": "11.1.2",
+    "@turbo/gen": "1.13.2",
+    "@types/node": "20.12.4",
+    "@types/react": "18.2.74",
+    "@types/react-dom": "18.2.24",
+    "lefthook": "1.6.8",
+    "lint-staged": "15.2.2",
+    "npm-check-updates": "16.14.18",
+    "react": "18.2.0",
+    "size-limit": "11.1.2",
+    "turbo": "1.13.2",
+    "typescript": "5.4.4"
   },
   "lint-staged": {
-    "*": ["pnpm biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true"]
-  }
+    "*": ["bun biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true"]
+  },
+  "name": "swapkit-monorepo",
+  "packageManager": "^bun@1.1.1",
+  "private": true,
+  "scripts": {
+    "bootstrap": "bun clean; bun install; bun run build",
+    "build": "turbo run build --cache-dir=./.turbo-cache --continue",
+    "clean": "rm -rf .turbo-cache && turbo run clean",
+    "deps": "bun ncu --root -u -i -ws",
+    "generate": "bun turbo gen init; bun install",
+    "generate:tokens": "bun run build --filter api; bun --cwd packages/swapkit/tokens generate-tokens; bun lint",
+    "lint": "turbo run lint --cache-dir=./.turbo-cache --continue",
+    "lint:ci": "turbo run lint type-check --cache-dir=./.turbo-cache --continue",
+    "lint:ws": "bun x sherif@latest",
+    "playground:next": "bun --cwd ./playgrounds/nextjs",
+    "playground:node": "bun --cwd ./playgrounds/node",
+    "playground:vite": "bun --cwd ./playgrounds/vite",
+    "postinstall": "lefthook install; bun lint:ws",
+    "publish-packages": "turbo run build lint type-check --cache-dir=./.turbo-cache && bun version-bump && bun changeset publish",
+    "test": "turbo run test --cache-dir=./.turbo-cache --continue",
+    "test:coverage": "turbo run test:coverage  --cache-dir=./.turbo-cache --continue",
+    "type-check": "turbo run type-check --cache-dir=./.turbo-cache --continue",
+    "version-bump": "bun changeset version"
+  },
+  "trustedDependencies": [
+    "@biomejs/biome",
+    "secp256k1",
+    "blake-hash",
+    "esbuild",
+    "usb",
+    "core-js-pure",
+    "lefthook"
+  ],
+  "workspaces": [
+    "packages/swapkit/*",
+    "packages/toolboxes/*",
+    "packages/wallets/*",
+    "playgrounds/*",
+    "tools/*"
+  ]
 }

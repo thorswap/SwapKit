@@ -16,3 +16,11 @@ export function validateIdentifier(identifier = "") {
     `Invalid identifier: ${identifier}. Expected format: <Chain>.<Ticker> or <Chain>.<Ticker>-<ContractAddress>`,
   );
 }
+
+export function validateTNS(name: string) {
+  if (name.length > 30) return false;
+
+  const regex = /^[a-zA-Z0-9+_-]+$/g;
+
+  return !!name.match(regex);
+}

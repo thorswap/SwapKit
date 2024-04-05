@@ -1,4 +1,4 @@
-import type { EVMChain } from "@swapkit/types";
+import type { DerivationPathArray, EVMChain } from "@swapkit/types";
 import { Chain, EVMChains, NetworkDerivationPath } from "@swapkit/types";
 
 type Params = {
@@ -7,7 +7,7 @@ type Params = {
   type?: "legacy" | "ledgerLive" | "nativeSegwitMiddleAccount" | "segwit";
 };
 
-const updatedLastIndex = (path: number[], index: number) => [
+const updatedLastIndex = (path: DerivationPathArray, index: number) => [
   ...path.slice(0, path.length - 1),
   index,
 ];

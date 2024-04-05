@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "files": {
+    "ignore": ["node_modules", "dist", ".turbo", "coverage"]
+  },
   "formatter": {
     "indentStyle": "space",
     "formatWithErrors": true,
@@ -16,7 +19,7 @@
     "formatter": {
       "semicolons": "always"
     },
-    "globals": ["NotWorth", "FixMe", "Todo", "React"]
+    "globals": ["Bun", "NotWorth", "FixMe", "Todo", "React"]
   },
   "linter": {
     "enabled": true,
@@ -28,13 +31,14 @@
         "noImplicitBoolean": "off",
         "useBlockStatements": "off",
         "useNamingConvention": "off",
-        "useFilenamingConvention": "off"
+        "useFilenamingConvention": "off",
+        "useNodejsImportProtocol": "off"
       },
       "complexity": { "all": true },
       "correctness": { "all": true, "noUndeclaredVariables": "error" },
       "security": { "all": true },
-      "suspicious": { "all": true, "noExplicitAny": "off" },
-      "nursery": { "recommended": true }
+      "suspicious": { "all": true, "useAwait": "error" },
+      "nursery": { "recommended": true, "noEvolvingAny": "off" }
     }
   }
 }

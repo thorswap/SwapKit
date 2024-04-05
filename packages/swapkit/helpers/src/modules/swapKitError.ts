@@ -79,7 +79,7 @@ const errorMessages = {
 export type ErrorKeys = keyof typeof errorMessages;
 
 export class SwapKitError extends Error {
-  constructor(errorKey: ErrorKeys, sourceError?: any) {
+  constructor(errorKey: ErrorKeys, sourceError?: NotWorth) {
     if (sourceError) {
       console.error(sourceError, {
         stack: sourceError?.stack,

@@ -1,10 +1,14 @@
-import type { ApiPromise } from "@polkadot/api";
+import { type ApiPromise, Keyring } from "@polkadot/api";
 import type { SubmittableExtrinsic } from "@polkadot/api/types";
-import type { KeyringPair } from "@polkadot/keyring/types";
 import type { Callback, IKeyringPair, ISubmittableResult } from "@polkadot/types/types";
-import type { AssetValue } from "@swapkit/helpers";
+import { hexToU8a, isHex, u8aToHex } from "@polkadot/util";
+import {
+  cryptoWaitReady,
+  decodeAddress as decodePolkadotAddress,
+  encodeAddress as encodePolkadotAddress,
+} from "@polkadot/util-crypto";
+import { type AssetValue, SwapKitNumber } from "@swapkit/helpers";
 
-import { u8aToHex } from "@polkadot/util";
 import type { SubstrateNetwork } from "../types/network.ts";
 
 // TODO combine this type with the more general SK type
@@ -15,8 +19,6 @@ type SubstrateTransferParams = {
 };
 
 export const createKeyring = async (phrase: string, networkPrefix: number) => {
-  const { cryptoWaitReady } = await import("@polkadot/util-crypto");
-  const { Keyring } = await import("@polkadot/api");
   await cryptoWaitReady();
 
   return new Keyring({ type: "sr25519", ss58Format: networkPrefix }).addFromUri(phrase);
@@ -25,11 +27,16 @@ export const createKeyring = async (phrase: string, networkPrefix: number) => {
 const getNonce = (api: ApiPromise, address: string) => api.rpc.system.accountNextIndex(address);
 
 const getBalance = async (api: ApiPromise, gasAsset: AssetValue, address: string) => {
-  const { SwapKitNumber } = await import("@swapkit/helpers");
-  const data = (await api.query.system.account(address)) as any;
-  if (!data?.data?.free || data?.data?.isEmpty) return [gasAsset.set(0)];
+  const data = await api.query.system?.account?.(address);
+
+  // @ts-expect-error @Towan some parts of data missing?
+  if (!data?.data?.free || data?.data?.isEmpty) {
+    return [gasAsset.set(0)];
+  }
+
   return [
     gasAsset.set(
+      // @ts-expect-error @Towan some parts of data missing?
       SwapKitNumber.fromBigInt(BigInt(data.data.free.toString()), gasAsset.decimal).getValue(
         "string",
       ),
@@ -37,11 +44,11 @@ const getBalance = async (api: ApiPromise, gasAsset: AssetValue, address: string
   ];
 };
 
-const validateAddress = async (address: string, networkPrefix: number) => {
+const validateAddress = (address: string, networkPrefix: number) => {
   try {
-    const decodedAddress = await decodeAddress(address, networkPrefix);
+    const decodedAddress = decodeAddress(address, networkPrefix);
 
-    await encodeAddress(decodedAddress, "ss58", networkPrefix);
+    encodeAddress(decodedAddress, "ss58", networkPrefix);
 
     return true;
   } catch (_error) {
@@ -52,21 +59,23 @@ const validateAddress = async (address: string, networkPrefix: number) => {
 const createTransfer = (
   api: ApiPromise,
   { recipient, amount }: { recipient: string; amount: number },
-): SubmittableExtrinsic<"promise"> => api.tx.balances.transferAllowDeath(recipient, amount);
+) => api.tx.balances?.transferAllowDeath?.(recipient, amount);
 
 const transfer = async (
   api: ApiPromise,
   signer: IKeyringPair,
   { recipient, assetValue, from }: SubstrateTransferParams,
 ) => {
-  const transfer = await createTransfer(api, {
+  const transfer = createTransfer(api, {
     recipient,
     amount: assetValue.getBaseValue("number"),
   });
 
-  return (
-    await transfer.signAndSend(signer, { nonce: await getNonce(api, from || signer.address) })
-  ).toString();
+  const tx = await transfer?.signAndSend(signer, {
+    nonce: await getNonce(api, from || signer.address),
+  });
+
+  return tx?.toString();
 };
 
 const estimateGasFee = async (
@@ -75,12 +84,11 @@ const estimateGasFee = async (
   gasAsset: AssetValue,
   { recipient, assetValue, from }: SubstrateTransferParams,
 ) => {
-  const { SwapKitNumber } = await import("@swapkit/helpers");
   const transfer = createTransfer(api, { recipient, amount: assetValue.getBaseValue("number") });
 
-  const paymentInfo = await transfer.paymentInfo(from || signer.address, {
+  const paymentInfo = (await transfer?.paymentInfo(from || signer.address, {
     nonce: await getNonce(api, from || signer.address),
-  });
+  })) || { partialFee: 0 };
 
   return gasAsset.set(
     SwapKitNumber.fromBigInt(BigInt(paymentInfo.partialFee.toString()), gasAsset.decimal).getValue(
@@ -113,26 +121,58 @@ const signAndBroadcast = (
   return hash.toString();
 };
 
-async function decodeAddress(address: string, networkPrefix?: number) {
-  const { decodeAddress } = await import("@polkadot/util-crypto");
-  const { isHex, hexToU8a } = await import("@polkadot/util");
-
-  return isHex(address) ? hexToU8a(address) : decodeAddress(address, undefined, networkPrefix);
+function decodeAddress(address: string, networkPrefix?: number) {
+  return isHex(address)
+    ? hexToU8a(address)
+    : decodePolkadotAddress(address, undefined, networkPrefix);
 }
 
-async function encodeAddress(
+function encodeAddress(
   address: Uint8Array,
   encoding: "ss58" | "hex" = "ss58",
   networkPrefix?: number,
 ) {
-  const { encodeAddress } = await import("@polkadot/util-crypto");
   if (encoding === "hex") {
     return u8aToHex(address);
   }
-  return encodeAddress(address, networkPrefix);
+  return encodePolkadotAddress(address, networkPrefix);
 }
 
-export const BaseToolbox = async ({
+// Temporarily commented out forced typing
+// : Promise<{
+//   api: ApiPromise;
+//   network: SubstrateNetwork;
+//   decodeAddress: (address: string, networkPrefix?: number) => Promise<Uint8Array>;
+//   encodeAddress: (
+//     address: Uint8Array,
+//     encoding?: "ss58" | "hex",
+//     networkPrefix?: number,
+//   ) => Promise<string>;
+//   createKeyring: (phrase: string) => Promise<KeyringPair>;
+//   getAddress: (signer?: KeyringPair) => string;
+//   createTransfer: ({
+//     recipient,
+//     assetValue,
+//   }: {
+//     recipient: string;
+//     assetValue: AssetValue;
+//   }) => SubmittableExtrinsic<"promise">;
+//   getBalance: (address: string) => Promise<AssetValue[]>;
+//   validateAddress: (address: string) => Promise<boolean>;
+//   transfer: (params: SubstrateTransferParams) => Promise<string>;
+//   estimateGasFee: (params: SubstrateTransferParams) => Promise<AssetValue>;
+//   sign: (tx: SubmittableExtrinsic<"promise">) => Promise<SubmittableExtrinsic<"promise">>;
+//   broadcast: (
+//     tx: SubmittableExtrinsic<"promise">,
+//     callback?: Callback<ISubmittableResult>,
+//   ) => Promise<string | (() => void)>;
+//   signAndBroadcast: (
+//     tx: SubmittableExtrinsic<"promise">,
+//     callback?: Callback<ISubmittableResult>,
+//   ) => Promise<string | (() => void)>;
+// }>
+
+export const BaseSubstrateToolbox = async ({
   api,
   network,
   gasAsset,
@@ -142,38 +182,7 @@ export const BaseToolbox = async ({
   network: SubstrateNetwork;
   gasAsset: AssetValue;
   signer: IKeyringPair;
-}): Promise<{
-  api: ApiPromise;
-  network: SubstrateNetwork;
-  decodeAddress: (address: string, networkPrefix?: number) => Promise<Uint8Array>;
-  encodeAddress: (
-    address: Uint8Array,
-    encoding?: "ss58" | "hex",
-    networkPrefix?: number,
-  ) => Promise<string>;
-  createKeyring: (phrase: string) => Promise<KeyringPair>;
-  getAddress: (signer?: KeyringPair) => string;
-  createTransfer: ({
-    recipient,
-    assetValue,
-  }: {
-    recipient: string;
-    assetValue: AssetValue;
-  }) => SubmittableExtrinsic<"promise">;
-  getBalance: (address: string) => Promise<AssetValue[]>;
-  validateAddress: (address: string) => Promise<boolean>;
-  transfer: (params: SubstrateTransferParams) => Promise<string>;
-  estimateGasFee: (params: SubstrateTransferParams) => Promise<AssetValue>;
-  sign: (tx: SubmittableExtrinsic<"promise">) => Promise<SubmittableExtrinsic<"promise">>;
-  broadcast: (
-    tx: SubmittableExtrinsic<"promise">,
-    callback?: Callback<ISubmittableResult>,
-  ) => Promise<string | (() => void)>;
-  signAndBroadcast: (
-    tx: SubmittableExtrinsic<"promise">,
-    callback?: Callback<ISubmittableResult>,
-  ) => Promise<string | (() => void)>;
-}> => ({
+}) => ({
   api,
   network,
   decodeAddress,

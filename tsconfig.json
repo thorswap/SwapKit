@@ -1,7 +1,0 @@
-{
-  "compilerOptions": {
-    "resolveJsonModule": true,
-  },
-  "include": ["env.d.ts", "internal/**/*", "packages/**/*", "tools/vite"],
-  "exclude": ["node_modules"]
-}

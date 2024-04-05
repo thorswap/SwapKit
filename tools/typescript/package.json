@@ -2,5 +2,8 @@
   "name": "@internal/tools-typescript",
   "private": true,
   "version": "0.1.0",
+  "devDependencies": {
+    "bun-types": "1.1.1"
+  },
   "files": ["./base.json", "./typings.d.ts"]
 }

@@ -1,8 +1,14 @@
 import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
 import { bech32 } from "@scure/base";
-import { AssetValue, RequestClient, SwapKitNumber } from "@swapkit/helpers";
-import { ApiUrl, BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/types";
-import { ec as EC } from "elliptic";
+import {
+  AssetValue,
+  RequestClient,
+  SwapKitApi,
+  SwapKitNumber,
+  wrapWithThrow,
+} from "@swapkit/helpers";
+import { BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/types";
+import { ec } from "elliptic";
 
 import { BNBTransaction } from "../binanceUtils/transaction.ts";
 import type { Account, BNBFees } from "../binanceUtils/types.ts";
@@ -43,34 +49,22 @@ const getBalance = async (address: string) => {
 };
 
 const getFees = async () => {
-  let singleTxFee: SwapKitNumber | undefined = undefined;
+  const singleTxFee = await wrapWithThrow(async () => {
+    const value =
+      (await getFeeRateFromThorswap(ChainId.Binance)) || (await getFeeRateFromThorchain());
+    return new SwapKitNumber({ value, decimal: 8 });
+  });
 
-  try {
-    singleTxFee = new SwapKitNumber({
-      value: (await getFeeRateFromThorswap(ChainId.Binance)) || (await getFeeRateFromThorchain()),
-      decimal: 8,
-    });
-  } catch (error) {
-    console.error(error);
-  }
+  const txFee =
+    singleTxFee ||
+    new SwapKitNumber({ value: (await getTransferFee()).fixed_fee_params.fee, decimal: 8 });
 
-  if (!singleTxFee) {
-    const transferFee = await getTransferFee();
-    singleTxFee = new SwapKitNumber({
-      value: transferFee.fixed_fee_params.fee,
-      decimal: 8,
-    });
-  }
-
-  return {
-    [FeeOption.Average]: singleTxFee,
-    [FeeOption.Fast]: singleTxFee,
-    [FeeOption.Fastest]: singleTxFee,
-  };
+  return { [FeeOption.Average]: txFee, [FeeOption.Fast]: txFee, [FeeOption.Fastest]: txFee };
 };
 
 const getFeeRateFromThorchain = async () => {
-  const respData = await RequestClient.get(`${ApiUrl.ThornodeMainnet}/thorchain/inbound_addresses`);
+  const respData = await SwapKitApi.getInboundAddresses();
+
   if (!Array.isArray(respData)) throw new Error("bad response from Thornode API");
 
   const chainData = respData.find(
@@ -88,7 +82,7 @@ const sendRawTransaction = (signedBz: string) =>
   }>(`https://node-router.thorswap.net/binance/broadcast_tx_sync?tx=0x${signedBz}`);
 
 const prepareTransaction = async (
-  msg: any,
+  msg: Todo,
   address: string,
   initSequence: string | number | null = null,
   memo = "",
@@ -149,8 +143,8 @@ const transfer = async (params: TransferParams): Promise<string> => {
 };
 
 export const getPublicKey = (publicKey: string) => {
-  const ec = new EC("secp256k1");
-  const keyPair = ec.keyFromPublic(publicKey, "hex");
+  const EC = new ec("secp256k1");
+  const keyPair = EC.keyFromPublic(publicKey, "hex");
   return keyPair.getPublic();
 };
 
@@ -163,7 +157,7 @@ export const BinanceToolbox = ({ stagenet }: ToolboxParams = {}): BinanceToolbox
 
   const baseToolbox: {
     createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
-    validateAddress: (address: string) => Promise<boolean>;
+    validateAddress: (address: string) => boolean;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;

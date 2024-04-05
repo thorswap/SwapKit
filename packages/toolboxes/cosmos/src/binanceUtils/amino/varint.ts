@@ -12,7 +12,7 @@ function VarIntFunc(signed: boolean) {
     return Math.ceil(bits / 7) || 1;
   };
 
-  const encode = (n: number, initBuffer?: Buffer | any, initOffset?: number) => {
+  const encode = (n: number, initBuffer?: Buffer, initOffset?: number) => {
     if (n < 0) {
       throw Error("varint value is out of bounds");
     }
@@ -37,6 +37,7 @@ function VarIntFunc(signed: boolean) {
       i++;
     }
 
+    // @ts-expect-error - bn is fine ¯\_(ツ)_/¯
     buffer[offset + i] = bn.andln(0xff);
 
     return buffer;
@@ -45,11 +46,12 @@ function VarIntFunc(signed: boolean) {
   /**
    * https://github.com/golang/go/blob/master/src/encoding/binary/varint.go#L60
    */
-  const decode = (bytes: Buffer | any) => {
+  const decode = (bytes: Buffer) => {
     let x = 0;
     let s = 0;
     for (let i = 0, len = bytes.length; i < len; i++) {
-      const b = bytes[i];
+      const b = bytes[i] as number;
+
       if (b < 0x80) {
         if (i > 9 || (i === 9 && b > 1)) {
           return 0;

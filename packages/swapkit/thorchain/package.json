@@ -4,30 +4,19 @@
     "@swapkit/helpers": "workspace:*",
     "@swapkit/types": "workspace:*"
   },
-  "description": "SwapKit Lib thorchain",
+  "description": "SwapKit Plugin - Thorchain",
   "devDependencies": {
     "@swapkit/core": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "vite": "5.1.6"
+    "bun-types": "1.1.1"
   },
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.js",
   "name": "@swapkit/thorchain",
   "peerDependencies": {
     "@swapkit/core": "workspace:*",
@@ -42,13 +31,14 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build": "vite build",
-    "clean": "rm -rf dist vite.config.ts.* node_modules",
+    "build": "bun run ./build.ts",
+    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
     "lint": "biome check --apply ./src",
-    "test": "echo 'vitest --run'",
-    "test:coverage": "echo 'vitest run --coverage'"
+    "test": "echo 'bun test'",
+    "test:coverage": "echo 'bun test --coverage'",
+    "type-check": "tsc --noEmit"
   },
   "type": "module",
-  "types": "./dist/index.d.ts",
+  "types": "./src/index.ts",
   "version": "1.0.0-rc.22"
 }

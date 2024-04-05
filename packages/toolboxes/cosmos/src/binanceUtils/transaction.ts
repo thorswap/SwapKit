@@ -1,7 +1,6 @@
 import { SHA256, enc } from "crypto-js";
-import type { curve } from "elliptic";
-import { ec as EC } from "elliptic";
-
+import { type curve, ec } from "elliptic";
+import * as secp256k1 from "tiny-secp256k1";
 import { convertObjectToSignBytes, encodeBinaryByteArray, marshalBinary } from "./amino/encoder.ts";
 import { UVarInt } from "./amino/varint.ts";
 import type { BaseMsg, StdSignMsg, StdSignature, StdTx } from "./types.ts";
@@ -15,14 +14,12 @@ const sha256 = (hex: string) => {
 };
 
 const generatePubKey = (privateKey: Buffer) => {
-  const curve = new EC("secp256k1");
+  const curve = new ec("secp256k1");
   const keypair = curve.keyFromPrivate(privateKey);
   return keypair.getPublic();
 };
 
-const generateSignature = async (signBytesHex: string, privateKey: string | Buffer) => {
-  const secp256k1 = await import("@bitcoinerlab/secp256k1");
-
+const generateSignature = (signBytesHex: string, privateKey: string | Buffer) => {
   const msgHash = sha256(signBytesHex);
   const msgHashHex = Buffer.from(msgHash, "hex");
   const signature = secp256k1.sign(
@@ -61,7 +58,7 @@ export class BNBTransaction {
   public chainId: StdSignMsg["chainId"];
 
   // DEPRECATED: Retained for backward compatibility,
-  public msg?: any;
+  public msg?: NotWorth;
 
   public baseMsg?: NonNullable<BaseMsg>;
   public memo: StdSignMsg["memo"];
@@ -89,7 +86,7 @@ export class BNBTransaction {
    * @param {SignMsg} concrete msg object
    * @return {Buffer}
    **/
-  getSignBytes(initMsg?: any): Buffer {
+  getSignBytes(initMsg?: NotWorth): Buffer {
     const msg = initMsg || this.baseMsg?.getSignMsg?.();
     const signMsg = {
       account_number: this.accountNumber.toString(),
@@ -128,7 +125,7 @@ export class BNBTransaction {
    * @param {SignMsg} concrete msg object
    * @return {Transaction}
    **/
-  sign = async (privateKey: string, msg?: any) => {
+  sign = async (privateKey: string, msg?: NotWorth) => {
     if (!privateKey) {
       throw new Error("private key should not be null");
     }
@@ -136,7 +133,9 @@ export class BNBTransaction {
     const signBytes = this.getSignBytes(msg);
     const privKeyBuf = Buffer.from(privateKey, "hex");
     const signature = await generateSignature(signBytes.toString("hex"), privKeyBuf);
-    this.addSignature(generatePubKey(privKeyBuf), signature);
+    const pubKey = await generatePubKey(privKeyBuf);
+
+    this.addSignature(pubKey, signature);
     return this;
   };
 

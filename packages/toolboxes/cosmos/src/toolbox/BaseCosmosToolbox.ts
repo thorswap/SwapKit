@@ -2,6 +2,8 @@ import { AssetValue, SwapKitApi } from "@swapkit/helpers";
 import type { ChainId, DerivationPath } from "@swapkit/types";
 import { Chain } from "@swapkit/types";
 
+import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from "@cosmjs/crypto";
+import { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } from "@cosmjs/proto-signing";
 import type { CosmosClient } from "../cosmosClient.ts";
 import type { BaseCosmosToolboxType } from "../thorchainUtils/types/client-types.ts";
 import { USK_KUJIRA_FACTORY_DENOM } from "../util.ts";
@@ -52,25 +54,16 @@ export const BaseCosmosToolbox = ({
   client: cosmosClient,
 }: Params): BaseCosmosToolboxType => ({
   transfer: cosmosClient.transfer,
-  getSigner: async (phrase: string) => {
-    const { DirectSecp256k1HdWallet } = await import("@cosmjs/proto-signing");
-    const { stringToPath } = await import("@cosmjs/crypto");
-
+  getSigner: (phrase: string) => {
     return DirectSecp256k1HdWallet.fromMnemonic(phrase, {
       prefix: cosmosClient.prefix,
       hdPaths: [stringToPath(`${derivationPath}/0`)],
     });
   },
-  getSignerFromPrivateKey: async (privateKey: Uint8Array) => {
-    const { DirectSecp256k1Wallet } = await import("@cosmjs/proto-signing");
-
+  getSignerFromPrivateKey: (privateKey: Uint8Array) => {
     return DirectSecp256k1Wallet.fromKey(privateKey, cosmosClient.prefix);
   },
   createPrivateKeyFromPhrase: async (phrase: string) => {
-    const { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } = await import(
-      "@cosmjs/crypto"
-    );
-
     const derivationPathString = stringToPath(`${derivationPath}/0`);
     const mnemonicChecked = new EnglishMnemonic(phrase);
     const seed = await Bip39.mnemonicToSeed(mnemonicChecked);

@@ -1,7 +1,12 @@
 import type { OfflineSigner } from "@cosmjs/proto-signing";
-import type { SigningStargateClientOptions } from "@cosmjs/stargate";
+import {
+  GasPrice,
+  SigningStargateClient,
+  type SigningStargateClientOptions,
+  StargateClient,
+} from "@cosmjs/stargate";
 import { AssetValue, defaultRequestHeaders } from "@swapkit/helpers";
-import { ChainId, FeeOption, RPCUrl } from "@swapkit/types";
+import { Chain, ChainId, FeeOption, RPCUrl } from "@swapkit/types";
 
 import type { CosmosMaxSendableAmountParams } from "./types.ts";
 
@@ -16,30 +21,28 @@ export const DEFAULT_COSMOS_FEE_MAINNET = {
 export const getDenom = (symbol: string, isThorchain = false) =>
   isThorchain ? symbol.toLowerCase() : symbol;
 
-export const createStargateClient = async (url: string) => {
-  const { StargateClient } = await import("@cosmjs/stargate");
-
+export const createStargateClient = (url: string) => {
   return StargateClient.connect({ url, headers: defaultRequestHeaders });
 };
 
-export const createSigningStargateClient = async (
+export const createSigningStargateClient = (
   url: string,
-  signer: any,
-  options: SigningStargateClientOptions = {},
+  signer: Todo,
+  optionsOrBaseGas: string | SigningStargateClientOptions = {},
 ) => {
-  const { SigningStargateClient, GasPrice } = await import("@cosmjs/stargate");
+  const gasPrice = typeof optionsOrBaseGas === "string" ? optionsOrBaseGas : "0.0003uatom";
+  const options = typeof optionsOrBaseGas === "string" ? {} : optionsOrBaseGas;
 
   return SigningStargateClient.connectWithSigner({ url, headers: defaultRequestHeaders }, signer, {
-    gasPrice: GasPrice.fromString("0.0003uatom"),
+    gasPrice: GasPrice.fromString(gasPrice),
     ...options,
   });
 };
 
-export const createOfflineStargateClient = async (
+export const createOfflineStargateClient = (
   wallet: OfflineSigner,
   registry?: SigningStargateClientOptions,
 ) => {
-  const { SigningStargateClient } = await import("@cosmjs/stargate");
   return SigningStargateClient.offline(wallet, registry);
 };
 
@@ -78,7 +81,12 @@ export const estimateMaxSendableAmount = async ({
 
   const fees = await toolbox.getFees();
 
-  if (!balance) return AssetValue.fromChainOrSignature(assetEntity?.chain || balances[0]?.chain, 0);
+  if (!balance) {
+    return AssetValue.fromChainOrSignature(
+      assetEntity?.chain || balances[0]?.chain || Chain.Cosmos,
+      0,
+    );
+  }
 
   return balance.sub(fees[feeOptionKey]);
 };

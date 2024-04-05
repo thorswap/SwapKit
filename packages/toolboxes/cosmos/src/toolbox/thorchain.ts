@@ -1,10 +1,17 @@
-import type { Pubkey, Secp256k1HdWallet } from "@cosmjs/amino";
+import {
+  type Pubkey,
+  Secp256k1HdWallet,
+  createMultisigThresholdPubkey,
+  encodeSecp256k1Pubkey,
+  pubkeyToAddress,
+} from "@cosmjs/amino";
+import { Secp256k1, Secp256k1Signature, stringToPath } from "@cosmjs/crypto";
 import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
-import type { Account } from "@cosmjs/stargate";
+import { type Account, makeMultisignedTxBytes } from "@cosmjs/stargate";
 import { base64 } from "@scure/base";
 import type { AssetValue } from "@swapkit/helpers";
 import { RequestClient, SwapKitNumber } from "@swapkit/helpers";
-import { ApiUrl, BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/types";
+import { BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/types";
 
 import { CosmosClient } from "../cosmosClient.ts";
 import {
@@ -35,10 +42,7 @@ import { BaseCosmosToolbox } from "./BaseCosmosToolbox.ts";
 
 const secp256k1HdWalletFromMnemonic =
   ({ prefix, derivationPath }: { prefix: string; derivationPath: string }) =>
-  async (mnemonic: string, index = 0) => {
-    const { Secp256k1HdWallet } = await import("@cosmjs/amino");
-    const { stringToPath } = await import("@cosmjs/crypto");
-
+  (mnemonic: string, index = 0) => {
     return Secp256k1HdWallet.fromMnemonic(mnemonic, {
       hdPaths: [stringToPath(`${derivationPath}/${index}`)],
       prefix,
@@ -54,7 +58,7 @@ const signMultisigTx = async (
 ) => {
   const { msgs, accountNumber, sequence, chainId, fee, memo } = JSON.parse(tx);
 
-  const address = (await wallet.getAccounts())[0].address;
+  const address = (await wallet.getAccounts())?.[0]?.address || "";
   const aminoTypes = await createDefaultAminoTypes(chain);
   const registry = await createDefaultRegistry();
   const signingClient = await createOfflineStargateClient(wallet, {
@@ -79,11 +83,11 @@ const signMultisigTx = async (
 
   const bodyBytes = await buildEncodedTxBody({
     chain,
-    msgs: msgs.map((msg: any) => prepareMessageForBroadcast(msg)),
+    msgs: msgs.map((msg: NotWorth) => prepareMessageForBroadcast(msg)),
     memo,
   });
 
-  return { signature: exportSignature(signature), bodyBytes };
+  return { signature: exportSignature(signature as Uint8Array), bodyBytes };
 };
 
 const broadcastMultisigTx =
@@ -97,9 +101,6 @@ const broadcastMultisigTx =
   ) => {
     const { sequence, fee } = JSON.parse(tx);
     const multisigPubkey = await createMultisig(membersPubKeys, threshold);
-
-    const { pubkeyToAddress, encodeSecp256k1Pubkey } = await import("@cosmjs/amino");
-    const { makeMultisignedTxBytes } = await import("@cosmjs/stargate");
 
     const addressesAndSignatures: [string, Uint8Array][] = signers.map((signer) => [
       pubkeyToAddress(encodeSecp256k1Pubkey(base64.decode(signer.pubKey)), prefix),
@@ -122,7 +123,6 @@ const broadcastMultisigTx =
   };
 
 const createMultisig = async (pubKeys: string[], threshold: number, noSortPubKeys = true) => {
-  const { encodeSecp256k1Pubkey, createMultisigThresholdPubkey } = await import("@cosmjs/amino");
   return createMultisigThresholdPubkey(
     pubKeys.map((pubKey) => encodeSecp256k1Pubkey(base64.decode(pubKey))),
     threshold,
@@ -132,21 +132,16 @@ const createMultisig = async (pubKeys: string[], threshold: number, noSortPubKey
 
 const importSignature = (signature: string) => base64.decode(signature);
 
-const __REEXPORT__pubkeyToAddress = (prefix: string) => async (pubkey: Pubkey) => {
-  const { pubkeyToAddress } = await import("@cosmjs/amino");
-
+const __REEXPORT__pubkeyToAddress = (prefix: string) => (pubkey: Pubkey) => {
   return pubkeyToAddress(pubkey, prefix);
 };
 
 const signMessage = async (privateKey: Uint8Array, message: string) => {
-  const { Secp256k1 } = await import("@cosmjs/crypto");
-
   const signature = await Secp256k1.createSignature(base64.decode(message), privateKey);
   return base64.encode(Buffer.concat([signature.r(32), signature.s(32)]));
 };
 
-export const verifySignature = async (signature: string, message: string, pubkey: Uint8Array) => {
-  const { Secp256k1, Secp256k1Signature } = await import("@cosmjs/crypto");
+export const verifySignature = (signature: string, message: string, pubkey: Uint8Array) => {
   const secpSignature = Secp256k1Signature.fromFixedLength(base64.decode(signature));
 
   return Secp256k1.verifySignature(secpSignature, base64.decode(message), pubkey);
@@ -160,10 +155,13 @@ export const BaseThorchainToolbox = ({
 }): ThorchainToolboxType => {
   const isThorchain = chain === Chain.THORChain;
   const chainId = isThorchain ? ChainId.THORChain : ChainId.Maya;
-  const nodeUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
+
   const prefix = `${stagenet ? "s" : ""}${chain.toLowerCase()}`;
   const derivationPath = DerivationPath[chain];
   const rpcUrl = getRPC(chainId, stagenet);
+  const nodeUrl = stagenet
+    ? "https://stagenet-thornode.ninerealms.com"
+    : "https://thornode.thorswap.net";
 
   const client = new CosmosClient({
     server: nodeUrl,
@@ -176,7 +174,7 @@ export const BaseThorchainToolbox = ({
   const baseToolbox: {
     createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
     getAccount: (address: string) => Promise<Account | null>;
-    validateAddress: (address: string) => Promise<boolean>;
+    validateAddress: (address: string) => boolean;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
     getBalance: (address: string, potentialScamFilter?: boolean) => Promise<AssetValue[]>;

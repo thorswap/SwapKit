@@ -15,7 +15,7 @@ import crypto from "node:crypto";
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************* */
-import { bech32 } from "@swapkit/toolbox-cosmos";
+import { bech32 } from "@scure/base";
 import { LedgerErrorCode } from "@swapkit/types";
 import Ripemd160 from "ripemd160";
 
@@ -32,15 +32,15 @@ import {
 import { publicKeyv2, serializePathv2, signSendChunkv2 } from "./helpers.ts";
 
 export class THORChainApp {
-  transport: any;
-  versionResponse: any;
+  transport: Todo;
+  versionResponse: Todo;
 
-  constructor(transport: any, scrambleKey = APP_KEY) {
+  constructor(transport: Todo, scrambleKey = APP_KEY) {
     if (!transport) {
       throw new Error("Transport has not been defined");
     }
 
-    this.transport = transport as any;
+    this.transport = transport;
     transport.decorateAppAPIMethods(
       this,
       ["getVersion", "sign", "getAddressAndPubKey", "appInfo", "deviceInfo", "getBech32FromPK"],
@@ -48,7 +48,7 @@ export class THORChainApp {
     );
   }
 
-  static serializeHRP(hrp: any) {
+  static serializeHRP(hrp: Todo) {
     if (hrp == null || hrp.length < 3 || hrp.length > 83) {
       throw new Error("Invalid HRP");
     }
@@ -58,7 +58,7 @@ export class THORChainApp {
     return buf;
   }
 
-  static getBech32FromPK(hrp: any, pk: any) {
+  static getBech32FromPK(hrp: Todo, pk: Todo) {
     if (pk.length !== 33) {
       throw new Error("expected compressed public key [31 bytes]");
     }
@@ -91,7 +91,7 @@ export class THORChainApp {
     }
   }
 
-  async signGetChunks(path: string, message: any) {
+  async signGetChunks(path: string, message: Todo) {
     const serializedPath = await this.serializePath(path);
 
     const chunks = [];
@@ -119,11 +119,11 @@ export class THORChainApp {
   }
 
   async appInfo() {
-    return this.transport.send(0xb0, 0x01, 0, 0).then((response: any) => {
+    return this.transport.send(0xb0, 0x01, 0, 0).then((response: Todo) => {
       const errorCodeData = response.slice(-2);
       const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
 
-      const result = {} as any;
+      const result = {} as Todo;
 
       let appName = "err";
       let appVersion = "err";
@@ -171,7 +171,7 @@ export class THORChainApp {
   async deviceInfo() {
     return this.transport
       .send(0xe0, 0x01, 0, 0, Buffer.from([]), [LedgerErrorCode.NoError, 0x6e00])
-      .then((response: any) => {
+      .then((response: Todo) => {
         const errorCodeData = response.slice(-2);
         const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
 
@@ -222,7 +222,7 @@ export class THORChainApp {
 
       switch (this.versionResponse.major) {
         case 2: {
-          const data = Buffer.concat([THORChainApp.serializeHRP("thor"), serializedPath as any]);
+          const data = Buffer.concat([THORChainApp.serializeHRP("thor"), serializedPath as Buffer]);
           return await publicKeyv2(this, data);
         }
 
@@ -234,7 +234,7 @@ export class THORChainApp {
     }
   }
 
-  getAddressAndPubKey(path: string, hrp: any) {
+  getAddressAndPubKey(path: string, hrp: Todo) {
     try {
       return this.executeCommandOnDevice({ path, hrp, command: "ONLY_RETRIEVE" });
     } catch (e) {
@@ -242,7 +242,7 @@ export class THORChainApp {
     }
   }
 
-  showAddressAndPubKey(path: string, hrp: any) {
+  showAddressAndPubKey(path: string, hrp: Todo) {
     try {
       return this.executeCommandOnDevice({ path, hrp, command: "SHOW_ADDRESS_IN_DEVICE" });
     } catch (e) {
@@ -250,7 +250,7 @@ export class THORChainApp {
     }
   }
 
-  async signSendChunk(chunkIdx: number, chunkNum: number, chunk: any) {
+  async signSendChunk(chunkIdx: number, chunkNum: number, chunk: Todo) {
     switch (this.versionResponse.major) {
       case 2:
         return await signSendChunkv2(this, chunkIdx, chunkNum, chunk);
@@ -262,7 +262,7 @@ export class THORChainApp {
     }
   }
 
-  async sign(path: string, message: any) {
+  async sign(path: string, message: Todo) {
     return this.signGetChunks(path, message).then((chunks) => {
       return this.signSendChunk(1, chunks.length, chunks[0]).then(async (response) => {
         let result = {
@@ -289,7 +289,7 @@ export class THORChainApp {
     command,
   }: {
     path: string;
-    hrp: any;
+    hrp: Todo;
     command: keyof typeof P1_VALUES;
   }) {
     const serializedPath = (await this.serializePath(path)) as Uint8Array;
