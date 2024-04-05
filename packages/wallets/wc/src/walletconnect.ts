@@ -99,7 +99,7 @@ const getToolbox = async ({
           source: "0",
         });
 
-        const response: any = await walletconnect?.client.request({
+        const response: Todo = await walletconnect?.client.request({
           chainId: BINANCE_MAINNET_ID,
           topic: session.topic,
           request: {
@@ -168,7 +168,7 @@ const getToolbox = async ({
           sequence?.toString() || "0",
         );
 
-        const signature: any = await signRequest(signDoc);
+        const signature: Todo = await signRequest(signDoc);
 
         const bodyBytes = await buildEncodedTxBody({
           chain,
@@ -254,7 +254,7 @@ const getWalletconnect = async (
     });
 
     const accounts = Object.values(session.namespaces).flatMap(
-      (namespace: any) => namespace.accounts,
+      (namespace: Todo) => namespace.accounts,
     );
 
     return { session, accounts, client };

@@ -12,7 +12,7 @@ import { Chain, DerivationPath, FeeOption } from "@swapkit/types";
 import { ChainToKeepKeyName, bip32ToAddressNList } from "../helpers/coins.ts";
 
 type KKUtxoWalletParams = {
-  sdk: any;
+  sdk: Todo;
   chain: UTXOChain;
   derivationPath?: DerivationPathArray;
   apiKey?: string;
@@ -99,7 +99,7 @@ export const utxoWalletMethods = async ({
       })
       .filter(Boolean);
 
-    const removeNullAndEmptyObjectsFromArray = (arr: any[]) => {
+    const removeNullAndEmptyObjectsFromArray = (arr: Todo[]) => {
       return arr.filter(
         (item) => item !== null && typeof item === "object" && Object.keys(item).length !== 0,
       );

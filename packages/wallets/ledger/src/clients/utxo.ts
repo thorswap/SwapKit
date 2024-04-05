@@ -11,7 +11,7 @@ import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
 type Params = {
   psbt: Psbt;
   inputUtxos: UTXOType[];
-  btcApp: any;
+  btcApp: Todo;
   derivationPath: string;
 };
 
@@ -28,7 +28,7 @@ const signUTXOTransaction = async (
       item.index,
       undefined as string | null | undefined,
       undefined as number | null | undefined,
-    ] as any;
+    ] as Todo;
   });
 
   const newTxHex = psbt.data.globalMap.unsignedTx.toBuffer().toString("hex");
@@ -56,7 +56,7 @@ const BaseLedgerUTXO = ({
   additionalSignParams?: Partial<CreateTransactionArg>;
 }) => {
   let btcApp: InstanceType<typeof BitcoinApp>;
-  let transport: any = null;
+  let transport: Todo = null;
 
   async function checkBtcAppAndCreateTransportWebUSB(checkBtcApp = true) {
     if (checkBtcApp && !btcApp) {

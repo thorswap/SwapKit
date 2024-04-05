@@ -43,7 +43,7 @@ const App = () => {
   }, []);
 
   const setAsset = useCallback(
-    (asset: any) => {
+    (asset: Todo) => {
       if (!inputAsset) {
         setSwapAssets({ inputAsset: asset });
       }

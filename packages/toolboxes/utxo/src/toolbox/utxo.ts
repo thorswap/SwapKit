@@ -311,11 +311,11 @@ export const BaseUTXOToolbox = (
   apiClient: baseToolboxParams.apiClient,
   broadcastTx: baseToolboxParams.broadcastTx,
   calculateTxSize,
-  buildTx: (params: any) => buildTx({ ...params, ...baseToolboxParams }),
+  buildTx: (params: Todo) => buildTx({ ...params, ...baseToolboxParams }),
   getAddressFromKeys: (keys: ECPairInterface) => getAddressFromKeys({ keys, ...baseToolboxParams }),
   validateAddress: (address: string) => validateAddress({ address, ...baseToolboxParams }),
 
-  createKeysForPath: (params: any) => createKeysForPath({ ...params, ...baseToolboxParams }),
+  createKeysForPath: (params: Todo) => createKeysForPath({ ...params, ...baseToolboxParams }),
 
   getPrivateKeyFromMnemonic: async ({
     phrase,
@@ -330,16 +330,16 @@ export const BaseUTXOToolbox = (
 
   getFeeRates: () => getFeeRates(baseToolboxParams.apiClient),
 
-  transfer: (params: any) => transfer({ ...params, ...baseToolboxParams }),
+  transfer: (params: Todo) => transfer({ ...params, ...baseToolboxParams }),
 
-  getInputsOutputsFee: (params: any) => getInputsOutputsFee({ ...params, ...baseToolboxParams }),
+  getInputsOutputsFee: (params: Todo) => getInputsOutputsFee({ ...params, ...baseToolboxParams }),
 
-  getFeeForTransaction: async (params: any) =>
+  getFeeForTransaction: async (params: Todo) =>
     new SwapKitNumber({
       value: (await getInputsOutputsFee({ ...params, ...baseToolboxParams })).fee,
       decimal: 8,
     }),
 
-  estimateMaxSendableAmount: async (params: any) =>
+  estimateMaxSendableAmount: async (params: Todo) =>
     estimateMaxSendableAmount({ ...params, ...baseToolboxParams }),
 });

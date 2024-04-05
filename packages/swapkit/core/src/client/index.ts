@@ -34,7 +34,7 @@ type GenericSwapParams = {
 export type SwapParams = (SwapWithRouteParams | GenericSwapParams) & {
   provider?: {
     name: PluginName;
-    config: Record<string, any>;
+    config: Record<string, Todo>;
   };
 };
 
@@ -64,7 +64,7 @@ export type Wallets = { [K in Chain]?: ChainWallet<K> };
 export type AvailableProviders<T> = T | { [K in PluginName]?: ProviderMethods };
 export type ProviderMethods = {
   swap: (swapParams: SwapParams) => Promise<string>;
-  [key: string]: any;
+  [key: string]: Todo;
 };
 
 export type SwapKitPlugin = ({ wallets, stagenet }: { wallets: Wallets; stagenet?: boolean }) => {
@@ -74,7 +74,7 @@ export type SwapKitPlugin = ({ wallets, stagenet }: { wallets: Wallets; stagenet
 
 export type SwapKitWallet = {
   connectMethodName: string;
-  connect: (params: ConnectWalletParams) => (connectParams: any) => undefined | string;
+  connect: (params: ConnectWalletParams) => (connectParams: Todo) => undefined | string;
 };
 
 export function SwapKit<
@@ -91,9 +91,9 @@ export function SwapKit<
   plugins: SwapKitPlugin[];
   stagenet: boolean;
   wallets: SwapKitWallet[];
-  config?: Record<string, any>;
-  apis: Record<string, any>;
-  rpcUrls: Record<string, any>;
+  config?: Record<string, Todo>;
+  apis: Record<string, Todo>;
+  rpcUrls: Record<string, Todo>;
 }): SwapKitReturnType & ConnectWalletMethods & AvailableProviders<ExtendedProviders> {
   const connectedWallets: Wallets = {};
   const availablePlugins: AvailableProviders<ExtendedProviders> = {};
@@ -202,16 +202,14 @@ export function SwapKit<
     const defaultBalance = [AssetValue.fromChainOrSignature(chain)];
     const wallet = getWallet(chain);
 
-    try {
-      if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
-      const balance = await wallet?.getBalance(wallet.address, potentialScamFilter);
-
-      wallet.balance = balance?.length ? balance : defaultBalance;
-
-      return wallet;
-    } catch (error) {
-      throw new SwapKitError("core_wallet_connection_not_found", error);
+    if (!wallet) {
+      throw new SwapKitError("core_wallet_connection_not_found");
     }
+
+    const balance = await wallet?.getBalance(wallet.address, potentialScamFilter);
+    wallet.balance = balance?.length ? balance : defaultBalance;
+
+    return wallet;
   }
 
   /**

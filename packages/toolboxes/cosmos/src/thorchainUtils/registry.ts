@@ -16,12 +16,12 @@ export const createDefaultAminoTypes = (chain: Chain.THORChain | Chain.Maya) => 
   return new AminoTypes({
     "/types.MsgSend": {
       aminoType: `${chain === Chain.Maya ? "mayachain" : "thorchain"}/MsgSend`,
-      toAmino: (params: any) => ({
+      toAmino: (params: NotWorth) => ({
         from_address: base64ToBech32(params.fromAddress),
         to_address: base64ToBech32(params.toAddress),
         amount: [...params.amount],
       }),
-      fromAmino: (params: any) => ({
+      fromAmino: (params: NotWorth) => ({
         fromAddress: bech32ToBase64(params.from_address),
         toAddress: bech32ToBase64(params.to_address),
         amount: [...params.amount],
@@ -29,12 +29,12 @@ export const createDefaultAminoTypes = (chain: Chain.THORChain | Chain.Maya) => 
     },
     "/types.MsgDeposit": {
       aminoType: `${chain === Chain.Maya ? "mayachain" : "thorchain"}/MsgDeposit`,
-      toAmino: (params: any) => ({
+      toAmino: (params: NotWorth) => ({
         signer: base64ToBech32(params.signer),
         memo: params.memo,
         coins: [...params.coins],
       }),
-      fromAmino: (params: any) => ({
+      fromAmino: (params: NotWorth) => ({
         signer: bech32ToBase64(params.signer),
         memo: params.memo,
         coins: [...params.coins],

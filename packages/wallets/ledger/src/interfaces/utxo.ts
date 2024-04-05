@@ -4,7 +4,7 @@ import type { Psbt, UTXOType } from "@swapkit/toolbox-utxo";
 type Params = {
   psbt: Psbt;
   inputUtxos: UTXOType[];
-  btcApp: any;
+  btcApp: Todo;
   derivationPath: string;
 };
 
@@ -23,7 +23,7 @@ export const signUTXOTransaction = async (
       item.index,
       undefined as string | null | undefined,
       undefined as number | null | undefined,
-    ] as any;
+    ] as Todo;
   });
 
   const newTxHex = psbt.data.globalMap.unsignedTx.toBuffer().toString("hex");

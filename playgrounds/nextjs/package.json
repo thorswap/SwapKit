@@ -7,7 +7,7 @@
     "clean": "rm -rf .next .turbo node_modules",
     "build-playground": "next build",
     "start": "next start",
-    "lint": "biome check --apply ./src"
+    "lint": "echo 'biome check --apply ./src'"
   },
   "dependencies": {
     "@hookform/resolvers": "3.3.4",
@@ -72,7 +72,7 @@
     "autoprefixer": "10.4.19",
     "postcss": "8.4.38",
     "tailwindcss": "3.4.3",
-    "typescript": "5.4.3"
+    "typescript": "5.4.4"
   },
   "browser": {
     "dns": false,

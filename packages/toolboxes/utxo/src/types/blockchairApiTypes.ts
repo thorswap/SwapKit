@@ -166,7 +166,7 @@ export interface BlockchairResponse<T> {
       duration: number;
       since: string;
       until: string;
-      time: any;
+      time: Todo;
     };
     api: {
       version: string;

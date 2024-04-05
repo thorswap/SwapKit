@@ -1,6 +1,12 @@
 import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
 import { bech32 } from "@scure/base";
-import { AssetValue, RequestClient, SwapKitApi, SwapKitNumber } from "@swapkit/helpers";
+import {
+  AssetValue,
+  RequestClient,
+  SwapKitApi,
+  SwapKitNumber,
+  wrapWithThrow,
+} from "@swapkit/helpers";
 import { BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/types";
 import { ec } from "elliptic";
 
@@ -43,30 +49,17 @@ const getBalance = async (address: string) => {
 };
 
 const getFees = async () => {
-  let singleTxFee: SwapKitNumber | undefined = undefined;
+  const singleTxFee = await wrapWithThrow(async () => {
+    const value =
+      (await getFeeRateFromThorswap(ChainId.Binance)) || (await getFeeRateFromThorchain());
+    return new SwapKitNumber({ value, decimal: 8 });
+  });
 
-  try {
-    singleTxFee = new SwapKitNumber({
-      value: (await getFeeRateFromThorswap(ChainId.Binance)) || (await getFeeRateFromThorchain()),
-      decimal: 8,
-    });
-  } catch (error) {
-    console.error(error);
-  }
+  const txFee =
+    singleTxFee ||
+    new SwapKitNumber({ value: (await getTransferFee()).fixed_fee_params.fee, decimal: 8 });
 
-  if (!singleTxFee) {
-    const transferFee = await getTransferFee();
-    singleTxFee = new SwapKitNumber({
-      value: transferFee.fixed_fee_params.fee,
-      decimal: 8,
-    });
-  }
-
-  return {
-    [FeeOption.Average]: singleTxFee,
-    [FeeOption.Fast]: singleTxFee,
-    [FeeOption.Fastest]: singleTxFee,
-  };
+  return { [FeeOption.Average]: txFee, [FeeOption.Fast]: txFee, [FeeOption.Fastest]: txFee };
 };
 
 const getFeeRateFromThorchain = async () => {

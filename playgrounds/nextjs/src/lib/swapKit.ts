@@ -27,7 +27,7 @@ type SupportedWallet =
 
 type ConnectWalletType = Record<
   SupportedWallet["connectMethodName"][number],
-  (connectParams: any) => string | undefined
+  (connectParams: Todo) => string | undefined
 >;
 type SwapKitClient = ReturnType<
   typeof SwapKit<

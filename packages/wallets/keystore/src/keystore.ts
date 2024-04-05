@@ -22,7 +22,7 @@ type KeystoreOptions = {
 };
 
 type Params = KeystoreOptions & {
-  api?: any;
+  api?: Todo;
   rpcUrl?: string;
   chain: Chain;
   phrase: string;

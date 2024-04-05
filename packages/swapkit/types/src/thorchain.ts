@@ -1,6 +1,6 @@
 export type GetAddressAndPubKeyResponse = {
   bech32_address: string;
-  compressed_pk: any;
+  compressed_pk: NotWorth;
   error_message: string;
   return_code: number;
 };

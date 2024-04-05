@@ -58,7 +58,7 @@ export class BNBTransaction {
   public chainId: StdSignMsg["chainId"];
 
   // DEPRECATED: Retained for backward compatibility,
-  public msg?: any;
+  public msg?: NotWorth;
 
   public baseMsg?: NonNullable<BaseMsg>;
   public memo: StdSignMsg["memo"];
@@ -86,7 +86,7 @@ export class BNBTransaction {
    * @param {SignMsg} concrete msg object
    * @return {Buffer}
    **/
-  getSignBytes(initMsg?: any): Buffer {
+  getSignBytes(initMsg?: NotWorth): Buffer {
     const msg = initMsg || this.baseMsg?.getSignMsg?.();
     const signMsg = {
       account_number: this.accountNumber.toString(),
@@ -125,7 +125,7 @@ export class BNBTransaction {
    * @param {SignMsg} concrete msg object
    * @return {Transaction}
    **/
-  sign = async (privateKey: string, msg?: any) => {
+  sign = async (privateKey: string, msg?: NotWorth) => {
     if (!privateKey) {
       throw new Error("private key should not be null");
     }

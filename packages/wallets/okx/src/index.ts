@@ -26,7 +26,7 @@ declare global {
               chainId: string,
               signer: string,
               signDoc: StdSignDoc,
-              signOptions: any,
+              signOptions: Todo,
             ) => Promise<AminoSignResponse>;
             signArbitrary: (
               chainId: string,

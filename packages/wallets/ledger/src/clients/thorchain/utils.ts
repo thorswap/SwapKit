@@ -1,7 +1,7 @@
 import { base64 } from "@scure/base";
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
-export const getSignature = (signatureArray: any) => {
+export const getSignature = (signatureArray: Todo) => {
   // Check Type Length Value encoding
   if (signatureArray.length < 64) {
     throw new Error("Invalid Signature: Too short");

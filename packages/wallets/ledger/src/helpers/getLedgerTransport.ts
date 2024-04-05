@@ -3,10 +3,10 @@ import { SwapKitError } from "@swapkit/helpers";
 const getNavigatorUsb = () =>
   // @ts-ignore
   navigator?.usb as unknown as {
-    getDevices: () => Promise<any[]>;
-    requestDevice: (requestObject: any) => Promise<any>;
-    removeEventListener: (event: string, callback: (e: any) => void) => void;
-    addEventListener: (event: string, callback: (e: any) => void) => void;
+    getDevices: () => Promise<Todo[]>;
+    requestDevice: (requestObject: Todo) => Promise<Todo>;
+    removeEventListener: (event: string, callback: (e: Todo) => void) => void;
+    addEventListener: (event: string, callback: (e: Todo) => void) => void;
   };
 
 const getLedgerDevices = async () => {
@@ -50,7 +50,7 @@ export const getLedgerTransport = async () => {
 
   try {
     await device.claimInterface(iface.interfaceNumber);
-  } catch (error: any) {
+  } catch (error: unknown) {
     await device.close();
 
     throw new SwapKitError("wallet_ledger_connection_claimed", error);
@@ -64,7 +64,7 @@ export const getLedgerTransport = async () => {
 
   const transport = new Transport(device, iface.interfaceNumber);
 
-  const onDisconnect = (e: any) => {
+  const onDisconnect = (e: Todo) => {
     if (device === e.device) {
       getNavigatorUsb()?.removeEventListener("disconnect", onDisconnect);
 

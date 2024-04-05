@@ -83,7 +83,7 @@ interface ReturnResponse {
  * @static
  */
 export class BinanceApp {
-  private _transport: any;
+  private _transport: Todo;
   private _interactiveTimeout: number;
   private _nonInteractiveTimeout: number;
   /**
@@ -93,7 +93,7 @@ export class BinanceApp {
    * @param {Number} nonInteractiveTimeout The non-interactive timeout in ms. Default 3s.
    */
   constructor(
-    transport: any,
+    transport: Todo,
     interactiveTimeout: number = DEFAULT_LEDGER_INTERACTIVE_TIMEOUT,
     nonInteractiveTimeout: number = DEFAULT_LEDGER_NONINTERACTIVE_TIMEOUT,
   ) {
@@ -106,7 +106,7 @@ export class BinanceApp {
     this._transport.setScrambleKey(SCRAMBLE_KEY);
   }
 
-  _serialize(cla: number = CLA, ins = 0, p1 = 0, p2 = 0, data: any = null) {
+  _serialize(cla: number = CLA, ins = 0, p1 = 0, p2 = 0, data: Todo = null) {
     let size = 5;
     if (data != null) {
       if (data.length > 255) {
@@ -257,8 +257,8 @@ export class BinanceApp {
       result.device_locked = apduResponse[4] === 1;
       result.return_code = (returnCode[0] || 0) * 256 + (returnCode[1] || 0);
       result.error_message = this._errorMessage(result.return_code);
-    } catch (err: any) {
-      const { statusCode, statusText, message, stack } = err;
+    } catch (err: unknown) {
+      const { statusCode, statusText, message, stack } = err as Todo;
       console.warn(
         "Ledger getVersion error:",
         this._errorMessage(statusCode),
@@ -319,8 +319,8 @@ export class BinanceApp {
       result.pk = apduResponse.slice(0, 1 + 64);
       result.return_code = (returnCode[0] || 0) * 256 + (returnCode[1] || 0);
       result.error_message = this._errorMessage(result.return_code);
-    } catch (err: any) {
-      const { statusCode, statusText, message, stack } = err;
+    } catch (err: unknown) {
+      const { statusCode, statusText, message, stack } = err as Todo;
       console.warn(
         "Ledger publicKeySecp256k1 error:",
         this._errorMessage(statusCode),
@@ -374,7 +374,7 @@ export class BinanceApp {
   // | SIG     | byte (~71) | Signature     | DER encoded (length prefixed parts) |
   // | SW1-SW2 | byte (2)  | Return code   | see list of return codes        |
 
-  _signGetChunks(data: any, hdPath: number[]) {
+  _signGetChunks(data: Todo, hdPath: number[]) {
     const chunks = [];
     chunks.push(this._serializeHDPath(hdPath));
     const buffer = Buffer.from(data);
@@ -388,7 +388,7 @@ export class BinanceApp {
     return chunks;
   }
 
-  async _signSendChunk(chunkIdx: any, chunksCount: any, chunk: any) {
+  async _signSendChunk(chunkIdx: Todo, chunksCount: Todo, chunk: Todo) {
     const result: SignedSignature = {};
     try {
       const apduResponse = await this._transport.send(
@@ -408,8 +408,8 @@ export class BinanceApp {
       if (apduResponse.length > 2) {
         result.signature = apduResponse.slice(0, apduResponse.length - 2);
       }
-    } catch (err: any) {
-      const { statusCode, statusText, message, stack } = err;
+    } catch (err: unknown) {
+      const { statusCode, statusText, message, stack } = err as Todo;
       console.warn(
         "Ledger signSendChunk error:",
         this._errorMessage(statusCode),
@@ -449,8 +449,8 @@ export class BinanceApp {
       result.return_code = response.return_code;
       result.error_message = response.error_message;
       result.signature = null;
-    } catch (err: any) {
-      const { statusCode, statusText, message, stack } = err;
+    } catch (err: unknown) {
+      const { statusCode, statusText, message, stack } = err as Todo;
       console.warn(
         "Ledger signSecp256k1 error (chunk 1):",
         this._errorMessage(statusCode),
@@ -470,8 +470,8 @@ export class BinanceApp {
           response = await this._signSendChunk(1 + i, chunks.length, chunks[i]);
           result.return_code = response.return_code;
           result.error_message = response.error_message;
-        } catch (err: any) {
-          const { statusCode, statusText, message, stack } = err;
+        } catch (err: unknown) {
+          const { statusCode, statusText, message, stack } = err as Todo;
           console.warn(
             "Ledger signSecp256k1 error (chunk 2):",
             this._errorMessage(statusCode),

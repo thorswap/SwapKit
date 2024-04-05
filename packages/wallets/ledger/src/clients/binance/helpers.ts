@@ -2,7 +2,7 @@ import { bech32 } from "@scure/base";
 import { RIPEMD160, SHA256, enc } from "crypto-js";
 import { ec } from "elliptic";
 
-const ab2hexstring = (arr: any) => {
+const ab2hexstring = (arr: Todo) => {
   if (typeof arr !== "object") {
     throw new Error("ab2hexstring expects an array");
   }
@@ -21,7 +21,7 @@ const sha256ripemd160 = (hex: string) => {
   if (hex.length % 2 !== 0) throw new Error(`invalid hex string length: ${hex}`);
 
   const hexEncoded = enc.Hex.parse(hex);
-  const ProgramSha256: any = SHA256(hexEncoded);
+  const ProgramSha256: Todo = SHA256(hexEncoded);
   return RIPEMD160(ProgramSha256).toString();
 };
 

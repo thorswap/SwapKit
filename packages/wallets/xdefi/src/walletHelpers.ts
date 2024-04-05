@@ -13,9 +13,9 @@ import { Chain, ChainToChainId, RPCUrl, erc20ABI } from "@swapkit/types";
 type TransactionMethod = "transfer" | "deposit";
 
 type TransactionParams = {
-  asset: string;
-  amount: number | string;
-  decimal: number;
+  asset: string | { chain: string; symbol: string; ticker: string };
+  amount: number | string | { amount: number; decimals?: number };
+  decimal?: number;
   recipient: string;
   memo?: string;
 };
@@ -67,7 +67,7 @@ async function transaction({
   chain,
 }: {
   method: TransactionMethod;
-  params: TransactionParams[] | any;
+  params: TransactionParams[];
   chain: Chain;
 }): Promise<string> {
   const client =
@@ -124,7 +124,7 @@ export async function getXDEFIAddress(chain: Chain) {
     eipProvider.request(
       { method: "request_accounts", params: [] },
       // @ts-expect-error
-      (error: any, response: string[]) => (error ? reject(error) : resolve(response[0])),
+      (error: Todo, response: string[]) => (error ? reject(error) : resolve(response[0])),
     ),
   );
 }
@@ -218,10 +218,10 @@ export function getXdefiMethods(provider: BrowserProvider) {
             from,
             to,
             data: data || "0x",
-          } as any,
+          } as Todo,
         ]);
       }
-      const contract = await createContract(contractAddress, abi, contractProvider);
+      const contract = createContract(contractAddress, abi, contractProvider);
 
       const result = await contract[funcName]?.(...funcParams);
 
@@ -250,7 +250,7 @@ export function getXdefiMethods(provider: BrowserProvider) {
           from,
           to,
           data: data || "0x",
-        } as any,
+        } as Todo,
       ]);
     },
     sendTransaction: async (tx: EVMTxParams) => {
@@ -265,7 +265,7 @@ export function getXdefiMethods(provider: BrowserProvider) {
           from,
           to,
           data: data || "0x",
-        } as any,
+        } as Todo,
       ]);
     },
   };

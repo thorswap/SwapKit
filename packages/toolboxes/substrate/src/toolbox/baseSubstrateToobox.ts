@@ -44,11 +44,11 @@ const getBalance = async (api: ApiPromise, gasAsset: AssetValue, address: string
   ];
 };
 
-const validateAddress = async (address: string, networkPrefix: number) => {
+const validateAddress = (address: string, networkPrefix: number) => {
   try {
-    const decodedAddress = await decodeAddress(address, networkPrefix);
+    const decodedAddress = decodeAddress(address, networkPrefix);
 
-    await encodeAddress(decodedAddress, "ss58", networkPrefix);
+    encodeAddress(decodedAddress, "ss58", networkPrefix);
 
     return true;
   } catch (_error) {

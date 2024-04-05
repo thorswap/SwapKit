@@ -33,7 +33,7 @@ type NetworkParams = {
 
 type ProviderRequestParams = {
   provider?: BrowserProvider;
-  params?: any;
+  params?: Todo;
   method:
     | "wallet_addEthereumChain"
     | "wallet_switchEthereumChain"
@@ -60,7 +60,7 @@ const methodsToWrap = [
   "createContractTxObject",
 ];
 
-export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[]) => any }>({
+export const prepareNetworkSwitch = <T extends { [key: string]: (...args: Todo[]) => Todo }>({
   toolbox,
   chainId,
   provider = window.ethereum,
@@ -85,12 +85,12 @@ export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[])
   return { ...toolbox, ...wrappedMethods };
 };
 
-export const wrapMethodWithNetworkSwitch = <T extends (...args: any[]) => any>(
+export const wrapMethodWithNetworkSwitch = <T extends (...args: Todo[]) => Todo>(
   func: T,
   provider: BrowserProvider,
   chainId: ChainId,
 ) =>
-  (async (...args: any[]) => {
+  (async (...args: Todo[]) => {
     try {
       await switchEVMWalletNetwork(provider, chainId);
     } catch (error) {
@@ -132,7 +132,7 @@ export const getWeb3WalletMethods = async ({
     throw new Error(`Missing API key for ${chain} chain`);
   }
 
-  const provider = new BrowserProvider(ethereumWindowProvider, "any");
+  const provider = new BrowserProvider(ethereumWindowProvider, "Todo");
 
   const toolboxParams = {
     provider,

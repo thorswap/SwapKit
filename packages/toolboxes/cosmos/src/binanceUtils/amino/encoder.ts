@@ -3,7 +3,7 @@ import { string as VarString } from "protocol-buffers-encodings";
 
 import { UVarInt } from "./varint.ts";
 
-export const encoderHelper = (data: any): 0 | 1 | 2 => {
+export const encoderHelper = (data: NotWorth): 0 | 1 | 2 => {
   const dataType = typeof data;
 
   if (dataType === "boolean") return 0;
@@ -13,13 +13,13 @@ export const encoderHelper = (data: any): 0 | 1 | 2 => {
   throw new Error(`Invalid type "${dataType}"`); // Is this what's expected?
 };
 
-export const sortObject = (obj: any): any => {
+export const sortObject = (obj: NotWorth): NotWorth => {
   if (obj === null) return null;
   if (typeof obj !== "object") return obj;
   // arrays have typeof "object" in js!
   if (Array.isArray(obj)) return obj.map(sortObject);
   const sortedKeys = Object.keys(obj).sort();
-  const result: any = {};
+  const result: NotWorth = {};
 
   for (const key of sortedKeys) {
     result[key] = sortObject(obj[key]);
@@ -79,14 +79,15 @@ export const encodeTime = (value: string | Date) => {
  * @param obj -- {object}
  * @return bytes {Buffer}
  */
-export const convertObjectToSignBytes = (obj: any) => Buffer.from(JSON.stringify(sortObject(obj)));
+export const convertObjectToSignBytes = (obj: NotWorth) =>
+  Buffer.from(JSON.stringify(sortObject(obj)));
 
 /**
  * js amino MarshalBinary
  * @category amino
  * @param {Object} obj
  *  */
-export const marshalBinary = (obj: any) => {
+export const marshalBinary = (obj: NotWorth) => {
   if (typeof obj !== "object") throw new TypeError("data must be an object");
 
   return encodeBinary(obj, -1, true).toString("hex");
@@ -97,7 +98,7 @@ export const marshalBinary = (obj: any) => {
  * @category amino
  * @param {Object} obj
  *  */
-export const marshalBinaryBare = (obj: any) => {
+export const marshalBinaryBare = (obj: NotWorth) => {
   if (typeof obj !== "object") throw new TypeError("data must be an object");
 
   return encodeBinary(obj).toString("hex");
@@ -111,7 +112,7 @@ export const marshalBinaryBare = (obj: any) => {
  * @param {Boolean} isByteLenPrefix
  * @return {Buffer} binary of object.
  */
-export const encodeBinary = (val: any, fieldNum?: number, isByteLenPrefix?: boolean) => {
+export const encodeBinary = (val: NotWorth, fieldNum?: number, isByteLenPrefix?: boolean) => {
   if (val === null || val === undefined) throw new TypeError("unsupported type");
 
   if (Buffer.isBuffer(val)) {
@@ -150,8 +151,8 @@ export const encodeBinaryByteArray = (bytes: Buffer) => {
  * @param {Object} obj
  * @return {Buffer} with bytes length prefixed
  */
-export const encodeObjectBinary = (obj: any, isByteLenPrefix?: boolean) => {
-  const bufferArr: any[] = [];
+export const encodeObjectBinary = (obj: NotWorth, isByteLenPrefix?: boolean) => {
+  const bufferArr: NotWorth[] = [];
 
   Object.keys(obj).forEach((key, index) => {
     if (key === "aminoPrefix" || key === "version") return;
@@ -192,10 +193,10 @@ export const encodeObjectBinary = (obj: any, isByteLenPrefix?: boolean) => {
  */
 export const encodeArrayBinary = (
   fieldNum: number | undefined,
-  arr: any[],
+  arr: NotWorth[],
   isByteLenPrefix?: boolean,
 ) => {
-  const result: any[] = [];
+  const result: NotWorth[] = [];
 
   for (const item of arr) {
     result.push(encodeTypeAndField(fieldNum, item));
@@ -218,13 +219,13 @@ export const encodeArrayBinary = (
 };
 
 // Write field key.
-const encodeTypeAndField = (index: number | undefined, field: any) => {
+const encodeTypeAndField = (index: number | undefined, field: NotWorth) => {
   const newIndex = Number(index) + 1;
   const value = (newIndex << 3) | encoderHelper(field);
   return UVarInt.encode(value);
 };
 
-const isDefaultValue = (obj: any) => {
+const isDefaultValue = (obj: NotWorth) => {
   if (obj === null) return false;
   const objType = typeof obj;
 

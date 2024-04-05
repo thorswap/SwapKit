@@ -71,7 +71,7 @@ declare global {
     ethereum: EthereumWindowProvider;
     trustwallet: EthereumWindowProvider;
     coinbaseWalletExtension: EthereumWindowProvider;
-    braveSolana: any;
+    braveSolana: Todo;
   }
 }
 

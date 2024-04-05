@@ -21,7 +21,7 @@ export const cosmosWalletMethods = async ({
 
   try {
     const derivationPathString = derivationPath
-      ? derivationPathToString(derivationPath).replace("m/", "")
+      ? derivationPathToString(derivationPath)
       : `${DerivationPath.GAIA}/0`;
 
     const { address: fromAddress } = (await sdk.address.cosmosGetAddress({

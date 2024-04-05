@@ -14,8 +14,8 @@ import { signUTXOTransaction } from "./utxo.ts";
 export abstract class CommonLedgerInterface {
   public ledgerTimeout = 50000;
   public derivationPath: (number | string)[] | string = [];
-  public transport: any;
-  public ledgerApp: any;
+  public transport: Todo;
+  public ledgerApp: Todo;
   public chain: "thor" | "bnb" | "sol" | "cosmos" | "eth" = "thor";
 
   public checkOrCreateTransportAndLedger = async (forceReconnect = false) => {
@@ -48,7 +48,7 @@ export abstract class CommonLedgerInterface {
       }
 
       return this.ledgerApp;
-    } catch (error: any) {
+    } catch (error: unknown) {
       throw new SwapKitError("wallet_ledger_connection_error", error);
     }
   };
@@ -79,9 +79,9 @@ export abstract class UTXOLedgerInterface {
   public btcApp: InstanceType<typeof BitcoinApp> | undefined;
   public chain: "bitcoin-cash" | "bitcoin" | "litecoin" | "dogecoin" | "dash" = "bitcoin";
   public derivationPath = "";
-  public ledgerApp: any;
+  public ledgerApp: Todo;
   public additionalSignParams?: Partial<CreateTransactionArg>;
-  public transport = null as any;
+  public transport = null as Todo | null;
   public walletFormat: "legacy" | "bech32" | "p2sh" = "bech32";
 
   public connect = async () => {

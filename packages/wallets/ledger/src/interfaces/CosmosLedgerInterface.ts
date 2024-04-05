@@ -8,8 +8,8 @@ import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
 export abstract class CosmosLedgerInterface {
   public ledgerTimeout = 50000;
   public derivationPath: DerivationPathArray | string = NetworkDerivationPath.GAIA;
-  public transport: any;
-  public ledgerApp: any;
+  public transport: Todo;
+  public ledgerApp: Todo;
   public chain: "thor" | "bnb" | "cosmos" = "thor";
 
   public checkOrCreateTransportAndLedger = async (forceReconnect = false) => {
@@ -42,7 +42,7 @@ export abstract class CosmosLedgerInterface {
       }
 
       return this.ledgerApp;
-    } catch (error: any) {
+    } catch (error: unknown) {
       throw new SwapKitError("wallet_ledger_connection_error", error);
     }
   };

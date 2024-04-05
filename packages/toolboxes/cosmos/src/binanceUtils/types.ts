@@ -227,8 +227,8 @@ export type DexFees = {
 export type BNBFees = (Fee | TransferFee | DexFees)[];
 
 export abstract class BaseMsg {
-  public abstract getSignMsg(): any;
-  public abstract getMsg(): any;
+  public abstract getSignMsg(): NotWorth;
+  public abstract getMsg(): NotWorth;
   public static defaultMsg(): object {
     return {};
   }
@@ -239,7 +239,7 @@ export interface StdSignMsg {
   accountNumber: number;
   sequence: number;
   baseMsg?: BaseMsg;
-  msg?: any;
+  msg?: NotWorth;
   memo: string;
   source: number;
   data?: Buffer | null | string;
@@ -251,7 +251,7 @@ export enum AminoPrefix {
 }
 
 export interface StdTx {
-  msg: any[];
+  msg: NotWorth[];
   signatures: StdSignature[];
   memo: string;
   source: number;

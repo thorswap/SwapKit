@@ -1,4 +1,5 @@
 import type { DerivationPathArray } from "@swapkit/types";
+import { type ErrorKeys, SwapKitError } from "../modules/swapKitError";
 
 // 10 rune for register, 1 rune per year
 // MINIMUM_REGISTRATION_FEE = 11
@@ -21,4 +22,16 @@ export function derivationPathToString([network, chainId, account, change, index
   const shortPath = typeof index !== "number";
 
   return `m/${network}'/${chainId}'/${account}'/${change}${shortPath ? "" : `/${index}`}`;
+}
+
+export function wrapWithThrow<T>(fn: () => T, errorKey?: ErrorKeys) {
+  try {
+    return fn();
+  } catch (error) {
+    if (errorKey) {
+      throw new SwapKitError(errorKey, error);
+    }
+
+    return console.error(error);
+  }
 }

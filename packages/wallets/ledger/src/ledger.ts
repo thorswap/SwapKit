@@ -26,7 +26,7 @@ import type { LEDGER_SUPPORTED_CHAINS } from "./helpers/index.ts";
 import { getLedgerAddress, getLedgerClient } from "./helpers/index.ts";
 
 type LedgerConfig = {
-  api?: any;
+  api?: Todo;
   rpcUrl?: string;
   covalentApiKey?: string;
   ethplorerApiKey?: string;
@@ -44,7 +44,7 @@ const reduceMemo = (memo?: string, affiliateAddress = "t") => {
   return removedAffiliate?.substring(0, removedAffiliate.lastIndexOf(":"));
 };
 
-const recursivelyOrderKeys = (unordered: any) => {
+const recursivelyOrderKeys = (unordered: Todo) => {
   // If it's an array - recursively order any
   // dictionary items within the array
   if (Array.isArray(unordered)) {
@@ -56,7 +56,7 @@ const recursivelyOrderKeys = (unordered: any) => {
 
   // If it's an object - let's order the keys
   if (typeof unordered !== "object") return unordered;
-  const ordered: any = {};
+  const ordered: Todo = {};
   const sortedKeys = Object.keys(unordered).sort();
 
   for (const key of sortedKeys) {
@@ -66,7 +66,7 @@ const recursivelyOrderKeys = (unordered: any) => {
   return ordered;
 };
 
-const stringifyKeysInOrder = (data: any) => JSON.stringify(recursivelyOrderKeys(data));
+const stringifyKeysInOrder = (data: Todo) => JSON.stringify(recursivelyOrderKeys(data));
 
 const getToolbox = async ({
   api,
