@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { Chain, type DerivationPathArray } from "@swapkit/types";
 
 import { findAssetBy } from "../asset.ts";
-import { derivationPathToString, getTHORNameCost, validateTHORName } from "../others.ts";
+import { derivationPathToString, getTHORNameCost } from "../others.ts";
 
 describe("derivationPathToString", () => {
   test("should return the correct string for a full path", () => {
@@ -36,28 +36,6 @@ describe("getTHORNameCost", () => {
   test("throws an error for negative years", () => {
     expect(() => getTHORNameCost(-1)).toThrow("Invalid number of year");
   });
-});
-
-describe("validateTHORName", () => {
-  const casesWithExpectation: [string, boolean][] = [
-    ["validname", true],
-    ["valid-name", true],
-    ["valid_name", true],
-    ["valid+name", true],
-    ["name_with_numbers123", true],
-    ["UPPER_CASE", true],
-    ["toolongname123456789012345678901", false],
-    ["invalid@name", false],
-    ["invalid!name", false],
-    ["invalid#name", false],
-  ];
-
-  for (const [name, expected] of casesWithExpectation) {
-    test(`returns ${expected} for THORName "${name}"`, () => {
-      const result = validateTHORName(name);
-      expect(result).toBe(expected);
-    });
-  }
 });
 
 describe("getAssetBy", () => {

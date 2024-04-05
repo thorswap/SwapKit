@@ -1,5 +1,17 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.34
+
+### Patch Changes
+
+- [#700](https://github.com/thorswap/SwapKit/pull/700) [`ff318a5`](https://github.com/thorswap/SwapKit/commit/ff318a5c51aa6db12c880cbe62a5b35d4dfb7e4c) Thanks [@towanTG](https://github.com/towanTG)! - Undo changes to deposit channel params
+
+## 1.0.0-rc.33
+
+### Patch Changes
+
+- [#698](https://github.com/thorswap/SwapKit/pull/698) [`2d16270`](https://github.com/thorswap/SwapKit/commit/2d1627003fecc5e9f7e95ab088f70b445e664e11) Thanks [@towanTG](https://github.com/towanTG)! - Fix response usage of cf open deposit channel
+
 ## 1.0.0-rc.32
 
 ### Minor Changes

@@ -46,7 +46,7 @@ const requestSwapDepositAddress = async (
   let recipientAddress: string;
   try {
     recipientAddress = isBuyChainPolkadot
-      ? await toolbox.encodeAddress(await toolbox.decodeAddress(recipient), "hex")
+      ? toolbox.encodeAddress(toolbox.decodeAddress(recipient), "hex")
       : recipient;
   } catch (error) {
     throw new SwapKitError("chainflip_broker_recipient_error", error);
@@ -74,23 +74,34 @@ const requestSwapDepositAddress = async (
       throw new Error("chainflip_broker_tx_error");
     }
 
-    toolbox.signAndBroadcast(tx, async ({ status, events }: Todo) => {
-      if (!status?.isFinalized) return;
+    toolbox.signAndBroadcast(tx, async (result: any) => {
+      if (!result.status?.isFinalized) return;
+
+      const depositChannelEvent = result.events.find(
+        (event: any) => event.event.method === "SwapDepositAddressReady",
+      );
+
+      if (!depositChannelEvent) {
+        throw new SwapKitError(
+          "chainflip_channel_error",
+          "Could not find 'SwapDepositAddressReady' event",
+        );
+      }
 
       const {
         event: {
           data: { depositAddress, sourceChainExpiryBlock, destinationAddress, channelId },
         },
-      } = events[0].toHuman();
+      } = depositChannelEvent.toHuman();
 
-      const header = await toolbox.api.rpc.chain.getHeader(status.toJSON().finalized);
+      const header = await toolbox.api.rpc.chain.getHeader(result.status.toJSON().finalized);
 
       resolve({
         depositChannelId: `${header.number}-${chainToChainflipChain.get(
           sellAsset.chain,
-        )}-${channelId}`,
+        )}-${channelId.replaceAll(",", "")}`,
         depositAddress: Object.values(depositAddress)[0] as string,
-        srcChainExpiryBlock: Number((sourceChainExpiryBlock as string).replace(",", "")),
+        srcChainExpiryBlock: Number((sourceChainExpiryBlock as string).replaceAll(",", "")),
         sellAsset,
         buyAsset,
         recipient: Object.values(destinationAddress)[0] as string,
@@ -100,7 +111,7 @@ const requestSwapDepositAddress = async (
   });
 };
 
-const withdrawFee = async (
+const withdrawFee = (
   toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
   {
     feeAsset,
@@ -115,7 +126,7 @@ const withdrawFee = async (
   let recipientAddress: string;
   try {
     recipientAddress = isFeeChainPolkadot
-      ? await toolbox.encodeAddress(await toolbox.decodeAddress(recipient), "hex")
+      ? toolbox.encodeAddress(toolbox.decodeAddress(recipient), "hex")
       : recipient;
   } catch (error) {
     throw new SwapKitError("chainflip_broker_recipient_error", error);
