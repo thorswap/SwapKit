@@ -1,5 +1,5 @@
-import type { AssetValue, SwapKitCore } from '@swapkit/core';
-import { useCallback, useState } from 'react';
+import type { AssetValue, SwapKitCore } from "@swapkit/core";
+import { useCallback, useState } from "react";
 
 export default function Send({
   inputAsset,
@@ -9,7 +9,7 @@ export default function Send({
   inputAsset?: AssetValue;
 }) {
   const [inputAssetValue, setInput] = useState(inputAsset?.mul(0));
-  const [recipient, setRecipient] = useState('');
+  const [recipient, setRecipient] = useState("");
 
   const handleInputChange = useCallback(
     (value: string) => {
@@ -19,24 +19,24 @@ export default function Send({
   );
 
   const handleSend = useCallback(async () => {
-    if (!inputAsset || !inputAssetValue?.gt(0) || !skClient) return;
+    if (!(inputAsset && inputAssetValue?.gt(0) && skClient)) return;
 
     const from = skClient.getAddress(inputAsset.chain);
     const txHash = await skClient.transfer({
       from,
       assetValue: inputAssetValue,
-      memo: '',
+      memo: "",
       recipient,
     });
 
-    window.open(`${skClient.getExplorerTxUrl(inputAssetValue.chain, txHash as string)}`, '_blank');
+    window.open(`${skClient.getExplorerTxUrl(inputAssetValue.chain, txHash as string)}`, "_blank");
   }, [inputAsset, inputAssetValue, skClient, recipient]);
 
   return (
     <div>
       <h4>Send</h4>
 
-      <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+      <div style={{ display: "flex", flex: 1, flexDirection: "column" }}>
         <div>
           <div>
             <span>Input Asset: </span>
