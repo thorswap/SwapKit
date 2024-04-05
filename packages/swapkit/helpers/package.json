@@ -14,7 +14,10 @@
     "@swapkit/tokens": "workspace:*",
     "@swapkit/types": "workspace:*"
   },
-  "files": ["src/", "dist/"],
+  "files": [
+    "src/",
+    "dist/"
+  ],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
@@ -34,5 +37,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.83"
+  "version": "1.0.0-rc.84"
 }

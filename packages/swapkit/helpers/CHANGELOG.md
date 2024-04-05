@@ -1,5 +1,16 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.84
+
+### Patch Changes
+
+- [#680](https://github.com/thorswap/SwapKit/pull/680) [`6e9bb3c`](https://github.com/thorswap/SwapKit/commit/6e9bb3c16152eac5d25fa3c5fee6614794358e50) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Use Bun
+
+- Updated dependencies [[`6e9bb3c`](https://github.com/thorswap/SwapKit/commit/6e9bb3c16152eac5d25fa3c5fee6614794358e50)]:
+  - @swapkit/tokens@1.0.0-rc.45
+  - @swapkit/types@1.0.0-rc.48
+  - @swapkit/api@1.0.0-rc.49
+
 ## 1.0.0-rc.83
 
 ### Patch Changes
