@@ -1,5 +1,19 @@
 # @swapkit/wallet-keystore
 
+## 1.0.0-rc.114
+
+### Patch Changes
+
+- [#680](https://github.com/thorswap/SwapKit/pull/680) [`6e9bb3c`](https://github.com/thorswap/SwapKit/commit/6e9bb3c16152eac5d25fa3c5fee6614794358e50) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Use Bun
+
+- Updated dependencies [[`f77eb5f`](https://github.com/thorswap/SwapKit/commit/f77eb5fd476c35c5cb06a5317409b62171ad8d61), [`6e9bb3c`](https://github.com/thorswap/SwapKit/commit/6e9bb3c16152eac5d25fa3c5fee6614794358e50)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.92
+  - @swapkit/toolbox-substrate@1.0.0-rc.19
+  - @swapkit/toolbox-cosmos@1.0.0-rc.101
+  - @swapkit/helpers@1.0.0-rc.84
+  - @swapkit/types@1.0.0-rc.48
+  - @swapkit/toolbox-evm@1.0.0-rc.90
+
 ## 1.0.0-rc.113
 
 ### Patch Changes
