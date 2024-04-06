@@ -4,8 +4,8 @@ import type {
   LastBlockItem,
   MimirData,
   NodeItem,
-  ThornodePoolItem,
   ThornodeEndpointParams,
+  ThornodePoolItem,
 } from "./types.ts";
 
 function baseUrl({ type = "thorchain", stagenet = false }: ThornodeEndpointParams = {}) {
