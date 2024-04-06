@@ -4,6 +4,7 @@ import type {
   LastBlockItem,
   MimirData,
   NodeItem,
+  ThornodePoolItem,
   ThornodeEndpointParams,
 } from "./types.ts";
 
@@ -38,4 +39,8 @@ export function getMimirInfo(params?: ThornodeEndpointParams) {
 
 export function getInboundAddresses(params?: ThornodeEndpointParams) {
   return RequestClient.get<InboundAddressesItem[]>(`${baseUrl(params)}/inbound_addresses`);
+}
+
+export function getThornodePools(params?: ThornodeEndpointParams) {
+  return RequestClient.get<ThornodePoolItem[]>(`${baseUrl(params)}/pools`);
 }
