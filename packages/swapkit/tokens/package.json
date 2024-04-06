@@ -21,6 +21,7 @@
     "build": "bun run ./build.ts",
     "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "generate-tokens": "bun run ./fetchTokenLists.ts",
+    "generate-thorchain-short-codes": "bun run ./src/fetchThorchainShortCodes.ts",
     "lint": "biome check --apply-unsafe ./src",
     "test": "echo 'bun test --run'",
     "test:coverage": "echo 'bun test --coverage'",
