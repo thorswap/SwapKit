@@ -1,5 +1,11 @@
 # @swapkit/types
 
+## 1.0.0-rc.49
+
+### Patch Changes
+
+- [#705](https://github.com/thorswap/SwapKit/pull/705) [`c14e69c`](https://github.com/thorswap/SwapKit/commit/c14e69cb21ef9fd053f7f47955ec9d4c32555770) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Bump for size
+
 ## 1.0.0-rc.48
 
 ### Patch Changes

@@ -1,5 +1,26 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.140
+
+### Patch Changes
+
+- [#705](https://github.com/thorswap/SwapKit/pull/705) [`c14e69c`](https://github.com/thorswap/SwapKit/commit/c14e69cb21ef9fd053f7f47955ec9d4c32555770) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Bump for size
+
+- Updated dependencies [[`c14e69c`](https://github.com/thorswap/SwapKit/commit/c14e69cb21ef9fd053f7f47955ec9d4c32555770)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.93
+  - @swapkit/toolbox-cosmos@1.0.0-rc.102
+  - @swapkit/wallet-keystore@1.0.0-rc.115
+  - @swapkit/wallet-keepkey@1.0.0-rc.36
+  - @swapkit/toolbox-utxo@1.0.0-rc.93
+  - @swapkit/wallet-ledger@1.0.0-rc.120
+  - @swapkit/wallet-trezor@1.0.0-rc.102
+  - @swapkit/toolbox-evm@1.0.0-rc.91
+  - @swapkit/wallet-keplr@1.0.0-rc.103
+  - @swapkit/wallet-xdefi@1.0.0-rc.117
+  - @swapkit/core@1.0.0-rc.121
+  - @swapkit/wallet-okx@1.0.0-rc.115
+  - @swapkit/wallet-wc@1.0.0-rc.109
+
 ## 1.0.0-rc.139
 
 ### Patch Changes

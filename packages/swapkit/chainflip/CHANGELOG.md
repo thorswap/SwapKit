@@ -1,5 +1,18 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.36
+
+### Patch Changes
+
+- [#705](https://github.com/thorswap/SwapKit/pull/705) [`c14e69c`](https://github.com/thorswap/SwapKit/commit/c14e69cb21ef9fd053f7f47955ec9d4c32555770) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Bump for size
+
+- Updated dependencies [[`c14e69c`](https://github.com/thorswap/SwapKit/commit/c14e69cb21ef9fd053f7f47955ec9d4c32555770)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.20
+  - @swapkit/helpers@1.0.0-rc.85
+  - @swapkit/types@1.0.0-rc.49
+  - @swapkit/toolbox-evm@1.0.0-rc.91
+  - @swapkit/core@1.0.0-rc.121
+
 ## 1.0.0-rc.35
 
 ### Patch Changes
