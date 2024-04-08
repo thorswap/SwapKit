@@ -85,8 +85,8 @@ export function SwapKit<
   wallets,
   plugins,
   config = {},
-  apis,
-  rpcUrls,
+  apis = {},
+  rpcUrls = {},
 }: {
   plugins: SwapKitPlugin[];
   stagenet: boolean;
