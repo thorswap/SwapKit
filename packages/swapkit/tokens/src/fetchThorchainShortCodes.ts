@@ -29,39 +29,33 @@ try {
 
   await Bun.write(
     "src/assets/thorchain.ts",
-    `export const thorchainAssets = ${JSON.stringify(assetInfos)} as const;`,
+    `// biome-ignore lint/complexity/useLiteralKeys: this is the result of JSON.stringify...
+    export const thorchainAssets = ${JSON.stringify(assetInfos)} as const;`,
   );
 } catch (error) {
   console.error(error);
 }
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>
 function findShortestUniquePrefixes(assetInfoArray: AssetInfo[]): Map<string, string> {
   const uniquePrefixes = new Map<string, string>();
 
-  for (const assetInfo of assetInfoArray) {
-    // If short_code is present, use it directly as the prefix
-    if (assetInfo.short_code) {
-      uniquePrefixes.set(assetInfo.asset, assetInfo.short_code);
-      continue;
-    }
-
-    // If short_code is not present, find a unique prefix
+  for (const { asset } of assetInfoArray) {
     let prefixLength = 1;
+
     while (true) {
       let isUnique = true;
-      const prefix = assetInfo.asset.substring(0, prefixLength);
+      const prefix = asset.substring(0, prefixLength);
 
       // Check if the prefix is unique across all assets
       for (const { asset: otherAsset } of assetInfoArray) {
-        if (otherAsset !== assetInfo.asset && otherAsset.startsWith(prefix)) {
+        if (otherAsset !== asset && otherAsset.startsWith(prefix)) {
           isUnique = false;
           break;
         }
       }
 
       if (isUnique) {
-        uniquePrefixes.set(assetInfo.asset, prefix);
+        uniquePrefixes.set(asset, prefix.toLowerCase());
         break;
       }
 
