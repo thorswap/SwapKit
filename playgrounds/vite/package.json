@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "4.2.1",
-    "bun-types": "1.1.1",
+    "bun-types": "1.1.2",
     "typescript": "5.4.4",
     "vite-plugin-top-level-await": "1.4.1",
     "vite-plugin-wasm": "3.3.0"

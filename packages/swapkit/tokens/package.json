@@ -4,7 +4,7 @@
   "devDependencies": {
     "@swapkit/api": "workspace:*",
     "@swapkit/types": "workspace:*",
-    "bun-types": "1.1.1"
+    "bun-types": "1.1.2"
   },
   "files": [
     "src/",

@@ -45,7 +45,7 @@ export type SwapKitReturnType = SwapKitPlugins & {
     chain: Chain,
     potentialScamFilter?: boolean,
   ) => Promise<ChainWallet<Chain>>;
-  getBalance: (chain: Chain, potentialScamFilter?: boolean) => AssetValue[];
+  getBalance: (chain: Chain, refresh?: boolean) => Promise<AssetValue[]>;
   getExplorerTxUrl: typeof getTxUrl;
   getExplorerAddressUrl: typeof getAddressUrl;
   swap: (params: SwapParams) => Promise<string>;
@@ -188,7 +188,12 @@ export function SwapKit<
   function getAddress(chain: Chain) {
     return getWallet(chain)?.address || "";
   }
-  function getBalance(chain: Chain) {
+  async function getBalance(chain: Chain, refresh?: boolean) {
+    if (refresh) {
+      const wallet = await getWalletWithBalance(chain, true);
+      return wallet.balance || [];
+    }
+
     return getWallet(chain)?.balance || [];
   }
   /**
@@ -198,7 +203,7 @@ export function SwapKit<
     return getWallet(chain)?.validateAddress?.(address);
   }
 
-  async function getWalletWithBalance(chain: Chain, potentialScamFilter?: boolean) {
+  async function getWalletWithBalance(chain: Chain, potentialScamFilter = true) {
     const defaultBalance = [AssetValue.fromChainOrSignature(chain)];
     const wallet = getWallet(chain);
 

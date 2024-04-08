@@ -2,7 +2,7 @@
   "author": "swapkit-oss",
   "description": "SwapKit - Types",
   "devDependencies": {
-    "bun-types": "1.1.1"
+    "bun-types": "1.1.2"
   },
   "files": [
     "src/",
