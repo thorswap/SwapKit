@@ -4,11 +4,18 @@ const nextConfig = {
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
 
-  experimental: {
-    swcPlugins: [
-      ["@swc-jotai/debug-label", {}],
-      ["@swc-jotai/react-refresh", {}],
-    ],
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = { fs: false, path: false };
+    }
+
+    return {
+      ...config,
+      experiments: {
+        ...(config?.experiments || {}),
+        syncWebAssembly: true,
+      },
+    };
   },
 };
 
