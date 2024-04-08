@@ -1,5 +1,5 @@
 import { RequestClient } from "@swapkit/helpers";
-import { Chain, type UTXOChain } from "@swapkit/types";
+import { Chain, type UTXOChain } from "@swapkit/helpers";
 
 import type {
   BlockchairAddressResponse,

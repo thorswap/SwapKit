@@ -1,12 +1,12 @@
 import { SwapKitNumber, derivationPathToString } from "@swapkit/helpers";
+import type { Chain, DerivationPathArray } from "@swapkit/helpers";
+import { ChainToChainId } from "@swapkit/helpers";
 import {
   AbstractSigner,
   type JsonRpcProvider,
   type Provider,
   type TransactionRequest,
 } from "@swapkit/toolbox-evm";
-import type { Chain, DerivationPathArray } from "@swapkit/types";
-import { ChainToChainId } from "@swapkit/types";
 import TrezorConnect from "@trezor/connect-web";
 
 interface TrezorEVMSignerParams {

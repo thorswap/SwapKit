@@ -1,7 +1,7 @@
 import { derivationPathToString, setRequestClientConfig } from "@swapkit/helpers";
+import type { ConnectWalletParams, DerivationPathArray } from "@swapkit/helpers";
+import { Chain, FeeOption, WalletOption } from "@swapkit/helpers";
 import type { Psbt, UTXOTransferParams, UTXOType } from "@swapkit/toolbox-utxo";
-import type { ConnectWalletParams, DerivationPathArray } from "@swapkit/types";
-import { Chain, FeeOption, WalletOption } from "@swapkit/types";
 import TrezorConnect from "@trezor/connect-web";
 
 import { getEVMSigner } from "./signer/evm.ts";

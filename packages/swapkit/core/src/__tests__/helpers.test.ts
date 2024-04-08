@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { Chain, ChainToExplorerUrl, CosmosChains, EVMChains, UTXOChains } from "@swapkit/types";
+import { Chain, ChainToExplorerUrl, CosmosChains, EVMChains, UTXOChains } from "@swapkit/helpers";
 import { getExplorerAddressUrl, getExplorerTxUrl } from "../helpers/explorerUrls.ts";
 
 describe("Explorer URLs", () => {

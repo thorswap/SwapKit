@@ -1,7 +1,7 @@
 import { HDKey } from "@scure/bip32";
 import { mnemonicToSeedSync } from "@scure/bip39";
 import { AssetValue, SwapKitNumber } from "@swapkit/helpers";
-import { BaseDecimal, Chain, FeeOption, type UTXOChain } from "@swapkit/types";
+import { BaseDecimal, Chain, FeeOption, type UTXOChain } from "@swapkit/helpers";
 import { Psbt, address as btcLibAddress, initEccLib, payments } from "bitcoinjs-lib";
 import { ECPairFactory, type ECPairInterface } from "ecpair";
 import * as secp256k1 from "tiny-secp256k1";
@@ -343,3 +343,8 @@ export const BaseUTXOToolbox = (
   estimateMaxSendableAmount: async (params: Todo) =>
     estimateMaxSendableAmount({ ...params, ...baseToolboxParams }),
 });
+
+export type BaseUTXOWallet = ReturnType<typeof BaseUTXOToolbox>;
+export type UTXOWallets = {
+  [key in UTXOChain]: BaseUTXOWallet;
+};

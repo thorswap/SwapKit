@@ -1,5 +1,5 @@
-import type { DerivationPathArray } from "@swapkit/types";
 import { type ErrorKeys, SwapKitError } from "../modules/swapKitError";
+import type { DerivationPathArray } from "../types/derivationPath";
 
 // 10 rune for register, 1 rune per year
 // MINIMUM_REGISTRATION_FEE = 11

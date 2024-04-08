@@ -1,8 +1,8 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "@swapkit/api": "workspace:*",
+    "@swapkit/helpers": "workspace:*"
   },
   "description": "SwapKit - Core",
   "devDependencies": {
@@ -14,18 +14,10 @@
     "bun-types": "1.1.2"
   },
   "peerDependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/tokens": "workspace:*",
-    "@swapkit/toolbox-cosmos": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-substrate": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "@swapkit/api": "workspace:*",
+    "@swapkit/helpers": "workspace:*"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",

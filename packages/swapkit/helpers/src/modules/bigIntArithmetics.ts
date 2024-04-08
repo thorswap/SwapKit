@@ -1,5 +1,4 @@
-import { BaseDecimal } from "@swapkit/types";
-
+import { BaseDecimal } from "../types/chains.ts";
 import type { SwapKitNumber } from "./swapKitNumber.ts";
 
 type NumberPrimitivesType = {

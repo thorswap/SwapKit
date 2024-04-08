@@ -1,6 +1,5 @@
 import { setRequestClientConfig } from "@swapkit/helpers";
-import type { AVAXToolbox, BSCToolbox } from "@swapkit/toolbox-evm";
-import type { ConnectConfig, ConnectWalletParams } from "@swapkit/types";
+import type { ConnectConfig, ConnectWalletParams } from "@swapkit/helpers";
 import {
   Chain,
   ChainId,
@@ -8,7 +7,8 @@ import {
   ChainToHexChainId,
   RPCUrl,
   WalletOption,
-} from "@swapkit/types";
+} from "@swapkit/helpers";
+import type { AVAXToolbox, BSCToolbox } from "@swapkit/toolbox-evm";
 
 import type { WalletTxParams } from "./walletHelpers.ts";
 import {

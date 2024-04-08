@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { Chain, MemoType } from "@swapkit/types";
+import { Chain, MemoType } from "@swapkit/helpers";
 
 import { getMemoFor } from "../memo.ts";
 

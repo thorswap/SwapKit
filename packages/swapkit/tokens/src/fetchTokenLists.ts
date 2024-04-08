@@ -1,5 +1,5 @@
-import { RequestClient, SwapKitApi, type TokensResponse } from "@swapkit/api";
-import { Chain } from "@swapkit/types";
+import { SwapKitApi, type TokensResponse } from "@swapkit/api";
+import { Chain, RequestClient } from "@swapkit/helpers";
 
 function parseChain(chain: string) {
   if (chain === "ARBITRUM") return Chain.Arbitrum;

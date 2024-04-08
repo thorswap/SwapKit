@@ -1,4 +1,4 @@
-import { RequestClient } from "../requestClient.ts";
+import { RequestClient } from "@swapkit/helpers";
 
 import type { TokensResponse } from "./types.ts";
 

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { Chain, type DerivationPathArray } from "@swapkit/types";
+import { Chain, type DerivationPathArray } from "@swapkit/helpers";
 
 import { findAssetBy } from "../asset.ts";
 import { derivationPathToString, getTHORNameCost } from "../others.ts";

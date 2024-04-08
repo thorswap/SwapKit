@@ -1,50 +1,31 @@
-import { AssetValue, SwapKitError } from "@swapkit/helpers";
-import { Chain } from "@swapkit/types";
+import {
+  ApproveMode,
+  type ApproveReturnType,
+  AssetValue,
+  type AvailableProviders,
+  type BaseWallet,
+  Chain,
+  type ChainWallet,
+  type PluginName,
+  SwapKitError,
+  type SwapKitPlugin,
+  type SwapKitPlugins,
+  type SwapParams,
+} from "@swapkit/helpers";
+import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
+import type { BaseEVMWallet, EVMWallets } from "@swapkit/toolbox-evm";
+import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
+import type { UTXOWallets } from "@swapkit/toolbox-utxo";
 import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
-} from "../helpers/explorerUrls.ts";
-import type {
-  ChainWallet,
-  ConnectWalletParamsLocal as ConnectWalletParams,
-  SwapWithRouteParams,
-} from "../types.ts";
-
-export type PluginName = "thorchain" | "chainflip" | "mayachain";
-
-export enum ApproveMode {
-  Approve = "approve",
-  CheckOnly = "checkOnly",
-}
-
-export type ApproveReturnType<T extends ApproveMode> = T extends "checkOnly"
-  ? Promise<boolean>
-  : Promise<string>;
-
-type SwapKitPlugins = {
-  [K in PluginName]?: ProviderMethods;
-};
-
-type GenericSwapParams = {
-  buyAsset: AssetValue;
-  sellAsset: AssetValue;
-  recipient: string;
-};
-
-export type SwapParams = (SwapWithRouteParams | GenericSwapParams) & {
-  provider?: {
-    name: PluginName;
-    config: Record<string, Todo>;
-  };
-};
+} from "./helpers/explorerUrls.ts";
+import type { ConnectWalletParamsLocal as ConnectWalletParams } from "./types.ts";
 
 export type SwapKitReturnType = SwapKitPlugins & {
   getAddress: (chain: Chain) => string;
-  getWallet: (chain: Chain) => ChainWallet<Chain> | undefined;
-  getWalletWithBalance: (
-    chain: Chain,
-    potentialScamFilter?: boolean,
-  ) => Promise<ChainWallet<Chain>>;
+  getWallet: (chain: Chain) => ChainWallet | undefined;
+  getWalletWithBalance: (chain: Chain, potentialScamFilter?: boolean) => Promise<ChainWallet>;
   getBalance: (chain: Chain, refresh?: boolean) => Promise<AssetValue[]>;
   getExplorerTxUrl: typeof getTxUrl;
   getExplorerAddressUrl: typeof getAddressUrl;
@@ -60,17 +41,9 @@ export type SwapKitReturnType = SwapKitPlugins & {
   ) => boolean | Promise<boolean>;
 };
 
-export type Wallets = { [K in Chain]?: ChainWallet<K> };
-export type AvailableProviders<T> = T | { [K in PluginName]?: ProviderMethods };
-export type ProviderMethods = {
-  swap: (swapParams: SwapParams) => Promise<string>;
-  [key: string]: Todo;
-};
-
-export type SwapKitPlugin = ({ wallets, stagenet }: { wallets: Wallets; stagenet?: boolean }) => {
-  name: PluginName;
-  methods: ProviderMethods;
-};
+export type Wallet = BaseWallet<
+  EVMWallets & CosmosWallets & ThorchainWallets & UTXOWallets & SubstrateWallets
+>;
 
 export type SwapKitWallet = {
   connectMethodName: string;
@@ -94,8 +67,8 @@ export function SwapKit<
   config?: Record<string, Todo>;
   apis: Record<string, Todo>;
   rpcUrls: Record<string, Todo>;
-}): SwapKitReturnType & ConnectWalletMethods & AvailableProviders<ExtendedProviders> {
-  const connectedWallets: Wallets = {};
+}) {
+  const connectedWallets = {} as Wallet;
   const availablePlugins: AvailableProviders<ExtendedProviders> = {};
 
   for (const plugin of plugins) {
@@ -105,8 +78,9 @@ export function SwapKit<
   }
 
   const connectWalletMethods = wallets.reduce((acc, wallet) => {
-    // @ts-expect-error
+    // @ts-expect-error TODO
     acc[wallet.connectMethodName] = wallet.connect({
+      // @ts-expect-error TODO
       addChain,
       config,
       apis,
@@ -132,8 +106,9 @@ export function SwapKit<
     return plugin;
   }
 
-  function addChain(connectWallet: ChainWallet<Chain>) {
-    (connectedWallets[connectWallet.chain as Chain] as ChainWallet<Chain>) = connectWallet;
+  function addChain(connectWallet: Wallet[Chain]) {
+    // @ts-expect-error TODO
+    connectedWallets[connectWallet.chain] = connectWallet;
   }
 
   /**
@@ -143,7 +118,7 @@ export function SwapKit<
   function approve<T extends ApproveMode>({
     assetValue,
     type = "checkOnly" as T,
-    contractAddress,
+    contractAddress: spenderAddress,
   }: {
     type: T;
     assetValue: AssetValue;
@@ -157,18 +132,14 @@ export function SwapKit<
       return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
     }
 
-    const walletMethods =
-      connectedWallets[chain as Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche];
-
+    const walletMethods = connectedWallets[chain] as BaseEVMWallet;
     const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
-
     if (!walletAction) throw new SwapKitError("core_wallet_connection_not_found");
 
     const from = getAddress(chain);
-
-    if (!(address && from)) throw new SwapKitError("core_approve_asset_address_or_from_not_found");
-
-    const spenderAddress = contractAddress;
+    if (!(address && from)) {
+      throw new SwapKitError("core_approve_asset_address_or_from_not_found");
+    }
 
     return walletAction({
       amount: assetValue.getBaseValue("bigint"),
@@ -200,7 +171,7 @@ export function SwapKit<
    * TODO: Figure out validation without connecting to wallet
    */
   function validateAddress({ address, chain }: { address: string; chain: Chain }) {
-    return getWallet(chain)?.validateAddress?.(address);
+    getWallet(chain)?.validateAddress?.(address);
   }
 
   async function getWalletWithBalance(chain: Chain, potentialScamFilter = true) {
@@ -211,8 +182,10 @@ export function SwapKit<
       throw new SwapKitError("core_wallet_connection_not_found");
     }
 
-    const balance = await wallet?.getBalance(wallet.address, potentialScamFilter);
-    wallet.balance = balance?.length ? balance : defaultBalance;
+    if ("getBalance" in wallet) {
+      const balance = await wallet.getBalance(wallet.address, potentialScamFilter);
+      wallet.balance = balance?.length ? balance : defaultBalance;
+    }
 
     return wallet;
   }
@@ -252,3 +225,5 @@ export function SwapKit<
     validateAddress,
   };
 }
+
+export type SwapKitClient<T extends {}, K> = ReturnType<typeof SwapKit<T, K>>;

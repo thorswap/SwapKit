@@ -7,7 +7,7 @@ import {
   decodeAddress as decodePolkadotAddress,
   encodeAddress as encodePolkadotAddress,
 } from "@polkadot/util-crypto";
-import { type AssetValue, SwapKitNumber } from "@swapkit/helpers";
+import { type AssetValue, type SubstrateChain, SwapKitNumber } from "@swapkit/helpers";
 
 import type { SubstrateNetwork } from "../types/network.ts";
 
@@ -138,41 +138,7 @@ function encodeAddress(
   return encodePolkadotAddress(address, networkPrefix);
 }
 
-// Temporarily commented out forced typing
-// : Promise<{
-//   api: ApiPromise;
-//   network: SubstrateNetwork;
-//   decodeAddress: (address: string, networkPrefix?: number) => Promise<Uint8Array>;
-//   encodeAddress: (
-//     address: Uint8Array,
-//     encoding?: "ss58" | "hex",
-//     networkPrefix?: number,
-//   ) => Promise<string>;
-//   createKeyring: (phrase: string) => Promise<KeyringPair>;
-//   getAddress: (signer?: KeyringPair) => string;
-//   createTransfer: ({
-//     recipient,
-//     assetValue,
-//   }: {
-//     recipient: string;
-//     assetValue: AssetValue;
-//   }) => SubmittableExtrinsic<"promise">;
-//   getBalance: (address: string) => Promise<AssetValue[]>;
-//   validateAddress: (address: string) => Promise<boolean>;
-//   transfer: (params: SubstrateTransferParams) => Promise<string>;
-//   estimateGasFee: (params: SubstrateTransferParams) => Promise<AssetValue>;
-//   sign: (tx: SubmittableExtrinsic<"promise">) => Promise<SubmittableExtrinsic<"promise">>;
-//   broadcast: (
-//     tx: SubmittableExtrinsic<"promise">,
-//     callback?: Callback<ISubmittableResult>,
-//   ) => Promise<string | (() => void)>;
-//   signAndBroadcast: (
-//     tx: SubmittableExtrinsic<"promise">,
-//     callback?: Callback<ISubmittableResult>,
-//   ) => Promise<string | (() => void)>;
-// }>
-
-export const BaseSubstrateToolbox = async ({
+export const BaseSubstrateToolbox = ({
   api,
   network,
   gasAsset,
@@ -187,20 +153,25 @@ export const BaseSubstrateToolbox = async ({
   network,
   decodeAddress,
   encodeAddress,
-  createKeyring: async (phrase: string) => createKeyring(phrase, network.prefix),
+  createKeyring: (phrase: string) => createKeyring(phrase, network.prefix),
   getAddress: (keyring: IKeyringPair = signer) => keyring.address,
   createTransfer: ({ recipient, assetValue }: { recipient: string; assetValue: AssetValue }) =>
     createTransfer(api, { recipient, amount: assetValue.getBaseValue("number") }),
-  getBalance: async (address: string) => getBalance(api, gasAsset, address),
-  validateAddress: async (address: string) => validateAddress(address, network.prefix),
-  transfer: async (params: SubstrateTransferParams) => transfer(api, signer, params),
-  estimateGasFee: async (params: SubstrateTransferParams) =>
+  getBalance: (address: string) => getBalance(api, gasAsset, address),
+  validateAddress: (address: string) => validateAddress(address, network.prefix),
+  transfer: (params: SubstrateTransferParams) => transfer(api, signer, params),
+  estimateGasFee: (params: SubstrateTransferParams) =>
     estimateGasFee(api, signer, gasAsset, params),
-  sign: async (tx: SubmittableExtrinsic<"promise">) => sign(signer, tx),
-  broadcast: async (tx: SubmittableExtrinsic<"promise">, callback?: Callback<ISubmittableResult>) =>
+  sign: (tx: SubmittableExtrinsic<"promise">) => sign(signer, tx),
+  broadcast: (tx: SubmittableExtrinsic<"promise">, callback?: Callback<ISubmittableResult>) =>
     broadcast(tx, callback),
-  signAndBroadcast: async (
+  signAndBroadcast: (
     tx: SubmittableExtrinsic<"promise">,
     callback?: Callback<ISubmittableResult>,
   ) => signAndBroadcast(signer, tx, callback),
 });
+
+export type BaseSubstrateWallet = ReturnType<typeof BaseSubstrateToolbox>;
+export type SubstrateWallets = {
+  [chain in SubstrateChain]: BaseSubstrateWallet;
+};

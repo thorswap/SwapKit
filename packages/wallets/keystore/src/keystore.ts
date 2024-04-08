@@ -1,4 +1,6 @@
 import { setRequestClientConfig } from "@swapkit/helpers";
+import type { ConnectWalletParams, Witness } from "@swapkit/helpers";
+import { Chain, DerivationPath, WalletOption } from "@swapkit/helpers";
 import type {
   BinanceToolboxType,
   DepositParam,
@@ -11,8 +13,6 @@ import type {
   UTXOTransferParams,
   UTXOWalletTransferParams,
 } from "@swapkit/toolbox-utxo";
-import type { ConnectWalletParams, Witness } from "@swapkit/types";
-import { Chain, DerivationPath, WalletOption } from "@swapkit/types";
 
 type KeystoreOptions = {
   ethplorerApiKey?: string;

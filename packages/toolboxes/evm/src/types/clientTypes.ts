@@ -1,5 +1,5 @@
 import type { AssetValue } from "@swapkit/helpers";
-import type { EVMTxBaseParams, FeeOption, WalletTxParams } from "@swapkit/types";
+import type { EVMTxBaseParams, FeeOption, WalletTxParams } from "@swapkit/helpers";
 import type { BigNumberish, BrowserProvider, JsonFragment, Transaction } from "ethers";
 
 import type {

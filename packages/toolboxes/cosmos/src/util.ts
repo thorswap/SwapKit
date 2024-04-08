@@ -6,7 +6,7 @@ import {
   StargateClient,
 } from "@cosmjs/stargate";
 import { AssetValue, defaultRequestHeaders } from "@swapkit/helpers";
-import { Chain, ChainId, FeeOption, RPCUrl } from "@swapkit/types";
+import { Chain, ChainId, FeeOption, RPCUrl } from "@swapkit/helpers";
 
 import type { CosmosMaxSendableAmountParams } from "./types.ts";
 

@@ -11,7 +11,7 @@ import { type Account, makeMultisignedTxBytes } from "@cosmjs/stargate";
 import { base64 } from "@scure/base";
 import type { AssetValue } from "@swapkit/helpers";
 import { RequestClient, SwapKitNumber } from "@swapkit/helpers";
-import { BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/types";
+import { BaseDecimal, Chain, ChainId, DerivationPath, FeeOption } from "@swapkit/helpers";
 
 import { CosmosClient } from "../cosmosClient.ts";
 import {
@@ -234,7 +234,7 @@ export const BaseThorchainToolbox = ({
   }: Omit<TransferParams, "recipient"> & { recipient?: string }) => {
     if (!signer) throw new Error("Signer not defined");
 
-    const registry = await createDefaultRegistry();
+    const registry = createDefaultRegistry();
     const signingClient = await createSigningStargateClient(rpcUrl, signer, {
       registry,
     });
@@ -288,4 +288,9 @@ export const ThorchainToolbox = ({ stagenet }: ToolboxParams = {}): ThorchainToo
 
 export const MayaToolbox = ({ stagenet }: ToolboxParams = {}): MayaToolboxType => {
   return BaseThorchainToolbox({ chain: Chain.Maya, stagenet });
+};
+
+export type ThorchainWallet = ReturnType<typeof BaseThorchainToolbox>;
+export type ThorchainWallets = {
+  [chain in Chain.THORChain | Chain.Maya]: ThorchainWallet;
 };

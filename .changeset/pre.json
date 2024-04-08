@@ -12,7 +12,6 @@
     "@swapkit/toolbox-evm": "1.0.0-rc.0",
     "@swapkit/toolbox-substrate": "1.0.0-rc.1",
     "@swapkit/toolbox-utxo": "1.0.0-rc.0",
-    "@swapkit/types": "1.0.0-rc.0",
     "@swapkit/wallet-evm-extensions": "1.0.0-rc.0",
     "@swapkit/wallet-keepkey": "1.0.0-rc.0",
     "@swapkit/wallet-keplr": "1.0.0-rc.0",

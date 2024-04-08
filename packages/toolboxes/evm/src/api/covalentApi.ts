@@ -1,6 +1,6 @@
 import { RequestClient, formatBigIntToSafeValue } from "@swapkit/helpers";
-import type { ChainId } from "@swapkit/types";
-import { ChainIdToChain } from "@swapkit/types";
+import type { ChainId } from "@swapkit/helpers";
+import { ChainIdToChain } from "@swapkit/helpers";
 
 type CovalentBalanceResponse = {
   address: string;

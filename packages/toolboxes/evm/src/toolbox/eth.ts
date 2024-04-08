@@ -1,4 +1,4 @@
-import { Chain } from "@swapkit/types";
+import { Chain } from "@swapkit/helpers";
 import type { BrowserProvider, JsonRpcProvider, JsonRpcSigner, Signer } from "ethers";
 
 import type { EthplorerApiType } from "../api/ethplorerApi.ts";

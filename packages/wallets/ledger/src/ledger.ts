@@ -1,8 +1,8 @@
 import { setRequestClientConfig } from "@swapkit/helpers";
+import type { ConnectWalletParams, DerivationPathArray } from "@swapkit/helpers";
+import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from "@swapkit/helpers";
 import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
 import type { UTXOBuildTxParams } from "@swapkit/toolbox-utxo";
-import type { ConnectWalletParams, DerivationPathArray } from "@swapkit/types";
-import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from "@swapkit/types";
 
 import type { BinanceLedger } from "./clients/binance/index.ts";
 import type { CosmosLedger } from "./clients/cosmos.ts";

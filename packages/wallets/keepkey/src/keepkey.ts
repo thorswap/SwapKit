@@ -1,6 +1,6 @@
 import { setRequestClientConfig } from "@swapkit/helpers";
-import type { ConnectWalletParams, DerivationPathArray, EVMChain } from "@swapkit/types";
-import { Chain, WalletOption } from "@swapkit/types";
+import type { ConnectWalletParams, DerivationPathArray, EVMChain } from "@swapkit/helpers";
+import { Chain, WalletOption } from "@swapkit/helpers";
 
 import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
 import { binanceWalletMethods } from "./chains/binance.ts";

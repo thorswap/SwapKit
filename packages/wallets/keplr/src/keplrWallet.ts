@@ -1,7 +1,7 @@
 import type { Keplr } from "@keplr-wallet/types";
 import { type AssetValue, setRequestClientConfig } from "@swapkit/helpers";
-import type { ConnectWalletParams, WalletTxParams } from "@swapkit/types";
-import { Chain, ChainToChainId, RPCUrl, WalletOption } from "@swapkit/types";
+import type { ConnectWalletParams, WalletTxParams } from "@swapkit/helpers";
+import { Chain, ChainToChainId, RPCUrl, WalletOption } from "@swapkit/helpers";
 
 declare global {
   interface Window {

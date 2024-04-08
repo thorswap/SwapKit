@@ -1,4 +1,6 @@
 import { derivationPathToString } from "@swapkit/helpers";
+import type { DerivationPathArray, UTXOChain } from "@swapkit/helpers";
+import { Chain, DerivationPath, FeeOption } from "@swapkit/helpers";
 import type {
   BCHToolbox,
   BaseUTXOToolbox,
@@ -6,8 +8,6 @@ import type {
   UTXOToolbox,
   UTXOTransferParams,
 } from "@swapkit/toolbox-utxo";
-import type { DerivationPathArray, UTXOChain } from "@swapkit/types";
-import { Chain, DerivationPath, FeeOption } from "@swapkit/types";
 
 import { ChainToKeepKeyName, bip32ToAddressNList } from "../helpers/coins.ts";
 

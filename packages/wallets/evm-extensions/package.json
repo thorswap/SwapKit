@@ -1,23 +1,19 @@
 {
   "description": "SwapKit Wallet - EVM Extensions",
+  "dependencies": {
+    "@swapkit/helpers": "workspace:*"
+  },
   "devDependencies": {
-    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/types": "workspace:*",
     "bun-types": "1.1.2"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "name": "@swapkit/wallet-evm-extensions",
   "peerDependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "@swapkit/helpers": "workspace:*"
   },
   "react-native": "./src/index.ts",
   "repository": {

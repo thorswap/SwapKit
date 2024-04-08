@@ -1,5 +1,5 @@
 import { setRequestClientConfig } from "@swapkit/helpers";
-import { Chain, type ConnectWalletParams, WalletOption } from "@swapkit/types";
+import { Chain, type ConnectWalletParams, WalletOption } from "@swapkit/helpers";
 
 import { getWalletForChain } from "./helpers.ts";
 

@@ -1,7 +1,7 @@
 import type { AssetValue } from "@swapkit/helpers";
 import { SwapKitNumber, isGasAsset } from "@swapkit/helpers";
-import type { Asset, EVMChain, WalletTxParams } from "@swapkit/types";
-import { Chain, ContractAddress, FeeOption, erc20ABI } from "@swapkit/types";
+import type { Asset, EVMChain, WalletTxParams } from "@swapkit/helpers";
+import { Chain, ContractAddress, FeeOption, erc20ABI } from "@swapkit/helpers";
 import type {
   ContractTransaction,
   Fragment,
@@ -549,3 +549,8 @@ export const BaseEVMToolbox = ({
   transfer: (params: TransferParams) => transfer(provider, params, signer, isEIP1559Compatible),
   validateAddress,
 });
+
+export type BaseEVMWallet = ReturnType<typeof BaseEVMToolbox>;
+export type EVMWallets = {
+  [chain in EVMChain]: BaseEVMWallet;
+};

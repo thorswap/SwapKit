@@ -13,7 +13,7 @@ import {
   type EVMChain,
   FeeOption,
   WalletOption,
-} from "@swapkit/types";
+} from "@swapkit/helpers";
 import { BrowserProvider, type Eip1193Provider, type JsonRpcProvider } from "ethers";
 
 import type { CovalentApiType, EVMMaxSendableAmountsParams, EthplorerApiType } from "./index.ts";

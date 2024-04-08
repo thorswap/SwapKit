@@ -1,8 +1,8 @@
 import type { StdSignDoc } from "@cosmjs/amino";
 import { setRequestClientConfig } from "@swapkit/helpers";
+import type { ConnectWalletParams } from "@swapkit/helpers";
+import { Chain, ChainId, RPCUrl, WalletOption } from "@swapkit/helpers";
 import type { BaseCosmosToolboxType, DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
-import type { ConnectWalletParams } from "@swapkit/types";
-import { Chain, ChainId, RPCUrl, WalletOption } from "@swapkit/types";
 import type { WalletConnectModalSign } from "@walletconnect/modal-sign-html";
 import type { SessionTypes, SignClientTypes } from "@walletconnect/types";
 

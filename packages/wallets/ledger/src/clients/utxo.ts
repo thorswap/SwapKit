@@ -4,7 +4,7 @@ import { SwapKitError, derivationPathToString } from "@swapkit/helpers";
 import type { Psbt, UTXOType } from "@swapkit/toolbox-utxo";
 import { Transaction, toCashAddress } from "@swapkit/toolbox-utxo";
 
-import type { DerivationPathArray } from "@swapkit/types";
+import type { DerivationPathArray } from "@swapkit/helpers";
 import { getWalletFormatFor } from "../helpers/derivationPath.ts";
 import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
 

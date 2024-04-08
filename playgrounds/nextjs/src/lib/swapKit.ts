@@ -123,7 +123,7 @@ export const useSwapKit = () => {
       let nextBalances: AssetValue[] = [];
 
       for (const chain of connectedChains) {
-        const balance = swapKit?.getBalance(chain);
+        const balance = await swapKit?.getBalance(chain);
 
         if (balance) {
           nextBalances = nextBalances.concat(balance);

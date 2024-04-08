@@ -1,4 +1,4 @@
-import { Chain } from "@swapkit/types";
+import { Chain } from "../types/chains";
 
 // Backward compatibility
 const supportedChains = [...Object.values(Chain), "TERRA"];
