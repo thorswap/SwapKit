@@ -30,17 +30,16 @@ try {
 
   await Bun.write(
     "src/assets/thorchain.ts",
-    `// biome-ignore lint/complexity/useLiteralKeys: this is the result of JSON.stringify...
-    export const thorchainAssets = ${JSON.stringify(assetInfos)} as const;`,
+    `export const thorchainAssets = ${JSON.stringify(assetInfos)} as const;`,
   );
 } catch (error) {
   console.error(error);
 }
 
-function findShortestUniquePrefixes(assetInfoArray: AssetInfo[]): Map<string, string> {
+function findShortestUniquePrefixes(assetInfo: AssetInfo[]): Map<string, string> {
   const uniquePrefixes = new Map<string, string>();
 
-  for (const { asset } of assetInfoArray) {
+  for (const { asset } of assetInfo) {
     let prefixLength = 1;
 
     while (true) {
@@ -48,7 +47,7 @@ function findShortestUniquePrefixes(assetInfoArray: AssetInfo[]): Map<string, st
       const prefix = asset.substring(0, prefixLength);
 
       // Check if the prefix is unique across all assets
-      for (const { asset: otherAsset } of assetInfoArray) {
+      for (const { asset: otherAsset } of assetInfo) {
         if (otherAsset !== asset && otherAsset.startsWith(prefix)) {
           isUnique = false;
           break;

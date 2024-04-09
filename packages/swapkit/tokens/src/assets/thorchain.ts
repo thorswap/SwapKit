@@ -1,4 +1,4 @@
-// biome-ignore lint/complexity/useLiteralKeys: this is the result of JSON.stringify...
+// biome-ignore lint/complexity/useLiteralKeys: this is the result of JSON.stringify
 export const thorchainAssets = [
   { asset: "AVAX.AVAX", short_code: "a", shortIdentifier: "avax.a" },
   { asset: "AVAX.USDC-0XB97EF9EF8734C71904D8002F8B6BC66DD9C48A6E", shortIdentifier: "avax.usdc" },
