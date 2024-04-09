@@ -1,6 +1,6 @@
-import { ChainflipProvider } from "@swapkit/chainflip";
+import { ChainflipPlugin } from "@swapkit/chainflip";
 import { SwapKit } from "@swapkit/core";
-import { ThorchainProvider } from "@swapkit/thorchain";
+import { ThorchainPlugin } from "@swapkit/thorchain";
 import { evmWallet } from "@swapkit/wallet-evm-extensions";
 import { keepkeyWallet } from "@swapkit/wallet-keepkey";
 import { keplrWallet } from "@swapkit/wallet-keplr";
@@ -11,7 +11,7 @@ import { trezorWallet } from "@swapkit/wallet-trezor";
 import { walletconnectWallet } from "@swapkit/wallet-wc";
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
 
-const clientCache = new Map<string, ReturnType<typeof SwapKit>>();
+const clientCache = new Map<string, Todo>();
 
 export const getSwapKitClient = (
   params: {
@@ -36,10 +36,7 @@ export const getSwapKitClient = (
     return clientCache.get(key);
   }
 
-  const client = SwapKit<{
-    thorchain: ReturnType<typeof ThorchainProvider>["methods"];
-    chainflip: ReturnType<typeof ChainflipProvider>["methods"];
-  }>({
+  const client = SwapKit({
     apis: {},
     rpcUrls: {},
     stagenet,
@@ -60,27 +57,17 @@ export const getSwapKitClient = (
         },
       },
     },
-    // @ts-expect-error
-    plugins: [ThorchainProvider, ChainflipProvider],
+    plugins: [ThorchainPlugin, ChainflipPlugin],
     wallets: [
-      // @ts-expect-error
-      xdefiWallet,
-      // @ts-expect-error
-      okxWallet,
-      // @ts-expect-error
-      ledgerWallet,
-      // @ts-expect-error
-      keystoreWallet,
-      // @ts-expect-error
-      keepkeyWallet,
-      // @ts-expect-error
-      trezorWallet,
-      // @ts-expect-error
-      keplrWallet,
-      // @ts-expect-error
       evmWallet,
-      // @ts-expect-error
+      keepkeyWallet,
+      keplrWallet,
+      keystoreWallet,
+      ledgerWallet,
+      okxWallet,
+      trezorWallet,
       walletconnectWallet,
+      xdefiWallet,
     ],
   });
 

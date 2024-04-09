@@ -107,7 +107,7 @@ export function SwapKit<
     type: T;
     assetValue: AssetValue;
     contractAddress: string;
-  }): ApproveReturnType<T> {
+  }) {
     const { address, chain, isGasAsset, isSynthetic } = assetValue;
     const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain);
     const isNativeEVM = isEVMChain && isGasAsset;
@@ -143,7 +143,7 @@ export function SwapKit<
   function getAddress<T extends Chain>(chain: T) {
     return getWallet(chain)?.address || "";
   }
-  async function getBalance(chain: Chain, refresh?: boolean) {
+  async function getBalance<T extends Chain>(chain: T, refresh?: boolean) {
     if (refresh) {
       const wallet = await getWalletWithBalance(chain, true);
       return wallet.balance || [];
@@ -158,7 +158,7 @@ export function SwapKit<
     return getWallet(chain)?.validateAddress?.(address);
   }
 
-  async function getWalletWithBalance(chain: Chain, potentialScamFilter = true) {
+  async function getWalletWithBalance<T extends Chain>(chain: T, potentialScamFilter = true) {
     const defaultBalance = [AssetValue.fromChainOrSignature(chain)];
     const wallet = getWallet(chain);
 
