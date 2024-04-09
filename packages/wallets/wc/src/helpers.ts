@@ -1,5 +1,4 @@
-import type { EVMChain } from "@swapkit/helpers";
-import { Chain } from "@swapkit/helpers";
+import { Chain, type EVMChain } from "@swapkit/helpers";
 
 import {
   ARBITRUM_ONE_MAINNET_ID,

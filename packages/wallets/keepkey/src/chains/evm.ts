@@ -1,7 +1,11 @@
 import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
-import { derivationPathToString } from "@swapkit/helpers";
-import type { Chain, DerivationPathArray } from "@swapkit/helpers";
-import { ChainToChainId, NetworkDerivationPath } from "@swapkit/helpers";
+import {
+  type Chain,
+  ChainToChainId,
+  type DerivationPathArray,
+  NetworkDerivationPath,
+  derivationPathToString,
+} from "@swapkit/helpers";
 import type { EVMTxParams, JsonRpcProvider, Provider } from "@swapkit/toolbox-evm";
 import { AbstractSigner } from "@swapkit/toolbox-evm";
 

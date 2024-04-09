@@ -1,12 +1,13 @@
-import { setRequestClientConfig } from "@swapkit/helpers";
-import type { ConnectConfig, ConnectWalletParams } from "@swapkit/helpers";
 import {
   Chain,
   ChainId,
   ChainToChainId,
   ChainToHexChainId,
+  type ConnectConfig,
+  type ConnectWalletParams,
   RPCUrl,
   WalletOption,
+  setRequestClientConfig,
 } from "@swapkit/helpers";
 import type { AVAXToolbox, BSCToolbox } from "@swapkit/toolbox-evm";
 

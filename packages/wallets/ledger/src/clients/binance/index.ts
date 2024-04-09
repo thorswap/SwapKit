@@ -1,5 +1,4 @@
-import type { DerivationPathArray } from "@swapkit/helpers";
-import { NetworkDerivationPath } from "@swapkit/helpers";
+import { type DerivationPathArray, NetworkDerivationPath } from "@swapkit/helpers";
 
 import { CosmosLedgerInterface } from "../../interfaces/CosmosLedgerInterface.ts";
 import { getAddressFromPublicKey } from "./helpers.ts";

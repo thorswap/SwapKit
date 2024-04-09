@@ -1,8 +1,13 @@
 import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
-import type { AssetValue } from "@swapkit/helpers";
-import { derivationPathToString } from "@swapkit/helpers";
-import type { DerivationPathArray } from "@swapkit/helpers";
-import { Chain, ChainId, DerivationPath, RPCUrl } from "@swapkit/helpers";
+import {
+  type AssetValue,
+  Chain,
+  ChainId,
+  DerivationPath,
+  type DerivationPathArray,
+  RPCUrl,
+  derivationPathToString,
+} from "@swapkit/helpers";
 import type { DepositParam, ThorchainToolboxType, TransferParams } from "@swapkit/toolbox-cosmos";
 
 import { bip32ToAddressNList } from "../helpers/coins.js";

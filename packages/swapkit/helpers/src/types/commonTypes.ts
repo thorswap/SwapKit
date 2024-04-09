@@ -1,4 +1,4 @@
-import type { Chain, CosmosChain, EVMChain, UTXOChain } from "./network.ts";
+import type { Chain, CosmosChain, EVMChain, UTXOChain } from "./chains.ts";
 import type { WalletOption } from "./wallet.ts";
 
 type ConnectMethodNames =

@@ -1,5 +1,4 @@
-import type { DerivationPathArray } from "@swapkit/helpers";
-import { Chain } from "@swapkit/helpers";
+import { Chain, type DerivationPathArray } from "@swapkit/helpers";
 
 import { BinanceLedger } from "../clients/binance/index.ts";
 import { CosmosLedger } from "../clients/cosmos.ts";

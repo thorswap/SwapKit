@@ -1,7 +1,5 @@
 import { SwapKitApi } from "@swapkit/api";
-import { AssetValue } from "@swapkit/helpers";
-import type { ChainId, DerivationPath } from "@swapkit/helpers";
-import { Chain } from "@swapkit/helpers";
+import { AssetValue, Chain, type ChainId, type DerivationPath } from "@swapkit/helpers";
 
 import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from "@cosmjs/crypto";
 import { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } from "@cosmjs/proto-signing";

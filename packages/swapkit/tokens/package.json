@@ -20,7 +20,7 @@
     "build": "bun run ./build.ts",
     "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
     "generate-tokens": "bun run ./src/fetchTokenLists.ts",
-    "lint": "biome check --apply ./src",
+    "lint": "biome check --apply-unsafe ./src",
     "test": "echo 'bun test --run'",
     "test:coverage": "echo 'bun test --coverage'",
     "type-check": "tsc --noEmit"

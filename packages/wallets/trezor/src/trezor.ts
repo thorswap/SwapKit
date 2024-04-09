@@ -1,10 +1,16 @@
-import { derivationPathToString, setRequestClientConfig } from "@swapkit/helpers";
-import type { ConnectWalletParams, DerivationPathArray } from "@swapkit/helpers";
-import { Chain, FeeOption, WalletOption } from "@swapkit/helpers";
+import {
+  Chain,
+  type ConnectWalletParams,
+  type DerivationPathArray,
+  FeeOption,
+  WalletOption,
+  derivationPathToString,
+  setRequestClientConfig,
+} from "@swapkit/helpers";
 import type { Psbt, UTXOTransferParams, UTXOType } from "@swapkit/toolbox-utxo";
 import TrezorConnect from "@trezor/connect-web";
 
-import { getEVMSigner } from "./signer/evm.ts";
+import { getEVMSigner } from "./evmSigner.ts";
 
 export const TREZOR_SUPPORTED_CHAINS = [
   Chain.Arbitrum,

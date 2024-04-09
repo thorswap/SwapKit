@@ -1,6 +1,11 @@
-import { setRequestClientConfig } from "@swapkit/helpers";
-import type { ConnectWalletParams, Witness } from "@swapkit/helpers";
-import { Chain, DerivationPath, WalletOption } from "@swapkit/helpers";
+import {
+  Chain,
+  type ConnectWalletParams,
+  DerivationPath,
+  WalletOption,
+  type Witness,
+  setRequestClientConfig,
+} from "@swapkit/helpers";
 import type {
   BinanceToolboxType,
   DepositParam,

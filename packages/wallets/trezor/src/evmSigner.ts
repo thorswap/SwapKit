@@ -1,6 +1,10 @@
-import { SwapKitNumber, derivationPathToString } from "@swapkit/helpers";
-import type { Chain, DerivationPathArray } from "@swapkit/helpers";
-import { ChainToChainId } from "@swapkit/helpers";
+import {
+  type Chain,
+  ChainToChainId,
+  type DerivationPathArray,
+  SwapKitNumber,
+  derivationPathToString,
+} from "@swapkit/helpers";
 import {
   AbstractSigner,
   type JsonRpcProvider,

@@ -4,8 +4,8 @@ import type { TokensResponse } from "./types.ts";
 
 const baseUrl = "https://static.thorswap.finance";
 
-export function getTokenList(tokenlist: string) {
-  return RequestClient.get<TokensResponse>(`${baseUrl}/token-list/${tokenlist}.json`);
+export function getTokenList(tokenListName: string) {
+  return RequestClient.get<TokensResponse>(`${baseUrl}/token-list/${tokenListName}.json`);
 }
 
 export function getLogoForAsset(assetString: string) {

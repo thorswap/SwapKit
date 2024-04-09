@@ -1,6 +1,10 @@
 import type EthereumApp from "@ledgerhq/hw-app-eth";
-import { derivationPathToString } from "@swapkit/helpers";
-import { ChainId, type DerivationPathArray, NetworkDerivationPath } from "@swapkit/helpers";
+import {
+  ChainId,
+  type DerivationPathArray,
+  NetworkDerivationPath,
+  derivationPathToString,
+} from "@swapkit/helpers";
 import {
   AbstractSigner,
   type Provider,
