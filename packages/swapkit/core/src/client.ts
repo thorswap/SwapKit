@@ -153,7 +153,7 @@ export function SwapKit<
    * @Public
    * Wallet helpers
    */
-  function getWallet(chain: Chain) {
+  function getWallet<T extends Chain>(chain: T) {
     return connectedWallets[chain];
   }
   function getAddress(chain: Chain) {
@@ -171,7 +171,7 @@ export function SwapKit<
    * TODO: Figure out validation without connecting to wallet
    */
   function validateAddress({ address, chain }: { address: string; chain: Chain }) {
-    getWallet(chain)?.validateAddress?.(address);
+    return getWallet(chain)?.validateAddress?.(address);
   }
 
   async function getWalletWithBalance(chain: Chain, potentialScamFilter = true) {

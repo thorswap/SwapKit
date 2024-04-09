@@ -1,5 +1,11 @@
 # @swapkit/core
 
+## 1.0.0-rc.123
+
+### Patch Changes
+
+- Bump core with returns
+
 ## 1.0.0-rc.122
 
 ### Patch Changes

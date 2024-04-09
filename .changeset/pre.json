@@ -29,6 +29,7 @@
     "@internal/tools-typescript": "0.1.0"
   },
   "changesets": [
+    "giant-parrots-fix",
     "silent-trees-change",
     "tender-news-search"
   ]
