@@ -22,7 +22,11 @@
   "name": "@swapkit/thorchain",
   "peerDependencies": {
     "@swapkit/api": "workspace:*",
-    "@swapkit/helpers": "workspace:*"
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-substrate": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*"
   },
   "react-native": "./src/index.ts",
   "repository": {
@@ -39,5 +43,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.26"
+  "version": "1.0.0-rc.27"
 }

@@ -1,4 +1,4 @@
-import type { SwapKit } from "@swapkit/core";
+import type { SwapKitClient } from "@swapkit/core";
 import { Chain, EVMChains, WalletOption } from "@swapkit/helpers";
 import { decryptFromKeystore } from "@swapkit/wallet-keystore";
 import { getDerivationPathFor } from "@swapkit/wallet-ledger";
@@ -9,7 +9,7 @@ import type { WalletDataType } from "./types";
 type Props = {
   setPhrase: (phrase: string) => void;
   setWallet: (wallet: WalletDataType | WalletDataType[]) => void;
-  skClient?: ReturnType<typeof SwapKit>;
+  skClient?: SwapKitClient<{}, {}>;
 };
 
 const walletOptions = Object.values(WalletOption).filter((o) => ![WalletOption.KEPLR].includes(o));
@@ -33,7 +33,7 @@ const AllChainsSupported = [
   Chain.THORChain,
 ] as Chain[];
 
-export const availableChainsByWallet: Record<WalletOption, Chain[]> = {
+export const availableChainsByWallet = {
   [WalletOption.BRAVE]: EVMChains,
   [WalletOption.OKX_MOBILE]: EVMChains,
   [WalletOption.COINBASE_WEB]: EVMChains,
@@ -157,6 +157,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           setPhrase(phrases);
 
           await skClient.connectKeystore(chains, phrases);
+
           const walletDataArray = await Promise.all(
             chains.map((chain) => skClient.getWalletWithBalance(chain, true)),
           );

@@ -6,7 +6,7 @@ type Props = {
   inputAsset?: AssetValue;
   outputAsset?: AssetValue;
   handleSwap: (route: QuoteRoute) => Promise<void>;
-  skClient?: SwapKitClient;
+  skClient?: SwapKitClient<{}, {}>;
 };
 
 export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Props) => {

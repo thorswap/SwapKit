@@ -31,13 +31,16 @@ function getSizeFor(packagePath, sizeType) {
 
 module.exports = [
   ...getSizeFor("swapkit/api", "s"),
+  ...getSizeFor("swapkit/chainflip", "xs"),
   ...getSizeFor("swapkit/core", "m"),
   ...getSizeFor("swapkit/helpers", "m"),
   ...getSizeFor("swapkit/sdk", "xxs"),
+  ...getSizeFor("swapkit/thorchain", "s"),
   ...getSizeFor("swapkit/tokens", "tokens"),
 
   ...getSizeFor("toolboxes/cosmos", "m"),
   ...getSizeFor("toolboxes/evm", "m"),
+  ...getSizeFor("toolboxes/substrate", "xs"),
   ...getSizeFor("toolboxes/utxo", "m"),
 
   ...getSizeFor("wallets/evm-extensions", "xxs"),
