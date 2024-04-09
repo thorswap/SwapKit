@@ -271,15 +271,20 @@ function safeValue(value: NumberPrimitives, decimal: number) {
 function getAssetInfo(identifier: string) {
   const isSynthetic = identifier.slice(0, 14).includes("/");
 
+  const isThorchain = identifier.split(".")?.[0]?.toUpperCase() === Chain.THORChain;
+  const isMaya = identifier.split(".")?.[0]?.toUpperCase() === Chain.Maya;
+
   const [synthChain, synthSymbol = ""] =
-    identifier.split(".")?.[0]?.toUpperCase() === Chain.THORChain
+    isThorchain || isMaya
       ? identifier.split(".").slice(1).join().split("/")
       : identifier.split("/");
 
   if (isSynthetic && !(synthChain && synthSymbol)) throw new Error("Invalid asset identifier");
 
   const adjustedIdentifier =
-    identifier.includes(".") && !isSynthetic ? identifier : `${Chain.THORChain}.${synthSymbol}`;
+    identifier.includes(".") && !isSynthetic
+      ? identifier
+      : `${isMaya ? Chain.Maya : Chain.THORChain}.${synthSymbol}`;
 
   const [chain, ...rest] = adjustedIdentifier.split(".") as [Chain, string];
   const [ticker, address] = (isSynthetic ? synthSymbol : rest.join(".")).split("-") as [
