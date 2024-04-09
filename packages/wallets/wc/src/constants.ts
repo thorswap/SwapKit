@@ -87,15 +87,15 @@ export enum DEFAULT_NEAR_METHODS {
 export enum DEFAULT_NEAR_EVENTS {}
 
 export const WC_SUPPORTED_CHAINS = [
+  Chain.Arbitrum,
+  Chain.Avalanche,
   Chain.Binance, // Not supported by Wallet Connect
   Chain.BinanceSmartChain,
+  Chain.Cosmos,
   Chain.Ethereum,
-  Chain.THORChain,
-  Chain.Avalanche,
-  Chain.Arbitrum,
+  Chain.Kujira,
+  Chain.Maya,
   Chain.Optimism,
   Chain.Polygon,
-  Chain.Cosmos,
-  Chain.Maya,
-  Chain.Kujira,
+  Chain.THORChain,
 ] as const;
