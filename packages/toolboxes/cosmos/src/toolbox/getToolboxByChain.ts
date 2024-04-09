@@ -1,4 +1,4 @@
-import { Chain } from "@swapkit/types";
+import { Chain } from "@swapkit/helpers";
 
 import { BinanceToolbox } from "./binance.ts";
 import { GaiaToolbox } from "./gaia.ts";

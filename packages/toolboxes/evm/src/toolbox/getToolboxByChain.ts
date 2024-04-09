@@ -1,4 +1,4 @@
-import { Chain } from "@swapkit/types";
+import { Chain } from "@swapkit/helpers";
 
 import { ARBToolbox } from "./arb.ts";
 import { AVAXToolbox } from "./avax.ts";

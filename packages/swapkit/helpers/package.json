@@ -2,22 +2,16 @@
   "author": "swapkit-oss",
   "description": "SwapKit - Helpers",
   "dependencies": {
-    "@swapkit/api": "workspace:*"
+    "ky": "1.2.3"
   },
   "devDependencies": {
     "@swapkit/tokens": "workspace:*",
-    "@swapkit/types": "workspace:*",
-    "bun-types": "1.1.1"
+    "bun-types": "1.1.2"
   },
   "peerDependencies": {
-    "@swapkit/api": "workspace:*",
-    "@swapkit/tokens": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "ky": "1.2.3"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
@@ -29,7 +23,7 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "bun test",
     "test:coverage": "echo 'bun test --coverage'",

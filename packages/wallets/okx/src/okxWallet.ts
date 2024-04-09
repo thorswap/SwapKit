@@ -1,5 +1,9 @@
-import { setRequestClientConfig } from "@swapkit/helpers";
-import { Chain, type ConnectWalletParams, WalletOption } from "@swapkit/types";
+import {
+  Chain,
+  type ConnectWalletParams,
+  WalletOption,
+  setRequestClientConfig,
+} from "@swapkit/helpers";
 
 import { getWalletForChain } from "./helpers.ts";
 
@@ -17,7 +21,7 @@ const OKX_SUPPORTED_CHAINS = [
 const connectOkx =
   ({
     addChain,
-    config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, utxoApiKey, blockchairApiKey },
+    config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey },
   }: ConnectWalletParams) =>
   async (chains: (typeof OKX_SUPPORTED_CHAINS)[number][]) => {
     setRequestClientConfig({ apiKey: thorswapApiKey });
@@ -27,7 +31,7 @@ const connectOkx =
         chain,
         covalentApiKey,
         ethplorerApiKey,
-        blockchairApiKey: blockchairApiKey || utxoApiKey,
+        blockchairApiKey,
       });
 
       addChain({

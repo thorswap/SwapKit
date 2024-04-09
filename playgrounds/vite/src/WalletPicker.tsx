@@ -1,5 +1,5 @@
 import type { SwapKit } from "@swapkit/core";
-import { Chain, EVMChains, WalletOption } from "@swapkit/types";
+import { Chain, EVMChains, WalletOption } from "@swapkit/helpers";
 import { decryptFromKeystore } from "@swapkit/wallet-keystore";
 import { getDerivationPathFor } from "@swapkit/wallet-ledger";
 import { useCallback, useState } from "react";

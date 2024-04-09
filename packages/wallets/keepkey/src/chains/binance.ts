@@ -1,9 +1,14 @@
 import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
-import type { AssetValue } from "@swapkit/helpers";
-import { derivationPathToString } from "@swapkit/helpers";
+import {
+  type AssetValue,
+  Chain,
+  ChainId,
+  DerivationPath,
+  type DerivationPathArray,
+  type WalletTxParams,
+  derivationPathToString,
+} from "@swapkit/helpers";
 import type { BinanceToolboxType } from "@swapkit/toolbox-cosmos";
-import type { DerivationPathArray, WalletTxParams } from "@swapkit/types";
-import { Chain, ChainId, DerivationPath } from "@swapkit/types";
 
 import { bip32ToAddressNList } from "../helpers/coins.ts";
 

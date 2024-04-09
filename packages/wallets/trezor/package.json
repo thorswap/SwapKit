@@ -1,20 +1,15 @@
 {
   "dependencies": {
-    "@trezor/connect": "9.2.2",
+    "@swapkit/helpers": "workspace:*",
     "@trezor/connect-web": "9.2.2"
   },
   "description": "SwapKit Wallet - Trezor",
   "devDependencies": {
-    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "@swapkit/types": "workspace:*",
-    "bun-types": "1.1.1"
+    "bun-types": "1.1.2"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
@@ -23,9 +18,7 @@
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "@swapkit/types": "workspace:*",
-    "@trezor/connect": "^9.2.1",
-    "@trezor/connect-web": "^9.2.1"
+    "@trezor/connect-web": "9.2.2"
   },
   "react-native": "./src/index.ts",
   "repository": {
@@ -33,8 +26,8 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
+    "build": "echo 'bun run ./build.ts'",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test--coverage'",

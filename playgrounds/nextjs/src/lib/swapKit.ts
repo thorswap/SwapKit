@@ -123,7 +123,7 @@ export const useSwapKit = () => {
       let nextBalances: AssetValue[] = [];
 
       for (const chain of connectedChains) {
-        const balance = await swapKit?.getBalance(chain, true);
+        const balance = await swapKit?.getBalance(chain);
 
         if (balance) {
           nextBalances = nextBalances.concat(balance);
@@ -136,10 +136,10 @@ export const useSwapKit = () => {
   );
 
   const connectWallet = useCallback(
-    async (option: WalletOption, chains: Chain[]) => {
+    (option: WalletOption, chains: Chain[]) => {
       switch (option) {
         case WalletOption.XDEFI: {
-          await swapKit?.connectXDEFI(chains);
+          swapKit?.connectXDEFI(chains);
           break;
         }
 

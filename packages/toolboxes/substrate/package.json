@@ -5,19 +5,15 @@
     "@polkadot/api-base": "10.12.6",
     "@polkadot/keyring": "12.6.2",
     "@polkadot/util": "12.6.2",
-    "@polkadot/util-crypto": "12.6.2"
+    "@polkadot/util-crypto": "12.6.2",
+    "@swapkit/helpers": "workspace:*"
   },
   "description": "SwapKit Lib substrate",
   "devDependencies": {
     "@polkadot/types": "10.12.6",
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/types": "workspace:*",
-    "bun-types": "1.1.1"
+    "bun-types": "1.1.2"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
@@ -28,8 +24,7 @@
     "@polkadot/keyring": "12.6.2",
     "@polkadot/util": "12.6.2",
     "@polkadot/util-crypto": "12.6.2",
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "@swapkit/helpers": "workspace:*"
   },
   "react-native": "./src/index.ts",
   "repository": {
@@ -38,7 +33,7 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test --coverage'",

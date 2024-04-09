@@ -1,6 +1,7 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
+    "@swapkit/helpers": "workspace:*",
     "ethers": "6.11.1"
   },
   "description": "THORSwap evm",
@@ -8,20 +9,14 @@
     "@nomicfoundation/hardhat-ethers": "3.0.5",
     "@nomicfoundation/hardhat-network-helpers": "1.0.10",
     "@nomicfoundation/hardhat-toolbox": "5.0.0",
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/types": "workspace:*",
-    "bun-types": "1.1.1",
+    "bun-types": "1.1.2",
     "hardhat": "2.22.2"
   },
   "peerDependencies": {
     "@swapkit/helpers": "workspace:*",
-    "@swapkit/types": "workspace:*",
     "ethers": "6.11.1"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
@@ -33,7 +28,7 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test --coverage'",

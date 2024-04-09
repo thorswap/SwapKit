@@ -1,4 +1,11 @@
-import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, FeeOption, RPCUrl } from "@swapkit/types";
+import {
+  BaseDecimal,
+  Chain,
+  ChainId,
+  ChainToExplorerUrl,
+  FeeOption,
+  RPCUrl,
+} from "@swapkit/helpers";
 import type { BrowserProvider, JsonRpcProvider, Signer, TransactionRequest } from "ethers";
 
 import type { CovalentApiType } from "../api/covalentApi.ts";
@@ -83,7 +90,7 @@ export const estimateL1Gas = async (
   }
 };
 
-export const getNetworkParams = () => ({
+const getNetworkParams = () => ({
   chainId: ChainId.OptimismHex,
   chainName: "Optimism",
   nativeCurrency: { name: "Ethereum", symbol: Chain.Ethereum, decimals: BaseDecimal.ETH },

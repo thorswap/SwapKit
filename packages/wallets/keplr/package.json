@@ -1,27 +1,22 @@
 {
   "description": "SwapKit Wallet - Keplr",
   "dependencies": {
-    "@keplr-wallet/types": "0.12.76"
+    "@keplr-wallet/types": "0.12.77",
+    "@swapkit/helpers": "workspace:*"
   },
   "devDependencies": {
-    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
-    "@swapkit/types": "workspace:*",
-    "bun-types": "1.1.1"
+    "bun-types": "1.1.2"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "name": "@swapkit/wallet-keplr",
   "peerDependencies": {
     "@keplr-wallet/types": "0.12.76",
-    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "@swapkit/helpers": "workspace:*"
   },
   "react-native": "./src/index.ts",
   "repository": {
@@ -30,7 +25,7 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test --coverage'",

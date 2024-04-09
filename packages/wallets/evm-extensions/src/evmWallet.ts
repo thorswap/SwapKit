@@ -1,6 +1,10 @@
-import { setRequestClientConfig } from "@swapkit/helpers";
-import type { ConnectWalletParams, EVMChain, EVMWalletOptions } from "@swapkit/types";
-import { WalletOption } from "@swapkit/types";
+import {
+  type ConnectWalletParams,
+  type EVMChain,
+  type EVMWalletOptions,
+  WalletOption,
+  setRequestClientConfig,
+} from "@swapkit/helpers";
 
 const getWalletForType = (
   walletType:

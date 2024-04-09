@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { BaseDecimal, Chain } from "@swapkit/types";
+import { BaseDecimal, Chain } from "@swapkit/helpers";
 
 import { getAssetType, getDecimal } from "../asset.ts";
 

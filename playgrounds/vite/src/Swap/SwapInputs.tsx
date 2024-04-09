@@ -1,13 +1,12 @@
-import type { AssetValue, SwapKitCore } from "@swapkit/core";
-import type { QuoteRoute } from "@swapkit/helpers";
-import { SwapKitApi } from "@swapkit/helpers";
+import type { AssetValue, QuoteRoute, SwapKitClient } from "@swapkit/core";
+import { SwapKitApi } from "@swapkit/core";
 import { useCallback, useState } from "react";
 
 type Props = {
   inputAsset?: AssetValue;
   outputAsset?: AssetValue;
   handleSwap: (route: QuoteRoute) => Promise<void>;
-  skClient?: SwapKitCore;
+  skClient?: SwapKitClient;
 };
 
 export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Props) => {

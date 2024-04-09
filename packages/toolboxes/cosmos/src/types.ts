@@ -1,7 +1,6 @@
 import type { StdFee } from "@cosmjs/amino";
 import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
-import type { AssetValue } from "@swapkit/helpers";
-import type { ChainId, FeeOption } from "@swapkit/types";
+import type { AssetValue, ChainId, FeeOption } from "@swapkit/helpers";
 
 import type {
   BinanceToolboxType,

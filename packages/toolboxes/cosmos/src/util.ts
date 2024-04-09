@@ -5,8 +5,14 @@ import {
   type SigningStargateClientOptions,
   StargateClient,
 } from "@cosmjs/stargate";
-import { AssetValue, defaultRequestHeaders } from "@swapkit/helpers";
-import { Chain, ChainId, FeeOption, RPCUrl } from "@swapkit/types";
+import {
+  AssetValue,
+  Chain,
+  ChainId,
+  FeeOption,
+  RPCUrl,
+  defaultRequestHeaders,
+} from "@swapkit/helpers";
 
 import type { CosmosMaxSendableAmountParams } from "./types.ts";
 

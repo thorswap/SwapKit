@@ -1,4 +1,4 @@
-import { RequestClient } from "../requestClient.ts";
+import { RequestClient } from "@swapkit/helpers";
 import type { PoolDetail, PoolPeriod, THORNameDetails } from "./types.ts";
 
 const baseUrl = "https://mu.thorswap.net";

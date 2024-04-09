@@ -60,7 +60,6 @@ body:
         - label: "@swapkit/api"
         - label: "@swapkit/helpers"
         - label: "@swapkit/tokens"
-        - label: "@swapkit/types"
 
         - label: "@swapkit/toolbox-cosmos"
         - label: "@swapkit/toolbox-evm"

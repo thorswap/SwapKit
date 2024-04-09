@@ -1,9 +1,13 @@
 import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
-import { derivationPathToString } from "@swapkit/helpers";
+import {
+  type Chain,
+  ChainToChainId,
+  type DerivationPathArray,
+  NetworkDerivationPath,
+  derivationPathToString,
+} from "@swapkit/helpers";
 import type { EVMTxParams, JsonRpcProvider, Provider } from "@swapkit/toolbox-evm";
 import { AbstractSigner } from "@swapkit/toolbox-evm";
-import type { Chain, DerivationPathArray } from "@swapkit/types";
-import { ChainToChainId, NetworkDerivationPath } from "@swapkit/types";
 
 import { bip32ToAddressNList } from "../helpers/coins.ts";
 

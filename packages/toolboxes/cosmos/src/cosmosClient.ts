@@ -1,7 +1,7 @@
 import { type AccountData, Secp256k1HdWallet } from "@cosmjs/amino";
 import type { StdFee } from "@cosmjs/stargate";
 import { base64, bech32 } from "@scure/base";
-import type { ChainId } from "@swapkit/types";
+import type { ChainId } from "@swapkit/helpers";
 
 import { stringToPath } from "@cosmjs/crypto";
 import type { CosmosSDKClientParams, TransferParams } from "./types.ts";

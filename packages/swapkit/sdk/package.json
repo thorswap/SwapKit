@@ -32,12 +32,9 @@
   },
   "description": "SwapKit Lib swapkit-sdk",
   "devDependencies": {
-    "bun-types": "1.1.1"
+    "bun-types": "1.1.2"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
@@ -49,7 +46,7 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "type-check": "tsc --noEmit"
   },

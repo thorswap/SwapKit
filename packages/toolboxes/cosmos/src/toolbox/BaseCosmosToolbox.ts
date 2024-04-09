@@ -1,6 +1,5 @@
-import { AssetValue, SwapKitApi } from "@swapkit/helpers";
-import type { ChainId, DerivationPath } from "@swapkit/types";
-import { Chain } from "@swapkit/types";
+import { SwapKitApi } from "@swapkit/api";
+import { AssetValue, Chain, type ChainId, type DerivationPath } from "@swapkit/helpers";
 
 import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from "@cosmjs/crypto";
 import { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } from "@cosmjs/proto-signing";
@@ -88,3 +87,8 @@ export const BaseCosmosToolbox = ({
     );
   },
 });
+
+export type BaseCosmosWallet = ReturnType<typeof BaseCosmosToolbox>;
+export type CosmosWallets = {
+  [chain in Chain.Cosmos | Chain.Kujira | Chain.Binance]: BaseCosmosWallet;
+};

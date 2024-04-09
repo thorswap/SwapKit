@@ -12,6 +12,7 @@
     "@ledgerhq/hw-transport": "6.30.5",
     "@ledgerhq/hw-transport-webusb": "6.28.5",
     "@scure/base": "1.1.6",
+    "@swapkit/helpers": "workspace:*",
     "@types/ripemd160": "2.0.3",
     "cosmjs-types": "0.9.0",
     "crypto-js": "4.2.0",
@@ -21,17 +22,12 @@
   "description": "SwapKit Wallet - Ledger",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "15.2.3",
-    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "@swapkit/types": "workspace:*",
-    "bun-types": "1.1.1"
+    "bun-types": "1.1.2"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
@@ -53,7 +49,6 @@
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "@swapkit/types": "workspace:*",
     "@types/ripemd160": "2.0.3",
     "cosmjs-types": "0.9.0",
     "crypto-js": "4.2.0",
@@ -66,8 +61,8 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
+    "build": "echo 'bun run ./build.ts'",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test --coverage'",

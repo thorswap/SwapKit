@@ -1,7 +1,7 @@
+import { Chain, ChainId, RPCUrl } from "@swapkit/helpers";
 import type { GaiaToolbox } from "@swapkit/toolbox-cosmos";
 import type { getWeb3WalletMethods } from "@swapkit/toolbox-evm";
 import type { BTCToolbox, Psbt, UTXOTransferParams } from "@swapkit/toolbox-utxo";
-import { Chain, ChainId, RPCUrl } from "@swapkit/types";
 
 const cosmosTransfer =
   (rpcUrl?: string) =>

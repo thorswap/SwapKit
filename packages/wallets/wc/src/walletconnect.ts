@@ -1,8 +1,13 @@
 import type { StdSignDoc } from "@cosmjs/amino";
-import { setRequestClientConfig } from "@swapkit/helpers";
+import {
+  Chain,
+  ChainId,
+  type ConnectWalletParams,
+  RPCUrl,
+  WalletOption,
+  setRequestClientConfig,
+} from "@swapkit/helpers";
 import type { BaseCosmosToolboxType, DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
-import type { ConnectWalletParams } from "@swapkit/types";
-import { Chain, ChainId, RPCUrl, WalletOption } from "@swapkit/types";
 import type { WalletConnectModalSign } from "@walletconnect/modal-sign-html";
 import type { SessionTypes, SignClientTypes } from "@walletconnect/types";
 
@@ -33,7 +38,7 @@ const SUPPORTED_CHAINS = [
   Chain.Kujira,
 ] as const;
 
-const getToolbox = async ({
+async function getToolbox({
   chain,
   ethplorerApiKey,
   covalentApiKey = "",
@@ -48,7 +53,7 @@ const getToolbox = async ({
   ethplorerApiKey?: string;
   stagenet?: boolean;
   address: string;
-}) => {
+}) {
   const from = address;
 
   switch (chain) {
@@ -109,7 +114,7 @@ const getToolbox = async ({
         });
 
         const signature = Buffer.from(response.signature, "hex");
-        const publicKey = await toolbox.getPublicKey(response.publicKey);
+        const publicKey = toolbox.getPublicKey(response.publicKey);
         const signedTx = transaction.addSignature(publicKey, signature);
 
         const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);
@@ -147,17 +152,19 @@ const getToolbox = async ({
           },
         });
 
-      const thorchainTransfer = async ({
+      async function thorchainTransfer({
         assetValue,
         memo,
         ...rest
-      }: TransferParams | DepositParam) => {
+      }: TransferParams | DepositParam) {
         const account = await toolbox.getAccount(address);
         if (!account) throw new Error("Account not found");
         if (!account.pubkey) throw new Error("Account pubkey not found");
         const { accountNumber, sequence = 0 } = account;
 
-        const msgs = [buildAminoMsg({ chain, assetValue, memo, from: address, ...rest })];
+        const msgs = [
+          buildAminoMsg({ chain: Chain.THORChain, assetValue, memo, from: address, ...rest }),
+        ];
 
         const signDoc = makeSignDoc(
           msgs,
@@ -171,7 +178,7 @@ const getToolbox = async ({
         const signature: Todo = await signRequest(signDoc);
 
         const bodyBytes = await buildEncodedTxBody({
-          chain,
+          chain: Chain.THORChain,
           msgs: msgs.map(prepareMessageForBroadcast),
           memo: memo || "",
         });
@@ -201,7 +208,7 @@ const getToolbox = async ({
         const broadcaster = await createStargateClient(RPCUrl.THORChain);
         const result = await broadcaster.broadcastTx(txBytes);
         return result.transactionHash;
-      };
+      }
 
       return {
         ...toolbox,
@@ -212,13 +219,13 @@ const getToolbox = async ({
     default:
       throw new Error("Chain is not supported");
   }
-};
+}
 
-const getWalletconnect = async (
+async function getWalletconnect(
   chains: Chain[],
   walletConnectProjectId?: string,
   walletconnectOptions?: SignClientTypes.Options,
-) => {
+) {
   let modal: WalletConnectModalSign | undefined;
   try {
     if (!walletConnectProjectId) {
@@ -242,16 +249,11 @@ const getWalletconnect = async (
     if (oldSession) {
       await client.disconnect({
         topic: oldSession.topic,
-        reason: {
-          code: 0,
-          message: "Resetting session",
-        },
+        reason: { code: 0, message: "Resetting session" },
       });
     }
 
-    const session = await client.connect({
-      requiredNamespaces,
-    });
+    const session = await client.connect({ requiredNamespaces });
 
     const accounts = Object.values(session.namespaces).flatMap(
       (namespace: Todo) => namespace.accounts,
@@ -267,25 +269,24 @@ const getWalletconnect = async (
     }
   }
   return undefined;
-};
+}
 
 export type Walletconnect = Awaited<ReturnType<typeof getWalletconnect>>;
 
-const connectWalletconnect =
-  ({
-    addChain,
-    config: {
-      thorswapApiKey,
-      ethplorerApiKey,
-      walletConnectProjectId,
-      covalentApiKey,
-      stagenet = false,
-    },
-  }: ConnectWalletParams) =>
-  async (
+function connectWalletconnect({
+  addChain,
+  config: {
+    thorswapApiKey,
+    ethplorerApiKey,
+    walletConnectProjectId,
+    covalentApiKey,
+    stagenet = false,
+  },
+}: ConnectWalletParams) {
+  return async function connectWallet(
     chains: (typeof WC_SUPPORTED_CHAINS)[number][],
     walletconnectOptions?: SignClientTypes.Options,
-  ) => {
+  ) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const chainsToConnect = chains.filter((chain) => WC_SUPPORTED_CHAINS.includes(chain));
@@ -312,7 +313,7 @@ const connectWalletconnect =
         stagenet,
       });
 
-      const getAccount = async (accountAddress: string) => {
+      async function getAccount(accountAddress: string) {
         const account = await (toolbox as BaseCosmosToolboxType).getAccount(accountAddress);
         const [{ address, algo, pubkey }] = (await walletconnect?.client.request({
           chainId: THORCHAIN_MAINNET_ID,
@@ -324,22 +325,22 @@ const connectWalletconnect =
         })) as [{ address: string; algo: string; pubkey: string }];
 
         return { ...account, address, pubkey: { type: algo, value: pubkey } };
-      };
+      }
 
       addChain({
-        chain,
         ...toolbox,
-        getAccount:
-          chain === Chain.THORChain ? getAccount : (toolbox as BaseCosmosToolboxType).getAccount,
         address,
         balance: [],
+        chain,
         walletType: WalletOption.WALLETCONNECT,
+        getAccount:
+          chain === Chain.THORChain ? getAccount : (toolbox as BaseCosmosToolboxType).getAccount,
       });
-      return;
     });
 
     await Promise.all(promises);
   };
+}
 
 export const walletconnectWallet = {
   connectMethodName: "connectWalletconnect" as const,
