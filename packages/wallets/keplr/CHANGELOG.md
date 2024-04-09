@@ -1,5 +1,15 @@
 # @swapkit/wallet-keplr
 
+## 1.0.0-rc.106
+
+### Patch Changes
+
+- Plugins update
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.105
+  - @swapkit/helpers@1.0.0-rc.88
+
 ## 1.0.0-rc.105
 
 ### Patch Changes

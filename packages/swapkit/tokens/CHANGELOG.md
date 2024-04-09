@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.48
+
+### Patch Changes
+
+- Plugins update
+
 ## 1.0.0-rc.47
 
 ### Patch Changes

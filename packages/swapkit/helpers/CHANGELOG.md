@@ -1,5 +1,14 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.88
+
+### Patch Changes
+
+- Plugins update
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.0-rc.48
+
 ## 1.0.0-rc.87
 
 ### Patch Changes

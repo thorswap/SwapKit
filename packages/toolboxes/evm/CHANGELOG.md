@@ -1,5 +1,14 @@
 # @swapkit/toolbox-evm
 
+## 1.0.0-rc.94
+
+### Patch Changes
+
+- Plugins update
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.88
+
 ## 1.0.0-rc.93
 
 ### Patch Changes
