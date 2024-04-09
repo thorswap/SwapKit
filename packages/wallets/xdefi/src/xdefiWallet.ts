@@ -197,6 +197,8 @@ function connectXDEFI({
     });
 
     await Promise.all(promises);
+
+    return true;
   };
 }
 

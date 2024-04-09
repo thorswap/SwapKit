@@ -645,7 +645,7 @@ export const ThorchainPlugin = ({
   }
 
   return {
-    name: "thorchain",
+    name: "thorchain" as const,
     methods: {
       swap,
       addLiquidity,

@@ -253,6 +253,8 @@ const connectKeystore =
     });
 
     await Promise.all(promises);
+
+    return true;
   };
 
 export const keystoreWallet = {

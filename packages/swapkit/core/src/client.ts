@@ -1,11 +1,13 @@
 import {
+  type AddChainWalletParams,
   ApproveMode,
   type ApproveReturnType,
   AssetValue,
   type BaseWallet,
   Chain,
+  type ConnectConfig,
+  type ConnectWalletParams,
   SwapKitError,
-  type SwapKitPluginInterface,
   type SwapParams,
 } from "@swapkit/helpers";
 import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
@@ -16,42 +18,53 @@ import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
 } from "./helpers/explorerUrls.ts";
-import type { ConnectWalletParamsLocal as ConnectWalletParams } from "./types.ts";
 
 export type Wallet = BaseWallet<
   EVMWallets & CosmosWallets & ThorchainWallets & UTXOWallets & SubstrateWallets
 >;
 
-export type SwapKitWallet<ConnectMethod extends string, ConnectParams extends {}> = {
+export type SwapKitWallet<ConnectMethod extends string, ConnectParams extends Todo[]> = {
   connectMethodName: ConnectMethod;
   connect: (
     params: ConnectWalletParams,
-  ) => (connectParams: ConnectParams) => boolean | Promise<boolean>;
+  ) => (...connectParams: ConnectParams) => boolean | Promise<boolean>;
+};
+
+export type SwapKitPluginInterface<Name extends string, Methods extends {}> = ({
+  wallets,
+  stagenet,
+}: { wallets: Wallet; stagenet?: boolean }) => {
+  name: Name;
+  methods: Methods;
 };
 
 export function SwapKit<
-  Plugins extends SwapKitPluginInterface<string, {}, {}>[],
-  SupportedWallets extends SwapKitWallet<string, {}>[],
+  Plugins extends SwapKitPluginInterface<string, {}>[],
+  SupportedWallets extends SwapKitWallet<string, NotWorth[]>[],
 >({
-  stagenet,
-  wallets,
-  plugins,
-  config = {},
   apis = {},
+  config = {},
+  plugins,
   rpcUrls = {},
+  stagenet = false,
+  wallets,
 }: {
+  apis?: { [key in Chain]?: Todo };
+  config?: ConnectConfig;
   plugins: Plugins;
-  stagenet: boolean;
+  rpcUrls?: { [key in Chain]?: string };
+  stagenet?: boolean;
   wallets: SupportedWallets;
-  config?: Record<string, Todo>;
-  apis: Record<string, Todo>;
-  rpcUrls: Record<string, Todo>;
 }) {
   type PluginsReturn = ReturnType<Plugins[number]>;
   type AvailablePlugins = { [key in PluginsReturn["name"]]: PluginsReturn };
+  type ConnectWallets = SupportedWallets[number];
 
   const connectedWallets = {} as Wallet;
   const availablePlugins = {} as AvailablePlugins;
+  const connectWalletMethods = {} as {
+    [key in ConnectWallets["connectMethodName"]]: ReturnType<ConnectWallets["connect"]>;
+  };
 
   for (const plugin of plugins) {
     const { name, methods } = plugin({ wallets: connectedWallets, stagenet });
@@ -60,14 +73,12 @@ export function SwapKit<
     availablePlugins[name] = methods;
   }
 
-  const connectWalletMethods = wallets.reduce(
-    (acc, wallet) => {
-      acc[wallet.connectMethodName] = wallet.connect({ addChain, config, apis, rpcUrls });
+  for (const wallet of wallets) {
+    const connectWallet = wallet.connect({ addChain, config, apis, rpcUrls });
 
-      return acc;
-    },
-    {} as Record<string, Todo>,
-  );
+    // @ts-expect-error That is only resolved to any whenever there are no wallets
+    connectWalletMethods[wallet.connectMethodName] = connectWallet;
+  }
 
   /**
    * @Private
@@ -83,15 +94,11 @@ export function SwapKit<
     return plugin;
   }
 
-  function addChain<T extends Chain>(connectWallet: Wallet[T]) {
+  function addChain<T extends Chain>(connectWallet: AddChainWalletParams<T>) {
     // @ts-expect-error: TODO
     connectedWallets[connectWallet.chain] = connectWallet;
   }
 
-  /**
-   * @Private
-   * Wallet interaction helpers
-   */
   function approve<T extends ApproveMode>({
     assetValue,
     type = "checkOnly" as T,
@@ -133,7 +140,7 @@ export function SwapKit<
   function getWallet<T extends Chain>(chain: T) {
     return connectedWallets[chain];
   }
-  function getAddress(chain: Chain) {
+  function getAddress<T extends Chain>(chain: T) {
     return getWallet(chain)?.address || "";
   }
   async function getBalance(chain: Chain, refresh?: boolean) {
@@ -167,10 +174,6 @@ export function SwapKit<
     return wallet;
   }
 
-  /**
-   * @Public
-   * Wallet interaction methods
-   */
   function approveAssetValue(assetValue: AssetValue, contractAddress: string) {
     return approve({ assetValue, contractAddress, type: ApproveMode.Approve });
   }

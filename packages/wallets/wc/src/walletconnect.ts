@@ -339,6 +339,8 @@ function connectWalletconnect({
     });
 
     await Promise.all(promises);
+
+    return true;
   };
 }
 

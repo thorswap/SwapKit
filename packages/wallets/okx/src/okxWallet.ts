@@ -18,12 +18,11 @@ const OKX_SUPPORTED_CHAINS = [
   Chain.Cosmos,
 ] as const;
 
-const connectOkx =
-  ({
-    addChain,
-    config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey },
-  }: ConnectWalletParams) =>
-  async (chains: (typeof OKX_SUPPORTED_CHAINS)[number][]) => {
+function connectOkx({
+  addChain,
+  config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey },
+}: ConnectWalletParams) {
+  return async function connectOkx(chains: (typeof OKX_SUPPORTED_CHAINS)[number][]) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const promises = chains.map(async (chain) => {
@@ -43,7 +42,10 @@ const connectOkx =
     });
 
     await Promise.all(promises);
+
+    return true;
   };
+}
 
 export const okxWallet = {
   connectMethodName: "connectOkx" as const,
