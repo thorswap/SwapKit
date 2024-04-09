@@ -31,10 +31,11 @@ export async function confirmSwap({
 
 export const ChainflipPlugin = ({
   wallets,
-}: { wallets: BaseWallet<{ [key: string]: NotWorth }> }) => {
-  async function swap({ provider, pluginConfig, recipient, ...rest }: SwapParams<"chainflip">) {
-    const chainflipConfig = pluginConfig || provider;
-    const brokerEndpoint = chainflipConfig?.config?.brokerEndpoint;
+  config,
+}: { wallets: BaseWallet<{ [key: string]: NotWorth }>; config: { brokerEndpoint: string } }) => {
+  async function swap({ provider, recipient, ...rest }: SwapParams<"chainflip">) {
+    const chainflipConfig = rest.pluginConfigOverwrite || config || provider;
+    const brokerEndpoint = chainflipConfig.brokerEndpoint;
 
     if (!("route" in rest && (rest.route as QuoteRouteV2)?.buyAsset && brokerEndpoint)) {
       throw new SwapKitError("core_swap_invalid_params");

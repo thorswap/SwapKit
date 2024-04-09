@@ -30,16 +30,19 @@ export type SwapKitWallet<ConnectMethod extends string, ConnectParams extends To
   ) => (...connectParams: ConnectParams) => boolean | Promise<boolean>;
 };
 
-export type SwapKitPluginInterface<Name extends string, Methods extends {}> = ({
-  wallets,
-  stagenet,
-}: { wallets: Wallet; stagenet?: boolean }) => {
+export type SwapKitPluginInterface<
+  Name extends string,
+  Methods extends { [key in string]: Todo },
+> = ({ wallets, stagenet, config }: { wallets: Wallet; stagenet?: boolean; config: Todo }) => {
   name: Name;
   methods: Methods;
 };
 
 export function SwapKit<
-  Plugins extends SwapKitPluginInterface<string, {}>[],
+  Plugins extends {
+    connect: SwapKitPluginInterface<string, { [key in string]: Todo }>;
+    config?: Todo;
+  }[],
   SupportedWallets extends SwapKitWallet<string, NotWorth[]>[],
 >({
   apis = {},
@@ -56,8 +59,8 @@ export function SwapKit<
   stagenet?: boolean;
   wallets: SupportedWallets;
 }) {
-  type PluginsReturn = ReturnType<Plugins[number]>;
-  type AvailablePlugins = { [key in PluginsReturn["name"]]: PluginsReturn };
+  type PluginsReturn = ReturnType<Plugins[number]["connect"]>;
+  type AvailablePlugins = { [key in PluginsReturn["name"]]: PluginsReturn["methods"] };
   type ConnectWallets = SupportedWallets[number];
 
   const connectedWallets = {} as Wallet;
@@ -67,10 +70,13 @@ export function SwapKit<
   };
 
   for (const plugin of plugins) {
-    const { name, methods } = plugin({ wallets: connectedWallets, stagenet });
+    const { name, methods } = plugin.connect({
+      wallets: connectedWallets,
+      stagenet,
+      config: plugin.config,
+    });
 
-    // @ts-expect-error That is only resolved to any whenever there are no plugins
-    availablePlugins[name] = methods;
+    availablePlugins[name as PluginsReturn["name"]] = methods;
   }
 
   for (const wallet of wallets) {
@@ -84,7 +90,7 @@ export function SwapKit<
    * @Private
    * Internal helpers
    */
-  function getSwapKitPlugin<T extends keyof AvailablePlugins>(pluginName: T) {
+  function getSwapKitPlugin(pluginName: keyof AvailablePlugins): PluginsReturn["methods"] {
     const plugin = availablePlugins[pluginName] || Object.values(availablePlugins)[0];
 
     if (!plugin) {
@@ -182,16 +188,16 @@ export function SwapKit<
     return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
   }
 
-  function swap({ provider, pluginConfig, ...rest }: SwapParams<keyof AvailablePlugins>) {
-    const passedPluginConfig = pluginConfig || provider;
+  function swap({
+    provider,
+    pluginConfigOverwrite,
+    pluginName,
+    ...rest
+  }: SwapParams<keyof AvailablePlugins>) {
+    const passedPluginConfig = pluginConfigOverwrite || provider;
 
-    if (!passedPluginConfig) {
-      throw new SwapKitError("core_plugin_not_found");
-    }
+    const plugin = getSwapKitPlugin(passedPluginConfig?.name || pluginName);
 
-    const plugin = getSwapKitPlugin(passedPluginConfig?.name);
-
-    // @ts-expect-error Technically this should be a valid call...
     return plugin.swap({ provider, ...rest });
   }
 

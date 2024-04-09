@@ -10,6 +10,7 @@ export type SwapParams<PluginNames extends string, T = GenericSwapParams> = T & 
   /**
    * @deprecated Use `pluginConfig` instead
    */
-  provider?: { name: PluginNames; config?: Record<string, Todo> };
-  pluginConfig?: { name: PluginNames; config?: Record<string, Todo> };
+  provider?: { name: PluginNames; config: Record<string, Todo> };
+  pluginConfigOverwrite?: Record<string, Todo>;
+  pluginName: PluginNames;
 };

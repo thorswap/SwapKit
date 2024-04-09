@@ -57,7 +57,10 @@ export const getSwapKitClient = (
         },
       },
     },
-    plugins: [ThorchainPlugin, ChainflipPlugin],
+    plugins: [
+      { connect: ThorchainPlugin },
+      { connect: ChainflipPlugin, config: { brokerEndpoint: "" } },
+    ],
     wallets: [
       evmWallet,
       keepkeyWallet,
