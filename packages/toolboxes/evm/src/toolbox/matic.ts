@@ -1,4 +1,4 @@
-import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, RPCUrl } from "@swapkit/types";
+import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, RPCUrl } from "@swapkit/helpers";
 import type { BrowserProvider, JsonRpcProvider, Signer } from "ethers";
 
 import type { CovalentApiType } from "../api/covalentApi.ts";
@@ -7,7 +7,7 @@ import { getBalance } from "../index.ts";
 
 import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
 
-export const getNetworkParams = () => ({
+const getNetworkParams = () => ({
   chainId: ChainId.PolygonHex,
   chainName: "Polygon Mainnet",
   nativeCurrency: { name: "Polygon", symbol: Chain.Polygon, decimals: BaseDecimal.MATIC },

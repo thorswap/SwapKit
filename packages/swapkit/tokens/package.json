@@ -2,9 +2,7 @@
   "author": "swapkit-oss",
   "description": "SwapKit - Tokens",
   "devDependencies": {
-    "@swapkit/api": "workspace:*",
-    "@swapkit/types": "workspace:*",
-    "bun-types": "1.1.1"
+    "bun-types": "1.1.2"
   },
   "files": [
     "src/",
@@ -21,15 +19,14 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
-    "generate-tokens": "bun run ./src/fetchTokenLists.ts",
-    "generate-thorchain-short-codes": "bun run ./src/fetchThorchainShortCodes.ts",
-    "lint": "biome check --apply ./src",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
+    "generate-tokens": "bun run ./fetchTokenLists.ts",
+    "lint": "biome check --apply-unsafe ./src",
     "test": "echo 'bun test --run'",
     "test:coverage": "echo 'bun test --coverage'",
     "type-check": "tsc --noEmit"
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.45"
+  "version": "1.0.0-rc.48"
 }

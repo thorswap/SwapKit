@@ -1,17 +1,16 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "@swapkit/api": "workspace:*",
+    "@swapkit/helpers": "workspace:*"
   },
   "description": "SwapKit Plugin - Thorchain",
   "devDependencies": {
-    "@swapkit/core": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "bun-types": "1.1.1"
+    "bun-types": "1.1.2"
   },
   "files": [
     "src/",
@@ -22,7 +21,8 @@
   "main": "./dist/index.js",
   "name": "@swapkit/thorchain",
   "peerDependencies": {
-    "@swapkit/core": "workspace:*",
+    "@swapkit/api": "workspace:*",
+    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
@@ -35,7 +35,7 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test --coverage'",
@@ -43,5 +43,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.23"
+  "version": "1.0.0-rc.27"
 }

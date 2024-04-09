@@ -1,14 +1,15 @@
-import { setRequestClientConfig } from "@swapkit/helpers";
-import type { AVAXToolbox, BSCToolbox } from "@swapkit/toolbox-evm";
-import type { ConnectConfig, ConnectWalletParams } from "@swapkit/types";
 import {
   Chain,
   ChainId,
   ChainToChainId,
   ChainToHexChainId,
+  type ConnectConfig,
+  type ConnectWalletParams,
   RPCUrl,
   WalletOption,
-} from "@swapkit/types";
+  setRequestClientConfig,
+} from "@swapkit/helpers";
+import type { AVAXToolbox, BSCToolbox } from "@swapkit/toolbox-evm";
 
 import type { WalletTxParams } from "./walletHelpers.ts";
 import {
@@ -69,20 +70,14 @@ async function getWalletMethodsForChain({
       const { GaiaToolbox } = await import("@swapkit/toolbox-cosmos");
       return {
         ...GaiaToolbox(),
-        transfer: cosmosTransfer({
-          chainId: ChainId.Cosmos,
-          rpcUrl: RPCUrl.Cosmos,
-        }),
+        transfer: cosmosTransfer({ chainId: ChainId.Cosmos, rpcUrl: RPCUrl.Cosmos }),
       };
     }
     case Chain.Kujira: {
       const { KujiraToolbox } = await import("@swapkit/toolbox-cosmos");
       return {
         ...KujiraToolbox(),
-        transfer: cosmosTransfer({
-          chainId: ChainId.Kujira,
-          rpcUrl: RPCUrl.Kujira,
-        }),
+        transfer: cosmosTransfer({ chainId: ChainId.Kujira, rpcUrl: RPCUrl.Kujira }),
       };
     }
 
@@ -117,10 +112,11 @@ async function getWalletMethodsForChain({
         getBalance,
         BrowserProvider,
       } = await import("@swapkit/toolbox-evm");
-
       const ethereumWindowProvider = window.xfi?.ethereum;
-      if (!ethereumWindowProvider) throw new Error("Requested web3 wallet is not installed");
 
+      if (!ethereumWindowProvider) {
+        throw new Error("Requested web3 wallet is not installed");
+      }
       if (
         (chain !== Chain.Ethereum && !covalentApiKey) ||
         (chain === Chain.Ethereum && !ethplorerApiKey)
@@ -129,7 +125,7 @@ async function getWalletMethodsForChain({
       }
 
       const provider = new BrowserProvider(ethereumWindowProvider, "any");
-      const toolbox = (await getToolboxByChain(chain))({
+      const toolbox = getToolboxByChain(chain)({
         provider,
         signer: await provider.getSigner(),
         ethplorerApiKey: ethplorerApiKey || "",
@@ -154,16 +150,16 @@ async function getWalletMethodsForChain({
       const api =
         chain === Chain.Ethereum
           ? ethplorerApi(ethplorerApiKey as string)
-          : covalentApi({
-              apiKey: covalentApiKey as string,
-              chainId: ChainToChainId[chain],
-            });
+          : covalentApi({ apiKey: covalentApiKey as string, chainId: ChainToChainId[chain] });
 
       return prepareNetworkSwitch({
+        //@ts-expect-error
+        provider: window.xfi?.ethereum,
+        chainId: ChainToHexChainId[chain],
         toolbox: {
           ...toolbox,
           ...xdefiMethods,
-          // Overwrite xdefi getbalance due to race condition in their app when connecting multiple evm wallets
+          // Overwrite xdefi getBalance due to race condition in their app when connecting multiple evm wallets
           getBalance: (address: string, potentialScamFilter?: boolean) =>
             getBalance({
               chain,
@@ -173,9 +169,6 @@ async function getWalletMethodsForChain({
               potentialScamFilter,
             }),
         },
-        chainId: ChainToHexChainId[chain],
-        //@ts-expect-error
-        provider: window.xfi?.ethereum,
       });
     }
 
@@ -186,7 +179,7 @@ async function getWalletMethodsForChain({
 
 function connectXDEFI({
   addChain,
-  config: { covalentApiKey, ethplorerApiKey, blockchairApiKey, thorswapApiKey, utxoApiKey },
+  config: { covalentApiKey, ethplorerApiKey, blockchairApiKey, thorswapApiKey },
 }: ConnectWalletParams) {
   return async (chains: (typeof XDEFI_SUPPORTED_CHAINS)[number][]) => {
     setRequestClientConfig({ apiKey: thorswapApiKey });
@@ -195,7 +188,7 @@ function connectXDEFI({
       const address = await getXDEFIAddress(chain);
       const walletMethods = await getWalletMethodsForChain({
         chain,
-        blockchairApiKey: blockchairApiKey || utxoApiKey,
+        blockchairApiKey,
         covalentApiKey,
         ethplorerApiKey,
       });

@@ -1,19 +1,17 @@
 import {
   AssetValue,
-  SwapKitNumber,
-  filterAssets,
-  formatBigIntToSafeValue,
-  isGasAsset,
-} from "@swapkit/helpers";
-import {
   BaseDecimal,
   Chain,
   ChainId,
   ChainToHexChainId,
   type EVMChain,
   FeeOption,
+  SwapKitNumber,
   WalletOption,
-} from "@swapkit/types";
+  filterAssets,
+  formatBigIntToSafeValue,
+  isGasAsset,
+} from "@swapkit/helpers";
 import { BrowserProvider, type Eip1193Provider, type JsonRpcProvider } from "ethers";
 
 import type { CovalentApiType, EVMMaxSendableAmountsParams, EthplorerApiType } from "./index.ts";

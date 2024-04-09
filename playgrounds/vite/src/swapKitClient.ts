@@ -18,7 +18,6 @@ export const getSwapKitClient = (
     ethplorerApiKey?: string;
     covalentApiKey?: string;
     blockchairApiKey?: string;
-    utxoApiKey?: string;
     walletConnectProjectId?: string;
     stagenet?: boolean;
   } = {},
@@ -28,7 +27,6 @@ export const getSwapKitClient = (
   const {
     ethplorerApiKey = "freekey",
     covalentApiKey = "",
-    utxoApiKey = "",
     blockchairApiKey = "",
     walletConnectProjectId = "",
     stagenet = false,
@@ -48,7 +46,7 @@ export const getSwapKitClient = (
     config: {
       ethplorerApiKey,
       covalentApiKey,
-      blockchairApiKey: blockchairApiKey || utxoApiKey,
+      blockchairApiKey,
       walletConnectProjectId,
       stagenet,
       keepkeyConfig: {

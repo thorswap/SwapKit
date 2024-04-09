@@ -5,7 +5,8 @@ const sizeMap = {
   m: "25 KB",
   l: "50 KB",
   xl: "125 KB",
-  xxl: "300 KB",
+  xxl: "200 KB",
+  tokens: "1 MB",
 };
 
 function getSizeFor(packagePath, sizeType) {
@@ -30,14 +31,16 @@ function getSizeFor(packagePath, sizeType) {
 
 module.exports = [
   ...getSizeFor("swapkit/api", "s"),
+  ...getSizeFor("swapkit/chainflip", "xs"),
   ...getSizeFor("swapkit/core", "m"),
   ...getSizeFor("swapkit/helpers", "m"),
   ...getSizeFor("swapkit/sdk", "xxs"),
-  ...getSizeFor("swapkit/tokens", "xxl"),
-  ...getSizeFor("swapkit/types", "s"),
+  ...getSizeFor("swapkit/thorchain", "s"),
+  ...getSizeFor("swapkit/tokens", "tokens"),
 
   ...getSizeFor("toolboxes/cosmos", "m"),
   ...getSizeFor("toolboxes/evm", "m"),
+  ...getSizeFor("toolboxes/substrate", "xs"),
   ...getSizeFor("toolboxes/utxo", "m"),
 
   ...getSizeFor("wallets/evm-extensions", "xxs"),

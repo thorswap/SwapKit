@@ -1,6 +1,5 @@
 import type { TxBodyEncodeObject } from "@cosmjs/proto-signing";
-import { AssetValue } from "@swapkit/helpers";
-import { Chain, ChainId, RPCUrl } from "@swapkit/types";
+import { AssetValue, Chain, ChainId, RPCUrl } from "@swapkit/helpers";
 
 import { createStargateClient, getDenom } from "../util.ts";
 

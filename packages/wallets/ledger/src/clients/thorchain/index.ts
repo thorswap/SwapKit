@@ -1,5 +1,8 @@
-import type { DerivationPathArray, GetAddressAndPubKeyResponse } from "@swapkit/types";
-import { NetworkDerivationPath } from "@swapkit/types";
+import {
+  type DerivationPathArray,
+  type GetAddressAndPubKeyResponse,
+  NetworkDerivationPath,
+} from "@swapkit/helpers";
 
 import { base64 } from "@scure/base";
 import { CosmosLedgerInterface } from "../../interfaces/CosmosLedgerInterface.ts";

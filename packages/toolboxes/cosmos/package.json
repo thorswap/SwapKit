@@ -7,6 +7,8 @@
     "@cosmjs/proto-signing": "0.32.3",
     "@cosmjs/stargate": "0.32.3",
     "@scure/base": "1.1.6",
+    "@swapkit/api": "workspace:*",
+    "@swapkit/helpers": "workspace:*",
     "@types/elliptic": "6.4.18",
     "base64-js": "1.5.1",
     "bn.js": "5.2.1",
@@ -19,12 +21,10 @@
   },
   "description": "SwapKit Lib toolbox cosmos",
   "devDependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/types": "workspace:*",
     "@types/bn.js": "5.1.5",
     "@types/crypto-js": "4.2.2",
     "@types/tiny-secp256k1": "2.0.1",
-    "bun-types": "1.1.1"
+    "bun-types": "1.1.2"
   },
   "files": [
     "src/",
@@ -41,8 +41,8 @@
     "@cosmjs/proto-signing": "0.32.3",
     "@cosmjs/stargate": "0.32.3",
     "@scure/base": "1.1.6",
+    "@swapkit/api": "workspace:*",
     "@swapkit/helpers": "workspace:*",
-    "@swapkit/types": "workspace:*",
     "@types/elliptic": "6.4.18",
     "base64-js": "1.5.1",
     "bn.js": "5.2.1",
@@ -60,7 +60,7 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test --coverage'",
@@ -68,5 +68,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.101"
+  "version": "1.0.0-rc.105"
 }

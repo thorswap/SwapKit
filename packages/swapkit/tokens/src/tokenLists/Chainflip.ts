@@ -19,13 +19,7 @@ export const list = {
       identifier: "ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48",
       decimals: 6,
     },
-    {
-      address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
-      chain: "ETH",
-      identifier: "ETH.USDT-0XDAC17F958D2EE523A2206206994597C13D831EC7",
-      decimals: 6,
-    },
   ],
-  count: 6,
+  count: 5,
   logo: "https://static.thorswap.net/token-list/images/flip.flip.png",
 } as const;

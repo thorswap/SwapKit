@@ -1,7 +1,12 @@
 import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
 import type { Account } from "@cosmjs/stargate";
-import { type AssetValue, SwapKitNumber } from "@swapkit/helpers";
-import { BaseDecimal, ChainId, DerivationPath } from "@swapkit/types";
+import {
+  type AssetValue,
+  BaseDecimal,
+  ChainId,
+  DerivationPath,
+  SwapKitNumber,
+} from "@swapkit/helpers";
 
 import { CosmosClient } from "../cosmosClient.ts";
 import { type KujiraToolboxType, type ToolboxParams, USK_KUJIRA_FACTORY_DENOM } from "../index.ts";

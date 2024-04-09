@@ -1,8 +1,8 @@
 import { Chains } from "@chainflip/sdk/swap";
 import { type AssetValue, SwapKitError, SwapKitNumber, wrapWithThrow } from "@swapkit/helpers";
+import { Chain } from "@swapkit/helpers";
 import type { ETHToolbox } from "@swapkit/toolbox-evm";
 import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
-import { Chain } from "@swapkit/types";
 
 import { decodeAddress } from "@polkadot/keyring";
 import { isHex, u8aToHex } from "@polkadot/util";
@@ -124,15 +124,52 @@ const withdrawFee = (
       : recipient;
   }, "chainflip_broker_recipient_error");
 
-  const extrinsic = toolbox.api.tx?.swapping?.withdraw?.(feeAsset.ticker.toLowerCase(), {
-    [feeAsset.chain.toLowerCase()]: recipientAddress,
+  return new Promise<{
+    egressId: string;
+    egressAsset: string;
+    egressAmount: string;
+    egressFee: string;
+    destinationAddress: string;
+  }>((resolve) => {
+    const extrinsic = toolbox.api.tx?.swapping?.withdraw?.(feeAsset.ticker.toLowerCase(), {
+      [feeAsset.chain.toLowerCase()]: recipientAddress,
+    });
+
+    if (!extrinsic) {
+      throw new Error("chainflip_broker_withdraw");
+    }
+
+    toolbox.signAndBroadcast(extrinsic, async (result) => {
+      if (!result.status?.isFinalized) {
+        return;
+      }
+
+      const withdrawEvent = result.events.find(
+        (event) => event.event.method === "WithdrawalRequested",
+      );
+
+      if (!withdrawEvent) {
+        throw new SwapKitError(
+          "chainflip_channel_error",
+          "Could not find 'WithdrawalRequested' event",
+        );
+      }
+
+      const {
+        event: {
+          data: { egressId, egressAsset, egressAmount, egressFee, destinationAddress },
+        },
+      } = withdrawEvent.toHuman() as Todo;
+
+      resolve({
+        egressId,
+        egressAsset,
+        egressAmount,
+        egressFee,
+        destinationAddress,
+      });
+    });
   });
-
-  if (!extrinsic) {
-    throw new Error("chainflip_broker_withdraw");
-  }
-
-  return toolbox.signAndBroadcast(extrinsic);
 };
 
 const fundStateChainAccount = (
@@ -161,21 +198,21 @@ const fundStateChainAccount = (
   });
 };
 
-export const ChainflipBroker = async (
+export const ChainflipBroker = (
   chainflipToolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
 ) => ({
-  registerAsBroker: async (address: string) => registerAsBroker(chainflipToolbox, address),
-  requestSwapDepositAddress: async (chainflipTransaction: {
+  registerAsBroker: (address: string) => registerAsBroker(chainflipToolbox, address),
+  requestSwapDepositAddress: (chainflipTransaction: {
     sellAsset: AssetValue;
     buyAsset: AssetValue;
     recipient: string;
     brokerCommissionBPS: number;
   }) => requestSwapDepositAddress(chainflipToolbox, chainflipTransaction),
-  fundStateChainAccount: async (
+  fundStateChainAccount: (
     stateChainAccount: string,
     amount: AssetValue,
     evmToolbox: ReturnType<typeof ETHToolbox>,
   ) => fundStateChainAccount(evmToolbox, chainflipToolbox, stateChainAccount, amount),
-  withdrawFee: async ({ feeAsset, recipient }: { feeAsset: AssetValue; recipient: string }) =>
-    withdrawFee(chainflipToolbox, { feeAsset, recipient }),
+  withdrawFee: (params: { feeAsset: AssetValue; recipient: string }) =>
+    withdrawFee(chainflipToolbox, params),
 });

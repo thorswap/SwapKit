@@ -8,8 +8,7 @@ import {
 import * as secp256k1 from "tiny-secp256k1";
 
 import { mnemonicToSeedSync } from "@scure/bip39";
-import type { UTXOChain } from "@swapkit/types";
-import { Chain, DerivationPath, FeeOption, RPCUrl } from "@swapkit/types";
+import { Chain, DerivationPath, FeeOption, RPCUrl, type UTXOChain } from "@swapkit/helpers";
 import { Psbt } from "bitcoinjs-lib";
 import { ECPairFactory } from "ecpair";
 

@@ -1,10 +1,11 @@
 {
   "description": "SwapKit Wallet - EVM Extensions",
+  "dependencies": {
+    "@swapkit/helpers": "workspace:*"
+  },
   "devDependencies": {
-    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/types": "workspace:*",
-    "bun-types": "1.1.1"
+    "bun-types": "1.1.2"
   },
   "files": [
     "src/",
@@ -16,8 +17,7 @@
   "name": "@swapkit/wallet-evm-extensions",
   "peerDependencies": {
     "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "@swapkit/toolbox-evm": "workspace:*"
   },
   "react-native": "./src/index.ts",
   "repository": {
@@ -26,7 +26,7 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test --coverage'",
@@ -34,5 +34,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.92"
+  "version": "1.0.0-rc.96"
 }

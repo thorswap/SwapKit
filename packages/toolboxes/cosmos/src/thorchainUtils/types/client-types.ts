@@ -1,8 +1,7 @@
 import type { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from "@cosmjs/amino";
 import type { OfflineDirectSigner, Registry } from "@cosmjs/proto-signing";
 import type { AminoTypes, Account as CosmosAccount } from "@cosmjs/stargate";
-import type { AssetValue, SwapKitNumber } from "@swapkit/helpers";
-import type { Asset, ChainId } from "@swapkit/types";
+import type { Asset, AssetValue, ChainId, SwapKitNumber } from "@swapkit/helpers";
 import type { curve } from "elliptic";
 
 import type { BNBTransaction } from "../../binanceUtils/transaction.ts";

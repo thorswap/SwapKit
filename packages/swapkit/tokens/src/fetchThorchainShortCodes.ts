@@ -1,4 +1,5 @@
-import { RequestClient, type ThornodePoolItem } from "@swapkit/api";
+import type { ThornodePoolItem } from "@swapkit/api";
+import { RequestClient } from "@swapkit/helpers";
 
 type AssetInfo = {
   asset: string;

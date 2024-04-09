@@ -16,7 +16,7 @@ import crypto from "node:crypto";
  *  limitations under the License.
  ******************************************************************************* */
 import { bech32 } from "@scure/base";
-import { LedgerErrorCode } from "@swapkit/types";
+import { LedgerErrorCode } from "@swapkit/helpers";
 import Ripemd160 from "ripemd160";
 
 import {

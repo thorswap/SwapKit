@@ -1,11 +1,10 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@swapkit/types": "workspace:*",
-    "ky": "1.2.3"
+    "@swapkit/helpers": "workspace:*"
   },
   "devDependencies": {
-    "bun-types": "1.1.1"
+    "bun-types": "1.1.2"
   },
   "description": "SwapKit - API",
   "files": [
@@ -17,8 +16,7 @@
   "main": "./dist/index.js",
   "name": "@swapkit/api",
   "peerDependencies": {
-    "@swapkit/types": "workspace:*",
-    "ky": "^1.2.2"
+    "@swapkit/helpers": "workspace:*"
   },
   "react-native": "./src/index.ts",
   "repository": {
@@ -27,7 +25,7 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test --coverage'",
@@ -35,5 +33,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.49"
+  "version": "1.0.0-rc.53"
 }

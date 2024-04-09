@@ -1,4 +1,4 @@
-import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from "@swapkit/types";
+import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from "@swapkit/helpers";
 import type { BrowserProvider, JsonRpcProvider, Provider, Signer } from "ethers";
 
 import type { CovalentApiType } from "../api/covalentApi.ts";
@@ -13,7 +13,7 @@ import {
   isStateChangingCall,
 } from "./BaseEVMToolbox.ts";
 
-export const getNetworkParams = () => ({
+const getNetworkParams = () => ({
   chainId: ChainId.BinanceSmartChainHex,
   chainName: "Smart Chain",
   nativeCurrency: { name: "Binance Coin", symbol: Chain.Binance, decimals: BaseDecimal.BSC },

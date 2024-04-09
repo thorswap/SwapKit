@@ -8,7 +8,7 @@ runs:
     - uses: dtinth/setup-github-actions-caching-for-turbo@a0e976d970c2a94366a26984efcef3030e2c0115
     - uses: oven-sh/setup-bun@v1
       with:
-        bun-version: 1.1.1
+        bun-version: latest
 
     - name: Install packages
       shell: bash

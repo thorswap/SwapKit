@@ -1,4 +1,11 @@
-import { setRequestClientConfig } from "@swapkit/helpers";
+import {
+  Chain,
+  type ConnectWalletParams,
+  DerivationPath,
+  WalletOption,
+  type Witness,
+  setRequestClientConfig,
+} from "@swapkit/helpers";
 import type {
   BinanceToolboxType,
   DepositParam,
@@ -11,8 +18,6 @@ import type {
   UTXOTransferParams,
   UTXOWalletTransferParams,
 } from "@swapkit/toolbox-utxo";
-import type { ConnectWalletParams, Witness } from "@swapkit/types";
-import { Chain, DerivationPath, WalletOption } from "@swapkit/types";
 
 type KeystoreOptions = {
   ethplorerApiKey?: string;
@@ -220,14 +225,7 @@ const connectKeystore =
     addChain,
     apis,
     rpcUrls,
-    config: {
-      thorswapApiKey,
-      covalentApiKey,
-      ethplorerApiKey,
-      blockchairApiKey,
-      utxoApiKey,
-      stagenet,
-    },
+    config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
   }: ConnectWalletParams) =>
   async (chains: Chain[], phrase: string, index = 0) => {
     setRequestClientConfig({ apiKey: thorswapApiKey });
@@ -241,7 +239,7 @@ const connectKeystore =
         covalentApiKey,
         ethplorerApiKey,
         phrase,
-        blockchairApiKey: blockchairApiKey || utxoApiKey,
+        blockchairApiKey,
         stagenet,
       });
 

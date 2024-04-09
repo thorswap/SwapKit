@@ -1,5 +1,9 @@
-import { SwapKitError } from "@swapkit/helpers";
-import { type DerivationPathArray, LedgerErrorCode, NetworkDerivationPath } from "@swapkit/types";
+import {
+  type DerivationPathArray,
+  LedgerErrorCode,
+  NetworkDerivationPath,
+  SwapKitError,
+} from "@swapkit/helpers";
 
 import { BinanceApp } from "../clients/binance/lib.ts";
 import { THORChainApp } from "../clients/thorchain/lib.ts";

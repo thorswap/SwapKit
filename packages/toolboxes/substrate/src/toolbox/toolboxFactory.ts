@@ -1,11 +1,10 @@
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import type { KeyringPair } from "@polkadot/keyring/types";
-import { AssetValue, SwapKitNumber } from "@swapkit/helpers";
-import { Chain, RPCUrl, type SubstrateChain } from "@swapkit/types";
+import { AssetValue, Chain, RPCUrl, type SubstrateChain, SwapKitNumber } from "@swapkit/helpers";
 
 import { Network } from "../types/network.ts";
 
-import { BaseSubstrateToolbox } from "./baseSubstrateToobox.ts";
+import { BaseSubstrateToolbox } from "./baseSubstrateToolbox.ts";
 
 type ToolboxParams = {
   providerUrl?: RPCUrl;
@@ -13,16 +12,12 @@ type ToolboxParams = {
   signer: KeyringPair;
 };
 
-type ToolboxFactoryType<T, M> = (
-  params: ToolboxParams & T,
-) => ReturnType<typeof BaseSubstrateToolbox> & M;
-
-export const ToolboxFactory: ToolboxFactoryType<{ chain: SubstrateChain }, unknown> = async ({
+export const ToolboxFactory = async ({
   providerUrl,
   generic,
   chain,
   signer,
-}) => {
+}: ToolboxParams & { chain: SubstrateChain }) => {
   const provider = new WsProvider(providerUrl);
   const api = await ApiPromise.create({ provider });
   const gasAsset = AssetValue.fromChainOrSignature(chain);
@@ -35,11 +30,7 @@ export const ToolboxFactory: ToolboxFactoryType<{ chain: SubstrateChain }, unkno
   });
 };
 
-export const PolkadotToolbox: ToolboxFactoryType<unknown, unknown> = ({
-  providerUrl,
-  signer,
-  generic = false,
-}) => {
+export const PolkadotToolbox = ({ providerUrl, signer, generic = false }: ToolboxParams) => {
   return ToolboxFactory({
     providerUrl: providerUrl || RPCUrl.Polkadot,
     chain: Chain.Polkadot,
@@ -48,18 +39,14 @@ export const PolkadotToolbox: ToolboxFactoryType<unknown, unknown> = ({
   });
 };
 
-export const ChainflipToolbox: ToolboxFactoryType<unknown, unknown> = async ({
-  providerUrl,
-  signer,
-  generic = false,
-}) => {
+export const ChainflipToolbox = async ({ providerUrl, signer, generic = false }: ToolboxParams) => {
   const provider = new WsProvider(providerUrl);
   const api = await ApiPromise.create({ provider });
   const gasAsset = AssetValue.fromChainOrSignature(Chain.Chainflip);
 
-  const getBalance = async (api: ApiPromise, address: string) => {
+  async function getBalance(api: ApiPromise, address: string) {
     // @ts-expect-error @Towan some parts of data missing?
-    // biome-ignore lint/correctness/noUnsafeOptionalChaining: <explanation>
+    // biome-ignore lint/correctness/noUnsafeOptionalChaining: @Towan some parts of data missing?
     const { balance } = await api.query.flip?.account?.(address);
 
     return [
@@ -67,7 +54,7 @@ export const ChainflipToolbox: ToolboxFactoryType<unknown, unknown> = async ({
         SwapKitNumber.fromBigInt(BigInt(balance.toString()), gasAsset.decimal).getValue("string"),
       ),
     ];
-  };
+  }
 
   const baseToolbox = await ToolboxFactory({
     chain: Chain.Chainflip,

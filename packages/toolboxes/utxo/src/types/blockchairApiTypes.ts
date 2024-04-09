@@ -1,4 +1,4 @@
-import type { Chain } from "@swapkit/types";
+import type { Chain } from "@swapkit/helpers";
 
 export type BlockchairApiParams<T> = T & {
   chain: Chain;

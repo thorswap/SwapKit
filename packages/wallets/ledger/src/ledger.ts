@@ -1,8 +1,15 @@
-import { setRequestClientConfig } from "@swapkit/helpers";
+import {
+  Chain,
+  ChainId,
+  type ConnectWalletParams,
+  type DerivationPathArray,
+  FeeOption,
+  RPCUrl,
+  WalletOption,
+  setRequestClientConfig,
+} from "@swapkit/helpers";
 import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
 import type { UTXOBuildTxParams } from "@swapkit/toolbox-utxo";
-import type { ConnectWalletParams, DerivationPathArray } from "@swapkit/types";
-import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from "@swapkit/types";
 
 import type { BinanceLedger } from "./clients/binance/index.ts";
 import type { CosmosLedger } from "./clients/cosmos.ts";
@@ -441,14 +448,7 @@ const connectLedger =
     addChain,
     apis,
     rpcUrls,
-    config: {
-      thorswapApiKey,
-      covalentApiKey,
-      ethplorerApiKey,
-      blockchairApiKey,
-      utxoApiKey,
-      stagenet,
-    },
+    config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
   }: ConnectWalletParams) =>
   async (chain: (typeof LEDGER_SUPPORTED_CHAINS)[number], derivationPath?: DerivationPathArray) => {
     setRequestClientConfig({ apiKey: thorswapApiKey });
@@ -466,7 +466,7 @@ const connectLedger =
       ethplorerApiKey,
       rpcUrl: rpcUrls[chain],
       signer: ledgerClient,
-      blockchairApiKey: blockchairApiKey || utxoApiKey,
+      blockchairApiKey,
       stagenet,
     });
 

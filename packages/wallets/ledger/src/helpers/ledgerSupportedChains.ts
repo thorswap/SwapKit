@@ -1,4 +1,4 @@
-import { Chain } from "@swapkit/types";
+import { Chain } from "@swapkit/helpers";
 
 export const LEDGER_SUPPORTED_CHAINS = [
   Chain.Arbitrum,

@@ -1,9 +1,8 @@
 import type BitcoinApp from "@ledgerhq/hw-app-btc";
 import type { CreateTransactionArg } from "@ledgerhq/hw-app-btc/lib-es/createTransaction";
-import { SwapKitError } from "@swapkit/helpers";
+import { LedgerErrorCode, SwapKitError } from "@swapkit/helpers";
 import type { Network as BTCNetwork, Psbt, UTXOType } from "@swapkit/toolbox-utxo";
 import { networks } from "@swapkit/toolbox-utxo";
-import { LedgerErrorCode } from "@swapkit/types";
 
 import { BinanceApp } from "../clients/binance/lib.ts";
 import { THORChainApp } from "../clients/thorchain/lib.ts";
