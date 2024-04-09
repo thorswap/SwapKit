@@ -124,15 +124,52 @@ const withdrawFee = (
       : recipient;
   }, "chainflip_broker_recipient_error");
 
-  const extrinsic = toolbox.api.tx?.swapping?.withdraw?.(feeAsset.ticker.toLowerCase(), {
-    [feeAsset.chain.toLowerCase()]: recipientAddress,
+  return new Promise<{
+    egressId: string;
+    egressAsset: string;
+    egressAmount: string;
+    egressFee: string;
+    destinationAddress: string;
+  }>((resolve) => {
+    const extrinsic = toolbox.api.tx?.swapping?.withdraw?.(feeAsset.ticker.toLowerCase(), {
+      [feeAsset.chain.toLowerCase()]: recipientAddress,
+    });
+
+    if (!extrinsic) {
+      throw new Error("chainflip_broker_withdraw");
+    }
+
+    toolbox.signAndBroadcast(extrinsic, async (result) => {
+      if (!result.status?.isFinalized) {
+        return;
+      }
+
+      const withdrawEvent = result.events.find(
+        (event) => event.event.method === "WithdrawalRequested",
+      );
+
+      if (!withdrawEvent) {
+        throw new SwapKitError(
+          "chainflip_channel_error",
+          "Could not find 'WithdrawalRequested' event",
+        );
+      }
+
+      const {
+        event: {
+          data: { egressId, egressAsset, egressAmount, egressFee, destinationAddress },
+        },
+      } = withdrawEvent.toHuman() as Todo;
+
+      resolve({
+        egressId,
+        egressAsset,
+        egressAmount,
+        egressFee,
+        destinationAddress,
+      });
+    });
   });
-
-  if (!extrinsic) {
-    throw new Error("chainflip_broker_withdraw");
-  }
-
-  return toolbox.signAndBroadcast(extrinsic);
 };
 
 const fundStateChainAccount = (
