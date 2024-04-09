@@ -225,14 +225,7 @@ const connectKeystore =
     addChain,
     apis,
     rpcUrls,
-    config: {
-      thorswapApiKey,
-      covalentApiKey,
-      ethplorerApiKey,
-      blockchairApiKey,
-      utxoApiKey,
-      stagenet,
-    },
+    config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
   }: ConnectWalletParams) =>
   async (chains: Chain[], phrase: string, index = 0) => {
     setRequestClientConfig({ apiKey: thorswapApiKey });
@@ -246,7 +239,7 @@ const connectKeystore =
         covalentApiKey,
         ethplorerApiKey,
         phrase,
-        blockchairApiKey: blockchairApiKey || utxoApiKey,
+        blockchairApiKey,
         stagenet,
       });
 

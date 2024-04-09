@@ -22,9 +22,11 @@
   "main": "./dist/index.js",
   "name": "@swapkit/wallet-wc",
   "peerDependencies": {
-    "@swapkit/helpers": "workspace:*",
     "@cosmjs/amino": "0.32.3",
     "@cosmjs/proto-signing": "0.32.3",
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
     "@walletconnect/modal-sign-html": "2.6.2",
     "cosmjs-types": "0.9.0"
   },
@@ -34,8 +36,8 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
+    "build": "echo 'bun run ./build.ts'",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test --coverage'",

@@ -2,8 +2,6 @@
   "author": "swapkit-oss",
   "description": "SwapKit - Tokens",
   "devDependencies": {
-    "@swapkit/api": "workspace:*",
-    "@swapkit/helpers": "workspace:*",
     "bun-types": "1.1.2"
   },
   "files": ["src/", "dist/"],
@@ -18,8 +16,8 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
-    "generate-tokens": "bun run ./src/fetchTokenLists.ts",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
+    "generate-tokens": "bun run ./fetchTokenLists.ts",
     "lint": "biome check --apply-unsafe ./src",
     "test": "echo 'bun test --run'",
     "test:coverage": "echo 'bun test --coverage'",

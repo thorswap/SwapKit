@@ -27,6 +27,7 @@
     "bitcoincash",
     "bitcoincashjs",
     "bitcoinjs",
+    "blakejs",
     "blockchair",
     "Chunkv",
     "coininfo",
@@ -41,15 +42,19 @@
     "nomicfoundation",
     "Numberish",
     "onboarded",
+    "outdir",
     "Pathv",
+    "pino",
     "privkey",
     "Ripemd",
     "subtrate",
     "Towan",
     "TRUSTWALLET",
+    "tsbuildinfo",
     "uniqid",
     "utxos",
     "Walletconnect",
+    "webusb",
     "xpub"
   ]
 }

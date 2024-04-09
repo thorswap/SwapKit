@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "@swapkit/helpers": "workspace:*",
-    "@trezor/connect": "9.2.2",
     "@trezor/connect-web": "9.2.2"
   },
   "description": "SwapKit Wallet - Trezor",
@@ -17,7 +16,8 @@
   "name": "@swapkit/wallet-trezor",
   "peerDependencies": {
     "@swapkit/helpers": "workspace:*",
-    "@trezor/connect": "9.2.2",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*",
     "@trezor/connect-web": "9.2.2"
   },
   "react-native": "./src/index.ts",
@@ -26,8 +26,8 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
+    "build": "echo 'bun run ./build.ts'",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test--coverage'",

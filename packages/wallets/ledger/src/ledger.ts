@@ -448,14 +448,7 @@ const connectLedger =
     addChain,
     apis,
     rpcUrls,
-    config: {
-      thorswapApiKey,
-      covalentApiKey,
-      ethplorerApiKey,
-      blockchairApiKey,
-      utxoApiKey,
-      stagenet,
-    },
+    config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
   }: ConnectWalletParams) =>
   async (chain: (typeof LEDGER_SUPPORTED_CHAINS)[number], derivationPath?: DerivationPathArray) => {
     setRequestClientConfig({ apiKey: thorswapApiKey });
@@ -473,7 +466,7 @@ const connectLedger =
       ethplorerApiKey,
       rpcUrl: rpcUrls[chain],
       signer: ledgerClient,
-      blockchairApiKey: blockchairApiKey || utxoApiKey,
+      blockchairApiKey,
       stagenet,
     });
 

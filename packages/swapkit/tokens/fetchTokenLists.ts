@@ -25,6 +25,8 @@ for (const { provider } of providers) {
 
     if (!tokenList) continue;
 
+    console.info(`✅ ${provider} token list fetched (${tokenList.tokens.length} tokens)`);
+
     const tokens = tokenList?.tokens
       ?.map(({ address, chain, identifier, decimals, logoURL }) => ({
         address,

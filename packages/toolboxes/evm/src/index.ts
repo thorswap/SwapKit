@@ -1,12 +1,12 @@
 export {
   AbstractSigner,
   BrowserProvider,
-  type Eip1193Provider,
   HDNodeWallet,
   JsonRpcProvider,
-  type Provider,
   Signature,
   Transaction,
+  type Eip1193Provider,
+  type Provider,
   type TransactionRequest,
 } from "ethers";
 

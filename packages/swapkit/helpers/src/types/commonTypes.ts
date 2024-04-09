@@ -31,10 +31,6 @@ export type ConnectConfig = {
    */
   blockchairApiKey?: string;
   /**
-   * @deprecated - use blockchairApiKey instead
-   */
-  utxoApiKey?: string;
-  /**
    * @required for Walletconnect
    */
   walletConnectProjectId?: string;

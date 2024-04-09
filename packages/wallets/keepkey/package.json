@@ -19,7 +19,10 @@
   "peerDependencies": {
     "@cosmjs/amino": "0.32.3",
     "@keepkey/keepkey-sdk": "0.2.57",
-    "@swapkit/helpers": "workspace:*"
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*"
   },
   "publishConfig": {
     "access": "public"
@@ -28,7 +31,7 @@
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules tsconfig.tsbuildinfo",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test --coverage'",
