@@ -1,6 +1,6 @@
 import type { TxBodyEncodeObject } from "@cosmjs/proto-signing";
 import { AssetValue } from "@swapkit/helpers";
-import { Chain, ChainId, RPCUrl } from "@swapkit/types";
+import { Chain, ChainToChainId, RPCUrl } from "@swapkit/types";
 
 import { createStargateClient, getDenom } from "../util.ts";
 
@@ -132,7 +132,7 @@ export const buildTransaction = async ({
   const msg = buildAminoMsg({ from, recipient, assetValue, memo, chain });
 
   const transaction = {
-    chainId: ChainId.THORChain,
+    chainId: ChainToChainId[chain],
     accountNumber: account.accountNumber,
     sequence: account.sequence,
     msgs: [msg],
@@ -197,8 +197,17 @@ export const buildEncodedTxBody = async (
   return encodedTxBody;
 };
 
-export const getDenomWithChain = ({ symbol }: AssetValue) =>
-  (symbol.toUpperCase() !== "RUNE"
-    ? symbol.toLowerCase()
-    : `${Chain.THORChain}.${symbol.toUpperCase()}`
+export const getDenomWithChain = ({ symbol, chain }: AssetValue) => {
+  if (chain === Chain.Maya) {
+    return (
+      symbol.toUpperCase() !== "CACAO"
+        ? symbol.toLowerCase()
+        : `${Chain.Maya}.${symbol.toUpperCase()}`
+    ).toUpperCase();
+  }
+  return (
+    symbol.toUpperCase() !== "RUNE"
+      ? symbol.toLowerCase()
+      : `${Chain.THORChain}.${symbol.toUpperCase()}`
   ).toUpperCase();
+};

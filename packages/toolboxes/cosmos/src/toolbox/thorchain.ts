@@ -161,8 +161,15 @@ export const BaseThorchainToolbox = ({
   chain: Chain.THORChain | Chain.Maya;
 }): ThorchainToolboxType => {
   const isThorchain = chain === Chain.THORChain;
+  const isMaya = chain === Chain.Maya;
   const chainId = isThorchain ? ChainId.THORChain : ChainId.Maya;
-  const nodeUrl = stagenet ? ApiUrl.ThornodeStagenet : ApiUrl.ThornodeMainnet;
+  const nodeUrl = stagenet
+    ? isMaya
+      ? ApiUrl.MayanodeStagenet
+      : ApiUrl.ThornodeStagenet
+    : isMaya
+      ? ApiUrl.MayanodeMainnet
+      : ApiUrl.ThornodeMainnet;
   const prefix = `${stagenet ? "s" : ""}${chain.toLowerCase()}`;
   const derivationPath = DerivationPath[chain];
   const rpcUrl = getRPC(chainId, stagenet);
