@@ -32,19 +32,15 @@ export async function confirmSwap({
 export const ChainflipPlugin = ({
   wallets,
 }: { wallets: BaseWallet<{ [key: string]: NotWorth }> }) => {
-  async function swap({ provider, recipient, ...rest }: SwapParams) {
-    if (
-      !(
-        "route" in rest &&
-        (rest.route as QuoteRouteV2)?.buyAsset &&
-        provider?.config.brokerEndpoint
-      )
-    ) {
+  async function swap({ provider, pluginConfig, recipient, ...rest }: SwapParams<"chainflip">) {
+    const chainflipConfig = pluginConfig || provider;
+    const brokerEndpoint = chainflipConfig?.config?.brokerEndpoint;
+
+    if (!("route" in rest && (rest.route as QuoteRouteV2)?.buyAsset && brokerEndpoint)) {
       throw new SwapKitError("core_swap_invalid_params");
     }
 
     const { buyAsset: buyString, sellAsset: sellString, sellAmount } = rest.route as QuoteRouteV2;
-
     if (!(sellString && buyString)) {
       throw new SwapKitError("core_swap_asset_not_recognized");
     }
@@ -58,10 +54,10 @@ export const ChainflipPlugin = ({
     const assetValue = sellAsset.set(sellAmount);
 
     const { depositAddress } = await confirmSwap({
-      recipient,
+      brokerEndpoint,
       buyAsset,
+      recipient,
       sellAsset,
-      brokerEndpoint: provider.config.brokerEndpoint,
     });
 
     const tx = await wallets[sellAsset.chain].transfer({

@@ -2,14 +2,10 @@ import {
   ApproveMode,
   type ApproveReturnType,
   AssetValue,
-  type AvailableProviders,
   type BaseWallet,
   Chain,
-  type ChainWallet,
-  type PluginName,
   SwapKitError,
-  type SwapKitPlugin,
-  type SwapKitPlugins,
+  type SwapKitPluginInterface,
   type SwapParams,
 } from "@swapkit/helpers";
 import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
@@ -22,37 +18,20 @@ import {
 } from "./helpers/explorerUrls.ts";
 import type { ConnectWalletParamsLocal as ConnectWalletParams } from "./types.ts";
 
-export type SwapKitReturnType = SwapKitPlugins & {
-  getAddress: (chain: Chain) => string;
-  getWallet: (chain: Chain) => ChainWallet | undefined;
-  getWalletWithBalance: (chain: Chain, potentialScamFilter?: boolean) => Promise<ChainWallet>;
-  getBalance: (chain: Chain, refresh?: boolean) => Promise<AssetValue[]>;
-  getExplorerTxUrl: typeof getTxUrl;
-  getExplorerAddressUrl: typeof getAddressUrl;
-  swap: (params: SwapParams) => Promise<string>;
-  validateAddress: (params: { address: string; chain: Chain }) =>
-    | boolean
-    | Promise<boolean>
-    | undefined;
-  approveAssetValue: (assetValue: AssetValue, contractAddress: string) => boolean | Promise<string>;
-  isAssetValueApproved: (
-    assetValue: AssetValue,
-    contractAddress: string,
-  ) => boolean | Promise<boolean>;
-};
-
 export type Wallet = BaseWallet<
   EVMWallets & CosmosWallets & ThorchainWallets & UTXOWallets & SubstrateWallets
 >;
 
-export type SwapKitWallet = {
-  connectMethodName: string;
-  connect: (params: ConnectWalletParams) => (connectParams: Todo) => undefined | string;
+export type SwapKitWallet<ConnectMethod extends string, ConnectParams extends {}> = {
+  connectMethodName: ConnectMethod;
+  connect: (
+    params: ConnectWalletParams,
+  ) => (connectParams: ConnectParams) => boolean | Promise<boolean>;
 };
 
 export function SwapKit<
-  ExtendedProviders extends {},
-  ConnectWalletMethods = Record<string, ReturnType<SwapKitWallet["connect"]>>,
+  Plugins extends SwapKitPluginInterface<string, {}, {}>[],
+  SupportedWallets extends SwapKitWallet<string, {}>[],
 >({
   stagenet,
   wallets,
@@ -61,43 +40,41 @@ export function SwapKit<
   apis = {},
   rpcUrls = {},
 }: {
-  plugins: SwapKitPlugin[];
+  plugins: Plugins;
   stagenet: boolean;
-  wallets: SwapKitWallet[];
+  wallets: SupportedWallets;
   config?: Record<string, Todo>;
   apis: Record<string, Todo>;
   rpcUrls: Record<string, Todo>;
 }) {
+  type PluginsReturn = ReturnType<Plugins[number]>;
+  type AvailablePlugins = { [key in PluginsReturn["name"]]: PluginsReturn };
+
   const connectedWallets = {} as Wallet;
-  const availablePlugins: AvailableProviders<ExtendedProviders> = {};
+  const availablePlugins = {} as AvailablePlugins;
 
   for (const plugin of plugins) {
     const { name, methods } = plugin({ wallets: connectedWallets, stagenet });
 
+    // @ts-expect-error That is only resolved to any whenever there are no plugins
     availablePlugins[name] = methods;
   }
 
-  const connectWalletMethods = wallets.reduce((acc, wallet) => {
-    // @ts-expect-error TODO
-    acc[wallet.connectMethodName] = wallet.connect({
-      // @ts-expect-error TODO
-      addChain,
-      config,
-      apis,
-      rpcUrls,
-    });
+  const connectWalletMethods = wallets.reduce(
+    (acc, wallet) => {
+      acc[wallet.connectMethodName] = wallet.connect({ addChain, config, apis, rpcUrls });
 
-    return acc;
-  }, {} as ConnectWalletMethods);
+      return acc;
+    },
+    {} as Record<string, Todo>,
+  );
 
   /**
    * @Private
    * Internal helpers
    */
-  function getSwapKitPlugin(pluginName?: PluginName) {
-    const plugin =
-      (availablePlugins as SwapKitPlugins)[pluginName as PluginName] ||
-      Object.values(availablePlugins)[0];
+  function getSwapKitPlugin<T extends keyof AvailablePlugins>(pluginName: T) {
+    const plugin = availablePlugins[pluginName] || Object.values(availablePlugins)[0];
 
     if (!plugin) {
       throw new SwapKitError("core_plugin_not_found", "Could not find the requested plugin");
@@ -106,8 +83,8 @@ export function SwapKit<
     return plugin;
   }
 
-  function addChain(connectWallet: Wallet[Chain]) {
-    // @ts-expect-error TODO
+  function addChain<T extends Chain>(connectWallet: Wallet[T]) {
+    // @ts-expect-error: TODO
     connectedWallets[connectWallet.chain] = connectWallet;
   }
 
@@ -202,9 +179,16 @@ export function SwapKit<
     return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
   }
 
-  function swap({ provider, ...rest }: SwapParams) {
-    const plugin = getSwapKitPlugin(provider?.name);
+  function swap({ provider, pluginConfig, ...rest }: SwapParams<keyof AvailablePlugins>) {
+    const passedPluginConfig = pluginConfig || provider;
 
+    if (!passedPluginConfig) {
+      throw new SwapKitError("core_plugin_not_found");
+    }
+
+    const plugin = getSwapKitPlugin(passedPluginConfig?.name);
+
+    // @ts-expect-error Technically this should be a valid call...
     return plugin.swap({ provider, ...rest });
   }
 
@@ -225,5 +209,3 @@ export function SwapKit<
     validateAddress,
   };
 }
-
-export type SwapKitClient<T extends {}, K> = ReturnType<typeof SwapKit<T, K>>;

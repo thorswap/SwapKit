@@ -1,12 +1,17 @@
-import type { ChainWallet } from "@swapkit/helpers";
-import type {
-  Chain,
-  ConnectConfig,
-  CosmosChain,
-  EVMChain,
-  // type FeeOption,
-  UTXOChain,
-} from "@swapkit/helpers";
+import type { Chain, ConnectConfig, CosmosChain, EVMChain, UTXOChain } from "@swapkit/helpers";
+import type { Wallet } from "./client";
+
+type ApisType = { [key in UTXOChain]?: string } & { [key in EVMChain]?: string } & {
+  [key in CosmosChain]?: string;
+};
+
+export type ConnectWalletParamsLocal = {
+  addChain: (params: Wallet[Chain]) => void;
+  apis: ApisType;
+  config: ConnectConfig;
+  rpcUrls: { [chain in Chain]?: string };
+};
+
 // import type {
 //   BinanceToolbox,
 //   DepositParam,
@@ -76,14 +81,3 @@ import type {
 //   [Chain.Polygon]: EVMWallet<typeof MATICToolbox> | null;
 //   [Chain.THORChain]: ThorchainWallet | null;
 // };
-
-type ApisType = { [key in UTXOChain]?: string } & { [key in EVMChain]?: string } & {
-  [key in CosmosChain]?: string;
-};
-
-export type ConnectWalletParamsLocal = {
-  addChain: (params: ChainWallet) => void;
-  apis: ApisType;
-  config: ConnectConfig;
-  rpcUrls: { [chain in Chain]?: string };
-};
