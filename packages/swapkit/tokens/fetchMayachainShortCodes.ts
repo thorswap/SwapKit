@@ -29,8 +29,8 @@ try {
   }
 
   await Bun.write(
-    "src/assets/mayachain.ts",
-    `export const thorchainAssets = ${JSON.stringify(assetInfos)} as const;`,
+    "src/shortIdentifiers/mayachain.ts",
+    `export const mayaShortIdentifiers = ${JSON.stringify(assetInfos)} as const;`,
   );
 } catch (error) {
   console.error(error);

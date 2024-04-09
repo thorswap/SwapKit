@@ -28,8 +28,8 @@ try {
   }
 
   await Bun.write(
-    "src/assets/thorchain.ts",
-    `export const thorchainAssets = ${JSON.stringify(assetInfos)} as const;`,
+    "src/shortIdentifiers/thorchain.ts",
+    `export const thorShortIdentifiers = ${JSON.stringify(assetInfos)} as const;`,
   );
 } catch (error) {
   console.error(error);

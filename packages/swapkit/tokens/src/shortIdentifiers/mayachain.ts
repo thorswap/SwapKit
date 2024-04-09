@@ -1,4 +1,4 @@
-export const thorchainAssets = [
+export const mayaShortIdentifiers = [
   { asset: "BTC.BTC", shortIdentifier: "btc.btc" },
   { asset: "DASH.DASH", shortIdentifier: "dash.dash" },
   { asset: "ETH.ETH", shortIdentifier: "eth.eth" },
