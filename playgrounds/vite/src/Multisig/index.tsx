@@ -1,4 +1,4 @@
-import type { AssetValue, SwapKitCore } from "@swapkit/core";
+import type { AssetValue, Chain, SwapKitCore } from "@swapkit/core";
 import { ThorchainToolbox, buildAminoMsg } from "@swapkit/toolbox-cosmos";
 import { fromByteArray } from "base64-js";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -20,6 +20,7 @@ export default function Multisig({
   const [recipient, setRecipient] = useState("");
   const [memo, setMemo] = useState("");
   const [address, setAddress] = useState("");
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const [transaction, setTransaction] = useState<any | undefined>(undefined);
   const [signatures, setSignatures] = useState<{ [key: string]: string }>({});
   const [bodyBytes, setBodyBytes] = useState<Uint8Array>(new Uint8Array([]));
@@ -37,15 +38,16 @@ export default function Multisig({
     }
   }, [phrase, toolbox]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     loadPubKey();
   }, [loadPubKey, phrase]);
 
   const handleLoadMultisig = useCallback(async () => {
     const pubkey = await toolbox.createMultisig(Object.values(pubkeys), threshold);
-    const address = await toolbox.pubkeyToAddress(pubkey, "thor");
+    const address = toolbox.pubkeyToAddress(pubkey, "thor");
     setAddress(address);
-  }, [toolbox, pubkeys, threshold, setAddress]);
+  }, [toolbox, pubkeys, threshold]);
 
   const handlePubkeyChange = useCallback((index: number, value: string) => {
     setPubkeys((pubkeys) => ({
@@ -64,6 +66,7 @@ export default function Multisig({
   const handleCreateTransaction = useCallback(() => {
     if (!(inputAssetValue?.gt(0) && skClient)) return;
     const transferTx = buildAminoMsg({
+      chain: inputAssetValue.chain as Chain.THORChain,
       memo,
       recipient,
       from: address,
@@ -71,8 +74,9 @@ export default function Multisig({
     });
 
     setTransaction(transferTx);
-  }, [address, inputAssetValue, memo, recipient, skClient, stagenet]);
+  }, [address, inputAssetValue, memo, recipient, skClient]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const handleSignTransaction = useCallback(async () => {
     const wallet = await toolbox.secp256k1HdWalletFromMnemonic(phrase);
     const signature = await toolbox.signMultisigTx(wallet, JSON.stringify(transaction));
@@ -85,6 +89,7 @@ export default function Multisig({
     }));
   }, [phrase, toolbox, transaction, setBodyBytes]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const handleBroadcastTransaction = useCallback(async () => {
     setIsBroadcasting(true);
     const txHash = await toolbox.broadcastMultisigTx(
@@ -117,7 +122,7 @@ export default function Multisig({
             <span>Public keys:</span>
             <div>
               {Object.values(pubkeys).map((pubkey, index) => (
-                <div key={`${pubkey}-${index}`}>
+                <div key={pubkey}>
                   <input
                     onChange={(e) => handlePubkeyChange(index, e.target.value)}
                     placeholder="Base 64 pubkey"

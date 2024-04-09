@@ -1,16 +1,15 @@
 const sizeMap = {
   xxs: "1 KB",
-  xs: "10 KB",
-  s: "50 KB",
-  m: "100 KB",
-  l: "250 MB",
-  xl: "1 MB",
-  xxl: "2 MB",
-
-  sdk: "5 MB",
+  xs: "5 KB",
+  s: "10 KB",
+  m: "25 KB",
+  l: "50 KB",
+  xl: "125 KB",
+  xxl: "200 KB",
+  tokens: "1 MB",
 };
 
-const getSizeFor = (packagePath, sizeType) => {
+function getSizeFor(packagePath, sizeType) {
   const size = sizeMap[sizeType];
   if (!size) throw new Error(`Unknown size type ${sizeType}`);
   const [, packageName] = packagePath.split("/");
@@ -24,35 +23,32 @@ const getSizeFor = (packagePath, sizeType) => {
   return [
     {
       limit: size,
-      path: `./packages/${packagePath}/dist/*.cjs`,
-      name: `@swapkit/${packagePrefix}${packageName} - CommonJS`,
-    },
-    {
-      limit: size,
       path: `./packages/${packagePath}/dist/*.js`,
-      name: `@swapkit/${packagePrefix}${packageName} - ES Modules`,
+      name: `@swapkit/${packagePrefix}${packageName}`,
     },
   ];
-};
+}
 
 module.exports = [
-  ...getSizeFor("swapkit/api", "xs"),
-  ...getSizeFor("swapkit/core", "s"),
-  ...getSizeFor("swapkit/helpers", "s"),
-  ...getSizeFor("swapkit/sdk", "sdk"),
-  ...getSizeFor("swapkit/tokens", "xl"),
-  ...getSizeFor("swapkit/types", "xs"),
+  ...getSizeFor("swapkit/api", "s"),
+  ...getSizeFor("swapkit/chainflip", "xs"),
+  ...getSizeFor("swapkit/core", "m"),
+  ...getSizeFor("swapkit/helpers", "m"),
+  ...getSizeFor("swapkit/sdk", "xxs"),
+  ...getSizeFor("swapkit/thorchain", "s"),
+  ...getSizeFor("swapkit/tokens", "tokens"),
 
-  ...getSizeFor("toolboxes/cosmos", "xl"),
-  ...getSizeFor("toolboxes/evm", "l"),
-  ...getSizeFor("toolboxes/utxo", "l"),
+  ...getSizeFor("toolboxes/cosmos", "m"),
+  ...getSizeFor("toolboxes/evm", "m"),
+  ...getSizeFor("toolboxes/substrate", "xs"),
+  ...getSizeFor("toolboxes/utxo", "m"),
 
   ...getSizeFor("wallets/evm-extensions", "xxs"),
   ...getSizeFor("wallets/keplr", "xxs"),
-  ...getSizeFor("wallets/keystore", "l"),
+  ...getSizeFor("wallets/keystore", "xl"),
   ...getSizeFor("wallets/ledger", "xxl"),
   ...getSizeFor("wallets/okx", "xs"),
-  ...getSizeFor("wallets/trezor", "m"),
-  ...getSizeFor("wallets/wc", "l"),
+  ...getSizeFor("wallets/trezor", "xs"),
+  ...getSizeFor("wallets/wc", "xs"),
   ...getSizeFor("wallets/xdefi", "xs"),
 ];

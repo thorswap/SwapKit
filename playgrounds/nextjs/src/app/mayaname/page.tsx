@@ -1,7 +1,6 @@
 "use client";
 
-import { AssetValue, getMAYANameCost } from "@swapkit/helpers";
-import { Chain } from "@swapkit/types";
+import { AssetValue, getMAYANameCost, Chain } from "@swapkit/helpers";
 import { Button } from "~/components/ui/button.tsx";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
 import { useSwapKit } from "~/lib/swapKit.ts";
@@ -38,12 +37,7 @@ export default function Send() {
                 name,
                 chain: Chain.Maya,
                 address: swapKit.getAddress(Chain.Maya),
-                assetValue: new AssetValue({
-                  value: getMAYANameCost(1),
-                  decimal: 10,
-                  chain: Chain.Maya,
-                  symbol: "CACAO",
-                }),
+                assetValue: AssetValue.fromChainOrSignature(Chain.Maya, getMAYANameCost(1)),
               });
             }}
           >

@@ -46,8 +46,8 @@ export default function generator(plop: PlopTypes.NodePlopAPI) {
       },
       templateFile("package.json"),
       templateFile("tsconfig.json"),
-      templateFile("vite.config.ts"),
-      template({ path: "index.ts", template: "export * from './src';" }),
+      templateFile("build.ts"),
+      template({ path: "src/index.ts", template: 'export foo = "bar"' }),
       template({
         path: "src/index.ts",
         template: "export const name = '{{ name }}';",

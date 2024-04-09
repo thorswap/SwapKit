@@ -1,6 +1,5 @@
 import type { TxBodyEncodeObject } from "@cosmjs/proto-signing";
-import { AssetValue } from "@swapkit/helpers";
-import { Chain, ChainToChainId, RPCUrl } from "@swapkit/types";
+import { AssetValue, Chain, ChainToChainId, RPCUrl } from "@swapkit/helpers";
 
 import { createStargateClient, getDenom } from "../util.ts";
 
@@ -154,10 +153,10 @@ export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
         const assetValue = AssetValue.fromStringSync(coin.asset);
 
         const symbol = assetValue.isSynthetic
-          ? assetValue.symbol.split("/")[1].toLowerCase()
+          ? assetValue.symbol.split("/")?.[1]?.toLowerCase()
           : assetValue.symbol.toLowerCase();
         const chain = assetValue.isSynthetic
-          ? assetValue.symbol.split("/")[0].toLowerCase()
+          ? assetValue.symbol.split("/")?.[0]?.toLowerCase()
           : assetValue.chain.toLowerCase();
 
         return {
@@ -174,22 +173,21 @@ export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
   };
 };
 
-export const buildEncodedTxBody = async (
-  transaction: {
-    msgs: MsgSendForBroadcast[] | MsgDepositForBroadcast[];
-    memo: string;
-  },
-  chain: Chain.THORChain | Chain.Maya,
-) => {
+export const buildEncodedTxBody = async ({
+  chain,
+  memo,
+  msgs,
+}: {
+  msgs: MsgSendForBroadcast[] | MsgDepositForBroadcast[];
+  memo: string;
+  chain: Chain.THORChain | Chain.Maya;
+}) => {
   const registry = await createDefaultRegistry();
   const aminoTypes = await createDefaultAminoTypes(chain);
 
   const signedTxBody: TxBodyEncodeObject = {
     typeUrl: "/cosmos.tx.v1beta1.TxBody",
-    value: {
-      messages: transaction.msgs.map((msg) => aminoTypes.fromAmino(msg)),
-      memo: transaction.memo,
-    },
+    value: { memo, messages: msgs.map((msg) => aminoTypes.fromAmino(msg)) },
   };
 
   const encodedTxBody = registry.encode(signedTxBody);

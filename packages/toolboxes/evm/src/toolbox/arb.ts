@@ -1,4 +1,11 @@
-import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, FeeOption, RPCUrl } from "@swapkit/types";
+import {
+  BaseDecimal,
+  Chain,
+  ChainId,
+  ChainToExplorerUrl,
+  FeeOption,
+  RPCUrl,
+} from "@swapkit/helpers";
 import type { BrowserProvider, JsonRpcProvider, Provider, Signer } from "ethers";
 
 import type { CovalentApiType } from "../api/covalentApi.ts";
@@ -7,7 +14,7 @@ import { getBalance } from "../index.ts";
 
 import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
 
-export const getNetworkParams = () => ({
+const getNetworkParams = () => ({
   chainId: ChainId.ArbitrumHex,
   chainName: "Arbitrum One",
   nativeCurrency: { name: "Ethereum", symbol: Chain.Ethereum, decimals: BaseDecimal.ETH },
@@ -28,7 +35,7 @@ const estimateGasPrices = async (provider: Provider) => {
     };
   } catch (error) {
     throw new Error(
-      `Failed to estimate gas price: ${(error as any).msg ?? (error as any).toString()}`,
+      `Failed to estimate gas price: ${(error as Todo).msg ?? (error as Todo).toString()}`,
     );
   }
 };

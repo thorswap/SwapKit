@@ -1,4 +1,11 @@
-import { derivationPathToString } from "@swapkit/helpers";
+import {
+  Chain,
+  DerivationPath,
+  type DerivationPathArray,
+  FeeOption,
+  type UTXOChain,
+  derivationPathToString,
+} from "@swapkit/helpers";
 import type {
   BCHToolbox,
   BaseUTXOToolbox,
@@ -6,13 +13,11 @@ import type {
   UTXOToolbox,
   UTXOTransferParams,
 } from "@swapkit/toolbox-utxo";
-import type { DerivationPathArray, UTXOChain } from "@swapkit/types";
-import { Chain, DerivationPath, FeeOption } from "@swapkit/types";
 
 import { ChainToKeepKeyName, bip32ToAddressNList } from "../helpers/coins.ts";
 
 type KKUtxoWalletParams = {
-  sdk: any;
+  sdk: Todo;
   chain: UTXOChain;
   derivationPath?: DerivationPathArray;
   apiKey?: string;
@@ -61,8 +66,8 @@ export const utxoWalletMethods = async ({
   const scriptType = [Chain.Bitcoin, Chain.Litecoin].includes(chain) ? "p2wpkh" : "p2pkh";
 
   const derivationPathString = derivationPath
-    ? `m/${derivationPathToString(derivationPath)}`
-    : DerivationPath[chain];
+    ? derivationPathToString(derivationPath)
+    : `${DerivationPath[chain]}/0`;
 
   const addressInfo = {
     coin: ChainToKeepKeyName[chain],
@@ -99,7 +104,7 @@ export const utxoWalletMethods = async ({
       })
       .filter(Boolean);
 
-    const removeNullAndEmptyObjectsFromArray = (arr: any[]) => {
+    const removeNullAndEmptyObjectsFromArray = (arr: Todo[]) => {
       return arr.filter(
         (item) => item !== null && typeof item === "object" && Object.keys(item).length !== 0,
       );

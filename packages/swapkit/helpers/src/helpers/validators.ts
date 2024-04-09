@@ -1,4 +1,4 @@
-import { Chain } from "@swapkit/types";
+import { Chain } from "../types/chains";
 
 // Backward compatibility
 const supportedChains = [...Object.values(Chain), "TERRA"];
@@ -15,4 +15,12 @@ export function validateIdentifier(identifier = "") {
   throw new Error(
     `Invalid identifier: ${identifier}. Expected format: <Chain>.<Ticker> or <Chain>.<Ticker>-<ContractAddress>`,
   );
+}
+
+export function validateTNS(name: string) {
+  if (name.length > 30) return false;
+
+  const regex = /^[a-zA-Z0-9+_-]+$/g;
+
+  return !!name.match(regex);
 }

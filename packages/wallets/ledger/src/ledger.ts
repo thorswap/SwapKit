@@ -1,24 +1,39 @@
-import { setRequestClientConfig } from "@swapkit/helpers";
+import {
+  Chain,
+  ChainId,
+  type ConnectWalletParams,
+  type DerivationPathArray,
+  FeeOption,
+  RPCUrl,
+  WalletOption,
+  setRequestClientConfig,
+} from "@swapkit/helpers";
 import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
 import type { UTXOBuildTxParams } from "@swapkit/toolbox-utxo";
-import type { ConnectWalletParams, DerivationPathArray } from "@swapkit/types";
-import { Chain, ChainId, FeeOption, RPCUrl, WalletOption } from "@swapkit/types";
 
-import type { AvalancheLedger } from "./clients/avalanche.ts";
 import type { BinanceLedger } from "./clients/binance/index.ts";
-import type { BSCLedger } from "./clients/binancesmartchain.ts";
-import type { BitcoinLedger } from "./clients/bitcoin.ts";
-import type { BitcoinCashLedger } from "./clients/bitcoincash.ts";
 import type { CosmosLedger } from "./clients/cosmos.ts";
-import type { DogecoinLedger } from "./clients/dogecoin.ts";
-import type { EthereumLedger } from "./clients/ethereum.ts";
-import type { LitecoinLedger } from "./clients/litecoin.ts";
+import type {
+  ArbitrumLedger,
+  AvalancheLedger,
+  BinanceSmartChainLedger,
+  EthereumLedger,
+  OptimismLedger,
+  PolygonLedger,
+} from "./clients/evm.ts";
 import type { THORChainLedger } from "./clients/thorchain/index.ts";
+import type {
+  BitcoinCashLedger,
+  BitcoinLedger,
+  DashLedger,
+  DogecoinLedger,
+  LitecoinLedger,
+} from "./clients/utxo.ts";
 import type { LEDGER_SUPPORTED_CHAINS } from "./helpers/index.ts";
 import { getLedgerAddress, getLedgerClient } from "./helpers/index.ts";
 
 type LedgerConfig = {
-  api?: any;
+  api?: Todo;
   rpcUrl?: string;
   covalentApiKey?: string;
   ethplorerApiKey?: string;
@@ -32,10 +47,11 @@ const reduceMemo = (memo?: string, affiliateAddress = "t") => {
   const removedAffiliate = memo.includes(`:${affiliateAddress}:`)
     ? memo.split(`:${affiliateAddress}:`)[0]
     : memo;
-  return removedAffiliate.substring(0, removedAffiliate.lastIndexOf(":"));
+
+  return removedAffiliate?.substring(0, removedAffiliate.lastIndexOf(":"));
 };
 
-const recursivelyOrderKeys = (unordered: any) => {
+const recursivelyOrderKeys = (unordered: Todo) => {
   // If it's an array - recursively order any
   // dictionary items within the array
   if (Array.isArray(unordered)) {
@@ -47,7 +63,7 @@ const recursivelyOrderKeys = (unordered: any) => {
 
   // If it's an object - let's order the keys
   if (typeof unordered !== "object") return unordered;
-  const ordered: any = {};
+  const ordered: Todo = {};
   const sortedKeys = Object.keys(unordered).sort();
 
   for (const key of sortedKeys) {
@@ -57,7 +73,7 @@ const recursivelyOrderKeys = (unordered: any) => {
   return ordered;
 };
 
-const stringifyKeysInOrder = (data: any) => JSON.stringify(recursivelyOrderKeys(data));
+const stringifyKeysInOrder = (data: Todo) => JSON.stringify(recursivelyOrderKeys(data));
 
 const getToolbox = async ({
   api,
@@ -74,14 +90,18 @@ const getToolbox = async ({
   address: string;
   chain: (typeof LEDGER_SUPPORTED_CHAINS)[number];
   signer:
-    | AvalancheLedger
+    | ReturnType<typeof ArbitrumLedger>
+    | ReturnType<typeof AvalancheLedger>
+    | ReturnType<typeof BinanceSmartChainLedger>
+    | ReturnType<typeof BitcoinLedger>
+    | ReturnType<typeof BitcoinCashLedger>
+    | ReturnType<typeof DashLedger>
+    | ReturnType<typeof DogecoinLedger>
+    | ReturnType<typeof EthereumLedger>
+    | ReturnType<typeof LitecoinLedger>
+    | ReturnType<typeof OptimismLedger>
+    | ReturnType<typeof PolygonLedger>
     | BinanceLedger
-    | BSCLedger
-    | BitcoinLedger
-    | BitcoinCashLedger
-    | DogecoinLedger
-    | EthereumLedger
-    | LitecoinLedger
     | THORChainLedger
     | CosmosLedger;
   derivationPath?: DerivationPathArray;
@@ -102,7 +122,10 @@ const getToolbox = async ({
           feeRate,
           fetchTxHex: true,
         });
-        const txHex = await (signer as BitcoinLedger).signTransaction(psbt, inputs);
+        const txHex = await (signer as ReturnType<typeof BitcoinLedger>).signTransaction(
+          psbt,
+          inputs,
+        );
 
         return toolbox.broadcastTx(txHex);
       };
@@ -121,7 +144,31 @@ const getToolbox = async ({
           fetchTxHex: true,
         });
 
-        const txHex = await (signer as BitcoinCashLedger).signTransaction(psbt, inputs);
+        const txHex = await (signer as ReturnType<typeof BitcoinCashLedger>).signTransaction(
+          psbt,
+          inputs,
+        );
+
+        return toolbox.broadcastTx(txHex);
+      };
+      return { ...toolbox, transfer };
+    }
+    case Chain.Dash: {
+      const { DASHToolbox } = await import("@swapkit/toolbox-utxo");
+      const toolbox = DASHToolbox(utxoParams);
+      const transfer = async (params: UTXOBuildTxParams) => {
+        const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];
+        const { psbt, inputs } = await toolbox.buildTx({
+          ...params,
+          feeRate,
+          memo: reduceMemo(params.memo),
+          sender: address,
+          fetchTxHex: true,
+        });
+        const txHex = await (signer as ReturnType<typeof DogecoinLedger>).signTransaction(
+          psbt,
+          inputs,
+        );
 
         return toolbox.broadcastTx(txHex);
       };
@@ -139,7 +186,10 @@ const getToolbox = async ({
           sender: address,
           fetchTxHex: true,
         });
-        const txHex = await (signer as DogecoinLedger).signTransaction(psbt, inputs);
+        const txHex = await (signer as ReturnType<typeof DogecoinLedger>).signTransaction(
+          psbt,
+          inputs,
+        );
 
         return toolbox.broadcastTx(txHex);
       };
@@ -157,7 +207,10 @@ const getToolbox = async ({
           sender: address,
           fetchTxHex: true,
         });
-        const txHex = await (signer as LitecoinLedger).signTransaction(psbt, inputs);
+        const txHex = await (signer as ReturnType<typeof LitecoinLedger>).signTransaction(
+          psbt,
+          inputs,
+        );
 
         return toolbox.broadcastTx(txHex);
       };
@@ -182,7 +235,7 @@ const getToolbox = async ({
           derivationPath,
         );
 
-        const pubKey = toolbox.getPublicKey(pubKeyResponse?.pk?.toString("hex"));
+        const pubKey = await toolbox.getPublicKey(pubKeyResponse?.pk?.toString("hex"));
         const signedTx = transaction.addSignature(pubKey, signResponse?.signature);
 
         const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);
@@ -193,15 +246,13 @@ const getToolbox = async ({
     }
 
     case Chain.Cosmos: {
-      const { GasPrice, createSigningStargateClient, getDenom, GaiaToolbox } = await import(
+      const { createSigningStargateClient, getDenom, GaiaToolbox } = await import(
         "@swapkit/toolbox-cosmos"
       );
       const toolbox = GaiaToolbox();
       const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
         const from = address;
         if (!assetValue) throw new Error("invalid asset");
-        // ANCHOR (@0xGeneral) - create fallback for gas price estimation if internal api has error
-        const gasPrice = "0.007uatom";
 
         const sendCoinsMessage = {
           amount: [
@@ -222,7 +273,7 @@ const getToolbox = async ({
         const signingClient = await createSigningStargateClient(
           RPCUrl.Cosmos,
           signer as CosmosLedger,
-          { gasPrice: GasPrice.fromString(gasPrice) },
+          "0.007uatom",
         );
 
         const tx = await signingClient.signAndBroadcast(address, [msg], "auto", memo);
@@ -239,7 +290,7 @@ const getToolbox = async ({
 
       return ETHToolbox({
         api,
-        signer: signer as EthereumLedger,
+        signer: signer as ReturnType<typeof EthereumLedger>,
         provider: getProvider(Chain.Ethereum, rpcUrl),
         ethplorerApiKey,
       });
@@ -250,7 +301,7 @@ const getToolbox = async ({
 
       return AVAXToolbox({
         api,
-        signer: signer as AvalancheLedger,
+        signer: signer as ReturnType<typeof AvalancheLedger>,
         provider: getProvider(Chain.Avalanche, rpcUrl),
         covalentApiKey,
       });
@@ -261,25 +312,56 @@ const getToolbox = async ({
 
       return BSCToolbox({
         api,
-        signer: signer as BSCLedger,
+        signer: signer as ReturnType<typeof BinanceSmartChainLedger>,
         provider: getProvider(Chain.BinanceSmartChain, rpcUrl),
         covalentApiKey,
       });
     }
+    case Chain.Arbitrum: {
+      if (!covalentApiKey) throw new Error("Covalent API key is not defined");
+      const { ARBToolbox, getProvider } = await import("@swapkit/toolbox-evm");
+
+      return ARBToolbox({
+        api,
+        signer: signer as ReturnType<typeof ArbitrumLedger>,
+        provider: getProvider(Chain.Arbitrum, rpcUrl),
+        covalentApiKey,
+      });
+    }
+    case Chain.Optimism: {
+      if (!covalentApiKey) throw new Error("Covalent API key is not defined");
+      const { OPToolbox, getProvider } = await import("@swapkit/toolbox-evm");
+
+      return OPToolbox({
+        api,
+        signer: signer as ReturnType<typeof OptimismLedger>,
+        provider: getProvider(Chain.Optimism, rpcUrl),
+        covalentApiKey,
+      });
+    }
+    case Chain.Polygon: {
+      if (!covalentApiKey) throw new Error("Covalent API key is not defined");
+      const { MATICToolbox, getProvider } = await import("@swapkit/toolbox-evm");
+
+      return MATICToolbox({
+        api,
+        signer: signer as ReturnType<typeof PolygonLedger>,
+        provider: getProvider(Chain.Polygon, rpcUrl),
+        covalentApiKey,
+      });
+    }
     case Chain.THORChain: {
+      const { SignMode } = await import("cosmjs-types/cosmos/tx/signing/v1beta1/signing.js");
+      const { TxRaw } = await import("cosmjs-types/cosmos/tx/v1beta1/tx.js");
+      const { encodePubkey, makeAuthInfoBytes } = await import("@cosmjs/proto-signing");
       const {
         createStargateClient,
         buildEncodedTxBody,
         ThorchainToolbox,
         buildAminoMsg,
         getDefaultChainFee,
-        encodePubkey,
         fromBase64,
-        Int53,
-        makeAuthInfoBytes,
         prepareMessageForBroadcast,
-        SignMode,
-        TxRaw,
       } = await import("@swapkit/toolbox-cosmos");
       const toolbox = ThorchainToolbox({ stagenet: false });
 
@@ -290,16 +372,18 @@ const getToolbox = async ({
         memo = "",
         assetValue,
         ...rest
+        // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Refactor to reduce complexity
       }: TransferParams | DepositParam) => {
         const account = await toolbox.getAccount(address);
         if (!account) throw new Error("invalid account");
         if (!assetValue) throw new Error("invalid asset");
         if (!(signer as THORChainLedger).pubkey) throw new Error("Account pubkey not found");
+        const rpcUrl = stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain;
 
         const { accountNumber, sequence = "0" } = account;
 
         const msgs = recursivelyOrderKeys([
-          buildAminoMsg({ from: address, assetValue, memo, ...rest }),
+          buildAminoMsg({ chain, from: address, assetValue, memo, ...rest }),
         ]);
 
         // get tx signing msg
@@ -318,49 +402,40 @@ const getToolbox = async ({
         );
         if (!signatures) throw new Error("tx signing failed");
 
-        const bodyBytes = await buildEncodedTxBody({
-          msgs: msgs.map(prepareMessageForBroadcast),
-          memo,
-        });
+        const bodyMsgs = msgs.map(prepareMessageForBroadcast);
+        const bodyBytes = await buildEncodedTxBody({ chain, msgs: bodyMsgs, memo });
 
-        const signedGasLimit = Int53.fromString(fee.gas).toNumber();
         const pubkey = encodePubkey({
           type: "tendermint/PubKeySecp256k1",
           value: (signer as THORChainLedger)?.pubkey,
         });
 
-        const signedAuthInfoBytes = makeAuthInfoBytes(
+        const authInfoBytes = makeAuthInfoBytes(
           [{ pubkey, sequence: Number(sequence) }],
           fee.amount,
-          signedGasLimit,
+          Number.parseInt(fee.gas),
           undefined,
           undefined,
           SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
         );
 
-        const txRaw = TxRaw.fromPartial({
-          bodyBytes: bodyBytes,
-          authInfoBytes: signedAuthInfoBytes,
-          signatures: [fromBase64(signatures[0].signature)],
-        });
+        const signature = signatures?.[0]?.signature
+          ? fromBase64(signatures[0].signature)
+          : Uint8Array.from([]);
 
+        const txRaw = TxRaw.fromPartial({ bodyBytes, authInfoBytes, signatures: [signature] });
         const txBytes = TxRaw.encode(txRaw).finish();
 
-        const broadcaster = await createStargateClient(
-          stagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
-        );
-        const result = await broadcaster.broadcastTx(txBytes);
-        return result.transactionHash;
-      };
+        const broadcaster = await createStargateClient(rpcUrl);
+        const { transactionHash } = await broadcaster.broadcastTx(txBytes);
 
-      const signMessage = (message: string) => {
-        return (signer as THORChainLedger).sign(message);
+        return transactionHash;
       };
 
       const transfer = (params: TransferParams) => thorchainTransfer(params);
       const deposit = (params: DepositParam) => thorchainTransfer(params);
 
-      return { ...toolbox, deposit, transfer, signMessage };
+      return { ...toolbox, deposit, transfer, signMessage: (signer as THORChainLedger).sign };
     }
 
     default:
@@ -373,14 +448,7 @@ const connectLedger =
     addChain,
     apis,
     rpcUrls,
-    config: {
-      thorswapApiKey,
-      covalentApiKey,
-      ethplorerApiKey,
-      blockchairApiKey,
-      utxoApiKey,
-      stagenet,
-    },
+    config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
   }: ConnectWalletParams) =>
   async (chain: (typeof LEDGER_SUPPORTED_CHAINS)[number], derivationPath?: DerivationPathArray) => {
     setRequestClientConfig({ apiKey: thorswapApiKey });
@@ -398,13 +466,13 @@ const connectLedger =
       ethplorerApiKey,
       rpcUrl: rpcUrls[chain],
       signer: ledgerClient,
-      blockchairApiKey: blockchairApiKey || utxoApiKey,
+      blockchairApiKey,
       stagenet,
     });
 
     addChain({
-      chain,
       ...toolbox,
+      chain,
       address,
       balance: [],
       walletType: WalletOption.LEDGER,

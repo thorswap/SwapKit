@@ -83,7 +83,7 @@ interface ReturnResponse {
  * @static
  */
 export class BinanceApp {
-  private _transport: any;
+  private _transport: Todo;
   private _interactiveTimeout: number;
   private _nonInteractiveTimeout: number;
   /**
@@ -93,7 +93,7 @@ export class BinanceApp {
    * @param {Number} nonInteractiveTimeout The non-interactive timeout in ms. Default 3s.
    */
   constructor(
-    transport: any,
+    transport: Todo,
     interactiveTimeout: number = DEFAULT_LEDGER_INTERACTIVE_TIMEOUT,
     nonInteractiveTimeout: number = DEFAULT_LEDGER_NONINTERACTIVE_TIMEOUT,
   ) {
@@ -106,7 +106,7 @@ export class BinanceApp {
     this._transport.setScrambleKey(SCRAMBLE_KEY);
   }
 
-  _serialize(cla: number = CLA, ins = 0, p1 = 0, p2 = 0, data: any = null) {
+  _serialize(cla: number = CLA, ins = 0, p1 = 0, p2 = 0, data: Todo = null) {
     let size = 5;
     if (data != null) {
       if (data.length > 255) {
@@ -150,7 +150,8 @@ export class BinanceApp {
     const buf = Buffer.alloc(1 + 4 * path.length);
     buf.writeUInt8(path.length, 0);
     for (let i = 0; i < path.length; i++) {
-      let v = path[i];
+      let v = path[i] || 0;
+
       if (i < 3) {
         v |= 0x80000000; // Harden
       }
@@ -254,10 +255,10 @@ export class BinanceApp {
       result.minor = apduResponse[2];
       result.patch = apduResponse[3];
       result.device_locked = apduResponse[4] === 1;
-      result.return_code = returnCode[0] * 256 + returnCode[1];
+      result.return_code = (returnCode[0] || 0) * 256 + (returnCode[1] || 0);
       result.error_message = this._errorMessage(result.return_code);
-    } catch (err: any) {
-      const { statusCode, statusText, message, stack } = err;
+    } catch (err: unknown) {
+      const { statusCode, statusText, message, stack } = err as Todo;
       console.warn(
         "Ledger getVersion error:",
         this._errorMessage(statusCode),
@@ -316,10 +317,10 @@ export class BinanceApp {
       if (!Buffer.isBuffer(apduResponse)) throw new Error("expected apduResponse to be Buffer");
       const returnCode = apduResponse.slice(-2);
       result.pk = apduResponse.slice(0, 1 + 64);
-      result.return_code = returnCode[0] * 256 + returnCode[1];
+      result.return_code = (returnCode[0] || 0) * 256 + (returnCode[1] || 0);
       result.error_message = this._errorMessage(result.return_code);
-    } catch (err: any) {
-      const { statusCode, statusText, message, stack } = err;
+    } catch (err: unknown) {
+      const { statusCode, statusText, message, stack } = err as Todo;
       console.warn(
         "Ledger publicKeySecp256k1 error:",
         this._errorMessage(statusCode),
@@ -373,7 +374,7 @@ export class BinanceApp {
   // | SIG     | byte (~71) | Signature     | DER encoded (length prefixed parts) |
   // | SW1-SW2 | byte (2)  | Return code   | see list of return codes        |
 
-  _signGetChunks(data: any, hdPath: number[]) {
+  _signGetChunks(data: Todo, hdPath: number[]) {
     const chunks = [];
     chunks.push(this._serializeHDPath(hdPath));
     const buffer = Buffer.from(data);
@@ -387,7 +388,7 @@ export class BinanceApp {
     return chunks;
   }
 
-  async _signSendChunk(chunkIdx: any, chunksCount: any, chunk: any) {
+  async _signSendChunk(chunkIdx: Todo, chunksCount: Todo, chunk: Todo) {
     const result: SignedSignature = {};
     try {
       const apduResponse = await this._transport.send(
@@ -400,15 +401,15 @@ export class BinanceApp {
       if (!Buffer.isBuffer(apduResponse)) throw new Error("expected apduResponse to be Buffer");
       const returnCode = apduResponse.slice(-2);
 
-      result.return_code = returnCode[0] * 256 + returnCode[1];
+      result.return_code = (returnCode[0] || 0) * 256 + (returnCode[1] || 0);
       result.error_message = this._errorMessage(result.return_code);
 
       result.signature = null;
       if (apduResponse.length > 2) {
         result.signature = apduResponse.slice(0, apduResponse.length - 2);
       }
-    } catch (err: any) {
-      const { statusCode, statusText, message, stack } = err;
+    } catch (err: unknown) {
+      const { statusCode, statusText, message, stack } = err as Todo;
       console.warn(
         "Ledger signSendChunk error:",
         this._errorMessage(statusCode),
@@ -448,8 +449,8 @@ export class BinanceApp {
       result.return_code = response.return_code;
       result.error_message = response.error_message;
       result.signature = null;
-    } catch (err: any) {
-      const { statusCode, statusText, message, stack } = err;
+    } catch (err: unknown) {
+      const { statusCode, statusText, message, stack } = err as Todo;
       console.warn(
         "Ledger signSecp256k1 error (chunk 1):",
         this._errorMessage(statusCode),
@@ -469,8 +470,8 @@ export class BinanceApp {
           response = await this._signSendChunk(1 + i, chunks.length, chunks[i]);
           result.return_code = response.return_code;
           result.error_message = response.error_message;
-        } catch (err: any) {
-          const { statusCode, statusText, message, stack } = err;
+        } catch (err: unknown) {
+          const { statusCode, statusText, message, stack } = err as Todo;
           console.warn(
             "Ledger signSecp256k1 error (chunk 2):",
             this._errorMessage(statusCode),
@@ -507,8 +508,8 @@ export class BinanceApp {
       }
       // decode DER string format
       let rOffset = 4;
-      let rLen = signature[3];
-      const sLen = signature[4 + rLen + 1]; // skip over following 0x02 type prefix for s
+      let rLen = signature[3] || 0;
+      const sLen = signature[4 + rLen + 1] || 0; // skip over following 0x02 type prefix for s
       let sOffset = signature.length - sLen;
       // we can safely ignore the first byte in the 33 bytes cases
       if (rLen === 33) {
@@ -570,7 +571,7 @@ export class BinanceApp {
     );
     if (!Buffer.isBuffer(apduResponse)) throw new Error("expected apduResponse to be Buffer");
     const returnCode = apduResponse.slice(-2);
-    result.return_code = returnCode[0] * 256 + returnCode[1];
+    result.return_code = (returnCode[0] || 0) * 256 + (returnCode[1] || 0);
     result.error_message = this._errorMessage(result.return_code);
     if (result.return_code === 0x6a80) {
       result.error_message = apduResponse.slice(0, apduResponse.length - 2).toString("ascii");

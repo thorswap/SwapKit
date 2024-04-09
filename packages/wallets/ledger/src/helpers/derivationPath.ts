@@ -1,5 +1,10 @@
-import type { EVMChain } from "@swapkit/types";
-import { Chain, EVMChains, NetworkDerivationPath } from "@swapkit/types";
+import {
+  Chain,
+  type DerivationPathArray,
+  type EVMChain,
+  EVMChains,
+  NetworkDerivationPath,
+} from "@swapkit/helpers";
 
 type Params = {
   index: number;
@@ -7,7 +12,7 @@ type Params = {
   type?: "legacy" | "ledgerLive" | "nativeSegwitMiddleAccount" | "segwit";
 };
 
-const updatedLastIndex = (path: number[], index: number) => [
+const updatedLastIndex = (path: DerivationPathArray, index: number) => [
   ...path.slice(0, path.length - 1),
   index,
 ];
@@ -32,10 +37,8 @@ export const getDerivationPathFor = ({ chain, index, type }: Params) => {
 };
 
 export const getWalletFormatFor = (path: string) => {
-  const [purpose, chainId] = path.split("/").map((p) => parseInt(p, 10));
+  const [purpose, chainId] = path.split("/").map((p) => Number.parseInt(p, 10));
 
-  // Comment can be removed after testing
-  // if (chainId === 145) return purpose === 84 ? 'cashaddr' : 'legacy';
   if (chainId === 145) "cashaddr";
 
   switch (purpose) {

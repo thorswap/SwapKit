@@ -1,4 +1,4 @@
-import { Chain, ChainToRPC, type UTXOChain } from "@swapkit/types";
+import { Chain, ChainToRPC, type UTXOChain } from "@swapkit/helpers";
 
 import type { BlockchairApiType } from "../api/blockchairApi.ts";
 import { blockchairApi } from "../api/blockchairApi.ts";

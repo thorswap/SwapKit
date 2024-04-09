@@ -1,4 +1,11 @@
-import { setRequestClientConfig } from "@swapkit/helpers";
+import {
+  Chain,
+  type ConnectWalletParams,
+  DerivationPath,
+  WalletOption,
+  type Witness,
+  setRequestClientConfig,
+} from "@swapkit/helpers";
 import type {
   BinanceToolboxType,
   DepositParam,
@@ -11,8 +18,6 @@ import type {
   UTXOTransferParams,
   UTXOWalletTransferParams,
 } from "@swapkit/toolbox-utxo";
-import type { ConnectWalletParams, Witness } from "@swapkit/types";
-import { Chain, DerivationPath, WalletOption } from "@swapkit/types";
 
 type KeystoreOptions = {
   ethplorerApiKey?: string;
@@ -22,7 +27,7 @@ type KeystoreOptions = {
 };
 
 type Params = KeystoreOptions & {
-  api?: any;
+  api?: Todo;
   rpcUrl?: string;
   chain: Chain;
   phrase: string;
@@ -44,6 +49,9 @@ const getWalletMethodsForChain = async ({
 
   switch (chain) {
     case Chain.BinanceSmartChain:
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+    case Chain.Polygon:
     case Chain.Avalanche:
     case Chain.Ethereum: {
       if (chain === Chain.Ethereum && !ethplorerApiKey) {
@@ -106,6 +114,7 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Bitcoin:
+    case Chain.Dash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       const { getToolboxByChain } = await import("@swapkit/toolbox-utxo");
@@ -216,14 +225,7 @@ const connectKeystore =
     addChain,
     apis,
     rpcUrls,
-    config: {
-      thorswapApiKey,
-      covalentApiKey,
-      ethplorerApiKey,
-      blockchairApiKey,
-      utxoApiKey,
-      stagenet,
-    },
+    config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
   }: ConnectWalletParams) =>
   async (chains: Chain[], phrase: string, index = 0) => {
     setRequestClientConfig({ apiKey: thorswapApiKey });
@@ -237,7 +239,7 @@ const connectKeystore =
         covalentApiKey,
         ethplorerApiKey,
         phrase,
-        blockchairApiKey: blockchairApiKey || utxoApiKey,
+        blockchairApiKey,
         stagenet,
       });
 

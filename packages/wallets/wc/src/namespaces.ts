@@ -16,7 +16,7 @@ export const getNamespacesFromChains = (chains: string[]) => {
   const supportedNamespaces: string[] = [];
   for (const chainId of chains) {
     const [namespace] = chainId.split(":");
-    if (!supportedNamespaces.includes(namespace)) {
+    if (namespace && !supportedNamespaces.includes(namespace)) {
       supportedNamespaces.push(namespace);
     }
   }
@@ -67,7 +67,7 @@ export const getRequiredNamespaces = (chains: string[]): ProposalTypes.RequiredN
       {
         methods: getSupportedMethodsByNamespace(namespace),
         chains: chains.filter((chain) => chain.startsWith(namespace)),
-        events: getSupportedEventsByNamespace(namespace) as any[],
+        events: getSupportedEventsByNamespace(namespace) as Todo[],
       },
     ]),
   );

@@ -1,25 +1,20 @@
 {
-  "author": "swapkit-oss",
   "dependencies": {
-    "@walletconnect/modal-sign-html": "2.6.2"
-  },
-  "description": "SwapKit Lib walletconnect",
-  "devDependencies": {
+    "@cosmjs/amino": "0.32.3",
+    "@cosmjs/proto-signing": "0.32.3",
     "@swapkit/helpers": "workspace:*",
+    "@walletconnect/modal-sign-html": "2.6.2",
+    "cosmjs-types": "0.9.0"
+  },
+  "description": "SwapKit Wallet - WalletConnect",
+  "devDependencies": {
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/types": "workspace:*",
-    "@vitest/coverage-istanbul": "1.3.1",
-    "@walletconnect/types": "2.11.1",
-    "vite": "5.1.3",
-    "vitest": "1.3.1"
-  },
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    }
+    "@walletconnect/logger": "2.1.1",
+    "@walletconnect/types": "2.12.1",
+    "bun-types": "1.1.2",
+    "pino": "8.20.0",
+    "pino-pretty": "11.0.0"
   },
   "files": [
     "src/",
@@ -27,14 +22,16 @@
   ],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.js",
   "name": "@swapkit/wallet-wc",
   "peerDependencies": {
+    "@cosmjs/amino": "0.32.3",
+    "@cosmjs/proto-signing": "0.32.3",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "@walletconnect/modal-sign-html": "2.6.2",
+    "cosmjs-types": "0.9.0"
   },
   "react-native": "./src/index.ts",
   "repository": {
@@ -42,13 +39,14 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build": "vite build",
-    "clean": "rm -rf dist vite.config.ts.* node_modules",
+    "build": "bun run ./build.ts",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
-    "test": "echo 'vitest --run'",
-    "test:coverage": "echo 'vitest run --coverage'"
+    "test": "echo 'bun test'",
+    "test:coverage": "echo 'bun test --coverage'",
+    "type-check": "tsc --noEmit"
   },
   "type": "module",
-  "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.98"
+  "types": "./src/index.ts",
+  "version": "1.0.0-rc.112"
 }

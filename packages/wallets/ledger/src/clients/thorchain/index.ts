@@ -1,15 +1,17 @@
-import { base64 } from "@swapkit/toolbox-cosmos";
-import type { DerivationPathArray, GetAddressAndPubKeyResponse } from "@swapkit/types";
-import { NetworkDerivationPath } from "@swapkit/types";
+import {
+  type DerivationPathArray,
+  type GetAddressAndPubKeyResponse,
+  NetworkDerivationPath,
+} from "@swapkit/helpers";
 
-import { CommonLedgerInterface } from "../../interfaces/LedgerInterfaces.ts";
-
+import { base64 } from "@scure/base";
+import { CosmosLedgerInterface } from "../../interfaces/CosmosLedgerInterface.ts";
 import { getSignature } from "./utils.ts";
 
-export class THORChainLedger extends CommonLedgerInterface {
+export class THORChainLedger extends CosmosLedgerInterface {
   private pubKey: string | null = null;
 
-  public derivationPath: number[];
+  public derivationPath: DerivationPathArray;
 
   constructor(derivationPath: DerivationPathArray = NetworkDerivationPath.THOR) {
     super();
@@ -23,7 +25,6 @@ export class THORChainLedger extends CommonLedgerInterface {
 
   connect = async () => {
     await this.checkOrCreateTransportAndLedger();
-
     const { compressed_pk, bech32_address }: GetAddressAndPubKeyResponse =
       await this.getAddressAndPubKey();
 

@@ -1,6 +1,6 @@
+import type { EVMChain } from "@swapkit/helpers";
 import type { JsonRpcProvider, Provider, TransactionRequest } from "@swapkit/toolbox-evm";
 import { AbstractSigner } from "@swapkit/toolbox-evm";
-import type { EVMChain } from "@swapkit/types";
 
 import { DEFAULT_EIP155_METHODS } from "./constants.ts";
 import { chainToChainId, getAddressByChain } from "./helpers.ts";
@@ -27,7 +27,7 @@ class WalletconnectSigner extends AbstractSigner {
     this.address = "";
   }
 
-  // biome-ignore lint/nursery/useAwait: fulfil implementation type
+  // biome-ignore lint/suspicious/useAwait: fulfil implementation type
   getAddress = async () => {
     if (!this.walletconnect) throw new Error("Missing walletconnect");
     if (!this.address) {
@@ -104,6 +104,7 @@ class WalletconnectSigner extends AbstractSigner {
     // return txHash.startsWith('0x') ? txHash : `0x${txHash}`;
   };
 
+  // @ts-expect-error TODO: fix this
   sendTransaction = async ({ from, to, value, data }: TransactionRequest) => {
     const { toHexString } = await import("@swapkit/toolbox-evm");
 
@@ -113,7 +114,7 @@ class WalletconnectSigner extends AbstractSigner {
       value: toHexString(BigInt(value || 0)),
       data,
     };
-    return this.walletconnect?.client.request({
+    const response = await this.walletconnect?.client.request({
       chainId: chainToChainId(this.chain),
       topic: this.walletconnect.session.topic,
       request: {
@@ -121,8 +122,11 @@ class WalletconnectSigner extends AbstractSigner {
         params: [baseTx],
       },
     });
+
+    return response;
   };
 
+  // @ts-expect-error TODO: fix this
   connect = (provider: Provider | null) => {
     if (!provider) throw new Error("Missing provider");
 

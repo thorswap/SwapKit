@@ -1,18 +1,18 @@
-import type { WalletDataType } from './types';
+import type { WalletDataType } from "./types";
 
 type Props = {
   walletData: WalletDataType;
-  setAsset: (asset: any) => void;
+  setAsset: (asset: Todo) => void;
 };
 
 export const Wallet = ({ walletData, setAsset }: Props) => {
   if (!walletData) return null;
 
   return (
-    <div style={{ paddingBottom: '16px' }}>
+    <div style={{ paddingBottom: "16px" }}>
       <div>
         <span>
-          {walletData?.walletType} {walletData?.balance?.[0]?.chain} wallet address:{' '}
+          {walletData?.walletType} {walletData?.balance?.[0]?.chain} wallet address:{" "}
           {walletData?.address}
         </span>
       </div>

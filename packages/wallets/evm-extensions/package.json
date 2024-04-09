@@ -1,20 +1,11 @@
 {
-  "author": "swapkit-oss",
-  "description": "SwapKit Lib evm-extensions",
-  "devDependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/types": "workspace:*",
-    "@vitest/coverage-istanbul": "1.3.1",
-    "vite": "5.1.3",
-    "vitest": "1.3.1"
+  "description": "SwapKit Wallet - EVM Extensions",
+  "dependencies": {
+    "@swapkit/helpers": "workspace:*"
   },
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
-    }
+  "devDependencies": {
+    "@swapkit/toolbox-evm": "workspace:*",
+    "bun-types": "1.1.2"
   },
   "files": [
     "src/",
@@ -22,13 +13,11 @@
   ],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.js",
   "name": "@swapkit/wallet-evm-extensions",
   "peerDependencies": {
     "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/types": "workspace:*"
+    "@swapkit/toolbox-evm": "workspace:*"
   },
   "react-native": "./src/index.ts",
   "repository": {
@@ -36,13 +25,14 @@
     "url": "git+https://github.com/thorswap/SwapKit.git"
   },
   "scripts": {
-    "build": "vite build",
-    "clean": "rm -rf dist vite.config.ts.* node_modules",
+    "build": "bun run ./build.ts",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
-    "test": "echo 'vitest --run'",
-    "test:coverage": "echo 'vitest run --coverage'"
+    "test": "echo 'bun test'",
+    "test:coverage": "echo 'bun test --coverage'",
+    "type-check": "tsc --noEmit"
   },
   "type": "module",
-  "types": "./dist/index.d.ts",
-  "version": "1.0.0-rc.82"
+  "types": "./src/index.ts",
+  "version": "1.0.0-rc.96"
 }

@@ -1,4 +1,4 @@
-import { Chain } from "@swapkit/types";
+import { Chain } from "@swapkit/helpers";
 
 import type { ClientMetadata } from "./types.ts";
 

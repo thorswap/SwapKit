@@ -1,10 +1,10 @@
-import { AssetValue, type SwapKitCore } from '@swapkit/core';
-import { Chain } from '@swapkit/types';
-import { useCallback, useState } from 'react';
+import { AssetValue } from "@swapkit/core";
+import { Chain } from "@swapkit/helpers";
+import { useCallback, useState } from "react";
 
-export default function TNS({ skClient }: { skClient: SwapKitCore }) {
+export default function TNS({ skClient }: { skClient: any }) {
   const [selectedChain, setSelectedChain] = useState(Chain.THORChain);
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
 
   const registerTns = useCallback(async () => {
     // const owner = skClient.getAddress(Chain.THORChain);
@@ -18,7 +18,7 @@ export default function TNS({ skClient }: { skClient: SwapKitCore }) {
         chain: selectedChain,
       });
 
-      window.open(`${skClient.getExplorerTxUrl(Chain.THORChain, txHash as string)}`, '_blank');
+      window.open(`${skClient.getExplorerTxUrl(Chain.THORChain, txHash as string)}`, "_blank");
     } catch (e) {
       console.error(e);
       alert(e);
@@ -29,14 +29,14 @@ export default function TNS({ skClient }: { skClient: SwapKitCore }) {
     <div>
       <h3>TNS</h3>
 
-      <div style={{ cursor: skClient ? 'default' : 'not-allowed' }}>
+      <div style={{ cursor: skClient ? "default" : "not-allowed" }}>
         <div
           style={{
-            pointerEvents: skClient ? 'all' : 'none',
+            pointerEvents: skClient ? "all" : "none",
             opacity: skClient ? 1 : 0.5,
           }}
         >
-          <div style={{ display: 'flex', flex: 1, flexDirection: 'row' }}>
+          <div style={{ display: "flex", flex: 1, flexDirection: "row" }}>
             <div>
               <select onChange={(e) => setSelectedChain(e.target.value as Chain)}>
                 {Object.values(Chain).map((chain) => (

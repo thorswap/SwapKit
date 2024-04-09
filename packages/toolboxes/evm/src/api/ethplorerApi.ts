@@ -1,5 +1,4 @@
-import { RequestClient, formatBigIntToSafeValue } from "@swapkit/helpers";
-import { Chain } from "@swapkit/types";
+import { Chain, RequestClient, formatBigIntToSafeValue } from "@swapkit/helpers";
 
 import type { AddressInfo } from "../types/ethplorer-api-types.ts";
 const baseUrl = "https://api.ethplorer.io";
@@ -18,10 +17,10 @@ export const ethplorerApi = (apiKey = "freekey") => ({
         symbol: tokenAddress ? `${symbol}-${tokenAddress}` : symbol,
         value: formatBigIntToSafeValue({
           value: BigInt(rawBalance),
-          decimal: parseInt(decimals),
-          bigIntDecimal: parseInt(decimals),
+          decimal: Number.parseInt(decimals),
+          bigIntDecimal: Number.parseInt(decimals),
         }),
-        decimal: parseInt(decimals),
+        decimal: Number.parseInt(decimals),
       }));
   },
 });

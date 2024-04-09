@@ -3,10 +3,12 @@ import {
   Transaction,
   TransactionBuilder,
   address as bchAddress,
+  // @ts-ignore TODO: check why wallets doesn't see modules included in toolbox
 } from "@psf/bitcoincashjs-lib";
+import * as secp256k1 from "tiny-secp256k1";
+
 import { mnemonicToSeedSync } from "@scure/bip39";
-import type { UTXOChain } from "@swapkit/types";
-import { Chain, DerivationPath, FeeOption, RPCUrl } from "@swapkit/types";
+import { Chain, DerivationPath, FeeOption, RPCUrl, type UTXOChain } from "@swapkit/helpers";
 import { Psbt } from "bitcoinjs-lib";
 import { ECPairFactory } from "ecpair";
 
@@ -92,13 +94,15 @@ const buildBCHTx: BCHMethods["buildBCHTx"] = async ({
 
   await Promise.all(
     inputs.map(async (utxo: UTXOType) => {
-      const txHex = await apiClient.getRawTx(utxo.hash);
+      const txHex = (await apiClient.getRawTx(utxo.hash)) as string;
+
       builder.addInput(Transaction.fromBuffer(Buffer.from(txHex, "hex")), utxo.index);
     }),
   );
 
   for (const output of outputs) {
-    const address = "address" in output && output.address ? output.address : sender;
+    const address =
+      "address" in output && output.address ? output.address : toLegacyAddress(sender);
     const outputScript = bchAddress.toOutputScript(toLegacyAddress(address), getNetwork(chain));
 
     builder.addOutput(outputScript, output.value);
@@ -224,7 +228,7 @@ const validateAddress = (address: string, _chain?: UTXOChain) => {
   return isValidAddress(address) && detectAddressNetwork(address) === bchNetwork.Mainnet;
 };
 
-const createKeysForPath: BCHMethods["createKeysForPath"] = async ({
+const createKeysForPath: BCHMethods["createKeysForPath"] = ({
   phrase,
   derivationPath = `${DerivationPath.BCH}/0`,
   wif,
@@ -232,8 +236,7 @@ const createKeysForPath: BCHMethods["createKeysForPath"] = async ({
   const network = getNetwork(chain);
 
   if (wif) {
-    const tinySecp = await import("@bitcoinerlab/secp256k1");
-    return ECPairFactory(tinySecp).fromWIF(wif, network);
+    return ECPairFactory(secp256k1).fromWIF(wif, network);
   }
   if (!phrase) throw new Error("No phrase provided");
 
@@ -241,7 +244,7 @@ const createKeysForPath: BCHMethods["createKeysForPath"] = async ({
   const keyPair = masterHDNode.derivePath(derivationPath).keyPair;
   // TODO: Figure out same pattern as in BTC
   // const testWif = keyPair.toWIF();
-  // const k = ECPairFactory(tinySecp).fromWIF(testWif, network);
+  // const k = ECPairFactory(secp256k1).fromWIF(testWif, network);
   // const a = payments.p2pkh({ pubkey: k.publicKey, network });
 
   return keyPair;

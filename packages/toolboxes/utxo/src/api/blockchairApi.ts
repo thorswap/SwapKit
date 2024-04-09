@@ -1,5 +1,4 @@
-import { RequestClient } from "@swapkit/helpers";
-import { Chain, type UTXOChain } from "@swapkit/types";
+import { Chain, RequestClient, type UTXOChain } from "@swapkit/helpers";
 
 import type {
   BlockchairAddressResponse,
@@ -109,7 +108,9 @@ const getUnconfirmedBalance = async ({
   chain,
   apiKey,
 }: BlockchairParams<{ address?: string }>) => {
-  return (await getAddressData({ address, chain, apiKey })).address.balance;
+  const response = await getAddressData({ address, chain, apiKey });
+
+  return response?.address.balance;
 };
 
 const getConfirmedBalance = async ({
@@ -138,7 +139,7 @@ const getRawTx = async ({ chain, apiKey, txHash }: BlockchairParams<{ txHash?: s
       `${baseUrl(chain)}/raw/transaction/${txHash}`,
       apiKey,
     );
-    return rawTxResponse[txHash].raw_transaction;
+    return rawTxResponse?.[txHash]?.raw_transaction;
   } catch (error) {
     console.error(error);
     return "";
@@ -179,7 +180,7 @@ const getUnspentTxs = async ({
       address,
       chain,
       apiKey,
-      offset: response[99].transaction_id,
+      offset: response?.[99]?.transaction_id,
     });
 
     return txs.concat(nextBatch);

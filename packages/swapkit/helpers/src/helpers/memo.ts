@@ -1,4 +1,5 @@
-import { Chain, MemoType } from "@swapkit/types";
+import { Chain } from "../types/chains";
+import { MemoType } from "../types/transactions";
 
 export type ThornameRegisterParam = {
   name: string;

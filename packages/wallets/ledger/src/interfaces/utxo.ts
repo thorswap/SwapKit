@@ -1,12 +1,10 @@
+import type { CreateTransactionArg } from "@ledgerhq/hw-app-btc/lib-es/createTransaction";
 import type { Psbt, UTXOType } from "@swapkit/toolbox-utxo";
-import { Transaction } from "@swapkit/toolbox-utxo";
-
-import type { CreateTransactionArg } from "./types.ts";
 
 type Params = {
   psbt: Psbt;
   inputUtxos: UTXOType[];
-  btcApp: any;
+  btcApp: Todo;
   derivationPath: string;
 };
 
@@ -14,6 +12,8 @@ export const signUTXOTransaction = async (
   { psbt, inputUtxos, btcApp, derivationPath }: Params,
   options?: Partial<CreateTransactionArg>,
 ) => {
+  const { Transaction } = await import("@swapkit/toolbox-utxo");
+
   const inputs = inputUtxos.map((item) => {
     const utxoTx = Transaction.fromHex(item.txHex || "");
     const splitTx = btcApp.splitTransaction(utxoTx.toHex(), utxoTx.hasWitnesses());
@@ -23,7 +23,7 @@ export const signUTXOTransaction = async (
       item.index,
       undefined as string | null | undefined,
       undefined as number | null | undefined,
-    ] as any;
+    ] as Todo;
   });
 
   const newTxHex = psbt.data.globalMap.unsignedTx.toBuffer().toString("hex");

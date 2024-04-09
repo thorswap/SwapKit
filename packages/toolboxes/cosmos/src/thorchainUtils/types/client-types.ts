@@ -1,8 +1,7 @@
 import type { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from "@cosmjs/amino";
 import type { OfflineDirectSigner, Registry } from "@cosmjs/proto-signing";
-import type { Account as CosmosAccount, AminoTypes } from "@cosmjs/stargate";
-import type { AssetValue, SwapKitNumber } from "@swapkit/helpers";
-import type { Asset, ChainId } from "@swapkit/types";
+import type { AminoTypes, Account as CosmosAccount } from "@cosmjs/stargate";
+import type { Asset, AssetValue, ChainId, SwapKitNumber } from "@swapkit/helpers";
 import type { curve } from "elliptic";
 
 import type { BNBTransaction } from "../../binanceUtils/transaction.ts";
@@ -74,7 +73,7 @@ export type BaseCosmosToolboxType = {
   getAccount: (address: string) => Promise<CosmosAccount | null>;
   getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
   getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
-  validateAddress: (address: string) => Promise<boolean>;
+  validateAddress: (address: string) => boolean;
   getAddressFromMnemonic: (phrase: string) => Promise<string>;
   getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
   getBalance: (address: string, potentialScamFilter?: boolean) => Promise<AssetValue[]>;
@@ -86,8 +85,8 @@ export type BaseCosmosToolboxType = {
 export type ThorchainToolboxType = BaseCosmosToolboxType & {
   getFees: () => Promise<Fees>;
   deposit: (params: DepositParam & { from: string }) => Promise<string>;
-  createDefaultRegistry: () => Promise<Registry>;
-  createDefaultAminoTypes: () => Promise<AminoTypes>;
+  createDefaultRegistry: () => Registry;
+  createDefaultAminoTypes: () => AminoTypes;
   buildAminoMsg: typeof buildAminoMsg;
   convertToSignable: typeof convertToSignable;
   buildTransaction: typeof buildTransaction;
@@ -108,7 +107,7 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
     bodyBytes: Uint8Array,
     isStagenet?: boolean,
   ) => Promise<string>;
-  pubkeyToAddress: (pubkey: Pubkey, prefix: string) => Promise<string>;
+  pubkeyToAddress: (pubkey: Pubkey, prefix: string) => string;
   loadAddressBalances: (address: string) => Promise<AssetValue[]>;
   signMessage: (privateKey: Uint8Array, message: string) => Promise<string>;
   verifySignature: (signature: string, message: string, address: string) => Promise<boolean>;

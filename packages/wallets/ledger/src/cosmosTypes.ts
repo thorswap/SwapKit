@@ -5,12 +5,12 @@ export interface Coin {
 
 export interface EncodeObject {
   readonly typeUrl: string;
-  readonly value: any;
+  readonly value: Todo;
 }
 
 export interface AminoMsg {
   readonly type: string;
-  readonly value: any;
+  readonly value: Todo;
 }
 
 export interface AminoMsgSend extends AminoMsg {
@@ -26,8 +26,8 @@ export interface AminoMsgSend extends AminoMsg {
 
 export interface AminoConverter {
   readonly aminoType: string;
-  readonly toAmino: (value: any) => any;
-  readonly fromAmino: (value: any) => any;
+  readonly toAmino: (value: Todo) => NotWorth;
+  readonly fromAmino: (value: Todo) => NotWorth;
 }
 
 /** A map from protobuf type URL to the AminoConverter implementation if supported on chain */
@@ -75,26 +75,23 @@ export class AminoTypes {
       .filter(isAminoConverter)
       .filter(([_typeUrl, { aminoType }]) => aminoType === type);
 
-    switch (matches.length) {
-      case 0: {
-        throw new Error(
-          `Amino type identifier '${type}' does not exist in the Amino message type register.`,
-        );
-      }
-      case 1: {
-        const [typeUrl, converter] = matches[0];
-        return {
-          typeUrl: typeUrl,
-          value: converter.fromAmino(value),
-        };
-      }
-      default:
-        throw new Error(
-          `Multiple types are registered with Amino type identifier '${type}': '${matches
-            .map(([key, _value]) => key)
-            .sort()
-            .join("', '")}'. Thus fromAmino cannot be performed.`,
-        );
+    if (matches.length === 0) {
+      throw new Error(
+        `Amino type identifier '${type}' does not exist in the Amino message type register.`,
+      );
     }
+
+    if (matches.length > 1) {
+      throw new Error(
+        `Multiple types are registered with Amino type identifier '${type}': '${matches
+          .map(([key, _value]) => key)
+          .sort()
+          .join("', '")}'. Thus fromAmino cannot be performed.`,
+      );
+    }
+
+    const [typeUrl, converter] = matches[0] as [string, AminoConverter];
+
+    return { typeUrl, value: converter.fromAmino(value) };
   }
 }

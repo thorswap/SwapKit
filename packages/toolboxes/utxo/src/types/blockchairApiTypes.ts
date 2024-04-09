@@ -1,4 +1,4 @@
-import type { Chain } from "@swapkit/types";
+import type { Chain } from "@swapkit/helpers";
 
 export type BlockchairApiParams<T> = T & {
   chain: Chain;
@@ -166,7 +166,7 @@ export interface BlockchairResponse<T> {
       duration: number;
       since: string;
       until: string;
-      time: any;
+      time: Todo;
     };
     api: {
       version: string;

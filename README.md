@@ -18,26 +18,6 @@
 
 This repo contains packages around SwapKit sdk and its integrations with different blockchains.
 
-| Package                                                                                                             | Description                                            |
-| ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| [@swapkit/api](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core)                      | SwapKit API wrapper                                    |
-| [@swapkit/core](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-1)                   | Core package for SwapKit                               |
-| [@swapkit/helpers](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-2)                | Helpers for Assets & BigInt handle                     |
-| [@swapkit/sdk](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-3)                    | All-in-one package for SwapKit                         |
-| [@swapkit/tokens](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-4)                 | Static tokens lists with decimals & contract addresses |
-| [@swapkit/types](https://docs.thorswap.finance/swapkit-docs/references/swapkit-sdk-methods/core-5)                  | Types & enums for SwapKit                              |
-| [@swapkit/toolbox-cosmos](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/cosmos)                  | Integrate Cosmos chains                                |
-| [@swapkit/toolbox-evm](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/evm)                        | Integrate EVM chain                                    |
-| [@swapkit/toolbox-utxo](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes/utxo)                      | Integrate UTXO chain                                   |
-| [@swapkit/wallet-evm-extensions](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/evm-web-extensions) | EVM Browser Extensions                                 |
-| [@swapkit/wallet-keplr](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/keplr)                       | Keplr Wallet                                           |
-| [@swapkit/wallet-keystore](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/keystore)                 | Keystore Wallet                                        |
-| [@swapkit/wallet-ledger](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/ledger)                     | Ledger Wallet                                          |
-| [@swapkit/wallet-okx](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/okx)                  | OKX Wallet                                   |
-| [@swapkit/wallet-trezor](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/trezor)                     | Trezor Wallet                                          |
-| [@swapkit/wallet-wc](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/walletconnect)                  | Walletconnect Wallet                                   |
-| [@swapkit/wallet-xdefi](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets/xdefi)                       | XDEFI Wallet                                           |
-
 ## Contributing
 
 #### Pre-requisites
@@ -45,7 +25,7 @@ This repo contains packages around SwapKit sdk and its integrations with differe
 1.
 
 ```bash
-npm install -g pnpm
+curl -fsSL https://bun.sh/install | bash
 ```
 
 2.
@@ -57,7 +37,7 @@ Copy .env.example to .env and fill it with data
 ### Installation
 
 ```bash
-pnpm bootstrap;
+bun bootstrap
 ```
 
 #### Branches
@@ -68,7 +48,7 @@ pnpm bootstrap;
 
 #### Testing
 
-To run tests use `pnpm test` command.
+To run tests use `bun test` command.
 
 #### Pull requests
 
@@ -80,7 +60,7 @@ To run tests use `pnpm test` command.
 
 #### New package
 
-To create new package use `pnpm generate` and pick one of the options
+To create new package use `bun generate` and pick one of the options
 It will setup the package with the necessary files for bundling and publishing.
 
 ### Release and publish
@@ -88,12 +68,12 @@ It will setup the package with the necessary files for bundling and publishing.
 Packages are automatically published to npm when new PR is merged to `main` & `develop` branches.
 To automate and handle process we use [changesets](https://github.com/changesets/changesets) and github action workflows.
 
-<b>Before running `pnpm changeset` you have to pull `main` & `develop`</b>
+<b>Before running `bun changeset` you have to pull `main` & `develop`</b>
 
 To release new version of package you need to create PR with changes and add changeset file to your commit.
 
 ```bash
-pnpm changeset
+bun changeset
 ```
 
 After PR is merged to `develop` branch with changeset file, github action will create new PR with updated versions of packages and changelogs.

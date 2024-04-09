@@ -1,6 +1,9 @@
-import { RequestClient, formatBigIntToSafeValue } from "@swapkit/helpers";
-import type { ChainId } from "@swapkit/types";
-import { ChainIdToChain } from "@swapkit/types";
+import {
+  type ChainId,
+  ChainIdToChain,
+  RequestClient,
+  formatBigIntToSafeValue,
+} from "@swapkit/helpers";
 
 type CovalentBalanceResponse = {
   address: string;
@@ -12,7 +15,6 @@ type CovalentBalanceResponse = {
     contract_name: string;
     contract_ticker_symbol: string;
     contract_address: string;
-    supports_erc: null | any[];
     logo_url: string;
     last_transferred_at: string;
     native_token: boolean;
