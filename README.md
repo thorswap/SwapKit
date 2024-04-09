@@ -13,8 +13,6 @@ SwapKit is a suite of tools package as an SDK to facilitate integration of all T
 3. Cross-chain transactions tracking
 4. Thorchain tooling and abstraction
 
-<figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
-
 ### 1. TypeScript/JavaScript SDK
 
 Implement our JS/TS SDK in any frontend, or backend, and build your UI/UX around cross-chain swaps.

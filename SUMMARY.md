@@ -9,9 +9,9 @@
 
 ## SwapKit SDK
 
-* [1️⃣ 1⃣ Install SwapKit SDK](swapkit-sdk/install-swapkit-sdk.md)
-* [2️⃣ 2⃣ Set up the SDK](swapkit-sdk/set-up-the-sdk.md)
-* [3️⃣ 3⃣ Request Route & Execute Swap](swapkit-sdk/request-route-and-execute-swap.md)
+* [1️⃣ Install SwapKit SDK](swapkit-sdk/install-swapkit-sdk.md)
+* [2️⃣ Set up the SDK](swapkit-sdk/set-up-the-sdk.md)
+* [3️⃣ Request Route & Execute Swap](swapkit-sdk/request-route-and-execute-swap.md)
 * [💸 Wallets](swapkit-sdk/wallets/README.md)
   * [Ledger](swapkit-sdk/wallets/ledger.md)
   * [Trezor](swapkit-sdk/wallets/trezor.md)
@@ -41,13 +41,6 @@
 
 ## 📚 References
 
-* [SwapKit Packages Reference](references/swapkit-sdk-methods/README.md)
-  * [@swapkit/api](<references/swapkit-sdk-methods/core (1).md>)
-  * [@swapkit/core](references/swapkit-sdk-methods/core.md)
-  * [@swapkit/helpers](references/swapkit-sdk-methods/core-2.md)
-  * [@swapkit/sdk](references/swapkit-sdk-methods/core-3.md)
-  * [@swapkit/tokens](references/swapkit-sdk-methods/core-4.md)
-  * [@swapkit/types](references/swapkit-sdk-methods/core-5.md)
 * [API Reference](references/api-reference/README.md)
   * [Gas API](references/api-reference/gas-api.md)
   * [Lending API](references/api-reference/lending-api.md)
@@ -62,4 +55,15 @@
   * [Full API Reference](http://localhost:3000/doc)
 * [✨ Smart Contracts](references/smart-contracts.md)
 * [🏗️ V1 Migration](references/v1-migration.md)
-* [Github](https://github.com/thorswap/SwapKit)
+* [Github Repository](https://github.com/thorswap/SwapKit)
+
+***
+
+* [📦 Packages](packages/README.md)
+  * [@swapkit/api](packages/core-1.md)
+  * [@swapkit/chainflip](packages/core-1-1.md)
+  * [@swapkit/core](packages/core.md)
+  * [@swapkit/helpers](packages/core-2.md)
+  * [@swapkit/sdk](packages/core-3.md)
+  * [@swapkit/tokens](packages/core-4.md)
+  * [@swapkit/types](packages/core-5.md)

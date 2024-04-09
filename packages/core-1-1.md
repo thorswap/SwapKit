@@ -2,7 +2,7 @@
 description: Simple SwapKit API wrapper with typings helpers to keep fetches organized
 ---
 
-# @swapkit/api
+# @swapkit/chainflip
 
 ### Installation
 
