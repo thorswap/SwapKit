@@ -4,30 +4,23 @@ description: Static token lists with addresses, identifiers, chains & decimals
 
 # @swapkit/tokens
 
-### Installation
+{% hint style="warning" %}
+Usually this module is used only for `AssetValue.loadStaticAssets()` but can be useful for filtering or providing tailored list of tokens for some cases.
+{% endhint %}
 
-{% tabs %}
-{% tab title="pnpm" %}
-```bash
-pnpm add @swapkit/tokens
-```
-{% endtab %}
+### **Installation**
 
-{% tab title="yarn" %}
 ```bash
-yarn add @swapkit/tokens
+<pnpm|bun> add @swapkit/tokens
 ```
-{% endtab %}
-
-{% tab title="npm" %}
-```bash
-npm add @swapkit/tokens
-```
-{% endtab %}
-{% endtabs %}
 
 ### Usage
 
 ```typescript
-import { OneInchList, CoingeckoList, ThorchainList } from '@swapkit/tokens'
+import { ChainflipList, ThorchainList } from '@swapkit/tokens'
+
+const TCAndChainflipSupportedTokens = [
+  ...ThorchainList.tokens,
+  ...ChainflipList.tokens,
+]
 ```

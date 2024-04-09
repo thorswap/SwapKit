@@ -6,31 +6,13 @@ description: >-
 
 # @swapkit/sdk
 
-### Installation
+### **Installation**
 
-{% tabs %}
-{% tab title="pnpm" %}
 ```bash
-pnpm add @swapkit/sdk
+<pnpm|bun> add @swapkit/sdk
 ```
-{% endtab %}
-
-{% tab title="yarn" %}
-```bash
-yarn add @swapkit/sdk
-```
-{% endtab %}
-
-{% tab title="npm" %}
-```bash
-npm add @swapkit/sdk
-```
-{% endtab %}
-{% endtabs %}
 
 ### Usage
-
-
 
 ```typescript
 import { createSwapKit, Chain, ConnectConfig, ApisType } from '@swapkit/sdk'
