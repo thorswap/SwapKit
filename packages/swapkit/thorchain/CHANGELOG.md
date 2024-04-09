@@ -1,5 +1,13 @@
 # @swapkit/thorchain
 
+## 1.0.0-rc.26
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.87
+  - @swapkit/api@1.0.0-rc.52
+
 ## 1.0.0-rc.25
 
 ### Patch Changes
