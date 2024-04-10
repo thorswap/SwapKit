@@ -522,6 +522,73 @@ describe("AssetValue", () => {
         }),
       );
     });
+
+    test("creates AssetValue from thorchain full identifier via `@swapkit/tokens` lists", async () => {
+      await AssetValue.loadStaticAssets();
+
+      const avaxUSDCFullIdentifier = "AVAX.USDC-0XB97EF9EF8734C71904D8002F8B6BC66DD9C48A6E";
+      const avaxUSDC = await AssetValue.fromShortcodeAndProvider(
+        avaxUSDCFullIdentifier,
+        "THORCHAIN",
+      );
+
+      expect(avaxUSDC).toBeDefined();
+      expect(avaxUSDC).toEqual(
+        expect.objectContaining({
+          address: "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+          chain: Chain.Avalanche,
+          decimal: 6,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: "USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
+          ticker: "USDC",
+        }),
+      );
+    });
+
+    test("creates AssetValue from thorchain coin partial identifier via `@swapkit/tokens` lists", async () => {
+      await AssetValue.loadStaticAssets();
+
+      const btcPartialIdentifier = "BTC";
+      const btc = await AssetValue.fromShortcodeAndProvider(btcPartialIdentifier, "THORCHAIN");
+
+      expect(btc).toBeDefined();
+      expect(btc).toEqual(
+        expect.objectContaining({
+          chainId: ChainId.Bitcoin,
+          decimal: 8,
+          isGasAsset: true,
+          decimalMultiplier: 100000000n,
+          isSynthetic: false,
+          tax: undefined,
+          symbol: "BTC",
+          ticker: "BTC",
+        }),
+      );
+    });
+
+    test("creates AssetValue from thorchain token partial identifier via `@swapkit/tokens` lists", async () => {
+      await AssetValue.loadStaticAssets();
+
+      const ethThorPartialIdentifier = "ETH.THOR";
+      const ethThor = await AssetValue.fromShortcodeAndProvider(
+        ethThorPartialIdentifier,
+        "THORCHAIN",
+      );
+
+      expect(ethThor).toBeDefined();
+      expect(ethThor).toEqual(
+        expect.objectContaining({
+          address: "0xa5f2211b9b8170f694421f2046281775e8468044",
+          chain: Chain.Ethereum,
+          decimal: 18,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: "THOR-0xa5f2211b9b8170f694421f2046281775e8468044",
+          ticker: "THOR",
+        }),
+      );
+    });
   });
 
   describe("loadStaticAssets", () => {
