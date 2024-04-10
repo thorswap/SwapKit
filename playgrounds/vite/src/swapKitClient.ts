@@ -1,6 +1,7 @@
 import { ChainflipPlugin } from "@swapkit/chainflip";
-import { SwapKit, type SwapKitClient } from "@swapkit/core";
+import { SwapKit } from "@swapkit/core";
 import { ThorchainPlugin } from "@swapkit/thorchain";
+import { coinbaseWallet } from "@swapkit/wallet-coinbase";
 import { evmWallet } from "@swapkit/wallet-evm-extensions";
 import { keepkeyWallet } from "@swapkit/wallet-keepkey";
 import { keplrWallet } from "@swapkit/wallet-keplr";
@@ -21,6 +22,7 @@ const wallets = {
   ...trezorWallet,
   ...walletconnectWallet,
   ...xdefiWallet,
+  ...coinbaseWallet,
 } as const;
 
 const plugins = {
