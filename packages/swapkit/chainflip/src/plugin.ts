@@ -29,7 +29,7 @@ export async function confirmSwap({
   }
 }
 
-export const ChainflipPlugin = ({
+const plugin = ({
   wallets,
   config: { brokerEndpoint },
 }: { wallets: BaseWallet<{ [key: string]: NotWorth }>; config: { brokerEndpoint: string } }) => {
@@ -67,8 +67,10 @@ export const ChainflipPlugin = ({
     return tx as string;
   }
 
-  return { name: "chainflip" as const, methods: { swap } };
+  return { swap };
 };
+
+export const ChainflipPlugin = { chainflip: { plugin } } as const;
 
 /**
  * @deprecated Use import { ChainflipPlugin } from "@swapkit/chainflip" instead

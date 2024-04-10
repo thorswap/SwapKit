@@ -202,7 +202,4 @@ function connectXDEFI({
   };
 }
 
-export const xdefiWallet = {
-  connectMethodName: "connectXDEFI" as const,
-  connect: connectXDEFI,
-};
+export const xdefiWallet = { connectXDEFI } as const;

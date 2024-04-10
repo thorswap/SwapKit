@@ -30,8 +30,6 @@ export const useSwapKit = () => {
       const { walletconnectWallet } = await import("@swapkit/wallet-wc");
 
       const swapKitClient = SwapKit({
-        apis: {},
-        rpcUrls: {},
         config: {
           blockchairApiKey:
             process.env.NEXT_PUBLIC_BLOCKCHAIR_API_KEY || "A___Tcn5B16iC3mMj7QrzZCb2Ho1QBUf",
@@ -49,18 +47,18 @@ export const useSwapKit = () => {
             },
           },
         },
-        wallets: [
-          evmWallet,
-          keepkeyWallet,
-          keplrWallet,
-          keystoreWallet,
-          ledgerWallet,
-          okxWallet,
-          trezorWallet,
-          walletconnectWallet,
-          xdefiWallet,
-        ],
-        plugins: [ThorchainPlugin, ChainflipPlugin],
+        wallets: {
+          ...evmWallet,
+          ...keepkeyWallet,
+          ...keplrWallet,
+          ...keystoreWallet,
+          ...ledgerWallet,
+          ...okxWallet,
+          ...trezorWallet,
+          ...walletconnectWallet,
+          ...xdefiWallet,
+        },
+        plugins: { ...ThorchainPlugin, ...ChainflipPlugin },
       });
 
       setSwapKit(swapKitClient);

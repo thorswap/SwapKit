@@ -47,7 +47,4 @@ function connectOkx({
   };
 }
 
-export const okxWallet = {
-  connectMethodName: "connectOkx" as const,
-  connect: connectOkx,
-};
+export const okxWallet = { connectOkx } as const;

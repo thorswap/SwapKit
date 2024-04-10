@@ -287,7 +287,4 @@ function connectTrezor({
   };
 }
 
-export const trezorWallet = {
-  connectMethodName: "connectTrezor" as const,
-  connect: connectTrezor,
-};
+export const trezorWallet = { connectTrezor } as const;

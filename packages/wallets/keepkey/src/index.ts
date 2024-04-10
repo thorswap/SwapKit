@@ -124,7 +124,9 @@ const getWalletMethods = async ({
   }
 };
 
-const checkKeepkeyAvailability = async (spec = "http://localhost:1646/spec/swagger.json") => {
+export const checkKeepkeyAvailability = async (
+  spec = "http://localhost:1646/spec/swagger.json",
+) => {
   try {
     const response = await fetch(spec);
     return response.status === 200;
@@ -203,8 +205,4 @@ const connectKeepkey =
     return true;
   };
 
-export const keepkeyWallet = {
-  connectMethodName: "connectKeepkey" as const,
-  connect: connectKeepkey,
-  isDetected: checkKeepkeyAvailability,
-};
+export const keepkeyWallet = { connectKeepkey } as const;

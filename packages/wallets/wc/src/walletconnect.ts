@@ -344,7 +344,4 @@ function connectWalletconnect({
   };
 }
 
-export const walletconnectWallet = {
-  connectMethodName: "connectWalletconnect" as const,
-  connect: connectWalletconnect,
-};
+export const walletconnectWallet = { connectWalletconnect } as const;

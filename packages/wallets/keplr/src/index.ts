@@ -64,7 +64,4 @@ function connectKeplr({ addChain, config: { thorswapApiKey }, rpcUrls }: Connect
   };
 }
 
-export const keplrWallet = {
-  connectMethodName: "connectKeplr" as const,
-  connect: connectKeplr,
-};
+export const keplrWallet = { connectKeplr } as const;

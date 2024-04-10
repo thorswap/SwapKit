@@ -257,7 +257,4 @@ const connectKeystore =
     return true;
   };
 
-export const keystoreWallet = {
-  connectMethodName: "connectKeystore" as const,
-  connect: connectKeystore,
-};
+export const keystoreWallet = { connectKeystore } as const;

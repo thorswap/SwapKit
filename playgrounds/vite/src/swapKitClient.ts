@@ -24,28 +24,14 @@ export const getSwapKitClient = (
 ) => {
   const key = JSON.stringify(params);
 
-  const {
-    ethplorerApiKey = "freekey",
-    covalentApiKey = "",
-    blockchairApiKey = "",
-    walletConnectProjectId = "",
-    stagenet = false,
-  } = params;
-
   if (clientCache.has(key)) {
     return clientCache.get(key);
   }
 
   const client = SwapKit({
-    apis: {},
-    rpcUrls: {},
-    stagenet,
+    stagenet: params.stagenet,
     config: {
-      ethplorerApiKey,
-      covalentApiKey,
-      blockchairApiKey,
-      walletConnectProjectId,
-      stagenet,
+      ...params,
       keepkeyConfig: {
         apiKey: localStorage.getItem("keepkeyApiKey") || "1234",
         pairingInfo: {
@@ -57,21 +43,21 @@ export const getSwapKitClient = (
         },
       },
     },
-    plugins: [
-      { plugin: ThorchainPlugin },
-      { plugin: ChainflipPlugin, config: { brokerEndpoint: "" } },
-    ],
-    wallets: [
-      evmWallet,
-      keepkeyWallet,
-      keplrWallet,
-      keystoreWallet,
-      ledgerWallet,
-      okxWallet,
-      trezorWallet,
-      walletconnectWallet,
-      xdefiWallet,
-    ],
+    plugins: {
+      ...ThorchainPlugin,
+      chainflip: { ...ChainflipPlugin.chainflip, config: { brokerEndpoint: "" } },
+    },
+    wallets: {
+      ...evmWallet,
+      ...keepkeyWallet,
+      ...keplrWallet,
+      ...keystoreWallet,
+      ...ledgerWallet,
+      ...okxWallet,
+      ...trezorWallet,
+      ...walletconnectWallet,
+      ...xdefiWallet,
+    },
   });
 
   clientCache.set(key, client);

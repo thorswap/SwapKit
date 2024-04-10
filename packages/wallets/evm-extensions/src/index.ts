@@ -70,7 +70,4 @@ function connectEVMWallet({
   };
 }
 
-export const evmWallet = {
-  connectMethodName: "connectEVMWallet" as const,
-  connect: connectEVMWallet,
-};
+export const evmWallet = { connectEVMWallet } as const;

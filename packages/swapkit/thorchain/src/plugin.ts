@@ -70,10 +70,7 @@ const prepareTxParams = (
   assetValue,
 });
 
-export const ThorchainPlugin = ({
-  wallets,
-  stagenet = false,
-}: { wallets: Wallet; stagenet?: boolean }) => {
+const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boolean }) => {
   /**
    * @Private
    * Wallet interaction helpers
@@ -645,24 +642,23 @@ export const ThorchainPlugin = ({
   }
 
   return {
-    name: "thorchain" as const,
-    methods: {
-      swap,
-      addLiquidity,
-      deposit,
-      getInboundDataByChain,
-      loan,
-      withdraw,
-      savings,
-      registerThorname,
-      createLiquidity,
-      addLiquidityPart,
-      nodeAction,
-      approveAssetValue,
-      isAssetValueApproved,
-    },
+    swap,
+    addLiquidity,
+    deposit,
+    getInboundDataByChain,
+    loan,
+    withdraw,
+    savings,
+    registerThorname,
+    createLiquidity,
+    addLiquidityPart,
+    nodeAction,
+    approveAssetValue,
+    isAssetValueApproved,
   };
 };
+
+export const ThorchainPlugin = { thorchain: { plugin } } as const;
 
 /**
  * @deprecated Use import { ThorchainPlugin } from "@swapkit/thorchain" instead

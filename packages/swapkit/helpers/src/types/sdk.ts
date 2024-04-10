@@ -6,6 +6,6 @@ export type GenericSwapParams = {
   recipient: string;
 };
 
-export type SwapParams<PluginNames extends string, T = GenericSwapParams> = T & {
+export type SwapParams<PluginNames = string, T = GenericSwapParams> = T & {
   pluginName: PluginNames;
 };

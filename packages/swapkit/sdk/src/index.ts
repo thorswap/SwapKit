@@ -19,18 +19,18 @@ type SwapKitOptions = Omit<ExtendParams, "wallets">;
 export const createSwapKit = ({ config, ...extendParams }: SwapKitOptions = {}) => {
   const swapKitClient = SwapKit({
     config,
-    wallets: [
-      evmWallet,
-      keplrWallet,
-      keystoreWallet,
-      keepkeyWallet,
-      ledgerWallet,
-      okxWallet,
-      trezorWallet,
-      walletconnectWallet,
-      xdefiWallet,
-    ],
-    plugins: [{ plugin: ThorchainPlugin }, { plugin: ChainflipPlugin }],
+    plugins: { ...ThorchainPlugin, ...ChainflipPlugin },
+    wallets: {
+      ...evmWallet,
+      ...keplrWallet,
+      ...keystoreWallet,
+      ...keepkeyWallet,
+      ...ledgerWallet,
+      ...okxWallet,
+      ...trezorWallet,
+      ...walletconnectWallet,
+      ...xdefiWallet,
+    },
     ...extendParams,
   });
 

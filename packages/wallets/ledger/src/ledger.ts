@@ -487,7 +487,4 @@ function connectLedger({
   };
 }
 
-export const ledgerWallet = {
-  connectMethodName: "connectLedger" as const,
-  connect: connectLedger,
-};
+export const ledgerWallet = { connectLedger } as const;

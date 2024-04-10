@@ -23,27 +23,22 @@ export type Wallet = BaseWallet<
   EVMWallets & CosmosWallets & ThorchainWallets & UTXOWallets & SubstrateWallets
 >;
 
-export type SwapKitWallet<ConnectMethod extends string, ConnectParams extends Todo[]> = {
-  connectMethodName: ConnectMethod;
-  connect: (
-    params: ConnectWalletParams,
-  ) => (...connectParams: ConnectParams) => boolean | Promise<boolean>;
-};
+export type SwapKitWallet<ConnectParams extends Todo[]> = (
+  params: ConnectWalletParams,
+) => (...connectParams: ConnectParams) => boolean | Promise<boolean>;
 
-export type SwapKitPluginInterface<
-  Name extends string,
-  Methods extends { [key in string]: Todo },
-> = ({ wallets, stagenet, config }: { wallets: Wallet; stagenet?: boolean; config: Todo }) => {
-  name: Name;
-  methods: Methods;
+export type SwapKitPluginInterface<Methods = { [key in string]: Todo }> = {
+  plugin: ({
+    wallets,
+    stagenet,
+    config,
+  }: { wallets: Wallet; stagenet?: boolean; config: Todo }) => Methods;
+  config?: Todo;
 };
 
 export function SwapKit<
-  Plugins extends {
-    plugin: SwapKitPluginInterface<string, { [key in string]: Todo }>;
-    config?: Todo;
-  }[],
-  SupportedWallets extends SwapKitWallet<string, NotWorth[]>[],
+  Plugins extends { [key in string]: SwapKitPluginInterface<{ [key in string]: Todo }> },
+  Wallets extends { [key in string]: SwapKitWallet<NotWorth[]> },
 >({
   apis = {},
   config = {},
@@ -57,36 +52,60 @@ export function SwapKit<
   plugins: Plugins;
   rpcUrls?: { [key in Chain]?: string };
   stagenet?: boolean;
-  wallets: SupportedWallets;
+  wallets: Wallets;
 }) {
-  type PluginsReturn = ReturnType<Plugins[number]["plugin"]>;
-  type AvailablePlugins = { [key in PluginsReturn["name"]]: PluginsReturn["methods"] };
-  type ConnectWallets = SupportedWallets[number];
+  type PluginName = keyof Plugins;
+
+  /**
+   * @REMOVE (V1)
+   * Compatibility layer for plugins and wallets for easier migration and backwards compatibility
+   */
+  const compatPlugins: Plugins = Array.isArray(plugins)
+    ? plugins.reduce((acc, pluginInterface) => {
+        // @ts-expect-error Ignore until we remove the compatibility layer
+        const { name, plugin } = Object.values(pluginInterface)?.[0] || {};
+        acc[name] = plugin;
+        return acc;
+      }, {})
+    : plugins;
+  const compatWallets: Wallets = Array.isArray(wallets)
+    ? wallets.reduce((acc, wallet) => {
+        // @ts-expect-error Ignore until we remove the compatibility layer
+        const [walletName, connectWallet] = Object.entries(wallet)?.[0] || {};
+        acc[walletName] = connectWallet;
+        return acc;
+      }, {})
+    : wallets;
 
   const connectedWallets = {} as Wallet;
-  const availablePlugins = {} as AvailablePlugins;
-  const connectWalletMethods = {} as {
-    [key in ConnectWallets["connectMethodName"]]: ReturnType<ConnectWallets["connect"]>;
-  };
 
-  for (const { plugin, config } of plugins) {
-    const { name, methods } = plugin({ wallets: connectedWallets, stagenet, config });
+  const availablePlugins = Object.entries(compatPlugins).reduce(
+    (acc, [pluginName, { plugin, config }]) => {
+      const methods = plugin({ wallets: connectedWallets, stagenet, config });
 
-    availablePlugins[name as PluginsReturn["name"]] = methods;
-  }
+      // @ts-expect-error
+      acc[pluginName] = methods;
+      return acc;
+    },
+    {} as { [key in PluginName]: ReturnType<Plugins[key]["plugin"]> },
+  );
 
-  for (const wallet of wallets) {
-    const connectWallet = wallet.connect({ addChain, config, apis, rpcUrls });
+  const connectWalletMethods = Object.entries(compatWallets).reduce(
+    (acc, [walletName, wallet]) => {
+      const connectWallet = wallet({ addChain, config, apis, rpcUrls });
 
-    // @ts-expect-error That is only resolved to any whenever there are no wallets
-    connectWalletMethods[wallet.connectMethodName] = connectWallet;
-  }
+      // @ts-expect-error
+      acc[walletName] = connectWallet;
+      return acc;
+    },
+    {} as { [key in keyof Wallets]: ReturnType<Wallets[key]> },
+  );
 
   /**
    * @Private
    * Internal helpers
    */
-  function getSwapKitPlugin<T extends keyof AvailablePlugins>(pluginName: T) {
+  function getSwapKitPlugin<T extends PluginName>(pluginName: T) {
     const plugin = availablePlugins[pluginName] || Object.values(availablePlugins)[0];
 
     if (!plugin) {
@@ -184,10 +203,14 @@ export function SwapKit<
     return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
   }
 
-  function swap<T extends keyof AvailablePlugins>({ pluginName, ...rest }: SwapParams<T>) {
+  function swap<T extends PluginName>({ pluginName, ...rest }: SwapParams<T>) {
     const plugin = getSwapKitPlugin(pluginName);
 
-    return plugin.swap(rest);
+    if ("swap" in plugin) {
+      return plugin.swap(rest);
+    }
+
+    throw new SwapKitError("core_plugin_swap_not_found");
   }
 
   return {
