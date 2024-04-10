@@ -161,14 +161,19 @@ export const BaseThorchainToolbox = ({
   chain: Chain.THORChain | Chain.Maya;
 }): ThorchainToolboxType => {
   const isThorchain = chain === Chain.THORChain;
+  const isMaya = chain === Chain.Maya;
   const chainId = isThorchain ? ChainId.THORChain : ChainId.Maya;
 
   const prefix = `${stagenet ? "s" : ""}${chain.toLowerCase()}`;
   const derivationPath = DerivationPath[chain];
   const rpcUrl = getRPC(chainId, stagenet);
   const nodeUrl = stagenet
-    ? "https://stagenet-thornode.ninerealms.com"
-    : "https://thornode.thorswap.net";
+    ? isMaya
+      ? "https://stagenet.mayanode.mayachain.info"
+      : "https://stagenet-thornode.ninerealms.com"
+    : isMaya
+      ? "https://mayanode.mayachain.info"
+      : "https://thornode.thorswap.net";
 
   const client = new CosmosClient({
     server: nodeUrl,
