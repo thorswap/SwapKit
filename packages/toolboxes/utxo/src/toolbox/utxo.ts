@@ -69,7 +69,7 @@ const validateAddress = ({ address, chain }: { address: string } & UTXOBaseToolb
 const getAddressFromKeys = ({ keys, chain }: { keys: ECPairInterface } & UTXOBaseToolboxParams) => {
   if (!keys) throw new Error("Keys must be provided");
 
-  const method = Chain.Dogecoin === chain ? payments.p2pkh : payments.p2wpkh;
+  const method = [Chain.Dash, Chain.Dogecoin].includes(chain) ? payments.p2pkh : payments.p2wpkh;
   const { address } = method({ pubkey: keys.publicKey, network: getNetwork(chain) });
   if (!address) throw new Error("Address not defined");
 

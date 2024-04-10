@@ -81,17 +81,6 @@ export type Witness = {
   script: Buffer;
 };
 
-export type ExtendParams<WalletConnectMethodNames = ""> = {
-  excludedChains?: Chain[];
-  config?: ConnectConfig;
-  rpcUrls?: { [chain in Chain]?: string };
-  apis?: ApisType;
-  wallets: {
-    connectMethodName: ConnectMethodNames | WalletConnectMethodNames;
-    connect: (params: ConnectWalletParams) => (...params: Todo) => Promise<Todo>;
-  }[];
-};
-
 export enum QuoteMode {
   TC_SUPPORTED_TO_TC_SUPPORTED = "TC-TC",
   TC_SUPPORTED_TO_ETH = "TC-ERC20",

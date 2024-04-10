@@ -1,5 +1,4 @@
 import { ChainflipPlugin } from "@swapkit/chainflip";
-import type { ExtendParams } from "@swapkit/core";
 import { SwapKit } from "@swapkit/core";
 import { ThorchainPlugin } from "@swapkit/thorchain";
 import { evmWallet } from "@swapkit/wallet-evm-extensions";
@@ -14,25 +13,27 @@ import { xdefiWallet } from "@swapkit/wallet-xdefi";
 
 export * from "@swapkit/core";
 
-type SwapKitOptions = Omit<ExtendParams, "wallets">;
+const plugins = { ...ThorchainPlugin, ...ChainflipPlugin };
 
-export const createSwapKit = ({ config, ...extendParams }: SwapKitOptions = {}) => {
-  const swapKitClient = SwapKit({
-    config,
-    plugins: { ...ThorchainPlugin, ...ChainflipPlugin },
-    wallets: {
-      ...evmWallet,
-      ...keplrWallet,
-      ...keystoreWallet,
-      ...keepkeyWallet,
-      ...ledgerWallet,
-      ...okxWallet,
-      ...trezorWallet,
-      ...walletconnectWallet,
-      ...xdefiWallet,
-    },
-    ...extendParams,
-  });
+const wallets = {
+  ...evmWallet,
+  ...keplrWallet,
+  ...keystoreWallet,
+  ...keepkeyWallet,
+  ...ledgerWallet,
+  ...okxWallet,
+  ...trezorWallet,
+  ...walletconnectWallet,
+  ...xdefiWallet,
+};
+
+type Params = Omit<
+  Parameters<typeof SwapKit<typeof plugins, typeof wallets>>[0],
+  "wallets" | "plugins"
+>;
+
+export const createSwapKit = ({ config, ...extendParams }: Params) => {
+  const swapKitClient = SwapKit({ config, plugins, wallets, ...extendParams });
 
   return swapKitClient;
 };

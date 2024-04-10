@@ -36,6 +36,7 @@ export const availableChainsByWallet = {
   [WalletOption.BRAVE]: EVMChains,
   [WalletOption.OKX_MOBILE]: EVMChains,
   [WalletOption.COINBASE_WEB]: EVMChains,
+  [WalletOption.COINBASE_MOBILE]: EVMChains,
   [WalletOption.KEPLR]: [Chain.Cosmos],
   [WalletOption.KEYSTORE]: [...AllChainsSupported, Chain.Polkadot, Chain.Chainflip],
   [WalletOption.KEEPKEY]: [
@@ -102,6 +103,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
     async (option: WalletOption) => {
       if (!skClient) return alert("client is not ready");
       switch (option) {
+        case WalletOption.COINBASE_MOBILE:
+          return skClient.connectCoinbase(chains);
         case WalletOption.XDEFI:
           return skClient.connectXDEFI(chains);
         case WalletOption.OKX:
@@ -114,7 +117,10 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           const derivationPaths = []; // Ensure derivationPaths is defined
           for (const chain of chains) {
             // Use 'let' for iteration variable
-            const derivationPath = getDerivationPathFor({ chain: chain, index: 0 });
+            const derivationPath = getDerivationPathFor({
+              chain: chain,
+              index: 0,
+            });
             derivationPaths.push(derivationPath);
           }
           const apiKey: string = await skClient.connectKeepkey(chains, derivationPaths);
@@ -130,11 +136,6 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
           return skClient.connectTrezor(chains, derivationPath);
         }
-        case WalletOption.WALLETCONNECT: {
-          return skClient.connectWalletconnect(chains);
-        }
-        default:
-          break;
       }
     },
     [chains, skClient],
