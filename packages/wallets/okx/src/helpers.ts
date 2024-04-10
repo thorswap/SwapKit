@@ -1,6 +1,19 @@
-import { Chain, ChainId, RPCUrl } from "@swapkit/helpers";
+import {
+  Chain,
+  ChainId,
+  ChainToHexChainId,
+  RPCUrl,
+  addEVMWalletNetwork,
+  prepareNetworkSwitch,
+} from "@swapkit/helpers";
 import type { GaiaToolbox } from "@swapkit/toolbox-cosmos";
-import type { getWeb3WalletMethods } from "@swapkit/toolbox-evm";
+import {
+  AVAXToolbox,
+  BSCToolbox,
+  BrowserProvider,
+  ETHToolbox,
+  type Eip1193Provider,
+} from "@swapkit/toolbox-evm";
 import type { BTCToolbox, Psbt, UTXOTransferParams } from "@swapkit/toolbox-utxo";
 
 const cosmosTransfer =
@@ -56,7 +69,7 @@ export const getWalletForChain = async ({
         throw new Error("No okxwallet found");
       }
 
-      const { getWeb3WalletMethods, getProvider } = await import("@swapkit/toolbox-evm");
+      const { getProvider } = await import("@swapkit/toolbox-evm");
 
       const evmWallet = await getWeb3WalletMethods({
         chain,
@@ -120,4 +133,59 @@ export const getWalletForChain = async ({
     default:
       throw new Error(`No wallet for chain ${chain}`);
   }
+};
+
+export const getWeb3WalletMethods = async ({
+  ethereumWindowProvider,
+  chain,
+  covalentApiKey,
+  ethplorerApiKey,
+}: {
+  ethereumWindowProvider: Eip1193Provider | undefined;
+  chain: Chain;
+  covalentApiKey?: string;
+  ethplorerApiKey?: string;
+}) => {
+  if (!ethereumWindowProvider) throw new Error("Requested web3 wallet is not installed");
+
+  if (
+    (chain !== Chain.Ethereum && !covalentApiKey) ||
+    (chain === Chain.Ethereum && !ethplorerApiKey)
+  ) {
+    throw new Error(`Missing API key for ${chain} chain`);
+  }
+
+  const provider = new BrowserProvider(ethereumWindowProvider, "Todo");
+
+  const toolboxParams = {
+    provider,
+    signer: await provider.getSigner(),
+    ethplorerApiKey: ethplorerApiKey as string,
+    covalentApiKey: covalentApiKey as string,
+  };
+
+  const toolbox =
+    chain === Chain.Ethereum
+      ? ETHToolbox(toolboxParams)
+      : chain === Chain.Avalanche
+        ? AVAXToolbox(toolboxParams)
+        : BSCToolbox(toolboxParams);
+
+  try {
+    chain !== Chain.Ethereum &&
+      (await addEVMWalletNetwork(
+        provider,
+        (
+          toolbox as ReturnType<typeof AVAXToolbox> | ReturnType<typeof BSCToolbox>
+        ).getNetworkParams(),
+      ));
+  } catch (_error) {
+    throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
+  }
+
+  return prepareNetworkSwitch<typeof toolbox>({
+    toolbox: { ...toolbox },
+    chainId: ChainToHexChainId[chain],
+    provider,
+  });
 };

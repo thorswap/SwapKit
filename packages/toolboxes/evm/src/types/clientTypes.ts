@@ -1,5 +1,5 @@
 import type { AssetValue, EVMTxBaseParams, FeeOption, WalletTxParams } from "@swapkit/helpers";
-import type { BigNumberish, BrowserProvider, JsonFragment, Transaction } from "ethers";
+import type { BigNumberish, JsonFragment, Transaction } from "ethers";
 
 import type {
   ARBToolbox,
@@ -51,28 +51,6 @@ export type EstimateCallParams = Pick<
   CallParams,
   "contractAddress" | "abi" | "funcName" | "funcParams" | "txOverrides"
 >;
-
-export type EthereumWindowProvider = BrowserProvider & {
-  __XDEFI?: boolean;
-  isBraveWallet?: boolean;
-  isCoinbaseWallet?: boolean;
-  isMetaMask?: boolean;
-  isOkxWallet?: boolean;
-  isTrust?: boolean;
-  on: (event: string, callback?: () => void) => void;
-  overrideIsMetaMask?: boolean;
-  request: <T = unknown>(args: { method: string; params?: unknown[] }) => Promise<T>;
-  selectedProvider?: EthereumWindowProvider;
-};
-
-declare global {
-  interface Window {
-    ethereum: EthereumWindowProvider;
-    trustwallet: EthereumWindowProvider;
-    coinbaseWalletExtension: EthereumWindowProvider;
-    braveSolana: Todo;
-  }
-}
 
 export type TransferParams = WalletTxParams & {
   gasLimit?: bigint;

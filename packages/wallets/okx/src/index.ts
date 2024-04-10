@@ -1,5 +1,5 @@
 import type { StdSignDoc, StdSignature } from "@cosmjs/amino";
-import type { EthereumWindowProvider } from "@swapkit/toolbox-evm";
+import type { EthereumWindowProvider } from "@swapkit/helpers";
 import type { AminoSignResponse, OfflineAminoSigner } from "./types.ts";
 
 export { okxWallet } from "./okxWallet.ts";
