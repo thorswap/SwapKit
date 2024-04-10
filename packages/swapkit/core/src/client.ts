@@ -40,7 +40,7 @@ export type SwapKitPluginInterface<
 
 export function SwapKit<
   Plugins extends {
-    connect: SwapKitPluginInterface<string, { [key in string]: Todo }>;
+    plugin: SwapKitPluginInterface<string, { [key in string]: Todo }>;
     config?: Todo;
   }[],
   SupportedWallets extends SwapKitWallet<string, NotWorth[]>[],
@@ -59,7 +59,7 @@ export function SwapKit<
   stagenet?: boolean;
   wallets: SupportedWallets;
 }) {
-  type PluginsReturn = ReturnType<Plugins[number]["connect"]>;
+  type PluginsReturn = ReturnType<Plugins[number]["plugin"]>;
   type AvailablePlugins = { [key in PluginsReturn["name"]]: PluginsReturn["methods"] };
   type ConnectWallets = SupportedWallets[number];
 
@@ -69,12 +69,8 @@ export function SwapKit<
     [key in ConnectWallets["connectMethodName"]]: ReturnType<ConnectWallets["connect"]>;
   };
 
-  for (const plugin of plugins) {
-    const { name, methods } = plugin.connect({
-      wallets: connectedWallets,
-      stagenet,
-      config: plugin.config,
-    });
+  for (const { plugin, config } of plugins) {
+    const { name, methods } = plugin({ wallets: connectedWallets, stagenet, config });
 
     availablePlugins[name as PluginsReturn["name"]] = methods;
   }

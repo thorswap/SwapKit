@@ -30,7 +30,7 @@ export const createSwapKit = ({ config, ...extendParams }: SwapKitOptions = {}) 
       walletconnectWallet,
       xdefiWallet,
     ],
-    plugins: [{ connect: ThorchainPlugin }, { connect: ChainflipPlugin }],
+    plugins: [{ plugin: ThorchainPlugin }, { plugin: ChainflipPlugin }],
     ...extendParams,
   });
 
