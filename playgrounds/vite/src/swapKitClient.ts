@@ -13,6 +13,7 @@ import { walletconnectWallet } from "@swapkit/wallet-wc";
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
 
 const wallets = {
+  ...coinbaseWallet,
   ...evmWallet,
   ...keepkeyWallet,
   ...keplrWallet,

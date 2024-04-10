@@ -12,12 +12,13 @@ const COINBASE_SUPPORTED_CHAINS = [
   Chain.Ethereum,
 ] as const;
 
-const connectCoinbase =
-  ({
-    addChain,
-    config: { thorswapApiKey, covalentApiKey, ethplorerApiKey },
-  }: ConnectWalletParams) =>
-  async (chains: (typeof COINBASE_SUPPORTED_CHAINS)[number][]) => {
+function connectCoinbaseWallet({
+  addChain,
+  config: { thorswapApiKey, covalentApiKey, ethplorerApiKey },
+}: ConnectWalletParams) {
+  return async function connectCoinbaseWallet(
+    chains: (typeof COINBASE_SUPPORTED_CHAINS)[number][],
+  ) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const promises = chains.map(async (chain) => {
@@ -27,15 +28,13 @@ const connectCoinbase =
         ethplorerApiKey,
       });
 
-      addChain({
-        chain,
-        ...walletMethods,
-        balance: [],
-        walletType: WalletOption.COINBASE_MOBILE,
-      });
+      addChain({ ...walletMethods, balance: [], chain, walletType: WalletOption.COINBASE_MOBILE });
     });
 
     await Promise.all(promises);
-  };
 
-export const coinbaseWallet = { connectCoinbase } as const;
+    return true;
+  };
+}
+
+export const coinbaseWallet = { connectCoinbaseWallet } as const;
