@@ -153,23 +153,22 @@ const checkAndLaunch = async (attempts: number) => {
   }
 };
 
-const connectKeepkey =
-  ({
-    apis,
-    rpcUrls,
-    addChain,
-    config: {
-      blockchairApiKey,
-      covalentApiKey,
-      ethplorerApiKey = "freekey",
-      keepkeyConfig,
-      thorswapApiKey,
-    },
-  }: ConnectWalletParams) =>
-  async (
+function connectKeepkey({
+  apis,
+  rpcUrls,
+  addChain,
+  config: {
+    blockchairApiKey,
+    covalentApiKey,
+    ethplorerApiKey = "freekey",
+    keepkeyConfig,
+    thorswapApiKey,
+  },
+}: ConnectWalletParams) {
+  return async function connectKeepkey(
     chains: (typeof KEEPKEY_SUPPORTED_CHAINS)[number][],
     derivationPaths?: DerivationPathArray[],
-  ) => {
+  ) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
     if (!keepkeyConfig) throw new Error("KeepKey config not found");
 
@@ -204,5 +203,6 @@ const connectKeepkey =
 
     return true;
   };
+}
 
 export const keepkeyWallet = { connectKeepkey } as const;

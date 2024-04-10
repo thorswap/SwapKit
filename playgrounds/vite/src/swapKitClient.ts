@@ -1,5 +1,5 @@
 import { ChainflipPlugin } from "@swapkit/chainflip";
-import { SwapKit } from "@swapkit/core";
+import { SwapKit, type SwapKitClient } from "@swapkit/core";
 import { ThorchainPlugin } from "@swapkit/thorchain";
 import { evmWallet } from "@swapkit/wallet-evm-extensions";
 import { keepkeyWallet } from "@swapkit/wallet-keepkey";
@@ -11,7 +11,26 @@ import { trezorWallet } from "@swapkit/wallet-trezor";
 import { walletconnectWallet } from "@swapkit/wallet-wc";
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
 
-const clientCache = new Map<string, Todo>();
+const wallets = {
+  ...evmWallet,
+  ...keepkeyWallet,
+  ...keplrWallet,
+  ...keystoreWallet,
+  ...ledgerWallet,
+  ...okxWallet,
+  ...trezorWallet,
+  ...walletconnectWallet,
+  ...xdefiWallet,
+} as const;
+
+const plugins = {
+  ...ThorchainPlugin,
+  chainflip: { ...ChainflipPlugin.chainflip, config: { brokerEndpoint: "" } },
+} as const;
+
+type Client = ReturnType<typeof SwapKit<typeof plugins, typeof wallets>>;
+
+const clientCache = new Map<string, Client>();
 
 export const getSwapKitClient = (
   params: {
@@ -30,6 +49,8 @@ export const getSwapKitClient = (
 
   const client = SwapKit({
     stagenet: params.stagenet,
+    plugins,
+    wallets,
     config: {
       ...params,
       keepkeyConfig: {
@@ -42,21 +63,6 @@ export const getSwapKitClient = (
           url: "http://localhost:1646",
         },
       },
-    },
-    plugins: {
-      ...ThorchainPlugin,
-      chainflip: { ...ChainflipPlugin.chainflip, config: { brokerEndpoint: "" } },
-    },
-    wallets: {
-      ...evmWallet,
-      ...keepkeyWallet,
-      ...keplrWallet,
-      ...keystoreWallet,
-      ...ledgerWallet,
-      ...okxWallet,
-      ...trezorWallet,
-      ...walletconnectWallet,
-      ...xdefiWallet,
     },
   });
 
