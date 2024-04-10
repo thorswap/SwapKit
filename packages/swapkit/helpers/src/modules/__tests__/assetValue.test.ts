@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-import { BaseDecimal, Chain } from "../../types/chains.ts";
+import { BaseDecimal, Chain, ChainId } from "../../types/chains.ts";
 import { AssetValue, getMinAmountByChain } from "../assetValue.ts";
 
 describe("AssetValue", () => {
@@ -476,6 +476,49 @@ describe("AssetValue", () => {
           isSynthetic: false,
           symbol: "vTHOR-0x815c23eca83261b6ec689b60cc4a58b54bc24d8d",
           ticker: "vTHOR",
+        }),
+      );
+    });
+  });
+
+  describe("fromShortcodeAndProvider", () => {
+    test("creates AssetValue from maya short identifier via `@swapkit/tokens` lists", async () => {
+      await AssetValue.loadStaticAssets();
+
+      const shortMayaUSDT = "eTH.UsDT";
+      const ethUSDT = await AssetValue.fromShortcodeAndProvider(shortMayaUSDT, "MAYACHAIN");
+
+      expect(ethUSDT).toBeDefined();
+      expect(ethUSDT).toEqual(
+        expect.objectContaining({
+          address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
+          chain: Chain.Ethereum,
+          decimal: 6,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: "USDT-0xdac17f958d2ee523a2206206994597c13d831ec7",
+          ticker: "USDT",
+        }),
+      );
+    });
+
+    test("creates AssetValue from thorchain short identifier via `@swapkit/tokens` lists", async () => {
+      await AssetValue.loadStaticAssets();
+
+      const shortBitcoinCash = "C";
+      const bitcoinCash = await AssetValue.fromShortcodeAndProvider(shortBitcoinCash, "THORCHAIN");
+
+      expect(bitcoinCash).toBeDefined();
+      expect(bitcoinCash).toEqual(
+        expect.objectContaining({
+          chainId: ChainId.BitcoinCash,
+          decimal: 8,
+          isGasAsset: true,
+          decimalMultiplier: 100000000n,
+          isSynthetic: false,
+          tax: undefined,
+          symbol: "BCH",
+          ticker: "BCH",
         }),
       );
     });
