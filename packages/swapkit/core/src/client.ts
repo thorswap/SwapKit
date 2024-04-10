@@ -86,7 +86,7 @@ export function SwapKit<
    * @Private
    * Internal helpers
    */
-  function getSwapKitPlugin(pluginName: keyof AvailablePlugins): PluginsReturn["methods"] {
+  function getSwapKitPlugin<T extends keyof AvailablePlugins>(pluginName: T) {
     const plugin = availablePlugins[pluginName] || Object.values(availablePlugins)[0];
 
     if (!plugin) {
@@ -184,17 +184,10 @@ export function SwapKit<
     return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
   }
 
-  function swap({
-    provider,
-    pluginConfigOverwrite,
-    pluginName,
-    ...rest
-  }: SwapParams<keyof AvailablePlugins>) {
-    const passedPluginConfig = pluginConfigOverwrite || provider;
+  function swap<T extends keyof AvailablePlugins>({ pluginName, ...rest }: SwapParams<T>) {
+    const plugin = getSwapKitPlugin(pluginName);
 
-    const plugin = getSwapKitPlugin(passedPluginConfig?.name || pluginName);
-
-    return plugin.swap({ provider, ...rest });
+    return plugin.swap(rest);
   }
 
   return {
