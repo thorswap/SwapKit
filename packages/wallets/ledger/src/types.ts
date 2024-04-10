@@ -29,3 +29,10 @@ export type EVMLedgerClients =
   | ReturnType<typeof EthereumLedger>
   | ReturnType<typeof OptimismLedger>
   | ReturnType<typeof PolygonLedger>;
+
+export type GetAddressAndPubKeyResponse = {
+  bech32_address: string;
+  compressed_pk: NotWorth;
+  error_message: string;
+  return_code: number;
+};

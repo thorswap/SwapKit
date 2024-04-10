@@ -1,4 +1,4 @@
-import type { AssetValue, FeeOption, UTXOChain } from "@swapkit/helpers";
+import type { AssetValue, FeeOption, UTXOChain, Witness } from "@swapkit/helpers";
 
 import type { BlockchairApiType } from "../api/blockchairApi.ts";
 import type { BCHToolbox, BTCToolbox, DOGEToolbox, LTCToolbox } from "../index.ts";
@@ -9,7 +9,7 @@ export type TransactionType = {
 };
 
 export type TargetOutput =
-  | { address: string; value: number; script?: Buffer }
+  | { address: string; script?: Buffer; value: number }
   | { script: Buffer; value: number };
 
 export type TransactionBuilderType = {
@@ -24,11 +24,6 @@ export type TransactionBuilderType = {
     signatureAlgorithm?: string,
   ): void;
   build(): TransactionType;
-};
-
-export type Witness = {
-  value: number;
-  script: Buffer;
 };
 
 export type UTXOBaseToolboxParams = {

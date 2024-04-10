@@ -1,4 +1,4 @@
-import type { AssetValue, EVMTxBaseParams, FeeOption, WalletTxParams } from "@swapkit/helpers";
+import type { AssetValue, FeeOption, WalletTxParams } from "@swapkit/helpers";
 import type { BigNumberish, JsonFragment, Transaction } from "ethers";
 
 import type {
@@ -83,6 +83,16 @@ export type EVMMaxSendableAmountsParams = {
   contractAddress?: string;
   funcParams?: unknown[];
   txOverrides?: Partial<Transaction>;
+};
+
+export type EVMTxBaseParams<T = bigint> = {
+  to?: string;
+  from?: string;
+  nonce?: number;
+  gasLimit?: T;
+  data?: string;
+  value?: T;
+  chainId?: T;
 };
 
 export type EIP1559TxParams<T = bigint> = EVMTxBaseParams<T> & {

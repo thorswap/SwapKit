@@ -3,7 +3,6 @@ import {
   ChainToHexChainId,
   type ConnectWalletParams,
   type EVMChain,
-  type EVMWalletOptions,
   type EthereumWindowProvider,
   WalletOption,
   addEVMWalletNetwork,
@@ -24,6 +23,13 @@ declare const window: {
   coinbaseWalletExtension: EthereumWindowProvider;
   braveSolana: Todo;
 } & Window;
+
+type EVMWalletOptions =
+  | WalletOption.BRAVE
+  | WalletOption.OKX_MOBILE
+  | WalletOption.METAMASK
+  | WalletOption.TRUSTWALLET_WEB
+  | WalletOption.COINBASE_WEB;
 
 const getWalletForType = (
   walletType:
@@ -128,9 +134,9 @@ function connectEVMWallet({
         walletMethods.getBalance(address, potentialScamFilter, getProvider(chain));
 
       addChain({
+        ...walletMethods,
         chain,
         address,
-        ...walletMethods,
         getBalance,
         balance: [],
         walletType,

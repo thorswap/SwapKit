@@ -22,32 +22,6 @@ export type WalletTxParams = {
   recipient: string;
 };
 
-export type EVMTxBaseParams<T = bigint> = {
-  to?: string;
-  from?: string;
-  nonce?: number;
-  gasLimit?: T;
-  data?: string;
-  value?: T;
-  chainId?: T;
-};
-
-export type GetAddressAndPubKeyResponse = {
-  bech32_address: string;
-  compressed_pk: NotWorth;
-  error_message: string;
-  return_code: number;
-};
-
-export type Signature = {
-  pub_key: {
-    type: string;
-    value: string;
-  };
-  sequence: string;
-  signature: string;
-};
-
 export enum MemoType {
   BOND = "BOND",
   DEPOSIT = "+",
