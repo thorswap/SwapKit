@@ -7,14 +7,6 @@ import {
   type getToolboxByChain,
 } from "@swapkit/toolbox-evm";
 
-declare global {
-  interface Window {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    ethereum?: any;
-    coinbaseWalletExtension?: CoinbaseWalletProvider;
-  }
-}
-
 class CoinbaseMobileSigner extends AbstractSigner {
   #coinbaseProvider: CoinbaseWalletProvider;
 
