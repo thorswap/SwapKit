@@ -16,6 +16,12 @@ jobs:
       - name: Generate new token list
         run: bun generate:tokens
 
+      - name: Generate Thorchain shortcodes
+        run: bun generate:tokens:shortcodes:thorchain
+
+      - name: Generate Mayachain shortcodes
+        run: bun generate:tokens:shortcodes:mayachain 
+
       - name: Push Token List Changes
         id: commit
         uses: devops-infra/action-commit-push@73d3ffed46e0782df6f046d15049aae82569b389
