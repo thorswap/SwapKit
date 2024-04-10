@@ -1,11 +1,6 @@
 import type { ThornodePoolItem } from "@swapkit/api";
 import { RequestClient } from "@swapkit/helpers";
-
-type AssetInfo = {
-  asset: string;
-  short_code?: string;
-  shortIdentifier: string;
-};
+import type { AssetInfo } from "./src";
 
 try {
   const pools = await RequestClient.get<ThornodePoolItem[]>(
@@ -30,7 +25,8 @@ try {
 
   await Bun.write(
     "src/shortIdentifiers/mayachain.ts",
-    `export const mayaShortIdentifiers = ${JSON.stringify(assetInfos)} as const;`,
+    // this should match ProviderNames enum
+    `export const MAYACHAIN = ${JSON.stringify(assetInfos)} as const;`,
   );
 } catch (error) {
   console.error(error);

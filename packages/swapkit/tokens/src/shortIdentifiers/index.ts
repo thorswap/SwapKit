@@ -1,2 +1,2 @@
-export { thorShortIdentifiers } from "./thorchain.ts";
-export { mayaShortIdentifiers } from "./mayachain.ts";
+export { THORCHAIN } from "./thorchain.ts";
+export { MAYACHAIN } from "./mayachain.ts";

@@ -1,4 +1,4 @@
-export const mayaShortIdentifiers = [
+export const MAYACHAIN = [
   { asset: "BTC.BTC", shortIdentifier: "btc.btc" },
   { asset: "DASH.DASH", shortIdentifier: "dash.dash" },
   { asset: "ETH.ETH", shortIdentifier: "eth.eth" },

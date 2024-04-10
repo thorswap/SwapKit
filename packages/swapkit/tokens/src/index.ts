@@ -11,3 +11,5 @@ export { list as TraderjoeList } from "./tokenLists/Traderjoe.ts";
 export { list as UniswapList } from "./tokenLists/Uniswap.ts";
 export { list as WoofiList } from "./tokenLists/Woofi.ts";
 export { list as ChainflipList } from "./tokenLists/Chainflip.ts";
+
+export * from "./types.ts";

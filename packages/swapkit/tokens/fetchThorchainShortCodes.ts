@@ -1,11 +1,6 @@
 import type { ThornodePoolItem } from "@swapkit/api";
 import { RequestClient } from "@swapkit/helpers";
-
-type AssetInfo = {
-  asset: string;
-  short_code?: string;
-  shortIdentifier: string;
-};
+import type { AssetInfo } from "./src";
 
 try {
   const pools = await RequestClient.get<ThornodePoolItem[]>(
@@ -17,7 +12,7 @@ try {
   const assetInfos = pools.map((pool) => {
     return {
       asset: pool.asset,
-      short_code: pool.short_code ?? undefined,
+      shortCode: pool.short_code ?? undefined,
       shortIdentifier: "",
     };
   });
@@ -30,7 +25,8 @@ try {
 
   await Bun.write(
     "src/shortIdentifiers/thorchain.ts",
-    `export const thorShortIdentifiers = ${JSON.stringify(assetInfos)} as const;`,
+    // this should match ProviderNames enum
+    `export const THORCHAIN = ${JSON.stringify(assetInfos)} as const;`,
   );
 } catch (error) {
   console.error(error);
