@@ -38,7 +38,4 @@ const connectCoinbase =
     await Promise.all(promises);
   };
 
-export const coinbaseWallet = {
-  connectMethodName: "connectCoinbase" as const,
-  connect: connectCoinbase,
-};
+export const coinbaseWallet = { connectCoinbase } as const;

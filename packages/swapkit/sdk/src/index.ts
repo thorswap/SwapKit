@@ -1,5 +1,4 @@
 import { ChainflipPlugin } from "@swapkit/chainflip";
-import type { ExtendParams } from "@swapkit/core";
 import { SwapKit } from "@swapkit/core";
 import { ThorchainPlugin } from "@swapkit/thorchain";
 import { evmWallet } from "@swapkit/wallet-evm-extensions";

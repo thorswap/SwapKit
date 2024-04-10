@@ -136,11 +136,6 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
           return skClient.connectTrezor(chains, derivationPath);
         }
-        case WalletOption.WALLETCONNECT: {
-          return skClient.connectWalletconnect(chains);
-        }
-        default:
-          break;
       }
     },
     [chains, skClient],
