@@ -8,6 +8,7 @@ export * from "./helpers/liquidity.ts";
 export * from "./helpers/memo.ts";
 export * from "./helpers/others.ts";
 export * from "./helpers/validators.ts";
+export * from "./helpers/web3wallets.ts";
 
 /**
  * Modules

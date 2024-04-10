@@ -1,17 +1,6 @@
 import type { Chain, CosmosChain, EVMChain, UTXOChain } from "./chains.ts";
 import type { WalletOption } from "./wallet.ts";
 
-type ConnectMethodNames =
-  | "connectEVMWallet"
-  | "connectKeplr"
-  | "connectKeystore"
-  | "connectKeepkey"
-  | "connectLedger"
-  | "connectOkx"
-  | "connectTrezor"
-  | "connectWalletconnect"
-  | "connectXDEFI";
-
 export type ConnectConfig = {
   stagenet?: boolean;
   /**
