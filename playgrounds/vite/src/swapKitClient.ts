@@ -54,6 +54,15 @@ export const getSwapKitClient = (
     stagenet: params.stagenet,
     plugins,
     wallets,
+    // apis: {
+    //   ETH: {
+    //     getBalance: (_address: string) => {
+    //       return Promise.resolve([
+    //         { chain: Chain.Ethereum, symbol: "ETH", value: "0.69", decimal: 18 },
+    //       ]);
+    //     },
+    //   },
+    // },
     config: {
       ...params,
       keepkeyConfig: {

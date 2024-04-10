@@ -13,18 +13,19 @@ type ToolboxType = {
   MAYA: typeof MayaToolbox;
 };
 
-// @ts-expect-error false positive
 export const getToolboxByChain = <T extends keyof ToolboxType>(chain: T): ToolboxType[T] => {
   switch (chain) {
     case Chain.Binance:
       return BinanceToolbox as ToolboxType[T];
-    case Chain.Cosmos:
-      return GaiaToolbox as ToolboxType[T];
     case Chain.Kujira:
       return KujiraToolbox as ToolboxType[T];
     case Chain.Maya:
       return MayaToolbox as ToolboxType[T];
     case Chain.THORChain:
       return ThorchainToolbox as ToolboxType[T];
+    case Chain.Cosmos:
+      return GaiaToolbox as ToolboxType[T];
+    default:
+      throw new Error(`Chain ${chain} is not supported`);
   }
 };

@@ -329,7 +329,7 @@ export const BaseUTXOToolbox = (
   }: {
     phrase: string;
     derivationPath: string;
-  }) => (await createKeysForPath({ phrase, derivationPath, ...baseToolboxParams })).toWIF(),
+  }) => createKeysForPath({ phrase, derivationPath, ...baseToolboxParams }).toWIF(),
 
   getBalance: async (address: string, _potentialScamFilter?: boolean) =>
     getBalance({ address, ...baseToolboxParams }),
@@ -351,6 +351,4 @@ export const BaseUTXOToolbox = (
 });
 
 export type BaseUTXOWallet = ReturnType<typeof BaseUTXOToolbox>;
-export type UTXOWallets = {
-  [key in UTXOChain]: BaseUTXOWallet;
-};
+export type UTXOWallets = { [key in UTXOChain]: BaseUTXOWallet };

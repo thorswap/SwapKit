@@ -61,9 +61,9 @@ type ApisType = { [key in UTXOChain]?: string | Todo } & {
 
 export type ConnectWalletParams = {
   addChain: <T extends Chain>(params: AddChainWalletParams<T>) => void;
+  apis: ApisType;
   config: ConnectConfig;
   rpcUrls: { [chain in Chain]?: string };
-  apis: ApisType;
 };
 
 export type Witness = {

@@ -14,7 +14,7 @@ import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
 } from "./helpers/explorerUrls.ts";
-import type { SwapKitPluginInterface, SwapKitWallet, Wallet } from "./types.ts";
+import type { Apis, SwapKitPluginInterface, SwapKitWallet, Wallet } from "./types.ts";
 
 export function SwapKit<
   Plugins extends { [key in string]: SwapKitPluginInterface<{ [key in string]: Todo }> },
@@ -27,7 +27,7 @@ export function SwapKit<
   stagenet = false,
   wallets,
 }: {
-  apis?: { [key in Chain]?: Todo };
+  apis?: Apis;
   config?: ConnectConfig;
   plugins: Plugins;
   rpcUrls?: { [key in Chain]?: string };
