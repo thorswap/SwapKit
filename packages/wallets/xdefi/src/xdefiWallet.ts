@@ -102,11 +102,10 @@ async function getWalletMethodsForChain({
     case Chain.Optimism:
     case Chain.Polygon:
     case Chain.Avalanche: {
+      const { prepareNetworkSwitch, addEVMWalletNetwork } = await import("@swapkit/helpers");
       const {
         getProvider,
-        prepareNetworkSwitch,
         getToolboxByChain,
-        addEVMWalletNetwork,
         covalentApi,
         ethplorerApi,
         getBalance,
