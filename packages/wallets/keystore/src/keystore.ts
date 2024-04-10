@@ -220,14 +220,13 @@ const getWalletMethodsForChain = async ({
   }
 };
 
-const connectKeystore =
-  ({
-    addChain,
-    apis,
-    rpcUrls,
-    config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
-  }: ConnectWalletParams) =>
-  async (chains: Chain[], phrase: string, index = 0) => {
+function connectKeystore({
+  addChain,
+  apis,
+  rpcUrls,
+  config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
+}: ConnectWalletParams) {
+  return async function connectKeystore(chains: Chain[], phrase: string, index = 0) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const promises = chains.map(async (chain) => {
@@ -253,9 +252,9 @@ const connectKeystore =
     });
 
     await Promise.all(promises);
-  };
 
-export const keystoreWallet = {
-  connectMethodName: "connectKeystore" as const,
-  connect: connectKeystore,
-};
+    return true;
+  };
+}
+
+export const keystoreWallet = { connectKeystore } as const;

@@ -1,15 +1,13 @@
 import {
+  type AddChainWalletParams,
   ApproveMode,
   type ApproveReturnType,
   AssetValue,
-  type AvailableProviders,
   type BaseWallet,
   Chain,
-  type ChainWallet,
-  type PluginName,
+  type ConnectConfig,
+  type ConnectWalletParams,
   SwapKitError,
-  type SwapKitPlugin,
-  type SwapKitPlugins,
   type SwapParams,
 } from "@swapkit/helpers";
 import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
@@ -20,84 +18,95 @@ import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
 } from "./helpers/explorerUrls.ts";
-import type { ConnectWalletParamsLocal as ConnectWalletParams } from "./types.ts";
-
-export type SwapKitReturnType = SwapKitPlugins & {
-  getAddress: (chain: Chain) => string;
-  getWallet: (chain: Chain) => ChainWallet | undefined;
-  getWalletWithBalance: (chain: Chain, potentialScamFilter?: boolean) => Promise<ChainWallet>;
-  getBalance: (chain: Chain, refresh?: boolean) => Promise<AssetValue[]>;
-  getExplorerTxUrl: typeof getTxUrl;
-  getExplorerAddressUrl: typeof getAddressUrl;
-  swap: (params: SwapParams) => Promise<string>;
-  validateAddress: (params: { address: string; chain: Chain }) =>
-    | boolean
-    | Promise<boolean>
-    | undefined;
-  approveAssetValue: (assetValue: AssetValue, contractAddress: string) => boolean | Promise<string>;
-  isAssetValueApproved: (
-    assetValue: AssetValue,
-    contractAddress: string,
-  ) => boolean | Promise<boolean>;
-};
 
 export type Wallet = BaseWallet<
   EVMWallets & CosmosWallets & ThorchainWallets & UTXOWallets & SubstrateWallets
 >;
 
-export type SwapKitWallet = {
-  connectMethodName: string;
-  connect: (params: ConnectWalletParams) => (connectParams: Todo) => undefined | string;
+export type SwapKitWallet<ConnectParams extends Todo[]> = (
+  params: ConnectWalletParams,
+) => (...connectParams: ConnectParams) => boolean | Promise<boolean>;
+
+export type SwapKitPluginInterface<Methods = { [key in string]: Todo }> = {
+  plugin: ({
+    wallets,
+    stagenet,
+    config,
+  }: { wallets: Wallet; stagenet?: boolean; config: Todo }) => Methods;
+  config?: Todo;
 };
 
 export function SwapKit<
-  ExtendedProviders extends {},
-  ConnectWalletMethods = Record<string, ReturnType<SwapKitWallet["connect"]>>,
+  Plugins extends { [key in string]: SwapKitPluginInterface<{ [key in string]: Todo }> },
+  Wallets extends { [key in string]: SwapKitWallet<NotWorth[]> },
 >({
-  stagenet,
-  wallets,
-  plugins,
-  config = {},
   apis = {},
+  config = {},
+  plugins,
   rpcUrls = {},
+  stagenet = false,
+  wallets,
 }: {
-  plugins: SwapKitPlugin[];
-  stagenet: boolean;
-  wallets: SwapKitWallet[];
-  config?: Record<string, Todo>;
-  apis: Record<string, Todo>;
-  rpcUrls: Record<string, Todo>;
+  apis?: { [key in Chain]?: Todo };
+  config?: ConnectConfig;
+  plugins: Plugins;
+  rpcUrls?: { [key in Chain]?: string };
+  stagenet?: boolean;
+  wallets: Wallets;
 }) {
+  type PluginName = keyof Plugins;
+
+  /**
+   * @REMOVE (V1)
+   * Compatibility layer for plugins and wallets for easier migration and backwards compatibility
+   */
+  const compatPlugins: Plugins = Array.isArray(plugins)
+    ? plugins.reduce((acc, pluginInterface) => {
+        // @ts-expect-error Ignore until we remove the compatibility layer
+        const { name, plugin } = Object.values(pluginInterface)?.[0] || {};
+        acc[name] = plugin;
+        return acc;
+      }, {})
+    : plugins;
+  const compatWallets: Wallets = Array.isArray(wallets)
+    ? wallets.reduce((acc, wallet) => {
+        // @ts-expect-error Ignore until we remove the compatibility layer
+        const [walletName, connectWallet] = Object.entries(wallet)?.[0] || {};
+        acc[walletName] = connectWallet;
+        return acc;
+      }, {})
+    : wallets;
+
   const connectedWallets = {} as Wallet;
-  const availablePlugins: AvailableProviders<ExtendedProviders> = {};
 
-  for (const plugin of plugins) {
-    const { name, methods } = plugin({ wallets: connectedWallets, stagenet });
+  const availablePlugins = Object.entries(compatPlugins).reduce(
+    (acc, [pluginName, { plugin, config }]) => {
+      const methods = plugin({ wallets: connectedWallets, stagenet, config });
 
-    availablePlugins[name] = methods;
-  }
+      // @ts-expect-error
+      acc[pluginName] = methods;
+      return acc;
+    },
+    {} as { [key in PluginName]: ReturnType<Plugins[key]["plugin"]> },
+  );
 
-  const connectWalletMethods = wallets.reduce((acc, wallet) => {
-    // @ts-expect-error TODO
-    acc[wallet.connectMethodName] = wallet.connect({
-      // @ts-expect-error TODO
-      addChain,
-      config,
-      apis,
-      rpcUrls,
-    });
+  const connectWalletMethods = Object.entries(compatWallets).reduce(
+    (acc, [walletName, wallet]) => {
+      const connectWallet = wallet({ addChain, config, apis, rpcUrls });
 
-    return acc;
-  }, {} as ConnectWalletMethods);
+      // @ts-expect-error
+      acc[walletName] = connectWallet;
+      return acc;
+    },
+    {} as { [key in keyof Wallets]: ReturnType<Wallets[key]> },
+  );
 
   /**
    * @Private
    * Internal helpers
    */
-  function getSwapKitPlugin(pluginName?: PluginName) {
-    const plugin =
-      (availablePlugins as SwapKitPlugins)[pluginName as PluginName] ||
-      Object.values(availablePlugins)[0];
+  function getSwapKitPlugin<T extends PluginName>(pluginName: T) {
+    const plugin = availablePlugins[pluginName] || Object.values(availablePlugins)[0];
 
     if (!plugin) {
       throw new SwapKitError("core_plugin_not_found", "Could not find the requested plugin");
@@ -106,15 +115,11 @@ export function SwapKit<
     return plugin;
   }
 
-  function addChain(connectWallet: Wallet[Chain]) {
-    // @ts-expect-error TODO
+  function addChain<T extends Chain>(connectWallet: AddChainWalletParams<T>) {
+    // @ts-expect-error: TODO
     connectedWallets[connectWallet.chain] = connectWallet;
   }
 
-  /**
-   * @Private
-   * Wallet interaction helpers
-   */
   function approve<T extends ApproveMode>({
     assetValue,
     type = "checkOnly" as T,
@@ -123,7 +128,7 @@ export function SwapKit<
     type: T;
     assetValue: AssetValue;
     contractAddress: string;
-  }): ApproveReturnType<T> {
+  }) {
     const { address, chain, isGasAsset, isSynthetic } = assetValue;
     const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain);
     const isNativeEVM = isEVMChain && isGasAsset;
@@ -156,10 +161,10 @@ export function SwapKit<
   function getWallet<T extends Chain>(chain: T) {
     return connectedWallets[chain];
   }
-  function getAddress(chain: Chain) {
+  function getAddress<T extends Chain>(chain: T) {
     return getWallet(chain)?.address || "";
   }
-  async function getBalance(chain: Chain, refresh?: boolean) {
+  async function getBalance<T extends Chain>(chain: T, refresh?: boolean) {
     if (refresh) {
       const wallet = await getWalletWithBalance(chain, true);
       return wallet.balance || [];
@@ -174,7 +179,7 @@ export function SwapKit<
     return getWallet(chain)?.validateAddress?.(address);
   }
 
-  async function getWalletWithBalance(chain: Chain, potentialScamFilter = true) {
+  async function getWalletWithBalance<T extends Chain>(chain: T, potentialScamFilter = true) {
     const defaultBalance = [AssetValue.fromChainOrSignature(chain)];
     const wallet = getWallet(chain);
 
@@ -190,10 +195,6 @@ export function SwapKit<
     return wallet;
   }
 
-  /**
-   * @Public
-   * Wallet interaction methods
-   */
   function approveAssetValue(assetValue: AssetValue, contractAddress: string) {
     return approve({ assetValue, contractAddress, type: ApproveMode.Approve });
   }
@@ -202,10 +203,14 @@ export function SwapKit<
     return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
   }
 
-  function swap({ provider, ...rest }: SwapParams) {
-    const plugin = getSwapKitPlugin(provider?.name);
+  function swap<T extends PluginName>({ pluginName, ...rest }: SwapParams<T>) {
+    const plugin = getSwapKitPlugin(pluginName);
 
-    return plugin.swap({ provider, ...rest });
+    if ("swap" in plugin) {
+      return plugin.swap(rest);
+    }
+
+    throw new SwapKitError("core_plugin_swap_not_found");
   }
 
   return {
@@ -225,5 +230,3 @@ export function SwapKit<
     validateAddress,
   };
 }
-
-export type SwapKitClient<T extends {}, K> = ReturnType<typeof SwapKit<T, K>>;

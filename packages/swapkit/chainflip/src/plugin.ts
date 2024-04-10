@@ -29,22 +29,16 @@ export async function confirmSwap({
   }
 }
 
-export const ChainflipPlugin = ({
+const plugin = ({
   wallets,
-}: { wallets: BaseWallet<{ [key: string]: NotWorth }> }) => {
-  async function swap({ provider, recipient, ...rest }: SwapParams) {
-    if (
-      !(
-        "route" in rest &&
-        (rest.route as QuoteRouteV2)?.buyAsset &&
-        provider?.config.brokerEndpoint
-      )
-    ) {
+  config: { brokerEndpoint },
+}: { wallets: BaseWallet<{ [key: string]: NotWorth }>; config: { brokerEndpoint: string } }) => {
+  async function swap({ recipient, ...rest }: SwapParams<"chainflip">) {
+    if (!("route" in rest && (rest.route as QuoteRouteV2)?.buyAsset && brokerEndpoint)) {
       throw new SwapKitError("core_swap_invalid_params");
     }
 
     const { buyAsset: buyString, sellAsset: sellString, sellAmount } = rest.route as QuoteRouteV2;
-
     if (!(sellString && buyString)) {
       throw new SwapKitError("core_swap_asset_not_recognized");
     }
@@ -58,10 +52,10 @@ export const ChainflipPlugin = ({
     const assetValue = sellAsset.set(sellAmount);
 
     const { depositAddress } = await confirmSwap({
-      recipient,
+      brokerEndpoint,
       buyAsset,
+      recipient,
       sellAsset,
-      brokerEndpoint: provider.config.brokerEndpoint,
     });
 
     const tx = await wallets[sellAsset.chain].transfer({
@@ -73,8 +67,10 @@ export const ChainflipPlugin = ({
     return tx as string;
   }
 
-  return { name: "chainflip" as const, methods: { swap } };
+  return { swap };
 };
+
+export const ChainflipPlugin = { chainflip: { plugin } } as const;
 
 /**
  * @deprecated Use import { ChainflipPlugin } from "@swapkit/chainflip" instead

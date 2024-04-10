@@ -1,6 +1,6 @@
-import { ChainflipProvider } from "@swapkit/chainflip";
-import { SwapKit } from "@swapkit/core";
-import { ThorchainProvider } from "@swapkit/thorchain";
+import { ChainflipPlugin } from "@swapkit/chainflip";
+import { SwapKit, type SwapKitClient } from "@swapkit/core";
+import { ThorchainPlugin } from "@swapkit/thorchain";
 import { evmWallet } from "@swapkit/wallet-evm-extensions";
 import { keepkeyWallet } from "@swapkit/wallet-keepkey";
 import { keplrWallet } from "@swapkit/wallet-keplr";
@@ -11,7 +11,26 @@ import { trezorWallet } from "@swapkit/wallet-trezor";
 import { walletconnectWallet } from "@swapkit/wallet-wc";
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
 
-const clientCache = new Map<string, ReturnType<typeof SwapKit>>();
+const wallets = {
+  ...evmWallet,
+  ...keepkeyWallet,
+  ...keplrWallet,
+  ...keystoreWallet,
+  ...ledgerWallet,
+  ...okxWallet,
+  ...trezorWallet,
+  ...walletconnectWallet,
+  ...xdefiWallet,
+} as const;
+
+const plugins = {
+  ...ThorchainPlugin,
+  chainflip: { ...ChainflipPlugin.chainflip, config: { brokerEndpoint: "" } },
+} as const;
+
+type Client = ReturnType<typeof SwapKit<typeof plugins, typeof wallets>>;
+
+const clientCache = new Map<string, Client>();
 
 export const getSwapKitClient = (
   params: {
@@ -24,31 +43,16 @@ export const getSwapKitClient = (
 ) => {
   const key = JSON.stringify(params);
 
-  const {
-    ethplorerApiKey = "freekey",
-    covalentApiKey = "",
-    blockchairApiKey = "",
-    walletConnectProjectId = "",
-    stagenet = false,
-  } = params;
-
   if (clientCache.has(key)) {
     return clientCache.get(key);
   }
 
-  const client = SwapKit<{
-    thorchain: ReturnType<typeof ThorchainProvider>["methods"];
-    chainflip: ReturnType<typeof ChainflipProvider>["methods"];
-  }>({
-    apis: {},
-    rpcUrls: {},
-    stagenet,
+  const client = SwapKit({
+    stagenet: params.stagenet,
+    plugins,
+    wallets,
     config: {
-      ethplorerApiKey,
-      covalentApiKey,
-      blockchairApiKey,
-      walletConnectProjectId,
-      stagenet,
+      ...params,
       keepkeyConfig: {
         apiKey: localStorage.getItem("keepkeyApiKey") || "1234",
         pairingInfo: {
@@ -60,28 +64,6 @@ export const getSwapKitClient = (
         },
       },
     },
-    // @ts-expect-error
-    plugins: [ThorchainProvider, ChainflipProvider],
-    wallets: [
-      // @ts-expect-error
-      xdefiWallet,
-      // @ts-expect-error
-      okxWallet,
-      // @ts-expect-error
-      ledgerWallet,
-      // @ts-expect-error
-      keystoreWallet,
-      // @ts-expect-error
-      keepkeyWallet,
-      // @ts-expect-error
-      trezorWallet,
-      // @ts-expect-error
-      keplrWallet,
-      // @ts-expect-error
-      evmWallet,
-      // @ts-expect-error
-      walletconnectWallet,
-    ],
   });
 
   clientCache.set(key, client);

@@ -75,7 +75,6 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
   );
 
   return (
-    // @ts-expect-error
     <ScrollArea className="max-w-[600px] lg:max-w-none pt-4 mb-4 border-b">
       <div className="flex justify-between flex-row">
         <div className={cn("mb-4 flex items-center", className)} {...props}>

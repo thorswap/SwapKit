@@ -3,6 +3,9 @@
   "files": {
     "ignore": ["node_modules", "dist", ".turbo", "coverage"]
   },
+  "organizeImports": {
+    "enabled": true
+  },
   "formatter": {
     "indentStyle": "space",
     "formatWithErrors": true,
@@ -34,7 +37,7 @@
         "useFilenamingConvention": "off",
         "useNodejsImportProtocol": "off"
       },
-      "complexity": { "all": true },
+      "complexity": { "all": true, "noBannedTypes": "off" },
       "correctness": { "all": true, "noUndeclaredVariables": "error" },
       "security": { "all": true },
       "suspicious": { "all": true, "useAwait": "error" },

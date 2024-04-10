@@ -339,10 +339,9 @@ function connectWalletconnect({
     });
 
     await Promise.all(promises);
+
+    return true;
   };
 }
 
-export const walletconnectWallet = {
-  connectMethodName: "connectWalletconnect" as const,
-  connect: connectWalletconnect,
-};
+export const walletconnectWallet = { connectWalletconnect } as const;

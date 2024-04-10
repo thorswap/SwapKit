@@ -16,9 +16,9 @@ declare global {
   }
 }
 
-const connectKeplr =
-  ({ addChain, config: { thorswapApiKey }, rpcUrls }: ConnectWalletParams) =>
-  async (chain: Chain.Cosmos | Chain.Kujira) => {
+function connectKeplr({ addChain, config: { thorswapApiKey }, rpcUrls }: ConnectWalletParams) {
+  return async function connectKeplr(chains: (Chain.Cosmos | Chain.Kujira)[]) {
+    const chain = chains[0] || Chain.Cosmos;
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const keplrClient = window.keplr;
@@ -38,7 +38,6 @@ const connectKeplr =
     const accounts = await offlineSigner.getAccounts();
 
     if (!accounts?.[0]?.address) throw new Error("No accounts found");
-
     const [{ address }] = accounts;
 
     const transfer = async ({
@@ -59,17 +58,10 @@ const connectKeplr =
 
     const toolbox = getToolboxByChain(chain);
 
-    addChain({
-      ...toolbox,
-      chain,
-      transfer,
-      address,
-      balance: [],
-      walletType: WalletOption.KEPLR,
-    });
-  };
+    addChain({ ...toolbox, chain, transfer, address, balance: [], walletType: WalletOption.KEPLR });
 
-export const keplrWallet = {
-  connectMethodName: "connectKeplr" as const,
-  connect: connectKeplr,
-};
+    return true;
+  };
+}
+
+export const keplrWallet = { connectKeplr } as const;

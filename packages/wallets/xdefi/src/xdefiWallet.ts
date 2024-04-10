@@ -197,10 +197,9 @@ function connectXDEFI({
     });
 
     await Promise.all(promises);
+
+    return true;
   };
 }
 
-export const xdefiWallet = {
-  connectMethodName: "connectXDEFI" as const,
-  connect: connectXDEFI,
-};
+export const xdefiWallet = { connectXDEFI } as const;

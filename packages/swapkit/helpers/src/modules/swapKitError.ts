@@ -8,7 +8,9 @@ const errorMessages = {
   core_inbound_data_not_found: 10004,
   core_approve_asset_address_or_from_not_found: 10005,
   core_plugin_not_found: 10006,
+  core_plugin_swap_not_found: 10007,
   core_chain_halted: 10099,
+
   /**
    * Core - Wallet Connection
    */

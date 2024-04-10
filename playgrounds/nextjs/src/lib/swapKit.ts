@@ -1,45 +1,12 @@
-import { ChainflipProvider } from "@swapkit/chainflip";
+import { ChainflipPlugin } from "@swapkit/chainflip";
 import { type AssetValue, type Chain, SwapKit, WalletOption } from "@swapkit/core";
-import { ThorchainProvider } from "@swapkit/thorchain";
-import type { evmWallet } from "@swapkit/wallet-evm-extensions";
-import type { keepkeyWallet } from "@swapkit/wallet-keepkey";
-import type { keplrWallet } from "@swapkit/wallet-keplr";
-import type { keystoreWallet } from "@swapkit/wallet-keystore";
-import type { ledgerWallet } from "@swapkit/wallet-ledger";
-import type { okxWallet } from "@swapkit/wallet-okx";
-import type { trezorWallet } from "@swapkit/wallet-trezor";
-import type { walletconnectWallet } from "@swapkit/wallet-wc";
+import { ThorchainPlugin } from "@swapkit/thorchain";
 
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
 import { atom, useAtom } from "jotai";
 import { useCallback, useEffect } from "react";
 
-type SupportedWallet =
-  | typeof evmWallet
-  | typeof keplrWallet
-  | typeof keystoreWallet
-  | typeof keepkeyWallet
-  | typeof ledgerWallet
-  | typeof okxWallet
-  | typeof trezorWallet
-  | typeof walletconnectWallet
-  | typeof xdefiWallet;
-
-type ConnectWalletType = Record<
-  SupportedWallet["connectMethodName"][number],
-  (connectParams: Todo) => string | undefined
->;
-type SwapKitClient = ReturnType<
-  typeof SwapKit<
-    {
-      thorchain: ReturnType<typeof ThorchainProvider>["methods"];
-      chainflip: ReturnType<typeof ChainflipProvider>["methods"];
-    },
-    ConnectWalletType
-  >
->;
-
-const swapKitAtom = atom<SwapKitClient | null>(null);
+const swapKitAtom = atom<Todo | null>(null);
 const balanceAtom = atom<AssetValue[]>([]);
 const walletState = atom<{ connected: boolean; type: WalletOption | null }>({
   connected: false,
@@ -62,9 +29,7 @@ export const useSwapKit = () => {
       const { trezorWallet } = await import("@swapkit/wallet-trezor");
       const { walletconnectWallet } = await import("@swapkit/wallet-wc");
 
-      const swapKitClient: SwapKitClient = SwapKit({
-        apis: {},
-        rpcUrls: {},
+      const swapKitClient = SwapKit({
         config: {
           blockchairApiKey:
             process.env.NEXT_PUBLIC_BLOCKCHAIR_API_KEY || "A___Tcn5B16iC3mMj7QrzZCb2Ho1QBUf",
@@ -82,29 +47,18 @@ export const useSwapKit = () => {
             },
           },
         },
-        wallets: [
-          // @ts-expect-error
-          keystoreWallet,
-          // @ts-expect-error
-          xdefiWallet,
-          // @ts-expect-error
-          ledgerWallet,
-          // @ts-expect-error
-          trezorWallet,
-          // @ts-expect-error
-          keepkeyWallet,
-          // @ts-expect-error
-          okxWallet,
-          // @ts-expect-error
-          keplrWallet,
-          // @ts-expect-error
-          evmWallet,
-          // @ts-expect-error
-          walletconnectWallet,
-        ],
-
-        // @ts-expect-error
-        plugins: [ThorchainProvider, ChainflipProvider],
+        wallets: {
+          ...evmWallet,
+          ...keepkeyWallet,
+          ...keplrWallet,
+          ...keystoreWallet,
+          ...ledgerWallet,
+          ...okxWallet,
+          ...trezorWallet,
+          ...walletconnectWallet,
+          ...xdefiWallet,
+        },
+        plugins: { ...ThorchainPlugin, ...ChainflipPlugin },
       });
 
       setSwapKit(swapKitClient);

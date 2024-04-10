@@ -237,20 +237,25 @@ async function getToolbox({
   }
 }
 
-const connectTrezor =
-  ({
-    apis,
-    rpcUrls,
-    addChain,
-    config: {
-      covalentApiKey,
-      ethplorerApiKey,
-      blockchairApiKey,
-      trezorManifest = { appUrl: "", email: "" },
-      thorswapApiKey,
-    },
-  }: ConnectWalletParams) =>
-  async (chain: (typeof TREZOR_SUPPORTED_CHAINS)[number], derivationPath: DerivationPathArray) => {
+function connectTrezor({
+  apis,
+  rpcUrls,
+  addChain,
+  config: {
+    covalentApiKey,
+    ethplorerApiKey,
+    blockchairApiKey,
+    trezorManifest = { appUrl: "", email: "" },
+    thorswapApiKey,
+  },
+}: ConnectWalletParams) {
+  return async function connectTrezor(
+    chains: (typeof TREZOR_SUPPORTED_CHAINS)[number][],
+    derivationPath: DerivationPathArray,
+  ) {
+    const chain = chains[0];
+    if (!chain) return false;
+
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const { default: TrezorConnect } = await import("@trezor/connect-web");
@@ -277,9 +282,9 @@ const connectTrezor =
       balance: [],
       walletType: WalletOption.TREZOR,
     });
-  };
 
-export const trezorWallet = {
-  connectMethodName: "connectTrezor" as const,
-  connect: connectTrezor,
-};
+    return true;
+  };
+}
+
+export const trezorWallet = { connectTrezor } as const;

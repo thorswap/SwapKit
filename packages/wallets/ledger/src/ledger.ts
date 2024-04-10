@@ -443,18 +443,23 @@ const getToolbox = async ({
   }
 };
 
-const connectLedger =
-  ({
-    addChain,
-    apis,
-    rpcUrls,
-    config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
-  }: ConnectWalletParams) =>
-  async (chain: (typeof LEDGER_SUPPORTED_CHAINS)[number], derivationPath?: DerivationPathArray) => {
+function connectLedger({
+  addChain,
+  apis,
+  rpcUrls,
+  config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
+}: ConnectWalletParams) {
+  return async function connectLedger(
+    chains: (typeof LEDGER_SUPPORTED_CHAINS)[number][],
+    derivationPath?: DerivationPathArray,
+  ) {
+    const chain = chains[0];
+    if (!chain) return false;
+
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const ledgerClient = await getLedgerClient({ chain, derivationPath });
-    if (!ledgerClient) return;
+    if (!ledgerClient) return false;
 
     const address = await getLedgerAddress({ chain, ledgerClient });
     const toolbox = await getToolbox({
@@ -477,9 +482,9 @@ const connectLedger =
       balance: [],
       walletType: WalletOption.LEDGER,
     });
-  };
 
-export const ledgerWallet = {
-  connectMethodName: "connectLedger" as const,
-  connect: connectLedger,
-};
+    return true;
+  };
+}
+
+export const ledgerWallet = { connectLedger } as const;

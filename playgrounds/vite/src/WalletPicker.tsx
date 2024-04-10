@@ -1,4 +1,3 @@
-import type { SwapKitClient } from "@swapkit/core";
 import { Chain, EVMChains, WalletOption } from "@swapkit/helpers";
 import { decryptFromKeystore } from "@swapkit/wallet-keystore";
 import { getDerivationPathFor } from "@swapkit/wallet-ledger";
@@ -9,7 +8,7 @@ import type { WalletDataType } from "./types";
 type Props = {
   setPhrase: (phrase: string) => void;
   setWallet: (wallet: WalletDataType | WalletDataType[]) => void;
-  skClient?: SwapKitClient<{}, {}>;
+  skClient?: Todo;
 };
 
 const walletOptions = Object.values(WalletOption).filter((o) => ![WalletOption.KEPLR].includes(o));
@@ -124,12 +123,12 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         }
         case WalletOption.LEDGER: {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
-          return skClient.connectLedger(chains[0], derivationPath);
+          return skClient.connectLedger(chains, derivationPath);
         }
 
         case WalletOption.TREZOR: {
           const derivationPath = getDerivationPathFor({ chain: chains[0], index: 0 });
-          return skClient.connectTrezor(chains[0], derivationPath);
+          return skClient.connectTrezor(chains, derivationPath);
         }
         case WalletOption.WALLETCONNECT: {
           return skClient.connectWalletconnect(chains);
