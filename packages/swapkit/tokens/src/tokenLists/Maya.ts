@@ -108,6 +108,6 @@ export const list = {
       decimals: 18,
     },
   ],
-  count: 9,
+  count: 27,
   logo: "https://static.thorswap.net/logo.png",
 } as const;
