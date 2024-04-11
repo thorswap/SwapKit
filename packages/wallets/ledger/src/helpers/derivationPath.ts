@@ -37,7 +37,7 @@ export const getDerivationPathFor = ({ chain, index, type }: Params) => {
 };
 
 export const getWalletFormatFor = (path: string) => {
-  const [purpose, chainId] = path.split("/").map((p) => Number.parseInt(p, 10));
+  const [_, purpose, chainId] = path.split("/").map((p) => Number.parseInt(p, 10));
 
   if (chainId === 145) "cashaddr";
 
