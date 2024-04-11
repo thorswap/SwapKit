@@ -9,7 +9,7 @@ import {
 } from "@swapkit/helpers";
 
 import { CosmosClient } from "../cosmosClient.ts";
-import { type KujiraToolboxType, type ToolboxParams, USK_KUJIRA_FACTORY_DENOM } from "../index.ts";
+import { type KujiraToolboxType, type ToolboxParams, USK_KUJIRA_FACTORY_DENOM, YUM_KUJIRA_FACTORY_DENOM } from "../index.ts";
 import type { TransferParams } from "../types.ts";
 
 import {
@@ -59,7 +59,7 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
           .filter(({ denom }) => {
             if (!denom || denom.includes("IBC/")) return false;
 
-            return denom === USK_KUJIRA_FACTORY_DENOM || !denom.startsWith("FACTORY");
+            return denom === USK_KUJIRA_FACTORY_DENOM || YUM_KUJIRA_FACTORY_DENOM || !denom.startsWith("FACTORY");
           })
           .map(({ denom, amount }) => getAssetFromDenom(denom, amount)),
       );
