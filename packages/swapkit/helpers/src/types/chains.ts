@@ -166,6 +166,7 @@ export const TCSupportedChains = [
 ] as const;
 
 export const MAYASupportedChains = [
+  Chain.Arbitrum,
   Chain.Dash,
   Chain.Ethereum,
   Chain.Kujira,
