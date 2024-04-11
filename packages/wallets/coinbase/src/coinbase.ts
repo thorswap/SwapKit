@@ -1,6 +1,7 @@
 import { setRequestClientConfig } from "@swapkit/helpers";
 import { Chain, type ConnectWalletParams, WalletOption } from "@swapkit/helpers";
 
+import type { CoinbaseWalletSDKOptions } from "@coinbase/wallet-sdk/dist/CoinbaseWalletSDK.js";
 import { getWalletForChain } from "./signer.js";
 
 const COINBASE_SUPPORTED_CHAINS = [
@@ -15,7 +16,8 @@ const COINBASE_SUPPORTED_CHAINS = [
 function connectCoinbaseWallet({
   addChain,
   config: { thorswapApiKey, covalentApiKey, ethplorerApiKey },
-}: ConnectWalletParams) {
+  coinbaseWalletSettings,
+}: ConnectWalletParams & { coinbaseWalletSettings?: CoinbaseWalletSDKOptions }) {
   return async function connectCoinbaseWallet(
     chains: (typeof COINBASE_SUPPORTED_CHAINS)[number][],
   ) {
@@ -26,6 +28,7 @@ function connectCoinbaseWallet({
         chain,
         covalentApiKey,
         ethplorerApiKey,
+        coinbaseWalletSettings,
       });
 
       addChain({ ...walletMethods, balance: [], chain, walletType: WalletOption.COINBASE_MOBILE });

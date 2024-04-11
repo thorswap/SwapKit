@@ -1,4 +1,5 @@
 import { type CoinbaseWalletProvider, CoinbaseWalletSDK } from "@coinbase/wallet-sdk";
+import type { CoinbaseWalletSDKOptions } from "@coinbase/wallet-sdk/dist/CoinbaseWalletSDK";
 import { Chain, ChainToRPC } from "@swapkit/helpers";
 import {
   AbstractSigner,
@@ -52,12 +53,16 @@ export const getWalletForChain = async ({
   ethplorerApiKey,
   covalentApiKey,
   api,
+  coinbaseWalletSettings = {
+    appName: "Developer App",
+  } as CoinbaseWalletSDKOptions,
 }: {
   chain: Chain;
   ethplorerApiKey?: string;
   covalentApiKey?: string;
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   api?: any;
+  coinbaseWalletSettings?: CoinbaseWalletSDKOptions;
 }): Promise<ReturnType<ReturnType<typeof getToolboxByChain>> & { address: string }> => {
   switch (chain) {
     case Chain.Ethereum:
@@ -66,12 +71,7 @@ export const getWalletForChain = async ({
     case Chain.Optimism:
     case Chain.Polygon:
     case Chain.BinanceSmartChain: {
-      const coinbaseWallet = new CoinbaseWalletSDK({
-        appName: "THORSwap",
-        appLogoUrl: "https://example.com/logo.png",
-        darkMode: false,
-        overrideIsMetaMask: false,
-      });
+      const coinbaseWallet = new CoinbaseWalletSDK(coinbaseWalletSettings);
 
       const walletProvider = coinbaseWallet.makeWeb3Provider(ChainToRPC[chain]);
 
