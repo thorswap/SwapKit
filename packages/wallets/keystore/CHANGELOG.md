@@ -1,5 +1,18 @@
 # @swapkit/wallet-keystore
 
+## 1.0.0-rc.120
+
+### Patch Changes
+
+- [#716](https://github.com/thorswap/SwapKit/pull/716) [`0cbdd58`](https://github.com/thorswap/SwapKit/commit/0cbdd581e50980f1b2e39903797df69c878cff00) Thanks [@chillios-dev](https://github.com/chillios-dev)! - bump packages for new chains and api typings
+
+- Updated dependencies [[`0cbdd58`](https://github.com/thorswap/SwapKit/commit/0cbdd581e50980f1b2e39903797df69c878cff00)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.25
+  - @swapkit/toolbox-cosmos@1.0.0-rc.107
+  - @swapkit/helpers@1.0.0-rc.90
+  - @swapkit/toolbox-utxo@1.0.0-rc.98
+  - @swapkit/toolbox-evm@1.0.0-rc.96
+
 ## 1.0.0-rc.119
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.50
+
+### Patch Changes
+
+- [#716](https://github.com/thorswap/SwapKit/pull/716) [`0cbdd58`](https://github.com/thorswap/SwapKit/commit/0cbdd581e50980f1b2e39903797df69c878cff00) Thanks [@chillios-dev](https://github.com/chillios-dev)! - bump packages for new chains and api typings
+
 ## 1.0.0-rc.49
 
 ### Patch Changes
