@@ -112,7 +112,42 @@ _Validates if provided name is valid for THORChain / Mayachain Name Service regi
 
 ***
 
-## Types
+## Enums
+
+### ApiUrl
+
+```typescript
+enum ApiUrl {
+  Cosmos = 'https://node-router.thorswap.net/cosmos/rest',
+  MayanodeMainnet = 'https://mayanode.mayachain.info',
+  MayanodeStagenet = 'https://stagenet.mayanode.mayachain.info',
+  ThornodeMainnet = 'https://thornode.thorswap.net',
+  ThornodeStagenet = 'https://stagenet-thornode.ninerealms.com',
+  ThorswapApi = 'https://api.thorswap.finance',
+  ThorswapStatic = 'https://static.thorswap.net',
+}
+```
+
+### BaseDecimal
+
+```typescript
+enum BaseDecimal {
+  ARB = 18,
+  AVAX = 18,
+  BCH = 8,
+  BNB = 8,
+  BSC = 18,
+  BTC = 8,
+  DOGE = 8,
+  ETH = 18,
+  GAIA = 6,
+  LTC = 8,
+  MATIC = 18,
+  MAYA = 10,
+  OP = 18,
+  THOR = 8,
+}
+```
 
 ### Chain
 
@@ -172,20 +207,10 @@ enum ChainId {
 }
 ```
 
-### GenericSwapParams
+### DerivationPath
 
 ```typescript
-type GenericSwapParams = {
-  buyAsset: AssetValue;
-  sellAsset: AssetValue;
-  recipient: string;
-};
-```
-
-### Enums
-
-```typescript
-export enum DerivationPath {
+enum DerivationPath {
   ARB = "m/44'/60'/0'/0",
   AVAX = "m/44'/60'/0'/0",
   BCH = "m/44'/145'/0'/0",
@@ -201,8 +226,48 @@ export enum DerivationPath {
   OP = "m/44'/60'/0'/0",
   THOR = "m/44'/931'/0'/0",
 }
+```
 
-export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
+### ExplorerUrl
+
+```typescript
+enum ExplorerUrl {
+  Arbitrum = "https://arbiscan.io",
+  Avalanche = "https://snowtrace.io",
+  Binance = "https://explorer.binance.org",
+  BinanceSmartChain = "https://bscscan.com",
+  Bitcoin = "https://blockchair.com/bitcoin",
+  BitcoinCash = "https://www.blockchair.com/bitcoin-cash",
+  Chainflip = "https://explorer.polkascan.io/polkadot",
+  Cosmos = "https://www.mintscan.io/cosmos",
+  Dash = "https://blockchair.com/dash",
+  Dogecoin = "https://blockchair.com/dogecoin",
+  Ethereum = "https://etherscan.io",
+  Kujira = "https://finder.kujira.network/kaiyo-1",
+  Litecoin = "https://blockchair.com/litecoin",
+  Maya = "https://www.mayascan.org",
+  Optimism = "https://optimistic.etherscan.io",
+  Polkadot = "https://polkadot.subscan.io/",
+  Polygon = "https://polygonscan.com",
+  THORChain = "https://runescan.io",
+}
+
+```
+
+### FeeOption
+
+```typescript
+enum FeeOption {
+  Average = 'average',
+  Fast = 'fast',
+  Fastest = 'fastest',
+}
+```
+
+### NetworkDerivationPath
+
+```typescript
+const NetworkDerivationPath = {
   ARB: [44, 60, 0, 0, 0],
   AVAX: [44, 60, 0, 0, 0],
   BCH: [44, 145, 0, 0, 0],
@@ -218,25 +283,12 @@ export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   OP: [44, 60, 0, 0, 0],
   THOR: [44, 931, 0, 0, 0],
 };
+```
 
-export enum BaseDecimal {
-  ARB = 18,
-  AVAX = 18,
-  BCH = 8,
-  BNB = 8,
-  BSC = 18,
-  BTC = 8,
-  DOGE = 8,
-  ETH = 18,
-  GAIA = 6,
-  LTC = 8,
-  MATIC = 18,
-  MAYA = 10,
-  OP = 18,
-  THOR = 8,
-}
+### RPCUrl
 
-export enum RPCUrl {
+```typescript
+enum RPCUrl {
   Arbitrum = 'https://arb1.arbitrum.io/rpc',
   Avalanche = 'https://node-router.thorswap.net/avalanche-c',
   Binance = '',
@@ -254,24 +306,12 @@ export enum RPCUrl {
   THORChain = 'https://rpc.thorswap.net',
   THORChainStagenet = 'https://stagenet-rpc.ninerealms.com',
 }
+```
 
-export enum ApiUrl {
-  Cosmos = 'https://node-router.thorswap.net/cosmos/rest',
-  MayanodeMainnet = 'https://mayanode.mayachain.info',
-  MayanodeStagenet = 'https://stagenet.mayanode.mayachain.info',
-  ThornodeMainnet = 'https://thornode.thorswap.net',
-  ThornodeStagenet = 'https://stagenet-thornode.ninerealms.com',
-  ThorswapApi = 'https://api.thorswap.finance',
-  ThorswapStatic = 'https://static.thorswap.net',
-}
+### WalletOption
 
-export enum FeeOption {
-  Average = 'average',
-  Fast = 'fast',
-  Fastest = 'fastest',
-}
-
-export enum WalletOption {
+```typescript
+enum WalletOption {
   'KEYSTORE' = 'KEYSTORE',
   'XDEFI' = 'XDEFI',
   'METAMASK' = 'METAMASK',
@@ -286,139 +326,85 @@ export enum WalletOption {
 }
 ```
 
+## Types
+
+### Asset
+
 ```typescript
-type AddChainWalletParams = {
-    chain: Chain;
-    wallet: ChainWallet;
-    walletMethods: any;
-};
-
 type Asset = {
-    chain: Chain;
-    symbol: string;
-    ticker: string;
-    synth?: boolean;
+  chain: Chain;
+  symbol: string;
+  ticker: string;
+  synth?: boolean;
 };
+```
 
+### ChainWallet
+
+```typescript
 type ChainWallet = {
-    address: string;
-    balance: any[];
-    walletType: WalletOption;
+  chain: Chain;
+  address: string;
+  balance: AssetValue[];
+  walletType: WalletOption;
 };
+```
 
-type ConnectConfig = {
-    stagenet?: boolean;
-    /**
-     * @required for AVAX & BSC
-     */
-    covalentApiKey?: string;
-    /**
-     * @required for ETH
-     */
-    ethplorerApiKey?: string;
-    /**
-     * @required for BTC, LTC, DOGE & BCH
-     */
-    utxoApiKey?: string;
-    /**
-     * @required for Walletconnect
-     */
-    walletConnectProjectId?: string;
-    /**
-     * @optional for Trezor config
-     */
-    trezorManifest?: {
-        email: string;
-        appUrl: string;
-    };
+### CosmosChain
+
+```typescript
+type CosmosChain =
+  | Chain.Cosmos
+  | Chain.THORChain
+  | Chain.Binance
+  | Chain.Maya
+  | Chain.Kujira;
+```
+
+### DerivationPath
+
+```typescript
+type DerivationPathArray = [number, number, number, number, ?number]
+```
+
+### EVMChain
+
+```typescript
+type EVMChain =
+  | Chain.Ethereum
+  | Chain.Avalanche
+  | Chain.BinanceSmartChain
+  | Chain.Arbitrum
+  | Chain.Optimism
+  | Chain.Polygon;
+```
+
+### GenericSwapParams
+
+```typescript
+type GenericSwapParams = {
+  buyAsset: AssetValue;
+  sellAsset: AssetValue;
+  recipient: string;
 };
+```
 
-type ConnectMethodNames = 'connectEVMWallet' | 'connectKeplr' | 'connectKeystore' | 'connectLedger' | 'connectOkx' | 'connectTrezor' | 'connectWalletconnect' | 'connectXDEFI';
+### SubstrateChain
 
-type ConnectWalletParams = {
-    addChain: (params: AddChainWalletParams) => void;
-    config: ConnectConfig;
-    rpcUrls: {
-        [chain in Chain]?: string;
-    };
-    apis: ApisType;
-};
+```typescript
+type SubstrateChain = 
+  | Chain.Polkadot 
+  | Chain.Chainflip;
+```
 
-type CosmosChain = Chain.Cosmos | Chain.THORChain | Chain.Binance;
+### UTXOChain
 
-type DerivationPathArray = [number, number, number, number, number]
-
-type ErrorInfo = {
-    status: number;
-    revision: string;
-    type?: ERROR_TYPE;
-    module: ERROR_MODULE;
-    code: ERROR_CODE;
-    message?: string | undefined;
-    stack?: string;
-    identifier?: string;
-    options?: ApiErrorOptions;
-    displayMessageParams?: string[];
-};
-
-type EVMChain = Chain.Ethereum | Chain.Avalanche | Chain.BinanceSmartChain | Chain.Arbitrum | Chain.Optimism | Chain.Polygon;
-
-type EVMTxBaseParams<T = bigint> = {
-    to?: string;
-    from?: string;
-    nonce?: number;
-    gasLimit?: T;
-    data?: string;
-    value?: T;
-    chainId?: T;
-};
-
-type EVMWalletOptions = WalletOption.BRAVE | WalletOption.METAMASK | WalletOption.TRUSTWALLET_WEB | WalletOption.COINBASE_WEB;
-
-type ExtendParams<WalletConnectMethodNames = ''> = {
-    excludedChains?: Chain[];
-    config?: ConnectConfig;
-    rpcUrls?: {
-        [chain in Chain]?: string;
-    };
-    apis?: ApisType;
-    wallets: {
-        connectMethodName: ConnectMethodNames | WalletConnectMethodNames;
-        connect: (params: ConnectWalletParams) => (...params: any) => Promise<any>;
-    }[];
-};
-
-type FixedNumberish = string | number | FixedNumber;
-
-type GetAddressAndPubKeyResponse = {
-    bech32_address: string;
-    compressed_pk: any;
-    error_message: string;
-    return_code: number;
-};
-
-type Signature = {
-    pub_key: {
-        type: string;
-        value: string;
-    };
-    sequence: string;
-    signature: string;
-};
-
-type UTXOChain = Chain.Bitcoin | Chain.BitcoinCash | Chain.Dogecoin | Chain.Litecoin;
-
-type WalletTxParams = {
-    feeOptionKey?: FeeOption;
-    from?: string;
-    memo?: string;
-    recipient: string;
-};
-
-type Witness = {
-    value: number;
-    script: Buffer;
-};
+```typescript
+type UTXOChains = 
+  | Chain.Bitcoin 
+  | Chain.BitcoinCash 
+  | Chain.Dogecoin 
+  | Chain.Litecoin;
 ```
 
 ### Error codes

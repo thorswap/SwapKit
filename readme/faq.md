@@ -16,11 +16,11 @@ THORSwap is a team of contributors building the #1 interface of THORChain, as we
 
 ### Which blockchains do you support?
 
-SwapKit supports all blockchains supported by THORChain, Chainflip and some additional EVM chains. For a full list check [toolboxes-1](../swapkit-sdk/toolboxes-1/ "mention").
+SwapKit supports all blockchains supported by THORChain, Chainflip and some additional EVM chains. For a full list check [toolboxes](../swapkit-sdk/toolboxes/ "mention").
 
 ### Which wallets do you support?
 
-SwapKit supports all major crypto wallets including: Ledger, Trezor, KeepKey, WalletConnect 2.0 and browser extensions. For a full list check [wallets-1](../swapkit-sdk/wallets-1/ "mention").
+SwapKit supports all major crypto wallets including: Ledger, Trezor, KeepKey, WalletConnect 2.0 and browser extensions. For a full list check [wallets](../swapkit-sdk/wallets/ "mention").
 
 ### What is RUNE?
 

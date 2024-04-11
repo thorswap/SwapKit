@@ -41,11 +41,9 @@ _Swaps assets over cross-chain Thorchain network. Used with routes returned from
 
 {% code fullWidth="false" %}
 ```typescript
-const params = {
-  ... // Get params for swap from SwapKitApi.quote
-}
+const { routes } = await SwapKitApi.getSwapQuote(...)
 
-const txHash = await swapKitClient.thorchain.swap(params)
+const txHash = await swapKitClient.thorchain.swap(routes[0])
 ```
 {% endcode %}
 
@@ -53,7 +51,7 @@ const txHash = await swapKitClient.thorchain.swap(params)
 
 ### **addLiquidity(params:** { runeAssetValue: [AssetValue](swapkit-helpers.md#assetvalue); assetValue: [AssetValue](swapkit-helpers.md#assetvalue); isPendingSymmAsset?: boolean; runeAddr?: string; assetAddr?: string; mode?: "sym" | "rune" | "asset"; }) => Promise<{ runeTx: string | void; assetTx: string | void; }>
 
-Performs two&#x20;
+_Performs two transactions to deposit RUNE and asset to THORChain Liquidity Pool_&#x20;
 
 {% code fullWidth="false" %}
 ```typescript
@@ -65,7 +63,7 @@ const btcAssetValue = AssetValue.fromChainOrSignature(Chain.Bitcoin, 0.01)
 const {
  runeTx,
  assetTx,
-} = swapKitClient.addLiquidity({
+} = swapKitClient.thorchain.addLiquidity({
   // runeAddr: used when can't connect both chain at once (use addLiquidityPart)
   runeAssetValue,
   assetValue: btcAssetValue,
@@ -76,9 +74,9 @@ const {
 
 ***
 
-### **addLiquidityPart(**params: { assetValue: [AssetValue](swapkit-helpers.md#assetvalue); address?: string; poolAddress: string; symmetric: boolean; }) => Promise\<string?
+### **addLiquidityPart(**params: { assetValue: [AssetValue](swapkit-helpers.md#assetvalue); address?: string; poolAddress: string; symmetric: boolean; }) => Promise\<string>
 
-_Returns address of previously connected chains with \`connectX\` method from wallet, if not connected returns empty string_
+_Performs transaction to deposit RUNE or asset to THORChain Liquidity Pool_
 
 {% code fullWidth="false" %}
 ```typescript
@@ -89,14 +87,14 @@ const btcAssetValue = AssetValue.fromChainOrSignature(Chain.Bitcoin, 0.01)
 const runeAddress = swapKitClient.getAddress(Chain.THORChain)
 const btcAddress = swapKitClient.getAddress(Chain.Bitcoin)
 
-const runeTx = swapKitClient.addLiquidityPart({ 
+const runeTx = swapKitClient.thorchain.addLiquidityPart({ 
   address: btcAddress,
   assetValue: runeAssetValue
   poolAddress: btcAssetValue.toString()
   symmetric: true,
 })
 
-const btcTx = swapKitClient.addLiquidityPart({ 
+const btcTx = swapKitClient.thorchain.addLiquidityPart({ 
   address: runeAddress,
   assetValue: btcAssetValue
   poolAddress: btcAssetValue.toString()
@@ -109,11 +107,11 @@ const btcTx = swapKitClient.addLiquidityPart({
 
 ### **deposit(**params: CoreTxParams & { router?: string; }) => Promise\<string>
 
-_Returns address of previously connected chains with \`connectX\` method from wallet, if not connected returns empty string_
+_Performs deposit to THORChain pool transaction. Can use custom memo._
 
 {% code fullWidth="false" %}
 ```typescript
-const depositTxHash = swapKitClient.deposit({
+const depositTxHash = swapKitClient.thorchain.deposit({
   assetValue,
   recipient,
   memo: customDepositMemo, // Create LP Pool, do custom swap, deposit for memoless
@@ -125,17 +123,17 @@ const depositTxHash = swapKitClient.deposit({
 
 ### **loan(params**: { assetValue: [AssetValue](swapkit-helpers.md#assetvalue); memo?: string; minAmount: AssetValue; type: "open" | "close"; }) => Promise\<string>
 
-_Returns address of previously connected chains with \`connectX\` method from wallet, if not connected returns empty string_
+_Performs transaction to open or close loan._
 
 {% code fullWidth="false" %}
 ```typescript
 const repayQuote = await SwapKitApi.getRepayQuote(...)
 
-const txid = await thorchain.loan({
+const txid = await swapkitClient.thorchain.loan({
     type: 'close',
     memo: repayQuote?.memo,
-    assetValue: repayAsset.add(amount),
-    minAmount: AssetValue.fromStringSync(repayAsset.toString(), expectedAmount)!,
+    assetValue: repayAsset.set(amount),
+    minAmount: repayAsset.set(expectedAmount),
 });
 ```
 {% endcode %}
@@ -144,13 +142,16 @@ const txid = await thorchain.loan({
 
 ### **savings(**params: { assetValue: [AssetValue](swapkit-helpers.md#assetvalue); memo?: string; percent?: number; type: "add" | "withdraw"  }) => Promise\<string>
 
-_Returns address of previously connected chains with \`connectX\` method from wallet, if not connected returns empty string_
+_Performs transaction to deposit or withdraw provided asset from THORChain Savers_
 
 {% code fullWidth="false" %}
 ```typescript
 const btcAsset = AssetValue.fromChainOrSignature(Chain.Bitcoin, 1)
 
-const saverVaultDepositTx = await thorchain.savings({ assetValue type: 'add' });
+const saverVaultDepositTx = await swapkitClient.thorchain.savings({ 
+    assetValue,
+    type: 'add',
+});
 ```
 {% endcode %}
 
@@ -158,17 +159,16 @@ const saverVaultDepositTx = await thorchain.savings({ assetValue type: 'add' });
 
 ### **withdraw(params**: { memo?: string; assetValue: [AssetValue](swapkit-helpers.md#assetvalue); percent: number; from: "sym" | "rune" | "asset"; to: "sym" | "rune" | "asset"; }) => Promise\<string>
 
-_Returns address of previously connected chains with \`connectX\` method from wallet, if not connected returns empty string_
+_Performs transaction to register, extend THORName_
 
 {% code fullWidth="false" %}
 ```typescript
-const ethAddress = swapKitClient.getAddress(Chain.Ethereum)
-
-if (ethAddress) {
-  const addressExplorerUrl = swapKitClient.getExplorerAddressUrl({   
-    chain: Chain.Ethereum, address: ethAddress 
-  })
-}
+const ethAddress = swapKitClient.thorchain.withdraw({
+    assetValue: poolAsset,
+    percent: "50",
+    from: "sym",
+    to: "rune",
+})
 ```
 {% endcode %}
 
@@ -176,17 +176,17 @@ if (ethAddress) {
 
 ### **registerThorname(params:** { assetValue: [AssetValue](swapkit-helpers.md#assetvalue); name: string; chain: string; address: string; owner?: string; preferredAsset?: string; expiryBlock?: string; }**): string**
 
-_Returns address of previously connected chains with \`connectX\` method from wallet, if not connected returns empty string_
+_Performs transaction to register, extend THORName_
 
 {% code fullWidth="false" %}
 ```typescript
-const ethAddress = swapKitClient.getAddress(Chain.Ethereum)
-
-if (ethAddress) {
-  const addressExplorerUrl = swapKitClient.getExplorerAddressUrl({   
-    chain: Chain.Ethereum, address: ethAddress 
-  })
-}
+const txHash = swapKitClient.thorchain.registerThorname({
+    assetValue: AssetValue.fromChainOrSignature(Chain.THORChain, amount),
+    address, 
+    owner, 
+    name: "tnsNameToRegister", 
+    chain: Chain.Bitcoin, // Chain to assign - only when already registered
+})
 ```
 {% endcode %}
 
@@ -194,19 +194,15 @@ if (ethAddress) {
 
 ### **createLiquidity(params**: { runeAssetValue: [AssetValue](swapkit-helpers.md#assetvalue); assetValue: AssetValue }) => Promise<{ runeTx: string; assetTx: string }>
 
-_Executes 2 transactions to create new THORChain Liquidity Pool_
+_Performs 2 transactions to create new THORChain Liquidity Pool_
 
 {% code fullWidth="false" %}
 ```typescript
-import { getTHORNameCost } from '@swapkit/helpers'
+const { runeTx, assetTx } = await swapKitClient.thorchain.createLiquidity({
+  runeAssetValue: runeAssetAmount,
+  assetValue: poolAssetAmount,
+});
 
-const amount = isRegister ? getTHORNameCost(years) : years;
-
-if (ethAddress) {
-  const addressExplorerUrl = swapKitClient.getExplorerAddressUrl({   
-    chain: Chain.Ethereum, address: ethAddress 
-  })
-}
 ```
 {% endcode %}
 
@@ -219,7 +215,7 @@ _Performs deposit to protocol with convenient method wrapping and structuring pr
 {% code fullWidth="false" %}
 ```typescript
 const bondTxHash = await swapKitClient.nodeAction({
-  bond,
+  type: "bond",
   assetValue: AssetValue.fromChainOrSignature(Chain.THORChain, 500_000)
 })
 ```
@@ -247,7 +243,7 @@ _Performs approval transaction or returns true if given asset doesn't need appro
 ```typescript
 const txHash = await swapKitClient.approveAssetValue(
   assetToApprove,
-  contractAddress
+  contractAddress,
 )
 ```
 {% endcode %}
@@ -262,7 +258,7 @@ _Checks if given asset needs approval. Additionally validates provided amount ag
 ```typescript
 const isAssetApproved = await swapKitClient.isAssetValueApproved(
   assetToApprove,
-  contractAddress
+  contractAddress,
 )
 ```
 {% endcode %}

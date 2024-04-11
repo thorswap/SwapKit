@@ -1,66 +1,17 @@
 ---
-description: >-
-  Swapkit SDK is composed from modular toolboxes & wallets which can work
-  separately.
+layout:
+  title:
+    visible: true
+  description:
+    visible: false
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
 ---
 
-# 💸 Wallets
+# 👛 Wallets
 
-{% hint style="info" %}
-Each wallet need specific [Toolbox](../toolboxes/) installed to work properly. Check _Integrations_ section under chosen wallet
-{% endhint %}
-
-* [Ledger](ledger.md)
-* [Trezor](broken-reference)
-* [XDEFI](broken-reference)
-* [EVM Web Extensions](broken-reference) (MetaMask, Coinbase Wallet, Brave Wallet, TrustWallet Extension)
-* [WalletConnect](broken-reference)
-* [Keplr](broken-reference)
-
-<table data-full-width="true"><thead><tr><th width="268">Chain</th><th>Wallets</th></tr></thead><tbody><tr><td>Bitcoin (BTC)</td><td><a href="ledger.md">Ledger</a>, <a href="keystore.md">Keystore</a>, <a href="xdefi.md">XDEFI</a>, <a href="trezor.md">Trezor</a></td></tr><tr><td>Bitcoin Cash (BCH)</td><td><a href="ledger.md">Ledger</a>, <a href="keystore.md">Keystore</a>, <a href="xdefi.md">XDEFI</a>, <a href="trezor.md">Trezor</a></td></tr><tr><td>Litecoin (LTC)</td><td><a href="ledger.md">Ledger</a>, <a href="keystore.md">Keystore</a>, <a href="xdefi.md">XDEFI</a>, <a href="trezor.md">Trezor</a></td></tr><tr><td>Dogecoin (DOGE)</td><td><a href="ledger.md">Ledger</a>, <a href="keystore.md">Keystore</a>, <a href="xdefi.md">XDEFI</a>, <a href="trezor.md">Trezor</a></td></tr><tr><td>Ethereum (ETH)</td><td><a href="ledger.md">Ledger</a>, <a href="keystore.md">Keystore</a>, <a href="xdefi.md">XDEFI</a>, <a href="trezor.md">Trezor</a>, <a href="walletconnect.md">WalletConnect</a>, <a href="evm-web-extensions.md">MetaMask, Brave Wallet, TrustWallet Web Extension, Coinbase Web Extension</a></td></tr><tr><td>Avalanche (AVAX)</td><td><a href="ledger.md">Ledger</a>, <a href="keystore.md">Keystore</a>, <a href="xdefi.md">XDEFI</a>, <a href="trezor.md">Trezor</a>, <a href="walletconnect.md">WalletConnect</a>, <a href="evm-web-extensions.md">MetaMask, Brave Wallet, TrustWallet Web Extension, Coinbase Web Extension</a></td></tr><tr><td>Binance Smart Chain (BSC)</td><td><a href="ledger.md">Ledger</a>, <a href="keystore.md">Keystore</a>, <a href="xdefi.md">XDEFI</a>, <a href="trezor.md">Trezor</a>, <a href="evm-web-extensions.md">MetaMask, Brave Wallet, TrustWallet Web Extension, Coinbase Web Extension</a></td></tr><tr><td>THORChain (THOR)</td><td><a href="ledger.md">Ledger</a>, <a href="keystore.md">Keystore</a>, <a href="xdefi.md">XDEFI</a>, <a href="walletconnect.md">WalletConnect</a></td></tr><tr><td>Gaia (ATOM)</td><td><a href="ledger.md">Ledger</a>, <a href="keystore.md">Keystore</a>, <a href="xdefi.md">XDEFI</a>, <a href="walletconnect.md">WalletConnect</a>, <a href="keplr.md">Keplr</a></td></tr><tr><td>Binance (BNB - BEP2)</td><td><a href="ledger.md">Ledger</a>, <a href="keystore.md">Keystore</a>, <a href="xdefi.md">XDEFI</a></td></tr><tr><td>Arbitrum (ARB)</td><td><a href="ledger.md">Ledger</a>, <a href="keystore.md">Keystore</a>, <a href="xdefi.md">XDEFI</a>, <a href="trezor.md">Trezor</a>, <a href="walletconnect.md">WalletConnect</a>, <a href="evm-web-extensions.md">MetaMask, Brave Wallet, TrustWallet Web Extension, Coinbase Web Extension</a></td></tr><tr><td>Polygon (MATIC)</td><td><a href="ledger.md">Ledger</a>, <a href="keystore.md">Keystore</a>, <a href="xdefi.md">XDEFI</a>, <a href="trezor.md">Trezor</a>, <a href="walletconnect.md">WalletConnect</a>, <a href="evm-web-extensions.md">MetaMask, Brave Wallet, TrustWallet Web Extension, Coinbase Web Extension</a></td></tr><tr><td>Optimism (OP)</td><td><a href="ledger.md">Ledger</a>, <a href="keystore.md">Keystore</a>, <a href="xdefi.md">XDEFI</a>, <a href="trezor.md">Trezor</a>, <a href="walletconnect.md">WalletConnect</a>, <a href="evm-web-extensions.md">MetaMask, Brave Wallet, TrustWallet Web Extension, Coinbase Web Extension</a></td></tr><tr><td>MAYAChain (MAYA)</td><td><a href="keystore.md">Keystore</a>, <a href="walletconnect.md">WalletConnect</a></td></tr><tr><td>Kujira (KUJI)</td><td><a href="keystore.md">Keystore</a>, <a href="xdefi.md">XDEFI</a>, <a href="walletconnect.md">WalletConnect</a>, <a href="keplr.md">Keplr</a></td></tr></tbody></table>
-
-#### Example:
-
-```typescript
-import { SwapKitCore, Chain, DerivationPath } from '@swapkit/core'
-
-const client = new SwapKitCore()
-
-client.extend({
-  config: {
-    stagenet?: boolean;
-    /**
-     * @required for AVAX, BSC, ARB, MATIC & OP
-     */
-    covalentApiKey?: string;
-    /**
-     * @required for ETH
-     */
-    ethplorerApiKey?: string;
-    /**
-     * @required for BTC, LTC, DOGE & BCH
-     */
-    utxoApiKey?: string;
-    /**
-     * @required for Walletconnect
-     */
-    walletConnectProjectId?: string;
-    /**
-     * @optional for Trezor config
-     */
-    trezorManifest?: {
-        email: string;
-        appUrl: string;
-    };
-  };
-  wallets: [ledgerWallet, xdefiWallet],
-});
-
-await client.connectXDEFI([Chain.BTC, Chain.ETH, Chain.AVAX])
-// OR
-await client.connectLedger(Chain.ETH, DerivationPath.ETH)
-```
-
-### Custom Wallet Integration
-
-// TODO:
+<table data-full-width="true"><thead><tr><th width="261">Name of wallet</th><th width="477">Supported Chains</th><th>Toolbox used</th></tr></thead><tbody><tr><td><a data-mention href="swapkit-wallet-evm-extensions.md">swapkit-wallet-evm-extensions.md</a></td><td>ARB, AVAX, BSC, ETH, OP, MATIC</td><td><a href="../toolboxes/swapkit-toolbox-evm.md">EVM</a></td></tr><tr><td><a data-mention href="swapkit-wallet-keepkey.md">swapkit-wallet-keepkey.md</a></td><td>ARB, AVAX, BNB, BSC, BTC, BCH, GAIA(ATOM), DOGE, DASH, ETH, LTC, OP, MATIC, THOR,  MAYA</td><td><a href="../toolboxes/swapkit-toolbox-cosmos.md">COSMOS</a>, <a href="../toolboxes/swapkit-toolbox-evm.md">EVM</a>, <a href="../toolboxes/swapkit-toolbox-utxo.md">UTXO</a></td></tr><tr><td><a data-mention href="swapkit-wallet-keplr.md">swapkit-wallet-keplr.md</a></td><td>GAIA(ATOM), KUJI</td><td><a href="../toolboxes/swapkit-toolbox-cosmos.md">COSMOS</a></td></tr><tr><td><a data-mention href="swapkit-wallet-keystore.md">swapkit-wallet-keystore.md</a></td><td>ARB, AVAX, BNB, BSC, BTC, BCH, GAIA(ATOM), DASH, DOGE, ETH, KUJI, LTC, MAYA, OP, DOT, FLIP, MATIC, THOR</td><td><a href="../toolboxes/swapkit-toolbox-cosmos.md">COSMOS</a>, <a href="../toolboxes/swapkit-toolbox-evm.md">EVM</a>, <a href="../toolboxes/swapkit-toolbox-substrate.md">SUBSTRATE</a>, <a href="../toolboxes/swapkit-toolbox-utxo.md">UTXO</a></td></tr><tr><td><a data-mention href="swapkit-wallet-ledger.md">swapkit-wallet-ledger.md</a></td><td>ARB, AVAX, BNB, BSC, BTC, BCH, GAIA(ATOM), DASH, DOGE, ETH, LTC, OP, DOT, MATIC, THOR</td><td><a href="../toolboxes/swapkit-toolbox-cosmos.md">COSMOS</a>, <a href="../toolboxes/swapkit-toolbox-evm.md">EVM</a>, <a href="../toolboxes/swapkit-toolbox-utxo.md">UTXO</a></td></tr><tr><td><a data-mention href="swapkit-wallet-okx.md">swapkit-wallet-okx.md</a></td><td>ARB, AVAX, BSC, BTC, GAIA(ATOM), ETH, OP, MATIC, THOR</td><td><a href="../toolboxes/swapkit-toolbox-cosmos.md">COSMOS</a>, <a href="../toolboxes/swapkit-toolbox-evm.md">EVM</a>, <a href="../toolboxes/swapkit-toolbox-utxo.md">UTXO</a></td></tr><tr><td><a data-mention href="swapkit-wallet-trezor.md">swapkit-wallet-trezor.md</a></td><td>ARB, AVAX, BSC, BTC, BCH, DASH, DOGE, ETH, LTC, OP, DOT, MATIC</td><td><a href="../toolboxes/swapkit-toolbox-evm.md">EVM</a>, <a href="../toolboxes/swapkit-toolbox-utxo.md">UTXO</a></td></tr><tr><td><a data-mention href="swapkit-wallet-wc.md">swapkit-wallet-wc.md</a></td><td>ARB, AVAX, BSC, BTC, GAIA(ATOM), KUJI, MAYA, OP, DOT, MATIC, THOR</td><td><a href="../toolboxes/swapkit-toolbox-cosmos.md">COSMOS</a>, <a href="../toolboxes/swapkit-toolbox-evm.md">EVM</a></td></tr><tr><td><a data-mention href="swapkit-wallet-xdefi.md">swapkit-wallet-xdefi.md</a></td><td>ARB, AVAX, BNB, BSC, BTC, BCH, GAIA(ATOM), DASH, DOGE, ETH, KUJI, LTC, MAYA, OP, MATIC, THOR</td><td><a href="../toolboxes/swapkit-toolbox-cosmos.md">COSMOS</a>, <a href="../toolboxes/swapkit-toolbox-evm.md">EVM</a>, <a href="../toolboxes/swapkit-toolbox-utxo.md">UTXO</a></td></tr></tbody></table>

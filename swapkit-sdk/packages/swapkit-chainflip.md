@@ -76,7 +76,7 @@ import { ChainflipToolbox } from '@swapkit/toolbox-substrate'
 
 ***
 
-### fundStateChainAccount(chainAccount: string, amount: [AssetValue](swapkit-helpers.md#assetvalue), evmToolbox: [EVMToolbox](../toolboxes-1/swapkit-toolbox-evm.md))): Promise\<string>
+### fundStateChainAccount(chainAccount: string, amount: [AssetValue](swapkit-helpers.md#assetvalue), evmToolbox: [EVMToolbox](../toolboxes/swapkit-toolbox-evm.md))): Promise\<string>
 
 
 

@@ -2,7 +2,7 @@
 description: Integrate our SDK to your dApp
 ---
 
-# 1⃣ Install SwapKit SDK
+# 1️⃣ Install SwapKit SDK
 
 This package is an all-in-one SDK for SwapKit. It includes all packages needed to use every SwapKit feature. That includes:
 
@@ -46,4 +46,4 @@ Contact our [business partnerships team](../partnership.md) to discover how you 
 
 * [Set up the SDK](set-up-the-sdk.md)
 * [Request Route & Execute swap](request-route-and-execute-swap.md)
-* [Partial installation & advanced configuration](wallets/)
+* [Partial installation & advanced configuration](broken-reference)
