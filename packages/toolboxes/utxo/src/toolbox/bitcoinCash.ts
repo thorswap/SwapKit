@@ -205,7 +205,8 @@ const buildTx = async ({
 
   // Outputs
   for (const output of outputs) {
-    const address = "address" in output && output.address ? output.address : sender;
+    const address =
+      "address" in output && output.address ? output.address : toLegacyAddress(sender);
     const params = output.script
       ? compiledMemo
         ? { script: compiledMemo, value: 0 }
