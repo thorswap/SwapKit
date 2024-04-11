@@ -8,6 +8,8 @@ description: Static token lists with addresses, identifiers, chains & decimals
 Usually this module is used only for `AssetValue.loadStaticAssets()` but can be useful for filtering or providing tailored list of tokens for some cases.
 {% endhint %}
 
+## **Getting started**
+
 ### **Installation**
 
 ```bash
@@ -23,4 +25,24 @@ const TCAndChainflipSupportedTokens = [
   ...ThorchainList.tokens,
   ...ChainflipList.tokens,
 ]
+```
+
+### Available token lists
+
+```typescript
+import { 
+    OneInchList,
+    CoinGeckoList,
+    MayaList,
+    PancakeswapList,
+    PancakeswapETHList,
+    PangolinList,
+    StargateARBList,
+    SushiswapList,
+    ThorchainList,
+    TraderjoeList,
+    UniswapList,
+    WoofiList,
+    ChainflipList,
+} from "@swapkit/tokens";
 ```

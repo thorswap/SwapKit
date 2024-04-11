@@ -4,6 +4,8 @@ description: API Wrapper on usefull calls to thornode, midgard/MicroGard and THO
 
 # @swapkit/api
 
+## Getting started
+
 ### **Installation**
 
 ```bash
@@ -31,7 +33,7 @@ const bestRouteToSwapWith = routes[0]
 
 ## Methods
 
-### **getBorrowQuote(params:** [**BorrowParams**](core-1.md#borrowparams)**): Promise<**[**BorrowResponse**](core-1.md#borrowresponse)**>**
+### **getBorrowQuote(params:** [**BorrowParams**](swapkit-api.md#borrowparams)**): Promise<**[**BorrowResponse**](swapkit-api.md#borrowresponse)**>**
 
 _Returns borrow quote params for requested asset to open loan. It includes all necessary info to execute transaction_
 
@@ -50,7 +52,7 @@ const response = await SwapKitApi.getBorrowQuote({
 
 ***
 
-### **getCachedPrices(params:** [**CachedPricesParams**](core-1.md#cachedpricesparams)**): Promise<**[**CachedPrice**](core-1.md#cachedprice)**\[]>**
+### **getCachedPrices(params:** [**CachedPricesParams**](swapkit-api.md#cachedpricesparams)**): Promise<**[**CachedPrice**](swapkit-api.md#cachedprice)**\[]>**
 
 _Returns last price of provided tokens array. Price is cached for up to 10 seconds._
 
@@ -72,7 +74,7 @@ const btcUsdPrice = response.find(
 
 ***
 
-### **getGasRates(): Promise<**[**GasPriceInfo**](core-1.md#gaspriceinfo)**\[]>**
+### **getGasRates(): Promise<**[**GasPriceInfo**](swapkit-api.md#gaspriceinfo)**\[]>**
 
 _Returns gas rates for THORChain supported chains_
 
@@ -86,7 +88,7 @@ const ethGasRate = response.find((rate) => rate.chainId === ChainId.Ethereum)?.g
 
 ***
 
-### **getInboundAddresses(params?:** [**ThornodeEndpointParams**](core-1.md#thornodeendpointparams)**): Promise<**[**InboundAddressesItem**](core-1.md#inboundaddressesitem)**\[]>**
+### **getInboundAddresses(params?:** [**ThornodeEndpointParams**](swapkit-api.md#thornodeendpointparams)**): Promise<**[**InboundAddressesItem**](swapkit-api.md#inboundaddressesitem)**\[]>**
 
 
 
@@ -101,7 +103,7 @@ const ethRouter = response.find(({ chain }) => chainId === Chain.Ethereum)?.rout
 
 ***
 
-### **getLastBlock(): Promise<**[**LastBlockItem**](core-1.md#lastblockitem)**\[]>**
+### **getLastBlock(): Promise<**[**LastBlockItem**](swapkit-api.md#lastblockitem)**\[]>**
 
 
 
@@ -117,7 +119,7 @@ const lastETHBlockObserved = response.find(
 
 ***
 
-### **getLendingAssets(): Promise<**[**LendingAssetItem**](core-1.md#lendingassetitem)**\[]>**
+### **getLendingAssets(): Promise<**[**LendingAssetItem**](swapkit-api.md#lendingassetitem)**\[]>**
 
 
 
@@ -132,7 +134,7 @@ const currentBtcLTV = response.find(({ asset }) => asset === btc.toString())?.lt
 
 ***
 
-### **getLoans(searchParams: LoansParams): Promise<**[**LoansResponse**](core-1.md#loansresponse)**>**
+### **getLoans(searchParams: LoansParams): Promise<**[**LoansResponse**](swapkit-api.md#loansresponse)**>**
 
 
 
@@ -166,7 +168,7 @@ function Component() {
 
 ***
 
-### **getMimirInfo(params:** [**ThornodeEndpointParams**](core-1.md#thornodeendpointparams)**): Promise\<MimirData>**
+### **getMimirInfo(params:** [**ThornodeEndpointParams**](swapkit-api.md#thornodeendpointparams)**): Promise\<MimirData>**
 
 
 
@@ -182,7 +184,7 @@ const mayaStagenetHalted = thorchainMimir.HALTCHAINGLOBAL >= 1
 
 ***
 
-### **getNodes(params:** [**ThornodeEndpointParams**](core-1.md#thornodeendpointparams)**): Promise<**[**NodeItem**](core-1.md#nodeitem)**\[]>**
+### **getNodes(params:** [**ThornodeEndpointParams**](swapkit-api.md#thornodeendpointparams)**): Promise<**[**NodeItem**](swapkit-api.md#nodeitem)**\[]>**
 
 
 
@@ -219,7 +221,7 @@ const memoToRepayLoan = response?.memo
 
 ***
 
-### **getSwapQuote(searchParams:** [**QuoteParams**](core-1.md#quoteparams)**): Promise<**{ quoteId: string; routes: [QuoteRoute](core-1.md#quoteroute)\[] }**>**
+### **getSwapQuote(searchParams:** [**QuoteParams**](swapkit-api.md#quoteparams)**): Promise<**{ quoteId: string; routes: [QuoteRoute](swapkit-api.md#quoteroute)\[] }**>**
 
 
 
@@ -240,7 +242,7 @@ const bestQuoteUSD = response.routes?.[0]?.expectedOutputUSD
 
 ***
 
-### **getTHORChainPools(period:** [**PoolPeriod**](core-1.md#poolperiod)**): Promise<**[**PoolDetail**](core-1.md#pooldetail)**\[]>**
+### **getTHORChainPools(period:** [**PoolPeriod**](swapkit-api.md#poolperiod)**): Promise<**[**PoolDetail**](swapkit-api.md#pooldetail)**\[]>**
 
 
 
@@ -254,7 +256,7 @@ const btcPoolAPY = response.find(({ asset }) => asset === "BTC.BTC")?.poolAPY
 
 ***
 
-### **getTHORNameDetails(thorname: string): Promise<**[**THORNameDetails**](core-1.md#thornamedetails)**>**
+### **getTHORNameDetails(thorname: string): Promise<**[**THORNameDetails**](swapkit-api.md#thornamedetails)**>**
 
 _Returns array of thorname details._
 
@@ -292,7 +294,7 @@ const ownedThornames = await SwapKitApi.getTHORNamesByOwner("thor123")
 
 ***
 
-### **getTokenList(tokenListProvider: string): Promise<**[**TokensResponse**](core-1.md#tokensresponse)**>**
+### **getTokenList(tokenListProvider: string): Promise<**[**TokensResponse**](swapkit-api.md#tokensresponse)**>**
 
 
 
@@ -624,7 +626,7 @@ type LendingAssetItem = {
 
 ```typescript
 type LoansResponse = {
-  owner: string;
+  owner: string
   asset: string;
   debtIssued: string;
   debtRepaid: string;
@@ -664,5 +666,4 @@ type NodeItem = {
     height: number;
   }[];
 };
-
 ```

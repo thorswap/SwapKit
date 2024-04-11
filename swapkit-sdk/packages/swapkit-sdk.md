@@ -6,6 +6,8 @@ description: >-
 
 # @swapkit/sdk
 
+## **Getting started**
+
 ### **Installation**
 
 ```bash
@@ -26,7 +28,7 @@ const config: {
 
 const skClient = createSwapKit(config)
 
-await skClient.connectLedger(Chain.BTC)
+await skClient.connectLedger(...)
 
 const txHash = await skClient.swap(...)
 ```

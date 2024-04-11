@@ -23,7 +23,7 @@ npm add @swapkit/toolbox-evm
 {% endtabs %}
 
 {% hint style="info" %}
-**Next section is only for bare implementations. If you use** [**swapkit-sdk**](../install-swapkit-sdk.md) **or** [**swapkit-core**](../../packages/core.md)  **you are ready to use core methods right after wallet setup.**
+**Next section is only for bare implementations. If you use** [**swapkit-sdk**](../install-swapkit-sdk.md) **or** [**swapkit-core**](../packages/core.md)  **you are ready to use core methods right after wallet setup.**
 {% endhint %}
 
 ### Available Instances
