@@ -1,5 +1,11 @@
 # @swapkit/wallet-coinbase
 
+## 1.0.0-rc.4
+
+### Patch Changes
+
+- [#721](https://github.com/thorswap/SwapKit/pull/721) [`cc44c70`](https://github.com/thorswap/SwapKit/commit/cc44c706fe3d816c33decdd14447f00d64ed2e67) Thanks [@towanTG](https://github.com/towanTG)! - Adds config for coinbase wallet
+
 ## 1.0.0-rc.3
 
 ### Patch Changes
