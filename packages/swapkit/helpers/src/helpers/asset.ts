@@ -1,7 +1,6 @@
 import { RequestClient } from "../modules/requestClient.ts";
 import { BaseDecimal, Chain, ChainToRPC, type EVMChain, EVMChains } from "../types/chains.ts";
 import type { TokenNames } from "../types/tokens.ts";
-import { FeeOption } from "../types/transactions.ts";
 
 const getDecimalMethodHex = "0x313ce567";
 
@@ -69,12 +68,6 @@ export const getDecimal = ({ chain, symbol }: { chain: Chain; symbol: string }) 
     default:
       return BaseDecimal[chain];
   }
-};
-
-export const gasFeeMultiplier: Record<FeeOption, number> = {
-  [FeeOption.Average]: 1.2,
-  [FeeOption.Fast]: 1.5,
-  [FeeOption.Fastest]: 2,
 };
 
 export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
