@@ -82,7 +82,6 @@ export function SwapKit<
 
   /**
    * @Private
-   * Internal helpers
    */
   function getSwapKitPlugin<T extends PluginName>(pluginName: T) {
     const plugin = availablePlugins[pluginName] || Object.values(availablePlugins)[0];
@@ -135,7 +134,6 @@ export function SwapKit<
 
   /**
    * @Public
-   * Wallet helpers
    */
   function getWallet<T extends Chain>(chain: T) {
     return connectedWallets[chain];
@@ -143,19 +141,19 @@ export function SwapKit<
   function getAddress<T extends Chain>(chain: T) {
     return getWallet(chain)?.address || "";
   }
-  async function getBalance<T extends Chain>(chain: T, refresh?: boolean) {
-    if (refresh) {
-      const wallet = await getWalletWithBalance(chain, true);
-      return wallet.balance || [];
-    }
-
-    return getWallet(chain)?.balance || [];
-  }
   /**
    * TODO: Figure out validation without connecting to wallet
    */
   function validateAddress({ address, chain }: { address: string; chain: Chain }) {
     return getWallet(chain)?.validateAddress?.(address);
+  }
+
+  function getBalance<T extends Chain>(chain: T, refresh?: boolean) {
+    if (refresh) {
+      return getWalletWithBalance(chain).then((wallet) => wallet.balance);
+    }
+
+    return getWallet(chain)?.balance || [];
   }
 
   async function getWalletWithBalance<T extends Chain>(chain: T, potentialScamFilter = true) {
@@ -196,12 +194,11 @@ export function SwapKit<
     ...availablePlugins,
     ...connectWalletMethods,
 
-    getExplorerAddressUrl: getAddressUrl,
-    getExplorerTxUrl: getTxUrl,
-
     approveAssetValue,
     getAddress,
     getBalance,
+    getExplorerAddressUrl: getAddressUrl,
+    getExplorerTxUrl: getTxUrl,
     getWallet,
     getWalletWithBalance,
     isAssetValueApproved,
