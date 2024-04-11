@@ -69,18 +69,21 @@ export const ChainflipToolbox = async ({ providerUrl, signer, generic = false }:
   };
 };
 
-export const getToolboxByChain = (
-  chain: SubstrateChain,
-  params: {
-    providerUrl?: RPCUrl;
-    signer: KeyringPair;
-    generic?: boolean;
-  },
-) => {
+type ToolboxType = {
+  DOT: ReturnType<typeof PolkadotToolbox>;
+  FLIP: ReturnType<typeof ChainflipToolbox>;
+};
+
+export const getToolboxByChain = <T extends keyof ToolboxType>(
+  chain: T,
+  params: { providerUrl?: RPCUrl; signer: KeyringPair; generic?: boolean },
+): ToolboxType[T] => {
   switch (chain) {
-    case Chain.Polkadot:
-      return PolkadotToolbox(params);
     case Chain.Chainflip:
       return ChainflipToolbox(params);
+    case Chain.Polkadot:
+      return PolkadotToolbox(params);
+    default:
+      throw new Error(`Chain ${chain} is not supported`);
   }
 };

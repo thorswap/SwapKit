@@ -1,3 +1,4 @@
+import type { AssetValue } from "../modules/assetValue.ts";
 import type { Chain, CosmosChain, EVMChain, UTXOChain } from "./chains.ts";
 import type { WalletOption } from "./wallet.ts";
 
@@ -46,7 +47,7 @@ export type ConnectConfig = {
 
 export type AddChainWalletParams<T extends Chain> = {
   address: string;
-  balance: Todo[];
+  balance: AssetValue[];
   walletType: WalletOption;
   chain: T;
   [key: string]: Todo;
@@ -60,9 +61,9 @@ type ApisType = { [key in UTXOChain]?: string | Todo } & {
 
 export type ConnectWalletParams = {
   addChain: <T extends Chain>(params: AddChainWalletParams<T>) => void;
+  apis: ApisType;
   config: ConnectConfig;
   rpcUrls: { [chain in Chain]?: string };
-  apis: ApisType;
 };
 
 export type Witness = {

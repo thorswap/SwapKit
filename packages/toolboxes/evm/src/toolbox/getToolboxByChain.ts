@@ -16,7 +16,6 @@ type ToolboxType = {
   OP: typeof OPToolbox;
 };
 
-// @ts-expect-error false positive
 export const getToolboxByChain = <T extends keyof ToolboxType>(chain: T): ToolboxType[T] => {
   switch (chain) {
     case Chain.Avalanche:
@@ -31,5 +30,7 @@ export const getToolboxByChain = <T extends keyof ToolboxType>(chain: T): Toolbo
       return BSCToolbox as ToolboxType[T];
     case Chain.Ethereum:
       return ETHToolbox as ToolboxType[T];
+    default:
+      throw new Error(`Chain ${chain} is not supported`);
   }
 };

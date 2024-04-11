@@ -18,13 +18,6 @@ export enum WalletOption {
   WALLETCONNECT = "WALLETCONNECT",
 }
 
-export type EVMWalletOptions =
-  | WalletOption.BRAVE
-  | WalletOption.OKX_MOBILE
-  | WalletOption.METAMASK
-  | WalletOption.TRUSTWALLET_WEB
-  | WalletOption.COINBASE_WEB;
-
 export enum LedgerErrorCode {
   NoError = 0x9000,
   LockedDevice = 0x5515,

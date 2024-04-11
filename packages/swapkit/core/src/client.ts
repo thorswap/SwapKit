@@ -3,38 +3,18 @@ import {
   ApproveMode,
   type ApproveReturnType,
   AssetValue,
-  type BaseWallet,
   Chain,
   type ConnectConfig,
-  type ConnectWalletParams,
   SwapKitError,
   type SwapParams,
 } from "@swapkit/helpers";
-import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
-import type { BaseEVMWallet, EVMWallets } from "@swapkit/toolbox-evm";
-import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
-import type { UTXOWallets } from "@swapkit/toolbox-utxo";
+import type { BaseEVMWallet } from "@swapkit/toolbox-evm";
+
 import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
 } from "./helpers/explorerUrls.ts";
-
-export type Wallet = BaseWallet<
-  EVMWallets & CosmosWallets & ThorchainWallets & UTXOWallets & SubstrateWallets
->;
-
-export type SwapKitWallet<ConnectParams extends Todo[]> = (
-  params: ConnectWalletParams,
-) => (...connectParams: ConnectParams) => boolean | Promise<boolean>;
-
-export type SwapKitPluginInterface<Methods = { [key in string]: Todo }> = {
-  plugin: ({
-    wallets,
-    stagenet,
-    config,
-  }: { wallets: Wallet; stagenet?: boolean; config: Todo }) => Methods;
-  config?: Todo;
-};
+import type { Apis, SwapKitPluginInterface, SwapKitWallet, Wallet } from "./types.ts";
 
 export function SwapKit<
   Plugins extends { [key in string]: SwapKitPluginInterface<{ [key in string]: Todo }> },
@@ -47,7 +27,7 @@ export function SwapKit<
   stagenet = false,
   wallets,
 }: {
-  apis?: { [key in Chain]?: Todo };
+  apis?: Apis;
   config?: ConnectConfig;
   plugins: Plugins;
   rpcUrls?: { [key in Chain]?: string };
@@ -78,7 +58,6 @@ export function SwapKit<
     : wallets;
 
   const connectedWallets = {} as Wallet;
-
   const availablePlugins = Object.entries(compatPlugins).reduce(
     (acc, [pluginName, { plugin, config }]) => {
       const methods = plugin({ wallets: connectedWallets, stagenet, config });
