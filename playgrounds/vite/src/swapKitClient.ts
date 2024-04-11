@@ -23,7 +23,6 @@ const wallets = {
   ...trezorWallet,
   ...walletconnectWallet,
   ...xdefiWallet,
-  ...coinbaseWallet,
 } as const;
 
 const plugins = {
