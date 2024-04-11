@@ -1,5 +1,14 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.126
+
+### Patch Changes
+
+- [#723](https://github.com/thorswap/SwapKit/pull/723) [`cd6952c`](https://github.com/thorswap/SwapKit/commit/cd6952cd0b23c4a1033ebb40d0a0c7d04ec55964) Thanks [@towanTG](https://github.com/towanTG)! - Fixes BCH issue and Ledger derivation path
+
+- Updated dependencies [[`cd6952c`](https://github.com/thorswap/SwapKit/commit/cd6952cd0b23c4a1033ebb40d0a0c7d04ec55964)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.99
+
 ## 1.0.0-rc.125
 
 ### Patch Changes
