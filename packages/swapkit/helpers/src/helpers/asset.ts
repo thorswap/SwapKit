@@ -80,7 +80,6 @@ export const gasFeeMultiplier: Record<FeeOption, number> = {
 export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
   switch (chain) {
     case Chain.Arbitrum:
-      return symbol === "ETH";
     case Chain.Optimism:
       return symbol === "ETH";
     case Chain.Maya:
