@@ -7,6 +7,7 @@ import {
   type ConnectConfig,
   SwapKitError,
   type SwapParams,
+  type Wallet,
 } from "@swapkit/helpers";
 import type { BaseEVMWallet } from "@swapkit/toolbox-evm";
 
@@ -14,7 +15,7 @@ import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
 } from "./helpers/explorerUrls.ts";
-import type { Apis, SwapKitPluginInterface, SwapKitWallet, Wallet } from "./types.ts";
+import type { Apis, SwapKitPluginInterface, SwapKitWallet } from "./types.ts";
 
 export function SwapKit<
   Plugins extends { [key in string]: SwapKitPluginInterface<{ [key in string]: Todo }> },

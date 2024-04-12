@@ -1,5 +1,5 @@
 import { Chain } from "../types/chains";
-import { MemoType } from "../types/transactions";
+import { MemoType } from "../types/sdk";
 
 export type ThornameRegisterParam = {
   name: string;

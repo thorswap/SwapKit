@@ -1,5 +1,11 @@
 import { Chains } from "@chainflip/sdk/swap";
-import { type AssetValue, SwapKitError, SwapKitNumber, wrapWithThrow } from "@swapkit/helpers";
+import {
+  type AssetValue,
+  type GenericSwapParams,
+  SwapKitError,
+  SwapKitNumber,
+  wrapWithThrow,
+} from "@swapkit/helpers";
 import { Chain } from "@swapkit/helpers";
 import type { ETHToolbox } from "@swapkit/toolbox-evm";
 import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
@@ -7,6 +13,7 @@ import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
 import { decodeAddress } from "@polkadot/keyring";
 import { isHex, u8aToHex } from "@polkadot/util";
 import { chainflipGateway } from "./chainflipGatewayABI.ts";
+import type { SwapDepositResponse, WithdrawFeeResponse } from "./types.ts";
 
 const chainToChainflipChain = new Map<Chain, keyof typeof Chains>([
   [Chain.Ethereum, Chains.Ethereum],
@@ -34,12 +41,7 @@ const requestSwapDepositAddress = async (
     buyAsset,
     recipient,
     brokerCommissionBPS,
-  }: {
-    sellAsset: AssetValue;
-    buyAsset: AssetValue;
-    recipient: string;
-    brokerCommissionBPS: number;
-  },
+  }: GenericSwapParams & { brokerCommissionBPS: number },
 ) => {
   const isBuyChainPolkadot = buyAsset.chain === Chain.Polkadot;
 
@@ -49,15 +51,7 @@ const requestSwapDepositAddress = async (
       : recipient;
   }, "chainflip_broker_recipient_error");
 
-  return new Promise<{
-    depositChannelId: string;
-    depositAddress: string;
-    srcChainExpiryBlock: number;
-    sellAsset: AssetValue;
-    buyAsset: AssetValue;
-    recipient: string;
-    brokerCommissionBPS: number;
-  }>((resolve) => {
+  return new Promise<SwapDepositResponse>((resolve) => {
     const tx = toolbox.api.tx.swapping?.requestSwapDepositAddress?.(
       sellAsset.ticker.toLowerCase(),
       buyAsset.ticker.toLowerCase(),
@@ -124,13 +118,7 @@ const withdrawFee = (
       : recipient;
   }, "chainflip_broker_recipient_error");
 
-  return new Promise<{
-    egressId: string;
-    egressAsset: string;
-    egressAmount: string;
-    egressFee: string;
-    destinationAddress: string;
-  }>((resolve) => {
+  return new Promise<WithdrawFeeResponse>((resolve) => {
     const extrinsic = toolbox.api.tx?.swapping?.withdraw?.(feeAsset.ticker.toLowerCase(), {
       [feeAsset.chain.toLowerCase()]: recipientAddress,
     });
@@ -190,7 +178,7 @@ const fundStateChainAccount = (
     ? stateChainAccount
     : u8aToHex(decodeAddress(stateChainAccount));
 
-  return evmToolbox.call({
+  return evmToolbox.call<string>({
     abi: chainflipGateway,
     contractAddress: "0x6995ab7c4d7f4b03f467cf4c8e920427d9621dbd",
     funcName: "fundStateChainAccount",
@@ -202,12 +190,9 @@ export const ChainflipBroker = (
   chainflipToolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
 ) => ({
   registerAsBroker: (address: string) => registerAsBroker(chainflipToolbox, address),
-  requestSwapDepositAddress: (chainflipTransaction: {
-    sellAsset: AssetValue;
-    buyAsset: AssetValue;
-    recipient: string;
-    brokerCommissionBPS: number;
-  }) => requestSwapDepositAddress(chainflipToolbox, chainflipTransaction),
+  requestSwapDepositAddress: (
+    chainflipTransaction: GenericSwapParams & { brokerCommissionBPS: number },
+  ) => requestSwapDepositAddress(chainflipToolbox, chainflipTransaction),
   fundStateChainAccount: (
     stateChainAccount: string,
     amount: AssetValue,

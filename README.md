@@ -7,10 +7,8 @@
 ### Documentation
 
 - [Getting Started](https://docs.thorswap.finance/swapkit-docs)
-- [Installation](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/install-swapkit-sdk)
-- [Setup](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/set-up-the-sdk)
-- [Request Quote & Execute Swap](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/request-route-and-execute-swap)
 
+- [Packages](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/packages)
 - [Wallets](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/wallets)
 - [Toolboxes](https://docs.thorswap.finance/swapkit-docs/swapkit-sdk/toolboxes)
 

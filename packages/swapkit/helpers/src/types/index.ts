@@ -5,6 +5,5 @@ export * from "./commonTypes";
 export * from "./derivationPath";
 export * from "./network";
 export * from "./tokens";
-export * from "./transactions";
 export * from "./wallet";
 export * from "./sdk";

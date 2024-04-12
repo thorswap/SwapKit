@@ -3,17 +3,17 @@ import type { DerivationPathArray } from "../types/derivationPath";
 
 // 10 rune for register, 1 rune per year
 // MINIMUM_REGISTRATION_FEE = 11
-export function getTHORNameCost(year: number) {
-  if (year < 0) throw new Error("Invalid number of year");
-  return 10 + year;
+export function getTHORNameCost(numberOfYears: number) {
+  if (numberOfYears < 0) throw new Error("Invalid number of years");
+  return 10 + numberOfYears;
 }
 
 // 10 CACAO for register
 // 1.0512 CACAO per year
-export function getMAYANameCost(year: number) {
-  if (year < 0) throw new Error("Invalid number of year");
+export function getMAYANameCost(numberOfYears: number) {
+  if (numberOfYears < 0) throw new Error("Invalid number of year");
   // round to max 10 decimals
-  return Math.round((10 + year * 1.0512) * 1e10) / 1e10;
+  return Math.round((10 + numberOfYears * 1.0512) * 1e10) / 1e10;
 }
 
 export function derivationPathToString([network, chainId, account, change, index]:

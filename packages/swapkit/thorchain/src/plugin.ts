@@ -4,10 +4,8 @@ import {
   ApproveMode,
   type ApproveReturnType,
   AssetValue,
-  type BaseWallet,
   Chain,
   ChainToChainId,
-  type CoreTxParams,
   type EVMChain,
   type ErrorKeys,
   FeeOption,
@@ -21,32 +19,35 @@ import {
   TCBscDepositABI,
   TCEthereumVaultAbi,
   type ThornameRegisterParam,
-  gasFeeMultiplier,
+  type Wallet,
   getMemoFor,
   getMinAmountByChain,
   wrapWithThrow,
 } from "@swapkit/helpers";
-import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
-import type { EVMWallets } from "@swapkit/toolbox-evm";
-import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
-import type { UTXOWallets } from "@swapkit/toolbox-utxo";
 import {
   type AGG_CONTRACT_ADDRESS,
   lowercasedContractAbiMapping,
 } from "./aggregator/contracts/index.ts";
 import { getSwapInParams } from "./aggregator/getSwapParams.ts";
 
-type Wallet = BaseWallet<
-  EVMWallets & CosmosWallets & ThorchainWallets & UTXOWallets & SubstrateWallets
->;
+type CoreTxParams = {
+  assetValue: AssetValue;
+  recipient: string;
+  memo?: string;
+  feeOptionKey?: FeeOption;
+  feeRate?: number;
+  data?: string;
+  from?: string;
+  expiration?: number;
+};
 
-const validateAddressType = ({
-  chain,
-  address,
-}: {
-  chain: Chain;
-  address?: string;
-}) => {
+const gasFeeMultiplier: Record<FeeOption, number> = {
+  [FeeOption.Average]: 1.2,
+  [FeeOption.Fast]: 1.5,
+  [FeeOption.Fastest]: 2,
+};
+
+const validateAddressType = ({ chain, address }: { chain: Chain; address?: string }) => {
   if (!address) return false;
 
   switch (chain) {
@@ -79,11 +80,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     assetValue,
     type = "checkOnly" as T,
     contractAddress,
-  }: {
-    type: T;
-    assetValue: AssetValue;
-    contractAddress?: string;
-  }) {
+  }: { type: T; assetValue: AssetValue; contractAddress?: string }) {
     const { address, chain, isGasAsset, isSynthetic } = assetValue;
     const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain);
     const isNativeEVM = isEVMChain && isGasAsset;
@@ -117,13 +114,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     });
   }
 
-  async function transfer({
-    memo,
-    assetValue,
-  }: {
-    assetValue: AssetValue;
-    memo: string;
-  }) {
+  async function depositToProtocol({ memo, assetValue }: { assetValue: AssetValue; memo: string }) {
     const mimir = await SwapKitApi.getMimirInfo({ stagenet });
 
     // check if trading is halted or not
@@ -138,11 +129,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     assetValue,
     memo,
     feeOptionKey = FeeOption.Fast,
-  }: {
-    assetValue: AssetValue;
-    memo: string;
-    feeOptionKey?: FeeOption;
-  }) {
+  }: { assetValue: AssetValue; memo: string; feeOptionKey?: FeeOption }) {
     const {
       gas_rate = "0",
       router,
@@ -162,7 +149,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     assetValue,
     ...param
   }: ThornameRegisterParam & { assetValue: AssetValue }) {
-    return transfer({ assetValue, memo: getMemoFor(MemoType.THORNAME_REGISTER, param) });
+    return depositToProtocol({ assetValue, memo: getMemoFor(MemoType.THORNAME_REGISTER, param) });
   }
 
   function nodeAction({
@@ -181,7 +168,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     });
     const assetToTransfer = type === "bond" ? assetValue : getMinAmountByChain(Chain.THORChain);
 
-    return transfer({ memo, assetValue: assetToTransfer });
+    return depositToProtocol({ memo, assetValue: assetToTransfer });
   }
 
   function loan({
@@ -189,12 +176,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     memo,
     minAmount,
     type,
-  }: {
-    assetValue: AssetValue;
-    memo?: string;
-    minAmount: AssetValue;
-    type: "open" | "close";
-  }) {
+  }: { assetValue: AssetValue; memo?: string; minAmount: AssetValue; type: "open" | "close" }) {
     return depositToPool({
       assetValue,
       memo:
@@ -273,12 +255,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     poolAddress,
     address,
     symmetric,
-  }: {
-    assetValue: AssetValue;
-    address?: string;
-    poolAddress: string;
-    symmetric: boolean;
-  }) {
+  }: { assetValue: AssetValue; address?: string; poolAddress: string; symmetric: boolean }) {
     if (symmetric && !address) {
       throw new SwapKitError("core_transaction_add_liquidity_invalid_params");
     }
@@ -348,10 +325,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
   async function createLiquidity({
     runeAssetValue,
     assetValue,
-  }: {
-    runeAssetValue: AssetValue;
-    assetValue: AssetValue;
-  }) {
+  }: { runeAssetValue: AssetValue; assetValue: AssetValue }) {
     if (runeAssetValue.lte(0) || assetValue.lte(0)) {
       throw new SwapKitError("core_transaction_create_liquidity_invalid_params");
     }
@@ -359,14 +333,14 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     const assetAddress = getAddress(wallets, assetValue.chain);
     const runeAddress = getAddress(wallets, Chain.THORChain);
 
-    const runeTx = wrapWithThrow(() => {
+    const runeTx = await wrapWithThrow(() => {
       return depositToPool({
         assetValue: runeAssetValue,
         memo: getMemoFor(MemoType.DEPOSIT, { ...assetValue, address: assetAddress }),
       });
     }, "core_transaction_create_liquidity_rune_error");
 
-    const assetTx = wrapWithThrow(() => {
+    const assetTx = await wrapWithThrow(() => {
       return depositToPool({
         assetValue,
         memo: getMemoFor(MemoType.DEPOSIT, { ...assetValue, address: runeAddress }),
@@ -376,7 +350,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     return { runeTx, assetTx };
   }
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor
   async function swap(swapParams: SwapParams<"thorchain"> | SwapWithRouteParams) {
     if (!("route" in swapParams)) throw new SwapKitError("core_swap_invalid_params");
 
@@ -615,7 +589,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     }
   }
 
-  async function getInboundDataByChain(chain: Chain) {
+  async function getInboundDataByChain<T extends Chain>(chain: T) {
     switch (chain) {
       case Chain.Maya:
       case Chain.THORChain:
@@ -642,19 +616,19 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
   }
 
   return {
-    swap,
     addLiquidity,
+    addLiquidityPart,
+    approveAssetValue,
+    createLiquidity,
     deposit,
     getInboundDataByChain,
-    loan,
-    withdraw,
-    savings,
-    registerThorname,
-    createLiquidity,
-    addLiquidityPart,
-    nodeAction,
-    approveAssetValue,
     isAssetValueApproved,
+    loan,
+    nodeAction,
+    registerThorname,
+    savings,
+    swap,
+    withdraw,
   };
 };
 
