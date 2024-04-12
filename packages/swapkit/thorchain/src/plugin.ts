@@ -30,7 +30,7 @@ import {
 } from "./aggregator/contracts/index.ts";
 import { getSwapInParams } from "./aggregator/getSwapParams.ts";
 
-type CoreTxParams = {
+export type CoreTxParams = {
   assetValue: AssetValue;
   recipient: string;
   memo?: string;
