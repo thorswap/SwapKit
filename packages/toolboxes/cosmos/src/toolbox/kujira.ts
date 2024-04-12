@@ -9,7 +9,12 @@ import {
 } from "@swapkit/helpers";
 
 import { CosmosClient } from "../cosmosClient.ts";
-import { type KujiraToolboxType, type ToolboxParams, USK_KUJIRA_FACTORY_DENOM } from "../index.ts";
+import {
+  type KujiraToolboxType,
+  type ToolboxParams,
+  USK_KUJIRA_FACTORY_DENOM,
+  YUM_KUJIRA_FACTORY_DENOM,
+} from "../index.ts";
 import type { TransferParams } from "../types.ts";
 
 import {
@@ -17,6 +22,16 @@ import {
   getAssetFromDenom,
   getFeeRateFromThorswap,
 } from "./BaseCosmosToolbox.ts";
+
+async function getFees() {
+  const baseFee = (await getFeeRateFromThorswap(ChainId.Kujira)) || 5000;
+  return {
+    type: "base",
+    average: new SwapKitNumber({ value: baseFee, decimal: BaseDecimal.KUJI }),
+    fast: new SwapKitNumber({ value: baseFee * 1.5, decimal: BaseDecimal.KUJI }),
+    fastest: new SwapKitNumber({ value: baseFee * 2, decimal: BaseDecimal.KUJI }),
+  };
+}
 
 export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType => {
   const client = new CosmosClient({
@@ -43,15 +58,7 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
 
   return {
     ...baseToolbox,
-    getFees: async () => {
-      const baseFee = (await getFeeRateFromThorswap(ChainId.Kujira)) || 5000;
-      return {
-        type: "base",
-        average: new SwapKitNumber({ value: baseFee, decimal: BaseDecimal.KUJI }),
-        fast: new SwapKitNumber({ value: baseFee * 1.5, decimal: BaseDecimal.KUJI }),
-        fastest: new SwapKitNumber({ value: baseFee * 2, decimal: BaseDecimal.KUJI }),
-      };
-    },
+    getFees,
     getBalance: async (address: string, _potentialScamFilter?: boolean) => {
       const denomBalances = await client.getBalance(address);
       return await Promise.all(
@@ -59,10 +66,29 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
           .filter(({ denom }) => {
             if (!denom || denom.includes("IBC/")) return false;
 
-            return denom === USK_KUJIRA_FACTORY_DENOM || !denom.startsWith("FACTORY");
+            return (
+              [USK_KUJIRA_FACTORY_DENOM, YUM_KUJIRA_FACTORY_DENOM].includes(denom) ||
+              !denom.startsWith("FACTORY")
+            );
           })
           .map(({ denom, amount }) => getAssetFromDenom(denom, amount)),
       );
+    },
+    transfer: async (params: TransferParams) => {
+      const gasFees = await getFees();
+
+      return baseToolbox.transfer({
+        ...params,
+        fee: params.fee || {
+          amount: [
+            {
+              denom: "ukuji",
+              amount: gasFees[params.feeOptionKey || "fast"].getBaseValue("string") || "1000",
+            },
+          ],
+          gas: "200000",
+        },
+      });
     },
   };
 };

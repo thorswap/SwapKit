@@ -15,6 +15,12 @@ function parseIdentifier(identifier: string) {
 
 const providers = await SwapKitApi.getTokenListProviders();
 
+console.info(
+  `🚀 Fetching token lists from ${providers.length} providers:\n${providers
+    .map(({ provider }) => provider)
+    .join("\n-")}`,
+);
+
 for (const { provider } of providers) {
   if (provider.includes("whitelist")) continue;
 
