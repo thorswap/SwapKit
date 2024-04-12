@@ -1,11 +1,51 @@
 import type { Chain, FeeOption, LedgerErrorCode, QuoteMode } from "@swapkit/helpers";
 
+export type FeeType = "AFFILIATE" | "LIQUIDITY" | "INBOUND" | "OUTBOUND" | "NETWORK";
+
+export type EvmTransactionDetails = {
+  contractAddress: string;
+  contractMethod: string;
+  contractParamNames: string[];
+  contractParams: (string | { from: string })[];
+};
+
+export type QuoteFee = {
+  amount: string;
+  asset: string;
+  chain: Chain;
+  protocol: string;
+  type: FeeType;
+};
+
+export type QuoteLegsV2 = {
+  buyAmount: string;
+  buyAmountUSD: string;
+  buyAsset: string;
+  destinationAddress: string;
+  expiration: string;
+  fees: Todo[];
+  memo: string;
+  provider: string;
+  sellAmount: string;
+  sellAmountUSD: string;
+  sellAsset: string;
+  sourceAddress: string;
+};
+
 export type QuoteRouteV2 = {
   buyAsset: string;
-  sellAsset: string;
-  sellAmount: number;
   destinationAddress: string;
+  evmTransactionDetails?: EvmTransactionDetails;
+  expectedBuyAmount: string;
+  expectedBuyAmountUSD: string;
+  expiration: string;
+  legs: QuoteLegsV2[];
+  memo: string;
+  sellAmount: number;
+  sellAmountUSD: string;
+  sellAsset: string;
   sourceAddress: string;
+  targetAddress?: string;
   providers: string[];
 };
 
