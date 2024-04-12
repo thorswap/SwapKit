@@ -7,6 +7,7 @@ export type Token = {
   logoURL?: string;
   ticker: string;
   tokenlist: string;
+  shortCode?: string;
 };
 
 export type TokensResponse = {

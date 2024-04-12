@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-import { BaseDecimal, Chain, ChainId } from "../../types/chains.ts";
+import { BaseDecimal, Chain } from "../../types/chains.ts";
 import { AssetValue, getMinAmountByChain } from "../assetValue.ts";
 
 describe("AssetValue", () => {
@@ -269,6 +269,19 @@ describe("AssetValue", () => {
           ticker: "USDC",
         }),
       );
+
+      const btcShort = AssetValue.fromStringSync("b");
+      expect(btcShort).toBeDefined();
+      expect(btcShort).toEqual(
+        expect.objectContaining({
+          chain: Chain.Bitcoin,
+          decimal: 8,
+          isGasAsset: true,
+          isSynthetic: false,
+          symbol: "BTC.BTC",
+          ticker: "BTC",
+        }),
+      );
     });
 
     test("returns safe decimals if string is not in `@swapkit/tokens` lists", async () => {
@@ -476,116 +489,6 @@ describe("AssetValue", () => {
           isSynthetic: false,
           symbol: "vTHOR-0x815c23eca83261b6ec689b60cc4a58b54bc24d8d",
           ticker: "vTHOR",
-        }),
-      );
-    });
-  });
-
-  describe("fromShortcodeAndProvider", () => {
-    test("creates AssetValue from maya short identifier via `@swapkit/tokens` lists", async () => {
-      await AssetValue.loadStaticAssets();
-
-      const shortMayaUSDT = "eTH.UsDT";
-      const ethUSDT = await AssetValue.fromShortcodeAndProvider(shortMayaUSDT, "MAYACHAIN");
-
-      expect(ethUSDT).toBeDefined();
-      expect(ethUSDT).toEqual(
-        expect.objectContaining({
-          address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
-          chain: Chain.Ethereum,
-          decimal: 6,
-          isGasAsset: false,
-          isSynthetic: false,
-          symbol: "USDT-0xdac17f958d2ee523a2206206994597c13d831ec7",
-          ticker: "USDT",
-        }),
-      );
-    });
-
-    test("creates AssetValue from thorchain short identifier via `@swapkit/tokens` lists", async () => {
-      await AssetValue.loadStaticAssets();
-
-      const shortBitcoinCash = "C";
-      const bitcoinCash = await AssetValue.fromShortcodeAndProvider(shortBitcoinCash, "THORCHAIN");
-
-      expect(bitcoinCash).toBeDefined();
-      expect(bitcoinCash).toEqual(
-        expect.objectContaining({
-          chainId: ChainId.BitcoinCash,
-          decimal: 8,
-          isGasAsset: true,
-          decimalMultiplier: 100000000n,
-          isSynthetic: false,
-          tax: undefined,
-          symbol: "BCH",
-          ticker: "BCH",
-        }),
-      );
-    });
-
-    test("creates AssetValue from thorchain full identifier via `@swapkit/tokens` lists", async () => {
-      await AssetValue.loadStaticAssets();
-
-      const avaxUSDCFullIdentifier = "AVAX.USDC-0XB97EF9EF8734C71904D8002F8B6BC66DD9C48A6E";
-      const avaxUSDC = await AssetValue.fromShortcodeAndProvider(
-        avaxUSDCFullIdentifier,
-        "THORCHAIN",
-      );
-
-      expect(avaxUSDC).toBeDefined();
-      expect(avaxUSDC).toEqual(
-        expect.objectContaining({
-          address: "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
-          chain: Chain.Avalanche,
-          decimal: 6,
-          isGasAsset: false,
-          isSynthetic: false,
-          symbol: "USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
-          ticker: "USDC",
-        }),
-      );
-    });
-
-    test("creates AssetValue from thorchain coin partial identifier via `@swapkit/tokens` lists", async () => {
-      await AssetValue.loadStaticAssets();
-
-      const btcPartialIdentifier = "BTC";
-      const btc = await AssetValue.fromShortcodeAndProvider(btcPartialIdentifier, "THORCHAIN");
-
-      expect(btc).toBeDefined();
-      expect(btc).toEqual(
-        expect.objectContaining({
-          chainId: ChainId.Bitcoin,
-          decimal: 8,
-          isGasAsset: true,
-          decimalMultiplier: 100000000n,
-          isSynthetic: false,
-          tax: undefined,
-          symbol: "BTC",
-          ticker: "BTC",
-        }),
-      );
-    });
-
-    test("creates AssetValue from thorchain token partial identifier via `@swapkit/tokens` lists", async () => {
-      await AssetValue.loadStaticAssets();
-
-      const ethThorPartialIdentifier = "ETH.THOR";
-      const ethThor = await AssetValue.fromShortcodeAndProvider(
-        ethThorPartialIdentifier,
-        "THORCHAIN",
-      );
-
-      expect(ethThor).toBeDefined();
-      expect(ethThor).toEqual(
-        expect.objectContaining({
-          address: "0xa5f2211b9b8170f694421f2046281775e8468044",
-          chain: Chain.Ethereum,
-          decimal: 18,
-          isGasAsset: false,
-          isSynthetic: false,
-          symbol: "THOR-0xa5f2211b9b8170f694421f2046281775e8468044",
-          ticker: "THOR",
         }),
       );
     });

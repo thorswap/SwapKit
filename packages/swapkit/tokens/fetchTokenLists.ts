@@ -26,7 +26,7 @@ for (const { provider } of providers) {
 
   try {
     const tokenList = await RequestClient.get<TokensResponse>(
-      `https://static.thorswap.net/token-list/${provider}.json`,
+      `https://dev-api.swapkit.dev/tokens?provider=${provider.toUpperCase()}`,
     );
 
     if (!tokenList) continue;
@@ -34,12 +34,13 @@ for (const { provider } of providers) {
     console.info(`✅ ${provider} token list fetched (${tokenList.tokens.length} tokens)`);
 
     const tokens = tokenList?.tokens
-      ?.map(({ address, chain, identifier, decimals, logoURL }) => ({
+      ?.map(({ address, chain, identifier, decimals, logoURL, shortCode }) => ({
         address,
         chain: parseChain(chain),
         identifier: parseIdentifier(identifier),
         decimals,
         logoURL,
+        shortCode,
       }))
       .sort((a, b) => a.identifier.localeCompare(b.identifier));
 

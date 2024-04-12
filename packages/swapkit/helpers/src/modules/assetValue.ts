@@ -4,7 +4,6 @@ import { validateIdentifier } from "../helpers/validators.ts";
 import { BaseDecimal, Chain, type ChainId, ChainToChainId } from "../types/chains.ts";
 import type { TokenNames, TokenTax } from "../types/tokens.ts";
 
-import type { AssetInfo, AssetInfo as ShortIdentifierInfo } from "@swapkit/tokens";
 import type { NumberPrimitives } from "./bigIntArithmetics.ts";
 import { BigIntArithmetics, formatBigIntToSafeValue } from "./bigIntArithmetics.ts";
 import { SwapKitNumber, type SwapKitValueType } from "./swapKitNumber.ts";
@@ -13,10 +12,6 @@ const staticTokensMap = new Map<
   TokenNames,
   { tax?: TokenTax; decimal: number; identifier: string }
 >();
-
-const shortIdentifiersLists = {} as {
-  [listName: string]: readonly ShortIdentifierInfo[];
-};
 
 export class AssetValue extends BigIntArithmetics {
   address?: string;
@@ -176,62 +171,6 @@ export class AssetValue extends BigIntArithmetics {
     return new AssetValue({ tax, decimal, identifier, value: safeValue(value, decimal) });
   }
 
-  static async fromShortcodeAndProvider(
-    shortIdentifier: string,
-    provider: string,
-    value: NumberPrimitives = 0,
-  ) {
-    const shortIdentifiersList = shortIdentifiersLists[provider?.toUpperCase()];
-    if (!shortIdentifiersList) throw new Error("Short identifiers list not loaded");
-    let foundAssetInfo: AssetInfo | undefined;
-
-    // search short codes
-    if (shortIdentifier.length === 1) {
-      foundAssetInfo = shortIdentifiersList.find((assetInfo) => {
-        return assetInfo.shortCode?.toLowerCase() === shortIdentifier?.toLowerCase();
-      });
-
-      if (foundAssetInfo) return await AssetValue.fromString(foundAssetInfo.asset, value);
-    }
-
-    // search short identifiers
-    foundAssetInfo = shortIdentifiersList.find((assetInfo) => {
-      return shortIdentifier.toLowerCase().startsWith(assetInfo.shortIdentifier.toLowerCase());
-    });
-
-    if (foundAssetInfo) return await AssetValue.fromString(foundAssetInfo.asset, value);
-
-    throw new Error("Short identifier not found");
-  }
-
-  static fromShortcodeAndProviderSync(
-    shortIdentifier: string,
-    provider: string,
-    value: NumberPrimitives = 0,
-  ) {
-    const shortIdentifiersList = shortIdentifiersLists[provider?.toUpperCase()];
-    if (!shortIdentifiersList) throw new Error("Short identifiers list not loaded");
-    let foundAssetInfo: AssetInfo | undefined;
-
-    // search short codes
-    if (shortIdentifier.length === 1) {
-      foundAssetInfo = shortIdentifiersList.find((assetInfo) => {
-        return assetInfo.shortCode?.toLowerCase() === shortIdentifier?.toLowerCase();
-      });
-
-      if (foundAssetInfo) return AssetValue.fromStringSync(foundAssetInfo.asset, value);
-    }
-
-    // search short identifiers
-    foundAssetInfo = shortIdentifiersList.find((assetInfo) => {
-      return shortIdentifier.toLowerCase().startsWith(assetInfo.shortIdentifier.toLowerCase());
-    });
-
-    if (foundAssetInfo) return AssetValue.fromStringSync(foundAssetInfo.asset, value);
-
-    throw new Error("Short identifier not found");
-  }
-
   static fromChainOrSignature(assetString: CommonAssetString, value: NumberPrimitives = 0) {
     const { decimal, identifier } = getCommonAssetInfo(assetString);
     return new AssetValue({ value: safeValue(value, decimal), decimal, identifier });
@@ -248,26 +187,14 @@ export class AssetValue extends BigIntArithmetics {
                   identifier,
                   decimal: "decimals" in rest ? rest.decimals : BaseDecimal[chain as Chain],
                 });
+                if ("shortCode" in rest) {
+                  staticTokensMap.set(rest.shortCode as TokenNames, {
+                    identifier,
+                    decimal: "decimals" in rest ? rest.decimals : BaseDecimal[chain as Chain],
+                  });
+                }
               }
             }
-
-            import("@swapkit/tokens/src/shortIdentifiers")
-              .then((_shortIdentifiersLists) => {
-                for (const [listName, list] of Object.entries(_shortIdentifiersLists)) {
-                  shortIdentifiersLists[`${listName}`] = list;
-                }
-
-                resolve({ ok: true });
-              })
-              .catch((error) => {
-                console.error(error);
-                reject({
-                  ok: false,
-                  error,
-                  message:
-                    "Couldn't load static assets. Ensure you have installed @swapkit/tokens package",
-                });
-              });
 
             resolve({ ok: true });
           });
