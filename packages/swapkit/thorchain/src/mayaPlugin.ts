@@ -21,7 +21,7 @@ import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
 import type { EVMWallets } from "@swapkit/toolbox-evm";
 import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
 import type { UTXOWallets } from "@swapkit/toolbox-utxo";
-import { CoreTxParams } from "./plugin";
+import type { CoreTxParams } from "./plugin";
 
 type Wallet = BaseWallet<
   EVMWallets & CosmosWallets & ThorchainWallets & UTXOWallets & SubstrateWallets
