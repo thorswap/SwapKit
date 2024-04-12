@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.109
+
+### Patch Changes
+
+- [#729](https://github.com/thorswap/SwapKit/pull/729) [`9367426`](https://github.com/thorswap/SwapKit/commit/9367426c905dec0927bdc2cffb51bbca7274a98c) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Update Kujira fees
+
 ## 1.0.0-rc.108
 
 ### Patch Changes
