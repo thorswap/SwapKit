@@ -1,5 +1,11 @@
 # @swapkit/api
 
+## 1.0.0-rc.56
+
+### Patch Changes
+
+- [#726](https://github.com/thorswap/SwapKit/pull/726) [`a80a56f`](https://github.com/thorswap/SwapKit/commit/a80a56fe9cf48e38bc3f5ceece5b975ed48f54f3) Thanks [@towanTG](https://github.com/towanTG)! - Adds mayachain plugin
+
 ## 1.0.0-rc.55
 
 ### Patch Changes
