@@ -1,5 +1,12 @@
 # @swapkit/wallet-keystore
 
+## 1.0.0-rc.122
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.108
+
 ## 1.0.0-rc.121
 
 ### Patch Changes
