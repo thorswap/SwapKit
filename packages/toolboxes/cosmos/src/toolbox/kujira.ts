@@ -18,6 +18,16 @@ import {
   getFeeRateFromThorswap,
 } from "./BaseCosmosToolbox.ts";
 
+async function getFees() {
+  const baseFee = (await getFeeRateFromThorswap(ChainId.Kujira)) || 5000;
+  return {
+    type: "base",
+    average: new SwapKitNumber({ value: baseFee, decimal: BaseDecimal.KUJI }),
+    fast: new SwapKitNumber({ value: baseFee * 1.5, decimal: BaseDecimal.KUJI }),
+    fastest: new SwapKitNumber({ value: baseFee * 2, decimal: BaseDecimal.KUJI }),
+  };
+}
+
 export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType => {
   const client = new CosmosClient({
     server: server || "https://lcd-kujira.synergynodes.com/",
@@ -43,15 +53,7 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
 
   return {
     ...baseToolbox,
-    getFees: async () => {
-      const baseFee = (await getFeeRateFromThorswap(ChainId.Kujira)) || 5000;
-      return {
-        type: "base",
-        average: new SwapKitNumber({ value: baseFee, decimal: BaseDecimal.KUJI }),
-        fast: new SwapKitNumber({ value: baseFee * 1.5, decimal: BaseDecimal.KUJI }),
-        fastest: new SwapKitNumber({ value: baseFee * 2, decimal: BaseDecimal.KUJI }),
-      };
-    },
+    getFees,
     getBalance: async (address: string, _potentialScamFilter?: boolean) => {
       const denomBalances = await client.getBalance(address);
       return await Promise.all(
@@ -63,6 +65,22 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
           })
           .map(({ denom, amount }) => getAssetFromDenom(denom, amount)),
       );
+    },
+    transfer: async (params: TransferParams) => {
+      const gasFees = await getFees();
+
+      return baseToolbox.transfer({
+        ...params,
+        fee: params.fee || {
+          amount: [
+            {
+              denom: "ukuji",
+              amount: gasFees[params.feeOptionKey || "fast"].getBaseValue("string") || "1000",
+            },
+          ],
+          gas: "200000",
+        },
+      });
     },
   };
 };
