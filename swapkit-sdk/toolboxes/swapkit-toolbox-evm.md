@@ -1,3 +1,17 @@
+---
+layout:
+  title:
+    visible: true
+  description:
+    visible: false
+  tableOfContents:
+    visible: true
+  outline:
+    visible: true
+  pagination:
+    visible: true
+---
+
 # @swapkit/toolbox-evm
 
 ### **Installation**
@@ -6,4 +20,10 @@
 <pnpm|bun> add @swapkit/toolbox-evm
 ```
 
-### Usage
+## Usage
+
+```typescript
+import { ETHToolbox } from '@swapkit/toolbox-cosmos'
+
+const ETHToolbox = ETHToolbox({ stagenet: false })
+```
