@@ -1,4 +1,4 @@
-import type { Chain, FeeOption, LedgerErrorCode, QuoteMode } from "@swapkit/helpers";
+import type { Chain, LedgerErrorCode, QuoteMode } from "@swapkit/helpers";
 
 export type FeeType = "AFFILIATE" | "LIQUIDITY" | "INBOUND" | "OUTBOUND" | "NETWORK";
 
@@ -47,14 +47,6 @@ export type QuoteRouteV2 = {
   sourceAddress: string;
   targetAddress?: string;
   providers: string[];
-};
-
-export type SwapWithRouteParams = {
-  recipient: string;
-  route: QuoteRoute | QuoteRouteV2;
-  feeOptionKey?: FeeOption;
-  quoteId?: string;
-  streamSwap?: boolean;
 };
 
 export type QuoteResponse = { quoteId: string; routes: QuoteRoute[] };

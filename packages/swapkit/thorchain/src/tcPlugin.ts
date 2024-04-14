@@ -1,4 +1,4 @@
-import { type QuoteRoute, SwapKitApi, type SwapWithRouteParams } from "@swapkit/api";
+import { type QuoteRoute, SwapKitApi } from "@swapkit/api";
 import {
   AGG_SWAP,
   ApproveMode,
@@ -29,49 +29,28 @@ import {
   lowercasedContractAbiMapping,
 } from "./aggregator/contracts/index.ts";
 import { getSwapInParams } from "./aggregator/getSwapParams.ts";
-
-export type CoreTxParams = {
-  assetValue: AssetValue;
-  recipient: string;
-  memo?: string;
-  feeOptionKey?: FeeOption;
-  feeRate?: number;
-  data?: string;
-  from?: string;
-  expiration?: number;
-};
-
-const gasFeeMultiplier: Record<FeeOption, number> = {
-  [FeeOption.Average]: 1.2,
-  [FeeOption.Fast]: 1.5,
-  [FeeOption.Fastest]: 2,
-};
-
-const validateAddressType = ({ chain, address }: { chain: Chain; address?: string }) => {
-  if (!address) return false;
-
-  switch (chain) {
-    case Chain.Bitcoin:
-      // filter out taproot addresses
-      return !address.startsWith("bc1p");
-    default:
-      return true;
-  }
-};
-
-const getAddress = (wallet: Wallet, chain: Chain) => wallet[chain]?.address || "";
-
-const prepareTxParams = (
-  wallets: Wallet,
-  { assetValue, ...restTxParams }: CoreTxParams & { router?: string },
-) => ({
-  ...restTxParams,
-  memo: restTxParams.memo || "",
-  from: getAddress(wallets, assetValue.chain),
-  assetValue,
-});
+import {
+  gasFeeMultiplier,
+  getAddress,
+  getInboundDataFunction,
+  getWallet,
+  prepareTxParams,
+  validateAddressType,
+} from "./shared.ts";
+import type {
+  AddLiquidityParams,
+  AddLiquidityPartParams,
+  ApproveParams,
+  CoreTxParams,
+  LoanParams,
+  NodeActionParams,
+  SavingsParams,
+  SwapWithRouteParams,
+  WithdrawParams,
+} from "./types";
 
 const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boolean }) => {
+  const getInboundDataByChain = getInboundDataFunction({ stagenet, type: "thorchain" });
   /**
    * @Private
    * Wallet interaction helpers
@@ -82,15 +61,14 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     contractAddress,
   }: { type: T; assetValue: AssetValue; contractAddress?: string }) {
     const { address, chain, isGasAsset, isSynthetic } = assetValue;
-    const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain);
+    const isEVMChain = [Chain.Ethereum, Chain.Arbitrum].includes(chain);
     const isNativeEVM = isEVMChain && isGasAsset;
 
     if (isNativeEVM || !isEVMChain || isSynthetic) {
       return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
     }
 
-    const walletMethods =
-      wallets[chain as Chain.Ethereum | Chain.BinanceSmartChain | Chain.Avalanche];
+    const walletMethods = wallets[chain as Chain.Ethereum | Chain.Arbitrum];
 
     const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
     if (!walletAction) {
@@ -152,14 +130,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     return depositToProtocol({ assetValue, memo: getMemoFor(MemoType.THORNAME_REGISTER, param) });
   }
 
-  function nodeAction({
-    type,
-    assetValue,
-    address,
-  }: { address: string } & (
-    | { type: "bond" | "unbond"; assetValue: AssetValue }
-    | { type: "leave"; assetValue?: undefined }
-  )) {
+  function nodeAction({ type, assetValue, address }: NodeActionParams) {
     const memoType =
       type === "bond" ? MemoType.BOND : type === "unbond" ? MemoType.UNBOND : MemoType.LEAVE;
     const memo = getMemoFor(memoType, {
@@ -171,12 +142,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     return depositToProtocol({ memo, assetValue: assetToTransfer });
   }
 
-  function loan({
-    assetValue,
-    memo,
-    minAmount,
-    type,
-  }: { assetValue: AssetValue; memo?: string; minAmount: AssetValue; type: "open" | "close" }) {
+  function loan({ assetValue, memo, minAmount, type }: LoanParams) {
     return depositToPool({
       assetValue,
       memo:
@@ -189,15 +155,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     });
   }
 
-  function savings({
-    assetValue,
-    memo,
-    percent,
-    type,
-  }: { assetValue: AssetValue; memo?: string } & (
-    | { type: "add"; percent?: undefined }
-    | { type: "withdraw"; percent: number }
-  )) {
+  function savings({ assetValue, memo, percent, type }: SavingsParams) {
     const memoType = type === "add" ? MemoType.DEPOSIT : MemoType.WITHDRAW;
     const memoString =
       memo ||
@@ -215,19 +173,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     return depositToPool({ memo: memoString, assetValue: value });
   }
 
-  function withdraw({
-    memo,
-    assetValue,
-    percent,
-    from,
-    to,
-  }: {
-    memo?: string;
-    assetValue: AssetValue;
-    percent: number;
-    from: "sym" | "rune" | "asset";
-    to: "sym" | "rune" | "asset";
-  }) {
+  function withdraw({ memo, assetValue, percent, from, to }: WithdrawParams) {
     const targetAsset =
       to === "rune" && from !== "rune"
         ? AssetValue.fromChainOrSignature(Chain.THORChain)
@@ -255,7 +201,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     poolAddress,
     address,
     symmetric,
-  }: { assetValue: AssetValue; address?: string; poolAddress: string; symmetric: boolean }) {
+  }: AddLiquidityPartParams) {
     if (symmetric && !address) {
       throw new SwapKitError("core_transaction_add_liquidity_invalid_params");
     }
@@ -276,14 +222,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     assetAddr,
     isPendingSymmAsset,
     mode = "sym",
-  }: {
-    runeAssetValue: AssetValue;
-    assetValue: AssetValue;
-    isPendingSymmAsset?: boolean;
-    runeAddr?: string;
-    assetAddr?: string;
-    mode?: "sym" | "rune" | "asset";
-  }) {
+  }: AddLiquidityParams) {
     const { chain, symbol } = assetValue;
     const isSym = mode === "sym";
     const runeTransfer = runeAssetValue?.gt(0) && (isSym || mode === "rune");
@@ -503,7 +442,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
   }: CoreTxParams & { router?: string }) {
     const { chain, symbol, ticker } = assetValue;
 
-    const walletInstance = wallets[chain];
+    const walletInstance = getWallet(wallets, chain);
     if (!walletInstance) {
       throw new SwapKitError("core_wallet_connection_not_found");
     }
@@ -589,30 +528,12 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     }
   }
 
-  async function getInboundDataByChain<T extends Chain>(chain: T) {
-    switch (chain) {
-      case Chain.Maya:
-      case Chain.THORChain:
-        return { gas_rate: "0", router: "", address: "", halted: false, chain };
-
-      default: {
-        const inboundData = await SwapKitApi.getInboundAddresses({ stagenet });
-        const chainAddressData = inboundData.find((item) => item.chain === chain);
-
-        if (!chainAddressData) throw new SwapKitError("core_inbound_data_not_found");
-        if (chainAddressData?.halted) throw new SwapKitError("core_chain_halted");
-
-        return chainAddressData;
-      }
-    }
+  function approveAssetValue(params: ApproveParams) {
+    return approve({ ...params, type: ApproveMode.Approve });
   }
 
-  function approveAssetValue(assetValue: AssetValue, contractAddress?: string) {
-    return approve({ assetValue, contractAddress, type: ApproveMode.Approve });
-  }
-
-  function isAssetValueApproved(assetValue: AssetValue, contractAddress?: string) {
-    return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
+  function isAssetValueApproved(params: ApproveParams) {
+    return approve({ ...params, type: ApproveMode.CheckOnly });
   }
 
   return {

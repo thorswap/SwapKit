@@ -14,15 +14,11 @@
     "@types/react": "18.2.74",
     "@types/react-dom": "18.2.24",
     "lefthook": "1.6.8",
-    "lint-staged": "15.2.2",
     "npm-check-updates": "16.14.18",
     "react": "18.2.0",
     "size-limit": "11.1.2",
     "turbo": "1.13.2",
     "typescript": "5.4.4"
-  },
-  "lint-staged": {
-    "*": ["bun biome check --apply --no-errors-on-unmatched --files-ignore-unknown=true"]
   },
   "name": "swapkit-monorepo",
   "packageManager": "^bun@1.1.1",
