@@ -133,6 +133,7 @@ const getToolbox = async ({
     }
     case Chain.BitcoinCash: {
       const { BCHToolbox } = await import("@swapkit/toolbox-utxo");
+
       const toolbox = BCHToolbox(utxoParams);
       const transfer = async (params: UTXOBuildTxParams) => {
         const feeRate = (await toolbox.getFeeRates())[FeeOption.Average];

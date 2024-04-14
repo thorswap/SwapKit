@@ -1,10 +1,14 @@
 import type BitcoinApp from "@ledgerhq/hw-app-btc";
 import type { CreateTransactionArg } from "@ledgerhq/hw-app-btc/lib-es/createTransaction";
-import { type DerivationPathArray, SwapKitError, derivationPathToString } from "@swapkit/helpers";
+import {
+  type DerivationPathArray,
+  SwapKitError,
+  derivationPathToString,
+  getWalletFormatFor,
+} from "@swapkit/helpers";
 import type { Psbt, UTXOType } from "@swapkit/toolbox-utxo";
 import { Transaction, toCashAddress } from "@swapkit/toolbox-utxo";
 
-import { getWalletFormatFor } from "../helpers/derivationPath.ts";
 import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
 
 type Params = {

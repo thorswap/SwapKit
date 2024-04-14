@@ -4,7 +4,7 @@ import {
   type EVMChain,
   EVMChains,
   NetworkDerivationPath,
-} from "@swapkit/helpers";
+} from "../types";
 
 type Params = {
   index: number;
@@ -17,7 +17,7 @@ const updatedLastIndex = (path: DerivationPathArray, index: number) => [
   index,
 ];
 
-export const getDerivationPathFor = ({ chain, index, type }: Params) => {
+export function getDerivationPathFor({ chain, index, type }: Params) {
   if (EVMChains.includes(chain as EVMChain)) {
     if (type === "legacy") return [44, 60, 0, index];
     if (type === "ledgerLive") return [44, 60, index, 0, 0];
@@ -34,9 +34,9 @@ export const getDerivationPathFor = ({ chain, index, type }: Params) => {
   }
 
   return updatedLastIndex(NetworkDerivationPath[chain], index);
-};
+}
 
-export const getWalletFormatFor = (path: string) => {
+export function getWalletFormatFor(path: string) {
   const [_, purpose, chainId] = path.split("/").map((p) => Number.parseInt(p, 10));
 
   if (chainId === 145) "cashaddr";
@@ -49,4 +49,4 @@ export const getWalletFormatFor = (path: string) => {
     default:
       return "bech32";
   }
-};
+}

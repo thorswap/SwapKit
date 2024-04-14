@@ -1,7 +1,8 @@
-import type { QuoteRoute, AssetValue, SwapKitClient } from "@swapkit/core";
+import type { AssetValue, QuoteRoute } from "@swapkit/core";
 import { FeeOption } from "@swapkit/helpers";
 import { useCallback } from "react";
 
+import type { SwapKitClient } from "../swapKitClient";
 import { SwapInputs } from "./SwapInputs";
 
 export default function Swap({
@@ -11,7 +12,7 @@ export default function Swap({
 }: {
   inputAsset?: AssetValue;
   outputAsset?: AssetValue;
-  skClient?: SwapKitClient<{}, {}>;
+  skClient?: SwapKitClient;
 }) {
   const handleSwap = useCallback(
     async (route: QuoteRoute) => {
@@ -19,13 +20,9 @@ export default function Swap({
       const outputChain = outputAsset?.chain;
       if (!(outputChain && inputChain && skClient)) return;
 
-      const address = skClient.getAddress(outputChain);
-
-      const txHash = await skClient.swap({
-        route,
-        recipient: address,
-        feeOptionKey: FeeOption.Fast,
-      });
+      const recipient = skClient.getAddress(outputChain);
+      // @ts-expect-error
+      const txHash = await skClient.swap({ route, recipient, feeOptionKey: FeeOption.Fast });
 
       window.open(skClient.getExplorerTxUrl({ chain: inputChain, txHash }), "_blank");
     },

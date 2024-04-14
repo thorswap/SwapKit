@@ -18,14 +18,14 @@ export type CosmosSDKClientParams = {
 };
 
 export type TransferParams = {
-  privkey?: Uint8Array;
-  signer?: OfflineDirectSigner;
-  from: string;
-  recipient: string;
   assetValue: AssetValue;
-  memo?: string;
   fee?: StdFee;
   feeOptionKey?: FeeOption;
+  from: string;
+  memo?: string;
+  privkey?: Uint8Array;
+  recipient: string;
+  signer?: OfflineDirectSigner;
 };
 
 export type ToolboxParams = {

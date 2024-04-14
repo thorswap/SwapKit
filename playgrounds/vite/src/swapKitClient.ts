@@ -30,9 +30,9 @@ const plugins = {
   chainflip: { ...ChainflipPlugin.chainflip, config: { brokerEndpoint: "" } },
 } as const;
 
-type Client = ReturnType<typeof SwapKit<typeof plugins, typeof wallets>>;
+export type SwapKitClient = ReturnType<typeof SwapKit<typeof plugins, typeof wallets>>;
 
-const clientCache = new Map<string, Client>();
+const clientCache = new Map<string, SwapKitClient>();
 
 export const getSwapKitClient = (
   params: {
