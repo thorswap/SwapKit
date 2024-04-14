@@ -29,8 +29,6 @@ const gaiaToolbox = GaiaToolbox()
 const kujiToolbox = KujiraToolbox()
 ```
 
-##
-
 ## THORChain based
 
 _Implements all methods from_ [#cosmos-based](swapkit-toolbox-cosmos.md#cosmos-based "mention") _toolboxes with addition to thorchain-specific features_
@@ -41,10 +39,6 @@ import { ThorchainToolbox, MayaToolbox } from '@swapkit/toolbox-cosmos'
 const thorchainToolbox = ThorchainToolbox({ stagenet: false })
 const mayaToolbox = MayaToolbox({ stagenet: false })
 ```
-
-###
-
-
 
 ## Types
 

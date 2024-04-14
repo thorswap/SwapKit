@@ -20,10 +20,18 @@ layout:
 <pnpm|bun> add @swapkit/toolbox-utxo
 ```
 
-##
+## Usage
 
 ```typescript
-import { BTCToolbox } from '@swapkit/toolbox-utxo'
+import { Chain, type UTXOChain } from '@swapkit/helpers'
+import { getToolboxByChain } from '@swapkit/toolbox-utxo'
 
-const btcToolbox = BTCToolbox({})
+function getToolbox<T extends UTXOChain>(chain: T) {
+  const toolbox = getToolboxByChain(chain)
+  
+  return toolbox({ apiKey: blockchairApiKey, rpcUrl })
+}
+
+const btcToolbox = getToolbox(Chain.Bitcoin)
+const dogeToolbox = getToolbox(Chain.Dogecoin)
 ```

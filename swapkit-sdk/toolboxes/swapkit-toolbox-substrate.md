@@ -17,15 +17,23 @@ layout:
 ### **Installation**
 
 ```bash
-<pnpm|bun> add @swapkit/substrate
+<pnpm|bun> add @swapkit/toolbox-substrate
 ```
 
-## Modules
-
-### ThorchainToolbox
+## Usage
 
 ```typescript
-import { ThorchainToolbox } from '@swapkit/toolbox-cosmos'
+import { Chain, type SubstrateChain } from '@swapkit/helpers';
+import { Network, getToolboxByChain, createKeyring } from '@swapkit/toolbox-substrate';
 
-const thorchainToolbox = ThorchainToolbox({ stagenet: false })
+async function getToolbox<T extends SubstrateChain>(chain: T) {
+  // Either pass your wallet signer or create one via `createKeyring` method
+  const signer = signer || await createKeyring(phrase, Network[chain].prefix);
+  const toolbox = await getToolboxByChain(chain, { signer });
+
+  return await getToolboxByChain(chain)
+}
+
+const dotToolbox = await getToolbox(Chain.Polkadot)
+const flipToolbox = await getToolbox(Chain.Chainflip)
 ```
