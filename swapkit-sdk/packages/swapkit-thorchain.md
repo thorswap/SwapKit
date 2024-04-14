@@ -49,7 +49,7 @@ const txHash = await swapKitClient.thorchain.swap(routes[0])
 
 ***
 
-### **addLiquidity(params:** { runeAssetValue: [AssetValue](swapkit-helpers.md#assetvalue); assetValue: [AssetValue](swapkit-helpers.md#assetvalue); isPendingSymmAsset?: boolean; runeAddr?: string; assetAddr?: string; mode?: "sym" | "rune" | "asset"; }) => Promise<{ runeTx: string | void; assetTx: string | void; }>
+### **addLiquidity(params:** [AddLiquidityParams](swapkit-thorchain.md#addliquidityparams)) => Promise<{ runeTx: string | void; assetTx: string | void; }>
 
 _Performs two transactions to deposit RUNE and asset to THORChain Liquidity Pool_&#x20;
 
@@ -74,7 +74,7 @@ const {
 
 ***
 
-### **addLiquidityPart(**params: { assetValue: [AssetValue](swapkit-helpers.md#assetvalue); address?: string; poolAddress: string; symmetric: boolean; }) => Promise\<string>
+### **addLiquidityPart(**params: [AddLiquidityPartParams](swapkit-thorchain.md#addliquiditypartparams)) => Promise\<string>
 
 _Performs transaction to deposit RUNE or asset to THORChain Liquidity Pool_
 
@@ -105,7 +105,7 @@ const btcTx = swapKitClient.thorchain.addLiquidityPart({
 
 ***
 
-### **deposit(**params: CoreTxParams & { router?: string; }) => Promise\<string>
+### **deposit(**params: [CoreTxParams](swapkit-thorchain.md#coretxparams) & { router?: string; }) => Promise\<string>
 
 _Performs deposit to THORChain pool transaction. Can use custom memo._
 
@@ -121,7 +121,7 @@ const depositTxHash = swapKitClient.thorchain.deposit({
 
 ***
 
-### **loan(params**: { assetValue: [AssetValue](swapkit-helpers.md#assetvalue); memo?: string; minAmount: AssetValue; type: "open" | "close"; }) => Promise\<string>
+### **loan(params**: [LoanParams](swapkit-thorchain.md#loanparams)) => Promise\<string>
 
 _Performs transaction to open or close loan._
 
@@ -140,7 +140,7 @@ const txid = await swapkitClient.thorchain.loan({
 
 ***
 
-### **savings(**params: { assetValue: [AssetValue](swapkit-helpers.md#assetvalue); memo?: string; percent?: number; type: "add" | "withdraw"  }) => Promise\<string>
+### **savings(**params: [SavingsParams](swapkit-thorchain.md#savingparams)) => Promise\<string>
 
 _Performs transaction to deposit or withdraw provided asset from THORChain Savers_
 
@@ -157,7 +157,7 @@ const saverVaultDepositTx = await swapkitClient.thorchain.savings({
 
 ***
 
-### **withdraw(params**: { memo?: string; assetValue: [AssetValue](swapkit-helpers.md#assetvalue); percent: number; from: "sym" | "rune" | "asset"; to: "sym" | "rune" | "asset"; }) => Promise\<string>
+### **withdraw(params**: [WithdrawParasm](swapkit-thorchain.md#withdrawparams)) => Promise\<string>
 
 _Performs transaction to register, extend THORName_
 
@@ -174,7 +174,7 @@ const ethAddress = swapKitClient.thorchain.withdraw({
 
 ***
 
-### **registerThorname(params:** { assetValue: [AssetValue](swapkit-helpers.md#assetvalue); name: string; chain: string; address: string; owner?: string; preferredAsset?: string; expiryBlock?: string; }**): string**
+### **registerThorname(params:** [RegisterTHORNameParams](swapkit-thorchain.md#registerthornameparams)**): string**
 
 _Performs transaction to register, extend THORName_
 
@@ -192,7 +192,7 @@ const txHash = swapKitClient.thorchain.registerThorname({
 
 ***
 
-### **createLiquidity(params**: { runeAssetValue: [AssetValue](swapkit-helpers.md#assetvalue); assetValue: AssetValue }) => Promise<{ runeTx: string; assetTx: string }>
+### **createLiquidity(**{ runeAssetValue: [AssetValue](swapkit-helpers.md#assetvalue); assetValue: [AssetValue](swapkit-helpers.md#assetvalue) }) => Promise<{ runeTx: string; assetTx: string }>
 
 _Performs 2 transactions to create new THORChain Liquidity Pool_
 
@@ -208,7 +208,7 @@ const { runeTx, assetTx } = await swapKitClient.thorchain.createLiquidity({
 
 ***
 
-### **nodeAction(params:** { address: string, type: "bond" | "unbond" | "leave", assetValue: [AssetValue](swapkit-helpers.md#assetvalue) }**):** Promise\<string>
+### **nodeAction(params:** [NodeActionParams](swapkit-thorchain.md#nodeactionparams)**):** Promise\<string>
 
 _Performs deposit to protocol with convenient method wrapping and structuring proper memo_
 
@@ -235,31 +235,31 @@ const ethInboundInfo = await swapKitClient.getInboundDataByChain(Chain.Ethereum)
 
 ***
 
-### **approveAssetValue(**assetValue: [AssetValue](swapkit-helpers.md#assetvalue), contractAddress?: string): Promise\<string | true>
+### **approveAssetValue(**params: [ApproveParams](swapkit-thorchain.md#approveparams)): Promise\<string | true>
 
 _Performs approval transaction or returns true if given asset doesn't need approval_
 
 {% code fullWidth="false" %}
 ```typescript
-const txHash = await swapKitClient.approveAssetValue(
-  assetToApprove,
-  contractAddress,
-)
+const txHash = await swapKitClient.approveAssetValue({
+  assetValue: assetToApprove, 
+  contractAddress
+})
 ```
 {% endcode %}
 
 ***
 
-### **isAssetValueApproved(**assetValue: [AssetValue](swapkit-helpers.md#assetvalue), contractAddress?: string**): Promise\<boolean>**
+### **isAssetValueApproved(**params: [ApproveParams](swapkit-thorchain.md#approveparams)**): Promise\<boolean>**
 
 _Checks if given asset needs approval. Additionally validates provided amount against approved contract spending._
 
 {% code fullWidth="false" %}
 ```typescript
-const isAssetApproved = await swapKitClient.isAssetValueApproved(
-  assetToApprove,
-  contractAddress,
-)
+const isAssetApproved = await swapKitClient.isAssetValueApproved({
+  assetValue: assetToApprove, 
+  contractAddress
+})
 ```
 {% endcode %}
 
@@ -267,14 +267,134 @@ const isAssetApproved = await swapKitClient.isAssetValueApproved(
 
 ## Types
 
+### AddLiquidityPartParams
+
+```typescript
+type AddLiquidityPartParams = {
+  assetValue: AssetValue;
+  address?: string;
+  poolAddress: string;
+  symmetric: boolean;
+};
+```
+
+### AddLiquidityParams
+
+```typescript
+type AddLiquidityParams = {
+  runeAssetValue: AssetValue;
+  assetValue: AssetValue;
+  isPendingSymmAsset?: boolean;
+  runeAddr?: string;
+  assetAddr?: string;
+  mode?: "sym" | "rune" | "asset";
+}
+```
+
+### ApproveParams
+
+```typescript
+type ApproveParams = {
+  assetValue: AssetValue;
+  contractAddress?: string;
+};
+```
+
+### CoreTxParams
+
+```typescript
+type CoreTxParams = {
+  assetValue: AssetValue;
+  recipient: string;
+  memo?: string;
+  feeOptionKey?: FeeOption;
+  feeRate?: number;
+  data?: string;
+  from?: string;
+  expiration?: number;
+};
+```
+
+### LoanParams
+
+```typescript
+ type LoanParams = {
+  assetValue: AssetValue;
+  memo?: string;
+  minAmount: AssetValue;
+  type: "open" | "close";
+};
+```
+
+### NodeActionParams
+
+```typescript
+type NodeActionParams = { address: string } & (
+  | { type: "bond" | "unbond"; assetValue: AssetValue }
+  | { type: "leave"; assetValue?: undefined }
+);
+```
+
 ### SwapWithRouteParams
 
 ```typescript
 type SwapWithRouteParams = {
-    recipient: string;
-    route: QuoteRoute | QuoteRouteV2;
-    feeOptionKey?: FeeOption;
-    quoteId?: string;
-    streamSwap?: boolean;
+  recipient: string;
+  route: QuoteRoute | QuoteRouteV2;
+  feeOptionKey?: FeeOption;
+  quoteId?: string;
+  streamSwap?: boolean;
 }
 ```
+
+### SavingParams
+
+```typescript
+type SavingsParams = { assetValue: AssetValue; memo?: string } & (
+  | { type: "add"; percent?: undefined }
+  | { type: "withdraw"; percent: number }
+);
+```
+
+### SwapWithRouteParams
+
+```typescript
+type SwapWithRouteParams = {
+  recipient: string;
+  route: QuoteRoute | QuoteRouteV2;
+  feeOptionKey?: FeeOption;
+  quoteId?: string;
+  streamSwap?: boolean;
+}
+```
+
+### RegisterTHORNameParams
+
+```typescript
+type RegisterTHORNameParams = {
+  assetValue: AssetValue
+  name: string;
+  chain: string;
+  address: string;
+  owner?: string;
+  preferredAsset?: string;
+  expiryBlock?: string;
+};
+```
+
+### WithdrawParams
+
+```typescript
+type WithdrawParams = {
+  assetValue: AssetValue;
+  from: "sym" | "rune" | "asset";
+  memo?: string;
+  percent: number;
+  to: "sym" | "rune" | "asset";
+};
+```
+
+
+
+
+
