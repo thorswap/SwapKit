@@ -22,16 +22,20 @@ description: >-
 
 ```typescript
 import { Chain, SwapKit, SwapKitApi } from "@swapkit/core"
+import { ledgerWallet } from "@swapkit/wallet-ledger"
+import { keystoreWallet } from "@swapkit/wallet-keystore"
 import { xdefiWallet } from "@swapkit/wallet-xdefi"
 import { ThorchainPlugin } from "@swapkit/thorchain"
 
 const client = SwapKit({
-  wallets: { ...xdefiWallet },
+  wallets: { ...ledgerWallet, ...keystoreWallet, ...xdefiWallet },
   plugins: { ...ThorchainPlugin }
 })
 
 const swap = async () => {
     await client.connectXDEFI([Chain.Bitcoin, Chain.Ethereum])
+// await client.connectKeystore([Chain.Bitcoin, Chain.Ethereum], "phrases ...")
+// await client.connectLedger([Chain.Bitcoin])
     const { routes } = SwapKitApi.getSwapQuote({
         sellAsset: "ETH.ETH"
         sellAmount: 1,

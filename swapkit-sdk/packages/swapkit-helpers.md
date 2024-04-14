@@ -100,7 +100,11 @@ _Returns value of CACAO needed to register mayaname for X years_
 
 ***
 
-### derivationPathToString(\[number, number, number, number, (number | undefined)?]): string
+### derivationPathToString(\[number, number, number, number, ?number]): string
+
+_Parses array of 4/5 numbers to derivation path like: `m/44'/60'/0'/0/0 | m/44'/60'/0'/0`_
+
+### getDerivationPathFor({ index: number; chain: [Chain](swapkit-helpers.md#chain); type?: "legacy" | "ledgerLive" | "nativeSegwitMiddleAccount" | "segwit" }): \[number, number, number, number, ?number]
 
 _Parses array of 4/5 numbers to derivation path like: `m/44'/60'/0'/0/0 | m/44'/60'/0'/0`_
 

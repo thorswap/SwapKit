@@ -20,6 +20,7 @@
   * [@swapkit/chainflip](swapkit-sdk/packages/swapkit-chainflip.md)
   * [@swapkit/thorchain](swapkit-sdk/packages/swapkit-thorchain.md)
 * [👛 Wallets](swapkit-sdk/wallets/README.md)
+  * [@swapkit/wallet-coinbase](swapkit-sdk/wallets/swapkit-wallet-coinbase.md)
   * [@swapkit/wallet-evm-extensions](swapkit-sdk/wallets/swapkit-wallet-evm-extensions.md)
   * [@swapkit/wallet-keepkey](swapkit-sdk/wallets/swapkit-wallet-keepkey.md)
   * [@swapkit/wallet-keplr](swapkit-sdk/wallets/swapkit-wallet-keplr.md)
