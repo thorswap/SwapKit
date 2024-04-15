@@ -1,14 +1,8 @@
-import {
-  type EvmTransactionDetails,
-  type QuoteRouteV2,
-  SwapKitApi,
-  type SwapWithRouteParams,
-} from "@swapkit/api";
+import type { EvmTransactionDetails, QuoteRouteV2 } from "@swapkit/api";
 import {
   ApproveMode,
   type ApproveReturnType,
   AssetValue,
-  type BaseWallet,
   Chain,
   type EVMChain,
   type ErrorKeys,
@@ -16,48 +10,15 @@ import {
   type SwapParams,
   TCAvalancheDepositABI,
   TCEthereumVaultAbi,
+  type Wallet,
 } from "@swapkit/helpers";
-import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
-import type { EVMWallets } from "@swapkit/toolbox-evm";
-import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
-import type { UTXOWallets } from "@swapkit/toolbox-utxo";
-import type { CoreTxParams } from "./plugin";
 
-type Wallet = BaseWallet<
-  EVMWallets & CosmosWallets & ThorchainWallets & UTXOWallets & SubstrateWallets
->;
-
-const validateAddressType = ({
-  chain,
-  address,
-}: {
-  chain: Chain;
-  address?: string;
-}) => {
-  if (!address) return false;
-
-  switch (chain) {
-    case Chain.Bitcoin:
-      // filter out taproot addresses
-      return !address.startsWith("bc1p");
-    default:
-      return true;
-  }
-};
-
-const getAddress = (wallet: Wallet, chain: Chain) => wallet[chain]?.address || "";
-
-const prepareTxParams = (
-  wallets: Wallet,
-  { assetValue, ...restTxParams }: CoreTxParams & { router?: string },
-) => ({
-  ...restTxParams,
-  memo: restTxParams.memo || "",
-  from: getAddress(wallets, assetValue.chain),
-  assetValue,
-});
+import { getInboundDataFunction, getWallet, prepareTxParams, validateAddressType } from "./shared";
+import type { ApproveParams, CoreTxParams, SwapWithRouteParams } from "./types";
 
 const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boolean }) => {
+  const getInboundDataByChain = getInboundDataFunction({ stagenet, type: "mayachain" });
+
   /**
    * @Private
    * Wallet interaction helpers
@@ -66,11 +27,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     assetValue,
     type = "checkOnly" as T,
     contractAddress,
-  }: {
-    type: T;
-    assetValue: AssetValue;
-    contractAddress?: string;
-  }) {
+  }: { type: T; assetValue: AssetValue; contractAddress?: string }) {
     const { address, chain, isGasAsset, isSynthetic } = assetValue;
     const isEVMChain = [Chain.Ethereum, Chain.Arbitrum].includes(chain);
     const isNativeEVM = isEVMChain && isGasAsset;
@@ -162,31 +119,32 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
 
         case Chain.Arbitrum:
         case Chain.Ethereum: {
-          const wallet = wallets[chain];
           const { getChecksumAddressFromAsset } = await import("@swapkit/toolbox-evm");
+          const wallet = getWallet(wallets, chain);
 
           const abi = chain === Chain.Arbitrum ? TCAvalancheDepositABI : TCEthereumVaultAbi;
+          const funcParams = [
+            recipient,
+            getChecksumAddressFromAsset({ chain, symbol, ticker }, chain),
+            assetValue.getBaseValue("string"),
+            params.memo,
+            rest.expiration || Number.parseInt(`${(new Date().getTime() + 15 * 60 * 1000) / 1000}`),
+          ];
+          const txOverrides = {
+            from: params.from,
+            value: assetValue.isGasAsset ? assetValue.getBaseValue("bigint") : undefined,
+          };
 
-          const tx = await wallet.call({
+          const tx = await wallet.call<string>({
             abi,
+            funcName: "depositWithExpiry",
+            funcParams,
+            txOverrides,
             contractAddress:
               router || ((await getInboundDataByChain(chain as EVMChain)).router as string),
-            funcName: "depositWithExpiry",
-            funcParams: [
-              recipient,
-              getChecksumAddressFromAsset({ chain, symbol, ticker }, chain),
-              assetValue.getBaseValue("string"),
-              params.memo,
-              rest.expiration ||
-                Number.parseInt(`${(new Date().getTime() + 15 * 60 * 1000) / 1000}`),
-            ],
-            txOverrides: {
-              from: params.from,
-              value: assetValue.isGasAsset ? assetValue.getBaseValue("bigint") : undefined,
-            },
           });
 
-          return tx as string;
+          return tx;
         }
 
         default: {
@@ -219,29 +177,12 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     }
   }
 
-  async function getInboundDataByChain(chain: Chain) {
-    switch (chain) {
-      case Chain.Maya:
-        return { gas_rate: "0", router: "", address: "", halted: false, chain };
-
-      default: {
-        const inboundData = await SwapKitApi.getInboundAddresses({ stagenet, type: "mayachain" });
-        const chainAddressData = inboundData.find((item) => item.chain === chain);
-
-        if (!chainAddressData) throw new SwapKitError("core_inbound_data_not_found");
-        if (chainAddressData?.halted) throw new SwapKitError("core_chain_halted");
-
-        return chainAddressData;
-      }
-    }
+  function approveAssetValue(params: ApproveParams) {
+    return approve({ ...params, type: ApproveMode.Approve });
   }
 
-  function approveAssetValue(assetValue: AssetValue, contractAddress?: string) {
-    return approve({ assetValue, contractAddress, type: ApproveMode.Approve });
-  }
-
-  function isAssetValueApproved(assetValue: AssetValue, contractAddress?: string) {
-    return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
+  function isAssetValueApproved(params: ApproveParams) {
+    return approve({ ...params, type: ApproveMode.CheckOnly });
   }
 
   return {

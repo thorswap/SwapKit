@@ -2,4 +2,4 @@ pre-commit:
   commands:
     check:
       glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
-      run: bun lint && bun type-check
+      run: bun lint && bun type-check && git update-index --again

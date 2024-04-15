@@ -4,6 +4,7 @@ export * from "./types/index.ts";
  * Helpers
  */
 export * from "./helpers/asset.ts";
+export * from "./helpers/derivationPath.ts";
 export * from "./helpers/liquidity.ts";
 export * from "./helpers/memo.ts";
 export * from "./helpers/others.ts";

@@ -64,10 +64,8 @@ export class KeepKeySigner extends AbstractSigner {
     ...restTx
     // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
   }: EVMTxParams & { maxFeePerGas?: string; maxPriorityFeePerGas?: string; gasPrice?: string }) => {
-    if (!from) throw new Error("Missing from address");
     if (!to) throw new Error("Missing to address");
     if (!gasLimit) throw new Error("Missing gasLimit");
-    if (!nonce) throw new Error("Missing nonce");
     if (!data) throw new Error("Missing data");
 
     const isEIP1559 = (maxFeePerGas || maxPriorityFeePerGas) && !gasPrice;

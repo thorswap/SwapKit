@@ -1,4 +1,8 @@
-import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
+import type {
+  KeepKeySdk,
+  TypesThorchainSignDocDeposit,
+  TypesThorchainSignDocTransfer,
+} from "@keepkey/keepkey-sdk";
 import {
   type AssetValue,
   Chain,
@@ -30,7 +34,7 @@ export const thorchainWalletMethods = async ({
   const { buildAminoMsg, getDefaultChainFee, createStargateClient, ThorchainToolbox } =
     await import("@swapkit/toolbox-cosmos");
 
-  const toolbox = ThorchainToolbox({ stagenet: !"smeshnet" });
+  const toolbox = ThorchainToolbox({ stagenet: false });
   const derivationPathString = derivationPath
     ? derivationPathToString(derivationPath)
     : `${DerivationPath.THOR}/0`;
@@ -59,14 +63,11 @@ export const thorchainWalletMethods = async ({
 
     const signedTx = isTransfer
       ? await sdk.thorchain.thorchainSignAminoTransfer({
-          // TODO can we ignore this ?
-          // @ts-expect-error readonly cant be assigned to writable
-          signDoc,
+          signDoc: signDoc as TypesThorchainSignDocTransfer,
           signerAddress: from,
         })
       : await sdk.thorchain.thorchainSignAminoDeposit({
-          // @ts-expect-error
-          signDoc,
+          signDoc: signDoc as TypesThorchainSignDocDeposit,
           signerAddress: from,
         });
     const decodedBytes = atob(signedTx.serialized);
