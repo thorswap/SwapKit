@@ -1,5 +1,24 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.151
+
+### Patch Changes
+
+- Updated dependencies [[`6e90b46`](https://github.com/thorswap/SwapKit/commit/6e90b461b10eadfe96938b6202c7364fc3e8b12f), [`6e90b46`](https://github.com/thorswap/SwapKit/commit/6e90b461b10eadfe96938b6202c7364fc3e8b12f), [`6e90b46`](https://github.com/thorswap/SwapKit/commit/6e90b461b10eadfe96938b6202c7364fc3e8b12f)]:
+  - @swapkit/wallet-ledger@1.0.0-rc.130
+  - @swapkit/toolbox-utxo@1.0.0-rc.101
+  - @swapkit/core@1.0.0-rc.132
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.100
+  - @swapkit/toolbox-cosmos@1.0.0-rc.111
+  - @swapkit/toolbox-evm@1.0.0-rc.98
+  - @swapkit/wallet-keepkey@1.0.0-rc.46
+  - @swapkit/wallet-keplr@1.0.0-rc.112
+  - @swapkit/wallet-keystore@1.0.0-rc.125
+  - @swapkit/wallet-okx@1.0.0-rc.125
+  - @swapkit/wallet-trezor@1.0.0-rc.110
+  - @swapkit/wallet-wc@1.0.0-rc.118
+  - @swapkit/wallet-xdefi@1.0.0-rc.127
+
 ## 1.0.0-rc.150
 
 ### Patch Changes
