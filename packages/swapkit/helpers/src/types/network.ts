@@ -7,7 +7,7 @@ export enum RPCUrl {
   BitcoinCash = "https://node-router.thorswap.net/bitcoin-cash",
   Chainflip = "wss://mainnet-archive.chainflip.io",
   Cosmos = "https://node-router.thorswap.net/cosmos/rpc",
-  Dash = "https://node-router.thorswap.net/dash",
+  Dash = "https://insight.dash.org/insight-api",
   Dogecoin = "https://node-router.thorswap.net/dogecoin",
   Ethereum = "https://node-router.thorswap.net/ethereum",
   Kujira = "https://rpc-kujira.synergynodes.com/",
