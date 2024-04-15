@@ -1,5 +1,26 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.152
+
+### Patch Changes
+
+- [`038f8d9`](https://github.com/thorswap/SwapKit/commit/038f8d902a201d1c5179eecc0f493fe0ee7b1542) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Add proper default for cosmos and fix typing
+
+- Updated dependencies [[`038f8d9`](https://github.com/thorswap/SwapKit/commit/038f8d902a201d1c5179eecc0f493fe0ee7b1542)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.101
+  - @swapkit/toolbox-cosmos@1.0.0-rc.112
+  - @swapkit/wallet-keystore@1.0.0-rc.126
+  - @swapkit/wallet-keepkey@1.0.0-rc.47
+  - @swapkit/toolbox-utxo@1.0.0-rc.102
+  - @swapkit/wallet-ledger@1.0.0-rc.131
+  - @swapkit/wallet-trezor@1.0.0-rc.111
+  - @swapkit/toolbox-evm@1.0.0-rc.99
+  - @swapkit/wallet-keplr@1.0.0-rc.113
+  - @swapkit/wallet-xdefi@1.0.0-rc.128
+  - @swapkit/core@1.0.0-rc.133
+  - @swapkit/wallet-okx@1.0.0-rc.126
+  - @swapkit/wallet-wc@1.0.0-rc.119
+
 ## 1.0.0-rc.151
 
 ### Patch Changes
