@@ -37,7 +37,7 @@ export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => 
   });
 
   const getFees = async () => {
-    const baseFee = (await getFeeRateFromThorswap(ChainId.Cosmos)) || 500;
+    const baseFee = await getFeeRateFromThorswap(ChainId.Cosmos, 500);
     return {
       type: "base",
       average: SwapKitNumber.fromBigInt(BigInt(baseFee), BaseDecimal.GAIA),

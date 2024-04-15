@@ -1,6 +1,5 @@
 import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
 import { bech32 } from "@scure/base";
-import { SwapKitApi } from "@swapkit/api";
 import {
   AssetValue,
   BaseDecimal,
@@ -54,8 +53,7 @@ const getBalance = async (address: string) => {
 
 const getFees = async () => {
   const singleTxFee = await wrapWithThrow(async () => {
-    const value =
-      (await getFeeRateFromThorswap(ChainId.Binance)) || (await getFeeRateFromThorchain());
+    const value = await getFeeRateFromThorswap(ChainId.Binance, 0);
     return new SwapKitNumber({ value, decimal: 8 });
   });
 
@@ -64,18 +62,6 @@ const getFees = async () => {
     new SwapKitNumber({ value: (await getTransferFee()).fixed_fee_params.fee, decimal: 8 });
 
   return { [FeeOption.Average]: txFee, [FeeOption.Fast]: txFee, [FeeOption.Fastest]: txFee };
-};
-
-const getFeeRateFromThorchain = async () => {
-  const respData = await SwapKitApi.getInboundAddresses();
-
-  if (!Array.isArray(respData)) throw new Error("bad response from Thornode API");
-
-  const chainData = respData.find(
-    (elem) => elem.chain === Chain.Binance && typeof elem.gas_rate === "string",
-  ) as { chain: Chain; gas_rate: string };
-
-  return Number(chainData?.gas_rate || 0);
 };
 
 const sendRawTransaction = (signedBz: string) =>

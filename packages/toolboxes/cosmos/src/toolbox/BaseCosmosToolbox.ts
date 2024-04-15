@@ -13,10 +13,15 @@ type Params = {
   derivationPath: DerivationPath;
 };
 
-export const getFeeRateFromThorswap = async (chainId: ChainId) => {
-  const response = await SwapKitApi.getGasRates();
+export const getFeeRateFromThorswap = async (chainId: ChainId, safeDefault: number) => {
+  try {
+    const response = await SwapKitApi.getGasRates();
 
-  return response.find((gas) => gas.chainId === chainId)?.gas;
+    return response.find((gas) => gas.chainId === chainId)?.gas || safeDefault;
+  } catch (e) {
+    console.error(e);
+    return safeDefault;
+  }
 };
 
 // TODO: figure out some better way to initialize from base value

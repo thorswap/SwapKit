@@ -24,7 +24,7 @@ import {
 } from "./BaseCosmosToolbox.ts";
 
 async function getFees() {
-  const baseFee = (await getFeeRateFromThorswap(ChainId.Kujira)) || 5000;
+  const baseFee = await getFeeRateFromThorswap(ChainId.Kujira, 1000);
   return {
     type: "base",
     average: new SwapKitNumber({ value: baseFee, decimal: BaseDecimal.KUJI }),

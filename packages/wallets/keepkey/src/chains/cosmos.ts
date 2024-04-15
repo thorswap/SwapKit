@@ -36,7 +36,7 @@ export const cosmosWalletMethods = async ({
 
     if (DEFAULT_COSMOS_FEE_MAINNET.amount[0]) {
       DEFAULT_COSMOS_FEE_MAINNET.amount[0].amount = String(
-        (await toolbox?.getFeeRateFromThorswap?.(ChainId.Cosmos)) ?? "500",
+        await toolbox?.getFeeRateFromThorswap?.(ChainId.Cosmos, 500),
       );
     }
 

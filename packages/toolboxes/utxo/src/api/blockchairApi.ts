@@ -41,13 +41,6 @@ const mapChainToBlockchairChain = (chain: Chain) => {
 };
 
 const getSuggestedTxFee = async (chain: Chain) => {
-  // Skipped until internal API is using a more stable data provider
-  // try {
-  //   const response = await SwapKitApi.getGasRates();
-
-  //   return response.find((gas) => gas.chainId === chainId)?.gas;
-  //   throw new Error('Failed to get suggested txFee');
-  // } catch (error) {
   try {
     //Use Bitgo API for fee estimation
     //Refer: https://app.bitgo.com/docs/#operation/v2.tx.getfeeestimate
