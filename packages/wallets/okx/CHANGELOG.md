@@ -1,5 +1,17 @@
 # @swapkit/wallet-okx
 
+## 1.0.0-rc.126
+
+### Patch Changes
+
+- [`038f8d9`](https://github.com/thorswap/SwapKit/commit/038f8d902a201d1c5179eecc0f493fe0ee7b1542) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Add proper default for cosmos and fix typing
+
+- Updated dependencies [[`038f8d9`](https://github.com/thorswap/SwapKit/commit/038f8d902a201d1c5179eecc0f493fe0ee7b1542)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.112
+  - @swapkit/helpers@1.0.0-rc.93
+  - @swapkit/toolbox-utxo@1.0.0-rc.102
+  - @swapkit/toolbox-evm@1.0.0-rc.99
+
 ## 1.0.0-rc.125
 
 ### Patch Changes
