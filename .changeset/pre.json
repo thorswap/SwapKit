@@ -30,9 +30,11 @@
     "@swapkit/wallet-coinbase": "1.0.0-rc.1"
   },
   "changesets": [
+    "big-clouds-draw",
     "bright-cheetahs-smash",
     "curly-beans-refuse",
     "curvy-drinks-deny",
+    "four-parents-sleep",
     "friendly-donuts-arrive",
     "giant-parrots-fix",
     "itchy-drinks-rest",
@@ -44,6 +46,7 @@
     "sour-bugs-jam",
     "tender-news-search",
     "two-paws-cheer",
+    "violet-beds-kick",
     "witty-birds-sparkle",
     "young-trees-melt"
   ]

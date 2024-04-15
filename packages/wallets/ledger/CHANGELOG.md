@@ -1,5 +1,17 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.130
+
+### Patch Changes
+
+- [#734](https://github.com/thorswap/SwapKit/pull/734) [`6e90b46`](https://github.com/thorswap/SwapKit/commit/6e90b461b10eadfe96938b6202c7364fc3e8b12f) Thanks [@towanTG](https://github.com/towanTG)! - Fixes dependencies to fix build
+
+- Updated dependencies [[`6e90b46`](https://github.com/thorswap/SwapKit/commit/6e90b461b10eadfe96938b6202c7364fc3e8b12f)]:
+  - @swapkit/helpers@1.0.0-rc.92
+  - @swapkit/toolbox-utxo@1.0.0-rc.101
+  - @swapkit/toolbox-cosmos@1.0.0-rc.111
+  - @swapkit/toolbox-evm@1.0.0-rc.98
+
 ## 1.0.0-rc.129
 
 ### Patch Changes
