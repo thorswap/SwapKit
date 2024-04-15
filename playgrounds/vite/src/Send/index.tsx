@@ -1,11 +1,12 @@
-import type { AssetValue, SwapKitCore } from "@swapkit/core";
+import type { AssetValue } from "@swapkit/core";
 import { useCallback, useState } from "react";
+import type { SwapKitClient } from "swapKitClient";
 
 export default function Send({
   inputAsset,
   skClient,
 }: {
-  skClient?: SwapKitCore;
+  skClient?: SwapKitClient;
   inputAsset?: AssetValue;
 }) {
   const [inputAssetValue, setInput] = useState(inputAsset?.mul(0));
@@ -13,23 +14,30 @@ export default function Send({
 
   const handleInputChange = useCallback(
     (value: string) => {
-      setInput(inputAssetValue ? inputAssetValue.mul(0).add(value) : inputAsset?.mul(0).add(value));
+      setInput(
+        inputAssetValue
+          ? inputAssetValue.mul(0).add(value)
+          : inputAsset?.mul(0).add(value)
+      );
     },
-    [inputAssetValue, inputAsset],
+    [inputAssetValue, inputAsset]
   );
 
   const handleSend = useCallback(async () => {
     if (!(inputAsset && inputAssetValue?.gt(0) && skClient)) return;
 
     const from = skClient.getAddress(inputAsset.chain);
-    const txHash = await skClient.transfer({
+    const txHash = await skClient.getWallet(inputAssetValue.chain).transfer({
       from,
       assetValue: inputAssetValue,
       memo: "",
       recipient,
     });
 
-    window.open(`${skClient.getExplorerTxUrl(inputAssetValue.chain, txHash as string)}`, "_blank");
+    window.open(
+      `${skClient.getExplorerTxUrl(inputAssetValue.chain, txHash as string)}`,
+      "_blank"
+    );
   }, [inputAsset, inputAssetValue, skClient, recipient]);
 
   return (

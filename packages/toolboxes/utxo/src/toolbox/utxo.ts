@@ -31,6 +31,8 @@ import {
   standardFeeRates,
 } from "../utils/index.ts";
 
+export const nonSegwitChains = [Chain.Dash, Chain.Dogecoin];
+
 const createKeysForPath = ({
   phrase,
   wif,
@@ -69,7 +71,7 @@ const validateAddress = ({ address, chain }: { address: string } & UTXOBaseToolb
 const getAddressFromKeys = ({ keys, chain }: { keys: ECPairInterface } & UTXOBaseToolboxParams) => {
   if (!keys) throw new Error("Keys must be provided");
 
-  const method = [Chain.Dash, Chain.Dogecoin].includes(chain) ? payments.p2pkh : payments.p2wpkh;
+  const method = nonSegwitChains.includes(chain) ? payments.p2pkh : payments.p2wpkh;
   const { address } = method({ pubkey: keys.publicKey, network: getNetwork(chain) });
   if (!address) throw new Error("Address not defined");
 
@@ -96,7 +98,7 @@ const transfer = async ({
     recipient,
     feeRate: txFeeRate,
     sender: from,
-    fetchTxHex: chain === Chain.Dogecoin,
+    fetchTxHex: nonSegwitChains.includes(chain),
     chain,
     apiClient,
     assetValue,
@@ -194,8 +196,9 @@ const buildTx = async ({
     psbt.addInput({
       hash: utxo.hash,
       index: utxo.index,
-      ...(!!utxo.witnessUtxo && chain !== Chain.Dogecoin && { witnessUtxo: utxo.witnessUtxo }),
-      ...(chain === Chain.Dogecoin && {
+      ...(!!utxo.witnessUtxo &&
+        !nonSegwitChains.includes(chain) && { witnessUtxo: utxo.witnessUtxo }),
+      ...(nonSegwitChains.includes(chain) && {
         nonWitnessUtxo: utxo.txHex ? Buffer.from(utxo.txHex, "hex") : undefined,
       }),
     });

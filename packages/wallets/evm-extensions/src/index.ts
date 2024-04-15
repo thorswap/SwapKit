@@ -24,7 +24,7 @@ declare const window: {
   braveSolana: Todo;
 } & Window;
 
-type EVMWalletOptions =
+export type EVMWalletOptions =
   | WalletOption.BRAVE
   | WalletOption.OKX_MOBILE
   | WalletOption.METAMASK

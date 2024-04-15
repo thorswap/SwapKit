@@ -99,6 +99,7 @@ export function SwapKit<
     connectedWallets[connectWallet.chain] = connectWallet;
   }
 
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>
   function approve<T extends ApproveMode>({
     assetValue,
     type = "checkOnly" as T,
@@ -106,8 +107,14 @@ export function SwapKit<
   }: {
     type: T;
     assetValue: AssetValue;
-    contractAddress: string;
+    contractAddress: string | PluginName;
   }) {
+    const plugin = availablePlugins[spenderAddress];
+
+    if ("approve" in plugin) {
+      return plugin.approve({ assetValue, type, spenderAddress }) as ApproveReturnType<T>;
+    }
+
     const { address, chain, isGasAsset, isSynthetic } = assetValue;
     const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain);
     const isNativeEVM = isEVMChain && isGasAsset;
@@ -121,7 +128,7 @@ export function SwapKit<
     if (!walletAction) throw new SwapKitError("core_wallet_connection_not_found");
 
     const from = getAddress(chain);
-    if (!(address && from)) {
+    if (!(address && from && typeof spenderAddress === "string")) {
       throw new SwapKitError("core_approve_asset_address_or_from_not_found");
     }
 
@@ -173,11 +180,11 @@ export function SwapKit<
     return wallet;
   }
 
-  function approveAssetValue(assetValue: AssetValue, contractAddress: string) {
+  function approveAssetValue(assetValue: AssetValue, contractAddress: string | PluginName) {
     return approve({ assetValue, contractAddress, type: ApproveMode.Approve });
   }
 
-  function isAssetValueApproved(assetValue: AssetValue, contractAddress: string) {
+  function isAssetValueApproved(assetValue: AssetValue, contractAddress: string | PluginName) {
     return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
   }
 
