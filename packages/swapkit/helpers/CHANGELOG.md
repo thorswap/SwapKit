@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.91
+
+### Patch Changes
+
+- [#732](https://github.com/thorswap/SwapKit/pull/732) [`133480b`](https://github.com/thorswap/SwapKit/commit/133480b14b3830ce02ad79f58be06970d58dbc9f) Thanks [@chillios-dev](https://github.com/chillios-dev)! - TC plugin with split shared functions
+
 ## 1.0.0-rc.90
 
 ### Patch Changes

@@ -73,5 +73,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.128"
+  "version": "1.0.0-rc.129"
 }
