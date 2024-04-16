@@ -1,5 +1,11 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.132
+
+### Patch Changes
+
+- [#739](https://github.com/thorswap/SwapKit/pull/739) [`7eb502e`](https://github.com/thorswap/SwapKit/commit/7eb502ed51163a444a3fbcacc4facc8a3ad341dc) Thanks [@towanTG](https://github.com/towanTG)! - Fix dependencies
+
 ## 1.0.0-rc.131
 
 ### Patch Changes
