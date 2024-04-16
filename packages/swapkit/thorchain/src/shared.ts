@@ -49,22 +49,21 @@ export function prepareTxParams(
   };
 }
 
-export function getInboundDataFunction(params?: ThornodeEndpointParams) {
+export function getInboundDataFunction(params: ThornodeEndpointParams) {
   return async function getInboundDataByChain<T extends Chain>(chain: T) {
-    switch (chain) {
-      case Chain.Maya:
-      case Chain.THORChain:
-        return { gas_rate: "0", router: "", address: "", halted: false, chain };
-
-      default: {
-        const inboundData = await SwapKitApi.getInboundAddresses(params);
-        const chainAddressData = inboundData.find((item) => item.chain === chain);
-
-        if (!chainAddressData) throw new SwapKitError("core_inbound_data_not_found");
-        if (chainAddressData?.halted) throw new SwapKitError("core_chain_halted");
-
-        return chainAddressData;
-      }
+    if (
+      (params.type === "thorchain" && chain === Chain.THORChain) ||
+      (params.type === "mayachain" && chain === Chain.Maya)
+    ) {
+      return { gas_rate: "0", router: "", address: "", halted: false, chain };
     }
+
+    const inboundData = await SwapKitApi.getInboundAddresses(params);
+    const chainAddressData = inboundData.find((item) => item.chain === chain);
+
+    if (!chainAddressData) throw new SwapKitError("core_inbound_data_not_found");
+    if (chainAddressData?.halted) throw new SwapKitError("core_chain_halted");
+
+    return chainAddressData;
   };
 }
