@@ -1,5 +1,11 @@
 # @swapkit/thorchain
 
+## 1.0.0-rc.36
+
+### Patch Changes
+
+- [#737](https://github.com/thorswap/SwapKit/pull/737) [`644dfc5`](https://github.com/thorswap/SwapKit/commit/644dfc573ce687474e26c76c8cf3497f99b0ccb4) Thanks [@towanTG](https://github.com/towanTG)! - Fixes inbound address
+
 ## 1.0.0-rc.35
 
 ### Patch Changes
