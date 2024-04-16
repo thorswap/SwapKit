@@ -1,3 +1,4 @@
+import type { AssetValue, SwapKitNumber } from "..";
 import { Chain } from "../types/chains";
 import { MemoType } from "../types/sdk";
 
@@ -27,6 +28,18 @@ export type MemoOptions<T extends MemoType> = {
     singleSide?: boolean;
   }>;
   [MemoType.THORNAME_REGISTER]: Omit<ThornameRegisterParam, "preferredAsset" | "expiryBlock">;
+  [MemoType.SWAP]: {
+    asset?: AssetValue;
+    address?: string;
+    limit?: SwapKitNumber;
+    ssInterval?: number;
+    ssQuantity?: number;
+    affiliateAddress?: string;
+    affiliateFee?: string;
+    dexAggAddress?: string;
+    dexAggAsset?: string;
+    dexAggLimit?: string;
+  };
 }[T];
 
 export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions<T>) => {
@@ -35,6 +48,29 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
     case MemoType.BOND: {
       const { address } = options as MemoOptions<MemoType.BOND>;
       return `${memoType}:${address}`;
+    }
+
+    case MemoType.SWAP: {
+      const {
+        asset,
+        address,
+        limit,
+        ssInterval,
+        ssQuantity,
+        affiliateAddress,
+        affiliateFee,
+        dexAggAddress,
+        dexAggAsset,
+      } = options as MemoOptions<MemoType.SWAP>;
+
+      const limitWithSS = limit
+        ? `${limit}/${ssInterval ? `${ssInterval}` : ""}/${ssQuantity ? `${ssQuantity}` : ""}`
+        : "";
+      return `${asset.toString()}:${address}:${limitWithSS}:${
+        affiliateAddress ? `${affiliateAddress}` : ""
+      }:${affiliateFee ? `${affiliateFee}` : ""}:${dexAggAddress ? `${dexAggAddress}` : ""}:${
+        dexAggAsset ? `${dexAggAsset}` : ""
+      }`;
     }
 
     case MemoType.UNBOND: {

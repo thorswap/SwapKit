@@ -41,4 +41,5 @@ export enum MemoType {
   WITHDRAW = "-",
   OPEN_LOAN = "$+",
   CLOSE_LOAN = "$-",
+  SWAP = "=",
 }
