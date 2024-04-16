@@ -12,7 +12,7 @@ import {
 import {
   AVAXToolbox,
   BSCToolbox,
-  BrowserProvider,
+  type BrowserProvider,
   ETHToolbox,
   type Eip1193Provider,
 } from "@swapkit/toolbox-evm";
@@ -56,11 +56,13 @@ export const getWeb3WalletMethods = async ({
   chain,
   covalentApiKey,
   ethplorerApiKey,
+  provider,
 }: {
   ethereumWindowProvider: Eip1193Provider | undefined;
   chain: Chain;
   covalentApiKey?: string;
   ethplorerApiKey?: string;
+  provider: BrowserProvider;
 }) => {
   if (!ethereumWindowProvider) throw new Error("Requested web3 wallet is not installed");
 
@@ -70,8 +72,6 @@ export const getWeb3WalletMethods = async ({
   ) {
     throw new Error(`Missing API key for ${chain} chain`);
   }
-
-  const provider = new BrowserProvider(ethereumWindowProvider, "Todo");
 
   const toolboxParams = {
     provider,
@@ -128,6 +128,7 @@ function connectEVMWallet({
         ethplorerApiKey,
         covalentApiKey,
         ethereumWindowProvider: getWalletForType(walletType),
+        provider: web3provider,
       });
 
       const getBalance = async (potentialScamFilter = true) =>
