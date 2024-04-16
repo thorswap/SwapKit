@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "@cosmjs/amino": "0.32.3",
+    "@cosmjs/crypto": "0.32.3",
+    "@cosmjs/proto-signing": "0.32.3",
     "@ledgerhq/devices": "8.2.2",
     "@ledgerhq/errors": "6.16.3",
     "@ledgerhq/hw-app-btc": "10.2.3",
@@ -35,7 +38,6 @@
     "@cosmjs/amino": "0.32.3",
     "@cosmjs/crypto": "0.32.3",
     "@cosmjs/proto-signing": "0.32.3",
-    "@cosmjs/stargate": "0.32.3",
     "@ledgerhq/devices": "8.2.2",
     "@ledgerhq/errors": "6.16.3",
     "@ledgerhq/hw-app-btc": "10.2.3",
