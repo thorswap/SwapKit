@@ -1,5 +1,11 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.0.0-rc.102
+
+### Patch Changes
+
+- [#741](https://github.com/thorswap/SwapKit/pull/741) [`f580e3a`](https://github.com/thorswap/SwapKit/commit/f580e3ad25aebada7f10f33035cee6efcdf0c0a4) Thanks [@towanTG](https://github.com/towanTG)! - Fixes web3 network connection
+
 ## 1.0.0-rc.101
 
 ### Patch Changes

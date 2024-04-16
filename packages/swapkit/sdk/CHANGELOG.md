@@ -1,5 +1,12 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.154
+
+### Patch Changes
+
+- Updated dependencies [[`f580e3a`](https://github.com/thorswap/SwapKit/commit/f580e3ad25aebada7f10f33035cee6efcdf0c0a4)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.102
+
 ## 1.0.0-rc.153
 
 ### Patch Changes
