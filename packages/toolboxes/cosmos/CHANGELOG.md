@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.115
+
+### Patch Changes
+
+- [#747](https://github.com/thorswap/SwapKit/pull/747) [`1bb0bb8`](https://github.com/thorswap/SwapKit/commit/1bb0bb8a43e0b6e1378bdebe0c88801f1d318b02) Thanks [@towanTG](https://github.com/towanTG)! - Fixes kujira gas and ibc token denom
+
 ## 1.0.0-rc.114
 
 ### Patch Changes
