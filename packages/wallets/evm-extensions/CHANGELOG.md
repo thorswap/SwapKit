@@ -1,5 +1,15 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.0.0-rc.104
+
+### Patch Changes
+
+- [#745](https://github.com/thorswap/SwapKit/pull/745) [`01955e4`](https://github.com/thorswap/SwapKit/commit/01955e42a67d95ad304ee08997d21b69f6bf47f1) Thanks [@towanTG](https://github.com/towanTG)! - Enables Arbitrum
+
+- Updated dependencies [[`01955e4`](https://github.com/thorswap/SwapKit/commit/01955e42a67d95ad304ee08997d21b69f6bf47f1)]:
+  - @swapkit/helpers@1.0.0-rc.95
+  - @swapkit/toolbox-evm@1.0.0-rc.101
+
 ## 1.0.0-rc.103
 
 ### Patch Changes
