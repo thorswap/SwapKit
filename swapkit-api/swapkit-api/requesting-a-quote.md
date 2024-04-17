@@ -3,11 +3,11 @@
 All that you need to send a transaction from any off your wallets is our `/quote` endpoint.
 
 ```
-const getQuote = async (sellAsset, toAsset, sellAmount, senderAddress, recipientAddress) => {
+const getQuote = async (sellAsset, buyAsset, sellAmount, senderAddress, recipientAddress) => {
     const result = await axios.get('https://api.thorswap.net/aggregator/tokens/quote', {
         params: {
             sellAsset,
-            toAsset,
+            buyAsset,
             sellAmount,
             senderAddress,
             recipientAddress,
@@ -17,12 +17,12 @@ const getQuote = async (sellAsset, toAsset, sellAmount, senderAddress, recipient
 }
 
 const sellAsset = 'BTC.BTC';
-const toAsset = 'ETH.ETH';
+const buyAsset = 'ETH.ETH';
 const sellAmount = 0.1;
 const senderAddress = BTC_WALLET_ADDRESS;
 const recipientAddress = ETH_WALLET_ADDRESS;
 
-const quote = await getQuote(sellAsset, toAsset, sellAmount, senderAddress, recipientAddress);
+const quote = await getQuote(sellAsset, buyAsset, sellAmount, senderAddress, recipientAddress);
 ```
 
 If a quote for this trade can be found, the response will be like the following:
