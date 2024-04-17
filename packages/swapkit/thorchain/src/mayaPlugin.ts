@@ -6,10 +6,10 @@ import {
   Chain,
   type EVMChain,
   type ErrorKeys,
+  MayaArbitrumVaultAbi,
+  MayaEthereumVaultAbi,
   SwapKitError,
   type SwapParams,
-  TCAvalancheDepositABI,
-  TCEthereumVaultAbi,
   type Wallet,
 } from "@swapkit/helpers";
 
@@ -122,7 +122,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
           const { getChecksumAddressFromAsset } = await import("@swapkit/toolbox-evm");
           const wallet = getWallet(wallets, chain);
 
-          const abi = chain === Chain.Arbitrum ? TCAvalancheDepositABI : TCEthereumVaultAbi;
+          const abi = chain === Chain.Arbitrum ? MayaArbitrumVaultAbi : MayaEthereumVaultAbi;
           const funcParams = [
             recipient,
             getChecksumAddressFromAsset({ chain, symbol, ticker }, chain),

@@ -10,6 +10,7 @@ import {
   setRequestClientConfig,
 } from "@swapkit/helpers";
 import {
+  ARBToolbox,
   AVAXToolbox,
   BSCToolbox,
   type BrowserProvider,
@@ -85,7 +86,9 @@ export const getWeb3WalletMethods = async ({
       ? ETHToolbox(toolboxParams)
       : chain === Chain.Avalanche
         ? AVAXToolbox(toolboxParams)
-        : BSCToolbox(toolboxParams);
+        : chain === Chain.Arbitrum
+          ? ARBToolbox(toolboxParams)
+          : BSCToolbox(toolboxParams);
 
   try {
     chain !== Chain.Ethereum &&
