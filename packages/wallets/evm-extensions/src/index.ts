@@ -10,12 +10,10 @@ import {
   setRequestClientConfig,
 } from "@swapkit/helpers";
 import {
-  ARBToolbox,
-  AVAXToolbox,
-  BSCToolbox,
+  type AVAXToolbox,
   type BrowserProvider,
-  ETHToolbox,
   type Eip1193Provider,
+  getToolboxByChain,
 } from "@swapkit/toolbox-evm";
 
 declare const window: {
@@ -81,22 +79,13 @@ export const getWeb3WalletMethods = async ({
     covalentApiKey: covalentApiKey as string,
   };
 
-  const toolbox =
-    chain === Chain.Ethereum
-      ? ETHToolbox(toolboxParams)
-      : chain === Chain.Avalanche
-        ? AVAXToolbox(toolboxParams)
-        : chain === Chain.Arbitrum
-          ? ARBToolbox(toolboxParams)
-          : BSCToolbox(toolboxParams);
+  const toolbox = getToolboxByChain(chain as EVMChain)(toolboxParams);
 
   try {
     chain !== Chain.Ethereum &&
       (await addEVMWalletNetwork(
         provider,
-        (
-          toolbox as ReturnType<typeof AVAXToolbox> | ReturnType<typeof BSCToolbox>
-        ).getNetworkParams(),
+        (toolbox as ReturnType<typeof AVAXToolbox>).getNetworkParams(),
       ));
   } catch (_error) {
     throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
