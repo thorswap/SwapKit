@@ -490,7 +490,8 @@ export const getTokenAddress = ({ chain, symbol, ticker }: Asset, baseAssetChain
   try {
     if (
       (chain === baseAssetChain && symbol === baseAssetChain && ticker === baseAssetChain) ||
-      (chain === Chain.BinanceSmartChain && symbol === "BNB" && ticker === "BNB")
+      (chain === Chain.BinanceSmartChain && symbol === "BNB" && ticker === "BNB") ||
+      (chain === Chain.Arbitrum && symbol === "ETH" && ticker === "ETH")
     ) {
       return baseAssetAddress[baseAssetChain];
     }
