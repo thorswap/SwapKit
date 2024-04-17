@@ -27,9 +27,9 @@ async function getFees() {
   const baseFee = await getFeeRateFromThorswap(ChainId.Kujira, 1000);
   return {
     type: "base",
-    average: new SwapKitNumber({ value: baseFee, decimal: BaseDecimal.KUJI }),
-    fast: new SwapKitNumber({ value: baseFee * 1.5, decimal: BaseDecimal.KUJI }),
-    fastest: new SwapKitNumber({ value: baseFee * 2, decimal: BaseDecimal.KUJI }),
+    average: SwapKitNumber.fromBigInt(BigInt(baseFee), BaseDecimal.KUJI),
+    fast: SwapKitNumber.fromBigInt(BigInt(Math.floor(baseFee * 1.5)), BaseDecimal.KUJI),
+    fastest: SwapKitNumber.fromBigInt(BigInt(Math.floor(baseFee * 2)), BaseDecimal.KUJI),
   };
 }
 

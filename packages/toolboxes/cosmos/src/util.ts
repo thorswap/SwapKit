@@ -27,8 +27,19 @@ export const DEFAULT_COSMOS_FEE_MAINNET = {
   gas: "200000",
 };
 
-export const getDenom = (symbol: string, isThorchain = false) =>
-  isThorchain ? symbol.toLowerCase() : symbol;
+export const getDenom = (symbol: string, isThorchain = false) => {
+  if (isThorchain) {
+    return symbol.toUpperCase();
+  }
+  switch (symbol) {
+    case "uUSK":
+      return USK_KUJIRA_FACTORY_DENOM;
+    case "uYUM":
+      return YUM_KUJIRA_FACTORY_DENOM;
+    default:
+      return symbol;
+  }
+};
 
 export const createStargateClient = (url: string) => {
   return StargateClient.connect({ url, headers: defaultRequestHeaders });
