@@ -1,5 +1,15 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.46
+
+### Patch Changes
+
+- Updated dependencies [[`e30dc33`](https://github.com/thorswap/SwapKit/commit/e30dc33aa6c444803db0eaf4581dd40ac3affa79)]:
+  - @swapkit/helpers@1.0.0-rc.94
+  - @swapkit/api@1.0.0-rc.60
+  - @swapkit/toolbox-evm@1.0.0-rc.100
+  - @swapkit/toolbox-substrate@1.0.0-rc.29
+
 ## 1.0.0-rc.45
 
 ### Patch Changes

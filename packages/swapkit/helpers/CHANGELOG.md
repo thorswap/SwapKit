@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.94
+
+### Patch Changes
+
+- [#743](https://github.com/thorswap/SwapKit/pull/743) [`e30dc33`](https://github.com/thorswap/SwapKit/commit/e30dc33aa6c444803db0eaf4581dd40ac3affa79) Thanks [@towanTG](https://github.com/towanTG)! - Returns correct Arb ETH asset when getting asset by chain
+
 ## 1.0.0-rc.93
 
 ### Patch Changes
