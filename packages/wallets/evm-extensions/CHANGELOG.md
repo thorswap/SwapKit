@@ -1,5 +1,11 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.0.0-rc.105
+
+### Patch Changes
+
+- [#749](https://github.com/thorswap/SwapKit/pull/749) [`d1f2bee`](https://github.com/thorswap/SwapKit/commit/d1f2beef3406586627132eed4cb8d60f1eed2013) Thanks [@towanTG](https://github.com/towanTG)! - Improves code
+
 ## 1.0.0-rc.104
 
 ### Patch Changes
