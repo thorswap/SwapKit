@@ -7,6 +7,7 @@ import {
   Chain,
   ChainToChainId,
   type EVMChain,
+  EVMChains,
   type ErrorKeys,
   FeeOption,
   MemoType,
@@ -61,14 +62,14 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     contractAddress,
   }: { type: T; assetValue: AssetValue; contractAddress?: string }) {
     const { address, chain, isGasAsset, isSynthetic } = assetValue;
-    const isEVMChain = [Chain.Ethereum, Chain.Arbitrum].includes(chain);
+    const isEVMChain = EVMChains.includes(chain as EVMChain);
     const isNativeEVM = isEVMChain && isGasAsset;
 
     if (isNativeEVM || !isEVMChain || isSynthetic) {
       return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
     }
 
-    const walletMethods = wallets[chain as Chain.Ethereum | Chain.Arbitrum];
+    const walletMethods = wallets[chain as EVMChain];
 
     const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
     if (!walletAction) {
