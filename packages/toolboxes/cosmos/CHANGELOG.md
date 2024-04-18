@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.116
+
+### Patch Changes
+
+- [#752](https://github.com/thorswap/SwapKit/pull/752) [`8c6192a`](https://github.com/thorswap/SwapKit/commit/8c6192a68f51333856e69a669ded3f9ddbd506e7) Thanks [@towanTG](https://github.com/towanTG)! - Fixes TC denoms
+
 ## 1.0.0-rc.115
 
 ### Patch Changes
