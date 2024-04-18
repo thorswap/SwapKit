@@ -2,7 +2,8 @@
   "author": "swapkit-oss",
   "description": "SwapKit - Helpers",
   "dependencies": {
-    "ky": "1.2.3"
+    "ky": "1.2.3",
+    "fuse.js": "7.0.0"
   },
   "devDependencies": {
     "@swapkit/tokens": "workspace:*",
