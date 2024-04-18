@@ -29,7 +29,7 @@ export const DEFAULT_COSMOS_FEE_MAINNET = {
 
 export const getDenom = (symbol: string, isThorchain = false) => {
   if (isThorchain) {
-    return symbol.toUpperCase();
+    return symbol.toLowerCase();
   }
   switch (symbol) {
     case "uUSK":
