@@ -2,6 +2,7 @@ import type { Keplr } from "@keplr-wallet/types";
 import {
   type AssetValue,
   Chain,
+  ChainId,
   ChainToChainId,
   type ConnectWalletParams,
   RPCUrl,
@@ -9,12 +10,15 @@ import {
   type WalletTxParams,
   setRequestClientConfig,
 } from "@swapkit/helpers";
+import { chainRegistry } from "./chainRegistry";
 
 declare global {
   interface Window {
     keplr: Keplr;
   }
 }
+
+const keplrSupportedChainIds = [ChainId.Cosmos];
 
 function connectKeplr({ addChain, config: { thorswapApiKey }, rpcUrls }: ConnectWalletParams) {
   return async function connectKeplr(chains: (Chain.Cosmos | Chain.Kujira)[]) {
@@ -23,6 +27,13 @@ function connectKeplr({ addChain, config: { thorswapApiKey }, rpcUrls }: Connect
 
     const keplrClient = window.keplr;
     const chainId = ChainToChainId[chain];
+
+    if (!keplrSupportedChainIds.includes(chainId)) {
+      const chainConfig = chainRegistry.get(chainId);
+      if (!chainConfig) throw new Error(`Unsupported chain ${chain}`);
+      await keplrClient.experimentalSuggestChain(chainConfig);
+    }
+
     keplrClient?.enable(chainId);
     const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(chainId);
     if (!offlineSigner) throw new Error("Could not load offlineSigner");

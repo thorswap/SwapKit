@@ -3,8 +3,10 @@ import {
   ApproveMode,
   type ApproveReturnType,
   AssetValue,
-  Chain,
+  type Chain,
   type ConnectConfig,
+  type EVMChain,
+  EVMChains,
   SwapKitError,
   type SwapParams,
   type Wallet,
@@ -116,7 +118,7 @@ export function SwapKit<
     }
 
     const { address, chain, isGasAsset, isSynthetic } = assetValue;
-    const isEVMChain = [Chain.Ethereum, Chain.Avalanche, Chain.BinanceSmartChain].includes(chain);
+    const isEVMChain = EVMChains.includes(chain as EVMChain);
     const isNativeEVM = isEVMChain && isGasAsset;
 
     if (isNativeEVM || !isEVMChain || isSynthetic) {
