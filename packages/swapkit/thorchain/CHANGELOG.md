@@ -1,5 +1,11 @@
 # @swapkit/thorchain
 
+## 1.0.0-rc.40
+
+### Patch Changes
+
+- [#750](https://github.com/thorswap/SwapKit/pull/750) [`8f837d0`](https://github.com/thorswap/SwapKit/commit/8f837d0a6c0d8926d35c66052cd2e95468046ad3) Thanks [@towanTG](https://github.com/towanTG)! - Adds keplr propose chain and fixes evm approve for plugins
+
 ## 1.0.0-rc.39
 
 ### Patch Changes
