@@ -45,7 +45,7 @@ export function SwapKit<
    */
   const compatPlugins: Plugins = Array.isArray(plugins)
     ? plugins.reduce((acc, pluginInterface) => {
-        // @ts-expect-error Ignore until we remove the compatibility layer
+        // @ts-ignore Ignore until we remove the compatibility layer
         const { name, plugin } = Object.values(pluginInterface)?.[0] || {};
         acc[name] = plugin;
         return acc;
@@ -53,7 +53,7 @@ export function SwapKit<
     : plugins;
   const compatWallets: Wallets = Array.isArray(wallets)
     ? wallets.reduce((acc, wallet) => {
-        // @ts-expect-error Ignore until we remove the compatibility layer
+        // @ts-ignore Ignore until we remove the compatibility layer
         const [walletName, connectWallet] = Object.entries(wallet)?.[0] || {};
         acc[walletName] = connectWallet;
         return acc;

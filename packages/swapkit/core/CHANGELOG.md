@@ -1,5 +1,11 @@
 # @swapkit/core
 
+## 1.0.0-rc.139
+
+### Patch Changes
+
+- Ignore errors for compat layer
+
 ## 1.0.0-rc.138
 
 ### Patch Changes
