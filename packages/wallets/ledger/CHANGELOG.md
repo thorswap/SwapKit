@@ -1,5 +1,11 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.137
+
+### Patch Changes
+
+- Types update
+
 ## 1.0.0-rc.136
 
 ### Patch Changes

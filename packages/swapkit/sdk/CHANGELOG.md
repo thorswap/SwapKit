@@ -1,5 +1,12 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.161
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-ledger@1.0.0-rc.137
+
 ## 1.0.0-rc.160
 
 ### Patch Changes

@@ -1,3 +1,4 @@
+import type Transport from "@ledgerhq/hw-transport";
 import { SwapKitError } from "@swapkit/helpers";
 
 const getNavigatorUsb = () =>
@@ -73,5 +74,5 @@ export const getLedgerTransport = async () => {
   };
   getNavigatorUsb()?.addEventListener("disconnect", onDisconnect);
 
-  return transport;
+  return transport as Transport;
 };
