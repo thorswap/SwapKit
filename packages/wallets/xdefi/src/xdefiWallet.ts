@@ -9,7 +9,7 @@ import {
   WalletOption,
   setRequestClientConfig,
 } from "@swapkit/helpers";
-import type { AVAXToolbox, BSCToolbox } from "@swapkit/toolbox-evm";
+import type { ARBToolbox, AVAXToolbox, BSCToolbox } from "@swapkit/toolbox-evm";
 
 import type { WalletTxParams } from "./walletHelpers.ts";
 import {
@@ -139,7 +139,10 @@ async function getWalletMethodsForChain({
             //@ts-expect-error
             ethereumWindowProvider,
             (
-              toolbox as ReturnType<typeof AVAXToolbox> | ReturnType<typeof BSCToolbox>
+              toolbox as
+                | ReturnType<typeof AVAXToolbox>
+                | ReturnType<typeof BSCToolbox>
+                | ReturnType<typeof ARBToolbox>
             ).getNetworkParams(),
           ));
       } catch (_error) {
