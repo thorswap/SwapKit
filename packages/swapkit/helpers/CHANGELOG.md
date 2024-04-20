@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.96
+
+### Patch Changes
+
+- [#754](https://github.com/thorswap/SwapKit/pull/754) [`97c09e5`](https://github.com/thorswap/SwapKit/commit/97c09e56b04743e0ab7cc1bd3bc56490ae9a234f) Thanks [@phips28](https://github.com/phips28)! - remove getBalance from methodsToWrap
+
 ## 1.0.0-rc.95
 
 ### Patch Changes
