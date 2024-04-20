@@ -1,5 +1,17 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.133
+
+### Patch Changes
+
+- [#755](https://github.com/thorswap/SwapKit/pull/755) [`bb651e4`](https://github.com/thorswap/SwapKit/commit/bb651e4c6311e93ae0ba1de45537086970367459) Thanks [@phips28](https://github.com/phips28)! - fix: xdefi add arb toolbox type
+
+- Updated dependencies [[`97c09e5`](https://github.com/thorswap/SwapKit/commit/97c09e56b04743e0ab7cc1bd3bc56490ae9a234f)]:
+  - @swapkit/helpers@1.0.0-rc.96
+  - @swapkit/toolbox-cosmos@1.0.0-rc.117
+  - @swapkit/toolbox-evm@1.0.0-rc.102
+  - @swapkit/toolbox-utxo@1.0.0-rc.105
+
 ## 1.0.0-rc.132
 
 ### Patch Changes
