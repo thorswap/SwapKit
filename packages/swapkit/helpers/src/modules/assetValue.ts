@@ -287,11 +287,13 @@ function getAssetInfo(identifier: string) {
       : `${isMaya ? Chain.Maya : Chain.THORChain}.${synthSymbol}`;
 
   const [chain, ...rest] = adjustedIdentifier.split(".") as [Chain, string];
-  const [ticker, address] = (isSynthetic ? synthSymbol : rest.join(".")).split("-") as [
-    string,
-    string?,
-  ];
+
   const symbol = isSynthetic ? synthSymbol : rest.join(".");
+  const splitSymbol = symbol.split("-");
+  const ticker = (
+    splitSymbol.length === 1 ? splitSymbol[0] : splitSymbol.slice(0, -1).join("-")
+  ) as string;
+  const address = splitSymbol.length === 1 ? undefined : splitSymbol[splitSymbol.length - 1];
 
   return {
     address: address?.toLowerCase(),

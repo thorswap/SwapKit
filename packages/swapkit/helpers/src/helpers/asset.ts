@@ -36,7 +36,8 @@ const getContractDecimals = async ({ chain, to }: { chain: EVMChain; to: string 
 
 const getETHAssetDecimal = (symbol: string) => {
   if (symbol === Chain.Ethereum) return BaseDecimal.ETH;
-  const [, address] = symbol.split("-");
+  const splitSymbol = symbol.split("-");
+  const address = splitSymbol.length === 1 ? undefined : splitSymbol[splitSymbol.length - 1];
 
   return address?.startsWith("0x")
     ? getContractDecimals({ chain: Chain.Ethereum, to: address })
@@ -44,7 +45,8 @@ const getETHAssetDecimal = (symbol: string) => {
 };
 
 const getAVAXAssetDecimal = (symbol: string) => {
-  const [, address] = symbol.split("-");
+  const splitSymbol = symbol.split("-");
+  const address = splitSymbol.length === 1 ? undefined : splitSymbol[splitSymbol.length - 1];
 
   return address?.startsWith("0x")
     ? getContractDecimals({ chain: Chain.Avalanche, to: address.toLowerCase() })
@@ -158,7 +160,12 @@ export const assetFromString = (assetString: string) => {
   const [chain, ...symbolArray] = assetString.split(".") as [Chain, ...(string | undefined)[]];
   const synth = assetString.includes("/");
   const symbol = symbolArray.join(".");
-  const ticker = symbol?.split("-")?.[0];
+  const splitSymbol = symbol?.split("-");
+  const ticker = splitSymbol?.length
+    ? splitSymbol.length === 1
+      ? splitSymbol[0]
+      : splitSymbol.slice(0, -1).join("-")
+    : undefined;
 
   return { chain, symbol, ticker, synth };
 };
@@ -171,7 +178,8 @@ const potentialScamRegex = new RegExp(
 const evmAssetHasAddress = (assetString: string) => {
   const [chain, symbol] = assetString.split(".") as [EVMChain, string];
   if (!EVMChains.includes(chain as EVMChain)) return true;
-  const [, address] = symbol.split("-") as [string, string?];
+  const splitSymbol = symbol.split("-");
+  const address = splitSymbol.length === 1 ? undefined : splitSymbol[splitSymbol.length - 1];
 
   return isGasAsset({ chain: chain as Chain, symbol }) || !!address;
 };

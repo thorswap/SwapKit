@@ -155,6 +155,21 @@ describe("AssetValue", () => {
         }),
       );
     });
+    test("creates AssetValue from string with multiple dashes", async () => {
+      const ethPendleLptAsset = await AssetValue.fromIdentifier("ETH.PENDLE-LPT-0x1234");
+
+      expect(ethPendleLptAsset).toEqual(
+        expect.objectContaining({
+          address: "0x1234",
+          chain: Chain.Ethereum,
+          decimal: 18,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: "PENDLE-LPT-0x1234",
+          ticker: "PENDLE-LPT",
+        }),
+      );
+    });
   });
 
   describe("fromString", () => {
@@ -171,6 +186,22 @@ describe("AssetValue", () => {
           isSynthetic: false,
           symbol: "ASDF-1234",
           ticker: "ASDF",
+        }),
+      );
+    });
+    test("creates AssetValue from string with multiple dashes", async () => {
+      const fakeAvaxAssetString = "AVAX.ASDF-LP-1234";
+      const fakeAvaxAsset = await AssetValue.fromString(fakeAvaxAssetString);
+
+      expect(fakeAvaxAsset).toEqual(
+        expect.objectContaining({
+          address: "1234",
+          chain: Chain.Avalanche,
+          decimal: 18,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: "ASDF-LP-1234",
+          ticker: "ASDF-LP",
         }),
       );
     });
@@ -203,16 +234,19 @@ describe("AssetValue", () => {
       const ethString = "ETH.ETH";
       const thorString = "ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044";
       const synthThorString = "THOR.ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044";
+      const synthDashesString = "THOR.ETH.PENDLE-LPT-0x1234";
 
       const synthETH = await AssetValue.fromUrl(synthETHString);
       const eth = await AssetValue.fromUrl(ethString);
       const thor = await AssetValue.fromUrl(thorString);
       const synthThor = await AssetValue.fromUrl(synthThorString);
+      const synthDashes = await AssetValue.fromUrl(synthDashesString);
 
       expect(synthETH.toString()).toBe("ETH/ETH");
       expect(eth.toString()).toBe("ETH.ETH");
       expect(thor.toString()).toBe("ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044");
       expect(synthThor.toString()).toBe("ETH/THOR-0xa5f2211b9b8170f694421f2046281775e8468044");
+      expect(synthDashes.toString()).toBe("ETH/PENDLE-LPT-0x1234");
     });
   });
 
@@ -286,6 +320,25 @@ describe("AssetValue", () => {
           isSynthetic: false,
           symbol: "USDC-1234",
           ticker: "USDC",
+        }),
+      );
+    });
+
+    test("returns safe decimals if string is not in `@swapkit/tokens` lists with multiple dashes", async () => {
+      await AssetValue.loadStaticAssets();
+      const fakeAvaxUSDCAssetString = "AVAX.USDC-LPT-1234";
+      const fakeAvaxUSDCAsset = AssetValue.fromStringSync(fakeAvaxUSDCAssetString);
+
+      expect(fakeAvaxUSDCAsset).toBeDefined();
+      expect(fakeAvaxUSDCAsset).toEqual(
+        expect.objectContaining({
+          address: "1234",
+          chain: Chain.Avalanche,
+          decimal: 18,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: "USDC-LPT-1234",
+          ticker: "USDC-LPT",
         }),
       );
     });
