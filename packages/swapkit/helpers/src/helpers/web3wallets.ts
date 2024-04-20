@@ -59,7 +59,6 @@ const methodsToWrap = [
   "call",
   "sendTransaction",
   "transfer",
-  "getBalance",
   "isApproved",
   "approvedAmount",
   "EIP1193SendTransaction",
