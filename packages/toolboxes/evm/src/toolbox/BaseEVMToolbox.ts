@@ -40,11 +40,24 @@ export const MAX_APPROVAL = MaxInt256;
 
 const baseAssetAddress: Record<EVMChain, string> = {
   [Chain.Arbitrum]: ContractAddress.ARB,
-  [Chain.Ethereum]: ContractAddress.ETH,
   [Chain.Avalanche]: ContractAddress.AVAX,
+  [Chain.Base]: ContractAddress.BASE,
   [Chain.BinanceSmartChain]: ContractAddress.BSC,
-  [Chain.Polygon]: ContractAddress.MATIC,
+  [Chain.Blast]: ContractAddress.BLAST,
+  [Chain.Cronos]: ContractAddress.CRO,
+  [Chain.Ethereum]: ContractAddress.ETH,
+  [Chain.Fantom]: ContractAddress.FTM,
+  [Chain.Gnosis]: ContractAddress.GNO,
+  [Chain.Linea]: ContractAddress.LIN,
+  [Chain.Manta]: ContractAddress.MANTA,
+  [Chain.Mantle]: ContractAddress.MNT,
+  [Chain.Mode]: ContractAddress.MODE,
+  [Chain.OKXChain]: ContractAddress.OKT,
   [Chain.Optimism]: ContractAddress.OP,
+  [Chain.Polygon]: ContractAddress.MATIC,
+  [Chain.PulseChain]: ContractAddress.PLS,
+  [Chain.Telos]: ContractAddress.TLS,
+  [Chain.ZkSync]: ContractAddress.ZKS,
 };
 
 const stateMutable = ["payable", "nonpayable"];
