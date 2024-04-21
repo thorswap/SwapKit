@@ -27,7 +27,7 @@ export const CROToolbox = ({
   signer: Signer;
   provider: JsonRpcProvider | BrowserProvider;
 }) => {
-  const crpApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Cronos });
+  const croApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Cronos });
   const baseToolbox = BaseEVMToolbox({ provider, signer });
 
   return {
