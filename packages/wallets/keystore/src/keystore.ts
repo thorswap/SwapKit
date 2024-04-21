@@ -48,12 +48,24 @@ const getWalletMethodsForChain = async ({
   const derivationPath = `${DerivationPath[chain] as string}/${index}`;
 
   switch (chain) {
-    case Chain.BinanceSmartChain:
     case Chain.Arbitrum:
+    case Chain.Avalanche:
+    case Chain.Blast:
+    case Chain.BinanceSmartChain:
+    case Chain.Cronos:
+    case Chain.Ethereum:
+    case Chain.Fantom:
+    case Chain.Gnosis:
+    case Chain.Linea:
+    case Chain.Manta:
+    case Chain.Mantle:
+    case Chain.Mode:
+    case Chain.OKXChain:
     case Chain.Optimism:
     case Chain.Polygon:
-    case Chain.Avalanche:
-    case Chain.Ethereum: {
+    case Chain.PulseChain:
+    case Chain.Telos:
+    case Chain.ZkSync: {
       if (chain === Chain.Ethereum && !ethplorerApiKey) {
         throw new Error("Ethplorer API key not found");
         // biome-ignore lint/style/noUselessElse: This is a valid use case
