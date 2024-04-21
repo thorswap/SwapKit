@@ -4,10 +4,23 @@ import type { BigNumberish, JsonFragment, Transaction } from "ethers";
 import type {
   ARBToolbox,
   AVAXToolbox,
+  BASEToolbox,
   BSCToolbox,
+  BLASTToolbox,
+  CROToolbox,
   ETHToolbox,
+  FTMToolbox,
+  GNOToolbox,
+  LINToolbox,
+  MANTAToolbox,
   MATICToolbox,
+  MNTToolbox,
+  MODEToolbox,
+  OKTToolbox,
   OPToolbox,
+  PLSToolbox,
+  TLOSToolbox,
+  ZKSToolbox,
 } from "../index.ts";
 import type { getProvider } from "../provider.ts";
 
@@ -64,12 +77,25 @@ export type TransferParams = WalletTxParams & {
 };
 
 export type EVMToolbox = ReturnType<
-  | typeof AVAXToolbox
-  | typeof ETHToolbox
-  | typeof BSCToolbox
-  | typeof OPToolbox
   | typeof ARBToolbox
+  | typeof AVAXToolbox
+  | typeof BASEToolbox
+  | typeof BSCToolbox
+  | typeof BLASTToolbox
+  | typeof CROToolbox
+  | typeof ETHToolbox
+  | typeof FTMToolbox
+  | typeof GNOToolbox
+  | typeof LINToolbox
+  | typeof MANTAToolbox
   | typeof MATICToolbox
+  | typeof MNTToolbox
+  | typeof MODEToolbox
+  | typeof OKTToolbox
+  | typeof OPToolbox
+  | typeof PLSToolbox
+  | typeof TLOSToolbox
+  | typeof ZKSToolbox
 >;
 
 export type EVMMaxSendableAmountsParams = {
