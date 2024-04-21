@@ -38,12 +38,24 @@ export type WalletTxParams = {
 
 function getXDEFIProvider(chain: Chain) {
   switch (chain) {
-    case Chain.Ethereum:
-    case Chain.Avalanche:
-    case Chain.BinanceSmartChain:
     case Chain.Arbitrum:
+    case Chain.Avalanche:
+    case Chain.Blast:
+    case Chain.BinanceSmartChain:
+    case Chain.Cronos:
+    case Chain.Ethereum:
+    case Chain.Fantom:
+    case Chain.Gnosis:
+    case Chain.Linea:
+    case Chain.Manta:
+    case Chain.Mantle:
+    case Chain.Mode:
+    case Chain.OKXChain:
     case Chain.Optimism:
     case Chain.Polygon:
+    case Chain.PulseChain:
+    case Chain.Telos:
+    case Chain.ZkSync:
       return window.xfi?.ethereum;
     case Chain.Binance:
       return window.xfi?.binance;
