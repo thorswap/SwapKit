@@ -103,10 +103,10 @@ export const getCommonAssetInfo = (
       return { identifier: "ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044", decimal: 18 };
     case `${Chain.Ethereum}.vTHOR`:
       return { identifier: "ETH.vTHOR-0x815c23eca83261b6ec689b60cc4a58b54bc24d8d", decimal: 18 };
-
     case Chain.Arbitrum:
-      return { identifier: `${Chain.Arbitrum}.ETH`, decimal: 18 };
-
+      return { identifier: `${Chain.Arbitrum}.ETH`, decimal: BaseDecimal[assetString] };
+    case Chain.Optimism:
+      return { identifier: `${Chain.Optimism}.ETH`, decimal: BaseDecimal[assetString] };
     case Chain.Cosmos:
       return { identifier: "GAIA.ATOM", decimal: BaseDecimal[assetString] };
     case Chain.THORChain:
