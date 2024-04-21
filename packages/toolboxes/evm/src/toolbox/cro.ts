@@ -10,7 +10,7 @@ import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
 const getNetworkParams = () => ({
   chainId: ChainId.Cronos,
   chainName: "Cronos Mainnet",
-  nativeCurrency: { name: "Cronos Mainnet", symbol: Chain.Cronos, decimals: BaseDecimal.CRO },
+  nativeCurrency: { name: "Cronos", symbol: Chain.Cronos, decimals: BaseDecimal.CRO },
   // Use external rpc URL so wallets don't throw warning to user
   rpcUrls: ["https://evm.cronos.org"],
   blockExplorerUrls: [ChainToExplorerUrl[Chain.Cronos]],
