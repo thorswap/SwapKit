@@ -2,10 +2,22 @@ import { Chain } from "@swapkit/helpers";
 
 import { ARBToolbox } from "./arb.ts";
 import { AVAXToolbox } from "./avax.ts";
+import { BASEToolbox } from "./base.ts";
 import { BSCToolbox } from "./bsc.ts";
+import { CROToolbox } from "./cro.ts";
 import { ETHToolbox } from "./eth.ts";
+import { FTMToolbox } from "./ftm.ts";
+import { GNOToolbox } from "./gno.ts";
+import { LINToolbox } from "./lin.ts";
+import { MANTAToolbox } from "./manta.ts";
 import { MATICToolbox } from "./matic.ts";
+import { MNTToolbox } from "./mnt.ts";
+import { MODEToolbox } from "./mode.ts";
+import { OKTToolbox } from "./okt.ts";
 import { OPToolbox } from "./op.ts";
+import { PLSToolbox } from "./pls.ts";
+import { TLOSToolbox } from "./tlos.ts";
+import { ZKSToolbox } from "./zks.ts";
 
 type ToolboxType = {
   ETH: typeof ETHToolbox;
