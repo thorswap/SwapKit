@@ -16,7 +16,7 @@ const getNetworkParams = () => ({
   blockExplorerUrls: [ChainToExplorerUrl[Chain.Telos]],
 });
 
-export const LINToolbox = ({
+export const TLOSToolbox = ({
   api,
   provider,
   signer,
