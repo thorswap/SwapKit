@@ -9,7 +9,7 @@ import {
   WalletOption,
   setRequestClientConfig,
 } from "@swapkit/helpers";
-import type { ARBToolbox, AVAXToolbox, BSCToolbox } from "@swapkit/toolbox-evm";
+import type { ARBToolbox, AVAXToolbox, BSCToolbox, BLASTToolbox, CROToolbox, FTMToolbox, GNOToolbox, LINToolbox, MANTAToolbox, MATICToolbox, MNTToolbox, MODEToolbox, OKTToolbox, OPToolbox, PLSToolbox, TLOSToolbox, ZKSToolbox } from "@swapkit/toolbox-evm";
 
 import type { WalletTxParams } from "./walletHelpers.ts";
 import {
@@ -26,15 +26,27 @@ const XDEFI_SUPPORTED_CHAINS = [
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
+  Chain.Blast,
   Chain.Cosmos,
+  Chain.Cronos,
   Chain.Dogecoin,
   Chain.Ethereum,
+  Chain.Fantom,
+  Chain.Gnosis
   Chain.Kujira,
+  Chain.Linea
   Chain.Litecoin,
+  Chain.Manta,
+  Chain.Mantle,
+  Chain.Maya,
+  Chain.Mode,
+  Chain.OKXChain,
   Chain.Optimism,
   Chain.Polygon,
+  Chain.PulseChain,
+  Chain.Telos,
   Chain.THORChain,
-  Chain.Maya,
+  Chain.ZkSync,
 ] as const;
 
 async function getWalletMethodsForChain({
@@ -96,12 +108,24 @@ async function getWalletMethodsForChain({
       return { ...toolbox, transfer: walletTransfer };
     }
 
-    case Chain.Ethereum:
-    case Chain.BinanceSmartChain:
     case Chain.Arbitrum:
+    case Chain.Avalanche:
+    case Chain.BinanceSmartChain:
+    case Chain.Blast:
+    case Chain.Cronos:
+    case Chain.Ethereum:
+    case Chain.Fantom:
+    case Chain.Gnosis:
+    case Chain.Linea:
+    case Chain.Manta:
+    case Chain.Mantle:
+    case Chain.Mode:
+    case Chain.OKXChain:
     case Chain.Optimism:
     case Chain.Polygon:
-    case Chain.Avalanche: {
+    case Chain.PulseChain:
+    case Chain.Telos:
+    case Chain.ZkSync: {
       const { prepareNetworkSwitch, addEVMWalletNetwork } = await import("@swapkit/helpers");
       const {
         getProvider,
@@ -140,9 +164,23 @@ async function getWalletMethodsForChain({
             ethereumWindowProvider,
             (
               toolbox as
-                | ReturnType<typeof AVAXToolbox>
-                | ReturnType<typeof BSCToolbox>
                 | ReturnType<typeof ARBToolbox>
+                | ReturnType<typeof AVAXToolbox>
+                | ReturnType<typeof BLASTToolbox>
+                | ReturnType<typeof BSCToolbox>
+                | ReturnType<typeof CROToolbox>
+                | ReturnType<typeof FTMToolbox>
+                | ReturnType<typeof GNOToolbox>
+                | ReturnType<typeof LINToolbox>
+                | ReturnType<typeof MANTAToolbox>
+                | ReturnType<typeof MATICToolbox>
+                | ReturnType<typeof MNTToolbox>
+                | ReturnType<typeof MODEToolbox>
+                | ReturnType<typeof OKTToolbox>
+                | ReturnType<typeof OPToolbox>
+                | ReturnType<typeof PLSToolbox>
+                | ReturnType<typeof TLOSToolbox>
+                | ReturnType<typeof ZKSToolbox>
             ).getNetworkParams(),
           ));
       } catch (_error) {
