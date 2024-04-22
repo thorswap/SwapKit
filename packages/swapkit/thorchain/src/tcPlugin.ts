@@ -477,6 +477,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
               : chain === Chain.BinanceSmartChain
                 ? TCBscDepositABI
                 : TCEthereumVaultAbi;
+          // TODO Arbitrum ABI?
 
           const tx = await wallet.call({
             abi,
