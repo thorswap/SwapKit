@@ -466,7 +466,8 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
 
         case Chain.Ethereum:
         case Chain.BinanceSmartChain:
-        case Chain.Avalanche: {
+        case Chain.Avalanche:
+        case Chain.Arbitrum: {
           const wallet = wallets[chain];
           const { getChecksumAddressFromAsset } = await import("@swapkit/toolbox-evm");
 
