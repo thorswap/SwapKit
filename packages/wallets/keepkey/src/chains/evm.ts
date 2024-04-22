@@ -6,7 +6,7 @@ import {
   NetworkDerivationPath,
   derivationPathToString,
 } from "@swapkit/helpers";
-import type { EVMTxParams, JsonRpcProvider, Provider } from "@swapkit/toolbox-evm";
+import type { JsonRpcProvider, Provider, TransactionRequest } from "@swapkit/toolbox-evm";
 import { AbstractSigner } from "@swapkit/toolbox-evm";
 
 import { bip32ToAddressNList } from "../helpers/coins.ts";
@@ -52,7 +52,6 @@ export class KeepKeySigner extends AbstractSigner {
     this.sdk.eth.ethSign({ address: this.address, message }) as Promise<string>;
 
   signTransaction = async ({
-    from,
     to,
     value,
     gasLimit,
@@ -61,14 +60,13 @@ export class KeepKeySigner extends AbstractSigner {
     maxFeePerGas,
     maxPriorityFeePerGas,
     gasPrice,
-    ...restTx
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
-  }: EVMTxParams & { maxFeePerGas?: string; maxPriorityFeePerGas?: string; gasPrice?: string }) => {
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>
+  }: TransactionRequest) => {
     if (!to) throw new Error("Missing to address");
     if (!gasLimit) throw new Error("Missing gasLimit");
     if (!data) throw new Error("Missing data");
 
-    const isEIP1559 = (maxFeePerGas || maxPriorityFeePerGas) && !gasPrice;
+    const isEIP1559 = !!((maxFeePerGas || maxPriorityFeePerGas) && !gasPrice);
     if (isEIP1559 && !maxFeePerGas) throw new Error("Missing maxFeePerGas");
     if (isEIP1559 && !maxPriorityFeePerGas) throw new Error("Missing maxFeePerGas");
     if (!(isEIP1559 || gasPrice)) throw new Error("Missing gasPrice");
@@ -84,23 +82,29 @@ export class KeepKeySigner extends AbstractSigner {
       addressNList: [2147483692, 2147483708, 2147483648, 0, 0],
       from: this.address,
       chainId: toHexString(BigInt(ChainToChainId[this.chain])),
-      to,
+      to: to.toString(),
       value: toHexString(BigInt(value || 0)),
       nonce: toHexString(nonceValue),
       data,
-      ...(isEIP1559
-        ? {
-            maxFeePerGas: toHexString(BigInt(maxFeePerGas?.toString() || "0")),
-            maxPriorityFeePerGas: toHexString(BigInt(maxPriorityFeePerGas?.toString() || "0")),
-          }
-        : {
-            // Fixed syntax error and structure here
-            gasPrice:
-              "gasPrice" in restTx ? toHexString(BigInt(gasPrice?.toString() || "0")) : undefined,
-          }),
+      ...(isEIP1559 && {
+        maxFeePerGas: toHexString(BigInt(maxFeePerGas?.toString() || "0")),
+        maxPriorityFeePerGas: toHexString(BigInt(maxPriorityFeePerGas?.toString() || "0")),
+      }),
+      ...(!isEIP1559 && {
+        // Fixed syntax error and structure here
+        gasPrice: toHexString(BigInt(gasPrice?.toString() || "0")),
+      }),
     };
     const responseSign = await this.sdk.eth.ethSignTransaction(input);
     return responseSign.serialized;
+  };
+
+  sendTransaction = async (tx: TransactionRequest): Promise<Todo> => {
+    if (!this.provider) throw new Error("No provider set");
+
+    const signedTxHex = await this.signTransaction(tx);
+
+    return await this.provider.broadcastTransaction(signedTxHex);
   };
 
   connect = (provider: Provider) =>
