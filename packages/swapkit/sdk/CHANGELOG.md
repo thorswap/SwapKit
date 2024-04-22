@@ -1,5 +1,24 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.166
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/core@1.0.0-rc.142
+  - @swapkit/toolbox-cosmos@1.0.0-rc.119
+  - @swapkit/toolbox-evm@1.0.0-rc.104
+  - @swapkit/toolbox-utxo@1.0.0-rc.107
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.108
+  - @swapkit/wallet-keepkey@1.0.0-rc.56
+  - @swapkit/wallet-keplr@1.0.0-rc.121
+  - @swapkit/wallet-keystore@1.0.0-rc.133
+  - @swapkit/wallet-ledger@1.0.0-rc.140
+  - @swapkit/wallet-okx@1.0.0-rc.133
+  - @swapkit/wallet-trezor@1.0.0-rc.116
+  - @swapkit/wallet-wc@1.0.0-rc.126
+  - @swapkit/wallet-xdefi@1.0.0-rc.135
+
 ## 1.0.0-rc.165
 
 ### Patch Changes

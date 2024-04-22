@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.98
+
+### Patch Changes
+
+- [#766](https://github.com/thorswap/SwapKit/pull/766) [`637b276`](https://github.com/thorswap/SwapKit/commit/637b2766b8eb0d5c06d8c98770ee999ef8e0abd9) Thanks [@towanTG](https://github.com/towanTG)! - Changes dash node url to use TS node
+
 ## 1.0.0-rc.97
 
 ### Patch Changes
