@@ -1,5 +1,11 @@
 # @swapkit/wallet-keepkey
 
+## 1.0.0-rc.55
+
+### Patch Changes
+
+- [#763](https://github.com/thorswap/SwapKit/pull/763) [`10e7ef6`](https://github.com/thorswap/SwapKit/commit/10e7ef6584fbcc5afec65407feb7a075599ccd13) Thanks [@towanTG](https://github.com/towanTG)! - Changes keepkey sdk import to sync
+
 ## 1.0.0-rc.54
 
 ### Patch Changes
