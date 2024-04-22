@@ -7,7 +7,7 @@ import {
   setRequestClientConfig,
 } from "@swapkit/helpers";
 
-import type { KeepKeySdk } from "@keepkey/keepkey-sdk";
+import { KeepKeySdk } from "@keepkey/keepkey-sdk";
 export type { PairingInfo } from "@keepkey/keepkey-sdk";
 
 import { binanceWalletMethods } from "./chains/binance.ts";
@@ -174,7 +174,6 @@ function connectKeepkey({
 
     await checkAndLaunch(3);
 
-    const { KeepKeySdk } = await import("@keepkey/keepkey-sdk");
     // Only build this once for all assets
     const keepKeySdk = await KeepKeySdk.create(keepkeyConfig);
 
