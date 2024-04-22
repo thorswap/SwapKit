@@ -16,6 +16,7 @@ import {
   SwapKitError,
   SwapKitNumber,
   type SwapParams,
+  TCArbitrumDepositABI,
   TCAvalancheDepositABI,
   TCBscDepositABI,
   TCEthereumVaultAbi,
@@ -476,8 +477,9 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
               ? TCAvalancheDepositABI
               : chain === Chain.BinanceSmartChain
                 ? TCBscDepositABI
-                : TCEthereumVaultAbi;
-          // TODO Arbitrum ABI?
+                : chain === Chain.Arbitrum
+                  ? TCArbitrumDepositABI
+                  : TCEthereumVaultAbi;
 
           const tx = await wallet.call({
             abi,
