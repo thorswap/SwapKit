@@ -1,5 +1,11 @@
 # @swapkit/wallet-keepkey
 
+## 1.0.0-rc.54
+
+### Patch Changes
+
+- [#761](https://github.com/thorswap/SwapKit/pull/761) [`91b3642`](https://github.com/thorswap/SwapKit/commit/91b3642cacdaa593c396f02b018a4407e8ba7047) Thanks [@towanTG](https://github.com/towanTG)! - Fixes evm signTransaction
+
 ## 1.0.0-rc.53
 
 ### Patch Changes

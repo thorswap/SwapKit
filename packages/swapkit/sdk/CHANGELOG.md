@@ -1,5 +1,12 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.164
+
+### Patch Changes
+
+- Updated dependencies [[`91b3642`](https://github.com/thorswap/SwapKit/commit/91b3642cacdaa593c396f02b018a4407e8ba7047)]:
+  - @swapkit/wallet-keepkey@1.0.0-rc.54
+
 ## 1.0.0-rc.163
 
 ### Patch Changes
