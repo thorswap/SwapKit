@@ -1,5 +1,11 @@
 # @swapkit/core
 
+## 1.0.0-rc.143
+
+### Patch Changes
+
+- [#768](https://github.com/thorswap/SwapKit/pull/768) [`b2b2b95`](https://github.com/thorswap/SwapKit/commit/b2b2b95db012b6edd58ec1d51fb71d6ea098d420) Thanks [@towanTG](https://github.com/towanTG)! - Simplifies approve method and fixes bug
+
 ## 1.0.0-rc.142
 
 ### Patch Changes
