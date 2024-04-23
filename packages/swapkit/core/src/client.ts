@@ -113,8 +113,8 @@ export function SwapKit<
   }) {
     const plugin = availablePlugins[spenderAddress];
 
-    if ("approve" in plugin) {
-      return plugin.approve({ assetValue, type, spenderAddress }) as ApproveReturnType<T>;
+    if (plugin && "approve" in plugin) {
+      return plugin.approve({ assetValue, type }) as ApproveReturnType<T>;
     }
 
     const { address, chain, isGasAsset, isSynthetic } = assetValue;

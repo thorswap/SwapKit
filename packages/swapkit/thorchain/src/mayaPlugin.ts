@@ -1,11 +1,9 @@
 import type { EvmTransactionDetails, QuoteRouteV2 } from "@swapkit/api";
 import {
   ApproveMode,
-  type ApproveReturnType,
   AssetValue,
   Chain,
   type EVMChain,
-  EVMChains,
   type ErrorKeys,
   MayaArbitrumVaultAbi,
   MayaEthereumVaultAbi,
@@ -14,7 +12,13 @@ import {
   type Wallet,
 } from "@swapkit/helpers";
 
-import { getInboundDataFunction, getWallet, prepareTxParams, validateAddressType } from "./shared";
+import {
+  getInboundDataFunction,
+  getWallet,
+  prepareTxParams,
+  sharedApprove,
+  validateAddressType,
+} from "./shared";
 import type { ApproveParams, CoreTxParams, SwapWithRouteParams } from "./types";
 
 const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boolean }) => {
@@ -27,37 +31,14 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
   async function approve<T extends ApproveMode>({
     assetValue,
     type = "checkOnly" as T,
-    contractAddress,
-  }: { type: T; assetValue: AssetValue; contractAddress?: string }) {
-    const { address, chain, isGasAsset, isSynthetic } = assetValue;
-    const isEVMChain = EVMChains.includes(chain as EVMChain);
-    const isNativeEVM = isEVMChain && isGasAsset;
+  }: { type: T; assetValue: AssetValue }) {
+    const router = (await getInboundDataByChain(assetValue.chain)).router as string;
 
-    if (isNativeEVM || !isEVMChain || isSynthetic) {
-      return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
-    }
-
-    const walletMethods = wallets[chain as EVMChain];
-
-    const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
-    if (!walletAction) {
-      throw new SwapKitError("core_wallet_connection_not_found");
-    }
-
-    const from = walletMethods?.address;
-
-    if (!(address && from)) {
-      throw new SwapKitError("core_approve_asset_address_or_from_not_found");
-    }
-
-    const spenderAddress =
-      contractAddress || ((await getInboundDataByChain(chain)).router as string);
-
-    return walletAction({
-      amount: assetValue.getBaseValue("bigint"),
-      assetAddress: address,
-      from,
-      spenderAddress,
+    return sharedApprove({
+      assetValue,
+      type,
+      router,
+      wallets,
     });
   }
 
