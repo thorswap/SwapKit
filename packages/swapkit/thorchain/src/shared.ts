@@ -1,5 +1,15 @@
 import { SwapKitApi, type ThornodeEndpointParams } from "@swapkit/api";
-import { Chain, FeeOption, SwapKitError, type Wallet } from "@swapkit/helpers";
+import {
+  type ApproveMode,
+  type ApproveReturnType,
+  type AssetValue,
+  Chain,
+  type EVMChain,
+  EVMChains,
+  FeeOption,
+  SwapKitError,
+  type Wallet,
+} from "@swapkit/helpers";
 import type { CoreTxParams } from "./types";
 
 export const validateAddressType = ({
@@ -66,4 +76,39 @@ export function getInboundDataFunction(params: ThornodeEndpointParams) {
 
     return chainAddressData;
   };
+}
+
+export function sharedApprove<T extends ApproveMode>({
+  assetValue,
+  type = "checkOnly" as T,
+  router,
+  wallets,
+}: { type: T; assetValue: AssetValue; router: string; wallets: Wallet }) {
+  const { address, chain, isGasAsset, isSynthetic } = assetValue;
+  const isEVMChain = EVMChains.includes(chain as EVMChain);
+  const isNativeEVM = isEVMChain && isGasAsset;
+
+  if (isNativeEVM || !isEVMChain || isSynthetic) {
+    return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
+  }
+
+  const walletMethods = wallets[chain as EVMChain];
+
+  const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
+  if (!walletAction) {
+    throw new SwapKitError("core_wallet_connection_not_found");
+  }
+
+  const from = walletMethods?.address;
+
+  if (!(address && from)) {
+    throw new SwapKitError("core_approve_asset_address_or_from_not_found");
+  }
+
+  return walletAction({
+    amount: assetValue.getBaseValue("bigint"),
+    assetAddress: address,
+    from,
+    spenderAddress: router,
+  });
 }
