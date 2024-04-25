@@ -6,7 +6,7 @@ export function bech32ToBase64(address: string) {
 }
 
 export function base64ToBech32(address: string, prefix = "thor") {
-  return bech32.encode(prefix, base64.decode(address));
+  return bech32.encode(prefix, Array.from(base64.decode(address)));
 }
 
 export function toBase64(data: Uint8Array) {
