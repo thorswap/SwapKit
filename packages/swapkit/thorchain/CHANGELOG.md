@@ -1,5 +1,14 @@
 # @swapkit/thorchain
 
+## 1.0.0-rc.46
+
+### Patch Changes
+
+- [#770](https://github.com/thorswap/SwapKit/pull/770) [`5f78e03`](https://github.com/thorswap/SwapKit/commit/5f78e0389e5b4561ecf1d582e940df66b698eb19) Thanks [@towanTG](https://github.com/towanTG)! - Fixes bech32 encode array
+
+- Updated dependencies [[`5f78e03`](https://github.com/thorswap/SwapKit/commit/5f78e0389e5b4561ecf1d582e940df66b698eb19)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.120
+
 ## 1.0.0-rc.45
 
 ### Patch Changes
