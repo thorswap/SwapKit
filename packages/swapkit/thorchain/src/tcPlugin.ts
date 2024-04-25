@@ -433,8 +433,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
 
     try {
       switch (chain) {
-        case Chain.THORChain:
-        case Chain.Maya: {
+        case Chain.THORChain: {
           const wallet = wallets[chain];
           const tx = await (recipient === "" ? wallet.deposit(params) : wallet.transfer(params));
           return tx;
