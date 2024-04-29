@@ -49,7 +49,7 @@
   * [Tracker API](swapkit-api/api-reference/tracker-api.md)
   * [Aggregator API](swapkit-api/api-reference/aggregator-api.md)
   * [Resource Worker API](swapkit-api/api-reference/resource-worker-api.md)
-  * [Full API Reference](http://localhost:3000/doc)
+  * [Full API Reference](https://dev-api.thorswap.net/doc)
 * [⚙️ SwapKit API](swapkit-api/swapkit-api/README.md)
   * [Requesting supported Chains](swapkit-api/swapkit-api/requesting-supported-chains.md)
   * [Requesting supported Providers](swapkit-api/swapkit-api/requesting-supported-providers.md)
