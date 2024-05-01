@@ -1,5 +1,15 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.169
+
+### Patch Changes
+
+- Updated dependencies [[`d8452d0`](https://github.com/thorswap/SwapKit/commit/d8452d0bd0be2f39318d299a0f79b91f52b2b022), [`a5bfd4f`](https://github.com/thorswap/SwapKit/commit/a5bfd4f741222057c0fbe95e7974ab19024c0e2c)]:
+  - @swapkit/wallet-ledger@1.0.0-rc.142
+  - @swapkit/wallet-keplr@1.0.0-rc.123
+  - @swapkit/wallet-xdefi@1.0.0-rc.137
+  - @swapkit/wallet-okx@1.0.0-rc.135
+
 ## 1.0.0-rc.168
 
 ### Patch Changes
