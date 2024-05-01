@@ -1,5 +1,11 @@
 # @swapkit/wallet-keplr
 
+## 1.0.0-rc.123
+
+### Patch Changes
+
+- [#772](https://github.com/thorswap/SwapKit/pull/772) [`d8452d0`](https://github.com/thorswap/SwapKit/commit/d8452d0bd0be2f39318d299a0f79b91f52b2b022) Thanks [@towanTG](https://github.com/towanTG)! - Fixes gas limit estimation adjustment for cosmjs
+
 ## 1.0.0-rc.122
 
 ### Patch Changes

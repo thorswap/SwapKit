@@ -1,5 +1,11 @@
 # @swapkit/wallet-okx
 
+## 1.0.0-rc.135
+
+### Patch Changes
+
+- [#774](https://github.com/thorswap/SwapKit/pull/774) [`a5bfd4f`](https://github.com/thorswap/SwapKit/commit/a5bfd4f741222057c0fbe95e7974ab19024c0e2c) Thanks [@towanTG](https://github.com/towanTG)! - Fixes BrowserExtension network select for evm
+
 ## 1.0.0-rc.134
 
 ### Patch Changes
