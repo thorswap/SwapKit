@@ -189,7 +189,7 @@ export function cosmosTransfer({
       },
     ];
 
-    const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 1.6, memo);
+    const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 2, memo);
     return transactionHash;
   };
 }

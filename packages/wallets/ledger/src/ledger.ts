@@ -277,7 +277,7 @@ const getToolbox = async ({
           "0.007uatom",
         );
 
-        const tx = await signingClient.signAndBroadcast(address, [msg], "auto", memo);
+        const tx = await signingClient.signAndBroadcast(address, [msg], 2, memo);
 
         return tx.transactionHash;
       };

@@ -63,7 +63,7 @@ function connectKeplr({ addChain, config: { thorswapApiKey }, rpcUrls }: Connect
         },
       ];
 
-      const { transactionHash } = await cosmJS.sendTokens(address, recipient, coins, 1.6, memo);
+      const { transactionHash } = await cosmJS.sendTokens(address, recipient, coins, 2, memo);
       return transactionHash;
     };
 
