@@ -1,6 +1,6 @@
 import { ChainflipPlugin } from "@swapkit/chainflip";
 import { SwapKit } from "@swapkit/core";
-import { ThorchainPlugin } from "@swapkit/thorchain";
+import { MayachainPlugin, ThorchainPlugin } from "@swapkit/thorchain";
 import { evmWallet } from "@swapkit/wallet-evm-extensions";
 import { keepkeyWallet } from "@swapkit/wallet-keepkey";
 import { keplrWallet } from "@swapkit/wallet-keplr";
@@ -13,13 +13,20 @@ import { xdefiWallet } from "@swapkit/wallet-xdefi";
 
 export * from "@swapkit/core";
 
-const plugins = { ...ThorchainPlugin, ...ChainflipPlugin };
+const plugins = {
+  ...ThorchainPlugin,
+  ...MayachainPlugin,
+  chainflip: {
+    ...ChainflipPlugin.chainflip,
+    config: { brokerEndpoint: "TBD" },
+  },
+};
 
 const wallets = {
   ...evmWallet,
+  ...keepkeyWallet,
   ...keplrWallet,
   ...keystoreWallet,
-  ...keepkeyWallet,
   ...ledgerWallet,
   ...okxWallet,
   ...trezorWallet,
