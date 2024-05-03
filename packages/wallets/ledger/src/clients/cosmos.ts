@@ -17,7 +17,7 @@ export class CosmosLedger extends CosmosLedgerInterface {
   }
 
   connect = async () => {
-    await this.checkOrCreateTransportAndLedger();
+    await this.checkOrCreateTransportAndLedger(true);
     const { publicKey, address } = await this.getAddressAndPubKey();
 
     this.pubKey = Buffer.from(publicKey, "hex").toString("base64");
