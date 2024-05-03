@@ -7,7 +7,7 @@
     "@ledgerhq/errors": "6.16.3",
     "@ledgerhq/hw-app-btc": "10.2.3",
     "@ledgerhq/hw-app-cosmos": "6.29.5",
-    "@ledgerhq/hw-app-eth": "6.35.7",
+    "@ledgerhq/hw-app-eth": "6.36.0",
     "@ledgerhq/hw-transport": "6.30.5",
     "@ledgerhq/hw-transport-webusb": "6.28.5",
     "@scure/base": "1.1.6",

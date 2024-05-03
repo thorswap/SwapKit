@@ -1,3 +1,4 @@
+import { toBech32 } from "@cosmjs/encoding";
 import { base64, bech32 } from "@scure/base";
 import { fromByteArray, toByteArray } from "base64-js";
 
@@ -6,7 +7,7 @@ export function bech32ToBase64(address: string) {
 }
 
 export function base64ToBech32(address: string, prefix = "thor") {
-  return bech32.encode(prefix, Array.from(base64.decode(address)));
+  return toBech32(prefix, base64.decode(address));
 }
 
 export function toBase64(data: Uint8Array) {
