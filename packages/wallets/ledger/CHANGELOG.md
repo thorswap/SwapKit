@@ -1,5 +1,14 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0-rc.143
+
+### Patch Changes
+
+- [#775](https://github.com/thorswap/SwapKit/pull/775) [`619afcb`](https://github.com/thorswap/SwapKit/commit/619afcbd7efc3e7f70e27c2e1133ec797ed85325) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Ledger cosmos and TC multisig
+
+- Updated dependencies [[`619afcb`](https://github.com/thorswap/SwapKit/commit/619afcbd7efc3e7f70e27c2e1133ec797ed85325)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.121
+
 ## 1.0.0-rc.142
 
 ### Patch Changes
