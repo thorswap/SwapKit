@@ -1,5 +1,15 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.51
+
+### Patch Changes
+
+- Updated dependencies [[`acf1100`](https://github.com/thorswap/SwapKit/commit/acf1100eaab4e481cfb290ffe0d65c4899c67ced)]:
+  - @swapkit/helpers@1.0.0-rc.99
+  - @swapkit/api@1.0.0-rc.65
+  - @swapkit/toolbox-evm@1.0.0-rc.105
+  - @swapkit/toolbox-substrate@1.0.0-rc.34
+
 ## 1.0.0-rc.50
 
 ### Patch Changes
