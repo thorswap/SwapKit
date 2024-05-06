@@ -113,8 +113,18 @@ export function SwapKit<
   }) {
     const plugin = availablePlugins[spenderAddress];
 
-    if (plugin && "approve" in plugin) {
-      return plugin.approve({ assetValue, type }) as ApproveReturnType<T>;
+    if (plugin) {
+      if (type === ApproveMode.CheckOnly && "isAssetValueApproved" in plugin) {
+        return plugin.isAssetValueApproved({ assetValue }) as ApproveReturnType<T>;
+      }
+      if (type === ApproveMode.Approve && "approveAssetValue" in plugin) {
+        return plugin.approveAssetValue({ assetValue }) as ApproveReturnType<T>;
+      }
+
+      throw new SwapKitError(
+        "core_approve_asset_target_invalid",
+        `Target ${String(spenderAddress)} cannot be used for approve operation`,
+      );
     }
 
     const { address, chain, isGasAsset, isSynthetic } = assetValue;
