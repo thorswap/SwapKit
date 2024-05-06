@@ -1,5 +1,12 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.171
+
+### Patch Changes
+
+- Updated dependencies [[`dc14c82`](https://github.com/thorswap/SwapKit/commit/dc14c829d705ecc12056cb8d69d6e61a70ac20f4)]:
+  - @swapkit/wallet-keplr@1.0.0-rc.125
+
 ## 1.0.0-rc.170
 
 ### Patch Changes

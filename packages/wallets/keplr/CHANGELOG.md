@@ -1,5 +1,11 @@
 # @swapkit/wallet-keplr
 
+## 1.0.0-rc.125
+
+### Patch Changes
+
+- [#777](https://github.com/thorswap/SwapKit/pull/777) [`dc14c82`](https://github.com/thorswap/SwapKit/commit/dc14c829d705ecc12056cb8d69d6e61a70ac20f4) Thanks [@towanTG](https://github.com/towanTG)! - Adds multichain connect to keplr
+
 ## 1.0.0-rc.124
 
 ### Patch Changes
