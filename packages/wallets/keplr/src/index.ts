@@ -22,54 +22,63 @@ const keplrSupportedChainIds = [ChainId.Cosmos];
 
 function connectKeplr({ addChain, config: { thorswapApiKey }, rpcUrls }: ConnectWalletParams) {
   return async function connectKeplr(chains: (Chain.Cosmos | Chain.Kujira)[]) {
-    const chain = chains[0] || Chain.Cosmos;
     setRequestClientConfig({ apiKey: thorswapApiKey });
-
     const keplrClient = window.keplr;
-    const chainId = ChainToChainId[chain];
 
-    if (!keplrSupportedChainIds.includes(chainId)) {
-      const chainConfig = chainRegistry.get(chainId);
-      if (!chainConfig) throw new Error(`Unsupported chain ${chain}`);
-      await keplrClient.experimentalSuggestChain(chainConfig);
-    }
+    const toolboxPromises = chains.map(async (chain) => {
+      const chainId = ChainToChainId[chain];
+      if (!keplrSupportedChainIds.includes(chainId)) {
+        const chainConfig = chainRegistry.get(chainId);
+        if (!chainConfig) throw new Error(`Unsupported chain ${chain}`);
+        await keplrClient.experimentalSuggestChain(chainConfig);
+      }
 
-    keplrClient?.enable(chainId);
-    const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(chainId);
-    if (!offlineSigner) throw new Error("Could not load offlineSigner");
-    const { getToolboxByChain, getDenom, createSigningStargateClient } = await import(
-      "@swapkit/toolbox-cosmos"
-    );
+      keplrClient?.enable(chainId);
+      const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(chainId);
+      if (!offlineSigner) throw new Error("Could not load offlineSigner");
+      const { getToolboxByChain, getDenom, createSigningStargateClient } = await import(
+        "@swapkit/toolbox-cosmos"
+      );
 
-    const cosmJS = await createSigningStargateClient(
-      rpcUrls[chain] || RPCUrl.Cosmos,
-      offlineSigner,
-    );
+      const cosmJS = await createSigningStargateClient(
+        rpcUrls[chain] || RPCUrl.Cosmos,
+        offlineSigner,
+      );
 
-    const accounts = await offlineSigner.getAccounts();
+      const accounts = await offlineSigner.getAccounts();
 
-    if (!accounts?.[0]?.address) throw new Error("No accounts found");
-    const [{ address }] = accounts;
+      if (!accounts?.[0]?.address) throw new Error("No accounts found");
+      const [{ address }] = accounts;
 
-    const transfer = async ({
-      assetValue,
-      recipient,
-      memo,
-    }: WalletTxParams & { assetValue: AssetValue }) => {
-      const coins = [
-        {
-          denom: chain === Chain.Cosmos ? "uatom" : getDenom(assetValue.symbol),
-          amount: assetValue.getBaseValue("string"),
-        },
-      ];
+      const transfer = async ({
+        assetValue,
+        recipient,
+        memo,
+      }: WalletTxParams & { assetValue: AssetValue }) => {
+        const coins = [
+          {
+            denom: chain === Chain.Cosmos ? "uatom" : getDenom(assetValue.symbol),
+            amount: assetValue.getBaseValue("string"),
+          },
+        ];
 
-      const { transactionHash } = await cosmJS.sendTokens(address, recipient, coins, 2, memo);
-      return transactionHash;
-    };
+        const { transactionHash } = await cosmJS.sendTokens(address, recipient, coins, 2, memo);
+        return transactionHash;
+      };
 
-    const toolbox = getToolboxByChain(chain);
+      const toolbox = getToolboxByChain(chain)();
 
-    addChain({ ...toolbox, chain, transfer, address, balance: [], walletType: WalletOption.KEPLR });
+      addChain({
+        ...toolbox,
+        chain,
+        transfer,
+        address,
+        balance: [],
+        walletType: WalletOption.KEPLR,
+      });
+    });
+
+    await Promise.all(toolboxPromises);
 
     return true;
   };
