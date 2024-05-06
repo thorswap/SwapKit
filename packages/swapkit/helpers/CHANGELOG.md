@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.99
+
+### Patch Changes
+
+- [#779](https://github.com/thorswap/SwapKit/pull/779) [`acf1100`](https://github.com/thorswap/SwapKit/commit/acf1100eaab4e481cfb290ffe0d65c4899c67ced) Thanks [@towanTG](https://github.com/towanTG)! - Fixes core plugin approval handling
+
 ## 1.0.0-rc.98
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # @swapkit/wallet-keystore
 
+## 1.0.0-rc.136
+
+### Patch Changes
+
+- Updated dependencies [[`acf1100`](https://github.com/thorswap/SwapKit/commit/acf1100eaab4e481cfb290ffe0d65c4899c67ced)]:
+  - @swapkit/helpers@1.0.0-rc.99
+  - @swapkit/toolbox-cosmos@1.0.0-rc.122
+  - @swapkit/toolbox-evm@1.0.0-rc.105
+  - @swapkit/toolbox-substrate@1.0.0-rc.34
+  - @swapkit/toolbox-utxo@1.0.0-rc.108
+
 ## 1.0.0-rc.135
 
 ### Patch Changes

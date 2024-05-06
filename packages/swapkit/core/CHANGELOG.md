@@ -1,5 +1,19 @@
 # @swapkit/core
 
+## 1.0.0-rc.146
+
+### Patch Changes
+
+- [#779](https://github.com/thorswap/SwapKit/pull/779) [`acf1100`](https://github.com/thorswap/SwapKit/commit/acf1100eaab4e481cfb290ffe0d65c4899c67ced) Thanks [@towanTG](https://github.com/towanTG)! - Fixes core plugin approval handling
+
+- Updated dependencies [[`acf1100`](https://github.com/thorswap/SwapKit/commit/acf1100eaab4e481cfb290ffe0d65c4899c67ced)]:
+  - @swapkit/helpers@1.0.0-rc.99
+  - @swapkit/api@1.0.0-rc.65
+  - @swapkit/toolbox-cosmos@1.0.0-rc.122
+  - @swapkit/toolbox-evm@1.0.0-rc.105
+  - @swapkit/toolbox-substrate@1.0.0-rc.34
+  - @swapkit/toolbox-utxo@1.0.0-rc.108
+
 ## 1.0.0-rc.145
 
 ### Patch Changes
