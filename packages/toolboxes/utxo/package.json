@@ -12,15 +12,12 @@
     "ecpair": "2.1.0",
     "tiny-secp256k1": "2.2.3"
   },
-  "description": "THORSwap utxo",
+  "description": "SwapKit - Toolbox utxo",
   "devDependencies": {
     "@types/tiny-secp256k1": "2.0.1",
     "bun-types": "1.1.8"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",

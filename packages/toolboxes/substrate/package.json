@@ -8,15 +8,12 @@
     "@polkadot/util-crypto": "12.6.2",
     "@swapkit/helpers": "workspace:*"
   },
-  "description": "SwapKit Lib substrate",
+  "description": "SwapKit - Toolbox substrate",
   "devDependencies": {
     "@polkadot/types": "10.12.6",
     "bun-types": "1.1.8"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
