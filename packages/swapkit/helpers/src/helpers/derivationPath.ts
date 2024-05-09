@@ -7,11 +7,11 @@ import {
 } from "../types";
 
 type Params = {
-  chain: Chain
-  index: number
-  addressIndex?: number
-  type?: 'legacy' | 'ledgerLive' | 'nativeSegwitMiddleAccount' | 'segwit'
-}
+  chain: Chain;
+  index: number;
+  addressIndex?: number;
+  type?: "legacy" | "ledgerLive" | "nativeSegwitMiddleAccount" | "segwit";
+};
 
 const updatedLastIndex = (path: DerivationPathArray, index: number) => [
   ...path.slice(0, path.length - 1),
