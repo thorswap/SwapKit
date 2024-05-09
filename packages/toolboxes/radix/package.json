@@ -1,26 +1,17 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "ethers": "6.11.1"
+    "@swapkit/helpers": "workspace:*"
   },
-  "description": "SwapKit - Toolbox evm",
-  "devDependencies": {
-    "@nomicfoundation/hardhat-ethers": "3.0.5",
-    "@nomicfoundation/hardhat-network-helpers": "1.0.10",
-    "@nomicfoundation/hardhat-toolbox": "5.0.0",
-    "bun-types": "1.1.8",
-    "hardhat": "2.22.2"
-  },
-  "peerDependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "ethers": "6.11.1"
-  },
+  "description": "SwapKit - Toolbox radix",
   "files": ["src/", "dist/"],
+  "peerDependencies": {
+    "@swapkit/helpers": "workspace:*"
+  },
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
-  "name": "@swapkit/toolbox-evm",
+  "name": "@swapkit/toolbox-radix",
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
@@ -35,6 +26,5 @@
     "type-check": "tsc --noEmit"
   },
   "type": "module",
-  "types": "./src/index.ts",
-  "version": "1.0.0-rc.114"
+  "types": "./src/index.ts"
 }
