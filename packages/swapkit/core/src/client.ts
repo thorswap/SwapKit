@@ -135,21 +135,32 @@ export function SwapKit<
       return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
     }
 
-    const walletMethods = connectedWallets[chain] as BaseEVMWallet;
-    const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
-    if (!walletAction) throw new SwapKitError("core_wallet_connection_not_found");
+    const baseEVMWallet = connectedWallets[chain] as BaseEVMWallet;
 
     const from = getAddress(chain);
     if (!(address && from && typeof spenderAddress === "string")) {
       throw new SwapKitError("core_approve_asset_address_or_from_not_found");
     }
 
-    return walletAction({
-      amount: assetValue.getBaseValue("bigint"),
-      assetAddress: address,
-      from,
-      spenderAddress,
-    }) as ApproveReturnType<T>;
+    if (type === ApproveMode.CheckOnly) {
+      return baseEVMWallet.isAssetValueApproved(
+        assetValue,
+        from,
+        spenderAddress,
+      ) as ApproveReturnType<T>;
+    }
+    if (type === ApproveMode.Approve) {
+      return baseEVMWallet.approveAssetValue(
+        assetValue,
+        from,
+        spenderAddress,
+      ) as ApproveReturnType<T>;
+    }
+
+    throw new SwapKitError(
+      "core_approve_asset_target_invalid",
+      `Target ${String(spenderAddress)} cannot be used for approve operation`,
+    );
   }
 
   /**
