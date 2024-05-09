@@ -1,4 +1,4 @@
-import type { EvmTransactionDetails, QuoteRouteV2 } from "@swapkit/api";
+import { type EvmTransactionDetails, type QuoteRouteV2, SwapKitApi } from "@swapkit/api";
 import {
   ApproveMode,
   AssetValue,
@@ -7,9 +7,12 @@ import {
   type ErrorKeys,
   MayaArbitrumVaultAbi,
   MayaEthereumVaultAbi,
+  MemoType,
   SwapKitError,
   type SwapParams,
+  type ThornameRegisterParam,
   type Wallet,
+  getMemoFor,
 } from "@swapkit/helpers";
 
 import {
@@ -68,6 +71,24 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
       recipient,
       evmTransactionDetails,
     });
+  }
+
+  async function depositToProtocol({ memo, assetValue }: { assetValue: AssetValue; memo: string }) {
+    const mimir = await SwapKitApi.getMimirInfo({ stagenet, type: "mayachain" });
+
+    // check if trading is halted or not
+    if (mimir.HALTCHAINGLOBAL >= 1 || mimir.HALTTHORCHAIN >= 1) {
+      throw new SwapKitError("core_chain_halted");
+    }
+
+    return deposit({ assetValue, recipient: "", memo });
+  }
+
+  function registerMayaname({
+    assetValue,
+    ...param
+  }: ThornameRegisterParam & { assetValue: AssetValue }) {
+    return depositToProtocol({ assetValue, memo: getMemoFor(MemoType.THORNAME_REGISTER, param) });
   }
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO refactor
@@ -170,6 +191,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
   return {
     swap,
     deposit,
+    registerMayaname,
     getInboundDataByChain,
     approveAssetValue,
     isAssetValueApproved,
