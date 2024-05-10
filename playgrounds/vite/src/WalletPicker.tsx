@@ -170,6 +170,10 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           // @ts-ignore
           return skClient.connectTrezor(chains, derivationPath);
         }
+        case WalletOption.RADIX_WALLET: {
+          // @ts-expect-error
+          return skClient.connectRadixWallet();
+        }
       }
     },
     [chains, skClient]
@@ -282,6 +286,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             Chain.Maya,
             Chain.Optimism,
             Chain.Polygon,
+            Chain.Radix,
           ].map((chain) => (
             // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
             <option
