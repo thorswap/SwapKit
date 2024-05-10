@@ -6,6 +6,7 @@
     "@swapkit/tokens": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-radix": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/wallet-exodus": "workspace:*",
     "@swapkit/wallet-keepkey": "workspace:*",

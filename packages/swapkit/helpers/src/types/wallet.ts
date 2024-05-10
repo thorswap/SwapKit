@@ -29,6 +29,7 @@ export enum WalletOption {
   WALLETCONNECT = "WALLETCONNECT",
   EIP6963 = "EIP6963",
   EXODUS = "EXODUS",
+  RADIX_WALLET = "RADIX_WALLET",
 }
 
 export enum LedgerErrorCode {

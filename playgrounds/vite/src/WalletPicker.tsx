@@ -9,9 +9,7 @@ import { decryptFromKeystore } from "@swapkit/wallet-keystore";
 import { useCallback, useState } from "react";
 
 import type { Eip1193Provider } from "@swapkit/toolbox-evm";
-import { WalletWidget } from "@swapkit/wallet-exodus";
 import type { SwapKitClient } from "swapKitClient";
-import { wallet } from "./main";
 import type { WalletDataType } from "./types";
 
 type Props = {
@@ -116,6 +114,7 @@ export const availableChainsByWallet = {
     Chain.Polygon,
     Chain.Bitcoin,
   ],
+  [WalletOption.RADIX_WALLET]: [Chain.Radix],
 };
 
 export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
@@ -128,10 +127,13 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.EXODUS:
           return skClient.connectExodusWallet(chains, wallet);
         case WalletOption.COINBASE_MOBILE:
+          // @ts-expect-error
           return skClient.connectCoinbaseWallet(chains);
         case WalletOption.XDEFI:
+          // @ts-expect-error
           return skClient.connectXDEFI(chains);
         case WalletOption.OKX:
+          // @ts-expect-error
           return skClient.connectOkx(chains);
         case WalletOption.COINBASE_WEB:
         case WalletOption.METAMASK:
@@ -169,6 +171,10 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             index: 0,
           });
           return skClient.connectTrezor(chains, derivationPath);
+        }
+        case WalletOption.RADIX_WALLET: {
+          // @ts-expect-error
+          return skClient.connectRadixWallet();
         }
       }
     },
@@ -282,6 +288,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             Chain.Maya,
             Chain.Optimism,
             Chain.Polygon,
+            Chain.Radix,
           ].map((chain) => (
             // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
             <option

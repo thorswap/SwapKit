@@ -2,6 +2,7 @@ import {
   Chain,
   type ConnectWalletParams,
   DerivationPath,
+  RPCUrl,
   WalletOption,
   type Witness,
   setRequestClientConfig,
@@ -208,6 +209,18 @@ const getWalletMethodsForChain = async ({
       const toolbox = await getToolboxByChain(chain, { signer });
 
       return { address: signer.address, walletMethods: toolbox };
+    }
+
+    case Chain.Radix: {
+      const { getRadixCoreApiClient, RadixToolbox, createPrivateKey, RadixMainnet } = await import(
+        "@swapkit/toolbox-radix"
+      );
+
+      const api = await getRadixCoreApiClient(RPCUrl.Radix, RadixMainnet);
+      const signer = await createPrivateKey(phrase);
+      const toolbox = await RadixToolbox({ api, signer });
+
+      return { address: await toolbox.getAddress(), walletMethods: toolbox };
     }
 
     default:

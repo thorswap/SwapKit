@@ -1,28 +1,26 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@radixdlt/babylon-core-api-sdk": "1.1.3",
-    "@radixdlt/radix-engine-toolkit": "1.0.3",
+    "@radixdlt/radix-dapp-toolkit": "1.5.0",
     "@radixdlt/wallet-sdk": "1.0.1",
-    "@scure/bip39": "1.3.0",
+    "@swapkit/toolbox-radix": "workspace:*",
     "@swapkit/helpers": "workspace:*"
   },
-  "description": "SwapKit - Toolbox radix",
+  "description": "SwapKit Lib ",
   "files": [
     "src/",
     "dist/"
   ],
   "peerDependencies": {
-    "@radixdlt/babylon-core-api-sdk": "1.1.3",
-    "@radixdlt/radix-engine-toolkit": "1.0.3",
+    "@radixdlt/radix-dapp-toolkit": "1.5.0",
     "@radixdlt/wallet-sdk": "1.0.1",
-    "@scure/bip39": "1.3.0",
+    "@swapkit/toolbox-radix": "workspace:*",
     "@swapkit/helpers": "workspace:*"
   },
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
-  "name": "@swapkit/toolbox-radix",
+  "name": "@swapkit/wallet-radix",
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
