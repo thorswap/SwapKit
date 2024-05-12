@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.123
+
+### Patch Changes
+
+- [#787](https://github.com/thorswap/SwapKit/pull/787) [`04efc7e`](https://github.com/thorswap/SwapKit/commit/04efc7ec10695517dc6ff405722ec54267996a71) Thanks [@ochhii1337](https://github.com/ochhii1337)! - add module declaration
+
 ## 1.0.0-rc.122
 
 ### Patch Changes
