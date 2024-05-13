@@ -21,6 +21,13 @@ export enum ApproveMode {
   CheckOnly = "checkOnly",
 }
 
+export type ApproveAssetValuePropType = {
+  assetValue: AssetValue;
+  from: string;
+  spenderAddress: string;
+  type: ApproveMode;
+};
+
 export type ApproveReturnType<T extends ApproveMode> = T extends "checkOnly"
   ? Promise<boolean>
   : Promise<string>;

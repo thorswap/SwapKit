@@ -1,4 +1,6 @@
 import {
+  type ApproveAssetValuePropType,
+  ApproveMode,
   type Asset,
   type AssetValue,
   Chain,
@@ -461,49 +463,36 @@ const sendTransaction = async (
   }
 };
 
-const isAssetValueApproved = (
-  provider: Provider,
-  assetValue: AssetValue,
-  from: string,
-  spenderAddress: string,
-) => {
-  const { address } = assetValue;
-
-  if (!(address && from && typeof spenderAddress === "string")) {
-    throw new Error("core_approve_asset_address_or_from_not_found");
-  }
-  return isApproved(provider, {
-    amount: assetValue.getBaseValue("bigint"),
-    assetAddress: address,
-    from,
-    spenderAddress,
-  });
-};
-
 const approveAssetValue = (
+  { from, spenderAddress, type, assetValue }: ApproveAssetValuePropType,
   provider: Provider,
-  assetValue: AssetValue,
   signer?: Signer,
   isEIP1559Compatible = true,
-  from?: string,
-  spenderAddress?: string,
 ) => {
   const { address } = assetValue;
 
   if (!(address && from && typeof spenderAddress === "string")) {
     throw new Error("core_approve_asset_address_or_from_not_found");
   }
-  return approve(
-    provider,
-    {
-      amount: assetValue.getBaseValue("bigint"),
-      assetAddress: address,
-      from,
-      spenderAddress,
-    },
-    signer,
-    isEIP1559Compatible,
-  );
+
+  return type === ApproveMode.Approve
+    ? approve(
+        provider,
+        {
+          amount: assetValue.getBaseValue("bigint"),
+          assetAddress: address,
+          from,
+          spenderAddress,
+        },
+        signer,
+        isEIP1559Compatible,
+      )
+    : isApproved(provider, {
+        amount: assetValue.getBaseValue("bigint"),
+        assetAddress: address,
+        from,
+        spenderAddress,
+      });
 };
 
 /**
@@ -578,10 +567,8 @@ export const BaseEVMToolbox = ({
   provider: Provider | BrowserProvider;
   isEIP1559Compatible?: boolean;
 }) => ({
-  isAssetValueApproved: (assetValue: AssetValue, from: string, spenderAddress: string) =>
-    isAssetValueApproved(provider, assetValue, from, spenderAddress),
-  approveAssetValue: (assetValue: AssetValue, from: string, spenderAddress: string) =>
-    approveAssetValue(provider, assetValue, signer, isEIP1559Compatible, from, spenderAddress),
+  approveAssetValue: (params: ApproveAssetValuePropType) =>
+    approveAssetValue(params, provider, signer, isEIP1559Compatible),
   approve: (params: ApproveParams) => approve(provider, params, signer, isEIP1559Compatible),
   approvedAmount: (params: ApprovedParams) => approvedAmount(provider, params),
   broadcastTransaction: provider.broadcastTransaction,

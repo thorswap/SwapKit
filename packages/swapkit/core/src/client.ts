@@ -1,5 +1,6 @@
 import {
   type AddChainWalletParams,
+  type ApproveAssetValuePropType,
   ApproveMode,
   type ApproveReturnType,
   AssetValue,
@@ -142,25 +143,14 @@ export function SwapKit<
       throw new SwapKitError("core_approve_asset_address_or_from_not_found");
     }
 
-    if (type === ApproveMode.CheckOnly) {
-      return baseEVMWallet.isAssetValueApproved(
-        assetValue,
-        from,
-        spenderAddress,
-      ) as ApproveReturnType<T>;
-    }
-    if (type === ApproveMode.Approve) {
-      return baseEVMWallet.approveAssetValue(
-        assetValue,
-        from,
-        spenderAddress,
-      ) as ApproveReturnType<T>;
-    }
+    const params: ApproveAssetValuePropType = {
+      assetValue,
+      from,
+      spenderAddress,
+      type,
+    };
 
-    throw new SwapKitError(
-      "core_approve_asset_target_invalid",
-      `Target ${String(spenderAddress)} cannot be used for approve operation`,
-    );
+    return baseEVMWallet.approveAssetValue(params) as ApproveReturnType<T>;
   }
 
   /**
