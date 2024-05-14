@@ -1,4 +1,4 @@
-import { RequestClient } from "@swapkit/helpers";
+import { RequestClient, RequestClientWithErrors } from "@swapkit/helpers";
 import type {
   BorrowParams,
   BorrowResponse,
@@ -39,17 +39,21 @@ export function getCachedPrices({ tokens, ...options }: CachedPricesParams) {
 }
 
 export function getSwapQuote(searchParams: QuoteParams) {
-  return RequestClient.get<QuoteResponse>(`${baseUrl}/aggregator/tokens/quote`, { searchParams });
+  return RequestClientWithErrors.get<QuoteResponse>(`${baseUrl}/aggregator/tokens/quote`, {
+    searchParams,
+  });
 }
 
 export function getBorrowQuote(searchParams: BorrowParams) {
-  return RequestClient.get<BorrowResponse>(`${baseUrl}/aggregator/lending/borrow`, {
+  return RequestClientWithErrors.get<BorrowResponse>(`${baseUrl}/aggregator/lending/borrow`, {
     searchParams,
   });
 }
 
 export function getRepayQuote(searchParams: RepayParams) {
-  return RequestClient.get<RepayResponse>(`${baseUrl}/aggregator/lending/repay`, { searchParams });
+  return RequestClientWithErrors.get<RepayResponse>(`${baseUrl}/aggregator/lending/repay`, {
+    searchParams,
+  });
 }
 
 export function getLendingAssets() {
