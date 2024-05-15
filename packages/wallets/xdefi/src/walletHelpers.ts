@@ -234,32 +234,32 @@ export function getXdefiMethods(provider: BrowserProvider) {
 
       return typeof result?.hash === "string" ? result?.hash : result;
     },
-    approve: async ({ assetAddress, spenderAddress, amount, from }: ApproveParams) => {
-      const { MAX_APPROVAL, createContractTxObject, toHexString } = await import(
-        "@swapkit/toolbox-evm"
-      );
-      const funcParams = [spenderAddress, BigInt(amount || MAX_APPROVAL)];
-      const txOverrides = { from };
+    // approve: async ({ assetAddress, spenderAddress, amount, from }: ApproveParams) => {
+    //   const { MAX_APPROVAL, createContractTxObject, toHexString } = await import(
+    //     "@swapkit/toolbox-evm"
+    //   );
+    //   const funcParams = [spenderAddress, BigInt(amount || MAX_APPROVAL)];
+    //   const txOverrides = { from };
 
-      const functionCallParams = {
-        contractAddress: assetAddress,
-        abi: erc20ABI,
-        funcName: "approve",
-        funcParams,
-        txOverrides,
-      };
+    //   const functionCallParams = {
+    //     contractAddress: assetAddress,
+    //     abi: erc20ABI,
+    //     funcName: "approve",
+    //     funcParams,
+    //     txOverrides,
+    //   };
 
-      const { value, to, data } = await createContractTxObject(provider, functionCallParams);
+    //   const { value, to, data } = await createContractTxObject(provider, functionCallParams);
 
-      return provider.send("eth_sendTransaction", [
-        {
-          value: toHexString(BigInt(value || 0)),
-          from,
-          to,
-          data: data || "0x",
-        } as Todo,
-      ]);
-    },
+    //   return provider.send("eth_sendTransaction", [
+    //     {
+    //       value: toHexString(BigInt(value || 0)),
+    //       from,
+    //       to,
+    //       data: data || "0x",
+    //     } as Todo,
+    //   ]);
+    // },
     sendTransaction: async (tx: EVMTxParams) => {
       const { from, to, data, value } = tx;
       if (!to) throw new Error("No to address provided");
