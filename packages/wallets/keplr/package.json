@@ -6,7 +6,7 @@
   },
   "devDependencies": {
     "@swapkit/toolbox-cosmos": "workspace:*",
-    "bun-types": "1.1.2"
+    "bun-types": "1.1.8"
   },
   "files": [
     "src/",

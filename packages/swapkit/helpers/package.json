@@ -6,7 +6,7 @@
   },
   "devDependencies": {
     "@swapkit/tokens": "workspace:*",
-    "bun-types": "1.1.2",
+    "bun-types": "1.1.8",
     "ethers": "6.11.1"
   },
   "peerDependencies": {

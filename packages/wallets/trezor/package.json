@@ -7,7 +7,7 @@
   "devDependencies": {
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "bun-types": "1.1.2"
+    "bun-types": "1.1.8"
   },
   "files": [
     "src/",

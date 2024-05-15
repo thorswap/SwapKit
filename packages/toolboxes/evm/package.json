@@ -9,7 +9,7 @@
     "@nomicfoundation/hardhat-ethers": "3.0.5",
     "@nomicfoundation/hardhat-network-helpers": "1.0.10",
     "@nomicfoundation/hardhat-toolbox": "5.0.0",
-    "bun-types": "1.1.2",
+    "bun-types": "1.1.8",
     "hardhat": "2.22.2"
   },
   "peerDependencies": {

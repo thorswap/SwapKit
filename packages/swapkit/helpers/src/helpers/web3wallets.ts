@@ -1,5 +1,10 @@
 import type { BrowserProvider } from "ethers";
-import { ChainId, WalletOption } from "../types";
+import {
+  ChainId,
+  type EIP6963AnnounceProviderEvent,
+  type EIP6963Provider,
+  WalletOption,
+} from "../types";
 
 export type EthereumWindowProvider = BrowserProvider & {
   __XDEFI?: boolean;
@@ -142,7 +147,7 @@ export const isDetected = (walletOption: WalletOption) => {
   return listWeb3EVMWallets().includes(walletOption);
 };
 
-const listWeb3EVMWallets = () => {
+export const listWeb3EVMWallets = () => {
   const metamaskEnabled = window?.ethereum && !window.ethereum?.isBraveWallet;
   // @ts-ignore that should be implemented in xdefi and hooked up via swapkit core
   const xdefiEnabled = window?.xfi || window?.ethereum?.__XDEFI;
@@ -163,6 +168,24 @@ const listWeb3EVMWallets = () => {
 
   return wallets;
 };
+
+export function getEIP6963Wallets() {
+  const providers: EIP6963Provider[] = [];
+
+  function onAnnouncement(event: EIP6963AnnounceProviderEvent) {
+    if (providers.map((p) => p.info.uuid).includes(event.detail.info.uuid)) return;
+    providers.push(event.detail);
+  }
+
+  window.addEventListener("eip6963:announceProvider", onAnnouncement);
+  window.dispatchEvent(new Event("eip6963:requestProvider"));
+
+  function removeEIP6963EventListener() {
+    window.removeEventListener("eip6963:announceProvider", onAnnouncement);
+  }
+
+  return { providers, removeEIP6963EventListener };
+}
 
 export const okxMobileEnabled = () => {
   const ua = navigator.userAgent;

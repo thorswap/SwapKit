@@ -1,7 +1,8 @@
-import { Chain, EVMChains, WalletOption, getDerivationPathFor } from "@swapkit/helpers";
+import { Chain, EVMChains, WalletOption, getDerivationPathFor, getEIP6963Wallets } from "@swapkit/helpers";
 import { decryptFromKeystore } from "@swapkit/wallet-keystore";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
+import { EIP1559TxParams, Eip1193Provider } from '@swapkit/toolbox-evm';
 import type { WalletDataType } from "./types";
 
 type Props = {
@@ -93,13 +94,21 @@ export const availableChainsByWallet = {
     Chain.Arbitrum,
     Chain.Optimism,
   ],
+  [WalletOption.EIP6963]: [
+    Chain.Ethereum,
+    Chain.Avalanche,
+    Chain.BinanceSmartChain,
+    Chain.Polygon,
+    Chain.Arbitrum,
+    Chain.Optimism,
+  ],
 };
 
 export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
   const [loading, setLoading] = useState(false);
   const [chains, setChains] = useState<Chain[]>([]);
   const connectWallet = useCallback(
-    async (option: WalletOption) => {
+    async (option: WalletOption, provider?: Eip1193Provider) => {
       if (!skClient) return alert("client is not ready");
       switch (option) {
         case WalletOption.COINBASE_MOBILE:
@@ -111,7 +120,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.COINBASE_WEB:
         case WalletOption.METAMASK:
         case WalletOption.TRUSTWALLET_WEB:
-          return skClient.connectEVMWallet(chains, option);
+        case WalletOption.EIP6963:
+          return skClient.connectEVMWallet(chains, option, provider);
         case WalletOption.KEEPKEY: {
           const derivationPaths = []; // Ensure derivationPaths is defined
           for (const chain of chains) {
@@ -173,10 +183,10 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
   );
 
   const handleConnection = useCallback(
-    async (option: WalletOption) => {
+    async (option: WalletOption, provider?: Eip1193Provider) => {
       if (!skClient) return alert("client is not ready");
       setLoading(true);
-      await connectWallet(option);
+      await connectWallet(option, provider);
 
       const walletDataArray = await Promise.all(
         chains.map((chain) => skClient.getWalletWithBalance(chain, true)),
@@ -209,6 +219,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
       setChains(selectedChains);
     }
   }, []);
+
+  const eip6963Wallets = getEIP6963Wallets().providers; 
 
   return (
     <div style={{ display: "flex", flexDirection: "row" }}>
@@ -246,6 +258,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           ))}
         </select>
 
+
         {loading && <div>Loading...</div>}
       </div>
 
@@ -276,6 +289,14 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             )}
           </div>
         ))}
+        {eip6963Wallets.map((wallet) => 
+            <button
+                onClick={() => handleConnection(WalletOption.EIP6963, wallet.provider)}
+                type="button"
+            >
+                {wallet.info.name}
+            </button>
+        )}
       </div>
     </div>
   );
