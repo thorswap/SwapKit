@@ -1,9 +1,4 @@
 {
   "extends": "../../../tools/typescript/base.json",
-  "include": [
-    "src",
-    "./build.ts",
-    "../../../tools/typescript/typings.d.ts",
-    "../api/src/__tests__/requestClient.test.ts"
-  ]
+  "include": ["src", "./build.ts", "../../../tools/typescript/typings.d.ts"]
 }
