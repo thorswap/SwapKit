@@ -1,4 +1,4 @@
-import { RequestClient } from "@swapkit/helpers";
+import { RequestClient as BaseRequestClient } from "@swapkit/helpers";
 import {
   ApiV1ErrorSchema,
   type BorrowParams,
@@ -19,7 +19,7 @@ import {
 
 const baseUrl = "https://api.thorswap.finance";
 
-const requestClient = RequestClient.extend({
+export const RequestClient = BaseRequestClient.extend({
   hooks: {
     afterResponse: [
       async (_request, _options, response) => {
@@ -50,46 +50,46 @@ export function getCachedPrices({ tokens, ...options }: CachedPricesParams) {
   if (options.lookup) body.append("lookup", "true");
   if (options.sparkline) body.append("sparkline", "true");
 
-  return requestClient.post<CachedPrice[]>(`${baseUrl}/tokenlist/cached-price`, {
+  return RequestClient.post<CachedPrice[]>(`${baseUrl}/tokenlist/cached-price`, {
     body: body.toString(),
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
   });
 }
 
 export function getSwapQuote(searchParams: QuoteParams) {
-  return requestClient.get<QuoteResponse>(`${baseUrl}/aggregator/tokens/quote`, {
+  return RequestClient.get<QuoteResponse>(`${baseUrl}/aggregator/tokens/quote`, {
     searchParams,
   });
 }
 
 export function getBorrowQuote(searchParams: BorrowParams) {
-  return requestClient.get<BorrowResponse>(`${baseUrl}/aggregator/lending/borrow`, {
+  return RequestClient.get<BorrowResponse>(`${baseUrl}/aggregator/lending/borrow`, {
     searchParams,
   });
 }
 
 export function getRepayQuote(searchParams: RepayParams) {
-  return requestClient.get<RepayResponse>(`${baseUrl}/aggregator/lending/repay`, {
+  return RequestClient.get<RepayResponse>(`${baseUrl}/aggregator/lending/repay`, {
     searchParams,
   });
 }
 
 export function getLendingAssets() {
-  return requestClient.get<LendingAssetItem[]>(`${baseUrl}/aggregator/lending/assets`);
+  return RequestClient.get<LendingAssetItem[]>(`${baseUrl}/aggregator/lending/assets`);
 }
 
 export function getLoans(searchParams: LoansParams) {
-  return requestClient.get<LoansResponse>(`${baseUrl}/aggregator/lending/loans`, { searchParams });
+  return RequestClient.get<LoansResponse>(`${baseUrl}/aggregator/lending/loans`, { searchParams });
 }
 
 export function getGasRates() {
-  return requestClient.get<GasPriceInfo[]>(`${baseUrl}/resource-worker/gasPrice/getAll`);
+  return RequestClient.get<GasPriceInfo[]>(`${baseUrl}/resource-worker/gasPrice/getAll`);
 }
 
 export function getTxnDetails(txHash: string) {
-  return requestClient.get<TxnResponse>(`${baseUrl}/apiusage/v2/txn`, { searchParams: { txHash } });
+  return RequestClient.get<TxnResponse>(`${baseUrl}/apiusage/v2/txn`, { searchParams: { txHash } });
 }
 
 export function getTokenListProviders() {
-  return requestClient.get<TokenListProvidersResponse>(`${baseUrl}/tokenlist/providers`);
+  return RequestClient.get<TokenListProvidersResponse>(`${baseUrl}/tokenlist/providers`);
 }

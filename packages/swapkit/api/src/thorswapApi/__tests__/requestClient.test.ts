@@ -1,6 +1,5 @@
 import { describe, expect, test } from "bun:test";
-
-import { RequestClient } from "../requestClient";
+import { RequestClient } from "../endpoints.ts";
 
 describe("ApiV1 error handling", () => {
   test("Expected error", async () => {
