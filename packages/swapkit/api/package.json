@@ -1,7 +1,8 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@swapkit/helpers": "workspace:*"
+    "@swapkit/helpers": "workspace:*",
+    "zod": "3.23.8"
   },
   "devDependencies": {
     "bun-types": "1.1.2"
@@ -16,7 +17,8 @@
   "main": "./dist/index.js",
   "name": "@swapkit/api",
   "peerDependencies": {
-    "@swapkit/helpers": "workspace:*"
+    "@swapkit/helpers": "workspace:*",
+    "zod": "3.23.8"
   },
   "react-native": "./src/index.ts",
   "repository": {

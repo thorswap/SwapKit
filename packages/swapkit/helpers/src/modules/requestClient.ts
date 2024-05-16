@@ -1,4 +1,4 @@
-import type { Options } from "ky";
+import type { KyInstance, Options } from "ky";
 import ky from "ky";
 
 let kyClient: typeof ky;
@@ -21,9 +21,19 @@ function getKyClient() {
   return kyClient;
 }
 
-export const RequestClient = {
-  get: <T>(url: string | URL | Request, options?: Options) =>
-    getKyClient().get(url, options).json<T>(),
+const getTypedBaseRequestClient = (kyClient: KyInstance) => ({
+  get: <T>(url: string | URL | Request, options?: Options) => kyClient.get(url, options).json<T>(),
   post: <T>(url: string | URL | Request, options?: Options) =>
-    getKyClient().post(url, options).json<T>(),
+    kyClient.post(url, options).json<T>(),
+});
+
+export const RequestClient = {
+  ...getTypedBaseRequestClient(getKyClient()),
+  extend: (options: Options) => {
+    const extendedClient = getKyClient().extend(options);
+    return {
+      ...getTypedBaseRequestClient(extendedClient),
+      extend: RequestClient.extend,
+    };
+  },
 };
