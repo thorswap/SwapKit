@@ -1,5 +1,16 @@
 # @swapkit/api
 
+## 1.0.0-rc.66
+
+### Minor Changes
+
+- [#789](https://github.com/thorswap/SwapKit/pull/789) [`507bd80`](https://github.com/thorswap/SwapKit/commit/507bd804ef38da11c47ff2c1ed2aadad7c228d3b) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Add a new request client that return known API errors as a 200 with error as response
+
+### Patch Changes
+
+- Updated dependencies [[`507bd80`](https://github.com/thorswap/SwapKit/commit/507bd804ef38da11c47ff2c1ed2aadad7c228d3b)]:
+  - @swapkit/helpers@1.0.0-rc.100
+
 ## 1.0.0-rc.65
 
 ### Patch Changes
