@@ -1,7 +1,7 @@
 import { Chain } from "../types/chains";
 import { MemoType } from "../types/sdk";
 
-export type ThornameRegisterParam = {
+export type NameRegisterParam = {
   name: string;
   chain: string;
   address: string;
@@ -26,7 +26,7 @@ export type MemoOptions<T extends MemoType> = {
     targetAssetString?: string;
     singleSide?: boolean;
   }>;
-  [MemoType.THORNAME_REGISTER]: Omit<ThornameRegisterParam, "preferredAsset" | "expiryBlock">;
+  [MemoType.NAME_REGISTER]: Omit<NameRegisterParam, "preferredAsset" | "expiryBlock">;
 }[T];
 
 export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions<T>) => {
@@ -42,8 +42,8 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
       return `${memoType}:${address}:${unbondAmount}`;
     }
 
-    case MemoType.THORNAME_REGISTER: {
-      const { name, chain, address, owner } = options as MemoOptions<MemoType.THORNAME_REGISTER>;
+    case MemoType.NAME_REGISTER: {
+      const { name, chain, address, owner } = options as MemoOptions<MemoType.NAME_REGISTER>;
       return `${memoType}:${name}:${chain}:${address}${owner ? `:${owner}` : ""}`;
     }
 

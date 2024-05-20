@@ -1,25 +1,40 @@
-import type { EvmTransactionDetails, QuoteRouteV2 } from "@swapkit/api";
+import { type EvmTransactionDetails, type QuoteRouteV2, SwapKitApi } from "@swapkit/api";
 import {
   ApproveMode,
   AssetValue,
   Chain,
   type EVMChain,
   type ErrorKeys,
+  FeeOption,
   MayaArbitrumVaultAbi,
   MayaEthereumVaultAbi,
+  MemoType,
+  type NameRegisterParam,
   SwapKitError,
   type SwapParams,
   type Wallet,
+  getMemoFor,
+  getMinAmountByChain,
+  wrapWithThrow,
 } from "@swapkit/helpers";
 
 import {
+  gasFeeMultiplier,
+  getAddress,
   getInboundDataFunction,
   getWallet,
   prepareTxParams,
   sharedApprove,
   validateAddressType,
-} from "./shared";
-import type { ApproveParams, CoreTxParams, SwapWithRouteParams } from "./types";
+} from "./shared.ts";
+import type {
+  AddLiquidityParams,
+  AddLiquidityPartParams,
+  ApproveParams,
+  CoreTxParams,
+  NodeActionParams,
+  SwapWithRouteParams,
+} from "./types";
 
 const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boolean }) => {
   const getInboundDataByChain = getInboundDataFunction({ stagenet, type: "mayachain" });
@@ -40,6 +55,149 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
       router,
       wallets,
     });
+  }
+
+  async function depositToProtocol({ memo, assetValue }: { assetValue: AssetValue; memo: string }) {
+    const mimir = await SwapKitApi.getMimirInfo({ stagenet });
+
+    // check if trading is halted or not
+    if (mimir.HALTCHAINGLOBAL >= 1 || mimir.HALTTHORCHAIN >= 1) {
+      throw new SwapKitError("core_chain_halted");
+    }
+
+    return deposit({ assetValue, recipient: "", memo });
+  }
+
+  async function depositToPool({
+    assetValue,
+    memo,
+    feeOptionKey = FeeOption.Fast,
+  }: { assetValue: AssetValue; memo: string; feeOptionKey?: FeeOption }) {
+    const {
+      gas_rate = "0",
+      router,
+      address: poolAddress,
+    } = await getInboundDataByChain(assetValue.chain);
+
+    return deposit({
+      assetValue,
+      recipient: poolAddress,
+      memo,
+      router,
+      feeRate: Number.parseInt(gas_rate) * gasFeeMultiplier[feeOptionKey],
+    });
+  }
+
+  function registerMAYAName({
+    assetValue,
+    ...param
+  }: NameRegisterParam & { assetValue: AssetValue }) {
+    return depositToProtocol({ assetValue, memo: getMemoFor(MemoType.NAME_REGISTER, param) });
+  }
+
+  function nodeAction({ type, assetValue, address }: NodeActionParams) {
+    const memoType =
+      type === "bond" ? MemoType.BOND : type === "unbond" ? MemoType.UNBOND : MemoType.LEAVE;
+    const memo = getMemoFor(memoType, {
+      address,
+      unbondAmount: type === "unbond" ? assetValue.getBaseValue("number") : undefined,
+    });
+    const assetToTransfer = type === "bond" ? assetValue : getMinAmountByChain(Chain.Maya);
+
+    return depositToProtocol({ memo, assetValue: assetToTransfer });
+  }
+
+  function addLiquidityPart({
+    assetValue,
+    poolAddress,
+    address,
+    symmetric,
+  }: AddLiquidityPartParams) {
+    if (symmetric && !address) {
+      throw new SwapKitError("core_transaction_add_liquidity_invalid_params");
+    }
+    const memo = getMemoFor(MemoType.DEPOSIT, {
+      chain: poolAddress.split(".")[0] as Chain,
+      symbol: poolAddress.split(".")[1] as string,
+      address: symmetric ? address : "",
+    });
+
+    return depositToPool({ assetValue, memo });
+  }
+
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
+  async function addLiquidity({
+    runeAssetValue,
+    assetValue,
+    runeAddr,
+    assetAddr,
+    isPendingSymmAsset,
+    mode = "sym",
+  }: AddLiquidityParams) {
+    const { chain, symbol } = assetValue;
+    const isSym = mode === "sym";
+    const runeTransfer = runeAssetValue?.gt(0) && (isSym || mode === "rune");
+    const assetTransfer = assetValue?.gt(0) && (isSym || mode === "asset");
+    const includeRuneAddress = isPendingSymmAsset || runeTransfer;
+    const runeAddress = includeRuneAddress ? runeAddr || getAddress(wallets, Chain.THORChain) : "";
+    const assetAddress = isSym || mode === "asset" ? assetAddr || getAddress(wallets, chain) : "";
+
+    if (!(runeTransfer || assetTransfer)) {
+      throw new SwapKitError("core_transaction_add_liquidity_invalid_params");
+    }
+    if (includeRuneAddress && !runeAddress) {
+      throw new SwapKitError("core_transaction_add_liquidity_no_rune_address");
+    }
+
+    const runeTx =
+      runeTransfer && runeAssetValue
+        ? await wrapWithThrow(() => {
+            return depositToPool({
+              assetValue: runeAssetValue,
+              memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: assetAddress }),
+            });
+          }, "core_transaction_add_liquidity_rune_error")
+        : undefined;
+
+    const assetTx =
+      assetTransfer && assetValue
+        ? await wrapWithThrow(() => {
+            return depositToPool({
+              assetValue,
+              memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: runeAddress }),
+            });
+          }, "core_transaction_add_liquidity_asset_error")
+        : undefined;
+
+    return { runeTx, assetTx };
+  }
+
+  async function createLiquidity({
+    runeAssetValue,
+    assetValue,
+  }: { runeAssetValue: AssetValue; assetValue: AssetValue }) {
+    if (runeAssetValue.lte(0) || assetValue.lte(0)) {
+      throw new SwapKitError("core_transaction_create_liquidity_invalid_params");
+    }
+
+    const assetAddress = getAddress(wallets, assetValue.chain);
+    const runeAddress = getAddress(wallets, Chain.THORChain);
+
+    const runeTx = await wrapWithThrow(() => {
+      return depositToPool({
+        assetValue: runeAssetValue,
+        memo: getMemoFor(MemoType.DEPOSIT, { ...assetValue, address: assetAddress }),
+      });
+    }, "core_transaction_create_liquidity_rune_error");
+
+    const assetTx = await wrapWithThrow(() => {
+      return depositToPool({
+        assetValue,
+        memo: getMemoFor(MemoType.DEPOSIT, { ...assetValue, address: runeAddress }),
+      });
+    }, "core_transaction_create_liquidity_asset_error");
+
+    return { runeTx, assetTx };
   }
 
   async function swap(swapParams: SwapParams<"mayaprotocol"> | SwapWithRouteParams) {
@@ -168,11 +326,16 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
   }
 
   return {
-    swap,
+    addLiquidity,
+    addLiquidityPart,
+    approveAssetValue,
+    createLiquidity,
     deposit,
     getInboundDataByChain,
-    approveAssetValue,
     isAssetValueApproved,
+    swap,
+    nodeAction,
+    registerMAYAName,
   };
 };
 
