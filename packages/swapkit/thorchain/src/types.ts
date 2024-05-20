@@ -1,5 +1,5 @@
-import type { QuoteRoute, QuoteRouteV2 } from "@swapkit/api";
-import type { AssetValue, FeeOption } from "@swapkit/helpers";
+import type { QuoteRoute } from "@swapkit/api";
+import type { AssetValue, FeeOption, QuoteResponseRoute } from "@swapkit/helpers";
 
 export type AddLiquidityPartParams = {
   assetValue: AssetValue;
@@ -47,7 +47,7 @@ export type NodeActionParams = { address: string } & (
 
 export type SwapWithRouteParams = {
   recipient: string;
-  route: QuoteRoute | QuoteRouteV2;
+  route: QuoteRoute | QuoteResponseRoute;
   feeOptionKey?: FeeOption;
   quoteId?: string;
   streamSwap?: boolean;

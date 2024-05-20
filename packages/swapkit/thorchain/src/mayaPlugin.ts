@@ -1,13 +1,15 @@
-import { type EvmTransactionDetails, type QuoteRouteV2, SwapKitApi } from "@swapkit/api";
+import { SwapKitApi } from "@swapkit/api";
 import {
   ApproveMode,
   AssetValue,
   Chain,
   type EVMChain,
+  type EVMTransactionDetails,
   type ErrorKeys,
   MayaArbitrumVaultAbi,
   MayaEthereumVaultAbi,
   MemoType,
+  type QuoteResponseRoute,
   SwapKitError,
   type SwapParams,
   type ThornameRegisterParam,
@@ -48,7 +50,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
   async function swap(swapParams: SwapParams<"mayaprotocol"> | SwapWithRouteParams) {
     if (!("route" in swapParams)) throw new SwapKitError("core_swap_invalid_params");
 
-    const route = swapParams.route as QuoteRouteV2;
+    const route = swapParams.route as QuoteResponseRoute;
     const { feeOptionKey } = swapParams;
 
     const { memo, expiration, targetAddress, evmTransactionDetails } = route;
@@ -97,7 +99,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     recipient,
     router,
     ...rest
-  }: CoreTxParams & { router?: string; evmTransactionDetails?: EvmTransactionDetails }) {
+  }: CoreTxParams & { router?: string; evmTransactionDetails?: EVMTransactionDetails }) {
     const { chain, symbol, ticker } = assetValue;
 
     const walletInstance = wallets[chain];

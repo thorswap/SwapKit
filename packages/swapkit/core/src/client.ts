@@ -200,8 +200,13 @@ export function SwapKit<
     return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
   }
 
-  function swap<T extends PluginName>({ pluginName, ...rest }: SwapParams<T>) {
-    const plugin = getSwapKitPlugin(pluginName);
+  function swap<T extends PluginName>({ route, pluginName, ...rest }: SwapParams<T>) {
+    if (pluginName || route.providers[0]?.toLowerCase())
+      throw new SwapKitError("core_swap_route_not_complete");
+
+    const plugin = getSwapKitPlugin(
+      (pluginName || route.providers[0]?.toLowerCase()) as PluginName,
+    );
 
     if ("swap" in plugin) {
       return plugin.swap(rest);

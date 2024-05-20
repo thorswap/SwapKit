@@ -2,7 +2,8 @@
   "author": "swapkit-oss",
   "description": "SwapKit - Helpers",
   "dependencies": {
-    "ky": "1.2.3"
+    "ky": "1.2.3",
+    "zod": "3.23.8"
   },
   "devDependencies": {
     "@swapkit/tokens": "workspace:*",
@@ -11,7 +12,8 @@
   },
   "peerDependencies": {
     "@swapkit/tokens": "workspace:*",
-    "ky": "1.2.3"
+    "ky": "1.2.3",
+    "zod": "3.23.8"
   },
   "files": [
     "src/",
