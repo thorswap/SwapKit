@@ -4,7 +4,6 @@ import {
   AssetValue,
   Chain,
   type EVMChain,
-  type EVMTransactionDetails,
   type ErrorKeys,
   MayaArbitrumVaultAbi,
   MayaEthereumVaultAbi,
@@ -53,7 +52,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     const route = swapParams.route as QuoteResponseRoute;
     const { feeOptionKey } = swapParams;
 
-    const { memo, expiration, targetAddress, evmTransactionDetails } = route;
+    const { memo, expiration, targetAddress } = route;
 
     const assetValue = await AssetValue.fromString(route.sellAsset, route.sellAmount);
     const evmChain = assetValue.chain;
@@ -71,7 +70,6 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
       feeOptionKey,
       router: targetAddress,
       recipient,
-      evmTransactionDetails,
     });
   }
 
@@ -99,10 +97,10 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     recipient,
     router,
     ...rest
-  }: CoreTxParams & { router?: string; evmTransactionDetails?: EVMTransactionDetails }) {
+  }: CoreTxParams & { router?: string }) {
     const { chain, symbol, ticker } = assetValue;
 
-    const walletInstance = wallets[chain];
+    const walletInstance = getWallet(wallets, chain);
     if (!walletInstance) {
       throw new SwapKitError("core_wallet_connection_not_found");
     }

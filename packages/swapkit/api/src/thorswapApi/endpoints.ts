@@ -25,7 +25,7 @@ import {
 } from "./types.ts";
 
 const baseUrlV1 = "https://api.thorswap.finance";
-const baseUrlV2 = "https://api.swapkit.dev";
+const baseUrlV2 = "https://dev-api.swapkit.dev";
 
 export const APIV1RequestClient = RequestClient.extend({
   hooks: {
@@ -119,9 +119,9 @@ export function getSwapQuoteV2(searchParams: QuoteRequestV2) {
     },
   ];
 
-  return RequestClient.extend({
-    hooks: { afterResponse },
-  }).post<QuoteResponse>(`${baseUrlV2}/quote`, {
+  const kyClient = RequestClient.extend({ hooks: { afterResponse } });
+
+  return kyClient.post<QuoteResponse>(`${baseUrlV2}/quote`, {
     json: searchParams,
   });
 }

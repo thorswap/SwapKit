@@ -21,10 +21,9 @@ function getKyClient() {
   return kyClient;
 }
 
-const getTypedBaseRequestClient = (kyClient: KyInstance) => ({
-  get: <T>(url: string | URL | Request, options?: Options) => kyClient.get(url, options).json<T>(),
-  post: <T>(url: string | URL | Request, options?: Options) =>
-    kyClient.post(url, options).json<T>(),
+const getTypedBaseRequestClient = (ky: KyInstance) => ({
+  get: <T>(url: string | URL | Request, options?: Options) => ky.get(url, options).json<T>(),
+  post: <T>(url: string | URL | Request, options?: Options) => ky.post(url, options).json<T>(),
 });
 
 export const RequestClient = {
