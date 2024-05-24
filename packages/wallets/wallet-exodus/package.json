@@ -2,12 +2,13 @@
   "author": "swapkit-oss",
   "dependencies": {
     "@swapkit/helpers": "workspace:*",
-    "@crypto-sdk/core": "0.3.0",
-    "sats-connect": "1.4.1"
+    "@passkeys/core": "1.0.0",
+    "@passkeys/react": "1.0.0"
   },
   "devDependencies": {
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
+    "sats-connect": "1.4.1",
     "bun-types": "1.1.8"
   },
   "description": "SwapKit Wallet Exodus",
@@ -19,8 +20,8 @@
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "@crypto-sdk/core": "0.3.0",
-    "sats-connect": "1.4.1"
+    "@passkeys/core": "1.0.0",
+    "@passkeys/react": "1.0.0"
   },
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",

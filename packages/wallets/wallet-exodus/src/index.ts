@@ -1,4 +1,4 @@
-import { createWallet } from "@crypto-sdk/core";
+import type { Wallet } from "@passkeys/core";
 import {
   Chain,
   ChainToHexChainId,
@@ -16,7 +16,14 @@ import {
   getToolboxByChain,
 } from "@swapkit/toolbox-evm";
 import type { UTXOTransferParams } from "@swapkit/toolbox-utxo";
-import { getSatsConnectSignAndAddress } from "./helper";
+import {
+  AddressPurpose,
+  BitcoinNetworkType,
+  type BitcoinProvider,
+  type GetAddressOptions,
+  type GetAddressResponse,
+  getAddress,
+} from "sats-connect";
 
 export const getWalletMethods = async ({
   ethereumWindowProvider,
@@ -29,7 +36,7 @@ export const getWalletMethods = async ({
   api,
 }: {
   ethereumWindowProvider: Eip1193Provider | undefined;
-  provider: BrowserProvider;
+  provider: BrowserProvider | BitcoinProvider;
   chain: Chain;
   covalentApiKey?: string;
   ethplorerApiKey?: string;
@@ -37,22 +44,37 @@ export const getWalletMethods = async ({
   rpcUrl?: string;
   api?: Todo;
 }) => {
-  const wallet = createWallet({
-    networks: {
-      bitcoin: true,
-      ethereum: true,
-    },
-  });
-
   switch (chain) {
     case Chain.Bitcoin: {
       const { BTCToolbox } = await import("@swapkit/toolbox-utxo");
 
       const toolbox = BTCToolbox({ rpcUrl, apiKey: blockchairApiKey, apiClient: api });
-      const { signTransaction, address } = await getSatsConnectSignAndAddress();
+
+      let address = "";
+
+      const getAddressOptions: GetAddressOptions = {
+        getProvider: () => new Promise((res) => res(provider as BitcoinProvider)),
+        payload: {
+          purposes: [AddressPurpose.Payment],
+          message: "Address for receiving and sending payments",
+          network: { type: BitcoinNetworkType.Mainnet },
+        },
+        onFinish: (response: GetAddressResponse) => {
+          if (!response.addresses[0]) throw Error("No address found");
+          address = response.addresses[0].address;
+        },
+        onCancel: () => {
+          throw Error("Request canceled");
+        },
+      };
+
+      await getAddress(getAddressOptions);
 
       const transfer = (transferParams: UTXOTransferParams) => {
-        return toolbox.transfer({ ...transferParams, signTransaction });
+        return toolbox.transfer({
+          ...transferParams,
+          signTransaction: (provider as BitcoinProvider).signTransaction,
+        });
       };
 
       return { ...toolbox, transfer, address };
@@ -63,75 +85,81 @@ export const getWalletMethods = async ({
     case Chain.BinanceSmartChain:
     case Chain.Optimism:
     case Chain.Polygon: {
-      return true;
+      if (!ethereumWindowProvider) throw new Error("Requested web3 wallet is not installed");
+
+      if (
+        (chain !== Chain.Ethereum && !covalentApiKey) ||
+        (chain === Chain.Ethereum && !ethplorerApiKey)
+      ) {
+        throw new Error(`Missing API key for ${chain} chain`);
+      }
+
+      const evmProvider = provider as BrowserProvider;
+
+      await evmProvider.send("eth_requestAccounts", []);
+      const address = await (await evmProvider.getSigner()).getAddress();
+
+      const toolboxParams = {
+        provider: evmProvider,
+        signer: await evmProvider.getSigner(),
+        ethplorerApiKey: ethplorerApiKey as string,
+        covalentApiKey: covalentApiKey as string,
+      };
+
+      const toolbox = getToolboxByChain(chain as EVMChain)(toolboxParams);
+
+      try {
+        chain !== Chain.Ethereum &&
+          (await addEVMWalletNetwork(
+            evmProvider,
+            (toolbox as ReturnType<typeof AVAXToolbox>).getNetworkParams(),
+          ));
+      } catch (_error) {
+        throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
+      }
+
+      return {
+        address,
+        ...prepareNetworkSwitch<typeof toolbox>({
+          toolbox: { ...toolbox },
+          chainId: ChainToHexChainId[chain],
+          provider: evmProvider,
+        }),
+      };
     }
     default:
-      break;
+      throw new Error(`Unsupported chain: ${chain}`);
   }
-
-  if (!ethereumWindowProvider) throw new Error("Requested web3 wallet is not installed");
-
-  if (
-    (chain !== Chain.Ethereum && !covalentApiKey) ||
-    (chain === Chain.Ethereum && !ethplorerApiKey)
-  ) {
-    throw new Error(`Missing API key for ${chain} chain`);
-  }
-
-  const toolboxParams = {
-    provider,
-    signer: await provider.getSigner(),
-    ethplorerApiKey: ethplorerApiKey as string,
-    covalentApiKey: covalentApiKey as string,
-  };
-
-  const toolbox = getToolboxByChain(chain as EVMChain)(toolboxParams);
-
-  try {
-    chain !== Chain.Ethereum &&
-      (await addEVMWalletNetwork(
-        provider,
-        (toolbox as ReturnType<typeof AVAXToolbox>).getNetworkParams(),
-      ));
-  } catch (_error) {
-    throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
-  }
-
-  return prepareNetworkSwitch<typeof toolbox>({
-    toolbox: { ...toolbox },
-    chainId: ChainToHexChainId[chain],
-    provider,
-  });
 };
 
-function connectEVMWallet({
+function connectExodusWallet({
   addChain,
   config: { covalentApiKey, ethplorerApiKey, thorswapApiKey },
 }: ConnectWalletParams) {
-  return async function connectEVMWallet(
-    chains: (EVMChain | Chain.Bitcoin)[],
-    eip1193Provider?: Eip1193Provider,
-  ) {
+  return async function connectExodusWallet(chains: (EVMChain | Chain.Bitcoin)[], wallet: Wallet) {
+    if (!wallet) throw new Error("Missing Exodus Wallet instance");
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
+    const { providers } = wallet;
+
     const promises = chains.map(async (chain) => {
-      const { BrowserProvider, getProvider } = await import("@swapkit/toolbox-evm");
+      const { BrowserProvider } = await import("@swapkit/toolbox-evm");
 
-      if (!eip1193Provider) throw new Error("Missing provider");
-      const provider = new BrowserProvider(eip1193Provider, "any");
-      await provider.send("eth_requestAccounts", []);
-      const address = await (await provider.getSigner()).getAddress();
+      const provider =
+        chain === Chain.Bitcoin
+          ? providers.bitcoin
+          : new BrowserProvider(providers.ethereum, "any");
 
-      const walletMethods = await getWalletMethods({
+      const { address, ...walletMethods } = await getWalletMethods({
         chain,
         ethplorerApiKey,
         covalentApiKey,
-        ethereumWindowProvider: eip1193Provider,
+        ethereumWindowProvider: providers.ethereum,
         provider,
       });
 
       const getBalance = async (potentialScamFilter = true) =>
-        walletMethods.getBalance(address, potentialScamFilter, getProvider(chain));
+        walletMethods.getBalance(address, potentialScamFilter);
 
       addChain({
         ...walletMethods,
@@ -150,4 +178,7 @@ function connectEVMWallet({
   };
 }
 
-export const evmWallet = { connectEVMWallet } as const;
+export const exodusWallet = { connectExodusWallet } as const;
+
+export * from "@passkeys/react";
+export * from "@passkeys/core";

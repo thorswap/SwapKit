@@ -7,7 +7,7 @@
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "@swapkit/wallet-evm-extensions": "workspace:*",
+    "@swapkit/wallet-exodus": "workspace:*",
     "@swapkit/wallet-keepkey": "workspace:*",
     "@swapkit/wallet-keplr": "workspace:*",
     "@swapkit/wallet-keystore": "workspace:*",
