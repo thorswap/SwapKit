@@ -1,5 +1,17 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.53
+
+### Patch Changes
+
+- [#795](https://github.com/thorswap/SwapKit/pull/795) [`af238a7`](https://github.com/thorswap/SwapKit/commit/af238a7b30a3163464f1df0fb6589901261f51fd) Thanks [@towanTG](https://github.com/towanTG)! - Bumps dependencies and releases exodus wallet
+
+- Updated dependencies [[`af238a7`](https://github.com/thorswap/SwapKit/commit/af238a7b30a3163464f1df0fb6589901261f51fd)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.36
+  - @swapkit/helpers@1.0.0-rc.101
+  - @swapkit/toolbox-evm@1.0.0-rc.107
+  - @swapkit/api@1.0.0-rc.67
+
 ## 1.0.0-rc.52
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # @swapkit/wallet-keplr
 
+## 1.0.0-rc.129
+
+### Patch Changes
+
+- [#795](https://github.com/thorswap/SwapKit/pull/795) [`af238a7`](https://github.com/thorswap/SwapKit/commit/af238a7b30a3163464f1df0fb6589901261f51fd) Thanks [@towanTG](https://github.com/towanTG)! - Bumps dependencies and releases exodus wallet
+
+- Updated dependencies [[`af238a7`](https://github.com/thorswap/SwapKit/commit/af238a7b30a3163464f1df0fb6589901261f51fd)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.125
+  - @swapkit/helpers@1.0.0-rc.101
+
 ## 1.0.0-rc.128
 
 ### Patch Changes
