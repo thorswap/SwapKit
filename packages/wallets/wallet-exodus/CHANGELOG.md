@@ -1,5 +1,11 @@
 # @swapkit/wallet-exodus
 
+## 1.0.0-rc.2
+
+### Patch Changes
+
+- [#797](https://github.com/thorswap/SwapKit/pull/797) [`3e8184d`](https://github.com/thorswap/SwapKit/commit/3e8184dde12cd118150ff628bad1f2e811529eec) Thanks [@towanTG](https://github.com/towanTG)! - Fixes dependencies
+
 ## 1.0.0-rc.1
 
 ### Patch Changes
