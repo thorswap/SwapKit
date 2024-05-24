@@ -7,7 +7,7 @@ import "./index.css";
 import App from "./App";
 
 export const wallet = createWallet({
-  appId: "994f3903-5054-447e-bddf-a57874c973fb",
+  appId: "",
   networks: {
     bitcoin: true,
     ethereum: true,
