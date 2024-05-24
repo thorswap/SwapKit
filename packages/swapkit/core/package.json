@@ -11,7 +11,7 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "bun-types": "1.1.2"
+    "bun-types": "1.1.8"
   },
   "peerDependencies": {
     "@swapkit/api": "workspace:*",

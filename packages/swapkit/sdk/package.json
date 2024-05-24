@@ -32,7 +32,7 @@
   },
   "description": "SwapKit Lib swapkit-sdk",
   "devDependencies": {
-    "bun-types": "1.1.2"
+    "bun-types": "1.1.8"
   },
   "files": [
     "src/",

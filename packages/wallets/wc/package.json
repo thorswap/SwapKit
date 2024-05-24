@@ -12,7 +12,7 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@walletconnect/logger": "2.1.1",
     "@walletconnect/types": "2.12.1",
-    "bun-types": "1.1.2",
+    "bun-types": "1.1.8",
     "pino": "8.20.0",
     "pino-pretty": "11.0.0"
   },

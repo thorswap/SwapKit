@@ -3,7 +3,7 @@
   "tag": "rc",
   "initialVersions": {
     "@swapkit/api": "1.0.0-rc.0",
-    "@swapkit/chainflip": "1.0.0-rc.1",
+    "@swapkit/chainflip": "1.0.0-rc.0",
     "@swapkit/core": "1.0.0-rc.0",
     "@swapkit/helpers": "1.0.0-rc.0",
     "@swapkit/sdk": "1.0.0-rc.0",
@@ -21,13 +21,14 @@
     "@swapkit/wallet-trezor": "1.0.0-rc.0",
     "@swapkit/wallet-wc": "1.0.0-rc.0",
     "@swapkit/wallet-xdefi": "1.0.0-rc.0",
-    "@swapkit/thorchain": "1.0.0-rc.1",
+    "@swapkit/thorchain": "1.0.0-rc.0",
+    "@swapkit/wallet-coinbase": "1.0.0-rc.0",
+    "@swapkit/wallet-exodus": "1.0.0-rc.0",
     "@internal/playground-nextjs": "0.1.0",
     "@internal/playground-node": "0.0.0",
     "@internal/playground-vite": "0.0.0",
     "@internal/tools-github": "0.1.0",
-    "@internal/tools-typescript": "0.1.0",
-    "@swapkit/wallet-coinbase": "1.0.0-rc.1"
+    "@internal/tools-typescript": "0.1.0"
   },
   "changesets": [
     "big-clouds-draw",

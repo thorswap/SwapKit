@@ -2,8 +2,15 @@ import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
 import type { EVMWallets } from "@swapkit/toolbox-evm";
 import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
 import type { UTXOWallets } from "@swapkit/toolbox-utxo";
+import type { Eip1193Provider } from "ethers";
 import type { AssetValue } from "../modules/assetValue";
 import type { Chain } from "./chains";
+
+declare global {
+  interface WindowEventMap {
+    "eip6963:announceProvider": CustomEvent;
+  }
+}
 
 export enum WalletOption {
   KEYSTORE = "KEYSTORE",
@@ -20,6 +27,8 @@ export enum WalletOption {
   OKX_MOBILE = "OKX_MOBILE",
   BRAVE = "BRAVE",
   WALLETCONNECT = "WALLETCONNECT",
+  EIP6963 = "EIP6963",
+  EXODUS = "EXODUS",
 }
 
 export enum LedgerErrorCode {
@@ -45,3 +54,25 @@ export type BaseWallet<T extends EmptyWallet | unknown> = {
 export type Wallet = BaseWallet<
   EVMWallets & CosmosWallets & ThorchainWallets & UTXOWallets & SubstrateWallets
 >;
+
+export type EIP6963ProviderInfo = {
+  walletId: string;
+  uuid: string;
+  name: string;
+  icon: string;
+};
+
+export type EIP6963ProviderDetail = {
+  info: EIP6963ProviderInfo;
+  provider: Eip1193Provider;
+};
+
+export type EIP6963Provider = {
+  info: EIP6963ProviderInfo;
+  provider: Eip1193Provider;
+};
+
+// This type represents the structure of an event dispatched by a wallet to announce its presence based on EIP-6963.
+export type EIP6963AnnounceProviderEvent = Event & {
+  detail: EIP6963Provider;
+};
