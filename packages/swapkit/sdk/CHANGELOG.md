@@ -1,5 +1,26 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.175
+
+### Patch Changes
+
+- [#795](https://github.com/thorswap/SwapKit/pull/795) [`af238a7`](https://github.com/thorswap/SwapKit/commit/af238a7b30a3163464f1df0fb6589901261f51fd) Thanks [@towanTG](https://github.com/towanTG)! - Bumps dependencies and releases exodus wallet
+
+- Updated dependencies [[`af238a7`](https://github.com/thorswap/SwapKit/commit/af238a7b30a3163464f1df0fb6589901261f51fd)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.111
+  - @swapkit/toolbox-cosmos@1.0.0-rc.125
+  - @swapkit/wallet-keystore@1.0.0-rc.139
+  - @swapkit/wallet-keepkey@1.0.0-rc.62
+  - @swapkit/toolbox-utxo@1.0.0-rc.110
+  - @swapkit/wallet-ledger@1.0.0-rc.147
+  - @swapkit/wallet-trezor@1.0.0-rc.119
+  - @swapkit/toolbox-evm@1.0.0-rc.107
+  - @swapkit/wallet-keplr@1.0.0-rc.129
+  - @swapkit/wallet-xdefi@1.0.0-rc.142
+  - @swapkit/core@1.0.0-rc.149
+  - @swapkit/wallet-okx@1.0.0-rc.140
+  - @swapkit/wallet-wc@1.0.0-rc.132
+
 ## 1.0.0-rc.174
 
 ### Patch Changes
