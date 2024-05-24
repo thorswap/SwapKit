@@ -3,7 +3,8 @@
   "dependencies": {
     "@swapkit/helpers": "workspace:*",
     "@passkeys/core": "1.0.0",
-    "@passkeys/react": "1.0.0"
+    "@passkeys/react": "1.0.0",
+    "sats-connect": "1.4.1"
   },
   "devDependencies": {
     "@swapkit/toolbox-evm": "workspace:*",
@@ -21,7 +22,8 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@passkeys/core": "1.0.0",
-    "@passkeys/react": "1.0.0"
+    "@passkeys/react": "1.0.0",
+    "sats-connect": "1.4.1"
   },
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
