@@ -1,18 +1,23 @@
-import type { AssetValue, QuoteRoute, SwapKitClient } from "@swapkit/core";
-import { SwapKitApi } from "@swapkit/core";
+import type { AssetValue, QuoteResponseRoute, SwapKit } from "@swapkit/core";
+import { SwapKitApi, SwapKitNumber } from "@swapkit/core";
 import { useCallback, useState } from "react";
 
 type Props = {
   inputAsset?: AssetValue;
   outputAsset?: AssetValue;
-  handleSwap: (route: QuoteRoute) => Promise<void>;
-  skClient?: SwapKitClient<{}, {}>;
+  handleSwap: (route: QuoteResponseRoute) => Promise<void>;
+  skClient?: ReturnType<typeof SwapKit<{}, {}>>;
 };
 
-export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Props) => {
+export const SwapInputs = ({
+  skClient,
+  inputAsset,
+  outputAsset,
+  handleSwap,
+}: Props) => {
   const [loading, setLoading] = useState(false);
   const [inputAssetValue, setInput] = useState<AssetValue | undefined>();
-  const [routes, setRoutes] = useState<QuoteRoute[]>([]);
+  const [routes, setRoutes] = useState<QuoteResponseRoute[]>([]);
 
   const setAmount = useCallback(
     (amountValue: string) => {
@@ -23,7 +28,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
 
       setInput(amount.gt(inputAsset) ? inputAsset : amount);
     },
-    [inputAsset],
+    [inputAsset]
   );
 
   const fetchQuote = useCallback(async () => {
@@ -32,17 +37,26 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
     setLoading(true);
     setRoutes([]);
 
-    const senderAddress = skClient.getAddress(inputAsset.chain);
-    const recipientAddress = skClient.getAddress(outputAsset.chain);
+    const sourceAddress = skClient.getAddress(inputAsset.chain);
+    const destinationAddress = skClient.getAddress(outputAsset.chain);
+    const providers = [
+      "CHAINFLIP",
+      "MAYACHAIN",
+      "THORCHAIN",
+      "THORCHAIN_STREAMING",
+    ];
 
     try {
-      const { routes } = await SwapKitApi.getSwapQuote({
+      const { routes } = await SwapKitApi.getSwapQuoteV2({
         sellAsset: inputAsset.toString(),
-        sellAmount: inputAssetValue.toSignificant(inputAssetValue.decimal),
+        sellAmount: inputAssetValue.getValue("number"),
         buyAsset: outputAsset.toString(),
-        senderAddress,
-        recipientAddress,
-        slippage: "3",
+        sourceAddress,
+        destinationAddress,
+        slippage: 3,
+        providers,
+        affiliate: "t",
+        affiliateFee: 10,
       });
 
       setRoutes(routes || []);
@@ -51,12 +65,24 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
     }
   }, [inputAssetValue, inputAsset, outputAsset, skClient]);
 
-  const swap = async (route: QuoteRoute, inputAssetValue?: AssetValue) => {
+  const swap = async (
+    route: QuoteResponseRoute,
+    inputAssetValue?: AssetValue
+  ) => {
     if (!(inputAsset && outputAsset && inputAssetValue && skClient)) return;
 
-    (await skClient.isAssetValueApproved(inputAssetValue, route.approvalTarget))
+    route.evmTransactionDetails?.approvalSpender &&
+    (await skClient.isAssetValueApproved(
+      inputAssetValue,
+      route.evmTransactionDetails?.approvalSpender
+    ))
       ? handleSwap(route)
-      : skClient.approveAssetValue(inputAssetValue, route.approvalTarget);
+      : route.evmTransactionDetails?.approvalSpender
+      ? skClient.approveAssetValue(
+          inputAssetValue,
+          route.evmTransactionDetails?.approvalSpender
+        )
+      : new Error("Approval Spender not found");
   };
 
   return (
@@ -83,7 +109,11 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
           />
         </div>
 
-        <button disabled={!(inputAsset && outputAsset)} onClick={fetchQuote} type="button">
+        <button
+          disabled={!(inputAsset && outputAsset)}
+          onClick={fetchQuote}
+          type="button"
+        >
           {loading ? "Loading..." : "Get Quote"}
         </button>
       </div>
@@ -93,11 +123,24 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
           <div>
             <span>Routes:</span>
             {routes.map((route) => (
-              <div key={route.contract}>
-                {route.meta?.quoteMode} ({route.providers.join(",")}){" "}
-                <button onClick={() => swap(route, inputAssetValue)} type="button">
-                  {"SWAP =>"} Estimated Output: {route.expectedOutput} {outputAsset?.ticker} ($
-                  {Number.parseFloat(route.expectedOutputUSD).toFixed(4)})
+              <div key={route.targetAddress}>
+                {/* {route.meta?.} ({route.providers.join(",")}){" "} */}
+                <button
+                  onClick={() => swap(route, inputAssetValue)}
+                  type="button"
+                >
+                  {"SWAP =>"} Estimated Output: {route.expectedBuyAmount}{" "}
+                  {outputAsset?.ticker} ($
+                  {new SwapKitNumber(route.expectedBuyAmount)
+                    .mul(
+                      route.meta.assets?.find(
+                        (asset) =>
+                          asset.name.toLowerCase() ===
+                          outputAsset?.toString().toLowerCase()
+                      )?.price || 0
+                    )
+                    .toFixed(4)}
+                  )
                 </button>
               </div>
             ))}

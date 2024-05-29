@@ -1,6 +1,6 @@
 import { Chains } from "@chainflip/sdk/swap";
 import {
-  type AssetValue,
+  AssetValue,
   type GenericSwapParams,
   SwapKitError,
   SwapKitNumber,
@@ -37,25 +37,30 @@ const registerAsBroker = (
 const requestSwapDepositAddress = async (
   toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
   {
+    route,
     sellAsset,
     buyAsset,
     recipient,
     brokerCommissionBPS,
   }: GenericSwapParams & { brokerCommissionBPS: number },
 ) => {
-  const isBuyChainPolkadot = buyAsset.chain === Chain.Polkadot;
+  const routeSellAsset = AssetValue.fromStringSync(route.sellAsset);
+  const routeBuyAsset = AssetValue.fromStringSync(route.buyAsset);
+
+  const isBuyChainPolkadot =
+    buyAsset?.chain === Chain.Polkadot || routeBuyAsset.chain === Chain.Polkadot;
 
   const recipientAddress = wrapWithThrow(() => {
     return isBuyChainPolkadot
-      ? toolbox.encodeAddress(toolbox.decodeAddress(recipient), "hex")
-      : recipient;
+      ? toolbox.encodeAddress(toolbox.decodeAddress(recipient || route.destinationAddress), "hex")
+      : recipient || route.destinationAddress;
   }, "chainflip_broker_recipient_error");
 
   return new Promise<SwapDepositResponse>((resolve) => {
     const tx = toolbox.api.tx.swapping?.requestSwapDepositAddress?.(
-      sellAsset.ticker.toLowerCase(),
-      buyAsset.ticker.toLowerCase(),
-      { [buyAsset.chain.toLowerCase()]: recipientAddress },
+      (sellAsset || routeSellAsset).ticker.toLowerCase(),
+      (buyAsset || routeBuyAsset).ticker.toLowerCase(),
+      { [(buyAsset || routeBuyAsset).chain.toLowerCase()]: recipientAddress },
       SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
       null,
       0,
@@ -90,16 +95,16 @@ const requestSwapDepositAddress = async (
       const hash = result.status?.toJSON?.() as { finalized: string };
       const header = await toolbox.api.rpc.chain.getHeader(hash?.finalized);
       const depositChannelId = `${header.number}-${chainToChainflipChain.get(
-        sellAsset.chain,
+        (sellAsset || routeSellAsset).chain,
       )}-${channelId.replaceAll(",", "")}`;
 
       resolve({
         brokerCommissionBPS,
-        buyAsset,
+        buyAsset: buyAsset || routeBuyAsset,
         depositAddress: Object.values(depositAddress)[0] as string,
         depositChannelId,
         recipient: Object.values(destinationAddress)[0] as string,
-        sellAsset,
+        sellAsset: sellAsset || routeSellAsset,
         srcChainExpiryBlock: Number((sourceChainExpiryBlock as string).replaceAll(",", "")),
       });
     });

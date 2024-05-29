@@ -266,8 +266,19 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     return { runeTx, assetTx };
   }
 
+  function swap({ route, ...rest }: SwapParams<"thorchain"> | SwapWithRouteParams) {
+    if (!route) throw new SwapKitError("core_swap_invalid_params");
+
+    const isV2Route = "legs" in route;
+
+    if (isV2Route) {
+      return swapV2({ route, ...rest } as SwapParams<"thorchain">);
+    }
+    return swapV1Route({ route, ...rest } as SwapWithRouteParams);
+  }
+
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor
-  async function swap(swapParams: SwapParams<"thorchain"> | SwapWithRouteParams) {
+  async function swapV1Route(swapParams: SwapWithRouteParams) {
     if (!("route" in swapParams)) throw new SwapKitError("core_swap_invalid_params");
 
     const route = swapParams.route as QuoteRoute;
@@ -408,6 +419,29 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     }
 
     throw new SwapKitError("core_swap_quote_mode_not_supported", { quoteMode });
+  }
+
+  async function swapV2({ route, feeOptionKey }: SwapParams<"thorchain">) {
+    if (!route) throw new SwapKitError("core_swap_invalid_params");
+
+    const { memo, expiration, targetAddress } = route;
+
+    const assetValue = await AssetValue.fromString(route.sellAsset, route.sellAmount);
+
+    if (!assetValue) {
+      throw new SwapKitError("core_swap_asset_not_recognized");
+    }
+
+    const { address: recipient } = await getInboundDataByChain(assetValue.chain);
+
+    return deposit({
+      expiration: Number(expiration),
+      assetValue,
+      memo,
+      feeOptionKey,
+      router: targetAddress,
+      recipient,
+    });
   }
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO refactor

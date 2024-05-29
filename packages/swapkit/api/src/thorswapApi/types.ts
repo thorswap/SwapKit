@@ -3,53 +3,6 @@ import { z } from "zod";
 
 export type FeeType = "AFFILIATE" | "LIQUIDITY" | "INBOUND" | "OUTBOUND" | "NETWORK";
 
-export type EvmTransactionDetails = {
-  contractAddress: string;
-  contractMethod: string;
-  contractParamNames: string[];
-  contractParams: (string | { from: string })[];
-};
-
-export type QuoteFee = {
-  amount: string;
-  asset: string;
-  chain: Chain;
-  protocol: string;
-  type: FeeType;
-};
-
-export type QuoteLegsV2 = {
-  buyAmount: string;
-  buyAmountUSD: string;
-  buyAsset: string;
-  destinationAddress: string;
-  expiration: string;
-  fees: Todo[];
-  memo: string;
-  provider: string;
-  sellAmount: string;
-  sellAmountUSD: string;
-  sellAsset: string;
-  sourceAddress: string;
-};
-
-export type QuoteRouteV2 = {
-  buyAsset: string;
-  destinationAddress: string;
-  evmTransactionDetails?: EvmTransactionDetails;
-  expectedBuyAmount: string;
-  expectedBuyAmountUSD: string;
-  expiration: string;
-  legs: QuoteLegsV2[];
-  memo: string;
-  sellAmount: number;
-  sellAmountUSD: string;
-  sellAsset: string;
-  sourceAddress: string;
-  targetAddress?: string;
-  providers: string[];
-};
-
 export type LoansParams = { address: string; asset: string };
 
 export type LoansResponse = {
@@ -141,7 +94,7 @@ export type QuoteRoute = {
   contractInfo: string;
   contractMethod?: string;
   estimatedTime: number;
-  evmTransactionDetails?: EVMTransactionDetails;
+  evmTransactionDetails?: EVMTransactionDetailsV1;
   expectedOutput: string;
   expectedOutputMaxSlippage: string;
   expectedOutputMaxSlippageUSD: string;
@@ -307,7 +260,7 @@ export type BorrowResponse =
       toAsset: string;
     };
 
-export type EVMTransactionDetails = {
+export type EVMTransactionDetailsV1 = {
   approvalSpender?: string;
   approvalToken?: string; // not set in case of gas asset
   contractAddress: string;
@@ -628,4 +581,4 @@ export const ApiV1ErrorSchema = z.object({
 
 export type ApiV1Error = z.infer<typeof ApiV1ErrorSchema>;
 
-export type QuoteResponse = { quoteId: string; routes: QuoteRoute[] } | ApiV1Error;
+export type QuoteResponseV1 = { quoteId: string; routes: QuoteRoute[] } | ApiV1Error;

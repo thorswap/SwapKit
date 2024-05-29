@@ -1,5 +1,10 @@
-import type { QuoteRouteV2 } from "@swapkit/api";
-import { AssetValue, type BaseWallet, SwapKitError, type SwapParams } from "@swapkit/helpers";
+import {
+  AssetValue,
+  type BaseWallet,
+  type QuoteResponseRoute,
+  SwapKitError,
+  type SwapParams,
+} from "@swapkit/helpers";
 
 export async function confirmSwap({
   buyAsset,
@@ -33,12 +38,25 @@ const plugin = ({
   wallets,
   config: { brokerEndpoint },
 }: { wallets: BaseWallet<{ [key: string]: NotWorth }>; config: { brokerEndpoint: string } }) => {
-  async function swap({ recipient, ...rest }: SwapParams<"chainflip">) {
-    if (!("route" in rest && (rest.route as QuoteRouteV2)?.buyAsset && brokerEndpoint)) {
-      throw new SwapKitError("core_swap_invalid_params");
+  async function swap(swapParams: SwapParams<"chainflip">) {
+    if (
+      !(
+        "route" in swapParams &&
+        (swapParams.route as QuoteResponseRoute)?.buyAsset &&
+        brokerEndpoint
+      )
+    ) {
+      throw new SwapKitError("core_swap_invalid_params", { ...swapParams, brokerEndpoint });
     }
 
-    const { buyAsset: buyString, sellAsset: sellString, sellAmount } = rest.route as QuoteRouteV2;
+    const {
+      route: {
+        buyAsset: buyString,
+        sellAsset: sellString,
+        sellAmount,
+        destinationAddress: recipient,
+      },
+    } = swapParams;
     if (!(sellString && buyString)) {
       throw new SwapKitError("core_swap_asset_not_recognized");
     }
