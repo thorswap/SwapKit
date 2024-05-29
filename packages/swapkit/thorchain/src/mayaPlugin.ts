@@ -8,6 +8,7 @@ import {
   MayaArbitrumVaultAbi,
   MayaEthereumVaultAbi,
   MemoType,
+  ProviderName,
   type QuoteResponseRoute,
   SwapKitError,
   type SwapParams,
@@ -195,6 +196,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     getInboundDataByChain,
     approveAssetValue,
     isAssetValueApproved,
+    supportedSwapkitProviders: [ProviderName.MAYACHAIN],
   };
 };
 

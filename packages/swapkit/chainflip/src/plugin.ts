@@ -1,6 +1,7 @@
 import {
   AssetValue,
   type BaseWallet,
+  ProviderName,
   type QuoteResponseRoute,
   SwapKitError,
   type SwapParams,
@@ -85,7 +86,7 @@ const plugin = ({
     return tx as string;
   }
 
-  return { swap };
+  return { swap, supportedSwapkitProviders: [ProviderName.CHAINFLIP] };
 };
 
 export const ChainflipPlugin = { chainflip: { plugin } } as const;

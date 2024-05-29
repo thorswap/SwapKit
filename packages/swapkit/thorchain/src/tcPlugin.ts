@@ -9,6 +9,7 @@ import {
   type ErrorKeys,
   FeeOption,
   MemoType,
+  ProviderName,
   SWAP_IN,
   SWAP_OUT,
   SwapKitError,
@@ -274,11 +275,12 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     if (isV2Route) {
       return swapV2({ route, ...rest } as SwapParams<"thorchain">);
     }
-    return swapV1Route({ route, ...rest } as SwapWithRouteParams);
+
+    return swapV1({ route, ...rest } as SwapWithRouteParams);
   }
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor
-  async function swapV1Route(swapParams: SwapWithRouteParams) {
+  async function swapV1(swapParams: SwapWithRouteParams) {
     if (!("route" in swapParams)) throw new SwapKitError("core_swap_invalid_params");
 
     const route = swapParams.route as QuoteRoute;
@@ -560,6 +562,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     savings,
     swap,
     withdraw,
+    supportedSwapkitProviders: [ProviderName.THORCHAIN, ProviderName.THORCHAIN_STREAMING],
   };
 };
 
