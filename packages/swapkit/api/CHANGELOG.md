@@ -1,5 +1,11 @@
 # @swapkit/api
 
+## 1.0.0-rc.69
+
+### Patch Changes
+
+- [#801](https://github.com/thorswap/SwapKit/pull/801) [`3a27569`](https://github.com/thorswap/SwapKit/commit/3a275695f8139588c4b2e69aaa5e810daea3175f) Thanks [@towanTG](https://github.com/towanTG)! - Fixes v2 swap support in core
+
 ## 1.0.0-rc.68
 
 ### Patch Changes
