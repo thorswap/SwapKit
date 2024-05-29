@@ -201,12 +201,10 @@ export function SwapKit<
   }
 
   function swap<T extends PluginName>({ route, pluginName, ...rest }: SwapParams<T>) {
-    if (pluginName || route.providers[0]?.toLowerCase())
-      throw new SwapKitError("core_swap_route_not_complete");
+    const pluginId = pluginName || route.providers[0]?.toLowerCase();
+    if (!pluginId) throw new SwapKitError("core_swap_route_not_complete");
 
-    const plugin = getSwapKitPlugin(
-      (pluginName || route.providers[0]?.toLowerCase()) as PluginName,
-    );
+    const plugin = getSwapKitPlugin(pluginId as PluginName);
 
     if ("swap" in plugin) {
       return plugin.swap({ ...rest, route });
