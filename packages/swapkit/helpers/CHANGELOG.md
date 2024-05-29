@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.102
+
+### Patch Changes
+
+- [#799](https://github.com/thorswap/SwapKit/pull/799) [`ec1176d`](https://github.com/thorswap/SwapKit/commit/ec1176d24bd75771bac23e16a8c3d18dd104d01a) Thanks [@towanTG](https://github.com/towanTG)! - Adds v2 support
+
 ## 1.0.0-rc.101
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.54
+
+### Patch Changes
+
+- [#799](https://github.com/thorswap/SwapKit/pull/799) [`ec1176d`](https://github.com/thorswap/SwapKit/commit/ec1176d24bd75771bac23e16a8c3d18dd104d01a) Thanks [@towanTG](https://github.com/towanTG)! - Adds v2 support
+
+- Updated dependencies [[`ec1176d`](https://github.com/thorswap/SwapKit/commit/ec1176d24bd75771bac23e16a8c3d18dd104d01a)]:
+  - @swapkit/helpers@1.0.0-rc.102
+  - @swapkit/api@1.0.0-rc.68
+  - @swapkit/toolbox-evm@1.0.0-rc.108
+  - @swapkit/toolbox-substrate@1.0.0-rc.37
+
 ## 1.0.0-rc.53
 
 ### Patch Changes
