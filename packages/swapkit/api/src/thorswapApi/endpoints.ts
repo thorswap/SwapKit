@@ -1,11 +1,5 @@
-import {
-  type QuoteRequest as QuoteRequestV2,
-  type QuoteResponse,
-  QuoteResponseSchema,
-  RequestClient,
-  SwapKitError,
-} from "@swapkit/helpers";
-import type { AfterResponseHook } from "ky";
+import { RequestClient } from "@swapkit/helpers";
+
 import {
   ApiV1ErrorSchema,
   type BorrowParams,
@@ -25,7 +19,6 @@ import {
 } from "./types.ts";
 
 const baseUrlV1 = "https://api.thorswap.finance";
-const baseUrlV2 = "https://dev-api.swapkit.dev";
 
 export const APIV1RequestClient = RequestClient.extend({
   hooks: {
@@ -104,24 +97,4 @@ export function getTxnDetails(txHash: string) {
 
 export function getTokenListProviders() {
   return RequestClient.get<TokenListProvidersResponse>(`${baseUrlV1}/tokenlist/providers`);
-}
-
-export function getSwapQuoteV2(searchParams: QuoteRequestV2) {
-  const afterResponse: AfterResponseHook[] = [
-    async (_request, _options, response) => {
-      const body = await response.json();
-      try {
-        QuoteResponseSchema.parse(body);
-      } catch (error) {
-        throw new SwapKitError("api_v2_invalid_response", error);
-      }
-      return response;
-    },
-  ];
-
-  const kyClient = RequestClient.extend({ hooks: { afterResponse } });
-
-  return kyClient.post<QuoteResponse>(`${baseUrlV2}/quote`, {
-    json: searchParams,
-  });
 }
