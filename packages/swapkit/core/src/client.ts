@@ -7,6 +7,7 @@ import {
   type ConnectConfig,
   type EVMChain,
   EVMChains,
+  type ProviderName as PluginNameEnum,
   SwapKitError,
   type SwapParams,
   type Wallet,
@@ -88,6 +89,21 @@ export function SwapKit<
    */
   function getSwapKitPlugin<T extends PluginName>(pluginName: T) {
     const plugin = availablePlugins[pluginName] || Object.values(availablePlugins)[0];
+
+    if (!plugin) {
+      throw new SwapKitError("core_plugin_not_found", "Could not find the requested plugin");
+    }
+
+    return plugin;
+  }
+
+  /**
+   * @Private
+   */
+  function getSwapKitPluginForSKProvider(pluginName: PluginNameEnum): Plugins[keyof Plugins] {
+    const plugin = Object.values(availablePlugins).find((plugin) =>
+      plugin.supportedSwapkitProviders?.includes(pluginName),
+    );
 
     if (!plugin) {
       throw new SwapKitError("core_plugin_not_found", "Could not find the requested plugin");
@@ -201,10 +217,10 @@ export function SwapKit<
   }
 
   function swap<T extends PluginName>({ route, pluginName, ...rest }: SwapParams<T>) {
-    const pluginId = pluginName || route.providers[0]?.toLowerCase();
-    if (!pluginId) throw new SwapKitError("core_swap_route_not_complete");
-
-    const plugin = getSwapKitPlugin(pluginId as PluginName);
+    const plugin =
+      (pluginName && getSwapKitPlugin(pluginName)) ||
+      getSwapKitPluginForSKProvider(route.providers[0] as PluginNameEnum);
+    if (!plugin) throw new SwapKitError("core_swap_route_not_complete");
 
     if ("swap" in plugin) {
       return plugin.swap({ ...rest, route });
