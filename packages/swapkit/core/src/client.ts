@@ -209,7 +209,7 @@ export function SwapKit<
     );
 
     if ("swap" in plugin) {
-      return plugin.swap(rest);
+      return plugin.swap({ ...rest, route });
     }
 
     throw new SwapKitError("core_plugin_swap_not_found");
