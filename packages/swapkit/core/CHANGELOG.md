@@ -1,5 +1,15 @@
 # @swapkit/core
 
+## 1.0.0-rc.151
+
+### Patch Changes
+
+- [#801](https://github.com/thorswap/SwapKit/pull/801) [`3a27569`](https://github.com/thorswap/SwapKit/commit/3a275695f8139588c4b2e69aaa5e810daea3175f) Thanks [@towanTG](https://github.com/towanTG)! - Fixes v2 swap support in core
+
+- Updated dependencies [[`3a27569`](https://github.com/thorswap/SwapKit/commit/3a275695f8139588c4b2e69aaa5e810daea3175f)]:
+  - @swapkit/api@1.0.0-rc.69
+  - @swapkit/toolbox-cosmos@1.0.0-rc.127
+
 ## 1.0.0-rc.150
 
 ### Patch Changes
