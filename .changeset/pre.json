@@ -19,6 +19,7 @@
     "@swapkit/wallet-keystore": "1.0.0-rc.0",
     "@swapkit/wallet-ledger": "1.0.0-rc.0",
     "@swapkit/wallet-okx": "1.0.0-rc.0",
+    "@swapkit/wallet-radix": "1.0.0-rc.0",
     "@swapkit/wallet-trezor": "1.0.0-rc.0",
     "@swapkit/wallet-wc": "1.0.0-rc.0",
     "@swapkit/wallet-xdefi": "1.0.0-rc.0",
