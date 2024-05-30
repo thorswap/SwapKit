@@ -43,12 +43,15 @@ const RadixSignerInstance = (): RadixSigner & { getAddress: () => Promise<string
     publicKeyHex: () => {
       throw new Error("Not implemented");
     },
+    // @ts-ignore
     sign: (messageHash: Uint8Array) => {
       throw new Error("Not implemented");
     },
+    // @ts-ignore
     signToSignature: (messageHash: Uint8Array) => {
       throw new Error("Not implemented");
     },
+    // @ts-ignore
     signToSignatureWithPublicKey: (messageHash: Uint8Array) => {
       throw new Error("Not implemented");
     },
@@ -79,10 +82,13 @@ const getWalletMethods = async () => {
 
 function connectRadixWallet({
   addChain,
+  // @ts-ignore
   apis,
+  // @ts-ignore
   rpcUrls,
   config: { thorswapApiKey },
 }: ConnectWalletParams) {
+  // @ts-ignore
   return async function connectRadixWallet(chains: Chain[]) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 

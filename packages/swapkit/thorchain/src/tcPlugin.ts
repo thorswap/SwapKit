@@ -512,6 +512,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
 
         default: {
           if (walletInstance) {
+            // @ts-ignore
             return walletInstance.transfer(params) as Promise<string>;
           }
 

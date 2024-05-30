@@ -181,6 +181,7 @@ export function SwapKit<
    * TODO: Figure out validation without connecting to wallet
    */
   function validateAddress({ address, chain }: { address: string; chain: Chain }) {
+    // @ts-ignore
     return getWallet(chain)?.validateAddress?.(address);
   }
 
@@ -201,6 +202,7 @@ export function SwapKit<
     }
 
     if ("getBalance" in wallet) {
+      // @ts-ignore
       const balance = await wallet.getBalance(wallet.address, potentialScamFilter);
       wallet.balance = balance?.length ? balance : defaultBalance;
     }
