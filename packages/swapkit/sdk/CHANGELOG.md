@@ -1,5 +1,25 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.179
+
+### Patch Changes
+
+- [#805](https://github.com/thorswap/SwapKit/pull/805) [`9df63f9`](https://github.com/thorswap/SwapKit/commit/9df63f95384d518707e8ec45e4f19c63dc3d6a32) Thanks [@towanTG](https://github.com/towanTG)! - Adds EVM plugin and fixes v2 fetch quote client
+
+- Updated dependencies [[`9df63f9`](https://github.com/thorswap/SwapKit/commit/9df63f95384d518707e8ec45e4f19c63dc3d6a32)]:
+  - @swapkit/plugin-evm@1.0.0-rc.1
+  - @swapkit/chainflip@1.0.0-rc.57
+  - @swapkit/core@1.0.0-rc.153
+  - @swapkit/thorchain@1.0.0-rc.55
+  - @swapkit/toolbox-cosmos@1.0.0-rc.128
+  - @swapkit/wallet-keepkey@1.0.0-rc.65
+  - @swapkit/wallet-keplr@1.0.0-rc.132
+  - @swapkit/wallet-keystore@1.0.0-rc.142
+  - @swapkit/wallet-ledger@1.0.0-rc.150
+  - @swapkit/wallet-okx@1.0.0-rc.143
+  - @swapkit/wallet-wc@1.0.0-rc.135
+  - @swapkit/wallet-xdefi@1.0.0-rc.145
+
 ## 1.0.0-rc.178
 
 ### Patch Changes
