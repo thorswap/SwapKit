@@ -10,7 +10,12 @@ import {
   SwapKitError,
   type Wallet,
 } from "@swapkit/helpers";
+import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
+import type { EVMWallets } from "@swapkit/toolbox-evm";
+import type { UTXOWallets } from "@swapkit/toolbox-utxo";
 import type { CoreTxParams } from "./types";
+
+export type ChainWallets = Wallet<EVMWallets & UTXOWallets & ThorchainWallets & CosmosWallets>;
 
 export const validateAddressType = ({
   chain,
@@ -39,16 +44,16 @@ export const gasFeeMultiplier: Record<FeeOption, number> = {
 /**
  * Shared functions
  */
-export function getWallet<T extends Chain>(wallet: Wallet, chain: T) {
+export function getWallet<T extends Chain>(wallet: ChainWallets, chain: T) {
   return wallet[chain];
 }
 
-export function getAddress<T extends Chain>(wallet: Wallet, chain: T) {
+export function getAddress<T extends Chain>(wallet: ChainWallets, chain: T) {
   return getWallet(wallet, chain)?.address || "";
 }
 
 export function prepareTxParams(
-  wallets: Wallet,
+  wallets: ChainWallets,
   { assetValue, ...restTxParams }: CoreTxParams & { router?: string },
 ) {
   return {
@@ -83,7 +88,7 @@ export function sharedApprove<T extends ApproveMode>({
   type = "checkOnly" as T,
   router,
   wallets,
-}: { type: T; assetValue: AssetValue; router: string; wallets: Wallet }) {
+}: { type: T; assetValue: AssetValue; router: string; wallets: ChainWallets }) {
   const { address, chain, isGasAsset, isSynthetic } = assetValue;
   const isEVMChain = EVMChains.includes(chain as EVMChain);
   const isNativeEVM = isEVMChain && isGasAsset;

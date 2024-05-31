@@ -19,17 +19,19 @@ import {
   TCBscDepositABI,
   TCEthereumVaultAbi,
   type ThornameRegisterParam,
-  type Wallet,
+  type UTXOChain,
   getMemoFor,
   getMinAmountByChain,
   wrapWithThrow,
 } from "@swapkit/helpers";
+
 import {
   type AGG_CONTRACT_ADDRESS,
   lowercasedContractAbiMapping,
 } from "./aggregator/contracts/index.ts";
 import { getSwapInParams } from "./aggregator/getSwapParams.ts";
 import {
+  type ChainWallets,
   gasFeeMultiplier,
   getAddress,
   getInboundDataFunction,
@@ -50,7 +52,9 @@ import type {
   WithdrawParams,
 } from "./types";
 
-const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boolean }) => {
+type SupportedChain = EVMChain | Chain.THORChain | UTXOChain | Chain.Cosmos;
+
+const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet?: boolean }) => {
   const getInboundDataByChain = getInboundDataFunction({ stagenet, type: "thorchain" });
   /**
    * @Private
@@ -455,7 +459,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
   }: CoreTxParams & { router?: string }) {
     const { chain, symbol, ticker } = assetValue;
 
-    const walletInstance = getWallet(wallets, chain);
+    const walletInstance = getWallet(wallets, chain as SupportedChain);
     if (!walletInstance) {
       throw new SwapKitError("core_wallet_connection_not_found");
     }

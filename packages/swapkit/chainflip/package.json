@@ -10,6 +10,7 @@
   },
   "description": "SwapKit Plugin - ChainFlip",
   "devDependencies": {
+    "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
     "bun-types": "1.1.8"

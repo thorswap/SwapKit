@@ -3,6 +3,7 @@ import {
   ApproveMode,
   AssetValue,
   Chain,
+  type CosmosChain,
   type EVMChain,
   type ErrorKeys,
   MayaArbitrumVaultAbi,
@@ -13,11 +14,11 @@ import {
   SwapKitError,
   type SwapParams,
   type ThornameRegisterParam,
-  type Wallet,
+  type UTXOChain,
   getMemoFor,
 } from "@swapkit/helpers";
-
 import {
+  type ChainWallets,
   getInboundDataFunction,
   getWallet,
   prepareTxParams,
@@ -26,7 +27,9 @@ import {
 } from "./shared";
 import type { ApproveParams, CoreTxParams, SwapWithRouteParams } from "./types";
 
-const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boolean }) => {
+type SupportedChain = EVMChain | CosmosChain | UTXOChain;
+
+const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet?: boolean }) => {
   const getInboundDataByChain = getInboundDataFunction({ stagenet, type: "mayachain" });
 
   /**
@@ -101,7 +104,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
   }: CoreTxParams & { router?: string }) {
     const { chain, symbol, ticker } = assetValue;
 
-    const walletInstance = getWallet(wallets, chain);
+    const walletInstance = getWallet(wallets, chain as SupportedChain);
     if (!walletInstance) {
       throw new SwapKitError("core_wallet_connection_not_found");
     }

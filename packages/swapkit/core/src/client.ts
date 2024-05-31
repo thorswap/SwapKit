@@ -10,15 +10,13 @@ import {
   type ProviderName as PluginNameEnum,
   SwapKitError,
   type SwapParams,
-  type Wallet,
 } from "@swapkit/helpers";
-import type { BaseEVMWallet } from "@swapkit/toolbox-evm";
 
 import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
 } from "./helpers/explorerUrls.ts";
-import type { Apis, SwapKitPluginInterface, SwapKitWallet } from "./types.ts";
+import type { Apis, SwapKitPluginInterface, SwapKitWallet, Wallet } from "./types.ts";
 
 export function SwapKit<
   Plugins extends { [key in string]: SwapKitPluginInterface<{ [key in string]: Todo }> },
@@ -151,7 +149,7 @@ export function SwapKit<
       return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
     }
 
-    const walletMethods = connectedWallets[chain] as BaseEVMWallet;
+    const walletMethods = connectedWallets[chain as EVMChain];
     const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
     if (!walletAction) throw new SwapKitError("core_wallet_connection_not_found");
 
