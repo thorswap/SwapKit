@@ -9,9 +9,7 @@ import { decryptFromKeystore } from "@swapkit/wallet-keystore";
 import { useCallback, useState } from "react";
 
 import type { Eip1193Provider } from "@swapkit/toolbox-evm";
-import { WalletWidget } from "@swapkit/wallet-exodus";
 import type { SwapKitClient } from "swapKitClient";
-import { wallet } from "./main";
 import type { WalletDataType } from "./types";
 
 type Props = {
@@ -21,7 +19,7 @@ type Props = {
 };
 
 const walletOptions = Object.values(WalletOption).filter(
-  (o) => ![WalletOption.KEPLR].includes(o)
+  (o) => ![WalletOption.KEPLR, WalletOption.EXODUS].includes(o)
 );
 
 const AllChainsSupported = [
@@ -110,12 +108,12 @@ export const availableChainsByWallet = {
     Chain.Optimism,
   ],
   [WalletOption.EIP6963]: [...EVMChains],
-  [WalletOption.EXODUS]: [
-    Chain.Ethereum,
-    Chain.BinanceSmartChain,
-    Chain.Polygon,
-    Chain.Bitcoin,
-  ],
+  //   [WalletOption.EXODUS]: [
+  //     Chain.Ethereum,
+  //     Chain.BinanceSmartChain,
+  //     Chain.Polygon,
+  //     Chain.Bitcoin,
+  //   ],
 };
 
 export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
@@ -126,17 +124,22 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
       if (!skClient) return alert("client is not ready");
       switch (option) {
         case WalletOption.EXODUS:
+          // @ts-ignore
           return skClient.connectExodusWallet(chains, wallet);
         case WalletOption.COINBASE_MOBILE:
+          // @ts-ignore
           return skClient.connectCoinbaseWallet(chains);
         case WalletOption.XDEFI:
+          // @ts-ignore
           return skClient.connectXDEFI(chains);
         case WalletOption.OKX:
+          // @ts-ignore
           return skClient.connectOkx(chains);
         case WalletOption.COINBASE_WEB:
         case WalletOption.METAMASK:
         case WalletOption.TRUSTWALLET_WEB:
         case WalletOption.EIP6963:
+          // @ts-ignore
           return skClient.connectEVMWallet(chains, option, provider);
         case WalletOption.KEEPKEY: {
           const derivationPaths = []; // Ensure derivationPaths is defined
@@ -147,11 +150,9 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
               index: 0,
             });
             derivationPaths.push(derivationPath);
-          }
-          const apiKey: string = await skClient.connectKeepkey(
-            chains,
-            derivationPaths
-          );
+          } // @ts-ignore
+          const apiKey = await skClient.connectKeepkey(chains, derivationPaths);
+          // @ts-ignore
           localStorage.setItem("keepkeyApiKey", apiKey);
           return true;
         }
@@ -160,6 +161,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             chain: chains[0],
             index: 0,
           });
+          // @ts-ignore
           return skClient.connectLedger(chains, derivationPath);
         }
 
@@ -168,6 +170,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             chain: chains[0],
             index: 0,
           });
+          // @ts-ignore
           return skClient.connectTrezor(chains, derivationPath);
         }
       }
@@ -230,6 +233,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
     (wallet: WalletOption) =>
       chains.length > 0
         ? !chains.every((chain) =>
+            // @ts-ignore
             availableChainsByWallet[wallet].includes(chain)
           )
         : false,

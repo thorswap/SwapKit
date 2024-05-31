@@ -1,0 +1,106 @@
+export const bscGeneric = [
+  {
+    inputs: [{ internalType: "address", name: "_ttp", type: "address" }],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: "uint256", name: "fee", type: "uint256" },
+      { indexed: false, internalType: "address", name: "feeRecipient", type: "address" },
+    ],
+    name: "FeeSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "address", name: "owner", type: "address" },
+      { indexed: false, internalType: "bool", name: "active", type: "bool" },
+    ],
+    name: "OwnerSet",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: false, internalType: "address", name: "from", type: "address" },
+      { indexed: false, internalType: "address", name: "token", type: "address" },
+      { indexed: false, internalType: "uint256", name: "amount", type: "uint256" },
+      { indexed: false, internalType: "uint256", name: "out", type: "uint256" },
+      { indexed: false, internalType: "uint256", name: "fee", type: "uint256" },
+      { indexed: false, internalType: "address", name: "vault", type: "address" },
+      { indexed: false, internalType: "string", name: "memo", type: "string" },
+    ],
+    name: "SwapIn",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "fee",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "feeRecipient",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "owners",
+    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "_fee", type: "uint256" },
+      { internalType: "address", name: "_feeRecipient", type: "address" },
+    ],
+    name: "setFee",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "owner", type: "address" },
+      { internalType: "bool", name: "active", type: "bool" },
+    ],
+    name: "setOwner",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "address", name: "router", type: "address" },
+      { internalType: "address", name: "vault", type: "address" },
+      { internalType: "string", name: "memo", type: "string" },
+      { internalType: "address", name: "token", type: "address" },
+      { internalType: "uint256", name: "amount", type: "uint256" },
+      { internalType: "address", name: "swapRouter", type: "address" },
+      { internalType: "bytes", name: "data", type: "bytes" },
+      { internalType: "uint256", name: "deadline", type: "uint256" },
+    ],
+    name: "swapIn",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "tokenTransferProxy",
+    outputs: [
+      { internalType: "contract TSAggregatorTokenTransferProxy", name: "", type: "address" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  { stateMutability: "payable", type: "receive" },
+];

@@ -6,6 +6,7 @@
     "@swapkit/chainflip": "1.0.0-rc.0",
     "@swapkit/core": "1.0.0-rc.0",
     "@swapkit/helpers": "1.0.0-rc.0",
+    "@swapkit/plugin-evm": "1.0.0-rc.0",
     "@swapkit/sdk": "1.0.0-rc.0",
     "@swapkit/tokens": "1.0.0-rc.0",
     "@swapkit/toolbox-cosmos": "1.0.0-rc.0",

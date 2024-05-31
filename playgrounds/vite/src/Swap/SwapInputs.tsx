@@ -1,5 +1,5 @@
 import type { AssetValue, QuoteResponseRoute, SwapKit } from "@swapkit/core";
-import { SwapKitApi, SwapKitNumber } from "@swapkit/core";
+import { ProviderName, SwapKitApi, SwapKitNumber } from "@swapkit/core";
 import { useCallback, useState } from "react";
 
 type Props = {
@@ -39,25 +39,23 @@ export const SwapInputs = ({
 
     const sourceAddress = skClient.getAddress(inputAsset.chain);
     const destinationAddress = skClient.getAddress(outputAsset.chain);
-    const providers = [
-      "CHAINFLIP",
-      "MAYACHAIN",
-      "THORCHAIN",
-      "THORCHAIN_STREAMING",
-    ];
+    const providers = Object.values(ProviderName);
 
     try {
-      const { routes } = await SwapKitApi.getSwapQuoteV2({
-        sellAsset: inputAsset.toString(),
-        sellAmount: inputAssetValue.getValue("number"),
-        buyAsset: outputAsset.toString(),
-        sourceAddress,
-        destinationAddress,
-        slippage: 3,
-        providers,
-        affiliate: "t",
-        affiliateFee: 10,
-      });
+      const { routes } = await SwapKitApi.getSwapQuoteV2(
+        {
+          sellAsset: inputAsset.toString(),
+          sellAmount: inputAssetValue.getValue("number"),
+          buyAsset: outputAsset.toString(),
+          sourceAddress,
+          destinationAddress,
+          slippage: 3,
+          providers,
+          affiliate: "t",
+          affiliateFee: 10,
+        },
+        true
+      );
 
       setRoutes(routes || []);
     } finally {
@@ -69,6 +67,7 @@ export const SwapInputs = ({
     route: QuoteResponseRoute,
     inputAssetValue?: AssetValue
   ) => {
+    debugger;
     if (!(inputAsset && outputAsset && inputAssetValue && skClient)) return;
 
     route.evmTransactionDetails?.approvalSpender &&
