@@ -67,7 +67,6 @@ export const SwapInputs = ({
     route: QuoteResponseRoute,
     inputAssetValue?: AssetValue
   ) => {
-    debugger;
     if (!(inputAsset && outputAsset && inputAssetValue && skClient)) return;
 
     route.evmTransactionDetails?.approvalSpender &&

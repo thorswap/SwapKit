@@ -19,7 +19,7 @@ export default function Swap({
       const inputChain = inputAsset?.chain;
       const outputChain = outputAsset?.chain;
       if (!(outputChain && inputChain && skClient)) return;
-      debugger;
+
       const txHash = await skClient.swap({
         route,
         feeOptionKey: FeeOption.Fast,
