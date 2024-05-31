@@ -1,5 +1,14 @@
 # @swapkit/toolbox-evm
 
+## 1.0.0-rc.109
+
+### Patch Changes
+
+- [#807](https://github.com/thorswap/SwapKit/pull/807) [`fd4c1ce`](https://github.com/thorswap/SwapKit/commit/fd4c1ce3c2086ae45c4417c3b07cf866412d29fe) Thanks [@towanTG](https://github.com/towanTG)! - Fixes some typing and code bugs
+
+- Updated dependencies [[`fd4c1ce`](https://github.com/thorswap/SwapKit/commit/fd4c1ce3c2086ae45c4417c3b07cf866412d29fe)]:
+  - @swapkit/helpers@1.0.0-rc.103
+
 ## 1.0.0-rc.108
 
 ### Patch Changes
