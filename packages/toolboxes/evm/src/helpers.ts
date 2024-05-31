@@ -30,16 +30,12 @@ export const estimateMaxSendableAmount = async ({
       : symbol === AssetValue.fromChainOrSignature(chain)?.symbol,
   );
 
-  const fees = (await toolbox.estimateGasPrices())[feeOptionKey];
+  const gasRate = (await toolbox.estimateGasPrices())[feeOptionKey];
 
   if (!balance) return AssetValue.fromChainOrSignature(assetValue.chain, 0);
 
   if (assetValue && (balance.chain !== assetValue.chain || balance.symbol !== assetValue?.symbol)) {
     return balance;
-  }
-
-  if ([abi, funcName, funcParams, contractAddress].some((param) => !param)) {
-    throw new Error("Missing required parameters for smart contract estimateMaxSendableAmount");
   }
 
   const gasLimit =
@@ -58,8 +54,8 @@ export const estimateMaxSendableAmount = async ({
           assetValue,
         });
 
-  const isFeeEIP1559Compatible = "maxFeePerGas" in fees;
-  const isFeeEVMLegacyCompatible = "gasPrice" in fees;
+  const isFeeEIP1559Compatible = "maxFeePerGas" in gasRate;
+  const isFeeEVMLegacyCompatible = "gasPrice" in gasRate;
 
   if (!(isFeeEVMLegacyCompatible || isFeeEIP1559Compatible)) {
     throw new Error("Could not fetch fee data");
@@ -68,8 +64,8 @@ export const estimateMaxSendableAmount = async ({
   const fee =
     gasLimit *
     (isFeeEIP1559Compatible
-      ? (fees.maxFeePerGas || 1n) + (fees.maxPriorityFeePerGas || 1n)
-      : fees.gasPrice);
+      ? (gasRate.maxFeePerGas || 1n) + (gasRate.maxPriorityFeePerGas || 1n)
+      : gasRate.gasPrice);
   const maxSendableAmount = SwapKitNumber.fromBigInt(balance.getBaseValue("bigint")).sub(
     fee.toString(),
   );

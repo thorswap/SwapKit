@@ -1,11 +1,19 @@
 import {
   AssetValue,
   type BaseWallet,
+  type Chain,
   ProviderName,
   type QuoteResponseRoute,
   SwapKitError,
   type SwapParams,
 } from "@swapkit/helpers";
+
+import type { EVMWallets } from "@swapkit/toolbox-evm";
+import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
+import type { UTXOWallets } from "@swapkit/toolbox-utxo";
+
+type Wallets = BaseWallet<EVMWallets & SubstrateWallets & UTXOWallets>;
+type SupportedChain = Chain.Bitcoin | Chain.Ethereum | Chain.Polkadot;
 
 export async function confirmSwap({
   buyAsset,
@@ -38,7 +46,7 @@ export async function confirmSwap({
 const plugin = ({
   wallets,
   config: { brokerEndpoint },
-}: { wallets: BaseWallet<{ [key: string]: NotWorth }>; config: { brokerEndpoint: string } }) => {
+}: { wallets: Wallets; config: { brokerEndpoint: string } }) => {
   async function swap(swapParams: SwapParams<"chainflip">) {
     if (
       !(
@@ -77,7 +85,7 @@ const plugin = ({
       sellAsset,
     });
 
-    const tx = await wallets[sellAsset.chain].transfer({
+    const tx = await wallets[sellAsset.chain as SupportedChain].transfer({
       assetValue,
       from: wallets[sellAsset.chain]?.address,
       recipient: depositAddress,
@@ -86,7 +94,10 @@ const plugin = ({
     return tx as string;
   }
 
-  return { swap, supportedSwapkitProviders: [ProviderName.CHAINFLIP] };
+  return {
+    swap,
+    supportedSwapkitProviders: [ProviderName.CHAINFLIP],
+  };
 };
 
 export const ChainflipPlugin = { chainflip: { plugin } } as const;

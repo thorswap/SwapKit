@@ -1,6 +1,20 @@
-import type { Chain, ConnectWalletParams, CosmosChain, UTXOChain, Wallet } from "@swapkit/helpers";
+import type {
+  BaseWallet,
+  Chain,
+  ConnectWalletParams,
+  CosmosChain,
+  UTXOChain,
+} from "@swapkit/helpers";
+import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
 import type { CovalentApiType, EthplorerApiType } from "@swapkit/toolbox-evm";
+import type { EVMWallets } from "@swapkit/toolbox-evm";
+import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
 import type { BlockchairApiType } from "@swapkit/toolbox-utxo";
+import type { UTXOWallets } from "@swapkit/toolbox-utxo";
+
+export type Wallet = BaseWallet<
+  EVMWallets & UTXOWallets & CosmosWallets & ThorchainWallets & SubstrateWallets
+>;
 
 export type SwapKitWallet<ConnectParams extends Todo[]> = (
   params: ConnectWalletParams,

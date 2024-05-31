@@ -1,7 +1,3 @@
-import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
-import type { EVMWallets } from "@swapkit/toolbox-evm";
-import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
-import type { UTXOWallets } from "@swapkit/toolbox-utxo";
 import type { Eip1193Provider } from "ethers";
 import type { AssetValue } from "../modules/assetValue";
 import type { Chain } from "./chains";
@@ -51,9 +47,7 @@ export type BaseWallet<T extends EmptyWallet | unknown> = {
   [key in Chain]: ChainWallet & T[key];
 };
 
-export type Wallet = BaseWallet<
-  EVMWallets & CosmosWallets & ThorchainWallets & UTXOWallets & SubstrateWallets
->;
+export type Wallet<T> = BaseWallet<T>;
 
 export type EIP6963ProviderInfo = {
   walletId: string;

@@ -9,7 +9,11 @@ import {
   type SwapParams,
   type Wallet,
 } from "@swapkit/helpers";
+import type { EVMWallets } from "@swapkit/toolbox-evm";
+
 import { lowercasedContractAbiMapping } from "./contracts";
+
+type ChainWallets = Wallet<EVMWallets>;
 
 type ApproveParams = {
   assetValue: AssetValue;
@@ -19,7 +23,7 @@ type ApproveParams = {
 const plugin = ({
   wallets,
 }: {
-  wallets: Wallet;
+  wallets: ChainWallets;
   config: { brokerEndpoint: string };
 }) => {
   async function swap({ route, feeOptionKey }: SwapParams<"evm">) {
