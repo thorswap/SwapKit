@@ -63,5 +63,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.179"
+  "version": "1.0.0-rc.180"
 }
