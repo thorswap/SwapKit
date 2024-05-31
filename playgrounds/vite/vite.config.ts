@@ -14,6 +14,7 @@ export default defineConfig({
   // NOTE: Have to be added to fix: Uncaught ReferenceError: process & global is not defined
   define: {
     "process.env": {},
+    "process.browser": true,
     global: "globalThis",
   },
   plugins: [

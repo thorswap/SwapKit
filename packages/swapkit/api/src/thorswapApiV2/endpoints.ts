@@ -5,7 +5,6 @@ import {
   RequestClient,
   SwapKitError,
 } from "@swapkit/helpers";
-import type { AfterResponseHook } from "ky";
 import type { TrackerParams, TrackerResponse } from "./types";
 
 const baseUrl = "https://api.swapkit.dev";
@@ -15,22 +14,17 @@ export function getTrackerDetails(payload: TrackerParams) {
   return RequestClient.post<TrackerResponse>(`${baseUrl}/track`, { body: JSON.stringify(payload) });
 }
 
-export function getSwapQuoteV2(searchParams: QuoteRequestV2, isDev = false) {
-  const afterResponse: AfterResponseHook[] = [
-    async (_request, _options, response) => {
-      const body = await response.json();
-      try {
-        QuoteResponseSchema.parse(body);
-      } catch (error) {
-        throw new SwapKitError("api_v2_invalid_response", error);
-      }
-      return response;
+export async function getSwapQuoteV2(searchParams: QuoteRequestV2, isDev = false) {
+  const response = await RequestClient.post<QuoteResponse>(
+    `${isDev ? baseUrlDev : baseUrl}/quote`,
+    {
+      json: searchParams,
     },
-  ];
+  );
 
-  const kyClient = RequestClient.extend({ hooks: { afterResponse } });
-
-  return kyClient.post<QuoteResponse>(`${isDev ? baseUrlDev : baseUrl}/quote`, {
-    json: searchParams,
-  });
+  try {
+    return QuoteResponseSchema.parse(response);
+  } catch (error) {
+    throw new SwapKitError("api_v2_invalid_response", error);
+  }
 }
