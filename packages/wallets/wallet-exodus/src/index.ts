@@ -13,21 +13,24 @@ import {
   type AVAXToolbox,
   type BrowserProvider,
   type Eip1193Provider,
+  getProvider,
   getToolboxByChain,
 } from "@swapkit/toolbox-evm";
-import type { UTXOTransferParams } from "@swapkit/toolbox-utxo";
+import type { Psbt, UTXOTransferParams } from "@swapkit/toolbox-utxo";
 import {
   AddressPurpose,
   BitcoinNetworkType,
   type BitcoinProvider,
   type GetAddressOptions,
   type GetAddressResponse,
+  type SignTransactionOptions,
   getAddress,
+  signTransaction as satsSignTransaction,
 } from "sats-connect";
 
 export const getWalletMethods = async ({
   ethereumWindowProvider,
-  provider,
+  walletProvider,
   chain,
   ethplorerApiKey,
   covalentApiKey,
@@ -36,7 +39,7 @@ export const getWalletMethods = async ({
   api,
 }: {
   ethereumWindowProvider: Eip1193Provider | undefined;
-  provider: BrowserProvider | BitcoinProvider;
+  walletProvider: BrowserProvider | BitcoinProvider;
   chain: Chain;
   covalentApiKey?: string;
   ethplorerApiKey?: string;
@@ -52,8 +55,11 @@ export const getWalletMethods = async ({
 
       let address = "";
 
+      const getProvider: () => Promise<BitcoinProvider | undefined> = () =>
+        new Promise((res) => res(walletProvider as BitcoinProvider));
+
       const getAddressOptions: GetAddressOptions = {
-        getProvider: () => new Promise((res) => res(provider as BitcoinProvider)),
+        getProvider,
         payload: {
           purposes: [AddressPurpose.Payment],
           message: "Address for receiving and sending payments",
@@ -70,10 +76,40 @@ export const getWalletMethods = async ({
 
       await getAddress(getAddressOptions);
 
+      async function signTransaction(psbt: Psbt) {
+        let signature = "";
+        const signPsbtOptions: SignTransactionOptions = {
+          getProvider,
+          payload: {
+            message: "Sign transaction",
+            network: {
+              type: BitcoinNetworkType.Mainnet,
+            },
+            psbtBase64: psbt.toBase64(),
+            broadcast: false,
+            inputsToSign: [
+              {
+                address: address,
+                signingIndexes: psbt.txInputs.map((input) => input.index),
+              },
+            ],
+          },
+          onFinish: (response) => {
+            signature = response.psbtBase64;
+          },
+          onCancel: () => {
+            throw Error("Signature canceled");
+          },
+        };
+
+        await satsSignTransaction(signPsbtOptions);
+        return signature;
+      }
+
       const transfer = (transferParams: UTXOTransferParams) => {
         return toolbox.transfer({
           ...transferParams,
-          signTransaction: (provider as BitcoinProvider).signTransaction,
+          signTransaction,
         });
       };
 
@@ -94,14 +130,15 @@ export const getWalletMethods = async ({
         throw new Error(`Missing API key for ${chain} chain`);
       }
 
-      const evmProvider = provider as BrowserProvider;
+      const provider = getProvider(chain);
 
-      await evmProvider.send("eth_requestAccounts", []);
-      const address = await (await evmProvider.getSigner()).getAddress();
+      await (walletProvider as BrowserProvider).send("eth_requestAccounts", []);
+      const address = await (await (walletProvider as BrowserProvider).getSigner()).getAddress();
+      const signer = await (walletProvider as BrowserProvider).getSigner();
 
       const toolboxParams = {
-        provider: evmProvider,
-        signer: await evmProvider.getSigner(),
+        provider,
+        signer,
         ethplorerApiKey: ethplorerApiKey as string,
         covalentApiKey: covalentApiKey as string,
       };
@@ -111,7 +148,7 @@ export const getWalletMethods = async ({
       try {
         chain !== Chain.Ethereum &&
           (await addEVMWalletNetwork(
-            evmProvider,
+            walletProvider as BrowserProvider,
             (toolbox as ReturnType<typeof AVAXToolbox>).getNetworkParams(),
           ));
       } catch (_error) {
@@ -123,7 +160,7 @@ export const getWalletMethods = async ({
         ...prepareNetworkSwitch<typeof toolbox>({
           toolbox: { ...toolbox },
           chainId: ChainToHexChainId[chain],
-          provider: evmProvider,
+          provider: walletProvider as BrowserProvider,
         }),
       };
     }
@@ -145,7 +182,7 @@ function connectExodusWallet({
     const promises = chains.map(async (chain) => {
       const { BrowserProvider } = await import("@swapkit/toolbox-evm");
 
-      const provider =
+      const walletProvider =
         chain === Chain.Bitcoin
           ? providers.bitcoin
           : new BrowserProvider(providers.ethereum, "any");
@@ -155,7 +192,7 @@ function connectExodusWallet({
         ethplorerApiKey,
         covalentApiKey,
         ethereumWindowProvider: providers.ethereum,
-        provider,
+        walletProvider,
       });
 
       const getBalance = async (potentialScamFilter = true) =>
