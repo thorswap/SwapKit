@@ -1,5 +1,11 @@
 # @swapkit/wallet-exodus
 
+## 1.0.0-rc.5
+
+### Patch Changes
+
+- [#809](https://github.com/thorswap/SwapKit/pull/809) [`3cdde7e`](https://github.com/thorswap/SwapKit/commit/3cdde7ea548e2991cf8bc85e32e7f5238b611532) Thanks [@towanTG](https://github.com/towanTG)! - Fixes exodus passkeys btc signing
+
 ## 1.0.0-rc.4
 
 ### Patch Changes
