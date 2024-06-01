@@ -6,6 +6,7 @@ import Multisig from "./Multisig";
 import Send from "./Send";
 import Swap from "./Swap";
 import TNS from "./TNS";
+import Liquidity from "./Liquidity";
 import { Wallet } from "./Wallet";
 import { WalletPicker } from "./WalletPicker";
 import { getSwapKitClient } from "./swapKitClient";
@@ -71,6 +72,9 @@ const App = () => {
       multisig: skClient ? (
         <Multisig inputAsset={inputAsset} phrase={phrase} skClient={skClient} stagenet={stagenet} />
       ) : null,
+      liquidity: skClient ?
+        <Liquidity otherAsset={inputAsset} runeAsset={outputAsset} skClient={skClient} wallet={wallet} />
+        : null
     }),
     [skClient, inputAsset, outputAsset, phrase, stagenet],
   );
