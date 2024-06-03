@@ -135,16 +135,15 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
   function savings({ assetValue, memo, percent, type }: SavingsParams) {
     const memoType = type === "add" ? MemoType.DEPOSIT : MemoType.WITHDRAW;
     const memoString =
-    memo ||
-    getMemoFor(memoType, {
-      ticker: assetValue.ticker,
+      memo ||
+      getMemoFor(memoType, {
+        ticker: assetValue.ticker,
         symbol: assetValue.symbol,
         chain: assetValue.chain,
         singleSide: true,
         basisPoints: percent ? Math.min(10000, Math.round(percent * 100)) : undefined,
       });
-      
-      console.log("🚀 ~ savings ~ memoString:", memoString)
+
     const value =
       memoType === MemoType.DEPOSIT ? assetValue : getMinAmountByChain(assetValue.chain);
 

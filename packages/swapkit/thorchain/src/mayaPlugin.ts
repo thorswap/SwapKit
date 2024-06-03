@@ -28,10 +28,10 @@ import {
   validateAddressType,
 } from "./shared.ts";
 import type {
-  AddLiquidityParams,
   AddLiquidityPartParams,
   ApproveParams,
   CoreTxParams,
+  MAYAAddLiquidityParams,
   NodeActionParams,
   SwapWithRouteParams,
 } from "./types";
@@ -127,36 +127,36 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
   async function addLiquidity({
-    runeAssetValue,
+    cacaoAssetValue,
     assetValue,
-    runeAddr,
+    cacaoAddr,
     assetAddr,
     isPendingSymmAsset,
     mode = "sym",
-  }: AddLiquidityParams) {
+  }: MAYAAddLiquidityParams) {
     const { chain, symbol } = assetValue;
     const isSym = mode === "sym";
-    const runeTransfer = runeAssetValue?.gt(0) && (isSym || mode === "rune");
+    const cacaoTransfer = cacaoAssetValue?.gt(0) && (isSym || mode === "cacao");
     const assetTransfer = assetValue?.gt(0) && (isSym || mode === "asset");
-    const includeRuneAddress = isPendingSymmAsset || runeTransfer;
-    const runeAddress = includeRuneAddress ? runeAddr || getAddress(wallets, Chain.THORChain) : "";
+    const includeCacaoAddress = isPendingSymmAsset || cacaoTransfer;
+    const cacaoAddress = includeCacaoAddress ? cacaoAddr || getAddress(wallets, Chain.Maya) : "";
     const assetAddress = isSym || mode === "asset" ? assetAddr || getAddress(wallets, chain) : "";
 
-    if (!(runeTransfer || assetTransfer)) {
+    if (!(cacaoTransfer || assetTransfer)) {
       throw new SwapKitError("core_transaction_add_liquidity_invalid_params");
     }
-    if (includeRuneAddress && !runeAddress) {
-      throw new SwapKitError("core_transaction_add_liquidity_no_rune_address");
+    if (includeCacaoAddress && !cacaoAddress) {
+      throw new SwapKitError("core_transaction_add_liquidity_no_cacao_address");
     }
 
-    const runeTx =
-      runeTransfer && runeAssetValue
+    const cacaoTx =
+      cacaoTransfer && cacaoAssetValue
         ? await wrapWithThrow(() => {
             return depositToPool({
-              assetValue: runeAssetValue,
+              assetValue: cacaoAssetValue,
               memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: assetAddress }),
             });
-          }, "core_transaction_add_liquidity_rune_error")
+          }, "core_transaction_add_liquidity_cacao_error")
         : undefined;
 
     const assetTx =
@@ -164,40 +164,40 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
         ? await wrapWithThrow(() => {
             return depositToPool({
               assetValue,
-              memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: runeAddress }),
+              memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: cacaoAddress }),
             });
           }, "core_transaction_add_liquidity_asset_error")
         : undefined;
 
-    return { runeTx, assetTx };
+    return { cacaoTx, assetTx };
   }
 
   async function createLiquidity({
-    runeAssetValue,
+    cacaoAssetValue,
     assetValue,
-  }: { runeAssetValue: AssetValue; assetValue: AssetValue }) {
-    if (runeAssetValue.lte(0) || assetValue.lte(0)) {
+  }: { cacaoAssetValue: AssetValue; assetValue: AssetValue }) {
+    if (cacaoAssetValue.lte(0) || assetValue.lte(0)) {
       throw new SwapKitError("core_transaction_create_liquidity_invalid_params");
     }
 
     const assetAddress = getAddress(wallets, assetValue.chain);
-    const runeAddress = getAddress(wallets, Chain.THORChain);
+    const cacaoAddress = getAddress(wallets, Chain.THORChain);
 
-    const runeTx = await wrapWithThrow(() => {
+    const cacaoTx = await wrapWithThrow(() => {
       return depositToPool({
-        assetValue: runeAssetValue,
+        assetValue: cacaoAssetValue,
         memo: getMemoFor(MemoType.DEPOSIT, { ...assetValue, address: assetAddress }),
       });
-    }, "core_transaction_create_liquidity_rune_error");
+    }, "core_transaction_create_liquidity_cacao_error");
 
     const assetTx = await wrapWithThrow(() => {
       return depositToPool({
         assetValue,
-        memo: getMemoFor(MemoType.DEPOSIT, { ...assetValue, address: runeAddress }),
+        memo: getMemoFor(MemoType.DEPOSIT, { ...assetValue, address: cacaoAddress }),
       });
     }, "core_transaction_create_liquidity_asset_error");
 
-    return { runeTx, assetTx };
+    return { cacaoTx, assetTx };
   }
 
   async function swap(swapParams: SwapParams<"mayaprotocol"> | SwapWithRouteParams) {

@@ -44,7 +44,7 @@ const App = () => {
   }, []);
 
   const setAsset = useCallback(
-    (asset: Todo) => {
+    (asset: AssetValue) => {
       if (!inputAsset) {
         setSwapAssets({ inputAsset: asset });
       }
@@ -73,7 +73,7 @@ const App = () => {
         <Multisig inputAsset={inputAsset} phrase={phrase} skClient={skClient} stagenet={stagenet} />
       ) : null,
       liquidity: skClient ?
-        <Liquidity otherAsset={inputAsset} runeAsset={outputAsset} skClient={skClient} wallet={wallet} />
+        <Liquidity otherAsset={outputAsset} nativeAsset={inputAsset} skClient={skClient}  />
         : null
     }),
     [skClient, inputAsset, outputAsset, phrase, stagenet],
