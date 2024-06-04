@@ -13,7 +13,7 @@ import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
 import { decodeAddress } from "@polkadot/keyring";
 import { isHex, u8aToHex } from "@polkadot/util";
 import { chainflipGateway } from "./chainflipGatewayABI.ts";
-import type { SwapDepositResponse, WithdrawFeeResponse } from "./types.ts";
+import type { DepositChannelRequest, SwapDepositResponse, WithdrawFeeResponse } from "./types.ts";
 
 const chainToChainflipChain = new Map<Chain, keyof typeof Chains>([
   [Chain.Ethereum, Chains.Ethereum],
@@ -42,13 +42,17 @@ const requestSwapDepositAddress = async (
     buyAsset,
     recipient,
     brokerCommissionBPS,
-  }: GenericSwapParams & { brokerCommissionBPS: number },
+    ccmMetadata,
+    maxBoostFeeBps,
+  }: GenericSwapParams & DepositChannelRequest,
 ) => {
   const routeSellAsset = AssetValue.fromStringSync(route.sellAsset);
   const routeBuyAsset = AssetValue.fromStringSync(route.buyAsset);
-
   const isBuyChainPolkadot =
     buyAsset?.chain === Chain.Polkadot || routeBuyAsset.chain === Chain.Polkadot;
+
+  const _ccmMetadata = ccmMetadata ?? null;
+  const _maxBoostFeeBps = maxBoostFeeBps ?? 0;
 
   const recipientAddress = wrapWithThrow(() => {
     return isBuyChainPolkadot
@@ -62,8 +66,8 @@ const requestSwapDepositAddress = async (
       (buyAsset || routeBuyAsset).ticker.toLowerCase(),
       { [(buyAsset || routeBuyAsset).chain.toLowerCase()]: recipientAddress },
       SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
-      null,
-      0,
+      _ccmMetadata,
+      _maxBoostFeeBps,
     );
 
     if (!tx) {
@@ -195,9 +199,8 @@ export const ChainflipBroker = (
   chainflipToolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
 ) => ({
   registerAsBroker: (address: string) => registerAsBroker(chainflipToolbox, address),
-  requestSwapDepositAddress: (
-    chainflipTransaction: GenericSwapParams & { brokerCommissionBPS: number },
-  ) => requestSwapDepositAddress(chainflipToolbox, chainflipTransaction),
+  requestSwapDepositAddress: (chainflipTransaction: GenericSwapParams & DepositChannelRequest) =>
+    requestSwapDepositAddress(chainflipToolbox, chainflipTransaction),
   fundStateChainAccount: (
     stateChainAccount: string,
     amount: AssetValue,
