@@ -1,22 +1,41 @@
 import { RequestClient } from "@swapkit/helpers";
-import type {
-  BorrowParams,
-  BorrowResponse,
-  CachedPrice,
-  CachedPricesParams,
-  GasPriceInfo,
-  LendingAssetItem,
-  LoansParams,
-  LoansResponse,
-  QuoteParams,
-  QuoteResponse,
-  RepayParams,
-  RepayResponse,
-  TokenListProvidersResponse,
-  TxnResponse,
+
+import {
+  ApiV1ErrorSchema,
+  type BorrowParams,
+  type BorrowResponse,
+  type CachedPrice,
+  type CachedPricesParams,
+  type GasPriceInfo,
+  type LendingAssetItem,
+  type LoansParams,
+  type LoansResponse,
+  type QuoteParams,
+  type QuoteResponseV1,
+  type RepayParams,
+  type RepayResponse,
+  type TokenListProvidersResponse,
+  type TxnResponse,
 } from "./types.ts";
 
-const baseUrl = "https://api.thorswap.finance";
+const baseUrlV1 = "https://api.thorswap.finance";
+
+export const APIV1RequestClient = RequestClient.extend({
+  hooks: {
+    afterResponse: [
+      async (_request, _options, response) => {
+        const body = await response.json();
+
+        try {
+          const errorBody = ApiV1ErrorSchema.parse(body);
+          return new Response(JSON.stringify(errorBody), { status: 200 });
+        } catch (_error) {
+          return response;
+        }
+      },
+    ],
+  },
+});
 
 export function getCachedPrices({ tokens, ...options }: CachedPricesParams) {
   const body = new URLSearchParams();
@@ -32,42 +51,50 @@ export function getCachedPrices({ tokens, ...options }: CachedPricesParams) {
   if (options.lookup) body.append("lookup", "true");
   if (options.sparkline) body.append("sparkline", "true");
 
-  return RequestClient.post<CachedPrice[]>(`${baseUrl}/tokenlist/cached-price`, {
+  return APIV1RequestClient.post<CachedPrice[]>(`${baseUrlV1}/tokenlist/cached-price`, {
     body: body.toString(),
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
   });
 }
 
 export function getSwapQuote(searchParams: QuoteParams) {
-  return RequestClient.get<QuoteResponse>(`${baseUrl}/aggregator/tokens/quote`, { searchParams });
+  return APIV1RequestClient.get<QuoteResponseV1>(`${baseUrlV1}/aggregator/tokens/quote`, {
+    searchParams,
+  });
 }
 
 export function getBorrowQuote(searchParams: BorrowParams) {
-  return RequestClient.get<BorrowResponse>(`${baseUrl}/aggregator/lending/borrow`, {
+  return APIV1RequestClient.get<BorrowResponse>(`${baseUrlV1}/aggregator/lending/borrow`, {
     searchParams,
   });
 }
 
 export function getRepayQuote(searchParams: RepayParams) {
-  return RequestClient.get<RepayResponse>(`${baseUrl}/aggregator/lending/repay`, { searchParams });
+  return APIV1RequestClient.get<RepayResponse>(`${baseUrlV1}/aggregator/lending/repay`, {
+    searchParams,
+  });
 }
 
 export function getLendingAssets() {
-  return RequestClient.get<LendingAssetItem[]>(`${baseUrl}/aggregator/lending/assets`);
+  return RequestClient.get<LendingAssetItem[]>(`${baseUrlV1}/aggregator/lending/assets`);
 }
 
 export function getLoans(searchParams: LoansParams) {
-  return RequestClient.get<LoansResponse>(`${baseUrl}/aggregator/lending/loans`, { searchParams });
+  return RequestClient.get<LoansResponse>(`${baseUrlV1}/aggregator/lending/loans`, {
+    searchParams,
+  });
 }
 
 export function getGasRates() {
-  return RequestClient.get<GasPriceInfo[]>(`${baseUrl}/resource-worker/gasPrice/getAll`);
+  return RequestClient.get<GasPriceInfo[]>(`${baseUrlV1}/resource-worker/gasPrice/getAll`);
 }
 
 export function getTxnDetails(txHash: string) {
-  return RequestClient.get<TxnResponse>(`${baseUrl}/apiusage/v2/txn`, { searchParams: { txHash } });
+  return RequestClient.get<TxnResponse>(`${baseUrlV1}/apiusage/v2/txn`, {
+    searchParams: { txHash },
+  });
 }
 
 export function getTokenListProviders() {
-  return RequestClient.get<TokenListProvidersResponse>(`${baseUrl}/tokenlist/providers`);
+  return RequestClient.get<TokenListProvidersResponse>(`${baseUrlV1}/tokenlist/providers`);
 }

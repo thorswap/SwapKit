@@ -10,6 +10,7 @@ import {
   FeeOption,
   MemoType,
   type NameRegisterParam,
+  ProviderName,
   SWAP_IN,
   SWAP_OUT,
   SwapKitError,
@@ -18,17 +19,19 @@ import {
   TCAvalancheDepositABI,
   TCBscDepositABI,
   TCEthereumVaultAbi,
-  type Wallet,
+  type UTXOChain,
   getMemoFor,
   getMinAmountByChain,
   wrapWithThrow,
 } from "@swapkit/helpers";
+
 import {
   type AGG_CONTRACT_ADDRESS,
   lowercasedContractAbiMapping,
 } from "./aggregator/contracts/index.ts";
 import { getSwapInParams } from "./aggregator/getSwapParams.ts";
 import {
+  type ChainWallets,
   gasFeeMultiplier,
   getAddress,
   getInboundDataFunction,
@@ -49,7 +52,9 @@ import type {
   WithdrawParams,
 } from "./types";
 
-const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boolean }) => {
+type SupportedChain = EVMChain | Chain.THORChain | UTXOChain | Chain.Cosmos;
+
+const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet?: boolean }) => {
   const getInboundDataByChain = getInboundDataFunction({ stagenet, type: "thorchain" });
   /**
    * @Private
@@ -266,8 +271,20 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     return { runeTx, assetTx };
   }
 
+  function swap({ route, ...rest }: SwapParams<"thorchain"> | SwapWithRouteParams) {
+    if (!route) throw new SwapKitError("core_swap_invalid_params");
+
+    const isV2Route = "legs" in route;
+
+    if (isV2Route) {
+      return swapV2({ route, ...rest } as SwapParams<"thorchain">);
+    }
+
+    return swapV1({ route, ...rest } as SwapWithRouteParams);
+  }
+
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor
-  async function swap(swapParams: SwapParams<"thorchain"> | SwapWithRouteParams) {
+  async function swapV1(swapParams: SwapWithRouteParams) {
     if (!("route" in swapParams)) throw new SwapKitError("core_swap_invalid_params");
 
     const route = swapParams.route as QuoteRoute;
@@ -410,6 +427,29 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     throw new SwapKitError("core_swap_quote_mode_not_supported", { quoteMode });
   }
 
+  async function swapV2({ route, feeOptionKey }: SwapParams<"thorchain">) {
+    if (!route) throw new SwapKitError("core_swap_invalid_params");
+
+    const { memo, expiration, targetAddress } = route;
+
+    const assetValue = await AssetValue.fromString(route.sellAsset, route.sellAmount);
+
+    if (!assetValue) {
+      throw new SwapKitError("core_swap_asset_not_recognized");
+    }
+
+    const { address: recipient } = await getInboundDataByChain(assetValue.chain);
+
+    return deposit({
+      expiration: Number(expiration),
+      assetValue,
+      memo,
+      feeOptionKey,
+      router: targetAddress,
+      recipient,
+    });
+  }
+
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO refactor
   async function deposit({
     assetValue,
@@ -419,7 +459,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
   }: CoreTxParams & { router?: string }) {
     const { chain, symbol, ticker } = assetValue;
 
-    const walletInstance = getWallet(wallets, chain);
+    const walletInstance = getWallet(wallets, chain as SupportedChain);
     if (!walletInstance) {
       throw new SwapKitError("core_wallet_connection_not_found");
     }
@@ -526,6 +566,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     savings,
     swap,
     withdraw,
+    supportedSwapkitProviders: [ProviderName.THORCHAIN, ProviderName.THORCHAIN_STREAMING],
   };
 };
 

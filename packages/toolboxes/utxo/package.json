@@ -15,7 +15,7 @@
   "description": "THORSwap utxo",
   "devDependencies": {
     "@types/tiny-secp256k1": "2.0.1",
-    "bun-types": "1.1.2"
+    "bun-types": "1.1.8"
   },
   "files": [
     "src/",
@@ -52,5 +52,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.108"
+  "version": "1.0.0-rc.112"
 }

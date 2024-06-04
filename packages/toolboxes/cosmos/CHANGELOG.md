@@ -1,5 +1,59 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.129
+
+### Patch Changes
+
+- Updated dependencies [[`fd4c1ce`](https://github.com/thorswap/SwapKit/commit/fd4c1ce3c2086ae45c4417c3b07cf866412d29fe)]:
+  - @swapkit/helpers@1.0.0-rc.103
+  - @swapkit/api@1.0.0-rc.71
+
+## 1.0.0-rc.128
+
+### Patch Changes
+
+- Updated dependencies [[`9df63f9`](https://github.com/thorswap/SwapKit/commit/9df63f95384d518707e8ec45e4f19c63dc3d6a32)]:
+  - @swapkit/api@1.0.0-rc.70
+
+## 1.0.0-rc.127
+
+### Patch Changes
+
+- Updated dependencies [[`3a27569`](https://github.com/thorswap/SwapKit/commit/3a275695f8139588c4b2e69aaa5e810daea3175f)]:
+  - @swapkit/api@1.0.0-rc.69
+
+## 1.0.0-rc.126
+
+### Patch Changes
+
+- Updated dependencies [[`ec1176d`](https://github.com/thorswap/SwapKit/commit/ec1176d24bd75771bac23e16a8c3d18dd104d01a)]:
+  - @swapkit/helpers@1.0.0-rc.102
+  - @swapkit/api@1.0.0-rc.68
+
+## 1.0.0-rc.125
+
+### Patch Changes
+
+- [#795](https://github.com/thorswap/SwapKit/pull/795) [`af238a7`](https://github.com/thorswap/SwapKit/commit/af238a7b30a3163464f1df0fb6589901261f51fd) Thanks [@towanTG](https://github.com/towanTG)! - Bumps dependencies and releases exodus wallet
+
+- Updated dependencies [[`af238a7`](https://github.com/thorswap/SwapKit/commit/af238a7b30a3163464f1df0fb6589901261f51fd)]:
+  - @swapkit/helpers@1.0.0-rc.101
+  - @swapkit/api@1.0.0-rc.67
+
+## 1.0.0-rc.124
+
+### Patch Changes
+
+- Updated dependencies [[`507bd80`](https://github.com/thorswap/SwapKit/commit/507bd804ef38da11c47ff2c1ed2aadad7c228d3b)]:
+  - @swapkit/helpers@1.0.0-rc.100
+  - @swapkit/api@1.0.0-rc.66
+
+## 1.0.0-rc.123
+
+### Patch Changes
+
+- [#787](https://github.com/thorswap/SwapKit/pull/787) [`04efc7e`](https://github.com/thorswap/SwapKit/commit/04efc7ec10695517dc6ff405722ec54267996a71) Thanks [@ochhii1337](https://github.com/ochhii1337)! - add module declaration
+
 ## 1.0.0-rc.122
 
 ### Patch Changes

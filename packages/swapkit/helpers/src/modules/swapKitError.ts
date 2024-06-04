@@ -77,6 +77,11 @@ const errorMessages = {
    */
 
   /**
+   * SwapKit API
+   */
+  api_v2_invalid_response: 40001,
+
+  /**
    * Helpers
    */
   helpers_number_different_decimals: 99101,

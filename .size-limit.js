@@ -34,6 +34,7 @@ module.exports = [
   ...getSizeFor("swapkit/chainflip", "xs"),
   ...getSizeFor("swapkit/core", "m"),
   ...getSizeFor("swapkit/helpers", "m"),
+  ...getSizeFor("swapkit/plugin-evm", "xs"),
   ...getSizeFor("swapkit/sdk", "xxs"),
   ...getSizeFor("swapkit/thorchain", "s"),
   ...getSizeFor("swapkit/tokens", "tokens"),

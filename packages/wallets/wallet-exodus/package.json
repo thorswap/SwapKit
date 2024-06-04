@@ -1,0 +1,48 @@
+{
+  "author": "swapkit-oss",
+  "dependencies": {
+    "@swapkit/helpers": "workspace:*",
+    "@passkeys/core": "1.0.0",
+    "@passkeys/react": "1.0.0",
+    "sats-connect": "1.4.1"
+  },
+  "devDependencies": {
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*",
+    "sats-connect": "1.4.1",
+    "bun-types": "1.1.8"
+  },
+  "description": "SwapKit Wallet Exodus",
+  "files": [
+    "src/",
+    "dist/"
+  ],
+  "peerDependencies": {
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*",
+    "@passkeys/core": "1.0.0",
+    "@passkeys/react": "1.0.0",
+    "sats-connect": "1.4.1"
+  },
+  "homepage": "https://github.com/thorswap/SwapKit",
+  "license": "Apache-2.0",
+  "main": "./dist/index.js",
+  "name": "@swapkit/wallet-exodus",
+  "react-native": "./src/index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thorswap/SwapKit.git"
+  },
+  "scripts": {
+    "build": "bun run ./build.ts",
+    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
+    "lint": "biome check --apply ./src",
+    "test": "echo 'bun test'",
+    "test:coverage": "echo 'bun test --coverage'",
+    "type-check": "tsc --noEmit"
+  },
+  "type": "module",
+  "types": "./src/index.ts",
+  "version": "1.0.0-rc.5"
+}

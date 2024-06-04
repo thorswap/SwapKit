@@ -7,17 +7,16 @@ import {
   type ConnectConfig,
   type EVMChain,
   EVMChains,
+  type ProviderName as PluginNameEnum,
   SwapKitError,
   type SwapParams,
-  type Wallet,
 } from "@swapkit/helpers";
-import type { BaseEVMWallet } from "@swapkit/toolbox-evm";
 
 import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
 } from "./helpers/explorerUrls.ts";
-import type { Apis, SwapKitPluginInterface, SwapKitWallet } from "./types.ts";
+import type { Apis, SwapKitPluginInterface, SwapKitWallet, Wallet } from "./types.ts";
 
 export function SwapKit<
   Plugins extends { [key in string]: SwapKitPluginInterface<{ [key in string]: Todo }> },
@@ -96,6 +95,21 @@ export function SwapKit<
     return plugin;
   }
 
+  /**
+   * @Private
+   */
+  function getSwapKitPluginForSKProvider(pluginName: PluginNameEnum): Plugins[keyof Plugins] {
+    const plugin = Object.values(availablePlugins).find((plugin) =>
+      plugin.supportedSwapkitProviders?.includes(pluginName),
+    );
+
+    if (!plugin) {
+      throw new SwapKitError("core_plugin_not_found", "Could not find the requested plugin");
+    }
+
+    return plugin;
+  }
+
   function addChain<T extends Chain>(connectWallet: AddChainWalletParams<T>) {
     // @ts-expect-error: TODO
     connectedWallets[connectWallet.chain] = connectWallet;
@@ -135,7 +149,7 @@ export function SwapKit<
       return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
     }
 
-    const walletMethods = connectedWallets[chain] as BaseEVMWallet;
+    const walletMethods = connectedWallets[chain as EVMChain];
     const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
     if (!walletAction) throw new SwapKitError("core_wallet_connection_not_found");
 
@@ -200,11 +214,14 @@ export function SwapKit<
     return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
   }
 
-  function swap<T extends PluginName>({ pluginName, ...rest }: SwapParams<T>) {
-    const plugin = getSwapKitPlugin(pluginName);
+  function swap<T extends PluginName>({ route, pluginName, ...rest }: SwapParams<T>) {
+    const plugin =
+      (pluginName && getSwapKitPlugin(pluginName)) ||
+      getSwapKitPluginForSKProvider(route.providers[0] as PluginNameEnum);
+    if (!plugin) throw new SwapKitError("core_swap_route_not_complete");
 
     if ("swap" in plugin) {
-      return plugin.swap(rest);
+      return plugin.swap({ ...rest, route });
     }
 
     throw new SwapKitError("core_plugin_swap_not_found");

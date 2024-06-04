@@ -1,5 +1,35 @@
 # @swapkit/toolbox-substrate
 
+## 1.0.0-rc.38
+
+### Patch Changes
+
+- Updated dependencies [[`fd4c1ce`](https://github.com/thorswap/SwapKit/commit/fd4c1ce3c2086ae45c4417c3b07cf866412d29fe)]:
+  - @swapkit/helpers@1.0.0-rc.103
+
+## 1.0.0-rc.37
+
+### Patch Changes
+
+- Updated dependencies [[`ec1176d`](https://github.com/thorswap/SwapKit/commit/ec1176d24bd75771bac23e16a8c3d18dd104d01a)]:
+  - @swapkit/helpers@1.0.0-rc.102
+
+## 1.0.0-rc.36
+
+### Patch Changes
+
+- [#795](https://github.com/thorswap/SwapKit/pull/795) [`af238a7`](https://github.com/thorswap/SwapKit/commit/af238a7b30a3163464f1df0fb6589901261f51fd) Thanks [@towanTG](https://github.com/towanTG)! - Bumps dependencies and releases exodus wallet
+
+- Updated dependencies [[`af238a7`](https://github.com/thorswap/SwapKit/commit/af238a7b30a3163464f1df0fb6589901261f51fd)]:
+  - @swapkit/helpers@1.0.0-rc.101
+
+## 1.0.0-rc.35
+
+### Patch Changes
+
+- Updated dependencies [[`507bd80`](https://github.com/thorswap/SwapKit/commit/507bd804ef38da11c47ff2c1ed2aadad7c228d3b)]:
+  - @swapkit/helpers@1.0.0-rc.100
+
 ## 1.0.0-rc.34
 
 ### Patch Changes

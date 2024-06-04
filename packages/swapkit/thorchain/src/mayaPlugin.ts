@@ -1,8 +1,9 @@
-import { type EvmTransactionDetails, type QuoteRouteV2, SwapKitApi } from "@swapkit/api";
+import { SwapKitApi } from "@swapkit/api";
 import {
   ApproveMode,
   AssetValue,
   Chain,
+  type CosmosChain,
   type EVMChain,
   type ErrorKeys,
   FeeOption,
@@ -10,15 +11,17 @@ import {
   MayaEthereumVaultAbi,
   MemoType,
   type NameRegisterParam,
+  ProviderName,
+  type QuoteResponseRoute,
   SwapKitError,
   type SwapParams,
-  type Wallet,
+  type UTXOChain,
   getMemoFor,
   getMinAmountByChain,
   wrapWithThrow,
 } from "@swapkit/helpers";
-
 import {
+  type ChainWallets,
   gasFeeMultiplier,
   getAddress,
   getInboundDataFunction,
@@ -36,7 +39,9 @@ import type {
   SwapWithRouteParams,
 } from "./types";
 
-const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boolean }) => {
+type SupportedChain = EVMChain | CosmosChain | UTXOChain;
+
+const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet?: boolean }) => {
   const getInboundDataByChain = getInboundDataFunction({ stagenet, type: "mayachain" });
 
   /**
@@ -55,17 +60,6 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
       router,
       wallets,
     });
-  }
-
-  async function depositToProtocol({ memo, assetValue }: { assetValue: AssetValue; memo: string }) {
-    const mimir = await SwapKitApi.getMimirInfo({ stagenet });
-
-    // check if trading is halted or not
-    if (mimir.HALTCHAINGLOBAL >= 1 || mimir.HALTTHORCHAIN >= 1) {
-      throw new SwapKitError("core_chain_halted");
-    }
-
-    return deposit({ assetValue, recipient: "", memo });
   }
 
   async function depositToPool({
@@ -203,10 +197,10 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
   async function swap(swapParams: SwapParams<"mayaprotocol"> | SwapWithRouteParams) {
     if (!("route" in swapParams)) throw new SwapKitError("core_swap_invalid_params");
 
-    const route = swapParams.route as QuoteRouteV2;
+    const route = swapParams.route as QuoteResponseRoute;
     const { feeOptionKey } = swapParams;
 
-    const { memo, expiration, targetAddress, evmTransactionDetails } = route;
+    const { memo, expiration, targetAddress } = route;
 
     const assetValue = await AssetValue.fromString(route.sellAsset, route.sellAmount);
     const evmChain = assetValue.chain;
@@ -224,8 +218,25 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
       feeOptionKey,
       router: targetAddress,
       recipient,
-      evmTransactionDetails,
     });
+  }
+
+  async function depositToProtocol({ memo, assetValue }: { assetValue: AssetValue; memo: string }) {
+    const mimir = await SwapKitApi.getMimirInfo({ stagenet, type: "mayachain" });
+
+    // check if trading is halted or not
+    if (mimir.HALTCHAINGLOBAL >= 1 || mimir.HALTTHORCHAIN >= 1) {
+      throw new SwapKitError("core_chain_halted");
+    }
+
+    return deposit({ assetValue, recipient: "", memo });
+  }
+
+  function registerMayaname({
+    assetValue,
+    ...param
+  }: NameRegisterParam & { assetValue: AssetValue }) {
+    return depositToProtocol({ assetValue, memo: getMemoFor(MemoType.NAME_REGISTER, param) });
   }
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO refactor
@@ -234,10 +245,10 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     recipient,
     router,
     ...rest
-  }: CoreTxParams & { router?: string; evmTransactionDetails?: EvmTransactionDetails }) {
+  }: CoreTxParams & { router?: string }) {
     const { chain, symbol, ticker } = assetValue;
 
-    const walletInstance = wallets[chain];
+    const walletInstance = getWallet(wallets, chain as SupportedChain);
     if (!walletInstance) {
       throw new SwapKitError("core_wallet_connection_not_found");
     }
@@ -331,11 +342,13 @@ const plugin = ({ wallets, stagenet = false }: { wallets: Wallet; stagenet?: boo
     approveAssetValue,
     createLiquidity,
     deposit,
+    registerMayaname,
     getInboundDataByChain,
     isAssetValueApproved,
     swap,
     nodeAction,
     registerMAYAName,
+    supportedSwapkitProviders: [ProviderName.MAYACHAIN],
   };
 };
 

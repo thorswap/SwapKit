@@ -28,7 +28,8 @@ export type EVMWalletOptions =
   | WalletOption.OKX_MOBILE
   | WalletOption.METAMASK
   | WalletOption.TRUSTWALLET_WEB
-  | WalletOption.COINBASE_WEB;
+  | WalletOption.COINBASE_WEB
+  | WalletOption.EIP6963;
 
 const getWalletForType = (
   walletType:
@@ -105,11 +106,40 @@ function connectEVMWallet({
   return async function connectEVMWallet(
     chains: EVMChain[],
     walletType: EVMWalletOptions = WalletOption.METAMASK,
+    eip1193Provider?: Eip1193Provider,
   ) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const promises = chains.map(async (chain) => {
       const { BrowserProvider, getProvider } = await import("@swapkit/toolbox-evm");
+
+      if (walletType === WalletOption.EIP6963) {
+        if (!eip1193Provider) throw new Error("Missing provider");
+        const provider = new BrowserProvider(eip1193Provider, "any");
+        await provider.send("eth_requestAccounts", []);
+        const address = await (await provider.getSigner()).getAddress();
+
+        const walletMethods = await getWeb3WalletMethods({
+          chain,
+          ethplorerApiKey,
+          covalentApiKey,
+          ethereumWindowProvider: eip1193Provider,
+          provider,
+        });
+
+        const getBalance = async (potentialScamFilter = true) =>
+          walletMethods.getBalance(address, potentialScamFilter, getProvider(chain));
+
+        addChain({
+          ...walletMethods,
+          chain,
+          address,
+          getBalance,
+          balance: [],
+          walletType,
+        });
+        return;
+      }
 
       const web3provider = new BrowserProvider(getWalletForType(walletType), "any");
       await web3provider.send("eth_requestAccounts", []);

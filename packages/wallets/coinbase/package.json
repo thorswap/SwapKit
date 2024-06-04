@@ -6,7 +6,7 @@
   "devDependencies": {
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
-    "bun-types": "1.1.2"
+    "bun-types": "1.1.8"
   },
   "files": [
     "src/",
@@ -36,5 +36,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.13"
+  "version": "1.0.0-rc.17"
 }

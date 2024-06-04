@@ -1,5 +1,88 @@
 # @swapkit/thorchain
 
+## 1.0.0-rc.56
+
+### Patch Changes
+
+- [#807](https://github.com/thorswap/SwapKit/pull/807) [`fd4c1ce`](https://github.com/thorswap/SwapKit/commit/fd4c1ce3c2086ae45c4417c3b07cf866412d29fe) Thanks [@towanTG](https://github.com/towanTG)! - Fixes some typing and code bugs
+
+- Updated dependencies [[`fd4c1ce`](https://github.com/thorswap/SwapKit/commit/fd4c1ce3c2086ae45c4417c3b07cf866412d29fe)]:
+  - @swapkit/helpers@1.0.0-rc.103
+  - @swapkit/toolbox-evm@1.0.0-rc.109
+  - @swapkit/api@1.0.0-rc.71
+  - @swapkit/toolbox-cosmos@1.0.0-rc.129
+  - @swapkit/toolbox-substrate@1.0.0-rc.38
+  - @swapkit/toolbox-utxo@1.0.0-rc.112
+
+## 1.0.0-rc.55
+
+### Patch Changes
+
+- Updated dependencies [[`9df63f9`](https://github.com/thorswap/SwapKit/commit/9df63f95384d518707e8ec45e4f19c63dc3d6a32)]:
+  - @swapkit/api@1.0.0-rc.70
+  - @swapkit/toolbox-cosmos@1.0.0-rc.128
+
+## 1.0.0-rc.54
+
+### Patch Changes
+
+- [#803](https://github.com/thorswap/SwapKit/pull/803) [`d723682`](https://github.com/thorswap/SwapKit/commit/d723682bff68a236f4c4c1ac9329aec6a71c090c) Thanks [@towanTG](https://github.com/towanTG)! - Improves provider detection for swap routes
+
+## 1.0.0-rc.53
+
+### Patch Changes
+
+- Updated dependencies [[`3a27569`](https://github.com/thorswap/SwapKit/commit/3a275695f8139588c4b2e69aaa5e810daea3175f)]:
+  - @swapkit/api@1.0.0-rc.69
+  - @swapkit/toolbox-cosmos@1.0.0-rc.127
+
+## 1.0.0-rc.52
+
+### Patch Changes
+
+- [#799](https://github.com/thorswap/SwapKit/pull/799) [`ec1176d`](https://github.com/thorswap/SwapKit/commit/ec1176d24bd75771bac23e16a8c3d18dd104d01a) Thanks [@towanTG](https://github.com/towanTG)! - Adds v2 support
+
+- Updated dependencies [[`ec1176d`](https://github.com/thorswap/SwapKit/commit/ec1176d24bd75771bac23e16a8c3d18dd104d01a)]:
+  - @swapkit/helpers@1.0.0-rc.102
+  - @swapkit/api@1.0.0-rc.68
+  - @swapkit/toolbox-cosmos@1.0.0-rc.126
+  - @swapkit/toolbox-evm@1.0.0-rc.108
+  - @swapkit/toolbox-substrate@1.0.0-rc.37
+  - @swapkit/toolbox-utxo@1.0.0-rc.111
+
+## 1.0.0-rc.51
+
+### Patch Changes
+
+- [#795](https://github.com/thorswap/SwapKit/pull/795) [`af238a7`](https://github.com/thorswap/SwapKit/commit/af238a7b30a3163464f1df0fb6589901261f51fd) Thanks [@towanTG](https://github.com/towanTG)! - Bumps dependencies and releases exodus wallet
+
+- Updated dependencies [[`af238a7`](https://github.com/thorswap/SwapKit/commit/af238a7b30a3163464f1df0fb6589901261f51fd)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.36
+  - @swapkit/toolbox-cosmos@1.0.0-rc.125
+  - @swapkit/helpers@1.0.0-rc.101
+  - @swapkit/toolbox-utxo@1.0.0-rc.110
+  - @swapkit/toolbox-evm@1.0.0-rc.107
+  - @swapkit/api@1.0.0-rc.67
+
+## 1.0.0-rc.50
+
+### Patch Changes
+
+- Updated dependencies [[`507bd80`](https://github.com/thorswap/SwapKit/commit/507bd804ef38da11c47ff2c1ed2aadad7c228d3b)]:
+  - @swapkit/helpers@1.0.0-rc.100
+  - @swapkit/api@1.0.0-rc.66
+  - @swapkit/toolbox-cosmos@1.0.0-rc.124
+  - @swapkit/toolbox-evm@1.0.0-rc.106
+  - @swapkit/toolbox-substrate@1.0.0-rc.35
+  - @swapkit/toolbox-utxo@1.0.0-rc.109
+
+## 1.0.0-rc.49
+
+### Patch Changes
+
+- Updated dependencies [[`04efc7e`](https://github.com/thorswap/SwapKit/commit/04efc7ec10695517dc6ff405722ec54267996a71)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.123
+
 ## 1.0.0-rc.48
 
 ### Patch Changes

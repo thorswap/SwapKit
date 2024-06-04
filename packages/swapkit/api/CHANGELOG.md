@@ -1,5 +1,53 @@
 # @swapkit/api
 
+## 1.0.0-rc.71
+
+### Patch Changes
+
+- Updated dependencies [[`fd4c1ce`](https://github.com/thorswap/SwapKit/commit/fd4c1ce3c2086ae45c4417c3b07cf866412d29fe)]:
+  - @swapkit/helpers@1.0.0-rc.103
+
+## 1.0.0-rc.70
+
+### Patch Changes
+
+- [#805](https://github.com/thorswap/SwapKit/pull/805) [`9df63f9`](https://github.com/thorswap/SwapKit/commit/9df63f95384d518707e8ec45e4f19c63dc3d6a32) Thanks [@towanTG](https://github.com/towanTG)! - Adds EVM plugin and fixes v2 fetch quote client
+
+## 1.0.0-rc.69
+
+### Patch Changes
+
+- [#801](https://github.com/thorswap/SwapKit/pull/801) [`3a27569`](https://github.com/thorswap/SwapKit/commit/3a275695f8139588c4b2e69aaa5e810daea3175f) Thanks [@towanTG](https://github.com/towanTG)! - Fixes v2 swap support in core
+
+## 1.0.0-rc.68
+
+### Patch Changes
+
+- [#799](https://github.com/thorswap/SwapKit/pull/799) [`ec1176d`](https://github.com/thorswap/SwapKit/commit/ec1176d24bd75771bac23e16a8c3d18dd104d01a) Thanks [@towanTG](https://github.com/towanTG)! - Adds v2 support
+
+- Updated dependencies [[`ec1176d`](https://github.com/thorswap/SwapKit/commit/ec1176d24bd75771bac23e16a8c3d18dd104d01a)]:
+  - @swapkit/helpers@1.0.0-rc.102
+
+## 1.0.0-rc.67
+
+### Patch Changes
+
+- [#795](https://github.com/thorswap/SwapKit/pull/795) [`af238a7`](https://github.com/thorswap/SwapKit/commit/af238a7b30a3163464f1df0fb6589901261f51fd) Thanks [@towanTG](https://github.com/towanTG)! - Bumps dependencies and releases exodus wallet
+
+- Updated dependencies [[`af238a7`](https://github.com/thorswap/SwapKit/commit/af238a7b30a3163464f1df0fb6589901261f51fd)]:
+  - @swapkit/helpers@1.0.0-rc.101
+
+## 1.0.0-rc.66
+
+### Minor Changes
+
+- [#789](https://github.com/thorswap/SwapKit/pull/789) [`507bd80`](https://github.com/thorswap/SwapKit/commit/507bd804ef38da11c47ff2c1ed2aadad7c228d3b) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Add a new request client that return known API errors as a 200 with error as response
+
+### Patch Changes
+
+- Updated dependencies [[`507bd80`](https://github.com/thorswap/SwapKit/commit/507bd804ef38da11c47ff2c1ed2aadad7c228d3b)]:
+  - @swapkit/helpers@1.0.0-rc.100
+
 ## 1.0.0-rc.65
 
 ### Patch Changes

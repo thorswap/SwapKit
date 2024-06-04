@@ -7,7 +7,7 @@
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "@swapkit/wallet-evm-extensions": "workspace:*",
+    "@swapkit/wallet-exodus": "workspace:*",
     "@swapkit/wallet-keepkey": "workspace:*",
     "@swapkit/wallet-keplr": "workspace:*",
     "@swapkit/wallet-keystore": "workspace:*",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "4.2.1",
-    "bun-types": "1.1.2",
+    "bun-types": "1.1.8",
     "typescript": "5.4.4",
     "vite-plugin-top-level-await": "1.4.1",
     "vite-plugin-wasm": "3.3.0"

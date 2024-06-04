@@ -1,5 +1,6 @@
 import { ChainflipPlugin } from "@swapkit/chainflip";
 import { SwapKit } from "@swapkit/core";
+import { EVMPlugin } from "@swapkit/plugin-evm";
 import { MayachainPlugin, ThorchainPlugin } from "@swapkit/thorchain";
 import { coinbaseWallet } from "@swapkit/wallet-coinbase";
 import { evmWallet } from "@swapkit/wallet-evm-extensions";
@@ -23,12 +24,15 @@ const wallets = {
   ...trezorWallet,
   ...walletconnectWallet,
   ...xdefiWallet,
+  //   ...exodusWallet,
 } as const;
 
 const plugins = {
   ...ThorchainPlugin,
   ...MayachainPlugin,
   chainflip: { ...ChainflipPlugin.chainflip, config: { brokerEndpoint: "" } },
+  ...MayachainPlugin,
+  ...EVMPlugin,
 } as const;
 
 export type SwapKitClient = ReturnType<typeof SwapKit<typeof plugins, typeof wallets>>;
