@@ -9,7 +9,6 @@ export default function Liquidity({
     skClient?: SwapKitClient;
     otherAsset?: AssetValue;
     nativeAsset?: AssetValue;
-    wallet?: Wallet
   }) {
   const [nativeAssetValue, setNativeInput] = useState<AssetValue | undefined>();
   const [otherAssetValue, setOtherInput] = useState<AssetValue | undefined>();
@@ -17,6 +16,7 @@ export default function Liquidity({
   const [nativeAssetTx, setNativeAssetTx] = useState<string>("");
   const [mode, setMode] = useState<string>("addliquidity");
   const [pluginMode, setPluginMode] = useState<string>("thorplugin");
+  const [withdrawTx, setWithdrawTx] = useState<string>("");
   const [withdrawPercent, setWithdrawPercent] = useState<number>(0);
 
   const setRuneAmount = useCallback(
@@ -79,12 +79,27 @@ export default function Liquidity({
   }, [nativeAssetValue, otherAssetValue, pluginMode]);
 
   const handleWithdraw = useCallback(async () => {
-    const ethAddress = await skClient?.thorchain.savings({
-      assetValue: nativeAsset!,
-      percent: withdrawPercent,
-      type: 'withdraw'
-    })
-    console.log("🚀 ~ handleWithdraw ~ ethAddress:", ethAddress)
+    let tx ;
+    if (pluginMode == "mayaplugin") {
+      tx = await skClient?.mayachain.withdraw({
+          assetValue: nativeAsset!,
+          percent: withdrawPercent,
+          from: "sym",
+          to : "cacao"
+      })
+      if(tx)
+        setWithdrawTx(tx);
+    }
+    else {
+      tx = await skClient?.thorchain.withdraw({
+        assetValue: nativeAsset!,
+        percent: withdrawPercent,
+        from: "sym",
+        to : "rune"
+      })
+      if(tx)
+        setWithdrawTx(tx);
+    }
   }, [nativeAsset, withdrawPercent])
 
   return (<div>
@@ -171,6 +186,12 @@ export default function Liquidity({
       otherAssetTx &&
       <div>
         assetTx :{otherAssetTx}
+      </div>
+    }
+    {
+      withdrawTx &&
+      <div>
+        withdrawTx :{withdrawTx}
       </div>
     }
     {
