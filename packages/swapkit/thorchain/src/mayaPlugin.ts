@@ -34,7 +34,8 @@ import type {
   AddLiquidityPartParams,
   ApproveParams,
   CoreTxParams,
-  MAYAAddLiquidityParams,
+  MayaAddLiquidityParams,
+  MayaWithdrawParams,
   NodeActionParams,
   SwapWithRouteParams,
 } from "./types";
@@ -82,6 +83,29 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
     });
   }
 
+  function withdraw({ memo, assetValue, percent, from, to }: MayaWithdrawParams) {
+    const targetAsset =
+      to === "cacao" && from !== "cacao"
+        ? AssetValue.fromChainOrSignature(Chain.Maya)
+        : (from === "sym" && to === "sym") || from === "cacao" || from === "asset"
+          ? undefined
+          : assetValue;
+
+    const value = getMinAmountByChain(from === "asset" ? assetValue.chain : Chain.Maya);
+    const memoString =
+      memo ||
+      getMemoFor(MemoType.WITHDRAW, {
+        symbol: assetValue.symbol,
+        chain: assetValue.chain,
+        ticker: assetValue.ticker,
+        basisPoints: Math.min(10000, Math.round(percent * 100)),
+        targetAssetString: targetAsset?.toString(),
+        singleSide: false,
+      });
+
+    return depositToPool({ assetValue: value, memo: memoString });
+  }
+
   function registerMAYAName({
     assetValue,
     ...param
@@ -127,7 +151,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
     assetAddr,
     isPendingSymmAsset,
     mode = "sym",
-  }: MAYAAddLiquidityParams) {
+  }: MayaAddLiquidityParams) {
     const { chain, symbol } = assetValue;
     const isSym = mode === "sym";
     const cacaoTransfer = cacaoAssetValue?.gt(0) && (isSym || mode === "cacao");
@@ -175,7 +199,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
     }
 
     const assetAddress = getAddress(wallets, assetValue.chain);
-    const cacaoAddress = getAddress(wallets, Chain.THORChain);
+    const cacaoAddress = getAddress(wallets, Chain.Maya);
 
     const cacaoTx = await wrapWithThrow(() => {
       return depositToPool({
@@ -225,7 +249,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
     const mimir = await SwapKitApi.getMimirInfo({ stagenet, type: "mayachain" });
 
     // check if trading is halted or not
-    if (mimir.HALTCHAINGLOBAL >= 1 || mimir.HALTTHORCHAIN >= 1) {
+    if (mimir.HALTTRADING >= 1 || mimir.HALTTHORCHAIN >= 1) {
       throw new SwapKitError("core_chain_halted");
     }
 
@@ -337,14 +361,15 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
   }
 
   return {
+    createLiquidity,
     addLiquidity,
     addLiquidityPart,
+    withdraw,
     approveAssetValue,
-    createLiquidity,
+    isAssetValueApproved,
     deposit,
     registerMayaname,
     getInboundDataByChain,
-    isAssetValueApproved,
     swap,
     nodeAction,
     registerMAYAName,

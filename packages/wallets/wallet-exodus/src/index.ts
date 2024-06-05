@@ -11,12 +11,12 @@ import {
 } from "@swapkit/helpers";
 import {
   type AVAXToolbox,
-  type BrowserProvider,
+  BrowserProvider,
   type Eip1193Provider,
   getProvider,
   getToolboxByChain,
 } from "@swapkit/toolbox-evm";
-import type { Psbt, UTXOTransferParams } from "@swapkit/toolbox-utxo";
+import { BTCToolbox, type Psbt, type UTXOTransferParams } from "@swapkit/toolbox-utxo";
 import {
   AddressPurpose,
   BitcoinNetworkType,
@@ -49,8 +49,6 @@ export const getWalletMethods = async ({
 }) => {
   switch (chain) {
     case Chain.Bitcoin: {
-      const { BTCToolbox } = await import("@swapkit/toolbox-utxo");
-
       const toolbox = BTCToolbox({ rpcUrl, apiKey: blockchairApiKey, apiClient: api });
 
       let address = "";
@@ -180,8 +178,6 @@ function connectExodusWallet({
     const { providers } = wallet;
 
     const promises = chains.map(async (chain) => {
-      const { BrowserProvider } = await import("@swapkit/toolbox-evm");
-
       const walletProvider =
         chain === Chain.Bitcoin
           ? providers.bitcoin
