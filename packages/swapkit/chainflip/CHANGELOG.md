@@ -1,5 +1,19 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.59
+
+### Minor Changes
+
+- [#811](https://github.com/thorswap/SwapKit/pull/811) [`694977d`](https://github.com/thorswap/SwapKit/commit/694977d647247f00992656614cc904948cc9b7a3) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Boosted swaps and CCM metadata
+
+### Patch Changes
+
+- Updated dependencies [[`ec4da3a`](https://github.com/thorswap/SwapKit/commit/ec4da3aa214b2af77a22552b23aa40ec80716542)]:
+  - @swapkit/helpers@1.0.0-rc.104
+  - @swapkit/api@1.0.0-rc.72
+  - @swapkit/toolbox-evm@1.0.0-rc.110
+  - @swapkit/toolbox-substrate@1.0.0-rc.39
+
 ## 1.0.0-rc.58
 
 ### Patch Changes

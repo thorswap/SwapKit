@@ -1,5 +1,17 @@
 # @swapkit/core
 
+## 1.0.0-rc.155
+
+### Patch Changes
+
+- Updated dependencies [[`ec4da3a`](https://github.com/thorswap/SwapKit/commit/ec4da3aa214b2af77a22552b23aa40ec80716542)]:
+  - @swapkit/helpers@1.0.0-rc.104
+  - @swapkit/api@1.0.0-rc.72
+  - @swapkit/toolbox-cosmos@1.0.0-rc.130
+  - @swapkit/toolbox-evm@1.0.0-rc.110
+  - @swapkit/toolbox-substrate@1.0.0-rc.39
+  - @swapkit/toolbox-utxo@1.0.0-rc.113
+
 ## 1.0.0-rc.154
 
 ### Patch Changes

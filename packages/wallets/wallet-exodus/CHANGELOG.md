@@ -1,5 +1,16 @@
 # @swapkit/wallet-exodus
 
+## 1.0.0-rc.6
+
+### Patch Changes
+
+- [#813](https://github.com/thorswap/SwapKit/pull/813) [`e29d456`](https://github.com/thorswap/SwapKit/commit/e29d45663b9d7e10b747363d6a7e288e2a65f88d) Thanks [@towanTG](https://github.com/towanTG)! - Removes async imports
+
+- Updated dependencies [[`ec4da3a`](https://github.com/thorswap/SwapKit/commit/ec4da3aa214b2af77a22552b23aa40ec80716542)]:
+  - @swapkit/helpers@1.0.0-rc.104
+  - @swapkit/toolbox-evm@1.0.0-rc.110
+  - @swapkit/toolbox-utxo@1.0.0-rc.113
+
 ## 1.0.0-rc.5
 
 ### Patch Changes
