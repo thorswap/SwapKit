@@ -7,6 +7,7 @@ import Multisig from "./Multisig";
 import Send from "./Send";
 import Swap from "./Swap";
 import TNS from "./TNS";
+import Liquidity from "./Liquidity";
 import { Wallet } from "./Wallet";
 import { WalletPicker } from "./WalletPicker";
 import { getSwapKitClient } from "./swapKitClient";
@@ -51,7 +52,7 @@ const App = () => {
   }, []);
 
   const setAsset = useCallback(
-    (asset: Todo) => {
+    (asset: AssetValue) => {
       if (!inputAsset) {
         setSwapAssets({ inputAsset: asset });
       }
@@ -94,6 +95,9 @@ const App = () => {
           stagenet={stagenet}
         />
       ) : null,
+      liquidity: skClient ?
+        <Liquidity otherAsset={outputAsset} nativeAsset={inputAsset} skClient={skClient}  />
+        : null
     }),
     [skClient, inputAsset, outputAsset, phrase, stagenet]
   );

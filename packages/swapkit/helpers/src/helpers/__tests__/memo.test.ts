@@ -25,7 +25,7 @@ describe("getMemoFor", () => {
     });
 
     test("returns correct memo for Thorname Register", () => {
-      const result = getMemoFor(MemoType.THORNAME_REGISTER, {
+      const result = getMemoFor(MemoType.NAME_REGISTER, {
         name: "thorname",
         chain: "BNB",
         address: "0xABC123",
@@ -35,7 +35,7 @@ describe("getMemoFor", () => {
     });
 
     test("returns correct memo for Mayaname Register", () => {
-      const result = getMemoFor(MemoType.THORNAME_REGISTER, {
+      const result = getMemoFor(MemoType.NAME_REGISTER, {
         name: "mayaname",
         chain: "BNB",
         address: "0xABC123",

@@ -29,6 +29,7 @@ const wallets = {
 
 const plugins = {
   ...ThorchainPlugin,
+  ...MayachainPlugin,
   chainflip: { ...ChainflipPlugin.chainflip, config: { brokerEndpoint: "" } },
   ...MayachainPlugin,
   ...EVMPlugin,
