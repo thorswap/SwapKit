@@ -1,5 +1,15 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.147
+
+### Patch Changes
+
+- Updated dependencies [[`ec4da3a`](https://github.com/thorswap/SwapKit/commit/ec4da3aa214b2af77a22552b23aa40ec80716542)]:
+  - @swapkit/helpers@1.0.0-rc.104
+  - @swapkit/toolbox-cosmos@1.0.0-rc.130
+  - @swapkit/toolbox-evm@1.0.0-rc.110
+  - @swapkit/toolbox-utxo@1.0.0-rc.113
+
 ## 1.0.0-rc.146
 
 ### Patch Changes

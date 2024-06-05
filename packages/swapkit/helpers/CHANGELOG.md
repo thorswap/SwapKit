@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.104
+
+### Patch Changes
+
+- [#814](https://github.com/thorswap/SwapKit/pull/814) [`ec4da3a`](https://github.com/thorswap/SwapKit/commit/ec4da3aa214b2af77a22552b23aa40ec80716542) Thanks [@towanTG](https://github.com/towanTG)! - Adds Maya LP methods
+
 ## 1.0.0-rc.103
 
 ### Patch Changes
