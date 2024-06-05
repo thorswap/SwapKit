@@ -9,6 +9,7 @@ import {
   type ErrorKeys,
   FeeOption,
   MemoType,
+  type NameRegisterParam,
   ProviderName,
   SWAP_IN,
   SWAP_OUT,
@@ -18,7 +19,6 @@ import {
   TCAvalancheDepositABI,
   TCBscDepositABI,
   TCEthereumVaultAbi,
-  type ThornameRegisterParam,
   type UTXOChain,
   getMemoFor,
   getMinAmountByChain,
@@ -108,8 +108,8 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
   function registerThorname({
     assetValue,
     ...param
-  }: ThornameRegisterParam & { assetValue: AssetValue }) {
-    return depositToProtocol({ assetValue, memo: getMemoFor(MemoType.THORNAME_REGISTER, param) });
+  }: NameRegisterParam & { assetValue: AssetValue }) {
+    return depositToProtocol({ assetValue, memo: getMemoFor(MemoType.NAME_REGISTER, param) });
   }
 
   function nodeAction({ type, assetValue, address }: NodeActionParams) {

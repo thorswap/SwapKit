@@ -40,7 +40,7 @@ export enum MemoType {
   BOND = "BOND",
   DEPOSIT = "+",
   LEAVE = "LEAVE",
-  THORNAME_REGISTER = "~",
+  NAME_REGISTER = "~",
   UNBOND = "UNBOND",
   WITHDRAW = "-",
   OPEN_LOAN = "$+",

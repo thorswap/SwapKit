@@ -17,6 +17,15 @@ export type AddLiquidityParams = {
   mode?: "sym" | "rune" | "asset";
 };
 
+export type MayaAddLiquidityParams = {
+  cacaoAssetValue: AssetValue;
+  assetValue: AssetValue;
+  isPendingSymmAsset?: boolean;
+  cacaoAddr?: string;
+  assetAddr?: string;
+  mode?: "sym" | "cacao" | "asset";
+};
+
 export type ApproveParams = {
   assetValue: AssetValue;
   contractAddress?: string;
@@ -60,10 +69,18 @@ export type SavingsParams = { assetValue: AssetValue; memo?: string } & (
 
 export type RegisterThornameParams = {};
 
-export type WithdrawParams = {
+type CommonWithdrawParams = {
   assetValue: AssetValue;
-  from: "sym" | "rune" | "asset";
   memo?: string;
   percent: number;
+};
+
+export type WithdrawParams = CommonWithdrawParams & {
+  from: "sym" | "rune" | "asset";
   to: "sym" | "rune" | "asset";
+};
+
+export type MayaWithdrawParams = CommonWithdrawParams & {
+  from: "sym" | "cacao" | "asset";
+  to: "sym" | "cacao" | "asset";
 };

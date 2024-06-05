@@ -6,26 +6,39 @@ import {
   type CosmosChain,
   type EVMChain,
   type ErrorKeys,
+  FeeOption,
   MayaArbitrumVaultAbi,
   MayaEthereumVaultAbi,
   MemoType,
+  type NameRegisterParam,
   ProviderName,
   type QuoteResponseRoute,
   SwapKitError,
   type SwapParams,
-  type ThornameRegisterParam,
   type UTXOChain,
   getMemoFor,
+  getMinAmountByChain,
+  wrapWithThrow,
 } from "@swapkit/helpers";
 import {
   type ChainWallets,
+  gasFeeMultiplier,
+  getAddress,
   getInboundDataFunction,
   getWallet,
   prepareTxParams,
   sharedApprove,
   validateAddressType,
-} from "./shared";
-import type { ApproveParams, CoreTxParams, SwapWithRouteParams } from "./types";
+} from "./shared.ts";
+import type {
+  AddLiquidityPartParams,
+  ApproveParams,
+  CoreTxParams,
+  MayaAddLiquidityParams,
+  MayaWithdrawParams,
+  NodeActionParams,
+  SwapWithRouteParams,
+} from "./types";
 
 type SupportedChain = EVMChain | CosmosChain | UTXOChain;
 
@@ -48,6 +61,161 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
       router,
       wallets,
     });
+  }
+
+  async function depositToPool({
+    assetValue,
+    memo,
+    feeOptionKey = FeeOption.Fast,
+  }: { assetValue: AssetValue; memo: string; feeOptionKey?: FeeOption }) {
+    const {
+      gas_rate = "0",
+      router,
+      address: poolAddress,
+    } = await getInboundDataByChain(assetValue.chain);
+
+    return deposit({
+      assetValue,
+      recipient: poolAddress,
+      memo,
+      router,
+      feeRate: Number.parseInt(gas_rate) * gasFeeMultiplier[feeOptionKey],
+    });
+  }
+
+  function withdraw({ memo, assetValue, percent, from, to }: MayaWithdrawParams) {
+    const targetAsset =
+      to === "cacao" && from !== "cacao"
+        ? AssetValue.fromChainOrSignature(Chain.Maya)
+        : (from === "sym" && to === "sym") || from === "cacao" || from === "asset"
+          ? undefined
+          : assetValue;
+
+    const value = getMinAmountByChain(from === "asset" ? assetValue.chain : Chain.Maya);
+    const memoString =
+      memo ||
+      getMemoFor(MemoType.WITHDRAW, {
+        symbol: assetValue.symbol,
+        chain: assetValue.chain,
+        ticker: assetValue.ticker,
+        basisPoints: Math.min(10000, Math.round(percent * 100)),
+        targetAssetString: targetAsset?.toString(),
+        singleSide: false,
+      });
+
+    return depositToPool({ assetValue: value, memo: memoString });
+  }
+
+  function registerMAYAName({
+    assetValue,
+    ...param
+  }: NameRegisterParam & { assetValue: AssetValue }) {
+    return depositToProtocol({ assetValue, memo: getMemoFor(MemoType.NAME_REGISTER, param) });
+  }
+
+  function nodeAction({ type, assetValue, address }: NodeActionParams) {
+    const memoType =
+      type === "bond" ? MemoType.BOND : type === "unbond" ? MemoType.UNBOND : MemoType.LEAVE;
+    const memo = getMemoFor(memoType, {
+      address,
+      unbondAmount: type === "unbond" ? assetValue.getBaseValue("number") : undefined,
+    });
+    const assetToTransfer = type === "bond" ? assetValue : getMinAmountByChain(Chain.Maya);
+
+    return depositToProtocol({ memo, assetValue: assetToTransfer });
+  }
+
+  function addLiquidityPart({
+    assetValue,
+    poolAddress,
+    address,
+    symmetric,
+  }: AddLiquidityPartParams) {
+    if (symmetric && !address) {
+      throw new SwapKitError("core_transaction_add_liquidity_invalid_params");
+    }
+    const memo = getMemoFor(MemoType.DEPOSIT, {
+      chain: poolAddress.split(".")[0] as Chain,
+      symbol: poolAddress.split(".")[1] as string,
+      address: symmetric ? address : "",
+    });
+
+    return depositToPool({ assetValue, memo });
+  }
+
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
+  async function addLiquidity({
+    cacaoAssetValue,
+    assetValue,
+    cacaoAddr,
+    assetAddr,
+    isPendingSymmAsset,
+    mode = "sym",
+  }: MayaAddLiquidityParams) {
+    const { chain, symbol } = assetValue;
+    const isSym = mode === "sym";
+    const cacaoTransfer = cacaoAssetValue?.gt(0) && (isSym || mode === "cacao");
+    const assetTransfer = assetValue?.gt(0) && (isSym || mode === "asset");
+    const includeCacaoAddress = isPendingSymmAsset || cacaoTransfer;
+    const cacaoAddress = includeCacaoAddress ? cacaoAddr || getAddress(wallets, Chain.Maya) : "";
+    const assetAddress = isSym || mode === "asset" ? assetAddr || getAddress(wallets, chain) : "";
+
+    if (!(cacaoTransfer || assetTransfer)) {
+      throw new SwapKitError("core_transaction_add_liquidity_invalid_params");
+    }
+    if (includeCacaoAddress && !cacaoAddress) {
+      throw new SwapKitError("core_transaction_add_liquidity_no_cacao_address");
+    }
+
+    const cacaoTx =
+      cacaoTransfer && cacaoAssetValue
+        ? await wrapWithThrow(() => {
+            return depositToPool({
+              assetValue: cacaoAssetValue,
+              memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: assetAddress }),
+            });
+          }, "core_transaction_add_liquidity_cacao_error")
+        : undefined;
+
+    const assetTx =
+      assetTransfer && assetValue
+        ? await wrapWithThrow(() => {
+            return depositToPool({
+              assetValue,
+              memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: cacaoAddress }),
+            });
+          }, "core_transaction_add_liquidity_asset_error")
+        : undefined;
+
+    return { cacaoTx, assetTx };
+  }
+
+  async function createLiquidity({
+    cacaoAssetValue,
+    assetValue,
+  }: { cacaoAssetValue: AssetValue; assetValue: AssetValue }) {
+    if (cacaoAssetValue.lte(0) || assetValue.lte(0)) {
+      throw new SwapKitError("core_transaction_create_liquidity_invalid_params");
+    }
+
+    const assetAddress = getAddress(wallets, assetValue.chain);
+    const cacaoAddress = getAddress(wallets, Chain.Maya);
+
+    const cacaoTx = await wrapWithThrow(() => {
+      return depositToPool({
+        assetValue: cacaoAssetValue,
+        memo: getMemoFor(MemoType.DEPOSIT, { ...assetValue, address: assetAddress }),
+      });
+    }, "core_transaction_create_liquidity_cacao_error");
+
+    const assetTx = await wrapWithThrow(() => {
+      return depositToPool({
+        assetValue,
+        memo: getMemoFor(MemoType.DEPOSIT, { ...assetValue, address: cacaoAddress }),
+      });
+    }, "core_transaction_create_liquidity_asset_error");
+
+    return { cacaoTx, assetTx };
   }
 
   async function swap(swapParams: SwapParams<"mayaprotocol"> | SwapWithRouteParams) {
@@ -81,7 +249,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
     const mimir = await SwapKitApi.getMimirInfo({ stagenet, type: "mayachain" });
 
     // check if trading is halted or not
-    if (mimir.HALTCHAINGLOBAL >= 1 || mimir.HALTTHORCHAIN >= 1) {
+    if (mimir.HALTTRADING >= 1 || mimir.HALTTHORCHAIN >= 1) {
       throw new SwapKitError("core_chain_halted");
     }
 
@@ -91,8 +259,8 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
   function registerMayaname({
     assetValue,
     ...param
-  }: ThornameRegisterParam & { assetValue: AssetValue }) {
-    return depositToProtocol({ assetValue, memo: getMemoFor(MemoType.THORNAME_REGISTER, param) });
+  }: NameRegisterParam & { assetValue: AssetValue }) {
+    return depositToProtocol({ assetValue, memo: getMemoFor(MemoType.NAME_REGISTER, param) });
   }
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO refactor
@@ -193,12 +361,18 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
   }
 
   return {
-    swap,
+    createLiquidity,
+    addLiquidity,
+    addLiquidityPart,
+    withdraw,
+    approveAssetValue,
+    isAssetValueApproved,
     deposit,
     registerMayaname,
     getInboundDataByChain,
-    approveAssetValue,
-    isAssetValueApproved,
+    swap,
+    nodeAction,
+    registerMAYAName,
     supportedSwapkitProviders: [ProviderName.MAYACHAIN],
   };
 };

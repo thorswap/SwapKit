@@ -53,6 +53,9 @@ const errorMessages = {
   core_transaction_invalid_sender_address: 10313,
   core_transaction_deposit_server_error: 10314,
   core_transaction_user_rejected: 10315,
+  core_transaction_create_liquidity_cacao_error: 10316,
+  core_transaction_add_liquidity_no_cacao_address: 10306,
+  core_transaction_add_liquidity_cacao_error: 10307,
 
   /**
    * Wallets
