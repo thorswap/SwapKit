@@ -13,7 +13,7 @@ import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
 import { decodeAddress } from "@polkadot/keyring";
 import { isHex, u8aToHex } from "@polkadot/util";
 import { chainflipGateway } from "./chainflipGatewayABI.ts";
-import type { SwapDepositResponse, WithdrawFeeResponse } from "./types.ts";
+import type { DepositChannelRequest, SwapDepositResponse, WithdrawFeeResponse } from "./types.ts";
 
 const chainToChainflipChain = new Map<Chain, keyof typeof Chains>([
   [Chain.Ethereum, Chains.Ethereum],
@@ -40,30 +40,38 @@ const requestSwapDepositAddress = async (
     route,
     sellAsset,
     buyAsset,
-    recipient,
+    recipient: _recipient,
     brokerCommissionBPS,
-  }: GenericSwapParams & { brokerCommissionBPS: number },
+    ccmMetadata,
+    maxBoostFeeBps,
+  }: Partial<GenericSwapParams> & DepositChannelRequest,
 ) => {
-  const routeSellAsset = AssetValue.fromStringSync(route.sellAsset);
-  const routeBuyAsset = AssetValue.fromStringSync(route.buyAsset);
+  const sellAssetValue = sellAsset || (route && AssetValue.fromStringSync(route.sellAsset));
+  const buyAssetValue = buyAsset || (route && AssetValue.fromStringSync(route.buyAsset));
+  const recipient = _recipient || route?.destinationAddress;
+
+  if (!(sellAssetValue && buyAssetValue && recipient)) throw new Error("Invalid params");
 
   const isBuyChainPolkadot =
-    buyAsset?.chain === Chain.Polkadot || routeBuyAsset.chain === Chain.Polkadot;
+    buyAsset?.chain === Chain.Polkadot || buyAssetValue.chain === Chain.Polkadot;
+
+  const _ccmMetadata = ccmMetadata ?? null;
+  const _maxBoostFeeBps = maxBoostFeeBps ?? 0;
 
   const recipientAddress = wrapWithThrow(() => {
     return isBuyChainPolkadot
-      ? toolbox.encodeAddress(toolbox.decodeAddress(recipient || route.destinationAddress), "hex")
-      : recipient || route.destinationAddress;
+      ? toolbox.encodeAddress(toolbox.decodeAddress(recipient), "hex")
+      : recipient;
   }, "chainflip_broker_recipient_error");
 
   return new Promise<SwapDepositResponse>((resolve) => {
     const tx = toolbox.api.tx.swapping?.requestSwapDepositAddress?.(
-      (sellAsset || routeSellAsset).ticker.toLowerCase(),
-      (buyAsset || routeBuyAsset).ticker.toLowerCase(),
-      { [(buyAsset || routeBuyAsset).chain.toLowerCase()]: recipientAddress },
+      sellAssetValue.ticker.toLowerCase(),
+      buyAssetValue.ticker.toLowerCase(),
+      { [buyAssetValue.chain.toLowerCase()]: recipientAddress },
       SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
-      null,
-      0,
+      _ccmMetadata,
+      _maxBoostFeeBps,
     );
 
     if (!tx) {
@@ -95,16 +103,16 @@ const requestSwapDepositAddress = async (
       const hash = result.status?.toJSON?.() as { finalized: string };
       const header = await toolbox.api.rpc.chain.getHeader(hash?.finalized);
       const depositChannelId = `${header.number}-${chainToChainflipChain.get(
-        (sellAsset || routeSellAsset).chain,
+        sellAssetValue.chain,
       )}-${channelId.replaceAll(",", "")}`;
 
       resolve({
         brokerCommissionBPS,
-        buyAsset: buyAsset || routeBuyAsset,
+        buyAsset: buyAssetValue,
         depositAddress: Object.values(depositAddress)[0] as string,
         depositChannelId,
         recipient: Object.values(destinationAddress)[0] as string,
-        sellAsset: sellAsset || routeSellAsset,
+        sellAsset: sellAssetValue,
         srcChainExpiryBlock: Number((sourceChainExpiryBlock as string).replaceAll(",", "")),
       });
     });
@@ -195,9 +203,8 @@ export const ChainflipBroker = (
   chainflipToolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
 ) => ({
   registerAsBroker: (address: string) => registerAsBroker(chainflipToolbox, address),
-  requestSwapDepositAddress: (
-    chainflipTransaction: GenericSwapParams & { brokerCommissionBPS: number },
-  ) => requestSwapDepositAddress(chainflipToolbox, chainflipTransaction),
+  requestSwapDepositAddress: (chainflipTransaction: GenericSwapParams & DepositChannelRequest) =>
+    requestSwapDepositAddress(chainflipToolbox, chainflipTransaction),
   fundStateChainAccount: (
     stateChainAccount: string,
     amount: AssetValue,

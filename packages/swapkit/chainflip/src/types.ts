@@ -8,6 +8,17 @@ export type WithdrawFeeResponse = {
   destinationAddress: string;
 };
 
+export type DepositChannelRequest = {
+  brokerCommissionBPS: number;
+  ccmMetadata: ccmMetadata;
+  maxBoostFeeBps: number;
+};
+
+export type ccmMetadata = {
+  message: string;
+  gasBudget: string;
+};
+
 export type SwapDepositResponse = {
   depositChannelId: string;
   depositAddress: string;
