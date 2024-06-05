@@ -27,7 +27,7 @@ export enum DerivationPath {
   MATIC = "m/44'/60'/0'/0",
   MAYA = "m/44'/931'/0'/0",
   OP = "m/44'/60'/0'/0",
-  RADIX = "////",
+  XRD = "////",
   THOR = "m/44'/931'/0'/0",
 }
 
@@ -52,7 +52,7 @@ export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   THOR: [44, 931, 0, 0, 0],
 
   // Polkadot and related network derivation path is not number based
-  RADIX: [0, 0, 0, 0, 0],
+  XRD: [0, 0, 0, 0, 0],
   DOT: [0, 0, 0, 0, 0],
   FLIP: [0, 0, 0, 0, 0],
 };

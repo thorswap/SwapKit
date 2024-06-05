@@ -41,6 +41,17 @@ describe("AssetValue", () => {
       });
 
       expect(atomDerived.toString()).toBe("THOR.ATOM");
+
+      const radixXWBTC = new AssetValue({
+        identifier:
+          "RADIX.XWBTC-resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75",
+        decimal: 8,
+        value: 11112222,
+      });
+
+      expect(radixXWBTC.toString()).toBe(
+        "RADIX.XWBTC-resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75",
+      );
     });
   });
 
@@ -155,6 +166,7 @@ describe("AssetValue", () => {
         }),
       );
     });
+
     test("creates AssetValue from string with multiple dashes", async () => {
       const ethPendleLptAsset = await AssetValue.fromIdentifier("ETH.PENDLE-LPT-0x1234");
 
@@ -189,6 +201,7 @@ describe("AssetValue", () => {
         }),
       );
     });
+
     test("creates AssetValue from string with multiple dashes", async () => {
       const fakeAvaxAssetString = "AVAX.ASDF-LP-1234";
       const fakeAvaxAsset = await AssetValue.fromString(fakeAvaxAssetString);
@@ -202,6 +215,24 @@ describe("AssetValue", () => {
           isSynthetic: false,
           symbol: "ASDF-LP-1234",
           ticker: "ASDF-LP",
+        }),
+      );
+    });
+
+    test("creates AssetValue with _ symbol", async () => {
+      const radixXWBTC = await AssetValue.fromString(
+        "XRD.XWBTC-resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75",
+      );
+
+      expect(radixXWBTC).toEqual(
+        expect.objectContaining({
+          address: "resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75",
+          chain: Chain.Radix,
+          decimal: 8,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: "XWBTC-resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75",
+          ticker: "XWBTC",
         }),
       );
     });
@@ -438,6 +469,7 @@ describe("AssetValue", () => {
         Chain.Maya,
         Chain.Arbitrum,
         Chain.Optimism,
+        Chain.Radix,
       ];
       const filteredChains = Object.values(Chain).filter((c) => !customBaseAsset.includes(c));
 
@@ -563,6 +595,20 @@ describe("AssetValue", () => {
           isSynthetic: false,
           symbol: "ETH",
           ticker: "ETH",
+          type: "Native",
+        }),
+      );
+
+      const xrdAsset = AssetValue.fromChainOrSignature(Chain.Radix);
+      expect(xrdAsset).toEqual(
+        expect.objectContaining({
+          address: undefined,
+          chain: Chain.Radix,
+          decimal: BaseDecimal.XRD,
+          isGasAsset: true,
+          isSynthetic: false,
+          symbol: "XRD",
+          ticker: "XRD",
           type: "Native",
         }),
       );
