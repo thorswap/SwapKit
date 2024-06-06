@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.105
+
+### Patch Changes
+
+- [#817](https://github.com/thorswap/SwapKit/pull/817) [`aa93dc5`](https://github.com/thorswap/SwapKit/commit/aa93dc509e6b8e0c3cf2615d072ab7f059784c5c) Thanks [@towanTG](https://github.com/towanTG)! - Introduces getChainLogo
+
 ## 1.0.0-rc.104
 
 ### Patch Changes
