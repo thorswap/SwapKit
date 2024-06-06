@@ -1,5 +1,19 @@
 # @swapkit/thorchain
 
+## 1.0.0-rc.59
+
+### Patch Changes
+
+- [#819](https://github.com/thorswap/SwapKit/pull/819) [`f389990`](https://github.com/thorswap/SwapKit/commit/f389990a4a14566315fe353a464d916fc247ce89) Thanks [@towanTG](https://github.com/towanTG)! - Type fixes and base URL fix
+
+- Updated dependencies [[`f389990`](https://github.com/thorswap/SwapKit/commit/f389990a4a14566315fe353a464d916fc247ce89)]:
+  - @swapkit/helpers@1.0.0-rc.106
+  - @swapkit/api@1.0.0-rc.74
+  - @swapkit/toolbox-cosmos@1.0.0-rc.132
+  - @swapkit/toolbox-evm@1.0.0-rc.112
+  - @swapkit/toolbox-substrate@1.0.0-rc.41
+  - @swapkit/toolbox-utxo@1.0.0-rc.115
+
 ## 1.0.0-rc.58
 
 ### Patch Changes

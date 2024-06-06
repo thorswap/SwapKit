@@ -3,19 +3,19 @@ import {
   type ApproveMode,
   type ApproveReturnType,
   type AssetValue,
+  type BaseWallet,
   Chain,
   type EVMChain,
   EVMChains,
   FeeOption,
   SwapKitError,
-  type Wallet,
 } from "@swapkit/helpers";
 import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
 import type { EVMWallets } from "@swapkit/toolbox-evm";
 import type { UTXOWallets } from "@swapkit/toolbox-utxo";
 import type { CoreTxParams } from "./types";
 
-export type ChainWallets = Wallet<EVMWallets & UTXOWallets & ThorchainWallets & CosmosWallets>;
+export type ChainWallets = BaseWallet<EVMWallets & UTXOWallets & ThorchainWallets & CosmosWallets>;
 
 export const validateAddressType = ({
   chain,

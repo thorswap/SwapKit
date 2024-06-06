@@ -36,8 +36,8 @@ jobs:
           bun changeset pre exit
           bun changeset version --snapshot nightly
           cd packages/swapkit/tokens
-          npm config list
-          npm publish
+          npm config list --no-workspaces
+          npm publish --no-workspaces
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

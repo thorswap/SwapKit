@@ -47,8 +47,6 @@ export type BaseWallet<T extends EmptyWallet | unknown> = {
   [key in Chain]: ChainWallet & T[key];
 };
 
-export type Wallet<T> = BaseWallet<T>;
-
 export type EIP6963ProviderInfo = {
   walletId: string;
   uuid: string;

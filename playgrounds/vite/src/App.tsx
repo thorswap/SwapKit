@@ -2,12 +2,12 @@ import { AssetValue } from "@swapkit/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { WalletWidget } from "@swapkit/wallet-exodus";
+import Liquidity from "./Liquidity";
 import Loan from "./Loan";
 import Multisig from "./Multisig";
 import Send from "./Send";
 import Swap from "./Swap";
 import TNS from "./TNS";
-import Liquidity from "./Liquidity";
 import { Wallet } from "./Wallet";
 import { WalletPicker } from "./WalletPicker";
 import { getSwapKitClient } from "./swapKitClient";
@@ -36,6 +36,7 @@ const App = () => {
       "cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q",
     ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || "freekey",
     walletConnectProjectId: "",
+    brokerEndpoint: "",
   });
 
   const [{ inputAsset, outputAsset }, setSwapAssets] = useState<{
@@ -95,9 +96,13 @@ const App = () => {
           stagenet={stagenet}
         />
       ) : null,
-      liquidity: skClient ?
-        <Liquidity otherAsset={outputAsset} nativeAsset={inputAsset} skClient={skClient}  />
-        : null
+      liquidity: skClient ? (
+        <Liquidity
+          otherAsset={outputAsset}
+          nativeAsset={inputAsset}
+          skClient={skClient}
+        />
+      ) : null,
     }),
     [skClient, inputAsset, outputAsset, phrase, stagenet]
   );
