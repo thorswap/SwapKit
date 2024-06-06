@@ -18,7 +18,7 @@ export enum Chain {
   Polkadot = "DOT",
   Chainflip = "FLIP",
   Polygon = "MATIC",
-  Radix = "RADIX",
+  Radix = "XRD",
   THORChain = "THOR",
 }
 
@@ -106,8 +106,7 @@ export enum BaseDecimal {
   OP = 18,
   THOR = 8,
   ZEC = 8,
-  // TODO do some research on this
-  RADIX = 8,
+  XRD = 18,
 }
 
 export type SubstrateChain = Chain.Polkadot | Chain.Chainflip;

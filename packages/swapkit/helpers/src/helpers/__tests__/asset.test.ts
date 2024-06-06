@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { BaseDecimal, Chain } from "@swapkit/helpers";
+import { BaseDecimal, Chain } from "../../types";
 
 import { assetFromString, getAssetType, getDecimal } from "../asset.ts";
 
@@ -61,6 +61,13 @@ describe("getAssetType", () => {
       test('should return "AVAX" for non-AVAX tickers', () => {
         const result = getAssetType({ chain: Chain.Avalanche, symbol: "NOT_AVAX" });
         expect(result).toBe("AVAX");
+      });
+    });
+
+    describe("for Radix chain", () => {
+      test('should return "RADIX" for non-XRD tickers', () => {
+        const result = getAssetType({ chain: Chain.Radix, symbol: "NOT_XRD" });
+        expect(result).toBe("RADIX");
       });
     });
   });
@@ -172,6 +179,25 @@ describe("getDecimal", () => {
       { retry: 3 },
     );
   });
+
+  describe("Radix", () => {
+    test(
+      "returns proper decimal for radix and it's assets",
+      async () => {
+        const radixDecimal = await getDecimal({ chain: Chain.Radix, symbol: "XRD" });
+        expect(radixDecimal).toBe(BaseDecimal.XRD);
+        await Bun.sleep(500);
+
+        const xwBTCDecimal = await getDecimal({
+          chain: Chain.Radix,
+          symbol: "xwBTC-resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75",
+        });
+        expect(xwBTCDecimal).toBe(8);
+        await Bun.sleep(500);
+      },
+      { retry: 3 },
+    );
+  });
 });
 
 describe("assetFromString", () => {
@@ -195,6 +221,19 @@ describe("assetFromString", () => {
       chain: Chain.Ethereum,
       symbol: "PENDLE-LPT-0x1234",
       ticker: "PENDLE-LPT",
+      synth: false,
+    });
+  });
+
+  test("should return the correct object for Radix resource", () => {
+    const assetString =
+      "XRD.xwBTC-resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75";
+    const result = assetFromString(assetString);
+
+    expect(result).toEqual({
+      chain: Chain.Radix,
+      symbol: "xwBTC-resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75",
+      ticker: "xwBTC",
       synth: false,
     });
   });
