@@ -1,5 +1,3 @@
-import type { SwapKitCore } from '@swapkit/core';
+import type { Chain, Wallet } from "@swapkit/sdk";
 
-export type WalletDataType = Awaited<
-  ReturnType<InstanceType<typeof SwapKitCore>['getWalletByChain']>
->;
+export type WalletDataType = Wallet[Chain];
