@@ -169,6 +169,46 @@ export const TransactionDTOSchema: z.ZodType<TransactionDTO> = TransactionLegDTO
   legs: z.array(TransactionLegDTOSchema),
 });
 
+type TokenProviderVersion = {
+  major: number;
+  minor: number;
+  patch: number;
+};
+
+export type TokenListProvidersResponse = Array<{
+  provider: ProviderName;
+  name: string;
+  timestamp: string;
+  version: TokenProviderVersion;
+  keywords: string[];
+  count: number;
+  url: string;
+}>;
+
+export type TokensResponseV2 = {
+  chainId: ChainId;
+  count: number;
+  keywords: string[];
+  name: string;
+  provider: ProviderName;
+  timestamp: string;
+  tokens: TokenV2[];
+  version: TokenProviderVersion;
+};
+
+export type TokenV2 = {
+  address?: string;
+  chain: string;
+  chainId: string;
+  decimals: number;
+  extensions?: {};
+  identifier: string;
+  logoURI: string;
+  name?: string;
+  symbol: string;
+  ticker: string;
+};
+
 export interface TransactionProps {
   chainId: ChainId;
   hash: string;

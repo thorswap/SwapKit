@@ -1,5 +1,5 @@
-import { SwapKitApi, type TokensResponse } from "@swapkit/api";
-import { Chain, RequestClient } from "@swapkit/helpers";
+import { SwapKitApi } from "@swapkit/api";
+import { Chain } from "@swapkit/helpers";
 
 function parseChain(chain: string) {
   if (chain === "ARBITRUM") return Chain.Arbitrum;
@@ -13,7 +13,7 @@ function parseIdentifier(identifier: string) {
   return identifier;
 }
 
-const providers = await SwapKitApi.getTokenListProviders();
+const providers = await SwapKitApi.getTokenListProvidersV2();
 
 console.info(
   `🚀 Fetching token lists from ${providers.length} providers:\n${providers
@@ -25,21 +25,19 @@ for (const { provider } of providers) {
   if (provider.includes("whitelist")) continue;
 
   try {
-    const tokenList = await RequestClient.get<TokensResponse>(
-      `https://static.thorswap.net/token-list/${provider}.json`,
-    );
+    const tokenList = await SwapKitApi.getTokenListV2(provider);
 
     if (!tokenList) continue;
 
     console.info(`✅ ${provider} token list fetched (${tokenList.tokens.length} tokens)`);
 
-    const tokens = tokenList?.tokens
-      ?.map(({ address, chain, identifier, decimals, logoURL }) => ({
+    const tokens = tokenList.tokens
+      .map(({ address, chain, identifier, decimals, logoURI }) => ({
         address,
         chain: parseChain(chain),
         identifier: parseIdentifier(identifier),
         decimals,
-        logoURL,
+        logoURI,
       }))
       .sort((a, b) => a.identifier.localeCompare(b.identifier));
 
