@@ -1,3 +1,4 @@
+import { AssetValue } from "../modules/assetValue.ts";
 import { RequestClient } from "../modules/requestClient.ts";
 import { BaseDecimal, Chain, ChainToRPC, type EVMChain, EVMChains } from "../types/chains.ts";
 import type { TokenNames } from "../types/tokens.ts";
@@ -72,6 +73,25 @@ export const getDecimal = ({ chain, symbol }: { chain: Chain; symbol: string }) 
   }
 };
 
+export const getGasAsset = ({ chain }: { chain: Chain }) => {
+  switch (chain) {
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+      return AssetValue.fromStringSync(`${chain}.ETH`);
+    case Chain.Maya:
+      return AssetValue.fromStringSync(`${chain}.CACAO`);
+    case Chain.Cosmos:
+      return AssetValue.fromStringSync(`${chain}.ATOM`);
+    case Chain.BinanceSmartChain:
+      return AssetValue.fromStringSync(`${chain}.BNB`);
+    case Chain.THORChain:
+      return AssetValue.fromStringSync(`${chain}.RUNE`);
+
+    default:
+      return AssetValue.fromStringSync(`${chain}.${chain}`);
+  }
+};
+
 export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
   switch (chain) {
     case Chain.Arbitrum:
@@ -79,12 +99,8 @@ export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) 
       return symbol === "ETH";
     case Chain.Maya:
       return symbol === "CACAO";
-    case Chain.Kujira:
-      return symbol === "KUJI";
     case Chain.Cosmos:
       return symbol === "ATOM";
-    case Chain.Polygon:
-      return symbol === "MATIC";
     case Chain.BinanceSmartChain:
       return symbol === "BNB";
     case Chain.THORChain:
