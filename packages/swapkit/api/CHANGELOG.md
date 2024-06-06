@@ -1,5 +1,14 @@
 # @swapkit/api
 
+## 1.0.0-rc.75
+
+### Patch Changes
+
+- [#821](https://github.com/thorswap/SwapKit/pull/821) [`e72a9b3`](https://github.com/thorswap/SwapKit/commit/e72a9b3d8e6874175a3c1871a0b7528fb249cd18) Thanks [@towanTG](https://github.com/towanTG)! - Fixes tokenlist and moves it to v2
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.107
+
 ## 1.0.0-rc.74
 
 ### Patch Changes
