@@ -1,5 +1,13 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.0.0-rc.117
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.107
+  - @swapkit/toolbox-evm@1.0.0-rc.113
+
 ## 1.0.0-rc.116
 
 ### Patch Changes
