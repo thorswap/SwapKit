@@ -39,6 +39,11 @@ function getAddress(signer: RadixSigner, network: RadixNetwork) {
   return LTSRadixEngineToolkit.Derive.virtualAccountAddress(signer.publicKey(), network.networkId);
 }
 
+// Could not find anything sync in SDK, ask Radix team
+function validateAddress(address: string) {
+  return address.startsWith("account_rdx1") && address.length === 66;
+}
+
 async function transfer(
   api: CoreApiClient,
   signer: RadixSigner,
@@ -132,6 +137,7 @@ export const RadixToolbox = async ({
   api,
   createPrivateKey,
   getAddress: () => getAddress(signer, network),
+  validateAddress: (address: string) => validateAddress(address),
   transfer: (params: SubstrateTransferParams) => transfer(api, signer, network, params),
   getBalance: async (address?: string) =>
     getBalance(api, address || (await getAddress(signer, network))),
