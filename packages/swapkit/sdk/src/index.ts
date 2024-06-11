@@ -14,6 +14,7 @@ import { walletconnectWallet } from "@swapkit/wallet-wc";
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
 
 export * from "@swapkit/core";
+export * from "@swapkit/tokens";
 
 const defaultPlugins = {
   ...ThorchainPlugin,
