@@ -14,18 +14,16 @@ import { walletconnectWallet } from "@swapkit/wallet-wc";
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
 
 export * from "@swapkit/core";
+export * from "@swapkit/tokens";
 
-const plugins = {
+const defaultPlugins = {
   ...ThorchainPlugin,
-  chainflip: {
-    ...ChainflipPlugin.chainflip,
-    config: { brokerEndpoint: "" },
-  },
   ...MayachainPlugin,
   ...EVMPlugin,
+  ...ChainflipPlugin,
 };
 
-const wallets = {
+const defaultWallets = {
   ...coinbaseWallet,
   ...evmWallet,
   ...keplrWallet,
@@ -39,12 +37,28 @@ const wallets = {
 };
 
 type Params = Omit<
-  Parameters<typeof SwapKit<typeof plugins, typeof wallets>>[0],
+  Parameters<typeof SwapKit<typeof defaultPlugins, typeof defaultWallets>>[0],
   "wallets" | "plugins"
 >;
 
-export const createSwapKit = ({ config, ...extendParams }: Params) => {
-  const swapKitClient = SwapKit({ config, plugins, wallets, ...extendParams });
+export const createSwapKit = <
+  P extends Partial<typeof defaultPlugins>,
+  W extends Partial<typeof defaultWallets>,
+>({
+  config,
+  plugins,
+  wallets,
+  ...extendParams
+}: Params & {
+  plugins?: P;
+  wallets?: W;
+}) => {
+  const swapKitClient = SwapKit({
+    config,
+    plugins: plugins || defaultPlugins,
+    wallets: wallets || defaultWallets,
+    ...extendParams,
+  });
 
   return swapKitClient;
 };

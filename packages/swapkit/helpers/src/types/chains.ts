@@ -21,6 +21,8 @@ export enum Chain {
   THORChain = "THOR",
 }
 
+export type WalletChain = Exclude<Chain, Chain.Chainflip>;
+
 export enum ChainId {
   Arbitrum = "42161",
   ArbitrumHex = "0xa4b1",

@@ -1,4 +1,5 @@
 import { type ErrorKeys, SwapKitError } from "../modules/swapKitError";
+import { Chain } from "../types";
 import type { DerivationPathArray } from "../types/derivationPath";
 
 // 10 rune for register, 1 rune per year
@@ -35,3 +36,19 @@ export function wrapWithThrow<T>(fn: () => T, errorKey?: ErrorKeys) {
     return console.error(error);
   }
 }
+
+export const getChainIdentifier = (chain: Chain) => {
+  switch (chain) {
+    case Chain.THORChain:
+      return `${chain}.RUNE`;
+
+    case Chain.Cosmos:
+      return `${chain}.ATOM`;
+
+    case Chain.BinanceSmartChain:
+      return `${chain}`;
+
+    default:
+      return `${chain}.${chain}`;
+  }
+};
