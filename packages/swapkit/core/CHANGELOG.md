@@ -1,5 +1,17 @@
 # @swapkit/core
 
+## 1.0.0-rc.159
+
+### Patch Changes
+
+- Updated dependencies [[`f860028`](https://github.com/thorswap/SwapKit/commit/f860028cf61f4818d74b57345ae643d6af07007e)]:
+  - @swapkit/helpers@1.0.0-rc.108
+  - @swapkit/api@1.0.0-rc.76
+  - @swapkit/toolbox-cosmos@1.0.0-rc.134
+  - @swapkit/toolbox-evm@1.0.0-rc.114
+  - @swapkit/toolbox-substrate@1.0.0-rc.43
+  - @swapkit/toolbox-utxo@1.0.0-rc.117
+
 ## 1.0.0-rc.158
 
 ### Patch Changes
