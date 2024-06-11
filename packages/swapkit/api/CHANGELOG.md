@@ -1,5 +1,14 @@
 # @swapkit/api
 
+## 1.0.0-rc.76
+
+### Patch Changes
+
+- [#827](https://github.com/thorswap/SwapKit/pull/827) [`f860028`](https://github.com/thorswap/SwapKit/commit/f860028cf61f4818d74b57345ae643d6af07007e) Thanks [@towanTG](https://github.com/towanTG)! - Improvements for sdk integration
+
+- Updated dependencies [[`f860028`](https://github.com/thorswap/SwapKit/commit/f860028cf61f4818d74b57345ae643d6af07007e)]:
+  - @swapkit/helpers@1.0.0-rc.108
+
 ## 1.0.0-rc.75
 
 ### Patch Changes
