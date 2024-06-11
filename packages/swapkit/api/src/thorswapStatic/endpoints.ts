@@ -1,4 +1,4 @@
-import { AssetValue, RequestClient, getGasAsset } from "@swapkit/helpers";
+import { AssetValue, RequestClient, getChainIdentifier } from "@swapkit/helpers";
 
 import type { TokensResponse } from "./types.ts";
 
@@ -14,6 +14,6 @@ export function getLogoForAsset(assetString: string) {
 
 export function getChainLogoForAsset(assetString: string) {
   const { chain } = AssetValue.fromStringSync(assetString);
-  const gasAsset = getGasAsset({ chain });
-  return `${baseUrl}/token-list/images/${gasAsset.toString().toLowerCase()}.png`;
+  const chainIdentifier = getChainIdentifier(chain).toLowerCase();
+  return `${baseUrl}/token-list/images/${chainIdentifier}.png`;
 }

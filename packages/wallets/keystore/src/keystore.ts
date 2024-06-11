@@ -2,6 +2,7 @@ import {
   Chain,
   type ConnectWalletParams,
   DerivationPath,
+  type WalletChain,
   WalletOption,
   type Witness,
   setRequestClientConfig,
@@ -221,7 +222,7 @@ function connectKeystore({
   rpcUrls,
   config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
 }: ConnectWalletParams) {
-  return async function connectKeystore(chains: Chain[], phrase: string, index = 0) {
+  return async function connectKeystore(chains: WalletChain[], phrase: string, index = 0) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const promises = chains.map(async (chain) => {

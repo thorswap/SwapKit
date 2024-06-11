@@ -1,6 +1,7 @@
 import {
   Chain,
   EVMChains,
+  type WalletChain,
   WalletOption,
   getDerivationPathFor,
   getEIP6963Wallets,
@@ -39,7 +40,7 @@ const AllChainsSupported = [
   Chain.Maya,
   Chain.Kujira,
   Chain.THORChain,
-] as Chain[];
+] as WalletChain[];
 
 export const availableChainsByWallet = {
   [WalletOption.BRAVE]: EVMChains,
@@ -47,11 +48,7 @@ export const availableChainsByWallet = {
   [WalletOption.COINBASE_WEB]: EVMChains,
   [WalletOption.COINBASE_MOBILE]: EVMChains,
   [WalletOption.KEPLR]: [Chain.Cosmos],
-  [WalletOption.KEYSTORE]: [
-    ...AllChainsSupported,
-    Chain.Polkadot,
-    Chain.Chainflip,
-  ],
+  [WalletOption.KEYSTORE]: [...AllChainsSupported, Chain.Polkadot],
   [WalletOption.KEEPKEY]: [
     Chain.Arbitrum,
     Chain.Avalanche,
@@ -279,7 +276,6 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             Chain.Ethereum,
             Chain.Litecoin,
             Chain.Polkadot,
-            Chain.Chainflip,
             Chain.THORChain,
             Chain.Arbitrum,
             Chain.Kujira,
