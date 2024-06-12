@@ -19,7 +19,7 @@
     "protocol-buffers-encodings": "1.2.0",
     "tiny-secp256k1": "2.2.3"
   },
-  "description": "SwapKit Lib toolbox cosmos",
+  "description": "SwapKit - Toolbox cosmos",
   "devDependencies": {
     "@types/bn.js": "5.1.5",
     "@types/crypto-js": "4.2.2",

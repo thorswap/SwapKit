@@ -18,6 +18,7 @@ export enum Chain {
   Polkadot = "DOT",
   Chainflip = "FLIP",
   Polygon = "MATIC",
+  Radix = "XRD",
   THORChain = "THOR",
 }
 
@@ -48,6 +49,7 @@ export enum ChainId {
   Polkadot = "polkadot",
   Polygon = "137",
   PolygonHex = "0x89",
+  Radix = "radix-mainnet",
   THORChain = "thorchain-mainnet-v1",
   THORChainStagenet = "thorchain-stagenet-v2",
 }
@@ -77,6 +79,7 @@ export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.Polkadot]: Chain.Polkadot,
   [ChainId.PolygonHex]: Chain.Polygon,
   [ChainId.Polygon]: Chain.Polygon,
+  [ChainId.Radix]: Chain.Radix,
   [ChainId.THORChainStagenet]: Chain.THORChain,
   [ChainId.THORChain]: Chain.THORChain,
 };
@@ -105,6 +108,7 @@ export enum BaseDecimal {
   OP = 18,
   THOR = 8,
   ZEC = 8,
+  XRD = 18,
 }
 
 export type SubstrateChain = Chain.Polkadot | Chain.Chainflip;

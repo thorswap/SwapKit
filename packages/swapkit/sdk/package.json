@@ -42,14 +42,11 @@
     "@swapkit/wallet-wc": "workspace:*",
     "@swapkit/wallet-xdefi": "workspace:*"
   },
-  "description": "SwapKit Lib swapkit-sdk",
+  "description": "SwapKit - SDK",
   "devDependencies": {
     "bun-types": "1.1.8"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
