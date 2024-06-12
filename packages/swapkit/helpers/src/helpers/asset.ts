@@ -64,7 +64,8 @@ const getRadixResourceDecimals = async ({ symbol }: { symbol: string }) => {
 const getETHAssetDecimal = (symbol: string) => {
   if (symbol === Chain.Ethereum) return BaseDecimal.ETH;
   const splitSymbol = symbol.split("-");
-  const address = splitSymbol.length === 1 ? undefined : splitSymbol[splitSymbol.length - 1];
+  const address =
+    splitSymbol.length === 1 ? undefined : splitSymbol[splitSymbol.length - 1]?.toLowerCase();
 
   return address?.startsWith("0x")
     ? getContractDecimals({ chain: Chain.Ethereum, to: address })

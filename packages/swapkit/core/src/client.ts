@@ -11,6 +11,7 @@ import {
   SwapKitError,
   type SwapParams,
 } from "@swapkit/helpers";
+import type { BaseEVMWallet } from "@swapkit/toolbox-evm";
 
 import {
   getExplorerAddressUrl as getAddressUrl,
@@ -149,7 +150,7 @@ export function SwapKit<
       return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
     }
 
-    const walletMethods = connectedWallets[chain as EVMChain];
+    const walletMethods = connectedWallets[chain] as BaseEVMWallet;
     const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
     if (!walletAction) throw new SwapKitError("core_wallet_connection_not_found");
 
@@ -179,6 +180,7 @@ export function SwapKit<
    * TODO: Figure out validation without connecting to wallet
    */
   function validateAddress({ address, chain }: { address: string; chain: Chain }) {
+    // @ts-expect-error TODO add validate address to radix
     return getWallet(chain)?.validateAddress?.(address);
   }
 
@@ -199,6 +201,7 @@ export function SwapKit<
     }
 
     if ("getBalance" in wallet) {
+      // @ts-expect-error TODO add getBalance to radix
       const balance = await wallet.getBalance(wallet.address, potentialScamFilter);
       wallet.balance = balance?.length ? balance : defaultBalance;
     }
