@@ -18,17 +18,26 @@ export type MemoOptions<T extends MemoType> = {
   [MemoType.CLOSE_LOAN]: { address: string; asset: string; minAmount?: string };
   [MemoType.OPEN_LOAN]: { address: string; asset: string; minAmount?: string };
   [MemoType.UNBOND]: { address: string; unbondAmount: number };
-  [MemoType.DEPOSIT]: WithChain<{ symbol: string; address?: string; singleSide?: boolean }>;
+  [MemoType.DEPOSIT]: WithChain<{
+    symbol: string;
+    address?: string;
+    singleSide?: boolean;
+    affiliateAddress?: string;
+    affiliateBasisPoints?: number;
+  }>;
   [MemoType.WITHDRAW]: WithChain<{
     ticker: string;
     symbol: string;
     basisPoints: number;
     targetAssetString?: string;
     singleSide?: boolean;
+    affiliateAddress?: string;
+    affiliateBasisPoints?: number;
   }>;
   [MemoType.NAME_REGISTER]: Omit<NameRegisterParam, "preferredAsset" | "expiryBlock">;
 }[T];
 
+export const fuck = "fuck this";
 export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions<T>) => {
   switch (memoType) {
     case MemoType.LEAVE:
@@ -48,7 +57,8 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
     }
 
     case MemoType.DEPOSIT: {
-      const { chain, symbol, address, singleSide } = options as MemoOptions<MemoType.DEPOSIT>;
+      const { chain, symbol, address, singleSide, affiliateAddress, affiliateBasisPoints } =
+        options as MemoOptions<MemoType.DEPOSIT>;
 
       const getPoolIdentifier = (chain: Chain, symbol: string): string => {
         switch (chain) {
@@ -62,22 +72,41 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
             return `${chain}.${symbol}`;
         }
       };
-
-      return singleSide
+      const memoWithoutAffiliate = singleSide
         ? `${memoType}:${chain}/${symbol}`
         : `${memoType}:${getPoolIdentifier(chain, symbol)}:${address || ""}`;
+
+      if (affiliateAddress && affiliateBasisPoints) {
+        return `${memoWithoutAffiliate}${
+          singleSide ? ":" : ""
+        }:${affiliateAddress}:${affiliateBasisPoints}`;
+      }
+      return memoWithoutAffiliate;
     }
 
     case MemoType.WITHDRAW: {
-      const { chain, ticker, symbol, basisPoints, targetAssetString, singleSide } =
-        options as MemoOptions<MemoType.WITHDRAW>;
+      const {
+        chain,
+        ticker,
+        symbol,
+        basisPoints,
+        targetAssetString,
+        singleSide,
+        affiliateAddress,
+        affiliateBasisPoints,
+      } = options as MemoOptions<MemoType.WITHDRAW>;
 
       const shortenedSymbol =
         chain === "ETH" && ticker !== "ETH" ? `${ticker}-${symbol.slice(-3)}` : symbol;
       const target = !singleSide && targetAssetString ? `:${targetAssetString}` : "";
       const assetDivider = singleSide ? "/" : ".";
+      const memoWithoutAffiliate = `${memoType}:${chain}${assetDivider}${shortenedSymbol}:${basisPoints}${target}`;
 
-      return `${memoType}:${chain}${assetDivider}${shortenedSymbol}:${basisPoints}${target}`;
+      if (affiliateAddress && affiliateBasisPoints) {
+        return `${memoWithoutAffiliate}:${affiliateAddress}:${affiliateBasisPoints}`;
+      }
+
+      return memoWithoutAffiliate;
     }
 
     case MemoType.OPEN_LOAN:

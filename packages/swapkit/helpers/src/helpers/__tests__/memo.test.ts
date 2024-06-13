@@ -55,6 +55,17 @@ describe("getMemoFor", () => {
       expect(result).toBe("+:ETH/ETH");
     });
 
+    test("returns correct memo for Deposit (single side) with affiliate information", () => {
+      const result = getMemoFor(MemoType.DEPOSIT, {
+        chain: Chain.Ethereum,
+        symbol: "ETH",
+        singleSide: true,
+        affiliateAddress: "t",
+        affiliateBasisPoints: 100,
+      });
+      expect(result).toBe("+:ETH/ETH::t:100");
+    });
+
     test("returns correct memo for Deposit (dual side)", () => {
       const result = getMemoFor(MemoType.DEPOSIT, {
         chain: Chain.Avalanche,
@@ -62,6 +73,17 @@ describe("getMemoFor", () => {
         address: "0xABC123",
       });
       expect(result).toBe("+:AVAX.AVAX:0xABC123");
+    });
+
+    test("returns correct memo for Deposit (dual side) with affiliate info", () => {
+      const result = getMemoFor(MemoType.DEPOSIT, {
+        chain: Chain.Avalanche,
+        symbol: "AVAX",
+        address: "0xABC123",
+        affiliateAddress: "t",
+        affiliateBasisPoints: 100,
+      });
+      expect(result).toBe("+:AVAX.AVAX:0xABC123:t:100");
     });
   });
 
@@ -76,6 +98,18 @@ describe("getMemoFor", () => {
       });
       expect(result).toBe("-:BTC/BTC:10000");
     });
+    test("returns correct memo for Withdraw (single side) with affiliate info", () => {
+      const result = getMemoFor(MemoType.WITHDRAW, {
+        chain: Chain.Bitcoin,
+        ticker: "BTC",
+        symbol: "BTC",
+        basisPoints: 10000,
+        singleSide: true,
+        affiliateAddress: "t",
+        affiliateBasisPoints: 100,
+      });
+      expect(result).toBe("-:BTC/BTC:10000:t:100");
+    });
 
     test("returns correct memo for Withdraw (dual side)", () => {
       const result = getMemoFor(MemoType.WITHDRAW, {
@@ -86,6 +120,19 @@ describe("getMemoFor", () => {
         targetAssetString: "ETH.ETH",
       });
       expect(result).toBe("-:ETH.ETH:100:ETH.ETH");
+    });
+
+    test("returns correct memo for Withdraw (dual side) with affiliate info", () => {
+      const result = getMemoFor(MemoType.WITHDRAW, {
+        chain: Chain.Ethereum,
+        ticker: "ETH",
+        symbol: "ETH",
+        basisPoints: 100,
+        targetAssetString: "ETH.ETH",
+        affiliateAddress: "t",
+        affiliateBasisPoints: 100,
+      });
+      expect(result).toBe("-:ETH.ETH:100:ETH.ETH:t:100");
     });
   });
 });
