@@ -10,7 +10,7 @@
   - @swapkit/wallet-keystore@1.0.0-rc.148
   - @swapkit/chainflip@1.0.0-rc.63
   - @swapkit/core@1.0.0-rc.159
-  - @swapkit/plugin-evm@1.0.0-rc.7
+  - @swapkit/evm@1.0.0-rc.7
   - @swapkit/thorchain@1.0.0-rc.61
   - @swapkit/toolbox-cosmos@1.0.0-rc.134
   - @swapkit/toolbox-evm@1.0.0-rc.114
@@ -33,7 +33,7 @@
 - Updated dependencies []:
   - @swapkit/core@1.0.0-rc.158
   - @swapkit/chainflip@1.0.0-rc.62
-  - @swapkit/plugin-evm@1.0.0-rc.6
+  - @swapkit/evm@1.0.0-rc.6
   - @swapkit/thorchain@1.0.0-rc.60
   - @swapkit/toolbox-cosmos@1.0.0-rc.133
   - @swapkit/toolbox-evm@1.0.0-rc.113
@@ -57,7 +57,7 @@
 - [#819](https://github.com/thorswap/SwapKit/pull/819) [`f389990`](https://github.com/thorswap/SwapKit/commit/f389990a4a14566315fe353a464d916fc247ce89) Thanks [@towanTG](https://github.com/towanTG)! - Type fixes and base URL fix
 
 - Updated dependencies [[`f389990`](https://github.com/thorswap/SwapKit/commit/f389990a4a14566315fe353a464d916fc247ce89)]:
-  - @swapkit/plugin-evm@1.0.0-rc.5
+  - @swapkit/evm@1.0.0-rc.5
   - @swapkit/thorchain@1.0.0-rc.59
   - @swapkit/core@1.0.0-rc.157
   - @swapkit/chainflip@1.0.0-rc.61
@@ -83,7 +83,7 @@
 - Updated dependencies []:
   - @swapkit/chainflip@1.0.0-rc.60
   - @swapkit/core@1.0.0-rc.156
-  - @swapkit/plugin-evm@1.0.0-rc.4
+  - @swapkit/evm@1.0.0-rc.4
   - @swapkit/thorchain@1.0.0-rc.58
   - @swapkit/toolbox-cosmos@1.0.0-rc.131
   - @swapkit/toolbox-evm@1.0.0-rc.111
@@ -107,7 +107,7 @@
   - @swapkit/chainflip@1.0.0-rc.59
   - @swapkit/thorchain@1.0.0-rc.57
   - @swapkit/core@1.0.0-rc.155
-  - @swapkit/plugin-evm@1.0.0-rc.3
+  - @swapkit/evm@1.0.0-rc.3
   - @swapkit/toolbox-cosmos@1.0.0-rc.130
   - @swapkit/toolbox-evm@1.0.0-rc.110
   - @swapkit/toolbox-substrate@1.0.0-rc.39
@@ -127,7 +127,7 @@
 ### Patch Changes
 
 - Updated dependencies [[`fd4c1ce`](https://github.com/thorswap/SwapKit/commit/fd4c1ce3c2086ae45c4417c3b07cf866412d29fe)]:
-  - @swapkit/plugin-evm@1.0.0-rc.2
+  - @swapkit/evm@1.0.0-rc.2
   - @swapkit/chainflip@1.0.0-rc.58
   - @swapkit/thorchain@1.0.0-rc.56
   - @swapkit/toolbox-evm@1.0.0-rc.109
@@ -152,7 +152,7 @@
 - [#805](https://github.com/thorswap/SwapKit/pull/805) [`9df63f9`](https://github.com/thorswap/SwapKit/commit/9df63f95384d518707e8ec45e4f19c63dc3d6a32) Thanks [@towanTG](https://github.com/towanTG)! - Adds EVM plugin and fixes v2 fetch quote client
 
 - Updated dependencies [[`9df63f9`](https://github.com/thorswap/SwapKit/commit/9df63f95384d518707e8ec45e4f19c63dc3d6a32)]:
-  - @swapkit/plugin-evm@1.0.0-rc.1
+  - @swapkit/evm@1.0.0-rc.1
   - @swapkit/chainflip@1.0.0-rc.57
   - @swapkit/core@1.0.0-rc.153
   - @swapkit/thorchain@1.0.0-rc.55
