@@ -1,5 +1,16 @@
 # @swapkit/wallet-exodus
 
+## 1.0.0-rc.12
+
+### Patch Changes
+
+- [#830](https://github.com/thorswap/SwapKit/pull/830) [`87d3761`](https://github.com/thorswap/SwapKit/commit/87d37612df2a3a837dd2b16465804f1d01207b4b) Thanks [@towanTG](https://github.com/towanTG)! - Bumps exodus version
+
+- Updated dependencies [[`aa10e7a`](https://github.com/thorswap/SwapKit/commit/aa10e7a847c18abacbbdbefec8a93487cff2a524)]:
+  - @swapkit/helpers@1.0.0-rc.109
+  - @swapkit/toolbox-evm@1.0.0-rc.115
+  - @swapkit/toolbox-utxo@1.0.0-rc.118
+
 ## 1.0.0-rc.11
 
 ### Patch Changes
