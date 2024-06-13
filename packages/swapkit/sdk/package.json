@@ -4,7 +4,7 @@
     "@swapkit/core": "workspace:*",
     "@swapkit/thorchain": "workspace:*",
     "@swapkit/chainflip": "workspace:*",
-    "@swapkit/plugin-evm": "workspace:*",
+    "@swapkit/evm": "workspace:*",
     "@swapkit/tokens": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
@@ -25,7 +25,7 @@
     "@swapkit/core": "workspace:*",
     "@swapkit/thorchain": "workspace:*",
     "@swapkit/chainflip": "workspace:*",
-    "@swapkit/plugin-evm": "workspace:*",
+    "@swapkit/evm": "workspace:*",
     "@swapkit/tokens": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
@@ -46,7 +46,10 @@
   "devDependencies": {
     "bun-types": "1.1.8"
   },
-  "files": ["src/", "dist/"],
+  "files": [
+    "src/",
+    "dist/"
+  ],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",

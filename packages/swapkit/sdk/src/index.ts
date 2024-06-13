@@ -1,6 +1,6 @@
 import { ChainflipPlugin } from "@swapkit/chainflip";
 import { SwapKit } from "@swapkit/core";
-import { EVMPlugin } from "@swapkit/plugin-evm";
+import { EVMPlugin } from "@swapkit/evm";
 import { MayachainPlugin, ThorchainPlugin } from "@swapkit/thorchain";
 import { coinbaseWallet } from "@swapkit/wallet-coinbase";
 import { evmWallet } from "@swapkit/wallet-evm-extensions";
