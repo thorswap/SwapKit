@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.109
+
+### Minor Changes
+
+- [#784](https://github.com/thorswap/SwapKit/pull/784) [`aa10e7a`](https://github.com/thorswap/SwapKit/commit/aa10e7a847c18abacbbdbefec8a93487cff2a524) Thanks [@towanTG](https://github.com/towanTG)! - AssetValue support for Radix resources
+
 ## 1.0.0-rc.108
 
 ### Patch Changes

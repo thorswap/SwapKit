@@ -1,5 +1,16 @@
 # @swapkit/evm
 
+## 1.0.0-rc.8
+
+### Patch Changes
+
+- [#829](https://github.com/thorswap/SwapKit/pull/829) [`6255eb0`](https://github.com/thorswap/SwapKit/commit/6255eb04cdbdbe7d81e29cc57363fb86ab74e586) Thanks [@towanTG](https://github.com/towanTG)! - Renamed packaged from plugin-evm
+
+- Updated dependencies [[`aa10e7a`](https://github.com/thorswap/SwapKit/commit/aa10e7a847c18abacbbdbefec8a93487cff2a524)]:
+  - @swapkit/helpers@1.0.0-rc.109
+  - @swapkit/api@1.0.0-rc.77
+  - @swapkit/toolbox-evm@1.0.0-rc.115
+
 ## 1.0.0-rc.7
 
 ### Patch Changes
