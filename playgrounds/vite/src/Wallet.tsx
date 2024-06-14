@@ -4,9 +4,10 @@ import type { WalletDataType } from "./types";
 type Props = {
   walletData: WalletDataType;
   setAsset: (asset: Todo) => void;
+  disconnect: () => void;
 };
 
-export const Wallet = ({ walletData, setAsset }: Props) => {
+export const Wallet = ({ walletData, setAsset, disconnect }: Props) => {
   if (!walletData) return null;
 
   return (
@@ -65,6 +66,9 @@ export const Wallet = ({ walletData, setAsset }: Props) => {
           </div>
           <button onClick={() => setAsset(b)} type="button">
             {b.toSignificant(6)} {b.ticker}
+          </button>
+          <button onClick={() => disconnect()} type="button">
+            Disconnect
           </button>
         </div>
       ))}

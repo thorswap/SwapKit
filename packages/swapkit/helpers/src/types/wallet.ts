@@ -39,6 +39,7 @@ export type ChainWallet = {
   address: string;
   balance: AssetValue[];
   walletType: WalletOption;
+  disconnect?: () => void;
 };
 
 export type EmptyWallet = { [key in Chain]?: unknown };
