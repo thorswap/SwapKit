@@ -1,5 +1,12 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.188
+
+### Patch Changes
+
+- Updated dependencies [[`92d6443`](https://github.com/thorswap/SwapKit/commit/92d6443c9312c805f5354d43b0667303d12b49d8)]:
+  - @swapkit/wallet-xdefi@1.0.0-rc.154
+
 ## 1.0.0-rc.187
 
 ### Patch Changes
