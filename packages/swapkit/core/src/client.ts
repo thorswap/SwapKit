@@ -62,8 +62,12 @@ export function SwapKit<
 
   const connectedWallets = {} as Wallet;
   const availablePlugins = Object.entries(compatPlugins).reduce(
-    (acc, [pluginName, { plugin, config }]) => {
-      const methods = plugin({ wallets: connectedWallets, stagenet, config });
+    (acc, [pluginName, { plugin, config: pluginConfig }]) => {
+      const methods = plugin({
+        wallets: connectedWallets,
+        stagenet,
+        config: pluginConfig ?? config,
+      });
 
       // @ts-expect-error
       acc[pluginName] = methods;
@@ -173,6 +177,9 @@ export function SwapKit<
   function getWallet<T extends Chain>(chain: T) {
     return connectedWallets[chain];
   }
+  function getAllWallets() {
+    return { ...connectedWallets };
+  }
   function getAddress<T extends Chain>(chain: T) {
     return getWallet(chain)?.address || "";
   }
@@ -230,6 +237,27 @@ export function SwapKit<
     throw new SwapKitError("core_plugin_swap_not_found");
   }
 
+  function disconnectAll() {
+    for (const chain of Object.keys(connectedWallets)) {
+      // @ts-expect-error: TODO
+      const wallet = connectedWallets[chain];
+      if ("disconnect" in wallet) {
+        wallet.disconnect();
+      }
+      // @ts-expect-error: TODO
+      delete connectedWallets[chain];
+    }
+  }
+
+  function disconnectChain(chain: Chain) {
+    const wallet = connectedWallets[chain];
+    const disconnect = wallet?.disconnect;
+    if (disconnect) {
+      disconnect();
+    }
+    delete connectedWallets[chain];
+  }
+
   return {
     ...availablePlugins,
     ...connectWalletMethods,
@@ -240,9 +268,12 @@ export function SwapKit<
     getExplorerAddressUrl: getAddressUrl,
     getExplorerTxUrl: getTxUrl,
     getWallet,
+    getAllWallets,
     getWalletWithBalance,
     isAssetValueApproved,
     swap,
     validateAddress,
+    disconnectAll,
+    disconnectChain,
   };
 }

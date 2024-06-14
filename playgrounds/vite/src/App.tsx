@@ -1,4 +1,4 @@
-import { AssetValue } from "@swapkit/core";
+import { AssetValue, type Chain } from "@swapkit/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { WalletWidget } from "@swapkit/wallet-exodus";
@@ -66,6 +66,18 @@ const App = () => {
     },
     [inputAsset, outputAsset]
   );
+
+  const disconnectChain = (chain: Chain) => {
+    if (!skClient) return;
+    skClient.disconnectChain(chain);
+    setWallet(Object.values(skClient.getAllWallets()));
+  };
+
+  const disconnectAll = () => {
+    if (!skClient) return;
+    skClient.disconnectAll();
+    setWallet([]);
+  };
 
   const Widgets = useMemo(
     () => ({
@@ -163,20 +175,33 @@ const App = () => {
             </div>
           </div>
 
-          {Array.isArray(wallet) ? (
-            wallet.map((walletData) => (
-              <Wallet
-                key={`${walletData?.address}-${walletData?.balance?.[0]?.chain}`}
-                setAsset={setAsset}
-                walletData={walletData}
-              />
-            ))
-          ) : (
-            <Wallet
-              key={`${wallet?.address}-${wallet?.balance?.[0].chain}`}
-              setAsset={setAsset}
-              walletData={wallet}
-            />
+          {skClient && (
+            <>
+              <button onClick={disconnectAll} type="button">
+                Disconnect All
+              </button>
+              {Array.isArray(wallet) ? (
+                wallet.map((walletData) => (
+                  <Wallet
+                    key={`${walletData?.address}-${walletData?.balance?.[0]?.chain}`}
+                    setAsset={setAsset}
+                    walletData={walletData}
+                    disconnect={() =>
+                      disconnectChain(walletData?.balance?.[0].chain as Chain)
+                    }
+                  />
+                ))
+              ) : (
+                <Wallet
+                  key={`${wallet?.address}-${wallet?.balance?.[0].chain}`}
+                  setAsset={setAsset}
+                  walletData={wallet}
+                  disconnect={() =>
+                    disconnectChain(wallet?.balance?.[0].chain as Chain)
+                  }
+                />
+              )}
+            </>
           )}
           <WalletWidget />
         </div>

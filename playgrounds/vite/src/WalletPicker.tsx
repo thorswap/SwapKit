@@ -20,7 +20,12 @@ type Props = {
 };
 
 const walletOptions = Object.values(WalletOption).filter(
-  (o) => ![WalletOption.KEPLR, WalletOption.EXODUS].includes(o)
+  (o) =>
+    ![
+      WalletOption.KEPLR,
+      WalletOption.EXODUS,
+      WalletOption.RADIX_WALLET,
+    ].includes(o)
 );
 
 const AllChainsSupported = [
