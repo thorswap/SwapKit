@@ -1,5 +1,11 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.154
+
+### Patch Changes
+
+- [#837](https://github.com/thorswap/SwapKit/pull/837) [`92d6443`](https://github.com/thorswap/SwapKit/commit/92d6443c9312c805f5354d43b0667303d12b49d8) Thanks [@towanTG](https://github.com/towanTG)! - Fixes cosmos transfer token denom
+
 ## 1.0.0-rc.153
 
 ### Patch Changes
