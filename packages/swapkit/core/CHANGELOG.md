@@ -1,5 +1,19 @@
 # @swapkit/core
 
+## 1.0.0-rc.161
+
+### Patch Changes
+
+- [#835](https://github.com/thorswap/SwapKit/pull/835) [`dd7c87e`](https://github.com/thorswap/SwapKit/commit/dd7c87e457fcc275d34c5aee0a08ebf3a9d47612) Thanks [@towanTG](https://github.com/towanTG)! - Adds disconnect method to unset chain wallets
+
+- Updated dependencies [[`dd7c87e`](https://github.com/thorswap/SwapKit/commit/dd7c87e457fcc275d34c5aee0a08ebf3a9d47612)]:
+  - @swapkit/helpers@1.0.0-rc.110
+  - @swapkit/api@1.0.0-rc.78
+  - @swapkit/toolbox-cosmos@1.0.0-rc.136
+  - @swapkit/toolbox-evm@1.0.0-rc.116
+  - @swapkit/toolbox-substrate@1.0.0-rc.45
+  - @swapkit/toolbox-utxo@1.0.0-rc.119
+
 ## 1.0.0-rc.160
 
 ### Patch Changes

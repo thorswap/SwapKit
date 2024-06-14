@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.110
+
+### Patch Changes
+
+- [#835](https://github.com/thorswap/SwapKit/pull/835) [`dd7c87e`](https://github.com/thorswap/SwapKit/commit/dd7c87e457fcc275d34c5aee0a08ebf3a9d47612) Thanks [@towanTG](https://github.com/towanTG)! - Adds disconnect method to unset chain wallets
+
 ## 1.0.0-rc.109
 
 ### Minor Changes
