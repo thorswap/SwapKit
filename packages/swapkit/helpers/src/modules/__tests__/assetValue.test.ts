@@ -118,6 +118,30 @@ describe("AssetValue", () => {
       expect(firstUsdc.eq(firstUsdc)).toBe(true);
       expect(firstUsdc.eq(secondUsdc)).toBe(true);
     });
+
+    test("check if assets have same value, even if not same asset", () => {
+      const firstThor = AssetValue.fromChainOrSignature("ETH.THOR", "20");
+      const secondThor = AssetValue.fromChainOrSignature("ETH.THOR", "35");
+      const thirdThor = AssetValue.fromChainOrSignature("ETH.THOR", "35");
+      const vThor = AssetValue.fromChainOrSignature("ETH.vTHOR", "20");
+
+      expect(firstThor.eqValueOnly(firstThor)).toBe(true);
+      expect(firstThor.eqValueOnly(secondThor)).toBe(false);
+      expect(secondThor.eqValueOnly(thirdThor)).toBe(true);
+      expect(firstThor.eqValueOnly(vThor)).toBe(true);
+    });
+
+    test("check if assets are identical, asset and value", () => {
+      const firstThor = AssetValue.fromChainOrSignature("ETH.THOR", "20");
+      const secondThor = AssetValue.fromChainOrSignature("ETH.THOR", "35");
+      const thirdThor = AssetValue.fromChainOrSignature("ETH.THOR", "35");
+      const vThor = AssetValue.fromChainOrSignature("ETH.vTHOR", "20");
+
+      expect(firstThor.eqAssetValue(firstThor)).toBe(true);
+      expect(firstThor.eqAssetValue(secondThor)).toBe(false);
+      expect(secondThor.eqAssetValue(thirdThor)).toBe(true);
+      expect(firstThor.eqAssetValue(vThor)).toBe(false);
+    });
   });
 
   describe("from bigint", () => {

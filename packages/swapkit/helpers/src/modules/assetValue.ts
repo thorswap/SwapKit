@@ -62,6 +62,14 @@ export class AssetValue extends BigIntArithmetics {
     return this.chain === chain && this.symbol === symbol;
   }
 
+  eqValueOnly(assetValue: AssetValue) {
+    return this.getValue("string") === assetValue.getValue("string");
+  }
+
+  eqAssetValue(assetValue: AssetValue) {
+    return this.eq(assetValue) && this.eqValue(assetValue);
+  }
+
   // THOR.RUNE
   // THOR.ETH.ETH
   // ETH.THOR-0x1234567890
