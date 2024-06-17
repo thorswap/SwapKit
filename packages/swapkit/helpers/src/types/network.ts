@@ -17,6 +17,7 @@ export enum RPCUrl {
   Optimism = "https://mainnet.optimism.io",
   Polkadot = "wss://rpc.polkadot.io",
   Polygon = "https://polygon-rpc.com",
+  Radix = "https://radix-mainnet.rpc.grove.city/v1/326002fc/core",
   THORChain = "https://rpc.thorswap.net",
   THORChainStagenet = "https://stagenet-rpc.ninerealms.com",
 }
@@ -39,5 +40,6 @@ export enum ExplorerUrl {
   Optimism = "https://optimistic.etherscan.io",
   Polkadot = "https://polkadot.subscan.io/",
   Polygon = "https://polygonscan.com",
+  Radix = "https://dashboard.radixdlt.com",
   THORChain = "https://runescan.io",
 }

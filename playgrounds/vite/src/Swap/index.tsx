@@ -1,5 +1,5 @@
-import type { AssetValue, QuoteResponseRoute, QuoteRoute } from "@swapkit/core";
 import { FeeOption } from "@swapkit/helpers";
+import type { AssetValue, QuoteResponseRoute } from "@swapkit/sdk";
 import { useCallback } from "react";
 
 import type { SwapKitClient } from "../swapKitClient";

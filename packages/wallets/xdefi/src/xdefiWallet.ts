@@ -195,7 +195,13 @@ function connectXDEFI({
         ethplorerApiKey,
       });
 
-      addChain({ ...walletMethods, address, balance: [], chain, walletType: WalletOption.XDEFI });
+      addChain({
+        ...walletMethods,
+        address,
+        balance: [],
+        chain,
+        walletType: WalletOption.XDEFI,
+      });
     });
 
     await Promise.all(promises);
