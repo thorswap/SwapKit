@@ -34,3 +34,5 @@ export const getToolboxByChain = <T extends keyof ToolboxType>(chain: T): Toolbo
       throw new Error(`Chain ${chain} is not supported`);
   }
 };
+
+export { evmValidateAddress } from "./BaseEVMToolbox.ts";

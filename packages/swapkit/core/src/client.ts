@@ -3,16 +3,27 @@ import {
   ApproveMode,
   type ApproveReturnType,
   AssetValue,
-  type Chain,
+  Chain,
   type ConnectConfig,
   type EVMChain,
   EVMChains,
   type ProviderName as PluginNameEnum,
   SwapKitError,
   type SwapParams,
+  type WalletChain,
 } from "@swapkit/helpers";
-import type { BaseEVMWallet } from "@swapkit/toolbox-evm";
+import {
+  type BaseEVMWallet,
+  type TransferParams as EVMTransferParams,
+  evmValidateAddress,
+} from "@swapkit/toolbox-evm";
 
+import {
+  type TransferParams as CosmosTransferParams,
+  cosmosValidateAddress,
+} from "@swapkit/toolbox-cosmos";
+import { substrateValidateAddress } from "@swapkit/toolbox-substrate";
+import { type UTXOTransferParams, utxoValidateAddress } from "@swapkit/toolbox-utxo";
 import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
@@ -183,12 +194,35 @@ export function SwapKit<
   function getAddress<T extends Chain>(chain: T) {
     return getWallet(chain)?.address || "";
   }
-  /**
-   * TODO: Figure out validation without connecting to wallet
-   */
+
   function validateAddress({ address, chain }: { address: string; chain: Chain }) {
-    // @ts-expect-error TODO add validate address to radix
-    return getWallet(chain)?.validateAddress?.(address);
+    switch (chain) {
+      case Chain.Arbitrum:
+      case Chain.Avalanche:
+      case Chain.Optimism:
+      case Chain.BinanceSmartChain:
+      case Chain.Polygon:
+      case Chain.Ethereum: {
+        return evmValidateAddress({ address });
+      }
+      case Chain.Polkadot: {
+        return substrateValidateAddress({ address, chain });
+      }
+      case Chain.Litecoin:
+      case Chain.Dash:
+      case Chain.Dogecoin:
+      case Chain.BitcoinCash:
+      case Chain.Bitcoin: {
+        return utxoValidateAddress({ address, chain });
+      }
+      case Chain.Cosmos:
+      case Chain.Kujira:
+      case Chain.Maya:
+      case Chain.THORChain: {
+        return cosmosValidateAddress({ address, chain });
+      }
+    }
+    return false;
   }
 
   function getBalance<T extends Chain>(chain: T, refresh?: boolean) {
@@ -237,6 +271,18 @@ export function SwapKit<
     throw new SwapKitError("core_plugin_swap_not_found");
   }
 
+  function transfer({
+    from,
+    recipient,
+    assetValue,
+    feeOptionKey,
+  }: UTXOTransferParams | EVMTransferParams | CosmosTransferParams) {
+    const chain = assetValue.chain as WalletChain;
+    const wallet = connectedWallets[chain];
+    if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
+    return wallet.transfer({ from, recipient, assetValue, feeOptionKey });
+  }
+
   function disconnectAll() {
     for (const chain of Object.keys(connectedWallets)) {
       // @ts-expect-error: TODO
@@ -272,6 +318,7 @@ export function SwapKit<
     getWalletWithBalance,
     isAssetValueApproved,
     swap,
+    transfer,
     validateAddress,
     disconnectAll,
     disconnectChain,

@@ -7,9 +7,9 @@ import {
   decodeAddress as decodePolkadotAddress,
   encodeAddress as encodePolkadotAddress,
 } from "@polkadot/util-crypto";
-import { type AssetValue, type SubstrateChain, SwapKitNumber } from "@swapkit/helpers";
+import { type AssetValue, Chain, type SubstrateChain, SwapKitNumber } from "@swapkit/helpers";
 
-import type { SubstrateNetwork } from "../types/network.ts";
+import { Network, type SubstrateNetwork } from "../types/network.ts";
 
 // TODO combine this type with the more general SK type
 type SubstrateTransferParams = {
@@ -170,6 +170,21 @@ export const BaseSubstrateToolbox = ({
     callback?: Callback<ISubmittableResult>,
   ) => signAndBroadcast(signer, tx, callback),
 });
+
+export const substrateValidateAddress = ({
+  address,
+  chain,
+}: { address: string; chain: Chain.Polkadot | Chain.Chainflip }) => {
+  switch (chain) {
+    case Chain.Polkadot: {
+      return validateAddress(address, Network.DOT.prefix || Network.GENERIC.prefix);
+    }
+    case Chain.Chainflip: {
+      return validateAddress(address, Network.FLIP.prefix || Network.GENERIC.prefix);
+    }
+  }
+  return false;
+};
 
 export type BaseSubstrateWallet = ReturnType<typeof BaseSubstrateToolbox>;
 export type SubstrateWallets = {
