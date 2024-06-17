@@ -1,5 +1,17 @@
 # @swapkit/thorchain
 
+## 1.0.0-rc.64
+
+### Patch Changes
+
+- Updated dependencies [[`5832030`](https://github.com/thorswap/SwapKit/commit/5832030cd5fedc4e914d9640117c4fb6637e40de), [`495cc0c`](https://github.com/thorswap/SwapKit/commit/495cc0c0f9e30cf1cbc42b7108f3c51d3e062a02)]:
+  - @swapkit/helpers@1.0.0-rc.111
+  - @swapkit/api@1.0.0-rc.79
+  - @swapkit/toolbox-substrate@1.0.0-rc.46
+  - @swapkit/toolbox-cosmos@1.0.0-rc.137
+  - @swapkit/toolbox-utxo@1.0.0-rc.120
+  - @swapkit/toolbox-evm@1.0.0-rc.117
+
 ## 1.0.0-rc.63
 
 ### Patch Changes
