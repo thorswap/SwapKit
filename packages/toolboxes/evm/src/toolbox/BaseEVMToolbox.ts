@@ -229,7 +229,7 @@ const approve = async (
 };
 
 // TODO - get from from signer or make it mandatory
-const transfer = (
+const transfer = async (
   provider: Provider | BrowserProvider,
   {
     assetValue,
@@ -237,7 +237,7 @@ const transfer = (
     recipient,
     feeOptionKey = FeeOption.Fast,
     data,
-    from,
+    from: fromOverride,
     maxFeePerGas,
     maxPriorityFeePerGas,
     gasPrice,
@@ -248,6 +248,10 @@ const transfer = (
 ) => {
   const txAmount = assetValue.getBaseValue("bigint");
   const chain = assetValue.chain as EVMChain;
+
+  const from = fromOverride || (await signer?.getAddress());
+
+  if (!from) throw new Error("No from address provided");
 
   if (!isGasAsset(assetValue)) {
     const contractAddress = getTokenAddress(assetValue, chain);
@@ -264,7 +268,6 @@ const transfer = (
       feeOption: feeOptionKey,
     });
   }
-
   // Transfer ETH
   const txObject = {
     ...tx,
@@ -447,14 +450,14 @@ const sendTransaction = async (
 
     try {
       const response = await signer.sendTransaction(txObject);
-      return typeof response?.hash === "string" ? response.hash : response;
+      return typeof response.hash;
     } catch (_error) {
       const txHex = await signer.signTransaction({
         ...txObject,
         from: address,
       });
       const response = await provider.broadcastTransaction(txHex);
-      return typeof response?.hash === "string" ? response.hash : response;
+      return typeof response.hash;
     }
   } catch (error) {
     throw new Error(`Error sending transaction: ${JSON.stringify(error)}`);
@@ -558,6 +561,8 @@ export const BaseEVMToolbox = ({
   transfer: (params: TransferParams) => transfer(provider, params, signer, isEIP1559Compatible),
   validateAddress,
 });
+
+export const evmValidateAddress = ({ address }: { address: string }) => validateAddress(address);
 
 export type BaseEVMWallet = ReturnType<typeof BaseEVMToolbox>;
 export type EVMWallets = {

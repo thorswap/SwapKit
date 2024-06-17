@@ -1,9 +1,10 @@
 import { SwapKitApi } from "@swapkit/api";
-import { AssetValue, Chain, type ChainId, type DerivationPath } from "@swapkit/helpers";
+import { AssetValue, Chain, ChainId, type DerivationPath } from "@swapkit/helpers";
 
 import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from "@cosmjs/crypto";
 import { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } from "@cosmjs/proto-signing";
-import type { CosmosClient } from "../cosmosClient.ts";
+import { CosmosClient } from "../cosmosClient.ts";
+import type { ToolboxParams } from "../index.ts";
 import type { BaseCosmosToolboxType } from "../thorchainUtils/types/client-types.ts";
 import { USK_KUJIRA_FACTORY_DENOM } from "../util.ts";
 
@@ -92,6 +93,59 @@ export const BaseCosmosToolbox = ({
     );
   },
 });
+
+export const cosmosValidateAddress = ({
+  address,
+  chain,
+  stagenet = false,
+  server,
+}: ToolboxParams & {
+  address: string;
+  chain: Chain.THORChain | Chain.Maya | Chain.Kujira | Chain.Cosmos;
+}) => {
+  switch (chain) {
+    case Chain.Cosmos: {
+      const client = new CosmosClient({
+        server: server || "https://node-router.thorswap.net/cosmos/rest",
+        chainId: ChainId.Cosmos,
+      });
+      return client.checkAddress(address);
+    }
+
+    case Chain.Kujira: {
+      const client = new CosmosClient({
+        server: server || "https://lcd-kujira.synergynodes.com/",
+        chainId: ChainId.Kujira,
+        prefix: "kujira",
+      });
+      return client.checkAddress(address);
+    }
+    case Chain.THORChain: {
+      const client = new CosmosClient({
+        server: stagenet
+          ? "https://stagenet-thornode.ninerealms.com"
+          : "https://thornode.thorswap.net",
+        chainId: stagenet ? ChainId.THORChainStagenet : ChainId.THORChain,
+        prefix: `${stagenet ? "s" : ""}maya`,
+        stagenet,
+      });
+      return client.checkAddress(address);
+    }
+
+    case Chain.Maya: {
+      const client = new CosmosClient({
+        server: stagenet
+          ? "https://stagenet.mayanode.mayachain.info"
+          : "https://mayanode.mayachain.info",
+        chainId: stagenet ? ChainId.MayaStagenet : ChainId.Maya,
+        prefix: `${stagenet ? "s" : ""}thor`,
+        stagenet,
+      });
+      return client.checkAddress(address);
+    }
+  }
+  return false;
+};
 
 export type BaseCosmosWallet = ReturnType<typeof BaseCosmosToolbox>;
 export type CosmosWallets = {
