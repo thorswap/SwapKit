@@ -1,41 +1,6 @@
-import { ChainflipPlugin } from "@swapkit/chainflip";
-import { SwapKit } from "@swapkit/core";
-import { EVMPlugin } from "@swapkit/plugin-evm";
-import { MayachainPlugin, ThorchainPlugin } from "@swapkit/thorchain";
-import { coinbaseWallet } from "@swapkit/wallet-coinbase";
-import { evmWallet } from "@swapkit/wallet-evm-extensions";
-import { keepkeyWallet } from "@swapkit/wallet-keepkey";
-import { keplrWallet } from "@swapkit/wallet-keplr";
-import { keystoreWallet } from "@swapkit/wallet-keystore";
-import { ledgerWallet } from "@swapkit/wallet-ledger";
-import { okxWallet } from "@swapkit/wallet-okx";
-import { trezorWallet } from "@swapkit/wallet-trezor";
-import { walletconnectWallet } from "@swapkit/wallet-wc";
-import { xdefiWallet } from "@swapkit/wallet-xdefi";
+import { createSwapKit } from "@swapkit/sdk";
 
-const wallets = {
-  ...coinbaseWallet,
-  ...evmWallet,
-  ...keepkeyWallet,
-  ...keplrWallet,
-  ...keystoreWallet,
-  ...ledgerWallet,
-  ...okxWallet,
-  ...trezorWallet,
-  ...walletconnectWallet,
-  ...xdefiWallet,
-  //   ...exodusWallet,
-} as const;
-
-const plugins = {
-  ...ThorchainPlugin,
-  ...MayachainPlugin,
-  chainflip: { ...ChainflipPlugin.chainflip, config: { brokerEndpoint: "" } },
-  ...MayachainPlugin,
-  ...EVMPlugin,
-} as const;
-
-export type SwapKitClient = ReturnType<typeof SwapKit<typeof plugins, typeof wallets>>;
+export type SwapKitClient = ReturnType<typeof createSwapKit>;
 
 const clientCache = new Map<string, SwapKitClient>();
 
@@ -46,6 +11,7 @@ export const getSwapKitClient = (
     blockchairApiKey?: string;
     walletConnectProjectId?: string;
     stagenet?: boolean;
+    brokerEndpoint?: string;
   } = {},
 ) => {
   const key = JSON.stringify(params);
@@ -54,19 +20,8 @@ export const getSwapKitClient = (
     return clientCache.get(key);
   }
 
-  const client = SwapKit({
+  const client = createSwapKit({
     stagenet: params.stagenet,
-    plugins,
-    wallets,
-    // apis: {
-    //   ETH: {
-    //     getBalance: (_address: string) => {
-    //       return Promise.resolve([
-    //         { chain: Chain.Ethereum, symbol: "ETH", value: "0.69", decimal: 18 },
-    //       ]);
-    //     },
-    //   },
-    // },
     config: {
       ...params,
       keepkeyConfig: {

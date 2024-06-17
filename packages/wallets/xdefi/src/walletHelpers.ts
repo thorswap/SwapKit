@@ -8,7 +8,7 @@ import {
   RPCUrl,
   erc20ABI,
 } from "@swapkit/helpers";
-import type { TransferParams } from "@swapkit/toolbox-cosmos";
+import { type TransferParams, getDenom } from "@swapkit/toolbox-cosmos";
 import type {
   ApproveParams,
   BrowserProvider,
@@ -184,7 +184,7 @@ export function cosmosTransfer({
 
     const coins = [
       {
-        denom: assetValue?.symbol === "MUON" ? "umuon" : "uatom",
+        denom: getDenom(`u${assetValue.symbol}`).toLowerCase(),
         amount: assetValue.getBaseValue("string"),
       },
     ];

@@ -1,13 +1,13 @@
-import { AssetValue } from "@swapkit/core";
+import { AssetValue, type Chain } from "@swapkit/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { WalletWidget } from "@swapkit/wallet-exodus";
+import Liquidity from "./Liquidity";
 import Loan from "./Loan";
 import Multisig from "./Multisig";
 import Send from "./Send";
 import Swap from "./Swap";
 import TNS from "./TNS";
-import Liquidity from "./Liquidity";
 import { Wallet } from "./Wallet";
 import { WalletPicker } from "./WalletPicker";
 import { getSwapKitClient } from "./swapKitClient";
@@ -36,6 +36,7 @@ const App = () => {
       "cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q",
     ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || "freekey",
     walletConnectProjectId: "",
+    brokerEndpoint: "",
   });
 
   const [{ inputAsset, outputAsset }, setSwapAssets] = useState<{
@@ -66,6 +67,18 @@ const App = () => {
     [inputAsset, outputAsset]
   );
 
+  const disconnectChain = (chain: Chain) => {
+    if (!skClient) return;
+    skClient.disconnectChain(chain);
+    setWallet(Object.values(skClient.getAllWallets()));
+  };
+
+  const disconnectAll = () => {
+    if (!skClient) return;
+    skClient.disconnectAll();
+    setWallet([]);
+  };
+
   const Widgets = useMemo(
     () => ({
       swap: skClient ? (
@@ -95,9 +108,13 @@ const App = () => {
           stagenet={stagenet}
         />
       ) : null,
-      liquidity: skClient ?
-        <Liquidity otherAsset={outputAsset} nativeAsset={inputAsset} skClient={skClient}  />
-        : null
+      liquidity: skClient ? (
+        <Liquidity
+          otherAsset={outputAsset}
+          nativeAsset={inputAsset}
+          skClient={skClient}
+        />
+      ) : null,
     }),
     [skClient, inputAsset, outputAsset, phrase, stagenet]
   );
@@ -158,20 +175,33 @@ const App = () => {
             </div>
           </div>
 
-          {Array.isArray(wallet) ? (
-            wallet.map((walletData) => (
-              <Wallet
-                key={`${walletData?.address}-${walletData?.balance?.[0]?.chain}`}
-                setAsset={setAsset}
-                walletData={walletData}
-              />
-            ))
-          ) : (
-            <Wallet
-              key={`${wallet?.address}-${wallet?.balance?.[0].chain}`}
-              setAsset={setAsset}
-              walletData={wallet}
-            />
+          {skClient && (
+            <>
+              <button onClick={disconnectAll} type="button">
+                Disconnect All
+              </button>
+              {Array.isArray(wallet) ? (
+                wallet.map((walletData) => (
+                  <Wallet
+                    key={`${walletData?.address}-${walletData?.balance?.[0]?.chain}`}
+                    setAsset={setAsset}
+                    walletData={walletData}
+                    disconnect={() =>
+                      disconnectChain(walletData?.balance?.[0].chain as Chain)
+                    }
+                  />
+                ))
+              ) : (
+                <Wallet
+                  key={`${wallet?.address}-${wallet?.balance?.[0].chain}`}
+                  setAsset={setAsset}
+                  walletData={wallet}
+                  disconnect={() =>
+                    disconnectChain(wallet?.balance?.[0].chain as Chain)
+                  }
+                />
+              )}
+            </>
           )}
           <WalletWidget />
         </div>

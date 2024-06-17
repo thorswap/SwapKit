@@ -12,7 +12,7 @@
     "ecpair": "2.1.0",
     "tiny-secp256k1": "2.2.3"
   },
-  "description": "THORSwap utxo",
+  "description": "SwapKit - Toolbox utxo",
   "devDependencies": {
     "@types/tiny-secp256k1": "2.0.1",
     "bun-types": "1.1.8"
@@ -52,5 +52,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.113"
+  "version": "1.0.0-rc.119"
 }
