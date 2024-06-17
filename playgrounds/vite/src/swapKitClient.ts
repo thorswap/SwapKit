@@ -12,6 +12,7 @@ import { okxWallet } from "@swapkit/wallet-okx";
 import { trezorWallet } from "@swapkit/wallet-trezor";
 import { walletconnectWallet } from "@swapkit/wallet-wc";
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
+import { talismanWallet } from "@swapkit/wallet-talisman"
 
 const wallets = {
   ...coinbaseWallet,
@@ -24,13 +25,14 @@ const wallets = {
   ...trezorWallet,
   ...walletconnectWallet,
   ...xdefiWallet,
+  ...talismanWallet
   //   ...exodusWallet,
 } as const;
 
 const plugins = {
   ...ThorchainPlugin,
   ...MayachainPlugin,
-  chainflip: { ...ChainflipPlugin.chainflip, config: { brokerEndpoint: "" } },
+  chainflip: { ...ChainflipPlugin.chainflip, config: { brokerEndpoint: "https://api.swapkit.dev/channel" } },
   ...MayachainPlugin,
   ...EVMPlugin,
 } as const;

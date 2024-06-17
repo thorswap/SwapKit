@@ -68,7 +68,6 @@ export const SwapInputs = ({
     inputAssetValue?: AssetValue
   ) => {
     if (!(inputAsset && outputAsset && inputAssetValue && skClient)) return;
-
     route.evmTransactionDetails?.approvalSpender &&
     (await skClient.isAssetValueApproved(
       inputAssetValue,
@@ -80,7 +79,7 @@ export const SwapInputs = ({
           inputAssetValue,
           route.evmTransactionDetails?.approvalSpender
         )
-      : new Error("Approval Spender not found");
+      : handleSwap(route)
   };
 
   return (

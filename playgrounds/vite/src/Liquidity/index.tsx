@@ -45,7 +45,6 @@ export default function Liquidity({
 
 
   const handleAddLiquidity = useCallback(async () => {
-    console.log(skClient)
     let result ;
     if(pluginMode == "mayaplugin")
     {

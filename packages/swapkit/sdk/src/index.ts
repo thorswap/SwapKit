@@ -11,6 +11,7 @@ import { okxWallet } from "@swapkit/wallet-okx";
 import { trezorWallet } from "@swapkit/wallet-trezor";
 import { walletconnectWallet } from "@swapkit/wallet-wc";
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
+import { talismanWallet } from "@swapkit/wallet-talisman";
 
 export * from "@swapkit/core";
 
@@ -26,6 +27,7 @@ const wallets = {
   ...trezorWallet,
   ...walletconnectWallet,
   ...xdefiWallet,
+  ...talismanWallet
 };
 
 type Params = Omit<
