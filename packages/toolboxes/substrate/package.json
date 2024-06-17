@@ -8,7 +8,7 @@
     "@polkadot/util-crypto": "12.6.2",
     "@swapkit/helpers": "workspace:*"
   },
-  "description": "SwapKit - Toolbox substrate",
+  "description": "SwapKit Lib substrate",
   "devDependencies": {
     "@polkadot/types": "10.12.6",
     "bun-types": "1.1.8"
@@ -44,5 +44,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.45"
+  "version": "1.0.0-rc.39"
 }

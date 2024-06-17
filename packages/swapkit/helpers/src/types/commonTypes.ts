@@ -43,10 +43,6 @@ export type ConnectConfig = {
       url: string;
     };
   };
-  /**
-   * @optional for setting the chainflip broker url
-   */
-  chainflipBrokerUrl?: string;
 };
 
 export type AddChainWalletParams<T extends Chain> = {

@@ -1,5 +1,5 @@
 ---
-"@swapkit/evm": patch
+"@swapkit/plugin-evm": patch
 "@swapkit/chainflip": patch
 "@swapkit/thorchain": patch
 "@swapkit/helpers": patch

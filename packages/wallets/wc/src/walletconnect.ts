@@ -259,14 +259,7 @@ async function getWalletconnect(
       (namespace: Todo) => namespace.accounts,
     );
 
-    const disconnect = async () => {
-      await client.disconnect({
-        topic: session.topic,
-        reason: { code: 0, message: "User disconnected" },
-      });
-    };
-
-    return { session, accounts, client, disconnect };
+    return { session, accounts, client };
   } catch (e) {
     console.error(e);
   } finally {
@@ -336,7 +329,6 @@ function connectWalletconnect({
 
       addChain({
         ...toolbox,
-        disconnect: walletconnect.disconnect,
         address,
         balance: [],
         chain,

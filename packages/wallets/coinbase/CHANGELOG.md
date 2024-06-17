@@ -1,53 +1,5 @@
 # @swapkit/wallet-coinbase
 
-## 1.0.0-rc.24
-
-### Patch Changes
-
-- Updated dependencies [[`dd7c87e`](https://github.com/thorswap/SwapKit/commit/dd7c87e457fcc275d34c5aee0a08ebf3a9d47612)]:
-  - @swapkit/helpers@1.0.0-rc.110
-  - @swapkit/toolbox-evm@1.0.0-rc.116
-
-## 1.0.0-rc.23
-
-### Patch Changes
-
-- Updated dependencies [[`aa10e7a`](https://github.com/thorswap/SwapKit/commit/aa10e7a847c18abacbbdbefec8a93487cff2a524)]:
-  - @swapkit/helpers@1.0.0-rc.109
-  - @swapkit/toolbox-evm@1.0.0-rc.115
-
-## 1.0.0-rc.22
-
-### Patch Changes
-
-- Updated dependencies [[`f860028`](https://github.com/thorswap/SwapKit/commit/f860028cf61f4818d74b57345ae643d6af07007e)]:
-  - @swapkit/helpers@1.0.0-rc.108
-  - @swapkit/toolbox-evm@1.0.0-rc.114
-
-## 1.0.0-rc.21
-
-### Patch Changes
-
-- Updated dependencies []:
-  - @swapkit/helpers@1.0.0-rc.107
-  - @swapkit/toolbox-evm@1.0.0-rc.113
-
-## 1.0.0-rc.20
-
-### Patch Changes
-
-- Updated dependencies [[`f389990`](https://github.com/thorswap/SwapKit/commit/f389990a4a14566315fe353a464d916fc247ce89)]:
-  - @swapkit/helpers@1.0.0-rc.106
-  - @swapkit/toolbox-evm@1.0.0-rc.112
-
-## 1.0.0-rc.19
-
-### Patch Changes
-
-- Updated dependencies [[`aa93dc5`](https://github.com/thorswap/SwapKit/commit/aa93dc509e6b8e0c3cf2615d072ab7f059784c5c)]:
-  - @swapkit/helpers@1.0.0-rc.105
-  - @swapkit/toolbox-evm@1.0.0-rc.111
-
 ## 1.0.0-rc.18
 
 ### Patch Changes

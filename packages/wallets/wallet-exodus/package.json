@@ -1,26 +1,34 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@radixdlt/radix-dapp-toolkit": "1.5.0",
-    "@radixdlt/wallet-sdk": "1.0.1",
-    "@swapkit/toolbox-radix": "workspace:*",
-    "@swapkit/helpers": "workspace:*"
+    "@swapkit/helpers": "workspace:*",
+    "@passkeys/core": "1.0.0",
+    "@passkeys/react": "1.0.0",
+    "sats-connect": "1.4.1"
   },
-  "description": "SwapKit Lib ",
+  "devDependencies": {
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*",
+    "sats-connect": "1.4.1",
+    "bun-types": "1.1.8"
+  },
+  "description": "SwapKit Wallet Exodus",
   "files": [
     "src/",
     "dist/"
   ],
   "peerDependencies": {
-    "@radixdlt/radix-dapp-toolkit": "1.5.0",
-    "@radixdlt/wallet-sdk": "1.0.1",
-    "@swapkit/toolbox-radix": "workspace:*",
-    "@swapkit/helpers": "workspace:*"
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*",
+    "@passkeys/core": "1.0.0",
+    "@passkeys/react": "1.0.0",
+    "sats-connect": "1.4.1"
   },
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
-  "name": "@swapkit/wallet-radix",
+  "name": "@swapkit/wallet-exodus",
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
@@ -36,5 +44,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.2"
+  "version": "1.0.0-rc.6"
 }

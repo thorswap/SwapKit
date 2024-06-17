@@ -2,8 +2,6 @@ import {
   Chain,
   type ConnectWalletParams,
   DerivationPath,
-  RPCUrl,
-  type WalletChain,
   WalletOption,
   type Witness,
   setRequestClientConfig,
@@ -212,18 +210,6 @@ const getWalletMethodsForChain = async ({
       return { address: signer.address, walletMethods: toolbox };
     }
 
-    case Chain.Radix: {
-      const { getRadixCoreApiClient, RadixToolbox, createPrivateKey, RadixMainnet } = await import(
-        "@swapkit/toolbox-radix"
-      );
-
-      const api = await getRadixCoreApiClient(RPCUrl.Radix, RadixMainnet);
-      const signer = await createPrivateKey(phrase);
-      const toolbox = await RadixToolbox({ api, signer });
-
-      return { address: await toolbox.getAddress(), walletMethods: toolbox };
-    }
-
     default:
       throw new Error(`Unsupported chain ${chain}`);
   }
@@ -235,7 +221,7 @@ function connectKeystore({
   rpcUrls,
   config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
 }: ConnectWalletParams) {
-  return async function connectKeystore(chains: WalletChain[], phrase: string, index = 0) {
+  return async function connectKeystore(chains: Chain[], phrase: string, index = 0) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const promises = chains.map(async (chain) => {

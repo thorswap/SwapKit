@@ -125,6 +125,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
     return depositToPool({ memo: memoString, assetValue: value });
   }
 
+
   function registerMAYAName({
     assetValue,
     ...param

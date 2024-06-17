@@ -11,7 +11,6 @@ import {
   SwapKitError,
   type SwapParams,
 } from "@swapkit/helpers";
-import type { BaseEVMWallet } from "@swapkit/toolbox-evm";
 
 import {
   getExplorerAddressUrl as getAddressUrl,
@@ -62,12 +61,8 @@ export function SwapKit<
 
   const connectedWallets = {} as Wallet;
   const availablePlugins = Object.entries(compatPlugins).reduce(
-    (acc, [pluginName, { plugin, config: pluginConfig }]) => {
-      const methods = plugin({
-        wallets: connectedWallets,
-        stagenet,
-        config: pluginConfig ?? config,
-      });
+    (acc, [pluginName, { plugin, config }]) => {
+      const methods = plugin({ wallets: connectedWallets, stagenet, config });
 
       // @ts-expect-error
       acc[pluginName] = methods;
@@ -154,7 +149,7 @@ export function SwapKit<
       return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
     }
 
-    const walletMethods = connectedWallets[chain] as BaseEVMWallet;
+    const walletMethods = connectedWallets[chain as EVMChain];
     const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
     if (!walletAction) throw new SwapKitError("core_wallet_connection_not_found");
 
@@ -177,9 +172,6 @@ export function SwapKit<
   function getWallet<T extends Chain>(chain: T) {
     return connectedWallets[chain];
   }
-  function getAllWallets() {
-    return { ...connectedWallets };
-  }
   function getAddress<T extends Chain>(chain: T) {
     return getWallet(chain)?.address || "";
   }
@@ -187,7 +179,6 @@ export function SwapKit<
    * TODO: Figure out validation without connecting to wallet
    */
   function validateAddress({ address, chain }: { address: string; chain: Chain }) {
-    // @ts-expect-error TODO add validate address to radix
     return getWallet(chain)?.validateAddress?.(address);
   }
 
@@ -208,7 +199,6 @@ export function SwapKit<
     }
 
     if ("getBalance" in wallet) {
-      // @ts-expect-error TODO add getBalance to radix
       const balance = await wallet.getBalance(wallet.address, potentialScamFilter);
       wallet.balance = balance?.length ? balance : defaultBalance;
     }
@@ -237,27 +227,6 @@ export function SwapKit<
     throw new SwapKitError("core_plugin_swap_not_found");
   }
 
-  function disconnectAll() {
-    for (const chain of Object.keys(connectedWallets)) {
-      // @ts-expect-error: TODO
-      const wallet = connectedWallets[chain];
-      if ("disconnect" in wallet) {
-        wallet.disconnect();
-      }
-      // @ts-expect-error: TODO
-      delete connectedWallets[chain];
-    }
-  }
-
-  function disconnectChain(chain: Chain) {
-    const wallet = connectedWallets[chain];
-    const disconnect = wallet?.disconnect;
-    if (disconnect) {
-      disconnect();
-    }
-    delete connectedWallets[chain];
-  }
-
   return {
     ...availablePlugins,
     ...connectWalletMethods,
@@ -268,12 +237,9 @@ export function SwapKit<
     getExplorerAddressUrl: getAddressUrl,
     getExplorerTxUrl: getTxUrl,
     getWallet,
-    getAllWallets,
     getWalletWithBalance,
     isAssetValueApproved,
     swap,
     validateAddress,
-    disconnectAll,
-    disconnectChain,
   };
 }

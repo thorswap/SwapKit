@@ -25,7 +25,6 @@ export enum WalletOption {
   WALLETCONNECT = "WALLETCONNECT",
   EIP6963 = "EIP6963",
   EXODUS = "EXODUS",
-  RADIX_WALLET = "RADIX_WALLET",
 }
 
 export enum LedgerErrorCode {
@@ -39,7 +38,6 @@ export type ChainWallet = {
   address: string;
   balance: AssetValue[];
   walletType: WalletOption;
-  disconnect?: () => void;
 };
 
 export type EmptyWallet = { [key in Chain]?: unknown };
@@ -48,6 +46,8 @@ export type BaseWallet<T extends EmptyWallet | unknown> = {
   // @ts-expect-error
   [key in Chain]: ChainWallet & T[key];
 };
+
+export type Wallet<T> = BaseWallet<T>;
 
 export type EIP6963ProviderInfo = {
   walletId: string;
