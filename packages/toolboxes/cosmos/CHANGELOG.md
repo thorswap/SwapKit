@@ -1,5 +1,15 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.137
+
+### Patch Changes
+
+- [#843](https://github.com/thorswap/SwapKit/pull/843) [`495cc0c`](https://github.com/thorswap/SwapKit/commit/495cc0c0f9e30cf1cbc42b7108f3c51d3e062a02) Thanks [@towanTG](https://github.com/towanTG)! - Some improvements to method exposure and interfaces
+
+- Updated dependencies [[`5832030`](https://github.com/thorswap/SwapKit/commit/5832030cd5fedc4e914d9640117c4fb6637e40de), [`495cc0c`](https://github.com/thorswap/SwapKit/commit/495cc0c0f9e30cf1cbc42b7108f3c51d3e062a02)]:
+  - @swapkit/helpers@1.0.0-rc.111
+  - @swapkit/api@1.0.0-rc.79
+
 ## 1.0.0-rc.136
 
 ### Patch Changes
