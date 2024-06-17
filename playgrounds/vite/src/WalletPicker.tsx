@@ -1,6 +1,7 @@
 import {
   Chain,
   EVMChains,
+  type WalletChain,
   WalletOption,
   getDerivationPathFor,
   getEIP6963Wallets,
@@ -19,7 +20,12 @@ type Props = {
 };
 
 const walletOptions = Object.values(WalletOption).filter(
-  (o) => ![WalletOption.KEPLR, WalletOption.EXODUS].includes(o)
+  (o) =>
+    ![
+      WalletOption.KEPLR,
+      WalletOption.EXODUS,
+      WalletOption.RADIX_WALLET,
+    ].includes(o)
 );
 
 const AllChainsSupported = [
@@ -39,7 +45,7 @@ const AllChainsSupported = [
   Chain.Maya,
   Chain.Kujira,
   Chain.THORChain,
-] as Chain[];
+] as WalletChain[];
 
 export const availableChainsByWallet = {
   [WalletOption.BRAVE]: EVMChains,
@@ -47,11 +53,7 @@ export const availableChainsByWallet = {
   [WalletOption.COINBASE_WEB]: EVMChains,
   [WalletOption.COINBASE_MOBILE]: EVMChains,
   [WalletOption.KEPLR]: [Chain.Cosmos],
-  [WalletOption.KEYSTORE]: [
-    ...AllChainsSupported,
-    Chain.Polkadot,
-    Chain.Chainflip,
-  ],
+  [WalletOption.KEYSTORE]: [...AllChainsSupported, Chain.Polkadot],
   [WalletOption.KEEPKEY]: [
     Chain.Arbitrum,
     Chain.Avalanche,
@@ -184,6 +186,10 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           // @ts-ignore
           return skClient.connectTrezor(chains, derivationPath);
         }
+        case WalletOption.RADIX_WALLET: {
+          // @ts-expect-error
+          return skClient.connectRadixWallet();
+        }
       }
     },
     [chains, skClient]
@@ -290,13 +296,13 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             Chain.Ethereum,
             Chain.Litecoin,
             Chain.Polkadot,
-            Chain.Chainflip,
             Chain.THORChain,
             Chain.Arbitrum,
             Chain.Kujira,
             Chain.Maya,
             Chain.Optimism,
             Chain.Polygon,
+            Chain.Radix,
           ].map((chain) => (
             // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
             <option

@@ -4,11 +4,13 @@
     "@swapkit/core": "workspace:*",
     "@swapkit/thorchain": "workspace:*",
     "@swapkit/chainflip": "workspace:*",
-    "@swapkit/plugin-evm": "workspace:*",
+    "@swapkit/evm": "workspace:*",
+    "@swapkit/tokens": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
+    "@swapkit/wallet-coinbase": "workspace:*",
     "@swapkit/wallet-evm-extensions": "workspace:*",
     "@swapkit/wallet-keepkey": "workspace:*",
     "@swapkit/wallet-keplr": "workspace:*",
@@ -23,11 +25,13 @@
     "@swapkit/core": "workspace:*",
     "@swapkit/thorchain": "workspace:*",
     "@swapkit/chainflip": "workspace:*",
-    "@swapkit/plugin-evm": "workspace:*",
+    "@swapkit/evm": "workspace:*",
+    "@swapkit/tokens": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
+    "@swapkit/wallet-coinbase": "workspace:*",
     "@swapkit/wallet-evm-extensions": "workspace:*",
     "@swapkit/wallet-keepkey": "workspace:*",
     "@swapkit/wallet-keplr": "workspace:*",
@@ -38,7 +42,7 @@
     "@swapkit/wallet-wc": "workspace:*",
     "@swapkit/wallet-xdefi": "workspace:*"
   },
-  "description": "SwapKit Lib swapkit-sdk",
+  "description": "SwapKit - SDK",
   "devDependencies": {
     "bun-types": "1.1.8"
   },
@@ -63,5 +67,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.181"
+  "version": "1.0.0-rc.188"
 }

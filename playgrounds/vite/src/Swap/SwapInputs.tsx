@@ -1,5 +1,5 @@
-import type { AssetValue, QuoteResponseRoute, SwapKit } from "@swapkit/core";
-import { ProviderName, SwapKitApi, SwapKitNumber } from "@swapkit/core";
+import type { AssetValue, QuoteResponseRoute, SwapKit } from "@swapkit/sdk";
+import { ProviderName, SwapKitApi, SwapKitNumber } from "@swapkit/sdk";
 import { useCallback, useState } from "react";
 
 type Props = {

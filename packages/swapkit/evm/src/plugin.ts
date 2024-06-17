@@ -2,18 +2,18 @@ import {
   ApproveMode,
   type ApproveReturnType,
   AssetValue,
+  type BaseWallet,
   type EVMChain,
   EVMChains,
   ProviderName,
   SwapKitError,
   type SwapParams,
-  type Wallet,
 } from "@swapkit/helpers";
 import type { EVMWallets } from "@swapkit/toolbox-evm";
 
 import { lowercasedContractAbiMapping } from "./contracts";
 
-type ChainWallets = Wallet<EVMWallets>;
+type ChainWallets = BaseWallet<EVMWallets>;
 
 type ApproveParams = {
   assetValue: AssetValue;

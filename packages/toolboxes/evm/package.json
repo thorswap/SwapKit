@@ -4,7 +4,7 @@
     "@swapkit/helpers": "workspace:*",
     "ethers": "6.11.1"
   },
-  "description": "THORSwap evm",
+  "description": "SwapKit - Toolbox evm",
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "3.0.5",
     "@nomicfoundation/hardhat-network-helpers": "1.0.10",
@@ -39,5 +39,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.110"
+  "version": "1.0.0-rc.116"
 }

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { Chain, type DerivationPathArray } from "@swapkit/helpers";
+import { Chain, type DerivationPathArray } from "../../types";
 
 import { findAssetBy } from "../asset.ts";
 import { derivationPathToString, getTHORNameCost } from "../others.ts";
@@ -49,7 +49,9 @@ describe("getAssetBy", () => {
       chain: Chain.Ethereum,
       contract: "0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48",
     });
-    expect(assetByChainAndContract).toBe("ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48");
+    expect(assetByChainAndContract?.toUpperCase()).toBe(
+      "ETH.USDC-0XA0B86991C6218B36C1D19D4A2E9EB0CE3606EB48",
+    );
   });
 
   test("return undefined if asset can't be found", async () => {

@@ -16,7 +16,7 @@ import {
   getProvider,
   getToolboxByChain,
 } from "@swapkit/toolbox-evm";
-import { BTCToolbox, type Psbt, type UTXOTransferParams } from "@swapkit/toolbox-utxo";
+import { BTCToolbox, Psbt, type UTXOTransferParams } from "@swapkit/toolbox-utxo";
 import {
   AddressPurpose,
   BitcoinNetworkType,
@@ -75,7 +75,7 @@ export const getWalletMethods = async ({
       await getAddress(getAddressOptions);
 
       async function signTransaction(psbt: Psbt) {
-        let signature = "";
+        let signedPsbt: Psbt | undefined;
         const signPsbtOptions: SignTransactionOptions = {
           getProvider,
           payload: {
@@ -93,7 +93,7 @@ export const getWalletMethods = async ({
             ],
           },
           onFinish: (response) => {
-            signature = response.psbtBase64;
+            signedPsbt = Psbt.fromBase64(response.psbtBase64);
           },
           onCancel: () => {
             throw Error("Signature canceled");
@@ -101,7 +101,7 @@ export const getWalletMethods = async ({
         };
 
         await satsSignTransaction(signPsbtOptions);
-        return signature;
+        return signedPsbt;
       }
 
       const transfer = (transferParams: UTXOTransferParams) => {

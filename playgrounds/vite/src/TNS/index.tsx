@@ -1,5 +1,5 @@
-import { AssetValue } from "@swapkit/core";
-import { Chain } from "@swapkit/helpers";
+import { AssetValue } from "@swapkit/sdk";
+import { Chain } from "@swapkit/sdk";
 import { useCallback, useState } from "react";
 
 export default function TNS({ skClient }: { skClient: any }) {
@@ -18,7 +18,10 @@ export default function TNS({ skClient }: { skClient: any }) {
         chain: selectedChain,
       });
 
-      window.open(`${skClient.getExplorerTxUrl(Chain.THORChain, txHash as string)}`, "_blank");
+      window.open(
+        `${skClient.getExplorerTxUrl(Chain.THORChain, txHash as string)}`,
+        "_blank"
+      );
     } catch (e) {
       console.error(e);
       alert(e);
@@ -38,7 +41,9 @@ export default function TNS({ skClient }: { skClient: any }) {
         >
           <div style={{ display: "flex", flex: 1, flexDirection: "row" }}>
             <div>
-              <select onChange={(e) => setSelectedChain(e.target.value as Chain)}>
+              <select
+                onChange={(e) => setSelectedChain(e.target.value as Chain)}
+              >
                 {Object.values(Chain).map((chain) => (
                   <option key={chain} value={chain}>
                     {chain}
