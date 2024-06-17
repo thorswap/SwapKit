@@ -13,6 +13,7 @@ export type EthereumWindowProvider = BrowserProvider & {
   isMetaMask?: boolean;
   isOkxWallet?: boolean;
   isTrust?: boolean;
+  isTalisman?: boolean;
   on: (event: string, callback?: () => void) => void;
   overrideIsMetaMask?: boolean;
   request: <T = unknown>(args: { method: string; params?: unknown[] }) => Promise<T>;
@@ -171,12 +172,12 @@ export const listWeb3EVMWallets = () => {
 
 export function getEIP6963Wallets() {
   const providers: EIP6963Provider[] = [];
-
+  
   function onAnnouncement(event: EIP6963AnnounceProviderEvent) {
     if (providers.map((p) => p.info.uuid).includes(event.detail.info.uuid)) return;
     providers.push(event.detail);
   }
-
+  
   window.addEventListener("eip6963:announceProvider", onAnnouncement);
   window.dispatchEvent(new Event("eip6963:requestProvider"));
 

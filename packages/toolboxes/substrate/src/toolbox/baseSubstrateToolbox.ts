@@ -1,6 +1,6 @@
 import { type ApiPromise, Keyring } from "@polkadot/api";
 import type { SubmittableExtrinsic } from "@polkadot/api/types";
-import type { Callback, IKeyringPair, ISubmittableResult } from "@polkadot/types/types";
+import type { Callback, IKeyringPair, ISubmittableResult, Signer } from "@polkadot/types/types";
 import { hexToU8a, isHex, u8aToHex } from "@polkadot/util";
 import {
   cryptoWaitReady,
@@ -15,7 +15,11 @@ import type { SubstrateNetwork } from "../types/network.ts";
 type SubstrateTransferParams = {
   recipient: string;
   assetValue: AssetValue;
-  from?: string;
+  from: string;
+};
+
+export const isKeyringPair = (account: IKeyringPair | Signer): account is IKeyringPair => {
+  return (account as IKeyringPair).sign !== undefined;
 };
 
 export const createKeyring = async (phrase: string, networkPrefix: number) => {
@@ -63,7 +67,7 @@ const createTransfer = (
 
 const transfer = async (
   api: ApiPromise,
-  signer: IKeyringPair,
+  signer: IKeyringPair | Signer,
   { recipient, assetValue, from }: SubstrateTransferParams,
 ) => {
   const transfer = createTransfer(api, {
@@ -71,25 +75,40 @@ const transfer = async (
     amount: assetValue.getBaseValue("number"),
   });
 
-  const tx = await transfer?.signAndSend(signer, {
-    nonce: await getNonce(api, from || signer.address),
+  if (isKeyringPair(signer)) {
+    const tx = await transfer?.signAndSend(signer, {
+      nonce: await getNonce(api, from || signer.address),
+    });
+    return tx?.toString();
+  }
+  const tx = await transfer?.signAndSend(from, {
+    signer,
+    nonce: await getNonce(api, from),
   });
-
   return tx?.toString();
 };
 
 const estimateGasFee = async (
   api: ApiPromise,
-  signer: IKeyringPair,
+  signer: IKeyringPair | Signer,
   gasAsset: AssetValue,
   { recipient, assetValue, from }: SubstrateTransferParams,
 ) => {
   const transfer = createTransfer(api, { recipient, amount: assetValue.getBaseValue("number") });
-
-  const paymentInfo = (await transfer?.paymentInfo(from || signer.address, {
-    nonce: await getNonce(api, from || signer.address),
+  if (isKeyringPair(signer)) {
+    const paymentInfo = (await transfer?.paymentInfo(from || signer.address, {
+      nonce: await getNonce(api, from || signer.address),
+    })) || { partialFee: 0 };
+    return gasAsset.set(
+      SwapKitNumber.fromBigInt(
+        BigInt(paymentInfo.partialFee.toString()),
+        gasAsset.decimal,
+      ).getValue("string"),
+    );
+  }
+  const paymentInfo = (await transfer?.paymentInfo(from, {
+    nonce: await getNonce(api, from),
   })) || { partialFee: 0 };
-
   return gasAsset.set(
     SwapKitNumber.fromBigInt(BigInt(paymentInfo.partialFee.toString()), gasAsset.decimal).getValue(
       "string",
@@ -147,14 +166,15 @@ export const BaseSubstrateToolbox = ({
   api: ApiPromise;
   network: SubstrateNetwork;
   gasAsset: AssetValue;
-  signer: IKeyringPair;
+  signer: IKeyringPair | Signer;
 }) => ({
   api,
   network,
   decodeAddress,
   encodeAddress,
   createKeyring: (phrase: string) => createKeyring(phrase, network.prefix),
-  getAddress: (keyring: IKeyringPair = signer) => keyring.address,
+  getAddress: (keyring: IKeyringPair | Signer = signer) =>
+    isKeyringPair(keyring) ? keyring.address : undefined,
   createTransfer: ({ recipient, assetValue }: { recipient: string; assetValue: AssetValue }) =>
     createTransfer(api, { recipient, amount: assetValue.getBaseValue("number") }),
   getBalance: (address: string) => getBalance(api, gasAsset, address),
@@ -162,13 +182,25 @@ export const BaseSubstrateToolbox = ({
   transfer: (params: SubstrateTransferParams) => transfer(api, signer, params),
   estimateGasFee: (params: SubstrateTransferParams) =>
     estimateGasFee(api, signer, gasAsset, params),
-  sign: (tx: SubmittableExtrinsic<"promise">) => sign(signer, tx),
+  sign: (tx: SubmittableExtrinsic<"promise">) => {
+    if (isKeyringPair(signer)) {
+      return sign(signer, tx);
+    }
+    throw new Error("Signer does not have keyring pair capabilities required for signing.");
+  },
   broadcast: (tx: SubmittableExtrinsic<"promise">, callback?: Callback<ISubmittableResult>) =>
     broadcast(tx, callback),
   signAndBroadcast: (
     tx: SubmittableExtrinsic<"promise">,
     callback?: Callback<ISubmittableResult>,
-  ) => signAndBroadcast(signer, tx, callback),
+  ) => {
+    if (isKeyringPair(signer)) {
+      return signAndBroadcast(signer, tx, callback);
+    }
+    throw new Error(
+      "Signer does not have keyring pair capabilities required for signing and broadcasting.",
+    );
+  },
 });
 
 export type BaseSubstrateWallet = ReturnType<typeof BaseSubstrateToolbox>;
