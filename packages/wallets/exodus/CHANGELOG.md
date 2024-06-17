@@ -1,5 +1,11 @@
 # @swapkit/wallet-exodus
 
+## 1.0.0-rc.14
+
+### Patch Changes
+
+- [#840](https://github.com/thorswap/SwapKit/pull/840) [`a4e1d40`](https://github.com/thorswap/SwapKit/commit/a4e1d4020db64de25c6bb678916a313e7f76b837) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Exodus signed psbt parsing
+
 ## 1.0.0-rc.13
 
 ### Patch Changes
