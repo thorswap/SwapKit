@@ -58,7 +58,7 @@ const createKeysForPath = ({
   return factory.fromPrivateKey(Buffer.from(master.privateKey), { network });
 };
 
-const validateAddress = ({ address, chain }: { address: string } & UTXOBaseToolboxParams) => {
+const validateAddress = ({ address, chain }: { address: string; chain: UTXOChain }) => {
   try {
     initEccLib(secp256k1);
     btcLibAddress.toOutputScript(address, getNetwork(chain));
@@ -352,6 +352,8 @@ export const BaseUTXOToolbox = (
   estimateMaxSendableAmount: async (params: Todo) =>
     estimateMaxSendableAmount({ ...params, ...baseToolboxParams }),
 });
+
+export const utxoValidateAddress = validateAddress;
 
 export type BaseUTXOWallet = ReturnType<typeof BaseUTXOToolbox>;
 export type UTXOWallets = { [key in UTXOChain]: BaseUTXOWallet };
