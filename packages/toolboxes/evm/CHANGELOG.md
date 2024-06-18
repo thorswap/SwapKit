@@ -1,5 +1,11 @@
 # @swapkit/toolbox-evm
 
+## 1.0.0-rc.118
+
+### Patch Changes
+
+- [#845](https://github.com/thorswap/SwapKit/pull/845) [`cf5dd71`](https://github.com/thorswap/SwapKit/commit/cf5dd712a5c5f42aa84ae12c447ccab4438e41a6) Thanks [@towanTG](https://github.com/towanTG)! - Uses BaseToolbox call instead of overwrite
+
 ## 1.0.0-rc.117
 
 ### Patch Changes
