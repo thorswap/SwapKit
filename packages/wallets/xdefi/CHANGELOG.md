@@ -1,5 +1,12 @@
 # @swapkit/wallet-xdefi
 
+## 1.0.0-rc.157
+
+### Patch Changes
+
+- Updated dependencies [[`669c0c6`](https://github.com/thorswap/SwapKit/commit/669c0c6a491403c966d2287b48c9ce550317cdd6)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.121
+
 ## 1.0.0-rc.156
 
 ### Patch Changes
