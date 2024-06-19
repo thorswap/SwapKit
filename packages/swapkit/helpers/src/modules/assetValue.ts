@@ -58,8 +58,12 @@ export class AssetValue extends BigIntArithmetics {
     return this.isSynthetic ? `${this.chain}.${this.symbol.replace("/", ".")}` : this.toString();
   }
 
-  eq({ chain, symbol }: { chain: Chain; symbol: string }) {
+  eqAsset({ chain, symbol }: { chain: Chain; symbol: string }) {
     return this.chain === chain && this.symbol === symbol;
+  }
+
+  eq(assetValue: AssetValue) {
+    return this.eqAsset(assetValue) && this.eqValue(assetValue);
   }
 
   // THOR.RUNE

@@ -1,5 +1,16 @@
 # @swapkit/api
 
+## 1.0.0-rc.79
+
+### Minor Changes
+
+- [#839](https://github.com/thorswap/SwapKit/pull/839) [`5832030`](https://github.com/thorswap/SwapKit/commit/5832030cd5fedc4e914d9640117c4fb6637e40de) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Missing prop and AssetValue utilities
+
+### Patch Changes
+
+- Updated dependencies [[`5832030`](https://github.com/thorswap/SwapKit/commit/5832030cd5fedc4e914d9640117c4fb6637e40de), [`495cc0c`](https://github.com/thorswap/SwapKit/commit/495cc0c0f9e30cf1cbc42b7108f3c51d3e062a02)]:
+  - @swapkit/helpers@1.0.0-rc.111
+
 ## 1.0.0-rc.78
 
 ### Patch Changes
