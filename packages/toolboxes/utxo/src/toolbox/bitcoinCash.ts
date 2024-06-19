@@ -59,7 +59,7 @@ type BCHMethods = {
 
 const chain = Chain.BitcoinCash as UTXOChain;
 
-const stripToCashAddress = (address: string) => stripPrefix(toCashAddress(address));
+export const stripToCashAddress = (address: string) => stripPrefix(toCashAddress(address));
 
 const buildBCHTx: BCHMethods["buildBCHTx"] = async ({
   assetValue,
