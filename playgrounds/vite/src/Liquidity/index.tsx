@@ -1,23 +1,22 @@
-import type { AssetValue, Chain, Wallet } from "@swapkit/sdk";
+import type { AssetValue} from "@swapkit/sdk";
 import { useCallback, useState } from "react";
 import type { SwapKitClient } from "swapKitClient";
 
 export default function Liquidity({
   otherAsset,
   nativeAsset,
-  skClient,
-}: {
-  skClient?: SwapKitClient;
-  otherAsset?: AssetValue;
-  nativeAsset?: AssetValue;
-  wallet?: Wallet;
-}) {
+  skClient }: {
+    skClient?: SwapKitClient;
+    otherAsset?: AssetValue;
+    nativeAsset?: AssetValue;
+  }) {
   const [nativeAssetValue, setNativeInput] = useState<AssetValue | undefined>();
   const [otherAssetValue, setOtherInput] = useState<AssetValue | undefined>();
   const [otherAssetTx, setOtherAssetTx] = useState<string>("");
   const [nativeAssetTx, setNativeAssetTx] = useState<string>("");
   const [mode, setMode] = useState<string>("addliquidity");
   const [pluginMode, setPluginMode] = useState<string>("thorplugin");
+  const [withdrawTx, setWithdrawTx] = useState<string>("");
   const [withdrawPercent, setWithdrawPercent] = useState<number>(0);
 
   const setRuneAmount = useCallback(
@@ -46,9 +45,8 @@ export default function Liquidity({
 
   const handleAddLiquidity = useCallback(async () => {
     console.log(skClient);
-    let result;
     if (pluginMode == "mayaplugin") {
-      result = await skClient?.mayachain.addLiquidity({
+      const result = await skClient?.mayachain.addLiquidity({
         // runeAddr: used when can't connect both chain at once (use addLiquidityPart)
         cacaoAssetValue: nativeAssetValue!,
         assetValue: otherAssetValue!,
@@ -60,32 +58,47 @@ export default function Liquidity({
       if (result?.assetTx) {
         setOtherAssetTx(result?.assetTx);
       }
-    } else {
-      result = await skClient?.thorchain.addLiquidity({
-        // runeAddr: used when can't connect both chain at once (use addLiquidityPart)
-        runeAssetValue: nativeAssetValue!,
-        assetValue: otherAssetValue!,
-        mode: "sym",
-      });
-      if (result?.runeTx) {
-        setNativeAssetTx(result?.runeTx);
-      }
-      if (result?.assetTx) {
-        setOtherAssetTx(result?.assetTx);
-      }
+      return;
+    } 
+    const result = await skClient?.thorchain.addLiquidity({
+      // runeAddr: used when can't connect both chain at once (use addLiquidityPart)
+      runeAssetValue: nativeAssetValue!,
+      assetValue: otherAssetValue!,
+      mode: "sym",
+    });
+    if (result?.runeTx) {
+      setNativeAssetTx(result?.runeTx);
     }
+    if (result?.assetTx) {
+      setOtherAssetTx(result?.assetTx);
+    }
+  
   }, [nativeAssetValue, otherAssetValue, pluginMode]);
 
   const handleWithdraw = useCallback(async () => {
-    const ethAddress = await skClient?.thorchain.savings({
+    if (pluginMode == "mayaplugin") {
+      const tx = await skClient?.mayachain.withdraw({
+          assetValue: nativeAsset!,
+          percent: withdrawPercent,
+          from: "sym",
+          to : "cacao"
+      })
+      if(tx)
+        setWithdrawTx(tx);
+      return;
+    }
+    const tx = await skClient?.thorchain.withdraw({
       assetValue: nativeAsset!,
       percent: withdrawPercent,
-      type: "withdraw",
-    });
-    console.log("🚀 ~ handleWithdraw ~ ethAddress:", ethAddress);
-  }, [nativeAsset, withdrawPercent]);
+      from: "sym",
+      to : "rune"
+    })
+    if(tx)
+      setWithdrawTx(tx);
+  }, [nativeAsset, withdrawPercent])
 
   return (
+  <div>
     <div>
       <div>
         <span>Plugin Type</span>
@@ -182,5 +195,5 @@ export default function Liquidity({
         </div>
       )}
     </div>
-  );
+  </div>)
 }
