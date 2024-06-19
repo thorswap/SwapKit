@@ -1,5 +1,11 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.121
+
+### Patch Changes
+
+- [#848](https://github.com/thorswap/SwapKit/pull/848) [`669c0c6`](https://github.com/thorswap/SwapKit/commit/669c0c6a491403c966d2287b48c9ce550317cdd6) Thanks [@towanTG](https://github.com/towanTG)! - Exports strip bch address method
+
 ## 1.0.0-rc.120
 
 ### Patch Changes
