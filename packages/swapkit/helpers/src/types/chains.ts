@@ -20,6 +20,7 @@ export enum Chain {
   Polygon = "MATIC",
   Radix = "XRD",
   THORChain = "THOR",
+  Solana = "SOL",
 }
 
 export type WalletChain = Exclude<Chain, Chain.Chainflip | Chain.Radix>;
@@ -52,6 +53,7 @@ export enum ChainId {
   Radix = "radix-mainnet",
   THORChain = "thorchain-mainnet-v1",
   THORChainStagenet = "thorchain-stagenet-v2",
+  Solana = "solana",
 }
 
 export const ChainIdToChain: Record<ChainId, Chain> = {
@@ -82,6 +84,7 @@ export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.Radix]: Chain.Radix,
   [ChainId.THORChainStagenet]: Chain.THORChain,
   [ChainId.THORChain]: Chain.THORChain,
+  [ChainId.Solana]: Chain.Solana,
 };
 
 type ChainNameType = keyof typeof Chain;
@@ -106,9 +109,10 @@ export enum BaseDecimal {
   MATIC = 18,
   MAYA = 10,
   OP = 18,
+  SOL = 9,
   THOR = 8,
-  ZEC = 8,
   XRD = 18,
+  ZEC = 8,
 }
 
 export type SubstrateChain = Chain.Polkadot | Chain.Chainflip;

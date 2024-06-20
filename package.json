@@ -28,7 +28,6 @@
     "build": "turbo run build --cache-dir=./.turbo-cache --continue",
     "clean": "rm -rf .turbo-cache && turbo run clean",
     "deps": "bun ncu --root -u -i -ws",
-    "generate": "bun turbo gen init; bun install",
     "generate:tokens": "bun run build --filter api; bun --cwd packages/swapkit/tokens generate-tokens; bun lint",
     "lint": "turbo run lint --cache-dir=./.turbo-cache --continue",
     "lint:ci": "turbo run lint type-check --cache-dir=./.turbo-cache --continue",

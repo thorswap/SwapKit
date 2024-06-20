@@ -77,14 +77,7 @@ const getWalletMethods = async () => {
   };
 };
 
-function connectRadixWallet({
-  addChain,
-  // @ts-expect-error
-  apis,
-  // @ts-expect-error
-  rpcUrls,
-  config: { thorswapApiKey },
-}: ConnectWalletParams) {
+function connectRadixWallet({ addChain, config: { thorswapApiKey } }: ConnectWalletParams) {
   return async function connectRadixWallet(_chains: Chain.Radix[]) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
