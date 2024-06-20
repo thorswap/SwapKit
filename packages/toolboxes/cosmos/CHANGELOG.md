@@ -1,5 +1,11 @@
 # @swapkit/toolbox-cosmos
 
+## 1.0.0-rc.138
+
+### Patch Changes
+
+- [`22a4e2f`](https://github.com/thorswap/SwapKit/commit/22a4e2f133c961867096217d63ac9c48d3ea8e46) Thanks [@towanTG](https://github.com/towanTG)! - Fixes cosmos address validation
+
 ## 1.0.0-rc.137
 
 ### Patch Changes

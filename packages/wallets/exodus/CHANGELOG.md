@@ -1,5 +1,11 @@
 # @swapkit/wallet-exodus
 
+## 1.0.0-rc.18
+
+### Patch Changes
+
+- [#851](https://github.com/thorswap/SwapKit/pull/851) [`a41b514`](https://github.com/thorswap/SwapKit/commit/a41b514e17163d62fac118a147b0f793460b3301) Thanks [@towanTG](https://github.com/towanTG)! - Bumps wallet lib
+
 ## 1.0.0-rc.17
 
 ### Patch Changes
