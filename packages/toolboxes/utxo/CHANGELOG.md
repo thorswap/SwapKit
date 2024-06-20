@@ -1,5 +1,11 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.122
+
+### Patch Changes
+
+- [`7e001ba`](https://github.com/thorswap/SwapKit/commit/7e001baff32ab364872b78740917907333be4679) Thanks [@towanTG](https://github.com/towanTG)! - Fixes UTXO address validation for BCH
+
 ## 1.0.0-rc.121
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @swapkit/thorchain
 
+## 1.0.0-rc.68
+
+### Patch Changes
+
+- Updated dependencies [[`7e001ba`](https://github.com/thorswap/SwapKit/commit/7e001baff32ab364872b78740917907333be4679)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.122
+
 ## 1.0.0-rc.67
 
 ### Patch Changes
