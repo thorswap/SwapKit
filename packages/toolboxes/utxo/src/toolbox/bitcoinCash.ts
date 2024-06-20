@@ -149,7 +149,7 @@ const transfer = async ({
     apiClient,
   });
 
-  const tx = await signTransaction({ builder, utxos });
+  const tx = signTransaction({ builder, utxos });
   const txHex = tx.toHex();
 
   return broadcastTx(txHex);

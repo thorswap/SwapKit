@@ -62,11 +62,14 @@ const errorMessages = {
   /**
    * Wallets
    */
+  wallet_connection_rejected_by_user: 20000,
   wallet_ledger_connection_error: 20001,
   wallet_ledger_connection_claimed: 20002,
   wallet_ledger_get_address_error: 20003,
   wallet_ledger_device_not_found: 20004,
   wallet_ledger_device_locked: 20005,
+
+  wallet_phantom_not_found: 20101,
 
   /**
    * Chainflip

@@ -324,16 +324,12 @@ export const BaseUTXOToolbox = (
   buildTx: (params: Todo) => buildTx({ ...params, ...baseToolboxParams }),
   getAddressFromKeys: (keys: ECPairInterface) => getAddressFromKeys({ keys, ...baseToolboxParams }),
   validateAddress: (address: string) => validateAddress({ address, ...baseToolboxParams }),
-
   createKeysForPath: (params: Todo) => createKeysForPath({ ...params, ...baseToolboxParams }),
 
-  getPrivateKeyFromMnemonic: async ({
-    phrase,
-    derivationPath,
-  }: {
+  getPrivateKeyFromMnemonic: async (params: {
     phrase: string;
     derivationPath: string;
-  }) => createKeysForPath({ phrase, derivationPath, ...baseToolboxParams }).toWIF(),
+  }) => createKeysForPath({ ...baseToolboxParams, ...params }).toWIF(),
 
   getBalance: async (address: string, _potentialScamFilter?: boolean) =>
     getBalance({ address, ...baseToolboxParams }),
