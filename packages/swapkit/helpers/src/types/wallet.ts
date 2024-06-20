@@ -9,23 +9,24 @@ declare global {
 }
 
 export enum WalletOption {
-  KEYSTORE = "KEYSTORE",
-  KEEPKEY = "KEEPKEY",
-  XDEFI = "XDEFI",
-  METAMASK = "METAMASK",
-  COINBASE_WEB = "COINBASE_WEB",
-  COINBASE_MOBILE = "COINBASE_MOBILE",
-  TREZOR = "TREZOR",
-  TRUSTWALLET_WEB = "TRUSTWALLET_WEB",
-  LEDGER = "LEDGER",
-  KEPLR = "KEPLR",
-  OKX = "OKX",
-  OKX_MOBILE = "OKX_MOBILE",
   BRAVE = "BRAVE",
-  WALLETCONNECT = "WALLETCONNECT",
+  COINBASE_MOBILE = "COINBASE_MOBILE",
+  COINBASE_WEB = "COINBASE_WEB",
   EIP6963 = "EIP6963",
   EXODUS = "EXODUS",
+  KEEPKEY = "KEEPKEY",
+  KEPLR = "KEPLR",
+  KEYSTORE = "KEYSTORE",
+  LEDGER = "LEDGER",
+  METAMASK = "METAMASK",
+  OKX = "OKX",
+  OKX_MOBILE = "OKX_MOBILE",
+  PHANTOM = "PHANTOM",
   RADIX_WALLET = "RADIX_WALLET",
+  TREZOR = "TREZOR",
+  TRUSTWALLET_WEB = "TRUSTWALLET_WEB",
+  WALLETCONNECT = "WALLETCONNECT",
+  XDEFI = "XDEFI",
 }
 
 export enum LedgerErrorCode {
@@ -43,10 +44,8 @@ export type ChainWallet = {
 };
 
 export type EmptyWallet = { [key in Chain]?: unknown };
-
-export type BaseWallet<T extends EmptyWallet | unknown> = {
-  // @ts-expect-error
-  [key in Chain]: ChainWallet & T[key];
+export type BaseWallet<T extends EmptyWallet | Record<string, unknown>> = {
+  [key in Chain]: ChainWallet & (T extends EmptyWallet ? T[key] : unknown);
 };
 
 export type EIP6963ProviderInfo = {

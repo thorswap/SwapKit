@@ -56,11 +56,6 @@ To run tests use `bun test` command.
 - PRs should have tests if it's possible
 - PRs should have changeset file if it's needed (see release section)
 
-#### New package
-
-To create new package use `bun generate` and pick one of the options
-It will setup the package with the necessary files for bundling and publishing.
-
 ### Release and publish
 
 Packages are automatically published to npm when new PR is merged to `main` & `develop` branches.

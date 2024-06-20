@@ -9,6 +9,7 @@ export function getExplorerTxUrl({ chain, txHash }: { txHash: string; chain: Cha
     case Chain.Kujira:
     case Chain.Cosmos:
     case Chain.THORChain:
+    case Chain.Solana:
       return `${baseUrl}/tx/${txHash.startsWith("0x") ? txHash.slice(2) : txHash}`;
 
     case Chain.Arbitrum:
@@ -34,5 +35,11 @@ export function getExplorerTxUrl({ chain, txHash }: { txHash: string; chain: Cha
 export function getExplorerAddressUrl({ chain, address }: { address: string; chain: Chain }) {
   const baseUrl = ChainToExplorerUrl[chain];
 
-  return `${baseUrl}/address/${address}`;
+  switch (chain) {
+    case Chain.Solana:
+      return `${baseUrl}/account/${address}`;
+
+    default:
+      return `${baseUrl}/address/${address}`;
+  }
 }

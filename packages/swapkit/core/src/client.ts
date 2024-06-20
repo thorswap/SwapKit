@@ -285,6 +285,7 @@ export function SwapKit<
     const chain = assetValue.chain as WalletChain;
     const wallet = connectedWallets[chain];
     if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
+
     return wallet.transfer({ from, recipient, assetValue, feeOptionKey });
   }
 
