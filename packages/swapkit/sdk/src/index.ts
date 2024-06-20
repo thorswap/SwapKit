@@ -9,10 +9,10 @@ import { keplrWallet } from "@swapkit/wallet-keplr";
 import { keystoreWallet } from "@swapkit/wallet-keystore";
 import { ledgerWallet } from "@swapkit/wallet-ledger";
 import { okxWallet } from "@swapkit/wallet-okx";
+import { talismanWallet } from "@swapkit/wallet-talisman";
 import { trezorWallet } from "@swapkit/wallet-trezor";
 import { walletconnectWallet } from "@swapkit/wallet-wc";
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
-import { talismanWallet } from "@swapkit/wallet-talisman";
 
 export * from "@swapkit/core";
 export * from "@swapkit/tokens";
@@ -35,7 +35,7 @@ const defaultWallets = {
   ...trezorWallet,
   ...walletconnectWallet,
   ...xdefiWallet,
-  ...talismanWallet
+  ...talismanWallet,
 };
 
 type Params = Omit<

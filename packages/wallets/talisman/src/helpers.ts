@@ -20,7 +20,6 @@ import { decodeAddress, encodeAddress } from "@polkadot/util-crypto";
 import { getToolboxByChain } from "@swapkit/toolbox-substrate";
 import type { InjectedWindow } from "./types";
 
-// Function to convert an address to a different format
 export const convertAddress = (inputAddress: string, newPrefix: number): string => {
   const decodedAddress = decodeAddress(inputAddress);
   const convertedAddress = encodeAddress(decodedAddress, newPrefix);
@@ -56,16 +55,22 @@ export const getWeb3WalletMethods = async ({
     covalentApiKey: covalentApiKey as string,
   };
 
-  const toolbox =
-    chain === Chain.Ethereum
-      ? ETHToolbox(toolboxParams)
-      : chain === Chain.Arbitrum
-        ? ARBToolbox(toolboxParams)
-        : chain === Chain.Polygon
-          ? MATICToolbox(toolboxParams)
-          : chain === Chain.Optimism
-            ? OPToolbox(toolboxParams)
-            : BSCToolbox(toolboxParams);
+  const toolbox = (() => {
+    switch (chain) {
+      case Chain.Ethereum:
+        return ETHToolbox(toolboxParams);
+      case Chain.Arbitrum:
+        return ARBToolbox(toolboxParams);
+      case Chain.Polygon:
+        return MATICToolbox(toolboxParams);
+      case Chain.Optimism:
+        return OPToolbox(toolboxParams);
+      case Chain.BinanceSmartChain:
+        return BSCToolbox(toolboxParams);
+      default:
+        throw new Error(`Unsupported chain: ${chain}`);
+    }
+  })();
 
   try {
     chain !== Chain.Ethereum &&

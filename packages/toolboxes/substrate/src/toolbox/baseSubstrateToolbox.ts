@@ -7,7 +7,12 @@ import {
   decodeAddress as decodePolkadotAddress,
   encodeAddress as encodePolkadotAddress,
 } from "@polkadot/util-crypto";
-import { type AssetValue, type SubstrateChain, SwapKitNumber } from "@swapkit/helpers";
+import {
+  type AssetValue,
+  type SubstrateChain,
+  SwapKitError,
+  SwapKitNumber,
+} from "@swapkit/helpers";
 
 import type { SubstrateNetwork } from "../types/network.ts";
 
@@ -15,11 +20,11 @@ import type { SubstrateNetwork } from "../types/network.ts";
 type SubstrateTransferParams = {
   recipient: string;
   assetValue: AssetValue;
-  from: string;
+  from?: string;
 };
 
 export const isKeyringPair = (account: IKeyringPair | Signer): account is IKeyringPair => {
-  return (account as IKeyringPair).sign !== undefined;
+  return "address" in account;
 };
 
 export const createKeyring = async (phrase: string, networkPrefix: number) => {
@@ -75,16 +80,17 @@ const transfer = async (
     amount: assetValue.getBaseValue("number"),
   });
 
-  if (isKeyringPair(signer)) {
-    const tx = await transfer?.signAndSend(signer, {
-      nonce: await getNonce(api, from || signer.address),
-    });
-    return tx?.toString();
-  }
-  const tx = await transfer?.signAndSend(from, {
-    signer,
-    nonce: await getNonce(api, from),
+  if (!transfer) return;
+
+  const address = from || (isKeyringPair(signer) && signer.address);
+  if (!address) return;
+
+  // Use a single signAndSend call with parameters set by ternary operators
+  const tx = await transfer.signAndSend(isKeyringPair(signer) ? signer : address, {
+    signer: isKeyringPair(signer) ? undefined : signer,
+    nonce: await getNonce(api, address),
   });
+
   return tx?.toString();
 };
 
@@ -95,19 +101,12 @@ const estimateGasFee = async (
   { recipient, assetValue, from }: SubstrateTransferParams,
 ) => {
   const transfer = createTransfer(api, { recipient, amount: assetValue.getBaseValue("number") });
-  if (isKeyringPair(signer)) {
-    const paymentInfo = (await transfer?.paymentInfo(from || signer.address, {
-      nonce: await getNonce(api, from || signer.address),
-    })) || { partialFee: 0 };
-    return gasAsset.set(
-      SwapKitNumber.fromBigInt(
-        BigInt(paymentInfo.partialFee.toString()),
-        gasAsset.decimal,
-      ).getValue("string"),
-    );
-  }
-  const paymentInfo = (await transfer?.paymentInfo(from, {
-    nonce: await getNonce(api, from),
+
+  const address = from || (isKeyringPair(signer) && signer.address);
+  if (!address) return;
+
+  const paymentInfo = (await transfer?.paymentInfo(address, {
+    nonce: await getNonce(api, address),
   })) || { partialFee: 0 };
   return gasAsset.set(
     SwapKitNumber.fromBigInt(BigInt(paymentInfo.partialFee.toString()), gasAsset.decimal).getValue(
@@ -186,7 +185,10 @@ export const BaseSubstrateToolbox = ({
     if (isKeyringPair(signer)) {
       return sign(signer, tx);
     }
-    throw new Error("Signer does not have keyring pair capabilities required for signing.");
+    throw new SwapKitError(
+      "core_wallet_not_keypair_wallet",
+      "Signer does not have keyring pair capabilities required for signing.",
+    );
   },
   broadcast: (tx: SubmittableExtrinsic<"promise">, callback?: Callback<ISubmittableResult>) =>
     broadcast(tx, callback),
@@ -197,8 +199,10 @@ export const BaseSubstrateToolbox = ({
     if (isKeyringPair(signer)) {
       return signAndBroadcast(signer, tx, callback);
     }
-    throw new Error(
-      "Signer does not have keyring pair capabilities required for signing and broadcasting.",
+
+    throw new SwapKitError(
+      "core_wallet_not_keypair_wallet",
+      "Signer does not have keyring pair capabilities required for signing.",
     );
   },
 });
