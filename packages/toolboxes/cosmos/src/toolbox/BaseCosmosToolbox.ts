@@ -126,7 +126,7 @@ export const cosmosValidateAddress = ({
           ? "https://stagenet-thornode.ninerealms.com"
           : "https://thornode.thorswap.net",
         chainId: stagenet ? ChainId.THORChainStagenet : ChainId.THORChain,
-        prefix: `${stagenet ? "s" : ""}maya`,
+        prefix: `${stagenet ? "s" : ""}thor`,
         stagenet,
       });
       return client.checkAddress(address);
@@ -138,7 +138,7 @@ export const cosmosValidateAddress = ({
           ? "https://stagenet.mayanode.mayachain.info"
           : "https://mayanode.mayachain.info",
         chainId: stagenet ? ChainId.MayaStagenet : ChainId.Maya,
-        prefix: `${stagenet ? "s" : ""}thor`,
+        prefix: `${stagenet ? "s" : ""}maya`,
         stagenet,
       });
       return client.checkAddress(address);
