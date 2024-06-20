@@ -67,6 +67,7 @@ const errorMessages = {
   wallet_phantom_not_found: 20101,
   wallet_xdefi_not_found: 20201,
   wallet_xdefi_failed_to_add_or_switch_network: 20202,
+
   /**
    * Chainflip
    */
