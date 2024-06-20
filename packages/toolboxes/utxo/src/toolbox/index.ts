@@ -54,4 +54,4 @@ export const getToolboxByChain = <T extends keyof ToolboxType>(chain: T): Toolbo
   }
 };
 
-export { stripToCashAddress } from "./bitcoinCash.ts";
+export { stripToCashAddress, stripPrefix, validateAddress } from "./bitcoinCash.ts";

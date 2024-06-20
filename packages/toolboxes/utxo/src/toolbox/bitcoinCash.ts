@@ -221,12 +221,13 @@ const buildTx = async ({
   return { psbt, utxos, inputs: inputs as UTXOType[] };
 };
 
-const stripPrefix = (address: string) => address.replace(/(bchtest:|bitcoincash:)/, "");
+export const stripPrefix = (address: string) => address.replace(/(bchtest:|bitcoincash:)/, "");
 
-const validateAddress = (address: string, _chain?: UTXOChain) => {
-  const startsWithBCH = address.startsWith("bitcoincash:");
-  if (startsWithBCH) return true;
-  return isValidAddress(address) && detectAddressNetwork(address) === bchNetwork.Mainnet;
+export const validateAddress = (address: string) => {
+  const strippedAddress = stripPrefix(address);
+  return (
+    isValidAddress(strippedAddress) && detectAddressNetwork(strippedAddress) === bchNetwork.Mainnet
+  );
 };
 
 const createKeysForPath: BCHMethods["createKeysForPath"] = ({

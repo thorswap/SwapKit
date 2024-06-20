@@ -30,6 +30,7 @@ import {
   getNetwork,
   standardFeeRates,
 } from "../utils/index.ts";
+import { validateAddress as validateBCHAddress } from "./bitcoinCash.ts";
 
 export const nonSegwitChains = [Chain.Dash, Chain.Dogecoin];
 
@@ -353,7 +354,19 @@ export const BaseUTXOToolbox = (
     estimateMaxSendableAmount({ ...params, ...baseToolboxParams }),
 });
 
-export const utxoValidateAddress = validateAddress;
+export const utxoValidateAddress = ({
+  chain,
+  address,
+}: {
+  chain: UTXOChain;
+  address: string;
+}) =>
+  chain === Chain.BitcoinCash
+    ? validateBCHAddress(address)
+    : validateAddress({
+        address,
+        chain,
+      });
 
 export type BaseUTXOWallet = ReturnType<typeof BaseUTXOToolbox>;
 export type UTXOWallets = { [key in UTXOChain]: BaseUTXOWallet };
