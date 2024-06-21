@@ -1,5 +1,26 @@
 # @swapkit/toolbox-utxo
 
+## 1.0.0-rc.122
+
+### Patch Changes
+
+- [`7e001ba`](https://github.com/thorswap/SwapKit/commit/7e001baff32ab364872b78740917907333be4679) Thanks [@towanTG](https://github.com/towanTG)! - Fixes UTXO address validation for BCH
+
+## 1.0.0-rc.121
+
+### Patch Changes
+
+- [#848](https://github.com/thorswap/SwapKit/pull/848) [`669c0c6`](https://github.com/thorswap/SwapKit/commit/669c0c6a491403c966d2287b48c9ce550317cdd6) Thanks [@towanTG](https://github.com/towanTG)! - Exports strip bch address method
+
+## 1.0.0-rc.120
+
+### Patch Changes
+
+- [#843](https://github.com/thorswap/SwapKit/pull/843) [`495cc0c`](https://github.com/thorswap/SwapKit/commit/495cc0c0f9e30cf1cbc42b7108f3c51d3e062a02) Thanks [@towanTG](https://github.com/towanTG)! - Some improvements to method exposure and interfaces
+
+- Updated dependencies [[`5832030`](https://github.com/thorswap/SwapKit/commit/5832030cd5fedc4e914d9640117c4fb6637e40de), [`495cc0c`](https://github.com/thorswap/SwapKit/commit/495cc0c0f9e30cf1cbc42b7108f3c51d3e062a02)]:
+  - @swapkit/helpers@1.0.0-rc.111
+
 ## 1.0.0-rc.119
 
 ### Patch Changes

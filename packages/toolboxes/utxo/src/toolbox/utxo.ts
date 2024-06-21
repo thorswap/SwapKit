@@ -30,6 +30,7 @@ import {
   getNetwork,
   standardFeeRates,
 } from "../utils/index.ts";
+import { validateAddress as validateBCHAddress } from "./bitcoinCash.ts";
 
 export const nonSegwitChains = [Chain.Dash, Chain.Dogecoin];
 
@@ -58,7 +59,7 @@ const createKeysForPath = ({
   return factory.fromPrivateKey(Buffer.from(master.privateKey), { network });
 };
 
-const validateAddress = ({ address, chain }: { address: string } & UTXOBaseToolboxParams) => {
+const validateAddress = ({ address, chain }: { address: string; chain: UTXOChain }) => {
   try {
     initEccLib(secp256k1);
     btcLibAddress.toOutputScript(address, getNetwork(chain));
@@ -352,6 +353,20 @@ export const BaseUTXOToolbox = (
   estimateMaxSendableAmount: async (params: Todo) =>
     estimateMaxSendableAmount({ ...params, ...baseToolboxParams }),
 });
+
+export const utxoValidateAddress = ({
+  chain,
+  address,
+}: {
+  chain: UTXOChain;
+  address: string;
+}) =>
+  chain === Chain.BitcoinCash
+    ? validateBCHAddress(address)
+    : validateAddress({
+        address,
+        chain,
+      });
 
 export type BaseUTXOWallet = ReturnType<typeof BaseUTXOToolbox>;
 export type UTXOWallets = { [key in UTXOChain]: BaseUTXOWallet };

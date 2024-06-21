@@ -1,5 +1,43 @@
 # @swapkit/wallet-keepkey
 
+## 1.0.0-rc.78
+
+### Patch Changes
+
+- Updated dependencies [[`7e001ba`](https://github.com/thorswap/SwapKit/commit/7e001baff32ab364872b78740917907333be4679)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.122
+
+## 1.0.0-rc.77
+
+### Patch Changes
+
+- Updated dependencies [[`22a4e2f`](https://github.com/thorswap/SwapKit/commit/22a4e2f133c961867096217d63ac9c48d3ea8e46)]:
+  - @swapkit/toolbox-cosmos@1.0.0-rc.138
+
+## 1.0.0-rc.76
+
+### Patch Changes
+
+- Updated dependencies [[`669c0c6`](https://github.com/thorswap/SwapKit/commit/669c0c6a491403c966d2287b48c9ce550317cdd6)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.121
+
+## 1.0.0-rc.75
+
+### Patch Changes
+
+- Updated dependencies [[`cf5dd71`](https://github.com/thorswap/SwapKit/commit/cf5dd712a5c5f42aa84ae12c447ccab4438e41a6)]:
+  - @swapkit/toolbox-evm@1.0.0-rc.118
+
+## 1.0.0-rc.74
+
+### Patch Changes
+
+- Updated dependencies [[`5832030`](https://github.com/thorswap/SwapKit/commit/5832030cd5fedc4e914d9640117c4fb6637e40de), [`495cc0c`](https://github.com/thorswap/SwapKit/commit/495cc0c0f9e30cf1cbc42b7108f3c51d3e062a02)]:
+  - @swapkit/helpers@1.0.0-rc.111
+  - @swapkit/toolbox-cosmos@1.0.0-rc.137
+  - @swapkit/toolbox-utxo@1.0.0-rc.120
+  - @swapkit/toolbox-evm@1.0.0-rc.117
+
 ## 1.0.0-rc.73
 
 ### Patch Changes

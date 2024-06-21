@@ -438,6 +438,7 @@ type Meta = {
   buyChainGasRate: number;
   hasStreamingSwap: boolean;
   lastLegEffectiveSlipPercentage: number;
+  slippagePercentage: number;
   priceProtectionDetected: boolean;
   priceProtectionRequired: boolean;
   providerBuyAssetAmount: { buyAmount: number; chain: string; symbol: string; ticker: string };

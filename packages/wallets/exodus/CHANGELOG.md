@@ -1,5 +1,41 @@
 # @swapkit/wallet-exodus
 
+## 1.0.0-rc.19
+
+### Patch Changes
+
+- Updated dependencies [[`7e001ba`](https://github.com/thorswap/SwapKit/commit/7e001baff32ab364872b78740917907333be4679)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.122
+
+## 1.0.0-rc.18
+
+### Patch Changes
+
+- [#851](https://github.com/thorswap/SwapKit/pull/851) [`a41b514`](https://github.com/thorswap/SwapKit/commit/a41b514e17163d62fac118a147b0f793460b3301) Thanks [@towanTG](https://github.com/towanTG)! - Bumps wallet lib
+
+## 1.0.0-rc.17
+
+### Patch Changes
+
+- Updated dependencies [[`669c0c6`](https://github.com/thorswap/SwapKit/commit/669c0c6a491403c966d2287b48c9ce550317cdd6)]:
+  - @swapkit/toolbox-utxo@1.0.0-rc.121
+
+## 1.0.0-rc.16
+
+### Patch Changes
+
+- Updated dependencies [[`cf5dd71`](https://github.com/thorswap/SwapKit/commit/cf5dd712a5c5f42aa84ae12c447ccab4438e41a6)]:
+  - @swapkit/toolbox-evm@1.0.0-rc.118
+
+## 1.0.0-rc.15
+
+### Patch Changes
+
+- Updated dependencies [[`5832030`](https://github.com/thorswap/SwapKit/commit/5832030cd5fedc4e914d9640117c4fb6637e40de), [`495cc0c`](https://github.com/thorswap/SwapKit/commit/495cc0c0f9e30cf1cbc42b7108f3c51d3e062a02)]:
+  - @swapkit/helpers@1.0.0-rc.111
+  - @swapkit/toolbox-utxo@1.0.0-rc.120
+  - @swapkit/toolbox-evm@1.0.0-rc.117
+
 ## 1.0.0-rc.14
 
 ### Patch Changes
