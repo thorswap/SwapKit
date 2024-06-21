@@ -269,7 +269,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
 
     // check if trading is halted or not
     if (mimir.HALTTRADING >= 1 || mimir.HALTTHORCHAIN >= 1) {
-      throw new SwapKitError("core_chain_halted");
+      throw new SwapKitError("thorchain_trading_halted");
     }
 
     return deposit({ assetValue, recipient: "", memo });

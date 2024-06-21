@@ -1,11 +1,12 @@
 import {
   Chain,
-  ChainId,
+  type ChainId,
   ChainToChainId,
   ChainToHexChainId,
+  ChainToRPC,
   type ConnectConfig,
   type ConnectWalletParams,
-  RPCUrl,
+  SwapKitError,
   WalletOption,
   setRequestClientConfig,
 } from "@swapkit/helpers";
@@ -15,6 +16,7 @@ import type { WalletTxParams } from "./walletHelpers.ts";
 import {
   cosmosTransfer,
   getXDEFIAddress,
+  getXDEFIProvider,
   getXdefiMethods,
   walletTransfer,
 } from "./walletHelpers.ts";
@@ -31,12 +33,14 @@ const XDEFI_SUPPORTED_CHAINS = [
   Chain.Ethereum,
   Chain.Kujira,
   Chain.Litecoin,
+  Chain.Maya,
   Chain.Optimism,
   Chain.Polygon,
+  Chain.Solana,
   Chain.THORChain,
-  Chain.Maya,
 ] as const;
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: It will grow with the number of chains
 async function getWalletMethodsForChain({
   chain,
   blockchairApiKey,
@@ -44,46 +48,44 @@ async function getWalletMethodsForChain({
   ethplorerApiKey,
 }: ConnectConfig & { chain: (typeof XDEFI_SUPPORTED_CHAINS)[number] }) {
   switch (chain) {
+    case Chain.Solana: {
+      const { SOLToolbox } = await import("@swapkit/toolbox-solana");
+
+      return { ...SOLToolbox(), transfer: walletTransfer };
+    }
+
+    case Chain.Maya:
     case Chain.THORChain: {
-      const { THORCHAIN_GAS_VALUE, ThorchainToolbox } = await import("@swapkit/toolbox-cosmos");
+      const { getToolboxByChain, THORCHAIN_GAS_VALUE, MAYA_GAS_VALUE } = await import(
+        "@swapkit/toolbox-cosmos"
+      );
+
+      const gasLimit = chain === Chain.Maya ? MAYA_GAS_VALUE : THORCHAIN_GAS_VALUE;
+      const toolbox = getToolboxByChain(chain);
 
       return {
-        ...ThorchainToolbox({ stagenet: false }),
+        ...toolbox(),
         deposit: (tx: WalletTxParams) => walletTransfer({ ...tx, recipient: "" }, "deposit"),
-        transfer: (tx: WalletTxParams) =>
-          walletTransfer({ ...tx, gasLimit: THORCHAIN_GAS_VALUE }, "transfer"),
+        transfer: (tx: WalletTxParams) => walletTransfer({ ...tx, gasLimit }, "transfer"),
       };
     }
 
-    case Chain.Maya: {
-      const { MAYA_GAS_VALUE, MayaToolbox } = await import("@swapkit/toolbox-cosmos");
-
-      return {
-        ...MayaToolbox({ stagenet: false }),
-        deposit: (tx: WalletTxParams) => walletTransfer({ ...tx, recipient: "" }, "deposit"),
-        transfer: (tx: WalletTxParams) =>
-          walletTransfer({ ...tx, gasLimit: MAYA_GAS_VALUE }, "transfer"),
-      };
-    }
-
-    case Chain.Cosmos: {
-      const { GaiaToolbox } = await import("@swapkit/toolbox-cosmos");
-      return {
-        ...GaiaToolbox(),
-        transfer: cosmosTransfer({ chainId: ChainId.Cosmos, rpcUrl: RPCUrl.Cosmos }),
-      };
-    }
+    case Chain.Binance:
+    case Chain.Cosmos:
     case Chain.Kujira: {
-      const { KujiraToolbox } = await import("@swapkit/toolbox-cosmos");
-      return {
-        ...KujiraToolbox(),
-        transfer: cosmosTransfer({ chainId: ChainId.Kujira, rpcUrl: RPCUrl.Kujira }),
-      };
-    }
+      const { getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
+      const toolbox = getToolboxByChain(chain);
 
-    case Chain.Binance: {
-      const { BinanceToolbox } = await import("@swapkit/toolbox-cosmos");
-      return { ...BinanceToolbox(), transfer: walletTransfer };
+      return {
+        ...toolbox(),
+        transfer:
+          chain === Chain.Binance
+            ? walletTransfer
+            : cosmosTransfer({
+                chainId: ChainToChainId[chain] as ChainId.Cosmos,
+                rpcUrl: ChainToRPC[chain],
+              }),
+      };
     }
 
     case Chain.Bitcoin:
@@ -111,10 +113,10 @@ async function getWalletMethodsForChain({
         getBalance,
         BrowserProvider,
       } = await import("@swapkit/toolbox-evm");
-      const ethereumWindowProvider = window.xfi?.ethereum;
+      const ethereumWindowProvider = getXDEFIProvider(chain);
 
       if (!ethereumWindowProvider) {
-        throw new Error("Requested web3 wallet is not installed");
+        throw new SwapKitError("wallet_xdefi_not_found");
       }
       if (
         (chain !== Chain.Ethereum && !covalentApiKey) ||
@@ -146,7 +148,7 @@ async function getWalletMethodsForChain({
             ).getNetworkParams(),
           ));
       } catch (_error) {
-        throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
+        throw new SwapKitError("wallet_xdefi_failed_to_add_or_switch_network", { chain });
       }
 
       const api =

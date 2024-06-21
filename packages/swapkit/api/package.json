@@ -4,9 +4,6 @@
     "@swapkit/helpers": "workspace:*",
     "zod": "3.23.8"
   },
-  "devDependencies": {
-    "bun-types": "1.1.8"
-  },
   "description": "SwapKit - API",
   "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",

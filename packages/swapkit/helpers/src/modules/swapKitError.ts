@@ -11,7 +11,6 @@ const errorMessages = {
   core_plugin_swap_not_found: 10007,
   core_approve_asset_target_invalid: 10008,
   core_chain_halted: 10099,
-
   /**
    * Core - Wallet Connection
    */
@@ -58,7 +57,6 @@ const errorMessages = {
   core_transaction_create_liquidity_cacao_error: 10316,
   core_transaction_add_liquidity_no_cacao_address: 10306,
   core_transaction_add_liquidity_cacao_error: 10307,
-
   /**
    * Wallets
    */
@@ -68,28 +66,28 @@ const errorMessages = {
   wallet_ledger_get_address_error: 20003,
   wallet_ledger_device_not_found: 20004,
   wallet_ledger_device_locked: 20005,
-
   wallet_phantom_not_found: 20101,
-
+  wallet_xdefi_not_found: 20201,
+  wallet_xdefi_failed_to_add_or_switch_network: 20202,
   /**
    * Chainflip
    */
   chainflip_channel_error: 30001,
   chainflip_broker_recipient_error: 30002,
-
   /**
    * THORChain
    */
-
+  thorchain_chain_halted: 40001,
+  thorchain_trading_halted: 40002,
   /**
    * SwapKit API
    */
-  api_v2_invalid_response: 40001,
+  api_v2_invalid_response: 50001,
 
   /**
    * Helpers
    */
-  helpers_number_different_decimals: 99101,
+  helpers_number_different_decimals: 99001,
 } as const;
 
 export type ErrorKeys = keyof typeof errorMessages;
