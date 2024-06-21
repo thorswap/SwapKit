@@ -23,13 +23,9 @@
   "devDependencies": {
     "@types/bn.js": "5.1.5",
     "@types/crypto-js": "4.2.2",
-    "@types/tiny-secp256k1": "2.0.1",
-    "bun-types": "1.1.8"
+    "@types/tiny-secp256k1": "2.0.1"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
