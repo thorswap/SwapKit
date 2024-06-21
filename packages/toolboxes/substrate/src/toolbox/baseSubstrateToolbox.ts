@@ -85,7 +85,6 @@ const transfer = async (
   const address = from || (isKeyringPair(signer) && signer.address);
   if (!address) return;
 
-  // Use a single signAndSend call with parameters set by ternary operators
   const tx = await transfer.signAndSend(isKeyringPair(signer) ? signer : address, {
     signer: isKeyringPair(signer) ? undefined : signer,
     nonce: await getNonce(api, address),
