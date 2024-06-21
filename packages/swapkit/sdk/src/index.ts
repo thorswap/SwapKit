@@ -9,6 +9,7 @@ import { keplrWallet } from "@swapkit/wallet-keplr";
 import { keystoreWallet } from "@swapkit/wallet-keystore";
 import { ledgerWallet } from "@swapkit/wallet-ledger";
 import { okxWallet } from "@swapkit/wallet-okx";
+import { phantomWallet } from "@swapkit/wallet-phantom";
 import { trezorWallet } from "@swapkit/wallet-trezor";
 import { walletconnectWallet } from "@swapkit/wallet-wc";
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
@@ -17,48 +18,42 @@ export * from "@swapkit/core";
 export * from "@swapkit/tokens";
 
 const defaultPlugins = {
-  ...ThorchainPlugin,
-  ...MayachainPlugin,
-  ...EVMPlugin,
   ...ChainflipPlugin,
+  ...EVMPlugin,
+  ...MayachainPlugin,
+  ...ThorchainPlugin,
 };
 
 const defaultWallets = {
   ...coinbaseWallet,
   ...evmWallet,
+  ...keepkeyWallet,
   ...keplrWallet,
   ...keystoreWallet,
-  ...keepkeyWallet,
   ...ledgerWallet,
   ...okxWallet,
+  ...phantomWallet,
   ...trezorWallet,
   ...walletconnectWallet,
   ...xdefiWallet,
 };
 
-type Params = Omit<
+type Params<P, W> = Omit<
   Parameters<typeof SwapKit<typeof defaultPlugins, typeof defaultWallets>>[0],
   "wallets" | "plugins"
->;
+> & { plugins?: P; wallets?: W };
 
 export const createSwapKit = <
   P extends Partial<typeof defaultPlugins> = typeof defaultPlugins,
   W extends Partial<typeof defaultWallets> = typeof defaultWallets,
 >({
-  config,
   plugins,
   wallets,
   ...extendParams
-}: Params & {
-  plugins?: P;
-  wallets?: W;
-}) => {
-  const swapKitClient = SwapKit({
-    config,
+}: Params<P, W>) => {
+  return SwapKit({
     plugins: plugins || defaultPlugins,
     wallets: wallets || defaultWallets,
     ...extendParams,
   });
-
-  return swapKitClient;
 };

@@ -1,11 +1,14 @@
+import type { Keplr } from "@keplr-wallet/types";
 import {
   type AssetValue,
   Chain,
   type ChainId,
   ChainToChainId,
+  type EVMChain,
   EVMChains,
   type FeeOption,
   RPCUrl,
+  SwapKitError,
   erc20ABI,
 } from "@swapkit/helpers";
 import { type TransferParams, getDenom } from "@swapkit/toolbox-cosmos";
@@ -16,6 +19,7 @@ import type {
   EVMTxParams,
   Eip1193Provider,
 } from "@swapkit/toolbox-evm";
+import type { SolanaProvider } from "@swapkit/toolbox-solana";
 
 type TransactionMethod = "transfer" | "deposit";
 
@@ -36,7 +40,17 @@ export type WalletTxParams = {
   gasLimit?: string | bigint | undefined;
 };
 
-function getXDEFIProvider(chain: Chain) {
+export function getXDEFIProvider<T extends Chain>(
+  chain: T,
+): T extends Chain.Solana
+  ? SolanaProvider
+  : T extends Chain.Cosmos | Chain.Kujira
+    ? Keplr
+    : T extends EVMChain
+      ? Eip1193Provider
+      : undefined {
+  if (!window.xfi) throw new SwapKitError("wallet_xdefi_not_found");
+
   switch (chain) {
     case Chain.Ethereum:
     case Chain.Avalanche:
@@ -44,26 +58,41 @@ function getXDEFIProvider(chain: Chain) {
     case Chain.Arbitrum:
     case Chain.Optimism:
     case Chain.Polygon:
-      return window.xfi?.ethereum;
-    case Chain.Binance:
-      return window.xfi?.binance;
-    case Chain.Bitcoin:
-      return window.xfi?.bitcoin;
-    case Chain.BitcoinCash:
-      return window.xfi?.bitcoincash;
-    case Chain.Dogecoin:
-      return window.xfi?.dogecoin;
-    case Chain.Litecoin:
-      return window.xfi?.litecoin;
-    case Chain.THORChain:
-      return window.xfi?.thorchain;
-    case Chain.Maya:
-      return window.xfi?.mayachain;
+      // @ts-expect-error
+      return window.xfi.ethereum;
+
     case Chain.Cosmos:
     case Chain.Kujira:
-      // @ts-ignore
-      return window.xfi?.keplr;
+      // @ts-expect-error
+      return window.xfi.keplr;
+
+    case Chain.Binance:
+      // @ts-expect-error
+      return window.xfi.binance;
+    case Chain.Bitcoin:
+      // @ts-expect-error
+      return window.xfi.bitcoin;
+    case Chain.BitcoinCash:
+      // @ts-expect-error
+      return window.xfi.bitcoincash;
+    case Chain.Dogecoin:
+      // @ts-expect-error
+      return window.xfi.dogecoin;
+    case Chain.Litecoin:
+      // @ts-expect-error
+      return window.xfi.litecoin;
+    case Chain.THORChain:
+      // @ts-expect-error
+      return window.xfi.thorchain;
+    case Chain.Maya:
+      // @ts-expect-error
+      return window.xfi.mayachain;
+    case Chain.Solana:
+      // @ts-expect-error
+      return window.xfi.solana;
+
     default:
+      // @ts-expect-error
       return undefined;
   }
 }
@@ -77,12 +106,7 @@ async function transaction({
   params: TransactionParams[];
   chain: Chain;
 }): Promise<string> {
-  const client =
-    method === "deposit"
-      ? chain === Chain.Maya
-        ? window.xfi?.mayachain
-        : window.xfi?.thorchain
-      : getXDEFIProvider(chain);
+  const client = getXDEFIProvider(chain);
 
   return new Promise<string>((resolve, reject) => {
     if (client && "request" in client) {
@@ -113,25 +137,27 @@ export async function getXDEFIAddress(chain: Chain) {
     const offlineSigner = provider.getOfflineSigner(chainId);
 
     const [item] = await offlineSigner.getAccounts();
-
     return item?.address;
   }
 
-  // @ts-expect-error
-  if (EVMChains.includes(chain)) {
-    const response = await eipProvider.request({
-      method: "eth_requestAccounts",
-      params: [],
-    });
+  if (EVMChains.includes(chain as EVMChain)) {
+    const [response] = await eipProvider.request({ method: "eth_requestAccounts", params: [] });
 
-    return response[0];
+    return response;
+  }
+
+  if (chain === Chain.Solana) {
+    const provider = getXDEFIProvider(Chain.Solana);
+
+    const accounts = await provider.connect();
+    return accounts.publicKey.toString();
   }
 
   return new Promise((resolve, reject) =>
     eipProvider.request(
       { method: "request_accounts", params: [] },
       // @ts-expect-error
-      (error: Todo, response: string[]) => (error ? reject(error) : resolve(response[0])),
+      (error: Todo, [response]: string[]) => (error ? reject(error) : resolve(response)),
     ),
   );
 }

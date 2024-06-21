@@ -7,6 +7,7 @@ import {
 } from "@swapkit/helpers";
 
 function getPhantomProvider() {
+  // @ts-ignore
   return window.phantom?.solana;
 }
 
