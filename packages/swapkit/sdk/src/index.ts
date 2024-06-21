@@ -52,8 +52,8 @@ export const createSwapKit = <
   ...extendParams
 }: Params<P, W>) => {
   return SwapKit({
+    ...extendParams,
     plugins: plugins || defaultPlugins,
     wallets: wallets || defaultWallets,
-    ...extendParams,
   });
 };
