@@ -35,10 +35,12 @@ export async function getSwapQuoteV2(searchParams: QuoteRequestV2, isDev = false
   }
 }
 
-export function getTokenListProvidersV2() {
-  return RequestClient.get<TokenListProvidersResponse>(`${baseUrl}/providers`);
+export async function getTokenListProvidersV2() {
+  const response = await RequestClient.get<TokenListProvidersResponse>(`${baseUrl}/providers`);
+  return response;
 }
 
 export function getTokenListV2(provider: ProviderName) {
-  return RequestClient.get<TokensResponseV2>(`${baseUrl}/tokens?provider=${provider}`);
+  const response = RequestClient.get<TokensResponseV2>(`${baseUrl}/tokens?provider=${provider}`);
+  return response;
 }

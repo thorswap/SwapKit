@@ -23,7 +23,15 @@ import { BrowserProvider, Contract, Interface, hexlify, toUtf8Bytes } from "ethe
 import { getAddress } from "ethers/address";
 import { MaxInt256 } from "ethers/constants";
 
-import { toHexString } from "../index.ts";
+import {
+  type ARBToolbox,
+  type AVAXToolbox,
+  type BSCToolbox,
+  type ETHToolbox,
+  type MATICToolbox,
+  type OPToolbox,
+  toHexString,
+} from "../index.ts";
 import type {
   ApproveParams,
   ApprovedParams,
@@ -228,7 +236,6 @@ const approve = async (
   });
 };
 
-// TODO - get from from signer or make it mandatory
 const transfer = async (
   provider: Provider | BrowserProvider,
   {
@@ -280,7 +287,7 @@ const transfer = async (
   return sendTransaction(provider, txObject, feeOptionKey, signer, isEIP1559Compatible);
 };
 
-const estimateGasPrices = async (provider: Provider, isEIP1559Compatible = true) => {
+export const estimateGasPrices = async (provider: Provider, isEIP1559Compatible = true) => {
   try {
     const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await provider.getFeeData();
 
@@ -506,25 +513,74 @@ export const getTokenAddress = ({ chain, symbol, ticker }: Asset, baseAssetChain
   }
 };
 
-export const getFeeForTransaction = async (
-  txObject: EIP1559TxParams,
-  feeOption: FeeOption,
+const createTransferTx = async (
   provider: Provider | BrowserProvider,
-  isEIP1559Compatible: boolean,
+  {
+    assetValue,
+    memo,
+    recipient,
+    feeOptionKey = FeeOption.Fast,
+    data,
+    from: fromOverride,
+    maxFeePerGas,
+    maxPriorityFeePerGas,
+    gasPrice,
+    ...tx
+  }: TransferParams,
+  signer?: Signer,
 ) => {
-  const gasPrices = (await estimateGasPrices(provider, isEIP1559Compatible))[feeOption];
-  const gasLimit = await provider.estimateGas(txObject);
+  const txAmount = assetValue.getBaseValue("bigint");
+  const chain = assetValue.chain as EVMChain;
 
-  if (!isEIP1559Compatible && gasPrices.gasPrice) {
-    return gasPrices.gasPrice * gasLimit;
+  const from = fromOverride || (await signer?.getAddress());
+
+  if (!from) throw new Error("No from address provided");
+
+  if (!isGasAsset(assetValue)) {
+    const contractAddress = getTokenAddress(assetValue, chain);
+    if (!contractAddress) throw new Error("No contract address found");
+
+    // Transfer ERC20
+    return createContractTxObject(provider, {
+      contractAddress,
+      abi: erc20ABI,
+      funcName: "transfer",
+      funcParams: [recipient, txAmount],
+      txOverrides: { from, maxFeePerGas, maxPriorityFeePerGas, gasPrice },
+    });
   }
+  // Transfer ETH
+  const txObject = {
+    ...tx,
+    from,
+    to: recipient,
+    value: txAmount,
+    data: data || hexlify(toUtf8Bytes(memo || "")),
+  };
 
-  if (gasPrices.maxFeePerGas && gasPrices.maxPriorityFeePerGas) {
-    return (gasPrices.maxFeePerGas + gasPrices.maxPriorityFeePerGas) * gasLimit;
-  }
+  return txObject;
+};
 
-  // TODO:
-  throw new Error("No gas price found");
+const createApprovalTx = async (
+  provider: Provider,
+  { assetAddress, spenderAddress, amount, from }: ApproveParams,
+  signer?: Signer,
+) => {
+  const funcParams = [spenderAddress, BigInt(amount || MAX_APPROVAL)];
+  const txOverrides = { from };
+
+  const functionCallParams = {
+    contractAddress: assetAddress,
+    abi: erc20ABI,
+    funcName: "approve",
+    funcParams,
+    signer,
+    txOverrides,
+  };
+
+  const txObject = await createContractTxObject(provider, functionCallParams);
+
+  return txObject;
 };
 
 export const BaseEVMToolbox = ({
@@ -560,11 +616,21 @@ export const BaseEVMToolbox = ({
     sendTransaction(provider, params, feeOption, signer, isEIP1559Compatible),
   transfer: (params: TransferParams) => transfer(provider, params, signer, isEIP1559Compatible),
   validateAddress,
+  createTransferTx: (params: TransferParams) => createTransferTx(provider, params, signer),
+  createApprovalTx: (params: ApproveParams) => createApprovalTx(provider, params, signer),
 });
 
 export const evmValidateAddress = ({ address }: { address: string }) => validateAddress(address);
 
 export type BaseEVMWallet = ReturnType<typeof BaseEVMToolbox>;
+export type EVMWalletType = {
+  [Chain.Arbitrum]: ReturnType<typeof ARBToolbox>;
+  [Chain.Avalanche]: ReturnType<typeof AVAXToolbox>;
+  [Chain.BinanceSmartChain]: ReturnType<typeof BSCToolbox>;
+  [Chain.Ethereum]: ReturnType<typeof ETHToolbox>;
+  [Chain.Optimism]: ReturnType<typeof OPToolbox>;
+  [Chain.Polygon]: ReturnType<typeof MATICToolbox>;
+};
 export type EVMWallets = {
-  [chain in EVMChain]: BaseEVMWallet;
+  [chain in EVMChain]: BaseEVMWallet & EVMWalletType[chain];
 };

@@ -31,6 +31,7 @@ import {
   standardFeeRates,
 } from "../utils/index.ts";
 import { validateAddress as validateBCHAddress } from "./bitcoinCash.ts";
+import type { BCHToolbox, BTCToolbox, DASHToolbox, DOGEToolbox, LTCToolbox } from "./index.ts";
 
 export const nonSegwitChains = [Chain.Dash, Chain.Dogecoin];
 
@@ -231,24 +232,23 @@ const getInputsOutputsFee = async ({
   fetchTxHex = false,
   memo,
   recipient,
-  sender,
+  from,
 }: {
   assetValue: AssetValue;
   recipient: string;
   memo?: string;
-  feeRate: number;
-  sender: string;
+  from: string;
+  feeOptionKey?: FeeOption;
+  feeRate?: number;
   fetchTxHex?: boolean;
   apiClient: BlockchairApiType;
   chain: UTXOChain;
-  feeOptionKey?: FeeOption;
-  feeeRate?: number;
 }) => {
   const inputsAndOutputs = await getInputsAndTargetOutputs({
     assetValue,
     recipient,
     memo,
-    sender,
+    sender: from,
     fetchTxHex,
     apiClient,
   });
@@ -344,11 +344,23 @@ export const BaseUTXOToolbox = (
 
   getInputsOutputsFee: (params: Todo) => getInputsOutputsFee({ ...params, ...baseToolboxParams }),
 
-  getFeeForTransaction: async (params: Todo) =>
-    new SwapKitNumber({
-      value: (await getInputsOutputsFee({ ...params, ...baseToolboxParams })).fee,
-      decimal: 8,
-    }),
+  estimateTransactionFee: async (params: {
+    assetValue: AssetValue;
+    recipient: string;
+    from: string;
+    memo?: string;
+    feeOptionKey?: FeeOption;
+    feeRate?: number;
+    fetchTxHex?: boolean;
+  }) => {
+    return AssetValue.fromChainOrSignature(
+      baseToolboxParams.chain,
+      new SwapKitNumber({
+        value: (await getInputsOutputsFee({ ...params, ...baseToolboxParams })).fee,
+        decimal: 8,
+      }).getValue("string"),
+    );
+  },
 
   estimateMaxSendableAmount: async (params: Todo) =>
     estimateMaxSendableAmount({ ...params, ...baseToolboxParams }),
@@ -369,4 +381,11 @@ export const utxoValidateAddress = ({
       });
 
 export type BaseUTXOWallet = ReturnType<typeof BaseUTXOToolbox>;
-export type UTXOWallets = { [key in UTXOChain]: BaseUTXOWallet };
+type UTXOWalletType = {
+  [Chain.Bitcoin]: ReturnType<typeof BTCToolbox>;
+  [Chain.BitcoinCash]: ReturnType<typeof BCHToolbox>;
+  [Chain.Dogecoin]: ReturnType<typeof DOGEToolbox>;
+  [Chain.Litecoin]: ReturnType<typeof LTCToolbox>;
+  [Chain.Dash]: ReturnType<typeof DASHToolbox>;
+};
+export type UTXOWallets = { [chain in UTXOChain]: BaseUTXOWallet & UTXOWalletType[chain] };

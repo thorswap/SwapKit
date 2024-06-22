@@ -10,7 +10,7 @@ import type { BrowserProvider, JsonRpcProvider, Provider, Signer } from "ethers"
 
 import type { CovalentApiType } from "../api/covalentApi.ts";
 import { covalentApi } from "../api/covalentApi.ts";
-import { getBalance } from "../index.ts";
+import { type EVMTxBaseParams, estimateTransactionFee, getBalance } from "../index.ts";
 
 import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
 
@@ -53,11 +53,14 @@ export const ARBToolbox = ({
 }) => {
   const arbApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Arbitrum });
   const baseToolbox = BaseEVMToolbox({ provider, signer, isEIP1559Compatible: false });
+  const chain = Chain.Arbitrum;
 
   return {
     ...baseToolbox,
     getNetworkParams,
     estimateGasPrices: () => estimateGasPrices(provider),
+    estimateTransactionFee: (txObject: EVMTxBaseParams) =>
+      estimateTransactionFee(txObject, FeeOption.Average, chain, provider, false),
     getBalance: (
       address: string,
       potentialScamFilter = true,
@@ -67,7 +70,7 @@ export const ARBToolbox = ({
         provider: overwriteProvider || provider,
         api: arbApi,
         address,
-        chain: Chain.Arbitrum,
+        chain,
         potentialScamFilter,
       }),
   };

@@ -78,7 +78,7 @@ const transfer = async (
   return tx?.toString();
 };
 
-const estimateGasFee = async (
+const estimateTransactionFee = async (
   api: ApiPromise,
   signer: IKeyringPair,
   gasAsset: AssetValue,
@@ -160,8 +160,8 @@ export const BaseSubstrateToolbox = ({
   getBalance: (address: string) => getBalance(api, gasAsset, address),
   validateAddress: (address: string) => validateAddress(address, network.prefix),
   transfer: (params: SubstrateTransferParams) => transfer(api, signer, params),
-  estimateGasFee: (params: SubstrateTransferParams) =>
-    estimateGasFee(api, signer, gasAsset, params),
+  estimateTransactionFee: (params: SubstrateTransferParams) =>
+    estimateTransactionFee(api, signer, gasAsset, params),
   sign: (tx: SubmittableExtrinsic<"promise">) => sign(signer, tx),
   broadcast: (tx: SubmittableExtrinsic<"promise">, callback?: Callback<ISubmittableResult>) =>
     broadcast(tx, callback),

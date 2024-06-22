@@ -147,6 +147,26 @@ export const cosmosValidateAddress = ({
   return false;
 };
 
+export const estimateTransactionFee = ({ assetValue }: { assetValue: AssetValue }) => {
+  const chain = assetValue.chain;
+  switch (chain) {
+    case Chain.Cosmos: {
+      return AssetValue.fromChainOrSignature(Chain.Cosmos, 0.007);
+    }
+    case Chain.Kujira: {
+      return AssetValue.fromChainOrSignature(Chain.Kujira, 0.02);
+    }
+    case Chain.THORChain: {
+      return AssetValue.fromChainOrSignature(Chain.THORChain, 0.02);
+    }
+    case Chain.Maya: {
+      return AssetValue.fromChainOrSignature(Chain.Maya, 0.02);
+    }
+    default:
+      return assetValue.set(0);
+  }
+};
+
 export type BaseCosmosWallet = ReturnType<typeof BaseCosmosToolbox>;
 export type CosmosWallets = {
   [chain in Chain.Cosmos | Chain.Kujira | Chain.Binance]: BaseCosmosWallet;
