@@ -1,9 +1,9 @@
-import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl } from "@swapkit/helpers";
+import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, type FeeOption } from "@swapkit/helpers";
 import type { BrowserProvider, JsonRpcProvider, Signer } from "ethers";
 
 import type { CovalentApiType } from "../api/covalentApi.ts";
 import { covalentApi } from "../api/covalentApi.ts";
-import { getBalance } from "../index.ts";
+import { type EVMTxBaseParams, estimateTransactionFee, getBalance } from "../index.ts";
 import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
 
 const getNetworkParams = () => ({
@@ -27,10 +27,13 @@ export const BSCToolbox = ({
 }) => {
   const bscApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.BinanceSmartChain });
   const baseToolbox = BaseEVMToolbox({ provider, signer, isEIP1559Compatible: false });
+  const chain = Chain.BinanceSmartChain;
 
   return {
     ...baseToolbox,
     getNetworkParams,
+    estimateTransactionFee: (txObject: EVMTxBaseParams, feeOptionKey: FeeOption) =>
+      estimateTransactionFee(txObject, feeOptionKey, chain, provider, false),
     getBalance: (
       address: string,
       potentialScamFilter = true,
@@ -40,7 +43,7 @@ export const BSCToolbox = ({
         provider: overwriteProvider || provider,
         api: bscApi,
         address,
-        chain: Chain.BinanceSmartChain,
+        chain,
         potentialScamFilter,
       }),
   };

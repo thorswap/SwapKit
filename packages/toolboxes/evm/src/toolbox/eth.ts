@@ -1,9 +1,9 @@
-import { Chain } from "@swapkit/helpers";
+import { Chain, type FeeOption } from "@swapkit/helpers";
 import type { BrowserProvider, JsonRpcProvider, JsonRpcSigner, Signer } from "ethers";
 
 import type { EthplorerApiType } from "../api/ethplorerApi.ts";
 import { ethplorerApi } from "../api/ethplorerApi.ts";
-import { getBalance } from "../index.ts";
+import { type EVMTxBaseParams, estimateTransactionFee, getBalance } from "../index.ts";
 
 import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
 
@@ -20,9 +20,12 @@ export const ETHToolbox = ({
 }) => {
   const ethApi = api || ethplorerApi(ethplorerApiKey);
   const baseToolbox = BaseEVMToolbox({ provider, signer });
+  const chain = Chain.Ethereum;
 
   return {
     ...baseToolbox,
+    estimateTransactionFee: (txObject: EVMTxBaseParams, feeOptionKey?: FeeOption) =>
+      estimateTransactionFee(txObject, feeOptionKey, chain, provider),
     getBalance: (
       address: string,
       potentialScamFilter = true,
@@ -32,7 +35,7 @@ export const ETHToolbox = ({
         provider: overwriteProvider || provider,
         api: ethApi,
         address,
-        chain: Chain.Ethereum,
+        chain,
         potentialScamFilter,
       }),
   };

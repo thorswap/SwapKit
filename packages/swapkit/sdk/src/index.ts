@@ -42,8 +42,8 @@ type Params = Omit<
 >;
 
 export const createSwapKit = <
-  P extends Partial<typeof defaultPlugins>,
-  W extends Partial<typeof defaultWallets>,
+  P extends Partial<typeof defaultPlugins> = typeof defaultPlugins,
+  W extends Partial<typeof defaultWallets> = typeof defaultWallets,
 >({
   config,
   plugins,
