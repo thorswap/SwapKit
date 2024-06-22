@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.54
+
+### Patch Changes
+
+- [#854](https://github.com/thorswap/SwapKit/pull/854) [`ab5c3b3`](https://github.com/thorswap/SwapKit/commit/ab5c3b3e2b8987c2496c8d375e8c4aaa8ffb5f4d) Thanks [@towanTG](https://github.com/towanTG)! - TokenList changes, exposing of tx estimation methods, fixes types and other improvements
+
 ## 1.0.0-rc.53
 
 ### Patch Changes
