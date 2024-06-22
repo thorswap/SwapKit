@@ -52,5 +52,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.122"
+  "version": "1.0.0-rc.123"
 }

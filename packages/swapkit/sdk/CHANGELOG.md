@@ -1,5 +1,32 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.194
+
+### Patch Changes
+
+- [#854](https://github.com/thorswap/SwapKit/pull/854) [`ab5c3b3`](https://github.com/thorswap/SwapKit/commit/ab5c3b3e2b8987c2496c8d375e8c4aaa8ffb5f4d) Thanks [@towanTG](https://github.com/towanTG)! - TokenList changes, exposing of tx estimation methods, fixes types and other improvements
+
+- Updated dependencies [[`ab5c3b3`](https://github.com/thorswap/SwapKit/commit/ab5c3b3e2b8987c2496c8d375e8c4aaa8ffb5f4d)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.47
+  - @swapkit/toolbox-cosmos@1.0.0-rc.139
+  - @swapkit/tokens@1.0.0-rc.54
+  - @swapkit/toolbox-utxo@1.0.0-rc.123
+  - @swapkit/toolbox-evm@1.0.0-rc.119
+  - @swapkit/core@1.0.0-rc.167
+  - @swapkit/chainflip@1.0.0-rc.68
+  - @swapkit/thorchain@1.0.0-rc.69
+  - @swapkit/wallet-keystore@1.0.0-rc.156
+  - @swapkit/wallet-keepkey@1.0.0-rc.79
+  - @swapkit/wallet-keplr@1.0.0-rc.143
+  - @swapkit/wallet-ledger@1.0.0-rc.164
+  - @swapkit/wallet-okx@1.0.0-rc.157
+  - @swapkit/wallet-wc@1.0.0-rc.147
+  - @swapkit/wallet-xdefi@1.0.0-rc.160
+  - @swapkit/evm@1.0.0-rc.12
+  - @swapkit/wallet-coinbase@1.0.0-rc.27
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.123
+  - @swapkit/wallet-trezor@1.0.0-rc.133
+
 ## 1.0.0-rc.193
 
 ### Patch Changes
