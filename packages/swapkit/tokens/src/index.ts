@@ -1,11 +1,10 @@
-export { list as ChainflipList } from "./tokenLists/chainflip.ts";
+export { list as ChainflipList } from "./tokenLists/chainflip.js";
 export { list as MayaList } from "./tokenLists/mayachain.ts";
 export { list as OneInchList } from "./tokenLists/oneinch.ts";
-export { list as PancakeswapList } from "./tokenLists/pancakeswap.ts";
+export { list as PancakeswapList } from "./tokenLists/pancakeswap.js";
 export { list as PangolinList } from "./tokenLists/pangolin_v1.ts";
 export { list as SushiswapList } from "./tokenLists/sushiswap_v2.ts";
-export { list as ThorchainList } from "./tokenLists/thorchain.ts";
-export { list as ThorchainStreamingList } from "./tokenLists/thorchain_streaming.ts";
+export { list as ThorchainList } from "./tokenLists/thorchain.js";
 export { list as TraderjoeV1List } from "./tokenLists/traderjoe_v1.ts";
 export { list as TraderjoeV2List } from "./tokenLists/traderjoe_v2.ts";
 export { list as UniswapV2List } from "./tokenLists/uniswap_v2.ts";
