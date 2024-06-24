@@ -34,10 +34,10 @@ const defaultWallets = {
   ...ledgerWallet,
   ...okxWallet,
   ...phantomWallet,
+  ...talismanWallet,
   ...trezorWallet,
   ...walletconnectWallet,
   ...xdefiWallet,
-  ...talismanWallet,
 };
 
 type Params<P, W> = Omit<

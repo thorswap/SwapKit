@@ -58,7 +58,7 @@ export default function Send({
             <input
               onChange={(e) => handleInputChange(e.target.value)}
               placeholder="0.0"
-              // value={inputAssetValue?.toSignificant(6)}
+              value={inputAssetValue?.toSignificant(6)}
             />
           </div>
 

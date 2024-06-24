@@ -1,7 +1,6 @@
-import { type QuoteRoute, SwapKitApi } from "@swapkit/api";
+import type { QuoteRoute } from "@swapkit/api";
 import {
   AGG_SWAP,
-  ApproveMode,
   AssetValue,
   Chain,
   ChainToChainId,
@@ -9,7 +8,6 @@ import {
   type ErrorKeys,
   FeeOption,
   MemoType,
-  type NameRegisterParam,
   ProviderName,
   SWAP_IN,
   SWAP_OUT,
@@ -20,9 +18,7 @@ import {
   TCBscDepositABI,
   TCEthereumVaultAbi,
   type UTXOChain,
-  getMemoFor,
-  getMinAmountByChain,
-  wrapWithThrow,
+  getMemoForLoan,
 } from "@swapkit/helpers";
 
 import {
@@ -30,98 +26,131 @@ import {
   lowercasedContractAbiMapping,
 } from "./aggregator/contracts/index.ts";
 import { getSwapInParams } from "./aggregator/getSwapParams.ts";
+import { basePlugin } from "./basePlugin.ts";
 import {
   type ChainWallets,
-  gasFeeMultiplier,
   getAddress,
-  getInboundDataFunction,
   getWallet,
   prepareTxParams,
-  sharedApprove,
   validateAddressType,
 } from "./shared.ts";
 import type {
   AddLiquidityParams,
-  AddLiquidityPartParams,
-  ApproveParams,
   CoreTxParams,
+  CreateLiquidityParams,
   LoanParams,
-  NodeActionParams,
-  SavingsParams,
   SwapWithRouteParams,
-  WithdrawParams,
 } from "./types.ts";
 
 type SupportedChain = EVMChain | Chain.THORChain | UTXOChain | Chain.Cosmos;
 
 const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet?: boolean }) => {
-  const getInboundDataByChain = getInboundDataFunction({ stagenet, type: "thorchain" });
-  /**
-   * @Private
-   * Wallet interaction helpers
-   */
-  async function approve<T extends ApproveMode>({
+  const {
+    getInboundDataByChain,
+    register,
+    depositToPool,
+    addLiquidity: pluginAddLiquidity,
+    createLiquidity: pluginCreateLiquidity,
+    ...pluginMethods
+  } = basePlugin({
+    wallets,
+    pluginChain: Chain.THORChain,
+    stagenet,
+    deposit,
+  });
+
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO refactor
+  async function deposit({
     assetValue,
-    type = "checkOnly" as T,
-  }: { type: T; assetValue: AssetValue }) {
-    const router = (await getInboundDataByChain(assetValue.chain)).router as string;
+    recipient,
+    router,
+    ...rest
+  }: CoreTxParams & { router?: string }) {
+    const { chain, symbol, ticker } = assetValue;
 
-    return sharedApprove({
-      assetValue,
-      type,
-      router,
-      wallets,
-    });
-  }
-
-  async function depositToProtocol({ memo, assetValue }: { assetValue: AssetValue; memo: string }) {
-    const mimir = await SwapKitApi.getMimirInfo({ stagenet });
-
-    // check if trading is halted or not
-    if (mimir.HALTCHAINGLOBAL >= 1 || mimir.HALTTHORCHAIN >= 1) {
-      throw new SwapKitError("thorchain_chain_halted");
+    const walletInstance = getWallet(wallets, chain as SupportedChain);
+    if (!walletInstance) {
+      throw new SwapKitError("core_wallet_connection_not_found");
     }
 
-    return deposit({ assetValue, recipient: "", memo });
-  }
+    const isAddressValidated = validateAddressType({ address: walletInstance?.address, chain });
+    if (!isAddressValidated) {
+      throw new SwapKitError("core_transaction_invalid_sender_address");
+    }
 
-  async function depositToPool({
-    assetValue,
-    memo,
-    feeOptionKey = FeeOption.Fast,
-  }: { assetValue: AssetValue; memo: string; feeOptionKey?: FeeOption }) {
-    const {
-      gas_rate = "0",
-      router,
-      address: poolAddress,
-    } = await getInboundDataByChain(assetValue.chain);
+    const params = prepareTxParams(wallets, { assetValue, recipient, router, ...rest });
 
-    return deposit({
-      assetValue,
-      recipient: poolAddress,
-      memo,
-      router,
-      feeRate: Number.parseInt(gas_rate) * gasFeeMultiplier[feeOptionKey],
-    });
-  }
+    try {
+      switch (chain) {
+        case Chain.THORChain: {
+          const wallet = wallets[chain];
+          const tx = await (recipient === "" ? wallet.deposit(params) : wallet.transfer(params));
+          return tx;
+        }
 
-  function registerThorname({
-    assetValue,
-    ...param
-  }: NameRegisterParam & { assetValue: AssetValue }) {
-    return depositToProtocol({ assetValue, memo: getMemoFor(MemoType.NAME_REGISTER, param) });
-  }
+        case Chain.Ethereum:
+        case Chain.BinanceSmartChain:
+        case Chain.Avalanche: {
+          const wallet = wallets[chain];
+          const { getChecksumAddressFromAsset } = await import("@swapkit/toolbox-evm");
 
-  function nodeAction({ type, assetValue, address }: NodeActionParams) {
-    const memoType =
-      type === "bond" ? MemoType.BOND : type === "unbond" ? MemoType.UNBOND : MemoType.LEAVE;
-    const memo = getMemoFor(memoType, {
-      address,
-      unbondAmount: type === "unbond" ? assetValue.getBaseValue("number") : undefined,
-    });
-    const assetToTransfer = type === "bond" ? assetValue : getMinAmountByChain(Chain.THORChain);
+          const abi =
+            chain === Chain.Avalanche
+              ? TCAvalancheDepositABI
+              : chain === Chain.BinanceSmartChain
+                ? TCBscDepositABI
+                : TCEthereumVaultAbi;
 
-    return depositToProtocol({ memo, assetValue: assetToTransfer });
+          const tx = await wallet.call({
+            abi,
+            contractAddress:
+              router || ((await getInboundDataByChain(chain as EVMChain)).router as string),
+            funcName: "depositWithExpiry",
+            funcParams: [
+              recipient,
+              getChecksumAddressFromAsset({ chain, symbol, ticker }, chain),
+              assetValue.getBaseValue("string"),
+              params.memo,
+              rest.expiration ||
+                Number.parseInt(`${(new Date().getTime() + 15 * 60 * 1000) / 1000}`),
+            ],
+            txOverrides: {
+              from: params.from,
+              value: assetValue.isGasAsset ? assetValue.getBaseValue("bigint") : undefined,
+            },
+          });
+
+          return tx as string;
+        }
+
+        default: {
+          if (walletInstance) {
+            return walletInstance.transfer(params) as Promise<string>;
+          }
+
+          throw new SwapKitError("core_wallet_connection_not_found");
+        }
+      }
+    } catch (error) {
+      const errorMessage =
+        // @ts-expect-error Fine to use error as string
+        typeof error === "string" ? error.toLowerCase() : error?.message.toLowerCase();
+      const isInsufficientFunds = errorMessage?.includes("insufficient funds");
+      const isGas = errorMessage?.includes("gas");
+      const isServer = errorMessage?.includes("server");
+      const isUserRejected = errorMessage?.includes("user rejected");
+      const errorKey: ErrorKeys = isInsufficientFunds
+        ? "core_transaction_deposit_insufficient_funds_error"
+        : isGas
+          ? "core_transaction_deposit_gas_error"
+          : isServer
+            ? "core_transaction_deposit_server_error"
+            : isUserRejected
+              ? "core_transaction_user_rejected"
+              : "core_transaction_deposit_error";
+
+      throw new SwapKitError(errorKey, error);
+    }
   }
 
   function loan({ assetValue, memo, minAmount, type }: LoanParams) {
@@ -129,146 +158,12 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
       assetValue,
       memo:
         memo ||
-        getMemoFor(type === "open" ? MemoType.OPEN_LOAN : MemoType.CLOSE_LOAN, {
+        getMemoForLoan(type === "open" ? MemoType.OPEN_LOAN : MemoType.CLOSE_LOAN, {
           asset: assetValue.toString(),
           minAmount: minAmount.toString(),
           address: getAddress(wallets, assetValue.chain),
         }),
     });
-  }
-
-  function savings({ assetValue, memo, percent, type }: SavingsParams) {
-    const memoType = type === "add" ? MemoType.DEPOSIT : MemoType.WITHDRAW;
-    const memoString =
-      memo ||
-      getMemoFor(memoType, {
-        ticker: assetValue.ticker,
-        symbol: assetValue.symbol,
-        chain: assetValue.chain,
-        singleSide: true,
-        basisPoints: percent ? Math.min(10000, Math.round(percent * 100)) : undefined,
-      });
-
-    const value =
-      memoType === MemoType.DEPOSIT ? assetValue : getMinAmountByChain(assetValue.chain);
-
-    return depositToPool({ memo: memoString, assetValue: value });
-  }
-
-  function withdraw({ memo, assetValue, percent, from, to }: WithdrawParams) {
-    const targetAsset =
-      to === "rune" && from !== "rune"
-        ? AssetValue.fromChainOrSignature(Chain.THORChain)
-        : (from === "sym" && to === "sym") || from === "rune" || from === "asset"
-          ? undefined
-          : assetValue;
-
-    const value = getMinAmountByChain(from === "asset" ? assetValue.chain : Chain.THORChain);
-    const memoString =
-      memo ||
-      getMemoFor(MemoType.WITHDRAW, {
-        symbol: assetValue.symbol,
-        chain: assetValue.chain,
-        ticker: assetValue.ticker,
-        basisPoints: Math.min(10000, Math.round(percent * 100)),
-        targetAssetString: targetAsset?.toString(),
-        singleSide: false,
-      });
-
-    return depositToPool({ assetValue: value, memo: memoString });
-  }
-
-  function addLiquidityPart({
-    assetValue,
-    poolAddress,
-    address,
-    symmetric,
-  }: AddLiquidityPartParams) {
-    if (symmetric && !address) {
-      throw new SwapKitError("core_transaction_add_liquidity_invalid_params");
-    }
-    const memo = getMemoFor(MemoType.DEPOSIT, {
-      chain: poolAddress.split(".")[0] as Chain,
-      symbol: poolAddress.split(".")[1] as string,
-      address: symmetric ? address : "",
-    });
-
-    return depositToPool({ assetValue, memo });
-  }
-
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
-  async function addLiquidity({
-    runeAssetValue,
-    assetValue,
-    runeAddr,
-    assetAddr,
-    isPendingSymmAsset,
-    mode = "sym",
-  }: AddLiquidityParams) {
-    const { chain, symbol } = assetValue;
-    const isSym = mode === "sym";
-    const runeTransfer = runeAssetValue?.gt(0) && (isSym || mode === "rune");
-    const assetTransfer = assetValue?.gt(0) && (isSym || mode === "asset");
-    const includeRuneAddress = isPendingSymmAsset || runeTransfer;
-    const runeAddress = includeRuneAddress ? runeAddr || getAddress(wallets, Chain.THORChain) : "";
-    const assetAddress = isSym || mode === "asset" ? assetAddr || getAddress(wallets, chain) : "";
-
-    if (!(runeTransfer || assetTransfer)) {
-      throw new SwapKitError("core_transaction_add_liquidity_invalid_params");
-    }
-    if (includeRuneAddress && !runeAddress) {
-      throw new SwapKitError("core_transaction_add_liquidity_no_rune_address");
-    }
-
-    const runeTx =
-      runeTransfer && runeAssetValue
-        ? await wrapWithThrow(() => {
-            return depositToPool({
-              assetValue: runeAssetValue,
-              memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: assetAddress }),
-            });
-          }, "core_transaction_add_liquidity_rune_error")
-        : undefined;
-
-    const assetTx =
-      assetTransfer && assetValue
-        ? await wrapWithThrow(() => {
-            return depositToPool({
-              assetValue,
-              memo: getMemoFor(MemoType.DEPOSIT, { chain, symbol, address: runeAddress }),
-            });
-          }, "core_transaction_add_liquidity_asset_error")
-        : undefined;
-
-    return { runeTx, assetTx };
-  }
-
-  async function createLiquidity({
-    runeAssetValue,
-    assetValue,
-  }: { runeAssetValue: AssetValue; assetValue: AssetValue }) {
-    if (runeAssetValue.lte(0) || assetValue.lte(0)) {
-      throw new SwapKitError("core_transaction_create_liquidity_invalid_params");
-    }
-
-    const assetAddress = getAddress(wallets, assetValue.chain);
-    const runeAddress = getAddress(wallets, Chain.THORChain);
-
-    const runeTx = await wrapWithThrow(() => {
-      return depositToPool({
-        assetValue: runeAssetValue,
-        memo: getMemoFor(MemoType.DEPOSIT, { ...assetValue, address: assetAddress }),
-      });
-    }, "core_transaction_create_liquidity_rune_error");
-
-    const assetTx = await wrapWithThrow(() => {
-      return depositToPool({
-        assetValue,
-        memo: getMemoFor(MemoType.DEPOSIT, { ...assetValue, address: runeAddress }),
-      });
-    }, "core_transaction_create_liquidity_asset_error");
-
-    return { runeTx, assetTx };
   }
 
   function swap({ route, ...rest }: SwapParams<"thorchain"> | SwapWithRouteParams) {
@@ -450,123 +345,46 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
     });
   }
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO refactor
-  async function deposit({
-    assetValue,
-    recipient,
-    router,
-    ...rest
-  }: CoreTxParams & { router?: string }) {
-    const { chain, symbol, ticker } = assetValue;
+  async function addLiquidity(params: AddLiquidityParams) {
+    const { baseAssetTx, assetTx } = await pluginAddLiquidity(params);
 
-    const walletInstance = getWallet(wallets, chain as SupportedChain);
-    if (!walletInstance) {
-      throw new SwapKitError("core_wallet_connection_not_found");
-    }
-
-    const isAddressValidated = validateAddressType({ address: walletInstance?.address, chain });
-    if (!isAddressValidated) {
-      throw new SwapKitError("core_transaction_invalid_sender_address");
-    }
-
-    const params = prepareTxParams(wallets, { assetValue, recipient, router, ...rest });
-
-    try {
-      switch (chain) {
-        case Chain.THORChain: {
-          const wallet = wallets[chain];
-          const tx = await (recipient === "" ? wallet.deposit(params) : wallet.transfer(params));
-          return tx;
-        }
-
-        case Chain.Ethereum:
-        case Chain.BinanceSmartChain:
-        case Chain.Avalanche: {
-          const wallet = wallets[chain];
-          const { getChecksumAddressFromAsset } = await import("@swapkit/toolbox-evm");
-
-          const abi =
-            chain === Chain.Avalanche
-              ? TCAvalancheDepositABI
-              : chain === Chain.BinanceSmartChain
-                ? TCBscDepositABI
-                : TCEthereumVaultAbi;
-
-          const tx = await wallet.call({
-            abi,
-            contractAddress:
-              router || ((await getInboundDataByChain(chain as EVMChain)).router as string),
-            funcName: "depositWithExpiry",
-            funcParams: [
-              recipient,
-              getChecksumAddressFromAsset({ chain, symbol, ticker }, chain),
-              assetValue.getBaseValue("string"),
-              params.memo,
-              rest.expiration ||
-                Number.parseInt(`${(new Date().getTime() + 15 * 60 * 1000) / 1000}`),
-            ],
-            txOverrides: {
-              from: params.from,
-              value: assetValue.isGasAsset ? assetValue.getBaseValue("bigint") : undefined,
-            },
-          });
-
-          return tx as string;
-        }
-
-        default: {
-          if (walletInstance) {
-            return walletInstance.transfer(params) as Promise<string>;
-          }
-
-          throw new SwapKitError("core_wallet_connection_not_found");
-        }
-      }
-    } catch (error) {
-      const errorMessage =
-        // @ts-expect-error Fine to use error as string
-        typeof error === "string" ? error.toLowerCase() : error?.message.toLowerCase();
-      const isInsufficientFunds = errorMessage?.includes("insufficient funds");
-      const isGas = errorMessage?.includes("gas");
-      const isServer = errorMessage?.includes("server");
-      const isUserRejected = errorMessage?.includes("user rejected");
-      const errorKey: ErrorKeys = isInsufficientFunds
-        ? "core_transaction_deposit_insufficient_funds_error"
-        : isGas
-          ? "core_transaction_deposit_gas_error"
-          : isServer
-            ? "core_transaction_deposit_server_error"
-            : isUserRejected
-              ? "core_transaction_user_rejected"
-              : "core_transaction_deposit_error";
-
-      throw new SwapKitError(errorKey, error);
-    }
+    return {
+      /**
+       * @deprecated use baseAssetTx instead
+       */
+      runeTx: baseAssetTx,
+      baseAssetTx,
+      assetTx,
+    };
   }
 
-  function approveAssetValue(params: ApproveParams) {
-    return approve({ ...params, type: ApproveMode.Approve });
-  }
+  async function createLiquidity(params: CreateLiquidityParams) {
+    const { baseAssetTx, assetTx } = await pluginCreateLiquidity(params);
 
-  function isAssetValueApproved(params: ApproveParams) {
-    return approve({ ...params, type: ApproveMode.CheckOnly });
+    return {
+      /**
+       * @deprecated use baseAssetTx instead
+       */
+      runeTx: baseAssetTx,
+      baseAssetTx,
+      assetTx,
+    };
   }
 
   return {
+    ...pluginMethods,
     addLiquidity,
-    addLiquidityPart,
-    approveAssetValue,
     createLiquidity,
     deposit,
     getInboundDataByChain,
-    isAssetValueApproved,
     loan,
-    nodeAction,
-    registerThorname,
-    savings,
+    registerTHORName: register,
     swap,
-    withdraw,
     supportedSwapkitProviders: [ProviderName.THORCHAIN, ProviderName.THORCHAIN_STREAMING],
+    /**
+     * @deprecated Use registerTHORName instead
+     */
+    registerThorname: register,
   };
 };
 

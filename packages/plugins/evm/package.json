@@ -26,9 +26,9 @@
   "scripts": {
     "build": "bun run ./build.ts",
     "clean": "rm -rf dist node_modules *.tsbuildinfo",
-    "lint": "biome check --apply ./src",
+    "lint": "biome check --write ./src",
     "test": "echo 'bun test'",
-    "test:coverage": "echo 'bun test --coverage'",
+    "test:coverage": "bun test --coverage",
     "type-check": "tsc --noEmit"
   },
   "type": "module",

@@ -1,5 +1,5 @@
 import type { QuoteRoute } from "@swapkit/api";
-import type { AssetValue, FeeOption } from "@swapkit/helpers";
+import type { AssetValue, FeeOption, MemoType } from "@swapkit/helpers";
 
 export type AddLiquidityPartParams = {
   assetValue: AssetValue;
@@ -9,26 +9,22 @@ export type AddLiquidityPartParams = {
 };
 
 export type AddLiquidityParams = {
-  runeAssetValue: AssetValue;
-  assetValue: AssetValue;
-  isPendingSymmAsset?: boolean;
-  runeAddr?: string;
   assetAddr?: string;
-  mode?: "sym" | "rune" | "asset";
-};
-
-export type MayaAddLiquidityParams = {
-  cacaoAssetValue: AssetValue;
   assetValue: AssetValue;
+  baseAssetAddr?: string;
+  baseAssetValue: AssetValue;
   isPendingSymmAsset?: boolean;
-  cacaoAddr?: string;
-  assetAddr?: string;
-  mode?: "sym" | "cacao" | "asset";
+  mode?: "sym" | "baseAsset" | "asset";
 };
 
 export type ApproveParams = {
   assetValue: AssetValue;
   contractAddress?: string;
+};
+
+export type CreateLiquidityParams = {
+  baseAssetValue: AssetValue;
+  assetValue: AssetValue;
 };
 
 export type CoreTxParams = {
@@ -50,8 +46,8 @@ export type LoanParams = {
 };
 
 export type NodeActionParams = { address: string } & (
-  | { type: "bond" | "unbond"; assetValue: AssetValue }
-  | { type: "leave"; assetValue?: undefined }
+  | { type: MemoType.BOND | MemoType.UNBOND; assetValue: AssetValue }
+  | { type: MemoType.LEAVE; assetValue?: undefined }
 );
 
 export type SwapWithRouteParams = {
@@ -67,7 +63,14 @@ export type SavingsParams = { assetValue: AssetValue; memo?: string } & (
   | { type: "withdraw"; percent: number }
 );
 
-export type RegisterThornameParams = {};
+export type RegisterThornameParams = {
+  assetValue: AssetValue;
+  name: string;
+  chain: string;
+  address: string;
+  owner?: string;
+  preferredAsset?: string;
+};
 
 type CommonWithdrawParams = {
   assetValue: AssetValue;
@@ -76,11 +79,6 @@ type CommonWithdrawParams = {
 };
 
 export type WithdrawParams = CommonWithdrawParams & {
-  from: "sym" | "rune" | "asset";
-  to: "sym" | "rune" | "asset";
-};
-
-export type MayaWithdrawParams = CommonWithdrawParams & {
-  from: "sym" | "cacao" | "asset";
-  to: "sym" | "cacao" | "asset";
+  from: "sym" | "baseAsset" | "asset";
+  to: "sym" | "baseAsset" | "asset";
 };
