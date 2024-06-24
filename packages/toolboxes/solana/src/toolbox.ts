@@ -1,9 +1,12 @@
 import { mnemonicToSeedSync } from "@scure/bip39";
 import {
+  AccountLayout,
+  TOKEN_PROGRAM_ID,
   createAssociatedTokenAccountInstruction,
   createTransferCheckedInstruction,
   getAccount,
   getAssociatedTokenAddress,
+  getMint,
 } from "@solana/spl-token";
 import {
   Connection,
@@ -14,10 +17,12 @@ import {
   sendAndConfirmTransaction,
 } from "@solana/web3.js";
 import {
-  type AssetValue,
+  AssetValue,
+  Chain,
   DerivationPath,
   RPCUrl,
   SwapKitError,
+  SwapKitNumber,
   type WalletTxParams,
 } from "@swapkit/helpers";
 import { HDKey } from "micro-key-producer/slip10.js";
@@ -38,17 +43,47 @@ function createKeysForPath({
   const seed = mnemonicToSeedSync(phrase);
   const hdKey = HDKey.fromMasterSeed(seed);
 
-  return Keypair.fromSeed(hdKey.derive(derivationPath).privateKey);
+  return Keypair.fromSeed(hdKey.derive(derivationPath, true).privateKey);
 }
 
 function getAddressFromKeys(keypair: Keypair) {
-  return keypair.publicKey.toBase58();
+  return keypair.publicKey.toString();
+}
+
+async function getTokenBalances({
+  connection,
+  address,
+}: { connection: Connection; address: string }) {
+  const tokenAccounts = await connection.getTokenAccountsByOwner(new PublicKey(address), {
+    programId: TOKEN_PROGRAM_ID,
+  });
+
+  const tokenBalances: AssetValue[] = [];
+
+  for await (const ta of tokenAccounts.value) {
+    const accData = AccountLayout.decode(ta.account.data);
+    const { decimals: decimal, address } = await getMint(connection, accData.mint);
+
+    if (accData.amount > BigInt(0)) {
+      tokenBalances.push(
+        new AssetValue({
+          value: SwapKitNumber.fromBigInt(accData.amount, decimal),
+          decimal,
+          identifier: `${Chain.Solana}.TOKEN-${address.toString()}`,
+        }),
+      );
+    }
+  }
+
+  return tokenBalances;
 }
 
 function getBalance(connection: Connection) {
-  return (address: string) => {
-    const SOLBalance = connection.getBalance(new PublicKey(address));
-    return [SOLBalance];
+  return async (address: string) => {
+    const SOLBalance = await connection.getBalance(new PublicKey(address));
+    const tokenBalances = await getTokenBalances({ connection, address });
+
+    return [AssetValue.fromChainOrSignature(Chain.Solana, BigInt(SOLBalance)), ...tokenBalances];
   };
 }
 

@@ -16,30 +16,29 @@ function connectPhantom({ addChain, config: { thorswapApiKey }, rpcUrls }: Conne
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const provider = getPhantomProvider();
-
-    if (provider?.isPhantom) {
-      try {
-        const connection = await provider.connect();
-        const address = connection.publicKey.toString();
-
-        const { SOLToolbox } = await import("@swapkit/toolbox-solana");
-
-        const walletMethods = SOLToolbox({ rpcUrl: rpcUrls[chain] });
-
-        addChain({
-          ...walletMethods,
-          chain,
-          address,
-          walletType: WalletOption.PHANTOM,
-          balance: [],
-          transfer: console.log,
-        });
-      } catch (_) {
-        throw new SwapKitError("wallet_connection_rejected_by_user");
-      }
+    if (!provider?.isPhantom) {
+      throw new SwapKitError("wallet_phantom_not_found");
     }
 
-    throw new SwapKitError("wallet_phantom_not_found");
+    try {
+      const connection = await provider.connect();
+      const address = connection.publicKey.toString();
+
+      const { SOLToolbox } = await import("@swapkit/toolbox-solana");
+
+      const walletMethods = SOLToolbox({ rpcUrl: rpcUrls[chain] });
+
+      addChain({
+        ...walletMethods,
+        chain,
+        address,
+        walletType: WalletOption.PHANTOM,
+        balance: [],
+        transfer: console.log,
+      });
+    } catch (_) {
+      throw new SwapKitError("wallet_connection_rejected_by_user");
+    }
   };
 }
 
