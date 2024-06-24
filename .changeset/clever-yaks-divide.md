@@ -1,5 +1,5 @@
 ---
-"@swapkit/chainflip": minor
+"@swapkit/plugin-chainflip": minor
 ---
 
 Boosted swaps and CCM metadata

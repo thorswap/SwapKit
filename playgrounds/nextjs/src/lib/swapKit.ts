@@ -1,6 +1,14 @@
-import { ChainflipPlugin } from "@swapkit/chainflip";
-import { type AssetValue, type Chain, SwapKit, WalletOption } from "@swapkit/core";
-import { ThorchainPlugin } from "@swapkit/thorchain";
+import {
+  type AssetValue,
+  type Chain,
+  SwapKit,
+  WalletOption,
+  type Chain,
+  Swapcoren,
+} from "@swapkit/core";
+import { ChainflipPlugin;
+plugin - chainflip;
+import { ThorchainPlugin } from "@swapkit/plugin-thorchain";
 
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
 import { atom, useAtom } from "jotai";

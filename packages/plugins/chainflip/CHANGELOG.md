@@ -1,4 +1,4 @@
-# @swapkit/chainflip
+# @swapkit/plugin-chainflip
 
 ## 1.0.0-rc.68
 

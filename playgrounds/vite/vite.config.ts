@@ -39,9 +39,9 @@ export default defineConfig({
       "@swapkit/sdk": resolve("../../packages/swapkit/sdk/src"),
       "@swapkit/core": resolve("../../packages/swapkit/core/src"),
       "@swapkit/helpers": resolve("../../packages/swapkit/helpers/src"),
-      "@swapkit/chainflip": resolve("../../packages/swapkit/chainflip/src"),
-      "@swapkit/thorchain": resolve("../../packages/swapkit/thorchain/src"),
-      "@swapkit/evm": resolve("../../packages/swapkit/evm/src"),
+      "@swapkit/plugin-chainflip": resolve("../../packages/swapkit/chainflip/src"),
+      "@swapkit/plugin-thorchain": resolve("../../packages/swapkit/thorchain/src"),
+      "@swapkit/plugin-evm": resolve("../../packages/swapkit/evm/src"),
       "@swapkit/types": resolve("../../packages/swapkit/types/src"),
 
       "@swapkit/toolbox-cosmos": resolve("../../packages/toolboxes/cosmos/src"),

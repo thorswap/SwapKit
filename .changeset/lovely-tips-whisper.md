@@ -1,5 +1,5 @@
 ---
-"@swapkit/evm": patch
+"@swapkit/plugin-evm": patch
 "@swapkit/api": patch
 "@swapkit/sdk": patch
 ---
