@@ -36,13 +36,14 @@ export default defineConfig({
   resolve: {
     alias: {
       "@swapkit/api": resolve("../../packages/swapkit/api/src"),
-      "@swapkit/sdk": resolve("../../packages/swapkit/sdk/src"),
       "@swapkit/core": resolve("../../packages/swapkit/core/src"),
       "@swapkit/helpers": resolve("../../packages/swapkit/helpers/src"),
-      "@swapkit/chainflip": resolve("../../packages/swapkit/chainflip/src"),
-      "@swapkit/thorchain": resolve("../../packages/swapkit/thorchain/src"),
-      "@swapkit/evm": resolve("../../packages/swapkit/evm/src"),
+      "@swapkit/sdk": resolve("../../packages/swapkit/sdk/src"),
       "@swapkit/types": resolve("../../packages/swapkit/types/src"),
+
+      "@swapkit/plugin-chainflip": resolve("../../packages/plugins/chainflip/src"),
+      "@swapkit/plugin-evm": resolve("../../packages/plugins/evm/src"),
+      "@swapkit/plugin-thorchain": resolve("../../packages/plugins/thorchain/src"),
 
       "@swapkit/toolbox-cosmos": resolve("../../packages/toolboxes/cosmos/src"),
       "@swapkit/toolbox-evm": resolve("../../packages/toolboxes/evm/src"),
@@ -56,6 +57,7 @@ export default defineConfig({
       "@swapkit/wallet-ledger": resolve("../../packages/wallets/ledger/src"),
       "@swapkit/wallet-okx": resolve("../../packages/wallets/okx/src"),
       "@swapkit/wallet-trezor": resolve("../../packages/wallets/trezor/src"),
+      "@swapkit/wallet-phantom": resolve("../../packages/wallets/phantom/src"),
       "@swapkit/wallet-wc": resolve("../../packages/wallets/wc/src"),
       "@swapkit/wallet-xdefi": resolve("../../packages/wallets/xdefi/src"),
 

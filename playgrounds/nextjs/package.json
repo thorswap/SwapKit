@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "clean": "rm -rf .next .turbo node_modules",
+    "clean": "rm -rf .next node_modules",
     "build-playground": "next build",
     "start": "next start",
     "lint": "echo 'biome check --apply ./src'"
@@ -31,9 +31,10 @@
     "@radix-ui/react-tabs": "1.0.4",
     "@radix-ui/react-tooltip": "1.0.7",
     "@swapkit/api": "workspace:*",
-    "@swapkit/chainflip": "workspace:*",
     "@swapkit/core": "workspace:*",
-    "@swapkit/thorchain": "workspace:*",
+    "@swapkit/plugin-evm": "workspace:*",
+    "@swapkit/plugin-chainflip": "workspace:*",
+    "@swapkit/plugin-thorchain": "workspace:*",
     "@swapkit/tokens": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",

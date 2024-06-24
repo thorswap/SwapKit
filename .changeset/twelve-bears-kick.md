@@ -1,6 +1,6 @@
 ---
-"@swapkit/chainflip": patch
-"@swapkit/thorchain": patch
+"@swapkit/plugin-chainflip": patch
+"@swapkit/plugin-thorchain": patch
 "@swapkit/core": patch
 ---
 

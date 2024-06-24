@@ -1,7 +1,7 @@
-import { ChainflipPlugin } from "@swapkit/chainflip";
 import { SwapKit } from "@swapkit/core";
-import { EVMPlugin } from "@swapkit/evm";
-import { MayachainPlugin, ThorchainPlugin } from "@swapkit/thorchain";
+import { ChainflipPlugin } from "@swapkit/plugin-chainflip";
+import { EVMPlugin } from "@swapkit/plugin-evm";
+import { MayachainPlugin, ThorchainPlugin } from "@swapkit/plugin-thorchain";
 import { coinbaseWallet } from "@swapkit/wallet-coinbase";
 import { evmWallet } from "@swapkit/wallet-evm-extensions";
 import { keepkeyWallet } from "@swapkit/wallet-keepkey";
@@ -54,8 +54,8 @@ export const createSwapKit = <
   ...extendParams
 }: Params<P, W>) => {
   return SwapKit({
+    ...extendParams,
     plugins: plugins || defaultPlugins,
     wallets: wallets || defaultWallets,
-    ...extendParams,
   });
 };

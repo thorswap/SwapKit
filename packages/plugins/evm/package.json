@@ -1,37 +1,22 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@chainflip/sdk": "1.4.0",
-    "@polkadot/api": "10.12.6",
-    "@polkadot/keyring": "12.6.2",
-    "@polkadot/util": "12.6.2",
     "@swapkit/api": "workspace:*",
     "@swapkit/helpers": "workspace:*"
   },
-  "description": "SwapKit Plugin - ChainFlip",
+  "description": "SwapKit Plugin - EVM",
   "devDependencies": {
-    "@swapkit/toolbox-utxo": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-substrate": "workspace:*",
-    "bun-types": "1.1.8"
+    "@swapkit/toolbox-evm": "workspace:*"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
-  "name": "@swapkit/chainflip",
+  "name": "@swapkit/plugin-evm",
   "peerDependencies": {
-    "@chainflip/sdk": "1.4.0",
-    "@polkadot/api": "10.12.6",
-    "@polkadot/keyring": "12.6.2",
-    "@polkadot/util": "12.6.2",
     "@swapkit/api": "workspace:*",
     "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-substrate": "workspace:*"
+    "@swapkit/toolbox-evm": "workspace:*"
   },
   "react-native": "./src/index.ts",
   "repository": {
@@ -40,7 +25,7 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
+    "clean": "rm -rf dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test --coverage'",
@@ -48,5 +33,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.71"
+  "version": "1.0.0-rc.13"
 }

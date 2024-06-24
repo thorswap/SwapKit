@@ -15,7 +15,7 @@
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
-  "name": "@swapkit/thorchain",
+  "name": "@swapkit/plugin-thorchain",
   "peerDependencies": {
     "@swapkit/api": "workspace:*",
     "@swapkit/helpers": "workspace:*",
@@ -31,7 +31,7 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
+    "clean": "rm -rf dist node_modules *.tsbuildinfo",
     "lint": "biome check --apply ./src",
     "test": "echo 'bun test'",
     "test:coverage": "echo 'bun test --coverage'",

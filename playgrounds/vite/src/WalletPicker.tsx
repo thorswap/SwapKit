@@ -173,6 +173,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return skClient.connectOkx?.(chains);
 
         case WalletOption.RADIX_WALLET:
+          // @ts-ignore
           return skClient.connectRadixWallet?.();
 
         case WalletOption.PHANTOM:

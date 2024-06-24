@@ -5,7 +5,6 @@ author: 'chillios-dev'
 runs:
   using: 'composite'
   steps:
-    - uses: dtinth/setup-github-actions-caching-for-turbo@a0e976d970c2a94366a26984efcef3030e2c0115
     - uses: oven-sh/setup-bun@v1
       with:
         bun-version: latest

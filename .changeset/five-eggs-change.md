@@ -1,6 +1,6 @@
 ---
-"@swapkit/evm": patch
-"@swapkit/thorchain": patch
+"@swapkit/plugin-evm": patch
+"@swapkit/plugin-thorchain": patch
 "@swapkit/helpers": patch
 "@swapkit/core": patch
 "@swapkit/api": patch

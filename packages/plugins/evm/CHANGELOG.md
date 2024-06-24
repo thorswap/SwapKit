@@ -1,4 +1,4 @@
-# @swapkit/evm
+# @swapkit/plugin-evm
 
 ## 1.0.0-rc.13
 
