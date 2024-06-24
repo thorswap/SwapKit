@@ -59,7 +59,7 @@
   "scripts": {
     "build": "bun run ./build.ts",
     "clean": "rm -rf dist node_modules *.tsbuildinfo",
-    "lint": "biome check --apply ./src",
+    "lint": "biome check --write ./src",
     "type-check": "tsc --noEmit"
   },
   "type": "module",

@@ -4,7 +4,6 @@
     "src",
     "./build.ts",
     "../../../tools/typescript/typings.d.ts",
-    "./hardhat.config.cjs",
     "./hardhat.config.mjs"
   ]
 }
