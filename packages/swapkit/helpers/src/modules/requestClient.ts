@@ -1,7 +1,7 @@
 import type { KyInstance, Options } from "ky";
 import ky from "ky";
 
-let kyClient: typeof ky;
+let kyClientConfig: Options & { apiKey?: string } = {};
 
 export const defaultRequestHeaders =
   typeof window !== "undefined"
@@ -9,21 +9,22 @@ export const defaultRequestHeaders =
     : { referrer: "https://sk.thorswap.net", referer: "https://sk.thorswap.net" };
 
 export function setRequestClientConfig({ apiKey, ...config }: Options & { apiKey?: string }) {
-  kyClient = ky.create({
+  kyClientConfig = { ...config, apiKey };
+}
+
+function getKyClient() {
+  const { apiKey, ...config } = kyClientConfig;
+  return ky.create({
     ...config,
     headers: { ...defaultRequestHeaders, ...config.headers, "x-api-key": apiKey },
   });
 }
 
-function getKyClient() {
-  if (kyClient) return kyClient;
-  kyClient = ky.create({ headers: defaultRequestHeaders });
-  return kyClient;
-}
-
 const getTypedBaseRequestClient = (ky: KyInstance) => ({
-  get: <T>(url: string | URL | Request, options?: Options) => ky.get(url, options).json<T>(),
-  post: <T>(url: string | URL | Request, options?: Options) => ky.post(url, options).json<T>(),
+  get: async <T>(url: string | URL | Request, options?: Options) =>
+    (await ky.get(url, options)).json<T>(),
+  post: async <T>(url: string | URL | Request, options?: Options) =>
+    (await ky.post(url, options)).json<T>(),
 });
 
 export const RequestClient = {

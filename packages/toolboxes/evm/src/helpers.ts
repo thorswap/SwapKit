@@ -8,9 +8,15 @@ import {
   formatBigIntToSafeValue,
   isGasAsset,
 } from "@swapkit/helpers";
-import type { BrowserProvider, JsonRpcProvider } from "ethers";
+import type { BrowserProvider, JsonRpcProvider, Provider } from "ethers";
 
-import type { CovalentApiType, EVMMaxSendableAmountsParams, EthplorerApiType } from "./index.ts";
+import {
+  type CovalentApiType,
+  type EIP1559TxParams,
+  type EVMMaxSendableAmountsParams,
+  type EthplorerApiType,
+  estimateGasPrices,
+} from "./index.ts";
 
 export const estimateMaxSendableAmount = async ({
   toolbox,
@@ -114,4 +120,35 @@ export const getBalance = async ({
         identifier: `${chain}.${symbol}`,
       }),
   );
+};
+
+export const estimateTransactionFee = async (
+  txObject: EIP1559TxParams,
+  // biome-ignore lint/style/useDefaultParameterLast: Should only be used through wrapped toolboxes
+  feeOption: FeeOption = FeeOption.Fast,
+  chain: EVMChain,
+  provider: Provider | BrowserProvider,
+  isEIP1559Compatible = true,
+) => {
+  const gasPrices = (await estimateGasPrices(provider, isEIP1559Compatible))[feeOption];
+  const gasLimit = await provider.estimateGas(txObject);
+  const assetValue = AssetValue.fromChainOrSignature(chain);
+
+  if (!isEIP1559Compatible && gasPrices.gasPrice) {
+    return assetValue.set(
+      SwapKitNumber.fromBigInt(gasPrices.gasPrice * gasLimit, assetValue.decimal),
+    );
+  }
+
+  if (gasPrices.maxFeePerGas && gasPrices.maxPriorityFeePerGas) {
+    return assetValue.set(
+      SwapKitNumber.fromBigInt(
+        (gasPrices.maxFeePerGas + gasPrices.maxPriorityFeePerGas) * gasLimit,
+        assetValue.decimal,
+      ),
+    );
+  }
+
+  // TODO:
+  throw new Error("No gas price found");
 };

@@ -1,9 +1,16 @@
-import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, RPCUrl } from "@swapkit/helpers";
+import {
+  BaseDecimal,
+  Chain,
+  ChainId,
+  ChainToExplorerUrl,
+  type FeeOption,
+  RPCUrl,
+} from "@swapkit/helpers";
 import type { BrowserProvider, JsonRpcProvider, Signer } from "ethers";
 
 import type { CovalentApiType } from "../api/covalentApi.ts";
 import { covalentApi } from "../api/covalentApi.ts";
-import { getBalance } from "../index.ts";
+import { type EVMTxBaseParams, estimateTransactionFee, getBalance } from "../index.ts";
 
 import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
 
@@ -28,10 +35,13 @@ export const MATICToolbox = ({
 }) => {
   const maticApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Polygon });
   const baseToolbox = BaseEVMToolbox({ provider, signer });
+  const chain = Chain.Polygon;
 
   return {
     ...baseToolbox,
     getNetworkParams,
+    estimateTransactionFee: (txObject: EVMTxBaseParams, feeOptionKey: FeeOption) =>
+      estimateTransactionFee(txObject, feeOptionKey, chain, provider),
     getBalance: (
       address: string,
       potentialScamFilter = true,
@@ -41,7 +51,7 @@ export const MATICToolbox = ({
         provider: overwriteProvider || provider,
         api: maticApi,
         address,
-        chain: Chain.Polygon,
+        chain,
         potentialScamFilter,
       }),
   };
