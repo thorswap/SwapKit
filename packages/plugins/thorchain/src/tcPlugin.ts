@@ -50,7 +50,7 @@ import type {
   SavingsParams,
   SwapWithRouteParams,
   WithdrawParams,
-} from "./types";
+} from "./types.ts";
 
 type SupportedChain = EVMChain | Chain.THORChain | UTXOChain | Chain.Cosmos;
 
@@ -573,6 +573,6 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
 export const ThorchainPlugin = { thorchain: { plugin } } as const;
 
 /**
- * @deprecated Use import { ThorchainPlugin } from "@swapkit/thorchain" instead
+ * @deprecated Use import { ThorchainPlugin } from "@swapkit/plugin-thorchain" instead
  */
 export const ThorchainProvider = ThorchainPlugin;

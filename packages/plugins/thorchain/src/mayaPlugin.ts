@@ -39,7 +39,7 @@ import type {
   NodeActionParams,
   SavingsParams,
   SwapWithRouteParams,
-} from "./types";
+} from "./types.ts";
 
 type SupportedChain = EVMChain | CosmosChain | UTXOChain;
 

@@ -1,5 +1,5 @@
 ---
-"@swapkit/thorchain": patch
+"@swapkit/plugin-thorchain": patch
 "@swapkit/toolbox-cosmos": patch
 ---
 

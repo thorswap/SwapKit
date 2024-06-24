@@ -103,6 +103,6 @@ const plugin = ({
 export const ChainflipPlugin = { chainflip: { plugin } } as const;
 
 /**
- * @deprecated Use import { ChainflipPlugin } from "@swapkit/chainflip" instead
+ * @deprecated Use import { ChainflipPlugin } from "@swapkit/plugin-chainflip" instead
  */
 export const ChainflipProvider = ChainflipPlugin;

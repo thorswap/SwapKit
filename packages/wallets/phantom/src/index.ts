@@ -36,6 +36,8 @@ function connectPhantom({ addChain, config: { thorswapApiKey }, rpcUrls }: Conne
         balance: [],
         transfer: console.log,
       });
+
+      return true;
     } catch (_) {
       throw new SwapKitError("wallet_connection_rejected_by_user");
     }
