@@ -1,23 +1,22 @@
 import {
   Chain,
   ChainToHexChainId,
+  type EVMChain,
   addEVMWalletNetwork,
   prepareNetworkSwitch,
 } from "@swapkit/helpers";
 
 import {
-  ARBToolbox,
-  BSCToolbox,
+  type ARBToolbox,
+  type BSCToolbox,
   BrowserProvider,
-  ETHToolbox,
   type Eip1193Provider,
-  MATICToolbox,
-  OPToolbox,
+  type MATICToolbox,
+  type OPToolbox,
 } from "@swapkit/toolbox-evm";
 
 import { decodeAddress, encodeAddress } from "@polkadot/util-crypto";
 
-import { getToolboxByChain } from "@swapkit/toolbox-substrate";
 import type { InjectedWindow } from "./types";
 
 export const convertAddress = (inputAddress: string, newPrefix: number): string => {
@@ -55,22 +54,9 @@ export const getWeb3WalletMethods = async ({
     covalentApiKey: covalentApiKey as string,
   };
 
-  const toolbox = (() => {
-    switch (chain) {
-      case Chain.Ethereum:
-        return ETHToolbox(toolboxParams);
-      case Chain.Arbitrum:
-        return ARBToolbox(toolboxParams);
-      case Chain.Polygon:
-        return MATICToolbox(toolboxParams);
-      case Chain.Optimism:
-        return OPToolbox(toolboxParams);
-      case Chain.BinanceSmartChain:
-        return BSCToolbox(toolboxParams);
-      default:
-        throw new Error(`Unsupported chain: ${chain}`);
-    }
-  })();
+  const { getToolboxByChain } = await import("@swapkit/toolbox-evm");
+
+  const toolbox = getToolboxByChain(chain as EVMChain)(toolboxParams);
 
   try {
     chain !== Chain.Ethereum &&
@@ -132,6 +118,7 @@ export const getWalletForChain = async ({
     }
 
     case Chain.Polkadot: {
+      const { getToolboxByChain } = await import("@swapkit/toolbox-substrate");
       const injectedWindow = window as Window & InjectedWindow;
       const injectedExtension = injectedWindow?.injectedWeb3?.talisman;
       const rawExtension = await injectedExtension?.enable?.("talisman");
