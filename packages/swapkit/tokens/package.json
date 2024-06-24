@@ -15,7 +15,7 @@
     "build": "bun run ./build.ts",
     "clean": "rm -rf dist node_modules *.tsbuildinfo",
     "generate-tokens": "bun run ./fetchTokenLists.ts",
-    "lint": "biome check --apply-unsafe ./src",
+    "lint": "biome check --write --unsafe ./src",
     "test": "echo 'bun test --run'",
     "test:coverage": "bun test --coverage",
     "type-check": "tsc --noEmit"

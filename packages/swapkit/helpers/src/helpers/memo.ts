@@ -1,15 +1,6 @@
 import { Chain } from "../types/chains";
 import { MemoType } from "../types/sdk";
 
-export type NameRegisterParam = {
-  name: string;
-  chain: string;
-  address: string;
-  owner?: string;
-  preferredAsset?: string;
-  expiryBlock?: string;
-};
-
 type WithChain<T extends {}> = T & { chain: Chain };
 
 type WithAffiliate<T extends {}> = T & { affiliateAddress?: string; affiliateBasisPoints?: number };
@@ -41,7 +32,10 @@ export function getMemoForLeaveAndBond({
   return `${type}:${address}`;
 }
 
-export function getMemoForUnbond(address: string, unbondAmount: number) {
+export function getMemoForUnbond({
+  address,
+  unbondAmount,
+}: { address: string; unbondAmount: number }) {
   return `${MemoType.UNBOND}:${address}:${unbondAmount}`;
 }
 
@@ -145,7 +139,7 @@ export type MemoOptions<T extends MemoType> = {
     targetAssetString?: string;
     singleSide?: boolean;
   }>;
-  [MemoType.NAME_REGISTER]: Omit<NameRegisterParam, "preferredAsset" | "expiryBlock">;
+  [MemoType.NAME_REGISTER]: { name: string; chain: string; address: string };
 }[T];
 
 /**
@@ -161,7 +155,7 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
 
     case MemoType.UNBOND: {
       const { address, unbondAmount } = options as MemoOptions<MemoType.UNBOND>;
-      return getMemoForUnbond(address, unbondAmount);
+      return getMemoForUnbond({ address, unbondAmount });
     }
 
     case MemoType.NAME_REGISTER: {
