@@ -177,6 +177,7 @@ export class AssetValue extends BigIntArithmetics {
 
   static fromChainOrSignature(assetString: CommonAssetString, value: NumberPrimitives = 0) {
     const { decimal, identifier } = getCommonAssetInfo(assetString);
+
     return new AssetValue({ value: safeValue(value, decimal), decimal, identifier });
   }
 

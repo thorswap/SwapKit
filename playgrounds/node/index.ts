@@ -1,9 +1,9 @@
-import { AssetValue, Chain, SwapKitCore } from '@swapkit/core';
-import { keystoreWallet } from '@swapkit/wallet-keystore';
+import { AssetValue, Chain, SwapKitCore } from "@swapkit/core";
+import { keystoreWallet } from "@swapkit/wallet-keystore";
 let skClient: SwapKitCore | undefined;
 const phrase = process.env.PRHASES;
 
-if (!phrase) throw new Error('No phrase found');
+if (!phrase) throw new Error("No phrase found");
 
 const getSwapKitClient = async () => {
   try {
@@ -16,7 +16,7 @@ const getSwapKitClient = async () => {
     return client;
   } catch (error) {
     console.error(error);
-    throw new Error('Error getting SwapKit client');
+    throw new Error("Error getting SwapKit client");
   }
 };
 /**
@@ -36,7 +36,7 @@ export const doSend = async ({
     console.info(`Balance: ${balance}`);
     console.info(`💰 Wallet - ${from} | Balance: ${balance}}`);
 
-    const assetValue = await AssetValue.fromString('THOR.RUNE', sendAmount);
+    const assetValue = await AssetValue.fromString("THOR.RUNE", sendAmount);
     console.info(`💰 Sending ${sendAmount} RUNE to ${toAddress}`);
     console.info(`💰 Asset value: ${assetValue.toString()}`);
     try {
@@ -45,7 +45,7 @@ export const doSend = async ({
         from,
         assetValue,
         recipient: toAddress,
-        memo: '',
+        memo: "",
       })
         .then((txHash) => {
           console.info(txHash);
@@ -53,21 +53,21 @@ export const doSend = async ({
         })
         .catch((err) => {
           console.info(err);
-          return '';
+          return "";
         });
     } catch (error) {
       console.error(error);
     }
   } catch (error) {
     console.error(error);
-    return '';
+    return "";
   }
 };
 
 const main = async () => {
   const tx = await doSend({
     sendAmount: 0.1,
-    toAddress: 'thor1e9lxzfl7x2zvxnjczf8v0urel8943nesq9c4pk',
+    toAddress: "thor1e9lxzfl7x2zvxnjczf8v0urel8943nesq9c4pk",
   });
   console.info(tx);
 };
