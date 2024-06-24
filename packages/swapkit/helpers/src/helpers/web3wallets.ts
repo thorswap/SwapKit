@@ -13,6 +13,7 @@ export type EthereumWindowProvider = BrowserProvider & {
   isMetaMask?: boolean;
   isOkxWallet?: boolean;
   isTrust?: boolean;
+  isTalisman?: boolean;
   on: (event: string, callback?: () => void) => void;
   overrideIsMetaMask?: boolean;
   request: <T = unknown>(args: { method: string; params?: unknown[] }) => Promise<T>;

@@ -24,6 +24,8 @@ const errorMessages = {
   core_wallet_keplr_not_installed: 10107,
   core_wallet_okx_not_installed: 10108,
   core_wallet_keepkey_not_installed: 10109,
+  core_wallet_talisman_not_installed: 10110,
+  core_wallet_not_keypair_wallet: 10111,
   /**
    * Core - Swap
    */

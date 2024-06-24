@@ -44,7 +44,6 @@ export default function Liquidity({
   );
 
   const handleAddLiquidity = useCallback(async () => {
-    console.log(skClient);
     if (pluginMode == "mayaplugin") {
       const result = await skClient?.mayachain.addLiquidity({
         // runeAddr: used when can't connect both chain at once (use addLiquidityPart)

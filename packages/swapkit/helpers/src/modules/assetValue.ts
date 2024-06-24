@@ -62,7 +62,7 @@ export class AssetValue extends BigIntArithmetics {
     return this.chain === chain && this.symbol === symbol;
   }
 
-  eq(assetValue: AssetValue) {
+  eq(assetValue: AssetValue): boolean {
     return this.eqAsset(assetValue) && this.eqValue(assetValue);
   }
 

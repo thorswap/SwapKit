@@ -26,6 +26,7 @@ export enum WalletOption {
   EIP6963 = "EIP6963",
   EXODUS = "EXODUS",
   RADIX_WALLET = "RADIX_WALLET",
+  TALISMAN = "TALISMAN",
 }
 
 export enum LedgerErrorCode {
