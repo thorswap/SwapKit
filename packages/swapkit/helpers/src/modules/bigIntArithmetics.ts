@@ -42,9 +42,7 @@ export function formatBigIntToSafeValue({
   // Check if we need to round up
   if (Number.parseInt(decimalString[bigIntDecimal] || "0") >= 5) {
     // Increment the last decimal place and slice off the rest
-    decimalString = `${decimalString.substring(0, bigIntDecimal - 1)}${(
-      Number.parseInt(decimalString[bigIntDecimal - 1] || "0") + 1
-    ).toString()}`;
+    decimalString = `${decimalString.substring(0, bigIntDecimal - 1)}${(Number.parseInt(decimalString[bigIntDecimal - 1] || "0") + 1).toString()}`;
   } else {
     // Just slice off the extra digits
     decimalString = decimalString.substring(0, bigIntDecimal);
@@ -277,9 +275,7 @@ export class BigIntArithmetics {
     // Check if we need to round up
     if (Number.parseInt(decimalString[bigIntDecimal] || "0") >= 5) {
       // Increment the last decimal place and slice off the rest
-      decimalString = `${decimalString.substring(0, bigIntDecimal - 1)}${(
-        Number.parseInt(decimalString[bigIntDecimal - 1] || "0") + 1
-      ).toString()}`;
+      decimalString = `${decimalString.substring(0, bigIntDecimal - 1)}${(Number.parseInt(decimalString[bigIntDecimal - 1] || "0") + 1).toString()}`;
     } else {
       // Just slice off the extra digits
       decimalString = decimalString.substring(0, bigIntDecimal);

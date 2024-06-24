@@ -111,14 +111,6 @@ export const availableChainsByWallet = {
     Chain.Arbitrum,
     Chain.Optimism,
   ],
-  [WalletOption.TALISMAN]: [
-    Chain.Ethereum,
-    Chain.Arbitrum,
-    Chain.Polygon,
-    Chain.BinanceSmartChain,
-    Chain.Optimism,
-    Chain.Polkadot,
-  ],
   //   [WalletOption.EXODUS]: [
   //     Chain.Ethereum,
   //     Chain.BinanceSmartChain,
@@ -138,11 +130,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.METAMASK:
         case WalletOption.TRUSTWALLET_WEB:
         case WalletOption.EIP6963:
-          // @ts-ignore
-          return skClient.connectEVMWallet(chains, option, provider);
-        case WalletOption.TALISMAN:
-          // @ts-ignore
-          return skClient.connectTalisman(chains);
+          return skClient.connectEVMWallet?.(chains, option, provider);
         case WalletOption.KEEPKEY: {
           const derivationPaths = chains.map((chain) => getDerivationPathFor({ chain, index: 0 }));
 
@@ -173,7 +161,6 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return skClient.connectOkx?.(chains);
 
         case WalletOption.RADIX_WALLET:
-          // @ts-ignore
           return skClient.connectRadixWallet?.();
 
         case WalletOption.PHANTOM:
@@ -201,7 +188,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           const phrases = await decryptFromKeystore(JSON.parse(keystoreFile), password);
           setPhrase(phrases);
 
-          await skClient.connectKeystore?.(chains, phrases);
+          await skClient.connectKeystore(chains, phrases);
 
           const walletDataArray = await Promise.all(
             chains.map((chain) => skClient.getWalletWithBalance(chain, true)),

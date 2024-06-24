@@ -3,6 +3,7 @@ import type ethers from "@nomicfoundation/hardhat-ethers";
 import helpers from "@nomicfoundation/hardhat-network-helpers";
 import { AssetValue, Chain, FeeOption, erc20ABI } from "@swapkit/helpers";
 import type { JsonRpcProvider } from "ethers";
+import type { JsonRpcSigner } from "ethers";
 import hre from "hardhat";
 
 import { ETHToolbox } from "../index.ts";
@@ -26,7 +27,7 @@ const context: {
 beforeEach(async () => {
   context.ethers = hre.artifacts;
   const provider = getProvider(Chain.Ethereum, "http://127.0.0.1:8545/");
-  const signer = await hre.ethers.getImpersonatedSigner(testAddress);
+  const signer = (await hre.ethers.getImpersonatedSigner(testAddress)) as unknown as JsonRpcSigner;
   context.provider = provider;
   context.toolbox = ETHToolbox({ ethplorerApiKey: "freekey", provider, signer });
 });

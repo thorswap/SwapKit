@@ -128,8 +128,8 @@ export const getWalletForChain = async ({
           this,
         );
       }
-      const signer = rawExtension.signer;
-      const toolbox = await getToolboxByChain(chain, { signer });
+
+      const toolbox = await getToolboxByChain(chain, { signer: rawExtension.signer });
       const accounts = await rawExtension.accounts.get();
       if (!accounts[0]?.address) {
         throw new Error("Account not found");

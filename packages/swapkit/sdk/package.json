@@ -17,8 +17,8 @@
     "@swapkit/wallet-keystore": "workspace:*",
     "@swapkit/wallet-ledger": "workspace:*",
     "@swapkit/wallet-okx": "workspace:*",
-    "@swapkit/wallet-talisman": "workspace:*",
     "@swapkit/wallet-phantom": "workspace:*",
+    "@swapkit/wallet-talisman": "workspace:*",
     "@swapkit/wallet-trezor": "workspace:*",
     "@swapkit/wallet-wc": "workspace:*",
     "@swapkit/wallet-xdefi": "workspace:*"
@@ -41,8 +41,8 @@
     "@swapkit/wallet-keystore": "workspace:*",
     "@swapkit/wallet-ledger": "workspace:*",
     "@swapkit/wallet-okx": "workspace:*",
-    "@swapkit/wallet-talisman": "workspace:*",
     "@swapkit/wallet-phantom": "workspace:*",
+    "@swapkit/wallet-talisman": "workspace:*",
     "@swapkit/wallet-trezor": "workspace:*",
     "@swapkit/wallet-wc": "workspace:*",
     "@swapkit/wallet-xdefi": "workspace:*"
@@ -61,7 +61,7 @@
   "scripts": {
     "build": "bun run ./build.ts",
     "clean": "rm -rf dist node_modules *.tsbuildinfo",
-    "lint": "biome check --apply ./src",
+    "lint": "biome check --write ./src",
     "type-check": "tsc --noEmit"
   },
   "type": "module",
