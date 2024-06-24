@@ -1,13 +1,5 @@
-import {
-  type AssetValue,
-  type Chain,
-  SwapKit,
-  WalletOption,
-  type Chain,
-  Swapcoren,
-} from "@swapkit/core";
-import { ChainflipPlugin;
-plugin - chainflip;
+import { type AssetValue, type Chain, SwapKit, WalletOption } from "@swapkit/core";
+import { ChainflipPlugin } from "@swapkit/plugin-chainflip";
 import { ThorchainPlugin } from "@swapkit/plugin-thorchain";
 
 import { xdefiWallet } from "@swapkit/wallet-xdefi";
