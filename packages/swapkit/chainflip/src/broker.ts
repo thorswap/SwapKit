@@ -16,8 +16,9 @@ import { chainflipGateway } from "./chainflipGatewayABI.ts";
 import type { DepositChannelRequest, SwapDepositResponse, WithdrawFeeResponse } from "./types.ts";
 
 const chainToChainflipChain = new Map<Chain, keyof typeof Chains>([
-  [Chain.Ethereum, Chains.Ethereum],
+  [Chain.Arbitrum, Chains.Arbitrum],
   [Chain.Bitcoin, Chains.Bitcoin],
+  [Chain.Ethereum, Chains.Ethereum],
   [Chain.Polkadot, Chains.Polkadot],
 ]);
 

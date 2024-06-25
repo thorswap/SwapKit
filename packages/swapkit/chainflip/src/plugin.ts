@@ -13,7 +13,7 @@ import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
 import type { UTXOWallets } from "@swapkit/toolbox-utxo";
 
 type Wallets = BaseWallet<EVMWallets & SubstrateWallets & UTXOWallets>;
-type SupportedChain = Chain.Bitcoin | Chain.Ethereum | Chain.Polkadot;
+type SupportedChain = Chain.Arbitrum | Chain.Bitcoin | Chain.Ethereum | Chain.Polkadot;
 
 export async function confirmSwap({
   buyAsset,
