@@ -45,7 +45,7 @@ const requestSwapDepositAddress = async (
     brokerCommissionBPS,
     ccmMetadata,
     maxBoostFeeBps,
-  }: Partial<GenericSwapParams> & DepositChannelRequest,
+  }: Partial<GenericSwapParams> & Partial<DepositChannelRequest>,
 ) => {
   const sellAssetValue = sellAsset || (route && AssetValue.fromStringSync(route.sellAsset));
   const buyAssetValue = buyAsset || (route && AssetValue.fromStringSync(route.buyAsset));
@@ -70,7 +70,7 @@ const requestSwapDepositAddress = async (
       sellAssetValue.ticker.toLowerCase(),
       buyAssetValue.ticker.toLowerCase(),
       { [buyAssetValue.chain.toLowerCase()]: recipientAddress },
-      SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
+      SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS ?? 0)).getBaseValue("number"),
       _ccmMetadata,
       _maxBoostFeeBps,
     );
@@ -108,7 +108,7 @@ const requestSwapDepositAddress = async (
       )}-${channelId.replaceAll(",", "")}`;
 
       resolve({
-        brokerCommissionBPS,
+        brokerCommissionBPS: brokerCommissionBPS ?? 0,
         buyAsset: buyAssetValue,
         depositAddress: Object.values(depositAddress)[0] as string,
         depositChannelId,
