@@ -1,5 +1,11 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.69
+
+### Minor Changes
+
+- [#860](https://github.com/thorswap/SwapKit/pull/860) [`8190a77`](https://github.com/thorswap/SwapKit/commit/8190a77bb91ca7afea322b6fbf0a1e3cc80a68c2) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Add Arbitrum support for Chainflip
+
 ## 1.0.0-rc.68
 
 ### Patch Changes
