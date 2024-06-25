@@ -1,11 +1,29 @@
 export const list = {
   provider: "CHAINFLIP",
   name: "CHAINFLIP",
-  timestamp: "2024-06-20T16:30:29.991Z",
+  timestamp: "2024-06-25T19:24:24.993Z",
   version: { major: 1, minor: 0, patch: 0 },
   keywords: [],
-  count: 6,
+  count: 8,
   tokens: [
+    {
+      chain: "ARB",
+      chainId: "42161",
+      ticker: "ETH",
+      identifier: "ARB.ETH",
+      decimals: 18,
+      logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.eth.png",
+    },
+    {
+      chain: "ARB",
+      address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+      chainId: "42161",
+      ticker: "USDC",
+      identifier: "ARB.USDC-0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+      decimals: 6,
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.usdc-0xaf88d065e77c8cc2239327c5edb3a432268e5831.png",
+    },
     {
       chain: "BTC",
       chainId: "bitcoin",
