@@ -1,5 +1,12 @@
 # @swapkit/toolbox-evm
 
+## 1.0.0-rc.120
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.113
+
 ## 1.0.0-rc.119
 
 ### Patch Changes

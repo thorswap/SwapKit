@@ -1,5 +1,12 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.113
+
+### Patch Changes
+
+- Updated dependencies [[`0a7f4d9`](https://github.com/thorswap/SwapKit/commit/0a7f4d9397128260064b727db1b96a91bce803a6)]:
+  - @swapkit/tokens@1.0.0-rc.55
+
 ## 1.0.0-rc.112
 
 ### Patch Changes
