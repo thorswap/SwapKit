@@ -1,5 +1,15 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.70
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.113
+  - @swapkit/api@1.0.0-rc.81
+  - @swapkit/toolbox-evm@1.0.0-rc.120
+  - @swapkit/toolbox-substrate@1.0.0-rc.48
+
 ## 1.0.0-rc.69
 
 ### Minor Changes

@@ -1,5 +1,14 @@
 # @swapkit/evm
 
+## 1.0.0-rc.13
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.0-rc.113
+  - @swapkit/api@1.0.0-rc.81
+  - @swapkit/toolbox-evm@1.0.0-rc.120
+
 ## 1.0.0-rc.12
 
 ### Patch Changes
