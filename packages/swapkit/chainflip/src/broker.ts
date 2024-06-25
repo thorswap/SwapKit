@@ -204,8 +204,9 @@ export const ChainflipBroker = (
   chainflipToolbox: Awaited<ReturnType<typeof ChainflipToolbox>>,
 ) => ({
   registerAsBroker: (address: string) => registerAsBroker(chainflipToolbox, address),
-  requestSwapDepositAddress: (chainflipTransaction: GenericSwapParams & DepositChannelRequest) =>
-    requestSwapDepositAddress(chainflipToolbox, chainflipTransaction),
+  requestSwapDepositAddress: (
+    chainflipTransaction: Partial<GenericSwapParams> & Partial<DepositChannelRequest>,
+  ) => requestSwapDepositAddress(chainflipToolbox, chainflipTransaction),
   fundStateChainAccount: (
     stateChainAccount: string,
     amount: AssetValue,
