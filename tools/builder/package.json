@@ -1,5 +1,5 @@
 {
-  "name": "@swapkit/tools-builder",
+  "name": "@internal/tools-builder",
   "version": "0.0.1",
   "files": ["index.ts"],
   "devDependencies": {
