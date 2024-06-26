@@ -6,6 +6,7 @@ import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
 
 import { decodeAddress } from "@polkadot/keyring";
 import { isHex, u8aToHex } from "@polkadot/util";
+import { toCFTicker } from "./assets.ts";
 import { chainflipGateway } from "./chainflipGatewayABI.ts";
 import type {
   RequestSwapDepositAddressParams,
@@ -62,8 +63,8 @@ const requestSwapDepositAddress =
 
     return new Promise<SwapDepositResponse>((resolve) => {
       const tx = toolbox.api.tx.swapping?.requestSwapDepositAddress?.(
-        sellAssetValue.ticker.toLowerCase(),
-        buyAssetValue.ticker.toLowerCase(),
+        toCFTicker(sellAssetValue),
+        toCFTicker(buyAssetValue),
         { [buyAssetValue.chain.toLowerCase()]: recipientAddress },
         SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
         _ccmMetadata,

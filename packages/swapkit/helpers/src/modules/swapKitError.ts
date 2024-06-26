@@ -69,6 +69,7 @@ const errorMessages = {
    */
   chainflip_channel_error: 30001,
   chainflip_broker_recipient_error: 30002,
+  chainflip_unknown_asset: 30003,
   /**
    * THORChain
    */
