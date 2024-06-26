@@ -13,7 +13,6 @@ import type { WalletConnectModalSign } from "@walletconnect/modal-sign-html";
 import type { SessionTypes, SignClientTypes } from "@walletconnect/types";
 
 import {
-  BINANCE_MAINNET_ID,
   DEFAULT_APP_METADATA,
   DEFAULT_COSMOS_METHODS,
   DEFAULT_LOGGER,
@@ -26,7 +25,6 @@ import { chainToChainId, getAddressByChain } from "./helpers.ts";
 import { getRequiredNamespaces } from "./namespaces.ts";
 
 const SUPPORTED_CHAINS = [
-  Chain.Binance, // Not supported by WC
   Chain.BinanceSmartChain,
   Chain.Ethereum,
   Chain.THORChain,
@@ -55,8 +53,6 @@ async function getToolbox({
   stagenet?: boolean;
   address: string;
 }) {
-  const from = address;
-
   switch (chain) {
     case Chain.Avalanche:
     case Chain.BinanceSmartChain:
@@ -89,48 +85,6 @@ async function getToolbox({
         ethplorerApiKey: ethplorerApiKey as string,
         covalentApiKey,
       });
-    }
-
-    case Chain.Binance: {
-      const { sortObject, BinanceToolbox } = await import("@swapkit/toolbox-cosmos");
-      const toolbox = BinanceToolbox();
-      const transfer = async ({ recipient, assetValue, memo }: TransferParams) => {
-        const account = await toolbox.getAccount(from);
-        const { transaction, signMsg } = await toolbox.createTransactionAndSignMsg({
-          recipient,
-          from,
-          assetValue,
-          memo,
-        });
-
-        const signDoc = sortObject({
-          account_number: account.account_number.toString(),
-          chain_id: ChainId.Binance,
-          data: null,
-          memo,
-          msgs: [signMsg],
-          sequence: account.sequence.toString(),
-          source: "0",
-        });
-
-        const response: Todo = await walletconnect?.client.request({
-          chainId: BINANCE_MAINNET_ID,
-          topic: session.topic,
-          request: {
-            method: DEFAULT_COSMOS_METHODS.COSMOS_SIGN_AMINO,
-            params: { signerAddress: address, signDoc },
-          },
-        });
-
-        const signature = Buffer.from(response.signature, "hex");
-        const publicKey = toolbox.getPublicKey(response.publicKey);
-        const signedTx = transaction.addSignature(publicKey, signature);
-
-        const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);
-
-        return res?.result?.hash;
-      };
-      return { ...toolbox, transfer };
     }
 
     case Chain.THORChain: {

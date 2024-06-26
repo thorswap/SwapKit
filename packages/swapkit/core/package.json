@@ -11,9 +11,6 @@
     "@swapkit/toolbox-substrate": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*"
   },
-  "devDependencies": {
-    "@swapkit/tokens": "workspace:*"
-  },
   "description": "SwapKit - Core",
   "files": [
     "src/",

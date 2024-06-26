@@ -12,7 +12,6 @@ import {
   ProviderName as PluginNameEnum,
   SwapKitError,
   type SwapParams,
-  type UTXOChain,
   type WalletChain,
   isGasAsset,
 } from "@swapkit/helpers";
@@ -21,11 +20,7 @@ import {
   estimateTransactionFee as cosmosTransactionFee,
   cosmosValidateAddress,
 } from "@swapkit/toolbox-cosmos";
-import {
-  type BaseEVMWallet,
-  type TransferParams as EVMTransferParams,
-  evmValidateAddress,
-} from "@swapkit/toolbox-evm";
+import { type TransferParams as EVMTransferParams, evmValidateAddress } from "@swapkit/toolbox-evm";
 import { substrateValidateAddress } from "@swapkit/toolbox-substrate";
 import { type UTXOTransferParams, utxoValidateAddress } from "@swapkit/toolbox-utxo";
 
@@ -110,22 +105,19 @@ export function SwapKit<
     const plugin = availablePlugins[pluginName] || Object.values(availablePlugins)[0];
 
     if (!plugin) {
-      throw new SwapKitError("core_plugin_not_found", "Could not find the requested plugin");
+      throw new SwapKitError("core_plugin_not_found");
     }
 
     return plugin;
   }
 
-  /**
-   * @Private
-   */
   function getSwapKitPluginForSKProvider(pluginName: PluginNameEnum): Plugins[keyof Plugins] {
     const plugin = Object.values(availablePlugins).find((plugin) =>
       plugin.supportedSwapkitProviders?.includes(pluginName),
     );
 
     if (!plugin) {
-      throw new SwapKitError("core_plugin_not_found", "Could not find the requested plugin");
+      throw new SwapKitError("core_plugin_not_found");
     }
 
     return plugin;
@@ -156,10 +148,10 @@ export function SwapKit<
         return plugin.approveAssetValue({ assetValue }) as ApproveReturnType<T>;
       }
 
-      throw new SwapKitError(
-        "core_approve_asset_target_invalid",
-        `Target ${String(spenderAddress)} cannot be used for approve operation`,
-      );
+      throw new SwapKitError({
+        errorKey: "core_approve_asset_target_invalid",
+        info: { message: `Target ${String(spenderAddress)} cannot be used for approve operation` },
+      });
     }
 
     const { address, chain, isGasAsset, isSynthetic } = assetValue;
@@ -170,19 +162,18 @@ export function SwapKit<
       return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
     }
 
-    const walletMethods = connectedWallets[chain] as BaseEVMWallet;
-    const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
+    const wallet = getWallet(chain as EVMChain);
+    const walletAction = type === "checkOnly" ? wallet.isApproved : wallet.approve;
     if (!walletAction) throw new SwapKitError("core_wallet_connection_not_found");
 
-    const from = getAddress(chain);
-    if (!(address && from && typeof spenderAddress === "string")) {
+    if (!(address && wallet.address && typeof spenderAddress === "string")) {
       throw new SwapKitError("core_approve_asset_address_or_from_not_found");
     }
 
     return walletAction({
       amount: assetValue.getBaseValue("bigint"),
       assetAddress: address,
-      from,
+      from: wallet.address,
       spenderAddress,
     }) as ApproveReturnType<T>;
   }
@@ -193,11 +184,39 @@ export function SwapKit<
   function getWallet<T extends Chain>(chain: T) {
     return connectedWallets[chain];
   }
+
   function getAllWallets() {
     return { ...connectedWallets };
   }
+
   function getAddress<T extends Chain>(chain: T) {
     return getWallet(chain)?.address || "";
+  }
+
+  function approveAssetValue(assetValue: AssetValue, contractAddress: string | PluginName) {
+    return approve({ assetValue, contractAddress, type: ApproveMode.Approve });
+  }
+
+  function isAssetValueApproved(assetValue: AssetValue, contractAddress: string | PluginName) {
+    return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
+  }
+
+  function disconnectChain<T extends Chain>(chain: T) {
+    const wallet = getWallet(chain);
+    wallet?.disconnect?.();
+    delete connectedWallets[chain];
+  }
+
+  function disconnectAll() {
+    for (const chain of Object.keys(connectedWallets) as (keyof typeof connectedWallets)[]) {
+      disconnectChain(chain);
+    }
+  }
+
+  function getBalance<T extends Chain>(chain: T, refresh?: boolean) {
+    return refresh
+      ? getWalletWithBalance(chain).then((wallet) => wallet.balance)
+      : getWallet(chain)?.balance || [];
   }
 
   function validateAddress({ address, chain }: { address: string; chain: Chain }) {
@@ -207,35 +226,28 @@ export function SwapKit<
       case Chain.Optimism:
       case Chain.BinanceSmartChain:
       case Chain.Polygon:
-      case Chain.Ethereum: {
+      case Chain.Ethereum:
         return evmValidateAddress({ address });
-      }
-      case Chain.Polkadot: {
-        return substrateValidateAddress({ address, chain });
-      }
+
       case Chain.Litecoin:
       case Chain.Dash:
       case Chain.Dogecoin:
       case Chain.BitcoinCash:
-      case Chain.Bitcoin: {
+      case Chain.Bitcoin:
         return utxoValidateAddress({ address, chain });
-      }
+
       case Chain.Cosmos:
       case Chain.Kujira:
       case Chain.Maya:
-      case Chain.THORChain: {
+      case Chain.THORChain:
         return cosmosValidateAddress({ address, chain });
-      }
-    }
-    return false;
-  }
 
-  function getBalance<T extends Chain>(chain: T, refresh?: boolean) {
-    if (refresh) {
-      return getWalletWithBalance(chain).then((wallet) => wallet.balance);
-    }
+      case Chain.Polkadot:
+        return substrateValidateAddress({ address, chain });
 
-    return getWallet(chain)?.balance || [];
+      default:
+        return false;
+    }
   }
 
   async function getWalletWithBalance<T extends Chain>(chain: T, potentialScamFilter = true) {
@@ -255,18 +267,11 @@ export function SwapKit<
     return wallet;
   }
 
-  function approveAssetValue(assetValue: AssetValue, contractAddress: string | PluginName) {
-    return approve({ assetValue, contractAddress, type: ApproveMode.Approve });
-  }
-
-  function isAssetValueApproved(assetValue: AssetValue, contractAddress: string | PluginName) {
-    return approve({ assetValue, contractAddress, type: ApproveMode.CheckOnly });
-  }
-
   function swap<T extends PluginName>({ route, pluginName, ...rest }: SwapParams<T>) {
     const plugin =
       (pluginName && getSwapKitPlugin(pluginName)) ||
       getSwapKitPluginForSKProvider(route.providers[0] as PluginNameEnum);
+
     if (!plugin) throw new SwapKitError("core_swap_route_not_complete");
 
     if ("swap" in plugin) {
@@ -283,31 +288,10 @@ export function SwapKit<
     feeOptionKey,
   }: UTXOTransferParams | EVMTransferParams | CosmosTransferParams) {
     const chain = assetValue.chain as WalletChain;
-    const wallet = connectedWallets[chain];
+    const wallet = getWallet(chain);
     if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
 
     return wallet.transfer({ from, recipient, assetValue, feeOptionKey });
-  }
-
-  function disconnectAll() {
-    for (const chain of Object.keys(connectedWallets)) {
-      // @ts-expect-error: TODO
-      const wallet = connectedWallets[chain];
-      if ("disconnect" in wallet) {
-        wallet.disconnect();
-      }
-      // @ts-expect-error: TODO
-      delete connectedWallets[chain];
-    }
-  }
-
-  function disconnectChain(chain: Chain) {
-    const wallet = connectedWallets[chain];
-    const disconnect = wallet?.disconnect;
-    if (disconnect) {
-      disconnect();
-    }
-    delete connectedWallets[chain];
   }
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO clean this up
@@ -333,18 +317,19 @@ export function SwapKit<
     feeOptionKey: FeeOption;
   }): Promise<AssetValue | undefined> {
     const { assetValue } = params;
-    const chain = params.assetValue.chain as WalletChain;
-    if (!connectedWallets[chain]) throw new SwapKitError("core_wallet_connection_not_found");
+    const { chain } = assetValue;
+
+    if (!getWallet(chain)) throw new SwapKitError("core_wallet_connection_not_found");
 
     const baseValue = AssetValue.fromChainOrSignature(chain, 0);
-
     switch (chain) {
       case Chain.Arbitrum:
       case Chain.Avalanche:
       case Chain.Ethereum:
       case Chain.BinanceSmartChain:
       case Chain.Polygon: {
-        const wallet = connectedWallets[chain as Exclude<EVMChain, Chain.Optimism>];
+        const wallet = getWallet(chain);
+
         switch (type) {
           case "transfer": {
             const txObject = await wallet.createTransferTx(params);
@@ -407,7 +392,7 @@ export function SwapKit<
       case Chain.Dogecoin:
       case Chain.Dash:
       case Chain.Litecoin: {
-        const { estimateMaxSendableAmount, address } = connectedWallets[chain as UTXOChain];
+        const { estimateMaxSendableAmount, address } = getWallet(chain);
 
         return estimateMaxSendableAmount({
           ...params,
@@ -425,8 +410,9 @@ export function SwapKit<
       }
 
       case Chain.Polkadot: {
-        const wallet = connectedWallets[chain as Chain.Polkadot];
-        return wallet.estimateTransactionFee({ ...params, recipient: wallet.address });
+        const { address, estimateTransactionFee } = getWallet(chain);
+
+        return estimateTransactionFee({ ...params, recipient: address });
       }
 
       default:

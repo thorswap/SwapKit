@@ -24,7 +24,6 @@ import {
 const XDEFI_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
   Chain.Avalanche,
-  Chain.Binance,
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
@@ -70,7 +69,6 @@ async function getWalletMethodsForChain({
       };
     }
 
-    case Chain.Binance:
     case Chain.Cosmos:
     case Chain.Kujira: {
       const { getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
@@ -78,13 +76,10 @@ async function getWalletMethodsForChain({
 
       return {
         ...toolbox(),
-        transfer:
-          chain === Chain.Binance
-            ? walletTransfer
-            : cosmosTransfer({
-                chainId: ChainToChainId[chain] as ChainId.Cosmos,
-                rpcUrl: ChainToRPC[chain],
-              }),
+        transfer: cosmosTransfer({
+          chainId: ChainToChainId[chain] as ChainId.Cosmos,
+          rpcUrl: ChainToRPC[chain],
+        }),
       };
     }
 

@@ -70,8 +70,6 @@ export const getRPC = (chainId: ChainId, stagenet?: boolean) => {
   switch (chainId) {
     case ChainId.Cosmos:
       return RPCUrl.Cosmos;
-    case ChainId.Binance:
-      return RPCUrl.Binance;
     case ChainId.Kujira:
       return RPCUrl.Kujira;
 

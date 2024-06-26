@@ -1,6 +1,5 @@
 import { Chain, type DerivationPathArray } from "@swapkit/helpers";
 
-import { BinanceLedger } from "../clients/binance/index.ts";
 import { CosmosLedger } from "../clients/cosmos.ts";
 import {
   ArbitrumLedger,
@@ -31,8 +30,6 @@ export const getLedgerClient = async ({
   switch (chain) {
     case Chain.THORChain:
       return new THORChainLedger(derivationPath);
-    case Chain.Binance:
-      return new BinanceLedger(derivationPath);
     case Chain.Cosmos:
       return new CosmosLedger(derivationPath);
     case Chain.Bitcoin:

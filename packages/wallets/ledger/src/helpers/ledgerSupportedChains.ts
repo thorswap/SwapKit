@@ -3,7 +3,6 @@ import { Chain } from "@swapkit/helpers";
 export const LEDGER_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
   Chain.Avalanche,
-  Chain.Binance,
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,

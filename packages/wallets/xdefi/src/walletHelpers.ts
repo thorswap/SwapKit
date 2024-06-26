@@ -67,9 +67,6 @@ export function getXDEFIProvider<T extends Chain>(
       // @ts-expect-error
       return window.xfi.keplr;
 
-    case Chain.Binance:
-      // @ts-expect-error
-      return window.xfi.binance;
     case Chain.Bitcoin:
       // @ts-expect-error
       return window.xfi.bitcoin;

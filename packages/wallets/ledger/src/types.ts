@@ -1,4 +1,3 @@
-import type { BinanceLedger } from "./clients/binance/index.ts";
 import type { CosmosLedger } from "./clients/cosmos.ts";
 import type {
   ArbitrumLedger,
@@ -21,7 +20,7 @@ export type UTXOLedgerClients =
   | ReturnType<typeof BitcoinCashLedger>
   | ReturnType<typeof DogecoinLedger>
   | ReturnType<typeof LitecoinLedger>;
-export type CosmosLedgerClients = CosmosLedger | THORChainLedger | BinanceLedger;
+export type CosmosLedgerClients = CosmosLedger | THORChainLedger;
 export type EVMLedgerClients =
   | ReturnType<typeof ArbitrumLedger>
   | ReturnType<typeof AvalancheLedger>

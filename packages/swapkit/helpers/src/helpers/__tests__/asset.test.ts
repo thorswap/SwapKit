@@ -36,13 +36,6 @@ describe("getAssetType", () => {
       });
     });
 
-    describe("for Binance chain", () => {
-      test('should return "BEP2" for non-BNB tickers', () => {
-        const result = getAssetType({ chain: Chain.Binance, symbol: "NOT_BNB" });
-        expect(result).toBe("BEP2");
-      });
-    });
-
     describe("for Binance Smart Chain", () => {
       test('should return "BEP20" for non-BNB tickers', () => {
         const result = getAssetType({ chain: Chain.BinanceSmartChain, symbol: "NOT_BNB" });

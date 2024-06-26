@@ -4,7 +4,6 @@ import { LedgerErrorCode, SwapKitError } from "@swapkit/helpers";
 import type { Network as BTCNetwork, Psbt, UTXOType } from "@swapkit/toolbox-utxo";
 import { networks } from "@swapkit/toolbox-utxo";
 
-import { BinanceApp } from "../clients/binance/lib.ts";
 import { THORChainApp } from "../clients/thorchain/lib.ts";
 import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
 
@@ -15,7 +14,7 @@ export abstract class CommonLedgerInterface {
   public derivationPath: (number | string)[] | string = [];
   public transport: Todo;
   public ledgerApp: Todo;
-  public chain: "thor" | "bnb" | "sol" | "cosmos" | "eth" = "thor";
+  public chain: "thor" | "sol" | "cosmos" | "eth" = "thor";
 
   public checkOrCreateTransportAndLedger = async (forceReconnect = false) => {
     if (!forceReconnect && this.transport && this.ledgerApp) return;
@@ -25,13 +24,6 @@ export abstract class CommonLedgerInterface {
         forceReconnect || !this.transport ? await getLedgerTransport() : this.transport;
 
       switch (this.chain) {
-        case "bnb": {
-          this.ledgerApp =
-            forceReconnect || !this.ledgerApp ? new BinanceApp(this.transport) : this.ledgerApp;
-
-          break;
-        }
-
         case "thor": {
           this.ledgerApp =
             forceReconnect || !this.ledgerApp ? new THORChainApp(this.transport) : this.ledgerApp;

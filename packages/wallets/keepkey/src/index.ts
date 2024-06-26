@@ -10,7 +10,6 @@ import {
 import { KeepKeySdk } from "@keepkey/keepkey-sdk";
 export type { PairingInfo } from "@keepkey/keepkey-sdk";
 
-import { binanceWalletMethods } from "./chains/binance.ts";
 import { cosmosWalletMethods } from "./chains/cosmos.ts";
 import { KeepKeySigner } from "./chains/evm.ts";
 import { mayachainWalletMethods } from "./chains/mayachain.ts";
@@ -20,7 +19,6 @@ import { utxoWalletMethods } from "./chains/utxo.ts";
 export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
   Chain.Avalanche,
-  Chain.Binance,
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
@@ -93,9 +91,6 @@ const getWalletMethods = async ({
         address,
         ...getToolboxByChain(chain)(evmParams),
       };
-    }
-    case Chain.Binance: {
-      return binanceWalletMethods({ sdk, derivationPath });
     }
     case Chain.Cosmos: {
       return cosmosWalletMethods({ sdk, derivationPath, api: apiClient });

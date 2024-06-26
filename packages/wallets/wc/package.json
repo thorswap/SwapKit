@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@cosmjs/amino": "0.32.3",
-    "@cosmjs/proto-signing": "0.32.3",
+    "@cosmjs/amino": "0.32.4",
+    "@cosmjs/proto-signing": "0.32.4",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",

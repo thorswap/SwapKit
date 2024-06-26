@@ -150,28 +150,29 @@ export const getCommonAssetInfo = (
   assetString: CommonAssetString,
 ): { identifier: string; decimal: number } => {
   switch (assetString) {
+    case Chain.Arbitrum:
+    case Chain.Optimism:
+      return { identifier: `${assetString}.ETH`, decimal: BaseDecimal[assetString] };
+
     case `${Chain.Ethereum}.THOR`:
       return { identifier: "ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044", decimal: 18 };
     case `${Chain.Ethereum}.vTHOR`:
       return { identifier: "ETH.vTHOR-0x815c23eca83261b6ec689b60cc4a58b54bc24d8d", decimal: 18 };
-    case Chain.Arbitrum:
-      return { identifier: `${Chain.Arbitrum}.ETH`, decimal: BaseDecimal[assetString] };
-    case Chain.Optimism:
-      return { identifier: `${Chain.Optimism}.ETH`, decimal: BaseDecimal[assetString] };
     case Chain.Cosmos:
-      return { identifier: "GAIA.ATOM", decimal: BaseDecimal[assetString] };
+      return { identifier: `${assetString}.ATOM`, decimal: BaseDecimal[assetString] };
     case Chain.THORChain:
-      return { identifier: "THOR.RUNE", decimal: BaseDecimal[assetString] };
+      return { identifier: `${assetString}.RUNE`, decimal: BaseDecimal[assetString] };
     case Chain.BinanceSmartChain:
-      return { identifier: "BSC.BNB", decimal: BaseDecimal[assetString] };
+      return { identifier: `${assetString}.BNB`, decimal: BaseDecimal[assetString] };
     case Chain.Maya:
-      return { identifier: "MAYA.CACAO", decimal: BaseDecimal.MAYA };
-    case `${Chain.Maya}.MAYA`:
-      return { identifier: "MAYA.MAYA", decimal: 4 };
-    case `${Chain.Kujira}.USK`:
-      return { identifier: `${Chain.Kujira}.USK`, decimal: 6 };
+      return { identifier: `${assetString}.CACAO`, decimal: BaseDecimal[assetString] };
     case Chain.Radix:
-      return { identifier: `${Chain.Radix}.XRD`, decimal: BaseDecimal.XRD };
+      return { identifier: `${Chain.Radix}.XRD`, decimal: BaseDecimal[assetString] };
+
+    case `${Chain.Maya}.MAYA`:
+      return { identifier: assetString, decimal: 4 };
+    case `${Chain.Kujira}.USK`:
+      return { identifier: assetString, decimal: 6 };
 
     default:
       return { identifier: `${assetString}.${assetString}`, decimal: BaseDecimal[assetString] };
@@ -187,10 +188,8 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
       return symbol === "ATOM" ? "Native" : Chain.Cosmos;
     case Chain.Kujira:
       return symbol === Chain.Kujira ? "Native" : Chain.Kujira;
-    case Chain.Binance:
-      return symbol === Chain.Binance ? "Native" : "BEP2";
     case Chain.BinanceSmartChain:
-      return symbol === Chain.Binance ? "Native" : "BEP20";
+      return symbol === "BNB" ? "Native" : "BEP20";
     case Chain.Ethereum:
       return symbol === Chain.Ethereum ? "Native" : "ERC20";
     case Chain.Avalanche:

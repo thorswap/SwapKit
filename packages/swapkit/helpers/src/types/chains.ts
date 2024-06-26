@@ -3,7 +3,6 @@ import { ExplorerUrl, RPCUrl } from "./network";
 export enum Chain {
   Arbitrum = "ARB",
   Avalanche = "AVAX",
-  Binance = "BNB",
   BinanceSmartChain = "BSC",
   Bitcoin = "BTC",
   BitcoinCash = "BCH",
@@ -30,7 +29,6 @@ export enum ChainId {
   ArbitrumHex = "0xa4b1",
   Avalanche = "43114",
   AvalancheHex = "0xa86a",
-  Binance = "Binance-Chain-Tigris",
   BinanceSmartChain = "56",
   BinanceSmartChainHex = "0x38",
   Bitcoin = "bitcoin",
@@ -63,7 +61,6 @@ export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.Avalanche]: Chain.Avalanche,
   [ChainId.BinanceSmartChainHex]: Chain.BinanceSmartChain,
   [ChainId.BinanceSmartChain]: Chain.BinanceSmartChain,
-  [ChainId.Binance]: Chain.Binance,
   [ChainId.BitcoinCash]: Chain.BitcoinCash,
   [ChainId.Bitcoin]: Chain.Bitcoin,
   [ChainId.Chainflip]: Chain.Chainflip,
@@ -95,7 +92,6 @@ export enum BaseDecimal {
   ARB = 18,
   AVAX = 18,
   BCH = 8,
-  BNB = 8,
   BSC = 18,
   BTC = 8,
   DASH = 8,
@@ -148,23 +144,11 @@ export const UTXOChains = [
   Chain.Litecoin,
 ] as const;
 
-export type CosmosChain =
-  | Chain.Cosmos
-  | Chain.THORChain
-  | Chain.Binance
-  | Chain.Maya
-  | Chain.Kujira;
-export const CosmosChains = [
-  Chain.Cosmos,
-  Chain.THORChain,
-  Chain.Binance,
-  Chain.Maya,
-  Chain.Kujira,
-] as const;
+export type CosmosChain = Chain.Cosmos | Chain.THORChain | Chain.Maya | Chain.Kujira;
+export const CosmosChains = [Chain.Cosmos, Chain.THORChain, Chain.Maya, Chain.Kujira] as const;
 
 export const TCSupportedChains = [
   Chain.Avalanche,
-  Chain.Binance,
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,

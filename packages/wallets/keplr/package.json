@@ -1,7 +1,7 @@
 {
   "description": "SwapKit Wallet - Keplr",
   "dependencies": {
-    "@keplr-wallet/types": "0.12.105",
+    "@keplr-wallet/types": "0.12.107",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/helpers": "workspace:*"
   },

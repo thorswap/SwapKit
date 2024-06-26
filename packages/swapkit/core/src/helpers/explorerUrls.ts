@@ -4,7 +4,6 @@ export function getExplorerTxUrl({ chain, txHash }: { txHash: string; chain: Cha
   const baseUrl = ChainToExplorerUrl[chain];
 
   switch (chain) {
-    case Chain.Binance:
     case Chain.Maya:
     case Chain.Kujira:
     case Chain.Cosmos:

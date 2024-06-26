@@ -1,8 +1,8 @@
+import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from "@cosmjs/crypto";
+import { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } from "@cosmjs/proto-signing";
 import { SwapKitApi } from "@swapkit/api";
 import { AssetValue, Chain, ChainId, type DerivationPath } from "@swapkit/helpers";
 
-import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from "@cosmjs/crypto";
-import { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } from "@cosmjs/proto-signing";
 import { CosmosClient } from "../cosmosClient.ts";
 import type { ToolboxParams } from "../index.ts";
 import type { BaseCosmosToolboxType } from "../thorchainUtils/types/client-types.ts";
@@ -30,8 +30,6 @@ export const getAssetFromDenom = (denom: string, amount: string) => {
   switch (denom) {
     case "rune":
       return AssetValue.fromChainOrSignature(Chain.THORChain, Number.parseInt(amount) / 1e8);
-    case "bnb":
-      return AssetValue.fromChainOrSignature(Chain.Binance, Number.parseInt(amount) / 1e8);
     case "uatom":
     case "atom":
       return AssetValue.fromChainOrSignature(Chain.Cosmos, Number.parseInt(amount) / 1e6);
@@ -169,5 +167,5 @@ export const estimateTransactionFee = ({ assetValue }: { assetValue: AssetValue 
 
 export type BaseCosmosWallet = ReturnType<typeof BaseCosmosToolbox>;
 export type CosmosWallets = {
-  [chain in Chain.Cosmos | Chain.Kujira | Chain.Binance]: BaseCosmosWallet;
+  [chain in Chain.Cosmos | Chain.Kujira]: BaseCosmosWallet;
 };

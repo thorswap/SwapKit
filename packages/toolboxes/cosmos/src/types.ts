@@ -3,7 +3,6 @@ import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
 import type { AssetValue, ChainId, FeeOption } from "@swapkit/helpers";
 
 import type {
-  BinanceToolboxType,
   GaiaToolboxType,
   KujiraToolboxType,
   MayaToolboxType,
@@ -40,7 +39,6 @@ export type Signer = {
 
 export type CosmosLikeToolbox =
   | GaiaToolboxType
-  | BinanceToolboxType
   | ThorchainToolboxType
   | MayaToolboxType
   | KujiraToolboxType;

@@ -11,7 +11,6 @@ import {
 import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
 import type { UTXOBuildTxParams } from "@swapkit/toolbox-utxo";
 
-import type { BinanceLedger } from "./clients/binance/index.ts";
 import type { CosmosLedger } from "./clients/cosmos.ts";
 import type {
   ArbitrumLedger,
@@ -84,7 +83,6 @@ const getToolbox = async ({
   ethplorerApiKey,
   blockchairApiKey,
   signer,
-  derivationPath,
   stagenet = false,
 }: LedgerConfig & {
   address: string;
@@ -101,10 +99,8 @@ const getToolbox = async ({
     | ReturnType<typeof LitecoinLedger>
     | ReturnType<typeof OptimismLedger>
     | ReturnType<typeof PolygonLedger>
-    | BinanceLedger
     | THORChainLedger
     | CosmosLedger;
-  derivationPath?: DerivationPathArray;
   stagenet?: boolean;
 }) => {
   const utxoParams = { apiKey: blockchairApiKey, rpcUrl, apiClient: api };
@@ -214,34 +210,6 @@ const getToolbox = async ({
         );
 
         return toolbox.broadcastTx(txHex);
-      };
-      return { ...toolbox, transfer };
-    }
-    case Chain.Binance: {
-      const { BinanceToolbox } = await import("@swapkit/toolbox-cosmos");
-      const toolbox = BinanceToolbox({ stagenet: false });
-      const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
-        const { transaction, signMsg } = await toolbox.createTransactionAndSignMsg({
-          from: address,
-          recipient,
-          assetValue,
-          memo,
-        });
-        const signBytes = transaction.getSignBytes(signMsg);
-        const pubKeyResponse = await (signer as BinanceLedger).ledgerApp.getPublicKey(
-          derivationPath,
-        );
-        const signResponse = await (signer as BinanceLedger).ledgerApp.sign(
-          signBytes,
-          derivationPath,
-        );
-
-        const pubKey = await toolbox.getPublicKey(pubKeyResponse?.pk?.toString("hex"));
-        const signedTx = transaction.addSignature(pubKey, signResponse?.signature);
-
-        const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);
-
-        return res?.result?.hash;
       };
       return { ...toolbox, transfer };
     }
@@ -466,13 +434,12 @@ function connectLedger({
     const toolbox = await getToolbox({
       address,
       api: apis[chain as Chain.Avalanche],
+      blockchairApiKey,
       chain,
       covalentApiKey,
-      derivationPath,
       ethplorerApiKey,
       rpcUrl: rpcUrls[chain],
       signer: ledgerClient,
-      blockchairApiKey,
       stagenet,
     });
 
