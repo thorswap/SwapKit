@@ -1,9 +1,9 @@
 import { execSync } from "node:child_process";
-import { existsSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { styleText } from "node:util";
-import { group, intro, multiselect, note, select, spinner } from "@clack/prompts";
+import { group, intro, multiselect, note, select, spinner, text } from "@clack/prompts";
 import ejs from "ejs";
-import { array, boolean, nativeEnum, object } from "zod";
+import { array, boolean, nativeEnum, object, string } from "zod";
 
 import {
   cliVersion,
@@ -18,7 +18,7 @@ const [processPath, , ...args] = process.argv;
 
 enum Variant {
   CORE = "core",
-  CUSTOM = "custom",
+  // CUSTOM = "custom",
   FULL = "full",
 }
 
@@ -113,9 +113,17 @@ export async function swapkitWizard() {
           message: "What variant of SwapKit integration you want to create?",
           initialValue: Variant.CORE,
           options: [
-            { value: Variant.CORE, label: "Core" },
-            { value: Variant.FULL, label: "Full" },
-            { value: Variant.CUSTOM, label: "Custom" },
+            {
+              value: Variant.CORE,
+              label: "Core",
+              hint: "Core variant let's you use SwapKit with your own set of wallets and plugins",
+            },
+            {
+              value: Variant.FULL,
+              label: "Full",
+              hint: "Full variant includes all packages, plugins and wallets",
+            },
+            // { value: Variant.CUSTOM, label: "Custom" },
           ],
         }),
       wallets: ({ results }) => {
@@ -147,15 +155,55 @@ export async function swapkitWizard() {
             { value: false, label: "No" },
           ],
         }),
+      setupApiKeys: () =>
+        select<NotWorth, boolean>({
+          initialValue: false,
+          message:
+            "Do you want to setup API keys for third-party services like Blockchair, Ethplorer, Covalent? (This is optional step, you can always add them later)",
+          options: [
+            { value: true, label: "Yes" },
+            { value: false, label: "No" },
+          ],
+        }),
+      ethplorerApiKey: ({ results: { setupApiKeys } }) => {
+        if (!setupApiKeys) return;
+        return text({
+          message:
+            "What is your Ethplorer API key? (Info: https://ethplorer.io/wallet/#screen=api)",
+        });
+      },
+      blockchairApiKey: ({ results: { setupApiKeys } }) => {
+        if (!setupApiKeys) return;
+        return text({
+          message: "What is your Blockchair API key? (Info: https://blockchair.com/api/plans)",
+        });
+      },
+      covalentApiKey: ({ results: { setupApiKeys } }) => {
+        if (!setupApiKeys) return;
+        return text({
+          message: "What is your Covalent API key?",
+        });
+      },
     },
     { onCancel: handleCancel },
   );
 
-  const { enableTokens, variant, plugins, wallets } = object({
+  const {
+    ethplorerApiKey,
+    blockchairApiKey,
+    covalentApiKey,
+    enableTokens,
+    variant,
+    plugins,
+    wallets,
+  } = object({
     enableTokens: boolean(),
     plugins: array(nativeEnum(Plugin)).optional(),
     variant: nativeEnum(Variant),
     wallets: array(nativeEnum(Wallet)).optional(),
+    ethplorerApiKey: string().optional(),
+    blockchairApiKey: string().optional(),
+    covalentApiKey: string().optional(),
   }).parse(answers);
   const wizardSpinner = spinner();
   wizardSpinner.start("Initializing...");
@@ -180,15 +228,17 @@ export async function swapkitWizard() {
     packageNames.push("@swapkit/tokens");
   }
 
-  if (!existsSync("package.json")) {
-    wizardSpinner.message("Creating package.json...");
-    execSync(`${packageManager.init}`);
-  }
+  wizardSpinner.message("Copying template files");
 
-  wizardSpinner.message("Copying template files...");
   copyFromTemplate("");
 
-  const templateFiles = listDirectoryFiles("./", true);
+  if (!existsSync("package.json")) {
+    cpSync("./temp/common", "./temp", { recursive: true });
+  }
+
+  rmSync("./temp/common", { recursive: true, force: true });
+
+  const templateFiles = listDirectoryFiles("./temp", true);
 
   for (const file of templateFiles) {
     const fileContent = readFileSync(file, "utf-8");
@@ -197,9 +247,9 @@ export async function swapkitWizard() {
     try {
       const content = result({
         apiKey: {
-          ethplorerApiKey: "'freekey'",
-          blockchairApiKey: "''",
-          covalentApiKey: "''",
+          ethplorerApiKey: `'${ethplorerApiKey || "freekey"}'`,
+          blockchairApiKey: `'${blockchairApiKey || ""}'`,
+          covalentApiKey: `'${covalentApiKey || ""}'`,
           walletConnectProjectId: "''",
         },
         config: {
@@ -219,7 +269,9 @@ export async function swapkitWizard() {
   }
 
   wizardSpinner.message(`Installing dependencies: ${packageNames.slice(0, 4).join(", ")}`);
-  execSync(`${packageManager.add} ${packageNames.join(" ")}`);
-
+  execSync(`${packageManager.add} ${packageNames.join(" ")}`, { cwd: "./temp" });
   wizardSpinner.stop("Dependencies installed");
+
+  cpSync("./temp", "./", { recursive: true });
+  rmSync("./temp", { recursive: true, force: true });
 }

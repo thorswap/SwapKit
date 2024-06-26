@@ -1,4 +1,4 @@
-import { cpSync, existsSync, readdirSync } from "node:fs";
+import { cpSync, existsSync, readdirSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
 import { styleText } from "node:util";
 import { intro, outro } from "@clack/prompts";
@@ -8,18 +8,6 @@ import { version } from "../package.json";
 type PackageManager = "bun" | "pnpm" | "yarn" | "npm";
 export const dirname = resolve(process.cwd(), ".");
 export const cliVersion = version;
-
-export function getPackageManager(processPath?: string) {
-  const packageManager = (processPath?.split("/").pop() || "bun") as PackageManager;
-
-  return {
-    add: packageManager === "npm" ? "npm add --save" : `${packageManager} add`,
-    install: `${packageManager} install`,
-    exec: packageExecutor(packageManager),
-    init: `${packageManager} init`,
-    name: packageManager,
-  };
-}
 
 function packageExecutor(packageManager: PackageManager) {
   switch (packageManager) {
@@ -34,8 +22,21 @@ function packageExecutor(packageManager: PackageManager) {
   }
 }
 
-export function handleCancel() {
+export function getPackageManager(processPath?: string) {
+  const packageManager = (processPath?.split("/").pop() || "bun") as PackageManager;
+
+  return {
+    add: packageManager === "npm" ? "npm add --save" : `${packageManager} add`,
+    install: `${packageManager} install`,
+    exec: packageExecutor(packageManager),
+    name: packageManager,
+  };
+}
+
+export function handleCancel(error?: NotWorth) {
+  console.error(error);
   outro(styleText("bold", styleText("red", "@swapkit/wizard - cancelled")));
+  rmSync("./temp", { recursive: true, force: true });
   return process.exit(0);
 }
 
@@ -59,16 +60,19 @@ const restrictedDirs = [".git", "dist", "node_modules"];
 
 export function listDirectoryFiles(sourceDirectory: string, onlyEJS = false): string[] {
   const directoryStruct = readdirSync(sourceDirectory, { withFileTypes: true });
-  const files = directoryStruct
-    .filter(
-      ({ name }) => !restrictedDirs.includes(name) && (onlyEJS ? name.endsWith(".ejs") : true),
-    )
-    .flatMap((file) => {
-      const res = resolve(sourceDirectory, file.name);
 
+  const files = directoryStruct
+    .filter(({ name }) => !restrictedDirs.includes(name))
+    .flatMap((file) => {
       if (file.isDirectory()) {
         const listedFiles = listDirectoryFiles(`${sourceDirectory}/${file.name}`);
         return listedFiles;
+      }
+
+      const res = resolve(sourceDirectory, file.name);
+
+      if (onlyEJS) {
+        return file.name.endsWith(".ejs") ? res : null;
       }
 
       return res;
@@ -77,19 +81,25 @@ export function listDirectoryFiles(sourceDirectory: string, onlyEJS = false): st
   return (files.filter(Boolean) as string[]).flat();
 }
 
-const baseTemplatePath = existsSync("./templates")
-  ? resolve(dirname, "./templates")
-  : resolve(require.resolve("@swapkit/wizard"), "../templates");
+const baseTemplatePath = existsSync("./src/template")
+  ? resolve(dirname, "./src/template")
+  : resolve(require.resolve("@swapkit/wizard").split("/").slice(0, -1).join("/"), "./src/template");
 
 export function copyFromTemplate(paths: string | string[]) {
-  if (Array.isArray(paths)) {
-    for (const templatePath of paths) {
-      copyFromTemplate(templatePath);
-    }
-    return;
-  }
+  const sourcePath = `${baseTemplatePath}${paths ? `/${paths}` : ""}`;
+  const destinationPath = `${dirname}/temp/${paths}`;
 
-  cpSync(`${baseTemplatePath}${paths ? `/${paths}` : ""}`, `${dirname}/${paths}`, {
-    recursive: true,
-  });
+  try {
+    if (Array.isArray(paths)) {
+      for (const templatePath of paths) {
+        copyFromTemplate(templatePath);
+      }
+      return;
+    }
+
+    cpSync(sourcePath, destinationPath, { recursive: true });
+  } catch (error) {
+    console.error({ baseTemplatePath, sourcePath, destinationPath });
+    handleCancel(error);
+  }
 }

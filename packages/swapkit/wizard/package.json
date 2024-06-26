@@ -9,11 +9,7 @@
   "devDependencies": {
     "@types/ejs": "3.1.5"
   },
-  "files": [
-    "./cli.ts",
-    "dist/",
-    "src/"
-  ],
+  "files": ["./cli.ts", "dist/", "src/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./cli.ts",
@@ -25,8 +21,8 @@
   "scripts": {
     "build": "bun run ./build.ts",
     "clean": "rm -rf dist node_modules *.tsbuildinfo",
-    "cli": "bun run ./dist/index.js",
-    "dev": "bun run ./src/index.ts",
+    "cli": "bun run ./dist/cli.js",
+    "dev": "bun run ./cli.ts",
     "lint": "biome check --write ./src",
     "test": "echo 'bun test'",
     "test:coverage": "bun test --coverage",
@@ -34,5 +30,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "0.1.1-rc.2"
+  "version": "0.1.2"
 }
