@@ -1,5 +1,16 @@
 # @swapkit/helpers
 
+## 1.0.0-rc.115
+
+### Patch Changes
+
+- [`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f) Thanks [@chillios-dev](https://github.com/chillios-dev)! - test bump
+
+- [#869](https://github.com/thorswap/SwapKit/pull/869) [`9e80a83`](https://github.com/thorswap/SwapKit/commit/9e80a83ef9a083a4ccfea80de21e535aa89553c6) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Better handle Chainflip tickers
+
+- Updated dependencies [[`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f)]:
+  - @swapkit/tokens@1.0.0-rc.57
+
 ## 1.0.0-rc.114
 
 ### Patch Changes
