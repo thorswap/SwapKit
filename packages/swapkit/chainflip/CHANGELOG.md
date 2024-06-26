@@ -1,5 +1,11 @@
 # @swapkit/chainflip
 
+## 1.0.0-rc.71
+
+### Minor Changes
+
+- [#864](https://github.com/thorswap/SwapKit/pull/864) [`e7e6953`](https://github.com/thorswap/SwapKit/commit/e7e6953d21ff6820c05d4e195e5f1c347a421fd5) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Small chainflip fixes
+
 ## 1.0.0-rc.70
 
 ### Patch Changes
