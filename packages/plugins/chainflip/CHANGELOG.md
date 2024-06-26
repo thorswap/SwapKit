@@ -1,5 +1,20 @@
 # @swapkit/plugin-chainflip
 
+## 1.0.0-rc.72
+
+### Patch Changes
+
+- [`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f) Thanks [@chillios-dev](https://github.com/chillios-dev)! - test bump
+
+- [#869](https://github.com/thorswap/SwapKit/pull/869) [`9e80a83`](https://github.com/thorswap/SwapKit/commit/9e80a83ef9a083a4ccfea80de21e535aa89553c6) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Better handle Chainflip tickers
+
+- Updated dependencies [[`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f), [`9e80a83`](https://github.com/thorswap/SwapKit/commit/9e80a83ef9a083a4ccfea80de21e535aa89553c6)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.50
+  - @swapkit/helpers@1.0.0-rc.115
+  - @swapkit/toolbox-utxo@1.0.0-rc.126
+  - @swapkit/toolbox-evm@1.0.0-rc.122
+  - @swapkit/api@1.0.0-rc.83
+
 ## 1.0.0-rc.71
 
 ### Patch Changes

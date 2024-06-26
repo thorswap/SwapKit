@@ -1,5 +1,11 @@
 # @swapkit/wizard
 
+## 0.1.1-rc.2
+
+### Patch Changes
+
+- [`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f) Thanks [@chillios-dev](https://github.com/chillios-dev)! - test bump
+
 ## 0.1.1-rc.1
 
 ### Patch Changes
