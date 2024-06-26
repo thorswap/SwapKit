@@ -2,6 +2,19 @@
 
 ## 1.0.0-rc.71
 
+### Patch Changes
+
+- [`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Solana & Bump
+
+- Updated dependencies [[`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.49
+  - @swapkit/helpers@1.0.0-rc.114
+  - @swapkit/toolbox-utxo@1.0.0-rc.125
+  - @swapkit/toolbox-evm@1.0.0-rc.121
+  - @swapkit/api@1.0.0-rc.82
+
+## 1.0.0-rc.71
+
 ### Minor Changes
 
 - [#864](https://github.com/thorswap/SwapKit/pull/864) [`e7e6953`](https://github.com/thorswap/SwapKit/commit/e7e6953d21ff6820c05d4e195e5f1c347a421fd5) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Small chainflip fixes

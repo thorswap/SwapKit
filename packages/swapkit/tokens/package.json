@@ -1,7 +1,10 @@
 {
   "author": "swapkit-oss",
   "description": "SwapKit - Tokens",
-  "files": ["src/", "dist/"],
+  "files": [
+    "src/",
+    "dist/"
+  ],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
@@ -22,5 +25,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.55"
+  "version": "1.0.0-rc.56"
 }

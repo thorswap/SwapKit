@@ -32,7 +32,14 @@
     "@internal/playground-vite": "0.0.0",
     "@internal/tools-github": "0.1.0",
     "@internal/tools-typescript": "0.1.0",
-    "@swapkit/wallet-talisman": "1.0.0-rc.1"
+    "@swapkit/wallet-talisman": "1.0.0-rc.1",
+    "@swapkit/wallets": "1.0.0-rc.1",
+    "@swapkit/wizard": "0.1.0",
+    "@swapkit/toolbox-solana": "1.0.0-rc.1",
+    "@swapkit/wallet-phantom": "1.0.0-rc.1",
+    "@internal/tools-builder": "0.0.1"
   },
-  "changesets": []
+  "changesets": [
+    "cold-windows-prove"
+  ]
 }
