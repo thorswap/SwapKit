@@ -88,7 +88,8 @@ const pluginOptions = [
   },
 ];
 
-async function swapkitWizard() {
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO - split
+export async function swapkitWizard() {
   const packageManager = getPackageManager(processPath);
 
   const helpTrigger = args.includes("--help") || args.includes("help");
@@ -222,5 +223,3 @@ async function swapkitWizard() {
 
   wizardSpinner.stop("Dependencies installed");
 }
-
-swapkitWizard();

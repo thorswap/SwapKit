@@ -1,6 +1,6 @@
 {
   "description": "SwapKit Wizard setup cli",
-  "bin": "./dist/index.js",
+  "bin": "./dist/cli.js",
   "dependencies": {
     "@clack/prompts": "0.7.0",
     "ejs": "3.1.10",
@@ -9,15 +9,11 @@
   "devDependencies": {
     "@types/ejs": "3.1.5"
   },
-  "files": [
-    "src/templates",
-    "dist/"
-  ],
+  "files": ["./cli.ts", "dist/", "src/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
-  "main": "./src/index.ts",
+  "main": "./cli.ts",
   "name": "@swapkit/wizard",
-  "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/thorswap/SwapKit.git"
@@ -25,6 +21,7 @@
   "scripts": {
     "build": "bun run ./build.ts",
     "clean": "rm -rf dist node_modules *.tsbuildinfo",
+    "cli": "bun run ./dist/index.js",
     "dev": "bun run ./src/index.ts",
     "lint": "biome check --write ./src",
     "test": "echo 'bun test'",

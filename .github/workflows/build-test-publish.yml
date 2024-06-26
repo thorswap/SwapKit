@@ -98,7 +98,7 @@ jobs:
           noprefix: ${{ job.status == 'success' }}
           avatar_url: https://static.thorswap.net/logo.png
           color: ${{ contains(github.ref_name, 'main') && '0x00aa00' || '0x3af3f4' }}
-          description: "Internal build ${{ job.status }}: ${{ github.ref_name }}:\n${{ steps.changesets.outputs.publishedPackages }}"
+          description: "Build ${{ job.status }} ${{ github.ref_name }}:\n${{ join(fromJson(steps.changesets.outputs.publishedPackages), '\n') }}"
           status: success
           url: "https://github.com/thorswap/swapkit/releases"
           username: SwapKit - ${{ github.ref_name }}

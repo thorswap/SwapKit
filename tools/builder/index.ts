@@ -1,16 +1,18 @@
 import type { Target } from "bun";
 
 export async function buildPackage({
+  entrypoints = ["./src/index.ts"],
   dependencies,
-  target,
+  ...rest
 }: {
   target?: Target;
+  entrypoints?: string[];
   dependencies: Record<string, string>;
 }) {
   const result = await Bun.build({
-    entrypoints: ["./src/index.ts"],
+    ...rest,
+    entrypoints,
     outdir: "./dist",
-    target,
     minify: true,
     external: Object.keys(dependencies),
     sourcemap: "external",
