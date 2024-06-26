@@ -1,4 +1,4 @@
-import type { AssetValue } from "@swapkit/helpers";
+import type { AssetValue, GenericSwapParams } from "@swapkit/helpers";
 
 export type WithdrawFeeResponse = {
   egressId: string;
@@ -28,3 +28,6 @@ export type SwapDepositResponse = {
   recipient: string;
   brokerCommissionBPS: number;
 };
+
+export type RequestSwapDepositAddressParams = Partial<GenericSwapParams> &
+  Partial<DepositChannelRequest>;
