@@ -52,7 +52,6 @@ jobs:
         uses: ./tools/github/setup-repo
       - name: Install dependencies
         run: |
-          sudo apt-get install -y jq
           bun run ./scripts/replace-versions.ts
 
       - name: Copy npmrc config
@@ -94,24 +93,18 @@ jobs:
           publish: bun publish-packages
           setupGitUser: false
 
-      - name: Parse packages
-        id: parse-packages
-        if: ${{ steps.changesets.outputs.published == 'true' }}
-        run: |
-          echo "packages=$(${{ steps.changesets.outputs.publishedPackages }}" | jq -r 'map(.name + "@" + .version))" >> $GITHUB_OUTPUT
-
-      - name: Internal Discord Notification
-        if: ${{ steps.changesets.outputs.published == 'true' }}
-        uses: sarisia/actions-status-discord@82409b24a08684f54ea5baa6b376e36dad37fb81
-        with:
-          noprefix: ${{ job.status == 'success' }}
-          avatar_url: https://static.thorswap.net/logo.png
-          color: ${{ contains(github.ref_name, 'main') && '0x00aa00' || '0x3af3f4' }}
-          description: "Build ${{ job.status }} ${{ github.ref_name }}:\n${{ steps.parse-packages.outputs.packages }}"
-          status: success
-          url: "https://github.com/thorswap/swapkit/releases"
-          username: SwapKit - ${{ github.ref_name }}
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+      # - name: Internal Discord Notification
+      #   if: ${{ steps.changesets.outputs.published == 'true' }}
+      #   uses: sarisia/actions-status-discord@82409b24a08684f54ea5baa6b376e36dad37fb81
+      #   with:
+      #     noprefix: ${{ job.status == 'success' }}
+      #     avatar_url: https://pbs.twimg.com/profile_images/1775232752193081344/1ueuEBlQ_400x400.jpg
+      #     color: ${{ contains(github.ref_name, 'main') && '0x00aa00' || '0x3af3f4' }}
+      #     description: "Build ${{ job.status }} ${{ github.ref_name }}:\n${{ steps.parse-packages.outputs.packages }}"
+      #     status: success
+      #     url: "https://github.com/thorswap/swapkit/releases"
+      #     username: SwapKit - ${{ github.ref_name }}
+      #     webhook: ${{ secrets.DISCORD_WEBHOOK }}
 
       - name: Publish Nightly to npm
         uses: changesets/action@v1

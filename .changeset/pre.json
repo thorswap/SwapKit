@@ -40,10 +40,12 @@
     "@internal/tools-builder": "0.0.1"
   },
   "changesets": [
+    "bright-crabs-film",
     "cold-windows-prove",
     "cuddly-crews-juggle",
     "forty-candles-switch",
     "ninety-ravens-study",
-    "small-books-check"
+    "small-books-check",
+    "small-comics-move"
   ]
 }

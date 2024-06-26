@@ -1,7 +1,7 @@
 import { execSync } from "node:child_process";
 import { cpSync, existsSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { styleText } from "node:util";
-import { group, intro, multiselect, note, select, spinner, text } from "@clack/prompts";
+import { group, intro, multiselect, note, outro, select, spinner, text } from "@clack/prompts";
 import ejs from "ejs";
 import { array, boolean, nativeEnum, object, string } from "zod";
 
@@ -14,7 +14,7 @@ import {
   listDirectoryFiles,
 } from "./helpers";
 
-const [processPath, , ...args] = process.argv;
+const [, , ...args] = process.argv;
 
 enum Variant {
   CORE = "core",
@@ -90,7 +90,7 @@ const pluginOptions = [
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO - split
 export async function swapkitWizard() {
-  const packageManager = getPackageManager(processPath);
+  const packageManager = getPackageManager();
 
   const helpTrigger = args.includes("--help") || args.includes("help");
 
@@ -269,9 +269,20 @@ export async function swapkitWizard() {
   }
 
   wizardSpinner.message(`Installing dependencies: ${packageNames.slice(0, 4).join(", ")}`);
-  execSync(`${packageManager.add} ${packageNames.join(" ")}`, { cwd: "./temp" });
+  execSync(
+    `${packageManager.name} ${packageNames.join(" ")}${packageManager.name === "npm" ? " --save" : ""}`,
+    { cwd: "./temp" },
+  );
   wizardSpinner.stop("Dependencies installed");
 
   cpSync("./temp", "./", { recursive: true });
-  rmSync("./temp", { recursive: true, force: true });
+  rmSync("./temp", { recursive: true });
+
+  outro(`
+  ${styleText("bold", styleText("inverse", "     SwapKit Wizard     "))}
+  ${styleText("dim", `@swapkit/wizard v${cliVersion}`)}
+
+  ${styleText("green", "Variant:")} ${variant === Variant.FULL ? "Full variant" : "Core variant"}
+  ${styleText("green", "Wallets:")} ${wallets?.join(", ") || variant === Variant.FULL ? "All" : "None"}
+  ${styleText("green", "Plugins:")} ${plugins?.join(", ") || variant === Variant.FULL ? "All" : "None"}`);
 }

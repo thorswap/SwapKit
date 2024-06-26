@@ -22,11 +22,19 @@ function packageExecutor(packageManager: PackageManager) {
   }
 }
 
-export function getPackageManager(processPath?: string) {
-  const packageManager = (processPath?.split("/").pop() || "bun") as PackageManager;
+function getPackageManagerName() {
+  const userAgent = process.env.npm_config_user_agent || "";
+  const pmSpec = userAgent.split(" ")[0] || "bun";
+  const separatorPos = pmSpec.lastIndexOf("/");
+  const name = pmSpec.substring(0, separatorPos);
+
+  return name as PackageManager;
+}
+
+export function getPackageManager() {
+  const packageManager = getPackageManagerName();
 
   return {
-    add: packageManager === "npm" ? "npm add --save" : `${packageManager} add`,
     install: `${packageManager} install`,
     exec: packageExecutor(packageManager),
     name: packageManager,

@@ -1,0 +1,5 @@
+---
+"@swapkit/wizard": patch
+---
+
+Bump
