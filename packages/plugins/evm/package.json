@@ -2,22 +2,15 @@
   "author": "swapkit-oss",
   "dependencies": {
     "@swapkit/api": "workspace:*",
-    "@swapkit/helpers": "workspace:*"
-  },
-  "description": "SwapKit Plugin - EVM",
-  "devDependencies": {
+    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*"
   },
+  "description": "SwapKit Plugin - EVM",
   "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "name": "@swapkit/plugin-evm",
-  "peerDependencies": {
-    "@swapkit/api": "workspace:*",
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*"
-  },
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",

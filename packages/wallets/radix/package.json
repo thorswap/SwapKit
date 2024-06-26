@@ -8,12 +8,6 @@
   },
   "description": "SwapKit Lib ",
   "files": ["src/", "dist/"],
-  "peerDependencies": {
-    "@radixdlt/radix-dapp-toolkit": "1.5.0",
-    "@radixdlt/wallet-sdk": "1.0.1",
-    "@swapkit/toolbox-radix": "workspace:*",
-    "@swapkit/helpers": "workspace:*"
-  },
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",

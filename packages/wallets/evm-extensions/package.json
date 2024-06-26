@@ -1,9 +1,7 @@
 {
   "description": "SwapKit Wallet - EVM Extensions",
   "dependencies": {
-    "@swapkit/helpers": "workspace:*"
-  },
-  "devDependencies": {
+    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*"
   },
   "files": ["src/", "dist/"],
@@ -11,10 +9,6 @@
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "name": "@swapkit/wallet-evm-extensions",
-  "peerDependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*"
-  },
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",

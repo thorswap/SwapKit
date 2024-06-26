@@ -13,10 +13,6 @@
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "name": "@swapkit/api",
-  "peerDependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "zod": "3.23.8"
-  },
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",

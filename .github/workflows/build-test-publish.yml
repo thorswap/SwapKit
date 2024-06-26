@@ -25,10 +25,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup Repo
         uses: ./tools/github/setup-repo
+
+      - name: Build
+        run: bun install; bun run build
+
       - name: Test
-        run: |
-          bun run build
-          bun run test
+        run: bun run test
 
       - name: Lint
         run: bun lint

@@ -1,9 +1,7 @@
 {
   "description": "SwapKit Wallet - Phantom",
   "dependencies": {
-    "@swapkit/helpers": "workspace:*"
-  },
-  "devDependencies": {
+    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-solana": "workspace:*"
   },
   "files": ["src/", "dist/"],
@@ -11,10 +9,6 @@
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "name": "@swapkit/wallet-phantom",
-  "peerDependencies": {
-    "@swapkit/toolbox-solana": "workspace:*",
-    "@swapkit/helpers": "workspace:*"
-  },
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
