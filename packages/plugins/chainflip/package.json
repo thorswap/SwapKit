@@ -6,33 +6,17 @@
     "@polkadot/keyring": "12.6.2",
     "@polkadot/util": "12.6.2",
     "@swapkit/api": "workspace:*",
-    "@swapkit/helpers": "workspace:*"
-  },
-  "description": "SwapKit Plugin - ChainFlip",
-  "devDependencies": {
-    "@swapkit/toolbox-utxo": "workspace:*",
+    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
-    "bun-types": "1.1.8"
+    "@swapkit/toolbox-utxo": "workspace:*"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "description": "SwapKit Plugin - ChainFlip",
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "name": "@swapkit/plugin-chainflip",
-  "peerDependencies": {
-    "@chainflip/sdk": "1.4.0",
-    "@polkadot/api": "10.12.6",
-    "@polkadot/keyring": "12.6.2",
-    "@polkadot/util": "12.6.2",
-    "@swapkit/api": "workspace:*",
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-substrate": "workspace:*"
-  },
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
@@ -48,5 +32,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.71"
+  "version": "1.0.0-rc.70"
 }

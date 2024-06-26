@@ -12,7 +12,7 @@
     "@types/node": "20.14.8",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
-    "bun-types": "1.1.16",
+    "bun-types": "1.1.17",
     "lefthook": "1.6.18",
     "npm-check-updates": "16.14.20",
     "react": "18.2.0",
@@ -20,14 +20,14 @@
     "typescript": "5.5.2"
   },
   "name": "swapkit-monorepo",
-  "packageManager": "^bun@1.1.1",
+  "packageManager": "^bun@1.1.17",
   "private": true,
   "scripts": {
     "bootstrap": "bun clean; bun install --force; bun run build",
     "build": "bun --filter '*' build",
     "clean": "bun --filter '*' clean && rm -rf node_modules; bun install",
     "deps": "bun ncu --root -u -i -ws",
-    "generate:tokens": "bun run build --filter api; bun --cwd packages/swapkit/tokens generate-tokens; bun lint",
+    "generate:tokens": "bun --filter '@swapkit/api' build; bun --cwd packages/swapkit/tokens generate-tokens; bun --filter '@swapkit/tokens' lint",
     "lint": "bun --filter '*' lint",
     "lint:ci": "bun lint && bun type-check",
     "lint:ws": "bun x sherif@latest",
@@ -39,7 +39,8 @@
     "test": "bun --filter '*' test",
     "test:coverage": "bun --filter '*' test:coverage",
     "type-check": "bun --filter '*' type-check",
-    "version-bump": "bun changeset version"
+    "version-bump": "bun changeset version",
+    "wizard": "bun --cwd ./packages/swapkit/wizard"
   },
   "trustedDependencies": [
     "@biomejs/biome",

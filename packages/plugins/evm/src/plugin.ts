@@ -45,9 +45,7 @@ const plugin = ({
       contractAddress: evmTransactionDetails.contractAddress,
       funcName: evmTransactionDetails.contractMethod,
       funcParams: evmTransactionDetails.contractParams,
-      txOverrides: {
-        from,
-      },
+      txOverrides: { from },
       feeOption: feeOptionKey,
       abi,
     });

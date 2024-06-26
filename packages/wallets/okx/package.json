@@ -1,9 +1,7 @@
 {
   "description": "SwapKit Wallet - OKX",
   "dependencies": {
-    "@swapkit/helpers": "workspace:*"
-  },
-  "devDependencies": {
+    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*"
@@ -13,12 +11,6 @@
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "name": "@swapkit/wallet-okx",
-  "peerDependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-cosmos": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*"
-  },
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",

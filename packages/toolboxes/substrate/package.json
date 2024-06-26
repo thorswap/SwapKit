@@ -17,14 +17,6 @@
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "name": "@swapkit/toolbox-substrate",
-  "peerDependencies": {
-    "@polkadot/api": "10.12.6",
-    "@polkadot/api-base": "10.12.6",
-    "@polkadot/keyring": "12.6.2",
-    "@polkadot/util": "12.6.2",
-    "@polkadot/util-crypto": "12.6.2",
-    "@swapkit/helpers": "workspace:*"
-  },
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
