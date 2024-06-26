@@ -35,7 +35,7 @@
     "playground:node": "bun --cwd ./playgrounds/node",
     "playground:vite": "bun --cwd ./playgrounds/vite",
     "postinstall": "lefthook install; bun lint:ws",
-    "publish-packages": "bun build && bun lint && bun type-check && bun version-bump && bun changeset publish",
+    "publish-packages": "bun run build && bun lint && bun type-check && bun version-bump && bun changeset publish",
     "test": "bun --filter '*' test",
     "test:coverage": "bun --filter '*' test:coverage",
     "type-check": "bun --filter '*' type-check",

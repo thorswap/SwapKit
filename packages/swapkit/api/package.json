@@ -8,7 +8,10 @@
     "ky": "1.3.0"
   },
   "description": "SwapKit - API",
-  "files": ["src/", "dist/"],
+  "files": [
+    "src/",
+    "dist/"
+  ],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
@@ -28,5 +31,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.81"
+  "version": "1.0.0-rc.82"
 }

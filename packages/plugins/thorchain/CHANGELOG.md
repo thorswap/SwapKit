@@ -1,5 +1,19 @@
 # @swapkit/plugin-thorchain
 
+## 1.0.0-rc.71
+
+### Patch Changes
+
+- [`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Solana & Bump
+
+- Updated dependencies [[`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.49
+  - @swapkit/toolbox-cosmos@1.0.0-rc.141
+  - @swapkit/helpers@1.0.0-rc.114
+  - @swapkit/toolbox-utxo@1.0.0-rc.125
+  - @swapkit/toolbox-evm@1.0.0-rc.121
+  - @swapkit/api@1.0.0-rc.82
+
 ## 1.0.0-rc.70
 
 ### Patch Changes

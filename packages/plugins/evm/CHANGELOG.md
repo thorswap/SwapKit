@@ -1,5 +1,16 @@
 # @swapkit/plugin-evm
 
+## 1.0.0-rc.14
+
+### Patch Changes
+
+- [`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Solana & Bump
+
+- Updated dependencies [[`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed)]:
+  - @swapkit/helpers@1.0.0-rc.114
+  - @swapkit/toolbox-evm@1.0.0-rc.121
+  - @swapkit/api@1.0.0-rc.82
+
 ## 1.0.0-rc.13
 
 ### Patch Changes

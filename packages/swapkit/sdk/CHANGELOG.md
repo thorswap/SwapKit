@@ -1,5 +1,25 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.198
+
+### Patch Changes
+
+- [`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Solana & Bump
+
+- Updated dependencies [[`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.49
+  - @swapkit/plugin-chainflip@1.0.0-rc.71
+  - @swapkit/plugin-thorchain@1.0.0-rc.71
+  - @swapkit/toolbox-cosmos@1.0.0-rc.141
+  - @swapkit/toolbox-solana@1.0.0-rc.2
+  - @swapkit/wallets@1.0.0-rc.2
+  - @swapkit/toolbox-radix@1.0.0-rc.6
+  - @swapkit/tokens@1.0.0-rc.56
+  - @swapkit/toolbox-utxo@1.0.0-rc.125
+  - @swapkit/toolbox-evm@1.0.0-rc.121
+  - @swapkit/core@1.0.0-rc.169
+  - @swapkit/plugin-evm@1.0.0-rc.14
+
 ## 1.0.0-rc.196
 
 ### Patch Changes
