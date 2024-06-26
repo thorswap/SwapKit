@@ -1,5 +1,11 @@
 # @swapkit/wizard
 
+## 0.1.3-rc.0
+
+### Patch Changes
+
+- [`173fb40`](https://github.com/thorswap/SwapKit/commit/173fb401ad77bc65d4b7c12f1f06e6402fa56d37) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Bump for wizz
+
 ## 0.1.1-rc.2
 
 ### Patch Changes
