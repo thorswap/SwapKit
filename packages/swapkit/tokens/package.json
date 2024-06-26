@@ -1,7 +1,10 @@
 {
   "author": "swapkit-oss",
   "description": "SwapKit - Tokens",
-  "files": ["src/", "dist/"],
+  "files": [
+    "src/",
+    "dist/"
+  ],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
@@ -16,7 +19,7 @@
     "clean": "rm -rf dist node_modules *.tsbuildinfo",
     "generate-tokens": "bun run ./fetchTokenLists.ts",
     "lint": "biome check --write --unsafe ./src",
-    "test": "echo 'bun test --run'",
+    "test": "echo 'bun test'",
     "test:coverage": "bun test --coverage",
     "type-check": "tsc --noEmit"
   },

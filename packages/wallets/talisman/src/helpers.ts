@@ -129,6 +129,7 @@ export const getWalletForChain = async ({
         );
       }
 
+      // @ts-expect-error - TODO: figure out if it's typing or bug
       const toolbox = await getToolboxByChain(chain, { signer: rawExtension.signer });
       const accounts = await rawExtension.accounts.get();
       if (!accounts[0]?.address) {
