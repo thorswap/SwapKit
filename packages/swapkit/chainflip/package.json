@@ -15,7 +15,10 @@
 		"@swapkit/toolbox-substrate": "workspace:*",
 		"bun-types": "1.1.8"
 	},
-	"files": ["src/", "dist/"],
+	"files": [
+		"src/",
+		"dist/"
+	],
 	"homepage": "https://github.com/thorswap/SwapKit",
 	"license": "Apache-2.0",
 	"main": "./dist/index.js",
@@ -45,5 +48,5 @@
 	},
 	"type": "module",
 	"types": "./src/index.ts",
-	"version": "1.0.0-rc.70"
+	"version": "1.0.0-rc.71"
 }
