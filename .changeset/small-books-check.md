@@ -1,6 +1,6 @@
 ---
-"@swapkit/plugin-chainflip": minor
-"@swapkit/helpers": minor
+"@swapkit/plugin-chainflip": patch
+"@swapkit/helpers": patch
 ---
 
 Better handle Chainflip tickers
