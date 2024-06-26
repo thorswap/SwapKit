@@ -14,7 +14,7 @@ import {
   listDirectoryFiles,
 } from "./helpers";
 
-const [processPath, , ...args] = process.argv;
+const [, , ...args] = process.argv;
 
 enum Variant {
   CORE = "core",
@@ -90,7 +90,7 @@ const pluginOptions = [
 
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO - split
 export async function swapkitWizard() {
-  const packageManager = getPackageManager(processPath);
+  const packageManager = getPackageManager();
 
   const helpTrigger = args.includes("--help") || args.includes("help");
 
