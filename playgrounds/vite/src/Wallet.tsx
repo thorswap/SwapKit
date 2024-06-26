@@ -14,8 +14,8 @@ export const Wallet = ({ walletData, setAsset, disconnect }: Props) => {
     <div style={{ paddingBottom: "16px" }}>
       <div>
         <span>
-          {walletData?.walletType} {walletData?.balance?.[0]?.chain} wallet
-          address: {walletData?.address}
+          {walletData?.walletType} {walletData?.balance?.[0]?.chain} wallet address:{" "}
+          {walletData?.address}
         </span>
       </div>
 

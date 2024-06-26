@@ -11,7 +11,6 @@ const errorMessages = {
   core_plugin_swap_not_found: 10007,
   core_approve_asset_target_invalid: 10008,
   core_chain_halted: 10099,
-
   /**
    * Core - Wallet Connection
    */
@@ -24,8 +23,6 @@ const errorMessages = {
   core_wallet_keplr_not_installed: 10107,
   core_wallet_okx_not_installed: 10108,
   core_wallet_keepkey_not_installed: 10109,
-  core_wallet_talisman_not_installed: 10110,
-  core_wallet_not_keypair_wallet: 10111,
   /**
    * Core - Swap
    */
@@ -41,12 +38,12 @@ const errorMessages = {
    * Core - Transaction
    */
   core_transaction_deposit_error: 10301,
-  core_transaction_create_liquidity_rune_error: 10302,
+  core_transaction_create_liquidity_base_error: 10302,
   core_transaction_create_liquidity_asset_error: 10303,
   core_transaction_create_liquidity_invalid_params: 10304,
   core_transaction_add_liquidity_invalid_params: 10305,
-  core_transaction_add_liquidity_no_rune_address: 10306,
-  core_transaction_add_liquidity_rune_error: 10307,
+  core_transaction_add_liquidity_base_address: 10306,
+  core_transaction_add_liquidity_base_error: 10307,
   core_transaction_add_liquidity_asset_error: 10308,
   core_transaction_withdraw_error: 10309,
   core_transaction_deposit_to_pool_error: 10310,
@@ -55,38 +52,37 @@ const errorMessages = {
   core_transaction_invalid_sender_address: 10313,
   core_transaction_deposit_server_error: 10314,
   core_transaction_user_rejected: 10315,
-  core_transaction_create_liquidity_cacao_error: 10316,
-  core_transaction_add_liquidity_no_cacao_address: 10306,
-  core_transaction_add_liquidity_cacao_error: 10307,
-
   /**
    * Wallets
    */
+  wallet_connection_rejected_by_user: 20000,
   wallet_ledger_connection_error: 20001,
   wallet_ledger_connection_claimed: 20002,
   wallet_ledger_get_address_error: 20003,
   wallet_ledger_device_not_found: 20004,
   wallet_ledger_device_locked: 20005,
-
+  wallet_phantom_not_found: 20101,
+  wallet_xdefi_not_found: 20201,
+  wallet_xdefi_failed_to_add_or_switch_network: 20202,
   /**
    * Chainflip
    */
   chainflip_channel_error: 30001,
   chainflip_broker_recipient_error: 30002,
-
   /**
    * THORChain
    */
-
+  thorchain_chain_halted: 40001,
+  thorchain_trading_halted: 40002,
   /**
    * SwapKit API
    */
-  api_v2_invalid_response: 40001,
+  api_v2_invalid_response: 50001,
 
   /**
    * Helpers
    */
-  helpers_number_different_decimals: 99101,
+  helpers_number_different_decimals: 99001,
 } as const;
 
 export type ErrorKeys = keyof typeof errorMessages;

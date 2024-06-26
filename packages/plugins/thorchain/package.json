@@ -9,17 +9,13 @@
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*",
-    "bun-types": "1.1.8"
+    "@swapkit/toolbox-utxo": "workspace:*"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
-  "name": "@swapkit/thorchain",
+  "name": "@swapkit/plugin-thorchain",
   "peerDependencies": {
     "@swapkit/api": "workspace:*",
     "@swapkit/helpers": "workspace:*",
@@ -35,10 +31,10 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
-    "lint": "biome check --apply ./src",
+    "clean": "rm -rf dist node_modules *.tsbuildinfo",
+    "lint": "biome check --write ./src",
     "test": "echo 'bun test'",
-    "test:coverage": "echo 'bun test --coverage'",
+    "test:coverage": "bun test --coverage",
     "type-check": "tsc --noEmit"
   },
   "type": "module",

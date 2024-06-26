@@ -62,7 +62,7 @@ export class AssetValue extends BigIntArithmetics {
     return this.chain === chain && this.symbol === symbol;
   }
 
-  eq(assetValue: AssetValue): boolean {
+  eq(assetValue: AssetValue) {
     return this.eqAsset(assetValue) && this.eqValue(assetValue);
   }
 
@@ -177,6 +177,7 @@ export class AssetValue extends BigIntArithmetics {
 
   static fromChainOrSignature(assetString: CommonAssetString, value: NumberPrimitives = 0) {
     const { decimal, identifier } = getCommonAssetInfo(assetString);
+
     return new AssetValue({ value: safeValue(value, decimal), decimal, identifier });
   }
 

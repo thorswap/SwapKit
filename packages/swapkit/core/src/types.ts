@@ -8,12 +8,13 @@ import type {
 import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
 import type { CovalentApiType, EthplorerApiType } from "@swapkit/toolbox-evm";
 import type { EVMWallets } from "@swapkit/toolbox-evm";
+import type { SolanaWallet } from "@swapkit/toolbox-solana";
 import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
 import type { BlockchairApiType } from "@swapkit/toolbox-utxo";
 import type { UTXOWallets } from "@swapkit/toolbox-utxo";
 
 export type Wallet = BaseWallet<
-  EVMWallets & UTXOWallets & CosmosWallets & ThorchainWallets & SubstrateWallets
+  EVMWallets & UTXOWallets & CosmosWallets & ThorchainWallets & SubstrateWallets & SolanaWallet
 >;
 
 export type SwapKitWallet<ConnectParams extends Todo[]> = (

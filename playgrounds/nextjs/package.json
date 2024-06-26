@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "clean": "rm -rf .next .turbo node_modules",
+    "clean": "rm -rf .next node_modules",
     "build-playground": "next build",
     "start": "next start",
-    "lint": "echo 'biome check --apply ./src'"
+    "lint": "echo 'biome check --write ./src'"
   },
   "dependencies": {
     "@hookform/resolvers": "3.3.4",
@@ -31,9 +31,10 @@
     "@radix-ui/react-tabs": "1.0.4",
     "@radix-ui/react-tooltip": "1.0.7",
     "@swapkit/api": "workspace:*",
-    "@swapkit/chainflip": "workspace:*",
     "@swapkit/core": "workspace:*",
-    "@swapkit/thorchain": "workspace:*",
+    "@swapkit/plugin-evm": "workspace:*",
+    "@swapkit/plugin-chainflip": "workspace:*",
+    "@swapkit/plugin-thorchain": "workspace:*",
     "@swapkit/tokens": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
@@ -65,15 +66,15 @@
   "devDependencies": {
     "@swc-jotai/debug-label": "0.1.0",
     "@swc-jotai/react-refresh": "0.1.0",
-    "@types/node": "20.12.5",
-    "@types/react": "18.2.74",
-    "@types/react-dom": "18.2.24",
+    "@types/node": "20.14.8",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
     "autoprefixer": "10.4.19",
     "global": "4.4.0",
     "node-polyfill-webpack-plugin": "4.0.0",
     "postcss": "8.4.38",
     "tailwindcss": "3.4.3",
-    "typescript": "5.4.4"
+    "typescript": "5.5.2"
   },
   "browser": {
     "dns": false,

@@ -35,7 +35,7 @@ export const APIV1RequestClient = RequestClient.extend({
       },
     ],
   },
-});
+}) as typeof RequestClient;
 
 export function getCachedPrices({ tokens, ...options }: CachedPricesParams) {
   const body = new URLSearchParams();

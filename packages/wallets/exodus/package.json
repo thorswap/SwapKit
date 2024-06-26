@@ -9,14 +9,10 @@
   "devDependencies": {
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "sats-connect": "1.4.1",
-    "bun-types": "1.1.8"
+    "sats-connect": "1.4.1"
   },
   "description": "SwapKit Wallet Exodus",
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "peerDependencies": {
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
@@ -36,10 +32,10 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
-    "lint": "biome check --apply ./src",
+    "clean": "rm -rf dist node_modules *.tsbuildinfo",
+    "lint": "biome check --write ./src",
     "test": "echo 'bun test'",
-    "test:coverage": "echo 'bun test --coverage'",
+    "test:coverage": "bun test --coverage",
     "type-check": "tsc --noEmit"
   },
   "type": "module",

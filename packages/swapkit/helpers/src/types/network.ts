@@ -20,6 +20,7 @@ export enum RPCUrl {
   Radix = "https://radix-mainnet.rpc.grove.city/v1/326002fc/core",
   THORChain = "https://rpc.thorswap.net",
   THORChainStagenet = "https://stagenet-rpc.ninerealms.com",
+  Solana = "https://mainnet.helius-rpc.com/?api-key=2cbe3ae6-cfc5-4141-a093-0055d0fa3d80",
 }
 
 export enum ExplorerUrl {
@@ -38,8 +39,9 @@ export enum ExplorerUrl {
   Litecoin = "https://blockchair.com/litecoin",
   Maya = "https://www.mayascan.org",
   Optimism = "https://optimistic.etherscan.io",
-  Polkadot = "https://polkadot.subscan.io/",
+  Polkadot = "https://polkadot.subscan.io",
   Polygon = "https://polygonscan.com",
   Radix = "https://dashboard.radixdlt.com",
   THORChain = "https://runescan.io",
+  Solana = "https://solscan.io",
 }

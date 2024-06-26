@@ -1,10 +1,10 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
+    "@swapkit/plugin-chainflip": "workspace:*",
     "@swapkit/core": "workspace:*",
-    "@swapkit/thorchain": "workspace:*",
-    "@swapkit/chainflip": "workspace:*",
-    "@swapkit/evm": "workspace:*",
+    "@swapkit/plugin-evm": "workspace:*",
+    "@swapkit/plugin-thorchain": "workspace:*",
     "@swapkit/tokens": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
@@ -17,18 +17,21 @@
     "@swapkit/wallet-keystore": "workspace:*",
     "@swapkit/wallet-ledger": "workspace:*",
     "@swapkit/wallet-okx": "workspace:*",
+    "@swapkit/wallet-phantom": "workspace:*",
+    "@swapkit/wallet-talisman": "workspace:*",
     "@swapkit/wallet-trezor": "workspace:*",
     "@swapkit/wallet-wc": "workspace:*",
     "@swapkit/wallet-xdefi": "workspace:*"
   },
   "peerDependencies": {
+    "@swapkit/plugin-chainflip": "workspace:*",
     "@swapkit/core": "workspace:*",
-    "@swapkit/thorchain": "workspace:*",
-    "@swapkit/chainflip": "workspace:*",
-    "@swapkit/evm": "workspace:*",
+    "@swapkit/plugin-evm": "workspace:*",
+    "@swapkit/plugin-thorchain": "workspace:*",
     "@swapkit/tokens": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-solana": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "@swapkit/wallet-coinbase": "workspace:*",
@@ -38,18 +41,14 @@
     "@swapkit/wallet-keystore": "workspace:*",
     "@swapkit/wallet-ledger": "workspace:*",
     "@swapkit/wallet-okx": "workspace:*",
+    "@swapkit/wallet-phantom": "workspace:*",
+    "@swapkit/wallet-talisman": "workspace:*",
     "@swapkit/wallet-trezor": "workspace:*",
     "@swapkit/wallet-wc": "workspace:*",
     "@swapkit/wallet-xdefi": "workspace:*"
   },
   "description": "SwapKit - SDK",
-  "devDependencies": {
-    "bun-types": "1.1.8"
-  },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
@@ -61,8 +60,8 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
-    "lint": "biome check --apply ./src",
+    "clean": "rm -rf dist node_modules *.tsbuildinfo",
+    "lint": "biome check --write ./src",
     "type-check": "tsc --noEmit"
   },
   "type": "module",

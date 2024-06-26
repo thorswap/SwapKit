@@ -6,7 +6,7 @@
     "@cosmjs/encoding": "0.32.3",
     "@cosmjs/proto-signing": "0.32.3",
     "@cosmjs/stargate": "0.32.3",
-    "@scure/base": "1.1.6",
+    "@scure/base": "1.1.7",
     "@swapkit/api": "workspace:*",
     "@swapkit/helpers": "workspace:*",
     "@types/elliptic": "6.4.18",
@@ -15,7 +15,7 @@
     "cosmjs-types": "0.9.0",
     "crypto-js": "4.2.0",
     "elliptic": "6.5.5",
-    "protobufjs": "7.2.6",
+    "protobufjs": "7.3.2",
     "protocol-buffers-encodings": "1.2.0",
     "tiny-secp256k1": "2.2.3"
   },
@@ -23,13 +23,9 @@
   "devDependencies": {
     "@types/bn.js": "5.1.5",
     "@types/crypto-js": "4.2.2",
-    "@types/tiny-secp256k1": "2.0.1",
-    "bun-types": "1.1.8"
+    "@types/tiny-secp256k1": "2.0.1"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
@@ -60,10 +56,10 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
-    "lint": "biome check --apply ./src",
+    "clean": "rm -rf dist node_modules *.tsbuildinfo",
+    "lint": "biome check --write ./src",
     "test": "echo 'bun test'",
-    "test:coverage": "echo 'bun test --coverage'",
+    "test:coverage": "bun test --coverage",
     "type-check": "tsc --noEmit"
   },
   "type": "module",

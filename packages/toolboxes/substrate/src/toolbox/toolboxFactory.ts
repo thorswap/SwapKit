@@ -4,13 +4,12 @@ import { AssetValue, Chain, RPCUrl, type SubstrateChain, SwapKitNumber } from "@
 
 import { Network } from "../types/network.ts";
 
-import type { Signer } from "@polkadot/types/types";
 import { BaseSubstrateToolbox } from "./baseSubstrateToolbox.ts";
 
 type ToolboxParams = {
   providerUrl?: RPCUrl;
   generic?: boolean;
-  signer: KeyringPair | Signer;
+  signer: KeyringPair;
 };
 
 export const ToolboxFactory = async ({
@@ -77,7 +76,7 @@ type ToolboxType = {
 
 export const getToolboxByChain = <T extends keyof ToolboxType>(
   chain: T,
-  params: { providerUrl?: RPCUrl; signer: KeyringPair | Signer; generic?: boolean },
+  params: { providerUrl?: RPCUrl; signer: KeyringPair; generic?: boolean },
 ): ToolboxType[T] => {
   switch (chain) {
     case Chain.Chainflip:

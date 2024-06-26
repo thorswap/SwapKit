@@ -2,8 +2,14 @@
   "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnSave": true,
   "tailwindCSS.experimental.classRegex": [
-    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
-    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+    [
+      "cva\\(([^)]*)\\)",
+      "[\"'`]([^\"'`]*).*?[\"'`]"
+    ],
+    [
+      "cx\\(([^)]*)\\)",
+      "(?:'|\"|`)([^']*)(?:'|\"|`)"
+    ]
   ],
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.tsdk": "node_modules/typescript/lib",
@@ -19,8 +25,7 @@
     "**/node_modules": true,
     "**/dist": true,
     "**/build": true,
-    "**/coverage": true,
-    "**/.turbo": true
+    "**/coverage": true
   },
   "cSpell.words": [
     "AVALACHE",

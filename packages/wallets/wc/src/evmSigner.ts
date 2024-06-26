@@ -56,8 +56,6 @@ class WalletconnectSigner extends AbstractSigner {
     // if (!from) throw new Error('Missing from address');
     // if (!to) throw new Error('Missing to address');
 
-    // const { BigNumber } = await import('@ethersproject/bignumber');
-
     // const baseTx = {
     //   from,
     //   to,

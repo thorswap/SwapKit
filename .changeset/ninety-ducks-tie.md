@@ -1,8 +1,8 @@
 ---
 "@swapkit/wallet-evm-extensions": patch
 "@swapkit/toolbox-substrate": patch
-"@swapkit/chainflip": patch
-"@swapkit/thorchain": patch
+"@swapkit/plugin-chainflip": patch
+"@swapkit/plugin-thorchain": patch
 "@swapkit/toolbox-cosmos": patch
 "@swapkit/wallet-coinbase": patch
 "@swapkit/wallet-keystore": patch
