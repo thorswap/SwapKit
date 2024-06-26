@@ -50,7 +50,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup Repo
         uses: ./tools/github/setup-repo
-      - run: bun run ./scripts/replace-versions.ts
+      - name: Install dependencies
+        run: |
+          sudo apt-get install -y jq
+          bun run ./scripts/replace-versions.ts
 
       - name: Copy npmrc config
         run: cp .npmrc.prod .npmrc
@@ -91,6 +94,13 @@ jobs:
           publish: bun publish-packages
           setupGitUser: false
 
+      - name: Parse packages
+        id: parse-packages
+        if: ${{ steps.changesets.outputs.published == 'true' }}
+        run: |
+          echo "${{ steps.changesets.outputs.publishedPackages }}" | jq -r 'map(.name + "@" + .version) | join("\n")' > packages.txt
+          echo "packages=$(cat packages.txt)" >> $GITHUB_OUTPUT
+
       - name: Internal Discord Notification
         if: ${{ steps.changesets.outputs.published == 'true' }}
         uses: sarisia/actions-status-discord@82409b24a08684f54ea5baa6b376e36dad37fb81
@@ -98,7 +108,7 @@ jobs:
           noprefix: ${{ job.status == 'success' }}
           avatar_url: https://static.thorswap.net/logo.png
           color: ${{ contains(github.ref_name, 'main') && '0x00aa00' || '0x3af3f4' }}
-          description: "Build ${{ job.status }} ${{ github.ref_name }}:\n${{ join(fromJson(steps.changesets.outputs.publishedPackages), '\n') }}"
+          description: "Build ${{ job.status }} ${{ github.ref_name }}:\n${{ steps.parse-packages.outputs.packages }}"
           status: success
           url: "https://github.com/thorswap/swapkit/releases"
           username: SwapKit - ${{ github.ref_name }}
