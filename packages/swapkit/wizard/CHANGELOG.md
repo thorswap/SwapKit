@@ -1,5 +1,11 @@
 # @swapkit/wizard
 
+## 0.1.5-rc.1
+
+### Patch Changes
+
+- [`b706da9`](https://github.com/thorswap/SwapKit/commit/b706da98525be8cf46702bc6300959ff6702f43b) Thanks [@towanTG](https://github.com/towanTG)! - Bump to fix version
+
 ## 0.1.5-rc.0
 
 ### Patch Changes
