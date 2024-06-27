@@ -1,4 +1,4 @@
-import type { AssetValue } from "@swapkit/helpers";
+import type { AssetValue, SwapKitNumber } from "@swapkit/helpers";
 
 export type THORNameDetails = {
   entries: Array<{ address: string; chain: string }>;
@@ -56,5 +56,5 @@ export type LiquidityPosition = {
   nativeWithdrawn: AssetValue;
   dateFirstAdded: string;
   dateLastAdded: string;
-  poolShare: number;
+  poolShare: SwapKitNumber;
 };
