@@ -24,8 +24,6 @@ for (const file of onlyPackageJson) {
     case "plugins":
       packagePrefix = "plugin-";
       break;
-    default:
-      continue;
   }
 
   const packageName = `@swapkit/${packagePrefix}${name}`;
