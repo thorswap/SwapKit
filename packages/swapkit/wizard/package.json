@@ -4,16 +4,13 @@
   "dependencies": {
     "@clack/prompts": "0.7.0",
     "ejs": "3.1.10",
+    "picocolors": "1.0.1",
     "zod": "3.23.8"
   },
   "devDependencies": {
     "@types/ejs": "3.1.5"
   },
-  "files": [
-    "./cli.ts",
-    "dist/",
-    "src/"
-  ],
+  "files": ["./cli.ts", "dist/", "src/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./cli.ts",
@@ -34,5 +31,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "0.1.3-rc.4"
+  "version": "0.1.5-rc.0"
 }

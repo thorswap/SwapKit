@@ -1,8 +1,8 @@
 import { execSync } from "node:child_process";
 import { cpSync, existsSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { styleText } from "node:util";
 import { group, intro, multiselect, note, outro, select, spinner, text } from "@clack/prompts";
 import ejs from "ejs";
+import { bold, dim, green, inverse, underline } from "picocolors";
 import { array, boolean, nativeEnum, object, string } from "zod";
 
 import {
@@ -97,14 +97,14 @@ export async function swapkitWizard() {
   if (helpTrigger) return helpText(packageManager);
 
   intro(`
-  ${styleText("bold", styleText("inverse", "     SwapKit Wizard     "))}
-  ${styleText("dim", `@swapkit/wizard v${cliVersion}`)}`);
+  ${bold(inverse("     SwapKit Wizard     "))}
+  ${dim(`@swapkit/wizard v${cliVersion}`)}`);
 
   note(`To navigate through the wizard, you can use the following commands:
-- ${styleText("underline", styleText("bold", "↑"))}, ${styleText("underline", styleText("bold", "↓"))}, ${styleText("underline", styleText("bold", "←"))}, and ${styleText("underline", styleText("bold", "→"))} to navigate.
-- ${styleText("underline", styleText("bold", "a"))} to select all options when multiple options are available.
-- ${styleText("underline", styleText("bold", "space"))} to select an option when multiple options are available.
-- ${styleText("underline", styleText("bold", "enter"))} to proceed.`);
+- ${underline(bold("↑"))}, ${underline(bold("↓"))}, ${underline(bold("←"))}, and ${underline(bold("→"))} to navigate.
+- ${underline(bold("a"))} to select all options when multiple options are available.
+- ${underline(bold("space"))} to select an option when multiple options are available.
+- ${underline(bold("enter"))} to proceed.`);
 
   const answers = await group(
     {
@@ -279,10 +279,10 @@ export async function swapkitWizard() {
   rmSync("./temp", { recursive: true });
 
   outro(`
-  ${styleText("bold", styleText("inverse", "     SwapKit Wizard     "))}
-  ${styleText("dim", `@swapkit/wizard v${cliVersion}`)}
+  ${bold(inverse("     SwapKit Wizard     "))}
+  ${dim(`@swapkit/wizard v${cliVersion}`)}
 
-  ${styleText("green", "Variant:")} ${variant === Variant.FULL ? "Full variant" : "Core variant"}
-  ${styleText("green", "Wallets:")} ${wallets?.join(", ") || variant === Variant.FULL ? "All" : "None"}
-  ${styleText("green", "Plugins:")} ${plugins?.join(", ") || variant === Variant.FULL ? "All" : "None"}`);
+  ${green("Variant:")} ${variant === Variant.FULL ? "Full variant" : "Core variant"}
+  ${green("Wallets:")} ${wallets ? wallets.join(", ") : variant === Variant.FULL ? "All" : "None"}
+  ${green("Plugins:")} ${plugins ? plugins.join(", ") : variant === Variant.FULL ? "All" : "None"}`);
 }

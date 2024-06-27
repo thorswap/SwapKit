@@ -1,5 +1,11 @@
 # @swapkit/wizard
 
+## 0.1.5-rc.0
+
+### Patch Changes
+
+- Replace styleText with picocolors
+
 ## 0.1.3-rc.4
 
 ### Patch Changes

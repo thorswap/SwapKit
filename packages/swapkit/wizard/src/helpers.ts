@@ -1,7 +1,7 @@
 import { cpSync, existsSync, readdirSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
-import { styleText } from "node:util";
 import { intro, outro } from "@clack/prompts";
+import { bold, green, magenta, red, underline } from "picocolors";
 
 import { version } from "../package.json";
 
@@ -43,21 +43,21 @@ export function getPackageManager() {
 
 export function handleCancel(error?: NotWorth) {
   console.error(error);
-  outro(styleText("bold", styleText("red", "@swapkit/wizard - cancelled")));
+  outro(bold(red("@swapkit/wizard - cancelled")));
   rmSync("./temp", { recursive: true, force: true });
   return process.exit(0);
 }
 
 export function commandText(command: string) {
-  return styleText("bold", styleText("green", command));
+  return bold(green(command));
 }
 
 export function helpText(packageManager: ReturnType<typeof getPackageManager>) {
   return intro(`
   Usage:
-  $ ${styleText("magenta", styleText("bold", `${packageManager.exec} @swapkit/wizard <command>`))}
+  $ ${bold(magenta(`${packageManager.exec} @swapkit/wizard <command>`))}
 
-  ${styleText("underline", "Available commands:")}
+  ${underline("Available commands:")}
   - ${commandText("init")}:    Initialize a new SwapKit project with example client
   - ${commandText("update")}:  Update SwapKit to the latest version and check for new providers
   - ${commandText("doctor")}:  Check your project for potential issues
