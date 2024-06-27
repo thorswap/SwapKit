@@ -85,6 +85,74 @@ export class AssetValue extends BigIntArithmetics {
     return createAssetValue(assetString, value);
   }
 
+  static from<T extends { async?: boolean }>({
+    asset,
+    value = 0,
+    decimal = BaseDecimal.THOR,
+    isBase,
+    async,
+  }: T &
+    (
+      | {
+          asset: TokenNames;
+        }
+      | {
+          asset: string;
+        }
+    ) & {
+      value?: NumberPrimitives | SwapKitValueType;
+      decimal?: number;
+      isBase?: boolean;
+    }): T["async"] extends true ? Promise<AssetValue> : AssetValue {
+    const parsedValue = value instanceof BigIntArithmetics ? value.getValue("string") : value;
+
+    if (async) {
+      if (isBase) {
+        const shiftedAmount = BigIntArithmetics.shiftDecimals({
+          value: SwapKitNumber.fromBigInt(BigInt(parsedValue)),
+          from: 0,
+          to: decimal,
+        }).getBaseValue("string");
+        return createAssetValue(asset, shiftedAmount) as T["async"] extends true
+          ? Promise<AssetValue>
+          : AssetValue;
+      }
+
+      return createAssetValue(
+        asset,
+        value instanceof BigIntArithmetics ? value.getValue("string") : value,
+      ) as T["async"] extends true ? Promise<AssetValue> : AssetValue;
+    }
+
+    const { chain, isSynthetic } = getAssetInfo(asset);
+    const tokenInfo = staticTokensMap.get(asset.toUpperCase() as TokenNames);
+
+    if (isSynthetic)
+      return createSyntheticAssetValue(asset, parsedValue) as T["async"] extends true
+        ? Promise<AssetValue>
+        : AssetValue;
+
+    const {
+      tax,
+      decimal: assetDecimal,
+      identifier,
+    } = tokenInfo || {
+      decimal: decimal || BaseDecimal[chain],
+      identifier: asset,
+    };
+
+    const adjustedValue = isBase
+      ? safeValue(BigInt(parsedValue), decimal)
+      : safeValue(parsedValue, assetDecimal);
+
+    return new AssetValue({
+      tax,
+      decimal: assetDecimal,
+      identifier,
+      value: adjustedValue,
+    }) as T["async"] extends true ? Promise<AssetValue> : AssetValue;
+  }
+
   static fromString(assetString: string, value: NumberPrimitives = 0) {
     return createAssetValue(assetString, value);
   }
