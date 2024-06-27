@@ -1,3 +1,4 @@
+import { lowercasedContractAbiMapping } from "@swapkit/contracts";
 import {
   ApproveMode,
   type ApproveReturnType,
@@ -10,8 +11,6 @@ import {
   type SwapParams,
 } from "@swapkit/helpers";
 import type { EVMWallets } from "@swapkit/toolbox-evm";
-
-import { lowercasedContractAbiMapping } from "./contracts";
 
 type ChainWallets = BaseWallet<EVMWallets>;
 

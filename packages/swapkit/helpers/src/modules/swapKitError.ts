@@ -1,8 +1,7 @@
-const errorMessages = {
+const errorCodes = {
   /**
    * Core
    */
-  core_wallet_connection_not_found: 10001,
   core_estimated_max_spendable_chain_not_supported: 10002,
   core_extend_error: 10003,
   core_inbound_data_not_found: 10004,
@@ -10,10 +9,10 @@ const errorMessages = {
   core_plugin_not_found: 10006,
   core_plugin_swap_not_found: 10007,
   core_approve_asset_target_invalid: 10008,
+  core_explorer_unsupported_chain: 10009,
   core_chain_halted: 10099,
-  /**
-   * Core - Wallet Connection
-   */
+
+  core_wallet_connection_not_found: 10100,
   core_wallet_xdefi_not_installed: 10101,
   core_wallet_evmwallet_not_installed: 10102,
   core_wallet_walletconnect_not_installed: 10103,
@@ -56,40 +55,86 @@ const errorMessages = {
    * Wallets
    */
   wallet_connection_rejected_by_user: 20000,
-  wallet_ledger_connection_error: 20001,
-  wallet_ledger_connection_claimed: 20002,
-  wallet_ledger_get_address_error: 20003,
-  wallet_ledger_device_not_found: 20004,
-  wallet_ledger_device_locked: 20005,
-  wallet_phantom_not_found: 20101,
-  wallet_xdefi_not_found: 20201,
-  wallet_xdefi_failed_to_add_or_switch_network: 20202,
+  wallet_missing_api_key: 20001,
+  wallet_chain_not_supported: 20002,
+  wallet_missing_params: 20003,
+  wallet_provider_not_found: 20004,
+  wallet_failed_to_add_or_switch_network: 20005,
+  wallet_ledger_connection_error: 20101,
+  wallet_ledger_connection_claimed: 20102,
+  wallet_ledger_get_address_error: 20103,
+  wallet_ledger_device_not_found: 20104,
+  wallet_ledger_device_locked: 20105,
+  wallet_phantom_not_found: 20201,
+  wallet_xdefi_not_found: 20301,
+  wallet_xdefi_send_transaction_no_address: 20302,
+  wallet_xdefi_contract_address_not_provided: 20303,
+  wallet_xdefi_asset_not_defined: 20304,
+  wallet_walletconnect_project_id_not_specified: 20401,
+  wallet_walletconnect_connection_not_established: 20402,
+  wallet_walletconnect_namespace_not_supported: 20403,
+  wallet_trezor_failed_to_sign_transaction: 20501,
+  wallet_trezor_derivation_path_not_supported: 20502,
+  wallet_trezor_failed_to_get_address: 20503,
+  wallet_talisman_not_enabled: 20601,
+  wallet_talisman_not_found: 20602,
   /**
    * Chainflip
    */
   chainflip_channel_error: 30001,
-  chainflip_broker_recipient_error: 30002,
-  chainflip_unknown_asset: 30003,
+  chainflip_unknown_asset: 30002,
+  chainflip_broker_invalid_params: 30100,
+  chainflip_broker_recipient_error: 30101,
+  chainflip_broker_register: 30102,
+  chainflip_broker_tx_error: 30103,
+  chainflip_broker_withdraw: 30104,
+  chainflip_broker_fund_only_flip_supported: 30105,
+  chainflip_broker_fund_invalid_address: 30106,
   /**
    * THORChain
    */
   thorchain_chain_halted: 40001,
   thorchain_trading_halted: 40002,
+  thorchain_swapin_router_required: 40100,
+  thorchain_swapin_vault_required: 40101,
+  thorchain_swapin_memo_required: 40102,
+  thorchain_swapin_token_required: 40103,
   /**
    * SwapKit API
    */
   api_v2_invalid_response: 50001,
 
   /**
+   * Toolboxes
+   */
+  toolbox_cosmos_signer_not_defined: 90101,
+  toolbox_cosmos_no_accounts_found: 90102,
+  /**
    * Helpers
    */
-  helpers_number_different_decimals: 99001,
+  helpers_invalid_number_different_decimals: 99000,
+  helpers_invalid_number_of_years: 99001,
+  helpers_invalid_identifier: 99002,
+  helpers_invalid_asset_url: 99003,
+  helpers_invalid_asset_identifier: 99004,
+  helpers_invalid_memo_type: 99005,
+  helpers_failed_to_switch_network: 99103,
+  helpers_not_found_provider: 99200,
 } as const;
 
-export type ErrorKeys = keyof typeof errorMessages;
+export type ErrorKeys = keyof typeof errorCodes;
 
 export class SwapKitError extends Error {
-  constructor(errorKey: ErrorKeys, sourceError?: NotWorth) {
+  static ErrorCode = errorCodes;
+
+  constructor(
+    errorOrErrorKey: ErrorKeys | { errorKey: ErrorKeys; info?: Record<string, NotWorth> },
+    sourceError?: NotWorth,
+  ) {
+    const isErrorString = typeof errorOrErrorKey === "string";
+
+    const errorKey = isErrorString ? errorOrErrorKey : errorOrErrorKey.errorKey;
+
     if (sourceError) {
       console.error(sourceError, {
         stack: sourceError?.stack,
@@ -98,8 +143,12 @@ export class SwapKitError extends Error {
     }
 
     super(errorKey, {
-      cause: { code: errorMessages[errorKey], message: errorKey },
+      cause: {
+        code: SwapKitError.ErrorCode[errorKey],
+        message: `${errorKey}${isErrorString ? "" : `: ${JSON.stringify(errorOrErrorKey.info)}`}`,
+      },
     });
+
     Object.setPrototypeOf(this, SwapKitError.prototype);
   }
 }

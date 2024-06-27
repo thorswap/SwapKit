@@ -1,20 +1,10 @@
 {
-  "author": "swapkit-oss",
-  "dependencies": {
-    "@swapkit/api": "workspace:*",
-    "@swapkit/contracts": "workspace:*",
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-cosmos": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-substrate": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*"
-  },
-  "description": "SwapKit Plugin - Thorchain",
+  "description": "SwapKit - Contracts",
   "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
-  "name": "@swapkit/plugin-thorchain",
+  "name": "@swapkit/contracts",
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
@@ -30,5 +20,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.72"
+  "version": "1.0.0-rc.1"
 }

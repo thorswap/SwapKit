@@ -1,5 +1,6 @@
 import type { ProposalTypes } from "@walletconnect/types";
 
+import { SwapKitError } from "@swapkit/helpers";
 import {
   DEFAULT_COSMOS_METHODS,
   DEFAULT_EIP155_METHODS,
@@ -37,7 +38,10 @@ export const getSupportedMethodsByNamespace = (namespace: string) => {
     case "near":
       return Object.values(DEFAULT_NEAR_METHODS);
     default:
-      throw new Error(`No default methods for namespace: ${namespace}`);
+      throw new SwapKitError({
+        errorKey: "wallet_walletconnect_namespace_not_supported",
+        info: { namespace },
+      });
   }
 };
 
@@ -54,7 +58,10 @@ export const getSupportedEventsByNamespace = (namespace: string) => {
     case "near":
       return Object.values(DEFAULT_NEAR_EVENTS);
     default:
-      throw new Error(`No default events for namespace: ${namespace}`);
+      throw new SwapKitError({
+        errorKey: "wallet_walletconnect_namespace_not_supported",
+        info: { namespace },
+      });
   }
 };
 

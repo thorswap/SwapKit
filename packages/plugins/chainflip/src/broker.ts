@@ -26,7 +26,7 @@ const registerAsBroker =
     const extrinsic = toolbox.api.tx.swapping?.registerAsBroker?.(address);
 
     if (!extrinsic) {
-      throw new Error("chainflip_broker_register");
+      throw new SwapKitError("chainflip_broker_register");
     }
 
     return toolbox.signAndBroadcast(extrinsic);
@@ -47,7 +47,9 @@ const requestSwapDepositAddress =
     const buyAssetValue = buyAsset || (route && AssetValue.fromStringSync(route.buyAsset));
     const recipient = _recipient || route?.destinationAddress;
 
-    if (!(sellAssetValue && buyAssetValue && recipient)) throw new Error("Invalid params");
+    if (!(sellAssetValue && buyAssetValue && recipient)) {
+      throw new SwapKitError("chainflip_broker_invalid_params");
+    }
 
     const isBuyChainPolkadot =
       buyAsset?.chain === Chain.Polkadot || buyAssetValue.chain === Chain.Polkadot;
@@ -72,7 +74,7 @@ const requestSwapDepositAddress =
       );
 
       if (!tx) {
-        throw new Error("chainflip_broker_tx_error");
+        throw new SwapKitError("chainflip_broker_tx_error");
       }
 
       toolbox.signAndBroadcast(tx, async (result) => {
@@ -133,7 +135,7 @@ const withdrawFee =
       });
 
       if (!extrinsic) {
-        throw new Error("chainflip_broker_withdraw");
+        throw new SwapKitError("chainflip_broker_withdraw");
       }
 
       toolbox.signAndBroadcast(extrinsic, async (result) => {
@@ -181,11 +183,11 @@ const fundStateChainAccount =
     amount: AssetValue;
   }) => {
     if (amount.symbol !== "FLIP") {
-      throw new Error("Only FLIP is supported");
+      throw new SwapKitError("chainflip_broker_fund_only_flip_supported");
     }
 
     if (!chainflipToolbox.validateAddress(stateChainAccount)) {
-      throw new Error("Invalid address");
+      throw new SwapKitError("chainflip_broker_fund_invalid_address");
     }
 
     const hexAddress = isHex(stateChainAccount)

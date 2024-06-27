@@ -1,4 +1,4 @@
-import type { EVMChain } from "@swapkit/helpers";
+import { type EVMChain, SwapKitError, WalletOption } from "@swapkit/helpers";
 import type { JsonRpcProvider, Provider, TransactionRequest } from "@swapkit/toolbox-evm";
 import { AbstractSigner } from "@swapkit/toolbox-evm";
 
@@ -29,7 +29,9 @@ class WalletconnectSigner extends AbstractSigner {
 
   // biome-ignore lint/suspicious/useAwait: fulfil implementation type
   getAddress = async () => {
-    if (!this.walletconnect) throw new Error("Missing walletconnect");
+    if (!this.walletconnect) {
+      throw new SwapKitError("wallet_walletconnect_connection_not_established");
+    }
     if (!this.address) {
       this.address = getAddressByChain(this.chain, this.walletconnect.accounts);
     }
@@ -52,9 +54,7 @@ class WalletconnectSigner extends AbstractSigner {
   };
 
   signTransaction = () => {
-    throw new Error("signTransaction not implemented for walletconnect");
-    // if (!from) throw new Error('Missing from address');
-    // if (!to) throw new Error('Missing to address');
+    throw new Error("Not implemented: signTransaction");
 
     // const baseTx = {
     //   from,
@@ -77,10 +77,8 @@ class WalletconnectSigner extends AbstractSigner {
 
   // ANCHOR (@Towan) - Implement in future
   signTypedData = () => {
-    throw new Error("this method is not implemented");
+    throw new Error("Not implemented: signTypedData");
 
-    // if (!from) throw new Error('Missing from address');
-    // if (!to) throw new Error('Missing to address');
     // const { toHexString } = await import('@swapkit/toolbox-evm');
 
     // const baseTx = {
@@ -126,7 +124,12 @@ class WalletconnectSigner extends AbstractSigner {
 
   // @ts-expect-error TODO: fix this
   connect = (provider: Provider | null) => {
-    if (!provider) throw new Error("Missing provider");
+    if (!provider) {
+      throw new SwapKitError({
+        errorKey: "wallet_provider_not_found",
+        info: { wallet: WalletOption.WALLETCONNECT, chain: this.chain },
+      });
+    }
 
     return new WalletconnectSigner({
       chain: this.chain,

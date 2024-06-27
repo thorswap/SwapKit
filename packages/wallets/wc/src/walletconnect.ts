@@ -4,6 +4,7 @@ import {
   ChainId,
   type ConnectWalletParams,
   RPCUrl,
+  SwapKitError,
   WalletOption,
   setRequestClientConfig,
 } from "@swapkit/helpers";
@@ -63,10 +64,18 @@ async function getToolbox({
     case Chain.Optimism:
     case Chain.Polygon:
     case Chain.Ethereum: {
-      if (chain === Chain.Ethereum && !ethplorerApiKey)
-        throw new Error("Ethplorer API key not found");
-      if (chain !== Chain.Ethereum && !covalentApiKey)
-        throw new Error("Covalent API key not found");
+      if (chain === Chain.Ethereum && !ethplorerApiKey) {
+        throw new SwapKitError({
+          errorKey: "wallet_missing_api_key",
+          info: { chain, missingApiKey: "ethplorerApiKey" },
+        });
+      }
+      if (chain !== Chain.Ethereum && !covalentApiKey) {
+        throw new SwapKitError({
+          errorKey: "wallet_missing_api_key",
+          info: { chain, missingApiKey: "covalentApiKey" },
+        });
+      }
 
       const { getProvider, getToolboxByChain } = await import("@swapkit/toolbox-evm");
       const provider = getProvider(chain);
@@ -158,8 +167,17 @@ async function getToolbox({
         ...rest
       }: TransferParams | DepositParam) {
         const account = await toolbox.getAccount(address);
-        if (!account) throw new Error("Account not found");
-        if (!account.pubkey) throw new Error("Account pubkey not found");
+        if (!account) {
+          throw new SwapKitError({ errorKey: "wallet_missing_params", info: { account } });
+        }
+
+        if (!account.pubkey) {
+          throw new SwapKitError({
+            errorKey: "wallet_missing_params",
+            info: { account, pubkey: account?.pubkey },
+          });
+        }
+
         const { accountNumber, sequence = 0 } = account;
 
         const msgs = [
@@ -217,7 +235,10 @@ async function getToolbox({
       };
     }
     default:
-      throw new Error("Chain is not supported");
+      throw new SwapKitError({
+        errorKey: "wallet_chain_not_supported",
+        info: { chain, wallet: WalletOption.WALLETCONNECT },
+      });
   }
 }
 
@@ -229,7 +250,7 @@ async function getWalletconnect(
   let modal: WalletConnectModalSign | undefined;
   try {
     if (!walletConnectProjectId) {
-      throw new Error("Error while setting up walletconnect connection: Project ID not specified");
+      throw new SwapKitError("wallet_walletconnect_project_id_not_specified");
     }
     const requiredNamespaces = getRequiredNamespaces(chains.map(chainToChainId));
 
@@ -303,7 +324,9 @@ function connectWalletconnect({
       walletconnectOptions,
     );
 
-    if (!walletconnect) throw new Error("Unable to establish connection through walletconnect");
+    if (!walletconnect) {
+      throw new SwapKitError("wallet_walletconnect_connection_not_established");
+    }
 
     const { session, accounts } = walletconnect;
 
