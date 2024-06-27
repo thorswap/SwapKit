@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.60
+
+### Patch Changes
+
+- [`765438e`](https://github.com/thorswap/SwapKit/commit/765438e5707ae2b09aa2bf0e52ba130dec10a5f7) Thanks [@towanTG](https://github.com/towanTG)! - Bumps to fix version
+
 ## 1.0.0-rc.59
 
 ### Patch Changes
