@@ -1,5 +1,21 @@
 # @swapkit/core
 
+## 1.0.0-rc.171
+
+### Patch Changes
+
+- [`115f09f`](https://github.com/thorswap/SwapKit/commit/115f09ff2eecd01ba20c42933f7eb13132307062) Thanks [@towanTG](https://github.com/towanTG)! - Release after fixing version replace
+
+- Updated dependencies [[`115f09f`](https://github.com/thorswap/SwapKit/commit/115f09ff2eecd01ba20c42933f7eb13132307062), [`fbf9005`](https://github.com/thorswap/SwapKit/commit/fbf9005244c9a1e9da67e03f4ba7e8a2418e8a27)]:
+  - @swapkit/plugin-evm@1.0.0-rc.16
+  - @swapkit/helpers@1.0.0-rc.116
+  - @swapkit/api@1.0.0-rc.84
+  - @swapkit/toolbox-cosmos@1.0.0-rc.143
+  - @swapkit/toolbox-evm@1.0.0-rc.123
+  - @swapkit/toolbox-solana@1.0.0-rc.4
+  - @swapkit/toolbox-substrate@1.0.0-rc.51
+  - @swapkit/toolbox-utxo@1.0.0-rc.127
+
 ## 1.0.0-rc.170
 
 ### Patch Changes

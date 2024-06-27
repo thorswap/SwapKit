@@ -37,18 +37,21 @@
     "@swapkit/wizard": "0.1.0",
     "@swapkit/toolbox-solana": "1.0.0-rc.1",
     "@swapkit/wallet-phantom": "1.0.0-rc.1",
-    "@internal/tools-builder": "0.0.1"
+    "@internal/tools-builder": "0.0.1",
+    "@swapkit/contracts": "1.0.0-rc.1"
   },
   "changesets": [
     "bright-crabs-film",
     "cold-windows-prove",
     "cuddly-crews-juggle",
     "forty-candles-switch",
+    "metal-snails-laugh",
     "ninety-ravens-study",
     "popular-queens-flash",
     "selfish-hairs-melt",
     "small-books-check",
     "small-comics-move",
+    "smooth-starfishes-call",
     "stale-games-add"
   ]
 }

@@ -1,5 +1,16 @@
 # @swapkit/plugin-evm
 
+## 1.0.0-rc.16
+
+### Patch Changes
+
+- [`115f09f`](https://github.com/thorswap/SwapKit/commit/115f09ff2eecd01ba20c42933f7eb13132307062) Thanks [@towanTG](https://github.com/towanTG)! - Release after fixing version replace
+
+- Updated dependencies [[`fbf9005`](https://github.com/thorswap/SwapKit/commit/fbf9005244c9a1e9da67e03f4ba7e8a2418e8a27)]:
+  - @swapkit/helpers@1.0.0-rc.116
+  - @swapkit/api@1.0.0-rc.84
+  - @swapkit/toolbox-evm@1.0.0-rc.123
+
 ## 1.0.0-rc.15
 
 ### Patch Changes
