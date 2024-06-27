@@ -1,5 +1,14 @@
 # @swapkit/api
 
+## 1.0.0-rc.85
+
+### Patch Changes
+
+- [`b706da9`](https://github.com/thorswap/SwapKit/commit/b706da98525be8cf46702bc6300959ff6702f43b) Thanks [@towanTG](https://github.com/towanTG)! - Bump to fix version
+
+- Updated dependencies [[`b706da9`](https://github.com/thorswap/SwapKit/commit/b706da98525be8cf46702bc6300959ff6702f43b)]:
+  - @swapkit/helpers@1.0.0-rc.117
+
 ## 1.0.0-rc.84
 
 ### Patch Changes
