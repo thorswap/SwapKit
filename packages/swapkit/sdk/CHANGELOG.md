@@ -1,5 +1,11 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.200
+
+### Patch Changes
+
+- [`005cb0c`](https://github.com/thorswap/SwapKit/commit/005cb0c5d8f5757a06cf25b4b0af0670acf34276) Thanks [@towanTG](https://github.com/towanTG)! - Releases to fix dependency versions
+
 ## 1.0.0-rc.199
 
 ### Patch Changes
