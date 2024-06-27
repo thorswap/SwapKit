@@ -12,9 +12,23 @@ for (const file of onlyPackageJson) {
   const { version } = await import(`../packages/${file}`);
   const [type, name] = file.split("/");
 
-  const packageName = `@swapkit/${
-    type === "wallets" ? "wallet-" : type === "toolboxes" ? "toolbox-" : ""
-  }${name}`;
+  let packagePrefix = "";
+
+  switch (type) {
+    case "wallets":
+      packagePrefix = "wallet-";
+      break;
+    case "toolboxes":
+      packagePrefix = "toolbox-";
+      break;
+    case "plugins":
+      packagePrefix = "plugin-";
+      break;
+    default:
+      continue;
+  }
+
+  const packageName = `@swapkit/${packagePrefix}${name}`;
 
   versions[packageName] = version;
 }
