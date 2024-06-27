@@ -27,7 +27,7 @@ export type PoolDetail = {
   volume24h: string;
 };
 
-export type LiquidityPositionDTO = {
+export type LiquidityPositionRaw = {
   assetAdded: string;
   assetAddress: string;
   assetPending: string;

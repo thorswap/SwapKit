@@ -128,7 +128,7 @@ export class AssetValue extends BigIntArithmetics {
       from: 0,
       to: baseDecimal,
     }).getBaseValue("string");
-    const assetValue = await AssetValue.fromString(assetString, value);
+    const assetValue = await AssetValue.fromString(assetString);
 
     return assetValue.set(shiftedAmount);
   }
