@@ -2,14 +2,12 @@
   "author": "swapkit-oss",
   "dependencies": {
     "@swapkit/api": "workspace:*",
+    "@swapkit/contracts": "workspace:*",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*"
   },
   "description": "SwapKit Plugin - EVM",
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",

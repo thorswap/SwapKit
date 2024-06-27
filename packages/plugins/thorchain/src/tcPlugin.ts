@@ -1,4 +1,5 @@
 import type { QuoteRoute } from "@swapkit/api";
+import { type AGG_CONTRACT_ADDRESS, lowercasedContractAbiMapping } from "@swapkit/contracts";
 import {
   AGG_SWAP,
   AssetValue,
@@ -21,12 +22,8 @@ import {
   getMemoForLoan,
 } from "@swapkit/helpers";
 
-import {
-  type AGG_CONTRACT_ADDRESS,
-  lowercasedContractAbiMapping,
-} from "./aggregator/contracts/index.ts";
-import { getSwapInParams } from "./aggregator/getSwapParams.ts";
 import { basePlugin } from "./basePlugin.ts";
+import { getSwapInParams } from "./getSwapParams.ts";
 import {
   type ChainWallets,
   getAddress,

@@ -2,6 +2,8 @@ import {
   Chain,
   ChainToHexChainId,
   type EVMChain,
+  SwapKitError,
+  WalletOption,
   addEVMWalletNetwork,
   prepareNetworkSwitch,
 } from "@swapkit/helpers";
@@ -36,13 +38,24 @@ export const getWeb3WalletMethods = async ({
   covalentApiKey?: string;
   ethplorerApiKey?: string;
 }) => {
-  if (!ethereumWindowProvider) throw new Error("Requested web3 wallet is not installed");
+  if (!ethereumWindowProvider) {
+    throw new SwapKitError({
+      errorKey: "wallet_provider_not_found",
+      info: { wallet: WalletOption.TALISMAN, chain },
+    });
+  }
 
   if (
     (chain !== Chain.Ethereum && !covalentApiKey) ||
     (chain === Chain.Ethereum && !ethplorerApiKey)
   ) {
-    throw new Error(`Missing API key for ${chain} chain`);
+    throw new SwapKitError({
+      errorKey: "wallet_missing_api_key",
+      info: {
+        missingKey: chain === Chain.Ethereum ? "ethplorerApiKey" : "covalentApiKey",
+        chain,
+      },
+    });
   }
 
   const provider = new BrowserProvider(ethereumWindowProvider, "any");
@@ -71,7 +84,10 @@ export const getWeb3WalletMethods = async ({
         ).getNetworkParams(),
       ));
   } catch (_error) {
-    throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
+    throw new SwapKitError({
+      errorKey: "wallet_failed_to_add_or_switch_network",
+      info: { wallet: WalletOption.TALISMAN, chain },
+    });
   }
 
   return prepareNetworkSwitch<typeof toolbox>({
@@ -97,7 +113,10 @@ export const getWalletForChain = async ({
     case Chain.Polygon:
     case Chain.BinanceSmartChain: {
       if (!(window.talismanEth && "send" in window.talismanEth)) {
-        throw new Error("No talisman wallet found");
+        throw new SwapKitError({
+          errorKey: "wallet_talisman_not_found",
+          info: { chain },
+        });
       }
 
       const { getProvider } = await import("@swapkit/toolbox-evm");
@@ -123,17 +142,20 @@ export const getWalletForChain = async ({
       const injectedExtension = injectedWindow?.injectedWeb3?.talisman;
       const rawExtension = await injectedExtension?.enable?.("talisman");
       if (!rawExtension) {
-        throw new Error(
-          `Talisman is installed but is not returned by the 'Wallet.enable(talisman)' function`,
-          this,
-        );
+        throw new SwapKitError({
+          errorKey: "wallet_talisman_not_enabled",
+          info: { chain },
+        });
       }
 
       // @ts-expect-error
       const toolbox = await getToolboxByChain(chain, { signer: rawExtension.signer });
       const accounts = await rawExtension.accounts.get();
       if (!accounts[0]?.address) {
-        throw new Error("Account not found");
+        throw new SwapKitError({
+          errorKey: "wallet_missing_params",
+          info: { wallet: WalletOption.TALISMAN, accounts, address: accounts[0]?.address },
+        });
       }
       const subAddress: string = accounts[0].address;
       const newPrefix = 0;
@@ -142,6 +164,9 @@ export const getWalletForChain = async ({
     }
 
     default:
-      throw new Error(`No wallet for chain ${chain}`);
+      throw new SwapKitError({
+        errorKey: "wallet_chain_not_supported",
+        info: { chain, wallet: WalletOption.TALISMAN },
+      });
   }
 };

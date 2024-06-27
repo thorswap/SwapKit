@@ -6,6 +6,7 @@ import type { TokenNames, TokenTax } from "../types/tokens.ts";
 
 import type { NumberPrimitives } from "./bigIntArithmetics.ts";
 import { BigIntArithmetics, formatBigIntToSafeValue } from "./bigIntArithmetics.ts";
+import { SwapKitError } from "./swapKitError.ts";
 import { SwapKitNumber, type SwapKitValueType } from "./swapKitNumber.ts";
 
 const staticTokensMap = new Map<
@@ -71,7 +72,12 @@ export class AssetValue extends BigIntArithmetics {
   // ETH.THOR-0x1234567890
   static fromUrl(urlAsset: string, value: NumberPrimitives = 0) {
     const [chain, ticker, symbol] = urlAsset.split(".");
-    if (!(chain && ticker)) throw new Error("Invalid asset url");
+    if (!(chain && ticker)) {
+      throw new SwapKitError({
+        errorKey: "helpers_invalid_asset_url",
+        info: { urlAsset },
+      });
+    }
 
     const assetString =
       chain === Chain.THORChain && symbol ? `${chain}.${ticker}/${symbol}` : urlAsset;
@@ -83,11 +89,7 @@ export class AssetValue extends BigIntArithmetics {
     return createAssetValue(assetString, value);
   }
   static fromIdentifier(
-    assetString:
-      | `${Chain}.${string}`
-      | `${Chain}/${string}`
-      | `${Chain}.${string}-${string}`
-      | TokenNames,
+    assetString: `${Chain}.${string}` | `${Chain}/${string}` | TokenNames,
     value: NumberPrimitives = 0,
   ) {
     return createAssetValue(assetString, value);
@@ -257,7 +259,12 @@ function createSyntheticAssetValue(identifier: string, value: NumberPrimitives =
       ? identifier.split(".").slice(1).join().split("/")
       : identifier.split("/");
 
-  if (!(synthChain && symbol)) throw new Error("Invalid asset identifier");
+  if (!(synthChain && symbol)) {
+    throw new SwapKitError({
+      errorKey: "helpers_invalid_asset_identifier",
+      info: { identifier },
+    });
+  }
 
   return new AssetValue({
     decimal: 8,
@@ -284,7 +291,12 @@ function getAssetInfo(identifier: string) {
       ? identifier.split(".").slice(1).join().split("/")
       : identifier.split("/");
 
-  if (isSynthetic && !(synthChain && synthSymbol)) throw new Error("Invalid asset identifier");
+  if (isSynthetic && !(synthChain && synthSymbol)) {
+    throw new SwapKitError({
+      errorKey: "helpers_invalid_asset_identifier",
+      info: { identifier },
+    });
+  }
 
   const adjustedIdentifier =
     identifier.includes(".") && !isSynthetic

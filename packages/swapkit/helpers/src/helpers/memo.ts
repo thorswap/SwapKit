@@ -1,3 +1,4 @@
+import { SwapKitError } from "../modules/swapKitError";
 import { Chain } from "../types/chains";
 import { MemoType } from "../types/sdk";
 
@@ -195,6 +196,9 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
     }
 
     default:
-      throw new Error(`Unsupported memo type: ${memoType}`);
+      throw new SwapKitError({
+        errorKey: "helpers_invalid_memo_type",
+        info: { memoType },
+      });
   }
 };

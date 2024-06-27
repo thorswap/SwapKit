@@ -2,7 +2,9 @@ import {
   type Chain,
   ChainToChainId,
   type DerivationPathArray,
+  SwapKitError,
   SwapKitNumber,
+  WalletOption,
   derivationPathToString,
 } from "@swapkit/helpers";
 import type { JsonRpcProvider, Provider, TransactionRequest } from "@swapkit/toolbox-evm";
@@ -41,7 +43,10 @@ export async function getEVMSigner({ chain, derivationPath, provider }: TrezorEV
         });
 
         if (!result.success) {
-          throw new Error(result.payload.error);
+          throw new SwapKitError({
+            errorKey: "wallet_trezor_failed_to_get_address",
+            info: { ...result, chain: this.chain, derivationPath: this.derivationPath },
+          });
         }
 
         this.address = result.payload.address;
@@ -59,15 +64,17 @@ export async function getEVMSigner({ chain, derivationPath, provider }: TrezorEV
       });
 
       if (!result.success) {
-        throw new Error(result.payload.error);
+        throw new SwapKitError({
+          errorKey: "wallet_trezor_failed_to_sign_transaction",
+          info: { ...result, message, chain: this.chain, derivationPath: this.derivationPath },
+        });
       }
 
       return result.payload.signature;
     };
 
-    // ANCHOR (@Towan): implement signTypedData
     signTypedData(): Promise<string> {
-      throw new Error("this method is not implemented");
+      throw new Error("Not implemented");
     }
 
     signTransaction = async ({
@@ -81,19 +88,23 @@ export async function getEVMSigner({ chain, derivationPath, provider }: TrezorEV
       gasPrice,
       // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
     }: TransactionRequest) => {
-      if (!to) throw new Error("Missing to address");
-      if (!gasLimit) throw new Error("Missing gasLimit");
+      if (!to) throw new SwapKitError({ errorKey: "wallet_missing_params", info: { to } });
+      if (!gasLimit)
+        throw new SwapKitError({ errorKey: "wallet_missing_params", info: { gasLimit } });
 
       const isEIP1559 = maxFeePerGas && maxPriorityFeePerGas;
 
       if (isEIP1559 && !maxFeePerGas) {
-        throw new Error("Missing maxFeePerGas");
+        throw new SwapKitError({ errorKey: "wallet_missing_params", info: { maxFeePerGas } });
       }
       if (isEIP1559 && !maxPriorityFeePerGas) {
-        throw new Error("Missing maxFeePerGas");
+        throw new SwapKitError({
+          errorKey: "wallet_missing_params",
+          info: { maxPriorityFeePerGas },
+        });
       }
       if (!(isEIP1559 || gasPrice)) {
-        throw new Error("Missing gasPrice");
+        throw new SwapKitError({ errorKey: "wallet_missing_params", info: { gasPrice } });
       }
 
       const { default: TrezorConnect } = await import("@trezor/connect-web");
@@ -127,7 +138,10 @@ export async function getEVMSigner({ chain, derivationPath, provider }: TrezorEV
       });
 
       if (!success) {
-        throw new Error(payload.error);
+        throw new SwapKitError({
+          errorKey: "wallet_trezor_failed_to_sign_transaction",
+          info: { ...payload, chain: this.chain, derivationPath: this.derivationPath },
+        });
       }
 
       const { r, s, v } = payload;
@@ -140,14 +154,26 @@ export async function getEVMSigner({ chain, derivationPath, provider }: TrezorEV
       }).serialized;
 
       if (!hash) {
-        throw new Error("Failed to sign transaction");
+        throw new SwapKitError({
+          errorKey: "wallet_trezor_failed_to_sign_transaction",
+          info: { chain: this.chain, derivationPath: this.derivationPath },
+        });
       }
 
       return hash;
     };
 
     connect = (provider: Provider | null) => {
-      if (!provider) throw new Error("Missing provider");
+      if (!provider) {
+        throw new SwapKitError({
+          errorKey: "wallet_provider_not_found",
+          info: {
+            wallet: WalletOption.TREZOR,
+            chain: this.chain,
+            derivationPath: this.derivationPath,
+          },
+        });
+      }
 
       return new TrezorSigner({
         chain: this.chain,

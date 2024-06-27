@@ -122,7 +122,13 @@ async function getWalletMethodsForChain({
         (chain !== Chain.Ethereum && !covalentApiKey) ||
         (chain === Chain.Ethereum && !ethplorerApiKey)
       ) {
-        throw new Error(`Missing API key for ${chain} chain`);
+        throw new SwapKitError({
+          errorKey: "wallet_missing_api_key",
+          info: {
+            missingKey: chain === Chain.Ethereum ? "ethplorerApiKey" : "covalentApiKey",
+            chain,
+          },
+        });
       }
 
       const provider = new BrowserProvider(ethereumWindowProvider, "any");
@@ -148,7 +154,10 @@ async function getWalletMethodsForChain({
             ).getNetworkParams(),
           ));
       } catch (_error) {
-        throw new SwapKitError("wallet_xdefi_failed_to_add_or_switch_network", { chain });
+        throw new SwapKitError({
+          errorKey: "wallet_failed_to_add_or_switch_network",
+          info: { wallet: WalletOption.XDEFI, chain },
+        });
       }
 
       const api =

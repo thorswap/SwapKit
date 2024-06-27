@@ -1,18 +1,18 @@
-import { avaxGeneric } from "./avaxGeneric.ts";
-import { avaxWoofi } from "./avaxWoofi.ts";
-import { bscGeneric } from "./bscGeneric.ts";
-import { ethGeneric } from "./ethGeneric.ts";
-import { pancakeV2 } from "./pancakeV2.ts";
-import { pangolin } from "./pangolin.ts";
+import { avaxGeneric } from "./abis/avaxGeneric.ts";
+import { avaxWoofi } from "./abis/avaxWoofi.ts";
+import { bscGeneric } from "./abis/bscGeneric.ts";
+import { ethGeneric } from "./abis/ethGeneric.ts";
+import { pancakeV2 } from "./abis/pancakeV2.ts";
+import { pangolin } from "./abis/pangolin.ts";
+import { sushiswap } from "./abis/sushiswap.ts";
+import { traderJoe } from "./abis/traderJoe.ts";
+import { uniswapV2 } from "./abis/uniswapV2.ts";
+import { uniswapV2Leg } from "./abis/uniswapV2Leg.ts";
+import { uniswapV3_100 } from "./abis/uniswapV3_100.ts";
+import { uniswapV3_500 } from "./abis/uniswapV3_500.ts";
+import { uniswapV3_3000 } from "./abis/uniswapV3_3000.ts";
+import { uniswapV3_10000 } from "./abis/uniswapV3_10000.ts";
 import { lowercasedRouterAbiMapping } from "./routers/index.ts";
-import { sushiswap } from "./sushiswap.ts";
-import { traderJoe } from "./traderJoe.ts";
-import { uniswapV2 } from "./uniswapV2.ts";
-import { uniswapV2Leg } from "./uniswapV2Leg.ts";
-import { uniswapV3_100 } from "./uniswapV3_100.ts";
-import { uniswapV3_500 } from "./uniswapV3_500.ts";
-import { uniswapV3_3000 } from "./uniswapV3_3000.ts";
-import { uniswapV3_10000 } from "./uniswapV3_10000.ts";
 
 type AbiTypes =
   | typeof avaxGeneric
@@ -54,7 +54,7 @@ export const lowercasedGenericAbiMappings = {
   [AGG_CONTRACT_ADDRESS.AVAX_GENERIC.toLowerCase()]: avaxGeneric,
   [AGG_CONTRACT_ADDRESS.BSC_GENERIC.toLowerCase()]: bscGeneric,
   [AGG_CONTRACT_ADDRESS.ETH_GENERIC.toLowerCase()]: ethGeneric,
-};
+} as Record<string, AbiTypes>;
 
 export const lowercasedContractAbiMapping = {
   ...lowercasedRouterAbiMapping,

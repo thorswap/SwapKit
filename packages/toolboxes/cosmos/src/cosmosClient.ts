@@ -1,7 +1,7 @@
 import { type AccountData, Secp256k1HdWallet } from "@cosmjs/amino";
 import type { StdFee } from "@cosmjs/stargate";
 import { base64, bech32 } from "@scure/base";
-import type { ChainId } from "@swapkit/helpers";
+import { type ChainId, SwapKitError } from "@swapkit/helpers";
 
 import { stringToPath } from "@cosmjs/crypto";
 import type { CosmosSDKClientParams, TransferParams } from "./types.ts";
@@ -80,7 +80,7 @@ export class CosmosClient {
     signer,
   }: TransferParams) => {
     if (!signer) {
-      throw new Error("Signer not defined");
+      throw new SwapKitError("toolbox_cosmos_signer_not_defined");
     }
 
     const signingClient = await createSigningStargateClient(this.rpcUrl, signer);
@@ -112,7 +112,7 @@ export class CosmosClient {
     const accounts = await wallet.getAccounts();
 
     if (accounts.length === 0) {
-      throw new Error("No accounts found in the wallet");
+      throw new SwapKitError("toolbox_cosmos_no_accounts_found");
     }
 
     return accounts[0] as AccountData;

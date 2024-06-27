@@ -1,4 +1,4 @@
-import { Chain, ChainToExplorerUrl } from "@swapkit/helpers";
+import { Chain, ChainToExplorerUrl, SwapKitError } from "@swapkit/helpers";
 
 export function getExplorerTxUrl({ chain, txHash }: { txHash: string; chain: Chain }) {
   const baseUrl = ChainToExplorerUrl[chain];
@@ -28,7 +28,7 @@ export function getExplorerTxUrl({ chain, txHash }: { txHash: string; chain: Cha
       return `${baseUrl}/transaction/${txHash.toLowerCase()}`;
 
     default:
-      throw new Error(`Unsupported chain: ${chain}`);
+      throw new SwapKitError({ errorKey: "core_explorer_unsupported_chain", info: { chain } });
   }
 }
 

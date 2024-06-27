@@ -9,6 +9,7 @@ import {
   type FeeOption,
   RPCUrl,
   SwapKitError,
+  WalletOption,
   erc20ABI,
 } from "@swapkit/helpers";
 import { type TransferParams, getDenom } from "@swapkit/toolbox-cosmos";
@@ -120,12 +121,20 @@ async function transaction({
 
 export async function getXDEFIAddress(chain: Chain) {
   const eipProvider = getXDEFIProvider(chain) as Eip1193Provider;
-  if (!eipProvider) throw new Error(`${chain}: XDEFI provider is not defined`);
+  if (!eipProvider) {
+    throw new SwapKitError({
+      errorKey: "wallet_provider_not_found",
+      info: { wallet: WalletOption.XDEFI, chain },
+    });
+  }
 
   if ([Chain.Cosmos, Chain.Kujira].includes(chain)) {
     const provider = getXDEFIProvider(Chain.Cosmos);
     if (!provider || "request" in provider) {
-      throw new Error(`${chain}: XDEFI provider is not defined`);
+      throw new SwapKitError({
+        errorKey: "wallet_provider_not_found",
+        info: { wallet: WalletOption.XDEFI, chain },
+      });
     }
 
     // Enabling before using the Keplr is recommended.
@@ -166,7 +175,9 @@ export async function walletTransfer(
   { assetValue, recipient, memo, gasLimit }: WalletTxParams & { assetValue: AssetValue },
   method: TransactionMethod = "transfer",
 ) {
-  if (!assetValue) throw new Error("Asset is not defined");
+  if (!assetValue) {
+    throw new SwapKitError("wallet_xdefi_asset_not_defined");
+  }
 
   /**
    * EVM requires amount to be hex string
@@ -230,7 +241,9 @@ export function getXdefiMethods(provider: BrowserProvider) {
       txOverrides,
     }: CallParams): Promise<T> => {
       const contractProvider = provider;
-      if (!contractAddress) throw new Error("contractAddress must be provided");
+      if (!contractAddress) {
+        throw new SwapKitError("wallet_xdefi_contract_address_not_provided");
+      }
       const { createContract, createContractTxObject, isStateChangingCall, toHexString } =
         await import("@swapkit/toolbox-evm");
 
@@ -288,7 +301,9 @@ export function getXdefiMethods(provider: BrowserProvider) {
     },
     sendTransaction: async (tx: EVMTxParams) => {
       const { from, to, data, value } = tx;
-      if (!to) throw new Error("No to address provided");
+      if (!to) {
+        throw new SwapKitError("wallet_xdefi_send_transaction_no_address");
+      }
 
       const { toHexString } = await import("@swapkit/toolbox-evm");
 

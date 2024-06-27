@@ -1,3 +1,4 @@
+import { lowercasedContractAbiMapping } from "@swapkit/contracts";
 import {
   type AddChainWalletParams,
   ApproveMode,
@@ -16,19 +17,18 @@ import {
   isGasAsset,
 } from "@swapkit/helpers";
 import {
-  type BaseEVMWallet,
-  type TransferParams as EVMTransferParams,
-  evmValidateAddress,
-} from "@swapkit/toolbox-evm";
-
-import {
   type TransferParams as CosmosTransferParams,
   estimateTransactionFee as cosmosTransactionFee,
   cosmosValidateAddress,
 } from "@swapkit/toolbox-cosmos";
+import {
+  type BaseEVMWallet,
+  type TransferParams as EVMTransferParams,
+  evmValidateAddress,
+} from "@swapkit/toolbox-evm";
 import { substrateValidateAddress } from "@swapkit/toolbox-substrate";
 import { type UTXOTransferParams, utxoValidateAddress } from "@swapkit/toolbox-utxo";
-import { lowercasedContractAbiMapping } from "./aggregator/contracts/index.ts";
+
 import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
@@ -335,6 +335,9 @@ export function SwapKit<
     const { assetValue } = params;
     const chain = params.assetValue.chain as WalletChain;
     if (!connectedWallets[chain]) throw new SwapKitError("core_wallet_connection_not_found");
+
+    const baseValue = AssetValue.fromChainOrSignature(chain, 0);
+
     switch (chain) {
       case Chain.Arbitrum:
       case Chain.Avalanche:
@@ -342,76 +345,92 @@ export function SwapKit<
       case Chain.BinanceSmartChain:
       case Chain.Polygon: {
         const wallet = connectedWallets[chain as Exclude<EVMChain, Chain.Optimism>];
-        if (type === "transfer") {
-          const txObject = await wallet.createTransferTx(params);
-          return wallet.estimateTransactionFee(txObject, feeOptionKey);
-        }
-        if (type === "approve" && !isGasAsset(assetValue)) {
-          wallet.estimateTransactionFee(
-            await wallet.createApprovalTx({
-              assetAddress: assetValue.address as string,
-              spenderAddress: params.contractAddress as string,
-              amount: assetValue.getBaseValue("bigint"),
-              from: wallet.address,
-            }),
-            feeOptionKey,
-          );
-        }
-        if (type === "swap") {
-          const plugin = params.route.providers[0] as PluginNameEnum;
-          if (plugin === PluginNameEnum.CHAINFLIP) {
-            const txObject = await wallet.createTransferTx({
-              from: wallet.address,
-              recipient: wallet.address,
-              assetValue,
-            });
+        switch (type) {
+          case "transfer": {
+            const txObject = await wallet.createTransferTx(params);
             return wallet.estimateTransactionFee(txObject, feeOptionKey);
           }
-          const {
-            route: { evmTransactionDetails },
-          } = params;
-          if (
-            !(
-              evmTransactionDetails &&
-              lowercasedContractAbiMapping[evmTransactionDetails.contractAddress]
-            )
-          )
-            return undefined;
-          wallet.estimateCall({
-            contractAddress: evmTransactionDetails.contractAddress,
-            // biome-ignore lint/style/noNonNullAssertion: TS cant infer the type
-            abi: lowercasedContractAbiMapping[evmTransactionDetails.contractAddress]!,
-            funcName: evmTransactionDetails.contractMethod,
-            funcParams: evmTransactionDetails.contractParams,
-          });
+
+          case "approve": {
+            if (isGasAsset(assetValue)) return baseValue;
+
+            return wallet.estimateTransactionFee(
+              await wallet.createApprovalTx({
+                assetAddress: assetValue.address as string,
+                spenderAddress: params.contractAddress as string,
+                amount: assetValue.getBaseValue("bigint"),
+                from: wallet.address,
+              }),
+              feeOptionKey,
+            );
+          }
+
+          case "swap": {
+            const plugin = params.route.providers[0] as PluginNameEnum;
+            if (plugin === PluginNameEnum.CHAINFLIP) {
+              const txObject = await wallet.createTransferTx({
+                from: wallet.address,
+                recipient: wallet.address,
+                assetValue,
+              });
+              return wallet.estimateTransactionFee(txObject, feeOptionKey);
+            }
+            const { evmTransactionDetails } = params.route;
+
+            if (
+              !(
+                evmTransactionDetails &&
+                lowercasedContractAbiMapping[evmTransactionDetails.contractAddress]
+              )
+            ) {
+              return undefined;
+            }
+
+            const estimate = await wallet.estimateCall({
+              contractAddress: evmTransactionDetails.contractAddress,
+              // biome-ignore lint/style/noNonNullAssertion: TS cant infer the type
+              abi: lowercasedContractAbiMapping[evmTransactionDetails.contractAddress]!,
+              funcName: evmTransactionDetails.contractMethod,
+              funcParams: evmTransactionDetails.contractParams,
+            });
+
+            return AssetValue.fromChainOrSignature(chain, estimate);
+          }
+
+          default:
+            return baseValue;
         }
-        return AssetValue.fromChainOrSignature(chain, 0);
       }
+
       case Chain.Bitcoin:
       case Chain.BitcoinCash:
       case Chain.Dogecoin:
       case Chain.Dash:
       case Chain.Litecoin: {
-        const wallet = connectedWallets[chain as UTXOChain];
-        return wallet.estimateTransactionFee({
+        const { estimateMaxSendableAmount, address } = connectedWallets[chain as UTXOChain];
+
+        return estimateMaxSendableAmount({
           ...params,
           feeOptionKey,
-          from: wallet.address,
-          recipient: wallet.address,
+          from: address,
+          recipient: address,
         });
       }
+
       case Chain.THORChain:
       case Chain.Maya:
       case Chain.Kujira:
       case Chain.Cosmos: {
         return cosmosTransactionFee(params);
       }
+
       case Chain.Polkadot: {
         const wallet = connectedWallets[chain as Chain.Polkadot];
         return wallet.estimateTransactionFee({ ...params, recipient: wallet.address });
       }
+
       default:
-        return undefined;
+        return baseValue;
     }
   }
 

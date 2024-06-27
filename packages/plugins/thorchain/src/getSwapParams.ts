@@ -1,7 +1,6 @@
 import type { QuoteRoute } from "@swapkit/api";
-
-import type { AGG_CONTRACT_ADDRESS } from "./contracts/index.ts";
-import { lowercasedGenericAbiMappings } from "./contracts/index.ts";
+import { type AGG_CONTRACT_ADDRESS, lowercasedGenericAbiMappings } from "@swapkit/contracts";
+import { SwapKitError } from "@swapkit/helpers";
 
 type SwapInParams = {
   calldata: QuoteRoute["calldata"];
@@ -16,7 +15,10 @@ export const getSwapInParams = ({
   contractAddress,
   recipient,
   toChecksumAddress,
-  calldata: {
+  calldata,
+}: SwapInParams) => {
+  const isGeneric = !!lowercasedGenericAbiMappings[contractAddress.toLowerCase()];
+  const {
     amount,
     amountOutMin = "",
     data = "",
@@ -29,12 +31,10 @@ export const getSwapInParams = ({
     tcVault,
     vault,
     token,
-  },
-}: SwapInParams) => {
-  const isGeneric = !!lowercasedGenericAbiMappings[contractAddress.toLowerCase()];
+  } = calldata;
 
   if (isGeneric && !router) {
-    throw new Error("Router is required on calldata for swapIn with GenericContract");
+    throw new SwapKitError({ errorKey: "thorchain_swapin_router_required", info: calldata });
   }
 
   /**
@@ -48,10 +48,18 @@ export const getSwapInParams = ({
   const baseMemo = tcMemo || memo;
   const transactionMemo = streamSwap ? memoStreamingSwap || baseMemo : baseMemo;
 
-  if (!(tcVault || vault)) throw new Error("TC Vault is required on calldata");
-  if (!(tcRouter || router)) throw new Error("TC Router is required on calldata");
-  if (!transactionMemo) throw new Error("TC Memo is required on calldata");
-  if (!token) throw new Error("Token is required on calldata");
+  if (!(tcVault || vault)) {
+    throw new SwapKitError({ errorKey: "thorchain_swapin_vault_required", info: calldata });
+  }
+  if (!(tcRouter || router)) {
+    throw new SwapKitError({ errorKey: "thorchain_swapin_router_required", info: calldata });
+  }
+  if (!transactionMemo) {
+    throw new SwapKitError({ errorKey: "thorchain_swapin_memo_required", info: calldata });
+  }
+  if (!token) {
+    throw new SwapKitError({ errorKey: "thorchain_swapin_token_required", info: calldata });
+  }
 
   const baseParams = [
     // v2 contracts don't have tcVault, tcRouter, tcMemo but vault, router, memo

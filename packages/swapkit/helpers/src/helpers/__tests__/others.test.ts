@@ -34,7 +34,7 @@ describe("getTHORNameCost", () => {
   });
 
   test("throws an error for negative years", () => {
-    expect(() => getTHORNameCost(-1)).toThrow("Invalid number of year");
+    expect(() => getTHORNameCost(-1)).toThrow("helpers_invalid_number_of_years");
   });
 });
 

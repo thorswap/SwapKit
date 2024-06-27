@@ -4,6 +4,7 @@ import {
   ChainToHexChainId,
   type ConnectWalletParams,
   type EVMChain,
+  SwapKitError,
   WalletOption,
   addEVMWalletNetwork,
   prepareNetworkSwitch,
@@ -125,7 +126,13 @@ export const getWalletMethods = async ({
         (chain !== Chain.Ethereum && !covalentApiKey) ||
         (chain === Chain.Ethereum && !ethplorerApiKey)
       ) {
-        throw new Error(`Missing API key for ${chain} chain`);
+        throw new SwapKitError({
+          errorKey: "wallet_missing_api_key",
+          info: {
+            missingKey: chain === Chain.Ethereum ? "ethplorerApiKey" : "covalentApiKey",
+            chain,
+          },
+        });
       }
 
       const provider = getProvider(chain);
