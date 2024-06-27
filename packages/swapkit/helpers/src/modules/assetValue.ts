@@ -86,11 +86,11 @@ export class AssetValue extends BigIntArithmetics {
   }
 
   static from<T extends { async?: boolean }>({
-    asset,
     value = 0,
-    decimal = BaseDecimal.THOR,
-    isBase,
+    decimal: decimalParam,
+    adjustDecimals,
     async,
+    ...assetOrChain
   }: T &
     (
       | {
@@ -99,29 +99,36 @@ export class AssetValue extends BigIntArithmetics {
       | {
           asset: string;
         }
+      | {
+          chain: Chain;
+        }
     ) & {
       value?: NumberPrimitives | SwapKitValueType;
       decimal?: number;
-      isBase?: boolean;
+      adjustDecimals?: boolean;
     }): T["async"] extends true ? Promise<AssetValue> : AssetValue {
     const parsedValue = value instanceof BigIntArithmetics ? value.getValue("string") : value;
 
-    if (async) {
-      if (isBase) {
-        const shiftedAmount = BigIntArithmetics.shiftDecimals({
-          value: SwapKitNumber.fromBigInt(BigInt(parsedValue)),
-          from: 0,
-          to: decimal,
-        }).getBaseValue("string");
-        return createAssetValue(asset, shiftedAmount) as T["async"] extends true
-          ? Promise<AssetValue>
-          : AssetValue;
-      }
+    const { identifier: asset, decimal } =
+      "asset" in assetOrChain
+        ? {
+            identifier: assetOrChain.asset,
+            decimal: decimalParam,
+          }
+        : getCommonAssetInfo("chain" in assetOrChain ? assetOrChain.chain : Chain.THORChain);
 
-      return createAssetValue(
-        asset,
-        value instanceof BigIntArithmetics ? value.getValue("string") : value,
-      ) as T["async"] extends true ? Promise<AssetValue> : AssetValue;
+    if (async) {
+      const shiftedAmount = adjustDecimals
+        ? BigIntArithmetics.shiftDecimals({
+            value: SwapKitNumber.fromBigInt(BigInt(parsedValue)),
+            from: 0,
+            to: decimal || BaseDecimal.THOR,
+          }).getBaseValue("string")
+        : parsedValue;
+
+      return createAssetValue(asset, shiftedAmount) as T["async"] extends true
+        ? Promise<AssetValue>
+        : AssetValue;
     }
 
     const { chain, isSynthetic } = getAssetInfo(asset);
@@ -137,12 +144,12 @@ export class AssetValue extends BigIntArithmetics {
       decimal: assetDecimal,
       identifier,
     } = tokenInfo || {
-      decimal: decimal || BaseDecimal[chain],
+      decimal: BaseDecimal[chain],
       identifier: asset,
     };
 
-    const adjustedValue = isBase
-      ? safeValue(BigInt(parsedValue), decimal)
+    const adjustedValue = adjustDecimals
+      ? safeValue(BigInt(parsedValue), decimal || BaseDecimal.THOR)
       : safeValue(parsedValue, assetDecimal);
 
     return new AssetValue({

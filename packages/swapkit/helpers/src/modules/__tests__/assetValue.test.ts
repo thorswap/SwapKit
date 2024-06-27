@@ -275,7 +275,7 @@ describe("AssetValue", () => {
         asset: fakeAvaxAssetString,
         value: 1,
         decimal: 8,
-        isBase: true,
+        adjustDecimals: true,
         async: true,
       });
 
@@ -442,7 +442,7 @@ describe("AssetValue", () => {
         asset: "BTC.BTC",
         value: 5200000000000,
         decimal: 8,
-        isBase: true,
+        adjustDecimals: true,
       });
 
       expect(btc).toBeDefined();
@@ -468,7 +468,7 @@ describe("AssetValue", () => {
         asset: fakeAvaxUSDCAssetString,
         value: 1,
         decimal: 8,
-        isBase: true,
+        adjustDecimals: true,
       });
 
       expect(fakeAvaxUSDCAsset).toBeDefined();
@@ -495,7 +495,7 @@ describe("AssetValue", () => {
         asset: avaxUSDC,
         value: 100000000,
         decimal: 8,
-        isBase: true,
+        adjustDecimals: true,
       });
 
       expect(AvaxUSDC).toBeDefined();

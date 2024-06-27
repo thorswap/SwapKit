@@ -328,63 +328,58 @@ export function SwapKit<
       case Chain.Ethereum:
       case Chain.BinanceSmartChain:
       case Chain.Polygon: {
-        const wallet = getWallet(chain);
+        const wallet = connectedWallets[chain as Exclude<EVMChain, Chain.Optimism>];
+        if (type === "transfer") {
+          const txObject = await wallet.createTransferTx(params);
+          return wallet.estimateTransactionFee(txObject, feeOptionKey);
+        }
 
-        switch (type) {
-          case "transfer": {
-            const txObject = await wallet.createTransferTx(params);
+        if (type === "approve" && !isGasAsset(assetValue)) {
+          return wallet.estimateTransactionFee(
+            await wallet.createApprovalTx({
+              assetAddress: assetValue.address as string,
+              spenderAddress: params.contractAddress as string,
+              amount: assetValue.getBaseValue("bigint"),
+              from: wallet.address,
+            }),
+            feeOptionKey,
+          );
+        }
+
+        if (type === "swap") {
+          const plugin = params.route.providers[0] as PluginNameEnum;
+          if (plugin === PluginNameEnum.CHAINFLIP) {
+            const txObject = await wallet.createTransferTx({
+              from: wallet.address,
+              recipient: wallet.address,
+              assetValue,
+            });
             return wallet.estimateTransactionFee(txObject, feeOptionKey);
           }
+          const { evmTransactionDetails } = params.route;
 
-          case "approve": {
-            if (isGasAsset(assetValue)) return baseValue;
-
-            return wallet.estimateTransactionFee(
-              await wallet.createApprovalTx({
-                assetAddress: assetValue.address as string,
-                spenderAddress: params.contractAddress as string,
-                amount: assetValue.getBaseValue("bigint"),
-                from: wallet.address,
-              }),
-              feeOptionKey,
-            );
+          if (
+            !(
+              evmTransactionDetails &&
+              lowercasedContractAbiMapping[evmTransactionDetails.contractAddress]
+            )
+          ) {
+            return undefined;
           }
 
-          case "swap": {
-            const plugin = params.route.providers[0] as PluginNameEnum;
-            if (plugin === PluginNameEnum.CHAINFLIP) {
-              const txObject = await wallet.createTransferTx({
-                from: wallet.address,
-                recipient: wallet.address,
-                assetValue,
-              });
-              return wallet.estimateTransactionFee(txObject, feeOptionKey);
-            }
-            const { evmTransactionDetails } = params.route;
-
-            if (
-              !(
-                evmTransactionDetails &&
-                lowercasedContractAbiMapping[evmTransactionDetails.contractAddress]
-              )
-            ) {
-              return undefined;
-            }
-
-            const estimate = await wallet.estimateCall({
+          return wallet.estimateTransactionFee(
+            await wallet.createContractTxObject({
               contractAddress: evmTransactionDetails.contractAddress,
               // biome-ignore lint/style/noNonNullAssertion: TS cant infer the type
               abi: lowercasedContractAbiMapping[evmTransactionDetails.contractAddress]!,
               funcName: evmTransactionDetails.contractMethod,
               funcParams: evmTransactionDetails.contractParams,
-            });
-
-            return AssetValue.fromChainOrSignature(chain, estimate);
-          }
-
-          default:
-            return baseValue;
+            }),
+            feeOptionKey,
+          );
         }
+
+        return AssetValue.fromChainOrSignature(chain);
       }
 
       case Chain.Bitcoin:
