@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.0.0-rc.58
+
+### Patch Changes
+
+- [`fbf9005`](https://github.com/thorswap/SwapKit/commit/fbf9005244c9a1e9da67e03f4ba7e8a2418e8a27) Thanks [@towanTG](https://github.com/towanTG)! - Updates token list
+
 ## 1.0.0-rc.57
 
 ### Patch Changes

@@ -1,5 +1,25 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.201
+
+### Patch Changes
+
+- [`115f09f`](https://github.com/thorswap/SwapKit/commit/115f09ff2eecd01ba20c42933f7eb13132307062) Thanks [@towanTG](https://github.com/towanTG)! - Release after fixing version replace
+
+- Updated dependencies [[`115f09f`](https://github.com/thorswap/SwapKit/commit/115f09ff2eecd01ba20c42933f7eb13132307062), [`fbf9005`](https://github.com/thorswap/SwapKit/commit/fbf9005244c9a1e9da67e03f4ba7e8a2418e8a27)]:
+  - @swapkit/plugin-chainflip@1.0.0-rc.73
+  - @swapkit/plugin-thorchain@1.0.0-rc.73
+  - @swapkit/core@1.0.0-rc.171
+  - @swapkit/plugin-evm@1.0.0-rc.16
+  - @swapkit/tokens@1.0.0-rc.58
+  - @swapkit/toolbox-cosmos@1.0.0-rc.143
+  - @swapkit/toolbox-evm@1.0.0-rc.123
+  - @swapkit/toolbox-radix@1.0.0-rc.8
+  - @swapkit/toolbox-solana@1.0.0-rc.4
+  - @swapkit/toolbox-substrate@1.0.0-rc.51
+  - @swapkit/toolbox-utxo@1.0.0-rc.127
+  - @swapkit/wallets@1.0.0-rc.4
+
 ## 1.0.0-rc.200
 
 ### Patch Changes
