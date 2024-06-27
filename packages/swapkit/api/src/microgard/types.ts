@@ -1,3 +1,5 @@
+import type { AssetValue } from "@swapkit/helpers";
+
 export type THORNameDetails = {
   entries: Array<{ address: string; chain: string }>;
   owner: string;
@@ -41,4 +43,18 @@ export type LiquidityPositionDTO = {
   runePending: string;
   runeWithdrawn: string;
   sharedUnits: string;
+};
+
+export type LiquidityPosition = {
+  asset: AssetValue;
+  assetPending: AssetValue;
+  assetWithdrawn: AssetValue;
+  assetAddress: string;
+  native: AssetValue;
+  nativeAddress: string;
+  nativePending: AssetValue;
+  nativeWithdrawn: AssetValue;
+  dateFirstAdded: string;
+  dateLastAdded: string;
+  poolShare: number;
 };

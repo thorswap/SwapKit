@@ -21,7 +21,7 @@ export function getTHORChainPools(period: PoolPeriod) {
 }
 
 // Microgard endpoint incoming soon
-export function getRawLiqudityPositions(addresses: string[]) {
+export function getRawLiquidityPositions(addresses: string[]) {
   return RequestClient.get<LiquidityPositionDTO[]>(
     `${midgardUrl}/v2/full_member?address=${addresses.join(",")}`,
   );
