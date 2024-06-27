@@ -24,3 +24,21 @@ export type PoolDetail = {
   units: string;
   volume24h: string;
 };
+
+export type LiquidityPositionDTO = {
+  assetAdded: string;
+  assetAddress: string;
+  assetPending: string;
+  assetWithdrawn: string;
+  dateFirstAdded: string;
+  dateLastAdded: string;
+  pool: string;
+  poolAssetDepth: string;
+  poolRuneDepth: string;
+  poolUnits: string;
+  runeAdded: string;
+  runeAddress: string;
+  runePending: string;
+  runeWithdrawn: string;
+  sharedUnits: string;
+};
