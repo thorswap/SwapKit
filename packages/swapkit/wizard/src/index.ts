@@ -270,7 +270,7 @@ export async function swapkitWizard() {
 
   wizardSpinner.message(`Installing dependencies: ${packageNames.slice(0, 4).join(", ")}`);
   execSync(
-    `${packageManager.name} ${packageNames.join(" ")}${packageManager.name === "npm" ? " --save" : ""}`,
+    `${packageManager.name} add ${packageNames.join(" ")}${packageManager.name === "npm" ? " --save" : ""}`,
     { cwd: "./temp" },
   );
   wizardSpinner.stop("Dependencies installed");

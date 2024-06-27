@@ -1,5 +1,11 @@
 # @swapkit/wizard
 
+## 0.1.3-rc.4
+
+### Patch Changes
+
+- bump
+
 ## 0.1.3-rc.3
 
 ### Patch Changes
