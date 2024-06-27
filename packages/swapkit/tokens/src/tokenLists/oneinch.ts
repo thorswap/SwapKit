@@ -1,7 +1,7 @@
 export const list = {
   provider: "ONEINCH",
   name: "ONEINCH",
-  timestamp: "2024-06-26T08:30:23.801Z",
+  timestamp: "2024-06-27T16:32:00.005Z",
   version: { major: 1, minor: 0, patch: 0 },
   keywords: ["oneinch", "1inch", "1inch.exchange", "1inch.exchange v1"],
   count: 1462,

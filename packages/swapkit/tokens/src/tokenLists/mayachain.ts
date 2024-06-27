@@ -2,7 +2,7 @@ export const list = {
   provider: "MAYACHAIN",
   chainId: "mayachain-mainnet-v1",
   name: "MAYACHAIN",
-  timestamp: "2024-06-26T08:30:23.213Z",
+  timestamp: "2024-06-27T16:31:59.332Z",
   version: { major: 1, minor: 0, patch: 0 },
   keywords: [],
   count: 27,
@@ -13,7 +13,7 @@ export const list = {
       chainId: "42161",
       ticker: "ARB",
       identifier: "ARB.ARB-0x912ce59144191c1204e64559fe8253a0e49e6548",
-      decimals: 8,
+      decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.arb-0x912ce59144191c1204e64559fe8253a0e49e6548.png",
     },
@@ -23,7 +23,7 @@ export const list = {
       chainId: "42161",
       ticker: "DAI",
       identifier: "ARB.DAI-0xda10009cbd5d07dd0cecc66161fc93d7c9000da1",
-      decimals: 8,
+      decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.dai-0xda10009cbd5d07dd0cecc66161fc93d7c9000da1.png",
     },
@@ -32,7 +32,7 @@ export const list = {
       chainId: "42161",
       ticker: "ETH",
       identifier: "ARB.ETH",
-      decimals: 8,
+      decimals: 18,
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.eth.png",
     },
     {
@@ -41,7 +41,7 @@ export const list = {
       chainId: "42161",
       ticker: "GLD",
       identifier: "ARB.GLD-0xafd091f140c21770f4e5d53d26b2859ae97555aa",
-      decimals: 8,
+      decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.gld-0xafd091f140c21770f4e5d53d26b2859ae97555aa.png",
     },
@@ -51,7 +51,7 @@ export const list = {
       chainId: "42161",
       ticker: "GMX",
       identifier: "ARB.GMX-0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a",
-      decimals: 8,
+      decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.gmx-0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a.png",
     },
@@ -61,7 +61,7 @@ export const list = {
       chainId: "42161",
       ticker: "GNS",
       identifier: "ARB.GNS-0x18c11fd286c5ec11c3b683caa813b77f5163a122",
-      decimals: 8,
+      decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.gns-0x18c11fd286c5ec11c3b683caa813b77f5163a122.png",
     },
@@ -81,7 +81,7 @@ export const list = {
       chainId: "42161",
       ticker: "LINK",
       identifier: "ARB.LINK-0xf97f4df75117a78c1a5a0dbb814af92458539fb4",
-      decimals: 8,
+      decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.link-0xf97f4df75117a78c1a5a0dbb814af92458539fb4.png",
     },
@@ -91,7 +91,7 @@ export const list = {
       chainId: "42161",
       ticker: "PEPE",
       identifier: "ARB.PEPE-0x25d887ce7a35172c62febfd67a1856f20faebb00",
-      decimals: 8,
+      decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.pepe-0x25d887ce7a35172c62febfd67a1856f20faebb00.png",
     },
@@ -101,7 +101,7 @@ export const list = {
       chainId: "42161",
       ticker: "SUSHI",
       identifier: "ARB.SUSHI-0xd4d42f0b6def4ce0383636770ef773390d85c61a",
-      decimals: 8,
+      decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.sushi-0xd4d42f0b6def4ce0383636770ef773390d85c61a.png",
     },
@@ -111,7 +111,7 @@ export const list = {
       chainId: "42161",
       ticker: "TGT",
       identifier: "ARB.TGT-0x429fed88f10285e61b12bdf00848315fbdfcc341",
-      decimals: 8,
+      decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.tgt-0x429fed88f10285e61b12bdf00848315fbdfcc341.png",
     },
@@ -121,7 +121,7 @@ export const list = {
       chainId: "42161",
       ticker: "UNI",
       identifier: "ARB.UNI-0xfa7f8980b0f1e64a2062791cc3b0871572f1f7f0",
-      decimals: 8,
+      decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.uni-0xfa7f8980b0f1e64a2062791cc3b0871572f1f7f0.png",
     },
@@ -151,7 +151,7 @@ export const list = {
       chainId: "42161",
       ticker: "WBTC",
       identifier: "ARB.WBTC-0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f",
-      decimals: 8,
+      decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.wbtc-0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f.png",
     },
@@ -161,7 +161,7 @@ export const list = {
       chainId: "42161",
       ticker: "WSTETH",
       identifier: "ARB.WSTETH-0x5979d7b546e38e414f7e9822514be443a4800529",
-      decimals: 8,
+      decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.wsteth-0x5979d7b546e38e414f7e9822514be443a4800529.png",
     },
@@ -186,7 +186,7 @@ export const list = {
       chainId: "1",
       ticker: "ETH",
       identifier: "ETH.ETH",
-      decimals: 8,
+      decimals: 18,
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.eth.png",
     },
     {
@@ -195,7 +195,7 @@ export const list = {
       chainId: "1",
       ticker: "PEPE",
       identifier: "ETH.PEPE-0x6982508145454ce325ddbe47a25d4ec3d2311933",
-      decimals: 8,
+      decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.pepe-0x6982508145454ce325ddbe47a25d4ec3d2311933.png",
     },
@@ -225,7 +225,7 @@ export const list = {
       chainId: "1",
       ticker: "wstETH",
       identifier: "ETH.wstETH-0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
-      decimals: 8,
+      decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.wsteth-0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0.png",
     },

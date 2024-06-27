@@ -2,7 +2,7 @@ export const list = {
   provider: "THORCHAIN",
   chainId: "thorchain-mainnet-v1",
   name: "THORCHAIN",
-  timestamp: "2024-06-26T08:30:28.188Z",
+  timestamp: "2024-06-27T16:32:03.276Z",
   version: { major: 1, minor: 0, patch: 0 },
   keywords: [],
   count: 77,
