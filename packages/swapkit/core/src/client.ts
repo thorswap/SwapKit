@@ -356,8 +356,8 @@ export function SwapKit<
             });
             return wallet.estimateTransactionFee(txObject, feeOptionKey);
           }
-          const { evmTransactionDetails } = params.route;
 
+          const { evmTransactionDetails } = params.route;
           if (
             !(
               evmTransactionDetails &&
