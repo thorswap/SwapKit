@@ -251,7 +251,7 @@ export function SwapKit<
   }
 
   async function getWalletWithBalance<T extends Chain>(chain: T, potentialScamFilter = true) {
-    const defaultBalance = [AssetValue.fromChainOrSignature(chain)];
+    const defaultBalance = [AssetValue.from({ chain })];
     const wallet = getWallet(chain);
 
     if (!wallet) {
@@ -321,14 +321,15 @@ export function SwapKit<
 
     if (!getWallet(chain)) throw new SwapKitError("core_wallet_connection_not_found");
 
-    const baseValue = AssetValue.fromChainOrSignature(chain, 0);
+    const baseValue = AssetValue.from({ chain });
+
     switch (chain) {
       case Chain.Arbitrum:
       case Chain.Avalanche:
       case Chain.Ethereum:
       case Chain.BinanceSmartChain:
       case Chain.Polygon: {
-        const wallet = connectedWallets[chain as Exclude<EVMChain, Chain.Optimism>];
+        const wallet = getWallet(chain as Exclude<EVMChain, Chain.Optimism>);
         if (type === "transfer") {
           const txObject = await wallet.createTransferTx(params);
           return wallet.estimateTransactionFee(txObject, feeOptionKey);
@@ -379,7 +380,7 @@ export function SwapKit<
           );
         }
 
-        return AssetValue.fromChainOrSignature(chain);
+        return AssetValue.from({ chain });
       }
 
       case Chain.Bitcoin:
@@ -405,9 +406,14 @@ export function SwapKit<
       }
 
       case Chain.Polkadot: {
+        <<<<<<< HEAD
         const { address, estimateTransactionFee } = getWallet(chain);
 
         return estimateTransactionFee({ ...params, recipient: address });
+        =======
+        const wallet = getWallet(chain);
+        return wallet.estimateTransactionFee({ ...params, recipient: wallet.address });
+        >>>>>>> d1c21a30 (chore: WIP asset value from rework)
       }
 
       default:

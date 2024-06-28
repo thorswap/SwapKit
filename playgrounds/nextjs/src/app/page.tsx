@@ -1,9 +1,15 @@
 "use client";
-import type { AssetValue, Chain } from "@swapkit/core";
+import type { AssetValue, Chain } from "@swapkit/helpers";
 import { Check } from "lucide-react";
 import { useMemo } from "react";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -16,26 +22,26 @@ import {
 import { useSwapKit } from "~/lib/swapKit";
 import { cn } from "~/lib/utils";
 
-export default function Swap() {
+export default async function Swap() {
   const { balances } = useSwapKit();
 
   const { chains, balanceGroupedByChain } = useMemo(() => {
-    const balanceGroupedByChain = balances.reduce(
-      (acc, assetValue) => {
-        if (!acc[assetValue.chain]) {
-          acc[assetValue.chain] = [];
-        }
+    const balanceGroupedByChain = balances.reduce((acc, assetValue) => {
+      if (!acc[assetValue.chain]) {
+        acc[assetValue.chain] = [];
+      }
 
-        if (assetValue.isGasAsset || assetValue.getValue("number") > 0) {
-          acc[assetValue.chain].push(assetValue);
-        }
+      if (assetValue.isGasAsset || assetValue.getValue("number") > 0) {
+        acc[assetValue.chain].push(assetValue);
+      }
 
-        return acc;
-      },
-      {} as Record<Chain, AssetValue[]>,
-    );
+      return acc;
+    }, {} as Record<Chain, AssetValue[]>);
 
-    return { chains: Object.keys(balanceGroupedByChain) as Chain[], balanceGroupedByChain };
+    return {
+      chains: Object.keys(balanceGroupedByChain) as Chain[],
+      balanceGroupedByChain,
+    };
   }, [balances]);
 
   return (
@@ -56,12 +62,15 @@ export default function Swap() {
                   <SelectGroup key={chain}>
                     <SelectLabel>{chain}</SelectLabel>
                     {balanceGroupedByChain[chain].map((assetValue) => (
-                      <SelectItem key={assetValue.toString()} value={assetValue.toString()}>
+                      <SelectItem
+                        key={assetValue.toString()}
+                        value={assetValue.toString()}
+                      >
                         {assetValue.getValue("number")} {assetValue.symbol}
                       </SelectItem>
                     ))}
                   </SelectGroup>
-                ) : null,
+                ) : null
               )}
             </SelectContent>
           </Select>
@@ -76,12 +85,15 @@ export default function Swap() {
                   <SelectGroup key={chain}>
                     <SelectLabel>{chain}</SelectLabel>
                     {balanceGroupedByChain[chain].map((assetValue) => (
-                      <SelectItem key={assetValue.toString()} value={assetValue.toString()}>
+                      <SelectItem
+                        key={assetValue.toString()}
+                        value={assetValue.toString()}
+                      >
                         {assetValue.getValue("number")} {assetValue.symbol}
                       </SelectItem>
                     ))}
                   </SelectGroup>
-                ) : null,
+                ) : null
               )}
             </SelectContent>
           </Select>

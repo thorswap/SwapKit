@@ -23,7 +23,14 @@ type Props = {
 };
 
 const walletOptions = Object.values(WalletOption).filter(
-  (o) => ![WalletOption.KEPLR, WalletOption.EXODUS, WalletOption.RADIX_WALLET].includes(o),
+  (o) =>
+    ![
+      WalletOption.KEPLR,
+      WalletOption.EXODUS,
+      WalletOption.RADIX_WALLET,
+      WalletOption.TALISMAN,
+      WalletOption.PHANTOM,
+    ].includes(o),
 );
 
 const AllChainsSupported = [
@@ -156,9 +163,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.OKX:
           return skClient.connectOkx?.(chains);
 
-        case WalletOption.RADIX_WALLET:
-          // @ts-expect-error
-          return skClient.connectRadixWallet?.();
+        // case WalletOption.RADIX_WALLET:
+        //   return skClient.connectRadixWallet?.();
 
         case WalletOption.PHANTOM:
           return skClient.connectPhantom?.(chains);

@@ -22,7 +22,7 @@ export default function RootLayout({
         <AppProviders>
           <div className="max-w-[800px] mx-auto">
             <NavigationBar />
-            <div className="items-center justify-center flex">{children}</div>
+            {/* <div className="items-center justify-center flex">{children}</div> */}
           </div>
         </AppProviders>
       </body>
