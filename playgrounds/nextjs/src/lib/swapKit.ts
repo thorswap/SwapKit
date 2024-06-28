@@ -1,6 +1,4 @@
 import { type AssetValue, type Chain, WalletOption } from "@swapkit/helpers";
-import { ChainflipPlugin } from "@swapkit/plugin-chainflip";
-import { ThorchainPlugin } from "@swapkit/plugin-thorchain";
 
 import { atom, useAtom } from "jotai";
 import { useCallback, useEffect } from "react";
@@ -20,15 +18,9 @@ export const useSwapKit = () => {
   useEffect(() => {
     const loadSwapKit = async () => {
       const { SwapKit } = await import("@swapkit/core");
-      const { evmWallet } = await import("@swapkit/wallet-evm-extensions");
-      const { keepkeyWallet } = await import("@swapkit/wallet-keepkey");
-      const { keplrWallet } = await import("@swapkit/wallet-keplr");
-      const { keystoreWallet } = await import("@swapkit/wallet-keystore");
-      const { ledgerWallet } = await import("@swapkit/wallet-ledger");
-      const { okxWallet } = await import("@swapkit/wallet-okx");
-      const { trezorWallet } = await import("@swapkit/wallet-trezor");
-      const { walletconnectWallet } = await import("@swapkit/wallet-wc");
-      const { xdefiWallet } = await import("@swapkit/wallet-xdefi");
+      const { ChainflipPlugin } = await import("@swapkit/plugin-chainflip");
+      const { ThorchainPlugin, MayachainPlugin } = await import("@swapkit/plugin-thorchain");
+      const { wallets } = await import("@swapkit/wallets");
 
       const swapKitClient = SwapKit({
         config: {
@@ -48,18 +40,8 @@ export const useSwapKit = () => {
             },
           },
         },
-        wallets: {
-          ...evmWallet,
-          ...keepkeyWallet,
-          ...keplrWallet,
-          ...keystoreWallet,
-          ...ledgerWallet,
-          ...okxWallet,
-          ...trezorWallet,
-          ...walletconnectWallet,
-          ...xdefiWallet,
-        },
-        plugins: { ...ThorchainPlugin, ...ChainflipPlugin },
+        wallets,
+        plugins: { ...ThorchainPlugin, ...ChainflipPlugin, ...MayachainPlugin },
       });
 
       setSwapKit(swapKitClient);
