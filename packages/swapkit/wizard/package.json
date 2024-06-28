@@ -10,11 +10,7 @@
   "devDependencies": {
     "@types/ejs": "3.1.5"
   },
-  "files": [
-    "./cli.ts",
-    "dist/",
-    "src/"
-  ],
+  "files": ["./cli.ts", "dist/", "src/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./cli.ts",
@@ -35,5 +31,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "0.1.5-rc.2"
+  "version": "0.1.6"
 }
