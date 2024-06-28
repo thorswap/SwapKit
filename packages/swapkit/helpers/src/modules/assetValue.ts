@@ -129,13 +129,14 @@ export class AssetValue extends BigIntArithmetics {
       isFromChain ||
       CommonAssetStrings.includes(assetOrChain as (typeof CommonAssetStrings)[number]);
 
-    const { identifier, decimal } = isFromCommonAssetOrChain
+    // find chain or common asset identifier with fallback to param asset and unknown decimal
+    const { identifier: unsafeIdentifier, decimal: commonAssetDecimal } = isFromCommonAssetOrChain
       ? getCommonAssetInfo(assetOrChain as CommonAssetString)
       : { identifier: assetOrChain, decimal: undefined };
 
-    const { chain, isSynthetic } = getAssetInfo(identifier);
+    const { chain, isSynthetic } = getAssetInfo(unsafeIdentifier);
 
-    const tokenInfo = staticTokensMap.get(identifier.toUpperCase() as TokenNames);
+    const tokenInfo = staticTokensMap.get(unsafeIdentifier.toUpperCase() as TokenNames);
 
     // decimals and identifier from static with chain fallback
     const {
@@ -143,8 +144,8 @@ export class AssetValue extends BigIntArithmetics {
       decimal: safeAssetDecimal,
       identifier: safeIdentifier,
     } = tokenInfo || {
-      decimal: decimal || BaseDecimal[chain],
-      identifier,
+      decimal: commonAssetDecimal || BaseDecimal[chain],
+      identifier: unsafeIdentifier,
     };
 
     const adjustedValue = fromBaseWithDecimal
@@ -168,7 +169,7 @@ export class AssetValue extends BigIntArithmetics {
     return new AssetValue({
       tax,
       decimal: safeAssetDecimal,
-      identifier,
+      identifier: safeIdentifier,
       value: adjustedValue,
     }) as ConditionalAssetValueReturn<T>;
   }
