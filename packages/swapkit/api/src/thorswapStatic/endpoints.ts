@@ -13,7 +13,7 @@ export function getLogoForAsset(assetString: string) {
 }
 
 export function getChainLogoForAsset(assetString: string) {
-  const { chain } = AssetValue.fromStringSync(assetString);
+  const { chain } = AssetValue.from({ asset: assetString });
   const chainIdentifier = getChainIdentifier(chain).toLowerCase();
   return `${baseUrl}/token-list/images/${chainIdentifier}.png`;
 }

@@ -1,4 +1,4 @@
-import { AssetValue, RequestClient, SwapKitNumber } from "@swapkit/helpers";
+import { AssetValue, BaseDecimal, RequestClient, SwapKitNumber } from "@swapkit/helpers";
 import type { LiquidityPositionRaw, PoolDetail, PoolPeriod, THORNameDetails } from "./types.ts";
 
 const baseUrl = "https://mu.thorswap.net";
@@ -34,33 +34,33 @@ export async function getLiquidityPositions(addresses: string[]) {
     asset: AssetValue.from({
       asset: rawPosition.pool,
       value: rawPosition.assetAdded,
-      adjustDecimals: 1,
+      fromBaseWithDecimal: BaseDecimal.THOR,
     }),
     assetPending: AssetValue.from({
       asset: rawPosition.pool,
       value: rawPosition.assetPending,
-      adjustDecimals: 1,
+      fromBaseWithDecimal: BaseDecimal.THOR,
     }),
     assetWithdrawn: AssetValue.from({
       asset: rawPosition.pool,
       value: rawPosition.assetWithdrawn,
-      adjustDecimals: 1,
+      fromBaseWithDecimal: BaseDecimal.THOR,
     }),
     runeRegisteredAddress: rawPosition.runeAddress,
     rune: AssetValue.from({
       asset: "THOR.RUNE",
       value: rawPosition.runeAdded,
-      adjustDecimals: 1,
+      fromBaseWithDecimal: BaseDecimal.THOR,
     }),
     runePending: AssetValue.from({
       asset: "THOR.RUNE",
       value: rawPosition.runePending,
-      adjustDecimals: 1,
+      fromBaseWithDecimal: BaseDecimal.THOR,
     }),
     runeWithdrawn: AssetValue.from({
       asset: "THOR.RUNE",
       value: rawPosition.runeWithdrawn,
-      adjustDecimals: 1,
+      fromBaseWithDecimal: BaseDecimal.THOR,
     }),
     poolShare: new SwapKitNumber(rawPosition.sharedUnits).div(rawPosition.poolUnits),
     dateLastAdded: rawPosition.dateLastAdded,

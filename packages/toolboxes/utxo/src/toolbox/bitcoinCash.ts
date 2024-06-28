@@ -1,3 +1,4 @@
+import * as secp256k1 from "@bitcoinerlab/secp256k1";
 import {
   HDNode,
   Transaction,
@@ -5,7 +6,6 @@ import {
   address as bchAddress,
   // @ts-ignore TODO: check why wallets doesn't see modules included in toolbox
 } from "@psf/bitcoincashjs-lib";
-import * as secp256k1 from "tiny-secp256k1";
 
 import { mnemonicToSeedSync } from "@scure/bip39";
 import { Chain, DerivationPath, FeeOption, RPCUrl, type UTXOChain } from "@swapkit/helpers";

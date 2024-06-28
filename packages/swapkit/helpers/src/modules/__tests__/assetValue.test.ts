@@ -280,8 +280,7 @@ describe("AssetValue", () => {
       const fakeAvaxAsset = await AssetValue.from({
         asset: fakeAvaxAssetString,
         value: 1,
-        decimal: 8,
-        adjustDecimals: 1,
+        fromBaseWithDecimal: 8,
         asyncTokenLookup: true,
       });
 
@@ -296,8 +295,8 @@ describe("AssetValue", () => {
           ticker: "ASDF",
         }),
       );
-      expect(fakeAvaxAsset.getValue("string")).toBe("100000000");
-      expect(fakeAvaxAsset.getBaseValue("string")).toBe("100000000000000000000000000");
+      expect(fakeAvaxAsset.getValue("string")).toBe("0.00000001");
+      expect(fakeAvaxAsset.getBaseValue("string")).toBe("10000000000");
     });
   });
 
@@ -404,7 +403,6 @@ describe("AssetValue", () => {
     test("returns safe decimals if string is not in `@swapkit/tokens` lists with multiple dashes", async () => {
       await AssetValue.loadStaticAssets();
       const fakeAvaxUSDCAssetString = "AVAX.USDC-LPT-1234";
-      //   const fakeAvaxUSDCAsset = AssetValue.fromStringSync(fakeAvaxUSDCAssetString);
       const fakeAvaxUSDCAsset2 = AssetValue.from({ asset: fakeAvaxUSDCAssetString });
 
       expect(fakeAvaxUSDCAsset2).toBeDefined();
@@ -447,8 +445,7 @@ describe("AssetValue", () => {
       const btc = AssetValue.from({
         asset: "BTC.BTC",
         value: 5200000000000,
-        decimal: 8,
-        adjustDecimals: 1,
+        fromBaseWithDecimal: 8,
       });
 
       expect(btc).toBeDefined();
@@ -473,8 +470,7 @@ describe("AssetValue", () => {
       const fakeAvaxUSDCAsset = AssetValue.from({
         asset: fakeAvaxUSDCAssetString,
         value: 1,
-        decimal: 8,
-        adjustDecimals: 1,
+        fromBaseWithDecimal: 8,
       });
 
       expect(fakeAvaxUSDCAsset).toBeDefined();
@@ -500,8 +496,7 @@ describe("AssetValue", () => {
       const AvaxUSDC = AssetValue.from({
         asset: avaxUSDC,
         value: 100000000,
-        decimal: 8,
-        adjustDecimals: 1,
+        fromBaseWithDecimal: 8,
       });
 
       expect(AvaxUSDC).toBeDefined();
@@ -524,33 +519,6 @@ describe("AssetValue", () => {
 
   describe("fromChainOrSignature", () => {
     test("creates AssetValue from common asset string or chain", () => {
-      //   const customBaseAsset = [
-      //     Chain.Cosmos,
-      //     Chain.BinanceSmartChain,
-      //     Chain.THORChain,
-      //     Chain.Maya,
-      //     Chain.Arbitrum,
-      //     Chain.Optimism,
-      //     Chain.Radix,
-      //   ];
-      //   const filteredChains = Object.values(Chain).filter((c) => !customBaseAsset.includes(c));
-
-      //   for (const chain of filteredChains) {
-      //     const asset = AssetValue.from({ chain });
-      //     expect(asset).toEqual(
-      //       expect.objectContaining({
-      //         address: undefined,
-      //         chain,
-      //         decimal: BaseDecimal[chain],
-      //         isGasAsset: true,
-      //         isSynthetic: false,
-      //         symbol: chain,
-      //         ticker: chain,
-      //         type: "Native",
-      //       }),
-      //     );
-      //   }
-
       const cosmosAsset = AssetValue.from({ chain: Chain.Cosmos });
       expect(cosmosAsset).toEqual(
         expect.objectContaining({
@@ -607,7 +575,7 @@ describe("AssetValue", () => {
         }),
       );
 
-      // TODO @towan fix this ASAP
+      // TODO enable when BE fixes case sensitivity
       //   const thor = AssetValue.from({ asset: "ETH.THOR" });
       //   expect(thor).toEqual(
       //     expect.objectContaining({

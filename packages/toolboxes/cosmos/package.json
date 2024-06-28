@@ -11,12 +11,13 @@
     "@swapkit/helpers": "workspace:*",
     "base64-js": "1.5.1",
     "cosmjs-types": "0.9.0",
-    "protobufjs": "7.3.2",
-    "tiny-secp256k1": "2.2.3"
+    "protobufjs": "7.3.2"
   },
   "description": "SwapKit - Toolbox cosmos",
   "devDependencies": {
-    "@types/tiny-secp256k1": "2.0.1"
+    "@types/bn.js": "5.1.5",
+    "@types/crypto-js": "4.2.2",
+    "@types/elliptic": "6.4.18"
   },
   "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",

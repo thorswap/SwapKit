@@ -63,7 +63,7 @@ describe("Ethereum toolkit", () => {
       expect((await context.provider.getBalance(emptyRecipient)).toString()).toBe("0");
       await context.toolbox.transfer({
         recipient: emptyRecipient,
-        assetValue: await AssetValue.fromIdentifier("ETH.ETH", "0.010526"),
+        assetValue: await AssetValue.from({ chain: Chain.Ethereum, value: "0.010526" }),
         from: testAddress,
       });
       expect((await context.provider.getBalance(emptyRecipient)).toString()).toBe(
@@ -81,10 +81,10 @@ describe("Ethereum toolkit", () => {
       expect(balance.toString()).toBe("0");
       await context.toolbox.transfer({
         recipient: emptyRecipient,
-        assetValue: await AssetValue.fromIdentifier(
-          "ETH.USDC-0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-          "1",
-        ),
+        assetValue: await AssetValue.from({
+          asset: "ETH.USDC-0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+          value: "1",
+        }),
         from: testAddress,
       });
       // biome-ignore lint/correctness/noUnsafeOptionalChaining: <explanation>

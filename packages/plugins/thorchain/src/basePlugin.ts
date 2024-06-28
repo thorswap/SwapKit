@@ -271,7 +271,7 @@ export function basePlugin({
   function withdraw({ memo, assetValue, percent, from, to }: WithdrawParams) {
     const targetAsset =
       to === "baseAsset" && from !== "baseAsset"
-        ? AssetValue.fromChainOrSignature(pluginChain)
+        ? AssetValue.from({ chain: pluginChain })
         : (from === "sym" && to === "sym") || from === "baseAsset" || from === "asset"
           ? undefined
           : assetValue;

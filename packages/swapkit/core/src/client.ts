@@ -406,14 +406,9 @@ export function SwapKit<
       }
 
       case Chain.Polkadot: {
-        <<<<<<< HEAD
         const { address, estimateTransactionFee } = getWallet(chain);
 
         return estimateTransactionFee({ ...params, recipient: address });
-        =======
-        const wallet = getWallet(chain);
-        return wallet.estimateTransactionFee({ ...params, recipient: wallet.address });
-        >>>>>>> d1c21a30 (chore: WIP asset value from rework)
       }
 
       default:

@@ -114,18 +114,18 @@ export const getGasAsset = ({ chain }: { chain: Chain }) => {
   switch (chain) {
     case Chain.Arbitrum:
     case Chain.Optimism:
-      return AssetValue.fromStringSync(`${chain}.ETH`);
+      return AssetValue.from({ asset: `${chain}.ETH` });
     case Chain.Maya:
-      return AssetValue.fromStringSync(`${chain}.CACAO`);
+      return AssetValue.from({ asset: `${chain}.CACAO` });
     case Chain.Cosmos:
-      return AssetValue.fromStringSync(`${chain}.ATOM`);
+      return AssetValue.from({ asset: `${chain}.ATOM` });
     case Chain.BinanceSmartChain:
-      return AssetValue.fromStringSync(`${chain}.BNB`);
+      return AssetValue.from({ asset: `${chain}.BNB` });
     case Chain.THORChain:
-      return AssetValue.fromStringSync(`${chain}.RUNE`);
+      return AssetValue.from({ asset: `${chain}.RUNE` });
 
     default:
-      return AssetValue.fromStringSync(`${chain}.${chain}`);
+      return AssetValue.from({ asset: `${chain}.${chain}` });
   }
 };
 
