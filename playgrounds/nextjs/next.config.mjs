@@ -36,14 +36,23 @@ const nextConfig = {
         process: require.resolve("process/browser"),
       };
     }
+    // config.module.rules.push({
+    //   test: /\.wasm$/,
+    //   type: "webassembly/async",
+    // });
 
     return {
       ...config,
       experiments: {
         ...(config?.experiments || {}),
         syncWebAssembly: true,
+        asyncWebAssembly: true,
       },
     };
+  },
+  experimental: {
+    syncWebAssembly: true,
+    asyncWebAssembly: true,
   },
 };
 

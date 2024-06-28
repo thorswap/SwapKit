@@ -1,5 +1,11 @@
-import type { CommonAssetString } from "../helpers/asset.ts";
-import { getAssetType, getCommonAssetInfo, getDecimal, isGasAsset } from "../helpers/asset.ts";
+import {
+  type CommonAssetString,
+  CommonAssetStrings,
+  getAssetType,
+  getCommonAssetInfo,
+  getDecimal,
+  isGasAsset,
+} from "../helpers/asset.ts";
 import { validateIdentifier } from "../helpers/validators.ts";
 import { BaseDecimal, Chain, type ChainId, ChainToChainId } from "../types/chains.ts";
 import type { TokenNames, TokenTax } from "../types/tokens.ts";
@@ -13,6 +19,30 @@ const staticTokensMap = new Map<
   TokenNames,
   { tax?: TokenTax; decimal: number; identifier: string }
 >();
+
+type ConditionalAssetValueReturn<T extends AssetValueFromParams> =
+  T["asyncTokenLookup"] extends true ? Promise<AssetValue> : AssetValue;
+
+type AssetIdentifier =
+  | {
+      asset: TokenNames;
+    }
+  | {
+      asset: string;
+    }
+  | {
+      asset: CommonAssetString;
+    }
+  | {
+      chain: Chain;
+    };
+
+type AssetValueFromParams = AssetIdentifier & {
+  asyncTokenLookup?: boolean;
+  value?: NumberPrimitives | SwapKitValueType;
+  decimal?: number;
+  adjustDecimals?: number;
+};
 
 export class AssetValue extends BigIntArithmetics {
   address?: string;
@@ -85,39 +115,34 @@ export class AssetValue extends BigIntArithmetics {
     return createAssetValue(assetString, value);
   }
 
-  static from<T extends { async?: boolean }>({
+  static from<T extends AssetValueFromParams>({
     value = 0,
     decimal: decimalParam,
     adjustDecimals,
-    async,
+    asyncTokenLookup,
     ...assetOrChain
-  }: T &
-    (
-      | {
-          asset: TokenNames;
-        }
-      | {
-          asset: string;
-        }
-      | {
-          chain: Chain;
-        }
-    ) & {
-      value?: NumberPrimitives | SwapKitValueType;
-      decimal?: number;
-      adjustDecimals?: boolean;
-    }): T["async"] extends true ? Promise<AssetValue> : AssetValue {
+  }: AssetValueFromParams): ConditionalAssetValueReturn<T> {
     const parsedValue = value instanceof BigIntArithmetics ? value.getValue("string") : value;
 
+    // fromChainOrSignature
+    const isFromChain = "chain" in assetOrChain;
+    const fromChain = isFromChain ? assetOrChain.chain : undefined;
+    const fromCommonAsset = isFromChain
+      ? fromChain
+      : CommonAssetStrings.includes(assetOrChain.asset as (typeof CommonAssetStrings)[number])
+        ? (assetOrChain.asset as CommonAssetString)
+        : undefined;
+
     const { identifier: asset, decimal } =
-      "asset" in assetOrChain
-        ? {
+      fromCommonAsset || isFromChain
+        ? getCommonAssetInfo(fromCommonAsset as CommonAssetString)
+        : {
             identifier: assetOrChain.asset,
             decimal: decimalParam,
-          }
-        : getCommonAssetInfo("chain" in assetOrChain ? assetOrChain.chain : Chain.THORChain);
+          };
 
-    if (async) {
+    // asynch token lookup
+    if (asyncTokenLookup) {
       const shiftedAmount = adjustDecimals
         ? BigIntArithmetics.shiftDecimals({
             value: SwapKitNumber.fromBigInt(BigInt(parsedValue)),
@@ -126,18 +151,15 @@ export class AssetValue extends BigIntArithmetics {
           }).getBaseValue("string")
         : parsedValue;
 
-      return createAssetValue(asset, shiftedAmount) as T["async"] extends true
-        ? Promise<AssetValue>
-        : AssetValue;
+      return createAssetValue(asset, shiftedAmount) as ConditionalAssetValueReturn<T>;
     }
 
     const { chain, isSynthetic } = getAssetInfo(asset);
-    const tokenInfo = staticTokensMap.get(asset.toUpperCase() as TokenNames);
 
     if (isSynthetic)
-      return createSyntheticAssetValue(asset, parsedValue) as T["async"] extends true
-        ? Promise<AssetValue>
-        : AssetValue;
+      return createSyntheticAssetValue(asset, parsedValue) as ConditionalAssetValueReturn<T>;
+
+    const tokenInfo = staticTokensMap.get(asset.toUpperCase() as TokenNames);
 
     const {
       tax,
@@ -157,105 +179,7 @@ export class AssetValue extends BigIntArithmetics {
       decimal: assetDecimal,
       identifier,
       value: adjustedValue,
-    }) as T["async"] extends true ? Promise<AssetValue> : AssetValue;
-  }
-
-  static fromString(assetString: string, value: NumberPrimitives = 0) {
-    return createAssetValue(assetString, value);
-  }
-  static fromIdentifier(
-    assetString: `${Chain}.${string}` | `${Chain}/${string}` | TokenNames,
-    value: NumberPrimitives = 0,
-  ) {
-    return createAssetValue(assetString, value);
-  }
-
-  static fromStringSync(assetString: string, value: NumberPrimitives = 0) {
-    const { chain, isSynthetic } = getAssetInfo(assetString);
-    const tokenInfo = staticTokensMap.get(assetString.toUpperCase() as TokenNames);
-
-    if (isSynthetic) return createSyntheticAssetValue(assetString, value);
-    // TODO: write logger that will only run in dev mode with some flag
-    // if (!tokenInfo) {
-    //   console.error(
-    //     `Asset ${assetString} is not loaded. Use AssetValue.loadStaticAssets() to load it`,
-    //   );
-    // }
-
-    const { tax, decimal, identifier } = tokenInfo || {
-      decimal: BaseDecimal[chain],
-      identifier: assetString,
-    };
-
-    return new AssetValue({
-      tax,
-      value: safeValue(value, decimal),
-      identifier: isSynthetic ? assetString : identifier,
-      decimal: isSynthetic ? 8 : decimal,
-    });
-  }
-
-  static async fromStringWithBase(
-    assetString: string,
-    value: NumberPrimitives = 0,
-    baseDecimal: number = BaseDecimal.THOR,
-  ) {
-    const shiftedAmount = BigIntArithmetics.shiftDecimals({
-      value: SwapKitNumber.fromBigInt(BigInt(value)),
-      from: 0,
-      to: baseDecimal,
-    }).getBaseValue("string");
-    const assetValue = await AssetValue.fromString(assetString);
-
-    return assetValue.set(shiftedAmount);
-  }
-
-  static fromStringWithBaseSync(
-    assetString: string,
-    value: NumberPrimitives = 0,
-    baseDecimal: number = BaseDecimal.THOR,
-  ) {
-    const { chain, isSynthetic } = getAssetInfo(assetString);
-    const tokenInfo = staticTokensMap.get(assetString.toUpperCase() as TokenNames);
-
-    if (isSynthetic) return createSyntheticAssetValue(assetString, value);
-
-    const { tax, decimal, identifier } = tokenInfo || {
-      decimal: BaseDecimal[chain],
-      identifier: assetString,
-    };
-
-    return new AssetValue({
-      tax,
-      value: safeValue(BigInt(value), baseDecimal),
-      identifier,
-      decimal,
-    });
-  }
-
-  static fromIdentifierSync(assetString: TokenNames, value: NumberPrimitives = 0) {
-    const { chain, isSynthetic } = getAssetInfo(assetString);
-    const tokenInfo = staticTokensMap.get(assetString);
-
-    if (isSynthetic) return createSyntheticAssetValue(assetString, value);
-    // TODO: write logger that will only run in dev mode with some flag
-    // if (!tokenInfo) {
-    //   console.error(
-    //     `Asset ${assetString} is not loaded. - Loading with base Chain. Use AssetValue.loadStaticAssets() to load it`,
-    //   );
-    // }
-
-    const { tax, decimal, identifier } = tokenInfo || {
-      decimal: BaseDecimal[chain],
-      identifier: assetString,
-    };
-    return new AssetValue({ tax, decimal, identifier, value: safeValue(value, decimal) });
-  }
-
-  static fromChainOrSignature(assetString: CommonAssetString, value: NumberPrimitives = 0) {
-    const { decimal, identifier } = getCommonAssetInfo(assetString);
-
-    return new AssetValue({ value: safeValue(value, decimal), decimal, identifier });
+    }) as ConditionalAssetValueReturn<T>;
   }
 
   static loadStaticAssets() {
@@ -289,7 +213,7 @@ export class AssetValue extends BigIntArithmetics {
 }
 
 export function getMinAmountByChain(chain: Chain) {
-  const asset = AssetValue.fromChainOrSignature(chain);
+  const asset = AssetValue.from({ chain });
 
   switch (chain) {
     case Chain.Bitcoin:

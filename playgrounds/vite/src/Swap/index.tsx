@@ -1,11 +1,15 @@
-import { FeeOption } from "@swapkit/helpers";
-import type { AssetValue, QuoteResponseRoute } from "@swapkit/sdk";
+"use client";
+import {
+  FeeOption,
+  type AssetValue,
+  type QuoteResponseRoute,
+} from "@swapkit/sdk";
 import { useCallback } from "react";
 
 import type { SwapKitClient } from "../swapKitClient";
 import { SwapInputs } from "./SwapInputs";
 
-export default function Swap({
+export default async function Swap({
   inputAsset,
   outputAsset,
   skClient,

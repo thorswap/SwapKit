@@ -6,12 +6,14 @@ import type { TokenNames } from "../types/tokens.ts";
 
 const getDecimalMethodHex = "0x313ce567";
 
-export type CommonAssetString =
-  | `${Chain.Maya}.MAYA`
-  | `${Chain.Ethereum}.THOR`
-  | `${Chain.Ethereum}.vTHOR`
-  | `${Chain.Kujira}.USK`
-  | Chain;
+export type CommonAssetString = (typeof CommonAssetStrings)[number] | Chain;
+
+export const CommonAssetStrings = [
+  `${Chain.Maya}.MAYA`,
+  `${Chain.Ethereum}.THOR`,
+  `${Chain.Ethereum}.vTHOR`,
+  `${Chain.Kujira}.USK`,
+] as const;
 
 const getContractDecimals = async ({ chain, to }: { chain: EVMChain; to: string }) => {
   try {

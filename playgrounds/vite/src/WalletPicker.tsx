@@ -23,7 +23,14 @@ type Props = {
 };
 
 const walletOptions = Object.values(WalletOption).filter(
-  (o) => ![WalletOption.KEPLR, WalletOption.EXODUS, WalletOption.RADIX_WALLET].includes(o),
+  (o) =>
+    ![
+      WalletOption.KEPLR,
+      WalletOption.EXODUS,
+      WalletOption.RADIX_WALLET,
+      WalletOption.TALISMAN,
+      WalletOption.PHANTOM,
+    ].includes(o)
 );
 
 const AllChainsSupported = [
@@ -132,9 +139,14 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.EIP6963:
           return skClient.connectEVMWallet?.(chains, option, provider);
         case WalletOption.KEEPKEY: {
-          const derivationPaths = chains.map((chain) => getDerivationPathFor({ chain, index: 0 }));
+          const derivationPaths = chains.map((chain) =>
+            getDerivationPathFor({ chain, index: 0 })
+          );
 
-          const apiKey = await skClient.connectKeepkey?.(chains, derivationPaths);
+          const apiKey = await skClient.connectKeepkey?.(
+            chains,
+            derivationPaths
+          );
           // @ts-expect-error
           localStorage.setItem("keepkeyApiKey", apiKey);
           return true;
@@ -145,9 +157,14 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           if (!chain) return alert("chain is required");
 
           const connectMethod =
-            WalletOption.TREZOR === option ? skClient.connectTrezor : skClient.connectLedger;
+            WalletOption.TREZOR === option
+              ? skClient.connectTrezor
+              : skClient.connectLedger;
 
-          return connectMethod?.(chains, getDerivationPathFor({ chain, index: 0 }));
+          return connectMethod?.(
+            chains,
+            getDerivationPathFor({ chain, index: 0 })
+          );
         }
 
         case WalletOption.EXODUS:
@@ -160,8 +177,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.OKX:
           return skClient.connectOkx?.(chains);
 
-        case WalletOption.RADIX_WALLET:
-          return skClient.connectRadixWallet?.();
+        // case WalletOption.RADIX_WALLET:
+        //   return skClient.connectRadixWallet?.();
 
         case WalletOption.PHANTOM:
           return skClient.connectPhantom?.(chains);
@@ -170,7 +187,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           throw new Error(`Unsupported wallet option: ${option}`);
       }
     },
-    [chains, skClient],
+    [chains, skClient]
   );
 
   const handleKeystoreConnection = useCallback(
@@ -185,13 +202,16 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
 
         if (!password) return alert("password is required");
         try {
-          const phrases = await decryptFromKeystore(JSON.parse(keystoreFile), password);
+          const phrases = await decryptFromKeystore(
+            JSON.parse(keystoreFile),
+            password
+          );
           setPhrase(phrases);
 
           await skClient.connectKeystore(chains, phrases);
 
           const walletDataArray = await Promise.all(
-            chains.map((chain) => skClient.getWalletWithBalance(chain, true)),
+            chains.map((chain) => skClient.getWalletWithBalance(chain, true))
           );
 
           setWallet(walletDataArray.filter(Boolean));
@@ -202,7 +222,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         }
       }, 500);
     },
-    [chains, setWallet, skClient, setPhrase],
+    [chains, setWallet, skClient, setPhrase]
   );
 
   const handleConnection = useCallback(
@@ -212,13 +232,13 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
       await connectWallet(option, provider);
 
       const walletDataArray = await Promise.all(
-        chains.map((chain) => skClient.getWalletWithBalance(chain, true)),
+        chains.map((chain) => skClient.getWalletWithBalance(chain, true))
       );
 
       setWallet(walletDataArray.filter(Boolean));
       setLoading(false);
     },
-    [chains, connectWallet, setWallet, skClient],
+    [chains, connectWallet, setWallet, skClient]
   );
 
   const isWalletDisabled = useCallback(
@@ -226,20 +246,22 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
       chains.length > 0
         ? !chains.every((chain) =>
             // @ts-ignore
-            availableChainsByWallet[wallet].includes(chain),
+            availableChainsByWallet[wallet].includes(chain)
           )
         : false,
-    [chains],
+    [chains]
   );
 
   const handleChainSelect = useCallback((chain: Chain) => {
     setChains((prev) =>
-      prev.includes(chain) ? prev.filter((c) => c !== chain) : [...prev, chain],
+      prev.includes(chain) ? prev.filter((c) => c !== chain) : [...prev, chain]
     );
   }, []);
 
   const handleMultipleSelect = useCallback((e: Todo) => {
-    const selectedChains = Array.from(e.target.selectedOptions).map((o: Todo) => o.value);
+    const selectedChains = Array.from(e.target.selectedOptions).map(
+      (o: Todo) => o.value
+    );
 
     if (selectedChains.length > 1) {
       setChains(selectedChains);
@@ -268,7 +290,11 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             .sort()
             .map((chain) => (
               // biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-              <option key={chain} onClick={() => handleChainSelect(chain)} value={chain}>
+              <option
+                key={chain}
+                onClick={() => handleChainSelect(chain)}
+                value={chain}
+              >
                 {chain}
               </option>
             ))}
@@ -308,7 +334,9 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         <span style={{ margin: 20 }}>EIP6963</span>
         {eip6963Wallets.map((wallet) => (
           <button
-            onClick={() => handleConnection(WalletOption.EIP6963, wallet.provider)}
+            onClick={() =>
+              handleConnection(WalletOption.EIP6963, wallet.provider)
+            }
             type="button"
           >
             {wallet.info.name}

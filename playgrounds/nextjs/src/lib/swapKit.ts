@@ -1,8 +1,7 @@
-import { type AssetValue, type Chain, SwapKit, WalletOption } from "@swapkit/core";
+import { type AssetValue, type Chain, WalletOption } from "@swapkit/helpers";
 import { ChainflipPlugin } from "@swapkit/plugin-chainflip";
 import { ThorchainPlugin } from "@swapkit/plugin-thorchain";
 
-import { xdefiWallet } from "@swapkit/wallet-xdefi";
 import { atom, useAtom } from "jotai";
 import { useCallback, useEffect } from "react";
 
@@ -20,6 +19,7 @@ export const useSwapKit = () => {
 
   useEffect(() => {
     const loadSwapKit = async () => {
+      const { SwapKit } = await import("@swapkit/core");
       const { evmWallet } = await import("@swapkit/wallet-evm-extensions");
       const { keepkeyWallet } = await import("@swapkit/wallet-keepkey");
       const { keplrWallet } = await import("@swapkit/wallet-keplr");
@@ -28,6 +28,7 @@ export const useSwapKit = () => {
       const { okxWallet } = await import("@swapkit/wallet-okx");
       const { trezorWallet } = await import("@swapkit/wallet-trezor");
       const { walletconnectWallet } = await import("@swapkit/wallet-wc");
+      const { xdefiWallet } = await import("@swapkit/wallet-xdefi");
 
       const swapKitClient = SwapKit({
         config: {
