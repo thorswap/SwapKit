@@ -107,10 +107,9 @@ export class AssetValue extends BigIntArithmetics {
       });
     }
 
-    const assetString =
-      chain === Chain.THORChain && symbol ? `${chain}.${ticker}/${symbol}` : urlAsset;
+    const asset = chain === Chain.THORChain && symbol ? `${chain}.${ticker}/${symbol}` : urlAsset;
 
-    return createAssetValue(assetString, value);
+    return AssetValue.from({ asset, value });
   }
 
   static from<T extends { asyncTokenLookup?: boolean }>({
@@ -152,7 +151,7 @@ export class AssetValue extends BigIntArithmetics {
       ? safeValue(BigInt(parsedValue), fromBaseWithDecimal)
       : safeValue(parsedValue, safeAssetDecimal);
 
-    // asynch token lookup
+    // async token lookup
     if (asyncTokenLookup) {
       return createAssetValue(
         safeIdentifier,
