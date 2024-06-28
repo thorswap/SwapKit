@@ -132,7 +132,7 @@ export class AssetValue extends BigIntArithmetics {
 
     const { identifier: assetIdentifier, decimal } = fromCommonAsset
       ? getCommonAssetInfo(fromCommonAsset)
-      : { identifier: (assetOrChain as { asset: string }).asset, decimal: fromBaseWithDecimal };
+      : { identifier: (assetOrChain as { asset: string }).asset, decimal: undefined };
 
     const { chain, isSynthetic } = getAssetInfo(assetIdentifier);
 
@@ -144,7 +144,7 @@ export class AssetValue extends BigIntArithmetics {
       decimal: assetDecimal,
       identifier,
     } = tokenInfo || {
-      decimal: BaseDecimal[chain],
+      decimal: decimal || BaseDecimal[chain],
       identifier: assetIdentifier,
     };
 
