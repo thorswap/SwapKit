@@ -150,7 +150,7 @@ export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
     value: {
       ...msg.value,
       coins: (msg as MsgDeposit).value.coins.map((coin: { asset: string; amount: string }) => {
-        const assetValue = AssetValue.fromStringSync(coin.asset);
+        const assetValue = AssetValue.from({ asset: coin.asset });
 
         const symbol = assetValue.isSynthetic
           ? assetValue.symbol.split("/")?.[1]?.toLowerCase()

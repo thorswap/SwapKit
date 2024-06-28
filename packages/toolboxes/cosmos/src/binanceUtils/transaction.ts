@@ -1,6 +1,6 @@
+import * as secp256k1 from "@bitcoinerlab/secp256k1";
 import { SHA256, enc } from "crypto-js";
 import { type curve, ec } from "elliptic";
-import * as secp256k1 from "tiny-secp256k1";
 import { convertObjectToSignBytes, encodeBinaryByteArray, marshalBinary } from "./amino/encoder.ts";
 import { UVarInt } from "./amino/varint.ts";
 import type { BaseMsg, StdSignMsg, StdSignature, StdTx } from "./types.ts";

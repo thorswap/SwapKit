@@ -1,6 +1,7 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
+    "@bitcoinerlab/secp256k1": "1.1.1",
     "@cosmjs/amino": "0.32.3",
     "@cosmjs/crypto": "0.32.3",
     "@cosmjs/encoding": "0.32.3",
@@ -16,20 +17,15 @@
     "crypto-js": "4.2.0",
     "elliptic": "6.5.5",
     "protobufjs": "7.3.2",
-    "protocol-buffers-encodings": "1.2.0",
-    "tiny-secp256k1": "2.2.3"
+    "protocol-buffers-encodings": "1.2.0"
   },
   "description": "SwapKit - Toolbox cosmos",
   "devDependencies": {
     "@types/bn.js": "5.1.5",
     "@types/crypto-js": "4.2.2",
-    "@types/elliptic": "6.4.18",
-    "@types/tiny-secp256k1": "2.0.1"
+    "@types/elliptic": "6.4.18"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",

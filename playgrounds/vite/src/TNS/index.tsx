@@ -12,16 +12,13 @@ export default function TNS({ skClient }: { skClient: any }) {
 
     try {
       const txHash = await skClient.registerThorname({
-        assetValue: AssetValue.fromChainOrSignature(Chain.THORChain, 1),
+        assetValue: AssetValue.from({ chain: Chain.THORChain, value: 1 }),
         address,
         name,
         chain: selectedChain,
       });
 
-      window.open(
-        `${skClient.getExplorerTxUrl(Chain.THORChain, txHash as string)}`,
-        "_blank"
-      );
+      window.open(`${skClient.getExplorerTxUrl(Chain.THORChain, txHash as string)}`, "_blank");
     } catch (e) {
       console.error(e);
       alert(e);
@@ -41,9 +38,7 @@ export default function TNS({ skClient }: { skClient: any }) {
         >
           <div style={{ display: "flex", flex: 1, flexDirection: "row" }}>
             <div>
-              <select
-                onChange={(e) => setSelectedChain(e.target.value as Chain)}
-              >
+              <select onChange={(e) => setSelectedChain(e.target.value as Chain)}>
                 {Object.values(Chain).map((chain) => (
                   <option key={chain} value={chain}>
                     {chain}

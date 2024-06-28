@@ -36,7 +36,11 @@ export const doSend = async ({
     console.info(`Balance: ${balance}`);
     console.info(`💰 Wallet - ${from} | Balance: ${balance}}`);
 
-    const assetValue = await AssetValue.fromString("THOR.RUNE", sendAmount);
+    const assetValue = await AssetValue.from({
+      asset: "THOR.RUNE",
+      value: sendAmount,
+      asyncTokenLookup: true,
+    });
     console.info(`💰 Sending ${sendAmount} RUNE to ${toAddress}`);
     console.info(`💰 Asset value: ${assetValue.toString()}`);
     try {

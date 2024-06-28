@@ -43,8 +43,8 @@ const requestSwapDepositAddress =
     ccmMetadata,
     maxBoostFeeBps,
   }: RequestSwapDepositAddressParams) => {
-    const sellAssetValue = sellAsset || (route && AssetValue.fromStringSync(route.sellAsset));
-    const buyAssetValue = buyAsset || (route && AssetValue.fromStringSync(route.buyAsset));
+    const sellAssetValue = sellAsset || (route && AssetValue.from({ asset: route.sellAsset }));
+    const buyAssetValue = buyAsset || (route && AssetValue.from({ asset: route.buyAsset }));
     const recipient = _recipient || route?.destinationAddress;
 
     if (!(sellAssetValue && buyAssetValue && recipient)) {

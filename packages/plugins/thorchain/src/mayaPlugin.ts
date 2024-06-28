@@ -134,7 +134,11 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
 
     const { memo, expiration, targetAddress } = route;
 
-    const assetValue = await AssetValue.fromString(route.sellAsset, route.sellAmount);
+    const assetValue = await AssetValue.from({
+      asset: route.sellAsset,
+      value: route.sellAmount,
+      asyncTokenLookup: true,
+    });
     const evmChain = assetValue.chain;
 
     if (!assetValue) {

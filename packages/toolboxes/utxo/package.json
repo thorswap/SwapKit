@@ -10,16 +10,10 @@
     "cashaddrjs": "0.4.4",
     "coininfo": "5.2.1",
     "ecpair": "2.1.0",
-    "tiny-secp256k1": "2.2.3"
+    "@bitcoinerlab/secp256k1": "1.1.1"
   },
   "description": "SwapKit - Toolbox utxo",
-  "devDependencies": {
-    "@types/tiny-secp256k1": "2.0.1"
-  },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
