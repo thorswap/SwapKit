@@ -117,58 +117,57 @@ export class AssetValue extends BigIntArithmetics {
     value = 0,
     fromBaseWithDecimal,
     asyncTokenLookup,
-    ...assetOrChain
+    ...fromAssetOrChain
   }: T & AssetValueFromParams): ConditionalAssetValueReturn<T> {
     const parsedValue = value instanceof BigIntArithmetics ? value.getValue("string") : value;
 
-    // fromChainOrSignature
-    const isFromChain = "chain" in assetOrChain;
-    const fromChain = isFromChain ? assetOrChain.chain : false;
-    const fromCommonAsset =
-      !isFromChain &&
-      CommonAssetStrings.includes(assetOrChain.asset as (typeof CommonAssetStrings)[number])
-        ? (assetOrChain.asset as CommonAssetString)
-        : fromChain;
+    const isFromChain = "chain" in fromAssetOrChain;
 
-    const { identifier: assetIdentifier, decimal } = fromCommonAsset
-      ? getCommonAssetInfo(fromCommonAsset)
-      : { identifier: (assetOrChain as { asset: string }).asset, decimal: undefined };
+    const assetOrChain = isFromChain ? fromAssetOrChain.chain : fromAssetOrChain.asset;
 
-    const { chain, isSynthetic } = getAssetInfo(assetIdentifier);
+    const isFromCommonAssetOrChain =
+      isFromChain ||
+      CommonAssetStrings.includes(assetOrChain as (typeof CommonAssetStrings)[number]);
 
-    const tokenInfo = staticTokensMap.get(assetIdentifier.toUpperCase() as TokenNames);
+    const { identifier, decimal } = isFromCommonAssetOrChain
+      ? getCommonAssetInfo(assetOrChain as CommonAssetString)
+      : { identifier: assetOrChain, decimal: undefined };
+
+    const { chain, isSynthetic } = getAssetInfo(identifier);
+
+    const tokenInfo = staticTokensMap.get(identifier.toUpperCase() as TokenNames);
 
     // decimals and identifier from static with chain fallback
     const {
       tax,
-      decimal: assetDecimal,
-      identifier,
+      decimal: safeAssetDecimal,
+      identifier: safeIdentifier,
     } = tokenInfo || {
       decimal: decimal || BaseDecimal[chain],
-      identifier: assetIdentifier,
+      identifier,
     };
 
     const adjustedValue = fromBaseWithDecimal
       ? safeValue(BigInt(parsedValue), fromBaseWithDecimal)
-      : safeValue(parsedValue, assetDecimal);
+      : safeValue(parsedValue, safeAssetDecimal);
 
     // asynch token lookup
     if (asyncTokenLookup) {
       return createAssetValue(
-        assetIdentifier,
+        safeIdentifier,
         fromBaseWithDecimal ? adjustedValue : parsedValue,
       ) as ConditionalAssetValueReturn<T>;
     }
 
     if (isSynthetic)
       return createSyntheticAssetValue(
-        assetIdentifier,
+        safeIdentifier,
         parsedValue,
       ) as ConditionalAssetValueReturn<T>;
 
     return new AssetValue({
       tax,
-      decimal: assetDecimal,
+      decimal: safeAssetDecimal,
       identifier,
       value: adjustedValue,
     }) as ConditionalAssetValueReturn<T>;
