@@ -50,29 +50,8 @@ export function SwapKit<
 }) {
   type PluginName = keyof Plugins;
 
-  /**
-   * @REMOVE (V1)
-   * Compatibility layer for plugins and wallets for easier migration and backwards compatibility
-   */
-  const compatPlugins: Plugins = Array.isArray(plugins)
-    ? plugins.reduce((acc, pluginInterface) => {
-        // @ts-ignore Ignore until we remove the compatibility layer
-        const { name, plugin } = Object.values(pluginInterface)?.[0] || {};
-        acc[name] = plugin;
-        return acc;
-      }, {})
-    : plugins;
-  const compatWallets: Wallets = Array.isArray(wallets)
-    ? wallets.reduce((acc, wallet) => {
-        // @ts-ignore Ignore until we remove the compatibility layer
-        const [walletName, connectWallet] = Object.entries(wallet)?.[0] || {};
-        acc[walletName] = connectWallet;
-        return acc;
-      }, {})
-    : wallets;
-
   const connectedWallets = {} as Wallet;
-  const availablePlugins = Object.entries(compatPlugins).reduce(
+  const availablePlugins = Object.entries(plugins).reduce(
     (acc, [pluginName, { plugin, config: pluginConfig }]) => {
       const methods = plugin({
         wallets: connectedWallets,
@@ -87,7 +66,7 @@ export function SwapKit<
     {} as { [key in PluginName]: ReturnType<Plugins[key]["plugin"]> },
   );
 
-  const connectWalletMethods = Object.entries(compatWallets).reduce(
+  const connectWalletMethods = Object.entries(wallets).reduce(
     (acc, [walletName, wallet]) => {
       const connectWallet = wallet({ addChain, config, apis, rpcUrls });
 
@@ -98,9 +77,6 @@ export function SwapKit<
     {} as { [key in keyof Wallets]: ReturnType<Wallets[key]> },
   );
 
-  /**
-   * @Private
-   */
   function getSwapKitPlugin<T extends PluginName>(pluginName: T) {
     const plugin = availablePlugins[pluginName] || Object.values(availablePlugins)[0];
 
@@ -154,25 +130,25 @@ export function SwapKit<
       });
     }
 
-    const { address, chain, isGasAsset, isSynthetic } = assetValue;
-    const isEVMChain = EVMChains.includes(chain as EVMChain);
-    const isNativeEVM = isEVMChain && isGasAsset;
+    const chain = assetValue.chain as EVMChain;
+    const isEVMChain = EVMChains.includes(chain);
+    const isNativeEVM = isEVMChain && assetValue.isGasAsset;
 
-    if (isNativeEVM || !isEVMChain || isSynthetic) {
+    if (isNativeEVM || !isEVMChain || assetValue.isSynthetic) {
       return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
     }
 
-    const wallet = getWallet(chain as EVMChain);
+    const wallet = getWallet(chain);
     const walletAction = type === "checkOnly" ? wallet.isApproved : wallet.approve;
     if (!walletAction) throw new SwapKitError("core_wallet_connection_not_found");
 
-    if (!(address && wallet.address && typeof spenderAddress === "string")) {
+    if (!(assetValue.address && wallet.address && typeof spenderAddress === "string")) {
       throw new SwapKitError("core_approve_asset_address_or_from_not_found");
     }
 
     return walletAction({
       amount: assetValue.getBaseValue("bigint"),
-      assetAddress: address,
+      assetAddress: assetValue.address,
       from: wallet.address,
       spenderAddress,
     }) as ApproveReturnType<T>;
@@ -329,7 +305,7 @@ export function SwapKit<
       case Chain.Ethereum:
       case Chain.BinanceSmartChain:
       case Chain.Polygon: {
-        const wallet = getWallet(chain as Exclude<EVMChain, Chain.Optimism>);
+        const wallet = getWallet(chain);
         if (type === "transfer") {
           const txObject = await wallet.createTransferTx(params);
           return wallet.estimateTransactionFee(txObject, feeOptionKey);

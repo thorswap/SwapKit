@@ -280,7 +280,7 @@ describe("AssetValue", () => {
       const fakeAvaxAsset = await AssetValue.from({
         asset: fakeAvaxAssetString,
         value: 1,
-        fromBaseWithDecimal: 8,
+        fromBaseDecimal: 8,
         asyncTokenLookup: true,
       });
 
@@ -445,7 +445,7 @@ describe("AssetValue", () => {
       const btc = AssetValue.from({
         asset: "BTC.BTC",
         value: 5200000000000,
-        fromBaseWithDecimal: 8,
+        fromBaseDecimal: 8,
       });
 
       expect(btc).toBeDefined();
@@ -470,7 +470,7 @@ describe("AssetValue", () => {
       const fakeAvaxUSDCAsset = AssetValue.from({
         asset: fakeAvaxUSDCAssetString,
         value: 1,
-        fromBaseWithDecimal: 8,
+        fromBaseDecimal: 8,
       });
 
       expect(fakeAvaxUSDCAsset).toBeDefined();
@@ -496,7 +496,7 @@ describe("AssetValue", () => {
       const AvaxUSDC = AssetValue.from({
         asset: avaxUSDC,
         value: 100000000,
-        fromBaseWithDecimal: 8,
+        fromBaseDecimal: 8,
       });
 
       expect(AvaxUSDC).toBeDefined();

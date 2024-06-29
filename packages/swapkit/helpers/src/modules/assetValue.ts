@@ -31,7 +31,8 @@ type AssetIdentifier =
 
 type AssetValueFromParams = AssetIdentifier & {
   value?: NumberPrimitives | SwapKitValueType;
-  fromBaseWithDecimal?: number;
+  fromBaseDecimal?: number;
+  asyncTokenLookup?: boolean;
 };
 
 export class AssetValue extends BigIntArithmetics {
@@ -104,9 +105,9 @@ export class AssetValue extends BigIntArithmetics {
     return AssetValue.from({ asset, value });
   }
 
-  static from<T extends { asyncTokenLookup?: boolean }>({
+  static from<T extends {}>({
     value = 0,
-    fromBaseWithDecimal,
+    fromBaseDecimal,
     asyncTokenLookup,
     ...fromAssetOrChain
   }: T & AssetValueFromParams): ConditionalAssetValueReturn<T> {
@@ -133,12 +134,12 @@ export class AssetValue extends BigIntArithmetics {
       identifier: unsafeIdentifier,
     };
 
-    const adjustedValue = fromBaseWithDecimal
-      ? safeValue(BigInt(parsedValue), fromBaseWithDecimal)
+    const adjustedValue = fromBaseDecimal
+      ? safeValue(BigInt(parsedValue), fromBaseDecimal)
       : safeValue(parsedValue, decimal);
 
     const assetValue = asyncTokenLookup
-      ? createAssetValue(identifier, fromBaseWithDecimal ? adjustedValue : parsedValue)
+      ? createAssetValue(identifier, fromBaseDecimal ? adjustedValue : parsedValue)
       : isSynthetic
         ? createSyntheticAssetValue(identifier, parsedValue)
         : new AssetValue({ tax, decimal, identifier, value: adjustedValue });
@@ -181,7 +182,6 @@ export class AssetValue extends BigIntArithmetics {
   static fromString(asset: string, value: NumberPrimitives = 0) {
     return AssetValue.from({ asset, value, asyncTokenLookup: true });
   }
-
   /**
    * @deprecated use AssetValue.from({ asset, value, asyncTokenLookup: true })
    */
@@ -191,55 +191,38 @@ export class AssetValue extends BigIntArithmetics {
   ) {
     return AssetValue.from({ asset: asset as TokenNames, value, asyncTokenLookup: true });
   }
-
   /**
    * @deprecated use AssetValue.from({ asset, value })
    */
   static fromStringSync(asset: string, value: NumberPrimitives = 0) {
-    return AssetValue.from({
-      asset,
-      value,
-    });
+    return AssetValue.from({ asset, value });
   }
-
   /**
-   * @deprecated use AssetValue.from({ asset, value, fromBaseWithDecimal, asyncTokenLookup: true })
+   * @deprecated use AssetValue.from({ asset, value, fromBaseDecimal, asyncTokenLookup: true })
    */
   static fromStringWithBase(
     asset: string,
-    value: NumberPrimitives = 0,
-    baseDecimal: number = BaseDecimal.THOR,
+    value: string | bigint = 0n,
+    fromBaseDecimal: number = BaseDecimal.THOR,
   ) {
-    return AssetValue.from({
-      asset,
-      value,
-      fromBaseWithDecimal: baseDecimal,
-      asyncTokenLookup: true,
-    });
+    return AssetValue.from({ asyncTokenLookup: true, asset, value, fromBaseDecimal });
   }
-
   /**
-   * @deprecated use AssetValue.from({ asset, value, fromBaseWithDecimal, asyncTokenLookup: true })
+   * @deprecated use AssetValue.from({ asset, value, fromBaseDecimal, asyncTokenLookup: true })
    */
   static fromStringWithBaseSync(
     asset: string,
-    value: NumberPrimitives = 0,
-    baseDecimal: number = BaseDecimal.THOR,
+    value: string | bigint = 0n,
+    fromBaseDecimal: number = BaseDecimal.THOR,
   ) {
-    return AssetValue.from({
-      asset,
-      value,
-      fromBaseWithDecimal: baseDecimal,
-    });
+    return AssetValue.from({ asset, value, fromBaseDecimal });
   }
-
   /**
    * @deprecated use AssetValue.from({ asset, value })
    */
   static fromIdentifierSync(asset: TokenNames, value: NumberPrimitives = 0) {
     return AssetValue.from({ asset, value });
   }
-
   /**
    * @deprecated use AssetValue.from({ asset, value }) or AssetValue.from({ chain, value })
    */
@@ -359,9 +342,9 @@ function getAssetInfo(identifier: string) {
     chain,
     isGasAsset: isGasAsset({ chain, symbol }),
     isSynthetic,
+    ticker,
     symbol:
       (isSynthetic ? `${synthChain}/` : "") +
       (address ? `${ticker}-${address?.toLowerCase() ?? ""}` : symbol),
-    ticker,
   };
 }
