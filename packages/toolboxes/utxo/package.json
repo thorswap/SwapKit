@@ -13,7 +13,10 @@
     "@bitcoinerlab/secp256k1": "1.1.1"
   },
   "description": "SwapKit - Toolbox utxo",
-  "files": ["src/", "dist/"],
+  "files": [
+    "src/",
+    "dist/"
+  ],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
@@ -33,5 +36,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.129"
+  "version": "1.0.0-rc.130"
 }

@@ -1,5 +1,27 @@
 # @swapkit/sdk
 
+## 1.0.0-rc.204
+
+### Major Changes
+
+- [#881](https://github.com/thorswap/SwapKit/pull/881) [`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Remove BNB chain
+
+### Patch Changes
+
+- Updated dependencies [[`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.54
+  - @swapkit/plugin-chainflip@1.0.0-rc.76
+  - @swapkit/plugin-thorchain@1.0.0-rc.76
+  - @swapkit/toolbox-cosmos@1.0.0-rc.146
+  - @swapkit/toolbox-solana@1.0.0-rc.7
+  - @swapkit/wallets@1.0.0-rc.7
+  - @swapkit/toolbox-radix@1.0.0-rc.11
+  - @swapkit/tokens@1.0.0-rc.61
+  - @swapkit/toolbox-utxo@1.0.0-rc.130
+  - @swapkit/toolbox-evm@1.0.0-rc.126
+  - @swapkit/core@1.0.0-rc.174
+  - @swapkit/plugin-evm@1.0.0-rc.19
+
 ## 1.0.0-rc.203
 
 ### Patch Changes

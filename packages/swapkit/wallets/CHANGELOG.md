@@ -1,5 +1,27 @@
 # @swapkit/wallets
 
+## 1.0.0-rc.7
+
+### Major Changes
+
+- [#881](https://github.com/thorswap/SwapKit/pull/881) [`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Remove BNB chain
+
+### Patch Changes
+
+- Updated dependencies [[`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371)]:
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.130
+  - @swapkit/wallet-coinbase@1.0.0-rc.34
+  - @swapkit/wallet-keystore@1.0.0-rc.163
+  - @swapkit/wallet-talisman@1.0.0-rc.8
+  - @swapkit/wallet-keepkey@1.0.0-rc.86
+  - @swapkit/wallet-phantom@1.0.0-rc.7
+  - @swapkit/wallet-ledger@1.0.0-rc.171
+  - @swapkit/wallet-trezor@1.0.0-rc.140
+  - @swapkit/wallet-keplr@1.0.0-rc.150
+  - @swapkit/wallet-xdefi@1.0.0-rc.167
+  - @swapkit/wallet-okx@1.0.0-rc.164
+  - @swapkit/wallet-wc@1.0.0-rc.154
+
 ## 1.0.0-rc.6
 
 ### Patch Changes

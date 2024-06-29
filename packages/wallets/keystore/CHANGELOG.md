@@ -1,5 +1,22 @@
 # @swapkit/wallet-keystore
 
+## 1.0.0-rc.163
+
+### Major Changes
+
+- [#881](https://github.com/thorswap/SwapKit/pull/881) [`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Remove BNB chain
+
+### Patch Changes
+
+- Updated dependencies [[`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.54
+  - @swapkit/toolbox-cosmos@1.0.0-rc.146
+  - @swapkit/toolbox-solana@1.0.0-rc.7
+  - @swapkit/helpers@1.0.0-rc.119
+  - @swapkit/toolbox-radix@1.0.0-rc.11
+  - @swapkit/toolbox-utxo@1.0.0-rc.130
+  - @swapkit/toolbox-evm@1.0.0-rc.126
+
 ## 1.0.0-rc.162
 
 ### Patch Changes
