@@ -31,14 +31,12 @@ export const estimateMaxSendableAmount = async ({
   txOverrides,
 }: EVMMaxSendableAmountsParams): Promise<AssetValue> => {
   const balance = (await toolbox.getBalance(from)).find(({ symbol, chain }) =>
-    assetValue
-      ? symbol === assetValue.symbol
-      : symbol === AssetValue.fromChainOrSignature(chain)?.symbol,
+    assetValue ? symbol === assetValue.symbol : symbol === AssetValue.from({ chain })?.symbol,
   );
 
   const gasRate = (await toolbox.estimateGasPrices())[feeOptionKey];
 
-  if (!balance) return AssetValue.fromChainOrSignature(assetValue.chain, 0);
+  if (!balance) return AssetValue.from({ chain: assetValue.chain });
 
   if (assetValue && (balance.chain !== assetValue.chain || balance.symbol !== assetValue?.symbol)) {
     return balance;
@@ -76,7 +74,7 @@ export const estimateMaxSendableAmount = async ({
     fee.toString(),
   );
 
-  return AssetValue.fromChainOrSignature(balance.chain, maxSendableAmount.getValue("string"));
+  return AssetValue.from({ chain: balance.chain, value: maxSendableAmount.getValue("string") });
 };
 
 export const toHexString = (value: bigint) => (value > 0n ? `0x${value.toString(16)}` : "0x0");
@@ -99,7 +97,7 @@ export const getBalance = async ({
   const balances = [
     {
       chain,
-      symbol: AssetValue.fromChainOrSignature(chain).symbol,
+      symbol: AssetValue.from({ chain }).symbol,
       value: formatBigIntToSafeValue({
         value: BigInt(evmGasTokenBalance),
         decimal: 18,
@@ -132,7 +130,7 @@ export const estimateTransactionFee = async (
 ) => {
   const gasPrices = (await estimateGasPrices(provider, isEIP1559Compatible))[feeOption];
   const gasLimit = await provider.estimateGas(txObject);
-  const assetValue = AssetValue.fromChainOrSignature(chain);
+  const assetValue = AssetValue.from({ chain });
 
   if (!isEIP1559Compatible && gasPrices.gasPrice) {
     return assetValue.set(

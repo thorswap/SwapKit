@@ -1,3 +1,4 @@
+"use client";
 import type { AssetValue } from "@swapkit/sdk";
 import { useCallback, useState } from "react";
 import type { SwapKitClient } from "swapKitClient";
@@ -29,7 +30,7 @@ export default function Liquidity({
 
       setNativeInput(amount.gt(nativeAsset) ? nativeAsset : amount);
     },
-    [nativeAsset],
+    [nativeAsset]
   );
 
   const setOtherAmount = useCallback(
@@ -41,7 +42,7 @@ export default function Liquidity({
 
       setOtherInput(amount.gt(otherAsset) ? otherAsset : amount);
     },
-    [otherAsset],
+    [otherAsset]
   );
 
   const handleAddLiquidity = useCallback(async () => {
@@ -124,17 +125,27 @@ export default function Liquidity({
           {mode === "addliquidity" && (
             <>
               <div>
-                {pluginMode === "thorplugin" ? <span>Rune Asset:</span> : <span>Cacao Asset:</span>}
+                {pluginMode === "thorplugin" ? (
+                  <span>Rune Asset:</span>
+                ) : (
+                  <span>Cacao Asset:</span>
+                )}
                 {nativeAsset?.toSignificant(6)} {nativeAsset?.ticker}
                 {pluginMode === "thorplugin" ? (
                   <div>
                     <span>Rune Amount:</span>
-                    <input placeholder="0.0" onChange={(e) => setRuneAmount(e.target.value)} />
+                    <input
+                      placeholder="0.0"
+                      onChange={(e) => setRuneAmount(e.target.value)}
+                    />
                   </div>
                 ) : (
                   <div>
                     <span>Cacao Amount:</span>
-                    <input placeholder="0.0" onChange={(e) => setRuneAmount(e.target.value)} />
+                    <input
+                      placeholder="0.0"
+                      onChange={(e) => setRuneAmount(e.target.value)}
+                    />
                   </div>
                 )}
               </div>
@@ -143,7 +154,10 @@ export default function Liquidity({
                 {otherAsset?.toSignificant(6)} {otherAsset?.ticker}
                 <div>
                   <span>Other Amount:</span>
-                  <input placeholder="0.0" onChange={(e) => setOtherAmount(e.target.value)} />
+                  <input
+                    placeholder="0.0"
+                    onChange={(e) => setOtherAmount(e.target.value)}
+                  />
                 </div>
               </div>
             </>
@@ -159,7 +173,9 @@ export default function Liquidity({
                   <input
                     type="number"
                     placeholder="0"
-                    onChange={(e) => setWithdrawPercent(Number.parseInt(e.target.value))}
+                    onChange={(e) =>
+                      setWithdrawPercent(Number.parseInt(e.target.value))
+                    }
                   />
                 </div>
               </div>

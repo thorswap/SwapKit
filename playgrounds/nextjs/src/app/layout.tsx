@@ -17,7 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    // @ts-expect-error
+    <html lang="en" className="dark" style={{ "color-scheme": "dark" }}>
       <body className={inter.className}>
         <AppProviders>
           <div className="max-w-[800px] mx-auto">

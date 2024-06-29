@@ -1,3 +1,4 @@
+import * as secp256k1 from "@bitcoinerlab/secp256k1";
 import { HDKey } from "@scure/bip32";
 import { mnemonicToSeedSync } from "@scure/bip39";
 import {
@@ -10,7 +11,6 @@ import {
 } from "@swapkit/helpers";
 import { Psbt, address as btcLibAddress, initEccLib, payments } from "bitcoinjs-lib";
 import { ECPairFactory, type ECPairInterface } from "ecpair";
-import * as secp256k1 from "tiny-secp256k1";
 
 import type { BlockchairApiType } from "../api/blockchairApi.ts";
 import type {
@@ -120,7 +120,7 @@ const getBalance = async ({
   const baseBalance = (await apiClient.getBalance(address)) || 0;
 
   const balance = baseBalance / 10 ** BaseDecimal[chain];
-  const asset = await AssetValue.fromIdentifier(`${chain}.${chain}`, balance);
+  const asset = await AssetValue.from({ asset: `${chain}.${chain}`, value: balance });
 
   return [asset];
 };
@@ -286,12 +286,12 @@ export const estimateMaxSendableAmount = async ({
       (utxo) => utxo.value > Math.max(getDustThreshold(chain), getInputSize(utxo) * feeRateWhole),
     );
 
-  if (!inputs?.length) return AssetValue.fromChainOrSignature(chain, 0);
+  if (!inputs?.length) return AssetValue.from({ chain });
 
-  const balance = AssetValue.fromChainOrSignature(
+  const balance = AssetValue.from({
     chain,
-    inputs.reduce((sum, utxo) => sum + utxo.value, 0),
-  );
+    value: inputs.reduce((sum, utxo) => sum + utxo.value, 0),
+  });
 
   const outputs =
     typeof recipients === "number"
@@ -349,13 +349,13 @@ export const BaseUTXOToolbox = (
     feeRate?: number;
     fetchTxHex?: boolean;
   }) => {
-    return AssetValue.fromChainOrSignature(
-      baseToolboxParams.chain,
-      new SwapKitNumber({
+    return AssetValue.from({
+      chain: baseToolboxParams.chain,
+      value: new SwapKitNumber({
         value: (await getInputsOutputsFee({ ...params, ...baseToolboxParams })).fee,
         decimal: 8,
       }).getValue("string"),
-    );
+    });
   },
 
   estimateMaxSendableAmount: async (params: Todo) =>

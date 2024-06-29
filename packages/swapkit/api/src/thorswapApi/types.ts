@@ -334,9 +334,6 @@ export enum TransactionType {
   // ATOM
   SWAP_TC_TO_GAIA = "SWAP:TC-GAIA",
   SWAP_GAIA_TO_TC = "SWAP:GAIA-TC",
-  // BNB
-  SWAP_TC_TO_BNB = "SWAP:TC-BNB",
-  SWAP_BNB_TO_TC = "SWAP:BNB-TC",
   // BTC
   SWAP_TC_TO_BTC = "SWAP:TC-BTC",
   SWAP_BTC_TO_TC = "SWAP:BTC-TC",

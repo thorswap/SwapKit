@@ -1,24 +1,15 @@
-import { AssetValue, Chain, SwapKitCore } from "@swapkit/core";
+import { AssetValue, Chain, SwapKit } from "@swapkit/core";
+import { ThorchainPlugin } from "@swapkit/plugin-thorchain";
 import { keystoreWallet } from "@swapkit/wallet-keystore";
-let skClient: SwapKitCore | undefined;
-const phrase = process.env.PRHASES;
+const phrase = process.env.PHRASES;
 
 if (!phrase) throw new Error("No phrase found");
 
-const getSwapKitClient = async () => {
-  try {
-    if (skClient) return skClient;
-    const client = new SwapKitCore();
-    client.extend({ wallets: [keystoreWallet] });
-
-    await client.connectKeystore([Chain.THORChain], phrase);
-    skClient = client;
-    return client;
-  } catch (error) {
-    console.error(error);
-    throw new Error("Error getting SwapKit client");
-  }
-};
+const getSwapKitClient = () =>
+  SwapKit({
+    wallets: { ...keystoreWallet },
+    plugins: { ...ThorchainPlugin },
+  });
 /**
  * send an asset from your wallet to another address
  */
@@ -30,34 +21,26 @@ export const doSend = async ({
   toAddress: string;
 }) => {
   try {
-    const client = await getSwapKitClient();
-    const from = client.getAddress(Chain.THORChain);
-    const balance = await client.getBalance(Chain.THORChain);
+    const skClient = getSwapKitClient();
+    const from = skClient.getAddress(Chain.THORChain);
+    const balance = await skClient.getBalance(Chain.THORChain);
     console.info(`Balance: ${balance}`);
     console.info(`💰 Wallet - ${from} | Balance: ${balance}}`);
 
-    const assetValue = await AssetValue.fromString("THOR.RUNE", sendAmount);
+    const assetValue = await AssetValue.from({
+      asset: "THOR.RUNE",
+      value: sendAmount,
+      asyncTokenLookup: true,
+    });
     console.info(`💰 Sending ${sendAmount} RUNE to ${toAddress}`);
     console.info(`💰 Asset value: ${assetValue.toString()}`);
-    try {
-      const connectedWallets = client.connectedWallets;
-      return connectedWallets.THOR?.transfer({
-        from,
-        assetValue,
-        recipient: toAddress,
-        memo: "",
-      })
-        .then((txHash) => {
-          console.info(txHash);
-          return txHash;
-        })
-        .catch((err) => {
-          console.info(err);
-          return "";
-        });
-    } catch (error) {
-      console.error(error);
-    }
+    const tx = await skClient.transfer({
+      from,
+      assetValue,
+      recipient: toAddress,
+      memo: "",
+    });
+    return tx;
   } catch (error) {
     console.error(error);
     return "";

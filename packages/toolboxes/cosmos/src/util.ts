@@ -70,8 +70,6 @@ export const getRPC = (chainId: ChainId, stagenet?: boolean) => {
   switch (chainId) {
     case ChainId.Cosmos:
       return RPCUrl.Cosmos;
-    case ChainId.Binance:
-      return RPCUrl.Binance;
     case ChainId.Kujira:
       return RPCUrl.Kujira;
 
@@ -91,21 +89,17 @@ export const estimateMaxSendableAmount = async ({
   asset,
   feeOptionKey = FeeOption.Fast,
 }: CosmosMaxSendableAmountParams): Promise<AssetValue> => {
-  const assetEntity = typeof asset === "string" ? await AssetValue.fromString(asset) : asset;
+  const assetEntity =
+    typeof asset === "string" ? await AssetValue.from({ asyncTokenLookup: true, asset }) : asset;
   const balances = await toolbox.getBalance(from);
   const balance = balances.find(({ symbol, chain }) =>
-    asset
-      ? symbol === assetEntity?.symbol
-      : symbol === AssetValue.fromChainOrSignature(chain).symbol,
+    asset ? symbol === assetEntity?.symbol : symbol === AssetValue.from({ chain }).symbol,
   );
 
   const fees = await toolbox.getFees();
 
   if (!balance) {
-    return AssetValue.fromChainOrSignature(
-      assetEntity?.chain || balances[0]?.chain || Chain.Cosmos,
-      0,
-    );
+    return AssetValue.from({ chain: assetEntity?.chain || balances[0]?.chain || Chain.Cosmos });
   }
 
   return balance.sub(fees[feeOptionKey]);

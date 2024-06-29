@@ -1,11 +1,13 @@
 {
   "dependencies": {
-    "@cosmjs/amino": "0.32.3",
-    "@cosmjs/proto-signing": "0.32.3",
+    "@cosmjs/amino": "0.32.4",
+    "@cosmjs/proto-signing": "0.32.4",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@walletconnect/modal-sign-html": "2.6.2",
+    "pino": "9.2.0",
+    "pino-pretty": "11.2.1",
     "cosmjs-types": "0.9.0"
   },
   "description": "SwapKit Wallet - WalletConnect",
@@ -13,10 +15,7 @@
     "@walletconnect/logger": "2.1.2",
     "@walletconnect/types": "2.13.3"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",

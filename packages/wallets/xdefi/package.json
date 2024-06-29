@@ -1,7 +1,7 @@
 {
   "description": "SwapKit Wallet - XDEFI",
   "dependencies": {
-    "@keplr-wallet/types": "0.12.105",
+    "@keplr-wallet/types": "0.12.107",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",

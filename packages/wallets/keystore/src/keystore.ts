@@ -10,12 +10,7 @@ import {
   type Witness,
   setRequestClientConfig,
 } from "@swapkit/helpers";
-import type {
-  BinanceToolboxType,
-  DepositParam,
-  ThorchainToolboxType,
-  TransferParams,
-} from "@swapkit/toolbox-cosmos";
+import type { DepositParam, ThorchainToolboxType, TransferParams } from "@swapkit/toolbox-cosmos";
 import type {
   Psbt,
   TransactionType,
@@ -149,7 +144,6 @@ const getWalletMethodsForChain = async ({
       };
     }
 
-    case Chain.Binance:
     case Chain.Cosmos:
     case Chain.Kujira:
     case Chain.Maya:
@@ -157,13 +151,7 @@ const getWalletMethodsForChain = async ({
       const { getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
 
       const toolbox = getToolboxByChain(chain)({ server: api, stagenet });
-      const additionalParams =
-        chain === Chain.Binance
-          ? {
-              privkey: await (toolbox as BinanceToolboxType).createPrivateKeyFromPhrase(phrase),
-            }
-          : { signer: await toolbox.getSigner(phrase) };
-
+      const signer = await toolbox.getSigner(phrase);
       const address = await toolbox.getAddressFromMnemonic(phrase);
 
       const transfer = async ({ assetValue, recipient, memo }: TransferParams) =>
@@ -172,7 +160,7 @@ const getWalletMethodsForChain = async ({
           recipient,
           assetValue,
           memo,
-          ...additionalParams,
+          signer,
         });
 
       const deposit =
@@ -182,7 +170,7 @@ const getWalletMethodsForChain = async ({
                 assetValue,
                 memo,
                 from: address,
-                ...additionalParams,
+                signer,
               });
             }
           : undefined;

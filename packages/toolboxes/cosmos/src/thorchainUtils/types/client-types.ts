@@ -2,11 +2,8 @@ import type { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from "@cosmjs
 import type { OfflineDirectSigner, Registry } from "@cosmjs/proto-signing";
 import type { AminoTypes, Account as CosmosAccount } from "@cosmjs/stargate";
 import type { Asset, AssetValue, ChainId, SwapKitNumber } from "@swapkit/helpers";
-import type { curve } from "elliptic";
 
-import type { BNBTransaction } from "../../binanceUtils/transaction.ts";
 import type {
-  Account,
   buildAminoMsg,
   buildEncodedTxBody,
   buildTransaction,
@@ -121,38 +118,4 @@ export type GaiaToolboxType = BaseCosmosToolboxType & {
 
 export type KujiraToolboxType = BaseCosmosToolboxType & {
   getFees: () => Promise<Fees>;
-};
-
-export type BinanceToolboxType = Omit<BaseCosmosToolboxType, "getAccount"> & {
-  getFees: () => Promise<Fees>;
-  transfer: (params: TransferParams) => Promise<string>;
-  getAccount: (address: string) => Promise<Account>;
-  sendRawTransaction: (
-    signedBz: string,
-    sync: boolean,
-  ) => Promise<{
-    result: {
-      hash: string;
-    };
-  }>;
-  createTransactionAndSignMsg: (params: TransferParams) => Promise<{
-    transaction: BNBTransaction;
-    signMsg: {
-      inputs: {
-        address: string;
-        coins: {
-          amount: number;
-          denom: string;
-        }[];
-      }[];
-      outputs: {
-        address: string;
-        coins: {
-          amount: number;
-          denom: string;
-        }[];
-      }[];
-    };
-  }>;
-  getPublicKey: (publicKey: string) => curve.base.BasePoint;
 };

@@ -83,7 +83,7 @@ function getBalance(connection: Connection) {
     const SOLBalance = await connection.getBalance(new PublicKey(address));
     const tokenBalances = await getTokenBalances({ connection, address });
 
-    return [AssetValue.fromChainOrSignature(Chain.Solana, BigInt(SOLBalance)), ...tokenBalances];
+    return [AssetValue.from({ chain: Chain.Solana, value: BigInt(SOLBalance) }), ...tokenBalances];
   };
 }
 

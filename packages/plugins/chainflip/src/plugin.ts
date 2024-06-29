@@ -70,12 +70,12 @@ const plugin = ({
       throw new SwapKitError("core_swap_asset_not_recognized");
     }
 
-    const sellAsset = await AssetValue.fromString(sellString);
+    const sellAsset = await AssetValue.from({ asyncTokenLookup: true, asset: sellString });
     if (!wallets?.[sellAsset.chain]) {
       throw new SwapKitError("core_wallet_connection_not_found");
     }
 
-    const buyAsset = await AssetValue.fromString(buyString);
+    const buyAsset = await AssetValue.from({ asyncTokenLookup: true, asset: buyString });
     const assetValue = sellAsset.set(sellAmount);
 
     const { depositAddress } = await confirmSwap({

@@ -252,7 +252,10 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
         throw new SwapKitError("core_swap_asset_not_recognized");
       }
 
-      const asset = await AssetValue.fromString(route.calldata.fromAsset);
+      const asset = await AssetValue.from({
+        asset: route.calldata.fromAsset,
+        asyncTokenLookup: true,
+      });
       if (!asset) {
         throw new SwapKitError("core_swap_asset_not_recognized");
       }
@@ -324,7 +327,11 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
 
     const { memo, expiration, targetAddress } = route;
 
-    const assetValue = await AssetValue.fromString(route.sellAsset, route.sellAmount);
+    const assetValue = await AssetValue.from({
+      asset: route.sellAsset,
+      value: route.sellAmount,
+      asyncTokenLookup: true,
+    });
 
     if (!assetValue) {
       throw new SwapKitError("core_swap_asset_not_recognized");

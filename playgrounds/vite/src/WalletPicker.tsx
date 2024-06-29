@@ -23,13 +23,19 @@ type Props = {
 };
 
 const walletOptions = Object.values(WalletOption).filter(
-  (o) => ![WalletOption.KEPLR, WalletOption.EXODUS, WalletOption.RADIX_WALLET].includes(o),
+  (o) =>
+    ![
+      WalletOption.KEPLR,
+      WalletOption.EXODUS,
+      WalletOption.RADIX_WALLET,
+      WalletOption.TALISMAN,
+      WalletOption.PHANTOM,
+    ].includes(o),
 );
 
 const AllChainsSupported = [
   Chain.Arbitrum,
   Chain.Avalanche,
-  Chain.Binance,
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
@@ -62,7 +68,6 @@ export const availableChainsByWallet = {
   [WalletOption.KEEPKEY]: [
     Chain.Arbitrum,
     Chain.Avalanche,
-    Chain.Binance,
     Chain.BinanceSmartChain,
     Chain.Bitcoin,
     Chain.BitcoinCash,
@@ -92,7 +97,6 @@ export const availableChainsByWallet = {
 
   [WalletOption.WALLETCONNECT]: [
     Chain.Ethereum,
-    Chain.Binance,
     Chain.BinanceSmartChain,
     Chain.Avalanche,
     Chain.THORChain,
@@ -135,7 +139,6 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           const derivationPaths = chains.map((chain) => getDerivationPathFor({ chain, index: 0 }));
 
           const apiKey = await skClient.connectKeepkey?.(chains, derivationPaths);
-          // @ts-expect-error
           localStorage.setItem("keepkeyApiKey", apiKey);
           return true;
         }
@@ -160,8 +163,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.OKX:
           return skClient.connectOkx?.(chains);
 
-        case WalletOption.RADIX_WALLET:
-          return skClient.connectRadixWallet?.();
+        // case WalletOption.RADIX_WALLET:
+        //   return skClient.connectRadixWallet?.();
 
         case WalletOption.PHANTOM:
           return skClient.connectPhantom?.(chains);
@@ -308,6 +311,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         <span style={{ margin: 20 }}>EIP6963</span>
         {eip6963Wallets.map((wallet) => (
           <button
+            key={wallet.info.name}
             onClick={() => handleConnection(WalletOption.EIP6963, wallet.provider)}
             type="button"
           >

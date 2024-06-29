@@ -28,7 +28,11 @@ const plugin = ({
   async function swap({ route, feeOptionKey }: SwapParams<"evm">) {
     const { evmTransactionDetails } = route;
 
-    const assetValue = await AssetValue.fromString(route.sellAsset, route.sellAmount);
+    const assetValue = await AssetValue.from({
+      asset: route.sellAsset,
+      value: route.sellAmount,
+      asyncTokenLookup: true,
+    });
 
     const evmChain = assetValue.chain;
     const abi =

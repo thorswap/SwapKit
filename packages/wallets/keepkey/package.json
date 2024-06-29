@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@cosmjs/amino": "0.32.3",
+    "@cosmjs/amino": "0.32.4",
     "@keepkey/keepkey-sdk": "0.2.57",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
