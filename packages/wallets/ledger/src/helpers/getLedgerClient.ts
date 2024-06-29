@@ -1,4 +1,4 @@
-import { Chain, type DerivationPathArray } from "@swapkit/helpers";
+import { Chain, type DerivationPathArray, SwapKitError, WalletOption } from "@swapkit/helpers";
 
 import { CosmosLedger } from "../clients/cosmos.ts";
 import {
@@ -20,28 +20,28 @@ import {
 import type { LEDGER_SUPPORTED_CHAINS } from "./ledgerSupportedChains.ts";
 
 // @ts-ignore type references
-export const getLedgerClient = async ({
+export const getLedgerClient = async <T extends (typeof LEDGER_SUPPORTED_CHAINS)[number]>({
   chain,
   derivationPath,
 }: {
-  chain: (typeof LEDGER_SUPPORTED_CHAINS)[number];
+  chain: T;
   derivationPath?: DerivationPathArray;
-}) => {
+}): Promise<LedgerSigner<T>> => {
   switch (chain) {
     case Chain.THORChain:
-      return new THORChainLedger(derivationPath);
+      return new THORChainLedger(derivationPath) as LedgerSigner<T>;
     case Chain.Cosmos:
-      return new CosmosLedger(derivationPath);
+      return new CosmosLedger(derivationPath) as LedgerSigner<T>;
     case Chain.Bitcoin:
-      return BitcoinLedger(derivationPath);
+      return BitcoinLedger(derivationPath) as LedgerSigner<T>;
     case Chain.BitcoinCash:
-      return BitcoinCashLedger(derivationPath);
+      return BitcoinCashLedger(derivationPath) as LedgerSigner<T>;
     case Chain.Dash:
-      return DashLedger(derivationPath);
+      return DashLedger(derivationPath) as LedgerSigner<T>;
     case Chain.Dogecoin:
-      return DogecoinLedger(derivationPath);
+      return DogecoinLedger(derivationPath) as LedgerSigner<T>;
     case Chain.Litecoin:
-      return LitecoinLedger(derivationPath);
+      return LitecoinLedger(derivationPath) as LedgerSigner<T>;
     case Chain.Ethereum:
     case Chain.BinanceSmartChain:
     case Chain.Avalanche:
@@ -53,18 +53,48 @@ export const getLedgerClient = async ({
 
       switch (chain) {
         case Chain.BinanceSmartChain:
-          return BinanceSmartChainLedger(params);
+          return BinanceSmartChainLedger(params) as LedgerSigner<T>;
         case Chain.Avalanche:
-          return AvalancheLedger(params);
+          return AvalancheLedger(params) as LedgerSigner<T>;
         case Chain.Arbitrum:
-          return ArbitrumLedger(params);
+          return ArbitrumLedger(params) as LedgerSigner<T>;
         case Chain.Optimism:
-          return OptimismLedger(params);
+          return OptimismLedger(params) as LedgerSigner<T>;
         case Chain.Polygon:
-          return PolygonLedger(params);
+          return PolygonLedger(params) as LedgerSigner<T>;
         default:
-          return EthereumLedger(params);
+          return EthereumLedger(params) as LedgerSigner<T>;
       }
     }
+    default:
+      throw new SwapKitError("wallet_chain_not_supported", { wallet: WalletOption.LEDGER, chain });
   }
 };
+
+type LedgerSigner<T extends (typeof LEDGER_SUPPORTED_CHAINS)[number]> = T extends Chain.Bitcoin
+  ? ReturnType<typeof BitcoinLedger>
+  : T extends Chain.BitcoinCash
+    ? ReturnType<typeof BitcoinCashLedger>
+    : T extends Chain.Dash
+      ? ReturnType<typeof DashLedger>
+      : T extends Chain.Dogecoin
+        ? ReturnType<typeof DogecoinLedger>
+        : T extends Chain.Litecoin
+          ? ReturnType<typeof LitecoinLedger>
+          : T extends Chain.Ethereum
+            ? ReturnType<typeof EthereumLedger>
+            : T extends Chain.BinanceSmartChain
+              ? ReturnType<typeof BinanceSmartChainLedger>
+              : T extends Chain.Avalanche
+                ? ReturnType<typeof AvalancheLedger>
+                : T extends Chain.Arbitrum
+                  ? ReturnType<typeof ArbitrumLedger>
+                  : T extends Chain.Optimism
+                    ? ReturnType<typeof OptimismLedger>
+                    : T extends Chain.Polygon
+                      ? ReturnType<typeof PolygonLedger>
+                      : T extends Chain.THORChain
+                        ? THORChainLedger
+                        : T extends Chain.Cosmos
+                          ? CosmosLedger
+                          : never;

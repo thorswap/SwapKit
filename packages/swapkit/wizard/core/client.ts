@@ -1,9 +1,9 @@
 import { SwapKit } from "@swapkit/core";
+import { ChainflipPlugin } from "@swapkit/plugin-chainflip";
 import { EVMPlugin } from "@swapkit/plugin-evm";
 import { MayachainPlugin, ThorchainPlugin } from "@swapkit/plugin-thorchain";
-import { ChainflipPlugin } from "@swapkit/plugin-chainflip";
-import { evmWallet } from "@swapkit/wallet-evm-extensions";
 import { coinbaseWallet } from "@swapkit/wallet-coinbase";
+import { evmWallet } from "@swapkit/wallet-evm-extensions";
 import { exodusWallet } from "@swapkit/wallet-exodus";
 import { keepkeyWallet } from "@swapkit/wallet-keepkey";
 import { keplrWallet } from "@swapkit/wallet-keplr";
@@ -43,19 +43,17 @@ const wallets = {
   ...xdefiWallet,
 };
 
-
 const clientCache = new Map<string, SwapKitClient>();
 
 const swapKitParams = {
-  ethplorerApiKey: 'freekey',
-  covalentApiKey: '',
-  blockchairApiKey: '',
-  walletConnectProjectId: '',
+  ethplorerApiKey: "freekey",
+  covalentApiKey: "",
+  blockchairApiKey: "",
+  walletConnectProjectId: "",
   stagenet: false,
 };
 
-export const getSwapKitClient = (
-) => {
+export const getSwapKitClient = () => {
   const key = JSON.stringify(swapKitParams);
   if (clientCache.has(key)) return clientCache.get(key);
 

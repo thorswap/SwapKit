@@ -89,7 +89,8 @@ export const estimateMaxSendableAmount = async ({
   asset,
   feeOptionKey = FeeOption.Fast,
 }: CosmosMaxSendableAmountParams): Promise<AssetValue> => {
-  const assetEntity = typeof asset === "string" ? await AssetValue.from({ asset }) : asset;
+  const assetEntity =
+    typeof asset === "string" ? await AssetValue.from({ asyncTokenLookup: true, asset }) : asset;
   const balances = await toolbox.getBalance(from);
   const balance = balances.find(({ symbol, chain }) =>
     asset ? symbol === assetEntity?.symbol : symbol === AssetValue.from({ chain }).symbol,

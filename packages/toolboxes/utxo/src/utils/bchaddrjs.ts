@@ -46,13 +46,6 @@ type DecodedType = {
   hash: Todo;
 };
 
-class InvalidAddressError extends Error {
-  constructor() {
-    super("Received an invalid Bitcoin Cash address as input.");
-    this.stack = new Error().stack;
-  }
-}
-
 function isValidAddress(input: Todo) {
   try {
     decodeAddress(input);
@@ -90,7 +83,7 @@ function decodeAddress(address: string) {
   } catch (_error) {
     // Try to decode as bitpay if cashaddr decoding fails.
   }
-  throw new InvalidAddressError();
+  throw Error("Received an invalid Bitcoin Cash address as input.");
 }
 
 function decodeBase58Address(address: string) {
@@ -98,7 +91,7 @@ function decodeBase58Address(address: string) {
     const payload = base58check.decode(address);
 
     // BASE_58_CHECK_PAYLOAD_LENGTH
-    if (payload.length !== 21) throw new InvalidAddressError();
+    if (payload.length !== 21) throw Error("Received an invalid Bitcoin Cash address as input.");
     const versionByte = payload[0];
     const hash = Array.prototype.slice.call(payload, 1);
 
@@ -122,10 +115,10 @@ function decodeBase58Address(address: string) {
         return { hash, format: Format.Bitpay, network: Network.Mainnet, type: Type.P2SH };
 
       default:
-        throw new InvalidAddressError();
+        throw Error("Received an invalid Bitcoin Cash address as input.");
     }
   } catch (_error) {
-    throw new InvalidAddressError();
+    throw Error("Received an invalid Bitcoin Cash address as input.");
   }
 }
 
@@ -147,7 +140,7 @@ function decodeCashAddress(address: string) {
     }
   }
 
-  throw new InvalidAddressError();
+  throw Error("Received an invalid Bitcoin Cash address as input.");
 }
 
 function decodeCashAddressWithPrefix(address: string): DecodedType {
@@ -161,7 +154,7 @@ function decodeCashAddressWithPrefix(address: string): DecodedType {
       type: type === "P2PKH" ? Type.P2PKH : Type.P2SH,
     };
   } catch (_error) {
-    throw new InvalidAddressError();
+    throw Error("Received an invalid Bitcoin Cash address as input.");
   }
 }
 

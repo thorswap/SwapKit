@@ -1,5 +1,10 @@
 {
   "name": "@internal/playground-node",
   "version": "0.0.0",
-  "private": true
+  "private": true,
+  "scripts": {
+    "dev": "bun --target=node ./index.ts",
+    "lint": "biome check --write ./index.ts",
+    "type-check": "tsc --noEmit"
+  }
 }
