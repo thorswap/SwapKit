@@ -1,5 +1,17 @@
 # @swapkit/plugin-evm
 
+## 1.0.1
+
+### Patch Changes
+
+- Bump all for same ver
+
+- Updated dependencies []:
+  - @swapkit/api@1.0.1
+  - @swapkit/contracts@1.0.1
+  - @swapkit/helpers@1.0.1
+  - @swapkit/toolbox-evm@1.0.1
+
 ## 1.0.0
 
 ### Major Changes

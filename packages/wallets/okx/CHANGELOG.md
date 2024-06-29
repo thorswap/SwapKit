@@ -1,5 +1,17 @@
 # @swapkit/wallet-okx
 
+## 1.0.1
+
+### Patch Changes
+
+- Bump all for same ver
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.0.1
+  - @swapkit/toolbox-cosmos@1.0.1
+  - @swapkit/toolbox-evm@1.0.1
+  - @swapkit/toolbox-utxo@1.0.1
+
 ## 1.0.0
 
 ### Major Changes

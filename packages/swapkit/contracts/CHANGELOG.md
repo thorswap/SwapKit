@@ -1,5 +1,11 @@
 # @swapkit/contracts
 
+## 1.0.1
+
+### Patch Changes
+
+- Bump all for same ver
+
 ## 1.0.0
 
 ### Major Changes

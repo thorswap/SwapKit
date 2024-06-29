@@ -1,5 +1,25 @@
 # @swapkit/wallets
 
+## 1.0.1
+
+### Patch Changes
+
+- Bump all for same ver
+
+- Updated dependencies []:
+  - @swapkit/wallet-coinbase@1.0.1
+  - @swapkit/wallet-evm-extensions@1.0.1
+  - @swapkit/wallet-keepkey@1.0.1
+  - @swapkit/wallet-keplr@1.0.1
+  - @swapkit/wallet-keystore@1.0.1
+  - @swapkit/wallet-ledger@1.0.1
+  - @swapkit/wallet-okx@1.0.1
+  - @swapkit/wallet-phantom@1.0.1
+  - @swapkit/wallet-talisman@1.0.1
+  - @swapkit/wallet-trezor@1.0.1
+  - @swapkit/wallet-wc@1.0.1
+  - @swapkit/wallet-xdefi@1.0.1
+
 ## 1.0.0
 
 ### Major Changes
