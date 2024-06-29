@@ -1,5 +1,27 @@
 # @swapkit/wallet-ledger
 
+## 1.0.0
+
+### Major Changes
+
+- [#881](https://github.com/thorswap/SwapKit/pull/881) [`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Remove BNB chain
+
+### Patch Changes
+
+- [`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Solana & Bump
+
+- [`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f) Thanks [@chillios-dev](https://github.com/chillios-dev)! - test bump
+
+- [`765438e`](https://github.com/thorswap/SwapKit/commit/765438e5707ae2b09aa2bf0e52ba130dec10a5f7) Thanks [@towanTG](https://github.com/towanTG)! - Bumps to fix version
+
+- [`b706da9`](https://github.com/thorswap/SwapKit/commit/b706da98525be8cf46702bc6300959ff6702f43b) Thanks [@towanTG](https://github.com/towanTG)! - Bump to fix version
+
+- Updated dependencies [[`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed), [`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f), [`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371), [`765438e`](https://github.com/thorswap/SwapKit/commit/765438e5707ae2b09aa2bf0e52ba130dec10a5f7), [`b706da9`](https://github.com/thorswap/SwapKit/commit/b706da98525be8cf46702bc6300959ff6702f43b), [`9e80a83`](https://github.com/thorswap/SwapKit/commit/9e80a83ef9a083a4ccfea80de21e535aa89553c6), [`fbf9005`](https://github.com/thorswap/SwapKit/commit/fbf9005244c9a1e9da67e03f4ba7e8a2418e8a27)]:
+  - @swapkit/toolbox-cosmos@1.0.0
+  - @swapkit/helpers@1.0.0
+  - @swapkit/toolbox-utxo@1.0.0
+  - @swapkit/toolbox-evm@1.0.0
+
 ## 1.0.0-rc.171
 
 ### Major Changes

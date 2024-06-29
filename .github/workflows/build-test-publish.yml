@@ -52,14 +52,12 @@ jobs:
       - name: Change nightly changeset
         if: contains(github.ref_name, 'nightly')
         run: |
-          bun changeset pre exit
           bun changeset version --snapshot nightly
 
       - name: Change beta changeset
         if: contains(github.ref_name, 'beta')
         run: |
           echo 'publishName="Beta"' >> $GITHUB_OUTPUT
-          bun changeset pre exit
           bun changeset pre enter beta
           bun changeset version
 
@@ -67,7 +65,6 @@ jobs:
         if: contains(github.ref_name, 'main')
         run: |
           echo 'publishName="Release"' >> $GITHUB_OUTPUT
-          bun changeset pre exit
           bun changeset version
 
       - name: Set job params
