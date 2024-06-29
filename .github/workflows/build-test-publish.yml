@@ -61,12 +61,14 @@ jobs:
           echo 'publishName="Beta"' >> $GITHUB_OUTPUT
           bun changeset pre exit
           bun changeset pre enter beta
+          bun changeset version
 
       - name: Change stable changeset
         if: contains(github.ref_name, 'main')
         run: |
           echo 'publishName="Release"' >> $GITHUB_OUTPUT
           bun changeset pre exit
+          bun changeset version
 
       - name: Set job params
         shell: bash
@@ -106,17 +108,6 @@ jobs:
           version: bun version-bump
           publish: bun publish-packages --tag nightly
           setupGitUser: false
-
-      - name: Revert base changeset
-        if: contains(github.ref_name, 'nightly') || contains(github.ref_name, 'main')
-        run: |
-          bun changeset pre enter rc
-
-      - name: Revert changeset beta prelease
-        if: contains(github.ref_name, 'beta')
-        run: |
-          bun changeset pre exit
-          bun changeset pre enter rc
 
   deploy-playground:
     if: contains(github.ref_name, 'develop')
