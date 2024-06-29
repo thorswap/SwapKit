@@ -301,18 +301,18 @@ describe("AssetValue", () => {
   });
 
   describe("fromUrl", () => {
-    test("creates AssetValue from url like format", async () => {
+    test("creates AssetValue from url like format", () => {
       const synthETHString = "THOR.ETH.ETH";
       const ethString = "ETH.ETH";
       const thorString = "ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044";
       const synthThorString = "THOR.ETH.THOR-0xa5f2211b9b8170f694421f2046281775e8468044";
       const synthDashesString = "THOR.ETH.PENDLE-LPT-0x1234";
 
-      const synthETH = await AssetValue.fromUrl(synthETHString);
-      const eth = await AssetValue.fromUrl(ethString);
-      const thor = await AssetValue.fromUrl(thorString);
-      const synthThor = await AssetValue.fromUrl(synthThorString);
-      const synthDashes = await AssetValue.fromUrl(synthDashesString);
+      const synthETH = AssetValue.fromUrl(synthETHString);
+      const eth = AssetValue.fromUrl(ethString);
+      const thor = AssetValue.fromUrl(thorString);
+      const synthThor = AssetValue.fromUrl(synthThorString);
+      const synthDashes = AssetValue.fromUrl(synthDashesString);
 
       expect(synthETH.toString()).toBe("ETH/ETH");
       expect(eth.toString()).toBe("ETH.ETH");
@@ -643,14 +643,6 @@ describe("AssetValue", () => {
           type: "Native",
         }),
       );
-    });
-  });
-
-  describe("loadStaticAssets", () => {
-    test("loads static assets from `@swapkit/tokens` lists", async () => {
-      // Dummy test - think of sth more meaningful
-      const { ok } = await AssetValue.loadStaticAssets();
-      expect(ok).toBe(true);
     });
   });
 });

@@ -1,25 +1,7 @@
 {
-  "compilerOptions": {
-    "allowJs": false,
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": "./src",
-    "composite": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "lib": ["dom", "dom.iterable", "ESNext"],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "noEmit": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "target": "ES2022"
-  }
+  "extends": "../../tools/typescript/base.json",
+  "include": [
+    "../../tools/typescript/typings.d.ts",
+    "./index.ts"
+  ]
 }
