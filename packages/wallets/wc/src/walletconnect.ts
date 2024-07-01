@@ -4,6 +4,7 @@ import {
   ChainId,
   type ConnectWalletParams,
   RPCUrl,
+  SwapKitError,
   WalletOption,
   setRequestClientConfig,
 } from "@swapkit/helpers";
@@ -12,7 +13,6 @@ import type { WalletConnectModalSign } from "@walletconnect/modal-sign-html";
 import type { SessionTypes, SignClientTypes } from "@walletconnect/types";
 
 import {
-  BINANCE_MAINNET_ID,
   DEFAULT_APP_METADATA,
   DEFAULT_COSMOS_METHODS,
   DEFAULT_LOGGER,
@@ -25,7 +25,6 @@ import { chainToChainId, getAddressByChain } from "./helpers.ts";
 import { getRequiredNamespaces } from "./namespaces.ts";
 
 const SUPPORTED_CHAINS = [
-  Chain.Binance, // Not supported by WC
   Chain.BinanceSmartChain,
   Chain.Ethereum,
   Chain.THORChain,
@@ -54,8 +53,6 @@ async function getToolbox({
   stagenet?: boolean;
   address: string;
 }) {
-  const from = address;
-
   switch (chain) {
     case Chain.Avalanche:
     case Chain.BinanceSmartChain:
@@ -63,10 +60,18 @@ async function getToolbox({
     case Chain.Optimism:
     case Chain.Polygon:
     case Chain.Ethereum: {
-      if (chain === Chain.Ethereum && !ethplorerApiKey)
-        throw new Error("Ethplorer API key not found");
-      if (chain !== Chain.Ethereum && !covalentApiKey)
-        throw new Error("Covalent API key not found");
+      if (chain === Chain.Ethereum && !ethplorerApiKey) {
+        throw new SwapKitError({
+          errorKey: "wallet_missing_api_key",
+          info: { chain, missingApiKey: "ethplorerApiKey" },
+        });
+      }
+      if (chain !== Chain.Ethereum && !covalentApiKey) {
+        throw new SwapKitError({
+          errorKey: "wallet_missing_api_key",
+          info: { chain, missingApiKey: "covalentApiKey" },
+        });
+      }
 
       const { getProvider, getToolboxByChain } = await import("@swapkit/toolbox-evm");
       const provider = getProvider(chain);
@@ -80,48 +85,6 @@ async function getToolbox({
         ethplorerApiKey: ethplorerApiKey as string,
         covalentApiKey,
       });
-    }
-
-    case Chain.Binance: {
-      const { sortObject, BinanceToolbox } = await import("@swapkit/toolbox-cosmos");
-      const toolbox = BinanceToolbox();
-      const transfer = async ({ recipient, assetValue, memo }: TransferParams) => {
-        const account = await toolbox.getAccount(from);
-        const { transaction, signMsg } = await toolbox.createTransactionAndSignMsg({
-          recipient,
-          from,
-          assetValue,
-          memo,
-        });
-
-        const signDoc = sortObject({
-          account_number: account.account_number.toString(),
-          chain_id: ChainId.Binance,
-          data: null,
-          memo,
-          msgs: [signMsg],
-          sequence: account.sequence.toString(),
-          source: "0",
-        });
-
-        const response: Todo = await walletconnect?.client.request({
-          chainId: BINANCE_MAINNET_ID,
-          topic: session.topic,
-          request: {
-            method: DEFAULT_COSMOS_METHODS.COSMOS_SIGN_AMINO,
-            params: { signerAddress: address, signDoc },
-          },
-        });
-
-        const signature = Buffer.from(response.signature, "hex");
-        const publicKey = toolbox.getPublicKey(response.publicKey);
-        const signedTx = transaction.addSignature(publicKey, signature);
-
-        const res = await toolbox.sendRawTransaction(signedTx.serialize(), true);
-
-        return res?.result?.hash;
-      };
-      return { ...toolbox, transfer };
     }
 
     case Chain.THORChain: {
@@ -158,8 +121,17 @@ async function getToolbox({
         ...rest
       }: TransferParams | DepositParam) {
         const account = await toolbox.getAccount(address);
-        if (!account) throw new Error("Account not found");
-        if (!account.pubkey) throw new Error("Account pubkey not found");
+        if (!account) {
+          throw new SwapKitError({ errorKey: "wallet_missing_params", info: { account } });
+        }
+
+        if (!account.pubkey) {
+          throw new SwapKitError({
+            errorKey: "wallet_missing_params",
+            info: { account, pubkey: account?.pubkey },
+          });
+        }
+
         const { accountNumber, sequence = 0 } = account;
 
         const msgs = [
@@ -217,7 +189,10 @@ async function getToolbox({
       };
     }
     default:
-      throw new Error("Chain is not supported");
+      throw new SwapKitError({
+        errorKey: "wallet_chain_not_supported",
+        info: { chain, wallet: WalletOption.WALLETCONNECT },
+      });
   }
 }
 
@@ -229,7 +204,7 @@ async function getWalletconnect(
   let modal: WalletConnectModalSign | undefined;
   try {
     if (!walletConnectProjectId) {
-      throw new Error("Error while setting up walletconnect connection: Project ID not specified");
+      throw new SwapKitError("wallet_walletconnect_project_id_not_specified");
     }
     const requiredNamespaces = getRequiredNamespaces(chains.map(chainToChainId));
 
@@ -303,7 +278,9 @@ function connectWalletconnect({
       walletconnectOptions,
     );
 
-    if (!walletconnect) throw new Error("Unable to establish connection through walletconnect");
+    if (!walletconnect) {
+      throw new SwapKitError("wallet_walletconnect_connection_not_established");
+    }
 
     const { session, accounts } = walletconnect;
 

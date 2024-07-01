@@ -1,33 +1,37 @@
-release:
-  - packages/**/CHANGELOG.md
-
 docs:
-  - internal/playground/src/**/*
+  - internal/playground/**/*
   - docs/**/*
 
+api: packages/swapkit/api/**/*
+tokens: packages/swapkit/tokens/**/*
 core:
-  - packages/swapkit/swapkit-core/**/*
-types:
-  - packages/swapkit/types/src/**/*
+  - packages/swapkit/core/**/*
+  - packages/swapkit/helpers/**/*
+  - packages/swapkit/types/**/*
 
-cosmos:
-  - packages/toolboxes/cosmos/src/**/*
-evm:
-  - packages/toolboxes/evm/src/**/*
-utxo:
-  - packages/toolboxes/utxo/src/**/*
+cosmos: packages/toolboxes/cosmos/**/*
+evm: packages/toolboxes/evm/**/*
+solana: packages/toolboxes/solana/**/*
+substrate: packages/toolboxes/substrate/**/*
+utxo: packages/toolboxes/utxo/**/*
+radix:
+  - packages/toolboxes/radix/**/*
+  - packages/wallets/radix/src/**/*
 
-keystore:
-  - packages/wallets/keystore/src/**/*
-ledger:
+keystore: packages/wallets/keystore/**/*
+hardware-wallet:
   - packages/wallets/ledger/src/**/*
-trezor:
   - packages/wallets/trezor/src/**/*
-wc:
-  - packages/wallets/wc/src/**/*
-xdefi:
-  - packages/wallets/xdefi/src/**/*
-keplr:
-  - packages/wallets/keplr/src/**/*
-evm-extensions:
-  - packages/wallets/evm-extensions/src/**/*
+  - packages/wallets/keepkey/src/**/*
+
+mobile-wallet:
+  - packages/wallets/wc/**/*
+  - packages/wallets/exodus/**/*
+  - packages/wallets/coinbase/**/*
+
+browser-extensions:
+  - packages/wallets/evm-extensions/**/*
+  - packages/wallets/keplr/**/*
+  - packages/wallets/okx/**/*
+  - packages/wallets/phantom/**/*
+  - packages/wallets/xdefi/**/*

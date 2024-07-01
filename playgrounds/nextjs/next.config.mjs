@@ -22,28 +22,36 @@ const nextConfig = {
 
       config.plugins.push(
         new webpack.DefinePlugin({
-          "global.crypto": JSON.stringify(require("crypto-browserify")),
           "global.Uint8Array": JSON.stringify(Uint8Array),
+          "global.crypto": "crypto",
+          "global.msCrypto": "crypto",
           "global.process": "process",
         }),
       );
-
       config.resolve.fallback = {
         ...config.resolve.fallback,
         fs: false,
-        path: false,
-        crypto: require.resolve("crypto-browserify"),
+      };
+
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        path: require.resolve("path-browserify"),
         process: require.resolve("process/browser"),
+        stream: require.resolve("stream-browserify"),
+        http: require.resolve("stream-http"),
+        https: require.resolve("https-browserify"),
+        os: require.resolve("os-browserify/browser"),
       };
     }
 
-    return {
-      ...config,
-      experiments: {
-        ...(config?.experiments || {}),
-        syncWebAssembly: true,
-      },
+    config.experiments = {
+      ...config.experiments,
+      asyncWebAssembly: true,
+      syncWebAssembly: true,
+      topLevelAwait: true,
     };
+
+    return config;
   },
 };
 

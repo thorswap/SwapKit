@@ -1,14 +1,14 @@
-import { Chain, ChainToExplorerUrl } from "@swapkit/helpers";
+import { Chain, ChainToExplorerUrl, SwapKitError } from "@swapkit/helpers";
 
 export function getExplorerTxUrl({ chain, txHash }: { txHash: string; chain: Chain }) {
   const baseUrl = ChainToExplorerUrl[chain];
 
   switch (chain) {
-    case Chain.Binance:
     case Chain.Maya:
     case Chain.Kujira:
     case Chain.Cosmos:
     case Chain.THORChain:
+    case Chain.Solana:
       return `${baseUrl}/tx/${txHash.startsWith("0x") ? txHash.slice(2) : txHash}`;
 
     case Chain.Arbitrum:
@@ -27,12 +27,18 @@ export function getExplorerTxUrl({ chain, txHash }: { txHash: string; chain: Cha
       return `${baseUrl}/transaction/${txHash.toLowerCase()}`;
 
     default:
-      throw new Error(`Unsupported chain: ${chain}`);
+      throw new SwapKitError({ errorKey: "core_explorer_unsupported_chain", info: { chain } });
   }
 }
 
 export function getExplorerAddressUrl({ chain, address }: { address: string; chain: Chain }) {
   const baseUrl = ChainToExplorerUrl[chain];
 
-  return `${baseUrl}/address/${address}`;
+  switch (chain) {
+    case Chain.Solana:
+      return `${baseUrl}/account/${address}`;
+
+    default:
+      return `${baseUrl}/address/${address}`;
+  }
 }

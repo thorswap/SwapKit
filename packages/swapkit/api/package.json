@@ -5,7 +5,7 @@
     "zod": "3.23.8"
   },
   "devDependencies": {
-    "bun-types": "1.1.8"
+    "ky": "1.4.0"
   },
   "description": "SwapKit - API",
   "files": [
@@ -16,10 +16,6 @@
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "name": "@swapkit/api",
-  "peerDependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "zod": "3.23.8"
-  },
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
@@ -27,13 +23,13 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
-    "lint": "biome check --apply ./src",
+    "clean": "rm -rf dist node_modules *.tsbuildinfo",
+    "lint": "biome check --write ./src",
     "test": "echo 'bun test'",
-    "test:coverage": "echo 'bun test --coverage'",
+    "test:coverage": "bun test --coverage",
     "type-check": "tsc --noEmit"
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.80"
+  "version": "1.0.1"
 }

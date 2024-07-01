@@ -9,7 +9,7 @@ import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
 const getNetworkParams = () => ({
   chainId: ChainId.BinanceSmartChainHex,
   chainName: "Smart Chain",
-  nativeCurrency: { name: "Binance Coin", symbol: Chain.Binance, decimals: BaseDecimal.BSC },
+  nativeCurrency: { name: "Binance Coin", symbol: "BNB", decimals: BaseDecimal.BSC },
   rpcUrls: ["https://bsc-dataseed.binance.org"],
   blockExplorerUrls: [ChainToExplorerUrl[Chain.BinanceSmartChain]],
 });

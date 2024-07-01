@@ -1,6 +1,6 @@
 "use client";
 
-import { Chain, CosmosChains, EVMChains, UTXOChains, WalletOption } from "@swapkit/core";
+import { Chain, CosmosChains, EVMChains, UTXOChains, WalletOption } from "@swapkit/helpers";
 import { Power, PowerOff } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -22,6 +22,7 @@ const items = [
 interface NavigationBarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const AllChains = [...UTXOChains, ...EVMChains, ...CosmosChains];
+
 const allowedChainsByWallet = {
   [WalletOption.XDEFI]: AllChains.filter((chain) => ![Chain.Dash].includes(chain)),
   [WalletOption.METAMASK]: EVMChains,

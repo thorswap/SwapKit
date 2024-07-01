@@ -3,7 +3,6 @@ import { Chain, type EVMChain } from "@swapkit/helpers";
 import {
   ARBITRUM_ONE_MAINNET_ID,
   AVALACHE_MAINNET_ID,
-  BINANCE_MAINNET_ID,
   BSC_MAINNET_ID,
   COSMOS_HUB_MAINNET_ID,
   ETHEREUM_MAINNET_ID,
@@ -15,7 +14,7 @@ import {
 } from "./constants.ts";
 
 export const getAddressByChain = (
-  chain: EVMChain | Chain.Binance | Chain.THORChain | Chain.Maya | Chain.Kujira | Chain.Cosmos,
+  chain: EVMChain | Chain.THORChain | Chain.Maya | Chain.Kujira | Chain.Cosmos,
   accounts: string[],
 ) => {
   const account = accounts.find((account) => account.startsWith(chainToChainId(chain))) || "";
@@ -32,8 +31,6 @@ export const chainToChainId = (chain: Chain) => {
       return BSC_MAINNET_ID;
     case Chain.Ethereum:
       return ETHEREUM_MAINNET_ID;
-    case Chain.Binance:
-      return BINANCE_MAINNET_ID;
     case Chain.THORChain:
       return THORCHAIN_MAINNET_ID;
     case Chain.Arbitrum:

@@ -4,6 +4,7 @@ import {
   type ConnectWalletParams,
   type EVMChain,
   type EthereumWindowProvider,
+  SwapKitError,
   WalletOption,
   addEVMWalletNetwork,
   prepareNetworkSwitch,
@@ -70,7 +71,13 @@ export const getWeb3WalletMethods = async ({
     (chain !== Chain.Ethereum && !covalentApiKey) ||
     (chain === Chain.Ethereum && !ethplorerApiKey)
   ) {
-    throw new Error(`Missing API key for ${chain} chain`);
+    throw new SwapKitError({
+      errorKey: "wallet_missing_api_key",
+      info: {
+        missingKey: chain === Chain.Ethereum ? "ethplorerApiKey" : "covalentApiKey",
+        chain,
+      },
+    });
   }
 
   const toolboxParams = {

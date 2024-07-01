@@ -19,7 +19,7 @@ export default function Loan({
       if (!inputAsset) return;
       return inputAsset.mul(0).add(amountValue);
     },
-    [inputAsset],
+    [inputAsset]
   );
 
   const setAmount = useCallback(
@@ -29,7 +29,7 @@ export default function Loan({
 
       setFunction(inputAsset && amount?.gt(inputAsset) ? inputAsset : amount);
     },
-    [getValue, inputAsset],
+    [getValue, inputAsset]
   );
 
   const handleLoanAction = useCallback(async () => {
@@ -41,7 +41,10 @@ export default function Loan({
       minAmount: borrowAssetValue,
     });
 
-    window.open(`${skClient.getExplorerTxUrl(inputAssetValue.chain, txHash as string)}`, "_blank");
+    window.open(
+      `${skClient.getExplorerTxUrl(inputAssetValue.chain, txHash as string)}`,
+      "_blank"
+    );
   }, [borrowAssetValue, inputAssetValue, skClient, isOpenLoanMode]);
 
   return (
@@ -81,7 +84,11 @@ export default function Loan({
             />
           </div>
 
-          <button disabled={!(inputAsset && outputAsset)} onClick={handleLoanAction} type="button">
+          <button
+            disabled={!(inputAsset && outputAsset)}
+            onClick={handleLoanAction}
+            type="button"
+          >
             {isOpenLoanMode ? "Open Loan" : "Close Loan"}
           </button>
         </div>

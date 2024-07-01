@@ -1,3 +1,4 @@
+import { SwapKitError } from "../modules/swapKitError";
 import { Chain } from "../types/chains";
 
 // Backward compatibility
@@ -12,9 +13,13 @@ export function validateIdentifier(identifier = "") {
   const [synthChain] = uppercasedIdentifier.split("/") as [Chain, string];
   if (supportedChains.includes(synthChain)) return true;
 
-  throw new Error(
-    `Invalid identifier: ${identifier}. Expected format: <Chain>.<Ticker> or <Chain>.<Ticker>-<ContractAddress>`,
-  );
+  throw new SwapKitError({
+    errorKey: "helpers_invalid_identifier",
+    info: {
+      message: `Invalid identifier: ${identifier}. Expected format: <Chain>.<Ticker> or <Chain>.<Ticker>-<ContractAddress>`,
+      identifier,
+    },
+  });
 }
 
 export function validateTNS(name: string) {

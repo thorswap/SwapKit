@@ -50,4 +50,16 @@ describe("Explorer URLs", () => {
       });
     }
   });
+
+  describe("Solana", () => {
+    test("getExplorerTxUrl returns correct URL for Solana", () => {
+      expect(getExplorerTxUrl({ chain: Chain.Solana, txHash: "b123456789" })).toBe(
+        "https://solscan.io/tx/b123456789",
+      );
+
+      expect(getExplorerAddressUrl({ chain: Chain.Solana, address: "asdfg" })).toBe(
+        "https://solscan.io/account/asdfg",
+      );
+    });
+  });
 });

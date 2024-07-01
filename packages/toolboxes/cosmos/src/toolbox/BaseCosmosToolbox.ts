@@ -1,8 +1,8 @@
+import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from "@cosmjs/crypto";
+import { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } from "@cosmjs/proto-signing";
 import { SwapKitApi } from "@swapkit/api";
 import { AssetValue, Chain, ChainId, type DerivationPath } from "@swapkit/helpers";
 
-import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from "@cosmjs/crypto";
-import { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } from "@cosmjs/proto-signing";
 import { CosmosClient } from "../cosmosClient.ts";
 import type { ToolboxParams } from "../index.ts";
 import type { BaseCosmosToolboxType } from "../thorchainUtils/types/client-types.ts";
@@ -29,28 +29,29 @@ export const getFeeRateFromThorswap = async (chainId: ChainId, safeDefault: numb
 export const getAssetFromDenom = (denom: string, amount: string) => {
   switch (denom) {
     case "rune":
-      return AssetValue.fromChainOrSignature(Chain.THORChain, Number.parseInt(amount) / 1e8);
-    case "bnb":
-      return AssetValue.fromChainOrSignature(Chain.Binance, Number.parseInt(amount) / 1e8);
+      return AssetValue.from({ chain: Chain.THORChain, value: Number.parseInt(amount) / 1e8 });
     case "uatom":
     case "atom":
-      return AssetValue.fromChainOrSignature(Chain.Cosmos, Number.parseInt(amount) / 1e6);
+      return AssetValue.from({ chain: Chain.Cosmos, value: Number.parseInt(amount) / 1e6 });
     case "cacao":
-      return AssetValue.fromChainOrSignature(Chain.Maya, Number.parseInt(amount) / 1e10);
+      return AssetValue.from({ chain: Chain.Maya, value: Number.parseInt(amount) / 1e10 });
     case "maya":
-      return AssetValue.fromChainOrSignature(
-        `${Chain.Maya}.${Chain.Maya}`,
-        Number.parseInt(amount) / 1e4,
-      );
+      return AssetValue.from({
+        asset: `${Chain.Maya}.${Chain.Maya}`,
+        value: Number.parseInt(amount) / 1e4,
+      });
     case "ukuji":
     case "kuji":
-      return AssetValue.fromChainOrSignature(Chain.Kujira, Number.parseInt(amount) / 1e6);
+      return AssetValue.from({ chain: Chain.Kujira, value: Number.parseInt(amount) / 1e6 });
     case USK_KUJIRA_FACTORY_DENOM:
       // USK on Kujira
-      return AssetValue.fromChainOrSignature(`${Chain.Kujira}.USK`, Number.parseInt(amount) / 1e6);
+      return AssetValue.from({
+        asset: `${Chain.Kujira}.USK`,
+        value: Number.parseInt(amount) / 1e6,
+      });
 
     default:
-      return AssetValue.fromString(denom, Number.parseInt(amount) / 1e8);
+      return AssetValue.from({ asset: denom, value: Number.parseInt(amount) / 1e8 });
   }
 };
 
@@ -151,16 +152,16 @@ export const estimateTransactionFee = ({ assetValue }: { assetValue: AssetValue 
   const chain = assetValue.chain;
   switch (chain) {
     case Chain.Cosmos: {
-      return AssetValue.fromChainOrSignature(Chain.Cosmos, 0.007);
+      return AssetValue.from({ chain: Chain.Cosmos, value: 0.007 });
     }
     case Chain.Kujira: {
-      return AssetValue.fromChainOrSignature(Chain.Kujira, 0.02);
+      return AssetValue.from({ chain: Chain.Kujira, value: 0.02 });
     }
     case Chain.THORChain: {
-      return AssetValue.fromChainOrSignature(Chain.THORChain, 0.02);
+      return AssetValue.from({ chain: Chain.THORChain, value: 0.02 });
     }
     case Chain.Maya: {
-      return AssetValue.fromChainOrSignature(Chain.Maya, 0.02);
+      return AssetValue.from({ chain: Chain.Maya, value: 0.02 });
     }
     default:
       return assetValue.set(0);
@@ -169,5 +170,5 @@ export const estimateTransactionFee = ({ assetValue }: { assetValue: AssetValue 
 
 export type BaseCosmosWallet = ReturnType<typeof BaseCosmosToolbox>;
 export type CosmosWallets = {
-  [chain in Chain.Cosmos | Chain.Kujira | Chain.Binance]: BaseCosmosWallet;
+  [chain in Chain.Cosmos | Chain.Kujira]: BaseCosmosWallet;
 };

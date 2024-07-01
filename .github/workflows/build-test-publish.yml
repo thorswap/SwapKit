@@ -18,55 +18,33 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-test:
     if: contains(github.event.pull_request.title, ':tada:') == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Setup Repo
         uses: ./tools/github/setup-repo
+
       - name: Build
-        run: |
-          bun run build
+        run: bun install; bun run build
 
-      # - name: Build and check size
-      #   if: github.event_name == 'pull_request'
-      #   uses: andresz1/size-limit-action@v1
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     skip_step: install
-
-  test:
-    if: contains(github.event.pull_request.title, ':tada:') == false
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Repo
-        uses: ./tools/github/setup-repo
       - name: Test
         run: bun run test
 
-  lint:
-    if: contains(github.event.pull_request.title, ':tada:') == false
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Repo
-        uses: ./tools/github/setup-repo
       - name: Lint
         run: bun lint
 
   publish:
     if: contains(github.ref_name, 'develop') || contains(github.ref_name, 'main') || contains(github.ref_name, 'nightly') || contains(github.ref_name, 'beta')
-    needs: [build, lint]
+    needs: [build-and-test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Setup Repo
         uses: ./tools/github/setup-repo
-      - run: bun run ./scripts/replace-versions.ts
+      - name: Replace versions
+        run: bun run ./scripts/replace-versions.ts
 
       - name: Copy npmrc config
         run: cp .npmrc.prod .npmrc
@@ -74,21 +52,20 @@ jobs:
       - name: Change nightly changeset
         if: contains(github.ref_name, 'nightly')
         run: |
-          bun changeset pre exit
           bun changeset version --snapshot nightly
 
       - name: Change beta changeset
         if: contains(github.ref_name, 'beta')
         run: |
           echo 'publishName="Beta"' >> $GITHUB_OUTPUT
-          bun changeset pre exit
           bun changeset pre enter beta
+          bun changeset version
 
       - name: Change stable changeset
         if: contains(github.ref_name, 'main')
         run: |
           echo 'publishName="Release"' >> $GITHUB_OUTPUT
-          bun changeset pre exit
+          bun changeset version
 
       - name: Set job params
         shell: bash
@@ -107,18 +84,18 @@ jobs:
           publish: bun publish-packages
           setupGitUser: false
 
-      - name: Internal Discord Notification
-        if: ${{ steps.changesets.outputs.published == 'true' }}
-        uses: sarisia/actions-status-discord@82409b24a08684f54ea5baa6b376e36dad37fb81
-        with:
-          noprefix: ${{ job.status == 'success' }}
-          avatar_url: https://static.thorswap.net/logo.png
-          color: ${{ contains(github.ref_name, 'main') && '0x00aa00' || '0x3af3f4' }}
-          description: "Internal build ${{ job.status }}: ${{ github.ref_name }}:\n${{ steps.changesets.outputs.publishedPackages }}"
-          status: success
-          url: "https://github.com/thorswap/swapkit/releases"
-          username: SwapKit - ${{ github.ref_name }}
-          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+      # - name: Internal Discord Notification
+      #   if: ${{ steps.changesets.outputs.published == 'true' }}
+      #   uses: sarisia/actions-status-discord@82409b24a08684f54ea5baa6b376e36dad37fb81
+      #   with:
+      #     noprefix: ${{ job.status == 'success' }}
+      #     avatar_url: https://pbs.twimg.com/profile_images/1775232752193081344/1ueuEBlQ_400x400.jpg
+      #     color: ${{ contains(github.ref_name, 'main') && '0x00aa00' || '0x3af3f4' }}
+      #     description: "Build ${{ job.status }} ${{ github.ref_name }}:\n${{ steps.parse-packages.outputs.packages }}"
+      #     status: success
+      #     url: "https://github.com/thorswap/swapkit/releases"
+      #     username: SwapKit - ${{ github.ref_name }}
+      #     webhook: ${{ secrets.DISCORD_WEBHOOK }}
 
       - name: Publish Nightly to npm
         uses: changesets/action@v1
@@ -129,20 +106,9 @@ jobs:
           publish: bun publish-packages --tag nightly
           setupGitUser: false
 
-      - name: Revert base changeset
-        if: contains(github.ref_name, 'nightly') || contains(github.ref_name, 'main')
-        run: |
-          bun changeset pre enter rc
-
-      - name: Revert changeset beta prelease
-        if: contains(github.ref_name, 'beta')
-        run: |
-          bun changeset pre exit
-          bun changeset pre enter rc
-
   deploy-playground:
     if: contains(github.ref_name, 'develop')
-    needs: [build, test, lint]
+    needs: [build-and-test]
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -152,7 +118,7 @@ jobs:
       - name: Setup Repo
         uses: ./tools/github/setup-repo
       - name: Setup Pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v5.0.0
 
       - name: Build playground
         run: |
@@ -160,10 +126,10 @@ jobs:
           bun playground:vite build-playground
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3.0.1
         with:
           path: "./playgrounds/vite/dist"
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4.0.5

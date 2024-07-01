@@ -6,15 +6,9 @@
   },
   "description": "SwapKit - Toolbox evm",
   "devDependencies": {
-    "@nomicfoundation/hardhat-ethers": "3.0.5",
-    "@nomicfoundation/hardhat-network-helpers": "1.0.10",
+    "@nomicfoundation/hardhat-ethers": "3.0.6",
     "@nomicfoundation/hardhat-toolbox": "5.0.0",
-    "bun-types": "1.1.8",
-    "hardhat": "2.22.2"
-  },
-  "peerDependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "ethers": "6.11.1"
+    "hardhat": "2.22.5"
   },
   "files": [
     "src/",
@@ -31,13 +25,13 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
-    "lint": "biome check --apply ./src",
+    "clean": "rm -rf dist node_modules *.tsbuildinfo",
+    "lint": "biome check --write ./src",
     "test": "echo 'bun test'",
-    "test:coverage": "echo 'bun test --coverage'",
+    "test:coverage": "bun test --coverage",
     "type-check": "tsc --noEmit"
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.119"
+  "version": "1.0.1"
 }

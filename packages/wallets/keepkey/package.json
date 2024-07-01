@@ -1,16 +1,13 @@
 {
   "dependencies": {
-    "@cosmjs/amino": "0.32.3",
+    "@cosmjs/amino": "0.32.4",
     "@keepkey/keepkey-sdk": "0.2.57",
-    "@swapkit/helpers": "workspace:*"
-  },
-  "description": "SwapKit Wallet - KeepKey",
-  "devDependencies": {
+    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*",
-    "bun-types": "1.1.8"
+    "@swapkit/toolbox-utxo": "workspace:*"
   },
+  "description": "SwapKit Wallet - KeepKey",
   "files": [
     "src/",
     "dist/"
@@ -19,14 +16,6 @@
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "name": "@swapkit/wallet-keepkey",
-  "peerDependencies": {
-    "@cosmjs/amino": "0.32.3",
-    "@keepkey/keepkey-sdk": "0.2.57",
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-cosmos": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*"
-  },
   "publishConfig": {
     "access": "public"
   },
@@ -34,13 +23,13 @@
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
-    "lint": "biome check --apply ./src",
+    "clean": "rm -rf dist node_modules *.tsbuildinfo",
+    "lint": "biome check --write ./src",
     "test": "echo 'bun test'",
-    "test:coverage": "echo 'bun test --coverage'",
+    "test:coverage": "bun test --coverage",
     "type-check": "tsc --noEmit"
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.79"
+  "version": "1.0.1"
 }

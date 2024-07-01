@@ -1,19 +1,16 @@
 import {
+  type AssetValue,
   Chain,
   type ConnectWalletParams,
   DerivationPath,
   RPCUrl,
   type WalletChain,
   WalletOption,
+  type WalletTxParams,
   type Witness,
   setRequestClientConfig,
 } from "@swapkit/helpers";
-import type {
-  BinanceToolboxType,
-  DepositParam,
-  ThorchainToolboxType,
-  TransferParams,
-} from "@swapkit/toolbox-cosmos";
+import type { DepositParam, ThorchainToolboxType, TransferParams } from "@swapkit/toolbox-cosmos";
 import type {
   Psbt,
   TransactionType,
@@ -75,10 +72,7 @@ const getWalletMethodsForChain = async ({
         ethplorerApiKey: ethplorerApiKey as string,
       });
 
-      return {
-        address: wallet.address,
-        walletMethods: { ...toolbox },
-      };
+      return { address: wallet.address, walletMethods: toolbox };
     }
 
     case Chain.BitcoinCash: {
@@ -91,17 +85,6 @@ const getWalletMethodsForChain = async ({
       const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
       const address = toolbox.getAddressFromKeys(keys);
 
-      const signTransaction = async ({
-        builder,
-        utxos,
-      }: Awaited<ReturnType<typeof toolbox.buildBCHTx>>) => {
-        utxos.forEach((utxo, index) => {
-          builder.sign(index, keys, undefined, 0x41, (utxo.witnessUtxo as Witness).value);
-        });
-
-        return builder.build();
-      };
-
       const walletMethods = {
         ...toolbox,
         transfer: (
@@ -109,7 +92,21 @@ const getWalletMethodsForChain = async ({
             Awaited<ReturnType<typeof toolbox.buildBCHTx>>,
             TransactionType
           >,
-        ) => toolbox.transfer({ ...params, from: address, signTransaction }),
+        ) =>
+          toolbox.transfer({
+            ...params,
+            from: address,
+            signTransaction: ({
+              builder,
+              utxos,
+            }: Awaited<ReturnType<typeof toolbox.buildBCHTx>>) => {
+              utxos.forEach((utxo, index) => {
+                builder.sign(index, keys, undefined, 0x41, (utxo.witnessUtxo as Witness).value);
+              });
+
+              return builder.build();
+            },
+          }),
       };
 
       return { address, walletMethods };
@@ -127,7 +124,7 @@ const getWalletMethodsForChain = async ({
         apiClient: api,
       });
 
-      const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
+      const keys = toolbox.createKeysForPath({ phrase, derivationPath });
       const address = toolbox.getAddressFromKeys(keys);
 
       return {
@@ -147,7 +144,6 @@ const getWalletMethodsForChain = async ({
       };
     }
 
-    case Chain.Binance:
     case Chain.Cosmos:
     case Chain.Kujira:
     case Chain.Maya:
@@ -155,13 +151,7 @@ const getWalletMethodsForChain = async ({
       const { getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
 
       const toolbox = getToolboxByChain(chain)({ server: api, stagenet });
-      const additionalParams =
-        chain === Chain.Binance
-          ? {
-              privkey: await (toolbox as BinanceToolboxType).createPrivateKeyFromPhrase(phrase),
-            }
-          : { signer: await toolbox.getSigner(phrase) };
-
+      const signer = await toolbox.getSigner(phrase);
       const address = await toolbox.getAddressFromMnemonic(phrase);
 
       const transfer = async ({ assetValue, recipient, memo }: TransferParams) =>
@@ -170,7 +160,7 @@ const getWalletMethodsForChain = async ({
           recipient,
           assetValue,
           memo,
-          ...additionalParams,
+          signer,
         });
 
       const deposit =
@@ -180,7 +170,7 @@ const getWalletMethodsForChain = async ({
                 assetValue,
                 memo,
                 from: address,
-                ...additionalParams,
+                signer,
               });
             }
           : undefined;
@@ -222,6 +212,21 @@ const getWalletMethodsForChain = async ({
       const toolbox = await RadixToolbox({ api, signer });
 
       return { address: await toolbox.getAddress(), walletMethods: toolbox };
+    }
+
+    case Chain.Solana: {
+      const { SOLToolbox } = await import("@swapkit/toolbox-solana");
+      const toolbox = SOLToolbox({ rpcUrl });
+      const keypair = toolbox.createKeysForPath({ phrase, derivationPath });
+
+      return {
+        address: toolbox.getAddressFromKeys(keypair),
+        walletMethods: {
+          ...toolbox,
+          transfer: (params: WalletTxParams & { assetValue: AssetValue }) =>
+            toolbox.transfer({ ...params, fromKeypair: keypair }),
+        },
+      };
     }
 
     default:

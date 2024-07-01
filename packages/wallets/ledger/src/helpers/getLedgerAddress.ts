@@ -16,7 +16,6 @@ export const getLedgerAddress = async ({
 
   switch (chain) {
     case Chain.Cosmos:
-    case Chain.Binance:
     case Chain.THORChain: {
       return (ledgerClient as CosmosLedgerClients).connect();
     }

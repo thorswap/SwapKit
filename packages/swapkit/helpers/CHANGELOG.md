@@ -1,5 +1,102 @@
 # @swapkit/helpers
 
+## 1.0.1
+
+### Patch Changes
+
+- Bump all for same ver
+
+- Updated dependencies []:
+  - @swapkit/tokens@1.0.1
+
+## 1.0.0
+
+### Major Changes
+
+- [#881](https://github.com/thorswap/SwapKit/pull/881) [`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Remove BNB chain
+
+### Patch Changes
+
+- [`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Solana & Bump
+
+- [`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f) Thanks [@chillios-dev](https://github.com/chillios-dev)! - test bump
+
+- [`765438e`](https://github.com/thorswap/SwapKit/commit/765438e5707ae2b09aa2bf0e52ba130dec10a5f7) Thanks [@towanTG](https://github.com/towanTG)! - Bumps to fix version
+
+- [`b706da9`](https://github.com/thorswap/SwapKit/commit/b706da98525be8cf46702bc6300959ff6702f43b) Thanks [@towanTG](https://github.com/towanTG)! - Bump to fix version
+
+- [#869](https://github.com/thorswap/SwapKit/pull/869) [`9e80a83`](https://github.com/thorswap/SwapKit/commit/9e80a83ef9a083a4ccfea80de21e535aa89553c6) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Better handle Chainflip tickers
+
+- [`fbf9005`](https://github.com/thorswap/SwapKit/commit/fbf9005244c9a1e9da67e03f4ba7e8a2418e8a27) Thanks [@towanTG](https://github.com/towanTG)! - Updates token list
+
+- Updated dependencies [[`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed), [`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f), [`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371), [`765438e`](https://github.com/thorswap/SwapKit/commit/765438e5707ae2b09aa2bf0e52ba130dec10a5f7), [`b706da9`](https://github.com/thorswap/SwapKit/commit/b706da98525be8cf46702bc6300959ff6702f43b), [`fbf9005`](https://github.com/thorswap/SwapKit/commit/fbf9005244c9a1e9da67e03f4ba7e8a2418e8a27)]:
+  - @swapkit/tokens@1.0.0
+
+## 1.0.0-rc.119
+
+### Major Changes
+
+- [#881](https://github.com/thorswap/SwapKit/pull/881) [`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Remove BNB chain
+
+### Patch Changes
+
+- Updated dependencies [[`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371)]:
+  - @swapkit/tokens@1.0.0-rc.61
+
+## 1.0.0-rc.118
+
+### Patch Changes
+
+- [`765438e`](https://github.com/thorswap/SwapKit/commit/765438e5707ae2b09aa2bf0e52ba130dec10a5f7) Thanks [@towanTG](https://github.com/towanTG)! - Bumps to fix version
+
+- Updated dependencies [[`765438e`](https://github.com/thorswap/SwapKit/commit/765438e5707ae2b09aa2bf0e52ba130dec10a5f7)]:
+  - @swapkit/tokens@1.0.0-rc.60
+
+## 1.0.0-rc.117
+
+### Patch Changes
+
+- [`b706da9`](https://github.com/thorswap/SwapKit/commit/b706da98525be8cf46702bc6300959ff6702f43b) Thanks [@towanTG](https://github.com/towanTG)! - Bump to fix version
+
+- Updated dependencies [[`b706da9`](https://github.com/thorswap/SwapKit/commit/b706da98525be8cf46702bc6300959ff6702f43b)]:
+  - @swapkit/tokens@1.0.0-rc.59
+
+## 1.0.0-rc.116
+
+### Patch Changes
+
+- [`fbf9005`](https://github.com/thorswap/SwapKit/commit/fbf9005244c9a1e9da67e03f4ba7e8a2418e8a27) Thanks [@towanTG](https://github.com/towanTG)! - Updates token list
+
+- Updated dependencies [[`fbf9005`](https://github.com/thorswap/SwapKit/commit/fbf9005244c9a1e9da67e03f4ba7e8a2418e8a27)]:
+  - @swapkit/tokens@1.0.0-rc.58
+
+## 1.0.0-rc.115
+
+### Patch Changes
+
+- [`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f) Thanks [@chillios-dev](https://github.com/chillios-dev)! - test bump
+
+- [#869](https://github.com/thorswap/SwapKit/pull/869) [`9e80a83`](https://github.com/thorswap/SwapKit/commit/9e80a83ef9a083a4ccfea80de21e535aa89553c6) Thanks [@olegpetroveth](https://github.com/olegpetroveth)! - Better handle Chainflip tickers
+
+- Updated dependencies [[`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f)]:
+  - @swapkit/tokens@1.0.0-rc.57
+
+## 1.0.0-rc.114
+
+### Patch Changes
+
+- [`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Solana & Bump
+
+- Updated dependencies [[`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed)]:
+  - @swapkit/tokens@1.0.0-rc.56
+
+## 1.0.0-rc.113
+
+### Patch Changes
+
+- Updated dependencies [[`0a7f4d9`](https://github.com/thorswap/SwapKit/commit/0a7f4d9397128260064b727db1b96a91bce803a6)]:
+  - @swapkit/tokens@1.0.0-rc.55
+
 ## 1.0.0-rc.112
 
 ### Patch Changes

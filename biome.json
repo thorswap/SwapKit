@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "ignore": ["node_modules", "dist", ".turbo", "coverage"]
+    "ignore": ["node_modules", "dist", "coverage"]
   },
   "organizeImports": {
     "enabled": true
@@ -34,14 +34,15 @@
         "noImplicitBoolean": "off",
         "useBlockStatements": "off",
         "useNamingConvention": "off",
+        "noNamespaceImport": "off",
         "useFilenamingConvention": "off",
         "useNodejsImportProtocol": "off"
       },
       "complexity": { "all": true, "noBannedTypes": "off" },
-      "correctness": { "all": true, "noUndeclaredVariables": "error" },
+      "correctness": { "all": true, "noNodejsModules": "off", "noUndeclaredVariables": "error" },
       "security": { "all": true },
       "suspicious": { "all": true, "useAwait": "error" },
-      "nursery": { "recommended": true, "noEvolvingAny": "off" }
+      "nursery": { "recommended": true }
     }
   }
 }

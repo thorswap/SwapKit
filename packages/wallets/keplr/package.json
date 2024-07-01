@@ -1,12 +1,9 @@
 {
   "description": "SwapKit Wallet - Keplr",
   "dependencies": {
-    "@keplr-wallet/types": "0.12.77",
-    "@swapkit/helpers": "workspace:*"
-  },
-  "devDependencies": {
+    "@keplr-wallet/types": "0.12.107",
     "@swapkit/toolbox-cosmos": "workspace:*",
-    "bun-types": "1.1.8"
+    "@swapkit/helpers": "workspace:*"
   },
   "files": [
     "src/",
@@ -16,11 +13,6 @@
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "name": "@swapkit/wallet-keplr",
-  "peerDependencies": {
-    "@keplr-wallet/types": "0.12.76",
-    "@swapkit/toolbox-cosmos": "workspace:*",
-    "@swapkit/helpers": "workspace:*"
-  },
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
@@ -28,13 +20,13 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
-    "lint": "biome check --apply ./src",
+    "clean": "rm -rf dist node_modules *.tsbuildinfo",
+    "lint": "biome check --write ./src",
     "test": "echo 'bun test'",
-    "test:coverage": "echo 'bun test --coverage'",
+    "test:coverage": "bun test --coverage",
     "type-check": "tsc --noEmit"
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.143"
+  "version": "1.0.1"
 }

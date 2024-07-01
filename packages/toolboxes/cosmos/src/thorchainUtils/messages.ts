@@ -9,7 +9,6 @@ type MsgSend = ReturnType<typeof transferMsgAmino>;
 type MsgDeposit = ReturnType<typeof depositMsgAmino>;
 type MsgSendForBroadcast = ReturnType<typeof prepareMessageForBroadcast>;
 type MsgDepositForBroadcast = ReturnType<typeof prepareMessageForBroadcast>;
-// type SignableMsg = ReturnType<typeof convertToSignable>;
 
 export const getDefaultChainFee = (chain: Chain.THORChain | Chain.Maya) => {
   switch (chain) {
@@ -94,11 +93,11 @@ export const buildAminoMsg = ({
   return msg;
 };
 
-export const convertToSignable = async (
+export const convertToSignable = (
   msg: MsgDepositForBroadcast | MsgSendForBroadcast,
   chain: Chain.THORChain | Chain.Maya,
 ) => {
-  const aminoTypes = await createDefaultAminoTypes(chain);
+  const aminoTypes = createDefaultAminoTypes(chain);
 
   return aminoTypes.fromAmino(msg);
 };
@@ -150,7 +149,7 @@ export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
     value: {
       ...msg.value,
       coins: (msg as MsgDeposit).value.coins.map((coin: { asset: string; amount: string }) => {
-        const assetValue = AssetValue.fromStringSync(coin.asset);
+        const assetValue = AssetValue.from({ asset: coin.asset });
 
         const symbol = assetValue.isSynthetic
           ? assetValue.symbol.split("/")?.[1]?.toLowerCase()
@@ -173,7 +172,7 @@ export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
   };
 };
 
-export const buildEncodedTxBody = async ({
+export const buildEncodedTxBody = ({
   chain,
   memo,
   msgs,
@@ -182,17 +181,15 @@ export const buildEncodedTxBody = async ({
   memo: string;
   chain: Chain.THORChain | Chain.Maya;
 }) => {
-  const registry = await createDefaultRegistry();
-  const aminoTypes = await createDefaultAminoTypes(chain);
+  const registry = createDefaultRegistry();
+  const aminoTypes = createDefaultAminoTypes(chain);
 
   const signedTxBody: TxBodyEncodeObject = {
     typeUrl: "/cosmos.tx.v1beta1.TxBody",
     value: { memo, messages: msgs.map((msg) => aminoTypes.fromAmino(msg)) },
   };
 
-  const encodedTxBody = registry.encode(signedTxBody);
-
-  return encodedTxBody;
+  return registry.encode(signedTxBody);
 };
 
 export const getDenomWithChain = ({ symbol, chain }: AssetValue) => {

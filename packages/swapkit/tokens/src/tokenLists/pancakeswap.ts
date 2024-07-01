@@ -2,10 +2,10 @@ export const list = {
   provider: "PANCAKESWAP",
   chainId: "56",
   name: "PancakeSwap Extended",
-  timestamp: "2024-06-20T14:30:57.059Z",
-  version: { major: 2, minor: 16, patch: 226 },
+  timestamp: "2024-06-27T05:22:43.511Z",
+  version: { major: 2, minor: 16, patch: 227 },
   keywords: ["pancakeswap", "extended"],
-  count: 411,
+  count: 412,
   tokens: [
     {
       chain: "BSC",
@@ -3236,6 +3236,16 @@ export const list = {
       decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/bsc.solvbtc-0x4aae823a6a0b376de6a78e74ecc5b079d38cbcf7.png",
+    },
+    {
+      chain: "BSC",
+      address: "0x53E63a31fD1077f949204b94F431bCaB98F72BCE",
+      chainId: "56",
+      ticker: "SOLVBTC.ENA",
+      identifier: "BSC.SOLVBTC.ENA-0X53E63A31FD1077F949204B94F431BCAB98F72BCE",
+      decimals: 18,
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/bsc.solvbtc.ena-0x53e63a31fd1077f949204b94f431bcab98f72bce.png",
     },
     {
       chain: "BSC",

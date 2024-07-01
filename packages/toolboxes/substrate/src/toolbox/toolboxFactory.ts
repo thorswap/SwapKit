@@ -21,7 +21,7 @@ export const ToolboxFactory = async ({
 }: ToolboxParams & { chain: SubstrateChain }) => {
   const provider = new WsProvider(providerUrl);
   const api = await ApiPromise.create({ provider });
-  const gasAsset = AssetValue.fromChainOrSignature(chain);
+  const gasAsset = AssetValue.from({ chain });
 
   return BaseSubstrateToolbox({
     api,
@@ -43,7 +43,7 @@ export const PolkadotToolbox = ({ providerUrl, signer, generic = false }: Toolbo
 export const ChainflipToolbox = async ({ providerUrl, signer, generic = false }: ToolboxParams) => {
   const provider = new WsProvider(providerUrl);
   const api = await ApiPromise.create({ provider });
-  const gasAsset = AssetValue.fromChainOrSignature(Chain.Chainflip);
+  const gasAsset = AssetValue.from({ chain: Chain.Chainflip });
 
   async function getBalance(api: ApiPromise, address: string) {
     // @ts-expect-error @Towan some parts of data missing?

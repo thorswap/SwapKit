@@ -5,7 +5,6 @@ import {
   SwapKitError,
 } from "@swapkit/helpers";
 
-import { BinanceApp } from "../clients/binance/lib.ts";
 import { THORChainApp } from "../clients/thorchain/lib.ts";
 import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
 
@@ -14,7 +13,7 @@ export abstract class CosmosLedgerInterface {
   public derivationPath: DerivationPathArray | string = NetworkDerivationPath.GAIA;
   public transport: Todo;
   public ledgerApp: Todo;
-  public chain: "thor" | "bnb" | "cosmos" = "thor";
+  public chain: "thor" | "cosmos" = "thor";
 
   public checkOrCreateTransportAndLedger = async (forceReconnect = false) => {
     if (!forceReconnect && this.transport && this.ledgerApp) return;
@@ -24,13 +23,6 @@ export abstract class CosmosLedgerInterface {
         forceReconnect || !this.transport ? await getLedgerTransport() : this.transport;
 
       switch (this.chain) {
-        case "bnb": {
-          this.ledgerApp =
-            forceReconnect || !this.ledgerApp ? new BinanceApp(this.transport) : this.ledgerApp;
-
-          break;
-        }
-
         case "thor": {
           this.ledgerApp =
             forceReconnect || !this.ledgerApp ? new THORChainApp(this.transport) : this.ledgerApp;

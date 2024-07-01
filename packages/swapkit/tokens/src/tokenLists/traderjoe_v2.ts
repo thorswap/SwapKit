@@ -1,7 +1,7 @@
 export const list = {
   provider: "TRADERJOE_V2",
   name: "TRADERJOE_V2",
-  timestamp: "2024-06-20T16:30:41.624Z",
+  timestamp: "2024-06-25T19:24:36.207Z",
   version: { major: 1, minor: 0, patch: 0 },
   keywords: [],
   count: 110,
@@ -92,6 +92,16 @@ export const list = {
       chainId: "42161",
       ticker: "BTC.B",
       identifier: "ARB.BTC.b-0x2297aEbD383787A160DD0d9F71508148769342E3",
+      decimals: 8,
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.btc.b-0x2297aebd383787a160dd0d9f71508148769342e3.png",
+    },
+    {
+      chain: "ARB",
+      address: "0x2297aEbD383787A160DD0d9F71508148769342E3",
+      chainId: "42161",
+      ticker: "BTC.B",
+      identifier: "ARB.BTC.B-0X2297AEBD383787A160DD0D9F71508148769342E3",
       decimals: 8,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.btc.b-0x2297aebd383787a160dd0d9f71508148769342e3.png",
@@ -662,6 +672,16 @@ export const list = {
       chainId: "43114",
       ticker: "BTC.B",
       identifier: "AVAX.BTC.b-0x152b9d0FdC40C096757F570A51E494bd4b943E50",
+      decimals: 8,
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.btc.b-0x152b9d0fdc40c096757f570a51e494bd4b943e50.png",
+    },
+    {
+      chain: "AVAX",
+      address: "0x152b9d0FdC40C096757F570A51E494bd4b943E50",
+      chainId: "43114",
+      ticker: "BTC.B",
+      identifier: "AVAX.BTC.B-0X152B9D0FDC40C096757F570A51E494BD4B943E50",
       decimals: 8,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.btc.b-0x152b9d0fdc40c096757f570a51e494bd4b943e50.png",

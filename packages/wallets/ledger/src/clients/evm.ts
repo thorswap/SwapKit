@@ -15,9 +15,6 @@ import {
 
 import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
 
-/**
- * Has to be a class because of the way the ledger library is structured
- */
 class EVMLedgerInterface extends AbstractSigner {
   public chainId: ChainId = ChainId.Ethereum;
   public derivationPath = "";

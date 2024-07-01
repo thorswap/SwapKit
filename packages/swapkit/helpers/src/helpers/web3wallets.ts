@@ -1,4 +1,5 @@
 import type { BrowserProvider } from "ethers";
+import { SwapKitError } from "../modules/swapKitError";
 import {
   ChainId,
   type EIP6963AnnounceProviderEvent,
@@ -85,13 +86,18 @@ export const wrapMethodWithNetworkSwitch = <T extends (...args: Todo[]) => Todo>
     try {
       await switchEVMWalletNetwork(provider, chainId);
     } catch (error) {
-      throw new Error(`Failed to switch network: ${error}`);
+      throw new SwapKitError({
+        errorKey: "helpers_failed_to_switch_network",
+        info: { error },
+      });
     }
     return func(...args);
   }) as unknown as T;
 
 const providerRequest = ({ provider, params, method }: ProviderRequestParams) => {
-  if (!provider?.send) throw new Error("Provider not found");
+  if (!provider?.send) {
+    throw new SwapKitError("helpers_not_found_provider");
+  }
 
   const providerParams = params ? (Array.isArray(params) ? params : [params]) : [];
   return provider.send(method, providerParams);

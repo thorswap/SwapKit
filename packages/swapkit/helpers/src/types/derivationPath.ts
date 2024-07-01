@@ -13,7 +13,6 @@ export enum DerivationPath {
   ARB = "m/44'/60'/0'/0",
   AVAX = "m/44'/60'/0'/0",
   BCH = "m/44'/145'/0'/0",
-  BNB = "m/44'/714'/0'/0",
   BSC = "m/44'/60'/0'/0",
   BTC = "m/84'/0'/0'/0",
   DASH = "m/44'/5'/0'/0",
@@ -27,8 +26,9 @@ export enum DerivationPath {
   MATIC = "m/44'/60'/0'/0",
   MAYA = "m/44'/931'/0'/0",
   OP = "m/44'/60'/0'/0",
-  XRD = "////",
+  SOL = "m/44'/501'/0'/0",
   THOR = "m/44'/931'/0'/0",
+  XRD = "////",
 }
 
 export type DerivationPathArray = [number, number, number, number, number?];
@@ -37,7 +37,6 @@ export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   ARB: [44, 60, 0, 0, 0],
   AVAX: [44, 60, 0, 0, 0],
   BCH: [44, 145, 0, 0, 0],
-  BNB: [44, 714, 0, 0, 0],
   BSC: [44, 60, 0, 0, 0],
   BTC: [84, 0, 0, 0, 0],
   DASH: [44, 5, 0, 0, 0],
@@ -49,6 +48,7 @@ export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   MATIC: [44, 60, 0, 0, 0],
   MAYA: [44, 931, 0, 0, 0],
   OP: [44, 60, 0, 0, 0],
+  SOL: [44, 501, 0, 0, 0],
   THOR: [44, 931, 0, 0, 0],
 
   // Polkadot and related network derivation path is not number based

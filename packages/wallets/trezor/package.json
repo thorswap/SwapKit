@@ -1,14 +1,11 @@
 {
   "dependencies": {
     "@swapkit/helpers": "workspace:*",
-    "@trezor/connect-web": "9.2.2"
-  },
-  "description": "SwapKit Wallet - Trezor",
-  "devDependencies": {
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "bun-types": "1.1.8"
+    "@trezor/connect-web": "9.2.4"
   },
+  "description": "SwapKit Wallet - Trezor",
   "files": [
     "src/",
     "dist/"
@@ -17,12 +14,6 @@
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "name": "@swapkit/wallet-trezor",
-  "peerDependencies": {
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-utxo": "workspace:*",
-    "@trezor/connect-web": "9.2.2"
-  },
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
@@ -30,13 +21,13 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
-    "clean": "rm -rf .turbo dist node_modules *.tsbuildinfo",
-    "lint": "biome check --apply ./src",
+    "clean": "rm -rf dist node_modules *.tsbuildinfo",
+    "lint": "biome check --write ./src",
     "test": "echo 'bun test'",
-    "test:coverage": "echo 'bun test--coverage'",
+    "test:coverage": "bun test --coverage",
     "type-check": "tsc --noEmit"
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.0-rc.133"
+  "version": "1.0.1"
 }

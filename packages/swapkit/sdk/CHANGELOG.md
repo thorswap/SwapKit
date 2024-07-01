@@ -1,5 +1,219 @@
 # @swapkit/sdk
 
+## 1.0.1
+
+### Patch Changes
+
+- Bump all for same ver
+
+- Updated dependencies []:
+  - @swapkit/plugin-chainflip@1.0.1
+  - @swapkit/plugin-evm@1.0.1
+  - @swapkit/plugin-thorchain@1.0.1
+  - @swapkit/core@1.0.1
+  - @swapkit/tokens@1.0.1
+  - @swapkit/wallets@1.0.1
+  - @swapkit/toolbox-cosmos@1.0.1
+  - @swapkit/toolbox-evm@1.0.1
+  - @swapkit/toolbox-radix@1.0.1
+  - @swapkit/toolbox-solana@1.0.1
+  - @swapkit/toolbox-substrate@1.0.1
+  - @swapkit/toolbox-utxo@1.0.1
+
+## 1.0.0
+
+### Major Changes
+
+- [#881](https://github.com/thorswap/SwapKit/pull/881) [`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Remove BNB chain
+
+### Patch Changes
+
+- [`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Solana & Bump
+
+- [`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f) Thanks [@chillios-dev](https://github.com/chillios-dev)! - test bump
+
+- [`765438e`](https://github.com/thorswap/SwapKit/commit/765438e5707ae2b09aa2bf0e52ba130dec10a5f7) Thanks [@towanTG](https://github.com/towanTG)! - Bumps to fix version
+
+- [`b706da9`](https://github.com/thorswap/SwapKit/commit/b706da98525be8cf46702bc6300959ff6702f43b) Thanks [@towanTG](https://github.com/towanTG)! - Bump to fix version
+
+- [`115f09f`](https://github.com/thorswap/SwapKit/commit/115f09ff2eecd01ba20c42933f7eb13132307062) Thanks [@towanTG](https://github.com/towanTG)! - Release after fixing version replace
+
+- [`005cb0c`](https://github.com/thorswap/SwapKit/commit/005cb0c5d8f5757a06cf25b4b0af0670acf34276) Thanks [@towanTG](https://github.com/towanTG)! - Releases to fix dependency versions
+
+- Updated dependencies [[`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed), [`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f), [`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371), [`765438e`](https://github.com/thorswap/SwapKit/commit/765438e5707ae2b09aa2bf0e52ba130dec10a5f7), [`b706da9`](https://github.com/thorswap/SwapKit/commit/b706da98525be8cf46702bc6300959ff6702f43b), [`115f09f`](https://github.com/thorswap/SwapKit/commit/115f09ff2eecd01ba20c42933f7eb13132307062), [`9e80a83`](https://github.com/thorswap/SwapKit/commit/9e80a83ef9a083a4ccfea80de21e535aa89553c6), [`fbf9005`](https://github.com/thorswap/SwapKit/commit/fbf9005244c9a1e9da67e03f4ba7e8a2418e8a27)]:
+  - @swapkit/toolbox-substrate@1.0.0
+  - @swapkit/plugin-chainflip@1.0.0
+  - @swapkit/plugin-thorchain@1.0.0
+  - @swapkit/toolbox-cosmos@1.0.0
+  - @swapkit/toolbox-solana@1.0.0
+  - @swapkit/wallets@1.0.0
+  - @swapkit/toolbox-radix@1.0.0
+  - @swapkit/tokens@1.0.0
+  - @swapkit/toolbox-utxo@1.0.0
+  - @swapkit/toolbox-evm@1.0.0
+  - @swapkit/core@1.0.0
+  - @swapkit/plugin-evm@1.0.0
+
+## 1.0.0-rc.204
+
+### Major Changes
+
+- [#881](https://github.com/thorswap/SwapKit/pull/881) [`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Remove BNB chain
+
+### Patch Changes
+
+- Updated dependencies [[`34e09ce`](https://github.com/thorswap/SwapKit/commit/34e09ce1833ab4211bf2a5584a24c24e249a0371)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.54
+  - @swapkit/plugin-chainflip@1.0.0-rc.76
+  - @swapkit/plugin-thorchain@1.0.0-rc.76
+  - @swapkit/toolbox-cosmos@1.0.0-rc.146
+  - @swapkit/toolbox-solana@1.0.0-rc.7
+  - @swapkit/wallets@1.0.0-rc.7
+  - @swapkit/toolbox-radix@1.0.0-rc.11
+  - @swapkit/tokens@1.0.0-rc.61
+  - @swapkit/toolbox-utxo@1.0.0-rc.130
+  - @swapkit/toolbox-evm@1.0.0-rc.126
+  - @swapkit/core@1.0.0-rc.174
+  - @swapkit/plugin-evm@1.0.0-rc.19
+
+## 1.0.0-rc.203
+
+### Patch Changes
+
+- [`765438e`](https://github.com/thorswap/SwapKit/commit/765438e5707ae2b09aa2bf0e52ba130dec10a5f7) Thanks [@towanTG](https://github.com/towanTG)! - Bumps to fix version
+
+- Updated dependencies [[`765438e`](https://github.com/thorswap/SwapKit/commit/765438e5707ae2b09aa2bf0e52ba130dec10a5f7)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.53
+  - @swapkit/plugin-chainflip@1.0.0-rc.75
+  - @swapkit/plugin-thorchain@1.0.0-rc.75
+  - @swapkit/toolbox-cosmos@1.0.0-rc.145
+  - @swapkit/toolbox-solana@1.0.0-rc.6
+  - @swapkit/wallets@1.0.0-rc.6
+  - @swapkit/toolbox-radix@1.0.0-rc.10
+  - @swapkit/tokens@1.0.0-rc.60
+  - @swapkit/toolbox-utxo@1.0.0-rc.129
+  - @swapkit/toolbox-evm@1.0.0-rc.125
+  - @swapkit/core@1.0.0-rc.173
+  - @swapkit/plugin-evm@1.0.0-rc.18
+
+## 1.0.0-rc.202
+
+### Patch Changes
+
+- [`b706da9`](https://github.com/thorswap/SwapKit/commit/b706da98525be8cf46702bc6300959ff6702f43b) Thanks [@towanTG](https://github.com/towanTG)! - Bump to fix version
+
+- Updated dependencies [[`b706da9`](https://github.com/thorswap/SwapKit/commit/b706da98525be8cf46702bc6300959ff6702f43b)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.52
+  - @swapkit/plugin-chainflip@1.0.0-rc.74
+  - @swapkit/plugin-thorchain@1.0.0-rc.74
+  - @swapkit/toolbox-cosmos@1.0.0-rc.144
+  - @swapkit/toolbox-solana@1.0.0-rc.5
+  - @swapkit/wallets@1.0.0-rc.5
+  - @swapkit/toolbox-radix@1.0.0-rc.9
+  - @swapkit/tokens@1.0.0-rc.59
+  - @swapkit/toolbox-utxo@1.0.0-rc.128
+  - @swapkit/toolbox-evm@1.0.0-rc.124
+  - @swapkit/core@1.0.0-rc.172
+  - @swapkit/plugin-evm@1.0.0-rc.17
+
+## 1.0.0-rc.201
+
+### Patch Changes
+
+- [`115f09f`](https://github.com/thorswap/SwapKit/commit/115f09ff2eecd01ba20c42933f7eb13132307062) Thanks [@towanTG](https://github.com/towanTG)! - Release after fixing version replace
+
+- Updated dependencies [[`115f09f`](https://github.com/thorswap/SwapKit/commit/115f09ff2eecd01ba20c42933f7eb13132307062), [`fbf9005`](https://github.com/thorswap/SwapKit/commit/fbf9005244c9a1e9da67e03f4ba7e8a2418e8a27)]:
+  - @swapkit/plugin-chainflip@1.0.0-rc.73
+  - @swapkit/plugin-thorchain@1.0.0-rc.73
+  - @swapkit/core@1.0.0-rc.171
+  - @swapkit/plugin-evm@1.0.0-rc.16
+  - @swapkit/tokens@1.0.0-rc.58
+  - @swapkit/toolbox-cosmos@1.0.0-rc.143
+  - @swapkit/toolbox-evm@1.0.0-rc.123
+  - @swapkit/toolbox-radix@1.0.0-rc.8
+  - @swapkit/toolbox-solana@1.0.0-rc.4
+  - @swapkit/toolbox-substrate@1.0.0-rc.51
+  - @swapkit/toolbox-utxo@1.0.0-rc.127
+  - @swapkit/wallets@1.0.0-rc.4
+
+## 1.0.0-rc.200
+
+### Patch Changes
+
+- [`005cb0c`](https://github.com/thorswap/SwapKit/commit/005cb0c5d8f5757a06cf25b4b0af0670acf34276) Thanks [@towanTG](https://github.com/towanTG)! - Releases to fix dependency versions
+
+## 1.0.0-rc.199
+
+### Patch Changes
+
+- [`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f) Thanks [@chillios-dev](https://github.com/chillios-dev)! - test bump
+
+- Updated dependencies [[`df854f5`](https://github.com/thorswap/SwapKit/commit/df854f51a67f909e9542d4557aa2dcc41c61231f), [`9e80a83`](https://github.com/thorswap/SwapKit/commit/9e80a83ef9a083a4ccfea80de21e535aa89553c6)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.50
+  - @swapkit/plugin-chainflip@1.0.0-rc.72
+  - @swapkit/plugin-thorchain@1.0.0-rc.72
+  - @swapkit/toolbox-cosmos@1.0.0-rc.142
+  - @swapkit/toolbox-solana@1.0.0-rc.3
+  - @swapkit/wallets@1.0.0-rc.3
+  - @swapkit/toolbox-radix@1.0.0-rc.7
+  - @swapkit/tokens@1.0.0-rc.57
+  - @swapkit/toolbox-utxo@1.0.0-rc.126
+  - @swapkit/toolbox-evm@1.0.0-rc.122
+  - @swapkit/core@1.0.0-rc.170
+  - @swapkit/plugin-evm@1.0.0-rc.15
+
+## 1.0.0-rc.198
+
+### Patch Changes
+
+- [`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Solana & Bump
+
+- Updated dependencies [[`02a8a99`](https://github.com/thorswap/SwapKit/commit/02a8a994806783b24133433f0f476603fdc633ed)]:
+  - @swapkit/toolbox-substrate@1.0.0-rc.49
+  - @swapkit/plugin-chainflip@1.0.0-rc.71
+  - @swapkit/plugin-thorchain@1.0.0-rc.71
+  - @swapkit/toolbox-cosmos@1.0.0-rc.141
+  - @swapkit/toolbox-solana@1.0.0-rc.2
+  - @swapkit/wallets@1.0.0-rc.2
+  - @swapkit/toolbox-radix@1.0.0-rc.6
+  - @swapkit/tokens@1.0.0-rc.56
+  - @swapkit/toolbox-utxo@1.0.0-rc.125
+  - @swapkit/toolbox-evm@1.0.0-rc.121
+  - @swapkit/core@1.0.0-rc.169
+  - @swapkit/plugin-evm@1.0.0-rc.14
+
+## 1.0.0-rc.196
+
+### Patch Changes
+
+- Updated dependencies [[`0a7f4d9`](https://github.com/thorswap/SwapKit/commit/0a7f4d9397128260064b727db1b96a91bce803a6)]:
+  - @swapkit/tokens@1.0.0-rc.55
+  - @swapkit/core@1.0.0-rc.168
+  - @swapkit/chainflip@1.0.0-rc.70
+  - @swapkit/evm@1.0.0-rc.13
+  - @swapkit/thorchain@1.0.0-rc.70
+  - @swapkit/toolbox-cosmos@1.0.0-rc.140
+  - @swapkit/toolbox-evm@1.0.0-rc.120
+  - @swapkit/toolbox-substrate@1.0.0-rc.48
+  - @swapkit/toolbox-utxo@1.0.0-rc.124
+  - @swapkit/wallet-coinbase@1.0.0-rc.28
+  - @swapkit/wallet-evm-extensions@1.0.0-rc.124
+  - @swapkit/wallet-keepkey@1.0.0-rc.80
+  - @swapkit/wallet-keplr@1.0.0-rc.144
+  - @swapkit/wallet-keystore@1.0.0-rc.157
+  - @swapkit/wallet-ledger@1.0.0-rc.165
+  - @swapkit/wallet-okx@1.0.0-rc.158
+  - @swapkit/wallet-trezor@1.0.0-rc.134
+  - @swapkit/wallet-wc@1.0.0-rc.148
+  - @swapkit/wallet-xdefi@1.0.0-rc.161
+
+## 1.0.0-rc.195
+
+### Patch Changes
+
+- Updated dependencies [[`8190a77`](https://github.com/thorswap/SwapKit/commit/8190a77bb91ca7afea322b6fbf0a1e3cc80a68c2)]:
+  - @swapkit/chainflip@1.0.0-rc.69
+
 ## 1.0.0-rc.194
 
 ### Patch Changes
