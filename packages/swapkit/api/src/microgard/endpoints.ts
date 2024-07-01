@@ -2,7 +2,6 @@ import { AssetValue, BaseDecimal, RequestClient, SwapKitNumber } from "@swapkit/
 import type { LiquidityPositionRaw, PoolDetail, PoolPeriod, THORNameDetails } from "./types.ts";
 
 const baseUrl = "https://mu.thorswap.net";
-const midgardUrl = "https://midgard.thorswap.net";
 
 export function getTHORNameDetails(thorname: string) {
   return RequestClient.get<THORNameDetails>(`${baseUrl}/thorname/lookup/${thorname}`);
@@ -22,7 +21,7 @@ export function getTHORChainPools(period: PoolPeriod) {
 
 export function getLiquidityPositionsRaw(addresses: string[]) {
   return RequestClient.get<LiquidityPositionRaw[]>(
-    `${midgardUrl}/v2/full_member?address=${addresses.join(",")}`,
+    `${baseUrl}/fullmember?address=${addresses.join(",")}`,
   );
 }
 
