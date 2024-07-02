@@ -177,7 +177,7 @@ const getWalletMethodsForChain = async ({
 
       const signMessage = async (message: string) => {
         const privateKey = await toolbox.createPrivateKeyFromPhrase(phrase);
-        return (toolbox as ThorchainToolboxType).signMessage(privateKey, message);
+        return (toolbox as ThorchainToolboxType).generateSignature(privateKey, message);
       };
 
       const walletMethods = {

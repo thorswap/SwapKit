@@ -42,6 +42,7 @@ export type ChainWallet = {
   balance: AssetValue[];
   walletType: WalletOption;
   disconnect?: () => void;
+  signMessage?: (message: string) => Promise<string>;
 };
 
 export type EmptyWallet = { [key in Chain]?: unknown };

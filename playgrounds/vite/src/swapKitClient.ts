@@ -1,4 +1,4 @@
-import { createSwapKit } from "@swapkit/sdk";
+import { Chain, createSwapKit } from "@swapkit/sdk";
 
 export type SwapKitClient = ReturnType<typeof createSwapKit>;
 

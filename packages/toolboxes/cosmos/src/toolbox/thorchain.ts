@@ -143,7 +143,7 @@ const __REEXPORT__pubkeyToAddress = (prefix: string) => (pubkey: Pubkey) => {
   return pubkeyToAddress(pubkey, prefix);
 };
 
-const signMessage = async (privateKey: Uint8Array, message: string) => {
+const generateSignature = async (privateKey: Uint8Array, message: string) => {
   const signature = await Secp256k1.createSignature(base64.decode(message), privateKey);
   return base64.encode(Buffer.concat([signature.r(32), signature.s(32)]));
 };
@@ -289,7 +289,7 @@ export const BaseThorchainToolbox = ({
     importSignature,
     loadAddressBalances,
     pubkeyToAddress: __REEXPORT__pubkeyToAddress(prefix),
-    signMessage,
+    generateSignature,
     verifySignature: verifySignatureInToolbox,
   };
 };

@@ -28,7 +28,13 @@ import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
 } from "./helpers/explorerUrls.ts";
-import type { Apis, SwapKitPluginInterface, SwapKitWallet, Wallet } from "./types.ts";
+import type {
+  Apis,
+  ConditionalAssetValueReturn,
+  SwapKitPluginInterface,
+  SwapKitWallet,
+  Wallet,
+} from "./types.ts";
 
 export function SwapKit<
   Plugins extends { [key in string]: SwapKitPluginInterface<{ [key in string]: Todo }> },
@@ -189,10 +195,15 @@ export function SwapKit<
     }
   }
 
-  function getBalance<T extends Chain>(chain: T, refresh?: boolean) {
-    return refresh
-      ? getWalletWithBalance(chain).then((wallet) => wallet.balance)
-      : getWallet(chain)?.balance || [];
+  function getBalance<T extends Chain, R extends boolean>(
+    chain: T,
+    refresh?: R,
+  ): ConditionalAssetValueReturn<R> {
+    return (
+      refresh
+        ? getWalletWithBalance(chain).then(({ balance }) => balance)
+        : getWallet(chain)?.balance || []
+    ) as ConditionalAssetValueReturn<R>;
   }
 
   function validateAddress({ address, chain }: { address: string; chain: Chain }) {
@@ -274,8 +285,7 @@ export function SwapKit<
     const wallet = getWallet(chain);
     if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
 
-    if ("signMessage" in wallet) {
-      // @ts-expect-error TODO
+    if (wallet?.signMessage) {
       return wallet.signMessage(message);
     }
 
