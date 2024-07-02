@@ -2,8 +2,11 @@ import type { Signer as InjectedSigner } from "@polkadot/api/types";
 import type { ProviderInterface } from "@polkadot/rpc-provider/types";
 import type { ExtDef } from "@polkadot/types/extrinsic/signedExtensions/types";
 import type { KeypairType } from "@polkadot/util-crypto/types";
+
 type This = typeof globalThis;
+
 export type Unsubcall = () => void;
+
 export interface InjectedAccount {
   address: string;
   genesisHash?: string | null;

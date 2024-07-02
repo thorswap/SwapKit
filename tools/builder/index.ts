@@ -1,21 +1,21 @@
-import type { Target } from "bun";
+import type { BuildConfig } from "bun";
 
 export async function buildPackage({
   entrypoints = ["./src/index.ts"],
   dependencies,
   ...rest
-}: {
-  target?: Target;
+}: Omit<BuildConfig, "entrypoints"> & {
   entrypoints?: string[];
   dependencies: Record<string, string>;
 }) {
+  const external = Object.keys(dependencies);
   const result = await Bun.build({
-    ...rest,
     entrypoints,
     outdir: "./dist",
     minify: true,
-    external: Object.keys(dependencies),
+    external,
     sourcemap: "external",
+    ...rest,
   });
 
   if (!result.success) {
