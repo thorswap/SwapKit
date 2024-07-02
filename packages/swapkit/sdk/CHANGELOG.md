@@ -1,5 +1,22 @@
 # @swapkit/sdk
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/plugin-chainflip@1.0.2
+  - @swapkit/plugin-evm@1.0.2
+  - @swapkit/plugin-thorchain@1.0.2
+  - @swapkit/core@1.0.2
+  - @swapkit/toolbox-cosmos@1.0.2
+  - @swapkit/toolbox-evm@1.0.2
+  - @swapkit/toolbox-radix@1.0.2
+  - @swapkit/toolbox-solana@1.0.2
+  - @swapkit/toolbox-substrate@1.0.2
+  - @swapkit/toolbox-utxo@1.0.2
+  - @swapkit/wallets@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes
