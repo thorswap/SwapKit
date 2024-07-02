@@ -45,7 +45,7 @@ export function wrapWithThrow<T>(fn: () => T, errorKey?: ErrorKeys) {
   }
 }
 
-export const getChainIdentifier = (chain: Chain) => {
+export function getChainIdentifier<T extends Chain>(chain: T) {
   switch (chain) {
     case Chain.THORChain:
       return `${chain}.RUNE`;
@@ -59,4 +59,17 @@ export const getChainIdentifier = (chain: Chain) => {
     default:
       return `${chain}.${chain}`;
   }
-};
+}
+
+const skipWarnings = ["production", "test"].includes(process.env.NODE_ENV || "");
+const warnings = new Set();
+export function warnOnce(condition: boolean, warning: string) {
+  if (!skipWarnings && condition) {
+    if (warnings.has(warning)) {
+      return;
+    }
+
+    warnings.add(warning);
+    console.warn(warning);
+  }
+}
