@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.2
+
+### Patch Changes
+
+- [#889](https://github.com/thorswap/SwapKit/pull/889) [`404aec0`](https://github.com/thorswap/SwapKit/commit/404aec0a95f12cb76657c30ae430ae8361ab6e2b) Thanks [@towanTG](https://github.com/towanTG)! - Fixes fromChainOrIdentifier method of AssetValue
+
 ## 1.0.1
 
 ### Patch Changes

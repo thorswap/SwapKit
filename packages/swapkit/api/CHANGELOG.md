@@ -1,5 +1,16 @@
 # @swapkit/api
 
+## 1.1.0
+
+### Minor Changes
+
+- [#885](https://github.com/thorswap/SwapKit/pull/885) [`d535686`](https://github.com/thorswap/SwapKit/commit/d535686e05a265eaba34cee91035e8093cfe66f7) Thanks [@towanTG](https://github.com/towanTG)! - Adds midgard earn, borrow, lp endpoints for maya + TC
+
+### Patch Changes
+
+- Updated dependencies [[`404aec0`](https://github.com/thorswap/SwapKit/commit/404aec0a95f12cb76657c30ae430ae8361ab6e2b)]:
+  - @swapkit/helpers@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes
