@@ -1,3 +1,4 @@
+import { decodeAddress, encodeAddress } from "@polkadot/util-crypto";
 import {
   Chain,
   ChainToHexChainId,
@@ -7,7 +8,6 @@ import {
   addEVMWalletNetwork,
   prepareNetworkSwitch,
 } from "@swapkit/helpers";
-
 import {
   type ARBToolbox,
   type BSCToolbox,
@@ -16,8 +16,6 @@ import {
   type MATICToolbox,
   type OPToolbox,
 } from "@swapkit/toolbox-evm";
-
-import { decodeAddress, encodeAddress } from "@polkadot/util-crypto";
 
 import type { InjectedWindow } from "./types";
 
