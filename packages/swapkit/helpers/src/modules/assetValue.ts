@@ -227,7 +227,7 @@ export class AssetValue extends BigIntArithmetics {
    * @deprecated use AssetValue.from({ asset, value }) or AssetValue.from({ chain, value })
    */
   static fromChainOrSignature(assetOrChain: CommonAssetString, value: NumberPrimitives = 0) {
-    if (assetOrChain in Chain) {
+    if (Object.values(Chain).includes(assetOrChain as Chain)) {
       return AssetValue.from({ chain: assetOrChain as Chain, value });
     }
     return AssetValue.from({ asset: assetOrChain, value });
