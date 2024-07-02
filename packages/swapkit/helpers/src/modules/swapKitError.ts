@@ -10,8 +10,11 @@ const errorCodes = {
   core_plugin_swap_not_found: 10007,
   core_approve_asset_target_invalid: 10008,
   core_explorer_unsupported_chain: 10009,
+  core_verify_message_not_supported: 10010,
   core_chain_halted: 10099,
-
+  /**
+   * Core - Wallet
+   */
   core_wallet_connection_not_found: 10100,
   core_wallet_xdefi_not_installed: 10101,
   core_wallet_evmwallet_not_installed: 10102,
@@ -24,6 +27,7 @@ const errorCodes = {
   core_wallet_keepkey_not_installed: 10109,
   core_wallet_talisman_not_installed: 10110,
   core_wallet_not_keypair_wallet: 10111,
+  core_wallet_sign_message_not_supported: 10110,
   /**
    * Core - Swap
    */
@@ -105,7 +109,6 @@ const errorCodes = {
    * SwapKit API
    */
   api_v2_invalid_response: 50001,
-
   /**
    * Toolboxes
    */

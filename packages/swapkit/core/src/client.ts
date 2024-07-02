@@ -270,6 +270,39 @@ export function SwapKit<
     return wallet.transfer({ from, recipient, assetValue, feeOptionKey });
   }
 
+  function signMessage({ chain, message }: { chain: Chain; message: string }) {
+    const wallet = getWallet(chain);
+    if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
+
+    if ("signMessage" in wallet) {
+      // @ts-expect-error TODO
+      return wallet.signMessage(message);
+    }
+
+    throw new SwapKitError({
+      errorKey: "core_wallet_sign_message_not_supported",
+      info: { chain, wallet: wallet.walletType },
+    });
+  }
+
+  async function verifyMessage({
+    address,
+    chain,
+    message,
+    signature,
+  }: { chain: Chain; signature: string; message: string; address: string }) {
+    switch (chain) {
+      case Chain.THORChain: {
+        const { getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
+        const toolbox = getToolboxByChain(chain);
+        return toolbox().verifySignature(signature, message, address);
+      }
+
+      default:
+        throw new SwapKitError({ errorKey: "core_verify_message_not_supported", info: { chain } });
+    }
+  }
+
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO clean this up
   async function estimateTransactionFee<T extends PluginName>({
     type,
@@ -410,6 +443,8 @@ export function SwapKit<
     transfer,
     validateAddress,
     disconnectAll,
+    signMessage,
+    verifyMessage,
     disconnectChain,
   };
 }
