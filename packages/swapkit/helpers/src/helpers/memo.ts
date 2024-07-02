@@ -4,7 +4,10 @@ import { MemoType } from "../types/sdk";
 
 type WithChain<T extends {}> = T & { chain: Chain };
 
-type WithAffiliate<T extends {}> = T & { affiliateAddress?: string; affiliateBasisPoints?: number };
+type WithAffiliate<T extends {}> = T & {
+  affiliateAddress?: string;
+  affiliateBasisPoints?: number;
+};
 
 function addAffiliate(memo: string, { affiliateAddress, affiliateBasisPoints }: WithAffiliate<{}>) {
   const affiliatePart = affiliateAddress ? `:${affiliateAddress}:${affiliateBasisPoints || 0}` : "";
@@ -12,7 +15,13 @@ function addAffiliate(memo: string, { affiliateAddress, affiliateBasisPoints }: 
   return `${memo}${affiliatePart}`;
 }
 
-function getPoolIdentifier({ chain, symbol }: { chain: Chain; symbol: string }) {
+function getPoolIdentifier({
+  chain,
+  symbol,
+}: {
+  chain: Chain;
+  symbol: string;
+}) {
   switch (chain) {
     case Chain.Bitcoin:
     case Chain.Dogecoin:
@@ -29,14 +38,20 @@ function getPoolIdentifier({ chain, symbol }: { chain: Chain; symbol: string }) 
 export function getMemoForLeaveAndBond({
   type,
   address,
-}: { type: MemoType.BOND | MemoType.LEAVE; address: string }) {
+}: {
+  type: MemoType.BOND | MemoType.LEAVE;
+  address: string;
+}) {
   return `${type}:${address}`;
 }
 
 export function getMemoForUnbond({
   address,
   unbondAmount,
-}: { address: string; unbondAmount: number }) {
+}: {
+  address: string;
+  unbondAmount: number;
+}) {
   return `${MemoType.UNBOND}:${address}:${unbondAmount}`;
 }
 
@@ -45,7 +60,12 @@ export function getMemoForNameRegister({
   chain,
   address,
   owner,
-}: { name: string; chain: string; address: string; owner?: string }) {
+}: {
+  name: string;
+  chain: string;
+  address: string;
+  owner?: string;
+}) {
   const baseMemo = `${MemoType.NAME_REGISTER}:${name}:${chain}:${address}`;
   const ownerAssignmentOrChangePart = owner ? `:${owner}` : "";
 
@@ -83,11 +103,16 @@ export function getMemoForDeposit({
   chain,
   symbol,
   address,
-}: { chain: Chain; symbol: string; address?: string }) {
+  ...affiliate
+}: WithAffiliate<{
+  chain: Chain;
+  symbol: string;
+  address?: string;
+}>) {
   const poolIdentifier = getPoolIdentifier({ chain, symbol });
   const addressPart = address ? `:${address}` : "";
 
-  return `${MemoType.DEPOSIT}:${poolIdentifier}${addressPart}`;
+  return addAffiliate(`${MemoType.DEPOSIT}:${poolIdentifier}${addressPart}`, affiliate);
 }
 
 export function getMemoForSaverWithdraw({
@@ -132,7 +157,11 @@ export type MemoOptions<T extends MemoType> = {
   [MemoType.CLOSE_LOAN]: { address: string; asset: string; minAmount?: string };
   [MemoType.OPEN_LOAN]: { address: string; asset: string; minAmount?: string };
   [MemoType.UNBOND]: { address: string; unbondAmount: number };
-  [MemoType.DEPOSIT]: WithChain<{ symbol: string; address?: string; singleSide?: boolean }>;
+  [MemoType.DEPOSIT]: WithChain<{
+    symbol: string;
+    address?: string;
+    singleSide?: boolean;
+  }>;
   [MemoType.WITHDRAW]: WithChain<{
     ticker: string;
     symbol: string;
@@ -192,7 +221,13 @@ export const getMemoFor = <T extends MemoType>(memoType: T, options: MemoOptions
         return getMemoForSaverWithdraw({ chain, symbol, basisPoints });
       }
 
-      return getMemoForWithdraw({ chain, ticker, symbol, basisPoints, targetAsset });
+      return getMemoForWithdraw({
+        chain,
+        ticker,
+        symbol,
+        basisPoints,
+        targetAsset,
+      });
     }
 
     default:
