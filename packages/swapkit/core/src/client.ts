@@ -285,8 +285,8 @@ export function SwapKit<
     const wallet = getWallet(chain);
     if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
 
-    if (wallet?.signMessage) {
-      return wallet.signMessage(message);
+    if ("signMessage" in wallet) {
+      return wallet.signMessage?.(message);
     }
 
     throw new SwapKitError({
@@ -305,7 +305,7 @@ export function SwapKit<
       case Chain.THORChain: {
         const { getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
         const toolbox = getToolboxByChain(chain);
-        return toolbox().verifySignature(signature, message, address);
+        return toolbox().verifySignature({ signature, message, address });
       }
 
       default:

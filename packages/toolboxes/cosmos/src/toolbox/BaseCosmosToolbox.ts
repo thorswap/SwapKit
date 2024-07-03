@@ -79,7 +79,7 @@ export const BaseCosmosToolbox = ({
     return privkey;
   },
   getAccount: cosmosClient.getAccount,
-  validateAddress: (address: string) => cosmosClient.checkAddress(address),
+  validateAddress: cosmosClient.checkAddress,
   getAddressFromMnemonic: (phrase: string) =>
     cosmosClient.getAddressFromMnemonic(phrase, `${derivationPath}/0`),
   getPubKeyFromMnemonic: (phrase: string) =>

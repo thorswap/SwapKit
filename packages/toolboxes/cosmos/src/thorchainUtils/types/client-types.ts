@@ -106,8 +106,22 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
   ) => Promise<string>;
   pubkeyToAddress: (pubkey: Pubkey, prefix: string) => string;
   loadAddressBalances: (address: string) => Promise<AssetValue[]>;
-  generateSignature: (privateKey: Uint8Array, message: string) => Promise<string>;
-  verifySignature: (signature: string, message: string, address: string) => Promise<boolean>;
+  signMessage: ({
+    privateKey,
+    message,
+  }: {
+    privateKey: Uint8Array;
+    message: string;
+  }) => Promise<string>;
+  verifySignature: ({
+    signature,
+    message,
+    address,
+  }: {
+    signature: string;
+    message: string;
+    address: string;
+  }) => Promise<boolean>;
 };
 
 export type MayaToolboxType = ThorchainToolboxType;

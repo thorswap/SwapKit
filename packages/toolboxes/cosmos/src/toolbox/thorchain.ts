@@ -17,6 +17,7 @@ import {
   DerivationPath,
   FeeOption,
   RequestClient,
+  SwapKitError,
   SwapKitNumber,
 } from "@swapkit/helpers";
 
@@ -143,16 +144,31 @@ const __REEXPORT__pubkeyToAddress = (prefix: string) => (pubkey: Pubkey) => {
   return pubkeyToAddress(pubkey, prefix);
 };
 
-const generateSignature = async (privateKey: Uint8Array, message: string) => {
+const signMessage = async ({
+  privateKey,
+  message,
+}: { privateKey: Uint8Array; message: string }) => {
   const signature = await Secp256k1.createSignature(base64.decode(message), privateKey);
   return base64.encode(Buffer.concat([signature.r(32), signature.s(32)]));
 };
 
-export const verifySignature = (signature: string, message: string, pubkey: Uint8Array) => {
-  const secpSignature = Secp256k1Signature.fromFixedLength(base64.decode(signature));
+function verifySignature(getAccount: (address: string) => Promise<Account | null>) {
+  return async function verifySignature({
+    signature,
+    message,
+    address,
+  }: {
+    signature: string;
+    message: string;
+    address: string;
+  }) {
+    const account = await getAccount(address);
+    if (!account?.pubkey) throw new SwapKitError("toolbox_cosmos_verify_signature_no_pubkey");
 
-  return Secp256k1.verifySignature(secpSignature, base64.decode(message), pubkey);
-};
+    const secpSignature = Secp256k1Signature.fromFixedLength(base64.decode(signature));
+    return Secp256k1.verifySignature(secpSignature, base64.decode(message), account.pubkey.value);
+  };
+}
 
 export const BaseThorchainToolbox = ({
   chain,
@@ -251,7 +267,7 @@ export const BaseThorchainToolbox = ({
       registry,
     });
 
-    const msgSign = await convertToSignable(
+    const msgSign = convertToSignable(
       prepareMessageForBroadcast(buildAminoMsg({ assetValue, from, recipient, memo, chain })),
       chain,
     );
@@ -259,12 +275,6 @@ export const BaseThorchainToolbox = ({
     const txResponse = await signingClient.signAndBroadcast(from, [msgSign], defaultFee, memo);
 
     return txResponse.transactionHash;
-  };
-
-  const verifySignatureInToolbox = async (signature: string, message: string, address: string) => {
-    const account = await baseToolbox.getAccount(address);
-    if (!account?.pubkey) throw new Error("Public key not found");
-    return verifySignature(signature, message, account.pubkey.value);
   };
 
   return {
@@ -289,8 +299,8 @@ export const BaseThorchainToolbox = ({
     importSignature,
     loadAddressBalances,
     pubkeyToAddress: __REEXPORT__pubkeyToAddress(prefix),
-    generateSignature,
-    verifySignature: verifySignatureInToolbox,
+    signMessage,
+    verifySignature: verifySignature(baseToolbox.getAccount),
   };
 };
 
@@ -302,7 +312,7 @@ export const MayaToolbox = ({ stagenet }: ToolboxParams = {}): MayaToolboxType =
   return BaseThorchainToolbox({ chain: Chain.Maya, stagenet });
 };
 
-export type ThorchainWallet = ReturnType<typeof BaseThorchainToolbox>;
+export type ThorchainWallet = Omit<ReturnType<typeof BaseThorchainToolbox>, "signMessage">;
 export type ThorchainWallets = {
   [chain in Chain.THORChain | Chain.Maya]: ThorchainWallet;
 };

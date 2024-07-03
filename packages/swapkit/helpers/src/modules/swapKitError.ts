@@ -114,6 +114,19 @@ const errorCodes = {
    */
   toolbox_cosmos_signer_not_defined: 90101,
   toolbox_cosmos_no_accounts_found: 90102,
+  toolbox_cosmos_verify_signature_no_pubkey: 90103,
+  toolbox_evm_no_abi_fragment: 90201,
+  toolbox_evm_no_signer: 90202,
+  toolbox_evm_no_signer_address: 90203,
+  toolbox_evm_no_from_address: 90204,
+  toolbox_evm_no_contract_address: 90205,
+  toolbox_evm_no_fee_data: 90206,
+  toolbox_evm_no_gas_price: 90207,
+  toolbox_evm_no_to_address: 90208,
+  toolbox_evm_invalid_gas_asset_address: 90209,
+  toolbox_evm_provider_not_eip1193_compatible: 90210,
+  toolbox_evm_error_estimating_gas_limit: 90211,
+  toolbox_evm_error_sending_transaction: 90212,
   /**
    * Helpers
    */
@@ -125,6 +138,10 @@ const errorCodes = {
   helpers_invalid_memo_type: 99005,
   helpers_failed_to_switch_network: 99103,
   helpers_not_found_provider: 99200,
+  /**
+   * Anything else
+   */
+  not_implemented: 99999,
 } as const;
 
 export type ErrorKeys = keyof typeof errorCodes;

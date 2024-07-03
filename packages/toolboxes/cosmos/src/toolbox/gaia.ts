@@ -36,7 +36,7 @@ export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => 
     client,
   });
 
-  const getFees = async () => {
+  async function getFees() {
     const baseFee = await getFeeRateFromThorswap(ChainId.Cosmos, 500);
     return {
       type: "base",
@@ -44,26 +44,28 @@ export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => 
       fast: SwapKitNumber.fromBigInt((BigInt(baseFee) * 15n) / 10n, BaseDecimal.GAIA),
       fastest: SwapKitNumber.fromBigInt(BigInt(baseFee) * 2n, BaseDecimal.GAIA),
     };
-  };
+  }
+
+  async function transfer(params: TransferParams) {
+    const gasFees = await getFees();
+
+    return baseToolbox.transfer({
+      ...params,
+      fee: params.fee || {
+        amount: [
+          {
+            denom: "uatom",
+            amount: gasFees[params.feeOptionKey || "fast"].getBaseValue("string") || "1000",
+          },
+        ],
+        gas: "200000",
+      },
+    });
+  }
 
   return {
     ...baseToolbox,
     getFees,
-    transfer: async (params: TransferParams) => {
-      const gasFees = await getFees();
-
-      return baseToolbox.transfer({
-        ...params,
-        fee: params.fee || {
-          amount: [
-            {
-              denom: "uatom",
-              amount: gasFees[params.feeOptionKey || "fast"].getBaseValue("string") || "1000",
-            },
-          ],
-          gas: "200000",
-        },
-      });
-    },
+    transfer,
   };
 };

@@ -47,7 +47,8 @@ export type ChainWallet = {
 
 export type EmptyWallet = { [key in Chain]?: unknown };
 export type BaseWallet<T extends EmptyWallet | Record<string, unknown>> = {
-  [key in Chain]: ChainWallet & (T extends EmptyWallet ? T[key] : unknown);
+  [key in Chain]: ChainWallet &
+    (T extends EmptyWallet ? T[key] : T[key] extends ChainWallet ? T[key] : never);
 };
 
 export type EIP6963ProviderInfo = {
