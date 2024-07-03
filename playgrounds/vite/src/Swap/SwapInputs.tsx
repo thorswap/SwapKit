@@ -1,11 +1,6 @@
 "use client";
 import type { AssetValue, QuoteResponseRoute, SwapKit } from "@swapkit/sdk";
-import {
-  FeeOption,
-  ProviderName,
-  SwapKitApi,
-  SwapKitNumber,
-} from "@swapkit/sdk";
+import { FeeOption, ProviderName, SwapKitApi, SwapKitNumber } from "@swapkit/sdk";
 import { useCallback, useState } from "react";
 
 type Props = {
@@ -15,12 +10,7 @@ type Props = {
   skClient?: ReturnType<typeof SwapKit<{}, {}>>;
 };
 
-export const SwapInputs = ({
-  skClient,
-  inputAsset,
-  outputAsset,
-  handleSwap,
-}: Props) => {
+export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Props) => {
   const [loading, setLoading] = useState(false);
   const [inputAssetValue, setInput] = useState<AssetValue | undefined>();
   const [routes, setRoutes] = useState<QuoteResponseRoute[]>([]);
@@ -35,7 +25,7 @@ export const SwapInputs = ({
 
       setInput(amount.gt(inputAsset) ? inputAsset : amount);
     },
-    [inputAsset]
+    [inputAsset],
   );
 
   const fetchQuote = useCallback(async () => {
@@ -61,7 +51,7 @@ export const SwapInputs = ({
           affiliate: "t",
           affiliateFee: 10,
         },
-        true
+        true,
       );
 
       const fee = await skClient.estimateTransactionFee({
@@ -82,23 +72,17 @@ export const SwapInputs = ({
     }
   }, [inputAssetValue, inputAsset, outputAsset, skClient]);
 
-  const swap = async (
-    route: QuoteResponseRoute,
-    inputAssetValue?: AssetValue
-  ) => {
+  const swap = async (route: QuoteResponseRoute, inputAssetValue?: AssetValue) => {
     if (!(inputAsset && outputAsset && inputAssetValue && skClient)) return;
     route.evmTransactionDetails?.approvalSpender &&
     (await skClient.isAssetValueApproved(
       inputAssetValue,
-      route.evmTransactionDetails?.approvalSpender
+      route.evmTransactionDetails?.approvalSpender,
     ))
       ? handleSwap(route)
       : route.evmTransactionDetails?.approvalSpender
-      ? skClient.approveAssetValue(
-          inputAssetValue,
-          route.evmTransactionDetails?.approvalSpender
-        )
-      : handleSwap(route)
+        ? skClient.approveAssetValue(inputAssetValue, route.evmTransactionDetails?.approvalSpender)
+        : new Error("Approval Spender not found");
   };
 
   return (
@@ -125,11 +109,7 @@ export const SwapInputs = ({
           />
         </div>
 
-        <button
-          disabled={!(inputAsset && outputAsset)}
-          onClick={fetchQuote}
-          type="button"
-        >
+        <button disabled={!(inputAsset && outputAsset)} onClick={fetchQuote} type="button">
           {loading ? "Loading..." : "Get Quote"}
         </button>
       </div>
@@ -141,19 +121,14 @@ export const SwapInputs = ({
             {routes.map((route) => (
               <div key={route.targetAddress}>
                 {/* {route.meta?.} ({route.providers.join(",")}){" "} */}
-                <button
-                  onClick={() => swap(route, inputAssetValue)}
-                  type="button"
-                >
-                  {"SWAP =>"} Estimated Output: {route.expectedBuyAmount}{" "}
-                  {outputAsset?.ticker} ($
+                <button onClick={() => swap(route, inputAssetValue)} type="button">
+                  {"SWAP =>"} Estimated Output: {route.expectedBuyAmount} {outputAsset?.ticker} ($
                   {new SwapKitNumber(route.expectedBuyAmount)
                     .mul(
                       route.meta.assets?.find(
                         (asset) =>
-                          asset.name.toLowerCase() ===
-                          outputAsset?.toString().toLowerCase()
-                      )?.price || 0
+                          asset.name.toLowerCase() === outputAsset?.toString().toLowerCase(),
+                      )?.price || 0,
                     )
                     .toFixed(4)}
                   )

@@ -81,14 +81,18 @@ const transfer = async (
     amount: assetValue.getBaseValue("number"),
   });
 
+  const isKeyring = isKeyringPair(signer);
+
   if (!transfer) return;
 
-  const address = from || (isKeyringPair(signer) && signer.address);
-  if (!address) return;
+  const address = from || isKeyring ? (signer as IKeyringPair).address : undefined;
+  if (!address) throw new SwapKitError("core_transaction_invalid_sender_address");
 
-  const tx = await transfer.signAndSend(isKeyringPair(signer) ? signer : address, {
-    signer: isKeyringPair(signer) ? undefined : signer,
-    nonce: await getNonce(api, address),
+  const nonce = await getNonce(api, address);
+
+  const tx = await transfer.signAndSend(isKeyring ? signer : address, {
+    signer: isKeyring ? undefined : signer,
+    nonce,
   });
 
   return tx?.toString();
