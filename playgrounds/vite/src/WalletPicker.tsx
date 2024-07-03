@@ -115,6 +115,14 @@ export const availableChainsByWallet = {
     Chain.Arbitrum,
     Chain.Optimism,
   ],
+  [WalletOption.TALISMAN]: [
+    Chain.Ethereum,
+    Chain.Arbitrum,
+    Chain.Polygon,
+    Chain.BinanceSmartChain,
+    Chain.Optimism,
+    Chain.Polkadot
+  ]
   //   [WalletOption.EXODUS]: [
   //     Chain.Ethereum,
   //     Chain.BinanceSmartChain,
@@ -134,7 +142,11 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.METAMASK:
         case WalletOption.TRUSTWALLET_WEB:
         case WalletOption.EIP6963:
-          return skClient.connectEVMWallet?.(chains, option, provider);
+          // @ts-ignore
+          return skClient.connectEVMWallet(chains, option, provider);
+        case WalletOption.TALISMAN:
+          // @ts-ignore
+          return skClient.connectTalisman(chains);
         case WalletOption.KEEPKEY: {
           const derivationPaths = chains.map((chain) => getDerivationPathFor({ chain, index: 0 }));
 
