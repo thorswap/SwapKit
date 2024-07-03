@@ -85,7 +85,7 @@ const transfer = async (
 
   if (!transfer) return;
 
-  const address = from || isKeyring ? (signer as IKeyringPair).address : undefined;
+  const address = from || (isKeyring ? (signer as IKeyringPair).address : undefined);
   if (!address) throw new SwapKitError("core_transaction_invalid_sender_address");
 
   const nonce = await getNonce(api, address);
