@@ -1,6 +1,11 @@
 import { AssetValue, BaseDecimal, Chain, RequestClient, SwapKitNumber } from "@swapkit/helpers";
-import type { BorrowerDetails, MemberDetails, SaverDetails, THORNameDetails } from "./types.ts";
-
+import type {
+  BorrowerDetails,
+  MemberDetailsMayachain,
+  MemberDetailsThorchain,
+  SaverDetails,
+  THORNameDetails,
+} from "./types.ts";
 const thorchainMidgardBaseUrl = "https://midgard.ninerealms.com";
 const mayachainMidgardBaseUrl = "https://midgard.mayachain.info";
 
@@ -16,8 +21,11 @@ export function getSaverDetailRaw(address: string, isMayachain = false) {
   );
 }
 
-export function getLiquidityPositionRaw(address: string, isMayachain = false) {
-  return RequestClient.get<MemberDetails>(
+export function getLiquidityPositionRaw<T extends boolean = false>(
+  address: string,
+  isMayachain?: T,
+) {
+  return RequestClient.get<T extends true ? MemberDetailsMayachain : MemberDetailsThorchain>(
     `${isMayachain ? mayachainMidgardBaseUrl : thorchainMidgardBaseUrl}/v2/member/${address}`,
   );
 }
