@@ -45,17 +45,17 @@ export async function confirmSwap({
 
 const plugin = ({
   wallets,
-  config: { brokerEndpoint },
-}: { wallets: Wallets; config: { brokerEndpoint: string } }) => {
+  config: { chainflipBrokerUrl },
+}: { wallets: Wallets; config: { chainflipBrokerUrl: string } }) => {
   async function swap(swapParams: SwapParams<"chainflip">) {
     if (
       !(
         "route" in swapParams &&
         (swapParams.route as QuoteResponseRoute)?.buyAsset &&
-        brokerEndpoint
+        chainflipBrokerUrl
       )
     ) {
-      throw new SwapKitError("core_swap_invalid_params", { ...swapParams, brokerEndpoint });
+      throw new SwapKitError("core_swap_invalid_params", { ...swapParams, chainflipBrokerUrl });
     }
 
     const {
@@ -79,7 +79,7 @@ const plugin = ({
     const assetValue = sellAsset.set(sellAmount);
 
     const { depositAddress } = await confirmSwap({
-      brokerEndpoint,
+      brokerEndpoint: chainflipBrokerUrl,
       buyAsset,
       recipient,
       sellAsset,
