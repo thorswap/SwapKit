@@ -1,5 +1,14 @@
 # @swapkit/api
 
+## 1.1.1
+
+### Patch Changes
+
+- [#895](https://github.com/thorswap/SwapKit/pull/895) [`5856b63`](https://github.com/thorswap/SwapKit/commit/5856b63781817c46ad944c37b09d2dd7c4e736b9) Thanks [@towanTG](https://github.com/towanTG)! - Fixes response typing for liquidity details
+
+- Updated dependencies [[`06b6ad1`](https://github.com/thorswap/SwapKit/commit/06b6ad1b7b9680411e5663c2bcd82c0e884d5e7a)]:
+  - @swapkit/helpers@1.0.3
+
 ## 1.1.0
 
 ### Minor Changes

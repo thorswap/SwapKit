@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.0.3
+
+### Patch Changes
+
+- [#888](https://github.com/thorswap/SwapKit/pull/888) [`06b6ad1`](https://github.com/thorswap/SwapKit/commit/06b6ad1b7b9680411e5663c2bcd82c0e884d5e7a) Thanks [@mfaizan1](https://github.com/mfaizan1)! - add affiliate info to getMemoForDeposit
+
 ## 1.0.2
 
 ### Patch Changes

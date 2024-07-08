@@ -28,7 +28,6 @@ const walletOptions = Object.values(WalletOption).filter(
       WalletOption.KEPLR,
       WalletOption.EXODUS,
       WalletOption.RADIX_WALLET,
-      WalletOption.TALISMAN,
       WalletOption.PHANTOM,
     ].includes(o),
 );
