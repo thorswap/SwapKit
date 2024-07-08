@@ -45,6 +45,7 @@ const AllChainsSupported = [
   Chain.Litecoin,
   Chain.Optimism,
   Chain.Polygon,
+  Chain.Polkadot,
   Chain.Maya,
   Chain.Kujira,
   Chain.THORChain,
@@ -61,6 +62,7 @@ export const availableChainsByWallet = {
   [WalletOption.METAMASK]: EVMChains,
   [WalletOption.OKX_MOBILE]: EVMChains,
   [WalletOption.PHANTOM]: [Chain.Solana],
+  [WalletOption.POLKADOT]: [Chain.Polkadot],
   [WalletOption.TRUSTWALLET_WEB]: EVMChains,
   [WalletOption.XDEFI]: AllChainsSupported,
   [WalletOption.KEYSTORE]: [...AllChainsSupported, Chain.Polkadot],
@@ -120,8 +122,8 @@ export const availableChainsByWallet = {
     Chain.Polygon,
     Chain.BinanceSmartChain,
     Chain.Optimism,
-    Chain.Polkadot
-  ]
+    Chain.Polkadot,
+  ],
   //   [WalletOption.EXODUS]: [
   //     Chain.Ethereum,
   //     Chain.BinanceSmartChain,
@@ -173,6 +175,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return skClient.connectXDEFI?.(chains);
         case WalletOption.OKX:
           return skClient.connectOkx?.(chains);
+        case WalletOption.POLKADOT:
+          return skClient.connectPolkadot?.(chains);
 
         // case WalletOption.RADIX_WALLET:
         //   return skClient.connectRadixWallet?.();
