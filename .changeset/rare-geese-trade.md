@@ -1,12 +1,6 @@
 ---
-"@swapkit/toolbox-substrate": major
-"@swapkit/wallet-talisman": major
-"@swapkit/helpers": major
-"@swapkit/wallets": major
-"@swapkit/core": major
-"@swapkit/plugin-evm": major
-"@swapkit/api": major
-"@swapkit/sdk": major
+"@swapkit/toolbox-substrate": patch
+"@swapkit/wallet-talisman": patch
 ---
 
-add talisman wallet package
+Fixes issues with talisman signing
