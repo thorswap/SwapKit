@@ -1,6 +1,7 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
+    "@swapkit/api": "workspace:*",
     "@swapkit/core": "workspace:*",
     "@swapkit/plugin-chainflip": "workspace:*",
     "@swapkit/plugin-evm": "workspace:*",

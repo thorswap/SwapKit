@@ -33,3 +33,5 @@ export const createSwapKit = <
     plugins: plugins || defaultPlugins,
   });
 };
+
+export { SwapKitApi } from "@swapkit/api";
