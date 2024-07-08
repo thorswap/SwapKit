@@ -1,5 +1,11 @@
 # @swapkit/wallet-ledger
 
+## 1.0.4
+
+### Patch Changes
+
+- [#897](https://github.com/thorswap/SwapKit/pull/897) [`d09e52b`](https://github.com/thorswap/SwapKit/commit/d09e52b4ad7c17f0671987f9f817f6869f5f7060) Thanks [@towanTG](https://github.com/towanTG)! - Fixes tx msgs being sent to devide for signing
+
 ## 1.0.3
 
 ### Patch Changes
