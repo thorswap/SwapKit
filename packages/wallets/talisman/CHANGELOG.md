@@ -1,5 +1,16 @@
 # @swapkit/wallet-talisman
 
+## 1.0.4
+
+### Patch Changes
+
+- [#896](https://github.com/thorswap/SwapKit/pull/896) [`0cd3478`](https://github.com/thorswap/SwapKit/commit/0cd347884eccb6133b09a9e3a202be18f913fe8a) Thanks [@anthon-dev](https://github.com/anthon-dev)! - Fixes issues with talisman signing and adds new SwapKit Error type
+
+- Updated dependencies [[`0cd3478`](https://github.com/thorswap/SwapKit/commit/0cd347884eccb6133b09a9e3a202be18f913fe8a)]:
+  - @swapkit/helpers@1.0.4
+  - @swapkit/toolbox-substrate@1.0.4
+  - @swapkit/toolbox-evm@1.0.4
+
 ## 1.0.3
 
 ### Patch Changes
