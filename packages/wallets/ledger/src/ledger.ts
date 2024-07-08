@@ -209,7 +209,7 @@ const getToolbox = async ({
           chain_id: ChainId.THORChain,
           fee,
           memo,
-          orderedMessages,
+          msgs: orderedMessages,
           sequence,
         });
 
