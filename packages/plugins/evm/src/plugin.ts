@@ -23,7 +23,6 @@ const plugin = ({
   wallets,
 }: {
   wallets: ChainWallets;
-  config: { brokerEndpoint: string };
 }) => {
   async function swap({ route, feeOptionKey }: SwapParams<"evm">) {
     const { evmTransactionDetails } = route;
