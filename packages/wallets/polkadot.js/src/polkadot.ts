@@ -6,7 +6,7 @@ import {
 } from "@swapkit/helpers";
 import { getWalletForChain } from "./helpers";
 
-const POLKADOT_SUPPORTED_CHAINS = [Chain.Polkadot] as const;
+const POLKADOT_SUPPORTED_CHAINS = [Chain.Polkadot, Chain.Chainflip] as const;
 
 function connectPolkadot({
   addChain,
@@ -27,7 +27,7 @@ function connectPolkadot({
         ...walletMethods,
         chain,
         balance: [],
-        walletType: WalletOption.POLKADOT,
+        walletType: WalletOption.POLKADOT_JS,
       });
     });
 

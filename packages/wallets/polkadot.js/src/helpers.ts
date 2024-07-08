@@ -40,7 +40,7 @@ export const getWalletForChain = async ({
       if (!accounts[0]?.address) {
         throw new SwapKitError({
           errorKey: "wallet_missing_params",
-          info: { wallet: WalletOption.POLKADOT, accounts, address: accounts[0]?.address },
+          info: { wallet: WalletOption.POLKADOT_JS, accounts, address: accounts[0]?.address },
         });
       }
       const subAddress: string = accounts[0].address;
@@ -52,7 +52,7 @@ export const getWalletForChain = async ({
     default:
       throw new SwapKitError({
         errorKey: "wallet_chain_not_supported",
-        info: { chain, wallet: WalletOption.POLKADOT },
+        info: { chain, wallet: WalletOption.POLKADOT_JS },
       });
   }
 };
