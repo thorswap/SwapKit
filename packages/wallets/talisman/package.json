@@ -1,7 +1,7 @@
 {
   "description": "SwapKit Wallet - Talisman",
   "dependencies": {
-    "@polkadot/api": "10.12.6",
+    "@polkadot/api": "12.1.1",
     "@polkadot/rpc-provider": "10.12.6",
     "@polkadot/types": "10.12.6",
     "@polkadot/util": "12.6.2",
