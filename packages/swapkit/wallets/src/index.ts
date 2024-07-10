@@ -6,7 +6,7 @@ import { keystoreWallet } from "@swapkit/wallet-keystore";
 import { ledgerWallet } from "@swapkit/wallet-ledger";
 import { okxWallet } from "@swapkit/wallet-okx";
 import { phantomWallet } from "@swapkit/wallet-phantom";
-import { polkadotWallet } from "@swapkit/wallet-polkadot.js";
+import { polkadotWallet } from "@swapkit/wallet-polkadotjs";
 import { talismanWallet } from "@swapkit/wallet-talisman";
 import { trezorWallet } from "@swapkit/wallet-trezor";
 import { walletconnectWallet } from "@swapkit/wallet-wc";

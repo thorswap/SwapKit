@@ -1,4 +1,4 @@
-# @swapkit/wallet-polkadot.js
+# @swapkit/wallet-polkadotjs
 
 ## 1.0.0-rc.4
 

@@ -6,13 +6,13 @@ import {
 } from "@swapkit/helpers";
 import { getWalletForChain } from "./helpers";
 
-const POLKADOT_SUPPORTED_CHAINS = [Chain.Polkadot, Chain.Chainflip] as const;
+const POLKADOT_SUPPORTED_CHAINS = [Chain.Polkadot] as const;
 
-function connectPolkadot({
+function connectPolkadotJs({
   addChain,
   config: { thorswapApiKey, covalentApiKey, ethplorerApiKey },
 }: ConnectWalletParams) {
-  return async function connectPolkadot(chains: (typeof POLKADOT_SUPPORTED_CHAINS)[number][]) {
+  return async function connectPolkadotJs(chains: (typeof POLKADOT_SUPPORTED_CHAINS)[number][]) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const promises = chains.map(async (chain) => {
@@ -37,4 +37,4 @@ function connectPolkadot({
   };
 }
 
-export const polkadotWallet = { connectPolkadot } as const;
+export const polkadotWallet = { connectPolkadotJs } as const;

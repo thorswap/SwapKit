@@ -8,7 +8,7 @@
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
-  "name": "@swapkit/wallet-polkadot.js",
+  "name": "@swapkit/wallet-polkadotjs",
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
