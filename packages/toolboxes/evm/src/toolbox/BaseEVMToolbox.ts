@@ -627,7 +627,7 @@ export const BaseEVMToolbox = ({
   validateAddress,
   createTransferTx: (params: TransferParams) => createTransferTx(provider, params, signer),
   createApprovalTx: (params: ApproveParams) => createApprovalTx(provider, params, signer),
-  signMessage,
+  signMessage: signMessage(signer),
 });
 
 export const evmValidateAddress = ({ address }: { address: string }) => validateAddress(address);
