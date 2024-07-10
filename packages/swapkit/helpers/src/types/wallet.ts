@@ -42,11 +42,13 @@ export type ChainWallet = {
   balance: AssetValue[];
   walletType: WalletOption;
   disconnect?: () => void;
+  signMessage?: (message: string) => Promise<string>;
 };
 
 export type EmptyWallet = { [key in Chain]?: unknown };
 export type BaseWallet<T extends EmptyWallet | Record<string, unknown>> = {
-  [key in Chain]: ChainWallet & (T extends EmptyWallet ? T[key] : unknown);
+  [key in Chain]: ChainWallet &
+    (T extends EmptyWallet ? T[key] : T[key] extends ChainWallet ? T[key] : never);
 };
 
 export type EIP6963ProviderInfo = {

@@ -5,6 +5,7 @@ import {
   ContractAddress,
   type EVMChain,
   FeeOption,
+  SwapKitError,
   SwapKitNumber,
   type WalletTxParams,
   erc20ABI,
@@ -83,7 +84,7 @@ const validateAddress = (address: string) => {
 
 export const isStateChangingCall = (abi: readonly JsonFragment[], functionName: string) => {
   const abiFragment = abi.find((fragment: Todo) => fragment.name === functionName) as Todo;
-  if (!abiFragment) throw new Error(`No ABI fragment found for function ${functionName}`);
+  if (!abiFragment) throw new SwapKitError("toolbox_evm_no_abi_fragment", { functionName });
   return abiFragment.stateMutability && stateMutable.includes(abiFragment.stateMutability);
 };
 
@@ -128,11 +129,11 @@ const call = async <T>(
 
   // only use signer if the contract function is state changing
   if (isStateChanging) {
-    if (!signer) throw new Error("Signer is not defined");
+    if (!signer) throw new SwapKitError("toolbox_evm_no_signer");
 
     const address = txOverrides?.from || (await signer.getAddress());
 
-    if (!address) throw new Error("No signer address found");
+    if (!address) throw new SwapKitError("toolbox_evm_no_signer_address");
 
     const connectedContract = contract.connect(signer);
     const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = (
@@ -258,11 +259,11 @@ const transfer = async (
 
   const from = fromOverride || (await signer?.getAddress());
 
-  if (!from) throw new Error("No from address provided");
+  if (!from) throw new SwapKitError("toolbox_evm_no_from_address");
 
   if (!isGasAsset(assetValue)) {
     const contractAddress = getTokenAddress(assetValue, chain);
-    if (!contractAddress) throw new Error("No contract address found");
+    if (!contractAddress) throw new SwapKitError("toolbox_evm_no_contract_address");
 
     // Transfer ERC20
     return call<string>(provider, isEIP1559Compatible, {
@@ -292,7 +293,8 @@ export const estimateGasPrices = async (provider: Provider, isEIP1559Compatible 
     const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await provider.getFeeData();
 
     if (isEIP1559Compatible) {
-      if (!(maxFeePerGas && maxPriorityFeePerGas)) throw new Error("No fee data available");
+      if (!(maxFeePerGas && maxPriorityFeePerGas))
+        throw new SwapKitError("toolbox_evm_no_fee_data");
 
       return {
         [FeeOption.Average]: { maxFeePerGas, maxPriorityFeePerGas },
@@ -306,7 +308,7 @@ export const estimateGasPrices = async (provider: Provider, isEIP1559Compatible 
         },
       };
     }
-    if (!gasPrice) throw new Error("No fee data available");
+    if (!gasPrice) throw new SwapKitError("toolbox_evm_no_gas_price");
 
     return {
       [FeeOption.Average]: { gasPrice },
@@ -331,7 +333,7 @@ const estimateCall = (
     txOverrides,
   }: WithSigner<EstimateCallParams>,
 ) => {
-  if (!contractAddress) throw new Error("contractAddress must be provided");
+  if (!contractAddress) throw new SwapKitError("toolbox_evm_no_contract_address");
 
   const contract = createContract(contractAddress, abi, provider);
   return signer
@@ -394,9 +396,9 @@ const sendTransaction = async (
   isEIP1559Compatible = true,
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
 ) => {
-  if (!signer) throw new Error("Signer is not defined");
+  if (!signer) throw new SwapKitError("toolbox_evm_no_signer");
   const { from, to, data, value, ...transaction } = tx;
-  if (!to) throw new Error("No to address provided");
+  if (!to) throw new SwapKitError("toolbox_evm_no_to_address");
 
   const parsedTxObject = {
     ...transaction,
@@ -442,7 +444,7 @@ const sendTransaction = async (
       parsedTxObject.gasLimit || ((await provider.estimateGas(parsedTxObject)) * 11n) / 10n,
     );
   } catch (error) {
-    throw new Error(`Error estimating gas limit: ${JSON.stringify(error)}`);
+    throw new SwapKitError("toolbox_evm_error_estimating_gas_limit", { error });
   }
 
   try {
@@ -467,7 +469,7 @@ const sendTransaction = async (
       return typeof response.hash;
     }
   } catch (error) {
-    throw new Error(`Error sending transaction: ${JSON.stringify(error)}`);
+    throw new SwapKitError("toolbox_evm_error_sending_transaction", { error });
   }
 };
 
@@ -480,7 +482,8 @@ export const EIP1193SendTransaction = (
   provider: Provider | BrowserProvider,
   { from, to, data, value }: EVMTxParams | ContractTransaction,
 ): Promise<string> => {
-  if (!isBrowserProvider(provider)) throw new Error("Provider is not EIP-1193 compatible");
+  if (!isBrowserProvider(provider))
+    throw new SwapKitError("toolbox_evm_provider_not_eip1193_compatible");
   return (provider as BrowserProvider).send("eth_sendTransaction", [
     { value: toHexString(BigInt(value || 0)), from, to, data } as Todo,
   ]);
@@ -493,7 +496,7 @@ export const getChecksumAddressFromAsset = (asset: Asset, chain: EVMChain) => {
     return getAddress(assetAddress.toLowerCase());
   }
 
-  throw new Error("invalid gas asset address");
+  throw new SwapKitError("toolbox_evm_invalid_gas_asset_address");
 };
 
 export const getTokenAddress = ({ chain, symbol, ticker }: Asset, baseAssetChain: EVMChain) => {
@@ -534,11 +537,11 @@ const createTransferTx = async (
 
   const from = fromOverride || (await signer?.getAddress());
 
-  if (!from) throw new Error("No from address provided");
+  if (!from) throw new SwapKitError("toolbox_evm_no_from_address");
 
   if (!isGasAsset(assetValue)) {
     const contractAddress = getTokenAddress(assetValue, chain);
-    if (!contractAddress) throw new Error("No contract address found");
+    if (!contractAddress) throw new SwapKitError("toolbox_evm_no_contract_address");
 
     // Transfer ERC20
     return createContractTxObject(provider, {
@@ -583,6 +586,12 @@ const createApprovalTx = async (
   return txObject;
 };
 
+function signMessage(signer?: Signer | JsonRpcSigner | HDNodeWallet) {
+  if (!signer) throw new SwapKitError("toolbox_evm_no_signer");
+
+  return signer.signMessage;
+}
+
 export const BaseEVMToolbox = ({
   provider,
   signer,
@@ -618,6 +627,7 @@ export const BaseEVMToolbox = ({
   validateAddress,
   createTransferTx: (params: TransferParams) => createTransferTx(provider, params, signer),
   createApprovalTx: (params: ApproveParams) => createApprovalTx(provider, params, signer),
+  signMessage: signMessage(signer),
 });
 
 export const evmValidateAddress = ({ address }: { address: string }) => validateAddress(address);
@@ -631,6 +641,7 @@ export type EVMWalletType = {
   [Chain.Optimism]: ReturnType<typeof OPToolbox>;
   [Chain.Polygon]: ReturnType<typeof MATICToolbox>;
 };
+
 export type EVMWallets = {
   [chain in EVMChain]: BaseEVMWallet & EVMWalletType[chain];
 };

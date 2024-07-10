@@ -99,5 +99,10 @@ export const thorchainWalletMethods = async ({
     return transactionHash;
   };
 
+  // const signMessage = async (message: string) => {
+  //   const stargateClient = await createStargateClient(RPCUrl.THORChain);
+  //   // return signedTx;
+  // };
+
   return { ...toolbox, transfer, deposit, address: fromAddress };
 };

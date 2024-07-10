@@ -1,4 +1,5 @@
 import type {
+  AssetValue,
   BaseWallet,
   Chain,
   ConnectWalletParams,
@@ -42,3 +43,7 @@ export type Apis = { [key in CovalentChains]?: CovalentApiType } & {
 } & { [key in CosmosChain]?: Todo } & {
   [key in UTXOChain]?: BlockchairApiType;
 };
+
+export type ConditionalAssetValueReturn<T extends boolean> = T extends true
+  ? Promise<AssetValue[]>
+  : AssetValue[];

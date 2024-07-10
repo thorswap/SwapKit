@@ -10,8 +10,11 @@ const errorCodes = {
   core_plugin_swap_not_found: 10007,
   core_approve_asset_target_invalid: 10008,
   core_explorer_unsupported_chain: 10009,
+  core_verify_message_not_supported: 10010,
   core_chain_halted: 10099,
-
+  /**
+   * Core - Wallet
+   */
   core_wallet_connection_not_found: 10100,
   core_wallet_xdefi_not_installed: 10101,
   core_wallet_evmwallet_not_installed: 10102,
@@ -24,6 +27,7 @@ const errorCodes = {
   core_wallet_keepkey_not_installed: 10109,
   core_wallet_talisman_not_installed: 10110,
   core_wallet_not_keypair_wallet: 10111,
+  core_wallet_sign_message_not_supported: 10110,
   /**
    * Core - Swap
    */
@@ -105,12 +109,24 @@ const errorCodes = {
    * SwapKit API
    */
   api_v2_invalid_response: 50001,
-
   /**
    * Toolboxes
    */
   toolbox_cosmos_signer_not_defined: 90101,
   toolbox_cosmos_no_accounts_found: 90102,
+  toolbox_cosmos_verify_signature_no_pubkey: 90103,
+  toolbox_evm_no_abi_fragment: 90201,
+  toolbox_evm_no_signer: 90202,
+  toolbox_evm_no_signer_address: 90203,
+  toolbox_evm_no_from_address: 90204,
+  toolbox_evm_no_contract_address: 90205,
+  toolbox_evm_no_fee_data: 90206,
+  toolbox_evm_no_gas_price: 90207,
+  toolbox_evm_no_to_address: 90208,
+  toolbox_evm_invalid_gas_asset_address: 90209,
+  toolbox_evm_provider_not_eip1193_compatible: 90210,
+  toolbox_evm_error_estimating_gas_limit: 90211,
+  toolbox_evm_error_sending_transaction: 90212,
   /**
    * Helpers
    */
@@ -122,6 +138,10 @@ const errorCodes = {
   helpers_invalid_memo_type: 99005,
   helpers_failed_to_switch_network: 99103,
   helpers_not_found_provider: 99200,
+  /**
+   * Anything else
+   */
+  not_implemented: 99999,
 } as const;
 
 export type ErrorKeys = keyof typeof errorCodes;

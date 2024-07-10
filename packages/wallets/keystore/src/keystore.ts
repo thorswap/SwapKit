@@ -145,7 +145,14 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Cosmos:
-    case Chain.Kujira:
+    case Chain.Kujira: {
+      const { getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
+      const toolbox = getToolboxByChain(chain)({ server: api, stagenet });
+      const address = await toolbox.getAddressFromMnemonic(phrase);
+
+      return { address, walletMethods: toolbox };
+    }
+
     case Chain.Maya:
     case Chain.THORChain: {
       const { getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
@@ -177,7 +184,7 @@ const getWalletMethodsForChain = async ({
 
       const signMessage = async (message: string) => {
         const privateKey = await toolbox.createPrivateKeyFromPhrase(phrase);
-        return (toolbox as ThorchainToolboxType).signMessage(privateKey, message);
+        return toolbox.signMessage({ privateKey, message });
       };
 
       const walletMethods = {

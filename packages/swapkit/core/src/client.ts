@@ -28,7 +28,13 @@ import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
 } from "./helpers/explorerUrls.ts";
-import type { Apis, SwapKitPluginInterface, SwapKitWallet, Wallet } from "./types.ts";
+import type {
+  Apis,
+  ConditionalAssetValueReturn,
+  SwapKitPluginInterface,
+  SwapKitWallet,
+  Wallet,
+} from "./types.ts";
 
 export function SwapKit<
   Plugins extends { [key in string]: SwapKitPluginInterface<{ [key in string]: Todo }> },
@@ -189,10 +195,15 @@ export function SwapKit<
     }
   }
 
-  function getBalance<T extends Chain>(chain: T, refresh?: boolean) {
-    return refresh
-      ? getWalletWithBalance(chain).then((wallet) => wallet.balance)
-      : getWallet(chain)?.balance || [];
+  function getBalance<T extends Chain, R extends boolean>(
+    chain: T,
+    refresh?: R,
+  ): ConditionalAssetValueReturn<R> {
+    return (
+      refresh
+        ? getWalletWithBalance(chain).then(({ balance }) => balance)
+        : getWallet(chain)?.balance || []
+    ) as ConditionalAssetValueReturn<R>;
   }
 
   function validateAddress({ address, chain }: { address: string; chain: Chain }) {
@@ -268,6 +279,38 @@ export function SwapKit<
     if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
 
     return wallet.transfer({ from, recipient, assetValue, feeOptionKey });
+  }
+
+  function signMessage({ chain, message }: { chain: Chain; message: string }) {
+    const wallet = getWallet(chain);
+    if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
+
+    if ("signMessage" in wallet) {
+      return wallet.signMessage?.(message);
+    }
+
+    throw new SwapKitError({
+      errorKey: "core_wallet_sign_message_not_supported",
+      info: { chain, wallet: wallet.walletType },
+    });
+  }
+
+  async function verifyMessage({
+    address,
+    chain,
+    message,
+    signature,
+  }: { chain: Chain; signature: string; message: string; address: string }) {
+    switch (chain) {
+      case Chain.THORChain: {
+        const { getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
+        const toolbox = getToolboxByChain(chain);
+        return toolbox().verifySignature({ signature, message, address });
+      }
+
+      default:
+        throw new SwapKitError({ errorKey: "core_verify_message_not_supported", info: { chain } });
+    }
   }
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO clean this up
@@ -410,6 +453,8 @@ export function SwapKit<
     transfer,
     validateAddress,
     disconnectAll,
+    signMessage,
+    verifyMessage,
     disconnectChain,
   };
 }

@@ -1,3 +1,4 @@
+import { red, yellow } from "picocolors";
 import {
   type CommonAssetString,
   CommonAssetStrings,
@@ -6,6 +7,7 @@ import {
   getDecimal,
   isGasAsset,
 } from "../helpers/asset.ts";
+import { warnOnce } from "../helpers/others.ts";
 import { validateIdentifier } from "../helpers/validators.ts";
 import { BaseDecimal, Chain, type ChainId, ChainToChainId } from "../types/chains.ts";
 import type { TokenNames, TokenTax } from "../types/tokens.ts";
@@ -112,9 +114,7 @@ export class AssetValue extends BigIntArithmetics {
     ...fromAssetOrChain
   }: T & AssetValueFromParams): ConditionalAssetValueReturn<T> {
     const parsedValue = value instanceof BigIntArithmetics ? value.getValue("string") : value;
-
     const isFromChain = "chain" in fromAssetOrChain;
-
     const assetOrChain = isFromChain ? fromAssetOrChain.chain : fromAssetOrChain.asset;
 
     const isFromCommonAssetOrChain =
@@ -126,11 +126,21 @@ export class AssetValue extends BigIntArithmetics {
       : { identifier: assetOrChain, decimal: undefined };
 
     const { chain, isSynthetic } = getAssetInfo(unsafeIdentifier);
+    const token = staticTokensMap.get(unsafeIdentifier.toUpperCase() as TokenNames);
+    const tokenDecimal = token?.decimal || commonAssetDecimal;
 
-    const { tax, decimal, identifier } = staticTokensMap.get(
-      unsafeIdentifier.toUpperCase() as TokenNames,
-    ) || {
-      decimal: commonAssetDecimal || BaseDecimal[chain],
+    warnOnce(
+      !(asyncTokenLookup || tokenDecimal),
+      yellow(
+        `Couldn't find static decimal for ${red(unsafeIdentifier)} (Using default ${red(BaseDecimal[chain])} decimal as fallback).
+This can result in incorrect calculations and mess with amount sent on transactions.
+You can load static assets by installing @swapkit/tokens package and calling AssetValue.loadStaticAssets()
+or by passing asyncTokenLookup: true to the from() function, which will make it async and return a promise.`,
+      ),
+    );
+
+    const { decimal, identifier, tax } = token || {
+      decimal: tokenDecimal || BaseDecimal[chain],
       identifier: unsafeIdentifier,
     };
 
