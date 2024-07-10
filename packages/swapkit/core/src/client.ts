@@ -439,7 +439,6 @@ export function SwapKit<
     ...availablePlugins,
     ...connectWalletMethods,
 
-    approveAssetValue,
     getAddress,
     getBalance,
     getExplorerAddressUrl: getAddressUrl,
@@ -447,7 +446,10 @@ export function SwapKit<
     getWallet,
     getAllWallets,
     getWalletWithBalance,
+
+    approveAssetValue,
     isAssetValueApproved,
+
     estimateTransactionFee,
     swap,
     transfer,

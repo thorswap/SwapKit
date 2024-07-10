@@ -1,20 +1,8 @@
 import { describe, expect, test } from "bun:test";
-import { Chain, type DerivationPathArray } from "../../types";
+import { Chain } from "../../types";
 
 import { findAssetBy } from "../asset.ts";
-import { derivationPathToString, getTHORNameCost } from "../others.ts";
-
-describe("derivationPathToString", () => {
-  test("should return the correct string for a full path", () => {
-    const path = [1, 2, 3, 4, 5] as DerivationPathArray;
-    expect(derivationPathToString(path)).toEqual("m/1'/2'/3'/4/5");
-  });
-
-  test("should return the correct string for a short path", () => {
-    const path = [1, 2, 3, 4] as DerivationPathArray;
-    expect(derivationPathToString(path)).toEqual("m/1'/2'/3'/4");
-  });
-});
+import { getTHORNameCost } from "../others.ts";
 
 describe("getTHORNameCost", () => {
   describe("for correct values", () => {

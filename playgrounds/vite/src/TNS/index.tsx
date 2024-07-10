@@ -1,18 +1,24 @@
-import { AssetValue } from "@swapkit/sdk";
-import { Chain } from "@swapkit/sdk";
+import { AssetValue, Chain, SwapKitApi, type THORNameDetails } from "@swapkit/sdk";
 import { useCallback, useState } from "react";
 import type { SwapKitClient } from "../swapKitClient";
 
 export default function TNS({ skClient }: { skClient: SwapKitClient }) {
   const [selectedChain, setSelectedChain] = useState(Chain.THORChain);
   const [name, setName] = useState("");
+  const [tnsSearch, setTnsSearch] = useState("");
+  const [tnsDetail, setTnsDetail] = useState<THORNameDetails>();
+
+  const checkTns = useCallback(async () => {
+    const tnsDetail = await SwapKitApi.getTHORNameDetails(tnsSearch);
+    setTnsDetail(tnsDetail);
+  }, [tnsSearch]);
 
   const registerTns = useCallback(async () => {
     // const owner = skClient.getAddress(Chain.THORChain);
     const address = skClient.getAddress(selectedChain);
 
     try {
-      const txHash = await skClient.thorchain.registerThorname({
+      const txHash = await skClient.thorchain.registerTHORName({
         assetValue: AssetValue.from({ chain: Chain.THORChain, value: 1 }),
         address,
         name,
@@ -29,6 +35,16 @@ export default function TNS({ skClient }: { skClient: SwapKitClient }) {
   return (
     <div>
       <h3>TNS</h3>
+
+      <div>
+        <span>Check TNS info</span>
+        <input onChange={(e) => setTnsSearch(e.target.value)} value={tnsSearch} />
+        <button onClick={checkTns} type="button">
+          Check
+        </button>
+
+        {tnsDetail && <div>{JSON.stringify(tnsDetail)}</div>}
+      </div>
 
       <div style={{ cursor: skClient ? "default" : "not-allowed" }}>
         <div

@@ -1,9 +1,10 @@
-import { RequestClient } from "@swapkit/helpers";
+import { AssetValue, RequestClient } from "@swapkit/helpers";
 import type {
   InboundAddressesItem,
   LastBlockItem,
   MimirData,
   NodeItem,
+  THORNodeTNSDetails,
   ThornodeEndpointParams,
 } from "./types.ts";
 
@@ -38,4 +39,16 @@ export function getMimirInfo(params?: ThornodeEndpointParams) {
 
 export function getInboundAddresses(params?: ThornodeEndpointParams) {
   return RequestClient.get<InboundAddressesItem[]>(`${baseUrl(params)}/inbound_addresses`);
+}
+
+export function getTHORNodeTNSDetails(params: ThornodeEndpointParams & { name: string }) {
+  return RequestClient.get<THORNodeTNSDetails>(`${baseUrl(params)}/thorname/${params.name}`);
+}
+
+export async function getTNSPreferredAsset(tns: string) {
+  const tnsDetails = await getTHORNodeTNSDetails({ name: tns });
+
+  if (!tnsDetails.preferred_asset || tnsDetails.preferred_asset === ".") return undefined;
+
+  return AssetValue.from({ asyncTokenLookup: true, asset: tnsDetails.preferred_asset });
 }

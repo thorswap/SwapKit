@@ -72,6 +72,24 @@ export function getMemoForNameRegister({
   return `${baseMemo}${ownerAssignmentOrChangePart}`;
 }
 
+export function getMemoForNamePreferredAssetRegister({
+  name,
+  chain,
+  asset,
+  payout,
+  owner,
+}: {
+  name: string;
+  chain: Chain;
+  asset: string;
+  payout: string;
+  owner: string;
+}) {
+  const memo = [name, chain, payout, owner, asset].join(":");
+
+  return `${MemoType.NAME_REGISTER}:${memo}`;
+}
+
 export function getMemoForLoan(
   memoType: MemoType.OPEN_LOAN | MemoType.CLOSE_LOAN,
   {

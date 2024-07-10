@@ -18,6 +18,14 @@ const updatedLastIndex = (path: DerivationPathArray, index: number) => {
   return newPath as DerivationPathArray;
 };
 
+export function derivationPathToString([network, chainId, account, change, index]:
+  | [number, number, number, number, number | undefined]
+  | DerivationPathArray) {
+  const shortPath = typeof index !== "number";
+
+  return `m/${network}'/${chainId}'/${account}'/${change}${shortPath ? "" : `/${index}`}`;
+}
+
 export function getDerivationPathFor({ chain, index, addressIndex = 0, type }: Params) {
   if (EVMChains.includes(chain as EVMChain)) {
     if (type === "legacy") return [44, 60, 0, index] as DerivationPathArray;
