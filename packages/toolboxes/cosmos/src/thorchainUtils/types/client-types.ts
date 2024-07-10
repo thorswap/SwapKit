@@ -106,7 +106,7 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
   ) => Promise<string>;
   pubkeyToAddress: (pubkey: Pubkey, prefix: string) => string;
   loadAddressBalances: (address: string) => Promise<AssetValue[]>;
-  signMessage: ({
+  signWithPrivateKey: ({
     privateKey,
     message,
   }: {

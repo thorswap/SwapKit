@@ -1,6 +1,6 @@
 "use client";
 import type { AssetValue, QuoteResponseRoute, SwapKit } from "@swapkit/sdk";
-import { FeeOption, ProviderName, SwapKitApi, SwapKitNumber } from "@swapkit/sdk";
+import { FeeOption, SwapKitApi, SwapKitNumber } from "@swapkit/sdk";
 import { useCallback, useState } from "react";
 
 type Props = {
@@ -36,7 +36,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
 
     const sourceAddress = skClient.getAddress(inputAsset.chain);
     const destinationAddress = skClient.getAddress(outputAsset.chain);
-    const providers = Object.values(ProviderName);
+    // const providers = Object.values(ProviderName);
 
     try {
       const { routes } = await SwapKitApi.getSwapQuoteV2(
@@ -64,7 +64,6 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
       });
 
       setFeeBestRoute(fee);
-      console.log("ffee", fee);
 
       setRoutes(routes || []);
     } finally {

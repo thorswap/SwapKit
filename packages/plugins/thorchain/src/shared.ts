@@ -1,10 +1,5 @@
-import { type BaseWallet, Chain } from "@swapkit/helpers";
-import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
-import type { EVMWallets } from "@swapkit/toolbox-evm";
-import type { UTXOWallets } from "@swapkit/toolbox-utxo";
+import { Chain } from "@swapkit/helpers";
 import type { CoreTxParams } from "./types";
-
-export type ChainWallets = BaseWallet<EVMWallets & UTXOWallets & ThorchainWallets & CosmosWallets>;
 
 export const validateAddressType = ({
   chain,
@@ -24,22 +19,16 @@ export const validateAddressType = ({
   }
 };
 
-export function getWallet<T extends Chain>(wallet: ChainWallets, chain: T) {
-  return wallet[chain];
-}
-
-export function getAddress<T extends Chain>(wallet: ChainWallets, chain: T) {
-  return getWallet(wallet, chain)?.address || "";
-}
-
-export function prepareTxParams(
-  wallets: ChainWallets,
-  { assetValue, ...restTxParams }: CoreTxParams & { router?: string },
-) {
+export function prepareTxParams({
+  assetValue,
+  from,
+  memo = "",
+  ...restTxParams
+}: CoreTxParams & { from: string; router?: string }) {
   return {
     ...restTxParams,
-    memo: restTxParams.memo || "",
-    from: getAddress(wallets, assetValue.chain),
+    memo,
+    from,
     assetValue,
   };
 }

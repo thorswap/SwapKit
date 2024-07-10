@@ -13,28 +13,30 @@ type Params = {
   type?: "legacy" | "ledgerLive" | "nativeSegwitMiddleAccount" | "segwit";
 };
 
-const updatedLastIndex = (path: DerivationPathArray, index: number) => [
-  ...path.slice(0, path.length - 1),
-  index,
-];
+const updatedLastIndex = (path: DerivationPathArray, index: number) => {
+  const newPath = [...path.slice(0, path.length - 1), index];
+  return newPath as DerivationPathArray;
+};
 
 export function getDerivationPathFor({ chain, index, addressIndex = 0, type }: Params) {
   if (EVMChains.includes(chain as EVMChain)) {
-    if (type === "legacy") return [44, 60, 0, index];
-    if (type === "ledgerLive") return [44, 60, index, 0, addressIndex];
+    if (type === "legacy") return [44, 60, 0, index] as DerivationPathArray;
+    if (type === "ledgerLive") return [44, 60, index, 0, addressIndex] as DerivationPathArray;
     return updatedLastIndex(NetworkDerivationPath[chain], index);
   }
 
-  if ([Chain.Bitcoin, Chain.Litecoin].includes(chain)) {
-    const chainId = chain === Chain.Bitcoin ? 0 : 2;
+  const chainId = chain === Chain.Litecoin ? 2 : 0;
 
-    if (type === "nativeSegwitMiddleAccount") return [84, chainId, index, 0, addressIndex];
-    if (type === "segwit") return [49, chainId, 0, 0, index];
-    if (type === "legacy") return [44, chainId, 0, 0, index];
-    return updatedLastIndex(NetworkDerivationPath[chain], index);
+  switch (type) {
+    case "nativeSegwitMiddleAccount":
+      return [84, chainId, index, 0, addressIndex] as DerivationPathArray;
+    case "segwit":
+      return [49, chainId, 0, 0, index] as DerivationPathArray;
+    case "legacy":
+      return [44, chainId, 0, 0, index] as DerivationPathArray;
+    default:
+      return updatedLastIndex(NetworkDerivationPath[chain], index);
   }
-
-  return updatedLastIndex(NetworkDerivationPath[chain], index);
 }
 
 export function getWalletFormatFor(path: string) {

@@ -1,8 +1,9 @@
 import { AssetValue } from "@swapkit/sdk";
 import { Chain } from "@swapkit/sdk";
 import { useCallback, useState } from "react";
+import type { SwapKitClient } from "../swapKitClient";
 
-export default function TNS({ skClient }: { skClient: any }) {
+export default function TNS({ skClient }: { skClient: SwapKitClient }) {
   const [selectedChain, setSelectedChain] = useState(Chain.THORChain);
   const [name, setName] = useState("");
 
@@ -11,14 +12,14 @@ export default function TNS({ skClient }: { skClient: any }) {
     const address = skClient.getAddress(selectedChain);
 
     try {
-      const txHash = await skClient.registerThorname({
+      const txHash = await skClient.thorchain.registerThorname({
         assetValue: AssetValue.from({ chain: Chain.THORChain, value: 1 }),
         address,
         name,
         chain: selectedChain,
       });
 
-      window.open(`${skClient.getExplorerTxUrl(Chain.THORChain, txHash as string)}`, "_blank");
+      window.open(`${skClient.getExplorerTxUrl({ chain: Chain.THORChain, txHash })}`, "_blank");
     } catch (e) {
       console.error(e);
       alert(e);

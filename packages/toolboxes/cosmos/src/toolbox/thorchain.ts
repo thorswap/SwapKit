@@ -144,7 +144,7 @@ const __REEXPORT__pubkeyToAddress = (prefix: string) => (pubkey: Pubkey) => {
   return pubkeyToAddress(pubkey, prefix);
 };
 
-const signMessage = async ({
+const signWithPrivateKey = async ({
   privateKey,
   message,
 }: { privateKey: Uint8Array; message: string }) => {
@@ -299,7 +299,7 @@ export const BaseThorchainToolbox = ({
     importSignature,
     loadAddressBalances,
     pubkeyToAddress: __REEXPORT__pubkeyToAddress(prefix),
-    signMessage,
+    signWithPrivateKey,
     verifySignature: verifySignature(baseToolbox.getAccount),
   };
 };

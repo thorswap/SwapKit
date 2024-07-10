@@ -7,6 +7,7 @@ import {
   type EVMChain,
   EVMChains,
   FeeOption,
+  type FullWallet,
   MemoType,
   SwapKitError,
   getMemoForDeposit,
@@ -20,7 +21,6 @@ import {
   wrapWithThrow,
 } from "@swapkit/helpers";
 
-import { type ChainWallets, getAddress } from "./shared";
 import type {
   AddLiquidityParams,
   AddLiquidityPartParams,
@@ -30,6 +30,7 @@ import type {
   NodeActionParams,
   RegisterThornameParams,
   SavingsParams,
+  SupportedChain,
   WithdrawParams,
 } from "./types";
 
@@ -62,12 +63,12 @@ export function basePlugin({
   stagenet,
   deposit,
   pluginChain,
-  wallets,
+  getWallet,
 }: {
   deposit: (params: CoreTxParams & { router?: string }) => Promise<string>;
   pluginChain: Chain.Maya | Chain.THORChain;
   stagenet: boolean;
-  wallets: ChainWallets;
+  getWallet: <T extends SupportedChain>(chain: T) => FullWallet[T];
 }) {
   const type = pluginChain === Chain.Maya ? "mayachain" : "thorchain";
   const getInboundDataByChain = getInboundDataFunction({ stagenet, type });
@@ -78,30 +79,31 @@ export function basePlugin({
   }: { type: T; assetValue: AssetValue }) {
     const router = (await getInboundDataByChain(assetValue.chain)).router as string;
 
-    const { address, chain, isGasAsset, isSynthetic } = assetValue;
-    const isEVMChain = EVMChains.includes(chain as EVMChain);
-    const isNativeEVM = isEVMChain && isGasAsset;
+    const chain = assetValue.chain as EVMChain;
 
-    if (isNativeEVM || !isEVMChain || isSynthetic) {
+    const isEVMChain = EVMChains.includes(chain as EVMChain);
+    const isNativeEVM = isEVMChain && assetValue.isGasAsset;
+
+    if (isNativeEVM || !isEVMChain || assetValue.isSynthetic) {
       return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
     }
 
-    const walletMethods = wallets[chain as EVMChain];
+    const wallet = getWallet(chain);
 
-    const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
-    if (!walletAction) {
+    if (!wallet) {
       throw new SwapKitError("core_wallet_connection_not_found");
     }
 
-    const from = walletMethods?.address;
-    if (!(address && from)) {
+    const walletAction = type === "checkOnly" ? wallet.isApproved : wallet.approve;
+
+    if (!(assetValue.address && wallet.address)) {
       throw new SwapKitError("core_approve_asset_address_or_from_not_found");
     }
 
     return walletAction({
       amount: assetValue.getBaseValue("bigint"),
-      assetAddress: address,
-      from,
+      assetAddress: assetValue.address,
+      from: wallet.address,
       spenderAddress: router,
     });
   }
@@ -164,8 +166,8 @@ export function basePlugin({
       throw new SwapKitError("core_transaction_create_liquidity_invalid_params");
     }
 
-    const assetAddress = getAddress(wallets, assetValue.chain);
-    const baseAssetAddress = getAddress(wallets, pluginChain);
+    const assetAddress = getWallet(assetValue.chain as SupportedChain).address;
+    const baseAssetAddress = getWallet(pluginChain).address;
 
     const baseAssetTx = await wrapWithThrow(() => {
       return depositToPool({
@@ -216,10 +218,11 @@ export function basePlugin({
     const baseTransfer = baseAssetValue?.gt(0) && (isSym || mode === "baseAsset");
     const assetTransfer = assetValue?.gt(0) && (isSym || mode === "asset");
     const includeBaseAddress = isPendingSymmAsset || baseTransfer;
-    const baseAssetWalletAddress = getAddress(wallets, pluginChain);
+    const baseAssetWalletAddress = getWallet(pluginChain).address;
 
     const baseAddress = includeBaseAddress ? baseAssetAddr || baseAssetWalletAddress : "";
-    const assetAddress = isSym || mode === "asset" ? assetAddr || getAddress(wallets, chain) : "";
+    const assetAddress =
+      isSym || mode === "asset" ? assetAddr || getWallet(chain as SupportedChain).address : "";
 
     if (!(baseTransfer || assetTransfer)) {
       throw new SwapKitError("core_transaction_add_liquidity_invalid_params");

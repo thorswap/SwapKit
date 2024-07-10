@@ -31,9 +31,11 @@ export function getLiquidityPositionRaw<T extends boolean = false>(
 }
 
 export function getNamesByAddress(address: string, isMayachain = false) {
-  return RequestClient.get<THORNameDetails>(
-    `${isMayachain ? mayachainMidgardBaseUrl : thorchainMidgardBaseUrl}/v2/mayaname/lookup/${address}`,
-  );
+  const baseUrl = isMayachain
+    ? `${mayachainMidgardBaseUrl}/v2/mayaname`
+    : `${thorchainMidgardBaseUrl}/v2/thorname`;
+
+  return RequestClient.get<THORNameDetails>(`${baseUrl}/lookup/${address}`);
 }
 
 export async function getBorrowerDetail(address: string, isMayachain = false) {

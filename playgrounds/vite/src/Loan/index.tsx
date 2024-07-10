@@ -1,12 +1,13 @@
-import type { AssetValue, SwapKitCore } from "@swapkit/core";
+import type { AssetValue } from "@swapkit/core";
 import { useCallback, useState } from "react";
+import type { SwapKitClient } from "../swapKitClient";
 
 export default function Loan({
   inputAsset,
   outputAsset,
   skClient,
 }: {
-  skClient?: SwapKitCore;
+  skClient?: SwapKitClient;
   inputAsset?: AssetValue;
   outputAsset?: AssetValue;
 }) {
@@ -19,7 +20,7 @@ export default function Loan({
       if (!inputAsset) return;
       return inputAsset.mul(0).add(amountValue);
     },
-    [inputAsset]
+    [inputAsset],
   );
 
   const setAmount = useCallback(
@@ -29,22 +30,19 @@ export default function Loan({
 
       setFunction(inputAsset && amount?.gt(inputAsset) ? inputAsset : amount);
     },
-    [getValue, inputAsset]
+    [getValue, inputAsset],
   );
 
   const handleLoanAction = useCallback(async () => {
     if (!(borrowAssetValue && inputAssetValue && skClient)) return;
 
-    const txHash = await skClient.loan({
+    const txHash = await skClient.thorchain.loan({
       type: isOpenLoanMode ? "open" : "close",
       assetValue: inputAssetValue,
       minAmount: borrowAssetValue,
     });
 
-    window.open(
-      `${skClient.getExplorerTxUrl(inputAssetValue.chain, txHash as string)}`,
-      "_blank"
-    );
+    window.open(`${skClient.getExplorerTxUrl({ chain: inputAssetValue.chain, txHash })}`, "_blank");
   }, [borrowAssetValue, inputAssetValue, skClient, isOpenLoanMode]);
 
   return (
@@ -84,11 +82,7 @@ export default function Loan({
             />
           </div>
 
-          <button
-            disabled={!(inputAsset && outputAsset)}
-            onClick={handleLoanAction}
-            type="button"
-          >
+          <button disabled={!(inputAsset && outputAsset)} onClick={handleLoanAction} type="button">
             {isOpenLoanMode ? "Open Loan" : "Close Loan"}
           </button>
         </div>

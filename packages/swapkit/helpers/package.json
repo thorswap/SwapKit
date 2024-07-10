@@ -7,6 +7,14 @@
     "picocolors": "1.0.1",
     "zod": "3.23.8"
   },
+  "devDependencies": {
+    "@swapkit/toolbox-cosmos": "workspace:*",
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-solana": "workspace:*",
+    "@swapkit/toolbox-radix": "workspace:*",
+    "@swapkit/toolbox-substrate": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*"
+  },
   "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",

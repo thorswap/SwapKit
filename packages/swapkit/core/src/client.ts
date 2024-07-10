@@ -1,16 +1,21 @@
 import { lowercasedContractAbiMapping } from "@swapkit/contracts";
 import {
-  type AddChainWalletParams,
   ApproveMode,
   type ApproveReturnType,
   AssetValue,
   Chain,
+  type ChainApis,
+  type ChainWallet,
+  type ConditionalAssetValueReturn,
   type ConnectConfig,
   type EVMChain,
   EVMChains,
   type FeeOption,
+  type FullWallet,
   ProviderName as PluginNameEnum,
   SwapKitError,
+  type SwapKitPluginParams,
+  type SwapKitWallet,
   type SwapParams,
   type WalletChain,
   isGasAsset,
@@ -28,16 +33,14 @@ import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
 } from "./helpers/explorerUrls.ts";
-import type {
-  Apis,
-  ConditionalAssetValueReturn,
-  SwapKitPluginInterface,
-  SwapKitWallet,
-  Wallet,
-} from "./types.ts";
 
 export function SwapKit<
-  Plugins extends { [key in string]: SwapKitPluginInterface<{ [key in string]: Todo }> },
+  Plugins extends {
+    [key in string]: {
+      plugin: (params: SwapKitPluginParams<NotWorth>) => NotWorth;
+      config?: NotWorth;
+    };
+  },
   Wallets extends { [key in string]: SwapKitWallet<NotWorth[]> },
 >({
   apis = {},
@@ -45,27 +48,23 @@ export function SwapKit<
   plugins,
   rpcUrls = {},
   stagenet = false,
-  wallets,
+  wallets = {} as Wallets,
 }: {
-  apis?: Apis;
+  apis?: ChainApis;
   config?: ConnectConfig;
   plugins: Plugins;
   rpcUrls?: { [key in Chain]?: string };
   stagenet?: boolean;
-  wallets: Wallets;
+  wallets?: Wallets;
 }) {
   type PluginName = keyof Plugins;
+  const connectedWallets = {} as FullWallet;
 
-  const connectedWallets = {} as Wallet;
   const availablePlugins = Object.entries(plugins).reduce(
     (acc, [pluginName, { plugin, config: pluginConfig }]) => {
-      const methods = plugin({
-        wallets: connectedWallets,
-        stagenet,
-        config: pluginConfig ?? config,
-      });
+      const methods = plugin({ getWallet, stagenet, config: pluginConfig ?? config });
 
-      // @ts-expect-error
+      // @ts-expect-error key is generic and cannot be indexed
       acc[pluginName] = methods;
       return acc;
     },
@@ -76,7 +75,7 @@ export function SwapKit<
     (acc, [walletName, wallet]) => {
       const connectWallet = wallet({ addChain, config, apis, rpcUrls });
 
-      // @ts-expect-error
+      // @ts-expect-error walletName is generic and cannot be indexed
       acc[walletName] = connectWallet;
       return acc;
     },
@@ -105,9 +104,10 @@ export function SwapKit<
     return plugin;
   }
 
-  function addChain<T extends Chain>(connectWallet: AddChainWalletParams<T>) {
-    // @ts-expect-error: TODO
-    connectedWallets[connectWallet.chain] = connectWallet;
+  function addChain<T extends Chain>(connectWallet: ChainWallet<T>) {
+    const currentWallet = getWallet(connectWallet.chain);
+
+    connectedWallets[currentWallet.chain] = currentWallet;
   }
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>

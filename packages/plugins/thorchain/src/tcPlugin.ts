@@ -14,6 +14,7 @@ import {
   SWAP_OUT,
   SwapKitError,
   SwapKitNumber,
+  type SwapKitPluginParams,
   type SwapParams,
   TCAvalancheDepositABI,
   TCBscDepositABI,
@@ -24,13 +25,7 @@ import {
 
 import { basePlugin } from "./basePlugin.ts";
 import { getSwapInParams } from "./getSwapParams.ts";
-import {
-  type ChainWallets,
-  getAddress,
-  getWallet,
-  prepareTxParams,
-  validateAddressType,
-} from "./shared.ts";
+import { prepareTxParams, validateAddressType } from "./shared.ts";
 import type {
   AddLiquidityParams,
   CoreTxParams,
@@ -41,7 +36,7 @@ import type {
 
 type SupportedChain = EVMChain | Chain.THORChain | UTXOChain | Chain.Cosmos;
 
-const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet?: boolean }) => {
+function plugin({ getWallet, stagenet = false }: SwapKitPluginParams) {
   const {
     getInboundDataByChain,
     register,
@@ -50,7 +45,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
     createLiquidity: pluginCreateLiquidity,
     ...pluginMethods
   } = basePlugin({
-    wallets,
+    getWallet,
     pluginChain: Chain.THORChain,
     stagenet,
     deposit,
@@ -65,30 +60,35 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
   }: CoreTxParams & { router?: string }) {
     const { chain, symbol, ticker } = assetValue;
 
-    const walletInstance = getWallet(wallets, chain as SupportedChain);
-    if (!walletInstance) {
+    const wallet = getWallet(chain as SupportedChain);
+    if (!wallet) {
       throw new SwapKitError("core_wallet_connection_not_found");
     }
 
-    const isAddressValidated = validateAddressType({ address: walletInstance?.address, chain });
+    const isAddressValidated = validateAddressType({ address: wallet.address, chain });
     if (!isAddressValidated) {
       throw new SwapKitError("core_transaction_invalid_sender_address");
     }
 
-    const params = prepareTxParams(wallets, { assetValue, recipient, router, ...rest });
+    const params = prepareTxParams({
+      from: wallet.address,
+      assetValue,
+      recipient,
+      router,
+      ...rest,
+    });
 
     try {
       switch (chain) {
         case Chain.THORChain: {
-          const wallet = wallets[chain];
-          const tx = await (recipient === "" ? wallet.deposit(params) : wallet.transfer(params));
-          return tx;
+          const wallet = getWallet(chain);
+          return recipient === "" ? wallet.deposit(params) : wallet.transfer(params);
         }
 
         case Chain.Ethereum:
         case Chain.BinanceSmartChain:
         case Chain.Avalanche: {
-          const wallet = wallets[chain];
+          const wallet = getWallet(chain);
           const { getChecksumAddressFromAsset } = await import("@swapkit/toolbox-evm");
 
           const abi =
@@ -98,7 +98,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
                 ? TCBscDepositABI
                 : TCEthereumVaultAbi;
 
-          const tx = await wallet.call({
+          return wallet.call<string>({
             abi,
             contractAddress:
               router || ((await getInboundDataByChain(chain as EVMChain)).router as string),
@@ -116,13 +116,11 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
               value: assetValue.isGasAsset ? assetValue.getBaseValue("bigint") : undefined,
             },
           });
-
-          return tx as string;
         }
 
         default: {
-          if (walletInstance) {
-            return walletInstance.transfer(params) as Promise<string>;
+          if (wallet) {
+            return wallet.transfer(params);
           }
 
           throw new SwapKitError("core_wallet_connection_not_found");
@@ -158,7 +156,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
         getMemoForLoan(type === "open" ? MemoType.OPEN_LOAN : MemoType.CLOSE_LOAN, {
           asset: assetValue.toString(),
           minAmount: minAmount.toString(),
-          address: getAddress(wallets, assetValue.chain),
+          address: getWallet(assetValue.chain).address,
         }),
     });
   }
@@ -220,9 +218,9 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
     //   }
 
     if (AGG_SWAP.includes(quoteMode) && evmChain) {
-      const walletMethods = wallets[evmChain];
+      const wallet = getWallet(evmChain);
 
-      if (!walletMethods?.sendTransaction) {
+      if (!wallet?.sendTransaction) {
         throw new SwapKitError("core_wallet_connection_not_found");
       }
 
@@ -241,10 +239,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
         value: value ? BigInt(value) : 0n,
       };
 
-      return walletMethods.sendTransaction(
-        params,
-        feeOptionKey || FeeOption.Average,
-      ) as Promise<string>;
+      return wallet.sendTransaction(params, feeOptionKey || FeeOption.Average);
     }
 
     if (SWAP_OUT.includes(quoteMode)) {
@@ -285,8 +280,8 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
         throw new SwapKitError("core_swap_contract_not_found");
       }
 
-      const walletMethods = wallets[evmChain];
-      const from = getAddress(wallets, evmChain);
+      const wallet = getWallet(evmChain);
+      const from = wallet.address;
 
       if (!from) {
         throw new SwapKitError("core_wallet_connection_not_found");
@@ -300,7 +295,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
         throw new SwapKitError("core_swap_contract_not_supported", { contractAddress });
       }
 
-      const contract = walletMethods.createContract?.(contractAddress, abi, provider);
+      const contract = wallet.createContract(contractAddress, abi, provider);
 
       const tx = await contract.getFunction("swapIn").populateTransaction(
         ...getSwapInParams({
@@ -313,10 +308,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
         { from },
       );
 
-      return walletMethods.sendTransaction(
-        tx,
-        feeOptionKey || FeeOption.Average,
-      ) as Promise<string>;
+      return wallet.sendTransaction(tx, feeOptionKey || FeeOption.Average);
     }
 
     throw new SwapKitError("core_swap_quote_mode_not_supported", { quoteMode });
@@ -390,7 +382,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
      */
     registerThorname: register,
   };
-};
+}
 
 export const ThorchainPlugin = { thorchain: { plugin } } as const;
 

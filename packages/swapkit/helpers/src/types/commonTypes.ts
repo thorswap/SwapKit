@@ -1,6 +1,5 @@
-import type { AssetValue } from "../modules/assetValue.ts";
 import type { Chain, CosmosChain, EVMChain, UTXOChain } from "./chains.ts";
-import type { WalletOption } from "./wallet.ts";
+import type { ChainWallet } from "./wallet.ts";
 
 export type ConnectConfig = {
   stagenet?: boolean;
@@ -49,22 +48,14 @@ export type ConnectConfig = {
   chainflipBrokerUrl?: string;
 };
 
-export type AddChainWalletParams<T extends Chain> = {
-  address: string;
-  balance: AssetValue[];
-  walletType: WalletOption;
-  chain: T;
-  [key: string]: Todo;
-};
-
 type ApisType = { [key in UTXOChain]?: string | Todo } & {
   [key in EVMChain]?: string | Todo;
 } & {
   [key in CosmosChain]?: string;
 };
 
-export type ConnectWalletParams = {
-  addChain: <T extends Chain>(params: AddChainWalletParams<T>) => void;
+export type ConnectWalletParams<M = { [key in string]: NotWorth }> = {
+  addChain: <T extends Chain>(params: ChainWallet<T> & M) => void;
   apis: ApisType;
   config: ConnectConfig;
   rpcUrls: { [chain in Chain]?: string };

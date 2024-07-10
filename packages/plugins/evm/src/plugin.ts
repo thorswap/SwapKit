@@ -3,56 +3,45 @@ import {
   ApproveMode,
   type ApproveReturnType,
   AssetValue,
-  type BaseWallet,
   type EVMChain,
   EVMChains,
   ProviderName,
   SwapKitError,
+  type SwapKitPluginParams,
   type SwapParams,
 } from "@swapkit/helpers";
-import type { EVMWallets } from "@swapkit/toolbox-evm";
-
-type ChainWallets = BaseWallet<EVMWallets>;
 
 type ApproveParams = {
   assetValue: AssetValue;
   spenderAddress: string;
 };
 
-const plugin = ({
-  wallets,
-}: {
-  wallets: ChainWallets;
-}) => {
+function plugin({ getWallet }: SwapKitPluginParams) {
   async function swap({ route, feeOptionKey }: SwapParams<"evm">) {
-    const { evmTransactionDetails } = route;
-
-    const assetValue = await AssetValue.from({
-      asset: route.sellAsset,
-      value: route.sellAmount,
-      asyncTokenLookup: true,
-    });
-
-    const evmChain = assetValue.chain;
+    const { evmTransactionDetails, sellAmount, sellAsset } = route;
     const abi =
       evmTransactionDetails && lowercasedContractAbiMapping[evmTransactionDetails.contractAddress];
 
-    if (!(EVMChains.includes(evmChain as EVMChain) && abi))
-      throw new SwapKitError("core_swap_invalid_params");
+    const assetValue = await AssetValue.from({
+      asset: sellAsset,
+      value: sellAmount,
+      asyncTokenLookup: true,
+    });
 
-    const wallet = wallets[assetValue.chain as EVMChain];
-    const from = wallet.address;
+    const evmChain = assetValue.chain as EVMChain;
 
-    const tx = await wallet.call({
+    if (!(EVMChains.includes(evmChain) && abi)) throw new SwapKitError("core_swap_invalid_params");
+
+    const wallet = getWallet(evmChain);
+
+    return wallet.call<string>({
       contractAddress: evmTransactionDetails.contractAddress,
       funcName: evmTransactionDetails.contractMethod,
       funcParams: evmTransactionDetails.contractParams,
-      txOverrides: { from },
+      txOverrides: { from: wallet.address },
       feeOption: feeOptionKey,
       abi,
     });
-
-    return tx as string;
   }
 
   /**
@@ -72,14 +61,14 @@ const plugin = ({
       return Promise.resolve(type === "checkOnly" ? true : "approved") as ApproveReturnType<T>;
     }
 
-    const walletMethods = wallets[chain as EVMChain];
+    const wallet = getWallet(chain as EVMChain);
 
-    const walletAction = type === "checkOnly" ? walletMethods?.isApproved : walletMethods?.approve;
-    if (!walletAction) {
+    if (!wallet) {
       throw new SwapKitError("core_wallet_connection_not_found");
     }
 
-    const from = walletMethods?.address;
+    const walletAction = type === "checkOnly" ? wallet.isApproved : wallet.approve;
+    const from = wallet.address;
 
     if (!(address && from)) {
       throw new SwapKitError("core_approve_asset_address_or_from_not_found");
@@ -115,6 +104,6 @@ const plugin = ({
       ProviderName.PANCAKESWAP,
     ],
   };
-};
+}
 
 export const EVMPlugin = { evm: { plugin } } as const;

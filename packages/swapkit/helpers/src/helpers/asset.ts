@@ -8,6 +8,10 @@ const getDecimalMethodHex = "0x313ce567";
 
 export type CommonAssetString = (typeof CommonAssetStrings)[number] | Chain;
 
+export type ConditionalAssetValueReturn<T extends boolean> = T extends true
+  ? Promise<AssetValue[]>
+  : AssetValue[];
+
 export const CommonAssetStrings = [
   `${Chain.Maya}.MAYA`,
   `${Chain.Ethereum}.THOR`,

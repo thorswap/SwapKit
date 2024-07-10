@@ -1,7 +1,8 @@
-import type { AssetValue, Chain, SwapKitCore } from "@swapkit/core";
+import type { AssetValue, Chain } from "@swapkit/core";
 import { ThorchainToolbox, buildAminoMsg } from "@swapkit/toolbox-cosmos";
 import { fromByteArray } from "base64-js";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import type { SwapKitClient } from "../swapKitClient";
 
 export default function Multisig({
   inputAsset,
@@ -9,7 +10,7 @@ export default function Multisig({
   stagenet,
   phrase,
 }: {
-  skClient?: SwapKitCore;
+  skClient?: SwapKitClient;
   inputAsset?: AssetValue;
   stagenet?: boolean;
   phrase: string;
@@ -20,8 +21,7 @@ export default function Multisig({
   const [recipient, setRecipient] = useState("");
   const [memo, setMemo] = useState("");
   const [address, setAddress] = useState("");
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  const [transaction, setTransaction] = useState<any | undefined>(undefined);
+  const [transaction, setTransaction] = useState<Todo | undefined>(undefined);
   const [signatures, setSignatures] = useState<{ [key: string]: string }>({});
   const [bodyBytes, setBodyBytes] = useState<Uint8Array>(new Uint8Array([]));
   const [transactionHash, setTransactionHash] = useState("");
@@ -33,8 +33,10 @@ export default function Multisig({
     if (phrase) {
       const wallet = await toolbox.secp256k1HdWalletFromMnemonic(phrase);
       const [account] = await wallet.getAccounts();
-      const pubkey = fromByteArray(account.pubkey);
-      setNonMultisigPugKey(pubkey);
+
+      if (!account) return alert("No account found");
+
+      setNonMultisigPugKey(fromByteArray(account.pubkey));
     }
   }, [phrase, toolbox]);
 
@@ -79,13 +81,18 @@ export default function Multisig({
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const handleSignTransaction = useCallback(async () => {
     const wallet = await toolbox.secp256k1HdWalletFromMnemonic(phrase);
-    const signature = await toolbox.signMultisigTx(wallet, JSON.stringify(transaction));
-    setBodyBytes(signature.bodyBytes);
+    const { signature, bodyBytes } = await toolbox.signMultisigTx(
+      wallet,
+      JSON.stringify(transaction),
+    );
+    setBodyBytes(bodyBytes);
     const [account] = await wallet.getAccounts();
-    const pubkey = fromByteArray(account.pubkey);
+
+    if (!account) return alert("No account found");
+
     setSignatures((signatures) => ({
       ...signatures,
-      [pubkey]: signature.signature,
+      [fromByteArray(account.pubkey)]: signature,
     }));
   }, [phrase, toolbox, transaction, setBodyBytes]);
 
@@ -137,6 +144,7 @@ export default function Multisig({
           </button>
           {address && <div>Multisig address: {address}</div>}
         </div>
+
         {address && (
           <div>
             <h4>Transaction:</h4>
@@ -176,6 +184,7 @@ export default function Multisig({
 
               {transaction && <div>Transaction created successfully</div>}
             </div>
+
             {transaction && (
               <div>
                 <h4>Signatures</h4>
@@ -193,6 +202,7 @@ export default function Multisig({
                     ))
                   )}
                 </div>
+
                 {Object.entries(signatures).length >= threshold && (
                   <button
                     disabled={isBroadcasting}
@@ -202,7 +212,9 @@ export default function Multisig({
                     Broadcast
                   </button>
                 )}
+
                 {isBroadcasting && <div>Broadcasting...</div>}
+
                 {transactionHash && (
                   <div>
                     Hooray! The transaction was sent successfully. Here is your transaction hash{" "}

@@ -9,11 +9,12 @@ import {
   ProviderName,
   type QuoteResponseRoute,
   SwapKitError,
+  type SwapKitPluginParams,
   type SwapParams,
   type UTXOChain,
 } from "@swapkit/helpers";
 import { basePlugin } from "./basePlugin.ts";
-import { type ChainWallets, getWallet, prepareTxParams, validateAddressType } from "./shared.ts";
+import { prepareTxParams, validateAddressType } from "./shared.ts";
 import type {
   AddLiquidityParams,
   CoreTxParams,
@@ -23,7 +24,7 @@ import type {
 
 type SupportedChain = EVMChain | CosmosChain | UTXOChain;
 
-const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet?: boolean }) => {
+function plugin({ getWallet, stagenet = false }: SwapKitPluginParams) {
   const {
     getInboundDataByChain,
     register,
@@ -34,7 +35,7 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
     deposit,
     pluginChain: Chain.Maya,
     stagenet,
-    wallets,
+    getWallet,
   });
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO refactor
@@ -46,30 +47,31 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
   }: CoreTxParams & { router?: string }) {
     const { chain, symbol, ticker } = assetValue;
 
-    const walletInstance = getWallet(wallets, chain as SupportedChain);
-    if (!walletInstance) {
+    const wallet = getWallet(chain as SupportedChain);
+    if (!wallet) {
       throw new SwapKitError("core_wallet_connection_not_found");
     }
 
-    const isAddressValidated = validateAddressType({ address: walletInstance?.address, chain });
+    const address = wallet.address;
+
+    const isAddressValidated = validateAddressType({ address, chain });
     if (!isAddressValidated) {
       throw new SwapKitError("core_transaction_invalid_sender_address");
     }
 
-    const params = prepareTxParams(wallets, { assetValue, recipient, router, ...rest });
+    const params = prepareTxParams({ from: address, assetValue, recipient, router, ...rest });
 
     try {
       switch (chain) {
         case Chain.Maya: {
-          const wallet = wallets[chain];
-          const tx = await (recipient === "" ? wallet.deposit(params) : wallet.transfer(params));
-          return tx;
+          const wallet = getWallet(chain);
+          return recipient === "" ? wallet.deposit(params) : wallet.transfer(params);
         }
 
         case Chain.Arbitrum:
         case Chain.Ethereum: {
           const { getChecksumAddressFromAsset } = await import("@swapkit/toolbox-evm");
-          const wallet = getWallet(wallets, chain);
+          const wallet = getWallet(chain);
 
           const abi = chain === Chain.Arbitrum ? MayaArbitrumVaultAbi : MayaEthereumVaultAbi;
           const funcParams = [
@@ -97,8 +99,8 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
         }
 
         default: {
-          if (walletInstance) {
-            return walletInstance.transfer(params) as Promise<string>;
+          if (wallet) {
+            return wallet.transfer(params);
           }
 
           throw new SwapKitError("core_wallet_connection_not_found");
@@ -197,6 +199,6 @@ const plugin = ({ wallets, stagenet = false }: { wallets: ChainWallets; stagenet
      */
     registerMayaname: register,
   };
-};
+}
 
 export const MayachainPlugin = { mayachain: { plugin } } as const;
