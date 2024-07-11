@@ -1,5 +1,5 @@
 import type { EthereumWindowProvider } from "@swapkit/helpers";
-import type { Injected, InjectedExtension } from "./types.ts";
+import type { Injected, InjectedExtension } from "@swapkit/toolbox-substrate";
 export { talismanWallet } from "./talisman.ts";
 
 declare global {

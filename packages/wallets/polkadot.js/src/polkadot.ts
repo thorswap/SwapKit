@@ -23,8 +23,8 @@ function connectPolkadotJs({
       });
 
       addChain({
-        address,
         ...walletMethods,
+        address,
         chain,
         balance: [],
         walletType: WalletOption.POLKADOT_JS,

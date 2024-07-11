@@ -2,8 +2,7 @@ import { Chain, SwapKitError, WalletOption } from "@swapkit/helpers";
 
 import { decodeAddress, encodeAddress } from "@polkadot/util-crypto";
 
-import type { PolkadotToolbox } from "@swapkit/toolbox-substrate";
-import type { InjectedWindow } from "./types";
+import type { InjectedWindow, PolkadotToolbox } from "@swapkit/toolbox-substrate";
 
 export const convertAddress = (inputAddress: string, newPrefix: number): string => {
   const decodedAddress = decodeAddress(inputAddress);

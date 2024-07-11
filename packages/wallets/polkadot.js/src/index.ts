@@ -1,4 +1,4 @@
-import type { Injected } from "./types.ts";
+import type { Injected } from "@swapkit/toolbox-substrate";
 export { polkadotWallet } from "./polkadot.ts";
 
 declare global {

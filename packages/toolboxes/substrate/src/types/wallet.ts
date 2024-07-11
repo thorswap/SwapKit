@@ -13,15 +13,7 @@ export interface InjectedAccount {
   name?: string;
   type?: KeypairType;
 }
-export interface InjectedAccountWithMeta {
-  address: string;
-  meta: {
-    genesisHash?: string | null;
-    name?: string;
-    source: string;
-  };
-  type?: KeypairType;
-}
+
 export interface InjectedAccounts {
   get: (anyType?: boolean) => Promise<InjectedAccount[]>;
   subscribe: (cb: (accounts: InjectedAccount[]) => void | Promise<void>) => Unsubcall;
@@ -84,10 +76,3 @@ export interface InjectedWindow extends This {
   injectedWeb3: Record<string, InjectedWindowProvider>;
 }
 export type InjectedExtension = InjectedExtensionInfo & Injected;
-export type InjectOptions = InjectedExtensionInfo;
-export interface Web3AccountsOptions {
-  accountType?: KeypairType[];
-  extensions?: string[];
-  genesisHash?: string | null;
-  ss58Format?: number;
-}

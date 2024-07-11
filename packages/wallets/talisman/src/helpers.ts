@@ -17,7 +17,7 @@ import {
   type OPToolbox,
 } from "@swapkit/toolbox-evm";
 
-import type { InjectedWindow } from "./types";
+import type { InjectedWindow } from "@swapkit/toolbox-substrate";
 
 export const convertAddress = (inputAddress: string, newPrefix: number): string => {
   const decodedAddress = decodeAddress(inputAddress);
