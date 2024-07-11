@@ -10,7 +10,7 @@
   },
   "description": "SwapKit - Toolbox substrate",
   "devDependencies": {
-    "@polkadot/types": "10.12.6"
+    "@polkadot/types": "12.1.1"
   },
   "files": [
     "src/",

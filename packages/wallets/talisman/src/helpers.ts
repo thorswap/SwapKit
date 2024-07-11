@@ -3,6 +3,7 @@ import {
   Chain,
   ChainToHexChainId,
   type EVMChain,
+  type EthereumWindowProvider,
   SwapKitError,
   WalletOption,
   addEVMWalletNetwork,
@@ -18,6 +19,11 @@ import {
 } from "@swapkit/toolbox-evm";
 
 import type { InjectedWindow } from "@swapkit/toolbox-substrate";
+
+declare const window: {
+  talismanEth: EthereumWindowProvider;
+} & Window &
+  InjectedWindow;
 
 export const convertAddress = (inputAddress: string, newPrefix: number): string => {
   const decodedAddress = decodeAddress(inputAddress);
