@@ -62,7 +62,7 @@ export const availableChainsByWallet = {
   [WalletOption.METAMASK]: EVMChains,
   [WalletOption.OKX_MOBILE]: EVMChains,
   [WalletOption.PHANTOM]: [Chain.Solana],
-  [WalletOption.POLKADOT_JS]: [Chain.Polkadot, Chain.Chainflip],
+  [WalletOption.POLKADOT_JS]: [Chain.Polkadot],
   [WalletOption.TRUSTWALLET_WEB]: EVMChains,
   [WalletOption.XDEFI]: AllChainsSupported,
   [WalletOption.KEYSTORE]: [...AllChainsSupported, Chain.Polkadot],
