@@ -6,9 +6,6 @@
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*"
   },
-  "devDependencies": {
-    "@polkadot/types": "12.1.1"
-  },
   "files": [
     "src/",
     "dist/"

@@ -9,6 +9,7 @@ import { getWalletForChain } from "./helpers";
 const TALISMAN_SUPPORTED_CHAINS = [
   Chain.Ethereum,
   Chain.Arbitrum,
+  Chain.Avalanche,
   Chain.Polygon,
   Chain.BinanceSmartChain,
   Chain.Optimism,
