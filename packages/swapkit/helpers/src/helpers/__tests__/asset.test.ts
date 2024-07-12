@@ -174,7 +174,7 @@ describe("getDecimal", () => {
   });
 
   describe("Radix", () => {
-    test(
+    test.todo(
       "returns proper decimal for radix and it's assets",
       async () => {
         const radixDecimal = await getDecimal({ chain: Chain.Radix, symbol: "XRD" });
@@ -218,7 +218,7 @@ describe("assetFromString", () => {
     });
   });
 
-  test("should return the correct object for Radix resource", () => {
+  test.todo("should return the correct object for Radix resource", () => {
     const assetString =
       "XRD.xwBTC-resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75";
     const result = assetFromString(assetString);

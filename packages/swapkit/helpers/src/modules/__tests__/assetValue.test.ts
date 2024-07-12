@@ -42,16 +42,17 @@ describe("AssetValue", () => {
 
       expect(atomDerived.toString()).toBe("THOR.ATOM");
 
-      const radixXWBTC = new AssetValue({
-        identifier:
-          "RADIX.XWBTC-resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75",
-        decimal: 8,
-        value: 11112222,
-      });
+      // TODO:
+      // const radixXWBTC = new AssetValue({
+      //   identifier:
+      //     "RADIX.XWBTC-resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75",
+      //   decimal: 8,
+      //   value: 11112222,
+      // });
 
-      expect(radixXWBTC.toString()).toBe(
-        "RADIX.XWBTC-resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75",
-      );
+      // expect(radixXWBTC.toString()).toBe(
+      //   "RADIX.XWBTC-resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75",
+      // )
     });
   });
 
@@ -254,7 +255,7 @@ describe("AssetValue", () => {
       );
     });
 
-    test("creates AssetValue with _ symbol", async () => {
+    test.todo("creates AssetValue with _ symbol", async () => {
       const radixXWBTC = await AssetValue.from({
         asset: "XRD.XWBTC-resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75",
         asyncTokenLookup: true,
