@@ -6,21 +6,13 @@ import {
 } from "@swapkit/helpers";
 import { getWalletForChain } from "./helpers";
 
-const TALISMAN_SUPPORTED_CHAINS = [
-  Chain.Ethereum,
-  Chain.Arbitrum,
-  Chain.Avalanche,
-  Chain.Polygon,
-  Chain.BinanceSmartChain,
-  Chain.Optimism,
-  Chain.Polkadot,
-] as const;
+const POLKADOT_SUPPORTED_CHAINS = [Chain.Polkadot] as const;
 
-function connectTalisman({
+function connectPolkadotJs({
   addChain,
   config: { thorswapApiKey, covalentApiKey, ethplorerApiKey },
 }: ConnectWalletParams) {
-  return async function connectTalisman(chains: (typeof TALISMAN_SUPPORTED_CHAINS)[number][]) {
+  return async function connectPolkadotJs(chains: (typeof POLKADOT_SUPPORTED_CHAINS)[number][]) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const promises = chains.map(async (chain) => {
@@ -31,11 +23,11 @@ function connectTalisman({
       });
 
       addChain({
-        address,
         ...walletMethods,
+        address,
         chain,
         balance: [],
-        walletType: WalletOption.TALISMAN,
+        walletType: WalletOption.POLKADOT_JS,
       });
     });
 
@@ -45,4 +37,4 @@ function connectTalisman({
   };
 }
 
-export const talismanWallet = { connectTalisman } as const;
+export const polkadotWallet = { connectPolkadotJs } as const;

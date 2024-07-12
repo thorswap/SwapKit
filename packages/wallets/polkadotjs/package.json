@@ -1,16 +1,10 @@
 {
-  "author": "swapkit-oss",
+  "description": "SwapKit Wallet - Polkadot.js",
   "dependencies": {
-    "@polkadot/api": "12.1.1",
-    "@polkadot/api-base": "12.1.1",
-    "@polkadot/keyring": "12.6.2",
     "@polkadot/util": "12.6.2",
     "@polkadot/util-crypto": "12.6.2",
-    "@swapkit/helpers": "workspace:*"
-  },
-  "description": "SwapKit - Toolbox substrate",
-  "devDependencies": {
-    "@polkadot/types": "12.1.1"
+    "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-substrate": "workspace:*"
   },
   "files": [
     "src/",
@@ -19,7 +13,7 @@
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
-  "name": "@swapkit/toolbox-substrate",
+  "name": "@swapkit/wallet-polkadotjs",
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
@@ -30,10 +24,10 @@
     "clean": "rm -rf dist node_modules *.tsbuildinfo",
     "lint": "biome check --write ./src",
     "test": "echo 'bun test'",
-    "test:coverage": "bun test --coverage",
+    "test:coverage": "echo 'bun test --coverage'",
     "type-check": "tsc --noEmit"
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.4"
+  "version": "1.0.0"
 }

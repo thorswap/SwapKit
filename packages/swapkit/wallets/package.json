@@ -8,6 +8,7 @@
     "@swapkit/wallet-keystore": "workspace:*",
     "@swapkit/wallet-ledger": "workspace:*",
     "@swapkit/wallet-okx": "workspace:*",
+    "@swapkit/wallet-polkadotjs": "workspace:*",
     "@swapkit/wallet-phantom": "workspace:*",
     "@swapkit/wallet-talisman": "workspace:*",
     "@swapkit/wallet-trezor": "workspace:*",

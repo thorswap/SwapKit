@@ -84,6 +84,7 @@ const errorCodes = {
   wallet_trezor_failed_to_get_address: 20503,
   wallet_talisman_not_enabled: 20601,
   wallet_talisman_not_found: 20602,
+  wallet_polkadot_not_found: 20701,
   /**
    * Chainflip
    */
