@@ -30,12 +30,12 @@ export const APIV1RequestClient = RequestClient.extend({
           const errorBody = ApiV1ErrorSchema.parse(body);
           return new Response(JSON.stringify(errorBody), { status: 200 });
         } catch (_error) {
-          return response;
+          return body;
         }
       },
     ],
   },
-}) as typeof RequestClient;
+});
 
 export function getCachedPrices({ tokens, ...options }: CachedPricesParams) {
   const body = new URLSearchParams();

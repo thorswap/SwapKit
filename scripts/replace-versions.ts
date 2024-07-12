@@ -1,4 +1,4 @@
-import { readdir } from "node:fs/promises";
+import { readdir } from "fs/promises";
 
 const files = await readdir("./packages", { recursive: true });
 
@@ -31,7 +31,6 @@ for (const file of onlyPackageJson) {
 }
 
 for (const file of onlyPackageJson) {
-  // @ts-expect-error
   const packageJson = Bun.file(`./packages/${file}`);
   const content = await packageJson.text();
 
@@ -40,6 +39,5 @@ for (const file of onlyPackageJson) {
     (_, p1) => `"${p1}": "${versions[p1]}"`,
   );
 
-  // @ts-expect-error
   await Bun.write(`./packages/${file}`, replacedContent);
 }
