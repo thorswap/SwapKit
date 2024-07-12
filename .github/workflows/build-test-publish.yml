@@ -9,13 +9,11 @@ on:
   push:
     branches:
       - develop
-      - main
       - beta
       - nightly
   pull_request:
     branches:
       - develop
-      - main
 
 jobs:
   build-and-test:
@@ -36,7 +34,7 @@ jobs:
         run: bun lint
 
   publish:
-    if: contains(github.ref_name, 'develop') || contains(github.ref_name, 'main') || contains(github.ref_name, 'nightly') || contains(github.ref_name, 'beta')
+    if: contains(github.ref_name, 'develop') || contains(github.ref_name, 'develop') || contains(github.ref_name, 'nightly') || contains(github.ref_name, 'beta')
     needs: [build-and-test]
     runs-on: ubuntu-latest
     steps:
@@ -62,7 +60,7 @@ jobs:
           bun changeset version
 
       - name: Change stable changeset
-        if: contains(github.ref_name, 'main')
+        if: contains(github.ref_name, 'develop')
         run: |
           echo 'publishName="Release"' >> $GITHUB_OUTPUT
           bun changeset version
@@ -73,12 +71,12 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          echo "publishName=${{ github.ref_name == 'main' && 'Release' || github.ref_name }}" >> $GITHUB_OUTPUT
+          echo "publishName=${{ github.ref_name == 'develop' && 'Release' || github.ref_name }}" >> $GITHUB_OUTPUT
 
       - name: Create Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
-        if: contains(github.ref_name, 'main')
+        if: contains(github.ref_name, 'develop')
         with:
           title: ":tada: Publish ${{ steps.deployment-params.outputs.publishName }}"
           version: bun version-bump
