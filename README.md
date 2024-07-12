@@ -40,9 +40,12 @@ bun bootstrap
 
 #### Branches
 
-- `main` - production branch
-- `develop` - development branch - all PRs should be merged here first
+- `develop` - development branch - start from here in case of contribution
 - `nightly` - branch for nightly builds - can be used for testing purposes
+- `docs` - branch for documentation
+- `feat/*` - branches for features
+- `chore/*` - branches for smaller tasks
+
 
 #### Testing
 

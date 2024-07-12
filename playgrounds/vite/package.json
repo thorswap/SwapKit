@@ -33,6 +33,5 @@
     "type-check": "tsc --noEmit",
     "preview-playground": "vite preview"
   },
-  "type": "module",
   "version": "0.0.0"
 }
