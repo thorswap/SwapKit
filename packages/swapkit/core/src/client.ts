@@ -107,7 +107,7 @@ export function SwapKit<
   function addChain<T extends Chain>(connectWallet: ChainWallet<T>) {
     const currentWallet = getWallet(connectWallet.chain);
 
-    connectedWallets[currentWallet.chain] = currentWallet;
+    connectedWallets[connectWallet.chain] = { ...currentWallet, ...connectWallet };
   }
 
   // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>
@@ -439,24 +439,23 @@ export function SwapKit<
     ...availablePlugins,
     ...connectWalletMethods,
 
+    disconnectAll,
+    disconnectChain,
+    estimateTransactionFee,
     getAddress,
+    getAllWallets,
     getBalance,
     getExplorerAddressUrl: getAddressUrl,
     getExplorerTxUrl: getTxUrl,
     getWallet,
-    getAllWallets,
     getWalletWithBalance,
 
     approveAssetValue,
     isAssetValueApproved,
-
-    estimateTransactionFee,
+    signMessage,
     swap,
     transfer,
     validateAddress,
-    disconnectAll,
-    signMessage,
     verifyMessage,
-    disconnectChain,
   };
 }
