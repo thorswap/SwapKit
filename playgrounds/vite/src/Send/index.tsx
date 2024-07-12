@@ -1,6 +1,6 @@
 import type { AssetValue, WalletChain } from "@swapkit/core";
 import { useCallback, useState } from "react";
-import type { SwapKitClient } from "swapKitClient";
+import type { SwapKitClient } from "../swapKitClient";
 
 export default function Send({
   inputAsset,

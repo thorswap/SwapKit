@@ -1,8 +1,7 @@
-import { SwapKitApi } from "@swapkit/sdk";
-import type { WalletDataType } from "./types";
+import { type Chain, type FullWallet, SwapKitApi } from "@swapkit/sdk";
 
 type Props = {
-  walletData: WalletDataType;
+  walletData: FullWallet[Chain];
   setAsset: (asset: Todo) => void;
   disconnect: () => void;
 };

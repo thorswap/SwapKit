@@ -184,7 +184,7 @@ const getWalletMethodsForChain = async ({
 
       const signMessage = async (message: string) => {
         const privateKey = await toolbox.createPrivateKeyFromPhrase(phrase);
-        return toolbox.signMessage({ privateKey, message });
+        return toolbox.signWithPrivateKey({ privateKey, message });
       };
 
       const walletMethods = {
@@ -264,11 +264,11 @@ function connectKeystore({
       });
 
       addChain({
+        ...walletMethods,
         chain,
         address,
         balance: [],
         walletType: WalletOption.KEYSTORE,
-        ...walletMethods,
       });
     });
 

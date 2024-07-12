@@ -1,14 +1,14 @@
 "use client";
 import type { AssetValue } from "@swapkit/sdk";
 import { useCallback, useState } from "react";
-import type { SwapKitClient } from "swapKitClient";
+import type { SwapKitClient } from "../swapKitClient";
 
 export default function Liquidity({
   otherAsset,
   nativeAsset,
   skClient,
 }: {
-  skClient?: SwapKitClient;
+  skClient: SwapKitClient;
   otherAsset?: AssetValue;
   nativeAsset?: AssetValue;
 }) {
@@ -30,7 +30,7 @@ export default function Liquidity({
 
       setNativeInput(amount.gt(nativeAsset) ? nativeAsset : amount);
     },
-    [nativeAsset]
+    [nativeAsset],
   );
 
   const setOtherAmount = useCallback(
@@ -42,33 +42,21 @@ export default function Liquidity({
 
       setOtherInput(amount.gt(otherAsset) ? otherAsset : amount);
     },
-    [otherAsset]
+    [otherAsset],
   );
 
   const handleAddLiquidity = useCallback(async () => {
-    if (pluginMode === "mayaplugin") {
-      const result = await skClient?.mayachain.addLiquidity({
-        // runeAddr: used when can't connect both chain at once (use addLiquidityPart)
-        cacaoAssetValue: nativeAssetValue,
-        assetValue: otherAssetValue,
-        mode: "sym",
-      });
-      if (result?.cacaoTx) {
-        setNativeAssetTx(result?.cacaoTx);
-      }
-      if (result?.assetTx) {
-        setOtherAssetTx(result?.assetTx);
-      }
-      return;
-    }
-    const result = await skClient?.thorchain.addLiquidity({
-      // runeAddr: used when can't connect both chain at once (use addLiquidityPart)
-      runeAssetValue: nativeAssetValue,
+    if (!(nativeAssetValue && otherAssetValue)) return;
+
+    const plugin = pluginMode === "mayaplugin" ? skClient.mayachain : skClient.thorchain;
+
+    const result = await plugin.addLiquidity({
+      baseAssetValue: nativeAssetValue,
       assetValue: otherAssetValue,
       mode: "sym",
     });
-    if (result?.runeTx) {
-      setNativeAssetTx(result?.runeTx);
+    if (result?.baseAssetTx) {
+      setNativeAssetTx(result?.baseAssetTx);
     }
     if (result?.assetTx) {
       setOtherAssetTx(result?.assetTx);
@@ -76,22 +64,16 @@ export default function Liquidity({
   }, [nativeAssetValue, otherAssetValue, pluginMode, skClient]);
 
   const handleWithdraw = useCallback(async () => {
-    if (pluginMode === "mayaplugin") {
-      const tx = await skClient?.mayachain.withdraw({
-        assetValue: nativeAsset,
-        percent: withdrawPercent,
-        from: "sym",
-        to: "cacao",
-      });
-      if (tx) setWithdrawTx(tx);
-      return;
-    }
-    const tx = await skClient?.thorchain.withdraw({
+    if (!nativeAsset) return;
+    const plugin = pluginMode === "mayaplugin" ? skClient.mayachain : skClient.thorchain;
+
+    const tx = await plugin.withdraw({
       assetValue: nativeAsset,
       percent: withdrawPercent,
       from: "sym",
-      to: "rune",
+      to: "baseAsset",
     });
+
     if (tx) setWithdrawTx(tx);
   }, [nativeAsset, pluginMode, withdrawPercent, skClient]);
 
@@ -125,27 +107,17 @@ export default function Liquidity({
           {mode === "addliquidity" && (
             <>
               <div>
-                {pluginMode === "thorplugin" ? (
-                  <span>Rune Asset:</span>
-                ) : (
-                  <span>Cacao Asset:</span>
-                )}
+                {pluginMode === "thorplugin" ? <span>Rune Asset:</span> : <span>Cacao Asset:</span>}
                 {nativeAsset?.toSignificant(6)} {nativeAsset?.ticker}
                 {pluginMode === "thorplugin" ? (
                   <div>
                     <span>Rune Amount:</span>
-                    <input
-                      placeholder="0.0"
-                      onChange={(e) => setRuneAmount(e.target.value)}
-                    />
+                    <input placeholder="0.0" onChange={(e) => setRuneAmount(e.target.value)} />
                   </div>
                 ) : (
                   <div>
                     <span>Cacao Amount:</span>
-                    <input
-                      placeholder="0.0"
-                      onChange={(e) => setRuneAmount(e.target.value)}
-                    />
+                    <input placeholder="0.0" onChange={(e) => setRuneAmount(e.target.value)} />
                   </div>
                 )}
               </div>
@@ -154,10 +126,7 @@ export default function Liquidity({
                 {otherAsset?.toSignificant(6)} {otherAsset?.ticker}
                 <div>
                   <span>Other Amount:</span>
-                  <input
-                    placeholder="0.0"
-                    onChange={(e) => setOtherAmount(e.target.value)}
-                  />
+                  <input placeholder="0.0" onChange={(e) => setOtherAmount(e.target.value)} />
                 </div>
               </div>
             </>
@@ -173,17 +142,18 @@ export default function Liquidity({
                   <input
                     type="number"
                     placeholder="0"
-                    onChange={(e) =>
-                      setWithdrawPercent(Number.parseInt(e.target.value))
-                    }
+                    onChange={(e) => setWithdrawPercent(Number.parseInt(e.target.value))}
                   />
                 </div>
               </div>
             </>
           )}
         </div>
+
         {nativeAssetTx && <div>runeTx :{nativeAssetTx}</div>}
+
         {otherAssetTx && <div>assetTx :{otherAssetTx}</div>}
+
         {mode === "addliquidity" && (
           <div>
             <button type="button" onClick={handleAddLiquidity}>

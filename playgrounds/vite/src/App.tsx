@@ -1,4 +1,4 @@
-import { AssetValue, type Chain } from "@swapkit/core";
+import { AssetValue, type Chain, type FullWallet } from "@swapkit/core";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { WalletWidget } from "@swapkit/wallet-exodus";
@@ -11,13 +11,14 @@ import TNS from "./TNS";
 import { Wallet } from "./Wallet";
 import { WalletPicker } from "./WalletPicker";
 import { getSwapKitClient } from "./swapKitClient";
-import type { WalletDataType } from "./types";
 
 const apiKeys = ["walletConnectProjectId"] as const;
 
+type WalletDataType = FullWallet[Chain] | FullWallet[Chain][] | null;
+
 const App = () => {
   const [widgetType, setWidgetType] = useState<"swap" | "loan" | "earn">("swap");
-  const [wallet, setWallet] = useState<WalletDataType | WalletDataType[]>(null);
+  const [wallet, setWallet] = useState<WalletDataType>(null);
   const [phrase, setPhrase] = useState("");
   const [stagenet, setStagenet] = useState(false);
   const [assetListLoaded, setAssetListLoaded] = useState(false);
@@ -153,15 +154,15 @@ const App = () => {
                     key={`${walletData?.address}-${walletData?.balance?.[0]?.chain}`}
                     setAsset={setAsset}
                     walletData={walletData}
-                    disconnect={() => disconnectChain(walletData?.balance?.[0].chain as Chain)}
+                    disconnect={() => disconnectChain(walletData?.balance?.[0]?.chain as Chain)}
                   />
                 ))
               ) : (
                 <Wallet
-                  key={`${wallet?.address}-${wallet?.balance?.[0].chain}`}
+                  key={`${wallet?.address}-${wallet?.balance?.[0]?.chain}`}
                   setAsset={setAsset}
-                  walletData={wallet}
-                  disconnect={() => disconnectChain(wallet?.balance?.[0].chain as Chain)}
+                  walletData={wallet as FullWallet[Chain]}
+                  disconnect={() => disconnectChain(wallet?.balance?.[0]?.chain as Chain)}
                 />
               )}
             </>

@@ -9,16 +9,16 @@ import {
   getDerivationPathFor,
   getEIP6963Wallets,
 } from "@swapkit/helpers";
+import type { EVMChain, FullWallet } from "@swapkit/sdk";
 import { decryptFromKeystore } from "@swapkit/wallet-keystore";
 import { useCallback, useState } from "react";
 
 import type { Eip1193Provider } from "@swapkit/toolbox-evm";
 import type { SwapKitClient } from "./swapKitClient";
-import type { WalletDataType } from "./types";
 
 type Props = {
   setPhrase: (phrase: string) => void;
-  setWallet: (wallet: WalletDataType | WalletDataType[]) => void;
+  setWallet: (wallet: FullWallet[Chain] | FullWallet[Chain][]) => void;
   skClient?: SwapKitClient;
 };
 
@@ -151,8 +151,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.KEEPKEY: {
           const derivationPaths = chains.map((chain) => getDerivationPathFor({ chain, index: 0 }));
 
-          const apiKey = await skClient.connectKeepkey?.(chains, derivationPaths);
-          localStorage.setItem("keepkeyApiKey", apiKey);
+          await skClient.connectKeepkey?.(chains as EVMChain[], derivationPaths);
+          localStorage.setItem("keepkeyApiKey", "1234");
           return true;
         }
         case WalletOption.TREZOR:
@@ -163,26 +163,26 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           const connectMethod =
             WalletOption.TREZOR === option ? skClient.connectTrezor : skClient.connectLedger;
 
-          return connectMethod?.(chains, getDerivationPathFor({ chain, index: 0 }));
+          return connectMethod?.(chains as EVMChain[], getDerivationPathFor({ chain, index: 0 }));
         }
 
         case WalletOption.EXODUS:
         // @ts-ignore
         // return skClient.connectExodusWallet(chains, wallet);
         case WalletOption.COINBASE_MOBILE:
-          return skClient.connectCoinbaseWallet?.(chains);
+          return skClient.connectCoinbaseWallet?.(chains as EVMChain[]);
         case WalletOption.XDEFI:
-          return skClient.connectXDEFI?.(chains);
+          return skClient.connectXDEFI?.(chains as EVMChain[]);
         case WalletOption.OKX:
-          return skClient.connectOkx?.(chains);
+          return skClient.connectOkx?.(chains as EVMChain[]);
         case WalletOption.POLKADOT_JS:
-          return skClient.connectPolkadotJs?.(chains);
+          return skClient.connectPolkadotJs?.(chains as Chain.Polkadot[]);
 
         // case WalletOption.RADIX_WALLET:
         //   return skClient.connectRadixWallet?.();
 
         case WalletOption.PHANTOM:
-          return skClient.connectPhantom?.(chains);
+          return skClient.connectPhantom?.(chains[0]);
 
         default:
           throw new Error(`Unsupported wallet option: ${option}`);
@@ -206,7 +206,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           const phrases = await decryptFromKeystore(JSON.parse(keystoreFile), password);
           setPhrase(phrases);
 
-          await skClient.connectKeystore(chains, phrases);
+          await skClient.connectKeystore(chains as WalletChain[], phrases);
 
           const walletDataArray = await Promise.all(
             chains.map((chain) => skClient.getWalletWithBalance(chain, true)),

@@ -1,6 +1,23 @@
+import type { CovalentApiType, EthplorerApiType } from "@swapkit/toolbox-evm";
+import type { BlockchairApiType } from "@swapkit/toolbox-utxo";
 import { z } from "zod";
+
 import type { AssetValue } from "../modules/assetValue";
+import type { Chain, CosmosChain, UTXOChain } from "./chains";
 import type { QuoteResponseRoute } from "./quotes";
+
+type CovalentChains =
+  | Chain.BinanceSmartChain
+  | Chain.Polygon
+  | Chain.Avalanche
+  | Chain.Arbitrum
+  | Chain.Optimism;
+
+export type ChainApis = { [key in CovalentChains]?: CovalentApiType } & {
+  [key in Chain.Ethereum]?: EthplorerApiType;
+} & { [key in CosmosChain]?: Todo } & {
+  [key in UTXOChain]?: BlockchairApiType;
+};
 
 export type GenericSwapParams = {
   buyAsset?: AssetValue;

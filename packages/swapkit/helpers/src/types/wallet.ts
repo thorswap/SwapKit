@@ -1,12 +1,21 @@
+import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
+import type { EVMWallets } from "@swapkit/toolbox-evm";
+import type { SolanaWallet } from "@swapkit/toolbox-solana";
+import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
+import type { UTXOWallets } from "@swapkit/toolbox-utxo";
 import type { Eip1193Provider } from "ethers";
+
 import type { AssetValue } from "../modules/assetValue";
 import type { Chain } from "./chains";
+import type { ConnectWalletParams } from "./commonTypes";
 
 declare global {
   interface WindowEventMap {
     "eip6963:announceProvider": CustomEvent;
   }
 }
+
+export type { CosmosWallets, ThorchainWallets, EVMWallets, SubstrateWallets, UTXOWallets };
 
 export enum WalletOption {
   BRAVE = "BRAVE",
@@ -37,8 +46,8 @@ export enum LedgerErrorCode {
   TC_NotFound = 65535,
 }
 
-export type ChainWallet = {
-  chain: Chain;
+export type ChainWallet<T extends Chain> = {
+  chain: T;
   address: string;
   balance: AssetValue[];
   walletType: WalletOption;
@@ -48,8 +57,26 @@ export type ChainWallet = {
 
 export type EmptyWallet = { [key in Chain]?: unknown };
 export type BaseWallet<T extends EmptyWallet | Record<string, unknown>> = {
-  [key in Chain]: ChainWallet &
-    (T extends EmptyWallet ? T[key] : T[key] extends ChainWallet ? T[key] : never);
+  [key in Chain]: ChainWallet<key> & (T extends EmptyWallet ? T[key] : never);
+};
+
+export type FullWallet = BaseWallet<
+  EVMWallets & UTXOWallets & CosmosWallets & ThorchainWallets & SubstrateWallets & SolanaWallet
+>;
+
+/**
+ * @deprecated use FullWallet instead
+ */
+export type Wallet = FullWallet;
+
+export type SwapKitWallet<ConnectParams extends Todo[]> = (
+  params: ConnectWalletParams,
+) => (...connectParams: ConnectParams) => boolean | Promise<boolean>;
+
+export type SwapKitPluginParams<Config = {}> = {
+  getWallet: <T extends Chain>(chain: T) => FullWallet[T];
+  stagenet?: boolean;
+  config: Config;
 };
 
 export type EIP6963ProviderInfo = {

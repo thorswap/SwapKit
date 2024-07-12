@@ -1,19 +1,16 @@
 import {
   AssetValue,
-  type BaseWallet,
-  type Chain,
+  type EVMWallets,
   ProviderName,
   type QuoteResponseRoute,
+  type SubstrateWallets,
   SwapKitError,
+  type SwapKitPluginParams,
   type SwapParams,
+  type UTXOWallets,
 } from "@swapkit/helpers";
 
-import type { EVMWallets } from "@swapkit/toolbox-evm";
-import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
-import type { UTXOWallets } from "@swapkit/toolbox-utxo";
-
-type Wallets = BaseWallet<EVMWallets & SubstrateWallets & UTXOWallets>;
-type SupportedChain = Chain.Arbitrum | Chain.Bitcoin | Chain.Ethereum | Chain.Polkadot;
+type SupportedChain = keyof (EVMWallets & SubstrateWallets & UTXOWallets);
 
 export async function confirmSwap({
   buyAsset,
@@ -43,10 +40,10 @@ export async function confirmSwap({
   }
 }
 
-const plugin = ({
-  wallets,
+function plugin({
+  getWallet,
   config: { chainflipBrokerUrl },
-}: { wallets: Wallets; config: { chainflipBrokerUrl: string } }) => {
+}: SwapKitPluginParams<{ chainflipBrokerUrl: string }>) {
   async function swap(swapParams: SwapParams<"chainflip">) {
     if (
       !(
@@ -71,7 +68,9 @@ const plugin = ({
     }
 
     const sellAsset = await AssetValue.from({ asyncTokenLookup: true, asset: sellString });
-    if (!wallets?.[sellAsset.chain]) {
+    const wallet = getWallet(sellAsset.chain as SupportedChain);
+
+    if (!wallet) {
       throw new SwapKitError("core_wallet_connection_not_found");
     }
 
@@ -85,9 +84,9 @@ const plugin = ({
       sellAsset,
     });
 
-    const tx = await wallets[sellAsset.chain as SupportedChain].transfer({
+    const tx = await wallet.transfer({
       assetValue,
-      from: wallets[sellAsset.chain]?.address,
+      from: wallet.address,
       recipient: depositAddress,
     });
 
@@ -98,7 +97,7 @@ const plugin = ({
     swap,
     supportedSwapkitProviders: [ProviderName.CHAINFLIP],
   };
-};
+}
 
 export const ChainflipPlugin = { chainflip: { plugin } } as const;
 

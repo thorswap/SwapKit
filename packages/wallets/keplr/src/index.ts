@@ -20,7 +20,15 @@ declare global {
 
 const keplrSupportedChainIds = [ChainId.Cosmos];
 
-function connectKeplr({ addChain, config: { thorswapApiKey }, rpcUrls }: ConnectWalletParams) {
+type TransferParams = WalletTxParams & { assetValue: AssetValue };
+
+function connectKeplr({
+  addChain,
+  config: { thorswapApiKey },
+  rpcUrls,
+}: ConnectWalletParams<{
+  transfer: (params: TransferParams) => Promise<string>;
+}>) {
   return async function connectKeplr(chains: (Chain.Cosmos | Chain.Kujira)[]) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
     const keplrClient = window.keplr;
@@ -50,11 +58,7 @@ function connectKeplr({ addChain, config: { thorswapApiKey }, rpcUrls }: Connect
       if (!accounts?.[0]?.address) throw new Error("No accounts found");
       const [{ address }] = accounts;
 
-      const transfer = async ({
-        assetValue,
-        recipient,
-        memo,
-      }: WalletTxParams & { assetValue: AssetValue }) => {
+      const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
         const coins = [
           {
             denom: chain === Chain.Cosmos ? "uatom" : getDenom(assetValue.symbol),

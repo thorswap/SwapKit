@@ -1,5 +1,15 @@
 import type { QuoteRoute } from "@swapkit/api";
-import type { AssetValue, FeeOption, MemoType } from "@swapkit/helpers";
+import type {
+  AssetValue,
+  CosmosWallets,
+  EVMWallets,
+  FeeOption,
+  MemoType,
+  ThorchainWallets,
+  UTXOWallets,
+} from "@swapkit/helpers";
+
+export type SupportedChain = keyof (EVMWallets & UTXOWallets & ThorchainWallets & CosmosWallets);
 
 export type AddLiquidityPartParams = {
   assetValue: AssetValue;

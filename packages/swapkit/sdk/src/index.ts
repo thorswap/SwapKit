@@ -19,14 +19,11 @@ type Params<P, W> = Omit<Parameters<typeof SwapKit>[0], "plugins" | "wallets"> &
   wallets?: W;
 };
 
-export const createSwapKit = <
-  P extends Partial<typeof defaultPlugins> = typeof defaultPlugins,
-  W extends Partial<typeof defaultWallets> = typeof defaultWallets,
->({
+export const createSwapKit = <P extends typeof defaultPlugins, W extends typeof defaultWallets>({
   plugins,
   wallets,
   ...extendParams
-}: Params<P, W>) => {
+}: Params<P, W> = {}) => {
   return SwapKit({
     ...extendParams,
     wallets: wallets || defaultWallets,

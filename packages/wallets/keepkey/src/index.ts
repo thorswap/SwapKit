@@ -186,9 +186,9 @@ function connectKeepkey({
       });
 
       addChain({
-        chain,
-        balance: [],
         ...walletMethods,
+        balance: [],
+        chain,
         walletType: WalletOption.KEEPKEY,
       });
     });

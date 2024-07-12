@@ -1,8 +1,9 @@
-import { Chain, createSwapKit } from "@swapkit/sdk";
+import { createSwapKit } from "@swapkit/sdk";
 
 export type SwapKitClient = ReturnType<typeof createSwapKit>;
 
-const clientCache = new Map<string, SwapKitClient>();
+let oldKey = "";
+let client: SwapKitClient;
 
 export const getSwapKitClient = (
   params: {
@@ -16,11 +17,13 @@ export const getSwapKitClient = (
 ) => {
   const key = JSON.stringify(params);
 
-  if (clientCache.has(key)) {
-    return clientCache.get(key);
+  if (key === oldKey) {
+    return client;
   }
 
-  const client = createSwapKit({
+  oldKey = key;
+
+  client = createSwapKit({
     stagenet: params.stagenet,
     config: {
       ...params,
@@ -36,8 +39,6 @@ export const getSwapKitClient = (
       },
     },
   });
-
-  clientCache.set(key, client);
 
   return client;
 };
