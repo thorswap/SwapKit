@@ -54,10 +54,10 @@ export type WalletTxParams = {
 };
 
 export enum MemoType {
+  NAME_REGISTER = "~",
   BOND = "BOND",
   DEPOSIT = "+",
   LEAVE = "LEAVE",
-  NAME_REGISTER = "~",
   UNBOND = "UNBOND",
   WITHDRAW = "-",
   OPEN_LOAN = "$+",

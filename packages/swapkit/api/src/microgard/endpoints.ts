@@ -1,4 +1,10 @@
-import { AssetValue, BaseDecimal, RequestClient, SwapKitNumber } from "@swapkit/helpers";
+import {
+  AssetValue,
+  BaseDecimal,
+  type Chain,
+  RequestClient,
+  SwapKitNumber,
+} from "@swapkit/helpers";
 import type { LiquidityPositionRaw, PoolDetail, PoolPeriod, THORNameDetails } from "./types.ts";
 
 const baseUrl = "https://mu.thorswap.net";
@@ -23,6 +29,12 @@ export function getLiquidityPositionsRaw(addresses: string[]) {
   return RequestClient.get<LiquidityPositionRaw[]>(
     `${baseUrl}/fullmember?address=${addresses.join(",")}`,
   );
+}
+
+export async function getTNSChainAddress({ chain, tns }: { chain: Chain; tns: string }) {
+  const tnsDetails = await getTHORNameDetails(tns);
+
+  return tnsDetails?.entries?.find((e) => e.chain.toLowerCase() === chain.toLowerCase())?.address;
 }
 
 export async function getLiquidityPositions(addresses: string[]) {

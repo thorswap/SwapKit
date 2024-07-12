@@ -28,15 +28,6 @@ declare const window: {
   braveSolana: Todo;
 } & Window;
 
-// declare global {
-//   interface Window {
-//     ethereum: EthereumWindowProvider;
-//     trustwallet: EthereumWindowProvider;
-//     coinbaseWalletExtension: EthereumWindowProvider;
-//     braveSolana: Todo;
-//   }
-// }
-
 type NetworkParams = {
   chainId: ChainId;
   chainName: string;

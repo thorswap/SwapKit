@@ -12,6 +12,7 @@ import {
   SwapKitError,
   getMemoForDeposit,
   getMemoForLeaveAndBond,
+  getMemoForNamePreferredAssetRegister,
   getMemoForNameRegister,
   getMemoForSaverDeposit,
   getMemoForSaverWithdraw,
@@ -149,6 +150,31 @@ export function basePlugin({
 
   function register({ assetValue, ...params }: RegisterThornameParams) {
     return depositToProtocol({ assetValue, memo: getMemoForNameRegister(params) });
+  }
+
+  function registerPreferredAsset({
+    assetValue,
+    payoutAddress,
+    name,
+    ownerAddress,
+  }: {
+    assetValue: AssetValue;
+    payoutAddress?: string;
+    name: string;
+    ownerAddress: string;
+  }) {
+    const payout = payoutAddress || getWallet(assetValue.chain as SupportedChain).address;
+
+    return depositToProtocol({
+      assetValue,
+      memo: getMemoForNamePreferredAssetRegister({
+        asset: assetValue.toString(),
+        chain: assetValue.chain,
+        name,
+        owner: ownerAddress,
+        payout,
+      }),
+    });
   }
 
   function nodeAction({ type, assetValue, address }: NodeActionParams) {
@@ -296,13 +322,14 @@ export function basePlugin({
   return {
     addLiquidity,
     addLiquidityPart,
-    depositToPool,
     approveAssetValue,
     createLiquidity,
+    depositToPool,
     getInboundDataByChain,
     isAssetValueApproved,
     nodeAction,
     register,
+    registerPreferredAsset,
     savings,
     withdraw,
   };

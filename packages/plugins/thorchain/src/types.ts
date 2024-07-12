@@ -82,6 +82,14 @@ export type RegisterThornameParams = {
   preferredAsset?: string;
 };
 
+export type RegisterPreferredAssetParams = {
+  assetValue: AssetValue;
+  name: string;
+  chain: string;
+  address: string;
+  owner: string;
+};
+
 type CommonWithdrawParams = {
   assetValue: AssetValue;
   memo?: string;

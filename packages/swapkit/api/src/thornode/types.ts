@@ -3,6 +3,18 @@ export type ThornodeEndpointParams = {
   stagenet?: boolean;
 };
 
+export type THORNodeTNSDetails = {
+  name: string;
+  expire_block_height: number;
+  owner: string;
+  preferred_asset: string;
+  affiliate_collector_rune: string;
+  aliases: {
+    chain: string;
+    address: string;
+  }[];
+};
+
 export type InboundAddressesItem = {
   address: string;
   chain: string;
