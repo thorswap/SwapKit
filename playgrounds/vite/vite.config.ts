@@ -26,8 +26,6 @@ export default defineConfig({
         global: true,
         process: true,
       },
-      // Whether to polyfill `node:` protocol imports.
-      protocolImports: true,
     }),
     react(),
     wasm(),
@@ -62,7 +60,6 @@ export default defineConfig({
       "@swapkit/wallet-xdefi": resolve("../../packages/wallets/xdefi/src"),
 
       crypto: "crypto-browserify",
-      "node:crypto": "crypto-browserify",
       stream: "stream-browserify",
       http: "stream-http",
       https: "https-browserify",

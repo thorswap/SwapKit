@@ -22,10 +22,10 @@ const nextConfig = {
 
       config.plugins.push(
         new webpack.DefinePlugin({
-          "global.Uint8Array": JSON.stringify(Uint8Array),
           "global.crypto": "crypto",
           "global.msCrypto": "crypto",
           "global.process": "process",
+          "global.Uint8Array": JSON.stringify(Uint8Array),
         }),
       );
       config.resolve.fallback = {
