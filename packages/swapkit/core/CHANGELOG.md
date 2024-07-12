@@ -1,5 +1,27 @@
 # @swapkit/core
 
+## 1.1.0
+
+### Minor Changes
+
+- [#890](https://github.com/thorswap/SwapKit/pull/890) [`0b7f8f4`](https://github.com/thorswap/SwapKit/commit/0b7f8f44ed4ce5746b616ed4b7566c4908a32c15) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Expose `signMessage` from toolboxes and add it to core interface
+
+- [#905](https://github.com/thorswap/SwapKit/pull/905) [`59971c5`](https://github.com/thorswap/SwapKit/commit/59971c54fa585a4992359e67765b92ec83cda0bc) Thanks [@chillios-dev](https://github.com/chillios-dev)! - tns resovling and register for preferred asset on TC
+
+### Patch Changes
+
+- [`1b1524c`](https://github.com/thorswap/SwapKit/commit/1b1524cb5a45d3853c059b3a841691e36876427e) Thanks [@chillios-dev](https://github.com/chillios-dev)! - fix addChain part
+
+- Updated dependencies [[`587e3cf`](https://github.com/thorswap/SwapKit/commit/587e3cfa064797d61c478e17297f88a838381a28), [`0b7f8f4`](https://github.com/thorswap/SwapKit/commit/0b7f8f44ed4ce5746b616ed4b7566c4908a32c15), [`59971c5`](https://github.com/thorswap/SwapKit/commit/59971c54fa585a4992359e67765b92ec83cda0bc)]:
+  - @swapkit/toolbox-substrate@1.1.0
+  - @swapkit/helpers@1.1.0
+  - @swapkit/toolbox-evm@1.1.0
+  - @swapkit/toolbox-cosmos@1.0.5
+  - @swapkit/api@1.2.0
+  - @swapkit/plugin-evm@1.0.5
+  - @swapkit/toolbox-solana@1.0.5
+  - @swapkit/toolbox-utxo@1.0.5
+
 ## 1.0.4
 
 ### Patch Changes
