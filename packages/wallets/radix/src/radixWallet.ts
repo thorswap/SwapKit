@@ -21,10 +21,11 @@ const RadixSignerInstance = (): RadixSigner & { getAddress: () => Promise<string
     getAddress: () => {
       return new Promise((resolve) => {
         const existingWalletData = rdt.walletApi.getWalletData();
-        if (existingWalletData.accounts[0]) resolve(existingWalletData.accounts[0].address);
+        const account = existingWalletData?.accounts?.[0];
+
+        if (account) resolve(account.address);
 
         rdt.walletApi.setRequestData(DataRequestBuilder.accounts().atLeast(1));
-
         rdt.walletApi.sendRequest();
 
         rdt.walletApi.walletData$.subscribe((state) => {

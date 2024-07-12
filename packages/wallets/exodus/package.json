@@ -3,10 +3,10 @@
   "dependencies": {
     "@swapkit/helpers": "workspace:*",
     "@passkeys/core": "2.1.2",
-    "@passkeys/react": "2.2.1",
+    "@passkeys/react": "2.3.0",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "sats-connect": "2.4.1"
+    "sats-connect": "2.5.0"
   },
   "description": "SwapKit Wallet Exodus",
   "files": [
