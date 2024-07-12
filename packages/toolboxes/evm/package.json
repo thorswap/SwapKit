@@ -8,7 +8,7 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "3.0.6",
     "@nomicfoundation/hardhat-toolbox": "5.0.0",
-    "hardhat": "2.22.5"
+    "hardhat": "2.22.6"
   },
   "files": [
     "src/",
