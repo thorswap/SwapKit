@@ -1,281 +1,105 @@
-import {
-  type AssetValue,
-  Chain,
-  type ConnectWalletParams,
-  DerivationPath,
-  RPCUrl,
-  type WalletChain,
-  WalletOption,
-  type WalletTxParams,
-  type Witness,
-  setRequestClientConfig,
-} from "@swapkit/helpers";
-import type { DepositParam, ThorchainToolboxType, TransferParams } from "@swapkit/toolbox-cosmos";
-import type {
-  Psbt,
-  TransactionType,
-  UTXOTransferParams,
-  UTXOWalletTransferParams,
-} from "@swapkit/toolbox-utxo";
+import crypto from "crypto";
+import { SwapKitError } from "@swapkit/helpers";
 
-type KeystoreOptions = {
-  ethplorerApiKey?: string;
-  blockchairApiKey?: string;
-  covalentApiKey?: string;
-  stagenet?: boolean;
-};
+import { blake256, pbkdf2Async } from "./helpers";
+import { KeystoreVersion, type Keystores } from "./types";
 
-type Params = KeystoreOptions & {
-  api?: Todo;
-  rpcUrl?: string;
-  chain: Chain;
-  phrase: string;
-  index: number;
-};
+async function v1EncryptKeystore(phrase: string, password: string) {
+  const salt = crypto.randomBytes(32);
+  const iv = crypto.randomBytes(16);
+  const kdfParams = { c: 262144, prf: "hmac-sha256", dklen: 32, salt: salt.toString("hex") };
+  const cipher = "aes-128-ctr";
 
-const getWalletMethodsForChain = async ({
-  api,
-  rpcUrl,
-  chain,
-  phrase,
-  ethplorerApiKey,
-  covalentApiKey,
-  blockchairApiKey,
-  index,
-  stagenet,
-}: Params) => {
-  const derivationPath = `${DerivationPath[chain] as string}/${index}`;
+  const derivedKey = await pbkdf2Async(password, salt, kdfParams.c, kdfParams.dklen, "sha256");
+  const cipherIV = crypto.createCipheriv(cipher, derivedKey.subarray(0, 16), iv);
+  const ciphertext = Buffer.concat([
+    cipherIV.update(Buffer.from(phrase, "utf8")),
+    cipherIV.final(),
+  ]);
 
-  switch (chain) {
-    case Chain.BinanceSmartChain:
-    case Chain.Arbitrum:
-    case Chain.Optimism:
-    case Chain.Polygon:
-    case Chain.Avalanche:
-    case Chain.Ethereum: {
-      if (chain === Chain.Ethereum && !ethplorerApiKey) {
-        throw new Error("Ethplorer API key not found");
-        // biome-ignore lint/style/noUselessElse: This is a valid use case
-      } else if (!covalentApiKey) {
-        throw new Error("Covalent API key not found");
-      }
-
-      const { HDNodeWallet, getProvider, getToolboxByChain } = await import("@swapkit/toolbox-evm");
-
-      const provider = getProvider(chain, rpcUrl);
-      const wallet = HDNodeWallet.fromPhrase(phrase).connect(provider);
-      const params = { api, provider, signer: wallet };
-
-      const toolbox = getToolboxByChain(chain)({
-        ...params,
-        covalentApiKey,
-        ethplorerApiKey: ethplorerApiKey as string,
-      });
-
-      return { address: wallet.address, walletMethods: toolbox };
-    }
-
-    case Chain.BitcoinCash: {
-      const { BCHToolbox } = await import("@swapkit/toolbox-utxo");
-      const toolbox = BCHToolbox({
-        rpcUrl,
-        apiKey: blockchairApiKey,
-        apiClient: api,
-      });
-      const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
-      const address = toolbox.getAddressFromKeys(keys);
-
-      const walletMethods = {
-        ...toolbox,
-        transfer: (
-          params: UTXOWalletTransferParams<
-            Awaited<ReturnType<typeof toolbox.buildBCHTx>>,
-            TransactionType
-          >,
-        ) =>
-          toolbox.transfer({
-            ...params,
-            from: address,
-            signTransaction: ({
-              builder,
-              utxos,
-            }: Awaited<ReturnType<typeof toolbox.buildBCHTx>>) => {
-              utxos.forEach((utxo, index) => {
-                builder.sign(index, keys, undefined, 0x41, (utxo.witnessUtxo as Witness).value);
-              });
-
-              return builder.build();
-            },
-          }),
-      };
-
-      return { address, walletMethods };
-    }
-
-    case Chain.Bitcoin:
-    case Chain.Dash:
-    case Chain.Dogecoin:
-    case Chain.Litecoin: {
-      const { getToolboxByChain } = await import("@swapkit/toolbox-utxo");
-
-      const toolbox = getToolboxByChain(chain)({
-        rpcUrl,
-        apiKey: blockchairApiKey,
-        apiClient: api,
-      });
-
-      const keys = toolbox.createKeysForPath({ phrase, derivationPath });
-      const address = toolbox.getAddressFromKeys(keys);
-
-      return {
-        address,
-        walletMethods: {
-          ...toolbox,
-          transfer: (params: UTXOTransferParams) =>
-            toolbox.transfer({
-              ...params,
-              from: address,
-              signTransaction: (psbt: Psbt) => {
-                psbt.signAllInputs(keys);
-                return psbt;
-              },
-            }),
-        },
-      };
-    }
-
-    case Chain.Cosmos:
-    case Chain.Kujira: {
-      const { getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
-      const toolbox = getToolboxByChain(chain)({ server: api, stagenet });
-      const address = await toolbox.getAddressFromMnemonic(phrase);
-
-      return { address, walletMethods: toolbox };
-    }
-
-    case Chain.Maya:
-    case Chain.THORChain: {
-      const { getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
-
-      const toolbox = getToolboxByChain(chain)({ server: api, stagenet });
-      const signer = await toolbox.getSigner(phrase);
-      const address = await toolbox.getAddressFromMnemonic(phrase);
-
-      const transfer = async ({ assetValue, recipient, memo }: TransferParams) =>
-        toolbox.transfer({
-          from: address,
-          recipient,
-          assetValue,
-          memo,
-          signer,
-        });
-
-      const deposit =
-        "deposit" in toolbox
-          ? ({ assetValue, memo }: DepositParam) => {
-              return (toolbox as ThorchainToolboxType).deposit({
-                assetValue,
-                memo,
-                from: address,
-                signer,
-              });
-            }
-          : undefined;
-
-      const signMessage = async (message: string) => {
-        const privateKey = await toolbox.createPrivateKeyFromPhrase(phrase);
-        return toolbox.signWithPrivateKey({ privateKey, message });
-      };
-
-      const walletMethods = {
-        ...toolbox,
-        deposit,
-        transfer,
-        signMessage,
-      };
-
-      return { address, walletMethods };
-    }
-
-    case Chain.Polkadot:
-    case Chain.Chainflip: {
-      const { Network, getToolboxByChain, createKeyring } = await import(
-        "@swapkit/toolbox-substrate"
-      );
-
-      const signer = await createKeyring(phrase, Network[chain].prefix);
-      const toolbox = await getToolboxByChain(chain, { signer });
-
-      return { address: signer.address, walletMethods: toolbox };
-    }
-
-    case Chain.Radix: {
-      const { getRadixCoreApiClient, RadixToolbox, createPrivateKey, RadixMainnet } = await import(
-        "@swapkit/toolbox-radix"
-      );
-
-      const api = await getRadixCoreApiClient(RPCUrl.Radix, RadixMainnet);
-      const signer = await createPrivateKey(phrase);
-      const toolbox = await RadixToolbox({ api, signer });
-
-      return { address: await toolbox.getAddress(), walletMethods: toolbox };
-    }
-
-    case Chain.Solana: {
-      const { SOLToolbox } = await import("@swapkit/toolbox-solana");
-      const toolbox = SOLToolbox({ rpcUrl });
-      const keypair = toolbox.createKeysForPath({ phrase, derivationPath });
-
-      return {
-        address: toolbox.getAddressFromKeys(keypair),
-        walletMethods: {
-          ...toolbox,
-          transfer: (params: WalletTxParams & { assetValue: AssetValue }) =>
-            toolbox.transfer({ ...params, fromKeypair: keypair }),
-        },
-      };
-    }
-
-    default:
-      throw new Error(`Unsupported chain ${chain}`);
-  }
-};
-
-function connectKeystore({
-  addChain,
-  apis,
-  rpcUrls,
-  config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
-}: ConnectWalletParams) {
-  return async function connectKeystore(chains: WalletChain[], phrase: string, index = 0) {
-    setRequestClientConfig({ apiKey: thorswapApiKey });
-
-    const promises = chains.map(async (chain) => {
-      const { address, walletMethods } = await getWalletMethodsForChain({
-        index,
-        chain,
-        api: apis[chain as Chain.Avalanche],
-        rpcUrl: rpcUrls[chain],
-        covalentApiKey,
-        ethplorerApiKey,
-        phrase,
-        blockchairApiKey,
-        stagenet,
-      });
-
-      addChain({
-        ...walletMethods,
-        chain,
-        address,
-        balance: [],
-        walletType: WalletOption.KEYSTORE,
-      });
-    });
-
-    await Promise.all(promises);
-
-    return true;
+  return {
+    meta: "xchain-keystore",
+    version: 1,
+    crypto: {
+      cipher,
+      cipherparams: { iv: iv.toString("hex") },
+      ciphertext: ciphertext.toString("hex"),
+      kdf: "pbkdf2",
+      kdfparams: kdfParams,
+      mac: blake256(Buffer.concat([derivedKey.subarray(16, 32), Buffer.from(ciphertext)])),
+    },
   };
 }
 
-export const keystoreWallet = { connectKeystore } as const;
+async function v1DecryptFromKeystore(keystore: Keystores[KeystoreVersion.V1], password: string) {
+  switch (keystore.version) {
+    case 1: {
+      const kdfparams = keystore.crypto.kdfparams;
+      const derivedKey = await pbkdf2Async(
+        password,
+        Buffer.from(kdfparams.salt, "hex"),
+        kdfparams.c,
+        kdfparams.dklen,
+        "sha256",
+      );
+
+      const ciphertext = Buffer.from(keystore.crypto.ciphertext, "hex");
+      const mac = blake256(Buffer.concat([derivedKey.subarray(16, 32), ciphertext]));
+
+      if (mac !== keystore.crypto.mac) throw new Error("Invalid password");
+      const decipher = crypto.createDecipheriv(
+        keystore.crypto.cipher,
+        derivedKey.subarray(0, 16),
+        Buffer.from(keystore.crypto.cipherparams.iv, "hex"),
+      );
+
+      const phrase = Buffer.concat([decipher.update(ciphertext), decipher.final()]);
+      return phrase.toString("utf8");
+    }
+
+    default:
+      throw new Error("Unsupported keystore version");
+  }
+}
+
+export function encryptKeystore<T extends KeystoreVersion>({
+  type,
+  phrase,
+  password,
+}: {
+  type: T;
+  phrase: string;
+  password: string;
+}) {
+  switch (type) {
+    case KeystoreVersion.V1: {
+      return v1EncryptKeystore(phrase, password);
+    }
+    case KeystoreVersion.V2: {
+      // return v2EncryptKeystore(phrase, password);
+      return {} as never;
+    }
+    default: {
+      throw new SwapKitError("wallet_keystore_encrypt_unsupported_version", { version: type });
+    }
+  }
+}
+
+export function decryptKeystore<T extends Keystores[KeystoreVersion]>({
+  keystore,
+  password,
+}: { keystore: T; password: string }) {
+  switch (keystore.version) {
+    case KeystoreVersion.V1:
+      return v1DecryptFromKeystore(keystore, password);
+    case KeystoreVersion.V2:
+      // return decryptFromKeystore(keystore, password);
+      return {} as never;
+    default: {
+      throw new SwapKitError("wallet_keystore_encrypt_unsupported_version", { keystore });
+    }
+  }
+}
+
+export const encryptToKeyStore = v1EncryptKeystore;
+export const decryptFromKeystore = v1DecryptFromKeystore;

@@ -1,4 +1,4 @@
-import type { AssetValue, WalletChain } from "@swapkit/core";
+import type { AssetValue } from "@swapkit/core";
 import { useCallback, useState } from "react";
 import type { SwapKitClient } from "../swapKitClient";
 
@@ -23,17 +23,18 @@ export default function Send({
     if (!(inputAsset && inputAssetValue?.gt(0) && skClient)) return;
 
     const from = skClient.getAddress(inputAsset.chain);
-    const txHash = await skClient.getWallet(inputAssetValue.chain as WalletChain).transfer({
-      from,
-      assetValue: inputAssetValue,
-      memo: "",
-      recipient,
-    });
+    try {
+      const txHash = await skClient.transfer({ from, assetValue: inputAssetValue, recipient });
 
-    window.open(
-      `${skClient.getExplorerTxUrl({ chain: inputAssetValue.chain, txHash: txHash as string })}`,
-      "_blank",
-    );
+      console.info(txHash);
+
+      window.open(
+        `${skClient.getExplorerTxUrl({ chain: inputAssetValue.chain, txHash: txHash as string })}`,
+        "_blank",
+      );
+    } catch (error) {
+      console.error(error);
+    }
   }, [inputAsset, inputAssetValue, skClient, recipient]);
 
   return (

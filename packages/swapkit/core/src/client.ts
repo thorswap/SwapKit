@@ -29,10 +29,8 @@ import { type TransferParams as EVMTransferParams, evmValidateAddress } from "@s
 import { substrateValidateAddress } from "@swapkit/toolbox-substrate";
 import { type UTXOTransferParams, utxoValidateAddress } from "@swapkit/toolbox-utxo";
 
-import {
-  getExplorerAddressUrl as getAddressUrl,
-  getExplorerTxUrl as getTxUrl,
-} from "./helpers/explorerUrls.ts";
+import { getExplorerAddressUrl, getExplorerTxUrl } from "./helpers/explorerUrls.ts";
+export { getExplorerAddressUrl, getExplorerTxUrl };
 
 export function SwapKit<
   Plugins extends {
@@ -445,8 +443,8 @@ export function SwapKit<
     getAddress,
     getAllWallets,
     getBalance,
-    getExplorerAddressUrl: getAddressUrl,
-    getExplorerTxUrl: getTxUrl,
+    getExplorerAddressUrl,
+    getExplorerTxUrl,
     getWallet,
     getWalletWithBalance,
 

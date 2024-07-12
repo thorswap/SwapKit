@@ -135,9 +135,11 @@ export const availableChainsByWallet = {
 export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
   const [loading, setLoading] = useState(false);
   const [chains, setChains] = useState<Chain[]>([]);
+
   const connectWallet = useCallback(
     async (option: WalletOption, provider?: Eip1193Provider) => {
       if (!skClient) return alert("client is not ready");
+
       switch (option) {
         case WalletOption.COINBASE_WEB:
         case WalletOption.METAMASK:
@@ -227,14 +229,21 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
     async (option: WalletOption, provider?: Eip1193Provider) => {
       if (!skClient) return alert("client is not ready");
       setLoading(true);
-      await connectWallet(option, provider);
+      try {
+        await connectWallet(option, provider);
 
-      const walletDataArray = await Promise.all(
-        chains.map((chain) => skClient.getWalletWithBalance(chain, true)),
-      );
+        const walletDataArray = await Promise.all(
+          chains.map((chain) => skClient.getWalletWithBalance(chain, true)),
+        );
 
-      setWallet(walletDataArray.filter(Boolean));
-      setLoading(false);
+        setWallet(walletDataArray.filter(Boolean));
+      } catch (e) {
+        console.error(e);
+        alert(e);
+      } finally {
+        setLoading(false);
+        setWallet([]);
+      }
     },
     [chains, connectWallet, setWallet, skClient],
   );
@@ -281,7 +290,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
             ...UTXOChains,
             ...SubstrateChains,
             Chain.Solana,
-            Chain.Radix,
+            // Chain.Radix,
           ]
             .sort()
             .map((chain) => (

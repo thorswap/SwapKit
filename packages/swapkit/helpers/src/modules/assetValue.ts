@@ -37,6 +37,8 @@ type AssetValueFromParams = AssetIdentifier & {
   asyncTokenLookup?: boolean;
 };
 
+let loadedStaticAssets = false;
+
 export class AssetValue extends BigIntArithmetics {
   address?: string;
   chain: Chain;
@@ -134,8 +136,13 @@ export class AssetValue extends BigIntArithmetics {
       yellow(
         `Couldn't find static decimal for ${red(unsafeIdentifier)} (Using default ${red(BaseDecimal[chain])} decimal as fallback).
 This can result in incorrect calculations and mess with amount sent on transactions.
-You can load static assets by installing @swapkit/tokens package and calling AssetValue.loadStaticAssets()
-or by passing asyncTokenLookup: true to the from() function, which will make it async and return a promise.`,
+${
+  loadedStaticAssets
+    ? `Seems like you've already loaded static assets and it's still missing ${red(unsafeIdentifier)}.
+Use from({ asyncTokenLookup: true }) to load it asynchronously from contract.`
+    : `You can load static assets by installing @swapkit/tokens package and calling AssetValue.loadStaticAssets()
+or by passing additional param to from({ asyncTokenLookup: true }) function, which will make it async and return a promise.`
+}`,
       ),
     );
 
@@ -171,6 +178,7 @@ or by passing asyncTokenLookup: true to the from() function, which will make it 
               }
             }
 
+            loadedStaticAssets = true;
             resolve({ ok: true });
           });
         } catch (error) {

@@ -1,4 +1,4 @@
-import { type Chain, type FullWallet, SwapKitApi } from "@swapkit/sdk";
+import { type Chain, type FullWallet, SwapKitApi, getExplorerAddressUrl } from "@swapkit/sdk";
 
 type Props = {
   walletData: FullWallet[Chain];
@@ -9,12 +9,20 @@ type Props = {
 export const Wallet = ({ walletData, setAsset, disconnect }: Props) => {
   if (!walletData) return null;
 
+  const chain = walletData?.balance?.[0]?.chain as Chain;
+
   return (
     <div style={{ paddingBottom: "16px" }}>
       <div>
         <span>
-          {walletData?.walletType} {walletData?.balance?.[0]?.chain} wallet address:{" "}
-          {walletData?.address}
+          {walletData?.walletType} {chain} wallet address:{" "}
+          <a
+            href={getExplorerAddressUrl({ address: walletData?.address, chain })}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {walletData?.address}
+          </a>
         </span>
       </div>
 
