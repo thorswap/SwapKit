@@ -128,7 +128,8 @@ export function getMemoForDeposit({
   address?: string;
 }>) {
   const poolIdentifier = getPoolIdentifier({ chain, symbol });
-  const addressPart = address ? `:${address}` : "";
+  const hasAffiliateInfo = !!affiliate.affiliateAddress;
+  const addressPart = address ? `:${address}` : hasAffiliateInfo ? ":" : "";
 
   return addAffiliate(`${MemoType.DEPOSIT}:${poolIdentifier}${addressPart}`, affiliate);
 }
