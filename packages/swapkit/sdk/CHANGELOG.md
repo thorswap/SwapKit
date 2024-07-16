@@ -1,5 +1,17 @@
 # @swapkit/sdk
 
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/plugin-chainflip@1.1.3
+  - @swapkit/plugin-evm@1.0.8
+  - @swapkit/plugin-thorchain@1.1.3
+  - @swapkit/api@1.2.3
+  - @swapkit/core@1.1.3
+  - @swapkit/wallets@1.0.9
+
 ## 1.1.3
 
 ### Patch Changes
