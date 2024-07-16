@@ -151,7 +151,7 @@ or by passing asyncTokenLookup: true to the from() function, which will make it 
     const assetValue = asyncTokenLookup
       ? createAssetValue(identifier, fromBaseDecimal ? adjustedValue : parsedValue)
       : isSynthetic
-        ? createSyntheticAssetValue(identifier, parsedValue)
+        ? createSyntheticAssetValue(identifier, adjustedValue)
         : new AssetValue({ tax, decimal, identifier, value: adjustedValue });
 
     return assetValue as ConditionalAssetValueReturn<T>;

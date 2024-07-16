@@ -103,7 +103,7 @@ export enum BaseDecimal {
   KUJI = 6,
   LTC = 8,
   MATIC = 18,
-  MAYA = 10,
+  MAYA = 8,
   OP = 18,
   SOL = 9,
   THOR = 8,
