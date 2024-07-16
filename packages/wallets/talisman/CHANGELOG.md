@@ -1,5 +1,29 @@
 # @swapkit/wallet-talisman
 
+## 1.1.2
+
+### Patch Changes
+
+- Bump once all
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.1.2
+  - @swapkit/toolbox-evm@1.1.2
+  - @swapkit/toolbox-substrate@1.1.2
+
+## 1.1.1
+
+### Patch Changes
+
+- [`4ed5f2a`](https://github.com/thorswap/SwapKit/commit/4ed5f2a09fac56310fa0de542710ce6169067d3b) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Release with bumped helpers
+
+- [`37ee91b`](https://github.com/thorswap/SwapKit/commit/37ee91b0d4e3199056bf0f0b065144d5cba3cb9c) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Bump for memo helper include
+
+- Updated dependencies [[`4ed5f2a`](https://github.com/thorswap/SwapKit/commit/4ed5f2a09fac56310fa0de542710ce6169067d3b), [`37ee91b`](https://github.com/thorswap/SwapKit/commit/37ee91b0d4e3199056bf0f0b065144d5cba3cb9c), [`66077fe`](https://github.com/thorswap/SwapKit/commit/66077feb505d560d2402a60cccab929297d8222d)]:
+  - @swapkit/helpers@1.1.1
+  - @swapkit/toolbox-evm@1.1.1
+  - @swapkit/toolbox-substrate@1.1.1
+
 ## 1.1.0
 
 ### Minor Changes

@@ -1,5 +1,37 @@
 # @swapkit/sdk
 
+## 1.1.3
+
+### Patch Changes
+
+- Bump once all
+
+- Updated dependencies []:
+  - @swapkit/plugin-chainflip@1.1.2
+  - @swapkit/plugin-evm@1.0.7
+  - @swapkit/plugin-thorchain@1.1.2
+  - @swapkit/api@1.2.2
+  - @swapkit/core@1.1.2
+  - @swapkit/tokens@1.0.3
+  - @swapkit/wallets@1.0.8
+
+## 1.1.2
+
+### Patch Changes
+
+- [`4ed5f2a`](https://github.com/thorswap/SwapKit/commit/4ed5f2a09fac56310fa0de542710ce6169067d3b) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Release with bumped helpers
+
+- [`37ee91b`](https://github.com/thorswap/SwapKit/commit/37ee91b0d4e3199056bf0f0b065144d5cba3cb9c) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Bump for memo helper include
+
+- Updated dependencies [[`4ed5f2a`](https://github.com/thorswap/SwapKit/commit/4ed5f2a09fac56310fa0de542710ce6169067d3b), [`37ee91b`](https://github.com/thorswap/SwapKit/commit/37ee91b0d4e3199056bf0f0b065144d5cba3cb9c), [`66077fe`](https://github.com/thorswap/SwapKit/commit/66077feb505d560d2402a60cccab929297d8222d)]:
+  - @swapkit/plugin-chainflip@1.1.1
+  - @swapkit/plugin-evm@1.0.6
+  - @swapkit/plugin-thorchain@1.1.1
+  - @swapkit/api@1.2.1
+  - @swapkit/core@1.1.1
+  - @swapkit/tokens@1.0.2
+  - @swapkit/wallets@1.0.7
+
 ## 1.1.1
 
 ### Patch Changes

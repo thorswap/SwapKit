@@ -1,5 +1,19 @@
 # @swapkit/tokens
 
+## 1.0.3
+
+### Patch Changes
+
+- Bump once all
+
+## 1.0.2
+
+### Patch Changes
+
+- [`4ed5f2a`](https://github.com/thorswap/SwapKit/commit/4ed5f2a09fac56310fa0de542710ce6169067d3b) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Release with bumped helpers
+
+- [`37ee91b`](https://github.com/thorswap/SwapKit/commit/37ee91b0d4e3199056bf0f0b065144d5cba3cb9c) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Bump for memo helper include
+
 ## 1.0.1
 
 ### Patch Changes
