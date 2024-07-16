@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.1.3
+
+### Patch Changes
+
+- [#909](https://github.com/thorswap/SwapKit/pull/909) [`a9e8aa1`](https://github.com/thorswap/SwapKit/commit/a9e8aa1ac4dee028359cbd5d6a8ba12c090acdf5) Thanks [@towanTG](https://github.com/towanTG)! - Fixes AssetValue.from() for synths and changes mayachain base decimal to 8 while keeping 10 for cacao
+
 ## 1.1.2
 
 ### Patch Changes
