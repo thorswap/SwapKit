@@ -567,7 +567,7 @@ describe("AssetValue", () => {
         expect.objectContaining({
           address: undefined,
           chain: Chain.Maya,
-          decimal: BaseDecimal.MAYA,
+          decimal: 10,
           isGasAsset: true,
           isSynthetic: false,
           symbol: "CACAO",

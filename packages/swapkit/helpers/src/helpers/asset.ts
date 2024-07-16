@@ -171,7 +171,7 @@ export const getCommonAssetInfo = (
     case Chain.BinanceSmartChain:
       return { identifier: `${assetString}.BNB`, decimal: BaseDecimal[assetString] };
     case Chain.Maya:
-      return { identifier: `${assetString}.CACAO`, decimal: BaseDecimal[assetString] };
+      return { identifier: `${assetString}.CACAO`, decimal: 10 };
     case Chain.Radix:
       return { identifier: `${Chain.Radix}.XRD`, decimal: BaseDecimal[assetString] };
 
