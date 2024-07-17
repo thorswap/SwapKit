@@ -128,7 +128,8 @@ export function getMemoForDeposit({
   address?: string;
 }>) {
   const poolIdentifier = getPoolIdentifier({ chain, symbol });
-  const addressPart = address ? `:${address}` : "";
+  const hasAffiliateInfo = !!affiliate.affiliateAddress;
+  const addressPart = address ? `:${address}` : hasAffiliateInfo ? ":" : "";
 
   return addAffiliate(`${MemoType.DEPOSIT}:${poolIdentifier}${addressPart}`, affiliate);
 }
@@ -137,9 +138,8 @@ export function getMemoForSaverWithdraw({
   chain,
   symbol,
   basisPoints,
-  ...affiliate
-}: WithAffiliate<{ chain: Chain; symbol: string; basisPoints: number }>) {
-  return addAffiliate(`${MemoType.WITHDRAW}:${chain}/${symbol}:${basisPoints}`, affiliate);
+}: { chain: Chain; symbol: string; basisPoints: number }) {
+  return `${MemoType.WITHDRAW}:${chain}/${symbol}:${basisPoints}`;
 }
 
 export function getMemoForWithdraw({
@@ -148,22 +148,18 @@ export function getMemoForWithdraw({
   ticker,
   basisPoints,
   targetAsset,
-  ...affiliate
-}: WithAffiliate<{
+}: {
   chain: Chain;
   symbol: string;
   ticker: string;
   basisPoints: number;
   targetAsset?: string;
-}>) {
+}) {
   const shortenedSymbol =
     chain === "ETH" && ticker !== "ETH" ? `${ticker}-${symbol.slice(-3)}` : symbol;
   const targetPart = targetAsset ? `:${targetAsset}` : "";
 
-  return addAffiliate(
-    `${MemoType.WITHDRAW}:${chain}.${shortenedSymbol}:${basisPoints}${targetPart}`,
-    affiliate,
-  );
+  return `${MemoType.WITHDRAW}:${chain}.${shortenedSymbol}:${basisPoints}${targetPart}`;
 }
 
 /**

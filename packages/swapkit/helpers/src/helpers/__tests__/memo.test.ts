@@ -73,6 +73,16 @@ describe("getMemoForDeposit", () => {
     const result = getMemoForDeposit({ chain: Chain.Ethereum, symbol: "ETH" });
     expect(result).toBe("+:ETH.ETH");
   });
+
+  test("returns correct memo when paired address is not available but affiliate info is present", () => {
+    const result = getMemoForDeposit({
+      chain: Chain.Ethereum,
+      symbol: "ETH",
+      affiliateAddress: "thor1abc123",
+      affiliateBasisPoints: 500,
+    });
+    expect(result).toBe("+:ETH.ETH::thor1abc123:500");
+  });
 });
 
 describe("getMemoForWithdraw", () => {
