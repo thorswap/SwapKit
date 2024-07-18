@@ -1,39 +1,56 @@
-import type { KyInstance, Options } from "ky";
-import ky from "ky";
+type Options = {
+  headers?: Record<string, string>;
+  apiKey?: string;
+  method?: "GET" | "POST";
+  onError?: (error: NotWorth) => NotWorth;
+  responseHandler?: (response: NotWorth) => NotWorth;
+  [key: string]: NotWorth;
+};
 
-let kyClientConfig: Options & { apiKey?: string } = {};
+let clientConfig: Options = {};
 
 export const defaultRequestHeaders =
   typeof window !== "undefined"
     ? ({} as Record<string, string>)
     : { referrer: "https://sk.thorswap.net", referer: "https://sk.thorswap.net" };
 
-export function setRequestClientConfig({ apiKey, ...config }: Options & { apiKey?: string }) {
-  kyClientConfig = { ...config, apiKey };
+export function setRequestClientConfig({ apiKey, ...config }: Options) {
+  clientConfig = { ...config, apiKey };
 }
 
-function getKyClient() {
-  const { apiKey, ...config } = kyClientConfig;
-  return ky.create({
-    ...config,
-    headers: { ...defaultRequestHeaders, ...config.headers, "x-api-key": apiKey },
-  });
-}
+async function fetchWithConfig(url: string, options: Options = {}) {
+  const { apiKey, ...config } = clientConfig;
+  const headers = { ...defaultRequestHeaders, ...config.headers, ...options.headers };
 
-const getTypedBaseRequestClient = (ky: KyInstance) => ({
-  get: async <T>(url: string | URL | Request, options?: Options) =>
-    (await ky.get(url, options)).json<T>(),
-  post: async <T>(url: string | URL | Request, options?: Options) =>
-    (await ky.post(url, options)).json<T>(),
-});
+  if (apiKey) headers["x-api-key"] = apiKey;
+
+  try {
+    const response = await fetch(url, { ...config, ...options, headers });
+    const body = await response.json();
+
+    if (options.responseHandler) return options.responseHandler(body);
+
+    return body;
+  } catch (error) {
+    if (options.onError) return options.onError(error);
+
+    console.error(error);
+  }
+}
 
 export const RequestClient = {
-  ...getTypedBaseRequestClient(getKyClient()),
+  get: async <T>(url: string, options?: Options): Promise<T> =>
+    fetchWithConfig(url, { ...options, method: "GET" }),
+  post: async <T>(url: string, options?: Options): Promise<T> =>
+    fetchWithConfig(url, { ...options, method: "POST" }),
   extend: (options: Options) => {
-    const extendedClient = getKyClient().extend(options);
+    const extendedConfig = { ...clientConfig, ...options };
     return {
-      ...getTypedBaseRequestClient(extendedClient),
-      extend: RequestClient.extend,
+      get: async <T>(url: string, options?: Options): Promise<T> =>
+        fetchWithConfig(url, { ...extendedConfig, ...options, method: "GET" }),
+      post: async <T>(url: string, options?: Options): Promise<T> =>
+        fetchWithConfig(url, { ...extendedConfig, ...options, method: "POST" }),
+      extend: (newOptions: Options) => RequestClient.extend({ ...extendedConfig, ...newOptions }),
     };
   },
 };

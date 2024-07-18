@@ -21,19 +21,13 @@ import {
 const baseUrlV1 = "https://api.thorswap.finance";
 
 export const APIV1RequestClient = RequestClient.extend({
-  hooks: {
-    afterResponse: [
-      async (_request, _options, response) => {
-        const body = await response.json();
-
-        try {
-          const errorBody = ApiV1ErrorSchema.parse(body);
-          return new Response(JSON.stringify(errorBody), { status: 200 });
-        } catch (_error) {
-          return body;
-        }
-      },
-    ],
+  responseHandler: (response) => {
+    try {
+      const errorBody = ApiV1ErrorSchema.parse(response);
+      return errorBody;
+    } catch (_error) {
+      return response;
+    }
   },
 });
 
