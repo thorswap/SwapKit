@@ -1,11 +1,13 @@
 import { AssetValue, RequestClient } from "@swapkit/helpers";
-import type {
-  InboundAddressesItem,
-  LastBlockItem,
-  MimirData,
-  NodeItem,
-  THORNodeTNSDetails,
-  ThornodeEndpointParams,
+import {
+  RunePoolInfo,
+  RunePoolProviderInfo,
+  type InboundAddressesItem,
+  type LastBlockItem,
+  type MimirData,
+  type NodeItem,
+  type THORNodeTNSDetails,
+  type ThornodeEndpointParams,
 } from "./types.ts";
 
 function baseUrl({ type = "thorchain", stagenet = false }: ThornodeEndpointParams = {}) {
@@ -51,4 +53,12 @@ export async function getTNSPreferredAsset(tns: string) {
   if (!tnsDetails.preferred_asset || tnsDetails.preferred_asset === ".") return undefined;
 
   return AssetValue.from({ asyncTokenLookup: true, asset: tnsDetails.preferred_asset });
+}
+
+export function getRunePoolInfo() {
+  return RequestClient.get<RunePoolInfo>(`${baseUrl()}/runepool`);
+}
+
+export function getRunePoolProviderInfo(thorAddress: string) {
+  return RequestClient.get<RunePoolProviderInfo>(`${baseUrl()}/rune_provider/${thorAddress}`);
 }
