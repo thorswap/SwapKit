@@ -6,6 +6,8 @@ import {
   getMemoForLeaveAndBond,
   getMemoForNamePreferredAssetRegister,
   getMemoForNameRegister,
+  getMemoForRunePoolDeposit,
+  getMemoForRunePoolWithdraw,
   getMemoForSaverDeposit,
   getMemoForSaverWithdraw,
   getMemoForWithdraw,
@@ -94,5 +96,28 @@ describe("getMemoForWithdraw", () => {
       basisPoints: 100,
     });
     expect(result).toBe("-:ETH.ETH:100");
+  });
+});
+
+describe("getMemoForRunePoolDeposit", () => {
+  test("returns correct memo for single side", () => {
+    const result = getMemoForRunePoolDeposit();
+    expect(result).toBe("POOL+");
+  });
+});
+
+describe("getMemoForRunePoolWithdraw", () => {
+  test("returns correct memo for single side", () => {
+    const result = getMemoForRunePoolWithdraw({ basisPoints: 500 });
+    expect(result).toBe("POOL-:500");
+  });
+
+  test("returns correct memo when affiliate info is present", () => {
+    const result = getMemoForRunePoolWithdraw({
+      basisPoints: 500,
+      affiliateAddress: "thor1abc123",
+      affiliateBasisPoints: 500,
+    });
+    expect(result).toBe("POOL-:500:thor1abc123:500");
   });
 });
