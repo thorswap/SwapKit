@@ -1,13 +1,13 @@
 import { AssetValue, RequestClient } from "@swapkit/helpers";
-import {
+import type {
+  InboundAddressesItem,
+  LastBlockItem,
+  MimirData,
+  NodeItem,
   RunePoolInfo,
   RunePoolProviderInfo,
-  type InboundAddressesItem,
-  type LastBlockItem,
-  type MimirData,
-  type NodeItem,
-  type THORNodeTNSDetails,
-  type ThornodeEndpointParams,
+  THORNodeTNSDetails,
+  ThornodeEndpointParams,
 } from "./types.ts";
 
 function baseUrl({ type = "thorchain", stagenet = false }: ThornodeEndpointParams = {}) {
