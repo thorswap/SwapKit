@@ -1,4 +1,7 @@
 import {
+  type PriceRequest,
+  type PriceResponse,
+  PriceResponseSchema,
   type ProviderName,
   type QuoteRequest,
   type QuoteResponse,
@@ -45,4 +48,19 @@ export async function getTokenListProvidersV2() {
 export function getTokenListV2(provider: ProviderName) {
   const response = RequestClient.get<TokensResponseV2>(`${baseUrl}/tokens?provider=${provider}`);
   return response;
+}
+
+export async function getPrice(body: PriceRequest, isDev = false) {
+  const response = await RequestClient.post<PriceResponse>(
+    `${isDev ? baseUrlDev : baseUrl}/price`,
+    {
+      body: JSON.stringify(body),
+    },
+  );
+
+  try {
+    return PriceResponseSchema.parse(response);
+  } catch (error) {
+    throw new SwapKitError("api_v2_invalid_response", error);
+  }
 }

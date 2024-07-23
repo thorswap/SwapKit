@@ -158,3 +158,38 @@ export const QuoteRequestSchema = z
   });
 
 export type QuoteRequest = z.infer<typeof QuoteRequestSchema>;
+
+export const PriceRequestSchema = z.object({
+  tokens: z.array(
+    z.object({
+      identifier: z.string(),
+    }),
+  ),
+  metadata: z.boolean(),
+});
+
+export type PriceRequest = z.infer<typeof PriceRequestSchema>;
+
+export const TokenDetailsMetadataSchema = z.object({
+  name: z.string(),
+  id: z.string(),
+  market_cap: z.number(),
+  total_volume: z.number(),
+  price_change_24h_usd: z.number(),
+  price_change_percentage_24h_usd: z.number(),
+  timestamp: z.number(),
+});
+
+export const PriceResponseSchema = z.array(
+  z
+    .object({
+      identifier: z.string(),
+      provider: z.string(),
+      cg: TokenDetailsMetadataSchema.optional(),
+      price_usd: z.number(),
+      timestamp: z.number(),
+    })
+    .partial(),
+);
+
+export type PriceResponse = z.infer<typeof PriceResponseSchema>;
