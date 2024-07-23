@@ -1,5 +1,17 @@
 # @swapkit/helpers
 
+## 1.2.0
+
+### Minor Changes
+
+- [`cea491e`](https://github.com/thorswap/SwapKit/commit/cea491e9e44915ff9256a90cb6aa12c3d22e50df) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Remove `ky` and replace it with base fetch
+
+- [#917](https://github.com/thorswap/SwapKit/pull/917) [`9a857f2`](https://github.com/thorswap/SwapKit/commit/9a857f293bd9c6b22f42d5b41d36fecb3f53dad1) Thanks [@ochhii1337](https://github.com/ochhii1337)! - Added support for Rune Pool
+
+### Patch Changes
+
+- [#911](https://github.com/thorswap/SwapKit/pull/911) [`ebe27fa`](https://github.com/thorswap/SwapKit/commit/ebe27face19acade1c7cf80bbd7cbefc02cfad28) Thanks [@mfaizan1](https://github.com/mfaizan1)! - remove affiliate info from withdraw memos, and fix pair address spot being taken buy affiliate info.
+
 ## 1.1.3
 
 ### Patch Changes
