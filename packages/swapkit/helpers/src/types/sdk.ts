@@ -62,6 +62,8 @@ export enum MemoType {
   WITHDRAW = "-",
   OPEN_LOAN = "$+",
   CLOSE_LOAN = "$-",
+  RUNEPOOL_DEPOSIT = "POOL+",
+  RUNEPOOL_WITHDRAW = "POOL-",
 }
 
 export const QuoteRequestSchema = z

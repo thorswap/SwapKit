@@ -4,6 +4,8 @@ import type {
   LastBlockItem,
   MimirData,
   NodeItem,
+  RunePoolInfo,
+  RunePoolProviderInfo,
   THORNodeTNSDetails,
   ThornodeEndpointParams,
 } from "./types.ts";
@@ -51,4 +53,12 @@ export async function getTNSPreferredAsset(tns: string) {
   if (!tnsDetails.preferred_asset || tnsDetails.preferred_asset === ".") return undefined;
 
   return AssetValue.from({ asyncTokenLookup: true, asset: tnsDetails.preferred_asset });
+}
+
+export function getRunePoolInfo() {
+  return RequestClient.get<RunePoolInfo>(`${baseUrl()}/runepool`);
+}
+
+export function getRunePoolProviderInfo(thorAddress: string) {
+  return RequestClient.get<RunePoolProviderInfo>(`${baseUrl()}/rune_provider/${thorAddress}`);
 }
