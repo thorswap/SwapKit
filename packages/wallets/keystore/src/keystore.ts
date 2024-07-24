@@ -3,7 +3,6 @@ import {
   Chain,
   type ConnectWalletParams,
   DerivationPath,
-  RPCUrl,
   type WalletChain,
   WalletOption,
   type WalletTxParams,
@@ -31,6 +30,11 @@ type Params = KeystoreOptions & {
   chain: Chain;
   phrase: string;
   index: number;
+  radixDappConfig: {
+    dAppDefinitionAddress: string;
+    applicationName: string;
+    applicationVersion: string;
+  };
 };
 
 const getWalletMethodsForChain = async ({
@@ -43,6 +47,7 @@ const getWalletMethodsForChain = async ({
   blockchairApiKey,
   index,
   stagenet,
+  radixDappConfig,
 }: Params) => {
   const derivationPath = `${DerivationPath[chain] as string}/${index}`;
 
@@ -210,13 +215,10 @@ const getWalletMethodsForChain = async ({
     }
 
     case Chain.Radix: {
-      const { getRadixCoreApiClient, RadixToolbox, createPrivateKey, RadixMainnet } = await import(
-        "@swapkit/toolbox-radix"
-      );
+      const { RadixToolbox, createPrivateKey } = await import("@swapkit/toolbox-radix");
 
-      const api = await getRadixCoreApiClient(RPCUrl.Radix, RadixMainnet);
       const signer = await createPrivateKey(phrase);
-      const toolbox = await RadixToolbox({ api, signer });
+      const toolbox = await RadixToolbox({ dappConfig: radixDappConfig, signer });
 
       return { address: await toolbox.getAddress(), walletMethods: toolbox };
     }
@@ -245,7 +247,14 @@ function connectKeystore({
   addChain,
   apis,
   rpcUrls,
-  config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
+  config: {
+    thorswapApiKey,
+    covalentApiKey,
+    ethplorerApiKey,
+    blockchairApiKey,
+    stagenet,
+    radixDappConfig,
+  },
 }: ConnectWalletParams) {
   return async function connectKeystore(chains: WalletChain[], phrase: string, index = 0) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
@@ -261,6 +270,11 @@ function connectKeystore({
         phrase,
         blockchairApiKey,
         stagenet,
+        radixDappConfig: radixDappConfig || {
+          dAppDefinitionAddress: "",
+          applicationName: "",
+          applicationVersion: "",
+        },
       });
 
       addChain({

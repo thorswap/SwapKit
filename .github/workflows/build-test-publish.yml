@@ -16,7 +16,7 @@ on:
       - develop
 
 jobs:
-  build-and-test:
+  build-lint-test:
     if: contains(github.event.pull_request.title, ':tada:') == false
     runs-on: ubuntu-latest
     steps:
@@ -27,15 +27,15 @@ jobs:
       - name: Build
         run: bun install; bun run build
 
+      - name: Lint
+        run: bun lint:ci
+
       - name: Test
         run: bun run test
 
-      - name: Lint
-        run: bun lint
-
   publish:
     if: contains(github.ref_name, 'develop') || contains(github.ref_name, 'develop') || contains(github.ref_name, 'nightly') || contains(github.ref_name, 'beta')
-    needs: [build-and-test]
+    needs: [build-lint-test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -88,7 +88,7 @@ jobs:
 
   deploy-playground:
     if: contains(github.ref_name, 'develop')
-    needs: [build-and-test]
+    needs: [build-lint-test]
     runs-on: ubuntu-latest
     permissions:
       pages: write

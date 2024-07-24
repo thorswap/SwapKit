@@ -1,7 +1,7 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@radixdlt/radix-dapp-toolkit": "2.0.1",
+    "@radixdlt/radix-dapp-toolkit": "2.0.2",
     "@radixdlt/wallet-sdk": "1.0.1",
     "@swapkit/toolbox-radix": "workspace:*",
     "@swapkit/helpers": "workspace:*"
@@ -30,5 +30,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.8"
+  "version": "1.0.9"
 }

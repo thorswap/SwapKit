@@ -46,6 +46,14 @@ export type ConnectConfig = {
    * @optional for setting the chainflip broker url
    */
   chainflipBrokerUrl?: string;
+  /**
+   * @optional for setting the chainflip radix dapp config
+   */
+  radixDappConfig?: {
+    dAppDefinitionAddress: string;
+    applicationName: string;
+    applicationVersion: string;
+  };
 };
 
 type ApisType = { [key in UTXOChain]?: string | Todo } & {

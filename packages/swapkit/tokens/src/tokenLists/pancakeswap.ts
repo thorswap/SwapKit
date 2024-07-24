@@ -2,10 +2,10 @@ export const list = {
   provider: "PANCAKESWAP",
   chainId: "56",
   name: "PancakeSwap Extended",
-  timestamp: "2024-06-27T05:22:43.511Z",
-  version: { major: 2, minor: 16, patch: 227 },
+  timestamp: "2024-07-16T22:33:47.422Z",
+  version: { major: 2, minor: 16, patch: 231 },
   keywords: ["pancakeswap", "extended"],
-  count: 412,
+  count: 416,
   tokens: [
     {
       chain: "BSC",
@@ -619,6 +619,16 @@ export const list = {
     },
     {
       chain: "BSC",
+      address: "0x9F5d4479b783327b61718fa13B3a0583869a80c1",
+      chainId: "56",
+      ticker: "BOXY",
+      identifier: "BSC.BOXY-0X9F5D4479B783327B61718FA13B3A0583869A80C1",
+      decimals: 18,
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/bsc.boxy-0x9f5d4479b783327b61718fa13b3a0583869a80c1.png",
+    },
+    {
+      chain: "BSC",
       address: "0xACB8f52DC63BB752a51186D1c55868ADbFfEe9C1",
       chainId: "56",
       ticker: "BP",
@@ -989,6 +999,16 @@ export const list = {
     },
     {
       chain: "BSC",
+      address: "0x4d2d32d8652058Bf98c772953E1Df5c5c85D9F45",
+      chainId: "56",
+      ticker: "DAO",
+      identifier: "BSC.DAO-0X4D2D32D8652058BF98C772953E1DF5C5C85D9F45",
+      decimals: 18,
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/bsc.dao-0x4d2d32d8652058bf98c772953e1df5c5c85d9f45.png",
+    },
+    {
+      chain: "BSC",
       address: "0x23CE9e926048273eF83be0A3A8Ba9Cb6D45cd978",
       chainId: "56",
       ticker: "DAR",
@@ -1056,6 +1076,16 @@ export const list = {
       decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/bsc.dexe-0x039cb485212f996a9dbb85a9a75d898f94d38da6.png",
+    },
+    {
+      chain: "BSC",
+      address: "0x6E88056E8376Ae7709496Ba64d37fa2f8015ce3e",
+      chainId: "56",
+      ticker: "DEXE",
+      identifier: "BSC.DEXE-0X6E88056E8376AE7709496BA64D37FA2F8015CE3E",
+      decimals: 18,
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/bsc.dexe-0x6e88056e8376ae7709496ba64d37fa2f8015ce3e.png",
     },
     {
       chain: "BSC",
@@ -2596,6 +2626,16 @@ export const list = {
       decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/bsc.ont-0xfd7b3a77848f1c2d67e05e54d78d174a0c850335.png",
+    },
+    {
+      chain: "BSC",
+      address: "0x5651fA7a726B9Ec0cAd00Ee140179912B6E73599",
+      chainId: "56",
+      ticker: "OORT",
+      identifier: "BSC.OORT-0X5651FA7A726B9EC0CAD00EE140179912B6E73599",
+      decimals: 18,
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/bsc.oort-0x5651fa7a726b9ec0cad00ee140179912b6e73599.png",
     },
     {
       chain: "BSC",

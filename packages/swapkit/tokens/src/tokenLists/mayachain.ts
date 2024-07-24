@@ -2,10 +2,10 @@ export const list = {
   provider: "MAYACHAIN",
   chainId: "mayachain-mainnet-v1",
   name: "MAYACHAIN",
-  timestamp: "2024-06-27T16:31:59.332Z",
+  timestamp: "2024-07-24T08:00:30.634Z",
   version: { major: 1, minor: 0, patch: 0 },
   keywords: [],
-  count: 27,
+  count: 22,
   tokens: [
     {
       chain: "ARB",
@@ -47,26 +47,6 @@ export const list = {
     },
     {
       chain: "ARB",
-      address: "0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a",
-      chainId: "42161",
-      ticker: "GMX",
-      identifier: "ARB.GMX-0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a",
-      decimals: 18,
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.gmx-0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a.png",
-    },
-    {
-      chain: "ARB",
-      address: "0x18c11fd286c5ec11c3b683caa813b77f5163a122",
-      chainId: "42161",
-      ticker: "GNS",
-      identifier: "ARB.GNS-0x18c11fd286c5ec11c3b683caa813b77f5163a122",
-      decimals: 18,
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.gns-0x18c11fd286c5ec11c3b683caa813b77f5163a122.png",
-    },
-    {
-      chain: "ARB",
       address: "0x93864d81175095dd93360ffa2a529b8642f76a6e",
       chainId: "42161",
       ticker: "LEO",
@@ -74,16 +54,6 @@ export const list = {
       decimals: 3,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.leo-0x93864d81175095dd93360ffa2a529b8642f76a6e.png",
-    },
-    {
-      chain: "ARB",
-      address: "0xf97f4df75117a78c1a5a0dbb814af92458539fb4",
-      chainId: "42161",
-      ticker: "LINK",
-      identifier: "ARB.LINK-0xf97f4df75117a78c1a5a0dbb814af92458539fb4",
-      decimals: 18,
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.link-0xf97f4df75117a78c1a5a0dbb814af92458539fb4.png",
     },
     {
       chain: "ARB",
@@ -97,16 +67,6 @@ export const list = {
     },
     {
       chain: "ARB",
-      address: "0xd4d42f0b6def4ce0383636770ef773390d85c61a",
-      chainId: "42161",
-      ticker: "SUSHI",
-      identifier: "ARB.SUSHI-0xd4d42f0b6def4ce0383636770ef773390d85c61a",
-      decimals: 18,
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.sushi-0xd4d42f0b6def4ce0383636770ef773390d85c61a.png",
-    },
-    {
-      chain: "ARB",
       address: "0x429fed88f10285e61b12bdf00848315fbdfcc341",
       chainId: "42161",
       ticker: "TGT",
@@ -114,16 +74,6 @@ export const list = {
       decimals: 18,
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.tgt-0x429fed88f10285e61b12bdf00848315fbdfcc341.png",
-    },
-    {
-      chain: "ARB",
-      address: "0xfa7f8980b0f1e64a2062791cc3b0871572f1f7f0",
-      chainId: "42161",
-      ticker: "UNI",
-      identifier: "ARB.UNI-0xfa7f8980b0f1e64a2062791cc3b0871572f1f7f0",
-      decimals: 18,
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.uni-0xfa7f8980b0f1e64a2062791cc3b0871572f1f7f0.png",
     },
     {
       chain: "ARB",
