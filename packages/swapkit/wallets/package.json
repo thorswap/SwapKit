@@ -3,6 +3,7 @@
   "dependencies": {
     "@swapkit/wallet-coinbase": "workspace:*",
     "@swapkit/wallet-evm-extensions": "workspace:*",
+    "@swapkit/wallet-exodus": "workspace:*",
     "@swapkit/wallet-keepkey": "workspace:*",
     "@swapkit/wallet-keplr": "workspace:*",
     "@swapkit/wallet-keystore": "workspace:*",
@@ -10,6 +11,7 @@
     "@swapkit/wallet-okx": "workspace:*",
     "@swapkit/wallet-phantom": "workspace:*",
     "@swapkit/wallet-polkadotjs": "workspace:*",
+    "@swapkit/wallet-radix": "workspace:*",
     "@swapkit/wallet-talisman": "workspace:*",
     "@swapkit/wallet-trezor": "workspace:*",
     "@swapkit/wallet-wc": "workspace:*",

@@ -1,7 +1,7 @@
 export const list = {
   provider: "ONEINCH",
   name: "ONEINCH",
-  timestamp: "2024-08-26T08:30:33.731Z",
+  timestamp: "2024-08-27T16:30:32.041Z",
   version: {
     major: 1,
     minor: 0,

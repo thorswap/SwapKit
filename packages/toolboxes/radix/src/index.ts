@@ -1,2 +1,2 @@
-export type { RadixNetwork } from "./types/index";
+export * from "./types";
 export * from "./toolbox";
