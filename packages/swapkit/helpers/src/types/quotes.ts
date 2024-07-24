@@ -79,16 +79,19 @@ export type EstimatedTime = z.infer<typeof EstimatedTimeSchema>;
 
 export enum ProviderName {
   CHAINFLIP = "CHAINFLIP",
-  TRADERJOE_V1 = "TRADERJOE_V1",
+  MAYACHAIN = "MAYACHAIN",
+  MAYACHAIN_STREAMING = "MAYACHAIN_STREAMING",
+  ONEINCH = "ONEINCH",
+  PANCAKESWAP = "PANCAKESWAP",
   PANGOLIN_V1 = "PANGOLIN_V1",
-  UNISWAP_V2 = "UNISWAP_V2",
+  SUSHISWAP_V2 = "SUSHISWAP_V2",
   THORCHAIN = "THORCHAIN",
   THORCHAIN_STREAMING = "THORCHAIN_STREAMING",
-  MAYACHAIN = "MAYACHAIN",
-  ONEINCH = "ONEINCH",
-  SUSHISWAP_V2 = "SUSHISWAP_V2",
+  TRADERJOE_V2 = "TRADERJOE_V2",
+  UNISWAP_V2 = "UNISWAP_V2",
+  UNISWAP_V3 = "UNISWAP_V3",
   WOOFI_V2 = "WOOFI_V2",
-  PANCAKESWAP = "PANCAKESWAP",
+  CAVIAR_V1 = "CAVIAR_V1",
 }
 
 export enum FeeTypeEnum {
@@ -181,131 +184,6 @@ export const RouteQuoteWarningSchema = z.array(
   }),
 );
 
-export const RouteQuoteLegSchema = z.object({
-  sellAsset: z.string({
-    description: "Asset to sell",
-  }),
-  buyAsset: z.string({
-    description: "Asset to buy",
-  }),
-  provider: z.nativeEnum(ProviderName),
-  buyAmount: z.string({
-    description: "Amount of asset to buy",
-  }),
-  buyAmountMaxSlippage: z.string({
-    description: "Amount of asset to buy",
-  }),
-  sellAmount: z.string({
-    description: "Amount of asset to sell",
-  }),
-  sourceAddress: z.string({
-    description: "Source address",
-  }),
-  destinationAddress: z.string({
-    description: "Destination address",
-  }),
-  slippageBps: z.number({
-    description: "Slippage in bps",
-  }),
-  targetAddress: z.optional(
-    z.string({
-      description: "Target address for contract call or transfer address",
-    }),
-  ),
-  inboundAddress: z.optional(
-    z.string({
-      description: "Inbound address",
-    }),
-  ),
-  routerAddress: z.optional(
-    z.string({
-      description: "Inbound address",
-    }),
-  ),
-  contractMethod: z.optional(
-    z.string({
-      description: "Contract method",
-    }),
-  ),
-  fees: z.optional(FeesSchema),
-  estimatedTime: z.optional(EstimatedTimeSchema),
-  memo: z.optional(
-    z.string({
-      description: "Memo",
-    }),
-  ),
-  expiration: z.optional(
-    z.string({
-      description: "Expiration",
-    }),
-  ),
-});
-
-export type RouteQuoteLeg = z.infer<typeof RouteQuoteLegSchema>;
-
-export const RouteQuoteSchema = z.object({
-  providers: z.array(z.nativeEnum(ProviderName)),
-  sellAsset: z.string({
-    description: "Asset to sell",
-  }),
-  sellAmount: z.string({
-    description: "sell amount",
-  }),
-  buyAsset: z.string({
-    description: "Asset to buy",
-  }),
-  expectedBuyAmount: z.string({
-    description: "Expected Buy amount",
-  }),
-  expectedBuyAmountMaxSlippage: z.string({
-    description: "Expected Buy amount max slippage",
-  }),
-  sourceAddress: z.string({
-    description: "Source address",
-  }),
-  destinationAddress: z.string({
-    description: "Destination address",
-  }),
-  targetAddress: z.optional(
-    z.string({
-      description: "Target address",
-    }),
-  ),
-  routerAddress: z.optional(
-    z.string({
-      description: "Router address",
-    }),
-  ),
-  inboundAddress: z.optional(
-    z.string({
-      description: "Inbound address",
-    }),
-  ),
-  expiration: z.optional(
-    z.string({
-      description: "Expiration",
-    }),
-  ),
-  memo: z.optional(
-    z.string({
-      description: "Memo",
-    }),
-  ),
-  evmTransactionDetails: z.optional(EVMTransactionDetailsSchema),
-  routePathArray: z.optional(z.array(z.string())),
-  estimatedTime: z.optional(EstimatedTimeSchema),
-  totalSlippageBps: z.number({
-    description: "Total slippage in bps",
-  }),
-  legs: z.array(RouteQuoteLegSchema),
-  // TODO use enum
-  errorCode: z.optional(z.string()),
-  warnings: RouteQuoteWarningSchema,
-  meta: RouteQuoteMetadataSchema,
-});
-
-export type RouteQuote = z.infer<typeof RouteQuoteSchema>;
-
 const QuoteResponseRouteLegItem = z.object({
   provider: z.nativeEnum(ProviderName),
   sellAsset: z.string({
@@ -332,7 +210,7 @@ const QuoteResponseRouteItem = z.object({
     description: "Asset to sell",
   }),
   sellAmount: z.string({
-    description: "sell amount",
+    description: "Sell amount",
   }),
   buyAsset: z.string({
     description: "Asset to buy",
@@ -365,6 +243,7 @@ const QuoteResponseRouteItem = z.object({
     }),
   ),
   evmTransactionDetails: z.optional(EVMTransactionDetailsSchema),
+  transaction: z.optional(z.unknown()), // Can take many forms depending on the chains
   estimatedTime: z.optional(EstimatedTimeSchema), // TODO remove optionality
   totalSlippageBps: z.number({
     description: "Total slippage in bps",

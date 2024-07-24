@@ -23,13 +23,7 @@ type Props = {
 };
 
 const walletOptions = Object.values(WalletOption).filter(
-  (o) =>
-    ![
-      WalletOption.KEPLR,
-      WalletOption.EXODUS,
-      WalletOption.RADIX_WALLET,
-      WalletOption.PHANTOM,
-    ].includes(o),
+  (o) => ![WalletOption.KEPLR, WalletOption.EXODUS, WalletOption.PHANTOM].includes(o),
 );
 
 const AllChainsSupported = [
@@ -124,12 +118,8 @@ export const availableChainsByWallet = {
     Chain.Optimism,
     Chain.Polkadot,
   ],
-  //   [WalletOption.EXODUS]: [
-  //     Chain.Ethereum,
-  //     Chain.BinanceSmartChain,
-  //     Chain.Polygon,
-  //     Chain.Bitcoin,
-  //   ],
+  [WalletOption.EXODUS]: [Chain.Ethereum, Chain.BinanceSmartChain, Chain.Polygon, Chain.Bitcoin],
+  [WalletOption.RADIX_WALLET]: [Chain.Radix],
 };
 
 export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
@@ -183,6 +173,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
 
         case WalletOption.PHANTOM:
           return skClient.connectPhantom?.(chains[0]);
+        case WalletOption.RADIX_WALLET:
+          return skClient.connectRadixWallet?.([Chain.Radix]);
 
         default:
           throw new Error(`Unsupported wallet option: ${option}`);

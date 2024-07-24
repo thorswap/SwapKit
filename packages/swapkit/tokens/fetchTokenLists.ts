@@ -1,5 +1,5 @@
 import { SwapKitApi } from "@swapkit/api";
-import { Chain } from "@swapkit/helpers";
+import { Chain, ProviderName } from "@swapkit/helpers";
 
 function parseChain(chain: string) {
   if (chain === "ARBITRUM") return Chain.Arbitrum;
@@ -13,8 +13,8 @@ function parseIdentifier(identifier: string) {
   return identifier;
 }
 
-const providers = (await SwapKitApi.getTokenListProvidersV2()).filter(
-  (provider) => provider.provider !== "THORCHAIN_STREAMING",
+const providers = (await SwapKitApi.getTokenListProvidersV2()).filter((provider) =>
+  [ProviderName.THORCHAIN_STREAMING, ProviderName.MAYACHAIN_STREAMING].includes(provider.provider),
 );
 
 console.info(

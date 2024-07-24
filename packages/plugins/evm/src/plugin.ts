@@ -95,7 +95,7 @@ function plugin({ getWallet }: SwapKitPluginParams) {
     approveAssetValue,
     isAssetValueApproved,
     supportedSwapkitProviders: [
-      ProviderName.TRADERJOE_V1,
+      ProviderName.TRADERJOE_V2,
       ProviderName.PANGOLIN_V1,
       ProviderName.UNISWAP_V2,
       ProviderName.SUSHISWAP_V2,

@@ -1,4 +1,4 @@
-import { type AssetValue, Chain, ChainId } from "@swapkit/helpers";
+import { type AssetValue, Chain, ChainId, ProviderName } from "@swapkit/helpers";
 import { z } from "zod";
 
 export const ApiV2ErrorSchema = z.object({
@@ -21,20 +21,6 @@ export const AssetValueSchema = z.object({
     }),
   ),
 });
-
-export enum ProviderName {
-  CHAINFLIP = "CHAINFLIP",
-  TRADERJOE_V1 = "TRADERJOE_V1",
-  PANGOLIN_V1 = "PANGOLIN_V1",
-  UNISWAP_V2 = "UNISWAP_V2",
-  THORCHAIN = "THORCHAIN",
-  THORCHAIN_STREAMING = "THORCHAIN_STREAMING",
-  MAYACHAIN = "MAYACHAIN",
-  ONEINCH = "ONEINCH",
-  SUSHISWAP_V2 = "SUSHISWAP_V2",
-  WOOFI_V2 = "WOOFI_V2",
-  PANCAKESWAP = "PANCAKESWAP",
-}
 
 export enum TxnType {
   native_send = "native_send", // native send, msgSend, etc.

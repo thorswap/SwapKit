@@ -26,6 +26,7 @@ import {
   cosmosValidateAddress,
 } from "@swapkit/toolbox-cosmos";
 import { type TransferParams as EVMTransferParams, evmValidateAddress } from "@swapkit/toolbox-evm";
+import { validateAddress as radixValidateAddress } from "@swapkit/toolbox-radix";
 import { substrateValidateAddress } from "@swapkit/toolbox-substrate";
 import { type UTXOTransferParams, utxoValidateAddress } from "@swapkit/toolbox-utxo";
 
@@ -232,6 +233,9 @@ export function SwapKit<
       case Chain.Polkadot:
         return substrateValidateAddress({ address, chain });
 
+      case Chain.Radix:
+        return radixValidateAddress(address);
+
       default:
         return false;
     }
@@ -246,7 +250,6 @@ export function SwapKit<
     }
 
     if ("getBalance" in wallet) {
-      // @ts-expect-error TODO add getBalance to radix
       const balance = await wallet.getBalance(wallet.address, potentialScamFilter);
       wallet.balance = balance?.length ? balance : defaultBalance;
     }
@@ -272,13 +275,14 @@ export function SwapKit<
     from,
     recipient,
     assetValue,
+    memo,
     feeOptionKey,
   }: UTXOTransferParams | EVMTransferParams | CosmosTransferParams) {
     const chain = assetValue.chain as WalletChain;
     const wallet = getWallet(chain);
     if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
 
-    return wallet.transfer({ from, recipient, assetValue, feeOptionKey });
+    return wallet.transfer({ from, recipient, assetValue, feeOptionKey, memo });
   }
 
   function signMessage({ chain, message }: { chain: Chain; message: string }) {
