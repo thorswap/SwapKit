@@ -4,7 +4,6 @@ import {
   type ConnectWalletParams,
   DerivationPath,
   type DerivationPathArray,
-  RPCUrl,
   type WalletChain,
   WalletOption,
   type WalletTxParams,
@@ -169,18 +168,6 @@ const getWalletMethodsForChain = async ({
       return { address: signer.address, walletMethods: toolbox };
     }
 
-    case Chain.Radix: {
-      const { getRadixCoreApiClient, RadixToolbox, createPrivateKey, RadixMainnet } = await import(
-        "@swapkit/toolbox-radix"
-      );
-
-      const api = await getRadixCoreApiClient(RPCUrl.Radix, RadixMainnet);
-      const signer = await createPrivateKey(phrase);
-      const toolbox = await RadixToolbox({ api, signer });
-
-      return { address: toolbox.getAddress(), walletMethods: toolbox };
-    }
-
     case Chain.Solana: {
       const { SOLToolbox } = await import("@swapkit/toolbox-solana");
       const toolbox = SOLToolbox({ rpcUrl });
@@ -205,7 +192,14 @@ function connectKeystore({
   addChain,
   apis,
   rpcUrls,
-  config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
+  config: {
+    thorswapApiKey,
+    covalentApiKey,
+    ethplorerApiKey,
+    blockchairApiKey,
+    stagenet,
+    radixDappConfig,
+  },
 }: ConnectWalletParams) {
   return async function connectKeystore(
     chains: WalletChain[],

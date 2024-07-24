@@ -24,6 +24,7 @@ export function getExplorerTxUrl({ chain, txHash }: { txHash: string; chain: Cha
     case Chain.Bitcoin:
     case Chain.BitcoinCash:
     case Chain.Dogecoin:
+    case Chain.Radix:
       return `${baseUrl}/transaction/${txHash.toLowerCase()}`;
 
     default:
@@ -36,6 +37,7 @@ export function getExplorerAddressUrl({ chain, address }: { address: string; cha
 
   switch (chain) {
     case Chain.Solana:
+    case Chain.Radix:
       return `${baseUrl}/account/${address}`;
 
     default:

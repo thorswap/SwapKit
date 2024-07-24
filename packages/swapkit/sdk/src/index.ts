@@ -1,6 +1,7 @@
 import { SwapKit, type SwapKitParams } from "@swapkit/core";
 import { ChainflipPlugin } from "@swapkit/plugin-chainflip";
 import { EVMPlugin } from "@swapkit/plugin-evm";
+import { RadixPlugin } from "@swapkit/plugin-radix";
 import { MayachainPlugin, ThorchainPlugin } from "@swapkit/plugin-thorchain";
 import { wallets as defaultWallets } from "@swapkit/wallets";
 
@@ -12,6 +13,7 @@ const defaultPlugins = {
   ...EVMPlugin,
   ...MayachainPlugin,
   ...ThorchainPlugin,
+  ...RadixPlugin,
 };
 
 export const createSwapKit = <P extends typeof defaultPlugins, W extends typeof defaultWallets>({
