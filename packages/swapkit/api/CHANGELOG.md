@@ -1,5 +1,14 @@
 # @swapkit/api
 
+## 1.3.1
+
+### Patch Changes
+
+- [`0e28a30`](https://github.com/thorswap/SwapKit/commit/0e28a3076174efaba97c34158eda42585bb369ab) Thanks [@towanTG](https://github.com/towanTG)! - Adds support for stagenet to RUNEPool requests
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.2.0
+
 ## 1.3.0
 
 ### Minor Changes
