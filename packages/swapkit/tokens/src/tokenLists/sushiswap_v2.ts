@@ -2,14 +2,14 @@ export const list = {
   provider: "SUSHISWAP_V2",
   chainId: "1",
   name: "SUSHISWAP_V2",
-  timestamp: "2024-08-26T08:30:39.163Z",
+  timestamp: "2024-08-27T16:30:37.843Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: [],
-  count: 96,
+  count: 93,
   tokens: [
     {
       address: "0x4Af698B479D0098229DC715655c667Ceb6cd8433",
@@ -100,16 +100,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.bdi-0x0309c98b1bffa350bcb3f9fb9780970ca32a5060.png",
       ticker: "BDI",
-    },
-    {
-      address: "0xF17e65822b568B3903685a7c9F496CF7656Cc6C2",
-      chain: "ETH",
-      chainId: "1",
-      decimals: 18,
-      identifier: "ETH.BICO-0XF17E65822B568B3903685A7C9F496CF7656CC6C2",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.bico-0xf17e65822b568b3903685a7c9f496cf7656cc6c2.png",
-      ticker: "BICO",
     },
     {
       address: "0x1A4b46696b2bB4794Eb3D4c26f1c55F9170fa4C5",
@@ -722,16 +712,6 @@ export const list = {
       ticker: "SPELL",
     },
     {
-      address: "0x00813E3421E1367353BfE7615c7f7f133C89df74",
-      chain: "ETH",
-      chainId: "1",
-      decimals: 18,
-      identifier: "ETH.SPS-0X00813E3421E1367353BFE7615C7F7F133C89DF74",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.sps-0x00813e3421e1367353bfe7615c7f7f133c89df74.png",
-      ticker: "SPS",
-    },
-    {
       address: "0x8d137e3337eb1B58A222Fef2B2Cc7C423903d9cf",
       chain: "ETH",
       chainId: "1",
@@ -850,16 +830,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.usdt-0xdac17f958d2ee523a2206206994597c13d831ec7.png",
       ticker: "USDT",
-    },
-    {
-      address: "0xcB84d72e61e383767C4DFEb2d8ff7f4FB89abc6e",
-      chain: "ETH",
-      chainId: "1",
-      decimals: 18,
-      identifier: "ETH.VEGA-0XCB84D72E61E383767C4DFEB2D8FF7F4FB89ABC6E",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.vega-0xcb84d72e61e383767c4dfeb2d8ff7f4fb89abc6e.png",
-      ticker: "VEGA",
     },
     {
       address: "0x135B810e48e4307AB2a59ea294A6f1724781bD3C",

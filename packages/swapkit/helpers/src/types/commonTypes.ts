@@ -47,6 +47,14 @@ export type ConnectConfig = {
    * @optional for setting the chainflip broker url
    */
   chainflipBrokerUrl?: string;
+  /**
+   * @optional for setting the chainflip radix dapp config
+   */
+  radixDappConfig?: {
+    dAppDefinitionAddress: string;
+    applicationName: string;
+    applicationVersion: string;
+  };
 };
 
 export type ConnectWalletParams<M = { [key in string]: NotWorth }> = {

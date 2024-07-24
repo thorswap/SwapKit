@@ -1,24 +1,27 @@
 import { DataRequestBuilder, RadixDappToolkit } from "@radixdlt/radix-dapp-toolkit";
 import {
+  type AssetValue,
   Chain,
   type ConnectWalletParams,
-  RPCUrl,
+  SwapKitNumber,
   WalletOption,
   setRequestClientConfig,
 } from "@swapkit/helpers";
-import { RadixMainnet, type RadixSigner } from "@swapkit/toolbox-radix";
+import { RadixMainnet, type RadixNetwork, type RadixSigner } from "@swapkit/toolbox-radix";
+
+type RadixDappConfig = {
+  dAppDefinitionAddress: string;
+  network: RadixNetwork;
+  applicationName: string;
+  applicationVersion: string;
+};
 
 // TODO figure out way to make wallet work nicely with toolbox without reimplementing all the methods
-const RadixSignerInstance = (): RadixSigner & { getAddress: () => Promise<string> } => {
-  const rdt = RadixDappToolkit({
-    dAppDefinitionAddress: "account_rdx128r289p58222hcvev7frs6kue76pl7pdcnw8725aw658v0zggkh9ws",
-    networkId: RadixMainnet.networkId,
-    applicationName: "Swapkit Playground",
-    applicationVersion: "1.0.0",
-  });
-
+const RadixSignerInstance = (
+  rdt: RadixDappToolkit,
+): RadixSigner & { getAddress: () => Promise<string> } => {
   return {
-    getAddress: () => {
+    getAddress: async () => {
       return new Promise((resolve) => {
         const existingWalletData = rdt.walletApi.getWalletData();
         const account = existingWalletData?.accounts?.[0];
@@ -56,15 +59,13 @@ const RadixSignerInstance = (): RadixSigner & { getAddress: () => Promise<string
   };
 };
 
-const getWalletMethods = async () => {
-  const { getRadixCoreApiClient, RadixToolbox, RadixMainnet } = await import(
-    "@swapkit/toolbox-radix"
-  );
+const getWalletMethods = async (dappConfig: RadixDappConfig) => {
+  const { RadixToolbox } = await import("@swapkit/toolbox-radix");
 
-  const api = await getRadixCoreApiClient(RPCUrl.Radix, RadixMainnet);
+  const rdt = RadixDappToolkit({ ...dappConfig, networkId: dappConfig.network.networkId });
 
-  const signer = await RadixSignerInstance();
-  const toolbox = await RadixToolbox({ api, signer });
+  const signer = await RadixSignerInstance(rdt);
+  const toolbox = await RadixToolbox({ network: dappConfig.network, dappConfig, signer });
 
   const address = await signer.getAddress();
 
@@ -72,17 +73,65 @@ const getWalletMethods = async () => {
     address,
     walletMethods: {
       ...toolbox,
-      getAddress: signer.getAddress,
       getBalance: () => toolbox.getBalance(address),
+      transfer: async (params: { assetValue: AssetValue; recipient: string; from: string }) => {
+        const manifest = toolbox.simpleTransferManifest({
+          assetValue: params.assetValue,
+          fees: new SwapKitNumber(5),
+          from: params.from,
+          recipient: params.from,
+        });
+
+        const manifestString = await toolbox.convertInstructionsToManifest(manifest);
+
+        const txResult = (
+          await rdt.walletApi.sendTransaction({
+            transactionManifest: manifestString.value as string,
+            message: `Transfer to ${params.recipient}`,
+          })
+        ).unwrapOr(null)?.transactionIntentHash;
+
+        if (!txResult) {
+          throw new Error("Transaction failed");
+        }
+
+        return txResult;
+      },
+      signAndBroadcast: async ({ manifest, message }: { manifest: string; message: string }) => {
+        const txResult = (
+          await rdt.walletApi.sendTransaction({
+            transactionManifest: manifest,
+            message,
+          })
+        ).unwrapOr(null)?.transactionIntentHash;
+
+        if (!txResult) {
+          throw new Error("Transaction failed");
+        }
+
+        return txResult;
+      },
+      getAddress: signer.getAddress,
     },
   };
 };
 
-function connectRadixWallet({ addChain, config: { thorswapApiKey } }: ConnectWalletParams) {
+function connectRadixWallet({
+  addChain,
+  config: { thorswapApiKey },
+  radixDappConfig = {
+    network: RadixMainnet,
+    dAppDefinitionAddress: "account_rdx128r289p58222hcvev7frs6kue76pl7pdcnw8725aw658v0zggkh9ws",
+    applicationName: "Swapkit Playground",
+    applicationVersion: "0.0.1",
+  },
+}: ConnectWalletParams & {
+  radixDappConfig?: RadixDappConfig;
+}) {
   return async function connectRadixWallet(_chains: Chain.Radix[]) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
-    const { address, walletMethods } = await getWalletMethods();
+    const { address, walletMethods } = await getWalletMethods(radixDappConfig);
 
     addChain({
       chain: Chain.Radix,

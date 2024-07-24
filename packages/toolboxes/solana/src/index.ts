@@ -22,7 +22,7 @@ interface ConnectOpts {
 
 export { SOLToolbox } from "./toolbox";
 
-export type SolanaWallet = {
+export type SolanaWallets = {
   [Chain.Solana]: ReturnType<typeof SOLToolbox>;
 };
 

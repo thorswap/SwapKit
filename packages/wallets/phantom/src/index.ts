@@ -34,7 +34,6 @@ function connectPhantom({ addChain, config: { thorswapApiKey }, rpcUrls }: Conne
         address,
         walletType: WalletOption.PHANTOM,
         balance: [],
-        transfer: console.log,
       });
 
       return true;
