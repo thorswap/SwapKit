@@ -55,10 +55,12 @@ export async function getTNSPreferredAsset(tns: string) {
   return AssetValue.from({ asyncTokenLookup: true, asset: tnsDetails.preferred_asset });
 }
 
-export function getRunePoolInfo() {
-  return RequestClient.get<RunePoolInfo>(`${baseUrl()}/runepool`);
+export function getRunePoolInfo(params?: ThornodeEndpointParams) {
+  return RequestClient.get<RunePoolInfo>(`${baseUrl(params)}/runepool`);
 }
 
-export function getRunePoolProviderInfo(thorAddress: string) {
-  return RequestClient.get<RunePoolProviderInfo>(`${baseUrl()}/rune_provider/${thorAddress}`);
+export function getRunePoolProviderInfo(params: ThornodeEndpointParams & { thorAddress: string }) {
+  return RequestClient.get<RunePoolProviderInfo>(
+    `${baseUrl(params)}/rune_provider/${params.thorAddress}`,
+  );
 }
