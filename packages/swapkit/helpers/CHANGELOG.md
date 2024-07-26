@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.2.1
+
+### Patch Changes
+
+- [#920](https://github.com/thorswap/SwapKit/pull/920) [`eddb1bd`](https://github.com/thorswap/SwapKit/commit/eddb1bdc16bb92eb3182920ea08be70bb5329d0e) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Thorchain message format to fit new validation and fixes transfer memo usage
+
 ## 1.2.0
 
 ### Minor Changes
