@@ -223,8 +223,12 @@ export function cosmosTransfer({
       },
     ];
 
-    const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 2, memo);
-    return transactionHash;
+    try {
+      const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 2, memo);
+      return transactionHash;
+    } catch (error) {
+      throw new SwapKitError("core_transaction_failed", { error });
+    }
   };
 }
 
