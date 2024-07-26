@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.2.2
+
+### Patch Changes
+
+- [`d95b0ca`](https://github.com/thorswap/SwapKit/commit/d95b0cac8c78bb1a2fe13fd97e309e534578509d) Thanks [@towanTG](https://github.com/towanTG)! - Fixes broken request client
+
 ## 1.2.1
 
 ### Patch Changes
