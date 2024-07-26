@@ -1,5 +1,21 @@
 # @swapkit/core
 
+## 1.1.6
+
+### Patch Changes
+
+- [#920](https://github.com/thorswap/SwapKit/pull/920) [`eddb1bd`](https://github.com/thorswap/SwapKit/commit/eddb1bdc16bb92eb3182920ea08be70bb5329d0e) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Thorchain message format to fit new validation and fixes transfer memo usage
+
+- Updated dependencies [[`eddb1bd`](https://github.com/thorswap/SwapKit/commit/eddb1bdc16bb92eb3182920ea08be70bb5329d0e), [`eddb1bd`](https://github.com/thorswap/SwapKit/commit/eddb1bdc16bb92eb3182920ea08be70bb5329d0e)]:
+  - @swapkit/toolbox-cosmos@1.0.11
+  - @swapkit/helpers@1.2.1
+  - @swapkit/api@1.4.0
+  - @swapkit/plugin-evm@1.0.11
+  - @swapkit/toolbox-evm@1.1.5
+  - @swapkit/toolbox-solana@1.0.10
+  - @swapkit/toolbox-substrate@1.1.5
+  - @swapkit/toolbox-utxo@1.0.10
+
 ## 1.1.5
 
 ### Patch Changes
