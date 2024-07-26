@@ -1,5 +1,11 @@
 # @swapkit/wallet-exodus
 
+## 1.1.0
+
+### Minor Changes
+
+- [#923](https://github.com/thorswap/SwapKit/pull/923) [`20d7edb`](https://github.com/thorswap/SwapKit/commit/20d7edb054dd18651e82bf45e7c65f4a28008834) Thanks [@towanTG](https://github.com/towanTG)! - Bumps passkeys lib versions
+
 ## 1.0.11
 
 ### Patch Changes
