@@ -57,6 +57,7 @@ const errorCodes = {
   core_transaction_invalid_sender_address: 10313,
   core_transaction_deposit_server_error: 10314,
   core_transaction_user_rejected: 10315,
+  core_transaction_failed: 10316,
   /**
    * Wallets
    */

@@ -272,13 +272,14 @@ export function SwapKit<
     from,
     recipient,
     assetValue,
+    memo,
     feeOptionKey,
   }: UTXOTransferParams | EVMTransferParams | CosmosTransferParams) {
     const chain = assetValue.chain as WalletChain;
     const wallet = getWallet(chain);
     if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
 
-    return wallet.transfer({ from, recipient, assetValue, feeOptionKey });
+    return wallet.transfer({ from, recipient, assetValue, feeOptionKey, memo });
   }
 
   function signMessage({ chain, message }: { chain: Chain; message: string }) {

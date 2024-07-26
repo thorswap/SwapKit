@@ -40,7 +40,7 @@ export const transferMsgAmino = ({
     amount: [
       {
         amount: assetValue.getBaseValue("string"),
-        denom: getDenom(assetValue.symbol, true),
+        denom: getDenom(assetValue.symbol, true).toUpperCase(),
       },
     ],
   },
@@ -151,12 +151,12 @@ export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
       coins: (msg as MsgDeposit).value.coins.map((coin: { asset: string; amount: string }) => {
         const assetValue = AssetValue.from({ asset: coin.asset });
 
-        const symbol = assetValue.isSynthetic
-          ? assetValue.symbol.split("/")?.[1]?.toLowerCase()
-          : assetValue.symbol.toLowerCase();
-        const chain = assetValue.isSynthetic
-          ? assetValue.symbol.split("/")?.[0]?.toLowerCase()
-          : assetValue.chain.toLowerCase();
+        const symbol = (
+          assetValue.isSynthetic ? assetValue.symbol.split("/")?.[1] : assetValue.symbol
+        )?.toUpperCase();
+        const chain = (
+          assetValue.isSynthetic ? assetValue.symbol.split("/")?.[0] : assetValue.chain
+        )?.toUpperCase();
 
         return {
           ...coin,
@@ -194,15 +194,7 @@ export const buildEncodedTxBody = ({
 
 export const getDenomWithChain = ({ symbol, chain }: AssetValue) => {
   if (chain === Chain.Maya) {
-    return (
-      symbol.toUpperCase() !== "CACAO"
-        ? symbol.toLowerCase()
-        : `${Chain.Maya}.${symbol.toUpperCase()}`
-    ).toUpperCase();
+    return (symbol.toUpperCase() !== "CACAO" ? symbol : `${Chain.Maya}.${symbol}`).toUpperCase();
   }
-  return (
-    symbol.toUpperCase() !== "RUNE"
-      ? symbol.toLowerCase()
-      : `${Chain.THORChain}.${symbol.toUpperCase()}`
-  ).toUpperCase();
+  return (symbol.toUpperCase() !== "RUNE" ? symbol : `${Chain.THORChain}.${symbol}`).toUpperCase();
 };
