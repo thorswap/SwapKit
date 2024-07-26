@@ -2,8 +2,8 @@
   "author": "swapkit-oss",
   "dependencies": {
     "@swapkit/helpers": "workspace:*",
-    "@passkeys/core": "2.1.2",
-    "@passkeys/react": "2.3.0",
+    "@passkeys/core": "3.1.0",
+    "@passkeys/react": "2.3.1",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "sats-connect": "2.4.1"
