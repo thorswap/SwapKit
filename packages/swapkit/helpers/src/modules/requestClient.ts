@@ -1,10 +1,11 @@
-type Options = {
+type Options = Parameters<typeof fetch>[1] & {
   headers?: Record<string, string>;
   apiKey?: string;
   method?: "GET" | "POST";
   onError?: (error: NotWorth) => NotWorth;
   responseHandler?: (response: NotWorth) => NotWorth;
-  [key: string]: NotWorth;
+  searchParams?: Record<string, string>;
+  json?: unknown;
 };
 
 let clientConfig: Options = {};
@@ -18,14 +19,30 @@ export function setRequestClientConfig({ apiKey, ...config }: Options) {
   clientConfig = { ...config, apiKey };
 }
 
-async function fetchWithConfig(url: string, options: Options = {}) {
+async function fetchWithConfig(url: string, options: Options) {
   const { apiKey, ...config } = clientConfig;
-  const headers = { ...defaultRequestHeaders, ...config.headers, ...options.headers };
+  const { searchParams, json, body } = options;
+  const headers = { ...defaultRequestHeaders, ...config.headers, ...options.headers } as Record<
+    string,
+    string
+  >;
+
+  const bodyToSend = json ? JSON.stringify(json) : body;
+
+  const urlInstance = new URL(url);
+  if (searchParams) {
+    urlInstance.search = new URLSearchParams(searchParams).toString();
+  }
 
   if (apiKey) headers["x-api-key"] = apiKey;
 
   try {
-    const response = await fetch(url, { ...config, ...options, headers });
+    const response = await fetch(urlInstance.toString(), {
+      ...config,
+      ...options,
+      body: bodyToSend,
+      headers,
+    });
     const body = await response.json();
 
     if (options.responseHandler) return options.responseHandler(body);
