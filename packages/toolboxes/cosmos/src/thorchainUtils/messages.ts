@@ -40,7 +40,7 @@ export const transferMsgAmino = ({
     amount: [
       {
         amount: assetValue.getBaseValue("string"),
-        denom: getDenom(assetValue.symbol, true).toUpperCase(),
+        denom: getDenom(assetValue.symbol, true),
       },
     ],
   },
