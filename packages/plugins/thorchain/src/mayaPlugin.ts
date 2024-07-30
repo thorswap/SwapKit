@@ -193,7 +193,7 @@ function plugin({ getWallet, stagenet = false }: SwapKitPluginParams) {
     deposit,
     registerMAYAName: register,
     swap,
-    supportedSwapkitProviders: [ProviderName.MAYACHAIN],
+    supportedSwapkitProviders: [ProviderName.MAYACHAIN, ProviderName.MAYACHAIN_STREAMING],
     /**
      * @deprecated use registerMAYAName instead
      */
