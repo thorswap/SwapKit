@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.2.3
+
+### Patch Changes
+
+- [`d386a59`](https://github.com/thorswap/SwapKit/commit/d386a5976d4844e62e7614b9cab9caa13c36db2f) Thanks [@towanTG](https://github.com/towanTG)! - Fixes supported providers for maya plugin
+
 ## 1.2.2
 
 ### Patch Changes

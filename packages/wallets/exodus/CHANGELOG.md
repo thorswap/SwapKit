@@ -1,5 +1,14 @@
 # @swapkit/wallet-exodus
 
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [[`d386a59`](https://github.com/thorswap/SwapKit/commit/d386a5976d4844e62e7614b9cab9caa13c36db2f)]:
+  - @swapkit/helpers@1.2.3
+  - @swapkit/toolbox-evm@1.1.7
+  - @swapkit/toolbox-utxo@1.0.12
+
 ## 1.1.0
 
 ### Minor Changes
