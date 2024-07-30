@@ -1,5 +1,19 @@
 # @swapkit/plugin-thorchain
 
+## 1.1.8
+
+### Patch Changes
+
+- [`d386a59`](https://github.com/thorswap/SwapKit/commit/d386a5976d4844e62e7614b9cab9caa13c36db2f) Thanks [@towanTG](https://github.com/towanTG)! - Fixes supported providers for maya plugin
+
+- Updated dependencies [[`c60b113`](https://github.com/thorswap/SwapKit/commit/c60b11391a80a14065a665d4cc9f3517fc2fbd7f), [`d386a59`](https://github.com/thorswap/SwapKit/commit/d386a5976d4844e62e7614b9cab9caa13c36db2f)]:
+  - @swapkit/toolbox-cosmos@1.0.13
+  - @swapkit/helpers@1.2.3
+  - @swapkit/api@1.4.2
+  - @swapkit/toolbox-evm@1.1.7
+  - @swapkit/toolbox-substrate@1.1.7
+  - @swapkit/toolbox-utxo@1.0.12
+
 ## 1.1.7
 
 ### Patch Changes
