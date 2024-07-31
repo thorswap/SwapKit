@@ -2,13 +2,8 @@
 description: Find out which providers we currently support.
 ---
 
-# Requesting supported Providers
+# Fetching tokenlists
 
-{% hint style="info" %}
-The full API documentation for the \`/supportedProviders\` endpoint can be found \[here].
-{% endhint %}
-
-We are continually working to expand the number of providers that the API supports, in order to facilitate a better trading experience, and find the most optimal route for every trade.
 
 To get a full list of the providers supported by the API, the `/supportedProviders` endpoint can be queried:
 
@@ -19,8 +14,7 @@ const getSupportedProviders = async () => {
 }
 ```
 
-The result contains a list of providers like the following:
-
+Sample response:
 ```
 [
     "ONEINCH",
@@ -31,7 +25,17 @@ The result contains a list of providers like the following:
     "ONEINCH-AVAX",
     "PANGOLIN",
     "TRADERJOE",
+    "KYBER-AVAX",
     "WOOFI-AVAX",
     "PANCAKESWAPV2-BSC"
 ]
 ```
+
+You can use those values on the /list endpoint.
+
+Example request
+```
+curl --location --request GET 'https://api.thorswap.net/tokenlist/list?name=PANGOLIN'
+```
+
+
