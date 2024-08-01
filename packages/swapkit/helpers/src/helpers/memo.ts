@@ -162,8 +162,9 @@ export function getMemoForWithdraw({
   return `${MemoType.WITHDRAW}:${chain}.${shortenedSymbol}:${basisPoints}${targetPart}`;
 }
 
-export function getMemoForRunePoolDeposit() {
-  return `${MemoType.RUNEPOOL_DEPOSIT}`;
+export function getMemoForRunePoolDeposit({...affiliate
+}: WithAffiliate<{ basisPoints: number }>) {
+  return addAffiliate(`${MemoType.RUNEPOOL_DEPOSIT}:`, affiliate);
 }
 
 export function getMemoForRunePoolWithdraw({
@@ -195,12 +196,10 @@ export type MemoOptions<T extends MemoType> = {
     singleSide?: boolean;
   }>;
   [MemoType.NAME_REGISTER]: { name: string; chain: string; address: string };
-  [MemoType.RUNEPOOL_DEPOSIT]: {};
-  [MemoType.RUNEPOOL_WITHDRAW]: {
+  [MemoType.RUNEPOOL_DEPOSIT]: WithAffiliate<{}>;
+  [MemoType.RUNEPOOL_WITHDRAW]: WithAffiliate<{
     basisPoints: number;
-    affiliateAddress?: string;
-    affiliateBasisPoints?: number;
-  };
+  }>;
 }[T];
 
 /**
