@@ -1,9 +1,148 @@
 import { z } from "zod";
 
+export enum ErrorCode {
+  unknownError = "unknownError",
+  test_error = "test_error",
+  providerDetailsError = "providerDetailsError",
+  blockHeaderNotFound = "blockHeaderNotFound",
+  blockHashNotFoundAtHeight = "blockHashNotFoundAtHeight",
+  blockHashNotFoundAtHash = "blockHashNotFoundAtHash",
+  txHashMissing = "txHashMissing",
+  assetValueMissingInfo = "assetValueMissingInfo",
+  invalidAsset = "invalidAsset",
+  blockIsRequired = "blockIsRequired",
+  currentBlockHeaderNotFound = "currentBlockHeaderNotFound",
+  failedToRetrieveBalance = "failedToRetrieveBalance",
+  failedToRetrieveBlock = "failedToRetrieveBlock",
+  failedToRetrieveFees = "failedToRetrieveFees",
+  notImplementedBCH = "notImplementedBCH",
+  notImplementedDoge = "notImplementedDoge",
+  noPoolsFound = "noPoolsFound",
+  noVaultsFound = "noVaultsFound",
+  noTxFound = "noTxFound",
+  noInputCoinFound = "noInputCoinFound",
+  noBlockDataFound = "noBlockDataFound",
+  multipleCosmosMessages = "multipleCosmosMessages",
+  heightOrHashNotProvided = "heightOrHashNotProvided",
+  unknownDenom = "unknownDenom",
+  invalidBlockHeight = "invalidBlockHeight",
+  timestampExtrinsicNoArgumentsForBlock = "timestampExtrinsicNoArgumentsForBlock",
+  timestampExtrinsicNoTimestampForBlock = "timestampExtrinsicNoTimestampForBlock",
+  noTimestampExtrinsicForHash = "noTimestampExtrinsicForHash",
+  timestampExtrinsicNoArgumentsForHash = "timestampExtrinsicNoArgumentsForHash",
+  txMemoUndefined = "txMemoUndefined",
+  txMemoIncorrect = "txMemoIncorrect",
+  txTypeNotFound = "txTypeNotFound",
+  txNoMessage = "txNoMessage",
+  txNotFound = "txNotFound",
+  txReceiptNotFound = "txReceiptNotFound",
+  txParsingError = "txParsingError",
+  blockNotFound = "blockNotFound",
+  balanceNotFound = "balanceNotFound",
+  configError = "configError",
+  noQuoteResponse = "noQuoteResponse",
+  noPoolAssetsFound = "noPoolAssetsFound",
+  noThorchainPools = "noThorchainPools",
+  noMayachainPools = "noMayachainPools",
+  invalidAffiliateFee = "invalidAffiliateFee",
+  invalidBuyAssetAddress = "invalidBuyAssetAddress",
+  invalidSellAssetAddress = "invalidSellAssetAddress",
+  invalidSourceAddress = "invalidSourceAddress",
+  invalidDestinationAddress = "invalidDestinationAddress",
+  sourceAddressIsSmartContract = "sourceAddressIsSmartContract",
+  destinationAddressIsSmartContract = "destinationAddressIsSmartContract",
+  invalidChainId = "invalidChainId",
+  unsupportedChainId = "unsupportedChainId",
+  unsupportedEVMChainId = "unsupportedEVMChainId",
+  noWhitelistTokens = "noWhitelistTokens",
+  failedFetchGasPrice = "failedFetchGasPrice",
+  failedToCreateDepositChannel = "failedToCreateDepositChannel",
+  noProviderDetailsFound = "noProviderDetailsFound",
+  noTokenListsFound = "noTokenListsFound",
+  tokenNotFound = "tokenNotFound",
+  tokenPriceNotFound = "tokenPriceNotFound",
+  swapAmountTooSmall = "swapAmountTooSmall",
+  legsArrayIsEmpty = "legsArrayIsEmpty",
+  failedToFetchQuoteForLeg = "failedToFetchQuoteForLeg",
+  noBlockHeaderFound = "noBlockHeaderFound",
+  failedToSimulateSwap = "failedToSimulateSwap",
+  addressScreeningFailed = "addressScreeningFailed",
+  noLiquidtyProvidersFound = "noLiquidtyProvidersFound",
+  noSaversFound = "noSaversFound",
+  noInboundAddressesFound = "noInboundAddressesFound",
+  noInboundAddressFoundForChain = "noInboundAddressFoundForChain",
+  noLastBlocksFound = "noLastBlocksFound",
+  noVersionFound = "noVersionFound",
+  noConstantsFound = "noConstantsFound",
+  noMimirsFound = "noMimirsFound",
+  noRoutesFound = "noRoutesFound",
+  quoteNotFound = "quoteNotFound",
+  ledgerSignFailed = "ledgerSignFailed",
+  ledgerFetchSwapFailed = "ledgerFetchSwapFailed",
+  failedToFetchTx = "failedToFetchTx",
+  failedBuildTransactionDetails = "failedBuildTransactionDetails",
+  noLegsForRoute = "noLegsForRoute",
+  noRouterAddressFound = "noRouterAddressFound",
+  noAggregatorAddressFound = "noAggregatorAddressFound",
+  noContractInstanceFound = "noContractInstanceFound",
+  noContractAddressFound = "noContractAddressFound",
+  invalidAffiliate = "invalidAffiliate",
+  providerNotfound = "No provider found",
+  noRecordFound = "No Record found",
+  slippageTooLow = "Slippage too low",
+  tradingHalted = "tradingHalted",
+  noWrappedGasAsset = "noWrappedGasAsset",
+  aggregatorAddressNotFound = "aggregatorAddressNotFound",
+  routerAddressNotFound = "routerAddressNotFound",
+  dummyAddressNotFound = "dummyAddressNotFound",
+  trackerError = "trackerError",
+  noOhlcvDataFound = "noOhlcvDataFound",
+  noTradingPairs = "noTradingPairs",
+  noLoanPositionFound = "noLoanPositionFound",
+  noLendingAvailability = "noLendingAvailability",
+  lendingRepayTooSmall = "lendingRepayTooSmall",
+  missingState = "missingState",
+  ledgerSwapNotFound = "ledgerSwapNotFound",
+  ledgerSwapNotReadyForTracking = "ledgerSwapNotReadyForTracking",
+  errorEstimatingGas = "errorEstimatingGas",
+  apiKeyInvalid = "apiKeyInvalid",
+  apiKeyFailedToUpdate = "apiKeyFailedToUpdate",
+  apiKeyExpired = "apiKeyExpired",
+  unauthorized = "unauthorized",
+  failedToCreateMemo = "failedToCreateMemo",
+  radixIncorrectInstructions = "radixIncorrectInstructions",
+  invalidAddressForChain = "invalidAddressForChain",
+}
+
 export enum WarningCodeEnum {
   highSlippage = "highSlippage",
   highPriceImpact = "highPriceImpact",
 }
+
+export const EVMTransactionSchema = z.object({
+  to: z.string({
+    description: "Address of the recipient",
+  }),
+  from: z.string({
+    description: "Address of the sender",
+  }),
+  gas: z
+    .number({
+      description: "Gas limit",
+    })
+    .optional(),
+  gasPrice: z
+    .string({
+      description: "Gas price",
+    })
+    .optional(),
+  value: z.string({
+    description: "Value to send",
+  }),
+  data: z.string({
+    description: "Data to send",
+  }),
+});
 
 export const EVMTransactionDetailsParamsSchema = z.array(
   z.union([
@@ -182,75 +321,35 @@ export const RouteQuoteWarningSchema = z.array(
   }),
 );
 
-export const RouteQuoteLegSchema = z.object({
+export type EVMTransaction = z.infer<typeof EVMTransactionSchema>;
+
+const QuoteResponseRouteLegItemDev = z.object({
+  provider: z.nativeEnum(ProviderName),
   sellAsset: z.string({
     description: "Asset to sell",
+  }),
+  sellAmount: z.string({
+    description: "Sell amount",
   }),
   buyAsset: z.string({
     description: "Asset to buy",
   }),
-  provider: z.nativeEnum(ProviderName),
   buyAmount: z.string({
-    description: "Amount of asset to buy",
+    description: "Buy amount",
   }),
   buyAmountMaxSlippage: z.string({
-    description: "Amount of asset to buy",
+    description: "Buy amount max slippage",
   }),
-  sellAmount: z.string({
-    description: "Amount of asset to sell",
-  }),
-  sourceAddress: z.string({
-    description: "Source address",
-  }),
-  destinationAddress: z.string({
-    description: "Destination address",
-  }),
-  slippageBps: z.number({
-    description: "Slippage in bps",
-  }),
-  targetAddress: z.optional(
-    z.string({
-      description: "Target address for contract call or transfer address",
-    }),
-  ),
-  inboundAddress: z.optional(
-    z.string({
-      description: "Inbound address",
-    }),
-  ),
-  routerAddress: z.optional(
-    z.string({
-      description: "Inbound address",
-    }),
-  ),
-  contractMethod: z.optional(
-    z.string({
-      description: "Contract method",
-    }),
-  ),
-  fees: z.optional(FeesSchema),
-  estimatedTime: z.optional(EstimatedTimeSchema),
-  memo: z.optional(
-    z.string({
-      description: "Memo",
-    }),
-  ),
-  expiration: z.optional(
-    z.string({
-      description: "Expiration",
-    }),
-  ),
+  fees: z.optional(FeesSchema), // TODO remove optionality
 });
 
-export type RouteQuoteLeg = z.infer<typeof RouteQuoteLegSchema>;
-
-export const RouteQuoteSchema = z.object({
+const QuoteResponseRouteItemDev = z.object({
   providers: z.array(z.nativeEnum(ProviderName)),
   sellAsset: z.string({
     description: "Asset to sell",
   }),
   sellAmount: z.string({
-    description: "sell amount",
+    description: "Sell amount",
   }),
   buyAsset: z.string({
     description: "Asset to buy",
@@ -272,16 +371,6 @@ export const RouteQuoteSchema = z.object({
       description: "Target address",
     }),
   ),
-  routerAddress: z.optional(
-    z.string({
-      description: "Router address",
-    }),
-  ),
-  inboundAddress: z.optional(
-    z.string({
-      description: "Inbound address",
-    }),
-  ),
   expiration: z.optional(
     z.string({
       description: "Expiration",
@@ -292,20 +381,33 @@ export const RouteQuoteSchema = z.object({
       description: "Memo",
     }),
   ),
-  evmTransactionDetails: z.optional(EVMTransactionDetailsSchema),
-  routePathArray: z.optional(z.array(z.string())),
-  estimatedTime: z.optional(EstimatedTimeSchema),
+  fees: FeesSchema,
+  tx: z.optional(EVMTransactionSchema),
+  transaction: z.optional(z.unknown()), // Can take many forms depending on the chains
+  estimatedTime: z.optional(EstimatedTimeSchema), // TODO remove optionality
   totalSlippageBps: z.number({
     description: "Total slippage in bps",
   }),
-  legs: z.array(RouteQuoteLegSchema),
-  // TODO use enum
-  errorCode: z.optional(z.string()),
+  legs: z.array(QuoteResponseRouteLegItemDev),
   warnings: RouteQuoteWarningSchema,
   meta: RouteQuoteMetadataSchema,
 });
 
-export type RouteQuote = z.infer<typeof RouteQuoteSchema>;
+export const QuoteResponseSchemaDev = z.object({
+  quoteId: z.string({
+    description: "Quote ID",
+  }),
+  routes: z.array(QuoteResponseRouteItemDev),
+  error: z.optional(
+    z.string({
+      description: "Error message",
+    }),
+  ),
+});
+
+export type QuoteResponseDev = z.infer<typeof QuoteResponseSchemaDev>;
+export type QuoteResponseRouteDev = z.infer<typeof QuoteResponseRouteItemDev>;
+export type QuoteResponseRouteLegDev = z.infer<typeof QuoteResponseRouteLegItemDev>;
 
 const QuoteResponseRouteLegItem = z.object({
   provider: z.nativeEnum(ProviderName),
@@ -333,7 +435,7 @@ const QuoteResponseRouteItem = z.object({
     description: "Asset to sell",
   }),
   sellAmount: z.string({
-    description: "sell amount",
+    description: "Sell amount",
   }),
   buyAsset: z.string({
     description: "Asset to buy",
@@ -366,6 +468,7 @@ const QuoteResponseRouteItem = z.object({
     }),
   ),
   evmTransactionDetails: z.optional(EVMTransactionDetailsSchema),
+  transaction: z.optional(z.unknown()), // Can take many forms depending on the chains
   estimatedTime: z.optional(EstimatedTimeSchema), // TODO remove optionality
   totalSlippageBps: z.number({
     description: "Total slippage in bps",

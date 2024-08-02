@@ -22,10 +22,12 @@ export function setRequestClientConfig({ apiKey, ...config }: Options) {
 async function fetchWithConfig(url: string, options: Options) {
   const { apiKey, ...config } = clientConfig;
   const { searchParams, json, body } = options;
-  const headers = { ...defaultRequestHeaders, ...config.headers, ...options.headers } as Record<
-    string,
-    string
-  >;
+  const headers = {
+    ...defaultRequestHeaders,
+    ...config.headers,
+    ...options.headers,
+    ...(json ? { "Content-Type": "application/json" } : {}),
+  } as Record<string, string>;
 
   const bodyToSend = json ? JSON.stringify(json) : body;
 

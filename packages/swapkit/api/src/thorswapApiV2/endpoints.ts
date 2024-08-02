@@ -1,8 +1,10 @@
 import {
   type ProviderName,
-  type QuoteRequest as QuoteRequestV2,
+  type QuoteRequest,
   type QuoteResponse,
+  type QuoteResponseDev,
   QuoteResponseSchema,
+  QuoteResponseSchemaDev,
   RequestClient,
   SwapKitError,
 } from "@swapkit/helpers";
@@ -20,8 +22,8 @@ export function getTrackerDetails(payload: TrackerParams) {
   return RequestClient.post<TrackerResponse>(`${baseUrl}/track`, { body: JSON.stringify(payload) });
 }
 
-export async function getSwapQuoteV2(searchParams: QuoteRequestV2, isDev = false) {
-  const response = await RequestClient.post<QuoteResponse>(
+export async function getSwapQuoteV2<T extends boolean>(searchParams: QuoteRequest, isDev?: T) {
+  const response = (await RequestClient.post)<T extends true ? QuoteResponseDev : QuoteResponse>(
     `${isDev ? baseUrlDev : baseUrl}/quote`,
     {
       json: searchParams,
@@ -29,7 +31,7 @@ export async function getSwapQuoteV2(searchParams: QuoteRequestV2, isDev = false
   );
 
   try {
-    return QuoteResponseSchema.parse(response);
+    return isDev ? QuoteResponseSchemaDev.parse(response) : QuoteResponseSchema.parse(response);
   } catch (error) {
     throw new SwapKitError("api_v2_invalid_response", error);
   }

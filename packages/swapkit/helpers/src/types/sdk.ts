@@ -4,7 +4,7 @@ import { z } from "zod";
 
 import type { AssetValue } from "../modules/assetValue";
 import type { Chain, CosmosChain, UTXOChain } from "./chains";
-import type { QuoteResponseRoute } from "./quotes";
+import { ProviderName, type QuoteResponseRoute } from "./quotes";
 
 type CovalentChains =
   | Chain.BinanceSmartChain
@@ -84,9 +84,19 @@ export const QuoteRequestSchema = z
       }),
     providers: z.optional(
       z.array(
-        z.string({
-          description: "List of providers to use",
-        }),
+        z
+          .string({
+            description: "List of providers to use",
+          })
+          .refine(
+            (provider) => {
+              return ProviderName[provider as ProviderName] !== undefined;
+            },
+            {
+              message: "Invalid provider",
+              path: ["providers"],
+            },
+          ),
       ),
     ),
     sourceAddress: z.optional(
@@ -134,6 +144,11 @@ export const QuoteRequestSchema = z
     disableSecurityChecks: z.optional(
       z.boolean({
         description: "Disable security checks",
+      }),
+    ),
+    includeTx: z.optional(
+      z.boolean({
+        description: "Set to true to include an transaction object (EVM only)",
       }),
     ),
   })

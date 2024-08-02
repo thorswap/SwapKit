@@ -459,14 +459,14 @@ const sendTransaction = async (
 
     try {
       const response = await signer.sendTransaction(txObject);
-      return typeof response.hash;
+      return response.hash;
     } catch (_error) {
       const txHex = await signer.signTransaction({
         ...txObject,
         from: address,
       });
       const response = await provider.broadcastTransaction(txHex);
-      return typeof response.hash;
+      return response.hash;
     }
   } catch (error) {
     throw new SwapKitError("toolbox_evm_error_sending_transaction", { error });
