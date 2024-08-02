@@ -1,5 +1,14 @@
 # @swapkit/toolbox-evm
 
+## 1.1.8
+
+### Patch Changes
+
+- [`c84093a`](https://github.com/thorswap/SwapKit/commit/c84093af430488abc3f7df2cec40fc67e08dce52) Thanks [@towanTG](https://github.com/towanTG)! - Fixes returned tx hash for evm and updates api schemas
+
+- Updated dependencies [[`c84093a`](https://github.com/thorswap/SwapKit/commit/c84093af430488abc3f7df2cec40fc67e08dce52)]:
+  - @swapkit/helpers@1.2.4
+
 ## 1.1.7
 
 ### Patch Changes

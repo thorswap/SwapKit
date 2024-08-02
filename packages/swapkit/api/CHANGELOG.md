@@ -1,5 +1,14 @@
 # @swapkit/api
 
+## 1.4.3
+
+### Patch Changes
+
+- [`c84093a`](https://github.com/thorswap/SwapKit/commit/c84093af430488abc3f7df2cec40fc67e08dce52) Thanks [@towanTG](https://github.com/towanTG)! - Fixes content type of request client
+
+- Updated dependencies [[`c84093a`](https://github.com/thorswap/SwapKit/commit/c84093af430488abc3f7df2cec40fc67e08dce52)]:
+  - @swapkit/helpers@1.2.4
+
 ## 1.4.2
 
 ### Patch Changes
