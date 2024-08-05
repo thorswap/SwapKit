@@ -23,7 +23,7 @@ export function getTrackerDetails(payload: TrackerParams) {
 }
 
 export async function getSwapQuoteV2<T extends boolean>(searchParams: QuoteRequest, isDev?: T) {
-  const response = (await RequestClient.post)<T extends true ? QuoteResponseDev : QuoteResponse>(
+  const response = await RequestClient.post<T extends true ? QuoteResponseDev : QuoteResponse>(
     `${isDev ? baseUrlDev : baseUrl}/quote`,
     {
       json: searchParams,

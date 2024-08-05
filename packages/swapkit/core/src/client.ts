@@ -408,9 +408,9 @@ export function SwapKit<
       case Chain.Dogecoin:
       case Chain.Dash:
       case Chain.Litecoin: {
-        const { estimateMaxSendableAmount, address } = getWallet(chain);
+        const { estimateTransactionFee, address } = getWallet(chain);
 
-        return estimateMaxSendableAmount({
+        return estimateTransactionFee({
           ...params,
           feeOptionKey,
           from: address,
