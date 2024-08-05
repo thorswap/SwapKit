@@ -1,5 +1,17 @@
 # @swapkit/core
 
+## 1.1.10
+
+### Patch Changes
+
+- [`b3e12a1`](https://github.com/thorswap/SwapKit/commit/b3e12a1913adca7f8e4cdd542a78f9aaea7b9df3) Thanks [@towanTG](https://github.com/towanTG)! - Fixes gas estimation for dash and promise handling in api
+
+- Updated dependencies [[`b3e12a1`](https://github.com/thorswap/SwapKit/commit/b3e12a1913adca7f8e4cdd542a78f9aaea7b9df3)]:
+  - @swapkit/api@1.4.4
+  - @swapkit/plugin-evm@1.0.15
+  - @swapkit/toolbox-cosmos@1.0.15
+  - @swapkit/helpers@1.2.4
+
 ## 1.1.9
 
 ### Patch Changes
