@@ -82,6 +82,7 @@ export type TokensResponseV2 = {
 export type TokenV2 = {
   address?: string;
   chain: string;
+  shortCode?: string;
   chainId: string;
   decimals: number;
   extensions?: {};
