@@ -1,4 +1,5 @@
-import { lowercasedContractAbiMapping } from "@swapkit/contracts";
+import type { QuoteResponseRoute } from "@swapkit/api";
+
 import {
   ApproveMode,
   type ApproveReturnType,
@@ -18,7 +19,7 @@ import {
   type SwapKitWallet,
   type SwapParams,
   type WalletChain,
-  isGasAsset,
+  lowercasedContractAbiMapping,
 } from "@swapkit/helpers";
 import {
   type TransferParams as CosmosTransferParams,
@@ -254,7 +255,11 @@ export function SwapKit<
     return wallet;
   }
 
-  function swap<T extends PluginName>({ route, pluginName, ...rest }: SwapParams<T>) {
+  function swap<T extends PluginName>({
+    route,
+    pluginName,
+    ...rest
+  }: SwapParams<T, QuoteResponseRoute>) {
     const plugin =
       (pluginName && getSwapKitPlugin(pluginName)) ||
       getSwapKitPluginForSKProvider(route.providers[0] as PluginNameEnum);
@@ -269,17 +274,14 @@ export function SwapKit<
   }
 
   function transfer({
-    from,
-    recipient,
     assetValue,
-    memo,
-    feeOptionKey,
+    ...params
   }: UTXOTransferParams | EVMTransferParams | CosmosTransferParams) {
     const chain = assetValue.chain as WalletChain;
     const wallet = getWallet(chain);
     if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
 
-    return wallet.transfer({ from, recipient, assetValue, feeOptionKey, memo });
+    return wallet.transfer({ ...params, assetValue });
   }
 
   function signMessage({ chain, message }: { chain: Chain; message: string }) {
@@ -320,11 +322,8 @@ export function SwapKit<
     feeOptionKey,
     params,
   }: (
-    | { type: "swap"; params: SwapParams<T> & { assetValue: AssetValue } }
-    | {
-        type: "transfer";
-        params: UTXOTransferParams | EVMTransferParams | CosmosTransferParams;
-      }
+    | { type: "swap"; params: SwapParams<T, QuoteResponseRoute> & { assetValue: AssetValue } }
+    | { type: "transfer"; params: UTXOTransferParams | EVMTransferParams | CosmosTransferParams }
     | {
         type: "approve";
         params: {
@@ -355,7 +354,7 @@ export function SwapKit<
           return wallet.estimateTransactionFee(txObject, feeOptionKey);
         }
 
-        if (type === "approve" && !isGasAsset(assetValue)) {
+        if (type === "approve" && !assetValue.isGasAsset) {
           return wallet.estimateTransactionFee(
             await wallet.createApprovalTx({
               assetAddress: assetValue.address as string,

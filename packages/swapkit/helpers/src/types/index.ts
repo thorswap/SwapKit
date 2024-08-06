@@ -1,6 +1,3 @@
-export * from "./abis/erc20";
-export * from "./abis/mayaEvmVaults";
-export * from "./abis/tcEthVault";
 export * from "./chains";
 export * from "./commonTypes";
 export * from "./derivationPath";

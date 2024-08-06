@@ -261,7 +261,7 @@ const transfer = async (
 
   if (!from) throw new SwapKitError("toolbox_evm_no_from_address");
 
-  if (!isGasAsset(assetValue)) {
+  if (!assetValue.isGasAsset) {
     const contractAddress = getTokenAddress(assetValue, chain);
     if (!contractAddress) throw new SwapKitError("toolbox_evm_no_contract_address");
 
@@ -363,8 +363,10 @@ const estimateGasLimit = (
     txOverrides?: EVMTxParams;
   },
 ) => {
+  // const value = assetValue.getBaseValue("bigint");
   const value = assetValue.bigIntValue;
-  const assetAddress = isGasAsset({ ...assetValue })
+
+  const assetAddress = assetValue.isGasAsset
     ? null
     : getTokenAddress(assetValue, assetValue.chain as EVMChain);
 

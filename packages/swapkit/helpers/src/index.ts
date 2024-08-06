@@ -1,3 +1,4 @@
+export * from "@swapkit/contracts";
 export * from "./types/index.ts";
 
 /**

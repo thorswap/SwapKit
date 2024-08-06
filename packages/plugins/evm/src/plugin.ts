@@ -1,4 +1,5 @@
-import { lowercasedContractAbiMapping } from "@swapkit/contracts";
+import type { QuoteResponseRoute } from "@swapkit/api";
+import { lowercasedContractAbiMapping } from "@swapkit/helpers";
 import {
   ApproveMode,
   type ApproveReturnType,
@@ -17,8 +18,9 @@ type ApproveParams = {
 };
 
 function plugin({ getWallet }: SwapKitPluginParams) {
-  async function swap({ route, feeOptionKey }: SwapParams<"evm">) {
+  async function swap({ route, feeOptionKey }: SwapParams<"evm", QuoteResponseRoute>) {
     const { evmTransactionDetails, sellAmount, sellAsset } = route;
+
     const abi =
       evmTransactionDetails && lowercasedContractAbiMapping[evmTransactionDetails.contractAddress];
 

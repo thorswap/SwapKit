@@ -306,7 +306,7 @@ export type CachedPrice = {
   };
 };
 
-export type TokenListProvidersResponse = Array<{
+export type TokenListProvidersResponseV1 = Array<{
   provider: string;
   nbTokens: number;
 }>;

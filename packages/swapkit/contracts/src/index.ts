@@ -1,10 +1,13 @@
 import { avaxGeneric } from "./abis/avaxGeneric.ts";
 import { avaxWoofi } from "./abis/avaxWoofi.ts";
 import { bscGeneric } from "./abis/bscGeneric.ts";
+import { erc20ABI } from "./abis/erc20.ts";
 import { ethGeneric } from "./abis/ethGeneric.ts";
+import { MayaArbitrumVaultAbi, MayaEthereumVaultAbi } from "./abis/mayaEvmVaults.ts";
 import { pancakeV2 } from "./abis/pancakeV2.ts";
 import { pangolin } from "./abis/pangolin.ts";
 import { sushiswap } from "./abis/sushiswap.ts";
+import { TCAvalancheDepositABI, TCBscDepositABI, TCEthereumVaultAbi } from "./abis/tcEthVault.ts";
 import { traderJoe } from "./abis/traderJoe.ts";
 import { uniswapV2 } from "./abis/uniswapV2.ts";
 import { uniswapV2Leg } from "./abis/uniswapV2Leg.ts";
@@ -49,6 +52,15 @@ export enum AGG_CONTRACT_ADDRESS {
   UNISWAP_V3_10000 = "0xb33874810e5395eb49d8bd7e912631db115d5a03",
   UNISWAP_V2_LEG = "0x3660dE6C56cFD31998397652941ECe42118375DA",
 }
+
+export {
+  erc20ABI,
+  TCEthereumVaultAbi,
+  TCAvalancheDepositABI,
+  TCBscDepositABI,
+  MayaArbitrumVaultAbi,
+  MayaEthereumVaultAbi,
+};
 
 export const lowercasedGenericAbiMappings = {
   [AGG_CONTRACT_ADDRESS.AVAX_GENERIC.toLowerCase()]: avaxGeneric,

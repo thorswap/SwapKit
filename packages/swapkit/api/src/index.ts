@@ -9,6 +9,7 @@ export * from "./thorswapApi/types.ts";
 export * from "./microgard/types.ts";
 export * from "./thorswapStatic/types.ts";
 export * from "./thornode/types.ts";
+export * from "./thorswapApiV2/types.ts";
 
 export const SwapKitApi = {
   ...microgardEndpoints,
