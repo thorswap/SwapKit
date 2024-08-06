@@ -35,14 +35,14 @@ function plugin({ getWallet }: SwapKitPluginParams) {
     const evmChain = assetValue.chain as EVMChain;
     const wallet = getWallet(evmChain);
 
+    if (tx) {
+      return wallet.sendTransaction({ ...tx, value: BigInt(tx.value) }, feeOptionKey);
+    }
+
     const abi =
       evmTransactionDetails && lowercasedContractAbiMapping[evmTransactionDetails.contractAddress];
 
     if (!(EVMChains.includes(evmChain) && abi)) throw new SwapKitError("core_swap_invalid_params");
-
-    if (tx) {
-      return wallet.sendTransaction({ ...tx, value: BigInt(tx.value) }, feeOptionKey);
-    }
 
     return wallet.call<string>({
       contractAddress: evmTransactionDetails.contractAddress,
