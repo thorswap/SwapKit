@@ -136,10 +136,11 @@ export const getWalletMethods = async ({
       }
 
       const provider = getProvider(chain);
+      const browserProvider = walletProvider as BrowserProvider;
 
-      await (walletProvider as BrowserProvider).send("eth_requestAccounts", []);
-      const address = await (await (walletProvider as BrowserProvider).getSigner()).getAddress();
-      const signer = await (walletProvider as BrowserProvider).getSigner();
+      await browserProvider.send("eth_requestAccounts", []);
+      const signer = await browserProvider.getSigner();
+      const address = await signer.getAddress();
 
       const toolboxParams = {
         provider,
@@ -153,7 +154,7 @@ export const getWalletMethods = async ({
       try {
         chain !== Chain.Ethereum &&
           (await addEVMWalletNetwork(
-            walletProvider as BrowserProvider,
+            browserProvider,
             (toolbox as ReturnType<typeof AVAXToolbox>).getNetworkParams(),
           ));
       } catch (_error) {
@@ -163,9 +164,9 @@ export const getWalletMethods = async ({
       return {
         address,
         ...prepareNetworkSwitch<typeof toolbox>({
-          toolbox: { ...toolbox },
+          toolbox,
           chainId: ChainToHexChainId[chain],
-          provider: walletProvider as BrowserProvider,
+          provider: browserProvider,
         }),
       };
     }

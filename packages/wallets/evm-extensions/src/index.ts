@@ -124,7 +124,8 @@ function connectEVMWallet({
         if (!eip1193Provider) throw new Error("Missing provider");
         const provider = new BrowserProvider(eip1193Provider, "any");
         await provider.send("eth_requestAccounts", []);
-        const address = await (await provider.getSigner()).getAddress();
+        const signer = await provider.getSigner();
+        const address = await signer.getAddress();
 
         const walletMethods = await getWeb3WalletMethods({
           chain,
@@ -150,7 +151,8 @@ function connectEVMWallet({
 
       const web3provider = new BrowserProvider(getWalletForType(walletType), "any");
       await web3provider.send("eth_requestAccounts", []);
-      const address = await (await web3provider.getSigner()).getAddress();
+      const signer = await web3provider.getSigner();
+      const address = await signer.getAddress();
 
       const walletMethods = await getWeb3WalletMethods({
         chain,
