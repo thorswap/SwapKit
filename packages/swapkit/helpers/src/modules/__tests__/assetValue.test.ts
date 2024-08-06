@@ -576,32 +576,31 @@ describe("AssetValue", () => {
         }),
       );
 
-      // TODO enable when BE fixes case sensitivity
-      //   const thor = AssetValue.from({ asset: "ETH.THOR" });
-      //   expect(thor).toEqual(
-      //     expect.objectContaining({
-      //       address: "0xa5f2211b9b8170f694421f2046281775e8468044",
-      //       chain: Chain.Ethereum,
-      //       decimal: 18,
-      //       isGasAsset: false,
-      //       isSynthetic: false,
-      //       symbol: "THOR-0xa5f2211b9b8170f694421f2046281775e8468044",
-      //       ticker: "THOR",
-      //     }),
-      //   );
+      const thor = AssetValue.from({ asset: "ETH.THOR" });
+      expect(thor).toEqual(
+        expect.objectContaining({
+          address: "0xa5f2211b9b8170f694421f2046281775e8468044",
+          chain: Chain.Ethereum,
+          decimal: 18,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: "THOR-0xa5f2211b9b8170f694421f2046281775e8468044",
+          ticker: "THOR",
+        }),
+      );
 
-      //   const vthor = AssetValue.from({ asset: "ETH.vTHOR" });
-      //   expect(vthor).toEqual(
-      //     expect.objectContaining({
-      //       address: "0x815c23eca83261b6ec689b60cc4a58b54bc24d8d",
-      //       chain: Chain.Ethereum,
-      //       decimal: 18,
-      //       isGasAsset: false,
-      //       isSynthetic: false,
-      //       symbol: "vTHOR-0x815c23eca83261b6ec689b60cc4a58b54bc24d8d",
-      //       ticker: "vTHOR",
-      //     }),
-      //   );
+      const vthor = AssetValue.from({ asset: "ETH.vTHOR" });
+      expect(vthor).toEqual(
+        expect.objectContaining({
+          address: "0x815c23eca83261b6ec689b60cc4a58b54bc24d8d",
+          chain: Chain.Ethereum,
+          decimal: 18,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: "vTHOR-0x815c23eca83261b6ec689b60cc4a58b54bc24d8d",
+          ticker: "vTHOR",
+        }),
+      );
 
       const arbAsset = AssetValue.from({ chain: Chain.Arbitrum });
       expect(arbAsset).toEqual(
