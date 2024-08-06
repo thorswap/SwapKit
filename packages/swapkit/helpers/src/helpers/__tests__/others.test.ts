@@ -51,4 +51,21 @@ describe("getAssetBy", () => {
     expect(assetByIdentifier).toBeUndefined();
     expect(assetByChainAndContract).toBeUndefined();
   });
+
+  test("find asset by chain and radix resource", async () => {
+    const assetByChainAndContract = await findAssetBy({
+      chain: Chain.Radix,
+      contract: "resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75",
+    });
+    expect(assetByChainAndContract?.toUpperCase()).toBe(
+      "XRD.XWBTC-resource_rdx1t580qxc7upat7lww4l2c4jckacafjeudxj5wpjrrct0p3e82sq4y75".toUpperCase(),
+    );
+  });
+
+  test("find asset by radix identifier", async () => {
+    const assetByChainAndContract = await findAssetBy({
+      identifier: "XRD.XRD",
+    });
+    expect(assetByChainAndContract?.toUpperCase()).toBe("XRD.XRD".toUpperCase());
+  });
 });
