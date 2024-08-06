@@ -1,4 +1,4 @@
-import { SwapKit } from "@swapkit/core";
+import { SwapKit, type SwapKitParams } from "@swapkit/core";
 import { ChainflipPlugin } from "@swapkit/plugin-chainflip";
 import { EVMPlugin } from "@swapkit/plugin-evm";
 import { MayachainPlugin, ThorchainPlugin } from "@swapkit/plugin-thorchain";
@@ -14,16 +14,11 @@ const defaultPlugins = {
   ...ThorchainPlugin,
 };
 
-type Params<P, W> = Omit<Parameters<typeof SwapKit>[0], "plugins" | "wallets"> & {
-  plugins?: P;
-  wallets?: W;
-};
-
 export const createSwapKit = <P extends typeof defaultPlugins, W extends typeof defaultWallets>({
   plugins,
   wallets,
   ...extendParams
-}: Params<P, W>) => {
+}: SwapKitParams<P, W> = {}) => {
   return SwapKit({
     ...extendParams,
     wallets: wallets || defaultWallets,
