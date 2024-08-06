@@ -1,3 +1,4 @@
+import type { QuoteResponseRoute } from "@swapkit/api";
 import {
   AssetValue,
   Chain,
@@ -7,7 +8,6 @@ import {
   MayaArbitrumVaultAbi,
   MayaEthereumVaultAbi,
   ProviderName,
-  type QuoteResponseRoute,
   SwapKitError,
   type SwapKitPluginParams,
   type SwapParams,
@@ -15,12 +15,7 @@ import {
 } from "@swapkit/helpers";
 import { basePlugin } from "./basePlugin.ts";
 import { prepareTxParams, validateAddressType } from "./shared.ts";
-import type {
-  AddLiquidityParams,
-  CoreTxParams,
-  CreateLiquidityParams,
-  SwapWithRouteParams,
-} from "./types.ts";
+import type { AddLiquidityParams, CoreTxParams, CreateLiquidityParams } from "./types.ts";
 
 type SupportedChain = EVMChain | CosmosChain | UTXOChain;
 
@@ -128,11 +123,8 @@ function plugin({ getWallet, stagenet = false }: SwapKitPluginParams) {
     }
   }
 
-  async function swap(swapParams: SwapParams<"mayaprotocol"> | SwapWithRouteParams) {
-    if (!("route" in swapParams)) throw new SwapKitError("core_swap_invalid_params");
-
-    const route = swapParams.route as QuoteResponseRoute;
-    const { feeOptionKey } = swapParams;
+  async function swap(swapParams: SwapParams<"mayaprotocol", QuoteResponseRoute>) {
+    const { feeOptionKey, route } = swapParams;
 
     const { memo, expiration, targetAddress } = route;
 

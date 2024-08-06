@@ -1,3 +1,4 @@
+import type { QuoteResponseRoute } from "@swapkit/api";
 import type { AssetValue, GenericSwapParams } from "@swapkit/helpers";
 
 export type WithdrawFeeResponse = {
@@ -29,5 +30,5 @@ export type SwapDepositResponse = {
   brokerCommissionBPS: number;
 };
 
-export type RequestSwapDepositAddressParams = Partial<GenericSwapParams> &
+export type RequestSwapDepositAddressParams = Partial<GenericSwapParams<QuoteResponseRoute>> &
   Partial<DepositChannelRequest>;

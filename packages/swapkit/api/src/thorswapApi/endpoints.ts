@@ -14,7 +14,7 @@ import {
   type QuoteResponseV1,
   type RepayParams,
   type RepayResponse,
-  type TokenListProvidersResponse,
+  type TokenListProvidersResponseV1,
   type TxnResponse,
 } from "./types.ts";
 
@@ -90,5 +90,5 @@ export function getTxnDetails(txHash: string) {
 }
 
 export function getTokenListProviders() {
-  return RequestClient.get<TokenListProvidersResponse>(`${baseUrlV1}/tokenlist/providers`);
+  return RequestClient.get<TokenListProvidersResponseV1>(`${baseUrlV1}/tokenlist/providers`);
 }
