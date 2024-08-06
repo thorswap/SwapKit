@@ -22,7 +22,7 @@ export const BSCToolbox = ({
 }: {
   api?: CovalentApiType;
   covalentApiKey: string;
-  signer: Signer;
+  signer?: Signer;
   provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const bscApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.BinanceSmartChain });
