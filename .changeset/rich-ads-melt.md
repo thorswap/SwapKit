@@ -1,5 +1,5 @@
 ---
-"@swapkit/helpers": minor
+"@swapkit/helpers": patch
 "@swapkit/tokens": minor
 ---
 
