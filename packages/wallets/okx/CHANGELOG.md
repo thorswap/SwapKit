@@ -1,5 +1,15 @@
 # @swapkit/wallet-okx
 
+## 1.0.16
+
+### Patch Changes
+
+- Updated dependencies [[`b402de7`](https://github.com/thorswap/SwapKit/commit/b402de79e1fa76d48f529bdb3a985c0a14cb8dcb), [`acd9e16`](https://github.com/thorswap/SwapKit/commit/acd9e16addca39fdfaeda55febbeb6dcad84f9c7), [`b402de7`](https://github.com/thorswap/SwapKit/commit/b402de79e1fa76d48f529bdb3a985c0a14cb8dcb)]:
+  - @swapkit/helpers@1.3.0
+  - @swapkit/toolbox-evm@1.1.9
+  - @swapkit/toolbox-cosmos@1.0.16
+  - @swapkit/toolbox-utxo@1.0.14
+
 ## 1.0.15
 
 ### Patch Changes
