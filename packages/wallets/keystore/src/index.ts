@@ -265,5 +265,5 @@ function connectKeystore({
 
 export const keystoreWallet = { connectKeystore } as const;
 export * from "./helpers.ts";
-export * from "./keystore.ts";
+export * from "./cryptography/index.ts";
 export * from "./types.ts";

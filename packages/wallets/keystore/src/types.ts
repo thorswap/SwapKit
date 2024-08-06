@@ -17,12 +17,23 @@ type KeystoreV2 = {
   id: string;
   version: KeystoreVersion.V2;
   pubKeys: { [key: string]: string };
-  params: { [key: string]: string };
-  encryptedPhrase: string;
+  crypto: {
+    cipher: { iv: string; message: string; function: string };
+    kdf: {
+      function: "pbkdf2" | "scrypt";
+      params: { salt: string; keyLength: number; iterations: number };
+    };
+  };
 };
 
+/**
+ * Checking on EIP gives us info that those are actually v3 and v4
+ * https://eips.ethereum.org/EIPS/eip-2335
+ */
 export enum KeystoreVersion {
+  // This is actually v3
   V1 = 1,
+  // This is actually v4
   V2 = 2,
 }
 

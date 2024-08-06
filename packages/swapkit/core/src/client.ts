@@ -184,7 +184,7 @@ export function SwapKit<
   function disconnectChain<T extends Chain>(chain: T) {
     const wallet = getWallet(chain);
     wallet?.disconnect?.();
-    delete connectedWallets[chain];
+    connectedWallets[chain] = undefined as never;
   }
 
   function disconnectAll() {
