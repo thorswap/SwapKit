@@ -4,9 +4,9 @@ import {
   type ConnectWalletParams,
   type EVMChain,
   type EthereumWindowProvider,
-  SwapKitError,
   WalletOption,
   addEVMWalletNetwork,
+  ensureEVMApiKeys,
   prepareNetworkSwitch,
   setRequestClientConfig,
 } from "@swapkit/helpers";
@@ -60,34 +60,17 @@ export const getWeb3WalletMethods = async ({
   provider,
 }: {
   ethereumWindowProvider: Eip1193Provider | undefined;
-  chain: Chain;
+  chain: EVMChain;
   covalentApiKey?: string;
   ethplorerApiKey?: string;
   provider: BrowserProvider;
 }) => {
   if (!ethereumWindowProvider) throw new Error("Requested web3 wallet is not installed");
 
-  if (
-    (chain !== Chain.Ethereum && !covalentApiKey) ||
-    (chain === Chain.Ethereum && !ethplorerApiKey)
-  ) {
-    throw new SwapKitError({
-      errorKey: "wallet_missing_api_key",
-      info: {
-        missingKey: chain === Chain.Ethereum ? "ethplorerApiKey" : "covalentApiKey",
-        chain,
-      },
-    });
-  }
+  const keys = ensureEVMApiKeys({ chain, covalentApiKey, ethplorerApiKey });
+  const signer = await provider.getSigner();
 
-  const toolboxParams = {
-    provider,
-    signer: await provider.getSigner(),
-    ethplorerApiKey: ethplorerApiKey as string,
-    covalentApiKey: covalentApiKey as string,
-  };
-
-  const toolbox = getToolboxByChain(chain as EVMChain)(toolboxParams);
+  const toolbox = getToolboxByChain(chain)({ ...keys, provider, signer });
 
   try {
     chain !== Chain.Ethereum &&

@@ -8,6 +8,7 @@ import {
   type ConnectWalletParams,
   SwapKitError,
   WalletOption,
+  ensureEVMApiKeys,
   setRequestClientConfig,
 } from "@swapkit/helpers";
 import type { ARBToolbox, AVAXToolbox, BSCToolbox } from "@swapkit/toolbox-evm";
@@ -39,7 +40,6 @@ const XDEFI_SUPPORTED_CHAINS = [
   Chain.THORChain,
 ] as const;
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: It will grow with the number of chains
 async function getWalletMethodsForChain({
   chain,
   blockchairApiKey,
@@ -113,27 +113,11 @@ async function getWalletMethodsForChain({
       if (!ethereumWindowProvider) {
         throw new SwapKitError("wallet_xdefi_not_found");
       }
-      if (
-        (chain !== Chain.Ethereum && !covalentApiKey) ||
-        (chain === Chain.Ethereum && !ethplorerApiKey)
-      ) {
-        throw new SwapKitError({
-          errorKey: "wallet_missing_api_key",
-          info: {
-            missingKey: chain === Chain.Ethereum ? "ethplorerApiKey" : "covalentApiKey",
-            chain,
-          },
-        });
-      }
 
+      const apiKeys = ensureEVMApiKeys({ chain, covalentApiKey, ethplorerApiKey });
       const provider = new BrowserProvider(ethereumWindowProvider, "any");
-      const toolbox = getToolboxByChain(chain)({
-        provider,
-        signer: await provider.getSigner(),
-        ethplorerApiKey: ethplorerApiKey || "",
-        covalentApiKey: covalentApiKey || "",
-      });
-
+      const signer = await provider.getSigner();
+      const toolbox = getToolboxByChain(chain)({ ...apiKeys, provider, signer });
       const xdefiMethods = getXdefiMethods(provider);
 
       try {
@@ -157,8 +141,8 @@ async function getWalletMethodsForChain({
 
       const api =
         chain === Chain.Ethereum
-          ? ethplorerApi(ethplorerApiKey as string)
-          : covalentApi({ apiKey: covalentApiKey as string, chainId: ChainToChainId[chain] });
+          ? ethplorerApi(apiKeys.ethplorerApiKey)
+          : covalentApi({ apiKey: apiKeys.covalentApiKey, chainId: ChainToChainId[chain] });
 
       return prepareNetworkSwitch({
         //@ts-expect-error

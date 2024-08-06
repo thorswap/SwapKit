@@ -1,4 +1,5 @@
-import type { Chain, CosmosChain, EVMChain, UTXOChain } from "./chains.ts";
+import type { Chain } from "./chains.ts";
+import type { ChainApis } from "./sdk.ts";
 import type { ChainWallet } from "./wallet.ts";
 
 export type ConnectConfig = {
@@ -48,15 +49,9 @@ export type ConnectConfig = {
   chainflipBrokerUrl?: string;
 };
 
-type ApisType = { [key in UTXOChain]?: string | Todo } & {
-  [key in EVMChain]?: string | Todo;
-} & {
-  [key in CosmosChain]?: string;
-};
-
 export type ConnectWalletParams<M = { [key in string]: NotWorth }> = {
   addChain: <T extends Chain>(params: ChainWallet<T> & M) => void;
-  apis: ApisType;
+  apis: ChainApis;
   config: ConnectConfig;
   rpcUrls: { [chain in Chain]?: string };
 };

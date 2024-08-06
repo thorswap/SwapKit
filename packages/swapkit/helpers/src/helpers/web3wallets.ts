@@ -1,6 +1,7 @@
 import type { BrowserProvider } from "ethers";
 import { SwapKitError } from "../modules/swapKitError";
 import {
+  Chain,
   ChainId,
   type EIP6963AnnounceProviderEvent,
   type EIP6963Provider,
@@ -166,6 +167,25 @@ export const listWeb3EVMWallets = () => {
 
   return wallets;
 };
+
+export function ensureEVMApiKeys({
+  chain,
+  covalentApiKey,
+  ethplorerApiKey,
+}: { chain: Chain; covalentApiKey?: string; ethplorerApiKey?: string }) {
+  const missingKey =
+    chain !== Chain.Ethereum && !covalentApiKey
+      ? "covalentApiKey"
+      : ethplorerApiKey
+        ? undefined
+        : "ethplorerApiKey";
+
+  if (missingKey) {
+    throw new SwapKitError({ errorKey: "wallet_missing_api_key", info: { missingKey } });
+  }
+
+  return { covalentApiKey: covalentApiKey as string, ethplorerApiKey: ethplorerApiKey as string };
+}
 
 export function getEIP6963Wallets() {
   const providers: EIP6963Provider[] = [];

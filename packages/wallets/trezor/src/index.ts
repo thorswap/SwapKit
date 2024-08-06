@@ -6,6 +6,7 @@ import {
   SwapKitError,
   WalletOption,
   derivationPathToString,
+  ensureEVMApiKeys,
   setRequestClientConfig,
 } from "@swapkit/helpers";
 import type { Psbt, UTXOTransferParams, UTXOType } from "@swapkit/toolbox-utxo";
@@ -56,10 +57,10 @@ async function getToolbox({
   api,
   rpcUrl,
   chain,
-  ethplorerApiKey,
-  covalentApiKey,
   derivationPath,
   blockchairApiKey,
+  ethplorerApiKey,
+  covalentApiKey,
 }: Params) {
   switch (chain) {
     case Chain.BinanceSmartChain:
@@ -68,39 +69,17 @@ async function getToolbox({
     case Chain.Optimism:
     case Chain.Polygon:
     case Chain.Ethereum: {
-      if (chain === Chain.Ethereum && !ethplorerApiKey) {
-        throw new SwapKitError({
-          errorKey: "wallet_missing_api_key",
-          info: { missingKey: "ethplorerApiKey" },
-        });
-      }
-      if (chain !== Chain.Ethereum && !covalentApiKey) {
-        throw new SwapKitError({
-          errorKey: "wallet_missing_api_key",
-          info: { missingKey: "covalentApiKey" },
-        });
-      }
-
       const { getProvider, getToolboxByChain } = await import("@swapkit/toolbox-evm");
       const { getEVMSigner } = await import("./evmSigner.ts");
 
+      const keys = ensureEVMApiKeys({ chain, ethplorerApiKey, covalentApiKey });
       const provider = getProvider(chain, rpcUrl);
-      const signer = await getEVMSigner({ chain, derivationPath, provider });
-      const address = await signer.getAddress();
       const toolbox = getToolboxByChain(chain);
 
-      return {
-        address,
-        walletMethods: {
-          ...toolbox({
-            api,
-            covalentApiKey: covalentApiKey as string,
-            ethplorerApiKey: ethplorerApiKey as string,
-            provider,
-            signer,
-          }),
-        },
-      };
+      const signer = await getEVMSigner({ chain, derivationPath, provider });
+      const address = await signer.getAddress();
+
+      return { address, walletMethods: toolbox({ ...keys, api, provider, signer }) };
     }
 
     case Chain.Bitcoin:
@@ -108,15 +87,16 @@ async function getToolbox({
     case Chain.Dash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
+      const { toCashAddress, getToolboxByChain, BCHToolbox } = await import(
+        "@swapkit/toolbox-utxo"
+      );
+
       if (!(blockchairApiKey || api)) {
         throw new SwapKitError({
           errorKey: "wallet_missing_api_key",
           info: { missingKey: "blockchairApiKey" },
         });
       }
-      const { toCashAddress, getToolboxByChain, BCHToolbox } = await import(
-        "@swapkit/toolbox-utxo"
-      );
 
       const scriptType = getScriptType(derivationPath);
 
