@@ -111,6 +111,7 @@ const errorCodes = {
    * SwapKit API
    */
   api_v2_invalid_response: 50001,
+  api_v2_server_error: 50002,
   /**
    * Toolboxes
    */

@@ -1,4 +1,4 @@
-import type { QuoteResponseRoute } from "@swapkit/api";
+import type { QuoteResponseRoute, QuoteResponseRouteDev } from "@swapkit/api";
 import { lowercasedContractAbiMapping } from "@swapkit/helpers";
 import {
   ApproveMode,
@@ -18,23 +18,31 @@ type ApproveParams = {
 };
 
 function plugin({ getWallet }: SwapKitPluginParams) {
-  async function swap({ route, feeOptionKey }: SwapParams<"evm", QuoteResponseRoute>) {
-    const { evmTransactionDetails, sellAmount, sellAsset } = route;
+  async function swap({
+    route,
+    feeOptionKey,
+  }: SwapParams<"evm", QuoteResponseRoute | QuoteResponseRouteDev>) {
+    const { sellAsset } = route;
 
-    const abi =
-      evmTransactionDetails && lowercasedContractAbiMapping[evmTransactionDetails.contractAddress];
+    const tx = (route as QuoteResponseRouteDev).tx;
+    const evmTransactionDetails = (route as QuoteResponseRoute).evmTransactionDetails;
 
     const assetValue = await AssetValue.from({
       asset: sellAsset,
-      value: sellAmount,
       asyncTokenLookup: true,
     });
 
     const evmChain = assetValue.chain as EVMChain;
+    const wallet = getWallet(evmChain);
+
+    const abi =
+      evmTransactionDetails && lowercasedContractAbiMapping[evmTransactionDetails.contractAddress];
 
     if (!(EVMChains.includes(evmChain) && abi)) throw new SwapKitError("core_swap_invalid_params");
 
-    const wallet = getWallet(evmChain);
+    if (tx) {
+      return wallet.sendTransaction({ ...tx, value: BigInt(tx.value) }, feeOptionKey);
+    }
 
     return wallet.call<string>({
       contractAddress: evmTransactionDetails.contractAddress,
@@ -97,13 +105,13 @@ function plugin({ getWallet }: SwapKitPluginParams) {
     approveAssetValue,
     isAssetValueApproved,
     supportedSwapkitProviders: [
-      ProviderName.TRADERJOE_V1,
-      ProviderName.PANGOLIN_V1,
-      ProviderName.UNISWAP_V2,
-      ProviderName.SUSHISWAP_V2,
       ProviderName.ONEINCH,
-      ProviderName.WOOFI_V2,
       ProviderName.PANCAKESWAP,
+      ProviderName.PANGOLIN_V1,
+      ProviderName.SUSHISWAP_V2,
+      ProviderName.TRADERJOE_V2,
+      ProviderName.UNISWAP_V2,
+      ProviderName.UNISWAP_V3,
     ],
   };
 }

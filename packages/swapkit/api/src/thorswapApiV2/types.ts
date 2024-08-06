@@ -402,16 +402,6 @@ export const EVMTransactionSchema = z.object({
   from: z.string({
     description: "Address of the sender",
   }),
-  gas: z
-    .number({
-      description: "Gas limit",
-    })
-    .optional(),
-  gasPrice: z
-    .string({
-      description: "Gas price",
-    })
-    .optional(),
   value: z.string({
     description: "Value to send",
   }),

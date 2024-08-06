@@ -14,7 +14,7 @@ export const ETHToolbox = ({
   provider,
 }: {
   api?: EthplorerApiType;
-  ethplorerApiKey: string;
+  ethplorerApiKey?: string;
   signer?: Signer | JsonRpcSigner;
   provider: JsonRpcProvider | BrowserProvider;
 }) => {

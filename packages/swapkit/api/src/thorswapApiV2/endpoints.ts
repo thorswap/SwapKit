@@ -16,6 +16,7 @@ import {
 
 const baseUrl = "https://api.swapkit.dev";
 const baseUrlDev = "https://dev-api.swapkit.dev";
+
 function getBaseUrl(isDev?: boolean) {
   return isDev ? baseUrlDev : baseUrl;
 }
@@ -29,6 +30,10 @@ export async function getSwapQuoteV2<T extends boolean>(searchParams: QuoteReque
     `${getBaseUrl(isDev)}/quote`,
     { json: searchParams },
   );
+
+  if (response.error) {
+    throw new SwapKitError("api_v2_server_error", { message: response.error });
+  }
 
   try {
     return isDev ? QuoteResponseSchemaDev.parse(response) : QuoteResponseSchema.parse(response);
