@@ -23,7 +23,7 @@ export const createSwapKit = <P extends typeof defaultPlugins, W extends typeof 
   plugins,
   wallets,
   ...extendParams
-}: Params<P, W> = {}) => {
+}: Params<P, W>) => {
   return SwapKit({
     ...extendParams,
     wallets: wallets || defaultWallets,

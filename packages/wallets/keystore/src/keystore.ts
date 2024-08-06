@@ -3,14 +3,17 @@ import {
   Chain,
   type ConnectWalletParams,
   DerivationPath,
+  type DerivationPathArray,
   RPCUrl,
   type WalletChain,
   WalletOption,
   type WalletTxParams,
   type Witness,
+  derivationPathToString,
+  ensureEVMApiKeys,
   setRequestClientConfig,
 } from "@swapkit/helpers";
-import type { DepositParam, ThorchainToolboxType, TransferParams } from "@swapkit/toolbox-cosmos";
+import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
 import type {
   Psbt,
   TransactionType,
@@ -30,7 +33,7 @@ type Params = KeystoreOptions & {
   rpcUrl?: string;
   chain: Chain;
   phrase: string;
-  index: number;
+  derivationPath: string;
 };
 
 const getWalletMethodsForChain = async ({
@@ -41,11 +44,9 @@ const getWalletMethodsForChain = async ({
   ethplorerApiKey,
   covalentApiKey,
   blockchairApiKey,
-  index,
+  derivationPath,
   stagenet,
 }: Params) => {
-  const derivationPath = `${DerivationPath[chain] as string}/${index}`;
-
   switch (chain) {
     case Chain.BinanceSmartChain:
     case Chain.Arbitrum:

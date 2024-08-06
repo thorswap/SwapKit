@@ -17,7 +17,7 @@
     "npm-check-updates": "16.14.20",
     "react": "18.2.0",
     "size-limit": "11.1.4",
-    "typescript": "5.5.3"
+    "typescript": "5.5.4"
   },
   "name": "swapkit-monorepo",
   "packageManager": "^bun@1.1.17",
