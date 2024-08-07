@@ -1,5 +1,13 @@
 # @swapkit/wallet-radix
 
+## 1.0.15
+
+### Patch Changes
+
+- Updated dependencies [[`cde313d`](https://github.com/thorswap/SwapKit/commit/cde313dd30227101b10eeb528281cb2688fc669e)]:
+  - @swapkit/helpers@1.3.1
+  - @swapkit/toolbox-radix@1.0.15
+
 ## 1.0.14
 
 ### Patch Changes
