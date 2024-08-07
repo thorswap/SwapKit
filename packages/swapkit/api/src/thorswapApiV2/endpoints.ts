@@ -38,7 +38,9 @@ export async function getSwapQuoteV2<T extends boolean>(searchParams: QuoteReque
   try {
     return isDev ? QuoteResponseSchemaDev.parse(response) : QuoteResponseSchema.parse(response);
   } catch (error) {
-    throw new SwapKitError("api_v2_invalid_response", error);
+    // throw new SwapKitError("api_v2_invalid_response", error);
+    console.warn(error);
+    return response;
   }
 }
 
