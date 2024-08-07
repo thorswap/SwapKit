@@ -6,6 +6,7 @@ import {
   FeeOption,
   RPCUrl,
   WalletOption,
+  ensureEVMApiKeys,
   setRequestClientConfig,
 } from "@swapkit/helpers";
 import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
@@ -13,6 +14,7 @@ import type { UTXOBuildTxParams } from "@swapkit/toolbox-utxo";
 
 import type { LEDGER_SUPPORTED_CHAINS } from "./helpers/index.ts";
 import { getLedgerAddress, getLedgerClient } from "./helpers/index.ts";
+import type { LedgerSupportedChain } from "./helpers/ledgerSupportedChains.ts";
 
 // reduce memo length by removing trade limit
 const reduceMemo = (memo?: string, affiliateAddress = "t") => {
@@ -50,17 +52,17 @@ const recursivelyOrderKeys = (unordered: Todo) => {
 const stringifyKeysInOrder = (data: Todo) => JSON.stringify(recursivelyOrderKeys(data));
 
 const getToolbox = async ({
-  api,
-  blockchairApiKey,
   chain,
+  apis,
+  blockchairApiKey,
   covalentApiKey,
   derivationPath,
   ethplorerApiKey,
   rpcUrl,
   stagenet,
 }: ConnectWalletParams["config"] & {
-  api: ConnectWalletParams["apis"][(typeof LEDGER_SUPPORTED_CHAINS)[number]];
-  chain: (typeof LEDGER_SUPPORTED_CHAINS)[number];
+  apis: ConnectWalletParams["apis"];
+  chain: LedgerSupportedChain;
   derivationPath?: DerivationPathArray;
   rpcUrl?: string;
   stagenet?: boolean;
@@ -72,11 +74,14 @@ const getToolbox = async ({
     case Chain.Dogecoin:
     case Chain.Litecoin: {
       const { getToolboxByChain } = await import("@swapkit/toolbox-utxo");
-      const toolbox = getToolboxByChain(chain)({
-        apiClient: api,
+      const params = {
+        apiClient: apis[chain],
         apiKey: blockchairApiKey,
         rpcUrl,
-      });
+      };
+
+      const toolbox = getToolboxByChain(chain)(params);
+
       const signer = await getLedgerClient({ chain, derivationPath });
       const address = await getLedgerAddress({ chain, ledgerClient: signer });
 
@@ -93,32 +98,24 @@ const getToolbox = async ({
 
         return toolbox.broadcastTx(txHex);
       };
+
       return { ...toolbox, address, transfer };
     }
 
-    case Chain.Ethereum: {
-      if (!ethplorerApiKey) throw new Error("Ethplorer API key is not defined");
-      const { getToolboxByChain, getProvider } = await import("@swapkit/toolbox-evm");
-      const signer = await getLedgerClient({ chain, derivationPath });
-      const address = await getLedgerAddress({ chain, ledgerClient: signer });
-      const provider = getProvider(chain, rpcUrl);
-      const toolbox = getToolboxByChain(chain);
-
-      return { ...toolbox({ api, signer, provider, ethplorerApiKey }), address };
-    }
+    case Chain.Ethereum:
     case Chain.Avalanche:
     case Chain.Arbitrum:
     case Chain.Optimism:
     case Chain.Polygon:
     case Chain.BinanceSmartChain: {
-      if (!covalentApiKey) throw new Error("Covalent API key is not defined");
+      const keys = ensureEVMApiKeys({ chain, covalentApiKey, ethplorerApiKey });
       const { getToolboxByChain, getProvider } = await import("@swapkit/toolbox-evm");
       const signer = await getLedgerClient({ chain, derivationPath });
       const address = await getLedgerAddress({ chain, ledgerClient: signer });
-      const toolbox = getToolboxByChain(chain);
       const provider = getProvider(chain, rpcUrl);
+      const toolbox = getToolboxByChain(chain);
 
-      return { ...toolbox({ api, signer, provider, covalentApiKey }), address };
+      return { ...toolbox({ ...keys, api: apis[chain], signer, provider }), address };
     }
 
     case Chain.Cosmos: {
@@ -269,7 +266,7 @@ function connectLedger({
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const toolbox = await getToolbox({
-      api: apis[chain],
+      apis,
       blockchairApiKey,
       chain,
       derivationPath,

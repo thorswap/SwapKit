@@ -35,13 +35,25 @@ import {
   getExplorerTxUrl as getTxUrl,
 } from "./helpers/explorerUrls.ts";
 
+type PluginsType = {
+  [key in string]: {
+    plugin: (params: SwapKitPluginParams<NotWorth>) => NotWorth;
+    config?: NotWorth;
+  };
+};
+
+export type SwapKitParams<P, W> = {
+  apis?: ChainApis;
+  config?: ConnectConfig;
+  plugins?: P;
+  rpcUrls?: { [key in Chain]?: string };
+  // TODO: migrate to `config` only
+  stagenet?: boolean;
+  wallets?: W;
+};
+
 export function SwapKit<
-  Plugins extends {
-    [key in string]: {
-      plugin: (params: SwapKitPluginParams<NotWorth>) => NotWorth;
-      config?: NotWorth;
-    };
-  },
+  Plugins extends PluginsType,
   Wallets extends { [key in string]: SwapKitWallet<NotWorth[]> },
 >({
   apis = {},
@@ -50,18 +62,11 @@ export function SwapKit<
   rpcUrls = {},
   stagenet = false,
   wallets = {} as Wallets,
-}: {
-  apis?: ChainApis;
-  config?: ConnectConfig;
-  plugins: Plugins;
-  rpcUrls?: { [key in Chain]?: string };
-  stagenet?: boolean;
-  wallets?: Wallets;
-}) {
+}: SwapKitParams<Plugins, Wallets> = {}) {
   type PluginName = keyof Plugins;
   const connectedWallets = {} as FullWallet;
 
-  const availablePlugins = Object.entries(plugins).reduce(
+  const availablePlugins = Object.entries(plugins || {}).reduce(
     (acc, [pluginName, { plugin, config: pluginConfig }]) => {
       const methods = plugin({ getWallet, stagenet, config: pluginConfig ?? config });
 

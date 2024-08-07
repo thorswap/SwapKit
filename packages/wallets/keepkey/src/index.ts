@@ -162,7 +162,9 @@ function connectKeepkey({
 }: ConnectWalletParams) {
   return async function connectKeepkey(
     chains: (typeof KEEPKEY_SUPPORTED_CHAINS)[number][],
+    // @deprecated - use derivationPathMap instead
     derivationPaths?: DerivationPathArray[],
+    derivationPathMap?: Record<Chain, DerivationPathArray>,
   ) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
     if (!keepkeyConfig) throw new Error("KeepKey config not found");
@@ -173,7 +175,10 @@ function connectKeepkey({
     const keepKeySdk = await KeepKeySdk.create(keepkeyConfig);
 
     const toolboxPromises = chains.map(async (chain, i) => {
-      const derivationPath = derivationPaths ? derivationPaths[i] : undefined;
+      const derivationPath = Array.isArray(derivationPaths)
+        ? derivationPaths[i]
+        : derivationPathMap?.[chain];
+
       const walletMethods = await getWalletMethods({
         sdk: keepKeySdk,
         apiClient: apis[chain],
