@@ -31,14 +31,15 @@ for (const { provider } of providers) {
     console.info(`✅ ${provider} token list fetched (${tokenList.tokens.length} tokens)`);
 
     const tokens = tokenList.tokens
-      .map(({ address, chain, chainId, identifier, ticker, decimals, logoURI }) => ({
-        chain: parseChain(chain),
-        address,
-        chainId,
-        ticker,
-        identifier: parseIdentifier(identifier),
-        decimals,
-        logoURI,
+      .map((token) => ({
+        address: token.address,
+        chain: parseChain(token.chain),
+        chainId: token.chainId,
+        decimals: token.decimals,
+        identifier: parseIdentifier(token.identifier),
+        logoURI: token.logoURI,
+        shortCode: token.shortCode,
+        ticker: token.ticker,
       }))
       .sort((a, b) => a.identifier.localeCompare(b.identifier));
 
@@ -46,7 +47,7 @@ for (const { provider } of providers) {
 
     await Bun.write(
       `src/tokenLists/${provider.toLowerCase()}.ts`,
-      `export const list = ${JSON.stringify(tokenListWithTokens)} as const;`,
+      `export const list = ${JSON.stringify(tokenListWithTokens, null, 2)} as const;`,
     );
   } catch (_error) {
     console.error(provider);

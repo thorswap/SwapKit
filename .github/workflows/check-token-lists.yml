@@ -14,26 +14,20 @@ jobs:
         uses: ./tools/github/setup-repo
 
       - name: Generate new token list
-        run: bun generate:tokens
-
-      - name: Push Token List Changes
         id: commit
-        uses: devops-infra/action-commit-push@0bb59c279dd1de9fe022ab2764fd30a39c6a1367
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          add_timestamp: false
-          commit_prefix: "[TOKENS]"
-          commit_message: "chore: automatic tokenlist update 🤖"
-          target_branch: bot/token-list-update
+        run: |
+          bun run build
+          bun generate:tokens
+          echo "changedFiles=$(git status -s)" >> $GITHUB_OUTPUT
 
       - name: Publish Token List
-        if: ${{ steps.commit.outputs.files_changed != '' }}
+        if: ${{ steps.commit.outputs.changedFiles != '' }}
         run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+          git config --global user.email "swapkit-bot@thorswap.finance"
+          git config --global user.name "swapkit-bot"
           cp .npmrc.prod ./packages/swapkit/tokens/.npmrc
-          bun changeset pre exit
-          bun changeset version --snapshot nightly
+          npm changeset pre exit
+          npm changeset version --snapshot nightly
           cd packages/swapkit/tokens
           npm config list --no-workspaces
           npm publish --no-workspaces
@@ -42,12 +36,12 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
-      - name: Run the Action
+      - name: Open Pull Request
         if: success()
-        uses: devops-infra/action-pull-request@e66e2ba93519dc63b9884a26e620e2fd0cffab2c
+        uses: devops-infra/action-pull-request@34a042a4b1cc7073122455aee6ffc76ccf9d9039
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: ${{ steps.commit.outputs.branch_name }}
+          source_branch: bot/update-token-list
           target_branch: develop
           title: "[Bot] Update Token List"
           label: core

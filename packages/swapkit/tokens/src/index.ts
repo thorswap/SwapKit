@@ -1,3 +1,4 @@
+export { list as CaviarV1List } from "./tokenLists/caviar_v1.ts";
 export { list as ChainflipList } from "./tokenLists/chainflip.js";
 export { list as MayaList } from "./tokenLists/mayachain.ts";
 export { list as OneInchList } from "./tokenLists/oneinch.ts";
@@ -9,4 +10,3 @@ export { list as TraderjoeV1List } from "./tokenLists/traderjoe_v1.ts";
 export { list as TraderjoeV2List } from "./tokenLists/traderjoe_v2.ts";
 export { list as UniswapV2List } from "./tokenLists/uniswap_v2.ts";
 export { list as UniswapV3List } from "./tokenLists/uniswap_v3.ts";
-export { list as CaviarV1List } from "./tokenLists/caviar_v1.ts";
