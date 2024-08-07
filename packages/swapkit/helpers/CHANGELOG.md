@@ -1,5 +1,14 @@
 # @swapkit/helpers
 
+## 1.3.1
+
+### Patch Changes
+
+- [#933](https://github.com/thorswap/SwapKit/pull/933) [`cde313d`](https://github.com/thorswap/SwapKit/commit/cde313dd30227101b10eeb528281cb2688fc669e) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Add CaviarV1 to token lists, adjust findAssetBy to support Radix chain
+
+- Updated dependencies [[`cde313d`](https://github.com/thorswap/SwapKit/commit/cde313dd30227101b10eeb528281cb2688fc669e)]:
+  - @swapkit/tokens@1.1.0
+
 ## 1.3.0
 
 ### Minor Changes

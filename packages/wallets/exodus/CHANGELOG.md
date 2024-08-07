@@ -1,5 +1,18 @@
 # @swapkit/wallet-exodus
 
+## 1.1.4
+
+### Patch Changes
+
+- [#937](https://github.com/thorswap/SwapKit/pull/937) [`acfcb24`](https://github.com/thorswap/SwapKit/commit/acfcb249d7f915f9ef37b7f3c29e52841e729a6b) Thanks [@chillios-dev](https://github.com/chillios-dev)! - fix: api call and await signers
+
+- [#938](https://github.com/thorswap/SwapKit/pull/938) [`184f088`](https://github.com/thorswap/SwapKit/commit/184f0888adf0f472794b44a90ce5a7bc7473300a) Thanks [@towanTG](https://github.com/towanTG)! - Bumps exodus libs
+
+- Updated dependencies [[`cde313d`](https://github.com/thorswap/SwapKit/commit/cde313dd30227101b10eeb528281cb2688fc669e)]:
+  - @swapkit/helpers@1.3.1
+  - @swapkit/toolbox-evm@1.1.10
+  - @swapkit/toolbox-utxo@1.0.15
+
 ## 1.1.3
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # @swapkit/api
 
+## 1.4.6
+
+### Patch Changes
+
+- [#937](https://github.com/thorswap/SwapKit/pull/937) [`acfcb24`](https://github.com/thorswap/SwapKit/commit/acfcb249d7f915f9ef37b7f3c29e52841e729a6b) Thanks [@chillios-dev](https://github.com/chillios-dev)! - fix: api call and await signers
+
+- Updated dependencies [[`cde313d`](https://github.com/thorswap/SwapKit/commit/cde313dd30227101b10eeb528281cb2688fc669e)]:
+  - @swapkit/helpers@1.3.1
+
 ## 1.4.5
 
 ### Patch Changes
