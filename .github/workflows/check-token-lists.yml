@@ -3,7 +3,7 @@ name: Check Token List
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 0,12 * * *"
 
 jobs:
   check-and-update:
@@ -18,16 +18,30 @@ jobs:
         run: |
           bun run build
           bun generate:tokens
-          echo "changedFiles=$(git status -s)" >> $GITHUB_OUTPUT
+          changes=$(git status -s | wc -l | xargs)
+          echo "numberOfChangedFiles=$changes" >> $GITHUB_OUTPUT
+
+
+          if [ $changes != 0 ]; then
+            echo "Changed files found, pushing to bot/token-list-update"
+
+            git config --global user.email "swapkit-bot@thorswap.finance"
+            git config --global user.name "swapkit-bot"
+            git checkout -b bot/token-list-update
+            git add .
+            git commit -m "🤖: automatic tokenlist update"
+            git push origin bot/token-list-update
+          else
+            echo "No changes found"
+          fi
 
       - name: Publish Token List
-        if: ${{ steps.commit.outputs.changedFiles != '' }}
+        if: ${{ steps.commit.outputs.numberOfChangedFiles > 0 }}
         run: |
           git config --global user.email "swapkit-bot@thorswap.finance"
           git config --global user.name "swapkit-bot"
           cp .npmrc.prod ./packages/swapkit/tokens/.npmrc
-          npm changeset pre exit
-          npm changeset version --snapshot nightly
+          bun changeset version --snapshot nightly
           cd packages/swapkit/tokens
           npm config list --no-workspaces
           npm publish --no-workspaces
@@ -41,8 +55,8 @@ jobs:
         uses: devops-infra/action-pull-request@34a042a4b1cc7073122455aee6ffc76ccf9d9039
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: bot/update-token-list
+          source_branch: bot/token-list-update
           target_branch: develop
           title: "[Bot] Update Token List"
-          label: core
+          label: token-list
           get_diff: true
