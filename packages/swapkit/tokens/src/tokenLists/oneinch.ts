@@ -1,14 +1,14 @@
 export const list = {
   provider: "ONEINCH",
   name: "ONEINCH",
-  timestamp: "2024-08-06T16:30:35.368Z",
+  timestamp: "2024-08-08T08:30:26.529Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: ["oneinch", "1inch", "1inch.exchange", "1inch.exchange v1"],
-  count: 1457,
+  count: 1456,
   tokens: [
     {
       address: "0x63a72806098bd3d9520cc43356dd78afe5d386d9",
@@ -105,9 +105,8 @@ export const list = {
       chain: "AVAX",
       chainId: "43114",
       decimals: 18,
-      identifier: "AVAX.AVAX-0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.avax-0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.png",
+      identifier: "AVAX.AVAX",
+      logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.avax.png",
       ticker: "AVAX",
     },
     {
@@ -4636,9 +4635,8 @@ export const list = {
       chain: "ETH",
       chainId: "1",
       decimals: 18,
-      identifier: "ETH.ETH-0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.eth-0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee.png",
+      identifier: "ETH.ETH",
+      logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.eth.png",
       ticker: "ETH",
     },
     {
@@ -7400,16 +7398,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.nux-0x89bd2e7e388fab44ae88bef4e1ad12b4f1e0911c.png",
       ticker: "NUX",
-    },
-    {
-      address: "0x644192291cc835a93d6330b24ea5f5fedd0eef9e",
-      chain: "ETH",
-      chainId: "1",
-      decimals: 18,
-      identifier: "ETH.NXRA-0x644192291cc835a93d6330b24ea5f5fedd0eef9e",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.nxra-0x644192291cc835a93d6330b24ea5f5fedd0eef9e.png",
-      ticker: "NXRA",
     },
     {
       address: "0xee9801669c6138e84bd50deb500827b776777d28",
