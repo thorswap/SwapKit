@@ -1,5 +1,14 @@
 # @swapkit/helpers
 
+## 1.3.2
+
+### Patch Changes
+
+- [#934](https://github.com/thorswap/SwapKit/pull/934) [`4d5992d`](https://github.com/thorswap/SwapKit/commit/4d5992d93d59acf662170216b13a6136c5556d91) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Keystore deviration paths
+
+- Updated dependencies [[`0f4baff`](https://github.com/thorswap/SwapKit/commit/0f4baffa165482622b93735ffffe9f0c154764c7)]:
+  - @swapkit/tokens@1.2.0
+
 ## 1.3.1
 
 ### Patch Changes
