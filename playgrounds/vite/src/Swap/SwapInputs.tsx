@@ -42,7 +42,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
       const { routes } = await SwapKitApi.getSwapQuoteV2(
         {
           sellAsset: inputAsset.toString(),
-          sellAmount: inputAssetValue.getValue("number"),
+          sellAmount: inputAssetValue.getValue("string"),
           buyAsset: outputAsset.toString(),
           sourceAddress,
           destinationAddress,
