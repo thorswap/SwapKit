@@ -36,7 +36,8 @@ function plugin({ getWallet }: SwapKitPluginParams) {
     const wallet = getWallet(evmChain);
 
     if (tx) {
-      return wallet.sendTransaction({ ...tx, value: BigInt(tx.value) }, feeOptionKey);
+      const { from, to, data } = tx;
+      return wallet.sendTransaction({ from, to, data, value: BigInt(tx.value) }, feeOptionKey);
     }
 
     const abi =
