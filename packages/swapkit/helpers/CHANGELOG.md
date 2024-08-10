@@ -1,5 +1,16 @@
 # @swapkit/helpers
 
+## 1.3.2
+
+### Patch Changes
+
+- [#934](https://github.com/thorswap/SwapKit/pull/934) [`4d5992d`](https://github.com/thorswap/SwapKit/commit/4d5992d93d59acf662170216b13a6136c5556d91) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Keystore deviration paths
+
+- [#942](https://github.com/thorswap/SwapKit/pull/942) [`169d2f8`](https://github.com/thorswap/SwapKit/commit/169d2f8985115a36db0ce175bb906a5927a65427) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Mayachain synth assetValue creation
+
+- Updated dependencies [[`0f4baff`](https://github.com/thorswap/SwapKit/commit/0f4baffa165482622b93735ffffe9f0c154764c7)]:
+  - @swapkit/tokens@1.2.0
+
 ## 1.3.1
 
 ### Patch Changes
