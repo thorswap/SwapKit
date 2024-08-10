@@ -289,12 +289,14 @@ async function createAssetValue(identifier: string, value: NumberPrimitives = 0)
 }
 
 function createSyntheticAssetValue(identifier: string, value: NumberPrimitives = 0) {
-  const [synthChain, symbol] =
-    identifier.split(".")?.[0]?.toUpperCase() === Chain.THORChain
-      ? identifier.split(".").slice(1).join().split("/")
-      : identifier.split("/");
+  const chain = identifier.split(".")?.[0]?.toUpperCase() as Chain | undefined;
+  const isMayaOrThor = chain ? [Chain.Maya, Chain.THORChain].includes(chain) : false;
 
-  if (!(synthChain && symbol)) {
+  const [synthChain, symbol] = isMayaOrThor
+    ? identifier.split(".").slice(1).join().split("/")
+    : identifier.split("/");
+
+  if (!(synthChain && symbol && isMayaOrThor)) {
     throw new SwapKitError({
       errorKey: "helpers_invalid_asset_identifier",
       info: { identifier },
@@ -304,7 +306,7 @@ function createSyntheticAssetValue(identifier: string, value: NumberPrimitives =
   return new AssetValue({
     decimal: 8,
     value: safeValue(value, 8),
-    identifier: `${Chain.THORChain}.${synthChain}/${symbol}`,
+    identifier: `${chain}.${synthChain}/${symbol}`,
   });
 }
 
