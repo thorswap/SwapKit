@@ -1,5 +1,20 @@
 # @swapkit/sdk
 
+## 1.1.14
+
+### Patch Changes
+
+- [#934](https://github.com/thorswap/SwapKit/pull/934) [`4d5992d`](https://github.com/thorswap/SwapKit/commit/4d5992d93d59acf662170216b13a6136c5556d91) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Keystore deviration paths
+
+- Updated dependencies [[`4d5992d`](https://github.com/thorswap/SwapKit/commit/4d5992d93d59acf662170216b13a6136c5556d91), [`0f4baff`](https://github.com/thorswap/SwapKit/commit/0f4baffa165482622b93735ffffe9f0c154764c7)]:
+  - @swapkit/core@1.1.13
+  - @swapkit/tokens@1.2.0
+  - @swapkit/wallets@1.0.19
+  - @swapkit/plugin-chainflip@1.1.13
+  - @swapkit/plugin-evm@1.0.18
+  - @swapkit/plugin-thorchain@1.1.13
+  - @swapkit/api@1.4.7
+
 ## 1.1.13
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.2.0
+
+### Minor Changes
+
+- [#936](https://github.com/thorswap/SwapKit/pull/936) [`0f4baff`](https://github.com/thorswap/SwapKit/commit/0f4baffa165482622b93735ffffe9f0c154764c7) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Add shortCodes to generation
+
 ## 1.1.0
 
 ### Minor Changes
