@@ -19,7 +19,6 @@ import {
   type SwapKitWallet,
   type SwapParams,
   type WalletChain,
-  lowercasedContractAbiMapping,
 } from "@swapkit/helpers";
 import {
   type TransferParams as CosmosTransferParams,
@@ -382,26 +381,12 @@ export function SwapKit<
             return wallet.estimateTransactionFee(txObject, feeOptionKey);
           }
 
-          const { evmTransactionDetails } = params.route;
-          if (
-            !(
-              evmTransactionDetails &&
-              lowercasedContractAbiMapping[evmTransactionDetails.contractAddress]
-            )
-          ) {
+          const { tx } = params.route;
+          if (!tx) {
             return undefined;
           }
 
-          return wallet.estimateTransactionFee(
-            await wallet.createContractTxObject({
-              contractAddress: evmTransactionDetails.contractAddress,
-              // biome-ignore lint/style/noNonNullAssertion: TS cant infer the type
-              abi: lowercasedContractAbiMapping[evmTransactionDetails.contractAddress]!,
-              funcName: evmTransactionDetails.contractMethod,
-              funcParams: evmTransactionDetails.contractParams,
-            }),
-            feeOptionKey,
-          );
+          return wallet.estimateTransactionFee({ ...tx, value: BigInt(tx.value) }, feeOptionKey);
         }
 
         return AssetValue.from({ chain });

@@ -351,10 +351,10 @@ export const BaseUTXOToolbox = (
   }) => {
     return AssetValue.from({
       chain: baseToolboxParams.chain,
-      value: new SwapKitNumber({
-        value: (await getInputsOutputsFee({ ...params, ...baseToolboxParams })).fee,
-        decimal: 8,
-      }).getValue("string"),
+      value: SwapKitNumber.fromBigInt(
+        BigInt((await getInputsOutputsFee({ ...params, ...baseToolboxParams })).fee),
+        8,
+      ).getValue("string"),
     });
   },
 

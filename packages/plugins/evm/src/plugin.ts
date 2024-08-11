@@ -1,5 +1,4 @@
-import type { QuoteResponseRoute, QuoteResponseRouteDev } from "@swapkit/api";
-import { lowercasedContractAbiMapping } from "@swapkit/helpers";
+import type { QuoteResponseRoute } from "@swapkit/api";
 import {
   ApproveMode,
   type ApproveReturnType,
@@ -18,14 +17,8 @@ type ApproveParams = {
 };
 
 function plugin({ getWallet }: SwapKitPluginParams) {
-  async function swap({
-    route,
-    feeOptionKey,
-  }: SwapParams<"evm", QuoteResponseRoute | QuoteResponseRouteDev>) {
-    const { sellAsset } = route;
-
-    const tx = (route as QuoteResponseRouteDev).tx;
-    const evmTransactionDetails = (route as QuoteResponseRoute).evmTransactionDetails;
+  async function swap({ route, feeOptionKey }: SwapParams<"evm", QuoteResponseRoute>) {
+    const { tx, sellAsset } = route;
 
     const assetValue = await AssetValue.from({
       asset: sellAsset,
@@ -35,23 +28,10 @@ function plugin({ getWallet }: SwapKitPluginParams) {
     const evmChain = assetValue.chain as EVMChain;
     const wallet = getWallet(evmChain);
 
-    const abi =
-      evmTransactionDetails && lowercasedContractAbiMapping[evmTransactionDetails.contractAddress];
+    if (!(EVMChains.includes(evmChain) && tx)) throw new SwapKitError("core_swap_invalid_params");
 
-    if (!(EVMChains.includes(evmChain) && abi)) throw new SwapKitError("core_swap_invalid_params");
-
-    if (tx) {
-      return wallet.sendTransaction({ ...tx, value: BigInt(tx.value) }, feeOptionKey);
-    }
-
-    return wallet.call<string>({
-      contractAddress: evmTransactionDetails.contractAddress,
-      funcName: evmTransactionDetails.contractMethod,
-      funcParams: evmTransactionDetails.contractParams,
-      txOverrides: { from: wallet.address },
-      feeOption: feeOptionKey,
-      abi,
-    });
+    const { from, to, data } = tx;
+    return wallet.sendTransaction({ from, to, data, value: BigInt(tx.value) }, feeOptionKey);
   }
 
   /**
