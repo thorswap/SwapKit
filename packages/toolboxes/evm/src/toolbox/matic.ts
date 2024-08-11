@@ -30,7 +30,7 @@ export const MATICToolbox = ({
 }: {
   api?: CovalentApiType;
   covalentApiKey: string;
-  signer: Signer;
+  signer?: Signer;
   provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const maticApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Polygon });

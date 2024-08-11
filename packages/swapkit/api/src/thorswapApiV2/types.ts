@@ -174,10 +174,10 @@ export const QuoteRequestSchema = z
       description: "Asset to buy",
     }),
     sellAmount: z
-      .number({
+      .string({
         description: "Amount of asset to sell",
       })
-      .refine((amount) => amount > 0, {
+      .refine((amount) => +amount > 0, {
         message: "sellAmount must be greater than 0",
         path: ["sellAmount"],
       }),
@@ -402,16 +402,6 @@ export const EVMTransactionSchema = z.object({
   from: z.string({
     description: "Address of the sender",
   }),
-  gas: z
-    .number({
-      description: "Gas limit",
-    })
-    .optional(),
-  gasPrice: z
-    .string({
-      description: "Gas price",
-    })
-    .optional(),
   value: z.string({
     description: "Value to send",
   }),
@@ -524,10 +514,17 @@ export const RouteQuoteMetadataAssetSchema = z.object({
 export type RouteQuoteMetadataAsset = z.infer<typeof RouteQuoteMetadataAssetSchema>;
 
 export const RouteQuoteMetadataSchema = z.object({
-  priceImpact: z.number({
-    description: "Price impact",
-  }),
+  priceImpact: z.optional(
+    z.number({
+      description: "Price impact",
+    }),
+  ),
   assets: z.optional(z.array(RouteQuoteMetadataAssetSchema)),
+  approvalAddress: z.optional(
+    z.string({
+      description: "Approval address for swap",
+    }),
+  ),
 });
 
 export const RouteQuoteWarningSchema = z.array(
@@ -537,93 +534,6 @@ export const RouteQuoteWarningSchema = z.array(
     tooltip: z.string().optional(),
   }),
 );
-
-const QuoteResponseRouteLegItemDev = z.object({
-  provider: z.nativeEnum(ProviderName),
-  sellAsset: z.string({
-    description: "Asset to sell",
-  }),
-  sellAmount: z.string({
-    description: "Sell amount",
-  }),
-  buyAsset: z.string({
-    description: "Asset to buy",
-  }),
-  buyAmount: z.string({
-    description: "Buy amount",
-  }),
-  buyAmountMaxSlippage: z.string({
-    description: "Buy amount max slippage",
-  }),
-  fees: z.optional(FeesSchema), // TODO remove optionality
-});
-
-const QuoteResponseRouteItemDev = z.object({
-  providers: z.array(z.nativeEnum(ProviderName)),
-  sellAsset: z.string({
-    description: "Asset to sell",
-  }),
-  sellAmount: z.string({
-    description: "Sell amount",
-  }),
-  buyAsset: z.string({
-    description: "Asset to buy",
-  }),
-  expectedBuyAmount: z.string({
-    description: "Expected Buy amount",
-  }),
-  expectedBuyAmountMaxSlippage: z.string({
-    description: "Expected Buy amount max slippage",
-  }),
-  sourceAddress: z.string({
-    description: "Source address",
-  }),
-  destinationAddress: z.string({
-    description: "Destination address",
-  }),
-  targetAddress: z.optional(
-    z.string({
-      description: "Target address",
-    }),
-  ),
-  expiration: z.optional(
-    z.string({
-      description: "Expiration",
-    }),
-  ),
-  memo: z.optional(
-    z.string({
-      description: "Memo",
-    }),
-  ),
-  fees: FeesSchema,
-  tx: z.optional(EVMTransactionSchema),
-  transaction: z.optional(z.unknown()), // Can take many forms depending on the chains
-  estimatedTime: z.optional(EstimatedTimeSchema), // TODO remove optionality
-  totalSlippageBps: z.number({
-    description: "Total slippage in bps",
-  }),
-  legs: z.array(QuoteResponseRouteLegItemDev),
-  warnings: RouteQuoteWarningSchema,
-  meta: RouteQuoteMetadataSchema,
-});
-
-export type QuoteResponseRouteDev = z.infer<typeof QuoteResponseRouteItemDev>;
-export type QuoteResponseRouteLegDev = z.infer<typeof QuoteResponseRouteLegItemDev>;
-
-export const QuoteResponseSchemaDev = z.object({
-  quoteId: z.string({
-    description: "Quote ID",
-  }),
-  routes: z.array(QuoteResponseRouteItemDev),
-  error: z.optional(
-    z.string({
-      description: "Error message",
-    }),
-  ),
-});
-
-export type QuoteResponseDev = z.infer<typeof QuoteResponseSchemaDev>;
 
 const QuoteResponseRouteLegItem = z.object({
   provider: z.nativeEnum(ProviderName),
@@ -673,6 +583,11 @@ const QuoteResponseRouteItem = z.object({
       description: "Target address",
     }),
   ),
+  inboundAddress: z.optional(
+    z.string({
+      description: "Inbound address",
+    }),
+  ),
   expiration: z.optional(
     z.string({
       description: "Expiration",
@@ -683,7 +598,8 @@ const QuoteResponseRouteItem = z.object({
       description: "Memo",
     }),
   ),
-  evmTransactionDetails: z.optional(EVMTransactionDetailsSchema),
+  fees: FeesSchema,
+  tx: z.optional(EVMTransactionSchema),
   transaction: z.optional(z.unknown()), // Can take many forms depending on the chains
   estimatedTime: z.optional(EstimatedTimeSchema), // TODO remove optionality
   totalSlippageBps: z.number({

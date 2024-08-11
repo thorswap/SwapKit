@@ -42,7 +42,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
       const { routes } = await SwapKitApi.getSwapQuoteV2(
         {
           sellAsset: inputAsset.toString(),
-          sellAmount: inputAssetValue.getValue("number"),
+          sellAmount: inputAssetValue.getValue("string"),
           buyAsset: outputAsset.toString(),
           sourceAddress,
           destinationAddress,
@@ -73,14 +73,11 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
 
   const swap = async (route: QuoteResponseRoute, inputAssetValue?: AssetValue) => {
     if (!(inputAsset && outputAsset && inputAssetValue && skClient)) return;
-    route.evmTransactionDetails?.approvalSpender &&
-    (await skClient.isAssetValueApproved(
-      inputAssetValue,
-      route.evmTransactionDetails?.approvalSpender,
-    ))
+    const approvalSpender = route.meta?.approvalAddress;
+    approvalSpender && (await skClient.isAssetValueApproved(inputAssetValue, approvalSpender))
       ? handleSwap(route)
-      : route.evmTransactionDetails?.approvalSpender
-        ? skClient.approveAssetValue(inputAssetValue, route.evmTransactionDetails?.approvalSpender)
+      : approvalSpender
+        ? skClient.approveAssetValue(inputAssetValue, approvalSpender)
         : new Error("Approval Spender not found");
   };
 

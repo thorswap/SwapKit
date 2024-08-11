@@ -1,5 +1,4 @@
 import type { QuoteResponseRoute } from "@swapkit/api";
-import { lowercasedContractAbiMapping } from "@swapkit/helpers";
 import {
   ApproveMode,
   type ApproveReturnType,
@@ -19,31 +18,20 @@ type ApproveParams = {
 
 function plugin({ getWallet }: SwapKitPluginParams) {
   async function swap({ route, feeOptionKey }: SwapParams<"evm", QuoteResponseRoute>) {
-    const { evmTransactionDetails, sellAmount, sellAsset } = route;
-
-    const abi =
-      evmTransactionDetails && lowercasedContractAbiMapping[evmTransactionDetails.contractAddress];
+    const { tx, sellAsset } = route;
 
     const assetValue = await AssetValue.from({
       asset: sellAsset,
-      value: sellAmount,
       asyncTokenLookup: true,
     });
 
     const evmChain = assetValue.chain as EVMChain;
-
-    if (!(EVMChains.includes(evmChain) && abi)) throw new SwapKitError("core_swap_invalid_params");
-
     const wallet = getWallet(evmChain);
 
-    return wallet.call<string>({
-      contractAddress: evmTransactionDetails.contractAddress,
-      funcName: evmTransactionDetails.contractMethod,
-      funcParams: evmTransactionDetails.contractParams,
-      txOverrides: { from: wallet.address },
-      feeOption: feeOptionKey,
-      abi,
-    });
+    if (!(EVMChains.includes(evmChain) && tx)) throw new SwapKitError("core_swap_invalid_params");
+
+    const { from, to, data } = tx;
+    return wallet.sendTransaction({ from, to, data, value: BigInt(tx.value) }, feeOptionKey);
   }
 
   /**
@@ -97,13 +85,13 @@ function plugin({ getWallet }: SwapKitPluginParams) {
     approveAssetValue,
     isAssetValueApproved,
     supportedSwapkitProviders: [
-      ProviderName.TRADERJOE_V1,
-      ProviderName.PANGOLIN_V1,
-      ProviderName.UNISWAP_V2,
-      ProviderName.SUSHISWAP_V2,
       ProviderName.ONEINCH,
-      ProviderName.WOOFI_V2,
       ProviderName.PANCAKESWAP,
+      ProviderName.PANGOLIN_V1,
+      ProviderName.SUSHISWAP_V2,
+      ProviderName.TRADERJOE_V2,
+      ProviderName.UNISWAP_V2,
+      ProviderName.UNISWAP_V3,
     ],
   };
 }
