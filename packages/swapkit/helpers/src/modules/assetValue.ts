@@ -289,7 +289,7 @@ async function createAssetValue(identifier: string, value: NumberPrimitives = 0)
 }
 
 function createSyntheticAssetValue(identifier: string, value: NumberPrimitives = 0) {
-  const chain = identifier.split(".")?.[0]?.toUpperCase() as Chain | undefined;
+  const chain = (identifier.split(".")?.[0]?.toUpperCase() as Chain) || Chain.THORChain;
   const isMayaOrThor = chain ? [Chain.Maya, Chain.THORChain].includes(chain) : false;
 
   const [synthChain, symbol] = isMayaOrThor
