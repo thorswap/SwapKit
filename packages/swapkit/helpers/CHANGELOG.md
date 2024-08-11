@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.4.1
+
+### Patch Changes
+
+- [`a95a531`](https://github.com/thorswap/SwapKit/commit/a95a531bb12bd1e359b0d4845d3a2329fd64a779) Thanks [@towanTG](https://github.com/towanTG)! - Fixes breaking change
+
 ## 1.4.0
 
 ### Minor Changes
