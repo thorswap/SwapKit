@@ -1,5 +1,13 @@
 # @swapkit/wallet-phantom
 
+## 1.0.18
+
+### Patch Changes
+
+- Updated dependencies [[`a95a531`](https://github.com/thorswap/SwapKit/commit/a95a531bb12bd1e359b0d4845d3a2329fd64a779)]:
+  - @swapkit/helpers@1.4.1
+  - @swapkit/toolbox-solana@1.0.18
+
 ## 1.0.17
 
 ### Patch Changes
