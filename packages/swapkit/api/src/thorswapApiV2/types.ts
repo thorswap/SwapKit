@@ -500,7 +500,7 @@ export const RouteLegWithoutAddressesSchema = RouteLegSchema.omit({
 export type RouteLegWithoutAddresses = z.infer<typeof RouteLegWithoutAddressesSchema>;
 
 export const RouteQuoteMetadataAssetSchema = z.object({
-  name: z.string({
+  asset: z.string({
     description: "Asset name",
   }),
   price: z.number({

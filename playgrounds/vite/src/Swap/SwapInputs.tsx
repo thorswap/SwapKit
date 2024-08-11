@@ -123,7 +123,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
                     .mul(
                       route.meta.assets?.find(
                         (asset) =>
-                          asset.name.toLowerCase() === outputAsset?.toString().toLowerCase(),
+                          asset.asset.toLowerCase() === outputAsset?.toString().toLowerCase(),
                       )?.price || 0,
                     )
                     .toFixed(4)}
