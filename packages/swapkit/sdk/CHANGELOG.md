@@ -1,5 +1,17 @@
 # @swapkit/sdk
 
+## 1.1.15
+
+### Patch Changes
+
+- Updated dependencies [[`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79), [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79), [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79)]:
+  - @swapkit/api@1.5.0
+  - @swapkit/plugin-evm@1.1.0
+  - @swapkit/core@1.2.0
+  - @swapkit/plugin-chainflip@1.1.14
+  - @swapkit/plugin-thorchain@1.1.14
+  - @swapkit/wallets@1.0.20
+
 ## 1.1.14
 
 ### Patch Changes
