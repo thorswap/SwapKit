@@ -1,5 +1,18 @@
 # @swapkit/api
 
+## 1.5.0
+
+### Minor Changes
+
+- [#943](https://github.com/thorswap/SwapKit/pull/943) [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79) Thanks [@towanTG](https://github.com/towanTG)! - Adopts new API schemas for quotes
+
+### Patch Changes
+
+- [#943](https://github.com/thorswap/SwapKit/pull/943) [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79) Thanks [@towanTG](https://github.com/towanTG)! - Fixes schema validation for v2 quote responses and changes EVMTransactionSchema
+
+- Updated dependencies [[`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79), [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79)]:
+  - @swapkit/helpers@1.4.0
+
 ## 1.4.7
 
 ### Patch Changes
