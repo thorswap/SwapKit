@@ -37,6 +37,7 @@ export const getSwapKitClient = (
           url: "http://localhost:1646",
         },
       },
+      chainflipBrokerUrl: params.brokerEndpoint,
     },
   });
 

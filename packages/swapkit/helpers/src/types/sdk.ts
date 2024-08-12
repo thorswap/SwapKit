@@ -75,10 +75,10 @@ export const QuoteRequestSchema = z
       description: "Asset to buy",
     }),
     sellAmount: z
-      .number({
+      .string({
         description: "Amount of asset to sell",
       })
-      .refine((amount) => amount > 0, {
+      .refine((amount) => Number.parseFloat(amount) > 0, {
         message: "sellAmount must be greater than 0",
         path: ["sellAmount"],
       }),

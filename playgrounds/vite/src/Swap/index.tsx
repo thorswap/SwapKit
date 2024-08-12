@@ -15,7 +15,7 @@ export default function Swap({
   skClient?: SwapKitClient;
 }) {
   const handleSwap = useCallback(
-    async (route: QuoteResponseRoute) => {
+    async (route: QuoteResponseRoute, isChainFlipBoost = false) => {
       const inputChain = inputAsset?.chain;
       const outputChain = outputAsset?.chain;
       if (!(outputChain && inputChain && skClient)) return;
@@ -23,6 +23,7 @@ export default function Swap({
       const txHash = await skClient.swap({
         route,
         feeOptionKey: FeeOption.Fast,
+        ...(isChainFlipBoost ? { maxBoostFeeBps: 10 } : {}),
       });
 
       window.open(skClient.getExplorerTxUrl({ chain: inputChain, txHash }), "_blank");

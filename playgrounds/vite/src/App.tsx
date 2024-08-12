@@ -31,7 +31,7 @@ const App = () => {
     covalentApiKey: import.meta.env.VITE_COVALENT_API_KEY || "cqt_rQ6333MVWCVJFVX3DbCCGMVqRH4q",
     ethplorerApiKey: import.meta.env.VITE_ETHPLORER_API_KEY || "freekey",
     walletConnectProjectId: "",
-    brokerEndpoint: "",
+    brokerEndpoint: "https://dev-api.swapkit.dev/channel",
   });
 
   const [{ inputAsset, outputAsset }, setSwapAssets] = useState<{
