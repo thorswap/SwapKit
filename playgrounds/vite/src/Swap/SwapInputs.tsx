@@ -79,11 +79,11 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
       return;
     }
 
-    route.tx?.approvalSpender &&
-    (await skClient.isAssetValueApproved(inputAssetValue, route.tx?.approvalSpender))
+    route.tx?.from &&
+    (await skClient.isAssetValueApproved(inputAssetValue, route.tx?.from))
       ? handleSwap(route, false)
-      : route.tx?.approvalSpender
-        ? skClient.approveAssetValue(inputAssetValue, route.tx?.approvalSpender)
+      : route.tx?.from
+        ? skClient.approveAssetValue(inputAssetValue, route.tx?.from)
         : new Error("Approval Spender not found");
   };
 
