@@ -143,7 +143,7 @@ export const OPToolbox = ({
 }: {
   api?: CovalentApiType;
   covalentApiKey: string;
-  signer: Signer;
+  signer?: Signer;
   provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const opApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Optimism });

@@ -6,6 +6,7 @@ import {
   RPCUrl,
   SwapKitError,
   WalletOption,
+  ensureEVMApiKeys,
   setRequestClientConfig,
 } from "@swapkit/helpers";
 import type { BaseCosmosToolboxType, DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
@@ -39,11 +40,11 @@ const SUPPORTED_CHAINS = [
 
 async function getToolbox({
   chain,
-  ethplorerApiKey,
-  covalentApiKey = "",
   walletconnect,
   address,
   session,
+  ethplorerApiKey,
+  covalentApiKey,
 }: {
   walletconnect: Walletconnect;
   session: SessionTypes.Struct;
@@ -60,31 +61,15 @@ async function getToolbox({
     case Chain.Optimism:
     case Chain.Polygon:
     case Chain.Ethereum: {
-      if (chain === Chain.Ethereum && !ethplorerApiKey) {
-        throw new SwapKitError({
-          errorKey: "wallet_missing_api_key",
-          info: { chain, missingApiKey: "ethplorerApiKey" },
-        });
-      }
-      if (chain !== Chain.Ethereum && !covalentApiKey) {
-        throw new SwapKitError({
-          errorKey: "wallet_missing_api_key",
-          info: { chain, missingApiKey: "covalentApiKey" },
-        });
-      }
-
       const { getProvider, getToolboxByChain } = await import("@swapkit/toolbox-evm");
+
+      const keys = ensureEVMApiKeys({ chain, ethplorerApiKey, covalentApiKey });
       const provider = getProvider(chain);
       const signer = await getEVMSigner({ walletconnect, chain, provider });
       const toolbox = getToolboxByChain(chain);
 
-      return toolbox({
-        provider,
-        // @ts-expect-error TODO: fix this
-        signer,
-        ethplorerApiKey: ethplorerApiKey as string,
-        covalentApiKey,
-      });
+      // @ts-expect-error TODO: fix this
+      return toolbox({ ...keys, provider, signer });
     }
 
     case Chain.THORChain: {
@@ -149,7 +134,7 @@ async function getToolbox({
 
         const signature: Todo = await signRequest(signDoc);
 
-        const bodyBytes = await buildEncodedTxBody({
+        const bodyBytes = buildEncodedTxBody({
           chain: Chain.THORChain,
           msgs: msgs.map(prepareMessageForBroadcast),
           memo: memo || "",

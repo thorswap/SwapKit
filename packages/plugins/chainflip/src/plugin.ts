@@ -2,7 +2,6 @@ import {
   AssetValue,
   type EVMWallets,
   ProviderName,
-  type QuoteResponseRoute,
   type SubstrateWallets,
   SwapKitError,
   type SwapKitPluginParams,
@@ -49,13 +48,7 @@ function plugin({
   config: { chainflipBrokerUrl },
 }: SwapKitPluginParams<{ chainflipBrokerUrl: string }>) {
   async function swap(swapParams: RequestSwapDepositAddressParams) {
-    if (
-      !(
-        "route" in swapParams &&
-        (swapParams.route as QuoteResponseRoute)?.buyAsset &&
-        chainflipBrokerUrl
-      )
-    ) {
+    if (!(swapParams?.route?.buyAsset && chainflipBrokerUrl)) {
       throw new SwapKitError("core_swap_invalid_params", { ...swapParams, chainflipBrokerUrl });
     }
 

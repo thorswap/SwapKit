@@ -1,6 +1,6 @@
 "use client";
 import type { AssetValue, QuoteResponseRoute, SwapKit } from "@swapkit/sdk";
-import { FeeOption, SwapKitApi, SwapKitNumber, ProviderName } from "@swapkit/sdk";
+import { FeeOption, ProviderName, SwapKitApi, SwapKitNumber } from "@swapkit/sdk";
 import { useCallback, useState } from "react";
 
 type Props = {
@@ -23,7 +23,6 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
 
       // ... LoL
       const amount = inputAsset.mul(0).add(amountValue);
-
       setInput(amount.gt(inputAsset) ? inputAsset : amount);
     },
     [inputAsset],
@@ -74,17 +73,14 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
 
   const swap = async (route: QuoteResponseRoute, inputAssetValue?: AssetValue) => {
     if (!(inputAsset && outputAsset && inputAssetValue && skClient)) return;
-    const isChainFlip = route?.providers?.includes(ProviderName.CHAINFLIP)
+    const isChainFlip = route?.providers?.includes(ProviderName.CHAINFLIP);
     if (isChainFlip) {
-      await handleSwap(route, useChainflipBoost)    
+      await handleSwap(route, useChainflipBoost);
       return;
     }
 
     route.tx?.approvalSpender &&
-    (await skClient.isAssetValueApproved(
-      inputAssetValue,
-      route.tx?.approvalSpender,
-    ))
+    (await skClient.isAssetValueApproved(inputAssetValue, route.tx?.approvalSpender))
       ? handleSwap(route, false)
       : route.tx?.approvalSpender
         ? skClient.approveAssetValue(inputAssetValue, route.tx?.approvalSpender)
@@ -127,17 +123,18 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
             {routes.map((route) => (
               <div key={route.targetAddress}>
                 {/* {route.meta?.} ({route.providers.join(",")}){" "} */}
-                { route?.providers?.includes(ProviderName.CHAINFLIP) && <div>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={useChainflipBoost}
-                      onChange={(e) => setUseChainflipBoost(e.target.checked)}
-                    />
-                    Use Chainflip
-                  </label>
-                </div>
-                }
+                {route?.providers?.includes(ProviderName.CHAINFLIP) && (
+                  <div>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={useChainflipBoost}
+                        onChange={(e) => setUseChainflipBoost(e.target.checked)}
+                      />
+                      Use Chainflip
+                    </label>
+                  </div>
+                )}
                 <button onClick={() => swap(route, inputAssetValue)} type="button">
                   {"SWAP =>"} Estimated Output: {route.expectedBuyAmount} {outputAsset?.ticker} ($
                   {new SwapKitNumber(route.expectedBuyAmount)

@@ -1,5 +1,87 @@
 # @swapkit/wallet-keystore
 
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [[`4ab3ca1`](https://github.com/thorswap/SwapKit/commit/4ab3ca1c6bb62067491f746de7726edb8fe5b451)]:
+  - @swapkit/helpers@1.4.2
+  - @swapkit/toolbox-cosmos@1.0.21
+  - @swapkit/toolbox-evm@1.2.2
+  - @swapkit/toolbox-radix@1.0.19
+  - @swapkit/toolbox-solana@1.0.19
+  - @swapkit/toolbox-substrate@1.1.14
+  - @swapkit/toolbox-utxo@1.1.2
+
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies [[`a95a531`](https://github.com/thorswap/SwapKit/commit/a95a531bb12bd1e359b0d4845d3a2329fd64a779)]:
+  - @swapkit/helpers@1.4.1
+  - @swapkit/toolbox-cosmos@1.0.20
+  - @swapkit/toolbox-evm@1.2.1
+  - @swapkit/toolbox-radix@1.0.18
+  - @swapkit/toolbox-solana@1.0.18
+  - @swapkit/toolbox-substrate@1.1.13
+  - @swapkit/toolbox-utxo@1.1.1
+
+## 1.1.1
+
+### Patch Changes
+
+- Updated dependencies [[`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79), [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79), [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79)]:
+  - @swapkit/helpers@1.4.0
+  - @swapkit/toolbox-utxo@1.1.0
+  - @swapkit/toolbox-evm@1.2.0
+  - @swapkit/toolbox-cosmos@1.0.19
+  - @swapkit/toolbox-radix@1.0.17
+  - @swapkit/toolbox-solana@1.0.17
+  - @swapkit/toolbox-substrate@1.1.12
+
+## 1.1.0
+
+### Minor Changes
+
+- [#934](https://github.com/thorswap/SwapKit/pull/934) [`4d5992d`](https://github.com/thorswap/SwapKit/commit/4d5992d93d59acf662170216b13a6136c5556d91) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Keystore deviration paths
+
+### Patch Changes
+
+- Updated dependencies [[`4d5992d`](https://github.com/thorswap/SwapKit/commit/4d5992d93d59acf662170216b13a6136c5556d91), [`169d2f8`](https://github.com/thorswap/SwapKit/commit/169d2f8985115a36db0ce175bb906a5927a65427)]:
+  - @swapkit/helpers@1.3.2
+  - @swapkit/toolbox-cosmos@1.0.18
+  - @swapkit/toolbox-evm@1.1.11
+  - @swapkit/toolbox-radix@1.0.16
+  - @swapkit/toolbox-solana@1.0.16
+  - @swapkit/toolbox-substrate@1.1.11
+  - @swapkit/toolbox-utxo@1.0.16
+
+## 1.0.17
+
+### Patch Changes
+
+- Updated dependencies [[`cde313d`](https://github.com/thorswap/SwapKit/commit/cde313dd30227101b10eeb528281cb2688fc669e)]:
+  - @swapkit/helpers@1.3.1
+  - @swapkit/toolbox-cosmos@1.0.17
+  - @swapkit/toolbox-evm@1.1.10
+  - @swapkit/toolbox-radix@1.0.15
+  - @swapkit/toolbox-solana@1.0.15
+  - @swapkit/toolbox-substrate@1.1.10
+  - @swapkit/toolbox-utxo@1.0.15
+
+## 1.0.16
+
+### Patch Changes
+
+- Updated dependencies [[`b402de7`](https://github.com/thorswap/SwapKit/commit/b402de79e1fa76d48f529bdb3a985c0a14cb8dcb), [`acd9e16`](https://github.com/thorswap/SwapKit/commit/acd9e16addca39fdfaeda55febbeb6dcad84f9c7), [`b402de7`](https://github.com/thorswap/SwapKit/commit/b402de79e1fa76d48f529bdb3a985c0a14cb8dcb)]:
+  - @swapkit/helpers@1.3.0
+  - @swapkit/toolbox-evm@1.1.9
+  - @swapkit/toolbox-cosmos@1.0.16
+  - @swapkit/toolbox-radix@1.0.14
+  - @swapkit/toolbox-solana@1.0.14
+  - @swapkit/toolbox-substrate@1.1.9
+  - @swapkit/toolbox-utxo@1.0.14
+
 ## 1.0.15
 
 ### Patch Changes

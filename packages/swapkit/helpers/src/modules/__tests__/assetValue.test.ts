@@ -33,6 +33,23 @@ describe("AssetValue", () => {
         value: 1234567890,
       });
       expect(ethThorSynth.toString()).toBe("ETH/THOR-0xa5f2211b9b8170f694421f2046281775e8468044");
+      expect(ethThorSynth.chain).toBe(Chain.THORChain);
+
+      const mayaEthSynth = new AssetValue({
+        chain: Chain.Maya,
+        symbol: "ETH/ETH",
+        decimal: 8,
+        value: 1234567890,
+      });
+      expect(mayaEthSynth.toString()).toBe("ETH/ETH");
+      expect(mayaEthSynth.chain).toBe(Chain.Maya);
+
+      const mayaEthSynthFrom = AssetValue.from({
+        asset: "MAYA.ETH/ETH",
+        value: 12.3456789,
+      });
+      expect(mayaEthSynthFrom.toString()).toBe("ETH/ETH");
+      expect(mayaEthSynthFrom.chain).toBe(Chain.Maya);
 
       const atomDerived = new AssetValue({
         identifier: "THOR.ATOM",
@@ -576,32 +593,32 @@ describe("AssetValue", () => {
         }),
       );
 
-      // TODO enable when BE fixes case sensitivity
-      //   const thor = AssetValue.from({ asset: "ETH.THOR" });
-      //   expect(thor).toEqual(
-      //     expect.objectContaining({
-      //       address: "0xa5f2211b9b8170f694421f2046281775e8468044",
-      //       chain: Chain.Ethereum,
-      //       decimal: 18,
-      //       isGasAsset: false,
-      //       isSynthetic: false,
-      //       symbol: "THOR-0xa5f2211b9b8170f694421f2046281775e8468044",
-      //       ticker: "THOR",
-      //     }),
-      //   );
+      const thor = AssetValue.from({ asset: "ETH.THOR" });
+      expect(thor).toEqual(
+        expect.objectContaining({
+          address: "0xa5f2211b9b8170f694421f2046281775e8468044",
+          chain: Chain.Ethereum,
+          decimal: 18,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: "THOR-0xa5f2211b9b8170f694421f2046281775e8468044",
+          ticker: "THOR",
+        }),
+      );
 
-      //   const vthor = AssetValue.from({ asset: "ETH.vTHOR" });
-      //   expect(vthor).toEqual(
-      //     expect.objectContaining({
-      //       address: "0x815c23eca83261b6ec689b60cc4a58b54bc24d8d",
-      //       chain: Chain.Ethereum,
-      //       decimal: 18,
-      //       isGasAsset: false,
-      //       isSynthetic: false,
-      //       symbol: "vTHOR-0x815c23eca83261b6ec689b60cc4a58b54bc24d8d",
-      //       ticker: "vTHOR",
-      //     }),
-      //   );
+      // FIXME: just some casing? is it safe to change
+      // const vthor = AssetValue.from({ asset: "ETH.vTHOR" });
+      // expect(vthor).toEqual(
+      //   expect.objectContaining({
+      //     address: "0x815c23eca83261b6ec689b60cc4a58b54bc24d8d",
+      //     chain: Chain.Ethereum,
+      //     decimal: 18,
+      //     isGasAsset: false,
+      //     isSynthetic: false,
+      //     symbol: "vTHOR-0x815c23eca83261b6ec689b60cc4a58b54bc24d8d",
+      //     ticker: "vTHOR",
+      //   }),
+      // );
 
       const arbAsset = AssetValue.from({ chain: Chain.Arbitrum });
       expect(arbAsset).toEqual(

@@ -1,5 +1,62 @@
 # @swapkit/helpers
 
+## 1.4.2
+
+### Patch Changes
+
+- [`4ab3ca1`](https://github.com/thorswap/SwapKit/commit/4ab3ca1c6bb62067491f746de7726edb8fe5b451) Thanks [@towanTG](https://github.com/towanTG)! - Fixes breaking change
+
+## 1.4.1
+
+### Patch Changes
+
+- [`a95a531`](https://github.com/thorswap/SwapKit/commit/a95a531bb12bd1e359b0d4845d3a2329fd64a779) Thanks [@towanTG](https://github.com/towanTG)! - Fixes breaking change
+
+## 1.4.0
+
+### Minor Changes
+
+- [#943](https://github.com/thorswap/SwapKit/pull/943) [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79) Thanks [@towanTG](https://github.com/towanTG)! - Adopts new API schemas for quotes
+
+### Patch Changes
+
+- [#943](https://github.com/thorswap/SwapKit/pull/943) [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79) Thanks [@towanTG](https://github.com/towanTG)! - Fixes schema validation for v2 quote responses and changes EVMTransactionSchema
+
+## 1.3.2
+
+### Patch Changes
+
+- [#934](https://github.com/thorswap/SwapKit/pull/934) [`4d5992d`](https://github.com/thorswap/SwapKit/commit/4d5992d93d59acf662170216b13a6136c5556d91) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Keystore deviration paths
+
+- [#942](https://github.com/thorswap/SwapKit/pull/942) [`169d2f8`](https://github.com/thorswap/SwapKit/commit/169d2f8985115a36db0ce175bb906a5927a65427) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Mayachain synth assetValue creation
+
+- Updated dependencies [[`0f4baff`](https://github.com/thorswap/SwapKit/commit/0f4baffa165482622b93735ffffe9f0c154764c7)]:
+  - @swapkit/tokens@1.2.0
+
+## 1.3.1
+
+### Patch Changes
+
+- [#933](https://github.com/thorswap/SwapKit/pull/933) [`cde313d`](https://github.com/thorswap/SwapKit/commit/cde313dd30227101b10eeb528281cb2688fc669e) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Add CaviarV1 to token lists, adjust findAssetBy to support Radix chain
+
+- Updated dependencies [[`cde313d`](https://github.com/thorswap/SwapKit/commit/cde313dd30227101b10eeb528281cb2688fc669e)]:
+  - @swapkit/tokens@1.1.0
+
+## 1.3.0
+
+### Minor Changes
+
+- [#926](https://github.com/thorswap/SwapKit/pull/926) [`acd9e16`](https://github.com/thorswap/SwapKit/commit/acd9e16addca39fdfaeda55febbeb6dcad84f9c7) Thanks [@ochhii1337](https://github.com/ochhii1337)! - add affiliate support runepool deposit memo
+
+### Patch Changes
+
+- [#918](https://github.com/thorswap/SwapKit/pull/918) [`b402de7`](https://github.com/thorswap/SwapKit/commit/b402de79e1fa76d48f529bdb3a985c0a14cb8dcb) Thanks [@mfaizan1](https://github.com/mfaizan1)! - Move contracts to one place, update with api new endpoints and types
+
+- [#918](https://github.com/thorswap/SwapKit/pull/918) [`b402de7`](https://github.com/thorswap/SwapKit/commit/b402de79e1fa76d48f529bdb3a985c0a14cb8dcb) Thanks [@mfaizan1](https://github.com/mfaizan1)! - add v2 price api
+
+- Updated dependencies [[`b402de7`](https://github.com/thorswap/SwapKit/commit/b402de79e1fa76d48f529bdb3a985c0a14cb8dcb)]:
+  - @swapkit/contracts@1.0.4
+
 ## 1.2.4
 
 ### Patch Changes

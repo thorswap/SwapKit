@@ -4,9 +4,9 @@ import {
   type ConnectWalletParams,
   type EVMChain,
   type EthereumWindowProvider,
-  SwapKitError,
   WalletOption,
   addEVMWalletNetwork,
+  ensureEVMApiKeys,
   prepareNetworkSwitch,
   setRequestClientConfig,
 } from "@swapkit/helpers";
@@ -60,34 +60,17 @@ export const getWeb3WalletMethods = async ({
   provider,
 }: {
   ethereumWindowProvider: Eip1193Provider | undefined;
-  chain: Chain;
+  chain: EVMChain;
   covalentApiKey?: string;
   ethplorerApiKey?: string;
   provider: BrowserProvider;
 }) => {
   if (!ethereumWindowProvider) throw new Error("Requested web3 wallet is not installed");
 
-  if (
-    (chain !== Chain.Ethereum && !covalentApiKey) ||
-    (chain === Chain.Ethereum && !ethplorerApiKey)
-  ) {
-    throw new SwapKitError({
-      errorKey: "wallet_missing_api_key",
-      info: {
-        missingKey: chain === Chain.Ethereum ? "ethplorerApiKey" : "covalentApiKey",
-        chain,
-      },
-    });
-  }
+  const keys = ensureEVMApiKeys({ chain, covalentApiKey, ethplorerApiKey });
+  const signer = await provider.getSigner();
 
-  const toolboxParams = {
-    provider,
-    signer: await provider.getSigner(),
-    ethplorerApiKey: ethplorerApiKey as string,
-    covalentApiKey: covalentApiKey as string,
-  };
-
-  const toolbox = getToolboxByChain(chain as EVMChain)(toolboxParams);
+  const toolbox = getToolboxByChain(chain)({ ...keys, provider, signer });
 
   try {
     chain !== Chain.Ethereum &&
@@ -124,7 +107,8 @@ function connectEVMWallet({
         if (!eip1193Provider) throw new Error("Missing provider");
         const provider = new BrowserProvider(eip1193Provider, "any");
         await provider.send("eth_requestAccounts", []);
-        const address = await (await provider.getSigner()).getAddress();
+        const signer = await provider.getSigner();
+        const address = await signer.getAddress();
 
         const walletMethods = await getWeb3WalletMethods({
           chain,
@@ -150,7 +134,8 @@ function connectEVMWallet({
 
       const web3provider = new BrowserProvider(getWalletForType(walletType), "any");
       await web3provider.send("eth_requestAccounts", []);
-      const address = await (await web3provider.getSigner()).getAddress();
+      const signer = await web3provider.getSigner();
+      const address = await signer.getAddress();
 
       const walletMethods = await getWeb3WalletMethods({
         chain,

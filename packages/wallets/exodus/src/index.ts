@@ -4,9 +4,9 @@ import {
   ChainToHexChainId,
   type ConnectWalletParams,
   type EVMChain,
-  SwapKitError,
   WalletOption,
   addEVMWalletNetwork,
+  ensureEVMApiKeys,
   prepareNetworkSwitch,
   setRequestClientConfig,
 } from "@swapkit/helpers";
@@ -122,38 +122,20 @@ export const getWalletMethods = async ({
     case Chain.Polygon: {
       if (!ethereumWindowProvider) throw new Error("Requested web3 wallet is not installed");
 
-      if (
-        (chain !== Chain.Ethereum && !covalentApiKey) ||
-        (chain === Chain.Ethereum && !ethplorerApiKey)
-      ) {
-        throw new SwapKitError({
-          errorKey: "wallet_missing_api_key",
-          info: {
-            missingKey: chain === Chain.Ethereum ? "ethplorerApiKey" : "covalentApiKey",
-            chain,
-          },
-        });
-      }
-
+      const keys = ensureEVMApiKeys({ chain, covalentApiKey, ethplorerApiKey });
       const provider = getProvider(chain);
+      const browserProvider = walletProvider as BrowserProvider;
 
-      await (walletProvider as BrowserProvider).send("eth_requestAccounts", []);
-      const address = await (await (walletProvider as BrowserProvider).getSigner()).getAddress();
-      const signer = await (walletProvider as BrowserProvider).getSigner();
+      await browserProvider.send("eth_requestAccounts", []);
 
-      const toolboxParams = {
-        provider,
-        signer,
-        ethplorerApiKey: ethplorerApiKey as string,
-        covalentApiKey: covalentApiKey as string,
-      };
-
-      const toolbox = getToolboxByChain(chain as EVMChain)(toolboxParams);
+      const signer = await browserProvider.getSigner();
+      const address = await signer.getAddress();
+      const toolbox = getToolboxByChain(chain)({ ...keys, provider, signer });
 
       try {
         chain !== Chain.Ethereum &&
           (await addEVMWalletNetwork(
-            walletProvider as BrowserProvider,
+            browserProvider,
             (toolbox as ReturnType<typeof AVAXToolbox>).getNetworkParams(),
           ));
       } catch (_error) {
@@ -163,9 +145,9 @@ export const getWalletMethods = async ({
       return {
         address,
         ...prepareNetworkSwitch<typeof toolbox>({
-          toolbox: { ...toolbox },
+          toolbox,
           chainId: ChainToHexChainId[chain],
-          provider: walletProvider as BrowserProvider,
+          provider: browserProvider,
         }),
       };
     }

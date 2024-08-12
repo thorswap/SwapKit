@@ -1,5 +1,11 @@
 # @swapkit/contracts
 
+## 1.0.4
+
+### Patch Changes
+
+- [#918](https://github.com/thorswap/SwapKit/pull/918) [`b402de7`](https://github.com/thorswap/SwapKit/commit/b402de79e1fa76d48f529bdb3a985c0a14cb8dcb) Thanks [@mfaizan1](https://github.com/mfaizan1)! - Move contracts to one place, update with api new endpoints and types
+
 ## 1.0.3
 
 ### Patch Changes

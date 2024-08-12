@@ -34,8 +34,9 @@ export const getLedgerAddress = async ({
     case Chain.Dash:
     case Chain.Dogecoin:
     case Chain.Litecoin: {
-      await (ledgerClient as UTXOLedgerClients).connect();
-      const address = await (ledgerClient as UTXOLedgerClients).getAddress();
+      const ledger = ledgerClient as UTXOLedgerClients;
+      await ledger.connect();
+      const address = await ledger.getAddress();
 
       return chain === Chain.BitcoinCash ? address.replace("bitcoincash:", "") : address;
     }

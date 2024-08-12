@@ -1,6 +1,9 @@
 import type { QuoteRoute } from "@swapkit/api";
-import { type AGG_CONTRACT_ADDRESS, lowercasedGenericAbiMappings } from "@swapkit/contracts";
-import { SwapKitError } from "@swapkit/helpers";
+import {
+  type AGG_CONTRACT_ADDRESS,
+  SwapKitError,
+  lowercasedGenericAbiMappings,
+} from "@swapkit/helpers";
 
 type SwapInParams = {
   calldata: QuoteRoute["calldata"];

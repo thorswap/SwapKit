@@ -1,4 +1,5 @@
-import { lowercasedContractAbiMapping } from "@swapkit/contracts";
+import type { QuoteResponseRoute } from "@swapkit/api";
+
 import {
   ApproveMode,
   type ApproveReturnType,
@@ -18,7 +19,6 @@ import {
   type SwapKitWallet,
   type SwapParams,
   type WalletChain,
-  isGasAsset,
 } from "@swapkit/helpers";
 import {
   type TransferParams as CosmosTransferParams,
@@ -34,13 +34,25 @@ import {
   getExplorerTxUrl as getTxUrl,
 } from "./helpers/explorerUrls.ts";
 
+type PluginsType = {
+  [key in string]: {
+    plugin: (params: SwapKitPluginParams<NotWorth>) => NotWorth;
+    config?: NotWorth;
+  };
+};
+
+export type SwapKitParams<P, W> = {
+  apis?: ChainApis;
+  config?: ConnectConfig;
+  plugins?: P;
+  rpcUrls?: { [key in Chain]?: string };
+  // TODO: migrate to `config` only
+  stagenet?: boolean;
+  wallets?: W;
+};
+
 export function SwapKit<
-  Plugins extends {
-    [key in string]: {
-      plugin: (params: SwapKitPluginParams<NotWorth>) => NotWorth;
-      config?: NotWorth;
-    };
-  },
+  Plugins extends PluginsType,
   Wallets extends { [key in string]: SwapKitWallet<NotWorth[]> },
 >({
   apis = {},
@@ -49,18 +61,11 @@ export function SwapKit<
   rpcUrls = {},
   stagenet = false,
   wallets = {} as Wallets,
-}: {
-  apis?: ChainApis;
-  config?: ConnectConfig;
-  plugins: Plugins;
-  rpcUrls?: { [key in Chain]?: string };
-  stagenet?: boolean;
-  wallets?: Wallets;
-}) {
+}: SwapKitParams<Plugins, Wallets> = {}) {
   type PluginName = keyof Plugins;
   const connectedWallets = {} as FullWallet;
 
-  const availablePlugins = Object.entries(plugins).reduce(
+  const availablePlugins = Object.entries(plugins || {}).reduce(
     (acc, [pluginName, { plugin, config: pluginConfig }]) => {
       const methods = plugin({ getWallet, stagenet, config: pluginConfig ?? config });
 
@@ -254,7 +259,11 @@ export function SwapKit<
     return wallet;
   }
 
-  function swap<T extends PluginName>({ route, pluginName, ...rest }: SwapParams<T>) {
+  function swap<T extends PluginName>({
+    route,
+    pluginName,
+    ...rest
+  }: SwapParams<T, QuoteResponseRoute>) {
     const plugin =
       (pluginName && getSwapKitPlugin(pluginName)) ||
       getSwapKitPluginForSKProvider(route.providers[0] as PluginNameEnum);
@@ -269,17 +278,14 @@ export function SwapKit<
   }
 
   function transfer({
-    from,
-    recipient,
     assetValue,
-    memo,
-    feeOptionKey,
+    ...params
   }: UTXOTransferParams | EVMTransferParams | CosmosTransferParams) {
     const chain = assetValue.chain as WalletChain;
     const wallet = getWallet(chain);
     if (!wallet) throw new SwapKitError("core_wallet_connection_not_found");
 
-    return wallet.transfer({ from, recipient, assetValue, feeOptionKey, memo });
+    return wallet.transfer({ ...params, assetValue });
   }
 
   function signMessage({ chain, message }: { chain: Chain; message: string }) {
@@ -320,11 +326,8 @@ export function SwapKit<
     feeOptionKey,
     params,
   }: (
-    | { type: "swap"; params: SwapParams<T> & { assetValue: AssetValue } }
-    | {
-        type: "transfer";
-        params: UTXOTransferParams | EVMTransferParams | CosmosTransferParams;
-      }
+    | { type: "swap"; params: SwapParams<T, QuoteResponseRoute> & { assetValue: AssetValue } }
+    | { type: "transfer"; params: UTXOTransferParams | EVMTransferParams | CosmosTransferParams }
     | {
         type: "approve";
         params: {
@@ -355,7 +358,7 @@ export function SwapKit<
           return wallet.estimateTransactionFee(txObject, feeOptionKey);
         }
 
-        if (type === "approve" && !isGasAsset(assetValue)) {
+        if (type === "approve" && !assetValue.isGasAsset) {
           return wallet.estimateTransactionFee(
             await wallet.createApprovalTx({
               assetAddress: assetValue.address as string,
@@ -378,26 +381,12 @@ export function SwapKit<
             return wallet.estimateTransactionFee(txObject, feeOptionKey);
           }
 
-          const { evmTransactionDetails } = params.route;
-          if (
-            !(
-              evmTransactionDetails &&
-              lowercasedContractAbiMapping[evmTransactionDetails.contractAddress]
-            )
-          ) {
+          const { tx } = params.route;
+          if (!tx) {
             return undefined;
           }
 
-          return wallet.estimateTransactionFee(
-            await wallet.createContractTxObject({
-              contractAddress: evmTransactionDetails.contractAddress,
-              // biome-ignore lint/style/noNonNullAssertion: TS cant infer the type
-              abi: lowercasedContractAbiMapping[evmTransactionDetails.contractAddress]!,
-              funcName: evmTransactionDetails.contractMethod,
-              funcParams: evmTransactionDetails.contractParams,
-            }),
-            feeOptionKey,
-          );
+          return wallet.estimateTransactionFee({ ...tx, value: BigInt(tx.value) }, feeOptionKey);
         }
 
         return AssetValue.from({ chain });

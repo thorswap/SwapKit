@@ -3,14 +3,17 @@ import {
   Chain,
   type ConnectWalletParams,
   DerivationPath,
+  type DerivationPathArray,
   RPCUrl,
   type WalletChain,
   WalletOption,
   type WalletTxParams,
   type Witness,
+  derivationPathToString,
+  ensureEVMApiKeys,
   setRequestClientConfig,
 } from "@swapkit/helpers";
-import type { DepositParam, ThorchainToolboxType, TransferParams } from "@swapkit/toolbox-cosmos";
+import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
 import type {
   Psbt,
   TransactionType,
@@ -30,7 +33,7 @@ type Params = KeystoreOptions & {
   rpcUrl?: string;
   chain: Chain;
   phrase: string;
-  index: number;
+  derivationPath: string;
 };
 
 const getWalletMethodsForChain = async ({
@@ -41,11 +44,9 @@ const getWalletMethodsForChain = async ({
   ethplorerApiKey,
   covalentApiKey,
   blockchairApiKey,
-  index,
+  derivationPath,
   stagenet,
 }: Params) => {
-  const derivationPath = `${DerivationPath[chain] as string}/${index}`;
-
   switch (chain) {
     case Chain.BinanceSmartChain:
     case Chain.Arbitrum:
@@ -53,37 +54,29 @@ const getWalletMethodsForChain = async ({
     case Chain.Polygon:
     case Chain.Avalanche:
     case Chain.Ethereum: {
-      if (chain === Chain.Ethereum && !ethplorerApiKey) {
-        throw new Error("Ethplorer API key not found");
-        // biome-ignore lint/style/noUselessElse: This is a valid use case
-      } else if (!covalentApiKey) {
-        throw new Error("Covalent API key not found");
-      }
-
       const { HDNodeWallet, getProvider, getToolboxByChain } = await import("@swapkit/toolbox-evm");
 
+      const keys = ensureEVMApiKeys({ chain, covalentApiKey, ethplorerApiKey });
       const provider = getProvider(chain, rpcUrl);
       const wallet = HDNodeWallet.fromPhrase(phrase).connect(provider);
-      const params = { api, provider, signer: wallet };
+      const params = { ...keys, api, provider, signer: wallet };
 
-      const toolbox = getToolboxByChain(chain)({
-        ...params,
-        covalentApiKey,
-        ethplorerApiKey: ethplorerApiKey as string,
-      });
-
-      return { address: wallet.address, walletMethods: toolbox };
+      return { address: wallet.address, walletMethods: getToolboxByChain(chain)(params) };
     }
 
     case Chain.BitcoinCash: {
       const { BCHToolbox } = await import("@swapkit/toolbox-utxo");
-      const toolbox = BCHToolbox({
-        rpcUrl,
-        apiKey: blockchairApiKey,
-        apiClient: api,
-      });
+      const toolbox = BCHToolbox({ rpcUrl, apiKey: blockchairApiKey, apiClient: api });
       const keys = await toolbox.createKeysForPath({ phrase, derivationPath });
       const address = toolbox.getAddressFromKeys(keys);
+
+      function signTransaction({ builder, utxos }: Awaited<ReturnType<typeof toolbox.buildBCHTx>>) {
+        utxos.forEach((utxo, index) => {
+          builder.sign(index, keys, undefined, 0x41, (utxo.witnessUtxo as Witness).value);
+        });
+
+        return builder.build();
+      }
 
       const walletMethods = {
         ...toolbox,
@@ -92,21 +85,7 @@ const getWalletMethodsForChain = async ({
             Awaited<ReturnType<typeof toolbox.buildBCHTx>>,
             TransactionType
           >,
-        ) =>
-          toolbox.transfer({
-            ...params,
-            from: address,
-            signTransaction: ({
-              builder,
-              utxos,
-            }: Awaited<ReturnType<typeof toolbox.buildBCHTx>>) => {
-              utxos.forEach((utxo, index) => {
-                builder.sign(index, keys, undefined, 0x41, (utxo.witnessUtxo as Witness).value);
-              });
-
-              return builder.build();
-            },
-          }),
+        ) => toolbox.transfer({ ...params, from: address, signTransaction }),
       };
 
       return { address, walletMethods };
@@ -135,10 +114,7 @@ const getWalletMethodsForChain = async ({
             toolbox.transfer({
               ...params,
               from: address,
-              signTransaction: (psbt: Psbt) => {
-                psbt.signAllInputs(keys);
-                return psbt;
-              },
+              signTransaction: (psbt: Psbt) => psbt.signAllInputs(keys),
             }),
         },
       };
@@ -161,40 +137,20 @@ const getWalletMethodsForChain = async ({
       const signer = await toolbox.getSigner(phrase);
       const address = await toolbox.getAddressFromMnemonic(phrase);
 
-      const transfer = async ({ assetValue, recipient, memo }: TransferParams) =>
-        toolbox.transfer({
-          from: address,
-          recipient,
-          assetValue,
-          memo,
-          signer,
-        });
-
-      const deposit =
-        "deposit" in toolbox
-          ? ({ assetValue, memo }: DepositParam) => {
-              return (toolbox as ThorchainToolboxType).deposit({
-                assetValue,
-                memo,
-                from: address,
-                signer,
-              });
-            }
-          : undefined;
-
-      const signMessage = async (message: string) => {
-        const privateKey = await toolbox.createPrivateKeyFromPhrase(phrase);
-        return toolbox.signWithPrivateKey({ privateKey, message });
+      return {
+        address,
+        walletMethods: {
+          ...toolbox,
+          deposit: ({ assetValue, memo }: DepositParam) =>
+            toolbox.deposit({ assetValue, memo, from: address, signer }),
+          transfer: (params: TransferParams) =>
+            toolbox.transfer({ ...params, from: address, signer }),
+          signMessage: async (message: string) => {
+            const privateKey = await toolbox.createPrivateKeyFromPhrase(phrase);
+            return toolbox.signWithPrivateKey({ privateKey, message });
+          },
+        },
       };
-
-      const walletMethods = {
-        ...toolbox,
-        deposit,
-        transfer,
-        signMessage,
-      };
-
-      return { address, walletMethods };
     }
 
     case Chain.Polkadot:
@@ -218,7 +174,7 @@ const getWalletMethodsForChain = async ({
       const signer = await createPrivateKey(phrase);
       const toolbox = await RadixToolbox({ api, signer });
 
-      return { address: await toolbox.getAddress(), walletMethods: toolbox };
+      return { address: toolbox.getAddress(), walletMethods: toolbox };
     }
 
     case Chain.Solana: {
@@ -247,14 +203,23 @@ function connectKeystore({
   rpcUrls,
   config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
 }: ConnectWalletParams) {
-  return async function connectKeystore(chains: WalletChain[], phrase: string, index = 0) {
+  return async function connectKeystore(
+    chains: WalletChain[],
+    phrase: string,
+    derivationPathMapOrIndex?: { [chain in Chain]?: DerivationPathArray } | number,
+  ) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const promises = chains.map(async (chain) => {
+      const derivationPath =
+        typeof derivationPathMapOrIndex === "object" && derivationPathMapOrIndex[chain]
+          ? derivationPathToString(derivationPathMapOrIndex[chain])
+          : `${DerivationPath[chain]}/${derivationPathMapOrIndex}`;
+
       const { address, walletMethods } = await getWalletMethodsForChain({
-        index,
+        derivationPath,
         chain,
-        api: apis[chain as Chain.Avalanche],
+        api: apis[chain],
         rpcUrl: rpcUrls[chain],
         covalentApiKey,
         ethplorerApiKey,

@@ -48,7 +48,7 @@ export const ARBToolbox = ({
 }: {
   api?: CovalentApiType;
   covalentApiKey: string;
-  signer: Signer;
+  signer?: Signer;
   provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const arbApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Arbitrum });

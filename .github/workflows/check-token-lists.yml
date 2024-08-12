@@ -3,7 +3,7 @@ name: Check Token List
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 0,12 * * *"
 
 jobs:
   check-and-update:
@@ -14,25 +14,32 @@ jobs:
         uses: ./tools/github/setup-repo
 
       - name: Generate new token list
-        run: bun generate:tokens
-
-      - name: Push Token List Changes
         id: commit
-        uses: devops-infra/action-commit-push@0bb59c279dd1de9fe022ab2764fd30a39c6a1367
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          add_timestamp: false
-          commit_prefix: "[TOKENS]"
-          commit_message: "chore: automatic tokenlist update 🤖"
-          target_branch: bot/token-list-update
+        run: |
+          bun run build
+          bun generate:tokens
+          changes=$(git status -s | wc -l | xargs)
+          echo "numberOfChangedFiles=$changes" >> $GITHUB_OUTPUT
+
+          if [ $changes != 0 ]; then
+            echo "Changed files found, pushing to bot/token-list-update"
+
+            git config --global user.email "swapkit-bot@thorswap.finance"
+            git config --global user.name "swapkit-bot"
+            git checkout -b bot/token-list-update
+            git add .
+            git commit -m "🤖: automatic tokenlist update"
+            git push origin bot/token-list-update --force-with-lease
+          else
+            echo "No changes found"
+          fi
 
       - name: Publish Token List
-        if: ${{ steps.commit.outputs.files_changed != '' }}
+        if: ${{ steps.commit.outputs.numberOfChangedFiles > 0 }}
         run: |
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
+          git config --global user.email "swapkit-bot@thorswap.finance"
+          git config --global user.name "swapkit-bot"
           cp .npmrc.prod ./packages/swapkit/tokens/.npmrc
-          bun changeset pre exit
           bun changeset version --snapshot nightly
           cd packages/swapkit/tokens
           npm config list --no-workspaces
@@ -42,13 +49,13 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
 
-      - name: Run the Action
+      - name: Open Pull Request
         if: success()
-        uses: devops-infra/action-pull-request@e66e2ba93519dc63b9884a26e620e2fd0cffab2c
+        uses: devops-infra/action-pull-request@34a042a4b1cc7073122455aee6ffc76ccf9d9039
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: ${{ steps.commit.outputs.branch_name }}
+          source_branch: bot/token-list-update
           target_branch: develop
           title: "[Bot] Update Token List"
-          label: core
+          label: token-list
           get_diff: true

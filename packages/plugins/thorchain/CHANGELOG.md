@@ -1,5 +1,79 @@
 # @swapkit/plugin-thorchain
 
+## 1.1.16
+
+### Patch Changes
+
+- Updated dependencies [[`4ab3ca1`](https://github.com/thorswap/SwapKit/commit/4ab3ca1c6bb62067491f746de7726edb8fe5b451), [`3dd5ed8`](https://github.com/thorswap/SwapKit/commit/3dd5ed888041403db2fa9e9715ffc53edbc3d6c2)]:
+  - @swapkit/helpers@1.4.2
+  - @swapkit/api@1.5.2
+  - @swapkit/toolbox-cosmos@1.0.21
+  - @swapkit/toolbox-evm@1.2.2
+  - @swapkit/toolbox-substrate@1.1.14
+  - @swapkit/toolbox-utxo@1.1.2
+
+## 1.1.15
+
+### Patch Changes
+
+- Updated dependencies [[`a95a531`](https://github.com/thorswap/SwapKit/commit/a95a531bb12bd1e359b0d4845d3a2329fd64a779)]:
+  - @swapkit/helpers@1.4.1
+  - @swapkit/api@1.5.1
+  - @swapkit/toolbox-cosmos@1.0.20
+  - @swapkit/toolbox-evm@1.2.1
+  - @swapkit/toolbox-substrate@1.1.13
+  - @swapkit/toolbox-utxo@1.1.1
+
+## 1.1.14
+
+### Patch Changes
+
+- Updated dependencies [[`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79), [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79), [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79)]:
+  - @swapkit/helpers@1.4.0
+  - @swapkit/api@1.5.0
+  - @swapkit/toolbox-utxo@1.1.0
+  - @swapkit/toolbox-evm@1.2.0
+  - @swapkit/toolbox-cosmos@1.0.19
+  - @swapkit/toolbox-substrate@1.1.12
+
+## 1.1.13
+
+### Patch Changes
+
+- Updated dependencies [[`4d5992d`](https://github.com/thorswap/SwapKit/commit/4d5992d93d59acf662170216b13a6136c5556d91), [`169d2f8`](https://github.com/thorswap/SwapKit/commit/169d2f8985115a36db0ce175bb906a5927a65427)]:
+  - @swapkit/helpers@1.3.2
+  - @swapkit/api@1.4.7
+  - @swapkit/toolbox-cosmos@1.0.18
+  - @swapkit/toolbox-evm@1.1.11
+  - @swapkit/toolbox-substrate@1.1.11
+  - @swapkit/toolbox-utxo@1.0.16
+
+## 1.1.12
+
+### Patch Changes
+
+- Updated dependencies [[`acfcb24`](https://github.com/thorswap/SwapKit/commit/acfcb249d7f915f9ef37b7f3c29e52841e729a6b), [`cde313d`](https://github.com/thorswap/SwapKit/commit/cde313dd30227101b10eeb528281cb2688fc669e)]:
+  - @swapkit/api@1.4.6
+  - @swapkit/helpers@1.3.1
+  - @swapkit/toolbox-cosmos@1.0.17
+  - @swapkit/toolbox-evm@1.1.10
+  - @swapkit/toolbox-substrate@1.1.10
+  - @swapkit/toolbox-utxo@1.0.15
+
+## 1.1.11
+
+### Patch Changes
+
+- [#918](https://github.com/thorswap/SwapKit/pull/918) [`b402de7`](https://github.com/thorswap/SwapKit/commit/b402de79e1fa76d48f529bdb3a985c0a14cb8dcb) Thanks [@mfaizan1](https://github.com/mfaizan1)! - Move contracts to one place, update with api new endpoints and types
+
+- Updated dependencies [[`b402de7`](https://github.com/thorswap/SwapKit/commit/b402de79e1fa76d48f529bdb3a985c0a14cb8dcb), [`acd9e16`](https://github.com/thorswap/SwapKit/commit/acd9e16addca39fdfaeda55febbeb6dcad84f9c7), [`b402de7`](https://github.com/thorswap/SwapKit/commit/b402de79e1fa76d48f529bdb3a985c0a14cb8dcb)]:
+  - @swapkit/helpers@1.3.0
+  - @swapkit/toolbox-evm@1.1.9
+  - @swapkit/api@1.4.5
+  - @swapkit/toolbox-cosmos@1.0.16
+  - @swapkit/toolbox-substrate@1.1.9
+  - @swapkit/toolbox-utxo@1.0.14
+
 ## 1.1.10
 
 ### Patch Changes

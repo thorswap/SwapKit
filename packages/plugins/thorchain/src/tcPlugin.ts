@@ -1,6 +1,6 @@
-import type { QuoteRoute } from "@swapkit/api";
-import { type AGG_CONTRACT_ADDRESS, lowercasedContractAbiMapping } from "@swapkit/contracts";
+import type { QuoteResponseRoute, QuoteRoute } from "@swapkit/api";
 import {
+  type AGG_CONTRACT_ADDRESS,
   AGG_SWAP,
   AssetValue,
   Chain,
@@ -21,6 +21,7 @@ import {
   TCEthereumVaultAbi,
   type UTXOChain,
   getMemoForLoan,
+  lowercasedContractAbiMapping,
 } from "@swapkit/helpers";
 
 import { basePlugin } from "./basePlugin.ts";
@@ -161,19 +162,19 @@ function plugin({ getWallet, stagenet = false }: SwapKitPluginParams) {
     });
   }
 
-  function swap({ route, ...rest }: SwapParams<"thorchain"> | SwapWithRouteParams) {
+  function swap({ route, ...rest }: SwapParams<"thorchain", QuoteResponseRoute>) {
     if (!route) throw new SwapKitError("core_swap_invalid_params");
 
     const isV2Route = "legs" in route;
 
     if (isV2Route) {
-      return swapV2({ route, ...rest } as SwapParams<"thorchain">);
+      return swapV2({ route, ...rest });
     }
 
     return swapV1({ route, ...rest } as SwapWithRouteParams);
   }
 
-  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO Refactor
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: remove
   async function swapV1(swapParams: SwapWithRouteParams) {
     if (!("route" in swapParams)) throw new SwapKitError("core_swap_invalid_params");
 
@@ -314,7 +315,7 @@ function plugin({ getWallet, stagenet = false }: SwapKitPluginParams) {
     throw new SwapKitError("core_swap_quote_mode_not_supported", { quoteMode });
   }
 
-  async function swapV2({ route, feeOptionKey }: SwapParams<"thorchain">) {
+  async function swapV2({ route, feeOptionKey }: SwapParams<"thorchain", QuoteResponseRoute>) {
     if (!route) throw new SwapKitError("core_swap_invalid_params");
 
     const { memo, expiration, targetAddress } = route;
