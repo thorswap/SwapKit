@@ -40,8 +40,8 @@ const requestSwapDepositAddress =
     buyAsset,
     recipient: _recipient,
     brokerCommissionBPS = 0,
-    ccmMetadata,
-    maxBoostFeeBps,
+    ccmMetadata = null,
+    maxBoostFeeBps = 0,
   }: RequestSwapDepositAddressParams) => {
     const sellAssetValue = sellAsset || (route && AssetValue.from({ asset: route.sellAsset }));
     const buyAssetValue = buyAsset || (route && AssetValue.from({ asset: route.buyAsset }));
@@ -53,9 +53,6 @@ const requestSwapDepositAddress =
 
     const isBuyChainPolkadot =
       buyAsset?.chain === Chain.Polkadot || buyAssetValue.chain === Chain.Polkadot;
-
-    const _ccmMetadata = ccmMetadata ?? null;
-    const _maxBoostFeeBps = maxBoostFeeBps ?? 0;
 
     const recipientAddress = wrapWithThrow(() => {
       return isBuyChainPolkadot
@@ -69,8 +66,8 @@ const requestSwapDepositAddress =
         toCFTicker(buyAssetValue),
         { [buyAssetValue.chain.toLowerCase()]: recipientAddress },
         SwapKitNumber.fromBigInt(BigInt(brokerCommissionBPS)).getBaseValue("number"),
-        _ccmMetadata,
-        _maxBoostFeeBps,
+        ccmMetadata,
+        maxBoostFeeBps,
       );
 
       if (!tx) {
