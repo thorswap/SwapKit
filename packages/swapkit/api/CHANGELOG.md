@@ -1,5 +1,41 @@
 # @swapkit/api
 
+## 1.5.2
+
+### Patch Changes
+
+- [`3dd5ed8`](https://github.com/thorswap/SwapKit/commit/3dd5ed888041403db2fa9e9715ffc53edbc3d6c2) Thanks [@towanTG](https://github.com/towanTG)! - Updates meta schema
+
+- Updated dependencies [[`4ab3ca1`](https://github.com/thorswap/SwapKit/commit/4ab3ca1c6bb62067491f746de7726edb8fe5b451)]:
+  - @swapkit/helpers@1.4.2
+
+## 1.5.1
+
+### Patch Changes
+
+- Updated dependencies [[`a95a531`](https://github.com/thorswap/SwapKit/commit/a95a531bb12bd1e359b0d4845d3a2329fd64a779)]:
+  - @swapkit/helpers@1.4.1
+
+## 1.5.0
+
+### Minor Changes
+
+- [#943](https://github.com/thorswap/SwapKit/pull/943) [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79) Thanks [@towanTG](https://github.com/towanTG)! - Adopts new API schemas for quotes
+
+### Patch Changes
+
+- [#943](https://github.com/thorswap/SwapKit/pull/943) [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79) Thanks [@towanTG](https://github.com/towanTG)! - Fixes schema validation for v2 quote responses and changes EVMTransactionSchema
+
+- Updated dependencies [[`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79), [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79)]:
+  - @swapkit/helpers@1.4.0
+
+## 1.4.7
+
+### Patch Changes
+
+- Updated dependencies [[`4d5992d`](https://github.com/thorswap/SwapKit/commit/4d5992d93d59acf662170216b13a6136c5556d91), [`169d2f8`](https://github.com/thorswap/SwapKit/commit/169d2f8985115a36db0ce175bb906a5927a65427)]:
+  - @swapkit/helpers@1.3.2
+
 ## 1.4.6
 
 ### Patch Changes

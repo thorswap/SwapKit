@@ -623,7 +623,7 @@ export const BaseEVMToolbox = ({
     estimateGasLimit(provider, { assetValue, recipient, memo, signer }),
   estimateGasPrices: () => estimateGasPrices(provider, isEIP1559Compatible),
   isApproved: (params: IsApprovedParams) => isApproved(provider, params),
-  sendTransaction: (params: EIP1559TxParams, feeOption: FeeOption) =>
+  sendTransaction: (params: EIP1559TxParams, feeOption?: FeeOption) =>
     sendTransaction(provider, params, feeOption, signer, isEIP1559Compatible),
   transfer: (params: TransferParams) => transfer(provider, params, signer, isEIP1559Compatible),
   validateAddress,

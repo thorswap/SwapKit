@@ -1,5 +1,56 @@
 # @swapkit/sdk
 
+## 1.1.17
+
+### Patch Changes
+
+- Updated dependencies [[`3dd5ed8`](https://github.com/thorswap/SwapKit/commit/3dd5ed888041403db2fa9e9715ffc53edbc3d6c2)]:
+  - @swapkit/api@1.5.2
+  - @swapkit/plugin-chainflip@1.1.16
+  - @swapkit/plugin-evm@1.1.2
+  - @swapkit/plugin-thorchain@1.1.16
+  - @swapkit/core@1.2.2
+  - @swapkit/wallets@1.0.22
+
+## 1.1.16
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/plugin-chainflip@1.1.15
+  - @swapkit/plugin-evm@1.1.1
+  - @swapkit/plugin-thorchain@1.1.15
+  - @swapkit/api@1.5.1
+  - @swapkit/core@1.2.1
+  - @swapkit/wallets@1.0.21
+
+## 1.1.15
+
+### Patch Changes
+
+- Updated dependencies [[`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79), [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79), [`c0c3e49`](https://github.com/thorswap/SwapKit/commit/c0c3e499a5a79cb056efa6514f182883ff413c79)]:
+  - @swapkit/api@1.5.0
+  - @swapkit/plugin-evm@1.1.0
+  - @swapkit/core@1.2.0
+  - @swapkit/plugin-chainflip@1.1.14
+  - @swapkit/plugin-thorchain@1.1.14
+  - @swapkit/wallets@1.0.20
+
+## 1.1.14
+
+### Patch Changes
+
+- [#934](https://github.com/thorswap/SwapKit/pull/934) [`4d5992d`](https://github.com/thorswap/SwapKit/commit/4d5992d93d59acf662170216b13a6136c5556d91) Thanks [@chillios-dev](https://github.com/chillios-dev)! - Keystore deviration paths
+
+- Updated dependencies [[`4d5992d`](https://github.com/thorswap/SwapKit/commit/4d5992d93d59acf662170216b13a6136c5556d91), [`0f4baff`](https://github.com/thorswap/SwapKit/commit/0f4baffa165482622b93735ffffe9f0c154764c7)]:
+  - @swapkit/core@1.1.13
+  - @swapkit/tokens@1.2.0
+  - @swapkit/wallets@1.0.19
+  - @swapkit/plugin-chainflip@1.1.13
+  - @swapkit/plugin-evm@1.0.18
+  - @swapkit/plugin-thorchain@1.1.13
+  - @swapkit/api@1.4.7
+
 ## 1.1.13
 
 ### Patch Changes

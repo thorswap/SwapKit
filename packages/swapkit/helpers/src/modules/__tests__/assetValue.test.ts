@@ -33,6 +33,23 @@ describe("AssetValue", () => {
         value: 1234567890,
       });
       expect(ethThorSynth.toString()).toBe("ETH/THOR-0xa5f2211b9b8170f694421f2046281775e8468044");
+      expect(ethThorSynth.chain).toBe(Chain.THORChain);
+
+      const mayaEthSynth = new AssetValue({
+        chain: Chain.Maya,
+        symbol: "ETH/ETH",
+        decimal: 8,
+        value: 1234567890,
+      });
+      expect(mayaEthSynth.toString()).toBe("ETH/ETH");
+      expect(mayaEthSynth.chain).toBe(Chain.Maya);
+
+      const mayaEthSynthFrom = AssetValue.from({
+        asset: "MAYA.ETH/ETH",
+        value: 12.3456789,
+      });
+      expect(mayaEthSynthFrom.toString()).toBe("ETH/ETH");
+      expect(mayaEthSynthFrom.chain).toBe(Chain.Maya);
 
       const atomDerived = new AssetValue({
         identifier: "THOR.ATOM",

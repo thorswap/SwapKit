@@ -5,9 +5,7 @@ import {
   PriceResponseSchema,
   type QuoteRequest,
   type QuoteResponse,
-  type QuoteResponseDev,
   QuoteResponseSchema,
-  QuoteResponseSchemaDev,
   type TokenListProvidersResponse,
   type TokensResponseV2,
   type TrackerParams,
@@ -16,6 +14,7 @@ import {
 
 const baseUrl = "https://api.swapkit.dev";
 const baseUrlDev = "https://dev-api.swapkit.dev";
+
 function getBaseUrl(isDev?: boolean) {
   return isDev ? baseUrlDev : baseUrl;
 }
@@ -25,15 +24,20 @@ export function getTrackerDetails(payload: TrackerParams) {
 }
 
 export async function getSwapQuoteV2<T extends boolean>(searchParams: QuoteRequest, isDev?: T) {
-  const response = await RequestClient.post<T extends true ? QuoteResponseDev : QuoteResponse>(
-    `${getBaseUrl(isDev)}/quote`,
-    { json: searchParams },
-  );
+  const response = await RequestClient.post<QuoteResponse>(`${getBaseUrl(isDev)}/quote`, {
+    json: searchParams,
+  });
+
+  if (response.error) {
+    throw new SwapKitError("api_v2_server_error", { message: response.error });
+  }
 
   try {
-    return isDev ? QuoteResponseSchemaDev.parse(response) : QuoteResponseSchema.parse(response);
+    return QuoteResponseSchema.parse(response);
   } catch (error) {
-    throw new SwapKitError("api_v2_invalid_response", error);
+    // throw new SwapKitError("api_v2_invalid_response", error);
+    console.warn(error);
+    return response;
   }
 }
 

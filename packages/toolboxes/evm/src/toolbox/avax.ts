@@ -24,7 +24,7 @@ export const AVAXToolbox = ({
 }: {
   api?: CovalentApiType;
   covalentApiKey: string;
-  signer: Signer;
+  signer?: Signer;
   provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const avaxApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Avalanche });
