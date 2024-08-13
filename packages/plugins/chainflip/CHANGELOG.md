@@ -1,5 +1,11 @@
 # @swapkit/plugin-chainflip
 
+## 1.2.2
+
+### Patch Changes
+
+- [`3327ebc`](https://github.com/thorswap/SwapKit/commit/3327ebc914657615306b8413a3364c5bd41b51e9) Thanks [@towanTG](https://github.com/towanTG)! - Set route as optional param
+
 ## 1.2.1
 
 ### Patch Changes
