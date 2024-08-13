@@ -3,7 +3,7 @@ export const list = {
   chainId: "1",
   name: "Uniswap Labs Default",
   tags: {},
-  timestamp: "2024-08-01T21:09:01.364Z",
+  timestamp: "2024-08-07T21:36:16.926Z",
   version: {
     major: 12,
     minor: 10,

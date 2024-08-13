@@ -1,7 +1,7 @@
 export const list = {
   provider: "CHAINFLIP",
   name: "CHAINFLIP",
-  timestamp: "2024-08-06T16:30:32.374Z",
+  timestamp: "2024-08-08T08:30:23.562Z",
   version: {
     major: 1,
     minor: 0,
