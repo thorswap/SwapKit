@@ -1,5 +1,11 @@
 # @swapkit/plugin-chainflip
 
+## 1.2.0
+
+### Minor Changes
+
+- [#947](https://github.com/thorswap/SwapKit/pull/947) [`b3f04da`](https://github.com/thorswap/SwapKit/commit/b3f04dafe5f53f7cdc0d382802be256dca3e5ccd) Thanks [@anthon-dev](https://github.com/anthon-dev)! - chainflip boost enable
+
 ## 1.1.17
 
 ### Patch Changes
