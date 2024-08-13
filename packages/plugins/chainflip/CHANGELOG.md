@@ -1,5 +1,11 @@
 # @swapkit/plugin-chainflip
 
+## 1.2.1
+
+### Patch Changes
+
+- [`2310fde`](https://github.com/thorswap/SwapKit/commit/2310fde60135d03970c4833fc448205d9934c6f5) Thanks [@towanTG](https://github.com/towanTG)! - Makes chainflip boost bps optional
+
 ## 1.2.0
 
 ### Minor Changes
