@@ -74,8 +74,8 @@ export class AssetValue extends BigIntArithmetics {
     this.chainId = ChainToChainId[assetInfo.chain];
   }
 
-  toString() {
-    return `${this.chain}.${this.symbol}`;
+  toString({ includeSynthProtocol }: { includeSynthProtocol?: boolean } = {}) {
+    return this.isSynthetic && !includeSynthProtocol ? this.symbol : `${this.chain}.${this.symbol}`;
   }
 
   toUrl() {

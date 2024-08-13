@@ -59,6 +59,23 @@ describe("AssetValue", () => {
 
       expect(atomDerived.toString()).toBe("THOR.ATOM");
 
+      const mayaCacao = AssetValue.from({
+        asset: "MAYA.CACAO",
+        value: 10,
+      });
+
+      expect(mayaCacao.toString()).toBe("MAYA.CACAO");
+      expect(mayaCacao.getBaseValue("string")).toBe("1000000000");
+
+      const ethMayaSynth = AssetValue.from({
+        asset: "MAYA.ETH/ETH",
+        value: 10,
+      });
+
+      expect(ethMayaSynth.toString()).toBe("ETH/ETH");
+      expect(ethMayaSynth.toString({ includeSynthProtocol: true })).toBe("MAYA.ETH/ETH");
+      expect(ethMayaSynth.getBaseValue("string")).toBe("1000000000");
+
       // TODO:
       // const radixXWBTC = new AssetValue({
       //   identifier:
