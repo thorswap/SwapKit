@@ -1,5 +1,5 @@
 import type { QuoteResponseRoute } from "@swapkit/api";
-import type { AssetValue, GenericSwapParams } from "@swapkit/helpers";
+import type { AssetValue, SwapParams } from "@swapkit/helpers";
 
 export type WithdrawFeeResponse = {
   egressId: string;
@@ -12,7 +12,7 @@ export type WithdrawFeeResponse = {
 export type DepositChannelRequest = {
   brokerCommissionBPS: number;
   ccmMetadata: ccmMetadata;
-  maxBoostFeeBps: number;
+  maxBoostFeeBps?: number;
 };
 
 export type ccmMetadata = {
@@ -30,5 +30,5 @@ export type SwapDepositResponse = {
   brokerCommissionBPS: number;
 };
 
-export type RequestSwapDepositAddressParams = Partial<GenericSwapParams<QuoteResponseRoute>> &
+export type RequestSwapDepositAddressParams = SwapParams<"chainflip", QuoteResponseRoute> &
   Partial<DepositChannelRequest>;

@@ -1,12 +1,12 @@
 "use client";
 import type { AssetValue, QuoteResponseRoute, SwapKit } from "@swapkit/sdk";
-import { FeeOption, SwapKitApi, SwapKitNumber } from "@swapkit/sdk";
+import { FeeOption, ProviderName, SwapKitApi, SwapKitNumber } from "@swapkit/sdk";
 import { useCallback, useState } from "react";
 
 type Props = {
   inputAsset?: AssetValue;
   outputAsset?: AssetValue;
-  handleSwap: (route: QuoteResponseRoute) => Promise<void>;
+  handleSwap: (route: QuoteResponseRoute, isChainFlipBoost: boolean) => Promise<void>;
   skClient?: ReturnType<typeof SwapKit<{}, {}>>;
 };
 
@@ -15,6 +15,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
   const [inputAssetValue, setInput] = useState<AssetValue | undefined>();
   const [routes, setRoutes] = useState<QuoteResponseRoute[]>([]);
   const [feeBestRoute, setFeeBestRoute] = useState<AssetValue | undefined>();
+  const [useChainflipBoost, setUseChainflipBoost] = useState(true);
 
   const setAmount = useCallback(
     (amountValue: string) => {
@@ -22,7 +23,6 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
 
       // ... LoL
       const amount = inputAsset.mul(0).add(amountValue);
-
       setInput(amount.gt(inputAsset) ? inputAsset : amount);
     },
     [inputAsset],
@@ -47,7 +47,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
           sourceAddress,
           destinationAddress,
           slippage: 3,
-          providers: ["THORCHAIN"],
+          providers: ["CHAINFLIP"],
           affiliate: "t",
           affiliateFee: 10,
         },
@@ -73,11 +73,16 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
 
   const swap = async (route: QuoteResponseRoute, inputAssetValue?: AssetValue) => {
     if (!(inputAsset && outputAsset && inputAssetValue && skClient)) return;
-    const approvalSpender = route.meta?.approvalAddress;
-    approvalSpender && (await skClient.isAssetValueApproved(inputAssetValue, approvalSpender))
-      ? handleSwap(route)
-      : approvalSpender
-        ? skClient.approveAssetValue(inputAssetValue, approvalSpender)
+    const isChainFlip = route?.providers?.includes(ProviderName.CHAINFLIP);
+    if (isChainFlip) {
+      await handleSwap(route, useChainflipBoost);
+      return;
+    }
+
+    route.tx?.from && (await skClient.isAssetValueApproved(inputAssetValue, route.tx?.from))
+      ? handleSwap(route, false)
+      : route.tx?.from
+        ? skClient.approveAssetValue(inputAssetValue, route.tx?.from)
         : new Error("Approval Spender not found");
   };
 
@@ -117,6 +122,18 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
             {routes.map((route) => (
               <div key={route.targetAddress}>
                 {/* {route.meta?.} ({route.providers.join(",")}){" "} */}
+                {route?.providers?.includes(ProviderName.CHAINFLIP) && (
+                  <div>
+                    <label>
+                      <input
+                        type="checkbox"
+                        checked={useChainflipBoost}
+                        onChange={(e) => setUseChainflipBoost(e.target.checked)}
+                      />
+                      Use Chainflip
+                    </label>
+                  </div>
+                )}
                 <button onClick={() => swap(route, inputAssetValue)} type="button">
                   {"SWAP =>"} Estimated Output: {route.expectedBuyAmount} {outputAsset?.ticker} ($
                   {new SwapKitNumber(route.expectedBuyAmount)

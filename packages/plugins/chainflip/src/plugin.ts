@@ -1,4 +1,3 @@
-import type { QuoteResponseRoute } from "@swapkit/api";
 import {
   AssetValue,
   type EVMWallets,
@@ -6,9 +5,10 @@ import {
   type SubstrateWallets,
   SwapKitError,
   type SwapKitPluginParams,
-  type SwapParams,
   type UTXOWallets,
 } from "@swapkit/helpers";
+
+import type { RequestSwapDepositAddressParams } from "./types.ts";
 
 type SupportedChain = keyof (EVMWallets & SubstrateWallets & UTXOWallets);
 
@@ -17,11 +17,13 @@ export async function confirmSwap({
   sellAsset,
   recipient,
   brokerEndpoint,
+  maxBoostFeeBps,
 }: {
   buyAsset: AssetValue;
   sellAsset: AssetValue;
   recipient: string;
   brokerEndpoint: string;
+  maxBoostFeeBps: number;
 }) {
   try {
     const response = await fetch(brokerEndpoint, {
@@ -31,6 +33,7 @@ export async function confirmSwap({
         buyAsset: buyAsset.toString(),
         sellAsset: sellAsset.toString(),
         destinationAddress: recipient,
+        maxBoostFeeBps,
       }),
     }).then((res) => res.json());
 
@@ -44,7 +47,7 @@ function plugin({
   getWallet,
   config: { chainflipBrokerUrl },
 }: SwapKitPluginParams<{ chainflipBrokerUrl: string }>) {
-  async function swap(swapParams: SwapParams<"chainflip", QuoteResponseRoute>) {
+  async function swap(swapParams: RequestSwapDepositAddressParams) {
     if (!(swapParams?.route?.buyAsset && chainflipBrokerUrl)) {
       throw new SwapKitError("core_swap_invalid_params", { ...swapParams, chainflipBrokerUrl });
     }
@@ -56,7 +59,9 @@ function plugin({
         sellAmount,
         destinationAddress: recipient,
       },
+      maxBoostFeeBps = 0,
     } = swapParams;
+
     if (!(sellString && buyString)) {
       throw new SwapKitError("core_swap_asset_not_recognized");
     }
@@ -76,6 +81,7 @@ function plugin({
       buyAsset,
       recipient,
       sellAsset,
+      maxBoostFeeBps,
     });
 
     const tx = await wallet.transfer({
