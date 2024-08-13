@@ -214,7 +214,7 @@ function connectKeystore({
       const derivationPath =
         typeof derivationPathMapOrIndex === "object" && derivationPathMapOrIndex[chain]
           ? derivationPathToString(derivationPathMapOrIndex[chain])
-          : `${DerivationPath[chain]}/${derivationPathMapOrIndex}`;
+          : `${DerivationPath[chain]}/${derivationPathMapOrIndex || 0}`;
 
       const { address, walletMethods } = await getWalletMethodsForChain({
         derivationPath,
