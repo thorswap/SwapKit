@@ -12,7 +12,7 @@ export type WithdrawFeeResponse = {
 export type DepositChannelRequest = {
   brokerCommissionBPS: number;
   ccmMetadata: ccmMetadata;
-  maxBoostFeeBps: number;
+  maxBoostFeeBps?: number;
 };
 
 export type ccmMetadata = {

@@ -79,8 +79,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
       return;
     }
 
-    route.tx?.from &&
-    (await skClient.isAssetValueApproved(inputAssetValue, route.tx?.from))
+    route.tx?.from && (await skClient.isAssetValueApproved(inputAssetValue, route.tx?.from))
       ? handleSwap(route, false)
       : route.tx?.from
         ? skClient.approveAssetValue(inputAssetValue, route.tx?.from)

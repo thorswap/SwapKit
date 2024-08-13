@@ -59,7 +59,7 @@ function plugin({
         sellAmount,
         destinationAddress: recipient,
       },
-      maxBoostFeeBps,
+      maxBoostFeeBps = 0,
     } = swapParams;
 
     if (!(sellString && buyString)) {
@@ -81,7 +81,7 @@ function plugin({
       buyAsset,
       recipient,
       sellAsset,
-      maxBoostFeeBps: maxBoostFeeBps ?? 0,
+      maxBoostFeeBps,
     });
 
     const tx = await wallet.transfer({
