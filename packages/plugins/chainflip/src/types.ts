@@ -30,5 +30,5 @@ export type SwapDepositResponse = {
   brokerCommissionBPS: number;
 };
 
-export type RequestSwapDepositAddressParams = SwapParams<"chainflip", QuoteResponseRoute> &
+export type RequestSwapDepositAddressParams = Partial<SwapParams<"chainflip", QuoteResponseRoute>> &
   Partial<DepositChannelRequest>;
