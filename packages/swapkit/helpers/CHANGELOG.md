@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 1.5.0
+
+### Minor Changes
+
+- [#948](https://github.com/thorswap/SwapKit/pull/948) [`3020b4c`](https://github.com/thorswap/SwapKit/commit/3020b4ce936423501e8031423a248d9e53c726c9) Thanks [@ochhii1337](https://github.com/ochhii1337)! - update toString() result for synths
+
+### Patch Changes
+
+- [#948](https://github.com/thorswap/SwapKit/pull/948) [`3020b4c`](https://github.com/thorswap/SwapKit/commit/3020b4ce936423501e8031423a248d9e53c726c9) Thanks [@ochhii1337](https://github.com/ochhii1337)! - Adds index default to keystore and improves toString handling for synth AssetValue
+
 ## 1.4.2
 
 ### Patch Changes
