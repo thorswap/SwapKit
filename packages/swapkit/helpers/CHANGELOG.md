@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.5.1
+
+### Patch Changes
+
+- [`e0e8514`](https://github.com/thorswap/SwapKit/commit/e0e85143135e973a2c267a14e27b8c94002c7a47) Thanks [@towanTG](https://github.com/towanTG)! - Fixes cosmos transfer and derivationPath typing
+
 ## 1.5.0
 
 ### Minor Changes

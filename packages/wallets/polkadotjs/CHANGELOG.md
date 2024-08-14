@@ -1,5 +1,13 @@
 # @swapkit/wallet-polkadotjs
 
+## 1.0.17
+
+### Patch Changes
+
+- Updated dependencies [[`e0e8514`](https://github.com/thorswap/SwapKit/commit/e0e85143135e973a2c267a14e27b8c94002c7a47)]:
+  - @swapkit/helpers@1.5.1
+  - @swapkit/toolbox-substrate@1.1.16
+
 ## 1.0.16
 
 ### Patch Changes

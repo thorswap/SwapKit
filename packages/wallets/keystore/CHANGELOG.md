@@ -1,5 +1,20 @@
 # @swapkit/wallet-keystore
 
+## 1.1.5
+
+### Patch Changes
+
+- [`e0e8514`](https://github.com/thorswap/SwapKit/commit/e0e85143135e973a2c267a14e27b8c94002c7a47) Thanks [@towanTG](https://github.com/towanTG)! - Fixes TSC error and cosmos transfer
+
+- Updated dependencies [[`e0e8514`](https://github.com/thorswap/SwapKit/commit/e0e85143135e973a2c267a14e27b8c94002c7a47)]:
+  - @swapkit/toolbox-cosmos@1.0.23
+  - @swapkit/helpers@1.5.1
+  - @swapkit/toolbox-evm@1.2.4
+  - @swapkit/toolbox-radix@1.0.21
+  - @swapkit/toolbox-solana@1.0.21
+  - @swapkit/toolbox-substrate@1.1.16
+  - @swapkit/toolbox-utxo@1.1.4
+
 ## 1.1.4
 
 ### Patch Changes
