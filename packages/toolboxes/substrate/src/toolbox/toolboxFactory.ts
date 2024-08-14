@@ -57,7 +57,7 @@ export const ChainflipToolbox = async ({ providerUrl, signer, generic = false }:
     ];
   }
 
-  const baseToolbox = await ToolboxFactory({
+  const evmToolbox = await ToolboxFactory({
     chain: Chain.Chainflip,
     signer,
     providerUrl,
@@ -65,7 +65,7 @@ export const ChainflipToolbox = async ({ providerUrl, signer, generic = false }:
   });
 
   return {
-    ...baseToolbox,
+    ...evmToolbox,
     getBalance: async (address: string) => getBalance(api, address),
   };
 };

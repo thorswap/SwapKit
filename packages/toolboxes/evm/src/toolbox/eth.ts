@@ -5,7 +5,7 @@ import type { EthplorerApiType } from "../api/ethplorerApi.ts";
 import { ethplorerApi } from "../api/ethplorerApi.ts";
 import { type EVMTxBaseParams, estimateTransactionFee, getBalance } from "../index.ts";
 
-import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
+import { EVMToolbox } from "./EVMToolbox.ts";
 
 export const ETHToolbox = ({
   api,
@@ -19,11 +19,11 @@ export const ETHToolbox = ({
   provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const ethApi = api || ethplorerApi(ethplorerApiKey);
-  const baseToolbox = BaseEVMToolbox({ provider, signer });
+  const evmToolbox = EVMToolbox({ provider, signer });
   const chain = Chain.Ethereum;
 
   return {
-    ...baseToolbox,
+    ...evmToolbox,
     estimateTransactionFee: (txObject: EVMTxBaseParams, feeOptionKey?: FeeOption) =>
       estimateTransactionFee(txObject, feeOptionKey, chain, provider),
     getBalance: (

@@ -117,6 +117,7 @@ export const getDecimal = ({ chain, symbol }: { chain: Chain; symbol: string }) 
 export const getGasAsset = ({ chain }: { chain: Chain }) => {
   switch (chain) {
     case Chain.Arbitrum:
+    case Chain.Base:
     case Chain.Optimism:
       return AssetValue.from({ asset: `${chain}.ETH` });
     case Chain.Maya:
@@ -136,6 +137,7 @@ export const getGasAsset = ({ chain }: { chain: Chain }) => {
 export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
   switch (chain) {
     case Chain.Arbitrum:
+    case Chain.Base:
     case Chain.Optimism:
       return symbol === "ETH";
     case Chain.Maya:
@@ -157,6 +159,7 @@ export const getCommonAssetInfo = (
 ): { identifier: string; decimal: number } => {
   switch (assetString) {
     case Chain.Arbitrum:
+    case Chain.Base:
     case Chain.Optimism:
       return { identifier: `${assetString}.ETH`, decimal: BaseDecimal[assetString] };
 
@@ -190,24 +193,29 @@ export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }
   if (symbol.includes("/")) return "Synth";
 
   switch (chain) {
-    case Chain.Cosmos:
-      return symbol === "ATOM" ? "Native" : Chain.Cosmos;
-    case Chain.Kujira:
-      return symbol === Chain.Kujira ? "Native" : Chain.Kujira;
-    case Chain.BinanceSmartChain:
-      return symbol === "BNB" ? "Native" : "BEP20";
-    case Chain.Ethereum:
-      return symbol === Chain.Ethereum ? "Native" : "ERC20";
-    case Chain.Avalanche:
-      return symbol === Chain.Avalanche ? "Native" : Chain.Avalanche;
-    case Chain.Polygon:
-      return symbol === Chain.Polygon ? "Native" : "POLYGON";
     case Chain.Arbitrum:
       return [Chain.Ethereum, Chain.Arbitrum].includes(symbol as Chain) ? "Native" : "ARBITRUM";
     case Chain.Optimism:
       return [Chain.Ethereum, Chain.Optimism].includes(symbol as Chain) ? "Native" : "OPTIMISM";
+    case Chain.Base:
+      return [Chain.Ethereum, Chain.Base].includes(symbol as Chain) ? "Native" : "BASE";
+
+    case Chain.Cosmos:
+      return symbol === "ATOM" ? "Native" : Chain.Cosmos;
+    case Chain.BinanceSmartChain:
+      return symbol === "BNB" ? "Native" : "BEP20";
+
+    case Chain.Kujira:
+      return symbol === chain ? "Native" : Chain.Kujira;
+    case Chain.Avalanche:
+      return symbol === chain ? "Native" : Chain.Avalanche;
+
+    case Chain.Ethereum:
+      return symbol === chain ? "Native" : "ERC20";
+    case Chain.Polygon:
+      return symbol === chain ? "Native" : "POLYGON";
     case Chain.Radix:
-      return symbol === Chain.Radix ? "Native" : "RADIX";
+      return symbol === chain ? "Native" : "RADIX";
 
     default:
       return "Native";

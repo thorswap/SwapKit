@@ -19,6 +19,7 @@ import { utxoWalletMethods } from "./chains/utxo.ts";
 export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
   Chain.Avalanche,
+  Chain.Base,
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,

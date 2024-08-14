@@ -1,20 +1,28 @@
-import { BaseDecimal, Chain, ChainId, ChainToExplorerUrl, type FeeOption } from "@swapkit/helpers";
+import {
+  BaseDecimal,
+  Chain,
+  ChainId,
+  ChainToExplorerUrl,
+  type FeeOption,
+  RPCUrl,
+} from "@swapkit/helpers";
 import type { BrowserProvider, JsonRpcProvider, Signer } from "ethers";
 
 import type { CovalentApiType } from "../api/covalentApi.ts";
 import { covalentApi } from "../api/covalentApi.ts";
 import { type EVMTxBaseParams, estimateTransactionFee, getBalance } from "../index.ts";
+
 import { EVMToolbox } from "./EVMToolbox.ts";
 
 const getNetworkParams = () => ({
-  chainId: ChainId.BinanceSmartChainHex,
-  chainName: "BNB Chain",
-  nativeCurrency: { name: "Binance Coin", symbol: "BNB", decimals: BaseDecimal.BSC },
-  rpcUrls: ["https://bsc-dataseed.binance.org"],
-  blockExplorerUrls: [ChainToExplorerUrl[Chain.BinanceSmartChain]],
+  chainId: ChainId.BaseHex,
+  chainName: "Base Mainnet",
+  nativeCurrency: { name: "Ethereum", symbol: Chain.Ethereum, decimals: BaseDecimal.ETH },
+  rpcUrls: [RPCUrl.Base],
+  blockExplorerUrls: [ChainToExplorerUrl[Chain.Base]],
 });
 
-export const BSCToolbox = ({
+export const BASEToolbox = ({
   api,
   provider,
   signer,
@@ -25,26 +33,27 @@ export const BSCToolbox = ({
   signer?: Signer;
   provider: JsonRpcProvider | BrowserProvider;
 }) => {
-  const bscApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.BinanceSmartChain });
-  const evmToolbox = EVMToolbox({ provider, signer, isEIP1559Compatible: false });
-  const chain = Chain.BinanceSmartChain;
+  const evmToolbox = EVMToolbox({ provider, signer });
+  const chain = Chain.Base;
 
   return {
     ...evmToolbox,
     getNetworkParams,
     estimateTransactionFee: (txObject: EVMTxBaseParams, feeOptionKey: FeeOption) =>
-      estimateTransactionFee(txObject, feeOptionKey, chain, provider, false),
-    getBalance: (
+      estimateTransactionFee(txObject, feeOptionKey, chain, provider),
+    getBalance: async (
       address: string,
       potentialScamFilter = true,
       overwriteProvider?: JsonRpcProvider | BrowserProvider,
-    ) =>
-      getBalance({
+    ) => {
+      const balance = await getBalance({
         provider: overwriteProvider || provider,
-        api: bscApi,
+        api: api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Base }),
         address,
         chain,
         potentialScamFilter,
-      }),
+      });
+      return balance;
+    },
   };
 };

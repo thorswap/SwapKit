@@ -11,6 +11,7 @@ type CovalentBalanceResponse = {
   next_updated_at: string;
   quote_currency: string;
   items: {
+    is_spam: boolean;
     contract_decimals: number;
     contract_name: string;
     contract_ticker_symbol: string;
@@ -35,18 +36,26 @@ export const covalentApi = ({ apiKey, chainId }: { apiKey: string; chainId: Chai
       { searchParams: { key: apiKey } },
     );
 
-    return (data?.items || []).map(
-      ({ balance, contract_decimals, contract_ticker_symbol, contract_address, native_token }) => ({
-        value: formatBigIntToSafeValue({
-          value: BigInt(balance),
+    return (data?.items || [])
+      .filter(({ is_spam }) => !is_spam)
+      .map(
+        ({
+          balance,
+          contract_decimals,
+          contract_ticker_symbol,
+          contract_address,
+          native_token,
+        }) => ({
+          value: formatBigIntToSafeValue({
+            value: BigInt(balance),
+            decimal: contract_decimals,
+            bigIntDecimal: contract_decimals,
+          }),
           decimal: contract_decimals,
-          bigIntDecimal: contract_decimals,
+          chain: ChainIdToChain[chainId],
+          symbol: `${contract_ticker_symbol || "Unknown"}${native_token ? "" : `-${contract_address}`}`,
         }),
-        decimal: contract_decimals,
-        chain: ChainIdToChain[chainId],
-        symbol: `${contract_ticker_symbol}${native_token ? "" : `-${contract_address}`}`,
-      }),
-    );
+      );
   },
 });
 

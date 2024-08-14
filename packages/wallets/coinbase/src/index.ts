@@ -4,13 +4,14 @@ import { Chain, type ConnectWalletParams, WalletOption } from "@swapkit/helpers"
 
 import { getWalletForChain } from "./signer.js";
 
-const COINBASE_SUPPORTED_CHAINS = [
+export const COINBASE_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
   Chain.Avalanche,
+  Chain.Base,
   Chain.BinanceSmartChain,
+  Chain.Ethereum,
   Chain.Optimism,
   Chain.Polygon,
-  Chain.Ethereum,
 ] as const;
 
 function connectCoinbaseWallet({

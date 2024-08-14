@@ -22,9 +22,10 @@ import {
   walletTransfer,
 } from "./walletHelpers.ts";
 
-const XDEFI_SUPPORTED_CHAINS = [
+export const XDEFI_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
   Chain.Avalanche,
+  Chain.Base,
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
@@ -93,12 +94,13 @@ async function getWalletMethodsForChain({
       return { ...toolbox, transfer: walletTransfer };
     }
 
-    case Chain.Ethereum:
-    case Chain.BinanceSmartChain:
     case Chain.Arbitrum:
+    case Chain.Avalanche:
+    case Chain.Base:
+    case Chain.BinanceSmartChain:
+    case Chain.Ethereum:
     case Chain.Optimism:
-    case Chain.Polygon:
-    case Chain.Avalanche: {
+    case Chain.Polygon: {
       const { prepareNetworkSwitch, addEVMWalletNetwork } = await import("@swapkit/helpers");
       const {
         getProvider,

@@ -114,10 +114,11 @@ export const getWalletMethods = async ({
 
       return { ...toolbox, transfer, address };
     }
-    case Chain.Ethereum:
     case Chain.Arbitrum:
     case Chain.Avalanche:
+    case Chain.Base:
     case Chain.BinanceSmartChain:
+    case Chain.Ethereum:
     case Chain.Optimism:
     case Chain.Polygon: {
       if (!ethereumWindowProvider) throw new Error("Requested web3 wallet is not installed");

@@ -70,5 +70,8 @@
   },
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
   }
 }

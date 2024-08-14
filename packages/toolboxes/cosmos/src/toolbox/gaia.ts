@@ -20,7 +20,7 @@ export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => 
     chainId: ChainId.Cosmos,
   });
 
-  const baseToolbox: {
+  const cosmosToolbox: {
     validateAddress: (address: string) => boolean;
     getAddressFromMnemonic: (phrase: string) => Promise<string>;
     getAccount: (address: string) => Promise<Account | null>;
@@ -49,7 +49,7 @@ export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => 
   async function transfer(params: TransferParams) {
     const gasFees = await getFees();
 
-    return baseToolbox.transfer({
+    return cosmosToolbox.transfer({
       ...params,
       fee: params.fee || {
         amount: [
@@ -64,7 +64,7 @@ export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => 
   }
 
   return {
-    ...baseToolbox,
+    ...cosmosToolbox,
     getFees,
     transfer,
   };

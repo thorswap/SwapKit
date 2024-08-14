@@ -12,7 +12,7 @@ import type { CovalentApiType } from "../api/covalentApi.ts";
 import { covalentApi } from "../api/covalentApi.ts";
 import { type EVMTxBaseParams, estimateTransactionFee, getBalance } from "../index.ts";
 
-import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
+import { EVMToolbox } from "./EVMToolbox.ts";
 
 const getNetworkParams = () => ({
   chainId: ChainId.PolygonHex,
@@ -34,11 +34,11 @@ export const MATICToolbox = ({
   provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const maticApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Polygon });
-  const baseToolbox = BaseEVMToolbox({ provider, signer });
+  const evmToolbox = EVMToolbox({ provider, signer });
   const chain = Chain.Polygon;
 
   return {
-    ...baseToolbox,
+    ...evmToolbox,
     getNetworkParams,
     estimateTransactionFee: (txObject: EVMTxBaseParams, feeOptionKey: FeeOption) =>
       estimateTransactionFee(txObject, feeOptionKey, chain, provider),

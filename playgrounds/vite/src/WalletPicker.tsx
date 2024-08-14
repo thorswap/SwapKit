@@ -9,7 +9,7 @@ import {
   getDerivationPathFor,
   getEIP6963Wallets,
 } from "@swapkit/helpers";
-import type { EVMChain, FullWallet } from "@swapkit/sdk";
+import type { FullWallet } from "@swapkit/sdk";
 import { decryptFromKeystore } from "@swapkit/wallet-keystore";
 import { useCallback, useState } from "react";
 
@@ -35,6 +35,7 @@ const walletOptions = Object.values(WalletOption).filter(
 const AllChainsSupported = [
   Chain.Arbitrum,
   Chain.Avalanche,
+  Chain.Base,
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
@@ -134,7 +135,8 @@ export const availableChainsByWallet = {
 
 export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
   const [loading, setLoading] = useState(false);
-  const [chains, setChains] = useState<Chain[]>([]);
+  const [chains, setChains] = useState([]);
+
   const connectWallet = useCallback(
     async (option: WalletOption, provider?: Eip1193Provider) => {
       if (!skClient) return alert("client is not ready");
@@ -151,7 +153,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.KEEPKEY: {
           const derivationPaths = chains.map((chain) => getDerivationPathFor({ chain, index: 0 }));
 
-          await skClient.connectKeepkey?.(chains as EVMChain[], derivationPaths);
+          await skClient.connectKeepkey?.(chains, derivationPaths);
           localStorage.setItem("keepkeyApiKey", "1234");
           return true;
         }
@@ -163,18 +165,18 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           const connectMethod =
             WalletOption.TREZOR === option ? skClient.connectTrezor : skClient.connectLedger;
 
-          return connectMethod?.(chains as EVMChain[], getDerivationPathFor({ chain, index: 0 }));
+          return connectMethod?.(chains, getDerivationPathFor({ chain, index: 0 }));
         }
 
         case WalletOption.EXODUS:
         // @ts-ignore
         // return skClient.connectExodusWallet(chains, wallet);
         case WalletOption.COINBASE_MOBILE:
-          return skClient.connectCoinbaseWallet?.(chains as EVMChain[]);
+          return skClient.connectCoinbaseWallet?.(chains);
         case WalletOption.XDEFI:
-          return skClient.connectXDEFI?.(chains as EVMChain[]);
+          return skClient.connectXDEFI?.(chains);
         case WalletOption.OKX:
-          return skClient.connectOkx?.(chains as EVMChain[]);
+          return skClient.connectOkx?.(chains);
         case WalletOption.POLKADOT_JS:
           return skClient.connectPolkadotJs?.(chains as Chain.Polkadot[]);
 
@@ -251,8 +253,11 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
   );
 
   const handleChainSelect = useCallback((chain: Chain) => {
-    setChains((prev) =>
-      prev.includes(chain) ? prev.filter((c) => c !== chain) : [...prev, chain],
+    setChains(
+      (prev) =>
+        (prev.includes(chain as never)
+          ? prev.filter((c) => c !== chain)
+          : [...prev, chain]) as never,
     );
   }, []);
 
@@ -260,7 +265,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
     const selectedChains = Array.from(e.target.selectedOptions).map((o: Todo) => o.value);
 
     if (selectedChains.length > 1) {
-      setChains(selectedChains);
+      setChains(selectedChains as never);
     }
   }, []);
 
