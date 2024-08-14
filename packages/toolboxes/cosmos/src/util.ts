@@ -31,11 +31,20 @@ export const getDenom = (symbol: string, isThorchain = false) => {
   if (isThorchain) {
     return symbol.toLowerCase();
   }
+
   switch (symbol) {
     case "uUSK":
+    case "USK":
       return USK_KUJIRA_FACTORY_DENOM;
     case "uYUM":
+    case "YUM":
       return YUM_KUJIRA_FACTORY_DENOM;
+    case "uKUJI":
+    case "KUJI":
+      return "ukuji";
+    case "ATOM":
+    case "uATOM":
+      return "uatom";
     default:
       return symbol;
   }

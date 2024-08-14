@@ -19,7 +19,7 @@ const updatedLastIndex = (path: DerivationPathArray, index: number) => {
 };
 
 export function derivationPathToString([network, chainId, account, change, index]:
-  | [number, number, number, number, number | undefined]
+  | [number, number, number, number, number?]
   | DerivationPathArray) {
   const shortPath = typeof index !== "number";
 

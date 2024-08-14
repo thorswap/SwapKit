@@ -125,8 +125,11 @@ const getWalletMethodsForChain = async ({
       const { getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
       const toolbox = getToolboxByChain(chain)({ server: api, stagenet });
       const address = await toolbox.getAddressFromMnemonic(phrase);
+      const signer = await toolbox.getSigner(phrase);
 
-      return { address, walletMethods: toolbox };
+      const transfer = (params: TransferParams) => toolbox.transfer({ ...params, signer });
+
+      return { address, walletMethods: { ...toolbox, transfer } };
     }
 
     case Chain.Maya:
@@ -211,10 +214,15 @@ function connectKeystore({
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const promises = chains.map(async (chain) => {
-      const derivationPath =
-        typeof derivationPathMapOrIndex === "object" && derivationPathMapOrIndex[chain]
-          ? derivationPathToString(derivationPathMapOrIndex[chain])
-          : `${DerivationPath[chain]}/${derivationPathMapOrIndex || 0}`;
+      const index = typeof derivationPathMapOrIndex === "number" ? derivationPathMapOrIndex : 0;
+      const derivationPathArray =
+        derivationPathMapOrIndex && typeof derivationPathMapOrIndex === "object"
+          ? derivationPathMapOrIndex[chain]
+          : undefined;
+
+      const derivationPath = derivationPathArray
+        ? derivationPathToString(derivationPathArray)
+        : `${DerivationPath[chain]}/${index}`;
 
       const { address, walletMethods } = await getWalletMethodsForChain({
         derivationPath,

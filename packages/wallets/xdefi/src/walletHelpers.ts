@@ -218,7 +218,7 @@ export function cosmosTransfer({
 
     const coins = [
       {
-        denom: getDenom(`u${assetValue.symbol}`).toLowerCase(),
+        denom: getDenom(assetValue.symbol).toLowerCase(),
         amount: assetValue.getBaseValue("string"),
       },
     ];
