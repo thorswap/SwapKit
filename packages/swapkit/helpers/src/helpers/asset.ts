@@ -188,37 +188,26 @@ export const getCommonAssetInfo = (
   }
 };
 
-// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: Refactor
 export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
   if (symbol.includes("/")) return "Synth";
 
   switch (chain) {
     case Chain.Arbitrum:
-      return [Chain.Ethereum, Chain.Arbitrum].includes(symbol as Chain) ? "Native" : "ARBITRUM";
     case Chain.Optimism:
-      return [Chain.Ethereum, Chain.Optimism].includes(symbol as Chain) ? "Native" : "OPTIMISM";
     case Chain.Base:
-      return [Chain.Ethereum, Chain.Base].includes(symbol as Chain) ? "Native" : "BASE";
+      return symbol === Chain.Ethereum ? "Native" : chain;
 
     case Chain.Cosmos:
-      return symbol === "ATOM" ? "Native" : Chain.Cosmos;
+      return symbol === "ATOM" ? "Native" : chain;
     case Chain.BinanceSmartChain:
-      return symbol === "BNB" ? "Native" : "BEP20";
-
-    case Chain.Kujira:
-      return symbol === chain ? "Native" : Chain.Kujira;
-    case Chain.Avalanche:
-      return symbol === chain ? "Native" : Chain.Avalanche;
-
-    case Chain.Ethereum:
-      return symbol === chain ? "Native" : "ERC20";
-    case Chain.Polygon:
-      return symbol === chain ? "Native" : "POLYGON";
-    case Chain.Radix:
-      return symbol === chain ? "Native" : "RADIX";
+      return symbol === "BNB" ? "Native" : chain;
+    case Chain.Maya:
+      return symbol === "CACAO" ? "Native" : chain;
+    case Chain.THORChain:
+      return symbol === "RUNE" ? "Native" : chain;
 
     default:
-      return "Native";
+      return symbol === chain ? "Native" : chain;
   }
 };
 
