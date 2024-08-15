@@ -14,7 +14,7 @@ import { gasOracleAbi } from "../contracts/op/gasOracle.ts";
 import { getBalance } from "../index.ts";
 
 import { Contract, Transaction } from "ethers";
-import { BaseEVMToolbox } from "./BaseEVMToolbox.ts";
+import { EVMToolbox } from "./EVMToolbox.ts";
 
 const GAS_PRICE_ORACLE_ADDRESS = "0x420000000000000000000000000000000000000f";
 
@@ -147,10 +147,10 @@ export const OPToolbox = ({
   provider: JsonRpcProvider | BrowserProvider;
 }) => {
   const opApi = api || covalentApi({ apiKey: covalentApiKey, chainId: ChainId.Optimism });
-  const baseToolbox = BaseEVMToolbox({ provider, signer });
+  const evmToolbox = EVMToolbox({ provider, signer });
 
   return {
-    ...baseToolbox,
+    ...evmToolbox,
     estimateTotalGasCost: (tx: TransactionRequest) => estimateTotalGasCost(provider, tx),
     estimateL1GasCost: (tx: TransactionRequest) => estimateL1GasCost(provider, tx),
     estimateL2GasCost: (tx: TransactionRequest) => estimateL2GasCost(provider, tx),

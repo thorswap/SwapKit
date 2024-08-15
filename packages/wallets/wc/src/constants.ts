@@ -1,5 +1,3 @@
-import { Chain } from "@swapkit/helpers";
-
 import type { ClientMetadata } from "./types.ts";
 
 export const DEFAULT_RELAY_URL = "wss://relay.walletconnect.com";
@@ -84,16 +82,3 @@ export enum DEFAULT_NEAR_METHODS {
 }
 
 export enum DEFAULT_NEAR_EVENTS {}
-
-export const WC_SUPPORTED_CHAINS = [
-  Chain.Arbitrum,
-  Chain.Avalanche,
-  Chain.BinanceSmartChain,
-  Chain.Cosmos,
-  Chain.Ethereum,
-  Chain.Kujira,
-  Chain.Maya,
-  Chain.Optimism,
-  Chain.Polygon,
-  Chain.THORChain,
-] as const;

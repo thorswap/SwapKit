@@ -53,10 +53,11 @@ export function getXDEFIProvider<T extends Chain>(
   if (!window.xfi) throw new SwapKitError("wallet_xdefi_not_found");
 
   switch (chain) {
-    case Chain.Ethereum:
-    case Chain.Avalanche:
-    case Chain.BinanceSmartChain:
     case Chain.Arbitrum:
+    case Chain.Avalanche:
+    case Chain.Base:
+    case Chain.BinanceSmartChain:
+    case Chain.Ethereum:
     case Chain.Optimism:
     case Chain.Polygon:
       // @ts-expect-error

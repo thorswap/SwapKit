@@ -48,12 +48,13 @@ const getWalletMethodsForChain = async ({
   stagenet,
 }: Params) => {
   switch (chain) {
-    case Chain.BinanceSmartChain:
     case Chain.Arbitrum:
-    case Chain.Optimism:
-    case Chain.Polygon:
     case Chain.Avalanche:
-    case Chain.Ethereum: {
+    case Chain.Base:
+    case Chain.BinanceSmartChain:
+    case Chain.Ethereum:
+    case Chain.Optimism:
+    case Chain.Polygon: {
       const { HDNodeWallet, getProvider, getToolboxByChain } = await import("@swapkit/toolbox-evm");
 
       const keys = ensureEVMApiKeys({ chain, covalentApiKey, ethplorerApiKey });

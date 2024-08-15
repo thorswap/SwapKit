@@ -29,7 +29,7 @@ jobs:
             git checkout -b bot/token-list-update
             git add .
             git commit -m "🤖: automatic tokenlist update"
-            git push origin bot/token-list-update --force-with-lease
+            git push origin bot/token-list-update --force
           else
             echo "No changes found"
           fi

@@ -2,7 +2,7 @@ import type { Keplr } from "@keplr-wallet/types";
 import type { Eip1193Provider } from "@swapkit/toolbox-evm";
 import type { SolanaProvider } from "@swapkit/toolbox-solana";
 
-export { xdefiWallet } from "./xdefiWallet.ts";
+export { xdefiWallet, XDEFI_SUPPORTED_CHAINS } from "./xdefiWallet.ts";
 
 type XdefiSolana = SolanaProvider & { isXDEFI: boolean };
 

@@ -5,6 +5,7 @@ import type { AssetValue } from "../modules/assetValue";
 import type { Chain, CosmosChain, UTXOChain } from "./chains";
 
 type CovalentChains =
+  | Chain.Base
   | Chain.BinanceSmartChain
   | Chain.Polygon
   | Chain.Avalanche

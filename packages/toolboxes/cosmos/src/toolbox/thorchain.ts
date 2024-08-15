@@ -199,7 +199,7 @@ export const BaseThorchainToolbox = ({
   });
   const defaultFee = getDefaultChainFee(chain);
 
-  const baseToolbox: {
+  const cosmosToolbox: {
     createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
     getAccount: (address: string) => Promise<Account | null>;
     validateAddress: (address: string) => boolean;
@@ -216,7 +216,7 @@ export const BaseThorchainToolbox = ({
 
   const loadAddressBalances = async (address: string) => {
     try {
-      const balances: AssetValue[] = await baseToolbox.getBalance(address);
+      const balances: AssetValue[] = await cosmosToolbox.getBalance(address);
 
       return balances;
     } catch (error) {
@@ -278,7 +278,7 @@ export const BaseThorchainToolbox = ({
   };
 
   return {
-    ...baseToolbox,
+    ...cosmosToolbox,
     deposit: (params: DepositParam & { from: string }) => transfer(params),
     transfer,
     getFees,
@@ -300,7 +300,7 @@ export const BaseThorchainToolbox = ({
     loadAddressBalances,
     pubkeyToAddress: __REEXPORT__pubkeyToAddress(prefix),
     signWithPrivateKey,
-    verifySignature: verifySignature(baseToolbox.getAccount),
+    verifySignature: verifySignature(cosmosToolbox.getAccount),
   };
 };
 

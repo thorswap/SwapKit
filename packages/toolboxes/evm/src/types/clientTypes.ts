@@ -4,6 +4,7 @@ import type { BigNumberish, JsonFragment, Transaction } from "ethers";
 import type {
   ARBToolbox,
   AVAXToolbox,
+  BASEToolbox,
   BSCToolbox,
   ETHToolbox,
   MATICToolbox,
@@ -63,18 +64,19 @@ export type TransferParams = WalletTxParams & {
   assetValue: AssetValue;
 };
 
-export type EVMToolbox = ReturnType<
-  | typeof AVAXToolbox
-  | typeof ETHToolbox
-  | typeof BSCToolbox
-  | typeof OPToolbox
+export type EVMToolboxType = ReturnType<
   | typeof ARBToolbox
+  | typeof AVAXToolbox
+  | typeof BASEToolbox
+  | typeof BSCToolbox
+  | typeof ETHToolbox
   | typeof MATICToolbox
+  | typeof OPToolbox
 >;
 
 export type EVMMaxSendableAmountsParams = {
   from: string;
-  toolbox: EVMToolbox;
+  toolbox: EVMToolboxType;
   assetValue: AssetValue;
   feeOptionKey?: FeeOption;
   memo?: string;

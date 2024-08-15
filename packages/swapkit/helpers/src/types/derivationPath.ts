@@ -3,6 +3,7 @@ import type { Chain } from "./chains";
 export enum ContractAddress {
   ARB = "0x0000000000000000000000000000000000000000",
   AVAX = "0x0000000000000000000000000000000000000000",
+  BASE = "0x0000000000000000000000000000000000000000",
   ETH = "0x0000000000000000000000000000000000000000",
   BSC = "0x0000000000000000000000000000000000000000",
   MATIC = "0x0000000000000000000000000000000000001010",
@@ -12,6 +13,7 @@ export enum ContractAddress {
 export enum DerivationPath {
   ARB = "m/44'/60'/0'/0",
   AVAX = "m/44'/60'/0'/0",
+  BASE = "m/44'/60'/0'/0",
   BCH = "m/44'/145'/0'/0",
   BSC = "m/44'/60'/0'/0",
   BTC = "m/84'/0'/0'/0",
@@ -36,6 +38,7 @@ export type DerivationPathArray = [number, number, number, number, number?];
 export const NetworkDerivationPath: Record<Chain, DerivationPathArray> = {
   ARB: [44, 60, 0, 0, 0],
   AVAX: [44, 60, 0, 0, 0],
+  BASE: [44, 60, 0, 0, 0],
   BCH: [44, 145, 0, 0, 0],
   BSC: [44, 60, 0, 0, 0],
   BTC: [84, 0, 0, 0, 0],

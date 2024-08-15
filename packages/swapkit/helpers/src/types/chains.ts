@@ -3,6 +3,7 @@ import { ExplorerUrl, RPCUrl } from "./network";
 export enum Chain {
   Arbitrum = "ARB",
   Avalanche = "AVAX",
+  Base = "BASE",
   BinanceSmartChain = "BSC",
   Bitcoin = "BTC",
   BitcoinCash = "BCH",
@@ -29,6 +30,8 @@ export enum ChainId {
   ArbitrumHex = "0xa4b1",
   Avalanche = "43114",
   AvalancheHex = "0xa86a",
+  Base = "8453",
+  BaseHex = "0x2105",
   BinanceSmartChain = "56",
   BinanceSmartChainHex = "0x38",
   Bitcoin = "bitcoin",
@@ -59,6 +62,8 @@ export const ChainIdToChain: Record<ChainId, Chain> = {
   [ChainId.Arbitrum]: Chain.Arbitrum,
   [ChainId.AvalancheHex]: Chain.Avalanche,
   [ChainId.Avalanche]: Chain.Avalanche,
+  [ChainId.BaseHex]: Chain.Base,
+  [ChainId.Base]: Chain.Base,
   [ChainId.BinanceSmartChainHex]: Chain.BinanceSmartChain,
   [ChainId.BinanceSmartChain]: Chain.BinanceSmartChain,
   [ChainId.BitcoinCash]: Chain.BitcoinCash,
@@ -88,44 +93,46 @@ type ChainNameType = keyof typeof Chain;
 const chainNames = Object.keys(Chain) as ChainNameType[];
 const chains = Object.values(Chain) as Chain[];
 
-export enum BaseDecimal {
-  ARB = 18,
-  AVAX = 18,
-  BCH = 8,
-  BSC = 18,
-  BTC = 8,
-  DASH = 8,
-  DOGE = 8,
-  DOT = 10,
-  ETH = 18,
-  FLIP = 18,
-  GAIA = 6,
-  KUJI = 6,
-  LTC = 8,
-  MATIC = 18,
-  MAYA = 8,
-  OP = 18,
-  SOL = 9,
-  THOR = 8,
-  XRD = 18,
-  ZEC = 8,
-}
+export const BaseDecimal: Record<Chain, number> = {
+  ARB: 18,
+  AVAX: 18,
+  BASE: 18,
+  BCH: 8,
+  BSC: 18,
+  BTC: 8,
+  DASH: 8,
+  DOGE: 8,
+  DOT: 10,
+  ETH: 18,
+  FLIP: 18,
+  GAIA: 6,
+  KUJI: 6,
+  LTC: 8,
+  MATIC: 18,
+  MAYA: 8,
+  OP: 18,
+  SOL: 9,
+  THOR: 8,
+  XRD: 18,
+};
 
 export type SubstrateChain = Chain.Polkadot | Chain.Chainflip;
 export const SubstrateChains = [Chain.Polkadot, Chain.Chainflip];
 
 export type EVMChain =
-  | Chain.Ethereum
-  | Chain.Avalanche
-  | Chain.BinanceSmartChain
   | Chain.Arbitrum
+  | Chain.Avalanche
+  | Chain.Base
+  | Chain.BinanceSmartChain
+  | Chain.Ethereum
   | Chain.Optimism
   | Chain.Polygon;
 export const EVMChains = [
-  Chain.Ethereum,
-  Chain.Avalanche,
-  Chain.BinanceSmartChain,
   Chain.Arbitrum,
+  Chain.Avalanche,
+  Chain.Base,
+  Chain.BinanceSmartChain,
+  Chain.Ethereum,
   Chain.Optimism,
   Chain.Polygon,
 ] as const;
