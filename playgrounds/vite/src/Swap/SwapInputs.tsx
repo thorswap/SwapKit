@@ -47,9 +47,9 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
           sourceAddress,
           destinationAddress,
           slippage: 3,
-          providers: ["CHAINFLIP"],
           affiliate: "t",
           affiliateFee: 10,
+          includeTx: true,
         },
         true,
       );
