@@ -1,5 +1,16 @@
 # @swapkit/api
 
+## 1.6.0
+
+### Minor Changes
+
+- [`213bc7f`](https://github.com/thorswap/SwapKit/commit/213bc7fcff5071deb46c2005ba3802569053795b) Thanks [@towanTG](https://github.com/towanTG)! - Updates API quote meta schema
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.6.0
+
 ## 1.5.5
 
 ### Patch Changes
