@@ -1,5 +1,16 @@
 # @swapkit/toolbox-substrate
 
+## 1.2.0
+
+### Minor Changes
+
+- [`9277d7e`](https://github.com/thorswap/SwapKit/commit/9277d7eb7727fb71cf0eeb427002be6633b8a044) Thanks [@chillios-dev](https://github.com/chillios-dev)! - New chain - BASE
+
+### Patch Changes
+
+- Updated dependencies [[`9277d7e`](https://github.com/thorswap/SwapKit/commit/9277d7eb7727fb71cf0eeb427002be6633b8a044)]:
+  - @swapkit/helpers@1.6.0
+
 ## 1.1.16
 
 ### Patch Changes
