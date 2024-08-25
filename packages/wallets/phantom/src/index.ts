@@ -6,38 +6,70 @@ import {
   setRequestClientConfig,
 } from "@swapkit/helpers";
 
-function getPhantomProvider() {
-  // @ts-ignore
-  return window.phantom?.solana;
+export const PHANTOM_SUPPORTED_CHAINS = [Chain.Bitcoin, Chain.Solana] as const;
+export type PhantomSupportedChains = (typeof PHANTOM_SUPPORTED_CHAINS)[number];
+
+function getPhantomProvider<T extends PhantomSupportedChains>(chain: T) {
+  const phantom: NotWorth = window.phantom;
+  const provider = chain === Chain.Bitcoin ? phantom?.bitcoin : phantom?.solana;
+
+  if (!provider?.isPhantom) {
+    throw new SwapKitError("wallet_phantom_not_found");
+  }
+
+  return provider;
+}
+
+async function getWalletMethods<T extends PhantomSupportedChains>({
+  chain,
+}: {
+  rpcUrl?: string;
+  chain: T;
+}) {
+  const provider = getPhantomProvider(chain);
+  const connection = await provider.connect();
+  const address = connection.publicKey.toString();
+
+  switch (chain) {
+    case Chain.Bitcoin: {
+    }
+
+    case Chain.Solana: {
+      const { SOLToolbox } = await import("@swapkit/toolbox-solana");
+
+      return SOLToolbox({ rpcUrl });
+    }
+  }
 }
 
 function connectPhantom({ addChain, config: { thorswapApiKey }, rpcUrls }: ConnectWalletParams) {
-  return async function connectPhantom(chain: Chain = Chain.Solana) {
+  return async function connectPhantom(
+    chainOrChains: typeof PHANTOM_SUPPORTED_CHAINS | (typeof PHANTOM_SUPPORTED_CHAINS)[number],
+  ) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
-    const provider = getPhantomProvider();
-    if (!provider?.isPhantom) {
-      throw new SwapKitError("wallet_phantom_not_found");
-    }
-
     try {
-      const connection = await provider.connect();
-      const address = connection.publicKey.toString();
+      const singleChain = typeof chainOrChains === "string";
 
-      const { SOLToolbox } = await import("@swapkit/toolbox-solana");
+      if (singleChain) {
+        const connection = await provider.connect();
+        const address = connection.publicKey.toString();
 
-      const walletMethods = SOLToolbox({ rpcUrl: rpcUrls[chain] });
+        const { SOLToolbox } = await import("@swapkit/toolbox-solana");
 
-      addChain({
-        ...walletMethods,
-        chain,
-        address,
-        walletType: WalletOption.PHANTOM,
-        balance: [],
-        transfer: console.log,
-      });
+        const walletMethods = SOLToolbox({ rpcUrl: rpcUrls[chain] });
 
-      return true;
+        addChain({
+          ...walletMethods,
+          chain,
+          address,
+          walletType: WalletOption.PHANTOM,
+          balance: [],
+          transfer: console.log,
+        });
+
+        return true;
+      }
     } catch (_) {
       throw new SwapKitError("wallet_connection_rejected_by_user");
     }
