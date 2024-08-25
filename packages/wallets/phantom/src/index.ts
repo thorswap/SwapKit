@@ -138,7 +138,6 @@ function connectPhantom({
       return true;
     } catch (error) {
       if (error instanceof SwapKitError) throw error;
-
       throw new SwapKitError("wallet_connection_rejected_by_user");
     }
   };
