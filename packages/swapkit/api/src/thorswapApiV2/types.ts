@@ -525,6 +525,8 @@ export const RouteQuoteMetadataSchema = z.object({
       description: "Approval address for swap",
     }),
   ),
+  streamingInterval: z.number().optional(),
+  maxStreamingQuantity: z.number().optional(),
 });
 
 export const RouteQuoteWarningSchema = z.array(
