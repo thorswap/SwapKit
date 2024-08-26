@@ -2,14 +2,14 @@ export const list = {
   provider: "CAVIAR_V1",
   chainId: "radix-mainnet",
   name: "CAVIAR_V1",
-  timestamp: "2024-08-08T08:31:09.334Z",
+  timestamp: "2024-08-26T08:30:48.061Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: [],
-  count: 120,
+  count: 122,
   tokens: [
     {
       address: "resource_rdx1t4hw37aufauds7h7cwq24h25rxtzwe5gl7pz9qvrls2m3a7dmhh0v5",
@@ -392,6 +392,16 @@ export const list = {
       ticker: "GAB",
     },
     {
+      address: "resource_rdx1thxuqqsppfwsp95zy9p3t73tvzhqq40w7wstgwcqgv9ceavvja6hkq",
+      chain: "XRD",
+      chainId: "radix-mainnet",
+      decimals: 18,
+      identifier: "XRD.GIFT-resource_rdx1thxuqqsppfwsp95zy9p3t73tvzhqq40w7wstgwcqgv9ceavvja6hkq",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/xrd.gift-resource_rdx1thxuqqsppfwsp95zy9p3t73tvzhqq40w7wstgwcqgv9ceavvja6hkq.png",
+      ticker: "GIFT",
+    },
+    {
       address: "resource_rdx1tkf56rwzta4qemw5vrrwgf5xlkvdg5huxp26zsfrt6mm3x5frnvzeh",
       chain: "XRD",
       chainId: "radix-mainnet",
@@ -540,6 +550,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/xrd.jtm-resource_rdx1thw0cfmj70kn0xc0sgvchz04cfry9lwnd6q553jg8mhp52d2jvru3f.png",
       ticker: "JTM",
+    },
+    {
+      address: "resource_rdx1tklsaw4evqgmue59v7c87qm79tx2ppjp93ycxek8shrlmz426h7axq",
+      chain: "XRD",
+      chainId: "radix-mainnet",
+      decimals: 18,
+      identifier: "XRD.JWLXRD-resource_rdx1tklsaw4evqgmue59v7c87qm79tx2ppjp93ycxek8shrlmz426h7axq",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/xrd.jwlxrd-resource_rdx1tklsaw4evqgmue59v7c87qm79tx2ppjp93ycxek8shrlmz426h7axq.png",
+      ticker: "JWLXRD",
     },
     {
       address: "resource_rdx1thuj8jzt2wpt2vwpmtxdy9djqd8cjq6huqejlvmsjhl96a2hwy2gla",

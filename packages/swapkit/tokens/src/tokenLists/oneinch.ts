@@ -1,14 +1,14 @@
 export const list = {
   provider: "ONEINCH",
   name: "ONEINCH",
-  timestamp: "2024-08-08T08:30:26.529Z",
+  timestamp: "2024-08-26T08:30:33.731Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: ["oneinch", "1inch", "1inch.exchange", "1inch.exchange v1"],
-  count: 1456,
+  count: 1462,
   tokens: [
     {
       address: "0x63a72806098bd3d9520cc43356dd78afe5d386d9",
@@ -3341,6 +3341,16 @@ export const list = {
       ticker: "cDAI",
     },
     {
+      address: "0xfe18ae03741a5b84e39c295ac9c856ed7991c38e",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.CDCETH-0xfe18ae03741a5b84e39c295ac9c856ed7991c38e",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.cdceth-0xfe18ae03741a5b84e39c295ac9c856ed7991c38e.png",
+      ticker: "CDCETH",
+    },
+    {
       address: "0xaaaebe6fe48e54f431b0c390cfaf0b017d09d42d",
       chain: "ETH",
       chainId: "1",
@@ -4109,6 +4119,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.digg-0x798d1be841a82a273720ce31c822c61a67a601c3.png",
       ticker: "DIGG",
+    },
+    {
+      address: "0x6df0e641fc9847c0c6fde39be6253045440c14d3",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.DINERO-0x6df0e641fc9847c0c6fde39be6253045440c14d3",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.dinero-0x6df0e641fc9847c0c6fde39be6253045440c14d3.png",
+      ticker: "DINERO",
     },
     {
       address: "0x9e5bd9d9fad182ff0a93ba8085b664bcab00fa68",
@@ -6610,6 +6630,16 @@ export const list = {
       ticker: "MATTER",
     },
     {
+      address: "0x4a029f7bcf33acb03547d8fa7be840347973e24e",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.MAZZE-0x4a029f7bcf33acb03547d8fa7be840347973e24e",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.mazze-0x4a029f7bcf33acb03547d8fa7be840347973e24e.png",
+      ticker: "MAZZE",
+    },
+    {
       address: "0x945facb997494cc2570096c74b5f66a3507330a1",
       chain: "ETH",
       chainId: "1",
@@ -7178,6 +7208,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.nec-0xcc80c051057b774cd75067dc48f8987c4eb97a5e.png",
       ticker: "NEC",
+    },
+    {
+      address: "0xee2a03aa6dacf51c18679c516ad5283d8e7c2637",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 9,
+      identifier: "ETH.NEIRO-0xee2a03aa6dacf51c18679c516ad5283d8e7c2637",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.neiro-0xee2a03aa6dacf51c18679c516ad5283d8e7c2637.png",
+      ticker: "NEIRO",
     },
     {
       address: "0x3d1c949a761c11e4cc50c3ae6bdb0f24fd7a39da",
@@ -8278,6 +8318,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.push-0xf418588522d5dd018b425e472991e52ebbeeeeee.png",
       ticker: "PUSH",
+    },
+    {
+      address: "0x04c154b66cb340f3ae24111cc767e0184ed00cc6",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.pxETH-0x04c154b66cb340f3ae24111cc767e0184ed00cc6",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.pxeth-0x04c154b66cb340f3ae24111cc767e0184ed00cc6.png",
+      ticker: "pxETH",
     },
     {
       address: "0x6c3ea9036406852006290770bedfcaba0e23a0e8",
@@ -13177,6 +13227,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.thor-0xa5f2211b9b8170f694421f2046281775e8468044.png",
       ticker: "THOR",
+    },
+    {
+      address: "0xa059b81568fee88791de88232e838465826cf419",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 9,
+      identifier: "ETH.THREE-0xa059b81568fee88791de88232e838465826cf419",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.three-0xa059b81568fee88791de88232e838465826cf419.png",
+      ticker: "THREE",
     },
     {
       address: "0x29cbd0510eec0327992cd6006e63f9fa8e7f33b7",
