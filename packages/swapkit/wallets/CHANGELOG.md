@@ -1,5 +1,16 @@
 # @swapkit/wallets
 
+## 1.1.0
+
+### Minor Changes
+
+- [#960](https://github.com/thorswap/SwapKit/pull/960) [`64e5ce3`](https://github.com/thorswap/SwapKit/commit/64e5ce31b87d1b7fe48142dd08cc526c38641d87) Thanks [@anthon-dev](https://github.com/anthon-dev)! - Add Avalanche to the Talisman supported chains
+
+### Patch Changes
+
+- Updated dependencies [[`64e5ce3`](https://github.com/thorswap/SwapKit/commit/64e5ce31b87d1b7fe48142dd08cc526c38641d87)]:
+  - @swapkit/wallet-talisman@1.2.0
+
 ## 1.0.27
 
 ### Patch Changes
