@@ -120,6 +120,7 @@ export const availableChainsByWallet = {
   [WalletOption.TALISMAN]: [
     Chain.Ethereum,
     Chain.Arbitrum,
+    Chain.Avalanche,
     Chain.Polygon,
     Chain.BinanceSmartChain,
     Chain.Optimism,
