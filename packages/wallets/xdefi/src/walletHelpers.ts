@@ -2,7 +2,7 @@ import type { Keplr } from "@keplr-wallet/types";
 import {
   type AssetValue,
   Chain,
-  type ChainId,
+  ChainId,
   ChainToChainId,
   type EVMChain,
   EVMChains,
@@ -215,7 +215,11 @@ export function cosmosTransfer({
     const { createSigningStargateClient } = await import("@swapkit/toolbox-cosmos");
     // @ts-ignore
     const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(chainId);
-    const cosmJS = await createSigningStargateClient(rpcUrl || RPCUrl.Cosmos, offlineSigner);
+    const cosmJS = await createSigningStargateClient(
+      rpcUrl || RPCUrl.Cosmos,
+      offlineSigner,
+      chainId === ChainId.Kujira ? "0.0003ukuji" : undefined,
+    );
 
     const coins = [
       {
