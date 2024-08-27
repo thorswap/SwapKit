@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.6.2
+
+### Patch Changes
+
+- [#962](https://github.com/thorswap/SwapKit/pull/962) [`241d95f`](https://github.com/thorswap/SwapKit/commit/241d95fe407f76cebe3cebddbe594943a3be7e12) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Kuji cosmjs initiation
+
 ## 1.6.1
 
 ### Patch Changes
