@@ -98,6 +98,7 @@ export const getWalletForChain = async ({
     case Chain.Arbitrum:
     case Chain.Optimism:
     case Chain.Polygon:
+    case Chain.Avalanche:
     case Chain.BinanceSmartChain: {
       if (!(window.talismanEth && "send" in window.talismanEth)) {
         throw new SwapKitError({ errorKey: "wallet_talisman_not_found", info: { chain } });

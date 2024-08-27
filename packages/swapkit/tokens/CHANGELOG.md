@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.3.0
+
+### Minor Changes
+
+- [`bea3d9f`](https://github.com/thorswap/SwapKit/commit/bea3d9ff5ba7135033f372438739050ddead7ef0) Thanks [@towanTG](https://github.com/towanTG)! - Updates tokenlist
+
 ## 1.2.0
 
 ### Minor Changes

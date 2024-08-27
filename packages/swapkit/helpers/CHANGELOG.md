@@ -1,5 +1,12 @@
 # @swapkit/helpers
 
+## 1.6.1
+
+### Patch Changes
+
+- Updated dependencies [[`bea3d9f`](https://github.com/thorswap/SwapKit/commit/bea3d9ff5ba7135033f372438739050ddead7ef0)]:
+  - @swapkit/tokens@1.3.0
+
 ## 1.6.0
 
 ### Minor Changes

@@ -1,5 +1,35 @@
 # @swapkit/wallets
 
+## 1.1.0
+
+### Minor Changes
+
+- [#960](https://github.com/thorswap/SwapKit/pull/960) [`64e5ce3`](https://github.com/thorswap/SwapKit/commit/64e5ce31b87d1b7fe48142dd08cc526c38641d87) Thanks [@anthon-dev](https://github.com/anthon-dev)! - Add Avalanche to the Talisman supported chains
+
+### Patch Changes
+
+- Updated dependencies [[`64e5ce3`](https://github.com/thorswap/SwapKit/commit/64e5ce31b87d1b7fe48142dd08cc526c38641d87)]:
+  - @swapkit/wallet-talisman@1.2.0
+
+## 1.0.27
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-coinbase@1.1.1
+  - @swapkit/wallet-evm-extensions@1.0.23
+  - @swapkit/wallet-keepkey@1.1.2
+  - @swapkit/wallet-keplr@1.0.26
+  - @swapkit/wallet-keystore@1.2.2
+  - @swapkit/wallet-ledger@1.0.27
+  - @swapkit/wallet-okx@1.1.2
+  - @swapkit/wallet-phantom@1.0.23
+  - @swapkit/wallet-polkadotjs@1.0.19
+  - @swapkit/wallet-talisman@1.1.18
+  - @swapkit/wallet-trezor@1.0.23
+  - @swapkit/wallet-wc@1.1.2
+  - @swapkit/wallet-xdefi@1.1.2
+
 ## 1.0.26
 
 ### Patch Changes
