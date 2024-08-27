@@ -27,6 +27,7 @@ export enum WalletOption {
   KEPLR = "KEPLR",
   KEYSTORE = "KEYSTORE",
   LEDGER = "LEDGER",
+  LEDGER_LIVE = "LEDGER_LIVE",
   METAMASK = "METAMASK",
   OKX = "OKX",
   OKX_MOBILE = "OKX_MOBILE",

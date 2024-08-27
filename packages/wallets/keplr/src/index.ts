@@ -33,8 +33,10 @@ function connectKeplr({
     setRequestClientConfig({ apiKey: thorswapApiKey });
     const keplrClient = window.keplr;
 
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>
     const toolboxPromises = chains.map(async (chain) => {
       const chainId = ChainToChainId[chain];
+
       if (!keplrSupportedChainIds.includes(chainId)) {
         const chainConfig = chainRegistry.get(chainId);
         if (!chainConfig) throw new Error(`Unsupported chain ${chain}`);
@@ -51,6 +53,7 @@ function connectKeplr({
       const cosmJS = await createSigningStargateClient(
         rpcUrls[chain] || RPCUrl.Cosmos,
         offlineSigner,
+        chain === Chain.Kujira ? "0.0003ukuji" : undefined,
       );
 
       const accounts = await offlineSigner.getAccounts();
