@@ -255,7 +255,10 @@ async function convertResourcesToBalances({
         const assetInfo = divisibilities.get(item.resource_address) || { decimals: 0, symbol: "?" };
 
         const balance = AssetValue.from({
-          asset: `${Chain.Radix}.${assetInfo.symbol}-${item.resource_address}`,
+          asset:
+            assetInfo.symbol !== Chain.Radix
+              ? `${Chain.Radix}.${assetInfo.symbol}-${item.resource_address}`
+              : "XRD.XRD",
           value: item.amount,
         });
         balances.push(balance);
