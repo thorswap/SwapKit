@@ -1,3 +1,4 @@
+import type { QuoteResponseRoute } from "@swapkit/api";
 import {
   AssetValue,
   Chain,
@@ -8,7 +9,7 @@ import {
 } from "@swapkit/helpers";
 
 function plugin({ getWallet }: SwapKitPluginParams) {
-  async function swap({ route }: SwapParams<"radix">) {
+  async function swap({ route }: SwapParams<"radix", QuoteResponseRoute>) {
     const { sellAmount, sellAsset } = route;
 
     const assetValue = await AssetValue.from({

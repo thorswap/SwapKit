@@ -6,7 +6,6 @@ import type {
   PangolinList,
   SushiswapList,
   ThorchainList,
-  TraderjoeV1List,
   TraderjoeV2List,
   UniswapV2List,
   UniswapV3List,
@@ -22,7 +21,6 @@ export type TokenNames =
   | (typeof PangolinList)["tokens"][number]["identifier"]
   | (typeof SushiswapList)["tokens"][number]["identifier"]
   | (typeof ThorchainList)["tokens"][number]["identifier"]
-  | (typeof TraderjoeV1List)["tokens"][number]["identifier"]
   | (typeof TraderjoeV2List)["tokens"][number]["identifier"]
   | (typeof UniswapV2List)["tokens"][number]["identifier"]
   | (typeof UniswapV3List)["tokens"][number]["identifier"];
