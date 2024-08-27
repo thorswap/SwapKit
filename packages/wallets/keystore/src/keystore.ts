@@ -192,14 +192,7 @@ function connectKeystore({
   addChain,
   apis,
   rpcUrls,
-  config: {
-    thorswapApiKey,
-    covalentApiKey,
-    ethplorerApiKey,
-    blockchairApiKey,
-    stagenet,
-    radixDappConfig,
-  },
+  config: { thorswapApiKey, covalentApiKey, ethplorerApiKey, blockchairApiKey, stagenet },
 }: ConnectWalletParams) {
   return async function connectKeystore(
     chains: WalletChain[],

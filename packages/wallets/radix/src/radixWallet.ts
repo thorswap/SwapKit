@@ -28,7 +28,7 @@ const RadixSignerInstance = (
 
         if (account) resolve(account.address);
 
-        rdt.walletApi.setRequestData(DataRequestBuilder.accounts().atLeast(1));
+        rdt.walletApi.setRequestData(DataRequestBuilder.accounts().exactly(1));
         rdt.walletApi.sendRequest();
 
         rdt.walletApi.walletData$.subscribe((state) => {
