@@ -39,7 +39,10 @@ function validateAddress(address: string) {
 function createKeysForPath({
   phrase,
   derivationPath = DerivationPath.SOL,
-}: { phrase: string; derivationPath?: string }) {
+}: {
+  phrase: string;
+  derivationPath?: string;
+}) {
   const seed = mnemonicToSeedSync(phrase);
   const hdKey = HDKey.fromMasterSeed(seed);
 
@@ -53,7 +56,10 @@ function getAddressFromKeys(keypair: Keypair) {
 async function getTokenBalances({
   connection,
   address,
-}: { connection: Connection; address: string }) {
+}: {
+  connection: Connection;
+  address: string;
+}) {
   const tokenAccounts = await connection.getTokenAccountsByOwner(new PublicKey(address), {
     programId: TOKEN_PROGRAM_ID,
   });
