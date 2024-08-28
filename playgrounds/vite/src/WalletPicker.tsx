@@ -14,6 +14,7 @@ import { decryptFromKeystore } from "@swapkit/wallet-keystore";
 import { useCallback, useState } from "react";
 
 import type { Eip1193Provider } from "@swapkit/toolbox-evm";
+import { PHANTOM_SUPPORTED_CHAINS } from "@swapkit/wallet-phantom";
 import type { SwapKitClient } from "./swapKitClient";
 
 type Props = {
@@ -23,13 +24,7 @@ type Props = {
 };
 
 const walletOptions = Object.values(WalletOption).filter(
-  (o) =>
-    ![
-      WalletOption.KEPLR,
-      WalletOption.EXODUS,
-      WalletOption.RADIX_WALLET,
-      WalletOption.PHANTOM,
-    ].includes(o),
+  (o) => ![WalletOption.KEPLR, WalletOption.EXODUS, WalletOption.RADIX_WALLET].includes(o),
 );
 
 const AllChainsSupported = [
@@ -62,7 +57,7 @@ export const availableChainsByWallet = {
   [WalletOption.LEDGER]: AllChainsSupported,
   [WalletOption.METAMASK]: EVMChains,
   [WalletOption.OKX_MOBILE]: EVMChains,
-  [WalletOption.PHANTOM]: [Chain.Solana],
+  [WalletOption.PHANTOM]: PHANTOM_SUPPORTED_CHAINS,
   [WalletOption.POLKADOT_JS]: [Chain.Polkadot],
   [WalletOption.TRUSTWALLET_WEB]: EVMChains,
   [WalletOption.XDEFI]: AllChainsSupported,
@@ -181,7 +176,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         //   return skClient.connectRadixWallet?.();
 
         case WalletOption.PHANTOM:
-          return skClient.connectPhantom?.(chains[0]);
+          return skClient.connectPhantom?.(chains);
 
         default:
           throw new Error(`Unsupported wallet option: ${option}`);
