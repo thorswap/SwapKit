@@ -6,14 +6,14 @@
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@walletconnect/modal-sign-html": "2.6.2",
-    "cosmjs-types": "0.9.0",
-    "pino": "9.2.0",
-    "pino-pretty": "11.2.1"
+    "pino": "9.3.2",
+    "pino-pretty": "11.2.2",
+    "cosmjs-types": "0.9.0"
   },
   "description": "SwapKit Wallet - WalletConnect",
   "devDependencies": {
     "@walletconnect/logger": "2.1.2",
-    "@walletconnect/types": "2.13.3"
+    "@walletconnect/types": "2.15.1"
   },
   "files": [
     "src/",

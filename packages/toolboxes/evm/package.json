@@ -2,13 +2,13 @@
   "author": "swapkit-oss",
   "dependencies": {
     "@swapkit/helpers": "workspace:*",
-    "ethers": "6.11.1"
+    "ethers": "6.13.2"
   },
   "description": "SwapKit - Toolbox evm",
   "devDependencies": {
-    "@nomicfoundation/hardhat-ethers": "3.0.6",
+    "@nomicfoundation/hardhat-ethers": "3.0.7",
     "@nomicfoundation/hardhat-toolbox": "5.0.0",
-    "hardhat": "2.22.6"
+    "hardhat": "2.22.9"
   },
   "files": [
     "src/",

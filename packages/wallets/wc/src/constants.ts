@@ -1,5 +1,3 @@
-import type { ClientMetadata } from "./types.ts";
-
 export const DEFAULT_RELAY_URL = "wss://relay.walletconnect.com";
 
 export const ETHEREUM_MAINNET_ID = "eip155:1";
@@ -15,7 +13,7 @@ export const POLYGON_MAINNET_ID = "eip155:137";
 
 export const DEFAULT_LOGGER = "debug";
 
-export const DEFAULT_APP_METADATA: ClientMetadata = {
+export const DEFAULT_APP_METADATA = {
   name: "THORSwap",
   description: "THORSwap multi-chain dex aggregator powered by THORChain",
   url: "https://app.thorswap.finance/",
@@ -26,9 +24,9 @@ export const DEFAULT_APP_METADATA: ClientMetadata = {
  * EIP155
  */
 export enum DEFAULT_EIP155_METHODS {
-  ETH_SEND_TRANSACTION = "eth_sendTransaction",
   // not supported by most WC wallets
   // ETH_SIGN_TRANSACTION = 'eth_signTransaction',
+  ETH_SEND_TRANSACTION = "eth_sendTransaction",
   ETH_SIGN = "eth_sign",
   PERSONAL_SIGN = "personal_sign",
   ETH_SIGN_TYPED_DATA = "eth_signTypedData",
