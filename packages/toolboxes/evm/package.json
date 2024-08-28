@@ -6,9 +6,9 @@
   },
   "description": "SwapKit - Toolbox evm",
   "devDependencies": {
-    "@nomicfoundation/hardhat-ethers": "3.0.7",
+    "@nomicfoundation/hardhat-ethers": "3.0.8",
     "@nomicfoundation/hardhat-toolbox": "5.0.0",
-    "hardhat": "2.22.9"
+    "hardhat": "2.22.10"
   },
   "files": [
     "src/",

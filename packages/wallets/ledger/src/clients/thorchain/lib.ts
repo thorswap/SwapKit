@@ -1,4 +1,3 @@
-import crypto from "crypto";
 /** ******************************************************************************
  *  (c) 2019 ZondaX GmbH
  *  (c) 2016-2017 Ledger
@@ -15,6 +14,7 @@ import crypto from "crypto";
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************* */
+import crypto from "crypto";
 import { bech32 } from "@scure/base";
 import { LedgerErrorCode } from "@swapkit/helpers";
 import Ripemd160 from "ripemd160";
@@ -65,12 +65,7 @@ export class THORChainApp {
 
     const hashSha256 = crypto.createHash("sha256").update(pk).digest();
     const hashRip = new Ripemd160().update(hashSha256).digest();
-    // @ts-ignore
-    const encode = bech32.encode || bech32.bech32.encode;
-    // @ts-ignore
-    const toWords = bech32.toWords || bech32.bech32.toWords;
-
-    return encode(hrp, toWords(hashRip));
+    return bech32.encode(hrp, bech32.toWords(hashRip), false);
   }
 
   async serializePath(path: string) {

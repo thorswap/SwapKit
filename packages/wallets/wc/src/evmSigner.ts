@@ -142,4 +142,5 @@ export const getEVMSigner = async ({
   chain,
   walletconnect,
   provider,
-}: WalletconnectEVMSignerParams) => new WalletconnectSigner({ chain, walletconnect, provider });
+}: WalletconnectEVMSignerParams) =>
+  new WalletconnectSigner({ chain, walletconnect, provider }) as AbstractSigner;

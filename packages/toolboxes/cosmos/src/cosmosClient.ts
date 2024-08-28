@@ -43,8 +43,8 @@ export class CosmosClient {
     if (!address.startsWith(this.prefix)) return false;
 
     try {
-      const { prefix, words } = bech32.decode(address);
-      const normalized = bech32.encode(prefix, words);
+      const { prefix, words } = bech32.decode(address as `${string}1${string}`);
+      const normalized = bech32.encode(prefix, words, false);
 
       return normalized === address.toLocaleLowerCase();
     } catch (_error) {
