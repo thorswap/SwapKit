@@ -11,7 +11,7 @@
     "@swapkit/helpers": "workspace:*",
     "base64-js": "1.5.1",
     "cosmjs-types": "0.9.0",
-    "protobufjs": "7.3.2"
+    "protobufjs": "7.4.0"
   },
   "description": "SwapKit - Toolbox cosmos",
   "devDependencies": {
