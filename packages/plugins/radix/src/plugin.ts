@@ -7,6 +7,11 @@ import {
   type SwapKitPluginParams,
   type SwapParams,
 } from "@swapkit/helpers";
+import {
+  type Instructions,
+  RadixMainnet,
+  convertInstructionsToManifest,
+} from "@swapkit/toolbox-radix";
 
 function plugin({ getWallet }: SwapKitPluginParams) {
   async function swap({ route }: SwapParams<"radix", QuoteResponseRoute>) {
@@ -24,12 +29,18 @@ function plugin({ getWallet }: SwapKitPluginParams) {
     if (Chain.Radix !== assetValue.chain) throw new SwapKitError("core_swap_invalid_params");
 
     const wallet = getWallet(assetValue.chain);
-
-    return wallet.signAndBroadcast({
-      manifest: route.transaction as string,
-      //   message: `Swap ${sellAsset} to ${route.buyAsset}`,
-      //   feeOptionKey,
-    });
+    try {
+      const manifest = (
+        await convertInstructionsToManifest({ network: RadixMainnet })(
+          route.transaction as Instructions,
+        )
+      ).value as string;
+      return wallet.signAndBroadcast({
+        manifest,
+      });
+    } catch (error) {
+      throw new SwapKitError("core_swap_invalid_params", error);
+    }
   }
 
   return {

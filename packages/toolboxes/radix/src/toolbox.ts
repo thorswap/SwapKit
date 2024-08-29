@@ -12,11 +12,11 @@ import {
 import { RadixDappToolkit } from "@radixdlt/radix-dapp-toolkit";
 import {
   Convert,
+  type Instructions,
   type Intent,
   LTSRadixEngineToolkit,
   ManifestBuilder,
   type Message,
-  NetworkId,
   type NotarizedTransaction,
   PrivateKey,
   type PublicKey,
@@ -491,16 +491,26 @@ function transfer({
   networkApi,
   network = RadixMainnet,
 }: {
-  signer: RadixSigner;
+  signer?: RadixSigner;
   networkApi: GatewayApiClient;
   network?: RadixNetwork;
 }) {
   return async function transfer({
-    assetValue,
+    assetValue: unsafeAssetValue,
     from,
     recipient,
     memo = "",
   }: { assetValue: AssetValue; from: string; recipient: string; memo?: string }) {
+    if (!signer) throw new SwapKitError("toolbox_radix_signer_not_defined");
+
+    const assetValue =
+      unsafeAssetValue.toString() === "XRD.XRD"
+        ? AssetValue.from({
+            asset: "XRD.XRD-resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd",
+            value: unsafeAssetValue.getValue("string"),
+          })
+        : unsafeAssetValue;
+
     if (!assetValue.address) throw new Error("Asset value must have an address");
 
     const publicKey = signer.publicKey();
@@ -585,7 +595,7 @@ function broadcastTransaction({
   };
 }
 
-function convertManifestToInstructions({ network }: { network: RadixNetwork }) {
+export function convertManifestToInstructions({ network }: { network: RadixNetwork }) {
   return function convertManifestToInstructions(transactionManifest: string) {
     return RadixEngineToolkit.Instructions.convert(
       {
@@ -598,10 +608,10 @@ function convertManifestToInstructions({ network }: { network: RadixNetwork }) {
   };
 }
 
-function convertInstructionsToManifest({ network }: { network: RadixNetwork }) {
-  return function convertInstructionsToManifest(transactionManifest: TransactionManifest) {
+export function convertInstructionsToManifest({ network }: { network: RadixNetwork }) {
+  return function convertInstructionsToManifest(transactionManifest: Instructions) {
     return RadixEngineToolkit.Instructions.convert(
-      transactionManifest.instructions,
+      transactionManifest,
       network.networkId,
       "String",
     );
@@ -613,11 +623,12 @@ function signAndBroadcast({
   networkApi,
   network = RadixMainnet,
 }: {
-  signer: RadixSigner;
+  signer?: RadixSigner;
   networkApi: GatewayApiClient;
   network?: RadixNetwork;
 }) {
   return async function signAndBroadcast({ manifest }: { manifest: string | TransactionManifest }) {
+    if (!signer) throw new SwapKitError("toolbox_radix_signer_not_defined");
     const publicKey = signer.publicKey();
     const intent = (
       await constructSimpleTransferIntent({
@@ -648,16 +659,12 @@ function signAndBroadcast({
 }
 
 export const RadixToolbox = async ({
-  network = {
-    networkId: NetworkId.Mainnet,
-    networkName: "mainnet",
-    dashboardBase: "https://dashboard.radixdlt.com",
-  },
+  network = RadixMainnet,
   signer,
   dappConfig,
 }: {
   network?: RadixNetwork;
-  signer: RadixSigner;
+  signer?: RadixSigner;
   dappConfig: {
     dAppDefinitionAddress: string;
     applicationName: string;
@@ -671,13 +678,13 @@ export const RadixToolbox = async ({
 
   const networkApi = GatewayApiClient.initialize(radixToolkit.gatewayApi.clientConfig);
 
-  const address = (await signer.getAddress?.()) || (await getAddress(signer, network));
-
   return {
     networkApi,
     signAndBroadcast: signAndBroadcast({ networkApi, network, signer }),
     getBalance: getBalance({ networkApi }),
-    getAddress: () => address,
+    getAddress: () => {
+      return signer?.getAddress?.() || signer ? getAddress(signer, network) : "";
+    },
     createPrivateKey,
     validateAddress,
     transfer: transfer({ networkApi, network, signer }),
@@ -690,33 +697,7 @@ export const RadixToolbox = async ({
   };
 };
 
-// function getBalance({
-//   networkApi,
-//   address: walletAddress,
-// }: { networkApi: GatewayApiClient; address: string }) {
-//   return async function getBalance(address = walletAddress) {
-//     const balancesRaw = await api.LTS.getAccountAllFungibleResourceBalances({
-//       account_address: address,
-//     });
-
-//     const balances = balancesRaw.fungible_resource_balances.map((balance) => {
-//       const assetWithoutAddress = new AssetValue({
-//         value: balance.amount,
-//         chain: Chain.Radix,
-//         decimal: 8,
-//         symbol: balance.fungible_resource_address,
-//       });
-
-//       assetWithoutAddress.address = balance.fungible_resource_address;
-
-//       return assetWithoutAddress;
-//     });
-
-//     return balances;
-//   };
-// }
-
-function signMessage(_signer: RadixSigner) {
+function signMessage(_signer?: RadixSigner) {
   return function signMessage(_message: string) {
     throw new SwapKitError("not_implemented", { method: "signMessage", toolbox: "radix" });
 
@@ -725,7 +706,7 @@ function signMessage(_signer: RadixSigner) {
   };
 }
 
-function validateSignature(_signer: RadixSigner) {
+function validateSignature(_signer?: RadixSigner) {
   return function validateSignature(_signature: SignatureWithPublicKey) {
     throw new SwapKitError("not_implemented", { method: "validateSignature", toolbox: "radix" });
 
