@@ -1,8 +1,9 @@
 import { DataRequestBuilder, RadixDappToolkit } from "@radixdlt/radix-dapp-toolkit";
 import {
-  type AssetValue,
+  AssetValue,
   Chain,
   type ConnectWalletParams,
+  SwapKitError,
   SwapKitNumber,
   WalletOption,
   setRequestClientConfig,
@@ -75,6 +76,18 @@ const getWalletMethods = async (dappConfig: RadixDappConfig) => {
       ...toolbox,
       getBalance: () => toolbox.getBalance(address),
       transfer: async (params: { assetValue: AssetValue; recipient: string; from: string }) => {
+        const assetValue =
+          params.assetValue.toString() === "XRD.XRD"
+            ? AssetValue.from({
+                asset:
+                  "XRD.XRD-resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd",
+                value: params.assetValue.getValue("string"),
+              })
+            : params.assetValue;
+
+        if (!assetValue.address)
+          throw new SwapKitError("wallet_missing_params", "AssetValue address missing");
+
         const manifest = toolbox.simpleTransferManifest({
           assetValue: params.assetValue,
           fees: new SwapKitNumber(5),
@@ -82,7 +95,7 @@ const getWalletMethods = async (dappConfig: RadixDappConfig) => {
           recipient: params.from,
         });
 
-        const manifestString = await toolbox.convertInstructionsToManifest(manifest);
+        const manifestString = await toolbox.convertInstructionsToManifest(manifest.instructions);
 
         const txResult = (
           await rdt.walletApi.sendTransaction({
@@ -92,7 +105,7 @@ const getWalletMethods = async (dappConfig: RadixDappConfig) => {
         ).unwrapOr(null)?.transactionIntentHash;
 
         if (!txResult) {
-          throw new Error("Transaction failed");
+          throw new SwapKitError("wallet_radix_transaction_failed");
         }
 
         return txResult;
@@ -106,7 +119,7 @@ const getWalletMethods = async (dappConfig: RadixDappConfig) => {
         ).unwrapOr(null)?.transactionIntentHash;
 
         if (!txResult) {
-          throw new Error("Transaction failed");
+          throw new SwapKitError("wallet_radix_transaction_failed");
         }
 
         return txResult;
