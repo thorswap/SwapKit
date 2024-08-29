@@ -1,7 +1,7 @@
 import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from "@cosmjs/crypto";
 import { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } from "@cosmjs/proto-signing";
 import { SwapKitApi } from "@swapkit/api";
-import { AssetValue, Chain, ChainId, type DerivationPath } from "@swapkit/helpers";
+import { AssetValue, Chain, ChainId, ChainIdToChain, type DerivationPath } from "@swapkit/helpers";
 
 import { CosmosClient } from "../cosmosClient.ts";
 import type { ToolboxParams } from "../index.ts";
@@ -87,10 +87,17 @@ export const BaseCosmosToolbox = ({
   getFeeRateFromThorswap,
   getBalance: async (address: string, _potentialScamFilter?: boolean) => {
     const denomBalances = await cosmosClient.getBalance(address);
+    const chain = ChainIdToChain[cosmosClient.chainId];
     return await Promise.all(
       denomBalances
         .filter(({ denom }) => denom && !denom.includes("IBC/"))
-        .map(({ denom, amount }) => getAssetFromDenom(denom, amount)),
+        .map(({ denom, amount }) => {
+          const fullDenom =
+            [Chain.THORChain, Chain.Maya].includes(chain) && denom.includes("/")
+              ? `${chain}.${denom}`
+              : denom;
+          return getAssetFromDenom(fullDenom, amount);
+        }),
     );
   },
 });
