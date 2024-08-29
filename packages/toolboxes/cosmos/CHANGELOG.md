@@ -1,5 +1,14 @@
 # @swapkit/toolbox-cosmos
 
+## 1.1.4
+
+### Patch Changes
+
+- [#966](https://github.com/thorswap/SwapKit/pull/966) [`cf2ccbb`](https://github.com/thorswap/SwapKit/commit/cf2ccbb016d77ea36bc0a2831daba0b9aaa96685) Thanks [@towanTG](https://github.com/towanTG)! - Fixes balance assetValue for synths
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.6.2
+
 ## 1.1.3
 
 ### Patch Changes

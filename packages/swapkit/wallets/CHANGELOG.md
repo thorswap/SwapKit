@@ -1,5 +1,18 @@
 # @swapkit/wallets
 
+## 1.1.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-keepkey@1.1.4
+  - @swapkit/wallet-keplr@1.0.28
+  - @swapkit/wallet-keystore@1.2.4
+  - @swapkit/wallet-ledger@1.1.1
+  - @swapkit/wallet-okx@1.1.4
+  - @swapkit/wallet-wc@1.1.4
+  - @swapkit/wallet-xdefi@1.1.4
+
 ## 1.1.1
 
 ### Patch Changes
