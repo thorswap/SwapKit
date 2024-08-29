@@ -1,5 +1,14 @@
 # @swapkit/sdk
 
+## 1.1.28
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/plugin-thorchain@1.1.23
+  - @swapkit/core@1.2.9
+  - @swapkit/wallets@1.1.2
+
 ## 1.1.27
 
 ### Patch Changes
