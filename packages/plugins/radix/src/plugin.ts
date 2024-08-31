@@ -7,11 +7,7 @@ import {
   type SwapKitPluginParams,
   type SwapParams,
 } from "@swapkit/helpers";
-import {
-  type Instructions,
-  RadixMainnet,
-  convertInstructionsToManifest,
-} from "@swapkit/toolbox-radix";
+import {} from "@swapkit/toolbox-radix";
 
 function plugin({ getWallet }: SwapKitPluginParams) {
   async function swap({ route }: SwapParams<"radix", QuoteResponseRoute>) {
@@ -30,11 +26,10 @@ function plugin({ getWallet }: SwapKitPluginParams) {
 
     const wallet = getWallet(assetValue.chain);
     try {
-      const manifest = (
-        await convertInstructionsToManifest({ network: RadixMainnet })(
-          route.transaction as Instructions,
-        )
-      ).value as string;
+      const manifest =
+        // await convertInstructionsToManifest({ network: RadixMainnet })(
+        route.transaction as string;
+      // )
       return wallet.signAndBroadcast({
         manifest,
       });
