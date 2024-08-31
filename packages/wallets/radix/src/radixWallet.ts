@@ -131,12 +131,13 @@ const getWalletMethods = async (dappConfig: RadixDappConfig) => {
 
 function connectRadixWallet({
   addChain,
-  config: { thorswapApiKey },
-  radixDappConfig = {
-    network: RadixMainnet,
-    dAppDefinitionAddress: "account_rdx128r289p58222hcvev7frs6kue76pl7pdcnw8725aw658v0zggkh9ws",
-    applicationName: "Swapkit Playground",
-    applicationVersion: "0.0.1",
+  config: {
+    thorswapApiKey,
+    radixDappConfig = {
+      dAppDefinitionAddress: "account_rdx128r289p58222hcvev7frs6kue76pl7pdcnw8725aw658v0zggkh9ws",
+      applicationName: "Swapkit Playground",
+      applicationVersion: "0.0.1",
+    },
   },
 }: ConnectWalletParams & {
   radixDappConfig?: RadixDappConfig;
@@ -144,7 +145,10 @@ function connectRadixWallet({
   return async function connectRadixWallet(_chains: Chain.Radix[]) {
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
-    const { address, walletMethods } = await getWalletMethods(radixDappConfig);
+    const { address, walletMethods } = await getWalletMethods({
+      network: RadixMainnet,
+      ...radixDappConfig,
+    });
 
     addChain({
       chain: Chain.Radix,
