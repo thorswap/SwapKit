@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.6.3
+
+### Patch Changes
+
+- [#970](https://github.com/thorswap/SwapKit/pull/970) [`59447e0`](https://github.com/thorswap/SwapKit/commit/59447e00ea8f32e30fbd61b9aa6e07314b42d6b6) Thanks [@towanTG](https://github.com/towanTG)! - Fixes AssetValue set for synths
+
 ## 1.6.2
 
 ### Patch Changes
