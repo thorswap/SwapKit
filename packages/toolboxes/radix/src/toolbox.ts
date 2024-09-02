@@ -8,8 +8,6 @@ import {
   type TransactionPreviewOperationRequest,
   type TransactionPreviewResponse,
 } from "@radixdlt/babylon-gateway-api-sdk";
-
-import { RadixDappToolkit } from "@radixdlt/radix-dapp-toolkit";
 import {
   Convert,
   type Instructions,
@@ -671,15 +669,12 @@ export const RadixToolbox = async ({
     applicationVersion: string;
   };
 }) => {
-  const radixToolkit = RadixDappToolkit({
-    ...dappConfig,
+  const networkApi = GatewayApiClient.initialize({
     networkId: network.networkId,
+    applicationName: dappConfig.applicationName,
   });
 
-  const networkApi = GatewayApiClient.initialize(radixToolkit.gatewayApi.clientConfig);
-
   return {
-    networkApi,
     signAndBroadcast: signAndBroadcast({ networkApi, network, signer }),
     getBalance: getBalance({ networkApi }),
     getAddress: () => {

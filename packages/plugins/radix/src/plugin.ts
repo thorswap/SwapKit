@@ -7,7 +7,6 @@ import {
   type SwapKitPluginParams,
   type SwapParams,
 } from "@swapkit/helpers";
-import {} from "@swapkit/toolbox-radix";
 
 function plugin({ getWallet }: SwapKitPluginParams) {
   async function swap({ route }: SwapParams<"radix", QuoteResponseRoute>) {
