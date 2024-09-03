@@ -1,5 +1,18 @@
 # @swapkit/wallet-wc
 
+## 1.2.0
+
+### Minor Changes
+
+- [#972](https://github.com/thorswap/SwapKit/pull/972) [`97b8d3f`](https://github.com/thorswap/SwapKit/commit/97b8d3fe31987cd0813c847159b8127087dada10) Thanks [@anthon-dev](https://github.com/anthon-dev)! - Adds dynamic THORChain chain id to be working throughout a hardfork
+
+### Patch Changes
+
+- Updated dependencies [[`97b8d3f`](https://github.com/thorswap/SwapKit/commit/97b8d3fe31987cd0813c847159b8127087dada10)]:
+  - @swapkit/toolbox-cosmos@1.2.0
+  - @swapkit/helpers@1.7.0
+  - @swapkit/toolbox-evm@1.3.4
+
 ## 1.1.5
 
 ### Patch Changes
