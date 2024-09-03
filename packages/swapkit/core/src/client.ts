@@ -237,8 +237,8 @@ export function SwapKit<
       case Chain.Polkadot:
         return substrateValidateAddress({ address, chain });
 
-      //   case Chain.Radix:
-      //     return radixValidateAddress(address);
+      case Chain.Radix:
+        return address.startsWith("account_rdx1");
 
       default:
         return false;
