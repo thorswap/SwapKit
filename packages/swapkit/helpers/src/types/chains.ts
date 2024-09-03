@@ -14,7 +14,7 @@ export async function fetchThorChainId() {
 
 export async function initializeChainId() {
   const currentThorChainId = await fetchThorChainId();
-  (ChainId as any)["THORChain"] = currentThorChainId;
+  (ChainId as Record<string, string>).THORChain = currentThorChainId;
 }
 
 export enum Chain {
