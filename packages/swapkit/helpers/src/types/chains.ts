@@ -1,4 +1,21 @@
+import axios from "axios";
 import { ExplorerUrl, RPCUrl } from "./network";
+
+const THORCHAIN_STATUS_URL = "https://rpc.ninerealms.com/status";
+
+export async function fetchThorChainId() {
+  try {
+    const response = await axios.get(THORCHAIN_STATUS_URL);
+    return response.data.result.node_info.network;
+  } catch (error) {
+    console.error("Error fetching THORChain ID:", error);
+  }
+}
+
+export async function initializeChainId() {
+  const currentThorChainId = await fetchThorChainId();
+  (ChainId as any)["THORChain"] = currentThorChainId;
+}
 
 export enum Chain {
   Arbitrum = "ARB",
