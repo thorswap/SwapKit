@@ -6,9 +6,9 @@ import {
   type FeeOption,
   RPCUrl,
   SwapKitNumber,
+  getDynamicChainId,
 } from "@swapkit/helpers";
 
-import { getDynamicChainId } from "../toolbox/thorchain.ts";
 import { createStargateClient } from "../util.ts";
 import { bech32ToBase64 } from "./addressFormat.ts";
 

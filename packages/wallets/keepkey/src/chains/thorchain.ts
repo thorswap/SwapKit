@@ -11,13 +11,9 @@ import {
   type DerivationPathArray,
   RPCUrl,
   derivationPathToString,
-} from "@swapkit/helpers";
-import {
-  type DepositParam,
-  type ThorchainToolboxType,
-  type TransferParams,
   getDynamicChainId,
-} from "@swapkit/toolbox-cosmos";
+} from "@swapkit/helpers";
+import type { DepositParam, ThorchainToolboxType, TransferParams } from "@swapkit/toolbox-cosmos";
 
 import { bip32ToAddressNList } from "../helpers/coins.js";
 

@@ -7,14 +7,10 @@ import {
   SwapKitError,
   WalletOption,
   ensureEVMApiKeys,
+  getDynamicChainId,
   setRequestClientConfig,
 } from "@swapkit/helpers";
-import {
-  type BaseCosmosToolboxType,
-  type DepositParam,
-  type TransferParams,
-  getDynamicChainId,
-} from "@swapkit/toolbox-cosmos";
+import type { BaseCosmosToolboxType, DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
 import type { WalletConnectModalSign } from "@walletconnect/modal-sign-html";
 import type { SessionTypes, SignClientTypes } from "@walletconnect/types";
 

@@ -7,9 +7,10 @@ import {
   RPCUrl,
   WalletOption,
   ensureEVMApiKeys,
+  getDynamicChainId,
   setRequestClientConfig,
 } from "@swapkit/helpers";
-import { type DepositParam, type TransferParams, getDynamicChainId } from "@swapkit/toolbox-cosmos";
+import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
 import type { UTXOBuildTxParams } from "@swapkit/toolbox-utxo";
 
 import type { LEDGER_SUPPORTED_CHAINS } from "./helpers/index.ts";
