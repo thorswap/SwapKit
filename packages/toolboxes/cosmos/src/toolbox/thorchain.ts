@@ -57,6 +57,18 @@ const secp256k1HdWalletFromMnemonic =
     });
   };
 
+export async function getDynamicChainId(chainId: ChainId = ChainId.THORChain) {
+  if (chainId !== ChainId.THORChain && chainId !== ChainId.THORChainStagenet) return chainId;
+  try {
+    const response = await RequestClient.get<{ result: { node_info: { network: string } } }>(
+      `${getRPC(chainId)}/status`,
+    );
+    return response.result.node_info.network;
+  } catch (_error) {
+    return chainId;
+  }
+}
+
 const exportSignature = (signature: Uint8Array) => base64.encode(signature);
 
 const signMultisigTx = async (

@@ -9,7 +9,12 @@ import {
   ensureEVMApiKeys,
   setRequestClientConfig,
 } from "@swapkit/helpers";
-import type { BaseCosmosToolboxType, DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
+import {
+  type BaseCosmosToolboxType,
+  type DepositParam,
+  type TransferParams,
+  getDynamicChainId,
+} from "@swapkit/toolbox-cosmos";
 import type { WalletConnectModalSign } from "@walletconnect/modal-sign-html";
 import type { SessionTypes, SignClientTypes } from "@walletconnect/types";
 
@@ -124,10 +129,12 @@ async function getToolbox({
           buildAminoMsg({ chain: Chain.THORChain, assetValue, memo, from: address, ...rest }),
         ];
 
+        const chainId = await getDynamicChainId(ChainId.THORChain);
+
         const signDoc = makeSignDoc(
           msgs,
           fee,
-          ChainId.THORChain,
+          chainId,
           memo,
           accountNumber?.toString(),
           sequence?.toString() || "0",

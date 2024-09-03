@@ -1,7 +1,3 @@
-import { initializeChainId } from "./chains";
-
-initializeChainId();
-
 export * from "./chains";
 export * from "./commonTypes";
 export * from "./derivationPath";

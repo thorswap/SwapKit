@@ -9,7 +9,7 @@ import {
   ensureEVMApiKeys,
   setRequestClientConfig,
 } from "@swapkit/helpers";
-import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
+import { type DepositParam, type TransferParams, getDynamicChainId } from "@swapkit/toolbox-cosmos";
 import type { UTXOBuildTxParams } from "@swapkit/toolbox-utxo";
 
 import type { LEDGER_SUPPORTED_CHAINS } from "./helpers/index.ts";
@@ -200,10 +200,12 @@ const getToolbox = async ({
           buildAminoMsg({ chain, from: address, assetValue, memo, ...rest }),
         ]);
 
+        const chain_id = await getDynamicChainId(ChainId.THORChain);
+
         // get tx signing msg
         const rawSendTx = stringifyKeysInOrder({
           account_number: accountNumber?.toString(),
-          chain_id: ChainId.THORChain,
+          chain_id,
           fee,
           memo,
           msgs: orderedMessages,

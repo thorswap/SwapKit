@@ -12,7 +12,12 @@ import {
   RPCUrl,
   derivationPathToString,
 } from "@swapkit/helpers";
-import type { DepositParam, ThorchainToolboxType, TransferParams } from "@swapkit/toolbox-cosmos";
+import {
+  type DepositParam,
+  type ThorchainToolboxType,
+  type TransferParams,
+  getDynamicChainId,
+} from "@swapkit/toolbox-cosmos";
 
 import { bip32ToAddressNList } from "../helpers/coins.js";
 
@@ -52,10 +57,12 @@ export const thorchainWalletMethods = async ({
 
     const msg = buildAminoMsg({ chain: Chain.THORChain, from, recipient, assetValue, memo });
 
+    const chainId = await getDynamicChainId(ChainId.THORChain);
+
     const signDoc = makeSignDoc(
       [msg],
       getDefaultChainFee(Chain.THORChain),
-      ChainId.THORChain,
+      chainId,
       memo,
       accountNumber?.toString(),
       sequence,

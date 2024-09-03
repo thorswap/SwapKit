@@ -8,6 +8,7 @@ import {
   SwapKitNumber,
 } from "@swapkit/helpers";
 
+import { getDynamicChainId } from "../toolbox/thorchain.ts";
 import { createStargateClient } from "../util.ts";
 import { bech32ToBase64 } from "./addressFormat.ts";
 
@@ -42,7 +43,7 @@ export const buildDepositTx = async ({
   return {
     memo,
     accountNumber: accountOnChain.accountNumber,
-    chainId: ChainId.THORChain,
+    chainId: await getDynamicChainId(ChainId.THORChain),
     fee: { amount: [], gas: DEFAULT_GAS_VALUE },
     sequence: accountOnChain.sequence,
     msgs: [
@@ -102,7 +103,7 @@ export const buildTransferTx = async ({
     memo,
     accountNumber: accountOnChain.accountNumber,
     sequence: accountOnChain.sequence,
-    chainId: ChainId.THORChain,
+    chainId: await getDynamicChainId(ChainId.THORChain),
     msgs: [{ typeUrl: "/types.MsgSend", value: msgSend }],
     fee: { amount: [], gas: DEFAULT_GAS_VALUE },
   };
