@@ -3,8 +3,7 @@
   "dependencies": {
     "@radixdlt/babylon-gateway-api-sdk": "1.6.1",
     "@radixdlt/radix-dapp-toolkit": "2.0.3",
-    "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-radix": "workspace:*"
+    "@swapkit/helpers": "workspace:*"
   },
   "description": "SwapKit Lib ",
   "files": [
