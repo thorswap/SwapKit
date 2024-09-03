@@ -67,7 +67,8 @@ export function warnOnce(condition: boolean, warning: string) {
 }
 
 export async function getDynamicChainId(chainId: ChainId = ChainId.THORChain) {
-  if (![ChainId.THORChainStagenet, ChainId.THORChain].includes(chainId)) return chainId;
+  if (![ChainId.THORChainStagenet, ChainId.THORChain, "thorchain-mainnet-v1"].includes(chainId))
+    return chainId;
   try {
     const response = await RequestClient.get<{ result: { node_info: { network: string } } }>(
       `${chainId !== ChainId.THORChain ? RPCUrl.THORChainStagenet : RPCUrl.THORChain}/status`,
