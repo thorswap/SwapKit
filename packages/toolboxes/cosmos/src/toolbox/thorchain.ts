@@ -183,6 +183,8 @@ export const BaseThorchainToolbox = ({
   const isMaya = chain === Chain.Maya;
   const chainId = isThorchain ? dynamicTCChainId : ChainId.Maya;
 
+  console.log(chainId);
+
   const prefix = `${stagenet ? "s" : ""}${chain.toLowerCase()}`;
   const derivationPath = DerivationPath[chain];
   const rpcUrl = getRPC(chainId, stagenet);

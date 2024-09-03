@@ -129,6 +129,7 @@ export const cosmosValidateAddress = ({
       return client.checkAddress(address);
     }
     case Chain.THORChain: {
+      console.log(dynamicTCChainId);
       const client = new CosmosClient({
         server: stagenet
           ? "https://stagenet-thornode.ninerealms.com"
