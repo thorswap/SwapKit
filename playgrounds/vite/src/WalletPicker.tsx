@@ -126,12 +126,8 @@ export const availableChainsByWallet = {
     Chain.Optimism,
     Chain.Polkadot,
   ],
-  //   [WalletOption.EXODUS]: [
-  //     Chain.Ethereum,
-  //     Chain.BinanceSmartChain,
-  //     Chain.Polygon,
-  //     Chain.Bitcoin,
-  //   ],
+  [WalletOption.EXODUS]: [Chain.Ethereum, Chain.BinanceSmartChain, Chain.Polygon, Chain.Bitcoin],
+  [WalletOption.LEDGER_LIVE]: [],
 };
 
 export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {

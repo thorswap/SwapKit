@@ -7,6 +7,7 @@ import {
   RPCUrl,
   WalletOption,
   ensureEVMApiKeys,
+  getDynamicChainId,
   setRequestClientConfig,
 } from "@swapkit/helpers";
 import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
@@ -200,10 +201,12 @@ const getToolbox = async ({
           buildAminoMsg({ chain, from: address, assetValue, memo, ...rest }),
         ]);
 
+        const chain_id = await getDynamicChainId(ChainId.THORChain);
+
         // get tx signing msg
         const rawSendTx = stringifyKeysInOrder({
           account_number: accountNumber?.toString(),
-          chain_id: ChainId.THORChain,
+          chain_id,
           fee,
           memo,
           msgs: orderedMessages,

@@ -1,5 +1,5 @@
 import { SwapKitApi } from "@swapkit/api";
-import { Chain } from "@swapkit/helpers";
+import { Chain, ChainId, getDynamicChainId } from "@swapkit/helpers";
 
 function parseChain(chain: string) {
   if (chain === "ARBITRUM") return Chain.Arbitrum;
@@ -23,6 +23,8 @@ console.info(
     .join("\n-")}`,
 );
 
+const thorchainChainId = await getDynamicChainId(ChainId.THORChain);
+
 for (const { provider } of providers) {
   try {
     const tokenList = await SwapKitApi.getTokenListV2(provider);
@@ -34,7 +36,8 @@ for (const { provider } of providers) {
       .map((token) => ({
         address: token.address,
         chain: parseChain(token.chain),
-        chainId: token.chainId,
+        // TODO remove after fork
+        chainId: token.chainId === "thorchain-mainnet-v1" ? thorchainChainId : token.chainId,
         decimals: token.decimals,
         identifier: parseIdentifier(token.identifier),
         logoURI: token.logoURI,

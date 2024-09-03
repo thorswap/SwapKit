@@ -19,6 +19,7 @@ import {
   RequestClient,
   SwapKitError,
   SwapKitNumber,
+  getDynamicChainId,
 } from "@swapkit/helpers";
 
 import { CosmosClient } from "../cosmosClient.ts";
@@ -47,6 +48,8 @@ import {
 } from "../util.ts";
 
 import { BaseCosmosToolbox } from "./BaseCosmosToolbox.ts";
+
+export const dynamicTCChainId = await getDynamicChainId(ChainId.THORChain);
 
 const secp256k1HdWalletFromMnemonic =
   ({ prefix, derivationPath }: { prefix: string; derivationPath: string }) =>
@@ -178,7 +181,9 @@ export const BaseThorchainToolbox = ({
 }): ThorchainToolboxType => {
   const isThorchain = chain === Chain.THORChain;
   const isMaya = chain === Chain.Maya;
-  const chainId = isThorchain ? ChainId.THORChain : ChainId.Maya;
+  const chainId = isThorchain ? dynamicTCChainId : ChainId.Maya;
+
+  console.log(chainId);
 
   const prefix = `${stagenet ? "s" : ""}${chain.toLowerCase()}`;
   const derivationPath = DerivationPath[chain];
