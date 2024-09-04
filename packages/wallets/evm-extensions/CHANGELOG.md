@@ -1,5 +1,17 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.1.0
+
+### Minor Changes
+
+- [#979](https://github.com/thorswap/SwapKit/pull/979) [`d7f55ca`](https://github.com/thorswap/SwapKit/commit/d7f55ca08b7f9d0f8fe372b2da4825c0463aaadc) Thanks [@towanTG](https://github.com/towanTG)! - Adds conditional addEVMNetwork to Metamask like wallets
+
+### Patch Changes
+
+- Updated dependencies [[`5d44a3c`](https://github.com/thorswap/SwapKit/commit/5d44a3c48dd458ce4f1265934a9f87eabbc7886a)]:
+  - @swapkit/helpers@1.8.0
+  - @swapkit/toolbox-evm@1.3.6
+
 ## 1.0.27
 
 ### Patch Changes

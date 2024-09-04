@@ -1,5 +1,14 @@
 # @swapkit/wallet-talisman
 
+## 1.2.5
+
+### Patch Changes
+
+- Updated dependencies [[`5d44a3c`](https://github.com/thorswap/SwapKit/commit/5d44a3c48dd458ce4f1265934a9f87eabbc7886a)]:
+  - @swapkit/helpers@1.8.0
+  - @swapkit/toolbox-evm@1.3.6
+  - @swapkit/toolbox-substrate@1.2.6
+
 ## 1.2.4
 
 ### Patch Changes
