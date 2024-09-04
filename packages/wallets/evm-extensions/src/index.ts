@@ -72,14 +72,23 @@ export const getWeb3WalletMethods = async ({
 
   const toolbox = getToolboxByChain(chain)({ ...keys, provider, signer });
 
-  try {
-    chain !== Chain.Ethereum &&
-      (await addEVMWalletNetwork(
-        provider,
-        (toolbox as ReturnType<typeof AVAXToolbox>).getNetworkParams(),
-      ));
-  } catch (_error) {
-    throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
+  if (chain !== Chain.Ethereum) {
+    const currentNetwork = await provider.getNetwork();
+    /**
+     * if the selected network is other than Ethereum e.g. Arbitrum
+     * and if the selected network is the current network e.g. Arbitrum on MetaMask
+     * addEVMWalletNetwork is redundant and also throws an error failing the connection
+     */
+    if (currentNetwork.chainId.toString() !== ChainToHexChainId[chain]) {
+      try {
+        await addEVMWalletNetwork(
+          provider,
+          (toolbox as ReturnType<typeof AVAXToolbox>).getNetworkParams(),
+        );
+      } catch (_error) {
+        throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
+      }
+    }
   }
 
   return prepareNetworkSwitch<typeof toolbox>({
