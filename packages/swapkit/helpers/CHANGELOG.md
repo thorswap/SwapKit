@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.7.1
+
+### Patch Changes
+
+- [#974](https://github.com/thorswap/SwapKit/pull/974) [`17f28d9`](https://github.com/thorswap/SwapKit/commit/17f28d901f35116960766f8c872a91baac67bd6a) Thanks [@towanTG](https://github.com/towanTG)! - Fixes dynamic ChainId for SSR apps
+
 ## 1.7.0
 
 ### Minor Changes
