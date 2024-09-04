@@ -7,7 +7,6 @@ import {
   SwapKitError,
   WalletOption,
   ensureEVMApiKeys,
-  getDynamicChainId,
   setRequestClientConfig,
 } from "@swapkit/helpers";
 import type { BaseCosmosToolboxType, DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
@@ -125,7 +124,7 @@ async function getToolbox({
           buildAminoMsg({ chain: Chain.THORChain, assetValue, memo, from: address, ...rest }),
         ];
 
-        const chainId = await getDynamicChainId(ChainId.THORChain);
+        const chainId = ChainId.THORChain;
 
         const signDoc = makeSignDoc(
           msgs,

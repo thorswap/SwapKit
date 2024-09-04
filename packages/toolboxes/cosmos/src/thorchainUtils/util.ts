@@ -6,7 +6,6 @@ import {
   type FeeOption,
   RPCUrl,
   SwapKitNumber,
-  getDynamicChainId,
 } from "@swapkit/helpers";
 
 import { createStargateClient } from "../util.ts";
@@ -40,7 +39,7 @@ export const buildDepositTx = async ({
     throw new Error("Account does not exist");
   }
 
-  const chainId = await getDynamicChainId(ChainId.THORChain);
+  const chainId = ChainId.THORChain;
 
   return {
     memo,
@@ -105,7 +104,7 @@ export const buildTransferTx = async ({
     memo,
     accountNumber: accountOnChain.accountNumber,
     sequence: accountOnChain.sequence,
-    chainId: await getDynamicChainId(ChainId.THORChain),
+    chainId: ChainId.THORChain,
     msgs: [{ typeUrl: "/types.MsgSend", value: msgSend }],
     fee: { amount: [], gas: DEFAULT_GAS_VALUE },
   };

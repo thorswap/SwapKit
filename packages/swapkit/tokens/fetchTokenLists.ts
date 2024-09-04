@@ -1,5 +1,5 @@
 import { SwapKitApi } from "@swapkit/api";
-import { Chain, ChainId, getDynamicChainId } from "@swapkit/helpers";
+import { Chain, ChainId } from "@swapkit/helpers";
 
 function parseChain(chain: string) {
   if (chain === "ARBITRUM") return Chain.Arbitrum;
@@ -23,7 +23,7 @@ console.info(
     .join("\n-")}`,
 );
 
-const thorchainChainId = await getDynamicChainId(ChainId.THORChain);
+const thorchainChainId = ChainId.THORChain;
 
 for (const { provider } of providers) {
   try {
