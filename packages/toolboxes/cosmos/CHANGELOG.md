@@ -1,5 +1,17 @@
 # @swapkit/toolbox-cosmos
 
+## 1.3.0
+
+### Minor Changes
+
+- [#977](https://github.com/thorswap/SwapKit/pull/977) [`5d44a3c`](https://github.com/thorswap/SwapKit/commit/5d44a3c48dd458ce4f1265934a9f87eabbc7886a) Thanks [@towanTG](https://github.com/towanTG)! - Supports new chainId for THORChain after hard fork 2.135.0
+
+### Patch Changes
+
+- Updated dependencies [[`5d44a3c`](https://github.com/thorswap/SwapKit/commit/5d44a3c48dd458ce4f1265934a9f87eabbc7886a)]:
+  - @swapkit/helpers@1.8.0
+  - @swapkit/api@1.6.6
+
 ## 1.2.1
 
 ### Patch Changes
