@@ -4,7 +4,7 @@ import { SwapKitApi } from "@swapkit/api";
 import { AssetValue, Chain, ChainId, ChainIdToChain, type DerivationPath } from "@swapkit/helpers";
 
 import { CosmosClient } from "../cosmosClient.ts";
-import { type ToolboxParams, dynamicTCChainId } from "../index.ts";
+import type { ToolboxParams } from "../index.ts";
 import type { BaseCosmosToolboxType } from "../thorchainUtils/types/client-types.ts";
 import { USK_KUJIRA_FACTORY_DENOM } from "../util.ts";
 
@@ -129,12 +129,11 @@ export const cosmosValidateAddress = ({
       return client.checkAddress(address);
     }
     case Chain.THORChain: {
-      console.log(dynamicTCChainId);
       const client = new CosmosClient({
         server: stagenet
           ? "https://stagenet-thornode.ninerealms.com"
           : "https://thornode.thorswap.net",
-        chainId: stagenet ? ChainId.THORChainStagenet : dynamicTCChainId,
+        chainId: stagenet ? ChainId.THORChainStagenet : ChainId.THORChain,
         prefix: `${stagenet ? "s" : ""}thor`,
         stagenet,
       });
