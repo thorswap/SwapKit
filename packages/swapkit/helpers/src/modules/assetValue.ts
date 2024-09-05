@@ -1,4 +1,3 @@
-import { red, yellow } from "picocolors";
 import {
   type CommonAssetString,
   CommonAssetStrings,
@@ -131,12 +130,10 @@ export class AssetValue extends BigIntArithmetics {
 
     warnOnce(
       !(asyncTokenLookup || tokenDecimal),
-      yellow(
-        `Couldn't find static decimal for ${red(unsafeIdentifier)} (Using default ${red(BaseDecimal[chain])} decimal as fallback).
+      `Couldn't find static decimal for ${unsafeIdentifier} (Using default ${BaseDecimal[chain]} decimal as fallback).
 This can result in incorrect calculations and mess with amount sent on transactions.
 You can load static assets by installing @swapkit/tokens package and calling AssetValue.loadStaticAssets()
 or by passing asyncTokenLookup: true to the from() function, which will make it async and return a promise.`,
-      ),
     );
 
     const { decimal, identifier, tax } = token || {
@@ -158,7 +155,7 @@ or by passing asyncTokenLookup: true to the from() function, which will make it 
   }
 
   static loadStaticAssets() {
-    return new Promise<{ ok: true } | { ok: false; message: string; error: Todo }>(
+    return new Promise<{ ok: true } | { ok: false; message: string; error: any }>(
       (resolve, reject) => {
         try {
           import("@swapkit/tokens").then((tokenPackages) => {

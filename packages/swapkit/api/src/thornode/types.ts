@@ -47,9 +47,9 @@ export type NodeItem = {
   total_bond: string;
   validator_cons_pub_key: string;
   version: string;
-  jail: Todo;
-  preflight_status: Todo;
-  pub_key_set: Todo;
+  jail: any;
+  preflight_status: any;
+  pub_key_set: any;
   observe_chains: {
     chain: string;
     height: number;

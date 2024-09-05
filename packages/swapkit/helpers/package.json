@@ -3,8 +3,7 @@
   "description": "SwapKit - Helpers",
   "dependencies": {
     "@swapkit/contracts": "workspace:*",
-    "@swapkit/tokens": "workspace:*",
-    "picocolors": "1.0.1"
+    "@swapkit/tokens": "workspace:*"
   },
   "devDependencies": {
     "@swapkit/toolbox-cosmos": "workspace:*",

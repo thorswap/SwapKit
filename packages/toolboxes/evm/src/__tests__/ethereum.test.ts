@@ -22,7 +22,7 @@ const context: {
   ethers: typeof ethers;
   provider: JsonRpcProvider;
   toolbox: ReturnType<typeof ETHToolbox>;
-} = {} as Todo;
+} = {} as any;
 
 beforeEach(async () => {
   context.ethers = hre.artifacts;

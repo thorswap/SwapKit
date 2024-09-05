@@ -86,7 +86,7 @@ export async function getEVMSigner({ chain, derivationPath, provider }: TrezorEV
       maxFeePerGas,
       maxPriorityFeePerGas,
       gasPrice,
-      // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Todo: refactor
+      // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: any: refactor
     }: TransactionRequest) => {
       if (!to) throw new SwapKitError({ errorKey: "wallet_missing_params", info: { to } });
       if (!gasLimit)

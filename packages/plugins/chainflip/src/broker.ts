@@ -94,7 +94,7 @@ const requestSwapDepositAddress =
           event: {
             data: { depositAddress, sourceChainExpiryBlock, destinationAddress, channelId },
           },
-        } = depositChannelEvent.toHuman() as Todo;
+        } = depositChannelEvent.toHuman() as any;
 
         const hash = result.status?.toJSON?.() as { finalized: string };
         const header = await toolbox.api.rpc.chain.getHeader(hash?.finalized);
@@ -155,7 +155,7 @@ const withdrawFee =
           event: {
             data: { egressId, egressAsset, egressAmount, egressFee, destinationAddress },
           },
-        } = withdrawEvent.toHuman() as Todo;
+        } = withdrawEvent.toHuman() as any;
 
         resolve({
           egressId,

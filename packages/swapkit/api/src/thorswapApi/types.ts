@@ -134,7 +134,7 @@ export type QuoteRoute = {
   };
   targetAddress: string;
   timeEstimates?: TimeEstimates;
-  transaction?: Todo;
+  transaction?: any;
   streamingSwap?: {
     estimatedTime: number;
     fees: QuoteRoute["fees"];
@@ -146,7 +146,7 @@ export type QuoteRoute = {
     savingsInUSD: string;
     maxQuantity: number;
     maxIntervalForMaxQuantity: number;
-    transaction?: Todo;
+    transaction?: any;
   };
 };
 

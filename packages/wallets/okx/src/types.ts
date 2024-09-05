@@ -30,7 +30,7 @@ export interface StdFee {
 
 export interface Msg {
   readonly type: string;
-  readonly value: Todo;
+  readonly value: any;
 }
 
 export interface PubKey {
@@ -73,7 +73,7 @@ export interface SignDoc {
    */
   chainId: string;
   /** account_number is the account number of the account in state */
-  accountNumber: Todo;
+  accountNumber: any;
 }
 
 /**

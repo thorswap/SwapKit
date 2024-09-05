@@ -2,8 +2,8 @@ type Options = Parameters<typeof fetch>[1] & {
   headers?: Record<string, string>;
   apiKey?: string;
   method?: "GET" | "POST";
-  onError?: (error: NotWorth) => NotWorth;
-  responseHandler?: (response: NotWorth) => NotWorth;
+  onError?: (error: any) => any;
+  responseHandler?: (response: any) => any;
   searchParams?: Record<string, string>;
   json?: unknown;
 };

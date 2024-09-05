@@ -27,7 +27,7 @@ const reduceMemo = (memo?: string, affiliateAddress = "t") => {
   return removedAffiliate?.substring(0, removedAffiliate.lastIndexOf(":"));
 };
 
-const recursivelyOrderKeys = (unordered: Todo) => {
+const recursivelyOrderKeys = (unordered: any) => {
   // If it's an array - recursively order any
   // dictionary items within the array
   if (Array.isArray(unordered)) {
@@ -39,7 +39,7 @@ const recursivelyOrderKeys = (unordered: Todo) => {
 
   // If it's an object - let's order the keys
   if (typeof unordered !== "object") return unordered;
-  const ordered: Todo = {};
+  const ordered: any = {};
   const sortedKeys = Object.keys(unordered).sort();
 
   for (const key of sortedKeys) {
@@ -49,7 +49,7 @@ const recursivelyOrderKeys = (unordered: Todo) => {
   return ordered;
 };
 
-const stringifyKeysInOrder = (data: Todo) => JSON.stringify(recursivelyOrderKeys(data));
+const stringifyKeysInOrder = (data: any) => JSON.stringify(recursivelyOrderKeys(data));
 
 const getToolbox = async ({
   chain,

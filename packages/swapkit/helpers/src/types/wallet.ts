@@ -70,7 +70,7 @@ export type FullWallet = BaseWallet<
  */
 export type Wallet = FullWallet;
 
-export type SwapKitWallet<ConnectParams extends Todo[]> = (
+export type SwapKitWallet<ConnectParams extends any[]> = (
   params: ConnectWalletParams,
 ) => (...connectParams: ConnectParams) => boolean | Promise<boolean>;
 
