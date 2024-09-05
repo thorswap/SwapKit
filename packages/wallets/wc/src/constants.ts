@@ -1,4 +1,4 @@
-import type { ClientMetadata } from "./types.ts";
+import type { ClientMetadata } from "./types";
 
 export const DEFAULT_RELAY_URL = "wss://relay.walletconnect.com";
 

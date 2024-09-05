@@ -1,2 +1,2 @@
-export * from "./network.ts";
-export * from "./wallet.ts";
+export * from "./network";
+export * from "./wallet";

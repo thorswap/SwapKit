@@ -8,11 +8,11 @@ import {
 } from "@swapkit/helpers";
 import type { BrowserProvider, JsonRpcProvider, Signer } from "ethers";
 
-import type { CovalentApiType } from "../api/covalentApi.ts";
-import { covalentApi } from "../api/covalentApi.ts";
-import { type EVMTxBaseParams, estimateTransactionFee, getBalance } from "../index.ts";
+import type { CovalentApiType } from "../api/covalentApi";
+import { covalentApi } from "../api/covalentApi";
+import { type EVMTxBaseParams, estimateTransactionFee, getBalance } from "../index";
 
-import { EVMToolbox } from "./EVMToolbox.ts";
+import { EVMToolbox } from "./EVMToolbox";
 
 const getNetworkParams = () => ({
   chainId: ChainId.PolygonHex,

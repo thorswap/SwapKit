@@ -3,10 +3,10 @@ import { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } from "@cosmjs/proto-si
 import { SwapKitApi } from "@swapkit/api";
 import { AssetValue, Chain, ChainId, ChainIdToChain, type DerivationPath } from "@swapkit/helpers";
 
-import { CosmosClient } from "../cosmosClient.ts";
-import type { ToolboxParams } from "../index.ts";
-import type { BaseCosmosToolboxType } from "../thorchainUtils/types/client-types.ts";
-import { USK_KUJIRA_FACTORY_DENOM } from "../util.ts";
+import { CosmosClient } from "../cosmosClient";
+import type { ToolboxParams } from "../index";
+import type { BaseCosmosToolboxType } from "../thorchainUtils/types/client-types";
+import { USK_KUJIRA_FACTORY_DENOM } from "../util";
 
 type Params = {
   client: CosmosClient;

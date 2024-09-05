@@ -3,6 +3,7 @@ import type { BuildConfig } from "bun";
 export async function buildPackage({
   entrypoints = ["./src/index.ts"],
   dependencies,
+  plugins,
   ...rest
 }: Omit<BuildConfig, "entrypoints"> & {
   entrypoints?: string[];
@@ -15,6 +16,7 @@ export async function buildPackage({
     minify: true,
     external,
     sourcemap: "external",
+    plugins: [...(plugins || [])],
     ...rest,
   });
 

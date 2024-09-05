@@ -7,7 +7,7 @@ import type {
   BlockchairRawTransactionResponse,
   BlockchairResponse,
   UTXOType,
-} from "../types/index.ts";
+} from "../types/index";
 type BlockchairParams<T> = T & { chain: Chain; apiKey?: string };
 
 const baseUrl = (chain: Chain) => `https://api.blockchair.com/${mapChainToBlockchairChain(chain)}`;

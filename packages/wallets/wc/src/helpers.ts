@@ -11,7 +11,7 @@ import {
   OPTIMISM_MAINNET_ID,
   POLYGON_MAINNET_ID,
   THORCHAIN_MAINNET_ID,
-} from "./constants.ts";
+} from "./constants";
 
 export const getAddressByChain = (
   chain: EVMChain | Chain.THORChain | Chain.Maya | Chain.Kujira | Chain.Cosmos,

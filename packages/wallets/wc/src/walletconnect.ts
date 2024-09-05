@@ -19,10 +19,10 @@ import {
   DEFAULT_LOGGER,
   DEFAULT_RELAY_URL,
   THORCHAIN_MAINNET_ID,
-} from "./constants.ts";
-import { getEVMSigner } from "./evmSigner.ts";
-import { chainToChainId, getAddressByChain } from "./helpers.ts";
-import { getRequiredNamespaces } from "./namespaces.ts";
+} from "./constants";
+import { getEVMSigner } from "./evmSigner";
+import { chainToChainId, getAddressByChain } from "./helpers";
+import { getRequiredNamespaces } from "./namespaces";
 
 export const WC_SUPPORTED_CHAINS = [
   Chain.Arbitrum,

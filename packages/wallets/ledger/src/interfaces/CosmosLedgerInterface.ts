@@ -5,8 +5,8 @@ import {
   SwapKitError,
 } from "@swapkit/helpers";
 
-import { THORChainApp } from "../clients/thorchain/lib.ts";
-import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
+import { THORChainApp } from "../clients/thorchain/lib";
+import { getLedgerTransport } from "../helpers/getLedgerTransport";
 
 export abstract class CosmosLedgerInterface {
   public ledgerTimeout = 50000;

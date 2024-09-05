@@ -9,8 +9,8 @@ import type {
   ETHToolbox,
   MATICToolbox,
   OPToolbox,
-} from "../index.ts";
-import type { getProvider } from "../provider.ts";
+} from "../index";
+import type { getProvider } from "../provider";
 
 export enum EthNetwork {
   Test = "goerli",

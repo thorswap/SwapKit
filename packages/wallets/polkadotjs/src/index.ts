@@ -1,1 +1,1 @@
-export * from "./polkadot.ts";
+export * from "./polkadot";

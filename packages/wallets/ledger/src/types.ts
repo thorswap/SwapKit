@@ -1,4 +1,4 @@
-import type { CosmosLedger } from "./clients/cosmos.ts";
+import type { CosmosLedger } from "./clients/cosmos";
 import type {
   ArbitrumLedger,
   AvalancheLedger,
@@ -6,14 +6,14 @@ import type {
   EthereumLedger,
   OptimismLedger,
   PolygonLedger,
-} from "./clients/evm.ts";
-import type { THORChainLedger } from "./clients/thorchain/index.ts";
+} from "./clients/evm";
+import type { THORChainLedger } from "./clients/thorchain/index";
 import type {
   BitcoinCashLedger,
   BitcoinLedger,
   DogecoinLedger,
   LitecoinLedger,
-} from "./clients/utxo.ts";
+} from "./clients/utxo";
 
 export type UTXOLedgerClients =
   | ReturnType<typeof BitcoinLedger>

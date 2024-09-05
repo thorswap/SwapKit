@@ -12,14 +12,14 @@ import {
 import { Psbt, address as btcLibAddress, initEccLib, payments } from "bitcoinjs-lib";
 import { ECPairFactory, type ECPairInterface } from "ecpair";
 
-import type { BlockchairApiType } from "../api/blockchairApi.ts";
+import type { BlockchairApiType } from "../api/blockchairApi";
 import type {
   TargetOutput,
   UTXOBaseToolboxParams,
   UTXOBuildTxParams,
   UTXOType,
   UTXOWalletTransferParams,
-} from "../types/common.ts";
+} from "../types/common";
 import {
   UTXOScriptType,
   accumulative,
@@ -29,9 +29,9 @@ import {
   getInputSize,
   getNetwork,
   standardFeeRates,
-} from "../utils/index.ts";
-import { validateAddress as validateBCHAddress } from "./bitcoinCash.ts";
-import type { BCHToolbox, BTCToolbox, DASHToolbox, DOGEToolbox, LTCToolbox } from "./index.ts";
+} from "../utils/index";
+import { validateAddress as validateBCHAddress } from "./bitcoinCash";
+import type { BCHToolbox, BTCToolbox, DASHToolbox, DOGEToolbox, LTCToolbox } from "./index";
 
 export const nonSegwitChains = [Chain.Dash, Chain.Dogecoin];
 

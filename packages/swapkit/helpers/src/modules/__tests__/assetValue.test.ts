@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 
-import { BaseDecimal, Chain } from "../../types/chains.ts";
-import { AssetValue, getMinAmountByChain } from "../assetValue.ts";
+import { BaseDecimal, Chain } from "../../types/chains";
+import { AssetValue, getMinAmountByChain } from "../assetValue";
 
 describe("AssetValue", () => {
   describe("assetValue", () => {

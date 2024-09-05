@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test";
 import { Chain } from "../../types";
 
-import { findAssetBy } from "../asset.ts";
-import { getTHORNameCost } from "../others.ts";
+import { findAssetBy } from "../asset";
+import { getTHORNameCost } from "../others";
 
 describe("getTHORNameCost", () => {
   describe("for correct values", () => {

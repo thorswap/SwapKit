@@ -9,7 +9,7 @@ import {
 import type { JsonRpcProvider, Provider, TransactionRequest } from "@swapkit/toolbox-evm";
 import { AbstractSigner } from "@swapkit/toolbox-evm";
 
-import { bip32ToAddressNList } from "../helpers/coins.ts";
+import { bip32ToAddressNList } from "../helpers/coins";
 
 interface KeepKeyEVMSignerParams {
   sdk: KeepKeySdk;

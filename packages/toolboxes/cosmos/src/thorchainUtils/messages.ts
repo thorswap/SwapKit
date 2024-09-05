@@ -1,9 +1,9 @@
 import type { TxBodyEncodeObject } from "@cosmjs/proto-signing";
 import { AssetValue, Chain, ChainToChainId, RPCUrl } from "@swapkit/helpers";
 
-import { createStargateClient, getDenom } from "../util.ts";
+import { createStargateClient, getDenom } from "../util";
 
-import { createDefaultAminoTypes, createDefaultRegistry } from "./registry.ts";
+import { createDefaultAminoTypes, createDefaultRegistry } from "./registry";
 
 type MsgSend = ReturnType<typeof transferMsgAmino>;
 type MsgDeposit = ReturnType<typeof depositMsgAmino>;

@@ -1,3 +1,3 @@
-export * from "./toolbox/baseSubstrateToolbox.ts";
-export * from "./toolbox/toolboxFactory.ts";
-export * from "./types/index.ts";
+export * from "./toolbox/baseSubstrateToolbox";
+export * from "./toolbox/toolboxFactory";
+export * from "./types/index";

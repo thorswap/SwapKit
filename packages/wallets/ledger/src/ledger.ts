@@ -12,9 +12,9 @@ import {
 import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
 import type { UTXOBuildTxParams } from "@swapkit/toolbox-utxo";
 
-import type { LEDGER_SUPPORTED_CHAINS } from "./helpers/index.ts";
-import { getLedgerAddress, getLedgerClient } from "./helpers/index.ts";
-import type { LedgerSupportedChain } from "./helpers/ledgerSupportedChains.ts";
+import type { LEDGER_SUPPORTED_CHAINS } from "./helpers/index";
+import { getLedgerAddress, getLedgerClient } from "./helpers/index";
+import type { LedgerSupportedChain } from "./helpers/ledgerSupportedChains";
 
 // reduce memo length by removing trade limit
 const reduceMemo = (memo?: string, affiliateAddress = "t") => {

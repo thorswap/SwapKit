@@ -8,13 +8,13 @@ import {
 } from "@swapkit/helpers";
 import type { BrowserProvider, JsonRpcProvider, Signer, TransactionRequest } from "ethers";
 
-import type { CovalentApiType } from "../api/covalentApi.ts";
-import { covalentApi } from "../api/covalentApi.ts";
-import { gasOracleAbi } from "../contracts/op/gasOracle.ts";
-import { getBalance } from "../index.ts";
+import type { CovalentApiType } from "../api/covalentApi";
+import { covalentApi } from "../api/covalentApi";
+import { gasOracleAbi } from "../contracts/op/gasOracle";
+import { getBalance } from "../index";
 
 import { Contract, Transaction } from "ethers";
-import { EVMToolbox } from "./EVMToolbox.ts";
+import { EVMToolbox } from "./EVMToolbox";
 
 const GAS_PRICE_ORACLE_ADDRESS = "0x420000000000000000000000000000000000000f";
 

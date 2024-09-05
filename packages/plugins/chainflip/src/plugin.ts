@@ -8,7 +8,7 @@ import {
   type UTXOWallets,
 } from "@swapkit/helpers";
 
-import type { RequestSwapDepositAddressParams } from "./types.ts";
+import type { RequestSwapDepositAddressParams } from "./types";
 
 type SupportedChain = keyof (EVMWallets & SubstrateWallets & UTXOWallets);
 

@@ -1,12 +1,12 @@
-import { kyberRouter } from "./kyber.ts";
-import { oneInchRouter } from "./oneinch.ts";
-import { pancakeSwapRouter } from "./pancakeswap.ts";
-import { pangolinRouter } from "./pangolin.ts";
-import { sushiswapRouter } from "./sushiswap.ts";
-import { traderJoeRouter } from "./traderJoe.ts";
-import { uniswapv2Router } from "./uniswapv2.ts";
-import { uniswapv3Router } from "./uniswapv3.ts";
-import { woofiRouter } from "./woofi.ts";
+import { kyberRouter } from "./kyber";
+import { oneInchRouter } from "./oneinch";
+import { pancakeSwapRouter } from "./pancakeswap";
+import { pangolinRouter } from "./pangolin";
+import { sushiswapRouter } from "./sushiswap";
+import { traderJoeRouter } from "./traderJoe";
+import { uniswapv2Router } from "./uniswapv2";
+import { uniswapv3Router } from "./uniswapv3";
+import { woofiRouter } from "./woofi";
 
 type AbiTypes =
   | typeof kyberRouter

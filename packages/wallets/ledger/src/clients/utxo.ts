@@ -9,7 +9,7 @@ import {
 import type { Psbt, UTXOType } from "@swapkit/toolbox-utxo";
 import { Transaction, toCashAddress } from "@swapkit/toolbox-utxo";
 
-import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
+import { getLedgerTransport } from "../helpers/getLedgerTransport";
 
 type Params = {
   psbt: Psbt;

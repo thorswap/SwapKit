@@ -1,6 +1,6 @@
-import type { Chain } from "./chains.ts";
-import type { ChainApis } from "./sdk.ts";
-import type { ChainWallet } from "./wallet.ts";
+import type { Chain } from "./chains";
+import type { ChainApis } from "./sdk";
+import type { ChainWallet } from "./wallet";
 
 export type ConnectConfig = {
   stagenet?: boolean;

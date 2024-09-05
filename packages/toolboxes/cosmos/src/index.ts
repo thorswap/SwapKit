@@ -1,11 +1,11 @@
 /**
  * Package
  */
-export * from "./thorchainUtils/index.ts";
-export * from "./toolbox/BaseCosmosToolbox.ts";
-export * from "./toolbox/gaia.ts";
-export * from "./toolbox/getToolboxByChain.ts";
-export * from "./toolbox/kujira.ts";
-export * from "./toolbox/thorchain.ts";
-export * from "./types.ts";
-export * from "./util.ts";
+export * from "./thorchainUtils/index";
+export * from "./toolbox/BaseCosmosToolbox";
+export * from "./toolbox/gaia";
+export * from "./toolbox/getToolboxByChain";
+export * from "./toolbox/kujira";
+export * from "./toolbox/thorchain";
+export * from "./types";
+export * from "./util";

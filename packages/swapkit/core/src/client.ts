@@ -32,7 +32,7 @@ import { type UTXOTransferParams, utxoValidateAddress } from "@swapkit/toolbox-u
 import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
-} from "./helpers/explorerUrls.ts";
+} from "./helpers/explorerUrls";
 
 type PluginsType = {
   [key in string]: {

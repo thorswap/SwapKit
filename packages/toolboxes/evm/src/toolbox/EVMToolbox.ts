@@ -33,7 +33,7 @@ import {
   type MATICToolbox,
   type OPToolbox,
   toHexString,
-} from "../index.ts";
+} from "../index";
 import type {
   ApproveParams,
   ApprovedParams,
@@ -44,7 +44,7 @@ import type {
   IsApprovedParams,
   LegacyEVMTxParams,
   TransferParams,
-} from "../types/clientTypes.ts";
+} from "../types/clientTypes";
 
 export const MAX_APPROVAL = MaxInt256;
 
