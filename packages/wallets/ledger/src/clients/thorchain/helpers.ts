@@ -1,6 +1,6 @@
 import { LedgerErrorCode } from "@swapkit/helpers";
 
-import { CLA, INS, PAYLOAD_TYPE, errorCodeToString, processErrorResponse } from "./common.ts";
+import { CLA, INS, PAYLOAD_TYPE, errorCodeToString, processErrorResponse } from "./common";
 
 const signSendChunkv1 = async (app: Todo, chunkIdx: Todo, chunkNum: Todo, chunk: Todo) => {
   return app.transport

@@ -5,7 +5,7 @@ import type {
   UTXOCalculateTxSizeParams,
   UTXOInputWithScriptType,
   UTXOType,
-} from "../types/index.ts";
+} from "../types/index";
 
 /**
  * Minimum transaction fee

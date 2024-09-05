@@ -1,8 +1,8 @@
 import { Chain } from "@swapkit/helpers";
 
-import { GaiaToolbox } from "./gaia.ts";
-import { KujiraToolbox } from "./kujira.ts";
-import { MayaToolbox, ThorchainToolbox } from "./thorchain.ts";
+import { GaiaToolbox } from "./gaia";
+import { KujiraToolbox } from "./kujira";
+import { MayaToolbox, ThorchainToolbox } from "./thorchain";
 
 type ToolboxType = {
   THOR: typeof ThorchainToolbox;

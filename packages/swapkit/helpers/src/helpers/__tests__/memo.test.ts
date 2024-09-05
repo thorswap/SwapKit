@@ -11,7 +11,7 @@ import {
   getMemoForSaverDeposit,
   getMemoForSaverWithdraw,
   getMemoForWithdraw,
-} from "../memo.ts";
+} from "../memo";
 
 describe("getMemoForSaverDeposit", () => {
   test("returns correct memo for single side", () => {

@@ -14,7 +14,7 @@ import {
   defaultRequestHeaders,
 } from "@swapkit/helpers";
 
-import type { CosmosMaxSendableAmountParams } from "./types.ts";
+import type { CosmosMaxSendableAmountParams } from "./types";
 
 export const USK_KUJIRA_FACTORY_DENOM =
   "FACTORY/KUJIRA1QK00H5ATUTPSV900X202PXX42NPJR9THG58DNQPA72F2P7M2LUASE444A7/UUSK";

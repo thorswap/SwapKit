@@ -16,7 +16,7 @@ import {
   type RepayResponse,
   type TokenListProvidersResponseV1,
   type TxnResponse,
-} from "./types.ts";
+} from "./types";
 
 const baseUrlV1 = "https://api.thorswap.finance";
 

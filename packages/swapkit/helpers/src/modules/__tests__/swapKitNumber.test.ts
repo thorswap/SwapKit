@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-import { SwapKitNumber } from "../swapKitNumber.ts";
+import { SwapKitNumber } from "../swapKitNumber";
 
 describe("SwapKitNumber", () => {
   describe("constructors", () => {

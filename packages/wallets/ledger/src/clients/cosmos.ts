@@ -3,7 +3,7 @@ import {
   NetworkDerivationPath,
   derivationPathToString,
 } from "@swapkit/helpers";
-import { CosmosLedgerInterface } from "../interfaces/CosmosLedgerInterface.ts";
+import { CosmosLedgerInterface } from "../interfaces/CosmosLedgerInterface";
 
 export class CosmosLedger extends CosmosLedgerInterface {
   private pubKey: string | null = null;

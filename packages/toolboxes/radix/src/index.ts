@@ -1,2 +1,2 @@
-export type { RadixNetwork } from "./types/index.ts";
-export * from "./toolbox.ts";
+export type { RadixNetwork } from "./types/index";
+export * from "./toolbox";

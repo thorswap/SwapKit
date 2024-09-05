@@ -1,2 +1,2 @@
-export * from "./helpers.ts";
-export { keystoreWallet } from "./keystore.ts";
+export * from "./helpers";
+export { keystoreWallet } from "./keystore";

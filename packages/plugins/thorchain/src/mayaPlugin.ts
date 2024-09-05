@@ -13,9 +13,9 @@ import {
   type SwapParams,
   type UTXOChain,
 } from "@swapkit/helpers";
-import { basePlugin } from "./basePlugin.ts";
-import { prepareTxParams, validateAddressType } from "./shared.ts";
-import type { AddLiquidityParams, CoreTxParams, CreateLiquidityParams } from "./types.ts";
+import { basePlugin } from "./basePlugin";
+import { prepareTxParams, validateAddressType } from "./shared";
+import type { AddLiquidityParams, CoreTxParams, CreateLiquidityParams } from "./types";
 
 type SupportedChain = EVMChain | CosmosChain | UTXOChain;
 

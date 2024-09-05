@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 
-import { formatBigIntToSafeValue } from "../bigIntArithmetics.ts";
+import { formatBigIntToSafeValue } from "../bigIntArithmetics";
 
 describe("BigIntArithmatics", () => {
   describe("formatBigIntToSafeValue", () => {

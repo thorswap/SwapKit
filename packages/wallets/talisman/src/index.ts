@@ -1,1 +1,1 @@
-export * from "./talisman.ts";
+export * from "./talisman";

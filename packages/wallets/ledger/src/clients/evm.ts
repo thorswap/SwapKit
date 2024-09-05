@@ -13,7 +13,7 @@ import {
   type TransactionRequest,
 } from "@swapkit/toolbox-evm";
 
-import { getLedgerTransport } from "../helpers/getLedgerTransport.ts";
+import { getLedgerTransport } from "../helpers/getLedgerTransport";
 
 class EVMLedgerInterface extends AbstractSigner {
   public chainId: ChainId = ChainId.Ethereum;

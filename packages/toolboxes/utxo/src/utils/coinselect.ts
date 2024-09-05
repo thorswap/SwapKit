@@ -1,6 +1,6 @@
 import { Chain, type UTXOChain } from "@swapkit/helpers";
 
-import type { TargetOutput, UTXOCalculateTxSizeParams, UTXOType } from "../types/index.ts";
+import type { TargetOutput, UTXOCalculateTxSizeParams, UTXOType } from "../types/index";
 import {
   TX_OVERHEAD,
   UTXOScriptType,
@@ -8,7 +8,7 @@ import {
   getInputSize,
   getOutputSize,
   getScriptTypeForAddress,
-} from "../utils/index.ts";
+} from "../utils/index";
 
 export const getDustThreshold = (chain: UTXOChain) => {
   switch (chain) {

@@ -1,6 +1,6 @@
 import { Chain, RequestClient, formatBigIntToSafeValue } from "@swapkit/helpers";
 
-import type { AddressInfo } from "../types/ethplorer-api-types.ts";
+import type { AddressInfo } from "../types/ethplorer-api-types";
 const baseUrl = "https://api.ethplorer.io";
 
 export const ethplorerApi = (apiKey = "freekey") => ({

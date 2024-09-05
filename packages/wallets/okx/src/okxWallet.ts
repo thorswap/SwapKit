@@ -5,7 +5,7 @@ import {
   setRequestClientConfig,
 } from "@swapkit/helpers";
 
-import { getWalletForChain } from "./helpers.ts";
+import { getWalletForChain } from "./helpers";
 
 export const OKX_SUPPORTED_CHAINS = [
   Chain.Arbitrum,

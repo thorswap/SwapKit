@@ -6,16 +6,16 @@ import {
   getCommonAssetInfo,
   getDecimal,
   isGasAsset,
-} from "../helpers/asset.ts";
-import { warnOnce } from "../helpers/others.ts";
-import { validateIdentifier } from "../helpers/validators.ts";
-import { BaseDecimal, Chain, type ChainId, ChainToChainId } from "../types/chains.ts";
-import type { TokenNames, TokenTax } from "../types/tokens.ts";
+} from "../helpers/asset";
+import { warnOnce } from "../helpers/others";
+import { validateIdentifier } from "../helpers/validators";
+import { BaseDecimal, Chain, type ChainId, ChainToChainId } from "../types/chains";
+import type { TokenNames, TokenTax } from "../types/tokens";
 
-import type { NumberPrimitives } from "./bigIntArithmetics.ts";
-import { BigIntArithmetics, formatBigIntToSafeValue } from "./bigIntArithmetics.ts";
-import { SwapKitError } from "./swapKitError.ts";
-import type { SwapKitValueType } from "./swapKitNumber.ts";
+import type { NumberPrimitives } from "./bigIntArithmetics";
+import { BigIntArithmetics, formatBigIntToSafeValue } from "./bigIntArithmetics";
+import { SwapKitError } from "./swapKitError";
+import type { SwapKitValueType } from "./swapKitNumber";
 
 const staticTokensMap = new Map<
   TokenNames,

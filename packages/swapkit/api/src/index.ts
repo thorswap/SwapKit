@@ -1,15 +1,15 @@
-import * as microgardEndpoints from "./microgard/endpoints.ts";
-import { mayachainMidgard, thorchainMidgard } from "./midgard/endpoints.ts";
-import * as thornodeEndpoints from "./thornode/endpoints.ts";
-import * as thorswapApiEndpoints from "./thorswapApi/endpoints.ts";
-import * as thorswapApiV2Endpoints from "./thorswapApiV2/endpoints.ts";
-import * as thorswapStaticEndpoints from "./thorswapStatic/endpoints.ts";
+import * as microgardEndpoints from "./microgard/endpoints";
+import { mayachainMidgard, thorchainMidgard } from "./midgard/endpoints";
+import * as thornodeEndpoints from "./thornode/endpoints";
+import * as thorswapApiEndpoints from "./thorswapApi/endpoints";
+import * as thorswapApiV2Endpoints from "./thorswapApiV2/endpoints";
+import * as thorswapStaticEndpoints from "./thorswapStatic/endpoints";
 
-export * from "./thorswapApi/types.ts";
-export * from "./microgard/types.ts";
-export * from "./thorswapStatic/types.ts";
-export * from "./thornode/types.ts";
-export * from "./thorswapApiV2/types.ts";
+export * from "./thorswapApi/types";
+export * from "./microgard/types";
+export * from "./thorswapStatic/types";
+export * from "./thornode/types";
+export * from "./thorswapApiV2/types";
 
 export const SwapKitApi = {
   ...microgardEndpoints,

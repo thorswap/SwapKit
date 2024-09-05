@@ -6,13 +6,13 @@ import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
 
 import { decodeAddress } from "@polkadot/keyring";
 import { isHex, u8aToHex } from "@polkadot/util";
-import { toCFTicker } from "./assets.ts";
-import { chainflipGateway } from "./chainflipGatewayABI.ts";
+import { toCFTicker } from "./assets";
+import { chainflipGateway } from "./chainflipGatewayABI";
 import type {
   RequestSwapDepositAddressParams,
   SwapDepositResponse,
   WithdrawFeeResponse,
-} from "./types.ts";
+} from "./types";
 
 const chainToChainflipChain = new Map<Chain, keyof typeof Chains>([
   [Chain.Arbitrum, Chains.Arbitrum],

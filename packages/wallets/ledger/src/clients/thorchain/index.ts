@@ -1,9 +1,9 @@
 import { base64 } from "@scure/base";
 import { type DerivationPathArray, NetworkDerivationPath } from "@swapkit/helpers";
 
-import { CosmosLedgerInterface } from "../../interfaces/CosmosLedgerInterface.ts";
-import type { GetAddressAndPubKeyResponse } from "../../types.ts";
-import { getSignature } from "./utils.ts";
+import { CosmosLedgerInterface } from "../../interfaces/CosmosLedgerInterface";
+import type { GetAddressAndPubKeyResponse } from "../../types";
+import { getSignature } from "./utils";
 
 export class THORChainLedger extends CosmosLedgerInterface {
   private pubKey: string | null = null;

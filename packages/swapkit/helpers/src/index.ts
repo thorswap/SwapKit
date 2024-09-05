@@ -1,22 +1,22 @@
 export * from "@swapkit/contracts";
-export * from "./types/index.ts";
+export * from "./types/index";
 
 /**
  * Helpers
  */
-export * from "./helpers/asset.ts";
-export * from "./helpers/derivationPath.ts";
-export * from "./helpers/liquidity.ts";
-export * from "./helpers/memo.ts";
-export * from "./helpers/others.ts";
-export * from "./helpers/validators.ts";
-export * from "./helpers/web3wallets.ts";
+export * from "./helpers/asset";
+export * from "./helpers/derivationPath";
+export * from "./helpers/liquidity";
+export * from "./helpers/memo";
+export * from "./helpers/others";
+export * from "./helpers/validators";
+export * from "./helpers/web3wallets";
 
 /**
  * Modules
  */
-export * from "./modules/assetValue.ts";
-export * from "./modules/bigIntArithmetics.ts";
-export * from "./modules/requestClient.ts";
-export * from "./modules/swapKitError.ts";
-export * from "./modules/swapKitNumber.ts";
+export * from "./modules/assetValue";
+export * from "./modules/bigIntArithmetics";
+export * from "./modules/requestClient";
+export * from "./modules/swapKitError";
+export * from "./modules/swapKitNumber";

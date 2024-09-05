@@ -13,22 +13,22 @@ export {
 /**
  * Package
  */
-export * from "./api/covalentApi.ts";
-export * from "./api/ethplorerApi.ts";
-export * from "./helpers.ts";
-export * from "./provider.ts";
-export * from "./toolbox/EVMToolbox.ts";
-export * from "./types/clientTypes.ts";
-export * from "./types/ethplorer-api-types.ts";
+export * from "./api/covalentApi";
+export * from "./api/ethplorerApi";
+export * from "./helpers";
+export * from "./provider";
+export * from "./toolbox/EVMToolbox";
+export * from "./types/clientTypes";
+export * from "./types/ethplorer-api-types";
 
 /**
  * Toolboxes
  */
-export * from "./toolbox/arb.ts";
-export * from "./toolbox/avax.ts";
-export * from "./toolbox/bsc.ts";
-export * from "./toolbox/eth.ts";
-export * from "./toolbox/getToolboxByChain.ts";
-export * from "./toolbox/matic.ts";
-export * from "./toolbox/op.ts";
-export * from "./toolbox/base.ts";
+export * from "./toolbox/arb";
+export * from "./toolbox/avax";
+export * from "./toolbox/bsc";
+export * from "./toolbox/eth";
+export * from "./toolbox/getToolboxByChain";
+export * from "./toolbox/matic";
+export * from "./toolbox/op";
+export * from "./toolbox/base";

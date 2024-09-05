@@ -28,8 +28,8 @@ import {
   errorCodeToString,
   getVersion,
   processErrorResponse,
-} from "./common.ts";
-import { publicKeyv2, serializePathv2, signSendChunkv2 } from "./helpers.ts";
+} from "./common";
+import { publicKeyv2, serializePathv2, signSendChunkv2 } from "./helpers";
 
 export class THORChainApp {
   transport: Todo;

@@ -1,3 +1,3 @@
-export * from "./tcPlugin.ts";
-export * from "./mayaPlugin.ts";
-export * from "./getSwapParams.ts";
+export * from "./tcPlugin";
+export * from "./mayaPlugin";
+export * from "./getSwapParams";

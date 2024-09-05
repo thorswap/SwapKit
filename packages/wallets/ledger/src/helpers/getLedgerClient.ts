@@ -1,6 +1,6 @@
 import { Chain, type DerivationPathArray, SwapKitError, WalletOption } from "@swapkit/helpers";
 
-import { CosmosLedger } from "../clients/cosmos.ts";
+import { CosmosLedger } from "../clients/cosmos";
 import {
   ArbitrumLedger,
   AvalancheLedger,
@@ -8,16 +8,16 @@ import {
   EthereumLedger,
   OptimismLedger,
   PolygonLedger,
-} from "../clients/evm.ts";
-import { THORChainLedger } from "../clients/thorchain/index.ts";
+} from "../clients/evm";
+import { THORChainLedger } from "../clients/thorchain/index";
 import {
   BitcoinCashLedger,
   BitcoinLedger,
   DashLedger,
   DogecoinLedger,
   LitecoinLedger,
-} from "../clients/utxo.ts";
-import type { LedgerSupportedChain } from "./ledgerSupportedChains.ts";
+} from "../clients/utxo";
+import type { LedgerSupportedChain } from "./ledgerSupportedChains";
 
 type LedgerSignerMap = {
   [Chain.Arbitrum]: ReturnType<typeof ArbitrumLedger>;

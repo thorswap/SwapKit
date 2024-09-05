@@ -24,16 +24,16 @@ import {
   lowercasedContractAbiMapping,
 } from "@swapkit/helpers";
 
-import { basePlugin } from "./basePlugin.ts";
-import { getSwapInParams } from "./getSwapParams.ts";
-import { prepareTxParams, validateAddressType } from "./shared.ts";
+import { basePlugin } from "./basePlugin";
+import { getSwapInParams } from "./getSwapParams";
+import { prepareTxParams, validateAddressType } from "./shared";
 import type {
   AddLiquidityParams,
   CoreTxParams,
   CreateLiquidityParams,
   LoanParams,
   SwapWithRouteParams,
-} from "./types.ts";
+} from "./types";
 
 type SupportedChain = EVMChain | Chain.THORChain | UTXOChain | Chain.Cosmos;
 

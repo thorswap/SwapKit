@@ -1,21 +1,21 @@
-import { avaxGeneric } from "./abis/avaxGeneric.ts";
-import { avaxWoofi } from "./abis/avaxWoofi.ts";
-import { bscGeneric } from "./abis/bscGeneric.ts";
-import { erc20ABI } from "./abis/erc20.ts";
-import { ethGeneric } from "./abis/ethGeneric.ts";
-import { MayaArbitrumVaultAbi, MayaEthereumVaultAbi } from "./abis/mayaEvmVaults.ts";
-import { pancakeV2 } from "./abis/pancakeV2.ts";
-import { pangolin } from "./abis/pangolin.ts";
-import { sushiswap } from "./abis/sushiswap.ts";
-import { TCAvalancheDepositABI, TCBscDepositABI, TCEthereumVaultAbi } from "./abis/tcEthVault.ts";
-import { traderJoe } from "./abis/traderJoe.ts";
-import { uniswapV2 } from "./abis/uniswapV2.ts";
-import { uniswapV2Leg } from "./abis/uniswapV2Leg.ts";
-import { uniswapV3_100 } from "./abis/uniswapV3_100.ts";
-import { uniswapV3_500 } from "./abis/uniswapV3_500.ts";
-import { uniswapV3_3000 } from "./abis/uniswapV3_3000.ts";
-import { uniswapV3_10000 } from "./abis/uniswapV3_10000.ts";
-import { lowercasedRouterAbiMapping } from "./routers/index.ts";
+import { avaxGeneric } from "./abis/avaxGeneric";
+import { avaxWoofi } from "./abis/avaxWoofi";
+import { bscGeneric } from "./abis/bscGeneric";
+import { erc20ABI } from "./abis/erc20";
+import { ethGeneric } from "./abis/ethGeneric";
+import { MayaArbitrumVaultAbi, MayaEthereumVaultAbi } from "./abis/mayaEvmVaults";
+import { pancakeV2 } from "./abis/pancakeV2";
+import { pangolin } from "./abis/pangolin";
+import { sushiswap } from "./abis/sushiswap";
+import { TCAvalancheDepositABI, TCBscDepositABI, TCEthereumVaultAbi } from "./abis/tcEthVault";
+import { traderJoe } from "./abis/traderJoe";
+import { uniswapV2 } from "./abis/uniswapV2";
+import { uniswapV2Leg } from "./abis/uniswapV2Leg";
+import { uniswapV3_100 } from "./abis/uniswapV3_100";
+import { uniswapV3_500 } from "./abis/uniswapV3_500";
+import { uniswapV3_3000 } from "./abis/uniswapV3_3000";
+import { uniswapV3_10000 } from "./abis/uniswapV3_10000";
+import { lowercasedRouterAbiMapping } from "./routers/index";
 
 type AbiTypes =
   | typeof avaxGeneric

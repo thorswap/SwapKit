@@ -21,7 +21,7 @@ import {
   SwapKitNumber,
 } from "@swapkit/helpers";
 
-import { CosmosClient } from "../cosmosClient.ts";
+import { CosmosClient } from "../cosmosClient";
 import {
   buildAminoMsg,
   buildEncodedTxBody,
@@ -31,22 +31,22 @@ import {
   createDefaultRegistry,
   getDefaultChainFee,
   prepareMessageForBroadcast,
-} from "../thorchainUtils/index.ts";
+} from "../thorchainUtils/index";
 import type {
   DepositParam,
   MayaToolboxType,
   ThorchainConstantsResponse,
   ThorchainToolboxType,
-} from "../thorchainUtils/types/client-types.ts";
-import type { Signer, ToolboxParams, TransferParams } from "../types.ts";
+} from "../thorchainUtils/types/client-types";
+import type { Signer, ToolboxParams, TransferParams } from "../types";
 import {
   createOfflineStargateClient,
   createSigningStargateClient,
   createStargateClient,
   getRPC,
-} from "../util.ts";
+} from "../util";
 
-import { BaseCosmosToolbox } from "./BaseCosmosToolbox.ts";
+import { BaseCosmosToolbox } from "./BaseCosmosToolbox";
 
 const secp256k1HdWalletFromMnemonic =
   ({ prefix, derivationPath }: { prefix: string; derivationPath: string }) =>

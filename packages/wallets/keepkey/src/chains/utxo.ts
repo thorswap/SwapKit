@@ -14,7 +14,7 @@ import type {
   UTXOTransferParams,
 } from "@swapkit/toolbox-utxo";
 
-import { ChainToKeepKeyName, bip32ToAddressNList } from "../helpers/coins.ts";
+import { ChainToKeepKeyName, bip32ToAddressNList } from "../helpers/coins";
 
 type KKUtxoWalletParams = {
   sdk: Todo;

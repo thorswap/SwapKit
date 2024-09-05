@@ -1,1 +1,1 @@
-export { radixWallet } from "./radixWallet.ts";
+export { radixWallet } from "./radixWallet";

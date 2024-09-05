@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { BaseDecimal, Chain } from "../../types";
 
-import { assetFromString, getAssetType, getDecimal } from "../asset.ts";
+import { assetFromString, getAssetType, getDecimal } from "../asset";
 
 const tickerMap: Record<string, string> = {
   [Chain.THORChain]: "RUNE",

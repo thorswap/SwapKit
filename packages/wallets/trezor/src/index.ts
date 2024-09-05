@@ -70,7 +70,7 @@ async function getToolbox({
     case Chain.Polygon:
     case Chain.Ethereum: {
       const { getProvider, getToolboxByChain } = await import("@swapkit/toolbox-evm");
-      const { getEVMSigner } = await import("./evmSigner.ts");
+      const { getEVMSigner } = await import("./evmSigner");
 
       const keys = ensureEVMApiKeys({ chain, ethplorerApiKey, covalentApiKey });
       const provider = getProvider(chain, rpcUrl);
