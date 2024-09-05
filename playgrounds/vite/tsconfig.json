@@ -33,5 +33,5 @@
     "target": "ESNext",
     "types": ["vite/client"]
   },
-  "include": ["../../tools/typescript/typings.d.ts", "src"]
+  "include": ["src"]
 }

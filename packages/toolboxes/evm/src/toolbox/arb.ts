@@ -35,7 +35,7 @@ const estimateGasPrices = async (provider: Provider) => {
     };
   } catch (error) {
     throw new Error(
-      `Failed to estimate gas price: ${(error as Todo).msg ?? (error as Todo).toString()}`,
+      `Failed to estimate gas price: ${(error as any).msg ?? (error as any).toString()}`,
     );
   }
 };

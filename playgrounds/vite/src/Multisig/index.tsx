@@ -21,7 +21,7 @@ export default function Multisig({
   const [recipient, setRecipient] = useState("");
   const [memo, setMemo] = useState("");
   const [address, setAddress] = useState("");
-  const [transaction, setTransaction] = useState<Todo | undefined>(undefined);
+  const [transaction, setTransaction] = useState<any | undefined>(undefined);
   const [signatures, setSignatures] = useState<{ [key: string]: string }>({});
   const [bodyBytes, setBodyBytes] = useState<Uint8Array>(new Uint8Array([]));
   const [transactionHash, setTransactionHash] = useState("");

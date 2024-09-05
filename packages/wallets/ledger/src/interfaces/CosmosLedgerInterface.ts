@@ -11,8 +11,8 @@ import { getLedgerTransport } from "../helpers/getLedgerTransport";
 export abstract class CosmosLedgerInterface {
   public ledgerTimeout = 50000;
   public derivationPath: DerivationPathArray | string = NetworkDerivationPath.GAIA;
-  public transport: Todo;
-  public ledgerApp: Todo;
+  public transport: any;
+  public ledgerApp: any;
   public chain: "thor" | "cosmos" = "thor";
 
   public checkOrCreateTransportAndLedger = async (forceReconnect = false) => {

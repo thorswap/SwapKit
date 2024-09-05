@@ -164,7 +164,7 @@ export async function getXDEFIAddress(chain: Chain) {
     eipProvider.request(
       { method: "request_accounts", params: [] },
       // @ts-expect-error
-      (error: Todo, [response]: string[]) => (error ? reject(error) : resolve(response)),
+      (error: any, [response]: string[]) => (error ? reject(error) : resolve(response)),
     ),
   );
 }
@@ -270,7 +270,7 @@ export function getXdefiMethods(provider: BrowserProvider) {
             from,
             to,
             data: data || "0x",
-          } as Todo,
+          } as any,
         ]);
       }
       const contract = createContract(contractAddress, abi, contractProvider);
@@ -302,7 +302,7 @@ export function getXdefiMethods(provider: BrowserProvider) {
           from,
           to,
           data: data || "0x",
-        } as Todo,
+        } as any,
       ]);
     },
     sendTransaction: async (tx: EVMTxParams) => {
@@ -319,7 +319,7 @@ export function getXdefiMethods(provider: BrowserProvider) {
           from,
           to,
           data: data || "0x",
-        } as Todo,
+        } as any,
       ]);
     },
   };

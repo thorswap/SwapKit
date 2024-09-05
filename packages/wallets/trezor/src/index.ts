@@ -34,7 +34,7 @@ type TrezorOptions = {
 
 type Params = TrezorOptions & {
   // TODO improve api typing
-  api?: Todo;
+  api?: any;
   chain: Chain;
   derivationPath: DerivationPathArray;
   rpcUrl?: string;
@@ -155,7 +155,7 @@ async function getToolbox({
 
           // Lint is not happy with the type of txOutputs
           // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO: refactor
-          outputs: psbt.txOutputs.map((output: Todo) => {
+          outputs: psbt.txOutputs.map((output: any) => {
             const outputAddress =
               chain === Chain.BitcoinCash && output.address
                 ? toCashAddress(output.address)

@@ -32,10 +32,10 @@ export interface SolanaProvider {
   getAddress: () => Promise<string>;
   isConnected: boolean | null;
   isPhantom: boolean;
-  on: (event: PhantomEvent, handler: (args: NotWorth) => void) => void;
+  on: (event: PhantomEvent, handler: (args: any) => void) => void;
   publicKey: PublicKey | null;
-  request: (method: PhantomRequestMethod, params: NotWorth) => Promise<unknown>;
-  signMessage: (message: Uint8Array | string, display?: DisplayEncoding) => Promise<NotWorth>;
+  request: (method: PhantomRequestMethod, params: any) => Promise<unknown>;
+  signMessage: (message: Uint8Array | string, display?: DisplayEncoding) => Promise<any>;
   signAndSendTransaction: (
     transaction: Transaction | VersionedTransaction,
     opts?: SendOptions,

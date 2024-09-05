@@ -135,7 +135,7 @@ async function getToolbox({
           sequence?.toString() || "0",
         );
 
-        const signature: Todo = await signRequest(signDoc);
+        const signature: any = await signRequest(signDoc);
 
         const bodyBytes = buildEncodedTxBody({
           chain: Chain.THORChain,
@@ -219,7 +219,7 @@ async function getWalletconnect(
     const session = await client.connect({ requiredNamespaces });
 
     const accounts = Object.values(session.namespaces).flatMap(
-      (namespace: Todo) => namespace.accounts,
+      (namespace: any) => namespace.accounts,
     );
 
     const disconnect = async () => {

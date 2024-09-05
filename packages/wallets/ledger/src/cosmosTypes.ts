@@ -5,12 +5,12 @@ export interface Coin {
 
 export interface EncodeObject {
   readonly typeUrl: string;
-  readonly value: Todo;
+  readonly value: any;
 }
 
 export interface AminoMsg {
   readonly type: string;
-  readonly value: Todo;
+  readonly value: any;
 }
 
 export interface AminoMsgSend extends AminoMsg {
@@ -26,8 +26,8 @@ export interface AminoMsgSend extends AminoMsg {
 
 export interface AminoConverter {
   readonly aminoType: string;
-  readonly toAmino: (value: Todo) => NotWorth;
-  readonly fromAmino: (value: Todo) => NotWorth;
+  readonly toAmino: (value: any) => any;
+  readonly fromAmino: (value: any) => any;
 }
 
 /** A map from protobuf type URL to the AminoConverter implementation if supported on chain */

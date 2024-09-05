@@ -158,7 +158,7 @@ or by passing asyncTokenLookup: true to the from() function, which will make it 
   }
 
   static loadStaticAssets() {
-    return new Promise<{ ok: true } | { ok: false; message: string; error: Todo }>(
+    return new Promise<{ ok: true } | { ok: false; message: string; error: any }>(
       (resolve, reject) => {
         try {
           import("@swapkit/tokens").then((tokenPackages) => {

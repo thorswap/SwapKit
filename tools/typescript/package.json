@@ -2,5 +2,5 @@
   "name": "@internal/tools-typescript",
   "private": true,
   "version": "0.1.0",
-  "files": ["./base.json", "./typings.d.ts"]
+  "files": ["./base.json"]
 }

@@ -138,7 +138,7 @@ export async function swapkitWizard() {
       },
       plugins: ({ results }) => {
         if (results.variant !== Variant.FULL) {
-          return multiselect<NotWorth, Plugin>({
+          return multiselect<any, Plugin>({
             message: "What plugins do you want to support?",
             options: pluginOptions,
           });
@@ -147,7 +147,7 @@ export async function swapkitWizard() {
         return note("Full variant does not require plugins setup.");
       },
       enableTokens: () =>
-        select<NotWorth, boolean>({
+        select<any, boolean>({
           message:
             "Do you want to integrate static token lists? (Helps with token selections and provides token data like decimals, address and more)",
           options: [
@@ -156,7 +156,7 @@ export async function swapkitWizard() {
           ],
         }),
       setupApiKeys: () =>
-        select<NotWorth, boolean>({
+        select<any, boolean>({
           initialValue: false,
           message:
             "Do you want to setup API keys for third-party services like Blockchair, Ethplorer, Covalent? (This is optional step, you can always add them later)",

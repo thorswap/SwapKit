@@ -91,7 +91,7 @@ class EVMLedgerInterface extends AbstractSigner {
   };
 
   // TODO: fix typing infer from ethers
-  sendTransaction = async (tx: TransactionRequest): Promise<Todo> => {
+  sendTransaction = async (tx: TransactionRequest): Promise<any> => {
     if (!this.provider) throw new Error("No provider set");
 
     const signedTxHex = await this.signTransaction(tx);

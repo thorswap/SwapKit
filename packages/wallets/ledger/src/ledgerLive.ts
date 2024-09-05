@@ -177,7 +177,7 @@ export const getLedgerLiveWallet = async ({
         ethplorerApiKey,
       });
 
-      const sendTransaction = async (unsignedTx: Todo) => {
+      const sendTransaction = async (unsignedTx: any) => {
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           recipient: unsignedTx.to,
           data: Buffer.from(unsignedTx.data?.substring(2) || "", "hex"),
@@ -242,7 +242,7 @@ export const getLedgerLiveWallet = async ({
         ];
       };
 
-      const sendTransaction = async (unsignedTx: Todo) => {
+      const sendTransaction = async (unsignedTx: any) => {
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           family: LEDGER_LIVE_FAMILIES[5],
           recipient: unsignedTx.to,
@@ -321,7 +321,7 @@ export const getLedgerLiveWallet = async ({
         ];
       };
 
-      const sendTransaction = async (unsignedTx: Todo) => {
+      const sendTransaction = async (unsignedTx: any) => {
         const signedTx = await ledgerLiveClient?.signTransaction(ledgerLiveAccount.id, {
           recipient: unsignedTx.to,
           opReturnData: Buffer.from(unsignedTx.memo || ""),

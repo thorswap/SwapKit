@@ -13,7 +13,7 @@ export type TargetOutput =
   | { script: Buffer; value: number };
 
 export type TransactionBuilderType = {
-  inputs: Todo[];
+  inputs: any[];
   sign(
     vin: number,
     keyPair: { getAddress: (index?: number) => string },

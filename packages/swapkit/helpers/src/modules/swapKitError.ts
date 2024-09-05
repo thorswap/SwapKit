@@ -153,8 +153,8 @@ export class SwapKitError extends Error {
   static ErrorCode = errorCodes;
 
   constructor(
-    errorOrErrorKey: ErrorKeys | { errorKey: ErrorKeys; info?: Record<string, NotWorth> },
-    sourceError?: NotWorth,
+    errorOrErrorKey: ErrorKeys | { errorKey: ErrorKeys; info?: Record<string, any> },
+    sourceError?: any,
   ) {
     const isErrorString = typeof errorOrErrorKey === "string";
 
