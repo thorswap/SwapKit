@@ -43,10 +43,10 @@ type DecodedType = {
   format: Format;
   network: Network;
   type: Type;
-  hash: Todo;
+  hash: any;
 };
 
-function isValidAddress(input: Todo) {
+function isValidAddress(input: any) {
   try {
     decodeAddress(input);
     return true;

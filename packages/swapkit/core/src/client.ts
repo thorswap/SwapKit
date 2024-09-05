@@ -36,8 +36,8 @@ import {
 
 type PluginsType = {
   [key in string]: {
-    plugin: (params: SwapKitPluginParams<NotWorth>) => NotWorth;
-    config?: NotWorth;
+    plugin: (params: SwapKitPluginParams<any>) => any;
+    config?: any;
   };
 };
 
@@ -53,7 +53,7 @@ export type SwapKitParams<P, W> = {
 
 export function SwapKit<
   Plugins extends PluginsType,
-  Wallets extends { [key in string]: SwapKitWallet<NotWorth[]> },
+  Wallets extends { [key in string]: SwapKitWallet<any[]> },
 >({
   apis = {},
   config = {},

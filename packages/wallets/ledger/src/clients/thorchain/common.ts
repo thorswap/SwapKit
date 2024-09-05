@@ -45,12 +45,12 @@ const ERROR_DESCRIPTION = {
   28417: "Sign/verify error",
 };
 
-export function errorCodeToString(statusCode: Todo) {
+export function errorCodeToString(statusCode: any) {
   if (statusCode in ERROR_DESCRIPTION) return ERROR_DESCRIPTION[statusCode as 1];
   return `Unknown Status Code: ${statusCode}`;
 }
 
-export function processErrorResponse(response: Todo) {
+export function processErrorResponse(response: any) {
   if (response) {
     if (
       typeof response === "object" &&
@@ -84,8 +84,8 @@ export function processErrorResponse(response: Todo) {
   };
 }
 
-export async function getVersion(transport: Todo) {
-  return transport.send(CLA, INS.GET_VERSION, 0, 0).then((response: Todo) => {
+export async function getVersion(transport: any) {
+  return transport.send(CLA, INS.GET_VERSION, 0, 0).then((response: any) => {
     const errorCodeData = response.slice(-2);
     const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
 

@@ -60,7 +60,6 @@ export const getWalletForChain = async ({
   chain: Chain;
   ethplorerApiKey?: string;
   covalentApiKey?: string;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   api?: any;
   coinbaseWalletSettings?: CoinbaseWalletSDKOptions;
 }): Promise<ReturnType<ReturnType<typeof getToolboxByChain>> & { address: string }> => {

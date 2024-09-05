@@ -49,7 +49,7 @@ export type ConnectConfig = {
   chainflipBrokerUrl?: string;
 };
 
-export type ConnectWalletParams<M = { [key in string]: NotWorth }> = {
+export type ConnectWalletParams<M = { [key in string]: any }> = {
   addChain: <T extends Chain>(params: ChainWallet<T> & M) => void;
   apis: ChainApis;
   config: ConnectConfig;

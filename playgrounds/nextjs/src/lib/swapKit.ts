@@ -3,7 +3,7 @@ import { type AssetValue, type Chain, WalletOption } from "@swapkit/helpers";
 import { atom, useAtom } from "jotai";
 import { useCallback, useEffect } from "react";
 
-const swapKitAtom = atom<Todo | null>(null);
+const swapKitAtom = atom<any | null>(null);
 const balanceAtom = atom<AssetValue[]>([]);
 const walletState = atom<{ connected: boolean; type: WalletOption | null }>({
   connected: false,

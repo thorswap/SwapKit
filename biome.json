@@ -22,7 +22,7 @@
     "formatter": {
       "semicolons": "always"
     },
-    "globals": ["Bun", "NotWorth", "FixMe", "Todo", "React"]
+    "globals": ["Bun", "React"]
   },
   "linter": {
     "enabled": true,
@@ -41,7 +41,7 @@
       "complexity": { "all": true, "noBannedTypes": "off" },
       "correctness": { "all": true, "noNodejsModules": "off", "noUndeclaredVariables": "error" },
       "security": { "all": true },
-      "suspicious": { "all": true, "useAwait": "error" },
+      "suspicious": { "all": true, "useAwait": "error", "noExplicitAny": "warn" },
       "nursery": { "recommended": true }
     }
   }

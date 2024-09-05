@@ -166,7 +166,7 @@ type WithdrawParams = {
 /**
  * @deprecated - Use separate functions per each memo type like getMemoForDeposit, getMemoForWithdraw, etc.
  */
-export const getMemoFor = <T extends MemoType>(memoType: T, options: NotWorth) => {
+export const getMemoFor = <T extends MemoType>(memoType: T, options: any) => {
   switch (memoType) {
     case MemoType.LEAVE:
     case MemoType.BOND: {

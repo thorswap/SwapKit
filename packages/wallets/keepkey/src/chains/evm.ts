@@ -99,7 +99,7 @@ export class KeepKeySigner extends AbstractSigner {
     return responseSign.serialized;
   };
 
-  sendTransaction = async (tx: TransactionRequest): Promise<Todo> => {
+  sendTransaction = async (tx: TransactionRequest): Promise<any> => {
     if (!this.provider) throw new Error("No provider set");
 
     const signedTxHex = await this.signTransaction(tx);

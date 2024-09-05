@@ -21,7 +21,7 @@ declare const window: {
   ethereum: EthereumWindowProvider;
   trustwallet: EthereumWindowProvider;
   coinbaseWalletExtension: EthereumWindowProvider;
-  braveSolana: Todo;
+  braveSolana: any;
 } & Window;
 
 export type EVMWalletOptions =

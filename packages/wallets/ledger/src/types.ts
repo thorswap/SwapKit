@@ -31,7 +31,7 @@ export type EVMLedgerClients =
 
 export type GetAddressAndPubKeyResponse = {
   bech32_address: string;
-  compressed_pk: NotWorth;
+  compressed_pk: any;
   error_message: string;
   return_code: number;
 };

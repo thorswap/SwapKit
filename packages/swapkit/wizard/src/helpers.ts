@@ -41,7 +41,7 @@ export function getPackageManager() {
   };
 }
 
-export function handleCancel(error?: NotWorth) {
+export function handleCancel(error?: any) {
   console.error(error);
   outro(bold(red("@swapkit/wizard - cancelled")));
   rmSync("./temp", { recursive: true, force: true });

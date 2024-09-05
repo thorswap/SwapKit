@@ -56,7 +56,7 @@ export const createStargateClient = (url: string) => {
 
 export const createSigningStargateClient = (
   url: string,
-  signer: Todo,
+  signer: any,
   optionsOrBaseGas: string | SigningStargateClientOptions = {},
 ) => {
   const gasPrice = typeof optionsOrBaseGas === "string" ? optionsOrBaseGas : "0.0003uatom";

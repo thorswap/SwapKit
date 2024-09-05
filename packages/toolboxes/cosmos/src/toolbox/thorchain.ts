@@ -91,7 +91,7 @@ const signMultisigTx = async (
 
   const bodyBytes = await buildEncodedTxBody({
     chain,
-    msgs: msgs.map((msg: NotWorth) => prepareMessageForBroadcast(msg)),
+    msgs: msgs.map((msg: any) => prepareMessageForBroadcast(msg)),
     memo,
   });
 
