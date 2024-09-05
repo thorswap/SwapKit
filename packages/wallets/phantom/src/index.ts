@@ -19,42 +19,6 @@ declare global {
   }
 }
 
-async function getPhantomProvider<T extends PhantomSupportedChains>(chain: T) {
-  const phantom: NotWorth = window?.phantom;
-  switch (chain) {
-    case Chain.Bitcoin: {
-      const provider = phantom?.bitcoin;
-      if (!provider?.isPhantom) {
-        throw new SwapKitError("wallet_phantom_not_found");
-      }
-      const [{ address }] = await provider.requestAccounts();
-
-      return { address, provider };
-    }
-
-    case Chain.Ethereum: {
-      const { BrowserProvider } = await import("ethers");
-
-      const provider = new BrowserProvider(phantom?.ethereum, "any");
-      const [address] = await provider.send("eth_requestAccounts", []);
-
-      return { address, provider };
-    }
-
-    default: {
-      const provider = phantom?.solana;
-      if (!provider?.isPhantom) {
-        throw new SwapKitError("wallet_phantom_not_found");
-      }
-
-      const connection = await provider.connect();
-      const address: string = connection.publicKey.toString();
-
-      return { address, provider };
-    }
-  }
-}
-
 async function getWalletMethods<T extends PhantomSupportedChains>({
   chain,
   rpcUrl,
@@ -66,10 +30,16 @@ async function getWalletMethods<T extends PhantomSupportedChains>({
   covalentApiKey?: string;
   ethplorerApiKey?: string;
 }) {
-  const { provider, address } = await getPhantomProvider(chain);
+  const phantom: NotWorth = window?.phantom;
 
   switch (chain) {
     case Chain.Bitcoin: {
+      const provider = phantom?.bitcoin;
+      if (!provider?.isPhantom) {
+        throw new SwapKitError("wallet_phantom_not_found");
+      }
+      const [{ address }] = await provider.requestAccounts();
+
       const { getToolboxByChain } = await import("@swapkit/toolbox-utxo");
       const toolbox = getToolboxByChain(chain);
 
@@ -78,6 +48,11 @@ async function getWalletMethods<T extends PhantomSupportedChains>({
 
     case Chain.Ethereum: {
       const { getToolboxByChain } = await import("@swapkit/toolbox-evm");
+      const { BrowserProvider } = await import("ethers");
+
+      const provider = new BrowserProvider(phantom?.ethereum, "any");
+      const [address] = await provider.send("eth_requestAccounts", []);
+
       const toolbox = getToolboxByChain(chain);
       const keys = ensureEVMApiKeys({ chain, covalentApiKey, ethplorerApiKey });
       const signer = await provider.getSigner();
@@ -87,7 +62,13 @@ async function getWalletMethods<T extends PhantomSupportedChains>({
 
     case Chain.Solana: {
       const { SOLToolbox } = await import("@swapkit/toolbox-solana");
+      const provider = phantom?.solana;
+      if (!provider?.isPhantom) {
+        throw new SwapKitError("wallet_phantom_not_found");
+      }
 
+      const connection = await provider.connect();
+      const address: string = connection.publicKey.toString();
       return { ...SOLToolbox({ rpcUrl }), address };
     }
 
