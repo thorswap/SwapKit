@@ -66,7 +66,9 @@ function plugin({ getWallet, stagenet = false }: SwapKitPluginParams) {
       throw new SwapKitError("core_wallet_connection_not_found");
     }
 
-    const isAddressValidated = validateAddressType({ address: wallet.address, chain });
+    const isAddressValidated =
+      validateAddressType({ address: wallet.address, chain }) &&
+      validateAddressType({ address: recipient, chain });
     if (!isAddressValidated) {
       throw new SwapKitError("core_transaction_invalid_sender_address");
     }
