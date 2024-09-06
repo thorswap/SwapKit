@@ -1,4 +1,4 @@
 import { buildPackage } from "../../../tools/builder";
-import { dependencies } from "./package.json";
+import { dependencies, devDependencies } from "./package.json";
 
-buildPackage({ dependencies });
+buildPackage({ dependencies: { ...dependencies, ...devDependencies } });

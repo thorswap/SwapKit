@@ -18,7 +18,7 @@ import {
 import { Network, type SubstrateNetwork } from "../types/network.ts";
 
 // TODO combine this type with the more general SK type
-type SubstrateTransferParams = {
+export type SubstrateTransferParams = {
   recipient: string;
   assetValue: AssetValue;
   from?: string;
