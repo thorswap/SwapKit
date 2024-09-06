@@ -1,5 +1,11 @@
 # @swapkit/plugin-thorchain
 
+## 1.1.28
+
+### Patch Changes
+
+- [#981](https://github.com/thorswap/SwapKit/pull/981) [`71e0e5a`](https://github.com/thorswap/SwapKit/commit/71e0e5acf6d771bee816c9da3744d56e385392e6) Thanks [@towanTG](https://github.com/towanTG)! - Adds recipient address validation for tc plugin
+
 ## 1.1.27
 
 ### Patch Changes
