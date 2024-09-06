@@ -30,7 +30,7 @@ type RadixDappConfig = {
 // TODO figure out way to make wallet work nicely with toolbox without reimplementing all the methods
 const RadixSignerInstance = (
   rdt: RadixDappToolkit,
-): Todo & { getAddress: () => Promise<string> } => {
+): any & { getAddress: () => Promise<string> } => {
   return {
     getAddress: async () => {
       return new Promise((resolve) => {
@@ -74,7 +74,7 @@ const RadixSignerInstance = (
 async function fetchFungibleResources({
   address,
   networkApi,
-}: Todo): Promise<FungibleResourcesCollectionItem[]> {
+}: any): Promise<FungibleResourcesCollectionItem[]> {
   let hasNextPage = true;
   let nextCursor = undefined;
   let fungibleResources: FungibleResourcesCollectionItem[] = [];
