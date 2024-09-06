@@ -1,5 +1,12 @@
 # @swapkit/sdk
 
+## 1.1.33
+
+### Patch Changes
+
+- Updated dependencies [[`71e0e5a`](https://github.com/thorswap/SwapKit/commit/71e0e5acf6d771bee816c9da3744d56e385392e6)]:
+  - @swapkit/plugin-thorchain@1.1.28
+
 ## 1.1.32
 
 ### Patch Changes
