@@ -1,8 +1,8 @@
-import { AssetValue } from "../modules/assetValue.ts";
-import { RequestClient } from "../modules/requestClient.ts";
-import { BaseDecimal, Chain, ChainToRPC, type EVMChain, EVMChains } from "../types/chains.ts";
-import type { RadixCoreStateResourceDTO } from "../types/radix.ts";
-import type { TokenNames } from "../types/tokens.ts";
+import { AssetValue } from "../modules/assetValue";
+import { RequestClient } from "../modules/requestClient";
+import { BaseDecimal, Chain, ChainToRPC, type EVMChain, EVMChains } from "../types/chains";
+import type { RadixCoreStateResourceDTO } from "../types/radix";
+import type { TokenNames } from "../types/tokens";
 
 const getDecimalMethodHex = "0x313ce567";
 

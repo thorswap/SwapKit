@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
-    "allowJs": true,
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true,
     "baseUrl": "./src",
@@ -34,5 +33,5 @@
     "target": "ESNext",
     "types": ["vite/client"]
   },
-  "include": ["../../tools/typescript/typings.d.ts", "src"]
+  "include": ["src"]
 }

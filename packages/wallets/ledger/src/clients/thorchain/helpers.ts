@@ -1,15 +1,15 @@
 import { LedgerErrorCode } from "@swapkit/helpers";
 
-import { CLA, INS, PAYLOAD_TYPE, errorCodeToString, processErrorResponse } from "./common.ts";
+import { CLA, INS, PAYLOAD_TYPE, errorCodeToString, processErrorResponse } from "./common";
 
-const signSendChunkv1 = async (app: Todo, chunkIdx: Todo, chunkNum: Todo, chunk: Todo) => {
+const signSendChunkv1 = async (app: any, chunkIdx: any, chunkNum: any, chunk: any) => {
   return app.transport
     .send(CLA, INS.SIGN_SECP256K1, chunkIdx, chunkNum, chunk, [
       LedgerErrorCode.NoError,
       0x6984,
       0x6a80,
     ])
-    .then((response: Todo) => {
+    .then((response: any) => {
       const errorCodeData = response.slice(-2);
       const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
       let errorMessage = errorCodeToString(returnCode);
@@ -33,7 +33,7 @@ const signSendChunkv1 = async (app: Todo, chunkIdx: Todo, chunkNum: Todo, chunk:
     }, processErrorResponse);
 };
 
-export const serializePathv2 = (path: Todo) => {
+export const serializePathv2 = (path: any) => {
   if (!path || path.length !== 5) {
     throw new Error("Invalid path.");
   }
@@ -48,7 +48,7 @@ export const serializePathv2 = (path: Todo) => {
   return buf;
 };
 
-export const signSendChunkv2 = (app: Todo, chunkIdx: Todo, chunkNum: Todo, chunk: Todo) => {
+export const signSendChunkv2 = (app: any, chunkIdx: any, chunkNum: any, chunk: any) => {
   let payloadType = PAYLOAD_TYPE.ADD;
   if (chunkIdx === 1) {
     payloadType = PAYLOAD_TYPE.INIT;
@@ -60,10 +60,10 @@ export const signSendChunkv2 = (app: Todo, chunkIdx: Todo, chunkNum: Todo, chunk
   return signSendChunkv1(app, payloadType, 0, chunk);
 };
 
-export const publicKeyv2 = async (app: Todo, data: Todo) => {
+export const publicKeyv2 = async (app: any, data: any) => {
   return app.transport
     .send(CLA, INS.GET_ADDR_SECP256K1, 0, 0, data, [LedgerErrorCode.NoError])
-    .then((response: Todo) => {
+    .then((response: any) => {
       const errorCodeData = response.slice(-2);
       const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
       const compressedPk = Buffer.from(response.slice(0, 33));

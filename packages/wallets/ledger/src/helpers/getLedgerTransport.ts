@@ -4,10 +4,10 @@ import { SwapKitError } from "@swapkit/helpers";
 const getNavigatorUsb = () =>
   // @ts-ignore
   navigator?.usb as unknown as {
-    getDevices: () => Promise<Todo[]>;
-    requestDevice: (requestObject: Todo) => Promise<Todo>;
-    removeEventListener: (event: string, callback: (e: Todo) => void) => void;
-    addEventListener: (event: string, callback: (e: Todo) => void) => void;
+    getDevices: () => Promise<any[]>;
+    requestDevice: (requestObject: any) => Promise<any>;
+    removeEventListener: (event: string, callback: (e: any) => void) => void;
+    addEventListener: (event: string, callback: (e: any) => void) => void;
   };
 
 const getLedgerDevices = async () => {
@@ -65,7 +65,7 @@ export const getLedgerTransport = async () => {
 
   const transport = new Transport(device, iface.interfaceNumber);
 
-  const onDisconnect = (e: Todo) => {
+  const onDisconnect = (e: any) => {
     if (device === e.device) {
       getNavigatorUsb()?.removeEventListener("disconnect", onDisconnect);
 

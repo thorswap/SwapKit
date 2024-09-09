@@ -186,7 +186,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
   );
 
   const handleKeystoreConnection = useCallback(
-    async ({ target }: Todo) => {
+    async ({ target }: any) => {
       if (!skClient) return alert("client is not ready");
       setLoading(true);
 
@@ -253,8 +253,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
     );
   }, []);
 
-  const handleMultipleSelect = useCallback((e: Todo) => {
-    const selectedChains = Array.from(e.target.selectedOptions).map((o: Todo) => o.value);
+  const handleMultipleSelect = useCallback((e: any) => {
+    const selectedChains = Array.from(e.target.selectedOptions).map((o: any) => o.value);
 
     if (selectedChains.length > 1) {
       setChains(selectedChains as never);

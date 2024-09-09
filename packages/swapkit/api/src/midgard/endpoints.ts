@@ -5,7 +5,7 @@ import type {
   MemberDetailsThorchain,
   SaverDetails,
   THORNameDetails,
-} from "./types.ts";
+} from "./types";
 const thorchainMidgardBaseUrl = "https://midgard.ninerealms.com";
 const mayachainMidgardBaseUrl = "https://midgard.mayachain.info";
 

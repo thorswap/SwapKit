@@ -1,4 +1,3 @@
-import { red, yellow } from "picocolors";
 import {
   type CommonAssetString,
   CommonAssetStrings,
@@ -6,16 +5,16 @@ import {
   getCommonAssetInfo,
   getDecimal,
   isGasAsset,
-} from "../helpers/asset.ts";
-import { warnOnce } from "../helpers/others.ts";
-import { validateIdentifier } from "../helpers/validators.ts";
-import { BaseDecimal, Chain, type ChainId, ChainToChainId } from "../types/chains.ts";
-import type { TokenNames, TokenTax } from "../types/tokens.ts";
+} from "../helpers/asset";
+import { warnOnce } from "../helpers/others";
+import { validateIdentifier } from "../helpers/validators";
+import { BaseDecimal, Chain, type ChainId, ChainToChainId } from "../types/chains";
+import type { TokenNames, TokenTax } from "../types/tokens";
 
-import type { NumberPrimitives } from "./bigIntArithmetics.ts";
-import { BigIntArithmetics, formatBigIntToSafeValue } from "./bigIntArithmetics.ts";
-import { SwapKitError } from "./swapKitError.ts";
-import type { SwapKitValueType } from "./swapKitNumber.ts";
+import type { NumberPrimitives } from "./bigIntArithmetics";
+import { BigIntArithmetics, formatBigIntToSafeValue } from "./bigIntArithmetics";
+import { SwapKitError } from "./swapKitError";
+import type { SwapKitValueType } from "./swapKitNumber";
 
 const staticTokensMap = new Map<
   TokenNames,
@@ -131,12 +130,10 @@ export class AssetValue extends BigIntArithmetics {
 
     warnOnce(
       !(asyncTokenLookup || tokenDecimal),
-      yellow(
-        `Couldn't find static decimal for ${red(unsafeIdentifier)} (Using default ${red(BaseDecimal[chain])} decimal as fallback).
+      `Couldn't find static decimal for ${unsafeIdentifier} (Using default ${BaseDecimal[chain]} decimal as fallback).
 This can result in incorrect calculations and mess with amount sent on transactions.
 You can load static assets by installing @swapkit/tokens package and calling AssetValue.loadStaticAssets()
 or by passing asyncTokenLookup: true to the from() function, which will make it async and return a promise.`,
-      ),
     );
 
     const { decimal, identifier, tax } = token || {
@@ -158,7 +155,7 @@ or by passing asyncTokenLookup: true to the from() function, which will make it 
   }
 
   static loadStaticAssets() {
-    return new Promise<{ ok: true } | { ok: false; message: string; error: Todo }>(
+    return new Promise<{ ok: true } | { ok: false; message: string; error: any }>(
       (resolve, reject) => {
         try {
           import("@swapkit/tokens").then((tokenPackages) => {

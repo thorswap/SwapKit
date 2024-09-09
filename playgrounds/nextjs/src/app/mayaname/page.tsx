@@ -1,9 +1,9 @@
 "use client";
 
 import { AssetValue, Chain, getMAYANameCost } from "@swapkit/helpers";
-import { Button } from "~/components/ui/button.tsx";
+import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
-import { useSwapKit } from "~/lib/swapKit.ts";
+import { useSwapKit } from "~/lib/swapKit";
 // import { useSwapKit } from "~/lib/swapKit";
 
 export default function Send() {

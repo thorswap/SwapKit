@@ -8,7 +8,7 @@ import type {
   RunePoolProviderInfo,
   THORNodeTNSDetails,
   ThornodeEndpointParams,
-} from "./types.ts";
+} from "./types";
 
 function baseUrl({ type = "thorchain", stagenet = false }: ThornodeEndpointParams = {}) {
   switch (type) {

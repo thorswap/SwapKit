@@ -10,11 +10,11 @@ import {
 import { KeepKeySdk } from "@keepkey/keepkey-sdk";
 export type { PairingInfo } from "@keepkey/keepkey-sdk";
 
-import { cosmosWalletMethods } from "./chains/cosmos.ts";
-import { KeepKeySigner } from "./chains/evm.ts";
-import { mayachainWalletMethods } from "./chains/mayachain.ts";
-import { thorchainWalletMethods } from "./chains/thorchain.ts";
-import { utxoWalletMethods } from "./chains/utxo.ts";
+import { cosmosWalletMethods } from "./chains/cosmos";
+import { KeepKeySigner } from "./chains/evm";
+import { mayachainWalletMethods } from "./chains/mayachain";
+import { thorchainWalletMethods } from "./chains/thorchain";
+import { utxoWalletMethods } from "./chains/utxo";
 
 export const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
@@ -39,7 +39,7 @@ export const KEEPKEY_SUPPORTED_CHAINS = [
  */
 type KeepKeyOptions = {
   sdk: KeepKeySdk;
-  apiClient?: Todo;
+  apiClient?: any;
   rpcUrl?: string;
   ethplorerApiKey?: string;
   blockchairApiKey?: string;

@@ -8,11 +8,11 @@ import {
   SwapKitNumber,
 } from "@swapkit/helpers";
 
-import { CosmosClient } from "../cosmosClient.ts";
-import type { GaiaToolboxType, ToolboxParams } from "../index.ts";
-import type { TransferParams } from "../types.ts";
+import { CosmosClient } from "../cosmosClient";
+import type { GaiaToolboxType, ToolboxParams } from "../index";
+import type { TransferParams } from "../types";
 
-import { BaseCosmosToolbox, getFeeRateFromThorswap } from "./BaseCosmosToolbox.ts";
+import { BaseCosmosToolbox, getFeeRateFromThorswap } from "./BaseCosmosToolbox";
 
 export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => {
   const client = new CosmosClient({

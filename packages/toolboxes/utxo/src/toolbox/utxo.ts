@@ -12,14 +12,14 @@ import {
 import { Psbt, address as btcLibAddress, initEccLib, payments } from "bitcoinjs-lib";
 import { ECPairFactory, type ECPairInterface } from "ecpair";
 
-import type { BlockchairApiType } from "../api/blockchairApi.ts";
+import type { BlockchairApiType } from "../api/blockchairApi";
 import type {
   TargetOutput,
   UTXOBaseToolboxParams,
   UTXOBuildTxParams,
   UTXOType,
   UTXOWalletTransferParams,
-} from "../types/common.ts";
+} from "../types/common";
 import {
   UTXOScriptType,
   accumulative,
@@ -29,9 +29,9 @@ import {
   getInputSize,
   getNetwork,
   standardFeeRates,
-} from "../utils/index.ts";
-import { validateAddress as validateBCHAddress } from "./bitcoinCash.ts";
-import type { BCHToolbox, BTCToolbox, DASHToolbox, DOGEToolbox, LTCToolbox } from "./index.ts";
+} from "../utils/index";
+import { validateAddress as validateBCHAddress } from "./bitcoinCash";
+import type { BCHToolbox, BTCToolbox, DASHToolbox, DOGEToolbox, LTCToolbox } from "./index";
 
 export const nonSegwitChains = [Chain.Dash, Chain.Dogecoin];
 
@@ -321,10 +321,10 @@ export const BaseUTXOToolbox = (
   apiClient: baseToolboxParams.apiClient,
   broadcastTx: baseToolboxParams.broadcastTx,
   calculateTxSize,
-  buildTx: (params: Todo) => buildTx({ ...params, ...baseToolboxParams }),
+  buildTx: (params: any) => buildTx({ ...params, ...baseToolboxParams }),
   getAddressFromKeys: (keys: ECPairInterface) => getAddressFromKeys({ keys, ...baseToolboxParams }),
   validateAddress: (address: string) => validateAddress({ address, ...baseToolboxParams }),
-  createKeysForPath: (params: Todo) => createKeysForPath({ ...params, ...baseToolboxParams }),
+  createKeysForPath: (params: any) => createKeysForPath({ ...params, ...baseToolboxParams }),
 
   getPrivateKeyFromMnemonic: async (params: {
     phrase: string;
@@ -336,9 +336,9 @@ export const BaseUTXOToolbox = (
 
   getFeeRates: () => getFeeRates(baseToolboxParams.apiClient),
 
-  transfer: (params: Todo) => transfer({ ...params, ...baseToolboxParams }),
+  transfer: (params: any) => transfer({ ...params, ...baseToolboxParams }),
 
-  getInputsOutputsFee: (params: Todo) => getInputsOutputsFee({ ...params, ...baseToolboxParams }),
+  getInputsOutputsFee: (params: any) => getInputsOutputsFee({ ...params, ...baseToolboxParams }),
 
   estimateTransactionFee: async (params: {
     assetValue: AssetValue;
@@ -358,7 +358,7 @@ export const BaseUTXOToolbox = (
     });
   },
 
-  estimateMaxSendableAmount: async (params: Todo) =>
+  estimateMaxSendableAmount: async (params: any) =>
     estimateMaxSendableAmount({ ...params, ...baseToolboxParams }),
 });
 

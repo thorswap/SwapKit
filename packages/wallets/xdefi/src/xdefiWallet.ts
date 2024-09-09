@@ -13,14 +13,14 @@ import {
 } from "@swapkit/helpers";
 import type { ARBToolbox, AVAXToolbox, BSCToolbox } from "@swapkit/toolbox-evm";
 
-import type { WalletTxParams } from "./walletHelpers.ts";
+import type { WalletTxParams } from "./walletHelpers";
 import {
   cosmosTransfer,
   getXDEFIAddress,
   getXDEFIProvider,
   getXdefiMethods,
   walletTransfer,
-} from "./walletHelpers.ts";
+} from "./walletHelpers";
 
 export const XDEFI_SUPPORTED_CHAINS = [
   Chain.Arbitrum,

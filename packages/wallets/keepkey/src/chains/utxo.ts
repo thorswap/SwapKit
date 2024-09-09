@@ -14,10 +14,10 @@ import type {
   UTXOTransferParams,
 } from "@swapkit/toolbox-utxo";
 
-import { ChainToKeepKeyName, bip32ToAddressNList } from "../helpers/coins.ts";
+import { ChainToKeepKeyName, bip32ToAddressNList } from "../helpers/coins";
 
 type KKUtxoWalletParams = {
-  sdk: Todo;
+  sdk: any;
   chain: UTXOChain;
   derivationPath?: DerivationPathArray;
   apiKey?: string;
@@ -104,7 +104,7 @@ export const utxoWalletMethods = async ({
       })
       .filter(Boolean);
 
-    const removeNullAndEmptyObjectsFromArray = (arr: Todo[]) => {
+    const removeNullAndEmptyObjectsFromArray = (arr: any[]) => {
       return arr.filter(
         (item) => item !== null && typeof item === "object" && Object.keys(item).length !== 0,
       );

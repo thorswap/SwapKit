@@ -1,1 +1,1 @@
-export { ledgerWallet } from "./ledger.ts";
+export { ledgerWallet } from "./ledger";

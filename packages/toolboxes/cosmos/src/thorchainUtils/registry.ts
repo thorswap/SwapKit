@@ -1,8 +1,8 @@
 import { Registry } from "@cosmjs/proto-signing";
 import { AminoTypes, defaultRegistryTypes } from "@cosmjs/stargate";
 import { Chain } from "@swapkit/helpers";
-import * as types from "../thorchainUtils/types/proto/MsgCompiled.ts";
-import { base64ToBech32, bech32ToBase64 } from "./addressFormat.ts";
+import * as types from "../thorchainUtils/types/proto/MsgCompiled";
+import { base64ToBech32, bech32ToBase64 } from "./addressFormat";
 
 export const createDefaultRegistry = () => {
   return new Registry([
@@ -16,12 +16,12 @@ export const createDefaultAminoTypes = (chain: Chain.THORChain | Chain.Maya) => 
   return new AminoTypes({
     "/types.MsgSend": {
       aminoType: `${chain === Chain.Maya ? "mayachain" : "thorchain"}/MsgSend`,
-      toAmino: (params: NotWorth) => ({
+      toAmino: (params: any) => ({
         from_address: base64ToBech32(params.fromAddress),
         to_address: base64ToBech32(params.toAddress),
         amount: [...params.amount],
       }),
-      fromAmino: (params: NotWorth) => ({
+      fromAmino: (params: any) => ({
         fromAddress: bech32ToBase64(params.from_address),
         toAddress: bech32ToBase64(params.to_address),
         amount: [...params.amount],
@@ -29,12 +29,12 @@ export const createDefaultAminoTypes = (chain: Chain.THORChain | Chain.Maya) => 
     },
     "/types.MsgDeposit": {
       aminoType: `${chain === Chain.Maya ? "mayachain" : "thorchain"}/MsgDeposit`,
-      toAmino: (params: NotWorth) => ({
+      toAmino: (params: any) => ({
         signer: base64ToBech32(params.signer),
         memo: params.memo,
         coins: [...params.coins],
       }),
-      fromAmino: (params: NotWorth) => ({
+      fromAmino: (params: any) => ({
         signer: bech32ToBase64(params.signer),
         memo: params.memo,
         coins: [...params.coins],

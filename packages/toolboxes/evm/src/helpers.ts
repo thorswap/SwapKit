@@ -16,7 +16,7 @@ import {
   type EVMMaxSendableAmountsParams,
   type EthplorerApiType,
   estimateGasPrices,
-} from "./index.ts";
+} from "./index";
 
 export const estimateMaxSendableAmount = async ({
   toolbox,

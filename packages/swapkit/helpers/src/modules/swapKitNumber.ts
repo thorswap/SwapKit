@@ -1,4 +1,4 @@
-import { BigIntArithmetics, formatBigIntToSafeValue } from "./bigIntArithmetics.ts";
+import { BigIntArithmetics, formatBigIntToSafeValue } from "./bigIntArithmetics";
 
 export type SwapKitValueType = BigIntArithmetics | string | number;
 

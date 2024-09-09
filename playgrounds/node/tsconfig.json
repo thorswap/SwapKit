@@ -1,7 +1,6 @@
 {
   "extends": "../../tools/typescript/base.json",
   "include": [
-    "../../tools/typescript/typings.d.ts",
     "./index.ts"
   ]
 }

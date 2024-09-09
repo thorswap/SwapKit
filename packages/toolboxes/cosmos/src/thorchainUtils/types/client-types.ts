@@ -9,8 +9,8 @@ import type {
   buildTransaction,
   convertToSignable,
   prepareMessageForBroadcast,
-} from "../../index.ts";
-import type { Signer, TransferParams } from "../../types.ts";
+} from "../../index";
+import type { Signer, TransferParams } from "../../types";
 
 enum TxType {
   Transfer = "transfer",

@@ -3,7 +3,7 @@ import {
   NetworkDerivationPath,
   derivationPathToString,
 } from "@swapkit/helpers";
-import { CosmosLedgerInterface } from "../interfaces/CosmosLedgerInterface.ts";
+import { CosmosLedgerInterface } from "../interfaces/CosmosLedgerInterface";
 
 export class CosmosLedger extends CosmosLedgerInterface {
   private pubKey: string | null = null;
@@ -55,7 +55,7 @@ export class CosmosLedger extends CosmosLedgerInterface {
   };
 
   // TODO: Fix type inference
-  signAmino = async (signerAddress: string, signDoc: Todo): Promise<Todo> => {
+  signAmino = async (signerAddress: string, signDoc: any): Promise<any> => {
     await this.checkOrCreateTransportAndLedger(true);
 
     const accounts = await this.getAccounts();
@@ -91,6 +91,6 @@ export class CosmosLedger extends CosmosLedgerInterface {
         algo: "secp256k1",
         pubkey: Buffer.from(addressAndPubKey.publicKey, "hex"),
       },
-    ] as Todo[];
+    ] as any[];
   };
 }

@@ -9,7 +9,7 @@ import {
 import type { JsonRpcProvider, Provider, TransactionRequest } from "@swapkit/toolbox-evm";
 import { AbstractSigner } from "@swapkit/toolbox-evm";
 
-import { bip32ToAddressNList } from "../helpers/coins.ts";
+import { bip32ToAddressNList } from "../helpers/coins";
 
 interface KeepKeyEVMSignerParams {
   sdk: KeepKeySdk;
@@ -99,7 +99,7 @@ export class KeepKeySigner extends AbstractSigner {
     return responseSign.serialized;
   };
 
-  sendTransaction = async (tx: TransactionRequest): Promise<Todo> => {
+  sendTransaction = async (tx: TransactionRequest): Promise<any> => {
     if (!this.provider) throw new Error("No provider set");
 
     const signedTxHex = await this.signTransaction(tx);

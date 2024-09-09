@@ -46,7 +46,7 @@ export const getWalletMethods = async ({
   ethplorerApiKey?: string;
   blockchairApiKey?: string;
   rpcUrl?: string;
-  api?: Todo;
+  api?: any;
 }) => {
   switch (chain) {
     case Chain.Bitcoin: {

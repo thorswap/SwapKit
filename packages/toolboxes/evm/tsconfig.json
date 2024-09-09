@@ -3,7 +3,6 @@
   "include": [
     "src",
     "./build.ts",
-    "../../../tools/typescript/typings.d.ts",
     "./hardhat.config.mjs"
   ]
 }

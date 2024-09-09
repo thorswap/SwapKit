@@ -8,11 +8,11 @@ import {
 } from "@swapkit/helpers";
 import type { BrowserProvider, JsonRpcProvider, Provider, Signer } from "ethers";
 
-import type { CovalentApiType } from "../api/covalentApi.ts";
-import { covalentApi } from "../api/covalentApi.ts";
-import { type EVMTxBaseParams, estimateTransactionFee, getBalance } from "../index.ts";
+import type { CovalentApiType } from "../api/covalentApi";
+import { covalentApi } from "../api/covalentApi";
+import { type EVMTxBaseParams, estimateTransactionFee, getBalance } from "../index";
 
-import { EVMToolbox } from "./EVMToolbox.ts";
+import { EVMToolbox } from "./EVMToolbox";
 
 const getNetworkParams = () => ({
   chainId: ChainId.ArbitrumHex,
@@ -35,7 +35,7 @@ const estimateGasPrices = async (provider: Provider) => {
     };
   } catch (error) {
     throw new Error(
-      `Failed to estimate gas price: ${(error as Todo).msg ?? (error as Todo).toString()}`,
+      `Failed to estimate gas price: ${(error as any).msg ?? (error as any).toString()}`,
     );
   }
 };

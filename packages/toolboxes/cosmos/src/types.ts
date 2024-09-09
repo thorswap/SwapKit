@@ -7,7 +7,7 @@ import type {
   KujiraToolboxType,
   MayaToolboxType,
   ThorchainToolboxType,
-} from "./index.ts";
+} from "./index";
 
 export type CosmosSDKClientParams = {
   server: string;

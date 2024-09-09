@@ -1,5 +1,5 @@
-import { SwapKitNumber } from "../index.ts";
-import { BaseDecimal } from "../types/chains.ts";
+import { SwapKitNumber } from "../index";
+import { BaseDecimal } from "../types/chains";
 
 type ShareParams<T extends {}> = T & {
   liquidityUnits: string;

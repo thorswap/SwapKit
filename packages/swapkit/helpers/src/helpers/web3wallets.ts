@@ -26,7 +26,7 @@ declare const window: {
   ethereum: EthereumWindowProvider;
   trustwallet: EthereumWindowProvider;
   coinbaseWalletExtension: EthereumWindowProvider;
-  braveSolana: Todo;
+  braveSolana: any;
 } & Window;
 
 type NetworkParams = {
@@ -43,7 +43,7 @@ type NetworkParams = {
 
 type ProviderRequestParams = {
   provider?: BrowserProvider;
-  params?: Todo;
+  params?: any;
   method:
     | "wallet_addEthereumChain"
     | "wallet_switchEthereumChain"
@@ -69,12 +69,12 @@ const methodsToWrap = [
   "createContractTxObject",
 ];
 
-export const wrapMethodWithNetworkSwitch = <T extends (...args: Todo[]) => Todo>(
+export const wrapMethodWithNetworkSwitch = <T extends (...args: any[]) => any>(
   func: T,
   provider: BrowserProvider,
   chainId: ChainId,
 ) =>
-  (async (...args: Todo[]) => {
+  (async (...args: any[]) => {
     try {
       await switchEVMWalletNetwork(provider, chainId);
     } catch (error) {
@@ -95,7 +95,7 @@ const providerRequest = ({ provider, params, method }: ProviderRequestParams) =>
   return provider.send(method, providerParams);
 };
 
-export const prepareNetworkSwitch = <T extends { [key: string]: (...args: Todo[]) => Todo }>({
+export const prepareNetworkSwitch = <T extends { [key: string]: (...args: any[]) => any }>({
   toolbox,
   chainId,
   provider = window.ethereum,

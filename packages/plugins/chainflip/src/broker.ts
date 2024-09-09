@@ -6,13 +6,13 @@ import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
 
 import { decodeAddress } from "@polkadot/keyring";
 import { isHex, u8aToHex } from "@polkadot/util";
-import { toCFTicker } from "./assets.ts";
-import { chainflipGateway } from "./chainflipGatewayABI.ts";
+import { toCFTicker } from "./assets";
+import { chainflipGateway } from "./chainflipGatewayABI";
 import type {
   RequestSwapDepositAddressParams,
   SwapDepositResponse,
   WithdrawFeeResponse,
-} from "./types.ts";
+} from "./types";
 
 const chainToChainflipChain = new Map<Chain, keyof typeof Chains>([
   [Chain.Arbitrum, Chains.Arbitrum],
@@ -94,7 +94,7 @@ const requestSwapDepositAddress =
           event: {
             data: { depositAddress, sourceChainExpiryBlock, destinationAddress, channelId },
           },
-        } = depositChannelEvent.toHuman() as Todo;
+        } = depositChannelEvent.toHuman() as any;
 
         const hash = result.status?.toJSON?.() as { finalized: string };
         const header = await toolbox.api.rpc.chain.getHeader(hash?.finalized);
@@ -155,7 +155,7 @@ const withdrawFee =
           event: {
             data: { egressId, egressAsset, egressAmount, egressFee, destinationAddress },
           },
-        } = withdrawEvent.toHuman() as Todo;
+        } = withdrawEvent.toHuman() as any;
 
         resolve({
           egressId,

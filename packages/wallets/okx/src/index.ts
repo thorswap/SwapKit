@@ -1,8 +1,8 @@
 import type { StdSignDoc, StdSignature } from "@cosmjs/amino";
 import type { EthereumWindowProvider } from "@swapkit/helpers";
-import type { AminoSignResponse, OfflineAminoSigner } from "./types.ts";
+import type { AminoSignResponse, OfflineAminoSigner } from "./types";
 
-export { okxWallet } from "./okxWallet.ts";
+export { okxWallet } from "./okxWallet";
 
 declare global {
   interface Window {
@@ -26,7 +26,7 @@ declare global {
               chainId: string,
               signer: string,
               signDoc: StdSignDoc,
-              signOptions: Todo,
+              signOptions: any,
             ) => Promise<AminoSignResponse>;
             signArbitrary: (
               chainId: string,

@@ -1,1 +1,1 @@
-export * from "./client-types.ts";
+export * from "./client-types";

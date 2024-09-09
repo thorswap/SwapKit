@@ -12,27 +12,27 @@ import { Chain, DerivationPath, FeeOption, RPCUrl, type UTXOChain } from "@swapk
 import { Psbt } from "bitcoinjs-lib";
 import { ECPairFactory } from "ecpair";
 
-import type { BlockchairApiType } from "../api/blockchairApi.ts";
-import { blockchairApi } from "../api/blockchairApi.ts";
-import { broadcastUTXOTx } from "../api/rpcApi.ts";
+import type { BlockchairApiType } from "../api/blockchairApi";
+import { blockchairApi } from "../api/blockchairApi";
+import { broadcastUTXOTx } from "../api/rpcApi";
 import type {
   TargetOutput,
   TransactionBuilderType,
   TransactionType,
   UTXOBuildTxParams,
   UTXOWalletTransferParams,
-} from "../types/common.ts";
-import type { UTXOType } from "../types/index.ts";
+} from "../types/common";
+import type { UTXOType } from "../types/index";
 import {
   Network as bchNetwork,
   detectAddressNetwork,
   isValidAddress,
   toCashAddress,
   toLegacyAddress,
-} from "../utils/bchaddrjs.ts";
-import { accumulative, compileMemo, getNetwork } from "../utils/index.ts";
+} from "../utils/bchaddrjs";
+import { accumulative, compileMemo, getNetwork } from "../utils/index";
 
-import { BaseUTXOToolbox } from "./utxo.ts";
+import { BaseUTXOToolbox } from "./utxo";
 
 // needed because TS can not infer types
 type BCHMethods = {

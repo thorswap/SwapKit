@@ -12,9 +12,9 @@ import {
 import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
 import type { UTXOBuildTxParams } from "@swapkit/toolbox-utxo";
 
-import type { LEDGER_SUPPORTED_CHAINS } from "./helpers/index.ts";
-import { getLedgerAddress, getLedgerClient } from "./helpers/index.ts";
-import type { LedgerSupportedChain } from "./helpers/ledgerSupportedChains.ts";
+import type { LEDGER_SUPPORTED_CHAINS } from "./helpers/index";
+import { getLedgerAddress, getLedgerClient } from "./helpers/index";
+import type { LedgerSupportedChain } from "./helpers/ledgerSupportedChains";
 
 // reduce memo length by removing trade limit
 const reduceMemo = (memo?: string, affiliateAddress = "t") => {
@@ -27,7 +27,7 @@ const reduceMemo = (memo?: string, affiliateAddress = "t") => {
   return removedAffiliate?.substring(0, removedAffiliate.lastIndexOf(":"));
 };
 
-const recursivelyOrderKeys = (unordered: Todo) => {
+const recursivelyOrderKeys = (unordered: any) => {
   // If it's an array - recursively order any
   // dictionary items within the array
   if (Array.isArray(unordered)) {
@@ -39,7 +39,7 @@ const recursivelyOrderKeys = (unordered: Todo) => {
 
   // If it's an object - let's order the keys
   if (typeof unordered !== "object") return unordered;
-  const ordered: Todo = {};
+  const ordered: any = {};
   const sortedKeys = Object.keys(unordered).sort();
 
   for (const key of sortedKeys) {
@@ -49,7 +49,7 @@ const recursivelyOrderKeys = (unordered: Todo) => {
   return ordered;
 };
 
-const stringifyKeysInOrder = (data: Todo) => JSON.stringify(recursivelyOrderKeys(data));
+const stringifyKeysInOrder = (data: any) => JSON.stringify(recursivelyOrderKeys(data));
 
 const getToolbox = async ({
   chain,

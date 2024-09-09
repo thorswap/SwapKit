@@ -1,6 +1,6 @@
-import type { Chain } from "./chains.ts";
-import type { ChainApis } from "./sdk.ts";
-import type { ChainWallet } from "./wallet.ts";
+import type { Chain } from "./chains";
+import type { ChainApis } from "./sdk";
+import type { ChainWallet } from "./wallet";
 
 export type ConnectConfig = {
   stagenet?: boolean;
@@ -49,7 +49,7 @@ export type ConnectConfig = {
   chainflipBrokerUrl?: string;
 };
 
-export type ConnectWalletParams<M = { [key in string]: NotWorth }> = {
+export type ConnectWalletParams<M = { [key in string]: any }> = {
   addChain: <T extends Chain>(params: ChainWallet<T> & M) => void;
   apis: ChainApis;
   config: ConnectConfig;

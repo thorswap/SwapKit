@@ -1,3 +1,3 @@
-export * from "./coinselect.ts";
-export * from "./txSize.ts";
-export * from "./utils.ts";
+export * from "./coinselect";
+export * from "./txSize";
+export * from "./utils";

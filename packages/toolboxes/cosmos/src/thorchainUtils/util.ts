@@ -8,8 +8,8 @@ import {
   SwapKitNumber,
 } from "@swapkit/helpers";
 
-import { createStargateClient } from "../util.ts";
-import { bech32ToBase64 } from "./addressFormat.ts";
+import { createStargateClient } from "../util";
+import { bech32ToBase64 } from "./addressFormat";
 
 export const DEFAULT_GAS_VALUE = "5000000000";
 

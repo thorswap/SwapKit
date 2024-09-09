@@ -11,7 +11,7 @@ import {
   DEFAULT_POLKADOT_METHODS,
   DEFAULT_SOLANA_EVENTS,
   DEFAULT_SOLANA_METHODS,
-} from "./constants.ts";
+} from "./constants";
 
 export const getNamespacesFromChains = (chains: string[]) => {
   const supportedNamespaces: string[] = [];
@@ -74,7 +74,7 @@ export const getRequiredNamespaces = (chains: string[]): ProposalTypes.RequiredN
       {
         methods: getSupportedMethodsByNamespace(namespace),
         chains: chains.filter((chain) => chain.startsWith(namespace)),
-        events: getSupportedEventsByNamespace(namespace) as Todo[],
+        events: getSupportedEventsByNamespace(namespace) as any[],
       },
     ]),
   );

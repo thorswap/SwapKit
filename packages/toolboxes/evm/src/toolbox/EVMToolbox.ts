@@ -33,7 +33,7 @@ import {
   type MATICToolbox,
   type OPToolbox,
   toHexString,
-} from "../index.ts";
+} from "../index";
 import type {
   ApproveParams,
   ApprovedParams,
@@ -44,7 +44,7 @@ import type {
   IsApprovedParams,
   LegacyEVMTxParams,
   TransferParams,
-} from "../types/clientTypes.ts";
+} from "../types/clientTypes";
 
 export const MAX_APPROVAL = MaxInt256;
 
@@ -66,7 +66,7 @@ const isEIP1559Transaction = (tx: EVMTxParams) =>
   !!(tx as EIP1559TxParams).maxFeePerGas ||
   !!(tx as EIP1559TxParams).maxPriorityFeePerGas;
 
-export const isBrowserProvider = (provider: Todo) => provider instanceof BrowserProvider;
+export const isBrowserProvider = (provider: any) => provider instanceof BrowserProvider;
 export const createContract = (
   address: string,
   abi: readonly (JsonFragment | Fragment)[],
@@ -85,7 +85,7 @@ const validateAddress = (address: string) => {
 };
 
 export const isStateChangingCall = (abi: readonly JsonFragment[], functionName: string) => {
-  const abiFragment = abi.find((fragment: Todo) => fragment.name === functionName) as Todo;
+  const abiFragment = abi.find((fragment: any) => fragment.name === functionName) as any;
   if (!abiFragment) throw new SwapKitError("toolbox_evm_no_abi_fragment", { functionName });
   return abiFragment.stateMutability && stateMutable.includes(abiFragment.stateMutability);
 };
@@ -180,7 +180,7 @@ const approvedAmount = async (
 ) =>
   await call<bigint>(provider, true, {
     contractAddress: assetAddress,
-    abi: erc20ABI as Todo,
+    abi: erc20ABI as any,
     funcName: "allowance",
     funcParams: [from, spenderAddress],
   });
@@ -319,7 +319,7 @@ export const estimateGasPrices = async (provider: Provider, isEIP1559Compatible 
     };
   } catch (error) {
     throw new Error(
-      `Failed to estimate gas price: ${(error as Todo).msg ?? (error as Todo).toString()}`,
+      `Failed to estimate gas price: ${(error as any).msg ?? (error as any).toString()}`,
     );
   }
 };
@@ -489,7 +489,7 @@ export const EIP1193SendTransaction = (
   if (!isBrowserProvider(provider))
     throw new SwapKitError("toolbox_evm_provider_not_eip1193_compatible");
   return (provider as BrowserProvider).send("eth_sendTransaction", [
-    { value: toHexString(BigInt(value || 0)), from, to, data } as Todo,
+    { value: toHexString(BigInt(value || 0)), from, to, data } as any,
   ]);
 };
 

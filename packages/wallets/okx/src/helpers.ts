@@ -19,7 +19,7 @@ import type { BTCToolbox, Psbt, UTXOTransferParams } from "@swapkit/toolbox-utxo
 
 const cosmosTransfer =
   (rpcUrl?: string) =>
-  async ({ from, recipient, amount, asset, memo }: Todo) => {
+  async ({ from, recipient, amount, asset, memo }: any) => {
     if (!(window.okxwallet && "keplr" in window.okxwallet)) {
       throw new Error("No cosmos okxwallet found");
     }
@@ -51,7 +51,7 @@ export const getWalletForChain = async ({
   covalentApiKey?: string;
   blockchairApiKey?: string;
   rpcUrl?: string;
-  api?: Todo;
+  api?: any;
 }): Promise<
   (
     | ReturnType<typeof GaiaToolbox>
