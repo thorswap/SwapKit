@@ -4,9 +4,6 @@
     "@swapkit/helpers": "workspace:*",
     "zod": "3.23.8"
   },
-  "devDependencies": {
-    "ky": "1.4.0"
-  },
   "description": "SwapKit - API",
   "files": [
     "src/",
