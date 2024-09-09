@@ -1,2 +1,3 @@
-export type { RadixNetwork } from "./types/index";
+export * from "./types";
 export * from "./toolbox";
+export { type Instructions } from "@radixdlt/radix-engine-toolkit";

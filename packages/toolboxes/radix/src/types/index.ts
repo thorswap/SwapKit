@@ -1,4 +1,6 @@
 import { NetworkId } from "@radixdlt/radix-engine-toolkit";
+import { Chain } from "@swapkit/helpers";
+import type { RadixToolbox } from "../index";
 
 export const RadixMainnet = {
   networkId: NetworkId.Mainnet,
@@ -7,3 +9,7 @@ export const RadixMainnet = {
 };
 
 export type RadixNetwork = typeof RadixMainnet;
+
+export type RadixWallets = {
+  [Chain.Radix]: Awaited<ReturnType<typeof RadixToolbox>>;
+};

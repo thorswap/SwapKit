@@ -1,6 +1,7 @@
 import type { CosmosWallets, ThorchainWallets } from "@swapkit/toolbox-cosmos";
 import type { EVMWallets } from "@swapkit/toolbox-evm";
-import type { SolanaWallet } from "@swapkit/toolbox-solana";
+import type { RadixWallets } from "@swapkit/toolbox-radix";
+import type { SolanaWallets } from "@swapkit/toolbox-solana";
 import type { SubstrateWallets } from "@swapkit/toolbox-substrate";
 import type { UTXOWallets } from "@swapkit/toolbox-utxo";
 import type { Eip1193Provider } from "ethers";
@@ -62,7 +63,13 @@ export type BaseWallet<T extends EmptyWallet | Record<string, unknown>> = {
 };
 
 export type FullWallet = BaseWallet<
-  EVMWallets & UTXOWallets & CosmosWallets & ThorchainWallets & SubstrateWallets & SolanaWallet
+  EVMWallets &
+    UTXOWallets &
+    CosmosWallets &
+    ThorchainWallets &
+    SubstrateWallets &
+    SolanaWallets &
+    RadixWallets
 >;
 
 /**
