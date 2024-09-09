@@ -124,10 +124,12 @@ async function getToolbox({
           buildAminoMsg({ chain: Chain.THORChain, assetValue, memo, from: address, ...rest }),
         ];
 
+        const chainId = ChainId.THORChain;
+
         const signDoc = makeSignDoc(
           msgs,
           fee,
-          ChainId.THORChain,
+          chainId,
           memo,
           accountNumber?.toString(),
           sequence?.toString() || "0",

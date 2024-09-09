@@ -39,10 +39,12 @@ export const buildDepositTx = async ({
     throw new Error("Account does not exist");
   }
 
+  const chainId = ChainId.THORChain;
+
   return {
     memo,
     accountNumber: accountOnChain.accountNumber,
-    chainId: ChainId.THORChain,
+    chainId,
     fee: { amount: [], gas: DEFAULT_GAS_VALUE },
     sequence: accountOnChain.sequence,
     msgs: [

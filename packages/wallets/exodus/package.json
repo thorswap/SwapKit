@@ -1,9 +1,9 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@swapkit/helpers": "workspace:*",
     "@passkeys/core": "3.2.0",
     "@passkeys/react": "2.3.3",
+    "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "sats-connect": "2.4.1"
@@ -32,5 +32,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.2.2"
+  "version": "1.2.6"
 }

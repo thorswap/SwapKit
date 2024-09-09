@@ -1,5 +1,39 @@
 # @swapkit/helpers
 
+## 1.8.0
+
+### Minor Changes
+
+- [#977](https://github.com/thorswap/SwapKit/pull/977) [`5d44a3c`](https://github.com/thorswap/SwapKit/commit/5d44a3c48dd458ce4f1265934a9f87eabbc7886a) Thanks [@towanTG](https://github.com/towanTG)! - Supports new chainId for THORChain after hard fork 2.135.0
+
+### Patch Changes
+
+- Updated dependencies [[`5d44a3c`](https://github.com/thorswap/SwapKit/commit/5d44a3c48dd458ce4f1265934a9f87eabbc7886a)]:
+  - @swapkit/tokens@1.5.0
+
+## 1.7.1
+
+### Patch Changes
+
+- [#974](https://github.com/thorswap/SwapKit/pull/974) [`17f28d9`](https://github.com/thorswap/SwapKit/commit/17f28d901f35116960766f8c872a91baac67bd6a) Thanks [@towanTG](https://github.com/towanTG)! - Fixes dynamic ChainId for SSR apps
+
+## 1.7.0
+
+### Minor Changes
+
+- [#972](https://github.com/thorswap/SwapKit/pull/972) [`97b8d3f`](https://github.com/thorswap/SwapKit/commit/97b8d3fe31987cd0813c847159b8127087dada10) Thanks [@anthon-dev](https://github.com/anthon-dev)! - Adds dynamic THORChain chain id to be working throughout a hardfork
+
+### Patch Changes
+
+- Updated dependencies [[`97b8d3f`](https://github.com/thorswap/SwapKit/commit/97b8d3fe31987cd0813c847159b8127087dada10)]:
+  - @swapkit/tokens@1.4.0
+
+## 1.6.3
+
+### Patch Changes
+
+- [#970](https://github.com/thorswap/SwapKit/pull/970) [`59447e0`](https://github.com/thorswap/SwapKit/commit/59447e00ea8f32e30fbd61b9aa6e07314b42d6b6) Thanks [@towanTG](https://github.com/towanTG)! - Fixes AssetValue set for synths
+
 ## 1.6.2
 
 ### Patch Changes

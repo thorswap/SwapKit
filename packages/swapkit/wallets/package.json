@@ -8,8 +8,8 @@
     "@swapkit/wallet-keystore": "workspace:*",
     "@swapkit/wallet-ledger": "workspace:*",
     "@swapkit/wallet-okx": "workspace:*",
-    "@swapkit/wallet-polkadotjs": "workspace:*",
     "@swapkit/wallet-phantom": "workspace:*",
+    "@swapkit/wallet-polkadotjs": "workspace:*",
     "@swapkit/wallet-talisman": "workspace:*",
     "@swapkit/wallet-trezor": "workspace:*",
     "@swapkit/wallet-wc": "workspace:*",
@@ -38,5 +38,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.1.1"
+  "version": "1.1.6"
 }

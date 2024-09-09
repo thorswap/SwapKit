@@ -200,10 +200,12 @@ const getToolbox = async ({
           buildAminoMsg({ chain, from: address, assetValue, memo, ...rest }),
         ]);
 
+        const chain_id = ChainId.THORChain;
+
         // get tx signing msg
         const rawSendTx = stringifyKeysInOrder({
           account_number: accountNumber?.toString(),
-          chain_id: ChainId.THORChain,
+          chain_id,
           fee,
           memo,
           msgs: orderedMessages,

@@ -90,6 +90,57 @@ describe("AssetValue", () => {
     });
   });
 
+  describe("set", () => {
+    test("get a copy of an assetValue with a new value", () => {
+      const btc = AssetValue.from({
+        asset: "BTC.BTC",
+      });
+
+      const btc2 = btc.set(10);
+
+      expect(btc2).toBeDefined();
+      expect(btc2).toEqual(
+        expect.objectContaining({
+          chain: Chain.Bitcoin,
+          decimal: 8,
+          isGasAsset: true,
+          isSynthetic: false,
+          symbol: "BTC",
+          ticker: "BTC",
+        }),
+      );
+
+      expect(btc.getValue("string")).toBe("0");
+      expect(btc2.getValue("string")).toBe("10");
+    });
+
+    test("get a copy of a synth assetValue with a new value", () => {
+      const synthAvax = AssetValue.from({
+        asset: "THOR.AVAX/AVAX",
+        value: 1,
+      });
+
+      const synthAvax2 = synthAvax.set(10);
+
+      expect(synthAvax2).toBeDefined();
+      expect(synthAvax2).toEqual(
+        expect.objectContaining({
+          chain: Chain.THORChain,
+          decimal: 8,
+          isGasAsset: false,
+          isSynthetic: true,
+          symbol: "AVAX/AVAX",
+          ticker: "AVAX",
+        }),
+      );
+
+      expect(synthAvax.getValue("string")).toBe("1");
+      expect(synthAvax2.getValue("string")).toBe("10");
+      expect(synthAvax.toString({ includeSynthProtocol: true })).toBe("THOR.AVAX/AVAX");
+      expect(synthAvax2.toString({ includeSynthProtocol: true })).toBe("THOR.AVAX/AVAX");
+    });
+  });
+
   describe("toUrl", () => {
     test("returns asset compliance with url", () => {
       const fakeAvaxUSDCAsset = new AssetValue({
