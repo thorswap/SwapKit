@@ -1,9 +1,8 @@
 import {
+  type AssetValue,
   Chain,
-  type ChainId,
   ChainToChainId,
   ChainToHexChainId,
-  ChainToRPC,
   type ConnectConfig,
   type ConnectWalletParams,
   SwapKitError,
@@ -15,7 +14,6 @@ import type { ARBToolbox, AVAXToolbox, BSCToolbox } from "@swapkit/toolbox-evm";
 
 import type { WalletTxParams } from "./walletHelpers";
 import {
-  cosmosTransfer,
   getXDEFIAddress,
   getXDEFIProvider,
   getXdefiMethods,
@@ -73,14 +71,26 @@ async function getWalletMethodsForChain({
     case Chain.Cosmos:
     case Chain.Kujira: {
       const { getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
-      const toolbox = getToolboxByChain(chain);
+
+      const chainId = ChainToChainId[chain];
+
+      await window.xfi?.keplr?.enable(chainId);
+      // @ts-ignore
+      const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(chainId);
+
+      const toolbox = getToolboxByChain(chain)();
+
+      const transfer = (params: {
+        from: string;
+        recipient: string;
+        assetValue: AssetValue;
+        memo: string;
+      }) => toolbox.transfer({ signer: offlineSigner, fee: 2, ...params });
 
       return {
-        ...toolbox(),
-        transfer: cosmosTransfer({
-          chainId: ChainToChainId[chain] as ChainId.Cosmos,
-          rpcUrl: ChainToRPC[chain],
-        }),
+        ...toolbox,
+
+        transfer,
       };
     }
 

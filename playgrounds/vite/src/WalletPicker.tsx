@@ -23,9 +23,7 @@ type Props = {
   skClient?: SwapKitClient;
 };
 
-const walletOptions = Object.values(WalletOption).filter(
-  (o) => ![WalletOption.KEPLR, WalletOption.EXODUS].includes(o),
-);
+const walletOptions = Object.values(WalletOption).filter((o) => ![WalletOption.EXODUS].includes(o));
 
 const AllChainsSupported = [
   Chain.Arbitrum,
@@ -53,7 +51,7 @@ export const availableChainsByWallet = {
   [WalletOption.COINBASE_MOBILE]: EVMChains,
   [WalletOption.COINBASE_WEB]: EVMChains,
   [WalletOption.EIP6963]: EVMChains,
-  [WalletOption.KEPLR]: [Chain.Cosmos],
+  [WalletOption.KEPLR]: [Chain.Cosmos, Chain.Kujira],
   [WalletOption.LEDGER]: AllChainsSupported,
   [WalletOption.METAMASK]: EVMChains,
   [WalletOption.OKX_MOBILE]: EVMChains,
@@ -143,6 +141,9 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         case WalletOption.TALISMAN:
           // @ts-ignore
           return skClient.connectTalisman(chains);
+        case WalletOption.KEPLR:
+          // @ts-ignore
+          return skClient.connectKeplr(chains);
         case WalletOption.KEEPKEY: {
           const derivationPaths = chains.map((chain) => getDerivationPathFor({ chain, index: 0 }));
 
