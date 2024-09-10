@@ -27,50 +27,6 @@ type RadixDappConfig = {
   applicationVersion: string;
 };
 
-// TODO figure out way to make wallet work nicely with toolbox without reimplementing all the methods
-const RadixSignerInstance = (
-  rdt: RadixDappToolkit,
-): any & { getAddress: () => Promise<string> } => {
-  return {
-    getAddress: async () => {
-      return new Promise((resolve) => {
-        const existingWalletData = rdt.walletApi.getWalletData();
-        const account = existingWalletData?.accounts?.[0];
-
-        rdt.walletApi.setRequestData(DataRequestBuilder.accounts().exactly(1));
-
-        if (account) resolve(account.address);
-
-        rdt.walletApi.sendRequest();
-
-        rdt.walletApi.walletData$.subscribe((state) => {
-          if (state.accounts[0]) {
-            resolve(state.accounts[0].address);
-          }
-        });
-      });
-    },
-    publicKey: () => {
-      throw new Error("Not implemented");
-    },
-    publicKeyBytes: () => {
-      throw new Error("Not implemented");
-    },
-    publicKeyHex: () => {
-      throw new Error("Not implemented");
-    },
-    sign: (_messageHash: Uint8Array) => {
-      throw new Error("Not implemented");
-    },
-    signToSignature: (_messageHash: Uint8Array) => {
-      throw new Error("Not implemented");
-    },
-    signToSignatureWithPublicKey: (_messageHash: Uint8Array) => {
-      throw new Error("Not implemented");
-    },
-  };
-};
-
 async function fetchFungibleResources({
   address,
   networkApi,
@@ -182,7 +138,27 @@ const getWalletMethods = async (dappConfig: RadixDappConfig) => {
 
   rdt.buttonApi.setTheme("black");
 
-  const signer = await RadixSignerInstance(rdt);
+  const getAddress = () => {
+    const existingWalletData = rdt.walletApi.getWalletData();
+    const account = existingWalletData?.accounts?.[0];
+
+    return account?.address;
+  };
+
+  const connectIfNoAddress = async () =>
+    (await getAddress()) ||
+    new Promise<string>((resolve) => {
+      rdt.walletApi.setRequestData(DataRequestBuilder.accounts().exactly(1));
+      rdt.walletApi.sendRequest();
+
+      rdt.walletApi.walletData$.subscribe((state) => {
+        if (state.accounts[0]) {
+          resolve(state.accounts[0].address);
+        }
+      });
+    });
+
+  const address = await connectIfNoAddress();
 
   // const connectButtonModule = ConnectButtonModule({
   //     networkId: 1,
@@ -203,8 +179,6 @@ const getWalletMethods = async (dappConfig: RadixDappConfig) => {
     networkId: RadixMainnet.networkId,
     applicationName: dappConfig.applicationName,
   });
-
-  const address = (await signer.getAddress()) as string;
 
   return {
     radixDappToolkit: rdt,
@@ -227,7 +201,7 @@ const getWalletMethods = async (dappConfig: RadixDappConfig) => {
 
       return txResult;
     },
-    getAddress: signer.getAddress,
+    getAddress: getAddress,
   };
 };
 
