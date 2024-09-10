@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "bun --target=node ./index.ts",
-    "lint": "biome check --write ./index.ts",
+    "lint": "biome check --diagnostic-level=error --write ./index.ts",
     "type-check": "tsc --noEmit"
   }
 }

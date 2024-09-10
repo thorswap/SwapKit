@@ -30,7 +30,7 @@ async function getWalletMethods<T extends PhantomSupportedChains>({
   covalentApiKey?: string;
   ethplorerApiKey?: string;
 }) {
-  const phantom: NotWorth = window?.phantom;
+  const phantom: any = window?.phantom;
 
   switch (chain) {
     case Chain.Bitcoin: {

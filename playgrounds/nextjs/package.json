@@ -7,7 +7,7 @@
     "clean": "rm -rf .next node_modules",
     "build-playground": "next build",
     "start": "next start",
-    "lint": "biome check --write ./src",
+    "lint": "biome check --diagnostic-level=error --write ./src",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {

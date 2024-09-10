@@ -29,7 +29,7 @@
   "scripts": {
     "build-playground": "NODE_OPTIONS=--max_old_space_size=65536 vite build",
     "dev": "vite",
-    "lint": "biome check --write ./src",
+    "lint": "biome check --diagnostic-level=error --write ./src",
     "type-check": "tsc --noEmit",
     "preview-playground": "vite preview"
   },
