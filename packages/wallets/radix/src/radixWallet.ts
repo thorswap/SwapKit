@@ -145,18 +145,32 @@ const getWalletMethods = async (dappConfig: RadixDappConfig) => {
     return account?.address;
   };
 
-  const connectIfNoAddress = async () =>
-    (await getAddress()) ||
-    new Promise<string>((resolve) => {
-      rdt.walletApi.setRequestData(DataRequestBuilder.accounts().exactly(1));
-      rdt.walletApi.sendRequest();
+  const getNewAddress = async () => {
+    rdt.walletApi.setRequestData(DataRequestBuilder.accounts().exactly(1));
+    const res = await rdt.walletApi.sendRequest();
 
-      rdt.walletApi.walletData$.subscribe((state) => {
-        if (state.accounts[0]) {
-          resolve(state.accounts[0].address);
-        }
-      });
-    });
+    if (!res) {
+      throw new Error("wallet_radix_no_account");
+    }
+
+    const newAddress = res.unwrapOr(null)?.accounts[0]?.address;
+
+    if (!newAddress) {
+      throw new Error("wallet_radix_no_account");
+    }
+
+    return newAddress;
+  };
+
+  const connectIfNoAddress = async () => (await getAddress()) || (await getNewAddress());
+
+  //   rdt.walletApi.walletData$.subscribe((state) => {
+  //     if (state.accounts[0]) {
+  //       resolve(state.accounts[0].address);
+  //     }
+  //   });
+  // };
+  // )
 
   const address = await connectIfNoAddress();
 
