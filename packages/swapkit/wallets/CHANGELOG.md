@@ -1,5 +1,32 @@
 # @swapkit/wallets
 
+## 1.2.0
+
+### Minor Changes
+
+- [#968](https://github.com/thorswap/SwapKit/pull/968) [`7171296`](https://github.com/thorswap/SwapKit/commit/71712965668f9ca73368997a3f1e8c22d1276fe0) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Radix Toolbox and adapts the Radix Wallet integration
+
+### Patch Changes
+
+- [#980](https://github.com/thorswap/SwapKit/pull/980) [`114a9d7`](https://github.com/thorswap/SwapKit/commit/114a9d709b88efa979ed3099062980fdbeed9c7d) Thanks [@ice-chillios](https://github.com/ice-chillios)! - Fix external TS declarations
+
+- Updated dependencies [[`114a9d7`](https://github.com/thorswap/SwapKit/commit/114a9d709b88efa979ed3099062980fdbeed9c7d), [`7171296`](https://github.com/thorswap/SwapKit/commit/71712965668f9ca73368997a3f1e8c22d1276fe0), [`7171296`](https://github.com/thorswap/SwapKit/commit/71712965668f9ca73368997a3f1e8c22d1276fe0), [`7171296`](https://github.com/thorswap/SwapKit/commit/71712965668f9ca73368997a3f1e8c22d1276fe0), [`755fa93`](https://github.com/thorswap/SwapKit/commit/755fa939b3c57f07a3c6d62237984d8f6d9629ac), [`b167101`](https://github.com/thorswap/SwapKit/commit/b167101ae3898734d91ac43accbc2d1e207cc1b1)]:
+  - @swapkit/wallet-evm-extensions@1.1.1
+  - @swapkit/wallet-polkadotjs@1.0.25
+  - @swapkit/wallet-coinbase@1.1.7
+  - @swapkit/wallet-keystore@1.2.9
+  - @swapkit/wallet-talisman@1.2.6
+  - @swapkit/wallet-keepkey@1.3.1
+  - @swapkit/wallet-phantom@1.1.0
+  - @swapkit/wallet-exodus@1.2.7
+  - @swapkit/wallet-ledger@1.3.1
+  - @swapkit/wallet-trezor@1.0.29
+  - @swapkit/wallet-keplr@1.0.33
+  - @swapkit/wallet-radix@1.1.0
+  - @swapkit/wallet-xdefi@1.1.9
+  - @swapkit/wallet-okx@1.1.9
+  - @swapkit/wallet-wc@1.3.1
+
 ## 1.1.6
 
 ### Patch Changes

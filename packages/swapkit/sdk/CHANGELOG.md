@@ -1,5 +1,25 @@
 # @swapkit/sdk
 
+## 1.2.0
+
+### Minor Changes
+
+- [#968](https://github.com/thorswap/SwapKit/pull/968) [`7171296`](https://github.com/thorswap/SwapKit/commit/71712965668f9ca73368997a3f1e8c22d1276fe0) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Radix Toolbox and adapts the Radix Wallet integration
+
+### Patch Changes
+
+- [#980](https://github.com/thorswap/SwapKit/pull/980) [`114a9d7`](https://github.com/thorswap/SwapKit/commit/114a9d709b88efa979ed3099062980fdbeed9c7d) Thanks [@ice-chillios](https://github.com/ice-chillios)! - Fix external TS declarations
+
+- Updated dependencies [[`114a9d7`](https://github.com/thorswap/SwapKit/commit/114a9d709b88efa979ed3099062980fdbeed9c7d), [`7171296`](https://github.com/thorswap/SwapKit/commit/71712965668f9ca73368997a3f1e8c22d1276fe0), [`7171296`](https://github.com/thorswap/SwapKit/commit/71712965668f9ca73368997a3f1e8c22d1276fe0), [`755fa93`](https://github.com/thorswap/SwapKit/commit/755fa939b3c57f07a3c6d62237984d8f6d9629ac)]:
+  - @swapkit/plugin-chainflip@1.2.12
+  - @swapkit/plugin-thorchain@1.1.29
+  - @swapkit/wallets@1.2.0
+  - @swapkit/tokens@1.6.0
+  - @swapkit/core@1.3.0
+  - @swapkit/plugin-evm@1.1.13
+  - @swapkit/api@1.7.0
+  - @swapkit/plugin-radix@1.0.1
+
 ## 1.1.33
 
 ### Patch Changes

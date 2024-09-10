@@ -1,5 +1,11 @@
 # @swapkit/wizard
 
+## 1.0.4
+
+### Patch Changes
+
+- [#980](https://github.com/thorswap/SwapKit/pull/980) [`114a9d7`](https://github.com/thorswap/SwapKit/commit/114a9d709b88efa979ed3099062980fdbeed9c7d) Thanks [@ice-chillios](https://github.com/ice-chillios)! - Fix external TS declarations
+
 ## 1.0.3
 
 ### Patch Changes

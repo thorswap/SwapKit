@@ -1,5 +1,17 @@
 # @swapkit/wallet-keplr
 
+## 1.0.33
+
+### Patch Changes
+
+- [#980](https://github.com/thorswap/SwapKit/pull/980) [`114a9d7`](https://github.com/thorswap/SwapKit/commit/114a9d709b88efa979ed3099062980fdbeed9c7d) Thanks [@ice-chillios](https://github.com/ice-chillios)! - Fix external TS declarations
+
+- [#986](https://github.com/thorswap/SwapKit/pull/986) [`b167101`](https://github.com/thorswap/SwapKit/commit/b167101ae3898734d91ac43accbc2d1e207cc1b1) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Kuji send and synth asset value symbol
+
+- Updated dependencies [[`114a9d7`](https://github.com/thorswap/SwapKit/commit/114a9d709b88efa979ed3099062980fdbeed9c7d), [`7171296`](https://github.com/thorswap/SwapKit/commit/71712965668f9ca73368997a3f1e8c22d1276fe0), [`b167101`](https://github.com/thorswap/SwapKit/commit/b167101ae3898734d91ac43accbc2d1e207cc1b1)]:
+  - @swapkit/toolbox-cosmos@1.3.1
+  - @swapkit/helpers@1.9.0
+
 ## 1.0.32
 
 ### Patch Changes
