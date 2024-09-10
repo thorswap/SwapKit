@@ -213,6 +213,7 @@ export function cosmosTransfer({
 }) {
   return async ({ from, recipient, assetValue, memo }: TransferParams) => {
     const { createSigningStargateClient } = await import("@swapkit/toolbox-cosmos");
+    await window.xfi?.keplr?.enable(chainId);
     // @ts-ignore
     const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(chainId);
     const cosmJS = await createSigningStargateClient(

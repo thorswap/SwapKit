@@ -76,6 +76,15 @@ describe("AssetValue", () => {
       expect(ethMayaSynth.toString({ includeSynthProtocol: true })).toBe("MAYA.ETH/ETH");
       expect(ethMayaSynth.getBaseValue("string")).toBe("1000000000");
 
+      const ethTCSynthFallback = AssetValue.from({
+        asset: "ETH/ETH",
+        value: 10,
+      });
+
+      expect(ethTCSynthFallback.toString()).toBe("ETH/ETH");
+      expect(ethTCSynthFallback.toString({ includeSynthProtocol: true })).toBe("THOR.ETH/ETH");
+      expect(ethTCSynthFallback.getBaseValue("string")).toBe("1000000000");
+
       // TODO:
       // const radixXWBTC = new AssetValue({
       //   identifier:

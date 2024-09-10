@@ -1,11 +1,10 @@
 import type { Keplr } from "@keplr-wallet/types";
 import {
   type AssetValue,
-  Chain,
+  type Chain,
   ChainId,
   ChainToChainId,
   type ConnectWalletParams,
-  RPCUrl,
   WalletOption,
   type WalletTxParams,
   setRequestClientConfig,
@@ -25,7 +24,6 @@ type TransferParams = WalletTxParams & { assetValue: AssetValue };
 function connectKeplr({
   addChain,
   config: { thorswapApiKey },
-  rpcUrls,
 }: ConnectWalletParams<{
   transfer: (params: TransferParams) => Promise<string>;
 }>) {
@@ -33,7 +31,6 @@ function connectKeplr({
     setRequestClientConfig({ apiKey: thorswapApiKey });
     const keplrClient = window.keplr;
 
-    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>
     const toolboxPromises = chains.map(async (chain) => {
       const chainId = ChainToChainId[chain];
 
@@ -46,34 +43,27 @@ function connectKeplr({
       keplrClient?.enable(chainId);
       const offlineSigner = keplrClient?.getOfflineSignerOnlyAmino(chainId);
       if (!offlineSigner) throw new Error("Could not load offlineSigner");
-      const { getToolboxByChain, getDenom, createSigningStargateClient } = await import(
-        "@swapkit/toolbox-cosmos"
-      );
-
-      const cosmJS = await createSigningStargateClient(
-        rpcUrls[chain] || RPCUrl.Cosmos,
-        offlineSigner,
-        chain === Chain.Kujira ? "0.0003ukuji" : undefined,
-      );
+      const { getToolboxByChain } = await import("@swapkit/toolbox-cosmos");
 
       const accounts = await offlineSigner.getAccounts();
 
       if (!accounts?.[0]?.address) throw new Error("No accounts found");
       const [{ address }] = accounts;
 
-      const transfer = async ({ assetValue, recipient, memo }: TransferParams) => {
-        const coins = [
-          {
-            denom: chain === Chain.Cosmos ? "uatom" : getDenom(assetValue.symbol),
-            amount: assetValue.getBaseValue("string"),
-          },
-        ];
-
-        const { transactionHash } = await cosmJS.sendTokens(address, recipient, coins, 2, memo);
-        return transactionHash;
-      };
-
       const toolbox = getToolboxByChain(chain)();
+
+      const transfer = (params: {
+        from?: string;
+        recipient: string;
+        assetValue: AssetValue;
+        memo?: string;
+      }) =>
+        toolbox.transfer({
+          ...params,
+          signer: offlineSigner,
+          fee: 2,
+          from: params.from || address,
+        });
 
       addChain({
         ...toolbox,

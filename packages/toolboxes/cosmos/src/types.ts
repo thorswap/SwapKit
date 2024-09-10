@@ -1,4 +1,4 @@
-import type { StdFee } from "@cosmjs/amino";
+import type { OfflineAminoSigner, StdFee } from "@cosmjs/amino";
 import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
 import type { AssetValue, ChainId, FeeOption } from "@swapkit/helpers";
 
@@ -18,13 +18,13 @@ export type CosmosSDKClientParams = {
 
 export type TransferParams = {
   assetValue: AssetValue;
-  fee?: StdFee;
+  fee?: StdFee | number;
   feeOptionKey?: FeeOption;
   from: string;
   memo?: string;
   privkey?: Uint8Array;
   recipient: string;
-  signer?: OfflineDirectSigner;
+  signer?: OfflineDirectSigner | OfflineAminoSigner;
 };
 
 export type ToolboxParams = {
