@@ -146,7 +146,7 @@ const getWalletMethods = async (dappConfig: RadixDappConfig) => {
   };
 
   const getNewAddress = async () => {
-    rdt.walletApi.setRequestData(DataRequestBuilder.accounts().exactly(1));
+    await rdt.walletApi.setRequestData(DataRequestBuilder.accounts().exactly(1));
     const res = await rdt.walletApi.sendRequest();
 
     if (!res) {
