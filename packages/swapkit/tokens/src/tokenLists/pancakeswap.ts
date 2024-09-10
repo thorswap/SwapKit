@@ -2,14 +2,14 @@ export const list = {
   provider: "PANCAKESWAP",
   chainId: "56",
   name: "PancakeSwap Extended",
-  timestamp: "2024-08-24T09:01:52.709Z",
+  timestamp: "2024-09-05T14:57:57.202Z",
   version: {
     major: 2,
     minor: 16,
-    patch: 239,
+    patch: 242,
   },
   keywords: ["pancakeswap", "extended"],
-  count: 424,
+  count: 425,
   tokens: [
     {
       address: "0x6EaDc05928ACd93eFB3FA0DFbC644D96C6Aa1Df8",
@@ -2260,6 +2260,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/bsc.mbox-0x3203c9e46ca618c8c1ce5dc67e7e9d75f5da2377.png",
       ticker: "MBOX",
+    },
+    {
+      address: "0x7c1cCA5b25Fa0bC9AF9275Fb53cBA89DC172b878",
+      chain: "BSC",
+      chainId: "56",
+      decimals: 8,
+      identifier: "BSC.MBTC-0X7C1CCA5B25FA0BC9AF9275FB53CBA89DC172B878",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/bsc.mbtc-0x7c1cca5b25fa0bc9af9275fb53cba89dc172b878.png",
+      ticker: "MBTC",
     },
     {
       address: "0xF95a5532D67C944dfa7EDDD2f8c358Fe0dc7FAc2",
