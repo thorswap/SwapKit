@@ -29,6 +29,10 @@ import { type TransferParams as EVMTransferParams, evmValidateAddress } from "@s
 import { substrateValidateAddress } from "@swapkit/toolbox-substrate";
 import { type UTXOTransferParams, utxoValidateAddress } from "@swapkit/toolbox-utxo";
 
+function validateRadixAddress(address: string) {
+  return address.startsWith("account_rdx1") && address.length === 66;
+}
+
 import {
   getExplorerAddressUrl as getAddressUrl,
   getExplorerTxUrl as getTxUrl,
@@ -236,6 +240,9 @@ export function SwapKit<
 
       case Chain.Polkadot:
         return substrateValidateAddress({ address, chain });
+
+      case Chain.Radix:
+        return validateRadixAddress(address);
 
       default:
         return false;
