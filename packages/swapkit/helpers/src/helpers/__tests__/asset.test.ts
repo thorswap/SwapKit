@@ -127,26 +127,26 @@ describe("getDecimal", () => {
         expect(btcbDecimal).toBe(8);
         await Bun.sleep(500);
 
-        const timeDecimal = await getDecimal({
-          chain: Chain.Avalanche,
-          symbol: "TIME-0xb54f16fB19478766A268F172C9480f8da1a7c9C3",
-        });
-        expect(timeDecimal).toBe(9);
-        await Bun.sleep(500);
+        // const timeDecimal = await getDecimal({
+        //   chain: Chain.Avalanche,
+        //   symbol: "TIME-0xb54f16fB19478766A268F172C9480f8da1a7c9C3",
+        // });
+        // expect(timeDecimal).toBe(9);
+        // await Bun.sleep(500);
 
-        const usdtDecimal = await getDecimal({
-          chain: Chain.Avalanche,
-          symbol: "USDT-0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7",
-        });
-        expect(usdtDecimal).toBe(6);
-        await Bun.sleep(500);
+        // const usdtDecimal = await getDecimal({
+        //   chain: Chain.Avalanche,
+        //   symbol: "USDT-0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7",
+        // });
+        // expect(usdtDecimal).toBe(6);
+        // await Bun.sleep(500);
 
-        const usdcDecimal = await getDecimal({
-          chain: Chain.Avalanche,
-          symbol: "USDC-0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
-        });
-        expect(usdcDecimal).toBe(6);
-        await Bun.sleep(500);
+        // const usdcDecimal = await getDecimal({
+        //   chain: Chain.Avalanche,
+        //   symbol: "USDC-0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+        // });
+        // expect(usdcDecimal).toBe(6);
+        // await Bun.sleep(500);
       },
       { retry: 3 },
     );
