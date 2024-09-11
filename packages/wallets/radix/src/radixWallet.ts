@@ -140,9 +140,7 @@ const getWalletMethods = async (dappConfig: RadixDappConfig) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  await delay(500);
-
-  await rdt.buttonApi.setTheme("black");
+  await delay(400);
 
   const getAddress = () => {
     const existingWalletData = rdt.walletApi.getWalletData();
@@ -152,7 +150,7 @@ const getWalletMethods = async (dappConfig: RadixDappConfig) => {
   };
 
   const getNewAddress = async () => {
-    await rdt.walletApi.setRequestData(DataRequestBuilder.accounts().exactly(1));
+    rdt.walletApi.setRequestData(DataRequestBuilder.accounts().exactly(1));
     const res = await rdt.walletApi.sendRequest();
 
     if (!res) {
