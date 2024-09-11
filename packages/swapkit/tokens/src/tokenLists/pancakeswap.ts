@@ -2,14 +2,14 @@ export const list = {
   provider: "PANCAKESWAP",
   chainId: "56",
   name: "PancakeSwap Extended",
-  timestamp: "2024-08-24T09:01:52.709Z",
+  timestamp: "2024-09-11T02:39:26.135Z",
   version: {
     major: 2,
     minor: 16,
-    patch: 239,
+    patch: 243,
   },
   keywords: ["pancakeswap", "extended"],
-  count: 424,
+  count: 426,
   tokens: [
     {
       address: "0x6EaDc05928ACd93eFB3FA0DFbC644D96C6Aa1Df8",
@@ -2262,6 +2262,16 @@ export const list = {
       ticker: "MBOX",
     },
     {
+      address: "0x7c1cCA5b25Fa0bC9AF9275Fb53cBA89DC172b878",
+      chain: "BSC",
+      chainId: "56",
+      decimals: 8,
+      identifier: "BSC.MBTC-0X7C1CCA5B25FA0BC9AF9275FB53CBA89DC172B878",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/bsc.mbtc-0x7c1cca5b25fa0bc9af9275fb53cba89dc172b878.png",
+      ticker: "MBTC",
+    },
+    {
       address: "0xF95a5532D67C944dfa7EDDD2f8c358Fe0dc7FAc2",
       chain: "BSC",
       chainId: "56",
@@ -2860,6 +2870,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/bsc.pnt-0xdaacb0ab6fb34d24e8a67bfa14bf4d95d4c7af92.png",
       ticker: "PNT",
+    },
+    {
+      address: "0xbAeA9aBA1454DF334943951d51116aE342eAB255",
+      chain: "BSC",
+      chainId: "56",
+      decimals: 18,
+      identifier: "BSC.POOLX-0XBAEA9ABA1454DF334943951D51116AE342EAB255",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/bsc.poolx-0xbaea9aba1454df334943951d51116ae342eab255.png",
+      ticker: "POOLX",
     },
     {
       address: "0xaBaE871B7E3b67aEeC6B46AE9FE1A91660AadAC5",
