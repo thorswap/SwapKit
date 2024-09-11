@@ -136,7 +136,13 @@ async function convertResourcesToBalances({
 const getWalletMethods = async (dappConfig: RadixDappConfig) => {
   const rdt = RadixDappToolkit({ ...dappConfig, networkId: dappConfig.network.networkId });
 
-  rdt.buttonApi.setTheme("black");
+  function delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  await delay(500);
+
+  await rdt.buttonApi.setTheme("black");
 
   const getAddress = () => {
     const existingWalletData = rdt.walletApi.getWalletData();
