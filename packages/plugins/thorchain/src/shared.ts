@@ -5,7 +5,7 @@ export const validateAddressType = ({
   chain,
   address,
 }: {
-  chain: Chain;
+  chain?: Chain;
   address?: string;
 }) => {
   if (!address) return false;
