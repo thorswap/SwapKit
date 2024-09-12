@@ -1,5 +1,24 @@
 # @swapkit/core
 
+## 1.4.0
+
+### Minor Changes
+
+- [#987](https://github.com/thorswap/SwapKit/pull/987) [`5769956`](https://github.com/thorswap/SwapKit/commit/5769956c9e7ee97efaff9cc6408671fb3effd0b5) Thanks [@towanTG](https://github.com/towanTG)! - Fixes some issues with radix wallet on mobile connect and simplifies code
+
+### Patch Changes
+
+- Updated dependencies [[`5769956`](https://github.com/thorswap/SwapKit/commit/5769956c9e7ee97efaff9cc6408671fb3effd0b5)]:
+  - @swapkit/helpers@1.10.0
+  - @swapkit/toolbox-radix@1.2.0
+  - @swapkit/plugin-evm@1.1.14
+  - @swapkit/api@1.7.1
+  - @swapkit/toolbox-cosmos@1.3.2
+  - @swapkit/toolbox-evm@1.4.1
+  - @swapkit/toolbox-solana@1.1.1
+  - @swapkit/toolbox-substrate@1.2.8
+  - @swapkit/toolbox-utxo@1.1.13
+
 ## 1.3.0
 
 ### Minor Changes
