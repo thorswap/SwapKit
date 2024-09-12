@@ -38,7 +38,6 @@ function plugin({ getWallet, stagenet = false }: SwapKitPluginParams) {
     assetValue,
     recipient,
     router,
-    destinationChain,
     ...rest
   }: CoreTxParams & { router?: string; destinationChain?: Chain }) {
     const { chain, symbol, ticker } = assetValue;
@@ -52,16 +51,8 @@ function plugin({ getWallet, stagenet = false }: SwapKitPluginParams) {
 
     const isAddressValidated = validateAddressType({ address: wallet.address, chain });
 
-    const isRecipientValidated = destinationChain
-      ? validateAddressType({ address: recipient, chain: destinationChain })
-      : true;
-
     if (!isAddressValidated) {
       throw new SwapKitError("core_transaction_invalid_sender_address");
-    }
-
-    if (!isRecipientValidated) {
-      throw new SwapKitError("core_transaction_invalid_recipient_address");
     }
 
     const params = prepareTxParams({ from: address, assetValue, recipient, router, ...rest });
@@ -149,6 +140,15 @@ function plugin({ getWallet, stagenet = false }: SwapKitPluginParams) {
       throw new SwapKitError("core_swap_asset_not_recognized");
     }
 
+    const isRecipientValidated = validateAddressType({
+      address: route.destinationAddress,
+      chain: AssetValue.from({ asset: route.buyAsset }).chain,
+    });
+
+    if (!isRecipientValidated) {
+      throw new SwapKitError("core_transaction_invalid_recipient_address");
+    }
+
     const { address: recipient } = await getInboundDataByChain(evmChain);
 
     return deposit({
@@ -158,7 +158,6 @@ function plugin({ getWallet, stagenet = false }: SwapKitPluginParams) {
       feeOptionKey,
       router: targetAddress,
       recipient,
-      destinationChain: AssetValue.from({ asset: route.buyAsset }).chain,
     });
   }
 
