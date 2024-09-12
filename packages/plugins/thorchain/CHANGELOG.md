@@ -1,5 +1,19 @@
 # @swapkit/plugin-thorchain
 
+## 1.1.31
+
+### Patch Changes
+
+- [`96eca3b`](https://github.com/thorswap/SwapKit/commit/96eca3beccd8214a9fdb4f4d8e55a7a8e765f1c4) Thanks [@towanTG](https://github.com/towanTG)! - Fixes an issue with recipient validation
+
+- Updated dependencies [[`07d7912`](https://github.com/thorswap/SwapKit/commit/07d791292c5aeff4a42798f2e17b77ad974fcae3)]:
+  - @swapkit/helpers@1.10.1
+  - @swapkit/api@1.7.2
+  - @swapkit/toolbox-cosmos@1.3.3
+  - @swapkit/toolbox-evm@1.4.2
+  - @swapkit/toolbox-substrate@1.2.9
+  - @swapkit/toolbox-utxo@1.1.14
+
 ## 1.1.30
 
 ### Patch Changes
