@@ -50,13 +50,18 @@ function plugin({ getWallet, stagenet = false }: SwapKitPluginParams) {
 
     const address = wallet.address;
 
-    const isAddressValidated =
-      validateAddressType({ address: wallet.address, chain }) && destinationChain
-        ? validateAddressType({ address: recipient, chain: destinationChain })
-        : true;
+    const isAddressValidated = validateAddressType({ address: wallet.address, chain });
+
+    const isRecipientValidated = destinationChain
+      ? validateAddressType({ address: recipient, chain: destinationChain })
+      : true;
 
     if (!isAddressValidated) {
       throw new SwapKitError("core_transaction_invalid_sender_address");
+    }
+
+    if (!isRecipientValidated) {
+      throw new SwapKitError("core_transaction_invalid_recipient_address");
     }
 
     const params = prepareTxParams({ from: address, assetValue, recipient, router, ...rest });
