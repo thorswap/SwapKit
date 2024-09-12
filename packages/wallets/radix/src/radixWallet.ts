@@ -168,30 +168,7 @@ const getWalletMethods = async (dappConfig: RadixDappConfig) => {
 
   const connectIfNoAddress = async () => (await getAddress()) || (await getNewAddress());
 
-  //   rdt.walletApi.walletData$.subscribe((state) => {
-  //     if (state.accounts[0]) {
-  //       resolve(state.accounts[0].address);
-  //     }
-  //   });
-  // };
-  // )
-
   const address = await connectIfNoAddress();
-
-  // const connectButtonModule = ConnectButtonModule({
-  //     networkId: 1,
-  //     onConnect: (done: (input?: {
-  //         challenge: string;
-  //     }) => void) => console.log,
-  //     providers: {
-  //         stateModule: rdt.buttonApi,
-  //         gatewayModule: GatewayModule;
-  //         walletRequestModule: WalletRequestModule;
-  //         storageModule: StorageModule<{
-  //             status: ConnectButtonStatus;
-  //         }>
-  //     }
-  // })
 
   const networkApi = GatewayApiClient.initialize({
     networkId: RadixMainnet.networkId,
