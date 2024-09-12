@@ -1,5 +1,11 @@
 # @swapkit/plugin-thorchain
 
+## 1.1.32
+
+### Patch Changes
+
+- [`faa0604`](https://github.com/thorswap/SwapKit/commit/faa06043a781460fb4b3ae3814dab28e3d1dfdb5) Thanks [@towanTG](https://github.com/towanTG)! - Moves recipient validation to swap method
+
 ## 1.1.31
 
 ### Patch Changes
