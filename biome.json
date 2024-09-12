@@ -39,9 +39,17 @@
         "useNodejsImportProtocol": "off"
       },
       "complexity": { "all": true, "noBannedTypes": "off" },
-      "correctness": { "all": true, "noNodejsModules": "off", "noUndeclaredVariables": "error" },
+      "correctness": {
+        "all": true,
+        "noNodejsModules": "off",
+        "noUndeclaredVariables": "error"
+      },
       "security": { "all": true },
-      "suspicious": { "all": true, "useAwait": "error", "noExplicitAny": "warn" },
+      "suspicious": {
+        "all": true,
+        "useAwait": "error",
+        "noExplicitAny": "warn"
+      },
       "nursery": { "recommended": true }
     }
   }

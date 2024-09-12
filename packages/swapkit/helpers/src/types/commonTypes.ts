@@ -1,3 +1,4 @@
+import type { RadixNetwork } from "@swapkit/toolbox-radix";
 import type { Chain } from "./chains";
 import type { ChainApis } from "./sdk";
 import type { ChainWallet } from "./wallet";
@@ -48,12 +49,13 @@ export type ConnectConfig = {
    */
   chainflipBrokerUrl?: string;
   /**
-   * @optional for setting the chainflip radix dapp config
+   * @optional for setting the radix wallet
    */
   radixDappConfig?: {
     dAppDefinitionAddress: string;
     applicationName: string;
     applicationVersion: string;
+    network: RadixNetwork;
   };
 };
 

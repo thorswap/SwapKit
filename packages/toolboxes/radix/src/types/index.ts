@@ -1,9 +1,8 @@
-import { NetworkId } from "@radixdlt/radix-engine-toolkit";
 import { Chain } from "@swapkit/helpers";
 import type { RadixToolbox } from "../index";
 
 export const RadixMainnet = {
-  networkId: NetworkId.Mainnet,
+  networkId: 1,
   networkName: "mainnet",
   dashboardBase: "https://dashboard.radixdlt.com",
 };

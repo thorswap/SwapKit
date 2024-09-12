@@ -2,14 +2,14 @@ export const list = {
   provider: "OCISWAP_V1",
   chainId: "radix-mainnet",
   name: "OCISWAP_V1",
-  timestamp: "2024-09-11T08:31:03.424Z",
+  timestamp: "2024-09-12T00:31:10.629Z",
   version: {
     major: 0,
     minor: 5,
     patch: 0,
   },
   keywords: [],
-  count: 366,
+  count: 368,
   tokens: [
     {
       address: "resource_rdx1t46p7mnc9kg4mq4tk2sdtp5f0gp5mscpjruethv3xxtx9z6xz23u56",
@@ -30,6 +30,26 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/xrd.-resource_rdx1t5wc0n63ts6ajanvdf76d9umynqqsumx5n3fx7rfuu4gquf2rs4t74.png",
       ticker: "",
+    },
+    {
+      address: "resource_rdx1t5yrzuggfsmudesdhwsn2pk436vgavc4ehzd8kl6xy0vuphzsnwrqz",
+      chain: "XRD",
+      chainId: "radix-mainnet",
+      decimals: -1,
+      identifier: "XRD.🍑 -resource_rdx1t5yrzuggfsmudesdhwsn2pk436vgavc4ehzd8kl6xy0vuphzsnwrqz",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/xrd.🍑 -resource_rdx1t5yrzuggfsmudesdhwsn2pk436vgavc4ehzd8kl6xy0vuphzsnwrqz.png",
+      ticker: "🍑 ",
+    },
+    {
+      address: "resource_rdx1t5ksvj4pz7d3c59lqy8n5mle2ur0eepkwd34s4h9wsrngctjftrcsf",
+      chain: "XRD",
+      chainId: "radix-mainnet",
+      decimals: -1,
+      identifier: "XRD.💩-resource_rdx1t5ksvj4pz7d3c59lqy8n5mle2ur0eepkwd34s4h9wsrngctjftrcsf",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/xrd.💩-resource_rdx1t5ksvj4pz7d3c59lqy8n5mle2ur0eepkwd34s4h9wsrngctjftrcsf.png",
+      ticker: "💩",
     },
     {
       address: "resource_rdx1tkv8lumgp7u0wa0p3mr0ky3dfw2hv9w2sv3jmsy0tx0fd5kl0mqzx3",
