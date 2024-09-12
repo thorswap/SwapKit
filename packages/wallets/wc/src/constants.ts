@@ -12,6 +12,7 @@ export const MAYACHAIN_MAINNET_ID = "cosmos:mayachain";
 export const ARBITRUM_ONE_MAINNET_ID = "eip155:42161";
 export const OPTIMISM_MAINNET_ID = "eip155:10";
 export const POLYGON_MAINNET_ID = "eip155:137";
+export const BASE_MAINNET_ID = "eip155:8453";
 
 export const DEFAULT_LOGGER = "debug";
 
