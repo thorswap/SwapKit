@@ -2,7 +2,7 @@ export const list = {
   provider: "MAYACHAIN",
   chainId: "mayachain-mainnet-v1",
   name: "MAYACHAIN",
-  timestamp: "2024-08-27T16:30:30.938Z",
+  timestamp: "2024-09-12T00:30:37.342Z",
   version: {
     major: 1,
     minor: 0,
@@ -481,7 +481,7 @@ export const list = {
     },
     {
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.RUNE",
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/thor.rune.png",

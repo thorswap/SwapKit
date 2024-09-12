@@ -1,8 +1,8 @@
 export const list = {
   provider: "THORCHAIN",
-  chainId: "thorchain-mainnet-v1",
+  chainId: "thorchain-1",
   name: "THORCHAIN",
-  timestamp: "2024-08-27T16:30:38.383Z",
+  timestamp: "2024-09-12T00:31:01.510Z",
   version: {
     major: 1,
     minor: 0,
@@ -295,7 +295,7 @@ export const list = {
     },
     {
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.AVAX/AVAX",
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.avax.png",
@@ -304,7 +304,7 @@ export const list = {
     {
       address: "0xfe6b19286885a4f7f55adad09c3cd1f906d2478f",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.AVAX/SOL-0xfe6b19286885a4f7f55adad09c3cd1f906d2478f",
       logoURI:
@@ -314,7 +314,7 @@ export const list = {
     {
       address: "0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.AVAX/USDC-0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e",
       logoURI:
@@ -324,7 +324,7 @@ export const list = {
     {
       address: "0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.AVAX/USDT-0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7",
       logoURI:
@@ -333,7 +333,7 @@ export const list = {
     },
     {
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.BCH/BCH",
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/bch.bch.png",
@@ -341,7 +341,7 @@ export const list = {
     },
     {
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.BSC/BNB",
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/bsc.bnb.png",
@@ -350,7 +350,7 @@ export const list = {
     {
       address: "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.BSC/USDC-0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d",
       logoURI:
@@ -360,7 +360,7 @@ export const list = {
     {
       address: "0x55d398326f99059ff775485246999027b3197955",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.BSC/USDT-0x55d398326f99059ff775485246999027b3197955",
       logoURI:
@@ -369,7 +369,7 @@ export const list = {
     },
     {
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.BTC/BTC",
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/btc.btc.png",
@@ -377,7 +377,7 @@ export const list = {
     },
     {
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.DOGE/DOGE",
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/doge.doge.png",
@@ -386,7 +386,7 @@ export const list = {
     {
       address: "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/AAVE-0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
       logoURI:
@@ -396,7 +396,7 @@ export const list = {
     {
       address: "0x6b175474e89094c44da98b954eedeac495271d0f",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/DAI-0x6b175474e89094c44da98b954eedeac495271d0f",
       logoURI:
@@ -406,7 +406,7 @@ export const list = {
     {
       address: "0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/DPI-0x1494ca1f11d487c2bbe4543e90080aeba4ba3c2b",
       logoURI:
@@ -415,7 +415,7 @@ export const list = {
     },
     {
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/ETH",
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.eth.png",
@@ -424,7 +424,7 @@ export const list = {
     {
       address: "0x826180541412d574cf1336d22c0c0a287822678a",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/FLIP-0x826180541412d574cf1336d22c0c0a287822678a",
       logoURI:
@@ -434,7 +434,7 @@ export const list = {
     {
       address: "0xc770eefad204b5180df6a14ee197d99d808ee52d",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/FOX-0xc770eefad204b5180df6a14ee197d99d808ee52d",
       logoURI:
@@ -444,7 +444,7 @@ export const list = {
     {
       address: "0x056fd409e1d7a124bd7017459dfea2f387b6d5cd",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/GUSD-0x056fd409e1d7a124bd7017459dfea2f387b6d5cd",
       logoURI:
@@ -454,7 +454,7 @@ export const list = {
     {
       address: "0x6c6ee5e31d828de241282b9606c8e98ea48526e2",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/HOT-0x6c6ee5e31d828de241282b9606c8e98ea48526e2",
       logoURI:
@@ -464,7 +464,7 @@ export const list = {
     {
       address: "0x67b6d479c7bb412c54e03dca8e1bc6740ce6b99c",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/KYL-0x67b6d479c7bb412c54e03dca8e1bc6740ce6b99c",
       logoURI:
@@ -474,7 +474,7 @@ export const list = {
     {
       address: "0x2c06ba9e7f0daccbc1f6a33ea67e85bb68fbee3a",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/LENDS-0x2c06ba9e7f0daccbc1f6a33ea67e85bb68fbee3a",
       logoURI:
@@ -484,7 +484,7 @@ export const list = {
     {
       address: "0x514910771af9ca656af840dff83e8264ecf986ca",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/LINK-0x514910771af9ca656af840dff83e8264ecf986ca",
       logoURI:
@@ -494,7 +494,7 @@ export const list = {
     {
       address: "0x5f98805a4e8be255a32880fdec7f6728c6568ba0",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/LUSD-0x5f98805a4e8be255a32880fdec7f6728c6568ba0",
       logoURI:
@@ -504,7 +504,7 @@ export const list = {
     {
       address: "0x5eaa69b29f99c84fe5de8200340b4e9b4ab38eac",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/RAZE-0x5eaa69b29f99c84fe5de8200340b4e9b4ab38eac",
       logoURI:
@@ -514,7 +514,7 @@ export const list = {
     {
       address: "0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/SNX-0xc011a73ee8576fb46f5e1c5751ca3b9fe0af2a6f",
       logoURI:
@@ -524,7 +524,7 @@ export const list = {
     {
       address: "0x108a850856db3f85d0269a2693d896b394c80325",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/TGT-0x108a850856db3f85d0269a2693d896b394c80325",
       logoURI:
@@ -534,7 +534,7 @@ export const list = {
     {
       address: "0xa5f2211b9b8170f694421f2046281775e8468044",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/THOR-0xa5f2211b9b8170f694421f2046281775e8468044",
       logoURI:
@@ -544,7 +544,7 @@ export const list = {
     {
       address: "0xd13c7342e1ef687c5ad21b27c2b65d772cab5c8c",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/UOS-0xd13c7342e1ef687c5ad21b27c2b65d772cab5c8c",
       logoURI:
@@ -554,7 +554,7 @@ export const list = {
     {
       address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/USDC-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
       logoURI:
@@ -564,7 +564,7 @@ export const list = {
     {
       address: "0x8e870d67f660d95d5be530380d0ec0bd388289e1",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/USDP-0x8e870d67f660d95d5be530380d0ec0bd388289e1",
       logoURI:
@@ -574,7 +574,7 @@ export const list = {
     {
       address: "0xdac17f958d2ee523a2206206994597c13d831ec7",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/USDT-0xdac17f958d2ee523a2206206994597c13d831ec7",
       logoURI:
@@ -584,7 +584,7 @@ export const list = {
     {
       address: "0x815c23eca83261b6ec689b60cc4a58b54bc24d8d",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/VTHOR-0x815c23eca83261b6ec689b60cc4a58b54bc24d8d",
       logoURI:
@@ -594,7 +594,7 @@ export const list = {
     {
       address: "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/WBTC-0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
       logoURI:
@@ -604,7 +604,7 @@ export const list = {
     {
       address: "0x72b886d09c117654ab7da13a14d603001de0b777",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/XDEFI-0x72b886d09c117654ab7da13a14d603001de0b777",
       logoURI:
@@ -614,7 +614,7 @@ export const list = {
     {
       address: "0x69fa0fee221ad11012bab0fdb45d444d3d2ce71c",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/XRUNE-0x69fa0fee221ad11012bab0fdb45d444d3d2ce71c",
       logoURI:
@@ -624,7 +624,7 @@ export const list = {
     {
       address: "0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e",
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.ETH/YFI-0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e",
       logoURI:
@@ -633,7 +633,7 @@ export const list = {
     },
     {
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.GAIA/ATOM",
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/gaia.atom.png",
@@ -641,7 +641,7 @@ export const list = {
     },
     {
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.LTC/LTC",
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/ltc.ltc.png",
@@ -649,7 +649,7 @@ export const list = {
     },
     {
       chain: "THOR",
-      chainId: "thorchain-mainnet-v1",
+      chainId: "thorchain-1",
       decimals: 8,
       identifier: "THOR.RUNE",
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/thor.rune.png",

@@ -26,6 +26,7 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
+    "build:dts": "tsc --emitDeclarationOnly --outDir dist",
     "clean": "rm -rf dist node_modules *.tsbuildinfo",
     "lint": "biome check --diagnostic-level=error --write ./src",
     "test": "echo 'bun test'",
