@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.10.1
+
+### Patch Changes
+
+- [`07d7912`](https://github.com/thorswap/SwapKit/commit/07d791292c5aeff4a42798f2e17b77ad974fcae3) Thanks [@towanTG](https://github.com/towanTG)! - Adds new error code
+
 ## 1.10.0
 
 ### Minor Changes
