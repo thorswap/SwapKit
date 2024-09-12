@@ -22,6 +22,7 @@ import type { LedgerSupportedChain } from "./ledgerSupportedChains";
 type LedgerSignerMap = {
   [Chain.Arbitrum]: ReturnType<typeof ArbitrumLedger>;
   [Chain.Avalanche]: ReturnType<typeof AvalancheLedger>;
+  [Chain.Base]: ReturnType<typeof BaseLedger>;
   [Chain.BinanceSmartChain]: ReturnType<typeof BinanceSmartChainLedger>;
   [Chain.BitcoinCash]: ReturnType<typeof BitcoinCashLedger>;
   [Chain.Bitcoin]: ReturnType<typeof BitcoinLedger>;
@@ -63,7 +64,8 @@ export const getLedgerClient = async <T extends LedgerSupportedChain>({
     case Chain.BinanceSmartChain:
     case Chain.Ethereum:
     case Chain.Optimism:
-    case Chain.Polygon: {
+    case Chain.Polygon:
+    case Chain.Base: {
       const { getProvider } = await import("@swapkit/toolbox-evm");
       const params = { provider: getProvider(chain), derivationPath };
 
@@ -78,6 +80,8 @@ export const getLedgerClient = async <T extends LedgerSupportedChain>({
           return OptimismLedger(params) as LedgerSignerMap[T];
         case Chain.Polygon:
           return PolygonLedger(params) as LedgerSignerMap[T];
+        case Chain.Base:
+          return BaseLedger(params) as LedgerSignerMap[T];
         default:
           return EthereumLedger(params) as LedgerSignerMap[T];
       }
