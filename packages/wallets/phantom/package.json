@@ -2,7 +2,9 @@
   "description": "SwapKit Wallet - Phantom",
   "dependencies": {
     "@swapkit/helpers": "workspace:*",
-    "@swapkit/toolbox-solana": "workspace:*"
+    "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-solana": "workspace:*",
+    "@swapkit/toolbox-utxo": "workspace:*"
   },
   "files": [
     "src/",
