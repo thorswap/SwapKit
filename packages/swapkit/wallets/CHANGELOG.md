@@ -1,5 +1,13 @@
 # @swapkit/wallets
 
+## 1.2.3
+
+### Patch Changes
+
+- Updated dependencies [[`9950d31`](https://github.com/thorswap/SwapKit/commit/9950d310cf6213e1e25fc34ba1087a252c53ed79)]:
+  - @swapkit/wallet-evm-extensions@1.1.4
+  - @swapkit/wallet-exodus@1.2.10
+
 ## 1.2.2
 
 ### Patch Changes

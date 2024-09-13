@@ -1,5 +1,11 @@
 # @swapkit/wallet-exodus
 
+## 1.2.10
+
+### Patch Changes
+
+- [#993](https://github.com/thorswap/SwapKit/pull/993) [`9950d31`](https://github.com/thorswap/SwapKit/commit/9950d310cf6213e1e25fc34ba1087a252c53ed79) Thanks [@towanTG](https://github.com/towanTG)! - Adds disconnect to exodus and evm wallets
+
 ## 1.2.9
 
 ### Patch Changes
