@@ -89,7 +89,7 @@ export const getWalletMethods = async ({
             inputsToSign: [
               {
                 address: address,
-                signingIndexes: psbt.txInputs.map((input) => input.index),
+                signingIndexes: psbt.txInputs.map((_, index) => index),
               },
             ],
           },
@@ -184,8 +184,16 @@ function connectExodusWallet({
       const getBalance = async (potentialScamFilter = true) =>
         walletMethods.getBalance(address, potentialScamFilter);
 
+      const disconnect = () =>
+        walletProvider.send("wallet_revokePermissions", [
+          {
+            eth_accounts: {},
+          },
+        ]);
+
       addChain({
         ...walletMethods,
+        disconnect,
         chain,
         address,
         getBalance,
