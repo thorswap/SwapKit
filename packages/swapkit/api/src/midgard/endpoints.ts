@@ -6,8 +6,15 @@ import type {
   SaverDetails,
   THORNameDetails,
 } from "./types";
+
 const thorchainMidgardBaseUrl = "https://midgard.ninerealms.com";
 const mayachainMidgardBaseUrl = "https://midgard.mayachain.info";
+
+function getNameServiceBaseUrl(isMayachain = false) {
+  return isMayachain
+    ? `${mayachainMidgardBaseUrl}/v2/mayaname`
+    : `${thorchainMidgardBaseUrl}/v2/thorname`;
+}
 
 export function getBorrowerDetailRaw(address: string, isMayachain = false) {
   return RequestClient.get<BorrowerDetails>(
@@ -30,12 +37,20 @@ export function getLiquidityPositionRaw<T extends boolean = false>(
   );
 }
 
-export function getNamesByAddress(address: string, isMayachain = false) {
-  const baseUrl = isMayachain
-    ? `${mayachainMidgardBaseUrl}/v2/mayaname`
-    : `${thorchainMidgardBaseUrl}/v2/thorname`;
+export function getNameDetails(name: string, isMayachain = false) {
+  return RequestClient.get<THORNameDetails>(`${getNameServiceBaseUrl(isMayachain)}/lookup/${name}`);
+}
 
-  return RequestClient.get<THORNameDetails>(`${baseUrl}/lookup/${address}`);
+export function getNamesByAddress(address: string, isMayachain = false) {
+  return RequestClient.get<THORNameDetails>(
+    `${getNameServiceBaseUrl(isMayachain)}/rlookup/${address}`,
+  );
+}
+
+export function getNamesByOwner(address: string, isMayachain = false) {
+  return RequestClient.get<THORNameDetails>(
+    `${getNameServiceBaseUrl(isMayachain)}/owner/${address}`,
+  );
 }
 
 export async function getBorrowerDetail(address: string, isMayachain = false) {
@@ -146,6 +161,9 @@ const getMidgardMethodsForProtocol = (chain: Chain.THORChain | Chain.Maya) => ({
   getLiquidityPosition: (address: string) => getLiquidityPosition(address, chain === Chain.Maya),
   getLiquidityPositionRaw: (address: string) =>
     getLiquidityPositionRaw(address, chain === Chain.Maya),
+  getNameDetails: (name: string) => getNameDetails(name, chain === Chain.Maya),
+  getNamesByAddress: (address: string) => getNamesByAddress(address, chain === Chain.Maya),
+  getNamesByOwner: (address: string) => getNamesByOwner(address, chain === Chain.Maya),
 });
 
 export const thorchainMidgard = getMidgardMethodsForProtocol(Chain.THORChain);
