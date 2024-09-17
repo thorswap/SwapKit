@@ -1,5 +1,14 @@
 # @swapkit/api
 
+## 1.7.3
+
+### Patch Changes
+
+- [#996](https://github.com/thorswap/SwapKit/pull/996) [`7e6fb22`](https://github.com/thorswap/SwapKit/commit/7e6fb22ff3899b6db684f223fefd83febd3d6de5) Thanks [@0xepicode](https://github.com/0xepicode)! - Thorname and Mayaname midgard exdpoints
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.10.1
+
 ## 1.7.2
 
 ### Patch Changes

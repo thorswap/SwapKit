@@ -1,5 +1,13 @@
 # @swapkit/wallet-keepkey
 
+## 1.3.4
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.3.4
+  - @swapkit/helpers@1.10.1
+
 ## 1.3.3
 
 ### Patch Changes
