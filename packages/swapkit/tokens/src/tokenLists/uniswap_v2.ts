@@ -1,17 +1,1596 @@
 export const list = {
   provider: "UNISWAP_V2",
-  chainId: "1",
   name: "Uniswap Labs Default",
   tags: {},
-  timestamp: "2024-09-05T13:51:13.820Z",
+  timestamp: "2024-09-12T17:25:23.111Z",
   version: {
     major: 12,
-    minor: 16,
+    minor: 18,
     patch: 0,
   },
   keywords: ["uniswap", "default"],
-  count: 277,
+  count: 435,
   tokens: [
+    {
+      address: "0x6314C31A7a1652cE482cffe247E9CB7c3f4BB9aF",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.1INCH-0x6314C31A7a1652cE482cffe247E9CB7c3f4BB9aF",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.1inch-0x6314c31a7a1652ce482cffe247e9cb7c3f4bb9af.png",
+      ticker: "1INCH",
+    },
+    {
+      address: "0xba5DdD1f9d7F570dc94a51479a000E3BCE967196",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.AAVE-0xba5DdD1f9d7F570dc94a51479a000E3BCE967196",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.aave-0xba5ddd1f9d7f570dc94a51479a000e3bce967196.png",
+      ticker: "AAVE",
+    },
+    {
+      address: "0x53691596d1BCe8CEa565b84d4915e69e03d9C99d",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ACX-0x53691596d1BCe8CEa565b84d4915e69e03d9C99d",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.acx-0x53691596d1bce8cea565b84d4915e69e03d9c99d.png",
+      ticker: "ACX",
+    },
+    {
+      address: "0x377c1Fc73D4D0f5600cd943776CED07c2B9783cd",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.AEVO-0x377c1Fc73D4D0f5600cd943776CED07c2B9783cd",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.aevo-0x377c1fc73d4d0f5600cd943776ced07c2b9783cd.png",
+      ticker: "AEVO",
+    },
+    {
+      address: "0xFA5Ed56A203466CbBC2430a43c66b9D8723528E7",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.agEUR-0xFA5Ed56A203466CbBC2430a43c66b9D8723528E7",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ageur-0xfa5ed56a203466cbbc2430a43c66b9d8723528e7.png",
+      ticker: "agEUR",
+    },
+    {
+      address: "0xb7910E8b16e63EFD51d5D1a093d56280012A3B9C",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.AGLD-0xb7910E8b16e63EFD51d5D1a093d56280012A3B9C",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.agld-0xb7910e8b16e63efd51d5d1a093d56280012a3b9c.png",
+      ticker: "AGLD",
+    },
+    {
+      address: "0xeC76E8fe6e2242e6c2117caA244B9e2DE1569923",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.AIOZ-0xeC76E8fe6e2242e6c2117caA244B9e2DE1569923",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.aioz-0xec76e8fe6e2242e6c2117caa244b9e2de1569923.png",
+      ticker: "AIOZ",
+    },
+    {
+      address: "0xe7dcD50836d0A28c959c72D72122fEDB8E245A6C",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ALEPH-0xe7dcD50836d0A28c959c72D72122fEDB8E245A6C",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.aleph-0xe7dcd50836d0a28c959c72d72122fedb8e245a6c.png",
+      ticker: "ALEPH",
+    },
+    {
+      address: "0xeF6124368c0B56556667e0de77eA008DfC0a71d1",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ALI-0xeF6124368c0B56556667e0de77eA008DfC0a71d1",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ali-0xef6124368c0b56556667e0de77ea008dfc0a71d1.png",
+      ticker: "ALI",
+    },
+    {
+      address: "0xC9CBf102c73fb77Ec14f8B4C8bd88e050a6b2646",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ALPHA-0xC9CBf102c73fb77Ec14f8B4C8bd88e050a6b2646",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.alpha-0xc9cbf102c73fb77ec14f8b4c8bd88e050a6b2646.png",
+      ticker: "ALPHA",
+    },
+    {
+      address: "0x1bfc5d35bf0f7B9e15dc24c78b8C02dbC1e95447",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ANKR-0x1bfc5d35bf0f7B9e15dc24c78b8C02dbC1e95447",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ankr-0x1bfc5d35bf0f7b9e15dc24c78b8c02dbc1e95447.png",
+      ticker: "ANKR",
+    },
+    {
+      address: "0x74885b4D524d497261259B38900f54e6dbAd2210",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.APE-0x74885b4D524d497261259B38900f54e6dbAd2210",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ape-0x74885b4d524d497261259b38900f54e6dbad2210.png",
+      ticker: "APE",
+    },
+    {
+      address: "0xF01dB12F50D0CDF5Fe360ae005b9c52F92CA7811",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.API3-0xF01dB12F50D0CDF5Fe360ae005b9c52F92CA7811",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.api3-0xf01db12f50d0cdf5fe360ae005b9c52f92ca7811.png",
+      ticker: "API3",
+    },
+    {
+      address: "0x912CE59144191C1204E64559FE8253a0e49E6548",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ARB-0x912CE59144191C1204E64559FE8253a0e49E6548",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.arb-0x912ce59144191c1204e64559fe8253a0e49e6548.png",
+      ticker: "ARB",
+    },
+    {
+      address: "0xDac5094B7D59647626444a4F905060FCda4E656E",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ARKM-0xDac5094B7D59647626444a4F905060FCda4E656E",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.arkm-0xdac5094b7d59647626444a4f905060fcda4e656e.png",
+      ticker: "ARKM",
+    },
+    {
+      address: "0xAC9Ac2C17cdFED4AbC80A53c5553388575714d03",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ATA-0xAC9Ac2C17cdFED4AbC80A53c5553388575714d03",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ata-0xac9ac2c17cdfed4abc80a53c5553388575714d03.png",
+      ticker: "ATA",
+    },
+    {
+      address: "0x23ee2343B892b1BB63503a4FAbc840E0e2C6810f",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 6,
+      identifier: "ARB.AXL-0x23ee2343B892b1BB63503a4FAbc840E0e2C6810f",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.axl-0x23ee2343b892b1bb63503a4fabc840e0e2c6810f.png",
+      ticker: "AXL",
+    },
+    {
+      address: "0xe88998Fb579266628aF6a03e3821d5983e5D0089",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.AXS-0xe88998Fb579266628aF6a03e3821d5983e5D0089",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.axs-0xe88998fb579266628af6a03e3821d5983e5d0089.png",
+      ticker: "AXS",
+    },
+    {
+      address: "0xBfa641051Ba0a0Ad1b0AcF549a89536A0D76472E",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.BADGER-0xBfa641051Ba0a0Ad1b0AcF549a89536A0D76472E",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.badger-0xbfa641051ba0a0ad1b0acf549a89536a0d76472e.png",
+      ticker: "BADGER",
+    },
+    {
+      address: "0x040d1EdC9569d4Bab2D15287Dc5A4F10F56a56B8",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.BAL-0x040d1EdC9569d4Bab2D15287Dc5A4F10F56a56B8",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.bal-0x040d1edc9569d4bab2d15287dc5a4f10f56a56b8.png",
+      ticker: "BAL",
+    },
+    {
+      address: "0x3450687EF141dCd6110b77c2DC44B008616AeE75",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.BAT-0x3450687EF141dCd6110b77c2DC44B008616AeE75",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.bat-0x3450687ef141dcd6110b77c2dc44b008616aee75.png",
+      ticker: "BAT",
+    },
+    {
+      address: "0xa68Ec98D7ca870cF1Dd0b00EBbb7c4bF60A8e74d",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.BICO-0xa68Ec98D7ca870cF1Dd0b00EBbb7c4bF60A8e74d",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.bico-0xa68ec98d7ca870cf1dd0b00ebbb7c4bf60a8e74d.png",
+      ticker: "BICO",
+    },
+    {
+      address: "0x406C8dB506653D882295875F633bEC0bEb921C2A",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.BIT-0x406C8dB506653D882295875F633bEC0bEb921C2A",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.bit-0x406c8db506653d882295875f633bec0beb921c2a.png",
+      ticker: "BIT",
+    },
+    {
+      address: "0xEf171a5BA71348eff16616fd692855c2Fe606EB2",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.BLUR-0xEf171a5BA71348eff16616fd692855c2Fe606EB2",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.blur-0xef171a5ba71348eff16616fd692855c2fe606eb2.png",
+      ticker: "BLUR",
+    },
+    {
+      address: "0x7A24159672b83ED1b89467c9d6A99556bA06D073",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.BNT-0x7A24159672b83ED1b89467c9d6A99556bA06D073",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.bnt-0x7a24159672b83ed1b89467c9d6a99556ba06d073.png",
+      ticker: "BNT",
+    },
+    {
+      address: "0x0D81E50bC677fa67341c44D7eaA9228DEE64A4e1",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.BOND-0x0D81E50bC677fa67341c44D7eaA9228DEE64A4e1",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.bond-0x0d81e50bc677fa67341c44d7eaa9228dee64a4e1.png",
+      ticker: "BOND",
+    },
+    {
+      address: "0x31190254504622cEFdFA55a7d3d272e6462629a2",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.BUSD-0x31190254504622cEFdFA55a7d3d272e6462629a2",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.busd-0x31190254504622cefdfa55a7d3d272e6462629a2.png",
+      ticker: "BUSD",
+    },
+    {
+      address: "0x1DEBd73E752bEaF79865Fd6446b0c970EaE7732f",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.cbETH-0x1DEBd73E752bEaF79865Fd6446b0c970EaE7732f",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.cbeth-0x1debd73e752beaf79865fd6446b0c970eae7732f.png",
+      ticker: "cbETH",
+    },
+    {
+      address: "0x4E51aC49bC5e2d87e0EF713E9e5AB2D71EF4F336",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.CELO-0x4E51aC49bC5e2d87e0EF713E9e5AB2D71EF4F336",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.celo-0x4e51ac49bc5e2d87e0ef713e9e5ab2d71ef4f336.png",
+      ticker: "CELO",
+    },
+    {
+      address: "0x3a8B787f78D775AECFEEa15706D4221B40F345AB",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.CELR-0x3a8B787f78D775AECFEEa15706D4221B40F345AB",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.celr-0x3a8b787f78d775aecfeea15706d4221b40f345ab.png",
+      ticker: "CELR",
+    },
+    {
+      address: "0x354A6dA3fcde098F8389cad84b0182725c6C91dE",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.COMP-0x354A6dA3fcde098F8389cad84b0182725c6C91dE",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.comp-0x354a6da3fcde098f8389cad84b0182725c6c91de.png",
+      ticker: "COMP",
+    },
+    {
+      address: "0x6FE14d3CC2f7bDdffBa5CdB3BBE7467dd81ea101",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.COTI-0x6FE14d3CC2f7bDdffBa5CdB3BBE7467dd81ea101",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.coti-0x6fe14d3cc2f7bddffba5cdb3bbe7467dd81ea101.png",
+      ticker: "COTI",
+    },
+    {
+      address: "0x69b937dB799a9BECC9E8A6F0a5d36eA3657273bf",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.CQT-0x69b937dB799a9BECC9E8A6F0a5d36eA3657273bf",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.cqt-0x69b937db799a9becc9e8a6f0a5d36ea3657273bf.png",
+      ticker: "CQT",
+    },
+    {
+      address: "0x8ea3156f834A0dfC78F1A5304fAC2CdA676F354C",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 8,
+      identifier: "ARB.CRO-0x8ea3156f834A0dfC78F1A5304fAC2CdA676F354C",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.cro-0x8ea3156f834a0dfc78f1a5304fac2cda676f354c.png",
+      ticker: "CRO",
+    },
+    {
+      address: "0x11cDb42B0EB46D95f990BeDD4695A6e3fA034978",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.CRV-0x11cDb42B0EB46D95f990BeDD4695A6e3fA034978",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.crv-0x11cdb42b0eb46d95f990bedd4695a6e3fa034978.png",
+      ticker: "CRV",
+    },
+    {
+      address: "0x319f865b287fCC10b30d8cE6144e8b6D1b476999",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.CTSI-0x319f865b287fCC10b30d8cE6144e8b6D1b476999",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ctsi-0x319f865b287fcc10b30d8ce6144e8b6d1b476999.png",
+      ticker: "CTSI",
+    },
+    {
+      address: "0x84F5c2cFba754E76DD5aE4fB369CfC920425E12b",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.CTX-0x84F5c2cFba754E76DD5aE4fB369CfC920425E12b",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ctx-0x84f5c2cfba754e76dd5ae4fb369cfc920425e12b.png",
+      ticker: "CTX",
+    },
+    {
+      address: "0x9DfFB23CAd3322440bCcFF7aB1C58E781dDBF144",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 8,
+      identifier: "ARB.CVC-0x9DfFB23CAd3322440bCcFF7aB1C58E781dDBF144",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.cvc-0x9dffb23cad3322440bccff7ab1c58e781ddbf144.png",
+      ticker: "CVC",
+    },
+    {
+      address: "0xaAFcFD42c9954C6689ef1901e03db742520829c5",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.CVX-0xaAFcFD42c9954C6689ef1901e03db742520829c5",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.cvx-0xaafcfd42c9954c6689ef1901e03db742520829c5.png",
+      ticker: "CVX",
+    },
+    {
+      address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.DAI-0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.dai-0xda10009cbd5d07dd0cecc66161fc93d7c9000da1.png",
+      ticker: "DAI",
+    },
+    {
+      address: "0x3Be7cB2e9413Ef8F42b4A202a0114EB59b64e227",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.DEXT-0x3Be7cB2e9413Ef8F42b4A202a0114EB59b64e227",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.dext-0x3be7cb2e9413ef8f42b4a202a0114eb59b64e227.png",
+      ticker: "DEXT",
+    },
+    {
+      address: "0xca642467C6Ebe58c13cB4A7091317f34E17ac05e",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.DIA-0xca642467C6Ebe58c13cB4A7091317f34E17ac05e",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.dia-0xca642467c6ebe58c13cb4a7091317f34e17ac05e.png",
+      ticker: "DIA",
+    },
+    {
+      address: "0xE3696a02b2C9557639E29d829E9C45EFa49aD47A",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.DNT-0xE3696a02b2C9557639E29d829E9C45EFa49aD47A",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.dnt-0xe3696a02b2c9557639e29d829e9c45efa49ad47a.png",
+      ticker: "DNT",
+    },
+    {
+      address: "0x4667cf53C4eDF659E402B733BEA42B18B68dd74c",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.DPI-0x4667cf53C4eDF659E402B733BEA42B18B68dd74c",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.dpi-0x4667cf53c4edf659e402b733bea42b18b68dd74c.png",
+      ticker: "DPI",
+    },
+    {
+      address: "0x51863cB90Ce5d6dA9663106F292fA27c8CC90c5a",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.DYDX-0x51863cB90Ce5d6dA9663106F292fA27c8CC90c5a",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.dydx-0x51863cb90ce5d6da9663106f292fa27c8cc90c5a.png",
+      ticker: "DYDX",
+    },
+    {
+      address: "0x3e4Cff6E50F37F731284A92d44AE943e17077fD4",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ELON-0x3e4Cff6E50F37F731284A92d44AE943e17077fD4",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.elon-0x3e4cff6e50f37f731284a92d44ae943e17077fd4.png",
+      ticker: "ELON",
+    },
+    {
+      address: "0xdf8F0c63D9335A0AbD89F9F752d293A98EA977d8",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ENA-0xdf8F0c63D9335A0AbD89F9F752d293A98EA977d8",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ena-0xdf8f0c63d9335a0abd89f9f752d293a98ea977d8.png",
+      ticker: "ENA",
+    },
+    {
+      address: "0x7fa9549791EFc9030e1Ed3F25D18014163806758",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ENJ-0x7fa9549791EFc9030e1Ed3F25D18014163806758",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.enj-0x7fa9549791efc9030e1ed3f25d18014163806758.png",
+      ticker: "ENJ",
+    },
+    {
+      address: "0xfeA31d704DEb0975dA8e77Bf13E04239e70d7c28",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ENS-0xfeA31d704DEb0975dA8e77Bf13E04239e70d7c28",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ens-0xfea31d704deb0975da8e77bf13e04239e70d7c28.png",
+      ticker: "ENS",
+    },
+    {
+      address: "0x2354c8e9Ea898c751F1A15Addeb048714D667f96",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ERN-0x2354c8e9Ea898c751F1A15Addeb048714D667f96",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ern-0x2354c8e9ea898c751f1a15addeb048714d667f96.png",
+      ticker: "ERN",
+    },
+    {
+      address: "0x07D65C18CECbA423298c0aEB5d2BeDED4DFd5736",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ETHFI-0x07D65C18CECbA423298c0aEB5d2BeDED4DFd5736",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ethfi-0x07d65c18cecba423298c0aeb5d2beded4dfd5736.png",
+      ticker: "ETHFI",
+    },
+    {
+      address: "0x863708032B5c328e11aBcbC0DF9D79C71Fc52a48",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 6,
+      identifier: "ARB.EURC-0x863708032B5c328e11aBcbC0DF9D79C71Fc52a48",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.eurc-0x863708032b5c328e11abcbc0df9d79c71fc52a48.png",
+      ticker: "EURC",
+    },
+    {
+      address: "0x8553d254Cb6934b16F87D2e486b64BbD24C83C70",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.FARM-0x8553d254Cb6934b16F87D2e486b64BbD24C83C70",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.farm-0x8553d254cb6934b16f87d2e486b64bbd24c83c70.png",
+      ticker: "FARM",
+    },
+    {
+      address: "0x4BE87C766A7CE11D5Cc864b6C3Abb7457dCC4cC9",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.FET-0x4BE87C766A7CE11D5Cc864b6C3Abb7457dCC4cC9",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.fet-0x4be87c766a7ce11d5cc864b6c3abb7457dcc4cc9.png",
+      ticker: "FET",
+    },
+    {
+      address: "0x849B40AB2469309117Ed1038c5A99894767C7282",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.FIS-0x849B40AB2469309117Ed1038c5A99894767C7282",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.fis-0x849b40ab2469309117ed1038c5a99894767c7282.png",
+      ticker: "FIS",
+    },
+    {
+      address: "0xA8C25FdC09763A176353CC6a76882e05b4905FAe",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 9,
+      identifier: "ARB.FLOKI-0xA8C25FdC09763A176353CC6a76882e05b4905FAe",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.floki-0xa8c25fdc09763a176353cc6a76882e05b4905fae.png",
+      ticker: "FLOKI",
+    },
+    {
+      address: "0x3A1429d50E0cBBc45c997aF600541Fe1cc3D2923",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.FORT-0x3A1429d50E0cBBc45c997aF600541Fe1cc3D2923",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.fort-0x3a1429d50e0cbbc45c997af600541fe1cc3d2923.png",
+      ticker: "FORT",
+    },
+    {
+      address: "0xf929de51D91C77E42f5090069E0AD7A09e513c73",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.FOX-0xf929de51D91C77E42f5090069E0AD7A09e513c73",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.fox-0xf929de51d91c77e42f5090069e0ad7a09e513c73.png",
+      ticker: "FOX",
+    },
+    {
+      address: "0x7468a5d8E02245B00E8C0217fCE021C70Bc51305",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.FRAX-0x7468a5d8E02245B00E8C0217fCE021C70Bc51305",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.frax-0x7468a5d8e02245b00e8c0217fce021c70bc51305.png",
+      ticker: "FRAX",
+    },
+    {
+      address: "0xd42785D323e608B9E99fa542bd8b1000D4c2Df37",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.FTM-0xd42785D323e608B9E99fa542bd8b1000D4c2Df37",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ftm-0xd42785d323e608b9e99fa542bd8b1000d4c2df37.png",
+      ticker: "FTM",
+    },
+    {
+      address: "0xd9f9d2Ee2d3EFE420699079f16D9e924affFdEA4",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.FXS-0xd9f9d2Ee2d3EFE420699079f16D9e924affFdEA4",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.fxs-0xd9f9d2ee2d3efe420699079f16d9e924afffdea4.png",
+      ticker: "FXS",
+    },
+    {
+      address: "0xc27E7325a6BEA1FcC06de7941473f5279bfd1182",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.GAL-0xc27E7325a6BEA1FcC06de7941473f5279bfd1182",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.gal-0xc27e7325a6bea1fcc06de7941473f5279bfd1182.png",
+      ticker: "GAL",
+    },
+    {
+      address: "0x2A676eeAd159c4C8e8593471c6d666F02827FF8C",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 8,
+      identifier: "ARB.GALA-0x2A676eeAd159c4C8e8593471c6d666F02827FF8C",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.gala-0x2a676eead159c4c8e8593471c6d666f02827ff8c.png",
+      ticker: "GALA",
+    },
+    {
+      address: "0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.GMX-0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.gmx-0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a.png",
+      ticker: "GMX",
+    },
+    {
+      address: "0xa0b862F60edEf4452F25B4160F177db44DeB6Cf1",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.GNO-0xa0b862F60edEf4452F25B4160F177db44DeB6Cf1",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.gno-0xa0b862f60edef4452f25b4160f177db44deb6cf1.png",
+      ticker: "GNO",
+    },
+    {
+      address: "0x9623063377AD1B27544C965cCd7342f7EA7e88C7",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.GRT-0x9623063377AD1B27544C965cCd7342f7EA7e88C7",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.grt-0x9623063377ad1b27544c965ccd7342f7ea7e88c7.png",
+      ticker: "GRT",
+    },
+    {
+      address: "0x7f9a7DB853Ca816B9A138AEe3380Ef34c437dEe0",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.GTC-0x7f9a7DB853Ca816B9A138AEe3380Ef34c437dEe0",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.gtc-0x7f9a7db853ca816b9a138aee3380ef34c437dee0.png",
+      ticker: "GTC",
+    },
+    {
+      address: "0x589d35656641d6aB57A545F08cf473eCD9B6D5F7",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 6,
+      identifier: "ARB.GYEN-0x589d35656641d6aB57A545F08cf473eCD9B6D5F7",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.gyen-0x589d35656641d6ab57a545f08cf473ecd9b6d5f7.png",
+      ticker: "GYEN",
+    },
+    {
+      address: "0xd12Eeb0142D4Efe7Af82e4f29E5Af382615bcEeA",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.HIGH-0xd12Eeb0142D4Efe7Af82e4f29E5Af382615bcEeA",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.high-0xd12eeb0142d4efe7af82e4f29e5af382615bceea.png",
+      ticker: "HIGH",
+    },
+    {
+      address: "0x177F394A3eD18FAa85c1462Ae626438a70294EF7",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.HOPR-0x177F394A3eD18FAa85c1462Ae626438a70294EF7",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.hopr-0x177f394a3ed18faa85c1462ae626438a70294ef7.png",
+      ticker: "HOPR",
+    },
+    {
+      address: "0x61cA9D186f6b9a793BC08F6C79fd35f205488673",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ILV-0x61cA9D186f6b9a793BC08F6C79fd35f205488673",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ilv-0x61ca9d186f6b9a793bc08f6c79fd35f205488673.png",
+      ticker: "ILV",
+    },
+    {
+      address: "0x3cFD99593a7F035F717142095a3898e3Fca7783e",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.IMX-0x3cFD99593a7F035F717142095a3898e3Fca7783e",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.imx-0x3cfd99593a7f035f717142095a3898e3fca7783e.png",
+      ticker: "IMX",
+    },
+    {
+      address: "0x2A2053cb633CAD465B4A8975eD3d7f09DF608F80",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.INJ-0x2A2053cb633CAD465B4A8975eD3d7f09DF608F80",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.inj-0x2a2053cb633cad465b4a8975ed3d7f09df608f80.png",
+      ticker: "INJ",
+    },
+    {
+      address: "0x25f05699548D3A0820b99f93c10c8BB573E27083",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.JASMY-0x25f05699548D3A0820b99f93c10c8BB573E27083",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.jasmy-0x25f05699548d3a0820b99f93c10c8bb573e27083.png",
+      ticker: "JASMY",
+    },
+    {
+      address: "0x3A18dcC9745eDcD1Ef33ecB93b0b6eBA5671e7Ca",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 6,
+      identifier: "ARB.KUJI-0x3A18dcC9745eDcD1Ef33ecB93b0b6eBA5671e7Ca",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.kuji-0x3a18dcc9745edcd1ef33ecb93b0b6eba5671e7ca.png",
+      ticker: "KUJI",
+    },
+    {
+      address: "0x13Ad51ed4F1B7e9Dc168d8a00cB3f4dDD85EfA60",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.LDO-0x13Ad51ed4F1B7e9Dc168d8a00cB3f4dDD85EfA60",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ldo-0x13ad51ed4f1b7e9dc168d8a00cb3f4ddd85efa60.png",
+      ticker: "LDO",
+    },
+    {
+      address: "0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.LINK-0xf97f4df75117a78c1A5a0DBb814Af92458539FB4",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.link-0xf97f4df75117a78c1a5a0dbb814af92458539fb4.png",
+      ticker: "LINK",
+    },
+    {
+      address: "0x349fc93da004a63F3B1343361465981330A40B25",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.LIT-0x349fc93da004a63F3B1343361465981330A40B25",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.lit-0x349fc93da004a63f3b1343361465981330a40b25.png",
+      ticker: "LIT",
+    },
+    {
+      address: "0x289ba1701C2F088cf0faf8B3705246331cB8A839",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.LPT-0x289ba1701C2F088cf0faf8B3705246331cB8A839",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.lpt-0x289ba1701c2f088cf0faf8b3705246331cb8a839.png",
+      ticker: "LPT",
+    },
+    {
+      address: "0xfb9E5D956D889D91a82737B9bFCDaC1DCE3e1449",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.LQTY-0xfb9E5D956D889D91a82737B9bFCDaC1DCE3e1449",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.lqty-0xfb9e5d956d889d91a82737b9bfcdac1dce3e1449.png",
+      ticker: "LQTY",
+    },
+    {
+      address: "0x46d0cE7de6247b0A95f67b43B589b4041BaE7fbE",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.LRC-0x46d0cE7de6247b0A95f67b43B589b4041BaE7fbE",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.lrc-0x46d0ce7de6247b0a95f67b43b589b4041bae7fbe.png",
+      ticker: "LRC",
+    },
+    {
+      address: "0x93b346b6BC2548dA6A1E7d98E9a421B42541425b",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.LUSD-0x93b346b6BC2548dA6A1E7d98E9a421B42541425b",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.lusd-0x93b346b6bc2548da6a1e7d98e9a421b42541425b.png",
+      ticker: "LUSD",
+    },
+    {
+      address: "0x539bdE0d7Dbd336b79148AA742883198BBF60342",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.MAGIC-0x539bdE0d7Dbd336b79148AA742883198BBF60342",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.magic-0x539bde0d7dbd336b79148aa742883198bbf60342.png",
+      ticker: "MAGIC",
+    },
+    {
+      address: "0x442d24578A564EF628A65e6a7E3e7be2a165E231",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.MANA-0x442d24578A564EF628A65e6a7E3e7be2a165E231",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.mana-0x442d24578a564ef628a65e6a7e3e7be2a165e231.png",
+      ticker: "MANA",
+    },
+    {
+      address: "0x533A7B414CD1236815a5e09F1E97FC7d5c313739",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.MASK-0x533A7B414CD1236815a5e09F1E97FC7d5c313739",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.mask-0x533a7b414cd1236815a5e09f1e97fc7d5c313739.png",
+      ticker: "MASK",
+    },
+    {
+      address: "0x99F40b01BA9C469193B360f72740E416B17Ac332",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.MATH-0x99F40b01BA9C469193B360f72740E416B17Ac332",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.math-0x99f40b01ba9c469193b360f72740e416b17ac332.png",
+      ticker: "MATH",
+    },
+    {
+      address: "0x561877b6b3DD7651313794e5F2894B2F18bE0766",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.MATIC-0x561877b6b3DD7651313794e5F2894B2F18bE0766",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.matic-0x561877b6b3dd7651313794e5f2894b2f18be0766.png",
+      ticker: "MATIC",
+    },
+    {
+      address: "0x7F728F3595db17B0B359f4FC47aE80FAd2e33769",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.METIS-0x7F728F3595db17B0B359f4FC47aE80FAd2e33769",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.metis-0x7f728f3595db17b0b359f4fc47ae80fad2e33769.png",
+      ticker: "METIS",
+    },
+    {
+      address: "0xB20A02dfFb172C474BC4bDa3fD6f4eE70C04daf2",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.MIM-0xB20A02dfFb172C474BC4bDa3fD6f4eE70C04daf2",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.mim-0xb20a02dffb172c474bc4bda3fd6f4ee70c04daf2.png",
+      ticker: "MIM",
+    },
+    {
+      address: "0x2e9a6Df78E42a30712c10a9Dc4b1C8656f8F2879",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.MKR-0x2e9a6Df78E42a30712c10a9Dc4b1C8656f8F2879",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.mkr-0x2e9a6df78e42a30712c10a9dc4b1c8656f8f2879.png",
+      ticker: "MKR",
+    },
+    {
+      address: "0x8f5c1A99b1df736Ad685006Cb6ADCA7B7Ae4b514",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.MLN-0x8f5c1A99b1df736Ad685006Cb6ADCA7B7Ae4b514",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.mln-0x8f5c1a99b1df736ad685006cb6adca7b7ae4b514.png",
+      ticker: "MLN",
+    },
+    {
+      address: "0x96c42662820F6Ea32f0A61A06a38a72B206aABaC",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.MOG-0x96c42662820F6Ea32f0A61A06a38a72B206aABaC",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.mog-0x96c42662820f6ea32f0a61a06a38a72b206aabac.png",
+      ticker: "MOG",
+    },
+    {
+      address: "0x29024832eC3baBF5074D4F46102aA988097f0Ca0",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.MPL-0x29024832eC3baBF5074D4F46102aA988097f0Ca0",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.mpl-0x29024832ec3babf5074d4f46102aa988097f0ca0.png",
+      ticker: "MPL",
+    },
+    {
+      address: "0x7b9b94aebe5E2039531af8E31045f377EcD9A39A",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.MULTI-0x7b9b94aebe5E2039531af8E31045f377EcD9A39A",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.multi-0x7b9b94aebe5e2039531af8e31045f377ecd9a39a.png",
+      ticker: "MULTI",
+    },
+    {
+      address: "0x5445972E76c5e4CEdD12B6e2BceF69133E15992F",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.MV-0x5445972E76c5e4CEdD12B6e2BceF69133E15992F",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.mv-0x5445972e76c5e4cedd12b6e2bcef69133e15992f.png",
+      ticker: "MV",
+    },
+    {
+      address: "0x91b468Fe3dce581D7a6cFE34189F1314b6862eD6",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.MXC-0x91b468Fe3dce581D7a6cFE34189F1314b6862eD6",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.mxc-0x91b468fe3dce581d7a6cfe34189f1314b6862ed6.png",
+      ticker: "MXC",
+    },
+    {
+      address: "0x53236015A675fcB937485F1AE58040e4Fb920d5b",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.NCT-0x53236015A675fcB937485F1AE58040e4Fb920d5b",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.nct-0x53236015a675fcb937485f1ae58040e4fb920d5b.png",
+      ticker: "NCT",
+    },
+    {
+      address: "0xBE06ca305A5Cb49ABf6B1840da7c42690406177b",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.NKN-0xBE06ca305A5Cb49ABf6B1840da7c42690406177b",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.nkn-0xbe06ca305a5cb49abf6b1840da7c42690406177b.png",
+      ticker: "NKN",
+    },
+    {
+      address: "0x597701b32553b9fa473e21362D480b3a6B569711",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.NMR-0x597701b32553b9fa473e21362D480b3a6B569711",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.nmr-0x597701b32553b9fa473e21362d480b3a6b569711.png",
+      ticker: "NMR",
+    },
+    {
+      address: "0x933d31561e470478079FEB9A6Dd2691fAD8234DF",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.OCEAN-0x933d31561e470478079FEB9A6Dd2691fAD8234DF",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ocean-0x933d31561e470478079feb9a6dd2691fad8234df.png",
+      ticker: "OCEAN",
+    },
+    {
+      address: "0x6FEb262FEb0f775B5312D2e009923f7f58AE423E",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.OGN-0x6FEb262FEb0f775B5312D2e009923f7f58AE423E",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ogn-0x6feb262feb0f775b5312d2e009923f7f58ae423e.png",
+      ticker: "OGN",
+    },
+    {
+      address: "0xd962C1895c46AC0378C502c207748b7061421e8e",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.OMG-0xd962C1895c46AC0378C502c207748b7061421e8e",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.omg-0xd962c1895c46ac0378c502c207748b7061421e8e.png",
+      ticker: "OMG",
+    },
+    {
+      address: "0xA2d52A05B8Bead5d824DF54Dd1AA63188B37A5E7",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ONDO-0xA2d52A05B8Bead5d824DF54Dd1AA63188B37A5E7",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ondo-0xa2d52a05b8bead5d824df54dd1aa63188b37a5e7.png",
+      ticker: "ONDO",
+    },
+    {
+      address: "0x1BDCC2075d5370293E248Cab0173eC3E551e6218",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 8,
+      identifier: "ARB.ORN-0x1BDCC2075d5370293E248Cab0173eC3E551e6218",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.orn-0x1bdcc2075d5370293e248cab0173ec3e551e6218.png",
+      ticker: "ORN",
+    },
+    {
+      address: "0xfEb4DfC8C4Cf7Ed305bb08065D08eC6ee6728429",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.PAXG-0xfEb4DfC8C4Cf7Ed305bb08065D08eC6ee6728429",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.paxg-0xfeb4dfc8c4cf7ed305bb08065d08ec6ee6728429.png",
+      ticker: "PAXG",
+    },
+    {
+      address: "0x35E6A59F786d9266c7961eA28c7b768B33959cbB",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.PEPE-0x35E6A59F786d9266c7961eA28c7b768B33959cbB",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.pepe-0x35e6a59f786d9266c7961ea28c7b768b33959cbb.png",
+      ticker: "PEPE",
+    },
+    {
+      address: "0x753D224bCf9AAFaCD81558c32341416df61D3DAC",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.PERP-0x753D224bCf9AAFaCD81558c32341416df61D3DAC",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.perp-0x753d224bcf9aafacd81558c32341416df61d3dac.png",
+      ticker: "PERP",
+    },
+    {
+      address: "0xeeeB5EaC2dB7A7Fc28134aA3248580d48b016b64",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.POLS-0xeeeB5EaC2dB7A7Fc28134aA3248580d48b016b64",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.pols-0xeeeb5eac2db7a7fc28134aa3248580d48b016b64.png",
+      ticker: "POLS",
+    },
+    {
+      address: "0xE12F29704F635F4A6E7Ae154838d21F9B33809e9",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.POLY-0xE12F29704F635F4A6E7Ae154838d21F9B33809e9",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.poly-0xe12f29704f635f4a6e7ae154838d21f9b33809e9.png",
+      ticker: "POLY",
+    },
+    {
+      address: "0xdA0a57B710768ae17941a9Fa33f8B720c8bD9ddD",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.POND-0xdA0a57B710768ae17941a9Fa33f8B720c8bD9ddD",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.pond-0xda0a57b710768ae17941a9fa33f8b720c8bd9ddd.png",
+      ticker: "POND",
+    },
+    {
+      address: "0x4e91F2AF1ee0F84B529478f19794F5AFD423e4A6",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 6,
+      identifier: "ARB.POWR-0x4e91F2AF1ee0F84B529478f19794F5AFD423e4A6",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.powr-0x4e91f2af1ee0f84b529478f19794f5afd423e4a6.png",
+      ticker: "POWR",
+    },
+    {
+      address: "0x8d8e1b6ffc6832E8D2eF0DE8a3d957cAE7ac5067",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.PRIME-0x8d8e1b6ffc6832E8D2eF0DE8a3d957cAE7ac5067",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.prime-0x8d8e1b6ffc6832e8d2ef0de8a3d957cae7ac5067.png",
+      ticker: "PRIME",
+    },
+    {
+      address: "0x82164a8B646401a8776F9dC5c8Cba35DcAf60Cd2",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.PRQ-0x82164a8B646401a8776F9dC5c8Cba35DcAf60Cd2",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.prq-0x82164a8b646401a8776f9dc5c8cba35dcaf60cd2.png",
+      ticker: "PRQ",
+    },
+    {
+      address: "0xC7557C73e0eCa2E1BF7348bB6874Aee63C7eFF85",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.QNT-0xC7557C73e0eCa2E1BF7348bB6874Aee63C7eFF85",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.qnt-0xc7557c73e0eca2e1bf7348bb6874aee63c7eff85.png",
+      ticker: "QNT",
+    },
+    {
+      address: "0xaeF5bbcbFa438519a5ea80B4c7181B4E78d419f2",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.RAI-0xaeF5bbcbFa438519a5ea80B4c7181B4E78d419f2",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.rai-0xaef5bbcbfa438519a5ea80b4c7181b4e78d419f2.png",
+      ticker: "RAI",
+    },
+    {
+      address: "0xCF8600347Dc375C5f2FdD6Dab9BB66e0b6773cd7",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.RARI-0xCF8600347Dc375C5f2FdD6Dab9BB66e0b6773cd7",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.rari-0xcf8600347dc375c5f2fdd6dab9bb66e0b6773cd7.png",
+      ticker: "RARI",
+    },
+    {
+      address: "0x2E9AE8f178d5Ea81970C7799A377B3985cbC335F",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.RBC-0x2E9AE8f178d5Ea81970C7799A377B3985cbC335F",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.rbc-0x2e9ae8f178d5ea81970c7799a377b3985cbc335f.png",
+      ticker: "RBC",
+    },
+    {
+      address: "0x9fA891e1dB0a6D1eEAC4B929b5AAE1011C79a204",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.REN-0x9fA891e1dB0a6D1eEAC4B929b5AAE1011C79a204",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ren-0x9fa891e1db0a6d1eeac4b929b5aae1011c79a204.png",
+      ticker: "REN",
+    },
+    {
+      address: "0x1Cb5bBc64e148C5b889E3c667B49edF78BB92171",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.REQ-0x1Cb5bBc64e148C5b889E3c667B49edF78BB92171",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.req-0x1cb5bbc64e148c5b889e3c667b49edf78bb92171.png",
+      ticker: "REQ",
+    },
+    {
+      address: "0xef888bcA6AB6B1d26dbeC977C455388ecd794794",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.RGT-0xef888bcA6AB6B1d26dbeC977C455388ecd794794",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.rgt-0xef888bca6ab6b1d26dbec977c455388ecd794794.png",
+      ticker: "RGT",
+    },
+    {
+      address: "0xE575586566b02A16338c199c23cA6d295D794e66",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 9,
+      identifier: "ARB.RLC-0xE575586566b02A16338c199c23cA6d295D794e66",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.rlc-0xe575586566b02a16338c199c23ca6d295d794e66.png",
+      ticker: "RLC",
+    },
+    {
+      address: "0xC8a4EeA31E9B6b61c406DF013DD4FEc76f21E279",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.RNDR-0xC8a4EeA31E9B6b61c406DF013DD4FEc76f21E279",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.rndr-0xc8a4eea31e9b6b61c406df013dd4fec76f21e279.png",
+      ticker: "RNDR",
+    },
+    {
+      address: "0xd1318eb19DBF2647743c720ed35174efd64e3DAC",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.SAND-0xd1318eb19DBF2647743c720ed35174efd64e3DAC",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.sand-0xd1318eb19dbf2647743c720ed35174efd64e3dac.png",
+      ticker: "SAND",
+    },
+    {
+      address: "0x1629c4112952a7a377cB9B8d7d8c903092f34B63",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.SD-0x1629c4112952a7a377cB9B8d7d8c903092f34B63",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.sd-0x1629c4112952a7a377cb9b8d7d8c903092f34b63.png",
+      ticker: "SD",
+    },
+    {
+      address: "0x5033833c9fe8B9d3E09EEd2f73d2aaF7E3872fd1",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.SHIB-0x5033833c9fe8B9d3E09EEd2f73d2aaF7E3872fd1",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.shib-0x5033833c9fe8b9d3e09eed2f73d2aaf7e3872fd1.png",
+      ticker: "SHIB",
+    },
+    {
+      address: "0x4F9b7DEDD8865871dF65c5D26B1c2dD537267878",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.SKL-0x4F9b7DEDD8865871dF65c5D26B1c2dD537267878",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.skl-0x4f9b7dedd8865871df65c5d26b1c2dd537267878.png",
+      ticker: "SKL",
+    },
+    {
+      address: "0x707F635951193dDaFBB40971a0fCAAb8A6415160",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.SNT-0x707F635951193dDaFBB40971a0fCAAb8A6415160",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.snt-0x707f635951193ddafbb40971a0fcaab8a6415160.png",
+      ticker: "SNT",
+    },
+    {
+      address: "0xcBA56Cd8216FCBBF3fA6DF6137F3147cBcA37D60",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.SNX-0xcBA56Cd8216FCBBF3fA6DF6137F3147cBcA37D60",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.snx-0xcba56cd8216fcbbf3fa6df6137f3147cbca37d60.png",
+      ticker: "SNX",
+    },
+    {
+      address: "0xb2BE52744a804Cc732d606817C2572C5A3B264e7",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.SOCKS-0xb2BE52744a804Cc732d606817C2572C5A3B264e7",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.socks-0xb2be52744a804cc732d606817c2572c5a3b264e7.png",
+      ticker: "SOCKS",
+    },
+    {
+      address: "0xb74Da9FE2F96B9E0a5f4A3cf0b92dd2bEC617124",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 9,
+      identifier: "ARB.SOL-0xb74Da9FE2F96B9E0a5f4A3cf0b92dd2bEC617124",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.sol-0xb74da9fe2f96b9e0a5f4a3cf0b92dd2bec617124.png",
+      ticker: "SOL",
+    },
+    {
+      address: "0x3E6648C5a70A150A88bCE65F4aD4d506Fe15d2AF",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.SPELL-0x3E6648C5a70A150A88bCE65F4aD4d506Fe15d2AF",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.spell-0x3e6648c5a70a150a88bce65f4ad4d506fe15d2af.png",
+      ticker: "SPELL",
+    },
+    {
+      address: "0xe018C7a3d175Fb0fE15D70Da2c874d3CA16313EC",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.STG-0xe018C7a3d175Fb0fE15D70Da2c874d3CA16313EC",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.stg-0xe018c7a3d175fb0fe15d70da2c874d3ca16313ec.png",
+      ticker: "STG",
+    },
+    {
+      address: "0xE6320ebF209971b4F4696F7f0954b8457Aa2FCC2",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 8,
+      identifier: "ARB.STORJ-0xE6320ebF209971b4F4696F7f0954b8457Aa2FCC2",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.storj-0xe6320ebf209971b4f4696f7f0954b8457aa2fcc2.png",
+      ticker: "STORJ",
+    },
+    {
+      address: "0x7f9cf5a2630a0d58567122217dF7609c26498956",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.SUPER-0x7f9cf5a2630a0d58567122217dF7609c26498956",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.super-0x7f9cf5a2630a0d58567122217df7609c26498956.png",
+      ticker: "SUPER",
+    },
+    {
+      address: "0xA970AF1a584579B618be4d69aD6F73459D112F95",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.sUSD-0xA970AF1a584579B618be4d69aD6F73459D112F95",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.susd-0xa970af1a584579b618be4d69ad6f73459d112f95.png",
+      ticker: "sUSD",
+    },
+    {
+      address: "0xd4d42F0b6DEF4CE0383636770eF773390d85c61A",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.SUSHI-0xd4d42F0b6DEF4CE0383636770eF773390d85c61A",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.sushi-0xd4d42f0b6def4ce0383636770ef773390d85c61a.png",
+      ticker: "SUSHI",
+    },
+    {
+      address: "0x1bCfc0B4eE1471674cd6A9F6B363A034375eAD84",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.SYN-0x1bCfc0B4eE1471674cd6A9F6B363A034375eAD84",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.syn-0x1bcfc0b4ee1471674cd6a9f6b363a034375ead84.png",
+      ticker: "SYN",
+    },
+    {
+      address: "0x0945Cae3ae47cb384b2d47BC448Dc6A9dEC21F55",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.T-0x0945Cae3ae47cb384b2d47BC448Dc6A9dEC21F55",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.t-0x0945cae3ae47cb384b2d47bc448dc6a9dec21f55.png",
+      ticker: "T",
+    },
+    {
+      address: "0x7E2a1eDeE171C5B19E6c54D73752396C0A572594",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.tBTC-0x7E2a1eDeE171C5B19E6c54D73752396C0A572594",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.tbtc-0x7e2a1edee171c5b19e6c54d73752396c0a572594.png",
+      ticker: "tBTC",
+    },
+    {
+      address: "0xd58D345Fd9c82262E087d2D0607624B410D88242",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.TRB-0xd58D345Fd9c82262E087d2D0607624B410D88242",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.trb-0xd58d345fd9c82262e087d2d0607624b410d88242.png",
+      ticker: "TRB",
+    },
+    {
+      address: "0xBfAE6fecD8124ba33cbB2180aAb0Fe4c03914A5A",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.TRIBE-0xBfAE6fecD8124ba33cbB2180aAb0Fe4c03914A5A",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.tribe-0xbfae6fecd8124ba33cbb2180aab0fe4c03914a5a.png",
+      ticker: "TRIBE",
+    },
+    {
+      address: "0x5C816d4582c857dcadb1bB1F62Ad6c9DEde4576a",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.TURBO-0x5C816d4582c857dcadb1bB1F62Ad6c9DEde4576a",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.turbo-0x5c816d4582c857dcadb1bb1f62ad6c9dede4576a.png",
+      ticker: "TURBO",
+    },
+    {
+      address: "0xd693Ec944A85eeca4247eC1c3b130DCa9B0C3b22",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.UMA-0xd693Ec944A85eeca4247eC1c3b130DCa9B0C3b22",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.uma-0xd693ec944a85eeca4247ec1c3b130dca9b0c3b22.png",
+      ticker: "UMA",
+    },
+    {
+      address: "0xFa7F8980b0f1E64A2062791cc3b0871572f1F7f0",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.UNI-0xFa7F8980b0f1E64A2062791cc3b0871572f1F7f0",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.uni-0xfa7f8980b0f1e64a2062791cc3b0871572f1f7f0.png",
+      ticker: "UNI",
+    },
+    {
+      address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 6,
+      identifier: "ARB.USDC-0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.usdc-0xaf88d065e77c8cc2239327c5edb3a432268e5831.png",
+      ticker: "USDC",
+    },
+    {
+      address: "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 6,
+      identifier: "ARB.USDC.e-0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.usdc.e-0xff970a61a04b1ca14834a43f5de4533ebddb5cc8.png",
+      ticker: "USDC.e",
+    },
+    {
+      address: "0x78df3a6044Ce3cB1905500345B967788b699dF8f",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.USDP-0x78df3a6044Ce3cB1905500345B967788b699dF8f",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.usdp-0x78df3a6044ce3cb1905500345b967788b699df8f.png",
+      ticker: "USDP",
+    },
+    {
+      address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 6,
+      identifier: "ARB.USDT-0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.usdt-0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9.png",
+      ticker: "USDT",
+    },
+    {
+      address: "0x1c8Ec4DE3c2BFD3050695D89853EC6d78AE650bb",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.WAMPL-0x1c8Ec4DE3c2BFD3050695D89853EC6d78AE650bb",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.wampl-0x1c8ec4de3c2bfd3050695d89853ec6d78ae650bb.png",
+      ticker: "WAMPL",
+    },
+    {
+      address: "0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 8,
+      identifier: "ARB.WBTC-0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.wbtc-0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f.png",
+      ticker: "WBTC",
+    },
+    {
+      address: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.WETH-0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.weth-0x82af49447d8a07e3bd95bd0d56f35241523fbab1.png",
+      ticker: "WETH",
+    },
+    {
+      address: "0xcAFcD85D8ca7Ad1e1C6F82F651fA15E33AEfD07b",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.WOO-0xcAFcD85D8ca7Ad1e1C6F82F651fA15E33AEfD07b",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.woo-0xcafcd85d8ca7ad1e1c6f82f651fa15e33aefd07b.png",
+      ticker: "WOO",
+    },
+    {
+      address: "0x58BbC087e36Db40a84b22c1B93a042294deEAFEd",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.XCN-0x58BbC087e36Db40a84b22c1B93a042294deEAFEd",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.xcn-0x58bbc087e36db40a84b22c1b93a042294deeafed.png",
+      ticker: "XCN",
+    },
+    {
+      address: "0xa05245Ade25cC1063EE50Cf7c083B4524c1C4302",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 6,
+      identifier: "ARB.XSGD-0xa05245Ade25cC1063EE50Cf7c083B4524c1C4302",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.xsgd-0xa05245ade25cc1063ee50cf7c083b4524c1c4302.png",
+      ticker: "XSGD",
+    },
+    {
+      address: "0x82e3A8F066a6989666b031d916c43672085b1582",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.YFI-0x82e3A8F066a6989666b031d916c43672085b1582",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.yfi-0x82e3a8f066a6989666b031d916c43672085b1582.png",
+      ticker: "YFI",
+    },
+    {
+      address: "0x6DdBbcE7858D276678FC2B36123fD60547b88954",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.Zeta-0x6DdBbcE7858D276678FC2B36123fD60547b88954",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.zeta-0x6ddbbce7858d276678fc2b36123fd60547b88954.png",
+      ticker: "Zeta",
+    },
+    {
+      address: "0x6985884C4392D348587B19cb9eAAf157F13271cd",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ZRO-0x6985884C4392D348587B19cb9eAAf157F13271cd",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.zro-0x6985884c4392d348587b19cb9eaaf157f13271cd.png",
+      ticker: "ZRO",
+    },
+    {
+      address: "0xBD591Bd4DdB64b77B5f76Eab8f03d02519235Ae2",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.ZRX-0xBD591Bd4DdB64b77B5f76Eab8f03d02519235Ae2",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.zrx-0xbd591bd4ddb64b77b5f76eab8f03d02519235ae2.png",
+      ticker: "ZRX",
+    },
     {
       address: "0x111111111117dC0aa78b770fA6A738034120C302",
       chain: "ETH",
