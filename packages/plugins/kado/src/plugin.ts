@@ -210,11 +210,39 @@ function plugin({
     return response.data.assets;
   }
 
+  async function getOrderStatus(orderId: string) {
+    try {
+      const response = await RequestClient.get<{
+        success: boolean;
+        message: string;
+        data: {
+          order: {
+            status: string;
+            // Add other relevant fields from the API response
+          };
+        };
+      }>(`https://api.kado.money/v2/public/orders/${orderId}`, {
+        headers: {
+          "X-Widget-Id": kadoApiKey,
+        },
+      });
+
+      if (!response.success) {
+        throw new Error(response.message);
+      }
+
+      return response.data.order;
+    } catch (error) {
+      throw new Error("Failed to get order status");
+    }
+  }
+
   return {
     onRampQuote,
     offRampQuote,
     getBlockchains,
     getAssets,
+    getOrderStatus,
     supportedSwapkitProviders: [],
   };
 }
