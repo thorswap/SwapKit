@@ -1,6 +1,16 @@
 import { type AssetValue, RequestClient, type SwapKitPluginParams } from "@swapkit/helpers";
 import { ChainToKadoChain } from "./helpers";
 
+type KadoQuoteResponse = {
+  transactionType: "buy" | "sell";
+  fiatMethod: "ach" | "debit_card" | "credit_card" | "apple_pay_credit" | "apple_pay_debit" | "wire" | "sepa" | "pix" | "koywe";
+  partner: "fortress";
+  amount: number;
+  asset: string;
+  blockchain: string;
+  currency: "USD" | "CAD" | "GBP" | "EUR" | "MXN" | "COP" | "INR" | "CHF" | "AUD" | "ARS" | "BRL" | "CLP" | "JPY" | "KRW" | "PEN" | "PHP" | "SGD" | "TRY" | "UYU" | "TWD" | "VND" | "CRC" | "SEK" | "PLN" | "DKK" | "NOK" | "NZD";
+};
+
 function plugin({
   getWallet,
   config: { kadoApiKey },
