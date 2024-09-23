@@ -1,5 +1,13 @@
 # @swapkit/toolbox-cosmos
 
+## 1.3.5
+
+### Patch Changes
+
+- Updated dependencies [[`1e793b4`](https://github.com/thorswap/SwapKit/commit/1e793b4f5aad2d2b147ead7c8430abf881baab36), [`48c9de2`](https://github.com/thorswap/SwapKit/commit/48c9de28fe00579f6a909899ed831a870f1d2d14)]:
+  - @swapkit/api@1.7.4
+  - @swapkit/helpers@1.10.2
+
 ## 1.3.4
 
 ### Patch Changes
