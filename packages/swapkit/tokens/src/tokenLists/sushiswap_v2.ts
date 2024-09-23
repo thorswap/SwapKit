@@ -2,14 +2,14 @@ export const list = {
   provider: "SUSHISWAP_V2",
   chainId: "1",
   name: "SUSHISWAP_V2",
-  timestamp: "2024-09-14T08:30:54.016Z",
+  timestamp: "2024-09-23T08:30:49.416Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: [],
-  count: 90,
+  count: 91,
   tokens: [
     {
       address: "0x4Af698B479D0098229DC715655c667Ceb6cd8433",
@@ -412,6 +412,16 @@ export const list = {
       ticker: "KP3R",
     },
     {
+      address: "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.LDO-0X5A98FCBEA516CF06857215779FD812CA3BEF1B32",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.ldo-0x5a98fcbea516cf06857215779fd812ca3bef1b32.png",
+      ticker: "LDO",
+    },
+    {
       address: "0x55332170Cb7d36545B500f66a80291C83d40Bba7",
       chain: "ETH",
       chainId: "1",
@@ -502,16 +512,6 @@ export const list = {
       ticker: "NFD",
     },
     {
-      address: "0x69fa8e7F6bf1ca1fB0de61e1366f7412b827CC51",
-      chain: "ETH",
-      chainId: "1",
-      decimals: 9,
-      identifier: "ETH.NRCH-0X69FA8E7F6BF1CA1FB0DE61E1366F7412B827CC51",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.nrch-0x69fa8e7f6bf1ca1fb0de61e1366f7412b827cc51.png",
-      ticker: "NRCH",
-    },
-    {
       address: "0x967da4048cD07aB37855c090aAF366e4ce1b9F48",
       chain: "ETH",
       chainId: "1",
@@ -520,6 +520,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.ocean-0x967da4048cd07ab37855c090aaf366e4ce1b9f48.png",
       ticker: "OCEAN",
+    },
+    {
+      address: "0x9e20461bc2c4c980f62f1B279D71734207a6A356",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.OMNI-0X9E20461BC2C4C980F62F1B279D71734207A6A356",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.omni-0x9e20461bc2c4c980f62f1b279d71734207a6a356.png",
+      ticker: "OMNI",
     },
     {
       address: "0xC88F47067dB2E25851317A2FDaE73a22c0777c37",

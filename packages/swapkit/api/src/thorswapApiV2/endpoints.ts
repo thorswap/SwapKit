@@ -41,12 +41,12 @@ export async function getSwapQuoteV2<T extends boolean>(searchParams: QuoteReque
   }
 }
 
-export function getTokenListProvidersV2() {
-  return RequestClient.get<TokenListProvidersResponse>(`${getBaseUrl()}/providers`);
+export function getTokenListProvidersV2(isDev = false) {
+  return RequestClient.get<TokenListProvidersResponse>(`${getBaseUrl(isDev)}/providers`);
 }
 
-export function getTokenListV2(provider: ProviderName) {
-  return RequestClient.get<TokensResponseV2>(`${getBaseUrl()}/tokens?provider=${provider}`);
+export function getTokenListV2(provider: ProviderName, isDev = false) {
+  return RequestClient.get<TokensResponseV2>(`${getBaseUrl(isDev)}/tokens?provider=${provider}`);
 }
 
 export async function getPrice(body: PriceRequest, isDev = false) {

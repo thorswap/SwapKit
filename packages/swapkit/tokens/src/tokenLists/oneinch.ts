@@ -1,14 +1,14 @@
 export const list = {
   provider: "ONEINCH",
   name: "ONEINCH",
-  timestamp: "2024-09-14T08:30:45.813Z",
+  timestamp: "2024-09-23T08:30:41.787Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: ["oneinch", "1inch", "1inch.exchange", "1inch.exchange v1"],
-  count: 1398,
+  count: 1399,
   tokens: [
     {
       address: "0xba5ddd1f9d7f570dc94a51479a000e3bce967196",
@@ -5934,16 +5934,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.jgn-0x73374ea518de7addd4c2b624c0e8b113955ee041.png",
       ticker: "JGN",
-    },
-    {
-      address: "0xe80c0cd204d654cebe8dd64a4857cab6be8345a3",
-      chain: "ETH",
-      chainId: "1",
-      decimals: 18,
-      identifier: "ETH.JPEG-0xe80c0cd204d654cebe8dd64a4857cab6be8345a3",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.jpeg-0xe80c0cd204d654cebe8dd64a4857cab6be8345a3.png",
-      ticker: "JPEG",
     },
     {
       address: "0x4b1e80cac91e2216eeb63e29b957eb91ae9c2be8",
@@ -12115,6 +12105,16 @@ export const list = {
       ticker: "SKL",
     },
     {
+      address: "0x56072c95faa701256059aa122697b133aded9279",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.SKY-0x56072c95faa701256059aa122697b133aded9279",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.sky-0x56072c95faa701256059aa122697b133aded9279.png",
+      ticker: "SKY",
+    },
+    {
       address: "0xcc8fa225d80b9c7d42f96e9570156c65d6caaa25",
       chain: "ETH",
       chainId: "1",
@@ -13213,6 +13213,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.usdp-0x8e870d67f660d95d5be530380d0ec0bd388289e1.png",
       ticker: "USDP",
+    },
+    {
+      address: "0xdc035d45d973e3ec169d2276ddab16f1e407384f",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.USDS-0xdc035d45d973e3ec169d2276ddab16f1e407384f",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.usds-0xdc035d45d973e3ec169d2276ddab16f1e407384f.png",
+      ticker: "USDS",
     },
     {
       address: "0xdac17f958d2ee523a2206206994597c13d831ec7",

@@ -2,14 +2,14 @@ export const list = {
   provider: "MAYACHAIN",
   chainId: "mayachain-mainnet-v1",
   name: "MAYACHAIN",
-  timestamp: "2024-09-14T08:30:44.701Z",
+  timestamp: "2024-09-23T08:30:40.683Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: [],
-  count: 53,
+  count: 55,
   tokens: [
     {
       address: "0x912ce59144191c1204e64559fe8253a0e49e6548",
@@ -152,6 +152,16 @@ export const list = {
       identifier: "ETH.ETH",
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.eth.png",
       ticker: "ETH",
+    },
+    {
+      address: "0xaaee1a9723aadb7afa2810263653a34ba2c21c7a",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.MOG-0xaaee1a9723aadb7afa2810263653a34ba2c21c7a",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.mog-0xaaee1a9723aadb7afa2810263653a34ba2c21c7a.png",
+      ticker: "MOG",
     },
     {
       address: "0x6982508145454ce325ddbe47a25d4ec3d2311933",
@@ -406,6 +416,16 @@ export const list = {
       identifier: "MAYA.ETH/ETH",
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.eth.png",
       ticker: "ETH",
+    },
+    {
+      address: "0xaaee1a9723aadb7afa2810263653a34ba2c21c7a",
+      chain: "MAYA",
+      chainId: "mayachain-mainnet-v1",
+      decimals: 8,
+      identifier: "MAYA.ETH/MOG-0xaaee1a9723aadb7afa2810263653a34ba2c21c7a",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.mog-0xaaee1a9723aadb7afa2810263653a34ba2c21c7a.png",
+      ticker: "MOG",
     },
     {
       address: "0x6982508145454ce325ddbe47a25d4ec3d2311933",

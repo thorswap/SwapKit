@@ -2,14 +2,14 @@ export const list = {
   provider: "THORCHAIN",
   chainId: "thorchain-1",
   name: "THORCHAIN",
-  timestamp: "2024-09-14T08:30:54.557Z",
+  timestamp: "2024-09-23T08:30:50.008Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: [],
-  count: 67,
+  count: 66,
   tokens: [
     {
       chain: "AVAX",
@@ -470,16 +470,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.kyl-0x67b6d479c7bb412c54e03dca8e1bc6740ce6b99c.png",
       ticker: "KYL",
-    },
-    {
-      address: "0x2c06ba9e7f0daccbc1f6a33ea67e85bb68fbee3a",
-      chain: "THOR",
-      chainId: "thorchain-1",
-      decimals: 8,
-      identifier: "THOR.ETH/LENDS-0x2c06ba9e7f0daccbc1f6a33ea67e85bb68fbee3a",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.lends-0x2c06ba9e7f0daccbc1f6a33ea67e85bb68fbee3a.png",
-      ticker: "LENDS",
     },
     {
       address: "0x514910771af9ca656af840dff83e8264ecf986ca",
