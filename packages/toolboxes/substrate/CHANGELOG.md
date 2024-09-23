@@ -1,5 +1,12 @@
 # @swapkit/toolbox-substrate
 
+## 1.2.11
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.10.3
+
 ## 1.2.10
 
 ### Patch Changes
