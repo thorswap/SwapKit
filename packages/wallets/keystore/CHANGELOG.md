@@ -1,5 +1,39 @@
 # @swapkit/wallet-keystore
 
+## 1.2.13
+
+### Patch Changes
+
+- Updated dependencies [[`48c9de2`](https://github.com/thorswap/SwapKit/commit/48c9de28fe00579f6a909899ed831a870f1d2d14)]:
+  - @swapkit/helpers@1.10.2
+  - @swapkit/toolbox-cosmos@1.3.5
+  - @swapkit/toolbox-evm@1.4.3
+  - @swapkit/toolbox-radix@1.2.2
+  - @swapkit/toolbox-solana@1.1.3
+  - @swapkit/toolbox-substrate@1.2.10
+  - @swapkit/toolbox-utxo@1.1.15
+
+## 1.2.12
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.3.4
+  - @swapkit/helpers@1.10.1
+
+## 1.2.11
+
+### Patch Changes
+
+- Updated dependencies [[`07d7912`](https://github.com/thorswap/SwapKit/commit/07d791292c5aeff4a42798f2e17b77ad974fcae3)]:
+  - @swapkit/helpers@1.10.1
+  - @swapkit/toolbox-cosmos@1.3.3
+  - @swapkit/toolbox-evm@1.4.2
+  - @swapkit/toolbox-radix@1.2.1
+  - @swapkit/toolbox-solana@1.1.2
+  - @swapkit/toolbox-substrate@1.2.9
+  - @swapkit/toolbox-utxo@1.1.14
+
 ## 1.2.10
 
 ### Patch Changes

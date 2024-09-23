@@ -1,5 +1,30 @@
 # @swapkit/api
 
+## 1.7.4
+
+### Patch Changes
+
+- [#1001](https://github.com/thorswap/SwapKit/pull/1001) [`1e793b4`](https://github.com/thorswap/SwapKit/commit/1e793b4f5aad2d2b147ead7c8430abf881baab36) Thanks [@0xepicode](https://github.com/0xepicode)! - Make thornode endpoints work iwth mayaname
+
+- Updated dependencies [[`48c9de2`](https://github.com/thorswap/SwapKit/commit/48c9de28fe00579f6a909899ed831a870f1d2d14)]:
+  - @swapkit/helpers@1.10.2
+
+## 1.7.3
+
+### Patch Changes
+
+- [#996](https://github.com/thorswap/SwapKit/pull/996) [`7e6fb22`](https://github.com/thorswap/SwapKit/commit/7e6fb22ff3899b6db684f223fefd83febd3d6de5) Thanks [@0xepicode](https://github.com/0xepicode)! - Thorname and Mayaname midgard exdpoints
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.10.1
+
+## 1.7.2
+
+### Patch Changes
+
+- Updated dependencies [[`07d7912`](https://github.com/thorswap/SwapKit/commit/07d791292c5aeff4a42798f2e17b77ad974fcae3)]:
+  - @swapkit/helpers@1.10.1
+
 ## 1.7.1
 
 ### Patch Changes

@@ -1,5 +1,27 @@
 # @swapkit/wallet-evm-extensions
 
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [[`48c9de2`](https://github.com/thorswap/SwapKit/commit/48c9de28fe00579f6a909899ed831a870f1d2d14)]:
+  - @swapkit/helpers@1.10.2
+  - @swapkit/toolbox-evm@1.4.3
+
+## 1.1.4
+
+### Patch Changes
+
+- [#993](https://github.com/thorswap/SwapKit/pull/993) [`9950d31`](https://github.com/thorswap/SwapKit/commit/9950d310cf6213e1e25fc34ba1087a252c53ed79) Thanks [@towanTG](https://github.com/towanTG)! - Adds disconnect to exodus and evm wallets
+
+## 1.1.3
+
+### Patch Changes
+
+- Updated dependencies [[`07d7912`](https://github.com/thorswap/SwapKit/commit/07d791292c5aeff4a42798f2e17b77ad974fcae3)]:
+  - @swapkit/helpers@1.10.1
+  - @swapkit/toolbox-evm@1.4.2
+
 ## 1.1.2
 
 ### Patch Changes

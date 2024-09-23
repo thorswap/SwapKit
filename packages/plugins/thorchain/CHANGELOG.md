@@ -1,5 +1,48 @@
 # @swapkit/plugin-thorchain
 
+## 1.1.34
+
+### Patch Changes
+
+- [#1003](https://github.com/thorswap/SwapKit/pull/1003) [`48c9de2`](https://github.com/thorswap/SwapKit/commit/48c9de28fe00579f6a909899ed831a870f1d2d14) Thanks [@0xepicode](https://github.com/0xepicode)! - Fix registering preferred asset
+
+- Updated dependencies [[`1e793b4`](https://github.com/thorswap/SwapKit/commit/1e793b4f5aad2d2b147ead7c8430abf881baab36), [`48c9de2`](https://github.com/thorswap/SwapKit/commit/48c9de28fe00579f6a909899ed831a870f1d2d14)]:
+  - @swapkit/api@1.7.4
+  - @swapkit/helpers@1.10.2
+  - @swapkit/toolbox-cosmos@1.3.5
+  - @swapkit/toolbox-evm@1.4.3
+  - @swapkit/toolbox-substrate@1.2.10
+  - @swapkit/toolbox-utxo@1.1.15
+
+## 1.1.33
+
+### Patch Changes
+
+- Updated dependencies [[`7e6fb22`](https://github.com/thorswap/SwapKit/commit/7e6fb22ff3899b6db684f223fefd83febd3d6de5)]:
+  - @swapkit/api@1.7.3
+  - @swapkit/toolbox-cosmos@1.3.4
+  - @swapkit/helpers@1.10.1
+
+## 1.1.32
+
+### Patch Changes
+
+- [`faa0604`](https://github.com/thorswap/SwapKit/commit/faa06043a781460fb4b3ae3814dab28e3d1dfdb5) Thanks [@towanTG](https://github.com/towanTG)! - Moves recipient validation to swap method
+
+## 1.1.31
+
+### Patch Changes
+
+- [`96eca3b`](https://github.com/thorswap/SwapKit/commit/96eca3beccd8214a9fdb4f4d8e55a7a8e765f1c4) Thanks [@towanTG](https://github.com/towanTG)! - Fixes an issue with recipient validation
+
+- Updated dependencies [[`07d7912`](https://github.com/thorswap/SwapKit/commit/07d791292c5aeff4a42798f2e17b77ad974fcae3)]:
+  - @swapkit/helpers@1.10.1
+  - @swapkit/api@1.7.2
+  - @swapkit/toolbox-cosmos@1.3.3
+  - @swapkit/toolbox-evm@1.4.2
+  - @swapkit/toolbox-substrate@1.2.9
+  - @swapkit/toolbox-utxo@1.1.14
+
 ## 1.1.30
 
 ### Patch Changes

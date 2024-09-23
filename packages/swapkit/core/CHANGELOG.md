@@ -1,5 +1,45 @@
 # @swapkit/core
 
+## 1.4.3
+
+### Patch Changes
+
+- Updated dependencies [[`1e793b4`](https://github.com/thorswap/SwapKit/commit/1e793b4f5aad2d2b147ead7c8430abf881baab36), [`48c9de2`](https://github.com/thorswap/SwapKit/commit/48c9de28fe00579f6a909899ed831a870f1d2d14)]:
+  - @swapkit/api@1.7.4
+  - @swapkit/helpers@1.10.2
+  - @swapkit/plugin-evm@1.1.17
+  - @swapkit/toolbox-cosmos@1.3.5
+  - @swapkit/toolbox-evm@1.4.3
+  - @swapkit/toolbox-radix@1.2.2
+  - @swapkit/toolbox-solana@1.1.3
+  - @swapkit/toolbox-substrate@1.2.10
+  - @swapkit/toolbox-utxo@1.1.15
+
+## 1.4.2
+
+### Patch Changes
+
+- Updated dependencies [[`7e6fb22`](https://github.com/thorswap/SwapKit/commit/7e6fb22ff3899b6db684f223fefd83febd3d6de5)]:
+  - @swapkit/api@1.7.3
+  - @swapkit/plugin-evm@1.1.16
+  - @swapkit/toolbox-cosmos@1.3.4
+  - @swapkit/helpers@1.10.1
+
+## 1.4.1
+
+### Patch Changes
+
+- Updated dependencies [[`07d7912`](https://github.com/thorswap/SwapKit/commit/07d791292c5aeff4a42798f2e17b77ad974fcae3)]:
+  - @swapkit/helpers@1.10.1
+  - @swapkit/plugin-evm@1.1.15
+  - @swapkit/api@1.7.2
+  - @swapkit/toolbox-cosmos@1.3.3
+  - @swapkit/toolbox-evm@1.4.2
+  - @swapkit/toolbox-radix@1.2.1
+  - @swapkit/toolbox-solana@1.1.2
+  - @swapkit/toolbox-substrate@1.2.9
+  - @swapkit/toolbox-utxo@1.1.14
+
 ## 1.4.0
 
 ### Minor Changes

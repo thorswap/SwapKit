@@ -157,8 +157,16 @@ function connectEVMWallet({
       const getBalance = async (potentialScamFilter = true) =>
         walletMethods.getBalance(address, potentialScamFilter, getProvider(chain));
 
+      const disconnect = () =>
+        web3provider.send("wallet_revokePermissions", [
+          {
+            eth_accounts: {},
+          },
+        ]);
+
       addChain({
         ...walletMethods,
+        disconnect,
         chain,
         address,
         getBalance,
