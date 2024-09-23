@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.10.2
+
+### Patch Changes
+
+- [#1003](https://github.com/thorswap/SwapKit/pull/1003) [`48c9de2`](https://github.com/thorswap/SwapKit/commit/48c9de28fe00579f6a909899ed831a870f1d2d14) Thanks [@0xepicode](https://github.com/0xepicode)! - New error type for missing payout address in preferred asset
+
 ## 1.10.1
 
 ### Patch Changes

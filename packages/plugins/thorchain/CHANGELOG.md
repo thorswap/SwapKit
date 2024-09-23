@@ -1,5 +1,19 @@
 # @swapkit/plugin-thorchain
 
+## 1.1.34
+
+### Patch Changes
+
+- [#1003](https://github.com/thorswap/SwapKit/pull/1003) [`48c9de2`](https://github.com/thorswap/SwapKit/commit/48c9de28fe00579f6a909899ed831a870f1d2d14) Thanks [@0xepicode](https://github.com/0xepicode)! - Fix registering preferred asset
+
+- Updated dependencies [[`1e793b4`](https://github.com/thorswap/SwapKit/commit/1e793b4f5aad2d2b147ead7c8430abf881baab36), [`48c9de2`](https://github.com/thorswap/SwapKit/commit/48c9de28fe00579f6a909899ed831a870f1d2d14)]:
+  - @swapkit/api@1.7.4
+  - @swapkit/helpers@1.10.2
+  - @swapkit/toolbox-cosmos@1.3.5
+  - @swapkit/toolbox-evm@1.4.3
+  - @swapkit/toolbox-substrate@1.2.10
+  - @swapkit/toolbox-utxo@1.1.15
+
 ## 1.1.33
 
 ### Patch Changes

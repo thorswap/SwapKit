@@ -1,5 +1,15 @@
 # @swapkit/wallet-ledger
 
+## 1.3.5
+
+### Patch Changes
+
+- Updated dependencies [[`48c9de2`](https://github.com/thorswap/SwapKit/commit/48c9de28fe00579f6a909899ed831a870f1d2d14)]:
+  - @swapkit/helpers@1.10.2
+  - @swapkit/toolbox-cosmos@1.3.5
+  - @swapkit/toolbox-evm@1.4.3
+  - @swapkit/toolbox-utxo@1.1.15
+
 ## 1.3.4
 
 ### Patch Changes
