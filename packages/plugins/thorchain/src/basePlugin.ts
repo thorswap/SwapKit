@@ -165,6 +165,10 @@ export function basePlugin({
   }) {
     const payout = payoutAddress || getWallet(assetValue.chain as SupportedChain)?.address;
 
+    if (!payout) {
+      throw new SwapKitError("thorchain_preferred_asset_payout_required");
+    }
+
     return depositToProtocol({
       assetValue: AssetValue.from({ chain: pluginChain }),
       memo: getMemoForNamePreferredAssetRegister({
