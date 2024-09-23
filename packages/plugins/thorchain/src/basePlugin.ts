@@ -153,23 +153,23 @@ export function basePlugin({
   }
 
   function registerPreferredAsset({
-    assetValue,
+    preferredAsset,
     payoutAddress,
     name,
     ownerAddress,
   }: {
-    assetValue: AssetValue;
+    preferredAsset: AssetValue;
     payoutAddress?: string;
     name: string;
     ownerAddress: string;
   }) {
-    const payout = payoutAddress || getWallet(assetValue.chain as SupportedChain).address;
+    const payout = payoutAddress || getWallet(preferredAsset.chain as SupportedChain)?.address;
 
     return depositToProtocol({
-      assetValue,
+      assetValue: AssetValue.from({ chain: pluginChain }),
       memo: getMemoForNamePreferredAssetRegister({
-        asset: assetValue.toString(),
-        chain: assetValue.chain,
+        asset: preferredAsset.toString(),
+        chain: preferredAsset.chain,
         name,
         owner: ownerAddress,
         payout,
