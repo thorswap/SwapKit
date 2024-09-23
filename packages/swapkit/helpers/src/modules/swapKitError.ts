@@ -110,6 +110,7 @@ const errorCodes = {
   thorchain_swapin_vault_required: 40101,
   thorchain_swapin_memo_required: 40102,
   thorchain_swapin_token_required: 40103,
+  thorchain_preferred_asset_payout_required: 40104,
   /**
    * SwapKit API
    */
