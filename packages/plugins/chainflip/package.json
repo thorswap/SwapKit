@@ -2,8 +2,8 @@
   "author": "swapkit-oss",
   "dependencies": {
     "@chainflip/sdk": "1.6.0-beta.2",
-    "@polkadot/keyring": "13.1.1",
-    "@polkadot/util": "13.1.1",
+    "@polkadot/keyring": "12.6.2",
+    "@polkadot/util": "12.6.2",
     "@swapkit/api": "workspace:*",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
@@ -26,13 +26,14 @@
   },
   "scripts": {
     "build": "bun run ./build.ts",
+    "build:dts": "tsc --emitDeclarationOnly --outDir dist",
     "clean": "rm -rf dist node_modules *.tsbuildinfo",
-    "lint": "biome check --diagnostic-level=error --write ./src",
+    "lint": "biome check --write ./src",
     "test": "echo 'bun test'",
     "test:coverage": "bun test --coverage",
     "type-check": "tsc --noEmit"
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.2.17"
+  "version": "1.2.11"
 }

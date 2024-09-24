@@ -1,8 +1,8 @@
 {
   "description": "SwapKit Wallet - Polkadot.js",
   "dependencies": {
-    "@polkadot/util": "13.1.1",
-    "@polkadot/util-crypto": "13.1.1",
+    "@polkadot/util": "12.6.2",
+    "@polkadot/util-crypto": "12.6.2",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*"
   },
