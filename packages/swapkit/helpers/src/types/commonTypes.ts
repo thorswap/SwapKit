@@ -45,9 +45,17 @@ export type ConnectConfig = {
     };
   };
   /**
+   * @deprecated use chainflipBrokerConfig
    * @optional for setting the chainflip broker url
    */
   chainflipBrokerUrl?: string;
+  /**
+   * @optional for setting the chainflip broker url
+   */
+  chainflipBrokerConfig?: {
+    useChainflipSDKBroker?: boolean;
+    chainflipBrokerUrl: string;
+  };
   /**
    * @optional for setting the radix wallet
    */

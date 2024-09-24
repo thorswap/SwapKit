@@ -1,4 +1,4 @@
-import { Chains } from "@chainflip/sdk/swap";
+import { Assets, Chains } from "@chainflip/sdk/swap";
 import { AssetValue, SwapKitError, SwapKitNumber, wrapWithThrow } from "@swapkit/helpers";
 import { Chain } from "@swapkit/helpers";
 import type { ETHToolbox } from "@swapkit/toolbox-evm";
@@ -14,11 +14,23 @@ import type {
   WithdrawFeeResponse,
 } from "./types";
 
-const chainToChainflipChain = new Map<Chain, keyof typeof Chains>([
+export const chainToChainflipChain = new Map<Chain, keyof typeof Chains>([
   [Chain.Arbitrum, Chains.Arbitrum],
   [Chain.Bitcoin, Chains.Bitcoin],
   [Chain.Ethereum, Chains.Ethereum],
   [Chain.Polkadot, Chains.Polkadot],
+  [Chain.Solana, Chains.Solana],
+  [Chain.Polkadot, Chains.Polkadot],
+]);
+
+export const assetTickerToChainflipAsset = new Map<string, keyof typeof Assets>([
+  ["FLIP", Assets.FLIP],
+  ["BTC", Assets.BTC],
+  ["ETH", Assets.ETH],
+  ["USDC", Assets.USDC],
+  ["USDT", Assets.USDT],
+  ["DOT", Assets.DOT],
+  ["SOL", Assets.SOL],
 ]);
 
 const registerAsBroker =

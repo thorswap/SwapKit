@@ -1,3 +1,4 @@
+import { type DepositAddressRequest, SwapSDK } from "@chainflip/sdk/swap";
 import {
   AssetValue,
   type EVMWallets,
@@ -8,24 +9,64 @@ import {
   type UTXOWallets,
 } from "@swapkit/helpers";
 
+import { assetTickerToChainflipAsset, chainToChainflipChain } from "./broker";
 import type { RequestSwapDepositAddressParams } from "./types";
 
 type SupportedChain = keyof (EVMWallets & SubstrateWallets & UTXOWallets);
 
-export async function confirmSwap({
+export async function getDepositAddress({
   buyAsset,
   sellAsset,
   recipient,
   brokerEndpoint,
   maxBoostFeeBps,
+  brokerCommissionBPS,
+  ccmParams,
+  chainflipSDKBroker,
 }: {
   buyAsset: AssetValue;
   sellAsset: AssetValue;
   recipient: string;
   brokerEndpoint: string;
   maxBoostFeeBps: number;
+  brokerCommissionBPS?: number;
+  ccmParams?: DepositAddressRequest["ccmParams"];
+  chainflipSDKBroker?: boolean;
 }) {
   try {
+    if (chainflipSDKBroker) {
+      const chainflipSDK = new SwapSDK({
+        broker: { url: brokerEndpoint, commissionBps: brokerCommissionBPS || 0 },
+        network: "mainnet",
+      });
+
+      const srcAsset = assetTickerToChainflipAsset.get(sellAsset.ticker);
+      const srcChain = chainToChainflipChain.get(sellAsset.chain);
+      const destAsset = assetTickerToChainflipAsset.get(buyAsset.chain);
+      const destChain = chainToChainflipChain.get(buyAsset.chain);
+
+      if (!(srcAsset && srcChain && destAsset && destChain)) {
+        throw new SwapKitError("chainflip_unknown_asset", { sellAsset, buyAsset });
+      }
+
+      const resp = await chainflipSDK.requestDepositAddress({
+        destAddress: recipient,
+        srcAsset,
+        srcChain,
+        destAsset,
+        destChain,
+        amount: sellAsset.getBaseValue("string"),
+        brokerCommissionBps: brokerCommissionBPS || 0,
+        ccmParams,
+      });
+
+      return {
+        channelId: resp.depositChannelId,
+        depositAddress: resp.depositAddress,
+        chain: buyAsset.chain,
+      };
+    }
+
     const response = await fetch(brokerEndpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -37,6 +78,10 @@ export async function confirmSwap({
       }),
     }).then((res) => res.json());
 
+    if (chainflipSDKBroker && "error" in response.data) {
+      throw new Error(`RPC error [${response.data.error.code}]: ${response.data.error.message}`);
+    }
+
     return response as { channelId: string; depositAddress: string; chain: string };
   } catch (error) {
     throw new SwapKitError("chainflip_channel_error", error);
@@ -45,8 +90,8 @@ export async function confirmSwap({
 
 function plugin({
   getWallet,
-  config: { chainflipBrokerUrl },
-}: SwapKitPluginParams<{ chainflipBrokerUrl: string }>) {
+  config: { chainflipBrokerUrl, useChainflipSDKBroker },
+}: SwapKitPluginParams<{ chainflipBrokerUrl: string; useChainflipSDKBroker: boolean }>) {
   async function swap(swapParams: RequestSwapDepositAddressParams) {
     if (!(swapParams?.route?.buyAsset && chainflipBrokerUrl)) {
       throw new SwapKitError("core_swap_invalid_params", { ...swapParams, chainflipBrokerUrl });
@@ -76,12 +121,13 @@ function plugin({
     const buyAsset = await AssetValue.from({ asyncTokenLookup: true, asset: buyString });
     const assetValue = sellAsset.set(sellAmount);
 
-    const { depositAddress } = await confirmSwap({
+    const { depositAddress } = await getDepositAddress({
       brokerEndpoint: chainflipBrokerUrl,
       buyAsset,
       recipient,
       sellAsset,
       maxBoostFeeBps,
+      chainflipSDKBroker: useChainflipSDKBroker,
     });
 
     const tx = await wallet.transfer({
@@ -95,6 +141,7 @@ function plugin({
 
   return {
     swap,
+    getDepositAddress,
     supportedSwapkitProviders: [ProviderName.CHAINFLIP],
   };
 }
