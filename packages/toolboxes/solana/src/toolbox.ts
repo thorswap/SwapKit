@@ -1,13 +1,12 @@
 import { mnemonicToSeedSync } from "@scure/bip39";
 import {
-  AccountLayout,
   TOKEN_PROGRAM_ID,
   createAssociatedTokenAccountInstruction,
   createTransferCheckedInstruction,
   getAccount,
   getAssociatedTokenAddress,
-  getMint,
 } from "@solana/spl-token";
+import { type TokenInfo, TokenListProvider } from "@solana/spl-token-registry";
 import {
   Connection,
   Keypair,
@@ -60,22 +59,32 @@ async function getTokenBalances({
   connection: Connection;
   address: string;
 }) {
-  const tokenAccounts = await connection.getTokenAccountsByOwner(new PublicKey(address), {
+  const tokenAccounts = await connection.getParsedTokenAccountsByOwner(new PublicKey(address), {
     programId: TOKEN_PROGRAM_ID,
   });
+  const tokenListProvider = new TokenListProvider();
+  const tokenListContainer = await tokenListProvider.resolve();
+  const tokenList = tokenListContainer.filterByChainId(101).getList();
 
   const tokenBalances: AssetValue[] = [];
 
-  for await (const ta of tokenAccounts.value) {
-    const accData = AccountLayout.decode(ta.account.data);
-    const { decimals: decimal, address } = await getMint(connection, accData.mint);
+  for await (const tokenAccountInfo of tokenAccounts.value) {
+    const accountInfo = tokenAccountInfo.account.data.parsed.info;
+    const tokenAmount = accountInfo.tokenAmount.uiAmount;
+    const mintAddress = accountInfo.mint;
+    const decimal = accountInfo.tokenAmount.decimals;
 
-    if (accData.amount > BigInt(0)) {
+    // Find the token info from the token list
+    const tokenInfo = tokenList.find((token: TokenInfo) => token.address === mintAddress);
+
+    const tokenSymbol = tokenInfo ? tokenInfo.symbol : "UNKNOWN";
+
+    if (tokenAmount > BigInt(0)) {
       tokenBalances.push(
         new AssetValue({
-          value: SwapKitNumber.fromBigInt(accData.amount, decimal),
+          value: SwapKitNumber.fromBigInt(accountInfo.tokenAmount.amount, decimal),
           decimal,
-          identifier: `${Chain.Solana}.TOKEN-${address.toString()}`,
+          identifier: `${Chain.Solana}.${tokenSymbol}-${address.toString()}`,
         }),
       );
     }
