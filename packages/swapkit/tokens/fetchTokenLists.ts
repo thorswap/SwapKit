@@ -32,7 +32,7 @@ const thorchainChainId = ChainId.THORChain;
 
 for (const { provider } of providers) {
   try {
-    const tokenList = await SwapKitApi.getTokenListV2(provider);
+    const tokenList = await SwapKitApi.getTokenListV2(provider, true);
     if (!tokenList) continue;
 
     console.info(`✅ ${provider} token list fetched (${tokenList.tokens.length} tokens)`);

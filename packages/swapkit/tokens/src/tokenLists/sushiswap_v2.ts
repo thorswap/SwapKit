@@ -2,14 +2,14 @@ export const list = {
   provider: "SUSHISWAP_V2",
   chainId: "1",
   name: "SUSHISWAP_V2",
-  timestamp: "2024-09-23T08:30:49.416Z",
+  timestamp: "2024-09-25T15:31:07.915Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: [],
-  count: 91,
+  count: 92,
   tokens: [
     {
       address: "0x4Af698B479D0098229DC715655c667Ceb6cd8433",
@@ -100,6 +100,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.bdi-0x0309c98b1bffa350bcb3f9fb9780970ca32a5060.png",
       ticker: "BDI",
+    },
+    {
+      address: "0xF17e65822b568B3903685a7c9F496CF7656Cc6C2",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.BICO-0XF17E65822B568B3903685A7C9F496CF7656CC6C2",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.bico-0xf17e65822b568b3903685a7c9f496cf7656cc6c2.png",
+      ticker: "BICO",
     },
     {
       address: "0x1A4b46696b2bB4794Eb3D4c26f1c55F9170fa4C5",

@@ -157,6 +157,7 @@ function encodeAddress(
   if (encoding === "hex") {
     return u8aToHex(address);
   }
+
   return encodePolkadotAddress(address, networkPrefix);
 }
 

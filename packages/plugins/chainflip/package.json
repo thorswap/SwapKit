@@ -1,7 +1,7 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@chainflip/sdk": "1.6.1",
+    "@chainflip/sdk": "1.6.2",
     "@polkadot/keyring": "12.6.2",
     "@polkadot/util": "12.6.2",
     "@swapkit/api": "workspace:*",
@@ -9,6 +9,9 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bs58": "4.0.4"
   },
   "description": "SwapKit Plugin - ChainFlip",
   "files": [

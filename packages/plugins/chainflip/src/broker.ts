@@ -3,6 +3,7 @@ import { AssetValue, SwapKitError, SwapKitNumber, wrapWithThrow } from "@swapkit
 import { Chain } from "@swapkit/helpers";
 import type { ETHToolbox } from "@swapkit/toolbox-evm";
 import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
+import * as bs58 from "bs58";
 
 import { decodeAddress } from "@polkadot/keyring";
 import { isHex, u8aToHex } from "@polkadot/util";
@@ -117,7 +118,12 @@ const requestSwapDepositAddress =
 
         const {
           event: {
-            data: { depositAddress, sourceChainExpiryBlock, destinationAddress, channelId },
+            data: {
+              depositAddress: depositAddressRaw,
+              sourceChainExpiryBlock,
+              destinationAddress,
+              channelId,
+            },
           },
         } = depositChannelEvent.toHuman() as any;
 
@@ -127,10 +133,21 @@ const requestSwapDepositAddress =
           sellAssetValue.chain,
         )}-${channelId.replaceAll(",", "")}`;
 
+        const depositAddress =
+          sellAssetValue.chain === Chain.Solana
+            ? bs58.encode(toolbox.decodeAddress(Object.values(depositAddressRaw)[0] as string))
+            : (Object.values(depositAddressRaw)[0] as string);
+        // TODO add this if DOT is broken
+        // : sellAssetValue.chain === Chain.Polkadot
+        //   ? toolbox.encodeAddress(
+        //       toolbox.decodeAddress(Object.values(depositAddressRaw)[0] as string),
+        //       "hex",
+        //     )
+
         resolve({
           brokerCommissionBPS,
           buyAsset: buyAssetValue,
-          depositAddress: Object.values(depositAddress)[0] as string,
+          depositAddress,
           depositChannelId,
           recipient: Object.values(destinationAddress)[0] as string,
           sellAsset: sellAssetValue,

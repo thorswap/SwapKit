@@ -1,14 +1,14 @@
 export const list = {
   provider: "ONEINCH",
   name: "ONEINCH",
-  timestamp: "2024-09-23T08:30:41.787Z",
+  timestamp: "2024-09-25T15:30:55.998Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: ["oneinch", "1inch", "1inch.exchange", "1inch.exchange v1"],
-  count: 1399,
+  count: 1398,
   tokens: [
     {
       address: "0xba5ddd1f9d7f570dc94a51479a000e3bce967196",
@@ -207,16 +207,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.gmx-0xfc5a1a6eb076a2c7ad06ed22c90d7e710e35ad0a.png",
       ticker: "GMX",
-    },
-    {
-      address: "0xa0b862f60edef4452f25b4160f177db44deb6cf1",
-      chain: "ARB",
-      chainId: "42161",
-      decimals: 18,
-      identifier: "ARB.GNO-0xa0b862f60edef4452f25b4160f177db44deb6cf1",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.gno-0xa0b862f60edef4452f25b4160f177db44deb6cf1.png",
-      ticker: "GNO",
     },
     {
       address: "0x9623063377ad1b27544c965ccd7342f7ea7e88c7",
