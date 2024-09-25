@@ -1,6 +1,6 @@
 "use client";
 import type { AssetValue, QuoteResponseRoute, SwapKit } from "@swapkit/sdk";
-import { FeeOption, ProviderName, SwapKitApi, SwapKitNumber } from "@swapkit/sdk";
+import { ProviderName, SwapKitApi, SwapKitNumber } from "@swapkit/sdk";
 import { useCallback, useState } from "react";
 
 type Props = {
@@ -14,7 +14,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
   const [loading, setLoading] = useState(false);
   const [inputAssetValue, setInput] = useState<AssetValue | undefined>();
   const [routes, setRoutes] = useState<QuoteResponseRoute[]>([]);
-  const [feeBestRoute, setFeeBestRoute] = useState<AssetValue | undefined>();
+  //   const [feeBestRoute, setFeeBestRoute] = useState<AssetValue | undefined>();
   const [useChainflipBoost, setUseChainflipBoost] = useState(true);
 
   const setAmount = useCallback(
@@ -48,22 +48,11 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
           destinationAddress,
           slippage: 3,
           affiliate: "t",
-          affiliateFee: 10,
+          affiliateFee: 0,
           includeTx: true,
         },
         true,
       );
-
-      const fee = await skClient.estimateTransactionFee({
-        type: "swap",
-        params: {
-          assetValue: inputAssetValue,
-          route: routes[0] as QuoteResponseRoute,
-        },
-        feeOptionKey: FeeOption.Fast,
-      });
-
-      setFeeBestRoute(fee);
 
       setRoutes(routes || []);
     } finally {
@@ -146,7 +135,7 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
                     .toFixed(4)}
                   )
                 </button>
-                {feeBestRoute && <div>{feeBestRoute.toString()}</div>}
+                {/* {feeBestRoute && <div>{feeBestRoute.toString()}</div>} */}
               </div>
             ))}
           </div>

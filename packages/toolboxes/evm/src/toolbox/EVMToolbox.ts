@@ -295,7 +295,7 @@ export const estimateGasPrices = async (provider: Provider, isEIP1559Compatible 
     const { maxFeePerGas, maxPriorityFeePerGas, gasPrice } = await provider.getFeeData();
 
     if (isEIP1559Compatible) {
-      if (!(maxFeePerGas && maxPriorityFeePerGas))
+      if (maxFeePerGas === null || maxPriorityFeePerGas === null)
         throw new SwapKitError("toolbox_evm_no_fee_data");
 
       return {
