@@ -1,5 +1,13 @@
 # @swapkit/core
 
+## 1.4.6
+
+### Patch Changes
+
+- Updated dependencies [[`3148573`](https://github.com/thorswap/SwapKit/commit/3148573c09d120c350c34444aed1e6b1a8fe16ad)]:
+  - @swapkit/toolbox-solana@1.1.6
+  - @swapkit/helpers@1.11.0
+
 ## 1.4.5
 
 ### Patch Changes
