@@ -3,7 +3,7 @@ import { AssetValue, SwapKitError, SwapKitNumber, wrapWithThrow } from "@swapkit
 import { Chain } from "@swapkit/helpers";
 import type { ETHToolbox } from "@swapkit/toolbox-evm";
 import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
-import base58check from "bs58check";
+import bs58 from "bs58";
 
 import { decodeAddress } from "@polkadot/keyring";
 import { isHex, u8aToHex } from "@polkadot/util";
@@ -46,6 +46,20 @@ export const assetIdentifierToChainflipTicker = new Map<string, string>([
   ["SOL.SOL", "Sol"],
   ["SOL.USDC-EPJFWDD5AUFQSSQEM2QN1XZYBAPC8G4WEGGKZWYTDT1V", "SolUsdc"],
 ]);
+
+const decodeChainflipAddress =
+  (toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>) => (address: string, chain: Chain) => {
+    switch (chain) {
+      case Chain.Solana:
+        return bs58.encode(new Uint8Array(Buffer.from(address.replace("0x", ""), "hex")));
+      // TODO add this if DOT is broken
+      //   case Chain.Polkadot:
+      //     return toolbox.encodeAddress(toolbox.decodeAddress(address), "hex");
+
+      default:
+        return address;
+    }
+  };
 
 const registerAsBroker =
   (toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>) => (address: string) => {
@@ -133,18 +147,10 @@ const requestSwapDepositAddress =
           sellAssetValue.chain,
         )}-${channelId.replaceAll(",", "")}`;
 
-        const depositAddress =
-          sellAssetValue.chain === Chain.Solana
-            ? base58check.encode(
-                new Uint8Array(Buffer.from(Object.values(depositAddressRaw)[0] as string)),
-              )
-            : (Object.values(depositAddressRaw)[0] as string);
-        // TODO add this if DOT is broken
-        // : sellAssetValue.chain === Chain.Polkadot
-        //   ? toolbox.encodeAddress(
-        //       toolbox.decodeAddress(Object.values(depositAddressRaw)[0] as string),
-        //       "hex",
-        //     )
+        const depositAddress = decodeChainflipAddress(toolbox)(
+          Object.values(depositAddressRaw)[0] as string,
+          sellAssetValue.chain,
+        );
 
         resolve({
           brokerCommissionBPS,
@@ -250,4 +256,5 @@ export const ChainflipBroker = (
   requestSwapDepositAddress: requestSwapDepositAddress(chainflipToolbox),
   fundStateChainAccount: fundStateChainAccount(chainflipToolbox),
   withdrawFee: withdrawFee(chainflipToolbox),
+  decodeChainflipAddress: decodeChainflipAddress(chainflipToolbox),
 });

@@ -9,7 +9,10 @@
     "@swapkit/toolbox-evm": "workspace:*",
     "@swapkit/toolbox-substrate": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
-    "bs58check": "4.0.0"
+    "bs58": "6.0.0"
+  },
+  "devDependencies": {
+    "@types/bs58": "4.0.4"
   },
   "description": "SwapKit Plugin - ChainFlip",
   "files": [

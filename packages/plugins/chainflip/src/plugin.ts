@@ -9,6 +9,7 @@ import {
   type UTXOWallets,
 } from "@swapkit/helpers";
 
+import base58 from "bs58";
 import { assetTickerToChainflipAsset, chainToChainflipChain } from "./broker";
 import type { RequestSwapDepositAddressParams } from "./types";
 
@@ -62,7 +63,10 @@ export async function getDepositAddress({
 
       return {
         channelId: resp.depositChannelId,
-        depositAddress: resp.depositAddress,
+        depositAddress:
+          srcChain === "Solana"
+            ? base58.encode(Buffer.from(resp.depositAddress, "hex"))
+            : resp.depositAddress,
         chain: buyAsset.chain,
       };
     }
@@ -82,7 +86,11 @@ export async function getDepositAddress({
       throw new Error(`RPC error [${response.data.error.code}]: ${response.data.error.message}`);
     }
 
-    return response as { channelId: string; depositAddress: string; chain: string };
+    return { ...response, depositAddress } as {
+      channelId: string;
+      depositAddress: string;
+      chain: string;
+    };
   } catch (error) {
     throw new SwapKitError("chainflip_channel_error", error);
   }
