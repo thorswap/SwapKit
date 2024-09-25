@@ -3,7 +3,7 @@ import { AssetValue, SwapKitError, SwapKitNumber, wrapWithThrow } from "@swapkit
 import { Chain } from "@swapkit/helpers";
 import type { ETHToolbox } from "@swapkit/toolbox-evm";
 import type { ChainflipToolbox } from "@swapkit/toolbox-substrate";
-import * as bs58 from "bs58";
+import base58check from "bs58check";
 
 import { decodeAddress } from "@polkadot/keyring";
 import { isHex, u8aToHex } from "@polkadot/util";
@@ -135,7 +135,9 @@ const requestSwapDepositAddress =
 
         const depositAddress =
           sellAssetValue.chain === Chain.Solana
-            ? bs58.encode(Buffer.from(Object.values(depositAddressRaw)[0] as string))
+            ? base58check.encode(
+                new Uint8Array(Buffer.from(Object.values(depositAddressRaw)[0] as string)),
+              )
             : (Object.values(depositAddressRaw)[0] as string);
         // TODO add this if DOT is broken
         // : sellAssetValue.chain === Chain.Polkadot
