@@ -47,17 +47,14 @@ export const assetIdentifierToChainflipTicker = new Map<string, string>([
   ["SOL.USDC-EPJFWDD5AUFQSSQEM2QN1XZYBAPC8G4WEGGKZWYTDT1V", "SolUsdc"],
 ]);
 
-const decodeChainflipAddress =
-  (toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>) => (address: string, chain: Chain) => {
-    switch (chain) {
-      case Chain.Solana:
-        return bs58.encode(new Uint8Array(Buffer.from(address.replace("0x", ""), "hex")));
-      case Chain.Polkadot:
-        return toolbox.encodeAddress(toolbox.decodeAddress(address));
-      default:
-        return address;
-    }
-  };
+const decodeChainflipAddress = (address: string, chain: Chain) => {
+  switch (chain) {
+    case Chain.Solana:
+      return bs58.encode(new Uint8Array(Buffer.from(address.replace("0x", ""), "hex")));
+    default:
+      return address;
+  }
+};
 
 const registerAsBroker =
   (toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>) => (address: string) => {
@@ -145,7 +142,7 @@ const requestSwapDepositAddress =
           sellAssetValue.chain,
         )}-${channelId.replaceAll(",", "")}`;
 
-        const depositAddress = decodeChainflipAddress(toolbox)(
+        const depositAddress = decodeChainflipAddress(
           Object.values(depositAddressRaw)[0] as string,
           sellAssetValue.chain,
         );
@@ -254,5 +251,5 @@ export const ChainflipBroker = (
   requestSwapDepositAddress: requestSwapDepositAddress(chainflipToolbox),
   fundStateChainAccount: fundStateChainAccount(chainflipToolbox),
   withdrawFee: withdrawFee(chainflipToolbox),
-  decodeChainflipAddress: decodeChainflipAddress(chainflipToolbox),
+  decodeChainflipAddress,
 });
