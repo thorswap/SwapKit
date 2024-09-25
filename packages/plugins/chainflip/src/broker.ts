@@ -52,10 +52,8 @@ const decodeChainflipAddress =
     switch (chain) {
       case Chain.Solana:
         return bs58.encode(new Uint8Array(Buffer.from(address.replace("0x", ""), "hex")));
-      // TODO add this if DOT is broken
-      //   case Chain.Polkadot:
-      //     return toolbox.encodeAddress(toolbox.decodeAddress(address), "hex");
-
+      case Chain.Polkadot:
+        return toolbox.encodeAddress(toolbox.decodeAddress(address));
       default:
         return address;
     }
