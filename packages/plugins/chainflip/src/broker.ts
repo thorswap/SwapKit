@@ -135,7 +135,7 @@ const requestSwapDepositAddress =
 
         const depositAddress =
           sellAssetValue.chain === Chain.Solana
-            ? bs58.encode(toolbox.decodeAddress(Object.values(depositAddressRaw)[0] as string))
+            ? bs58.encode(Buffer.from(Object.values(depositAddressRaw)[0] as string))
             : (Object.values(depositAddressRaw)[0] as string);
         // TODO add this if DOT is broken
         // : sellAssetValue.chain === Chain.Polkadot
