@@ -1,5 +1,14 @@
 # @swapkit/toolbox-substrate
 
+## 1.2.13
+
+### Patch Changes
+
+- [`2e459bf`](https://github.com/thorswap/SwapKit/commit/2e459bf8ecb386c59c614946cba9b1c624c8d4f8) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Solana deposit address decoding and updates tokenlist
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.11.1
+
 ## 1.2.12
 
 ### Patch Changes

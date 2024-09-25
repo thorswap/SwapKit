@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 1.8.1
+
+### Patch Changes
+
+- [`2e459bf`](https://github.com/thorswap/SwapKit/commit/2e459bf8ecb386c59c614946cba9b1c624c8d4f8) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Solana deposit address decoding and updates tokenlist
+
 ## 1.8.0
 
 ### Minor Changes
