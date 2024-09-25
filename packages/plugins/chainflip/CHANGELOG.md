@@ -1,5 +1,11 @@
 # @swapkit/plugin-chainflip
 
+## 1.3.4
+
+### Patch Changes
+
+- [`c7b6f90`](https://github.com/thorswap/SwapKit/commit/c7b6f9054997b990cf69d1fc31427cb865fe37bc) Thanks [@towanTG](https://github.com/towanTG)! - Fix build dependencies
+
 ## 1.3.3
 
 ### Patch Changes
