@@ -26,7 +26,7 @@ import {
 } from "@swapkit/helpers";
 import { HDKey } from "micro-key-producer/slip10.js";
 
-function validateAddress(address: string) {
+export function validateAddress(address: string) {
   try {
     const pubkey = new PublicKey(address);
     return PublicKey.isOnCurve(pubkey.toBuffer());

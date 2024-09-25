@@ -27,6 +27,7 @@ import {
 } from "@swapkit/toolbox-cosmos";
 import { type TransferParams as EVMTransferParams, evmValidateAddress } from "@swapkit/toolbox-evm";
 import { validateAddress as validateRadixAddress } from "@swapkit/toolbox-radix";
+import { validateAddress as solanaValidateAddress } from "@swapkit/toolbox-solana";
 import { substrateValidateAddress } from "@swapkit/toolbox-substrate";
 import { type UTXOTransferParams, utxoValidateAddress } from "@swapkit/toolbox-utxo";
 
@@ -240,6 +241,9 @@ export function SwapKit<
 
       case Chain.Radix:
         return validateRadixAddress(address);
+
+      case Chain.Solana:
+        return solanaValidateAddress(address);
 
       default:
         return false;
