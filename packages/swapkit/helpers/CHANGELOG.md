@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.11.0
+
+### Minor Changes
+
+- [#1006](https://github.com/thorswap/SwapKit/pull/1006) [`2008496`](https://github.com/thorswap/SwapKit/commit/2008496df4d52faa790a84e85b72752aa09eec17) Thanks [@towanTG](https://github.com/towanTG)! - Adds Chainflip SDK like deposit channel endpoint support
+
 ## 1.10.3
 
 ### Patch Changes
