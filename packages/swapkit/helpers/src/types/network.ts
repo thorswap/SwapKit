@@ -20,7 +20,7 @@ export enum RPCUrl {
   Radix = "https://radix-mainnet.rpc.grove.city/v1/326002fc/core",
   THORChain = "https://rpc.thorswap.net",
   THORChainStagenet = "https://stagenet-rpc.ninerealms.com",
-  Solana = "https://mainnet.helius-rpc.com",
+  Solana = "https://solana-rpc.publicnode.com",
 }
 
 export enum ExplorerUrl {
