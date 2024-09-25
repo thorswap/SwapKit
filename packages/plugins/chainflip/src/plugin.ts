@@ -86,7 +86,7 @@ export async function getDepositAddress({
       throw new Error(`RPC error [${response.data.error.code}]: ${response.data.error.message}`);
     }
 
-    return { ...response, depositAddress } as {
+    return response as {
       channelId: string;
       depositAddress: string;
       chain: string;
