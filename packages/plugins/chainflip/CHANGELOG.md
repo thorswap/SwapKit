@@ -1,5 +1,11 @@
 # @swapkit/plugin-chainflip
 
+## 1.3.3
+
+### Patch Changes
+
+- [`87832b0`](https://github.com/thorswap/SwapKit/commit/87832b0539041f398eef0e2a8d959f6bef4ddaeb) Thanks [@towanTG](https://github.com/towanTG)! - Fixes deposit address to buffer
+
 ## 1.3.2
 
 ### Patch Changes
