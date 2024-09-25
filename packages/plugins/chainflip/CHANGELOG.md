@@ -1,5 +1,14 @@
 # @swapkit/plugin-chainflip
 
+## 1.3.1
+
+### Patch Changes
+
+- [#1008](https://github.com/thorswap/SwapKit/pull/1008) [`3148573`](https://github.com/thorswap/SwapKit/commit/3148573c09d120c350c34444aed1e6b1a8fe16ad) Thanks [@towanTG](https://github.com/towanTG)! - Fixes chainflip asset ticker and solana get balance
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.11.0
+
 ## 1.3.0
 
 ### Minor Changes
