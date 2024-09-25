@@ -1,5 +1,18 @@
 # @swapkit/plugin-chainflip
 
+## 1.3.2
+
+### Patch Changes
+
+- [`2e459bf`](https://github.com/thorswap/SwapKit/commit/2e459bf8ecb386c59c614946cba9b1c624c8d4f8) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Solana deposit address decoding and updates tokenlist
+
+- Updated dependencies [[`2e459bf`](https://github.com/thorswap/SwapKit/commit/2e459bf8ecb386c59c614946cba9b1c624c8d4f8)]:
+  - @swapkit/toolbox-substrate@1.2.13
+  - @swapkit/helpers@1.11.1
+  - @swapkit/api@1.8.2
+  - @swapkit/toolbox-evm@1.5.1
+  - @swapkit/toolbox-utxo@1.1.18
+
 ## 1.3.1
 
 ### Patch Changes
