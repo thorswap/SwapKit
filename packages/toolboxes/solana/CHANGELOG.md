@@ -1,5 +1,14 @@
 # @swapkit/toolbox-solana
 
+## 1.1.8
+
+### Patch Changes
+
+- [`87ecb76`](https://github.com/thorswap/SwapKit/commit/87ecb76f7c8975f26f6d45b5804d3ac68098ffcf) Thanks [@towanTG](https://github.com/towanTG)! - Exports sol validate address and implements it in core
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.11.1
+
 ## 1.1.7
 
 ### Patch Changes

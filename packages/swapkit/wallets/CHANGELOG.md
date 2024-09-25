@@ -1,5 +1,14 @@
 # @swapkit/wallets
 
+## 1.2.10
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-keystore@1.2.18
+  - @swapkit/wallet-phantom@1.1.8
+  - @swapkit/wallet-xdefi@1.1.18
+
 ## 1.2.9
 
 ### Patch Changes

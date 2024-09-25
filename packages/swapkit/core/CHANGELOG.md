@@ -1,5 +1,15 @@
 # @swapkit/core
 
+## 1.4.8
+
+### Patch Changes
+
+- [`87ecb76`](https://github.com/thorswap/SwapKit/commit/87ecb76f7c8975f26f6d45b5804d3ac68098ffcf) Thanks [@towanTG](https://github.com/towanTG)! - Exports sol validate address and implements it in core
+
+- Updated dependencies [[`87ecb76`](https://github.com/thorswap/SwapKit/commit/87ecb76f7c8975f26f6d45b5804d3ac68098ffcf)]:
+  - @swapkit/toolbox-solana@1.1.8
+  - @swapkit/helpers@1.11.1
+
 ## 1.4.7
 
 ### Patch Changes
