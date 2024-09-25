@@ -1,5 +1,16 @@
 # @swapkit/plugin-chainflip
 
+## 1.3.5
+
+### Patch Changes
+
+- [`f4dd385`](https://github.com/thorswap/SwapKit/commit/f4dd385be9a5c4697d1f55a14eb217a3415f2032) Thanks [@towanTG](https://github.com/towanTG)! - Adds polkadot address decoding for deposit addresses
+
+- [`b9b6f8c`](https://github.com/thorswap/SwapKit/commit/b9b6f8cfa31d9e6b21ddacd9be7e953d4f82148c) Thanks [@towanTG](https://github.com/towanTG)! - Use bs58 for sol address decoding
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.11.1
+
 ## 1.3.4
 
 ### Patch Changes
