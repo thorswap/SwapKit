@@ -1,5 +1,12 @@
 # @swapkit/sdk
 
+## 1.2.16
+
+### Patch Changes
+
+- Updated dependencies [[`d5f14ce`](https://github.com/thorswap/SwapKit/commit/d5f14ce400e58c2e61c952c0c4e29e405e9f55ea)]:
+  - @swapkit/plugin-chainflip@1.3.7
+
 ## 1.2.15
 
 ### Patch Changes
