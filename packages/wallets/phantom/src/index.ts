@@ -71,8 +71,8 @@ async function getWalletMethods<T extends PhantomSupportedChains>({
         throw new SwapKitError("wallet_phantom_not_found");
       }
 
-      const connection = await provider.connect();
-      const address: string = connection.publicKey.toString();
+      const providerConnection = await provider.connect();
+      const address: string = providerConnection.publicKey.toString();
 
       const toolbox = SOLToolbox({ rpcUrl });
 
@@ -101,7 +101,7 @@ async function getWalletMethods<T extends PhantomSupportedChains>({
           : assetValue.address
             ? await createSolanaTokenTransaction({
                 amount: assetValue.getBaseValue("number"),
-                connection,
+                connection: toolbox.connection,
                 decimals: assetValue.decimal as number,
                 from: fromPubkey,
                 recipient,
@@ -119,9 +119,7 @@ async function getWalletMethods<T extends PhantomSupportedChains>({
 
         const signedTransaction = await provider.signTransaction(transaction);
 
-        const txid = await connection.sendRawTransaction(signedTransaction.serialize());
-
-        await connection.confirmTransaction(txid);
+        const txid = await toolbox.connection.sendRawTransaction(signedTransaction.serialize());
 
         return txid;
       };
