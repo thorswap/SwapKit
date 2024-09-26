@@ -56,6 +56,18 @@ const decodeChainflipAddress = (address: string, chain: Chain) => {
   }
 };
 
+const encodeChainflipAddress =
+  (toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>) => (address: string, chain: Chain) => {
+    switch (chain) {
+      case Chain.Solana:
+        return toolbox.encodeAddress(bs58.decode(address), "hex");
+      case Chain.Polkadot:
+        return toolbox.encodeAddress(toolbox.decodeAddress(address), "hex");
+      default:
+        return address;
+    }
+  };
+
 const registerAsBroker =
   (toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>) => (address: string) => {
     const extrinsic = toolbox.api.tx.swapping?.registerAsBroker?.(address);
@@ -86,13 +98,8 @@ const requestSwapDepositAddress =
       throw new SwapKitError("chainflip_broker_invalid_params");
     }
 
-    const isBuyChainPolkadot =
-      buyAsset?.chain === Chain.Polkadot || buyAssetValue.chain === Chain.Polkadot;
-
     const recipientAddress = wrapWithThrow(() => {
-      return isBuyChainPolkadot
-        ? toolbox.encodeAddress(toolbox.decodeAddress(recipient), "hex")
-        : recipient;
+      return encodeChainflipAddress(toolbox)(recipient, buyAsset?.chain || buyAssetValue.chain);
     }, "chainflip_broker_recipient_error");
 
     return new Promise<SwapDepositResponse>((resolve) => {
