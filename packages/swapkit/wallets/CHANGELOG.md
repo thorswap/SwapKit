@@ -1,5 +1,12 @@
 # @swapkit/wallets
 
+## 1.2.12
+
+### Patch Changes
+
+- Updated dependencies [[`e44f28d`](https://github.com/thorswap/SwapKit/commit/e44f28d9fad401d9cd81afe865be3352917e0310)]:
+  - @swapkit/wallet-phantom@1.1.10
+
 ## 1.2.11
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @swapkit/wallet-phantom
 
+## 1.1.10
+
+### Patch Changes
+
+- [`e44f28d`](https://github.com/thorswap/SwapKit/commit/e44f28d9fad401d9cd81afe865be3352917e0310) Thanks [@towanTG](https://github.com/towanTG)! - Fixes confirm transaction await
+
 ## 1.1.9
 
 ### Patch Changes
