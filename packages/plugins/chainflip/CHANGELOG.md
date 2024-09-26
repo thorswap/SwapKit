@@ -1,5 +1,11 @@
 # @swapkit/plugin-chainflip
 
+## 1.3.7
+
+### Patch Changes
+
+- [`d5f14ce`](https://github.com/thorswap/SwapKit/commit/d5f14ce400e58c2e61c952c0c4e29e405e9f55ea) Thanks [@towanTG](https://github.com/towanTG)! - Formats recipient address for chainflip deposit channel
+
 ## 1.3.6
 
 ### Patch Changes
