@@ -20,7 +20,7 @@ interface ConnectOpts {
   onlyIfTrusted: boolean;
 }
 
-export { SOLToolbox, validateAddress } from "./toolbox";
+export { SOLToolbox, validateAddress, createSolanaTokenTransaction } from "./toolbox";
 
 export type SolanaWallets = {
   [Chain.Solana]: ReturnType<typeof SOLToolbox>;

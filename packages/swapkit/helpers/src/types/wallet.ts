@@ -16,7 +16,14 @@ declare global {
   }
 }
 
-export type { CosmosWallets, ThorchainWallets, EVMWallets, SubstrateWallets, UTXOWallets };
+export type {
+  CosmosWallets,
+  ThorchainWallets,
+  EVMWallets,
+  SubstrateWallets,
+  UTXOWallets,
+  SolanaWallets,
+};
 
 export enum WalletOption {
   BRAVE = "BRAVE",

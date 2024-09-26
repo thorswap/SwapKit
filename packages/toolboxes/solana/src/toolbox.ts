@@ -29,7 +29,7 @@ import { HDKey } from "micro-key-producer/slip10.js";
 export function validateAddress(address: string) {
   try {
     const pubkey = new PublicKey(address);
-    return PublicKey.isOnCurve(pubkey.toBuffer());
+    return PublicKey.isOnCurve(pubkey.toBytes());
   } catch (_) {
     return false;
   }
@@ -102,7 +102,7 @@ function getBalance(connection: Connection) {
   };
 }
 
-async function createSolanaTokenTransaction({
+export async function createSolanaTokenTransaction({
   tokenAddress,
   recipient,
   from,
@@ -158,7 +158,7 @@ function transfer(connection: Connection) {
     fromKeypair: Keypair;
   }) => {
     if (!validateAddress(recipient)) {
-      throw new SwapKitError("core_transaction_invalid_sender_address");
+      throw new SwapKitError("core_transaction_invalid_recipient_address");
     }
 
     const transaction = assetValue.isGasAsset
@@ -196,6 +196,7 @@ export const SOLToolbox = ({ rpcUrl = RPCUrl.Solana }: { rpcUrl?: string } = {})
   const connection = new Connection(rpcUrl, "confirmed");
 
   return {
+    connection,
     createKeysForPath,
     getAddressFromKeys,
     getBalance: getBalance(connection),

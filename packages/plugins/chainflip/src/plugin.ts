@@ -3,17 +3,16 @@ import {
   AssetValue,
   type EVMWallets,
   ProviderName,
+  type SolanaWallets,
   type SubstrateWallets,
   SwapKitError,
   type SwapKitPluginParams,
   type UTXOWallets,
 } from "@swapkit/helpers";
-
-import base58 from "bs58";
 import { assetTickerToChainflipAsset, chainToChainflipChain } from "./broker";
 import type { RequestSwapDepositAddressParams } from "./types";
 
-type SupportedChain = keyof (EVMWallets & SubstrateWallets & UTXOWallets);
+type SupportedChain = keyof (EVMWallets & SubstrateWallets & UTXOWallets & SolanaWallets);
 
 export async function getDepositAddress({
   buyAsset,
@@ -63,10 +62,7 @@ export async function getDepositAddress({
 
       return {
         channelId: resp.depositChannelId,
-        depositAddress:
-          srcChain === "Solana"
-            ? base58.encode(Buffer.from(resp.depositAddress, "hex"))
-            : resp.depositAddress,
+        depositAddress: resp.depositAddress,
         chain: buyAsset.chain,
       };
     }
@@ -142,6 +138,7 @@ function plugin({
       assetValue,
       from: wallet.address,
       recipient: depositAddress,
+      isPDA: true,
     });
 
     return tx as string;
