@@ -1,5 +1,14 @@
 # @swapkit/wallet-wc
 
+## 1.3.9
+
+### Patch Changes
+
+- Updated dependencies [[`3fd3165`](https://github.com/thorswap/SwapKit/commit/3fd316566d4e259b5f0465407c6b01d928088ff7)]:
+  - @swapkit/helpers@1.11.2
+  - @swapkit/toolbox-cosmos@1.3.9
+  - @swapkit/toolbox-evm@1.5.2
+
 ## 1.3.8
 
 ### Patch Changes
