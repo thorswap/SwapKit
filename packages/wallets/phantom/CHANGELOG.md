@@ -1,5 +1,17 @@
 # @swapkit/wallet-phantom
 
+## 1.1.9
+
+### Patch Changes
+
+- [`3fd3165`](https://github.com/thorswap/SwapKit/commit/3fd316566d4e259b5f0465407c6b01d928088ff7) Thanks [@towanTG](https://github.com/towanTG)! - Fixes chainflip sol transfer params and phantom transfer
+
+- Updated dependencies [[`3fd3165`](https://github.com/thorswap/SwapKit/commit/3fd316566d4e259b5f0465407c6b01d928088ff7)]:
+  - @swapkit/toolbox-solana@1.1.9
+  - @swapkit/helpers@1.11.2
+  - @swapkit/toolbox-evm@1.5.2
+  - @swapkit/toolbox-utxo@1.1.19
+
 ## 1.1.8
 
 ### Patch Changes

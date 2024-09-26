@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.11.2
+
+### Patch Changes
+
+- [`3fd3165`](https://github.com/thorswap/SwapKit/commit/3fd316566d4e259b5f0465407c6b01d928088ff7) Thanks [@towanTG](https://github.com/towanTG)! - Fixes chainflip sol transfer params and phantom transfer
+
 ## 1.11.1
 
 ### Patch Changes
