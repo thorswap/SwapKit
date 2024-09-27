@@ -94,8 +94,12 @@ export async function getDepositAddress({
 
 function plugin({
   getWallet,
-  config: { chainflipBrokerUrl, useChainflipSDKBroker },
-}: SwapKitPluginParams<{ chainflipBrokerUrl: string; useChainflipSDKBroker: boolean }>) {
+  config: {
+    chainflipBrokerConfig: { chainflipBrokerUrl, useChainflipSDKBroker },
+  },
+}: SwapKitPluginParams<{
+  chainflipBrokerConfig: { chainflipBrokerUrl: string; useChainflipSDKBroker?: boolean };
+}>) {
   async function swap(swapParams: RequestSwapDepositAddressParams) {
     if (!(swapParams?.route?.buyAsset && chainflipBrokerUrl)) {
       throw new SwapKitError("core_swap_invalid_params", { ...swapParams, chainflipBrokerUrl });
