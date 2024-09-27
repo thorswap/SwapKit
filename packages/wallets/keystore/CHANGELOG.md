@@ -1,5 +1,13 @@
 # @swapkit/wallet-keystore
 
+## 1.2.20
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@1.3.10
+  - @swapkit/helpers@1.11.2
+
 ## 1.2.19
 
 ### Patch Changes

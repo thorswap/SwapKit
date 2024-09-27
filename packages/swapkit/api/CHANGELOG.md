@@ -1,5 +1,14 @@
 # @swapkit/api
 
+## 1.8.4
+
+### Patch Changes
+
+- [`1c4facf`](https://github.com/thorswap/SwapKit/commit/1c4facf880251ff3e6496f6c8a21a9379793b31f) Thanks [@towanTG](https://github.com/towanTG)! - Fixes getPrice zod typing
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.11.2
+
 ## 1.8.3
 
 ### Patch Changes
