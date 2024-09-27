@@ -33,7 +33,13 @@ export async function getSwapQuoteV2<T extends boolean>(searchParams: QuoteReque
   }
 
   try {
-    return QuoteResponseSchema.parse(response);
+    const parsedResponse = QuoteResponseSchema.safeParse(response);
+
+    if (!parsedResponse.success) {
+      throw new SwapKitError("api_v2_invalid_response", parsedResponse.error);
+    }
+
+    return parsedResponse.data;
   } catch (error) {
     // throw new SwapKitError("api_v2_invalid_response", error);
     console.warn(error);
@@ -55,7 +61,13 @@ export async function getPrice(body: PriceRequest, isDev = false) {
   });
 
   try {
-    return PriceResponseSchema.parse(response);
+    const parsedResponse = PriceResponseSchema.safeParse(response);
+
+    if (!parsedResponse.success) {
+      throw new SwapKitError("api_v2_invalid_response", parsedResponse.error);
+    }
+
+    return parsedResponse.data;
   } catch (error) {
     throw new SwapKitError("api_v2_invalid_response", error);
   }

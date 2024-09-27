@@ -148,7 +148,8 @@ export const TokenDetailsMetadataSchema = z.object({
   total_volume: z.number(),
   price_change_24h_usd: z.number(),
   price_change_percentage_24h_usd: z.number(),
-  timestamp: z.number(),
+  timestamp: z.string(),
+  sparkline_in_7d: z.array(z.number()),
 });
 
 export const PriceResponseSchema = z.array(
