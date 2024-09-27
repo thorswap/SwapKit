@@ -1,5 +1,11 @@
 # @swapkit/plugin-chainflip
 
+## 1.3.10
+
+### Patch Changes
+
+- [`d946d06`](https://github.com/thorswap/SwapKit/commit/d946d06bba6b867fdb254e91564ca161307c3216) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Chainflip config usage
+
 ## 1.3.9
 
 ### Patch Changes
