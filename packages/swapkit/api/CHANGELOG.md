@@ -1,5 +1,16 @@
 # @swapkit/api
 
+## 1.9.0
+
+### Minor Changes
+
+- [`0c4230b`](https://github.com/thorswap/SwapKit/commit/0c4230b8adbf27a9f165202cd84aeebf5dc6cf15) Thanks [@towanTG](https://github.com/towanTG)! - Adds getTokenTradingPairs to thorswapApiV2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.11.2
+
 ## 1.8.4
 
 ### Patch Changes
