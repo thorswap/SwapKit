@@ -23,7 +23,7 @@ export enum Chain {
   Solana = "SOL",
 }
 
-export type WalletChain = Exclude<Chain, Chain.Chainflip | Chain.Radix>;
+export type WalletChain = Exclude<Chain, Chain.Radix>;
 
 export enum ChainId {
   Arbitrum = "42161",
