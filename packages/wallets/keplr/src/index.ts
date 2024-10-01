@@ -14,6 +14,7 @@ import { chainRegistry } from "./chainRegistry";
 declare global {
   interface Window {
     keplr: Keplr;
+    leap: Keplr;
   }
 }
 
@@ -27,9 +28,13 @@ function connectKeplr({
 }: ConnectWalletParams<{
   transfer: (params: TransferParams) => Promise<string>;
 }>) {
-  return async function connectKeplr(chains: (Chain.Cosmos | Chain.Kujira)[]) {
+  return async function connectKeplr(
+    chains: (Chain.Cosmos | Chain.Kujira)[],
+    extensionKey: "keplr" | "leap" = "keplr",
+  ) {
+    const walletType = extensionKey === "keplr" ? WalletOption.KEPLR : WalletOption.LEAP;
     setRequestClientConfig({ apiKey: thorswapApiKey });
-    const keplrClient = window.keplr;
+    const keplrClient = window[extensionKey];
 
     const toolboxPromises = chains.map(async (chain) => {
       const chainId = ChainToChainId[chain];
@@ -71,7 +76,7 @@ function connectKeplr({
         transfer,
         address,
         balance: [],
-        walletType: WalletOption.KEPLR,
+        walletType,
       });
     });
 

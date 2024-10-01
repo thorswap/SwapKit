@@ -52,6 +52,7 @@ export const availableChainsByWallet = {
   [WalletOption.COINBASE_WEB]: EVMChains,
   [WalletOption.EIP6963]: EVMChains,
   [WalletOption.KEPLR]: [Chain.Cosmos, Chain.Kujira],
+  [WalletOption.LEAP]: [Chain.Cosmos, Chain.Kujira],
   [WalletOption.LEDGER]: AllChainsSupported,
   [WalletOption.METAMASK]: EVMChains,
   [WalletOption.OKX_MOBILE]: EVMChains,
@@ -142,8 +143,9 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           // @ts-ignore
           return skClient.connectTalisman(chains);
         case WalletOption.KEPLR:
+        case WalletOption.LEAP:
           // @ts-ignore
-          return skClient.connectKeplr(chains);
+          return skClient.connectKeplr(chains, option.toLowerCase());
         case WalletOption.KEEPKEY: {
           const derivationPaths = chains.map((chain) => getDerivationPathFor({ chain, index: 0 }));
 
