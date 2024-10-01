@@ -1,5 +1,18 @@
 # @swapkit/plugin-chainflip
 
+## 1.3.11
+
+### Patch Changes
+
+- [#1020](https://github.com/thorswap/SwapKit/pull/1020) [`2634bd6`](https://github.com/thorswap/SwapKit/commit/2634bd644023daff0ad29de9f9f058eaf72ea70d) Thanks [@towanTG](https://github.com/towanTG)! - Adds leap wallet support
+
+- Updated dependencies [[`0342f89`](https://github.com/thorswap/SwapKit/commit/0342f89898f7ab25f3dd152d878cb7e7a3291424), [`2634bd6`](https://github.com/thorswap/SwapKit/commit/2634bd644023daff0ad29de9f9f058eaf72ea70d)]:
+  - @swapkit/helpers@1.12.0
+  - @swapkit/api@1.9.1
+  - @swapkit/toolbox-evm@1.5.3
+  - @swapkit/toolbox-substrate@1.2.15
+  - @swapkit/toolbox-utxo@1.1.20
+
 ## 1.3.10
 
 ### Patch Changes
