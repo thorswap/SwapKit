@@ -69,8 +69,8 @@ const encodeChainflipAddress =
   };
 
 const registerAsBroker =
-  (toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>) => (address: string) => {
-    const extrinsic = toolbox.api.tx.swapping?.registerAsBroker?.(address);
+  (toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>) => () => {
+    const extrinsic = toolbox.api.tx.swapping?.registerAsBroker?.();
 
     if (!extrinsic) {
       throw new SwapKitError("chainflip_broker_register");
