@@ -1,5 +1,11 @@
 # @swapkit/plugin-chainflip
 
+## 1.3.12
+
+### Patch Changes
+
+- [#1022](https://github.com/thorswap/SwapKit/pull/1022) [`d957c41`](https://github.com/thorswap/SwapKit/commit/d957c41f76d76627633c33ea245d3efa21ce3b8b) Thanks [@0xepicode](https://github.com/0xepicode)! - Fixed funding chainflip state account
+
 ## 1.3.11
 
 ### Patch Changes
