@@ -226,12 +226,14 @@ const fundStateChainAccount =
     evmToolbox,
     stateChainAccount,
     assetValue,
+    fromAddress
   }: {
     evmToolbox: ReturnType<typeof ETHToolbox>;
     stateChainAccount: string;
     assetValue: AssetValue;
+    fromAddress: string;
   }) => {
-    if (assetValue.symbol !== "FLIP") {
+    if (assetValue.symbol !== "ETH.FLIP-0x826180541412D574cf1336d22c0C0a287822678A") {
       throw new SwapKitError("chainflip_broker_fund_only_flip_supported");
     }
 
@@ -248,6 +250,7 @@ const fundStateChainAccount =
       contractAddress: "0x6995ab7c4d7f4b03f467cf4c8e920427d9621dbd",
       funcName: "fundStateChainAccount",
       funcParams: [hexAddress, assetValue.getBaseValue("string")],
+      txOverrides: { from: fromAddress },
     });
   };
 
