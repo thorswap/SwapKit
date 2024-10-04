@@ -2,15 +2,16 @@
 
 * [🏡 Getting Started](README.md)
   * [❓ FAQ](readme/faq.md)
+  * [Terms of Service](readme/terms-of-service.md)
 * [⚡ Powered by SwapKit](powered-by-swapkit.md)
 * [💰 Monetization / Earn Fees](monetization-earn-fees.md)
 * [🤝 Partnership](partnership.md)
 
 ## SwapKit SDK
 
-* [1️⃣ Install SwapKit SDK](swapkit-sdk/install-swapkit-sdk.md)
-* [2️⃣ Set up the SDK](swapkit-sdk/set-up-the-sdk.md)
-* [3️⃣ Request Route & Execute Swap](swapkit-sdk/request-route-and-execute-swap.md)
+* [1️⃣ 1️⃣ Install SwapKit SDK](swapkit-sdk/install-swapkit-sdk.md)
+* [2️⃣ 2️⃣ Set up the SDK](swapkit-sdk/set-up-the-sdk.md)
+* [3️⃣ 3️⃣ Request Route & Execute Swap](swapkit-sdk/request-route-and-execute-swap.md)
 * [📦 Packages](swapkit-sdk/packages/README.md)
   * [@swapkit/api](swapkit-sdk/packages/swapkit-api.md)
   * [@swapkit/core](swapkit-sdk/packages/core.md)
