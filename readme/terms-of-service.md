@@ -1,7 +1,5 @@
 # Terms of Service
 
-&#x20;
-
 SwapKit, Inc.
 
 Terms of Service
