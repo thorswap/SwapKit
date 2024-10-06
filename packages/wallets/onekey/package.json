@@ -1,14 +1,17 @@
 {
-  "author": "swapkit-oss",
   "dependencies": {
-    "@passkeys/core": "3.3.4",
-    "@passkeys/react": "2.5.1",
+    "@onekeyfe/hd-core": "1.0.12-alpha.0",
+    "@onekeyfe/hd-web-sdk": "1.0.12-alpha.0",
+    "@solana/web3.js": "1.95.3",
     "@swapkit/helpers": "workspace:*",
+    "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
+    "@swapkit/toolbox-solana": "workspace:*",
+    "@swapkit/toolbox-substrate": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*",
     "sats-connect": "2.8.0"
   },
-  "description": "SwapKit Wallet Exodus",
+  "description": "SwapKit Wallet - Onekey",
   "files": [
     "src/",
     "dist/"
@@ -16,7 +19,7 @@
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
-  "name": "@swapkit/wallet-exodus",
+  "name": "@swapkit/wallet-onekey",
   "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
@@ -32,5 +35,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.2.15"
+  "version": "0.0.0"
 }

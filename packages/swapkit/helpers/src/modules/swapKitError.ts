@@ -89,6 +89,7 @@ const errorCodes = {
   wallet_polkadot_not_found: 20701,
   wallet_radix_not_found: 20801,
   wallet_radix_transaction_failed: 20802,
+  wallet_onekey_no_device_found: 20803,
   /**
    * Chainflip
    */

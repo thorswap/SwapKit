@@ -6,6 +6,7 @@ import { keplrWallet } from "@swapkit/wallet-keplr";
 import { keystoreWallet } from "@swapkit/wallet-keystore";
 import { ledgerWallet } from "@swapkit/wallet-ledger";
 import { okxWallet } from "@swapkit/wallet-okx";
+import { onekeyExtensionWallet } from "@swapkit/wallet-onekey";
 import { phantomWallet } from "@swapkit/wallet-phantom";
 import { polkadotWallet } from "@swapkit/wallet-polkadotjs";
 import { radixWallet } from "@swapkit/wallet-radix";
@@ -23,6 +24,7 @@ export const wallets = {
   ...keystoreWallet,
   ...ledgerWallet,
   ...okxWallet,
+  ...onekeyExtensionWallet,
   ...phantomWallet,
   ...polkadotWallet,
   ...radixWallet,
