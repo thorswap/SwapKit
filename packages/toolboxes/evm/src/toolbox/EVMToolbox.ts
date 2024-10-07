@@ -107,7 +107,7 @@ const call = async <T>(
     abi,
     funcName,
     funcParams = [],
-    txOverrides,
+    txOverrides = {},
     feeOption = FeeOption.Fast,
   }: WithSigner<CallParams>,
 ): Promise<T> => {
@@ -115,6 +115,10 @@ const call = async <T>(
   if (!contractAddress) throw new Error("contractAddress must be provided");
 
   const isStateChanging = isStateChangingCall(abi, funcName);
+  const overridesParams = {
+    ...txOverrides,
+    from: txOverrides?.from || (await signer?.getAddress()),
+  };
 
   if (isStateChanging && isBrowserProvider(contractProvider) && signer) {
     const txObject = await createContractTxObject(contractProvider, {
@@ -122,7 +126,7 @@ const call = async <T>(
       abi,
       funcName,
       funcParams,
-      txOverrides,
+      txOverrides: overridesParams,
     });
 
     return EIP1193SendTransaction(contractProvider, txObject) as Promise<T>;

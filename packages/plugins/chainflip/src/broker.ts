@@ -225,7 +225,6 @@ const fundStateChainAccount =
     evmToolbox,
     stateChainAccount,
     assetValue,
-    fromAddress,
   }: {
     evmToolbox: ReturnType<typeof ETHToolbox>;
     stateChainAccount: string;
@@ -249,7 +248,6 @@ const fundStateChainAccount =
       contractAddress: "0x6995ab7c4d7f4b03f467cf4c8e920427d9621dbd",
       funcName: "fundStateChainAccount",
       funcParams: [hexAddress, assetValue.getBaseValue("string")],
-      txOverrides: { from: fromAddress },
     });
   };
 
