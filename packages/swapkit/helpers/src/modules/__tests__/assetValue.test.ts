@@ -739,6 +739,22 @@ describe("AssetValue", () => {
         }),
       );
     });
+
+    test("keep SOL address casing", () => {
+      const solUsdc = AssetValue.from({
+        asset: "SOL.USDC-EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+      });
+      expect(solUsdc).toEqual(
+        expect.objectContaining({
+          address: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+          chain: Chain.Solana,
+          isGasAsset: false,
+          isSynthetic: false,
+          symbol: "USDC-EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+          ticker: "USDC",
+        }),
+      );
+    });
   });
 });
 
