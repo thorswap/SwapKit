@@ -1,12 +1,24 @@
 import { Bip39, EnglishMnemonic, Slip10, Slip10Curve, stringToPath } from "@cosmjs/crypto";
 import { DirectSecp256k1HdWallet, DirectSecp256k1Wallet } from "@cosmjs/proto-signing";
 import { SwapKitApi } from "@swapkit/api";
-import { AssetValue, Chain, ChainId, ChainIdToChain, type DerivationPath } from "@swapkit/helpers";
+import {
+  AssetValue,
+  Chain,
+  ChainId,
+  ChainIdToChain,
+  type CosmosChain,
+  type DerivationPath,
+} from "@swapkit/helpers";
 
 import { CosmosClient } from "../cosmosClient";
-import type { ToolboxParams } from "../index";
-import type { BaseCosmosToolboxType } from "../thorchainUtils/types/client-types";
-import { USK_KUJIRA_FACTORY_DENOM } from "../util";
+import { type ToolboxParams, bech32ToBase64, getDenomWithChain } from "../index";
+import type { BaseCosmosToolboxType, TransferTxParams } from "../thorchainUtils/types/client-types";
+import {
+  USK_KUJIRA_FACTORY_DENOM,
+  createStargateClient,
+  getDefaultChainFee,
+  getRPC,
+} from "../util";
 
 type Params = {
   client: CosmosClient;
@@ -99,6 +111,49 @@ export const BaseCosmosToolbox = ({
           return getAssetFromDenom(fullDenom, amount);
         }),
     );
+  },
+  buildTransferTx: async ({
+    fromAddress,
+    toAddress,
+    assetValue,
+    memo = "",
+    isStagenet = false,
+  }: TransferTxParams) => {
+    const { chain, chainId } = assetValue;
+
+    const url = getRPC(chainId, isStagenet);
+
+    const client = await createStargateClient(url);
+
+    const accountOnChain = await client.getAccount(fromAddress);
+
+    if (!accountOnChain) {
+      throw new Error("Account does not exist");
+    }
+
+    const base64FromAddress = bech32ToBase64(fromAddress);
+    const base64ToAddress = bech32ToBase64(toAddress);
+
+    const gas = getDefaultChainFee(chain as CosmosChain).gas;
+
+    const msgSend = {
+      fromAddress: base64FromAddress,
+      toAddress: base64ToAddress,
+      amount: [
+        {
+          amount: assetValue.getBaseValue("string"),
+          denom: getDenomWithChain(assetValue),
+        },
+      ],
+    };
+    return {
+      memo,
+      accountNumber: accountOnChain.accountNumber,
+      sequence: accountOnChain.sequence,
+      chainId: ChainId.THORChain,
+      msgs: [{ typeUrl: "/types.MsgSend", value: msgSend }],
+      fee: { amount: [], gas },
+    };
   },
 });
 

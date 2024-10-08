@@ -9,6 +9,7 @@ import {
   AssetValue,
   Chain,
   ChainId,
+  type CosmosChain,
   FeeOption,
   RPCUrl,
   defaultRequestHeaders,
@@ -25,6 +26,17 @@ export const YUM_KUJIRA_FACTORY_DENOM =
 export const DEFAULT_COSMOS_FEE_MAINNET = {
   amount: [{ denom: "uatom", amount: "500" }],
   gas: "200000",
+};
+
+export const getDefaultChainFee = (chain: CosmosChain) => {
+  switch (chain) {
+    case Chain.Maya:
+      return { amount: [], gas: "10000000000" };
+    case Chain.THORChain:
+      return { amount: [], gas: "500000000" };
+    default:
+      return DEFAULT_COSMOS_FEE_MAINNET;
+  }
 };
 
 export const getDenom = (symbol: string, isThorchain = false) => {
@@ -48,6 +60,28 @@ export const getDenom = (symbol: string, isThorchain = false) => {
     default:
       return symbol;
   }
+};
+
+export const getDenomWithChain = ({ symbol, chain }: AssetValue) => {
+  if (chain === Chain.Maya) {
+    return (symbol.toUpperCase() !== "CACAO" ? symbol : `${Chain.Maya}.${symbol}`).toUpperCase();
+  }
+
+  if (chain === Chain.THORChain) {
+    return (
+      symbol.toUpperCase() !== "RUNE" ? symbol : `${Chain.THORChain}.${symbol}`
+    ).toUpperCase();
+  }
+
+  if (chain === Chain.Kujira) {
+    return (symbol.toUpperCase() !== "KUJI" ? symbol : `${Chain.Kujira}.${symbol}`).toUpperCase();
+  }
+
+  if (chain === Chain.Cosmos) {
+    return (symbol.toUpperCase() !== "ATOM" ? symbol : `${Chain.Cosmos}.${symbol}`).toUpperCase();
+  }
+
+  throw new Error("Unsupported chain");
 };
 
 export const createStargateClient = (url: string) => {

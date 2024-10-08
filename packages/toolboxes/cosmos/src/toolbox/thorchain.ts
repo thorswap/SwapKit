@@ -29,7 +29,6 @@ import {
   convertToSignable,
   createDefaultAminoTypes,
   createDefaultRegistry,
-  getDefaultChainFee,
   prepareMessageForBroadcast,
 } from "../thorchainUtils/index";
 import type {
@@ -37,12 +36,15 @@ import type {
   MayaToolboxType,
   ThorchainConstantsResponse,
   ThorchainToolboxType,
+  TransferTransaction,
+  TransferTxParams,
 } from "../thorchainUtils/types/client-types";
 import type { Signer, ToolboxParams, TransferParams } from "../types";
 import {
   createOfflineStargateClient,
   createSigningStargateClient,
   createStargateClient,
+  getDefaultChainFee,
   getRPC,
 } from "../util";
 
@@ -208,6 +210,7 @@ export const BaseThorchainToolbox = ({
     getBalance: (address: string, potentialScamFilter?: boolean) => Promise<AssetValue[]>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
+    buildTransferTx: (params: TransferTxParams) => Promise<TransferTransaction>;
   } = BaseCosmosToolbox({
     client,
     derivationPath,

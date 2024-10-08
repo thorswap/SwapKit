@@ -1,7 +1,7 @@
 import type { TxBodyEncodeObject } from "@cosmjs/proto-signing";
 import { AssetValue, Chain, ChainToChainId, RPCUrl } from "@swapkit/helpers";
 
-import { createStargateClient, getDenom } from "../util";
+import { createStargateClient, getDefaultChainFee, getDenom, getDenomWithChain } from "../util";
 
 import { createDefaultAminoTypes, createDefaultRegistry } from "./registry";
 
@@ -9,15 +9,6 @@ type MsgSend = ReturnType<typeof transferMsgAmino>;
 type MsgDeposit = ReturnType<typeof depositMsgAmino>;
 type MsgSendForBroadcast = ReturnType<typeof prepareMessageForBroadcast>;
 type MsgDepositForBroadcast = ReturnType<typeof prepareMessageForBroadcast>;
-
-export const getDefaultChainFee = (chain: Chain.THORChain | Chain.Maya) => {
-  switch (chain) {
-    case Chain.Maya:
-      return { amount: [], gas: "10000000000" };
-    default:
-      return { amount: [], gas: "500000000" };
-  }
-};
 
 export const THORCHAIN_GAS_VALUE = getDefaultChainFee(Chain.THORChain).gas;
 export const MAYA_GAS_VALUE = getDefaultChainFee(Chain.Maya).gas;
@@ -190,11 +181,4 @@ export const buildEncodedTxBody = ({
   };
 
   return registry.encode(signedTxBody);
-};
-
-export const getDenomWithChain = ({ symbol, chain }: AssetValue) => {
-  if (chain === Chain.Maya) {
-    return (symbol.toUpperCase() !== "CACAO" ? symbol : `${Chain.Maya}.${symbol}`).toUpperCase();
-  }
-  return (symbol.toUpperCase() !== "RUNE" ? symbol : `${Chain.THORChain}.${symbol}`).toUpperCase();
 };
