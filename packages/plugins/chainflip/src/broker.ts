@@ -231,7 +231,11 @@ const fundStateChainAccount =
     assetValue: AssetValue;
     fromAddress: string;
   }) => {
-    if (assetValue.symbol !== "ETH.FLIP-0x826180541412D574cf1336d22c0C0a287822678A") {
+    const flipAssetValue = AssetValue.from({
+      asset: "ETH.FLIP-0x826180541412D574cf1336d22c0C0a287822678A",
+    });
+
+    if (!assetValue.eq(flipAssetValue)) {
       throw new SwapKitError("chainflip_broker_fund_only_flip_supported");
     }
 
