@@ -229,7 +229,6 @@ const fundStateChainAccount =
     evmToolbox: ReturnType<typeof ETHToolbox>;
     stateChainAccount: string;
     assetValue: AssetValue;
-    fromAddress: string;
   }) => {
     const flipAssetValue = AssetValue.from({
       asset: "ETH.FLIP-0x826180541412D574cf1336d22c0C0a287822678A",
