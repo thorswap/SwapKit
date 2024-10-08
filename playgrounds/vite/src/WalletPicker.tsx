@@ -77,6 +77,23 @@ export const availableChainsByWallet = {
     Chain.THORChain,
     Chain.Maya,
   ],
+  [WalletOption.KEEPKEY_BEX]: [
+    Chain.Arbitrum,
+    Chain.Avalanche,
+    Chain.BinanceSmartChain,
+    Chain.Bitcoin,
+    Chain.BitcoinCash,
+    Chain.Base,
+    Chain.Cosmos,
+    Chain.Dash,
+    Chain.Dogecoin,
+    Chain.Ethereum,
+    Chain.Litecoin,
+    Chain.Optimism,
+    Chain.Polygon,
+    Chain.THORChain,
+    Chain.Maya,
+  ],
   [WalletOption.TREZOR]: [
     Chain.Bitcoin,
     Chain.BitcoinCash,
@@ -153,6 +170,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           localStorage.setItem("keepkeyApiKey", "1234");
           return true;
         }
+        case WalletOption.KEEPKEY_BEX:
+          return skClient.connectKEEPKEY_BEX?.(chains);
         case WalletOption.TREZOR:
         case WalletOption.LEDGER: {
           const [chain] = chains;
