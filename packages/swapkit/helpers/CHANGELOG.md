@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.12.1
+
+### Patch Changes
+
+- [#1026](https://github.com/thorswap/SwapKit/pull/1026) [`ce2e5f9`](https://github.com/thorswap/SwapKit/commit/ce2e5f997ec06d8f6553559ffc6781935f59cd41) Thanks [@towanTG](https://github.com/towanTG)! - Keeps Sol address case sensitive
+
 ## 1.12.0
 
 ### Minor Changes

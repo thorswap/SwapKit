@@ -1,5 +1,12 @@
 # @swapkit/toolbox-solana
 
+## 1.1.11
+
+### Patch Changes
+
+- Updated dependencies [[`ce2e5f9`](https://github.com/thorswap/SwapKit/commit/ce2e5f997ec06d8f6553559ffc6781935f59cd41)]:
+  - @swapkit/helpers@1.12.1
+
 ## 1.1.10
 
 ### Patch Changes
