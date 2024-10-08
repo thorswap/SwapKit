@@ -137,9 +137,10 @@ export const BaseCosmosToolbox = ({
 
     const gas = getDefaultChainFee(chain as CosmosChain).gas;
 
-    const denom = (chain === Chain.Maya || chain == Chain.THORChain) ? 
-      getDenomWithChain(assetValue) : 
-      getDenom(assetValue.symbol)
+    const denom =
+      chain === Chain.Maya || chain === Chain.THORChain
+        ? getDenomWithChain(assetValue)
+        : getDenom(assetValue.symbol);
 
     const msgSend = {
       fromAddress: base64FromAddress,
@@ -147,7 +148,7 @@ export const BaseCosmosToolbox = ({
       amount: [
         {
           amount: assetValue.getBaseValue("string"),
-          denom
+          denom,
         },
       ],
     };
