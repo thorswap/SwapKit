@@ -125,7 +125,11 @@ export class AssetValue extends BigIntArithmetics {
       : { identifier: assetOrChain, decimal: undefined };
 
     const { chain, isSynthetic } = getAssetInfo(unsafeIdentifier);
-    const token = staticTokensMap.get(unsafeIdentifier.toUpperCase() as TokenNames);
+    const token = staticTokensMap.get(
+      chain === Chain.Solana
+        ? (unsafeIdentifier as TokenNames)
+        : (unsafeIdentifier.toUpperCase() as TokenNames),
+    );
     const tokenDecimal = token?.decimal || commonAssetDecimal;
 
     warnOnce(
@@ -161,10 +165,13 @@ or by passing asyncTokenLookup: true to the from() function, which will make it 
           import("@swapkit/tokens").then((tokenPackages) => {
             for (const tokenList of Object.values(tokenPackages)) {
               for (const { identifier, chain, ...rest } of tokenList.tokens) {
-                staticTokensMap.set(identifier.toUpperCase() as TokenNames, {
-                  identifier,
-                  decimal: "decimals" in rest ? rest.decimals : BaseDecimal[chain as Chain],
-                });
+                staticTokensMap.set(
+                  chain !== "SOL" ? (identifier.toUpperCase() as TokenNames) : identifier,
+                  {
+                    identifier,
+                    decimal: "decimals" in rest ? rest.decimals : BaseDecimal[chain as Chain],
+                  },
+                );
               }
             }
 
@@ -276,10 +283,16 @@ export function getMinAmountByChain(chain: Chain) {
 async function createAssetValue(identifier: string, value: NumberPrimitives = 0) {
   validateIdentifier(identifier);
 
-  const staticToken = staticTokensMap.get(identifier.toUpperCase() as TokenNames);
+  const isCaseSensitiveChain = identifier.includes("SOL.");
+
+  const modifiedIdentifier = isCaseSensitiveChain
+    ? (identifier as TokenNames)
+    : (identifier.toUpperCase() as TokenNames);
+
+  const staticToken = staticTokensMap.get(modifiedIdentifier);
   const decimal = staticToken?.decimal || (await getDecimal(getAssetInfo(identifier)));
   if (!staticToken) {
-    staticTokensMap.set(identifier.toUpperCase() as TokenNames, { identifier, decimal });
+    staticTokensMap.set(modifiedIdentifier, { identifier, decimal });
   }
 
   return new AssetValue({ decimal, value: safeValue(value, decimal), identifier });
@@ -346,16 +359,18 @@ function getAssetInfo(identifier: string) {
   const ticker = (
     splitSymbol.length === 1 ? splitSymbol[0] : splitSymbol.slice(0, -1).join("-")
   ) as string;
-  const address = splitSymbol.length === 1 ? undefined : splitSymbol[splitSymbol.length - 1];
+  const unformattedAddress =
+    splitSymbol.length === 1 ? undefined : splitSymbol[splitSymbol.length - 1];
+
+  const address = chain === Chain.Solana ? unformattedAddress : unformattedAddress?.toLowerCase();
 
   return {
-    address: address?.toLowerCase(),
+    address,
     chain,
     isGasAsset: isGasAsset({ chain, symbol }),
     isSynthetic,
     ticker,
     symbol:
-      (isSynthetic ? `${synthChain}/` : "") +
-      (address ? `${ticker}-${address?.toLowerCase() ?? ""}` : symbol),
+      (isSynthetic ? `${synthChain}/` : "") + (address ? `${ticker}-${address ?? ""}` : symbol),
   };
 }
