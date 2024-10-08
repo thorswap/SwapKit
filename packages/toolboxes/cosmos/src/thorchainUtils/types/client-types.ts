@@ -1,5 +1,5 @@
 import type { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from "@cosmjs/amino";
-import type { OfflineDirectSigner, Registry } from "@cosmjs/proto-signing";
+import type { EncodeObject, OfflineDirectSigner, Registry } from "@cosmjs/proto-signing";
 import type { AminoTypes, Account as CosmosAccount } from "@cosmjs/stargate";
 import type { Asset, AssetValue, ChainId, SwapKitNumber } from "@swapkit/helpers";
 
@@ -66,6 +66,23 @@ type Fees = {
   fastest: SwapKitNumber;
 };
 
+export type TransferTransaction = {
+  memo: string;
+  accountNumber: number;
+  sequence: number;
+  chainId: ChainId;
+  msgs: EncodeObject[];
+  fee: { amount: []; gas: string };
+};
+
+export type TransferTxParams = {
+  isStagenet?: boolean;
+  fromAddress: string;
+  toAddress: string;
+  assetValue: AssetValue;
+  memo?: string;
+};
+
 export type BaseCosmosToolboxType = {
   getAccount: (address: string) => Promise<CosmosAccount | null>;
   getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
@@ -77,6 +94,7 @@ export type BaseCosmosToolboxType = {
   transfer: (params: TransferParams) => Promise<string>;
   getFeeRateFromThorswap?: (chainId: ChainId, safeDefault: number) => Promise<number>;
   createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
+  buildTransferTx: (params: TransferTxParams) => Promise<TransferTransaction>;
 };
 
 export type ThorchainToolboxType = BaseCosmosToolboxType & {

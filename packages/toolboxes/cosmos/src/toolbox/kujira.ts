@@ -12,6 +12,8 @@ import { CosmosClient } from "../cosmosClient";
 import {
   type KujiraToolboxType,
   type ToolboxParams,
+  type TransferTransaction,
+  type TransferTxParams,
   USK_KUJIRA_FACTORY_DENOM,
   YUM_KUJIRA_FACTORY_DENOM,
 } from "../index";
@@ -46,6 +48,7 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
     getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
     createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
+    buildTransferTx: (params: TransferTxParams) => Promise<TransferTransaction>;
   } = BaseCosmosToolbox({
     decimal: BaseDecimal.KUJI,
     derivationPath: DerivationPath.KUJI,
