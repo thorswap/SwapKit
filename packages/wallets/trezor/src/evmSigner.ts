@@ -122,7 +122,6 @@ export async function getEVMSigner({ chain, derivationPath, provider }: TrezorEV
       const formattedTx = {
         chainId: Number.parseInt(ChainToChainId[this.chain]),
         to: to.toString(),
-        frin: this.address,
         value: toHexString(BigInt(value?.toString() || 0)),
         gasLimit: toHexString(BigInt(gasLimit?.toString() || 0)),
         nonce: (

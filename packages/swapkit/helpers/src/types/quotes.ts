@@ -131,6 +131,7 @@ export enum ProviderName {
   UNISWAP_V2 = "UNISWAP_V2",
   UNISWAP_V3 = "UNISWAP_V3",
   CAVIAR_V1 = "CAVIAR_V1",
+  KADO = "KADO",
 }
 
 export enum FeeTypeEnum {
