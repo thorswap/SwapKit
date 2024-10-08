@@ -113,14 +113,9 @@ async function getWalletMethodsForChain({
     case Chain.Polygon:
     case Chain.Avalanche: {
       const { prepareNetworkSwitch, addEVMWalletNetwork } = await import("@swapkit/helpers");
-      const {
-        getProvider,
-        getToolboxByChain,
-        covalentApi,
-        ethplorerApi,
-        getBalance,
-        BrowserProvider,
-      } = await import("@swapkit/toolbox-evm");
+      const { getToolboxByChain, covalentApi, ethplorerApi, BrowserProvider } = await import(
+        "@swapkit/toolbox-evm"
+      );
       const ethereumWindowProvider = getKEEPKEYProvider(chain);
 
       if (!ethereumWindowProvider) {

@@ -19,7 +19,15 @@ import type {
   EVMTxParams,
   Eip1193Provider,
 } from "@swapkit/toolbox-evm";
-import type { SolanaProvider } from "@swapkit/toolbox-solana";
+
+interface UTXOProvider {
+  request: (
+    args: { method: string; params: any },
+    callback: (err: string, tx: string) => void,
+  ) => void;
+}
+
+type KeepKeyProvider = Keplr | Eip1193Provider | UTXOProvider | undefined;
 
 type TransactionMethod = "transfer" | "deposit";
 
@@ -59,16 +67,12 @@ export const getProviderNameFromChain = (chain: Chain): string => {
 
 export function getKEEPKEYProvider<T extends Chain>(
   chain: T,
-): T extends Chain.Solana
-  ? SolanaProvider
-  : T extends Chain.Cosmos
-    ? Keplr
-    : T extends EVMChain
-      ? Eip1193Provider
-      : undefined {
-  console.log("window: ", window);
-  console.log("window: ", window?.ethereum);
-  if (!window.keepkey) throw new SwapKitError("wallet_KEEPKEY_not_found");
+): T extends Chain.Cosmos
+  ? Keplr
+  : T extends EVMChain
+    ? Eip1193Provider
+    : UTXOProvider | undefined {
+  if (!window.keepkey) throw new SwapKitError("wallet_keepkey_not_found");
 
   switch (chain) {
     case Chain.Ethereum:
@@ -78,42 +82,25 @@ export function getKEEPKEYProvider<T extends Chain>(
     case Chain.Arbitrum:
     case Chain.Optimism:
     case Chain.Polygon:
-      // @ts-expect-error
-      return window.keepkey.ethereum;
-
-    // case Chain.Osmosis:
+      return window.keepkey.ethereum as Eip1193Provider;
     case Chain.Cosmos:
-      // case Chain.Kujira:
-      // @ts-expect-error
-      return window.keepkey.keplr;
-
+      return window.keepkey.cosmos as Eip1193Provider;
     case Chain.Bitcoin:
-      // @ts-expect-error
-      return window.keepkey.bitcoin;
+      return window.keepkey.bitcoin as UTXOProvider;
     case Chain.BitcoinCash:
-      // @ts-expect-error
-      return window.keepkey.bitcoincash;
+      return window.keepkey.bitcoincash as UTXOProvider;
     case Chain.Dogecoin:
-      // @ts-expect-error
-      return window.keepkey.dogecoin;
+      return window.keepkey.dogecoin as UTXOProvider;
     case Chain.Litecoin:
-      // @ts-expect-error
-      return window.keepkey.litecoin;
+      return window.keepkey.litecoin as UTXOProvider;
     case Chain.Dash:
-      // @ts-expect-error
-      return window.keepkey.dash;
+      return window.keepkey.dash as UTXOProvider;
     case Chain.THORChain:
-      // @ts-expect-error
-      return window.keepkey.thorchain;
+      return window.keepkey.thorchain as UTXOProvider;
     case Chain.Maya:
-      // @ts-expect-error
-      return window.keepkey.mayachain;
-    // case Chain.Solana:
-    //   // @ts-expect-error
-    //   return window.keepkey.solana;
+      return window.keepkey.mayachain as UTXOProvider;
 
     default:
-      // @ts-expect-error
       return undefined;
   }
 }
@@ -135,28 +122,38 @@ async function transaction({
       client.request({ method, params }, (err: string, tx: string) => {
         err ? reject(err) : resolve(tx);
       });
+    } else {
+      reject(new SwapKitError("wallet_provider_not_found"));
     }
   });
 }
 
 export async function getKEEPKEYAddress(chain: Chain) {
   console.log("getKEEPKEYAddress: ", chain);
-  const eipProvider = getKEEPKEYProvider(chain) as Eip1193Provider;
-  if (!eipProvider) {
+  const provider = getKEEPKEYProvider(chain);
+
+  if (!provider) {
     throw new SwapKitError({
       errorKey: "wallet_provider_not_found",
       info: { wallet: WalletOption.KEEPKEY, chain },
     });
   }
 
-  let method = "request_accounts";
   if (EVMChains.includes(chain as EVMChain)) {
-    method = "eth_requestAccounts";
+    const eipProvider = provider as Eip1193Provider;
+    const method = "eth_requestAccounts";
+    const [response] = await eipProvider.request({ method, params: [] });
+    return response;
+  } else if (chain === Chain.Cosmos) {
+    const keplr = provider as Keplr;
+    const chainId = ChainId.Cosmos; // Adjust as necessary
+    await keplr.enable(chainId);
+    const key = await keplr.getKey(chainId);
+    return key.bech32Address;
+  } else {
+    // Handle UTXO chains if possible
+    throw new SwapKitError("unsupported_chain", { chain });
   }
-
-  const [response] = await eipProvider.request({ method, params: [] });
-
-  return response;
 }
 
 export async function walletTransfer(
@@ -164,14 +161,9 @@ export async function walletTransfer(
   method: TransactionMethod = "transfer",
 ) {
   if (!assetValue) {
-    throw new SwapKitError("wallet_KEEPKEY_asset_not_defined");
+    throw new SwapKitError("wallet_keepkey_asset_not_defined");
   }
 
-  /**
-   * EVM requires amount to be hex string
-   * UTXO/Cosmos requires amount to be number
-   */
-  // const chainId = ChainToChainId[chain];
   const from = await getKEEPKEYAddress(assetValue.chain);
   const params = [
     {
@@ -198,7 +190,7 @@ export function cosmosTransfer({
   chainId,
   rpcUrl,
 }: {
-  chainId: ChainId.Cosmos | ChainId.Kujira;
+  chainId: ChainId.Cosmos;
   rpcUrl?: string;
 }) {
   return async ({ from, recipient, assetValue, memo }: TransferParams) => {
@@ -215,7 +207,7 @@ export function cosmosTransfer({
     ];
 
     try {
-      const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 2, memo);
+      const { transactionHash } = await cosmJS.sendTokens(from, recipient, coins, 2);
       return transactionHash;
     } catch (error) {
       throw new SwapKitError("core_transaction_failed", { error });
@@ -232,9 +224,8 @@ export function getKEEPKEYMethods(provider: BrowserProvider) {
       funcParams = [],
       txOverrides,
     }: CallParams): Promise<T> => {
-      const contractProvider = provider;
       if (!contractAddress) {
-        throw new SwapKitError("wallet_KEEPKEY_contract_address_not_provided");
+        throw new SwapKitError("wallet_keepkey_contract_address_not_provided");
       }
       const { createContract, createContractTxObject, isStateChangingCall, toHexString } =
         await import("@swapkit/toolbox-evm");
@@ -242,7 +233,7 @@ export function getKEEPKEYMethods(provider: BrowserProvider) {
       const isStateChanging = isStateChangingCall(abi, funcName);
 
       if (isStateChanging) {
-        const { value, from, to, data } = await createContractTxObject(contractProvider, {
+        const { value, from, to, data } = await createContractTxObject(provider, {
           contractAddress,
           abi,
           funcName,
@@ -256,10 +247,10 @@ export function getKEEPKEYMethods(provider: BrowserProvider) {
             from,
             to,
             data: data || "0x",
-          } as Todo,
+          },
         ]);
       }
-      const contract = createContract(contractAddress, abi, contractProvider);
+      const contract = createContract(contractAddress, abi, provider);
 
       const result = await contract[funcName]?.(...funcParams);
 
@@ -288,13 +279,13 @@ export function getKEEPKEYMethods(provider: BrowserProvider) {
           from,
           to,
           data: data || "0x",
-        } as Todo,
+        },
       ]);
     },
     sendTransaction: async (tx: EVMTxParams) => {
       const { from, to, data, value } = tx;
       if (!to) {
-        throw new SwapKitError("wallet_KEEPKEY_send_transaction_no_address");
+        throw new SwapKitError("wallet_keepkey_send_transaction_no_address");
       }
 
       const { toHexString } = await import("@swapkit/toolbox-evm");
@@ -305,7 +296,7 @@ export function getKEEPKEYMethods(provider: BrowserProvider) {
           from,
           to,
           data: data || "0x",
-        } as Todo,
+        },
       ]);
     },
   };
