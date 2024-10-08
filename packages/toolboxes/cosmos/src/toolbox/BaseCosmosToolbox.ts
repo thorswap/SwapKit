@@ -17,6 +17,7 @@ import {
   USK_KUJIRA_FACTORY_DENOM,
   createStargateClient,
   getDefaultChainFee,
+  getDenom,
   getRPC,
 } from "../util";
 
@@ -136,13 +137,17 @@ export const BaseCosmosToolbox = ({
 
     const gas = getDefaultChainFee(chain as CosmosChain).gas;
 
+    const denom = (chain === Chain.Maya || chain == Chain.THORChain) ? 
+      getDenomWithChain(assetValue) : 
+      getDenom(assetValue.symbol)
+
     const msgSend = {
       fromAddress: base64FromAddress,
       toAddress: base64ToAddress,
       amount: [
         {
           amount: assetValue.getBaseValue("string"),
-          denom: getDenomWithChain(assetValue),
+          denom
         },
       ],
     };
@@ -150,7 +155,7 @@ export const BaseCosmosToolbox = ({
       memo,
       accountNumber: accountOnChain.accountNumber,
       sequence: accountOnChain.sequence,
-      chainId: ChainId.THORChain,
+      chainId,
       msgs: [{ typeUrl: "/types.MsgSend", value: msgSend }],
       fee: { amount: [], gas },
     };

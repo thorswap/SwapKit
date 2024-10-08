@@ -67,21 +67,7 @@ export const getDenomWithChain = ({ symbol, chain }: AssetValue) => {
     return (symbol.toUpperCase() !== "CACAO" ? symbol : `${Chain.Maya}.${symbol}`).toUpperCase();
   }
 
-  if (chain === Chain.THORChain) {
-    return (
-      symbol.toUpperCase() !== "RUNE" ? symbol : `${Chain.THORChain}.${symbol}`
-    ).toUpperCase();
-  }
-
-  if (chain === Chain.Kujira) {
-    return (symbol.toUpperCase() !== "KUJI" ? symbol : `${Chain.Kujira}.${symbol}`).toUpperCase();
-  }
-
-  if (chain === Chain.Cosmos) {
-    return (symbol.toUpperCase() !== "ATOM" ? symbol : `${Chain.Cosmos}.${symbol}`).toUpperCase();
-  }
-
-  throw new Error("Unsupported chain");
+  return (symbol.toUpperCase() !== "RUNE" ? symbol : `${Chain.THORChain}.${symbol}`).toUpperCase();
 };
 
 export const createStargateClient = (url: string) => {
