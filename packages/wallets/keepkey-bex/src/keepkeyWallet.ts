@@ -32,6 +32,7 @@ const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.BitcoinCash,
   Chain.Base,
   Chain.Cosmos,
+  Chain.Dash,
   Chain.Dogecoin,
   Chain.Ethereum,
   Chain.Kujira,

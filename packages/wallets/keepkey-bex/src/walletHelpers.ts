@@ -129,31 +129,22 @@ async function transaction({
 }
 
 export async function getKEEPKEYAddress(chain: Chain) {
-  console.log("getKEEPKEYAddress: ", chain);
-  const provider = getKEEPKEYProvider(chain);
-
-  if (!provider) {
+  const eipProvider = getKEEPKEYProvider(chain) as Eip1193Provider;
+  if (!eipProvider) {
     throw new SwapKitError({
       errorKey: "wallet_provider_not_found",
       info: { wallet: WalletOption.KEEPKEY, chain },
     });
   }
 
+  let method = "request_accounts";
   if (EVMChains.includes(chain as EVMChain)) {
-    const eipProvider = provider as Eip1193Provider;
-    const method = "eth_requestAccounts";
-    const [response] = await eipProvider.request({ method, params: [] });
-    return response;
-  } else if (chain === Chain.Cosmos) {
-    const keplr = provider as Keplr;
-    const chainId = ChainId.Cosmos; // Adjust as necessary
-    await keplr.enable(chainId);
-    const key = await keplr.getKey(chainId);
-    return key.bech32Address;
-  } else {
-    // Handle UTXO chains if possible
-    throw new SwapKitError("unsupported_chain", { chain });
+    method = "eth_requestAccounts";
   }
+
+  const [response] = await eipProvider.request({ method, params: [] });
+  console.log("response: ", response);
+  return response;
 }
 
 export async function walletTransfer(
@@ -168,7 +159,7 @@ export async function walletTransfer(
   const params = [
     {
       amount: {
-        amount: assetValue.getBaseValue("number"),
+        amount: assetValue.getValue("string"),
         decimals: assetValue.decimal,
       },
       asset: {
