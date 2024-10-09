@@ -68,16 +68,15 @@ const encodeChainflipAddress =
     }
   };
 
-const registerAsBroker =
-  (toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>) => () => {
-    const extrinsic = toolbox.api.tx.swapping?.registerAsBroker?.();
+const registerAsBroker = (toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>) => () => {
+  const extrinsic = toolbox.api.tx.swapping?.registerAsBroker?.();
 
-    if (!extrinsic) {
-      throw new SwapKitError("chainflip_broker_register");
-    }
+  if (!extrinsic) {
+    throw new SwapKitError("chainflip_broker_register");
+  }
 
-    return toolbox.signAndBroadcast(extrinsic);
-  };
+  return toolbox.signAndBroadcast(extrinsic);
+};
 
 const requestSwapDepositAddress =
   (toolbox: Awaited<ReturnType<typeof ChainflipToolbox>>) =>

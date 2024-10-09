@@ -18,8 +18,9 @@ import {
   YUM_KUJIRA_FACTORY_DENOM,
 } from "../index";
 import type { TransferParams } from "../types";
+import { getAssetFromDenom } from "../util";
 
-import { BaseCosmosToolbox, getAssetFromDenom, getFeeRateFromThorswap } from "./BaseCosmosToolbox";
+import { BaseCosmosToolbox, getFeeRateFromThorswap } from "./BaseCosmosToolbox";
 
 async function getFees() {
   const baseFee = await getFeeRateFromThorswap(ChainId.Kujira, 1000);
