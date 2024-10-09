@@ -68,16 +68,11 @@ export const SwapInputs = ({ skClient, inputAsset, outputAsset, handleSwap }: Pr
       return;
     }
 
-    if (true) {
-      console.log("Asset is already approved, proceeding to handle swap.");
-      await handleSwap(route, false);
-    }
-
-    // route.tx?.from && (await skClient.isAssetValueApproved(inputAssetValue, route.tx?.from))
-    //   ? handleSwap(route, false)
-    //   : route.tx?.from
-    //     ? skClient.approveAssetValue(inputAssetValue, route.tx?.from)
-    //     : new Error("Approval Spender not found");
+    route.tx?.from && (await skClient.isAssetValueApproved(inputAssetValue, route.tx?.from))
+      ? handleSwap(route, false)
+      : route.tx?.from
+        ? skClient.approveAssetValue(inputAssetValue, route.tx?.from)
+        : new Error("Approval Spender not found");
   };
 
   return (
