@@ -114,9 +114,14 @@ async function getWalletMethodsForChain({
     case Chain.Polygon:
     case Chain.Avalanche: {
       const { prepareNetworkSwitch, addEVMWalletNetwork } = await import("@swapkit/helpers");
-      const { getToolboxByChain, covalentApi, ethplorerApi, BrowserProvider } = await import(
-        "@swapkit/toolbox-evm"
-      );
+      const {
+        getToolboxByChain,
+        getBalance,
+        covalentApi,
+        ethplorerApi,
+        getProvider,
+        BrowserProvider,
+      } = await import("@swapkit/toolbox-evm");
       const ethereumWindowProvider = getKEEPKEYProvider(chain);
 
       if (!ethereumWindowProvider) {
@@ -160,6 +165,15 @@ async function getWalletMethodsForChain({
         toolbox: {
           ...toolbox,
           ...keepkeyMethods,
+          // Overwrite getBalance due to race conditions
+          getBalance: (address: string, potentialScamFilter?: boolean) =>
+            getBalance({
+              chain,
+              provider: getProvider(chain),
+              api,
+              address,
+              potentialScamFilter,
+            }),
         },
       });
     }
