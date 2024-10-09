@@ -15,6 +15,7 @@ import {
   defaultRequestHeaders,
 } from "@swapkit/helpers";
 
+import { type TransferTxParams, bech32ToBase64 } from "./thorchainUtils";
 import type { CosmosMaxSendableAmountParams } from "./types";
 
 export const USK_KUJIRA_FACTORY_DENOM =
@@ -28,12 +29,19 @@ export const DEFAULT_COSMOS_FEE_MAINNET = {
   gas: "200000",
 };
 
+export const DEFAULT_KUJI_FEE_MAINNET = {
+  amount: [{ denom: "ukuji", amount: "1000" }],
+  gas: "200000",
+};
+
 export const getDefaultChainFee = (chain: CosmosChain) => {
   switch (chain) {
     case Chain.Maya:
       return { amount: [], gas: "10000000000" };
     case Chain.THORChain:
       return { amount: [], gas: "500000000" };
+    case Chain.Kujira:
+      return DEFAULT_KUJI_FEE_MAINNET;
     default:
       return DEFAULT_COSMOS_FEE_MAINNET;
   }
@@ -66,8 +74,42 @@ export const getDenomWithChain = ({ symbol, chain }: AssetValue) => {
   if (chain === Chain.Maya) {
     return (symbol.toUpperCase() !== "CACAO" ? symbol : `${Chain.Maya}.${symbol}`).toUpperCase();
   }
+  if (chain === Chain.THORChain) {
+    return (
+      symbol.toUpperCase() !== "RUNE" ? symbol : `${Chain.THORChain}.${symbol}`
+    ).toUpperCase();
+  }
+  return getDenom(symbol, false);
+};
 
-  return (symbol.toUpperCase() !== "RUNE" ? symbol : `${Chain.THORChain}.${symbol}`).toUpperCase();
+// TODO: figure out some better way to initialize from base value
+export const getAssetFromDenom = (denom: string, amount: string) => {
+  switch (denom) {
+    case "rune":
+      return AssetValue.from({ chain: Chain.THORChain, value: Number.parseInt(amount) / 1e8 });
+    case "uatom":
+    case "atom":
+      return AssetValue.from({ chain: Chain.Cosmos, value: Number.parseInt(amount) / 1e6 });
+    case "cacao":
+      return AssetValue.from({ chain: Chain.Maya, value: Number.parseInt(amount) / 1e10 });
+    case "maya":
+      return AssetValue.from({
+        asset: `${Chain.Maya}.${Chain.Maya}`,
+        value: Number.parseInt(amount) / 1e4,
+      });
+    case "ukuji":
+    case "kuji":
+      return AssetValue.from({ chain: Chain.Kujira, value: Number.parseInt(amount) / 1e6 });
+    case USK_KUJIRA_FACTORY_DENOM:
+      // USK on Kujira
+      return AssetValue.from({
+        asset: `${Chain.Kujira}.USK`,
+        value: Number.parseInt(amount) / 1e6,
+      });
+
+    default:
+      return AssetValue.from({ asset: denom, value: Number.parseInt(amount) / 1e8 });
+  }
 };
 
 export const createStargateClient = (url: string) => {
@@ -133,4 +175,52 @@ export const estimateMaxSendableAmount = async ({
   }
 
   return balance.sub(fees[feeOptionKey]);
+};
+
+export const buildTransferTx = async ({
+  fromAddress,
+  toAddress,
+  assetValue,
+  memo = "",
+  isStagenet = false,
+}: TransferTxParams) => {
+  const { chain, chainId } = assetValue;
+
+  const url = getRPC(chainId, isStagenet);
+
+  const client = await createStargateClient(url);
+
+  const accountOnChain = await client.getAccount(fromAddress);
+
+  if (!accountOnChain) {
+    throw new Error("Account does not exist");
+  }
+
+  const base64FromAddress = bech32ToBase64(fromAddress);
+  const base64ToAddress = bech32ToBase64(toAddress);
+
+  const fee = getDefaultChainFee(chain as CosmosChain);
+
+  // TODO estimate gas amount and use defaults as fallback
+  // check transfer method in kuji or gaia toolbox
+
+  const msgSend = {
+    fromAddress: base64FromAddress,
+    toAddress: base64ToAddress,
+    amount: [
+      {
+        amount: assetValue.getBaseValue("string"),
+        denom: getDenomWithChain(assetValue),
+      },
+    ],
+  };
+
+  return {
+    memo,
+    accountNumber: accountOnChain.accountNumber,
+    sequence: accountOnChain.sequence,
+    chainId,
+    msgs: [{ typeUrl: "/types.MsgSend", value: msgSend }],
+    fee,
+  };
 };

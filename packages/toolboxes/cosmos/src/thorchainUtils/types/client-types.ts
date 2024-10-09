@@ -72,7 +72,7 @@ export type TransferTransaction = {
   sequence: number;
   chainId: ChainId;
   msgs: EncodeObject[];
-  fee: { amount: []; gas: string };
+  fee: { amount: { denom: string; amount: string }[]; gas: string };
 };
 
 export type TransferTxParams = {
