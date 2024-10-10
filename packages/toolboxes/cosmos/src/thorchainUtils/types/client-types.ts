@@ -81,6 +81,7 @@ export type TransferTxParams = {
   toAddress: string;
   assetValue: AssetValue;
   memo?: string;
+  fee?: string;
 };
 
 export type BaseCosmosToolboxType = {
