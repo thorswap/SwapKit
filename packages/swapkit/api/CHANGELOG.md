@@ -1,5 +1,12 @@
 # @swapkit/api
 
+## 1.9.3
+
+### Patch Changes
+
+- Updated dependencies [[`66147be`](https://github.com/thorswap/SwapKit/commit/66147be7f795caa52f2c1fec5fbf1568afcae3c4)]:
+  - @swapkit/helpers@1.13.0
+
 ## 1.9.2
 
 ### Patch Changes
