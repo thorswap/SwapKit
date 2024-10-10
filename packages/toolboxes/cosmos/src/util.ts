@@ -34,7 +34,19 @@ export const DEFAULT_KUJI_FEE_MAINNET = {
   gas: "200000",
 };
 
-export const getDefaultChainFee = (chain: CosmosChain) => {
+const getFeeAsset = (chain: CosmosChain) => {
+  switch (chain) {
+    case Chain.THORChain:
+    case Chain.Maya:
+      return "";
+    case Chain.Cosmos:
+      return "uatom";
+    case Chain.Kujira:
+      return "ukuji";
+  }
+};
+
+export function getDefaultChainFee(chain: CosmosChain) {
   switch (chain) {
     case Chain.Maya:
       return { amount: [], gas: "10000000000" };
@@ -45,7 +57,7 @@ export const getDefaultChainFee = (chain: CosmosChain) => {
     default:
       return DEFAULT_COSMOS_FEE_MAINNET;
   }
-};
+}
 
 export const getDenom = (symbol: string, isThorchain = false) => {
   if (isThorchain) {
@@ -183,6 +195,7 @@ export const buildTransferTx = async ({
   assetValue,
   memo = "",
   isStagenet = false,
+  fee,
 }: TransferTxParams) => {
   const { chain, chainId } = assetValue;
 
@@ -199,10 +212,16 @@ export const buildTransferTx = async ({
   const base64FromAddress = bech32ToBase64(fromAddress);
   const base64ToAddress = bech32ToBase64(toAddress);
 
-  const fee = getDefaultChainFee(chain as CosmosChain);
+  const feeAsset = getFeeAsset(chain as CosmosChain);
+  const defaultFee = getDefaultChainFee(chain as CosmosChain);
 
-  // TODO estimate gas amount and use defaults as fallback
-  // check transfer method in kuji or gaia toolbox
+  const _fee =
+    feeAsset && fee
+      ? {
+          amount: [{ denom: feeAsset, amount: fee }],
+          gas: defaultFee.gas,
+        }
+      : defaultFee;
 
   const msgSend = {
     fromAddress: base64FromAddress,
@@ -221,6 +240,6 @@ export const buildTransferTx = async ({
     sequence: accountOnChain.sequence,
     chainId,
     msgs: [{ typeUrl: "/types.MsgSend", value: msgSend }],
-    fee,
+    fee: _fee,
   };
 };
