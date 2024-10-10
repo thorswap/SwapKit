@@ -13,6 +13,7 @@ import {
   FeeOption,
   RPCUrl,
   defaultRequestHeaders,
+  getGasAsset,
 } from "@swapkit/helpers";
 
 import { type TransferTxParams, bech32ToBase64 } from "./thorchainUtils";
@@ -32,18 +33,6 @@ export const DEFAULT_COSMOS_FEE_MAINNET = {
 export const DEFAULT_KUJI_FEE_MAINNET = {
   amount: [{ denom: "ukuji", amount: "1000" }],
   gas: "200000",
-};
-
-const getFeeAsset = (chain: CosmosChain) => {
-  switch (chain) {
-    case Chain.THORChain:
-    case Chain.Maya:
-      return "";
-    case Chain.Cosmos:
-      return "uatom";
-    case Chain.Kujira:
-      return "ukuji";
-  }
 };
 
 export function getDefaultChainFee(chain: CosmosChain) {
@@ -212,7 +201,9 @@ export const buildTransferTx = async ({
   const base64FromAddress = bech32ToBase64(fromAddress);
   const base64ToAddress = bech32ToBase64(toAddress);
 
-  const feeAsset = getFeeAsset(chain as CosmosChain);
+  const feeAsset = getDenom(
+    getGasAsset({ chain }).symbol
+  )
   const defaultFee = getDefaultChainFee(chain as CosmosChain);
 
   const _fee =
