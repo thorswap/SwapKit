@@ -154,9 +154,7 @@ export const isGasAsset = ({ chain, symbol }: { chain: Chain; symbol: string }) 
   }
 };
 
-export const getCommonAssetInfo = (
-  assetString: CommonAssetString,
-): { identifier: string; decimal: number } => {
+export const getCommonAssetInfo = (assetString: CommonAssetString) => {
   switch (assetString) {
     case Chain.Arbitrum:
     case Chain.Base:
