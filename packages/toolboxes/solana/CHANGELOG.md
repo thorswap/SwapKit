@@ -1,5 +1,14 @@
 # @swapkit/toolbox-solana
 
+## 1.1.13
+
+### Patch Changes
+
+- [`1281bb8`](https://github.com/thorswap/SwapKit/commit/1281bb8242ba70bb9d7286869ec5e9b8e3f44c9a) Thanks [@towanTG](https://github.com/towanTG)! - Fixes xdefi cosmos fee and solana send amount denomination
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.13.0
+
 ## 1.1.12
 
 ### Patch Changes

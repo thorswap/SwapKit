@@ -1,5 +1,14 @@
 # @swapkit/wallets
 
+## 1.2.18
+
+### Patch Changes
+
+- Updated dependencies [[`1281bb8`](https://github.com/thorswap/SwapKit/commit/1281bb8242ba70bb9d7286869ec5e9b8e3f44c9a)]:
+  - @swapkit/wallet-xdefi@1.1.25
+  - @swapkit/wallet-keystore@1.2.25
+  - @swapkit/wallet-phantom@1.1.14
+
 ## 1.2.17
 
 ### Patch Changes
