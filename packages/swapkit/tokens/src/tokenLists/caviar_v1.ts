@@ -2,14 +2,14 @@ export const list = {
   provider: "CAVIAR_V1",
   chainId: "radix-mainnet",
   name: "CAVIAR_V1",
-  timestamp: "2024-09-25T15:31:18.410Z",
+  timestamp: "2024-10-11T12:01:34.277Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: [],
-  count: 122,
+  count: 124,
   tokens: [
     {
       address: "resource_rdx1t4hw37aufauds7h7cwq24h25rxtzwe5gl7pz9qvrls2m3a7dmhh0v5",
@@ -40,6 +40,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/xrd.acr-resource_rdx1tkpdf65wx7jcru0y02rrejfqn80kq6jpa8t3asvl72uq4ht9zzvsvx.png",
       ticker: "ACR",
+    },
+    {
+      address: "resource_rdx1t4tjx4g3qzd98nayqxm7qdpj0a0u8ns6a0jrchq49dyfevgh6u0gj3",
+      chain: "XRD",
+      chainId: "radix-mainnet",
+      decimals: 18,
+      identifier: "XRD.ASTRL-resource_rdx1t4tjx4g3qzd98nayqxm7qdpj0a0u8ns6a0jrchq49dyfevgh6u0gj3",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/xrd.astrl-resource_rdx1t4tjx4g3qzd98nayqxm7qdpj0a0u8ns6a0jrchq49dyfevgh6u0gj3.png",
+      ticker: "ASTRL",
     },
     {
       address: "resource_rdx1tkn5jcul0fdrtua60kkaasxl8592c2d0g2whas78eeqx8wur9tlzql",
@@ -970,6 +980,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/xrd.sinx-resource_rdx1t5jnkwz3s6ezuun53s22duad7ezr3gfz3x3v9myuacg42g885q4m04.png",
       ticker: "sinx",
+    },
+    {
+      address: "resource_rdx1t5zhavnxcvfxuyd4knqtszu5ep2vdsjzk0837dzw8tk7k3rzs4kpa6",
+      chain: "XRD",
+      chainId: "radix-mainnet",
+      decimals: 18,
+      identifier: "XRD.SLFI-resource_rdx1t5zhavnxcvfxuyd4knqtszu5ep2vdsjzk0837dzw8tk7k3rzs4kpa6",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/xrd.slfi-resource_rdx1t5zhavnxcvfxuyd4knqtszu5ep2vdsjzk0837dzw8tk7k3rzs4kpa6.png",
+      ticker: "SLFI",
     },
     {
       address: "resource_rdx1t4mtpqwly2p8pes0camm8zsalknyaag2qee9ks34y990zrcjqnmpal",
