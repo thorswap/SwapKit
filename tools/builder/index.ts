@@ -16,6 +16,7 @@ export async function buildPackage({
     minify: true,
     external,
     sourcemap: "external",
+    splitting: true,
     plugins: [...(plugins || [])],
     ...rest,
   });

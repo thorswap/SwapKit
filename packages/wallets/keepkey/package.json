@@ -19,7 +19,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "react-native": "./src/index.ts",
   "repository": "https://github.com/thorswap/SwapKit.git",
   "scripts": {
     "build": "bun run ./build.ts",

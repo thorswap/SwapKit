@@ -12,7 +12,7 @@ import {
   WalletOption,
   erc20ABI,
 } from "@swapkit/helpers";
-import { type TransferParams, getDenom } from "@swapkit/toolbox-cosmos";
+import type { TransferParams } from "@swapkit/toolbox-cosmos";
 import type {
   ApproveParams,
   BrowserProvider,
@@ -212,7 +212,7 @@ export function cosmosTransfer({
   rpcUrl?: string;
 }) {
   return async ({ from, recipient, assetValue, memo }: TransferParams) => {
-    const { createSigningStargateClient } = await import("@swapkit/toolbox-cosmos");
+    const { getDenom, createSigningStargateClient } = await import("@swapkit/toolbox-cosmos");
     await window.xfi?.keplr?.enable(chainId);
     // @ts-ignore
     const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(chainId);

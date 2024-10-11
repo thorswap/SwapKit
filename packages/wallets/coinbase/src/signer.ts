@@ -1,12 +1,7 @@
 import { type CoinbaseWalletProvider, CoinbaseWalletSDK } from "@coinbase/wallet-sdk";
 import type { CoinbaseWalletSDKOptions } from "@coinbase/wallet-sdk/dist/CoinbaseWalletSDK";
 import { Chain, ChainToRPC } from "@swapkit/helpers";
-import {
-  AbstractSigner,
-  type Provider,
-  getProvider,
-  type getToolboxByChain,
-} from "@swapkit/toolbox-evm";
+import { AbstractSigner, type Provider, type getToolboxByChain } from "@swapkit/toolbox-evm";
 
 class CoinbaseMobileSigner extends AbstractSigner {
   #coinbaseProvider: CoinbaseWalletProvider;
@@ -77,7 +72,7 @@ export const getWalletForChain = async ({
       // TODO fix error
       if (!walletProvider) throw new Error("No wallet provider");
 
-      const { getToolboxByChain } = await import("@swapkit/toolbox-evm");
+      const { getToolboxByChain, getProvider } = await import("@swapkit/toolbox-evm");
 
       const provider = getProvider(chain);
 
