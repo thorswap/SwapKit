@@ -21,7 +21,6 @@
   "license": "Apache-2.0",
   "main": "./dist/index.js",
   "name": "@swapkit/helpers",
-  "react-native": "./src/index.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/thorswap/SwapKit.git"

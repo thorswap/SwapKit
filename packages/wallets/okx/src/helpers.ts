@@ -2,19 +2,14 @@ import {
   Chain,
   ChainId,
   ChainToHexChainId,
+  type EVMChain,
   RPCUrl,
   SwapKitError,
   addEVMWalletNetwork,
   prepareNetworkSwitch,
 } from "@swapkit/helpers";
 import type { GaiaToolbox } from "@swapkit/toolbox-cosmos";
-import {
-  AVAXToolbox,
-  BSCToolbox,
-  BrowserProvider,
-  ETHToolbox,
-  type Eip1193Provider,
-} from "@swapkit/toolbox-evm";
+import type { Eip1193Provider } from "@swapkit/toolbox-evm";
 import type { BTCToolbox, Psbt, UTXOTransferParams } from "@swapkit/toolbox-utxo";
 
 const cosmosTransfer =
@@ -143,10 +138,11 @@ export const getWeb3WalletMethods = async ({
   ethplorerApiKey,
 }: {
   ethereumWindowProvider: Eip1193Provider | undefined;
-  chain: Chain;
+  chain: EVMChain;
   covalentApiKey?: string;
   ethplorerApiKey?: string;
 }) => {
+  const { getToolboxByChain, BrowserProvider } = await import("@swapkit/toolbox-evm");
   if (!ethereumWindowProvider) throw new Error("Requested web3 wallet is not installed");
 
   if (
@@ -164,35 +160,20 @@ export const getWeb3WalletMethods = async ({
 
   const provider = new BrowserProvider(ethereumWindowProvider, "any");
 
-  const toolboxParams = {
+  const toolbox = getToolboxByChain(chain)({
     provider,
     signer: await provider.getSigner(),
     ethplorerApiKey: ethplorerApiKey as string,
     covalentApiKey: covalentApiKey as string,
-  };
-
-  const toolbox =
-    chain === Chain.Ethereum
-      ? ETHToolbox(toolboxParams)
-      : chain === Chain.Avalanche
-        ? AVAXToolbox(toolboxParams)
-        : BSCToolbox(toolboxParams);
+  });
 
   try {
-    chain !== Chain.Ethereum &&
-      (await addEVMWalletNetwork(
-        provider,
-        (
-          toolbox as ReturnType<typeof AVAXToolbox> | ReturnType<typeof BSCToolbox>
-        ).getNetworkParams(),
-      ));
+    if (chain !== Chain.Ethereum && "getNetworkParams" in toolbox) {
+      await addEVMWalletNetwork(provider, toolbox.getNetworkParams());
+    }
   } catch (_error) {
     throw new Error(`Failed to add/switch ${chain} network: ${chain}`);
   }
 
-  return prepareNetworkSwitch<typeof toolbox>({
-    toolbox: { ...toolbox },
-    chainId: ChainToHexChainId[chain],
-    provider,
-  });
+  return prepareNetworkSwitch({ toolbox, provider, chainId: ChainToHexChainId[chain] });
 };

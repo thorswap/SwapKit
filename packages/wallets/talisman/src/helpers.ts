@@ -10,15 +10,13 @@ import {
   ensureEVMApiKeys,
   prepareNetworkSwitch,
 } from "@swapkit/helpers";
-import {
-  type ARBToolbox,
-  type BSCToolbox,
-  BrowserProvider,
-  type Eip1193Provider,
-  type MATICToolbox,
-  type OPToolbox,
+import type {
+  ARBToolbox,
+  BSCToolbox,
+  Eip1193Provider,
+  MATICToolbox,
+  OPToolbox,
 } from "@swapkit/toolbox-evm";
-
 import type { InjectedWindow } from "@swapkit/toolbox-substrate";
 
 declare const window: {
@@ -43,7 +41,7 @@ export const getWeb3WalletMethods = async ({
   covalentApiKey?: string;
   ethplorerApiKey?: string;
 }) => {
-  const { getToolboxByChain } = await import("@swapkit/toolbox-evm");
+  const { BrowserProvider, getToolboxByChain } = await import("@swapkit/toolbox-evm");
 
   if (!ethereumWindowProvider) {
     throw new SwapKitError({
