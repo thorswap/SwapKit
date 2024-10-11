@@ -1,5 +1,15 @@
 # @swapkit/wallet-coinbase
 
+## 0.0.0-nightly-20241011172732
+
+### Patch Changes
+
+- Bump nightly
+
+- Updated dependencies []:
+  - @swapkit/helpers@0.0.0-nightly-20241011172732
+  - @swapkit/toolbox-evm@0.0.0-nightly-20241011172732
+
 ## 1.1.17
 
 ### Patch Changes

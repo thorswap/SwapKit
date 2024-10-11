@@ -1,5 +1,14 @@
 # @swapkit/api
 
+## 0.0.0-nightly-20241011172732
+
+### Patch Changes
+
+- Bump nightly
+
+- Updated dependencies []:
+  - @swapkit/helpers@0.0.0-nightly-20241011172732
+
 ## 1.9.3
 
 ### Patch Changes

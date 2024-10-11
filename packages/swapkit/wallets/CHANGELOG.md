@@ -1,5 +1,28 @@
 # @swapkit/wallets
 
+## 0.0.0-nightly-20241011172732
+
+### Patch Changes
+
+- Bump nightly
+
+- Updated dependencies []:
+  - @swapkit/wallet-evm-extensions@0.0.0-nightly-20241011172732
+  - @swapkit/wallet-polkadotjs@0.0.0-nightly-20241011172732
+  - @swapkit/wallet-coinbase@0.0.0-nightly-20241011172732
+  - @swapkit/wallet-keystore@0.0.0-nightly-20241011172732
+  - @swapkit/wallet-talisman@0.0.0-nightly-20241011172732
+  - @swapkit/wallet-keepkey@0.0.0-nightly-20241011172732
+  - @swapkit/wallet-phantom@0.0.0-nightly-20241011172732
+  - @swapkit/wallet-exodus@0.0.0-nightly-20241011172732
+  - @swapkit/wallet-ledger@0.0.0-nightly-20241011172732
+  - @swapkit/wallet-trezor@0.0.0-nightly-20241011172732
+  - @swapkit/wallet-keplr@0.0.0-nightly-20241011172732
+  - @swapkit/wallet-radix@0.0.0-nightly-20241011172732
+  - @swapkit/wallet-xdefi@0.0.0-nightly-20241011172732
+  - @swapkit/wallet-okx@0.0.0-nightly-20241011172732
+  - @swapkit/wallet-wc@0.0.0-nightly-20241011172732
+
 ## 1.2.18
 
 ### Patch Changes

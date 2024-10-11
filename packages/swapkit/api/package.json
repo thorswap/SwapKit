@@ -27,5 +27,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.9.3"
+  "version": "0.0.0-nightly-20241011172732"
 }

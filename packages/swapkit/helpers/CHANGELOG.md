@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 0.0.0-nightly-20241011172732
+
+### Patch Changes
+
+- Bump nightly
+
+- Updated dependencies []:
+  - @swapkit/contracts@0.0.0-nightly-20241011172732
+  - @swapkit/tokens@0.0.0-nightly-20241011172732
+
 ## 1.13.0
 
 ### Minor Changes

@@ -1,5 +1,17 @@
 # @swapkit/wallet-keepkey
 
+## 0.0.0-nightly-20241011172732
+
+### Patch Changes
+
+- Bump nightly
+
+- Updated dependencies []:
+  - @swapkit/toolbox-cosmos@0.0.0-nightly-20241011172732
+  - @swapkit/helpers@0.0.0-nightly-20241011172732
+  - @swapkit/toolbox-utxo@0.0.0-nightly-20241011172732
+  - @swapkit/toolbox-evm@0.0.0-nightly-20241011172732
+
 ## 1.3.14
 
 ### Patch Changes

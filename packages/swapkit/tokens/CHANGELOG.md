@@ -1,5 +1,11 @@
 # @swapkit/tokens
 
+## 0.0.0-nightly-20241011172732
+
+### Patch Changes
+
+- Bump nightly
+
 ## 1.8.1
 
 ### Patch Changes

@@ -1,5 +1,21 @@
 # @swapkit/sdk
 
+## 0.0.0-nightly-20241011172732
+
+### Patch Changes
+
+- Bump nightly
+
+- Updated dependencies []:
+  - @swapkit/plugin-chainflip@0.0.0-nightly-20241011172732
+  - @swapkit/plugin-thorchain@0.0.0-nightly-20241011172732
+  - @swapkit/wallets@0.0.0-nightly-20241011172732
+  - @swapkit/tokens@0.0.0-nightly-20241011172732
+  - @swapkit/plugin-radix@0.0.0-nightly-20241011172732
+  - @swapkit/core@0.0.0-nightly-20241011172732
+  - @swapkit/plugin-evm@0.0.0-nightly-20241011172732
+  - @swapkit/api@0.0.0-nightly-20241011172732
+
 ## 1.2.24
 
 ### Patch Changes

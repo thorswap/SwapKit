@@ -1,5 +1,16 @@
 # @swapkit/wallet-exodus
 
+## 0.0.0-nightly-20241011172732
+
+### Patch Changes
+
+- Bump nightly
+
+- Updated dependencies []:
+  - @swapkit/helpers@0.0.0-nightly-20241011172732
+  - @swapkit/toolbox-utxo@0.0.0-nightly-20241011172732
+  - @swapkit/toolbox-evm@0.0.0-nightly-20241011172732
+
 ## 1.2.18
 
 ### Patch Changes
