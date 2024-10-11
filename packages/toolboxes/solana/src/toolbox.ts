@@ -165,13 +165,13 @@ function transfer(connection: Connection) {
       ? new Transaction().add(
           SystemProgram.transfer({
             fromPubkey: fromKeypair.publicKey,
-            lamports: assetValue.getValue("number"),
+            lamports: assetValue.getBaseValue("number"),
             toPubkey: new PublicKey(recipient),
           }),
         )
       : assetValue.address
         ? await createSolanaTokenTransaction({
-            amount: assetValue.getValue("number"),
+            amount: assetValue.getBaseValue("number"),
             connection,
             decimals: assetValue.decimal as number,
             from: fromKeypair.publicKey,
