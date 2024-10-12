@@ -139,7 +139,7 @@ function plugin({
       brokerEndpoint: brokerUrl,
       buyAsset,
       recipient,
-      assetValue,
+      sellAsset: assetValue,
       maxBoostFeeBps,
       chainflipSDKBroker: useChainflipSDKBroker,
     });
