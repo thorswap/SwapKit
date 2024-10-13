@@ -9,7 +9,7 @@ export const list = {
     patch: 0,
   },
   keywords: ["uniswap", "default"],
-  count: 573,
+  count: 574,
   tokens: [
     {
       address: "0x6314C31A7a1652cE482cffe247E9CB7c3f4BB9aF",
@@ -430,6 +430,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.crypto-0x9842989969687f7d249d01cae1d2ff6b7b6b6d35.png",
       ticker: "CRYPTO",
+    },
+    {
+      address: "0xd07d35368e04a839dee335e213302b21ef14bb4a",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.CRYSTAL-0xd07d35368e04a839dee335e213302b21ef14bb4a",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.crystal-0xd07d35368e04a839dee335e213302b21ef14bb4a.png",
+      ticker: "CRYSTAL",
     },
     {
       address: "0x319f865b287fCC10b30d8cE6144e8b6D1b476999",
@@ -1880,16 +1890,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.tap-0x2c650dab03a59332e2e0c0c4a7f726913e5028c1.png",
       ticker: "TAP",
-    },
-    {
-      address: "0x6c84a8f1c29108f47a79964b5fe888d4f4d0de40",
-      chain: "ARB",
-      chainId: "42161",
-      decimals: 18,
-      identifier: "ARB.tBTC-0x6c84a8f1c29108f47a79964b5fe888d4f4d0de40",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.tbtc-0x6c84a8f1c29108f47a79964b5fe888d4f4d0de40.png",
-      ticker: "tBTC",
     },
     {
       address: "0x7E2a1eDeE171C5B19E6c54D73752396C0A572594",
@@ -4930,6 +4930,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.sena-0x8be3460a480c80728a8c4d7a5d5303c85ba7b3b9.png",
       ticker: "sENA",
+    },
+    {
+      address: "0x243cacb4d5ff6814ad668c3e225246efa886ad5a",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.SHI-0x243cacb4d5ff6814ad668c3e225246efa886ad5a",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.shi-0x243cacb4d5ff6814ad668c3e225246efa886ad5a.png",
+      ticker: "SHI",
     },
     {
       address: "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE",

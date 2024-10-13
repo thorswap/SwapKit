@@ -1,14 +1,14 @@
 export const list = {
   provider: "TRADERJOE_V2",
   name: "TRADERJOE_V2",
-  timestamp: "2024-10-13T00:01:05.939Z",
+  timestamp: "2024-10-13T12:00:51.715Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: [],
-  count: 125,
+  count: 112,
   tokens: [
     {
       address: "0x912CE59144191C1204E64559FE8253a0e49E6548",
@@ -41,6 +41,16 @@ export const list = {
       ticker: "EZETH",
     },
     {
+      address: "0x4CFA50B7Ce747e2D61724fcAc57f24B748FF2b2A",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 6,
+      identifier: "ARB.FUSDC-0X4CFA50B7CE747E2D61724FCAC57F24B748FF2B2A",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.fusdc-0x4cfa50b7ce747e2d61724fcac57f24b748ff2b2a.png",
+      ticker: "FUSDC",
+    },
+    {
       address: "0xfc5A1A6EB076a2C7aD06eD22C90d7E710E35ad0a",
       chain: "ARB",
       chainId: "42161",
@@ -59,26 +69,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.joe-0x371c7ec6d8039ff7933a2aa28eb827ffe1f52f07.png",
       ticker: "JOE",
-    },
-    {
-      address: "0x2CaB3abfC1670D1a452dF502e216a66883cDf079",
-      chain: "ARB",
-      chainId: "42161",
-      decimals: 18,
-      identifier: "ARB.L2DAO-0X2CAB3ABFC1670D1A452DF502E216A66883CDF079",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.l2dao-0x2cab3abfc1670d1a452df502e216a66883cdf079.png",
-      ticker: "L2DAO",
-    },
-    {
-      address: "0xef261714F7E5ba6b86F4780eb6e3bf26B10729CF",
-      chain: "ARB",
-      chainId: "42161",
-      decimals: 18,
-      identifier: "ARB.LOTUS-0XEF261714F7E5BA6B86F4780EB6E3BF26B10729CF",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.lotus-0xef261714f7e5ba6b86f4780eb6e3bf26b10729cf.png",
-      ticker: "LOTUS",
     },
     {
       address: "0xDCbf4CB83d27C408B30dD7F39bfcabD7176B1Ba3",
@@ -171,26 +161,6 @@ export const list = {
       ticker: "USDV",
     },
     {
-      address: "0x33C88D4caC6aC34F77020915a2a88cd0417dC069",
-      chain: "ARB",
-      chainId: "42161",
-      decimals: 6,
-      identifier: "ARB.USSD-0X33C88D4CAC6AC34F77020915A2A88CD0417DC069",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ussd-0x33c88d4cac6ac34f77020915a2a88cd0417dc069.png",
-      ticker: "USSD",
-    },
-    {
-      address: "0x565609fAF65B92F7be02468acF86f8979423e514",
-      chain: "ARB",
-      chainId: "42161",
-      decimals: 18,
-      identifier: "ARB.WAVAX-0X565609FAF65B92F7BE02468ACF86F8979423E514",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.wavax-0x565609faf65b92f7be02468acf86f8979423e514.png",
-      ticker: "WAVAX",
-    },
-    {
       address: "0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f",
       chain: "ARB",
       chainId: "42161",
@@ -261,6 +231,26 @@ export const list = {
       ticker: "$TD",
     },
     {
+      address: "0x80f0C1c49891dcFDD40b6e0F960F84E6042bcB6F",
+      chain: "AVAX",
+      chainId: "43114",
+      decimals: 18,
+      identifier: "AVAX.ADXN-0X80F0C1C49891DCFDD40B6E0F960F84E6042BCB6F",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.adxn-0x80f0c1c49891dcfdd40b6e0f960f84e6042bcb6f.png",
+      ticker: "ADXN",
+    },
+    {
+      address: "0x80f0C1c49891dcFDD40b6e0F960F84E6042bcB6F",
+      chain: "AVAX",
+      chainId: "43114",
+      decimals: 18,
+      identifier: "AVAX.ADXN-0X80F0C1C49891DCFDD40B6E0F960F84E6042BCB6F",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.adxn-0x80f0c1c49891dcfdd40b6e0f960f84e6042bcb6f.png",
+      ticker: "ADXN",
+    },
+    {
       address: "0x13E7bceFddE72492E656f3fa58baE6029708e673",
       chain: "AVAX",
       chainId: "43114",
@@ -441,26 +431,6 @@ export const list = {
       ticker: "BTC.B",
     },
     {
-      address: "0x8D88e48465F30Acfb8daC0b3E35c9D6D7d36abaf",
-      chain: "AVAX",
-      chainId: "43114",
-      decimals: 18,
-      identifier: "AVAX.CNR-0X8D88E48465F30ACFB8DAC0B3E35C9D6D7D36ABAF",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.cnr-0x8d88e48465f30acfb8dac0b3e35c9d6d7d36abaf.png",
-      ticker: "CNR",
-    },
-    {
-      address: "0x8D88e48465F30Acfb8daC0b3E35c9D6D7d36abaf",
-      chain: "AVAX",
-      chainId: "43114",
-      decimals: 18,
-      identifier: "AVAX.CNR-0X8D88E48465F30ACFB8DAC0B3E35C9D6D7D36ABAF",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.cnr-0x8d88e48465f30acfb8dac0b3e35c9d6d7d36abaf.png",
-      ticker: "CNR",
-    },
-    {
       address: "0x420FcA0121DC28039145009570975747295f2329",
       chain: "AVAX",
       chainId: "43114",
@@ -519,26 +489,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.domi-0xfc6da929c031162841370af240dec19099861d3b.png",
       ticker: "DOMI",
-    },
-    {
-      address: "0xe533B81297B820D2Eb2cd837263926596328E8D2",
-      chain: "AVAX",
-      chainId: "43114",
-      decimals: 18,
-      identifier: "AVAX.EMDX-0XE533B81297B820D2EB2CD837263926596328E8D2",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.emdx-0xe533b81297b820d2eb2cd837263926596328e8d2.png",
-      ticker: "EMDX",
-    },
-    {
-      address: "0xe533B81297B820D2Eb2cd837263926596328E8D2",
-      chain: "AVAX",
-      chainId: "43114",
-      decimals: 18,
-      identifier: "AVAX.EMDX-0XE533B81297B820D2EB2CD837263926596328E8D2",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.emdx-0xe533b81297b820d2eb2cd837263926596328e8d2.png",
-      ticker: "EMDX",
     },
     {
       address: "0xC891EB4cbdEFf6e073e859e987815Ed1505c2ACD",
@@ -681,64 +631,24 @@ export const list = {
       ticker: "KIMBO",
     },
     {
-      address: "0x5947BB275c521040051D82396192181b413227A3",
+      address: "0x694200a68B18232916353250955bE220e88c5cBB",
       chain: "AVAX",
       chainId: "43114",
       decimals: 18,
-      identifier: "AVAX.LINK.E-0X5947BB275C521040051D82396192181B413227A3",
+      identifier: "AVAX.KOVIN-0X694200A68B18232916353250955BE220E88C5CBB",
       logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.link.e-0x5947bb275c521040051d82396192181b413227a3.png",
-      ticker: "LINK.E",
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.kovin-0x694200a68b18232916353250955be220e88c5cbb.png",
+      ticker: "KOVIN",
     },
     {
-      address: "0x5947BB275c521040051D82396192181b413227A3",
+      address: "0x694200a68B18232916353250955bE220e88c5cBB",
       chain: "AVAX",
       chainId: "43114",
       decimals: 18,
-      identifier: "AVAX.LINK.E-0X5947BB275C521040051D82396192181B413227A3",
+      identifier: "AVAX.KOVIN-0X694200A68B18232916353250955BE220E88C5CBB",
       logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.link.e-0x5947bb275c521040051d82396192181b413227a3.png",
-      ticker: "LINK.E",
-    },
-    {
-      address: "0xbBAAA0420D474B34Be197f95A323C2fF3829E811",
-      chain: "AVAX",
-      chainId: "43114",
-      decimals: 18,
-      identifier: "AVAX.LODE-0XBBAAA0420D474B34BE197F95A323C2FF3829E811",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.lode-0xbbaaa0420d474b34be197f95a323c2ff3829e811.png",
-      ticker: "LODE",
-    },
-    {
-      address: "0xbBAAA0420D474B34Be197f95A323C2fF3829E811",
-      chain: "AVAX",
-      chainId: "43114",
-      decimals: 18,
-      identifier: "AVAX.LODE-0XBBAAA0420D474B34BE197F95A323C2FF3829E811",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.lode-0xbbaaa0420d474b34be197f95a323c2ff3829e811.png",
-      ticker: "LODE",
-    },
-    {
-      address: "0x333000333b26eE30214B4af6419D9ab07a450400",
-      chain: "AVAX",
-      chainId: "43114",
-      decimals: 18,
-      identifier: "AVAX.MELD-0X333000333B26EE30214B4AF6419D9AB07A450400",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.meld-0x333000333b26ee30214b4af6419d9ab07a450400.png",
-      ticker: "MELD",
-    },
-    {
-      address: "0x333000333b26eE30214B4af6419D9ab07a450400",
-      chain: "AVAX",
-      chainId: "43114",
-      decimals: 18,
-      identifier: "AVAX.MELD-0X333000333B26EE30214B4AF6419D9AB07A450400",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.meld-0x333000333b26ee30214b4af6419d9ab07a450400.png",
-      ticker: "MELD",
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.kovin-0x694200a68b18232916353250955be220e88c5cbb.png",
+      ticker: "KOVIN",
     },
     {
       address: "0x130966628846BFd36ff31a822705796e8cb8C18D",
@@ -759,46 +669,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.mim-0x130966628846bfd36ff31a822705796e8cb8c18d.png",
       ticker: "MIM",
-    },
-    {
-      address: "0xDf3d57c3480951958Cef19905E4cf7FC1bA9ad42",
-      chain: "AVAX",
-      chainId: "43114",
-      decimals: 18,
-      identifier: "AVAX.MONUSD-0XDF3D57C3480951958CEF19905E4CF7FC1BA9AD42",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.monusd-0xdf3d57c3480951958cef19905e4cf7fc1ba9ad42.png",
-      ticker: "MONUSD",
-    },
-    {
-      address: "0xDf3d57c3480951958Cef19905E4cf7FC1bA9ad42",
-      chain: "AVAX",
-      chainId: "43114",
-      decimals: 18,
-      identifier: "AVAX.MONUSD-0XDF3D57C3480951958CEF19905E4CF7FC1BA9AD42",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.monusd-0xdf3d57c3480951958cef19905e4cf7fc1ba9ad42.png",
-      ticker: "MONUSD",
-    },
-    {
-      address: "0xD036414fa2BCBb802691491E323BFf1348C5F4Ba",
-      chain: "AVAX",
-      chainId: "43114",
-      decimals: 18,
-      identifier: "AVAX.MU-0XD036414FA2BCBB802691491E323BFF1348C5F4BA",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.mu-0xd036414fa2bcbb802691491e323bff1348c5f4ba.png",
-      ticker: "MU",
-    },
-    {
-      address: "0xD036414fa2BCBb802691491E323BFf1348C5F4Ba",
-      chain: "AVAX",
-      chainId: "43114",
-      decimals: 18,
-      identifier: "AVAX.MU-0XD036414FA2BCBB802691491E323BFF1348C5F4BA",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.mu-0xd036414fa2bcbb802691491e323bff1348c5f4ba.png",
-      ticker: "MU",
     },
     {
       address: "0xAcFb898Cff266E53278cC0124fC2C7C94C8cB9a5",
