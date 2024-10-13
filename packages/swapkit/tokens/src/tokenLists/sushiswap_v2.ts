@@ -2,14 +2,14 @@ export const list = {
   provider: "SUSHISWAP_V2",
   chainId: "1",
   name: "SUSHISWAP_V2",
-  timestamp: "2024-10-12T00:00:51.757Z",
+  timestamp: "2024-10-13T00:01:03.916Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: [],
-  count: 91,
+  count: 90,
   tokens: [
     {
       address: "0x4Af698B479D0098229DC715655c667Ceb6cd8433",
@@ -200,16 +200,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.dai-0x6b175474e89094c44da98b954eedeac495271d0f.png",
       ticker: "DAI",
-    },
-    {
-      address: "0xE00639A1f59B52773b7d39d9F9beF07F6248dbAe",
-      chain: "ETH",
-      chainId: "1",
-      decimals: 18,
-      identifier: "ETH.DAOX-0XE00639A1F59B52773B7D39D9F9BEF07F6248DBAE",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.daox-0xe00639a1f59b52773b7d39d9f9bef07f6248dbae.png",
-      ticker: "DAOX",
     },
     {
       address: "0x8f693ca8D21b157107184d29D398A8D082b38b76",
