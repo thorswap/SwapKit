@@ -9,7 +9,7 @@ export const list = {
     patch: 0,
   },
   keywords: ["uniswap", "default"],
-  count: 574,
+  count: 573,
   tokens: [
     {
       address: "0x6314C31A7a1652cE482cffe247E9CB7c3f4BB9aF",
@@ -210,16 +210,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ata-0xac9ac2c17cdfed4abc80a53c5553388575714d03.png",
       ticker: "ATA",
-    },
-    {
-      address: "0xc87b37a581ec3257b734886d9d3a581f5a9d056c",
-      chain: "ARB",
-      chainId: "42161",
-      decimals: 18,
-      identifier: "ARB.ATH-0xc87b37a581ec3257b734886d9d3a581f5a9d056c",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.ath-0xc87b37a581ec3257b734886d9d3a581f5a9d056c.png",
-      ticker: "ATH",
     },
     {
       address: "0x23ee2343B892b1BB63503a4FAbc840E0e2C6810f",
@@ -440,16 +430,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.crypto-0x9842989969687f7d249d01cae1d2ff6b7b6b6d35.png",
       ticker: "CRYPTO",
-    },
-    {
-      address: "0xd07d35368e04a839dee335e213302b21ef14bb4a",
-      chain: "ARB",
-      chainId: "42161",
-      decimals: 18,
-      identifier: "ARB.CRYSTAL-0xd07d35368e04a839dee335e213302b21ef14bb4a",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.crystal-0xd07d35368e04a839dee335e213302b21ef14bb4a.png",
-      ticker: "CRYSTAL",
     },
     {
       address: "0x319f865b287fCC10b30d8cE6144e8b6D1b476999",
@@ -1810,6 +1790,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.spell-0x3e6648c5a70a150a88bce65f4ad4d506fe15d2af.png",
       ticker: "SPELL",
+    },
+    {
+      address: "0x7dd747d63b094971e6638313a6a2685e80c7fb2e",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.STFX-0x7dd747d63b094971e6638313a6a2685e80c7fb2e",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.stfx-0x7dd747d63b094971e6638313a6a2685e80c7fb2e.png",
+      ticker: "STFX",
     },
     {
       address: "0xe018C7a3d175Fb0fE15D70Da2c874d3CA16313EC",
