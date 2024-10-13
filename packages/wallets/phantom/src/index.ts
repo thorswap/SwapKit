@@ -80,27 +80,26 @@ async function getWalletMethods<T extends PhantomSupportedChains>({
         recipient,
         assetValue,
         isPDA,
-      }: WalletTxParams & {
-        assetValue: AssetValue;
-        isPDA?: boolean;
-      }) => {
+      }: WalletTxParams & { assetValue: AssetValue; isPDA?: boolean }) => {
         if (!(isPDA || toolbox.validateAddress(recipient))) {
           throw new SwapKitError("core_transaction_invalid_recipient_address");
         }
 
         const fromPubkey = new PublicKey(address);
 
+        const amount = assetValue.getBaseValue("number");
+
         const transaction = assetValue.isGasAsset
           ? new Transaction().add(
               SystemProgram.transfer({
                 fromPubkey,
-                lamports: assetValue.getBaseValue("number"),
+                lamports: amount,
                 toPubkey: new PublicKey(recipient),
               }),
             )
           : assetValue.address
             ? await createSolanaTokenTransaction({
-                amount: assetValue.getBaseValue("number"),
+                amount,
                 connection: toolbox.connection,
                 decimals: assetValue.decimal as number,
                 from: fromPubkey,

@@ -1,5 +1,35 @@
 # @swapkit/wallets
 
+## 1.2.18
+
+### Patch Changes
+
+- Updated dependencies [[`1281bb8`](https://github.com/thorswap/SwapKit/commit/1281bb8242ba70bb9d7286869ec5e9b8e3f44c9a)]:
+  - @swapkit/wallet-xdefi@1.1.25
+  - @swapkit/wallet-keystore@1.2.25
+  - @swapkit/wallet-phantom@1.1.14
+
+## 1.2.17
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-coinbase@1.1.17
+  - @swapkit/wallet-evm-extensions@1.1.12
+  - @swapkit/wallet-exodus@1.2.18
+  - @swapkit/wallet-keepkey@1.3.14
+  - @swapkit/wallet-keplr@1.1.2
+  - @swapkit/wallet-keystore@1.2.24
+  - @swapkit/wallet-ledger@1.3.14
+  - @swapkit/wallet-okx@1.1.22
+  - @swapkit/wallet-phantom@1.1.13
+  - @swapkit/wallet-polkadotjs@1.0.35
+  - @swapkit/wallet-radix@1.2.9
+  - @swapkit/wallet-talisman@1.2.16
+  - @swapkit/wallet-trezor@1.1.5
+  - @swapkit/wallet-wc@1.3.14
+  - @swapkit/wallet-xdefi@1.1.24
+
 ## 1.2.16
 
 ### Patch Changes

@@ -2,14 +2,14 @@ export const list = {
   provider: "MAYACHAIN",
   chainId: "mayachain-mainnet-v1",
   name: "MAYACHAIN",
-  timestamp: "2024-09-25T15:30:54.634Z",
+  timestamp: "2024-10-13T12:00:37.431Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: [],
-  count: 55,
+  count: 56,
   tokens: [
     {
       address: "0x912ce59144191c1204e64559fe8253a0e49e6548",
@@ -130,6 +130,16 @@ export const list = {
       ticker: "WSTETH",
     },
     {
+      address: "0x9f41b34f42058a7b74672055a5fae22c4b113fd1",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.YUM-0x9f41b34f42058a7b74672055a5fae22c4b113fd1",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.yum-0x9f41b34f42058a7b74672055a5fae22c4b113fd1.png",
+      ticker: "YUM",
+    },
+    {
       chain: "BTC",
       chainId: "bitcoin",
       decimals: 8,
@@ -202,14 +212,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.wsteth-0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0.png",
       ticker: "WstETH",
-    },
-    {
-      chain: "KUJI",
-      chainId: "kaiyo-1",
-      decimals: 6,
-      identifier: "KUJI.AXLYUM",
-      logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/kuji.axlyum.png",
-      ticker: "AXLYUM",
     },
     {
       chain: "KUJI",
@@ -384,6 +386,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.wsteth-0x5979d7b546e38e414f7e9822514be443a4800529.png",
       ticker: "WSTETH",
+    },
+    {
+      address: "0x9f41b34f42058a7b74672055a5fae22c4b113fd1",
+      chain: "MAYA",
+      chainId: "mayachain-mainnet-v1",
+      decimals: 8,
+      identifier: "MAYA.ARB/YUM-0x9f41b34f42058a7b74672055a5fae22c4b113fd1",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.yum-0x9f41b34f42058a7b74672055a5fae22c4b113fd1.png",
+      ticker: "YUM",
     },
     {
       chain: "MAYA",

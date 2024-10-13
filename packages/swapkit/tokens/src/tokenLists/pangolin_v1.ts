@@ -2,7 +2,7 @@ export const list = {
   provider: "PANGOLIN_V1",
   chainId: "43114",
   name: "PANGOLIN_V1",
-  timestamp: "2024-09-25T15:31:06.827Z",
+  timestamp: "2024-10-13T12:00:48.787Z",
   version: {
     major: 1,
     minor: 0,
@@ -82,16 +82,6 @@ export const list = {
       ticker: "SPORE",
     },
     {
-      address: "0x9d871BD3D730F416D5d06Ff8BC17bE4119070552",
-      chain: "AVAX",
-      chainId: "43114",
-      decimals: 18,
-      identifier: "AVAX.TERRA-0X9D871BD3D730F416D5D06FF8BC17BE4119070552",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.terra-0x9d871bd3d730f416d5d06ff8bc17be4119070552.png",
-      ticker: "TERRA",
-    },
-    {
       address: "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
       chain: "AVAX",
       chainId: "43114",
@@ -150,6 +140,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.wavax-0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7.png",
       ticker: "WAVAX",
+    },
+    {
+      address: "0xB1466d4cf0DCfC0bCdDcf3500F473cdACb88b56D",
+      chain: "AVAX",
+      chainId: "43114",
+      decimals: 18,
+      identifier: "AVAX.WET-0XB1466D4CF0DCFC0BCDDCF3500F473CDACB88B56D",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/avax.wet-0xb1466d4cf0dcfc0bcddcf3500f473cdacb88b56d.png",
+      ticker: "WET",
     },
     {
       address: "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB",

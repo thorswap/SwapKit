@@ -41,6 +41,7 @@ export class AssetValue extends BigIntArithmetics {
   chain: Chain;
   isGasAsset = false;
   isSynthetic = false;
+  isTradeAsset = false;
   symbol: string;
   tax?: TokenTax;
   ticker: string;
@@ -69,16 +70,23 @@ export class AssetValue extends BigIntArithmetics {
     this.symbol = assetInfo.symbol;
     this.address = assetInfo.address;
     this.isSynthetic = assetInfo.isSynthetic;
+    this.isTradeAsset = assetInfo.isTradeAsset;
     this.isGasAsset = assetInfo.isGasAsset;
     this.chainId = ChainToChainId[assetInfo.chain];
   }
 
   toString({ includeSynthProtocol }: { includeSynthProtocol?: boolean } = {}) {
-    return this.isSynthetic && !includeSynthProtocol ? this.symbol : `${this.chain}.${this.symbol}`;
+    return (this.isSynthetic || this.isTradeAsset) && !includeSynthProtocol
+      ? this.symbol
+      : `${this.chain}.${this.symbol}`;
   }
 
   toUrl() {
-    return this.isSynthetic ? `${this.chain}.${this.symbol.replace("/", ".")}` : this.toString();
+    return this.isSynthetic
+      ? `${this.chain}.${this.symbol.replace("/", ".")}`
+      : this.isTradeAsset
+        ? `${this.chain}.${this.symbol.replace("~", "..")}`
+        : this.toString();
   }
 
   eqAsset({ chain, symbol }: { chain: Chain; symbol: string }) {
@@ -124,7 +132,7 @@ export class AssetValue extends BigIntArithmetics {
       ? getCommonAssetInfo(assetOrChain as CommonAssetString)
       : { identifier: assetOrChain, decimal: undefined };
 
-    const { chain, isSynthetic } = getAssetInfo(unsafeIdentifier);
+    const { chain, isSynthetic, isTradeAsset } = getAssetInfo(unsafeIdentifier);
     const token = staticTokensMap.get(
       chain === Chain.Solana
         ? (unsafeIdentifier as TokenNames)
@@ -151,7 +159,7 @@ or by passing asyncTokenLookup: true to the from() function, which will make it 
 
     const assetValue = asyncTokenLookup
       ? createAssetValue(identifier, fromBaseDecimal ? adjustedValue : parsedValue)
-      : isSynthetic
+      : isSynthetic || isTradeAsset
         ? createSyntheticAssetValue(identifier, adjustedValue)
         : new AssetValue({ tax, decimal, identifier, value: adjustedValue });
 
@@ -304,9 +312,11 @@ function createSyntheticAssetValue(identifier: string, value: NumberPrimitives =
     : undefined;
   const isMayaOrThor = chain ? [Chain.Maya, Chain.THORChain].includes(chain) : false;
 
+  const assetSeperator = identifier.slice(0, 14).includes("~") ? "~" : "/";
+
   const [synthChain, symbol] = isMayaOrThor
-    ? identifier.split(".").slice(1).join().split("/")
-    : identifier.split("/");
+    ? identifier.split(".").slice(1).join().split(assetSeperator)
+    : identifier.split(assetSeperator);
 
   if (!(synthChain && symbol)) {
     throw new SwapKitError({
@@ -318,7 +328,7 @@ function createSyntheticAssetValue(identifier: string, value: NumberPrimitives =
   return new AssetValue({
     decimal: 8,
     value: safeValue(value, 8),
-    identifier: `${chain || Chain.THORChain}.${synthChain}/${symbol}`,
+    identifier: `${chain || Chain.THORChain}.${synthChain}${assetSeperator}${symbol}`,
   });
 }
 
@@ -331,16 +341,18 @@ function safeValue(value: NumberPrimitives, decimal: number) {
 // TODO refactor & split into smaller functions
 function getAssetInfo(identifier: string) {
   const isSynthetic = identifier.slice(0, 14).includes("/");
+  const isTradeAsset = identifier.slice(0, 14).includes("~");
+  const assetSeperator = isTradeAsset ? "~" : "/";
 
   const isThorchain = identifier.split(".")?.[0]?.toUpperCase() === Chain.THORChain;
   const isMaya = identifier.split(".")?.[0]?.toUpperCase() === Chain.Maya;
 
   const [synthChain, synthSymbol = ""] =
     isThorchain || isMaya
-      ? identifier.split(".").slice(1).join().split("/")
-      : identifier.split("/");
+      ? identifier.split(".").slice(1).join().split(assetSeperator)
+      : identifier.split(assetSeperator);
 
-  if (isSynthetic && !(synthChain && synthSymbol)) {
+  if ((isSynthetic || isTradeAsset) && !(synthChain && synthSymbol)) {
     throw new SwapKitError({
       errorKey: "helpers_invalid_asset_identifier",
       info: { identifier },
@@ -348,13 +360,13 @@ function getAssetInfo(identifier: string) {
   }
 
   const adjustedIdentifier =
-    identifier.includes(".") && !isSynthetic
+    identifier.includes(".") && !isSynthetic && !isTradeAsset
       ? identifier
       : `${isMaya ? Chain.Maya : Chain.THORChain}.${synthSymbol}`;
 
   const [chain, ...rest] = adjustedIdentifier.split(".") as [Chain, string];
 
-  const symbol = isSynthetic ? synthSymbol : rest.join(".");
+  const symbol = isSynthetic || isTradeAsset ? synthSymbol : rest.join(".");
   const splitSymbol = symbol.split("-");
   const ticker = (
     splitSymbol.length === 1 ? splitSymbol[0] : splitSymbol.slice(0, -1).join("-")
@@ -369,8 +381,10 @@ function getAssetInfo(identifier: string) {
     chain,
     isGasAsset: isGasAsset({ chain, symbol }),
     isSynthetic,
+    isTradeAsset,
     ticker,
     symbol:
-      (isSynthetic ? `${synthChain}/` : "") + (address ? `${ticker}-${address ?? ""}` : symbol),
+      (isSynthetic || isTradeAsset ? `${synthChain}${assetSeperator}` : "") +
+      (address ? `${ticker}-${address ?? ""}` : symbol),
   };
 }

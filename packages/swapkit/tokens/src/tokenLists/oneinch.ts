@@ -1,14 +1,14 @@
 export const list = {
   provider: "ONEINCH",
   name: "ONEINCH",
-  timestamp: "2024-09-25T15:30:55.998Z",
+  timestamp: "2024-10-13T12:00:38.721Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: ["oneinch", "1inch", "1inch.exchange", "1inch.exchange v1"],
-  count: 1398,
+  count: 1402,
   tokens: [
     {
       address: "0xba5ddd1f9d7f570dc94a51479a000e3bce967196",
@@ -4258,6 +4258,16 @@ export const list = {
       ticker: "DIVER",
     },
     {
+      address: "0x20157dbabb84e3bbfe68c349d0d44e48ae7b5ad2",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 8,
+      identifier: "ETH.DLCBTC-0x20157dbabb84e3bbfe68c349d0d44e48ae7b5ad2",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.dlcbtc-0x20157dbabb84e3bbfe68c349d0d44e48ae7b5ad2.png",
+      ticker: "DLCBTC",
+    },
+    {
       address: "0x43dfc4159d86f3a37a5a4b3d4580b888ad7d4ddd",
       chain: "ETH",
       chainId: "1",
@@ -4506,6 +4516,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.eeth-0x35fa164735182de50811e8e2e824cfb9b6118ac2.png",
       ticker: "EETH",
+    },
+    {
+      address: "0xec53bf9167f50cdeb3ae105f56099aaab9061f83",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.EIGEN-0xec53bf9167f50cdeb3ae105f56099aaab9061f83",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.eigen-0xec53bf9167f50cdeb3ae105f56099aaab9061f83.png",
+      ticker: "EIGEN",
     },
     {
       address: "0xbf2179859fc6d5bee9bf9158632dc51678a4100e",
@@ -11925,6 +11945,16 @@ export const list = {
       ticker: "SDT",
     },
     {
+      address: "0x8be3460a480c80728a8c4d7a5d5303c85ba7b3b9",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.sENA-0x8be3460a480c80728a8c4d7a5d5303c85ba7b3b9",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.sena-0x8be3460a480c80728a8c4d7a5d5303c85ba7b3b9.png",
+      ticker: "sENA",
+    },
+    {
       address: "0xfe2e637202056d30016725477c5da089ab0a043a",
       chain: "ETH",
       chainId: "1",
@@ -12893,6 +12923,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.trust-0x57700244b20f84799a31c6c96dadff373ca9d6c5.png",
       ticker: "TRUST",
+    },
+    {
+      address: "0x2c537e5624e4af88a7ae4060c022609376c8d0eb",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 6,
+      identifier: "ETH.TRYB-0x2c537e5624e4af88a7ae4060c022609376c8d0eb",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.tryb-0x2c537e5624e4af88a7ae4060c022609376c8d0eb.png",
+      ticker: "TRYB",
     },
     {
       address: "0x0000000000085d4780b73119b644ae5ecd22b376",
