@@ -110,42 +110,45 @@ function plugin({
         chainflipBrokerUrl: brokerUrl,
       });
     }
-
     const {
       route: {
-        buyAsset: buyString,
-        sellAsset: sellString,
+        buyAsset: buyAssetString,
+        sellAsset: sellAssetString,
         sellAmount,
         destinationAddress: recipient,
       },
       maxBoostFeeBps = 0,
     } = swapParams;
 
-    if (!(sellString && buyString)) {
+    if (!(sellAssetString && buyAssetString)) {
       throw new SwapKitError("core_swap_asset_not_recognized");
     }
 
-    const sellAsset = await AssetValue.from({ asyncTokenLookup: true, asset: sellString });
+    const sellAsset = await AssetValue.from({
+      asyncTokenLookup: true,
+      asset: sellAssetString,
+      value: sellAmount,
+    });
+
     const wallet = getWallet(sellAsset.chain as SupportedChain);
 
     if (!wallet) {
       throw new SwapKitError("core_wallet_connection_not_found");
     }
 
-    const buyAsset = await AssetValue.from({ asyncTokenLookup: true, asset: buyString });
-    const assetValue = sellAsset.set(sellAmount);
+    const buyAsset = await AssetValue.from({ asyncTokenLookup: true, asset: buyAssetString });
 
     const { depositAddress } = await getDepositAddress({
       brokerEndpoint: brokerUrl,
       buyAsset,
       recipient,
-      sellAsset: assetValue,
+      sellAsset,
       maxBoostFeeBps,
       chainflipSDKBroker: useChainflipSDKBroker,
     });
 
     const tx = await wallet.transfer({
-      assetValue,
+      assetValue: sellAsset,
       from: wallet.address,
       recipient: depositAddress,
       isPDA: true,

@@ -1,5 +1,16 @@
 # @swapkit/wallet-talisman
 
+## 0.0.0-nightly-20241013120314
+
+### Patch Changes
+
+- nightly
+
+- Updated dependencies []:
+  - @swapkit/helpers@0.0.0-nightly-20241013120314
+  - @swapkit/toolbox-evm@0.0.0-nightly-20241013120314
+  - @swapkit/toolbox-substrate@0.0.0-nightly-20241013120314
+
 ## 1.2.16
 
 ### Patch Changes

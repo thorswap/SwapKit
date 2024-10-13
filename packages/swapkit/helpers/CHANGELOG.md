@@ -1,5 +1,15 @@
 # @swapkit/helpers
 
+## 0.0.0-nightly-20241013120314
+
+### Patch Changes
+
+- nightly
+
+- Updated dependencies [[`a67cc8e`](https://github.com/thorswap/SwapKit/commit/a67cc8ede4f8366b6dab02e026143be1d6bae3e2)]:
+  - @swapkit/contracts@0.0.0-nightly-20241013120314
+  - @swapkit/tokens@0.0.0-nightly-20241013120314
+
 ## 1.13.0
 
 ### Minor Changes

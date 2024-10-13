@@ -1,5 +1,22 @@
 # @swapkit/core
 
+## 0.0.0-nightly-20241013120314
+
+### Patch Changes
+
+- nightly
+
+- Updated dependencies []:
+  - @swapkit/plugin-evm@0.0.0-nightly-20241013120314
+  - @swapkit/api@0.0.0-nightly-20241013120314
+  - @swapkit/helpers@0.0.0-nightly-20241013120314
+  - @swapkit/toolbox-cosmos@0.0.0-nightly-20241013120314
+  - @swapkit/toolbox-evm@0.0.0-nightly-20241013120314
+  - @swapkit/toolbox-radix@0.0.0-nightly-20241013120314
+  - @swapkit/toolbox-solana@0.0.0-nightly-20241013120314
+  - @swapkit/toolbox-substrate@0.0.0-nightly-20241013120314
+  - @swapkit/toolbox-utxo@0.0.0-nightly-20241013120314
+
 ## 1.4.15
 
 ### Patch Changes

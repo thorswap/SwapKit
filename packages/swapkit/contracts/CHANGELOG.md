@@ -1,5 +1,11 @@
 # @swapkit/contracts
 
+## 0.0.0-nightly-20241013120314
+
+### Patch Changes
+
+- nightly
+
 ## 1.0.5
 
 ### Patch Changes

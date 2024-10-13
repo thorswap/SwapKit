@@ -1,5 +1,28 @@
 # @swapkit/wallets
 
+## 0.0.0-nightly-20241013120314
+
+### Patch Changes
+
+- nightly
+
+- Updated dependencies [[`a67cc8e`](https://github.com/thorswap/SwapKit/commit/a67cc8ede4f8366b6dab02e026143be1d6bae3e2)]:
+  - @swapkit/wallet-coinbase@0.0.0-nightly-20241013120314
+  - @swapkit/wallet-evm-extensions@0.0.0-nightly-20241013120314
+  - @swapkit/wallet-exodus@0.0.0-nightly-20241013120314
+  - @swapkit/wallet-keepkey@0.0.0-nightly-20241013120314
+  - @swapkit/wallet-keplr@0.0.0-nightly-20241013120314
+  - @swapkit/wallet-keystore@0.0.0-nightly-20241013120314
+  - @swapkit/wallet-ledger@0.0.0-nightly-20241013120314
+  - @swapkit/wallet-okx@0.0.0-nightly-20241013120314
+  - @swapkit/wallet-phantom@0.0.0-nightly-20241013120314
+  - @swapkit/wallet-polkadotjs@0.0.0-nightly-20241013120314
+  - @swapkit/wallet-radix@0.0.0-nightly-20241013120314
+  - @swapkit/wallet-talisman@0.0.0-nightly-20241013120314
+  - @swapkit/wallet-trezor@0.0.0-nightly-20241013120314
+  - @swapkit/wallet-wc@0.0.0-nightly-20241013120314
+  - @swapkit/wallet-xdefi@0.0.0-nightly-20241013120314
+
 ## 1.2.18
 
 ### Patch Changes

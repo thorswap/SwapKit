@@ -1,5 +1,21 @@
 # @swapkit/sdk
 
+## 0.0.0-nightly-20241013120314
+
+### Patch Changes
+
+- nightly
+
+- Updated dependencies [[`a67cc8e`](https://github.com/thorswap/SwapKit/commit/a67cc8ede4f8366b6dab02e026143be1d6bae3e2)]:
+  - @swapkit/plugin-chainflip@0.0.0-nightly-20241013120314
+  - @swapkit/plugin-evm@0.0.0-nightly-20241013120314
+  - @swapkit/plugin-radix@0.0.0-nightly-20241013120314
+  - @swapkit/plugin-thorchain@0.0.0-nightly-20241013120314
+  - @swapkit/api@0.0.0-nightly-20241013120314
+  - @swapkit/core@0.0.0-nightly-20241013120314
+  - @swapkit/tokens@0.0.0-nightly-20241013120314
+  - @swapkit/wallets@0.0.0-nightly-20241013120314
+
 ## 1.2.24
 
 ### Patch Changes

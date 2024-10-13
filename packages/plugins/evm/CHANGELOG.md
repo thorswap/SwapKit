@@ -1,5 +1,16 @@
 # @swapkit/plugin-evm
 
+## 0.0.0-nightly-20241013120314
+
+### Patch Changes
+
+- nightly
+
+- Updated dependencies []:
+  - @swapkit/api@0.0.0-nightly-20241013120314
+  - @swapkit/helpers@0.0.0-nightly-20241013120314
+  - @swapkit/toolbox-evm@0.0.0-nightly-20241013120314
+
 ## 1.1.26
 
 ### Patch Changes

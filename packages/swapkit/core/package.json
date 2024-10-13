@@ -35,5 +35,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.4.15"
+  "version": "0.0.0-nightly-20241013120314"
 }

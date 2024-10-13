@@ -1,5 +1,11 @@
 # @swapkit/wizard
 
+## 0.0.0-nightly-20241013120314
+
+### Patch Changes
+
+- nightly
+
 ## 1.0.4
 
 ### Patch Changes

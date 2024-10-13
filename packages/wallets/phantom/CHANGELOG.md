@@ -1,5 +1,19 @@
 # @swapkit/wallet-phantom
 
+## 0.0.0-nightly-20241013120314
+
+### Patch Changes
+
+- nightly
+
+- [`a67cc8e`](https://github.com/thorswap/SwapKit/commit/a67cc8ede4f8366b6dab02e026143be1d6bae3e2) Thanks [@ice-chillios](https://github.com/ice-chillios)! - Fix chainflip asset amount on getting deposit address
+
+- Updated dependencies []:
+  - @swapkit/helpers@0.0.0-nightly-20241013120314
+  - @swapkit/toolbox-evm@0.0.0-nightly-20241013120314
+  - @swapkit/toolbox-solana@0.0.0-nightly-20241013120314
+  - @swapkit/toolbox-utxo@0.0.0-nightly-20241013120314
+
 ## 1.1.14
 
 ### Patch Changes

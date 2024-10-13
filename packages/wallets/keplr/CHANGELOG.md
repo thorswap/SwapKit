@@ -1,5 +1,15 @@
 # @swapkit/wallet-keplr
 
+## 0.0.0-nightly-20241013120314
+
+### Patch Changes
+
+- nightly
+
+- Updated dependencies []:
+  - @swapkit/helpers@0.0.0-nightly-20241013120314
+  - @swapkit/toolbox-cosmos@0.0.0-nightly-20241013120314
+
 ## 1.1.2
 
 ### Patch Changes
