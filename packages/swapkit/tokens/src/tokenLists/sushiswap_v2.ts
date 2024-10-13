@@ -2,7 +2,7 @@ export const list = {
   provider: "SUSHISWAP_V2",
   chainId: "1",
   name: "SUSHISWAP_V2",
-  timestamp: "2024-10-13T00:01:03.916Z",
+  timestamp: "2024-10-13T12:00:49.769Z",
   version: {
     major: 1,
     minor: 0,
