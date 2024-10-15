@@ -3,6 +3,7 @@ import { Chain, type EVMChain } from "@swapkit/helpers";
 import {
   ARBITRUM_ONE_MAINNET_ID,
   AVALACHE_MAINNET_ID,
+  BASE_MAINNET_ID,
   BSC_MAINNET_ID,
   COSMOS_HUB_MAINNET_ID,
   ETHEREUM_MAINNET_ID,
@@ -27,6 +28,8 @@ export const chainToChainId = (chain: Chain) => {
   switch (chain) {
     case Chain.Avalanche:
       return AVALACHE_MAINNET_ID;
+    case Chain.Base:
+      return BASE_MAINNET_ID;
     case Chain.BinanceSmartChain:
       return BSC_MAINNET_ID;
     case Chain.Ethereum:

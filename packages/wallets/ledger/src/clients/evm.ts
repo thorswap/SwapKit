@@ -176,3 +176,6 @@ export const PolygonLedger = ({ provider, derivationPath }: LedgerParams) =>
 
 export const OptimismLedger = ({ provider, derivationPath }: LedgerParams) =>
   new EVMLedgerInterface({ chainId: ChainId.Optimism, provider, derivationPath });
+
+export const BaseLedger = ({ provider, derivationPath }: LedgerParams) =>
+  new EVMLedgerInterface({ chainId: ChainId.Base, provider, derivationPath });

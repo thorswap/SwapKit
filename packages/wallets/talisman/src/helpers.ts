@@ -12,6 +12,7 @@ import {
 } from "@swapkit/helpers";
 import {
   type ARBToolbox,
+  type BASEToolbox,
   type BSCToolbox,
   BrowserProvider,
   type Eip1193Provider,
@@ -65,6 +66,7 @@ export const getWeb3WalletMethods = async ({
         (
           toolbox as
             | ReturnType<typeof ARBToolbox>
+            | ReturnType<typeof BASEToolbox>
             | ReturnType<typeof BSCToolbox>
             | ReturnType<typeof MATICToolbox>
             | ReturnType<typeof OPToolbox>
@@ -99,7 +101,8 @@ export const getWalletForChain = async ({
     case Chain.Optimism:
     case Chain.Polygon:
     case Chain.Avalanche:
-    case Chain.BinanceSmartChain: {
+    case Chain.BinanceSmartChain:
+    case Chain.Base: {
       if (!(window.talismanEth && "send" in window.talismanEth)) {
         throw new SwapKitError({ errorKey: "wallet_talisman_not_found", info: { chain } });
       }

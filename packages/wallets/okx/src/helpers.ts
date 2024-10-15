@@ -61,6 +61,7 @@ export const getWalletForChain = async ({
 > => {
   switch (chain) {
     case Chain.Ethereum:
+    case Chain.Base:
     case Chain.Avalanche:
     case Chain.Arbitrum:
     case Chain.Optimism:

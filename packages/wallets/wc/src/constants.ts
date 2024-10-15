@@ -8,10 +8,11 @@ export const AVALACHE_MAINNET_ID = "eip155:43114";
 export const THORCHAIN_MAINNET_ID = "cosmos:thorchain";
 export const COSMOS_HUB_MAINNET_ID = "cosmos:cosmoshub-4";
 export const KUJIRA_MAINNET_ID = "cosmos:kaiyo-1";
-export const MAYACHAIN_MAINNET_ID = "cosmos:mayachain";
+export const MAYACHAIN_MAINNET_ID = "cosmos:mayachain-mainnet-v1";
 export const ARBITRUM_ONE_MAINNET_ID = "eip155:42161";
 export const OPTIMISM_MAINNET_ID = "eip155:10";
 export const POLYGON_MAINNET_ID = "eip155:137";
+export const BASE_MAINNET_ID = "eip155:8453";
 
 export const DEFAULT_LOGGER = "debug";
 

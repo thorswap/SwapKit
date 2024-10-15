@@ -14,6 +14,7 @@ import type { Psbt, UTXOTransferParams, UTXOType } from "@swapkit/toolbox-utxo";
 export const TREZOR_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
   Chain.Avalanche,
+  Chain.Base,
   Chain.BinanceSmartChain,
   Chain.Bitcoin,
   Chain.BitcoinCash,
@@ -68,6 +69,7 @@ async function getToolbox({
     case Chain.Arbitrum:
     case Chain.Optimism:
     case Chain.Polygon:
+    case Chain.Base:
     case Chain.Ethereum: {
       const { getProvider, getToolboxByChain } = await import("@swapkit/toolbox-evm");
       const { getEVMSigner } = await import("./evmSigner");
