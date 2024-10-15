@@ -87,12 +87,21 @@ export const getDenomWithChain = ({ symbol, chain }: AssetValue) => {
 export const getAssetFromDenom = (denom: string, amount: string) => {
   switch (denom) {
     case "rune":
-      return AssetValue.from({ chain: Chain.THORChain, value: Number.parseInt(amount) / 1e8 });
+      return AssetValue.from({
+        chain: Chain.THORChain,
+        value: Number.parseInt(amount) / 1e8,
+      });
     case "uatom":
     case "atom":
-      return AssetValue.from({ chain: Chain.Cosmos, value: Number.parseInt(amount) / 1e6 });
+      return AssetValue.from({
+        chain: Chain.Cosmos,
+        value: Number.parseInt(amount) / 1e6,
+      });
     case "cacao":
-      return AssetValue.from({ chain: Chain.Maya, value: Number.parseInt(amount) / 1e10 });
+      return AssetValue.from({
+        chain: Chain.Maya,
+        value: Number.parseInt(amount) / 1e10,
+      });
     case "maya":
       return AssetValue.from({
         asset: `${Chain.Maya}.${Chain.Maya}`,
@@ -100,7 +109,10 @@ export const getAssetFromDenom = (denom: string, amount: string) => {
       });
     case "ukuji":
     case "kuji":
-      return AssetValue.from({ chain: Chain.Kujira, value: Number.parseInt(amount) / 1e6 });
+      return AssetValue.from({
+        chain: Chain.Kujira,
+        value: Number.parseInt(amount) / 1e6,
+      });
     case USK_KUJIRA_FACTORY_DENOM:
       // USK on Kujira
       return AssetValue.from({
@@ -109,7 +121,10 @@ export const getAssetFromDenom = (denom: string, amount: string) => {
       });
 
     default:
-      return AssetValue.from({ asset: denom, value: Number.parseInt(amount) / 1e8 });
+      return AssetValue.from({
+        asset: denom,
+        value: Number.parseInt(amount) / 1e8,
+      });
   }
 };
 
@@ -172,10 +187,25 @@ export const estimateMaxSendableAmount = async ({
   const fees = await toolbox.getFees();
 
   if (!balance) {
-    return AssetValue.from({ chain: assetEntity?.chain || balances[0]?.chain || Chain.Cosmos });
+    return AssetValue.from({
+      chain: assetEntity?.chain || balances[0]?.chain || Chain.Cosmos,
+    });
   }
 
   return balance.sub(fees[feeOptionKey]);
+};
+
+const getTransferMsgTypeByChain = (chain: CosmosChain) => {
+  switch (chain) {
+    case Chain.Maya:
+    case Chain.THORChain:
+      return "/types.MsgSend";
+    case Chain.Cosmos:
+    case Chain.Kujira:
+      return "/cosmos.bank.v1beta1.MsgSend";
+    default:
+      throw new Error("Unsupported chain");
+  }
 };
 
 export const buildTransferTx = async ({
@@ -198,12 +228,12 @@ export const buildTransferTx = async ({
     throw new Error("Account does not exist");
   }
 
-  const base64FromAddress = bech32ToBase64(fromAddress);
-  const base64ToAddress = bech32ToBase64(toAddress);
+  const isMayaOrThorchain = chain === Chain.Maya || chain === Chain.THORChain;
 
-  const feeAsset = getDenom(
-    getGasAsset({ chain }).symbol
-  )
+  const _fromAddress = isMayaOrThorchain ? bech32ToBase64(fromAddress) : fromAddress;
+  const _toAddress = isMayaOrThorchain ? bech32ToBase64(toAddress) : toAddress;
+
+  const feeAsset = getDenom(getGasAsset({ chain }).symbol);
   const defaultFee = getDefaultChainFee(chain as CosmosChain);
 
   const _fee =
@@ -215,8 +245,8 @@ export const buildTransferTx = async ({
       : defaultFee;
 
   const msgSend = {
-    fromAddress: base64FromAddress,
-    toAddress: base64ToAddress,
+    fromAddress: _fromAddress,
+    toAddress: _toAddress,
     amount: [
       {
         amount: assetValue.getBaseValue("string"),
@@ -230,7 +260,12 @@ export const buildTransferTx = async ({
     accountNumber: accountOnChain.accountNumber,
     sequence: accountOnChain.sequence,
     chainId,
-    msgs: [{ typeUrl: "/types.MsgSend", value: msgSend }],
+    msgs: [
+      {
+        typeUrl: getTransferMsgTypeByChain(chain as CosmosChain),
+        value: msgSend,
+      },
+    ],
     fee: _fee,
   };
 };
