@@ -107,7 +107,8 @@ const getToolbox = async ({
     case Chain.Arbitrum:
     case Chain.Optimism:
     case Chain.Polygon:
-    case Chain.BinanceSmartChain: {
+    case Chain.BinanceSmartChain:
+    case Chain.Base: {
       const keys = ensureEVMApiKeys({ chain, covalentApiKey, ethplorerApiKey });
       const { getToolboxByChain, getProvider } = await import("@swapkit/toolbox-evm");
       const signer = await getLedgerClient({ chain, derivationPath });

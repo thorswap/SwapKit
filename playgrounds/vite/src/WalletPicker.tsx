@@ -78,6 +78,7 @@ export const availableChainsByWallet = {
     Chain.Maya,
   ],
   [WalletOption.TREZOR]: [
+    Chain.Base,
     Chain.Bitcoin,
     Chain.BitcoinCash,
     Chain.Litecoin,
@@ -93,6 +94,7 @@ export const availableChainsByWallet = {
 
   [WalletOption.WALLETCONNECT]: [
     Chain.Ethereum,
+    Chain.Base,
     Chain.BinanceSmartChain,
     Chain.Avalanche,
     Chain.THORChain,
@@ -104,6 +106,7 @@ export const availableChainsByWallet = {
   [WalletOption.OKX]: [
     Chain.Ethereum,
     Chain.Avalanche,
+    Chain.Base,
     Chain.BinanceSmartChain,
     Chain.Bitcoin,
     Chain.Cosmos,
@@ -113,6 +116,7 @@ export const availableChainsByWallet = {
   ],
   [WalletOption.TALISMAN]: [
     Chain.Ethereum,
+    Chain.Base,
     Chain.Arbitrum,
     Chain.Avalanche,
     Chain.Polygon,
