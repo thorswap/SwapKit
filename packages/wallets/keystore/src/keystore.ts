@@ -4,6 +4,7 @@ import {
   type ConnectWalletParams,
   DerivationPath,
   type DerivationPathArray,
+  RPCUrl,
   type WalletChain,
   WalletOption,
   type WalletTxParams,
@@ -163,7 +164,10 @@ const getWalletMethodsForChain = async ({
       );
 
       const signer = await createKeyring(phrase, Network[chain].prefix);
-      const toolbox = await getToolboxByChain(chain, { signer });
+      const toolbox = await getToolboxByChain(chain, {
+        signer,
+        providerUrl: chain === Chain.Polkadot ? RPCUrl.Polkadot : RPCUrl.Chainflip,
+      });
 
       return { address: signer.address, walletMethods: toolbox };
     }

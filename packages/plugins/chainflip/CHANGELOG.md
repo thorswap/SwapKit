@@ -1,5 +1,160 @@
 # @swapkit/plugin-chainflip
 
+## 1.3.14
+
+### Patch Changes
+
+- Updated dependencies [[`66147be`](https://github.com/thorswap/SwapKit/commit/66147be7f795caa52f2c1fec5fbf1568afcae3c4)]:
+  - @swapkit/helpers@1.13.0
+  - @swapkit/api@1.9.3
+  - @swapkit/toolbox-evm@1.5.5
+  - @swapkit/toolbox-substrate@1.2.17
+  - @swapkit/toolbox-utxo@1.1.22
+
+## 1.3.13
+
+### Patch Changes
+
+- [#1024](https://github.com/thorswap/SwapKit/pull/1024) [`031a8c6`](https://github.com/thorswap/SwapKit/commit/031a8c6d4b1ad43465a20bc76246aa0e31b81db0) Thanks [@0xepicode](https://github.com/0xepicode)! - Fixed funding chainglip account
+
+- Updated dependencies [[`ce2e5f9`](https://github.com/thorswap/SwapKit/commit/ce2e5f997ec06d8f6553559ffc6781935f59cd41), [`031a8c6`](https://github.com/thorswap/SwapKit/commit/031a8c6d4b1ad43465a20bc76246aa0e31b81db0)]:
+  - @swapkit/helpers@1.12.1
+  - @swapkit/toolbox-evm@1.5.4
+  - @swapkit/api@1.9.2
+  - @swapkit/toolbox-substrate@1.2.16
+  - @swapkit/toolbox-utxo@1.1.21
+
+## 1.3.12
+
+### Patch Changes
+
+- [#1022](https://github.com/thorswap/SwapKit/pull/1022) [`d957c41`](https://github.com/thorswap/SwapKit/commit/d957c41f76d76627633c33ea245d3efa21ce3b8b) Thanks [@0xepicode](https://github.com/0xepicode)! - Fixed funding chainflip state account
+
+## 1.3.11
+
+### Patch Changes
+
+- [#1020](https://github.com/thorswap/SwapKit/pull/1020) [`2634bd6`](https://github.com/thorswap/SwapKit/commit/2634bd644023daff0ad29de9f9f058eaf72ea70d) Thanks [@towanTG](https://github.com/towanTG)! - Adds leap wallet support
+
+- Updated dependencies [[`0342f89`](https://github.com/thorswap/SwapKit/commit/0342f89898f7ab25f3dd152d878cb7e7a3291424), [`2634bd6`](https://github.com/thorswap/SwapKit/commit/2634bd644023daff0ad29de9f9f058eaf72ea70d)]:
+  - @swapkit/helpers@1.12.0
+  - @swapkit/api@1.9.1
+  - @swapkit/toolbox-evm@1.5.3
+  - @swapkit/toolbox-substrate@1.2.15
+  - @swapkit/toolbox-utxo@1.1.20
+
+## 1.3.10
+
+### Patch Changes
+
+- [`d946d06`](https://github.com/thorswap/SwapKit/commit/d946d06bba6b867fdb254e91564ca161307c3216) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Chainflip config usage
+
+## 1.3.9
+
+### Patch Changes
+
+- Updated dependencies [[`0c4230b`](https://github.com/thorswap/SwapKit/commit/0c4230b8adbf27a9f165202cd84aeebf5dc6cf15)]:
+  - @swapkit/api@1.9.0
+  - @swapkit/helpers@1.11.2
+
+## 1.3.8
+
+### Patch Changes
+
+- Updated dependencies [[`1c4facf`](https://github.com/thorswap/SwapKit/commit/1c4facf880251ff3e6496f6c8a21a9379793b31f)]:
+  - @swapkit/api@1.8.4
+  - @swapkit/helpers@1.11.2
+
+## 1.3.7
+
+### Patch Changes
+
+- [`d5f14ce`](https://github.com/thorswap/SwapKit/commit/d5f14ce400e58c2e61c952c0c4e29e405e9f55ea) Thanks [@towanTG](https://github.com/towanTG)! - Formats recipient address for chainflip deposit channel
+
+## 1.3.6
+
+### Patch Changes
+
+- [`3fd3165`](https://github.com/thorswap/SwapKit/commit/3fd316566d4e259b5f0465407c6b01d928088ff7) Thanks [@towanTG](https://github.com/towanTG)! - Fixes chainflip sol transfer params and phantom transfer
+
+- Updated dependencies [[`3fd3165`](https://github.com/thorswap/SwapKit/commit/3fd316566d4e259b5f0465407c6b01d928088ff7)]:
+  - @swapkit/helpers@1.11.2
+  - @swapkit/api@1.8.3
+  - @swapkit/toolbox-evm@1.5.2
+  - @swapkit/toolbox-substrate@1.2.14
+  - @swapkit/toolbox-utxo@1.1.19
+
+## 1.3.5
+
+### Patch Changes
+
+- [`f4dd385`](https://github.com/thorswap/SwapKit/commit/f4dd385be9a5c4697d1f55a14eb217a3415f2032) Thanks [@towanTG](https://github.com/towanTG)! - Adds polkadot address decoding for deposit addresses
+
+- [`b9b6f8c`](https://github.com/thorswap/SwapKit/commit/b9b6f8cfa31d9e6b21ddacd9be7e953d4f82148c) Thanks [@towanTG](https://github.com/towanTG)! - Use bs58 for sol address decoding
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.11.1
+
+## 1.3.4
+
+### Patch Changes
+
+- [`c7b6f90`](https://github.com/thorswap/SwapKit/commit/c7b6f9054997b990cf69d1fc31427cb865fe37bc) Thanks [@towanTG](https://github.com/towanTG)! - Fix build dependencies
+
+## 1.3.3
+
+### Patch Changes
+
+- [`87832b0`](https://github.com/thorswap/SwapKit/commit/87832b0539041f398eef0e2a8d959f6bef4ddaeb) Thanks [@towanTG](https://github.com/towanTG)! - Fixes deposit address to buffer
+
+## 1.3.2
+
+### Patch Changes
+
+- [`2e459bf`](https://github.com/thorswap/SwapKit/commit/2e459bf8ecb386c59c614946cba9b1c624c8d4f8) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Solana deposit address decoding and updates tokenlist
+
+- Updated dependencies [[`2e459bf`](https://github.com/thorswap/SwapKit/commit/2e459bf8ecb386c59c614946cba9b1c624c8d4f8)]:
+  - @swapkit/toolbox-substrate@1.2.13
+  - @swapkit/helpers@1.11.1
+  - @swapkit/api@1.8.2
+  - @swapkit/toolbox-evm@1.5.1
+  - @swapkit/toolbox-utxo@1.1.18
+
+## 1.3.1
+
+### Patch Changes
+
+- [#1008](https://github.com/thorswap/SwapKit/pull/1008) [`3148573`](https://github.com/thorswap/SwapKit/commit/3148573c09d120c350c34444aed1e6b1a8fe16ad) Thanks [@towanTG](https://github.com/towanTG)! - Fixes chainflip asset ticker and solana get balance
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.11.0
+
+## 1.3.0
+
+### Minor Changes
+
+- [#1006](https://github.com/thorswap/SwapKit/pull/1006) [`2008496`](https://github.com/thorswap/SwapKit/commit/2008496df4d52faa790a84e85b72752aa09eec17) Thanks [@towanTG](https://github.com/towanTG)! - Adds Chainflip SDK like deposit channel endpoint support
+
+### Patch Changes
+
+- Updated dependencies [[`2008496`](https://github.com/thorswap/SwapKit/commit/2008496df4d52faa790a84e85b72752aa09eec17)]:
+  - @swapkit/helpers@1.11.0
+  - @swapkit/toolbox-evm@1.5.0
+  - @swapkit/api@1.8.1
+  - @swapkit/toolbox-substrate@1.2.12
+  - @swapkit/toolbox-utxo@1.1.17
+
+## 1.2.17
+
+### Patch Changes
+
+- Updated dependencies [[`b1e83e1`](https://github.com/thorswap/SwapKit/commit/b1e83e174b64d786d9eec5ed13cb57a28d6fb6a1)]:
+  - @swapkit/api@1.8.0
+  - @swapkit/helpers@1.10.3
+  - @swapkit/toolbox-evm@1.4.4
+  - @swapkit/toolbox-substrate@1.2.11
+  - @swapkit/toolbox-utxo@1.1.16
+
 ## 1.2.16
 
 ### Patch Changes

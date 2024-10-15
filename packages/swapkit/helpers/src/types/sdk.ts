@@ -17,7 +17,7 @@ export type ChainApis = { [key in CovalentChains]?: CovalentApiType } & {
 } & {
   [key in UTXOChain]?: BlockchairApiType;
 } & {
-  [key in CosmosChain | Chain.Solana | Chain.Radix | Chain.Polkadot]?: string;
+  [key in CosmosChain | Chain.Solana | Chain.Radix | Chain.Polkadot | Chain.Chainflip]?: string;
 };
 
 export type GenericSwapParams<T = unknown> = {

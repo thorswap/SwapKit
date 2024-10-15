@@ -1,12 +1,16 @@
+import { PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import {
+  type AssetValue,
   Chain,
   type ConnectWalletParams,
   SwapKitError,
   WalletOption,
+  type WalletTxParams,
   ensureEVMApiKeys,
   setRequestClientConfig,
 } from "@swapkit/helpers";
 import type { SolanaProvider } from "@swapkit/toolbox-solana";
+import { createSolanaTokenTransaction } from "@swapkit/toolbox-solana";
 
 export const PHANTOM_SUPPORTED_CHAINS = [Chain.Bitcoin, Chain.Ethereum, Chain.Solana] as const;
 export type PhantomSupportedChains = (typeof PHANTOM_SUPPORTED_CHAINS)[number];
@@ -67,9 +71,59 @@ async function getWalletMethods<T extends PhantomSupportedChains>({
         throw new SwapKitError("wallet_phantom_not_found");
       }
 
-      const connection = await provider.connect();
-      const address: string = connection.publicKey.toString();
-      return { ...SOLToolbox({ rpcUrl }), address };
+      const providerConnection = await provider.connect();
+      const address: string = providerConnection.publicKey.toString();
+
+      const toolbox = SOLToolbox({ rpcUrl });
+
+      const transfer = async ({
+        recipient,
+        assetValue,
+        isPDA,
+      }: WalletTxParams & { assetValue: AssetValue; isPDA?: boolean }) => {
+        if (!(isPDA || toolbox.validateAddress(recipient))) {
+          throw new SwapKitError("core_transaction_invalid_recipient_address");
+        }
+
+        const fromPubkey = new PublicKey(address);
+
+        const amount = assetValue.getBaseValue("number");
+
+        const transaction = assetValue.isGasAsset
+          ? new Transaction().add(
+              SystemProgram.transfer({
+                fromPubkey,
+                lamports: amount,
+                toPubkey: new PublicKey(recipient),
+              }),
+            )
+          : assetValue.address
+            ? await createSolanaTokenTransaction({
+                amount,
+                connection: toolbox.connection,
+                decimals: assetValue.decimal as number,
+                from: fromPubkey,
+                recipient,
+                tokenAddress: assetValue.address,
+              })
+            : undefined;
+
+        if (!transaction) {
+          throw new SwapKitError("core_transaction_invalid_sender_address");
+        }
+
+        const blockHash = await toolbox.connection.getLatestBlockhash();
+        transaction.recentBlockhash = blockHash.blockhash;
+        transaction.feePayer = fromPubkey;
+
+        const signedTransaction = await provider.signTransaction(transaction);
+
+        const txid = await toolbox.connection.sendRawTransaction(signedTransaction.serialize());
+
+        return txid;
+      };
+
+      return { ...toolbox, transfer, address };
     }
 
     default: {

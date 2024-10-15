@@ -2,14 +2,14 @@ export const list = {
   provider: "MAYACHAIN",
   chainId: "mayachain-mainnet-v1",
   name: "MAYACHAIN",
-  timestamp: "2024-09-14T08:30:44.701Z",
+  timestamp: "2024-10-13T12:00:37.431Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: [],
-  count: 53,
+  count: 56,
   tokens: [
     {
       address: "0x912ce59144191c1204e64559fe8253a0e49e6548",
@@ -130,6 +130,16 @@ export const list = {
       ticker: "WSTETH",
     },
     {
+      address: "0x9f41b34f42058a7b74672055a5fae22c4b113fd1",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.YUM-0x9f41b34f42058a7b74672055a5fae22c4b113fd1",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.yum-0x9f41b34f42058a7b74672055a5fae22c4b113fd1.png",
+      ticker: "YUM",
+    },
+    {
       chain: "BTC",
       chainId: "bitcoin",
       decimals: 8,
@@ -152,6 +162,16 @@ export const list = {
       identifier: "ETH.ETH",
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.eth.png",
       ticker: "ETH",
+    },
+    {
+      address: "0xaaee1a9723aadb7afa2810263653a34ba2c21c7a",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.MOG-0xaaee1a9723aadb7afa2810263653a34ba2c21c7a",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.mog-0xaaee1a9723aadb7afa2810263653a34ba2c21c7a.png",
+      ticker: "MOG",
     },
     {
       address: "0x6982508145454ce325ddbe47a25d4ec3d2311933",
@@ -192,14 +212,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.wsteth-0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0.png",
       ticker: "WstETH",
-    },
-    {
-      chain: "KUJI",
-      chainId: "kaiyo-1",
-      decimals: 6,
-      identifier: "KUJI.AXLYUM",
-      logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/kuji.axlyum.png",
-      ticker: "AXLYUM",
     },
     {
       chain: "KUJI",
@@ -376,6 +388,16 @@ export const list = {
       ticker: "WSTETH",
     },
     {
+      address: "0x9f41b34f42058a7b74672055a5fae22c4b113fd1",
+      chain: "MAYA",
+      chainId: "mayachain-mainnet-v1",
+      decimals: 8,
+      identifier: "MAYA.ARB/YUM-0x9f41b34f42058a7b74672055a5fae22c4b113fd1",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.yum-0x9f41b34f42058a7b74672055a5fae22c4b113fd1.png",
+      ticker: "YUM",
+    },
+    {
       chain: "MAYA",
       chainId: "mayachain-mainnet-v1",
       decimals: 8,
@@ -406,6 +428,16 @@ export const list = {
       identifier: "MAYA.ETH/ETH",
       logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.eth.png",
       ticker: "ETH",
+    },
+    {
+      address: "0xaaee1a9723aadb7afa2810263653a34ba2c21c7a",
+      chain: "MAYA",
+      chainId: "mayachain-mainnet-v1",
+      decimals: 8,
+      identifier: "MAYA.ETH/MOG-0xaaee1a9723aadb7afa2810263653a34ba2c21c7a",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.mog-0xaaee1a9723aadb7afa2810263653a34ba2c21c7a.png",
+      ticker: "MOG",
     },
     {
       address: "0x6982508145454ce325ddbe47a25d4ec3d2311933",

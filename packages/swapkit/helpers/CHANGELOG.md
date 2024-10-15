@@ -1,5 +1,53 @@
 # @swapkit/helpers
 
+## 1.13.0
+
+### Minor Changes
+
+- [#1030](https://github.com/thorswap/SwapKit/pull/1030) [`66147be`](https://github.com/thorswap/SwapKit/commit/66147be7f795caa52f2c1fec5fbf1568afcae3c4) Thanks [@towanTG](https://github.com/towanTG)! - Adds THORChain trade asset support
+
+## 1.12.1
+
+### Patch Changes
+
+- [#1026](https://github.com/thorswap/SwapKit/pull/1026) [`ce2e5f9`](https://github.com/thorswap/SwapKit/commit/ce2e5f997ec06d8f6553559ffc6781935f59cd41) Thanks [@towanTG](https://github.com/towanTG)! - Keeps Sol address case sensitive
+
+## 1.12.0
+
+### Minor Changes
+
+- [#1020](https://github.com/thorswap/SwapKit/pull/1020) [`2634bd6`](https://github.com/thorswap/SwapKit/commit/2634bd644023daff0ad29de9f9f058eaf72ea70d) Thanks [@towanTG](https://github.com/towanTG)! - Adds leap wallet support
+
+### Patch Changes
+
+- [`0342f89`](https://github.com/thorswap/SwapKit/commit/0342f89898f7ab25f3dd152d878cb7e7a3291424) Thanks [@towanTG](https://github.com/towanTG)! - Enables and fixes Chainflip and Polkadot for Keystore
+
+## 1.11.2
+
+### Patch Changes
+
+- [`3fd3165`](https://github.com/thorswap/SwapKit/commit/3fd316566d4e259b5f0465407c6b01d928088ff7) Thanks [@towanTG](https://github.com/towanTG)! - Fixes chainflip sol transfer params and phantom transfer
+
+## 1.11.1
+
+### Patch Changes
+
+- Updated dependencies [[`2e459bf`](https://github.com/thorswap/SwapKit/commit/2e459bf8ecb386c59c614946cba9b1c624c8d4f8)]:
+  - @swapkit/tokens@1.8.1
+
+## 1.11.0
+
+### Minor Changes
+
+- [#1006](https://github.com/thorswap/SwapKit/pull/1006) [`2008496`](https://github.com/thorswap/SwapKit/commit/2008496df4d52faa790a84e85b72752aa09eec17) Thanks [@towanTG](https://github.com/towanTG)! - Adds Chainflip SDK like deposit channel endpoint support
+
+## 1.10.3
+
+### Patch Changes
+
+- Updated dependencies [[`b1e83e1`](https://github.com/thorswap/SwapKit/commit/b1e83e174b64d786d9eec5ed13cb57a28d6fb6a1)]:
+  - @swapkit/tokens@1.8.0
+
 ## 1.10.2
 
 ### Patch Changes

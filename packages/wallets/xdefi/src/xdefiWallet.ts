@@ -85,7 +85,7 @@ async function getWalletMethodsForChain({
         recipient: string;
         assetValue: AssetValue;
         memo: string;
-      }) => toolbox.transfer({ signer: offlineSigner, fee: 2, ...params });
+      }) => toolbox.transfer({ signer: offlineSigner, ...params });
 
       return {
         ...toolbox,

@@ -1,5 +1,107 @@
 # @swapkit/wallet-phantom
 
+## 1.1.14
+
+### Patch Changes
+
+- Updated dependencies [[`1281bb8`](https://github.com/thorswap/SwapKit/commit/1281bb8242ba70bb9d7286869ec5e9b8e3f44c9a)]:
+  - @swapkit/toolbox-solana@1.1.13
+  - @swapkit/helpers@1.13.0
+
+## 1.1.13
+
+### Patch Changes
+
+- Updated dependencies [[`66147be`](https://github.com/thorswap/SwapKit/commit/66147be7f795caa52f2c1fec5fbf1568afcae3c4)]:
+  - @swapkit/helpers@1.13.0
+  - @swapkit/toolbox-evm@1.5.5
+  - @swapkit/toolbox-solana@1.1.12
+  - @swapkit/toolbox-utxo@1.1.22
+
+## 1.1.12
+
+### Patch Changes
+
+- Updated dependencies [[`ce2e5f9`](https://github.com/thorswap/SwapKit/commit/ce2e5f997ec06d8f6553559ffc6781935f59cd41), [`031a8c6`](https://github.com/thorswap/SwapKit/commit/031a8c6d4b1ad43465a20bc76246aa0e31b81db0)]:
+  - @swapkit/helpers@1.12.1
+  - @swapkit/toolbox-evm@1.5.4
+  - @swapkit/toolbox-solana@1.1.11
+  - @swapkit/toolbox-utxo@1.1.21
+
+## 1.1.11
+
+### Patch Changes
+
+- Updated dependencies [[`0342f89`](https://github.com/thorswap/SwapKit/commit/0342f89898f7ab25f3dd152d878cb7e7a3291424), [`2634bd6`](https://github.com/thorswap/SwapKit/commit/2634bd644023daff0ad29de9f9f058eaf72ea70d)]:
+  - @swapkit/helpers@1.12.0
+  - @swapkit/toolbox-evm@1.5.3
+  - @swapkit/toolbox-solana@1.1.10
+  - @swapkit/toolbox-utxo@1.1.20
+
+## 1.1.10
+
+### Patch Changes
+
+- [`e44f28d`](https://github.com/thorswap/SwapKit/commit/e44f28d9fad401d9cd81afe865be3352917e0310) Thanks [@towanTG](https://github.com/towanTG)! - Fixes confirm transaction await
+
+## 1.1.9
+
+### Patch Changes
+
+- [`3fd3165`](https://github.com/thorswap/SwapKit/commit/3fd316566d4e259b5f0465407c6b01d928088ff7) Thanks [@towanTG](https://github.com/towanTG)! - Fixes chainflip sol transfer params and phantom transfer
+
+- Updated dependencies [[`3fd3165`](https://github.com/thorswap/SwapKit/commit/3fd316566d4e259b5f0465407c6b01d928088ff7)]:
+  - @swapkit/toolbox-solana@1.1.9
+  - @swapkit/helpers@1.11.2
+  - @swapkit/toolbox-evm@1.5.2
+  - @swapkit/toolbox-utxo@1.1.19
+
+## 1.1.8
+
+### Patch Changes
+
+- Updated dependencies [[`87ecb76`](https://github.com/thorswap/SwapKit/commit/87ecb76f7c8975f26f6d45b5804d3ac68098ffcf)]:
+  - @swapkit/toolbox-solana@1.1.8
+  - @swapkit/helpers@1.11.1
+
+## 1.1.7
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.11.1
+  - @swapkit/toolbox-evm@1.5.1
+  - @swapkit/toolbox-solana@1.1.7
+  - @swapkit/toolbox-utxo@1.1.18
+
+## 1.1.6
+
+### Patch Changes
+
+- Updated dependencies [[`3148573`](https://github.com/thorswap/SwapKit/commit/3148573c09d120c350c34444aed1e6b1a8fe16ad)]:
+  - @swapkit/toolbox-solana@1.1.6
+  - @swapkit/helpers@1.11.0
+
+## 1.1.5
+
+### Patch Changes
+
+- Updated dependencies [[`2008496`](https://github.com/thorswap/SwapKit/commit/2008496df4d52faa790a84e85b72752aa09eec17)]:
+  - @swapkit/helpers@1.11.0
+  - @swapkit/toolbox-evm@1.5.0
+  - @swapkit/toolbox-solana@1.1.5
+  - @swapkit/toolbox-utxo@1.1.17
+
+## 1.1.4
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.10.3
+  - @swapkit/toolbox-evm@1.4.4
+  - @swapkit/toolbox-solana@1.1.4
+  - @swapkit/toolbox-utxo@1.1.16
+
 ## 1.1.3
 
 ### Patch Changes

@@ -13,23 +13,14 @@ function parseIdentifier(identifier: string) {
   return identifier;
 }
 
-const rawproviders = await SwapKitApi.getTokenListProvidersV2();
-
-console.info(
-  rawproviders.filter(
-    (provider) =>
-      ![ProviderName.THORCHAIN_STREAMING, ProviderName.MAYACHAIN_STREAMING].includes(
-        provider.provider,
-      ),
-  ),
-);
-
-const providers = (await SwapKitApi.getTokenListProvidersV2()).filter(
+const providers = (await SwapKitApi.getTokenListProvidersV2(true)).filter(
   (provider) =>
     ![ProviderName.THORCHAIN_STREAMING, ProviderName.MAYACHAIN_STREAMING].includes(
       provider.provider,
     ),
 );
+
+console.info(providers);
 
 console.info(
   `🚀 Fetching token lists from ${providers.length} providers:\n${providers
@@ -41,7 +32,7 @@ const thorchainChainId = ChainId.THORChain;
 
 for (const { provider } of providers) {
   try {
-    const tokenList = await SwapKitApi.getTokenListV2(provider);
+    const tokenList = await SwapKitApi.getTokenListV2(provider, true);
     if (!tokenList) continue;
 
     console.info(`✅ ${provider} token list fetched (${tokenList.tokens.length} tokens)`);

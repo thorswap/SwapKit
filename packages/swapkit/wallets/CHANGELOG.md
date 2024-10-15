@@ -1,5 +1,212 @@
 # @swapkit/wallets
 
+## 1.2.18
+
+### Patch Changes
+
+- Updated dependencies [[`1281bb8`](https://github.com/thorswap/SwapKit/commit/1281bb8242ba70bb9d7286869ec5e9b8e3f44c9a)]:
+  - @swapkit/wallet-xdefi@1.1.25
+  - @swapkit/wallet-keystore@1.2.25
+  - @swapkit/wallet-phantom@1.1.14
+
+## 1.2.17
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-coinbase@1.1.17
+  - @swapkit/wallet-evm-extensions@1.1.12
+  - @swapkit/wallet-exodus@1.2.18
+  - @swapkit/wallet-keepkey@1.3.14
+  - @swapkit/wallet-keplr@1.1.2
+  - @swapkit/wallet-keystore@1.2.24
+  - @swapkit/wallet-ledger@1.3.14
+  - @swapkit/wallet-okx@1.1.22
+  - @swapkit/wallet-phantom@1.1.13
+  - @swapkit/wallet-polkadotjs@1.0.35
+  - @swapkit/wallet-radix@1.2.9
+  - @swapkit/wallet-talisman@1.2.16
+  - @swapkit/wallet-trezor@1.1.5
+  - @swapkit/wallet-wc@1.3.14
+  - @swapkit/wallet-xdefi@1.1.24
+
+## 1.2.16
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-coinbase@1.1.16
+  - @swapkit/wallet-evm-extensions@1.1.11
+  - @swapkit/wallet-exodus@1.2.17
+  - @swapkit/wallet-keepkey@1.3.13
+  - @swapkit/wallet-keplr@1.1.1
+  - @swapkit/wallet-keystore@1.2.23
+  - @swapkit/wallet-ledger@1.3.13
+  - @swapkit/wallet-okx@1.1.21
+  - @swapkit/wallet-phantom@1.1.12
+  - @swapkit/wallet-polkadotjs@1.0.34
+  - @swapkit/wallet-radix@1.2.8
+  - @swapkit/wallet-talisman@1.2.15
+  - @swapkit/wallet-trezor@1.1.4
+  - @swapkit/wallet-wc@1.3.13
+  - @swapkit/wallet-xdefi@1.1.23
+
+## 1.2.15
+
+### Patch Changes
+
+- Updated dependencies [[`0342f89`](https://github.com/thorswap/SwapKit/commit/0342f89898f7ab25f3dd152d878cb7e7a3291424), [`2634bd6`](https://github.com/thorswap/SwapKit/commit/2634bd644023daff0ad29de9f9f058eaf72ea70d)]:
+  - @swapkit/wallet-keystore@1.2.22
+  - @swapkit/wallet-keplr@1.1.0
+  - @swapkit/wallet-coinbase@1.1.15
+  - @swapkit/wallet-evm-extensions@1.1.10
+  - @swapkit/wallet-exodus@1.2.16
+  - @swapkit/wallet-keepkey@1.3.12
+  - @swapkit/wallet-ledger@1.3.12
+  - @swapkit/wallet-okx@1.1.20
+  - @swapkit/wallet-phantom@1.1.11
+  - @swapkit/wallet-polkadotjs@1.0.33
+  - @swapkit/wallet-radix@1.2.7
+  - @swapkit/wallet-talisman@1.2.14
+  - @swapkit/wallet-trezor@1.1.3
+  - @swapkit/wallet-wc@1.3.12
+  - @swapkit/wallet-xdefi@1.1.22
+
+## 1.2.14
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-keepkey@1.3.11
+  - @swapkit/wallet-keplr@1.0.43
+  - @swapkit/wallet-keystore@1.2.21
+  - @swapkit/wallet-ledger@1.3.11
+  - @swapkit/wallet-okx@1.1.19
+  - @swapkit/wallet-wc@1.3.11
+  - @swapkit/wallet-xdefi@1.1.21
+
+## 1.2.13
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-keepkey@1.3.10
+  - @swapkit/wallet-keplr@1.0.42
+  - @swapkit/wallet-keystore@1.2.20
+  - @swapkit/wallet-ledger@1.3.10
+  - @swapkit/wallet-okx@1.1.18
+  - @swapkit/wallet-wc@1.3.10
+  - @swapkit/wallet-xdefi@1.1.20
+
+## 1.2.12
+
+### Patch Changes
+
+- Updated dependencies [[`e44f28d`](https://github.com/thorswap/SwapKit/commit/e44f28d9fad401d9cd81afe865be3352917e0310)]:
+  - @swapkit/wallet-phantom@1.1.10
+
+## 1.2.11
+
+### Patch Changes
+
+- Updated dependencies [[`3fd3165`](https://github.com/thorswap/SwapKit/commit/3fd316566d4e259b5f0465407c6b01d928088ff7)]:
+  - @swapkit/wallet-phantom@1.1.9
+  - @swapkit/wallet-keystore@1.2.19
+  - @swapkit/wallet-xdefi@1.1.19
+  - @swapkit/wallet-coinbase@1.1.14
+  - @swapkit/wallet-evm-extensions@1.1.9
+  - @swapkit/wallet-exodus@1.2.15
+  - @swapkit/wallet-keepkey@1.3.9
+  - @swapkit/wallet-keplr@1.0.41
+  - @swapkit/wallet-ledger@1.3.9
+  - @swapkit/wallet-okx@1.1.17
+  - @swapkit/wallet-polkadotjs@1.0.32
+  - @swapkit/wallet-radix@1.2.6
+  - @swapkit/wallet-talisman@1.2.13
+  - @swapkit/wallet-trezor@1.1.2
+  - @swapkit/wallet-wc@1.3.9
+
+## 1.2.10
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-keystore@1.2.18
+  - @swapkit/wallet-phantom@1.1.8
+  - @swapkit/wallet-xdefi@1.1.18
+
+## 1.2.9
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-keystore@1.2.17
+  - @swapkit/wallet-polkadotjs@1.0.31
+  - @swapkit/wallet-talisman@1.2.12
+  - @swapkit/wallet-coinbase@1.1.13
+  - @swapkit/wallet-evm-extensions@1.1.8
+  - @swapkit/wallet-exodus@1.2.14
+  - @swapkit/wallet-keepkey@1.3.8
+  - @swapkit/wallet-keplr@1.0.40
+  - @swapkit/wallet-ledger@1.3.8
+  - @swapkit/wallet-okx@1.1.16
+  - @swapkit/wallet-phantom@1.1.7
+  - @swapkit/wallet-radix@1.2.5
+  - @swapkit/wallet-trezor@1.1.1
+  - @swapkit/wallet-wc@1.3.8
+  - @swapkit/wallet-xdefi@1.1.17
+
+## 1.2.8
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-keystore@1.2.16
+  - @swapkit/wallet-phantom@1.1.6
+  - @swapkit/wallet-xdefi@1.1.16
+
+## 1.2.7
+
+### Patch Changes
+
+- Updated dependencies [[`2008496`](https://github.com/thorswap/SwapKit/commit/2008496df4d52faa790a84e85b72752aa09eec17)]:
+  - @swapkit/wallet-trezor@1.1.0
+  - @swapkit/wallet-coinbase@1.1.12
+  - @swapkit/wallet-evm-extensions@1.1.7
+  - @swapkit/wallet-exodus@1.2.13
+  - @swapkit/wallet-keepkey@1.3.7
+  - @swapkit/wallet-keplr@1.0.39
+  - @swapkit/wallet-keystore@1.2.15
+  - @swapkit/wallet-ledger@1.3.7
+  - @swapkit/wallet-okx@1.1.15
+  - @swapkit/wallet-phantom@1.1.5
+  - @swapkit/wallet-polkadotjs@1.0.30
+  - @swapkit/wallet-radix@1.2.4
+  - @swapkit/wallet-talisman@1.2.11
+  - @swapkit/wallet-wc@1.3.7
+  - @swapkit/wallet-xdefi@1.1.15
+
+## 1.2.6
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/wallet-coinbase@1.1.11
+  - @swapkit/wallet-evm-extensions@1.1.6
+  - @swapkit/wallet-exodus@1.2.12
+  - @swapkit/wallet-keepkey@1.3.6
+  - @swapkit/wallet-keplr@1.0.38
+  - @swapkit/wallet-keystore@1.2.14
+  - @swapkit/wallet-ledger@1.3.6
+  - @swapkit/wallet-okx@1.1.14
+  - @swapkit/wallet-phantom@1.1.4
+  - @swapkit/wallet-polkadotjs@1.0.29
+  - @swapkit/wallet-radix@1.2.3
+  - @swapkit/wallet-talisman@1.2.10
+  - @swapkit/wallet-trezor@1.0.33
+  - @swapkit/wallet-wc@1.3.6
+  - @swapkit/wallet-xdefi@1.1.14
+
 ## 1.2.5
 
 ### Patch Changes

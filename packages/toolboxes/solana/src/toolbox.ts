@@ -1,13 +1,12 @@
 import { mnemonicToSeedSync } from "@scure/bip39";
 import {
-  AccountLayout,
   TOKEN_PROGRAM_ID,
   createAssociatedTokenAccountInstruction,
   createTransferCheckedInstruction,
   getAccount,
   getAssociatedTokenAddress,
-  getMint,
 } from "@solana/spl-token";
+import { type TokenInfo, TokenListProvider } from "@solana/spl-token-registry";
 import {
   Connection,
   Keypair,
@@ -27,10 +26,10 @@ import {
 } from "@swapkit/helpers";
 import { HDKey } from "micro-key-producer/slip10.js";
 
-function validateAddress(address: string) {
+export function validateAddress(address: string) {
   try {
     const pubkey = new PublicKey(address);
-    return PublicKey.isOnCurve(pubkey.toBuffer());
+    return PublicKey.isOnCurve(pubkey.toBytes());
   } catch (_) {
     return false;
   }
@@ -60,22 +59,32 @@ async function getTokenBalances({
   connection: Connection;
   address: string;
 }) {
-  const tokenAccounts = await connection.getTokenAccountsByOwner(new PublicKey(address), {
+  const tokenAccounts = await connection.getParsedTokenAccountsByOwner(new PublicKey(address), {
     programId: TOKEN_PROGRAM_ID,
   });
+  const tokenListProvider = new TokenListProvider();
+  const tokenListContainer = await tokenListProvider.resolve();
+  const tokenList = tokenListContainer.filterByChainId(101).getList();
 
   const tokenBalances: AssetValue[] = [];
 
-  for await (const ta of tokenAccounts.value) {
-    const accData = AccountLayout.decode(ta.account.data);
-    const { decimals: decimal, address } = await getMint(connection, accData.mint);
+  for await (const tokenAccountInfo of tokenAccounts.value) {
+    const accountInfo = tokenAccountInfo.account.data.parsed.info;
+    const tokenAmount = accountInfo.tokenAmount.uiAmount;
+    const mintAddress = accountInfo.mint;
+    const decimal = accountInfo.tokenAmount.decimals;
 
-    if (accData.amount > BigInt(0)) {
+    // Find the token info from the token list
+    const tokenInfo = tokenList.find((token: TokenInfo) => token.address === mintAddress);
+
+    const tokenSymbol = tokenInfo ? tokenInfo.symbol : "UNKNOWN";
+
+    if (tokenAmount > BigInt(0)) {
       tokenBalances.push(
         new AssetValue({
-          value: SwapKitNumber.fromBigInt(accData.amount, decimal),
+          value: SwapKitNumber.fromBigInt(accountInfo.tokenAmount.amount, decimal),
           decimal,
-          identifier: `${Chain.Solana}.TOKEN-${address.toString()}`,
+          identifier: `${Chain.Solana}.${tokenSymbol}-${address.toString()}`,
         }),
       );
     }
@@ -93,7 +102,7 @@ function getBalance(connection: Connection) {
   };
 }
 
-async function createSolanaTokenTransaction({
+export async function createSolanaTokenTransaction({
   tokenAddress,
   recipient,
   from,
@@ -149,20 +158,20 @@ function transfer(connection: Connection) {
     fromKeypair: Keypair;
   }) => {
     if (!validateAddress(recipient)) {
-      throw new SwapKitError("core_transaction_invalid_sender_address");
+      throw new SwapKitError("core_transaction_invalid_recipient_address");
     }
 
     const transaction = assetValue.isGasAsset
       ? new Transaction().add(
           SystemProgram.transfer({
             fromPubkey: fromKeypair.publicKey,
-            lamports: assetValue.getValue("number"),
+            lamports: assetValue.getBaseValue("number"),
             toPubkey: new PublicKey(recipient),
           }),
         )
       : assetValue.address
         ? await createSolanaTokenTransaction({
-            amount: assetValue.getValue("number"),
+            amount: assetValue.getBaseValue("number"),
             connection,
             decimals: assetValue.decimal as number,
             from: fromKeypair.publicKey,
@@ -187,6 +196,7 @@ export const SOLToolbox = ({ rpcUrl = RPCUrl.Solana }: { rpcUrl?: string } = {})
   const connection = new Connection(rpcUrl, "confirmed");
 
   return {
+    connection,
     createKeysForPath,
     getAddressFromKeys,
     getBalance: getBalance(connection),
