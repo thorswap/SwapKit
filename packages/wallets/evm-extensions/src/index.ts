@@ -10,12 +10,7 @@ import {
   prepareNetworkSwitch,
   setRequestClientConfig,
 } from "@swapkit/helpers";
-import {
-  type AVAXToolbox,
-  type BrowserProvider,
-  type Eip1193Provider,
-  getToolboxByChain,
-} from "@swapkit/toolbox-evm";
+import type { AVAXToolbox, BrowserProvider, Eip1193Provider } from "@swapkit/toolbox-evm";
 
 declare const window: {
   ethereum: EthereumWindowProvider;
@@ -66,6 +61,7 @@ export const getWeb3WalletMethods = async ({
   provider: BrowserProvider;
 }) => {
   if (!ethereumWindowProvider) throw new Error("Requested web3 wallet is not installed");
+  const { getToolboxByChain } = await import("@swapkit/toolbox-evm");
 
   const keys = ensureEVMApiKeys({ chain, covalentApiKey, ethplorerApiKey });
   const signer = await provider.getSigner();

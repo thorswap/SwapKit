@@ -20,16 +20,9 @@ import {
   type SwapParams,
   type WalletChain,
 } from "@swapkit/helpers";
-import {
-  type TransferParams as CosmosTransferParams,
-  estimateTransactionFee as cosmosTransactionFee,
-  cosmosValidateAddress,
-} from "@swapkit/toolbox-cosmos";
-import { type TransferParams as EVMTransferParams, evmValidateAddress } from "@swapkit/toolbox-evm";
-import { validateAddress as validateRadixAddress } from "@swapkit/toolbox-radix";
-import { validateAddress as solanaValidateAddress } from "@swapkit/toolbox-solana";
-import { substrateValidateAddress } from "@swapkit/toolbox-substrate";
-import { type UTXOTransferParams, utxoValidateAddress } from "@swapkit/toolbox-utxo";
+import type { TransferParams as CosmosTransferParams } from "@swapkit/toolbox-cosmos";
+import type { TransferParams as EVMTransferParams } from "@swapkit/toolbox-evm";
+import type { UTXOTransferParams } from "@swapkit/toolbox-utxo";
 
 import {
   getExplorerAddressUrl as getAddressUrl,
@@ -213,37 +206,56 @@ export function SwapKit<
     ) as ConditionalAssetValueReturn<R>;
   }
 
+  /**
+   * @deprecated - use toolbox directly or use getAddressValidator() function
+   */
   function validateAddress({ address, chain }: { address: string; chain: Chain }) {
+    console.warn(
+      "validateAddress is deprecated - use toolbox directly or import { getAddressValidator } from '@swapkit/core'",
+    );
+
     switch (chain) {
       case Chain.Arbitrum:
       case Chain.Avalanche:
       case Chain.Optimism:
       case Chain.BinanceSmartChain:
       case Chain.Polygon:
-      case Chain.Ethereum:
+      case Chain.Ethereum: {
+        const { evmValidateAddress } = require("@swapkit/toolbox-evm");
         return evmValidateAddress({ address });
+      }
 
       case Chain.Litecoin:
       case Chain.Dash:
       case Chain.Dogecoin:
       case Chain.BitcoinCash:
-      case Chain.Bitcoin:
+      case Chain.Bitcoin: {
+        const { utxoValidateAddress } = require("@swapkit/toolbox-utxo");
         return utxoValidateAddress({ address, chain });
+      }
 
       case Chain.Cosmos:
       case Chain.Kujira:
       case Chain.Maya:
-      case Chain.THORChain:
+      case Chain.THORChain: {
+        const { cosmosValidateAddress } = require("@swapkit/toolbox-cosmos");
         return cosmosValidateAddress({ address, chain });
+      }
 
-      case Chain.Polkadot:
+      case Chain.Polkadot: {
+        const { substrateValidateAddress } = require("@swapkit/toolbox-substrate");
         return substrateValidateAddress({ address, chain });
+      }
 
-      case Chain.Radix:
+      case Chain.Radix: {
+        const { validateRadixAddress } = require("@swapkit/toolbox-radix");
         return validateRadixAddress(address);
+      }
 
-      case Chain.Solana:
+      case Chain.Solana: {
+        const { solanaValidateAddress } = require("@swapkit/toolbox-solana");
         return solanaValidateAddress(address);
+      }
 
       default:
         return false;
@@ -418,7 +430,8 @@ export function SwapKit<
       case Chain.Maya:
       case Chain.Kujira:
       case Chain.Cosmos: {
-        return cosmosTransactionFee(params);
+        const { estimateTransactionFee } = await import("@swapkit/toolbox-cosmos");
+        return estimateTransactionFee(params);
       }
 
       case Chain.Polkadot: {
