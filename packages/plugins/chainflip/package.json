@@ -1,9 +1,9 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@chainflip/sdk": "1.6.2",
-    "@polkadot/keyring": "12.6.2",
-    "@polkadot/util": "12.6.2",
+    "@chainflip/sdk": "1.6.6",
+    "@polkadot/keyring": "13.1.1",
+    "@polkadot/util": "13.1.1",
     "@swapkit/api": "workspace:*",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
@@ -15,10 +15,7 @@
     "@types/bs58": "4.0.4"
   },
   "description": "SwapKit Plugin - ChainFlip",
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",

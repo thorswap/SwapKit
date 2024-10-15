@@ -1,14 +1,11 @@
 {
   "description": "SwapKit Wallet - Keplr",
   "dependencies": {
-    "@keplr-wallet/types": "0.12.110",
+    "@keplr-wallet/types": "0.12.136",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",

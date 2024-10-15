@@ -1,21 +1,18 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@polkadot/api": "12.1.1",
-    "@polkadot/api-base": "12.1.1",
-    "@polkadot/keyring": "12.6.2",
-    "@polkadot/util": "12.6.2",
-    "@polkadot/util-crypto": "12.6.2",
+    "@polkadot/api": "14.0.1",
+    "@polkadot/api-base": "14.0.1",
+    "@polkadot/keyring": "13.1.1",
+    "@polkadot/util": "13.1.1",
+    "@polkadot/util-crypto": "13.1.1",
     "@swapkit/helpers": "workspace:*"
   },
   "description": "SwapKit - Toolbox substrate",
   "devDependencies": {
-    "@polkadot/types": "12.1.1"
+    "@polkadot/types": "14.0.1"
   },
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",
