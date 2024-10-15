@@ -96,7 +96,7 @@ function plugin({
       }
 
       return quote.data.quote;
-    } catch (error) {
+    } catch (_error) {
       throw new Error("core_swap_quote_error");
     }
   }
@@ -140,7 +140,7 @@ function plugin({
       }
 
       return quote.data.quote;
-    } catch (error) {
+    } catch (_error) {
       throw new Error("core_swap_quote_error");
     }
   }
@@ -238,7 +238,7 @@ function plugin({
       }
 
       return response.data.order;
-    } catch (error) {
+    } catch (_error) {
       throw new Error("Failed to get order status");
     }
   }
