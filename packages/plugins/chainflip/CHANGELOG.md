@@ -1,5 +1,18 @@
 # @swapkit/plugin-chainflip
 
+## 1.3.15
+
+### Patch Changes
+
+- [`a67cc8e`](https://github.com/thorswap/SwapKit/commit/a67cc8ede4f8366b6dab02e026143be1d6bae3e2) Thanks [@ice-chillios](https://github.com/ice-chillios)! - Fix chainflip asset amount on getting deposit address
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.13.1
+  - @swapkit/api@1.9.4
+  - @swapkit/toolbox-evm@1.5.6
+  - @swapkit/toolbox-substrate@1.2.18
+  - @swapkit/toolbox-utxo@1.1.23
+
 ## 1.3.14
 
 ### Patch Changes

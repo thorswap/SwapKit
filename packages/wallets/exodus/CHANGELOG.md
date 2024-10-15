@@ -1,5 +1,14 @@
 # @swapkit/wallet-exodus
 
+## 1.2.19
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.13.1
+  - @swapkit/toolbox-evm@1.5.6
+  - @swapkit/toolbox-utxo@1.1.23
+
 ## 1.2.18
 
 ### Patch Changes

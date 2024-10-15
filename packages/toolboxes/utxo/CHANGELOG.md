@@ -1,5 +1,12 @@
 # @swapkit/toolbox-utxo
 
+## 1.1.23
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.13.1
+
 ## 1.1.22
 
 ### Patch Changes

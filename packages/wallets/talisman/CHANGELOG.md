@@ -1,5 +1,18 @@
 # @swapkit/wallet-talisman
 
+## 1.3.0
+
+### Minor Changes
+
+- [#1040](https://github.com/thorswap/SwapKit/pull/1040) [`3713609`](https://github.com/thorswap/SwapKit/commit/371360992462eb35c2b6b1de1b275140c649495e) Thanks [@towanTG](https://github.com/towanTG)! - Adds BASE support
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.13.1
+  - @swapkit/toolbox-evm@1.5.6
+  - @swapkit/toolbox-substrate@1.2.18
+
 ## 1.2.16
 
 ### Patch Changes
