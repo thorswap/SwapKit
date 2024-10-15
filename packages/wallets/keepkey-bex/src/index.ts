@@ -1,6 +1,6 @@
 import type { Eip1193Provider } from "@swapkit/toolbox-evm";
 
-export { keepkeyBexWallet } from "./keepkeyWallet.ts";
+export { keepkeyBexWallet } from "./keepkeyWallet";
 
 declare global {
   interface Window {

@@ -1,11 +1,9 @@
 {
-  "description": "SwapKit Wallet - KEEPKEY BEX",
+  "description": "SwapKit Wallet - Keepkey BEX",
   "dependencies": {
-    "@keplr-wallet/types": "0.12.110",
     "@swapkit/helpers": "workspace:*",
     "@swapkit/toolbox-cosmos": "workspace:*",
     "@swapkit/toolbox-evm": "workspace:*",
-    "@swapkit/toolbox-solana": "workspace:*",
     "@swapkit/toolbox-utxo": "workspace:*"
   },
   "files": [
@@ -31,5 +29,5 @@
   },
   "type": "module",
   "types": "./src/index.ts",
-  "version": "1.0.23"
+  "version": "1.0.0"
 }

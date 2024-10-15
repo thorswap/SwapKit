@@ -12,17 +12,16 @@ import {
   ensureEVMApiKeys,
   setRequestClientConfig,
 } from "@swapkit/helpers";
-import type { ARBToolbox, AVAXToolbox, BSCToolbox } from "@swapkit/toolbox-evm";
-
-import type { WalletTxParams } from "./walletHelpers.ts";
+import type { ARBToolbox, AVAXToolbox, BSCToolbox, Eip1193Provider } from "@swapkit/toolbox-evm";
 import {
+  type WalletTxParams,
   cosmosTransfer,
   getKEEPKEYAddress,
   getKEEPKEYMethods,
   getKEEPKEYProvider,
   getProviderNameFromChain,
   walletTransfer,
-} from "./walletHelpers.ts";
+} from "./walletHelpers";
 
 const KEEPKEY_SUPPORTED_CHAINS = [
   Chain.Arbitrum,
@@ -91,12 +90,13 @@ async function getWalletMethodsForChain({
 
       const getBalance = async () => {
         try {
-          const providerChain = getProviderNameFromChain(chain); // Use the new helper function
+          const providerChain = getProviderNameFromChain(chain);
+          // @ts-expect-error We assuming there chains via switch
           const balance = await window?.keepkey?.[providerChain]?.request({
             method: "request_balance",
           });
-          const assetValue = AssetValue.fromChainOrSignature(chain, balance[0].balance);
-          return [assetValue]; // or return processedBalance if you process it
+          const assetValue = AssetValue.from({ chain, value: balance[0].balance });
+          return [assetValue];
         } catch (error) {
           console.error("Error fetching balance:", error);
           throw error;
@@ -122,7 +122,7 @@ async function getWalletMethodsForChain({
         getProvider,
         BrowserProvider,
       } = await import("@swapkit/toolbox-evm");
-      const ethereumWindowProvider = getKEEPKEYProvider(chain);
+      const ethereumWindowProvider = getKEEPKEYProvider(chain) as Eip1193Provider;
 
       if (!ethereumWindowProvider) {
         throw new SwapKitError("wallet_keepkey_not_found");
@@ -183,7 +183,7 @@ async function getWalletMethodsForChain({
   }
 }
 
-function connectKEEPKEY_BEX({
+function connectKeepkeyBex({
   addChain,
   config: { covalentApiKey, ethplorerApiKey, blockchairApiKey, thorswapApiKey },
 }: ConnectWalletParams) {
@@ -214,4 +214,4 @@ function connectKEEPKEY_BEX({
   };
 }
 
-export const keepkeyBexWallet = { connectKEEPKEY_BEX } as const;
+export const keepkeyBexWallet = { connectKeepkeyBex } as const;

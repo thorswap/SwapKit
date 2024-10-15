@@ -1,4 +1,3 @@
-import type { Keplr } from "@keplr-wallet/types";
 import {
   type AssetValue,
   Chain,
@@ -11,7 +10,7 @@ import {
   WalletOption,
   erc20ABI,
 } from "@swapkit/helpers";
-import { type TransferParams, getDenom } from "@swapkit/toolbox-cosmos";
+import type { TransferParams } from "@swapkit/toolbox-cosmos";
 import type {
   ApproveParams,
   BrowserProvider,
@@ -22,18 +21,26 @@ import type {
 
 interface UTXOProvider {
   request: (
-    args: { method: string; params: any },
+    args: {
+      method: string;
+      params?: {
+        amount: { amount: string; decimals?: number };
+        asset: { chain: Chain; symbol: string; ticker: string };
+        memo: string | undefined;
+        from?: string;
+        recipient: string;
+        gasLimit?: string | bigint;
+      }[];
+    },
     callback: (err: string, tx: string) => void,
   ) => void;
 }
-
-type KeepKeyProvider = Keplr | Eip1193Provider | UTXOProvider | undefined;
 
 type TransactionMethod = "transfer" | "deposit";
 
 type TransactionParams = {
   asset: string | { chain: string; symbol: string; ticker: string };
-  amount: number | string | { amount: number; decimals?: number };
+  amount: number | string | { amount: string | number; decimals?: number };
   decimal?: number;
   recipient: string;
   memo?: string;
@@ -65,13 +72,7 @@ export const getProviderNameFromChain = (chain: Chain): string => {
   }
 };
 
-export function getKEEPKEYProvider<T extends Chain>(
-  chain: T,
-): T extends Chain.Cosmos
-  ? Keplr
-  : T extends EVMChain
-    ? Eip1193Provider
-    : UTXOProvider | undefined {
+export function getKEEPKEYProvider<T extends Chain>(chain: T) {
   if (!window.keepkey) throw new SwapKitError("wallet_keepkey_not_found");
 
   switch (chain) {
@@ -143,7 +144,6 @@ export async function getKEEPKEYAddress(chain: Chain) {
   }
 
   const [response] = await eipProvider.request({ method, params: [] });
-  console.log("response: ", response);
   return response;
 }
 
@@ -184,9 +184,9 @@ export function cosmosTransfer({
   chainId: ChainId.Cosmos;
   rpcUrl?: string;
 }) {
-  return async ({ from, recipient, assetValue, memo }: TransferParams) => {
-    const { createSigningStargateClient } = await import("@swapkit/toolbox-cosmos");
-    // @ts-ignore
+  return async ({ from, recipient, assetValue }: TransferParams) => {
+    const { getDenom, createSigningStargateClient } = await import("@swapkit/toolbox-cosmos");
+    // @ts-expect-error assumed available connection
     const offlineSigner = window.keepkey?.cosmos?.getOfflineSignerOnlyAmino(chainId);
     const cosmJS = await createSigningStargateClient(rpcUrl || RPCUrl.Cosmos, offlineSigner);
 
@@ -233,12 +233,7 @@ export function getKEEPKEYMethods(provider: BrowserProvider) {
         });
 
         return provider.send("eth_sendTransaction", [
-          {
-            value: toHexString(BigInt(value || 0)),
-            from,
-            to,
-            data: data || "0x",
-          },
+          { value: toHexString(BigInt(value || 0)), from, to, data: data || "0x" },
         ]);
       }
       const contract = createContract(contractAddress, abi, provider);
@@ -251,26 +246,17 @@ export function getKEEPKEYMethods(provider: BrowserProvider) {
       const { MAX_APPROVAL, createContractTxObject, toHexString } = await import(
         "@swapkit/toolbox-evm"
       );
-      const funcParams = [spenderAddress, BigInt(amount || MAX_APPROVAL)];
-      const txOverrides = { from };
 
-      const functionCallParams = {
+      const { value, to, data } = await createContractTxObject(provider, {
         contractAddress: assetAddress,
         abi: erc20ABI,
         funcName: "approve",
-        funcParams,
-        txOverrides,
-      };
-
-      const { value, to, data } = await createContractTxObject(provider, functionCallParams);
+        funcParams: [spenderAddress, BigInt(amount || MAX_APPROVAL)],
+        txOverrides: { from },
+      });
 
       return provider.send("eth_sendTransaction", [
-        {
-          value: toHexString(BigInt(value || 0)),
-          from,
-          to,
-          data: data || "0x",
-        },
+        { value: toHexString(BigInt(value || 0)), from, to, data: data || "0x" },
       ]);
     },
     sendTransaction: async (tx: EVMTxParams) => {
@@ -282,12 +268,7 @@ export function getKEEPKEYMethods(provider: BrowserProvider) {
       const { toHexString } = await import("@swapkit/toolbox-evm");
 
       return provider.send("eth_sendTransaction", [
-        {
-          value: toHexString(BigInt(value || 0)),
-          from,
-          to,
-          data: data || "0x",
-        },
+        { value: toHexString(BigInt(value || 0)), from, to, data: data || "0x" },
       ]);
     },
   };
