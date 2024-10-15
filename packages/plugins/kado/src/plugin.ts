@@ -54,7 +54,7 @@ type KadoQuoteRequest = {
 };
 
 function plugin({
-  getWallet,
+  //   getWallet,
   config: { kadoApiKey },
 }: SwapKitPluginParams<{ kadoApiKey: string }>) {
   async function onRampQuote(assetValue: AssetValue, fiatCurrency: KadoQuoteRequest["currency"]) {
@@ -62,7 +62,6 @@ function plugin({
     if (!blockchain) {
       throw new Error(`Asset chain ${assetValue.chain} not supported by Kado`);
     }
-    debugger;
     try {
       const quoteRequest: KadoQuoteRequest = {
         transactionType: "buy",
@@ -112,7 +111,7 @@ function plugin({
         transactionType: "sell",
         fiatMethod: "sepa", // Default to SEPA, can be made configurable
         partner: "fortress",
-        amount: assetValue.getBaseValue("number"),
+        amount: assetValue.getBaseValue("string"),
         asset: assetValue.symbol,
         blockchain,
         currency: fiatCurrency,
