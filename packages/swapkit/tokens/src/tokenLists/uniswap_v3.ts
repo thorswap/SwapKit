@@ -9,7 +9,7 @@ export const list = {
     patch: 0,
   },
   keywords: ["uniswap", "default"],
-  count: 574,
+  count: 575,
   tokens: [
     {
       address: "0x6314C31A7a1652cE482cffe247E9CB7c3f4BB9aF",
@@ -2142,6 +2142,16 @@ export const list = {
       ticker: "WETH",
     },
     {
+      address: "0xad4b9c1fbf4923061814dd9d5732eb703faa53d4",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.WNT-0xad4b9c1fbf4923061814dd9d5732eb703faa53d4",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.wnt-0xad4b9c1fbf4923061814dd9d5732eb703faa53d4.png",
+      ticker: "WNT",
+    },
+    {
       address: "0xcAFcD85D8ca7Ad1e1C6F82F651fA15E33AEfD07b",
       chain: "ARB",
       chainId: "42161",
@@ -4172,6 +4182,16 @@ export const list = {
       ticker: "MONA",
     },
     {
+      address: "0x620aa20875ec1144126ea47fb27ecfe6e10d0c56",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.MOYA-0x620aa20875ec1144126ea47fb27ecfe6e10d0c56",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.moya-0x620aa20875ec1144126ea47fb27ecfe6e10d0c56.png",
+      ticker: "MOYA",
+    },
+    {
       address: "0x33349B282065b0284d756F0577FB39c158F935e6",
       chain: "ETH",
       chainId: "1",
@@ -5490,16 +5510,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.usdz-0xa469b7ee9ee773642b3e93e842e5d9b5baa10067.png",
       ticker: "USDz",
-    },
-    {
-      address: "0xa693b19d2931d498c5b318df961919bb4aee87a5",
-      chain: "ETH",
-      chainId: "1",
-      decimals: 6,
-      identifier: "ETH.UST-0xa693b19d2931d498c5b318df961919bb4aee87a5",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.ust-0xa693b19d2931d498c5b318df961919bb4aee87a5.png",
-      ticker: "UST",
     },
     {
       address: "0x55c08ca52497e2f1534b59e2917bf524d4765257",
