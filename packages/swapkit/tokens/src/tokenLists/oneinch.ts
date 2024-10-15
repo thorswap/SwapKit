@@ -1,14 +1,14 @@
 export const list = {
   provider: "ONEINCH",
   name: "ONEINCH",
-  timestamp: "2024-10-13T12:00:38.721Z",
+  timestamp: "2024-10-15T12:01:19.402Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: ["oneinch", "1inch", "1inch.exchange", "1inch.exchange v1"],
-  count: 1402,
+  count: 1401,
   tokens: [
     {
       address: "0xba5ddd1f9d7f570dc94a51479a000e3bce967196",
@@ -5064,16 +5064,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.ftm-0x4e15361fd6b4bb609fa63c81a2be19d873717870.png",
       ticker: "FTM",
-    },
-    {
-      address: "0xaedf386b755465871ff874e3e37af5976e247064",
-      chain: "ETH",
-      chainId: "1",
-      decimals: 18,
-      identifier: "ETH.FTN-0xaedf386b755465871ff874e3e37af5976e247064",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.ftn-0xaedf386b755465871ff874e3e37af5976e247064.png",
-      ticker: "FTN",
     },
     {
       address: "0x50d1c9771902476076ecfc8b2a83ad6b9355a4c9",
