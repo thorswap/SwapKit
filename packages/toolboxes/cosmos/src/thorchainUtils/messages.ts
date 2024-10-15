@@ -90,14 +90,14 @@ export const buildAminoMsg = ({
   return msg;
 };
 
-export const convertToSignable = (
+export function convertToSignable(
   msg: MsgDepositForBroadcast | MsgSendForBroadcast,
   chain: Chain.THORChain | Chain.Maya,
-) => {
+) {
   const aminoTypes = createDefaultAminoTypes(chain);
 
   return aminoTypes.fromAmino(msg);
-};
+}
 
 const getAccount = async ({
   rpcUrl,
@@ -185,12 +185,7 @@ export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
 
         return {
           ...coin,
-          asset: {
-            chain,
-            symbol,
-            ticker: symbol,
-            synth: assetValue.isSynthetic,
-          },
+          asset: { chain, symbol, ticker: symbol, synth: assetValue.isSynthetic },
         };
       }),
     },

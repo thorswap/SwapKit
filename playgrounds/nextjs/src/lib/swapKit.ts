@@ -52,7 +52,7 @@ export const useSwapKit = () => {
 
   const getBalances = useCallback(
     async (refresh?: boolean) => {
-      if (!refresh && balances.length) return;
+      if (!refresh && balances.length > 0) return;
 
       const connectedChains =
         (Object.keys(swapKit?.connectedChains || {}).filter(Boolean) as Chain[]) || [];

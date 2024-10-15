@@ -20,7 +20,7 @@ const signSendChunkv1 = async (app: any, chunkIdx: any, chunkNum: any, chunk: an
           .toString("ascii")}`;
       }
 
-      let signature = null;
+      let signature: Buffer | null = null;
       if (response.length > 2) {
         signature = response.slice(0, response.length - 2);
       }

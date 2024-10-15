@@ -20,22 +20,12 @@ const providers = (await SwapKitApi.getTokenListProvidersV2(true)).filter(
     ),
 );
 
-console.info(providers);
-
-console.info(
-  `🚀 Fetching token lists from ${providers.length} providers:\n${providers
-    .map(({ provider }) => provider)
-    .join("\n-")}`,
-);
-
 const thorchainChainId = ChainId.THORChain;
 
 for (const { provider } of providers) {
   try {
     const tokenList = await SwapKitApi.getTokenListV2(provider, true);
     if (!tokenList) continue;
-
-    console.info(`✅ ${provider} token list fetched (${tokenList.tokens.length} tokens)`);
 
     const tokens = tokenList.tokens
       .map((token) => ({

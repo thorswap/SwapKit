@@ -11,7 +11,7 @@ export function AppProviders({ children }: PropsWithChildren) {
     <JotaiProvider>
       <ThemeProvider attribute="class" defaultTheme="dark">
         <TooltipProvider>
-          <div className="max-w-1/2 mx-auto">{children}</div>
+          <div class="max-w-1/2 mx-auto">{children}</div>
         </TooltipProvider>
       </ThemeProvider>
     </JotaiProvider>

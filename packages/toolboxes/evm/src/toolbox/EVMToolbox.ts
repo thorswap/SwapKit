@@ -114,6 +114,7 @@ const call = async <T>(
     txOverrides = {},
     feeOption = FeeOption.Fast,
   }: WithSigner<CallParams>,
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO(@Towan): Refactor
 ): Promise<T> => {
   const contractProvider = callProvider || provider;
   if (!contractAddress) throw new Error("contractAddress must be provided");

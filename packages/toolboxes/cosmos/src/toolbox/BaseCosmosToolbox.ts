@@ -80,6 +80,7 @@ export const cosmosValidateAddress = ({
 }: ToolboxParams & {
   address: string;
   chain: Chain.THORChain | Chain.Maya | Chain.Kujira | Chain.Cosmos;
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO(@ice-chillios): Refactor
 }) => {
   switch (chain) {
     case Chain.Cosmos: {

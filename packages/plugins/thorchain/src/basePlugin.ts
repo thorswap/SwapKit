@@ -74,6 +74,7 @@ export function basePlugin({
   const type = pluginChain === Chain.Maya ? "mayachain" : "thorchain";
   const getInboundDataByChain = getInboundDataFunction({ stagenet, type });
 
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO(@Towan): Refactor
   async function approve<T extends ApproveMode>({
     assetValue,
     type = "checkOnly" as T,

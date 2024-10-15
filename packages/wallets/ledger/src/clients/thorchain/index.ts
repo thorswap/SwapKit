@@ -6,9 +6,8 @@ import type { GetAddressAndPubKeyResponse } from "../../types";
 import { getSignature } from "./utils";
 
 export class THORChainLedger extends CosmosLedgerInterface {
+  derivationPath: DerivationPathArray;
   private pubKey: string | null = null;
-
-  public derivationPath: DerivationPathArray;
 
   constructor(derivationPath: DerivationPathArray = NetworkDerivationPath.THOR) {
     super();

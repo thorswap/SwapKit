@@ -38,6 +38,7 @@ function plugin({ getWallet }: SwapKitPluginParams) {
    * @Private
    * Wallet interaction helpers
    */
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO(@Towan): Refactor
   function approve<T extends ApproveMode>({
     assetValue,
     spenderAddress,

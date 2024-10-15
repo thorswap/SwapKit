@@ -42,20 +42,20 @@ export default function Swap() {
   }, [balances]);
 
   return (
-    <Card className={cn("w-[600px]")}>
+    <Card class={cn("w-[600px]")}>
       <CardHeader>
         <CardTitle>Swap</CardTitle>
       </CardHeader>
 
-      <CardContent className="grid gap-4">
-        <div className="flex items-center space-x-4 rounded-md border p-4">
+      <CardContent class="grid gap-4">
+        <div class="flex items-center space-x-4 rounded-md border p-4">
           <Select>
-            <SelectTrigger className="flex flex-1">
+            <SelectTrigger class="flex flex-1">
               <SelectValue placeholder="Input Asset" />
             </SelectTrigger>
             <SelectContent>
               {chains.map((chain) =>
-                balanceGroupedByChain[chain]?.length ? (
+                balanceGroupedByChain[chain]?.length > 0 ? (
                   <SelectGroup key={chain}>
                     <SelectLabel>{chain}</SelectLabel>
                     {balanceGroupedByChain[chain].map((assetValue) => (
@@ -70,12 +70,12 @@ export default function Swap() {
           </Select>
 
           <Select>
-            <SelectTrigger className="flex flex-1">
+            <SelectTrigger class="flex flex-1">
               <SelectValue placeholder="Output Asset" />
             </SelectTrigger>
             <SelectContent>
               {chains.map((chain) =>
-                balanceGroupedByChain[chain]?.length ? (
+                balanceGroupedByChain[chain]?.length > 0 ? (
                   <SelectGroup key={chain}>
                     <SelectLabel>{chain}</SelectLabel>
                     {balanceGroupedByChain[chain].map((assetValue) => (
@@ -92,8 +92,8 @@ export default function Swap() {
       </CardContent>
 
       <CardFooter>
-        <Button className="w-full">
-          <Check className="mr-2 h-4 w-4" /> Mark all as read
+        <Button class="w-full">
+          <Check class="mr-2 h-4 w-4" /> Mark all as read
         </Button>
       </CardFooter>
     </Card>

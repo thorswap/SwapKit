@@ -186,6 +186,7 @@ export const getCommonAssetInfo = (assetString: CommonAssetString) => {
   }
 };
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO(@ice-chillios): Refactor
 export const getAssetType = ({ chain, symbol }: { chain: Chain; symbol: string }) => {
   if (symbol.includes("/")) return "Synth";
 
@@ -214,11 +215,12 @@ export const assetFromString = (assetString: string) => {
   const synth = assetString.includes("/");
   const symbol = symbolArray.join(".");
   const splitSymbol = symbol?.split("-");
-  const ticker = splitSymbol?.length
-    ? splitSymbol.length === 1
-      ? splitSymbol[0]
-      : splitSymbol.slice(0, -1).join("-")
-    : undefined;
+  const ticker =
+    splitSymbol?.length > 0
+      ? splitSymbol.length === 1
+        ? splitSymbol[0]
+        : splitSymbol.slice(0, -1).join("-")
+      : undefined;
 
   return { chain, symbol, ticker, synth };
 };

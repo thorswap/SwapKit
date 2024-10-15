@@ -36,6 +36,7 @@ function connectKeplr({
     setRequestClientConfig({ apiKey: thorswapApiKey });
     const keplrClient = window[extensionKey];
 
+    // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO(@ice-chillios): Refactor
     const toolboxPromises = chains.map(async (chain) => {
       const chainId = ChainToChainId[chain];
 

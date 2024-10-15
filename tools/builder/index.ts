@@ -29,5 +29,6 @@ export async function buildPackage({
   const size = items.reduce((acc, file) => acc + file.size, 0) / 1024;
   const parsedSize = size / 1024 > 1 ? `${(size / 1024).toFixed(2)} MB` : `${size.toFixed(2)} KB`;
 
+  // biome-ignore lint/suspicious/noConsole: Success log
   console.info(`✅ Build successful: ${items.length} files (${parsedSize})`);
 }

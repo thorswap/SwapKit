@@ -7,7 +7,7 @@
     "@ledgerhq/errors": "6.19.1",
     "@ledgerhq/hw-app-btc": "10.4.3",
     "@ledgerhq/hw-app-cosmos": "6.30.4",
-    "@ledgerhq/hw-app-eth": "6.40.1",
+    "@ledgerhq/hw-app-eth": "6.40.2",
     "@ledgerhq/hw-transport": "6.31.4",
     "@ledgerhq/hw-transport-webusb": "6.29.4",
     "@ledgerhq/wallet-api-client": "1.6.0",

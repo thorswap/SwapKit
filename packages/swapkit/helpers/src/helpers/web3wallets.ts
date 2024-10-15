@@ -158,7 +158,7 @@ export const listWeb3EVMWallets = () => {
       window?.ethereum?.selectedProvider?.isCoinbaseWallet) ||
     window?.coinbaseWalletExtension;
 
-  const wallets = [];
+  const wallets: WalletOption[] = [];
   if (metamaskEnabled) wallets.push(WalletOption.METAMASK);
   if (xdefiEnabled) wallets.push(WalletOption.XDEFI);
   if (braveEnabled) wallets.push(WalletOption.BRAVE);

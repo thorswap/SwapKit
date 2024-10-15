@@ -8,7 +8,7 @@
     "@walletconnect/modal-sign-html": "2.7.0",
     "cosmjs-types": "0.9.0",
     "pino": "9.5.0",
-    "pino-pretty": "11.2.2"
+    "pino-pretty": "11.3.0"
   },
   "description": "SwapKit Wallet - WalletConnect",
   "devDependencies": {

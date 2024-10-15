@@ -94,8 +94,7 @@ export class THORChainApp {
   async signGetChunks(path: string, message: any) {
     const serializedPath = await this.serializePath(path);
 
-    const chunks = [];
-    chunks.push(serializedPath);
+    const chunks = [serializedPath];
     const buffer = Buffer.from(message);
 
     for (let i = 0; i < buffer.length; i += CHUNK_SIZE) {

@@ -21,7 +21,7 @@ export default function Send() {
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="mt-3">
+        <CardContent class="mt-3">
           <Button
             onClick={() => {
               if (!swapKit) {

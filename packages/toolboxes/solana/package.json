@@ -2,9 +2,9 @@
   "author": "swapkit-oss",
   "dependencies": {
     "@scure/bip39": "1.4.0",
-    "@solana/spl-token": "0.4.8",
+    "@solana/spl-token": "0.4.9",
     "@solana/spl-token-registry": "0.2.4574",
-    "@solana/web3.js": "1.95.3",
+    "@solana/web3.js": "1.95.4",
     "@swapkit/helpers": "workspace:*"
   },
   "description": "SwapKit - Toolbox solana",

@@ -325,10 +325,10 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
         {walletOptions.map((option) => (
           <div key={option} style={{ padding: "8px" }}>
             {option === WalletOption.KEYSTORE ? (
-              <label className="label">
+              <label class="label">
                 <input
                   accept=".txt"
-                  disabled={!chains.length}
+                  disabled={chains.length === 0}
                   id="keystoreFile"
                   name={option}
                   onChange={handleKeystoreConnection}
@@ -339,7 +339,7 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
               </label>
             ) : (
               <button
-                disabled={!chains.length || isWalletDisabled(option)}
+                disabled={chains.length === 0 || isWalletDisabled(option)}
                 onClick={() => handleConnection(option)}
                 type="button"
               >
