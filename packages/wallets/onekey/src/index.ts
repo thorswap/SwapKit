@@ -33,7 +33,7 @@ import {
 
 declare global {
   interface Window {
-    $onekey: any;
+    $onekey?: any;
   }
 }
 
@@ -390,7 +390,7 @@ async function getWalletMethodsForExtension({
       let address = "";
 
       const getProvider: () => Promise<BitcoinProvider | undefined> = () =>
-        new Promise((res) => res(window.$onekey.btc as BitcoinProvider));
+        new Promise((res) => res(window.$onekey?.btc as BitcoinProvider));
 
       const getAddressOptions: GetAddressOptions = {
         getProvider,
@@ -596,4 +596,4 @@ function connectOnekey({
 
 export const onekeyExtensionWallet = { connectOnekey } as const;
 
-export const isOnkeyExtensionDetected = typeof window !== "undefined" && window.$onekey.ethereum;
+export const isOnkeyExtensionDetected = typeof window !== "undefined" && window.$onekey?.ethereum;
