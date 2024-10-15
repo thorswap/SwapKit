@@ -91,6 +91,20 @@ export const availableChainsByWallet = {
     Chain.Arbitrum,
     Chain.Polygon,
   ],
+  [WalletOption.ONEKEY]: [
+    Chain.Bitcoin,
+    // Chain.BitcoinCash,
+    // Chain.Litecoin,
+    // Chain.Dash,
+    // Chain.Dogecoin,
+    Chain.Ethereum,
+    Chain.Avalanche,
+    Chain.BinanceSmartChain,
+    Chain.Optimism,
+    Chain.Arbitrum,
+    Chain.Polygon,
+    Chain.Solana,
+  ],
 
   [WalletOption.WALLETCONNECT]: [
     Chain.Ethereum,
@@ -177,6 +191,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return skClient.connectXDEFI?.(chains);
         case WalletOption.OKX:
           return skClient.connectOkx?.(chains);
+        case WalletOption.ONEKEY:
+          return skClient.connectOnekey?.(chains);
         case WalletOption.POLKADOT_JS:
           return skClient.connectPolkadotJs?.(chains as Chain.Polkadot[]);
 
