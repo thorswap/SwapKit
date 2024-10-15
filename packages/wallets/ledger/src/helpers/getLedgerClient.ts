@@ -4,6 +4,7 @@ import { CosmosLedger } from "../clients/cosmos";
 import {
   ArbitrumLedger,
   AvalancheLedger,
+  BaseLedger,
   BinanceSmartChainLedger,
   EthereumLedger,
   OptimismLedger,
