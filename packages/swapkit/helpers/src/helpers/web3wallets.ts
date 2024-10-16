@@ -14,6 +14,7 @@ export type EthereumWindowProvider = BrowserProvider & {
   isCoinbaseWallet?: boolean;
   isMetaMask?: boolean;
   isOkxWallet?: boolean;
+  isKeepKeyWallet?: boolean;
   isTrust?: boolean;
   isTalisman?: boolean;
   on: (event: string, callback?: () => void) => void;
