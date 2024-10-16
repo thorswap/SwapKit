@@ -6,7 +6,7 @@ import { AssetValue, Chain, ChainId, ChainIdToChain, type DerivationPath } from 
 import { CosmosClient } from "../cosmosClient";
 import type { ToolboxParams } from "../index";
 import type { BaseCosmosToolboxType } from "../thorchainUtils/types/client-types";
-import { buildTransferTx, getAssetFromDenom } from "../util";
+import { getAssetFromDenom } from "../util";
 
 type Params = {
   client: CosmosClient;
@@ -70,7 +70,6 @@ export const BaseCosmosToolbox = ({
         }),
     );
   },
-  buildTransferTx,
 });
 
 export const cosmosValidateAddress = ({
@@ -125,7 +124,11 @@ export const cosmosValidateAddress = ({
   }
 };
 
-export const estimateTransactionFee = ({ assetValue }: { assetValue: AssetValue }) => {
+export const estimateTransactionFee = ({
+  assetValue,
+}: {
+  assetValue: AssetValue;
+}) => {
   const chain = assetValue.chain;
   switch (chain) {
     case Chain.Cosmos: {

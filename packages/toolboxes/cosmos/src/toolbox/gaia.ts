@@ -9,12 +9,7 @@ import {
 } from "@swapkit/helpers";
 
 import { CosmosClient } from "../cosmosClient";
-import type {
-  GaiaToolboxType,
-  ToolboxParams,
-  TransferTransaction,
-  TransferTxParams,
-} from "../index";
+import { type GaiaToolboxType, type ToolboxParams, buildNativeTransferTx } from "../index";
 import type { TransferParams } from "../types";
 
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from "./BaseCosmosToolbox";
@@ -35,7 +30,6 @@ export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => 
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
     getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
     createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
-    buildTransferTx: (params: TransferTxParams) => Promise<TransferTransaction>;
   } = BaseCosmosToolbox({
     decimal: BaseDecimal.GAIA,
     derivationPath: DerivationPath.GAIA,
@@ -73,5 +67,6 @@ export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => 
     ...cosmosToolbox,
     getFees,
     transfer,
+    buildTransferTx: buildNativeTransferTx,
   };
 };

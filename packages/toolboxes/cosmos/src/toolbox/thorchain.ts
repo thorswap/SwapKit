@@ -24,8 +24,9 @@ import {
 import { CosmosClient } from "../cosmosClient";
 import {
   buildAminoMsg,
+  buildDepositTx,
   buildEncodedTxBody,
-  buildTransaction,
+  buildTransferTx,
   convertToSignable,
   createDefaultAminoTypes,
   createDefaultRegistry,
@@ -34,10 +35,10 @@ import {
 import type {
   DepositParam,
   MayaToolboxType,
+  ThorcahinDepositTxParams,
   ThorchainConstantsResponse,
   ThorchainToolboxType,
-  TransferTransaction,
-  TransferTxParams,
+  ThorchainTransferTxParams,
 } from "../thorchainUtils/types/client-types";
 import type { Signer, ToolboxParams, TransferParams } from "../types";
 import {
@@ -149,7 +150,10 @@ const __REEXPORT__pubkeyToAddress = (prefix: string) => (pubkey: Pubkey) => {
 const signWithPrivateKey = async ({
   privateKey,
   message,
-}: { privateKey: Uint8Array; message: string }) => {
+}: {
+  privateKey: Uint8Array;
+  message: string;
+}) => {
   const signature = await Secp256k1.createSignature(base64.decode(message), privateKey);
   return base64.encode(Buffer.concat([signature.r(32), signature.s(32)]));
 };
@@ -210,7 +214,6 @@ export const BaseThorchainToolbox = ({
     getBalance: (address: string, potentialScamFilter?: boolean) => Promise<AssetValue[]>;
     getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
-    buildTransferTx: (params: TransferTxParams) => Promise<TransferTransaction>;
   } = BaseCosmosToolbox({
     client,
     derivationPath,
@@ -280,6 +283,18 @@ export const BaseThorchainToolbox = ({
     return txResponse.transactionHash;
   };
 
+  const _buildDepositTx = (params: ThorcahinDepositTxParams) =>
+    buildDepositTx({
+      ...params,
+      rpcUrl,
+    });
+
+  const _buildTransferTx = (params: ThorchainTransferTxParams) =>
+    buildTransferTx({
+      ...params,
+      rpcUrl,
+    });
+
   return {
     ...cosmosToolbox,
     deposit: (params: DepositParam & { from: string }) => transfer(params),
@@ -287,7 +302,8 @@ export const BaseThorchainToolbox = ({
     getFees,
     buildAminoMsg,
     convertToSignable,
-    buildTransaction,
+    buildDepositTx: _buildDepositTx,
+    buildTransferTx: _buildTransferTx,
     buildEncodedTxBody,
     prepareMessageForBroadcast,
     createDefaultAminoTypes: () => createDefaultAminoTypes(chain),
