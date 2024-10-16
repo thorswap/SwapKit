@@ -1,5 +1,19 @@
 # @swapkit/wallet-ledger
 
+## 1.4.0
+
+### Minor Changes
+
+- [#1040](https://github.com/thorswap/SwapKit/pull/1040) [`3713609`](https://github.com/thorswap/SwapKit/commit/371360992462eb35c2b6b1de1b275140c649495e) Thanks [@towanTG](https://github.com/towanTG)! - Adds BASE support
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.13.1
+  - @swapkit/toolbox-cosmos@1.3.15
+  - @swapkit/toolbox-evm@1.5.6
+  - @swapkit/toolbox-utxo@1.1.23
+
 ## 1.3.14
 
 ### Patch Changes
