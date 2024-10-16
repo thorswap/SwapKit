@@ -16,7 +16,7 @@ import {
   getGasAsset,
 } from "@swapkit/helpers";
 
-import { type TransferTxParams, bech32ToBase64 } from "./thorchainUtils";
+import type { CosmosNativeTransferTxParams } from "./thorchainUtils";
 import type { CosmosMaxSendableAmountParams } from "./types";
 
 export const USK_KUJIRA_FACTORY_DENOM =
@@ -48,7 +48,7 @@ export function getDefaultChainFee(chain: CosmosChain) {
   }
 }
 
-export const getDenom = (symbol: string, isThorchain = false) => {
+export const getMsgSendDenom = (symbol: string, isThorchain = false) => {
   if (isThorchain) {
     return symbol.toLowerCase();
   }
@@ -80,7 +80,7 @@ export const getDenomWithChain = ({ symbol, chain }: AssetValue) => {
       symbol.toUpperCase() !== "RUNE" ? symbol : `${Chain.THORChain}.${symbol}`
     ).toUpperCase();
   }
-  return getDenom(symbol, false);
+  return getMsgSendDenom(symbol, false);
 };
 
 // TODO: figure out some better way to initialize from base value
@@ -208,17 +208,19 @@ const getTransferMsgTypeByChain = (chain: CosmosChain) => {
   }
 };
 
-export const buildTransferTx = async ({
+/**
+ * Used to build tx for Cosmos and Kujira
+ */
+export const buildNativeTransferTx = async ({
   fromAddress,
   toAddress,
   assetValue,
   memo = "",
-  isStagenet = false,
   fee,
-}: TransferTxParams) => {
+}: CosmosNativeTransferTxParams) => {
   const { chain, chainId } = assetValue;
 
-  const url = getRPC(chainId, isStagenet);
+  const url = getRPC(chainId);
 
   const client = await createStargateClient(url);
 
@@ -228,12 +230,7 @@ export const buildTransferTx = async ({
     throw new Error("Account does not exist");
   }
 
-  const isMayaOrThorchain = chain === Chain.Maya || chain === Chain.THORChain;
-
-  const _fromAddress = isMayaOrThorchain ? bech32ToBase64(fromAddress) : fromAddress;
-  const _toAddress = isMayaOrThorchain ? bech32ToBase64(toAddress) : toAddress;
-
-  const feeAsset = getDenom(getGasAsset({ chain }).symbol);
+  const feeAsset = getMsgSendDenom(getGasAsset({ chain }).symbol);
   const defaultFee = getDefaultChainFee(chain as CosmosChain);
 
   const _fee =
@@ -245,12 +242,12 @@ export const buildTransferTx = async ({
       : defaultFee;
 
   const msgSend = {
-    fromAddress: _fromAddress,
-    toAddress: _toAddress,
+    fromAddress,
+    toAddress,
     amount: [
       {
         amount: assetValue.getBaseValue("string"),
-        denom: getDenomWithChain(assetValue),
+        denom: getMsgSendDenom(assetValue.symbol),
       },
     ],
   };

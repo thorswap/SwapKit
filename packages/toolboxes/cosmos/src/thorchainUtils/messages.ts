@@ -1,7 +1,12 @@
 import type { TxBodyEncodeObject } from "@cosmjs/proto-signing";
-import { AssetValue, Chain, ChainToChainId, RPCUrl } from "@swapkit/helpers";
+import { AssetValue, Chain, ChainToChainId } from "@swapkit/helpers";
 
-import { createStargateClient, getDefaultChainFee, getDenom, getDenomWithChain } from "../util";
+import {
+  createStargateClient,
+  getDefaultChainFee,
+  getDenomWithChain,
+  getMsgSendDenom,
+} from "../util";
 
 import { createDefaultAminoTypes, createDefaultRegistry } from "./registry";
 
@@ -31,7 +36,7 @@ export const transferMsgAmino = ({
     amount: [
       {
         amount: assetValue.getBaseValue("string"),
-        denom: getDenom(assetValue.symbol, true),
+        denom: getMsgSendDenom(assetValue.symbol, true),
       },
     ],
   },
@@ -93,24 +98,14 @@ export const convertToSignable = (
   return aminoTypes.fromAmino(msg);
 };
 
-export const buildTransaction = async ({
+const getAccount = async ({
+  rpcUrl,
   from,
-  recipient,
-  assetValue,
-  memo = "",
-  isStagenet = false,
-  chain,
 }: {
-  isStagenet?: boolean;
   from: string;
-  recipient: string;
-  assetValue: AssetValue;
-  memo?: string;
-  chain: Chain.THORChain | Chain.Maya;
+  rpcUrl: string;
 }) => {
-  const client = await createStargateClient(
-    isStagenet ? RPCUrl.THORChainStagenet : RPCUrl.THORChain,
-  );
+  const client = await createStargateClient(rpcUrl);
 
   const account = await client.getAccount(from);
 
@@ -118,7 +113,68 @@ export const buildTransaction = async ({
     throw new Error("Account does not exist");
   }
 
-  const msg = buildAminoMsg({ from, recipient, assetValue, memo, chain });
+  return account;
+};
+
+export const buildTransferTx = async ({
+  rpcUrl,
+  from,
+  recipient,
+  assetValue,
+  memo = "",
+  chain,
+}: {
+  from: string;
+  recipient: string;
+  assetValue: AssetValue;
+  memo?: string;
+  rpcUrl: string;
+  chain: Chain.THORChain | Chain.Maya;
+}) => {
+  const account = await getAccount({ rpcUrl, from });
+  const msg = convertToSignable(
+    prepareMessageForBroadcast(
+      transferMsgAmino({
+        from,
+        recipient,
+        assetValue,
+        chain,
+      }),
+    ),
+    chain,
+  );
+
+  const transaction = {
+    chainId: ChainToChainId[chain],
+    accountNumber: account.accountNumber,
+    sequence: account.sequence,
+    msgs: [msg],
+    fee: getDefaultChainFee(assetValue.chain as Chain.THORChain | Chain.Maya),
+    memo,
+  };
+
+  return transaction;
+};
+
+export const buildDepositTx = async ({
+  from,
+  assetValue,
+  memo = "",
+  rpcUrl,
+  chain,
+}: {
+  isStagenet?: boolean;
+  from: string;
+  assetValue: AssetValue;
+  memo?: string;
+  chain: Chain.THORChain | Chain.Maya;
+  rpcUrl: string;
+}) => {
+  const account = await getAccount({ rpcUrl, from });
+  const msg = convertToSignable(
+    prepareMessageForBroadcast(depositMsgAmino({ from, assetValue, memo, chain })),
+    chain,
+  );
 
   const transaction = {
     chainId: ChainToChainId[chain],

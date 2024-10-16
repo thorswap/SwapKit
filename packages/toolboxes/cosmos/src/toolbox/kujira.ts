@@ -12,13 +12,11 @@ import { CosmosClient } from "../cosmosClient";
 import {
   type KujiraToolboxType,
   type ToolboxParams,
-  type TransferTransaction,
-  type TransferTxParams,
   USK_KUJIRA_FACTORY_DENOM,
   YUM_KUJIRA_FACTORY_DENOM,
 } from "../index";
 import type { TransferParams } from "../types";
-import { getAssetFromDenom } from "../util";
+import { buildNativeTransferTx, getAssetFromDenom } from "../util";
 
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from "./BaseCosmosToolbox";
 
@@ -49,7 +47,6 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
     getSignerFromPrivateKey: (privateKey: Uint8Array) => Promise<OfflineDirectSigner>;
     getPubKeyFromMnemonic: (phrase: string) => Promise<string>;
     createPrivateKeyFromPhrase: (phrase: string) => Promise<Uint8Array>;
-    buildTransferTx: (params: TransferTxParams) => Promise<TransferTransaction>;
   } = BaseCosmosToolbox({
     decimal: BaseDecimal.KUJI,
     derivationPath: DerivationPath.KUJI,
@@ -59,6 +56,7 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
   return {
     ...cosmosToolbox,
     getFees,
+    buildTransferTx: buildNativeTransferTx,
     getBalance: async (address: string, _potentialScamFilter?: boolean) => {
       const denomBalances = await client.getBalance(address);
       return await Promise.all(
