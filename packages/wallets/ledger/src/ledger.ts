@@ -120,7 +120,7 @@ const getToolbox = async ({
     }
 
     case Chain.Cosmos: {
-      const { createSigningStargateClient, getDenom, GaiaToolbox } = await import(
+      const { createSigningStargateClient, getMsgSendDenom, GaiaToolbox } = await import(
         "@swapkit/toolbox-cosmos"
       );
       const toolbox = GaiaToolbox();
@@ -134,7 +134,7 @@ const getToolbox = async ({
           amount: [
             {
               amount: assetValue.getBaseValue("string"),
-              denom: getDenom(`u${assetValue.symbol}`).toLowerCase(),
+              denom: getMsgSendDenom(`u${assetValue.symbol}`).toLowerCase(),
             },
           ],
           fromAddress: address,
