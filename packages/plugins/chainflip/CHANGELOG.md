@@ -1,5 +1,20 @@
 # @swapkit/plugin-chainflip
 
+## 1.3.16
+
+### Patch Changes
+
+- [`7fc6ec5`](https://github.com/thorswap/SwapKit/commit/7fc6ec582f74cd8f0bba0b1a69bbc990ca79f955) Thanks [@towanTG](https://github.com/towanTG)! - Bump all packages
+
+- [`f48cf41`](https://github.com/thorswap/SwapKit/commit/f48cf41b41b1b54f9207c7a74f05d571c44d0334) Thanks [@towanTG](https://github.com/towanTG)! - Bumps version to release new SDK with missing fixes
+
+- Updated dependencies [[`7fc6ec5`](https://github.com/thorswap/SwapKit/commit/7fc6ec582f74cd8f0bba0b1a69bbc990ca79f955), [`dc36c35`](https://github.com/thorswap/SwapKit/commit/dc36c35204d9b96e7c2651733d4418c32aad91af)]:
+  - @swapkit/api@1.9.5
+  - @swapkit/helpers@1.13.2
+  - @swapkit/toolbox-evm@1.5.7
+  - @swapkit/toolbox-substrate@1.2.19
+  - @swapkit/toolbox-utxo@1.1.24
+
 ## 1.3.15
 
 ### Patch Changes
