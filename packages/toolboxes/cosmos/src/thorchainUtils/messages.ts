@@ -9,6 +9,7 @@ import {
 } from "../util";
 
 import { createDefaultAminoTypes, createDefaultRegistry } from "./registry";
+import type { ThorcahinDepositTxParams, ThorchainTransferTxParams } from "./types/client-types";
 
 type MsgSend = ReturnType<typeof transferMsgAmino>;
 type MsgDeposit = ReturnType<typeof depositMsgAmino>;
@@ -116,77 +117,54 @@ const getAccount = async ({
   return account;
 };
 
-export const buildTransferTx = async ({
-  rpcUrl,
-  from,
-  recipient,
-  assetValue,
-  memo = "",
-  chain,
-}: {
-  from: string;
-  recipient: string;
-  assetValue: AssetValue;
-  memo?: string;
-  rpcUrl: string;
-  chain: Chain.THORChain | Chain.Maya;
-}) => {
-  const account = await getAccount({ rpcUrl, from });
-  const msg = convertToSignable(
-    prepareMessageForBroadcast(
-      transferMsgAmino({
-        from,
-        recipient,
-        assetValue,
-        chain,
-      }),
-    ),
-    chain,
-  );
+export const buildTransferTx =
+  (rpcUrl: string) =>
+  async ({ from, recipient, assetValue, memo = "", chain }: ThorchainTransferTxParams) => {
+    const account = await getAccount({ rpcUrl, from });
+    const msg = convertToSignable(
+      prepareMessageForBroadcast(
+        transferMsgAmino({
+          from,
+          recipient,
+          assetValue,
+          chain,
+        }),
+      ),
+      chain,
+    );
 
-  const transaction = {
-    chainId: ChainToChainId[chain],
-    accountNumber: account.accountNumber,
-    sequence: account.sequence,
-    msgs: [msg],
-    fee: getDefaultChainFee(assetValue.chain as Chain.THORChain | Chain.Maya),
-    memo,
+    const transaction = {
+      chainId: ChainToChainId[chain],
+      accountNumber: account.accountNumber,
+      sequence: account.sequence,
+      msgs: [msg],
+      fee: getDefaultChainFee(assetValue.chain as Chain.THORChain | Chain.Maya),
+      memo,
+    };
+
+    return transaction;
   };
 
-  return transaction;
-};
+export const buildDepositTx =
+  (rpcUrl: string) =>
+  async ({ from, assetValue, memo = "", chain }: ThorcahinDepositTxParams) => {
+    const account = await getAccount({ rpcUrl, from });
+    const msg = convertToSignable(
+      prepareMessageForBroadcast(depositMsgAmino({ from, assetValue, memo, chain })),
+      chain,
+    );
 
-export const buildDepositTx = async ({
-  from,
-  assetValue,
-  memo = "",
-  rpcUrl,
-  chain,
-}: {
-  isStagenet?: boolean;
-  from: string;
-  assetValue: AssetValue;
-  memo?: string;
-  chain: Chain.THORChain | Chain.Maya;
-  rpcUrl: string;
-}) => {
-  const account = await getAccount({ rpcUrl, from });
-  const msg = convertToSignable(
-    prepareMessageForBroadcast(depositMsgAmino({ from, assetValue, memo, chain })),
-    chain,
-  );
+    const transaction = {
+      chainId: ChainToChainId[chain],
+      accountNumber: account.accountNumber,
+      sequence: account.sequence,
+      msgs: [msg],
+      fee: getDefaultChainFee(assetValue.chain as Chain.THORChain | Chain.Maya),
+      memo,
+    };
 
-  const transaction = {
-    chainId: ChainToChainId[chain],
-    accountNumber: account.accountNumber,
-    sequence: account.sequence,
-    msgs: [msg],
-    fee: getDefaultChainFee(assetValue.chain as Chain.THORChain | Chain.Maya),
-    memo,
+    return transaction;
   };
-
-  return transaction;
-};
 
 export const prepareMessageForBroadcast = (msg: MsgDeposit | MsgSend) => {
   if (msg.type === "thorchain/MsgSend" || msg.type === "mayachain/MsgSend") return msg;

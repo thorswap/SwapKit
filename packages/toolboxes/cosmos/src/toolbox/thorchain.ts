@@ -35,10 +35,8 @@ import {
 import type {
   DepositParam,
   MayaToolboxType,
-  ThorcahinDepositTxParams,
   ThorchainConstantsResponse,
   ThorchainToolboxType,
-  ThorchainTransferTxParams,
 } from "../thorchainUtils/types/client-types";
 import type { Signer, ToolboxParams, TransferParams } from "../types";
 import {
@@ -283,18 +281,6 @@ export const BaseThorchainToolbox = ({
     return txResponse.transactionHash;
   };
 
-  const _buildDepositTx = (params: ThorcahinDepositTxParams) =>
-    buildDepositTx({
-      ...params,
-      rpcUrl,
-    });
-
-  const _buildTransferTx = (params: ThorchainTransferTxParams) =>
-    buildTransferTx({
-      ...params,
-      rpcUrl,
-    });
-
   return {
     ...cosmosToolbox,
     deposit: (params: DepositParam & { from: string }) => transfer(params),
@@ -302,8 +288,8 @@ export const BaseThorchainToolbox = ({
     getFees,
     buildAminoMsg,
     convertToSignable,
-    buildDepositTx: _buildDepositTx,
-    buildTransferTx: _buildTransferTx,
+    buildDepositTx: buildDepositTx(rpcUrl),
+    buildTransferTx: buildTransferTx(rpcUrl),
     buildEncodedTxBody,
     prepareMessageForBroadcast,
     createDefaultAminoTypes: () => createDefaultAminoTypes(chain),
