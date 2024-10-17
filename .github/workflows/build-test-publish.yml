@@ -39,6 +39,9 @@ jobs:
       - name: Lint Swapkit
         run: bun --filter='./packages/swapkit/**' lint && bun --filter='./packages/swapkit/**' type-check
 
+      - name: Lint Playgrounds
+        run: bun --filter='./playgrounds/**' lint && bun --filter='./playgrounds/**' type-check
+
       - name: Test
         run: bun run test
 
