@@ -1,12 +1,13 @@
 import type { MultisigThresholdPubkey, Pubkey, Secp256k1HdWallet } from "@cosmjs/amino";
-import type { OfflineDirectSigner, Registry } from "@cosmjs/proto-signing";
+import type { EncodeObject, OfflineDirectSigner, Registry } from "@cosmjs/proto-signing";
 import type { AminoTypes, Account as CosmosAccount } from "@cosmjs/stargate";
-import type { Asset, AssetValue, ChainId, SwapKitNumber } from "@swapkit/helpers";
+import type { Asset, AssetValue, Chain, ChainId, SwapKitNumber } from "@swapkit/helpers";
 
 import type {
   buildAminoMsg,
+  buildDepositTx,
   buildEncodedTxBody,
-  buildTransaction,
+  buildTransferTx,
   convertToSignable,
   prepareMessageForBroadcast,
 } from "../../index";
@@ -66,6 +67,34 @@ type Fees = {
   fastest: SwapKitNumber;
 };
 
+export type TransferTransaction = {
+  memo: string;
+  accountNumber: number;
+  sequence: number;
+  chainId: ChainId;
+  msgs: EncodeObject[];
+  fee: { amount: { denom: string; amount: string }[]; gas: string };
+};
+
+export type CosmosNativeTransferTxParams = {
+  isStagenet?: boolean;
+  fromAddress: string;
+  toAddress: string;
+  assetValue: AssetValue;
+  memo?: string;
+  fee?: string;
+};
+
+export type ThorchainTransferTxParams = {
+  from: string;
+  recipient: string;
+  assetValue: AssetValue;
+  memo?: string;
+  chain: Chain.THORChain | Chain.Maya;
+};
+
+export type ThorcahinDepositTxParams = Omit<ThorchainTransferTxParams, "recipient">;
+
 export type BaseCosmosToolboxType = {
   getAccount: (address: string) => Promise<CosmosAccount | null>;
   getSigner: (phrase: string) => Promise<OfflineDirectSigner>;
@@ -86,7 +115,12 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
   createDefaultAminoTypes: () => AminoTypes;
   buildAminoMsg: typeof buildAminoMsg;
   convertToSignable: typeof convertToSignable;
-  buildTransaction: typeof buildTransaction;
+  buildTransferTx: (
+    params: ThorchainTransferTxParams,
+  ) => ReturnType<ReturnType<typeof buildTransferTx>>;
+  buildDepositTx: (
+    params: ThorcahinDepositTxParams,
+  ) => ReturnType<ReturnType<typeof buildDepositTx>>;
   buildEncodedTxBody: typeof buildEncodedTxBody;
   prepareMessageForBroadcast: typeof prepareMessageForBroadcast;
   createMultisig: (pubKeys: string[], threshold: number) => Promise<MultisigThresholdPubkey>;
@@ -128,8 +162,10 @@ export type MayaToolboxType = ThorchainToolboxType;
 
 export type GaiaToolboxType = BaseCosmosToolboxType & {
   getFees: () => Promise<Fees>;
+  buildTransferTx: (params: CosmosNativeTransferTxParams) => Promise<TransferTransaction>;
 };
 
 export type KujiraToolboxType = BaseCosmosToolboxType & {
   getFees: () => Promise<Fees>;
+  buildTransferTx: (params: CosmosNativeTransferTxParams) => Promise<TransferTransaction>;
 };

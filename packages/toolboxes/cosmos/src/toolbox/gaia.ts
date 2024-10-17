@@ -9,9 +9,11 @@ import {
 } from "@swapkit/helpers";
 
 import { CosmosClient } from "../cosmosClient";
-import type { GaiaToolboxType, ToolboxParams } from "../index";
-import type { TransferParams } from "../types";
 
+import type { ToolboxParams, TransferParams } from "../types";
+
+import type { GaiaToolboxType } from "../thorchainUtils/types/client-types";
+import { buildNativeTransferTx } from "../util";
 import { BaseCosmosToolbox, getFeeRateFromThorswap } from "./BaseCosmosToolbox";
 
 export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => {
@@ -67,5 +69,6 @@ export const GaiaToolbox = ({ server }: ToolboxParams = {}): GaiaToolboxType => 
     ...cosmosToolbox,
     getFees,
     transfer,
+    buildTransferTx: buildNativeTransferTx,
   };
 };

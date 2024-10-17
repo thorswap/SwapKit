@@ -16,8 +16,9 @@ import {
   YUM_KUJIRA_FACTORY_DENOM,
 } from "../index";
 import type { TransferParams } from "../types";
+import { buildNativeTransferTx, getAssetFromDenom } from "../util";
 
-import { BaseCosmosToolbox, getAssetFromDenom, getFeeRateFromThorswap } from "./BaseCosmosToolbox";
+import { BaseCosmosToolbox, getFeeRateFromThorswap } from "./BaseCosmosToolbox";
 
 async function getFees() {
   const baseFee = await getFeeRateFromThorswap(ChainId.Kujira, 1000);
@@ -55,6 +56,7 @@ export const KujiraToolbox = ({ server }: ToolboxParams = {}): KujiraToolboxType
   return {
     ...cosmosToolbox,
     getFees,
+    buildTransferTx: buildNativeTransferTx,
     getBalance: async (address: string, _potentialScamFilter?: boolean) => {
       const denomBalances = await client.getBalance(address);
       return await Promise.all(

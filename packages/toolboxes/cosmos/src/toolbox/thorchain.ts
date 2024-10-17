@@ -24,12 +24,12 @@ import {
 import { CosmosClient } from "../cosmosClient";
 import {
   buildAminoMsg,
+  buildDepositTx,
   buildEncodedTxBody,
-  buildTransaction,
+  buildTransferTx,
   convertToSignable,
   createDefaultAminoTypes,
   createDefaultRegistry,
-  getDefaultChainFee,
   prepareMessageForBroadcast,
 } from "../thorchainUtils/index";
 import type {
@@ -43,6 +43,7 @@ import {
   createOfflineStargateClient,
   createSigningStargateClient,
   createStargateClient,
+  getDefaultChainFee,
   getRPC,
 } from "../util";
 
@@ -147,7 +148,10 @@ const __REEXPORT__pubkeyToAddress = (prefix: string) => (pubkey: Pubkey) => {
 const signWithPrivateKey = async ({
   privateKey,
   message,
-}: { privateKey: Uint8Array; message: string }) => {
+}: {
+  privateKey: Uint8Array;
+  message: string;
+}) => {
   const signature = await Secp256k1.createSignature(base64.decode(message), privateKey);
   return base64.encode(Buffer.concat([signature.r(32), signature.s(32)]));
 };
@@ -284,7 +288,8 @@ export const BaseThorchainToolbox = ({
     getFees,
     buildAminoMsg,
     convertToSignable,
-    buildTransaction,
+    buildDepositTx: buildDepositTx(rpcUrl),
+    buildTransferTx: buildTransferTx(rpcUrl),
     buildEncodedTxBody,
     prepareMessageForBroadcast,
     createDefaultAminoTypes: () => createDefaultAminoTypes(chain),

@@ -9,7 +9,7 @@ import {
   DEFAULT_COSMOS_FEE_MAINNET,
   createSigningStargateClient,
   createStargateClient,
-  getDenom,
+  getMsgSendDenom,
   getRPC,
 } from "./util";
 
@@ -89,7 +89,7 @@ export class CosmosClient {
       recipient,
       [
         {
-          denom: getDenom(`u${assetValue.symbol}`).toLowerCase(),
+          denom: getMsgSendDenom(`u${assetValue.symbol}`).toLowerCase(),
           amount: assetValue.getBaseValue("string"),
         },
       ],
