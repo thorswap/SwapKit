@@ -1,5 +1,31 @@
 # @swapkit/wallets
 
+## 1.2.20
+
+### Patch Changes
+
+- [`7fc6ec5`](https://github.com/thorswap/SwapKit/commit/7fc6ec582f74cd8f0bba0b1a69bbc990ca79f955) Thanks [@towanTG](https://github.com/towanTG)! - Bump all packages
+
+- [`dc36c35`](https://github.com/thorswap/SwapKit/commit/dc36c35204d9b96e7c2651733d4418c32aad91af) Thanks [@ice-chillios](https://github.com/ice-chillios)! - New Wallet - KeepKey BEX
+
+- Updated dependencies [[`7fc6ec5`](https://github.com/thorswap/SwapKit/commit/7fc6ec582f74cd8f0bba0b1a69bbc990ca79f955), [`dc36c35`](https://github.com/thorswap/SwapKit/commit/dc36c35204d9b96e7c2651733d4418c32aad91af)]:
+  - @swapkit/wallet-coinbase@1.1.19
+  - @swapkit/wallet-evm-extensions@1.1.14
+  - @swapkit/wallet-exodus@1.2.20
+  - @swapkit/wallet-keepkey@1.3.16
+  - @swapkit/wallet-keepkey-bex@1.0.1
+  - @swapkit/wallet-keplr@1.1.4
+  - @swapkit/wallet-keystore@1.2.27
+  - @swapkit/wallet-ledger@1.4.1
+  - @swapkit/wallet-okx@1.2.1
+  - @swapkit/wallet-phantom@1.1.16
+  - @swapkit/wallet-polkadotjs@1.0.37
+  - @swapkit/wallet-radix@1.2.11
+  - @swapkit/wallet-talisman@1.3.1
+  - @swapkit/wallet-trezor@1.2.1
+  - @swapkit/wallet-wc@1.4.1
+  - @swapkit/wallet-xdefi@1.1.27
+
 ## 1.2.19
 
 ### Patch Changes

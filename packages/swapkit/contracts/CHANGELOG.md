@@ -1,5 +1,11 @@
 # @swapkit/contracts
 
+## 1.0.6
+
+### Patch Changes
+
+- [`7fc6ec5`](https://github.com/thorswap/SwapKit/commit/7fc6ec582f74cd8f0bba0b1a69bbc990ca79f955) Thanks [@towanTG](https://github.com/towanTG)! - Bump all packages
+
 ## 1.0.5
 
 ### Patch Changes
