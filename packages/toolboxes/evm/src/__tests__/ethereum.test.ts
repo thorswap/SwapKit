@@ -2,8 +2,7 @@ import { afterEach, beforeAll, beforeEach, describe, expect, test } from "bun:te
 import type ethers from "@nomicfoundation/hardhat-ethers";
 import helpers from "@nomicfoundation/hardhat-network-helpers";
 import { AssetValue, Chain, FeeOption, erc20ABI } from "@swapkit/helpers";
-import type { JsonRpcProvider } from "ethers";
-import type { JsonRpcSigner } from "ethers";
+import type { JsonRpcProvider, JsonRpcSigner } from "ethers";
 import hre from "hardhat";
 
 import { ETHToolbox } from "../index";
