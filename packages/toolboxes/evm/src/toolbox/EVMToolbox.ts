@@ -11,18 +11,22 @@ import {
   erc20ABI,
   isGasAsset,
 } from "@swapkit/helpers";
-import type {
-  ContractTransaction,
-  Fragment,
-  HDNodeWallet,
-  JsonFragment,
-  JsonRpcSigner,
-  Provider,
-  Signer,
+import {
+  BrowserProvider,
+  Contract,
+  type ContractTransaction,
+  type Fragment,
+  type HDNodeWallet,
+  Interface,
+  type JsonFragment,
+  type JsonRpcSigner,
+  MaxInt256,
+  type Provider,
+  type Signer,
+  getAddress,
+  hexlify,
+  toUtf8Bytes,
 } from "ethers";
-import { BrowserProvider, Contract, Interface, hexlify, toUtf8Bytes } from "ethers";
-import { getAddress } from "ethers/address";
-import { MaxInt256 } from "ethers/constants";
 
 import {
   type ARBToolbox,
