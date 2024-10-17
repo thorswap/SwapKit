@@ -27,8 +27,14 @@ jobs:
       - name: Build
         run: bun install; bun run build
 
-      - name: Lint
-        run: bun lint:ci
+      - name: Lint Toolboxes
+        run: bun --filter="@swapkit/toolbox**" lint:ci
+
+      - name: Lint Wallets
+        run: bun --filter="@swapkit/wallet**" lint:ci
+
+      - name: Lint Core
+        run: bun --filter="!@swapkit/wallet**" --filter="!@swapkit/toolbox**" lint:ci
 
       - name: Test
         run: bun run test
