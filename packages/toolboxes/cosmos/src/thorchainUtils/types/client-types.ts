@@ -115,8 +115,12 @@ export type ThorchainToolboxType = BaseCosmosToolboxType & {
   createDefaultAminoTypes: () => AminoTypes;
   buildAminoMsg: typeof buildAminoMsg;
   convertToSignable: typeof convertToSignable;
-  buildTransferTx: (params: ThorchainTransferTxParams) => ReturnType<typeof buildTransferTx>;
-  buildDepositTx: (params: ThorcahinDepositTxParams) => ReturnType<typeof buildDepositTx>;
+  buildTransferTx: (
+    params: ThorchainTransferTxParams,
+  ) => ReturnType<ReturnType<typeof buildTransferTx>>;
+  buildDepositTx: (
+    params: ThorcahinDepositTxParams,
+  ) => ReturnType<ReturnType<typeof buildDepositTx>>;
   buildEncodedTxBody: typeof buildEncodedTxBody;
   prepareMessageForBroadcast: typeof prepareMessageForBroadcast;
   createMultisig: (pubKeys: string[], threshold: number) => Promise<MultisigThresholdPubkey>;

@@ -124,11 +124,7 @@ export const cosmosValidateAddress = ({
   }
 };
 
-export const estimateTransactionFee = ({
-  assetValue,
-}: {
-  assetValue: AssetValue;
-}) => {
+export const estimateTransactionFee = ({ assetValue }: { assetValue: AssetValue }) => {
   const chain = assetValue.chain;
   switch (chain) {
     case Chain.Cosmos: {
