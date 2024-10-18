@@ -1,5 +1,11 @@
 # @swapkit/wallet-keepkey-bex
 
+## 1.0.3
+
+### Patch Changes
+
+- [#1049](https://github.com/thorswap/SwapKit/pull/1049) [`d12ccb4`](https://github.com/thorswap/SwapKit/commit/d12ccb43d3e551d02eeb5562f72f232371c97afc) Thanks [@towanTG](https://github.com/towanTG)! - Bump version to fix wallets deps
+
 ## 1.0.2
 
 ### Patch Changes
