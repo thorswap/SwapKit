@@ -1,5 +1,12 @@
 # @swapkit/wallets
 
+## 1.2.22
+
+### Patch Changes
+
+- Updated dependencies [[`d12ccb4`](https://github.com/thorswap/SwapKit/commit/d12ccb43d3e551d02eeb5562f72f232371c97afc)]:
+  - @swapkit/wallet-keepkey-bex@1.0.3
+
 ## 1.2.21
 
 ### Patch Changes
