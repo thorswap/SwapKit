@@ -43,10 +43,11 @@ jobs:
         run: bun --filter='./playgrounds/**' lint && bun --filter='./playgrounds/**' type-check
 
       - name: Test
+        if: contains(github.ref_name, 'nightly') == false
         run: bun run test
 
   publish:
-    if: contains(github.ref_name, 'develop') || contains(github.ref_name, 'develop') || contains(github.ref_name, 'nightly') || contains(github.ref_name, 'beta')
+    if: contains(github.ref_name, 'develop') || contains(github.ref_name, 'nightly') || contains(github.ref_name, 'beta')
     needs: [build-lint-test]
     runs-on: ubuntu-latest
     steps:

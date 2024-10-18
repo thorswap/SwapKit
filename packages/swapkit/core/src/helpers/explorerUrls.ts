@@ -14,6 +14,7 @@ export function getExplorerTxUrl({ chain, txHash }: { txHash: string; chain: Cha
     case Chain.Arbitrum:
     case Chain.Avalanche:
     case Chain.BinanceSmartChain:
+    case Chain.Base:
     case Chain.Ethereum:
     case Chain.Optimism:
     case Chain.Polkadot:
