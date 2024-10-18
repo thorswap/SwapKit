@@ -2,8 +2,8 @@ import {
   type AssetValue,
   Chain,
   type ConnectWalletParams,
-  DerivationPath,
   type DerivationPathArray,
+  NetworkDerivationPath,
   RPCUrl,
   type WalletChain,
   WalletOption,
@@ -12,6 +12,7 @@ import {
   derivationPathToString,
   ensureEVMApiKeys,
   setRequestClientConfig,
+  updatedLastIndex,
 } from "@swapkit/helpers";
 import type { DepositParam, TransferParams } from "@swapkit/toolbox-cosmos";
 import type {
@@ -206,15 +207,26 @@ function connectKeystore({
     setRequestClientConfig({ apiKey: thorswapApiKey });
 
     const promises = chains.map(async (chain) => {
-      const index = typeof derivationPathMapOrIndex === "number" ? derivationPathMapOrIndex : 0;
-      const derivationPathArray =
+      const derivationPathIndex =
+        typeof derivationPathMapOrIndex === "number" ? derivationPathMapOrIndex : 0;
+
+      const derivationPathFromMap =
         derivationPathMapOrIndex && typeof derivationPathMapOrIndex === "object"
           ? derivationPathMapOrIndex[chain]
           : undefined;
 
-      const derivationPath = derivationPathArray
-        ? derivationPathToString(derivationPathArray)
-        : `${DerivationPath[chain]}/${index}`;
+      const [first, second, third, fourth, fifth] = NetworkDerivationPath[chain];
+
+      const derivationPathArray: DerivationPathArray =
+        derivationPathFromMap ||
+        updatedLastIndex(
+          chain === Chain.Solana
+            ? [first, second, third, fourth]
+            : [first, second, third, fourth, fifth],
+          derivationPathIndex,
+        );
+
+      const derivationPath = derivationPathToString(derivationPathArray);
 
       const { address, walletMethods } = await getWalletMethodsForChain({
         derivationPath,

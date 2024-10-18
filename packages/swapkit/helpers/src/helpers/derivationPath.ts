@@ -10,10 +10,10 @@ type Params = {
   chain: Chain;
   index: number;
   addressIndex?: number;
-  type?: "legacy" | "ledgerLive" | "nativeSegwitMiddleAccount" | "segwit";
+  type?: "legacy" | "ledgerLive" | "nativeSegwitMiddleAccount" | "segwit" | "account";
 };
 
-const updatedLastIndex = (path: DerivationPathArray, index: number) => {
+export const updatedLastIndex = (path: DerivationPathArray, index: number) => {
   const newPath = [...path.slice(0, path.length - 1), index];
   return newPath as DerivationPathArray;
 };
@@ -26,10 +26,17 @@ export function derivationPathToString([network, chainId, account, change, index
   return `m/${network}'/${chainId}'/${account}'/${change}${shortPath ? "" : `/${index}`}`;
 }
 
+// TODO @towan - sort this out and make it more readable
 export function getDerivationPathFor({ chain, index, addressIndex = 0, type }: Params) {
   if (EVMChains.includes(chain as EVMChain)) {
-    if (type === "legacy") return [44, 60, 0, index] as DerivationPathArray;
+    if (type && ["legacy", "account"].includes(type))
+      return [44, 60, 0, index] as DerivationPathArray;
     if (type === "ledgerLive") return [44, 60, index, 0, addressIndex] as DerivationPathArray;
+    return updatedLastIndex(NetworkDerivationPath[chain], index);
+  }
+
+  if (chain === Chain.Solana) {
+    if (type === "account") return [44, 501, 0, index] as DerivationPathArray;
     return updatedLastIndex(NetworkDerivationPath[chain], index);
   }
 
