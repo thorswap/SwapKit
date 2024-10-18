@@ -1,5 +1,11 @@
 # @swapkit/wallet-keepkey-bex
 
+## 1.0.4
+
+### Patch Changes
+
+- [#1051](https://github.com/thorswap/SwapKit/pull/1051) [`5c243a0`](https://github.com/thorswap/SwapKit/commit/5c243a0be8f8c18c1b9f7c33c4dccb77723e7d9c) Thanks [@towanTG](https://github.com/towanTG)! - Renames the folder to fix bug with version replace in build
+
 ## 1.0.3
 
 ### Patch Changes
