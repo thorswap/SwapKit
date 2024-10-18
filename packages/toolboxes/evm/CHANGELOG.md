@@ -1,5 +1,14 @@
 # @swapkit/toolbox-evm
 
+## 1.5.8
+
+### Patch Changes
+
+- [#1045](https://github.com/thorswap/SwapKit/pull/1045) [`19d168a`](https://github.com/thorswap/SwapKit/commit/19d168ab7ea97ab77fb67da2e6a45865bb0f9e9e) Thanks [@ice-chillios](https://github.com/ice-chillios)! - fix: ethers imports
+
+- Updated dependencies [[`9893763`](https://github.com/thorswap/SwapKit/commit/9893763661f89557742fc10edacb894b1ac489d2)]:
+  - @swapkit/helpers@1.13.3
+
 ## 1.5.7
 
 ### Patch Changes

@@ -1,5 +1,20 @@
 # @swapkit/wallet-keystore
 
+## 1.2.28
+
+### Patch Changes
+
+- [#1048](https://github.com/thorswap/SwapKit/pull/1048) [`9893763`](https://github.com/thorswap/SwapKit/commit/9893763661f89557742fc10edacb894b1ac489d2) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Keystore Solana derivation path to use account index (4th) instead of address index (5th)
+
+- Updated dependencies [[`19d168a`](https://github.com/thorswap/SwapKit/commit/19d168ab7ea97ab77fb67da2e6a45865bb0f9e9e), [`9893763`](https://github.com/thorswap/SwapKit/commit/9893763661f89557742fc10edacb894b1ac489d2)]:
+  - @swapkit/toolbox-evm@1.5.8
+  - @swapkit/helpers@1.13.3
+  - @swapkit/toolbox-cosmos@1.3.17
+  - @swapkit/toolbox-radix@1.2.12
+  - @swapkit/toolbox-solana@1.1.16
+  - @swapkit/toolbox-substrate@1.2.20
+  - @swapkit/toolbox-utxo@1.1.25
+
 ## 1.2.27
 
 ### Patch Changes
