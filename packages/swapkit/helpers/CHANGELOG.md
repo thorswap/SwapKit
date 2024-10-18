@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.13.3
+
+### Patch Changes
+
+- [#1048](https://github.com/thorswap/SwapKit/pull/1048) [`9893763`](https://github.com/thorswap/SwapKit/commit/9893763661f89557742fc10edacb894b1ac489d2) Thanks [@towanTG](https://github.com/towanTG)! - Fixes Keystore Solana derivation path to use account index (4th) instead of address index (5th)
+
 ## 1.13.2
 
 ### Patch Changes
