@@ -9,7 +9,7 @@ export const list = {
     patch: 0,
   },
   keywords: ["uniswap", "default"],
-  count: 535,
+  count: 536,
   tokens: [
     {
       address: "0x6314C31A7a1652cE482cffe247E9CB7c3f4BB9aF",
@@ -2702,6 +2702,16 @@ export const list = {
       ticker: "DNT",
     },
     {
+      address: "0x1121acc14c63f3c872bfca497d10926a6098aac5",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.DOGE-0x1121acc14c63f3c872bfca497d10926a6098aac5",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.doge-0x1121acc14c63f3c872bfca497d10926a6098aac5.png",
+      ticker: "DOGE",
+    },
+    {
       address: "0x4206931337dc273a630d328da6441786bfad668f",
       chain: "ETH",
       chainId: "1",
@@ -2920,16 +2930,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.floki-0xcf0c122c6b73ff809c693db761e7baebe62b6a2e.png",
       ticker: "FLOKI",
-    },
-    {
-      address: "0x4f08705fb8f33affc231ed66e626b40e84a71870",
-      chain: "ETH",
-      chainId: "1",
-      decimals: 11,
-      identifier: "ETH.FLUT-0x4f08705fb8f33affc231ed66e626b40e84a71870",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.flut-0x4f08705fb8f33affc231ed66e626b40e84a71870.png",
-      ticker: "FLUT",
     },
     {
       address: "0x41545f8b9472D758bB669ed8EaEEEcD7a9C4Ec29",
@@ -5220,6 +5220,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.wojak-0x5026f006b85729a8b14553fae6af249ad16c9aab.png",
       ticker: "WOJAK",
+    },
+    {
+      address: "0x67466be17df832165f8c80a5a120ccc652bd7e69",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.WOLF-0x67466be17df832165f8c80a5a120ccc652bd7e69",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.wolf-0x67466be17df832165f8c80a5a120ccc652bd7e69.png",
+      ticker: "WOLF",
     },
     {
       address: "0x4691937a7508860F876c9c0a2a617E7d9E945D4B",
