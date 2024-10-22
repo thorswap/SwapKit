@@ -185,14 +185,16 @@ export function cosmosTransfer({
   rpcUrl?: string;
 }) {
   return async ({ from, recipient, assetValue }: TransferParams) => {
-    const { getDenom, createSigningStargateClient } = await import("@swapkit/toolbox-cosmos");
+    const { getMsgSendDenom, createSigningStargateClient } = await import(
+      "@swapkit/toolbox-cosmos"
+    );
     // @ts-expect-error assumed available connection
     const offlineSigner = window.keepkey?.cosmos?.getOfflineSignerOnlyAmino(chainId);
     const cosmJS = await createSigningStargateClient(rpcUrl || RPCUrl.Cosmos, offlineSigner);
 
     const coins = [
       {
-        denom: getDenom(assetValue.symbol).toLowerCase(),
+        denom: getMsgSendDenom(assetValue.symbol).toLowerCase(),
         amount: assetValue.getBaseValue("string"),
       },
     ];

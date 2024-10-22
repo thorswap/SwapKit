@@ -212,7 +212,9 @@ export function cosmosTransfer({
   rpcUrl?: string;
 }) {
   return async ({ from, recipient, assetValue, memo }: TransferParams) => {
-    const { getDenom, createSigningStargateClient } = await import("@swapkit/toolbox-cosmos");
+    const { getMsgSendDenom, createSigningStargateClient } = await import(
+      "@swapkit/toolbox-cosmos"
+    );
     await window.xfi?.keplr?.enable(chainId);
     // @ts-ignore
     const offlineSigner = window.xfi?.keplr?.getOfflineSignerOnlyAmino(chainId);
@@ -224,7 +226,7 @@ export function cosmosTransfer({
 
     const coins = [
       {
-        denom: getDenom(assetValue.symbol).toLowerCase(),
+        denom: getMsgSendDenom(assetValue.symbol).toLowerCase(),
         amount: assetValue.getBaseValue("string"),
       },
     ];
