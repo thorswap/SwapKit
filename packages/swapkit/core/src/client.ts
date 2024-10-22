@@ -209,57 +209,11 @@ export function SwapKit<
   /**
    * @deprecated - use toolbox directly or use getAddressValidator() function
    */
-  function validateAddress({ address, chain }: { address: string; chain: Chain }) {
-    console.warn(
-      "validateAddress is deprecated - use toolbox directly or import { getAddressValidator } from '@swapkit/core'",
-    );
-
-    switch (chain) {
-      case Chain.Arbitrum:
-      case Chain.Avalanche:
-      case Chain.Optimism:
-      case Chain.BinanceSmartChain:
-      case Chain.Polygon:
-      case Chain.Ethereum: {
-        const { evmValidateAddress } = require("@swapkit/toolbox-evm");
-        return evmValidateAddress({ address });
-      }
-
-      case Chain.Litecoin:
-      case Chain.Dash:
-      case Chain.Dogecoin:
-      case Chain.BitcoinCash:
-      case Chain.Bitcoin: {
-        const { utxoValidateAddress } = require("@swapkit/toolbox-utxo");
-        return utxoValidateAddress({ address, chain });
-      }
-
-      case Chain.Cosmos:
-      case Chain.Kujira:
-      case Chain.Maya:
-      case Chain.THORChain: {
-        const { cosmosValidateAddress } = require("@swapkit/toolbox-cosmos");
-        return cosmosValidateAddress({ address, chain });
-      }
-
-      case Chain.Polkadot: {
-        const { substrateValidateAddress } = require("@swapkit/toolbox-substrate");
-        return substrateValidateAddress({ address, chain });
-      }
-
-      case Chain.Radix: {
-        const { validateRadixAddress } = require("@swapkit/toolbox-radix");
-        return validateRadixAddress(address);
-      }
-
-      case Chain.Solana: {
-        const { solanaValidateAddress } = require("@swapkit/toolbox-solana");
-        return solanaValidateAddress(address);
-      }
-
-      default:
-        return false;
-    }
+  function validateAddress(_: { address: string; chain: Chain }) {
+    throw new SwapKitError("not_implemented", {
+      message:
+        "validateAddress is deprecated - use toolbox directly or import { getAddressValidator } from '@swapkit/core'",
+    });
   }
 
   async function getWalletWithBalance<T extends Chain>(chain: T, potentialScamFilter = true) {
