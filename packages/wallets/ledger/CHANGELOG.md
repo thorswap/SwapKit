@@ -1,5 +1,15 @@
 # @swapkit/wallet-ledger
 
+## 1.4.3
+
+### Patch Changes
+
+- [#1043](https://github.com/thorswap/SwapKit/pull/1043) [`e8735e1`](https://github.com/thorswap/SwapKit/commit/e8735e19971d9e8e636cba8f92cf8c12d436d777) Thanks [@alexisshleverx](https://github.com/alexisshleverx)! - Add tx building for Gaia and Kuji. Split Thorchain buildTransaction function
+
+- Updated dependencies [[`e8735e1`](https://github.com/thorswap/SwapKit/commit/e8735e19971d9e8e636cba8f92cf8c12d436d777)]:
+  - @swapkit/toolbox-cosmos@1.4.0
+  - @swapkit/helpers@1.13.3
+
 ## 1.4.2
 
 ### Patch Changes
