@@ -7,7 +7,12 @@ import {
   WalletOption,
   derivationPathToString,
 } from "@swapkit/helpers";
-import type { JsonRpcProvider, Provider, TransactionRequest } from "@swapkit/toolbox-evm";
+import {
+  type JsonRpcProvider,
+  type Provider,
+  Signature,
+  type TransactionRequest,
+} from "@swapkit/toolbox-evm";
 
 type TrezorEVMSignerParams = {
   chain: Chain;
@@ -119,16 +124,18 @@ export async function getEVMSigner({ chain, derivationPath, provider }: TrezorEV
             gasPrice: "0x0",
           };
 
+      const hexifiedNonce = toHexString(
+        BigInt(
+          nonce || (await this.provider.getTransactionCount(await this.getAddress(), "pending")),
+        ),
+      );
+
       const formattedTx = {
         chainId: Number.parseInt(ChainToChainId[this.chain]),
         to: to.toString(),
-        frin: this.address,
         value: toHexString(BigInt(value?.toString() || 0)),
         gasLimit: toHexString(BigInt(gasLimit?.toString() || 0)),
-        nonce: (
-          nonce?.toString() ||
-          (await this.provider.getTransactionCount(await this.getAddress(), "pending"))
-        ).toString(),
+        nonce: hexifiedNonce,
         data: data?.toString() || "0x",
         ...additionalFields,
       };
@@ -147,21 +154,27 @@ export async function getEVMSigner({ chain, derivationPath, provider }: TrezorEV
 
       const { r, s, v } = payload;
 
-      const hash = Transaction.from({
+      const signature = Signature.from({
+        r,
+        s,
+        v: new SwapKitNumber(BigInt(v)).getBaseValue("number"),
+      });
+
+      const serializedTx = Transaction.from({
         ...formattedTx,
-        nonce: Number.parseInt(formattedTx.nonce),
+        nonce: Number.parseInt(formattedTx.nonce, 16),
         type: isEIP1559 ? 2 : 0,
-        signature: { r, s, v: new SwapKitNumber(v).getBaseValue("number") },
+        signature,
       }).serialized;
 
-      if (!hash) {
+      if (!serializedTx) {
         throw new SwapKitError({
           errorKey: "wallet_trezor_failed_to_sign_transaction",
           info: { chain: this.chain, derivationPath: this.derivationPath },
         });
       }
 
-      return hash;
+      return serializedTx;
     };
 
     connect = (provider: Provider | null) => {
