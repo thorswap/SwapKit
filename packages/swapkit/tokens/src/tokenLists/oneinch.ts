@@ -1,14 +1,14 @@
 export const list = {
   provider: "ONEINCH",
   name: "ONEINCH",
-  timestamp: "2024-10-17T12:01:05.713Z",
+  timestamp: "2024-10-22T01:00:57.885Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: ["oneinch", "1inch", "1inch.exchange", "1inch.exchange v1"],
-  count: 1401,
+  count: 1402,
   tokens: [
     {
       address: "0xba5ddd1f9d7f570dc94a51479a000e3bce967196",
@@ -3388,6 +3388,16 @@ export const list = {
       ticker: "CADC",
     },
     {
+      address: "0x152649ea73beab28c5b49b26eb48f7ead6d4c898",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.CAKE-0x152649ea73beab28c5b49b26eb48f7ead6d4c898",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.cake-0x152649ea73beab28c5b49b26eb48f7ead6d4c898.png",
+      ticker: "CAKE",
+    },
+    {
       address: "0x03be5c903c727ee2c8c4e9bc0acc860cca4715e2",
       chain: "ETH",
       chainId: "1",
@@ -5976,14 +5986,14 @@ export const list = {
       ticker: "KARMA",
     },
     {
-      address: "0xe6c3502997f97f9bde34cb165fbce191065e068f",
+      address: "0x73e0c0d45e048d25fc26fa3159b0aa04bfa4db98",
       chain: "ETH",
       chainId: "1",
-      decimals: 18,
-      identifier: "ETH.KBTC-0xe6c3502997f97f9bde34cb165fbce191065e068f",
+      decimals: 8,
+      identifier: "ETH.kBTC-0x73e0c0d45e048d25fc26fa3159b0aa04bfa4db98",
       logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.kbtc-0xe6c3502997f97f9bde34cb165fbce191065e068f.png",
-      ticker: "KBTC",
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.kbtc-0x73e0c0d45e048d25fc26fa3159b0aa04bfa4db98.png",
+      ticker: "kBTC",
     },
     {
       address: "0x106552c11272420aad5d7e94f8acab9095a6c952",

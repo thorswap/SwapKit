@@ -2,14 +2,14 @@ export const list = {
   provider: "SUSHISWAP_V2",
   chainId: "1",
   name: "SUSHISWAP_V2",
-  timestamp: "2024-10-17T12:01:16.585Z",
+  timestamp: "2024-10-22T01:01:08.214Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: [],
-  count: 92,
+  count: 91,
   tokens: [
     {
       address: "0x4Af698B479D0098229DC715655c667Ceb6cd8433",
@@ -280,16 +280,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.float-0xb05097849bca421a3f51b249ba6cca4af4b97cb9.png",
       ticker: "FLOAT",
-    },
-    {
-      address: "0x4C2e59D098DF7b6cBaE0848d66DE2f8A4889b9C3",
-      chain: "ETH",
-      chainId: "1",
-      decimals: 18,
-      identifier: "ETH.FODL-0X4C2E59D098DF7B6CBAE0848D66DE2F8A4889B9C3",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.fodl-0x4c2e59d098df7b6cbae0848d66de2f8a4889b9c3.png",
-      ticker: "FODL",
     },
     {
       address: "0x50D1c9771902476076eCFc8B2A83Ad6b9355a4c9",
@@ -642,6 +632,16 @@ export const list = {
       ticker: "RAIL",
     },
     {
+      address: "0xba5BDe662c17e2aDFF1075610382B9B691296350",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.RARE-0XBA5BDE662C17E2ADFF1075610382B9B691296350",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.rare-0xba5bde662c17e2adff1075610382b9b691296350.png",
+      ticker: "RARE",
+    },
+    {
       address: "0xa35Bd2246978Dfbb1980DFf8Ff0f5834335dFdbc",
       chain: "ETH",
       chainId: "1",
@@ -660,16 +660,6 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.robo-0x6fc2f1044a3b9bb3e43a43ec8f840843ed753061.png",
       ticker: "ROBO",
-    },
-    {
-      address: "0xEe7527841A932d2912224E20a405e1a1FF747084",
-      chain: "ETH",
-      chainId: "1",
-      decimals: 7,
-      identifier: "ETH.SHX-0XEE7527841A932D2912224E20A405E1A1FF747084",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.shx-0xee7527841a932d2912224e20a405e1a1ff747084.png",
-      ticker: "SHX",
     },
     {
       address: "0xbCDa9E0658f4eECF56A0bd099e6DBc0C91f6A8c2",
