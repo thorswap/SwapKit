@@ -1,5 +1,17 @@
 # @swapkit/core
 
+## 2.0.0
+
+### Major Changes
+
+- [#1055](https://github.com/thorswap/SwapKit/pull/1055) [`09cd464`](https://github.com/thorswap/SwapKit/commit/09cd4643e416010582d35d580cab973efd383415) Thanks [@ice-chillios](https://github.com/ice-chillios)! - Remove validate address and point out to generator
+
+### Patch Changes
+
+- Updated dependencies [[`e8735e1`](https://github.com/thorswap/SwapKit/commit/e8735e19971d9e8e636cba8f92cf8c12d436d777)]:
+  - @swapkit/toolbox-cosmos@1.4.0
+  - @swapkit/helpers@1.13.3
+
 ## 1.4.18
 
 ### Patch Changes

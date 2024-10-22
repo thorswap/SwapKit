@@ -1,5 +1,14 @@
 # @swapkit/wallet-trezor
 
+## 1.2.3
+
+### Patch Changes
+
+- [#1054](https://github.com/thorswap/SwapKit/pull/1054) [`aaf9147`](https://github.com/thorswap/SwapKit/commit/aaf9147868f3df2c32474c285f1c4233c444a9f2) Thanks [@towanTG](https://github.com/towanTG)! - Fixes nonce format that is sent to trezor device
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.13.3
+
 ## 1.2.2
 
 ### Patch Changes
