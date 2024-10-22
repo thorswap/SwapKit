@@ -2,14 +2,14 @@ export const list = {
   provider: "MAYACHAIN",
   chainId: "mayachain-mainnet-v1",
   name: "MAYACHAIN",
-  timestamp: "2024-10-17T12:01:04.460Z",
+  timestamp: "2024-10-22T01:00:56.396Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: [],
-  count: 56,
+  count: 55,
   tokens: [
     {
       address: "0x912ce59144191c1204e64559fe8253a0e49e6548",
@@ -124,10 +124,10 @@ export const list = {
       chain: "ARB",
       chainId: "42161",
       decimals: 18,
-      identifier: "ARB.WSTETH-0x5979d7b546e38e414f7e9822514be443a4800529",
+      identifier: "ARB.wstETH-0x5979d7b546e38e414f7e9822514be443a4800529",
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.wsteth-0x5979d7b546e38e414f7e9822514be443a4800529.png",
-      ticker: "WSTETH",
+      ticker: "wstETH",
     },
     {
       address: "0x9f41b34f42058a7b74672055a5fae22c4b113fd1",
@@ -208,10 +208,10 @@ export const list = {
       chain: "ETH",
       chainId: "1",
       decimals: 18,
-      identifier: "ETH.WstETH-0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
+      identifier: "ETH.wstETH-0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.wsteth-0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0.png",
-      ticker: "WstETH",
+      ticker: "wstETH",
     },
     {
       chain: "KUJI",
@@ -382,7 +382,7 @@ export const list = {
       chain: "MAYA",
       chainId: "mayachain-mainnet-v1",
       decimals: 8,
-      identifier: "MAYA.ARB/WSTETH-0x5979d7b546e38e414f7e9822514be443a4800529",
+      identifier: "MAYA.ARB/wstETH-0x5979d7b546e38e414f7e9822514be443a4800529",
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.wsteth-0x5979d7b546e38e414f7e9822514be443a4800529.png",
       ticker: "WSTETH",
@@ -474,18 +474,10 @@ export const list = {
       chain: "MAYA",
       chainId: "mayachain-mainnet-v1",
       decimals: 8,
-      identifier: "MAYA.ETH/WstETH-0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
+      identifier: "MAYA.ETH/wstETH-0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.wsteth-0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0.png",
       ticker: "WstETH",
-    },
-    {
-      chain: "MAYA",
-      chainId: "mayachain-mainnet-v1",
-      decimals: 8,
-      identifier: "MAYA.KUJI/AXLYUM",
-      logoURI: "https://storage.googleapis.com/token-list-swapkit-dev/images/kuji.axlyum.png",
-      ticker: "AXLYUM",
     },
     {
       chain: "MAYA",
