@@ -1,5 +1,16 @@
 # @swapkit/toolbox-evm
 
+## 1.6.0
+
+### Minor Changes
+
+- [#1064](https://github.com/thorswap/SwapKit/pull/1064) [`7d4a9f5`](https://github.com/thorswap/SwapKit/commit/7d4a9f501e472254cdf9ddf7aec5460381e6c4c8) Thanks [@towanTG](https://github.com/towanTG)! - Adds multicall functionality to ETH toolbox
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @swapkit/helpers@1.13.3
+
 ## 1.5.8
 
 ### Patch Changes

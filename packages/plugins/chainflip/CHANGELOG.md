@@ -1,5 +1,15 @@
 # @swapkit/plugin-chainflip
 
+## 1.3.19
+
+### Patch Changes
+
+- [#1063](https://github.com/thorswap/SwapKit/pull/1063) [`ef4463b`](https://github.com/thorswap/SwapKit/commit/ef4463be78674194568af5a9107985eed33f6db6) Thanks [@towanTG](https://github.com/towanTG)! - Fixes asset ticker to chainflip asset string matching
+
+- Updated dependencies [[`7d4a9f5`](https://github.com/thorswap/SwapKit/commit/7d4a9f501e472254cdf9ddf7aec5460381e6c4c8)]:
+  - @swapkit/toolbox-evm@1.6.0
+  - @swapkit/helpers@1.13.3
+
 ## 1.3.18
 
 ### Patch Changes

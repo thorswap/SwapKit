@@ -1,5 +1,16 @@
 # @swapkit/sdk
 
+## 1.2.32
+
+### Patch Changes
+
+- Updated dependencies [[`ef4463b`](https://github.com/thorswap/SwapKit/commit/ef4463be78674194568af5a9107985eed33f6db6)]:
+  - @swapkit/plugin-chainflip@1.3.19
+  - @swapkit/plugin-evm@1.1.30
+  - @swapkit/plugin-thorchain@1.1.48
+  - @swapkit/core@2.0.2
+  - @swapkit/wallets@1.2.25
+
 ## 1.2.31
 
 ### Patch Changes
