@@ -42,7 +42,7 @@ export async function getDepositAddress({
 
       const srcAsset = assetTickerToChainflipAsset.get(sellAsset.ticker);
       const srcChain = chainToChainflipChain.get(sellAsset.chain);
-      const destAsset = assetTickerToChainflipAsset.get(buyAsset.chain);
+      const destAsset = assetTickerToChainflipAsset.get(buyAsset.ticker);
       const destChain = chainToChainflipChain.get(buyAsset.chain);
 
       if (!(srcAsset && srcChain && destAsset && destChain)) {
