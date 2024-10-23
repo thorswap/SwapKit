@@ -1,10 +1,11 @@
-import { Chain, type FeeOption } from "@swapkit/helpers";
+import { Chain, FeeOption } from "@swapkit/helpers";
 import type { BrowserProvider, JsonRpcProvider, JsonRpcSigner, Signer } from "ethers";
 
 import type { EthplorerApiType } from "../api/ethplorerApi";
 import { ethplorerApi } from "../api/ethplorerApi";
 import { type EVMTxBaseParams, estimateTransactionFee, getBalance } from "../index";
 
+import { multicallAbi } from "../contracts/eth/multicall";
 import { EVMToolbox } from "./EVMToolbox";
 
 export const ETHToolbox = ({
@@ -22,6 +23,22 @@ export const ETHToolbox = ({
   const evmToolbox = EVMToolbox({ provider, signer });
   const chain = Chain.Ethereum;
 
+  async function multicall(
+    callTuples: { address: string; data: string }[],
+    multicallAddress = "0x5ba1e12693dc8f9c48aad8770482f4739beed696",
+    funcName = "aggregate",
+    feeOptionKey: FeeOption = FeeOption.Fast,
+  ) {
+    const txObject = await evmToolbox.createContractTxObject({
+      contractAddress: multicallAddress,
+      abi: multicallAbi,
+      funcName,
+      funcParams: [callTuples],
+    });
+
+    return evmToolbox.sendTransaction(txObject, feeOptionKey);
+  }
+
   return {
     ...evmToolbox,
     estimateTransactionFee: (txObject: EVMTxBaseParams, feeOptionKey?: FeeOption) =>
@@ -38,5 +55,6 @@ export const ETHToolbox = ({
         chain,
         potentialScamFilter,
       }),
+    multicall,
   };
 };
