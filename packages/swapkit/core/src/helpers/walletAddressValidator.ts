@@ -16,7 +16,7 @@ export async function getAddressValidator() {
       case Chain.BinanceSmartChain:
       case Chain.Polygon:
       case Chain.Ethereum:
-        return evmValidateAddress;
+        return evmValidateAddress({ address });
 
       case Chain.Litecoin:
       case Chain.Dash:
@@ -37,15 +37,15 @@ export async function getAddressValidator() {
       }
 
       case Chain.Radix: {
-        return validateRadixAddress;
+        return validateRadixAddress(address);
       }
 
       case Chain.Solana: {
-        return solanaValidateAddress;
+        return solanaValidateAddress(address);
       }
 
       default:
-        return () => false;
+        return false;
     }
   };
 }
