@@ -89,18 +89,13 @@ async function getWalletMethodsForChain({
       const toolbox = getToolboxByChain(chain)({ apiKey: blockchairApiKey });
 
       const getBalance = async () => {
-        try {
-          const providerChain = getProviderNameFromChain(chain);
-          // @ts-expect-error We assuming there chains via switch
-          const balance = await window?.keepkey?.[providerChain]?.request({
-            method: "request_balance",
-          });
-          const assetValue = AssetValue.from({ chain, value: balance[0].balance });
-          return [assetValue];
-        } catch (error) {
-          console.error("Error fetching balance:", error);
-          throw error;
-        }
+        const providerChain = getProviderNameFromChain(chain);
+        // @ts-expect-error We assuming there chains via switch
+        const balance = await window?.keepkey?.[providerChain]?.request({
+          method: "request_balance",
+        });
+        const assetValue = AssetValue.from({ chain, value: balance[0].balance });
+        return [assetValue];
       };
 
       return { ...toolbox, getBalance, transfer: walletTransfer };

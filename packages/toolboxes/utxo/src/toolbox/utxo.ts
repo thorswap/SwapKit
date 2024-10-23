@@ -286,7 +286,7 @@ export const estimateMaxSendableAmount = async ({
       (utxo) => utxo.value > Math.max(getDustThreshold(chain), getInputSize(utxo) * feeRateWhole),
     );
 
-  if (!inputs?.length) return AssetValue.from({ chain });
+  if (inputs?.length === 0) return AssetValue.from({ chain });
 
   const balance = AssetValue.from({
     chain,

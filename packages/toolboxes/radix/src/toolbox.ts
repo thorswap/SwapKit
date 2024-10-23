@@ -179,7 +179,7 @@ async function fetchFungibleResources({
   networkApi,
 }: RadixGetBalanceParams): Promise<FungibleResourcesCollectionItem[]> {
   let hasNextPage = true;
-  let nextCursor = undefined;
+  let nextCursor: string | undefined;
   let fungibleResources: FungibleResourcesCollectionItem[] = [];
   const stateVersion = await currentStateVersion(networkApi);
   while (hasNextPage) {
@@ -219,7 +219,7 @@ async function convertResourcesToBalances({
   const BATCH_SIZE = 50;
 
   // Split resources into batches of up to 50 items
-  const resourceBatches = [];
+  const resourceBatches: FungibleResourcesCollectionItem[][] = [];
   for (let i = 0; i < resources.length; i += BATCH_SIZE) {
     resourceBatches.push(resources.slice(i, i + BATCH_SIZE));
   }

@@ -180,7 +180,7 @@ const getToolbox = async ({
       const fee = getDefaultChainFee(chain);
       const { pubkey: value, signTransaction, sign: signMessage } = signer;
 
-      // ANCHOR (@Chillios): Same parts in methods + can extract StargateClient init to toolbox
+      // ANCHOR (@ice-chillios): Same parts in methods + can extract StargateClient init to toolbox
       const thorchainTransfer = async ({
         memo = "",
         assetValue,

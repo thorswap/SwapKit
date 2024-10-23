@@ -83,7 +83,7 @@ export async function getTokenTradingPairs(providers: ProviderName[], isDev = fa
     }
   >();
 
-  if (!providers.length) return tradingPairs;
+  if (providers.length === 0) return tradingPairs;
 
   const providerRequests = providers.map(async (provider) => {
     const tokenList = await getTokenListV2(provider, isDev);

@@ -19,6 +19,7 @@ export const getSwapInParams = ({
   recipient,
   toChecksumAddress,
   calldata,
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO(@Towan): Refactor
 }: SwapInParams) => {
   const isGeneric = !!lowercasedGenericAbiMappings[contractAddress.toLowerCase()];
   const {

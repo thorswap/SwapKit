@@ -1,22 +1,19 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "ignore": ["node_modules", "dist", "coverage"]
-  },
-  "organizeImports": {
-    "enabled": true
+    "ignore": [
+      "node_modules",
+      "dist",
+      "coverage",
+      "packages/toolboxes/cosmos/src/thorchainUtils/types/proto"
+    ]
   },
   "formatter": {
-    "indentStyle": "space",
     "formatWithErrors": true,
-    "lineWidth": 100,
+    "indentStyle": "space",
     "indentWidth": 2,
-    "lineEnding": "lf"
-  },
-  "json": {
-    "formatter": {
-      "indentStyle": "space"
-    }
+    "lineEnding": "lf",
+    "lineWidth": 100
   },
   "javascript": {
     "formatter": {
@@ -24,33 +21,61 @@
     },
     "globals": ["Bun", "React"]
   },
+  "json": {
+    "formatter": {
+      "indentStyle": "space"
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
+      "complexity": {
+        "all": true,
+        "noBannedTypes": "off",
+        "noExcessiveCognitiveComplexity": {
+          "level": "error",
+          "options": { "maxAllowedComplexity": 12 }
+        }
+      },
+      "correctness": {
+        "all": true,
+        "noNodejsModules": "off",
+        "noUndeclaredDependencies": "off",
+        "noUndeclaredVariables": "error",
+        "useImportExtensions": "off"
+      },
+      "nursery": {
+        "recommended": true
+      },
       "recommended": true,
+      "security": {
+        "all": true
+      },
       "style": {
         "all": true,
         "noDefaultExport": "off",
         "noImplicitBoolean": "off",
-        "useBlockStatements": "off",
-        "useNamingConvention": "off",
         "noNamespaceImport": "off",
+        "useBlockStatements": "off",
+        "useDefaultSwitchClause": "off",
         "useFilenamingConvention": "off",
+        "useNamingConvention": "off",
         "useNodejsImportProtocol": "off"
       },
-      "complexity": { "all": true, "noBannedTypes": "off" },
-      "correctness": {
-        "all": true,
-        "noNodejsModules": "off",
-        "noUndeclaredVariables": "error"
-      },
-      "security": { "all": true },
       "suspicious": {
         "all": true,
-        "useAwait": "error",
-        "noExplicitAny": "warn"
-      },
-      "nursery": { "recommended": true }
+        "noConsole": {
+          "level": "warn",
+          "options": {
+            "allow": ["error", "warn"]
+          }
+        },
+        "noExplicitAny": "off",
+        "useAwait": "error"
+      }
     }
+  },
+  "organizeImports": {
+    "enabled": true
   }
 }

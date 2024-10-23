@@ -79,6 +79,7 @@ async function getWalletMethods<T extends PhantomSupportedChains>({
         recipient,
         assetValue,
         isPDA,
+        // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: TODO(@ice-chillios): Refactor
       }: WalletTxParams & { assetValue: AssetValue; isPDA?: boolean }) => {
         if (!(isPDA || toolbox.validateAddress(recipient))) {
           throw new SwapKitError("core_transaction_invalid_recipient_address");

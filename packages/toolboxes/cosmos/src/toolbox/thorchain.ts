@@ -68,19 +68,14 @@ const signMultisigTx = async (
   const { msgs, accountNumber, sequence, chainId, fee, memo } = JSON.parse(tx);
 
   const address = (await wallet.getAccounts())?.[0]?.address || "";
-  const aminoTypes = await createDefaultAminoTypes(chain);
-  const registry = await createDefaultRegistry();
+  const aminoTypes = createDefaultAminoTypes(chain);
+  const registry = createDefaultRegistry();
   const signingClient = await createOfflineStargateClient(wallet, {
     registry,
     aminoTypes,
   });
 
-  const msgForSigning = [];
-
-  for (const msg of msgs) {
-    const signMsg = await convertToSignable(msg, chain);
-    msgForSigning.push(signMsg);
-  }
+  const msgForSigning = msgs.map((msg: any) => convertToSignable(msg, chain));
 
   const {
     signatures: [signature],
@@ -90,11 +85,7 @@ const signMultisigTx = async (
     chainId,
   });
 
-  const bodyBytes = await buildEncodedTxBody({
-    chain,
-    msgs: msgs.map((msg: any) => prepareMessageForBroadcast(msg)),
-    memo,
-  });
+  const bodyBytes = buildEncodedTxBody({ chain, msgs: msgs.map(prepareMessageForBroadcast), memo });
 
   return { signature: exportSignature(signature as Uint8Array), bodyBytes };
 };
@@ -161,11 +152,7 @@ function verifySignature(getAccount: (address: string) => Promise<Account | null
     signature,
     message,
     address,
-  }: {
-    signature: string;
-    message: string;
-    address: string;
-  }) {
+  }: { signature: string; message: string; address: string }) {
     const account = await getAccount(address);
     if (!account?.pubkey) throw new SwapKitError("toolbox_cosmos_verify_signature_no_pubkey");
 
@@ -240,7 +227,7 @@ export const BaseThorchainToolbox = ({
 
       // validate data
       if (!nativeFee || Number.isNaN(nativeFee) || nativeFee < 0)
-        throw Error(`Invalid nativeFee: ${nativeFee.toString()}`);
+        throw new Error(`Invalid nativeFee: ${nativeFee.toString()}`);
 
       fee = new SwapKitNumber(nativeFee);
     } catch {
@@ -250,11 +237,7 @@ export const BaseThorchainToolbox = ({
       });
     }
 
-    return {
-      [FeeOption.Average]: fee,
-      [FeeOption.Fast]: fee,
-      [FeeOption.Fastest]: fee,
-    };
+    return { [FeeOption.Average]: fee, [FeeOption.Fast]: fee, [FeeOption.Fastest]: fee };
   };
 
   const transfer = async ({

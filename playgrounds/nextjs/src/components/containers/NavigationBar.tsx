@@ -48,7 +48,7 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
       // @ts-expect-error
       const allowedChains = allowedChainsByWallet[option] as Chain[];
 
-      if (!(allowedChains?.length && selectedChains?.length)) return false;
+      if (!(allowedChains?.length > 0 && selectedChains?.length > 0)) return false;
 
       return !selectedChains.every((chain) => allowedChains.includes(chain));
     },
@@ -62,7 +62,7 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
       // @ts-expect-error
       const allowedChains = allowedChainsByWallet[option] as Chain[];
 
-      if (!allowedChains.length || checkWalletDisabled(option)) return;
+      if (allowedChains.length === 0 || checkWalletDisabled(option)) return;
 
       if (selectedChains.length === 0) {
         setSelectedChains(allowedChains);
@@ -76,14 +76,14 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
   );
 
   return (
-    <ScrollArea className="max-w-[600px] lg:max-w-none pt-4 mb-4 border-b">
-      <div className="flex justify-between flex-row">
-        <div className={cn("mb-4 flex items-center", className)} {...props}>
+    <ScrollArea class="max-w-[600px] lg:max-w-none pt-4 mb-4 border-b">
+      <div class="flex justify-between flex-row">
+        <div class={cn("mb-4 flex items-center", className)} {...props}>
           {items.map(({ href, name }) => (
             <Link
               href={href}
               key={href}
-              className={cn(
+              class={cn(
                 "flex h-10 items-center justify-center rounded-full px-4 text-center transition-colors hover:text-primary",
                 pathname === href ? "bg-muted font-medium text-primary" : "text-muted-foreground",
               )}
@@ -95,18 +95,18 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
 
         <DropdownMenu onOpenChange={setIsDropdownOpen} open={isDropdownOpen}>
           {isWalletConnected ? (
-            <Button onClick={disconnectWallet} asChild variant="ghost" className="space-x-2">
+            <Button onClick={disconnectWallet} asChild variant="ghost" class="space-x-2">
               <div>
-                <PowerOff size={18} className="text-red-400" />
+                <PowerOff size={18} class="text-red-400" />
 
                 <span>{`Disconnect (${walletType})`}</span>
               </div>
             </Button>
           ) : (
             <DropdownMenuTrigger>
-              <Button asChild variant="ghost" className="space-x-2">
+              <Button asChild variant="ghost" class="space-x-2">
                 <div>
-                  <Power size={18} className="text-slate-400" />
+                  <Power size={18} class="text-slate-400" />
 
                   <span>Connect Wallet</span>
                 </div>
@@ -114,12 +114,12 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
             </DropdownMenuTrigger>
           )}
 
-          <DropdownMenuContent className="max-w-[400px] z-auto">
-            <div className="flex flex-row flex-wrap bg-slate-900 p-4 gap-3">
+          <DropdownMenuContent class="max-w-[400px] z-auto">
+            <div class="flex flex-row flex-wrap bg-slate-900 p-4 gap-3">
               {AllChains.map((chain) => (
-                <div key={chain} className="flex w-[70px] justify-between items-center">
+                <div key={chain} class="flex w-[70px] justify-between items-center">
                   <span
-                    className={
+                    class={
                       selectedChains.includes(chain) ? "text-primary" : "text-muted-foreground"
                     }
                   >
@@ -135,14 +135,14 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
               ))}
             </div>
 
-            <div className="bg-slate-800 p-4">
+            <div class="bg-slate-800 p-4">
               {[WalletOption.XDEFI, WalletOption.METAMASK, WalletOption.KEPLR].map((option) => (
                 <div key={option}>
-                  {selectedChains.length && !checkWalletDisabled(option) ? (
+                  {selectedChains.length > 0 && !checkWalletDisabled(option) ? (
                     <Button
                       onClick={() => handleWalletSelect(option)}
                       variant="ghost"
-                      className="text-primary p-2"
+                      class="text-primary p-2"
                     >
                       Connect
                     </Button>
@@ -150,9 +150,11 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
 
                   <Button
                     variant={
-                      selectedChains.length && !checkWalletDisabled(option) ? "default" : "ghost"
+                      selectedChains.length > 0 && !checkWalletDisabled(option)
+                        ? "default"
+                        : "ghost"
                     }
-                    className={checkWalletDisabled(option) ? "text-muted-foreground" : ""}
+                    class={checkWalletDisabled(option) ? "text-muted-foreground" : ""}
                     disabled={checkWalletDisabled(option)}
                     onClick={() => handleWalletSelect(option)}
                   >
@@ -165,7 +167,7 @@ export function NavigationBar({ className, ...props }: NavigationBarProps) {
         </DropdownMenu>
       </div>
 
-      <ScrollBar orientation="horizontal" className="invisible" />
+      <ScrollBar orientation="horizontal" class="invisible" />
     </ScrollArea>
   );
 }

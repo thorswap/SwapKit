@@ -192,7 +192,7 @@ const scanUTXOs = async ({
   fetchTxHex = true,
 }: BlockchairParams<{ address: string; fetchTxHex?: boolean }>) => {
   const utxos = await getUnspentTxs({ chain, address, apiKey });
-  const results = [];
+  const results: (UTXOType & { address: string })[] = [];
 
   for (const { hash, index, script_hex, value } of utxos) {
     let txHex: string | undefined;

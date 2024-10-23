@@ -6,9 +6,8 @@ import {
 import { CosmosLedgerInterface } from "../interfaces/CosmosLedgerInterface";
 
 export class CosmosLedger extends CosmosLedgerInterface {
+  derivationPath: string;
   private pubKey: string | null = null;
-
-  public derivationPath: string;
 
   constructor(derivationPath: DerivationPathArray = NetworkDerivationPath.GAIA) {
     super();

@@ -24,16 +24,16 @@ export const doSend = async ({
     const skClient = getSwapKitClient();
     const from = skClient.getAddress(Chain.THORChain);
     const balance = await skClient.getBalance(Chain.THORChain);
-    console.info(`Balance: ${balance}`);
-    console.info(`💰 Wallet - ${from} | Balance: ${balance}}`);
+    console.warn(`Balance: ${balance}`);
+    console.warn(`💰 Wallet - ${from} | Balance: ${balance}}`);
 
     const assetValue = await AssetValue.from({
       asset: "THOR.RUNE",
       value: sendAmount,
       asyncTokenLookup: true,
     });
-    console.info(`💰 Sending ${sendAmount} RUNE to ${toAddress}`);
-    console.info(`💰 Asset value: ${assetValue.toString()}`);
+    console.warn(`💰 Sending ${sendAmount} RUNE to ${toAddress}`);
+    console.warn(`💰 Asset value: ${assetValue.toString()}`);
     const tx = await skClient.transfer({
       from,
       assetValue,
@@ -52,7 +52,7 @@ const main = async () => {
     sendAmount: 0.1,
     toAddress: "thor1e9lxzfl7x2zvxnjczf8v0urel8943nesq9c4pk",
   });
-  console.info(tx);
+  console.warn(tx);
 };
 
 main();

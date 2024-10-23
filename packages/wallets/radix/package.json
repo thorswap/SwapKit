@@ -1,16 +1,13 @@
 {
   "author": "swapkit-oss",
   "dependencies": {
-    "@radixdlt/babylon-gateway-api-sdk": "1.6.1",
-    "@radixdlt/radix-dapp-toolkit": "2.0.3",
+    "@radixdlt/babylon-gateway-api-sdk": "1.7.3",
+    "@radixdlt/radix-dapp-toolkit": "2.1.1",
     "@radixdlt/wallet-sdk": "1.0.1",
     "@swapkit/helpers": "workspace:*"
   },
   "description": "SwapKit Lib ",
-  "files": [
-    "src/",
-    "dist/"
-  ],
+  "files": ["src/", "dist/"],
   "homepage": "https://github.com/thorswap/SwapKit",
   "license": "Apache-2.0",
   "main": "./dist/index.js",

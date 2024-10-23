@@ -226,7 +226,7 @@ export function SwapKit<
 
     if ("getBalance" in wallet) {
       const balance = await wallet.getBalance(wallet.address, potentialScamFilter);
-      wallet.balance = balance?.length ? balance : defaultBalance;
+      wallet.balance = balance.length > 0 ? balance : defaultBalance;
     }
 
     return wallet;

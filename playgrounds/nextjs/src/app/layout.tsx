@@ -17,12 +17,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
-      <body className={inter.className}>
+    <html lang="en" class="dark" style={{ colorScheme: "dark" }}>
+      <body class={inter.className}>
         <AppProviders>
-          <div className="max-w-[800px] mx-auto">
+          <div class="max-w-[800px] mx-auto">
             <NavigationBar />
-            <div className="items-center justify-center flex">{children}</div>
+            <div class="items-center justify-center flex">{children}</div>
           </div>
         </AppProviders>
       </body>

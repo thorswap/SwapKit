@@ -75,7 +75,7 @@ function plugin({ getWallet, stagenet = false }: SwapKitPluginParams) {
             getChecksumAddressFromAsset({ chain, symbol, ticker }, chain),
             assetValue.getBaseValue("string"),
             params.memo,
-            rest.expiration || Number.parseInt(`${(new Date().getTime() + 15 * 60 * 1000) / 1000}`),
+            rest.expiration || Number.parseInt(`${(Date.now() + 15 * 60 * 1000) / 1000}`),
           ];
           const txOverrides = {
             from: params.from,
