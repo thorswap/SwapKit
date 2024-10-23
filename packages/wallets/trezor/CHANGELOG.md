@@ -1,5 +1,13 @@
 # @swapkit/wallet-trezor
 
+## 1.2.4
+
+### Patch Changes
+
+- Updated dependencies [[`7d4a9f5`](https://github.com/thorswap/SwapKit/commit/7d4a9f501e472254cdf9ddf7aec5460381e6c4c8)]:
+  - @swapkit/toolbox-evm@1.6.0
+  - @swapkit/helpers@1.13.3
+
 ## 1.2.3
 
 ### Patch Changes
