@@ -1,5 +1,11 @@
 # @swapkit/core
 
+## 2.0.1
+
+### Patch Changes
+
+- [#1060](https://github.com/thorswap/SwapKit/pull/1060) [`b5c9e39`](https://github.com/thorswap/SwapKit/commit/b5c9e394eca2cefabd5c19bfc28f571d3cb0bef4) Thanks [@towanTG](https://github.com/towanTG)! - Fixes return value of validateAddress
+
 ## 2.0.0
 
 ### Major Changes
