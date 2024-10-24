@@ -84,7 +84,7 @@ async function getTokenBalances({
         new AssetValue({
           value: SwapKitNumber.fromBigInt(accountInfo.tokenAmount.amount, decimal),
           decimal,
-          identifier: `${Chain.Solana}.${tokenSymbol}-${tokenInfo?.address}`,
+          identifier: `${Chain.Solana}.${tokenSymbol}${tokenInfo ? `-${tokenInfo.address}` : ''}`,
         }),
       );
     }
