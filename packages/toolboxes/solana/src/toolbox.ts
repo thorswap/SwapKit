@@ -84,7 +84,7 @@ async function getTokenBalances({
         new AssetValue({
           value: SwapKitNumber.fromBigInt(accountInfo.tokenAmount.amount, decimal),
           decimal,
-          identifier: `${Chain.Solana}.${tokenSymbol}-${address.toString()}`,
+          identifier: `${Chain.Solana}.${tokenSymbol}${mintAddress ? `-${mintAddress.toString()}` : ''}`,
         }),
       );
     }
@@ -124,20 +124,16 @@ export async function createSolanaTokenTransaction({
   const recipientPublicKey = new PublicKey(recipient);
   const recipientSPLAddress = await getAssociatedTokenAddress(tokenPublicKey, recipientPublicKey);
 
+  let recipientAccountExists = false;
   try {
     await getAccount(connection, recipientSPLAddress);
-    return transaction.add(
-      createTransferCheckedInstruction(
-        fromSPLAddress,
-        tokenPublicKey,
-        recipientSPLAddress,
-        from,
-        amount,
-        decimals,
-      ),
-    );
+    recipientAccountExists = true;
   } catch (_) {
-    return transaction.add(
+    // Recipient's associated token account doesn't exist
+  }
+
+  if (!recipientAccountExists) {
+    transaction.add(
       createAssociatedTokenAccountInstruction(
         from,
         recipientSPLAddress,
@@ -146,6 +142,19 @@ export async function createSolanaTokenTransaction({
       ),
     );
   }
+
+  transaction.add(
+    createTransferCheckedInstruction(
+      fromSPLAddress,
+      tokenPublicKey,
+      recipientSPLAddress,
+      from,
+      amount,
+      decimals,
+    ),
+  );
+
+  return transaction;
 }
 
 function transfer(connection: Connection) {
