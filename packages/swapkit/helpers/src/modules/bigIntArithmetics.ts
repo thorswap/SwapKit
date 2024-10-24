@@ -132,10 +132,10 @@ export class BigIntArithmetics {
   }
 
   // @ts-expect-error False positive
-  getValue<T extends AllowedNumberTypes>(type: T): NumberPrimitivesType[T] {
+  getValue<T extends AllowedNumberTypes>(type: T, decimal?: number): NumberPrimitivesType[T] {
     const value = this.formatBigIntToSafeValue(
       this.bigIntValue,
-      this.decimal || decimalFromMultiplier(this.decimalMultiplier),
+      decimal || this.decimal || decimalFromMultiplier(this.decimalMultiplier),
     );
 
     switch (type) {
@@ -150,8 +150,9 @@ export class BigIntArithmetics {
   }
 
   // @ts-expect-error
-  getBaseValue<T extends AllowedNumberTypes>(type: T): NumberPrimitivesType[T] {
-    const divisor = this.decimalMultiplier / toMultiplier(this.decimal || BaseDecimal.THOR);
+  getBaseValue<T extends AllowedNumberTypes>(type: T, decimal?: number): NumberPrimitivesType[T] {
+    const divisor =
+      this.decimalMultiplier / toMultiplier(decimal || this.decimal || BaseDecimal.THOR);
     const baseValue = this.bigIntValue / divisor;
 
     switch (type) {

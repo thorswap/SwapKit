@@ -101,6 +101,17 @@ describe("SwapKitNumber", () => {
         const skNumber = new SwapKitNumber(0.01);
         expect(skNumber.getValue("string")).toBe("0.01");
       });
+
+      test("returns string value with adjusted decimals", () => {
+        const skNumber = new SwapKitNumber({ value: "1.234567890123456789", decimal: 18 });
+        expect(skNumber.getValue("string", 8)).toBe("1.23456789");
+      });
+
+      test("returns string base value with adjusted decimals", () => {
+        const skNumber = new SwapKitNumber({ value: "1.234567890123456789", decimal: 18 });
+        expect(skNumber.getBaseValue("string", 8)).toBe("123456789");
+        expect(skNumber.getBaseValue("string", 10)).toBe("12345678901");
+      });
     });
 
     describe("number", () => {
@@ -113,12 +124,29 @@ describe("SwapKitNumber", () => {
         const skNumber = new SwapKitNumber(0.01);
         expect(skNumber.getValue("number")).toBe(0.01);
       });
+
+      test("returns number value with adjusted decimals", () => {
+        const skNumber = new SwapKitNumber({ value: "1.234567890123456789", decimal: 18 });
+        expect(skNumber.getValue("number", 8)).toBe(1.23456789);
+      });
+
+      test("returns number base value with adjusted decimals", () => {
+        const skNumber = new SwapKitNumber({ value: "1.234567890123456789", decimal: 18 });
+        expect(skNumber.getBaseValue("number", 8)).toBe(123456789);
+        expect(skNumber.getBaseValue("number", 10)).toBe(12345678901);
+      });
     });
 
     describe("bigint", () => {
       test("returns bigint value", () => {
         const skNumber = new SwapKitNumber(1);
         expect(skNumber.getBaseValue("bigint")).toBe(100000000n);
+      });
+
+      test("returns bigint value with adjusted decimals", () => {
+        const skNumber = new SwapKitNumber({ value: "1.234567890123456789", decimal: 18 });
+        expect(skNumber.getBaseValue("bigint", 8)).toBe(123456789n);
+        expect(skNumber.getBaseValue("bigint", 10)).toBe(12345678901n);
       });
     });
   });
