@@ -151,7 +151,7 @@ function plugin({
       assetValue: sellAsset,
       from: wallet.address,
       recipient: depositAddress,
-      isPDA: true,
+      isProgramDerivedAddress: true,
     });
 
     return tx as string;

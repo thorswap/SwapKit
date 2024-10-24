@@ -84,7 +84,7 @@ async function getTokenBalances({
         new AssetValue({
           value: SwapKitNumber.fromBigInt(accountInfo.tokenAmount.amount, decimal),
           decimal,
-          identifier: `${Chain.Solana}.${tokenSymbol}${mintAddress ? `-${mintAddress.toString()}` : ''}`,
+          identifier: `${Chain.Solana}.${tokenSymbol}${mintAddress ? `-${mintAddress.toString()}` : ""}`,
         }),
       );
     }
@@ -162,11 +162,13 @@ function transfer(connection: Connection) {
     recipient,
     assetValue,
     fromKeypair,
+    isProgramDerivedAddress,
   }: WalletTxParams & {
     assetValue: AssetValue;
     fromKeypair: Keypair;
+    isProgramDerivedAddress?: boolean;
   }) => {
-    if (!validateAddress(recipient)) {
+    if (!(isProgramDerivedAddress || validateAddress(recipient))) {
       throw new SwapKitError("core_transaction_invalid_recipient_address");
     }
 
