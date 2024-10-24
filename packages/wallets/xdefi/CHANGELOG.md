@@ -1,5 +1,16 @@
 # @swapkit/wallet-xdefi
 
+## 1.1.31
+
+### Patch Changes
+
+- Updated dependencies [[`ab3175e`](https://github.com/thorswap/SwapKit/commit/ab3175ec7bef4b907f28dfd6f358ea692497e525), [`c3362d6`](https://github.com/thorswap/SwapKit/commit/c3362d6617cf2597137ffa541ec19128b4af47d1), [`e82da08`](https://github.com/thorswap/SwapKit/commit/e82da089e50a3fdca3c007e9620d5e561553a61a)]:
+  - @swapkit/toolbox-solana@1.1.17
+  - @swapkit/helpers@1.14.0
+  - @swapkit/toolbox-cosmos@1.4.1
+  - @swapkit/toolbox-evm@1.6.1
+  - @swapkit/toolbox-utxo@1.1.26
+
 ## 1.1.30
 
 ### Patch Changes

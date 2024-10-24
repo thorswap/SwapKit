@@ -1,5 +1,11 @@
 # @swapkit/helpers
 
+## 1.14.0
+
+### Minor Changes
+
+- [#1070](https://github.com/thorswap/SwapKit/pull/1070) [`e82da08`](https://github.com/thorswap/SwapKit/commit/e82da089e50a3fdca3c007e9620d5e561553a61a) Thanks [@towanTG](https://github.com/towanTG)! - Adds decimal parameter to getValue and getBaseValue to let users adjust the decimals returned for a SwapKitNumber
+
 ## 1.13.3
 
 ### Patch Changes
