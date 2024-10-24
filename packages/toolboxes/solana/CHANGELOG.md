@@ -1,5 +1,16 @@
 # @swapkit/toolbox-solana
 
+## 1.1.17
+
+### Patch Changes
+
+- [#1069](https://github.com/thorswap/SwapKit/pull/1069) [`ab3175e`](https://github.com/thorswap/SwapKit/commit/ab3175ec7bef4b907f28dfd6f358ea692497e525) Thanks [@towanTG](https://github.com/towanTG)! - Adds program derived address validation to SOL toolbox transfer
+
+- [`c3362d6`](https://github.com/thorswap/SwapKit/commit/c3362d6617cf2597137ffa541ec19128b4af47d1) Thanks [@github-actions[bot]](https://github.com/github-actions%5Bbot%5D)! - Fixes token addresses in getBalance. This is fixing the sending of token issue
+
+- Updated dependencies [[`e82da08`](https://github.com/thorswap/SwapKit/commit/e82da089e50a3fdca3c007e9620d5e561553a61a)]:
+  - @swapkit/helpers@1.14.0
+
 ## 1.1.16
 
 ### Patch Changes

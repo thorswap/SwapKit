@@ -1,5 +1,18 @@
 # @swapkit/plugin-chainflip
 
+## 1.3.20
+
+### Patch Changes
+
+- [#1069](https://github.com/thorswap/SwapKit/pull/1069) [`ab3175e`](https://github.com/thorswap/SwapKit/commit/ab3175ec7bef4b907f28dfd6f358ea692497e525) Thanks [@towanTG](https://github.com/towanTG)! - Adds program derived address validation to SOL toolbox transfer
+
+- Updated dependencies [[`e82da08`](https://github.com/thorswap/SwapKit/commit/e82da089e50a3fdca3c007e9620d5e561553a61a)]:
+  - @swapkit/helpers@1.14.0
+  - @swapkit/api@1.9.7
+  - @swapkit/toolbox-evm@1.6.1
+  - @swapkit/toolbox-substrate@1.2.21
+  - @swapkit/toolbox-utxo@1.1.26
+
 ## 1.3.19
 
 ### Patch Changes

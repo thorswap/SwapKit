@@ -1,5 +1,22 @@
 # @swapkit/sdk
 
+## 2.0.0
+
+### Major Changes
+
+- [`4866113`](https://github.com/thorswap/SwapKit/commit/48661133aafa625a97339173ba93a2fc4d24f6f6) Thanks [@github-actions[bot]](https://github.com/github-actions%5Bbot%5D)! - Remove validate address and point out to generator [ change happened in @swapkit/core ]
+
+### Patch Changes
+
+- Updated dependencies [[`ab3175e`](https://github.com/thorswap/SwapKit/commit/ab3175ec7bef4b907f28dfd6f358ea692497e525)]:
+  - @swapkit/plugin-chainflip@1.3.20
+  - @swapkit/core@2.0.3
+  - @swapkit/wallets@1.2.26
+  - @swapkit/plugin-evm@1.1.31
+  - @swapkit/plugin-radix@1.1.16
+  - @swapkit/plugin-thorchain@1.1.49
+  - @swapkit/api@1.9.7
+
 ## 1.2.32
 
 ### Patch Changes
