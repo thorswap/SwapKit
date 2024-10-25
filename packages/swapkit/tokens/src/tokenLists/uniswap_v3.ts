@@ -9,7 +9,7 @@ export const list = {
     patch: 0,
   },
   keywords: ["uniswap", "default"],
-  count: 574,
+  count: 575,
   tokens: [
     {
       address: "0x6314C31A7a1652cE482cffe247E9CB7c3f4BB9aF",
@@ -430,6 +430,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.crypto-0x9842989969687f7d249d01cae1d2ff6b7b6b6d35.png",
       ticker: "CRYPTO",
+    },
+    {
+      address: "0xd07d35368e04a839dee335e213302b21ef14bb4a",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.CRYSTAL-0xd07d35368e04a839dee335e213302b21ef14bb4a",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.crystal-0xd07d35368e04a839dee335e213302b21ef14bb4a.png",
+      ticker: "CRYSTAL",
     },
     {
       address: "0x319f865b287fCC10b30d8cE6144e8b6D1b476999",
@@ -1782,16 +1792,6 @@ export const list = {
       ticker: "SPELL",
     },
     {
-      address: "0x7dd747d63b094971e6638313a6a2685e80c7fb2e",
-      chain: "ARB",
-      chainId: "42161",
-      decimals: 18,
-      identifier: "ARB.STFX-0x7dd747d63b094971e6638313a6a2685e80c7fb2e",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.stfx-0x7dd747d63b094971e6638313a6a2685e80c7fb2e.png",
-      ticker: "STFX",
-    },
-    {
       address: "0xe018C7a3d175Fb0fE15D70Da2c874d3CA16313EC",
       chain: "ARB",
       chainId: "42161",
@@ -2130,6 +2130,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.weth-0xf26644f7d130ba86a3f6dcce875d87c4116a0e34.png",
       ticker: "WETH",
+    },
+    {
+      address: "0xad4b9c1fbf4923061814dd9d5732eb703faa53d4",
+      chain: "ARB",
+      chainId: "42161",
+      decimals: 18,
+      identifier: "ARB.WNT-0xad4b9c1fbf4923061814dd9d5732eb703faa53d4",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/arb.wnt-0xad4b9c1fbf4923061814dd9d5732eb703faa53d4.png",
+      ticker: "WNT",
     },
     {
       address: "0xcAFcD85D8ca7Ad1e1C6F82F651fA15E33AEfD07b",
@@ -4962,16 +4972,6 @@ export const list = {
       ticker: "sENA",
     },
     {
-      address: "0x243cacb4d5ff6814ad668c3e225246efa886ad5a",
-      chain: "ETH",
-      chainId: "1",
-      decimals: 18,
-      identifier: "ETH.SHI-0x243cacb4d5ff6814ad668c3e225246efa886ad5a",
-      logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.shi-0x243cacb4d5ff6814ad668c3e225246efa886ad5a.png",
-      ticker: "SHI",
-    },
-    {
       address: "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE",
       chain: "ETH",
       chainId: "1",
@@ -5080,6 +5080,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.sov-0x2c5bc2ba3614fd27fcc7022ea71d9172e2632c16.png",
       ticker: "SOV",
+    },
+    {
+      address: "0x86ed939b500e121c0c5f493f399084db596dad20",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.SPC-0x86ed939b500e121c0c5f493f399084db596dad20",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.spc-0x86ed939b500e121c0c5f493f399084db596dad20.png",
+      ticker: "SPC",
     },
     {
       address: "0x090185f2135308BaD17527004364eBcC2D37e5F6",
@@ -5502,14 +5512,14 @@ export const list = {
       ticker: "USDz",
     },
     {
-      address: "0x55c08ca52497e2f1534b59e2917bf524d4765257",
+      address: "0xa693b19d2931d498c5b318df961919bb4aee87a5",
       chain: "ETH",
       chainId: "1",
-      decimals: 18,
-      identifier: "ETH.UwU-0x55c08ca52497e2f1534b59e2917bf524d4765257",
+      decimals: 6,
+      identifier: "ETH.UST-0xa693b19d2931d498c5b318df961919bb4aee87a5",
       logoURI:
-        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.uwu-0x55c08ca52497e2f1534b59e2917bf524d4765257.png",
-      ticker: "UwU",
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.ust-0xa693b19d2931d498c5b318df961919bb4aee87a5.png",
+      ticker: "UST",
     },
     {
       address: "0x340d2bde5eb28c1eed91b2f790723e3b160613b7",

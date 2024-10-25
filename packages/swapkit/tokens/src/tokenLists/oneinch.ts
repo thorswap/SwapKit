@@ -1,14 +1,14 @@
 export const list = {
   provider: "ONEINCH",
   name: "ONEINCH",
-  timestamp: "2024-10-22T01:00:57.885Z",
+  timestamp: "2024-10-23T14:58:17.314Z",
   version: {
     major: 1,
     minor: 0,
     patch: 0,
   },
   keywords: ["oneinch", "1inch", "1inch.exchange", "1inch.exchange v1"],
-  count: 1402,
+  count: 1405,
   tokens: [
     {
       address: "0xba5ddd1f9d7f570dc94a51479a000e3bce967196",
@@ -4476,6 +4476,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.dweb-0xe7f58a92476056627f9fdb92286778abd83b285f.png",
       ticker: "DWEB",
+    },
+    {
+      address: "0x92d6c1e31e14520e676a687f0a93788b716beff5",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.DYDX-0x92d6c1e31e14520e676a687f0a93788b716beff5",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.dydx-0x92d6c1e31e14520e676a687f0a93788b716beff5.png",
+      ticker: "DYDX",
     },
     {
       address: "0x961c8c0b1aad0c0b10a51fef6a867e3091bcef17",
@@ -11885,6 +11895,16 @@ export const list = {
       ticker: "SAVM",
     },
     {
+      address: "0xfe18be6b3bd88a2d2a7f928d00292e7a9963cfc6",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.sBTC-0xfe18be6b3bd88a2d2a7f928d00292e7a9963cfc6",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.sbtc-0xfe18be6b3bd88a2d2a7f928d00292e7a9963cfc6.png",
+      ticker: "sBTC",
+    },
+    {
       address: "0x1fbd3df007eb8a7477a1eab2c63483dcc24effd6",
       chain: "ETH",
       chainId: "1",
@@ -11953,6 +11973,16 @@ export const list = {
       logoURI:
         "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.sena-0x8be3460a480c80728a8c4d7a5d5303c85ba7b3b9.png",
       ticker: "sENA",
+    },
+    {
+      address: "0x5e74c9036fb86bd7ecdcb084a0673efc32ea31cb",
+      chain: "ETH",
+      chainId: "1",
+      decimals: 18,
+      identifier: "ETH.sETH-0x5e74c9036fb86bd7ecdcb084a0673efc32ea31cb",
+      logoURI:
+        "https://storage.googleapis.com/token-list-swapkit-dev/images/eth.seth-0x5e74c9036fb86bd7ecdcb084a0673efc32ea31cb.png",
+      ticker: "sETH",
     },
     {
       address: "0xfe2e637202056d30016725477c5da089ab0a043a",
