@@ -79,6 +79,7 @@ export const availableChainsByWallet: Record<WalletOption, Chain[] | readonly Ch
   [WalletOption.LEAP]: [Chain.Cosmos, Chain.Kujira],
   [WalletOption.LEDGER]: AllChainsSupported,
   [WalletOption.METAMASK]: EVMChains,
+  [WalletOption.NOIR_WALLET]: [Chain.Zcash],
   [WalletOption.OKX_MOBILE]: EVMChains,
   [WalletOption.ONEKEY]: [
     Chain.Arbitrum,

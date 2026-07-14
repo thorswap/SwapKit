@@ -130,6 +130,12 @@
       "require": "./dist/src/near-wallet-selector/index.cjs",
       "types": "./dist/types/near-wallet-selector/index.d.ts"
     },
+    "./noir-wallet": {
+      "bun": "./src/noir-wallet.ts",
+      "default": "./dist/src/noir-wallet.js",
+      "require": "./dist/src/noir-wallet.cjs",
+      "types": "./dist/types/noir-wallet.d.ts"
+    },
     "./okx": {
       "bun": "./src/okx.ts",
       "default": "./dist/src/okx.js",

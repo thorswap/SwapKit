@@ -8,6 +8,7 @@ import { KEEPKEY_SUPPORTED_CHAINS } from "@swapkit/wallets/keepkey";
 import { KEEPKEY_BEX_SUPPORTED_CHAINS } from "@swapkit/wallets/keepkey-bex";
 import { KEPLR_SUPPORTED_CHAINS } from "@swapkit/wallets/keplr";
 import { decryptFromKeystore, KEYSTORE_SUPPORTED_CHAINS } from "@swapkit/wallets/keystore";
+import { NOIR_WALLET_SUPPORTED_CHAINS } from "@swapkit/wallets/noir-wallet";
 import { OKX_SUPPORTED_CHAINS } from "@swapkit/wallets/okx";
 import { ONEKEY_WALLET_SUPPORTED_CHAINS } from "@swapkit/wallets/onekey";
 import { PASSKEYS_SUPPORTED_CHAINS } from "@swapkit/wallets/passkeys";
@@ -51,6 +52,7 @@ export const availableChainsByWallet = {
   [WalletOption.LEAP]: KEPLR_SUPPORTED_CHAINS,
   [WalletOption.LEDGER]: LEDGER_SUPPORTED_CHAINS,
   [WalletOption.METAMASK]: EVMChains,
+  [WalletOption.NOIR_WALLET]: NOIR_WALLET_SUPPORTED_CHAINS,
   [WalletOption.OKX]: OKX_SUPPORTED_CHAINS,
   [WalletOption.OKX_MOBILE]: EVMChains,
   [WalletOption.ONEKEY]: ONEKEY_WALLET_SUPPORTED_CHAINS,
@@ -134,6 +136,8 @@ export const WalletPicker = ({ skClient, setWallet, setPhrase }: Props) => {
           return skClient.connectVultisig?.(chainsToConnect);
         case WalletOption.OKX:
           return skClient.connectOkx?.(chainsToConnect);
+        case WalletOption.NOIR_WALLET:
+          return skClient.connectNoirWallet?.(chainsToConnect);
         case WalletOption.POLKADOT_JS:
           return skClient.connectPolkadotJs?.(chainsToConnect as Chain.Polkadot[]);
 

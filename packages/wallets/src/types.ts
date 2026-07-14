@@ -5,6 +5,7 @@ import type { ctrlWallet } from "@swapkit/wallet-extensions/ctrl";
 import type { evmWallet } from "@swapkit/wallet-extensions/evm-extensions";
 import type { keepkeyBexWallet } from "@swapkit/wallet-extensions/keepkey-bex";
 import type { keplrWallet } from "@swapkit/wallet-extensions/keplr";
+import type { noirWallet } from "@swapkit/wallet-extensions/noir-wallet";
 import type { okxWallet } from "@swapkit/wallet-extensions/okx";
 import type { onekeyWallet } from "@swapkit/wallet-extensions/onekey";
 import type { phantomWallet } from "@swapkit/wallet-extensions/phantom";
@@ -40,6 +41,7 @@ export type SKWallets = {
   [WalletOption.LEDGER]: typeof ledgerWallet;
   [WalletOption.LEDGER_LIVE]: typeof ledgerWallet;
   [WalletOption.METAMASK]: typeof evmWallet;
+  [WalletOption.NOIR_WALLET]: typeof noirWallet;
   [WalletOption.OKX]: typeof okxWallet;
   [WalletOption.OKX_MOBILE]: typeof evmWallet;
   [WalletOption.ONEKEY]: typeof onekeyWallet;

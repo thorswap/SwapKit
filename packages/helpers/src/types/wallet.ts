@@ -53,6 +53,7 @@ export enum WalletOption {
   LEDGER = "LEDGER",
   LEDGER_LIVE = "LEDGER_LIVE",
   METAMASK = "METAMASK",
+  NOIR_WALLET = "NOIR_WALLET",
   OKX = "OKX",
   OKX_MOBILE = "OKX_MOBILE",
   ONEKEY = "ONEKEY",
