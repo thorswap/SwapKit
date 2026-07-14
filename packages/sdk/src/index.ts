@@ -23,6 +23,7 @@ import { keplrWallet } from "@swapkit/wallets/keplr";
 import { keystoreWallet } from "@swapkit/wallets/keystore";
 import { ledgerWallet } from "@swapkit/wallets/ledger";
 import { walletSelectorWallet } from "@swapkit/wallets/near-wallet-selector";
+import { noirWallet } from "@swapkit/wallets/noir-wallet";
 import { okxWallet } from "@swapkit/wallets/okx";
 import { onekeyWallet } from "@swapkit/wallets/onekey";
 import { passkeysWallet } from "@swapkit/wallets/passkeys";
@@ -68,6 +69,7 @@ export {
   keplrWallet,
   keystoreWallet,
   ledgerWallet,
+  noirWallet,
   okxWallet,
   onekeyWallet,
   passkeysWallet,
@@ -105,6 +107,7 @@ export const defaultWallets = {
   ...keplrWallet,
   ...keystoreWallet,
   ...ledgerWallet,
+  ...noirWallet,
   ...okxWallet,
   ...onekeyWallet,
   ...phantomWallet,

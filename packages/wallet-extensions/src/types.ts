@@ -21,6 +21,13 @@ export type VultisigCosmosProvider = {
   request(request: { method: string; params?: any[] | Record<string, any> }, callback?: Callback): Promise<any>;
 };
 
+export type NoirWalletZcashProvider = {
+  request(request: { method: string; params?: any[] }): Promise<any>;
+  on(event: string, handler: (...args: any[]) => void): void;
+  removeListener?(event: string, handler: (...args: any[]) => void): void;
+  disconnect(): Promise<any>;
+};
+
 declare global {
   interface Window {
     injectedWeb3?: SubstrateInjectedExtension;
@@ -47,6 +54,8 @@ declare global {
       solana: SolanaProvider & { isXDEFI: boolean };
       near: NearBrowserWalletProvider;
     };
+
+    noirwallet?: { isNoirWallet: boolean; version?: string; zcash: NoirWalletZcashProvider };
 
     vultisig?: {
       bitcoin: Eip1193Provider;
