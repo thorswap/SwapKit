@@ -78,6 +78,7 @@ export type SKWalletsSupportedChains = {
   [WalletOption.LEDGER]: typeof ledgerWallet.connectLedger.supportedChains;
   [WalletOption.LEDGER_LIVE]: typeof ledgerWallet.connectLedger.supportedChains;
   [WalletOption.METAMASK]: typeof evmWallet.connectEVMWallet.supportedChains;
+  [WalletOption.NOIR_WALLET]: typeof noirWallet.connectNoirWallet.supportedChains;
   [WalletOption.OKX]: typeof okxWallet.connectOkx.supportedChains;
   [WalletOption.OKX_MOBILE]: typeof evmWallet.connectEVMWallet.supportedChains;
   [WalletOption.ONEKEY]: typeof onekeyWallet.connectOnekeyWallet.supportedChains;
