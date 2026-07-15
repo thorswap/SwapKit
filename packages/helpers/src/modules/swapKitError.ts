@@ -248,6 +248,12 @@ const errorCodes = {
   wallet_vultisig_send_transaction_no_address: 22104,
 
   /**
+   * Wallets - Noir Wallet
+   */
+  wallet_noir_wallet_not_found: 22201,
+  wallet_noir_wallet_connection_failed: 22203,
+
+  /**
    * Wallets - Xaman
    */
   wallet_xaman_not_configured: 23001,

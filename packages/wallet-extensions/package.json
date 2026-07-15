@@ -67,6 +67,12 @@
       "require": "./dist/src/keplr/index.cjs",
       "types": "./dist/types/keplr/index.d.ts"
     },
+    "./noir-wallet": {
+      "bun": "./src/noir-wallet/index.ts",
+      "default": "./dist/src/noir-wallet/index.js",
+      "require": "./dist/src/noir-wallet/index.cjs",
+      "types": "./dist/types/noir-wallet/index.d.ts"
+    },
     "./okx": {
       "bun": "./src/okx/index.ts",
       "default": "./dist/src/okx/index.js",
