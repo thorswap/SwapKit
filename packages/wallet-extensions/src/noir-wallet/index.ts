@@ -50,22 +50,19 @@ export const noirWallet = createWallet({
         },
         /**
          * Transaction building, fee selection and signing happen inside the
-         * extension. Memos are only supported towards shielded recipients,
-         * which rules out OP_RETURN-based routes (e.g. Maya/THORChain) —
-         * deposit-address routes such as NEAR Intents work.
+         * extension. Memos are supported for shielded recipients (zs/u1);
+         * the extension rejects memos to transparent addresses (t1/t3),
+         * which means OP_RETURN-based routes (Maya/THORChain) will fail at
+         * the wallet level while deposit-address routes (NEAR Intents) work.
          */
         transfer: ({ recipient, assetValue, memo }: GenericTransferParams) => {
-          if (memo) {
-            throw new SwapKitError("wallet_noir_wallet_memo_not_supported");
-          }
-
           if (!(recipient && assetValue)) {
             throw new SwapKitError("wallet_missing_params", { params: { assetValue, recipient } });
           }
 
           return provider.request({
             method: "zcash_sendTransaction",
-            params: [{ amount: assetValue.getValue("string"), to: recipient }],
+            params: [{ amount: assetValue.getValue("string"), to: recipient, ...(memo && { memo }) }],
           });
         },
         walletType,

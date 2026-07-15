@@ -91,7 +91,7 @@ describe("noirWallet", () => {
     expect(balance.getValue("string")).toBe("1.42");
   });
 
-  test("transfer delegates to zcash_sendTransaction without memo/type fields", async () => {
+  test("transfer without memo omits memo field", async () => {
     const wallet = await connectAndGetWallet();
     const assetValue = AssetValue.from({ chain: Chain.Zcash, value: "0.5" });
 
@@ -102,13 +102,15 @@ describe("noirWallet", () => {
     expect(sendCall.params).toEqual([{ amount: "0.5", to: "t1RecipientAddr" }]);
   });
 
-  test("transfer with memo throws (OP_RETURN routes unsupported)", async () => {
+  test("transfer with memo passes it to the extension", async () => {
     const wallet = await connectAndGetWallet();
     const assetValue = AssetValue.from({ chain: Chain.Zcash, value: "0.5" });
 
-    expect(() => wallet.transfer({ assetValue, memo: "=:BTC.BTC:bc1q...", recipient: "t1RecipientAddr" })).toThrow(
-      "wallet_noir_wallet_memo_not_supported",
-    );
+    const txid = await wallet.transfer({ assetValue, memo: "test memo", recipient: "zs1shieldedAddr" });
+
+    expect(txid).toBe("mocktxid123");
+    const sendCall = requests.find(({ method }) => method === "zcash_sendTransaction");
+    expect(sendCall.params).toEqual([{ amount: "0.5", memo: "test memo", to: "zs1shieldedAddr" }]);
   });
 
   test("signMessage returns the signature string", async () => {

@@ -251,7 +251,6 @@ const errorCodes = {
    * Wallets - Noir Wallet
    */
   wallet_noir_wallet_not_found: 22201,
-  wallet_noir_wallet_memo_not_supported: 22202,
   wallet_noir_wallet_connection_failed: 22203,
 
   /**
