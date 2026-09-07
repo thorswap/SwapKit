@@ -24,6 +24,7 @@ import type {
   BASEToolbox,
   BERAToolbox,
   BSCToolbox,
+  CHEESEToolbox,
   COREToolbox,
   CORNToolbox,
   CROToolbox,
@@ -130,6 +131,7 @@ export type EVMToolboxes = {
   [Chain.Berachain]: Awaited<ReturnType<typeof BERAToolbox>>;
   [Chain.BinanceSmartChain]: Awaited<ReturnType<typeof BSCToolbox>>;
   [Chain.Botanix]: Awaited<ReturnType<typeof SONICToolbox>>;
+  [Chain.Cheese]: Awaited<ReturnType<typeof CHEESEToolbox>>;
   [Chain.Core]: Awaited<ReturnType<typeof COREToolbox>>;
   [Chain.Corn]: Awaited<ReturnType<typeof CORNToolbox>>;
   [Chain.Cronos]: Awaited<ReturnType<typeof CROToolbox>>;

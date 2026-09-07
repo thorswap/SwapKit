@@ -21,6 +21,7 @@ export async function getEvmToolbox<T extends EVMChain>(chain: T, params?: EVMTo
       .with(Chain.Berachain, () => evmToolboxes.BERAToolbox(toolboxParams) as Toolbox)
       .with(Chain.BinanceSmartChain, () => evmToolboxes.BSCToolbox(toolboxParams) as Toolbox)
       .with(Chain.Botanix, () => evmToolboxes.SONICToolbox(toolboxParams) as Toolbox)
+      .with(Chain.Cheese, () => evmToolboxes.CHEESEToolbox(toolboxParams) as Toolbox)
       .with(Chain.Core, () => evmToolboxes.COREToolbox(toolboxParams) as Toolbox)
       .with(Chain.Corn, () => evmToolboxes.CORNToolbox(toolboxParams) as Toolbox)
       .with(Chain.Cronos, () => evmToolboxes.CROToolbox(toolboxParams) as Toolbox)
