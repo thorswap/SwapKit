@@ -297,6 +297,20 @@ const MEGAETHConfig = createChain({
   type,
 });
 
+const CHEESEConfig = createChain({
+  baseDecimal,
+  blockTime: 60.0,
+  chain: Chain.Cheese,
+  chainId: ChainId.Cheese,
+  chainIdHex: "0x4F1A",
+  explorerUrl: "https://cheeseblockchain.com/explorer",
+  name: "Cheese Blockchain",
+  nativeCurrency: "NCH",
+  networkDerivationPath,
+  rpcUrls: ["https://cheeseblockchain.com/rpc"],
+  type,
+});
+
 export const EVMChainConfigs = [
   ARBConfig,
   AURORAConfig,
@@ -305,6 +319,7 @@ export const EVMChainConfigs = [
   BERAConfig,
   BOTANIXConfig,
   BSCConfig,
+  CHEESEConfig,
   COREConfig,
   CORNConfig,
   CROConfig,
@@ -327,8 +342,8 @@ export const EVMChains = [
   Chain.Berachain,
   Chain.BinanceSmartChain,
   Chain.Botanix,
+  Chain.Cheese,
   Chain.Core,
-  Chain.Corn,
   Chain.Corn,
   Chain.Cronos,
   Chain.Ethereum,
