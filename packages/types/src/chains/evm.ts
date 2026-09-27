@@ -302,7 +302,7 @@ const CHEESEConfig = createChain({
   blockTime: 60.0,
   chain: Chain.Cheese,
   chainId: ChainId.Cheese,
-  chainIdHex: "0x4F1A",
+  chainIdHex: "0x4f1a",
   explorerUrl: "https://cheeseblockchain.com/explorer",
   name: "Cheese Blockchain",
   nativeCurrency: "NCH",
